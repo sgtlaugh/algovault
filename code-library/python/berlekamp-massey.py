@@ -42,7 +42,8 @@ class Matrix:
 
 
 def convolution(first, second, modulo):
-    assert len(first) == len(second)
+    if len(first) != len(second):
+        raise ValueError('Length of first and second needs to be the same')
 
     result = 0
     for f, s in zip(first, second):
@@ -55,8 +56,8 @@ def berlekamp_massey(base_sequence, modulo):
     n = len(base_sequence)
     assert n and n % 2 == 0
 
-    U = [int(i == 0) for i in range(n + 1)]
-    V = [int(i == 0) for i in range(n + 1)]
+    u_vals = [int(i == 0) for i in range(n + 1)]
+    v_vals = [int(i == 0) for i in range(n + 1)]
     base_sequence = base_sequence[::-1]
 
     l, m, b, deg = 0, 1, 1, 0
@@ -64,28 +65,28 @@ def berlekamp_massey(base_sequence, modulo):
         d = base_sequence[n - i - 1]
 
         if l:
-            d = (d + convolution(V[1:1 + l], base_sequence[n - i:n - i + l], modulo)) % modulo
+            d = (d + convolution(v_vals[1:1 + l], base_sequence[n - i:n - i + l], modulo)) % modulo
 
         if not d:
             m += 1
             continue
 
         if (l * 2) <= i:
-            W = V[:l + 1]
+            w_vals = v_vals[:l + 1]
 
         x = (pow(b, modulo - 2, modulo) * (modulo - d) % modulo + modulo) % modulo
         for j in range(deg + 1):
-            V[m + j] = (V[m + j] + x * U[j]) % modulo
+            v_vals[m + j] = (v_vals[m + j] + x * u_vals[j]) % modulo
 
         if (l * 2) <= i:
-            U, W = W, U
-            deg = len(U) - 1
+            u_vals, w_vals = w_vals, u_vals
+            deg = len(u_vals) - 1
             b, m, l = d, 1, i - l + 1
         else:
             m += 1
 
-    V = V[:l + 1] + [0 for _ in range(max(0, l - len(V) + 1))]
-    return V[1:]
+    v_vals = v_vals[:l + 1] + [0 for _ in range(max(0, l - len(v_vals) + 1))]
+    return v_vals[1:]
 
 
 def solve_linear_recurrence(base_sequence, nth_term, modulo):
@@ -97,35 +98,40 @@ def solve_linear_recurrence(base_sequence, nth_term, modulo):
     :return: remainder when the nth_term of the recurrence is divided by modulo
     """
 
-    assert len(base_sequence) % 2 == 0
     base_sequence = [val % modulo for val in base_sequence]
 
     n = len(base_sequence)
+    if n % 2 != 0:
+        raise ValueError('Length of base_sequence must be even')
+
     if nth_term < n:
         return base_sequence[nth_term]
 
     recurrence = berlekamp_massey(base_sequence, modulo)
 
-    l = len(recurrence)
-    ar = Matrix(l, modulo)
+    k = len(recurrence)
+    ar = Matrix(k, modulo)
 
-    for i in range(l):
+    for i in range(k):
         ar.matrix[0][i] = modulo - recurrence[i]
-        if i:
-            ar.matrix[i][i - 1] = 1
+        ar.matrix[i][i - 1] = int(i > 0)
 
     result = 0
     ar = ar.exponentiate(nth_term - n + 1)
-    for i in range(l):
+    for i in range(k):
         result += ar.matrix[0][i] * base_sequence[n - i - 1]
 
     return result % modulo
 
 
 def main():
+    modulo = 10**9 + 7
     base_sequence = [0, 1, 1, 2, 3, 5, 8, 13]
-    print(solve_linear_recurrence(base_sequence, 10, 10 ** 9 + 7))
-    print(solve_linear_recurrence(base_sequence, 10 ** 18, 10 ** 9 + 7))
+
+    print(solve_linear_recurrence(base_sequence, 0, modulo))         # 0
+    print(solve_linear_recurrence(base_sequence, 1, modulo))         # 1
+    print(solve_linear_recurrence(base_sequence, 10, modulo))        # 55
+    print(solve_linear_recurrence(base_sequence, 10 ** 18, modulo))  # 209783453
 
 
 if __name__ == '__main__':
