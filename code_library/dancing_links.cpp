@@ -5,10 +5,6 @@
 #define MAXNODE 100010
 /// Define MAX limits appropriately, set to large values for safety
 
-#define clr(ar) memset(ar, 0, sizeof(ar))
-#define read() freopen("lol.txt", "r", stdin)
-#define dbg(x) cout << #x << " = " << x << endl
-
 using namespace std;
 
 /***
@@ -28,7 +24,7 @@ namespace dlx{
     int n, idx, len, selected_rows[MAXR], column_count[MAXC];
 
     void init(int ncolumn){ /// initialize first with total number of columns (1 based)
-        clr(column_count);
+        memset(column_count, 0, sizeof(column_count));
         n = ncolumn, idx = n + 1;
         for (int i = 0; i <= n; i++) U[i] = D[i] = i, L[i] = i - 1, R[i] = i + 1;
         L[0] = n, R[n] = 0;
@@ -117,7 +113,7 @@ namespace sudoku{
     }
 
     bool solve(int n, int ar[25][25]){
-        int i, j, k, l, c;
+        int i, j, k, l;
         int m = sqrt(n + 0.5); /// m * m sub-grid
         int ncolumn = n * n * 4; /// n * n for cells, n * n for rows, n * n for columns and n * n for boxes
 
@@ -143,7 +139,7 @@ namespace sudoku{
         vector<int> res;
         if (!dlx::exact_cover(res)) return false;
 
-        for (l = 0; l < res.size(); l++){
+        for (l = 0; l < (int)res.size(); l++){
             decode(n, res[l], i, j, k);
             ar[i][j] = k + 1;
         }
