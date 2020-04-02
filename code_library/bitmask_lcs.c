@@ -43,7 +43,7 @@ int lcs(char* A, char* B){
 }
 
 int main(){
-	srand(666);
+    srand(666);
 
     int i, n, m;
     n = MAX - 10, m = MAX - 10;

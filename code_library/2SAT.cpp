@@ -123,15 +123,15 @@ namespace sat{
 }
 
 int main(){
-	int n = 4;
-	sat::init(n);
+    int n = 4;
+    sat::init(n);
 
-	sat::add_implication(1, 2); 	/// if 1 is true then 2 is true
-	sat::add_implication(-2, -3); 	/// if 2 is false then 3 is false
-	sat::force_false(2); 			/// 2 must be false
-	sat::add_xor(2, 4); 			/// exactly one of 2 or 4 must be true
-	sat::add_or(1, 4); 				/// either 1 or 4 must be true
+    sat::add_implication(1, 2);     /// if 1 is true then 2 is true
+    sat::add_implication(-2, -3);   /// if 2 is false then 3 is false
+    sat::force_false(2);            /// 2 must be false
+    sat::add_xor(2, 4);             /// exactly one of 2 or 4 must be true
+    sat::add_or(1, 4);              /// either 1 or 4 must be true
 
-	puts(sat::is_satisfiable() ? "System is Satisfiable" : "System is not satisfiable");
+    puts(sat::is_satisfiable() ? "System is Satisfiable" : "System is not satisfiable");
     return 0;
 }

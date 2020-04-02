@@ -20,11 +20,11 @@ void backtrack(int i, int c, int l, int r){
 }
 
 int count_ways(int dimension){
-	n = dimension;
-	counter = 0, lim = (1 << n) - 1;
-	backtrack(n, 0, 0, 0);
+    n = dimension;
+    counter = 0, lim = (1 << n) - 1;
+    backtrack(n, 0, 0, 0);
 
-	return counter;
+    return counter;
 }
 
 int main(){

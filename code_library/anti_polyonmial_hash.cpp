@@ -54,11 +54,11 @@ inline void generate(){
 }
 
 inline void dfs(int l, int i, int pos){
-	if (l == 0) res[pos][dp[0][i].second] = '1';
-	else{
+    if (l == 0) res[pos][dp[0][i].second] = '1';
+    else{
         dfs(l - 1, dp[l][i].second * 2 + 1, pos);
         dfs(l - 1, dp[l][i].second * 2, pos ^ 1);
-	}
+    }
 }
 
 inline void insert_hash(int i, long long sum, long long mask){
@@ -74,7 +74,7 @@ inline void find_hash(int i, long long sum, long long mask){
     if (i == chunk){
         int idx = lower_bound(ar + 1, ar + (1 << chunk), pair<long long, int>(sum, 0)) - ar;
         if (idx < (1 << chunk) && ar[idx].first == sum){
-			mask = (mask << (long long)chunk) | ar[idx].second;
+            mask = (mask << (long long)chunk) | ar[idx].second;
             for (i = 0; i < 2 * chunk; i++){
                 if (mask & (1LL << i)){
                     dfs(lim - 1, sample[i], (i < chunk));
@@ -94,8 +94,8 @@ inline void find_hash(int i, long long sum, long long mask){
             else{
                 for (i = 0; i < n; i++) res[0][i] = res[1][i] = '0';
             }
-			return;
-		}
+            return;
+        }
     }
     else{
         find_hash(i + 1, sum, mask);
@@ -104,14 +104,14 @@ inline void find_hash(int i, long long sum, long long mask){
 }
 
 void solve(){
-	/***
-	 * Prints two different strings with the same hash
-	 * Hashing is standard polynomial hashing with base and modulo
-	 * Base and modulo can be any 64 bit positive integer, provided base + modulo does not exceed signed 64 bit int limit
+    /***
+     * Prints two different strings with the same hash
+     * Hashing is standard polynomial hashing with base and modulo
+     * Base and modulo can be any 64 bit positive integer, provided base + modulo does not exceed signed 64 bit int limit
 
-	 * Extremely useful for hacking solutions in Codeforces :-D
-	 * Or if you're the setter and you're in an ominous mood, construct test cases against commonly used base/mod pairs
-	***/
+     * Extremely useful for hacking solutions in Codeforces :-D
+     * Or if you're the setter and you're in an ominous mood, construct test cases against commonly used base/mod pairs
+    ***/
 
     generate();
     res[0] = string(n, '0'), res[1] = string(n, '0');

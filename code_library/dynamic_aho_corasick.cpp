@@ -21,9 +21,9 @@ struct AhoCorasick{
     inline int node(){
         leaf.push_back(0);
         counter.push_back(0);
-		dp.push_back(vector<int>(MAX_LETTERS, 0));
-		trie.push_back(map<char, int>());
-		return id++;
+        dp.push_back(vector<int>(MAX_LETTERS, 0));
+        trie.push_back(map<char, int>());
+        return id++;
     }
 
     inline int size(){
@@ -58,7 +58,7 @@ struct AhoCorasick{
         dictionary.push_back(str);
     }
 
-	/// call build once after insertion is done
+    /// call build once after insertion is done
     inline void build(){
         vector <pair<int, pair<int, int> > > Q;
         fail.resize(id, 0);
@@ -97,7 +97,7 @@ struct AhoCorasick{
         return cur;
     }
 
-	/// total number of occurrences of all words from dictionary in str
+    /// total number of occurrences of all words from dictionary in str
     long long count(const char* str){
         int cur = 0;
         long long res = 0;
@@ -145,38 +145,38 @@ struct DynamicAhoCorasick{
 
 
 int main(){
-	auto ac = DynamicAhoCorasick();
+    auto ac = DynamicAhoCorasick();
 
-	ac.insert("hello");
-	ac.insert("world");
+    ac.insert("hello");
+    ac.insert("world");
 
-	printf("%lld\n", ac.count("lol"));            									   /// 0
-	ac.insert("lol");
-	printf("%lld\n", ac.count("lol"));            									   /// 1
-	ac.insert("lol");
-	printf("%lld\n", ac.count("lol"));            									   /// 2
+    printf("%lld\n", ac.count("lol"));                                                 /// 0
+    ac.insert("lol");
+    printf("%lld\n", ac.count("lol"));                                                 /// 1
+    ac.insert("lol");
+    printf("%lld\n", ac.count("lol"));                                                 /// 2
 
-	ac.insert("abracadabra");
-	ac.insert("abaababbaba");
-	ac.insert("aaba");
+    ac.insert("abracadabra");
+    ac.insert("abaababbaba");
+    ac.insert("aaba");
 
-	printf("%lld\n", ac.count("helloworldlol"));  									   /// 4
-	printf("%lld\n", ac.count("abaababbaba"));   									   /// 2
-	printf("%lld\n", ac.count("aba"));            									   /// 0
-	printf("%lld\n", ac.count("baababaababbbabaabaabaababbabababbbbaaabababababba"));  /// 7
+    printf("%lld\n", ac.count("helloworldlol"));                                       /// 4
+    printf("%lld\n", ac.count("abaababbaba"));                                         /// 2
+    printf("%lld\n", ac.count("aba"));                                                 /// 0
+    printf("%lld\n", ac.count("baababaababbbabaabaabaababbabababbbbaaabababababba"));  /// 7
 
-	ac.insert("hello");
-	ac.insert("world");
-	ac.insert("lol");
-	ac.insert("lol");
+    ac.insert("hello");
+    ac.insert("world");
+    ac.insert("lol");
+    ac.insert("lol");
 
-	ac.insert("a");
-	ac.insert("baa");
+    ac.insert("a");
+    ac.insert("baa");
 
-	printf("%lld\n", ac.count("helloworldlol"));  									   /// 8
-	printf("%lld\n", ac.count("abaababbaba"));   									   /// 9
-	printf("%lld\n", ac.count("aba"));            									   /// 2
-	printf("%lld\n", ac.count("baababaababbbabaabaabaababbabababbbbaaabababababba"));  /// 38
+    printf("%lld\n", ac.count("helloworldlol"));                                       /// 8
+    printf("%lld\n", ac.count("abaababbaba"));                                         /// 9
+    printf("%lld\n", ac.count("aba"));                                                 /// 2
+    printf("%lld\n", ac.count("baababaababbbabaabaabaababbabababbbbaaabababababba"));  /// 38
 
-	return 0;
+    return 0;
 }

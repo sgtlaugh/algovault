@@ -8,7 +8,7 @@ namespace hsh{
 
     /// Returns the hash value of the single character ch in defender's code (set to mine)
     inline long long char_hash(char ch){
-		assert(ch == '0' || ch == '1');
+        assert(ch == '0' || ch == '1');
         return ch + 1007;
     }
 
@@ -45,16 +45,16 @@ namespace hsh{
         puts("");
     }
 
-	/***
-	 * Prints two different strings with the same double hash value
-	 * Hashing is standard polynomial hashing with base and modulo
-	 * Hash1 is calculated with base1 and mod1
-	 * Hash2 is calculated with base2 and mod2
-	 * The two hashes are merged to get a larger hash (double hashing)
+    /***
+     * Prints two different strings with the same double hash value
+     * Hashing is standard polynomial hashing with base and modulo
+     * Hash1 is calculated with base1 and mod1
+     * Hash2 is calculated with base2 and mod2
+     * The two hashes are merged to get a larger hash (double hashing)
 
-	 * Extremely useful for hacking solutions in Codeforces :-D
-	 * Or if you're the setter and you're in an ominous mood, construct test cases against commonly used base/mod pairs
-	***/
+     * Extremely useful for hacking solutions in Codeforces :-D
+     * Or if you're the setter and you're in an ominous mood, construct test cases against commonly used base/mod pairs
+    ***/
 
     inline void solve(long long base1, long long mod1, long long base2, long long mod2){
         int l, i, j, k;
@@ -75,7 +75,7 @@ namespace hsh{
             }
         }
 
-		/// Floyd's cycle finding
+        /// Floyd's cycle finding
         x = y = s = 6666666666666666677LL;
         while (1){
             x = get_hash(x);
@@ -96,7 +96,7 @@ namespace hsh{
 }
 
 int main(){
-	srand(666);
+    srand(666);
 
     long long b1 = 1000003;
     long long m1 = 1000000007;
@@ -107,9 +107,9 @@ int main(){
     /***
      * Took ~3 minutes to generate locally
      *
-	 0100000100000100101100000011010101010010010111111110100001010110
-	 0110010001010011011100101001101001110001010000001001101111101110
-	***/
+     0100000100000100101100000011010101010010010111111110100001010110
+     0110010001010011011100101001101001110001010000001001101111101110
+    ***/
 
     return 0;
 }

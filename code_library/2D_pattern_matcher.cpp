@@ -38,7 +38,7 @@ namespace pm{
     char str[MAX][MAX], pattern[MAX][MAX];
     unsigned long long pattern_hash, P[MAX], F[MAX], ar[MAX];
 
-	/// Call init once with the text and pattern
+    /// Call init once with the text and pattern
     void init(int a, int b, char text[MAX][MAX], int u, int v, char pat[MAX][MAX]){
         n = a, m = b, r = u, c = v;
         for (int i = 0; i < n; i++) text[i][m] = 0, strcpy(str[i], text[i]);
@@ -77,8 +77,8 @@ namespace pm{
         }
     }
 
-	/// Call solve once to populate the occur matrix
-	/// Can configure to return the matched positions in a vector of pais if required
+    /// Call solve once to populate the occur matrix
+    /// Can configure to return the matched positions in a vector of pais if required
     void solve(){
         match = 0;
         memset(occur, 0, sizeof(occur));
@@ -100,36 +100,36 @@ int n, m, r, c;
 char text[MAX][MAX], pattern[MAX][MAX];
 
 int main(){
-	/***
+    /***
 
-	3 4
-	abab
-	baba
-	abaa
+    3 4
+    abab
+    baba
+    abaa
 
-	2 2
-	ba
-	ab
+    2 2
+    ba
+    ab
 
-	***/
+    ***/
 
 
-	int i, j;
-	scanf("%d %d", &n, &m);
-	for (i = 0; i < n; i++) scanf("%s", text[i]);
+    int i, j;
+    scanf("%d %d", &n, &m);
+    for (i = 0; i < n; i++) scanf("%s", text[i]);
 
-	scanf("%d %d", &r, &c);
-	for (i = 0; i < r; i++) scanf("%s", pattern[i]);
+    scanf("%d %d", &r, &c);
+    for (i = 0; i < r; i++) scanf("%s", pattern[i]);
 
-	pm::init(n, m, text, r, c, pattern);
-	pm::solve();
+    pm::init(n, m, text, r, c, pattern);
+    pm::solve();
 
-	for (i = 0; i < n; i++){
-		for (j = 0; j < m; j++){
-			printf("%d", pm::occur[i][j]);
-		}
-		puts("");
-	}
+    for (i = 0; i < n; i++){
+        for (j = 0; j < m; j++){
+            printf("%d", pm::occur[i][j]);
+        }
+        puts("");
+    }
 
-	return 0;
+    return 0;
 }

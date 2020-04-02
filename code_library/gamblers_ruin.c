@@ -32,6 +32,6 @@ long double gamblers_ruin(int n1, int n2, long double p, long double q){
 }
 
 int main(){
-	printf("%0.5f\n", (double)gamblers_ruin(3, 50, 0.49, 0.51));   /// 0.87148
-	return 0;
+    printf("%0.5f\n", (double)gamblers_ruin(3, 50, 0.49, 0.51));   /// 0.87148
+    return 0;
 }

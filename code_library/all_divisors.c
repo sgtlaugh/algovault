@@ -23,11 +23,11 @@ int lp[MAX], *divisors[MAX];
  * vector <int> divisors[MAX];
  *
  * void generate(){
- *	   for (int i = 1; i < MAX; i++){
- *		   for (int j = i; j < MAX; j += i){
- *			    divisors[j].push_back(i);
- *		   }
- *	   }
+ *     for (int i = 1; i < MAX; i++){
+ *         for (int j = i; j < MAX; j += i){
+ *              divisors[j].push_back(i);
+ *         }
+ *     }
  * }
  *
 ***/
@@ -39,9 +39,9 @@ void generate(){
     for (i = 4; i < MAX; i++, i++) len[i] = 2;
 
     for (i = 3; (i * i) < MAX; i += 2){
-		for (j = (i * i), d = i + i; j < MAX && !len[i]; j += d){
-			if (!len[j]) len[j] = i;
-		}
+        for (j = (i * i), d = i + i; j < MAX && !len[i]; j += d){
+            if (!len[j]) len[j] = i;
+        }
     }
 
     for (i = 2; i < MAX; i++){
@@ -75,7 +75,7 @@ void generate(){
 }
 
 int main(){
-	clock_t start = clock();
+    clock_t start = clock();
 
     generate();
 
@@ -83,8 +83,8 @@ int main(){
 
     printf("All divisors of %d are:\n", n);
     for (i = 0; i < len[n]; i++){
-		printf("%d\n", divisors[n][i]);
-	}
+        printf("%d\n", divisors[n][i]);
+    }
 
     fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));
     return 0;

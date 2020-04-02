@@ -9,10 +9,10 @@ struct Hashmap{
     vector <long long> key, val;
 
     inline int randint(int a, int b){
-		unsigned int x = rand(), y = rand();
-		unsigned int num = (x << 15) ^ y;
-		return num % (b - a + 1) + a;
-	}
+        unsigned int x = rand(), y = rand();
+        unsigned int num = (x << 15) ^ y;
+        return num % (b - a + 1) + a;
+    }
 
     inline unsigned long long smhash(unsigned long long h){
         h ^= h >> 33;
@@ -67,7 +67,7 @@ struct Hashmap{
 
     Hashmap(int m=32){
         unsigned int seed = std::chrono::system_clock::now().time_since_epoch().count();
-		srand(seed);
+        srand(seed);
 
         m = (m << 1) - randint(1, m);
         hmod = next_prime(max(100, m));
@@ -79,25 +79,25 @@ struct Hashmap{
 };
 
 int main(){
-	Hashmap H = Hashmap();
+    Hashmap H = Hashmap();
 
-	cout << H.find(5) << endl; 		/// -1
-	H.add(5, 32);
-	cout << H.find(5) << endl; 		/// 32
+    cout << H.find(5) << endl;      /// -1
+    H.add(5, 32);
+    cout << H.find(5) << endl;      /// 32
 
-	H.add(5, 15);
-	cout << H.find(5) << endl; 		/// 47
-	H.add(5, -47);
-	cout << H.find(5) << endl; 		/// 0
+    H.add(5, 15);
+    cout << H.find(5) << endl;      /// 47
+    H.add(5, -47);
+    cout << H.find(5) << endl;      /// 0
 
-	cout << H.contains(5) << endl;  /// true
-	H.erase(5);
-	cout << H.contains(5) << endl;  /// false
+    cout << H.contains(5) << endl;  /// true
+    H.erase(5);
+    cout << H.contains(5) << endl;  /// false
 
-	H.add(13, 3);
-	H.add(666, 15);
-	cout << H.find(666) << endl; 	/// 15
-	cout << H.size() << endl;  		/// 2
+    H.add(13, 3);
+    H.add(666, 15);
+    cout << H.find(666) << endl;    /// 15
+    cout << H.size() << endl;       /// 2
 
-	return 0;
+    return 0;
 }

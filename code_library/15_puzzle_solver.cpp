@@ -13,7 +13,7 @@ int found, len[4] = {0}, idx[4][4], ar[4][4];
 
 
 int get_cost(int i, int j){
-	return abs(((ar[i][j] - 1) >> 2) - i) + abs( ((ar[i][j] - 1) & 3) - j);
+    return abs(((ar[i][j] - 1) >> 2) - i) + abs( ((ar[i][j] - 1) & 3) - j);
 }
 
 int heuristic(int bx, int by){
@@ -35,10 +35,10 @@ int ida_star(int bx, int by, int lx, int ly, int g, int lim, int d, int h){
     if (found) return 1 << 30;
 
     if (!h){
-		found = 1;
-		str[d] = 0;
-		printf("Puzzle can be solved in %d moves\n", g);
-		printf("%s\n\n", str);
+        found = 1;
+        str[d] = 0;
+        printf("Puzzle can be solved in %d moves\n", g);
+        printf("%s\n\n", str);
         return g;
     }
 

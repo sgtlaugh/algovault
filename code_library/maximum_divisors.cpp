@@ -36,20 +36,20 @@ void backtrack(int i, int lim, unsigned long long val, unsigned long long r){
 }
 
 void print_smallest_num_with_max_div(long long limit) {
-	/***
-	 * Prints the smallest number not exceeding limit with maximum number of divisors along with its count
-	 * Tested for n <= 10^18
-	***/
+    /***
+     * Prints the smallest number not exceeding limit with maximum number of divisors along with its count
+     * Tested for n <= 10^18
+    ***/
 
-	res = 0;
-	n = limit;
-	backtrack(0, 100, 1, 1);
-	printf("Smallest number is %llu with %llu divisors\n", idx, res);
+    res = 0;
+    n = limit;
+    backtrack(0, 100, 1, 1);
+    printf("Smallest number is %llu with %llu divisors\n", idx, res);
 }
 
 int main(){
-    print_smallest_num_with_max_div(1000000); 				/// Smallest number is 720720 with 240 divisors
-    print_smallest_num_with_max_div(1000000000000LL); 		/// Smallest number is 963761198400 with 6720 divisors
+    print_smallest_num_with_max_div(1000000);               /// Smallest number is 720720 with 240 divisors
+    print_smallest_num_with_max_div(1000000000000LL);       /// Smallest number is 963761198400 with 6720 divisors
     print_smallest_num_with_max_div(1000000000000000000LL); /// Smallest number is 897612484786617600 with 103680 divisors
 
     return 0;
