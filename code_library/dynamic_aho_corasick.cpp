@@ -5,9 +5,7 @@
 #define MAX_LOG      20
 #define MAX_LETTERS  26
 
-
 using namespace std;
-
 
 struct AhoCorasick{
     int id, edge[256];
