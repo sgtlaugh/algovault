@@ -1,54 +1,54 @@
+#include <stdio.h>
 #include <bits/stdtr1c++.h>
 
 #define MAX 100010
+
 
 using namespace std;
 
 /***
  *
- * Finds articulation points in O(N + M)
- * An articulation point or cut vertex is defined as a vertex which, when removed along with associated edges, makes the graph disconnected
- * Or more precisely, increases the number of connected components in the graph
- * Nodes are numbered from 0 to N-1
+ * finds articulation points in simple graphs in O(N + M)
+ * an articulation point or cut vertex is defined as a vertex which, when removed along with associated edges, makes the graph disconnected
+ * or more precisely, increases the number of connected components in the graph
+ * nodes are numbered from 0 to N-1
  *
 ***/
 
-struct ArticulationPoint{
+struct Graph{
     vector <int> adj[MAX];
     bool visited[MAX], is_cut[MAX];
     int n, disc_t, discover[MAX], low[MAX];
 
-    ArticulationPoint() {}
-    ArticulationPoint(int nodes){
+    Graph() {}
+    Graph(int nodes){
         n = nodes;
         for (int i = 0; i < MAX; i++) adj[i].clear();
     }
 
-    void dfs(int i, int p){
-        visited[i] = true;
-        discover[i] = low[i] = ++disc_t;
-        int j, x, children = 0, len = adj[i].size();
+    void dfs(int u, int p){
+        visited[u] = true;
+        discover[u] = low[u] = ++disc_t;
 
-        for (j = 0; j < len; j++){
-            x = adj[i][j];
-            if (!visited[x]){
+        int children = 0;
+        for (auto v: adj[u]){
+            if (!visited[v]){
                 children++;
-                dfs(x, i);
-                low[i] = min(low[i], low[x]);
+                dfs(v, u);
+                low[u] = min(low[u], low[v]);
 
-                if ((low[x] >= discover[i])){
-                    if (!(p == -1 && children < 2)){
-                        is_cut[i] = true;
-                    }
+                if ((low[v] >= discover[u]) && !(p == -1 && children < 2)) {
+                    is_cut[u] = true;
                 }
             }
-            else if (x != p) low[i] = min(low[i], discover[x]);
+            else if (v != p) low[u] = min(low[u], discover[v]);
         }
     }
 
-    void add_edge(int a, int b){
-        adj[a].push_back(b);
-        adj[b].push_back(a);
+    /// adds undirected edge from u to v
+    void add_edge(int u, int v){
+        adj[u].push_back(v);
+        adj[v].push_back(u);
     }
 
     vector <int> get_cuts(){
@@ -70,7 +70,8 @@ struct ArticulationPoint{
 
 
 int main(){
-    auto ap = ArticulationPoint(10);
+    auto ap = Graph(10);
+
     ap.add_edge(0, 1);
     ap.add_edge(1, 2);
     ap.add_edge(2, 0);
@@ -96,6 +97,7 @@ int main(){
      Node 4 is an articulation point
      Node 5 is an articulation point
      Node 6 is an articulation point
+
     ***/
 
     return 0;
