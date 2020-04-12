@@ -70,21 +70,21 @@ struct Graph{
 
 
 int main(){
-    auto ap = Graph(10);
+    auto graph = Graph(10);
 
-    ap.add_edge(0, 1);
-    ap.add_edge(1, 2);
-    ap.add_edge(2, 0);
-    ap.add_edge(5, 6);
-    ap.add_edge(6, 7);
-    ap.add_edge(7, 6);
-    ap.add_edge(2, 3);
-    ap.add_edge(3, 4);
-    ap.add_edge(2, 4);
-    ap.add_edge(4, 5);
-    ap.add_edge(8, 9);
+    graph.add_edge(0, 1);
+    graph.add_edge(1, 2);
+    graph.add_edge(2, 0);
+    graph.add_edge(5, 6);
+    graph.add_edge(6, 7);
+    graph.add_edge(7, 6);
+    graph.add_edge(2, 3);
+    graph.add_edge(3, 4);
+    graph.add_edge(2, 4);
+    graph.add_edge(4, 5);
+    graph.add_edge(8, 9);
 
-    auto cuts = ap.get_cuts();
+    auto cuts = graph.get_cuts();
     printf("%d articulation points found\n\n", (int)cuts.size());
     for (auto node: cuts){
         printf("Node %d is an articulation point\n", node);
