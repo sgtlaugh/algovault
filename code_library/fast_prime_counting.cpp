@@ -7,13 +7,13 @@ using namespace std;
 
 const int MAXP = 8;
 const int MAXN = 52;
-const int MAXM = 510515; /// At least the product of the first MAXP - 1 primes
+const int MAXM = 512512; /// At least the product of the first MAXP - 1 primes
 
 const int MAX = 100000010;
 const int BLOCK_SIZE = 1048576;
 
 unsigned long long wheel[15015], is_composite[8192];
-unsigned int s, p, prod[10], sq[32768], sp[32768], primes[6000010], pi[MAX], dp[MAXP][MAXM], dp2[MAXN][MAXM];
+unsigned int s, p, prod[10], sq[32768], sp[32768], primes[6000010], pi[MAX], dp[MAXN][MAXM];
 
 void setbit(unsigned long long* ar, int bit){
     ar[bit >> 6] |= (1LL << bit);
@@ -93,26 +93,22 @@ void fast_sieve(){
 }
 
 void generate(){
+    int i, j;
     fast_sieve();
-    for (int i = 0; i < MAXM; i++) dp[0][i] = i, dp2[0][i] = i;
+    for (i = 0; i < MAXM; i++) dp[0][i] = i;
+    for (prod[0] = 1, i = 1; i < MAXP; i++) prod[i] = prod[i - 1] * primes[i];
 
-    for (int i = 1; i < MAXP; i++){
-        prod[0] = 1, prod[i] = prod[i - 1] * primes[i];
-        for (int j = 1; j < MAXM; j++){
+    assert(MAXN >= MAXP);
+    for (i = 1; i < MAXN; i++){
+        for (j = 1; j < MAXM; j++){
             dp[i][j] = dp[i - 1][j] - dp[i - 1][j / primes[i]];
-        }
-    }
-
-    for (int i = 1; i < MAXN; i++){
-        for (int j = 1; j < MAXM; j++){
-            dp2[i][j] = dp2[i - 1][j] - dp2[i - 1][j / primes[i]];
         }
     }
 }
 
 unsigned long long phi(long long m, int n){
     if (!n) return m;
-    if (n < MAXN && m < MAXM) return dp2[n][m];
+    if (n < MAXN && m < MAXM) return dp[n][m];
     if (n < MAXP) return dp[n][m % prod[n]] + (m / prod[n]) * dp[n][prod[n]];
     if (primes[n] * primes[n] >= m) return pi[m] - n + 1;
 
@@ -171,4 +167,3 @@ int main(){
 
     return 0;
 }
-
