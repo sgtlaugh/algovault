@@ -3,16 +3,16 @@ import sys
 
 class Scanner():
     def __init__(self):
-        self.tokens = []
-        self.index = -1
-
-        for line in sys.stdin:
-            self.tokens.extend(line.split())
+        self.tokens = self.get_tokens()
 
     def next_token(self):
-        self.index += 1
-        return None if self.index == len(self.tokens) \
-            else self.tokens[self.index]
+        return next(self.tokens)
+
+    def get_tokens(self):
+        for line in sys.stdin:
+            for token in line.split():
+                yield token  
+        yield None
 
 
 def main():
