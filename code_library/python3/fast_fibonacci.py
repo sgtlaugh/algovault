@@ -10,32 +10,23 @@ def fibonacci(n, modulo=None):
     :return: nth fibonacci number
     """
 
-    def _fib(n):
+    def _fib(n, modulo):
         if n == 0:
             return 0, 1
 
-        a, b = _fib(n >> 1)
+        a, b = _fib(n >> 1, modulo)
         x, y = a * (2 * b - a), a * a + b * b
 
         if n & 1:
             x, y = y, x + y
+
+        if modulo is not None:
+            x, y = x % modulo, y % modulo
 
         return x, y
 
-    def _fibmod(n, modulo):
-        if n == 0:
-            return 0 % modulo, 1 % modulo
-
-        a, b = _fibmod(n >> 1, modulo)
-        x, y = a * (2 * b - a), a * a + b * b
-
-        if n & 1:
-            x, y = y, x + y
-
-        return x % modulo, y % modulo
-
-    x, y = _fib(n) if modulo is None else _fibmod(n, modulo)
-    return x
+    x, y = _fib(n, modulo)
+    return x if modulo is None else x % modulo
 
 
 def main():
@@ -58,10 +49,9 @@ def main():
     print(fibonacci(10 ** 18, modulo))  # 209783453
     print(fibonacci(10 ** 1000, modulo))  # 552179166
 
-    # the following works pretty fast too, ~1s locally
-    # print(fibonacci(10000))
-    # print(fibonacci(100000))
-    # print(fibonacci(1000000))
+    print(len(str(fibonacci(10000))))  # 2090
+    print(len(str(fibonacci(100000))))  # 20899
+    print(len(str(fibonacci(1000000))))  # 208988
 
 
 if __name__ == '__main__':
