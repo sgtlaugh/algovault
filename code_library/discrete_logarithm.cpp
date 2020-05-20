@@ -24,36 +24,30 @@ int ext_euclid(int a, int b, int& x, int& y){
 
 int discrete_log(int g, int h, int p){
     if (h >= p) return -1;
-    if ((g % p) == 0) return (h == 1) ? 0 : -1;
+    if (h == 1 || p == 1) return 0;
 
-    int i, x, y, z, r, m, counter = 0;
-    long long v = 1, d = 1, mul = 1, t = 1 % p;
+    int i, x, y, z, m, c;
+    long long v, d, t, mul;
 
-    for (i = 0; i < 100; i++){
-        if (t == h) return i;
-        t = (t * g) % p;
+    for (i = 1, t = g; (1LL << i) <= p; i++, t = t * g % p){
+        if ((t % p) == h) return i;
     }
 
-    while ((v = __gcd(g, p)) > 1){
-        if (h % v) return -1;
+    for (c = 0, d = 1, v = 1; (v = __gcd(g, p)) > 1; c++){
         h /= v, p /= v;
-        d = (d * (g / v)) % p;
-        counter++;
+        d = d * (g / v) % p;
     }
 
-    m = sqrt(p - 0.5) + 1;
+    m = sqrt(p - 0.666) + 1;
     tr1::unordered_map <int, int> mp;
-
-    for (i = 0; i < m; i++){
-        if (!mp[mul]) mp[mul] = i + 1;
-        mul = (mul * g) % p;
+    for (i = 0, mul = 1; i < m; i++, mul = mul * g % p){
+        if (!mp.count(mul)) mp[mul] = i + 1;
     }
 
-    for (i = 0; i < m; i++){
+    for (i = 0; i < m; i++, d = d * mul % p){
         z = ext_euclid(d, p, x, y);
-        r = ((((long long)x * h) / z) % p + p) % p;
-        if (mp.count(r)) return ((i * m) + mp[r] + counter - 1);
-        d = (d * mul) % p;
+        z = ((((long long)x * h) / z) % p + p) % p;
+        if (mp.count(z)) return i * m + mp[z] + c - 1;
     }
 
     return -1;
@@ -61,12 +55,14 @@ int discrete_log(int g, int h, int p){
 
 int main(){
     printf("%d\n", discrete_log(1, 1, 1));                            /// -1
-    printf("%d\n", discrete_log(2, 1, 3));                            /// 0
+    printf("%d\n", discrete_log(2, 1, 3));                            ///  0
     printf("%d\n", discrete_log(2, 3, 4));                            /// -1
-    printf("%d\n", discrete_log(5, 33, 58));                          /// 9
+    printf("%d\n", discrete_log(2, 0, 4));                            ///  2
+    printf("%d\n", discrete_log(6, 0, 8));                            ///  3
+    printf("%d\n", discrete_log(5, 33, 58));                          ///  9
     printf("%d\n", discrete_log(3589, 58, 97));                       /// -1
-    printf("%d\n", discrete_log(3589, 1, 97));                        /// 0
-    printf("%d\n", discrete_log(1000000000, 666666667, 1000000007));  /// 942190576
+    printf("%d\n", discrete_log(3589, 1, 97));                        ///  0
+    printf("%d\n", discrete_log(1000000000, 666666667, 1000000007));  ///  942190576
 
     return 0;
 }
