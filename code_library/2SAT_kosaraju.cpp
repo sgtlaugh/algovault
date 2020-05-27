@@ -1,40 +1,40 @@
+/***
+ *
+ * 2SAT with Kosaraju's algorithm (1 based index for variables)
+ * Each variable can have two possible values: true or false
+ * Variables must satisfy a system of constraints on pairs of variables
+ *
+ * Complexity: O(n + m), n = number of nodes and m = number of edges or constraints
+ *
+***/
+
+
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
-#define MAX 100010
-
 using namespace std;
 
+struct Graph{
+    int n, l;
+    vector <vector<int>> adj, rev;
+    vector <int> visited, parent, order, dfs_t;
 
-/***
- * 2 SAT (1 based index for variables)
- * Each variable can have two possible values - true or false
- * Variables must satisfy a system of constraints on pairs of variables
-***/
-
-namespace sat{
-    bool visited[MAX * 2];
-    vector <int> adj[MAX * 2], rev[MAX * 2];
-    int n, m, l, dfs_t[MAX * 2], order[MAX * 2], parent[MAX * 2];
+    Graph() {}
+    Graph(int n): n(n){
+        int m = 2 * n + 2;
+        adj.resize(m, vector<int>()), rev.resize(m, vector<int>());
+        visited.resize(m, 0), dfs_t.resize(m, 0), order.resize(m, 0), parent.resize(m, 0);
+    }
 
     inline int neg(int x){
         return ((x) <= n ? (x + n) : (x - n));
-    }
-
-    /// Call init once
-    void init(int nodes){
-        n = nodes, m = nodes * 2;
-        for (int i = 0; i < MAX * 2; i++){
-            adj[i].clear();
-            rev[i].clear();
-        }
     }
 
     /// Add implication, if a then b
     inline void add_implication(int a, int b){
         if (a < 0) a = n - a;
         if (b < 0) b = n - b;
-
+        assert(a >= 1 && a <= 2 * n && b >= 1 && b <= 2 * n);
         adj[a].push_back(b);
         rev[b].push_back(a);
     }
@@ -55,13 +55,13 @@ namespace sat{
         add_or(-a, b);
     }
 
-    /// force variable x to be true (if x is negative, force !x to be true)
+    /// Force variable x to be true (if x is negative, force !x to be true)
     inline void force_true(int x){
         if (x < 0) x = n - x;
         add_implication(neg(x), x);
     }
 
-    /// force variable x to be false (if x is negative, force !x to be false)
+    /// Force variable x to be false (if x is negative, force !x to be false)
     inline void force_false(int x){
         if (x < 0) x = n - x;
         add_implication(x, neg(x));
@@ -69,69 +69,58 @@ namespace sat{
 
     inline void topsort(int i){
         visited[i] = true;
-        int j, x, len = rev[i].size();
-
-        for (j = 0; j < len; j++){
-            x = rev[i][j];
+        for (auto x: rev[i]){
             if (!visited[x]) topsort(x);
         }
         dfs_t[i] = ++l;
     }
 
     inline void dfs(int i, int p){
-        parent[i] = p;
-        visited[i] = true;
-        int j, x, len = adj[i].size();
-
-        for (j = 0; j < len; j++){
-            x = adj[i][j];
+        parent[i] = p, visited[i] = true;
+        for (auto x: adj[i]){
             if (!visited[x]) dfs(x, p);
         }
     }
 
     void build(){
         int i, x;
-        memset(visited, 0, sizeof(visited));
-        for (i = m, l = 0; i >= 1; i--){
-            if (!visited[i]){
-                topsort(i);
-            }
+        for (i = 0; i <= 2 * n; i++) visited[i] = 0;
+        for (i = 2 * n, l = 0; i >= 1; i--){
+            if (!visited[i]) topsort(i);
             order[dfs_t[i]] = i;
         }
 
-        memset(visited, 0, sizeof(visited));
-        for (i = m; i >= 1; i--){
+        for (i = 0; i <= 2 * n; i++) visited[i] = 0;
+        for (i = 2 * n; i >= 1; i--){
             x = order[i];
-            if (!visited[x]){
-                dfs(x, x);
-            }
+            if (!visited[x]) dfs(x, x);
         }
     }
 
     /// Returns whether the system is 2-satisfiable
     bool is_satisfiable(){
         build();
-        memset(visited, 0, sizeof(visited));
+        for (int i = 0; i <= 2 * n; i++) visited[i] = 0;
 
-        for (int i = 1; i <= m; i++){
+        for (int i = 1; i <= 2 * n; i++){
             int x = order[i];
             if (parent[x] == parent[neg(x)]) return false;
         }
 
         return true;
     }
-}
+};
+
 
 int main(){
-    int n = 4;
-    sat::init(n);
+    auto g = Graph(4);
 
-    sat::add_implication(1, 2);     /// if 1 is true then 2 is true
-    sat::add_implication(-2, -3);   /// if 2 is false then 3 is false
-    sat::force_false(2);            /// 2 must be false
-    sat::add_xor(2, 4);             /// exactly one of 2 or 4 must be true
-    sat::add_or(1, 4);              /// either 1 or 4 must be true
+    g.add_implication(1, 2);     /// if 1 is true then 2 is true
+    g.add_implication(-2, -3);   /// if 2 is false then 3 is false
+    g.force_false(2);            /// 2 must be false
+    g.add_xor(2, 4);             /// exactly one of 2 or 4 must be true
+    g.add_or(1, 4);              /// either 1 or 4 must be true
 
-    puts(sat::is_satisfiable() ? "System is Satisfiable" : "System is not satisfiable");
+    assert(g.is_satisfiable());
     return 0;
 }
