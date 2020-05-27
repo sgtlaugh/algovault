@@ -1,15 +1,13 @@
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
-
 #define MAX_LETTERS 26
-
 
 using namespace std;
 
-
 struct AhoCorasick{
     int id, edge[256];
+
     vector <long long> counter;
     vector <string> dictionary;
     vector <int> leaf, fail;
@@ -29,17 +27,12 @@ struct AhoCorasick{
         return dictionary.size();
     }
 
-    void clear(){
-        trie.clear();
-        dictionary.clear();
+    AhoCorasick(){
+        trie.clear(), dictionary.clear();
         dp.clear(), fail.clear(), leaf.clear(), counter.clear();
 
         id = 0, node();
         for (int i = 'a'; i <= 'z'; i++) edge[i] = i - 'a'; /// change here if different character set
-    }
-
-    AhoCorasick(){
-        clear();
     }
 
     inline void insert(const char* str){
@@ -98,10 +91,8 @@ struct AhoCorasick{
 
     /// total number of occurrences of all words from dictionary in str
     long long count(const char* str){
-        int cur = 0;
         long long res = 0;
-
-        for (int j = 0; str[j] && id > 1; j++){
+        for (int j = 0, cur = 0; str[j] && id > 1; j++){
             cur = next(cur, str[j]);
             res += counter[cur];
         }
@@ -124,10 +115,10 @@ int main(){
     ac.insert("aaba");
 
     ac.build();
-    printf("%lld\n", ac.count("helloworldlol"));                                       /// 4
-    printf("%lld\n", ac.count("abaababbaba"));                                         /// 2
-    printf("%lld\n", ac.count("aba"));                                                 /// 0
-    printf("%lld\n", ac.count("baababaababbbabaabaabaababbabababbbbaaabababababba"));  /// 7
+    assert(ac.count("helloworldlol") == 4);
+    assert(ac.count("abaababbaba") == 2);
+    assert(ac.count("aba") == 0);
+    assert(ac.count("baababaababbbabaabaabaababbabababbbbaaabababababba") == 7);
 
     return 0;
 }
