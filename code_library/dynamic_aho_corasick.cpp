@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
-
 #define MAX_LOG      20
 #define MAX_LETTERS  26
 
@@ -9,6 +8,7 @@ using namespace std;
 
 struct AhoCorasick{
     int id, edge[256];
+
     vector <long long> counter;
     vector <string> dictionary;
     vector <int> leaf, fail;
@@ -29,8 +29,7 @@ struct AhoCorasick{
     }
 
     void clear(){
-        trie.clear();
-        dictionary.clear();
+        trie.clear(), dictionary.clear();
         dp.clear(), fail.clear(), leaf.clear(), counter.clear();
 
         id = 0, node();
@@ -97,10 +96,8 @@ struct AhoCorasick{
 
     /// total number of occurrences of all words from dictionary in str
     long long count(const char* str){
-        int cur = 0;
         long long res = 0;
-
-        for (int j = 0; str[j] && id > 1; j++){
+        for (int j = 0, cur = 0; str[j] && id > 1; j++){
             cur = next(cur, str[j]);
             res += counter[cur];
         }
@@ -115,10 +112,6 @@ struct AhoCorasick{
 
 struct DynamicAhoCorasick{
     AhoCorasick ar[MAX_LOG];
-
-    DynamicAhoCorasick(){
-        for (int i = 0; i < MAX_LOG; i++) ar[i] = AhoCorasick();
-    }
 
     inline void insert(const char* str){
         int i, k = 0;
@@ -148,20 +141,20 @@ int main(){
     ac.insert("hello");
     ac.insert("world");
 
-    printf("%lld\n", ac.count("lol"));                                                 /// 0
+    assert(ac.count("lol") == 0);
     ac.insert("lol");
-    printf("%lld\n", ac.count("lol"));                                                 /// 1
+    assert(ac.count("lol") == 1);
     ac.insert("lol");
-    printf("%lld\n", ac.count("lol"));                                                 /// 2
+    assert(ac.count("lol") == 2);
 
     ac.insert("abracadabra");
     ac.insert("abaababbaba");
     ac.insert("aaba");
 
-    printf("%lld\n", ac.count("helloworldlol"));                                       /// 4
-    printf("%lld\n", ac.count("abaababbaba"));                                         /// 2
-    printf("%lld\n", ac.count("aba"));                                                 /// 0
-    printf("%lld\n", ac.count("baababaababbbabaabaabaababbabababbbbaaabababababba"));  /// 7
+    assert(ac.count("helloworldlol") == 4);
+    assert(ac.count("abaababbaba") == 2);
+    assert(ac.count("aba") == 0);
+    assert(ac.count("baababaababbbabaabaabaababbabababbbbaaabababababba") == 7);
 
     ac.insert("hello");
     ac.insert("world");
@@ -171,10 +164,10 @@ int main(){
     ac.insert("a");
     ac.insert("baa");
 
-    printf("%lld\n", ac.count("helloworldlol"));                                       /// 8
-    printf("%lld\n", ac.count("abaababbaba"));                                         /// 9
-    printf("%lld\n", ac.count("aba"));                                                 /// 2
-    printf("%lld\n", ac.count("baababaababbbabaabaabaababbabababbbbaaabababababba"));  /// 38
+    assert(ac.count("helloworldlol") == 8);
+    assert(ac.count("abaababbaba") == 9);
+    assert(ac.count("aba") == 2);
+    assert(ac.count("baababaababbbabaabaabaababbabababbbbaaabababababba") == 38);
 
     return 0;
 }
