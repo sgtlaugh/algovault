@@ -128,10 +128,11 @@ int main(){
     g.add_edge(8, 11);
     assert(g.maximum_matching() == 6);
 
-
+    srand(666);
     clock_t start = clock();
     int n = 2000, m = 5000;
     g = Graph(n);
+
     for (int i = 0; i < m; i++){
         int u = 0, v = 0;
         while (u == v) u = rand() % n, v = rand() % n;
