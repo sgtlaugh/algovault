@@ -1,135 +1,97 @@
-#include <bits/stdtr1c++.h>
-
-#define MAX 1010
-
-
-using namespace std;
-
 /***
  * 2D Pattern Matcher, n x m text, r x c pattern
- * Processes and stores the output in the occur[][]
- * occur[i][j] = true for every (k, l), where k >= 0 && k < r && l >= 0 && l < c, text[i + k][j + l] == pattern[k][l]
+ * Returns the top-left coordinates (i, j) of all matched blocks such that
+ * For every (k, l), where k >= 0 and k < r and l >= 0 and l < c, (i + k) < n and (j + l) < m and text[i + k][j + l] == pattern[k][l]
  *
  * For example:
  *
  * text:
- * abab
- * baba
- * abaa
+ * ababa
+ * babab
+ * abaaa
  *
  * pattern:
  * ba
  * ab
  *
- * occur matrix:
- * 0100
- * 1000
- * 0000
+ * returns top left coordinate of all matched positions
+ * {{1, 0}, {0, 1}, {0, 3}}
+ *
+ *
+ * Complexity: O(n * m)
+ * Algorithm uses hashing modulo 2^64, so might be susceptible to anti-hash attacks
+ * Can be modified to use random modulo if required but keeping it simple for now
+ *
 
 ***/
 
+
+#include <bits/stdtr1c++.h>
+
+using namespace std;
+
 namespace pm{
-    const unsigned long long base = 1995433697ULL;
-    const unsigned long long base2 = 1000000007ULL;
+    const unsigned long long base1 = 1995433697;
+    const unsigned long long base2 = 2117566807;
 
-    int n, m, r, c, match;
-    bool occur[MAX][MAX];
+    int n, m, r, c;
+    vector <unsigned long long> dp;
+    unsigned long long base_pow, pattern_hash, pattern_pow;
 
-    char str[MAX][MAX], pattern[MAX][MAX];
-    unsigned long long pattern_hash, P[MAX], F[MAX], ar[MAX];
+    void build(const vector<string>& text, const vector<string>& pattern) {
+        n = text.size(), r = pattern.size();
+        m = text[0].length(), c = pattern[0].length();
+        for (int i = 0; i < n; i++) assert((int)text[i].length() == m);
+        for (int i = 0; i < r; i++) assert((int)pattern[i].length() == c);
 
-    /// Call init once with the text and pattern
-    void init(int a, int b, char text[MAX][MAX], int u, int v, char pat[MAX][MAX]){
-        n = a, m = b, r = u, c = v;
-        for (int i = 0; i < n; i++) text[i][m] = 0, strcpy(str[i], text[i]);
-        for (int i = 0; i < r; i++) pat[i][c] = 0, strcpy(pattern[i], pat[i]);
+        base_pow = 1, pattern_pow = 1, pattern_hash = 0;
+        for (int i = 1; i < r; i++) base_pow = base_pow * base1;
+        for (int i = 1; i < c; i++) pattern_pow = pattern_pow * base2;
 
-        P[0] = F[0] = 1;
-        for (int i = 1; i < MAX; i++){
-            P[i] = P[i - 1] * base;
-            F[i] = F[i - 1] * base2;
-        }
-
-        pattern_hash = 0;
         for (int i = 0; i < r; i++){
-            unsigned long long res = 0;
-            for (int j = 0; j < c; j++) res = (res * base2) + pattern[i][j];
-            pattern_hash = (pattern_hash * base) + res;
+            unsigned long long h = 0;
+            for (int j = 0; j < c; j++) h = h * base2 + pattern[i][j];
+            pattern_hash = pattern_hash * base1 + h;
         }
 
+        dp.resize(n + 1, 0);
         for (int i = 0; i < n; i++){
-            unsigned long long res = 0;
-            for (int j = 0; j < c; j++) res = (res * base2) + str[i][j];
-            ar[i] = res;
+            for (int j = 0; j < c; j++) dp[i] = dp[i] * base2 + text[i][j];
         }
     }
 
-    void roll(int col){
-        unsigned long long x = 0, y;
-        for (int i = 0; i < r; i++) x = (x * base) + ar[i];
+    vector<pair<int, int>> solve(const vector<string>& text, const vector<string>& pattern) {
+        build(text, pattern);
 
-        for (int i = 0; i < n; i++){
-            if ((i + r) > n) break;
-            if (x == pattern_hash) match++, occur[i][col] = true;
+        int i, j;
+        unsigned long long h, x, y;
+        vector<pair<int, int>> matched_pos;
 
-            y = (x - (P[r - 1] * ar[i]));
-            x = (y * base) + ar[i + r];
-        }
-    }
+        for (j = 0; (j + c) <= m; j++){
+            for (x = 0, i = 0; i < r; i++) x = x * base1 + dp[i];
+            for (i = 0; (i + r) <= n; i++){
+                if (x == pattern_hash) matched_pos.push_back({i, j});
+                y = x - base_pow * dp[i];
+                x = y * base1 + dp[i + r];
+            }
 
-    /// Call solve once to populate the occur matrix
-    /// Can configure to return the matched positions in a vector of pais if required
-    void solve(){
-        match = 0;
-        memset(occur, 0, sizeof(occur));
-
-        for (int j = 0; j < m; j++){
-            if ((j + c) > m) break;
-
-            roll(j);
-            for (int i = 0; i < n; i++){
-                unsigned long long x = ar[i];
-                x = x - (F[c - 1] * str[i][j]);
-                ar[i] = (x * base2) + str[i][j + c];
+            for (i = 0; i < n; i++){
+                h = dp[i] - pattern_pow * text[i][j];
+                dp[i] = h * base2 + text[i][j + c];
             }
         }
+
+        return matched_pos;
     }
 }
 
-int n, m, r, c;
-char text[MAX][MAX], pattern[MAX][MAX];
-
 int main(){
-    /***
+    vector <string> text = {"ababa", "babab", "abaaa"};
+    vector <string> pattern = {"ba", "ab"};
 
-    3 4
-    abab
-    baba
-    abaa
-
-    2 2
-    ba
-    ab
-
-    ***/
-
-
-    int i, j;
-    scanf("%d %d", &n, &m);
-    for (i = 0; i < n; i++) scanf("%s", text[i]);
-
-    scanf("%d %d", &r, &c);
-    for (i = 0; i < r; i++) scanf("%s", pattern[i]);
-
-    pm::init(n, m, text, r, c, pattern);
-    pm::solve();
-
-    for (i = 0; i < n; i++){
-        for (j = 0; j < m; j++){
-            printf("%d", pm::occur[i][j]);
-        }
-        puts("");
-    }
+    auto matched_pos = pm::solve(text, pattern);
+    vector<pair<int, int>> expected_matched_pos{{1, 0}, {0, 1}, {0, 3}};
+    assert(matched_pos == expected_matched_pos);
 
     return 0;
 }
