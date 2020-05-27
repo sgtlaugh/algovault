@@ -1,25 +1,13 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-#include <stdlib.h>
-#include <time.h>
-
-
-#define MAX 10000010
-
-
-short len[MAX];
-int lp[MAX], *divisors[MAX];
-
-
 /***
- * generates all divisors from 1 to MAX efficiently
- * the idea is to generate the lp[x], the largest prime factor of x using sieve
- * then generate the divisors iteratively, i.e, to get divisors of x, use lp[x] and the divisors of [x / lp[x]]
- * this is order of magnitudes faster than the naive approach because of reduced cache miss
- * for instance, takes 1.1 seconds to generate all divisors up to 10^7 locally, where as the naive approach takes 16.5 seconds
  *
- * naive approach:
+ * Generates all divisors from 1 to MAX efficiently
+ * The idea is to generate the lp[x], the largest prime factor of x using sieve
+ * Then generate the divisors iteratively, i.e, to get divisors of x, use lp[x] and the divisors of [x / lp[x]]
+ * This is order of magnitudes faster than the naive approach because of reduced cache miss
+ * For instance, takes 0.7 seconds to generate all divisors up to 10^7 locally, where as the naive approach takes 11.5 seconds
+ *
+ * Naive approach:
+ *
  * vector <int> divisors[MAX];
  *
  * void generate(){
@@ -31,6 +19,18 @@ int lp[MAX], *divisors[MAX];
  * }
  *
 ***/
+
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include <stdlib.h>
+#include <time.h>
+#include <assert.h>
+
+#define MAX 10000010
+
+short len[MAX];
+int lp[MAX], *divisors[MAX];
 
 void generate(){
     int i, j, k, c, d, x;
@@ -76,16 +76,16 @@ void generate(){
 
 int main(){
     clock_t start = clock();
-
     generate();
 
-    int i, n = 24;
+    assert(len[1] == 1 && divisors[1][0] == 1);
+    assert(len[2] == 2 && divisors[2][0] == 1 && divisors[2][1] == 2);
+    assert(len[10007] == 2 && divisors[10007][0] == 1 && divisors[10007][1] == 10007);
 
-    printf("All divisors of %d are:\n", n);
-    for (i = 0; i < len[n]; i++){
-        printf("%d\n", divisors[n][i]);
-    }
+    assert(len[8] == 4);
+    assert(len[24] == 8);
+    assert(len[840000] == 140);
 
-    fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));
+    fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));  /// 0.713571
     return 0;
 }
