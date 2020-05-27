@@ -3,10 +3,6 @@
 
 #define MAXN 100010
 #define MAXM 10000010
-#define clr(ar) memset(ar, 0, sizeof(ar))
-#define read() freopen("lol.txt", "r", stdin)
-#define dbg(x) cout << #x << " = " << x << endl
-#define ran(a, b) ((((rand() << 15) ^ rand()) % ((b) - (a) + 1)) + (a))
 
 using namespace std;
 
@@ -70,10 +66,7 @@ struct TwoSat{
 
         visited[u] = true, stk[top++] = u;
         for (int i = head[u]; i >= 0; i = E[i].nxt) {
-            if (!dfs(E[i].v)) {
-                if (u == 4) dbg(E[i].v);
-                return false;
-            }
+            if (!dfs(E[i].v)) return false;
         }
 
         return true;
