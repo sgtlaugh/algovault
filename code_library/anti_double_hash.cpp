@@ -41,6 +41,7 @@ struct AntiHash{
     }
 
     inline long long multiply(long long a, long long b, long long m){
+        a %= m, b %= m;
         if (m < 3037000500LL) return a * b % m;
 
         #ifdef __SIZEOF_INT128__
@@ -126,6 +127,9 @@ int main(){
         s2h2 = (s2h2 * b2 + s2[i]) % m2;
     }
     assert(s1h1 == s2h1 && s1h2 == s2h2);
+
+    puts(s1.c_str());
+    puts(s2.c_str());
 
     fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));  /// Took 50 seconds to generate locally
     return 0;
