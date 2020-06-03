@@ -3,7 +3,6 @@
 
 #define MAX 100010
 
-
 using namespace std;
 
 /***
@@ -21,10 +20,7 @@ struct Graph{
     int n, disc_t, discover[MAX], low[MAX];
 
     Graph() {}
-    Graph(int nodes){
-        n = nodes;
-        for (int i = 0; i < MAX; i++) adj[i].clear();
-    }
+    Graph(int n) : n(n) {}
 
     void dfs(int u, int p){
         visited[u] = true;
@@ -68,7 +64,6 @@ struct Graph{
     }
 };
 
-
 int main(){
     auto graph = Graph(10);
 
@@ -85,20 +80,8 @@ int main(){
     graph.add_edge(8, 9);
 
     auto cuts = graph.get_cuts();
-    printf("%d articulation points found\n\n", (int)cuts.size());
-    for (auto node: cuts){
-        printf("Node %d is an articulation point\n", node);
-    }
-
-    /***
-     4 articulation points found
-
-     Node 2 is an articulation point
-     Node 4 is an articulation point
-     Node 5 is an articulation point
-     Node 6 is an articulation point
-
-    ***/
+    assert((int)cuts.size() == 4);
+    assert(cuts == vector<int>({2, 4, 5, 6}));
 
     return 0;
 }
