@@ -1,8 +1,3 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
-
-using namespace std;
-
 /***
  *
  * Compress values in input vector in-place
@@ -10,6 +5,11 @@ using namespace std;
  * 0 based indexing for compressed values
  *
 ***/
+
+#include <stdio.h>
+#include <bits/stdtr1c++.h>
+
+using namespace std;
 
 template <class T>
 void compress(vector<T>& v, bool make_sorted=true){
