@@ -1,4 +1,14 @@
+/***
+ * 
+ * https://en.wikipedia.org/wiki/Eight_queens_puzzle
+ * 
+ * Counts the number of ways for the N queens puzzle
+ * Can be further optimized if we consider board symmetry
+ * 
+***/
+
 #include <stdio.h>
+#include <assert.h>
 
 int n, lim, counter;
 
@@ -28,9 +38,13 @@ int count_ways(int dimension){
 }
 
 int main(){
-    printf("%d\n", count_ways(8));   /// 92
-    printf("%d\n", count_ways(13));  /// 73712
-    printf("%d\n", count_ways(15));  /// 2279184
+    assert(count_ways(1) == 1);
+    assert(count_ways(2) == 0);
+    assert(count_ways(3) == 0);
+    assert(count_ways(4) == 2);
+    assert(count_ways(8) == 92);
+    assert(count_ways(13) == 73712);
+    assert(count_ways(15) == 2279184);
 
     return 0;
 }
