@@ -3,7 +3,6 @@
 
 using namespace std;
 
-
 const long double EPS = 1e-9;
 const long double PI  = 2.0 * acos(0.0);
 
@@ -31,13 +30,13 @@ struct Circle{
     }
 };
 
-/// return true if circle B is inside of circle A
+/// Returns true if circle B is inside of circle A
 bool is_inside(Circle A, Circle B){
     long double x = A.centre.get_dis(B.centre) + B.radius;
     return (abs(x - A.radius) < EPS) || (x < A.radius);
 }
 
-/// returns the intersection area of circle A and circle B
+/// Returns the intersection area of circle A and circle B
 long double intersection_area(Circle A, Circle B){
     if (is_inside(A, B)) return B.get_area();
     if (is_inside(B, A)) return A.get_area();
@@ -59,14 +58,14 @@ long double intersection_area(Circle A, Circle B){
 int main(){
     Circle A = Circle(Point(0, 0), 5);
     Circle B = Circle(Point(4, 0), 7);
-    printf("%0.5f\n", (double)intersection_area(A, B));   /// 62.69241
+    assert(abs(intersection_area(A, B) - 62.692413539573) < EPS);
 
     B = Circle(Point(10, 0), 5);
-    printf("%0.5f\n", (double)intersection_area(A, B));   /// 0.00000
+    assert(abs(intersection_area(A, B) - 0) < EPS);
 
     B = Circle(Point(0, 0), 10);
-    printf("%0.5f\n", (double)intersection_area(A, B));   /// 78.53982
-    printf("%0.5f\n", (double)intersection_area(B, A));   /// 78.53982
+    assert(abs(intersection_area(A, B) - 0) < 78.539816339745);
+    assert(abs(intersection_area(B, A) - 0) < 78.539816339745);
 
     return 0;
 }
