@@ -1,7 +1,7 @@
+#include <stdio.h>
 #include <bits/stdtr1c++.h>
 
 using namespace std;
-
 
 long long extended_gcd(long long a, long long b, long long& x, long long& y){
     /// Bezout's identity, ax + by = gcd(a,b)
@@ -26,28 +26,30 @@ long long mod_inverse(long long a, long long m){
 }
 
 /***
- * finds the unique solution x modulo M (product of mods) for which x % mods[i] = ar[i]
+ *
+ * Finds the unique solution x modulo M (product of mods) for which x % mods[i] = ar[i]
  * mods must be pairwise co-prime
+ *
 ***/
 
-long long CRT(int n, long long* ar, long long* mods){
-    long long x, y, res = 0, M = 1;
+long long CRT(const vector<long long>& ar, const vector<long long>& mods){
+    int n = ar.size();
 
+    long long x, y, res = 0, M = 1;
     for (int i = 0; i < n; i++) M *= mods[i];
+
     for (int i = 0; i < n; i++){
         x = M / mods[i];
         y = mod_inverse(x, mods[i]);
-        res = (res + (((x * ar[i]) % M) * y)) % M;
+        res = (res + ((x * ar[i] % M) * y)) % M;
     }
 
     return res;
 }
 
 int main(){
-    long long mods[] = {3, 5, 7};
-    long long ar[] = {2, 3, 2};
-    long long res = CRT(3, ar, mods);
-
-    printf("%lld\n", res);  /// 23
+    auto ar = vector<long long>({2, 3, 2});
+    auto mods = vector<long long>({3, 5, 7});
+    assert(CRT(ar, mods) == 23);
     return 0;
 }
