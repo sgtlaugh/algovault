@@ -5,53 +5,35 @@ using namespace std;
 
 /***
  *
- * compress values in input array in[] and return them in out[]
- * relative order of values are not necessarily preserved
- * 0 based indexing for arrays and compressed values
+ * Compress values in input vector in-place
+ * Relative order of values are preserved if make_sorted=true
+ * 0 based indexing for compressed values
  *
 ***/
 
-void compress(int n, int* in, int* out){ /// 0 based index
-    unordered_map <int, int> mp;
-    for (int i = 0; i < n; i++) out[i] = mp.emplace(in[i], mp.size()).first->second;
-}
+template <class T>
+void compress(vector<T>& v, bool make_sorted=true){
+    unordered_map <T, int> mp;
 
-
-/***
- *
- * compress values in input array in[] and return them in out[]
- * relative order of values are preserved
- * 0 based indexing for arrays and compressed values
- *
-***/
-
-void compress_sorted(int n, int* in, int* out){
-    int i, id = 0;
-    vector <int> v;
-    unordered_map <int, int> mp;
-
-    for (i = 0; i < n; i++) v.push_back(in[i]);
-    sort(v.begin(), v.end());
-    if (n) v.push_back(v[n - 1] + 1);
-
-    for (i = 0; i < n; i++){
-        if (v[i] != v[i + 1]) mp[v[i]] = id++;
+    if (!make_sorted){
+        for (auto &&x: v) x = mp.emplace(x, mp.size()).first->second;
+        return;
     }
-    for (i = 0; i < n; i++) out[i] = mp[in[i]];
+
+    vector <T> u = v;
+    sort(u.begin(), u.end());
+    for (auto &&x: u) mp.emplace(x, mp.size()).first->second;
+    for (auto &&x: v) x = mp[x];
 }
 
 int main(){
-    int ar[] = {2000000000, 1000000000, 2000000000, 1, 10, 5};
-    int n = sizeof(ar) / sizeof(ar[0]);
-    int i, out[100];
+    vector <int> u = {2000000000, 1000000000, 2000000000, 1, 10, 5};
+    compress(u);
+    assert(u == vector<int>({4, 3, 4, 0, 2, 1}));
 
-    compress(n, ar, out);
-    for (i = 0; i < n; i++) printf("%d ", out[i]);  /// 0 1 0 2 3 4
-    puts("");
-
-    compress_sorted(n, ar, out);
-    for (i = 0; i < n; i++) printf("%d ", out[i]);  /// 4 3 4 0 2 1
-    puts("");
+    vector <long long> v = {2000000000000LL, 1000000000, 2000000000000LL, 1, 10, 5};
+    compress(v, false);
+    assert(v == vector<long long>({0, 1, 0, 2, 3, 4}));
 
     return 0;
 }
