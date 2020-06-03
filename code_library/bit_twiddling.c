@@ -35,6 +35,16 @@ unsigned int prev_num(unsigned int x){
     return ~next_num(~x);
 }
 
+/// Iterate over all the set bits of mask and store them in set_bits array
+int iterate(unsigned long long mask, int* set_bits){
+    int len = 0;
+    while (mask){
+        set_bits[len++] = __builtin_ctzll(mask);
+        mask ^= (-mask & mask);
+    }
+    return len;
+}
+
 int main(){
     assert(reverse_bits(0) == 0);
     assert(reverse_bits(1) == 2147483648U);
@@ -56,6 +66,15 @@ int main(){
     assert(prev_num(32) == 16);
     assert(prev_num(104) == 100);
     assert(prev_num(2684354559U) == 2147483646);
+
+    int len, set_bits[64];
+
+    len = iterate(0, set_bits);
+    assert(len == 0);
+
+    len = iterate(0b1000011010, set_bits);
+    assert(len == 4);
+    assert(set_bits[0] == 1 && set_bits[1] == 3 && set_bits[2] == 4 && set_bits[3] == 9);
 
     return 0;
 }
