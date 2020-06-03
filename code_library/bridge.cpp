@@ -1,8 +1,18 @@
+/***
+ *
+ * Finds bridge edges and builds the bridge tree in simple undirected graphs
+ * A bridge is such an edge which when removed makes the graph disconnected,
+ *     or more precisely, increases the number of connected components
+ * Graph nodes are numbered from 0 to N-1
+ *
+ * Complexity: O(N + M)
+ *
+***/
+
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
 #define MAX 100010
-
 
 using namespace std;
 
@@ -25,26 +35,13 @@ struct Bridge{
     Bridge(int u, int v, int cnt_u, int cnt_v) : u(u), v(v), cnt_u(cnt_u), cnt_v(cnt_v) {}
 };
 
-
-/***
- *
- * finds bridge edges in simple graphs in O(N + M)
- * a bridge is such an edge which when removed makes the graph disconnected
- * or more precisely, increases the number of connected components in the graph
- * nodes are numbered from 0 to N-1
- *
-***/
-
 struct Graph{
     bool visited[MAX];
     vector <int> adj[MAX];
     int n, dt, discover[MAX], low[MAX], cmp[MAX], num[MAX];
 
     Graph() {}
-    Graph(int nodes){
-        n = nodes;
-        for (int i = 0; i < MAX; i++) adj[i].clear();
-    }
+    Graph(int n): n(n) {}
 
     void dfs(int u, int p, vector <Bridge> &bridges){
         visited[u] = true;
@@ -112,15 +109,17 @@ struct Graph{
     }
 
     /***
-     * removing all the bridges will divide the graph into different bridge components
-     * let the number of components in this graph be k
-     * label all these components arbitrarily from 0 to k - 1
-     * for all nodes in the original graph, let num[x] be the component number for any node x
-     * the bridge tree is a new graph formed with the bridge components
-     * it is simply the graph where all the edges are (num[u], num[v]) for all (u, v) bridges
-     * the number of nodes can be derived implicitly by taking the max node number of all the edges + 1
+     * https://www.quora.com/q/threadsiiithyderabad/The-Bridge-Tree-of-a-graph
      *
-     * note that although we are calling it a tree, this will actually be a forest of trees
+     * Removing all the bridges will divide the graph into different bridge components
+     * Let the number of components in this graph be k
+     * Label all these components arbitrarily from 0 to k - 1
+     * For all nodes in the original graph, let num[x] be the component number for any node x
+     * The bridge tree is a new graph formed with the bridge components
+     * It is simply the graph where all the edges are (num[u], num[v]) for all (u, v) bridges
+     * The number of nodes can be derived implicitly by taking the max node number of all the edges + 1
+     *
+     * Note that although we are calling it a tree, this will actually be a forest of trees
      *
     ***/
 
@@ -152,7 +151,6 @@ struct Graph{
     }
 };
 
-
 int main(){
     auto graph = Graph(10);
     graph.add_edge(0, 1);
@@ -168,21 +166,14 @@ int main(){
     graph.add_edge(8, 9);
 
     auto bridges = graph.get_bridges();
-    printf("%d bridge edges found:\n", (int)bridges.size());   /// 2 bridge edges found:
-    for (auto bridge: bridges) {
-        /// Edge 4-5, disconnecting will decompose the graph into biconnected components of sizes 5 and 3
-        /// Edge 8-9, disconnecting will decompose the graph into biconnected components of sizes 1 and 1
-        printf("Edge %d-%d, disconnecting will decompose the graph into biconnected components of sizes %d and %d\n", bridge.u, bridge.v, bridge.cnt_u, bridge.cnt_v);
-    }
-    puts("");
+    assert((int)bridges.size() == 2);
+    assert(bridges[0].u == 4 && bridges[0].v == 5 && bridges[0].cnt_u == 5 && bridges[0].cnt_v == 3);
+    assert(bridges[1].u == 8 && bridges[1].v == 9 && bridges[1].cnt_u == 1 && bridges[1].cnt_v == 1);
 
     auto bridge_tree = graph.get_bridge_tree();
-    printf("%d edges in the bridge tree:\n", (int)bridge_tree.size());  /// 2 edges in the bridge tree:
-    for (auto edge: bridge_tree){
-        /// Edge 0-1
-        /// Edge 2-3
-        printf("Edge %d-%d\n", edge.first, edge.second);
-    }
+    assert((int)bridge_tree.size() == 2);
+    assert(bridge_tree[0] == Pair(0, 1));
+    assert(bridge_tree[1] == Pair(2, 3));
 
     return 0;
 }
