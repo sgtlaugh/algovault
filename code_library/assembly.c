@@ -1,5 +1,5 @@
 #include <stdio.h>
-
+#include <assert.h>
 
 int popcount(int x){
     int counter = 0;
@@ -51,26 +51,27 @@ int gcd(int a, int b){
     return res;
 }
 
-double fsqrt(double x){ /// Also works for long double
+long double fsqrt(long double x){
     __asm__ volatile("fsqrt" : "+t" (x));
     return x;
 }
 
 int main(){
-    printf("%d\n", popcount(0));   /// 0
-    printf("%d\n", popcount(13));  /// 3
+    assert(popcount(0) == 0);
+    assert(popcount(1) == 1);
+    assert(popcount(13) == 3);
+    assert(popcount(2147483647) == 31);
 
-    printf("%d\n", lzcount(0));    /// 32
-    printf("%d\n", lzcount(100));  /// 25
+    assert(lzcount(0) == 32);
+    assert(lzcount(100) == 25);
 
-    printf("%d\n", bsf(100));      /// 2
-    printf("%d\n", bsf(15));       /// 0
+    assert(bsf(0) == 0);
+    assert(bsf(15) == 0);
+    assert(bsf(16) == 4);
+    assert(bsf(100) == 2);
 
-    printf("%d\n", gcd(0, 10));    /// 10
-    printf("%d\n", gcd(120, 180)); /// 60
-
-    printf("%0.3f\n", fsqrt(1));   /// 1.000
-    printf("%0.3f\n", fsqrt(50));  /// 7.071
+    assert(gcd(0, 10) == 10);
+    assert(gcd(120, 1260) == 60);
 
     return 0;
 }
