@@ -39,8 +39,8 @@ vector <Point> get_convex_hull(vector<Point> P){
 
 /***
  *
- * returns whether the polygon is convex or not
- * points in P is given in clock-wise of anti-clockwise order
+ * Returns whether the polygon is convex or not
+ * Points in P is given in clock-wise of anti-clockwise order
  *
 ***/
 
@@ -60,16 +60,16 @@ bool is_convex(vector <Point> P){
 
 int main(){
     vector <Point> polygon = {Point(0, 0), Point(0, 10), Point(1, 1), Point(2, 20), Point(5, 5), Point(10, 10), Point(10, 0)};
-    printf("%d\n", is_convex(polygon));               /// False
+    assert(!is_convex(polygon));
 
     vector <Point> hull = get_convex_hull(polygon);
-    printf("%d\n", is_convex(hull));                  /// True
+    assert(is_convex(hull));
 
-    printf("Convex hull contains %d points\n", (int)hull.size());
-    for (auto point: hull){
-        printf("(%lld, %lld), ", point.x, point.y);   /// (0, 0), (10, 0), (10, 10), (2, 20), (0, 10)
+    vector <Point> expected_hull = {Point(0, 0), Point(10, 0), Point(10, 10), Point(2, 20), Point(0, 10)};
+    assert((int)hull.size() == (int)expected_hull.size());
+    for (int i = 0; i < (int)hull.size(); i++){
+        assert(hull[i].x == expected_hull[i].x && hull[i].y == expected_hull[i].y);
     }
-    puts("");
 
     return 0;
 }
