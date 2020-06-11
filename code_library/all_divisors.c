@@ -38,8 +38,8 @@ void generate(){
     len[0] = len[1] = lp[0] = lp[1] = 1;
     for (i = 4; i < MAX; i++, i++) len[i] = 2;
 
-    for (i = 3; (i * i) < MAX; i += 2){
-        for (j = (i * i), d = i + i; j < MAX && !len[i]; j += d){
+    for (i = 3; i * i < MAX; i += 2){
+        for (j = i * i, d = i + i; j < MAX && !len[i]; j += d){
             if (!len[j]) len[j] = i;
         }
     }
@@ -53,18 +53,14 @@ void generate(){
         }
     }
 
-    divisors[1] = (int *) malloc(sizeof(int));
+    divisors[1] = (int*) malloc(sizeof(int));
     divisors[1][0] = 1, len[1] = 1;
 
     for (i = 2; i < MAX; i++){
-        c = 1, k = i;
-        while (k > 1 && lp[k] == lp[i]){
-            c++;
-            k /= lp[k];
-        }
+        for (c = 1, k = i; k > 1 && lp[k] == lp[i]; c++, k /= lp[k]) {}
 
         len[i] = c * len[k];
-        divisors[i] = (int *) malloc(sizeof(int) * len[i]);
+        divisors[i] = (int*) malloc(sizeof(int) * len[i]);
 
         for (x = 1, j = 0, len[i] = 0; j < c; j++, x *= lp[i]){
             for (d = 0; d < len[k]; d++){
