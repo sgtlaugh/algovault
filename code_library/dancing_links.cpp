@@ -1,22 +1,23 @@
-#include <bits/stdtr1c++.h>
-
-#define MAXR 100010
-#define MAXC 100010
-#define MAXNODE 100010
-/// Define MAX limits appropriately, set to large values for safety
-
-using namespace std;
-
 /***
 
-Dancing Links data structure to solve exact cover problems using Algorithm X
+ * Dancing Links data structure to solve exact cover problems using Algorithm X
 
-There are some constraints as columns and a number of rows
-Each row satisfies some constraints
-Objective is to select a subset of rows so that each constraint is satisfied exactly once
-Don't forget to initialize first by calling init()
+ * There are some constraints as columns and a number of rows (both 1 based)
+ * Each row satisfies some constraints
+ * Objective is to select a subset of rows so that each constraint is satisfied exactly once
+ * Don't forget to initialize first by calling init()
 
 ***/
+
+#include <stdio.h>
+#include <bits/stdtr1c++.h>
+
+/// Define MAX limits appropriately, set to large values for safety
+#define MAXR 2000010
+#define MAXC 2000010
+#define MAXNODE 2000010
+
+using namespace std;
 
 namespace dlx{
     int row[MAXNODE], col[MAXNODE];
@@ -25,6 +26,7 @@ namespace dlx{
 
     void init(int ncolumn){ /// initialize first with total number of columns (1 based)
         memset(column_count, 0, sizeof(column_count));
+
         n = ncolumn, idx = n + 1;
         for (int i = 0; i <= n; i++) U[i] = D[i] = i, L[i] = i - 1, R[i] = i + 1;
         L[0] = n, R[n] = 0;
@@ -77,15 +79,15 @@ namespace dlx{
 
         int i, j, c = R[0];
         for (i = R[0]; i != 0; i = R[i]){ /// Select a column deterministically
-            if(column_count[i] < column_count[c]) c = i; /// if multiple columns exist, choose the one with minimum count
+            if(column_count[i] < column_count[c]) c = i;
         }
 
         remove(c);
         bool flag = false;
-        for (i = D[c]; i != c && !flag; i = D[i]){ /// While solution is not found
+        for (i = D[c]; i != c && !flag; i = D[i]){
             selected_rows[depth] = row[i];
             for (j = R[i]; j != i; j = R[j]) remove(col[j]);
-            flag |= algorithmX(depth + 1); /// May be select rows non-deterministically here with random_shuffle?
+            flag |= algorithmX(depth + 1); /// Perhaps select rows non-deterministically here with random_shuffle for optimizations?
             for (j = L[i]; j != i; j = L[j]) restore(col[j]);
         }
 
@@ -93,44 +95,52 @@ namespace dlx{
         return flag;
     }
 
-    bool exact_cover(vector<int>& rows){ /// Returns the subset of rows satisfying exact cover, false otherwise
-        rows.clear();
+    /// Returns the subset of rows satisfying exact cover, false otherwise
+    bool exact_cover(vector<int>& rows){
         if(!algorithmX(0)) return false;
-        for(int i = 0; i < len; i++) rows.push_back(selected_rows[i]);
+        rows = vector<int>(selected_rows, selected_rows + len);
         return true;
     }
 }
 
 namespace sudoku{
-    inline int encode(int n, int a, int b, int c){ /// Encode information
-        return (a * n * n) + (b * n) + c + 1;
+    int encode(int n, int a, int b, int c){
+        return a * n * n + b * n + c + 1;
     }
 
-    inline void decode(int n, int v, int& a, int& b, int& c){ /// Decode information
+    void decode(int n, int v, int& a, int& b, int& c){
         v--;
         c = v % n, v /= n;
         b = v % n, a = (v / n) % n;
     }
 
-    bool solve(int n, int ar[25][25]){
-        int i, j, k, l;
-        int m = sqrt(n + 0.5); /// m * m sub-grid
-        int ncolumn = n * n * 4; /// n * n for cells, n * n for rows, n * n for columns and n * n for boxes
+    /***
+     * Returns false if a sudoku grid is solvable
+     * Otherwise returns true and solves the grid in place
+     * Grid must be a square and its side length must be a perfect square
+     *
+     * Algorithm should be fast enough for any 16 x 16 grid or lower
+     * Although certain configurations of higher grid sizes are definitely solvable
+     *
+    ***/
 
-        dlx::init(ncolumn);
+    bool solve(vector <vector<int>>& grid){
+        int i, j, k, l, n = grid.size(), m = sqrt(n + 0.5);
+
+        assert(m * m == n);
+        for (i = 0; i < n; i++) assert((int)grid[i].size() == n);
+
+        dlx::init(4 * n * n); /// n * n for cells, n * n for rows, n * n for columns and n * n for boxes
         for (i = 0; i < n; i++){
             for (j = 0; j < n; j++){
                 for (k = 0; k < n; k++){
-                    if (ar[i][j] == 0 || ar[i][j] == (k + 1)){
+                    if (grid[i][j] == 0 || grid[i][j] == (k + 1)){
                         vector <int> columns;
-                        columns.push_back(encode(n, 0, i, j)); /// Each cell can contain only 1 value
-                        columns.push_back(encode(n, 1, i, k)); /// Row[i] can contain only ar[i][j], if ar[i][j] != 0, otherwise it can contain any value
-                        columns.push_back(encode(n, 2, j, k)); /// Column[j] can contain only ar[i][j], if ar[i][j] != 0, otherwise it can contain any value
-                        columns.push_back(encode(n, 3, (i / m) * m + j / m, k)); /// Similarly for box numbered i / m * m + j / m
-
-                        /// Current row selection, place number k in the cell[i][j] and doing so will cover all columns in the columns vector
-                        int cur_row = encode(n, i, j, k);
-                        dlx::addrow(cur_row, columns);
+                        columns.push_back(encode(n, 0, i, j));
+                        columns.push_back(encode(n, 1, i, k));
+                        columns.push_back(encode(n, 2, j, k));
+                        columns.push_back(encode(n, 3, (i / m) * m + j / m, k));
+                        dlx::addrow(encode(n, i, j, k), columns);
                     }
                 }
             }
@@ -141,12 +151,93 @@ namespace sudoku{
 
         for (l = 0; l < (int)res.size(); l++){
             decode(n, res[l], i, j, k);
-            ar[i][j] = k + 1;
+            grid[i][j] = k + 1;
         }
         return true;
     }
 }
 
 int main(){
+    vector <vector<int>> grid = {
+        {0, 0, 0, 0, 6, 9, 8, 3, 0},
+        {9, 8, 0, 0, 0, 0, 0, 7, 6},
+        {6, 0, 0, 0, 3, 8, 0, 5, 1},
+        {2, 0, 5, 0, 8, 1, 0, 9, 0},
+        {0, 6, 0, 0, 0, 0, 0, 8, 0},
+        {0, 9, 0, 3, 7, 0, 6, 0, 2},
+        {3, 4, 0, 8, 5, 0, 0, 0, 9},
+        {7, 2, 0, 0, 0, 0, 0, 6, 8},
+        {0, 5, 6, 9, 2, 0, 0, 0, 0},
+    };
 
+    assert(sudoku::solve(grid));
+
+    const vector<vector<int>> solved_grid = {
+        {5, 1, 2, 7, 6, 9, 8, 3, 4},
+        {9, 8, 3, 5, 1, 4, 2, 7, 6},
+        {6, 7, 4, 2, 3, 8, 9, 5, 1},
+        {2, 3, 5, 6, 8, 1, 4, 9, 7},
+        {1, 6, 7, 4, 9, 2, 3, 8, 5},
+        {4, 9, 8, 3, 7, 5, 6, 1, 2},
+        {3, 4, 1, 8, 5, 6, 7, 2, 9},
+        {7, 2, 9, 1, 4, 3, 5, 6, 8},
+        {8, 5, 6, 9, 2, 7, 1, 4, 3},
+    };
+    assert(grid == solved_grid);
+
+    grid = {
+        {0, 0, 0, 0, 6, 9, 8, 3, 0},
+        {9, 8, 0, 0, 0, 0, 0, 7, 6},
+        {6, 0, 0, 0, 3, 8, 0, 5, 1},
+        {2, 0, 5, 4, 8, 1, 0, 9, 0},
+        {0, 6, 0, 0, 0, 0, 0, 8, 0},
+        {0, 9, 0, 3, 7, 0, 6, 0, 2},
+        {3, 4, 0, 8, 5, 0, 0, 0, 9},
+        {7, 2, 0, 0, 0, 0, 0, 6, 8},
+        {0, 5, 6, 9, 2, 0, 0, 0, 0},
+    };
+    assert(!sudoku::solve(grid));
+
+    int n = 25;
+    auto large_grid = vector<vector<int>>(n, vector<int>(n, 0));
+    assert(sudoku::solve(large_grid));
+
+    const vector<vector<int>> solved_large_grid = {
+        {1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25},
+        {11, 12, 13, 14, 15, 1, 2, 3, 4, 5, 16, 17, 18, 19, 20, 22, 23, 21, 24, 25, 6, 7, 8, 9, 10},
+        {6, 7, 8, 9, 10, 24, 25, 22, 21, 23, 1, 2, 3, 4, 5, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20},
+        {23, 22, 21, 25, 24, 16, 17, 18, 19, 20, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 11, 12, 13, 14, 15},
+        {16, 17, 18, 19, 20, 11, 12, 13, 14, 15, 24, 21, 23, 22, 25, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5},
+        {3, 1, 5, 2, 14, 19, 16, 20, 7, 11, 18, 15, 21, 24, 23, 8, 10, 25, 22, 12, 4, 9, 17, 13, 6},
+        {4, 8, 10, 6, 18, 3, 1, 23, 24, 2, 13, 22, 25, 12, 14, 9, 16, 19, 11, 17, 5, 15, 20, 21, 7},
+        {24, 15, 25, 7, 12, 4, 5, 9, 13, 6, 3, 1, 16, 17, 2, 18, 20, 14, 21, 23, 8, 10, 22, 11, 19},
+        {9, 19, 11, 20, 21, 8, 22, 25, 17, 14, 4, 5, 10, 7, 6, 3, 1, 15, 13, 2, 18, 24, 16, 12, 23},
+        {13, 23, 17, 22, 16, 10, 15, 21, 18, 12, 8, 9, 20, 11, 19, 4, 5, 24, 7, 6, 3, 1, 14, 25, 2},
+        {2, 5, 1, 15, 3, 14, 13, 17, 25, 8, 23, 16, 19, 10, 18, 12, 24, 11, 20, 9, 7, 4, 21, 6, 22},
+        {7, 16, 6, 11, 4, 2, 18, 1, 5, 3, 12, 24, 17, 8, 22, 14, 21, 23, 10, 13, 20, 25, 19, 15, 9},
+        {12, 25, 23, 21, 8, 7, 4, 6, 11, 9, 2, 20, 1, 5, 3, 17, 15, 22, 18, 19, 14, 13, 24, 10, 16},
+        {14, 20, 19, 24, 9, 22, 23, 10, 16, 21, 7, 4, 6, 15, 13, 2, 25, 1, 5, 3, 12, 8, 11, 17, 18},
+        {17, 10, 22, 18, 13, 12, 24, 15, 20, 19, 14, 25, 11, 21, 9, 7, 4, 6, 8, 16, 2, 23, 1, 5, 3},
+        {19, 6, 4, 1, 2, 25, 21, 11, 12, 24, 20, 18, 9, 23, 8, 15, 14, 16, 17, 22, 10, 5, 7, 3, 13},
+        {5, 13, 9, 3, 7, 17, 8, 2, 1, 4, 22, 19, 24, 25, 11, 10, 18, 20, 23, 21, 15, 6, 12, 16, 14},
+        {15, 18, 20, 23, 17, 5, 6, 7, 3, 16, 10, 14, 2, 1, 4, 19, 13, 9, 12, 24, 22, 21, 25, 8, 11},
+        {22, 14, 12, 16, 11, 18, 10, 19, 15, 13, 5, 6, 7, 3, 21, 25, 8, 2, 1, 4, 17, 20, 9, 23, 24},
+        {10, 21, 24, 8, 25, 20, 9, 14, 23, 22, 15, 13, 12, 16, 17, 5, 6, 7, 3, 11, 19, 18, 2, 1, 4},
+        {18, 3, 2, 5, 1, 15, 20, 4, 8, 25, 17, 10, 22, 13, 24, 23, 11, 12, 16, 14, 9, 19, 6, 7, 21},
+        {25, 4, 7, 13, 6, 9, 3, 16, 2, 1, 19, 23, 14, 20, 12, 21, 22, 10, 15, 8, 24, 11, 5, 18, 17},
+        {20, 11, 15, 12, 19, 23, 14, 5, 6, 7, 21, 3, 4, 2, 1, 24, 9, 17, 25, 18, 13, 16, 10, 22, 8},
+        {8, 9, 16, 17, 22, 21, 19, 24, 10, 18, 25, 11, 5, 6, 7, 13, 3, 4, 2, 1, 23, 14, 15, 20, 12},
+        {21, 24, 14, 10, 23, 13, 11, 12, 22, 17, 9, 8, 15, 18, 16, 20, 19, 5, 6, 7, 25, 3, 4, 2, 1},
+    };
+    assert(large_grid == solved_large_grid);
+
+    clock_t start = clock();
+
+    n = 49;
+    auto very_large_grid = vector<vector<int>>(n, vector<int>(n, 0));
+    assert(sudoku::solve(very_large_grid));
+
+    fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));  /// 0.31600 seconds
+
+    return 0;
 }
