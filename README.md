@@ -31,3 +31,6 @@ There are some amazing projects like the ones created by [bqi343](https://github
 2. Add stress tests, automated unit tests and integration tests.
 3. Refactor and simplify old implementations.
 4. Add practice problems.
+
+## License
+The project is licensed under the [GNU General Public License v3.0](https://github.com/sgtlaugh/algovault/blob/master/LICENSE). To summarize, this means that you may copy, distribute and modify the software as long as you track changes/dates in source files. Any modifications to or software including (via compiler) GPL-licensed code must also be made available under the GPL along with build & install instructions.
