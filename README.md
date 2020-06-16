@@ -21,7 +21,7 @@ It's not exactly rocket science. Just copy paste any implementation and enjoy. Y
 2. For Python, use Python 3.
 
 ## Coding Style
-1. NO macros or defines.
+1. NO unncesessary macros or templates.
    * Because they suck and takes away readability.
    * Easier for others to copy paste code and use it with their own template.
    * Often unnecessarily lengthens the implementation.
@@ -31,6 +31,7 @@ It's not exactly rocket science. Just copy paste any implementation and enjoy. Y
    * Example usage.
 3. Code should be easy to copy/paste. That is, no includes from custom or third-party headers even if this means duplication.
 4. Implementation should be relatively simple, clean and easy to follow.
+5. Indentation is 4 spaces everywhere and adequate.
 
 ## Future Work
 1. This is still a work in progress so I'll port more code from my template over the time.
