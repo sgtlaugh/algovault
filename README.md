@@ -23,5 +23,11 @@ There are some amazing projects like the ones created by [bqi343](https://github
 2. Sufficient documentation is included.
    * Notes about usage, specifics and complexity in the header.
    * Documentation regarding commonly used/exposed methods.
-   * Example usage
+   * Example usage.
 3. Code should be relatively simple, clean and easy to follow.
+
+## Future work
+1. This is still a work in progress so I'll port more code from my template over the time.
+2. Add stress tests, automated unit tests and integration tests.
+3. Refactor and simplify old implementations.
+4. Add practice problems.
