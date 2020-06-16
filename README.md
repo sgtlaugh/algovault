@@ -1,5 +1,8 @@
 # Algovault
-This is a collection of algorithms, data structures and templates for competitive programming. The goal of this project is to create something that will be useful in online competitions like [Codeforces](https://codeforces.com/), [Google Code Jam](https://codingcompetitions.withgoogle.com/codejam), etc, and should be relatively simple to be used as a black-box without compromising speed too much.
+This is a collection of algorithms, data structures and templates for competitive programming. In a nutshell, these are the goals of this project:
+  1. Useful in online competitions like [Codeforces](https://codeforces.com/), [Google Code Jam](https://codingcompetitions.withgoogle.com/codejam), etc.
+  2. Should be relatively simple to be used as a black-box without compromising speed.
+  3. Example usage and sufficient documentation.
 
 Most codes are written in C/C++, and some are written in Python. While most implementations are stress-tested and cross-checked against various problems in several online judges, nonetheless they are not guranteed to be flawless and work in all cases. For bugs, refactoring and improvements, feel free to file an issue or a pull request as contributions are always welcome.
 
