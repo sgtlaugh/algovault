@@ -1,2 +1,2 @@
 # Algovault
-Algorithms, data structures and templates for competitive programming
+This is a collection of algorithms, data structures and templates for competitive programming. Most codes are written in C/C++, and some are written in Python. While most implementations are stress-tested and cross-checked against various problems in several online judges, nonetheless they are not guranteed to be flawless and work in all cases. For bugs, refactoring and improvements, feel free to issue a pull request as contributions are always welcome.
