@@ -24,7 +24,8 @@ There are some amazing projects like the ones created by [bqi343](https://github
    * Notes about usage, specifics and complexity in the header.
    * Documentation regarding commonly used/exposed methods.
    * Example usage.
-3. Code should be relatively simple, clean and easy to follow.
+3. Code should be easy to copy/paste. That is, no includes from custom or third-party headers even if this means duplication.
+4. Implementation should be relatively simple, clean and easy to follow.
 
 ## Future work
 1. This is still a work in progress so I'll port more code from my template over the time.
