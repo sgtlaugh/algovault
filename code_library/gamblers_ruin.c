@@ -46,7 +46,7 @@ int main(){
 	const int sp_coins = 50;
 	const double fp_win_prob = 0.49;
 
-    assert(fabs(gamblers_ruin(fp_coins, sp_coins, fp_win_prob) - 0.871484703145) < 1e-9);
+    assert(fabs(gamblers_ruin(fp_coins, sp_coins, fp_win_prob) - 0.87148470314) < 1e-9);
 
     return 0;
 }
