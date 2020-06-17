@@ -1,28 +1,40 @@
+/***
+ * 
+ * https://en.wikipedia.org/wiki/Gray_code
+ * 
+ * Gray code is an ordering of the binary numeral system such that two successive values differ in only one bit
+ * 
+***/
+
 #include <stdio.h>
+#include <assert.h>
 
-
-//// https://en.wikipedia.org/wiki/Gray_code
-///  Gray code is an ordering of the binary numeral system such that two successive values differ in only one bit (binary digit)
-
-long long gray_code(long long x){
+unsigned long long gray_code(unsigned long long x){
     return x ^ (x >> 1);
 }
 
-long long inverse_gray_code(long long x){
-    long long h = 1, res = 0;
+unsigned long long inverse_gray_code(unsigned long long x){
+    unsigned long long res = 0, mask = 0;
     do{
-        if (x & 1) res ^= h;
-        x >>= 1, h = (h << 1) + 1;
+		mask++;
+        if (x & 1) res ^= mask;
+        x >>= 1, mask <<= 1;
     } while (x);
+
     return res;
 }
 
 int main(){
-    printf("%lld\n", gray_code(100));                /// 86
-    printf("%lld\n", gray_code(1000000007));         /// 643280644
+	int n;
+	for (n = 0; n < 1048576; n++){
+		assert(inverse_gray_code(gray_code(n)) == n);
+	}
 
-    printf("%lld\n", inverse_gray_code(86));         /// 100
-    printf("%lld\n", inverse_gray_code(643280644));  /// 1000000007
+    assert(gray_code(1000000007) == 643280644);
+    assert(gray_code(1000000000000000003LL) == 797398725282889730LL);
+    
+    assert(inverse_gray_code(643280644) == 1000000007);
+    assert(inverse_gray_code(797398725282889730LL) == 1000000000000000003LL);
 
     return 0;
 }
