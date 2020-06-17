@@ -34,8 +34,8 @@ void generate(){
 int main(){
     generate();
 
-	assert(dp[1][0] == 1);
-	assert(dp[4][0] == 1 && dp[4][1] == 11 && dp[4][2] == 11 && dp[4][3] == 1 && dp[4][4] == 0);
+    assert(dp[1][0] == 1);
+    assert(dp[4][0] == 1 && dp[4][1] == 11 && dp[4][2] == 11 && dp[4][3] == 1 && dp[4][4] == 0);
     assert(dp[1000][500] == 948656644);
 
     return 0;

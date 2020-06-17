@@ -18,8 +18,8 @@
 long double expo(long double x, int n){
     if (n == 0) return 1;
     if (n & 1) return expo(x, n - 1) * x;
-	long double v = expo(x, n >> 1);
-	return v * v;
+    long double v = expo(x, n >> 1);
+    return v * v;
 
 }
 
@@ -31,7 +31,7 @@ long double expo(long double x, int n){
 ***/
 
 long double gamblers_ruin(int n1, int n2, long double p){
-	long double q = 1 - p;
+    long double q = 1 - p;
     if (fabs(p - q) < EPS){
         return (long double)n2 / (n1 + n2);
     }
@@ -42,9 +42,9 @@ long double gamblers_ruin(int n1, int n2, long double p){
 }
 
 int main(){
-	const int fp_coins = 3;
-	const int sp_coins = 50;
-	const double fp_win_prob = 0.49;
+    const int fp_coins = 3;
+    const int sp_coins = 50;
+    const double fp_win_prob = 0.49;
 
     assert(fabs(gamblers_ruin(fp_coins, sp_coins, fp_win_prob) - 0.87148470314) < 1e-9);
 
