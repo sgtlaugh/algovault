@@ -14,14 +14,9 @@ unsigned long long gray_code(unsigned long long x){
 }
 
 unsigned long long inverse_gray_code(unsigned long long x){
-    unsigned long long res = 0, mask = 0;
-    do{
-		mask++;
-        if (x & 1) res ^= mask;
-        x >>= 1, mask <<= 1;
-    } while (x);
-
-    return res;
+    unsigned long long inv = 0;
+    for (inv = 0; x; x >>= 1) inv ^= x;
+    return inv;
 }
 
 int main(){
