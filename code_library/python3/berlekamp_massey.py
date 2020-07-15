@@ -122,12 +122,13 @@ def solve_linear_recurrence(base_sequence, nth_term, mod):
 
 def main():
     mod = 10**9 + 7
-    base_sequence = [0, 1, 1, 2, 3, 5, 8, 13]
-
-    print(solve_linear_recurrence(base_sequence, 0, mod))         # 0
-    print(solve_linear_recurrence(base_sequence, 1, mod))         # 1
-    print(solve_linear_recurrence(base_sequence, 10, mod))        # 55
-    print(solve_linear_recurrence(base_sequence, 10 ** 18, mod))  # 209783453
+    base_sequence = [0, 1, 1, 2, 3, 5, 8, 13]  # fibonacci sequence
+    
+    assert(solve_linear_recurrence(base_sequence, 0, mod) == 0)
+    assert(solve_linear_recurrence(base_sequence, 1, mod) == 1)
+    assert(solve_linear_recurrence(base_sequence, 10, mod) == 55)
+    assert(solve_linear_recurrence(base_sequence, 11, mod) == 89)
+    assert(solve_linear_recurrence(base_sequence, 10**18, mod) == 209783453)
 
 
 if __name__ == '__main__':
