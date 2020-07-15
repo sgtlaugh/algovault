@@ -2,70 +2,66 @@ from copy import deepcopy
 
 
 class Matrix:
-    def __init__(self, dimension, modulo, diagonal=0):
+    def __init__(self, n, mod, diagonal=0):
         """
 
-        :param dimension: size of the matrix, dimension x dimension
-        :param modulo: all calculations occur modulo this number
-        :param diagonal: diagonal values, matrix[i][i]
+        :param n: size of the matrix, n x n
+        :param mod: all calculations occur modulo this number
+        :param diagonal: diagonal values, mat[i][i]
         """
-        self.n = dimension
-        self.modulo = modulo
+        self.n = n
+        self.mod = mod
 
-        self.matrix = [[0 for _ in range(dimension)] for _ in range(dimension)]
-        for i in range(dimension):
-            self.matrix[i][i] = diagonal
+        self.mat = [[0 for _ in range(n)] for _ in range(n)]
+        for i in range(n):
+            self.mat[i][i] = diagonal
 
     def multiply(self, multiplicand):
-        result = Matrix(self.n, self.modulo)
+        res = Matrix(self.n, self.mod)
 
         for i in range(self.n):
             for j in range(self.n):
                 for k in range(self.n):
-                    result.matrix[i][j] += self.matrix[i][k] * multiplicand.matrix[k][j]
-                result.matrix[i][j] %= self.modulo
+                    res.mat[i][j] += self.mat[i][k] * multiplicand.mat[k][j]
+                res.mat[i][j] %= self.mod
 
-        return result
+        return res
 
-    def exponentiate(self, exponent):
-        x = deepcopy(self)
-        result = Matrix(self.n, self.modulo, 1)
+    def power(self, exponent):
+        mat = deepcopy(self)
+        res = Matrix(self.n, self.mod, 1)
 
         while exponent:
             if exponent & 1:
-                result = result.multiply(x)
+                res = res.multiply(mat)
 
             exponent >>= 1
-            x = x.multiply(x)
+            mat = mat.multiply(mat)
 
-        return result
+        return res
 
 
-def convolution(first, second, modulo):
-    if len(first) != len(second):
-        raise ValueError('Length of first and second needs to be the same')
-
-    result = 0
+def convolution(first, second, mod):
+    res = 0
     for f, s in zip(first, second):
-        result = (result + f * s) % modulo
+        res = (res + f * s) % mod
+    return res
 
-    return result
 
-
-def berlekamp_massey(base_sequence, modulo):
-    n = len(base_sequence)
+def berlekamp_massey(sequence, mod):
+    n = len(sequence)
     assert n and n % 2 == 0
 
     u_vals = [int(i == 0) for i in range(n + 1)]
     v_vals = [int(i == 0) for i in range(n + 1)]
-    base_sequence = base_sequence[::-1]
+    sequence = sequence[::-1]
 
     l, m, b, deg = 0, 1, 1, 0
     for i in range(n):
-        d = base_sequence[n - i - 1]
+        d = sequence[n - i - 1]
 
         if l:
-            d = (d + convolution(v_vals[1:1 + l], base_sequence[n - i:n - i + l], modulo)) % modulo
+            d = (d + convolution(v_vals[1:1 + l], sequence[n - i:n - i + l], mod)) % mod
 
         if not d:
             m += 1
@@ -74,9 +70,9 @@ def berlekamp_massey(base_sequence, modulo):
         if (l * 2) <= i:
             w_vals = v_vals[:l + 1]
 
-        x = (pow(b, modulo - 2, modulo) * (modulo - d) % modulo + modulo) % modulo
+        x = (pow(b, mod - 2, mod) * (mod - d) % mod + mod) % mod
         for j in range(deg + 1):
-            v_vals[m + j] = (v_vals[m + j] + x * u_vals[j]) % modulo
+            v_vals[m + j] = (v_vals[m + j] + x * u_vals[j]) % mod
 
         if (l * 2) <= i:
             u_vals, w_vals = w_vals, u_vals
@@ -89,16 +85,16 @@ def berlekamp_massey(base_sequence, modulo):
     return v_vals[1:]
 
 
-def solve_linear_recurrence(base_sequence, nth_term, modulo):
+def solve_linear_recurrence(base_sequence, nth_term, mod):
     """
 
-    :param base_sequence: If the recurrence degree is K, len(base_sequence) should be at least 2*K and even
+    :param base_sequence: If the recurrence degree is k, len(base_sequence) should be at least 2*k and even
     :param nth_term: nth_term of the recurrence to evaluate
-    :param modulo: all calculations will occur modulo this number, needs to be an odd prime
-    :return: remainder when the nth_term of the recurrence is divided by modulo
+    :param mod: all calculations will occur mod this number, needs to be an odd prime
+    :return: remainder when the nth_term of the recurrence is divided by mod
     """
 
-    base_sequence = [val % modulo for val in base_sequence]
+    base_sequence = [val % mod for val in base_sequence]
 
     n = len(base_sequence)
     if n % 2 != 0:
@@ -107,31 +103,31 @@ def solve_linear_recurrence(base_sequence, nth_term, modulo):
     if nth_term < n:
         return base_sequence[nth_term]
 
-    recurrence = berlekamp_massey(base_sequence, modulo)
+    recurrence = berlekamp_massey(base_sequence, mod)
 
     k = len(recurrence)
-    ar = Matrix(k, modulo)
+    ar = Matrix(k, mod)
 
     for i in range(k):
-        ar.matrix[0][i] = modulo - recurrence[i]
-        ar.matrix[i][i - 1] = int(i > 0)
+        ar.mat[0][i] = mod - recurrence[i]
+        ar.mat[i][i - 1] = int(i > 0)
 
     result = 0
-    ar = ar.exponentiate(nth_term - n + 1)
+    ar = ar.power(nth_term - n + 1)
     for i in range(k):
-        result += ar.matrix[0][i] * base_sequence[n - i - 1]
+        result += ar.mat[0][i] * base_sequence[n - i - 1]
 
-    return result % modulo
+    return result % mod
 
 
 def main():
-    modulo = 10**9 + 7
+    mod = 10**9 + 7
     base_sequence = [0, 1, 1, 2, 3, 5, 8, 13]
 
-    print(solve_linear_recurrence(base_sequence, 0, modulo))         # 0
-    print(solve_linear_recurrence(base_sequence, 1, modulo))         # 1
-    print(solve_linear_recurrence(base_sequence, 10, modulo))        # 55
-    print(solve_linear_recurrence(base_sequence, 10 ** 18, modulo))  # 209783453
+    print(solve_linear_recurrence(base_sequence, 0, mod))         # 0
+    print(solve_linear_recurrence(base_sequence, 1, mod))         # 1
+    print(solve_linear_recurrence(base_sequence, 10, mod))        # 55
+    print(solve_linear_recurrence(base_sequence, 10 ** 18, mod))  # 209783453
 
 
 if __name__ == '__main__':
