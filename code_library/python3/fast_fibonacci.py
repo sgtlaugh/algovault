@@ -3,11 +3,11 @@ import sys
 
 def fibonacci(n, modulo=None):
     """
-    calculates the nth fibonacci number using fast doubling algorithm
+    calculates the n-th fibonacci number using fast doubling algorithm
     fib(0) = 0, fib(1) = 1 and fib(n) = fib(n-1) + fib(n-2) for n > 1
 
-    :param n:
-    :return: nth fibonacci number
+    :param n: a non-negative integer
+    :return: n-th fibonacci number
     """
 
     def _fib(n, modulo):
@@ -31,27 +31,26 @@ def fibonacci(n, modulo=None):
 
 def main():
     sys.setrecursionlimit(2 ** 22)
-
-    print(fibonacci(0))  # 0
-    print(fibonacci(1))  # 1
-    print(fibonacci(2))  # 1
-    print(fibonacci(10))  # 55
-    print(fibonacci(100))  # 354224848179261915075
-    print(fibonacci(400))  # 176023680645013966468226945392411250770384383304492191886725992896575345044216019675
+    
+    assert fibonacci(0) == 0
+    assert fibonacci(1) == 1
+    assert fibonacci(2) == 1
+    assert fibonacci(10) == 55
+    assert fibonacci(100) == 354224848179261915075
+    assert fibonacci(400) == 176023680645013966468226945392411250770384383304492191886725992896575345044216019675
 
     modulo = 10 ** 9 + 7
-    print(fibonacci(0, modulo))  # 0
-    print(fibonacci(1, modulo))  # 1
-    print(fibonacci(2, modulo))  # 1
-    print(fibonacci(10, modulo))  # 55
-    print(fibonacci(100, modulo))  # 687995182
-    print(fibonacci(400, modulo))  # 967250938
-    print(fibonacci(10 ** 18, modulo))  # 209783453
-    print(fibonacci(10 ** 1000, modulo))  # 552179166
-
-    print(len(str(fibonacci(10000))))  # 2090
-    print(len(str(fibonacci(100000))))  # 20899
-    print(len(str(fibonacci(1000000))))  # 208988
+    assert fibonacci(0, modulo) == 0
+    assert fibonacci(1, modulo) == 1
+    assert fibonacci(2, modulo) == 1
+    assert fibonacci(10, modulo) == 55
+    assert fibonacci(100, modulo) == 687995182
+    assert fibonacci(400, modulo) == 967250938
+    assert fibonacci(10**1000, modulo) == 552179166
+    
+    assert len(str(fibonacci(10000))) == 2090
+    assert len(str(fibonacci(100000))) == 20899
+    assert len(str(fibonacci(1000000))) == 208988
 
 
 if __name__ == '__main__':
