@@ -57,6 +57,7 @@ def main():
     assert discrete_log(2, 3, 3) is None
     assert discrete_log(2, 0, 4) == 2
     assert discrete_log(6, 0, 8) == 3
+    assert discrete_log(6, 8, 16) == 3
     assert discrete_log(2, 3, 6) is None
     assert discrete_log(2, 6, 10) == 4
     assert discrete_log(5, 33, 58) == 9
