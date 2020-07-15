@@ -39,25 +39,29 @@ def derangement_probability(n):
 
 
 def main():
-    print(derangement(4, 3))    # 0
-    print(derangement(0, 0))    # 1
-    print(derangement(1, 1))    # 0
-    print(derangement(2, 2))    # 1
-    print(derangement(3, 3))    # 2
-    print(derangement(4, 4))    # 9
-    print(derangement(4, 10))   # 3333
-    print(derangement(20, 20))  # 895014631192902121
-    print(derangement(50, 60))  # 995388150220927603258765357437017485681332235328576602372114257773098037151
-
-    print(derangement_probability(0))    # 1.0
-    print(derangement_probability(1))    # 0.0
-    print(derangement_probability(2))    # 0.5
-    print(derangement_probability(5))    # 0.36666666666666664
-    print(derangement_probability(10))   # 0.3678794642857143
-    print(derangement_probability(15))   # 0.3678794411713972
-    print(derangement_probability(20))   # 0.36787944117144233
-    print(derangement_probability(50))   # 0.36787944117144233
-    print(derangement_probability(500))  # 0.36787944117144233
+    assert derangement(0, 0) == 1
+    assert derangement(1, 1) == 0
+    assert derangement(2, 2) == 1
+    assert derangement(3, 3) == 2
+    assert derangement(4, 4) == 9
+    assert derangement(4, 3) == 0
+    assert derangement(4, 10) == 3333
+    assert derangement(20, 20) == 895014631192902121
+    assert derangement(50, 60) == 995388150220927603258765357437017485681332235328576602372114257773098037151
+    
+    data = [
+        (0, 1),
+        (1, 0),
+        (2, 0.5),
+        (5, 0.36666666666666664),
+        (10, 0.3678794642857143),
+        (15, 0.3678794411713972),
+        (20, 0.36787944117144233),
+        (500, 0.36787944117144233),
+    ]
+    
+    for n, expected_result in data:
+        assert abs(derangement_probability(n) - expected_result) < 1e-9
 
 
 if __name__ == '__main__':
