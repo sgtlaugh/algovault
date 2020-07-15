@@ -1,54 +1,27 @@
-from math import gcd, sqrt
+def discrete_log(a, b, mod):
+    """returns smallest non-negative x s.t. pow(a, x, mod) == b or None if no such x exists"""
 
-
-def extended_gcd(a, b):
-    if not b:
-        return a, 1, 0
-
-    g, y, x = extended_gcd(b, a % b)
-    return g, x, y - ((a // b) * x)
-
-
-def discrete_log(a, b, m):
-    """returns smallest non-negative x s.t. pow(a, x, m) == b or None if no such x exists"""
-
-    if b >= m:
+    if b >= mod:
         return None
 
-    if b == 1 or m == 1:
+    if b == 1 or mod == 1:
         return 0
 
-    i, t = 1, a
-    while (1 << i) <= m:
-        if t % m == b:
-            return i
-        i, t = i + 1, t * a % m
+    mp = {}
+    e, n = 1, int(mod**0.5) + 2
 
-    raw_b, raw_m = b, m
-    c, d, g = 0, 1, gcd(a, m)
-    while g > 1:
-        b, m = b // g, m // g
-        c, d = c + 1, d * (a // g) % m
-        g = gcd(a, m)
+    for j in range(1, n + 1):
+        e = e * a % mod
+        if e == b:
+            return j
+        mp[b * e % mod] = j
 
-    pos = {}
-    p, n = 1, int(sqrt(m - 0.666)) + 1
-    for i in range(n):
-        if p not in pos:
-            pos[p] = i + 1
-        p = p * a % m
-
-    for i in range(n):
-        g, x, y = extended_gcd(d, m)
-        g = ((x * b // g) % m + m) % m
-        if g in pos:
-            x = i * n + pos[g] + c - 1
-            if pow(a, x, raw_m) == raw_b:
-                return x
-
-        d = d * p % m
-
-    return None
+    v = e
+    for i in range(2, n + 2):
+        e = e * v % mod
+        if e in mp:
+            x = n * i - mp[e]
+            return x if pow(a, x, mod) == b else None
 
 
 def main():
