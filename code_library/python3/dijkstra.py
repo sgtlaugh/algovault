@@ -69,5 +69,5 @@ if __name__ == "__main__":
     graph.add_edge("Emerald Hills", "Woodside", 50)
     graph.add_edge("Menlo Park", "Woodside", 200)
 
-    print(dijkstra(graph, "Stanford", "Woodside"))     # 230
-    print(dijkstra(graph, "Menlo Park", "Sunnyvale"))  # None
+    assert dijkstra(graph, "Stanford", "Woodside") == 230
+    assert dijkstra(graph, "Menlo Park", "Sunnyvale") is None
