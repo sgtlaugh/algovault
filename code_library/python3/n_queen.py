@@ -26,8 +26,8 @@ def count_ways(n):
 
 
 def main():
-    print(count_ways(8))   # 92
-    print(count_ways(13))  # 73712
+    assert count_ways(8) == 92
+    assert count_ways(13) == 73712
 
 
 if __name__ == '__main__':
