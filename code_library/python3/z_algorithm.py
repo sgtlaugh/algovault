@@ -1,15 +1,15 @@
 def z_function(text):
     """
-    Z Algorithm in linear time
+    Z Algorithm in O(n)
 
-    :param text: input string
-    :return: the z_array, where z_array[i] = longest substring of text[i:] and text
+    :param text: text string to process
+    :return: the z_array, where z_array[i] = length of the longest common prefix of text[i:] and text
     """
 
     n = len(text)
     z_array = [0] * n
-
     l, r = 0, 0
+
     for i in range(1, n):
         z = max(0, min(z_array[i - l], r - i))
         while i + z < n and text[z] == text[i + z]:
