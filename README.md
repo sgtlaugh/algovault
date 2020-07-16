@@ -15,7 +15,7 @@ Then there exists projects like [cosmos](https://github.com/OpenGenus/cosmos). W
 
 There are some other amazing library like the ones created by [indy256](https://github.com/indy256/codelibrary), [bqi343](https://github.com/bqi343/USACO), [AhmadElsagheer](https://github.com/AhmadElsagheer/Competitive-programming-library), [kmyk](https://github.com/kmyk/competitive-programming-library), [OmarBazaraa](https://github.com/OmarBazaraa/Competitive-Programming) but they do share some common problems. Some focuses on basic/intermediate stuff and do not contain many advanced algorithms. Some are too modularized and cannot be copy pasted easily, for example FFT template has include reference from several other headers and are more like a third-party library. Additonally it's not intuitive how to use them as a black-box and often usage, common gotchas and specifics like time complexity and performance are left out. Most of these work are intended to be used as a personal collection, not focusing much on reusability.
 
-It is for the above stated reasons I felt something like this could be helpful to the community.
+It is for the above stated reasons I felt something like this could be helpful to the community. Note, for Python users, also check out this super cool project - [PyRival](https://github.com/cheran-senthil/PyRival).
 
 ## Getting Started
 It's not exactly rocket science. Just copy paste any implementation and enjoy. You only need to keep in mind two things:
