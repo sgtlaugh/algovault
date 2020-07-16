@@ -20,9 +20,9 @@ class StringHash:
 def main():
     sh = StringHash('abracadabra')
 
-    print(sh.get_hash(0, 0) == sh.get_hash(3, 3))   # True
-    print(sh.get_hash(0, 3) == sh.get_hash(7, 10))  # True
-    print(sh.get_hash(0, 4) == sh.get_hash(5, 9))   # False
+    assert sh.get_hash(0, 0) == sh.get_hash(3, 3)
+    assert sh.get_hash(0, 3) == sh.get_hash(7, 10)
+    assert sh.get_hash(0, 4) != sh.get_hash(5, 9)
 
 
 if __name__ == '__main__':
