@@ -20,7 +20,7 @@ It is for the above stated reasons I felt something like this could be helpful t
 ## Getting Started
 It's not exactly rocket science. Just copy paste any implementation and enjoy. You only need to keep in mind two things:
 1. Most implementations should work with C++11 and some might require C++14 or higher.
-2. For Python, use Python 3.
+2. For Python, use Python 3. Most codes should be compatible with PyPy too.
 
 ## Coding Style
 1. No unncesessary macros or templates.
