@@ -33,12 +33,13 @@ def main():
     x_values = [0, 1, 2, 3, 4]
     y_values = [1, 1, 2, 4, 8]
 
-    print(lagrange(x_values, y_values, 0))   # 1
-    print(lagrange(x_values, y_values, 1))   # 1
-    print(lagrange(x_values, y_values, 4))   # 8
-    print(lagrange(x_values, y_values, 7))   # 57
-    print(lagrange(x_values, y_values, 10))  # 256
-    print(lagrange(x_values, y_values, 20))  # 5036
+    assert lagrange(x_values, y_values, 0) == 1
+    assert lagrange(x_values, y_values, 1) == 1
+    assert lagrange(x_values, y_values, 4) == 8
+    assert lagrange(x_values, y_values, 7) == 57
+    assert lagrange(x_values, y_values, 10) == 256
+    assert lagrange(x_values, y_values, 20) == 5036
+    assert lagrange(x_values, y_values, 1000000000) == 41666666416666667624999999250000001
 
 
 if __name__ == '__main__':
