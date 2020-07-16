@@ -23,7 +23,7 @@ It's not exactly rocket science. Just copy paste any implementation and enjoy. Y
 2. For Python, use Python 3.
 
 ## Coding Style
-1. NO unncesessary macros or templates.
+1. No unncesessary macros or templates.
    * Because they suck and takes away readability.
    * Easier for others to copy paste code and use it with their own template.
    * Often unnecessarily lengthens the implementation.
