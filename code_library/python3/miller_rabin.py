@@ -10,9 +10,7 @@ def miller_rabin(n, ntrials=15):
     if any(n % p == 0 for p in _SMALL_PRIMES):
         return n in _SMALL_PRIMES
 
-    s = str(bin(n - 1))
-    s = len(s) - len(s.rstrip('0'))
-
+    s = ((n - 1) & (1 - n)).bit_length() - 1
     witness_list = {randint(2, n - 1) for _ in range(ntrials)}
     return not any(_is_composite(a, n, s) for a in witness_list)
 
