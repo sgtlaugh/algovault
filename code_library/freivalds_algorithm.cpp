@@ -1,3 +1,11 @@
+/***
+ *
+ * A randomized algorithm that verifies matrix multiplication
+ * Checks and returns if A * B = C with probability of failure less than 1 / (2^number_of_trials)
+ * Complexity: O(n^3) * number_of_trials, where n is the size of the matrix
+ *
+***/
+
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
@@ -10,20 +18,16 @@ struct Matrix{
     long long mat[MAX][MAX];
 
     Matrix(){}
-    Matrix(int n, int m, int diagonal = 0){
+    Matrix(int row, int col, int diagonal = 0) : row(row), col(col) {
         memset(mat, 0, sizeof(mat));
-        row = n, col = m;
-        for (int i = min(n, m) - 1; i >= 0; i--) mat[i][i] = diagonal;
+        for (int i = min(row, col) - 1; i >= 0; i--) mat[i][i] = diagonal;
     }
 
     Matrix operator* (const Matrix& other) const{
-        int i, j, k;
         Matrix res(row, other.col);
-
-        for(i = 0; i < row; i++){
-            for(j = 0; j < other.col; j++){
-                res.mat[i][j] = 0;
-                for(k = 0; k < col; k++){
+        for(int i = 0; i < row; i++){
+            for(int j = 0; j < other.col; j++){
+                for(int k = 0; k < col; k++){
                     res.mat[i][j] += mat[i][k] * other.mat[k][j];
                 }
             }
@@ -32,29 +36,21 @@ struct Matrix{
         return res;
     }
 
-    bool operator == (const Matrix& other) const{
-        if (row != other.row || col != other.col) return false;
+    bool operator == (const Matrix& m) const{
+        if (row != m.row || col != m.col) return false;
 
         for (int i = 0; i < row; i++){
             for (int j = 0; j < col; j++){
-                if (mat[i][j] != other.mat[i][j]) return false;
+                if (mat[i][j] != m.mat[i][j]) return false;
             }
         }
         return true;
     }
 
-    bool operator != (const Matrix & other) const {
-        return !(*this == other);
+    bool operator != (const Matrix & m) const {
+        return !(*this == m);
     }
 };
-
-/***
- *
- * a randomized algorithm that verifies matrix multiplication
- * returns if A * B = C with probability of failure less than 1/(2^ntrials)
- * complexity: O(n^3) * ntrials
- *
-***/
 
 bool verify(Matrix A, Matrix B, Matrix C, int ntrials=30){
     if (A.col != B.row || C.row != A.row || C.col != B.col) return false;
