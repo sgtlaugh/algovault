@@ -3,7 +3,6 @@
 
 #define MAX 101
 
-
 using namespace std;
 
 struct Matrix{
@@ -89,10 +88,17 @@ int main(){
     }
 
     Matrix C = A * B;
-    printf("%d\n", verify(A, B, C));  /// True
+    assert(verify(A, B, C));
 
-    C.mat[1][2]++;
-    printf("%d\n", verify(A, B, C));  /// False
+    for (int i = 0; i < C.row; i++){
+        for (int j = 0; j < C.col; j++){
+            C.mat[i][j]--;
+            assert(!verify(A, B, C));
+            C.mat[i][j] += 2;
+            assert(!verify(A, B, C));
+            C.mat[i][j]--;
+        }
+    }
 
     return 0;
 }
