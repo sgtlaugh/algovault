@@ -26,14 +26,14 @@ def _is_composite(a, n, s):
 
 
 def main():
-    print(miller_rabin(2))  # True
-    print(miller_rabin(3))  # True
-    print(miller_rabin(4))  # False
-    print(miller_rabin(97))  # True
-    print(miller_rabin(1000000007))  # True
-    print(miller_rabin(2147483647))  # True
-    print(miller_rabin(1000000007 * 2147483647))  # False
-    print(miller_rabin(4547337172376300111955330758342147474062293202868155909489))  # True
+    assert miller_rabin(2) is True
+    assert miller_rabin(3) is True
+    assert miller_rabin(4) is False
+    assert miller_rabin(97) is True
+    assert miller_rabin(1000000007) is True
+    assert miller_rabin(2147483647) is True
+    assert miller_rabin(1000000007 * 2147483647) is False
+    assert miller_rabin(4547337172376300111955330758342147474062293202868155909489) is True
 
 
 if __name__ == '__main__':
