@@ -27,7 +27,7 @@ def z_function(text):
 def main():
     assert z_function('a') == [1]
     assert z_function('aaaa') == [4, 3, 2, 1]
-    assert z_function('aaabaab') == [7,2,1,0,2,1,0]
+    assert z_function('aaabaab') == [7, 2, 1, 0, 2, 1, 0]
     assert z_function('abababab') == [8, 0, 6, 0, 4, 0, 2, 0]
     assert z_function('abracadabra') == [11, 0, 0, 1, 0, 1, 0, 4, 0, 0, 1]
 
