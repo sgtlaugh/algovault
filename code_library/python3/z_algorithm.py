@@ -27,8 +27,7 @@ def z_function(text):
 
 def main():
     text = 'abababab'
-
-    print(z_function(text))  # [8, 0, 6, 0, 4, 0, 2, 0]
+    assert z_function(text) == [8, 0, 6, 0, 4, 0, 2, 0]
 
 
 if __name__ == '__main__':
