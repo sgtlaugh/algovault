@@ -72,6 +72,7 @@ bool verify(Matrix A, Matrix B, Matrix C, int ntrials=30){
 }
 
 int main(){
+    srand(0);
     Matrix A = Matrix(2, 3);
     Matrix B = Matrix(3, 4);
 
