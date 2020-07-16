@@ -13,8 +13,7 @@ class StringHash:
             self.prefix_hash[i] = (self.prefix_hash[i - 1] * self.base + ord(self.text[i - 1]) + 13) % self.mod
 
     def get_hash(self, l, r):
-        h = (self.prefix_hash[r + 1] - self.power[r - l + 1] * self.prefix_hash[l]) % self.mod
-        return h + self.mod if h < 0 else h
+        return (self.prefix_hash[r + 1] - self.power[r - l + 1] * self.prefix_hash[l]) % self.mod
 
 
 def main():
