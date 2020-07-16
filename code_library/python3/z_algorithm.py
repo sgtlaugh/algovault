@@ -12,16 +12,15 @@ def z_function(text):
     l, r = 0, 0
     for i in range(1, n):
         z = max(0, min(z_array[i - l], r - i))
-        while (i + z) < n and text[z] == text[i + z]:
+        while i + z < n and text[z] == text[i + z]:
             z += 1
 
-        if (i + z) > r:
+        if i + z > r:
             l, r = i, i + z
 
         z_array[i] = z
 
     z_array[0] = n
-
     return z_array
 
 
