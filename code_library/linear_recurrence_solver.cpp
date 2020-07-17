@@ -582,37 +582,45 @@ struct LinearRecurrence{
 int main(){
     /// recurrence given: f(x) = f(x - 3) + 2*f(x - 2) + 4*f(x-1), x > 2
     auto lr = LinearRecurrence({0, 1, 1, 6, 27, 121}, 100, {1, 2, 4});
-    printf("%d\n", lr.nth_term(6));    /// 44
-    printf("%d\n", lr.nth_term(9));    /// 90
-    printf("%d\n", lr.nth_term(10));   /// 83
-    printf("%d\n", lr.nth_term(1e18)); /// 19
+    assert(lr.nth_term(6) == 44);
+    assert(lr.nth_term(9) == 90);
+    assert(lr.nth_term(10) == 83);
+    assert(lr.nth_term(1e18) == 19);
 
     /// recurrence given: f(x) = f(x - 1) + f(x - 2), x > 1
     lr = LinearRecurrence({0, 1, 1, 2}, 1000000007, {1, 1});
-    printf("%d\n", lr.nth_term(8));    /// 21
-    printf("%d\n", lr.nth_term(9));    /// 34
-    printf("%d\n", lr.nth_term(10));   /// 55
-    printf("%d\n", lr.nth_term(1e18)); /// 209783453
+    assert(lr.nth_term(8) == 21);
+    assert(lr.nth_term(9) == 34);
+    assert(lr.nth_term(10) == 55);
+    assert(lr.nth_term(1e18) == 209783453);
 
     /// recurrence of degree k derived from first 2k terms
     lr = LinearRecurrence({0, 1, 1, 2}, 1000000007);
-    printf("%d\n", lr.nth_term(8));    /// 21
-    printf("%d\n", lr.nth_term(9));    /// 34
-    printf("%d\n", lr.nth_term(10));   /// 55
-    printf("%d\n", lr.nth_term(1e18)); /// 209783453
+    assert(lr.nth_term(8) == 21);
+    assert(lr.nth_term(9) == 34);
+    assert(lr.nth_term(10) == 55);
+    assert(lr.nth_term(1e18) == 209783453);
 
-    auto v = lr.nth_terms(8, 2); /// faster than calculating lr.nth_term(8) and lr.nth_term(9) separately
-    printf("%d %d\n", v[0], v[1]);     /// 21 34
+    /// faster than calculating lr.nth_term(8) and lr.nth_term(9) separately
+    assert(lr.nth_terms(8, 2) == vector<int>({21, 34}));
+    
+    /***
+     * 
+     * Test performance on a recurrence with large degree
+     * f(n) = n for n < k
+     * f(n) = f(n-1) + 2*f(n-2) + 3*(f-3) + ... + k*f(n-k) for n >= k
+     * 
+    ***/
 
     clock_t start = clock();
 
     vector <int> seq;
     int k = 10000, mod = 1000000007;
-    for (int i = 0; i < 2 * k + 10; i++){  /// an extra 10 terms just for assertion
-        if (i < k) seq.push_back(i);  /// f(n) = n for n < k
+
+    for (int i = 0; i < 2 * k + 10; i++){
+        if (i < k) seq.push_back(i);
         else{
             int v = 0;
-            /// f(n) = f(n-1) + 2*f(n-2) + 3*(f-3) + ... + k*f(n-k) for n >= k
             for (int j = 1; j <= k; j++){
                 v = (v + (long long)seq[i - j] * j) % mod;
             }
@@ -622,9 +630,7 @@ int main(){
 
     lr = LinearRecurrence(seq, mod);
     assert((int)lr.recurrence.size() == k);
-
-    /// evaluating the 10^18'term of a recurrence with degree 10000 :-D
-    printf("%d\n", lr.nth_term(1e18));  /// 255380209
+    assert(lr.nth_term(1e18) == 255380209);
 
     fprintf(stderr, "\nTime taken = %0.5f\n", (clock() - start) / (double)CLOCKS_PER_SEC);  /// Time taken = 0.96778
     return 0;
