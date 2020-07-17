@@ -12,10 +12,9 @@
 using namespace std;
 
 struct DSU{
-    int n;
     vector <int> counter, parent;
 
-    DSU(int n): n(n){
+    DSU(int n){
         parent.resize(n + 1);
         counter.resize(n + 1, 1);
         for (int i = 0; i <= n; i++) parent[i] = i;
