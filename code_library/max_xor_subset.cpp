@@ -1,15 +1,16 @@
+/***
+ *
+ * Given an array of positive integers,
+ * Finds a subset where the bitwise XOR of all the elements in the subset is maximum
+ * Return the maximum xor value
+ *
+***/
+
 #include <bits/stdtr1c++.h>
 
 #define bitlen(x) ((x) == 0 ? (0) : (64 - __builtin_clzll(x)))
 
 using namespace std;
-
-/***
- *
- * given an array of positive integers, find a subset where the bitwise XOR of all the elements in the subset is maximum
- * return the maximum xor
- *
-***/
 
 long long max_xor_subset(int n, long long* ar){
     vector <long long> v[64];
