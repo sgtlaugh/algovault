@@ -6,24 +6,26 @@
  *
 ***/
 
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
-#define bitlen(x) ((x) == 0 ? (0) : (64 - __builtin_clzll(x)))
+#define bitlen(x) ((x) == 0 ? 0 : 64 - __builtin_clzll(x))
 
 using namespace std;
 
-long long max_xor_subset(int n, long long* ar){
-    vector <long long> v[64];
-    for (int i = 0; i < n; i++) v[bitlen(ar[i])].push_back(ar[i]);
-
+long long max_xor_subset(const vector<long long>& ar){
     long long m, x, res = 0;
-    for (int i = 63; i > 0; i--){
-        int l = v[i].size();
+    int i, j, l, n = ar.size();
+
+    vector <long long> v[64];
+    for (i = 0; i < n; i++) v[bitlen(ar[i])].push_back(ar[i]);
+
+    for (i = 63; i > 0; i--){
+        l = v[i].size();
         if (l){
             m = v[i][0];
             res = max(res, res ^ m);
 
-            for (int j = 1; j < l; j++){
+            for (j = 1; j < l; j++){
                 x = m ^ v[i][j];
                 if (x) v[bitlen(x)].push_back(x);
             }
@@ -35,11 +37,9 @@ long long max_xor_subset(int n, long long* ar){
 }
 
 int main(){
-    long long A[] = {1, 2, 3};
-    printf("%lld\n", max_xor_subset(3, A)); /// 3 (take only 3)
-
-    long long B[] = {1, 2, 4};
-    printf("%lld\n", max_xor_subset(3, B)); /// 7 (take all - 1, 2 and 4)
-
+    assert(max_xor_subset({1, 2, 3}) == 3);
+    assert(max_xor_subset({1, 2, 4}) == 7);
+    assert(max_xor_subset({10, 4, 12, 23, 6, 60}) == 62);
+    assert(max_xor_subset({10, 4, 12, 23, 97, 6, 6, 3, 51, 60}) == 127);
     return 0;
 }
