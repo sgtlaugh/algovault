@@ -1,3 +1,11 @@
+/***
+ * 
+ * Disjoint set union with path compression
+ * Nodes can be 0 or 1 based
+ * Amortized time complexity of O(α(n)), where α(n) is the inverse Ackermann function
+ * 
+***/
+
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
