@@ -47,15 +47,15 @@ int main(){
     dsu.connect(5, 6);
     dsu.connect(6, 7);
 
-    printf("%d\n", dsu.component_size(3));  /// 3
-    printf("%d\n", dsu.component_size(5));  /// 4
-    printf("%d\n", dsu.is_connected(3, 5)); /// 0
+    assert(dsu.component_size(3) == 3);
+    assert(dsu.component_size(5) == 4);
+    assert(!dsu.is_connected(3, 5));
 
     dsu.connect(2, 5);
 
-    printf("%d\n", dsu.component_size(2));  /// 7
-    printf("%d\n", dsu.component_size(6));  /// 7
-    printf("%d\n", dsu.is_connected(3, 5)); /// 1
+    assert(dsu.component_size(2) == 7);
+    assert(dsu.component_size(6) == 7);
+    assert(dsu.is_connected(3, 5));
 
     return 0;
 }
