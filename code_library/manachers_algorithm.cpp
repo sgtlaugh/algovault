@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -12,8 +11,8 @@ using namespace std;
  *
 ***/
 
-vector <int> manacher(char *str){
-    int i, j, k, l = strlen(str), n = l << 1;
+vector <int> manacher(const string& str){
+    int i, j, k, l = str.size(), n = l << 1;
     vector <int> pal(n);
 
     for (i = 0, j = 0, k = 0; i < n; j = max(0, j - k), i += k){
@@ -28,9 +27,7 @@ vector <int> manacher(char *str){
 }
 
 int main(){
-    char str[] = "abababbaa";
-
-    auto v = manacher(str);
+    auto v = manacher("abababbaa");
     for (auto x: v) printf("%d ", x);  /// 1 0 3 0 5 0 5 0 3 0 1 4 1 0 1 2 1
     puts("");
 
