@@ -47,9 +47,9 @@ int main(){
         Point(0, 0), Point(10, 0), Point(10, 10), Point(5, 20), Point(0, 10)
     };
 
-    printf("%lld\n", area2(polygon));        /// 300
-    printf("%lld\n", on_border(polygon));    /// 40
-    printf("%lld\n", on_interior(polygon));  /// 131
+    assert(area2(polygon) == 300);
+    assert(on_border(polygon) == 40);
+    assert(on_interior(polygon) == 131);
 
     return 0;
 }
