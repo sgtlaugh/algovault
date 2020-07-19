@@ -1,3 +1,19 @@
+/***
+ *
+ * Returns the pisano period of fibonacci sequence modulo n
+ * fib(0) = 0, fib(1) = 1, fib(x) = fib(x - 1) + fib(x - 2) for x > 1
+ * If each term of the fibonacci sequence is taken modulo m, then the sequence repeats after every k terms
+ * The length of this cycle is known as the pisano period
+ *
+ * For example,
+ * First few fibonacci numbers:  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55
+ * First few fibonacci modulo 4: 0, 1, 1, 2, 3, 1, 0, 1,  1,  2,  3
+ * the pisano period for m = 4 is therefore 6, as the sequence repeats after every 6 terms
+ * 
+ * Don't forget to initialize pollard by by calling rho::init() before using
+ *
+***/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -189,20 +205,6 @@ long long pi(long long p){
 
     return -1;
 }
-
-/***
- *
- * returns the pisano period of fibonacci sequence modulo n
- * fib(0) = 0, fib(1) = 1, fib(x) = fib(x - 1) + fib(x - 2) for x > 1
- * if each term of the fibonacci sequence is taken modulo n, then the sequence repeats after every k terms
- * the length of this cycle is known as the pisano period
- *
- * for example,
- * first few fibonacci numbers:  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55
- * first few fibonacci modulo 4: 0, 1, 1, 2, 3, 1, 0, 1,  1,  2,  3
- * the pisano period for n = 4 is therefore 6, as the sequence repeats after every 6 terms
- *
-***/
 
 long long pisano_period(long long n){
     auto pfs = rho::factorize(n);
