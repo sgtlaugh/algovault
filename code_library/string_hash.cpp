@@ -71,12 +71,10 @@ struct StringHash{
 
 int main(){
     auto hasher = StringHash("racecar");
-
-    printf("%d\n", hasher.forward_hash(0, 6) == hasher.reverse_hash(0, 6)); /// 1
-    printf("%d\n", hasher.forward_hash(1, 5) == hasher.reverse_hash(0, 4)); /// 0
-    printf("%d\n", hasher.forward_hash(1, 1) == hasher.reverse_hash(5, 5)); /// 1
-    printf("%d\n", hasher.forward_hash(1, 1) == hasher.reverse_hash(5, 6)); /// 0
-    printf("%d\n", hasher.forward_hash(2, 4) == hasher.reverse_hash(2, 4)); /// 1
-
+    assert(hasher.forward_hash(0, 6) == hasher.reverse_hash(0, 6));
+    assert(hasher.forward_hash(1, 5) != hasher.reverse_hash(0, 4));
+    assert(hasher.forward_hash(1, 1) == hasher.reverse_hash(5, 5));
+    assert(hasher.forward_hash(1, 1) != hasher.reverse_hash(5, 6));
+    assert(hasher.forward_hash(2, 4) == hasher.reverse_hash(2, 4));
     return 0;
 }
