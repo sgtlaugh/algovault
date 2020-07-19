@@ -45,11 +45,11 @@ void generate_mobius(){
 }
 
 int main(){
+    generate_mobius();
+    assert(vector<int>(mu, mu + 10) == vector<int>({0, 1, -1, -1, 0, -1, 1, -1, 0, 0}));
+    
+    memset(mu, 0, sizeof(mu));
     generate_mobius_fast();
-
-    int n;
-    for (n = 0; n < 10; n++) printf("%d ", mu[n]);  /// 0 1 -1 -1 0 -1 1 -1 0 0
-    puts("");
-
+    assert(vector<int>(mu, mu + 10) == vector<int>({0, 1, -1, -1, 0, -1, 1, -1, 0, 0}));
     return 0;
 }
