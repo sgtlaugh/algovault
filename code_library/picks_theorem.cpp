@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -37,7 +36,6 @@ int main(){
     Point polygon[] = {
         Point(0, 0), Point(10, 0), Point(10, 10), Point(5, 20), Point(0, 10)
     };
-
 
     printf("%lld\n", area2(5, polygon));        /// 300
     printf("%lld\n", on_border(5, polygon));    /// 40
