@@ -223,15 +223,15 @@ long long pisano_period(long long n){
 int main(){
     rho::init();
 
-    cout << pisano_period(1) << endl;                     /// 1
-    cout << pisano_period(4) << endl;                     /// 6
-    cout << pisano_period(47) << endl;                    /// 32
-    cout << pisano_period(1260) << endl;                  /// 240
-    cout << pisano_period(510510) << endl;                /// 5040
-    cout << pisano_period(2147483647LL) << endl;          /// 4294967296
-    cout << pisano_period(2147483648LL) << endl;          /// 3221225472
-    cout << pisano_period(133049351085651000LL) << endl;  /// 5212409202000
-    cout << pisano_period(1000000000000000000LL) << endl; /// 1500000000000000000
+    assert(pisano_period(1) == 1);
+    assert(pisano_period(4) == 6);
+    assert(pisano_period(47) == 32);
+    assert(pisano_period(1260) == 240);
+    assert(pisano_period(510510) == 5040);
+    assert(pisano_period(2147483647LL) == 4294967296LL);
+    assert(pisano_period(2147483648LL) == 3221225472LL);
+    assert(pisano_period(133049351085651000LL) == 5212409202000LL);
+    assert(pisano_period(1000000000000000000LL) == 1500000000000000000LL);
 
     return 0;
 }
