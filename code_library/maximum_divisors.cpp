@@ -1,3 +1,13 @@
+/***
+ * 
+ * Finds a number with maximum divisor count not exceeding the given limit
+ * If there are multiple candidates, picks the smallest one
+ * Returns the number as well as the maximum divisor count
+ * 
+ * Tested and verified up to limit <= 10^18
+ * 
+***/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -25,11 +35,6 @@ void backtrack(int i, int lim, unsigned long long val, unsigned long long r){
 }
 
 Pair get_smallest_num_with_max_div(long long limit) {
-    /***
-     * Prints the smallest number not exceeding limit with maximum number of divisors along with its count
-     * Tested for n <= 10^18
-    ***/
-
     max_cnt = 0, n = limit;
     backtrack(0, 100, 1, 1);
     return Pair(number, max_cnt);
