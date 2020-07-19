@@ -1,3 +1,11 @@
+/***
+ *
+ * Pick's Thoerem and other related methods
+ * Calculates area of polygon in O(n)
+ * Calculates number of lattice points inside and on border in O(n log max(P_i))
+ *
+*/
+
 #include <bits/stdc++.h>
 
 using namespace std;
@@ -8,7 +16,7 @@ struct Point{
     Point(long long x, long long y) : x(x), y(y) {}
 };
 
-/// returns the area of the polygon multiplied by 2
+/// area of the polygon multiplied by 2
 long long area2(const vector<Point>& poly){
     long long res = 0;
     int i, j, n = poly.size();
@@ -28,7 +36,7 @@ long long on_border(const vector<Point>& poly){
     return res;
 }
 
-/// number of lattice points strictly inside polygon
+/// number of lattice points strictly inside the polygon
 long long on_interior(const vector<Point>& poly){
     long long res = 2 + area2(poly) - on_border(poly);
     return res >> 1;
