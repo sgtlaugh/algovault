@@ -100,18 +100,10 @@ namespace fwht{
 int main(){
     const vector <long long> A = {0, 1, 3, 5};
     const vector <long long> B = {1, 1, 2, 1};
-
-    auto v = fwht::or_convolution(A, B);
-    for (auto x: v) printf("%lld ", x);  /// 0 2 9 34
-    puts("");
-
-    v = fwht::and_convolution(A, B);
-    for (auto x: v) printf("%lld ", x);  /// 14 7 19 5
-    puts("");
-
-    v = fwht::xor_convolution(A, B);
-    for (auto x: v) printf("%lld ", x);  /// 12 14 9 10
-    puts("");
+    
+    assert(fwht::or_convolution(A, B) == vector<long long>({0, 2, 9, 34}));
+    assert(fwht::and_convolution(A, B) == vector<long long>({14, 7, 19, 5}));
+    assert(fwht::xor_convolution(A, B) == vector<long long>({12, 14, 9, 10}));
 
     return 0;
 }
