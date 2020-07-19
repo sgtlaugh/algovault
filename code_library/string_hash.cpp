@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -7,12 +6,12 @@ const int PRIMES[] = {2146936003, 2146946617, 2146958423, 2146960229, 2146960807
 
 /// Get the hash of any substring in O(1) after O(n) pre-processing
 
-struct SimpleHash{
+struct SingleHash{
     long long base, mod;
     vector <int> basepow, f_hash, r_hash;
 
-    SimpleHash() {}
-    SimpleHash(const char* str, long long base, long long mod): base(base), mod(mod){
+    SingleHash() {}
+    SingleHash(const char* str, long long base, long long mod): base(base), mod(mod){
         int len = strlen(str);
         basepow.resize(len + 3, 1), f_hash.resize(len + 3, 0), r_hash.resize(len + 3, 0);
 
@@ -42,7 +41,7 @@ struct SimpleHash{
 /// Get the hash of any substring in O(1) after O(n) pre-processing with double hashing
 
 struct StringHash{
-    SimpleHash sh1, sh2;
+    SingleHash sh1, sh2;
 
     StringHash(const char* str){
         unsigned int seed = chrono::system_clock::now().time_since_epoch().count();
@@ -54,8 +53,8 @@ struct StringHash{
         int base_2 = PRIMES[rand() % q_len + 2 * q_len];
         int mod_2  = PRIMES[rand() % q_len + 3 * q_len];
 
-        sh1 = SimpleHash(str, base_1, mod_1);
-        sh2 = SimpleHash(str, base_2, mod_2);
+        sh1 = SingleHash(str, base_1, mod_1);
+        sh2 = SingleHash(str, base_2, mod_2);
     }
 
     /// returns the hash of the substring from indices l to r (inclusive)
