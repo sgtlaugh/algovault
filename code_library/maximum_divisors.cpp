@@ -2,7 +2,7 @@
 
 using namespace std;
 
-unsigned long long n, res, idx;
+unsigned long long n, max_cnt, number;
 const vector <int> primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
 
 unsigned long long multiply(unsigned long long a, unsigned long long b){
@@ -11,7 +11,7 @@ unsigned long long multiply(unsigned long long a, unsigned long long b){
 }
 
 void backtrack(int i, int lim, unsigned long long val, unsigned long long r){
-    if (r > res || (r == res && val < idx)) res = r, idx = val;
+    if (r > max_cnt || (r == max_cnt && val < number)) max_cnt = r, number = val;
     if (i == (int)primes.size()) return;
 
     unsigned long long x = val;
@@ -28,9 +28,9 @@ void print_smallest_num_with_max_div(long long limit) {
      * Tested for n <= 10^18
     ***/
 
-    res = 0, n = limit;
+    max_cnt = 0, n = limit;
     backtrack(0, 100, 1, 1);
-    printf("Smallest number is %llu with %llu divisors\n", idx, res);
+    printf("Smallest number is %llu with %llu divisors\n", number, max_cnt);
 }
 
 int main(){
