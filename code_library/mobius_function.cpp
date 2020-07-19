@@ -1,8 +1,9 @@
-#include <stdio.h>
+#include <bits/stdc++.h>
+
+using namespace std;
 
 #define LEN 666666
 #define MAX 10000010
-
 
 int len = 0, prime[LEN];
 char mu[MAX] = {0}, flag[MAX] = {0};
@@ -22,7 +23,6 @@ void generate_mobius_fast(){
     for (i = 2; i < MAX; i++){
         if (!flag[i]) mu[i] = -1, prime[len++] = i;
         for (j = 0; j < len && (k = i * prime[j]) < MAX; j++){
-
             flag[k] = 1;
             if (!(i % prime[j])){
                 mu[k] = 0;
@@ -36,11 +36,9 @@ void generate_mobius_fast(){
 /// same thing as above but a bit slower
 /// less code and elegant idea exploiting multiplicative functions
 void generate_mobius(){
-    int i, j;
-
     mu[1] = 1;
-    for (i = 1; i < MAX; i++){
-        for (j = i + i; j < MAX; j += i){
+    for (int i = 1; i < MAX; i++){
+        for (int j = i + i; j < MAX; j += i){
             mu[j] -= mu[i];
         }
     }
