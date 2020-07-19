@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 #define MAX 1048576
 
@@ -44,8 +43,9 @@ namespace fwht{
         }
     }
 
-    vector <long long> convolution(int n, long long* A, long long* B, int conv_type){
-        assert(__builtin_popcount(n) == 1);
+    vector <long long> convolution(const vector <long long>& A, const vector <long long>& B, int conv_type){
+        int n = A.size();
+        assert(A.size() == B.size() && __builtin_popcount(n) == 1);
         for (int i = 0; i < n; i++) P1[i] = A[i];
         for (int i = 0; i < n; i++) P2[i] = B[i];
 
@@ -66,8 +66,8 @@ namespace fwht{
      * return C as a vector in n log n, n must be a power of 2
      *
     ***/
-    vector <long long> or_convolution(int n, long long* A, long long* B){
-        return convolution(n, A, B, OR);
+    vector <long long> or_convolution(const vector <long long>& A, const vector <long long>& B){
+        return convolution(A, B, OR);
     }
 
     /***
@@ -79,8 +79,8 @@ namespace fwht{
      * return C as a vector in n log n, n must be a power of 2
      *
     ***/
-    vector <long long> and_convolution(int n, long long* A, long long* B){
-        return convolution(n, A, B, AND);
+    vector <long long> and_convolution(const vector <long long>& A, const vector <long long>& B){
+        return convolution(A, B, AND);
     }
 
     /***
@@ -92,24 +92,24 @@ namespace fwht{
      * return C as a vector in n log n, n must be a power of 2
      *
     ***/
-    vector <long long> xor_convolution(int n, long long* A, long long* B){
-        return convolution(n, A, B, XOR);
+    vector <long long> xor_convolution(const vector <long long>& A, const vector <long long>& B){
+        return convolution(A, B, XOR);
     }
 }
 
 int main(){
-    long long A[] = {0, 1, 3, 5};
-    long long B[] = {1, 1, 2, 1};
+    const vector <long long> A = {0, 1, 3, 5};
+    const vector <long long> B = {1, 1, 2, 1};
 
-    auto v = fwht::or_convolution(4, A, B);
+    auto v = fwht::or_convolution(A, B);
     for (auto x: v) printf("%lld ", x);  /// 0 2 9 34
     puts("");
 
-    v = fwht::and_convolution(4, A, B);
+    v = fwht::and_convolution(A, B);
     for (auto x: v) printf("%lld ", x);  /// 14 7 19 5
     puts("");
 
-    v = fwht::xor_convolution(4, A, B);
+    v = fwht::xor_convolution(A, B);
     for (auto x: v) printf("%lld ", x);  /// 12 14 9 10
     puts("");
 
