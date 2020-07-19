@@ -2,6 +2,8 @@
 
 using namespace std;
 
+typedef pair<unsigned long long, unsigned long long> Pair;
+
 unsigned long long n, max_cnt, number;
 const vector <int> primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
 
@@ -22,7 +24,7 @@ void backtrack(int i, int lim, unsigned long long val, unsigned long long r){
     }
 }
 
-void print_smallest_num_with_max_div(long long limit) {
+Pair get_smallest_num_with_max_div(long long limit) {
     /***
      * Prints the smallest number not exceeding limit with maximum number of divisors along with its count
      * Tested for n <= 10^18
@@ -30,13 +32,12 @@ void print_smallest_num_with_max_div(long long limit) {
 
     max_cnt = 0, n = limit;
     backtrack(0, 100, 1, 1);
-    printf("Smallest number is %llu with %llu divisors\n", number, max_cnt);
+    return Pair(number, max_cnt);
 }
 
 int main(){
-    print_smallest_num_with_max_div(1000000);               /// Smallest number is 720720 with 240 divisors
-    print_smallest_num_with_max_div(1000000000000LL);       /// Smallest number is 963761198400 with 6720 divisors
-    print_smallest_num_with_max_div(1000000000000000000LL); /// Smallest number is 897612484786617600 with 103680 divisors
-
+    assert(get_smallest_num_with_max_div(1000000) == Pair(720720, 240));
+    assert(get_smallest_num_with_max_div(1000000000000LL) == Pair(963761198400LL, 6720));
+    assert(get_smallest_num_with_max_div(1000000000000000000LL) == Pair(897612484786617600LL, 103680));
     return 0;
 }
