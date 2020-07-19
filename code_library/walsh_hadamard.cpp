@@ -1,3 +1,21 @@
+/***
+ * 
+ * Fast Walsh Hadamard Transformation to calculate convolution between two vectors
+ * Convolution type can be either xor/or/and
+ * Complexity for all convolutions: O(n log n)
+ * 
+ * Convolutions of two vectors A, B of length N can be defined as below:
+ * C = [0] * n
+ * for i in range(0, n):
+ *     for j in range(0, n):
+ *          C[i operator j] += A[i] * B[j] // where operator is one of {^, |, &}
+ *
+ * Notes:
+ *   - A and B must be of the same length n
+ *   - n must be a power of 2
+ * 
+***/
+
 #include <bits/stdc++.h>
 
 #define MAX 1048576
@@ -56,42 +74,14 @@ namespace fwht{
         return vector<long long> (P1, P1 + n);
     }
 
-
-    /***
-     * C = [0] * n
-     * for i in range(0, n):
-     *     for j in range(0, n):
-     *          C[i | j] += A[i] * B[j]
-     *
-     * return C as a vector in n log n, n must be a power of 2
-     *
-    ***/
     vector <long long> or_convolution(const vector <long long>& A, const vector <long long>& B){
         return convolution(A, B, OR);
     }
 
-    /***
-     * C = [0] * n
-     * for i in range(0, n):
-     *     for j in range(0, n):
-     *          C[i & j] += A[i] * B[j]
-     *
-     * return C as a vector in n log n, n must be a power of 2
-     *
-    ***/
     vector <long long> and_convolution(const vector <long long>& A, const vector <long long>& B){
         return convolution(A, B, AND);
     }
 
-    /***
-     * C = [0] * n
-     * for i in range(0, n):
-     *     for j in range(0, n):
-     *          C[i ^ j] += A[i] * B[j]
-     *
-     * return C as a vector in n log n, n must be a power of 2
-     *
-    ***/
     vector <long long> xor_convolution(const vector <long long>& A, const vector <long long>& B){
         return convolution(A, B, XOR);
     }
