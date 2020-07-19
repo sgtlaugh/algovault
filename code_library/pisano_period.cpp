@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -77,7 +76,7 @@ namespace rho{
     long long seq[MAXP], divisors[130172];
 
     inline bool miller_rabin(long long n){
-        if (n <= 2 || !(n & 1)) return (n == 2);
+        if (n <= 2 || !(n & 1)) return n == 2;
         if (n < MAXP) return spf[n] == n;
 
         long long c, d, s = 0, r = n - 1;
@@ -180,7 +179,7 @@ long long pi(long long p){
     if (p == 5) return 20;
 
     int flag = p % 10;
-    long long n = (flag == 1 || flag == 9) ? (p - 1) : (2 * (p + 1));
+    long long n = (flag == 1 || flag == 9) ? p - 1 : 2 * (p + 1);
 
     auto divisors = rho::get_divisors(n);
     for (auto d: divisors){
