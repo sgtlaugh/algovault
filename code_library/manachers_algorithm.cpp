@@ -1,15 +1,15 @@
-#include <bits/stdc++.h>
-
-using namespace std;
-
 /***
  *
  * Manacher's algorithm to generate longest palindromic substrings for all centers
- * For a string of length n, returns a vector of size 2 * n - 1
+ * For a string of length n, returns a vector pal, of size 2 * n - 1
  * When i is even, pal[i] = largest palindromic substring centered from str[i / 2]
  * When i is odd,  pal[i] = largest palindromic substring centered between str[i / 2] and str[i / 2] + 1
  *
 ***/
+
+#include <bits/stdc++.h>
+
+using namespace std;
 
 vector <int> manacher(const string& str){
     int i, j, k, l = str.size(), n = l << 1;
