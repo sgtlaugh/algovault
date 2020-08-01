@@ -18,7 +18,7 @@
 
 using namespace std;
 
-template <class T>
+template <class T>  /// If more precision is required, use __float128 from quadmath.h if supported :)
 struct GaussBand{
     int n, m, h, band_size;
     T band[MAX_ROW * MAX_COL][MAX_BAND];
