@@ -123,8 +123,8 @@ struct FlowGraphWithNodeCap{
 
 int main(){
     const int n = 4;
-
     auto flow_graph = FlowGraph(n, 0, n - 1);
+
     flow_graph.add_edge(0, 1, 3);
     flow_graph.add_edge(1, 2, 4);
     flow_graph.add_edge(2, 0, 2);
@@ -132,9 +132,10 @@ int main(){
     flow_graph.add_edge(2, 3, 3);
     flow_graph.add_edge(3, 2, 3);
 
-    cout << flow_graph.maxflow() << endl;           /// 5
+    assert(flow_graph.maxflow() == 5);
 
     auto flow_graph_node_cap = FlowGraphWithNodeCap(n, 0, n - 1, {5, 4, 3, 2});
+
     flow_graph_node_cap.add_edge(0, 1, 3);
     flow_graph_node_cap.add_edge(1, 2, 4);
     flow_graph_node_cap.add_edge(2, 0, 2);
@@ -142,7 +143,7 @@ int main(){
     flow_graph_node_cap.add_edge(2, 3, 3);
     flow_graph_node_cap.add_edge(3, 2, 3);
 
-    cout << flow_graph_node_cap.maxflow() << endl;  /// 2
+    assert(flow_graph_node_cap.maxflow() == 2);
 
     return 0;
 }
