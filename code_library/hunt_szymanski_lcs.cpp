@@ -1,4 +1,12 @@
-#include <bits/stdtr1c++.h>
+/***
+ * Hunt-Szymanski Algorithm for LCS
+ *
+ * Complexity: O(R + N) log N
+ * R = numbered of ordered pairs of positions where the two strings match (worst case, R = N^2)
+ *
+***/
+
+#include <bits/stdc++.h>
 
 #define MAX 50010
 
@@ -6,9 +14,6 @@ using namespace std;
 
 int ar[MAX];
 char A[MAX], B[MAX];
-
-/// Hunt-Szymanski Algorithm for LCS
-/// O(R + N) log N, R = numbered of ordered pairs of positions where the two strings match (worst case, R = N^2)
 
 int lcs(char* A, char* B){
     vector <int> adj[256];
@@ -35,8 +40,8 @@ int main(){
     A[n] = B[m] = 0;
 
     clock_t start = clock();
-    printf("%d\n", lcs(A, B));  /// 16245
+    assert(lcs(A, B) == 16259);
 
-    fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC)); /// took 17.5 s locally
+    fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC)); /// took 3.96 s locally
     return 0;
 }
