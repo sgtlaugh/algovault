@@ -1,5 +1,17 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+/***
+ *
+ * Fast maximum flow with Dinic's algorithm
+ * 0 based indexing for nodes, so nodes are numbered from 0 to n-1
+ *
+ * Use FlowGraph for standard flow with edge capacity
+ * Use FlowGraphWithNodeCap when nodes can have capacity as well
+ *
+ * For more speed, get rid of the struct and wrap it up in a namespace or make it global (25% speed gain locally)
+ * If you need to initialize the struct many times, make the arrays vectors or get rid of the struct as above
+ *
+***/
+
+#include <bits/stdc++.h>
 
 #define MAXN 50010
 
@@ -12,16 +24,6 @@ struct Edge{
     Edge(){}
     Edge(int u, int v, long long cap, long long flow) : u(u), v(v), cap(cap), flow(flow) {}
 };
-
-/***
- *
- * Fast maximum flow with Dinic's algorithm
- * 0 based indexing for nodes, so nodes are numbered from 0 to n-1
- *
- * For more speed, get rid of the struct and wrap it up in a namespace or make it global (25% speed gain locally)
- * If you need to initialize the struct many times, make the arrays vectors or get rid of the struct as above :-)
- *
-***/
 
 struct FlowGraph{
     vector <int> adj[MAXN];
