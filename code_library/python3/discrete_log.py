@@ -1,7 +1,7 @@
 def discrete_log(a, b, mod):
     """
-    returns smallest non-negative x s.t. pow(a, x, mod) == b % mod
-    or None if no such x exists
+    returns smallest non-negative x s.t. pow(a, x, mod) == b % mod or None if no such x exists.
+    Note: works even if a, b and mod are not pairwise coprime.
     """
 
     mp = {}
