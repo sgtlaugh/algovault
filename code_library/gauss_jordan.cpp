@@ -24,7 +24,9 @@ Complexity: O(min(n, m) * n * m)
 
 Notes:
 For problems on graphs, make sure the graph is connected and a single component
-If not, then re-number the vertices and solve for each component separately
+If not, then re-number the vertices and solve for each component separately.
+
+If more precision is required, use long double or __float128 from quadmath.h if supported
 
 ***/
 
