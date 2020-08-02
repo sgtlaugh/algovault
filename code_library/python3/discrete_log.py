@@ -10,11 +10,11 @@ def discrete_log(a, b, mod):
     mp = {}
     e, n = 1, int(mod**0.5) + 2
 
-    for j in range(n + 3):
+    for i in range(n + 3):
         if e == b:
-            return j
+            return i
 
-        mp[b * e % mod] = j
+        mp[b * e % mod] = i
         e = e * a % mod
 
     v = e = pow(a, n, mod)
