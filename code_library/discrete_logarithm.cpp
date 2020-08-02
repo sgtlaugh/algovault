@@ -54,17 +54,20 @@ int discrete_log(int a, int b, int mod){
 }
 
 int main(){
-    printf("%d\n", discrete_log(1, 1, 1));                            /// -1
-    printf("%d\n", discrete_log(2, 1, 3));                            ///  0
-    printf("%d\n", discrete_log(2, 3, 4));                            /// -1
-    printf("%d\n", discrete_log(2, 0, 4));                            ///  2
-    printf("%d\n", discrete_log(6, 0, 8));                            ///  3
-    printf("%d\n", discrete_log(2, 3, 6));                            /// -1
-    printf("%d\n", discrete_log(2, 6, 10));                           ///  4
-    printf("%d\n", discrete_log(5, 33, 58));                          ///  9
-    printf("%d\n", discrete_log(3589, 58, 97));                       /// -1
-    printf("%d\n", discrete_log(3589, 1, 97));                        ///  0
-    printf("%d\n", discrete_log(1000000000, 666666667, 1000000007));  ///  942190576
+    assert(discrete_log(0, 0, 1) == 1);
+    assert(discrete_log(1, 1, 1) == 0);
+    assert(discrete_log(2, 1, 3) == 0);
+    assert(discrete_log(2, 3, 3) == -1);
+    assert(discrete_log(2, 3, 4) == -1);
+    assert(discrete_log(2, 3, 6) == -1);
+    assert(discrete_log(2, 0, 4) == 2);
+    assert(discrete_log(6, 0, 8) == 3);
+    assert(discrete_log(6, 8, 16) == 3);
+    assert(discrete_log(2, 6, 10) == 4);
+    assert(discrete_log(5, 33, 58) == 9);
+    assert(discrete_log(3589, 58, 97) == -1);
+    assert(discrete_log(3589, 1, 97) == 0);
+    assert(discrete_log(1000000000, 666666667, 1000000007) == 942190576);
 
     return 0;
 }
