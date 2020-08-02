@@ -1,13 +1,15 @@
-#include <stdio.h>
-
 /***
  *
  * Josephus problem, n people numbered from 1 to n stand in a circle.
- * counting starts from 1 and every k'th people dies
- * returns the position of the m'th killed people
- * for example if n = 10 and k = 3, then the people killed are 3, 6, 9, 2, 7, 1, 8, 5, 10, 4 respectively
+ * Counting starts from 1 and every k'th person dies
+ * Returns the id of the m'th killed person
+ * For example if n = 10 and k = 3, then the people killed are 3, 6, 9, 2, 7, 1, 8, 5, 10, 4 respectively
  *
 ***/
+
+#include <bits/stdc++.h>
+
+using namespace std;
 
 /// O(n)
 int josephus1(int n, int k, int m){
@@ -38,7 +40,16 @@ long long josephus2(long long n, long long k, long long m){
 }
 
 int main(){
-    printf("%d\n", josephus1(100, 13, 50));    /// 61
-    printf("%lld\n", josephus2(100, 13, 50));  /// 61
+    assert(josephus1(100, 13, 50) == 61);
+    assert(josephus2(100, 13, 50) == 61);
+
+    for (int n = 1; n <= 50; n++){
+        for (int k = 1; k <= 50; k++){
+            for (int m = 1; m <= n; m++){
+                assert(josephus1(n, k, m) == josephus2(n, k, m));
+            }
+        }
+    }
+
     return 0;
 }
