@@ -1,68 +1,52 @@
-#include <stdio.h>
+/***
+ * Generalized discrete logarithm with Shank's Baby step giant step algorithm
+ *
+ * Given three integers a, b and mod
+ * Returns the smallest non-negative x such that (g^x) % p = h % p
+ * If no solution exists, returns -1
+ * Works even if a, b and mod are not pairwise co-primes
+ *
+ * Complexity: O(sqrt(mod))
+ * Use a custom hash table for more speed
+ *
+ * Note that it is assumed 0^0 is undefined although Python treats 0^0 as 1 (https://en.wikipedia.org/wiki/Zero_to_the_power_of_zero)
+ * If it is required otherwise, should be handled explicitly (Just adding `if b == 1 or mod == 1: return 0` should suffice)
+ *
+***/
+
 #include <bits/stdtr1c++.h>
 
 using namespace std;
 
-int expo(long long int x, int n, int m){
+int expo(long long x, int n, int mod){
+    x %= mod;
     long long res = 1;
 
     while (n){
-        if (n & 1) res = res * x % m;
-        x = x * x % m;
+        if (n & 1) res = res * x % mod;
+        x = x * x % mod;
         n >>= 1;
     }
 
-    return res % m;
+    return res % mod;
 }
 
-int ext_euclid(int a, int b, int& x, int& y){
-    if (!b){
-        y = 0, x = 1;
-        return a;
+int discrete_log(int a, int b, int mod){
+    tr1::unordered_map<int, int> mp;
+    int i, v, x, e = 1, n = sqrt(mod + 0.5) + 1;
+
+    for (i = 0; i < (n + 3); i++){
+        if (e == b) return i;
+        mp[(long long)b * e % mod] = i;
+        e = (long long)e * a % mod;
     }
 
-    int g = ext_euclid(b, a % b, y, x);
-    y -= ((a / b) * x);
-    return g;
-}
-
-/***
- *
- * returns smallest x such that (g^x) % p = h
- * function returns -1 if no solution exists
- * otherwise returns x, the discrete log of h with respect to g modulo p
- *
-***/
-
-int discrete_log(int g, int h, int p){
-    if (h >= p) return -1;
-    if (h == 1 || p == 1) return 0;
-
-    long long v, d, t, mul;
-    int i, x, y, z, m, c, raw_h, raw_p;
-
-    for (i = 1, t = g; (1LL << i) <= p; i++, t = t * g % p){
-        if ((t % p) == h) return i;
-    }
-
-    raw_h = h, raw_p = p;
-    for (c = 0, d = 1, v = 1; (v = __gcd(g, p)) > 1; c++){
-        h /= v, p /= v;
-        d = d * (g / v) % p;
-    }
-
-    m = sqrt(p - 0.666) + 1;
-    tr1::unordered_map <int, int> mp;
-    for (i = 0, mul = 1; i < m; i++, mul = mul * g % p){
-        if (!mp.count(mul)) mp[mul] = i + 1;
-    }
-
-    for (i = 0; i < m; i++, d = d * mul % p){
-        z = ext_euclid(d, p, x, y);
-        z = ((((long long)x * h) / z) % p + p) % p;
-        if (mp.count(z)){
-            x = i * m + mp[z] + c - 1;
-            if (expo(g, x, raw_p) == raw_h) return x;
+    v = e = expo(a, n, mod);
+    for (i = 2; i < (n + 3); i++){
+        e = (long long)e * v % mod;
+        if (mp.count(e)){
+            x = (((long long)n * i - mp[e]) % mod + mod) % mod;
+            return (expo(a, x, mod) == b) ? x : -1;
         }
     }
 
