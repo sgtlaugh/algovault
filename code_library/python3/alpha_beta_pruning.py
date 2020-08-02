@@ -11,7 +11,6 @@ class AbstractNode(ABC):
     @abstractmethod
     def get_next_states(self):
         """
-
         :return: list of all next states reachable from the current state
         """
         pass
@@ -19,7 +18,6 @@ class AbstractNode(ABC):
     @abstractmethod
     def is_terminal_node(self):
         """
-
         :return: True if the current node is terminal (i.e, game over) and False otherwise
         """
         pass
@@ -27,7 +25,6 @@ class AbstractNode(ABC):
     @abstractmethod
     def get_terminal_node_utility(self):
         """
-
         :return: utility of the terminal node, for example, could be +1, -1, or 0 in the case of tic-tac-toe
         """
         pass
@@ -74,10 +71,11 @@ class Node(AbstractNode):
 
 
 def main():
-    start_state = Node({})
+    state = {}
+    start_node = Node(state)
 
-    node_value = start_state.get_utility(is_first_player_turn=True)
-    print(node_value)
+    # Throws an exception because the Node methods are not implemented
+    node_value = start_node.get_utility(is_first_player_turn=True)
 
 
 if __name__ == '__main__':
