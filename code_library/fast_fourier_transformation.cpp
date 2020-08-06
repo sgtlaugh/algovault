@@ -22,8 +22,7 @@ namespace fft{
         const int MOD_SPLIT_LIMIT = 15;
         const int LL_MULTIPLY_MOD = 1500000000;
 
-        long long A[MAX], B[MAX];
-        int len, last = -1, step = 0, rev[MAX];
+        int last_len = -1, initialized = 0, rev[MAX];
 
         struct ComplexNum{
             long double real, img;
@@ -45,45 +44,57 @@ namespace fft{
             inline ComplexNum operator * (ComplexNum x){
                 return ComplexNum(real * x.real - img * x.img, real * x.img + img * x.real);
             }
-        } u[MAX], v[MAX], f[MAX], g[MAX], dp[MAX], inv[MAX];
+        } u[MAX], w[MAX], f[MAX], g[MAX], dp[MAX], inv[MAX];
 
-        inline long long round_to_nearest(long double x){
+        long long round_to_nearest(long double x){
             long long res = abs(x) + 0.5;
             return (x < 0) ? -res : res;
         }
 
-        void build(int& a, long long* A, int& b, long long* B){
-            while (a > 1 && A[a - 1] == 0) a--;
-            while (b > 1 && B[b - 1] == 0) b--;
+        int get_bit(int len){
+            return 32 - __builtin_clz(len) - (__builtin_popcount(len) == 1);
+        }
 
-            len = 1 << (32 - __builtin_clz(a + b) - (__builtin_popcount(a + b) == 1));
-            for (int i = a; i < len; i++) A[i] = 0;
-            for (int i = b; i < len; i++) B[i] = 0;
+        void initialize(){
+            initialized = 1;
+            dp[1] = inv[1] = ComplexNum(1);
 
-            if (!step++){
-                dp[1] = inv[1] = ComplexNum(1);
-                for (int i = 1; (1 << i) < MAX; i++){
-                    long double theta = 2.0 * acos(0.0) / (1 << i);
-                    ComplexNum mul = ComplexNum(cos(theta), sin(theta));
-                    ComplexNum inv_mul = ComplexNum(cos(-theta), sin(-theta));
+            int i, j, k, lim;
+            for (i = 1; (1 << i) < MAX; i++){
+                long double theta = 2.0 * acos(0.0) / (1 << i);
+                ComplexNum mul = ComplexNum(cos(theta), sin(theta));
+                ComplexNum inv_mul = ComplexNum(cos(-theta), sin(-theta));
 
-                    int lim = 1 << i;
-                    for (int j = lim >> 1; j < lim; j++){
-                        dp[2 * j] = dp[j], inv[2 * j] = inv[j];
-                        inv[2 * j + 1] = inv[j] * inv_mul;
-                        dp[2 * j + 1] = dp[j] * mul;
-                    }
+                for (lim = 1 << i, j = lim >> 1; j < lim; j++){
+                    k = 2 * j;
+                    dp[k] = dp[j], inv[k] = inv[j];
+                    inv[k + 1] = inv[j] * inv_mul;
+                    dp[k + 1] = dp[j] * mul;
                 }
-            }
-
-            if (last != len){
-                last = len;
-                int bit = (32 - __builtin_clz(len) - (__builtin_popcount(len) == 1));
-                for (int i = 0; i < len; i++) rev[i] = (rev[i >> 1] >> 1) + ((i & 1) << (bit - 1));
             }
         }
 
-        void transform(ComplexNum *in, ComplexNum *out, ComplexNum* ar){
+        int build(vector<long long>& v1, vector<long long>& v2){
+            int i, n = v1.size(), m = v2.size();
+            while (n > 1 && v1[n - 1] == 0) n--;
+            while (m > 1 && v2[m - 1] == 0) m--;
+
+            int len = 1 << get_bit(n + m);
+            v1.resize(len, 0), v2.resize(len, 0);
+
+            if (!initialized) initialize();
+            if (len != last_len){
+                last_len = len;
+                const int bit = get_bit(len);
+                for (i = 0; i < len; i++){
+                    rev[i] = (rev[i >> 1] >> 1) + ((i & 1) << (bit - 1));
+                }
+            }
+
+            return len;
+        }
+
+        void transform(ComplexNum *in, ComplexNum *out, ComplexNum* ar, int len){
             for (int i = 0; i < len; i++) out[i] = in[rev[i]];
             for (int k = 1; k < len; k <<= 1){
                 for (int i = 0; i < len; i += (k << 1)){
@@ -104,16 +115,10 @@ namespace fft{
             }
         }
 
-        int copy_to_array(long long *ar, const vector <long long>& v){
-            int i, len = v.size();
-            for (i = 0; i < len; i++) ar[i] = v[i];
-            return len;
-        }
-
         bool is_equal(const vector <long long>& v1, const vector <long long>& v2){
             if (v1.size() != v2.size()) return false;
 
-            for (int i = 0; i < v1.size(); i++){
+            for (int i = 0; i < (int)v1.size(); i++){
                 if (v1[i] != v2[i]) return false;
             }
             return true;
@@ -126,16 +131,12 @@ namespace fft{
             return true;
         }
 
-        pair<vector<long long>, vector<long long>> build_convolution(const vector <long long>& v1, const vector <long long>& v2){
+        void build_convolution(vector <long long>& v1, vector <long long>& v2){
             assert(v1.size() == v2.size());
 
-            int i, m, d = 0, n = v1.size();
-            for (i = 0; i < n; i++) B[i] = B[i + n] = v2[i];
-            for (i = 0; i < n; i++) A[i] = v1[i], A[i + n] = 0;
-            n = 2 * n, m = 1 << (32 - __builtin_clz(n) - (__builtin_popcount(n) == 1));
-            for (i = n; i < m; i++) A[i] = B[i] = 0;
-
-            return {vector<long long>(A, A + n), vector<long long>(B, B + n)};
+            int n = v1.size();
+            v1.resize(2 * n, 0), v2.resize(2 * n, 0);
+            for (int i = 0; i < n; i++) v2[i + n] = v2[i];
         }
     }
 
@@ -143,20 +144,20 @@ namespace fft{
      * Same as multiply(v, v) but faster
      *
     ***/
-    vector <long long> square(const vector <long long>& v){
-        int a = copy_to_array(A, v);
-        int p_len = 2 * a - 1;
+    vector <long long> square(vector <long long> v){
+        int i, len, p_len = 2 * v.size() - 1;
 
-        build(a, A, a, A);
-        for (int i = 0; i < len; i++) u[i] = ComplexNum(A[i], 0);
-        transform(u, f, dp);
-        for (int i = 0; i < len; i++) u[i] = f[i] * f[i];
-        transform(u, f, inv);
+        len = build(v, v);
+        for (i = 0; i < len; i++) u[i] = ComplexNum(v[i], 0);
+        transform(u, f, dp, len);
+        for (i = 0; i < len; i++) u[i] = f[i] * f[i];
+        transform(u, f, inv, len);
 
-        for (int i = 0; i < len; i++) A[i] = round_to_nearest(f[i].real / (long double)len);
-        for (int i = len; i < p_len; i++) A[i] = 0;
-
-        return vector <long long>(A, A + p_len);
+        vector <long long> res(p_len, 0);
+        for (i = 0; i < min(len, p_len); i++){
+            res[i] = round_to_nearest(f[i].real / (long double)len);
+        }
+        return res;
     }
 
     /***
@@ -183,72 +184,70 @@ namespace fft{
      * In general, if the values are larger than 10^6, it'd be better to use ll_multiply instead
      *
     ***/
-    vector <long long> multiply(const vector <long long>& v1, const vector <long long>& v2){
+    vector <long long> multiply(vector <long long> v1, vector <long long> v2){
         if (is_equal(v1, v2)) return square(v1);
 
-        int a = copy_to_array(A, v1);
-        int b = copy_to_array(B, v2);
-        int p_len = a + b - 1;
+        int i, j, len, p_len = v1.size() + v2.size() - 1;
 
-        build(a, A, b, B);
-        for (int i = 0; i < len; i++) u[i] = ComplexNum(A[i], B[i]);
-        transform(u, f, dp);
+        len = build(v1, v2);
+        for (i = 0; i < len; i++) u[i] = ComplexNum(v1[i], v2[i]);
+        transform(u, f, dp, len);
 
-        for (int i = 0; i < len; i++){
-            int j = (len - 1) & (len - i);
+        for (i = 0; i < len; i++){
+            j = (len - 1) & (len - i);
             u[i] = (f[j] * f[j] - f[i].conjugate() * f[i].conjugate()) * ComplexNum(0, -0.25 / len);
         }
-        transform(u, f, dp);
+        transform(u, f, dp, len);
 
-        for (int i = 0; i < len; i++) A[i] = round_to_nearest(f[i].real);
-        for (int i = len; i < p_len; i++) A[i] = 0;
-
-        return vector <long long>(A, A + p_len);
+        vector <long long> res(p_len, 0);
+        for (i = 0; i < min(len, p_len); i++){
+            res[i] = round_to_nearest(f[i].real);
+        }
+        return res;
     }
 
     /***
      * Same as multiply(v1, v2), only values are calculated modulo mod
      *
     ***/
-    vector <long long> mod_multiply(const vector <long long>& v1, const vector <long long>& v2, int mod, int bits=MOD_SPLIT_LIMIT){
+    vector <long long> mod_multiply(vector <long long> v1, vector <long long> v2, int mod, int bits=MOD_SPLIT_LIMIT){
         const int mask = (1 << bits) - 1;
 
-        int a = copy_to_array(A, v1);
-        int b = copy_to_array(B, v2);
-        int p_len = a + b - 1;
+        long long x, y, z;
+        int i, j, len, p_len = v1.size() + v2.size() - 1;
 
-        build(a, A, b, B);
-        for (int i = 0; i < len; i++) A[i] %= mod, B[i] %= mod;
-        for (int i = 0; i < len; i++) u[i] = ComplexNum(A[i] & mask, A[i] >> bits);
-        for (int i = 0; i < len; i++) v[i] = ComplexNum(B[i] & mask, B[i] >> bits);
+        len = build(v1, v2);
+        for (i = 0; i < len; i++) v1[i] %= mod, v2[i] %= mod;
+        for (i = 0; i < len; i++) u[i] = ComplexNum(v1[i] & mask, v1[i] >> bits);
+        for (i = 0; i < len; i++) w[i] = ComplexNum(v2[i] & mask, v2[i] >> bits);
 
-        transform(u, f, dp);
-        for (int i = 0; i < len; i++) g[i] = f[i];
-        if (!is_equal(v1, v2)) transform(v, g, dp);
+        transform(u, f, dp, len);
+        for (i = 0; i < len; i++) g[i] = f[i];
+        if (!is_equal(v1, v2)) transform(w, g, dp, len);
 
-        for (int i = 0; i < len; i++){
-            int j = (len - 1) & (len - i);
+        for (i = 0; i < len; i++){
+            j = (len - 1) & (len - i);
             ComplexNum c1 = f[j].conjugate(), c2 = g[j].conjugate();
 
             ComplexNum a1 = (f[i] + c1) * ComplexNum(0.5, 0);
             ComplexNum a2 = (f[i] - c1) * ComplexNum(0, -0.5);
             ComplexNum b1 = (g[i] + c2) * ComplexNum(0.5 / len, 0);
             ComplexNum b2 = (g[i] - c2) * ComplexNum(0, -0.5 / len);
-            v[j] = a1 * b2 + a2 * b1;
             u[j] = a1 * b1 + a2 * b2 * ComplexNum(0, 1);
+            w[j] = a1 * b2 + a2 * b1;
         }
-        transform(u, f, dp);
-        transform(v, g, dp);
+        transform(u, f, dp, len);
+        transform(w, g, dp, len);
 
-        for (int i = 0; i < len; i++){
-            long long x = round_to_nearest(f[i].real);
-            long long y = round_to_nearest(g[i].real);
-            long long z = round_to_nearest(f[i].img);
-            A[i] = (x + ((y % mod) << bits) + ((z % mod) << (2 * bits))) % mod;
+        vector <long long> res(p_len, 0);
+        for (i = 0; i < min(len, p_len); i++){
+            x = round_to_nearest(f[i].real);
+            y = round_to_nearest(g[i].real);
+            z = round_to_nearest(f[i].img);
+            res[i] = (x + ((y % mod) << bits) + ((z % mod) << (2 * bits))) % mod;
         }
-        for (int i = len; i < p_len; i++) A[i] = 0;
 
-        return vector <long long>(A, A + p_len);
+        return res;
     }
 
     /***
@@ -257,7 +256,7 @@ namespace fft{
      * Values in the vectors should not exceed the constant LL_MULTIPLY_MOD
      *
     ***/
-    vector<long long> ll_multiply(const vector <long long>& v1, const vector <long long>& v2){
+    vector<long long> ll_multiply(vector <long long> v1, vector <long long> v2){
         for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_MOD);
         for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_MOD);
 
@@ -266,7 +265,7 @@ namespace fft{
 
         auto mod_1_res = mod_multiply(v1, v2, mod1);
         auto mod_2_res = mod_multiply(v1, v2, mod2);
-        assert(mod_1_res.size() == len && mod_2_res.size() == len);
+        assert((int)mod_1_res.size() == len && (int)mod_2_res.size() == len);
 
         for (int i = 0; i < len; i++){
             mod_1_res[i] = mod_1_res[i] + (mod_2_res[i] - mod_1_res[i] + mod2) * mod1 % mod2 * mod1;
@@ -291,18 +290,18 @@ namespace fft{
      * Also read the notes on multiply()
      *
     ***/
-    vector<long long> convolution(const vector <long long>& v1, const vector <long long>& v2){
-        auto p = build_convolution(v1, v2);
-        return multiply(p.first, p.second);
+    vector<long long> convolution(vector <long long> v1, vector <long long> v2){
+        build_convolution(v1, v2);
+        return multiply(v1, v2);
     }
 
     /***
      * Same as convolution(v1, v2), only values are calculated modulo mod
      *
     ***/
-    vector<long long> mod_convolution(const vector <long long>& v1, const vector <long long>& v2, int mod){
-        auto p = build_convolution(v1, v2);
-        return mod_multiply(p.first, p.second, mod);
+    vector<long long> mod_convolution(vector <long long> v1, vector <long long> v2, int mod){
+        build_convolution(v1, v2);
+        return mod_multiply(v1, v2, mod);
     }
 
     /***
@@ -311,9 +310,9 @@ namespace fft{
      * Also read the notes on ll_multiply()
      *
     ***/
-    vector<long long> ll_convolution(const vector <long long>& v1, const vector <long long>& v2){
-        auto p = build_convolution(v1, v2);
-        return ll_multiply(p.first, p.second);
+    vector<long long> ll_convolution(vector <long long> v1, vector <long long> v2){
+        build_convolution(v1, v2);
+        return ll_multiply(v1, v2);
     }
 
     /***
@@ -331,16 +330,16 @@ namespace fft{
     vector<long long> hamming_distance(const char* str, const char* pattern){
         assert(is_binary_string(str) && is_binary_string(pattern));
 
-        int n = strlen(str), m = strlen(pattern);
+        int i, j, n = strlen(str), m = strlen(pattern);
         vector<long long> v1(n, 0), v2(m, 0);
 
-        for (int i = 0; i < n; i++) v1[i] = str[i] == '1' ? 1 : -1;
-        for (int i = 0, j = m - 1; j >= 0; i++, j--) v2[i] = pattern[j] == '1' ? 1 : -1;
+        for (i = 0; i < n; i++) v1[i] = str[i] == '1' ? 1 : -1;
+        for (i = 0, j = m - 1; j >= 0; i++, j--) v2[i] = pattern[j] == '1' ? 1 : -1;
 
         vector<long long> res;
         auto v = multiply(v1, v2);
-        for (int i = 0; (i + m) <= n; i++){
-            res.push_back(m - ((A[i + m - 1] + m) >> 1));
+        for (i = 0; (i + m) <= n; i++){
+            res.push_back(m - ((v[i + m - 1] + m) >> 1));
         }
         return res;
     }
@@ -359,15 +358,15 @@ namespace fft{
     vector<long long> and_convolution(const char* str, const char* pattern){
         assert(is_binary_string(str) && is_binary_string(pattern));
 
-        int n = strlen(str), m = strlen(pattern);
+        int i, n = strlen(str), m = strlen(pattern);
         vector<long long> v1(n, 0), v2(m, 0);
 
-        for (int i = 0; i < n; i++) v1[i] = str[n - i - 1] - 48;
-        for (int i = 0; i < m; i++) v2[i] = pattern[i] - 48;
+        for (i = 0; i < n; i++) v1[i] = str[n - i - 1] - 48;
+        for (i = 0; i < m; i++) v2[i] = pattern[i] - 48;
 
         vector<long long> res;
         auto v = multiply(v1, v2);
-        for (int i = n; i >= m; i--) res.push_back(v[i - 1]);
+        for (i = n; i >= m; i--) res.push_back(v[i - 1]);
         return res;
     }
 }
@@ -378,6 +377,7 @@ int main(){
     v1 = {5, 1, 2, 6, 9, 8};
     v2 = {3, 9, 0, 2};
     assert(fft::multiply(v1, v2) == vector<long long>({15, 48, 15, 46, 83, 109, 84, 18, 16}));
+
 
     int mod = 14;
     assert(fft::mod_multiply(v1, v2, mod) == vector<long long>({1, 6, 1, 4, 13, 11, 0, 4, 2}));
