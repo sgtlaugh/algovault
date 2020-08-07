@@ -3,11 +3,13 @@
  *
  * Uses custom class for complex numbers and various optimizations for better performance
  *
- * Complexity: O(n log n) for all methods computing multiplication/convolution
+ * Complexity:
+ *   - O(MAX log MAX) pre-processing once
+ *   - O(n log n) for all exposed methods
  *
  * Notes:
- * Replace long double with double to gain more speed at the cost of precision
- * Double should be fine for most problems
+ *   - Replace long double with double to gain more speed at the cost of precision
+ *   - Double should be fine for most problems
  *
 ***/
 
