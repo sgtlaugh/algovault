@@ -1,11 +1,3 @@
-#include <stdio.h>
-#include <string.h>
-#include <stdbool.h>
-#include <assert.h>
-
-#define MAXK 1010
-#define MOD 1000000007
-
 /***
  *
  * Faulhaber's formula to calculate the sum of k-th powers
@@ -18,6 +10,14 @@
  *   - O(k) for each call to compute sum of powers
  *
 ***/
+
+#include <stdio.h>
+#include <string.h>
+#include <stdbool.h>
+#include <assert.h>
+
+#define MAXK 1010
+#define MOD 1000000007
 
 int S[MAXK][MAXK], inv[MAXK];
 
