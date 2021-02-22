@@ -69,14 +69,14 @@ class HashMap{
             max_len = max(max_len, 16);
             mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
 
-            int m = max_len / 2, s = sqrt(max_len);
-            int salt = rng() % m;
+            int buffer = sqrt(max_len);
+            int salt = rng() % (max_len / 2);
             hash_mod = next_prime(2.5 * max_len - salt);
 
             _size = 0, cur_id = 1;
-            id.resize(hash_mod + s, 0);
-            keys.resize(hash_mod + s, 0);
-            values.resize(hash_mod + s, 0);
+            id.resize(hash_mod + buffer, 0);
+            keys.resize(hash_mod + buffer, 0);
+            values.resize(hash_mod + buffer, 0);
         }
 
         void set(TKey x, TValue v){
