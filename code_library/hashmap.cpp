@@ -16,53 +16,54 @@ using namespace std;
 
 template <typename TKey, typename TValue>
 class HashMap{
-    int cur_id, _size, hash_mod;
+    private:
+        int cur_id, _size, hash_mod;
 
-    vector <int> id;
-    vector <TKey> keys;
-    vector <TValue> values;
+        vector <int> id;
+        vector <TKey> keys;
+        vector <TValue> values;
 
-    bool is_prime(int n){
-        if (n <= 1) return false;
-        for (int i = 2; i * i <= n; i++){
-            if (n % i == 0) return false;
-        }
-        return true;
-    }
-
-    int next_prime(int n){
-        while (!is_prime(++n)) {}
-        return n;
-    }
-
-    inline unsigned long long sm_hash(unsigned long long h){
-        h ^= h >> 33;
-        h *= 0xff51afd7ed558ccd;
-        h ^= h >> 33;
-        h *= 0xc4ceb9fe1a85ec53;
-        h ^= h >> 33;
-
-        return h;
-    }
-
-    inline int get_pos(TKey x){
-        int i = sm_hash(x) % hash_mod;
-        while (id[i] == cur_id && keys[i] != x) i++;
-        return i;
-    }
-
-    void update(TKey x, TValue v, bool replace=false){
-        int i = get_pos(x);
-
-        if (id[i] == cur_id){
-            if (replace) values[i] = 0;
-            values[i] += v;
-            return;
+        bool is_prime(int n){
+            if (n <= 1) return false;
+            for (int i = 2; i * i <= n; i++){
+                if (n % i == 0) return false;
+            }
+            return true;
         }
 
-        keys[i] = x, values[i] = v, id[i] = cur_id;
-        _size++;
-    }
+        int next_prime(int n){
+            while (!is_prime(++n)) {}
+            return n;
+        }
+
+        inline unsigned long long sm_hash(unsigned long long h){
+            h ^= h >> 33;
+            h *= 0xff51afd7ed558ccd;
+            h ^= h >> 33;
+            h *= 0xc4ceb9fe1a85ec53;
+            h ^= h >> 33;
+
+            return h;
+        }
+
+        inline int get_pos(TKey x){
+            int i = sm_hash(x) % hash_mod;
+            while (id[i] == cur_id && keys[i] != x) i++;
+            return i;
+        }
+
+        void update(TKey x, TValue v, bool replace=false){
+            int i = get_pos(x);
+
+            if (id[i] == cur_id){
+                if (replace) values[i] = 0;
+                values[i] += v;
+                return;
+            }
+
+            keys[i] = x, values[i] = v, id[i] = cur_id;
+            _size++;
+        }
 
     public:
         HashMap(int max_len){
