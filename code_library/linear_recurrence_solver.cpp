@@ -580,22 +580,32 @@ struct LinearRecurrence{
 };
 
 int main(){
-    /// recurrence given: f(x) = f(x - 3) + 2*f(x - 2) + 4*f(x-1), x > 2
-    auto lr = LinearRecurrence({0, 1, 1, 6, 27, 121}, 100, {1, 2, 4});
+    int i, j, k, v, mod;
+    LinearRecurrence lr;
+    vector <int> sequence, recurrence;
+
+    /// recurrence given, f(x) = f(x - 3) + 2*f(x - 2) + 4*f(x-1), x > 2
+    recurrence = {1, 2, 4};
+    sequence = {0, 1, 1, 6, 27, 121}, mod = 100;
+
+    lr = LinearRecurrence(sequence, mod, recurrence);
     assert(lr.nth_term(6) == 44);
     assert(lr.nth_term(9) == 90);
     assert(lr.nth_term(10) == 83);
     assert(lr.nth_term(1e18) == 19);
 
-    /// recurrence given: f(x) = f(x - 1) + f(x - 2), x > 1
-    lr = LinearRecurrence({0, 1, 1, 2}, 1000000007, {1, 1});
+    /// recurrence given, f(x) = f(x - 1) + f(x - 2), x > 1, fibonacci series
+    recurrence = {1, 1};
+    sequence = {0, 1, 1, 2}, mod = 1000000007;
+
+    lr = LinearRecurrence(sequence, mod, recurrence);
     assert(lr.nth_term(8) == 21);
     assert(lr.nth_term(9) == 34);
     assert(lr.nth_term(10) == 55);
     assert(lr.nth_term(1e18) == 209783453);
 
-    /// recurrence of degree k derived from first 2k terms
-    lr = LinearRecurrence({0, 1, 1, 2}, 1000000007);
+    /// alternatively, the recurrence of degree k can be derived from the first 2k terms
+    lr = LinearRecurrence(sequence, mod);
     assert(lr.nth_term(8) == 21);
     assert(lr.nth_term(9) == 34);
     assert(lr.nth_term(10) == 55);
@@ -603,35 +613,33 @@ int main(){
 
     /// faster than calculating lr.nth_term(8) and lr.nth_term(9) separately
     assert(lr.nth_terms(8, 2) == vector<int>({21, 34}));
-    
+
     /***
-     * 
+     *
      * Test performance on a recurrence with large degree
      * f(n) = n for n < k
      * f(n) = f(n-1) + 2*f(n-2) + 3*(f-3) + ... + k*f(n-k) for n >= k
-     * 
+     *
     ***/
 
-    clock_t start = clock();
+    sequence.clear();
+    k = 10000, mod = 1000000007;
 
-    vector <int> seq;
-    int k = 10000, mod = 1000000007;
-
-    for (int i = 0; i < 2 * k + 10; i++){
-        if (i < k) seq.push_back(i);
+    for (i = 0; i < 2 * k + 10; i++){
+        if (i < k) sequence.push_back(i);
         else{
-            int v = 0;
-            for (int j = 1; j <= k; j++){
-                v = (v + (long long)seq[i - j] * j) % mod;
+            for (v = 0, j = 1; j <= k; j++){
+                v = (v + (long long)sequence[i - j] * j) % mod;
             }
-            seq.push_back(v);
+            sequence.push_back(v);
         }
     }
 
-    lr = LinearRecurrence(seq, mod);
+    clock_t start = clock();
+    lr = LinearRecurrence(sequence, mod);
     assert((int)lr.recurrence.size() == k);
-    assert(lr.nth_term(1e18) == 255380209);
+    assert(lr.nth_term(1000000000000000000LL) == 255380209);
 
-    fprintf(stderr, "\nTime taken = %0.5f\n", (clock() - start) / (double)CLOCKS_PER_SEC);  /// Time taken = 0.96778
+    fprintf(stderr, "\nTime taken = %0.5f\n", (clock() - start) / (double)CLOCKS_PER_SEC);  /// Time taken = 0.44215
     return 0;
 }
