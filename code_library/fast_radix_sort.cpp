@@ -35,10 +35,10 @@ void radix_sort(unsigned int ar[], int n){
         }
     }
 
-    for (int i = n - 1; i >= 0; i--) tmp[--cnt[0][ar[i] & 0xFF]] = ar[i];
-    for (int i = n - 1; i >= 0; i--) ar[--cnt[1][(tmp[i] >> 8) & 0xFF]] = tmp[i];
-    for (int i = n - 1; i >= 0; i--) tmp[--cnt[2][(ar[i] >> 16) & 0xFF]] = ar[i];
-    for (int i = n - 1; i >= 0; i--) ar[--cnt[3][(tmp[i] >> 24) & 0xFF]] = tmp[i];
+    for (int i = n - 1; i >= 0; i--) tmp[--cnt[0][ar[i] & 255]] = ar[i];
+    for (int i = n - 1; i >= 0; i--) ar[--cnt[1][(tmp[i] >> 8) & 255]] = tmp[i];
+    for (int i = n - 1; i >= 0; i--) tmp[--cnt[2][(ar[i] >> 16) & 255]] = ar[i];
+    for (int i = n - 1; i >= 0; i--) ar[--cnt[3][(tmp[i] >> 24) & 255]] = tmp[i];
 }
 
 
