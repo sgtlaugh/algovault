@@ -38,6 +38,7 @@ void init(){
 }
 
 struct Hasher{
+    /// Remove suff vector and usage if reverse hash is not required for more speed
     vector<int64_t> pref, suff;
 
     Hasher() {}
