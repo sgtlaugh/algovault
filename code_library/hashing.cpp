@@ -44,7 +44,7 @@ struct Hasher{
     Hasher() {}
 
     template <typename T>
-    Hasher(const vector <T>& ar){
+    Hasher(const vector<T>& ar){
         if (!base_pow[0]) init();
 
         int n = ar.size();
@@ -63,7 +63,7 @@ struct Hasher{
     }
 
     Hasher(const char* str)
-        : Hasher(vector <char>(str, str + strlen(str))) {}
+        : Hasher(vector<char> (str, str + strlen(str))) {}
 
     uint64_t get_hash(int l, int r){
         int64_t h = pref[r + 1] - modmul(base_pow[r - l + 1], pref[l]);
