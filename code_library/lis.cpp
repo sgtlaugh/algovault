@@ -37,8 +37,8 @@ vector <int> lis_vector(const vector <T>& ar, bool allow_equal=false){
 template <typename T>
 vector <int> lds_vector(const vector <T>& ar, bool allow_equal=true){
     int n = ar.size();
-    vector <T> pos;
 
+    vector <T> pos;
     for (int i = 0; i < n; i++) pos.push_back(ar[i]);
     sort(pos.begin(), pos.end());
 
@@ -47,7 +47,6 @@ vector <int> lds_vector(const vector <T>& ar, bool allow_equal=true){
 
     vector <int> inv(n);
     for (int i = 0; i < n; i++) inv[i] = mp[ar[i]];
-
     return lis_vector(inv, allow_equal);
 }
 
