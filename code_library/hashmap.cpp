@@ -2,9 +2,12 @@
  * Simple open addressing hash table with linear probing
  * Every operation is O(1) with very light constant factor
  *
- * Uses SM Hash for choosing the buckets randomly
+ * Uses a variation SM Hash for choosing the buckets randomly
+ * Otherwise it'd be easy to generate counter cases leading to O(n) per operation
  * Need to specify the maximum number of entries to be inserted on construction
  * This is because of better performance as keys are not redistributed
+ *
+ * For maximal performance, declare once and clear for re-use
  *
  * Default values for keys is 0, like STL map
  *
@@ -17,62 +20,28 @@ using namespace std;
 template <typename TKey, typename TValue>
 class HashMap{
     private:
+        const uint64_t seed = chrono::system_clock::now().time_since_epoch().count();
+
+        uint64_t rnd = mt19937_64(seed)();
+        const uint64_t salt = (rnd & 1) ? rnd : rnd--;
+
         int cur_id, _size, hash_mod;
 
-        vector <int> id;
-        vector <TKey> keys;
-        vector <TValue> values;
-
-        bool is_prime(int n){
-            if (n <= 1) return false;
-            for (int i = 2; i * i <= n; i++){
-                if (n % i == 0) return false;
-            }
-            return true;
-        }
-
-        int next_prime(int n){
-            while (!is_prime(++n)) {}
-            return n;
-        }
-
-        inline unsigned long long sm_hash(unsigned long long h){
-            h ^= h >> 33;
-            h *= 0xff51afd7ed558ccd;
-            h ^= h >> 33;
-            h *= 0xc4ceb9fe1a85ec53;
-            h ^= h >> 33;
-
-            return h;
-        }
+        vector<int> id;
+        vector<TKey> keys;
+        vector<TValue> values;
 
         inline int get_pos(TKey x){
-            int i = sm_hash(x) % hash_mod;
+            int i = ((x ^ (x >> 33)) * salt) & hash_mod;
             while (id[i] == cur_id && keys[i] != x) i++;
             return i;
         }
 
-        void update(TKey x, TValue v, bool replace=false){
-            int i = get_pos(x);
-
-            if (id[i] == cur_id){
-                if (replace) values[i] = 0;
-                values[i] += v;
-                return;
-            }
-
-            keys[i] = x, values[i] = v, id[i] = cur_id;
-            _size++;
-        }
-
     public:
         HashMap(int max_len){
-            max_len = max(max_len, 16);
-            mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-
-            int buffer = sqrt(max_len);
-            int salt = rng() % (max_len / 2);
-            hash_mod = next_prime(2.5 * max_len - salt);
+            int buffer = 4 * sqrt(max_len);
+            int max_bits = 32 - __builtin_clz(max_len);
+            hash_mod = (1 << (max_bits + 1)) - 1;
 
             _size = 0, cur_id = 1;
             id.resize(hash_mod + buffer, 0);
@@ -81,11 +50,25 @@ class HashMap{
         }
 
         void set(TKey x, TValue v){
-            update(x, v, true);
+            int i = get_pos(x);
+            if (id[i] == cur_id){
+                values[i] = v;
+                return;
+            }
+
+            keys[i] = x, values[i] = v, id[i] = cur_id;
+            _size++;
         }
 
         void add(TKey x, TValue v){
-            update(x, v, false);
+            int i = get_pos(x);
+            if (id[i] == cur_id){
+                values[i] += v;
+                return;
+            }
+
+            keys[i] = x, values[i] = v, id[i] = cur_id;
+            _size++;
         }
 
         TValue get(TKey x){
@@ -115,7 +98,6 @@ class HashMap{
         int size(){
             return _size;
         }
-
 };
 
 int main(){
