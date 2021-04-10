@@ -159,12 +159,13 @@ namespace fft{
     }
 
     vector <int> mod_multiply(vector <int>& p1, vector <int>& p2, int mod){
-        int a = 0, b = 0, p_len = -1;
+        int i, j, a = 0, b = 0, p_len = -1;
         for (auto x: p1) A[a++] = x, p_len++;
         for (auto x: p2) B[b++] = x, p_len++;
 
         build(a, A, b, B);
-        for (int i = 0; i < len; i++){
+
+        for (i = 0; i < len; i++){
             A[i] %= mod, B[i] %= mod;
             u[i] = ComplexNum(A[i] & 32767, A[i] >> 15);
             v[i] = ComplexNum(B[i] & 32767, B[i] >> 15);
@@ -173,8 +174,8 @@ namespace fft{
         transform(u, f, dp);
         transform(v, g, dp);
 
-        for (int i = 0; i < len; i++){
-            int j = (len - 1) & (len - i);
+        for (i = 0; i < len; i++){
+            j = (len - 1) & (len - i);
             auto c1 = f[j].conjugate(), c2 = g[j].conjugate();
             auto a1 = (f[i] + c1) * ComplexNum(0.5, 0);
             auto a2 = (f[i] - c1) * ComplexNum(0, -0.5);
@@ -188,7 +189,7 @@ namespace fft{
         transform(v, g, dp);
 
         memset(A, 0, sizeof(A));
-        for (int i = 0; i < len; i++){
+        for (i = 0; i < len; i++){
             long long x = f[i].real + 0.5, y = g[i].real + 0.5, z = f[i].img + 0.5;
             A[i] = (x + ((y % mod) << 15) + ((z % mod) << 30)) % mod;
         }
@@ -220,7 +221,9 @@ struct Polynomial{
     }
 
     inline void shift(int* res, int* P, int n, int k){
-        for (int i = 0; i < n; i++) res[i] = ((long long)P[i] << k) % _POLYNOMIAL_MOD;
+        for (int i = 0; i < n; i++){
+            res[i] = ((long long)P[i] << k) % _POLYNOMIAL_MOD;
+        }
     }
 
     inline void reverse_poly(int* res, int* P, int n){
@@ -296,7 +299,9 @@ struct Polynomial{
 
         Polynomial P_res;
         P_res.multiply(P_res, P1, P2);
-        for (int i = 0; i < (int)P_res.coefficient.size(); i++) res[i] = P_res.coefficient[i];
+        for (int i = 0; i < (int)P_res.coefficient.size(); i++){
+            res[i] = P_res.coefficient[i];
+        }
     }
 
     void inverse_power_series(int* res, int res_n, int* P, int pn){
@@ -490,7 +495,7 @@ struct LinearRecurrence{
             if (d == 0) m++;
             else{
                 if (l * 2 <= i) T = C, T.resize(l + 1);
-                x = ((b * (mod - d)) % mod + mod) % mod;
+                x = (b * (mod - d) % mod + mod) % mod;
 
                 for (j = 0, m++; j <= deg; j++){
                     C[m + j - 1] = (C[m + j - 1] + x * B[j]) % mod;
