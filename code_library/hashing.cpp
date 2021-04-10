@@ -17,7 +17,7 @@ using namespace std;
 constexpr uint64_t mod = (1ULL << 61) - 1;
 
 const uint64_t seed = chrono::system_clock::now().time_since_epoch().count();
-const uint64_t base = mt19937_64(seed)() % mod + 1729;
+const uint64_t base = mt19937_64(seed)() % (mod / 3) + (mod / 3);
 
 int64_t base_pow[MAXLEN];
 
