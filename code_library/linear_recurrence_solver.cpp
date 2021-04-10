@@ -82,7 +82,8 @@ namespace nt{
 }
 
 namespace fft{
-    int len, step = 0, last = -1, A[MAX], B[MAX], rev[MAX];
+    bool initialized = false;
+    int len, last = 0, A[MAX], B[MAX], rev[MAX];
 
     struct ComplexNum{
         double real, img;
@@ -106,40 +107,49 @@ namespace fft{
         }
     } u[MAX], v[MAX], f[MAX], g[MAX], dp[MAX];
 
+    void initialize(){
+        if (initialized) return;
+
+        int i, j, lim;
+        initialized = true, dp[1] = ComplexNum(1);
+
+        for (i = 1; (1 << i) < MAX; i++){
+            double theta = (2.0 * acos(0.0)) / (1 << i);
+            auto mul = ComplexNum(cos(theta), sin(theta));
+            for (lim = 1 << i, j = lim >> 1; j < lim; j++){
+                dp[2 * j] = dp[j];
+                dp[2 * j + 1] = dp[j] * mul;
+            }
+        }
+    }
+
     void build(int& a, int* A, int& b, int* B){
         while (a > 1 && A[a - 1] == 0) a--;
         while (b > 1 && B[b - 1] == 0) b--;
 
+        int i, nbits;
         len = 1 << (32 - __builtin_clz(a + b) - (__builtin_popcount(a + b) == 1));
-        for (int i = a; i < len; i++) A[i] = 0;
-        for (int i = b; i < len; i++) B[i] = 0;
-
-        if (!step++){
-            dp[1] = ComplexNum(1);
-            for (int i = 1; (1 << i) < MAX; i++){
-                double theta = (2.0 * acos(0.0)) / (1 << i);
-                auto mul = ComplexNum(cos(theta), sin(theta));
-
-                int lim = 1 << i;
-                for (int j = lim >> 1; j < lim; j++){
-                    dp[2 * j] = dp[j];
-                    dp[2 * j + 1] = dp[j] * mul;
-                }
-            }
-        }
+        for (i = a; i < len; i++) A[i] = 0;
+        for (i = b; i < len; i++) B[i] = 0;
+        initialize();
 
         if (last != len){
             last = len;
-            int bit = (32 - __builtin_clz(len) - (__builtin_popcount(len) == 1));
-            for (int i = 0; i < len; i++) rev[i] = (rev[i >> 1] >> 1) + ((i & 1) << (bit - 1));
+            nbits = (32 - __builtin_clz(len) - (__builtin_popcount(len) == 1));
+
+            for (i = 0; i < len; i++){
+                rev[i] = (rev[i >> 1] >> 1) + ((i & 1) << (nbits - 1));
+            }
         }
     }
 
     void transform(ComplexNum *in, ComplexNum *out, ComplexNum* ar){
-        for (int i = 0; i < len; i++) out[i] = in[rev[i]];
-        for (int k = 1; k < len; k <<= 1){
-            for (int i = 0; i < len; i += (k << 1)){
-                for (int j = 0; j < k; j++){
+        int i, j, k;
+        for (i = 0; i < len; i++) out[i] = in[rev[i]];
+
+        for (k = 1; k < len; k <<= 1){
+            for (i = 0; i < len; i += (k << 1)){
+                for (j = 0; j < k; j++){
                     auto z = out[i + j + k] * ar[j + k];
                     out[i + j + k] = out[i + j] - z;
                     out[i + j] = out[i + j] + z;
@@ -197,7 +207,7 @@ struct Polynomial{
         return coefficient.empty() ? 0 : &coefficient[0];
     }
 
-    inline void copy(int* to, int* from, int n){
+    inline void copy_poly(int* to, int* from, int n){
         memcpy(to, from, n * sizeof(int));
     }
 
@@ -206,7 +216,7 @@ struct Polynomial{
             res[i] = P[i] - Q[i];
             if (res[i] < 0) res[i] += _POLYNOMIAL_MOD;
         }
-        copy(res + qn, P + qn, pn - qn);
+        copy_poly(res + qn, P + qn, pn - qn);
     }
 
     inline void shift(int* res, int* P, int n, int k){
@@ -214,10 +224,8 @@ struct Polynomial{
     }
 
     inline void reverse_poly(int* res, int* P, int n){
-        if (&res[0] == &P[0]) reverse(res, res + n);
-        else{
-            for (int i = 0; i < n; i++) res[n - i - 1] = P[i];
-        }
+        if (&res[0] == &P[0]) return reverse(res, res + n);
+        for (int i = 0; i < n; i++) res[n - i - 1] = P[i];
     }
 
     inline int size(){
@@ -324,7 +332,7 @@ struct Polynomial{
 
     void divide_remainder_inverse(int* quot, int* rem, int* P, int pn, int* Q, int qn, int* inv){
         if(pn < qn){
-            copy(rem, P, pn);
+            copy_poly(rem, P, pn);
             for (int i = 0; i < qn - pn - 1; i++) rem[i + pn] = 0;
             return;
         }
