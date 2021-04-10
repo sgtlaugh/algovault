@@ -51,17 +51,20 @@ struct Lagrange{
         return res;
     }
 
-    int interpolate(int x){
+    int interpolate(long long x){
         if (x < n) return terms[x] % mod;
+        x %= mod;
 
         int i, w;
         vector<int> X(n, 1), Y(n, 1);
         for (i = 1; i < n; i++){
             X[i] = (long long)X[i - 1] * (x - i + 1) % mod;
+            if (X[i] < 0) X[i] += mod;
         }
 
         for (i = n - 2; i >= 0; i--){
             Y[i] = (long long)Y[i + 1] * (x - i - 1) % mod;
+            if (Y[i] < 0) Y[i] += mod;
         }
 
         long long res = 0;
@@ -70,7 +73,6 @@ struct Lagrange{
             if ((n - i + 1) & 1) w = mod - w;
             res += w;
         }
-
         return res % mod;
     }
 };
@@ -125,6 +127,7 @@ int main(){
     assert(lagrange.interpolate(5) == 55);
     assert(lagrange.interpolate(6) == 91);
     assert(lagrange.interpolate(1 << 30) == 300663155);
+    assert(lagrange.interpolate(1LL << 60) == 717860166);
 
     assert(find_degree(terms, mod) == 3);
     terms.pop_back();
