@@ -131,6 +131,7 @@ namespace fft{
         len = 1 << (32 - __builtin_clz(a + b) - (__builtin_popcount(a + b) == 1));
         for (i = a; i < len; i++) A[i] = 0;
         for (i = b; i < len; i++) B[i] = 0;
+
         initialize();
 
         if (last != len){
@@ -143,14 +144,14 @@ namespace fft{
         }
     }
 
-    void transform(ComplexNum *in, ComplexNum *out, ComplexNum* ar){
+    void transform(ComplexNum *in, ComplexNum *out){
         int i, j, k;
         for (i = 0; i < len; i++) out[i] = in[rev[i]];
 
         for (k = 1; k < len; k <<= 1){
             for (i = 0; i < len; i += (k << 1)){
                 for (j = 0; j < k; j++){
-                    auto z = out[i + j + k] * ar[j + k];
+                    auto z = out[i + j + k] * dp[j + k];
                     out[i + j + k] = out[i + j] - z;
                     out[i + j] = out[i + j] + z;
                 }
@@ -164,6 +165,8 @@ namespace fft{
         for (auto x: p2) B[b++] = x, p_len++;
 
         build(a, A, b, B);
+        for (i = 0; i < min(a, b) && A[i] == B[i]; i++) {}
+        bool is_equal = (a == b && i == a);
 
         for (i = 0; i < len; i++){
             A[i] %= mod, B[i] %= mod;
@@ -171,8 +174,9 @@ namespace fft{
             v[i] = ComplexNum(B[i] & 32767, B[i] >> 15);
         }
 
-        transform(u, f, dp);
-        transform(v, g, dp);
+        transform(u, f);
+        for (int i = 0; i < len; i++) g[i] = f[i];
+        if (!is_equal) transform(v, g);
 
         for (i = 0; i < len; i++){
             j = (len - 1) & (len - i);
@@ -185,8 +189,8 @@ namespace fft{
             u[j] = a1 * b1 + a2 * b2 * ComplexNum(0, 1);
         }
 
-        transform(u, f, dp);
-        transform(v, g, dp);
+        transform(u, f);
+        transform(v, g);
 
         memset(A, 0, sizeof(A));
         for (i = 0; i < len; i++){
