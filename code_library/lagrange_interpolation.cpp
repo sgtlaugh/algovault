@@ -119,16 +119,16 @@ int main(){
 
     /// Sum of first x squares, f(x) = 1^2 + 2^2 + ... + x^2
     /// Polynomial is f(x) = (2x^3 + 3x^2 + x) / 6, a cubic polynomial of degree 3
-    vector <int> seq = vector<int> {0, 1, 5, 14, 30};
+    vector <int> terms = vector<int> {0, 1, 5, 14, 30};
 
-    auto lagrange = Lagrange(seq, mod);
+    auto lagrange = Lagrange(terms, mod);
     assert(lagrange.interpolate(5) == 55);
     assert(lagrange.interpolate(6) == 91);
     assert(lagrange.interpolate(1 << 30) == 300663155);
 
-    assert(find_degree(seq, mod) == 3);
-    seq.pop_back();
-    assert(find_degree(seq, mod) == -1);
+    assert(find_degree(terms, mod) == 3);
+    terms.pop_back();
+    assert(find_degree(terms, mod) == -1);
 
     return 0;
 }
