@@ -38,14 +38,14 @@ void init(){
     }
 }
 
-struct Hasher{
+struct PolyHash{
     /// Remove suff vector and usage if reverse hash is not required for more speed
     vector<int64_t> pref, suff;
 
-    Hasher() {}
+    PolyHash() {}
 
     template <typename T>
-    Hasher(const vector<T>& ar){
+    PolyHash(const vector<T>& ar){
         if (!base_pow[0]) init();
 
         int n = ar.size();
@@ -63,8 +63,8 @@ struct Hasher{
         }
     }
 
-    Hasher(const char* str)
-        : Hasher(vector<char> (str, str + strlen(str))) {}
+    PolyHash(const char* str)
+        : PolyHash(vector<char> (str, str + strlen(str))) {}
 
     uint64_t get_hash(int l, int r){
         int64_t h = pref[r + 1] - modmul(base_pow[r - l + 1], pref[l]);
@@ -78,7 +78,7 @@ struct Hasher{
 };
 
 int main(){
-    Hasher H = Hasher("racecar");
+    PolyHash H = PolyHash("racecar");
 
     assert(H.get_hash(0, 6) == H.rev_hash(0, 6));
     assert(H.get_hash(1, 5) != H.rev_hash(0, 4));
@@ -86,7 +86,7 @@ int main(){
     assert(H.get_hash(1, 1) != H.rev_hash(5, 6));
     assert(H.get_hash(2, 4) == H.rev_hash(2, 4));
 
-    H = Hasher(vector<int> {1, 2, 3, 2, 1});
+    H = PolyHash(vector<int> {1, 2, 3, 2, 1});
     assert(H.get_hash(0, 4) == H.rev_hash(0, 4));
     return 0;
 }
