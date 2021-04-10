@@ -104,7 +104,7 @@ namespace fft{
         inline ComplexNum operator * (ComplexNum other){
             return ComplexNum((real * other.real) - (img * other.img), (real * other.img) + (img * other.real));
         }
-    } u[MAX], v[MAX], f[MAX], g[MAX], dp[MAX], inv[MAX];
+    } u[MAX], v[MAX], f[MAX], g[MAX], dp[MAX];
 
     void build(int& a, int* A, int& b, int* B){
         while (a > 1 && A[a - 1] == 0) a--;
@@ -115,16 +115,14 @@ namespace fft{
         for (int i = b; i < len; i++) B[i] = 0;
 
         if (!step++){
-            dp[1] = inv[1] = ComplexNum(1);
+            dp[1] = ComplexNum(1);
             for (int i = 1; (1 << i) < MAX; i++){
                 double theta = (2.0 * acos(0.0)) / (1 << i);
                 auto mul = ComplexNum(cos(theta), sin(theta));
-                auto inv_mul = ComplexNum(cos(-theta), sin(-theta));
 
                 int lim = 1 << i;
                 for (int j = lim >> 1; j < lim; j++){
-                    dp[2 * j] = dp[j], inv[2 * j] = inv[j];
-                    inv[2 * j + 1] = inv[j] * inv_mul;
+                    dp[2 * j] = dp[j];
                     dp[2 * j + 1] = dp[j] * mul;
                 }
             }
