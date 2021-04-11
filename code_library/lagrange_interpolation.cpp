@@ -9,6 +9,8 @@
  * Also includes an additional helper function called find_degree(terms, mod)
  * Given at least the first d+2 points of a polynomial of degree d, it finds d in roughly O(n log d)
  *
+ * Note, n should not exceed mod due to the way modular inverse is used
+ * In such cases, we can use interpolation without modulo in big integers and take the remainder later
  *
 ***/
 
@@ -23,6 +25,7 @@ struct Lagrange{
     Lagrange() {}
     Lagrange(const vector<int>& terms, int mod) : terms(terms), mod(mod){
         n = terms.size();
+        assert(n <= mod);
 
         int i, v, f;
         for (f = 1, i = 1; i < n; i++) f = (long long)f * i % mod;
