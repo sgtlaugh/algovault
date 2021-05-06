@@ -28,11 +28,11 @@ struct DisjointST{
     vector <T> dp[32];
     vector <int> log_2;
 
-    /// defined for xor by default, change as required
+    /// defined for sum by default, change as required
     /// only changing this function and using an appropriate identity element should suffice for all cases
 
     T combine(const T& x, const T& y){
-        return x ^ y;
+        return x + y;
     }
 
     /// basically combine(x, identity_elem) = x for all x
@@ -61,7 +61,6 @@ struct DisjointST{
     }
 
     T query(int l, int r){
-        assert(l <= r);
         int h = log_2[l ^ (r + 1)];
         return combine(dp[h][l], dp[h][r + 1]);
     }
@@ -72,12 +71,12 @@ int main(){
     auto rmq = DisjointST<int>(v, 0);
 
     assert(rmq.query(0, 0) == 5);
-    assert(rmq.query(0, 2) == 2);
-    assert(rmq.query(1, 4) == 13);
-    assert(rmq.query(3, 5) == 14);
-    assert(rmq.query(4, 7) == 72);
-    assert(rmq.query(2, 6) == 6);
-    assert(rmq.query(1, 8) == 85);
+    assert(rmq.query(0, 2) == 12);
+    assert(rmq.query(1, 4) == 27);
+    assert(rmq.query(3, 5) == 24);
+    assert(rmq.query(4, 7) == 86);
+    assert(rmq.query(2, 6) == 34);
+    assert(rmq.query(1, 8) == 129);
 
     v.clear();
     mt19937 rng(0);
@@ -90,5 +89,6 @@ int main(){
     clock_t start = clock();
     rmq = DisjointST<int>(v, 0);
     fprintf(stderr, "\nTime taken to build = %0.6f\n", (clock() - start) / (double)CLOCKS_PER_SEC);  /// Took 0.105 s locally
+
     return 0;
 }
