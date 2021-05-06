@@ -40,8 +40,7 @@ struct DisjointST{
     }
 
     DisjointST(const vector<T> &ar, const T& identity_elem){
-        int i, c, h, l, n, m;
-        n = (int)ar.size(), m = 2 * n + 1;
+        int i, c, h, l, n = (int)ar.size();
 
         for (h = 0; h <= __lg(n); h++){
             dp[h].resize(n + 1, identity_elem);
