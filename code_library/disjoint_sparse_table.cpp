@@ -26,7 +26,6 @@ using namespace std;
 template <typename T>
 struct DisjointST{
     vector <T> dp[32];
-    vector <int> log_2;
 
     /// defined for sum by default, change as required
     /// only changing this function and using an appropriate identity element should suffice for all cases
@@ -42,10 +41,7 @@ struct DisjointST{
         int i, c, h, l, n, m;
         n = (int)ar.size(), m = 2 * n + 1;
 
-        log_2.resize(m, 0);
-        for (i = 2; i < m; i++) log_2[i] = log_2[i >> 1] + 1;
-
-        for (h = 0; h <= log_2[n]; h++){
+        for (h = 0; h <= __lg(n); h++){
             dp[h].resize(n + 1, identity_elem);
 
             for (c = l = 1 << h; c < n + l; c += (l << 1)){
@@ -61,7 +57,7 @@ struct DisjointST{
     }
 
     T query(int l, int r){
-        int h = log_2[l ^ (r + 1)];
+        int h = __lg(l ^ (r + 1));
         return combine(dp[h][l], dp[h][r + 1]);
     }
 };
