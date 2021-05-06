@@ -13,6 +13,10 @@
  * O(n log n) to build
  * O(1) to query
  *
+ * Note, we can still do this in O(log n) using regular sparse tables
+ * And then there are sqrt trees...
+ * Disjoint sparse tables should be rarely useful in CP, nonetheless they are quite cool
+ *
 ***/
 
 #include <bits/stdc++.h>
