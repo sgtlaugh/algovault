@@ -6,7 +6,9 @@
  * Some examples are finding minimum or maximum
  *
  * Disjoint Sparse Table can answer RMQ on a static array in O(1), even when they are not idempotent
- * Examples are sum, xor, product, etc (yes we can just use prefix sum for sum or prefix xor for xor)
+ * The operation needs to be associative
+ * Examples are sum, xor, product, matrix multiplication, etc
+ * For sum or xor, we can just keep a cumulative array but for many operations like the product, disjoint sparse tables can be useful
  * Further reading - https://codeforces.com/blog/entry/87940
  *
  * Time and space complexity is the same as in regular sparse table
@@ -16,6 +18,11 @@
  * Note, we can still do this in O(log n) using regular sparse tables
  * And then there are sqrt trees...
  * Disjoint sparse tables should be rarely useful in CP, nonetheless they are quite cool
+ *
+ * To use, update the combine function and use an appropriate identity element
+ * An identity element is any element which leaves any element unchanged when combined with it
+ * Or in other words, i is an identity element if combine(i, x) = x for all x
+ * It is 0 for xor, 1 for product, -infinity for maximum and so on
  *
 ***/
 
@@ -28,14 +35,9 @@ struct DisjointST{
     vector <T> dp[32];
 
     /// defined for sum by default, change as required
-    /// only changing this function and using an appropriate identity element should suffice for all cases
-
     T combine(const T& x, const T& y){
         return x + y;
     }
-
-    /// basically combine(x, identity_elem) = x for all x
-    /// it is 0 for xor, 1 for product, -infinity for maximum and so on
 
     DisjointST(const vector<T> &ar, const T& identity_elem){
         int i, c, h, l, n, m;
