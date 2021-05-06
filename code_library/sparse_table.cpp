@@ -34,12 +34,12 @@ struct SparseTable{
         int i, j, l, h, n = (int)ar.size();
 
         dp[0] = ar;
-		for (h = 1, l = 2; l <= n; h++, l <<= 1){
-			dp[h].resize(n);
-			for (i = 0, j = i + (l / 2); (i + l) <= n; i++, j++){
-				dp[h][i] = combine(dp[h - 1][i], dp[h - 1][j]);
-			}
-		}
+        for (h = 1, l = 2; l <= n; h++, l <<= 1){
+            dp[h].resize(n);
+            for (i = 0, j = i + (l / 2); (i + l) <= n; i++, j++){
+                dp[h][i] = combine(dp[h - 1][i], dp[h - 1][j]);
+            }
+        }
     }
 
     T query(int l, int r){
