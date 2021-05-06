@@ -21,7 +21,6 @@ const uint64_t base = mt19937_64(seed)() % (mod / 3) + (mod / 3);
 
 int64_t base_pow[MAXLEN];
 
-/// Is not generic for any modulo
 uint64_t modmul(uint64_t a, uint64_t b){
     uint64_t l1 = (uint32_t)a, h1 = a >> 32, l2 = (uint32_t)b, h2 = b >> 32;
     uint64_t l = l1 * l2, m = l1 * h2 + l2 * h1, h = h1 * h2;
