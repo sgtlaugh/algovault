@@ -1,9 +1,9 @@
 /***
  *
  * Sparse Table For RMQ on a static array
- * Idempotency is necessary for the regular sparse table
+ * Idempotency is necessary for the regular sparse table and it should be an associative operation
  * Because we answer queries in O(1) allowing partial overlaps which doesn't change the result
- * Some examples are finding minimum or maximum, we cannot find sum/xor/product in this way
+ * Some examples are finding minimum or maximum, we cannot find sum or xor or product in this way
  *
  * Check out the disjoint sparse table for those situations
  * https://github.com/sgtlaugh/algovault/blob/master/code_library/disjoint_sparse_table.cpp
