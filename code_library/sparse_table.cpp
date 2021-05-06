@@ -1,5 +1,5 @@
 /***
-
+ *
  * Sparse Table For RMQ on a static array
  * Idempotency is necessary for the regular sparse table
  * Because we answer queries in O(1) allowing partial overlaps which doesn't change the result
@@ -14,7 +14,7 @@
  * Time and space complexity:
    * O(n log n) to build
    * O(1) to query
-
+ *
 ***/
 
 #include <bits/stdc++.h>
