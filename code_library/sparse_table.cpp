@@ -4,7 +4,7 @@
  * Idempotency is necessary for the regular sparse table
  * Because we answer queries in O(1) allowing partial overlaps which doesn't change the result
  * Some examples are finding minimum or maximum, we cannot find sum/xor/product in this way
- * 
+ *
  * Check out the disjoint sparse table for those situations
  * https://github.com/sgtlaugh/algovault/blob/master/code_library/disjoint_sparse_table.cpp
  *
@@ -24,7 +24,6 @@ using namespace std;
 template <typename T>
 struct SparseTable{
     vector <T> dp[32];
-    vector <int> log_2;
 
     /// defined for min by default, change as required
     T combine(const T& x, const T& y){
@@ -34,9 +33,6 @@ struct SparseTable{
     SparseTable(const vector<T> &ar){
         int i, j, l, h, n = (int)ar.size();
 
-        log_2.resize(n, 0);
-        for (i = 2; i < n; i++) log_2[i] = log_2[i >> 1] + 1;
-        
         dp[0] = ar;
 		for (h = 1, l = 2; l <= n; h++, l <<= 1){
 			dp[h].resize(n);
@@ -47,8 +43,7 @@ struct SparseTable{
     }
 
     T query(int l, int r){
-        assert(l <= r);
-        int h = log_2[r - l];
+        int h = __lg(r - l);
         return combine(dp[h][l], dp[h][r - (1 << h) + 1]);
     }
 };
