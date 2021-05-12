@@ -44,8 +44,8 @@ namespace fio{
         #define __int128 long long
     #endif
 
-	/// Because is_integral is not true for __in128 in all C++ modes
-	template <typename> struct is_integral_128: std::false_type {};
+    /// Because is_integral is not true for __in128 in all C++ modes
+    template <typename> struct is_integral_128: std::false_type {};
     template <> struct is_integral_128<__int128>: std::true_type {};
 
     const int BUF_SIZE = 8192;
