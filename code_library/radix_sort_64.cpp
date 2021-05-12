@@ -5,8 +5,10 @@
  *
  * Overall complexity: O(8 * n) ~ O(n)
  *
- * Most useful in scenarios where you want to sort a large list of items fast, usually in sub-optimal solutions
- * Can be generalized with templates and vectors but that usually makes it 2-3 x slower
+ * Most useful in scenarios where you want to sort a large list of items fast
+ * Why not make radix_sort (https://github.com/sgtlaugh/algovault/blob/master/code_library/radix_sort.cpp) generic?
+ * Because you want to use radix sort instead of std::sort when speed is important (think squeezing sub-optimal solutions into TL)
+ * And making it generic is usally also making it slower
  *
 ***/
 
