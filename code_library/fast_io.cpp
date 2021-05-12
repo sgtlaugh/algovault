@@ -168,10 +168,8 @@ namespace fio{
 
     template <typename T, typename ...Args>
     void write(const T x, const Args ...args){
-        const bool is_vector = !is_trivial<T>::value;
-
         write_one(x);
-        write_char(is_vector || !sizeof...(args) ? '\n' : ' ');
+        write_char(sizeof...(args) && is_trivial<T>::value ? ' ' : '\n');
         write(args...);
     }
 }
@@ -180,7 +178,7 @@ int main(){
     /// SPOJ Enormous Input and Output Test (https://www.spoj.com/problems/INOUTEST/)
 
     using namespace fio;
-    __int128 n, a, b; /// int suffices, just for test
+    __int128 n, a, b; /// just for testing __int128, using int suffices
 
     read(n);
     while (n--){
