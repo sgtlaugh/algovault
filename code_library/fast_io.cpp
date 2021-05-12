@@ -11,14 +11,14 @@
  *
  * Similarly, write() can take multiple arguments, which can be string or integral
  * The write functions prints them separated by a single space, ending with a newline
- * 
+ *
  * The write function also works for vectors just like read
  * Vector elements are separated by a single space and ends with a newline
- * 
+ *
  * If multiple vector arguments are passed however, write will print them on separate lines
  * In other words we can do write(v1, v2, v3) and they will be printed on separate lines
  * It is discouraged to mix vectors with other types in the same write call because of formatting difference
- * 
+ *
  * Don't forget to flush the buffer at the end after writing
  *
  * Example usage - Read four numbers till EOF and print their sum
@@ -39,8 +39,13 @@
 using namespace std;
 
 namespace fio{
+    /// Just to get by in case __int128 is not supported
+    #ifndef __SIZEOF_INT128__
+        #define __int128 long long
+    #endif
+
 	/// Because is_integral is not true for __in128 in all C++ modes
-    template <typename> struct is_integral_128: std::false_type {};
+	template <typename> struct is_integral_128: std::false_type {};
     template <> struct is_integral_128<__int128>: std::true_type {};
 
     const int BUF_SIZE = 8192;
@@ -118,7 +123,7 @@ namespace fio{
         if (!read_one(x)) return 0;
         return read(args...) + 1;
     }
-    
+
     /* End of read methods, write methods start below */
 
     void flush(){
@@ -130,7 +135,7 @@ namespace fio{
         if (outptr == BUF_SIZE) flush();
         outbuf[outptr++] = c;
     }
-    
+
     void write_one(const char* s){
         for (int j = 0; s[j]; j++) write_char(s[j]);
     }
@@ -173,8 +178,9 @@ namespace fio{
 
 int main(){
     /// SPOJ Enormous Input and Output Test (https://www.spoj.com/problems/INOUTEST/)
+
     using namespace fio;
-    int n, a, b;
+    __int128 n, a, b; /// int suffices, just for test
 
     read(n);
     while (n--){
