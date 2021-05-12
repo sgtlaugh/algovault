@@ -45,16 +45,16 @@ namespace fio{
 
     const int BUF_SIZE = 8192;
 
-    int len = 0, inptr = 0, outptr = 0;
-    char in[BUF_SIZE], out[BUF_SIZE], tmpbuf[128];
+    int buf_len = 0, inptr = 0, outptr = 0;
+    char inbuf[BUF_SIZE], outbuf[BUF_SIZE], tmpbuf[128];
 
     char read_char(){
-        if (inptr >= len){
-            inptr = 0, len = fread(in, 1, BUF_SIZE, stdin);
-            if (len == 0) return EOF;
+        if (inptr >= buf_len){
+            inptr = 0, buf_len = fread(inbuf, 1, BUF_SIZE, stdin);
+            if (buf_len == 0) return EOF;
         }
 
-        return in[inptr++];
+        return inbuf[inptr++];
     }
 
     template <typename T, typename=typename enable_if<is_integral<T>::value || is_integral_128<T>::value, T>::type>
@@ -122,13 +122,13 @@ namespace fio{
     /* End of read methods, write methods start below */
 
     void flush(){
-        fwrite(out, 1, outptr, stdout);
+        fwrite(outbuf, 1, outptr, stdout);
         outptr = 0;
     }
 
     void write_char(const char& c){
         if (outptr == BUF_SIZE) flush();
-        out[outptr++] = c;
+        outbuf[outptr++] = c;
     }
     
     void write_one(const char* s){
