@@ -31,7 +31,7 @@
 
 using namespace std;
 
-namespace fstio{
+namespace fio{
     const int BUF_SIZE = 8192;
 
     int len = 0, inptr = 0, outptr = 0;
@@ -155,9 +155,7 @@ namespace fstio{
 
 int main(){
     /// SPOJ Enormous Input and Output Test (https://www.spoj.com/problems/INOUTEST/)
-
-    using namespace fstio;
-
+    using namespace fio;
     int n, a, b;
 
     read(n);
