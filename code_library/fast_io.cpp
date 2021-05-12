@@ -2,26 +2,33 @@
  *
  * Fast i/o with fread and fwrite
  *
- * read() can take multiple arguments and returns the number of objects read
- * read() works for strings or any integral types (int, long long, etc)
- * read() also works for vector, but the type has to be string or integral
+ * Function read() can take multiple arguments and returns the number of objects read
+ * Works for strings or any integral types (int, long long, __int128 etc)
+ * Also works for vector, but the type has to be string or integral
  *
- * read_line() reads one line at a time, it does not skip empty lines
+ * Function read_line() reads one line at a time
+ * It does not skip empty lines
  *
- * Similarly, write() can take multiple arguments, arguments can be string or integral
+ * Similarly, write() can take multiple arguments, which can be string or integral
  * The write functions prints them separated by a single space, ending with a newline
- * Write also works for vectors just like read
+ * 
+ * The write function also works for vectors just like read
  * Vector elements are separated by a single space and ends with a newline
- *
+ * 
+ * If multiple vector arguments are passed however, write will print them on separate lines
+ * In other words we can do write(v1, v2, v3) and they will be printed on separate lines
+ * It is discouraged to mix vectors with other types in the same write call because of formatting difference
+ * 
  * Don't forget to flush the buffer at the end after writing
  *
- * Example usage - Read three numbers till EOF and print their sum
+ * Example usage - Read four numbers till EOF and print their sum
  *
  * int a, c;
  * long long b;
+ * __int128 d;
  *
- * while (read(a, b, c)){
- *     write(a + b + c);
+ * while (read(a, b, c, d)){
+ *     write(a + b + c + d);
  * }
  * flush();
  *
@@ -32,10 +39,14 @@
 using namespace std;
 
 namespace fio{
+	/// Because is_integral is not true for __in128 in all C++ modes
+    template <typename> struct is_integral_128: std::false_type {};
+    template <> struct is_integral_128<__int128>: std::true_type {};
+
     const int BUF_SIZE = 8192;
 
     int len = 0, inptr = 0, outptr = 0;
-    char in[BUF_SIZE], out[BUF_SIZE], tmp[128];
+    char in[BUF_SIZE], out[BUF_SIZE], tmpbuf[128];
 
     char read_char(){
         if (inptr >= len){
@@ -46,7 +57,7 @@ namespace fio{
         return in[inptr++];
     }
 
-    template <typename T, typename=typename enable_if<is_integral<T>::value, T>::type>
+    template <typename T, typename=typename enable_if<is_integral<T>::value || is_integral_128<T>::value, T>::type>
     bool read_one(T &x){
         int c = ' ', neg = 0;
         while (c != '-' && !isdigit(c) && c != EOF) c = read_char();
@@ -107,6 +118,8 @@ namespace fio{
         if (!read_one(x)) return 0;
         return read(args...) + 1;
     }
+    
+    /* End of read methods, write methods start below */
 
     void flush(){
         fwrite(out, 1, outptr, stdout);
@@ -116,6 +129,10 @@ namespace fio{
     void write_char(const char& c){
         if (outptr == BUF_SIZE) flush();
         out[outptr++] = c;
+    }
+    
+    void write_one(const char* s){
+        for (int j = 0; s[j]; j++) write_char(s[j]);
     }
 
     void write_one(const string& s){
@@ -128,27 +145,28 @@ namespace fio{
 
         int l = 0;
         while (x || !l){
-            tmp[l++] = (x % 10) + '0';
+            tmpbuf[l++] = (x % 10) + '0';
             x /= 10;
         }
-        while (l) write_char(tmp[--l]);
+        while (l) write_char(tmpbuf[--l]);
     }
 
     template <typename T>
-    void write_one(const vector<T>& v, char delimiter=' ', char last_char=0){
+    void write_one(const vector<T>& v){
         for (int i = 0; i < (int)v.size(); i++){
-            if (i) write_char(delimiter);
+            if (i) write_char(' ');
             write_one(v[i]);
         }
-        if (last_char) write_char(last_char);
     }
 
     void write(){}
 
     template <typename T, typename ...Args>
     void write(const T x, const Args ...args){
+        const bool is_vector = !is_trivial<T>::value;
+
         write_one(x);
-        write_char(sizeof...(args) ? ' ' : '\n');
+        write_char(is_vector || !sizeof...(args) ? '\n' : ' ');
         write(args...);
     }
 }
