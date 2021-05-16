@@ -30,6 +30,7 @@
  * while (read(a, b, c, d)){
  *     write(a + b + c + d);
  * }
+ *
  * flush();
  *
 ***/
@@ -39,15 +40,6 @@
 using namespace std;
 
 namespace fio{
-    /// Just to get by in case __int128 is not supported
-    #ifndef __SIZEOF_INT128__
-        #define __int128 long long
-    #endif
-
-    /// Because is_integral is not true for __in128 in all C++ modes
-    template <typename> struct is_integral_128: std::false_type {};
-    template <> struct is_integral_128<__int128>: std::true_type {};
-
     const int BUF_SIZE = 8192;
 
     int buf_len = 0, inptr = 0, outptr = 0;
@@ -62,7 +54,7 @@ namespace fio{
         return inbuf[inptr++];
     }
 
-    template <typename T, typename=typename enable_if<is_integral<T>::value || is_integral_128<T>::value, T>::type>
+    template <typename T>
     bool read_one(T &x){
         int c = ' ', neg = 0;
         while (c != '-' && !isdigit(c) && c != EOF) c = read_char();
@@ -178,7 +170,7 @@ int main(){
     /// SPOJ Enormous Input and Output Test (https://www.spoj.com/problems/INOUTEST/)
 
     using namespace fio;
-    __int128 n, a, b; /// just for testing __int128, using int suffices
+    int n, a, b;
 
     read(n);
     while (n--){
