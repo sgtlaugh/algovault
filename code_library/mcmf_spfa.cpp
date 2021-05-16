@@ -37,7 +37,7 @@ struct FlowGraph{
     void add_edge(int u, int v, T c, T w, bool directed=true){
         nxt[++id] = head[u], to[id] = v, head[u] = id, cap[id] = c, cost[id] = w, flow[id] = 0;
         nxt[++id] = head[v], to[id] = u, head[v] = id, cap[id] = 0, cost[id] = -w, flow[id] = 0;
-        if (!directed) add_edge(v, u, v, w, false);
+        if (!directed) add_edge(v, u, v, w, true);
     }
 
     bool spfa(int src, int sink){
