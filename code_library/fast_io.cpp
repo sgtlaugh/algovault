@@ -45,7 +45,7 @@ namespace fio{
     int buf_len = 0, inptr = 0, outptr = 0;
     char inbuf[BUF_SIZE], outbuf[BUF_SIZE], tmpbuf[128];
 
-    char read_char(){
+    inline char read_char(){
         if (inptr >= buf_len){
             inptr = 0, buf_len = fread(inbuf, 1, BUF_SIZE, stdin);
             if (buf_len == 0) return EOF;
@@ -123,7 +123,7 @@ namespace fio{
         outptr = 0;
     }
 
-    void write_char(const char& c){
+    inline void write_char(const char& c){
         if (outptr == BUF_SIZE) flush();
         outbuf[outptr++] = c;
     }
