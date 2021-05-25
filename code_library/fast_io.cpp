@@ -39,6 +39,13 @@
 
 using namespace std;
 
+/// Because is_integral is not always true for __int128
+#ifdef __SIZEOF_INT128__
+    namespace std {
+		template<> struct is_integral<__int128_t>: true_type {};
+	}
+#endif
+
 namespace fio{
     const int BUF_SIZE = 8192;
 
@@ -54,7 +61,7 @@ namespace fio{
         return inbuf[inptr++];
     }
 
-    template <typename T>
+    template <typename T, typename=typename enable_if<is_integral<T>::value, T>::type>
     bool read_one(T &x){
         int c = ' ', neg = 0;
         while (c != '-' && !isdigit(c) && c != EOF) c = read_char();
@@ -136,7 +143,7 @@ namespace fio{
         for (auto &&c: s) write_char(c);
     }
 
-    template <typename T>
+    template <typename T, typename=typename enable_if<is_integral<T>::value, T>::type>
     void write_one(T x){
         if (x < 0) x = -x, write_char('-');
 
