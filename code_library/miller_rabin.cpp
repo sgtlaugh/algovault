@@ -1,19 +1,19 @@
 /***
  *
  * Fast primality check with Miller Rabin
- * 
+ *
  * Uses the deterministic variant of Miller Rabin
  * For more details, check https://miller-rabin.appspot.com/
- * 
+ *
  * Complexity: O(25) + O(7 * log n)
- * 
+ *
  * For large random numbers not exceeding 2^63, it can process 2*10^6 numbers in one second
  * For large primes not exceeding 2^63, it can process around 10^5 numbers in one second
  *
  * To gain more speed, check the following resources
  *     i) https://people.ksp.sk/~misof/primes/
  *    ii) https://github.com/wizykowski/miller-rabin/blob/master/sprp64.h
- * 
+ *
  * One hack if we need to gain more speed can be to use only the base 921211727
  * It's not guaranteed to provide correct answer in all cases, but its likely there won't be cases against it
  * Picking random numbers from 1 to 2^31 10^9 times resulted in 600 mismatches with 921211727
@@ -74,21 +74,21 @@ namespace prm{
         return res % m;
     }
 
-	bool is_probable_composite(long long a, long long n, int s){
-		long long x = expo(a, (n - 1) >> s, n);
-		if (x == 1) return false;
+    bool is_probable_composite(long long a, long long n, int s){
+        long long x = expo(a, (n - 1) >> s, n);
+        if (x == 1) return false;
 
-		for (int i = 0; i < s; i++){
-			if (x == (n - 1)) return false;
-			x = fast_modmul(x, x, n);
-		}
-		return true;
-	}
+        for (int i = 0; i < s; i++){
+            if (x == (n - 1)) return false;
+            x = fast_modmul(x, x, n);
+        }
+        return true;
+    }
 
     bool is_prime(long long n){
         if (!flag[2]) sieve();
         if (n < MAXP) return n > 1 && flag[n];
-        
+
         for (auto &&p: SMALL_PRIMES){
             if (n % p == 0) return false;
         }
@@ -104,7 +104,7 @@ namespace prm{
 
 int main(){
     using namespace prm;
-    
+
     const vector<pair<long long, bool>>data ={
         {1, false},
         {2, true},
@@ -122,7 +122,7 @@ int main(){
         {1000000009 * 666666667LL, false},
         {000003 * 474119LL * 699053LL, false},
     };
-    
+
     for (auto p: data){
         assert(is_prime(p.first) == p.second);
     }
