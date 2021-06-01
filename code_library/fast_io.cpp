@@ -42,8 +42,8 @@ using namespace std;
 /// Because is_integral is not always true for __int128
 #ifdef __SIZEOF_INT128__
     namespace std {
-	    template<> struct is_integral<__int128_t>: true_type {};
-	}
+	template<> struct is_integral<__int128_t>: true_type {};
+    }
 #endif
 
 namespace fio{
