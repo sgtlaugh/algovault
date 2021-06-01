@@ -26,12 +26,8 @@
 using namespace std;
 
 namespace prm{
-    const int MAXP = 1000010;
-
     const vector<int> BASES = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
     const vector<int> SMALL_PRIMES = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97};
-
-    bitset<MAXP> flag;
 
     inline long long fast_modmul(long long a, long long b, long long m){
         if (m < (long long)UINT_MAX) return (uint64_t)a * b % m;
@@ -49,17 +45,6 @@ namespace prm{
         if (a < 0) a += m;
 
         return a;
-    }
-
-    void sieve(){
-        int i, j, x;
-        for (i = 3, flag[2] = true; i < MAXP; i += 2) flag[i] = true;
-
-        for (i = 3; i * i < MAXP; i += 2){
-            for (j = i * i, x = i << 1; flag[i] && j < MAXP; j += x){
-                flag[j] = false;
-            }
-        }
     }
 
     long long expo(long long x, long long n, long long m){
@@ -86,10 +71,10 @@ namespace prm{
     }
 
     bool is_prime(long long n){
-        if (!flag[2]) sieve();
-        if (n < MAXP) return n > 1 && flag[n];
+        if (n < 2 || (n & 1) == 0) return n == 2;
 
         for (auto &&p: SMALL_PRIMES){
+            if (n == p) return true;
             if (n % p == 0) return false;
         }
 
