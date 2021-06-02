@@ -30,13 +30,14 @@ namespace prm{
     const vector<int> SMALL_PRIMES = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 193, 407521, 299210837};
 
     inline long long fast_modmul(long long a, long long b, long long m){
+        if (a >= m) a %= m;
+        if (b >= m) b %= m;
         if (m < (long long)UINT_MAX) return (uint64_t)a * b % m;
 
         #ifdef __SIZEOF_INT128__
             return __int128(a) * b % m;
         #endif
 
-        a %= m, b %= m;
         long double x = (long double)a * b;
         long long c = x / m;
 
