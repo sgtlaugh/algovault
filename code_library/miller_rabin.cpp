@@ -27,7 +27,7 @@ using namespace std;
 
 namespace prm{
     const vector<int> BASES = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
-    const vector<int> SMALL_PRIMES = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97};
+    const vector<int> SMALL_PRIMES = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 193, 407521, 299210837};
 
     inline long long fast_modmul(long long a, long long b, long long m){
         if (m < (long long)UINT_MAX) return (uint64_t)a * b % m;
