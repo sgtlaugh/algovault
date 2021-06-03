@@ -9,13 +9,12 @@
  *
 ***/
 
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 struct AntiHash{
-    /// Magic constants, feel free to tweak and experiment
+    /// Magic constants! Feel free to tweak and experiment
 
     const static int n = 2000;
     const static int lim = 6;
@@ -31,28 +30,29 @@ struct AntiHash{
         generate();
     }
 
-    inline long long multiply(long long a, long long b, long long m){
-        a %= m, b %= m;
-        if (m < 3037000500LL) return a * b % m;
+    inline long long fast_modmul(long long a, long long b, long long m){
+        if (a >= m) a %= m;
+        if (b >= m) b %= m;
+        if (m < (long long)UINT_MAX) return (uint64_t)a * b % m;
 
         #ifdef __SIZEOF_INT128__
             return __int128(a) * b % m;
         #endif
 
-        long double x = a;
-        x *= b;
-        long long c = (long long)(x / m);
-        a *= b;
-        a -= c * m;
+        long double x = (long double)a * b;
+        long long c = x / m;
+
+        a = (uint64_t)a * b - (uint64_t)c * m;
         if (a >= m) a -= m;
         if (a < 0) a += m;
+
         return a;
     }
 
     inline long long get_hash(const string& s){
         long long h = 0;
         for (int i = 0; i < (int)s.length(); i++){
-            h = multiply(h, base, mod);
+            h = fast_modmul(h, base, mod);
             if (s[i] == '0') h = (h + 17) % mod;
             if (s[i] == '1') h = (h + 1000000009) % mod;
         }
@@ -63,7 +63,7 @@ struct AntiHash{
         len = 0, found = 0;
         dp[0][len++] = make_pair(1, n - 1);
         for (int i = 1; i < n; i++){
-            dp[0][len++] = make_pair(multiply(dp[0][i - 1].first, base, mod), n - i - 1);
+            dp[0][len++] = make_pair(fast_modmul(dp[0][i - 1].first, base, mod), n - i - 1);
         }
         sort(dp[0], dp[0] + len);
 
@@ -153,10 +153,10 @@ int main(){
 
     long long h1 = 0, h2 = 0;
     for (int i = 0; i < (int)s1.length(); i++){
-        h1 = (ah.multiply(h1, base, mod) + s1[i]) % mod;
+        h1 = (ah.fast_modmul(h1, base, mod) + s1[i]) % mod;
     }
     for (int i = 0; i < (int)s2.length(); i++){
-        h2 = (ah.multiply(h2, base, mod) + s2[i]) % mod;
+        h2 = (ah.fast_modmul(h2, base, mod) + s2[i]) % mod;
     }
 
     assert(s1.length() == s2.length() && s1 != s2 && h1 == h2);
