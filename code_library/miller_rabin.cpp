@@ -1,10 +1,28 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+/***
+ *
+ * Fast primality check with Miller Rabin
+ *
+ * Uses the deterministic variant of Miller Rabin
+ * For more details, check https://miller-rabin.appspot.com/
+ *
+ * Complexity: O(24) + O(7 * log n)
+ * Or, O(24) + O(4 * log n) when n ≤ INT_MAX
+ *
+ * For large random numbers not exceeding 2^63, it can process 2*10^6 numbers in one second
+ * For large primes not exceeding 2^63, it can process around 10^5 numbers in one second
+ *
+ * To gain more speed, check the following resources
+ *     i) https://people.ksp.sk/~misof/primes/
+ *    ii) https://github.com/wizykowski/miller-rabin/blob/master/sprp64.h
+ *
+ * One hack if we need to gain more speed can be to use only the base 921211727, particularly for numbers greater than INT_MAX
+ * It's not guaranteed to provide correct answer in all cases, but its highly likely there won't be cases against it
+ * Picking random numbers from 1 to 2^31 10^9 times resulted in 600 mismatches with 921211727
+ * Picking random numbers from 1 to 2^63 10^9 times resulted in 0 mismatches
+ *
+***/
 
-#define MAX 1000010
-#define clr(ar) memset(ar, 0, sizeof(ar))
-#define read() freopen("lol.txt", "r", stdin)
-#define dbg(x) cout << #x << " = " << x << endl
+#include <bits/stdc++.h>
 
 using namespace std;
 
