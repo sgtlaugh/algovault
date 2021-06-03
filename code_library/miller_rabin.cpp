@@ -1,33 +1,18 @@
-/***
- *
- * Fast primality check with Miller Rabin
- *
- * Uses the deterministic variant of Miller Rabin
- * For more details, check https://miller-rabin.appspot.com/
- *
- * Complexity: O(25) + O(7 * log n)
- *
- * For large random numbers not exceeding 2^63, it can process 2*10^6 numbers in one second
- * For large primes not exceeding 2^63, it can process around 10^5 numbers in one second
- *
- * To gain more speed, check the following resources
- *     i) https://people.ksp.sk/~misof/primes/
- *    ii) https://github.com/wizykowski/miller-rabin/blob/master/sprp64.h
- *
- * One hack if we need to gain more speed can be to use only the base 921211727
- * It's not guaranteed to provide correct answer in all cases, but its likely there won't be cases against it
- * Picking random numbers from 1 to 2^31 10^9 times resulted in 600 mismatches with 921211727
- * Picking random numbers from 1 to 2^63 10^9 times resulted in 0 mismatches
- *
-***/
+#include <stdio.h>
+#include <bits/stdtr1c++.h>
 
-#include <bits/stdc++.h>
+#define MAX 1000010
+#define clr(ar) memset(ar, 0, sizeof(ar))
+#define read() freopen("lol.txt", "r", stdin)
+#define dbg(x) cout << #x << " = " << x << endl
 
 using namespace std;
 
 namespace prm{
-    const vector<int> BASES = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
-    const vector<int> SMALL_PRIMES = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 193, 407521, 299210837};
+    const vector<int> BASES_32 = {2, 3, 5, 7};
+    const vector<int> BASES_64 = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
+
+    const vector<int> SMALL_PRIMES = {3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 193, 407521, 299210837};
 
     inline long long fast_modmul(long long a, long long b, long long m){
         if (a >= m) a %= m;
@@ -71,7 +56,7 @@ namespace prm{
         return true;
     }
 
-    bool is_prime(long long n){
+    bool miller_rabin(long long n, const vector<int>& bases){
         if (n < 2 || (n & 1) == 0) return n == 2;
 
         for (auto &&p: SMALL_PRIMES){
@@ -80,38 +65,40 @@ namespace prm{
         }
 
         int s = __builtin_ctzll(n - 1);
-        for (auto a: BASES){
+        for (auto a: bases){
             if (is_probable_composite(a, n, s)) return false;
         }
 
         return true;
+    }
+
+    bool is_prime(long long n){
+        if (n < INT_MAX) return miller_rabin(n, BASES_32);
+        return miller_rabin(n, BASES_64);
     }
 }
 
 int main(){
     using namespace prm;
 
-    const vector<pair<long long, bool>>data ={
-        {1, false},
-        {2, true},
-        {3, true},
-        {97, true},
-        {1000003, true},
-        {2783117, true},
-        {1000000007, true},
-        {2147483647, true},
-        {143305320273842137LL, true},
-        {701874195430938151LL, true},
-        {2783117 * 1000000007LL, false},
-        {246626183 * 2147483647LL, false},
-        {822743477 * (1LL << 32), false},
-        {1000000009 * 666666667LL, false},
-        {100003 * 474119LL * 699053LL, false},
-    };
+    assert(is_prime(2));
+    assert(is_prime(3));
+    assert(is_prime(97));
+    assert(is_prime(1000003));
+    assert(is_prime(2783117));
+    assert(is_prime(1000000007));
+    assert(is_prime(2147483647));
+    assert(is_prime(143305320273842137LL));
+    assert(is_prime(701874195430938151LL));
 
-    for (auto p: data){
-        assert(is_prime(p.first) == p.second);
-    }
+    assert(!is_prime(1));
+    assert(!is_prime(4));
+    assert(!is_prime(245)); // 5 * 7 * 7
+    assert(!is_prime(7745740235689LL)); // 2783117 * 2783117
+    assert(!is_prime(2783117019481819LL)); // 2783117 * 1000000007
+    assert(!is_prime(666666673000000003L)); // 1000000009 * 666666667
+    assert(!is_prime(33144425233627921LL)); // 100003 * 474119 * 699053
+    assert(!is_prime(3533656326712328192LL)); // 822743477 * 4294967296
 
     return 0;
 }
