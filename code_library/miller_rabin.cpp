@@ -31,10 +31,9 @@ namespace prm{
     const vector<int> BASES_64 = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
 
     const vector<int> SMALL_PRIMES = {3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 193, 407521, 299210837};
-
+    
+    /// Is not a generic modmul, optimized for this implementation of Miller Rabin
     inline long long fast_modmul(long long a, long long b, long long m){
-        if (a >= m) a %= m;
-        if (b >= m) b %= m;
         if (m < (long long)UINT_MAX) return (uint64_t)a * b % m;
 
         #ifdef __SIZEOF_INT128__
@@ -63,7 +62,7 @@ namespace prm{
         return res % m;
     }
 
-    bool is_probable_composite(long long a, long long n, int s){
+    bool is_probable_composite(int a, long long n, int s){
         long long x = expo(a, (n - 1) >> s, n);
         if (x == 1) return false;
 
