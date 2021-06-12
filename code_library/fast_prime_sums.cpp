@@ -89,7 +89,7 @@ __int128 prime_sum(long long n){
 int main(){
     auto start = clock();
     gen();
-    fprintf(stderr, "Pre-process time = %0.3f\n\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 0.237
+    fprintf(stderr, "Pre-process time = %0.3f\n\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 0.399
 
     start = clock();
 
@@ -103,6 +103,6 @@ int main(){
     assert(prime_sum(1e12) == (__int128)15929208151LL * 1157344946327LL); /// 18435588552550705911377
     assert(prime_sum(1e13) == (__int128)10166702 * 167138413556114797LL); /// 1699246443377779418889494
 
-    fprintf(stderr, "\nCalculation time = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 1.918
+    fprintf(stderr, "\nCalculation time = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 3.520
     return 0;
 }
