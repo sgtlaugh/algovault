@@ -1,7 +1,7 @@
 /***
  *
  * Prime counting function in sublinear time with Meissel-Lehmer algorithm
- * lehmer(n) returns the number of primes not exceeding n
+ * The function lehmer(n) returns the number of primes not exceeding n
  * Complexity: Roughly ~O(n^(2/3))
  *
 ***/
