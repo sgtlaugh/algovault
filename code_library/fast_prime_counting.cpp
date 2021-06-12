@@ -155,7 +155,7 @@ int main(){
     generate();
     fprintf(stderr, "Pre-process time = %0.6f\n\n", (clock()-start) / (1.0*CLOCKS_PER_SEC));  /// 0.295902
 
-    cout << lehmer(7) << endl;     /// 168
+    cout << lehmer(7) << endl;     /// 4
     cout << lehmer(1e3) << endl;   /// 168
     cout << lehmer(1e6) << endl;   /// 78498
     cout << lehmer(1e9) << endl;   /// 50847534
