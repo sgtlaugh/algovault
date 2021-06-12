@@ -8,21 +8,19 @@
  *
 ***/
 
-
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
 struct Graph{
-    int n, l;
-    vector <vector<int>> adj, rev;
-    vector <int> visited, parent, order, dfs_t;
+    int n, t;
+    vector<vector<int>> adj, rev;
+    vector<int> visited, parent, order, dfs_t;
 
-    Graph() {}
     Graph(int n): n(n){
         int m = 2 * n + 2;
-        adj.resize(m, vector<int>()), rev.resize(m, vector<int>());
+        adj.resize(m, vector<int>());
+        rev.resize(m, vector<int>());
         visited.resize(m, 0), dfs_t.resize(m, 0), order.resize(m, 0), parent.resize(m, 0);
     }
 
@@ -72,7 +70,7 @@ struct Graph{
         for (auto x: rev[i]){
             if (!visited[x]) topsort(x);
         }
-        dfs_t[i] = ++l;
+        dfs_t[i] = ++t;
     }
 
     inline void dfs(int i, int p){
@@ -85,7 +83,7 @@ struct Graph{
     void build(){
         int i, x;
         for (i = 0; i <= 2 * n; i++) visited[i] = 0;
-        for (i = 2 * n, l = 0; i >= 1; i--){
+        for (i = 2 * n, t = 0; i >= 1; i--){
             if (!visited[i]) topsort(i);
             order[dfs_t[i]] = i;
         }
