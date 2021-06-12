@@ -77,12 +77,12 @@ uint64_t lehmer(long long n){
     int a = pi[(int)sqrt(0.5 + s)], b = pi[s], c = pi[(int)cbrt(0.5 + n)];
     uint64_t res = phi(n, a) + (uint64_t)(b + a - 2) * (b - a + 1) / 2;
 
-    for (int i = a + 1; i <= b; i++){
-        uint64_t w = n / primes[i - 1];
+    for (int i = a; i < b; i++){
+        uint64_t w = n / primes[i];
         res -= lehmer(w);
-        if (i <= c){
-            for (int j = pi[(int)sqrt(0.5 + w)]; j >= i; j--){
-                res = res + j - pi[w / primes[j - 1]] - 1;
+        if (i < c){
+            for (int j = pi[(int)sqrt(0.5 + w)] - 1; j >= i; j--){
+                res = res + j - pi[w / primes[j]];
             }
         }
     }
