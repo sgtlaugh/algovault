@@ -9,25 +9,22 @@
  *
 ***/
 
+#include <bits/stdc++.h>
 
-
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
-
-#define MAXM 10000010
+#define MAXE 10000010
 
 using namespace std;
 
 struct Edge{
     int v, nxt;
-} E[MAXM];
+} E[MAXE];
 
 
 struct Graph{
     int n, m, top, lim;
-    vector <int> stk, head, visited;
+    vector<int> stk, head, visited;
 
-    Graph(int n) : n(2 * n) {
+    Graph(int n) : n(2 * n){
         m = 0, lim = this->n + 2;
         head.resize(lim, -1), visited.resize(lim, 0), stk.resize(lim, 0);
     }
@@ -120,7 +117,7 @@ int main(){
 
     assert(g.is_satisfiable());
     auto set_nodes = g.get_assignment();
-    vector <int> expected_set_nodes{1, 2, 3, 5};
+    vector<int> expected_set_nodes{1, 2, 3, 5};
     assert(set_nodes == expected_set_nodes);
 
     g.add_xor(1, 5);
