@@ -1,9 +1,3 @@
-#include <stdio.h>
-#include <assert.h>
-
-#define MAX 3010
-#define MOD 1000000007
-
 /***
  *
  * https://en.wikipedia.org/wiki/Bernoulli_number
@@ -15,6 +9,13 @@
  *
 ***/
 
+#include <bits/stdc++.h>
+
+#define MAX 3010
+#define MOD 1000000007
+
+using namespace std;
+
 int S[MAX][MAX], inv[MAX], fact[MAX], bernoulli[MAX];
 
 int expo(long long x, int n){
@@ -25,15 +26,16 @@ int expo(long long x, int n){
         x = x * x % MOD;
         n >>= 1;
     }
-
     return res % MOD;
 }
 
-void generate(){
+void gen(){
     int i, j;
     long long x, y, z, lim = (long long)MOD * MOD;
 
-    for (i = 1, fact[0] = 1; i < MAX; i++) fact[i] = ((long long) fact[i - 1] * i) % MOD;
+    for (i = 1, fact[0] = 1; i < MAX; i++){
+        fact[i] = ((long long) fact[i - 1] * i) % MOD;
+    }
     for (i = 0; i < MAX; i++) inv[i] = expo(i, MOD - 2);
 
     for (i = 1, S[0][0] = 1; i < MAX; i++){
@@ -44,8 +46,7 @@ void generate(){
 
     bernoulli[0] = 1;
     for (i = 1; (i + 1) < MAX; i++){
-        if ((i & 1) && i > 1) bernoulli[i] = 0;
-        else{
+        if (i == 1 || i % 2 == 0){
             for (j = 0, x = 0, y = 0; j <= i; j++){
                 z = (long long)fact[j] * inv[j + 1] % MOD;
                 z = z * S[i][j] % MOD;
@@ -58,7 +59,11 @@ void generate(){
 }
 
 int main(){
-    generate();
+    gen();
+
+    assert(bernoulli[1] == 500000003);
+    assert(bernoulli[9] == 0);
     assert(bernoulli[10] == 348484851);  /// bernoulli[10] = 5 / 66 = 5 * 469696973 % 1000000007 = 348484851
+
     return 0;
 }
