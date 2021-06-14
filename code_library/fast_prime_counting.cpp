@@ -1,6 +1,6 @@
 /***
  *
- * Prime counting function in sublinear time with Meissel-Lehmer algorithm
+ * Prime counting function in sublinear time with the Meissel-Lehmer algorithm
  * The function lehmer(n) returns the number of primes not exceeding n
  * Complexity: Roughly ~O(n^(2/3))
  *
@@ -60,9 +60,9 @@ uint64_t phi(long long m, int n){
     if (n < MAXN && m < MAXM) return dp[n][m];
     if (n < MAXP) return dp[n][m % prod[n - 1]] + (m / prod[n - 1]) * dp[n][prod[n - 1]];
 
-    int p = primes[n - 1];
+    long long p = primes[n - 1];
     if (m < MAXV && p * p >= m) return pi[m] - n + 1;
-    if ((long long)p * p * p < m || m >= MAXV) return phi(m, n - 1) - phi(m / p, n - 1);
+    if (p * p * p < m || m >= MAXV) return phi(m, n - 1) - phi(m / p, n - 1);
 
     int lim = pi[(int)sqrt(0.5 + m)];
     uint64_t res = pi[m] - (lim + n - 2) * (lim - n + 1) / 2;
@@ -73,18 +73,10 @@ uint64_t phi(long long m, int n){
 uint64_t lehmer(long long n){
     if (n < MAXV) return pi[n];
 
-    int s = sqrt(0.5 + n);
-    int a = pi[(int)sqrt(0.5 + s)], b = pi[s], c = pi[(int)cbrt(0.5 + n)];
-    uint64_t res = phi(n, a) + (uint64_t)(b + a - 2) * (b - a + 1) / 2;
-
-    for (int i = a; i < b; i++){
-        uint64_t w = n / primes[i];
-        res -= lehmer(w);
-        if (i < c){
-            for (int j = pi[(int)sqrt(0.5 + w)] - 1; j >= i; j--){
-                res = res + j - pi[w / primes[j]];
-            }
-        }
+    int s = sqrt(0.5 + n), c = cbrt(0.5 + n);
+    uint64_t res = phi(n, pi[c]) + pi[c] - 1;
+    for (int i = pi[c]; i < pi[s]; i++){
+        res -= lehmer(n / primes[i]) - i;
     }
 
     return res;
