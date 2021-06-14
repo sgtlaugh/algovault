@@ -1,7 +1,6 @@
 /***
  *
- * Prime counting function in sublinear time with Meissel-Lehmer algorithm
- * Extension to calculate sum of primes using the same idea instead of the count
+ * Prime sum function in sublinear time with the Meissel-Lehmer algorithm
  *
  * The function prime_sum(n) returns the number of primes not exceeding n
  * It is just a templatized wrapper of lehmer(n)
@@ -14,14 +13,17 @@
 
 using namespace std;
 
-/// Magic constants, optimized to answer prime counting queries for n=10^12 but can be tweaked
+/// Magic constants, optimized to answer prime counting queries for n=10^13 but can be tweaked
+/// Reduce MAXN and MAXM to sacrifice time for memory
 
 const int MAXN = 50;
-const int MAXM = 1000010;
-const int MAXV = 10000010;
+const int MAXM = 2000010;
+const int MAXV = 20000010;
+
+constexpr auto fast_div = [](const uint64_t& a, const uint32_t& b) ->uint64_t {return double(a) / b + 1e-9;};
 
 int pi[MAXV];
-long long pi_sum[MAXV], dp[MAXN][MAXM];
+uint64_t pi_sum[MAXV], dp[MAXN][MAXM];
 
 vector<int> primes;
 bitset<MAXV> is_prime;
@@ -48,10 +50,10 @@ void sieve(){
 
 void gen(){
     sieve();
-    for (int i = 0; i < MAXM; i++) dp[0][i] = (long long)i * (i + 1) / 2;
+    for (int i = 0; i < MAXM; i++) dp[0][i] = (uint64_t)i * (i + 1) / 2;
     for (int i = 1; i < MAXN; i++){
         for (int j = 1; j < MAXM; j++){
-            dp[i][j] = dp[i - 1][j] - dp[i - 1][j / primes[i]] * primes[i];
+            dp[i][j] = dp[i - 1][j] - dp[i - 1][fast_div(j, primes[i])] * primes[i];
         }
     }
 }
@@ -63,7 +65,7 @@ T phi(T m, int n){
     if (!n) return (T)m * (m + 1) / 2;
     if (n < MAXN && m < MAXM) return dp[n][m];
     if (m < MAXV && (uint64_t)primes[n] * primes[n] >= m) return pi_sum[m] - pi_sum[primes[n]] + 1;
-    return phi(m, n - 1) - phi(m / primes[n], n - 1) * primes[n];
+    return phi(m, n - 1) - phi((T)fast_div(m, primes[n]), n - 1) * primes[n];
 }
 
 template <typename T>
@@ -73,8 +75,8 @@ T lehmer(T n){
     int s = sqrt(0.5 + n), c = cbrt(0.5 + n);
     T res = phi(n, pi[c]) + pi_sum[c] - 1;
 
-    for (int i = pi[c] + 1; primes[i] <= (s + 1); i++){
-        T w = lehmer(n / primes[i]) - pi_sum[primes[i] - 1];
+    for (int i = pi[c] + 1; i <= pi[s]; i++){
+        T w = lehmer(fast_div(n, primes[i])) - pi_sum[primes[i] - 1];
         res -= w * primes[i];
     }
 
@@ -89,7 +91,7 @@ __int128 prime_sum(long long n){
 int main(){
     auto start = clock();
     gen();
-    fprintf(stderr, "Pre-process time = %0.3f\n\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 0.399
+    fprintf(stderr, "Pre-process time = %0.3f\n\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 0.940
 
     start = clock();
 
@@ -103,6 +105,6 @@ int main(){
     assert(prime_sum(1e12) == (__int128)15929208151LL * 1157344946327LL); /// 18435588552550705911377
     assert(prime_sum(1e13) == (__int128)10166702 * 167138413556114797LL); /// 1699246443377779418889494
 
-    fprintf(stderr, "\nCalculation time = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 3.520
+    fprintf(stderr, "\nCalculation time = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 2.130
     return 0;
 }
