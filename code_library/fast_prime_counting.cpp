@@ -1,6 +1,7 @@
 /***
  *
  * Prime counting function in sublinear time with the Meissel-Lehmer algorithm
+ *
  * The function lehmer(n) returns the number of primes not exceeding n
  * Complexity: Roughly ~O(n^(2/3))
  *
@@ -17,6 +18,8 @@ const int MAXV = 20000010;
 const int MAXP = 7;
 const int MAXN = 50;
 const int MAXM = 2 * 3 * 7 * 5 * 11 * 13 * 17; /// Product of the first MAXP primes
+
+constexpr auto fast_div = [](const long long& a, const int& b) ->long long {return double(a) / b + 1e-9;};
 
 vector<int> primes;
 bitset<MAXV> is_prime;
@@ -50,7 +53,7 @@ void gen(){
     for (i = 0; i < MAXM; i++) dp[0][i] = i;
     for (i = 1; i < MAXN; i++){
         for (j = 1; j < MAXM; j++){
-            dp[i][j] = dp[i - 1][j] - dp[i - 1][j / primes[i - 1]];
+            dp[i][j] = dp[i - 1][j] - dp[i - 1][fast_div(j, primes[i - 1])];
         }
     }
 }
@@ -58,15 +61,18 @@ void gen(){
 uint64_t phi(long long m, int n){
     if (!n) return m;
     if (n < MAXN && m < MAXM) return dp[n][m];
-    if (n < MAXP) return dp[n][m % prod[n - 1]] + (m / prod[n - 1]) * dp[n][prod[n - 1]];
+    if (n < MAXP) return dp[n][m % prod[n - 1]] + fast_div(m, prod[n - 1]) * dp[n][prod[n - 1]];
 
     long long p = primes[n - 1];
     if (m < MAXV && p * p >= m) return pi[m] - n + 1;
-    if (p * p * p < m || m >= MAXV) return phi(m, n - 1) - phi(m / p, n - 1);
+    if (p * p * p < m || m >= MAXV) return phi(m, n - 1) - phi(fast_div(m, p), n - 1);
 
     int lim = pi[(int)sqrt(0.5 + m)];
     uint64_t res = pi[m] - (lim + n - 2) * (lim - n + 1) / 2;
-    for (int i = n; i < lim; i++) res += pi[m / primes[i]];
+    for (int i = n; i < lim; i++){
+        res += pi[fast_div(m, primes[i])];
+    }
+
     return res;
 }
 
@@ -76,7 +82,7 @@ uint64_t lehmer(long long n){
     int s = sqrt(0.5 + n), c = cbrt(0.5 + n);
     uint64_t res = phi(n, pi[c]) + pi[c] - 1;
     for (int i = pi[c]; i < pi[s]; i++){
-        res -= lehmer(n / primes[i]) - i;
+        res -= lehmer(fast_div(n, primes[i])) - i;
     }
 
     return res;
@@ -96,6 +102,6 @@ int main(){
     assert(lehmer(1e12) == 37607912018LL);
     assert(lehmer(1e13) == 346065536839LL);
 
-    fprintf(stderr, "\nCalculation time = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 1.918
+    fprintf(stderr, "\nCalculation time = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 0.997
     return 0;
 }
