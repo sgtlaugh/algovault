@@ -332,12 +332,11 @@ namespace fft{
         assert(is_binary_string(str) && is_binary_string(pattern));
 
         int i, j, n = strlen(str), m = strlen(pattern);
-        vector<long long> v1(n, 0), v2(m, 0);
+        vector<long long> res, v1(n, 0), v2(m, 0);
 
         for (i = 0; i < n; i++) v1[i] = str[i] == '1' ? 1 : -1;
         for (i = 0, j = m - 1; j >= 0; i++, j--) v2[i] = pattern[j] == '1' ? 1 : -1;
 
-        vector<long long> res;
         auto v = multiply(v1, v2);
         for (i = 0; (i + m) <= n; i++){
             res.push_back(m - ((v[i + m - 1] + m) >> 1));
@@ -373,42 +372,43 @@ namespace fft{
 }
 
 int main(){
-    vector <long long> v1, v2, expected_result;
+    using namespace fft;
+
+    vector<long long> v1, v2, expected_result;
 
     v1 = {5, 1, 2, 6, 9, 8};
     v2 = {3, 9, 0, 2};
-    assert(fft::multiply(v1, v2) == vector<long long>({15, 48, 15, 46, 83, 109, 84, 18, 16}));
-
+    assert(multiply(v1, v2) == vector<long long>({15, 48, 15, 46, 83, 109, 84, 18, 16}));
 
     int mod = 14;
-    assert(fft::mod_multiply(v1, v2, mod) == vector<long long>({1, 6, 1, 4, 13, 11, 0, 4, 2}));
+    assert(mod_multiply(v1, v2, mod) == vector<long long>({1, 6, 1, 4, 13, 11, 0, 4, 2}));
 
     for (auto && x: v1) x = (1 << 30) - x;
     for (auto && x: v2) x = (1 << 30) - x;
     expected_result = {1152921496016912399, 55842988386341168, 1208764490845704463, 111685985362616878, 111685981067649619, 111685973551456877, 1208764475813318996, 55842987312599314, 1152921493869428752};
 
-    assert(fft::multiply(v1, v2) != expected_result);  /// should fail because of precision, even with long double
-    assert(fft::ll_multiply(v1, v2) == expected_result);
+    assert(multiply(v1, v2) != expected_result);  /// should fail because of precision, even with long double
+    assert(ll_multiply(v1, v2) == expected_result);
 
     v1 = {1, 2, 3, 4};
     v2 = {1, 0, 0, 2};
-    assert(fft::convolution(v1, v2) == vector<long long>({1, 2, 3, 6, 5, 8, 11, 6, 4, 6, 8, 0, 0, 0, 0}));
+    assert(convolution(v1, v2) == vector<long long>({1, 2, 3, 6, 5, 8, 11, 6, 4, 6, 8, 0, 0, 0, 0}));
 
     mod = 2;
-    assert(fft::mod_convolution(v1, v2, mod) == vector<long long>({1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}));
+    assert(mod_convolution(v1, v2, mod) == vector<long long>({1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}));
 
     for (auto && x: v1) x = (1 << 30) - x;
     for (auto && x: v2) x = (1 << 30) - x;
     expected_result = {1152921502459363329, 55843003418726658, 1208764504804348163, 111686001468744198, 111686001468744197, 111686001468744200, 111686001468744203, 111686001468744198, 1208764500509380868, 55842998050017542, 1152921498164396040, 0, 0, 0, 0};
 
-    assert(fft::convolution(v1, v2) != expected_result);  /// should fail because of precision, even with long double
-    assert(fft::ll_convolution(v1, v2) == expected_result);
+    assert(convolution(v1, v2) != expected_result);  /// should fail because of precision, even with long double
+    assert(ll_convolution(v1, v2) == expected_result);
 
     expected_result = {3, 3, 1, 1, 4, 1, 2};
-    assert(fft::hamming_distance("1000100101", "0110") == expected_result);
+    assert(hamming_distance("1000100101", "0110") == expected_result);
 
     expected_result = {1, 2, 1, 1, 2};
-    assert(fft::and_convolution("0110110", "110") == expected_result);
+    assert(and_convolution("0110110", "110") == expected_result);
 
     return 0;
 }
