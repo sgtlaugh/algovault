@@ -1,5 +1,4 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 #define MAX_LETTERS 26
 
@@ -15,7 +14,7 @@ struct AhoCorasick{
     vector <vector<int>> dp;
     vector <map<char, int>> trie;
 
-    inline int node(){
+    inline int new_node(){
         leaf.push_back(0);
         counter.push_back(0);
         dp.push_back(vector<int>(MAX_LETTERS, 0));
@@ -30,17 +29,20 @@ struct AhoCorasick{
     AhoCorasick(){
         trie.clear(), dictionary.clear();
         dp.clear(), fail.clear(), leaf.clear(), counter.clear();
+        id = 0, new_node();
 
-        id = 0, node();
-        for (int i = 'a'; i <= 'z'; i++) edge[i] = i - 'a'; /// change here if different character set
+        /// lowercase letters by default, change here if different character set
+        for (int i = 'a'; i <= 'z'; i++){
+            edge[i] = i - 'a';
+        }
     }
 
-    inline void insert(const char* str){
+    void insert(const char* str){
         int j, x, cur = 0;
         for (j = 0; str[j] != 0; j++){
             x = edge[(int)str[j]];
             if (!trie[cur].count(x)){
-                int next_node = node();
+                int next_node = new_node();
                 trie[cur][x] = next_node;
             }
             cur = trie[cur][x];
@@ -66,7 +68,9 @@ struct AhoCorasick{
             int u = Q[i].first;
             int p = Q[i].second.first;
             char c = Q[i].second.second;
-            for(auto& it: trie[u]) Q.push_back({it.second, {u, it.first}});
+            for(auto& it: trie[u]){
+                Q.push_back({it.second, {u, it.first}});
+            }
 
             if (u){
                 int f = fail[p];
@@ -76,7 +80,9 @@ struct AhoCorasick{
                 counter[u] = leaf[u] + counter[fail[u]];
 
                 for (int j = 0; j < MAX_LETTERS; j++){
-                    if (u && !trie[u].count(j)) dp[u][j] = dp[fail[u]][j];
+                    if (u && !trie[u].count(j)){
+                        dp[u][j] = dp[fail[u]][j];
+                    }
                 }
             }
         }
