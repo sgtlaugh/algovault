@@ -7,10 +7,6 @@
  *   - O(MAX log MAX) pre-processing once
  *   - O(n log n) for all exposed methods
  *
- * Notes:
- *   - Replace long double with double to gain more speed at the cost of precision
- *   - Double should be fine for most problems
- *
 ***/
 
 #include <bits/stdc++.h>
@@ -18,6 +14,9 @@
 #define MAX 2097152
 
 using namespace std;
+
+/// Use double to gain more speed at the cost of precision (double should be fine for most problems)
+typedef long double fType;
 
 namespace fft{
     namespace{ /// Anonymous namespace to wrap internally used variables and methods
@@ -27,9 +26,9 @@ namespace fft{
         int last_len = -1, initialized = 0, rev[MAX];
 
         struct ComplexNum{
-            long double real, img;
+            fType real, img;
 
-            inline ComplexNum(long double real=0, long double img=0) : real(real), img(img) {}
+            inline ComplexNum(fType real=0, fType img=0) : real(real), img(img) {}
 
             inline ComplexNum conjugate(){
                 return ComplexNum(real, -img);
@@ -48,7 +47,7 @@ namespace fft{
             }
         } u[MAX], w[MAX], f[MAX], g[MAX], dp[MAX], inv[MAX];
 
-        long long round_to_nearest(long double x){
+        long long round_to_nearest(const fType& x){
             long long res = abs(x) + 0.5;
             return (x < 0) ? -res : res;
         }
@@ -63,7 +62,7 @@ namespace fft{
 
             int i, j, k, lim;
             for (i = 1; (1 << i) < MAX; i++){
-                long double theta = 2.0 * acos(0.0) / (1 << i);
+                fType theta = (fType)2 * acos(0.0) / (1 << i);
                 ComplexNum mul = ComplexNum(cos(theta), sin(theta));
                 ComplexNum inv_mul = ComplexNum(cos(-theta), sin(-theta));
 
@@ -157,7 +156,7 @@ namespace fft{
 
         vector <long long> res(p_len, 0);
         for (i = 0; i < min(len, p_len); i++){
-            res[i] = round_to_nearest(f[i].real / (long double)len);
+            res[i] = round_to_nearest(f[i].real / (fType)len);
         }
         return res;
     }
