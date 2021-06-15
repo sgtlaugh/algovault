@@ -1,41 +1,47 @@
 /***
  *
- * Binomial co-efficients (n choose k) modulo m
- * Let m = p1^q1 * p2^q2 * ... * pk^qk, then pi^qi must not exceed MAXP for all i in [1, k]
- * Otherwise the function can sometimes calculate the answer if it's 0 and at other times will raise an assertion error
+ * Binomial co-efficients (n choose k) modulo mod
+ *
+ * Let mod = p1^q1 * p2^q2 * ... * pk^qk
+ * Then pi^qi must not exceed MAXP for all i in [1, k]
+ *
+ * Otherwise the function can sometimes calculate the answer if it's 0
+ * At other times, it will raise an assertion error
  * This is a generalization of the Lucas theorem, which calculates binomial mod p^q
- * Can pre-process dp[i] for queries if m is constant
+ *
+ * Optimization notes:
+   * Can pre-process dp[i] for queries if mod is constant
+   * Can use fast factorization to factorize mod if required
  *
 ***/
 
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 #define MAXP 10000010
 
 using namespace std;
 
 namespace crt{
-    long long extended_gcd(long long a, long long b, long long& x, long long& y){
+    uint64_t extended_gcd(uint64_t a, uint64_t b, uint64_t& x, uint64_t& y){
         if (!b){
             y = 0, x = 1;
             return a;
         }
 
-        long long g = extended_gcd(b, a % b, y, x);
+        uint64_t g = extended_gcd(b, a % b, y, x);
         y -= ((a / b) * x);
         return g;
     }
 
-    long long mod_inverse(long long a, long long m){
-        long long x, y, inv;
+    uint64_t mod_inverse(uint64_t a, uint64_t m){
+        uint64_t x, y, inv;
         extended_gcd(a, m, x, y);
         inv = (x + m) % m;
         return inv;
     }
 
-    long long chinese_remainder(const vector <long long>& ar, const vector <long long>& mods){
-        long long x, y, res = 0, M = 1;
+    uint64_t chinese_remainder(const vector <uint64_t>& ar, const vector <uint64_t>& mods){
+        uint64_t x, y, res = 0, M = 1;
         for (int i = 0; i < (int)ar.size(); i++) M *= mods[i];
         for (int i = 0; i < (int)ar.size(); i++){
             x = M / mods[i];
@@ -49,10 +55,9 @@ namespace crt{
 
 namespace bin{
     int dp[MAXP];
-    long long mod = 0;
 
-    long long trailing(long long x, long long p){
-        long long res = 0;
+    uint64_t trailing(uint64_t x, uint64_t p){
+        uint64_t res = 0;
         while (x){
             x /= p;
             res += x;
@@ -60,9 +65,9 @@ namespace bin{
         return res;
     }
 
-    long long expo(long long x, long long n, long long m){
+    uint64_t expo(uint64_t x, uint64_t n, uint64_t m){
         x %= m;
-        long long res = 1;
+        uint64_t res = 1;
 
         while (n){
             if (n & 1) res = res * x % m;
@@ -73,20 +78,20 @@ namespace bin{
         return res % m;
     }
 
-    long long factorial(long long x, long long p){
-        long long res = expo(dp[mod - 1], x / mod, mod);
-        if (x >= p) res = res * factorial(x / p, p) % mod;
+    uint64_t fact(uint64_t x, uint64_t p, const uint64_t& mod){
+        uint64_t res = expo(dp[mod - 1], x / mod, mod);
+        if (x >= p) res = res * fact(x / p, p, mod) % mod;
         return res * dp[x % mod] % mod;
     }
 
-    /// binomial co-efficients modulo p^q (p must be a prime and p^q less than MAXP)
-    long long binomial(long long n, long long k, long long p, long long q){
+    uint64_t binomial(uint64_t n, uint64_t k, uint64_t p, uint64_t q){
         if (k > n) return 0;
         if (n == k || k == 0) return 1;
 
-        int i;
-        for (i = 0, mod = 1; i < q; i++) mod *= p;
-        long long t = trailing(n, p) - trailing(k, p) - trailing(n - k, p);
+        uint32_t i;
+        uint64_t mod = 1;
+        for (i = 0; i < q; i++) mod *= p;
+        uint64_t t = trailing(n, p) - trailing(k, p) - trailing(n - k, p);
         if (t >= q) return 0;
 
         if (mod >= MAXP){
@@ -94,34 +99,34 @@ namespace bin{
         }
 
         for (dp[0] = 1, i = 1; i < mod; i++){
-            dp[i] = (long long)dp[i - 1] * (i % p ? i : 1) % mod;
+            dp[i] = (uint64_t)dp[i - 1] * (i % p ? i : 1) % mod;
         }
 
-        long long m = factorial(k, p) * factorial(n - k, p) % mod;
-        long long v = factorial(n, p) * expo(m, (mod / p) * (p - 1) - 1, mod) % mod;
+        uint64_t m = fact(k, p, mod) * fact(n - k, p, mod) % mod;
+        uint64_t v = fact(n, p, mod) * expo(m, (mod / p) * (p - 1) - 1, mod) % mod;
 
         return v * expo(p, t, mod) % mod;
     }
 
-    long long binomial(long long n, long long k, long long m){
-        if (k > n || m == 1) return 0;
+    uint64_t binomial(uint64_t n, uint64_t k, uint64_t mod){
+        if (k > n || mod == 1) return 0;
         if (n == k || k == 0) return 1;
 
         /// can use fast factorization below if required
         vector <pair<int, int>> factors;
-        for (long long i = 2; i * i <= m; i = i + 1 + (i & 1)){
+        for (uint64_t i = 2; i * i <= mod; i = i + 1 + (i & 1)){
             int c = 0;
-            while (m % i == 0){
+            while (mod % i == 0){
                 c++;
-                m /= i;
+                mod /= i;
             }
             if (c) factors.push_back(make_pair(i, c));
         }
-        if (m > 1) factors.push_back(make_pair(m, 1));
+        if (mod > 1) factors.push_back(make_pair(mod, 1));
 
-        vector <long long> ar, mods;
+        vector <uint64_t> ar, mods;
         for (int i = 0; i < (int)factors.size(); i++){
-            long long x = 1;
+            uint64_t x = 1;
             for (int j = 0; j < factors[i].second; j++) x *= factors[i].first;
             mods.push_back(x), ar.push_back(binomial(n, k, factors[i].first, factors[i].second));
         }
@@ -131,8 +136,9 @@ namespace bin{
 
 int main(){
     using namespace bin;
+    auto start = clock();
 
-    int dp[30][30];
+    uint64_t dp[30][30];
     for (int m = 1; m < 30; m++){
         memset(dp, 0, sizeof(dp));
 
@@ -150,8 +156,8 @@ int main(){
         }
     }
 
-    typedef tuple <long long, long long, long long, long long> T;
-    const vector <T> test_data = {
+    typedef tuple<long long, long long, long long, long long> T;
+    const vector<T> test_cases = {
         T(10, 5, 253, 252),
         T(123456789012345LL, 1000000009, 997 * 1000003, 140000420),
         T(1000000000000000000LL, 1000000000, 1000003, 0),
@@ -161,8 +167,12 @@ int main(){
         T(1000000000000000000LL, 1000, 1000000007 * 997LL, 625000004375LL),
     };
 
-    bool raised_exception = false;
+    for (auto data: test_cases){
+        uint64_t n = get<0>(data), k = get<1>(data), mod = get<2>(data), res = get<3>(data);
+        assert(binomial(n, k, mod) == res);
+    }
 
+    bool raised_exception = false;
     try{
         cout << binomial(1000000000000000000LL, 1000, 1000000007 * 666666667LL) << endl;
     }
@@ -171,5 +181,6 @@ int main(){
     }
 
     assert(raised_exception);
+    fprintf(stderr, "\nTime taken = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);
     return 0;
 }
