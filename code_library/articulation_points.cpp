@@ -1,18 +1,20 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+/***
+ *
+ * Finds articulation points in simple graphs
+ *
+ * An articulation point or cut vertex is defined as a vertex which, when removed along with associated edges, makes the graph disconnected
+ * More precisely, increases the number of connected components in the graph
+ *
+ * Nodes are numbered from 0 to N-1
+ * Complexity: O(N + M)
+ *
+***/
+
+#include <bits/stdc++.h>
 
 #define MAX 100010
 
 using namespace std;
-
-/***
- *
- * finds articulation points in simple graphs in O(N + M)
- * an articulation point or cut vertex is defined as a vertex which, when removed along with associated edges, makes the graph disconnected
- * or more precisely, increases the number of connected components in the graph
- * nodes are numbered from 0 to N-1
- *
-***/
 
 struct Graph{
     vector <int> adj[MAX];
