@@ -5,13 +5,11 @@
  * Let mod = p1^q1 * p2^q2 * ... * pk^qk
  * Then pi^qi must not exceed MAXP for all i in [1, k]
  *
- * Otherwise the function can sometimes calculate the answer if it's 0
- * At other times, it will raise an assertion error
+ * Otherwise the function can sometimes calculate the answer
+ * At other times, it will raise an invalid_argument error
  * This is a generalization of the Lucas theorem, which calculates binomial mod p^q
  *
- * Optimization notes:
-   * Can pre-process dp[i] for queries if mod is constant
-   * Can use fast factorization to factorize mod if required
+ * Optimization notes - can pre-process dp[i] for queries if mod is constant
  *
 ***/
 
@@ -112,7 +110,6 @@ namespace bin{
         if (k > n || mod == 1) return 0;
         if (n == k || k == 0) return 1;
 
-        /// can use fast factorization below if required
         vector <pair<int, int>> factors;
         for (uint64_t i = 2; i * i <= mod; i = i + 1 + (i & 1)){
             int c = 0;
@@ -156,31 +153,24 @@ int main(){
         }
     }
 
-    typedef tuple<long long, long long, long long, long long> T;
-    const vector<T> test_cases = {
-        T(10, 5, 253, 252),
-        T(123456789012345LL, 1000000009, 997 * 1000003, 140000420),
-        T(1000000000000000000LL, 1000000000, 1000003, 0),
-        T(1000000000000000000LL, 1000000000, 666666667, 0),
-        T(100000000000000000LL, 10000000009LL, 1000000007 * 997LL, 353000002471LL),
-        T(1000000000000000000LL, 10000000009LL, 1000000007 * 997LL, 361000002527LL),
-        T(1000000000000000000LL, 1000, 1000000007 * 997LL, 625000004375LL),
-    };
-
-    for (auto data: test_cases){
-        uint64_t n = get<0>(data), k = get<1>(data), mod = get<2>(data), res = get<3>(data);
-        assert(binomial(n, k, mod) == res);
-    }
+    assert(binomial(10, 5, 253) == 252);
+    assert(binomial(123456789012345LL, 1000000009, 997 * 1000003) == 140000420);
+    assert(binomial(1000000000000000000LL, 1000000000, 1000003) == 0);
+    assert(binomial(1000000000000000000LL, 1000000000, 666666667) == 0);
+    assert(binomial(100000000000000000LL, 10000000009LL, 1000000007 * 997LL) == 353000002471LL);
+    assert(binomial(1000000000000000000LL, 10000000009LL, 1000000007 * 997LL) == 361000002527LL);
+    assert(binomial(1000000000000000000LL, 1000, 1000000007 * 997LL) == 625000004375LL);
 
     bool raised_exception = false;
     try{
-        cout << binomial(1000000000000000000LL, 1000, 1000000007 * 666666667LL) << endl;
+        cout << binomial(1000000000000000000LL, 1000, 10000007 * 666666667LL) << endl;
     }
     catch(std::invalid_argument& e){
         raised_exception = true;
     }
-
     assert(raised_exception);
-    fprintf(stderr, "\nTime taken = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);
+
+    fprintf(stderr, "\nTime taken = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC); /// 0.022 s
+
     return 0;
 }
