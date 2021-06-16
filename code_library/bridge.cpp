@@ -1,15 +1,16 @@
 /***
  *
  * Finds bridge edges and builds the bridge tree in simple undirected graphs
- * A bridge is such an edge which when removed makes the graph disconnected,
- *     or more precisely, increases the number of connected components
+ *
+ * A bridge is such an edge which when removed makes the graph disconnected
+ * Or more precisely, increases the number of connected components
+ *
  * Graph nodes are numbered from 0 to N-1
  *
  * Complexity: O(N + M)
  *
 ***/
 
-#include <stdio.h>
 #include <bits/stdtr1c++.h>
 
 #define MAX 100010
@@ -153,6 +154,7 @@ struct Graph{
 
 int main(){
     auto graph = Graph(10);
+
     graph.add_edge(0, 1);
     graph.add_edge(1, 2);
     graph.add_edge(2, 0);
