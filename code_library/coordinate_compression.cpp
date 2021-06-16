@@ -2,12 +2,14 @@
  *
  * Compress values in input vector in-place
  * Relative order of values are preserved if make_sorted=true
+ *
  * 0 based indexing for compressed values
+ *
+ * Complexity: O(N) if sorting is not necessary, otherwise O(N log N)
  *
 ***/
 
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -20,7 +22,7 @@ void compress(vector<T>& v, bool make_sorted=true){
         return;
     }
 
-    vector <T> u = v;
+    vector<T> u = v;
     sort(u.begin(), u.end());
     for (auto &&x: u) mp.emplace(x, mp.size()).first->second;
     for (auto &&x: v) x = mp[x];
