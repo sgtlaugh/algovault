@@ -1,5 +1,14 @@
-#include <stdio.h>
-#include <bits/stdtr1c++.h>
+/***
+ *
+ * Convex hull using the Monotone Chain algorithm
+ *
+ * Complexity: O(N log N)
+ *
+ * Optimization notes: can be converted to O(n) using radix sort
+ *
+***/
+
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -18,11 +27,10 @@ long long cross(const Point &O, const Point &A, const Point &B){
     return ((A.x - O.x) * (B.y - O.y)) - ((A.y - O.y) * (B.x - O.x));
 }
 
-/// Returns the convex hull using the monotone chain algorithm
 vector <Point> get_convex_hull(vector<Point> P){
     int i, t, k = 0, n = P.size();
     vector<Point> H(n << 1);
-    sort(P.begin(), P.end()); /// Can be converted to O(n) using radix sort
+    sort(P.begin(), P.end());
 
     for (i = 0; i < n; i++) {
         while (k >= 2 && cross(H[k - 2], H[k - 1], P[i]) < 0) k--;
@@ -33,7 +41,7 @@ vector <Point> get_convex_hull(vector<Point> P){
         H[k++] = P[i];
     }
 
-    H.resize(k - 1); /// The last point is the same as the first in this implementation
+    H.resize(k - 1);
     return H;
 }
 
