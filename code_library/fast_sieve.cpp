@@ -10,7 +10,7 @@
  * The sieve uses a wheel of size 15015 (3*5*7*11*13) to process each block efficiently
  *
  * The algorithm can generate all the prime numbers from 1 to 2^31 in a little under 1 seconds in a 4.00GHz core-i7 PC when compiled with -O2
- * Runtime in CodeForces - 1300 ms with GNU G++ 17
+ * Runtime in CodeForces - 1500 ms with GNU G++ 17
  *
 ***/
 
@@ -23,10 +23,10 @@ using namespace std;
 const uint32_t block_size = 1048576;
 
 uint32_t s, prime_cnt, sq[65536], sp[65536], primes[106000000];
-uint64_t pow2[64], wheel[15015], is_composite[8192], mask[12][62][8192];
+uint64_t wheel[15015], is_composite[8192], mask[12][62][8192];
 
 inline void setbit(uint64_t* ar, uint32_t bit){
-    ar[bit >> 6] |= pow2[bit & 63];
+    ar[bit >> 6] |= (1ULL << (bit & 63));
 }
 
 inline uint32_t get_idx(uint32_t i, uint32_t j){
@@ -55,7 +55,7 @@ void process_block(uint32_t i){
         chunk = min(15015 - idx, (block_size >> 7) - j);
         memcpy(is_composite + j, wheel + idx, sizeof(uint64_t) * chunk);
     }
-    if (!i) is_composite[0] = (is_composite[0] | 1) & ~110ULL;
+    if (!i) is_composite[0] = (is_composite[0] | 1) & ~110;
 
     l = block_size >> 1, m = block_size >> 7;
     for (j = 6; j < 18 && i; j++){
@@ -85,7 +85,6 @@ void populate_primes(uint32_t i){
 void fast_sieve(){
     small_sieve();
 
-    for (uint32_t i = 0; i < 64; i++) pow2[i] = 1ULL << i;
     for (uint32_t i = 1; i <= 5; i++){
         for (uint32_t j = i + (i > 3); j < 960960; j += sp[i]){
             setbit(wheel, j);
@@ -122,6 +121,6 @@ int main(){
     assert(first_5_primes == vector<int>({2, 3, 5, 7, 11}));
     assert(last_5_primes == vector<int>({2147483647, 2147483629, 2147483587, 2147483579, 2147483563}));
 
-    fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));   /// Time taken = 0.990301
+    fprintf(stderr, "\nTime taken = %0.3f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));   /// Time taken = 0.952
     return 0;
 }
