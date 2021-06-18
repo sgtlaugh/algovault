@@ -6,9 +6,9 @@
  *
  * Let mod = p1^q1 * p2^q2 * ... * pm^qm
  *
- * Then, it will take O(sqrt(mod)) + O(max(p_i^q_i)) to pre-process
- * And answer each n choose k query in O(sum of log(k) * log(p_i^q_i))
- * Or roughly O(m * log(k) * log(mod))
+ * Then, time complexity will be:
+ *     O(sqrt(mod)) + O(max(p_i^q_i)) to pre-process
+ *     O(m * (log(n) + log(k))) roughly for each n choose k query
  *
 ***/
 
@@ -16,13 +16,9 @@
 
 using namespace std;
 
-struct BinomialPP{
+struct BinomialPrimePow{
     uint32_t p, q, mod;
     vector<uint32_t> dp;
-
-    BinomialPP(uint32_t p, uint32_t q): p(p), q(q){
-        this->mod = pow(p, q) + 0.25;
-    }
 
     uint64_t get_tz(uint64_t x){
         uint64_t res = 0;
@@ -30,6 +26,7 @@ struct BinomialPP{
             x /= p;
             res += x;
         }
+
         return res;
     }
 
@@ -47,9 +44,20 @@ struct BinomialPP{
     }
 
     uint64_t fact(uint64_t x){
-        uint64_t res = expo(dp[mod - 1], x / mod);
-        if (x >= p) res = res * fact(x / p) % mod;
-        return res * dp[x % mod] % mod;
+        uint64_t d, res = 1;
+
+        while (x >= p){
+            d = x / mod;
+            if (d & 1) res = res * dp[mod - 1] % mod;
+            res = res * dp[x - d * mod] % mod;
+            x /= p;
+        }
+
+        return res * dp[x] % mod;
+    }
+
+    BinomialPrimePow(uint32_t p, uint32_t q): p(p), q(q){
+        this->mod = pow(p, q) + 0.25;
     }
 
     int64_t binomial(int64_t n, int64_t k){
@@ -72,7 +80,7 @@ struct BinomialPP{
 
 struct Binomial{
     uint64_t mod;
-    vector<BinomialPP> dp;
+    vector<BinomialPrimePow> dp;
     vector<uint32_t> mods, invs;
 
     uint32_t extended_gcd(uint32_t a, uint32_t b, uint32_t& x, uint32_t& y){
@@ -111,9 +119,9 @@ struct Binomial{
                 c++;
                 m /= i;
             }
-            if (c) dp.push_back(BinomialPP(i, c));
+            if (c) dp.push_back(BinomialPrimePow(i, c));
         }
-        if (m > 1) dp.push_back(BinomialPP(m, 1));
+        if (m > 1) dp.push_back(BinomialPrimePow(m, 1));
 
         for (auto d: dp){
             m = pow(d.p, d.q) + 0.25;
@@ -164,6 +172,6 @@ int main(){
     assert(Binomial(1000000007 * 997LL).binomial(1000000000000000000LL, 10000000009LL) == 361000002527LL);
     assert(Binomial(1000000007 * 997LL).binomial(1000000000000000000LL, 1000) == 625000004375LL);
 
-    fprintf(stderr, "\nTime taken = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC); /// 0.022 s
+    fprintf(stderr, "\nTime taken = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC); /// 0.010 s
     return 0;
 }
