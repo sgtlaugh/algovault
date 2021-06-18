@@ -71,19 +71,9 @@ struct BinomialPP{
 };
 
 struct Binomial{
+    uint64_t mod;
     vector<BinomialPP> dp;
-
-    Binomial(uint64_t mod){
-        for (uint32_t i = 2; i * i <= mod; i++){
-            uint32_t c = 0;
-            while (mod % i == 0){
-                c++;
-                mod /= i;
-            }
-            if (c) dp.push_back(BinomialPP(i, c));
-        }
-        if (mod > 1) dp.push_back(BinomialPP(mod, 1));
-    }
+    vector<uint32_t> mods, invs;
 
     uint32_t extended_gcd(uint32_t a, uint32_t b, uint32_t& x, uint32_t& y){
         if (!b){
@@ -103,28 +93,44 @@ struct Binomial{
         return inv;
     }
 
-    uint64_t chinese_remainder(const vector<uint32_t>& rem, const vector<uint32_t>& mods){
-        uint64_t x, y, res = 0, M = 1;
-        for (uint32_t i = 0; i < rem.size(); i++) M *= mods[i];
+    uint64_t chinese_remainder(const vector<uint32_t>& rem){
+        uint64_t res = 0;
         for (uint32_t i = 0; i < rem.size(); i++){
-            x = M / mods[i];
-            y = mod_inverse(x, mods[i]);
-            res = (res + ((x * rem[i] % M) * y)) % M;
+            res = (res + (((uint64_t)mods[i] * rem[i] % mod) * invs[i])) % mod;
         }
 
         return res;
+    }
+
+    Binomial(uint64_t mod): mod(mod){
+        uint64_t m = mod;
+
+        for (uint32_t i = 2; i * i <= m; i++){
+            uint32_t c = 0;
+            while (m % i == 0){
+                c++;
+                m /= i;
+            }
+            if (c) dp.push_back(BinomialPP(i, c));
+        }
+        if (m > 1) dp.push_back(BinomialPP(m, 1));
+
+        for (auto d: dp){
+            m = pow(d.p, d.q) + 0.25;
+            mods.push_back(mod / m);
+            invs.push_back(mod_inverse(mod / m, m));
+        }
     }
 
     int64_t binomial(int64_t n, int64_t k){
         if (k > n || n < 0 || k < 0 || !dp.size()) return 0;
         if (n == k || k == 0) return 1;
 
-        vector<uint32_t> rem, mods;
+        vector<uint32_t> rem;
         for (uint32_t i = 0; i < dp.size(); i++){
-            mods.push_back(dp[i].mod);
             rem.push_back(dp[i].binomial(n, k));
         }
-        return chinese_remainder(rem, mods);
+        return chinese_remainder(rem);
     }
 };
 
