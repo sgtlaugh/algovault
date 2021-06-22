@@ -7,13 +7,18 @@
 <li>Useful in online competitions like <a href="https://codeforces.com">CodeForces</a>, <a href="https://codingcompetitions.withgoogle.com/codejam">Google Code Jam</a></li>
 <li>Simple to use as a black-box without compromising performance</li>
 <li>Example usage and sufficient documentation</li>
-<br></br>
 
+<br>
 Codes are mostly written in C++. majority should work with C++11 and some might require C++14 or higher. Some algorithms are written in Python. For Python, use Python 3. Most of them should be compatible with PyPy as well.
+</br>
 
+<br>
 Implementations are usually stress-tested and cross-checked against various problems. Nonetheless, they are not guranteed to be flawless and work in all cases.
+</br>
 
+<br>
 For bugs, refactoring and improvements, feel free to file an issue or a pull request as contributions are always welcome.
+</br>
 
 ## The Zen Of Contributing
 Inspired from [The Zen Of Python](https://www.python.org/dev/peps/pep-0020/#id2)
