@@ -1,3 +1,6 @@
+[![GitHub stars](https://img.shields.io/github/stars/sgtlaugh/algovault.svg?style=flat&label=star)](https://github.com/sgtlaugh/algovault/)
+[![license](https://img.shields.io/github/license/sgtlaugh/algovault.svg?style=flat-square)](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
+
 # Algovault
 This is a collection of algorithms, data structures and templates for competitive programming. In a nutshell, these are the goals of this project:
   1. Useful in online competitions like [Codeforces](https://codeforces.com/), [Google Code Jam](https://codingcompetitions.withgoogle.com/codejam), etc.
