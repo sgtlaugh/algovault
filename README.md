@@ -5,9 +5,11 @@
 A collection of algorithms, data structures and templates for competitive programming.
 
 In a nutshell, these are the goals of this project:
-  1. Useful in online competitions like [Codeforces](https://codeforces.com/), [Google Code Jam](https://codingcompetitions.withgoogle.com/codejam).
-  2. Simple to use as a black-box without compromising performance.
-  3. Example usage and sufficient documentation.
+  <ol>
+  <li>Useful in online competitions like <a href="https://codeforces.com">CodeForces</a>, <a href="https://codingcompetitions.withgoogle.com/codejam">Google Code Jam</a></li>
+  <li>Simple to use as a black-box without compromising performance</li>
+  <li>Example usage and sufficient documentation</li>
+  </ol>
 
 Most codes are written in C/C++, majority should work with C++11 and some might require C++14 or higher. Some algorithms are written in Python. For Python, use Python 3. Most codes should be compatible with PyPy too.
 
@@ -51,11 +53,13 @@ Namespaces are one honking great idea, let's do more of those!
 ```
 
 ## Future Work
-1. This is still a work in progress so I'll port more code from my template over the time
-2. Add stress tests, automated unit tests and integration tests
-3. Refactor and simplify old implementations
-4. Add practice problems
-5. Add a comprehensive index
+  <ol>
+  <li>This is still a work in progress so I'll port more code from my template over the time</li>
+  <li>Add stress tests, automated unit tests and integration tests</li>
+  <li>Refactor and simplify old implementations</li>
+  <li>Add practice problems</li>
+  <li>Add a comprehensive index</li>
+  </ol>
 
 ## License
 The project is licensed under the [MIT License](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
