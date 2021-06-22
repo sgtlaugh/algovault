@@ -2,7 +2,7 @@
 [![license](https://img.shields.io/github/license/sgtlaugh/algovault.svg?style=flat-square)](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
 
 ## Algovault
-A collection of algorithms, data structures and templates for competitive programming.
+### A collection of algorithms, data structures and templates for competitive programming
 
 In a nutshell, these are the goals of this project:
   <ol>
