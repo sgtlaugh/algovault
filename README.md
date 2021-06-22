@@ -11,9 +11,9 @@ In a nutshell, these are the goals of this project:
   <li>Example usage and sufficient documentation</li>
   </ol>
 
-Most codes are written in C/C++, majority should work with C++11 and some might require C++14 or higher. Some algorithms are written in Python. For Python, use Python 3. Most codes should be compatible with PyPy too.
+Codes are mostly written in C/C++. majority should work with C++11 and some might require C++14 or higher. Some algorithms are written in Python. For Python, use Python 3. Most of them should be compatible with PyPy as well.
 
-Most implementations are stress-tested and cross-checked against various problems. Nonetheless they are not guranteed to be flawless and work in all cases.
+Implementations are usually stress-tested and cross-checked against various problems. Nonetheless, they are not guranteed to be flawless and work in all cases.
 
 For bugs, refactoring and improvements, feel free to file an issue or a pull request as contributions are always welcome.
 
