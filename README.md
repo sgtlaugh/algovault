@@ -1,13 +1,17 @@
 [![GitHub stars](https://img.shields.io/github/stars/sgtlaugh/algovault.svg?style=flat&label=star)](https://github.com/sgtlaugh/algovault/)
 [![license](https://img.shields.io/github/license/sgtlaugh/algovault.svg?style=flat-square)](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
 
-# Algovault
-This is a collection of algorithms, data structures and templates for competitive programming. In a nutshell, these are the goals of this project:
-  1. Useful in online competitions like [Codeforces](https://codeforces.com/), [Google Code Jam](https://codingcompetitions.withgoogle.com/codejam), etc.
-  2. Should be relatively simple to use as a black-box without compromising speed.
+## Algovault
+A collection of algorithms, data structures and templates for competitive programming.
+
+In a nutshell, these are the goals of this project:
+  1. Useful in online competitions like [Codeforces](https://codeforces.com/), [Google Code Jam](https://codingcompetitions.withgoogle.com/codejam).
+  2. Simple to use as a black-box without compromising performance.
   3. Example usage and sufficient documentation.
 
-Most codes are written in C/C++, and some are written in Python. While most implementations are stress-tested and cross-checked against various problems in several online judges, nonetheless they are not guranteed to be flawless and work in all cases. For bugs, refactoring and improvements, feel free to file an issue or a pull request as contributions are always welcome.
+Most codes are written in C/C++, and some are written in Python. Most implementations are stress-tested and cross-checked against various problems. Nonetheless they are not guranteed to be flawless and work in all cases.
+
+For bugs, refactoring and improvements, feel free to file an issue or a pull request as contributions are always welcome.
 
 ## Motivation
 The initial goal was to only upload my personal templates online, nothing more :)
@@ -16,9 +20,11 @@ Shortly I stumbled upon this awesome project called [KACTL](https://github.com/k
 
 Then there exists projects like [cosmos](https://github.com/OpenGenus/cosmos). While this is a nice initiative, but it's not catered towards competitive programming. And there are too many implementations of the same algorithms which is confusing and very specific.
 
-There are some other amazing library like the ones created by [indy256](https://github.com/indy256/codelibrary), [bqi343](https://github.com/bqi343/USACO), [AhmadElsagheer](https://github.com/AhmadElsagheer/Competitive-programming-library), [kmyk](https://github.com/kmyk/competitive-programming-library), [OmarBazaraa](https://github.com/OmarBazaraa/Competitive-Programming) but they do share some common problems. Some focuses on basic/intermediate stuff and do not contain many advanced algorithms. Some are too modularized and cannot be copy pasted easily, for example FFT template having references from several other headers. And so they are more like a third-party library. Additonally it's not intuitive how to use them as a black-box and often usage, common gotchas and specifics like time complexity and performance are left out. Most of these work are intended to be used as a personal collection, not focusing much on reusability.
+There are some other amazing library like the ones created by [indy256](https://github.com/indy256/codelibrary), [bqi343](https://github.com/bqi343/USACO), [AhmadElsagheer](https://github.com/AhmadElsagheer/Competitive-programming-library), [kmyk](https://github.com/kmyk/competitive-programming-library), [OmarBazaraa](https://github.com/OmarBazaraa/Competitive-Programming). But they do share some common problems. Some focuses on basic/intermediate stuff and do not contain many advanced algorithms. Some are too modularized and cannot be copy pasted easily, for example FFT template having references from several other headers. And so they are more like a third-party library. Additonally it's not intuitive how to use them as a black-box and often usage, common gotchas and specifics like time complexity and performance are left out. Most of these work are intended to be used as a personal collection, not focusing much on reusability.
 
-It is for the above stated reasons I felt something like this could be helpful to the community. Note, for Python users, also check out this super cool project - [PyRival](https://github.com/cheran-senthil/PyRival).
+It is for the above stated reasons I felt something like this could be helpful to the community.
+
+Note, for Python users, also check out this super cool project - [PyRival](https://github.com/cheran-senthil/PyRival).
 
 ## Getting Started
 It's not exactly rocket science. Just copy paste any implementation and enjoy. You only need to keep in mind two things:
