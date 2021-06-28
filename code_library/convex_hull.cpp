@@ -13,21 +13,21 @@
 using namespace std;
 
 struct Point {
-    long long x, y; /// x*x or y*y should fit long long because of cross() function
+    int64_t x, y; /// x*x or y*y should not overflow
 
     Point(){}
-    Point(long long x, long long y) : x(x), y(y) {}
+    Point(int64_t x, int64_t y) : x(x), y(y) {}
 
     inline bool operator < (const Point &p) const {
         return ((x < p.x) || (x == p.x && y < p.y));
     }
 };
 
-long long cross(const Point &O, const Point &A, const Point &B){
+int64_t cross(const Point &O, const Point &A, const Point &B){
     return ((A.x - O.x) * (B.y - O.y)) - ((A.y - O.y) * (B.x - O.x));
 }
 
-vector <Point> get_convex_hull(vector<Point> P){
+vector<Point> get_convex_hull(vector<Point> P){
     int i, t, k = 0, n = P.size();
     vector<Point> H(n << 1);
     sort(P.begin(), P.end());
@@ -75,6 +75,7 @@ int main(){
 
     vector <Point> expected_hull = {Point(0, 0), Point(10, 0), Point(10, 10), Point(2, 20), Point(0, 10)};
     assert((int)hull.size() == (int)expected_hull.size());
+
     for (int i = 0; i < (int)hull.size(); i++){
         assert(hull[i].x == expected_hull[i].x && hull[i].y == expected_hull[i].y);
     }
