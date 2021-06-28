@@ -11,7 +11,7 @@ using namespace std;
 typedef long double fType;
 
 const fType EPS = 1e-9;
-const fType PI  = 2.0 * acos(0.0);
+const fType PI  = 2 * acos(0);
 
 struct Point{
     fType x, y;
@@ -49,16 +49,16 @@ fType intersection_area(Circle A, Circle B){
 
     fType x = A.radius + B.radius;
     fType y = A.centre.get_dis(B.centre);
-    if ((abs(x - y) < EPS) || (y > x)) return 0.0;
+    if ((abs(x - y) < EPS) || (y > x)) return 0;
 
     fType c = y, r0 = A.radius, r1 = B.radius;
-    x = (r1 * r1 - r0 * r0 + c * c) / (2.0 * r1 * c);
-    fType CBD = acos(x) * 2.0;
-    y = (r0 * r0 - r1 * r1 + c * c) / (2.0 * r0 * c);
-    fType CAD = acos(y) * 2.0;
+    x = (r1 * r1 - r0 * r0 + c * c) / (2 * r1 * c);
+    fType CBD = acos(x) * 2;
+    y = (r0 * r0 - r1 * r1 + c * c) / (2 * r0 * c);
+    fType CAD = acos(y) * 2;
 
-    fType res = (0.5 * CBD * r1 * r1) - (0.5 * r1 * r1 * sin(CBD)) + (0.5 * CAD * r0 * r0) - (0.5 * r0 * r0 * sin(CAD));
-    return res;
+    fType res = CBD * r1 * r1 - r1 * r1 * sin(CBD) + CAD * r0 * r0 - r0 * r0 * sin(CAD);
+    return 0.5 * res;
 }
 
 int main(){
