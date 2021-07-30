@@ -21,7 +21,7 @@ const uint64_t base = mt19937_64(seed)() % (mod / 3) + (mod / 3);
 
 uint64_t base_pow[MAXLEN];
 
-uint64_t modmul(uint64_t a, uint64_t b){
+int64_t modmul(uint64_t a, uint64_t b){
     uint64_t l1 = (uint32_t)a, h1 = a >> 32, l2 = (uint32_t)b, h2 = b >> 32;
     uint64_t l = l1 * l2, m = l1 * h2 + l2 * h1, h = h1 * h2;
     uint64_t ret = (l & mod) + (l >> 61) + (h << 3) + (m >> 29) + (m << 35 >> 3) + 1;
@@ -39,7 +39,7 @@ void init(){
 
 struct PolyHash{
     /// Remove suff vector and usage if reverse hash is not required for more speed
-    vector<uint64_t> pref, suff;
+    vector<int64_t> pref, suff;
 
     PolyHash() {}
 
