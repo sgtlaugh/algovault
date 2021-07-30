@@ -39,7 +39,7 @@ void init(){
 
 struct PolyHash{
     /// Remove suff vector and usage if reverse hash is not required for more speed
-    vector<int64_t> pref, suff;
+    vector<uint64_t> pref, suff;
 
     PolyHash() {}
 
