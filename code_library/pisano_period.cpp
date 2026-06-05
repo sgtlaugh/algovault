@@ -49,7 +49,7 @@ inline unsigned long long gcd(unsigned long long u, unsigned long long v){
     u >>= __builtin_ctzll(u);
     do{
         v >>= __builtin_ctzll(v);
-        if (u > v) v ^= u ^= v ^= u;
+        if (u > v) swap(u, v);
         v = v - u;
     } while (v);
 
@@ -73,7 +73,7 @@ inline void fib(long long& x, long long& y, long long n, long long m){
 
         if (n & 1){
             x = mod_add(x, y, m);
-            x ^= y ^= x ^= y;
+            swap(x, y);
         }
     }
 }
