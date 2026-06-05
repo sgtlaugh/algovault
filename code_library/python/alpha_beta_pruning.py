@@ -61,13 +61,13 @@ class Node(AbstractNode):
         super().__init__(state)
 
     def get_next_states(self):
-        pass
+        raise NotImplementedError
 
     def is_terminal_node(self):
-        pass
+        raise NotImplementedError
 
     def get_terminal_node_utility(self):
-        pass
+        raise NotImplementedError
 
 
 def main():
