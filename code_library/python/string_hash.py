@@ -1,19 +1,24 @@
+BASE = 997
+MOD = 10**18 + 3
+MAX_LENGTH = 10**5
+
 class StringHash:
-    def __init__(self, text, base=997, mod=10 ** 18 + 3):
-        n = len(text)
+    _powers = None
 
-        self.text = text
-        self.base = base
-        self.mod = mod
-        self.power = [1] * (n + 2)
-        self.prefix_hash = [0] * (n + 2)
+    def __init__(self, text):
+        if StringHash._powers is None: # powers computed once, singleton pattern for speed
+            powers = [1] * (MAX_LENGTH + 2)
+            for i in range(1, len(powers)):
+                powers[i] = powers[i - 1] * BASE % MOD
 
-        for i in range(1, n + 1):
-            self.power[i] = self.power[i - 1] * self.base % self.mod
-            self.prefix_hash[i] = (self.prefix_hash[i - 1] * self.base + ord(self.text[i - 1]) + 13) % self.mod
+            StringHash._powers = powers
+
+        self.prefix_hash = [0] * (len(text) + 2)
+        for i in range(1, len(text) + 1):
+            self.prefix_hash[i] = (self.prefix_hash[i - 1] * BASE + ord(text[i - 1]) + 13) % MOD
 
     def get_hash(self, l, r):
-        return (self.prefix_hash[r + 1] - self.power[r - l + 1] * self.prefix_hash[l]) % self.mod
+        return (self.prefix_hash[r + 1] - StringHash._powers[r - l + 1] * self.prefix_hash[l]) % MOD
 
 
 def main():
