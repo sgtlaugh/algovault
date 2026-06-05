@@ -70,8 +70,8 @@ int main(){
     assert(abs(intersection_area(A, B) - 0) < EPS);
 
     B = Circle(Point(0, 0), 10);
-    assert(abs(intersection_area(A, B) - 0) < 78.539816339745);
-    assert(abs(intersection_area(B, A) - 0) < 78.539816339745);
+    assert(abs(intersection_area(A, B) - A.get_area()) < EPS);
+    assert(abs(intersection_area(B, A) - A.get_area()) < EPS);
 
     return 0;
 }
