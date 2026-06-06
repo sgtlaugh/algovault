@@ -55,6 +55,10 @@ struct AhoCorasick{
         dictionary.push_back(str);
     }
 
+    inline void insert(const string& str){
+        insert(str.c_str());
+    }
+
     /// call build once after insertion is done
     inline void build(){
         vector <pair<int, pair<int, int> > > Q;
@@ -104,6 +108,10 @@ struct AhoCorasick{
 
         return res;
     }
+
+    long long count(const string& str){
+        return count(str.c_str());
+    }
 };
 
 
@@ -119,18 +127,26 @@ struct DynamicAhoCorasick{
 
         ar[k].insert(str);
         for (i = 0; i < k; i++){
-            for (auto s: ar[i].dictionary){
-                ar[k].insert(s.c_str());
+            for (const auto& s: ar[i].dictionary){
+                ar[k].insert(s);
             }
             ar[i].clear();
         }
         ar[k].build();
     }
 
+    inline void insert(const string& str){
+        insert(str.c_str());
+    }
+
     long long count(const char* str){
         long long res = 0;
         for (int i = 0; i < MAX_LOG; i++) res += ar[i].count(str);
         return res;
+    }
+
+    long long count(const string& str){
+        return count(str.c_str());
     }
 };
 
