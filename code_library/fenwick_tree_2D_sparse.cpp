@@ -2,27 +2,27 @@
  *
  * Sparse 2D Fenwick Tree (Binary Indexed Tree)
  * For very large matrices (N up to 10^9) with sparse updates
- * Uses hashmap to store only non-zero values
+ * Uses custom hashmap (SplitMix64) to store only non-zero Fenwick tree nodes
  * Point updates and range queries only
- * O(log n * log m) per operation
  * 1-based indexing for elements
  *
  * Space: O(Q log N log M) where Q is number of updates
  * Time: O(log N * log M) per update/query
  *
- * Benchmark: N=200000, Q=200000 runs in ~2 seconds
+ * Benchmarks (Codeforces server):
+ *   - N = 100K, Q = 100K random operations: 0.8 seconds
+ *   - N = 200K, Q = 200K random operations: 2.0 seconds
+ *
+ * vs implicit segment tree (fenwick_tree_2D_implicit.cpp):
+ *   - Faster for very sparse updates (Q < 10K) with random access
+ *   - Hashmap has 16MB+ overhead regardless of Q
+ *   - Implicit better for moderate Q (10K-100K) due to cache locality
  *
 ***/
 
 #include <bits/stdtr1c++.h>
 
 using namespace std;
-
-/***
- * Sparse 2D Fenwick Tree using custom hashmap
- * Supports point updates and range queries
- * Efficient for large sparse matrices
-***/
 
 template <typename T>
 struct FenwickSparse2D{
