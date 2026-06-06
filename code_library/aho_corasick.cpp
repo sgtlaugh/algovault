@@ -1,4 +1,20 @@
-#include <bits/stdc++.h>
+/***
+ *
+ * Aho-Corasick Automaton
+ * Multi-pattern string matching with failure links
+ * Finds all occurrences of multiple pattern strings in a text
+ *
+ * Build: O(sum of pattern lengths)
+ * Query: O(text length + total occurrences)
+ *
+ * Usage:
+ *   1. Insert all patterns
+ *   2. Call build() once
+ *   3. Query text with count()
+ *
+***/
+
+#include <bits/stdtr1c++.h>
 
 #define MAX_LETTERS 26
 
@@ -7,12 +23,13 @@ using namespace std;
 struct AhoCorasick{
     int id, edge[256];
 
-    vector <long long> counter;
-    vector <string> dictionary;
-    vector <int> leaf, fail;
+	vector<int> leaf;
+    vector<int> fail;
+    vector<long long> counter;
+    vector<string> dictionary;
 
-    vector <vector<int>> dp;
-    vector <map<char, int>> trie;
+    vector<vector<int>> dp;      // dp[node][char] = precomputed next state (O(1) transitions)
+    vector<map<char, int>> trie; // Trie structure: trie[node][char] = child node
 
     inline int new_node(){
         leaf.push_back(0);
@@ -31,7 +48,7 @@ struct AhoCorasick{
         dp.clear(), fail.clear(), leaf.clear(), counter.clear();
         id = 0, new_node();
 
-        /// lowercase letters by default, change here if different character set
+        // Map lowercase letters to [0, 25]. Change for different alphabet (digits, uppercase, etc)
         for (int i = 'a'; i <= 'z'; i++){
             edge[i] = i - 'a';
         }
@@ -52,9 +69,13 @@ struct AhoCorasick{
         dictionary.push_back(str);
     }
 
-    /// call build once after insertion is done
+    void insert(const string& str){
+        insert(str.c_str());
+    }
+
+    /// Build automaton: compute failure links and precompute transitions. Call once after all inserts.
     inline void build(){
-        vector <pair<int, pair<int, int> > > Q;
+        vector<pair<int, pair<int, int>>> Q;
         fail.resize(id, 0);
         Q.push_back({0, {0, 0}});
 
@@ -95,7 +116,7 @@ struct AhoCorasick{
         return cur;
     }
 
-    /// total number of occurrences of all words from dictionary in str
+    /// Total number of occurrences of all words from dictionary in str
     long long count(const char* str){
         long long res = 0;
         for (int j = 0, cur = 0; str[j] && id > 1; j++){
@@ -104,6 +125,10 @@ struct AhoCorasick{
         }
 
         return res;
+    }
+
+    long long count(const string& str){
+        return count(str.c_str());
     }
 };
 
