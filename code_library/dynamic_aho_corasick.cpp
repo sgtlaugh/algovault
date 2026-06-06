@@ -1,3 +1,16 @@
+/***
+ *
+ * Dynamic Aho-Corasick Automaton
+ * Multi-pattern string matching with online pattern insertion
+ * Uses binary decomposition over static Aho-Corasick automata
+ *
+ * Insert: O(|pattern| * log N) amortized
+ * Query:  O(|text| * log N + occurrences * log N)
+ *
+ * No need to call build() - handled automatically
+ *
+***/
+
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
@@ -6,15 +19,17 @@
 
 using namespace std;
 
+/// Static Aho-Corasick (building block for dynamic version)
 struct AhoCorasick{
     int id, edge[256];
+	
+	vector<int> leaf;
+    vector<int> fail;
+    vector<long long> counter;
+    vector<string> dictionary;
 
-    vector <long long> counter;
-    vector <string> dictionary;
-    vector <int> leaf, fail;
-
-    vector <vector<int>> dp;
-    vector <map<char, int>> trie;
+    vector<vector<int>> dp;      // dp[node][char] = precomputed next state (O(1) transitions)
+    vector<map<char, int>> trie; // Trie structure: trie[node][char] = child node
 
     inline int node(){
         leaf.push_back(0);
@@ -33,7 +48,8 @@ struct AhoCorasick{
         dp.clear(), fail.clear(), leaf.clear(), counter.clear();
 
         id = 0, node();
-        for (int i = 'a'; i <= 'z'; i++) edge[i] = i - 'a'; /// change here if different character set
+        // Map lowercase letters to [0, 25]. Change for different alphabet (digits, uppercase, etc)
+        for (int i = 'a'; i <= 'z'; i++) edge[i] = i - 'a';
     }
 
     AhoCorasick(){
@@ -59,7 +75,7 @@ struct AhoCorasick{
         insert(str.c_str());
     }
 
-    /// call build once after insertion is done
+    /// Build automaton: compute failure links and precompute transitions. Call once after all inserts.
     inline void build(){
         vector <pair<int, pair<int, int> > > Q;
         fail.resize(id, 0);
@@ -115,16 +131,15 @@ struct AhoCorasick{
 };
 
 
-/// dynamic aho corasick in N log N
-/// no need to call build explicitly before count, unlike aho corasick
-
 struct DynamicAhoCorasick{
     AhoCorasick ar[MAX_LOG];
 
     inline void insert(const char* str){
+        // Binary decomposition: find first empty slot
         int i, k = 0;
         for (k = 0; k < MAX_LOG && ar[k].size(); k++){}
 
+        // Merge all smaller automata into ar[k]
         ar[k].insert(str);
         for (i = 0; i < k; i++){
             for (const auto& s: ar[i].dictionary){
