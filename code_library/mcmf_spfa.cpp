@@ -102,7 +102,7 @@ struct FlowGraph{
 
 int main(){
     const int n = 6;
-    auto flow_graph = FlowGraph<int>(n);
+    static auto flow_graph = FlowGraph<int>(n);
 
     /// Graph taken from https://cp-algorithms.com/graph/edmonds_karp.html
     flow_graph.add_edge(1, 2, 7, 1);
