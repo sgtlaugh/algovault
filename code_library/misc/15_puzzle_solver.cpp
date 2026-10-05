@@ -8,7 +8,7 @@ const char dir[] = "LRUD";
 const int dx[] = {0, 0, -1, 1};
 const int dy[] = {-1, 1, 0, 0};
 
-char str[60];
+char str[100];
 int found, len[4] = {0}, idx[4][4], ar[4][4];
 
 
