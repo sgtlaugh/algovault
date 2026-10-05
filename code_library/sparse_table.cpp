@@ -43,7 +43,7 @@ struct SparseTable{
     }
 
     T query(int l, int r){
-        int h = __lg(r - l);
+        int h = __lg(r - l + 1);
         return combine(dp[h][l], dp[h][r - (1 << h) + 1]);
     }
 };
