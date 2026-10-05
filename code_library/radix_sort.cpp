@@ -44,7 +44,7 @@ void radix_sort(unsigned int ar[], int n){
 
 int main(){
     mt19937 rng(42);
-    array <unsigned int, MAXN> ar;
+    static array <unsigned int, MAXN> ar;
 
     puts("Generating array");
     int i, n = ar.size();
