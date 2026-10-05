@@ -32,13 +32,18 @@ long double expo(long double x, int n){
 
 long double gamblers_ruin(int n1, int n2, long double p){
     long double q = 1 - p;
-    if (fabs(p - q) < EPS){
+    if (fabsl(p - q) < EPS){
         return (long double)n2 / (n1 + n2);
     }
 
-    long double x = expo(q / p, n2);
-    long double y = expo(q / p, n1 + n2);
-    return (1 - x) / (1 - y);
+    /// Always exponentiate a ratio <= 1 so large n1 + n2 underflows to 0 instead of overflowing to inf / inf
+    if (p < q){
+        long double r = p / q;
+        return (1 - expo(r, n2)) / (1 - expo(r, n1 + n2));
+    }
+
+    long double s = q / p;
+    return (expo(s, n1) - expo(s, n1 + n2)) / (1 - expo(s, n1 + n2));
 }
 
 int main(){
@@ -46,7 +51,8 @@ int main(){
     const int sp_coins = 50;
     const double fp_win_prob = 0.49;
 
-    assert(fabs(gamblers_ruin(fp_coins, sp_coins, fp_win_prob) - 0.87148470314) < 1e-9);
+    assert(fabsl(gamblers_ruin(fp_coins, sp_coins, fp_win_prob) - 0.98261198444) < 1e-9);
+    assert(fabsl(gamblers_ruin(1, 1, 0.9) - 0.1) < 1e-9);
 
     return 0;
 }
