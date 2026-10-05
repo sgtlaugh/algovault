@@ -50,7 +50,7 @@ void radix_sort(unsigned long long ar[], int n){
 
 int main(){
     mt19937_64 rng(42);
-    array <unsigned long long, MAXN> ar;
+    static array <unsigned long long, MAXN> ar;
 
     puts("Generating array");
     int i, n = ar.size();
