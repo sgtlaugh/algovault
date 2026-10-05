@@ -37,8 +37,10 @@ using namespace std;
 vector <int> divisors[MAX];
 
 void gen(bool make_sorted=false){ /// sorting makes it 2x slower
-    short sp[MAX];
-    int i, j, k, c, l, v, lp[MAX];
+    static short sp[MAX];
+    static int lp[MAX];
+    int i, j, k, c, l;
+    long long v;
 
     sp[1] = lp[1] = 1;
     for (i = 4; i < MAX; i++, i++) sp[i] = 2;
