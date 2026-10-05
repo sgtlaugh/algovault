@@ -30,6 +30,7 @@ struct Graph{
     }
 
     inline void add_edge(int u, int v){
+        assert(m < MAXE);
         E[m].v = v, E[m].nxt = head[u], head[u] = m++;
     }
 
@@ -41,11 +42,11 @@ struct Graph{
         if (a < 0) a = -a ^ 1;
         if (b < 0) b = -b ^ 1;
         add_edge(a, b);
+        add_edge(b ^ 1, a ^ 1);
     }
 
     inline void add_or(int a, int b){
         add_implication(-a, b);
-        add_implication(-b, a);
     }
 
     inline void add_xor(int a, int b){
