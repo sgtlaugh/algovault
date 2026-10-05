@@ -33,13 +33,12 @@ struct Graph{
         if (a < 0) a = n - a;
         if (b < 0) b = n - b;
         assert(a >= 1 && a <= 2 * n && b >= 1 && b <= 2 * n);
-        adj[a].push_back(b);
-        rev[b].push_back(a);
+        adj[a].push_back(b), rev[b].push_back(a);
+        adj[neg(b)].push_back(neg(a)), rev[neg(a)].push_back(neg(b));
     }
 
     inline void add_or(int a, int b){
         add_implication(-a, b);
-        add_implication(-b, a);
     }
 
     inline void add_xor(int a, int b){
