@@ -32,11 +32,11 @@ int lcs(char* A, char* B){
 }
 
 int main(){
-    srand(666);
+    mt19937 rng(666);
 
     int n = MAX - 10, m = MAX - 10;
-    for (int i = 0; i < n; i++) A[i] = (rand() % 26) + 'A';
-    for (int i = 0; i < m; i++) B[i] = (rand() % 26) + 'A';
+    for (int i = 0; i < n; i++) A[i] = (rng() % 26) + 'A';
+    for (int i = 0; i < m; i++) B[i] = (rng() % 26) + 'A';
     A[n] = B[m] = 0;
 
     clock_t start = clock();
