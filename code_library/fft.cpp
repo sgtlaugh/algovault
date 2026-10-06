@@ -62,7 +62,7 @@ namespace fft{
 
             int i, j, k, lim;
             for (i = 1; (1 << i) < MAX; i++){
-                fType theta = (fType)2 * acos(0.0) / (1 << i);
+                fType theta = acosl(-1.0L) / (1 << i);
                 ComplexNum mul = ComplexNum(cos(theta), sin(theta));
                 ComplexNum inv_mul = ComplexNum(cos(-theta), sin(-theta));
 
