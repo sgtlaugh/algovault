@@ -85,6 +85,7 @@ struct FlowGraph{
     }
 
     pair<T, T> mincost_maxflow(int src, int sink){
+        assert(src != sink);
         T mincost = 0, maxflow = 0;
 
         while (spfa(src, sink)){
