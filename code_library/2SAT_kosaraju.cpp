@@ -55,13 +55,13 @@ struct Graph{
     /// Force variable x to be true (if x is negative, force !x to be true)
     inline void force_true(int x){
         if (x < 0) x = n - x;
-        add_implication(neg(x), x);
+        adj[neg(x)].push_back(x), rev[x].push_back(neg(x));  /// !x -> x is its own contrapositive, add it once
     }
 
     /// Force variable x to be false (if x is negative, force !x to be false)
     inline void force_false(int x){
         if (x < 0) x = n - x;
-        add_implication(x, neg(x));
+        adj[x].push_back(neg(x)), rev[neg(x)].push_back(x);  /// x -> !x is its own contrapositive, add it once
     }
 
     inline void topsort(int i){
