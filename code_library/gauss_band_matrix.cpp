@@ -165,7 +165,7 @@ int main(){
     /// RHS constant for most variables except (1, 1) is 1
     long double rhs_default = 1;
 
-    static auto gauss_band = GaussBand <long double>(n, m, band_size=band_size, rhs_default=rhs_default);
+    static GaussBand <long double> gauss_band(n, m, band_size, rhs_default);
 
     gauss_band.set_rhs(1, 1, 0);
 
