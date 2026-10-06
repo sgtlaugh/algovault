@@ -52,13 +52,14 @@ namespace fio{
     int buf_len = 0, inptr = 0, outptr = 0;
     char inbuf[BUF_SIZE], outbuf[BUF_SIZE], tmpbuf[128];
 
-    inline char read_char(){
+    /// Returns int so that EOF never collides with a 0xFF byte or with an unsigned char platform
+    inline int read_char(){
         if (inptr >= buf_len){
             inptr = 0, buf_len = fread(inbuf, 1, BUF_SIZE, stdin);
             if (buf_len == 0) return EOF;
         }
 
-        return inbuf[inptr++];
+        return (unsigned char)inbuf[inptr++];
     }
 
     template <typename T, typename=typename enable_if<is_integral<T>::value, T>::type>
@@ -68,10 +69,11 @@ namespace fio{
         if (c == '-') neg = 1, c = read_char();
         if (c == EOF) return false;
 
+        /// Accumulate as negative so that the minimum value (e.g. INT_MIN) does not overflow
         for (x = 0; isdigit(c); c = read_char()){
-            x = x * 10 + c - '0';
+            x = x * 10 - (c - '0');
         }
-        if (neg) x = -x;
+        if (!neg) x = -x;
 
         return true;
     }
@@ -81,7 +83,7 @@ namespace fio{
         while (isspace(c) && c != EOF) c = read_char();
         if (c == EOF) return false;
 
-        for (s.clear(); !isspace(c); c = read_char()){
+        for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
         return true;
@@ -145,9 +147,14 @@ namespace fio{
 
     template <typename T, typename=typename enable_if<is_integral<T>::value, T>::type>
     void write_one(T x){
-        if (x < 0) x = -x, write_char('-');
-
         int l = 0;
+        if (x < 0){
+            /// Peel one digit while still negative so that -x cannot overflow for the minimum value
+            write_char('-');
+            tmpbuf[l++] = '0' - x % 10;
+            x = -(x / 10);
+        }
+
         while (x || !l){
             tmpbuf[l++] = (x % 10) + '0';
             x /= 10;
