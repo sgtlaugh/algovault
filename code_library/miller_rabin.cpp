@@ -32,9 +32,6 @@ namespace prm{
     const vector<int> BASES_64 = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
 
     const vector<int> SMALL_PRIMES = {3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 193, 407521, 299210837};
-    
-    typedef unsigned long long u64;
-    typedef unsigned __int128 u128;
 
     /***
      *
@@ -45,29 +42,29 @@ namespace prm{
     ***/
 
     struct Montgomery{
-        u64 n, inv, r2;
+        unsigned long long n, inv, r2;
 
-        Montgomery(u64 n) : n(n), inv(1){
+        Montgomery(unsigned long long n) : n(n), inv(1){
             for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// Newton iteration, doubles the correct bits of n^-1 mod 2^64 each step
             r2 = -n % n;
-            r2 = (u128)r2 * r2 % n;
+            r2 = (unsigned __int128)r2 * r2 % n;
         }
 
-        inline u64 reduce(u128 x) const{
-            u64 q = (u64)x * inv, m = ((u128)q * n) >> 64, h = x >> 64;
+        inline unsigned long long reduce(unsigned __int128 x) const{
+            unsigned long long q = (unsigned long long)x * inv, m = ((unsigned __int128)q * n) >> 64, h = x >> 64;
             return h >= m ? h - m : h + n - m;
         }
 
-        inline u64 mul(u64 x, u64 y) const{
-            return reduce((u128)x * y);
+        inline unsigned long long mul(unsigned long long x, unsigned long long y) const{
+            return reduce((unsigned __int128)x * y);
         }
 
-        inline u64 to_mont(u64 x) const{
+        inline unsigned long long to_mont(unsigned long long x) const{
             return mul(x, r2);
         }
 
-        inline u64 pow(u64 x, u64 e) const{
-            u64 res = to_mont(1);
+        inline unsigned long long pow(unsigned long long x, unsigned long long e) const{
+            unsigned long long res = to_mont(1);
             for (; e; e >>= 1, x = mul(x, x)){
                 if (e & 1) res = mul(res, x);
             }
@@ -76,8 +73,8 @@ namespace prm{
     };
 
     bool is_probable_composite(int a, long long n, int s, const Montgomery& mont){
-        u64 one = mont.to_mont(1), minus_one = mont.to_mont(n - 1);
-        u64 x = mont.pow(mont.to_mont(a), (n - 1) >> s);
+        unsigned long long one = mont.to_mont(1), minus_one = mont.to_mont(n - 1);
+        unsigned long long x = mont.pow(mont.to_mont(a), (n - 1) >> s);
         if (x == one) return false;
 
         for (int i = 0; i < s; i++){
