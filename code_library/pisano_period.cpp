@@ -21,55 +21,54 @@
 
 using namespace std;
 
-typedef unsigned long long u64;
-typedef unsigned __int128 u128;
+namespace rho{
+    /***
+     *
+     * Montgomery multiplication for a fixed odd modulus n, values are stored as x * 2^64 mod n
+     * Needs no division, ~1.6x faster than the long double trick and ~4x faster than __int128 % n
+     * The modulus must be odd, even moduli give wrong results silently
+     *
+    ***/
 
-/***
- *
- * Montgomery multiplication for a fixed odd modulus n, values are stored as x * 2^64 mod n
- * Needs no division, ~1.6x faster than the long double trick and ~4x faster than __int128 % n
- * The modulus must be odd, even moduli give wrong results silently
- *
-***/
+    struct Montgomery{
+        unsigned long long n, inv, r2;
 
-struct Montgomery{
-    u64 n, inv, r2;
-
-    Montgomery(u64 n) : n(n), inv(1){
-        for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// Newton iteration, doubles the correct bits of n^-1 mod 2^64 each step
-        r2 = -n % n;
-        r2 = (u128)r2 * r2 % n;
-    }
-
-    inline u64 reduce(u128 x) const{
-        u64 q = (u64)x * inv, m = ((u128)q * n) >> 64, h = x >> 64;
-        return h >= m ? h - m : h + n - m;
-    }
-
-    inline u64 mul(u64 x, u64 y) const{
-        return reduce((u128)x * y);
-    }
-
-    inline u64 add(u64 x, u64 y) const{
-        return (x += y) >= n ? x - n : x;
-    }
-
-    inline u64 to_mont(u64 x) const{
-        return mul(x, r2);
-    }
-
-    inline u64 from_mont(u64 x) const{
-        return reduce(x);
-    }
-
-    inline u64 pow(u64 x, u64 e) const{
-        u64 res = to_mont(1);
-        for (; e; e >>= 1, x = mul(x, x)){
-            if (e & 1) res = mul(res, x);
+        Montgomery(unsigned long long n) : n(n), inv(1){
+            for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// Newton iteration, doubles the correct bits of n^-1 mod 2^64 each step
+            r2 = -n % n;
+            r2 = (unsigned __int128)r2 * r2 % n;
         }
-        return res;
-    }
-};
+
+        inline unsigned long long reduce(unsigned __int128 x) const{
+            unsigned long long q = (unsigned long long)x * inv, m = ((unsigned __int128)q * n) >> 64, h = x >> 64;
+            return h >= m ? h - m : h + n - m;
+        }
+
+        inline unsigned long long mul(unsigned long long x, unsigned long long y) const{
+            return reduce((unsigned __int128)x * y);
+        }
+
+        inline unsigned long long add(unsigned long long x, unsigned long long y) const{
+            return (x += y) >= n ? x - n : x;
+        }
+
+        inline unsigned long long to_mont(unsigned long long x) const{
+            return mul(x, r2);
+        }
+
+        inline unsigned long long from_mont(unsigned long long x) const{
+            return reduce(x);
+        }
+
+        inline unsigned long long pow(unsigned long long x, unsigned long long e) const{
+            unsigned long long res = to_mont(1);
+            for (; e; e >>= 1, x = mul(x, x)){
+                if (e & 1) res = mul(res, x);
+            }
+            return res;
+        }
+    };
+}
 
 inline unsigned long long gcd(unsigned long long u, unsigned long long v){
     if (!u || !v) return u | v;
@@ -90,12 +89,12 @@ inline long long lcm(long long a, long long b){
     return (a / gcd(a, b)) * b;
 }
 
-inline void fib(u64& x, u64& y, long long n, const Montgomery& mont){
+inline void fib(unsigned long long& x, unsigned long long& y, long long n, const rho::Montgomery& mont){
     if (!n) x = 0, y = mont.to_mont(1);
     else{
-        u64 a, b;
+        unsigned long long a, b;
         fib(a, b, n >> 1, mont);
-        u64 z = mont.add(b, b) + mont.n - a;
+        unsigned long long z = mont.add(b, b) + mont.n - a;
         if (z >= mont.n) z -= mont.n;
 
         x = mont.mul(a, z);
@@ -108,10 +107,10 @@ inline void fib(u64& x, u64& y, long long n, const Montgomery& mont){
     }
 }
 
-/// m must be odd
 inline pair<long long, long long> fib(long long n, long long m){
-    Montgomery mont(m);
-    u64 x, y;
+    assert(m & 1);  /// Montgomery form needs an odd modulus
+    rho::Montgomery mont(m);
+    unsigned long long x, y;
     fib(x, y, n, mont);
     return pair<long long, long long>(mont.from_mont(x), mont.from_mont(y));
 }
@@ -131,7 +130,7 @@ namespace rho{
         for (; !(r & 1); r >>= 1, s++) {}
 
         Montgomery mont(n);
-        u64 c, d, one = mont.to_mont(1), minus_one = mont.to_mont(n - 1);
+        unsigned long long c, d, one = mont.to_mont(1), minus_one = mont.to_mont(n - 1);
         for (int i = 0; i < 7; i++){
             long long a = BASE[i] % n;
             if (!a) continue;  /// n divides the base (e.g. 299210837), this base says nothing about n
@@ -165,11 +164,11 @@ namespace rho{
 
         const int BATCH = 128;
         Montgomery mont(n);
-        auto next = [&](u64 x, u64 c){ return mont.add(mont.mul(x, x), c); };
-        auto dist = [](u64 x, u64 y){ return x > y ? x - y : y - x; };
+        auto next = [&](unsigned long long x, unsigned long long c){ return mont.add(mont.mul(x, x), c); };
+        auto dist = [](unsigned long long x, unsigned long long y){ return x > y ? x - y : y - x; };
 
         while (1){
-            u64 c = rand() % (n - 1) + 1, y = rand() % n, x = y, ys = y, q = mont.to_mont(1), g = 1;
+            unsigned long long c = rand() % (n - 1) + 1, y = rand() % n, x = y, ys = y, q = mont.to_mont(1), g = 1;
 
             for (long long r = 1; g == 1; r <<= 1){
                 x = y;
@@ -186,14 +185,14 @@ namespace rho{
             }
 
             /// The batch overshot to a multiple of n, replay it one step at a time
-            if (g == (u64)n){
+            if (g == (unsigned long long)n){
                 do{
                     ys = next(ys, c);
                     g = gcd(dist(x, ys), n);
                 } while (g == 1);
             }
 
-            if (g != (u64)n) return g;
+            if (g != (unsigned long long)n) return g;
         }
     }
 
