@@ -12,6 +12,7 @@
 using namespace std;
 
 vector <int> manacher(const string& str){
+    if (str.empty()) return {};
     int i, j, k, l = str.size(), n = l << 1;
     vector <int> pal(n);
 
