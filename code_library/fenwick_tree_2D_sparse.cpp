@@ -45,8 +45,9 @@ struct FenwickSparse2D{
         return h;
     }
 
+    /// Key 0 marks an empty slot, i >= 1 keeps every key non-zero
     inline void add(int i, int j, T v){
-        long long h = ((long long)i * 1000003LL) + j + 917921LL;
+        long long h = ((long long)i << 32) | j;
         int k = hash_func(h) & HMOD;
         while (hashmap[k] && hashmap[k] != h) k++;
         hashmap[k] = h;
@@ -54,7 +55,7 @@ struct FenwickSparse2D{
     }
 
     inline T find(int i, int j){
-        long long h = ((long long)i * 1000003LL) + j + 917921LL;
+        long long h = ((long long)i << 32) | j;
         int k = hash_func(h) & HMOD;
         while (hashmap[k] && hashmap[k] != h) k++;
         return (hashmap[k] ? tree[k] : 0);
