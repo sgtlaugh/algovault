@@ -80,7 +80,7 @@ int main(){
 
     const int n = 2000000;
     for (int i = 0; i < n; i++){
-        v.push_back(rng() % 1000000000);
+        v.push_back(rng() % 1000);  /// partial sums span at most 2^20 elements, so they stay within int
     }
 
     clock_t start = clock();
