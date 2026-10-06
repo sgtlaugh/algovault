@@ -25,6 +25,7 @@ template<typename Container>
 vector<int> kmp_failure(const Container& c){
     int n = c.size();
     vector<int> fail(n);
+    if (n == 0) return fail;
 
     int k = fail[0] = -1;
     for (int i = 1; i < n; i++){
