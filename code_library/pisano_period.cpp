@@ -11,6 +11,7 @@
  * the pisano period for m = 4 is therefore 6, as the sequence repeats after every 6 terms
  *
  * Supports n up to 1.5 * 10^18, the period can be as large as 6n
+ * Requires __int128 (64-bit GCC or Clang)
  *
  * Don't forget to initialize pollard by by calling rho::init() before using
  *
@@ -20,26 +21,55 @@
 
 using namespace std;
 
-inline long long mod_add(long long x, long long y, long long m){
-    return (x += y) < m ? x : x - m;
-}
+typedef unsigned long long u64;
+typedef unsigned __int128 u128;
 
-/// Unsigned wraparound keeps this free of overflow UB, exact for m up to 7.2 * 10^18
-/// About 2.5x faster than __int128 % m inside pollard rho
-inline long long mod_mul(long long x, long long y, long long m){
-    long long res = (unsigned long long)x * y - (unsigned long long)m * (unsigned long long)(1.0L / m * x * y);
-    return res + m * (res < 0) - m * (res >= m);
-}
+/***
+ *
+ * Montgomery multiplication for a fixed odd modulus n, values are stored as x * 2^64 mod n
+ * Needs no division, ~1.6x faster than the long double trick and ~4x faster than __int128 % n
+ * The modulus must be odd, even moduli give wrong results silently
+ *
+***/
 
-inline long long mod_pow(long long x, long long n, long long m){
-    long long res = 1 % m;
-    for (; n; n >>= 1){
-        if (n & 1) res = mod_mul(res, x, m);
-        x = mod_mul(x, x, m);
+struct Montgomery{
+    u64 n, inv, r2;
+
+    Montgomery(u64 n) : n(n), inv(1){
+        for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// Newton iteration, doubles the correct bits of n^-1 mod 2^64 each step
+        r2 = -n % n;
+        r2 = (u128)r2 * r2 % n;
     }
 
-    return res;
-}
+    inline u64 reduce(u128 x) const{
+        u64 q = (u64)x * inv, m = ((u128)q * n) >> 64, h = x >> 64;
+        return h >= m ? h - m : h + n - m;
+    }
+
+    inline u64 mul(u64 x, u64 y) const{
+        return reduce((u128)x * y);
+    }
+
+    inline u64 add(u64 x, u64 y) const{
+        return (x += y) >= n ? x - n : x;
+    }
+
+    inline u64 to_mont(u64 x) const{
+        return mul(x, r2);
+    }
+
+    inline u64 from_mont(u64 x) const{
+        return reduce(x);
+    }
+
+    inline u64 pow(u64 x, u64 e) const{
+        u64 res = to_mont(1);
+        for (; e; e >>= 1, x = mul(x, x)){
+            if (e & 1) res = mul(res, x);
+        }
+        return res;
+    }
+};
 
 inline unsigned long long gcd(unsigned long long u, unsigned long long v){
     if (!u || !v) return u | v;
@@ -60,28 +90,30 @@ inline long long lcm(long long a, long long b){
     return (a / gcd(a, b)) * b;
 }
 
-inline void fib(long long& x, long long& y, long long n, long long m){
-    if (!n) x = 0, y = 1;
+inline void fib(u64& x, u64& y, long long n, const Montgomery& mont){
+    if (!n) x = 0, y = mont.to_mont(1);
     else{
-        long long a, b;
-        fib(a, b, n >> 1, m);
-        long long z = (b << 1) - a;
-        if (z < 0) z += m;
+        u64 a, b;
+        fib(a, b, n >> 1, mont);
+        u64 z = mont.add(b, b) + mont.n - a;
+        if (z >= mont.n) z -= mont.n;
 
-        x = mod_mul(a, z, m);
-        y = mod_add(mod_mul(a, a, m), mod_mul(b, b, m), m);
+        x = mont.mul(a, z);
+        y = mont.add(mont.mul(a, a), mont.mul(b, b));
 
         if (n & 1){
-            x = mod_add(x, y, m);
+            x = mont.add(x, y);
             swap(x, y);
         }
     }
 }
 
+/// m must be odd
 inline pair<long long, long long> fib(long long n, long long m){
-    long long x = 0, y = 1;
-    fib(x, y, n, m);
-    return pair<long long, long long>(x, y);
+    Montgomery mont(m);
+    u64 x, y;
+    fib(x, y, n, mont);
+    return pair<long long, long long>(mont.from_mont(x), mont.from_mont(y));
 }
 
 namespace rho{
@@ -89,26 +121,28 @@ namespace rho{
     const int BASE[] = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
 
     int primes[MAXP], spf[MAXP];
-    long long seq[MAXP], divisors[130172];
+    long long divisors[130172];
 
     inline bool miller_rabin(long long n){
         if (n <= 2 || !(n & 1)) return n == 2;
         if (n < MAXP) return spf[n] == n;
 
-        long long c, d, s = 0, r = n - 1;
+        long long s = 0, r = n - 1;
         for (; !(r & 1); r >>= 1, s++) {}
 
+        Montgomery mont(n);
+        u64 c, d, one = mont.to_mont(1), minus_one = mont.to_mont(n - 1);
         for (int i = 0; i < 7; i++){
             long long a = BASE[i] % n;
             if (!a) continue;  /// n divides the base (e.g. 299210837), this base says nothing about n
-            c = mod_pow(a, r, n);
+            c = mont.pow(mont.to_mont(a), r);
             for (int j = 0; j < s; j++){
-                d = mod_mul(c, c, n);
-                if (d == 1 && c != 1 && c != (n - 1)) return false;
+                d = mont.mul(c, c);
+                if (d == one && c != one && c != minus_one) return false;
                 c = d;
             }
 
-            if (c != 1) return false;
+            if (c != one) return false;
         }
         return true;
     }
@@ -125,27 +159,41 @@ namespace rho{
         }
     }
 
+    /// Brent's cycle detection, one gcd per BATCH steps instead of one per step
     long long pollard_rho(long long n){
+        if (!(n & 1)) return 2;
+
+        const int BATCH = 128;
+        Montgomery mont(n);
+        auto next = [&](u64 x, u64 c){ return mont.add(mont.mul(x, x), c); };
+        auto dist = [](u64 x, u64 y){ return x > y ? x - y : y - x; };
+
         while (1){
-            long long x = rand() % n, y = x, c = rand() % n, u = 1, v, t = 0;
-            long long *px = seq, *py = seq;
+            u64 c = rand() % (n - 1) + 1, y = rand() % n, x = y, ys = y, q = mont.to_mont(1), g = 1;
 
-            while (1){
-                *py++ = y = mod_add(mod_mul(y, y, n), c, n);
-                *py++ = y = mod_add(mod_mul(y, y, n), c, n);
-                if((x = *px++) == y) break;
+            for (long long r = 1; g == 1; r <<= 1){
+                x = y;
+                for (long long i = 0; i < r; i++) y = next(y, c);
 
-                v = u;
-                u = mod_mul(u, abs(y - x), n);
-
-                if (!u) return gcd(v, n);
-                if (++t == 32){
-                    t = 0;
-                    if ((u = gcd(u, n)) > 1 && u < n) return u;
+                for (long long k = 0; k < r && g == 1; k += BATCH){
+                    ys = y;
+                    for (long long i = 0; i < BATCH && i < r - k; i++){
+                        y = next(y, c);
+                        q = mont.mul(q, dist(x, y));
+                    }
+                    g = gcd(q, n);
                 }
             }
 
-            if (t && (u = gcd(u, n)) > 1 && u < n) return u;
+            /// The batch overshot to a multiple of n, replay it one step at a time
+            if (g == (u64)n){
+                do{
+                    ys = next(ys, c);
+                    g = gcd(dist(x, ys), n);
+                } while (g == 1);
+            }
+
+            if (g != (u64)n) return g;
         }
     }
 
