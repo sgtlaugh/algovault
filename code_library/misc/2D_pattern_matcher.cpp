@@ -54,7 +54,7 @@ namespace pm{
             pattern_hash = pattern_hash * base1 + h;
         }
 
-        dp.resize(n + 1, 0);
+        dp.assign(n + 1, 0);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < c; j++) dp[i] = dp[i] * base2 + text[i][j];
         }
