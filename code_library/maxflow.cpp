@@ -83,6 +83,7 @@ struct FlowGraph{
     }
 
     long long maxflow(){
+        assert(src != sink);
         long long flow = 0;
 
         while (bfs()){
