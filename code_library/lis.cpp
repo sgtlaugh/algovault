@@ -53,13 +53,13 @@ vector <int> lds_vector(const vector <T>& ar, bool allow_equal=true){
 template <typename T>
 int lis_length(const vector <T>& ar, bool allow_equal=false){
     auto lis = lis_vector(ar, allow_equal);
-    return *max_element(lis.begin(), lis.end());
+    return lis.empty() ? 0 : *max_element(lis.begin(), lis.end());
 }
 
 template <typename T>
 int lds_length(const vector <T>& ar, bool allow_equal=false){
     auto lds = lds_vector(ar, allow_equal);
-    return *max_element(lds.begin(), lds.end());
+    return lds.empty() ? 0 : *max_element(lds.begin(), lds.end());
 }
 
 int main(){
