@@ -50,6 +50,7 @@ struct FenwickImplicit2D{
     }
 
     void update_fen(int x, int y, T v){
+        if (y > n) return;  /// column n + 1 from a range update ending at n, otherwise it lands on leaf n
         for (int i = x; i <= n; i += i & -i){
             update_seg(root[i], 1, n, y, v);
         }
