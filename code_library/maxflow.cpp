@@ -41,7 +41,7 @@ struct FlowGraph{
         E.push_back(Edge(v, u, 0, 0));
     }
 
-    void add_edge(int u, int v, int cap){
+    void add_edge(int u, int v, long long cap){
         add_directed_edge(u, v, cap);
         add_directed_edge(v, u, cap);
     }
