@@ -24,6 +24,7 @@ template<typename Container>
 vector<int> z_function(const Container& c){
     int n = c.size();
     vector<int> z(n);
+    if (n == 0) return z;
 
     int l = 0, r = 0;
     for (int i = 1; i < n; i++){
