@@ -137,13 +137,23 @@ SuffixArray suffix_array(const Container& c){
         return result;
     }
 
-    vector<int> ar(n + 3);
-    int lim = 0;
-    for (int i = 0; i < n; i++){
-        ar[i] = c[i];
-        if (ar[i] > lim) lim = ar[i];
+    /// DC3 needs values in [1, lim] (0 is its sentinel) and allocates lim buckets, so shift small ranges and compress large ones
+    vector<int> ar(n + 3, 0);
+    long long lo = c[0], hi = c[0];
+    for (int i = 0; i < n; i++) lo = min(lo, (long long)c[i]), hi = max(hi, (long long)c[i]);
+
+    int lim;
+    if (hi - lo <= n + 256){
+        for (int i = 0; i < n; i++) ar[i] = c[i] - lo + 1;
+        lim = hi - lo + 1;
     }
-    ar[n] = ar[n + 1] = ar[n + 2] = 0;
+    else{
+        vector<long long> values(c.begin(), c.end());
+        sort(values.begin(), values.end());
+        values.erase(unique(values.begin(), values.end()), values.end());
+        for (int i = 0; i < n; i++) ar[i] = lower_bound(values.begin(), values.end(), (long long)c[i]) - values.begin() + 1;
+        lim = values.size();
+    }
 
     int alloc_size = max(n + 3, ((n / 3) + 10) * 2);
     SuffixArrayDC3::s0.resize(alloc_size);
