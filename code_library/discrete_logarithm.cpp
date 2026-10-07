@@ -35,6 +35,10 @@ int discrete_log(int a, int b, int mod){
     tr1::unordered_map<int, int> mp;
     int i, v, x, e = 1, n = sqrt(mod + 0.5) + 1;
 
+    /// Checked before reducing b so that mod = 1 keeps the convention above, x = 0 only for a literal b = 1
+    if (b == 1) return 0;
+    b %= mod;
+
     for (i = 0; i < (n + 3); i++){
         if (e == b) return i;
         mp[(long long)b * e % mod] = i;
