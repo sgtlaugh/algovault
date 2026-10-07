@@ -11,7 +11,7 @@ For instance, the system of linear equations becomes:
 -3x -y + 2z = -11  ----->  (ii)
 -2x + y + 2z = -3  ----->  (iii)
 
-n = 3 (x, y, z), m = 3 (i, ii, iii)
+n = 3 (i, ii, iii), m = 3 (x, y, z)
 equations[0] = {2, 1, -1, 8}    ----->  (i)
 equations[1] = {-3, -1, 2, -11} ----->  (ii)
 equations[2] = {-2, 1, 2, -3}   ----->  (iii)
