@@ -49,6 +49,7 @@ struct AhoCorasick{
 
         id = 0, node();
         // Map lowercase letters to [0, 25]. Change for different alphabet (digits, uppercase, etc)
+        memset(edge, -1, sizeof(edge));
         for (int i = 'a'; i <= 'z'; i++) edge[i] = i - 'a';
     }
 
@@ -59,7 +60,8 @@ struct AhoCorasick{
     inline void insert(const char* str){
         int j, x, cur = 0;
         for (j = 0; str[j] != 0; j++){
-            x = edge[(int)str[j]];
+            x = edge[(unsigned char)str[j]];
+            assert(x >= 0);
             if (!trie[cur].count(x)){
                 int next_node = node();
                 trie[cur][x] = next_node;
@@ -108,7 +110,8 @@ struct AhoCorasick{
     }
 
     inline int next(int cur, char ch){
-        int x = edge[(int)ch];
+        int x = edge[(unsigned char)ch];
+        if (x < 0) return 0;  /// a letter outside the alphabet ends every match
         cur = dp[cur][x];
         if (trie[cur].count(x)) cur = trie[cur][x];
         return cur;
