@@ -175,7 +175,7 @@ namespace fio{
     template <typename T, typename A> struct is_vector<vector<T, A>> : true_type {};
 
     template <typename T, typename ...Args>
-    void write(const T x, const Args ...args){
+    void write(const T& x, const Args& ...args){
         write_one(x);
         write_char(sizeof...(args) && !is_vector<T>::value ? ' ' : '\n');
         write(args...);
