@@ -37,9 +37,6 @@ STRESS_SKIP=(
     "code_library/2SAT_tarjan.cpp"               # lexicographic 2SAT variant, pending a rename and doc review
 )
 
-# Missing stress tests only warn until every library file is covered
-COVERAGE_STRICT=0
-
 # Contest judges usually give 8 MB of stack, tests must pass with it
 ulimit -s 8192
 
@@ -120,10 +117,8 @@ check_coverage(){
     echo "stress test coverage: ${#missing[@]} library files without a stress test"
     [[ ${#missing[@]} -eq 0 ]] && return
     printf '  missing: %s\n' "${missing[@]}"
-    if [[ $COVERAGE_STRICT -eq 1 ]]; then
-        failed=$((failed + ${#missing[@]}))
-        failures+=("${missing[@]/%/ (no stress test)}")
-    fi
+    failed=$((failed + ${#missing[@]}))
+    failures+=("${missing[@]/%/ (no stress test)}")
 }
 
 echo "$("$CXX" --version | head -1) | $("$CC" --version | head -1) | $("$PYTHON" --version)"
