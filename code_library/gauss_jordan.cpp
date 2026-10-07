@@ -26,6 +26,7 @@ Notes:
 For problems on graphs, make sure the graph is connected and a single component
 If not, then re-number the vertices and solve for each component separately.
 
+eps is relative to the largest |coefficient|, a row that reduces to 0 = r with |r| <= eps * max|coefficient| counts as consistent
 If more precision is required, use long double or __float128 from quadmath.h if supported
 
 ***/
@@ -35,7 +36,7 @@ If more precision is required, use long double or __float128 from quadmath.h if 
 using namespace std;
 
 template <class T>
-int gauss(vector<vector <T>> equations, vector<T>& res, const T eps=1e-12){
+int gauss(vector<vector <T>> equations, vector<T>& res, const T eps=1e-9){
     int n = equations.size(), m = equations[0].size() - 1;
     int i, j, k, l, p, f_var = 0;
 
