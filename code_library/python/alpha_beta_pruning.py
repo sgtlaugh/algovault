@@ -3,7 +3,6 @@ from abc import ABC, abstractmethod
 
 
 class AbstractNode(ABC):
-    @abstractmethod
     def __init__(self, state):
         self.state = state
         super().__init__()
@@ -56,26 +55,27 @@ class AbstractNode(ABC):
         return alpha if is_first_player_turn else beta
 
 
-class Node(AbstractNode):
-    def __init__(self, state):
-        super().__init__(state)
+class NimNode(AbstractNode):
+    """
+    Pile of stones, a move takes 1 to 3 of them and whoever takes the last stone wins
+    State is (stones left, whether the first player is to move)
+    """
 
     def get_next_states(self):
-        raise NotImplementedError
+        stones, first_to_move = self.state
+        return [NimNode((stones - take, not first_to_move)) for take in range(1, min(3, stones) + 1)]
 
     def is_terminal_node(self):
-        raise NotImplementedError
+        return self.state[0] == 0
 
     def get_terminal_node_utility(self):
-        raise NotImplementedError
+        return -1 if self.state[1] else 1  # The player to move has no stones left, so the other player took the last one
 
 
 def main():
-    state = {}
-    start_node = Node(state)
-
-    # Throws an exception because the Node methods are not implemented
-    node_value = start_node.get_utility(is_first_player_turn=True)
+    # The first player loses Nim with moves of 1 to 3 stones exactly when the pile is a multiple of 4
+    for stones in range(1, 16):
+        assert NimNode((stones, True)).get_utility(is_first_player_turn=True) == (-1 if stones % 4 == 0 else 1)
 
 
 if __name__ == '__main__':
