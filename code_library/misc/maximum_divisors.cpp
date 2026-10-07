@@ -40,7 +40,7 @@ uint64_t limit, max_cnt, number;
 const vector<int> primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
 
 uint64_t multiply(uint64_t a, uint64_t b){
-    if ((long double)a * b > limit + 0.5) return 0;
+    if (a > limit / b) return 0;
     return a * b;
 }
 
