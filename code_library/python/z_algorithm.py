@@ -20,11 +20,13 @@ def z_function(text):
 
         z_array[i] = z
 
-    z_array[0] = n
+    if n:
+        z_array[0] = n
     return z_array
 
 
 def main():
+    assert z_function('') == []
     assert z_function('a') == [1]
     assert z_function('aaaa') == [4, 3, 2, 1]
     assert z_function('aaabaab') == [7, 2, 1, 0, 2, 1, 0]
