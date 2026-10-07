@@ -4,16 +4,19 @@ on:
   push:
   pull_request:
   workflow_dispatch:
+  schedule:
+    - cron: "0 3 * * *"  # nightly stress run with more iterations and a fresh seed
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
 jobs:
   self-tests:
+    if: github.event_name != 'schedule'
     runs-on: ubuntu-24.04
     timeout-minutes: 40
     steps:
@@ -27,4 +30,26 @@ jobs:
         env:
           CC: gcc-14
           CXX: g++-14
-        run: bash .github/scripts/run_tests.sh
+        run: bash .github/scripts/run_tests.sh self
+
+  stress-tests:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install GMP (exact reference for the bignum stress test)
+        run: sudo apt-get update -q && sudo apt-get install -y -q libgmp-dev
+
+      - name: Compile and run every stress test under sanitizers
+        env:
+          CC: gcc-14
+          CXX: g++-14
+          STRESS_SCALE: ${{ github.event_name == 'schedule' && '20' || '1' }}
+          STRESS_SEED: ${{ github.event_name == 'schedule' && github.run_id || '' }}
+          TEST_TIMEOUT: ${{ github.event_name == 'schedule' && '1800' || '300' }}
+        run: bash .github/scripts/run_tests.sh stress

@@ -1,11 +1,18 @@
 #!/bin/bash
 #
-# Compiles and runs every C/C++ self-test under AddressSanitizer and UndefinedBehaviorSanitizer,
-# then runs every Python file. Reports all failures instead of stopping at the first one.
+# self (default): compiles and runs every C/C++ self-test in code_library under AddressSanitizer and
+#                 UndefinedBehaviorSanitizer, then runs every Python file
+# stress:         does the same for every test in stress_tests, then reports library files without a stress test
 #
-# Usage: .github/scripts/run_tests.sh            (override compilers with CC=... CXX=...)
+# Reports all failures instead of stopping at the first one.
+#
+# Usage: .github/scripts/run_tests.sh [self|stress]       (override compilers with CC=... CXX=...)
+#        STRESS_SEED / STRESS_SCALE are passed through to the stress tests, see stress_tests/common.h
 #
 set -uo pipefail
+
+MODE="${1:-self}"
+[[ "$MODE" == "self" || "$MODE" == "stress" ]] || { echo "usage: $0 [self|stress]"; exit 2; }
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 CC="${CC:-gcc}"
@@ -19,10 +26,19 @@ CFLAGS=(-std=c11 "${SAN_FLAGS[@]}")
 CXXFLAGS=(-std=c++17 "${SAN_FLAGS[@]}" -D_GLIBCXX_ASSERTIONS)
 export UBSAN_OPTIONS="print_stacktrace=1"
 
-# Files whose self-test cannot run in CI, with the reason
+# Self-tests that cannot run in CI, with the reason
 SKIP=(
     "code_library/hacking/anti_double_hash.cpp"  # the self-test runs a full collision search, ~150 s
 )
+
+# Library files that intentionally have no stress test yet, with the reason
+STRESS_SKIP=(
+    "code_library/hacking/anti_double_hash.cpp"  # a collision search takes ~150 s, too slow to verify
+    "code_library/2SAT_tarjan.cpp"               # lexicographic 2SAT variant, pending a rename and doc review
+)
+
+# Missing stress tests only warn until every library file is covered
+COVERAGE_STRICT=0
 
 # Contest judges usually give 8 MB of stack, tests must pass with it
 ulimit -s 8192
@@ -33,9 +49,10 @@ trap 'rm -rf "$BUILD"' EXIT
 passed=0 failed=0 skipped=0 warned=0
 failures=()
 
-is_skipped(){
-    local f
-    for f in "${SKIP[@]}"; do [[ "$1" == "$f" ]] && return 0; done
+contains(){  # value, array elements...
+    local value="$1" item
+    shift
+    for item in "$@"; do [[ "$item" == "$value" ]] && return 0; done
     return 1
 }
 
@@ -52,11 +69,11 @@ report_failure(){  # file, reason, log
 }
 
 run_one(){  # repo relative path
-    local rel="$1" src="$ROOT/$1" exe log start secs rc
+    local rel="$1" src="$ROOT/$1" exe log start secs rc link=()
     exe="$BUILD/$(echo "$rel" | tr '/' '_').out"
     log="$exe.log"
 
-    if is_skipped "$rel"; then
+    if contains "$rel" "${SKIP[@]}"; then
         echo "SKIP  $rel"
         skipped=$((skipped + 1))
         return
@@ -67,8 +84,10 @@ run_one(){  # repo relative path
         timeout "$TEST_TIMEOUT" "$PYTHON" "$src" < /dev/null > "$log" 2>&1
         rc=$?
     else
-        local compile=("$CXX" "${CXXFLAGS[@]}" -o "$exe" "$src")
-        [[ "$rel" == *.c ]] && compile=("$CC" "${CFLAGS[@]}" -o "$exe" "$src" -lm)
+        # A test can ask for extra libraries with a line like: // LINK: -lgmpxx -lgmp
+        read -ra link <<< "$(sed -n 's|^// LINK: *||p' "$src")"
+        local compile=("$CXX" "${CXXFLAGS[@]}" -o "$exe" "$src" "${link[@]}")
+        [[ "$rel" == *.c ]] && compile=("$CC" "${CFLAGS[@]}" -o "$exe" "$src" -lm "${link[@]}")
         if ! "${compile[@]}" > "$log" 2>&1; then
             report_failure "$rel" "compile error" "$log"
             return
@@ -89,14 +108,36 @@ run_one(){  # repo relative path
     fi
 }
 
+check_coverage(){
+    local lib base missing=()
+    while IFS= read -r lib; do
+        contains "$lib" "${STRESS_SKIP[@]}" && continue
+        base="stress_tests/${lib#code_library/}"
+        base="${base%.*}"
+        [[ -e "$base.cpp" || -e "$base.c" || -e "$base.py" ]] || missing+=("$lib")
+    done < <(find code_library -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.py' \) | sort)
+
+    echo "stress test coverage: ${#missing[@]} library files without a stress test"
+    [[ ${#missing[@]} -eq 0 ]] && return
+    printf '  missing: %s\n' "${missing[@]}"
+    if [[ $COVERAGE_STRICT -eq 1 ]]; then
+        failed=$((failed + ${#missing[@]}))
+        failures+=("${missing[@]/%/ (no stress test)}")
+    fi
+}
+
 echo "$("$CXX" --version | head -1) | $("$CC" --version | head -1) | $("$PYTHON" --version)"
 
 cd "$ROOT" || exit 1
+TESTS_DIR="code_library"
+[[ "$MODE" == "stress" ]] && TESTS_DIR="stress_tests"
+
 while IFS= read -r file; do
     run_one "$file"
-done < <(find code_library -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.py' \) | sort)
+done < <(find "$TESTS_DIR" -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.py' \) ! -name 'stress.py' | sort)
 
 echo
+[[ "$MODE" == "stress" ]] && check_coverage
 echo "passed: $passed  failed: $failed  skipped: $skipped  (files with compiler warnings: $warned)"
 if [[ $failed -gt 0 ]]; then
     printf '  failed: %s\n' "${failures[@]}"
