@@ -1,3 +1,6 @@
+from fractions import Fraction
+
+
 def lagrange(x_values, y_values, nth_term):
     """
     If a polynomial has degree k, then it can be uniquely identified if it's values are known in k+1 distinct points
@@ -6,12 +9,13 @@ def lagrange(x_values, y_values, nth_term):
     :param y_values: Y values of the polynomial
     :param nth_term: nth_term of the polynomial
     :return: evaluates and returns the nth_term of the polynomial in O(k^2), given at least k+1 unique values were provided
+             an int when the value is integral, a Fraction otherwise
     """
 
     if len(x_values) != len(y_values):
         raise ValueError('The X and Y values should be of the same length')
 
-    res = 0
+    res = Fraction(0)
     for i in range(len(x_values)):
         x, y = 1, 1
         for j in range(len(x_values)):
@@ -19,9 +23,9 @@ def lagrange(x_values, y_values, nth_term):
                 x *= (nth_term - x_values[j])
                 y *= (x_values[i] - x_values[j])
 
-        res += (x * y_values[i] // y)
+        res += Fraction(x * y_values[i], y)  # a single term can be fractional even when the sum is not
 
-    return res
+    return res.numerator if res.denominator == 1 else res
 
 
 def main():
