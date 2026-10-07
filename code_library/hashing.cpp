@@ -52,14 +52,20 @@ struct PolyHash{
         pref.resize(n + 3, 0), suff.resize(n + 3, 0);
 
         for (int i = 1; i <= n; i++){
-            pref[i] = modmul(pref[i - 1], base) + ar[i - 1] + 997;
-            if (pref[i] >= mod) pref[i] -= mod;
+            pref[i] = modmul(pref[i - 1], base) + value_of(ar[i - 1]);
+            if (pref[i] >= (int64_t)mod) pref[i] -= mod;
         }
 
         for (int i = n; i >= 1; i--){
-            suff[i] = modmul(suff[i + 1], base) + ar[i - 1] + 997;
-            if (suff[i] >= mod) suff[i] -= mod;
+            suff[i] = modmul(suff[i + 1], base) + value_of(ar[i - 1]);
+            if (suff[i] >= (int64_t)mod) suff[i] -= mod;
         }
+    }
+
+    /// Maps any element into [0, mod), the 997 offset keeps zero valued elements from hashing like an empty prefix
+    template <typename T>
+    static uint64_t value_of(const T& x){
+        return (uint64_t)((((__int128)x % (__int128)mod) + mod + 997) % mod);
     }
 
     PolyHash(const char* str)
