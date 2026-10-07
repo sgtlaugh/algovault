@@ -93,7 +93,7 @@ bool is_solvable(int bx, int by){
 }
 
 int main(){
-    int t, i, j, bx, by;
+    int t = 0, i, j, bx, by;  /// stays 0 when stdin is empty, scanf leaves it untouched on failure
 
     scanf("%d", &t);
     while (t--){
