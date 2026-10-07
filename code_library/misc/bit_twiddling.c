@@ -12,7 +12,7 @@ unsigned int reverse_bits(unsigned int v){
     return ((v >> 16) | (v << 16));
 }
 
-/// Returns i if x = 2^i and 0 otherwise
+/// Returns the index of the lowest set bit, so i for x = 2^i
 unsigned int bitscan(unsigned int x){
     __asm__ volatile("bsf %0, %0" : "=r" (x) : "0" (x));
     return x;
@@ -29,7 +29,7 @@ unsigned int next_num(unsigned int x){
     return x | (z >> 1);
 }
 
-/// Returns the next number with the same number of 1 bits
+/// Returns the previous number with the same number of 1 bits
 unsigned int prev_num(unsigned int x){
     assert(x > 1);
     return ~next_num(~x);
