@@ -184,7 +184,7 @@ int main(){
     /// SPOJ Enormous Input and Output Test (https://www.spoj.com/problems/INOUTEST/)
 
     using namespace fio;
-    int n, a, b;
+    int n = 0, a, b;  /// stays 0 when stdin is empty, read leaves it untouched on failure
 
     read(n);
     while (n--){
