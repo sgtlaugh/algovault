@@ -139,6 +139,11 @@ namespace fft{
             v1.resize(2 * n, 0), v2.resize(2 * n, 0);
             for (int i = 0; i < n; i++) v2[i + n] = v2[i];
         }
+
+        /// With v1 zero padded and v2 doubled, product index n + k holds the circular convolution term k
+        vector <long long> circular_part(const vector <long long>& product, int n){
+            return vector <long long>(product.begin() + n, product.begin() + 2 * n);
+        }
     }
 
     /***
@@ -292,8 +297,9 @@ namespace fft{
      *
     ***/
     vector<long long> convolution(vector <long long> v1, vector <long long> v2){
+        int n = v1.size();
         build_convolution(v1, v2);
-        return multiply(v1, v2);
+        return circular_part(multiply(v1, v2), n);
     }
 
     /***
@@ -301,8 +307,9 @@ namespace fft{
      *
     ***/
     vector<long long> mod_convolution(vector <long long> v1, vector <long long> v2, int mod){
+        int n = v1.size();
         build_convolution(v1, v2);
-        return mod_multiply(v1, v2, mod);
+        return circular_part(mod_multiply(v1, v2, mod), n);
     }
 
     /***
@@ -312,8 +319,9 @@ namespace fft{
      *
     ***/
     vector<long long> ll_convolution(vector <long long> v1, vector <long long> v2){
+        int n = v1.size();
         build_convolution(v1, v2);
-        return ll_multiply(v1, v2);
+        return circular_part(ll_multiply(v1, v2), n);
     }
 
     /***
@@ -392,14 +400,14 @@ int main(){
 
     v1 = {1, 2, 3, 4};
     v2 = {1, 0, 0, 2};
-    assert(convolution(v1, v2) == vector<long long>({1, 2, 3, 6, 5, 8, 11, 6, 4, 6, 8, 0, 0, 0, 0}));
+    assert(convolution(v1, v2) == vector<long long>({5, 8, 11, 6}));
 
     mod = 2;
-    assert(mod_convolution(v1, v2, mod) == vector<long long>({1, 0, 1, 0, 1, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0}));
+    assert(mod_convolution(v1, v2, mod) == vector<long long>({1, 0, 1, 0}));
 
     for (auto && x: v1) x = (1 << 30) - x;
     for (auto && x: v2) x = (1 << 30) - x;
-    expected_result = {1152921502459363329, 55843003418726658, 1208764504804348163, 111686001468744198, 111686001468744197, 111686001468744200, 111686001468744203, 111686001468744198, 1208764500509380868, 55842998050017542, 1152921498164396040, 0, 0, 0, 0};
+    expected_result = {111686001468744197, 111686001468744200, 111686001468744203, 111686001468744198};
 
     assert(convolution(v1, v2) != expected_result);  /// should fail because of precision, even with long double
     assert(ll_convolution(v1, v2) == expected_result);
