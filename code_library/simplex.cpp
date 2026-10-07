@@ -59,10 +59,11 @@ namespace Simplex {
 
     void init(int nvar, Float obj[], int min_or_max){
         m = 0, n = nvar, flag = min_or_max;
-        memset(ar, 0, sizeof(ar));
-        memset(val, 0, sizeof(val));
-        memset(rhs, 0, sizeof(rhs));
-        memset(idx, 0, sizeof(idx));
+
+        /// add_constraint writes every row before it is read, clearing the whole 128 MB table cost ~8 ms per call
+        rhs[0] = 0;
+        memset(val, 0, sizeof(Float) * (n + 1));
+        memset(idx, 0, sizeof(int) * (n + 1));
         for (int i = 1; i <= n; i++) ar[0][i] = obj[i] * flag;
     }
 
