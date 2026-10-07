@@ -1,14 +1,17 @@
 /***
  *
- * 2D Fenwick Tree with Implicit Segment Trees for large matrices (N up to 10^9) with sparse updates
+ * 2D Fenwick Tree with Implicit Segment Trees for large matrices with sparse updates
  * Each Fenwick row uses implicit segment tree for columns - allocates nodes on demand
  * Range updates and point queries only
  *
  * Space: O(Q log^2 N) where Q is number of updates
  * Time: O(log^2 N) per update/query
  *
+ * Nodes come from a fixed pool of MAXNODES (~16 bytes each, ~205 MB by default), each range update takes up to 4 * log^2(N)
+ * The row roots take another 4 * (N + 1) bytes, so N is bounded by memory
+ *
  * vs sparse hashmap (fenwick_tree_2D_sparse.cpp):
- *   - Better for Q < 100K: no hash table overhead (16MB+)
+ *   - Better for Q < 100K: no hash table overhead (~270 MB)
  *   - Better cache locality: tree structure vs random hash positions
  *   - No hash collisions
  *   - Hashmap faster for very sparse (Q < 10K) with random access patterns
@@ -30,7 +33,10 @@ struct FenwickImplicit2D{
     FenwickImplicit2D(int n = 0) : n(n), idx(0), tree(MAXNODES, 0), root(n + 1, 0), L(MAXNODES, 0), R(MAXNODES, 0) {}
 
     void update_seg(int& cur, int a, int b, int p, T v){
-        if (!cur) cur = ++idx;
+        if (!cur){
+            assert(idx + 1 < MAXNODES);  /// out of pool nodes, raise MAXNODES
+            cur = ++idx;
+        }
         tree[cur] += v;
 
         if (a != b){
