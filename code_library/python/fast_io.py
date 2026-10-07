@@ -1,3 +1,4 @@
+import io
 import sys
 
 
@@ -16,15 +17,13 @@ class Scanner():
 
 
 def main():
-    # uncomment if need to read input from file, otherwise input ends with EOF from stdin
-    # sys.stdin = open('input.txt')
+    # Typical usage reads from stdin, or from a file after sys.stdin = open('input.txt'):
+    #     sc = Scanner()
+    #     t = int(sc.next_token())
 
+    sys.stdin = io.StringIO("3\nwombat  42\n\n   quokka\n")
     sc = Scanner()
-    t = int(sc.next_token())
-
-    for _ in range(t):
-        line = sc.next_token()
-        print(line)
+    assert [sc.next_token() for _ in range(5)] == ['3', 'wombat', '42', 'quokka', None]
 
 
 if __name__ == '__main__':
