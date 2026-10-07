@@ -551,7 +551,7 @@ struct LinearRecurrence{
 
     /***
      * Calculates the n'th, n+1'th, ... , n+k-1'th term of the recurrence
-     * k must be less than the recurrence degree
+     * k must be at most the recurrence degree
     ***/
 
     vector <int> nth_terms(long long n, int k){
@@ -568,10 +568,12 @@ struct LinearRecurrence{
         auto p = Polynomial(u);
         p = Polynomial({0, 1}).power(p, n);
 
+        /// p is normalized, its missing high coefficients are zeros rather than a shorter recurrence
+        v.assign(recurrence.size(), 0);
         for (int i = 0; i < min((int)p.size(), (int)recurrence.size()); i++){
-            v.push_back(p.coefficient[i]);
+            v[i] = p.coefficient[i];
         }
-        int len = min(recurrence.size(), min(v.size(), base_sequence.size()));
+        int len = min(recurrence.size(), base_sequence.size());
         if (!len) return vector <int> (k, 0);
 
         assert(len >= k);
