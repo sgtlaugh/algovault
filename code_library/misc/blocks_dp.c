@@ -36,7 +36,11 @@ int solve(const int n, const int blocks[], int start, int end, int cnt){
 }
 
 int get_max_score(const int n, const int blocks[]){
-    memset(dp, -1, sizeof(dp));
+    /// cnt counts blocks before start, so only the first n entries of each row are reachable, a full clear costs 32 MB per call
+    int i, j;
+    for (i = 0; i < n; i++){
+        for (j = 0; j < n; j++) memset(dp[i][j], -1, sizeof(int) * n);
+    }
     return solve(n, blocks, 0, n - 1, 0);
 }
 
