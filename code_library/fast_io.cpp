@@ -103,16 +103,15 @@ namespace fio{
         return true;
     }
 
+    /// Returns false only at the end of input, a last line without a trailing newline is still returned
     bool read_line(string &s){
         s.clear();
-        int c = '\n';
-        while (c == '\n' || c == '\r') c = read_char();
+        int c = read_char();
+        if (c == EOF) return false;
 
-        while (c != '\n' && c != '\r' && c != EOF){
-            s.push_back(c);
-            c = read_char();
-        }
-        return c != EOF;
+        for (; c != '\n' && c != EOF; c = read_char()) s.push_back(c);
+        if (!s.empty() && s.back() == '\r') s.pop_back();  /// CRLF line endings
+        return true;
     }
 
     int read(){
