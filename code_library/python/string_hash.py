@@ -1,17 +1,13 @@
 BASE = 997
 MOD = 10**18 + 3
-MAX_LENGTH = 10**5
 
 class StringHash:
-    _powers = None
+    _powers = [1]  # shared by all instances, grown to the longest text seen
 
     def __init__(self, text):
-        if StringHash._powers is None: # powers computed once, singleton pattern for speed
-            powers = [1] * (MAX_LENGTH + 2)
-            for i in range(1, len(powers)):
-                powers[i] = powers[i - 1] * BASE % MOD
-
-            StringHash._powers = powers
+        powers = StringHash._powers
+        while len(powers) <= len(text):
+            powers.append(powers[-1] * BASE % MOD)
 
         self.prefix_hash = [0] * (len(text) + 2)
         for i in range(1, len(text) + 1):
