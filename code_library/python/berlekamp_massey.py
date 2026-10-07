@@ -110,7 +110,8 @@ def solve_linear_recurrence(base_sequence, nth_term, mod):
 
     for i in range(k):
         ar.mat[0][i] = mod - recurrence[i]
-        ar.mat[i][i - 1] = int(i > 0)
+        if i:
+            ar.mat[i][i - 1] = 1
 
     result = 0
     ar = ar.power(nth_term - n + 1)
