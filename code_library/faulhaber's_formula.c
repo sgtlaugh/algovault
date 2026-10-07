@@ -19,7 +19,7 @@
 #define MAXK 1010
 #define MOD 1000000007
 
-int S[MAXK][MAXK], inv[MAXK];
+int S[MAXK][MAXK], inv[MAXK + 1];  /// k < MAXK needs inverses up to k + 1
 
 int expo(long long x, int n){
     x %= MOD;
@@ -36,7 +36,7 @@ int expo(long long x, int n){
 
 void generate(){
     int i, j;
-    for (i = 0; i < MAXK; i++) inv[i] = expo(i, MOD - 2);
+    for (i = 0; i <= MAXK; i++) inv[i] = expo(i, MOD - 2);
 
     S[0][0] = 1;
     for (i = 1; i < MAXK; i++){
