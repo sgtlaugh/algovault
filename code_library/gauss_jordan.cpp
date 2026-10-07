@@ -42,12 +42,17 @@ int gauss(vector<vector <T>> equations, vector<T>& res, const T eps=1e-12){
     res.assign(m, 0);
     vector <int> pos(m, -1);
 
+    /// The tolerance scales with the largest coefficient, an absolute eps rejects solvable systems with large values
+    T tol = 1;
+    for (auto& row : equations) for (auto& x : row) tol = max(tol, (T)abs(x));
+    tol *= eps;
+
     for (j = 0, i = 0; j < m && i < n; j++){
         for (k = i, p = i; k < n; k++){
             if (abs(equations[k][j]) > abs(equations[p][j])) p = k;
         }
 
-        if (abs(equations[p][j]) > eps){
+        if (abs(equations[p][j]) > tol){
             pos[j] = i;
             for (l = j; l <= m; l++) swap(equations[p][l], equations[i][l]);
 
@@ -61,15 +66,14 @@ int gauss(vector<vector <T>> equations, vector<T>& res, const T eps=1e-12){
         }
     }
 
-    for (i = 0; i < m; i++){
-        if (pos[i] == -1) f_var++;
-        else res[i] = equations[pos[i]][m] / equations[pos[i]][i];
+    /// Pivot rows hold by construction, the system is inconsistent iff a row without a pivot reduced to 0 = nonzero
+    for (k = i; k < n; k++){
+        if (abs(equations[k][m]) > tol) return -1;
     }
 
-    for (i = 0; i < n; i++) {
-        T val = 0;
-        for (j = 0; j < m; j++) val += res[j] * equations[i][j];
-        if (abs(val - equations[i][m]) > eps) return -1;
+    for (j = 0; j < m; j++){
+        if (pos[j] == -1) f_var++;
+        else res[j] = equations[pos[j]][m] / equations[pos[j]][j];
     }
 
     return f_var;
