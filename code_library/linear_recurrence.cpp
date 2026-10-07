@@ -213,7 +213,7 @@ struct Polynomial{
     }
 
     inline void copy_poly(int* to, int* from, int n){
-        memcpy(to, from, n * sizeof(int));
+        if (n > 0) memcpy(to, from, n * sizeof(int));  /// empty polynomials have a null data pointer, memcpy from null is UB even for 0 bytes
     }
 
     inline void subtract(int* res, int* P, int pn, int* Q, int qn){
