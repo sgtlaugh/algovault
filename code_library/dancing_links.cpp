@@ -25,7 +25,7 @@ namespace dlx{
     int n, idx, len, selected_rows[MAXR], column_count[MAXC];
 
     void init(int ncolumn){ /// initialize first with total number of columns (1 based)
-        memset(column_count, 0, sizeof(column_count));
+        memset(column_count, 0, sizeof(int) * (ncolumn + 1));
 
         n = ncolumn, idx = n + 1;
         for (int i = 0; i <= n; i++) U[i] = D[i] = i, L[i] = i - 1, R[i] = i + 1;
