@@ -58,22 +58,33 @@ vector<Point> get_convex_hull(vector<Point> P){
 /***
  *
  * Returns whether the polygon is convex or not
- * Points in P is given in clock-wise of anti-clockwise order
+ * Points in P are given in clockwise or anti-clockwise order, collinear vertices are allowed
  *
 ***/
 
-bool is_convex(vector <Point> P){
-    int n = P.size();
+bool is_convex(const vector <Point>& P){
+    int n = P.size(), sign = 0, flips = 0, first_dy = 0, last_dy = 0;
     if (n <= 2) return false; /// Line or point is not convex
 
-    n++, P.push_back(P[0]);  /// Last point = first point
-    bool flag1 = (cross(P[0], P[1], P[2]) > 0);
-    for (int i = 1; (i + 1) < n; i++){
-        bool flag2 = (cross(P[i], P[i + 1], (i + 2) == n ? P[1] : P[i + 2]) > 0);
-        if (flag1 ^ flag2) return false;
-    }
+    for (int i = 0; i < n; i++){
+        const Point &a = P[i], &b = P[(i + 1) % n], &c = P[(i + 2) % n];
+        int64_t turn = cross(a, b, c);
+        if (turn){
+            if (sign && (turn > 0) != (sign > 0)) return false;
+            sign = turn > 0 ? 1 : -1;
+        }
 
-    return true;
+        int dy = (b.y > a.y) - (b.y < a.y);
+        if (dy){
+            if (last_dy && dy != last_dy) flips++;
+            if (!first_dy) first_dy = dy;
+            last_dy = dy;
+        }
+    }
+    if (first_dy != last_dy) flips++;
+
+    /// Turning one way everywhere still allows star polygons, winding exactly once means y changes direction twice
+    return sign != 0 && flips == 2;
 }
 
 int main(){
