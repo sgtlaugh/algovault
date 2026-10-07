@@ -12,23 +12,22 @@
 
 using namespace std;
 
-int ar[MAX];
 char A[MAX], B[MAX];
 
 int lcs(char* A, char* B){
-    vector <int> adj[256];
-    int i, j, l = 0, n = strlen(A), m = strlen(B);
-    for (i = 0; i < m; i++) adj[(int)B[i]].push_back(i);
+    vector <int> adj[256], ar(1, -1);
+    int i, j, n = strlen(A), m = strlen(B);
+    for (i = 0; i < m; i++) adj[(unsigned char)B[i]].push_back(i);
 
-    ar[l++] = -1;
     for (i = 0; i < n; i++){
-        for (j = (int)adj[(int)A[i]].size() - 1; j >= 0; j--){
-            int x = adj[(int)A[i]][j];
-            if (x > ar[l - 1]) ar[l++] = x;
-            else ar[lower_bound(ar, ar + l, x) - ar] = x;
+        const auto& pos = adj[(unsigned char)A[i]];
+        for (j = (int)pos.size() - 1; j >= 0; j--){
+            int x = pos[j];
+            if (x > ar.back()) ar.push_back(x);
+            else *lower_bound(ar.begin(), ar.end(), x) = x;
         }
     }
-    return l - 1;
+    return ar.size() - 1;
 }
 
 int main(){
