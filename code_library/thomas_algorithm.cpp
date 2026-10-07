@@ -31,5 +31,9 @@ vector <long double> thomas_algorithm(int n, vector <struct equation> ar){
 }
 
 int main(){
+    /// 2x + y = 4, x + 3y + z = 9, y + 2z = 6 has the solution x = 1, y = 2, z = 2
+    auto res = thomas_algorithm(3, {equation(0, 2, 1, 4), equation(1, 3, 1, 9), equation(1, 2, 0, 6)});
+    assert(fabsl(res[0] - 1) < 1e-12 && fabsl(res[1] - 2) < 1e-12 && fabsl(res[2] - 2) < 1e-12);
 
+    return 0;
 }
