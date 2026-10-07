@@ -27,17 +27,27 @@ int64_t cross(const Point &O, const Point &A, const Point &B){
     return ((A.x - O.x) * (B.y - O.y)) - ((A.y - O.y) * (B.x - O.x));
 }
 
+/***
+ *
+ * Returns the strict convex hull in counter-clockwise order, starting from the lowest x (then lowest y) point
+ * Collinear and duplicate points are dropped, all-collinear input gives the two endpoints
+ *
+***/
+
 vector<Point> get_convex_hull(vector<Point> P){
-    int i, t, k = 0, n = P.size();
-    vector<Point> H(n << 1);
     sort(P.begin(), P.end());
+    P.erase(unique(P.begin(), P.end(), [](const Point& a, const Point& b){ return a.x == b.x && a.y == b.y; }), P.end());
+
+    int i, t, k = 0, n = P.size();
+    if (n <= 1) return P;
+    vector<Point> H(n << 1);
 
     for (i = 0; i < n; i++) {
-        while (k >= 2 && cross(H[k - 2], H[k - 1], P[i]) < 0) k--;
+        while (k >= 2 && cross(H[k - 2], H[k - 1], P[i]) <= 0) k--;
         H[k++] = P[i];
     }
     for (i = n - 2, t = k + 1; i >= 0; i--) {
-        while (k >= t && cross(H[k - 2], H[k - 1], P[i]) < 0) k--;
+        while (k >= t && cross(H[k - 2], H[k - 1], P[i]) <= 0) k--;
         H[k++] = P[i];
     }
 
