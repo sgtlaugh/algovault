@@ -385,8 +385,6 @@ struct LinearRecurrence{
             throw std::out_of_range("mod value out of range, consider replacing long long with __int128 and int with long long if need to support higher ranges and improve fft multiplication precision");
         }
 
-        _POLYNOMIAL_MOD = mod;
-
         for (int i = 0; i < n; i++){
             sequence[i] = ((long long)sequence[i] % mod + mod) % mod;
         }
@@ -565,6 +563,7 @@ struct LinearRecurrence{
             return res;
         }
 
+        _POLYNOMIAL_MOD = mod;  /// set at use, not in the constructor, so recurrences with different mods can be interleaved
         u.push_back(1);
         auto p = Polynomial(u);
         p = Polynomial({0, 1}).power(p, n);
