@@ -9,13 +9,15 @@
  * To customize: modify lines marked with // CHANGE
  *
  * Examples:
- *   Range min with range set: change merge to min(), apply to =, compose to =, identity to INT_MAX
- *   Range max with range set: change merge to max(), apply to =, compose to =, identity to INT_MIN
- *   Range gcd with range set: change merge to __gcd(), apply to =, compose to =, identity to 0
+ *   Range min with range set: change merge to min(), apply to lz, compose to new_lz, initial value t_id to INT_MAX
+ *   Range max with range set: change merge to max(), apply to lz, compose to new_lz, initial value t_id to INT_MIN
+ *   Range gcd with range set: change merge to __gcd(), apply to lz, compose to new_lz, initial value t_id to 0
+ *
+ * A pending update is tracked with a flag rather than a reserved lazy value, so any value (including 0) can be set
  *
 ***/
 
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
 
 using namespace std;
 
@@ -24,14 +26,12 @@ struct SegmentTree {
     int n;
     vector<T> tree;
     vector<LazyT> lazy;
-    T t_id;
-    LazyT l_id;
+    vector<char> has_lazy;
 
-    SegmentTree(int n, T t_id = 0, LazyT l_id = 0)
-        : n(n), t_id(t_id), l_id(l_id), tree(n << 2, t_id), lazy(n << 2, l_id) {}
+    /// All n elements start as t_id
+    SegmentTree(int n, T t_id = 0) : n(n), tree(n << 2, t_id), lazy(n << 2), has_lazy(n << 2, 0) {}
 
-    SegmentTree(const vector<T>& ar, T t_id = 0, LazyT l_id = 0)
-        : n(ar.size()), t_id(t_id), l_id(l_id), tree(n << 2, t_id), lazy(n << 2, l_id) {
+    SegmentTree(const vector<T>& ar) : n(ar.size()), tree(n << 2), lazy(n << 2), has_lazy(n << 2, 0) {
         build(ar, 1, 1, n);
     }
 
@@ -58,21 +58,25 @@ struct SegmentTree {
         tree[idx] = merge(tree[p], tree[q]);
     }
 
+    void push_lazy(int idx, LazyT val){
+        lazy[idx] = has_lazy[idx] ? compose(lazy[idx], val) : val;
+        has_lazy[idx] = 1;
+    }
+
     void propagate(int idx, int a, int b){
-        if (lazy[idx] != l_id){
+        if (has_lazy[idx]){
             tree[idx] = apply(tree[idx], lazy[idx], b - a + 1);
             if (a != b){
-                int p = idx << 1, q = p | 1;
-                lazy[p] = compose(lazy[p], lazy[idx]);
-                lazy[q] = compose(lazy[q], lazy[idx]);
+                push_lazy(idx << 1, lazy[idx]);
+                push_lazy(idx << 1 | 1, lazy[idx]);
             }
-            lazy[idx] = l_id;
+            has_lazy[idx] = 0;
         }
     }
 
     void update(int idx, int a, int b, int l, int r, LazyT val){
         if (a == l && b == r){
-            lazy[idx] = compose(lazy[idx], val);
+            push_lazy(idx, val);
             propagate(idx, a, b);
             return;
         }
