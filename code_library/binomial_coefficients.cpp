@@ -81,7 +81,8 @@ struct BinomialPrimePow{
 struct Binomial{
     uint64_t mod;
     vector<BinomialPrimePow> dp;
-    vector<uint32_t> mods, invs;
+    vector<uint64_t> mods;
+    vector<uint32_t> invs;
 
     uint32_t extended_gcd(uint32_t a, uint32_t b, uint32_t& x, uint32_t& y){
         if (!b){
@@ -104,7 +105,8 @@ struct Binomial{
     uint64_t chinese_remainder(const vector<uint32_t>& rem){
         uint64_t res = 0;
         for (uint32_t i = 0; i < rem.size(); i++){
-            res = (res + (((uint64_t)mods[i] * rem[i] % mod) * invs[i])) % mod;
+            uint64_t x = (uint64_t)rem[i] * invs[i] % dp[i].mod * mods[i];
+            res = res >= mod - x ? res - (mod - x) : res + x;
         }
 
         return res;
@@ -113,7 +115,7 @@ struct Binomial{
     Binomial(uint64_t mod): mod(mod){
         uint64_t m = mod;
 
-        for (uint32_t i = 2; i * i <= m; i++){
+        for (uint64_t i = 2; i * i <= m; i++){
             uint32_t c = 0;
             while (m % i == 0){
                 c++;
@@ -124,9 +126,8 @@ struct Binomial{
         if (m > 1) dp.push_back(BinomialPrimePow(m, 1));
 
         for (auto d: dp){
-            m = pow(d.p, d.q) + 0.25;
-            mods.push_back(mod / m);
-            invs.push_back(mod_inverse(mod / m, m));
+            mods.push_back(mod / d.mod);
+            invs.push_back(mod_inverse(mod / d.mod % d.mod, d.mod));
         }
     }
 
