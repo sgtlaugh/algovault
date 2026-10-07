@@ -10,20 +10,20 @@
 #include <stdio.h>
 #include <assert.h>
 
-int n, lim, counter;
+int n, counter;
+unsigned int lim;
 
-void backtrack(int i, int c, int l, int r){
+void backtrack(int i, unsigned int c, unsigned int l, unsigned int r){  /// unsigned, diagonal bits shift past bit 30 from n = 16 on
     if (!i){
         counter++;
         return;
     }
 
-    int bitmask, x;
+    unsigned int bitmask, x;
     --i, bitmask = lim & ~(l | r | c);
 
     while (bitmask){
         x = (-bitmask & bitmask);
-        if (!x) return;
         bitmask ^= x;
         backtrack(i, c | x, (l | x) << 1, (r | x) >> 1);
     }
@@ -31,7 +31,7 @@ void backtrack(int i, int c, int l, int r){
 
 int count_ways(int dimension){
     n = dimension;
-    counter = 0, lim = (1 << n) - 1;
+    counter = 0, lim = (1U << n) - 1;
     backtrack(n, 0, 0, 0);
 
     return counter;
