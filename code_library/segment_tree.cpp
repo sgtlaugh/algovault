@@ -28,7 +28,7 @@ struct SegmentTree {
     vector<LazyT> lazy;
     vector<char> has_lazy;
 
-    /// All n elements start as t_id
+    /// t_id must be the identity of merge (0 for sum, INT_MAX for min), every node starts as it
     SegmentTree(int n, T t_id = 0) : n(n), tree(n << 2, t_id), lazy(n << 2), has_lazy(n << 2, 0) {}
 
     SegmentTree(const vector<T>& ar) : n(ar.size()), tree(n << 2), lazy(n << 2), has_lazy(n << 2, 0) {
