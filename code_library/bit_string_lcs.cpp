@@ -14,21 +14,18 @@
 using namespace std;
 
 int lcs(const char* A, const char* B){
-    bool flag[MAX];
-    int i, j, k, v, n, m, res = 0;
-    unsigned long long x, t, q, y, mask[128] = {0};
-
-    memset(flag, 0, sizeof(flag));
-    n = strlen(A), m = strlen(B);
+    int i, j, k, v, n = strlen(A), m = strlen(B), res = 0;
+    unsigned long long x, t, q, y, mask[256];
+    vector<char> flag(n, 0);
 
     for (i = 0; i * 64 < m; i++){
         memset(mask, 0, sizeof(mask));
         for (k = 0; k < 64 && i * 64 + k < m; k++){
-            mask[(int)B[i * 64 + k]] |= (1ULL << k);
+            mask[(unsigned char)B[i * 64 + k]] |= (1ULL << k);
         }
 
         for (j = 0, x = 0; j < n; j++){
-            t = mask[(int)A[j]] & ~x;
+            t = mask[(unsigned char)A[j]] & ~x;
             x |= t;
             v = flag[j];
             q = x - (t << 1) - v;
