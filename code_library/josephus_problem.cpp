@@ -13,13 +13,13 @@ using namespace std;
 
 /// O(n)
 int josephus1(int n, int k, int m){
-    int i;
-    for (m = n - m, i = m + 1; i <= n; i++){
-        m += k;
-        if (m >= i) m %= i;
+    unsigned x = n - m;  /// x < i <= n, so x + k stays below 2^32 and keeps 32-bit division
+    for (unsigned i = x + 1; i <= (unsigned)n; i++){
+        x += k;
+        if (x >= i) x %= i;
     }
 
-    return m + 1;
+    return x + 1;
 }
 
 /// O(k log(n))
