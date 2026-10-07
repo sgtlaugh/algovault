@@ -1,8 +1,8 @@
 /***
  * 
  * Computes the number of digits of n! in base b
- * Uses Stirling's approximation
- * Although fairly accurate, there is no guarantee it'll compute the exact answer
+ * Exact for n <= 20, uses lgammal beyond that
+ * Although fairly accurate, there is no guarantee it'll compute the exact answer for larger n
  * 
 ***/
 
@@ -10,16 +10,19 @@
 #include <math.h>
 #include <assert.h>
 
-#define EPS 1e-11
-
-const long double TWICE_PI = 4.0 * acos(0.0);
-const long double HALF_LOG_TWICE_PI = 0.5 * log(TWICE_PI);
-
 long long digits_of_factorial(long long n, long long b=10){
     assert(b > 1);
-    if (n == 0 || n == 1) return 1;
-    long double x = ((n + 0.5) * log(n) - n + HALF_LOG_TWICE_PI) / log(b);
-    return ceil(x - EPS);
+
+    /// n! fits in 64 bits up to 20, and only there can it be an exact power of b (b = n!, by Bertrand), where a logarithm cannot pick a side
+    if (n <= 20){
+        unsigned long long f = 1;
+        long long res = 0;
+        for (int i = 2; i <= n; i++) f *= i;
+        for (; f; f /= b) res++;
+        return res;
+    }
+
+    return floorl(lgammal(n + 1.0L) / logl(b)) + 1;
 }
 
 int main(){
