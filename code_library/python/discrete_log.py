@@ -7,6 +7,11 @@ def discrete_log(a, b, mod):
     If it is required otherwise, should be handled explicitly (Just adding `if b == 1 or mod == 1: return 0` should suffice)
     """
 
+    # Checked before reducing b so that mod = 1 keeps the convention above, x = 0 only for a literal b = 1
+    if b == 1:
+        return 0
+    b %= mod
+
     mp = {}
     e, n = 1, int(mod**0.5) + 2
 
