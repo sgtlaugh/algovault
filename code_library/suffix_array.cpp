@@ -143,7 +143,7 @@ SuffixArray suffix_array(const Container& c){
     for (int i = 0; i < n; i++) lo = min(lo, (long long)c[i]), hi = max(hi, (long long)c[i]);
 
     int lim;
-    if (hi - lo <= n + 256){
+    if ((unsigned long long)hi - lo <= (unsigned long long)n + 256){  /// unsigned, hi - lo overflows for values spanning LLONG_MIN .. LLONG_MAX
         for (int i = 0; i < n; i++) ar[i] = c[i] - lo + 1;
         lim = hi - lo + 1;
     }
