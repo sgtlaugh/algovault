@@ -105,7 +105,7 @@ namespace Simplex {
 
     int solve(Float& res){
         res = 0;
-        int i, j, x, y;
+        int i, x, y;
         Float u, v, mn, mx;
 
         for (i = 1; i <= n; i++) down[i] = i;
