@@ -2,7 +2,8 @@
  *
  * A randomized algorithm that verifies matrix multiplication
  * Checks and returns if A * B = C with probability of failure less than 1 / (2^number_of_trials)
- * Complexity: O(n^3) * number_of_trials, where n is the size of the matrix
+ * The check runs modulo 2^64, which is exact whenever C and the true product A * B fit in long long
+ * Complexity: O(n^2) * number_of_trials, where n is the size of the matrix
  *
 ***/
 
@@ -19,6 +20,7 @@ struct Matrix{
 
     Matrix(){}
     Matrix(int row, int col, int diagonal = 0) : row(row), col(col) {
+        assert(row <= MAX && col <= MAX);
         memset(mat, 0, sizeof(mat));
         for (int i = min(row, col) - 1; i >= 0; i--) mat[i][i] = diagonal;
     }
@@ -52,16 +54,24 @@ struct Matrix{
     }
 };
 
-bool verify(Matrix A, Matrix B, Matrix C, int ntrials=30){
+bool verify(const Matrix& A, const Matrix& B, const Matrix& C, int ntrials=30){
     if (A.col != B.row || C.row != A.row || C.col != B.col) return false;
 
-    for (int l = 0; l < ntrials; l++){
-        Matrix D = Matrix(C.col, 1);
-        for (int i = 0; i < D.row; i++) D.mat[i][0] = rand();
+    static mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+    vector<unsigned long long> r(C.col), br(B.row), x(A.row), y(C.row);  /// unsigned: wraps mod 2^64 instead of overflowing
 
-        Matrix X = A * (B * D);
-        Matrix Y = C * D;
-        if (X != Y) return false;
+    for (int l = 0; l < ntrials; l++){
+        for (auto& v : r) v = rng();
+        for (int i = 0; i < B.row; i++){
+            br[i] = 0;
+            for (int j = 0; j < B.col; j++) br[i] += (unsigned long long)B.mat[i][j] * r[j];
+        }
+        for (int i = 0; i < A.row; i++){
+            x[i] = y[i] = 0;
+            for (int j = 0; j < A.col; j++) x[i] += (unsigned long long)A.mat[i][j] * br[j];
+            for (int j = 0; j < C.col; j++) y[i] += (unsigned long long)C.mat[i][j] * r[j];
+        }
+        if (x != y) return false;
     }
 
     return true;
