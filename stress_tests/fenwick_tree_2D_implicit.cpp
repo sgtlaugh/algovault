@@ -10,7 +10,7 @@ int main(){
     const int n = 30;
     static FenwickImplicit2D<long long> small(n);
     vector<vector<long long>> grid(n + 1, vector<long long>(n + 1, 0));
-    for (long long it = 0; it < min(stress::scaled(3000), 60000LL); it++){  /// ~100 pool nodes per update, stays within MAXNODES
+    for (long long it = 0; it < stress::scaled(3000); it++){
         int x1 = stress::rand_int(1, n), x2 = stress::rand_int(1, n), y1 = stress::rand_int(1, n), y2 = stress::rand_int(1, n);
         if (x1 > x2) swap(x1, x2);
         if (y1 > y2) swap(y1, y2);
