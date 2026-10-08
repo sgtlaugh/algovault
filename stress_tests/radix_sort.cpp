@@ -6,11 +6,10 @@
 
 int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
-        int n = stress::rand_int(0, it % 10 ? 50 : 5000), byte = stress::rand_int(0, 3);
+        int n = stress::rand_int(0, it % 10 ? 50 : 5000), byte = stress::rand_int(0, 3), mode = stress::rand_int(0, 3);
         vector<unsigned int> v(n);
         for (auto& x : v){
             unsigned int r = stress::rng()();
-            int mode = it % 4;
             if (mode == 1) x = r & ((unsigned int)255 << (8 * byte));  /// only one byte differs, every other pass must keep the order
             else if (mode == 2) x = r % 4 ? 0 : ~(unsigned int)0;      /// extremes with heavy duplication
             else if (mode == 3) x = r % 300;
