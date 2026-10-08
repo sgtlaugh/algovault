@@ -42,7 +42,7 @@ jobs:
         with:
           python-version: "3.12"
 
-      - name: Install GMP (exact reference for the bignum stress test)
+      - name: Install GMP (exact reference for the bignum and digits of factorial stress tests)
         run: sudo apt-get update -q && sudo apt-get install -y -q libgmp-dev
 
       - name: Compile and run every stress test under sanitizers
