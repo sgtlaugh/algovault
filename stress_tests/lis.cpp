@@ -29,6 +29,7 @@ void check(const vector<T>& a){
     assert(lds_vector(a, false) == dec && lds_vector(a, true) == non_inc);
     assert(lis_length(a, false) == longest(inc) && lis_length(a, true) == longest(non_dec));
     assert(lds_length(a, false) == longest(dec) && lds_length(a, true) == longest(non_inc));
+    assert(lis_vector(a) == inc && lds_vector(a) == dec && lis_length(a) == longest(inc) && lds_length(a) == longest(dec));  /// defaults are strict
 }
 
 int main(){
