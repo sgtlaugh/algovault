@@ -37,7 +37,6 @@ SKIP=(
 # Library files that intentionally have no stress test yet, with the reason
 STRESS_SKIP=(
     "code_library/hacking/anti_double_hash.cpp"  # a collision search takes ~150 s, too slow to verify
-    "code_library/2SAT_tarjan.cpp"               # lexicographic 2SAT variant, pending a rename and doc review
 )
 
 # Contest judges usually give 8 MB of stack, tests must pass with it
