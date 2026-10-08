@@ -4,11 +4,8 @@ from discrete_log import discrete_log
 
 
 def brute(a, b, mod):
-    """The library's convention: with mod = 1, x = 0 matches only a literal b == 1 and every other b needs x = 1"""
-    if b == 1:
-        return 0
     b %= mod
-    e = 1
+    e = 1 % mod
     for x in range(mod + 1):
         if e == b:
             return x
