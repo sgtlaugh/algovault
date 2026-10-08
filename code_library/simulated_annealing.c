@@ -48,7 +48,9 @@ int main(){
     int t, i, j, k, x, a, b, lim, len, cur, res, next;
 
     while (scanf("%d", &n) != EOF){
-        for (i = 0; i < n; i++) scanf("%d", &ar[i]);
+        for (i = 0; i < n; i++){
+            if (scanf("%d", &ar[i]) != 1) return 0;
+        }
 
         clr(bits), clr(last_bits);
         cur = res = solve(), lim = 180000; /// lim = total iterations, the more the better

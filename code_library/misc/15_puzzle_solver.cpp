@@ -93,13 +93,13 @@ bool is_solvable(){
 }
 
 int main(){
-    int t = 0, i, j, bx = 0, by = 0;  /// t stays 0 when stdin is empty, scanf leaves it untouched on failure
+    int t, i, j, bx = 0, by = 0;
 
-    scanf("%d", &t);
+    if (scanf("%d", &t) != 1) return 0;
     while (t--){
         for (i = 0; i < 4; i++){
             for (j = 0; j < 4; j++){
-                scanf("%d", &ar[i][j]);
+                if (scanf("%d", &ar[i][j]) != 1) return 0;
                 if (!ar[i][j]){
                     bx = i, by = j;
                     ar[i][j] = 16;
