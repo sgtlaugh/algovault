@@ -13,7 +13,7 @@ using namespace std;
 
 /// O(n)
 int josephus1(int n, int k, int m){
-    unsigned x = n - m;  /// x < i <= n, so x + k stays below 2^32 and keeps 32-bit division
+    unsigned x = n - m;  /// unsigned: x + k < 2^32 never overflows and keeps 32-bit division
     for (unsigned i = x + 1; i <= (unsigned)n; i++){
         x += k;
         if (x >= i) x %= i;

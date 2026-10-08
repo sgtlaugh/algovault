@@ -84,8 +84,7 @@ bool is_convex(const vector <Point>& P){
     }
     for (int k = 0; k < 2; k++) flips[k] += first[k] != last[k];
 
-    /// Turning one way everywhere still allows star polygons and edges folding back on themselves
-    /// Winding exactly once without folds means x and y each change direction exactly twice
+    /// Same-sign turns still allow stars and folded edges, a simple convex polygon reverses x and y exactly twice each
     return sign != 0 && flips[0] == 2 && flips[1] == 2;
 }
 

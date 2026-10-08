@@ -213,7 +213,7 @@ struct Polynomial{
     }
 
     inline void copy_poly(int* to, int* from, int n){
-        if (n > 0) memcpy(to, from, n * sizeof(int));  /// empty polynomials have a null data pointer, memcpy from null is UB even for 0 bytes
+        if (n > 0) memcpy(to, from, n * sizeof(int));  /// an empty polynomial's data is null, memcpy from null is UB even for 0 bytes
     }
 
     inline void subtract(int* res, int* P, int pn, int* Q, int qn){
@@ -563,12 +563,12 @@ struct LinearRecurrence{
             return res;
         }
 
-        _POLYNOMIAL_MOD = mod;  /// set at use, not in the constructor, so recurrences with different mods can be interleaved
+        _POLYNOMIAL_MOD = mod;  /// set per call so recurrences with different mods can be interleaved
         u.push_back(1);
         auto p = Polynomial(u);
         p = Polynomial({0, 1}).power(p, n);
 
-        /// p is normalized, its missing high coefficients are zeros rather than a shorter recurrence
+        /// p drops zero high coefficients, pad them back
         v.assign(recurrence.size(), 0);
         for (int i = 0; i < min((int)p.size(), (int)recurrence.size()); i++){
             v[i] = p.coefficient[i];

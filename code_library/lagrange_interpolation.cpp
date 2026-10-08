@@ -100,7 +100,7 @@ int find_degree(const vector<int>& terms, int mod){
         k++;
     }
 
-    /// Sample the top residues, a point congruent to one of a prefix's nodes 0 .. mid - 1 agrees with it by construction
+    /// Top residues, a point congruent to a prefix's nodes 0 .. mid - 1 would match it by construction
     int l = mod - k, r = mod - 1;
     auto expected = get_terms(terms, mod, l, r);
 

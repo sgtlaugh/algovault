@@ -60,7 +60,7 @@ namespace Simplex {
     void init(int nvar, Float obj[], int min_or_max){
         m = 0, n = nvar, flag = min_or_max;
 
-        /// add_constraint writes every row before it is read, clearing the whole 128 MB table cost ~8 ms per call
+        /// Clears only what is read before written, so add_constraint must keep writing full rows (a 128 MB memset is ~8 ms per call)
         rhs[0] = 0;
         memset(val, 0, sizeof(Float) * (n + 1));
         memset(idx, 0, sizeof(int) * (n + 1));

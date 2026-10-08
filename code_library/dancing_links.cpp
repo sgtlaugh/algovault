@@ -36,7 +36,7 @@ namespace dlx{
     /// the vector columns contain the columns which are satisfied with this row
     inline void addrow(int r, vector <int>& columns){
         int i, c, l = columns.size(), first = idx;
-        if (!l) return;  /// covers nothing, and linking it would close a ring over the previous row's last node
+        if (!l) return;  /// an empty row covers nothing, and linking it would corrupt the previous row
 
         for (i = 0; i < l; i++){
             c = columns[i];

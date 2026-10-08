@@ -43,7 +43,7 @@ int gauss(vector<vector <T>> equations, vector<T>& res, const T eps=1e-9){
     res.assign(m, 0);
     vector <int> pos(m, -1);
 
-    /// The tolerance scales with the largest coefficient, an absolute eps rejects solvable systems with large values
+    /// Relative, an absolute eps rejects solvable systems with large coefficients
     T tol = 1;
     for (auto& row : equations) for (auto& x : row) tol = max(tol, (T)abs(x));
     tol *= eps;
@@ -67,7 +67,7 @@ int gauss(vector<vector <T>> equations, vector<T>& res, const T eps=1e-9){
         }
     }
 
-    /// Pivot rows hold by construction, the system is inconsistent iff a row without a pivot reduced to 0 = nonzero
+    /// Only rows without a pivot can be inconsistent, as 0 = nonzero
     for (k = i; k < n; k++){
         if (abs(equations[k][m]) > tol) return -1;
     }

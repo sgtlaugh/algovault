@@ -62,7 +62,7 @@ namespace pm{
 
     vector<pair<int, int>> solve(const vector<string>& text, const vector<string>& pattern) {
         assert(!pattern.empty());
-        if (pattern.size() > text.size() || pattern[0].size() > text[0].size()) return {};  /// cannot match, and build would read past the text
+        if (pattern.size() > text.size() || pattern[0].size() > text[0].size()) return {};  /// build would read past the text
         build(text, pattern);
 
         int i, j;

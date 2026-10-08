@@ -228,7 +228,7 @@ namespace rho{
         for (auto it: prime_count){
             long long x = 1;
             for (k = len, j = 0; j < it.second; j++){
-                x *= it.first;  /// multiplied before use, a trailing x *= p would overflow past the largest power
+                x *= it.first;
                 for (l = 0; l < k; l++){
                     divisors[len++] = x * divisors[l];
                 }

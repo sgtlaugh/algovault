@@ -137,13 +137,13 @@ SuffixArray suffix_array(const Container& c){
         return result;
     }
 
-    /// DC3 needs values in [1, lim] (0 is its sentinel) and allocates lim buckets, so shift small ranges and compress large ones
+    /// DC3 wants values in [1, lim] with 0 as sentinel and lim buckets: shift small ranges, compress large ones
     vector<int> ar(n + 3, 0);
     long long lo = c[0], hi = c[0];
     for (int i = 0; i < n; i++) lo = min(lo, (long long)c[i]), hi = max(hi, (long long)c[i]);
 
     int lim;
-    if ((unsigned long long)hi - lo <= (unsigned long long)n + 256){  /// unsigned, hi - lo overflows for values spanning LLONG_MIN .. LLONG_MAX
+    if ((unsigned long long)hi - lo <= (unsigned long long)n + 256){  /// unsigned: hi - lo can exceed LLONG_MAX
         for (int i = 0; i < n; i++) ar[i] = c[i] - lo + 1;
         lim = hi - lo + 1;
     }

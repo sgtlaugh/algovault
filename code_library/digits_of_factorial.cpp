@@ -13,7 +13,7 @@
 long long digits_of_factorial(long long n, long long b=10){
     assert(b > 1);
 
-    /// n! fits in 64 bits up to 20, and only there can it be an exact power of b (b = n!, by Bertrand), where a logarithm cannot pick a side
+    /// n! fits in 64 bits, an exact count handles b = n!, the only exact power and one a logarithm can round either way
     if (n <= 20){
         unsigned long long f = 1;
         long long res = 0;

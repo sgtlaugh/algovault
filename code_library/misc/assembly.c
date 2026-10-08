@@ -26,7 +26,7 @@ int bsf(unsigned int x){
     return x;
 }
 
-/// Works on magnitudes with divl: idivl would trap on INT_MIN / -1, and gcd(INT_MIN, 0) = 2^31 only fits unsigned
+/// divl on magnitudes: idivl traps on INT_MIN / -1, and gcd(INT_MIN, 0) = 2^31 needs unsigned
 unsigned int gcd(int a, int b){
     unsigned int x = a < 0 ? 0u - a : (unsigned int)a, y = b < 0 ? 0u - b : (unsigned int)b, res;
     __asm__ volatile(

@@ -62,7 +62,7 @@ struct PolyHash{
         }
     }
 
-    /// Maps any element into [0, mod), the 997 offset keeps zero valued elements from hashing like an empty prefix
+    /// The 997 offset keeps zeros from hashing like an empty prefix
     template <typename T>
     static uint64_t value_of(const T& x){
         return (uint64_t)((((__int128)x % (__int128)mod) + mod + 997) % mod);
