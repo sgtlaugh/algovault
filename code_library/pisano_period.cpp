@@ -226,8 +226,9 @@ namespace rho{
 
         divisors[len++] = 1;
         for (auto it: prime_count){
-            long long x = it.first;
-            for (k = len, j = 0; j < it.second; j++, x *= it.first){
+            long long x = 1;
+            for (k = len, j = 0; j < it.second; j++){
+                x *= it.first;  /// multiplied before use, a trailing x *= p would overflow past the largest power
                 for (l = 0; l < k; l++){
                     divisors[len++] = x * divisors[l];
                 }
