@@ -13,7 +13,7 @@ long long poly_hash(const string& s, long long base, long long mod, long long ze
 
 int main(){
     srand(stress::seed());
-    const long long mods[] = {(1LL << 61) - 1, 1000000007, 998244353, 4294967311LL, 6000000007LL, 1000000000000000003LL};  /// 6000000007: just past 2^32, where a 64-bit product overflows
+    const long long mods[] = {(1LL << 61) - 1, 1000000007, 998244353, 4294967311LL, 6000000007LL, 1000000000000000003LL};  /// 6000000007: far enough past 2^32 that most residue products overflow 64 bits
     for (long long it = 0; it < stress::scaled(40); it++){
         long long mod = it % 3 ? mods[stress::rand_int(0, 5)] : stress::rand_int(1000000000LL, 1LL << 61);
         long long base = stress::rand_int(2, mod - 1);
