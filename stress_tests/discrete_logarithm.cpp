@@ -4,11 +4,9 @@
 #include "../code_library/discrete_logarithm.cpp"
 #undef main
 
-/// The library's convention: with mod = 1, x = 0 matches only a literal b == 1 and every other b needs x = 1
 int brute(int a, int b, int mod){
-    if (b == 1) return 0;
     b %= mod;
-    long long e = 1;
+    long long e = 1 % mod;
     for (int x = 0; x <= mod; x++, e = e * a % mod){
         if (e == b) return x;
     }

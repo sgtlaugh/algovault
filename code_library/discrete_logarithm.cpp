@@ -2,15 +2,13 @@
  * Generalized discrete logarithm with Shank's Baby step giant step algorithm
  *
  * Given three integers a, b and mod
- * Returns the smallest non-negative x such that (g^x) % p = h % p
+ * Returns the smallest non-negative x such that (a^x) % mod = b % mod
  * If no solution exists, returns -1
  * Works even if a, b and mod are not pairwise co-primes
+ * a^0 = 1 (including 0^0), so x = 0 whenever b % mod = 1 % mod, which is every b when mod = 1
  *
  * Complexity: O(sqrt(mod))
  * Use a custom hash table for more speed
- *
- * Note that it is assumed 0^0 is undefined although Python treats 0^0 as 1 (https://en.wikipedia.org/wiki/Zero_to_the_power_of_zero)
- * If it is required otherwise, should be handled explicitly (Just adding `if b == 1 or mod == 1: return 0` should suffice)
  *
 ***/
 
@@ -35,9 +33,8 @@ int discrete_log(int a, int b, int mod){
     tr1::unordered_map<int, int> mp;
     int i, v, x, e = 1, n = sqrt(mod + 0.5) + 1;
 
-    /// Before b %= mod, so with mod = 1 only a literal b = 1 gives x = 0, see the note above
-    if (b == 1) return 0;
     b %= mod;
+    if (b == 1 % mod) return 0;
 
     for (i = 0; i < (n + 3); i++){
         if (e == b) return i;
@@ -58,7 +55,7 @@ int discrete_log(int a, int b, int mod){
 }
 
 int main(){
-    assert(discrete_log(0, 0, 1) == 1);
+    assert(discrete_log(0, 0, 1) == 0);
     assert(discrete_log(1, 1, 1) == 0);
     assert(discrete_log(2, 1, 3) == 0);
     assert(discrete_log(2, 3, 3) == -1);
