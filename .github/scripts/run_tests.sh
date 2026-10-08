@@ -21,7 +21,10 @@ PYTHON="${PYTHON:-python3}"
 TEST_TIMEOUT="${TEST_TIMEOUT:-300}"
 
 # Sanitizers abort on the first error so UB fails the test, the glibc++ assertions catch out of range container access
-SAN_FLAGS=(-O1 -g -fno-omit-frame-pointer "-fsanitize=address,undefined" -fno-sanitize-recover=all -Wall -Wextra -Werror)
+# _FORTIFY_SOURCE is pinned because Ubuntu's gcc enables it by default and other builds don't,
+# and it adds warnings (unused scanf results) that -Werror turns into CI-only failures
+# -U first: Ubuntu defines it built in, redefining to another value is itself an error under -Werror
+SAN_FLAGS=(-O1 -g -fno-omit-frame-pointer "-fsanitize=address,undefined" -fno-sanitize-recover=all -Wall -Wextra -Werror -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3)
 CFLAGS=(-std=c11 "${SAN_FLAGS[@]}")
 CXXFLAGS=(-std=c++17 "${SAN_FLAGS[@]}" -D_GLIBCXX_ASSERTIONS)
 export UBSAN_OPTIONS="print_stacktrace=1"
