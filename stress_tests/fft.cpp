@@ -40,7 +40,7 @@ int main(){
     using namespace fft;
 
     for (long long it = 0; it < stress::scaled(300); it++){
-        int n = stress::rand_int(1, it % 10 ? 300 : 1500), m = stress::rand_int(1, it % 10 ? 300 : 1500);
+        int n = stress::rand_int(1, it % 20 ? 300 : 1200), m = stress::rand_int(1, it % 20 ? 300 : 1200);
 
         auto a = random_vector(n, -10000, 10000), b = random_vector(m, -10000, 10000);
         assert(multiply(a, b) == naive(a, b));
@@ -49,11 +49,15 @@ int main(){
         ll mod = stress::rand_int(2, 2147483647);
         auto p = random_vector(n, 0, mod - 1), q = random_vector(m, 0, mod - 1);
         assert(mod_multiply(p, q, mod) == naive(p, q, mod));
+        assert(mod_multiply(p, p, mod) == naive(p, p, mod));  /// equal inputs skip the second transform
 
         /// ll_multiply is exact while every output coefficient stays below LL_MULTIPLY_MOD * (LL_MULTIPLY_MOD + 1)
-        ll hi = stress::rand_int(0, 1) ? 30000000 : 1500000000LL / max(n, m);
+        ll hi = stress::rand_int(0, 1) ? 30000000 : (LL_MULTIPLY_MOD - 1LL) / max(n, m);
         auto x = random_vector(min(n, 1000), 0, hi), y = random_vector(min(m, 1000), 0, hi);
-        if ((__int128)min(x.size(), y.size()) * hi * hi < (__int128)1500000000LL * 1500000001LL) assert(ll_multiply(x, y) == naive(x, y));
+        if ((__int128)min(x.size(), y.size()) * hi * hi < (__int128)1500000000LL * 1500000001LL){
+            assert(ll_multiply(x, y) == naive(x, y));
+            assert(ll_multiply(x, x) == naive(x, x));
+        }
 
         int k = min(n, 500);
         auto c1 = random_vector(k, -1000, 1000), c2 = random_vector(k, -1000, 1000);
