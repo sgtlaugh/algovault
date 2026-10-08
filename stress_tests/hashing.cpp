@@ -30,6 +30,10 @@ int main(){
             bool equal = std::equal(a.begin() + l1, a.begin() + l1 + len, a.begin() + l2);
             assert((h.get_hash(l1, l1 + len - 1) == h.get_hash(l2, l2 + len - 1)) == equal);
             assert(h.rev_hash(l1, l1 + len - 1) == hr.get_hash(n - l1 - len, n - l1 - 1));  /// the reversed segment in the reversed array
+
+            /// Different lengths must differ too, without the offset runs of zeros would all hash to 0
+            int len2 = stress::rand_int(1, n);
+            if (len2 != len) assert(h.get_hash(l1, l1 + len - 1) != h.get_hash(0, len2 - 1));
         }
     }
     return 0;
