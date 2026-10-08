@@ -13,6 +13,25 @@ bool satisfies(const vector<bitset<MAX>>& equations, int m, const bitset<MAX>& x
     return true;
 }
 
+/// Rank of the coefficient columns by a leading-bit XOR basis, an elimination order independent of the library's
+int rank_of(const vector<bitset<MAX>>& equations, int m){
+    vector<bitset<MAX>> pivot(m);
+    vector<bool> used(m, false);
+    int rank = 0;
+    for (auto e : equations){
+        e[m] = 0;
+        for (int j = m - 1; j >= 0; j--){
+            if (!e[j]) continue;
+            if (!used[j]){
+                pivot[j] = e, used[j] = true, rank++;
+                break;
+            }
+            e ^= pivot[j];
+        }
+    }
+    return rank;
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
         int m = stress::rand_int(0, 12), n = stress::rand_int(0, 14), density = stress::rand_int(1, 3);
@@ -37,7 +56,7 @@ int main(){
         }
     }
 
-    /// Large systems: a planted solution must be recovered as a valid one with the right rank
+    /// Large systems: a planted solution must be recovered as a valid one with exactly m - rank free variables
     for (long long it = 0; it < stress::scaled(30); it++){
         int m = stress::rand_int(1, MAX - 1), n = stress::rand_int(1, 300), rank = stress::rand_int(0, min(n, m));
         bitset<MAX> planted;
@@ -45,7 +64,7 @@ int main(){
 
         vector<bitset<MAX>> basis(rank), equations(n);
         for (int r = 0; r < rank; r++){
-            basis[r][stress::rand_int(0, m - 1)] = 1;  /// may still be dependent, the rank is only an upper bound
+            basis[r][stress::rand_int(0, m - 1)] = 1;  /// may still be dependent, the true rank is computed below
             for (int j = 0; j < m; j++) if (stress::rand_int(0, 1)) basis[r][j] = 1;
         }
         for (auto& e : equations){
@@ -55,7 +74,7 @@ int main(){
 
         bitset<MAX> res;
         int f_var = gauss(m, equations, res);
-        assert(f_var >= m - rank && satisfies(equations, m, res));
+        assert(f_var == m - rank_of(equations, m) && satisfies(equations, m, res));
     }
     return 0;
 }
