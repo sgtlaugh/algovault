@@ -4,7 +4,6 @@
 #include "../code_library/freivalds_algorithm.cpp"
 #undef main
 
-/// Entries stay small enough that A * (B * D) cannot overflow with D up to RAND_MAX
 Matrix random_matrix(int row, int col, int range){
     Matrix res(row, col);
     for (int i = 0; i < row; i++){
@@ -14,12 +13,11 @@ Matrix random_matrix(int row, int col, int range){
 }
 
 int main(){
-    srand(stress::seed());
     static Matrix A, B, C, product;
 
     for (long long it = 0; it < stress::scaled(1500); it++){
         int n = stress::rand_int(1, it % 10 ? 8 : 30), k = stress::rand_int(1, it % 10 ? 8 : 30), m = stress::rand_int(1, it % 10 ? 8 : 30);
-        int range = stress::rand_int(0, 1) ? 1 : 1000;
+        int range = vector<int>{1, 1000, 500000000}[stress::rand_int(0, 2)];  /// the largest keeps every product entry within long long
         A = random_matrix(n, k, range), B = random_matrix(k, m, range);
 
         product = Matrix(n, m);
