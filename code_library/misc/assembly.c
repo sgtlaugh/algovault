@@ -31,6 +31,7 @@ int lzcount(int x){
 }
 
 int bsf(unsigned int x){
+    if (!x) return 0;  /// bsf leaves its destination undefined for 0
     __asm__ volatile("bsf %0, %0" : "=r" (x) : "0" (x));
     return x;
 }
