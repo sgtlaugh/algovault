@@ -1,6 +1,6 @@
 from itertools import permutations
 
-from stress import rng, scaled
+import stress  # noqa: F401, makes code_library/python importable
 
 from n_queen import count_ways
 
@@ -15,8 +15,7 @@ def brute(n):
 def main():
     for n in range(8):
         assert brute(n) == OEIS[n]
-    for _ in range(scaled(8)):
-        n = rng.randint(0, 11)
+    for n in range(len(OEIS)):
         assert count_ways(n) == OEIS[n]
 
 
