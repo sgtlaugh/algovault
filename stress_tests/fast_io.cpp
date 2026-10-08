@@ -1,10 +1,12 @@
 #include "common.h"
+#include <unistd.h>
 
 #define main library_main
 #include "../code_library/fast_io.cpp"
 #undef main
 
-const string IN = "/tmp/algovault_fast_io_in.txt", OUT = "/tmp/algovault_fast_io_out.txt";
+/// Per process names, concurrent runs (seed sweeps, parallel CI) would otherwise overwrite each other's files
+const string IN = "/tmp/algovault_fast_io_in_" + to_string(getpid()), OUT = "/tmp/algovault_fast_io_out_" + to_string(getpid());
 
 /// Points stdin at fresh contents and resets the reader's buffer state
 void set_input(const string& contents){
@@ -89,5 +91,6 @@ int main(){
         fflush(stdout);
         assert(read_file(OUT) == expected_out);
     }
+    remove(IN.c_str()), remove(OUT.c_str());
     return 0;
 }
