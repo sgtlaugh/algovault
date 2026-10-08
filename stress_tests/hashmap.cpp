@@ -14,7 +14,7 @@ void run(long long rounds){
 
         auto random_key = [&]() -> K {
             if (mode == 0) return (K)(stress::rand_int(-cap, cap));                         /// few distinct keys, negatives
-            if (mode == 1) return (K)(stress::rand_int(0, 3 * cap) << 20);                  /// only high bits differ
+            if (mode == 1) return (K)((unsigned long long)stress::rand_int(0, 3 * cap) << (8 * sizeof(K) - 13));  /// only high bits differ, 3 * cap < 2^13
             if (mode == 2 && stress::rand_int(0, 2) == 0) return stress::rand_int(0, 1) ? numeric_limits<K>::min() : numeric_limits<K>::max();
             return (K)stress::rng()();
         };
