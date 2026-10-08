@@ -63,7 +63,7 @@ vector<Point> get_convex_hull(vector<Point> P){
 ***/
 
 bool is_convex(const vector <Point>& P){
-    int n = P.size(), sign = 0, flips = 0, first_dy = 0, last_dy = 0;
+    int n = P.size(), sign = 0, first[2] = {0, 0}, last[2] = {0, 0}, flips[2] = {0, 0};
     if (n <= 2) return false; /// Line or point is not convex
 
     for (int i = 0; i < n; i++){
@@ -74,17 +74,19 @@ bool is_convex(const vector <Point>& P){
             sign = turn > 0 ? 1 : -1;
         }
 
-        int dy = (b.y > a.y) - (b.y < a.y);
-        if (dy){
-            if (last_dy && dy != last_dy) flips++;
-            if (!first_dy) first_dy = dy;
-            last_dy = dy;
+        int dir[2] = {(b.x > a.x) - (b.x < a.x), (b.y > a.y) - (b.y < a.y)};
+        for (int k = 0; k < 2; k++){
+            if (!dir[k]) continue;
+            if (last[k] && dir[k] != last[k]) flips[k]++;
+            if (!first[k]) first[k] = dir[k];
+            last[k] = dir[k];
         }
     }
-    if (first_dy != last_dy) flips++;
+    for (int k = 0; k < 2; k++) flips[k] += first[k] != last[k];
 
-    /// Turning one way everywhere still allows star polygons, winding exactly once means y changes direction twice
-    return sign != 0 && flips == 2;
+    /// Turning one way everywhere still allows star polygons and edges folding back on themselves
+    /// Winding exactly once without folds means x and y each change direction exactly twice
+    return sign != 0 && flips[0] == 2 && flips[1] == 2;
 }
 
 int main(){
