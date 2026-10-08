@@ -35,7 +35,7 @@ vector <int> lis_vector(const vector <T>& ar, bool allow_equal=false){
 /// If allow_equal is true, longest non-increasing subsequence is calculated instead
 
 template <typename T>
-vector <int> lds_vector(const vector <T>& ar, bool allow_equal=true){
+vector <int> lds_vector(const vector <T>& ar, bool allow_equal=false){
     int n = ar.size();
 
     vector <T> pos;
