@@ -24,7 +24,10 @@ int main(){
         vector<int> c(k), start(k);
         for (auto& x : c) x = stress::rand_int(0, mod - 1);
         for (auto& x : start) x = stress::rand_int(0, mod - 1);
-        if (stress::rand_int(0, 2) == 0) c.back() = 0;  /// a zero coefficient lowers the true order, the recurrence must still hold
+        if (stress::rand_int(0, 2) == 0){  /// zero f(x - k), f(x - k + 1), ... coefficients lower the true order below k
+            int zeros = stress::rand_int(1, k);
+            fill(c.begin(), c.begin() + zeros, 0);
+        }
         auto terms = brute_terms(c, start, 3000, mod);
 
         /// Recurrence given
