@@ -42,7 +42,7 @@ struct DisjointST{
     DisjointST(const vector<T> &ar, const T& identity_elem){
         int i, c, h, l, n = (int)ar.size();
 
-        for (h = 0; h <= __lg(n); h++){
+        for (h = 0; n && h <= __lg(n); h++){  /// __lg(0) is undefined
             dp[h].resize(n + 1, identity_elem);
 
             for (c = l = 1 << h; c < n + l; c += (l << 1)){
