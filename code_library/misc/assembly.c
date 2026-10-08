@@ -1,3 +1,12 @@
+/***
+ *
+ * Inline x86 assembly examples: popcount, leading zero count, bit scan, gcd and x87 square root
+ *
+ * POPCNT and LZCNT need CPU support, without LZCNT the instruction silently runs as BSR and returns a wrong count
+ * For real use prefer __builtin_popcount, __builtin_clz, __builtin_ctz and std::gcd: portable, and std::gcd is ~1.6x faster
+ *
+***/
+
 #include <stdio.h>
 #include <assert.h>
 
