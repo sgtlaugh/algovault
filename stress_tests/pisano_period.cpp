@@ -10,6 +10,23 @@ ull mul_mod(ull a, ull b, ull m){
     return (unsigned __int128)a * b % m;
 }
 
+/// Independent of the library's Montgomery arithmetic, the first 12 prime bases are exact below 3.18 * 10^23
+bool reference_is_prime(ull n){
+    if (n < 2) return false;
+    for (ull p : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) if (n % p == 0) return n == p;
+    ull d = n - 1;
+    int s = 0;
+    while (!(d & 1)) d >>= 1, s++;
+    for (ull a : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}){
+        ull x = 1, b = a, e = d;
+        for (; e; e >>= 1, b = mul_mod(b, b, n)) if (e & 1) x = mul_mod(x, b, n);
+        bool composite = x != 1 && x != n - 1;
+        for (int r = 1; r < s && composite; r++) composite = (x = mul_mod(x, x, n)) != n - 1;
+        if (composite) return false;
+    }
+    return true;
+}
+
 /// Independent (F(k) mod m, F(k + 1) mod m) by 2x2 matrix exponentiation
 pair<ull, ull> fib_pair(ull k, ull m){
     ull a = 1 % m, b = 0, c = 0, d = 1 % m;      /// result matrix, starts as the identity
@@ -39,6 +56,9 @@ long long brute_pisano(long long n){
 }
 
 int main(){
+    /// Strong pseudoprimes to the smallest bases, a weakened base set would call them prime
+    for (ull n : {3215031751ULL, 2152302898747ULL, 3474749660383ULL, 341550071728321ULL, 3825123056546413051ULL}) assert(!rho::miller_rabin(n));
+
     rho::init();
 
     for (long long n = 1; n <= 3000; n++) assert(pisano_period(n) == brute_pisano(n));
@@ -66,7 +86,7 @@ int main(){
         if (n > 1500000000000000000LL) continue;
         auto factors = rho::factorize(n);
         __int128 product = 1;
-        for (auto f : factors) product *= f, assert(rho::miller_rabin(f));
+        for (auto f : factors) product *= f, assert(reference_is_prime(f));
         assert(product == n && is_sorted(factors.begin(), factors.end()));
 
         ull m = stress::rand_int(1, 1000000000000000LL) | 1, k = stress::rand_int(0, 1000000000);
