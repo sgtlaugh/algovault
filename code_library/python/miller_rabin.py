@@ -13,7 +13,7 @@ def _is_composite(a, n, s):
     if p == 1 or p == n - 1 or a % n == 0:
         return False
 
-    for _ in range(s):
+    for _ in range(s - 1):
         p = p * p % n
         if p == n - 1:
             return False
