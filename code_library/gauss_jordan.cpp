@@ -97,7 +97,7 @@ int main(){
     f_var = gauss(equations, res);
     assert(f_var == 1 && res.size() == 3); /// multiple solution, 1 independent variable
 
-    for (int i = 0; i < equations.size(); i++){
+    for (int i = 0; i < (int)equations.size(); i++){
         double v = 0;
         int m = res.size();
         for (int j = 0; j < m; j++){
