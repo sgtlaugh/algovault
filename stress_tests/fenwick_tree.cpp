@@ -16,6 +16,7 @@ int main(){
         for (int op = 0; op < 200; op++){
             int l = stress::rand_int(1, n), r = stress::rand_int(1, n);
             long long v = stress::rand_int(-1000000000, 1000000000);
+            if (l > r) swap(l, r);
             if (op % 7 == 0) swap(l, r);  /// l > r is an empty range, updates must be no-ops and queries 0
 
             if (stress::rand_int(0, 1)){
