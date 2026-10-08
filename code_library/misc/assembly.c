@@ -12,7 +12,7 @@
 
 int popcount(int x){
     int counter = 0;
-    __asm__ volatile("POPCNT %1, %0;"
+    __asm__("POPCNT %1, %0;"
         :"=r"(counter)
         :"r"(x)
         :
@@ -22,7 +22,7 @@ int popcount(int x){
 
 int lzcount(int x){
     int counter = 0;
-    __asm__ volatile("LZCNT %1, %0;"
+    __asm__("LZCNT %1, %0;"
         :"=r"(counter)
         :"r"(x)
         :
@@ -32,14 +32,14 @@ int lzcount(int x){
 
 int bsf(unsigned int x){
     if (!x) return 0;  /// bsf leaves its destination undefined for 0
-    __asm__ volatile("bsf %0, %0" : "=r" (x) : "0" (x));
+    __asm__("bsf %0, %0" : "=r" (x) : "0" (x));
     return x;
 }
 
 /// divl on magnitudes: idivl traps on INT_MIN / -1, and gcd(INT_MIN, 0) = 2^31 needs unsigned
 unsigned int gcd(int a, int b){
     unsigned int x = a < 0 ? 0u - a : (unsigned int)a, y = b < 0 ? 0u - b : (unsigned int)b, res;
-    __asm__ volatile(
+    __asm__(
                       "movl %1, %%eax;"
                       "movl %2, %%ebx;"
                       "repeat_%=:\n"
@@ -63,7 +63,7 @@ unsigned int gcd(int a, int b){
 }
 
 long double fsqrt(long double x){
-    __asm__ volatile("fsqrt" : "+t" (x));
+    __asm__("fsqrt" : "+t" (x));
     return x;
 }
 
