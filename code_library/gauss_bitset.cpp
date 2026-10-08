@@ -37,7 +37,7 @@ const int MAX = 1024;
 int gauss(int m, vector <bitset<MAX>> equations, bitset <MAX>& res){
     res.reset();
     vector <int> pos(m, -1);
-    int i, j, k, l, v, p, n = equations.size(), f_var = 0;
+    int i, j, k, v, p, n = equations.size(), f_var = 0;
 
     for (j = 0, i = 0; j < m && i < n; j++){
         for (p = i, k = i + 1; p == i && k < n; k++){
