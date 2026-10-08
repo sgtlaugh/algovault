@@ -125,11 +125,11 @@ struct AntiHash{
             for (int i = 0; i < len; i++){
                 v.push_back(i < (2 * chunk));
             }
-            random_shuffle(v.begin(), v.end());
+            shuffle(v.begin(), v.end(), mt19937(rand()));
             for (int i = 0, k = 0; i < (int)v.size(); i++){
                 if (v[i] == 1) sample[k++] = i;
             }
-            random_shuffle(sample, sample + chunk * 2);
+            shuffle(sample, sample + chunk * 2, mt19937(rand()));
 
             insert_hash(0, 0, 0);
             sort(ar, ar + (1 << chunk));
