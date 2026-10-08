@@ -21,7 +21,7 @@ PYTHON="${PYTHON:-python3}"
 TEST_TIMEOUT="${TEST_TIMEOUT:-300}"
 
 # Sanitizers abort on the first error so UB fails the test, the glibc++ assertions catch out of range container access
-SAN_FLAGS=(-O1 -g -fno-omit-frame-pointer "-fsanitize=address,undefined" -fno-sanitize-recover=all -Wall -Wextra)
+SAN_FLAGS=(-O1 -g -fno-omit-frame-pointer "-fsanitize=address,undefined" -fno-sanitize-recover=all -Wall -Wextra -Werror)
 CFLAGS=(-std=c11 "${SAN_FLAGS[@]}")
 CXXFLAGS=(-std=c++17 "${SAN_FLAGS[@]}" -D_GLIBCXX_ASSERTIONS)
 export UBSAN_OPTIONS="print_stacktrace=1"
@@ -43,7 +43,7 @@ ulimit -s 8192
 BUILD="$(mktemp -d)"
 trap 'rm -rf "$BUILD"' EXIT
 
-passed=0 failed=0 skipped=0 warned=0
+passed=0 failed=0 skipped=0
 failures=()
 
 contains(){  # value, array elements...
@@ -89,7 +89,6 @@ run_one(){  # repo relative path
             report_failure "$rel" "compile error" "$log"
             return
         fi
-        grep -q "warning:" "$log" && warned=$((warned + 1))
         timeout "$TEST_TIMEOUT" "$exe" < /dev/null >> "$log" 2>&1
         rc=$?
     fi
@@ -133,7 +132,7 @@ done < <(find "$TESTS_DIR" -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.p
 
 echo
 [[ "$MODE" == "stress" ]] && check_coverage
-echo "passed: $passed  failed: $failed  skipped: $skipped  (files with compiler warnings: $warned)"
+echo "passed: $passed  failed: $failed  skipped: $skipped"
 if [[ $failed -gt 0 ]]; then
     printf '  failed: %s\n' "${failures[@]}"
     exit 1
