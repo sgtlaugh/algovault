@@ -60,7 +60,6 @@ int main(){
         for (int i = 0; i < n; i++) g->adj[i].clear();
         for (auto [u, v] : edges) g->add_edge(u, v);
 
-        auto base = labels(n, edges, {});
         set<pair<int, int>> expected;
         for (auto [u, v] : edges){
             auto cut = labels(n, edges, {{min(u, v), max(u, v)}});
