@@ -37,7 +37,7 @@ int main(){
 
     for (long long it = 0; it < stress::scaled(400); it++){
         int n = stress::rand_int(1, it % 10 ? 12 : 400), m = stress::rand_int(1, it % 10 ? 8 : 6);
-        if (it % 50 == 0) m = 31;
+        if (it % 50 == 0) m = 31, n = min(n, 40);  /// the widest band, kept small: cells and band size multiply
         int band_size = it % 3 ? 2 * m + 3 : 2 * stress::rand_int(0, min(34, 2 * m + 2)) + 1, h = band_size / 2, cells = n * m;
         long double rhs_default = stress::rand_int(-5, 5);
         new (gauss) Band(n, m, it % 3 ? 0 : band_size, rhs_default);
