@@ -55,7 +55,7 @@ int main(){
         iota(b.begin(), b.end(), 0);
         shuffle(b.begin(), b.end(), stress::rng());
         for (int i = 0; i < 16; i++) ar[i / 4][i % 4] = b[i] ? b[i] : 16;
-        assert(is_solvable(blank(b) / 4, blank(b) % 4) == solvable_oracle(b));
+        assert(is_solvable() == solvable_oracle(b));
     }
 
     for (long long it = 0; it < stress::scaled(10); it++){

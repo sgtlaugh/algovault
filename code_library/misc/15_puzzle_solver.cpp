@@ -16,7 +16,7 @@ int get_cost(int i, int j){
     return abs(((ar[i][j] - 1) >> 2) - i) + abs( ((ar[i][j] - 1) & 3) - j);
 }
 
-int heuristic(int bx, int by){
+int heuristic(){
     int i, j, res, manhattan_distance = 0;
 
     for (i = 0; i < 4; i++){
@@ -67,17 +67,17 @@ int ida_star(int bx, int by, int lx, int ly, int g, int lim, int d, int h){
 }
 
 void solve(int bx, int by){
-    int res, lim = heuristic(bx, by);
+    int res, lim = heuristic();
 
     found = 0;
     while (!found) {
-        res = ida_star(bx, by, bx, by, 0, lim, 0, heuristic(bx, by));
+        res = ida_star(bx, by, bx, by, 0, lim, 0, heuristic());
         if (res <= lim) return;
         else lim = res;
     }
 }
 
-bool is_solvable(int bx, int by){
+bool is_solvable(){
     int i, j, r = 0, counter = 0;
 
     for (i = 0; i < 16; i++){
@@ -93,7 +93,7 @@ bool is_solvable(int bx, int by){
 }
 
 int main(){
-    int t = 0, i, j, bx, by;  /// stays 0 when stdin is empty, scanf leaves it untouched on failure
+    int t = 0, i, j, bx = 0, by = 0;  /// t stays 0 when stdin is empty, scanf leaves it untouched on failure
 
     scanf("%d", &t);
     while (t--){
@@ -107,7 +107,7 @@ int main(){
             }
         }
 
-        if (!is_solvable(bx, by)) puts("This puzzle is not solvable.\n");
+        if (!is_solvable()) puts("This puzzle is not solvable.\n");
         else solve(bx, by);
     }
     return 0;
