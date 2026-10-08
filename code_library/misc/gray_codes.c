@@ -23,7 +23,7 @@ unsigned long long inverse_gray_code(unsigned long long x){
 int main(){
     int n;
     for (n = 0; n < 1048576; n++){
-        assert(inverse_gray_code(gray_code(n)) == n);
+        assert(inverse_gray_code(gray_code(n)) == (unsigned long long)n);
     }
 
     assert(gray_code(1000000007) == 643280644);
