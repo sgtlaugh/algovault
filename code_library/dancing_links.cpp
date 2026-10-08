@@ -116,12 +116,13 @@ namespace sudoku{
     }
 
     /***
-     * Returns false if a sudoku grid is solvable
+     * Returns false if a sudoku grid is unsolvable
      * Otherwise returns true and solves the grid in place
      * Grid must be a square and its side length must be a perfect square
      *
-     * Algorithm should be fast enough for any 16 x 16 grid or lower
-     * Although certain configurations of higher grid sizes are definitely solvable
+     * The exact cover search is exponential in the worst case
+     * 9 x 9 grids, well constrained 16 x 16 grids and even empty 49 x 49 grids solve fast,
+     * but sparse 16 x 16 grids (around 75% blank) can take over a minute
      *
     ***/
 
