@@ -8,6 +8,9 @@
  * Gauss with band matrix: O(n * m^3) or O(n * m * band_size ^ 2) to be more precise
  * If n < m, better to transpose the matrix
  *
+ * Pivots on the diagonal without row swaps, so it needs every pivot to stay nonzero
+ * Diagonally dominant systems (such as expected value equations) are safe, others can give inf or nan
+ *
 ***/
 
 #include <bits/stdc++.h>
