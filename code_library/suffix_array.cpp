@@ -35,7 +35,7 @@ namespace SuffixArrayDC3 {
     void DC3(int* ar, int* sa, int n, int lim, int ptr){
         int *s12, *sa12;
         int allc = (n / 3) << 1, n0 = (n + 2) / 3;
-        int i, j, k, l, c, d, p, t, m, r, counter;
+        int i, j, k, l, c, d, m, r, counter;
 
         s12 = &mem[ptr], ptr += (allc + 5);
         sa12 = &mem[ptr], ptr += (allc + 5);
@@ -51,7 +51,7 @@ namespace SuffixArrayDC3 {
         radixsort(sa12, s12, ar + 1, c, lim + 1);
         radixsort(s12, sa12, ar, c, lim + 1);
 
-        counter = 0, j = -1;
+        counter = 0, j = k = l = -1;
         for (i = 0; i < c; i++){
             if ((ar[sa12[i]] != j) || (ar[sa12[i] + 1] != k) || (ar[sa12[i] + 2] != l)){
                 counter++;
