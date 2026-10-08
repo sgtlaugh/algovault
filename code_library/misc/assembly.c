@@ -26,8 +26,9 @@ int bsf(unsigned int x){
     return x;
 }
 
-int gcd(int a, int b){
-    int res;
+/// Works on magnitudes with divl: idivl would trap on INT_MIN / -1, and gcd(INT_MIN, 0) = 2^31 only fits unsigned
+unsigned int gcd(int a, int b){
+    unsigned int x = a < 0 ? 0u - a : (unsigned int)a, y = b < 0 ? 0u - b : (unsigned int)b, res;
     __asm__ volatile(
                       "movl %1, %%eax;"
                       "movl %2, %%ebx;"
@@ -35,7 +36,7 @@ int gcd(int a, int b){
                       "cmpl $0, %%ebx;"
                       "je terminate_%=\n;"
                       "xorl %%edx, %%edx;"
-                      "idivl %%ebx;"
+                      "divl %%ebx;"
                       "movl %%ebx, %%eax;"
                       "movl %%edx, %%ebx;"
                       "jmp repeat_%=\n;"
@@ -43,7 +44,7 @@ int gcd(int a, int b){
                       "movl %%eax, %0;"
 
                       : "=g"(res)
-                      : "g"(a), "g"(b)
+                      : "g"(x), "g"(y)
                       : "eax", "ebx", "edx"
 
     );
@@ -72,6 +73,8 @@ int main(){
 
     assert(gcd(0, 10) == 10);
     assert(gcd(120, 1260) == 60);
+    assert(gcd(-4, 6) == 2 && gcd(-4, 1) == 1 && gcd(-12, -18) == 6);
+    assert(gcd(-2147483647 - 1, -1) == 1 && gcd(-2147483647 - 1, 0) == 2147483648u);
 
     return 0;
 }
