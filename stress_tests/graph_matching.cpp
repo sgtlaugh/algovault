@@ -21,7 +21,14 @@ int brute(int n, const vector<int>& adj_mask){
     return best(0);
 }
 
-/// The rank test errs with probability at most n / mod per call, ~1e-8 here, so any mismatch is a bug
+/// The rank test errs with probability at most n / mod ~ 1e-8 per call and only ever underestimates, but a nightly
+/// run makes ~1e5 calls, so a short answer is redrawn twice before it counts as a bug
+int matching(Graph& g, int want){
+    int got = g.maximum_matching();
+    for (int retry = 0; retry < 2 && got < want; retry++) got = g.maximum_matching();
+    return got;
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(1200); it++){
         int n = stress::rand_int(1, 14), density = stress::rand_int(0, 100);
@@ -40,7 +47,10 @@ int main(){
             auto [u, v] = edges[i];
             g.add_edge(u, v);
             adj_mask[u] |= 1 << v, adj_mask[v] |= 1 << u;
-            if (i % 3 == 0 || i + 1 == edges.size()) assert(g.maximum_matching() == brute(n, adj_mask));
+            if (i % 3 == 0 || i + 1 == edges.size()){
+                int want = brute(n, adj_mask);
+                assert(matching(g, want) == want);
+            }
         }
     }
     return 0;
