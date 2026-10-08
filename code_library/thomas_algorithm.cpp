@@ -13,7 +13,8 @@ struct equation{
 };
 
 
-/// Thomas algorithm to solve tridigonal system of equations in O(n)
+/// Thomas algorithm to solve tridiagonal system of equations in O(n)
+/// No pivoting: safe for diagonally dominant systems (|p| >= |l| + |r|), a zero pivot gives inf or nan
 vector <long double> thomas_algorithm(int n, vector <struct equation> ar){
     ar[0].r = ar[0].r / ar[0].p;
     ar[0].rhs = ar[0].rhs / ar[0].p;
