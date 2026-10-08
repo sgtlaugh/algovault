@@ -4,7 +4,7 @@
 #include "../code_library/miller_rabin.cpp"
 #undef main
 
-/// Independent reference: Miller-Rabin with the first 12 prime bases is exact below 3.3 * 10^24
+/// Independent reference: Miller-Rabin with the first 12 prime bases is exact below 3.18 * 10^23
 bool reference_is_prime(unsigned long long n){
     if (n < 2) return false;
     const int bases[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
@@ -43,9 +43,14 @@ int main(){
         assert(prm::is_prime(n) == reference_is_prime(n));
     }
 
-    /// Semiprimes of two large factors are the hardest composites for Miller-Rabin
-    for (long long it = 0; it < stress::scaled(100000); it++){
-        long long p = stress::rand_int(2, 3000000000LL), q = stress::rand_int(2, 3000000000LL);
+    /// Semiprimes of two large primes are the hardest composites for Miller-Rabin, trial division cannot reject them
+    auto random_prime = [](){
+        long long p;
+        do p = stress::rand_int(65537, 3000000000LL); while (!reference_is_prime(p));
+        return p;
+    };
+    for (long long it = 0; it < stress::scaled(10000); it++){
+        long long p = random_prime(), q = random_prime();
         if ((unsigned __int128)p * q > LLONG_MAX) continue;
         assert(!prm::is_prime(p * q));
     }
