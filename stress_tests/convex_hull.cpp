@@ -35,6 +35,10 @@ void check_hull(const vector<Point>& points, const vector<Point>& hull){
 }
 
 int main(){
+    /// Folds along an axis-parallel edge, where only one coordinate changes direction
+    assert(!is_convex({Point(0, 0), Point(3, 0), Point(1, 0), Point(4, 0), Point(0, 4)}));
+    assert(!is_convex({Point(0, 0), Point(4, 0), Point(0, 4), Point(0, 1), Point(0, 3)}));
+
     for (long long it = 0; it < stress::scaled(20000); it++){
         int n = stress::rand_int(0, it % 10 ? 12 : 300), range = stress::rand_int(0, 2) ? 4 : 1000000000;
         vector<Point> points;
@@ -64,6 +68,14 @@ int main(){
             vector<Point> with_mid = hull;
             with_mid.insert(with_mid.begin() + 1, Point((a.x + b.x) / 2, (a.y + b.y) / 2));
             assert(is_convex(with_mid));
+        }
+
+        if (range == 4){  /// an edge doubling back on itself, a -> 2/3 -> 1/3 -> b, turns one way but is not a simple polygon
+            vector<Point> folded;
+            for (auto& p : hull) folded.push_back(Point(3 * p.x, 3 * p.y));
+            Point s = folded[0], t = folded[1], d((t.x - s.x) / 3, (t.y - s.y) / 3);
+            folded.insert(folded.begin() + 1, {Point(s.x + 2 * d.x, s.y + 2 * d.y), Point(s.x + d.x, s.y + d.y)});
+            assert(!is_convex(folded));
         }
 
         if (h >= 4){  /// swapping two adjacent vertices makes the boundary cross itself
