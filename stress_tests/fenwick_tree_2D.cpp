@@ -21,7 +21,10 @@ int main(){
 
         for (int op = 0; op < 100; op++){
             int i = stress::rand_int(1, n), k = stress::rand_int(1, n), j = stress::rand_int(1, m), l = stress::rand_int(1, m);
-            if (op % 5) i = min(i, k), k = max(i, k), j = min(j, l), l = max(j, l);  /// otherwise often empty, which must be a no-op
+            if (op % 5){  /// otherwise often empty, which must be a no-op
+                if (i > k) swap(i, k);
+                if (j > l) swap(j, l);
+            }
             long long v = stress::rand_int(-1000000, 1000000);
 
             if (stress::rand_int(0, 1)){
