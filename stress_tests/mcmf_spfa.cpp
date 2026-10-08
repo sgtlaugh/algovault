@@ -31,7 +31,7 @@ bool has_negative_cycle(int nodes, const vector<array<long long, 3>>& residual){
 }
 
 int main(){
-    static FlowGraph<long long> g(1);
+    auto* g = new FlowGraph<long long>(1);  /// fixed size arrays, too big for the stack, rebuilt in place per case
 
     for (long long it = 0; it < stress::scaled(15000); it++){
         int n = stress::rand_int(1, it % 10 ? 7 : 11), nodes = n + 1;  /// the library sizes for nodes 0 .. n, so both 0 and 1 based work
@@ -41,8 +41,8 @@ int main(){
         vector<long long> potential(nodes);
         for (auto& p : potential) p = it % 2 ? stress::rand_int(0, 20) : 0;
 
-        g.~FlowGraph();
-        new (&g) FlowGraph<long long>(n);
+        g->~FlowGraph();
+        g = new (g) FlowGraph<long long>(n);  /// the returned pointer is valid for the new object even with a const member
         vector<Arc> arcs;
         int next_id = 2;
         for (int m = stress::rand_int(0, 2 * n + 6); m; m--){
@@ -50,25 +50,25 @@ int main(){
             long long cap = stress::rand_int(0, it % 5 ? 8 : 1000000000), base = stress::rand_int(0, 15);
             if (stress::rand_int(0, 3)){
                 long long cost = base + potential[u] - potential[v];
-                g.add_edge(u, v, cap, cost);
+                g->add_edge(u, v, cap, cost);
                 arcs.push_back({u, v, next_id, cap, cost}), next_id += 2;
             }
             else{
                 long long cost = base + abs(potential[u] - potential[v]);  /// reduced cost stays >= 0 both ways
-                g.add_edge(u, v, cap, cost, false);
+                g->add_edge(u, v, cap, cost, false);
                 arcs.push_back({u, v, next_id, cap, cost}), arcs.push_back({v, u, next_id + 2, cap, cost}), next_id += 4;
             }
         }
 
-        auto [cost, flow] = g.mincost_maxflow(src, sink);
+        auto [cost, flow] = g->mincost_maxflow(src, sink);
         assert(flow == min_cut(nodes, src, sink, arcs));
 
         long long total = 0;
         vector<long long> net(nodes, 0);
         vector<array<long long, 3>> residual;
         for (auto& a : arcs){
-            long long f = g.flow[a.id];
-            assert(0 <= f && f <= a.cap && g.flow[a.id ^ 1] == -f);
+            long long f = g->flow[a.id];
+            assert(0 <= f && f <= a.cap && g->flow[a.id ^ 1] == -f);
             net[a.u] -= f, net[a.v] += f, total += f * a.cost;
             if (f < a.cap) residual.push_back({a.u, a.v, a.cost});
             if (f > 0) residual.push_back({a.v, a.u, -a.cost});
@@ -77,5 +77,6 @@ int main(){
         assert(cost == total);
         assert(!has_negative_cycle(nodes, residual));
     }
+    delete g;
     return 0;
 }
