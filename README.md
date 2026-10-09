@@ -73,6 +73,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Johnson's Algorithm](code_library/graphs/johnsons_algorithm.cpp) - all-pairs shortest paths with negative edges
 - [Kruskal Reconstruction Tree](code_library/graphs/kruskal_reconstruction_tree.cpp) - vertices reachable from v via edges <= w as a contiguous range, O(log n) per query
 - [Manhattan MST](code_library/graphs/manhattan_mst.cpp) - minimum spanning tree of points under L1 distance via octant sweeps, O(n log n)
+- [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set of two matroids, graphic, partition and xor oracles, O(n r^2) queries
 - [Maximum Clique](code_library/graphs/max_clique.cpp) - bitset branch and bound up to ~150 vertices, maximum independent set, Bron-Kerbosch maximal clique enumeration
 - [Maximum Flow](code_library/graphs/maxflow.cpp) - Dinic, with node capacities and a dense variant
 - [Min Cost Max Flow, Dijkstra](code_library/graphs/mcmf_dijkstra.cpp) - successive shortest paths with potentials, the default
