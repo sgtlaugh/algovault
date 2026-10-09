@@ -115,6 +115,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 ### Number Theory
 - [All Divisors](code_library/number_theory/all_divisors.cpp) - divisor lists of every number up to a limit
 - [Chinese Remainder Theorem](code_library/number_theory/chinese_remainder_theorem.cpp) - solution of a system of congruences
+- [Continued fraction expansion and convergents, best rational approximation with denominator <= N, Stern-Brocot exponential-step fraction search over a monotone predicate](code_library/number_theory/continued_fractions.cpp)
 - [Digits of Factorial](code_library/number_theory/digits_of_factorial.cpp) - number of digits of n! in any base
 - [Discrete Logarithm](code_library/number_theory/discrete_logarithm.cpp) - smallest x with a^x = b mod m, any m
 - [Divisors](code_library/number_theory/divisors.cpp) - sorted divisors of one number, or from its prime factors
