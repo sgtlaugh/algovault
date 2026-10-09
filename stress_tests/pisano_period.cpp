@@ -48,6 +48,19 @@ bool is_period(ull k, ull m){
     return fib_pair(k, m) == make_pair(0 % m, 1 % m);
 }
 
+/// The answer must be a period, and no p / q for a prime q dividing it may be one
+void check_minimal_period(long long n){
+    long long p = pisano_period(n);
+    assert(p > 0 && p <= 6 * n && is_period(p, n));
+    long long rest = p;
+    for (long long q = 2; q * q <= rest; q++){
+        if (rest % q) continue;
+        assert(!is_period(p / q, n));
+        while (rest % q == 0) rest /= q;
+    }
+    if (rest > 1) assert(!is_period(p / rest, n));
+}
+
 long long brute_pisano(long long n){
     if (n == 1) return 1;
     long long a = 0, b = 1, k = 0;
@@ -66,18 +79,19 @@ int main(){
     /// 299210837 is a prime that divides a Miller-Rabin base, it used to hang the factorization
     assert(rho::miller_rabin(299210837) && pisano_period(299210837) == 199473892 && pisano_period(2 * 299210837LL) == 598421676);
 
-    /// Larger n: the answer must be a period, and no p / q for a prime q dividing it may be one
-    for (long long it = 0; it < stress::scaled(60); it++){
-        long long n = stress::rand_int(2, it % 2 ? 1000000000000LL : 1000000);
-        long long p = pisano_period(n);
-        assert(p > 0 && p <= 6 * n && is_period(p, n));
-        long long rest = p;
-        for (long long q = 2; q * q <= rest; q++){
-            if (rest % q) continue;
-            assert(!is_period(p / q, n));
-            while (rest % q == 0) rest /= q;
-        }
-        if (rest > 1) assert(!is_period(p / rest, n));
+    for (long long it = 0; it < stress::scaled(60); it++) check_minimal_period(stress::rand_int(2, it % 2 ? 1000000000000LL : 1000000));
+
+    /// Primes p = 43# * t + 1 have p - 1 with ~10^5 divisors, scanning all of them took seconds
+    for (long long t = 1; t <= 114; t++){
+        long long p = 13082761331670030LL * t + 1;
+        if (reference_is_prime(p)) check_minimal_period(p);
+    }
+    assert(pisano_period(1177448519850302701LL) == 1177448519850302700LL);
+
+    /// Prime factors of F(k) for k <= 140, pi(p) | 4k must shed the prime > 10^6 dividing p - 1 or 2(p + 1)
+    for (long long p : {827728777LL, 1270083883LL, 39589685693LL, 770857978613LL, 32529675488417LL, 8242065050061761LL, 85526722937689093LL}){
+        assert(pisano_period(p) <= 560);
+        check_minimal_period(p);
     }
 
     /// The factorization and primality helpers behind it
