@@ -27,7 +27,11 @@ bool johnson(int n, const vector<array<long long, 3>>& edges, vector<vector<long
     for (int round = 0; round < n; round++){
         bool changed = false;
         for (auto [u, v, w] : edges){
-            if (h[u] + w < h[v]) h[v] = h[u] + w, changed = true;
+            if (h[u] + w < h[v]){
+                h[v] = h[u] + w, changed = true;
+                /// No simple path goes this low, so it is a negative cycle, stopping now keeps h from overflowing in later rounds
+                if (h[v] < -JOHNSON_INF) return false;
+            }
         }
         if (!changed) break;
         if (round == n - 1) return false;  /// shortest paths need at most n - 1 passes, a change in pass n means a negative cycle
