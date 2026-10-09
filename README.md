@@ -37,109 +37,109 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 ### Data Structures
 - [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving
 - [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - path compression and union by size, rollback, weighted (potential) and partially persistent variants
-- [Disjoint Sparse Table](code_library/data_structures/disjoint_sparse_table.cpp) - O(1) static range queries for any associative operation
-- [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - O(log A) distinct gcd/or/and values of subarrays ending at each index, with their start ranges
-- [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point/range update with point/range query, O(log n) lower bound on prefix sums
+- [Disjoint Sparse Table](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` static range queries for any associative operation
+- [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - `O(log A)` distinct gcd/or/and values of subarrays ending at each index, with their start ranges
+- [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point/range update with point/range query, `O(log n)` lower bound on prefix sums
 - [Fenwick Tree 2D](code_library/data_structures/fenwick_tree_2D.cpp) - point/range update with point/range query on a grid
 - [Fenwick Tree 2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - huge grids, columns as on-demand segment trees
 - [Fenwick Tree 2D, Sparse](code_library/data_structures/fenwick_tree_2D_sparse.cpp) - grids up to 1e9 x 1e9 with sparse updates, hashed
 - [Fenwick Tree 3D](code_library/data_structures/fenwick_tree_3D.cpp) - point/range update with point/range query in 3D
-- [Hash Map](code_library/data_structures/hashmap.cpp) - anti-hack hash map with expected O(1) operations
+- [Hash Map](code_library/data_structures/hashmap.cpp) - anti-hack hash map with expected `O(1)` operations
 - [Interval Set](code_library/data_structures/interval_set.cpp) - disjoint half-open intervals with merging add, splitting remove and coverage queries
-- [Leftist Heap, Persistent](code_library/data_structures/leftist_heap.cpp) - meldable priority queue, push/pop/meld in O(log n) keep old versions valid
+- [Leftist Heap, Persistent](code_library/data_structures/leftist_heap.cpp) - meldable priority queue, push/pop/meld in `O(log n)` keep old versions valid
 - [Li Chao Tree](code_library/data_structures/li_chao_tree.cpp) - min/max of lines and segments at a point, plus a persistent variant
 - [Link-Cut Tree](code_library/data_structures/link_cut_tree.cpp) - dynamic forest with link, cut, re-rooting, LCA and path aggregates
 - [Merge Sort Tree and Wavelet Matrix](code_library/data_structures/merge_sort_tree.cpp) - count below a threshold, range frequency and k-th smallest in a range
 - [Mo's Algorithm](code_library/data_structures/mo.cpp) - offline range queries on arrays, arrays with point updates, add-only (rollback) state and tree paths
 - [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller element on each side, largest histogram rectangle
 - [Ordered Set](code_library/data_structures/ordered_set.cpp) - GNU policy-based set and multiset with order statistics
-- [Permutation Tree](code_library/data_structures/permutation_tree.cpp) - O(n log n) decomposition into common intervals, counts all of them
+- [Permutation Tree](code_library/data_structures/permutation_tree.cpp) - `O(n log n)` decomposition into common intervals, counts all of them
 - [Persistent Segment Tree](code_library/data_structures/persistent_segment_tree.cpp) - versioned point add/set, range query with any associative merge, k-th on version differences, range k-th smallest, persistent array
 - [Rope](code_library/data_structures/rope.cpp) - persistent text, every edit makes a new readable version
 - [Segment Tree](code_library/data_structures/segment_tree.cpp) - lazy propagation, customizable merge and update, max_right / min_left descent
 - [Segment Tree Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin, chmax, add and assign with range sum, min and max queries
 - [Segment Tree Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets as dynamic segment trees with merge, split by key or rank, k-th
 - [Sliding Window Aggregation](code_library/data_structures/sliding_window_aggregation.cpp) - queue fold under any associative operation, plus a monotonic min/max queue
-- [Sparse Table](code_library/data_structures/sparse_table.cpp) - O(1) static range min, plus an O(n) build variant
-- [Sparse Table 2D](code_library/data_structures/sparse_table_2D.cpp) - O(1) static rectangle min or max on a grid
+- [Sparse Table](code_library/data_structures/sparse_table.cpp) - `O(1)` static range min, plus an `O(n)` build variant
+- [Sparse Table 2D](code_library/data_structures/sparse_table_2D.cpp) - `O(1)` static rectangle min or max on a grid
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
 - [Treap](code_library/data_structures/treap.cpp) - ordered multiset and implicit-key sequence with reversals
 - [Trie](code_library/data_structures/trie.cpp) - prefix tree with pass-through and end counts, and a binary trie for xor queries
-- [XOR Segment Tree](code_library/data_structures/xor_segment_tree.cpp) - range sum of a[p ^ x] over [l, r] for any x, with point add (t[node][x] layout)
+- [XOR Segment Tree](code_library/data_structures/xor_segment_tree.cpp) - range sum of `a[p ^ x]` over `[l, r]` for any x, with point add (`t[node][x]` layout)
 
 ### Trees
 - [Centroid Decomposition](code_library/trees/centroid_decomposition.cpp) - iterative centroid tree with a per-centroid visitor over branch distances, path counting example
 - [DSU on Tree](code_library/trees/dsu_on_tree.cpp) - small-to-large answers for every subtree
-- [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - weighted tree diameter under edge weight updates in O(log n) via Euler tour and lazy segment tree
-- [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths (in path order) and subtrees as O(log n) ranges for any range structure
-- [Long-Path Decomposition](code_library/trees/long_path_decomposition.cpp) - O(n) depth-indexed subtree DP and O(1) k-th ancestor via ladders
-- [Lowest Common Ancestor](code_library/trees/lca.cpp) - binary lifting with k-th ancestor and path jump, an O(n) / O(1) variant, and tree path intersection
-- [Prufer Code](code_library/trees/prufer_code.cpp) - O(n) encode/decode between labeled trees and Prufer sequences
-- [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP answered for every node as the root in O(n)
+- [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - weighted tree diameter under edge weight updates in `O(log n)` via Euler tour and lazy segment tree
+- [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths (in path order) and subtrees as `O(log n)` ranges for any range structure
+- [Long-Path Decomposition](code_library/trees/long_path_decomposition.cpp) - `O(n)` depth-indexed subtree DP and `O(1)` k-th ancestor via ladders
+- [Lowest Common Ancestor](code_library/trees/lca.cpp) - binary lifting with k-th ancestor and path jump, an `O(n)` / `O(1)` variant, and tree path intersection
+- [Prufer Code](code_library/trees/prufer_code.cpp) - `O(n)` encode/decode between labeled trees and Prufer sequences
+- [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP answered for every node as the root in `O(n)`
 - [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - AHU canonical ids for rooted and unrooted trees, exact via a map dictionary
-- [Virtual Tree](code_library/trees/virtual_tree.cpp) - compress a tree to k vertices plus their LCAs in O(k log k), O(1) LCA and weighted distance
+- [Virtual Tree](code_library/trees/virtual_tree.cpp) - compress a tree to k vertices plus their LCAs in `O(k log k)`, `O(1)` LCA and weighted distance
 
 ### Graphs
-- [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability and an assignment via Kosaraju, with at-most-one constraints in O(k) clauses
+- [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability and an assignment via Kosaraju, with at-most-one constraints in `O(k)` clauses
 - [2-SAT, Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - lexicographically smallest satisfying assignment
-- [3-Edge-Connected Components](code_library/graphs/three_edge_connected_components.cpp) - Tsin, iterative, parallel edges and self loops allowed, O(n + m)
+- [3-Edge-Connected Components](code_library/graphs/three_edge_connected_components.cpp) - Tsin, iterative, parallel edges and self loops allowed, `O(n + m)`
 - [Articulation Points and Biconnected Components](code_library/graphs/articulation_points.cpp) - cut vertices, blocks (edge ids) and the block-cut tree, parallel edges allowed
-- [Bellman Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges, -inf marking, negative cycle retrieval, O(n m)
+- [Bellman Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges, -inf marking, negative cycle retrieval, `O(n m)`
 - [Bridges](code_library/graphs/bridge.cpp) - bridges and the bridge tree, parallel edges allowed
-- [Cactus Graph](code_library/graphs/cactus.cpp) - edge/vertex cactus recognition, cycle listing and cactus tree, O(n + m)
-- [Chromatic Number](code_library/graphs/chromatic_number.cpp) - minimum vertex coloring via inclusion-exclusion over independent sets, O(2^n n), n <= 24
-- [Complement Graph BFS](code_library/graphs/complement_graph_bfs.cpp) - BFS distances and components in the complement of a sparse graph, O(n + m)
-- [Dijkstra](code_library/graphs/dijkstra.cpp) - shortest paths with path reconstruction: heap O((n + m) log m), dense O(n^2) and 0-1 BFS
-- [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence with parents, negative weights, O(m log m)
-- [Dominator Tree](code_library/graphs/dominator_tree.cpp) - Lengauer-Tarjan immediate dominators from a root, O((n + m) log n)
+- [Cactus Graph](code_library/graphs/cactus.cpp) - edge/vertex cactus recognition, cycle listing and cactus tree, `O(n + m)`
+- [Chromatic Number](code_library/graphs/chromatic_number.cpp) - minimum vertex coloring via inclusion-exclusion over independent sets, `O(2^n n)`, `n <= 24`
+- [Complement Graph BFS](code_library/graphs/complement_graph_bfs.cpp) - BFS distances and components in the complement of a sparse graph, `O(n + m)`
+- [Dijkstra](code_library/graphs/dijkstra.cpp) - shortest paths with path reconstruction: heap `O((n + m) log m)`, dense `O(n^2)` and 0-1 BFS
+- [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence with parents, negative weights, `O(m log m)`
+- [Dominator Tree](code_library/graphs/dominator_tree.cpp) - Lengauer-Tarjan immediate dominators from a root, `O((n + m) log n)`
 - [Edge Coloring](code_library/graphs/edge_coloring.cpp) - bipartite with D colors (Konig), simple graphs with D + 1 colors (Vizing)
-- [Euler Path](code_library/graphs/euler_path.cpp) - Hierholzer, directed and undirected multigraphs, iterative, O(n + m)
+- [Euler Path](code_library/graphs/euler_path.cpp) - Hierholzer, directed and undirected multigraphs, iterative, `O(n + m)`
 - [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - feasible circulation, feasible / max / min s-t flow with demands on Dinic
 - [Floyd Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with path reconstruction, negative edges and negative cycles (NEG_INF marking)
-- [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching size via the Tutte matrix rank, Edmonds blossom for the matched pairs in O(n^3)
-- [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - Stoer-Wagner, minimum cut weight and one side, O(n^3)
+- [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching size via the Tutte matrix rank, Edmonds blossom for the matched pairs in `O(n^3)`
+- [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - Stoer-Wagner, minimum cut weight and one side, `O(n^3)`
 - [Gomory-Hu Tree](code_library/graphs/gomory_hu.cpp) - all-pairs min cut and min cut partitions of an undirected graph from n - 1 max flows (Gusfield)
-- [Hopcroft Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, O(m sqrt(n))
-- [Hungarian Algorithm](code_library/graphs/hungarian_algorithm.cpp) - minimum cost assignment, O(min(n, m)^2 max(n, m))
+- [Hopcroft Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, `O(m sqrt(n))`
+- [Hungarian Algorithm](code_library/graphs/hungarian_algorithm.cpp) - minimum cost assignment, `O(min(n, m)^2 max(n, m))`
 - [Johnson's Algorithm](code_library/graphs/johnsons_algorithm.cpp) - all-pairs shortest paths with negative edges
-- [K Shortest Walks](code_library/graphs/k_shortest_walks.cpp) - Eppstein with a persistent leftist heap, O((n + m) log m + k log k)
-- [Kruskal Reconstruction Tree](code_library/graphs/kruskal_reconstruction_tree.cpp) - vertices reachable from v via edges <= w as a contiguous range, O(log n) per query
-- [Manhattan MST](code_library/graphs/manhattan_mst.cpp) - minimum spanning tree of points under L1 distance via octant sweeps, O(n log n)
-- [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set of two matroids, graphic, partition and xor oracles, O(n r^2) queries
+- [K Shortest Walks](code_library/graphs/k_shortest_walks.cpp) - Eppstein with a persistent leftist heap, `O((n + m) log m + k log k)`
+- [Kruskal Reconstruction Tree](code_library/graphs/kruskal_reconstruction_tree.cpp) - vertices reachable from v via edges <= w as a contiguous range, `O(log n)` per query
+- [Manhattan MST](code_library/graphs/manhattan_mst.cpp) - minimum spanning tree of points under L1 distance via octant sweeps, `O(n log n)`
+- [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set of two matroids, graphic, partition and xor oracles, `O(n r^2)` queries
 - [Maximum Clique](code_library/graphs/max_clique.cpp) - bitset branch and bound up to ~150 vertices, maximum independent set, Bron-Kerbosch maximal clique enumeration
 - [Maximum Flow](code_library/graphs/maxflow.cpp) - Dinic, with node capacities and a dense variant, min cut, max closure and max density subgraph recipes
-- [Min Cost Circulation](code_library/graphs/min_cost_circulation.cpp) - cost scaling push-relabel, negative costs and negative cycles, O(n^3 log(nC))
+- [Min Cost Circulation](code_library/graphs/min_cost_circulation.cpp) - cost scaling push-relabel, negative costs and negative cycles, `O(n^3 log(n C))`
 - [Min Cost Max Flow, Dijkstra](code_library/graphs/mcmf_dijkstra.cpp) - successive shortest paths with potentials and the cost slope, the default
 - [Min Cost Max Flow, SPFA](code_library/graphs/mcmf_spfa.cpp) - successive shortest paths with SPFA
-- [Minimum Mean Cycle (Karp)](code_library/graphs/minimum_mean_cycle.cpp) - exact reduced-fraction minimum mean cycle and the cycle's edge ids in O(n (n + m))
+- [Minimum Mean Cycle (Karp)](code_library/graphs/minimum_mean_cycle.cpp) - exact reduced-fraction minimum mean cycle and the cycle's edge ids in `O(n (n + m))`
 - [Minimum Path Cover](code_library/graphs/minimum_path_cover.cpp) - disjoint and shared path covers of a DAG, maximum antichain
-- [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - Kruskal and Boruvka (struct with add_edge, template for implicit graphs) plus dense O(n^2) Prim on a weight matrix, spanning forest of an undirected graph
-- [Offline Dynamic Connectivity](code_library/graphs/offline_dynamic_connectivity.cpp) - connectivity and component count under edge insertions and deletions, O((m + q) log(m + q) log n)
-- [Online Bridges](code_library/graphs/online_bridges.cpp) - bridge count and 2-edge-connected components under edge insertions, O((n log n + m) α(n))
+- [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - Kruskal and Boruvka (struct with add_edge, template for implicit graphs) plus dense `O(n^2)` Prim on a weight matrix, spanning forest of an undirected graph
+- [Offline Dynamic Connectivity](code_library/graphs/offline_dynamic_connectivity.cpp) - connectivity and component count under edge insertions and deletions, `O((m + q) log(m + q) log n)`
+- [Online Bridges](code_library/graphs/online_bridges.cpp) - bridge count and 2-edge-connected components under edge insertions, `O((n log n + m) α(n))`
 - [Range Edge Dijkstra](code_library/graphs/range_edge_dijkstra.cpp) - shortest paths with vertex-to-range and range-to-vertex edges via segment tree overlays
-- [Small Cycle Counting](code_library/graphs/small_cycle_counting.cpp) - triangles and 4-cycles of a simple undirected graph in O(n + m sqrt(m)) by degree ordering
-- [Stable Marriage](code_library/graphs/stable_marriage.cpp) - Gale-Shapley, proposer optimal stable matching, O(n^2)
-- [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals, O(3^k n + 2^k m log n)
+- [Small Cycle Counting](code_library/graphs/small_cycle_counting.cpp) - triangles and 4-cycles of a simple undirected graph in `O(n + m sqrt(m))` by degree ordering
+- [Stable Marriage](code_library/graphs/stable_marriage.cpp) - Gale-Shapley, proposer optimal stable matching, `O(n^2)`
+- [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals, `O(3^k n + 2^k m log n)`
 - [Strongly Connected Components](code_library/graphs/scc.cpp) - Kosaraju, components in topological order
 
 ### Strings
 - [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text by hashing
 - [Aho-Corasick](code_library/strings/aho_corasick.cpp) - multi-pattern matching automaton
 - [Aho-Corasick, Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - multi-pattern matching with online pattern insertion
-- [Bit-String LCS](code_library/strings/bit_string_lcs.cpp) - longest common subsequence with bitsets, O(nm / 64)
-- [De Bruijn Sequence](code_library/strings/de_bruijn_sequence.cpp) - lexicographically smallest B(k, n) via FKM Lyndon word concatenation, O(k^n)
+- [Bit-String LCS](code_library/strings/bit_string_lcs.cpp) - longest common subsequence with bitsets, `O(n m / 64)`
+- [De Bruijn Sequence](code_library/strings/de_bruijn_sequence.cpp) - lexicographically smallest `B(k, n)` via FKM Lyndon word concatenation, `O(k^n)`
 - [Dynamic String Hash](code_library/strings/dynamic_string_hash.cpp) - forward and reverse substring hashes and palindrome checks under range assignment
 - [Hashing](code_library/strings/hashing.cpp) - forward and reverse polynomial hash of any segment
-- [Hunt-Szymanski](code_library/strings/hunt_szymanski.cpp) - LCS in O((r + n) log n) for r matching pairs
+- [Hunt-Szymanski](code_library/strings/hunt_szymanski.cpp) - LCS in `O((r + n) log n)` for r matching pairs
 - [KMP](code_library/strings/kmp.cpp) - failure function, pattern search and the prefix function automaton
 - [Lyndon Factorization](code_library/strings/lyndon_factorization.cpp) - Duval factorization into non-increasing Lyndon words, plus a Duval-based least rotation (same result as Minimum Rotation)
 - [Manacher](code_library/strings/manacher.cpp) - longest palindrome at every center
 - [Minimum Rotation](code_library/strings/minimum_rotation.cpp) - start of the lexicographically smallest rotation
 - [Palindromic Tree](code_library/strings/palindromic_tree.cpp) - eertree, one node per distinct palindrome
-- [Suffix Array](code_library/strings/suffix_array.cpp) - DC3 in O(n) with the LCP array, O(1) LCP of any two suffixes and pattern occurrence ranges
+- [Suffix Array](code_library/strings/suffix_array.cpp) - DC3 in `O(n)` with the LCP array, `O(1)` LCP of any two suffixes and pattern occurrence ranges
 - [Suffix Automaton](code_library/strings/suffix_automaton.cpp) - online DFA of all substrings with distinct counts, occurrence counts and longest common substring
-- [Tandem Repeats](code_library/strings/tandem_repeats.cpp) - Main-Lorentz, every square as O(n log n) compact triples
-- [Wildcard Matching](code_library/strings/wildcard_matching.cpp) - matching with wildcards in text or pattern via NTT, O(n log n)
+- [Tandem Repeats](code_library/strings/tandem_repeats.cpp) - Main-Lorentz, every square as `O(n log n)` compact triples
+- [Wildcard Matching](code_library/strings/wildcard_matching.cpp) - matching with wildcards in text or pattern via NTT, `O(n log n)`
 - [Z Algorithm](code_library/strings/z_algorithm.cpp) - longest common prefix of every suffix with the string
 
 ### Number Theory
@@ -147,25 +147,25 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Chinese Remainder Theorem](code_library/number_theory/chinese_remainder_theorem.cpp) - systems of congruences with any moduli, and Garner's mixed radix
 - [Continued Fractions](code_library/number_theory/continued_fractions.cpp) - convergents, best rational approximation, Stern-Brocot search
 - [Digits of Factorial](code_library/number_theory/digits_of_factorial.cpp) - number of digits of n! in any base
-- [Discrete Logarithm](code_library/number_theory/discrete_logarithm.cpp) - smallest x with a^x = b mod m, any m
+- [Discrete Logarithm](code_library/number_theory/discrete_logarithm.cpp) - smallest x with `a^x = b mod m`, any m
 - [Divisors](code_library/number_theory/divisors.cpp) - sorted divisors of one number, or from its prime factors
-- [Du's Sieve](code_library/number_theory/du_sieve.cpp) - prefix sums of Euler's phi and Mobius mu up to 1e11 in O(n^(2/3))
+- [Du's Sieve](code_library/number_theory/du_sieve.cpp) - prefix sums of Euler's phi and Mobius mu up to 1e11 in `O(n^(2/3))`
 - [Fast Fibonacci](code_library/number_theory/fast_fibonacci.cpp) - n-th Fibonacci number by fast doubling
-- [Fast Prime Counting](code_library/number_theory/fast_prime_counting.cpp) - pi(n) in about O(n^(2/3)), Meissel-Lehmer
+- [Fast Prime Counting](code_library/number_theory/fast_prime_counting.cpp) - `pi(n)` in about `O(n^(2/3))`, Meissel-Lehmer
 - [Fast Prime Sums](code_library/number_theory/fast_prime_sums.cpp) - sum of primes up to n, Meissel-Lehmer
-- [Fast Sieve](code_library/number_theory/fast_sieve.cpp) - optimized sieve of Eratosthenes up to 2^31 - 1
-- [Floor Sum](code_library/number_theory/floor_sum.cpp) - sum of floor((a * i + b) / m), min of (a * i + b) mod m, count and first x with a * x mod m in [l, r]
+- [Fast Sieve](code_library/number_theory/fast_sieve.cpp) - optimized sieve of Eratosthenes up to `2^31 - 1`
+- [Floor Sum](code_library/number_theory/floor_sum.cpp) - `sum of floor((a i + b) / m)`, `min of (a i + b) mod m`, count and first x with `a x mod m` in `[l, r]`
 - [Integer Root](code_library/number_theory/integer_root.cpp) - exact floor of square, cube and k-th roots of 64-bit integers
 - [Linear Sieve](code_library/number_theory/linear_sieve.cpp) - smallest prime factors, phi, mu and any multiplicative function
 - [Maximum Divisors](code_library/number_theory/maximum_divisors.cpp) - number with the most divisors up to a limit
 - [Miller Rabin](code_library/number_theory/miller_rabin.cpp) - deterministic primality test for 64-bit integers
-- [Min_25 Sieve](code_library/number_theory/min_25_sieve.cpp) - prefix sums of a multiplicative function in O(deg * n^(3/4) / log n), any modulus
-- [Mobius Function](code_library/number_theory/mobius_function.cpp) - Mobius mu for 1..n in O(n) at 1 byte per entry
+- [Min_25 Sieve](code_library/number_theory/min_25_sieve.cpp) - prefix sums of a multiplicative function in `O(deg n^(3/4) / log n)`, any modulus
+- [Mobius Function](code_library/number_theory/mobius_function.cpp) - Mobius mu for `1..n` in `O(n)` at 1 byte per entry
 - [Modular Roots](code_library/number_theory/modular_roots.cpp) - multiplicative order, primitive root, square root and k-th roots modulo a prime
 - [Pisano Period](code_library/number_theory/pisano_period.cpp) - period of Fibonacci numbers modulo n
 - [Pollard Rho](code_library/number_theory/pollard_rho.cpp) - factorization of 64-bit integers
-- [Power Tower](code_library/number_theory/power_tower.cpp) - a1^(a2^(...^an)) modulo m
-- [Segmented Sieve](code_library/number_theory/segmented_sieve.cpp) - primes in a window [L, R] far from zero
+- [Power Tower](code_library/number_theory/power_tower.cpp) - `a1^(a2^(...^an))` modulo m
+- [Segmented Sieve](code_library/number_theory/segmented_sieve.cpp) - primes in a window `[L, R]` far from zero
 
 ### Combinatorics
 - [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - Bernoulli numbers modulo a prime
@@ -175,8 +175,8 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of 1..n
 - [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke in the gambler's ruin game
 - [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - survivor of the Josephus elimination
-- [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - p(0..n) modulo any m in O(n sqrt n) via the pentagonal number theorem
-- [Permutation Cycles](code_library/combinatorics/permutation_cycles.cpp) - cycle decomposition, k-th power and k-th root in O(n), parity and minimum sorting swaps
+- [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - `p(0..n)` modulo any m in `O(n sqrt(n))` via the pentagonal number theorem
+- [Permutation Cycles](code_library/combinatorics/permutation_cycles.cpp) - cycle decomposition, k-th power and k-th root in `O(n)`, parity and minimum sorting swaps
 - [Permutation Index](code_library/combinatorics/permutation_index.cpp) - lexicographic rank of a permutation, a perfect hash
 - [Permutation Rank](code_library/combinatorics/permutation_rank.cpp) - rank and unrank of permutations
 - [Stirling Numbers](code_library/combinatorics/stirling_numbers.cpp) - a whole row of either kind modulo m using FFT
@@ -185,17 +185,17 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Big Integer](code_library/algebra/bignum.cpp) - arbitrary precision signed integers
 - [FFT](code_library/algebra/fft.cpp) - polynomial multiplication, exact modular and 64-bit products
 - [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
-- [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - c[k] = sum of a[i] * b[j] over gcd(i, j) = k or lcm(i, j) = k via divisor/multiple zeta and Mobius transforms, O(n log log n)
+- [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - `c[k] = sum of a[i] b[j]` over `gcd(i, j) = k` or `lcm(i, j) = k` via divisor/multiple zeta and Mobius transforms, `O(n log log n)`
 - [Lagrange Interpolation](code_library/algebra/lagrange_interpolation.cpp) - value of a polynomial from consecutive samples
 - [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - find a recurrence from terms and compute its n-th term
-- [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - convex-convex in O(n + m), convex-arbitrary via monotone minima
+- [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - convex-convex in `O(n + m)`, convex-arbitrary via monotone minima
 - [NTT](code_library/algebra/ntt.cpp) - polynomial multiplication modulo an NTT prime, any modulus, or exact in 64 bits
 - [Polynomial](code_library/algebra/polynomial.cpp) - NTT power series: inverse, division, log, exp, sqrt, pow, multipoint evaluation, interpolation and Taylor shift
-- [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - subset/superset zeta and Mobius transforms, ranked subset convolution O(2^n n^2) modulo any mod
+- [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - subset/superset zeta and Mobius transforms, ranked subset convolution `O(2^n n^2)` modulo any mod
 - [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - xor, or and and convolutions
 
 ### Linear Algebra
-- [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - det(xI - A) modulo a prime in O(n^3) via Hessenberg reduction
+- [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - `det(xI - A)` modulo a prime in `O(n^3)` via Hessenberg reduction
 - [Determinant](code_library/linear_algebra/determinant.cpp) - integer determinant modulo any m, or exact, plus Kirchhoff and Tutte spanning tree counts
 - [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
 - [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and matrix inverse over the reals
@@ -203,34 +203,34 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Gauss, Bitset](code_library/linear_algebra/gauss_bitset.cpp) - linear systems, rank and matrix inverse over GF(2)
 - [Gauss, Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - linear systems with kernel basis, rank and matrix inverse modulo a prime
 - [Matrix](code_library/linear_algebra/matrix.cpp) - modular multiplication and exponentiation
-- [Matrix Permanent](code_library/linear_algebra/permanent.cpp) - Ryser's formula with Gray code, modulo any m or exact, O(2^n * n)
+- [Matrix Permanent](code_library/linear_algebra/permanent.cpp) - Ryser's formula with Gray code, modulo any m or exact, `O(2^n n)`
 - [Maximum XOR Subset](code_library/linear_algebra/max_xor_subset.cpp) - largest xor of any subset via a linear basis
 - [Simplex](code_library/linear_algebra/simplex.cpp) - linear programming
-- [Thomas Algorithm](code_library/linear_algebra/thomas_algorithm.cpp) - tridiagonal linear systems in O(n)
+- [Thomas Algorithm](code_library/linear_algebra/thomas_algorithm.cpp) - tridiagonal linear systems in `O(n)`
 - [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - 64-bit linear basis with max/min xor, k-th smallest, count below x and intersection
 
 ### Geometry
 - [Circle Geometry](code_library/geometry/circle.cpp) - circle-line/circle-circle intersections, tangents, circumcircle, minimum enclosing circle, circle-polygon, lens and union areas, max points covered by a radius-r circle
-- [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - O(n log n) sweep with exact integer squared distances
-- [Convex Hull](code_library/geometry/convex_hull.cpp) - monotone chain, O(n log n)
+- [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - `O(n log n)` sweep with exact integer squared distances
+- [Convex Hull](code_library/geometry/convex_hull.cpp) - monotone chain, `O(n log n)`
 - [Geometry](code_library/geometry/geometry.cpp) - exact integer predicates, polygon queries and angular sort, floating point line and segment intersection, projection, reflection, half-plane polygon cut and centroid
-- [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region of half-planes clipped to a box, sort and deque, O(n log n)
+- [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region of half-planes clipped to a box, sort and deque, `O(n log n)`
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
-- [Polygon Union](code_library/geometry/polygon_union.cpp) - area of the union of simple polygons, convex or not, O(N^2 log N)
-- [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of a union of axis-aligned rectangles, segment tree sweep, O(n log n)
-- [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - Shamos-Hoey, finds a pair among n closed segments that share a point, O(n log n), exact __int128 predicates
+- [Polygon Union](code_library/geometry/polygon_union.cpp) - area of the union of simple polygons, convex or not, `O(N^2 log N)` for N vertices in total
+- [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of a union of axis-aligned rectangles, segment tree sweep, `O(n log n)`
+- [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - Shamos-Hoey, finds a pair among n closed segments that share a point, `O(n log n)`, exact `__int128` predicates
 
 ### Dynamic Programming
 - [Aliens Trick (WQS Binary Search, Lagrangian Relaxation)](code_library/dp/aliens_trick.cpp) - exactly-k optimum of a convex cost via binary search on the per-item penalty, tie-safe
 - [Blocks](code_library/dp/blocks_dp.cpp) - interval DP for UVA 10559 Blocks
-- [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - max value with item i usable up to counts[i] times, monotone queue per weight residue, O(n * capacity) regardless of counts
-- [Bounded Subset Sum](code_library/dp/bounded_subset_sum.cpp) - reachable sums of a bounded multiset in O(W sqrt W) with subset reconstruction
+- [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - max value with item i usable up to `counts[i]` times, monotone queue per weight residue, `O(n capacity)` regardless of counts
+- [Bounded Subset Sum](code_library/dp/bounded_subset_sum.cpp) - reachable sums of a bounded multiset in `O(W sqrt(W))` with subset reconstruction
 - [CKY](code_library/dp/cky.cpp) - context-free grammar membership in Chomsky normal form
-- [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - dp[x] = min dp[i] + w(i, x) in O(n log n) under the quadrangle inequality
-- [Divide and Conquer DP](code_library/dp/divide_conquer_dp.cpp) - dp[k][i] = min dp[k-1][j] + cost(j, i) with monotone optimum, O(k n log n)
-- [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle with the vertex order, bitmask DP in O(2^n n^2)
-- [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - O(n^2) interval DP dp[i][j] = min dp[i][k] + dp[k][j] + cost(i, j) for monotone quadrangle-inequality costs (stone merging, optimal BST)
-- [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS in O(nm)
+- [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - `dp[x] = min dp[i] + w(i, x)` in `O(n log n)` under the quadrangle inequality
+- [Divide and Conquer DP](code_library/dp/divide_conquer_dp.cpp) - `dp[k][i] = min dp[k-1][j] + cost(j, i)` with monotone optimum, `O(k n log n)`
+- [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle with the vertex order, bitmask DP in `O(2^n n^2)`
+- [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - `O(n^2)` interval DP `dp[i][j] = min dp[i][k] + dp[k][j] + cost(i, j)` for monotone quadrangle-inequality costs (stone merging, optimal BST)
+- [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS in `O(n m)`
 - [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS lengths and one optimal subsequence, any comparator
 - [Maximum Square](code_library/dp/maximum_square.cpp) - largest filled square and diamond ending at every cell
 - [Slope Trick](code_library/dp/slope_trick.cpp) - convex piecewise linear function with abs / hinge adds, prefix / suffix min and window shifts
@@ -244,7 +244,7 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Fast I/O](code_library/misc/fast_io.cpp) - buffered input and output with fread and fwrite
 - [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
 - [Hackenbush](code_library/misc/hackenbush.cpp) - green Hackenbush Grundy value of a rooted graph and exact red-blue Hackenbush value of a rooted tree
-- [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in O(1)
+- [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in `O(1)`
 - [N Queens](code_library/misc/n_queen.cpp) - number of N queens solutions
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one
 - [Numerical Integration](code_library/misc/numerical_integration.cpp) - composite Simpson, adaptive Simpson and Romberg
@@ -262,7 +262,7 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Berlekamp Massey](code_library/python/berlekamp_massey.py) - shortest linear recurrence of a sequence modulo a prime
 - [Derangements](code_library/python/derangements.py) - generalized derangement counts
 - [Dijkstra](code_library/python/dijkstra.py) - single-source shortest paths
-- [Discrete Log](code_library/python/discrete_log.py) - smallest x with a^x = b mod m, any m
+- [Discrete Log](code_library/python/discrete_log.py) - smallest x with `a^x = b mod m`, any m
 - [Fast Fibonacci](code_library/python/fast_fibonacci.py) - n-th Fibonacci number by fast doubling
 - [Fast I/O](code_library/python/fast_io.py) - token scanner over stdin
 - [General Graph Matching](code_library/python/graph_matching.py) - maximum matching via the Tutte matrix rank
