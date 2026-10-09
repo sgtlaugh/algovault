@@ -11,8 +11,8 @@
 #        STRESS_SEED / STRESS_SCALE are passed through to the stress tests, see stress_tests/common.h
 #        JOBS=n             run n tests at a time (default: all cores)
 #        BUILD=fast         -O2 without sanitizers, for high-iteration runs where wrong answers, not UB, are the target
-#        CHANGED_SINCE=ref  only run tests whose library file or stress test changed since ref, everything when a shared
-#                           file changed or ref is unknown (a library file's tests depend on nothing but that file)
+#        CHANGED_SINCE=ref  only run tests whose library file, stress test or a library file that stress test includes
+#                           changed since ref, everything when a shared file changed or ref is unknown
 #        TEST_BUDGET=s      fail tests that pass but take longer than s seconds, so slow tests cannot pile up
 #
 set -uo pipefail
@@ -190,7 +190,7 @@ check_style(){  # ){ and struct X{ open a body, ) {} is empty, keywords take a s
 }
 
 select_tests(){  # prints the tests to run, one per line
-    local all changed file lib stress
+    local all changed file lib stress deps
     all="$(find "$TESTS_DIR" -type f \( -name '*.cpp' -o -name '*.py' \) ! -name 'stress.py' | sort)"
     if [[ -z "${CHANGED_SINCE:-}" ]] || ! git cat-file -e "${CHANGED_SINCE}^{commit}" 2> /dev/null; then
         [[ -n "${CHANGED_SINCE:-}" ]] && echo "CHANGED_SINCE=$CHANGED_SINCE is not a known commit, running everything" >&2
@@ -206,7 +206,10 @@ select_tests(){  # prints the tests to run, one per line
     while IFS= read -r file; do
         [[ -z "$file" ]] && continue
         lib="code_library/${file#*/}" stress="stress_tests/${file#*/}"
-        if grep -qxF -e "$lib" -e "$stress" <<< "$changed"; then echo "$file"; fi
+        deps="$lib"$'\n'"$stress"
+        # A stress test may build on other library files, e.g. the hld test runs against segment_tree.cpp
+        [[ "$TESTS_DIR" == "stress_tests" && -f "$stress" ]] && deps+=$'\n'"$(grep -oP '#include "(\.\./)+\Kcode_library/[^"]+' "$stress")"
+        if grep -qxFf <(grep . <<< "$deps") <<< "$changed"; then echo "$file"; fi
     done <<< "$all"
 }
 
