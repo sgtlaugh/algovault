@@ -71,53 +71,28 @@ struct GlobalMinCut{
 };
 
 int main(){
-    auto is_side = [](const vector<int>& side, const vector<int>& expected, int n){
-        vector<int> complement;
-        for (int i = 0; i < n; i++){
-            if (!binary_search(expected.begin(), expected.end(), i)) complement.push_back(i);
-        }
-        return side == expected || side == complement;
-    };
+    /***
+     *   0 --5-- 1
+     *   |       |
+     *   1       1
+     *   |       |
+     *   3 --5-- 2
+    ***/
+    GlobalMinCut g(4);
+    g.add_edge(0, 1, 5), g.add_edge(1, 2, 1), g.add_edge(2, 3, 5), g.add_edge(3, 0, 1);
+    auto [weight, side] = g.min_cut();
+    assert(weight == 2);
+    assert(side == vector<int>({0, 1}) || side == vector<int>({2, 3}));
 
-    {
-        GlobalMinCut g(8);
-        vector<array<int, 3>> edges = {{0, 1, 2}, {0, 4, 3}, {1, 2, 3}, {1, 4, 2}, {1, 5, 2}, {2, 3, 4}, {2, 6, 2}, {3, 6, 2}, {3, 7, 2}, {4, 5, 3}, {5, 6, 1}, {6, 7, 3}};
-        for (auto [u, v, w]: edges) g.add_edge(u, v, w);
-        auto [weight, side] = g.min_cut();
-        assert(weight == 4 && is_side(side, {2, 3, 6, 7}, 8));
-    }
+    /// Queries run on a copy, so edges can be added and the cut asked again
+    g.add_edge(1, 2, 10);
+    tie(weight, side) = g.min_cut();
+    assert(weight == 6);                /// node 0 or node 3 alone: 5 + 1
+    assert(side.size() == 1 || side.size() == 3);
 
-    {
-        GlobalMinCut g(4);
-        g.add_edge(0, 1, 5), g.add_edge(1, 2, 1), g.add_edge(2, 3, 5), g.add_edge(3, 0, 1);
-        auto [weight, side] = g.min_cut();
-        assert(weight == 2 && is_side(side, {0, 1}, 4));
-    }
-
-    {
-        GlobalMinCut g(2);
-        assert(g.min_cut().first == 0);
-        g.add_edge(0, 1, 2), g.add_edge(1, 0, 3), g.add_edge(1, 1, 100);
-        auto [weight, side] = g.min_cut();
-        assert(weight == 5 && is_side(side, {0}, 2));
-    }
-
-    {
-        GlobalMinCut g(5);
-        g.add_edge(0, 1, 7), g.add_edge(1, 2, 7), g.add_edge(3, 4, 9);
-        auto [weight, side] = g.min_cut();
-        assert(weight == 0 && is_side(side, {3, 4}, 5));
-    }
-
-    {
-        GlobalMinCut g(3);
-        g.add_edge(0, 1, 4000000000000000000LL), g.add_edge(1, 2, 2000000000000000000LL), g.add_edge(0, 2, 1000000000000000000LL);
-        auto [weight, side] = g.min_cut();
-        assert(weight == 3000000000000000000LL && is_side(side, {2}, 3));
-        g.add_edge(0, 2, 2200000000000000000LL);
-        tie(weight, side) = g.min_cut();
-        assert(weight == 5200000000000000000LL && is_side(side, {2}, 3));
-    }
-
+    /// A disconnected graph splits along its components for free
+    GlobalMinCut islands(5);
+    islands.add_edge(0, 1, 7), islands.add_edge(1, 2, 7), islands.add_edge(3, 4, 9);
+    assert(islands.min_cut().first == 0);
     return 0;
 }

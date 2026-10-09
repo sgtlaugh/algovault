@@ -90,6 +90,15 @@ int main(){
         auto [weight, side] = g.min_cut();
         assert(weight == brute_min_cut(w));
         check_side(w, weight, side);
+
+        /// min_cut works on a copy, so a query after adding more edges sees the whole graph
+        if (it % 3 == 2) continue;
+        int u = stress::rand_int(0, n - 1), v = (u + stress::rand_int(1, n - 1)) % n;
+        long long extra = stress::rand_int(0, max_w);
+        g.add_edge(u, v, extra), w[u][v] += extra, w[v][u] += extra;
+        tie(weight, side) = g.min_cut();
+        assert(weight == brute_min_cut(w));
+        check_side(w, weight, side);
     }
 
     for (long long it = 0; it < stress::scaled(150); it++){
