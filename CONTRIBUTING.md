@@ -17,12 +17,13 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 ## Style
 
 - Comments explain why, never what
+- `){` opens a body, `) {}` is empty, `for (` takes a space, `vector<int>` does not
 - A struct when there is state, a namespace only for stateless helpers like `fft`
 - Recursion must fit an 8 MB stack, which CI enforces as most judges do
 
 ## Checks
 
-CI fails on a failing test, a compiler warning, a missing stress test or index entry, or a whitespace error.
+CI fails on a failing test, a compiler warning, a missing stress test or index entry, or a whitespace or style error.
 
 ```bash
 bash .github/scripts/run_tests.sh self      # every self-test
