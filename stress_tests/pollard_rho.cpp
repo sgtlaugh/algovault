@@ -67,6 +67,12 @@ int main(){
         check(n, rho);
     }
 
+    /// 299210837 divides the base 1795265022, so that base must be skipped instead of reporting composite
+    assert(rho.is_prime(299210837));
+    vector<long long> prime_only = {299210837}, with_three = {3, 299210837};
+    check(299210837, rho, &prime_only);
+    check(3 * 299210837LL, rho, &with_three);
+
     /// Strong pseudoprimes to small bases and Carmichael numbers
     for (long long n : {561LL, 1105LL, 1729LL, 2047LL, 3215031751LL, 3825123056546413051LL}){
         check(n, rho);
