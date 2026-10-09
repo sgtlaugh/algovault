@@ -3,11 +3,31 @@
  * Fast maximum flow with Dinic's algorithm
  * 0 based indexing for nodes, so nodes are numbered from 0 to n-1
  *
+ * Complexity: O(V^2 E), O(E sqrt(V)) on unit-capacity bipartite matching
+ *
  * Use FlowGraph for standard flow with edge capacity
  * Use FlowGraphWithNodeCap when nodes can have capacity as well
  * Use DenseFlowGraph for dense graphs: an n x n capacity matrix, same API, O(n^2) memory (32 MB at n = 2000)
  *     measured 2x to 7x faster than FlowGraph with half or more of all n^2 edges present, n from 600 to 2000
  *     same construction and maxflow() calls, but no per-edge flow values since only residual capacities are kept
+ *
+ * Min cut:
+ *     after maxflow(), in_source_side(u) is true for the nodes reachable from src in the residual graph
+ *     that is the smallest source side over all min cuts (FlowGraph and DenseFlowGraph)
+ *     FlowGraph only: cut_edges() gives the ids into E of the edges leaving that side, their capacities sum to the max flow
+ *     FlowGraphWithNodeCap: use .flowgraph.in_source_side() and .flowgraph.cut_edges()
+ *         node x is 2x (in) and 2x + 1 (out) there, a cut edge 2x -> 2x + 1 is a cut vertex
+ *     before maxflow() the source side is empty and cut_edges() returns nothing
+ *
+ * Max closure / project selection: pick a set of items with weights w[i], where picking i forces picking j
+ *     src -> i with capacity w[i] if w[i] > 0, i -> sink with capacity -w[i] if w[i] < 0, i -> j with capacity LLONG_MAX
+ *     best total weight = sum of positive w[i] - maxflow(), the picked items are those with in_source_side(i)
+ *     the sum of positive w[i] must fit in long long, the LLONG_MAX edges themselves never overflow
+ *
+ * Max density subgraph, max |E(S)| / |S| over nonempty S: Dinkelbach on the closure above, n + m + 2 nodes
+ *     start with the density a / b = m / n of the whole graph
+ *     closure items: each edge with weight b, forcing both endpoints, each vertex with weight -a
+ *     if the best closure weight is positive, set a / b to |E(S)| / |S| for its picked vertices S and repeat, else a / b is the answer
  *
 ***/
 
@@ -29,7 +49,7 @@ struct FlowGraph{
     vector <struct Edge> E;
     vector <int> Q, ptr, dis;
 
-    FlowGraph(int n, int src, int sink): n(n), src(src), sink(sink), adj(n), Q(n), ptr(n), dis(n) {}
+    FlowGraph(int n, int src, int sink): n(n), src(src), sink(sink), adj(n), Q(n), ptr(n), dis(n, -1) {}
 
     void add_directed_edge(int u, int v, long long cap){
         adj[u].push_back(E.size());
@@ -93,6 +113,19 @@ struct FlowGraph{
 
         return flow;
     }
+
+    /// Reads dis from the final bfs of maxflow(), which failed to reach sink and so visited every residual-reachable node
+    bool in_source_side(int u) const{
+        return dis[u] != -1;
+    }
+
+    vector<int> cut_edges() const{
+        vector<int> ids;
+        for (int id = 0; id < (int)E.size(); id++){
+            if (E[id].cap > 0 && in_source_side(E[id].u) && !in_source_side(E[id].v)) ids.push_back(id);
+        }
+        return ids;
+    }
 };
 
 struct FlowGraphWithNodeCap{
@@ -124,7 +157,7 @@ struct DenseFlowGraph{
     vector<vector<long long>> cap;
     vector<int> dis, ptr;
 
-    DenseFlowGraph(int n, int src, int sink) : n(n), src(src), sink(sink), cap(n, vector<long long>(n, 0)), dis(n), ptr(n) {}
+    DenseFlowGraph(int n, int src, int sink) : n(n), src(src), sink(sink), cap(n, vector<long long>(n, 0)), dis(n, -1), ptr(n) {}
 
     void add_directed_edge(int u, int v, long long c){
         cap[u][v] += c;
@@ -171,6 +204,10 @@ struct DenseFlowGraph{
         }
         return flow;
     }
+
+    bool in_source_side(int u) const{
+        return dis[u] != -1;
+    }
 };
 
 int main(){
@@ -188,7 +225,15 @@ int main(){
     flow_graph.add_edge(2, 3, 3);
     flow_graph.add_edge(3, 2, 3);
 
+    assert(flow_graph.cut_edges().empty());
+    for (int u = 0; u < n; u++) assert(!flow_graph.in_source_side(u) && !DenseFlowGraph(n, 0, n - 1).in_source_side(u));
+
     assert(flow_graph.maxflow() == 5);
+    for (int u = 0; u < n; u++) assert(flow_graph.in_source_side(u) == (u == 0) && dense.in_source_side(u) == (u == 0));
+
+    set<tuple<int, int, long long>> cut;
+    for (int id : flow_graph.cut_edges()) cut.insert({flow_graph.E[id].u, flow_graph.E[id].v, flow_graph.E[id].cap});
+    assert((cut == set<tuple<int, int, long long>>{{0, 1, 3}, {0, 2, 2}}));
 
     auto flow_graph_node_cap = FlowGraphWithNodeCap(n, 0, n - 1, {5, 4, 3, 2});
 
@@ -200,6 +245,20 @@ int main(){
     flow_graph_node_cap.add_edge(3, 2, 3);
 
     assert(flow_graph_node_cap.maxflow() == 2);
+    auto node_cut = flow_graph_node_cap.flowgraph.cut_edges();
+    assert(node_cut.size() == 1 && flow_graph_node_cap.flowgraph.E[node_cut[0]].u == 6 && flow_graph_node_cap.flowgraph.E[node_cut[0]].v == 7);
+
+    vector<long long> weight = {10, 5, -4, -3, -6};
+    auto closure = FlowGraph(7, 5, 6);
+    for (int i = 0; i < 5; i++){
+        if (weight[i] > 0) closure.add_directed_edge(5, i, weight[i]);
+        else closure.add_directed_edge(i, 6, -weight[i]);
+    }
+    closure.add_directed_edge(0, 2, LLONG_MAX), closure.add_directed_edge(0, 3, LLONG_MAX);
+    closure.add_directed_edge(1, 3, LLONG_MAX), closure.add_directed_edge(1, 4, LLONG_MAX);
+
+    assert(15 - closure.maxflow() == 3);
+    for (int i = 0; i < 5; i++) assert(closure.in_source_side(i) == (i == 0 || i == 2 || i == 3));
 
     return 0;
 }
