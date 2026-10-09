@@ -126,7 +126,9 @@ void check(int n, const vector<MSTEdge>& edges, pair<long long, int> expected, b
     Kruskal kruskal(n);
     Boruvka boruvka(n);
     for (auto [u, v, w] : edges) kruskal.add_edge(u, v, w), boruvka.add_edge(u, v, w);
-    check_edges(n, edges, kruskal.solve(), expected);
+    MSTResult r = kruskal.solve();
+    check_edges(n, edges, r, expected);
+    for (int i = 1; i < (int)r.chosen.size(); i++) assert(edges[r.chosen[i - 1]].w <= edges[r.chosen[i]].w);
     check_edges(n, edges, boruvka.solve(), expected);
     if (!dense) return;
 

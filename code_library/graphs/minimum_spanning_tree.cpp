@@ -180,48 +180,20 @@ int main(){
     for (auto [u, v, w] : edges) kruskal.add_edge(u, v, w), boruvka.add_edge(u, v, w);
 
     MSTResult r = kruskal.solve();
-    assert(r.weight == 7 && r.connected);
-    assert((r.chosen == vector<int>{0, 1, 3}));
+    assert(r.weight == 7);
+    assert(r.connected);
+    assert((r.chosen == vector<int>{0, 1, 3}));     /// edge indices by increasing weight
+    assert(boruvka.solve().weight == 7);
 
-    MSTResult b = boruvka.solve();
-    sort(b.chosen.begin(), b.chosen.end());
-    assert(b.weight == 7 && b.connected);
-    assert((b.chosen == vector<int>{0, 1, 3}));
+    /// Two components give a spanning forest, negative weights are fine
+    Kruskal forest(4);
+    forest.add_edge(0, 1, -4), forest.add_edge(2, 3, 6);
+    assert(forest.solve().weight == 2);
+    assert(!forest.solve().connected);
 
-    Kruskal forest(5);
-    Boruvka boruvka_forest(5);
-    for (auto [u, v, w] : vector<MSTEdge>{{0, 1, -4}, {2, 3, 6}, {3, 2, 1}}){
-        forest.add_edge(u, v, w), boruvka_forest.add_edge(u, v, w);
-    }
-    assert(forest.solve().weight == -3 && !forest.solve().connected && forest.solve().chosen.size() == 2);
-    assert(boruvka_forest.solve().weight == -3 && !boruvka_forest.solve().connected);
-    assert((boruvka_forest.solve().chosen == vector<int>{0, 2}));
-
-    Boruvka triangle(3);
-    triangle.add_edge(0, 1, 7), triangle.add_edge(1, 2, 7), triangle.add_edge(2, 0, 7);
-    assert(triangle.solve().weight == 14 && triangle.solve().connected && triangle.solve().chosen.size() == 2);
-
-    assert(Kruskal(1).solve().connected && Kruskal(1).solve().weight == 0);
-    assert(Kruskal(0).solve().connected && Boruvka(0).solve().connected);
-    assert(!Kruskal(2).solve().connected && !Boruvka(2).solve().connected);
-
-    const long long N = LLONG_MAX;
+    const long long N = LLONG_MAX;   /// no edge
     DenseMSTResult d = dense_prim(vector<vector<long long>>{{N, 1, 3, 4}, {1, N, 2, N}, {3, 2, N, 5}, {4, N, 5, N}});
-    assert(d.weight == 7 && d.connected);
-    assert((d.parent == vector<int>{-1, 0, 1, 0}));
-
-    vector<int> x = {5, 1, 9, 3};
-    vector<vector<int>> line(4, vector<int>(4));
-    for (int i = 0; i < 4; i++){
-        for (int j = 0; j < 4; j++) line[i][j] = abs(x[i] - x[j]);
-    }
-    assert(dense_prim(line).weight == 8 && dense_prim(line).connected);
-
-    const int M = INT_MAX;
-    DenseMSTResult split = dense_prim(vector<vector<int>>{{M, M, -5}, {M, M, M}, {-5, M, M}});
-    assert(split.weight == -5 && !split.connected);
-    assert((split.parent == vector<int>{-1, -1, 0}));
-
-    assert(dense_prim(vector<vector<int>>{}).connected && dense_prim(vector<vector<int>>{{0}}).weight == 0);
+    assert(d.weight == 7);
+    assert((d.parent == vector<int>{-1, 0, 1, 0}));  /// the same tree as above, rooted at 0
     return 0;
 }
