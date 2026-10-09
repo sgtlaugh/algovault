@@ -5,12 +5,14 @@
  *
  * Complexity:
  *   - min_disjoint_path_cover: O(m sqrt(n)) via bipartite matching
- *   - min_path_cover and max_antichain: O(n^3 / 64) transitive closure, then matching on up to n^2 edges
+ *   - min_path_cover and max_antichain: O(n^3 / 64) transitive closure, then O(n^2.5) matching on up to n^2 edges, O(n^2) memory
  *
  * DAGPathCover g(n); g.add_edge(u, v): directed edge, the graph must be acyclic
  * g.min_disjoint_path_cover(): fewest paths covering every vertex exactly once
  * g.min_path_cover(): fewest paths covering every vertex at least once, paths may share vertices
  * g.max_antichain(): largest set of pairwise unreachable vertices, its size equals min_path_cover() by Dilworth's theorem
+ *
+ * Embeds a copy of hopcroft_karp.cpp to stay standalone, fixes there apply here too
  *
 ***/
 
@@ -93,11 +95,9 @@ struct DAGPathCover{
     }
 
     /// Split every vertex into an out copy (left) and an in copy (right), each matched edge joins two paths
-    static HopcroftKarp matching(int n, const vector<vector<int>>& edges){
+    static HopcroftKarp matching(int n, vector<vector<int>> edges){
         HopcroftKarp hk(n, n);
-        for (int u = 0; u < n; u++){
-            for (int v : edges[u]) hk.add_edge(u, v);
-        }
+        hk.adj = move(edges);
         hk.max_matching();
         return hk;
     }
@@ -147,8 +147,7 @@ struct DAGPathCover{
     }
 
     vector<int> max_antichain() const{
-        vector<vector<int>> edges = closure();
-        HopcroftKarp hk = matching(n, edges);
+        HopcroftKarp hk = matching(n, closure());
 
         /// Konig: alternating reachability from free left vertices gives the minimum vertex cover
         vector<char> seen_left(n, 0), seen_right(n, 0);
@@ -157,7 +156,7 @@ struct DAGPathCover{
             if (hk.match_left[u] == -1) seen_left[u] = 1, queue.push_back(u);
         }
         for (int i = 0; i < (int)queue.size(); i++){
-            for (int v : edges[queue[i]]){
+            for (int v : hk.adj[queue[i]]){
                 if (seen_right[v]) continue;
                 seen_right[v] = 1;
                 int w = hk.match_right[v];
