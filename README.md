@@ -72,6 +72,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence, O(m log n)
 - [Dominator Tree](code_library/graphs/dominator_tree.cpp) - Lengauer-Tarjan immediate dominators from a root, O((n + m) log n)
 - [Euler Path](code_library/graphs/euler_path.cpp) - Hierholzer, directed and undirected multigraphs, iterative, O(n + m)
+- [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - feasible circulation, feasible / max / min s-t flow with demands on Dinic
 - [Floyd Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with path reconstruction, negative edges and negative cycles (NEG_INF marking)
 - [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching size via the Tutte matrix rank, Edmonds blossom for the matched pairs in O(n^3)
 - [Gomory-Hu Tree](code_library/graphs/gomory_hu.cpp) - all-pairs min cut and min cut partitions of an undirected graph from n - 1 max flows (Gusfield)
