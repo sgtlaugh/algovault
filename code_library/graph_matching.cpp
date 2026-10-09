@@ -4,7 +4,7 @@
  * Uses a randomized algorithm to compute the rank of the Tutte matrix
  * The rank of the Tutte matrix is equal to twice the size of the maximum matching with high probability
  *
- * Complexity: O(n ^ 3) worst case, O(n * m) with high constant factor on average
+ * Complexity: O(n ^ 3), even on sparse graphs, since it eliminates the dense n x n Tutte matrix
  *
 **/
 
@@ -14,16 +14,17 @@
 using namespace std;
 
 struct Graph{
-    int n, mod; /// mod must be a prime
+    static constexpr unsigned int mod = 1073750017; /// prime, constexpr so % compiles to a multiply
 
+    int n;
     vector <vector<bool>> adj;
-    vector <vector<int>> tutte_matrix;
+    vector <vector<unsigned int>> tutte_matrix;
     mt19937 rng = mt19937(chrono::steady_clock::now().time_since_epoch().count());
 
     Graph() {}
-    Graph(int n, int mod=1073750017): n(n), mod(mod) {
+    Graph(int n): n(n) {
         adj = vector<vector<bool>>(n, vector<bool>(n, 0));
-        tutte_matrix = vector<vector<int>>(n, vector<int>(n, 0));
+        tutte_matrix = vector<vector<unsigned int>>(n, vector<unsigned int>(n, 0));
     }
 
     void add_edge(int u, int v){
@@ -43,8 +44,8 @@ struct Graph{
         }
     }
 
-    int expo(long long x, int n){
-        long long res = 1;
+    unsigned int expo(unsigned long long x, unsigned int n){
+        unsigned long long res = 1;
 
         while (n){
             if (n & 1) res = res * x % mod;
@@ -52,30 +53,34 @@ struct Graph{
             n >>= 1;
         }
 
-        return res % mod;
+        return res;
     }
 
     int get_matrix_rank(){
-        int i, j, k, u, v, x, r = 0;
+        int j, k, u, r = 0;
+        vector <int> nonzero;
 
         for (j = 0; j < n; j++){
             for (k = r; k < n && !tutte_matrix[k][j]; k++) {}
             if (k == n) continue;
 
-            long long inv = expo(tutte_matrix[k][j], mod - 2);
-            for (i = 0; i < n; i++){
-                x = tutte_matrix[k][i];
-                tutte_matrix[k][i] = tutte_matrix[r][i];
-                tutte_matrix[r][i] = inv * x % mod;
+            swap(tutte_matrix[k], tutte_matrix[r]);
+            auto& pivot = tutte_matrix[r];
+            unsigned long long inv = expo(pivot[j], mod - 2);
+
+            nonzero.clear();
+            for (int v = j + 1; v < n; v++){
+                if (pivot[v]){
+                    pivot[v] = inv * pivot[v] % mod;
+                    nonzero.push_back(v);
+                }
             }
 
             for (u = r + 1; u < n; u++){
-                for (v = j + 1; v < n && tutte_matrix[u][j]; v++){
-                    if (tutte_matrix[r][v]){
-                        tutte_matrix[u][v] = (tutte_matrix[u][v] - (long long)tutte_matrix[r][v] * tutte_matrix[u][j]) % mod;
-                        if (tutte_matrix[u][v] < 0) tutte_matrix[u][v] += mod;
-                    }
-                }
+                auto& row = tutte_matrix[u];
+                if (!row[j]) continue;
+                unsigned long long f = mod - row[j];
+                for (int v : nonzero) row[v] = (row[v] + f * pivot[v]) % mod;
             }
             r++;
         }
