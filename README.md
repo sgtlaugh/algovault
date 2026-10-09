@@ -221,6 +221,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Radix Sort](code_library/misc/radix_sort.cpp) - LSD radix sort of 32-bit integers
 - [Radix Sort 64](code_library/misc/radix_sort_64.cpp) - LSD radix sort of 64-bit integers
 - [Simulated Annealing](code_library/misc/simulated_annealing.cpp) - generic minimizer with a geometric time or iteration cooling schedule
+- [Ternary Search and Golden-Section Search](code_library/misc/ternary_search.cpp) - smallest integer argmax of a unimodal function, real argmin by golden-section search
 
 ### Hacking
 - [Anti Double Hash](code_library/hacking/anti_double_hash.cpp) - two strings colliding under a double polynomial hash
