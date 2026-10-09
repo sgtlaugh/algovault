@@ -59,10 +59,11 @@ int main(){
     }
 
     for (long long it = 0; it < stress::scaled(500); it++){
-        long long mod = it % 3 ? MAXMOD : stress::rand_int(1, 50);
+        long long mod = it % 3 ? MAXMOD : (it % 9 ? stress::rand_int(1, 50) : 1);
         int n = stress::rand_int(1, 5);
         Matrix x = random_matrix(n, n, mod, it % 3);
-        Matrix slow = Matrix::identity(n, mod);
+        Matrix slow(n, n, mod);  /// built by hand so a wrong Matrix::identity cannot hide in both sides
+        for (int i = 0; i < n; i++) slow.a[i][i] = reduce(1, mod);
         for (int e = 0; e <= 40; e++){
             assert(x.pow(e).a == slow.a);
             slow = slow * x;
