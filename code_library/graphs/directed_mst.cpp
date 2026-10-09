@@ -64,6 +64,7 @@ struct DirectedMST{
         };
 
         auto push = [&](int a){
+            if (!t[a].lazy) return;  /// most nodes carry no pending add, skipping saves two scattered child writes
             if (t[a].l != -1) t[t[a].l].lazy += t[a].lazy;
             if (t[a].r != -1) t[t[a].r].lazy += t[a].lazy;
             t[a].key += t[a].lazy, t[a].lazy = 0;
