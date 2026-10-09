@@ -1,18 +1,24 @@
 /***
- * Fast O(n log n) algorithm to calculate LIS and LDS
- * LIS - Longest Increasing Subsequence
- * LDS - Longest Decreasing Subsequence
+ *
+ * Longest Increasing Subsequence
+ * LIS and LDS lengths ending at every index, plus one longest subsequence as indices
+ *
+ * Complexity: O(n log n)
+ *
+ * cmp is a strict weak ordering that defines "increasing", allow_equal = true gives the non-decreasing version
+ * lis_vector(a)[i] = length of the longest increasing subsequence ending at index i
+ * lis_indices(a) = increasing indices of one longest increasing subsequence, empty for empty input
+ * lds_* are the decreasing counterparts, lis_indices(a, false, greater<T>()) gives one LDS
+ *
+ * Example:
+ *   lis_vector(vector<int>{2, 8, 3, 9, 4})   // {1, 2, 2, 3, 3}
+ *   lis_indices(vector<int>{2, 8, 3, 9, 4})  // {0, 2, 3}
  *
 ***/
 
-#include <bits/stdc++.h>
+#include <bits/stdtr1c++.h>
 
 using namespace std;
-
-/// returns a vector L of size n, where n is the length of input vector
-/// L[i] = length of longest increasing subsequence including and ending at index i
-/// If allow_equal is true, longest non-decreasing subsequence is calculated instead
-/// cmp is a strict weak ordering that defines "increasing"
 
 template <typename T, typename Compare = less<T>>
 vector <int> lis_vector(const vector <T>& ar, bool allow_equal=false, Compare cmp=Compare()){
@@ -31,9 +37,22 @@ vector <int> lis_vector(const vector <T>& ar, bool allow_equal=false, Compare cm
     return res;
 }
 
-/// returns a vector L of size n, where n is the length of input vector
-/// L[i] = length of longest decreasing subsequence including and ending at index i
-/// If allow_equal is true, longest non-increasing subsequence is calculated instead
+/// The rightmost i before j with len[i] == len[j] - 1 always precedes ar[j]: it was the last value written to
+/// tail slot len[j] - 2 before j, and j landed in the slot after it, so no comparator check is needed
+template <typename T, typename Compare = less<T>>
+vector <int> lis_indices(const vector <T>& ar, bool allow_equal=false, Compare cmp=Compare()){
+    if (ar.empty()) return {};
+    vector <int> len = lis_vector(ar, allow_equal, cmp);
+    int last = max_element(len.begin(), len.end()) - len.begin();
+    vector <int> res(len[last]);
+
+    res.back() = last;
+    for (int i = last - 1, k = len[last] - 2; k >= 0; i--){
+        if (len[i] == k + 1) res[k--] = i;
+    }
+
+    return res;
+}
 
 template <typename T>
 vector <int> lds_vector(const vector <T>& ar, bool allow_equal=false){
@@ -74,6 +93,17 @@ int main(){
     res = {1, 1, 2, 3, 4, 5, 6, 7, 2, 3, 4, 5, 6, 7, 8, 9};
     assert(lis_vector(ar, true) == res);
     assert(lis_length(ar, true) == 9);
+
+    assert((lis_vector(vector<int>{2, 8, 3, 9, 4}) == vector<int>{1, 2, 2, 3, 3}));
+    assert((lis_indices(vector<int>{2, 8, 3, 9, 4}) == vector<int>{0, 2, 3}));
+    assert((lis_indices(vector<int>{}) == vector<int>{}));
+    assert((lis_indices(vector<int>{-7}) == vector<int>{0}));
+    assert((lis_indices(vector<int>{5, 5, 5}) == vector<int>{0}));
+    assert((lis_indices(vector<int>{5, 5, 5}, true) == vector<int>{0, 1, 2}));
+    assert((lis_indices(vector<int>{2, 8, 3, 9, 4, 1, 5}) == vector<int>{0, 2, 4, 6}));
+    assert((lis_indices(vector<int>{1, 3, 3, 2, 2, 2, 4}, true) == vector<int>{0, 3, 4, 5, 6}));
+    assert((lis_indices(vector<int>{9, 4, 10, 3, 1}, false, greater<int>()) == vector<int>{0, 1, 3, 4}));
+    assert((lis_indices(vector<string>{"ccc", "a", "bb", "dddd"}, false, [](const string& x, const string& y){ return x.size() < y.size(); }) == vector<int>{1, 2, 3}));
 
     return 0;
 }
