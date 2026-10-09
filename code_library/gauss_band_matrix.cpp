@@ -15,17 +15,12 @@
 
 #include <bits/stdc++.h>
 
-#define MAX_ROW  10010
-#define MAX_COL  32
-#define MAX_BAND 70
-
 using namespace std;
 
 template <class T>  /// If more precision is required, use __float128 from quadmath.h if supported :)
 struct GaussBand{
     int n, m, h, band_size;
-    T band[MAX_ROW * MAX_COL][MAX_BAND];
-    T rhs[MAX_ROW * MAX_COL], aux[MAX_ROW * MAX_COL];
+    vector<T> band, rhs;
 
     /***
      * Initialize a gauss band matrix
@@ -37,19 +32,14 @@ struct GaussBand{
     ***/
     GaussBand(int n, int m, int band_size=0, T rhs_default=0) : n(n), m(m) {
         if (!band_size) band_size = 2 * m + 3;
-        assert(n >= 1 && n < MAX_ROW && m >= 1 && m < MAX_COL
-               && band_size >= 1 && band_size < MAX_BAND && band_size % 2 == 1);
+        assert(n >= 1 && m >= 1 && band_size >= 1 && band_size % 2 == 1);
 
         this->band_size = band_size;
         this->h = band_size / 2;
 
-        for (int i = 0; i < n * m; i++){
-            for (int j = 0; j < band_size; j++){
-                band[i][j] = 0;
-            }
-            band[i][h] = 1;
-            rhs[i] = rhs_default;
-        }
+        band.assign(n * m * band_size, 0);
+        for (int i = 0; i < n * m; i++) band[i * band_size + h] = 1;
+        rhs.assign(n * m, rhs_default);
     }
 
     /***
@@ -69,7 +59,7 @@ struct GaussBand{
     ***/
     void set_matrix(int i, int j, int k, int l, T val){
         int u = get_cell_num(i, j), v = get_cell_num(k, l) - u + h;
-        band[u][v] = val;
+        band[u * band_size + v] = val;
     }
 
     /***
@@ -88,25 +78,26 @@ struct GaussBand{
         for (i = 0; i < n; i++){
             for (j = 0; j < m; j++){
                 d = i * m + j;
-                x = band[d][h], rhs[d] /= x;
-                for (k = 0; k <= h && (d + k) < q; k++) band[d][h + k] /= x;
+                x = band[d * band_size + h], rhs[d] /= x;
+                for (k = 0; k <= h && (d + k) < q; k++) band[d * band_size + h + k] /= x;
 
                 for (l = 1; l <= h && (d + l) < q; l++){
-                    x = band[d + l][h - l], rhs[d + l] -= x * rhs[d];
+                    x = band[(d + l) * band_size + h - l], rhs[d + l] -= x * rhs[d];
                     for (k = 0; k <= h && (d + k) < q; k++){
-                        band[d + l][h - l + k] -= x * band[d][h + k];
+                        band[(d + l) * band_size + h - l + k] -= x * band[d * band_size + h + k];
                     }
                 }
             }
         }
 
-        for (i = 0; i < q; i++) aux[i] = rhs[i], rhs[i] = 0;
+        vector<T> aux(q, 0);
+        swap(aux, rhs);
         for (i = 0; i < n; i++){
             for (j = 0; j < m; j++){
                 u = get_cell_num(i, j);
                 for (x = 0, v = 0; v < band_size; v++){
                     int idx = u + v - h;
-                    if (idx >= 0 && idx < n * m) x += band[u][v] * rhs[idx];
+                    if (idx >= 0 && idx < n * m) x += band[u * band_size + v] * rhs[idx];
                 }
                 rhs[u] = aux[u] - x;
             }
@@ -168,7 +159,7 @@ int main(){
     /// RHS constant for most variables except (1, 1) is 1
     long double rhs_default = 1;
 
-    static GaussBand <long double> gauss_band(n, m, band_size, rhs_default);
+    GaussBand <long double> gauss_band(n, m, band_size, rhs_default);
 
     gauss_band.set_rhs(1, 1, 0);
 
