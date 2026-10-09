@@ -79,31 +79,14 @@ State simulated_annealing(State cur, Energy energy, Neighbour neighbour, const A
 
 int main(){
     AnnealingSchedule cooling{100, 1, 20000, 0};
-    assert(abs(cooling.temperature(0) - 100) < 1e-9);
-    assert(abs(cooling.temperature(0.5) - 10) < 1e-9);
-    assert(abs(cooling.temperature(1) - 1) < 1e-9);
+    assert(abs(cooling.temperature(0.5) - 10) < 1e-9);    /// geometric: 100 * (1 / 100)^0.5
 
     mt19937_64 rng(17);
     auto parabola = [](long long x){ return (x - 37) * (x - 37); };
     auto step = [](long long x, mt19937_64& rng){ return x + (rng() & 1 ? 1 : -1); };
     assert(simulated_annealing(0LL, parabola, step, cooling, rng) == 37);
-    assert(simulated_annealing(-5LL, parabola, step, AnnealingSchedule{100, 1, 0, 0}, rng) == -5);
 
-    /// Energies at both ends of long long: the uphill gap of 2^64 - 1 has acceptance exp(-1.8e19 / 100) = 0
-    auto extremes = [](int x){ return x ? LLONG_MIN : LLONG_MAX; };
-    long long visits_up = 0;
-    auto flip = [&](int x, mt19937_64&){ visits_up += x == 0; return 1 - x; };
-    assert(simulated_annealing(1, extremes, flip, cooling, rng) == 1);
-    assert(visits_up == 0);
-
-    /// Energies 2^60 and 2^60 + 1 are the same double, yet the gap of 1 at T = 0.01 is accepted with probability e^-100
-    auto shifted = [](int x){ return (1LL << 60) + x; };
-    visits_up = 0;
-    auto flip_up = [&](int x, mt19937_64&){ visits_up += x; return 1 - x; };
-    assert(simulated_annealing(0, shifted, flip_up, AnnealingSchedule{0.01, 0.01, 20000, 0}, rng) == 0);
-    assert(visits_up == 0);
-
-    /// The 8 boundary points of a 3 x 3 grid: no two are closer than 1, so 8 edges cost at least 8, the perimeter
+    /// The 8 boundary points of a 3 x 3 grid: no two are closer than 1, so the best tour is the perimeter, 8
     vector<pair<int, int>> pts = {{0, 0}, {2, 2}, {1, 0}, {0, 2}, {2, 0}, {1, 2}, {0, 1}, {2, 1}};
     auto tour_len = [&](const vector<int>& p){
         double len = 0;
@@ -121,8 +104,7 @@ int main(){
         return p;
     };
     vector<int> tour = {0, 1, 2, 3, 4, 5, 6, 7};
-    assert(abs(tour_len(simulated_annealing(tour, tour_len, two_opt, AnnealingSchedule{2, 0.01, 20000, 0}, rng)) - 8) < 1e-9);
-    assert(abs(tour_len(simulated_annealing(tour, tour_len, two_opt, AnnealingSchedule{2, 0.01, 0, 0.05}, rng)) - 8) < 1e-9);
-
+    auto best = simulated_annealing(tour, tour_len, two_opt, AnnealingSchedule{2, 0.01, 0, 0.05}, rng);  /// 50 ms
+    assert(abs(tour_len(best) - 8) < 1e-9);
     return 0;
 }

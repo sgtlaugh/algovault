@@ -83,6 +83,17 @@ int main(){
         assert(abs((double)visits_up / steps - expected) < 0.01);
     }
 
+    /// The same chain with floating point energies, which take the other branch of uphill_gap
+    {
+        double d = 0.37;
+        long long steps = stress::scaled(200000), visits_up = 0;
+        auto level = [&](int s){ return s * d; };
+        auto flip = [&](int s, mt19937_64&){ visits_up += s; return 1 - s; };
+        mt19937_64 rng(stress::rng()());
+        simulated_annealing(0, level, flip, AnnealingSchedule{d, d, steps, 0}, rng);
+        assert(abs((double)visits_up / steps - exp(-1) / (1 + exp(-1))) < 0.01);
+    }
+
     /// Cooling from T = 100d to T = d / 1000: the walk sits in state 1 nearly half the time early on and never at the end
     for (int it = 0; it < 3; it++){
         long long d = 10, steps = 100000, early_up = 0, late_up = 0, calls = 0;
