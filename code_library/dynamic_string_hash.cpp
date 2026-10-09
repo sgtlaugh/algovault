@@ -10,7 +10,9 @@
  * h.hash(l, r): hash of s[l..r] modulo 2^61 - 1, equal substrings give equal hashes
  *
  * The base is random per run (as in hashing.cpp) so anti-hash tests cannot target it, pass a seed to fix it
+ * Instances built with the default seed share a base, so their hashes are comparable
  * Two different substrings of equal length collide with probability about length / 2^61
+ * Memory: about 64n bytes (segment tree and lazy tags over 4n nodes, plus power tables)
  * Requires __int128 (64-bit GCC or Clang)
  *
 ***/
@@ -39,11 +41,13 @@ struct DynamicStringHash{
         return a >= MOD ? a - MOD : a;
     }
 
-    static unsigned long long value(char c){
-        return (unsigned char)c + 1;
+    static inline const unsigned long long default_seed = chrono::steady_clock::now().time_since_epoch().count();
+
+    static unsigned long long value(int c){
+        return c + 1;
     }
 
-    DynamicStringHash(const string& s, unsigned long long seed = chrono::steady_clock::now().time_since_epoch().count())
+    DynamicStringHash(const string& s, unsigned long long seed = default_seed)
         : n(s.size()), power(s.size() + 1), run(s.size() + 1), tree(4 * max<size_t>(1, s.size())), lazy(4 * max<size_t>(1, s.size()), 0){
         base = mt19937_64(seed)() % (MOD - 1000) + 500;
         power[0] = 1, run[0] = 0;
@@ -53,7 +57,7 @@ struct DynamicStringHash{
 
     void build(int node, int a, int b, const string& s){
         if (a == b){
-            tree[node] = value(s[a]);
+            tree[node] = value((unsigned char)s[a]);
             return;
         }
         int m = (a + b) / 2;
@@ -125,6 +129,9 @@ int main(){
     assert(a.hash(0, 1) == b.hash(1, 2) && a.hash(1, 3) == b.hash(0, 2));
     a.assign(0, 3, 'q'), b.assign(1, 2, 'q');
     assert(a.hash(1, 2) == b.hash(1, 2));
+
+    DynamicStringHash pizza("pizza"), another_pizza("pizza");
+    assert(pizza.hash(0, 4) == another_pizza.hash(0, 4));
 
     DynamicStringHash single("k");
     single.assign(0, 0, 'm');
