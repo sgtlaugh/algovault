@@ -12,9 +12,11 @@ vector<int> labels(int n, const vector<pair<int, int>>& edges, const set<int>& s
         while (parent[x] != x) x = parent[x] = parent[parent[x]];
         return x;
     };
+
     for (int i = 0; i < (int)edges.size(); i++){
         if (!skipped.count(i)) parent[find(edges[i].first)] = find(edges[i].second);
     }
+
     vector<int> res(n);
     for (int i = 0; i < n; i++) res[i] = find(i);
     return res;
@@ -114,6 +116,7 @@ int main(){
     for (int i = 0; i + 1 < n; i++){
         if ((i + 1) % len) g->add_edge(i, i + 1);
     }
+
     auto start = chrono::steady_clock::now();
     auto tree = g->get_bridge_tree();
     assert((int)tree.size() == n - n / len);

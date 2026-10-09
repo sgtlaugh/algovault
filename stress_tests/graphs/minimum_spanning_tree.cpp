@@ -11,10 +11,12 @@ pair<long long, int> prim(int n, const vector<array<long long, 3>>& edges){
     for (auto [u, v, c] : edges){
         if (u != v) w[u][v] = w[v][u] = min(w[u][v], c);
     }
+
     vector<char> used(n, 0);
     vector<long long> best(n, INF);
     long long total = 0;
     int components = 0;
+
     for (int it = 0; it < n; it++){
         int u = -1;
         for (int v = 0; v < n; v++){
@@ -44,6 +46,7 @@ void check(int n, const vector<array<long long, 3>>& edges, pair<long long, int>
         while (x != parent[x]) x = parent[x] = parent[parent[x]];
         return x;
     };
+
     long long sum = 0;
     for (int i : r.chosen){
         int a = find(edges[i][0]), b = find(edges[i][1]);
@@ -72,6 +75,7 @@ int main(){
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);
     shuffle(label.begin(), label.end(), stress::rng());
+
     vector<array<long long, 3>> edges;
     long long total = 0;
     for (int i = 1; i < core; i++){
@@ -83,6 +87,7 @@ int main(){
         int u = stress::rand_int(0, core - 1), v = stress::rand_int(0, core - 1);
         edges.push_back({label[u], label[v], max(u, v) * K - C + stress::rand_int(0, i % 2 ? 0 : 50 * K)});
     }
+
     shuffle(edges.begin(), edges.end(), stress::rng());
     check(n, edges, {total, 1 + isolated});
     return 0;

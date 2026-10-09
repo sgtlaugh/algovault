@@ -13,6 +13,7 @@ pair<long long, long long> brute(int n, const vector<array<long long, 4>>& input
         adj[u].push_back(e.size()), e.push_back({(int)v, cap, cost});
         adj[v].push_back(e.size()), e.push_back({(int)u, 0, -cost});
     }
+
     long long flow = 0, cost = 0;
     while (flow < limit){
         vector<long long> dist(n, LLONG_MAX);
@@ -26,6 +27,7 @@ pair<long long, long long> brute(int n, const vector<array<long long, 4>>& input
                 }
             }
         }
+
         if (dist[t] == LLONG_MAX) break;
         long long push = limit - flow;
         for (int v = t; v != s; v = e[par[v] ^ 1].to) push = min(push, e[par[v]].cap);
@@ -77,11 +79,13 @@ int main(){
         check(n, random_graph(n, m, 5, -10, 10, true), MCMF::INF);
         check(n, random_graph(n, m, 5, 0, 10, false), stress::rand_int(0, 6));
     }
+
     for (long long it = 0; it < stress::scaled(150); it++){
         int n = stress::rand_int(20, 60), m = stress::rand_int(n, 6 * n);
         check(n, random_graph(n, m, 1000000, 0, 1000000, false), MCMF::INF);
         check(n, random_graph(n, m, 1000000, -1000000, 1000000, true), MCMF::INF);
     }
+
     /// Large negative-cost DAG: valid starting potentials keep this fast, no brute force at this size
     for (long long it = 0; it < stress::scaled(2); it++){
         int n = 3000;
@@ -90,6 +94,7 @@ int main(){
         vector<int> ids;
         for (auto [u, v, cap, cost] : edges) ids.push_back(g.add_edge(u, v, cap, cost));
         auto [flow, cost] = g.solve(0, n - 1);
+
         long long check_cost = 0;
         vector<long long> balance(n, 0);
         for (int i = 0; i < (int)edges.size(); i++){

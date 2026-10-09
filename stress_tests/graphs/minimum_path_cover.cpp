@@ -51,6 +51,7 @@ void check(int n, const vector<pair<int, int>>& edges){
         }
         if (antichain) largest = max(largest, __builtin_popcount(mask));
     }
+
     auto chain = g.max_antichain();
     assert((int)chain.size() == largest && largest == cover);
     for (int u : chain){
@@ -64,6 +65,7 @@ int main(){
         vector<int> label(n);
         iota(label.begin(), label.end(), 0);
         shuffle(label.begin(), label.end(), stress::rng());
+
         vector<pair<int, int>> edges;
         for (int i = 0; i < m; i++){
             int a = stress::rand_int(0, n - 1), b = stress::rand_int(0, n - 1);
@@ -85,9 +87,11 @@ int main(){
             if (a > b) swap(a, b);
             g.add_edge(a, b), adj[a].push_back(b);
         }
+
         auto chain = g.max_antichain();
         assert((int)chain.size() == g.min_path_cover());
         assert(g.min_path_cover() <= g.min_disjoint_path_cover());
+
         vector<char> in(n, 0);
         for (int v : chain) in[v] = 1;
         for (int s : chain){

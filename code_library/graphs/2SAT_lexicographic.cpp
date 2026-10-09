@@ -88,6 +88,7 @@ struct Graph{
                 }
             }
         }
+
         return C;
     }
 
@@ -216,7 +217,6 @@ struct Graph{
         return set_nodes;
     }
 };
-
 
 int main(){
     auto g = Graph(5);

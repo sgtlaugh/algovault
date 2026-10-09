@@ -44,6 +44,7 @@ MSTResult minimum_spanning_tree(int n, const vector<array<long long, 3>>& edges)
         res.weight += edges[i][2];
         res.chosen.push_back(i);
     }
+
     res.connected = (int)res.chosen.size() == max(0, n - 1);
     return res;
 }

@@ -54,6 +54,7 @@ long long steiner_tree(int n, const vector<array<long long, 3>>& edges, const ve
             }
         }
     }
+
     return *min_element(dp[(1 << k) - 1].begin(), dp[(1 << k) - 1].end());
 }
 

@@ -36,6 +36,7 @@ void check(int n, const vector<pair<int, int>>& edges){
     for (auto [u, v] : edges){
         if (g.comp[u] != g.comp[v]) expected.insert({g.comp[u], g.comp[v]});
     }
+
     set<pair<int, int>> got;
     auto dag = g.condensation();
     for (int c = 0; c < g.count; c++){
@@ -58,6 +59,7 @@ int main(){
     SCC cycle(n), path(n);
     for (int i = 0; i < n; i++) cycle.add_edge(i, (i + 1) % n);
     for (int i = 0; i + 1 < n; i++) path.add_edge(i, i + 1);
+
     cycle.run(), path.run();
     assert(cycle.count == 1 && path.count == n);
     for (int i = 0; i < n; i++) assert(path.comp[i] == i);

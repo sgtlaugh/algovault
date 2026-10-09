@@ -18,6 +18,7 @@ int brute(int n, const vector<int>& adj_mask){
         }
         return res;
     };
+
     return best(0);
 }
 
@@ -42,6 +43,7 @@ int main(){
             for (int v = u + 1; v < n; v++) if (stress::rand_int(0, 99) < density) edges.push_back({u, v});
         }
         shuffle(edges.begin(), edges.end(), stress::rng());
+
         assert(g.maximum_matching() == 0);
         for (size_t i = 0; i < edges.size(); i++){
             auto [u, v] = edges[i];

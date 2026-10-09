@@ -53,6 +53,7 @@ int main(){
                 arcs.push_back({u, v, cap}), arcs.push_back({v, u, cap});
             }
         }
+
         long long flow = g.maxflow();
         assert(flow == min_cut(n, src, sink, arcs));
         check_flow(g, flow);
@@ -104,6 +105,7 @@ int main(){
                 arcs.push_back({2 * u + 1, 2 * v, cap}), arcs.push_back({2 * v + 1, 2 * u, cap});
             }
         }
+
         long long flow = g.maxflow();
         assert(flow == min_cut(2 * n, 2 * src, 2 * sink + 1, arcs));
         check_flow(g.flowgraph, flow);

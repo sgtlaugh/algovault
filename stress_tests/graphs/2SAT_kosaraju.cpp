@@ -43,6 +43,7 @@ int main(){
         for (int mask = 0; mask < (1 << n) && !satisfiable; mask++){
             satisfiable = satisfies([&](int x){ bool v = mask >> (abs(x) - 1) & 1; return x > 0 ? v : !v; });
         }
+
         assert(g.is_satisfiable() == satisfiable);
         if (satisfiable){
             for (int x = 1; x <= n; x++) assert(g.value(-x) == !g.value(x));

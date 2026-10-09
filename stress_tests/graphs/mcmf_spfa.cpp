@@ -77,6 +77,7 @@ int main(){
         assert(cost == total);
         assert(!has_negative_cycle(nodes, residual));
     }
+
     delete g;
     return 0;
 }

@@ -28,6 +28,7 @@ long long brute(int n, int root, const vector<Edge>& edges){
             choose(x + 1, total + edges[id].w);
         }
     };
+
     choose(0, 0);
     return best;
 }
@@ -48,6 +49,7 @@ void nested_two_cycles(){
 
 int main(){
     nested_two_cycles();
+
     for (long long it = 0; it < stress::scaled(40000); it++){
         int n = stress::rand_int(1, 7), root = stress::rand_int(0, n - 1), max_w = it % 4 ? 10 : 1000000000;
         vector<Edge> edges(stress::rand_int(0, 15));

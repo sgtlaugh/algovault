@@ -33,6 +33,7 @@ pair<bool, vector<int>> greedy(int n, const vector<Clause>& clauses){
         }
         return true;
     };
+
     for (int x = 1; x <= n; x++){
         if (on[2 * x] || on[2 * x + 1]) continue;
         if (!attempt(2 * x)){
@@ -40,6 +41,7 @@ pair<bool, vector<int>> greedy(int n, const vector<Clause>& clauses){
             if (!attempt(2 * x + 1)) return {false, {}};
         }
     }
+
     vector<int> res;
     for (int x = 1; x <= n; x++) if (on[2 * x]) res.push_back(x);
     return {true, res};
@@ -89,6 +91,7 @@ vector<Clause> adversarial(int n, int k, bool contradiction){
     long long size = 2LL * (n + k) + 2LL * (k + 2 * n);
     int reaching = max(1LL, min<long long>(n / 2, size / (k + n) + stress::rand_int(-3, 2)));
     if (stress::rand_int(0, 2) == 0) reaching = stress::rand_int(1, n / 2);
+
     for (int j = 1; j < k; j++) clauses.push_back({-(n + j), n + j + 1});
     for (int i = 1; i <= n; i++){
         if (i <= reaching || stress::rand_int(0, 1)) clauses.push_back({-i, n + 1});
@@ -130,6 +133,7 @@ int main(){
                 if (mode == 2 || (a > 0) == hidden[abs(a)] || (b > 0) == hidden[abs(b)]) clauses.push_back({a, b});
             }
         }
+
         int vars = 0;
         for (auto [a, b] : clauses) vars = max({vars, abs(a), abs(b)});
         check_greedy(vars, clauses);

@@ -124,7 +124,6 @@ struct Graph{
     }
 };
 
-
 int main(){
     auto g = Graph(4);
 

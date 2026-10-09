@@ -38,6 +38,7 @@ struct HopcroftKarp{
         for (int u = 0; u < n_left; u++){
             if (match_left[u] == -1) dist[u] = 0, queue.push_back(u);
         }
+
         int limit = INT_MAX;
         for (int i = 0; i < (int)queue.size(); i++){
             int u = queue[i];
@@ -59,6 +60,7 @@ struct HopcroftKarp{
                 stack.pop_back();
                 continue;
             }
+
             int v = adj[u][it[u]++], w = match_right[v];
             if (w == -1 && dist[u] == limit){
                 for (int x : stack){

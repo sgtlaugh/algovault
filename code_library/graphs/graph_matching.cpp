@@ -94,7 +94,6 @@ struct Graph{
     }
 };
 
-
 int main(){
     auto g = Graph(12);
     assert(g.maximum_matching() == 0);
@@ -105,7 +104,6 @@ int main(){
     assert(g.maximum_matching() == 1);
     g.add_edge(2, 0);
     assert(g.maximum_matching() == 1);
-
 
     g.add_edge(2, 3);
     assert(g.maximum_matching() == 2);
@@ -123,7 +121,6 @@ int main(){
     assert(g.maximum_matching() == 4);
     g.add_edge(7, 10);
     assert(g.maximum_matching() == 4);
-
 
     g.add_edge(4, 10);
     assert(g.maximum_matching() == 5);

@@ -164,6 +164,7 @@ struct DenseFlowGraph{
     long long maxflow(){
         assert(src != sink);
         long long flow = 0;
+
         while (bfs()){
             fill(ptr.begin(), ptr.end(), 0);
             while (long long f = dfs(src, LLONG_MAX)) flow += f;

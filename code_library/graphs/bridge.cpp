@@ -159,6 +159,7 @@ int main(){
     multi.add_edge(1, 2);
     multi.add_edge(2, 2);
     multi.add_edge(2, 3);
+
     auto multi_bridges = multi.get_bridges();
     assert((int)multi_bridges.size() == 2);
     assert(multi_bridges[0].id == 4 && multi_bridges[1].id == 2);

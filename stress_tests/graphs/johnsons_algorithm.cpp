@@ -10,6 +10,7 @@ bool floyd(int n, const vector<array<long long, 3>>& edges, vector<vector<long l
     d.assign(n, vector<long long>(n, INF));
     for (int v = 0; v < n; v++) d[v][v] = 0;
     for (auto [u, v, w] : edges) d[u][v] = min(d[u][v], w);
+
     for (int k = 0; k < n; k++){
         for (int i = 0; i < n; i++){
             if (d[i][k] == INF) continue;
@@ -18,6 +19,7 @@ bool floyd(int n, const vector<array<long long, 3>>& edges, vector<vector<long l
             }
         }
     }
+
     for (int v = 0; v < n; v++){
         if (d[v][v] < 0) return false;
     }
@@ -30,6 +32,7 @@ int main(){
         bool allow_cycles = it % 4 == 0;
         vector<long long> potential(n);
         for (auto& x : potential) x = stress::rand_int(-1000000, 1000000);
+
         vector<array<long long, 3>> edges;
         for (int i = 0; i < m; i++){
             int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
@@ -48,6 +51,7 @@ int main(){
     int n = 400;
     vector<array<long long, 3>> chain;
     for (int i = 0; i + 1 < n; i++) chain.push_back({i + 1, i, -1000000});
+
     vector<vector<long long>> got;
     assert(johnson(n, chain, got));
     assert(got[n - 1][0] == -1000000LL * (n - 1) && got[0][n - 1] == JOHNSON_INF);

@@ -81,6 +81,7 @@ struct MCMF{
                 }
             }
         }
+
         /// Only reachable nodes get new potentials, unreachable ones can never become reachable again
         for (int u = 0; u < n; u++){
             if (dist[u] < INF) potential[u] += dist[u];
@@ -92,6 +93,7 @@ struct MCMF{
         assert(s != t);
         init_potential(s);
         long long total_flow = 0, total_cost = 0;
+
         while (total_flow < limit && dijkstra(s, t)){
             long long push = limit - total_flow;
             for (int v = t; v != s; v = edges[parent_edge[v] ^ 1].to) push = min(push, edges[parent_edge[v]].cap);

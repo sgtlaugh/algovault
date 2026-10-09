@@ -9,6 +9,7 @@ long long brute(int n, const vector<array<long long, 3>>& edges, const vector<in
     if (terminals.size() <= 1) return 0;
     int need = 0;
     for (int t : terminals) need |= 1 << t;
+
     vector<int> order(edges.size());
     iota(order.begin(), order.end(), 0);
     sort(order.begin(), order.end(), [&](int a, int b){ return edges[a][2] < edges[b][2]; });
@@ -40,6 +41,7 @@ int main(){
             int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
             if (u != v) edges.push_back({u, v, stress::rand_int(0, it % 2 ? 5 : 1000000000)});
         }
+
         int k = stress::rand_int(0, min(n, 5));
         vector<int> terminals(n);
         iota(terminals.begin(), terminals.end(), 0);
@@ -54,6 +56,7 @@ int main(){
     for (int i = 1; i < n; i++) edges.push_back({i, stress::rand_int(0, i - 1), stress::rand_int(1, 1000)});
     for (int i = 0; i < 6000; i++) edges.push_back({stress::rand_int(0, n - 1), stress::rand_int(0, n - 1), stress::rand_int(1, 1000)});
     vector<int> terminals = {0, 7, 100, 999, 1500, 2999, 42, 1234};
+
     long long tree = steiner_tree(n, edges, terminals);
     long long all = 0;
     for (int i = 0; i + 1 < n; i++) all += edges[i][2];

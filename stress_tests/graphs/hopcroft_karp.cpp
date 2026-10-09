@@ -11,14 +11,17 @@ namespace hc{
     bool visited[MAX];
     vector <int> adj[MAX];
     int n, L[MAX], R[MAX], Q[MAX], len[MAX], dis[MAX], parent[MAX];
+
     inline void init(int nodes){
         n = nodes, clr(len);
         for (int i = 0; i < MAX; i++) adj[i].clear();
     }
+
     inline void add_edge(int u, int v){
         len[u]++;
         adj[u].push_back(v);
     }
+
     bool dfs(int i){
         for (int j = 0; j < len[i]; j++){
             int x = adj[i][j];
@@ -31,6 +34,7 @@ namespace hc{
         }
         return false;
     }
+
     bool bfs(){
         clr(visited);
         int i, j, x, d, f = 0, l = 0;
@@ -53,6 +57,7 @@ namespace hc{
         }
         return false;
     }
+
     int hopcroft_karp(){
         int res = 0;
         memset(L, -1, sizeof(L));
@@ -80,6 +85,7 @@ int kuhn(int n_left, int n_right, const vector<vector<int>>& adj){
         }
         return false;
     };
+
     int res = 0;
     for (int u = 0; u < n_left; u++){
         seen.assign(n_right, 0);

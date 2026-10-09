@@ -57,6 +57,7 @@ long long directed_mst(int n, int root, const vector <Edge>& edges){
             spine.push_back(a);
             a = t[a].r;
         }
+
         int res = a != -1 ? a : b;
         while (!spine.empty()){
             int x = spine.back();
