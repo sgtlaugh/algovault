@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/permutation_index.cpp"
+#include "../../code_library/combinatorics/permutation_index.cpp"
 #undef main
 
 /// Lexicographic rank by counting smaller unused values at each position

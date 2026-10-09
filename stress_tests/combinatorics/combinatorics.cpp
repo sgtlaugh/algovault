@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/combinatorics.cpp"
+#include "../../code_library/combinatorics/combinatorics.cpp"
 #undef main
 
 bool is_prime(long long p){

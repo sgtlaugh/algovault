@@ -1,9 +1,9 @@
-#include "common.h"
+#include "../common.h"
 #include <sys/wait.h>
 #include <unistd.h>
 
 #define main library_main
-#include "../code_library/stirling_numbers.cpp"
+#include "../../code_library/combinatorics/stirling_numbers.cpp"
 #undef main
 
 bool is_prime(long long x){

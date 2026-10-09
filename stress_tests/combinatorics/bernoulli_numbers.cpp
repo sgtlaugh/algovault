@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/bernoulli_numbers.cpp"
+#include "../../code_library/combinatorics/bernoulli_numbers.cpp"
 #undef main
 
 long long power(long long x, long long n){

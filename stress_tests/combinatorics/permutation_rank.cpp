@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/permutation_rank.cpp"
+#include "../../code_library/combinatorics/permutation_rank.cpp"
 #undef main
 
 int main(){

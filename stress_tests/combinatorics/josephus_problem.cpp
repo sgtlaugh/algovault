@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/josephus_problem.cpp"
+#include "../../code_library/combinatorics/josephus_problem.cpp"
 #undef main
 
 /// Ids in the order they are killed

@@ -1,9 +1,9 @@
 // LINK: -lquadmath
-#include "common.h"
+#include "../common.h"
 #include <quadmath.h>
 
 #define main library_main
-#include "../code_library/gamblers_ruin.c"
+#include "../../code_library/combinatorics/gamblers_ruin.c"
 #undef main
 
 /// Reference: solve P_i = p P_(i+1) + q P_(i-1), P_0 = 1, P_N = 0 with the Thomas algorithm (diagonally dominant, stable)

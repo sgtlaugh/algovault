@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/binomial_coefficients.cpp"
+#include "../../code_library/combinatorics/binomial_coefficients.cpp"
 #undef main
 
 uint64_t random_modulus(){

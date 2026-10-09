@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/faulhaber's_formula.c"
+#include "../../code_library/combinatorics/faulhaber's_formula.c"
 #undef main
 
 long long power(long long x, long long n){
