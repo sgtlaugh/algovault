@@ -29,11 +29,11 @@ int main(){
         while (next_permutation(p.begin(), p.end()));
     }
 
-    for (int n = 9; n <= 12; n++){
+    for (int n = 9; n <= 20; n++){
         PermutationIndex idx(n);
         vector<int> p(n);
         iota(p.begin(), p.end(), 0);
-        for (long long it = 0; it < stress::scaled(50000); it++){
+        for (long long it = 0; it < stress::scaled(30000); it++){
             shuffle(p.begin(), p.end(), stress::rng());
             assert(idx.index(p) == brute_rank(p));
         }
