@@ -13,7 +13,7 @@ unsigned long long direct(const string& s, int l, int r, unsigned long long base
 
 void check(int n, int ops, int sigma){
     string s(n, 'a');
-    for (auto& c : s) c = char('a' + stress::rand_int(0, sigma - 1));
+    for (auto& c : s) c = stress::rand_int(0, 19) ? char('a' + stress::rand_int(0, sigma - 1)) : char(stress::rand_int(-128, 127));
     DynamicStringHash h(s, stress::rng()());
 
     for (int op = 0; op < ops; op++){
@@ -31,7 +31,17 @@ void check(int n, int ops, int sigma){
     }
 }
 
+/// Instances built with the default seed must share a base, otherwise their hashes cannot be compared
+void check_default_seed(){
+    DynamicStringHash first("margherita"), second("pepperoni margherita");
+    assert(first.base == second.base);
+    assert(first.hash(0, 9) == second.hash(10, 19));
+    second.assign(0, 8, 'z');
+    assert(first.hash(0, 9) == second.hash(10, 19));
+}
+
 int main(){
+    check_default_seed();
     for (long long it = 0; it < stress::scaled(3000); it++) check(stress::rand_int(1, 50), 100, stress::rand_int(1, 3));
     for (int n : {1, 2, 3, 63, 64, 65}) check(n, 3000, 2);
     check(200000, 2000, 26);
