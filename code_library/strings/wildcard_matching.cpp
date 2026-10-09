@@ -90,16 +90,35 @@ vector<int> wildcard_match(const Container& text, const Container& pattern, type
     assert(n <= (1 << max_log));
 
     mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-    map<T, uint32_t> weight_of;
-    auto weight = [&](const T& c) -> uint32_t {
-        if (c == wildcard) return 0;
-        auto it = weight_of.find(c);
-        if (it == weight_of.end()) it = weight_of.emplace(c, uniform_int_distribution<uint32_t>(1, mod - 1)(rng)).first;
-        return it->second;
-    };
+    auto random_weight = [&]{ return uniform_int_distribution<uint32_t>(1, mod - 1)(rng); };
     vector<uint32_t> wt(n), wp(m);
-    for (int i = 0; i < n; i++) wt[i] = weight(text[i]);
-    for (int j = 0; j < m; j++) wp[j] = weight(pattern[m - 1 - j]);
+
+    /// Equal values share one weight, given out by a byte table or by runs of a sort: a map lookup per element cost 4x the NTTs
+    if constexpr (is_integral_v<T> && sizeof(T) == 1){
+        array<uint32_t, 256> weight_of;
+        for (auto& w : weight_of) w = random_weight();
+        weight_of[(unsigned char)wildcard] = 0;
+        for (int i = 0; i < n; i++) wt[i] = weight_of[(unsigned char)text[i]];
+        for (int j = 0; j < m; j++) wp[j] = weight_of[(unsigned char)pattern[m - 1 - j]];
+    }
+    else{
+        vector<pair<T, int>> items;
+        items.reserve(n + m);
+        for (int i = 0; i < n; i++){
+            if (!(text[i] == wildcard)) items.emplace_back(text[i], i);
+        }
+        for (int j = 0; j < m; j++){
+            if (!(pattern[m - 1 - j] == wildcard)) items.emplace_back(pattern[m - 1 - j], n + j);
+        }
+        sort(items.begin(), items.end(), [](const pair<T, int>& a, const pair<T, int>& b){ return a.first < b.first; });
+
+        uint32_t w = 0;
+        for (int k = 0; k < (int)items.size(); k++){
+            if (k == 0 || items[k - 1].first < items[k].first) w = random_weight();
+            int at = items[k].second;
+            (at < n ? wt[at] : wp[at - n]) = w;
+        }
+    }
 
     /// A cyclic length >= n only wraps the convolution onto indices below m - 1, which are never read
     int len = 1;
