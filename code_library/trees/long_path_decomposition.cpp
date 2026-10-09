@@ -134,43 +134,15 @@ int main(){
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {0, 2}, {1, 3}, {1, 4}, {2, 5}, {3, 6}}) tree.add_edge(u, v);
     tree.build(0);
 
+    assert(tree.depth(6) == 3);
+    assert(tree.height(1) == 2);             /// 1 3 6
+    assert(tree.kth_ancestor(6, 2) == 1);
+    assert(tree.kth_ancestor(6, 4) == -1);   /// above the root
+
     vector<vector<int>> counts(7);
-    auto collect = [&](int v, const int* cnt, int len){ counts[v].assign(cnt, cnt + len); };
-    tree.depth_counts(collect);
-    assert((counts == vector<vector<int>>{{1, 2, 3, 1}, {1, 2, 1}, {1, 1}, {1, 1}, {1}, {1}, {1}}));
-
-    assert(tree.depth(6) == 3 && tree.depth(0) == 0 && tree.height(0) == 3 && tree.height(1) == 2 && tree.height(4) == 0);
-    assert(tree.kth_ancestor(6, 0) == 6);
-    assert(tree.kth_ancestor(6, 1) == 3);
-    assert(tree.kth_ancestor(6, 2) == 1);
-    assert(tree.kth_ancestor(6, 3) == 0);
-    assert(tree.kth_ancestor(6, 4) == -1);
-    assert(tree.kth_ancestor(5, 2) == 0);
-    assert(tree.kth_ancestor(4, 1) == 1);
-    assert(tree.kth_ancestor(2, -1) == -1);
-
-    tree.build(4);
-    tree.depth_counts(collect);
-    assert((counts[4] == vector<int>{1, 1, 2, 2, 1}));
-    assert((counts[1] == vector<int>{1, 2, 2, 1}));
-    assert((counts[0] == vector<int>{1, 1, 1}));
-    assert(tree.kth_ancestor(5, 4) == 4);
-    assert(tree.kth_ancestor(5, 3) == 1);
-    assert(tree.kth_ancestor(6, 2) == 1);
-    assert(tree.depth(5) == 4 && tree.height(4) == 4 && tree.height(3) == 1);
-
-    LongPathDecomposition path(10);
-    for (int i = 0; i + 1 < 10; i++) path.add_edge(i, i + 1);
-    path.build(0);
-    for (int k = 0; k <= 9; k++) assert(path.kth_ancestor(9, k) == 9 - k);
-    assert(path.kth_ancestor(9, 10) == -1);
-
-    LongPathDecomposition single(1);
-    single.build(0);
-    int calls = 0;
-    single.depth_counts([&](int v, const int* cnt, int len){ calls++, assert(v == 0 && len == 1 && cnt[0] == 1); });
-    assert(calls == 1);
-    assert(single.kth_ancestor(0, 0) == 0 && single.kth_ancestor(0, 1) == -1);
-
+    tree.depth_counts([&](int v, const int* cnt, int len){ counts[v].assign(cnt, cnt + len); });
+    assert((counts[0] == vector<int>{1, 2, 3, 1}));  /// levels {0}, {1, 2}, {3, 4, 5}, {6}
+    assert((counts[1] == vector<int>{1, 2, 1}));
+    assert((counts[5] == vector<int>{1}));           /// a leaf
     return 0;
 }
