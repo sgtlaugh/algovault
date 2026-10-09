@@ -37,7 +37,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Hash Map](code_library/data_structures/hashmap.cpp) - anti-hack hash map with expected O(1) operations
 - [Li Chao Tree](code_library/data_structures/li_chao_tree.cpp) - min/max of lines and segments at a point
 - [Link-Cut Tree](code_library/data_structures/link_cut_tree.cpp) - dynamic forest with link, cut, re-rooting, LCA and path aggregates
-- [Merge Sort Tree](code_library/data_structures/merge_sort_tree.cpp) - count below a threshold and k-th smallest in a range
+- [Merge Sort Tree and Wavelet Matrix](code_library/data_structures/merge_sort_tree.cpp) - count below a threshold, range frequency and k-th smallest in a range
 - [Mo's Algorithm](code_library/data_structures/mo.cpp) - offline range queries on arrays and tree paths
 - [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller element on each side, largest histogram rectangle
 - [Ordered Set](code_library/data_structures/ordered_set.cpp) - GNU policy-based set and multiset with order statistics
