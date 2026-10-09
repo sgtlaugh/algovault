@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/sparse_table.cpp"
+#include "../../code_library/data_structures/sparse_table.cpp"
 #undef main
 
 /// Range minimum queries against a direct scan, every (l, r) for small arrays and random ranges for large ones

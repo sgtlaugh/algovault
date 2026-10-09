@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/fenwick_tree_2D_implicit.cpp"
+#include "../../code_library/data_structures/fenwick_tree_2D_implicit.cpp"
 #undef main
 
 /// Rectangle updates and point queries

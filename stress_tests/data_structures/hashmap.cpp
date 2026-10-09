@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/hashmap.cpp"
+#include "../../code_library/data_structures/hashmap.cpp"
 #undef main
 
 /// Random operations against std::unordered_map, small tables keep probe chains long and wrapping around the end

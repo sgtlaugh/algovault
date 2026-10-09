@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/trie.cpp"
+#include "../../code_library/data_structures/trie.cpp"
 #undef main
 
 /// Prefix and exact counts against a list of inserted words

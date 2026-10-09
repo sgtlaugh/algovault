@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/sqrt_decomposition.cpp"
+#include "../../code_library/data_structures/sqrt_decomposition.cpp"
 #undef main
 
 /// Range add and range count below x against a plain array

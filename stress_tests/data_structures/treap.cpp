@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/treap.cpp"
+#include "../../code_library/data_structures/treap.cpp"
 #undef main
 
 /// Ordered multiset operations against a sorted vector

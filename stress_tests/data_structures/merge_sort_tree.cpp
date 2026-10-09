@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/merge_sort_tree.cpp"
+#include "../../code_library/data_structures/merge_sort_tree.cpp"
 #undef main
 
 /// Counts and order statistics against sorting the range directly

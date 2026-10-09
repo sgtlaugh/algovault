@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/fenwick_tree_2D.cpp"
+#include "../../code_library/data_structures/fenwick_tree_2D.cpp"
 #undef main
 
 long long rect_sum(const vector<vector<long long>>& g, int i, int j, int k, int l){

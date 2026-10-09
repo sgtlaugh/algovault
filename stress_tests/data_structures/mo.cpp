@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/mo.cpp"
+#include "../../code_library/data_structures/mo.cpp"
 #undef main
 
 /// Distinct values and sum of every range against direct scans

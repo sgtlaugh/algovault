@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/coordinate_compression.cpp"
+#include "../../code_library/data_structures/coordinate_compression.cpp"
 #undef main
 
 template <class T>

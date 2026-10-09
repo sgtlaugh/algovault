@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/li_chao_tree.cpp"
+#include "../../code_library/data_structures/li_chao_tree.cpp"
 #undef main
 
 struct Segment{

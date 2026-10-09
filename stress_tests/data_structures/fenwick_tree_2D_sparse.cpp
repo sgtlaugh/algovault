@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/fenwick_tree_2D_sparse.cpp"
+#include "../../code_library/data_structures/fenwick_tree_2D_sparse.cpp"
 #undef main
 
 /// Point updates and rectangle queries against a list of every update, one instance because each preallocates ~270 MB

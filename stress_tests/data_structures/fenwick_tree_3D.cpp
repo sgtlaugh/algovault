@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/fenwick_tree_3D.cpp"
+#include "../../code_library/data_structures/fenwick_tree_3D.cpp"
 #undef main
 
 typedef vector<vector<vector<long long>>> Grid;

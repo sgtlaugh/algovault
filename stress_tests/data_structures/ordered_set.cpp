@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/ordered_set.cpp"
+#include "../../code_library/data_structures/ordered_set.cpp"
 #undef main
 
 /// Multiset and set operations against a sorted vector and std::set

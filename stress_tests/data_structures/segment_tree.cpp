@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/segment_tree.cpp"
+#include "../../code_library/data_structures/segment_tree.cpp"
 #undef main
 
 /// The default range add, range sum operations against a plain array, through both constructors

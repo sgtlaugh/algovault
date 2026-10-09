@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/disjoint_set.cpp"
+#include "../../code_library/data_structures/disjoint_set.cpp"
 #undef main
 
 /// Union by size keeps every node within log2(component size) parent hops of its root

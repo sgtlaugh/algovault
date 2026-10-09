@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/disjoint_sparse_table.cpp"
+#include "../../code_library/data_structures/disjoint_sparse_table.cpp"
 #undef main
 
 /// combine is x + y, so strings make it concatenation: associative but not commutative, operand order must be exact

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/rope.cpp"
+#include "../../code_library/data_structures/rope.cpp"
 #undef main
 
 /// Every version against a std::string copy kept alongside it

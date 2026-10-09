@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/monotonic_stack.cpp"
+#include "../../code_library/data_structures/monotonic_stack.cpp"
 #undef main
 
 /// Nearest strictly smaller elements by scanning outward, rectangle by trying every range
