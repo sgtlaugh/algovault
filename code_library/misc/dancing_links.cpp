@@ -12,7 +12,7 @@
  * The search is deterministic: the same rows added in the same order give the same solution
  * exact_cover restores the links before returning, so it can be called again or rows can still be added
  * Recursion depth is at most the number of selected rows, at most ncolumns
- * An 8 MB stack overflows near depth 1e5 with -O2 (near 5e4 under sanitizers), deeper covers need a larger stack
+ * An 8 MB stack overflows near depth 5e4 with -O2 and as early as 4e4 under sanitizers, deeper covers need a larger stack
  *
  * Example:
  *   DancingLinks dlx(3);

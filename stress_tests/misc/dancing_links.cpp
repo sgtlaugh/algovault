@@ -159,5 +159,12 @@ int main(){
         if (!unsolvable) assert(valid_sudoku(g, givens));
     }
 
+    /// Guards the header's stack claim: one frame per selected row, CI's flags overflow 8 MB a little past depth 4e4
+    int depth = 30000;
+    DancingLinks chain(depth, depth);
+    for (int i = 1; i <= depth; i++) chain.add_row(i, {i});
+    vector<int> rows;
+    assert(chain.exact_cover(rows) && (int)rows.size() == depth);
+
     return 0;
 }
