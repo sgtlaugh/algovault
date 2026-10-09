@@ -1,4 +1,6 @@
 #include "common.h"
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define main library_main
 #include "../code_library/stirling_numbers.cpp"
@@ -55,17 +57,36 @@ int main(){
         assert(stirling_second(n, m) == second[n]);
     }
 
-    /// Identities on a long row: sum of c(n, k) is n!, c(n, 1) = (n - 1)!, c(n, n - 1) = n (n - 1) / 2
-    for (long long m : {1000000007LL, 1LL << 30}){
-        int n = 100000;
+    /// Long rows against their generating identities at a random point r, which catches any wrong coefficient:
+    /// sum of c(n, k) r^k = r (r + 1) ... (r + n - 1) and sum of S(n, k) r (r - 1) ... (r - k + 1) = r^n
+    {
+        int n = 30000;
+        long long m = 1000000007, r = stress::rand_int(1, m - 1), lhs = 0, rhs = 1, power = 1;
         auto row = stirling_first(n, m);
-        long long sum = 0, fact = 1, fact_minus_one = 1;
-        for (long long x : row) sum = (sum + x) % m;
-        for (int i = 1; i <= n; i++){
-            fact = fact * i % m;
-            if (i < n) fact_minus_one = fact_minus_one * i % m;
-        }
-        assert(sum == fact && row[1] == fact_minus_one && row[n - 1] == (long long)n * (n - 1) / 2 % m && row[n] == 1 % m);
+        for (long long x : row) lhs = (lhs + x * power) % m, power = power * r % m;
+        for (int i = 0; i < n; i++) rhs = rhs * ((r + i) % m) % m;
+        assert(lhs == rhs);
     }
+    {
+        int n = 120000;  /// the product length reaches 2^18
+        long long p = BIG_PRIME, r = stress::rand_int(n + 1, p - 1), lhs = 0, rhs = 1, falling = 1;
+        auto row = stirling_second(n, p);
+        for (int k = 0; k <= n; k++) lhs = (lhs + row[k] * falling) % p, falling = falling * (r - k) % p;
+        for (int i = 0; i < n; i++) rhs = rhs * r % p;
+        assert(lhs == rhs);
+    }
+
+    /// A modulus below 2 must abort, stirling_second(0, 1) used to spin forever in pow_mod(1, -1)
+    pid_t pid = fork();
+    assert(pid >= 0);
+    if (pid == 0){
+        alarm(5);
+        assert(freopen("/dev/null", "w", stderr));
+        stirling_second(0, 1);
+        _exit(0);
+    }
+    int status;
+    assert(waitpid(pid, &status, 0) == pid);
+    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
     return 0;
 }
