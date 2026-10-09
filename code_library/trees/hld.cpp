@@ -10,6 +10,7 @@
  * hld.path(u, v): ranges [l, r] covering the path u..v, inclusive
  * hld.path(u, v, true): same but excludes the lca, for values on edges
  *     store the weight of edge (parent[v], v) at pos[v], the root's position stays unused
+ * hld.edge_pos(u, v): position holding the value of tree edge (u, v), in either order
  * hld.ordered_path(u, v): the same ranges as {from, to} pairs listed in path order from u to v,
  *     each walked from position from to position to: from >= to on the u side (positions decrease while climbing to the lca),
  *     from <= to on the v side, a single-node range has from == to
@@ -23,6 +24,7 @@
  * Example with a segment tree over positions:
  *     for (auto [l, r] : hld.path(u, v)) res += seg.query(l, r);
  *     for (auto [l, r] : hld.path(u, v)) seg.update(l, r, delta);
+ *     seg.update(hld.edge_pos(u, v), w), then for (auto [l, r] : hld.path(a, b, true)) res += seg.query(l, r);
  *
  * Example of a path composite, the tree keeps both the left-to-right and right-to-left fold of every node:
  *     for (auto [a, b] : hld.ordered_path(u, v)){
@@ -121,6 +123,10 @@ struct HLD{
         return {pos[v], pos[v] + size[v] - 1};
     }
 
+    int edge_pos(int u, int v) const{
+        return pos[depth[u] > depth[v] ? u : v];  /// edge values live on the child
+    }
+
     int lca(int u, int v) const{
         while (head[u] != head[v]){
             if (depth[head[u]] < depth[head[v]]) swap(u, v);
@@ -170,6 +176,8 @@ int main(){
     assert(hld.lca(6, 4) == 1);
     assert(hld.lca(6, 5) == 0);
     assert(hld.lca(3, 6) == 3);
+
+    assert(hld.edge_pos(1, 3) == hld.pos[3] && hld.edge_pos(3, 1) == hld.pos[3] && hld.edge_pos(0, 2) == hld.pos[2]);
 
     vector<int> node_at(7);
     for (int v = 0; v < 7; v++) node_at[hld.pos[v]] = v;
