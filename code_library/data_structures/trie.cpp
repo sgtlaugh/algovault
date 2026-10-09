@@ -84,5 +84,6 @@ int main(){
     Trie<2, '0'> bits;
     bits.insert("0101"), bits.insert("0110");
     assert(bits.count_prefix("01") == 2 && bits.count_prefix("010") == 1 && bits.count_word("0110") == 1);
+
     return 0;
 }

@@ -38,6 +38,7 @@ struct MergeSortTree{
             by_rank[node] = {order[a]};
             return;
         }
+
         int m = (a + b) / 2;
         build(2 * node, a, m, order);
         build(2 * node + 1, m + 1, b, order);

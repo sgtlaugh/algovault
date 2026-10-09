@@ -10,6 +10,7 @@ int main(){
         VersionedText text;
         vector<string> ref = {""};
         int ops = stress::rand_int(1, 200);
+
         for (int op = 0; op < ops; op++){
             int v = stress::rand_int(0, ref.size() - 1), n = ref[v].size();
             if (n == 0 || stress::rand_int(0, 2)){
@@ -33,6 +34,7 @@ int main(){
                 assert(text.at(w, pos) == ref[w][pos]);
             }
         }
+
         for (int v = 0; v < (int)ref.size(); v++) assert(text.substr(v, 0, ref[v].size()) == ref[v]);
     }
 
@@ -41,5 +43,6 @@ int main(){
     int v = big.insert(0, 0, string(200000, 'x'));
     for (int i = 0; i < 20000; i++) v = big.insert(v, stress::rand_int(0, big.size(v)), "ab");
     assert(big.size(v) == 240000 && big.size(1) == 200000);
+
     return 0;
 }

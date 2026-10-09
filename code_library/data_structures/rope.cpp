@@ -70,5 +70,6 @@ int main(){
     assert(text.substr(d, 0, 9) == "big world");
     assert(text.size(0) == 0 && text.size(b) == 11 && text.at(d, 4) == 'w');
     assert(text.substr(b, 3, 4) == "lo w");
+
     return 0;
 }

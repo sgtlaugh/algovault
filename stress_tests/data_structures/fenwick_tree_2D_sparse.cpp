@@ -17,6 +17,7 @@ int main(){
         if (mode == 2) return limit - (int)stress::rand_int(0, 3);                /// the grid edge, where update loops end
         return (int)min<long long>(limit, 1000003LL * stress::rand_int(1, 900));   /// the stride the old key scheme collided on
     };
+
     auto brute = [&](int i, int j, int k, int l){
         long long sum = 0;
         for (auto& p : points) if (i <= p[0] && p[0] <= k && j <= p[1] && p[1] <= l) sum += p[2];
@@ -46,6 +47,7 @@ int main(){
         FenwickSparse2D<long long> small(n, m, lg);
         vector<array<long long, 3>> pts;
         set<pair<int, int>> nodes;
+
         while (nodes.size() < (1 << lg) * 6 / 10){
             int i = stress::rand_int(1, n), j = stress::rand_int(1, m);
             long long v = stress::rand_int(-1000, 1000);
@@ -53,6 +55,7 @@ int main(){
             pts.push_back({i, j, v});
             for (int x = i; x <= n; x += x & -x) for (int y = j; y <= m; y += y & -y) nodes.insert({x, y});
         }
+
         for (int q = 0; q < 200; q++){
             int a = stress::rand_int(1, n), b = stress::rand_int(1, m), c = stress::rand_int(1, n), d = stress::rand_int(1, m);
             if (a > c) swap(a, c);
@@ -62,5 +65,6 @@ int main(){
             assert(small.query(a, b, c, d) == sum);
         }
     }
+
     return 0;
 }

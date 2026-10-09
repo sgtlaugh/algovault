@@ -41,6 +41,7 @@ struct FenwickPointUpdate3D{
 
     T query(int x, int y, int z){
         if (x <= 0 || y <= 0 || z <= 0) return 0;
+
         T res = 0;
         for (int i = x; i > 0; i -= i & -i){
             for (int j = y; j > 0; j -= j & -j){

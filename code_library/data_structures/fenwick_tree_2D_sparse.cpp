@@ -74,6 +74,7 @@ struct FenwickSparse2D{
 
     T query(int i, int j){
         if (i < 0 || j < 0 || i > n || j > m) return 0;
+
         T res = 0;
         for (int x = i; x > 0; x -= x & -x){
             for (int y = j; y > 0; y -= y & -y){
@@ -105,6 +106,7 @@ int main(){
     auto small = FenwickSparse2D<int>(1000, 1000, 16);
     small.update(3, 4, 2);
     small.update(1000, 1000, 9);
+
     assert(small.query(1, 1, 3, 4) == 2);
     assert(small.query(3, 4, 1000, 1000) == 11);
 

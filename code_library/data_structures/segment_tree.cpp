@@ -52,6 +52,7 @@ struct SegmentTree {
             tree[idx] = ar[a - 1];
             return;
         }
+
         int p = idx << 1, q = p | 1, c = (a + b) >> 1;
         build(ar, p, a, c);
         build(ar, q, c + 1, b);

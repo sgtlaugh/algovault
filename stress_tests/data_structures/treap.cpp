@@ -8,6 +8,7 @@
 void check_multiset(int ops, long long range){
     Treap<long long> treap;
     vector<long long> ref;
+
     for (int op = 0; op < ops; op++){
         long long key = stress::rand_int(-range, range);
         int kind = stress::rand_int(0, 9);
@@ -21,6 +22,7 @@ void check_multiset(int ops, long long range){
             assert(treap.erase(key) == present);
             if (present) ref.erase(it);
         }
+
         assert(treap.size() == (int)ref.size());
         assert(treap.count_less(key) == lower_bound(ref.begin(), ref.end(), key) - ref.begin());
         assert(treap.count(key) == upper_bound(ref.begin(), ref.end(), key) - lower_bound(ref.begin(), ref.end(), key));
@@ -65,9 +67,11 @@ void check_sequence(int n, int ops){
             else if (kind == 4) assert(treap.get(l) == ref[l]);
             else assert(treap.sum(l, r) == accumulate(ref.begin() + l, ref.begin() + r + 1, 0LL));
         }
+
         assert(treap.size() == (int)ref.size());
         if (op % 50 == 0) assert(treap.to_vector() == ref);
     }
+
     assert(treap.to_vector() == ref);
 }
 
@@ -76,6 +80,7 @@ int max_depth(const Tree& tree){
     int res = 0;
     vector<pair<int, int>> stack;
     if (tree.root != -1) stack.push_back({tree.root, 1});
+
     while (!stack.empty()){
         auto [t, d] = stack.back();
         stack.pop_back();
@@ -98,6 +103,7 @@ void check_adversarial(int n){
     iota(order.begin(), order.end(), 0);
     sort(order.begin(), order.end(), [&](int i, int j){ return priority[i] < priority[j]; });
     for (int i = 0; i < n; i++) rank[order[i]] = i;
+
     Treap<int> set;
     for (int i = 0; i < n; i++) set.insert(rank[i]);
     assert(max_depth(set) <= 200);

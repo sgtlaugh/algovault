@@ -16,6 +16,7 @@ void check_array(int n, int q, int max_v, int verify = 1 << 30){
     long long sum = 0;
     vector<int> got_distinct(q);
     vector<long long> got_sum(q);
+
     for (int round = 0; round < 2; round++){
         mo(n, queries,
             [&](int i){ distinct += freq[a[i]]++ == 0, sum += a[i], window++; },
@@ -34,6 +35,7 @@ vector<pair<int, int>> make_tree(int n, int shape){
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);
     shuffle(label.begin(), label.end(), stress::rng());
+
     vector<pair<int, int>> edges;
     for (int i = 1; i < n; i++){
         int p = shape == 0 ? stress::rand_int(0, i - 1) : shape == 1 ? i - 1 : shape == 2 ? 0 : (i - 1) / 2;
@@ -61,6 +63,7 @@ void check_tree(int n, int q, int shape, int verify = 1 << 30){
         long long sum = 0;
         vector<int> got_distinct(q);
         vector<long long> got_sum(q);
+
         tree.run(paths,
             [&](int v){ distinct += freq[value[v]]++ == 0, sum += value[v]; },
             [&](int v){ distinct -= --freq[value[v]] == 0, sum -= value[v]; },
@@ -77,10 +80,12 @@ void check_tree(int n, int q, int shape, int verify = 1 << 30){
                 if (tree.depth[x] >= tree.depth[y]) x = tree.up[0][x];
                 else y = tree.up[0][y];
             }
+
             vector<int> nodes;
             for (int x = u; x != l; x = tree.up[0][x]) nodes.push_back(x);
             for (int x = v; x != l; x = tree.up[0][x]) nodes.push_back(x);
             if (!edge_mode) nodes.push_back(l);
+
             long long s = 0;
             set<int> vals;
             for (int x : nodes) s += value[x], vals.insert(value[x]);
@@ -94,8 +99,10 @@ int main(){
         check_array(stress::rand_int(1, 60), stress::rand_int(1, 60), it % 2 ? 3 : 50);
         check_tree(stress::rand_int(1, 40), stress::rand_int(1, 40), it % 4);
     }
+
     check_array(100000, 100000, 1000, 300);
     check_tree(100000, 2000, 1, 200);  /// a path, deep enough to break a recursive Euler tour on an 8 MB stack
     check_tree(30000, 30000, 0, 2000);
+
     return 0;
 }

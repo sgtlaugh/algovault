@@ -67,5 +67,6 @@ int main(){
     assert(largest_rectangle(vector<int>{}) == 0);
     assert(largest_rectangle(vector<int>{4}) == 4);
     assert(largest_rectangle(vector<long long>{1000000000, 1000000000, 1000000000}) == 3000000000LL);
+
     return 0;
 }

@@ -36,6 +36,7 @@ void run(long long rounds){
             }
             assert(table.size() == (int)expected.size());
         }
+
         for (auto& kv : expected) assert(table.contains(kv.first) && table.get(kv.first) == kv.second);
     }
 }
@@ -53,9 +54,11 @@ void check_reassign(){
 
 int main(){
     check_reassign();
+
     run<int>(stress::scaled(1600));
     run<long long>(stress::scaled(1600));
     run<unsigned int>(stress::scaled(400));
     run<short>(stress::scaled(400));
+
     return 0;
 }

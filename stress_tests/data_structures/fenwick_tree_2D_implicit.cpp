@@ -16,6 +16,7 @@ int main(){
             if (x1 > x2) swap(x1, x2);
             if (y1 > y2) swap(y1, y2);
             if (stress::rand_int(0, 3) == 0) x2 = y2 = n;
+
             long long v = stress::rand_int(-100, 100);
             small.update(x1, y1, x2, y2, v);
             for (int x = x1; x <= x2; x++) for (int y = y1; y <= y2; y++) grid[x][y] += v;
@@ -23,6 +24,7 @@ int main(){
             int x = stress::rand_int(1, n), y = stress::rand_int(1, n);
             assert(small.query(x, y) == grid[x][y]);
         }
+
         for (int x = 1; x <= n; x++) for (int y = 1; y <= n; y++) assert(small.query(x, y) == grid[x][y]);
     }
 
@@ -34,6 +36,7 @@ int main(){
         int x1 = stress::rand_int(1, N), x2 = stress::rand_int(1, N), y1 = stress::rand_int(1, N), y2 = stress::rand_int(1, N);
         if (x1 > x2) swap(x1, x2);
         if (y1 > y2) swap(y1, y2);
+
         if (rects.size() < 1500){
             long long v = stress::rand_int(-100, 100);
             large.update(x1, y1, x2, y2, v);
@@ -45,5 +48,6 @@ int main(){
         for (auto& r : rects) if (r[0] <= x && x <= r[2] && r[1] <= y && y <= r[3]) expected += r[4];
         assert(large.query(x, y) == expected);
     }
+
     return 0;
 }

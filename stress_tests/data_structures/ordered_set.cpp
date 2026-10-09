@@ -12,6 +12,7 @@ int main(){
         OrderedSet<long long> s;
         vector<long long> ref;
         set<long long> ref_set;
+
         for (int op = 0; op < 150; op++){
             long long x = stress::rand_int(-range, range);
             if (stress::rand_int(0, 2)){
@@ -25,6 +26,7 @@ int main(){
                 if (present) ref.erase(pos);
                 if (!binary_search(ref.begin(), ref.end(), x)) s.erase(x), ref_set.erase(x);
             }
+
             assert(m.size() == (int)ref.size() && s.size() == ref_set.size());
             assert(m.count_less(x) == lower_bound(ref.begin(), ref.end(), x) - ref.begin());
             assert(m.count(x) == upper_bound(ref.begin(), ref.end(), x) - lower_bound(ref.begin(), ref.end(), x));
@@ -37,5 +39,6 @@ int main(){
             }
         }
     }
+
     return 0;
 }

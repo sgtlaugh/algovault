@@ -74,8 +74,10 @@ int main(){
     assert(m.size() == 6 && m.count(5) == 3 && m.count(4) == 0);
     assert(m.kth(0) == -1 && m.kth(2) == 5 && m.kth(4) == 5 && m.kth(5) == 9);
     assert(m.count_less(5) == 2 && m.count_less(10) == 6);
+
     assert(m.erase(5) && m.count(5) == 2 && m.size() == 5);
     assert(!m.erase(7) && m.size() == 5);
     assert(m.erase(-1) && m.kth(0) == 1);
+
     return 0;
 }

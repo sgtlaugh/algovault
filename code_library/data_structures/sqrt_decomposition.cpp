@@ -66,6 +66,7 @@ struct SqrtDecomposition{
             for (int i = l; i <= r; i++) res += raw[i] + pending[bl] < x;
             return res;
         }
+
         for (int i = l; i < (bl + 1) * block; i++) res += raw[i] + pending[bl] < x;
         for (int b = bl + 1; b < br; b++){
             T shift = pending[b];  /// compare raw + shift with x, x - shift could overflow
@@ -95,5 +96,6 @@ int main(){
     SqrtDecomposition<int> one({7});
     one.add(0, 0, 3);
     assert(one.get(0) == 10 && one.count_less(0, 0, 11) == 1 && one.count_less(0, 0, 10) == 0);
+
     return 0;
 }

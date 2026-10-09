@@ -38,6 +38,7 @@ struct FenwickPointUpdate2D{
 
     T query(int i, int j){
         if (i <= 0 || j <= 0) return 0;
+
         T res = 0;
         for (int x = i; x > 0; x -= x & -x){
             for (int y = j; y > 0; y -= y & -y){

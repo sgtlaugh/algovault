@@ -46,6 +46,7 @@ void mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, An
         while (cur_r > r) remove(cur_r--);
         answer(qi);
     }
+
     while (cur_r >= cur_l) remove(cur_r--);  /// leave the window empty so the caller's state can be reused
 }
 
@@ -70,6 +71,7 @@ struct TreePathMo{
         tour.clear();
         vector<int> it(n, 0), stack = {root};
         depth[root] = 0, first[root] = 0, tour.push_back(root);
+
         while (!stack.empty()){
             int u = stack.back();
             if (it[u] < (int)adj[u].size()){
@@ -83,6 +85,7 @@ struct TreePathMo{
             last[u] = tour.size(), tour.push_back(u);
             stack.pop_back();
         }
+
         assert((int)tour.size() == 2 * n);
         for (int k = 1; k <= lg; k++){
             for (int v = 0; v < n; v++) up[k][v] = up[k - 1][up[k - 1][v]];
@@ -94,6 +97,7 @@ struct TreePathMo{
         for (int k = lg; k >= 0; k--){
             if (depth[u] - (1 << k) >= depth[v]) u = up[k][u];
         }
+
         if (u == v) return u;
         for (int k = lg; k >= 0; k--){
             if (up[k][u] != up[k][v]) u = up[k][u], v = up[k][v];

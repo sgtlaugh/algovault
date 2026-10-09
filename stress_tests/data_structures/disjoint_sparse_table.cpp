@@ -27,5 +27,6 @@ int main(){
             assert(sum.query(l, r) == accumulate(nums.begin() + l, nums.begin() + r + 1, 0LL));
         }
     }
+
     return 0;
 }

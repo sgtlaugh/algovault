@@ -23,6 +23,7 @@ int main(){
                 }
             }
         }
+
         for (int q = 0; q < 200; q++){
             int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
             int expected = *min_element(a.begin() + l, a.begin() + r + 1);
@@ -34,9 +35,11 @@ int main(){
     vector<long long> big(1000000);
     for (auto& x : big) x = stress::rand_int(-1000000000000LL, 1000000000000LL);
     LinearSparseTable<long long> linear(big);
+
     for (int q = 0; q < 2000; q++){
         int l = stress::rand_int(0, 999999), r = stress::rand_int(l, min(999999, l + (q % 2 ? 200 : 1000000)));
         assert(linear.query(l, r) == *min_element(big.begin() + l, big.begin() + r + 1));
     }
+
     return 0;
 }

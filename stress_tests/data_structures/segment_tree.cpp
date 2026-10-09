@@ -22,5 +22,6 @@ int main(){
             else assert(st.query(l, r) == accumulate(a.begin() + l - 1, a.begin() + r, 0LL));
         }
     }
+
     return 0;
 }

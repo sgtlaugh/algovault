@@ -40,5 +40,6 @@ int main(){
         }
         check_depths(dsu);
     }
+
     return 0;
 }

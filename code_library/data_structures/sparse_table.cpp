@@ -92,6 +92,7 @@ struct LinearSparseTable{
 
     T query(int l, int r) const{
         if (r - l + 1 <= B) return val[small_query(r, r - l + 1)];
+
         int res = better(small_query(l + B - 1), small_query(r));
         int x = l / B + 1, y = r / B - 1;
         if (x <= y){

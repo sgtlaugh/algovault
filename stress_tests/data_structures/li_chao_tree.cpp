@@ -18,6 +18,7 @@ long long brute_query(const vector<Segment>& segments, long long x){
         __int128 y = (__int128)s.k * x + s.b;
         if (!found || (MAXIMIZE ? y > res : y < res)) res = y, found = true;
     }
+
     if (!found) return LiChaoTree<long long, MAXIMIZE>::NONE;
     assert(res >= LLONG_MIN && res <= LLONG_MAX);
     return (long long)res;
@@ -99,6 +100,7 @@ int main(){
             tree.add_line(k, b);
             segments.push_back({k, b, -E9, E9});
         }
+
         assert((int)tree.nodes.size() <= n);
         for (long long x : {-E9, -E9 + 1, -1LL, 0LL, 1LL, E9 - 1, E9}) assert(tree.query(x) == brute_query<false>(segments, x));
     }

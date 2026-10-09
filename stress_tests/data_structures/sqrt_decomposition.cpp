@@ -9,6 +9,7 @@ void check(int n, int ops, long long range){
     vector<long long> a(n);
     for (auto& x : a) x = stress::rand_int(-range, range);
     SqrtDecomposition<long long> s(a);
+
     for (int op = 0; op < ops; op++){
         int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
         if (stress::rand_int(0, 1)){
@@ -22,6 +23,7 @@ void check(int n, int ops, long long range){
             for (int i = l; i <= r; i++) expected += a[i] < x;
             assert(s.count_less(l, r, x) == expected);
         }
+
         int i = stress::rand_int(0, n - 1);
         assert(s.get(i) == a[i]);
     }
@@ -38,6 +40,7 @@ int main(){
         vector<int> a(n);
         for (auto& x : a) x = stress::rand_int(-1000000000, 1000000000);
         SqrtDecomposition<int> s(a);
+
         for (int op = 0; op < 200; op++){
             int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
             int lo = INT_MIN, hi = INT_MAX;
@@ -47,10 +50,12 @@ int main(){
                 s.add(l, r, v);
                 for (int i = l; i <= r; i++) a[i] += v;
             }
+
             int x = stress::rand_int(-1000000000, 1000000000), expected = 0;
             for (int i = l; i <= r; i++) expected += a[i] < x;
             assert(s.count_less(l, r, x) == expected);
         }
     }
+
     return 0;
 }

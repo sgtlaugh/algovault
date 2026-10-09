@@ -54,6 +54,7 @@ struct Treap{
             a = b = -1;
             return;
         }
+
         if (nodes[t].key < key){
             split(nodes[t].r, key, nodes[t].r, b);
             a = t;
@@ -154,6 +155,7 @@ struct ImplicitTreap{
             if (!stack.empty()) nodes[stack.back()].r = t;
             stack.push_back(t);
         }
+
         if (!stack.empty()) root = stack[0];
         while (!stack.empty()){
             pull(stack.back());
@@ -200,6 +202,7 @@ struct ImplicitTreap{
             a = b = -1;
             return;
         }
+
         push(t);
         if (size(nodes[t].l) < k){
             split(nodes[t].r, k - size(nodes[t].l) - 1, nodes[t].r, b);
