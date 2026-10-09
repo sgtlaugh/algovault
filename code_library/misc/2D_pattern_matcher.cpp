@@ -19,8 +19,8 @@
  *
  *
  * Complexity: O(n * m)
- * Algorithm uses hashing modulo 2^64, so might be susceptible to anti-hash attacks
- * Can be modified to use random modulo if required but keeping it simple for now
+ * Hashing modulo 2^61 - 1 with random bases, a false match has probability about (n * m) / 2^61
+ * Modulo 2^64 is avoided on purpose, Thue-Morse patterns collide there for every odd base
  *
 
 ***/
@@ -31,12 +31,31 @@
 using namespace std;
 
 namespace pm{
-    const unsigned long long base1 = 1995433697;
-    const unsigned long long base2 = 2117566807;
+    const uint64_t mod = (1ULL << 61) - 1;
+    mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
+    const uint64_t base1 = rng() % (mod / 3) + mod / 3;
+    const uint64_t base2 = rng() % (mod / 3) + mod / 3;
 
     int n, m, r, c;
-    vector <unsigned long long> dp;
-    unsigned long long base_pow, pattern_hash, pattern_pow;
+    vector <uint64_t> dp;
+    uint64_t base_pow, pattern_hash, pattern_pow;
+
+    /// Every argument must already be reduced below mod
+    inline uint64_t mul(uint64_t a, uint64_t b){
+        __uint128_t x = (__uint128_t)a * b;
+        uint64_t res = (x & mod) + (x >> 61);
+        return res >= mod ? res - mod : res;
+    }
+
+    inline uint64_t push(uint64_t h, uint64_t base, uint64_t v){
+        h = mul(h, base) + v;
+        return h >= mod ? h - mod : h;
+    }
+
+    inline uint64_t pop(uint64_t h, uint64_t p, uint64_t v){
+        v = mul(p, v);
+        return h >= v ? h - v : h + mod - v;
+    }
 
     void build(const vector<string>& text, const vector<string>& pattern) {
         n = text.size(), r = pattern.size();
@@ -45,18 +64,18 @@ namespace pm{
         for (int i = 0; i < r; i++) assert((int)pattern[i].length() == c);
 
         base_pow = 1, pattern_pow = 1, pattern_hash = 0;
-        for (int i = 1; i < r; i++) base_pow = base_pow * base1;
-        for (int i = 1; i < c; i++) pattern_pow = pattern_pow * base2;
+        for (int i = 1; i < r; i++) base_pow = mul(base_pow, base1);
+        for (int i = 1; i < c; i++) pattern_pow = mul(pattern_pow, base2);
 
         for (int i = 0; i < r; i++){
-            unsigned long long h = 0;
-            for (int j = 0; j < c; j++) h = h * base2 + pattern[i][j];
-            pattern_hash = pattern_hash * base1 + h;
+            uint64_t h = 0;
+            for (int j = 0; j < c; j++) h = push(h, base2, (unsigned char)pattern[i][j]);
+            pattern_hash = push(pattern_hash, base1, h);
         }
 
         dp.assign(n + 1, 0);
         for (int i = 0; i < n; i++){
-            for (int j = 0; j < c; j++) dp[i] = dp[i] * base2 + text[i][j];
+            for (int j = 0; j < c; j++) dp[i] = push(dp[i], base2, (unsigned char)text[i][j]);
         }
     }
 
@@ -66,20 +85,18 @@ namespace pm{
         build(text, pattern);
 
         int i, j;
-        unsigned long long h, x, y;
+        uint64_t x;
         vector<pair<int, int>> matched_pos;
 
         for (j = 0; (j + c) <= m; j++){
-            for (x = 0, i = 0; i < r; i++) x = x * base1 + dp[i];
+            for (x = 0, i = 0; i < r; i++) x = push(x, base1, dp[i]);
             for (i = 0; (i + r) <= n; i++){
                 if (x == pattern_hash) matched_pos.push_back({i, j});
-                y = x - base_pow * dp[i];
-                x = y * base1 + dp[i + r];
+                x = push(pop(x, base_pow, dp[i]), base1, dp[i + r]);
             }
 
             for (i = 0; i < n; i++){
-                h = dp[i] - pattern_pow * text[i][j];
-                dp[i] = h * base2 + text[i][j + c];
+                dp[i] = push(pop(dp[i], pattern_pow, (unsigned char)text[i][j]), base2, (unsigned char)text[i][j + c]);
             }
         }
 
