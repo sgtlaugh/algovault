@@ -52,6 +52,154 @@ long long reduce(__int128 x, long long m){
     return (long long)(x < 0 ? x + m : x);
 }
 
+/// Spanning trees by trying every (n - 1)-edge subset and checking it is acyclic with a union find
+long long brute_spanning_trees(int n, const vector<pair<int, int>>& edges){
+    int e = edges.size();
+    long long total = 0;
+
+    for (int mask = 0; mask < (1 << e); mask++){
+        if (__builtin_popcount(mask) != n - 1) continue;
+        vector<int> par(n);
+        iota(par.begin(), par.end(), 0);
+        function<int(int)> find = [&](int x){ return par[x] == x ? x : par[x] = find(par[x]); };
+        bool ok = true;
+        for (int i = 0; i < e && ok; i++){
+            if (!(mask >> i & 1)) continue;
+            int a = find(edges[i].first), b = find(edges[i].second);
+            if (a == b) ok = false;
+            par[a] = b;
+        }
+        total += ok;
+    }
+
+    return total;
+}
+
+/// Arborescences by trying every (n - 1)-edge subset: one parent per non-root node, and every parent chain reaches root
+long long brute_arborescences(int n, const vector<pair<int, int>>& edges, int root){
+    int e = edges.size();
+    long long total = 0;
+
+    for (int mask = 0; mask < (1 << e); mask++){
+        if (__builtin_popcount(mask) != n - 1) continue;
+        vector<int> par(n, -1), indeg(n, 0);
+        for (int i = 0; i < e; i++){
+            if (mask >> i & 1) indeg[edges[i].second]++, par[edges[i].second] = edges[i].first;
+        }
+        bool ok = indeg[root] == 0;
+        for (int v = 0; v < n && ok; v++){
+            if (v != root && indeg[v] != 1) ok = false;
+        }
+        for (int v = 0; v < n && ok; v++){
+            int x = v, steps = 0;
+            while (x != root && steps <= n) x = par[x], steps++;
+            if (x != root) ok = false;
+        }
+        total += ok;
+    }
+
+    return total;
+}
+
+long long power_mod(long long b, long long e, long long m){
+    long long r = 1 % m;
+    for (b %= m; e; e >>= 1, b = (__int128)b * b % m){
+        if (e & 1) r = (__int128)r * b % m;
+    }
+    return r;
+}
+
+long long pick_modulus(long long it){
+    if (it % 3 == 0) return stress::rand_int(1, 30);
+    if (it % 3 == 1) return (1LL << 62) - 1;
+    return stress::rand_int(1, (1LL << 62) - 1);
+}
+
+/// Every multiset of at most max_edges ordered pairs on n <= 3 nodes, every root, so the tiny corner cases are covered deterministically
+void exhaustive_matrix_tree(int max_edges){
+    for (int n = 1; n <= 3; n++){
+        vector<pair<int, int>> edges;
+        function<void(int)> extend = [&](int from){
+            SpanningTrees g(n);
+            Arborescences d(n);
+            for (auto [u, v] : edges) g.add_edge(u, v), d.add_edge(u, v);
+            for (long long m : {(1LL << 62) - 1, 2LL}){
+                assert(g.count(m) == brute_spanning_trees(n, edges) % m);
+                for (int root = 0; root < n; root++) assert(d.count(root, m) == brute_arborescences(n, edges, root) % m);
+            }
+
+            if ((int)edges.size() == max_edges) return;
+            for (int p = from; p < n * n; p++){
+                edges.push_back({p / n, p % n});
+                extend(p);
+                edges.pop_back();
+            }
+        };
+        extend(0);
+    }
+}
+
+void stress_matrix_tree(){
+    const long long BIG = (1LL << 62) - 1;
+    exhaustive_matrix_tree(4);
+
+    for (long long it = 0; it < stress::scaled(6000); it++){
+        int n = stress::rand_int(1, 6), e = stress::rand_int(0, 12);
+        vector<pair<int, int>> edges;
+        for (int i = 0; i < e; i++){
+            int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
+            if (it % 5 == 0 && stress::rand_int(0, 3) == 0) v = u;
+            edges.push_back({u, v});
+        }
+
+        SpanningTrees g(n);
+        Arborescences d(n);
+        for (auto [u, v] : edges) g.add_edge(u, v), d.add_edge(u, v);
+        long long m = pick_modulus(it);
+        assert(g.count(m) == brute_spanning_trees(n, edges) % m);
+        int root = stress::rand_int(0, n - 1);
+        assert(d.count(root, m) == brute_arborescences(n, edges, root) % m);
+    }
+
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(1, 40), e = stress::rand_int(0, 3 * n);
+        SpanningTrees g(n);
+        Arborescences d(n);
+        for (int i = 0; i < e; i++){
+            int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
+            g.add_edge(u, v), d.add_edge(u, v), d.add_edge(v, u);
+        }
+        long long m = pick_modulus(it);
+        assert(g.count(m) == d.count(stress::rand_int(0, n - 1), m));
+    }
+
+    for (int n = 1; n <= 50; n++){
+        SpanningTrees g(n);
+        Arborescences d(n);
+        for (int u = 0; u < n; u++){
+            for (int v = 0; v < n; v++){
+                if (u < v) g.add_edge(u, v);
+                if (u != v) d.add_edge(u, v);
+            }
+        }
+        long long cayley = n == 1 ? 1 : power_mod(n, n - 2, BIG);
+        assert(g.count(1000000007) == (n == 1 ? 1 : power_mod(n, n - 2, 1000000007)));
+        assert(d.count(n - 1, 998244353) == (n == 1 ? 1 : power_mod(n, n - 2, 998244353)));
+        if (n <= 17) assert(g.count(BIG) == cayley && d.count(0, BIG) == cayley);
+    }
+
+    for (int a = 1; a <= 12; a++){
+        for (int b = 1; b <= 12; b++){
+            SpanningTrees g(a + b);
+            for (int u = 0; u < a; u++){
+                for (int v = 0; v < b; v++) g.add_edge(u, a + v);
+            }
+            long long m = 1000000007;
+            assert(g.count(m) == power_mod(a, b - 1, m) * power_mod(b, a - 1, m) % m);
+        }
+    }
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(20000); it++){
         int n = stress::rand_int(0, 5);
@@ -88,6 +236,8 @@ int main(){
         assert(determinant({{v}}) == v);
         assert(determinant({{v, 0}, {0, 1}}) == v && determinant({{0, v}, {1, 0}}) == -v);
     }
+
+    stress_matrix_tree();
 
     return 0;
 }
