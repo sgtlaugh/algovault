@@ -21,7 +21,9 @@ The header at the top of each file lists its API, complexity and limits.
 
 ## Quality
 
-Every file has self-tests in its `main()` and a brute-force stress test under [`stress_tests/`](stress_tests) at the same relative path. CI compiles all of them with GCC 14 under AddressSanitizer and UndefinedBehaviorSanitizer, with warnings as errors, on every push, and reruns the stress tests nightly at 20x the iterations with a fresh seed.
+- Every file has self-tests in its `main()` and a brute-force stress test under [`stress_tests/`](stress_tests) at the same path
+- CI compiles all of them with GCC 14 under AddressSanitizer and UndefinedBehaviorSanitizer, warnings as errors, on every push
+- Stress tests rerun nightly at 20x the iterations with a fresh seed
 
 ## Index
 
