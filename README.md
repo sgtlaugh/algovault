@@ -155,7 +155,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Comb Sort](code_library/misc/combsort.c) - comb sort
 - [Dancing Links](code_library/misc/dancing_links.cpp) - exact cover with Algorithm X
 - [Fast I/O](code_library/misc/fast_io.cpp) - buffered input and output with fread and fwrite
-- [Gray Codes](code_library/misc/gray_codes.c) - Gray code and its inverse
+- [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
 - [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in O(1)
 - [N Queens](code_library/misc/n_queen.c) - number of N queens solutions
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one

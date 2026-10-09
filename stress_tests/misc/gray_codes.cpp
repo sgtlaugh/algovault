@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/gray_codes.c"
+#include "../../code_library/misc/gray_codes.cpp"
 #undef main
 
 /// Bit i of the gray code is bits i and i + 1 of x xored, bit i of the inverse is the xor of every bit from i upward
@@ -21,6 +21,11 @@ unsigned long long brute_inverse(unsigned long long g){
 }
 
 int main(){
+    for (unsigned long long x = 0; x < (1ULL << 16); x++){
+        assert(gray_code(x) == brute_gray(x));
+        assert(inverse_gray_code(x) == brute_inverse(x));
+    }
+
     for (long long it = 0; it < stress::scaled(500000); it++){
         unsigned long long x = stress::rng()() >> stress::rand_int(0, 63);
         if (it % 5 == 0) x = ~0ULL - stress::rand_int(0, 3);
