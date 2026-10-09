@@ -3,7 +3,8 @@
  * Chinese Remainder Theorem
  * Solves the system x % mods[i] = rems[i] for arbitrary positive moduli, co-prime or not
  *
- * Complexity: O(k log M) for CRT, O(k^2 + k log M) for garner, k congruences, M the largest modulus
+ * Complexity: O(k log M) for CRT, O(k^2 + k log M) for garner and the Garner build, O(k^2) per Garner query
+ *   k congruences, M the largest modulus
  * Requires __int128
  *
  * CRT(rems, mods) returns the unique solution x in [0, lcm(mods)), or -1 if the system is inconsistent
@@ -14,9 +15,13 @@
  *   For pairwise co-prime mods whose product does not fit in 64 bits, e.g. recombining NTT results
  *   Each mod and the target mod must be in [1, 2^63), rems can be any int64
  *
+ * Garner g(mods, mod) precomputes the inverses once, then g(rems) = garner(rems, mods, mod) with no inverse and no allocation
+ *   Use it when the mods repeat across calls, e.g. one g(rems) per coefficient of an NTT convolution
+ *
  * Example:
  *   CRT({2, 4}, {4, 6}) = 10, CRT({1, 2}, {4, 6}) = -1
  *   garner({1, 2, 3}, {1000000007, 998244353, 1000000009}, 1000000007) = 1
+ *   Garner g({998244353, 167772161, 469762049}, 1000000007); g({1, 2, 3}) = 330560083
  *
 ***/
 
@@ -66,24 +71,43 @@ int64_t CRT(const vector<int64_t>& rems, const vector<int64_t>& mods){
     return res;
 }
 
-int64_t garner(const vector<int64_t>& rems, const vector<int64_t>& mods, int64_t mod){
-    int k = mods.size();
-    vector<int64_t> m = mods;
-    m.push_back(mod);
+/// Garner's digits: x = digit[0] + digit[1] * mods[0] + digit[2] * mods[0] * mods[1] + ..., m[k] is the target mod
+struct Garner{
+    int k;
+    vector<int64_t> m, inv, coef, digit;
 
-    /// coef[j] = mods[0] * ... * mods[i - 1] % m[j], sum[j] = the solution of the first i congruences % m[j]
-    vector<int64_t> coef(k + 1, 1), sum(k + 1, 0);
+    /// coef[i * (k + 1) + j] = mods[0] * ... * mods[j - 1] % m[i], inv[i] = (mods[0] * ... * mods[i - 1])^-1 % m[i]
+    Garner(const vector<int64_t>& mods, int64_t mod) : k(mods.size()), m(mods), inv(k), coef((k + 1) * (k + 1)), digit(k){
+        m.push_back(mod);
 
-    for (int i = 0; i < k; i++){
-        int64_t diff = normalize(normalize(rems[i], m[i]) - sum[i], m[i]);
-        int64_t t = (__int128)diff * mod_inverse(coef[i] % m[i], m[i]) % m[i];
-        for (int j = i + 1; j <= k; j++){
-            sum[j] = (sum[j] + (__int128)t * coef[j]) % m[j];
-            coef[j] = (__int128)coef[j] * m[i] % m[j];
+        for (int i = 0; i <= k; i++){
+            int64_t* c = &coef[i * (k + 1)];
+            c[0] = 1 % m[i];
+            for (int j = 1; j <= i; j++) c[j] = (unsigned __int128)c[j - 1] * m[j - 1] % m[i];
+            if (i < k) inv[i] = mod_inverse(c[i], m[i]);
         }
     }
 
-    return sum[k];
+    int64_t operator()(const vector<int64_t>& rems){
+        for (int i = 0; i < k; i++){
+            int64_t diff = normalize(normalize(rems[i], m[i]) - prefix(i), m[i]);
+            digit[i] = (unsigned __int128)diff * inv[i] % m[i];
+        }
+
+        return prefix(k);
+    }
+
+    /// The number written by the first i digits, % m[i]
+    int64_t prefix(int i) const{
+        const int64_t* c = &coef[i * (k + 1)];
+        int64_t res = 0;
+        for (int j = 0; j < i; j++) res = (res + (unsigned __int128)digit[j] * c[j]) % m[i];
+        return res;
+    }
+};
+
+int64_t garner(const vector<int64_t>& rems, const vector<int64_t>& mods, int64_t mod){
+    return Garner(mods, mod)(rems);
 }
 
 int main(){
@@ -121,6 +145,14 @@ int main(){
     assert(garner(big_rems, big_mods, INF) == INF - 1);
     assert(garner(big_rems, big_mods, 1000000007) == 746669198);
     assert(garner(big_rems, big_mods, 2) == 0);
+
+    Garner ntt({998244353, 167772161, 469762049}, 1000000007);
+    assert(ntt({1, 2, 3}) == 330560083);
+    assert(ntt({0, 0, 0}) == 0);
+    assert(ntt({1, 2, 3}) == 330560083);
+
+    Garner empty({}, 10);
+    assert(empty({}) == 0);
 
     return 0;
 }

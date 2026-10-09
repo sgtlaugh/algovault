@@ -233,6 +233,37 @@ void huge_garner_properties(){
     }
 }
 
+int64_t pow_mod(int64_t b, int64_t e, int64_t m){
+    int64_t r = 1 % m;
+    for (b %= m; e; e >>= 1, b = (__int128)b * b % m) if (e & 1) r = (__int128)r * b % m;
+    return r;
+}
+
+void ntt_garner_recombination(){
+    /// One 2^21 three-prime NTT convolution, one Garner reused for every coefficient against the textbook CRT sum
+    const vector<int64_t> primes = {998244353, 167772161, 469762049};
+    const int64_t mod = 1000000007;
+    const int n = 1 << 21;
+
+    __int128 prod = (__int128)primes[0] * primes[1] * primes[2];
+    vector<__int128> basis;
+    for (auto p : primes){
+        __int128 rest = prod / p;
+        basis.push_back(rest * pow_mod(rest % p, p - 2, p) % prod);
+    }
+
+    Garner recombine(primes, mod);
+    vector<int64_t> rems(3);
+    for (int it = 0; it < n; it++){
+        __int128 x = 0;
+        for (int i = 0; i < 3; i++){
+            rems[i] = stress::rand_int(0, primes[i] - 1);
+            x = (x + basis[i] * rems[i]) % prod;
+        }
+        assert(recombine(rems) == x % mod);
+    }
+}
+
 int main(){
     tiny_coprime_vs_scan();
     large_coprime_congruences();
@@ -241,6 +272,7 @@ int main(){
     tiny_garner_vs_scan();
     big_garner_vs_bignum();
     huge_garner_properties();
+    ntt_garner_recombination();
 
     return 0;
 }
