@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/cky.cpp"
+#include "../../code_library/dp/cky.cpp"
 #undef main
 
 /// Every string a CNF grammar derives with up to max_len characters, by expanding nonterminals bottom up

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/lcis.cpp"
+#include "../../code_library/dp/lcis.cpp"
 #undef main
 
 /// Every strictly increasing subsequence of A, checked for being a subsequence of B

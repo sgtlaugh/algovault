@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/blocks_dp.c"
+#include "../../code_library/dp/blocks_dp.c"
 #undef main
 
 /// Every click order: clicking removes one maximal run of equal colors

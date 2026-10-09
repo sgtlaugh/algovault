@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/maximum_square.cpp"
+#include "../../code_library/dp/maximum_square.cpp"
 #undef main
 
 /// Grow each shape from size 1 while every one of its cells is filled
