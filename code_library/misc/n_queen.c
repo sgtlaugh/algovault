@@ -3,7 +3,8 @@
  * https://en.wikipedia.org/wiki/Eight_queens_puzzle
  * 
  * Counts the number of ways for the N queens puzzle
- * Can be further optimized if we consider board symmetry
+ * Mirror symmetry: only first row columns in the left half are searched and doubled,
+ * the middle column of an odd board is its own mirror and is counted once
  * 
 ***/
 
@@ -31,9 +32,14 @@ void backtrack(int i, unsigned int c, unsigned int l, unsigned int r){  /// unsi
 
 int count_ways(int dimension){
     n = dimension;
-    counter = 0, lim = (1U << n) - 1;
-    backtrack(n, 0, 0, 0);
+    if (!n) return 1;
 
+    int i;
+    counter = 0, lim = (1U << n) - 1;
+    for (i = 0; i < n / 2; i++) backtrack(n - 1, 1U << i, 2U << i, (1U << i) >> 1);
+
+    counter *= 2;
+    if (n & 1) backtrack(n - 1, 1U << i, 2U << i, (1U << i) >> 1);
     return counter;
 }
 
