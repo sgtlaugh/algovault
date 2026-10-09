@@ -99,6 +99,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Fast Prime Counting](code_library/number_theory/fast_prime_counting.cpp) - pi(n) in about O(n^(2/3)), Meissel-Lehmer
 - [Fast Prime Sums](code_library/number_theory/fast_prime_sums.cpp) - sum of primes up to n, Meissel-Lehmer
 - [Fast Sieve](code_library/number_theory/fast_sieve.cpp) - optimized sieve of Eratosthenes up to 2^31 - 1
+- [Floor Sum](code_library/number_theory/floor_sum.cpp) - sum of floor((a * i + b) / m), min of (a * i + b) mod m, count and first x with a * x mod m in [l, r]
 - [Integer Root](code_library/number_theory/integer_root.cpp) - exact floor of square, cube and k-th roots of 64-bit integers
 - [Linear Sieve](code_library/number_theory/linear_sieve.cpp) - smallest prime factors, phi, mu and any multiplicative function
 - [Maximum Divisors](code_library/number_theory/maximum_divisors.cpp) - number with the most divisors up to a limit
