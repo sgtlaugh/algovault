@@ -51,6 +51,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Segment Tree Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets as dynamic segment trees with merge, split by key or rank, k-th
 - [Sliding Window Aggregation](code_library/data_structures/sliding_window_aggregation.cpp) - queue fold under any associative operation, plus a monotonic min/max queue
 - [Sparse Table](code_library/data_structures/sparse_table.cpp) - O(1) static range min, plus an O(n) build variant
+- [Sparse Table 2D](code_library/data_structures/sparse_table_2D.cpp) - O(1) static rectangle min or max on a grid
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
 - [Treap](code_library/data_structures/treap.cpp) - ordered multiset and implicit-key sequence with reversals
 - [Trie](code_library/data_structures/trie.cpp) - prefix tree with pass-through and end counts
