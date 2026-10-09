@@ -35,6 +35,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Fenwick Tree 2D, Sparse](code_library/data_structures/fenwick_tree_2D_sparse.cpp) - grids up to 1e9 x 1e9 with sparse updates, hashed
 - [Fenwick Tree 3D](code_library/data_structures/fenwick_tree_3D.cpp) - point/range update with point/range query in 3D
 - [Hash Map](code_library/data_structures/hashmap.cpp) - anti-hack hash map with expected O(1) operations
+- [Interval Set](code_library/data_structures/interval_set.cpp) - disjoint half-open intervals with merging add, splitting remove and coverage queries
 - [Li Chao Tree](code_library/data_structures/li_chao_tree.cpp) - min/max of lines and segments at a point
 - [Link-Cut Tree](code_library/data_structures/link_cut_tree.cpp) - dynamic forest with link, cut, re-rooting, LCA and path aggregates
 - [Merge Sort Tree and Wavelet Matrix](code_library/data_structures/merge_sort_tree.cpp) - count below a threshold, range frequency and k-th smallest in a range
