@@ -107,6 +107,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Online Bridges](code_library/graphs/online_bridges.cpp) - bridge count and 2-edge-connected components under edge insertions, O((n log n + m) α(n))
 - [Range Edge Dijkstra](code_library/graphs/range_edge_dijkstra.cpp) - shortest paths with vertex-to-range and range-to-vertex edges via segment tree overlays
 - [Small Cycle Counting](code_library/graphs/small_cycle_counting.cpp) - triangles and 4-cycles of a simple undirected graph in O(n + m sqrt(m)) by degree ordering
+- [Stable Marriage](code_library/graphs/stable_marriage.cpp) - Gale-Shapley, proposer optimal stable matching, O(n^2)
 - [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals, O(3^k n + 2^k m log n)
 - [Strongly Connected Components](code_library/graphs/scc.cpp) - Kosaraju, components in topological order
 
