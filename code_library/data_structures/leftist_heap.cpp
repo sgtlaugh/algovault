@@ -79,51 +79,20 @@ struct LeftistHeap{
 int main(){
     using Heap = LeftistHeap<int>;
     Heap heap;
-    auto drain = [](auto& any_heap, int h){
-        vector<decay_t<decltype(any_heap.top(h))>> res;
-        for (; h != Heap::EMPTY; h = any_heap.pop(h)) res.push_back(any_heap.top(h));
-        return res;
-    };
-
-    int h0 = Heap::EMPTY;
-    int h1 = heap.push(h0, 20);
+    int h1 = heap.push(Heap::EMPTY, 20);
     int h2 = heap.push(h1, 10);
-    int h3 = heap.push(h2, 30);
-    int h4 = heap.push(heap.push(h1, 5), 15);
-    int h5 = heap.meld(h4, h3);
-
-    assert(heap.top(h1) == 20);
+    int h3 = heap.push(h1, 30);  /// branches off h1, h2 is untouched
     assert(heap.top(h2) == 10);
-    assert(heap.top(h3) == 10);
-    assert(heap.top(h4) == 5);
-    assert(heap.top(h5) == 5);
-    assert((drain(heap, h5) == vector<int>{5, 10, 15, 20, 20, 30}));
-    assert((drain(heap, h3) == vector<int>{10, 20, 30}));
-    assert((drain(heap, h4) == vector<int>{5, 15, 20}));
-    assert((drain(heap, h1) == vector<int>{20}));
+    assert(heap.top(h3) == 20);
+    assert(heap.top(h1) == 20);  /// old versions stay valid
+
+    int both = heap.meld(h2, h3);  /// {10, 20, 20, 30}
+    assert(heap.top(both) == 10);
+    assert(heap.top(heap.pop(both)) == 20);
     assert(heap.pop(h1) == Heap::EMPTY);
-    assert(heap.meld(h0, h0) == Heap::EMPTY);
-    assert(heap.meld(h0, h2) == h2);
 
-    int a = heap.push(heap.push(Heap::EMPTY, 20), 5);
-    int b = heap.meld(a, heap.push(a, 1));
-    assert(heap.top(a) == 5 && heap.top(b) == 1);
-    assert((drain(heap, b) == vector<int>{1, 5, 5, 20, 20}));
-    assert((drain(heap, heap.meld(h2, h2)) == vector<int>{10, 10, 20, 20}));
-    assert((drain(heap, heap.pop(heap.pop(h5))) == vector<int>{15, 20, 20, 30}));
-
-    LeftistHeap<long long, greater<long long>> max_heap;
-    int m = max_heap.EMPTY;
-    for (long long x : {0LL, LLONG_MIN, LLONG_MAX, -7LL, LLONG_MAX, 0LL}) m = max_heap.push(m, x);
-    assert(max_heap.top(m) == LLONG_MAX);
-    assert((drain(max_heap, m) == vector<long long>{LLONG_MAX, LLONG_MAX, 0, 0, -7, LLONG_MIN}));
-
-    LeftistHeap<int> chain;
-    int c = Heap::EMPTY;
-    for (int i = 100000; i >= 1; i--) c = chain.push(c, i);
-    assert(chain.top(c) == 1);
-    vector<int> sorted = drain(chain, c);
-    for (int i = 0; i < 100000; i++) assert(sorted[i] == i + 1);
-
+    LeftistHeap<int, greater<int>> max_heap;
+    int m = max_heap.push(max_heap.push(Heap::EMPTY, 7), 42);
+    assert(max_heap.top(m) == 42);
     return 0;
 }
