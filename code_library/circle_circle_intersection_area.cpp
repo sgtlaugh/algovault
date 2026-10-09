@@ -11,7 +11,7 @@ using namespace std;
 typedef long double fType;
 
 const fType EPS = 1e-9;
-const fType PI  = 2 * acos(0);
+const fType PI  = acosl(-1);
 
 struct Point{
     fType x, y;
