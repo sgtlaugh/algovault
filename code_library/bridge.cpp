@@ -33,7 +33,7 @@ struct Bridge{
 struct Graph{
     bool visited[MAX];
     vector <Pair> adj[MAX]; /// (neighbor, edge index)
-    int n, m = 0, dt, discover[MAX], low[MAX], cmp[MAX], num[MAX];
+    int n, m = 0, dt, discover[MAX], low[MAX], num[MAX];
 
     Graph() {}
     Graph(int n): n(n) {}
@@ -47,21 +47,10 @@ struct Graph{
                 dfs(v, id, bridges);
                 low[u] = min(low[u], low[v]);
 
-                if (low[v] > discover[u]){
-                    int cnt = dt - discover[v] + 1;
-                    bridges.push_back(Bridge(u, v, cmp[u] - cnt, cnt, id));
-                }
+                /// emplace_back, push_back(Bridge(...)) grows the GCC -O2 frame enough to overflow 8 MB on a 1e5-node path
+                if (low[v] > discover[u]) bridges.emplace_back(u, v, 0, dt - discover[v] + 1, id);
             }
             else if (id != parent_edge) low[u] = min(low[u], discover[v]);
-        }
-    }
-
-    void dfs(int u){
-        low[dt++] = u;
-        visited[u] = true;
-
-        for (auto [v, id]: adj[u]){
-            if (!visited[v]) dfs(v);
         }
     }
 
@@ -78,17 +67,11 @@ struct Graph{
 
         for (int i = 0; i < n; i++){
             if (!visited[i]){
-                dt = 0;
-                dfs(i);
-                for (int j = 0; j < dt; j++) cmp[low[j]] = dt;
-            }
-        }
-
-        memset(visited, 0, sizeof(visited));
-        for (int i = 0; i < n; i++){
-            if (!visited[i]){
+                int first = bridges.size();
                 dt = 0;
                 dfs(i, -1, bridges);
+                /// The component size is known only once its DFS ends
+                for (int j = first; j < (int)bridges.size(); j++) bridges[j].cnt_u = dt - bridges[j].cnt_v;
             }
         }
 
@@ -144,7 +127,8 @@ struct Graph{
 };
 
 int main(){
-    auto graph = Graph(10);
+    /// Each Graph holds about 4 MB of arrays, too much for the stack
+    static Graph graph(10);
 
     graph.add_edge(0, 1);
     graph.add_edge(1, 2);
@@ -169,7 +153,7 @@ int main(){
     assert(bridge_tree[1] == Pair(2, 3));
     assert(bridges[0].id == 9 && bridges[1].id == 10);
 
-    auto multi = Graph(4);
+    static Graph multi(4);
     multi.add_edge(0, 1);
     multi.add_edge(0, 1);
     multi.add_edge(1, 2);
