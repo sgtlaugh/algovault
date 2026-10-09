@@ -168,6 +168,7 @@ struct WaveletMatrix{
     }
 };
 
+/// Both structs answer the same queries, so they share these asserts
 template <template <typename> class Tree>
 void test_shared_api(){
     Tree<int> tree({5, 1, 4, 1, 3, 9, 2});
