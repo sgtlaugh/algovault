@@ -144,6 +144,13 @@ int main(){
         }
     }
 
+    /// a = x^(2^40) mod 29 * 2^57 + 1 makes Tonelli-Shanks shift by up to 2^39, random squares need about 2^32 tries to get there
+    const long long Q = 29 * (1LL << 57) + 1;
+    for (long long it = 0; it < stress::scaled(300); it++){
+        long long x = stress::rand_int(1, Q - 1), root = pow_mod(x, 1LL << 39, Q);
+        assert(sqrt_mod(pow_mod(x, 1LL << 40, Q), Q) == min(root, Q - root));
+    }
+
     /// gcd(k, p - 1) holds the full power of a huge prime q in p - 1, so every discrete log is trivial:
     /// a baby step table of sqrt(q) entries would take 16 GB for the safe prime and 0.1 s per call for 2^20 q + 1
     const long long safe = 2305843009213699919LL, deep = 1048576000185597953LL;

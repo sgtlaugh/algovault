@@ -278,79 +278,20 @@ vector<long long> kth_roots(long long a, long long k, long long p){
 }
 
 int main(){
-    const long long P = (1LL << 62) - 57, Q = 29 * (1LL << 57) + 1;
-
-    assert(multiplicative_order(2, 7) == 3);
-    assert(multiplicative_order(3, 7) == 6);
-    assert(multiplicative_order(10, 7) == 6);
-    assert(multiplicative_order(-1, 7) == 2);
-    assert(multiplicative_order(0, 1) == 1);
-    assert(multiplicative_order(1, 1) == 1);
-    assert(multiplicative_order(4, 6) == -1);
-    assert(multiplicative_order(2, 1000000007) == 500000003);
-    assert(multiplicative_order(3, P) == 1537228672809129282LL);
-    assert(multiplicative_order(2, 998244353LL * 1000000007) == 249561089497366528LL);
-    assert(multiplicative_order(5, 4052555153018976267LL) == 2701703435345984178LL);
-
-    assert(primitive_root(1) == 0);
-    assert(primitive_root(2) == 1);
-    assert(primitive_root(3) == 2);
-    assert(primitive_root(4) == 3);
+    assert(multiplicative_order(2, 7) == 3);   /// 2^3 = 8 = 1 mod 7
+    assert(multiplicative_order(4, 6) == -1);  /// gcd(4, 6) != 1
     assert(primitive_root(7) == 3);
-    assert(primitive_root(8) == -1);
-    assert(primitive_root(9) == 2);
-    assert(primitive_root(12) == -1);
-    assert(primitive_root(18) == 5);
-    assert(primitive_root(25) == 2);
-    assert(primitive_root(50) == 3);
-    assert(primitive_root(54) == 5);
     assert(primitive_root(998244353) == 3);
-    assert(primitive_root(1000000007) == 5);
-    assert(primitive_root(P) == 6);
-    assert(primitive_root(Q) == 3);
-    assert(primitive_root(2 * 1350851717672992089LL) == 5);
-    assert(primitive_root(4052555153018976267LL) == 2);
-    assert(primitive_root(998244353LL * 1000000007) == -1);
+    assert(primitive_root(8) == -1);           /// none mod 2^k for k >= 3
 
-    assert(sqrt_mod(0, 7) == 0);
-    assert(sqrt_mod(2, 7) == 3);
-    assert(sqrt_mod(9, 7) == 3);
+    assert(sqrt_mod(2, 7) == 3);               /// 3^2 = 4^2 = 2 mod 7, the smaller is returned
     assert(sqrt_mod(3, 7) == -1);
-    assert(sqrt_mod(1, 2) == 1);
-    assert(sqrt_mod(-1, 13) == 5);
-    assert(sqrt_mod(2, 998244353) == 116195171);
-    assert(sqrt_mod(7, 998244353) == 116190042);
-    assert(sqrt_mod(3, 998244353) == -1);
-    assert(sqrt_mod(7, P) == 579595727848288311LL);
-    assert(sqrt_mod(-1, P) == -1);
-    assert(sqrt_mod(1000000000000000000LL, P) == 1000000000);
-    assert(sqrt_mod(2, Q) == 469825525739797124LL);
-    assert(sqrt_mod(3, Q) == -1);
+    assert(sqrt_mod(-1, 13) == 5);             /// 5^2 = 25 = -1 mod 13
+    assert(sqrt_mod(1000000000000000000LL, (1LL << 62) - 57) == 1000000000);
 
-    assert((kth_roots(1, 3, 7) == vector<long long>{1, 2, 4}));
-    assert((kth_roots(6, 2, 7) == vector<long long>{}));
-    assert((kth_roots(3, 4, 13) == vector<long long>{2, 3, 10, 11}));
-    assert((kth_roots(9, 4, 13) == vector<long long>{4, 6, 7, 9}));
-    assert((kth_roots(4, 4, 13) == vector<long long>{}));
-    assert((kth_roots(1, 6, 13) == vector<long long>{1, 3, 4, 9, 10, 12}));
+    long long x = kth_root(8, 3, 13);
+    assert(pow_mod(x, 3, 13) == 8);
     assert((kth_roots(8, 3, 13) == vector<long long>{2, 5, 6}));
-    assert((kth_roots(5, 5, 11) == vector<long long>{}));
-    assert((kth_roots(0, 3, 2) == vector<long long>{0}));
-    assert((kth_roots(1, 1, 2) == vector<long long>{1}));
-    assert((kth_roots(1, 0, 2) == vector<long long>{0, 1}));
-    assert((kth_roots(2, 0, 5) == vector<long long>{}));
-    assert(kth_root(1, 10, 11) != -1 && kth_roots(1, 10, 11).size() == 10);
-    assert(kth_root(0, 1000000000000000000LL, 13) == 0);
-    assert(kth_root(1, 0, 13) == 0);
-
-    assert(pow_mod(kth_root(4085804930199681271LL, 1LL << 57, Q), 1LL << 57, Q) == 4085804930199681271LL);
-    assert(pow_mod(kth_root(3750458325773730179LL, 9 * 1289, P), 9 * 1289, P) == 3750458325773730179LL);
-    assert(kth_root(3, 2, Q) == -1);
-    assert(kth_root(3, 29, Q) == -1);
-
-    vector<long long> roots = kth_roots(671706221204512808LL, 1 << 10, Q);
-    assert(roots.size() == 1024 && adjacent_find(roots.begin(), roots.end()) == roots.end());
-    for (long long x : roots) assert(pow_mod(x, 1 << 10, Q) == 671706221204512808LL);
-
+    assert((kth_roots(4, 4, 13) == vector<long long>{}));  /// 4 is not a 4th power mod 13
     return 0;
 }
