@@ -273,12 +273,5 @@ Every file has self-tests in its `main()` and a brute-force stress test under [`
 
 Bug reports, fixes and new templates are welcome as issues or pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions, the checks CI runs and The Zen Of Contributing.
 
-## Future Work
-  <ol>
-  <li>This is still a work in progress so I'll port more code from my template over the time</li>
-  <li>Refactor and simplify old implementations</li>
-  <li>Add practice problems</li>
-  </ol>
-
 ## License
 The project is licensed under the [MIT License](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
