@@ -147,6 +147,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of 1..n
 - [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke in the gambler's ruin game
 - [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - survivor of the Josephus elimination
+- [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - p(0..n) modulo any m in O(n sqrt n) via the pentagonal number theorem
 - [Permutation Index](code_library/combinatorics/permutation_index.cpp) - lexicographic rank of a permutation, a perfect hash
 - [Permutation Rank](code_library/combinatorics/permutation_rank.cpp) - rank and unrank of permutations
 - [Stirling Numbers](code_library/combinatorics/stirling_numbers.cpp) - a whole row of either kind modulo m using FFT
