@@ -150,7 +150,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 
 ### Miscellaneous
 - [15 Puzzle Solver](code_library/misc/15_puzzle_solver.cpp) - solvability check and IDA* solver
-- [Assembly](code_library/misc/assembly.c) - inline x86 popcount, leading zeros, bit scan, gcd and square root
+- [Assembly](code_library/misc/assembly.cpp) - inline x86 popcount, leading zeros, bit scan, gcd and square root
 - [Bit Twiddling](code_library/misc/bit_twiddling.c) - bit manipulation tricks
 - [Comb Sort](code_library/misc/combsort.c) - comb sort
 - [Dancing Links](code_library/misc/dancing_links.cpp) - exact cover with Algorithm X
