@@ -3,7 +3,8 @@
  * Edge Coloring
  * Colors the edges so that edges sharing a vertex get different colors
  *
- * Complexity: BipartiteEdgeColoring O(m * (n + D)), VizingEdgeColoring O(n * m), both O(n * D) memory
+ * Complexity: BipartiteEdgeColoring O(n + m * n) expected time, O(n + m) memory
+ * VizingEdgeColoring O(n * m) time, O(n * D) memory
  * where n is the number of vertices, m the number of edges and D the maximum degree
  *
  * BipartiteEdgeColoring g(n_left, n_right): left vertices 0..n_left - 1, right vertices 0..n_right - 1
@@ -45,14 +46,32 @@ struct BipartiteEdgeColoring{
             k = max({k, ++deg[0][e[0]], ++deg[1][e[1]]});
         }
 
-        /// edge_at[s][x * k + c]: the edge colored c at vertex x of side s, or -1
-        vector<int> edge_at[2] = {vector<int>(n_left * k, -1), vector<int>(n_right * k, -1)};
+        /// A free color at x always exists below deg(x): candidates[s][x] holds every free one there, stale ones are popped lazily
+        vector<vector<int>> candidates[2];
+        for (int s = 0; s < 2; s++){
+            for (int d : deg[s]){
+                candidates[s].emplace_back(d);
+                iota(candidates[s].back().rbegin(), candidates[s].back().rend(), 0);
+            }
+        }
+
+        /// Hash map of (side, vertex, color) to the edge colored so there, -1 if none, instead of an O(n * D) table
+        /// At most 4m keys ever appear (colors below the degree, plus two per edge), so 8m slots keep probing short
+        int bits = 1;
+        while ((1LL << bits) < 8LL * m) bits++;
+        vector<pair<long long, int>> table(1LL << bits, {-1, -1});
         vector<int> color(m, -1), path;
-        auto slot = [&](int s, int x, int c) -> int& { return edge_at[s][x * k + c]; };
+        auto slot = [&](int s, int x, int c) -> int& {
+            long long key = (s ? (long long)n_left + x : x) * k + c;
+            size_t i = (unsigned long long)key * 0x9E3779B97F4A7C15ULL >> (64 - bits);
+            while (table[i].first != key && table[i].first != -1) i = (i + 1) & (table.size() - 1);
+            if (table[i].first == -1) table[i] = {key, -1};
+            return table[i].second;
+        };
         auto first_free = [&](int s, int x){
-            int c = 0;
-            while (slot(s, x, c) != -1) c++;
-            return c;
+            auto& list = candidates[s][x];
+            while (slot(s, x, list.back()) != -1) list.pop_back();
+            return list.back();
         };
 
         for (int e = 0; e < m; e++){
@@ -60,11 +79,15 @@ struct BipartiteEdgeColoring{
             if (slot(1, v, a) != -1){
                 /// The a/b path from v enters left vertices by a edges, so it never reaches u where a is free
                 path.clear();
-                for (int s = 1, x = v, c = a; slot(s, x, c) != -1; s ^= 1, c ^= a ^ b){
-                    int f = slot(s, x, c);
+                int side = 1, x = v, c = a;
+                for (; slot(side, x, c) != -1; side ^= 1, c ^= a ^ b){
+                    int f = slot(side, x, c);
                     path.push_back(f);
-                    x = edges[f][s ^ 1];
+                    x = edges[f][side ^ 1];
                 }
+                /// The path's far end loses color c ^ a ^ b, the only color the inversion frees apart from a at v
+                candidates[side][x].push_back(c ^ a ^ b);
+
                 for (int f : path){
                     for (int s = 0; s < 2; s++) slot(s, edges[f][s], color[f]) = -1;
                 }
@@ -99,8 +122,8 @@ struct VizingEdgeColoring{
         }
 
         /// adj[x * k + c]: the neighbor of x through the edge colored c, or -1
-        vector<int> adj(n * k, -1), free_color(n), fan(k + 1), fan_color(k + 1), seen;
-        auto at = [&](int x, int c) -> int& { return adj[x * k + c]; };
+        vector<int> adj((size_t)n * k, -1), free_color(n), fan(k + 1), fan_color(k + 1), seen;
+        auto at = [&](int x, int c) -> int& { return adj[(long long)x * k + c]; };
 
         for (auto& e : edges){
             int u = e[0], v = e[1], c = free_color[u], d, len = 0;

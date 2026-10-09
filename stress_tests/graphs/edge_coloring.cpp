@@ -137,6 +137,19 @@ int main(){
         run_bipartite(n, n, edges);
     }
 
+    /// Library Checker limits with one hub of degree D: memory must stay O(m), not O(n * D)
+    for (int hub : {100000, 10000}){
+        for (int side = 0; side < 2; side++){
+            int n = 100000, m = 100000;
+            vector<array<int, 2>> edges = random_bipartite(n, n, m - hub);
+            for (int i = 0; i < hub; i++){
+                edges.push_back(side ? array<int, 2>{i, n} : array<int, 2>{0, n + i});
+            }
+            shuffle(edges.begin(), edges.end(), stress::rng());
+            run_bipartite(n, n, edges);
+        }
+    }
+
     for (long long it = 0; it < stress::scaled(4000); it++){
         int n = stress::rand_int(0, 8);
         run_vizing(n, random_simple(n, stress::rand_int(0, 28)));
