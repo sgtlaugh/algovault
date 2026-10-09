@@ -75,6 +75,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Dijkstra](code_library/graphs/dijkstra.cpp) - shortest paths with path reconstruction: heap O((n + m) log m), dense O(n^2) and 0-1 BFS
 - [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence with parents, negative weights, O(m log m)
 - [Dominator Tree](code_library/graphs/dominator_tree.cpp) - Lengauer-Tarjan immediate dominators from a root, O((n + m) log n)
+- [Edge Coloring](code_library/graphs/edge_coloring.cpp) - bipartite with D colors (Konig), simple graphs with D + 1 colors (Vizing)
 - [Euler Path](code_library/graphs/euler_path.cpp) - Hierholzer, directed and undirected multigraphs, iterative, O(n + m)
 - [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - feasible circulation, feasible / max / min s-t flow with demands on Dinic
 - [Floyd Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with path reconstruction, negative edges and negative cycles (NEG_INF marking)
