@@ -22,7 +22,7 @@ pair<long long, long long> fibonacci_pair(long long n, long long m){
     assert(n >= 0 && m >= 1);
     auto mul = [&](long long a, long long b){ return (long long)((__int128)a * b % m); };
     long long a = 0, b = 1 % m;  /// (F(k), F(k + 1)) for k = the bits of n read so far
-    for (int bit = 62; bit >= 0; bit--){
+    for (int bit = n ? 63 - __builtin_clzll(n) : -1; bit >= 0; bit--){
         long long c = mul(a, ((__int128)2 * b - a + m) % m);
         long long d = (long long)(((__int128)a * a + (__int128)b * b) % m);
         if (n >> bit & 1) a = d, b = (long long)(((__int128)c + d) % m);  /// c + d can exceed 2^63 when m is close to it
