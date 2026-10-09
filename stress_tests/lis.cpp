@@ -30,6 +30,15 @@ void check(const vector<T>& a){
     assert(lis_length(a, false) == longest(inc) && lis_length(a, true) == longest(non_dec));
     assert(lds_length(a, false) == longest(dec) && lds_length(a, true) == longest(non_inc));
     assert(lis_vector(a) == inc && lds_vector(a) == dec && lis_length(a) == longest(inc) && lds_length(a) == longest(dec));  /// defaults are strict
+    assert(lis_vector(a, false, greater<T>()) == dec && lis_vector(a, true, greater<T>()) == non_inc);
+}
+
+/// A comparator with ties between unequal values, strings ordered by length only
+void check_by_length(const vector<string>& s){
+    auto shorter = [](const string& x, const string& y){ return x.size() < y.size(); };
+    auto not_longer = [](const string& x, const string& y){ return x.size() <= y.size(); };
+    assert(lis_vector(s, false, shorter) == brute(s, shorter));
+    assert(lis_vector(s, true, shorter) == brute(s, not_longer));
 }
 
 int main(){
@@ -43,6 +52,7 @@ int main(){
         }
         check(a);
         check(s);
+        check_by_length(s);
     }
     return 0;
 }
