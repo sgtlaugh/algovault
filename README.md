@@ -187,6 +187,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS in O(nm)
 - [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS lengths with any comparator
 - [Maximum Square](code_library/dp/maximum_square.cpp) - largest filled square and diamond ending at every cell
+- [Slope Trick](code_library/dp/slope_trick.cpp) - convex piecewise linear function with abs / hinge adds, prefix / suffix min and window shifts
 
 ### Miscellaneous
 - [15 Puzzle Solver](code_library/misc/15_puzzle_solver.cpp) - solvability check and IDA* solver
