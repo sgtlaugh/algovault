@@ -71,7 +71,50 @@ void check_sequence(int n, int ops){
     assert(treap.to_vector() == ref);
 }
 
+template <typename Tree>
+int max_depth(const Tree& tree){
+    int res = 0;
+    vector<pair<int, int>> stack;
+    if (tree.root != -1) stack.push_back({tree.root, 1});
+    while (!stack.empty()){
+        auto [t, d] = stack.back();
+        stack.pop_back();
+        res = max(res, d);
+        for (int c : {tree.nodes[t].l, tree.nodes[t].r}){
+            if (c != -1) stack.push_back({c, d + 1});
+        }
+    }
+    return res;
+}
+
+/// Insertion orders that line keys up with the priorities of a generator seeded 20260105, the old fixed seed
+/// They build an n deep chain on that seed and stay logarithmic on a clock seed
+void check_adversarial(int n){
+    mt19937 old_rng(20260105);
+    vector<unsigned int> priority(n);
+    for (auto& p : priority) p = old_rng();
+
+    vector<int> order(n), rank(n);
+    iota(order.begin(), order.end(), 0);
+    sort(order.begin(), order.end(), [&](int i, int j){ return priority[i] < priority[j]; });
+    for (int i = 0; i < n; i++) rank[order[i]] = i;
+    Treap<int> set;
+    for (int i = 0; i < n; i++) set.insert(rank[i]);
+    assert(max_depth(set) <= 200);
+
+    ImplicitTreap seq;
+    vector<unsigned int> seen;
+    for (int i = 0; i < n; i++){
+        int pos = lower_bound(seen.begin(), seen.end(), priority[i]) - seen.begin();
+        seen.insert(seen.begin() + pos, priority[i]);
+        seq.insert(pos, i);
+    }
+    assert(max_depth(seq) <= 200);
+}
+
 int main(){
+    check_adversarial(5000);
+
     for (long long it = 0; it < stress::scaled(1500); it++){
         check_multiset(stress::rand_int(1, 200), it % 2 ? 5 : 1000000000000000000LL);
         check_sequence(stress::rand_int(0, 40), stress::rand_int(1, 200));
