@@ -5,7 +5,7 @@
  *
  * 0 based indexing for compressed values
  *
- * Complexity: O(N) if sorting is not necessary, otherwise O(N log N)
+ * Complexity: O(N) expected if sorting is not necessary (hash map), otherwise O(N log N) (no hashing)
  *
 ***/
 
@@ -15,17 +15,21 @@ using namespace std;
 
 template <class T>
 void compress(vector<T>& v, bool make_sorted=true){
-    unordered_map <T, int> mp;
-
     if (!make_sorted){
+        unordered_map <T, int> mp;
+        mp.reserve(v.size());
         for (auto &&x: v) x = mp.emplace(x, mp.size()).first->second;
         return;
     }
 
-    vector<T> u = v;
-    sort(u.begin(), u.end());
-    for (auto &&x: u) mp.emplace(x, mp.size()).first->second;
-    for (auto &&x: v) x = mp[x];
+    int n = v.size(), rank = 0;
+    vector<pair<T, int>> order(n);
+    for (int i = 0; i < n; i++) order[i] = {v[i], i};
+    sort(order.begin(), order.end());
+    for (int i = 0; i < n; i++){
+        if (i && order[i - 1].first < order[i].first) rank++;
+        v[order[i].second] = rank;
+    }
 }
 
 int main(){
