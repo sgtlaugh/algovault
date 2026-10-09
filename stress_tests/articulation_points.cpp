@@ -61,16 +61,13 @@ int main(){
         int n = stress::rand_int(1, it % 20 ? 12 : 250);
         auto edges = random_graph(n);
 
-        /// One graph reused, constructing 100010 adjacency vectors per instance would dominate the run
-        static Graph* g = new Graph();
-        g->n = n;
-        for (int i = 0; i < n; i++) g->adj[i].clear();
+        Graph g(n);
 
         /// Query halfway through the edges too, a second call must not keep cuts from the first
         int half = stress::rand_int(0, edges.size());
         for (int i = 0; i < (int)edges.size(); i++){
-            if (i == half) g->get_cuts();
-            g->add_edge(edges[i].first, edges[i].second);
+            if (i == half) g.get_cuts();
+            g.add_edge(edges[i].first, edges[i].second);
         }
 
         vector<int> expected;
@@ -78,7 +75,15 @@ int main(){
         for (int v = 0; v < n; v++){
             if (components(n, edges, v) > base) expected.push_back(v);
         }
-        assert(g->get_cuts() == expected);
+        assert(g.get_cuts() == expected);
+    }
+
+    /// Past the old fixed MAX = 100010 arrays, a star keeps the recursion shallow
+    {
+        int n = 150000;
+        Graph g(n);
+        for (int v = 1; v < n; v++) g.add_edge(0, v);
+        assert(g.get_cuts() == vector<int>({0}));
     }
     return 0;
 }
