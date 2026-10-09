@@ -186,5 +186,10 @@ int main(){
         }
     }
 
+    /// Rank 63 without bit 63: count_less returns early at the top bit with 2^63 values below it
+    XorBasis low;
+    for (int i = 0; i < 63; i++) low.insert(1ULL << i);
+    assert(low.count_less(1ULL << 63) == 1ULL << 63 && low.count_less(ULLONG_MAX) == 1ULL << 63);
+
     return 0;
 }

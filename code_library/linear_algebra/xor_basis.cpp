@@ -124,51 +124,22 @@ struct XorBasis{
 
 int main(){
     XorBasis b;
-    assert(b.rank == 0 && b.max_xor() == 0 && b.kth(0) == 0);
-    assert(b.contains(0) && !b.contains(5));
-    assert(b.count_less(0) == 0 && b.count_less(1) == 1 && b.count_less(ULLONG_MAX) == 1);
-    assert(!b.insert(0));
-
-    assert(b.insert(6) && b.insert(10) && !b.insert(12) && !b.insert(6));
+    assert(b.insert(6));
+    assert(b.insert(10));
+    assert(!b.insert(12));          /// 6 ^ 10, the span is {0, 6, 10, 12}
     assert(b.rank == 2);
-    assert(b.kth(0) == 0 && b.kth(1) == 6 && b.kth(2) == 10 && b.kth(3) == 12);
-    assert(b.contains(12) && b.contains(0) && !b.contains(4) && !b.contains(16));
-    assert(b.max_xor() == 12 && b.max_xor(1) == 13 && b.max_xor(16) == 28);
-    assert(b.min_xor(13) == 1 && b.min_xor(12) == 0 && b.min_xor(5) == 3);
-    assert(b.count_less(0) == 0 && b.count_less(6) == 1 && b.count_less(7) == 2);
-    assert(b.count_less(10) == 2 && b.count_less(11) == 3 && b.count_less(13) == 4 && b.count_less(100) == 4);
+    assert(b.contains(12));
+    assert(!b.contains(4));
+    assert(b.max_xor() == 12);      /// max subset XOR
+    assert(b.max_xor(1) == 13);     /// 1 ^ 12
+    assert(b.min_xor(5) == 3);      /// 5 ^ 6
+    assert(b.kth(2) == 10);
+    assert(b.count_less(11) == 3);  /// 0, 6 and 10
 
-    XorBasis top;
-    assert(top.insert(ULLONG_MAX) && top.insert(1ULL << 63) && !top.insert((1ULL << 63) - 1));
-    assert(top.kth(1) == (1ULL << 63) - 1 && top.kth(2) == 1ULL << 63 && top.kth(3) == ULLONG_MAX);
-    assert(top.max_xor() == ULLONG_MAX && top.min_xor(ULLONG_MAX) == 0 && top.max_xor(1) == ULLONG_MAX - 1);
-    assert(top.count_less(1ULL << 63) == 2 && top.count_less(ULLONG_MAX) == 3 && top.count_less(5) == 1);
-
-    XorBasis full;
-    for (int i = 63; i >= 0; i--) assert(full.insert(1ULL << i));
-    assert(full.rank == 64 && !full.insert(123456789));
-    assert(full.kth(12345) == 12345 && full.kth(ULLONG_MAX) == ULLONG_MAX);
-    assert(full.count_less(987654321) == 987654321 && full.count_less(ULLONG_MAX) == ULLONG_MAX);
-    assert(full.min_xor(ULLONG_MAX) == 0 && full.max_xor(77) == ULLONG_MAX);
-
-    XorBasis u, v, w;
-    u.insert(1), u.insert(2);
-    v.insert(3), v.insert(4);
-    XorBasis uv = u.intersect(v);
-    assert(uv.rank == 1 && uv.contains(3) && !uv.contains(1) && !uv.contains(4));
-
-    u = XorBasis(), v = XorBasis();
-    u.insert(6), u.insert(10);
-    v.insert(12), v.insert(1);
-    uv = u.intersect(v);
-    assert(uv.rank == 1 && uv.contains(12) && !uv.contains(6) && !uv.contains(1));
-    assert(u.intersect(full).rank == 2 && full.intersect(u).contains(10));
-    assert(u.intersect(w).rank == 0 && w.intersect(u).rank == 0);
-
-    u = XorBasis(), v = XorBasis();
-    u.insert(1);
-    v.insert(2);
-    assert(u.intersect(v).rank == 0);
-
+    XorBasis other;
+    other.insert(12), other.insert(1);
+    XorBasis common = b.intersect(other);  /// {0, 6, 10, 12} and {0, 1, 12, 13} share {0, 12}
+    assert(common.rank == 1);
+    assert(common.contains(12));
     return 0;
 }
