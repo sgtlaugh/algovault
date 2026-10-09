@@ -107,7 +107,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - Bernoulli numbers modulo a prime
 - [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, Lucas and prime powers
 - [Combinatorics](code_library/combinatorics/combinatorics.cpp) - extended gcd, modular inverse, diophantine equations, nCr and nPr
-- [Eulerian Numbers](code_library/combinatorics/eulerian_numbers.c) - permutations with k ascents
+- [Eulerian Numbers](code_library/combinatorics/eulerian_numbers.cpp) - permutations with k ascents, modulo any m
 - [Faulhaber's Formula](code_library/combinatorics/faulhaber's_formula.c) - sum of k-th powers of 1..n
 - [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.c) - winning probability of the gambler's ruin game
 - [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - survivor of the Josephus elimination
