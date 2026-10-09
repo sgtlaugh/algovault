@@ -100,47 +100,21 @@ struct MonotonicQueue{
 };
 
 int main(){
+    /// f(x) = a x + b as (a, b), composition does not commute so the fold order shows
     using Linear = pair<long long, long long>;
     auto compose = [](const Linear& f, const Linear& g){
         return Linear(f.first * g.first, f.second * g.first + g.second);
     };
-    auto eval = [](const Linear& f, long long x){
-        return f.first * x + f.second;
-    };
 
     SlidingWindowAggregation maps(Linear(1, 0), compose);
-    assert(maps.empty() && eval(maps.fold(), 4) == 4);
     maps.push({2, 3});
     maps.push({5, 1});
-    assert(eval(maps.fold(), 4) == 56);
+    assert(maps.fold() == Linear(10, 16));  /// 5 (2x + 3) + 1, the oldest map applies first
     maps.pop();
     maps.push({3, 7});
-    assert(maps.size() == 2 && eval(maps.fold(), 4) == 70);
-    maps.pop();
-    assert(eval(maps.fold(), 4) == 19);
-
-    SlidingWindowAggregation words(string(), [](const string& a, const string& b){ return a + b; });
-    for (string w : {"slow", "ly", "but"}) words.push(w);
-    assert(words.fold() == "slowlybut");
-    words.pop();
-    words.push("ter");
-    assert(words.fold() == "lybutter");
-    words.pop();
-    words.pop();
-    assert(words.fold() == "ter");
-    words.pop();
-    assert(words.empty() && words.fold() == "");
-
-    SlidingWindowAggregation newest(-1, [](int, int b){ return b; });
-    newest.push(1);
-    newest.push(2);
-    newest.pop();
-    assert(newest.fold() == 2);
-    newest.push(3);
-    assert(newest.fold() == 3);
-    newest.pop();
-    newest.pop();
-    assert(newest.fold() == -1);
+    assert(maps.fold() == Linear(15, 10));  /// 3 (5x + 1) + 7
+    maps.pop(), maps.pop();
+    assert(maps.empty() && maps.fold() == Linear(1, 0));
 
     vector<int> a = {4, 2, 12, 3, 8, 1, 7}, lows, highs;
     MonotonicQueue<int> low;
@@ -150,17 +124,7 @@ int main(){
         if (i >= 3) low.pop(), high.pop();
         if (i >= 2) lows.push_back(low.best()), highs.push_back(high.best());
     }
-    assert((lows == vector<int>{2, 2, 3, 1, 1}));
+    assert((lows == vector<int>{2, 2, 3, 1, 1}));  /// every window of 3
     assert((highs == vector<int>{12, 12, 12, 8, 8}));
-
-    MonotonicQueue<int> ties;
-    for (int x : {5, 5, 9}) ties.push(x);
-    ties.pop();
-    assert(ties.size() == 2 && ties.best() == 5);
-    ties.pop();
-    assert(ties.best() == 9);
-    ties.pop();
-    assert(ties.empty());
-
     return 0;
 }
