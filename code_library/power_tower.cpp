@@ -3,7 +3,7 @@
  * Power Tower
  * a[l] ^ (a[l + 1] ^ (... ^ a[r])) modulo m, evaluated from the top down
  *
- * Complexity: O(sqrt(m) log m) to build, O(r - l + log^2 m) per query (the r - l part only validates the input)
+ * Complexity: O(sqrt(m) log m) to build, O(log^2 m) per query
  *
  * PowerTower tower(m): 1 <= m <= 1e12, precomputes m, phi(m), phi(phi(m)), ... down to 1
  * tower.query(a, l, r): the tower over a[l..r] modulo m, 1 <= a[i] <= 1e18
@@ -62,6 +62,7 @@ struct PowerTower{
     long long exact(const vector<long long>& a, int i, int r) const{
         int j = i;
         while (j < r && a[j] != 1 && j - i < 4) j++;
+        for (int k = i; k <= j; k++) assert(a[k] >= 1);
         long long value = min(a[j], LIMIT);
         for (int k = j - 1; k >= i; k--) value = pow_saturated(a[k], value);
         return value;
@@ -70,6 +71,7 @@ struct PowerTower{
     long long solve(const vector<long long>& a, int i, int r, int depth) const{
         long long m = chain[depth];
         if (m == 1) return 0;
+        assert(a[i] >= 1);
         if (i == r || a[i] == 1) return a[i] % m;
 
         long long e = exact(a, i + 1, r);
@@ -80,7 +82,6 @@ struct PowerTower{
 
     long long query(const vector<long long>& a, int l, int r) const{
         assert(0 <= l && l <= r && r < (int)a.size());
-        for (int i = l; i <= r; i++) assert(a[i] >= 1);
         return solve(a, l, r, 0);
     }
 };
