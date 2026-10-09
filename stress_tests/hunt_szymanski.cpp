@@ -24,7 +24,7 @@ int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
         const string& letters = alphabets[stress::rand_int(0, 4)];
         string a = random_string(stress::rand_int(0, it % 10 ? 40 : 400), letters), b = random_string(stress::rand_int(0, it % 10 ? 40 : 400), letters);
-        assert(lcs(&a[0], &b[0]) == dp_lcs(a, b));
+        assert(lcs(a.c_str(), b.c_str()) == dp_lcs(a, b));
     }
 
     /// Longer than the old fixed MAX buffer, a wide alphabet keeps the match count R small
@@ -32,6 +32,6 @@ int main(){
     for (int c = 1; c < 256; c++) letters += (char)c;
     string a = random_string(52000, letters), b = a;
     b.erase(stress::rand_int(0, b.size() - 1), 1);
-    assert(lcs(&a[0], &b[0]) == (int)b.size());
+    assert(lcs(a.c_str(), b.c_str()) == (int)b.size());
     return 0;
 }
