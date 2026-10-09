@@ -1,9 +1,9 @@
 /***
  *
  * 2D Geometry
- * Exact integer predicates on lattice points, polygon queries, and a few floating point helpers
+ * Exact integer predicates on lattice points, polygon queries, and floating point line and polygon helpers
  *
- * Integer part, |x|, |y| <= 1e9 so every cross / dot product fits in long long:
+ * Integer part, Point of long long, |x|, |y| <= 1e9 so every cross / dot product fits in long long:
  *   cross(o, a, b): > 0 if o -> a -> b turns left (counter-clockwise), < 0 right, 0 collinear
  *   on_segment(p, a, b), segments_intersect(a, b, c, d): endpoints inclusive, degenerate segments allowed
  *   dist_point_segment(p, a, b): Euclidean distance as a double
@@ -13,8 +13,28 @@
  *       collinear vertices allowed, as long as not all vertices are collinear
  *   simple_polygon(points): an order of the indices forming a simple polygon, O(n log n)
  *       points must be distinct and not all collinear
+ *   angle_less(a, b): polar angle order of vectors, counter-clockwise from the positive x axis over [0, 2 pi)
+ *       vectors with the same direction compare equal, (0, 0) comes first
+ *       components up to 2e9 are allowed, so sort around a center o by sorting the vectors p - o
  *
- * Floating point part:
+ * Floating point part, PointF of doubles, all O(1) unless noted:
+ *   Tolerance is relative to the size of the configuration: o, a, b count as collinear when the height of the
+ *   triangle is below EPS = 1e-9 times its longest side, two lines are parallel when the sine of their angle is below EPS
+ *   With integer coordinates |x|, |y| <= 1e4 every decision below is exact, only the returned points are rounded
+ *   orientation(o, a, b): sign of cross(o, a, b) under that tolerance
+ *   line_intersection(a, b, c, d): lines through a, b and c, d with a != b, c != d
+ *       returns {1, point} for a unique point, {0, (0, 0)} for parallel lines, {-1, (0, 0)} for the same line
+ *   segment_intersection(a, b, c, d): no point, the single common point, or the two ends of the overlap of collinear
+ *       segments, degenerate segments allowed
+ *   dist_point_line(p, a, b): signed distance, positive when p is left of a -> b, a != b
+ *   project(p, a, b), reflect(p, a, b): projection of p onto, reflection of p across the line through a, b, a != b
+ *   cut_polygon(poly, a, b): the part of poly left of a -> b, the half-plane cross(a, b, p) >= 0, O(n)
+ *       a != b, decided by the exact sign of cross(a, b, p) without the EPS tolerance
+ *       empty when no vertex lies strictly left of the line
+ *       convex poly: a convex polygon with the same orientation, no repeated vertex for exact input
+ *       (a vertex within rounding of the line may appear twice)
+ *       simple poly: the kept pieces joined by zero-width bridges along the line, the signed area is exact
+ *   polygon_centroid(poly): center of mass of a simple polygon with nonzero area, either orientation, O(n)
  *   rotate(center, p, degrees): rotates p counter-clockwise around center
  *   clockwise_angle(a, b): clockwise angle in degrees in [0, 360) from vector a to vector b
  *   great_circle_distance(lat1, lon1, lat2, lon2, radius): haversine formula, angles in degrees
@@ -142,9 +162,123 @@ vector<int> simple_polygon(const vector<Point>& points){
     return order;
 }
 
+bool angle_less(const Point& a, const Point& b){
+    auto half = [](const Point& p){ return p.x == 0 && p.y == 0 ? 0 : 1 + (p.y < 0 || (p.y == 0 && p.x < 0)); };
+    int ha = half(a), hb = half(b);
+    if (ha != hb) return ha < hb;
+    return cross({0, 0}, a, b) > 0;
+}
+
+const double EPS = 1e-9;
+
 struct PointF{
     double x, y;
+
+    PointF operator+(const PointF& p) const{
+        return {x + p.x, y + p.y};
+    }
+
+    PointF operator-(const PointF& p) const{
+        return {x - p.x, y - p.y};
+    }
+
+    PointF operator*(double k) const{
+        return {x * k, y * k};
+    }
+
+    PointF operator/(double k) const{
+        return {x / k, y / k};
+    }
 };
+
+double cross(const PointF& o, const PointF& a, const PointF& b){
+    return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+}
+
+double dot(const PointF& o, const PointF& a, const PointF& b){
+    return (a.x - o.x) * (b.x - o.x) + (a.y - o.y) * (b.y - o.y);
+}
+
+int orientation(const PointF& o, const PointF& a, const PointF& b){
+    double c = cross(o, a, b), tol = EPS * max({dot(o, a, a), dot(o, b, b), dot(a, b, b)});
+    return c > tol ? 1 : (c < -tol ? -1 : 0);
+}
+
+pair<int, PointF> line_intersection(const PointF& a, const PointF& b, const PointF& c, const PointF& d){
+    double den = (b.x - a.x) * (d.y - c.y) - (b.y - a.y) * (d.x - c.x);
+    if (fabs(den) <= EPS * sqrt(dot(a, b, b) * dot(c, d, d))) return {orientation(a, b, c) == 0 ? -1 : 0, {0, 0}};
+    return {1, a + (b - a) * (cross(a, c, d) / den)};
+}
+
+vector<PointF> segment_intersection(const PointF& a, const PointF& b, const PointF& c, const PointF& d){
+    int oa = orientation(c, d, a), ob = orientation(c, d, b), oc = orientation(a, b, c), od = orientation(a, b, d);
+    if (oa * ob < 0 && oc * od < 0){
+        double ca = cross(c, d, a), cb = cross(c, d, b);
+        return {(a * cb - b * ca) / (cb - ca)};
+    }
+
+    auto touches = [](const PointF& p, const PointF& s, const PointF& e){
+        return orientation(s, e, p) == 0 && dot(p, s, e) <= EPS * dot(s, e, e);
+    };
+    vector<PointF> found;
+    if (touches(a, c, d)) found.push_back(a);
+    if (touches(b, c, d)) found.push_back(b);
+    if (touches(c, a, b)) found.push_back(c);
+    if (touches(d, a, b)) found.push_back(d);
+    if (found.empty()) return found;
+
+    /// The overlap ends are the farthest pair, lexicographic order is unreliable when the shared line is near vertical
+    PointF u = found[0], v = found[0];
+    for (const PointF& p : found){
+        for (const PointF& q : found){
+            if (dot(p, q, q) > dot(u, v, v)) u = p, v = q;
+        }
+    }
+    if (dot(u, v, v) <= EPS * EPS * max(dot(a, b, b), dot(c, d, d))) return {u};
+    return {u, v};
+}
+
+double dist_point_line(const PointF& p, const PointF& a, const PointF& b){
+    return cross(a, b, p) / hypot(b.x - a.x, b.y - a.y);
+}
+
+PointF project(const PointF& p, const PointF& a, const PointF& b){
+    return a + (b - a) * (dot(a, b, p) / dot(a, b, b));
+}
+
+PointF reflect(const PointF& p, const PointF& a, const PointF& b){
+    return project(p, a, b) * 2 - p;
+}
+
+vector<PointF> cut_polygon(const vector<PointF>& poly, const PointF& a, const PointF& b){
+    vector<PointF> res;
+    bool any_left = false;
+    for (int i = 0, n = poly.size(); i < n; i++){
+        const PointF& cur = poly[i];
+        const PointF& prev = poly[(i + n - 1) % n];
+        double sc = cross(a, b, cur), sp = cross(a, b, prev);
+        /// Only strict sign changes are interpolated: a vertex on the line is kept once as itself, never again as a crossing
+        if ((sc > 0 && sp < 0) || (sc < 0 && sp > 0)) res.push_back(cur + (prev - cur) * (sc / (sc - sp)));
+        if (sc >= 0) res.push_back(cur);
+        any_left |= sc > 0;
+    }
+
+    if (!any_left) res.clear();  /// only vertices on the line, a zero-area remainder
+    return res;
+}
+
+PointF polygon_centroid(const vector<PointF>& poly){
+    /// Fan from poly[0] instead of the origin, so far away polygons do not lose precision to cancellation
+    const PointF& o = poly[0];
+    PointF sum{0, 0};
+    double area = 0;
+    for (int i = 1; i + 1 < (int)poly.size(); i++){
+        double c = cross(o, poly[i], poly[i + 1]);
+        sum = sum + (poly[i] + poly[i + 1] - o * 2) * c;
+        area += c;
+    }
+    return o + sum / (3 * area);
+}
 
 PointF rotate(const PointF& center, const PointF& p, double degrees){
     double theta = degrees * acos(-1.0) / 180.0, s = sin(theta), c = cos(theta);
@@ -197,6 +331,60 @@ int main(){
     vector<Point> pts = {{0, 0}, {2, 0}, {1, 1}, {0, 2}, {2, 2}};
     vector<int> order = simple_polygon(pts);
     assert((int)order.size() == 5 && order[0] == 0);
+
+    vector<Point> by_angle = {{0, -1}, {-1, 1}, {1, 0}, {1, -1}, {-1, 0}, {0, 0}, {0, 1}, {-1, -1}, {1, 1}};
+    sort(by_angle.begin(), by_angle.end(), angle_less);
+    assert((by_angle == vector<Point>{{0, 0}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}, {0, -1}, {1, -1}}));
+    assert(!angle_less({1, 0}, {5, 0}) && !angle_less({5, 0}, {1, 0}) && !angle_less({0, 0}, {0, 0}));
+    assert(angle_less({0, 0}, {1, 0}) && !angle_less({-2, -2}, {-1, -1}) && angle_less({-3, 0}, {0, -1}));
+    assert(angle_less({E9, E9 - 1}, {E9 - 1, E9}) && !angle_less({E9 - 1, E9}, {E9, E9 - 1}));
+    assert(angle_less({-E9, 1}, {-E9, -1}) && angle_less({-E9, -E9}, {E9, -E9}) && !angle_less({E9, -E9}, {-E9, -E9}));
+
+    auto same = [](const PointF& p, const PointF& q){ return abs(p.x - q.x) < 1e-9 && abs(p.y - q.y) < 1e-9; };
+    auto li = line_intersection({0, 0}, {4, 4}, {0, 4}, {4, 0});
+    assert(li.first == 1 && same(li.second, {2, 2}));
+    li = line_intersection({0, 0}, {1, 0}, {3, 1}, {3, 7});
+    assert(li.first == 1 && same(li.second, {3, 0}));
+    assert(line_intersection({0, 0}, {1, 1}, {0, 1}, {1, 2}).first == 0 && line_intersection({0, 0}, {1, 1}, {3, 3}, {2, 2}).first == -1);
+
+    vector<PointF> hit = segment_intersection({0, 0}, {4, 4}, {0, 4}, {4, 0});
+    assert(hit.size() == 1 && same(hit[0], {2, 2}));
+    hit = segment_intersection({0, 0}, {4, 0}, {6, 0}, {2, 0});
+    assert(hit.size() == 2 && ((same(hit[0], {2, 0}) && same(hit[1], {4, 0})) || (same(hit[0], {4, 0}) && same(hit[1], {2, 0}))));
+    hit = segment_intersection({0, 0}, {4, 0}, {2, 0}, {2, 3});
+    assert(hit.size() == 1 && same(hit[0], {2, 0}));
+    hit = segment_intersection({0, 0}, {2, 0}, {2, 0}, {3, 0});
+    assert(hit.size() == 1 && same(hit[0], {2, 0}));
+    hit = segment_intersection({1, 1}, {1, 1}, {0, 0}, {2, 2});
+    assert(hit.size() == 1 && same(hit[0], {1, 1}));
+    assert(segment_intersection({0, 0}, {1, 0}, {2, 0}, {3, 0}).empty() && segment_intersection({0, 0}, {1, 1}, {3, 0}, {2, 1}).empty());
+    assert(segment_intersection({0, 0}, {0, 0}, {1, 1}, {1, 1}).empty());
+
+    assert(abs(dist_point_line({2, 3}, {0, 0}, {4, 0}) - 3) < 1e-9 && abs(dist_point_line({2, -3}, {0, 0}, {4, 0}) + 3) < 1e-9);
+    assert(abs(dist_point_line({0, 2}, {0, 0}, {2, 2}) - sqrt(2.0)) < 1e-9 && abs(dist_point_line({7, 7}, {0, 0}, {2, 2})) < 1e-9);
+    assert(same(project({2, 3}, {0, 0}, {4, 0}), {2, 0}) && same(reflect({2, 3}, {0, 0}, {4, 0}), {2, -3}));
+    assert(same(project({0, 2}, {0, 0}, {2, 2}), {1, 1}) && same(reflect({0, 2}, {0, 0}, {2, 2}), {2, 0}));
+    assert(same(project({5, 1}, {1, 1}, {2, 1}), {5, 1}) && same(reflect({0, 0}, {3, 0}, {3, 1}), {6, 0}));
+
+    auto area = [](const vector<PointF>& poly){
+        double s = 0;
+        for (int i = 0, n = poly.size(); i < n; i++) s += poly[i].x * poly[(i + 1) % n].y - poly[(i + 1) % n].x * poly[i].y;
+        return s / 2;
+    };
+    vector<PointF> box = {{0, 0}, {4, 0}, {4, 4}, {0, 4}};
+    vector<PointF> half = cut_polygon(box, {2, 0}, {2, 1});
+    assert(half.size() == 4 && abs(area(half) - 8) < 1e-9 && same(polygon_centroid(half), {1, 2}));
+    assert(abs(area(cut_polygon(box, {0, 0}, {4, 4})) - 8) < 1e-9 && abs(area(cut_polygon(box, {0, 3}, {1, 4})) - 0.5) < 1e-9);
+    assert(cut_polygon(box, {0, 0}, {4, 0}).size() == 4 && cut_polygon(box, {4, 0}, {0, 0}).empty());
+    assert(cut_polygon(box, {9, 0}, {9, 1}).size() == 4 && cut_polygon(box, {-1, -1}, {-1, 0}).empty());
+    vector<PointF> comb = {{0, -4}, {4, -4}, {4, 0}, {3, -1}, {2, 0}, {1, -1}, {0, 0}};
+    assert(cut_polygon(comb, {0, 0}, {1, 0}).empty() && cut_polygon(comb, {4, 0}, {0, 0}).size() == 7);
+    assert(abs(area(cut_polygon(comb, {1, 0}, {0, 0})) - 14) < 1e-9);
+
+    vector<PointF> ell = {{0, 0}, {4, 0}, {4, 2}, {2, 2}, {2, 4}, {0, 4}};
+    assert(same(polygon_centroid(ell), {5.0 / 3, 5.0 / 3}) && same(polygon_centroid({ell.rbegin(), ell.rend()}), {5.0 / 3, 5.0 / 3}));
+    assert(same(polygon_centroid({{0, 0}, {6, 0}, {0, 3}}), {2, 1}) && same(polygon_centroid(box), {2, 2}));
+    assert(same(polygon_centroid({{1e6, 1e6}, {1e6 + 6, 1e6}, {1e6, 1e6 + 3}}), {1e6 + 2, 1e6 + 1}));
 
     PointF r = rotate({1, 1}, {2, 1}, 90);
     assert(abs(r.x - 1) < 1e-9 && abs(r.y - 2) < 1e-9);

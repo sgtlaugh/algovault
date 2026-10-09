@@ -147,7 +147,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 ### Geometry
 - [Circle Geometry](code_library/geometry/circle.cpp) - circle-line/circle-circle intersections, tangents, circumcircle, minimum enclosing circle, circle-polygon, lens and union areas, max points covered by a radius-r circle
 - [Convex Hull](code_library/geometry/convex_hull.cpp) - monotone chain, O(n log n)
-- [Geometry](code_library/geometry/geometry.cpp) - exact integer predicates, polygon queries and floating point helpers
+- [Geometry](code_library/geometry/geometry.cpp) - exact integer predicates, polygon queries and angular sort, floating point line and segment intersection, projection, reflection, half-plane polygon cut and centroid
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
 
 ### Dynamic Programming
