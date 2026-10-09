@@ -231,6 +231,7 @@ void check_all(int n, int m, int limit = 1 << 20){
     int c = stress::rand_int(0, MOD - 1);
     assert(px.taylor_shift(c).a == S::taylor_shift(x, c));
     assert(px.taylor_shift(c - (ll)MOD * stress::rand_int(1, 1000000)).a == S::taylor_shift(x, c));
+    assert(px.evaluate(c - (ll)MOD * stress::rand_int(-1000000, 1000000)) == S::evaluate(x, c));
 
     if (!S::trim(y).empty()){
         auto [q, r] = px.divmod(py);

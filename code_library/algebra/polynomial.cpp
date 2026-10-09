@@ -465,73 +465,24 @@ private:
 
 int main(){
     using P = Polynomial<>;
-    const int mod = 998244353, inv2 = 499122177, inv3 = 332748118, inv4 = 748683265, inv6 = 166374059;
+    const int mod = 998244353, inv2 = 499122177, inv3 = 332748118, inv6 = 166374059, minus_inv8 = 124780544;
 
-    assert((P({-1, mod, 2LL * mod + 5}).a == vector<int>{mod - 1, 0, 5}));
     assert(((P{1, 2, 3} * P{4, 5}).a == vector<int>{4, 13, 22, 15}));
-    assert(((P{1, 2, 3} + P{-1, -2, -3}).a == vector<int>{}));
     assert(((P{1, 2} - P{0, 0, 7}).a == vector<int>{1, 2, mod - 7}));
+    assert(((P{-1, 0, 0, 1} / P{-1, 1}).a == vector<int>{1, 1, 1}));  /// x^3 - 1 = (x - 1)(x^2 + x + 1)
+    assert(((P{1, 0, 1} % P{-1, 1}).a == vector<int>{2}));            /// remainder is P(1)
 
-    assert((P{1, -1}.inverse(5).a == vector<int>{1, 1, 1, 1, 1}));
-    assert((P{1, 1}.inverse(4).a == vector<int>{1, mod - 1, 1, mod - 1}));
-    assert((P{2}.inverse(2).a == vector<int>{inv2, 0}));
-
-    assert(((P{-1, 0, 0, 1} / P{-1, 1}).a == vector<int>{1, 1, 1}));
-    assert(((P{-1, 0, 0, 1} % P{-1, 1}).a == vector<int>{}));
-    assert(((P{1, 0, 1} % P{-1, 1}).a == vector<int>{2}));
-    assert(((P{1, 2} / P{0, 0, 1}).a == vector<int>{}));
-    assert(((P{6, 4} / P{2}).a == vector<int>{3, 2}));
+    assert((P{1, -1}.inverse(5).a == vector<int>{1, 1, 1, 1, 1}));      /// 1 / (1 - x) = 1 + x + x^2 + ...
+    assert((P{1, 1, 1, 1}.log(4).a == vector<int>{0, 1, inv2, inv3}));  /// ln(1 / (1 - x)) = sum x^k / k
+    assert((P{0, 1}.exp(4).a == vector<int>{1, 1, inv2, inv6}));        /// e^x = sum x^k / k!
+    assert((P{1, 1}.sqrt(3)->a == vector<int>{1, inv2, minus_inv8}));   /// 1 + x / 2 - x^2 / 8
+    assert((!P{0, 1}.sqrt(3).has_value()));                             /// x has no square root series
+    assert((P{0, 1, 1}.pow(3, 6).a == vector<int>{0, 0, 0, 1, 3, 3}));  /// (x + x^2)^3 mod x^6
 
     assert((P{1, 2, 3}.derivative().a == vector<int>{2, 6}));
     assert((P{2, 6}.integral().a == vector<int>{0, 2, 3}));
-    assert((P{1, 0}.derivative().a == vector<int>{0}));
-    assert((P{}.derivative().a == vector<int>{}));
-    assert((P{0}.integral().a == vector<int>{0, 0}));
-    assert((P{}.integral().a == vector<int>{0}));
-
-    assert((P{1, 1, 1, 1, 1}.log(5).a == vector<int>{0, 1, inv2, inv3, inv4}));
-    assert((P{0, 1}.exp(4).a == vector<int>{1, 1, inv2, inv6}));
-    assert((P{}.exp(3).a == vector<int>{1, 0, 0}));
-    assert((Polynomial<17>{0, 1}.exp(4).a == vector<int>{1, 1, 9, 3}));
-
-    assert((P{1, 1}.sqrt(3)->a == vector<int>{1, inv2, 124780544}));
-    assert((P{0, 0, 4}.sqrt(3)->a == vector<int>{0, 2, 0}));
-    assert((P{9, 0}.sqrt(2)->a == vector<int>{3, 0}));
-    assert((!P{0, 1}.sqrt(3).has_value()));
-    assert((!P{3}.sqrt(2).has_value()));
-    assert((P{0, 0, 0, 1}.sqrt(2)->a == vector<int>{0, 0}));
-
-    assert((P{0, 1, 1}.pow(3, 6).a == vector<int>{0, 0, 0, 1, 3, 3}));
-    assert((P{0, 1}.pow(1000000000000000000LL, 4).a == vector<int>{0, 0, 0, 0}));
-    assert((P{0, 1}.pow(0, 3).a == vector<int>{1, 0, 0}));
-    assert((P{1, 1}.pow(mod, 3).a == vector<int>{1, 0, 0}));
-    assert((P{2, 2}.pow(2, 3).a == vector<int>{4, 8, 4}));
-
-    assert((P{1, 2, 3}.evaluate(vector<int>{0, 1, 2, -1}) == vector<int>{1, 6, 17, 2}));
-    assert((P{1, 2, 3}.evaluate(-1) == 2));
+    assert((P{1, 2, 3}.evaluate(vector<int>{0, 1, 2}) == vector<int>{1, 6, 17}));
     assert((P::interpolate({0, 1, 2}, {1, 6, 17}).a == vector<int>{1, 2, 3}));
-    assert((P::interpolate({5}, {-3}).a == vector<int>{mod - 3}));
-    assert((P::interpolate({4, 7}, {0, 0}).a == vector<int>{}));
-    assert((P::interpolate({4}, {0}).a == vector<int>{}));
-
-    assert((P{0, 0, 1}.taylor_shift(1).a == vector<int>{1, 2, 1}));
-    assert((P{1, 2, 3}.taylor_shift(-1).a == vector<int>{2, mod - 4, 3}));
-    assert((P{1, 0}.taylor_shift(2).a == vector<int>{1, 0}));
-
-    /// Identities on a series long enough for every transform path: P * P^-1 = 1, exp(log P) = P, sqrt(P^2) = P
-    const int n = 5000;
-    vector<long long> coefficients(n);
-    for (int i = 0; i < n; i++) coefficients[i] = (1LL * i * i * 7919 + 13) % mod;
-    coefficients[0] = 1;
-    P p(coefficients);
-
-    vector<int> one(n);
-    one[0] = 1;
-    auto product = (p * p.inverse(n)).a;
-    product.resize(n);
-    assert(product == one);
-    assert(p.log(n).exp(n).a == p.a);
-    assert((p * p).sqrt(n)->a == p.a);
-
+    assert((P{0, 0, 1}.taylor_shift(1).a == vector<int>{1, 2, 1}));  /// x^2 becomes (x + 1)^2
     return 0;
 }
