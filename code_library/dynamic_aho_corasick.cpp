@@ -8,6 +8,7 @@
  * Query:  O(|text| * log N + occurrences * log N)
  *
  * No need to call build() - handled automatically
+ * Holds at most 2^MAX_LOG - 1 patterns
  *
 ***/
 
@@ -21,22 +22,21 @@ using namespace std;
 
 /// Static Aho-Corasick (building block for dynamic version)
 struct AhoCorasick{
-    int id, edge[256];
-	
-	vector<int> leaf;
+    int edge[256];
+
+    vector<int> leaf;
     vector<int> fail;
     vector<long long> counter;
     vector<string> dictionary;
 
-    vector<vector<int>> dp;      // dp[node][char] = precomputed next state (O(1) transitions)
-    vector<map<char, int>> trie; // Trie structure: trie[node][char] = child node
+    /// go[node][char] = trie child before build(), full automaton transition after. 0 doubles as "no child" since the root is never a child
+    vector<array<int, MAX_LETTERS>> go;
 
     inline int node(){
         leaf.push_back(0);
         counter.push_back(0);
-        dp.push_back(vector<int>(MAX_LETTERS, 0));
-        trie.push_back(map<char, int>());
-        return id++;
+        go.push_back({});
+        return go.size() - 1;
     }
 
     inline int size(){
@@ -44,10 +44,10 @@ struct AhoCorasick{
     }
 
     void clear(){
-        trie.clear(), dictionary.clear();
-        dp.clear(), fail.clear(), leaf.clear(), counter.clear();
+        go.clear(), dictionary.clear();
+        fail.clear(), leaf.clear(), counter.clear();
 
-        id = 0, node();
+        node();
         // Map lowercase letters to [0, 25]. Change for different alphabet (digits, uppercase, etc)
         memset(edge, -1, sizeof(edge));
         for (int i = 'a'; i <= 'z'; i++) edge[i] = i - 'a';
@@ -57,16 +57,17 @@ struct AhoCorasick{
         clear();
     }
 
+    /// Inserting after build() is not supported, DynamicAhoCorasick rebuilds a fresh automaton instead
     inline void insert(const char* str){
         int j, x, cur = 0;
         for (j = 0; str[j] != 0; j++){
             x = edge[(unsigned char)str[j]];
             assert(x >= 0);
-            if (!trie[cur].count(x)){
+            if (!go[cur][x]){
                 int next_node = node();
-                trie[cur][x] = next_node;
+                go[cur][x] = next_node;
             }
-            cur = trie[cur][x];
+            cur = go[cur][x];
         }
 
         leaf[cur]++;
@@ -77,33 +78,20 @@ struct AhoCorasick{
         insert(str.c_str());
     }
 
-    /// Build automaton: compute failure links and precompute transitions. Call once after all inserts.
+    /// Build automaton: compute failure links and fill in missing transitions. Call once after all inserts.
     inline void build(){
-        vector <pair<int, pair<int, int> > > Q;
-        fail.resize(id, 0);
-        Q.push_back({0, {0, 0}});
+        fail.assign(go.size(), 0);
+        vector<int> Q = {0};
 
-        for (int i = 0; i < id; i++){
+        for (int i = 0; i < (int)Q.size(); i++){
+            int u = Q[i];
+            if (u) counter[u] = leaf[u] + counter[fail[u]];
             for (int j = 0; j < MAX_LETTERS; j++){
-                dp[i][j] = i;
-            }
-        }
-
-        for(int i = 0; i < (int)Q.size(); i++){
-            int u = Q[i].first;
-            int p = Q[i].second.first;
-            char c = Q[i].second.second;
-            for(auto& it: trie[u]) Q.push_back({it.second, {u, it.first}});
-
-            if (u){
-                int f = fail[p];
-                while (f && !trie[f].count(c)) f = fail[f];
-                if(!trie[f].count(c) || trie[f][c] == u) fail[u] = 0;
-                else fail[u] = trie[f][c];
-                counter[u] = leaf[u] + counter[fail[u]];
-
-                for (int j = 0; j < MAX_LETTERS; j++){
-                    if (u && !trie[u].count(j)) dp[u][j] = dp[fail[u]][j];
+                int v = go[u][j];
+                if (!v) go[u][j] = u ? go[fail[u]][j] : 0;
+                else{
+                    fail[v] = u ? go[fail[u]][j] : 0;
+                    Q.push_back(v);
                 }
             }
         }
@@ -112,15 +100,13 @@ struct AhoCorasick{
     inline int next(int cur, char ch){
         int x = edge[(unsigned char)ch];
         if (x < 0) return 0;  /// a letter outside the alphabet ends every match
-        cur = dp[cur][x];
-        if (trie[cur].count(x)) cur = trie[cur][x];
-        return cur;
+        return go[cur][x];
     }
 
     /// total number of occurrences of all words from dictionary in str
     long long count(const char* str){
         long long res = 0;
-        for (int j = 0, cur = 0; str[j] && id > 1; j++){
+        for (int j = 0, cur = 0; str[j]; j++){
             cur = next(cur, str[j]);
             res += counter[cur];
         }
@@ -141,6 +127,7 @@ struct DynamicAhoCorasick{
         // Binary decomposition: find first empty slot
         int i, k = 0;
         for (k = 0; k < MAX_LOG && ar[k].size(); k++){}
+        assert(k < MAX_LOG);
 
         // Merge all smaller automata into ar[k]
         ar[k].insert(str);
