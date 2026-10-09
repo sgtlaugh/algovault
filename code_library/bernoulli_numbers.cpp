@@ -16,7 +16,7 @@
 
 using namespace std;
 
-int S[MAX][MAX], inv[MAX], fact[MAX], bernoulli[MAX];
+int S[MAX], inv[MAX], fact[MAX], bernoulli[MAX];
 
 int expo(long long x, int n){
     long long res = 1;
@@ -38,18 +38,18 @@ void gen(){
     }
     for (i = 0; i < MAX; i++) inv[i] = expo(i, MOD - 2);
 
-    for (i = 1, S[0][0] = 1; i < MAX; i++){
-        for (j = 1, S[i][0] = 0; j <= i; j++){
-            S[i][j] = ((long long)S[i - 1][j] * j + S[i - 1][j - 1]) % MOD;
-        }
-    }
-
+    /// S holds row i of the Stirling numbers of the second kind, updated in place from the right
     bernoulli[0] = 1;
-    for (i = 1; (i + 1) < MAX; i++){
+    for (i = 1, S[0] = 1; (i + 1) < MAX; i++){
+        for (j = i, S[i] = 0; j >= 1; j--){
+            S[j] = ((long long)S[j] * j + S[j - 1]) % MOD;
+        }
+        S[0] = 0;
+
         if (i == 1 || i % 2 == 0){
             for (j = 0, x = 0, y = 0; j <= i; j++){
                 z = (long long)fact[j] * inv[j + 1] % MOD;
-                z = z * S[i][j] % MOD;
+                z = z * S[j] % MOD;
                 if (j & 1) y += z;
                 else x += z;
             }
