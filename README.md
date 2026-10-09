@@ -58,6 +58,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [DSU on Tree](code_library/trees/dsu_on_tree.cpp) - small-to-large answers for every subtree
 - [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths and subtrees as O(log n) ranges for any range structure
 - [Lowest Common Ancestor](code_library/trees/lca.cpp) - binary lifting with k-th ancestor and path jump, an O(n) / O(1) variant, and tree path intersection
+- [Prufer Code](code_library/trees/prufer_code.cpp) - O(n) encode/decode between labeled trees and Prufer sequences
 - [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP answered for every node as the root in O(n)
 - [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - AHU canonical ids for rooted and unrooted trees, exact via a map dictionary
 - [Virtual Tree](code_library/trees/virtual_tree.cpp) - compress a tree to k vertices plus their LCAs in O(k log k), O(1) LCA and weighted distance
