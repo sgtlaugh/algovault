@@ -1,13 +1,13 @@
 #!/bin/bash
 #
-# self (default): compiles and runs every C/C++ self-test in code_library under AddressSanitizer and
+# self (default): compiles and runs every C++ self-test in code_library under AddressSanitizer and
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
 # both modes also report library files missing from the README index
 #
 # Reports all failures instead of stopping at the first one.
 #
-# Usage: .github/scripts/run_tests.sh [self|stress]       (override compilers with CC=... CXX=...)
+# Usage: .github/scripts/run_tests.sh [self|stress]       (override the compiler with CXX=...)
 #        STRESS_SEED / STRESS_SCALE are passed through to the stress tests, see stress_tests/common.h
 #
 set -uo pipefail
@@ -16,7 +16,6 @@ MODE="${1:-self}"
 [[ "$MODE" == "self" || "$MODE" == "stress" ]] || { echo "usage: $0 [self|stress]"; exit 2; }
 
 ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
-CC="${CC:-gcc}"
 CXX="${CXX:-g++}"
 PYTHON="${PYTHON:-python3}"
 TEST_TIMEOUT="${TEST_TIMEOUT:-300}"
@@ -26,7 +25,6 @@ TEST_TIMEOUT="${TEST_TIMEOUT:-300}"
 # and it adds warnings (unused scanf results) that -Werror turns into CI-only failures
 # -U first: Ubuntu defines it built in, redefining to another value is itself an error under -Werror
 SAN_FLAGS=(-O1 -g -fno-omit-frame-pointer "-fsanitize=address,undefined" -fno-sanitize-recover=all -Wall -Wextra -Werror -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3)
-CFLAGS=(-std=c11 "${SAN_FLAGS[@]}")
 CXXFLAGS=(-std=c++17 "${SAN_FLAGS[@]}" -D_GLIBCXX_ASSERTIONS)
 export UBSAN_OPTIONS="print_stacktrace=1"
 
@@ -87,7 +85,6 @@ run_one(){  # repo relative path
         # A test can ask for extra libraries with a line like: // LINK: -lgmpxx -lgmp
         read -ra link <<< "$(sed -n 's|^// LINK: *||p' "$src")"
         local compile=("$CXX" "${CXXFLAGS[@]}" -o "$exe" "$src" "${link[@]}")
-        [[ "$rel" == *.c ]] && compile=("$CC" "${CFLAGS[@]}" -o "$exe" "$src" -lm "${link[@]}")
         if ! "${compile[@]}" > "$log" 2>&1; then
             report_failure "$rel" "compile error" "$log"
             return
@@ -113,8 +110,8 @@ check_coverage(){
         contains "$lib" "${STRESS_SKIP[@]}" && continue
         base="stress_tests/${lib#code_library/}"
         base="${base%.*}"
-        [[ -e "$base.cpp" || -e "$base.c" || -e "$base.py" ]] || missing+=("$lib")
-    done < <(find code_library -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.py' \) | sort)
+        [[ -e "$base.cpp" || -e "$base.py" ]] || missing+=("$lib")
+    done < <(find code_library -type f \( -name '*.cpp' -o -name '*.py' \) | sort)
 
     echo "stress test coverage: ${#missing[@]} library files without a stress test"
     [[ ${#missing[@]} -eq 0 ]] && return
@@ -127,7 +124,7 @@ check_readme(){
     local lib missing=()
     while IFS= read -r lib; do
         grep -qF "($lib)" README.md || missing+=("$lib")
-    done < <(find code_library -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.py' \) | sort)
+    done < <(find code_library -type f \( -name '*.cpp' -o -name '*.py' \) | sort)
 
     echo "readme index: ${#missing[@]} library files not linked from README.md"
     [[ ${#missing[@]} -eq 0 ]] && return
@@ -136,7 +133,7 @@ check_readme(){
     failures+=("${missing[@]/%/ (not in README index)}")
 }
 
-echo "$("$CXX" --version | head -1) | $("$CC" --version | head -1) | $("$PYTHON" --version)"
+echo "$("$CXX" --version | head -1) | $("$PYTHON" --version)"
 
 cd "$ROOT" || exit 1
 TESTS_DIR="code_library"
@@ -144,7 +141,7 @@ TESTS_DIR="code_library"
 
 while IFS= read -r file; do
     run_one "$file"
-done < <(find "$TESTS_DIR" -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.py' \) ! -name 'stress.py' | sort)
+done < <(find "$TESTS_DIR" -type f \( -name '*.cpp' -o -name '*.py' \) ! -name 'stress.py' | sort)
 
 echo
 [[ "$MODE" == "stress" ]] && check_coverage

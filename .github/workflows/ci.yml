@@ -28,7 +28,6 @@ jobs:
 
       - name: Compile and run every self-test under sanitizers
         env:
-          CC: gcc-14
           CXX: g++-14
         run: bash .github/scripts/run_tests.sh self
 
@@ -47,7 +46,6 @@ jobs:
 
       - name: Compile and run every stress test under sanitizers
         env:
-          CC: gcc-14
           CXX: g++-14
           STRESS_SCALE: ${{ github.event_name == 'schedule' && '20' || '1' }}
           STRESS_SEED: ${{ github.event_name == 'schedule' && github.run_id || '' }}
