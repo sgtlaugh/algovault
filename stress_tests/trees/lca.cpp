@@ -132,6 +132,17 @@ void check(int n, int shape, int queries, long long max_w){
         assert(a.jump(u, v, j) == (j >= 0 && j < (int)walk.size() ? walk[j] : -1));
         check_intersection(a, b, naive, n, walk);
     }
+
+    /// Rebuilding the same objects from another root must match that root's tree
+    int new_root = stress::rand_int(0, n - 1);
+    a.build(new_root), b.build(new_root);
+    NaiveTree renaive(n, new_root, edges);
+    for (int q = 0; q < 20; q++){
+        int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1), k = stress::rand_int(0, renaive.level[u]);
+        assert(a.lca(u, v) == renaive.lca(u, v) && b.lca(u, v) == renaive.lca(u, v));
+        assert(a.dist(u, v) == renaive.dist(u, v) && b.depth(u) == renaive.level[u]);
+        assert(a.kth_ancestor(u, k) == renaive.kth(u, k));
+    }
 }
 
 /// LinearRMQ against a direct scan, sizes straddling the 64 element blocks and many equal values

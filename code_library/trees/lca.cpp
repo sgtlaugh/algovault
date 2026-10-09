@@ -226,68 +226,34 @@ pair<int, int> path_intersection(const Tree& tree, int a, int b, int c, int d){
 
 int main(){
     /***
-     *          0
-     *        /   \
-     *       1     2
-     *      / \     \
-     *     3   4     5
-     *    /
+     *             0
+     *        3 /     \ 1
+     *         1       2
+     *    2 /    \ 7    \ 4
+     *     3      4      5
+     *  5 /
      *   6
     ***/
     vector<array<int, 3>> edges = {{0, 1, 3}, {0, 2, 1}, {1, 3, 2}, {1, 4, 7}, {2, 5, 4}, {3, 6, 5}};
 
-    LCA a(7);
-    LinearLCA b(7);
-    for (auto [u, v, w] : edges) a.add_edge(u, v, w), b.add_edge(u, v, w);
-    a.build(0), b.build(0);
+    LinearLCA tree(7);
+    for (auto [u, v, w] : edges) tree.add_edge(u, v, w);
+    tree.build(0);
+    assert(tree.lca(6, 4) == 1);
+    assert(tree.lca(6, 5) == 0);
+    assert(tree.dist(6, 4) == 14);         /// 5 + 2 + 7
+    assert(tree.depth(6) == 3);
 
-    assert(a.lca(6, 4) == 1 && b.lca(6, 4) == 1);
-    assert(a.lca(6, 5) == 0 && b.lca(6, 5) == 0);
-    assert(a.lca(3, 6) == 3 && b.lca(3, 6) == 3);
-    assert(a.lca(5, 5) == 5 && b.lca(5, 5) == 5);
+    LCA lifting(7);
+    for (auto [u, v, w] : edges) lifting.add_edge(u, v, w);
+    lifting.build(0);
+    assert(lifting.kth_ancestor(6, 2) == 1);
+    assert(lifting.kth_ancestor(6, 4) == -1);  /// above the root
+    assert(lifting.jump(6, 5, 3) == 0);        /// path 6 3 1 0 2 5
+    assert(lifting.jump(6, 5, 6) == -1);
 
-    assert(a.dist(6, 4) == 14 && b.dist(6, 4) == 14);
-    assert(a.dist(6, 5) == 15 && b.dist(6, 5) == 15);
-    assert(a.depth(6) == 3 && b.depth(6) == 3);
-
-    assert(a.kth_ancestor(6, 0) == 6);
-    assert(a.kth_ancestor(6, 1) == 3);
-    assert(a.kth_ancestor(6, 2) == 1);
-    assert(a.kth_ancestor(6, 3) == 0);
-    assert(a.kth_ancestor(6, 4) == -1);
-
-    assert(a.jump(6, 5, 0) == 6 && a.jump(6, 5, 2) == 1 && a.jump(6, 5, 3) == 0);
-    assert(a.jump(6, 5, 4) == 2 && a.jump(6, 5, 5) == 5 && a.jump(6, 5, 6) == -1);
-    assert(a.jump(6, 5, -1) == -1);
-    assert(a.jump(4, 6, 2) == 3 && a.jump(1, 6, 1) == 3 && a.jump(6, 1, 1) == 3);
-    assert(a.jump(5, 5, 0) == 5 && a.jump(5, 5, 1) == -1);
-
-    auto same = [](pair<int, int> p, int x, int y){
-        return (p.first == x && p.second == y) || (p.first == y && p.second == x);
-    };
-    for (int pass = 0; pass < 2; pass++){
-        assert(same(path_intersection(a, 6, 5, 4, 2), 1, 2) && same(path_intersection(b, 6, 5, 4, 2), 1, 2));
-        assert(same(path_intersection(a, 3, 4, 6, 5), 3, 1) && same(path_intersection(b, 3, 4, 6, 5), 3, 1));
-        assert(same(path_intersection(a, 6, 4, 5, 2), -1, -1) && same(path_intersection(b, 6, 4, 5, 2), -1, -1));
-        assert(same(path_intersection(a, 6, 4, 1, 0), 1, 1) && same(path_intersection(b, 6, 4, 1, 0), 1, 1));
-        assert(same(path_intersection(a, 6, 5, 3, 3), 3, 3) && same(path_intersection(b, 6, 5, 3, 3), 3, 3));
-        assert(same(path_intersection(a, 3, 4, 6, 6), -1, -1) && same(path_intersection(b, 3, 4, 6, 6), -1, -1));
-        assert(same(path_intersection(a, 6, 5, 5, 6), 6, 5) && same(path_intersection(b, 6, 5, 5, 6), 6, 5));
-        a.build(5), b.build(5);
-    }
-    a.build(0), b.build(0);
-
-    LCA single(1);
-    single.build(0);
-    assert(single.lca(0, 0) == 0 && single.kth_ancestor(0, 1) == -1);
-
-    LinearLCA single_linear(1);
-    single_linear.build(0);
-    assert(single_linear.lca(0, 0) == 0);
-
-    a.build(4), b.build(4);
-    assert(a.lca(6, 5) == 1 && b.lca(6, 5) == 1);
-    assert(a.kth_ancestor(5, 3) == 1);
-
+    auto [x, y] = path_intersection(tree, 6, 5, 4, 2);  /// 6 3 1 0 2 5 and 4 1 0 2 share 1 0 2
+    assert(min(x, y) == 1 && max(x, y) == 2);          /// endpoints come unordered
+    assert(path_intersection(tree, 6, 4, 5, 2) == make_pair(-1, -1));
     return 0;
 }
