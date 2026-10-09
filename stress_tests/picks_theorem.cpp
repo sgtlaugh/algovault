@@ -34,6 +34,10 @@ vector<Point> star_polygon(int range){
 }
 
 int main(){
+    /// A sliver far from the y-axis, its shoelace terms reach 3.2e19 though twice its area is only 4e9
+    vector<Point> sliver = {Point(4000000000LL, -2000000000LL), Point(4000000001LL, -2000000000LL), Point(4000000000LL, 2000000000LL)};
+    assert(area2(sliver) == 4000000000LL && on_border(sliver) == 4000000002LL && on_interior(sliver) == 0);
+
     for (long long it = 0; it < stress::scaled(4000); it++){
         int range = stress::rand_int(2, it % 5 ? 8 : 40);
         auto poly = star_polygon(range);
@@ -73,6 +77,17 @@ int main(){
         assert(area2(tri) == w * h);
         assert(on_border(tri) == border);
         assert(on_interior(tri) == (w * h - border + 2) / 2);
+    }
+
+    /// Large star polygons, checked against a triangle fan in __int128
+    for (long long it = 0; it < stress::scaled(1000); it++){
+        auto poly = star_polygon(1000000000);
+        __int128 fan = 0;
+        for (size_t i = 1; i + 1 < poly.size(); i++){
+            __int128 ax = poly[i].x - poly[0].x, ay = poly[i].y - poly[0].y, bx = poly[i + 1].x - poly[0].x, by = poly[i + 1].y - poly[0].y;
+            fan += ax * by - ay * bx;
+        }
+        assert(area2(poly) == (long long)(fan < 0 ? -fan : fan));
     }
     return 0;
 }
