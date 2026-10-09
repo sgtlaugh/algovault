@@ -310,7 +310,7 @@ struct Polynomial{
 
     void inverse_power_series(int* res, int res_n, int* P, int pn){
         if(res_n == 0) return;
-        unique_ptr <int[]> ptr(new int[res_n * sizeof(int)]);
+        unique_ptr <int[]> ptr(new int[4 * res_n]);
         int* u = ptr.get(), *v = u + res_n * 2, cur = 1, nxt = 1;
 
         for (int i = 0; i < res_n; i++) res[i] = 0;
@@ -335,7 +335,7 @@ struct Polynomial{
     void divide_inverse(int* res, int res_n, int* revp, int pn, int* inv){
         unique_ptr <int[]> ptr(new int[pn + res_n]);
         int* tmp = ptr.get();
-        multiply(tmp, revp, pn, inv, res_n);
+        multiply(tmp, revp, min(pn, res_n), inv, res_n);  /// only the first res_n coefficients are used
         reverse_poly(res, tmp, res_n);
     }
 
