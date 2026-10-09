@@ -3,9 +3,11 @@
  * Bounded Subset Sum
  * Which sums up to W are reachable by a sub-multiset of the items, with item ids for a chosen sum
  *
- * Complexity: O(W * (D + 1) + n log n) time, O(n + W) memory, where D is the number of distinct values in [1, W]
- * D distinct positive values sum to at least D^2 / 2, so D <= sqrt(2 * S) for S the sum of all values,
- * which makes it O(W sqrt W) when the values sum to O(W) (component sizes summing to n, a partition of n)
+ * Complexity: bounded_subset_sums O(W * K / 64 + W), SubsetSum O(W * (D + 1) + n log n), both O(n + W) memory
+ * D is the number of distinct values in [1, W], S the sum of all values with their counts
+ * K <= 2 * min(W, D * (1 + log2 W), sqrt(2 * S)) is the number of copies bounded_subset_sums keeps after carrying
+ * D distinct positive values sum to at least D^2 / 2, so D <= sqrt(2 * S), which makes both O(W sqrt W),
+ * bounded_subset_sums with the / 64, when the values sum to O(W) (component sizes summing to n, a partition of n)
  *
  * bounded_subset_sums({{value, count}, ...}, W): can[s] for s in [0, W], counts up to 1e18, equal values merge
  * SubsetSum ss(a, W): ss.reachable(s) for any int s, ss.subset(s) returns distinct ids i with sum a[i] == s
@@ -13,7 +15,10 @@
  *
  * Values and counts must be non-negative, W >= 0; values 0 and values > W are never used
  *
- * One pass per distinct value v, residue class r mod v at a time: walking s = r, r + v, r + 2v, ...
+ * bounded_subset_sums keeps 1 or 2 copies of each v and carries every further pair to 2v, which reaches the same sums,
+ * then ORs the bitset with itself shifted by v once per kept copy
+ *
+ * SubsetSum makes one pass per distinct value v, residue class r mod v at a time: walking s = r, r + v, r + 2v, ...
  * every already reachable s refills the budget to count(v), and each unreachable s spends one copy.
  * The newly reached s keep the id of the copy they spent, so subset(s) walks back to an older sum
  *
@@ -29,25 +34,35 @@ using namespace std;
 
 vector<char> bounded_subset_sums(const vector<pair<int, long long>>& items, int W){
     assert(W >= 0);
-    vector<int> cnt(W + 1, 0);
+    vector<long long> cnt(W + 1, 0);
     for (const auto& [v, c] : items){
         assert(v >= 0 && c >= 0);
         if (v > 0 && v <= W) cnt[v] = min<long long>(W, cnt[v] + min<long long>(c, W));
     }
 
-    vector<char> can(W + 1, 0);
-    can[0] = 1;
+    int words = W / 64 + 1;
+    vector<unsigned long long> bits(words, 0);
+    bits[0] = 1;
     for (int v = 1; v <= W; v++){
-        if (!cnt[v]) continue;
-        for (int r = 0; r < v; r++){
-            int left = 0;
-            for (int s = r; s <= W; s += v){
-                if (can[s]) left = cnt[v];
-                else if (left > 0) can[s] = 1, left--;
+        if (cnt[v] > 2){
+            long long pairs = (cnt[v] - 1) / 2;
+            cnt[v] -= 2 * pairs;
+            if (v <= W / 2) cnt[2 * v] = min<long long>(W, cnt[2 * v] + pairs);
+        }
+
+        int q = v / 64, r = v % 64;
+        for (int k = 0; k < cnt[v]; k++){
+            if (r == 0){
+                for (int i = words - 1; i >= q; i--) bits[i] |= bits[i - q];
+            } else{
+                for (int i = words - 1; i > q; i--) bits[i] |= bits[i - q] << r | bits[i - q - 1] >> (64 - r);
+                bits[q] |= bits[0] << r;
             }
         }
     }
 
+    vector<char> can(W + 1);
+    for (int s = 0; s <= W; s++) can[s] = bits[s / 64] >> (s % 64) & 1;
     return can;
 }
 

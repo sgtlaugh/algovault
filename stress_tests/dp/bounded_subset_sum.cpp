@@ -52,7 +52,25 @@ void check(const vector<int>& a, int W, int subset_checks){
     }
 }
 
+/// Distinct values 1..k reach every sum up to their total, so only sums above total are unreachable
+void check_timed(const vector<pair<int, long long>>& items, int W, long long total, double seconds){
+    auto start = chrono::steady_clock::now();
+    vector<char> can = bounded_subset_sums(items, W);
+    assert(chrono::duration<double>(chrono::steady_clock::now() - start).count() < seconds);
+    assert((int)can.size() == W + 1);
+    for (int s = 0; s <= W; s++) assert(can[s] == (s <= total));
+}
+
 int main(){
+    vector<pair<int, long long>> parts;
+    long long total = 0;
+    for (int v = 1; total + v <= 1000000; v++) parts.push_back({v, 1}), total += v;
+    check_timed(parts, 1000000, total, 2);
+
+    parts.clear();
+    for (int v = 1; v <= 100000; v++) parts.push_back({v, 1});
+    check_timed(parts, 100000, 100000, 2);
+
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(0, 14), W = stress::rand_int(0, it % 3 ? 60 : 400), hi = stress::rand_int(1, it % 2 ? 6 : W + 10);
         vector<int> a(n);
