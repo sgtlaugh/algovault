@@ -2,10 +2,12 @@
  *
  * Prime sum function in sublinear time with the Meissel-Lehmer algorithm
  *
- * The function prime_sum(n) returns the number of primes not exceeding n
+ * The function prime_sum(n) returns the sum of primes not exceeding n
  * It is just a templatized wrapper of lehmer(n)
  *
  * Complexity: Roughly ~O(n^(2/3))
+ * Memory: about 1 GB with the defaults below, and n must stay below MAXV^2
+ * For 256 MB judges use MAXN = 20, MAXM = 200000, MAXV = 5000000: 96 MB, about 2.3x slower on the self-test
  *
 ***/
 
@@ -57,8 +59,6 @@ void gen(){
         }
     }
 }
-
-typedef uint64_t int128;
 
 template <typename T>
 T phi(T m, int n){
