@@ -6,7 +6,7 @@
  * Complexity: O(n) to build, O(log n) ranges per path
  *
  * HLD hld(n); hld.add_edge(u, v); hld.build(root);
- * hld.pos[v]: position of v in [0, n), store node values at these positions in your segment tree / fenwick
+ * hld.pos[v]: position of v in [1, n], 1-indexed like segment_tree.cpp and fenwick_tree.cpp, store node values there
  * hld.path(u, v): ranges [l, r] covering the path u..v, inclusive
  * hld.path(u, v, true): same but excludes the lca, for values on edges
  *     store the weight of edge (parent[v], v) at pos[v], the root's position stays unused
@@ -17,14 +17,18 @@
  *     needed for non-commutative folds such as composing affine functions along the path
  * hld.ordered_path(u, v, true): same but excludes the lca
  * hld.subtree(v): the single range covering the subtree of v
+ * hld.query_path(seg, u, v, edges = false): fold of the path through seg's own merge and t_id, commutative merges only
+ * hld.update_path(seg, u, v, x, edges = false): seg.update(l, r, x) on every range of the path
+ *     seg is any tree with 1-indexed query(l, r), update(l, r, x), merge(a, b) and t_id, such as segment_tree.cpp
  * hld.lca(u, v)
  *
  * path() returns ranges in no particular order, which is fine for commutative operations (sum, min, max, xor)
  *
- * Example with a segment tree over positions:
- *     for (auto [l, r] : hld.path(u, v)) res += seg.query(l, r);
- *     for (auto [l, r] : hld.path(u, v)) seg.update(l, r, delta);
- *     seg.update(hld.edge_pos(u, v), w), then for (auto [l, r] : hld.path(a, b, true)) res += seg.query(l, r);
+ * Example with segment_tree.cpp, customizing its merge (sum to max, say) is the only change needed:
+ *     SegmentTree<long long> seg(n);
+ *     for (int v = 0; v < n; v++) seg.update(hld.pos[v], hld.pos[v], value[v]);
+ *     hld.update_path(seg, u, v, delta), res = hld.query_path(seg, u, v);
+ *     int p = hld.edge_pos(u, v); seg.update(p, p, w), res = hld.query_path(seg, a, b, true);
  *
  * Example of a path composite, the tree keeps both the left-to-right and right-to-left fold of every node:
  *     for (auto [a, b] : hld.ordered_path(u, v)){
@@ -72,7 +76,7 @@ struct HLD{
         /// Heavy child is pushed last so it is popped right after its parent, keeping chains and subtrees contiguous
         vector<int> stack = {root};
         head[root] = root;
-        for (int cur = 0; !stack.empty(); cur++){
+        for (int cur = 1; !stack.empty(); cur++){
             int u = stack.back();
             stack.pop_back();
             pos[u] = cur;
@@ -127,6 +131,18 @@ struct HLD{
         return pos[depth[u] > depth[v] ? u : v];  /// edge values live on the child
     }
 
+    template <typename Tree>
+    auto query_path(Tree& seg, int u, int v, bool edges = false) const{
+        auto res = seg.t_id;
+        for (auto [l, r] : path(u, v, edges)) res = seg.merge(res, seg.query(l, r));
+        return res;
+    }
+
+    template <typename Tree, typename Value>
+    void update_path(Tree& seg, int u, int v, Value x, bool edges = false) const{
+        for (auto [l, r] : path(u, v, edges)) seg.update(l, r, x);
+    }
+
     int lca(int u, int v) const{
         while (head[u] != head[v]){
             if (depth[head[u]] < depth[head[v]]) swap(u, v);
@@ -150,7 +166,7 @@ int main(){
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {0, 2}, {1, 3}, {1, 4}, {2, 5}, {3, 6}}) hld.add_edge(u, v);
     hld.build(0);
 
-    vector<long long> node_value = {1, 2, 4, 8, 16, 32, 64}, at(7);
+    vector<long long> node_value = {1, 2, 4, 8, 16, 32, 64}, at(8);
     for (int v = 0; v < 7; v++) at[hld.pos[v]] = node_value[v];
     auto path_sum = [&](int u, int v, bool edges){
         long long s = 0;
@@ -179,7 +195,22 @@ int main(){
 
     assert(hld.edge_pos(1, 3) == hld.pos[3] && hld.edge_pos(3, 1) == hld.pos[3] && hld.edge_pos(0, 2) == hld.pos[2]);
 
-    vector<int> node_at(7);
+    /// Stands in for segment_tree.cpp, max as the merge so a query_path that ignores merge and t_id fails
+    struct MaxAddArray{
+        vector<long long> a;
+        long long t_id = LLONG_MIN;
+        long long merge(long long x, long long y){ return max(x, y); }
+        long long query(int l, int r){ return *max_element(a.begin() + l, a.begin() + r + 1); }
+        void update(int l, int r, long long x){ for (int i = l; i <= r; i++) a[i] += x; }
+    } seg{at};
+
+    assert(hld.query_path(seg, 6, 5) == 64 && hld.query_path(seg, 1, 2) == 4 && hld.query_path(seg, 0, 0) == 1);
+    hld.update_path(seg, 6, 4, 100, true);
+    assert(hld.query_path(seg, 1, 1) == 2 && hld.query_path(seg, 6, 4) == 164 && hld.query_path(seg, 3, 3) == 108);
+    hld.update_path(seg, 2, 0, 1000);
+    assert(hld.query_path(seg, 0, 5) == 1004 && hld.query_path(seg, 0, 1) == 1001);
+
+    vector<int> node_at(8);
     for (int v = 0; v < 7; v++) node_at[hld.pos[v]] = v;
     auto ordered_nodes = [&](int u, int v, bool edges){
         vector<int> nodes;
@@ -202,7 +233,7 @@ int main(){
     assert((ordered_nodes(3, 3, false) == vector<int>{3}));
     assert((ordered_nodes(3, 3, true) == vector<int>{}));
 
-    vector<pair<long long, long long>> affine = {{1, -1}, {1, 5}, {2, 0}, {3, 0}, {10, 0}, {1, 3}, {2, 1}}, func_at(7);
+    vector<pair<long long, long long>> affine = {{1, -1}, {1, 5}, {2, 0}, {3, 0}, {10, 0}, {1, 3}, {2, 1}}, func_at(8);
     for (int v = 0; v < 7; v++) func_at[hld.pos[v]] = affine[v];
     auto path_apply = [&](int u, int v, bool edges, long long x){
         for (auto [a, b] : hld.ordered_path(u, v, edges)){
@@ -221,7 +252,7 @@ int main(){
     HLD single(1);
     single.build(0);
     assert(single.path(0, 0).size() == 1 && single.path(0, 0, true).empty());
-    assert((single.ordered_path(0, 0) == vector<pair<int, int>>{{0, 0}}) && single.ordered_path(0, 0, true).empty());
+    assert((single.ordered_path(0, 0) == vector<pair<int, int>>{{1, 1}}) && single.ordered_path(0, 0, true).empty());
 
     return 0;
 }
