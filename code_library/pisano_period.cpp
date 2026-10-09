@@ -14,6 +14,7 @@
  * Requires __int128 (64-bit GCC or Clang)
  *
  * Don't forget to initialize pollard by by calling rho::init() before using
+ * The rho namespace is a copy of pollard_rho.cpp, the canonical factorizer, keep fixes in sync
  *
 ***/
 
@@ -120,7 +121,6 @@ namespace rho{
     const int BASE[] = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
 
     int primes[MAXP], spf[MAXP];
-    long long divisors[130172];
 
     inline bool miller_rabin(long long n){
         if (n <= 2 || !(n & 1)) return n == 2;
@@ -216,28 +216,6 @@ namespace rho{
         sort(v.begin(), v.end());
         return v;
     }
-
-    vector <long long> get_divisors(long long n){
-        int j, k, l, len = 0;
-
-        auto factors = factorize(n);
-        map <long long, int> prime_count;
-        for (auto x: factors) prime_count[x]++;
-
-        divisors[len++] = 1;
-        for (auto it: prime_count){
-            long long x = 1;
-            for (k = len, j = 0; j < it.second; j++){
-                x *= it.first;
-                for (l = 0; l < k; l++){
-                    divisors[len++] = x * divisors[l];
-                }
-            }
-        }
-
-        sort(divisors, divisors + len);
-        return vector <long long>(divisors, divisors + len);
-    }
 }
 
 long long pi(long long p){
@@ -247,13 +225,12 @@ long long pi(long long p){
     int flag = p % 10;
     long long n = (flag == 1 || flag == 9) ? p - 1 : 2 * (p + 1);
 
-    auto divisors = rho::get_divisors(n);
-    for (auto d: divisors){
-        auto seq = fib(d, p);
-        if (seq.first == 0 && seq.second == 1) return d;
+    /// pi(p) divides n, strip one prime factor at a time (with multiplicity) while the rest is still a period
+    long long d = n;
+    for (auto q: rho::factorize(n)){
+        if (fib(d / q, p) == make_pair(0LL, 1LL)) d /= q;
     }
-
-    return -1;
+    return d;
 }
 
 long long pisano_period(long long n){
