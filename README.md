@@ -146,6 +146,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 
 ### Geometry
 - [Circle Geometry](code_library/geometry/circle.cpp) - circle-line/circle-circle intersections, tangents, circumcircle, minimum enclosing circle, circle-polygon, lens and union areas, max points covered by a radius-r circle
+- [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - O(n log n) sweep with exact integer squared distances
 - [Convex Hull](code_library/geometry/convex_hull.cpp) - monotone chain, O(n log n)
 - [Geometry](code_library/geometry/geometry.cpp) - exact integer predicates, polygon queries and angular sort, floating point line and segment intersection, projection, reflection, half-plane polygon cut and centroid
 - [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region of half-planes clipped to a box, sort and deque, O(n log n)
