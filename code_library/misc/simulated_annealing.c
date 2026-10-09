@@ -17,9 +17,7 @@
 #define MAX 52
 #define clr(ar) memset(ar, 0, sizeof(ar))
 
-
 const double multiplier = 0.997; /// Usually good to have between 0.95 - 0.999
-
 
 int n, m, dp[MAX], ar[MAX], adj[MAX], bits[MAX], last_bits[MAX];
 
@@ -91,5 +89,6 @@ int main(){
 
         printf("%d\n", res);
     }
+
     return 0;
 }

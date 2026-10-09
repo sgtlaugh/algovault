@@ -20,5 +20,6 @@ int main(){
         combsort(len, v.data());
         assert(v == expected);
     }
+
     return 0;
 }

@@ -29,6 +29,7 @@ int bfs_distance(const Board& start){
     map<Board, int> dist = {{start, 0}};
     queue<Board> q;
     q.push(start);
+
     while (true){
         Board b = q.front();
         q.pop();
@@ -45,6 +46,7 @@ bool solvable_oracle(const Board& b){
     int perm[16], parity = 0;
     for (int i = 0; i < 16; i++) perm[i] = b[i] ? b[i] - 1 : 15;
     for (int i = 0; i < 16; i++) for (int j = i + 1; j < 16; j++) parity ^= perm[i] > perm[j];
+
     int p = blank(b);
     return parity == ((3 - p / 4 + 3 - p % 4) & 1);
 }
@@ -103,5 +105,6 @@ int main(){
             if (walks[k] <= 16) assert(moves == bfs_distance(boards[k]));  /// IDA* overshooting its bound returns longer paths
         }
     }
+
     return 0;
 }

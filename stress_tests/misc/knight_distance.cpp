@@ -11,6 +11,7 @@ int main(){
     vector<int> queue = {R * W + R};
     dist[R * W + R] = 0;
     const int dx[] = {1, 2, 2, 1, -1, -2, -2, -1}, dy[] = {2, 1, -1, -2, -2, -1, 1, 2};
+
     for (size_t i = 0; i < queue.size(); i++){
         int x = queue[i] / W, y = queue[i] % W;
         for (int k = 0; k < 8; k++){
@@ -20,6 +21,7 @@ int main(){
             queue.push_back(nx * W + ny);
         }
     }
+
     for (int x = -CHECK; x <= CHECK; x++){
         for (int y = -CHECK; y <= CHECK; y++) assert(knight_distance(x, y) == dist[(x + R) * W + (y + R)]);
     }
@@ -43,14 +45,17 @@ int main(){
         long long delta = x - y;
         return delta - 2 * floor_div(delta - y, y > delta ? 3 : 4);
     };
+
     for (int x = -CHECK; x <= CHECK; x++){
         for (int y = -CHECK; y <= CHECK; y++) assert(reference(x, y) == dist[(x + R) * W + (y + R)]);
     }
+
     for (long long it = 0; it < stress::scaled(100000); it++){
         long long x = stress::rand_int(0, 1000000000000000000LL), y = max(0LL, x - stress::rand_int(0, it % 2 ? 1000 : x));
         long long d = knight_distance(x, y), bound = max((x + 1) / 2, (x + y + 2) / 3);
         assert(d == reference(x, y) && d % 2 == (x + y) % 2 && bound <= d && d <= bound + 3);
         assert(d == knight_distance(-x, -y) && d == knight_distance(-y, x));
     }
+
     return 0;
 }

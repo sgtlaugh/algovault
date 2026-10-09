@@ -126,7 +126,6 @@ namespace sudoku{
      * but sparse 16 x 16 grids (around 75% blank) can take over a minute
      *
     ***/
-
     bool solve(vector <vector<int>>& grid){
         int i, j, k, l, n = grid.size(), m = sqrt(n + 0.5);
 

@@ -29,5 +29,6 @@ int main(){
         assert(inverse_gray_code(gray_code(x)) == x && gray_code(inverse_gray_code(x)) == x);
         if (x != ~0ULL) assert(__builtin_popcountll(gray_code(x) ^ gray_code(x + 1)) == 1);  /// successive codes differ in one bit
     }
+
     return 0;
 }

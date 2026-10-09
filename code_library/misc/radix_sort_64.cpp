@@ -47,7 +47,6 @@ void radix_sort(unsigned long long ar[], int n){
     for (int i = n - 1; i >= 0; i--) ar[--cnt[7][(tmp[i] >> 56) & 255]] = tmp[i];
 }
 
-
 int main(){
     mt19937_64 rng(42);
     static array <unsigned long long, MAXN> ar;
@@ -63,5 +62,6 @@ int main(){
     for (i = 0; (i + 1) < n; i++){
         assert(ar[i] <= ar[i + 1]);
     }
+
     return 0;
 }

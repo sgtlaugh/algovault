@@ -24,5 +24,6 @@ int main(){
         long double v = (long double)stress::rng()() / (stress::rand_int(1, 1000000) * 1.0L);
         assert(fsqrt(v) == sqrtl(v));
     }
+
     return 0;
 }

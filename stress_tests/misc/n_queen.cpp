@@ -29,5 +29,6 @@ int main(){
         }
         assert(count_ways(size) == expected);
     }
+
     return 0;
 }

@@ -12,6 +12,7 @@ int n, ar[MAX];
 void combsort(int n, int* ar){
     if (n <= 1) return;
     int i, x, g = n, flag = 0;
+
     while ((g != 1) || flag){
         flag = 0;
         if (g != 1) g *= 0.77425;
@@ -35,5 +36,6 @@ int main(){
     fprintf(stderr, "Time taken = %0.5f s\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));  /// 0.11900 seconds locally
 
     for (i = 0; (i + 1) < n; i++) assert(ar[i] <= ar[i + 1]);
+
     return 0;
 }

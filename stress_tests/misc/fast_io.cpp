@@ -53,6 +53,7 @@ int main(){
             input += to_string(ints[i]) + separator() + to_string(lls[i]) + separator() + to_string(ulls[i]) + separator() + strs[i];
             if (i + 1 < count || stress::rand_int(0, 1)) input += separator();  /// often no whitespace after the last token
         }
+
         set_input(input);
         for (int i = 0; i < count; i++){
             int a; long long b; unsigned long long c; string d;
@@ -73,6 +74,7 @@ int main(){
             /// An empty last line needs its newline, "a\n" means the single line "a"
             if (i + 1 < lines.size() || lines[i].empty() || stress::rand_int(0, 1)) text += crlf ? "\r\n" : "\n";
         }
+
         set_input(text);
         string line;
         for (auto& expected : lines) assert(read_line(line) && line == expected);
@@ -85,6 +87,7 @@ int main(){
             write(ints[i], lls[i], ulls[i], strs[i]);
             expected_out += to_string(ints[i]) + " " + to_string(lls[i]) + " " + to_string(ulls[i]) + " " + strs[i] + "\n";
         }
+
         write(vector<int>(ints.begin(), ints.begin() + min(count, 5)));
         for (int i = 0; i < min(count, 5); i++) expected_out += (i ? " " : "") + to_string(ints[i]);
         expected_out += "\n";

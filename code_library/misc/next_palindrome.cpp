@@ -45,5 +45,6 @@ int main(){
     assert(next_palindrome("1991") == "2002");
     assert(next_palindrome("999") == "1001");
     assert(next_palindrome("12921") == "13031");
+
     return 0;
 }

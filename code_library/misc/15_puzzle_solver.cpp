@@ -3,14 +3,12 @@
 
 using namespace std;
 
-
 const char dir[] = "LRUD";
 const int dx[] = {0, 0, -1, 1};
 const int dy[] = {-1, 1, 0, 0};
 
 char str[100];
 int found, len[4] = {0}, idx[4][4], ar[4][4];
-
 
 int get_cost(int i, int j){
     return abs(((ar[i][j] - 1) >> 2) - i) + abs( ((ar[i][j] - 1) & 3) - j);
@@ -52,7 +50,6 @@ int ida_star(int bx, int by, int lx, int ly, int g, int lim, int d, int h){
             nh = h;
             nh -= get_cost(k, l);
             swap(ar[bx][by], ar[k][l]);
-
             nh += get_cost(bx, by);
 
             str[d] = dir[i];
@@ -110,6 +107,7 @@ int main(){
         if (!is_solvable()) puts("This puzzle is not solvable.\n");
         else solve(bx, by);
     }
+
     return 0;
 }
 

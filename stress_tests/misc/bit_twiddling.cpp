@@ -58,5 +58,6 @@ int main(){
             if (mask >> i & 1) assert(bits[j++] == i);
         }
     }
+
     return 0;
 }

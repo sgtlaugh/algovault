@@ -22,10 +22,12 @@ long long knight_distance(long long x, long long y){
     if (x < y) swap(x, y);
     if (x == 1 && y == 0) return 3;
     if (x == 2 && y == 2) return 4;
+
     if (y == 0 || 2 * y < x){
         long long c = y & 1, a = x - 2 * c, b = a & 3;
         return (a - b) / 2 + b + c;
     }
+
     long long d = x - (x - y) / 2, c = (x - y) & 1, z = d % 3 != 0;
     return d / 3 * 2 + c + z * 2 * (1 - c);
 }
@@ -40,5 +42,6 @@ int main(){
     assert(knight_distance(4, 0) == 2);
     assert(knight_distance(8, 0) == 4);
     assert(knight_distance(7, 7) == 6);
+
     return 0;
 }

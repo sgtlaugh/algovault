@@ -33,6 +33,7 @@ vector<int> run(const string& input){
     assert(freopen(IN.c_str(), "r", stdin) && freopen(OUT.c_str(), "w", stdout));
     library_main();
     fflush(stdout);
+
     vector<int> res;
     ifstream out(OUT);
     for (int x; out >> x; ) res.push_back(x);
@@ -68,5 +69,6 @@ int main(){
 
     /// Only reversing positions 0 and 2 reaches 3, with 8 states and 180000 steps the search cannot miss it
     assert(run("3\n9 1 1\n") == vector<int>{3});
+
     return 0;
 }

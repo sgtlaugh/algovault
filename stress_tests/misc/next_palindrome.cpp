@@ -22,6 +22,7 @@ int main(){
         string s(n, '0');
         s[0] = char('1' + stress::rand_int(0, 8));
         for (int i = 1; i < n; i++) s[i] = stress::rand_int(0, 3) ? char('0' + stress::rand_int(0, 9)) : '9';
+
         string p = next_palindrome(s);
         assert(is_palindrome(p));
         assert(p.size() > s.size() || (p.size() == s.size() && p > s));
@@ -38,6 +39,8 @@ int main(){
         }
         else assert(s == string(n, '9'));
     }
+
     assert(next_palindrome(string(100000, '9')) == "1" + string(99999, '0') + "1");
+
     return 0;
 }

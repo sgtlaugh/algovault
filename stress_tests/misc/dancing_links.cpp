@@ -8,6 +8,7 @@
 bool brute(int covered, int full, const vector<int>& masks, vector<signed char>& memo){
     if (covered == full) return true;
     if (memo[covered] != -1) return memo[covered];
+
     int c = __builtin_ctz(~covered);
     bool res = false;
     for (int m : masks){
@@ -16,12 +17,14 @@ bool brute(int covered, int full, const vector<int>& masks, vector<signed char>&
             break;
         }
     }
+
     memo[covered] = res;
     return res;
 }
 
 bool valid_sudoku(const vector<vector<int>>& g, const vector<vector<int>>& givens){
     int n = g.size(), m = sqrt(n + 0.5);
+
     for (int i = 0; i < n; i++){
         vector<int> row(n + 1), col(n + 1), box(n + 1);
         for (int j = 0; j < n; j++){
@@ -39,6 +42,7 @@ vector<vector<int>> random_solved(int m){
     vector<int> digits(n), rows, cols;
     iota(digits.begin(), digits.end(), 1);
     shuffle(digits.begin(), digits.end(), stress::rng());
+
     for (auto* order : {&rows, &cols}){
         vector<int> bands(m);
         iota(bands.begin(), bands.end(), 0);
@@ -120,5 +124,6 @@ int main(){
         assert(sudoku::solve(g) == !unsolvable);
         if (!unsolvable) assert(valid_sudoku(g, givens));
     }
+
     return 0;
 }

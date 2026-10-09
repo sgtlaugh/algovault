@@ -56,7 +56,6 @@ unsigned int gcd(int a, int b){
                       : "=g"(res)
                       : "g"(x), "g"(y)
                       : "eax", "ebx", "edx"
-
     );
 
     return res;
