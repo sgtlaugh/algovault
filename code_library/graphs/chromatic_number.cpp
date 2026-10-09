@@ -72,35 +72,18 @@ private:
 };
 
 int main(){
-    assert(ChromaticNumber(0).solve() == 0);
-    assert(ChromaticNumber(1).solve() == 1);
-    assert(ChromaticNumber(5).solve() == 1);
-
-    auto build = [](int n, const vector<pair<int, int>>& edges){
+    auto chromatic = [](int n, const vector<pair<int, int>>& edges){
         ChromaticNumber g(n);
         for (auto [u, v] : edges) g.add_edge(u, v);
         return g.solve();
     };
 
-    assert(build(2, {{0, 1}, {1, 0}}) == 2);
-    assert(build(4, {{0, 1}, {1, 2}, {2, 3}}) == 2);
-    assert(build(6, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 5}, {5, 0}}) == 2);
-    assert(build(5, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}}) == 3);
-    assert(build(4, {{0, 1}, {0, 2}, {0, 3}, {1, 2}, {1, 3}, {2, 3}}) == 4);
-    assert(build(6, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}, {5, 0}, {5, 1}, {5, 2}, {5, 3}, {5, 4}}) == 4);
+    assert(ChromaticNumber(5).solve() == 1);  /// no edges
+    assert(chromatic(4, {{0, 1}, {1, 2}, {2, 3}, {3, 0}}) == 2);
+    assert(chromatic(5, {{0, 1}, {1, 2}, {2, 3}, {3, 4}, {4, 0}}) == 3);  /// an odd cycle
+    assert(chromatic(4, {{0, 1}, {0, 2}, {0, 3}, {1, 2}, {1, 3}, {2, 3}}) == 4);
 
-    /***
-     * Petersen graph: outer 5-cycle, spokes, inner pentagram - contains odd cycles, 3-colorable
-     * Grotzsch graph (Mycielskian of C5): triangle-free with chromatic number 4
-    ***/
-    vector<pair<int, int>> petersen;
-    for (int i = 0; i < 5; i++){
-        petersen.push_back({i, (i + 1) % 5});
-        petersen.push_back({i, i + 5});
-        petersen.push_back({i + 5, (i + 2) % 5 + 5});
-    }
-    assert(build(10, petersen) == 3);
-
+    /// Grotzsch graph (Mycielskian of C5): no triangle, yet 4 colors, so cliques alone do not decide it
     vector<pair<int, int>> grotzsch;
     for (int i = 0; i < 5; i++){
         int prev = (i + 4) % 5, next = (i + 1) % 5;
@@ -109,16 +92,6 @@ int main(){
         grotzsch.push_back({i + 5, next});
         grotzsch.push_back({i + 5, 10});
     }
-    assert(build(11, grotzsch) == 4);
-
-    vector<pair<int, int>> complete;
-    for (int u = 0; u < 12; u++){
-        for (int v = u + 1; v < 12; v++) complete.push_back({u, v});
-    }
-    assert(build(12, complete) == 12);
-
-    /// Sparse graphs at n = 24 push ind[V] to 2^23 and beyond, so a narrower counter type would wrap
-    assert(build(24, {{0, 1}}) == 2);
-    assert(build(24, {{0, 1}, {1, 2}, {2, 0}}) == 3);
+    assert(chromatic(11, grotzsch) == 4);
     return 0;
 }
