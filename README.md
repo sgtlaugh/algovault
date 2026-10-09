@@ -229,6 +229,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Dancing Links](code_library/misc/dancing_links.cpp) - exact cover with Algorithm X
 - [Fast I/O](code_library/misc/fast_io.cpp) - buffered input and output with fread and fwrite
 - [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
+- [Hackenbush](code_library/misc/hackenbush.cpp) - green Hackenbush Grundy value of a rooted graph and exact red-blue Hackenbush value of a rooted tree
 - [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in O(1)
 - [N Queens](code_library/misc/n_queen.cpp) - number of N queens solutions
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one
