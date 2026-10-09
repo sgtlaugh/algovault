@@ -30,6 +30,16 @@ vector<ll> naive_circular(const vector<ll>& a, const vector<ll>& b, ll mod = 0){
     return res;
 }
 
+/// Resident memory in kB, -1 if /proc is unavailable
+long long resident_kb(){
+    ifstream status("/proc/self/status");
+    string line;
+    while (getline(status, line)){
+        if (line.rfind("VmRSS:", 0) == 0) return atoll(line.c_str() + 6);
+    }
+    return -1;
+}
+
 string random_bits(int n){
     string s(n, '0');
     for (auto& c : s) c = '0' + stress::rand_int(0, 1);
@@ -38,6 +48,16 @@ string random_bits(int n){
 
 int main(){
     using namespace fft;
+
+    /// The static arrays span ~384 MB and must stay untouched until used, a non-constexpr
+    /// ComplexNum constructor would dynamically initialise all of them at startup
+    long long startup_kb = resident_kb();
+    assert(startup_kb < 128 * 1024);
+
+    /// Coefficients past LL_MULTIPLY_LIMIT^2 ~ 2.25e18 but below 2^63 must not wrap
+    const ll big = LL_MULTIPLY_LIMIT - 1;
+    assert(ll_multiply({big, big, big, big}, {big, big, big, big}) == naive({big, big, big, big}, {big, big, big, big}));
+    assert(ll_multiply({big, big, big, big}, {big, big, big, big - 1}) == naive({big, big, big, big}, {big, big, big, big - 1}));
 
     for (long long it = 0; it < stress::scaled(300); it++){
         int n = stress::rand_int(1, it % 20 ? 300 : 1200), m = stress::rand_int(1, it % 20 ? 300 : 1200);
@@ -51,13 +71,12 @@ int main(){
         assert(mod_multiply(p, q, mod) == naive(p, q, mod));
         assert(mod_multiply(p, p, mod) == naive(p, p, mod));  /// equal inputs skip the second transform
 
-        /// ll_multiply is exact while every output coefficient stays below LL_MULTIPLY_MOD * (LL_MULTIPLY_MOD + 1)
-        ll hi = stress::rand_int(0, 1) ? 30000000 : (LL_MULTIPLY_MOD - 1LL) / max(n, m);
-        auto x = random_vector(min(n, 1000), 0, hi), y = random_vector(min(m, 1000), 0, hi);
-        if ((__int128)min(x.size(), y.size()) * hi * hi < (__int128)1500000000LL * 1500000001LL){
-            assert(ll_multiply(x, y) == naive(x, y));
-            assert(ll_multiply(x, x) == naive(x, x));
-        }
+        /// ll_multiply is exact while every output coefficient stays below 2^63, hi is pushed to that edge half the time
+        int xn = min(n, 1000), yn = min(m, 1000);
+        ll hi = stress::rand_int(0, 1) ? 30000000 : min<ll>(LL_MULTIPLY_LIMIT - 1, sqrtl(9.2e18L / max(xn, yn)));
+        auto x = random_vector(xn, 0, hi), y = random_vector(yn, 0, hi);
+        assert(ll_multiply(x, y) == naive(x, y));
+        assert(ll_multiply(x, x) == naive(x, x));
 
         int k = min(n, 500);
         auto c1 = random_vector(k, -1000, 1000), c2 = random_vector(k, -1000, 1000);
