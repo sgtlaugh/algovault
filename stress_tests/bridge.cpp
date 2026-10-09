@@ -4,26 +4,30 @@
 #include "../code_library/bridge.cpp"
 #undef main
 
-/// Component label of every node using all edges except the skipped ones
-vector<int> labels(int n, const vector<pair<int, int>>& edges, const set<pair<int, int>>& skipped){
+/// Component label of every node using all edges except the skipped edge indices
+vector<int> labels(int n, const vector<pair<int, int>>& edges, const set<int>& skipped){
     vector<int> parent(n);
     iota(parent.begin(), parent.end(), 0);
     auto find = [&](int x){
         while (parent[x] != x) x = parent[x] = parent[parent[x]];
         return x;
     };
-    for (auto [u, v] : edges){
-        if (!skipped.count({min(u, v), max(u, v)})) parent[find(u)] = find(v);
+    for (int i = 0; i < (int)edges.size(); i++){
+        if (!skipped.count(i)) parent[find(edges[i].first)] = find(edges[i].second);
     }
     vector<int> res(n);
     for (int i = 0; i < n; i++) res[i] = find(i);
     return res;
 }
 
-/// Simple graphs: no self-loops, no parallel edges
-vector<pair<int, int>> random_graph(int n){
-    set<pair<int, int>> edges;
-    auto add = [&](int u, int v){ if (u != v) edges.insert({min(u, v), max(u, v)}); };
+/// Simple graphs, or multigraphs with parallel edges and self loops
+vector<pair<int, int>> random_graph(int n, bool multi){
+    vector<pair<int, int>> edges;
+    set<pair<int, int>> seen;
+    auto add = [&](int u, int v){
+        if (!multi && (u == v || !seen.insert({min(u, v), max(u, v)}).second)) return;
+        edges.push_back({u, v});
+    };
     int density = stress::rand_int(0, n > 12 ? 3 : 100), shape = stress::rand_int(0, 2);
 
     if (shape == 2 && n >= 2){
@@ -39,14 +43,26 @@ vector<pair<int, int>> random_graph(int n){
             if (stress::rand_int(0, 99) < density || (shape == 1 && v == u + 1)) add(u, v);
         }
     }
+    if (multi){
+        for (int extra = stress::rand_int(0, 4); extra && !edges.empty(); extra--){
+            auto e = edges[stress::rand_int(0, edges.size() - 1)];
+            add(e.first, e.second);
+        }
+        if (stress::rand_int(0, 1)){
+            int x = stress::rand_int(0, n - 1);
+            add(x, x);
+        }
+    }
 
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);
     shuffle(label.begin(), label.end(), stress::rng());
-    vector<pair<int, int>> res;
-    for (auto [u, v] : edges) res.push_back(stress::rand_int(0, 1) ? make_pair(label[u], label[v]) : make_pair(label[v], label[u]));
-    shuffle(res.begin(), res.end(), stress::rng());
-    return res;
+    for (auto& [u, v] : edges){
+        u = label[u], v = label[v];
+        if (stress::rand_int(0, 1)) swap(u, v);
+    }
+    shuffle(edges.begin(), edges.end(), stress::rng());
+    return edges;
 }
 
 int main(){
@@ -55,23 +71,24 @@ int main(){
 
     for (long long it = 0; it < stress::scaled(2500); it++){
         int n = stress::rand_int(1, it % 40 ? 12 : 250);
-        auto edges = random_graph(n);
-        g->n = n;
+        auto edges = random_graph(n, it % 2);
+        g->n = n, g->m = 0;
         for (int i = 0; i < n; i++) g->adj[i].clear();
-        for (auto [u, v] : edges) g->add_edge(u, v);
+        for (int i = 0; i < (int)edges.size(); i++) assert(g->add_edge(edges[i].first, edges[i].second) == i);
 
-        set<pair<int, int>> expected;
-        for (auto [u, v] : edges){
-            auto cut = labels(n, edges, {{min(u, v), max(u, v)}});
-            if (cut[u] != cut[v]) expected.insert({min(u, v), max(u, v)});
+        set<int> expected;
+        for (int i = 0; i < (int)edges.size(); i++){
+            auto cut = labels(n, edges, {i});
+            if (cut[edges[i].first] != cut[edges[i].second]) expected.insert(i);
         }
 
         auto bridges = g->get_bridges();
-        set<pair<int, int>> found;
+        set<int> found;
         auto split = labels(n, edges, expected);
         for (auto& b : bridges){
-            assert(found.insert({min(b.u, b.v), max(b.u, b.v)}).second);
-            auto cut = labels(n, edges, {{min(b.u, b.v), max(b.u, b.v)}});
+            assert(found.insert(b.id).second);
+            assert(make_pair(min(b.u, b.v), max(b.u, b.v)) == make_pair(min(edges[b.id].first, edges[b.id].second), max(edges[b.id].first, edges[b.id].second)));
+            auto cut = labels(n, edges, {b.id});
             assert(b.cnt_u == count(cut.begin(), cut.end(), cut[b.u]));
             assert(b.cnt_v == count(cut.begin(), cut.end(), cut[b.v]));
         }
