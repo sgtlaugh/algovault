@@ -10,7 +10,7 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 - A brute-force stress test at the same path under `stress_tests/`, against an independent reference
 - The test includes `../common.h` and the library with `#define main library_main`
 - Randomness through `stress::rand_int`, loops sized by `stress::scaled`, a few seconds by default
-- An entry in its README index section, alphabetically
+- An entry in its README index section, alphabetically, variants nested under their base
 - Python templates go in `code_library/python/`, tests in `stress_tests/python/` via `stress.py`
 - A file CI truly cannot stress test goes in `STRESS_SKIP` in `run_tests.sh`, with the reason
 
