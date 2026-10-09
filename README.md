@@ -10,6 +10,18 @@ A black box you can copy easily - simple, fast, and well-tested.
 
 Templates are written in C++17 for GCC, with a few in Python 3 that mostly run on PyPy too, for contests like [Codeforces](https://codeforces.com), [AtCoder](https://atcoder.jp) and ICPC.
 
+## How To Use
+
+Every C++ file compiles on its own. Copy it into your solution, delete its `main()`, which only holds self-tests, and use the struct:
+
+```cpp
+DSU dsu(n);
+dsu.connect(a, b);
+bool same = dsu.find_root(a) == dsu.find_root(b);
+```
+
+The header at the top of each file lists its API, complexity and limits.
+
 <br>
 Implementations are usually stress-tested and cross-checked against various problems. Nonetheless, they are not guranteed to be flawless and work in all cases.
 </br>
@@ -20,7 +32,7 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 
 ## Index
 
-C++ files compile on their own: copy one into a solution and use it as a black box. Every file ends with a `main()` of self-tests, and has a brute-force stress test under [`stress_tests/`](stress_tests) at the same relative path.
+Every file has a brute-force stress test under [`stress_tests/`](stress_tests) at the same relative path.
 
 ### Data Structures
 - [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving
