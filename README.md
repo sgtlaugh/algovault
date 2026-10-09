@@ -158,6 +158,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - xor, or and and convolutions
 
 ### Linear Algebra
+- [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - det(xI - A) modulo a prime in O(n^3) via Hessenberg reduction
 - [Determinant](code_library/linear_algebra/determinant.cpp) - integer determinant modulo any m, or exact
 - [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
 - [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and matrix inverse over the reals
