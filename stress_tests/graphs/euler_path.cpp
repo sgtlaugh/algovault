@@ -170,5 +170,9 @@ int main(){
         check_walk<false>(n, path, n - 1, up.solve(n - 1), up.walk_edges);
         assert(dp.solve(n - 1).empty());
     }
+
+    EulerDirected none(0);
+    EulerUndirected none_undirected(0);
+    assert(none.solve().empty() && none_undirected.solve().empty());
     return 0;
 }
