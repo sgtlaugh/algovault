@@ -9,9 +9,11 @@ class StringHash:
         while len(powers) <= len(text):
             powers.append(powers[-1] * BASE % MOD)
 
-        self.prefix_hash = [0] * (len(text) + 2)
-        for i in range(1, len(text) + 1):
-            self.prefix_hash[i] = (self.prefix_hash[i - 1] * BASE + ord(text[i - 1]) + 13) % MOD
+        h, prefix_hash = 0, [0]
+        for c in text:
+            h = (h * BASE + ord(c) + 13) % MOD
+            prefix_hash.append(h)
+        self.prefix_hash = prefix_hash
 
     def get_hash(self, l, r):
         return (self.prefix_hash[r + 1] - StringHash._powers[r - l + 1] * self.prefix_hash[l]) % MOD
