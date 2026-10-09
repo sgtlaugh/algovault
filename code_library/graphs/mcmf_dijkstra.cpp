@@ -7,7 +7,11 @@
  *
  * MCMF g(n); g.add_edge(u, v, cap, cost): directed edge, returns its index, add both directions for undirected edges
  * g.solve(s, t, limit): pushes up to limit units (default: as much as possible), returns {flow, cost}
- * g.flow(id): flow on edge id after solve
+ * g.slope(s, t, limit): same augmentation as solve, returns the breakpoints {flow, cost} of min cost as a function of flow
+ *   starts at {0, 0}, ends at what solve returns, cost is linear between consecutive points
+ *   slopes strictly increase (convex), collinear points are merged, so the min cost of any x <= max flow interpolates
+ * g.flow(id): flow on edge id after solve or slope
+ * Repeated solve or slope calls continue from the residual graph, results count only the newly added flow and cost
  *
  * Costs may be negative as long as there is no negative cycle
  * flow * |cost| summed over a path must fit in long long
@@ -90,21 +94,32 @@ struct MCMF{
     }
 
     pair<long long, long long> solve(int s, int t, long long limit = INF){
+        return slope(s, t, limit).back();
+    }
+
+    vector<pair<long long, long long>> slope(int s, int t, long long limit = INF){
         assert(s != t);
         init_potential(s);
-        long long total_flow = 0, total_cost = 0;
+        vector<pair<long long, long long>> points = {{0, 0}};
+        long long prev_unit_cost = 0;
 
-        while (total_flow < limit && dijkstra(s, t)){
-            long long push = limit - total_flow;
-            for (int v = t; v != s; v = edges[parent_edge[v] ^ 1].to) push = min(push, edges[parent_edge[v]].cap);
+        while (points.back().first < limit && dijkstra(s, t)){
+            auto [total_flow, total_cost] = points.back();
+            long long push = limit - total_flow, unit_cost = 0;
+            for (int v = t; v != s; v = edges[parent_edge[v] ^ 1].to){
+                push = min(push, edges[parent_edge[v]].cap);
+                unit_cost += edges[parent_edge[v]].cost;
+            }
             for (int v = t; v != s; v = edges[parent_edge[v] ^ 1].to){
                 edges[parent_edge[v]].cap -= push;
                 edges[parent_edge[v] ^ 1].cap += push;
-                total_cost += push * edges[parent_edge[v]].cost;
             }
-            total_flow += push;
+
+            if (points.size() > 1 && unit_cost == prev_unit_cost) points.pop_back();
+            points.push_back({total_flow + push, total_cost + push * unit_cost});
+            prev_unit_cost = unit_cost;
         }
-        return {total_flow, total_cost};
+        return points;
     }
 };
 
@@ -120,9 +135,15 @@ int main(){
     assert((g.solve(0, 3) == make_pair(3LL, 10LL)));
     assert(g.flow(e01) == 2 && g.flow(e23) == 2);
 
-    MCMF limited(4);
-    limited.add_edge(0, 1, 2, 1), limited.add_edge(0, 2, 1, 2), limited.add_edge(1, 2, 1, 1), limited.add_edge(1, 3, 1, 3), limited.add_edge(2, 3, 2, 1);
+    auto diamond = []{
+        MCMF d(4);
+        d.add_edge(0, 1, 2, 1), d.add_edge(0, 2, 1, 2), d.add_edge(1, 2, 1, 1), d.add_edge(1, 3, 1, 3), d.add_edge(2, 3, 2, 1);
+        return d;
+    };
+
+    MCMF limited = diamond();
     assert((limited.solve(0, 3, 1) == make_pair(1LL, 3LL)));
+    assert((limited.solve(0, 3) == make_pair(2LL, 7LL)));
 
     MCMF negative(3);
     negative.add_edge(0, 1, 5, -4), negative.add_edge(1, 2, 3, 2), negative.add_edge(0, 2, 4, 1);
@@ -131,6 +152,22 @@ int main(){
     MCMF disconnected(3);
     disconnected.add_edge(0, 1, 5, 1);
     assert((disconnected.solve(0, 2) == make_pair(0LL, 0LL)));
+
+    using Points = vector<pair<long long, long long>>;
+    MCMF curve = diamond();
+    assert((curve.slope(0, 3) == Points{{0, 0}, {2, 6}, {3, 10}}));
+
+    MCMF curve_limited = diamond();
+    assert((curve_limited.slope(0, 3, 1) == Points{{0, 0}, {1, 3}}));
+    assert((curve_limited.slope(0, 3) == Points{{0, 0}, {1, 3}, {2, 7}}));
+
+    MCMF curve_negative(3);
+    curve_negative.add_edge(0, 1, 5, -4), curve_negative.add_edge(1, 2, 3, 2), curve_negative.add_edge(0, 2, 4, 1);
+    assert((curve_negative.slope(0, 2) == Points{{0, 0}, {3, -6}, {7, -2}}));
+
+    MCMF curve_disconnected(3);
+    curve_disconnected.add_edge(0, 1, 5, 1);
+    assert((curve_disconnected.slope(0, 2) == Points{{0, 0}}));
 
     return 0;
 }

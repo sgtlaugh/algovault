@@ -72,12 +72,56 @@ void check(int n, const vector<array<long long, 4>>& edges, long long limit){
     assert(cost == got.second);
 }
 
+/// Breakpoints against a fresh brute force solve at every flow limit from 0 to past the max flow
+void check_slope(int n, const vector<array<long long, 4>>& edges){
+    int s = 0, t = n - 1;
+    MCMF g(n);
+    for (auto [u, v, cap, cost] : edges) g.add_edge(u, v, cap, cost);
+    auto points = g.slope(s, t);
+
+    assert((points[0] == make_pair(0LL, 0LL)));
+    for (int i = 1; i < (int)points.size(); i++){
+        long long dx = points[i].first - points[i - 1].first, dy = points[i].second - points[i - 1].second;
+        assert(dx > 0 && dy % dx == 0);
+        if (i > 1) assert(dy / dx > (points[i - 1].second - points[i - 2].second) / (points[i - 1].first - points[i - 2].first));
+    }
+
+    long long max_flow = points.back().first;
+    assert(brute(n, edges, s, t, MCMF::INF).first == max_flow);
+    for (long long limit = 0, i = 0; limit <= max_flow + 1; limit++){
+        while (i + 1 < (int)points.size() && points[i + 1].first < limit) i++;
+        auto expected = brute(n, edges, s, t, limit);
+        long long f = min(limit, max_flow), cost = points[i].second;
+        if (f > points[i].first){
+            auto [x0, y0] = points[i];
+            auto [x1, y1] = points[i + 1];
+            cost += (f - x0) * ((y1 - y0) / (x1 - x0));
+        }
+        assert((make_pair(f, cost) == expected));
+
+        MCMF h(n);
+        for (auto [u, v, cap, c] : edges) h.add_edge(u, v, cap, c);
+        auto truncated = h.slope(s, t, limit);
+        assert(truncated.back() == expected);
+        for (int j = 0; j + 1 < (int)truncated.size(); j++) assert(truncated[j] == points[j]);
+
+        auto rest = h.solve(s, t);
+        assert((make_pair(expected.first + rest.first, expected.second + rest.second) == points.back()));
+    }
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(4000); it++){
         int n = stress::rand_int(2, 8), m = stress::rand_int(0, 20);
         check(n, random_graph(n, m, 5, 0, 10, false), MCMF::INF);
         check(n, random_graph(n, m, 5, -10, 10, true), MCMF::INF);
         check(n, random_graph(n, m, 5, 0, 10, false), stress::rand_int(0, 6));
+    }
+
+    for (long long it = 0; it < stress::scaled(1500); it++){
+        int n = stress::rand_int(2, 8), m = stress::rand_int(0, 20);
+        check_slope(n, random_graph(n, m, 5, 0, 4, false));
+        check_slope(n, random_graph(n, m, 5, -6, 6, true));
     }
 
     for (long long it = 0; it < stress::scaled(150); it++){
