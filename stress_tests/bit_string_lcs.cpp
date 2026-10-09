@@ -28,6 +28,13 @@ int main(){
         assert(lcs(a.c_str(), b.c_str()) == dp_lcs(a, b));
     }
 
+    /// Long single-letter runs leave whole 64-bit blocks without a match, so a carry must ripple through an all-ones block
+    for (long long it = 0; it < stress::scaled(300); it++){
+        string a = random_string(stress::rand_int(0, 200), "ab"), b;
+        for (int runs = stress::rand_int(1, 6); runs; runs--) b += string(stress::rand_int(1, 130), "ab"[stress::rand_int(0, 1)]);
+        assert(lcs(a.c_str(), b.c_str()) == dp_lcs(a, b));
+    }
+
     /// A longer than the old fixed carry buffer
     string a = random_string(150000, "ab"), b = random_string(stress::rand_int(1, 130), "ab");
     assert(lcs(a.c_str(), b.c_str()) == dp_lcs(a, b));
