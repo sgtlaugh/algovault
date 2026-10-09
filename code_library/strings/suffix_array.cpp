@@ -31,7 +31,7 @@ using namespace std;
 
 /// Scratch buffers shared by every call, so a call is not reentrant or thread safe
 /// Per call locals measured 4-35% slower (noisy) on repeated n = 1e6 builds (each call page faults ~24 MB fresh) and equal on small n
-namespace SuffixArrayDC3 {
+namespace SuffixArrayDC3{
     vector<int> s0, sa0, bucket, mem;
 
     void radixsort(int* source, int* dest, int* val, int n, int lim){
@@ -129,7 +129,7 @@ namespace SuffixArrayDC3 {
     }
 }
 
-struct SuffixArray {
+struct SuffixArray{
     int n;
     vector<int> sa;  // sa[i] = starting position of i-th smallest suffix
     vector<int> lcp;  // lcp[i] = longest common prefix of sa[i] and sa[i+1]
@@ -195,7 +195,7 @@ SuffixArray suffix_array(const char* s){
 }
 
 template<typename Container>
-struct SuffixArrayQueries : SuffixArray {
+struct SuffixArrayQueries : SuffixArray{
     Container text;
     vector<int> rank;
     vector<vector<int>> table;  /// table[k][i] = min(lcp[i .. i + 2^k))

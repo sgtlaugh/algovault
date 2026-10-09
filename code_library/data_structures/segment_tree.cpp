@@ -37,7 +37,7 @@
 using namespace std;
 
 template<typename T, typename LazyT = T>
-struct SegmentTree {
+struct SegmentTree{
     int n;
     vector<T> tree;
     vector<LazyT> lazy;

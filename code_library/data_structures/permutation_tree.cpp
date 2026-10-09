@@ -30,7 +30,7 @@
 
 using namespace std;
 
-struct PermutationTree {
+struct PermutationTree{
     enum Type { CUT, INCREASING, DECREASING };
 
     int n, root;

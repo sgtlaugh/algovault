@@ -22,11 +22,11 @@
 
 using namespace std;
 
-struct Point {
+struct Point{
     long long x, y;
 };
 
-struct ClosestPairResult {
+struct ClosestPairResult{
     long long dist2;
     int i, j;
 };

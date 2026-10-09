@@ -30,7 +30,7 @@
 
 using namespace std;
 
-struct Point {
+struct Point{
     int64_t x, y;
 
     Point() {}
@@ -262,7 +262,7 @@ array<int, 2> line_hull(const Point& a, const Point& b, const vector<Point>& hul
     return res;
 }
 
-struct DynamicHull {
+struct DynamicHull{
     void add(const Point& p){
         upper.add(p);
         lower.add(Point(p.x, -p.y));
@@ -285,7 +285,7 @@ struct DynamicHull {
 
 private:
     /// An upper hull with one point per x, strictly concave, covers(p) means p lies on or below it
-    struct Chain {
+    struct Chain{
         map<int64_t, int64_t> pts;
 
         static Point at(map<int64_t, int64_t>::const_iterator it){

@@ -4,7 +4,7 @@
 #include "../../code_library/misc/numerical_integration.cpp"
 #undef main
 
-struct Family {
+struct Family{
     function<double(double)> f, antiderivative;
     double lo, hi, abs_bound;
     bool smooth;

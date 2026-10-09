@@ -5,7 +5,7 @@
 #undef main
 
 /// Max prefix and suffix sums, empty allowed: a non-commutative merge, so a swapped merge order in descent shows up
-struct PrefixSums {
+struct PrefixSums{
     long long sum, pre, suf;
 };
 
@@ -13,11 +13,11 @@ PrefixSums operator+(PrefixSums a, PrefixSums b){
     return {a.sum + b.sum, max(a.pre, a.sum + b.pre), max(b.suf, b.sum + a.suf)};
 }
 
-struct Assign {
+struct Assign{
     long long x;
 };
 
-struct AssignBlock {
+struct AssignBlock{
     long long x;
     int len;
 };
@@ -37,11 +37,11 @@ Assign operator+(Assign, Assign b){
 }
 
 /// The header's arithmetic progression recipe, expressed through the default merge/apply/compose via overloads
-struct ApSum {
+struct ApSum{
     long long sum, cnt, idx_sum;
 };
 
-struct Linear {
+struct Linear{
     long long c0, c1;
 };
 
