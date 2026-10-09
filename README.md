@@ -112,6 +112,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Suffix Array](code_library/strings/suffix_array.cpp) - DC3 in O(n) with the LCP array
 - [Suffix Automaton](code_library/strings/suffix_automaton.cpp) - online DFA of all substrings with distinct counts, occurrence counts and longest common substring
 - [Tandem Repeats](code_library/strings/tandem_repeats.cpp) - Main-Lorentz, every square as O(n log n) compact triples
+- [Wildcard Pattern Matching (NTT, O(n log n), wildcards in text or pattern, strings or vectors)](code_library/strings/wildcard_matching.cpp)
 - [Z Algorithm](code_library/strings/z_algorithm.cpp) - longest common prefix of every suffix with the string
 
 ### Number Theory
