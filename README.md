@@ -38,7 +38,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Li Chao Tree](code_library/data_structures/li_chao_tree.cpp) - min/max of lines and segments at a point
 - [Link-Cut Tree](code_library/data_structures/link_cut_tree.cpp) - dynamic forest with link, cut, re-rooting, LCA and path aggregates
 - [Merge Sort Tree and Wavelet Matrix](code_library/data_structures/merge_sort_tree.cpp) - count below a threshold, range frequency and k-th smallest in a range
-- [Mo's Algorithm](code_library/data_structures/mo.cpp) - offline range queries on arrays and tree paths
+- [Mo's Algorithm](code_library/data_structures/mo.cpp) - offline range queries on arrays, arrays with point updates, add-only (rollback) state and tree paths
 - [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller element on each side, largest histogram rectangle
 - [Ordered Set](code_library/data_structures/ordered_set.cpp) - GNU policy-based set and multiset with order statistics
 - [Persistent Segment Tree](code_library/data_structures/persistent_segment_tree.cpp) - versioned point add/set, range query with any associative merge, k-th on version differences, range k-th smallest, persistent array
