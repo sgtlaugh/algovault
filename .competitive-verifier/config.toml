@@ -1,0 +1,7 @@
+# Judge tests compile like a contest judge: -O2, no sanitizers (the stress tests cover UB)
+[languages.cpp]
+read_macros = false
+
+[[languages.cpp.environments]]
+CXX = "g++"
+CXXFLAGS = ["-std=c++17", "-O2"]

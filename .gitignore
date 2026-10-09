@@ -9,3 +9,7 @@
 
 # Local Claude Code session state
 .claude/
+
+# competitive-verifier: downloaded judge data and build outputs, only the config is tracked
+.competitive-verifier/*
+!.competitive-verifier/config.toml
