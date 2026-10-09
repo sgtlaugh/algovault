@@ -10,6 +10,7 @@ int main(){
     for (long long it = 0; it < stress::scaled(1000000); it++){
         uint64_t a = stress::rng()() % mod, b = stress::rng()() % mod;
         if (it % 7 == 0) a = mod - 1 - stress::rand_int(0, 3), b = mod - 1 - stress::rand_int(0, 3);
+        if (it % 7 == 1) a = stress::rand_int(0, 3), b = it % 2 ? mod - 1 - stress::rand_int(0, 3) : stress::rand_int(0, 3);
         assert((uint64_t)modmul(a, b) == (uint64_t)((unsigned __int128)a * b % mod));
     }
 
