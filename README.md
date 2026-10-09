@@ -70,6 +70,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Min Cost Max Flow, SPFA](code_library/graphs/mcmf_spfa.cpp) - successive shortest paths with SPFA
 - [Minimum Path Cover](code_library/graphs/minimum_path_cover.cpp) - disjoint and shared path covers of a DAG, maximum antichain
 - [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - Kruskal and Boruvka (struct with add_edge, template for implicit graphs) plus dense O(n^2) Prim on a weight matrix, spanning forest of an undirected graph
+- [Offline Dynamic Connectivity](code_library/graphs/offline_dynamic_connectivity.cpp) - connectivity and component count under edge insertions and deletions, O((m + q) log(m + q) log n)
 - [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals, O(3^k n + 2^k m log n)
 - [Strongly Connected Components](code_library/graphs/scc.cpp) - Kosaraju, components in topological order
 
