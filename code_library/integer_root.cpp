@@ -11,6 +11,7 @@
  *
  * Floating roots alone can be off by one near the top of the range, e.g. (long long)sqrt(999999999999999999LL) gives 1e9
  * The floating estimate here is only a starting point that is then corrected exactly
+ * isqrt and icbrt clamp the estimate to the largest root that fits, so the corrections never overflow
  *
 ***/
 
@@ -39,11 +40,17 @@ unsigned long long iroot(unsigned long long n, int k){
 }
 
 unsigned long long isqrt(unsigned long long n){
-    return iroot(n, 2);
+    unsigned long long r = min<unsigned long long>(sqrtl((long double)n), 4294967295ULL);
+    while (r * r > n) r--;
+    while (r < 4294967295ULL && (r + 1) * (r + 1) <= n) r++;
+    return r;
 }
 
 unsigned long long icbrt(unsigned long long n){
-    return iroot(n, 3);
+    unsigned long long r = min<unsigned long long>(cbrtl((long double)n), 2642245ULL);
+    while (r * r * r > n) r--;
+    while (r < 2642245ULL && (r + 1) * (r + 1) * (r + 1) <= n) r++;
+    return r;
 }
 
 int main(){
