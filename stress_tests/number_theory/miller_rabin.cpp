@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/miller_rabin.cpp"
+#include "../../code_library/number_theory/miller_rabin.cpp"
 #undef main
 
 /// Independent reference: Miller-Rabin with the first 12 prime bases is exact below 3.18 * 10^23

@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/maximum_divisors.cpp"
+#include "../../code_library/number_theory/maximum_divisors.cpp"
 #undef main
 
 /// Any candidate is a product of the first primes, so trial division by those alone must reduce it to 1

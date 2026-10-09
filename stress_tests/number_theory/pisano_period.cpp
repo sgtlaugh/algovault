@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/pisano_period.cpp"
+#include "../../code_library/number_theory/pisano_period.cpp"
 #undef main
 
 typedef unsigned long long ull;

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/chinese_remainder_theorem.cpp"
+#include "../../code_library/number_theory/chinese_remainder_theorem.cpp"
 #undef main
 
 /// Pairwise coprime moduli whose product stays below 2^63, each below the documented 3 * 10^9

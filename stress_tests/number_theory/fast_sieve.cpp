@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/fast_sieve.cpp"
+#include "../../code_library/number_theory/fast_sieve.cpp"
 #undef main
 
 /// Primes in [lo, hi] by a plain segmented sieve over the primes below 2^16

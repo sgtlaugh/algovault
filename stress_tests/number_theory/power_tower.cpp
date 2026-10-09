@@ -1,9 +1,9 @@
-#include "common.h"
+#include "../common.h"
 #include <sys/wait.h>
 #include <unistd.h>
 
 #define main library_main
-#include "../code_library/power_tower.cpp"
+#include "../../code_library/number_theory/power_tower.cpp"
 #undef main
 
 /// Exact value of a tower capped at CAP, by plain repeated multiplication

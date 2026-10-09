@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/fast_prime_sums.cpp"
+#include "../../code_library/number_theory/fast_prime_sums.cpp"
 #undef main
 
 /// Lucy_Hedgehog's O(n^(3/4)) prime sum, an algorithm independent of Meissel-Lehmer

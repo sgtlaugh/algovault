@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/integer_root.cpp"
+#include "../../code_library/number_theory/integer_root.cpp"
 #undef main
 
 /// Floor k-th root by binary search with __int128 powers, no floating point

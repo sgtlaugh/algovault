@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/divisors.cpp"
+#include "../../code_library/number_theory/divisors.cpp"
 #undef main
 
 /// Divisors by testing every candidate up to sqrt(n)

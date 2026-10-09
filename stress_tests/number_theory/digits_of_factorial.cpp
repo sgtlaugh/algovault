@@ -1,10 +1,10 @@
 // LINK: -lgmp -lquadmath
-#include "common.h"
+#include "../common.h"
 #include <gmp.h>
 #include <quadmath.h>
 
 #define main library_main
-#include "../code_library/digits_of_factorial.cpp"
+#include "../../code_library/number_theory/digits_of_factorial.cpp"
 #undef main
 
 long long exact_digits(const mpz_t f, long long b){

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/pollard_rho.cpp"
+#include "../../code_library/number_theory/pollard_rho.cpp"
 #undef main
 
 /// Independent Miller Rabin with plain __int128 arithmetic, no Montgomery, no sieve

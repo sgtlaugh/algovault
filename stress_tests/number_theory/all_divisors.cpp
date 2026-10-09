@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/all_divisors.cpp"
+#include "../../code_library/number_theory/all_divisors.cpp"
 #undef main
 
 vector<int> trial_division(int x){

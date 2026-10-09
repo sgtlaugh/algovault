@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/fast_fibonacci.cpp"
+#include "../../code_library/number_theory/fast_fibonacci.cpp"
 #undef main
 
 /// F(n) mod m by squaring the matrix {{1, 1}, {1, 0}}, an independent method

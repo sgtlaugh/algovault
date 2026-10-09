@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/linear_sieve.cpp"
+#include "../../code_library/number_theory/linear_sieve.cpp"
 #undef main
 
 /// Trial division factorization, independent of the sieve

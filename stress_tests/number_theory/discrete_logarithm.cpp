@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/discrete_logarithm.cpp"
+#include "../../code_library/number_theory/discrete_logarithm.cpp"
 #undef main
 
 int brute(int a, int b, int mod){

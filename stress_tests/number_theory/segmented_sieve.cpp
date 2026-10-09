@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/segmented_sieve.cpp"
+#include "../../code_library/number_theory/segmented_sieve.cpp"
 #undef main
 
 /// Independent deterministic Miller Rabin with __int128 arithmetic
