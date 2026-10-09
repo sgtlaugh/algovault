@@ -32,13 +32,13 @@ struct Bridge{
 
 struct Graph{
     bool visited[MAX];
-    vector <Pair> adj[MAX]; /// (neighbor, edge index)
+    vector<Pair> adj[MAX]; /// (neighbor, edge index)
     int n, m = 0, dt, discover[MAX], low[MAX], num[MAX];
 
     Graph() {}
     Graph(int n): n(n) {}
 
-    void dfs(int u, int parent_edge, vector <Bridge> &bridges){
+    void dfs(int u, int parent_edge, vector<Bridge> &bridges){
         visited[u] = true;
         discover[u] = low[u] = ++dt;
 
@@ -61,8 +61,8 @@ struct Graph{
         return m++;
     }
 
-    vector <Bridge> get_bridges(){
-        vector <Bridge> bridges;
+    vector<Bridge> get_bridges(){
+        vector<Bridge> bridges;
         memset(visited, 0, sizeof(visited));
 
         for (int i = 0; i < n; i++){
@@ -78,7 +78,7 @@ struct Graph{
         return bridges;
     }
 
-    void dfs_bridge_tree(int u, int label, const vector <char>& is_bridge){
+    void dfs_bridge_tree(int u, int label, const vector<char>& is_bridge){
         num[u] = label;
         for (auto [v, id]: adj[u]){
             if (num[v] == -1 && !is_bridge[id]){
@@ -102,9 +102,9 @@ struct Graph{
      *
     ***/
 
-    vector <Pair> get_bridge_tree (){
+    vector<Pair> get_bridge_tree (){
         auto bridges = get_bridges();
-        vector <char> is_bridge(m, 0);
+        vector<char> is_bridge(m, 0);
         for (auto bridge: bridges) is_bridge[bridge.id] = 1;
 
         int label = 0;
@@ -116,7 +116,7 @@ struct Graph{
             }
         }
 
-        vector <Pair> bridge_tree;
+        vector<Pair> bridge_tree;
         for (auto bridge: bridges){
             int u = bridge.u, v = bridge.v;
             bridge_tree.push_back(Pair(num[u], num[v]));

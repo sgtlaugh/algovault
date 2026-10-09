@@ -22,7 +22,7 @@ using namespace std;
 ***/
 
 struct DSU{
-    vector <int> counter, parent;
+    vector<int> counter, parent;
 
     DSU(int n){
         parent.resize(n + 1);
@@ -64,7 +64,7 @@ struct DSU{
 ***/
 
 struct RollbackDSU{
-    vector <int> counter, parent, history;
+    vector<int> counter, parent, history;
 
     RollbackDSU(int n) : counter(n + 1, 1), parent(n + 1){
         iota(parent.begin(), parent.end(), 0);
@@ -117,8 +117,8 @@ struct RollbackDSU{
 
 struct WeightedDSU{
     long long mod;
-    vector <int> counter, parent;
-    vector <long long> pot;  /// x[i] - x[parent[i]]
+    vector<int> counter, parent;
+    vector<long long> pot;  /// x[i] - x[parent[i]]
 
     WeightedDSU(int n, long long mod = 0) : mod(mod), counter(n + 1, 1), parent(n + 1), pot(n + 1, 0){
         assert(0 <= mod && mod <= (long long)1e18);
@@ -175,8 +175,8 @@ struct WeightedDSU{
 
 struct PartiallyPersistentDSU{
     int now = 0;
-    vector <int> parent, joined;  /// joined[i]: time i stopped being a root, INT_MAX while it still is one
-    vector <vector<pair<int, int>>> sizes;  /// (time, size) of root i, times increasing
+    vector<int> parent, joined;  /// joined[i]: time i stopped being a root, INT_MAX while it still is one
+    vector<vector<pair<int, int>>> sizes;  /// (time, size) of root i, times increasing
 
     PartiallyPersistentDSU(int n) : parent(n + 1), joined(n + 1, INT_MAX), sizes(n + 1, {{0, 1}}){
         iota(parent.begin(), parent.end(), 0);

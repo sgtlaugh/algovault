@@ -18,7 +18,7 @@
  *
  * Usage:
  *   WalshHadamard fwht;
- *   vector <long long> C = fwht.xor_convolution(A, B);  // also or_convolution, and_convolution
+ *   vector<long long> C = fwht.xor_convolution(A, B);  // also or_convolution, and_convolution
  *
 ***/
 
@@ -31,7 +31,7 @@ struct WalshHadamard{
     static constexpr int AND = 1;
     static constexpr int XOR = 2;
 
-    vector <long long> buffer;  /// reused across calls: allocating a fresh 8 MB vector per call at n = 2^20 costs ~10% in page faults
+    vector<long long> buffer;  /// reused across calls: allocating a fresh 8 MB vector per call at n = 2^20 costs ~10% in page faults
 
     static void walsh_transform(long long* ar, int n, int conv_type){
         if (!n) return;
@@ -65,10 +65,10 @@ struct WalshHadamard{
         }
     }
 
-    vector <long long> convolution(const vector <long long>& A, const vector <long long>& B, int conv_type){
+    vector<long long> convolution(const vector<long long>& A, const vector<long long>& B, int conv_type){
         int n = A.size();
         assert(A.size() == B.size() && __builtin_popcount(n) == 1);
-        vector <long long> res = A;
+        vector<long long> res = A;
         buffer.assign(B.begin(), B.end());
 
         walsh_transform(res.data(), n, conv_type);
@@ -79,23 +79,23 @@ struct WalshHadamard{
         return res;
     }
 
-    vector <long long> or_convolution(const vector <long long>& A, const vector <long long>& B){
+    vector<long long> or_convolution(const vector<long long>& A, const vector<long long>& B){
         return convolution(A, B, OR);
     }
 
-    vector <long long> and_convolution(const vector <long long>& A, const vector <long long>& B){
+    vector<long long> and_convolution(const vector<long long>& A, const vector<long long>& B){
         return convolution(A, B, AND);
     }
 
-    vector <long long> xor_convolution(const vector <long long>& A, const vector <long long>& B){
+    vector<long long> xor_convolution(const vector<long long>& A, const vector<long long>& B){
         return convolution(A, B, XOR);
     }
 };
 
 int main(){
     WalshHadamard fwht;
-    const vector <long long> A = {0, 1, 3, 5};
-    const vector <long long> B = {1, 1, 2, 1};
+    const vector<long long> A = {0, 1, 3, 5};
+    const vector<long long> B = {1, 1, 2, 1};
 
     assert(fwht.or_convolution(A, B) == vector<long long>({0, 2, 9, 34}));
     assert(fwht.and_convolution(A, B) == vector<long long>({14, 7, 19, 5}));
@@ -106,7 +106,7 @@ int main(){
     assert(fwht.xor_convolution({-7}, {6}) == vector<long long>({-42}));
 
     const int n = 1 << 21;
-    vector <long long> big(n), delta_low(n), delta_high(n), expected_and(n), expected_xor(n);
+    vector<long long> big(n), delta_low(n), delta_high(n), expected_and(n), expected_xor(n);
     for (int i = 0; i < n; i++) big[i] = i % 7 - 3;
     delta_low[0] = 1, delta_high[n - 1] = 2;
     for (int i = 0; i < n; i++) expected_and[i] = 2 * big[i], expected_xor[i] = 2 * big[i ^ (n - 1)];

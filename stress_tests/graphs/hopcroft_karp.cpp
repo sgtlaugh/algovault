@@ -9,7 +9,7 @@
 namespace hc{
     const int MAX = 100010;
     bool visited[MAX];
-    vector <int> adj[MAX];
+    vector<int> adj[MAX];
     int n, L[MAX], R[MAX], Q[MAX], len[MAX], dis[MAX], parent[MAX];
 
     inline void init(int nodes){

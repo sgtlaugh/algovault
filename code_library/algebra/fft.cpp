@@ -113,7 +113,7 @@ namespace fft{
             }
         }
 
-        bool is_equal(const vector <long long>& v1, const vector <long long>& v2){
+        bool is_equal(const vector<long long>& v1, const vector<long long>& v2){
             if (v1.size() != v2.size()) return false;
 
             for (int i = 0; i < (int)v1.size(); i++){
@@ -130,7 +130,7 @@ namespace fft{
             return true;
         }
 
-        void build_convolution(vector <long long>& v1, vector <long long>& v2){
+        void build_convolution(vector<long long>& v1, vector<long long>& v2){
             assert(v1.size() == v2.size());
 
             int n = v1.size();
@@ -139,13 +139,13 @@ namespace fft{
         }
 
         /// With v1 zero padded and v2 doubled, product index n + k holds the circular convolution term k
-        vector <long long> circular_part(const vector <long long>& product, int n){
-            return vector <long long>(product.begin() + n, product.begin() + 2 * n);
+        vector<long long> circular_part(const vector<long long>& product, int n){
+            return vector<long long>(product.begin() + n, product.begin() + 2 * n);
         }
 
         /// Splits values into low and high bits, leaving low * low, the cross terms and high * high
         /// in f.real, g.real and f.img respectively, 4 transforms in total (3 for equal inputs)
-        int split_multiply(vector <long long>& v1, vector <long long>& v2, int bits){
+        int split_multiply(vector<long long>& v1, vector<long long>& v2, int bits){
             const int mask = (1 << bits) - 1;
 
             int i, j, len = build(v1, v2);
@@ -178,7 +178,7 @@ namespace fft{
      * Same as multiply(v, v) but faster
      *
     ***/
-    vector <long long> square(vector <long long> v){
+    vector<long long> square(vector<long long> v){
         int i, len, p_len = 2 * v.size() - 1;
 
         len = build(v, v);
@@ -188,7 +188,7 @@ namespace fft{
         transform(u, f, dp, len);
 
         /// A forward transform read at index -i is the inverse transform scaled by len
-        vector <long long> res(p_len, 0);
+        vector<long long> res(p_len, 0);
         for (i = 0; i < min(len, p_len); i++){
             res[i] = round_to_nearest(f[(len - i) & (len - 1)].real / (fType)len);
         }
@@ -220,7 +220,7 @@ namespace fft{
      * In general, if the values are larger than 10^6, it'd be better to use ll_multiply instead
      *
     ***/
-    vector <long long> multiply(vector <long long> v1, vector <long long> v2){
+    vector<long long> multiply(vector<long long> v1, vector<long long> v2){
         if (is_equal(v1, v2)) return square(v1);
 
         int i, j, len, p_len = v1.size() + v2.size() - 1;
@@ -235,7 +235,7 @@ namespace fft{
         }
         transform(u, f, dp, len);
 
-        vector <long long> res(p_len, 0);
+        vector<long long> res(p_len, 0);
         for (i = 0; i < min(len, p_len); i++){
             res[i] = round_to_nearest(f[i].real);
         }
@@ -247,13 +247,13 @@ namespace fft{
      * Same as multiply(v1, v2), only values are calculated modulo mod
      *
     ***/
-    vector <long long> mod_multiply(vector <long long> v1, vector <long long> v2, int mod, int bits=MOD_SPLIT_LIMIT){
+    vector<long long> mod_multiply(vector<long long> v1, vector<long long> v2, int mod, int bits=MOD_SPLIT_LIMIT){
         int p_len = v1.size() + v2.size() - 1;
         for (auto&& x: v1) x %= mod;
         for (auto&& x: v2) x %= mod;
 
         int len = split_multiply(v1, v2, bits);
-        vector <long long> res(p_len, 0);
+        vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
             long long x = round_to_nearest(f[i].real);
             long long y = round_to_nearest(g[i].real);
@@ -271,14 +271,14 @@ namespace fft{
      * Every coefficient of the result must be below 2^63
      *
     ***/
-    vector<long long> ll_multiply(vector <long long> v1, vector <long long> v2){
+    vector<long long> ll_multiply(vector<long long> v1, vector<long long> v2){
         for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
         for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
 
         int p_len = v1.size() + v2.size() - 1;
         int len = split_multiply(v1, v2, MOD_SPLIT_LIMIT);
 
-        vector <long long> res(p_len, 0);
+        vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
             unsigned long long x = round_to_nearest(f[i].real);
             unsigned long long y = round_to_nearest(g[i].real);
@@ -305,7 +305,7 @@ namespace fft{
      * Also read the notes on multiply()
      *
     ***/
-    vector<long long> convolution(vector <long long> v1, vector <long long> v2){
+    vector<long long> convolution(vector<long long> v1, vector<long long> v2){
         int n = v1.size();
         build_convolution(v1, v2);
         return circular_part(multiply(v1, v2), n);
@@ -315,7 +315,7 @@ namespace fft{
      * Same as convolution(v1, v2), only values are calculated modulo mod
      *
     ***/
-    vector<long long> mod_convolution(vector <long long> v1, vector <long long> v2, int mod){
+    vector<long long> mod_convolution(vector<long long> v1, vector<long long> v2, int mod){
         int n = v1.size();
         build_convolution(v1, v2);
         return circular_part(mod_multiply(v1, v2, mod), n);
@@ -327,7 +327,7 @@ namespace fft{
      * Also read the notes on ll_multiply()
      *
     ***/
-    vector<long long> ll_convolution(vector <long long> v1, vector <long long> v2){
+    vector<long long> ll_convolution(vector<long long> v1, vector<long long> v2){
         int n = v1.size();
         build_convolution(v1, v2);
         return circular_part(ll_multiply(v1, v2), n);

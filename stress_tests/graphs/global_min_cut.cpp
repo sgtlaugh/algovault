@@ -19,7 +19,7 @@ long long brute_min_cut(const vector<vector<long long>>& w){
     int n = w.size();
     long long best = LLONG_MAX;
     for (int mask = 1; mask < (1 << (n - 1)); mask++){
-        vector <bool> in_side(n, false);
+        vector<bool> in_side(n, false);
         for (int i = 1; i < n; i++) in_side[i] = mask >> (i - 1) & 1;
         best = min(best, cut_weight(w, in_side));
     }
@@ -34,8 +34,8 @@ long long flow_min_cut(const vector<vector<long long>>& w){
         auto cap = w;
         long long flow = 0;
         while (true){
-            vector <int> par(n, -1);
-            queue <int> q;
+            vector<int> par(n, -1);
+            queue<int> q;
             par[0] = 0, q.push(0);
             while (!q.empty() && par[t] == -1){
                 int u = q.front();
@@ -60,7 +60,7 @@ long long flow_min_cut(const vector<vector<long long>>& w){
 void check_side(const vector<vector<long long>>& w, long long weight, const vector<int>& side){
     int n = w.size();
     assert(!side.empty() && (int)side.size() < n);
-    vector <bool> in_side(n, false);
+    vector<bool> in_side(n, false);
     for (int x: side){
         assert(0 <= x && x < n && !in_side[x]);
         in_side[x] = true;
@@ -71,7 +71,7 @@ void check_side(const vector<vector<long long>>& w, long long weight, const vect
 /// Random weights, sparse to dense, small weights for ties and huge ones summing close to LLONG_MAX
 pair<GlobalMinCut, vector<vector<long long>>> random_graph(int n, int edges, long long max_w){
     GlobalMinCut g(n);
-    vector <vector<long long>> w(n, vector<long long>(n, 0));
+    vector<vector<long long>> w(n, vector<long long>(n, 0));
     for (int e = 0; e < edges; e++){
         int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
         long long weight = stress::rand_int(0, max_w);
@@ -104,7 +104,7 @@ int main(){
     /// Total weight of exactly LLONG_MAX: at n = 2 the only cut weighs LLONG_MAX, the starting best
     for (long long split: {0LL, 5LL, LLONG_MAX / 2}){
         GlobalMinCut g(2);
-        vector <vector<long long>> w = {{0, LLONG_MAX}, {LLONG_MAX, 0}};
+        vector<vector<long long>> w = {{0, LLONG_MAX}, {LLONG_MAX, 0}};
         g.add_edge(0, 1, LLONG_MAX - split), g.add_edge(1, 0, split);
         auto [weight, side] = g.min_cut();
         assert(weight == LLONG_MAX);

@@ -21,9 +21,9 @@
 using namespace std;
 
 template <typename T, typename Compare = less<T>>
-vector <int> lis_vector(const vector <T>& ar, bool allow_equal=false, Compare cmp=Compare()){
-    vector <T> idx;
-    vector <int> res;
+vector<int> lis_vector(const vector<T>& ar, bool allow_equal=false, Compare cmp=Compare()){
+    vector<T> idx;
+    vector<int> res;
 
     for (const T &x : ar){
         auto it = allow_equal ? upper_bound(idx.begin(), idx.end(), x, cmp)
@@ -40,11 +40,11 @@ vector <int> lis_vector(const vector <T>& ar, bool allow_equal=false, Compare cm
 /// The rightmost i before j with len[i] == len[j] - 1 always precedes ar[j]: it was the last value written to
 /// tail slot len[j] - 2 before j, and j landed in the slot after it, so no comparator check is needed
 template <typename T, typename Compare = less<T>>
-vector <int> lis_indices(const vector <T>& ar, bool allow_equal=false, Compare cmp=Compare()){
+vector<int> lis_indices(const vector<T>& ar, bool allow_equal=false, Compare cmp=Compare()){
     if (ar.empty()) return {};
-    vector <int> len = lis_vector(ar, allow_equal, cmp);
+    vector<int> len = lis_vector(ar, allow_equal, cmp);
     int last = max_element(len.begin(), len.end()) - len.begin();
-    vector <int> res(len[last]);
+    vector<int> res(len[last]);
 
     res.back() = last;
     for (int i = last - 1, k = len[last] - 2; k >= 0; i--){
@@ -55,24 +55,24 @@ vector <int> lis_indices(const vector <T>& ar, bool allow_equal=false, Compare c
 }
 
 template <typename T>
-vector <int> lds_vector(const vector <T>& ar, bool allow_equal=false){
+vector<int> lds_vector(const vector<T>& ar, bool allow_equal=false){
     return lis_vector(ar, allow_equal, [](const T& a, const T& b){ return b < a; });
 }
 
 template <typename T>
-int lis_length(const vector <T>& ar, bool allow_equal=false){
+int lis_length(const vector<T>& ar, bool allow_equal=false){
     auto lis = lis_vector(ar, allow_equal);
     return lis.empty() ? 0 : *max_element(lis.begin(), lis.end());
 }
 
 template <typename T>
-int lds_length(const vector <T>& ar, bool allow_equal=false){
+int lds_length(const vector<T>& ar, bool allow_equal=false){
     auto lds = lds_vector(ar, allow_equal);
     return lds.empty() ? 0 : *max_element(lds.begin(), lds.end());
 }
 
 int main(){
-    vector <int> ar, res;
+    vector<int> ar, res;
 
     ar = {1, 2, 4, 3};
     res = {1, 2, 3, 3};

@@ -16,7 +16,7 @@ using namespace std;
 template <class T>
 void compress(vector<T>& v, bool make_sorted=true){
     if (!make_sorted){
-        unordered_map <T, int> mp;
+        unordered_map<T, int> mp;
         mp.reserve(v.size());
         for (auto &&x: v) x = mp.emplace(x, mp.size()).first->second;
         return;
@@ -33,11 +33,11 @@ void compress(vector<T>& v, bool make_sorted=true){
 }
 
 int main(){
-    vector <int> u = {2000000000, 1000000000, 2000000000, 1, 10, 5};
+    vector<int> u = {2000000000, 1000000000, 2000000000, 1, 10, 5};
     compress(u);
     assert(u == vector<int>({4, 3, 4, 0, 2, 1}));
 
-    vector <long long> v = {2000000000000LL, 1000000000, 2000000000000LL, 1, 10, 5};
+    vector<long long> v = {2000000000000LL, 1000000000, 2000000000000LL, 1, 10, 5};
     compress(v, false);
     assert(v == vector<long long>({0, 1, 0, 2, 3, 4}));
 

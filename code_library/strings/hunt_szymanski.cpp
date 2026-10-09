@@ -16,7 +16,7 @@ using namespace std;
 char A[MAX], B[MAX];
 
 int lcs(const char* A, const char* B){
-    vector <int> adj[256], ar(1, -1);
+    vector<int> adj[256], ar(1, -1);
     int i, j, k, n = strlen(A), m = strlen(B);
     for (i = 0; i < m; i++) adj[(unsigned char)B[i]].push_back(i);
 

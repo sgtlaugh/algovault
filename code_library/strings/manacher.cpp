@@ -11,10 +11,10 @@
 
 using namespace std;
 
-vector <int> manacher(const string& str){
+vector<int> manacher(const string& str){
     if (str.empty()) return {};
     int i, j, k, l = str.size(), n = l << 1;
-    vector <int> pal(n);
+    vector<int> pal(n);
 
     for (i = 0, j = 0, k = 0; i < n; j = max(0, j - k), i += k){
         while (j <= i && (i + j + 1) < n && str[(i - j) >> 1] == str[(i + j + 1) >> 1]) j++;

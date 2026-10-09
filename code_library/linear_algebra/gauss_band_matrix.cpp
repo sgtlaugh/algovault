@@ -104,12 +104,12 @@ struct GaussBand{
         }
     }
 
-    vector <vector<T>> solve(){
+    vector<vector<T>> solve(){
         gauss();
 
-        vector <vector<T>> res;
+        vector<vector<T>> res;
         for (int i = 0; i < n; i++){
-            vector <T> v;
+            vector<T> v;
             for (int j = 0; j < m; j++){
                 int idx = get_cell_num(i, j);
                 v.push_back(rhs[idx]);
@@ -159,7 +159,7 @@ int main(){
     /// RHS constant for most variables except (1, 1) is 1
     long double rhs_default = 1;
 
-    GaussBand <long double> gauss_band(n, m, band_size, rhs_default);
+    GaussBand<long double> gauss_band(n, m, band_size, rhs_default);
 
     gauss_band.set_rhs(1, 1, 0);
 

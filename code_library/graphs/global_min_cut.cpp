@@ -25,7 +25,7 @@ using namespace std;
 
 struct GlobalMinCut{
     int n;
-    vector <vector<long long>> adj;
+    vector<vector<long long>> adj;
 
     GlobalMinCut(int n) : n(n), adj(n, vector<long long>(n, 0)) {}
 
@@ -39,15 +39,15 @@ struct GlobalMinCut{
     pair<long long, vector<int>> min_cut() const{
         assert(n >= 2);
         auto mat = adj;
-        vector <vector<int>> group(n);
-        vector <bool> merged(n, false);
+        vector<vector<int>> group(n);
+        vector<bool> merged(n, false);
         for (int i = 0; i < n; i++) group[i] = {i};
         long long best = LLONG_MAX;
-        vector <int> side;
+        vector<int> side;
 
         for (int phase = 1; phase < n; phase++){
-            vector <long long> key(n, 0);
-            vector <bool> added(n, false);
+            vector<long long> key(n, 0);
+            vector<bool> added(n, false);
             int prev = -1, last = -1;
 
             for (int it = 0; it <= n - phase; it++){
@@ -72,7 +72,7 @@ struct GlobalMinCut{
 
 int main(){
     auto is_side = [](const vector<int>& side, const vector<int>& expected, int n){
-        vector <int> complement;
+        vector<int> complement;
         for (int i = 0; i < n; i++){
             if (!binary_search(expected.begin(), expected.end(), i)) complement.push_back(i);
         }
@@ -81,7 +81,7 @@ int main(){
 
     {
         GlobalMinCut g(8);
-        vector <array<int, 3>> edges = {{0, 1, 2}, {0, 4, 3}, {1, 2, 3}, {1, 4, 2}, {1, 5, 2}, {2, 3, 4}, {2, 6, 2}, {3, 6, 2}, {3, 7, 2}, {4, 5, 3}, {5, 6, 1}, {6, 7, 3}};
+        vector<array<int, 3>> edges = {{0, 1, 2}, {0, 4, 3}, {1, 2, 3}, {1, 4, 2}, {1, 5, 2}, {2, 3, 4}, {2, 6, 2}, {3, 6, 2}, {3, 7, 2}, {4, 5, 3}, {5, 6, 1}, {6, 7, 3}};
         for (auto [u, v, w]: edges) g.add_edge(u, v, w);
         auto [weight, side] = g.min_cut();
         assert(weight == 4 && is_side(side, {2, 3, 6, 7}, 8));

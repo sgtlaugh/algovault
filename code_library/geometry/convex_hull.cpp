@@ -108,7 +108,7 @@ vector<Point> get_convex_hull(vector<Point> P){
  *
 ***/
 
-bool is_convex(const vector <Point>& P){
+bool is_convex(const vector<Point>& P){
     int n = P.size(), sign = 0, first[2] = {0, 0}, last[2] = {0, 0}, flips[2] = {0, 0};
     if (n <= 2) return false; /// Line or point is not convex
 
@@ -318,13 +318,13 @@ private:
 };
 
 int main(){
-    vector <Point> polygon = {Point(0, 0), Point(0, 10), Point(1, 1), Point(2, 20), Point(5, 5), Point(10, 10), Point(10, 0)};
+    vector<Point> polygon = {Point(0, 0), Point(0, 10), Point(1, 1), Point(2, 20), Point(5, 5), Point(10, 10), Point(10, 0)};
     assert(!is_convex(polygon));
 
-    vector <Point> hull = get_convex_hull(polygon);
+    vector<Point> hull = get_convex_hull(polygon);
     assert(is_convex(hull));
 
-    vector <Point> expected_hull = {Point(0, 0), Point(10, 0), Point(10, 10), Point(2, 20), Point(0, 10)};
+    vector<Point> expected_hull = {Point(0, 0), Point(10, 0), Point(10, 10), Point(2, 20), Point(0, 10)};
     assert(hull == expected_hull);
 
     auto far = farthest_pair(hull);

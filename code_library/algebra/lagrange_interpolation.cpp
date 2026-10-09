@@ -128,7 +128,7 @@ int main(){
 
     /// Sum of first x squares, f(x) = 1^2 + 2^2 + ... + x^2
     /// Polynomial is f(x) = (2x^3 + 3x^2 + x) / 6, a cubic polynomial of degree 3
-    vector <int> terms = vector<int> {0, 1, 5, 14, 30};
+    vector<int> terms = vector<int> {0, 1, 5, 14, 30};
 
     auto lagrange = Lagrange(terms, mod);
     assert(lagrange.interpolate(5) == 55);

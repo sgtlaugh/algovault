@@ -19,13 +19,13 @@
 using namespace std;
 
 namespace nt{
-    map <int, map<int, int>> factors_map;
+    map<int, map<int, int>> factors_map;
 
-    map <int, int> get_factors(int mod){
+    map<int, int> get_factors(int mod){
         if (factors_map.count(mod)) return factors_map[mod];
 
         long long d, x = mod;
-        map <int, int> factors;
+        map<int, int> factors;
         for (d = 2; d * d <= x; d += (d & 1) + 1){
             while (x % d == 0){
                 factors[d]++;
@@ -54,7 +54,7 @@ namespace nt{
         return (x + mod) % mod;
     }
 
-    int chinese_remainder_theorem(vector <int> ar, vector <int> mods){
+    int chinese_remainder_theorem(vector<int> ar, vector<int> mods){
         int i, res = 0, mod = 1;
         for (auto m: mods) mod *= m;
 
@@ -159,7 +159,7 @@ namespace fft{
         }
     }
 
-    vector <int> mod_multiply(vector <int>& p1, vector <int>& p2, int mod){
+    vector<int> mod_multiply(vector<int>& p1, vector<int>& p2, int mod){
         int i, j, a = 0, b = 0, p_len = -1;
         for (auto x: p1) A[a++] = x, p_len++;
         for (auto x: p2) B[b++] = x, p_len++;
@@ -198,16 +198,16 @@ namespace fft{
             A[i] = (x + ((y % mod) << 15) + ((z % mod) << 30)) % mod;
         }
 
-        return vector <int>(A, A + p_len);
+        return vector<int>(A, A + p_len);
     }
 }
 
 int _POLYNOMIAL_MOD;
 
 struct Polynomial{
-    vector <int> coefficient;
+    vector<int> coefficient;
 
-    Polynomial(vector <int> coefficient={}) : coefficient(coefficient) {}
+    Polynomial(vector<int> coefficient={}) : coefficient(coefficient) {}
 
     inline int* data(){
         return coefficient.empty() ? 0 : &coefficient[0];
@@ -369,7 +369,7 @@ struct Polynomial{
 
 struct LinearRecurrence{
     long long mod;
-    vector <int> raw_base_sequence, base_sequence, recurrence;
+    vector<int> raw_base_sequence, base_sequence, recurrence;
 
     LinearRecurrence() {}
 
@@ -380,7 +380,7 @@ struct LinearRecurrence{
      * recurrence: an optional recurrence vector, calculated if not given
     ***/
 
-    LinearRecurrence(vector <int> sequence, int mod, vector<int> recurrence={}) : mod(mod), recurrence(recurrence){
+    LinearRecurrence(vector<int> sequence, int mod, vector<int> recurrence={}) : mod(mod), recurrence(recurrence){
         int n = sequence.size(), m = n >> 1;
 
         if (n == 0 || (n % 2) != 0){
@@ -411,15 +411,15 @@ struct LinearRecurrence{
         }
     }
 
-    long long find_rank(const vector <int> & v){
+    long long find_rank(const vector<int> & v){
         return (v.size() > 1 || (v.size() == 1 && v[0])) ? v.size() - 1 : (long long)INT_MIN;
     }
 
-    long long compare(const vector <int> &a, const vector <int> &b){
+    long long compare(const vector<int> &a, const vector<int> &b){
         return max(find_rank(a), find_rank(b) + 1);
     };
 
-    void update(vector <int>& u, vector <int>& v, int m, long long c){
+    void update(vector<int>& u, vector<int>& v, int m, long long c){
         int i, k = v.size();
         if (k + m > (int)u.size()) u.resize(k + m, 0);
 
@@ -431,14 +431,14 @@ struct LinearRecurrence{
         while (u.size() && !u.back()) u.pop_back();
     }
 
-    vector <int> reeds_sloane(vector <int> sequence, int p, int e){
-        vector <int> T(e), U(e), R(e), TO(e, 1), UO(e), POW(e + 1, 1);
+    vector<int> reeds_sloane(vector<int> sequence, int p, int e){
+        vector<int> T(e), U(e), R(e), TO(e, 1), UO(e), POW(e + 1, 1);
         int c, d, i, j, k, l, m, len = sequence.size(), mod = powl(p, e) + 0.5;
 
-        vector <vector<int>> A[3], B[3];
+        vector<vector<int>> A[3], B[3];
         for (i = 0; i < 3; i++){
-            A[i] = vector <vector<int>>(e);
-            B[i] = vector <vector<int>>(e);
+            A[i] = vector<vector<int>>(e);
+            B[i] = vector<vector<int>>(e);
         }
 
         for (i = 0; i < len; i++) sequence[i] %= mod;
@@ -489,9 +489,9 @@ struct LinearRecurrence{
         return A[1][0];
     }
 
-    vector <int> berlekamp_massey(vector <int> sequence, long long mod){
+    vector<int> berlekamp_massey(vector<int> sequence, long long mod){
         int n = sequence.size();
-        vector <int> T, B(n + 1, 0), C(n + 1, 0);
+        vector<int> T, B(n + 1, 0), C(n + 1, 0);
         reverse(sequence.begin(), sequence.end());
 
         C[0] = 1, B[0] = 1;
@@ -522,7 +522,7 @@ struct LinearRecurrence{
         return C;
     }
 
-    vector <int> decompose(vector <int> sequence, int mod){
+    vector<int> decompose(vector<int> sequence, int mod){
         int i, j, e, n, p, m, k = 0;
         auto factors = nt::get_factors(mod);
         n = factors.size();
@@ -531,8 +531,8 @@ struct LinearRecurrence{
             return berlekamp_massey(sequence, mod);
         }
 
-        vector <int> v, mods, vals(n);
-        vector <vector<int>> coeffs;
+        vector<int> v, mods, vals(n);
+        vector<vector<int>> coeffs;
 
         for (auto it: factors){
             tie(p, e) = it;
@@ -544,7 +544,7 @@ struct LinearRecurrence{
             coeffs.push_back(v);
         }
 
-        vector <int> res(k);
+        vector<int> res(k);
         for (i = 0; i < k; i++){
             for (j = 0; j < n; j++){
                 vals[j] = i < (int)coeffs[j].size() ? coeffs[j][i] : 0;
@@ -561,10 +561,10 @@ struct LinearRecurrence{
      * k must be at most the recurrence degree
     ***/
 
-    vector <int> nth_terms(long long n, int k){
-        vector <int> u = recurrence, v, res;
+    vector<int> nth_terms(long long n, int k){
+        vector<int> u = recurrence, v, res;
 
-        if (mod == 1) return vector <int> (k, 0);
+        if (mod == 1) return vector<int> (k, 0);
         if ((n + k - 1) < (int)base_sequence.size()){
             for (int i = 0; i < k; i++) res.push_back(base_sequence[(int)n + i]);
             return res;
@@ -582,7 +582,7 @@ struct LinearRecurrence{
         }
 
         int len = min(recurrence.size(), base_sequence.size());
-        if (!len) return vector <int> (k, 0);
+        if (!len) return vector<int> (k, 0);
 
         assert(len >= k);
         for (int j = 0; j < k; j++){
@@ -606,7 +606,7 @@ struct LinearRecurrence{
 int main(){
     int i, j, k, v, mod;
     LinearRecurrence lr;
-    vector <int> sequence, recurrence;
+    vector<int> sequence, recurrence;
 
     /// recurrence given, f(x) = f(x - 3) + 2*f(x - 2) + 4*f(x-1), x > 2
     recurrence = {1, 2, 4};

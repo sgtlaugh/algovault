@@ -10,7 +10,7 @@
  *
  * Naive approach:
  *
- * vector <int> divisors[MAX];
+ * vector<int> divisors[MAX];
  *
  * void generate(){
  *     for (int i = 1; i < MAX; i++){
@@ -34,7 +34,7 @@
 
 using namespace std;
 
-vector <int> divisors[MAX];
+vector<int> divisors[MAX];
 
 void gen(bool make_sorted=false){ /// sorting makes it 2x slower
     static short sp[MAX];

@@ -46,9 +46,9 @@ struct Edge{
 
 struct FlowGraph{
     int n, src, sink;
-    vector <vector<int>> adj;
-    vector <struct Edge> E;
-    vector <int> Q, ptr, dis, path;
+    vector<vector<int>> adj;
+    vector<struct Edge> E;
+    vector<int> Q, ptr, dis, path;
 
     FlowGraph(int n, int src, int sink): n(n), src(src), sink(sink), adj(n), Q(n), ptr(n), dis(n, -1) {}
 
@@ -152,7 +152,7 @@ struct FlowGraph{
 struct FlowGraphWithNodeCap{
     FlowGraph flowgraph;
 
-    FlowGraphWithNodeCap(int n, int src, int sink, vector <long long> node_capacity) : flowgraph(2 * n, 2 * src, 2 * sink + 1){
+    FlowGraphWithNodeCap(int n, int src, int sink, vector<long long> node_capacity) : flowgraph(2 * n, 2 * src, 2 * sink + 1){
         for (int i = 0; i < n; i++){
             flowgraph.add_directed_edge(2 * i, 2 * i + 1, node_capacity[i]);
         }

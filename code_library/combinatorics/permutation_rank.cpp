@@ -10,11 +10,11 @@ using namespace std;
  *
 ***/
 
-long long find_rank(vector <int> permutation){
+long long find_rank(vector<int> permutation){
     long long res = 1;
     int i, j, n = permutation.size();
-    vector <bool> visited(n + 1, false);
-    vector <long long> factorial(n + 1, 1);
+    vector<bool> visited(n + 1, false);
+    vector<long long> factorial(n + 1, 1);
     for (i = 1; i <= n; i++) factorial[i] = factorial[i - 1] * i;
 
     for (i = 1; i <= n; i++){
@@ -38,11 +38,11 @@ long long find_rank(vector <int> permutation){
  *
 ***/
 
-vector <int> find_permutation(int n, long long k){
+vector<int> find_permutation(int n, long long k){
     int i, j;
-    vector <int> res(n, 0);
-    vector <bool> visited(n + 1, false);
-    vector <long long> factorial(n + 1, 1);
+    vector<int> res(n, 0);
+    vector<bool> visited(n + 1, false);
+    vector<long long> factorial(n + 1, 1);
     for (i = 1; i <= n; i++) factorial[i] = factorial[i - 1] * i;
 
     for (i = 1; i <= n; i++){
@@ -68,7 +68,7 @@ int main(){
     printf("%lld\n", find_rank({3, 1, 2}));      /// 5
     printf("%lld\n", find_rank({3, 2, 1}));      /// 6
 
-    vector <int> permutation = find_permutation(15, 1000000000007LL);
+    vector<int> permutation = find_permutation(15, 1000000000007LL);
     for (auto v: permutation) printf("%d ", v);  /// 12 7 9 11 2 3 15 5 6 14 4 13 10 1 8
     puts("");
 

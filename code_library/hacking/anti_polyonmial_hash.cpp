@@ -121,7 +121,7 @@ struct AntiHash{
 
     pair<string, string> solve(){
         while (!found){
-            vector <int> v;
+            vector<int> v;
             for (int i = 0; i < len; i++){
                 v.push_back(i < (2 * chunk));
             }

@@ -204,7 +204,7 @@ struct PisanoPeriod{
 
     long long period(long long n){
         auto pfs = rho.factorize(n);
-        unordered_map <long long, int> pf_cnts;
+        unordered_map<long long, int> pf_cnts;
         for (auto pf: pfs) pf_cnts[pf]++;
 
         long long res = 1;

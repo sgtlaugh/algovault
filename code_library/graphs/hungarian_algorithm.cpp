@@ -42,8 +42,8 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
         }
     }
 
-    vector <int> way(m + 1, 0), match(n + 1, 0), visited(m + 1, 0), P(m + 1, 0);
-    vector <T> U(n + 1, 0), V(m + 1, 0), minv(m + 1, 0);
+    vector<int> way(m + 1, 0), match(n + 1, 0), visited(m + 1, 0), P(m + 1, 0);
+    vector<T> U(n + 1, 0), V(m + 1, 0), minv(m + 1, 0);
 
     for (i = 1; i <= n; i++){
         b = 0, P[0] = i;
@@ -75,7 +75,7 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
         } while (b);
     }
 
-    vector <pair<int, int>> matches;
+    vector<pair<int, int>> matches;
 
     for (j = 1; j <= m; j++) match[P[j]] = j;
     for (i = 1; i <= n; i++) matches.push_back({i - 1, match[i] - 1});

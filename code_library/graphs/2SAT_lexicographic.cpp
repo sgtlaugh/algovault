@@ -208,8 +208,8 @@ struct Graph{
      * only call when is_satisfiable()
     ***/
 
-    vector <int> get_assignment(){
-        vector <int> set_nodes;
+    vector<int> get_assignment(){
+        vector<int> set_nodes;
         for (int x = 1; x <= n; x++){
             if (value[2 * x]) set_nodes.push_back(x);
         }

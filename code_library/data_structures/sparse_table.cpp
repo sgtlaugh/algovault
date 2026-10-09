@@ -28,7 +28,7 @@ using namespace std;
 
 template <typename T>
 struct SparseTable{
-    vector <T> dp[32];
+    vector<T> dp[32];
 
     /// defined for min by default, change as required
     T combine(const T& x, const T& y){

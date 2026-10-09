@@ -26,8 +26,8 @@ struct Graph{
     static constexpr unsigned int mod = 1073750017; /// prime, constexpr so % compiles to a multiply
 
     int n;
-    vector <vector<bool>> adj;
-    vector <vector<unsigned int>> tutte_matrix;
+    vector<vector<bool>> adj;
+    vector<vector<unsigned int>> tutte_matrix;
     mt19937 rng = mt19937(chrono::steady_clock::now().time_since_epoch().count());
 
     Graph() {}
@@ -67,7 +67,7 @@ struct Graph{
 
     int get_matrix_rank(){
         int j, k, u, r = 0;
-        vector <int> nonzero;
+        vector<int> nonzero;
 
         for (j = 0; j < n; j++){
             for (k = r; k < n && !tutte_matrix[k][j]; k++) {}
