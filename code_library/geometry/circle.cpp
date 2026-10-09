@@ -141,7 +141,7 @@ vector<pair<Point, Point>> common_tangents(const Circle& a, const Circle& b){
 Circle circumcircle(const Point& a, const Point& b, const Point& c){
     Point u = b - a, v = c - a;
     Point center = a + (v * u.norm2() - u * v.norm2()).perp() / (v.cross(u) * 2);
-    return {center, (center - a).norm()};
+    return {center, max({(center - a).norm(), (center - b).norm(), (center - c).norm()})};
 }
 
 Circle minimum_enclosing_circle(vector<Point> points){
@@ -156,7 +156,10 @@ Circle minimum_enclosing_circle(vector<Point> points){
         c = {points[i], 0};
         for (int j = 0; j < i; j++){
             if (!outside(points[j])) continue;
-            c = {(points[i] + points[j]) / 2, (points[i] - points[j]).norm() / 2};
+            /// The rounded center can sit farther than |pi - pj| / 2 from pi or pj, and with a tiny radius that error beats the
+            /// relative tolerance, so pi itself would test outside and reach circumcircle as a degenerate triple giving NaN
+            Point mid = (points[i] + points[j]) / 2;
+            c = {mid, max((mid - points[i]).norm(), (mid - points[j]).norm())};
             for (int k = 0; k < j; k++){
                 if (outside(points[k])) c = circumcircle(points[i], points[j], points[k]);
             }

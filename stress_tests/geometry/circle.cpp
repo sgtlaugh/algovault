@@ -184,7 +184,8 @@ long double brute_mec_radius(const vector<Point>& p){
             if (encloses(p, mid, dist(p[i], p[j]) / 2)) best = min(best, dist(p[i], p[j]) / 2);
             for (int k = 0; k < j; k++){
                 if ((p[j] - p[i]).cross(p[k] - p[i]) == 0) continue;
-                Point c = cramer_center(p[i], p[j], p[k]);
+                /// Relative to p[i], so the squared norms of a tight cluster far from the origin do not cancel
+                Point c = p[i] + cramer_center({0, 0}, p[j] - p[i], p[k] - p[i]);
                 if (encloses(p, c, dist(c, p[i]))) best = min(best, dist(c, p[i]));
             }
         }
@@ -422,6 +423,23 @@ void check_minimum_enclosing_circle(){
         Circle res = minimum_enclosing_circle(points);
         assert(encloses(points, res.center, res.r));
         assert(close(res.r, brute_mec_radius(points), range));
+    }
+
+    /// Clusters about 1e-6 wide near coordinates up to 1e4, where rounding the center exceeds the relative tolerance of a tiny radius,
+    /// sometimes with farther points so the cluster decides only an intermediate circle
+    for (long long it = 0; it < stress::scaled(20000); it++){
+        Point base = rand_point(10000);
+        int n = stress::rand_int(2, 8), far = it % 2 ? stress::rand_int(1, 3) : 0;
+        vector<Point> points;
+        for (int i = 0; i < n; i++){
+            if (i && stress::rand_int(0, 2) == 0) points.push_back(points[stress::rand_int(0, i - 1)]);
+            else points.push_back({base.x + stress::rand_int(0, 20) / 1e7L, base.y + stress::rand_int(0, 20) / 1e7L});
+        }
+        for (int i = 0; i < far; i++) points.push_back(base + rand_point(100));
+
+        Circle res = minimum_enclosing_circle(points);
+        assert(encloses(points, res.center, res.r));
+        assert(close(res.r, brute_mec_radius(points), 10000));
     }
 
     /// Large inputs for the expected O(n) bound: random squares, and lattice points on one circle where every point is on the boundary
