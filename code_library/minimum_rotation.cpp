@@ -17,7 +17,8 @@ using namespace std;
 template <typename Container>
 int minimum_rotation(const Container& s){
     int n = s.size(), i = 0, j = 1, k = 0;
-    /// Two candidate starts i < j, the one that loses a comparison skips past everything it just matched
+    /// Two candidate starts i != j, the one that loses a comparison skips past everything it just matched
+    /// The smallest least start is never skipped and i starts at 0, so i ends on it
     while (i < n && j < n && k < n){
         auto a = s[(i + k) % n], b = s[(j + k) % n];
         if (a == b){
@@ -29,7 +30,7 @@ int minimum_rotation(const Container& s){
         if (i == j) j++;
         k = 0;
     }
-    return n == 0 ? 0 : min(i, j);
+    return i;
 }
 
 int minimum_rotation(const char* s){
