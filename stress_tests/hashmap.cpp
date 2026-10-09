@@ -40,7 +40,19 @@ void run(long long rounds){
     }
 }
 
+/// Reassigning a fresh table must compile and cost little, a per-instance salt deleted operator= and seeded an mt19937_64 per construction
+void check_reassign(){
+    HashMap<int, int> table(1);
+    for (int i = 0; i < 300000; i++){
+        table = HashMap<int, int>(i % 4);
+        assert(table.size() == 0 && !table.contains(i - 1));
+        table.set(i, -i);
+        assert(table.size() == 1 && table.get(i) == -i);
+    }
+}
+
 int main(){
+    check_reassign();
     run<int>(stress::scaled(1600));
     run<long long>(stress::scaled(1600));
     run<unsigned int>(stress::scaled(400));
