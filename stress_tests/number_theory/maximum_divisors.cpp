@@ -12,6 +12,7 @@ uint64_t divisor_count(uint64_t x){
         while (x % p == 0) x /= p, e++;
         res *= e + 1;
     }
+
     assert(x == 1);
     return res;
 }
@@ -66,5 +67,6 @@ int main(){
     assert(solve(735134399) == Pair(698377680, 1280));
     assert(solve(1000000000000000000LL) == Pair(897612484786617600ULL, 103680));
     assert(solve(897612484786617599LL) == Pair(748010403988848000ULL, 98304));
+
     return 0;
 }

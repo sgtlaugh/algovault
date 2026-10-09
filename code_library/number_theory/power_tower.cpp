@@ -50,6 +50,7 @@ struct PowerTower{
     static long long pow_saturated(long long b, long long e){
         if (b == 1 || e == 0) return 1;
         if (e >= 62) return LIMIT;
+
         __int128 res = 1;
         for (long long i = 0; i < e; i++){
             res *= b;
@@ -63,6 +64,7 @@ struct PowerTower{
         int j = i;
         while (j < r && a[j] != 1 && j - i < 4) j++;
         for (int k = i; k <= j; k++) assert(a[k] >= 1);
+
         long long value = min(a[j], LIMIT);
         for (int k = j - 1; k >= i; k--) value = pow_saturated(a[k], value);
         return value;
@@ -105,5 +107,6 @@ int main(){
     assert(tower.query(a, 1, 2) == 8);
     assert(tower.query(a, 0, 4) == 1);
     assert(tower.query(a, 3, 4) == 16);
+
     return 0;
 }

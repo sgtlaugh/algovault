@@ -22,6 +22,7 @@ long long lucy(long long n){
         }
         for (long long v = r; v >= p2; v--) lo[v] -= lo[v / p] - below;
     }
+
     return hi[1];
 }
 
@@ -39,9 +40,11 @@ int main(){
         long long n = stress::rand_int(it % 3 ? MAXV : 1, it % 3 ? 2000000000LL : MAXV);
         assert((long long)lehmer(n) == lucy(n));
     }
+
     for (long long it = 0; it < stress::scaled(1); it++){
         long long n = stress::rand_int(10000000000LL, 30000000000LL);
         assert((long long)lehmer(n) == lucy(n));
     }
+
     return 0;
 }

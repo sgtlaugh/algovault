@@ -24,6 +24,7 @@ struct LinearSieve{
 
     LinearSieve(int n) : n(n), spf(n + 1, 0), phi(n + 1, 0), mu(n + 1, 0), power(n + 1, 0), exponent(n + 1, 0){
         if (n >= 1) phi[1] = mu[1] = 1;
+
         for (int i = 2; i <= n; i++){
             if (!spf[i]){
                 spf[i] = i, primes.push_back(i);
@@ -82,5 +83,6 @@ int main(){
 
     LinearSieve tiny(1);
     assert(tiny.primes.empty() && tiny.phi[1] == 1);
+
     return 0;
 }

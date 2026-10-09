@@ -42,6 +42,7 @@ void small_sieve(){
             sp[j] = 1;
         }
     }
+
     for (uint32_t i = 2; i < 65536; i++){
         if (!sp[i]) sp[s] = i, sq[s++] = i * i;
     }

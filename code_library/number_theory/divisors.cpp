@@ -20,6 +20,7 @@ using namespace std;
 vector<long long> divisors_from_factors(vector<long long> factors){
     sort(factors.begin(), factors.end());
     vector<long long> res = {1};
+
     for (size_t i = 0; i < factors.size(); ){
         size_t j = i;
         while (j < factors.size() && factors[j] == factors[i]) j++;
@@ -31,6 +32,7 @@ vector<long long> divisors_from_factors(vector<long long> factors){
         }
         i = j;
     }
+
     sort(res.begin(), res.end());
     return res;
 }
@@ -38,10 +40,12 @@ vector<long long> divisors_from_factors(vector<long long> factors){
 vector<long long> divisors(long long n){
     assert(1 <= n && n <= 100000000000000LL);
     vector<long long> factors;
+
     for (long long p = 2; p * p <= n; p++){
         for (; n % p == 0; n /= p) factors.push_back(p);
     }
     if (n > 1) factors.push_back(n);
+
     return divisors_from_factors(factors);
 }
 
@@ -51,8 +55,10 @@ int main(){
     assert((divisors(97) == vector<long long>{1, 97}));
     assert((divisors(36) == vector<long long>{1, 2, 3, 4, 6, 9, 12, 18, 36}));
     assert(divisors(720720).size() == 240);
+
     assert((divisors_from_factors({}) == vector<long long>{1}));
     assert((divisors_from_factors({1000000007, 998244353}) == vector<long long>{1, 998244353, 1000000007, 998244353LL * 1000000007}));
     assert(divisors_from_factors(vector<long long>(62, 2)).back() == (1LL << 62));
+
     return 0;
 }

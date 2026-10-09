@@ -34,5 +34,6 @@ int main(){
         for (int odd = 5; odd <= 13; odd += 2) assert(discrete_log(3, odd << shift, 1 << 30) == -1);
     }
     assert(chrono::steady_clock::now() - start < chrono::seconds(10));
+
     return 0;
 }

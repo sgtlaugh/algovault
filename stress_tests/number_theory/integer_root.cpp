@@ -8,6 +8,7 @@
 unsigned long long brute(unsigned long long n, int k){
     if (k == 1) return n;
     unsigned long long lo = 0, hi = n < 2 ? n : min<unsigned long long>(n, 4294967296ULL);
+
     auto fits = [&](unsigned long long r){
         __int128 p = 1;
         for (int i = 0; i < k; i++){
@@ -16,11 +17,13 @@ unsigned long long brute(unsigned long long n, int k){
         }
         return true;
     };
+
     while (lo < hi){
         unsigned long long mid = lo + (hi - lo + 1) / 2;
         if (fits(mid)) lo = mid;
         else hi = mid - 1;
     }
+
     return lo;
 }
 
@@ -39,6 +42,7 @@ int main(){
                 else p *= r;
             }
             if (overflow) break;
+
             for (unsigned long long n : {p - 1, p, p + 1}){
                 assert(iroot(n, k) == brute(n, k));
                 if (k == 2) assert(isqrt(n) == brute(n, 2));
@@ -64,5 +68,6 @@ int main(){
         assert(iroot(n, k) == brute(n, k));
         assert(isqrt(n) == brute(n, 2) && icbrt(n) == brute(n, 3));
     }
+
     return 0;
 }

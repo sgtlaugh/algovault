@@ -14,9 +14,11 @@ ull mul_mod(ull a, ull b, ull m){
 bool reference_is_prime(ull n){
     if (n < 2) return false;
     for (ull p : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}) if (n % p == 0) return n == p;
+
     ull d = n - 1;
     int s = 0;
     while (!(d & 1)) d >>= 1, s++;
+
     for (ull a : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}){
         ull x = 1, b = a, e = d;
         for (; e; e >>= 1, b = mul_mod(b, b, n)) if (e & 1) x = mul_mod(x, b, n);
@@ -24,6 +26,7 @@ bool reference_is_prime(ull n){
         for (int r = 1; r < s && composite; r++) composite = (x = mul_mod(x, x, n)) != n - 1;
         if (composite) return false;
     }
+
     return true;
 }
 
@@ -31,16 +34,19 @@ bool reference_is_prime(ull n){
 pair<ull, ull> fib_pair(ull k, ull m){
     ull a = 1 % m, b = 0, c = 0, d = 1 % m;      /// result matrix, starts as the identity
     ull p = 0, q = 1 % m, r = 1 % m, s = 1 % m;  /// [[0, 1], [1, 1]]
+
     for (; k; k >>= 1){
         if (k & 1){
             ull na = (mul_mod(a, p, m) + mul_mod(b, r, m)) % m, nb = (mul_mod(a, q, m) + mul_mod(b, s, m)) % m;
             ull nc = (mul_mod(c, p, m) + mul_mod(d, r, m)) % m, nd = (mul_mod(c, q, m) + mul_mod(d, s, m)) % m;
             a = na, b = nb, c = nc, d = nd;
         }
+
         ull np = (mul_mod(p, p, m) + mul_mod(q, r, m)) % m, nq = (mul_mod(p, q, m) + mul_mod(q, s, m)) % m;
         ull nr = (mul_mod(r, p, m) + mul_mod(s, r, m)) % m, ns = (mul_mod(r, q, m) + mul_mod(s, s, m)) % m;
         p = np, q = nq, r = nr, s = ns;
     }
+
     return {b, d};  /// the matrix power is [[F(k - 1), F(k)], [F(k), F(k + 1)]]
 }
 
@@ -52,6 +58,7 @@ bool is_period(ull k, ull m){
 void check_minimal_period(long long n){
     long long p = pisano_period(n);
     assert(p > 0 && p <= 6 * n && is_period(p, n));
+
     long long rest = p;
     for (long long q = 2; q * q <= rest; q++){
         if (rest % q) continue;
@@ -107,5 +114,6 @@ int main(){
         auto expected = fib_pair(k, m);
         assert(fib(k, m) == make_pair((long long)expected.first, (long long)expected.second));
     }
+
     return 0;
 }

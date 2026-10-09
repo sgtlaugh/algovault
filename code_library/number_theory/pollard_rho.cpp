@@ -89,6 +89,7 @@ struct PollardRho{
                 if (d == one && c != one && c != minus_one) return false;
                 c = d;
             }
+
             if (c != one) return false;
         }
         return true;
@@ -107,14 +108,17 @@ struct PollardRho{
             for (; n > 1; n /= spf[n]) out.push_back(spf[n]);
             return;
         }
+
         if (!(n & 1)){
             out.push_back(2);
             return collect(n >> 1, out);
         }
+
         if (is_prime(n)){
             out.push_back(n);
             return;
         }
+
         long long d = split(n);
         collect(d, out);
         collect(n / d, out);
@@ -129,9 +133,11 @@ struct PollardRho{
 
         while (true){
             unsigned long long c = rng() % (n - 1) + 1, y = rng() % n, x = y, ys = y, q = mont.to_mont(1), g = 1;
+
             for (long long r = 1; g == 1; r <<= 1){
                 x = y;
                 for (long long i = 0; i < r; i++) y = next(y, c);
+
                 for (long long k = 0; k < r && g == 1; k += BATCH){
                     ys = y;
                     for (long long i = 0; i < BATCH && i < r - k; i++){
@@ -148,6 +154,7 @@ struct PollardRho{
                     g = __gcd(dist(x, ys), (unsigned long long)n);
                 } while (g == 1);
             }
+
             if (g != (unsigned long long)n) return g;
         }
     }

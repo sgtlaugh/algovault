@@ -14,12 +14,14 @@ long long matrix_fib(long long n, long long m){
         }
         return z;
     };
+
     M res{}, base{};
     res[0][0] = res[1][1] = 1 % m;
     base[0][0] = base[0][1] = base[1][0] = 1 % m;
     for (; n; n >>= 1, base = mul(base, base)){
         if (n & 1) res = mul(res, base);
     }
+
     return (long long)res[0][1];
 }
 
@@ -31,6 +33,7 @@ int main(){
             tie(a, b) = make_pair(b, (long long)(((__int128)a + b) % m));
         }
     }
+
     long long a = 0, b = 1;
     for (int n = 0; n <= 92; n++){
         assert(fibonacci(n) == a);
@@ -47,5 +50,6 @@ int main(){
         assert(f == matrix_fib(n, m));
         if (n < LLONG_MAX) assert(g == matrix_fib(n + 1, m));
     }
+
     return 0;
 }

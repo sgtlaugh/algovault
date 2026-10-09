@@ -11,6 +11,7 @@ vector<uint32_t> segment(uint32_t lo, uint32_t hi, const vector<uint32_t>& small
         if ((uint64_t)p * p > hi) break;
         for (uint64_t x = max((uint64_t)p * p, ((uint64_t)lo + p - 1) / p * p); x <= hi; x += p) composite[x - lo] = 1;
     }
+
     vector<uint32_t> res;
     for (uint64_t x = max(lo, 2u); x <= hi; x++) if (!composite[x - lo]) res.push_back(x);
     return res;
@@ -43,5 +44,6 @@ int main(){
         if (it % 4 == 0) lo = max(0LL, (long long)(lo / block_size * block_size) - stress::rand_int(0, 1000));  /// straddle a block boundary
         check(lo, lo + len);
     }
+
     return 0;
 }

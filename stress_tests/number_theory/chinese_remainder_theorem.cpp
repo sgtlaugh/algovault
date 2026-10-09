@@ -8,12 +8,14 @@
 vector<int64_t> random_moduli(int count, int64_t max_mod){
     vector<int64_t> mods;
     __int128 prod = 1;
+
     for (int tries = 0; (int)mods.size() < count && tries < 100; tries++){
         int64_t m = stress::rand_int(1, max_mod);
         bool coprime = true;
         for (auto x : mods) coprime &= __gcd(x, m) == 1;
         if (coprime && prod * m < ((__int128)1 << 63)) mods.push_back(m), prod *= m;
     }
+
     return mods;
 }
 
@@ -30,6 +32,7 @@ int main(){
             for (size_t i = 0; i < mods.size(); i++) if (((x - rems[i]) % mods[i] + mods[i]) % mods[i]) return false;
             return true;
         };
+
         int64_t expected = 0;
         while (!solves(expected)) expected++;
         assert(CRT(rems, mods) == expected);
@@ -47,5 +50,6 @@ int main(){
         assert(0 <= x && x < prod);
         for (size_t i = 0; i < mods.size(); i++) assert((((__int128)x - rems[i]) % mods[i] + mods[i]) % mods[i] == 0);
     }
+
     return 0;
 }

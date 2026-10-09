@@ -10,6 +10,7 @@ bool reference_prime(unsigned long long n){
     for (unsigned long long p : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}){
         if (n % p == 0) return n == p;
     }
+
     auto mulmod = [&](unsigned long long a, unsigned long long b){ return (unsigned long long)((unsigned __int128)a * b % n); };
     auto powmod = [&](unsigned long long a, unsigned long long e){
         unsigned long long r = 1;
@@ -18,9 +19,11 @@ bool reference_prime(unsigned long long n){
         }
         return r;
     };
+
     unsigned long long d = n - 1;
     int s = 0;
     for (; !(d & 1); d >>= 1) s++;
+
     for (unsigned long long a : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}){
         unsigned long long x = powmod(a, d);
         if (x == 1 || x == n - 1) continue;
@@ -31,6 +34,7 @@ bool reference_prime(unsigned long long n){
         }
         if (composite) return false;
     }
+
     return true;
 }
 
@@ -45,11 +49,13 @@ long long random_prime(long long lo, long long hi){
 void check(long long n, PollardRho& rho, const vector<long long>* expected = nullptr){
     auto f = rho.factorize(n);
     assert(is_sorted(f.begin(), f.end()));
+
     __int128 prod = 1;
     for (long long p : f){
         assert(reference_prime(p));
         prod *= p;
     }
+
     assert(prod == n);
     if (expected) assert(f == *expected);
     assert(rho.is_prime(n) == reference_prime(n));

@@ -33,6 +33,7 @@ unsigned long long iroot(unsigned long long n, int k){
     assert(k >= 1);
     if (k == 1 || n < 2) return n;
     if (k >= 64) return 1;
+
     unsigned long long r = powl((long double)n, 1.0L / k);
     while (r && !power_at_most(r, k, n)) r--;
     while (power_at_most(r + 1, k, n)) r++;

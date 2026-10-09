@@ -11,11 +11,13 @@ long long capped_tower(const vector<long long>& a, int i, long long cap){
     if (i + 1 == (int)a.size()) return min(a[i], cap);
     long long e = capped_tower(a, i + 1, cap);
     if (a[i] == 1) return 1;
+
     __int128 res = 1;
     for (long long k = 0; k < e; k++){
         res *= a[i];
         if (res >= cap) return cap;
     }
+
     return (long long)res;
 }
 
@@ -44,11 +46,13 @@ long long brute(const vector<long long>& a, int i, long long m){
 bool aborts(const vector<long long>& a, long long m){
     pid_t pid = fork();
     assert(pid >= 0);
+
     if (pid == 0){
         assert(freopen("/dev/null", "w", stderr));
         power_tower(a, m);
         _exit(0);
     }
+
     int status;
     assert(waitpid(pid, &status, 0) == pid);
     return WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT;
@@ -75,6 +79,7 @@ int main(){
         for (auto& x : a) x = stress::rand_int(1, 5);
         long long exact = capped_tower(a, 0, PowerTower::LIMIT);
         if (exact >= PowerTower::LIMIT) continue;
+
         if (stress::rand_int(0, 1)){
             const PowerTower& tower = pool[stress::rand_int(0, pool.size() - 1)];
             assert(tower.query(a, 0, n - 1) == exact % tower.chain[0]);
@@ -125,13 +130,16 @@ int main(){
     vector<long long> ones(100000, 1);
     ones[0] = 7;
     assert(power_tower(ones, 1000) == 7);
+
     vector<long long> twos(100000, 2);
     assert(power_tower(twos, 1000000000000LL) == power_tower(vector<long long>(twos.begin(), twos.begin() + 60), 1000000000000LL));
 
     /// A zero the evaluation reads must abort, one it never reaches is not validated
     for (auto bad : vector<vector<long long>>{{0}, {2, 0}, {2, 0, 3}, {3, 3, 3, 0, 5}}) assert(aborts(bad, 1000));
+
     PowerTower tower(1000);
     assert(tower.query({2, 3, 0}, 0, 1) == 8);
     assert(tower.query({7, 1, 0}, 0, 2) == 7);
+
     return 0;
 }

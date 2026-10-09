@@ -12,6 +12,7 @@ vector<pair<long long, int>> trial(long long x){
         for (; x % p == 0; x /= p) e++;
         if (e) res.push_back({p, e});
     }
+
     if (x > 1) res.push_back({x, 1});
     return res;
 }
@@ -21,6 +22,7 @@ void check_value(const LinearSieve& sieve, const vector<long long>& divisors, co
     long long phi = x, d = 1, s = 1;
     int mu = 1;
     vector<int> flat;
+
     for (auto [p, e] : f){
         phi = phi / p * (p - 1);
         d *= e + 1;
@@ -30,6 +32,7 @@ void check_value(const LinearSieve& sieve, const vector<long long>& divisors, co
         mu = e > 1 ? 0 : -mu;
         for (int i = 0; i < e; i++) flat.push_back(p);
     }
+
     assert(sieve.phi[x] == phi && sieve.mu[x] == mu);
     assert(divisors[x] == d && sigma[x] == s);
     assert(sieve.factorize(x) == flat);
@@ -42,6 +45,7 @@ int main(){
     auto da = a.multiplicative([](long long, int k, long long){ return (long long)k + 1; });
     auto sa = a.multiplicative([](long long p, int, long long pk){ return (pk * p - 1) / (p - 1); });
     for (int x = 1; x <= small; x++) check_value(a, da, sa, x);
+
     vector<int> brute_primes;
     for (int x = 2; x <= small; x++){
         if (trial(x).size() == 1 && trial(x)[0].second == 1) brute_primes.push_back(x);
@@ -70,6 +74,7 @@ int main(){
         if (spf[i]) continue;
         for (int j = i; j <= big; j += i) if (!spf[j]) spf[j] = i;
     }
+
     mu[1] = 1;
     for (int i = 2; i <= big; i++){
         int p = spf[i], rest = i / p;
@@ -81,5 +86,6 @@ int main(){
         LinearSieve t(n);
         assert((int)t.phi.size() == n + 1);
     }
+
     return 0;
 }

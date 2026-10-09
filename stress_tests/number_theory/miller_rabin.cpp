@@ -23,6 +23,7 @@ bool reference_is_prime(unsigned long long n){
         for (int r = 1; r < s && composite; r++) composite = (x = mul(x, x)) != n - 1;
         if (composite) return false;
     }
+
     return true;
 }
 
@@ -31,6 +32,7 @@ int main(){
     vector<bool> sieve(N, true);
     sieve[0] = sieve[1] = false;
     for (int i = 2; i * i < N; i++) if (sieve[i]) for (int j = i * i; j < N; j += i) sieve[j] = false;
+
     for (int n = -5; n < N; n++) assert(prm::is_prime(n) == (n >= 0 && sieve[n]));
 
     const long long special[] = {2047, 1373653, 25326001, 3215031751LL, 2152302898747LL, 3474749660383LL, 341550071728321LL,
@@ -49,10 +51,12 @@ int main(){
         do p = stress::rand_int(65537, 3000000000LL); while (!reference_is_prime(p));
         return p;
     };
+
     for (long long it = 0; it < stress::scaled(10000); it++){
         long long p = random_prime(), q = random_prime();
         if ((unsigned __int128)p * q > LLONG_MAX) continue;
         assert(!prm::is_prime(p * q));
     }
+
     return 0;
 }

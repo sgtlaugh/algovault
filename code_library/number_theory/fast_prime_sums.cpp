@@ -52,6 +52,7 @@ void sieve(){
 
 void gen(){
     sieve();
+
     for (int i = 0; i < MAXM; i++) dp[0][i] = (uint64_t)i * (i + 1) / 2;
     for (int i = 1; i < MAXN; i++){
         for (int j = 1; j < MAXM; j++){

@@ -27,6 +27,7 @@ struct SegmentedSieve{
         assert(0 <= max_r && max_r <= 100000000000000LL);
         int limit = sqrtl((long double)max_r);
         vector<char> composite(limit + 1, 0);
+
         for (int p = 2; p <= limit; p++){
             if (composite[p]) continue;
             primes.push_back(p);
@@ -37,6 +38,7 @@ struct SegmentedSieve{
     vector<char> window(long long L, long long R) const{
         assert(0 <= L && L <= R && R <= max_r && R - L <= 10000000);
         vector<char> res(R - L + 1, 1);
+
         for (long long p : primes){
             if (p * p > R) break;
             for (long long j = max(p * p, (L + p - 1) / p * p); j <= R; j += p) res[j - L] = 0;
@@ -70,8 +72,10 @@ int main(){
     assert(primes_in_range(0, 1).empty());
     assert(primes_in_range(24, 28).empty());
     assert((primes_in_range(1000000000, 1000000021) == vector<long long>{1000000007, 1000000009, 1000000021}));
+
     assert(count_primes(1, 100) == 25);
     assert(count_primes(1, 1000000) == 78498);
+
     assert(count_primes(99999999999974LL, 100000000000000LL) == 0);
     assert(primes_in_range(99999999999970LL, 100000000000000LL).back() == 99999999999973LL);
 
@@ -80,5 +84,6 @@ int main(){
     assert(window[999983 - 999980] && count(window.begin(), window.end(), 1) == 1);
     window = sieve.window(0, 30);
     assert(count(window.begin(), window.end(), 1) == 10);
+
     return 0;
 }

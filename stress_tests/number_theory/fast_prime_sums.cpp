@@ -24,6 +24,7 @@ __int128 lucy(long long n){
         }
         for (long long v = r; v >= p2; v--) lo[v] -= p * (lo[v / p] - below);
     }
+
     return hi[1];
 }
 
@@ -41,9 +42,11 @@ int main(){
         long long n = stress::rand_int(it % 3 ? MAXV : 1, it % 3 ? 2000000000LL : MAXV);
         assert(prime_sum(n) == lucy(n));
     }
+
     for (long long it = 0; it < stress::scaled(1); it++){
         long long n = stress::rand_int(10000000000LL, 30000000000LL);  /// the __int128 instantiation
         assert(prime_sum(n) == lucy(n));
     }
+
     return 0;
 }
