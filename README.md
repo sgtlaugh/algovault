@@ -59,6 +59,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [2-SAT, Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - lexicographically smallest satisfying assignment
 - [Articulation Points and Biconnected Components](code_library/graphs/articulation_points.cpp) - cut vertices, blocks (edge ids) and the block-cut tree, parallel edges allowed
 - [Bridges](code_library/graphs/bridge.cpp) - bridges and the bridge tree, parallel edges allowed
+- [Dijkstra](code_library/graphs/dijkstra.cpp) - shortest paths with path reconstruction: heap O((n + m) log m), dense O(n^2) and 0-1 BFS
 - [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence, O(m log n)
 - [Euler Path](code_library/graphs/euler_path.cpp) - Hierholzer, directed and undirected multigraphs, iterative, O(n + m)
 - [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching size via the Tutte matrix rank, Edmonds blossom for the matched pairs in O(n^3)
