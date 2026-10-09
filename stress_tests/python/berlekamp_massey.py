@@ -29,6 +29,12 @@ def main():
         window = [solve_linear_recurrence(base, n - j, mod) for j in range(k + 1)]
         assert window[0] == sum(c * window[1 + j] for j, c in enumerate(coefficients)) % mod
 
+    # Degenerate recurrences: all zeros has an empty one, a lone spike dies after one step
+    for mod in [7, 10**9 + 7]:
+        assert solve_linear_recurrence([0, 0, 0, 0], 10**18, mod) == 0
+        assert solve_linear_recurrence([mod + 3, 0, 0, 0], 5, mod) == 0
+        assert solve_linear_recurrence([3, 6], 10**18 + 1, mod) == 3 * pow(2, 10**18 + 1, mod) % mod
+
 
 if __name__ == '__main__':
     main()
