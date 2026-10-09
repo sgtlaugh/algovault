@@ -157,14 +157,15 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 ### Linear Algebra
 - [Determinant](code_library/linear_algebra/determinant.cpp) - integer determinant modulo any m, or exact
 - [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
+- [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems over the reals
 - [Gauss, Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - linear systems whose equations touch nearby variables only
 - [Gauss, Bitset](code_library/linear_algebra/gauss_bitset.cpp) - linear systems over GF(2)
-- [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems over the reals
 - [Gauss, Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - linear systems modulo a prime
 - [Matrix](code_library/linear_algebra/matrix.cpp) - modular multiplication and exponentiation
 - [Maximum XOR Subset](code_library/linear_algebra/max_xor_subset.cpp) - largest xor of any subset via a linear basis
 - [Simplex](code_library/linear_algebra/simplex.cpp) - linear programming
 - [Thomas Algorithm](code_library/linear_algebra/thomas_algorithm.cpp) - tridiagonal linear systems in O(n)
+- [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - 64-bit linear basis with max/min xor, k-th smallest, count below x and intersection
 
 ### Geometry
 - [Circle Geometry](code_library/geometry/circle.cpp) - circle-line/circle-circle intersections, tangents, circumcircle, minimum enclosing circle, circle-polygon, lens and union areas, max points covered by a radius-r circle
