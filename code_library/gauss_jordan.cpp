@@ -55,10 +55,10 @@ int gauss(vector<vector <T>> equations, vector<T>& res, const T eps=1e-9){
 
         if (abs(equations[p][j]) > tol){
             pos[j] = i;
-            for (l = j; l <= m; l++) swap(equations[p][l], equations[i][l]);
+            swap(equations[p], equations[i]);
 
             for (k = 0; k < n; k++){
-                if (k != i){
+                if (k != i && equations[k][j] != 0){
                     T x = equations[k][j] / equations[i][j];
                     for (l = j; l <= m; l++) equations[k][l] -= equations[i][l] * x;
                 }
