@@ -15,6 +15,9 @@
  *   add(l, r, delta), sum(l, r), reverse(l, r), get(pos), to_vector()
  *   Sums must fit in long long
  *
+ * Treap is a portable, augmentable alternative to ordered_set.cpp's OrderedMultiset for judges without pb_ds
+ * Priorities are seeded from the clock, a fixed seed lets an adversary force an O(n) deep chain
+ *
 ***/
 
 #include <bits/stdtr1c++.h>
@@ -31,7 +34,7 @@ struct Treap{
 
     vector<Node> nodes;
     int root = -1;
-    mt19937 rng{20260105};
+    mt19937 rng{(unsigned int)chrono::steady_clock::now().time_since_epoch().count()};
 
     int size(int t) const{
         return t == -1 ? 0 : nodes[t].size;
@@ -135,7 +138,7 @@ struct ImplicitTreap{
 
     vector<Node> nodes;
     int root = -1;
-    mt19937 rng{20260105};
+    mt19937 rng{(unsigned int)chrono::steady_clock::now().time_since_epoch().count()};
 
     ImplicitTreap(const vector<long long>& values = {}){
         /// Cartesian tree on random priorities with a stack, O(n)
@@ -151,15 +154,10 @@ struct ImplicitTreap{
             if (!stack.empty()) nodes[stack.back()].r = t;
             stack.push_back(t);
         }
+        if (!stack.empty()) root = stack[0];
         while (!stack.empty()){
             pull(stack.back());
             stack.pop_back();
-        }
-        if (!values.empty()){
-            root = 0;
-            for (int t = 0; t < (int)nodes.size(); t++){
-                if (nodes[t].priority > nodes[root].priority) root = t;
-            }
         }
     }
 
