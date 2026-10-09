@@ -32,15 +32,12 @@ vector<__float128> dense_solve(vector<vector<__float128>> a, vector<__float128> 
 }
 
 int main(){
-    /// Lazily committed pages, the struct reserves room for the largest grid
-    Band* gauss = (Band*)operator new(sizeof(Band));
-
     for (long long it = 0; it < stress::scaled(400); it++){
         int n = stress::rand_int(1, it % 10 ? 12 : 400), m = stress::rand_int(1, it % 10 ? 8 : 6);
-        if (it % 50 == 0) m = 31, n = min(n, 40);  /// the widest band, kept small: cells and band size multiply
+        if (it % 50 == 0) m = stress::rand_int(31, 60), n = min(n, 30);  /// the widest band, kept small: cells and band size multiply
         int band_size = it % 3 ? 2 * m + 3 : 2 * stress::rand_int(0, min(34, 2 * m + 2)) + 1, h = band_size / 2, cells = n * m;
         long double rhs_default = stress::rand_int(-5, 5);
-        new (gauss) Band(n, m, it % 3 ? 0 : band_size, rhs_default);
+        Band gauss(n, m, it % 3 ? 0 : band_size, rhs_default);
 
         /// Cell numbers as the library assigns them, so that coefficients land inside the band
         auto cell = [&](int u){ return make_pair((cells - 1 - u) / m, (cells - 1 - u) % m); };
@@ -62,12 +59,12 @@ int main(){
             for (auto [v, c] : coef[u]){
                 if (v == u && c == 1 && stress::rand_int(0, 1)) continue;  /// the constructor's default diagonal
                 auto [k, l] = cell(v);
-                gauss->set_matrix(i, j, k, l, c);
+                gauss.set_matrix(i, j, k, l, c);
             }
-            if (rhs[u] != rhs_default || stress::rand_int(0, 1)) gauss->set_rhs(i, j, rhs[u]);
+            if (rhs[u] != rhs_default || stress::rand_int(0, 1)) gauss.set_rhs(i, j, rhs[u]);
         }
 
-        auto res = gauss->solve();
+        auto res = gauss.solve();
         assert((int)res.size() == n);
         vector<long double> x(cells);
         for (int i = 0; i < n; i++){
@@ -94,6 +91,5 @@ int main(){
             for (int u = 0; u < cells; u++) assert(fabsq(expected[u] - x[u]) <= (__float128)1e-13L * norm);
         }
     }
-    operator delete(gauss);
     return 0;
 }
