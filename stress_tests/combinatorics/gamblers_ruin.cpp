@@ -3,7 +3,7 @@
 #include <quadmath.h>
 
 #define main library_main
-#include "../../code_library/combinatorics/gamblers_ruin.c"
+#include "../../code_library/combinatorics/gamblers_ruin.cpp"
 #undef main
 
 /// Reference: solve P_i = p P_(i+1) + q P_(i-1), P_0 = 1, P_N = 0 with the Thomas algorithm (diagonally dominant, stable)
@@ -40,6 +40,7 @@ __float128 quad_reference(int n1, int n2, long double p_in){
 
 int main(){
     auto close = [](long double a, long double b){ return fabsl(a - b) <= 1e-12L * max((long double)1, fabsl(b)); };
+    auto quad_close = [](long double got, __float128 expected){ return fabsq(got - expected) <= (__float128)1e-14L * expected + (__float128)1e-4900L; };
 
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n1 = stress::rand_int(0, 60), n2 = stress::rand_int(0, 60);
@@ -56,7 +57,18 @@ int main(){
         long double p = stress::rand_int(0, 1) ? 0.5L + stress::rand_int(-(1 << 20), 1 << 20) * powl(10, -stress::rand_int(7, 25)) : stress::rand_int(1, 999999) / 1e6L;
         long double got = gamblers_ruin(n1, n2, p);
         __float128 expected = quad_reference(n1, n2, p);
-        assert(0 <= got && got <= 1 && fabsq(got - expected) <= (__float128)1e-12L * expected + (__float128)1e-4900L);
+        assert(0 <= got && got <= 1 && quad_close(got, expected));
+    }
+
+    /// The INT_MAX boundary, p = 0.5 exactly included so n1 + n2 must not overflow int
+    for (long long it = 0; it < stress::scaled(3000); it++){
+        int n1 = stress::rand_int(0, 1) ? INT_MAX - stress::rand_int(0, 1000) : stress::rand_int(1, 1000);
+        int n2 = INT_MAX - stress::rand_int(0, 1000);
+        if (stress::rand_int(0, 1)) swap(n1, n2);
+        long double p = stress::rand_int(0, 2) == 0 ? 0.5L : 0.5L + stress::rand_int(-1000, 1000) * powl(10, -stress::rand_int(9, 20));
+        long double got = gamblers_ruin(n1, n2, p);
+        __float128 expected = quad_reference(n1, n2, p);
+        assert(0 <= got && got <= 1 && quad_close(got, expected));
     }
 
     assert(gamblers_ruin(5, 7, 0.0L) == 1 && gamblers_ruin(5, 7, 1.0L) == 0);
