@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/bit_string_lcs.cpp"
+#include "../../code_library/strings/bit_string_lcs.cpp"
 #undef main
 
 int dp_lcs(const string& a, const string& b){

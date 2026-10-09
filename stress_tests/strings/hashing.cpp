@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/hashing.cpp"
+#include "../../code_library/strings/hashing.cpp"
 #undef main
 
 /// Hash equality against segment equality, collisions have probability ~n^2 / 2^61 per array and should never appear

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/hunt_szymanski.cpp"
+#include "../../code_library/strings/hunt_szymanski.cpp"
 #undef main
 
 int dp_lcs(const string& a, const string& b){

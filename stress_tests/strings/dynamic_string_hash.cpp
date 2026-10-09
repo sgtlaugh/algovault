@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/dynamic_string_hash.cpp"
+#include "../../code_library/strings/dynamic_string_hash.cpp"
 #undef main
 
 /// Direct polynomial hash with the same base, sum of (c + 1) * base^(len - 1 - i)

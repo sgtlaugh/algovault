@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/suffix_array.cpp"
+#include "../../code_library/strings/suffix_array.cpp"
 #undef main
 
 /// A permutation of the suffixes is sorted iff each adjacent pair is in order, and the pair's lcp k decides that order,

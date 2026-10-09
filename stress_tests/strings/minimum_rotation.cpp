@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/minimum_rotation.cpp"
+#include "../../code_library/strings/minimum_rotation.cpp"
 #undef main
 
 /// Smallest index of a least rotation by comparing all n rotations

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/z_algorithm.cpp"
+#include "../../code_library/strings/z_algorithm.cpp"
 #undef main
 
 template <typename Container>

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/manacher.cpp"
+#include "../../code_library/strings/manacher.cpp"
 #undef main
 
 int main(){

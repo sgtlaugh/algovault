@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/palindromic_tree.cpp"
+#include "../../code_library/strings/palindromic_tree.cpp"
 #undef main
 
 bool is_palindrome(const string& s, int l, int r){

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/kmp.cpp"
+#include "../../code_library/strings/kmp.cpp"
 #undef main
 
 template <typename Container>

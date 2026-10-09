@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/2D_pattern_matcher.cpp"
+#include "../../code_library/strings/2D_pattern_matcher.cpp"
 #undef main
 
 vector<string> random_grid(int rows, int cols){

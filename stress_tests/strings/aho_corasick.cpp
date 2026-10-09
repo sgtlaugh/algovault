@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/aho_corasick.cpp"
+#include "../../code_library/strings/aho_corasick.cpp"
 #undef main
 
 string random_word(int len, int alphabet){

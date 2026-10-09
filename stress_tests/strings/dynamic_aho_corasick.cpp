@@ -1,9 +1,9 @@
-#include "common.h"
+#include "../common.h"
 #include <sys/wait.h>
 #include <unistd.h>
 
 #define main library_main
-#include "../code_library/dynamic_aho_corasick.cpp"
+#include "../../code_library/strings/dynamic_aho_corasick.cpp"
 #undef main
 
 string random_word(int len, int alphabet){
