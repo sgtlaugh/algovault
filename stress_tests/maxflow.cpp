@@ -38,58 +38,49 @@ int main(){
         int n = stress::rand_int(2, 8), src = stress::rand_int(0, n - 1), sink = (src + stress::rand_int(1, n - 1)) % n;
         long long max_cap = it % 3 ? 10 : 1000000000000000LL;
 
-        /// One graph reused, constructing 50010 adjacency vectors per instance would dominate the run
-        static FlowGraph* g = new FlowGraph();
-        g->n = n, g->src = src, g->sink = sink, g->E.clear();
-        for (int x = 0; x < n; x++) g->adj[x].clear();
-
+        FlowGraph g(n, src, sink);
+        DenseFlowGraph dense(n, src, sink);
         vector<Arc> arcs;
         for (int m = stress::rand_int(0, 20); m; m--){
             int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
             long long cap = stress::rand_int(0, max_cap);
             if (stress::rand_int(0, 1)){
-                g->add_directed_edge(u, v, cap);
+                g.add_directed_edge(u, v, cap), dense.add_directed_edge(u, v, cap);
                 arcs.push_back({u, v, cap});
             }
             else{
-                g->add_edge(u, v, cap);
+                g.add_edge(u, v, cap), dense.add_edge(u, v, cap);
                 arcs.push_back({u, v, cap}), arcs.push_back({v, u, cap});
             }
         }
-        long long flow = g->maxflow();
+        long long flow = g.maxflow();
         assert(flow == min_cut(n, src, sink, arcs));
-        check_flow(*g, flow);
-
-        DenseFlowGraph dense(n, src, sink);
-        for (auto& a : arcs) dense.add_directed_edge(a.u, a.v, a.cap);
+        check_flow(g, flow);
         assert(dense.maxflow() == flow);
     }
 
     /// Found by search: reaching flow 3 here needs a reverse edge to cancel earlier flow, without one both get 2
     {
         vector<Arc> arcs = {{0, 2, 1}, {0, 1, 1}, {1, 3, 3}, {0, 3, 1}, {3, 2, 2}, {3, 5, 2}, {4, 5, 1}, {4, 2, 1}, {1, 4, 2}, {3, 0, 3}, {2, 3, 2}};
-        FlowGraph* g = new FlowGraph(6, 0, 5);
+        FlowGraph g(6, 0, 5);
         DenseFlowGraph dense(6, 0, 5);
-        for (auto& a : arcs) g->add_directed_edge(a.u, a.v, a.cap), dense.add_directed_edge(a.u, a.v, a.cap);
-        assert(min_cut(6, 0, 5, arcs) == 3 && g->maxflow() == 3 && dense.maxflow() == 3);
-        delete g;
+        for (auto& a : arcs) g.add_directed_edge(a.u, a.v, a.cap), dense.add_directed_edge(a.u, a.v, a.cap);
+        assert(min_cut(6, 0, 5, arcs) == 3 && g.maxflow() == 3 && dense.maxflow() == 3);
     }
 
     /// Dense graphs: the matrix version against the edge-list version
     for (long long it = 0; it < stress::scaled(4); it++){
         int n = 400;
-        static FlowGraph* g = new FlowGraph();
-        g->n = n, g->src = 0, g->sink = n - 1, g->E.clear();
-        for (int x = 0; x < n; x++) g->adj[x].clear();
+        FlowGraph g(n, 0, n - 1);
         DenseFlowGraph dense(n, 0, n - 1);
         for (int u = 0; u < n; u++){
             for (int v = 0; v < n; v++){
                 if (u == v || stress::rand_int(0, 1)) continue;
                 long long cap = stress::rand_int(1, 1000000000);
-                g->add_directed_edge(u, v, cap), dense.add_directed_edge(u, v, cap);
+                g.add_directed_edge(u, v, cap), dense.add_directed_edge(u, v, cap);
             }
         }
-        assert(dense.maxflow() == g->maxflow());
+        assert(dense.maxflow() == g.maxflow());
     }
 
     /// Node capacities limit every node, src and sink included: split x into x_in = 2x and x_out = 2x + 1
@@ -100,22 +91,32 @@ int main(){
 
         vector<Arc> arcs;
         for (int x = 0; x < n; x++) arcs.push_back({2 * x, 2 * x + 1, node_cap[x]});
-        unique_ptr<FlowGraphWithNodeCap> g(new FlowGraphWithNodeCap(n, src, sink, node_cap));
+        FlowGraphWithNodeCap g(n, src, sink, node_cap);
         for (int m = stress::rand_int(0, 14); m; m--){
             int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
             long long cap = stress::rand_int(0, 10);
             if (stress::rand_int(0, 1)){
-                g->add_directed_edge(u, v, cap);
+                g.add_directed_edge(u, v, cap);
                 arcs.push_back({2 * u + 1, 2 * v, cap});
             }
             else{
-                g->add_edge(u, v, cap);
+                g.add_edge(u, v, cap);
                 arcs.push_back({2 * u + 1, 2 * v, cap}), arcs.push_back({2 * v + 1, 2 * u, cap});
             }
         }
-        long long flow = g->maxflow();
+        long long flow = g.maxflow();
         assert(flow == min_cut(2 * n, 2 * src, 2 * sink + 1, arcs));
-        check_flow(g->flowgraph, flow);
+        check_flow(g.flowgraph, flow);
+    }
+
+    /// Node splitting doubles the node count, past the old fixed MAXN = 50010 arrays at n > 25005
+    {
+        int n = 30000;
+        vector<long long> node_cap(n, 1);
+        node_cap[0] = node_cap[1] = n;
+        FlowGraphWithNodeCap g(n, 0, 1, node_cap);
+        for (int v = 2; v < n; v++) g.add_directed_edge(0, v, 1), g.add_directed_edge(v, 1, 1);
+        assert(g.maxflow() == n - 2);
     }
     return 0;
 }
