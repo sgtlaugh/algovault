@@ -1,4 +1,5 @@
 #include "common.h"
+#include <sys/wait.h>
 #include <unistd.h>
 
 #define main library_main
@@ -91,6 +92,17 @@ int main(){
         fflush(stdout);
         assert(read_file(OUT) == expected_out);
     }
+
+    /// A forgotten flush() must not lose output, the child writes the pending buffer when it exits
+    assert(freopen(OUT.c_str(), "wb", stdout));
+    write("forgotten", 42);
+    pid_t pid = fork();
+    if (pid == 0) exit(0);
+    outptr = 0;
+    int status;
+    assert(waitpid(pid, &status, 0) == pid && WIFEXITED(status) && WEXITSTATUS(status) == 0);
+    assert(read_file(OUT) == "forgotten 42\n");
+
     remove(IN.c_str()), remove(OUT.c_str());
     return 0;
 }
