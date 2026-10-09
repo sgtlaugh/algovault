@@ -13,10 +13,12 @@
 
 using namespace std;
 
+/// Hyyro's row update V = (V + U) | (V - U) with U = V & match, zeros of V count the LCS
+/// U is a submask of V so V - U never borrows, only the addition carries into the next 64-bit block
 int lcs(const char* A, const char* B){
-    int i, j, k, v, n = strlen(A), m = strlen(B), res = 0;
-    unsigned long long x, t, q, y, mask[256];
-    vector<char> flag(n, 0);
+    int i, j, k, n = strlen(A), m = strlen(B), res = 0;
+    unsigned long long u, v, sum, mask[256];
+    vector<char> carry(n, 0);
 
     for (i = 0; i * 64 < m; i++){
         memset(mask, 0, sizeof(mask));
@@ -24,18 +26,16 @@ int lcs(const char* A, const char* B){
             mask[(unsigned char)B[i * 64 + k]] |= (1ULL << k);
         }
 
-        for (j = 0, x = 0; j < n; j++){
-            t = mask[(unsigned char)A[j]] & ~x;
-            x |= t;
-            v = flag[j];
-            q = x - (t << 1) - v;
-            y = (q & ~x) | t;
-            flag[j] = y >> 63;
-            x &= ~(y << 1);
-            if (v) x &= ~1;
+        /// Bits past m stay set, since mask is 0 there and V - U keeps them
+        for (j = 0, v = ~0ULL; j < n; j++){
+            u = v & mask[(unsigned char)A[j]];
+            bool c = __builtin_uaddll_overflow(v, u, &sum);
+            c |= __builtin_uaddll_overflow(sum, carry[j], &sum);
+            carry[j] = c;
+            v = sum | (v - u);
         }
 
-        res += __builtin_popcountll(x);
+        res += __builtin_popcountll(~v);
     }
     return res;
 }
