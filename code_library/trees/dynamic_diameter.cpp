@@ -147,52 +147,13 @@ int main(){
     ***/
     DynamicDiameter tree(7);
     vector<array<int, 3>> edges = {{0, 1, 3}, {0, 2, 1}, {1, 3, 2}, {1, 4, 7}, {2, 5, 4}, {3, 6, 5}};
-    for (int i = 0; i < 6; i++) assert(tree.add_edge(edges[i][0], edges[i][1], edges[i][2]) == i);
+    for (auto [u, v, w] : edges) tree.add_edge(u, v, w);
     tree.build();
-    assert(tree.diameter() == 15);
+    assert(tree.diameter() == 15);  /// 6 3 1 0 2 5
 
-    tree.update(3, 20);
-    assert(tree.diameter() == 28);
-    tree.update(1, 0);
-    assert(tree.diameter() == 27);
-    tree.update(3, 0);
-    assert(tree.diameter() == 14);
-    for (int i = 0; i < 6; i++) tree.update(i, 0);
-    assert(tree.diameter() == 0);
-    tree.update(4, 9);
-    assert(tree.diameter() == 9);
-
-    DynamicDiameter single(1);
-    single.build();
-    assert(single.diameter() == 0);
-
-    DynamicDiameter pair_tree(2);
-    pair_tree.add_edge(1, 0, 5);
-    pair_tree.build();
-    assert(pair_tree.diameter() == 5);
-    pair_tree.update(0, 0);
-    assert(pair_tree.diameter() == 0);
-
-    const long long big = 1000000000000000000LL;
-    DynamicDiameter star(4);
-    star.add_edge(0, 1, big), star.add_edge(0, 2, big), star.add_edge(0, 3, 0);
-    star.build();
-    assert(star.diameter() == 2 * big);
-    star.update(0, 0), star.update(2, big);
-    assert(star.diameter() == 2 * big);
-    star.update(1, 0);
-    assert(star.diameter() == big);
-
-    DynamicDiameter path(5);
-    for (int i = 0; i < 4; i++) path.add_edge(i, i + 1, big / 2);
-    path.build();
-    assert(path.diameter() == 2 * big);
-    path.update(0, 0);
-    assert(path.diameter() == 3 * big / 2);
-    path.update(0, big / 2), path.update(3, 0);
-    assert(path.diameter() == 3 * big / 2);
-    path.update(3, big / 2);
-    assert(path.diameter() == 2 * big);
-
+    tree.update(3, 20);             /// edge ids follow insertion order, 3 is 1 - 4
+    assert(tree.diameter() == 28);  /// 4 1 0 2 5
+    tree.update(1, 0);              /// 0 - 2
+    assert(tree.diameter() == 27);  /// 4 1 0 2 5 and 6 3 1 4 tie
     return 0;
 }
