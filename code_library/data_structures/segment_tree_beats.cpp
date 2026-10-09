@@ -49,8 +49,10 @@ struct SegmentTreeBeats{
 
     SegmentTreeBeats(int n) : SegmentTreeBeats(vector<long long>(n, 0)) {}
 
-    SegmentTreeBeats(const vector<long long>& a) : n(a.size()), tree(4 * a.size()) {
+    /// The mid-split recursion on [1, n] never reaches index 2 * next_pow2(n), 4n would waste up to half
+    SegmentTreeBeats(const vector<long long>& a) : n(a.size()) {
         assert(n >= 1);
+        tree.assign(2 << __lg(2 * n - 1), Node());
         build(a, 1, 1, n);
     }
 
