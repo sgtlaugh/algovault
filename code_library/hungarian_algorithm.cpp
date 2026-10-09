@@ -5,13 +5,9 @@
  * Sum of edges in the optimal matching is either minimum or maximum
  *
  * Let n = number of rows, m = number of columns
- * Complexity: ~O(max(n, m)^3)
- * The actual complexity is O(n^2 * max(n,m))
- *
- * So if n is large and m is small, it would be faster to transpose the matrix before calling the method
- * The difference can be huge:
- *   If n=1000, m=10 then without transpose it would take roughly a second (10^9 operations)
- *   However, with the transpose it becomes O(10^2 * 1000) = 10^5, which will take a few ms
+ * Complexity: O(min(n, m)^2 * max(n, m))
+ * Tall matrices (n > m) are transposed internally, so the smaller side is always the one iterated
+ * With ties, a tall matrix may get a different optimal matching than its transpose would, the cost is the same
  *
 ***/
 
@@ -24,14 +20,30 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
     if (!mat.size()) return {(T)0, {}};
     int i, j, a, b, d, n, m;
 
-    int row = mat.size(), col = mat[0].size();
-    for (i = 0; i < row; i++){
-        assert((int)mat[i].size() == col);
+    n = mat.size(), m = mat[0].size();
+    for (i = 0; i < n; i++){
+        assert((int)mat[i].size() == m);
     }
 
-    n = row, m = max(n, col);
-    vector <int> way(m + 1, 0), match(m + 1, 0), visited(m + 1, 0);
-    vector <T> U(m + 1, 0), V(m + 1, 0), P(m + 1, 0), minv(m + 1, 0);
+    if (n > m){
+        vector<vector<T>> t(m, vector<T>(n));
+        for (i = 0; i < n; i++){
+            for (j = 0; j < m; j++) t[j][i] = mat[i][j];
+        }
+        auto res = hungarian(t, minimize);
+        for (auto& [x, y]: res.second) swap(x, y);
+        sort(res.second.begin(), res.second.end());
+        return res;
+    }
+
+    if (!minimize){
+        for (auto& r: mat){
+            for (auto& x: r) x = -x;
+        }
+    }
+
+    vector <int> way(m + 1, 0), match(n + 1, 0), visited(m + 1, 0), P(m + 1, 0);
+    vector <T> U(n + 1, 0), V(m + 1, 0), minv(m + 1, 0);
 
     for (i = 1; i <= n; i++){
         b = 0, P[0] = i;
@@ -44,11 +56,7 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
 
             for (j = 1; j <= m; j++){
                 if (!visited[j]){
-                    T v = 0;
-                    if (a >= 1 && a <= row && j >= 1 && j <= col) {
-                        v = (minimize ? mat[a - 1][j - 1] : -mat[a - 1][j - 1]);
-                    }
-                    T r = v - U[a] - V[j];
+                    T r = mat[a - 1][j - 1] - U[a] - V[j];
 
                     if (r < minv[j]) minv[j] = r, way[j] = b;
                     if (minv[j] < w) w = minv[j], d = j;
@@ -70,16 +78,9 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
     vector <pair<int, int>> matches;
 
     for (j = 1; j <= m; j++) match[P[j]] = j;
-    for (i = 1; i <= m; i++){
-        j = match[i];
-        if (i >= 1 && i <= row && j >= 1 && j <= col){
-            matches.push_back({i - 1, j - 1});
-        }
-    }
-    assert((int)matches.size() == min(row, col));
+    for (i = 1; i <= n; i++) matches.push_back({i - 1, match[i] - 1});
 
-    T res = minimize ? -V[0] : V[0];
-    return {res, matches};
+    return {minimize ? -V[0] : V[0], matches};
 }
 
 int main(){
