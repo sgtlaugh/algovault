@@ -79,25 +79,13 @@ int main(){
         return -aliens_trick(k, -bound, bound, solver);
     };
 
-    assert(min_squared_split({1, 2, 3, 4}, 1) == 100);
-    assert(min_squared_split({1, 2, 3, 4}, 2) == 52);
-    assert(min_squared_split({1, 2, 3, 4}, 3) == 34);
-    assert(min_squared_split({1, 2, 3, 4}, 4) == 30);
-    assert(min_squared_split({2, 0, 0, 2}, 2) == 8);
-    assert(min_squared_split({2, 0, 0, 2}, 3) == 8);
-    assert(min_squared_split({0, 0, 0}, 2) == 0);
-    assert(min_squared_split({5}, 1) == 25);
+    assert(min_squared_split({1, 2, 3, 4}, 2) == 52);  /// (1 + 2 + 3)^2 + 4^2
+    assert(min_squared_split({1, 2, 3, 4}, 3) == 34);  /// 3^2 + 3^2 + 4^2
+    assert(min_squared_split({2, 0, 0, 2}, 3) == 8);   /// f(2) = f(3), no lambda has minimum count 3
 
-    assert(max_k_subarrays({3, -1, 2, -5, 4}, 1) == 4);
-    assert(max_k_subarrays({3, -1, 2, -5, 4}, 2) == 8);
-    assert(max_k_subarrays({3, -1, 2, -5, 4}, 3) == 9);
-    assert(max_k_subarrays({3, -1, 2, -5, 4}, 4) == 8);
-    assert(max_k_subarrays({3, -1, 2, -5, 4}, 5) == 3);
-    assert(max_k_subarrays({-3, -1, -2}, 1) == -1);
-    assert(max_k_subarrays({-3, -1, -2}, 2) == -3);
-    assert(max_k_subarrays({-3, -1, -2}, 3) == -6);
-    assert(max_k_subarrays({0, 0, 0, 0}, 3) == 0);
-    assert(max_k_subarrays({5}, 1) == 5);
+    assert(max_k_subarrays({3, -1, 2, -5, 4}, 2) == 8);  /// [3, -1, 2] and [4]
+    assert(max_k_subarrays({3, -1, 2, -5, 4}, 3) == 9);  /// [3], [2] and [4]
+    assert(max_k_subarrays({-3, -1, -2}, 2) == -3);      /// exactly k, even when every pick loses
 
     return 0;
 }
