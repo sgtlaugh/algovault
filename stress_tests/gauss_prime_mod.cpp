@@ -15,6 +15,14 @@ bool satisfies(const vector<vector<int>>& equations, const vector<int>& x, int m
 }
 
 int main(){
+    vector<int> res;
+    assert(gauss({{1, 8}}, res, 7) == 0 && res[0] == 1);  /// unreduced RHS
+    assert(gauss({{7, 0}}, res, 7) == 1 && res[0] == 0);  /// coefficient 7 is zero mod 7
+    assert(gauss({{7, 3}}, res, 7) == -1);
+    assert(gauss({{-1, -3}, {-2, 1}}, res, 5) == -1);  /// -x = -3 and -2x = 1 imply x = 3 and x = 2
+    assert(gauss({{-1, 0, -3}, {0, -2, 1}}, res, 5) == 0 && res[0] == 3 && res[1] == 2);
+    assert(gauss({{INT_MIN, INT_MAX, 0}}, res, 1000000007) == 1 && satisfies({{(INT_MIN % 1000000007) + 1000000007, INT_MAX % 1000000007, 0}}, res, 1000000007));
+
     const int small_primes[] = {2, 3, 5, 7};
     for (long long it = 0; it < stress::scaled(3000); it++){
         int mod = small_primes[stress::rand_int(0, 3)];
@@ -36,8 +44,13 @@ int main(){
             solutions += satisfies(equations, x, mod);
         }
 
+        vector<vector<int>> unreduced = equations;  /// any int is congruent to its reduction
+        if (stress::rand_int(0, 1)){
+            for (auto& e : unreduced) for (auto& v : e) v += mod * stress::rand_int(-3, 3);
+        }
+
         vector<int> res = {42, 42};  /// stale contents must be replaced
-        int f_var = gauss(equations, res, mod);
+        int f_var = gauss(unreduced, res, mod);
         if (!solutions) assert(f_var == -1);
         else{
             long long expected = 1;
