@@ -1,9 +1,10 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/combsort.c"
+#include "../../code_library/misc/combsort.cpp"
 #undef main
 
+/// combsort on vectors, raw arrays and long long keys against std::sort
 int main(){
     for (long long it = 0; it < stress::scaled(8000); it++){
         int len = stress::rand_int(0, it % 10 ? 40 : 3000), mode = it % 4;
@@ -17,8 +18,28 @@ int main(){
 
         auto expected = v;
         sort(expected.begin(), expected.end());
-        combsort(len, v.data());
+        auto raw = v;
+        combsort(v.begin(), v.end());
+        combsort(raw.data(), raw.data() + len);
         assert(v == expected);
+        assert(raw == expected);
+
+        vector<long long> wide(stress::rand_int(0, 60));
+        for (auto& x : wide) x = stress::rand_int(LLONG_MIN, LLONG_MAX);
+        auto wide_expected = wide;
+        sort(wide_expected.begin(), wide_expected.end());
+        combsort(wide.begin(), wide.end());
+        assert(wide == wide_expected);
+    }
+
+    for (int n = 0; n <= 8; n++){
+        vector<int> perm(n);
+        iota(perm.begin(), perm.end(), 0);
+        do {
+            auto v = perm;
+            combsort(v.begin(), v.end());
+            for (int i = 0; i < n; i++) assert(v[i] == i);
+        } while (next_permutation(perm.begin(), perm.end()));
     }
 
     return 0;
