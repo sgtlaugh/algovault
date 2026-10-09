@@ -105,6 +105,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Hashing](code_library/strings/hashing.cpp) - forward and reverse polynomial hash of any segment
 - [Hunt-Szymanski](code_library/strings/hunt_szymanski.cpp) - LCS in O((r + n) log n) for r matching pairs
 - [KMP](code_library/strings/kmp.cpp) - failure function and pattern search
+- [Lyndon Factorization](code_library/strings/lyndon_factorization.cpp) - Duval factorization into non-increasing Lyndon words, plus a Duval-based least rotation (same result as Minimum Rotation)
 - [Manacher](code_library/strings/manacher.cpp) - longest palindrome at every center
 - [Minimum Rotation](code_library/strings/minimum_rotation.cpp) - start of the lexicographically smallest rotation
 - [Palindromic Tree](code_library/strings/palindromic_tree.cpp) - eertree, one node per distinct palindrome
