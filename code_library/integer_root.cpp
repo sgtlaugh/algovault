@@ -9,7 +9,7 @@
  * icbrt(n): largest r with r * r * r <= n, for any unsigned long long n
  * iroot(n, k): largest r with r^k <= n, for k >= 1
  *
- * sqrtl / cbrtl alone can be off by one near the top of the range, e.g. (long long)sqrtl(1e18 - 1) may give 1e9
+ * Floating roots alone can be off by one near the top of the range, e.g. (long long)sqrt(999999999999999999LL) gives 1e9
  * The floating estimate here is only a starting point that is then corrected exactly
  *
 ***/
@@ -31,6 +31,7 @@ bool power_at_most(unsigned long long r, int k, unsigned long long n){
 unsigned long long iroot(unsigned long long n, int k){
     assert(k >= 1);
     if (k == 1 || n < 2) return n;
+    if (k >= 64) return 1;
     unsigned long long r = powl((long double)n, 1.0L / k);
     while (r && !power_at_most(r, k, n)) r--;
     while (power_at_most(r + 1, k, n)) r++;
@@ -59,5 +60,6 @@ int main(){
 
     assert(iroot(1024, 10) == 2 && iroot(1023, 10) == 1 && iroot(ULLONG_MAX, 64) == 1 && iroot(ULLONG_MAX, 63) == 2);
     assert(iroot(12345, 1) == 12345 && iroot(1, 50) == 1 && iroot(0, 7) == 0);
+    assert(iroot(ULLONG_MAX, 1000000000) == 1 && iroot(2, 65) == 1 && iroot(0, 1000) == 0);
     return 0;
 }

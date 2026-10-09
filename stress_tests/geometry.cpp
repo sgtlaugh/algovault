@@ -182,6 +182,54 @@ int main(){
         }
     }
 
+    /// Convex polygons with extra lattice vertices on their edges, rotated so vertex 0 can sit in the middle of an edge
+    for (long long it = 0; it < stress::scaled(4000); it++){
+        int n = stress::rand_int(3, 10);
+        long long range = stress::rand_int(2, 8);
+        set<pair<long long, long long>> distinct;
+        for (int i = 0; i < n; i++){
+            Point p = random_point(range);
+            distinct.insert({p.x, p.y});
+        }
+        vector<Point> pts;
+        for (auto [x, y] : distinct) pts.push_back({x, y});
+        vector<Point> hull = brute_convex_hull(pts);
+        if (hull.size() < 3 || area2(hull) == 0) continue;
+
+        vector<Point> poly;
+        for (int i = 0; i < (int)hull.size(); i++){
+            Point a = hull[i], b = hull[(i + 1) % hull.size()];
+            long long g = __gcd(llabs(b.x - a.x), llabs(b.y - a.y));
+            for (long long k = 0; k < g; k++){
+                if (k == 0 || stress::rand_int(0, 1)) poly.push_back({a.x + k * ((b.x - a.x) / g), a.y + k * ((b.y - a.y) / g)});
+            }
+        }
+        rotate(poly.begin(), poly.begin() + stress::rand_int(0, poly.size() - 1), poly.end());
+
+        for (long long x = -range - 1; x <= range + 1; x++){
+            for (long long y = -range - 1; y <= range + 1; y++){
+                assert(point_in_convex_polygon(poly, {x, y}) == brute_point_in_polygon(hull, {x, y}));
+            }
+        }
+    }
+
+    /// A spiral whose fan triangulation from vertex 0 has partial sums beyond long long, the total area fits
+    vector<Point> spiral = {
+        {-909090900, -999999990}, {999999990, -999999990}, {999999990, 999999990}, {-999999990, 999999990},
+        {-999999990, -636363630}, {636363630, -636363630}, {636363630, 636363630}, {-636363630, 636363630},
+        {-636363630, -272727270}, {272727270, -272727270}, {272727270, 181818180}, {90909090, 181818180},
+        {90909090, -90909090}, {-454545450, -90909090}, {-454545450, 454545450}, {454545450, 454545450},
+        {454545450, -454545450}, {-818181810, -454545450}, {-818181810, 818181810}, {818181810, 818181810},
+        {818181810, -818181810}, {-909090900, -818181810},
+    };
+    __int128 spiral_area = 0, partial = 0, peak = 0;
+    for (int i = 0; i < (int)spiral.size(); i++){
+        Point u = spiral[i], v = spiral[(i + 1) % spiral.size()];
+        spiral_area += (__int128)u.x * v.y - (__int128)v.x * u.y;
+    }
+    for (int i = 1; i + 1 < (int)spiral.size(); i++) partial += cross(spiral[0], spiral[i], spiral[i + 1]), peak = max(peak, partial < 0 ? -partial : partial);
+    assert(peak > LLONG_MAX && area2(spiral) == spiral_area);
+
     /// Coordinates at the 1e9 boundary
     for (long long it = 0; it < stress::scaled(2000); it++){
         vector<Point> box = {{-E9, -E9}, {E9, -E9}, {E9, E9}, {-E9, E9}};
@@ -204,9 +252,17 @@ int main(){
             double expected = fmod(-deg, 360.0);
             if (expected < 0) expected += 360.0;
             double got = clockwise_angle(u, v), diff = fabs(got - expected);
-            assert(min(diff, 360.0 - diff) < 1e-6);
+            assert(min(diff, 360.0 - diff) < 1e-6 && 0 <= got && got < 360.0);
         }
     }
+    for (long long it = 0; it < stress::scaled(20000); it++){
+        PointF u{(double)stress::rand_int(-1000000, 1000000), (double)stress::rand_int(-1000000, 1000000)};
+        if (u.x == 0 && u.y == 0) continue;
+        PointF v = rotate({0, 0}, u, stress::rand_int(0, 1) ? 1e-12 : 0.0);
+        double got = clockwise_angle(u, v);
+        assert(0 <= got && got < 360.0);
+    }
+    assert(clockwise_angle({1, 0}, {1, 1e-300}) < 360.0 && clockwise_angle({1, 0}, {1, -1e-300}) < 360.0);
 
     for (long long it = 0; it < stress::scaled(20000); it++){
         long double lat1 = stress::rand_int(-90000000, 90000000) / 1e6L, lon1 = stress::rand_int(-180000000, 180000000) / 1e6L;

@@ -3,7 +3,7 @@
  * Permutation Index
  * Lexicographic rank of a permutation of 0..n-1 in O(n) with no allocation, a perfect hash for permutation states
  *
- * Complexity: O(n^(n/2) + (n/2)!^2) once to build, O(n) per query, 1 <= n <= 12
+ * Complexity: O(n^(n/2) + b^b) once to build with b = n - n/2, O(n) per query, 1 <= n <= 12
  *             memory n^(n/2) ints for the first half table, about 12 MB at n = 12
  *
  * PermutationIndex idx(n); idx.index(p): rank of p among all n! permutations in [0, n!), p holds 0..n-1

@@ -5,7 +5,8 @@
  *
  * Complexity: O(m log m)
  *
- * minimum_spanning_tree(n, edges): edges[i] = {u, v, w}, 0-based vertices, any long long weights
+ * minimum_spanning_tree(n, edges): edges[i] = {u, v, w}, 0-based vertices, long long weights (negative allowed)
+ *     the total weight of the forest must fit in long long
  * Returns {total weight, indices of the chosen edges, connected}
  *     connected is true when the forest is one tree spanning all n vertices
  *     for a disconnected graph the result is a minimum spanning forest, one tree per component

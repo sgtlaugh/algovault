@@ -28,7 +28,7 @@ struct VersionedText{
     int insert(int v, int pos, const string& s){
         assert(0 <= pos && pos <= size(v));
         crope next = versions[v];
-        next.insert(pos, s.c_str());
+        next.insert(pos, s.data(), s.size());  /// with the length, so '\0' inside s is kept
         versions.push_back(next);
         return versions.size() - 1;
     }
@@ -52,6 +52,7 @@ struct VersionedText{
     }
 
     char at(int v, int pos) const{
+        assert(0 <= pos && pos < size(v));
         return versions[v][pos];
     }
 };

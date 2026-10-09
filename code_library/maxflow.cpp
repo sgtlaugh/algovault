@@ -6,7 +6,8 @@
  * Use FlowGraph for standard flow with edge capacity
  * Use FlowGraphWithNodeCap when nodes can have capacity as well
  * Use DenseFlowGraph for dense graphs: an n x n capacity matrix, same API, O(n^2) memory (32 MB at n = 2000)
- *     measured 2.5x to 7x faster than FlowGraph with half or more of all n^2 edges present, n from 300 to 2000
+ *     measured 2x to 7x faster than FlowGraph with half or more of all n^2 edges present, n from 600 to 2000
+ *     same construction and maxflow() calls, but no per-edge flow values since only residual capacities are kept
  *
  * For more speed, get rid of the struct and wrap it up in a namespace or make it global (25% speed gain locally)
  * If you need to initialize the struct many times, make the arrays vectors or get rid of the struct as above
@@ -168,6 +169,7 @@ struct DenseFlowGraph{
     }
 
     long long maxflow(){
+        assert(src != sink);
         long long flow = 0;
         while (bfs()){
             fill(ptr.begin(), ptr.end(), 0);

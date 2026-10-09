@@ -38,6 +38,7 @@ struct HLD{
     }
 
     void build(int root = 0){
+        fill(size.begin(), size.end(), 1), fill(heavy.begin(), heavy.end(), -1);  /// build may run again, e.g. with a new root
         vector<int> order = {root};
         parent[root] = -1, depth[root] = 0;
         for (int i = 0; i < (int)order.size(); i++){

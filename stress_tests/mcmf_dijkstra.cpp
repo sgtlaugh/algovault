@@ -96,12 +96,17 @@ namespace original{
 }
 
 vector<array<long long, 4>> random_graph(int n, int m, long long max_cap, long long min_cost, long long max_cost, bool dag){
+    /// DAG labels are shuffled (source and sink stay put) so Bellman Ford cannot converge in one index-order pass
+    vector<int> label(n);
+    iota(label.begin(), label.end(), 0);
+    if (n > 2) shuffle(label.begin() + 1, label.end() - 1, stress::rng());
+
     vector<array<long long, 4>> edges;
     for (int i = 0; i < m; i++){
         int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
         if (u == v) continue;
         if (dag && u > v) swap(u, v);
-        edges.push_back({u, v, stress::rand_int(0, max_cap), stress::rand_int(min_cost, max_cost)});
+        edges.push_back({label[u], label[v], stress::rand_int(0, max_cap), stress::rand_int(min_cost, max_cost)});
     }
     return edges;
 }

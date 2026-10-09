@@ -3,12 +3,12 @@
  * Johnson's Algorithm
  * All pairs shortest paths on a sparse directed graph with negative edges
  *
- * Complexity: O(n m) for Bellman Ford once, then O(n m log n) for n runs of Dijkstra
+ * Complexity: O(n m) for Bellman Ford once, then O(n^2 + n m log n) for n runs of Dijkstra, O(n^2) memory for dist
  *
- * johnson(n, edges, dist): edges[i] = {u, v, w}, 0-based, any long long weights
+ * johnson(n, edges, dist): edges[i] = {u, v, w}, 0-based, long long weights (negative allowed)
  *     returns false if the graph has a negative cycle (dist is left empty)
  *     otherwise dist[u][v] is the shortest distance, or JOHNSON_INF if v is unreachable from u
- *     path weights must stay within about 1e18
+ *     every |path weight| must stay below 1e18: reweighted distances reach up to twice that
  *
  * Bellman Ford from a virtual source gives potentials h, every edge is reweighted to w + h[u] - h[v] >= 0,
  * so plain Dijkstra works from each source and the true distance is recovered as d - h[u] + h[v]

@@ -9,6 +9,8 @@
  * s.add(l, r, v): adds v to every value in [l, r]
  * s.count_less(l, r, x): how many values in [l, r] are < x
  * s.get(i): current value at position i
+ * Every current value and every x must stay within half the range of T (|v| <= 1e9 for int, ~4.6e18 for long long),
+ * because a block's pending addition is the difference of two such values
  *
  * Each block keeps a sorted copy of its raw values plus one pending addition:
  * whole blocks only change the pending addition, partial blocks are fixed up and re-sorted
@@ -39,19 +41,22 @@ struct SqrtDecomposition{
         sort(sorted_block[b].begin(), sorted_block[b].end());
     }
 
+    /// Adds v to [l, r] inside block b, folding its pending addition in first so raw values equal real values
+    void add_partial(int b, int l, int r, T v){
+        int lo = b * block, hi = min(n, lo + block);
+        for (int i = lo; i < hi && pending[b] != 0; i++) raw[i] += pending[b];
+        pending[b] = 0;
+        for (int i = l; i <= r; i++) raw[i] += v;
+        rebuild(b);
+    }
+
     void add(int l, int r, T v){
         assert(0 <= l && l <= r && r < n);
         int bl = l / block, br = r / block;
-        if (bl == br){
-            for (int i = l; i <= r; i++) raw[i] += v;
-            rebuild(bl);
-            return;
-        }
-        for (int i = l; i < (bl + 1) * block; i++) raw[i] += v;
-        rebuild(bl);
+        if (bl == br) return add_partial(bl, l, r, v);
+        add_partial(bl, l, (bl + 1) * block - 1, v);
         for (int b = bl + 1; b < br; b++) pending[b] += v;
-        for (int i = br * block; i <= r; i++) raw[i] += v;
-        rebuild(br);
+        add_partial(br, br * block, r, v);
     }
 
     int count_less(int l, int r, T x) const{
@@ -62,12 +67,16 @@ struct SqrtDecomposition{
             return res;
         }
         for (int i = l; i < (bl + 1) * block; i++) res += raw[i] + pending[bl] < x;
-        for (int b = bl + 1; b < br; b++) res += lower_bound(sorted_block[b].begin(), sorted_block[b].end(), x - pending[b]) - sorted_block[b].begin();
+        for (int b = bl + 1; b < br; b++){
+            T shift = pending[b];  /// compare raw + shift with x, x - shift could overflow
+            res += lower_bound(sorted_block[b].begin(), sorted_block[b].end(), x, [&](const T& v, const T& key){ return v + shift < key; }) - sorted_block[b].begin();
+        }
         for (int i = br * block; i <= r; i++) res += raw[i] + pending[br] < x;
         return res;
     }
 
     T get(int i) const{
+        assert(0 <= i && i < n);
         return raw[i] + pending[i / block];
     }
 };

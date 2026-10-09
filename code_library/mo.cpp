@@ -54,7 +54,7 @@ struct TreePathMo{
     vector<vector<int>> adj, up;
     vector<int> depth, first, last, tour;
 
-    TreePathMo(int n) : n(n), adj(n), depth(n), first(n), last(n) {
+    TreePathMo(int n) : n(n), adj(n), depth(n), first(n), last(n){
         lg = 1;
         while ((1 << lg) < n) lg++;
     }

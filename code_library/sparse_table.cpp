@@ -15,7 +15,8 @@
    * O(n log n) to build
    * O(1) to query
  *
- * LinearSparseTable<T> answers range minimum with the same API in O(n) build and memory, O(1) query
+ * LinearSparseTable<T> answers range minimum with the same API in O(1) per query, building n + (n / 64) log(n / 64) words,
+ * effectively O(n) build and memory for any practical n
  * Measured with 1e7 queries: n = 1e6 builds 3x faster in 12 MB instead of 76 MB, queries 2.3x slower
  * At n = 1e7 the regular table needs 915 MB against 124 MB, so pick the linear one for large n or tight memory
  *

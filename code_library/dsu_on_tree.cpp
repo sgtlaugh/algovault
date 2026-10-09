@@ -34,6 +34,7 @@ struct DsuOnTree{
 
     /// Preorder with the heavy child first, so every subtree is one contiguous range
     void prepare(int root){
+        size.assign(n, 1), heavy.assign(n, -1), parent.assign(n, -1);  /// run may be called again, possibly from another root
         vector<int> bfs = {root};
         parent[root] = -1;
         for (int i = 0; i < (int)bfs.size(); i++){

@@ -101,6 +101,21 @@ void check(int n, int shape, int ops){
 }
 
 int main(){
+    /// Rebuilding from another root must match a fresh decomposition
+    for (long long it = 0; it < stress::scaled(500); it++){
+        int n = stress::rand_int(1, 40);
+        auto edges = make_tree(n, it % 5);
+        HLD reused(n);
+        for (auto [u, v] : edges) reused.add_edge(u, v);
+        for (int round = 0; round < 3; round++){
+            int root = stress::rand_int(0, n - 1);
+            HLD fresh(n);
+            for (auto [u, v] : edges) fresh.add_edge(u, v);
+            reused.build(root), fresh.build(root);
+            assert(reused.pos == fresh.pos && reused.head == fresh.head && reused.size == fresh.size);
+        }
+    }
+
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = it < 200 ? it % 30 + 1 : stress::rand_int(1, 120);
         check(n, it % 5, 60);

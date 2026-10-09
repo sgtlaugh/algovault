@@ -88,6 +88,7 @@ struct MCMF{
     }
 
     pair<long long, long long> solve(int s, int t, long long limit = INF){
+        assert(s != t);
         init_potential(s);
         long long total_flow = 0, total_cost = 0;
         while (total_flow < limit && dijkstra(s, t)){

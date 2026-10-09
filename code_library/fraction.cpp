@@ -43,45 +43,46 @@ struct Fraction{
         *this = make(n, d);
     }
 
-    Fraction operator+(const Fraction& o) const{
-        return make((__int128)num * o.den + (__int128)o.num * den, (__int128)den * o.den);
+    /// Non-members so an integer works on either side, 1 + half as well as half + 1
+    friend Fraction operator+(const Fraction& a, const Fraction& b){
+        return make((__int128)a.num * b.den + (__int128)b.num * a.den, (__int128)a.den * b.den);
     }
 
-    Fraction operator-(const Fraction& o) const{
-        return make((__int128)num * o.den - (__int128)o.num * den, (__int128)den * o.den);
+    friend Fraction operator-(const Fraction& a, const Fraction& b){
+        return make((__int128)a.num * b.den - (__int128)b.num * a.den, (__int128)a.den * b.den);
     }
 
-    Fraction operator*(const Fraction& o) const{
-        return make((__int128)num * o.num, (__int128)den * o.den);
+    friend Fraction operator*(const Fraction& a, const Fraction& b){
+        return make((__int128)a.num * b.num, (__int128)a.den * b.den);
     }
 
-    Fraction operator/(const Fraction& o) const{
-        assert(o.num != 0);
-        return make((__int128)num * o.den, (__int128)den * o.num);
+    friend Fraction operator/(const Fraction& a, const Fraction& b){
+        assert(b.num != 0);
+        return make((__int128)a.num * b.den, (__int128)a.den * b.num);
     }
 
-    bool operator==(const Fraction& o) const{
-        return num == o.num && den == o.den;
+    friend bool operator==(const Fraction& a, const Fraction& b){
+        return a.num == b.num && a.den == b.den;
     }
 
-    bool operator!=(const Fraction& o) const{
-        return !(*this == o);
+    friend bool operator!=(const Fraction& a, const Fraction& b){
+        return !(a == b);
     }
 
-    bool operator<(const Fraction& o) const{
-        return (__int128)num * o.den < (__int128)o.num * den;
+    friend bool operator<(const Fraction& a, const Fraction& b){
+        return (__int128)a.num * b.den < (__int128)b.num * a.den;
     }
 
-    bool operator>(const Fraction& o) const{
-        return o < *this;
+    friend bool operator>(const Fraction& a, const Fraction& b){
+        return b < a;
     }
 
-    bool operator<=(const Fraction& o) const{
-        return !(o < *this);
+    friend bool operator<=(const Fraction& a, const Fraction& b){
+        return !(b < a);
     }
 
-    bool operator>=(const Fraction& o) const{
-        return !(*this < o);
+    friend bool operator>=(const Fraction& a, const Fraction& b){
+        return !(a < b);
     }
 };
 
@@ -96,6 +97,8 @@ int main(){
     assert(Fraction(6, 8).num == 3 && Fraction(6, 8).den == 4);
     assert(third < half && Fraction(-1, 2) < third && !(half < half) && half <= half && half >= third);
     assert(Fraction(4) / Fraction(2) == Fraction(2));
+    assert(1 + half == Fraction(3, 2) && half + 1 == Fraction(3, 2) && 1 - half == half && 2 * third == Fraction(2, 3));
+    assert(1 / half == Fraction(2) && half < 1 && !(1 < half) && 0 == Fraction(0, 9));
 
     const long long BIG = 1000000000000000000LL;
     assert(Fraction(BIG, 3) * Fraction(3, BIG) == Fraction(1));

@@ -3,7 +3,7 @@
  * Power Tower
  * a[l] ^ (a[l + 1] ^ (... ^ a[r])) modulo m, evaluated from the top down
  *
- * Complexity: O(sqrt(m) log m) to build, O(log^2 m) per query
+ * Complexity: O(sqrt(m) log m) to build, O(r - l + log^2 m) per query (the r - l part only validates the input)
  *
  * PowerTower tower(m): 1 <= m <= 1e12, precomputes m, phi(m), phi(phi(m)), ... down to 1
  * tower.query(a, l, r): the tower over a[l..r] modulo m, 1 <= a[i] <= 1e18

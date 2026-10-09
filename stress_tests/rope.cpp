@@ -15,7 +15,7 @@ int main(){
             if (n == 0 || stress::rand_int(0, 2)){
                 int pos = stress::rand_int(0, n), len = stress::rand_int(0, 6);
                 string s;
-                for (int i = 0; i < len; i++) s += char('a' + stress::rand_int(0, 25));
+                for (int i = 0; i < len; i++) s += stress::rand_int(0, 9) ? char('a' + stress::rand_int(0, 25)) : '\0';
                 assert(text.insert(v, pos, s) == (int)ref.size());
                 ref.push_back(ref[v].substr(0, pos) + s + ref[v].substr(pos));
             }

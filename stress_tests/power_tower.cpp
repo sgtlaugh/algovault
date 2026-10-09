@@ -73,6 +73,16 @@ int main(){
         }
     }
 
+    /// Larger moduli, where phi chains are longer and the exact/Euler switch happens deeper
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(1, 5);
+        vector<long long> a(n);
+        for (auto& x : a) x = stress::rand_int(1, 6);
+        long long m = stress::rand_int(100000, 1000000);
+        assert(power_tower(a, m) == brute(a, 0, m));
+    }
+    assert(power_tower({2, 2, 2, 2, 2, 2}, 1009LL * 1013 * 3) == 259264);
+
     vector<long long> ones(100000, 1);
     ones[0] = 7;
     assert(power_tower(ones, 1000) == 7);

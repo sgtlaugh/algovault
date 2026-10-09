@@ -10,6 +10,7 @@
  *   area2(poly): twice the signed area, positive for counter-clockwise order
  *   point_in_polygon(poly, p): any simple polygon, O(n), returns 1 inside, 0 on the boundary, -1 outside
  *   point_in_convex_polygon(poly, p): convex polygon in counter-clockwise order with n >= 3, O(log n), same return values
+ *       collinear vertices allowed, as long as not all vertices are collinear
  *   simple_polygon(points): an order of the indices forming a simple polygon, O(n log n)
  *       points must be distinct and not all collinear
  *
@@ -88,8 +89,23 @@ int point_in_convex_polygon(const vector<Point>& poly, const Point& p){
     const Point& o = poly[0];
     long long first = cross(o, poly[1], p), last = cross(o, poly[n - 1], p);
     if (first < 0 || last > 0) return -1;
-    if (first == 0) return on_segment(p, o, poly[1]) ? 0 : -1;
-    if (last == 0) return on_segment(p, o, poly[n - 1]) ? 0 : -1;
+    if (first == 0 || last == 0){
+        /// The first and last edges may run on through collinear vertices, so test against the farthest one on each ray
+        auto on_ray = [&](const Point& dir, const Point& v){ return cross(o, dir, v) == 0 && dot(o, dir, v) > 0; };
+        int a = 1, hi = n - 1;
+        while (a < hi){
+            int mid = (a + hi + 1) / 2;
+            if (on_ray(poly[1], poly[mid])) a = mid;
+            else hi = mid - 1;
+        }
+        int lo = 1, b = n - 1;
+        while (lo < b){
+            int mid = (lo + b) / 2;
+            if (on_ray(poly[n - 1], poly[mid])) b = mid;
+            else lo = mid + 1;
+        }
+        return on_segment(p, o, poly[a]) || on_segment(p, o, poly[b]) ? 0 : -1;
+    }
 
     int lo = 1, hi = n - 1;  /// p lies strictly inside the angle, find the wedge o, poly[lo], poly[lo + 1]
     while (hi - lo > 1){
@@ -136,7 +152,8 @@ PointF rotate(const PointF& center, const PointF& p, double degrees){
 
 double clockwise_angle(const PointF& a, const PointF& b){
     double theta = atan2(b.x * a.y - b.y * a.x, a.x * b.x + a.y * b.y) * 180.0 / acos(-1.0);
-    return theta < 0 ? theta + 360.0 : theta;
+    if (theta < 0) theta += 360.0;
+    return theta >= 360.0 ? 0.0 : theta;  /// a tiny negative angle rounds up to exactly 360
 }
 
 long double great_circle_distance(long double lat1, long double lon1, long double lat2, long double lon2, long double radius){

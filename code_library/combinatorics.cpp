@@ -43,7 +43,7 @@ long long mod_inverse(long long a, long long m){
     if (a < 0) a += m;
 
     long long x, y;
-    if (extended_gcd(a, m, x, y) != 1) return m == 1 ? 0 : -1;
+    if (extended_gcd(a, m, x, y) != 1) return -1;
     x %= m;
     return x < 0 ? x + m : x;
 }

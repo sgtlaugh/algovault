@@ -7,6 +7,7 @@
  *
  * steiner_tree(n, edges, terminals): edges[i] = {u, v, w} with w >= 0, 0-based vertices
  *     returns the minimum weight, 0 for fewer than two terminals, STEINER_INF if they are not all connected
+ *     the total weight of all edges must stay below STEINER_INF (~2.3e18)
  *
  * dp[mask][v] = cheapest tree connecting the terminals in mask plus vertex v:
  * merge two smaller trees at v, then spread outward with a multi-source Dijkstra

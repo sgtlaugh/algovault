@@ -9,6 +9,8 @@
  * next_smaller(a)[i]: smallest j > i with a[j] < a[i], or n
  * So a[i] is the minimum of every range inside (previous_smaller[i], next_smaller[i]), equal values included,
  * which gives the span lengths L[i] = i - previous_smaller[i] and R[i] = next_smaller[i] - i
+ * For the sum of minimums over all subarrays, sum a[i] * L[i] * R[i] counts a subarray with tied minimums
+ * once per tie; make one side non-strict (stop at a[j] <= a[i]) so each subarray is credited to exactly one index
  *
  * largest_rectangle(h): largest axis aligned rectangle under the histogram h, as long long
  *

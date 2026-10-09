@@ -4,7 +4,7 @@ Sieve of Eratosthenes
 sieve(n): bytearray where is_prime[i] is 1 when i is prime, for 0 <= i <= n
 primes_up_to(n): list of the primes <= n
 
-Complexity: O(n log log n), n + 1 bytes of memory
+Complexity: O(n log log n), n + 1 bytes for the result plus a temporary of up to n / 2 bytes while marking
 Slice assignment marks all multiples of a prime in one C level step, far faster than a Python loop
 """
 

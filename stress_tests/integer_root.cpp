@@ -47,7 +47,7 @@ int main(){
         unsigned long long n = (unsigned long long)stress::rng()();
         if (it % 3 == 0) n >>= stress::rand_int(0, 63);
         if (it % 5 == 0) n = ULLONG_MAX - stress::rand_int(0, 1000);
-        int k = stress::rand_int(1, 64);
+        int k = it % 7 ? stress::rand_int(1, 64) : stress::rand_int(60, 1000);
         assert(iroot(n, k) == brute(n, k));
         assert(isqrt(n) == brute(n, 2) && icbrt(n) == brute(n, 3));
     }

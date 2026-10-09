@@ -10,7 +10,6 @@
  * f.is_prime(n):          deterministic Miller Rabin for n < 2^63
  *
  * Brent's cycle detection with one gcd per batch of 128 steps and Montgomery multiplication
- * Shanks' SQUFOF was benchmarked as an alternative and was 3.5x to 45x slower on every workload
  * Requires __int128 (64-bit GCC or Clang)
  *
 ***/

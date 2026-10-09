@@ -65,6 +65,38 @@ int main(){
     check(2000, 0, 50);
     check(1500, 1, 50);
 
+    /// Running twice, from different roots, must give the same answers as fresh objects
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(1, 30);
+        auto edges = make_tree(n, it % 4);
+        DsuOnTree reused(n);
+        for (auto [u, v] : edges) reused.add_edge(u, v);
+        for (int round = 0; round < 3; round++){
+            int root = stress::rand_int(0, n - 1);
+            DsuOnTree fresh(n);
+            for (auto [u, v] : edges) fresh.add_edge(u, v);
+            vector<int> a(n), b(n);
+            int wa = 0, wb = 0;
+            reused.run(root, [&](int){ wa++; }, [&](int){ wa--; }, [&](int v){ a[v] = wa; });
+            fresh.run(root, [&](int){ wb++; }, [&](int){ wb--; }, [&](int v){ b[v] = wb; });
+            assert(a == b && wa == 0);
+        }
+    }
+
+    /// A comb: spine edges first, so a wrong heavy child choice costs O(n^2) adds instead of O(n log n)
+    for (int order = 0; order < 2; order++){
+        int spine = 2000, n = 2 * spine;
+        DsuOnTree comb(n);
+        vector<pair<int, int>> edges;
+        for (int i = 1; i < spine; i++) edges.push_back({i - 1, i});
+        for (int i = 0; i < spine; i++) edges.push_back({i, spine + i});
+        if (order) reverse(edges.begin(), edges.end());
+        for (auto [u, v] : edges) comb.add_edge(u, v);
+        long long adds = 0;
+        comb.run(0, [&](int){ adds++; }, [&](int){}, [&](int){});
+        assert(adds <= (long long)n * (__lg(n) + 1));
+    }
+
     /// A path of 200000 nodes: deep enough to overflow an 8 MB stack with recursion
     int n = 200000;
     DsuOnTree path(n);

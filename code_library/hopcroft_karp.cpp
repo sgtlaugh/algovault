@@ -53,7 +53,7 @@ struct HopcroftKarp{
         return limit;
     }
 
-    bool augment(int root, int limit){
+    void augment(int root, int limit){
         vector<int> stack = {root};
         while (!stack.empty()){
             int u = stack.back();
@@ -69,11 +69,10 @@ struct HopcroftKarp{
                     int y = adj[x][it[x] - 1];
                     match_left[x] = y, match_right[y] = x;
                 }
-                return true;
+                return;
             }
             if (w != -1 && dist[w] == dist[u] + 1) stack.push_back(w);
         }
-        return false;
     }
 
     int max_matching(){
