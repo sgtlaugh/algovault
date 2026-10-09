@@ -98,6 +98,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Minimum Path Cover](code_library/graphs/minimum_path_cover.cpp) - disjoint and shared path covers of a DAG, maximum antichain
 - [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - Kruskal and Boruvka (struct with add_edge, template for implicit graphs) plus dense O(n^2) Prim on a weight matrix, spanning forest of an undirected graph
 - [Offline Dynamic Connectivity](code_library/graphs/offline_dynamic_connectivity.cpp) - connectivity and component count under edge insertions and deletions, O((m + q) log(m + q) log n)
+- [Online Bridges](code_library/graphs/online_bridges.cpp) - bridge count and 2-edge-connected components under edge insertions, O((n log n + m) α(n))
 - [Range Edge Dijkstra](code_library/graphs/range_edge_dijkstra.cpp) - shortest paths with vertex-to-range and range-to-vertex edges via segment tree overlays
 - [Small Cycle Counting](code_library/graphs/small_cycle_counting.cpp) - triangles and 4-cycles of a simple undirected graph in O(n + m sqrt(m)) by degree ordering
 - [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals, O(3^k n + 2^k m log n)
