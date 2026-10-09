@@ -105,5 +105,19 @@ int main(){
         assert(to_split.empty() || (to_split.begin()->first == 0 && to_split.rbegin()->first == (int)to_split.size() - 1));
         for (size_t i = 0; i < bridges.size(); i++) assert(tree[i] == Pair(g->num[bridges[i].u], g->num[bridges[i].v]));
     }
+
+    /// Long paths: every edge (i, i + 1) is a bridge, a bridge set hashed by u ^ v put half of them in one bucket and went quadratic
+    /// Cut every 1000 nodes because the recursive DFS overflows an 8 MB stack under ASan beyond about 15000 deep
+    int n = 100000, len = 1000;
+    g->n = n, g->m = 0;
+    for (int i = 0; i < n; i++) g->adj[i].clear();
+    for (int i = 0; i + 1 < n; i++){
+        if ((i + 1) % len) g->add_edge(i, i + 1);
+    }
+    auto start = chrono::steady_clock::now();
+    auto tree = g->get_bridge_tree();
+    assert((int)tree.size() == n - n / len);
+    for (int x = 0; x < n; x++) assert(g->num[x] == x);
+    assert(chrono::steady_clock::now() - start < chrono::seconds(2));
     return 0;
 }
