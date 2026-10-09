@@ -54,7 +54,7 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller element on each side, largest histogram rectangle
 - [Ordered Set](code_library/data_structures/ordered_set.cpp) - GNU policy-based set and multiset with order statistics
 - [Permutation Tree](code_library/data_structures/permutation_tree.cpp) - `O(n log n)` decomposition into common intervals, counts all of them
-- [Persistent Segment Tree](code_library/data_structures/persistent_segment_tree.cpp) - versioned point add/set, range query with any associative merge, k-th on version differences, range k-th smallest, persistent array
+- [Persistent Segment Tree](code_library/data_structures/persistent_segment_tree.cpp) - versioned point updates, range queries with any merge, range k-th smallest, persistent array
 - [Rope](code_library/data_structures/rope.cpp) - persistent text, every edit makes a new readable version
 - [Segment Tree](code_library/data_structures/segment_tree.cpp) - lazy propagation, customizable merge and update, max_right / min_left descent
 - [Segment Tree Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin, chmax, add and assign with range sum, min and max queries
@@ -73,7 +73,7 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - weighted tree diameter under edge weight updates in `O(log n)` via Euler tour and lazy segment tree
 - [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths (in path order) and subtrees as `O(log n)` ranges for any range structure
 - [Long-Path Decomposition](code_library/trees/long_path_decomposition.cpp) - `O(n)` depth-indexed subtree DP and `O(1)` k-th ancestor via ladders
-- [Lowest Common Ancestor](code_library/trees/lca.cpp) - binary lifting with k-th ancestor and path jump, an `O(n)` / `O(1)` variant, and tree path intersection
+- [Lowest Common Ancestor](code_library/trees/lca.cpp) - binary lifting with k-th ancestor and path jump, an `O(n)` / `O(1)` variant, path intersection
 - [Prufer Code](code_library/trees/prufer_code.cpp) - `O(n)` encode/decode between labeled trees and Prufer sequences
 - [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP answered for every node as the root in `O(n)`
 - [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - AHU canonical ids for rooted and unrooted trees, exact via a map dictionary
@@ -95,7 +95,7 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Edge Coloring](code_library/graphs/edge_coloring.cpp) - bipartite with D colors (Konig), simple graphs with D + 1 colors (Vizing)
 - [Euler Path](code_library/graphs/euler_path.cpp) - Hierholzer, directed and undirected multigraphs, iterative, `O(n + m)`
 - [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - feasible circulation, feasible / max / min s-t flow with demands on Dinic
-- [Floyd Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with path reconstruction, negative edges and negative cycles (NEG_INF marking)
+- [Floyd Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with paths, negative edges and negative cycle marking
 - [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching size via the Tutte matrix rank, Edmonds blossom for the matched pairs in `O(n^3)`
 - [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - Stoer-Wagner, minimum cut weight and one side, `O(n^3)`
 - [Gomory-Hu Tree](code_library/graphs/gomory_hu.cpp) - all-pairs min cut and min cut partitions of an undirected graph from n - 1 max flows (Gusfield)
@@ -105,15 +105,15 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [K Shortest Walks](code_library/graphs/k_shortest_walks.cpp) - Eppstein with a persistent leftist heap, `O((n + m) log m + k log k)`
 - [Kruskal Reconstruction Tree](code_library/graphs/kruskal_reconstruction_tree.cpp) - vertices reachable from v via edges <= w as a contiguous range, `O(log n)` per query
 - [Manhattan MST](code_library/graphs/manhattan_mst.cpp) - minimum spanning tree of points under L1 distance via octant sweeps, `O(n log n)`
-- [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set of two matroids, graphic, partition and xor oracles, `O(n r^2)` queries
-- [Maximum Clique](code_library/graphs/max_clique.cpp) - bitset branch and bound up to ~150 vertices, maximum independent set, Bron-Kerbosch maximal clique enumeration
-- [Maximum Flow](code_library/graphs/maxflow.cpp) - Dinic, with node capacities and a dense variant, min cut, max closure and max density subgraph recipes
+- [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set, graphic, partition and xor oracles, `O(n r^2)` queries
+- [Maximum Clique](code_library/graphs/max_clique.cpp) - bitset branch and bound to ~150 vertices, maximum independent set, Bron-Kerbosch enumeration
+- [Maximum Flow](code_library/graphs/maxflow.cpp) - Dinic with node capacities and a dense variant, min cut, max closure and density recipes
 - [Min Cost Circulation](code_library/graphs/min_cost_circulation.cpp) - cost scaling push-relabel, negative costs and negative cycles, `O(n^3 log(n C))`
 - [Min Cost Max Flow, Dijkstra](code_library/graphs/mcmf_dijkstra.cpp) - successive shortest paths with potentials and the cost slope, the default
 - [Min Cost Max Flow, SPFA](code_library/graphs/mcmf_spfa.cpp) - successive shortest paths with SPFA
 - [Minimum Mean Cycle (Karp)](code_library/graphs/minimum_mean_cycle.cpp) - exact reduced-fraction minimum mean cycle and the cycle's edge ids in `O(n (n + m))`
 - [Minimum Path Cover](code_library/graphs/minimum_path_cover.cpp) - disjoint and shared path covers of a DAG, maximum antichain
-- [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - Kruskal and Boruvka (struct with add_edge, template for implicit graphs) plus dense `O(n^2)` Prim on a weight matrix, spanning forest of an undirected graph
+- [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - Kruskal, Boruvka for implicit graphs and dense `O(n^2)` Prim, spanning forests
 - [Offline Dynamic Connectivity](code_library/graphs/offline_dynamic_connectivity.cpp) - connectivity and component count under edge insertions and deletions, `O((m + q) log(m + q) log n)`
 - [Online Bridges](code_library/graphs/online_bridges.cpp) - bridge count and 2-edge-connected components under edge insertions, `O((n log n + m) α(n))`
 - [Range Edge Dijkstra](code_library/graphs/range_edge_dijkstra.cpp) - shortest paths with vertex-to-range and range-to-vertex edges via segment tree overlays
@@ -132,7 +132,7 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Hashing](code_library/strings/hashing.cpp) - forward and reverse polynomial hash of any segment
 - [Hunt-Szymanski](code_library/strings/hunt_szymanski.cpp) - LCS in `O((r + n) log n)` for r matching pairs
 - [KMP](code_library/strings/kmp.cpp) - failure function, pattern search and the prefix function automaton
-- [Lyndon Factorization](code_library/strings/lyndon_factorization.cpp) - Duval factorization into non-increasing Lyndon words, plus a Duval-based least rotation (same result as Minimum Rotation)
+- [Lyndon Factorization](code_library/strings/lyndon_factorization.cpp) - Duval factorization into non-increasing Lyndon words, plus a Duval least rotation
 - [Manacher](code_library/strings/manacher.cpp) - longest palindrome at every center
 - [Minimum Rotation](code_library/strings/minimum_rotation.cpp) - start of the lexicographically smallest rotation
 - [Palindromic Tree](code_library/strings/palindromic_tree.cpp) - eertree, one node per distinct palindrome
@@ -185,7 +185,7 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [Big Integer](code_library/algebra/bignum.cpp) - arbitrary precision signed integers
 - [FFT](code_library/algebra/fft.cpp) - polynomial multiplication, exact modular and 64-bit products
 - [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
-- [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - `c[k] = sum of a[i] b[j]` over `gcd(i, j) = k` or `lcm(i, j) = k` via divisor/multiple zeta and Mobius transforms, `O(n log log n)`
+- [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - `c[k] = sum of a[i] b[j]` over `gcd(i, j) = k` or `lcm(i, j) = k`, `O(n log log n)`
 - [Lagrange Interpolation](code_library/algebra/lagrange_interpolation.cpp) - value of a polynomial from consecutive samples
 - [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - find a recurrence from terms and compute its n-th term
 - [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - convex-convex in `O(n + m)`, convex-arbitrary via monotone minima
@@ -210,26 +210,26 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - 64-bit linear basis with max/min xor, k-th smallest, count below x and intersection
 
 ### Geometry
-- [Circle Geometry](code_library/geometry/circle.cpp) - circle-line/circle-circle intersections, tangents, circumcircle, minimum enclosing circle, circle-polygon, lens and union areas, max points covered by a radius-r circle
+- [Circle Geometry](code_library/geometry/circle.cpp) - intersections, tangents, minimum enclosing circle, circle-polygon, lens and union areas, max points covered
 - [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - `O(n log n)` sweep with exact integer squared distances
 - [Convex Hull](code_library/geometry/convex_hull.cpp) - monotone chain, `O(n log n)`
-- [Geometry](code_library/geometry/geometry.cpp) - exact integer predicates, polygon queries and angular sort, floating point line and segment intersection, projection, reflection, half-plane polygon cut and centroid
+- [Geometry](code_library/geometry/geometry.cpp) - exact integer predicates, polygon queries, angular sort, line and segment intersection, polygon cut, centroid
 - [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region of half-planes clipped to a box, sort and deque, `O(n log n)`
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
 - [Polygon Union](code_library/geometry/polygon_union.cpp) - area of the union of simple polygons, convex or not, `O(N^2 log N)` for N vertices in total
 - [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of a union of axis-aligned rectangles, segment tree sweep, `O(n log n)`
-- [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - Shamos-Hoey, finds a pair among n closed segments that share a point, `O(n log n)`, exact `__int128` predicates
+- [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - Shamos-Hoey, two of n closed segments sharing a point with exact predicates, `O(n log n)`
 
 ### Dynamic Programming
 - [Aliens Trick (WQS Binary Search, Lagrangian Relaxation)](code_library/dp/aliens_trick.cpp) - exactly-k optimum of a convex cost via binary search on the per-item penalty, tie-safe
 - [Blocks](code_library/dp/blocks_dp.cpp) - interval DP for UVA 10559 Blocks
-- [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - max value with item i usable up to `counts[i]` times, monotone queue per weight residue, `O(n capacity)` regardless of counts
+- [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - max value with item i used up to `counts[i]` times, `O(n capacity)` regardless of counts
 - [Bounded Subset Sum](code_library/dp/bounded_subset_sum.cpp) - reachable sums of a bounded multiset in `O(W sqrt(W))` with subset reconstruction
 - [CKY](code_library/dp/cky.cpp) - context-free grammar membership in Chomsky normal form
 - [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - `dp[x] = min dp[i] + w(i, x)` in `O(n log n)` under the quadrangle inequality
 - [Divide and Conquer DP](code_library/dp/divide_conquer_dp.cpp) - `dp[k][i] = min dp[k-1][j] + cost(j, i)` with monotone optimum, `O(k n log n)`
 - [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle with the vertex order, bitmask DP in `O(2^n n^2)`
-- [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - `O(n^2)` interval DP `dp[i][j] = min dp[i][k] + dp[k][j] + cost(i, j)` for monotone quadrangle-inequality costs (stone merging, optimal BST)
+- [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - `dp[i][j] = min dp[i][k] + dp[k][j] + cost(i, j)` in `O(n^2)` for quadrangle-inequality costs
 - [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS in `O(n m)`
 - [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS lengths and one optimal subsequence, any comparator
 - [Maximum Square](code_library/dp/maximum_square.cpp) - largest filled square and diamond ending at every cell
