@@ -115,6 +115,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Aho-Corasick](code_library/strings/aho_corasick.cpp) - multi-pattern matching automaton
 - [Aho-Corasick, Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - multi-pattern matching with online pattern insertion
 - [Bit-String LCS](code_library/strings/bit_string_lcs.cpp) - longest common subsequence with bitsets, O(nm / 64)
+- [De Bruijn Sequence](code_library/strings/de_bruijn_sequence.cpp) - lexicographically smallest B(k, n) via FKM Lyndon word concatenation, O(k^n)
 - [Dynamic String Hash](code_library/strings/dynamic_string_hash.cpp) - forward and reverse substring hashes and palindrome checks under range assignment
 - [Hashing](code_library/strings/hashing.cpp) - forward and reverse polynomial hash of any segment
 - [Hunt-Szymanski](code_library/strings/hunt_szymanski.cpp) - LCS in O((r + n) log n) for r matching pairs
