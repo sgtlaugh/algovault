@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/simulated_annealing.c"
+#include "../../code_library/misc/simulated_annealing.c"
 #undef main
 
 const string IN = "/tmp/algovault_annealing_in.txt", OUT = "/tmp/algovault_annealing_out.txt";

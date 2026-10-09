@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/dancing_links.cpp"
+#include "../../code_library/misc/dancing_links.cpp"
 #undef main
 
 /// Exact cover by always covering the lowest uncovered column, memoized on the covered set

@@ -1,9 +1,9 @@
-#include "common.h"
+#include "../common.h"
 #include <sys/wait.h>
 #include <unistd.h>
 
 #define main library_main
-#include "../code_library/fast_io.cpp"
+#include "../../code_library/misc/fast_io.cpp"
 #undef main
 
 /// Per process names, concurrent runs (seed sweeps, parallel CI) would otherwise overwrite each other's files

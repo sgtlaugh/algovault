@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/radix_sort.cpp"
+#include "../../code_library/misc/radix_sort.cpp"
 #undef main
 
 int main(){
