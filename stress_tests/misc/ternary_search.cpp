@@ -44,8 +44,7 @@ void check_integer(const vector<long long>& v, long long lo){
 }
 
 /// golden_section_min on a V with a flat bottom [c, c + w], slopes k1 and k2: x must land in the bottom
-void check_golden_v(double lo, double hi){
-    double c = lo + (hi - lo) * stress::rand_int(0, 1000000) / 1e6;
+void check_golden_v(double lo, double hi, double c){
     double w = stress::rand_int(0, 3) ? 0 : (hi - c) * stress::rand_int(0, 1000) / 1e3;
     double k1 = stress::rand_int(1, 1000) / 10.0, k2 = stress::rand_int(1, 1000) / 10.0;
     auto f = [&](double x){ return x < c ? k1 * (c - x) : x > c + w ? k2 * (x - c - w) : 0.0; };
@@ -53,14 +52,16 @@ void check_golden_v(double lo, double hi){
     double eps = stress::rand_int(0, 1) ? 1e-9 : 1e-12;
     long long calls = 0;
     double x = golden_section_min(lo, hi, [&](double t){ calls++; return f(t); }, eps);
-    double tol = 2 * eps * max(1.0, abs(lo) + abs(hi));
+    /// The final interval holds x and a minimizer, so its own stop threshold bounds the miss, not the initial bounds
+    double tol = 2 * eps * max(1.0, 2 * abs(x));
     assert(lo <= x && x <= hi);
     assert(c - tol <= x && x <= c + w + tol);
 
     /// Every interval the loop shrinks contains x, so its stop threshold is >= eps * max(1, |x|) and width shrinks by r
     double r = (sqrt(5.0) - 1) / 2, floor_tol = eps * max(1.0, abs(x));
     double steps = hi - lo > floor_tol ? log((hi - lo) / floor_tol) / log(1 / r) : 0;
-    assert(calls <= 2 + 1 + ceil(steps) + 2);
+    /// Re-placing a drifted point costs 1 call; drift starts at rounding and grows by 1/r per step, measured gap >= 76
+    assert(calls <= 2 + 1 + ceil(steps) + 2 + ceil(steps / 64));
 }
 
 /// golden_section_min on smooth unimodal functions against a linear scan of a fine grid
@@ -132,7 +133,16 @@ int main(){
         double span = scale == 0 ? 1 : scale == 1 ? 1e4 : 1e12;
         double lo = (stress::rand_int(-1000000, 1000000) / 1e6) * span;
         double hi = lo + (stress::rand_int(0, 1000000) / 1e6) * span;
-        check_golden_v(lo, hi);
+        check_golden_v(lo, hi, lo + (hi - lo) * stress::rand_int(0, 1000000) / 1e6);
+    }
+
+    /// Kink near 0 in a wide interval: interior points keep the rounding error from when the interval was wide
+    for (long long it = 0; it < stress::scaled(3000); it++){
+        double span = stress::rand_int(0, 1) ? 1e9 : 1e12;
+        double c = stress::rand_int(-1000000, 1000000) / 1e9;
+        double lo = c - (stress::rand_int(0, 1000000) / 1e6) * span;
+        double hi = c + (stress::rand_int(0, 1000000) / 1e6) * span;
+        check_golden_v(lo, hi, c);
     }
 
     for (long long it = 0; it < stress::scaled(500); it++) check_golden_smooth();

@@ -4,7 +4,7 @@
  * Optimum of a unimodal function: integer argmax, real argmin
  *
  * Complexity: ternary_search_max O(log(hi - lo)) calls of f (2 per step)
- *             golden_section_min O(log((hi - lo) / tol)) calls of f (1 per step)
+ *             golden_section_min O(log((hi - lo) / tol)) calls of f (1 per step, plus 1 per 70+ steps for drift)
  *
  * ternary_search_max(lo, hi, f): smallest i in [lo, hi] maximizing f(i), for any comparable return type
  *   Requires f(lo) < ... < f(p) >= f(p + 1) >= ... >= f(hi): strictly increasing up to the peak p, then
@@ -18,7 +18,7 @@
  *   Requires f strictly decreasing, then strictly increasing, with an optional flat bottom
  *   Stops once hi - lo <= eps * max(1, |lo| + |hi|), so eps is relative for large coordinates; keep eps >= 1e-12
  *   Near a smooth minimum f changes by about (x - x*)^2, so double rounding limits x to about 1e-8 relative
- *   accuracy whatever eps is; f(x) itself is accurate to rounding. A kink (|x - c|) is located to eps
+ *   accuracy whatever eps is; f(x) itself is accurate to rounding. A kink at c is located to eps * max(1, |c|)
  *   Maximum: minimize -f
  *
  * Example:
@@ -48,19 +48,24 @@ template<typename F>
 double golden_section_min(double lo, double hi, F f, double eps = 1e-9){
     assert(lo <= hi);
 
-    /// r must be the exact golden ratio conjugate, otherwise the reused point drifts and lo < x1 < x2 < hi breaks
     const double r = (sqrt(5.0) - 1) / 2;
     double x1 = hi - r * (hi - lo), x2 = lo + r * (hi - lo);
     double f1 = f(x1), f2 = f(x2);
 
     while (hi - lo > eps * max(1.0, abs(lo) + abs(hi))){
+        /// The reused point's offset from its golden position grows by 1/r per step from rounding, and left alone it
+        /// first stalls the shrink and then breaks lo < x1 < x2 < hi, so a comparison discards the minimum
         if (f1 < f2){
             hi = x2, x2 = x1, f2 = f1;
             x1 = hi - r * (hi - lo), f1 = f(x1);
+            double ideal = lo + r * (hi - lo);
+            if (abs(x2 - ideal) > (hi - lo) / 64) x2 = ideal, f2 = f(x2);
         }
         else{
             lo = x1, x1 = x2, f1 = f2;
             x2 = lo + r * (hi - lo), f2 = f(x2);
+            double ideal = hi - r * (hi - lo);
+            if (abs(x1 - ideal) > (hi - lo) / 64) x1 = ideal, f1 = f(x1);
         }
     }
     return (lo + hi) / 2;
@@ -95,6 +100,7 @@ int main(){
     assert(abs(golden_section_min(1, 9, [](double x){ return -x; }) - 9) < 1e-8);
     assert(golden_section_min(2.5, 2.5, [](double x){ return x * x; }) == 2.5);
     assert(abs(golden_section_min(-1e300, 1e300, [](double x){ return abs(x - 3e299); }) - 3e299) < 1e291);
+    assert(abs(golden_section_min(-5.10426e11, 7.21044e11, [](double x){ return abs(x - 8.4033e-5); }) - 8.4033e-5) < 1e-9);
 
     return 0;
 }
