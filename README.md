@@ -151,6 +151,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 ### Dynamic Programming
 - [Blocks](code_library/dp/blocks_dp.cpp) - interval DP for UVA 10559 Blocks
 - [CKY](code_library/dp/cky.cpp) - context-free grammar membership in Chomsky normal form
+- [Divide and Conquer DP Optimization](code_library/dp/divide_conquer_dp.cpp)
 - [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS in O(nm)
 - [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS lengths with any comparator
 - [Maximum Square](code_library/dp/maximum_square.cpp) - largest filled square and diamond ending at every cell
