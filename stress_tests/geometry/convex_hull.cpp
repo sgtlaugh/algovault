@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/convex_hull.cpp"
+#include "../../code_library/geometry/convex_hull.cpp"
 #undef main
 
 bool same(const Point& a, const Point& b){

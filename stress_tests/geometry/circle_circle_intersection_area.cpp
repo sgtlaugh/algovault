@@ -1,9 +1,9 @@
 // LINK: -lquadmath
-#include "common.h"
+#include "../common.h"
 #include <quadmath.h>
 
 #define main library_main
-#include "../code_library/circle_circle_intersection_area.cpp"
+#include "../../code_library/geometry/circle_circle_intersection_area.cpp"
 #undef main
 
 /// Lens area from the segment formula with the kite area taken by Heron's formula, a different route than the library's sines

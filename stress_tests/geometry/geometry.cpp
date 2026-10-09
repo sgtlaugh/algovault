@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/geometry.cpp"
+#include "../../code_library/geometry/geometry.cpp"
 #undef main
 
 Point random_point(long long range){

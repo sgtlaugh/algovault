@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/picks_theorem.cpp"
+#include "../../code_library/geometry/picks_theorem.cpp"
 #undef main
 
 /// Vertices sorted by angle around a centre that every angular gap keeps strictly inside, so the polygon is simple
