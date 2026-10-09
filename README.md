@@ -22,17 +22,15 @@ bool same = dsu.find_root(a) == dsu.find_root(b);
 
 The header at the top of each file lists its API, complexity and limits.
 
-<br>
-Implementations are usually stress-tested and cross-checked against various problems. Nonetheless, they are not guranteed to be flawless and work in all cases.
-</br>
+## Quality
+
+Every file has self-tests in its `main()` and a brute-force stress test under [`stress_tests/`](stress_tests) at the same relative path. CI compiles all of them with GCC 14 under AddressSanitizer and UndefinedBehaviorSanitizer, with warnings as errors, on every push, and reruns the stress tests nightly at 20x the iterations with a fresh seed.
 
 <br>
 For bugs, refactoring and improvements, feel free to file an issue or a pull request as contributions are always welcome.
 </br>
 
 ## Index
-
-Every file has a brute-force stress test under [`stress_tests/`](stress_tests) at the same relative path.
 
 ### Data Structures
 - [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving
