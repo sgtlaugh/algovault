@@ -41,6 +41,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Mo's Algorithm](code_library/data_structures/mo.cpp) - offline range queries on arrays, arrays with point updates, add-only (rollback) state and tree paths
 - [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller element on each side, largest histogram rectangle
 - [Ordered Set](code_library/data_structures/ordered_set.cpp) - GNU policy-based set and multiset with order statistics
+- [Permutation Tree](code_library/data_structures/permutation_tree.cpp) - O(n log n) decomposition into common intervals, counts all of them
 - [Persistent Segment Tree](code_library/data_structures/persistent_segment_tree.cpp) - versioned point add/set, range query with any associative merge, k-th on version differences, range k-th smallest, persistent array
 - [Rope](code_library/data_structures/rope.cpp) - persistent text, every edit makes a new readable version
 - [Segment Tree](code_library/data_structures/segment_tree.cpp) - lazy propagation, customizable merge and update
