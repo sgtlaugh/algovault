@@ -4,7 +4,7 @@
  * Uses custom class for complex numbers and various optimizations for better performance
  *
  * Complexity:
- *   - O(MAX log MAX) pre-processing once
+ *   - O(len) to extend the roots of unity the first time a transform length is used
  *   - O(n log n) for all exposed methods
  *
 ***/
@@ -21,14 +21,14 @@ typedef long double fType;
 namespace fft{
     namespace{ /// Anonymous namespace to wrap internally used variables and methods
         const int MOD_SPLIT_LIMIT = 15;
-        const int LL_MULTIPLY_MOD = 1500000000;
+        const int LL_MULTIPLY_LIMIT = 1500000000;
 
-        int last_len = -1, initialized = 0, rev[MAX];
+        int last_len = -1, roots_len = 2, rev[MAX];
 
         struct ComplexNum{
             fType real, img;
 
-            inline ComplexNum(fType real=0, fType img=0) : real(real), img(img) {}
+            constexpr ComplexNum(fType real=0, fType img=0) : real(real), img(img) {}
 
             inline ComplexNum conjugate(){
                 return ComplexNum(real, -img);
@@ -45,7 +45,7 @@ namespace fft{
             inline ComplexNum operator * (ComplexNum x){
                 return ComplexNum(real * x.real - img * x.img, real * x.img + img * x.real);
             }
-        } u[MAX], w[MAX], f[MAX], g[MAX], dp[MAX], inv[MAX];
+        } u[MAX], w[MAX], f[MAX], g[MAX], dp[MAX];
 
         long long round_to_nearest(const fType& x){
             long long res = abs(x) + 0.5;
@@ -56,21 +56,16 @@ namespace fft{
             return 32 - __builtin_clz(len) - (__builtin_popcount(len) == 1);
         }
 
-        void initialize(){
-            initialized = 1;
-            dp[1] = inv[1] = ComplexNum(1);
-
-            int i, j, k, lim;
-            for (i = 1; (1 << i) < MAX; i++){
-                fType theta = acosl(-1.0L) / (1 << i);
+        /// dp[k + j] = e^(i * pi * j / k) for every power of two k < len, grown on demand
+        void extend_roots(int len){
+            dp[1] = ComplexNum(1);
+            for (; roots_len < len; roots_len <<= 1){
+                fType theta = acosl(-1.0L) / roots_len;
                 ComplexNum mul = ComplexNum(cos(theta), sin(theta));
-                ComplexNum inv_mul = ComplexNum(cos(-theta), sin(-theta));
 
-                for (lim = 1 << i, j = lim >> 1; j < lim; j++){
-                    k = 2 * j;
-                    dp[k] = dp[j], inv[k] = inv[j];
-                    inv[k + 1] = inv[j] * inv_mul;
-                    dp[k + 1] = dp[j] * mul;
+                for (int j = roots_len >> 1; j < roots_len; j++){
+                    dp[2 * j] = dp[j];
+                    dp[2 * j + 1] = dp[j] * mul;
                 }
             }
         }
@@ -83,7 +78,7 @@ namespace fft{
             int len = 1 << get_bit(n + m);
             v1.resize(len, 0), v2.resize(len, 0);
 
-            if (!initialized) initialize();
+            extend_roots(len);
             if (len != last_len){
                 last_len = len;
                 const int bit = get_bit(len);
@@ -144,6 +139,35 @@ namespace fft{
         vector <long long> circular_part(const vector <long long>& product, int n){
             return vector <long long>(product.begin() + n, product.begin() + 2 * n);
         }
+
+        /// Splits values into low and high bits, leaving low * low, the cross terms and high * high
+        /// in f.real, g.real and f.img respectively, 4 transforms in total (3 for equal inputs)
+        int split_multiply(vector <long long>& v1, vector <long long>& v2, int bits){
+            const int mask = (1 << bits) - 1;
+
+            int i, j, len = build(v1, v2);
+            for (i = 0; i < len; i++) u[i] = ComplexNum(v1[i] & mask, v1[i] >> bits);
+            for (i = 0; i < len; i++) w[i] = ComplexNum(v2[i] & mask, v2[i] >> bits);
+
+            transform(u, f, dp, len);
+            for (i = 0; i < len; i++) g[i] = f[i];
+            if (!is_equal(v1, v2)) transform(w, g, dp, len);
+
+            for (i = 0; i < len; i++){
+                j = (len - 1) & (len - i);
+                ComplexNum c1 = f[j].conjugate(), c2 = g[j].conjugate();
+
+                ComplexNum a1 = (f[i] + c1) * ComplexNum(0.5, 0);
+                ComplexNum a2 = (f[i] - c1) * ComplexNum(0, -0.5);
+                ComplexNum b1 = (g[i] + c2) * ComplexNum(0.5 / len, 0);
+                ComplexNum b2 = (g[i] - c2) * ComplexNum(0, -0.5 / len);
+                u[j] = a1 * b1 + a2 * b2 * ComplexNum(0, 1);
+                w[j] = a1 * b2 + a2 * b1;
+            }
+            transform(u, f, dp, len);
+            transform(w, g, dp, len);
+            return len;
+        }
     }
 
     /***
@@ -157,11 +181,12 @@ namespace fft{
         for (i = 0; i < len; i++) u[i] = ComplexNum(v[i], 0);
         transform(u, f, dp, len);
         for (i = 0; i < len; i++) u[i] = f[i] * f[i];
-        transform(u, f, inv, len);
+        transform(u, f, dp, len);
 
+        /// A forward transform read at index -i is the inverse transform scaled by len
         vector <long long> res(p_len, 0);
         for (i = 0; i < min(len, p_len); i++){
-            res[i] = round_to_nearest(f[i].real / (fType)len);
+            res[i] = round_to_nearest(f[(len - i) & (len - 1)].real / (fType)len);
         }
         return res;
     }
@@ -217,39 +242,16 @@ namespace fft{
      *
     ***/
     vector <long long> mod_multiply(vector <long long> v1, vector <long long> v2, int mod, int bits=MOD_SPLIT_LIMIT){
-        const int mask = (1 << bits) - 1;
+        int p_len = v1.size() + v2.size() - 1;
+        for (auto&& x: v1) x %= mod;
+        for (auto&& x: v2) x %= mod;
 
-        long long x, y, z;
-        int i, j, len, p_len = v1.size() + v2.size() - 1;
-
-        len = build(v1, v2);
-        for (i = 0; i < len; i++) v1[i] %= mod, v2[i] %= mod;
-        for (i = 0; i < len; i++) u[i] = ComplexNum(v1[i] & mask, v1[i] >> bits);
-        for (i = 0; i < len; i++) w[i] = ComplexNum(v2[i] & mask, v2[i] >> bits);
-
-        transform(u, f, dp, len);
-        for (i = 0; i < len; i++) g[i] = f[i];
-        if (!is_equal(v1, v2)) transform(w, g, dp, len);
-
-        for (i = 0; i < len; i++){
-            j = (len - 1) & (len - i);
-            ComplexNum c1 = f[j].conjugate(), c2 = g[j].conjugate();
-
-            ComplexNum a1 = (f[i] + c1) * ComplexNum(0.5, 0);
-            ComplexNum a2 = (f[i] - c1) * ComplexNum(0, -0.5);
-            ComplexNum b1 = (g[i] + c2) * ComplexNum(0.5 / len, 0);
-            ComplexNum b2 = (g[i] - c2) * ComplexNum(0, -0.5 / len);
-            u[j] = a1 * b1 + a2 * b2 * ComplexNum(0, 1);
-            w[j] = a1 * b2 + a2 * b1;
-        }
-        transform(u, f, dp, len);
-        transform(w, g, dp, len);
-
+        int len = split_multiply(v1, v2, bits);
         vector <long long> res(p_len, 0);
-        for (i = 0; i < min(len, p_len); i++){
-            x = round_to_nearest(f[i].real);
-            y = round_to_nearest(g[i].real);
-            z = round_to_nearest(f[i].img);
+        for (int i = 0; i < min(len, p_len); i++){
+            long long x = round_to_nearest(f[i].real);
+            long long y = round_to_nearest(g[i].real);
+            long long z = round_to_nearest(f[i].img);
             res[i] = (x + ((y % mod) << bits) + ((z % mod) << (2 * bits))) % mod;
         }
 
@@ -258,26 +260,26 @@ namespace fft{
 
     /***
      * Same as multiply(v1, v2), but supports larger values
-     * Unlike multiply, does not support negative values as it internally uses mod_multiply
-     * Values in the vectors should not exceed the constant LL_MULTIPLY_MOD
+     * Unlike multiply, does not support negative values as the values are split into 15 bit halves
+     * Values in the vectors should not exceed the constant LL_MULTIPLY_LIMIT
+     * Every coefficient of the result must be below 2^63
      *
     ***/
     vector<long long> ll_multiply(vector <long long> v1, vector <long long> v2){
-        for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_MOD);
-        for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_MOD);
+        for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
+        for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
 
-        int len = v1.size() + v2.size() - 1;
-        const long long mod1 = LL_MULTIPLY_MOD, mod2 = mod1 + 1;
+        int p_len = v1.size() + v2.size() - 1;
+        int len = split_multiply(v1, v2, MOD_SPLIT_LIMIT);
 
-        auto mod_1_res = mod_multiply(v1, v2, mod1);
-        auto mod_2_res = mod_multiply(v1, v2, mod2);
-        assert((int)mod_1_res.size() == len && (int)mod_2_res.size() == len);
-
-        for (int i = 0; i < len; i++){
-            mod_1_res[i] = mod_1_res[i] + (mod_2_res[i] - mod_1_res[i] + mod2) * mod1 % mod2 * mod1;
+        vector <long long> res(p_len, 0);
+        for (int i = 0; i < min(len, p_len); i++){
+            unsigned long long x = round_to_nearest(f[i].real);
+            unsigned long long y = round_to_nearest(g[i].real);
+            unsigned long long z = round_to_nearest(f[i].img);
+            res[i] = x + (y << MOD_SPLIT_LIMIT) + (z << (2 * MOD_SPLIT_LIMIT));
         }
-
-        return mod_1_res;
+        return res;
     }
 
     /***
@@ -393,9 +395,8 @@ int main(){
 
     for (auto && x: v1) x = (1 << 30) - x;
     for (auto && x: v2) x = (1 << 30) - x;
-    expected_result = {1152921496016912399, 55842988386341168, 1208764490845704463, 111685985362616878, 111685981067649619, 111685973551456877, 1208764475813318996, 55842987312599314, 1152921493869428752};
+    expected_result = {1152921496016912399, 2305842989886341168, 3458764492345704463, 4611685988362616878, 4611685984067649619, 4611685976551456877, 3458764477313318996, 2305842988812599314, 1152921493869428752};
 
-    assert(multiply(v1, v2) != expected_result);  /// should fail because of precision, even with long double
     assert(ll_multiply(v1, v2) == expected_result);
 
     v1 = {1, 2, 3, 4};
@@ -407,7 +408,7 @@ int main(){
 
     for (auto && x: v1) x = (1 << 30) - x;
     for (auto && x: v2) x = (1 << 30) - x;
-    expected_result = {111686001468744197, 111686001468744200, 111686001468744203, 111686001468744198};
+    expected_result = {4611686004468744197, 4611686004468744200, 4611686004468744203, 4611686004468744198};
 
     assert(convolution(v1, v2) != expected_result);  /// should fail because of precision, even with long double
     assert(ll_convolution(v1, v2) == expected_result);
