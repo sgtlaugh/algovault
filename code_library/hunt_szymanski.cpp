@@ -3,6 +3,7 @@
  *
  * Complexity: O(R + N) log N
  * R = numbered of ordered pairs of positions where the two strings match (worst case, R = N^2)
+ * For dense inputs (small alphabet, large R) bit_string_lcs.cpp is faster at O(N * M / 64)
  *
 ***/
 
@@ -14,17 +15,21 @@ using namespace std;
 
 char A[MAX], B[MAX];
 
-int lcs(char* A, char* B){
+int lcs(const char* A, const char* B){
     vector <int> adj[256], ar(1, -1);
-    int i, j, n = strlen(A), m = strlen(B);
+    int i, j, k, n = strlen(A), m = strlen(B);
     for (i = 0; i < m; i++) adj[(unsigned char)B[i]].push_back(i);
 
     for (i = 0; i < n; i++){
         const auto& pos = adj[(unsigned char)A[i]];
-        for (j = (int)pos.size() - 1; j >= 0; j--){
+        /// Positions come in decreasing order, so each one lands at or before the slot of the previous
+        for (j = (int)pos.size() - 1, k = ar.size(); j >= 0; j--){
             int x = pos[j];
-            if (x > ar.back()) ar.push_back(x);
-            else *lower_bound(ar.begin(), ar.end(), x) = x;
+            if (x > ar.back()) ar.push_back(x), k = ar.size();
+            else{
+                k = lower_bound(ar.begin(), ar.begin() + k, x) - ar.begin();
+                ar[k++] = x;
+            }
         }
     }
     return ar.size() - 1;
