@@ -9,14 +9,9 @@
  *     measured 2x to 7x faster than FlowGraph with half or more of all n^2 edges present, n from 600 to 2000
  *     same construction and maxflow() calls, but no per-edge flow values since only residual capacities are kept
  *
- * For more speed, get rid of the struct and wrap it up in a namespace or make it global (25% speed gain locally)
- * If you need to initialize the struct many times, make the arrays vectors or get rid of the struct as above
- *
 ***/
 
 #include <bits/stdc++.h>
-
-#define MAXN 50010
 
 using namespace std;
 
@@ -29,12 +24,12 @@ struct Edge{
 };
 
 struct FlowGraph{
-    vector <int> adj[MAXN];
+    int n, src, sink;
+    vector <vector<int>> adj;
     vector <struct Edge> E;
-    int n, src, sink, Q[MAXN], ptr[MAXN], dis[MAXN];
+    vector <int> Q, ptr, dis;
 
-    FlowGraph(){}
-    FlowGraph(int n, int src, int sink): n(n), src(src), sink(sink) {}
+    FlowGraph(int n, int src, int sink): n(n), src(src), sink(sink), adj(n), Q(n), ptr(n), dis(n) {}
 
     void add_directed_edge(int u, int v, long long cap){
         adj[u].push_back(E.size());
@@ -51,7 +46,7 @@ struct FlowGraph{
 
     bool bfs(){
         int u, f = 0, l = 0;
-        memset(dis, -1, sizeof(dis[0]) * n);
+        fill(dis.begin(), dis.end(), -1);
 
         dis[src] = 0, Q[l++] = src;
         while (f < l && dis[sink] == -1){
@@ -90,7 +85,7 @@ struct FlowGraph{
         long long flow = 0;
 
         while (bfs()){
-            memset(ptr, 0, n * sizeof(ptr[0]));
+            fill(ptr.begin(), ptr.end(), 0);
             while (long long f = dfs(src, LLONG_MAX)){
                 flow += f;
             }
@@ -103,9 +98,7 @@ struct FlowGraph{
 struct FlowGraphWithNodeCap{
     FlowGraph flowgraph;
 
-    FlowGraphWithNodeCap(int n, int src, int sink, vector <long long> node_capacity){
-        flowgraph = FlowGraph(2 * n, 2 * src, 2 * sink + 1);
-
+    FlowGraphWithNodeCap(int n, int src, int sink, vector <long long> node_capacity) : flowgraph(2 * n, 2 * src, 2 * sink + 1){
         for (int i = 0; i < n; i++){
             flowgraph.add_directed_edge(2 * i, 2 * i + 1, node_capacity[i]);
         }
