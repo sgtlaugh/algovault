@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/gauss_jordan.cpp"
+#include "../../code_library/linear_algebra/gauss_jordan.cpp"
 #undef main
 
 /// Exact rank via elimination modulo a large prime, it matches the rational rank unless the prime divides a minor

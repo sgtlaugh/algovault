@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/gauss_prime_mod.cpp"
+#include "../../code_library/linear_algebra/gauss_prime_mod.cpp"
 #undef main
 
 bool satisfies(const vector<vector<int>>& equations, const vector<int>& x, int mod){

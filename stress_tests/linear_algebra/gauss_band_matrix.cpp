@@ -1,9 +1,9 @@
 // LINK: -lquadmath
-#include "common.h"
+#include "../common.h"
 #include <quadmath.h>
 
 #define main library_main
-#include "../code_library/gauss_band_matrix.cpp"
+#include "../../code_library/linear_algebra/gauss_band_matrix.cpp"
 #undef main
 
 typedef GaussBand<long double> Band;

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/matrix.cpp"
+#include "../../code_library/linear_algebra/matrix.cpp"
 #undef main
 
 long long reduce(__int128 x, long long mod){

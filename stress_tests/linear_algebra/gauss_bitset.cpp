@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/gauss_bitset.cpp"
+#include "../../code_library/linear_algebra/gauss_bitset.cpp"
 #undef main
 
 bool satisfies(const vector<bitset<MAX>>& equations, int m, const bitset<MAX>& x){

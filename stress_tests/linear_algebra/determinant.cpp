@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/determinant.cpp"
+#include "../../code_library/linear_algebra/determinant.cpp"
 #undef main
 
 /// Exact determinant by Laplace expansion along the first row, in __int128

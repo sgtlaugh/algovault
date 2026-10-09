@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/freivalds_algorithm.cpp"
+#include "../../code_library/linear_algebra/freivalds_algorithm.cpp"
 #undef main
 
 Matrix random_matrix(int row, int col, int range){

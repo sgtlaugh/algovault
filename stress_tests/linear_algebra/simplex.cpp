@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/simplex.cpp"
+#include "../../code_library/linear_algebra/simplex.cpp"
 #undef main
 
 #include <unistd.h>

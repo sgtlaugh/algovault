@@ -1,9 +1,9 @@
 // LINK: -lquadmath
-#include "common.h"
+#include "../common.h"
 #include <quadmath.h>
 
 #define main library_main
-#include "../code_library/thomas_algorithm.cpp"
+#include "../../code_library/linear_algebra/thomas_algorithm.cpp"
 #undef main
 
 /// Dense elimination with partial pivoting in quad precision, sharing nothing with the tridiagonal sweep

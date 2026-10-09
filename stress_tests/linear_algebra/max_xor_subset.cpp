@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/max_xor_subset.cpp"
+#include "../../code_library/linear_algebra/max_xor_subset.cpp"
 #undef main
 
 /// Classic insertion basis indexed by leading bit, then a greedy descent
