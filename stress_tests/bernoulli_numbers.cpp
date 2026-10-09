@@ -31,6 +31,10 @@ int main(){
 
     for (int i = 0; i <= n; i++) assert(bernoulli[i] == b[i]);
 
+    /// gen reuses one rolling Stirling row, so a second call must not see the previous run's values
+    gen();
+    for (int i = 0; i <= n; i++) assert(bernoulli[i] == b[i]);
+
     /// Exact small values: B_1 = -1/2, B_2 = 1/6, B_4 = -1/30, B_12 = -691/2730
     assert(bernoulli[1] == MOD - power(2, MOD - 2));
     assert(bernoulli[2] == power(6, MOD - 2));
