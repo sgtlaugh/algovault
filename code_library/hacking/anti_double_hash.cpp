@@ -51,6 +51,7 @@ struct AntiHash{
         long double x = a;
         x *= b;
         long long c = (long long)(x / m);
+
         a *= b;
         a -= c * m;
         if (a >= m) a -= m;
@@ -126,11 +127,13 @@ int main(){
         s2h1 = (s2h1 * b1 + s2[i]) % m1;
         s2h2 = (s2h2 * b2 + s2[i]) % m2;
     }
+
     assert(s1h1 == s2h1 && s1h2 == s2h2);
 
     puts(s1.c_str());
     puts(s2.c_str());
 
     fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));  /// Took 50 seconds to generate locally
+
     return 0;
 }

@@ -166,5 +166,6 @@ int main(){
     puts(s2.c_str());
 
     fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));   /// 0.002585
+
     return 0;
 }
