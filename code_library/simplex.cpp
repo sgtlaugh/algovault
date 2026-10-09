@@ -130,20 +130,22 @@ namespace Simplex {
         }
 
         // Phase 2: optimize objective function
-        while (true){
+        /// Dantzig's rule, falling back to Bland's after a degenerate pivot since only degenerate pivots can cycle
+        for (bool bland = false; ; ){
             x = 0, y = 0, mx = EPS;
             for (i = 1; i <= n; i++){
-                if (ar[0][i] > mx) mx = ar[0][i], y = i;
+                if (ar[0][i] > mx && (!bland || !y || down[i] < down[y])) mx = bland ? EPS : ar[0][i], y = i;
             }
             if (y == 0) break;
 
             for (i = 1; i <= m; i++){
                 if (ar[i][y] > EPS){
                     u = rhs[i] / ar[i][y];
-                    if (x == 0 || u < v) x = i, v = u;
+                    if (x == 0 || u < v - EPS || (u <= v + EPS && link[i] < link[x])) x = i, v = u;
                 }
             }
             if (x == 0) return UNBOUNDED;
+            bland = v <= EPS;
             pivot(x, y, res);
         }
 
