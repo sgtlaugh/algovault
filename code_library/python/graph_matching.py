@@ -11,7 +11,7 @@ def maximum_matching(edges, mod=_DEFAULT_PRIME):
     The rank of the Tutte matrix is equal to twice the size of the maximum matching with high probability
     The probability for error is not more than n/mod
 
-    Complexity: O(n ^ 3) worst case, O(n * |matching_size|) on average
+    Complexity: O(n ^ 3), even on sparse graphs
 
     :param edges: a list of edges, assume nodes can be anything numbered from 0 to max number in edges
     :param mod: optional, a large random prime
