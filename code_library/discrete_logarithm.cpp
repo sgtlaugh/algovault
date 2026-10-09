@@ -7,12 +7,12 @@
  * Works even if a, b and mod are not pairwise co-primes
  * a^0 = 1 (including 0^0), so x = 0 whenever b % mod = 1 % mod, which is every b when mod = 1
  *
- * Complexity: O(sqrt(mod))
- * Use a custom hash table for more speed
+ * Complexity: O(sqrt(mod)) expected
  *
 ***/
 
-#include <bits/stdtr1c++.h>
+#include <bits/stdc++.h>
+#include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
 
@@ -29,8 +29,15 @@ int expo(long long x, int n, int mod){
     return res % mod;
 }
 
+/// gp_hash_table masks the low bits, and residues like b * 3^i mod 2^30 all share them
+struct mix_hash{
+    size_t operator()(int x) const{
+        return (unsigned long long)x * 0x9E3779B97F4A7C15ULL >> 32;
+    }
+};
+
 int discrete_log(int a, int b, int mod){
-    tr1::unordered_map<int, int> mp;
+    __gnu_pbds::gp_hash_table<int, int, mix_hash> mp;
     int i, v, x, e = 1, n = sqrt(mod + 0.5) + 1;
 
     b %= mod;
@@ -45,8 +52,9 @@ int discrete_log(int a, int b, int mod){
     v = e = expo(a, n, mod);
     for (i = 2; i < (n + 3); i++){
         e = (long long)e * v % mod;
-        if (mp.count(e)){
-            x = (((long long)n * i - mp[e]) % mod + mod) % mod;
+        auto it = mp.find(e);
+        if (it != mp.end()){
+            x = (((long long)n * i - it->second) % mod + mod) % mod;
             return (expo(a, x, mod) == b) ? x : -1;
         }
     }
