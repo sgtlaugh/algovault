@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/hld.cpp"
+#include "../../code_library/trees/hld.cpp"
 #undef main
 
 vector<pair<int, int>> make_tree(int n, int shape){
