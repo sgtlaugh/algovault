@@ -97,6 +97,18 @@ bool brute(int n, const vector<long long>& c, const vector<Constraint>& cons, in
     return found;
 }
 
+/// Phase 1 enters x1 and row 2 wins the ratio test by 2e-7, leaving the artificial basic at 2e-10, inside double's EPS
+/// Left basic it grows in phase 2 and relaxes x1 >= 1000 away, so min x1 came out 0 instead of 1000 or INFEASIBLE
+void artificial_left_basic(){
+    Float result;
+    Simplex lp(1, {0, 1}, MINIMIZE);
+    lp.add_constraint({0, 0.001}, 1, GREATEQ);
+    lp.add_constraint({0, 1}, 1000 - 2e-7, LESSEQ);
+
+    int status = lp.solve(result);
+    assert(status == INFEASIBLE || (status == FEASIBLE && abs(result - 1000) < 1e-6));
+}
+
 /// Degenerate LPs that cycle forever without anti-cycling, the alarm turns a hang into a failure
 void degenerate_cycling(){
     Float result;
@@ -136,22 +148,25 @@ void degenerate_cycling(){
     alarm(0);
 }
 
-/// Primal max c.x, Ax <= b and dual min b.y, A^T y >= c solved as two live instances, strong duality pins both optima
-/// b and c are built from planted x0, y0 >= 0 so both sides are feasible, which strong duality needs, and phase 1 has no termination guarantee to lean on otherwise
-void duality(){
-    for (long long it = 0; it < stress::scaled(300); it++){
-        int n = stress::rand_int(1, 40), m = stress::rand_int(1, 40);
+/// Primal max c.x, Ax <= b and dual min b.y, A^T y >= c solved as two live instances, strong duality pins their statuses and optima
+/// Planted LPs build b and c from x0, y0 >= 0 so both sides are feasible and bounded, arbitrary ones mix in infeasible and unbounded pairs
+/// Past n, m = 50 a phase 1 without a ratio test wandered for minutes, the per-instance alarm turns such a hang into a failure
+void duality(long long iterations, int lo, int hi, bool planted){
+    for (long long it = 0; it < iterations; it++){
+        int n = stress::rand_int(lo, hi), m = stress::rand_int(lo, hi);
         vector<vector<long long>> a(m, vector<long long>(n));
-        vector<long long> b(m), c(n), x0(n), y0(m);
+        vector<long long> b(m), c(n), x0(n, 0), y0(m, 0);
         for (auto& r : a) for (auto& x : r) x = stress::rand_int(0, 3) ? stress::rand_int(-4, 6) : 0;
-        for (auto& x : x0) x = stress::rand_int(0, 1) ? stress::rand_int(0, 5) : 0;
-        for (auto& y : y0) y = stress::rand_int(0, 1) ? stress::rand_int(0, 5) : 0;
+        if (planted){
+            for (auto& x : x0) x = stress::rand_int(0, 1) ? stress::rand_int(0, 5) : 0;
+            for (auto& y : y0) y = stress::rand_int(0, 1) ? stress::rand_int(0, 5) : 0;
+        }
         for (int i = 0; i < m; i++){
-            b[i] = stress::rand_int(0, 1) ? stress::rand_int(0, 10) : 0;
+            b[i] = planted ? (stress::rand_int(0, 1) ? stress::rand_int(0, 10) : 0) : stress::rand_int(-10, n + 10);
             for (int j = 0; j < n; j++) b[i] += a[i][j] * x0[j];
         }
         for (int j = 0; j < n; j++){
-            c[j] = stress::rand_int(0, 1) ? -stress::rand_int(0, 10) : 0;
+            c[j] = planted ? (stress::rand_int(0, 1) ? -stress::rand_int(0, 10) : 0) : stress::rand_int(-m - 10, 10);
             for (int i = 0; i < m; i++) c[j] += a[i][j] * y0[i];
         }
 
@@ -169,8 +184,14 @@ void duality(){
         }
 
         Float primal_value, dual_value;
-        assert(primal.solve(primal_value) == FEASIBLE);
-        assert(dual.solve(dual_value) == FEASIBLE);
+        alarm(10);
+        int primal_status = primal.solve(primal_value), dual_status = dual.solve(dual_value);
+        alarm(0);
+        if (planted) assert(primal_status == FEASIBLE);
+        assert((primal_status == FEASIBLE) == (dual_status == FEASIBLE));
+        assert(primal_status != UNBOUNDED || dual_status == INFEASIBLE);
+        assert(dual_status != UNBOUNDED || primal_status == INFEASIBLE);
+        if (primal_status != FEASIBLE) continue;
 
         long double tol = 1e-6L * max(1.0L, fabsl(primal_value));
         assert(fabsl(primal_value - dual_value) <= tol);
@@ -221,9 +242,12 @@ void solve_twice_aborts(){
 
 int main(){
     solve_twice_aborts();
+    artificial_left_basic();
     degenerate_cycling();
-    srand(stress::seed());
-    duality();
+    duality(stress::scaled(300), 1, 40, true);
+    duality(stress::scaled(300), 1, 40, false);
+    duality(stress::scaled(10), 80, 100, true);
+    duality(stress::scaled(30), 50, 100, false);
 
     for (long long it = 0; it < stress::scaled(2000); it++){
         int n = stress::rand_int(1, it % 5 ? 3 : 4), m = stress::rand_int(0, it % 5 ? 4 : 6), sense = stress::rand_int(0, 1) ? MAXIMIZE : MINIMIZE;
