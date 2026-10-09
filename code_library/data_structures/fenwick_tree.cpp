@@ -2,6 +2,7 @@
  *
  * Fenwick Tree (Binary Indexed Tree)
  * Supports both point update + range query and range update + point/range query variants
+ * The point update variant also finds the first prefix reaching a given sum (lower_bound)
  * All operations in O(log n)
  * 1-based indexing for elements
  *
@@ -19,6 +20,8 @@ using namespace std;
  * Point updates, range queries
  * update(p, v): Add v to index p
  * query(l, r): Return sum of range [l, r]
+ * lower_bound(s): Smallest p with query(p) >= s, n + 1 if none, 1 if s <= 0
+ *   Binary lifting in O(log n), requires all values to be non-negative
 ***/
 
 template <typename T>
@@ -41,6 +44,20 @@ struct FenwickPointUpdate{
     T query(int l, int r){
         if (l > r) return 0;
         return query(r) - query(l - 1);
+    }
+
+    int lower_bound(T s){
+        int p = 0, step = 1;
+        while (step <= n / 2) step *= 2;
+
+        for (; step > 0; step >>= 1){
+            if (p + step <= n && tree[p + step] < s){
+                p += step;
+                s -= tree[p];
+            }
+        }
+
+        return p + 1;
     }
 };
 
@@ -126,6 +143,23 @@ int main(){
     assert(fen.query(1, 3) == 12);
     assert(fen.query(3, 5) == 10);
     assert(fen.query(1, 10) == 15);
+
+    assert(fen.lower_bound(-3) == 1);
+    assert(fen.lower_bound(0) == 1);
+    assert(fen.lower_bound(1) == 1);
+    assert(fen.lower_bound(5) == 1);
+    assert(fen.lower_bound(6) == 3);
+    assert(fen.lower_bound(12) == 3);
+    assert(fen.lower_bound(13) == 5);
+    assert(fen.lower_bound(15) == 5);
+    assert(fen.lower_bound(16) == 11);
+
+    auto zeros = FenwickPointUpdate<long long>(4);
+    assert(zeros.lower_bound(0) == 1);
+    assert(zeros.lower_bound(1) == 5);
+
+    auto empty = FenwickPointUpdate<int>(0);
+    assert(empty.lower_bound(1) == 1);
 
     /// Range update, point query
     auto fen2 = FenwickRangeUpdate<int>(10);
