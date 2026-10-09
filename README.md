@@ -149,6 +149,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
 
 ### Dynamic Programming
+- [Aliens Trick (WQS Binary Search, Lagrangian Relaxation)](code_library/dp/aliens_trick.cpp) - exactly-k optimum of a convex cost via binary search on the per-item penalty, tie-safe
 - [Blocks](code_library/dp/blocks_dp.cpp) - interval DP for UVA 10559 Blocks
 - [CKY](code_library/dp/cky.cpp) - context-free grammar membership in Chomsky normal form
 - [Divide and Conquer DP Optimization](code_library/dp/divide_conquer_dp.cpp)
