@@ -166,6 +166,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Gauss, Bitset](code_library/linear_algebra/gauss_bitset.cpp) - linear systems, rank and matrix inverse over GF(2)
 - [Gauss, Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - linear systems with kernel basis, rank and matrix inverse modulo a prime
 - [Matrix](code_library/linear_algebra/matrix.cpp) - modular multiplication and exponentiation
+- [Matrix Permanent](code_library/linear_algebra/permanent.cpp) - Ryser's formula with Gray code, modulo any m or exact, O(2^n * n)
 - [Maximum XOR Subset](code_library/linear_algebra/max_xor_subset.cpp) - largest xor of any subset via a linear basis
 - [Simplex](code_library/linear_algebra/simplex.cpp) - linear programming
 - [Thomas Algorithm](code_library/linear_algebra/thomas_algorithm.cpp) - tridiagonal linear systems in O(n)
