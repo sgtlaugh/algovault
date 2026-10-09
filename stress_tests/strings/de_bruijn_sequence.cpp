@@ -107,5 +107,8 @@ int main(){
     assert(is_de_bruijn(de_bruijn(1000, 2), 1000, 2));
     assert(is_de_bruijn(de_bruijn(1000000, 1), 1000000, 1));
 
+    /// Without the k = 1 shortcut each call walks 1e9 steps (~48 s), so this loop exceeds the CI timeout
+    for (int i = 0; i < 20; i++) assert((de_bruijn(1, 1000000000) == vector<int>{0}));
+
     return 0;
 }
