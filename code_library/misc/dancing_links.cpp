@@ -1,109 +1,119 @@
 /***
-
- * Dancing Links data structure to solve exact cover problems using Algorithm X
-
- * There are some constraints as columns and a number of rows (both 1 based)
- * Each row satisfies some constraints
- * Objective is to select a subset of rows so that each constraint is satisfied exactly once
- * Don't forget to initialize first by calling init()
-
+ *
+ * Dancing Links
+ * Solves exact cover with Knuth's Algorithm X: select a subset of rows covering every column exactly once
+ *
+ * Complexity: exponential worst case (exact cover is NP-complete), O(columns + total row length) memory
+ *
+ * DancingLinks(ncolumns, max_nodes): columns are 1 based, numbered 1 to ncolumns
+ * max_nodes = total length of all rows presizes the node arrays, more rows still fit after a reallocation
+ * add_row(r, columns): r is any int id chosen by the caller, columns must be distinct, an empty row is ignored
+ * The search branches on the first column with the fewest remaining rows, stopping early at a count <= 1
+ * The search is deterministic: the same rows added in the same order give the same solution
+ * exact_cover restores the links before returning, so it can be called again or rows can still be added
+ * Recursion depth is at most the number of selected rows, at most ncolumns
+ * An 8 MB stack overflows near depth 1e5 with -O2 (near 5e4 under sanitizers), deeper covers need a larger stack
+ *
+ * Example:
+ *   DancingLinks dlx(3);
+ *   dlx.add_row(1, {1, 2});
+ *   dlx.add_row(2, {3});
+ *   vector<int> rows;
+ *   dlx.exact_cover(rows);  // true, rows = {1, 2}
+ *
+ * The sudoku namespace below reduces an n x n sudoku (n a perfect square) to exact cover with 4 n^2 columns
+ *
 ***/
 
-#include <stdio.h>
 #include <bits/stdtr1c++.h>
-
-/// Define MAX limits appropriately, set to large values for safety
-#define MAXR 2000010
-#define MAXC 2000010
-#define MAXNODE 2000010
 
 using namespace std;
 
-namespace dlx{
-    int row[MAXNODE], col[MAXNODE];
-    int L[MAXNODE], R[MAXNODE], U[MAXNODE], D[MAXNODE];
-    int n, idx, len, selected_rows[MAXR], column_count[MAXC];
+struct DancingLinks{
+    int n, idx;
+    vector<int> row, col, L, R, U, D, selected_rows, column_count;
 
-    void init(int ncolumn){ /// initialize first with total number of columns (1 based)
-        memset(column_count, 0, sizeof(int) * (ncolumn + 1));
+    DancingLinks(int ncolumns, int max_nodes = 0) : n(ncolumns), idx(ncolumns + 1), selected_rows(ncolumns + 1), column_count(ncolumns + 1){
+        for (auto* v : {&row, &col, &L, &R, &U, &D}) v->resize(n + 1 + max_nodes);
 
-        n = ncolumn, idx = n + 1;
         for (int i = 0; i <= n; i++) U[i] = D[i] = i, L[i] = i - 1, R[i] = i + 1;
         L[0] = n, R[n] = 0;
     }
 
-    /// r = index of row (1 based)
-    /// the vector columns contain the columns which are satisfied with this row
-    inline void addrow(int r, const vector <int>& columns){
-        int i, c, l = columns.size(), first = idx;
+    void add_row(int r, const vector<int>& columns){
+        int first = idx, l = columns.size();
         if (!l) return;  /// an empty row covers nothing, and linking it would corrupt the previous row
+        if (idx + l > (int)row.size()){
+            for (auto* v : {&row, &col, &L, &R, &U, &D}) v->resize(2 * (idx + l));
+        }
 
-        for (i = 0; i < l; i++){
-            c = columns[i];
+        for (int c : columns){
             L[idx] = idx - 1, R[idx] = idx + 1, D[idx] = c, U[idx] = U[c];
             D[U[c]] = idx, U[c] = idx, row[idx] = r, col[idx] = c;
-            column_count[c]++, idx++; /// column_count[c] is the number of rows which satisfies constraint column c
+            column_count[c]++, idx++;
         }
         R[idx - 1] = first, L[first] = idx - 1;
     }
 
-    /// Removes column c from the structure
-    inline void remove(int c){
-        L[R[c]] = L[c], R[L[c]] = R[c];
+    /// Returns true and the selected row ids if an exact cover exists, false otherwise
+    bool exact_cover(vector<int>& rows){
+        int len = algorithm_x(0);
+        if (len == -1) return false;
 
-        for (int i = D[c]; i != c; i = D[i]){
-            for (int j = R[i]; j != i; j = R[j]){
-                column_count[col[j]]--;
-                U[D[j]] = U[j], D[U[j]] = D[j];
-            }
-        }
+        rows.assign(selected_rows.begin(), selected_rows.begin() + len);
+        return true;
     }
 
-    /// Restores the position of column c in the structure
-    inline void restore(int c){
-        for (int i = U[c]; i != c; i = U[i]){
-            for (int j = L[i]; j != i; j = L[j]){
-                column_count[col[j]]++;
-                U[D[j]] = j, D[U[j]] = j;
-            }
-        }
+private:
+    /// Returns the number of selected rows of the first cover found, or -1 if none exists
+    int algorithm_x(int depth){
+        if (R[0] == 0) return depth;
 
-        L[R[c]] = c, R[L[c]] = c;
-    }
-
-    /// Recursively enumerate to solve exact cover
-    bool algorithmX(int depth){
-        if(R[0] == 0){
-            len = depth;
-            return true;
-        }
-
-        int i, j, c = R[0];
-        /// Select a column deterministically, stopping at a count <= 1: the choice is forced, and a 0 count column left behind still fails the branch
-        for (i = R[0]; i != 0 && column_count[c] > 1; i = R[i]){
-            if(column_count[i] < column_count[c]) c = i;
+        int c = R[0];
+        /// Stops at a count <= 1: the choice is forced, and a 0 count column left behind still fails the branch
+        for (int i = R[0]; i != 0 && column_count[c] > 1; i = R[i]){
+            if (column_count[i] < column_count[c]) c = i;
         }
 
         remove(c);
-        bool flag = false;
-        for (i = D[c]; i != c && !flag; i = D[i]){
+        int len = -1;
+        for (int i = D[c]; i != c && len == -1; i = D[i]){
             selected_rows[depth] = row[i];
-            for (j = R[i]; j != i; j = R[j]) remove(col[j]);
-            flag |= algorithmX(depth + 1); /// Perhaps select rows non-deterministically here with random_shuffle for optimizations?
-            for (j = L[i]; j != i; j = L[j]) restore(col[j]);
+            for (int j = R[i]; j != i; j = R[j]) remove(col[j]);
+            len = algorithm_x(depth + 1);
+            for (int j = L[i]; j != i; j = L[j]) restore(col[j]);
         }
 
         restore(c);
-        return flag;
+        return len;
     }
 
-    /// Returns the subset of rows satisfying exact cover, false otherwise
-    bool exact_cover(vector<int>& rows){
-        if(!algorithmX(0)) return false;
-        rows = vector<int>(selected_rows, selected_rows + len);
-        return true;
+    void remove(int c){
+        int l = L[c], r = R[c];
+        L[r] = l, R[l] = r;
+
+        for (int i = D[c]; i != c; i = D[i]){
+            for (int j = R[i]; j != i; j = R[j]){
+                int u = U[j], d = D[j];
+                column_count[col[j]]--;
+                U[d] = u, D[u] = d;
+            }
+        }
     }
-}
+
+    void restore(int c){
+        for (int i = U[c]; i != c; i = U[i]){
+            for (int j = L[i]; j != i; j = L[j]){
+                int u = U[j], d = D[j];
+                column_count[col[j]]++;
+                U[d] = j, D[u] = j;
+            }
+        }
+
+        int l = L[c], r = R[c];
+        L[r] = c, R[l] = c;
+    }
+};
 
 namespace sudoku{
     int encode(int n, int a, int b, int c){
@@ -126,28 +136,31 @@ namespace sudoku{
      * but sparse 16 x 16 grids (around 75% blank) can take over a minute
      *
     ***/
-    bool solve(vector <vector<int>>& grid){
-        int i, j, k, l, n = grid.size(), m = sqrt(n + 0.5);
+    bool solve(vector<vector<int>>& grid){
+        int i, j, k, n = grid.size(), m = sqrt(n + 0.5);
 
         assert(m * m == n);
         for (i = 0; i < n; i++) assert((int)grid[i].size() == n);
 
-        dlx::init(4 * n * n); /// n * n for cells, n * n for rows, n * n for columns and n * n for boxes
+        int nrows = 0;
+        for (auto& r : grid) for (int x : r) nrows += x ? 1 : n;
+
+        DancingLinks dlx(4 * n * n, 4 * nrows);  /// n * n for cells, n * n for rows, n * n for columns and n * n for boxes
         for (i = 0; i < n; i++){
             for (j = 0; j < n; j++){
                 for (k = 0; k < n; k++){
                     if (grid[i][j] == 0 || grid[i][j] == (k + 1)){
-                        dlx::addrow(encode(n, i, j, k), {encode(n, 0, i, j), encode(n, 1, i, k), encode(n, 2, j, k), encode(n, 3, (i / m) * m + j / m, k)});
+                        dlx.add_row(encode(n, i, j, k), {encode(n, 0, i, j), encode(n, 1, i, k), encode(n, 2, j, k), encode(n, 3, (i / m) * m + j / m, k)});
                     }
                 }
             }
         }
 
         vector<int> res;
-        if (!dlx::exact_cover(res)) return false;
+        if (!dlx.exact_cover(res)) return false;
 
-        for (l = 0; l < (int)res.size(); l++){
-            decode(n, res[l], i, j, k);
+        for (int v : res){
+            decode(n, v, i, j, k);
             grid[i][j] = k + 1;
         }
         return true;
@@ -155,7 +168,38 @@ namespace sudoku{
 }
 
 int main(){
-    vector <vector<int>> grid = {
+    DancingLinks knuth(7);
+    for (auto& [r, columns] : vector<pair<int, vector<int>>>{{1, {3, 5, 6}}, {2, {1, 4, 7}}, {3, {2, 3, 6}}, {4, {1, 4}}, {5, {2, 7}}, {6, {4, 5, 7}}}){
+        knuth.add_row(r, columns);
+    }
+
+    DancingLinks blocked(3);
+    blocked.add_row(10, {1, 2});
+    blocked.add_row(20, {2, 3});
+    blocked.add_row(30, {});
+
+    vector<int> rows;
+    assert(knuth.exact_cover(rows));
+    sort(rows.begin(), rows.end());
+    assert((rows == vector<int>{1, 4, 5}));
+    assert(!blocked.exact_cover(rows));
+    assert(knuth.exact_cover(rows));
+    sort(rows.begin(), rows.end());
+    assert((rows == vector<int>{1, 4, 5}));
+
+    blocked.add_row(40, {3});
+    assert(blocked.exact_cover(rows));
+    sort(rows.begin(), rows.end());
+    assert((rows == vector<int>{10, 40}));
+
+    DancingLinks nothing(0);
+    assert(nothing.exact_cover(rows) && rows.empty());
+
+    DancingLinks uncoverable(2);
+    uncoverable.add_row(7, {1});
+    assert(!uncoverable.exact_cover(rows));
+
+    vector<vector<int>> grid = {
         {0, 0, 0, 0, 6, 9, 8, 3, 0},
         {9, 8, 0, 0, 0, 0, 0, 7, 6},
         {6, 0, 0, 0, 3, 8, 0, 5, 1},

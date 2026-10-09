@@ -62,51 +62,85 @@ vector<vector<int>> random_solved(int m){
     return g;
 }
 
+struct Instance{
+    int nc;
+    vector<int> masks, ids;
+    vector<vector<int>> columns;
+};
+
+Instance random_instance(){
+    Instance in;
+    in.nc = stress::rand_int(0, 12);
+    int nr = stress::rand_int(0, 14), full = (1 << in.nc) - 1;
+    if (in.nc && stress::rand_int(0, 1)){
+        /// Plant a solution: a random partition of the columns
+        vector<int> part(in.nc);
+        for (int c = 0; c < in.nc; c++) part[c] = stress::rand_int(0, c);
+        for (int p = 0; p < in.nc; p++){
+            int m = 0;
+            for (int c = 0; c < in.nc; c++) if (part[c] == p) m |= 1 << c;
+            if (m) in.masks.push_back(m);
+        }
+    }
+    while ((int)in.masks.size() < nr) in.masks.push_back(stress::rand_int(0, 3) ? stress::rng()() & full : 0);
+    shuffle(in.masks.begin(), in.masks.end(), stress::rng());
+
+    in.ids.resize(in.masks.size());
+    iota(in.ids.begin(), in.ids.end(), 1);
+    shuffle(in.ids.begin(), in.ids.end(), stress::rng());
+
+    for (int m : in.masks){
+        in.columns.emplace_back();
+        for (int c = 0; c < in.nc; c++) if (m >> c & 1) in.columns.back().push_back(c + 1);
+        shuffle(in.columns.back().begin(), in.columns.back().end(), stress::rng());
+    }
+    return in;
+}
+
+void check(const Instance& in, bool found, vector<int> rows){
+    int full = (1 << in.nc) - 1;
+    vector<signed char> memo(1 << in.nc, -1);
+    assert(found == brute(0, full, in.masks, memo));
+    if (!found) return;
+
+    int covered = 0;
+    sort(rows.begin(), rows.end());
+    assert(unique(rows.begin(), rows.end()) == rows.end());
+    for (int id : rows){
+        int m = in.masks[find(in.ids.begin(), in.ids.end(), id) - in.ids.begin()];
+        assert(!(covered & m));
+        covered |= m;
+    }
+    assert(covered == full);
+}
+
+/// Two live instances with interleaved add_row calls, each checked against brute force, then re-solved to check the links were restored,
+/// then one more row added after the solve and checked against brute force again
 int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
-        int nc = stress::rand_int(0, 12), nr = stress::rand_int(0, 14), full = (1 << nc) - 1;
-        vector<int> masks;
-        if (nc && stress::rand_int(0, 1)){
-            /// Plant a solution: a random partition of the columns
-            vector<int> part(nc);
-            for (int c = 0; c < nc; c++) part[c] = stress::rand_int(0, c);
-            for (int p = 0; p < nc; p++){
-                int m = 0;
-                for (int c = 0; c < nc; c++) if (part[c] == p) m |= 1 << c;
-                if (m) masks.push_back(m);
-            }
-        }
-        while ((int)masks.size() < nr) masks.push_back(stress::rand_int(0, 3) ? stress::rng()() & full : 0);
-        shuffle(masks.begin(), masks.end(), stress::rng());
-
-        vector<int> ids(masks.size());
-        iota(ids.begin(), ids.end(), 1);
-        shuffle(ids.begin(), ids.end(), stress::rng());
-
-        dlx::init(nc);
-        for (int i = 0; i < (int)masks.size(); i++){
-            vector<int> columns;
-            for (int c = 0; c < nc; c++) if (masks[i] >> c & 1) columns.push_back(c + 1);
-            shuffle(columns.begin(), columns.end(), stress::rng());
-            dlx::addrow(ids[i], columns);
+        Instance a = random_instance(), b = random_instance();
+        DancingLinks da(a.nc), db(b.nc, stress::rand_int(0, 20));
+        for (size_t i = 0; i < max(a.masks.size(), b.masks.size()); i++){
+            if (i < a.masks.size()) da.add_row(a.ids[i], a.columns[i]);
+            if (i < b.masks.size()) db.add_row(b.ids[i], b.columns[i]);
         }
 
-        vector<signed char> memo(1 << nc, -1);
-        vector<int> rows;
-        bool found = dlx::exact_cover(rows);
-        assert(found == brute(0, full, masks, memo));
+        vector<int> rows_a, rows_b, again;
+        bool found_a = da.exact_cover(rows_a), found_b = db.exact_cover(rows_b);
+        check(a, found_a, rows_a);
+        check(b, found_b, rows_b);
+        assert(da.exact_cover(again) == found_a);
+        if (found_a) assert(again == rows_a);
 
-        if (found){
-            int covered = 0;
-            sort(rows.begin(), rows.end());
-            assert(unique(rows.begin(), rows.end()) == rows.end());
-            for (int id : rows){
-                int m = masks[find(ids.begin(), ids.end(), id) - ids.begin()];
-                assert(!(covered & m));
-                covered |= m;
-            }
-            assert(covered == full);
-        }
+        int extra = stress::rng()() & ((1 << a.nc) - 1);
+        a.masks.push_back(extra);
+        a.ids.push_back(a.ids.size() + 1);
+        a.columns.emplace_back();
+        for (int c = 0; c < a.nc; c++) if (extra >> c & 1) a.columns.back().push_back(c + 1);
+        shuffle(a.columns.back().begin(), a.columns.back().end(), stress::rng());
+        da.add_row(a.ids.back(), a.columns.back());
+        found_a = da.exact_cover(rows_a);
+        check(a, found_a, rows_a);
     }
 
     for (long long it = 0; it < stress::scaled(150); it++){
