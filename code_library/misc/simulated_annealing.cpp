@@ -40,6 +40,14 @@ struct AnnealingSchedule{
     }
 };
 
+/// Integers subtract in unsigned, exact and overflow free since hi > lo: casting each energy to double
+/// first would round values past 2^53 together and turn small uphill gaps into free moves
+template<typename E>
+double uphill_gap(E lo, E hi){
+    if constexpr (is_integral_v<E>) return (double)((make_unsigned_t<E>)hi - (make_unsigned_t<E>)lo);
+    else return (double)(hi - lo);
+}
+
 template<typename State, typename Energy, typename Neighbour>
 State simulated_annealing(State cur, Energy energy, Neighbour neighbour, const AnnealingSchedule& schedule, mt19937_64& rng){
     auto cur_e = energy(cur), best_e = cur_e;
@@ -60,8 +68,7 @@ State simulated_annealing(State cur, Energy energy, Neighbour neighbour, const A
 
         State next = neighbour(cur, rng);
         auto next_e = energy(next);
-        /// Subtracting in double: in the energy's own type a large signed integer gap overflows
-        if (next_e <= cur_e || unit(rng) < exp(((double)cur_e - (double)next_e) / schedule.temperature(progress))){
+        if (next_e <= cur_e || unit(rng) < exp(-uphill_gap(cur_e, next_e) / schedule.temperature(progress))){
             cur = move(next), cur_e = next_e;
             if (cur_e < best_e) best = cur, best_e = cur_e;
         }
@@ -87,6 +94,13 @@ int main(){
     long long visits_up = 0;
     auto flip = [&](int x, mt19937_64&){ visits_up += x == 0; return 1 - x; };
     assert(simulated_annealing(1, extremes, flip, cooling, rng) == 1);
+    assert(visits_up == 0);
+
+    /// Energies 2^60 and 2^60 + 1 are the same double, yet the gap of 1 at T = 0.01 is accepted with probability e^-100
+    auto shifted = [](int x){ return (1LL << 60) + x; };
+    visits_up = 0;
+    auto flip_up = [&](int x, mt19937_64&){ visits_up += x; return 1 - x; };
+    assert(simulated_annealing(0, shifted, flip_up, AnnealingSchedule{0.01, 0.01, 20000, 0}, rng) == 0);
     assert(visits_up == 0);
 
     /// The 8 boundary points of a 3 x 3 grid: no two are closer than 1, so 8 edges cost at least 8, the perimeter

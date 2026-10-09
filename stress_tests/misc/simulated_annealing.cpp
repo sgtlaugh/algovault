@@ -127,6 +127,18 @@ int main(){
         assert(visits_up == 0);
     }
 
+    /// The same two-state chain shifted far past 2^53, where a double cannot hold the energies apart:
+    /// the stationary fraction depends only on the gap, so it must not move with the offset
+    for (long long it = 0; it < stress::scaled(30); it++){
+        long long d = stress::rand_int(1, 10), steps = stress::scaled(100000), visits_up = 0;
+        long long off = it % 2 ? stress::rand_int(1LL << 53, LLONG_MAX - d) : stress::rand_int(LLONG_MIN, -(1LL << 53));
+        auto level = [&](int s){ return off + s * d; };
+        auto flip = [&](int s, mt19937_64&){ visits_up += s; return 1 - s; };
+        mt19937_64 rng(stress::rng()());
+        simulated_annealing(0, level, flip, AnnealingSchedule{(double)d, (double)d, steps, 0}, rng);
+        assert(abs((double)visits_up / steps - exp(-1) / (1 + exp(-1))) < 0.01);
+    }
+
     /// Time based: stops at the deadline, one cheap step past it at most, and still solves a small instance
     for (int it = 0; it < 3; it++){
         Matrix w = random_instance(6, 100);
