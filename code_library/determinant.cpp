@@ -3,7 +3,7 @@
  * Integer Determinant
  * Determinant of an integer matrix modulo any m, and the exact determinant when it is not too large
  *
- * Complexity: O(n^3 log m)
+ * Complexity: O(n^3 + n^2 log m)
  *
  * determinant_mod(a, m): det(a) mod m in [0, m) for any modulus 1 <= m < 2^62, prime or composite
  *     row reduction by repeated division, like the Euclidean algorithm, so no modular inverses are needed
