@@ -144,5 +144,20 @@ int main(){
         }
     }
 
+    /// gcd(k, p - 1) holds the full power of a huge prime q in p - 1, so every discrete log is trivial:
+    /// a baby step table of sqrt(q) entries would take 16 GB for the safe prime and 0.1 s per call for 2^20 q + 1
+    const long long safe = 2305843009213699919LL, deep = 1048576000185597953LL;
+    const long long safe_q = (safe - 1) / 2, deep_q = (deep - 1) >> 20;
+    long long one_root = kth_root(1, safe - 1, safe);
+    assert(1 <= one_root && one_root < safe && pow_mod(one_root, safe - 1, safe) == 1);
+    for (long long it = 0; it < stress::scaled(300); it++){
+        long long x = stress::rand_int(1, safe - 1), a = pow_mod(x, safe_q, safe), y = kth_root(a, safe_q, safe);
+        assert(0 < y && y < safe && pow_mod(y, safe_q, safe) == a);
+
+        long long k = deep_q * stress::rand_int(1, 1000000);
+        x = stress::rand_int(1, deep - 1), a = pow_mod(x, k, deep), y = kth_root(a, k, deep);
+        assert(0 < y && y < deep && pow_mod(y, k, deep) == a);
+    }
+
     return 0;
 }
