@@ -76,6 +76,35 @@ int main(){
     vector<double> solution;
     assert(gauss(regression, solution) == 0);
 
+    /// Unique solutions near 1e9 with small coefficients, rejected as -1 when the right-hand side scaled the pivot tolerance
+    assert(gauss(vector<vector<double>>{{1, 1e9}}, solution) == 0 && solution[0] == 1e9);
+    assert(gauss(vector<vector<double>>{{1, 1, 2e9}, {1, -1, 0}}, solution) == 0);
+    assert(gauss(vector<vector<double>>{{1000, 1, 1e13}, {1, 1000, 1e13}}, solution) == 0);
+    vector<long double> solution_ld;
+    assert(gauss(vector<vector<long double>>{{1, 1e9L}}, solution_ld) == 0);
+
+    /// Small coefficients and a planted solution up to 1e9, so the right-hand side dwarfs every coefficient
+    for (long long it = 0; it < stress::scaled(20000); it++){
+        int n = stress::rand_int(1, 5), m = stress::rand_int(1, 5);
+        vector<long long> x(m);
+        for (auto& v : x) v = stress::rand_int(-1000000000, 1000000000);
+        vector<vector<long long>> a = random_dependent(n, m + 1);
+        for (auto& row : a){
+            row[m] = 0;
+            for (int j = 0; j < m; j++) row[j] %= 11, row[m] += row[j] * x[j];
+        }
+
+        vector<vector<double>> eq = to_double(a);
+        vector<double> res;
+        int got = gauss(eq, res);
+        assert(got == m - exact_rank(a, m));
+        for (int i = 0; i < n; i++){
+            double lhs = 0, scale = fabs(eq[i][m]);
+            for (int j = 0; j < m; j++) lhs += eq[i][j] * res[j], scale = max(scale, fabs(eq[i][j] * res[j]));
+            assert(fabs(lhs - eq[i][m]) <= 1e-9 * max(1.0, scale));
+        }
+    }
+
     for (long long it = 0; it < stress::scaled(20000); it++){
         int n = stress::rand_int(1, 5), m = stress::rand_int(1, 5);
         long long big = stress::rand_int(0, 2) ? 10 : 1000000;

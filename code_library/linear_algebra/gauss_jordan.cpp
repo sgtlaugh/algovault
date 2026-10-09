@@ -22,9 +22,10 @@
  * For problems on graphs, make sure the graph is connected and a single component
  * If not, then re-number the vertices and solve for each component separately
  *
- * Every function takes an optional eps, scaled by max(1, largest |entry| of its input)
- * An entry within that tolerance of 0 counts as 0: a row that reduces to 0 = r with |r| within it is consistent,
- * and a pivot within it makes the matrix rank deficient or singular
+ * Every function takes an optional eps, scaled by max(1, largest |coefficient| of its input)
+ * A pivot within that tolerance of 0 counts as 0, making the matrix rank deficient or singular
+ * The right-hand side of gauss is left out of the pivot scale, so x = 1e9 with coefficients of 1 still solves
+ * A row of gauss that reduces to 0 = r is consistent when |r| is within eps scaled by the largest |entry| including it
  * If more precision is required, use long double or __float128 from quadmath.h if supported
  *
 ***/
@@ -34,10 +35,11 @@
 using namespace std;
 
 /// Relative, an absolute eps rejects solvable systems with large coefficients
+/// Over the first cols columns, a large right-hand side in the scale would push ordinary pivots under it
 template <class T>
-T tolerance(const vector<vector<T>>& a, T eps){
+T tolerance(const vector<vector<T>>& a, int cols, T eps){
     T tol = 1;
-    for (auto& row : a) for (auto& x : row) tol = max(tol, (T)abs(x));
+    for (auto& row : a) for (int j = 0; j < cols; j++) tol = max(tol, (T)abs(row[j]));
     return tol * eps;
 }
 
@@ -72,8 +74,8 @@ vector<int> row_reduce(vector<vector<T>>& a, int cols, T tol){
 template <class T>
 int gauss(vector<vector<T>> equations, vector<T>& res, const T eps=1e-9){
     int n = equations.size(), m = equations[0].size() - 1, f_var = 0;
-    T tol = tolerance(equations, eps);
-    vector<int> pos = row_reduce(equations, m, tol);
+    T tol = tolerance(equations, m + 1, eps);
+    vector<int> pos = row_reduce(equations, m, tolerance(equations, m, eps));
 
     res.assign(m, 0);
     int rank = m - count(pos.begin(), pos.end(), -1);
@@ -101,7 +103,7 @@ bool matrix_inverse(const vector<vector<T>>& a, vector<vector<T>>& inv, const T 
         aug[i][n + i] = 1;
     }
 
-    vector<int> pos = row_reduce(aug, n, tolerance(a, eps));
+    vector<int> pos = row_reduce(aug, n, tolerance(a, n, eps));
     if (n && pos[n - 1] != n - 1) return false;
 
     inv.assign(n, vector<T>(n));
@@ -115,7 +117,7 @@ bool matrix_inverse(const vector<vector<T>>& a, vector<vector<T>>& inv, const T 
 template <class T>
 int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
     int cols = a.empty() ? 0 : a[0].size();
-    vector<int> pos = row_reduce(a, cols, tolerance(a, eps));
+    vector<int> pos = row_reduce(a, cols, tolerance(a, cols, eps));
     return cols - count(pos.begin(), pos.end(), -1);
 }
 
