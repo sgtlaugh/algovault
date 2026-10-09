@@ -118,6 +118,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Digits of Factorial](code_library/number_theory/digits_of_factorial.cpp) - number of digits of n! in any base
 - [Discrete Logarithm](code_library/number_theory/discrete_logarithm.cpp) - smallest x with a^x = b mod m, any m
 - [Divisors](code_library/number_theory/divisors.cpp) - sorted divisors of one number, or from its prime factors
+- [Du's Sieve](code_library/number_theory/du_sieve.cpp) - prefix sums of Euler's phi and Mobius mu up to 1e11 in O(n^(2/3))
 - [Fast Fibonacci](code_library/number_theory/fast_fibonacci.cpp) - n-th Fibonacci number by fast doubling
 - [Fast Prime Counting](code_library/number_theory/fast_prime_counting.cpp) - pi(n) in about O(n^(2/3)), Meissel-Lehmer
 - [Fast Prime Sums](code_library/number_theory/fast_prime_sums.cpp) - sum of primes up to n, Meissel-Lehmer
