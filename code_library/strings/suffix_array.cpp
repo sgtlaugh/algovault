@@ -7,7 +7,7 @@
  * LCP array in O(n), SuffixArrayQueries adds an O(n log n) sparse table on top
  * Memory: the sparse table holds ~n log n ints (~76 MB at n = 1e6) and SuffixArrayQueries keeps a copy of the text
  *
- * suffix_array(c) works on any container (string, vector<int>, vector<long long>), any values including 0 and negatives
+ * suffix_array(c) works on any container of integers (string, vector<int>, vector<unsigned long long>), any values including 0 and negatives
  *   sa[i]  = start of the i-th smallest suffix
  *   lcp[i] = longest common prefix of the suffixes at sa[i] and sa[i + 1], lcp[n - 1] = 0
  *
@@ -154,20 +154,24 @@ SuffixArray suffix_array(const Container& c){
     }
 
     /// DC3 wants values in [1, lim] with 0 as sentinel and lim buckets: shift small ranges, compress large ones
+    /// Values stay in their own type: a cast to long long would wrap unsigned 64-bit values past LLONG_MAX below small ones
+    using T = typename Container::value_type;
+    using U = make_unsigned_t<T>;
+    T lo = *min_element(c.begin(), c.end()), hi = *max_element(c.begin(), c.end());
+    auto offset = [&](T x){ return (unsigned long long)U(U(x) - U(lo)); };  /// modular unsigned difference, exact as x >= lo
+
     vector<int> ar(n + 3, 0);
-    long long lo = c[0], hi = c[0];
-    for (int i = 0; i < n; i++) lo = min(lo, (long long)c[i]), hi = max(hi, (long long)c[i]);
 
     int lim;
-    if ((unsigned long long)hi - lo <= (unsigned long long)n + 256){  /// unsigned: hi - lo can exceed LLONG_MAX
-        for (int i = 0; i < n; i++) ar[i] = c[i] - lo + 1;
-        lim = hi - lo + 1;
+    if (offset(hi) <= (unsigned long long)n + 256){
+        for (int i = 0; i < n; i++) ar[i] = offset(c[i]) + 1;
+        lim = offset(hi) + 1;
     }
     else{
-        vector<long long> values(c.begin(), c.end());
+        vector<T> values(c.begin(), c.end());
         sort(values.begin(), values.end());
         values.erase(unique(values.begin(), values.end()), values.end());
-        for (int i = 0; i < n; i++) ar[i] = lower_bound(values.begin(), values.end(), (long long)c[i]) - values.begin() + 1;
+        for (int i = 0; i < n; i++) ar[i] = lower_bound(values.begin(), values.end(), c[i]) - values.begin() + 1;
         lim = values.size();
     }
 
@@ -315,6 +319,11 @@ int main(){
     assert((q4.occurrences("") == pair<int, int>{0, 0}));
     assert((q4.occurrences("a") == pair<int, int>{0, 0}));
     assert((q4.occurrences(0, 0) == pair<int, int>{0, 0}));
+
+    SuffixArrayQueries<vector<unsigned long long>> q5({1ULL << 63, 1, 1ULL << 63, 5});
+    assert((q5.sa == vector<int>{1, 3, 0, 2}));
+    assert((q5.occurrences({1}) == pair<int, int>{0, 1}));
+    assert((q5.occurrences({1ULL << 63}) == pair<int, int>{2, 4}));
 
     return 0;
 }

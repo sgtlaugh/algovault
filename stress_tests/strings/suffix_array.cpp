@@ -117,6 +117,14 @@ int main(){
         for (auto& ch : s) ch = (char)stress::rand_int(0, 2) ? 'a' + stress::rand_int(0, alphabet - 1) : (char)stress::rand_int(-128, 127);
         check(s);
         check_queries(s);
+
+        vector<unsigned long long> u(n);
+        for (auto& x : u){                                         /// values past LLONG_MAX next to small ones, 64-bit hashes
+            unsigned long long s = stress::rand_int(0, alphabet - 1);
+            x = mode < 2 ? s << 63 | s : mode == 2 ? ULLONG_MAX - s : (unsigned long long)stress::rand_int(LLONG_MIN, LLONG_MAX);
+        }
+        check(u);
+        check_queries(u);
     }
 
     return 0;
