@@ -28,6 +28,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving
 - [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - path compression and union by size
 - [Disjoint Sparse Table](code_library/data_structures/disjoint_sparse_table.cpp) - O(1) static range queries for any associative operation
+- [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - O(log A) distinct gcd/or/and values of subarrays ending at each index, with their start ranges
 - [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point/range update with point/range query
 - [Fenwick Tree 2D](code_library/data_structures/fenwick_tree_2D.cpp) - point/range update with point/range query on a grid
 - [Fenwick Tree 2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - huge grids, columns as on-demand segment trees
