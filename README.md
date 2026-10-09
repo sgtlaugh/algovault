@@ -157,7 +157,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Fast I/O](code_library/misc/fast_io.cpp) - buffered input and output with fread and fwrite
 - [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
 - [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in O(1)
-- [N Queens](code_library/misc/n_queen.c) - number of N queens solutions
+- [N Queens](code_library/misc/n_queen.cpp) - number of N queens solutions
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one
 - [Radix Sort](code_library/misc/radix_sort.cpp) - LSD radix sort of 32-bit integers
 - [Radix Sort 64](code_library/misc/radix_sort_64.cpp) - LSD radix sort of 64-bit integers
