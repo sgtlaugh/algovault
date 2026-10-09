@@ -12,25 +12,22 @@
 
 #include <bits/stdc++.h>
 
-#define MAX 100010
-
 using namespace std;
 
 struct Graph{
-    vector <int> adj[MAX];
-    bool visited[MAX], is_cut[MAX];
-    int n, disc_t, discover[MAX], low[MAX];
+    int n, disc_t;
+    vector <vector<int>> adj;
+    vector <int> discover, low;
+    vector <bool> is_cut;
 
-    Graph() {}
-    Graph(int n) : n(n) {}
+    Graph(int n) : n(n), adj(n) {}
 
     void dfs(int u, int p){
-        visited[u] = true;
         discover[u] = low[u] = ++disc_t;
 
         int children = 0;
         for (auto v: adj[u]){
-            if (!visited[v]){
+            if (!discover[v]){
                 children++;
                 dfs(v, u);
                 low[u] = min(low[u], low[v]);
@@ -50,12 +47,11 @@ struct Graph{
     }
 
     vector <int> get_cuts(){
-        memset(is_cut, 0, sizeof(is_cut));
-        memset(visited, 0, sizeof(visited));
+        discover.assign(n, 0), low.assign(n, 0), is_cut.assign(n, false);
 
         vector <int> cuts;
         for (int i = 0; i < n; i++){
-            if (!visited[i]){
+            if (!discover[i]){
                 disc_t = 0;
                 dfs(i, -1);
             }
