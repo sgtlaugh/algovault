@@ -42,6 +42,7 @@ void check(int n, int shape, int ops){
         }
     }
     assert(hld.parent == parent && hld.depth == depth);
+    for (auto [u, v] : edges) assert(hld.edge_pos(u, v) == hld.pos[parent[u] == v ? u : v]);
 
     vector<int> seen(n, 0);
     for (int v = 0; v < n; v++) seen[hld.pos[v]]++;
