@@ -1,13 +1,27 @@
 /***
  *
  * Suffix Array using DC3 (Difference Cover 3) Algorithm
- * Linear time construction with LCP array
- * Constructs lexicographically sorted array of all suffixes
+ * Builds the lexicographically sorted array of all suffixes with its LCP array, plus O(1) LCP, O(log n) substring and O(|pattern| log n) pattern occurrence queries
  *
- * Complexity: O(n) for suffix array construction, O(n) for LCP array
+ * Complexity: O(n) construction when the values span at most n + 256, else O(n log n) for the value compression sort
+ * LCP array in O(n), SuffixArrayQueries adds an O(n log n) sparse table on top
+ * Memory: the sparse table holds ~n log n ints (~76 MB at n = 1e6) and SuffixArrayQueries keeps a copy of the text
  *
- * Highly optimized DC3 algorithm uses recursive radix sort with difference cover modulo 3
+ * suffix_array(c) works on any container (string, vector<int>, vector<long long>), any values including 0 and negatives
+ *   sa[i]  = start of the i-th smallest suffix
+ *   lcp[i] = longest common prefix of the suffixes at sa[i] and sa[i + 1], lcp[n - 1] = 0
  *
+ * SuffixArrayQueries<Container> q(c) has everything above and also:
+ *   rank[p]                 = position of the suffix starting at p in sa
+ *   common_prefix(i, j)     = longest common prefix of the suffixes starting at i and j, O(1)
+ *   occurrences(p, len)     = [lo, hi) such that sa[lo .. hi) are exactly the starts of s[p .. p + len), O(log n)
+ *   occurrences(pattern)    = the same range for any pattern, O(|pattern| log n)
+ * The occurrence count is hi - lo, an absent pattern gives lo == hi (its insertion point), an empty one gives [0, n)
+ *
+ * Example:
+ *   SuffixArrayQueries q("banana");
+ *   q.occurrences("ana");     // {1, 3}: sa[1] = 3, sa[2] = 1
+ *   q.common_prefix(1, 3);    // 3, "anana" and "ana"
  *
 ***/
 
@@ -15,7 +29,8 @@
 
 using namespace std;
 
-/// Working memory for DC3 algorithm
+/// Scratch buffers shared by every call, so a call is not reentrant or thread safe
+/// Per call locals measured 4-35% slower (noisy) on repeated n = 1e6 builds (each call page faults ~24 MB fresh) and equal on small n
 namespace SuffixArrayDC3 {
     vector<int> s0, sa0, bucket, mem;
 
@@ -115,8 +130,8 @@ namespace SuffixArrayDC3 {
 }
 
 struct SuffixArray {
-	int n;
-    vector<int> sa;   // sa[i] = starting position of i-th smallest suffix
+    int n;
+    vector<int> sa;  // sa[i] = starting position of i-th smallest suffix
     vector<int> lcp;  // lcp[i] = longest common prefix of sa[i] and sa[i+1]
 
     // Count distinct substrings = n*(n+1)/2 - sum(lcp)
@@ -175,6 +190,87 @@ SuffixArray suffix_array(const char* s){
     return suffix_array(string(s));
 }
 
+template<typename Container>
+struct SuffixArrayQueries : SuffixArray {
+    Container text;
+    vector<int> rank;
+    vector<vector<int>> table;  /// table[k][i] = min(lcp[i .. i + 2^k))
+
+    SuffixArrayQueries(const Container& c) : SuffixArray(suffix_array(c)), text(c), rank(n){
+        for (int i = 0; i < n; i++) rank[sa[i]] = i;
+
+        table.push_back(lcp);
+        for (int k = 1; (1 << k) <= n; k++){
+            vector<int> level(n - (1 << k) + 1);
+            for (int i = 0; i < (int)level.size(); i++) level[i] = min(table[k - 1][i], table[k - 1][i + (1 << (k - 1))]);
+            table.push_back(move(level));
+        }
+    }
+
+    int common_prefix(int i, int j) const {
+        if (i == j) return n - i;
+
+        int a = rank[i], b = rank[j];
+        if (a > b) swap(a, b);
+        return lcp_min(a, b);
+    }
+
+    /// Requires 0 <= p, 0 <= len, p + len <= n
+    pair<int, int> occurrences(int p, int len) const {
+        if (len == 0) return {0, n};
+
+        int r = rank[p], lo = 0, hi = r;
+        while (lo < hi){
+            int mid = (lo + hi) / 2;
+            if (lcp_min(mid, r) >= len) hi = mid;
+            else lo = mid + 1;
+        }
+
+        int first = lo;
+        lo = r, hi = n - 1;
+        while (lo < hi){
+            int mid = (lo + hi + 1) / 2;
+            if (lcp_min(r, mid) >= len) lo = mid;
+            else hi = mid - 1;
+        }
+
+        return {first, lo + 1};
+    }
+
+    pair<int, int> occurrences(const Container& pattern) const {
+        return {bound(pattern, false), bound(pattern, true)};
+    }
+
+    /// First rank whose suffix cut to |pattern| values is >= pattern, or > pattern when strict
+    int bound(const Container& pattern, bool strict) const {
+        int lo = 0, hi = n;
+        while (lo < hi){
+            int mid = (lo + hi) / 2, cmp = compare(sa[mid], pattern);
+            if (cmp < 0 || (strict && cmp == 0)) lo = mid + 1;
+            else hi = mid;
+        }
+        return lo;
+    }
+
+    /// Sign of the suffix at p cut to |pattern| values against pattern, a suffix that ends first is smaller
+    int compare(int p, const Container& pattern) const {
+        int m = pattern.size();
+        for (int k = 0; k < m; k++){
+            if (p + k == n) return -1;
+            if (text[p + k] != pattern[k]) return text[p + k] < pattern[k] ? -1 : 1;
+        }
+        return 0;
+    }
+
+    /// min(lcp[l .. r)) for l < r, the lcp of the suffixes at sa[l] and sa[r]
+    int lcp_min(int l, int r) const {
+        int k = __lg(r - l);
+        return min(table[k][l], table[k][r - (1 << k)]);
+    }
+};
+
+SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
+
 int main(){
     auto sa1 = suffix_array(vector<int>{2, 1, 4, 1, 4, 1});
     assert((sa1.sa == vector<int>{5, 3, 1, 0, 4, 2}));
@@ -183,6 +279,42 @@ int main(){
     auto sa2 = suffix_array("mississippi");
     assert((sa2.sa == vector<int>{10, 7, 4, 1, 0, 9, 8, 6, 3, 5, 2}));
     assert(sa2.distinct_substrings() == 53);
+
+    SuffixArrayQueries q1("banana");
+    assert((q1.sa == vector<int>{5, 3, 1, 0, 4, 2}));
+    assert((q1.rank == vector<int>{3, 2, 5, 1, 4, 0}));
+    assert(q1.common_prefix(1, 3) == 3 && q1.common_prefix(2, 4) == 2 && q1.common_prefix(0, 5) == 0);
+    assert(q1.common_prefix(0, 0) == 6 && q1.common_prefix(5, 5) == 1);
+    assert((q1.occurrences("ana") == pair<int, int>{1, 3}));
+    assert((q1.occurrences("na") == pair<int, int>{4, 6}));
+    assert((q1.occurrences("banana") == pair<int, int>{3, 4}));
+    assert((q1.occurrences("bananas") == pair<int, int>{4, 4}));
+    assert((q1.occurrences("x") == pair<int, int>{6, 6}));
+    assert((q1.occurrences("") == pair<int, int>{0, 6}));
+    assert((q1.occurrences(1, 3) == pair<int, int>{1, 3}));
+    assert((q1.occurrences(4, 2) == pair<int, int>{4, 6}));
+    assert((q1.occurrences(0, 6) == pair<int, int>{3, 4}));
+    assert((q1.occurrences(5, 1) == pair<int, int>{0, 3}));
+    assert((q1.occurrences(3, 0) == pair<int, int>{0, 6}));
+
+    SuffixArrayQueries q2("mississippi");
+    assert(q2.common_prefix(1, 4) == 4 && q2.common_prefix(2, 5) == 3 && q2.common_prefix(0, 10) == 0);
+    assert((q2.occurrences("issi") == pair<int, int>{2, 4}));
+    assert((q2.occurrences("ss") == pair<int, int>{9, 11}));
+    assert((q2.occurrences(5, 3) == pair<int, int>{9, 11}));
+    assert((q2.occurrences(0, 1) == pair<int, int>{4, 5}));
+
+    SuffixArrayQueries<vector<long long>> q3({-5, 0, -5, 0});
+    assert((q3.sa == vector<int>{2, 0, 3, 1}));
+    assert(q3.common_prefix(0, 2) == 2 && q3.common_prefix(1, 3) == 1);
+    assert((q3.occurrences({-5, 0}) == pair<int, int>{0, 2}));
+    assert((q3.occurrences({0}) == pair<int, int>{2, 4}));
+    assert((q3.occurrences({0, 0}) == pair<int, int>{4, 4}));
+
+    SuffixArrayQueries q4("");
+    assert((q4.occurrences("") == pair<int, int>{0, 0}));
+    assert((q4.occurrences("a") == pair<int, int>{0, 0}));
+    assert((q4.occurrences(0, 0) == pair<int, int>{0, 0}));
 
     return 0;
 }
