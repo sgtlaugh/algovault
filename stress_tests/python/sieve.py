@@ -20,6 +20,7 @@ def main():
         flags = sieve(n)
         assert len(flags) == n + 1
         assert all(flags[x] == is_prime(x) for x in range(n + 1)), n
+        assert primes_up_to(n) == [x for x in range(n + 1) if is_prime(x)], n
 
     for _ in range(scaled(20)):
         n = rng.randint(1000, 200000)
