@@ -30,6 +30,7 @@ The header at the top of each file lists its API, complexity and limits.
 [Data Structures](#data-structures) | [Trees](#trees) | [Graphs](#graphs) | [Strings](#strings) | [Number Theory](#number-theory) | [Combinatorics](#combinatorics) | [Algebra](#algebra) | [Linear Algebra](#linear-algebra) | [Geometry](#geometry) | [Dynamic Programming](#dynamic-programming) | [Miscellaneous](#miscellaneous) | [Hacking](#hacking) | [Python](#python)
 
 ### Data Structures
+
 - [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving
 - [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - path compression and union by size, rollback, weighted (potential) and partially persistent variants
 - [Disjoint Sparse Table](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` static range queries for any associative operation
@@ -63,6 +64,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [XOR Segment Tree](code_library/data_structures/xor_segment_tree.cpp) - range sum of `a[p ^ x]` over `[l, r]` for any x, with point add (`t[node][x]` layout)
 
 ### Trees
+
 - [Centroid Decomposition](code_library/trees/centroid_decomposition.cpp) - iterative centroid tree with a per-centroid visitor over branch distances, path counting example
 - [DSU on Tree](code_library/trees/dsu_on_tree.cpp) - small-to-large answers for every subtree
 - [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - weighted tree diameter under edge weight updates in `O(log n)` via Euler tour and lazy segment tree
@@ -75,6 +77,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [Virtual Tree](code_library/trees/virtual_tree.cpp) - compress a tree to k vertices plus their LCAs in `O(k log k)`, `O(1)` LCA and weighted distance
 
 ### Graphs
+
 - [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability and an assignment via Kosaraju, with at-most-one constraints in `O(k)` clauses
 - [2-SAT, Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - lexicographically smallest satisfying assignment
 - [3-Edge-Connected Components](code_library/graphs/three_edge_connected_components.cpp) - Tsin, iterative, parallel edges and self loops allowed, `O(n + m)`
@@ -118,6 +121,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [Strongly Connected Components](code_library/graphs/scc.cpp) - Kosaraju, components in topological order
 
 ### Strings
+
 - [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text by hashing
 - [Aho-Corasick](code_library/strings/aho_corasick.cpp) - multi-pattern matching automaton
 - [Aho-Corasick, Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - multi-pattern matching with online pattern insertion
@@ -138,6 +142,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [Z Algorithm](code_library/strings/z_algorithm.cpp) - longest common prefix of every suffix with the string
 
 ### Number Theory
+
 - [All Divisors](code_library/number_theory/all_divisors.cpp) - divisor lists of every number up to a limit
 - [Chinese Remainder Theorem](code_library/number_theory/chinese_remainder_theorem.cpp) - systems of congruences with any moduli, and Garner's mixed radix
 - [Continued Fractions](code_library/number_theory/continued_fractions.cpp) - convergents, best rational approximation, Stern-Brocot search
@@ -163,6 +168,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [Segmented Sieve](code_library/number_theory/segmented_sieve.cpp) - primes in a window `[L, R]` far from zero
 
 ### Combinatorics
+
 - [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - Bernoulli numbers modulo a prime
 - [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, Lucas and prime powers
 - [Combinatorics](code_library/combinatorics/combinatorics.cpp) - extended gcd, modular inverse, diophantine equations and solution counts, nCr and nPr
@@ -177,6 +183,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [Stirling Numbers](code_library/combinatorics/stirling_numbers.cpp) - a whole row of either kind modulo m using FFT
 
 ### Algebra
+
 - [Big Integer](code_library/algebra/bignum.cpp) - arbitrary precision signed integers
 - [FFT](code_library/algebra/fft.cpp) - polynomial multiplication, exact modular and 64-bit products
 - [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
@@ -190,6 +197,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - xor, or and and convolutions
 
 ### Linear Algebra
+
 - [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - `det(xI - A)` modulo a prime in `O(n^3)` via Hessenberg reduction
 - [Determinant](code_library/linear_algebra/determinant.cpp) - integer determinant modulo any m, or exact, plus Kirchhoff and Tutte spanning tree counts
 - [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
@@ -205,6 +213,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - 64-bit linear basis with max/min xor, k-th smallest, count below x and intersection
 
 ### Geometry
+
 - [Circle Geometry](code_library/geometry/circle.cpp) - intersections, tangents, min enclosing circle, circle-polygon, lens/union areas, max points covered
 - [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - `O(n log n)` sweep with exact integer squared distances
 - [Convex Hull](code_library/geometry/convex_hull.cpp) - monotone chain, `O(n log n)`
@@ -216,6 +225,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - Shamos-Hoey, two of n closed segments sharing a point with exact predicates, `O(n log n)`
 
 ### Dynamic Programming
+
 - [Aliens Trick (WQS Binary Search, Lagrangian Relaxation)](code_library/dp/aliens_trick.cpp) - exactly-k optimum of a convex cost via binary search on the per-item penalty, tie-safe
 - [Blocks](code_library/dp/blocks_dp.cpp) - interval DP for UVA 10559 Blocks
 - [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - max value with item i used up to `counts[i]` times, `O(n capacity)` regardless of counts
@@ -231,6 +241,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [Slope Trick](code_library/dp/slope_trick.cpp) - convex piecewise linear function with abs / hinge adds, prefix / suffix min and window shifts
 
 ### Miscellaneous
+
 - [15 Puzzle Solver](code_library/misc/15_puzzle_solver.cpp) - solvability check and IDA* solver
 - [Assembly](code_library/misc/assembly.cpp) - inline x86 popcount, leading zeros, bit scan, gcd and square root
 - [Bit Twiddling](code_library/misc/bit_twiddling.cpp) - bit manipulation tricks
@@ -249,10 +260,12 @@ The header at the top of each file lists its API, complexity and limits.
 - [Ternary Search and Golden-Section Search](code_library/misc/ternary_search.cpp) - smallest integer argmax of a unimodal function, real argmin by golden-section search
 
 ### Hacking
+
 - [Anti Double Hash](code_library/hacking/anti_double_hash.cpp) - two strings colliding under a double polynomial hash
 - [Anti Polynomial Hash](code_library/hacking/anti_polyonmial_hash.cpp) - two strings colliding under a polynomial hash
 
 ### Python
+
 - [Alpha Beta Pruning](code_library/python/alpha_beta_pruning.py) - minimax game search with alpha-beta pruning
 - [Berlekamp Massey](code_library/python/berlekamp_massey.py) - shortest linear recurrence of a sequence modulo a prime
 - [Derangements](code_library/python/derangements.py) - generalized derangement counts
