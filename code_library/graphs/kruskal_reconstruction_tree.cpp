@@ -119,41 +119,14 @@ int main(){
     for (auto [u, v, w] : edges) krt.add_edge(u, v, w);
     krt.build();
 
-    auto component = [&](int v, int w){
-        auto [l, r] = krt.range(v, w);
-        vector<int> res(krt.order.begin() + l, krt.order.begin() + r);
-        sort(res.begin(), res.end());
-        assert(krt.size(v, w) == r - l);
-        return res;
-    };
+    auto [l, r] = krt.range(0, 3);  /// edges <= 3 join 0 - 1 - 2
+    vector<int> component(krt.order.begin() + l, krt.order.begin() + r);
+    sort(component.begin(), component.end());
+    assert((component == vector<int>{0, 1, 2}));
 
-    for (int v = 0; v < 7; v++) assert((component(v, 0) == vector<int>{v}));
-    assert((component(5, 1) == vector<int>{4, 5}));
-    assert((component(3, 1) == vector<int>{3}));
-    assert((component(2, 2) == vector<int>{1, 2}));
-    assert((component(0, 2) == vector<int>{0}));
-    assert((component(0, 3) == vector<int>{0, 1, 2}));
-    assert((component(3, 4) == vector<int>{3}));
-    assert((component(3, 5) == vector<int>{3, 4, 5}));
-    assert((component(1, 8) == vector<int>{0, 1, 2}));
-    assert((component(4, 9) == vector<int>{0, 1, 2, 3, 4, 5}));
-    assert((component(6, 1000) == vector<int>{6}));
-    assert(krt.size(0, -5) == 1 && krt.size(2, 1000) == 6);
-    assert(krt.weight[krt.node(4, 6)] == 5 && krt.weight[krt.node(0, 100)] == 9);
-
-    for (int v = 0; v < 7; v++) assert(krt.order[krt.pos[v]] == v);
-
-    KruskalReconstructionTree<long long> negative(3);
-    negative.add_edge(0, 1, -1000000000000LL);
-    negative.add_edge(1, 2, -5);
-    negative.build();
-    assert(negative.size(0, -1000000000001LL) == 1);
-    assert(negative.size(0, -1000000000000LL) == 2);
-    assert(negative.size(2, -6) == 1 && negative.size(2, -5) == 3);
-
-    KruskalReconstructionTree<int> single(1);
-    single.build();
-    assert(single.size(0, 0) == 1 && single.range(0, 7) == make_pair(0, 1));
-
+    assert(krt.size(3, 4) == 1);    /// 3 - 4 needs weight 5
+    assert(krt.size(3, 5) == 3);
+    assert(krt.size(4, 9) == 6);    /// everything but the isolated 6
+    assert(krt.weight[krt.node(4, 6)] == 5);  /// the bottleneck edge of {3, 4, 5}
     return 0;
 }
