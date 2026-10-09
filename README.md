@@ -55,7 +55,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Centroid Decomposition](code_library/trees/centroid_decomposition.cpp) - iterative centroid tree with a per-centroid visitor over branch distances, path counting example
 - [DSU on Tree](code_library/trees/dsu_on_tree.cpp) - small-to-large answers for every subtree
 - [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths and subtrees as O(log n) ranges for any range structure
-- [Lowest Common Ancestor](code_library/trees/lca.cpp) - binary lifting with k-th ancestor, and an O(n) / O(1) variant
+- [Lowest Common Ancestor](code_library/trees/lca.cpp) - binary lifting with k-th ancestor and path jump, an O(n) / O(1) variant, and tree path intersection
 
 ### Graphs
 - [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability and an assignment via Kosaraju

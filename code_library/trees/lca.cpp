@@ -2,12 +2,18 @@
  *
  * Lowest Common Ancestor
  * Two interchangeable structures for a weighted tree, 0-based nodes
- * Use LinearLCA by default, and LCA when kth_ancestor is needed
+ * Use LinearLCA by default, and LCA when kth_ancestor or jump is needed
  * Measured: LinearLCA answers lca 2-8x faster at every size, both build in about the same time
  *
  * LCA (binary lifting):
- *   - O(n log n) to build, O(log n) per lca / kth_ancestor, O(n log n) memory
+ *   - O(n log n) to build, O(log n) per lca / kth_ancestor / jump, O(n log n) memory
  *   - kth_ancestor(v, k): the k-th ancestor of v, v itself for k = 0, -1 if k > depth(v)
+ *   - jump(u, v, k): the k-th vertex on the path u -> v, u for k = 0, v for k = edges on the path, -1 beyond that
+ *
+ * path_intersection(tree, a, b, c, d), works with either structure:
+ *   - The common part of paths a - b and c - d is empty or a path, returns its endpoints as an unordered pair
+ *   - {-1, -1} when the paths share no vertex, {x, x} when they share exactly x
+ *   - 6 lca calls: O(1) with LinearLCA, O(log n) with LCA
  *
  * LinearLCA (Euler tour + linear RMQ):
  *   - O(n) to build, O(1) per lca, O(n) memory, use it for n around 1e6 or many queries
@@ -66,6 +72,12 @@ struct LCA{
 
     int depth(int v) const{
         return level[v];
+    }
+
+    int jump(int u, int v, int k) const{
+        int l = lca(u, v), up_len = level[u] - level[l], len = up_len + level[v] - level[l];
+        if (k < 0 || k > len) return -1;
+        return k <= up_len ? kth_ancestor(u, k) : kth_ancestor(v, len - k);
     }
 
     int kth_ancestor(int v, int k) const{
@@ -200,6 +212,18 @@ struct LinearLCA{
     }
 };
 
+/// The two deepest cross lcas are the endpoints, and the paths meet iff the deepest one is not above the deeper path top
+template <typename Tree>
+pair<int, int> path_intersection(const Tree& tree, int a, int b, int c, int d){
+    int top = tree.lca(a, b), other_top = tree.lca(c, d);
+    if (tree.depth(other_top) > tree.depth(top)) top = other_top;
+
+    array<int, 4> cand = {tree.lca(a, c), tree.lca(a, d), tree.lca(b, c), tree.lca(b, d)};
+    sort(cand.begin(), cand.end(), [&](int x, int y){ return tree.depth(x) > tree.depth(y); });
+    if (tree.depth(cand[0]) < tree.depth(top)) return {-1, -1};
+    return {cand[0], cand[1]};
+}
+
 int main(){
     /***
      *          0
@@ -231,6 +255,27 @@ int main(){
     assert(a.kth_ancestor(6, 2) == 1);
     assert(a.kth_ancestor(6, 3) == 0);
     assert(a.kth_ancestor(6, 4) == -1);
+
+    assert(a.jump(6, 5, 0) == 6 && a.jump(6, 5, 2) == 1 && a.jump(6, 5, 3) == 0);
+    assert(a.jump(6, 5, 4) == 2 && a.jump(6, 5, 5) == 5 && a.jump(6, 5, 6) == -1);
+    assert(a.jump(6, 5, -1) == -1);
+    assert(a.jump(4, 6, 2) == 3 && a.jump(1, 6, 1) == 3 && a.jump(6, 1, 1) == 3);
+    assert(a.jump(5, 5, 0) == 5 && a.jump(5, 5, 1) == -1);
+
+    auto same = [](pair<int, int> p, int x, int y){
+        return (p.first == x && p.second == y) || (p.first == y && p.second == x);
+    };
+    for (int pass = 0; pass < 2; pass++){
+        assert(same(path_intersection(a, 6, 5, 4, 2), 1, 2) && same(path_intersection(b, 6, 5, 4, 2), 1, 2));
+        assert(same(path_intersection(a, 3, 4, 6, 5), 3, 1) && same(path_intersection(b, 3, 4, 6, 5), 3, 1));
+        assert(same(path_intersection(a, 6, 4, 5, 2), -1, -1) && same(path_intersection(b, 6, 4, 5, 2), -1, -1));
+        assert(same(path_intersection(a, 6, 4, 1, 0), 1, 1) && same(path_intersection(b, 6, 4, 1, 0), 1, 1));
+        assert(same(path_intersection(a, 6, 5, 3, 3), 3, 3) && same(path_intersection(b, 6, 5, 3, 3), 3, 3));
+        assert(same(path_intersection(a, 3, 4, 6, 6), -1, -1) && same(path_intersection(b, 3, 4, 6, 6), -1, -1));
+        assert(same(path_intersection(a, 6, 5, 5, 6), 6, 5) && same(path_intersection(b, 6, 5, 5, 6), 6, 5));
+        a.build(5), b.build(5);
+    }
+    a.build(0), b.build(0);
 
     LCA single(1);
     single.build(0);

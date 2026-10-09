@@ -47,6 +47,18 @@ struct NaiveTree{
         while (k--) v = parent[v];
         return v;
     }
+
+    /// Vertices of the path u -> v in order, by walking both ends up
+    vector<int> path(int u, int v) const{
+        vector<int> left, right;
+        while (level[u] > level[v]) left.push_back(u), u = parent[u];
+        while (level[v] > level[u]) right.push_back(v), v = parent[v];
+        while (u != v) left.push_back(u), right.push_back(v), u = parent[u], v = parent[v];
+
+        left.push_back(u);
+        left.insert(left.end(), right.rbegin(), right.rend());
+        return left;
+    }
 };
 
 /// Random tree of a given shape with random labels and weights
@@ -69,6 +81,30 @@ vector<array<long long, 3>> make_tree(int n, int shape, long long max_w){
     return edges;
 }
 
+/// The common vertex set of two explicit path walks must equal the walk between the returned endpoints
+void check_intersection(const LCA& a, const LinearLCA& b, const NaiveTree& naive, int n, vector<int> first){
+    int u = first[0], v = first.back(), x = stress::rand_int(0, n - 1), y = stress::rand_int(0, n - 1);
+    int mode = stress::rand_int(0, 3);
+    if (mode == 1 || mode == 2) x = first[stress::rand_int(0, first.size() - 1)];
+    if (mode == 2) y = first[stress::rand_int(0, first.size() - 1)];
+    if (mode == 3) x = v, y = u;
+
+    vector<int> second = naive.path(x, y), common;
+    sort(first.begin(), first.end()), sort(second.begin(), second.end());
+    set_intersection(first.begin(), first.end(), second.begin(), second.end(), back_inserter(common));
+
+    for (auto [p, q] : {path_intersection(a, u, v, x, y), path_intersection(b, u, v, x, y)}){
+        if (common.empty()){
+            assert(p == -1 && q == -1);
+            continue;
+        }
+        assert(p >= 0 && q >= 0);
+        vector<int> got = naive.path(p, q);
+        sort(got.begin(), got.end());
+        assert(got == common);
+    }
+}
+
 void check(int n, int shape, int queries, long long max_w){
     auto edges = make_tree(n, shape, max_w);
     int root = stress::rand_int(0, n - 1);
@@ -89,6 +125,12 @@ void check(int n, int shape, int queries, long long max_w){
         assert(a.depth(u) == naive.level[u] && b.depth(u) == naive.level[u]);
         int k = stress::rand_int(-1, naive.level[u] + 1);
         assert(a.kth_ancestor(u, k) == naive.kth(u, k));
+
+        if (q >= (n <= 1000 ? 40 : 5)) continue;  /// the explicit walks are O(n), keep the large trees affordable
+        vector<int> walk = naive.path(u, v);
+        int j = stress::rand_int(-1, walk.size());
+        assert(a.jump(u, v, j) == (j >= 0 && j < (int)walk.size() ? walk[j] : -1));
+        check_intersection(a, b, naive, n, walk);
     }
 }
 
