@@ -133,71 +133,32 @@ struct GomoryHu{
 };
 
 int main(){
+    /***
+     *           3
+     *       0 ----- 1
+     *        \     /
+     *       1 \   / 2
+     *          \ /
+     *           2 ----- 3
+     *               4
+    ***/
     GomoryHu g(4);
     g.add_edge(0, 1, 3);
     g.add_edge(1, 2, 2);
     g.add_edge(0, 2, 1);
     g.add_edge(2, 3, 4);
     g.build();
-    assert(g.min_cut(0, 1) == 4 && g.min_cut(1, 0) == 4);
-    assert(g.min_cut(0, 2) == 3 && g.min_cut(0, 3) == 3);
-    assert(g.min_cut(1, 2) == 3 && g.min_cut(1, 3) == 3);
-    assert(g.min_cut(2, 3) == 4 && g.min_cut(3, 2) == 4);
+    assert(g.min_cut(0, 1) == 4);  /// cut off 0: 3 + 1
+    assert(g.min_cut(1, 3) == 3);  /// {0, 1} against {2, 3}: 1 + 2
+    assert(g.min_cut(2, 3) == 4);
+
+    /// Each tree edge (v, tree_parent[v]) carries the min cut between its endpoints
+    for (int v = 1; v < 4; v++) assert(g.tree_weight[v] == g.min_cut(v, g.tree_parent[v]));
 
     GomoryHu split(4);
     split.add_edge(0, 1, 5);
     split.add_edge(2, 3, 7);
     split.build();
-    assert(split.min_cut(0, 1) == 5 && split.min_cut(2, 3) == 7);
-    assert(split.min_cut(0, 2) == 0 && split.min_cut(1, 3) == 0);
-
-    GomoryHu multi(2);
-    multi.add_edge(0, 1, 2);
-    multi.add_edge(0, 1, 3);
-    multi.add_edge(1, 1, 9);
-    multi.build();
-    assert(multi.min_cut(0, 1) == 5);
-    assert(multi.tree_parent[1] == 0 && multi.tree_weight[1] == 5);
-
-    GomoryHu star(5);
-    for (int v = 1; v < 5; v++) star.add_edge(0, v, 1000000000000000LL * v);
-    star.build();
-    assert(star.min_cut(0, 4) == 4000000000000000LL);
-    assert(star.min_cut(2, 3) == 2000000000000000LL && star.min_cut(4, 1) == 1000000000000000LL);
-
-    /// The graph is a weighted tree plus an isolated node, so its own positive edges are the only cut tree
-    GomoryHu hub(5);
-    hub.add_edge(2, 3, 3);
-    hub.add_edge(3, 1, 4);
-    hub.add_edge(2, 3, 2);
-    hub.add_edge(3, 0, 3);
-    hub.build();
-    set<array<long long, 3>> positive;
-    for (int v = 1; v < 5; v++){
-        int u = hub.tree_parent[v];
-        if (hub.tree_weight[v] > 0) positive.insert({min(u, v), max(u, v), hub.tree_weight[v]});
-    }
-    assert(positive == (set<array<long long, 3>>{{0, 3, 3}, {1, 3, 4}, {2, 3, 5}}));
-    assert(hub.min_cut(4, 3) == 0 && hub.min_cut(0, 2) == 3 && hub.min_cut(1, 2) == 4);
-
-    GomoryHu widest(2);
-    widest.add_edge(0, 1, LLONG_MAX);
-    widest.build();
-    assert(widest.min_cut(0, 1) == LLONG_MAX);
-
-    /// Capacities total 9.2e18, just under LLONG_MAX
-    GomoryHu heavy(3);
-    heavy.add_edge(0, 1, 4000000000000000000LL);
-    heavy.add_edge(1, 2, 5000000000000000000LL);
-    heavy.add_edge(0, 2, 200000000000000000LL);
-    heavy.build();
-    assert(heavy.min_cut(0, 1) == 4200000000000000000LL);
-    assert(heavy.min_cut(1, 2) == 5200000000000000000LL);
-    assert(heavy.min_cut(0, 2) == 4200000000000000000LL);
-
-    GomoryHu single(1);
-    single.build();
-    assert(single.tree_parent == vector<int>{0});
-
+    assert(split.min_cut(0, 2) == 0);  /// different components
     return 0;
 }

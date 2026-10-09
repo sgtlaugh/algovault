@@ -122,5 +122,9 @@ int main(){
             assert(g.min_cut(order[i], order[j]) == lightest);
         }
     }
+
+    /// A single edge at the capacity limit
+    GomoryHu widest = build_tree(2, {{0, 1, LLONG_MAX}});
+    assert(widest.min_cut(0, 1) == LLONG_MAX && widest.tree_weight[1] == LLONG_MAX);
     return 0;
 }
