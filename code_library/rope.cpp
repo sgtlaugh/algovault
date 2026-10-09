@@ -3,7 +3,7 @@
  * Rope
  * GNU rope as a persistent text: every edit makes a new version and all old versions stay readable
  *
- * Complexity: O(log n) per insert / erase / character access, O(log n + k) for a substring of length k
+ * Complexity: O(log n + |s|) per insert, O(log n) per erase / character access, O(log n + k) for a substring of length k
  *             copying a rope is O(1), versions share their unchanged pieces
  *
  * VersionedText text;       version 0 is the empty text
