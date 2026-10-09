@@ -8,6 +8,8 @@ Complexity: O(n log log n), n + 1 bytes for the result plus a temporary of up to
 Slice assignment marks all multiples of a prime in one C level step, far faster than a Python loop
 """
 
+from itertools import compress
+
 
 def sieve(n):
     is_prime = bytearray([1]) * (n + 1)
@@ -25,7 +27,7 @@ def sieve(n):
 
 
 def primes_up_to(n):
-    return [i for i, flag in enumerate(sieve(n)) if flag]
+    return list(compress(range(n + 1), sieve(n)))
 
 
 def main():
