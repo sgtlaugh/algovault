@@ -64,6 +64,27 @@ void run_extreme(int n){
     }
 }
 
+/// n = 1e6 is the classic beats size (HDU 5306 Gorgeous Sequence, 256 MB), so the tree must leave room for the input
+/// Most ranges are short to keep the brute force cheap, a few span nearly everything to reach the deep nodes
+void run_million(){
+    const int n = 1000000;
+    vector<long long> a(n);
+    for (auto& x : a) x = stress::rand_int(-1000000000, 1000000000);
+    SegmentTreeBeats st(a);
+    assert(st.tree.size() * sizeof(SegmentTreeBeats::Node) <= (200u << 20));
+
+    for (int op = 0; op < 100000; op++){
+        int l = stress::rand_int(1, n), r = min(n, l + (int)stress::rand_int(0, 64));
+        if (op % 2000 == 0) l = stress::rand_int(1, 10), r = stress::rand_int(n - 10, n);
+        int type = stress::rand_int(0, 6);
+        long long x = stress::rand_int(-1000000000, 1000000000);
+
+        if (type < 4) update(st, a, type, l, r, x);
+        else check(st, a, l, r);
+    }
+    check(st, a, 1, n);
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(20000); it++) run(stress::rand_int(1, 10), 60, -4, 4);
     for (long long it = 0; it < stress::scaled(3000); it++) run(stress::rand_int(1, 200), 300, -1000, 1000);
@@ -73,6 +94,14 @@ int main(){
     const long long B = 290000000000000000LL;
     for (long long it = 0; it < stress::scaled(3000); it++) run(stress::rand_int(1, 40), 30, -B, B);
     for (long long it = 0; it < stress::scaled(20000); it++) run_extreme(stress::rand_int(1, 8));
+    /// The build visits every node, so a tree sized one level short reads out of range for some n here
+    for (int n = 1; n <= 4100; n++){
+        vector<long long> a(n);
+        for (auto& x : a) x = stress::rand_int(-4, 4);
+        SegmentTreeBeats st(a);
+        check(st, a, 1, n);
+    }
+    run_million();
 
     return 0;
 }
