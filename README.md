@@ -111,6 +111,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Palindromic Tree](code_library/strings/palindromic_tree.cpp) - eertree, one node per distinct palindrome
 - [Suffix Array](code_library/strings/suffix_array.cpp) - DC3 in O(n) with the LCP array
 - [Suffix Automaton](code_library/strings/suffix_automaton.cpp) - online DFA of all substrings with distinct counts, occurrence counts and longest common substring
+- [Tandem Repeats](code_library/strings/tandem_repeats.cpp) - Main-Lorentz, every square as O(n log n) compact triples
 - [Z Algorithm](code_library/strings/z_algorithm.cpp) - longest common prefix of every suffix with the string
 
 ### Number Theory
