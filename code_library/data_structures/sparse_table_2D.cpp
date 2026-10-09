@@ -61,11 +61,12 @@ struct SparseTable2D{
         return best(best(block(a, b, x1, y1), block(a, b, x1, y3)), best(block(a, b, x3, y1), block(a, b, x3, y3)));
     }
 
-    const T& best(const T& x, const T& y) const{
+    T best(const T& x, const T& y) const{
         return compare(y, x) ? y : x;
     }
 
-    const T& block(int a, int b, int i, int j) const{
+    /// By value, vector<bool>::operator[] returns a temporary that a reference would outlive
+    T block(int a, int b, int i, int j) const{
         return table[a * lgm + b][(size_t)i * (m - (1 << b) + 1) + j];
     }
 };

@@ -55,6 +55,20 @@ int main(){
         }
     }
 
+    /// bool grids answer rectangle AND as min and OR as max, vector<bool> hands out proxies, not references
+    for (int it = 0; it < 200; it++){
+        int n = stress::rand_int(1, 40), m = stress::rand_int(1, 40);
+        vector<vector<bool>> grid(n, vector<bool>(m));
+        for (auto&& row : grid) for (auto&& x : row) x = stress::rand_int(0, 7) != 0;
+        SparseTable2D<bool> mn(grid);
+        SparseTable2D<bool, greater<bool>> mx(grid);
+        for (int q = 0; q < 100; q++){
+            int x1 = stress::rand_int(0, n - 1), x2 = stress::rand_int(x1, n - 1);
+            int y1 = stress::rand_int(0, m - 1), y2 = stress::rand_int(y1, m - 1);
+            check(grid, mn, mx, x1, y1, x2, y2);
+        }
+    }
+
     /// The header's 500 x 500 memory figure
     auto grid = random_grid<int>(500, 500, INT_MIN, INT_MAX);
     SparseTable2D<int> mn(grid);
