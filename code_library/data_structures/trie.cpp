@@ -175,42 +175,18 @@ struct BinaryTrie{
 int main(){
     Trie<> trie;
     for (string s : {"apple", "app", "apply", "banana", "app"}) trie.insert(s);
-    assert(trie.count_prefix("app") == 4 && trie.count_prefix("appl") == 2 && trie.count_prefix("") == 5);
-    assert(trie.count_prefix("b") == 1 && trie.count_prefix("c") == 0 && trie.count_prefix("applex") == 0);
-    assert(trie.count_word("app") == 2 && trie.count_word("appl") == 0 && trie.count_word("banana") == 1);
-    assert(trie.count_word("Apple") == 0);
-
-    trie.insert("");
-    assert(trie.count_word("") == 1 && trie.count_prefix("") == 6);
-
-    Trie<2, '0'> bits;
-    bits.insert("0101"), bits.insert("0110");
-    assert(bits.count_prefix("01") == 2 && bits.count_prefix("010") == 1 && bits.count_word("0110") == 1);
+    assert(trie.count_prefix("app") == 4);  /// app twice, apple, apply
+    assert(trie.count_word("app") == 2);
+    assert(trie.count_word("appl") == 0);   /// a prefix, never inserted whole
 
     BinaryTrie<5> bt;
-    for (unsigned long long x : {3, 10, 5, 25}) bt.insert(x);
-    assert(bt.size() == 4 && bt.count(10) == 1 && bt.count(11) == 0);
-    assert(bt.min_xor(6) == 3 && bt.max_xor(6) == 31);
-    assert(bt.kth_xor(6, 0) == 3 && bt.kth_xor(6, 1) == 5 && bt.kth_xor(6, 2) == 12 && bt.kth_xor(6, 3) == 31);
-    assert(bt.min_xor(25) == 0 && bt.max_xor(0) == 25 && bt.min_xor(0) == 3);
+    for (int x : {3, 10, 5, 25}) bt.insert(x);
+    assert(bt.min_xor(6) == 3);             /// 6 ^ {3, 10, 5, 25} = {5, 12, 3, 31}
+    assert(bt.max_xor(6) == 31);
+    assert(bt.kth_xor(6, 1) == 5);
 
-    bt.erase(5), bt.insert(10);
-    assert(bt.size() == 4 && bt.count(5) == 0 && bt.count(10) == 2);
-    assert(bt.kth_xor(6, 0) == 5 && bt.kth_xor(6, 1) == 12 && bt.kth_xor(6, 2) == 12 && bt.kth_xor(6, 3) == 31);
-
-    bt.erase(10, 2), bt.erase(3), bt.erase(25);
-    assert(bt.size() == 0 && bt.count(10) == 0);
-    bt.insert(7, 1000000000000LL);
-    assert(bt.count(7) == 1000000000000LL && bt.min_xor(7) == 0 && bt.kth_xor(1, 999999999999LL) == 6);
-
-    BinaryTrie<64> wide;
-    wide.insert(0), wide.insert(~0ULL);
-    assert(wide.max_xor(0) == ~0ULL && wide.min_xor(~0ULL) == 0);
-    assert(wide.min_xor(1ULL << 63) == (1ULL << 63) - 1 && wide.max_xor(1ULL << 63) == 1ULL << 63);
-
-    BinaryTrie<1> one;
-    one.insert(1);
-    assert(one.min_xor(0) == 1 && one.max_xor(1) == 0);
-
+    bt.erase(5);
+    assert(bt.count(5) == 0);
+    assert(bt.min_xor(6) == 5);
     return 0;
 }

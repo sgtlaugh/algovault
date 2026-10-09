@@ -83,6 +83,12 @@ int main(){
         }
     }
 
+    /// A non-letter alphabet, the random tests above only use BASE = 'a'
+    Trie<2, '0'> bits;
+    bits.insert("0101"), bits.insert("0110"), bits.insert("");
+    assert(bits.count_prefix("01") == 2 && bits.count_prefix("010") == 1 && bits.count_prefix("") == 3);
+    assert(bits.count_word("0110") == 1 && bits.count_word("") == 1 && bits.count_word("2") == 0 && bits.count_word("a") == 0);
+
     Trie<> big;
     for (int i = 0; i < 100000; i++) big.insert(string(10, 'a' + i % 26));
     assert(big.count_prefix("") == 100000 && big.count_word("aaaaaaaaaa") == 3847 && big.count_prefix("zz") == 3846);
