@@ -38,6 +38,12 @@ STRESS_SKIP=(
     "code_library/hacking/anti_double_hash.cpp"  # a collision search takes ~150 s, too slow to verify
 )
 
+# Files quoting outside code verbatim, kept diffable against their source
+STYLE_SKIP=(
+    "stress_tests/graphs/edge_coloring.cpp"  # KACTL EdgeColoring.h as a second reference
+    "stress_tests/graphs/stable_marriage.cpp"  # the original Library implementation as a second reference
+)
+
 # Contest judges usually give 8 MB of stack, tests must pass with it
 ulimit -s 8192
 
@@ -148,6 +154,19 @@ check_whitespace(){  # tabs, trailing whitespace, CRLF or a missing final newlin
     failures+=("${bad[@]/%/ (whitespace)}")
 }
 
+check_style(){  # ){ opens a body, ) {} is empty, keywords take a space, template arguments do not
+    local line bad=()
+    while IFS= read -r line; do
+        contains "${line%%:*}" "${STYLE_SKIP[@]}" || bad+=("$line")
+    done < <(git ls-files '*.cpp' '*.h' | xargs grep -nP '\) \{(?!\})|\)\{\}|\b(for|if|while|switch)\(|\b(?!template\b)\w+ <(?=[\w:]+[\s\w:,<>*&]*>)')
+
+    echo "style: ${#bad[@]} lines off the brace or spacing convention"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (style)}")
+}
+
 echo "$("$CXX" --version | head -1) | $("$PYTHON" --version)"
 
 cd "$ROOT" || exit 1
@@ -162,6 +181,7 @@ echo
 [[ "$MODE" == "stress" ]] && check_coverage
 check_readme
 check_whitespace
+check_style
 echo "passed: $passed  failed: $failed  skipped: $skipped"
 if [[ $failed -gt 0 ]]; then
     printf '  failed: %s\n' "${failures[@]}"
