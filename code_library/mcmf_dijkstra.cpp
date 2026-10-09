@@ -12,6 +12,8 @@
  * Costs may be negative as long as there is no negative cycle
  * flow * |cost| summed over a path must fit in long long
  *
+ * The default min cost flow choice, see mcmf_spfa.cpp for an SPFA variant without potentials
+ *
 ***/
 
 #include <bits/stdtr1c++.h>
@@ -59,7 +61,6 @@ struct MCMF{
             }
             if (!changed) break;
         }
-        for (auto& p : potential) p = p == INF ? 0 : p;
     }
 
     bool dijkstra(int s, int t){
