@@ -1,0 +1,5 @@
+# Whitespace-only style normalization, byte-identical object files
+eb9ad8941e4c190419b60d65b227539eb839200c # style: open non-empty blocks with ){ as the rest of the code does
+5f42259e9090dc140160bdadfa773037ad7e93f0 # style: write empty bodies as ) {} as most of the code does
+501a17a6b70fe336dd996aaa801e52817b16d82e # style: put a space after for and if as the rest of the code does
+759ee1c4c74c6795f72c0f188a1ed1755913e60e # style: drop the space before template arguments as most code does
