@@ -1,8 +1,10 @@
-[![GitHub stars](https://img.shields.io/github/stars/sgtlaugh/algovault.svg?style=flat&label=star)](https://github.com/sgtlaugh/algovault/)
-[![license](https://img.shields.io/github/license/sgtlaugh/algovault.svg?style=flat-square)](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
+# Algovault
 
-## Algovault
-### A collection of algorithms, data structures and templates for competitive programming
+[![CI](https://github.com/sgtlaugh/algovault/actions/workflows/ci.yml/badge.svg)](https://github.com/sgtlaugh/algovault/actions/workflows/ci.yml)
+[![GitHub stars](https://img.shields.io/github/stars/sgtlaugh/algovault.svg?style=flat&label=star)](https://github.com/sgtlaugh/algovault/)
+[![license](https://img.shields.io/github/license/sgtlaugh/algovault.svg?style=flat)](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
+
+A collection of algorithms, data structures and templates for competitive programming
 
 <li>Useful in online competitions like <a href="https://codeforces.com">CodeForces</a>, <a href="https://codingcompetitions.withgoogle.com/codejam">Google Code Jam</a></li>
 <li>Simple to use as a black-box without compromising performance</li>
