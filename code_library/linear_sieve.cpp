@@ -3,7 +3,7 @@
  * Linear Sieve
  * Smallest prime factors, primes, Euler's phi, Mobius mu and any multiplicative function for 1..n in one pass
  *
- * Complexity: O(n) time, O(n) memory
+ * Complexity: O(n) time, O(n) memory, about 20 bytes per entry (200 MB at n = 1e7)
  *
  * LinearSieve sieve(n): tables for 0..n
  * sieve.spf[x]: smallest prime factor of x >= 2, sieve.primes: primes <= n in order
@@ -58,7 +58,7 @@ struct LinearSieve{
         if (n >= 1) g[1] = 1;
         for (int x = 2; x <= n; x++){
             int rest = x / power[x];
-            g[x] = (rest == 1 ? 1 : g[rest]) * f((long long)spf[x], exponent[x], (long long)power[x]);
+            g[x] = g[rest] * f((long long)spf[x], exponent[x], (long long)power[x]);
         }
         return g;
     }
