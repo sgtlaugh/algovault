@@ -22,15 +22,15 @@ bool brute_on_segment(Point p, Point a, Point b){
 bool brute_intersect(Point a, Point b, Point c, Point d){
     if (a == b) return brute_on_segment(a, c, d);
     if (c == d) return brute_on_segment(c, a, b);
-    long long r_x = b.x - a.x, r_y = b.y - a.y, s_x = d.x - c.x, s_y = d.y - c.y;
-    long long denom = r_x * s_y - r_y * s_x, qp_x = c.x - a.x, qp_y = c.y - a.y;
+    __int128 r_x = b.x - a.x, r_y = b.y - a.y, s_x = d.x - c.x, s_y = d.y - c.y;
+    __int128 denom = r_x * s_y - r_y * s_x, qp_x = c.x - a.x, qp_y = c.y - a.y;
     if (denom == 0){
         if (qp_x * r_y - qp_y * r_x != 0) return false;
-        long long rr = r_x * r_x + r_y * r_y;
-        long long t0 = qp_x * r_x + qp_y * r_y, t1 = t0 + s_x * r_x + s_y * r_y;
-        return max(min(t0, t1), 0LL) <= min(max(t0, t1), rr);
+        __int128 rr = r_x * r_x + r_y * r_y;
+        __int128 t0 = qp_x * r_x + qp_y * r_y, t1 = t0 + s_x * r_x + s_y * r_y;
+        return max(min(t0, t1), (__int128)0) <= min(max(t0, t1), rr);
     }
-    long long t = qp_x * s_y - qp_y * s_x, u = qp_x * r_y - qp_y * r_x;
+    __int128 t = qp_x * s_y - qp_y * s_x, u = qp_x * r_y - qp_y * r_x;
     if (denom < 0) denom = -denom, t = -t, u = -u;
     return 0 <= t && t <= denom && 0 <= u && u <= denom;
 }
@@ -74,11 +74,11 @@ bool is_simple(const vector<Point>& pts, const vector<int>& order){
     return true;
 }
 
-double brute_dist(Point p, Point a, Point b){
-    double lo = 0, hi = 1;
-    auto f = [&](double t){ return hypot(a.x + t * (b.x - a.x) - p.x, a.y + t * (b.y - a.y) - p.y); };
-    for (int it = 0; it < 200; it++){
-        double m1 = lo + (hi - lo) / 3, m2 = hi - (hi - lo) / 3;
+long double brute_dist(Point p, Point a, Point b){
+    long double lo = 0, hi = 1;
+    auto f = [&](long double t){ return hypotl(a.x + t * (b.x - a.x) - p.x, a.y + t * (b.y - a.y) - p.y); };
+    for (int it = 0; it < 100; it++){
+        long double m1 = lo + (hi - lo) / 3, m2 = hi - (hi - lo) / 3;
         if (f(m1) < f(m2)) hi = m2;
         else lo = m1;
     }
@@ -133,6 +133,24 @@ int main(){
         assert(abs(dist_point_segment(p, a, b) - brute_dist(p, a, b)) < 1e-6);
     }
 
+    /// Coordinates drawn from a few values near +-1e9 so touching and collinear cases still occur at full range
+    auto near_bound = [&](){
+        switch (stress::rand_int(0, 3)){
+            case 0: return -E9 + stress::rand_int(0, 2);
+            case 1: return E9 - stress::rand_int(0, 2);
+            case 2: return 0LL;
+            default: return stress::rand_int(-E9, E9);
+        }
+    };
+    for (long long it = 0; it < stress::scaled(20000); it++){
+        Point a{near_bound(), near_bound()}, b{near_bound(), near_bound()}, c{near_bound(), near_bound()}, d{near_bound(), near_bound()};
+        Point p{near_bound(), near_bound()};
+        if (a == b || c == d) continue;  /// brute_on_segment walks every lattice point, too slow at this range
+        assert(segments_intersect(a, b, c, d) == brute_intersect(a, b, c, d));
+        long double expected = brute_dist(p, a, b);
+        assert(fabsl(dist_point_segment(p, a, b) - expected) < 1e-6 + 1e-12 * expected);
+    }
+
     for (long long it = 0; it < stress::scaled(20000); it++){
         Point a = random_point(E9), b = random_point(E9), p = random_point(E9);
         long long k = stress::rand_int(0, 7);
@@ -183,6 +201,7 @@ int main(){
     }
 
     /// Convex polygons with extra lattice vertices on their edges, rotated so vertex 0 can sit in the middle of an edge
+    long long flat_starts = 0;
     for (long long it = 0; it < stress::scaled(4000); it++){
         int n = stress::rand_int(3, 10);
         long long range = stress::rand_int(2, 8);
@@ -206,12 +225,16 @@ int main(){
         }
         rotate(poly.begin(), poly.begin() + stress::rand_int(0, poly.size() - 1), poly.end());
 
+        int m = poly.size();
+        flat_starts += cross(poly[m - 1], poly[0], poly[1]) == 0;
         for (long long x = -range - 1; x <= range + 1; x++){
             for (long long y = -range - 1; y <= range + 1; y++){
-                assert(point_in_convex_polygon(poly, {x, y}) == brute_point_in_polygon(hull, {x, y}));
+                int got = point_in_convex_polygon(poly, {x, y});
+                assert(got == brute_point_in_polygon(hull, {x, y}) && got == point_in_polygon(poly, {x, y}));
             }
         }
     }
+    assert(flat_starts > 0);
 
     /// A spiral whose fan triangulation from vertex 0 has partial sums beyond long long, the total area fits
     vector<Point> spiral = {
@@ -275,6 +298,13 @@ int main(){
         long double expected = 2 * asinl(min(1.0L, chord / 2));
         long double got = great_circle_distance(lat1, lon1, lat2, lon2, 1);
         assert(fabsl(got - expected) < 1e-9);
+    }
+
+    /// The haversine term of about 4% of antipodal pairs rounds to 1 + 1 ulp, the distance must still be pi * radius
+    for (long long it = 0; it < stress::scaled(20000); it++){
+        long double lat = stress::rand_int(-90000000, 90000000) / 1e6L, lon = stress::rand_int(-180000000, 0) / 1e6L;
+        long double got = great_circle_distance(lat, lon, -lat, lon + 180, 6371);
+        assert(fabsl(got - 6371 * acosl(-1.0L)) < 1e-9 * 6371);
     }
 
     return 0;
