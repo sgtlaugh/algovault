@@ -9,7 +9,7 @@
  *     use this for n up to 2^63, products stay below n so nothing overflows
  *
  * Tables of the divisor count or divisor sum for every n up to a limit: linear_sieve.cpp's multiplicative()
- * Every divisor of every n up to a limit: misc/all_divisors.cpp
+ * Every divisor of every n up to a limit: all_divisors.cpp
  *
 ***/
 
