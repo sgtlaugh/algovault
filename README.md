@@ -150,7 +150,7 @@ Every file has self-tests in its `main()` and a brute-force stress test under [`
 - [Fast Prime Counting](code_library/number_theory/fast_prime_counting.cpp) - `pi(n)` in about `O(n^(2/3))`, Meissel-Lehmer
 - [Fast Prime Sums](code_library/number_theory/fast_prime_sums.cpp) - sum of primes up to n, Meissel-Lehmer
 - [Fast Sieve](code_library/number_theory/fast_sieve.cpp) - optimized sieve of Eratosthenes up to `2^31 - 1`
-- [Floor Sum](code_library/number_theory/floor_sum.cpp) - `sum of floor((a i + b) / m)`, `min of (a i + b) mod m`, count and first x with `a x mod m` in `[l, r]`
+- [Floor Sum](code_library/number_theory/floor_sum.cpp) - `sum floor((a i + b) / m)`, `min (a i + b) mod m`, count and first x with `a x mod m` in `[l, r]`
 - [Integer Root](code_library/number_theory/integer_root.cpp) - exact floor of square, cube and k-th roots of 64-bit integers
 - [Linear Sieve](code_library/number_theory/linear_sieve.cpp) - smallest prime factors, phi, mu and any multiplicative function
 - [Maximum Divisors](code_library/number_theory/maximum_divisors.cpp) - number with the most divisors up to a limit
@@ -186,7 +186,7 @@ Every file has self-tests in its `main()` and a brute-force stress test under [`
 - [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - find a recurrence from terms and compute its n-th term
 - [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - convex-convex in `O(n + m)`, convex-arbitrary via monotone minima
 - [NTT](code_library/algebra/ntt.cpp) - polynomial multiplication modulo an NTT prime, any modulus, or exact in 64 bits
-- [Polynomial](code_library/algebra/polynomial.cpp) - NTT power series: inverse, division, log, exp, sqrt, pow, multipoint evaluation, interpolation and Taylor shift
+- [Polynomial](code_library/algebra/polynomial.cpp) - NTT power series: inv, div, log, exp, sqrt, pow, multipoint eval, interpolation, Taylor shift
 - [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - subset/superset zeta and Mobius transforms, ranked subset convolution `O(2^n n^2)` modulo any mod
 - [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - xor, or and and convolutions
 
@@ -206,10 +206,10 @@ Every file has self-tests in its `main()` and a brute-force stress test under [`
 - [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - 64-bit linear basis with max/min xor, k-th smallest, count below x and intersection
 
 ### Geometry
-- [Circle Geometry](code_library/geometry/circle.cpp) - intersections, tangents, minimum enclosing circle, circle-polygon, lens and union areas, max points covered
+- [Circle Geometry](code_library/geometry/circle.cpp) - intersections, tangents, min enclosing circle, circle-polygon, lens/union areas, max points covered
 - [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - `O(n log n)` sweep with exact integer squared distances
 - [Convex Hull](code_library/geometry/convex_hull.cpp) - monotone chain, `O(n log n)`
-- [Geometry](code_library/geometry/geometry.cpp) - exact integer predicates, polygon queries, angular sort, line and segment intersection, polygon cut, centroid
+- [Geometry](code_library/geometry/geometry.cpp) - exact integer predicates, polygon queries/cuts, angular sort, line/segment intersection, centroid
 - [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region of half-planes clipped to a box, sort and deque, `O(n log n)`
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
 - [Polygon Union](code_library/geometry/polygon_union.cpp) - area of the union of simple polygons, convex or not, `O(N^2 log N)` for N vertices in total
