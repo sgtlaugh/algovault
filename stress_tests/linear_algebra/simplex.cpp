@@ -4,6 +4,7 @@
 #include "../../code_library/linear_algebra/simplex.cpp"
 #undef main
 
+#include <sys/wait.h>
 #include <unistd.h>
 
 typedef __int128 i128;
@@ -102,13 +103,13 @@ void degenerate_cycling(){
     alarm(2);
 
     /// Beale (1955): Dantzig's rule with first-row ratio ties cycles here, optimum 1/20 at x1 = 1/25, x3 = 1
-    Simplex::init(4, (Float[]){0, 0.75, -150, 0.02, -6}, MAXIMIZE);
-    Simplex::add_constraint((Float[]){0, 0.25, -60, -0.04, 9}, 0, LESSEQ);
-    Simplex::add_constraint((Float[]){0, 0.5, -90, -0.02, 3}, 0, LESSEQ);
-    Simplex::add_constraint((Float[]){0, 0, 0, 1, 0}, 1, LESSEQ);
-    assert(Simplex::solve(result) == FEASIBLE);
+    Simplex beale(4, {0, 0.75, -150, 0.02, -6}, MAXIMIZE);
+    beale.add_constraint({0, 0.25, -60, -0.04, 9}, 0, LESSEQ);
+    beale.add_constraint({0, 0.5, -90, -0.02, 3}, 0, LESSEQ);
+    beale.add_constraint({0, 0, 0, 1, 0}, 1, LESSEQ);
+    assert(beale.solve(result) == FEASIBLE);
     assert(abs(result - 0.05) < 1e-9);
-    assert(abs(Simplex::val[1] - 0.04) < 1e-9 && abs(Simplex::val[3] - 1) < 1e-9);
+    assert(abs(beale.val[1] - 0.04) < 1e-9 && abs(beale.val[3] - 1) < 1e-9);
 
     /// Found by random search, each cycles under a different broken tie rule, rows are {coefficients..., rhs} plus sum(x) <= 10
     vector<tuple<vector<Float>, vector<vector<Float>>, Float>> cases = {
@@ -121,23 +122,108 @@ void degenerate_cycling(){
         int n = obj.size();
         vector<Float> row(n + 1, 0);
         copy(obj.begin(), obj.end(), row.begin() + 1);
-        Simplex::init(n, row.data(), MAXIMIZE);
+        Simplex lp(n, row, MAXIMIZE);
         for (auto& r : rows){
             copy(r.begin(), r.begin() + n, row.begin() + 1);
-            Simplex::add_constraint(row.data(), r[n], LESSEQ);
+            lp.add_constraint(row, r[n], LESSEQ);
         }
         fill(row.begin() + 1, row.end(), 1);
-        Simplex::add_constraint(row.data(), 10, LESSEQ);
-        assert(Simplex::solve(result) == FEASIBLE);
+        lp.add_constraint(row, 10, LESSEQ);
+        assert(lp.solve(result) == FEASIBLE);
         assert(abs(result - opt) < 1e-9);
     }
 
     alarm(0);
 }
 
+/// Primal max c.x, Ax <= b and dual min b.y, A^T y >= c solved as two live instances, strong duality pins both optima
+/// b and c are built from planted x0, y0 >= 0 so both sides are feasible, which strong duality needs, and phase 1 has no termination guarantee to lean on otherwise
+void duality(){
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(1, 40), m = stress::rand_int(1, 40);
+        vector<vector<long long>> a(m, vector<long long>(n));
+        vector<long long> b(m), c(n), x0(n), y0(m);
+        for (auto& r : a) for (auto& x : r) x = stress::rand_int(0, 3) ? stress::rand_int(-4, 6) : 0;
+        for (auto& x : x0) x = stress::rand_int(0, 1) ? stress::rand_int(0, 5) : 0;
+        for (auto& y : y0) y = stress::rand_int(0, 1) ? stress::rand_int(0, 5) : 0;
+        for (int i = 0; i < m; i++){
+            b[i] = stress::rand_int(0, 1) ? stress::rand_int(0, 10) : 0;
+            for (int j = 0; j < n; j++) b[i] += a[i][j] * x0[j];
+        }
+        for (int j = 0; j < n; j++){
+            c[j] = stress::rand_int(0, 1) ? -stress::rand_int(0, 10) : 0;
+            for (int i = 0; i < m; i++) c[j] += a[i][j] * y0[i];
+        }
+
+        vector<Float> row(n + 1, 0), col(m + 1, 0);
+        for (int j = 0; j < n; j++) row[j + 1] = c[j];
+        for (int i = 0; i < m; i++) col[i + 1] = b[i];
+        Simplex primal(n, row, MAXIMIZE), dual(m, col, MINIMIZE);
+        for (int i = 0; i < m; i++){
+            for (int j = 0; j < n; j++) row[j + 1] = a[i][j];
+            primal.add_constraint(row, b[i], LESSEQ);
+        }
+        for (int j = 0; j < n; j++){
+            for (int i = 0; i < m; i++) col[i + 1] = a[i][j];
+            dual.add_constraint(col, c[j], GREATEQ);
+        }
+
+        Float primal_value, dual_value;
+        assert(primal.solve(primal_value) == FEASIBLE);
+        assert(dual.solve(dual_value) == FEASIBLE);
+
+        long double tol = 1e-6L * max(1.0L, fabsl(primal_value));
+        assert(fabsl(primal_value - dual_value) <= tol);
+
+        long double objective = 0;
+        for (int j = 0; j < n; j++){
+            assert(primal.val[j + 1] >= -1e-7);
+            objective += c[j] * primal.val[j + 1];
+        }
+        assert(fabsl(objective - primal_value) <= tol);
+        for (int i = 0; i < m; i++){
+            long double s = 0;
+            for (int j = 0; j < n; j++) s += a[i][j] * primal.val[j + 1];
+            assert(s <= b[i] + 1e-6);
+        }
+
+        objective = 0;
+        for (int i = 0; i < m; i++){
+            assert(dual.val[i + 1] >= -1e-7);
+            objective += b[i] * dual.val[i + 1];
+        }
+        assert(fabsl(objective - dual_value) <= tol);
+        for (int j = 0; j < n; j++){
+            long double s = 0;
+            for (int i = 0; i < m; i++) s += a[i][j] * dual.val[i + 1];
+            assert(s >= c[j] - 1e-6);
+        }
+    }
+}
+
+/// The tableau is pivoted in place, so a second solve() on the same instance must abort instead of answering
+void solve_twice_aborts(){
+    pid_t pid = fork();
+    if (pid == 0){
+        close(STDERR_FILENO);
+        Float result;
+        Simplex encore(2, {0, 3, 2}, MAXIMIZE);
+        encore.add_constraint({0, 1, 1}, 4, LESSEQ);
+        encore.solve(result);
+        encore.solve(result);
+        _exit(0);
+    }
+
+    int status;
+    waitpid(pid, &status, 0);
+    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+}
+
 int main(){
+    solve_twice_aborts();
     degenerate_cycling();
     srand(stress::seed());
+    duality();
 
     for (long long it = 0; it < stress::scaled(2000); it++){
         int n = stress::rand_int(1, it % 5 ? 3 : 4), m = stress::rand_int(0, it % 5 ? 4 : 6), sense = stress::rand_int(0, 1) ? MAXIMIZE : MINIMIZE;
@@ -160,15 +246,15 @@ int main(){
 
         vector<Float> obj(n + 1, 0);
         for (int j = 0; j < n; j++) obj[j + 1] = c[j];
-        Simplex::init(n, obj.data(), sense);
+        Simplex lp(n, obj, sense);
         for (auto& k : cons){
             vector<Float> coef(n + 1, 0);
             for (int j = 0; j < n; j++) coef[j + 1] = k.a[j];
-            Simplex::add_constraint(coef.data(), k.b, k.cmp);
+            lp.add_constraint(coef, k.b, k.cmp);
         }
 
         Float result;
-        int status = Simplex::solve(result);
+        int status = lp.solve(result);
         assert(status == expected);
         if (status != FEASIBLE) continue;
 
@@ -177,14 +263,14 @@ int main(){
 
         long double objective = 0;
         for (int j = 0; j < n; j++){
-            assert(Simplex::val[j + 1] >= -1e-7);
-            objective += c[j] * Simplex::val[j + 1];
+            assert(lp.val[j + 1] >= -1e-7);
+            objective += c[j] * lp.val[j + 1];
         }
         assert(fabsl(objective - opt) <= tol);
 
         for (auto& k : cons){
             long double s = 0;
-            for (int j = 0; j < n; j++) s += k.a[j] * Simplex::val[j + 1];
+            for (int j = 0; j < n; j++) s += k.a[j] * lp.val[j + 1];
             if (k.cmp != GREATEQ) assert(s <= k.b + 1e-6);
             if (k.cmp != LESSEQ) assert(s >= k.b - 1e-6);
         }
