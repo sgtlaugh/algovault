@@ -1,6 +1,3 @@
-import sys
-
-
 def fibonacci(n, modulo=None):
     """
     calculates the n-th fibonacci number using fast doubling algorithm
@@ -10,28 +7,20 @@ def fibonacci(n, modulo=None):
     :return: n-th fibonacci number
     """
 
-    def _fib(n, modulo):
-        if n == 0:
-            return 0, 1
-
-        a, b = _fib(n >> 1, modulo)
-        x, y = a * (2 * b - a), a * a + b * b
-
-        if n & 1:
-            x, y = y, x + y
-
+    a, b = 0, 1
+    for bit in bin(n)[2:-1]:
+        a, b = a * (2 * b - a), a * a + b * b
+        if bit == '1':
+            a, b = b, a + b
         if modulo is not None:
-            x, y = x % modulo, y % modulo
+            a, b = a % modulo, b % modulo
 
-        return x, y
-
-    x, y = _fib(n, modulo)
+    # The last bit only needs F(n), skipping F(n + 1) saves the largest multiplication
+    x = a * a + b * b if n & 1 else a * (2 * b - a)
     return x if modulo is None else x % modulo
 
 
 def main():
-    sys.setrecursionlimit(2 ** 22)
-    
     assert fibonacci(0) == 0
     assert fibonacci(1) == 1
     assert fibonacci(2) == 1
