@@ -9,6 +9,11 @@
 #
 # Usage: .github/scripts/run_tests.sh [self|stress]       (override the compiler with CXX=...)
 #        STRESS_SEED / STRESS_SCALE are passed through to the stress tests, see stress_tests/common.h
+#        JOBS=n             run n tests at a time (default: all cores)
+#        BUILD=fast         -O2 without sanitizers, for high-iteration runs where wrong answers, not UB, are the target
+#        CHANGED_SINCE=ref  only run tests whose library file or stress test changed since ref, everything when a shared
+#                           file changed or ref is unknown (a library file's tests depend on nothing but that file)
+#        TEST_BUDGET=s      fail tests that pass but take longer than s seconds, so slow tests cannot pile up
 #
 set -uo pipefail
 
@@ -19,6 +24,10 @@ ROOT="$(cd "$(dirname "$0")/../.." && pwd)"
 CXX="${CXX:-g++}"
 PYTHON="${PYTHON:-python3}"
 TEST_TIMEOUT="${TEST_TIMEOUT:-300}"
+TEST_BUDGET="${TEST_BUDGET:-0}"
+JOBS="${JOBS:-$(nproc)}"
+BUILD_MODE="${BUILD:-sanitize}"
+[[ "$BUILD_MODE" == "sanitize" || "$BUILD_MODE" == "fast" ]] || { echo "BUILD must be sanitize or fast"; exit 2; }
 
 # Sanitizers abort on the first error so UB fails the test, the glibc++ assertions catch out of range container access
 # _FORTIFY_SOURCE is pinned because Ubuntu's gcc enables it by default and other builds don't,
@@ -26,6 +35,7 @@ TEST_TIMEOUT="${TEST_TIMEOUT:-300}"
 # -U first: Ubuntu defines it built in, redefining to another value is itself an error under -Werror
 SAN_FLAGS=(-O1 -g -fno-omit-frame-pointer "-fsanitize=address,undefined" -fno-sanitize-recover=all -Wall -Wextra -Werror -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3)
 CXXFLAGS=(-std=c++17 "${SAN_FLAGS[@]}" -D_GLIBCXX_ASSERTIONS)
+[[ "$BUILD_MODE" == "fast" ]] && CXXFLAGS=(-std=c++17 -O2 -Wall -Wextra -Werror -U_FORTIFY_SOURCE -D_FORTIFY_SOURCE=3)
 export UBSAN_OPTIONS="print_stacktrace=1"
 
 # Self-tests that cannot run in CI, with the reason
@@ -44,11 +54,22 @@ STYLE_SKIP=(
     "stress_tests/graphs/stable_marriage.cpp"  # the original Library implementation as a second reference
 )
 
+# Changing any of these can affect every test, so CHANGED_SINCE then runs everything
+SHARED=(
+    "stress_tests/common.h"
+    "stress_tests/python/stress.py"
+    ".github/scripts/run_tests.sh"
+    ".github/workflows/ci.yml"
+)
+
 # Contest judges usually give 8 MB of stack, tests must pass with it
 ulimit -s 8192
 
-BUILD="$(mktemp -d)"
-trap 'rm -rf "$BUILD"' EXIT
+if [[ -z "${RUN_TESTS_WORKER:-}" ]]; then
+    BUILD_DIR="$(mktemp -d)"
+    trap 'rm -rf "$BUILD_DIR"' EXIT
+    export BUILD_DIR
+fi
 
 passed=0 failed=0 skipped=0
 failures=()
@@ -61,8 +82,7 @@ contains(){  # value, array elements...
 }
 
 report_failure(){  # file, reason, log
-    failures+=("$1 ($2)")
-    failed=$((failed + 1))
+    printf 'FAIL\t%s\t%s\n' "$1" "$2" >> "$BUILD_DIR/results"
     echo "FAIL  $1  ($2)"
     if [[ -n "${GITHUB_ACTIONS:-}" ]]; then
         echo "::group::log for $1"; tail -n 60 "$3"; echo "::endgroup::"
@@ -74,12 +94,12 @@ report_failure(){  # file, reason, log
 
 run_one(){  # repo relative path
     local rel="$1" src="$ROOT/$1" exe log start secs rc link=()
-    exe="$BUILD/$(echo "$rel" | tr '/' '_').out"
+    exe="$BUILD_DIR/$(echo "$rel" | tr '/' '_').out"
     log="$exe.log"
 
     if contains "$rel" "${SKIP[@]}"; then
         echo "SKIP  $rel"
-        skipped=$((skipped + 1))
+        printf 'SKIP\t%s\t\n' "$rel" >> "$BUILD_DIR/results"
         return
     fi
 
@@ -104,9 +124,11 @@ run_one(){  # repo relative path
         report_failure "$rel" "timed out after ${TEST_TIMEOUT}s" "$log"
     elif [[ $rc -ne 0 ]]; then
         report_failure "$rel" "exit code $rc" "$log"
+    elif [[ $TEST_BUDGET -gt 0 && $secs -gt $TEST_BUDGET ]]; then
+        report_failure "$rel" "passed but took ${secs}s, over the ${TEST_BUDGET}s budget" "$log"
     else
         echo "ok    $rel  (${secs}s)"
-        passed=$((passed + 1))
+        printf 'OK\t%s\t\n' "$rel" >> "$BUILD_DIR/results"
     fi
 }
 
@@ -167,15 +189,54 @@ check_style(){  # ){ and struct X{ open a body, ) {} is empty, keywords take a s
     failures+=("${bad[@]/%/ (style)}")
 }
 
-echo "$("$CXX" --version | head -1) | $("$PYTHON" --version)"
+select_tests(){  # prints the tests to run, one per line
+    local all changed file lib stress
+    all="$(find "$TESTS_DIR" -type f \( -name '*.cpp' -o -name '*.py' \) ! -name 'stress.py' | sort)"
+    if [[ -z "${CHANGED_SINCE:-}" ]] || ! git cat-file -e "${CHANGED_SINCE}^{commit}" 2> /dev/null; then
+        [[ -n "${CHANGED_SINCE:-}" ]] && echo "CHANGED_SINCE=$CHANGED_SINCE is not a known commit, running everything" >&2
+        echo "$all"
+        return
+    fi
+
+    changed="$(git diff --name-only "$CHANGED_SINCE" HEAD)"
+    for file in "${SHARED[@]}"; do
+        grep -qxF "$file" <<< "$changed" && { echo "$file changed, running everything" >&2; echo "$all"; return; }
+    done
+
+    while IFS= read -r file; do
+        [[ -z "$file" ]] && continue
+        lib="code_library/${file#*/}" stress="stress_tests/${file#*/}"
+        if grep -qxF -e "$lib" -e "$stress" <<< "$changed"; then echo "$file"; fi
+    done <<< "$all"
+}
+
+if [[ -n "${RUN_TESTS_WORKER:-}" ]]; then  # one test, run by the parallel driver below
+    cd "$ROOT" || exit 1
+    run_one "$2"
+    exit 0
+fi
+
+echo "$("$CXX" --version | head -1) | $("$PYTHON" --version) | build: $BUILD_MODE | jobs: $JOBS"
 
 cd "$ROOT" || exit 1
 TESTS_DIR="code_library"
 [[ "$MODE" == "stress" ]] && TESTS_DIR="stress_tests"
 
-while IFS= read -r file; do
-    run_one "$file"
-done < <(find "$TESTS_DIR" -type f \( -name '*.cpp' -o -name '*.py' \) ! -name 'stress.py' | sort)
+: > "$BUILD_DIR/results"
+tests="$(select_tests)"
+echo "running $(grep -c . <<< "$tests") of $(find "$TESTS_DIR" -type f \( -name '*.cpp' -o -name '*.py' \) ! -name 'stress.py' | wc -l) tests"
+grep . <<< "$tests" | RUN_TESTS_WORKER=1 xargs -P "$JOBS" -I{} bash "$0" "$MODE" {}
+
+passed=$(grep -c '^OK' "$BUILD_DIR/results")
+skipped=$(grep -c '^SKIP' "$BUILD_DIR/results")
+failed=$(grep -c '^FAIL' "$BUILD_DIR/results")
+failures=()
+while IFS=$'\t' read -r _ file reason; do failures+=("$file ($reason)"); done < <(grep '^FAIL' "$BUILD_DIR/results")
+selected=$(grep -c . <<< "$tests")
+if [[ $((passed + skipped + failed)) -ne $selected ]]; then  # a worker died without reporting, never pass silently
+    failures+=("$((selected - passed - skipped - failed)) of $selected selected tests reported no result")
+    failed=$((failed + 1))
+fi
 
 echo
 [[ "$MODE" == "stress" ]] && check_coverage
