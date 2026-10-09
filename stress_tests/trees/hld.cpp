@@ -4,6 +4,11 @@
 #include "../../code_library/trees/hld.cpp"
 #undef main
 
+/// The real segment tree, so query_path and update_path are checked against the API they are written for
+#define main segment_tree_main
+#include "../../code_library/data_structures/segment_tree.cpp"
+#undef main
+
 vector<pair<int, int>> make_tree(int n, int shape){
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);
@@ -44,9 +49,9 @@ void check(int n, int shape, int ops){
     assert(hld.parent == parent && hld.depth == depth);
     for (auto [u, v] : edges) assert(hld.edge_pos(u, v) == hld.pos[parent[u] == v ? u : v]);
 
-    vector<int> seen(n, 0);
+    vector<int> seen(n + 1, 0);
     for (int v = 0; v < n; v++) seen[hld.pos[v]]++;
-    for (int i = 0; i < n; i++) assert(seen[i] == 1);
+    for (int i = 1; i <= n; i++) assert(seen[i] == 1);
 
     auto naive_path = [&](int u, int v){
         vector<int> left, right;
@@ -59,8 +64,9 @@ void check(int n, int shape, int ops){
         return make_pair(left, u);
     };
 
-    vector<long long> value(n), at(n);
+    vector<long long> value(n), at(n + 1);
     for (int v = 0; v < n; v++) value[v] = stress::rand_int(-1000000000, 1000000000), at[hld.pos[v]] = value[v];
+    SegmentTree<long long> seg(vector<long long>(at.begin() + 1, at.end()));
 
     for (int op = 0; op < ops; op++){
         int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
@@ -95,6 +101,7 @@ void check(int n, int shape, int ops){
             for (auto [a, b] : ranges){
                 for (int i = a; i <= b; i++) at[i] += delta;
             }
+            hld.update_path(seg, u, v, delta, edge_mode);
             for (int x : nodes){
                 if (!(edge_mode && x == l)) value[x] += delta;
             }
@@ -107,7 +114,7 @@ void check(int n, int shape, int ops){
         for (int x : nodes){
             if (!(edge_mode && x == l)) slow += value[x];
         }
-        assert(fast == slow);
+        assert(fast == slow && hld.query_path(seg, u, v, edge_mode) == slow);
 
         auto [a, b] = hld.subtree(u);
         vector<int> in_range, in_subtree;
