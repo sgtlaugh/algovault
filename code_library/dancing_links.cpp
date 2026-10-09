@@ -34,7 +34,7 @@ namespace dlx{
 
     /// r = index of row (1 based)
     /// the vector columns contain the columns which are satisfied with this row
-    inline void addrow(int r, vector <int>& columns){
+    inline void addrow(int r, const vector <int>& columns){
         int i, c, l = columns.size(), first = idx;
         if (!l) return;  /// an empty row covers nothing, and linking it would corrupt the previous row
 
@@ -79,7 +79,8 @@ namespace dlx{
         }
 
         int i, j, c = R[0];
-        for (i = R[0]; i != 0; i = R[i]){ /// Select a column deterministically
+        /// Select a column deterministically, stopping at a count <= 1: the choice is forced, and a 0 count column left behind still fails the branch
+        for (i = R[0]; i != 0 && column_count[c] > 1; i = R[i]){
             if(column_count[i] < column_count[c]) c = i;
         }
 
@@ -137,12 +138,7 @@ namespace sudoku{
             for (j = 0; j < n; j++){
                 for (k = 0; k < n; k++){
                     if (grid[i][j] == 0 || grid[i][j] == (k + 1)){
-                        vector <int> columns;
-                        columns.push_back(encode(n, 0, i, j));
-                        columns.push_back(encode(n, 1, i, k));
-                        columns.push_back(encode(n, 2, j, k));
-                        columns.push_back(encode(n, 3, (i / m) * m + j / m, k));
-                        dlx::addrow(encode(n, i, j, k), columns);
+                        dlx::addrow(encode(n, i, j, k), {encode(n, 0, i, j), encode(n, 1, i, k), encode(n, 2, j, k), encode(n, 3, (i / m) * m + j / m, k)});
                     }
                 }
             }
