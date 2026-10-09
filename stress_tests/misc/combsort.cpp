@@ -42,5 +42,13 @@ int main(){
         } while (next_permutation(perm.begin(), perm.end()));
     }
 
+    /// 1e6 random values, a gap sequence that degrades to bubble sort would not finish
+    vector<int> big(1000000);
+    for (auto& x : big) x = stress::rand_int(0, 1000000006);
+    auto expected = big;
+    sort(expected.begin(), expected.end());
+    combsort(big.begin(), big.end());
+    assert(big == expected);
+
     return 0;
 }
