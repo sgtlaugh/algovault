@@ -85,6 +85,18 @@ int main(){
         assert(res.first == hungarian(t, minimize).first);
     }
 
+    /// Tall inputs used to cost O(row^2 * col), this one took 27 s before the internal transpose
+    for (int minimize = 0; minimize < 2; minimize++){
+        auto tall = random_matrix<long long>(3000, 50, -1000000, 1000000);
+        vector<vector<long long>> wide(50, vector<long long>(3000));
+        for (int i = 0; i < 3000; i++) for (int j = 0; j < 50; j++) wide[j][i] = tall[i][j];
+
+        auto res = hungarian(tall, minimize);
+        check_matching(tall, res);
+        assert(is_sorted(res.second.begin(), res.second.end()));
+        assert(res.first == hungarian(wide, minimize).first);
+    }
+
     assert(hungarian(vector<vector<int>>{}).first == 0);
     return 0;
 }
