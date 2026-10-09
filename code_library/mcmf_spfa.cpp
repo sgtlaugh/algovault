@@ -11,6 +11,8 @@
  * Note, flow[2*i] contains the amount of flow in i-th edge
  * So if we ever need to print it we can retrieve it easily
  *
+ * Prefer mcmf_dijkstra.cpp by default, this is for negative costs without computing potentials
+ *
 ***/
 
 #include <bits/stdc++.h>
@@ -30,7 +32,7 @@ struct FlowGraph{
     T cap[MAXE], cost[MAXE], flow[MAXE], dis[MAXV];
 
     FlowGraph(int n) : n(n), id(1){
-        for (int i = 0; i <= n; i++) head[i] = nxt[i] = 0;
+        for (int i = 0; i <= n; i++) head[i] = 0;
     }
 
     /// Add an edge from u to v with edge capacity c and edge weight w
@@ -68,8 +70,9 @@ struct FlowGraph{
     }
 
     T dfs(int u, int sink, T lim){
-        visited[u] = 1;
+        /// The sink is never marked so one DFS can push along several shortest paths
         if (u == sink) return lim;
+        visited[u] = 1;
 
         T aug = 0;
         for (int i = head[u]; i && aug < lim; i = nxt[i]){
