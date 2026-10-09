@@ -286,4 +286,5 @@ The header at the top of each file lists its API, complexity and limits.
 Bug reports, fixes and new templates are welcome as issues or pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions, the checks CI runs and The Zen Of Contributing.
 
 ## License
-The project is licensed under the [MIT License](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
+
+MIT, see [LICENSE](LICENSE)
