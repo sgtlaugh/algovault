@@ -31,11 +31,11 @@ struct SCC{
     }
 
     void run(){
-        vector<int> order, it(n, 0);
+        vector<int> order, it(n, 0), stack;
         vector<char> visited(n, 0);
         for (int s = 0; s < n; s++){
             if (visited[s]) continue;
-            vector<int> stack = {s};
+            stack.push_back(s);
             visited[s] = 1;
             while (!stack.empty()){
                 int u = stack.back();
@@ -55,7 +55,7 @@ struct SCC{
         for (int i = n - 1; i >= 0; i--){
             int s = order[i];
             if (comp[s] != -1) continue;
-            vector<int> stack = {s};
+            stack.push_back(s);
             comp[s] = count;
             while (!stack.empty()){
                 int u = stack.back();
