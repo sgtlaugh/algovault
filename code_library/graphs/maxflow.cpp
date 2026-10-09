@@ -22,7 +22,8 @@
  * Max closure / project selection: pick a set of items with weights w[i], where picking i forces picking j
  *     src -> i with capacity w[i] if w[i] > 0, i -> sink with capacity -w[i] if w[i] < 0, i -> j with capacity LLONG_MAX
  *     best total weight = sum of positive w[i] - maxflow(), the picked items are those with in_source_side(i)
- *     the sum of positive w[i] must fit in long long, the LLONG_MAX edges themselves never overflow
+ *     the sum of positive w[i] must be below LLONG_MAX, the LLONG_MAX edges themselves never overflow
+ *     DenseFlowGraph caps each merged u <-> v cell at LLONG_MAX, exact while the max flow is below LLONG_MAX
  *
  * Max density subgraph, max |E(S)| / |S| over nonempty S: Dinkelbach on the closure above, n + m + 2 nodes
  *     start with the density a / b = m / n of the whole graph
@@ -47,7 +48,7 @@ struct FlowGraph{
     int n, src, sink;
     vector <vector<int>> adj;
     vector <struct Edge> E;
-    vector <int> Q, ptr, dis;
+    vector <int> Q, ptr, dis, path;
 
     FlowGraph(int n, int src, int sink): n(n), src(src), sink(sink), adj(n), Q(n), ptr(n), dis(n, -1) {}
 
@@ -81,23 +82,45 @@ struct FlowGraph{
         return dis[sink] != -1;
     }
 
-    long long dfs(int u, long long flow){
-        if (u == sink || !flow) return flow;
+    /// Iterative so that a src to sink distance of n cannot overflow the stack, path holds the edge ids from src to u
+    long long blocking_flow(){
+        long long flow = 0;
+        int u = src;
+        path.clear();
 
-        int len = adj[u].size();
-        while (ptr[u] < len){
-            int id = adj[u][ptr[u]];
-            if (dis[E[id].v] == dis[u] + 1){
-                long long f = dfs(E[id].v, min(flow, E[id].cap - E[id].flow));
-                if (f){
-                    E[id].flow += f, E[id ^ 1].flow -= f;
-                    return f;
+        while (true){
+            if (u == sink){
+                long long f = LLONG_MAX;
+                for (int id : path) f = min(f, E[id].cap - E[id].flow);
+
+                int k = path.size();
+                for (int i = k - 1; i >= 0; i--){
+                    E[path[i]].flow += f, E[path[i] ^ 1].flow -= f;
+                    if (E[path[i]].flow == E[path[i]].cap) k = i;
                 }
+                flow += f, u = E[path[k]].u;
+                path.resize(k);
+                continue;
             }
-            ptr[u]++;
-        }
 
-        return 0;
+            int len = adj[u].size();
+            while (ptr[u] < len){
+                int id = adj[u][ptr[u]];
+                if (dis[E[id].v] == dis[u] + 1 && E[id].flow < E[id].cap) break;
+                ptr[u]++;
+            }
+
+            if (ptr[u] < len){
+                path.push_back(adj[u][ptr[u]]);
+                u = E[path.back()].v;
+            }
+            else{
+                if (u == src) return flow;
+                u = E[path.back()].u;
+                path.pop_back();
+                ptr[u]++;
+            }
+        }
     }
 
     long long maxflow(){
@@ -106,9 +129,7 @@ struct FlowGraph{
 
         while (bfs()){
             fill(ptr.begin(), ptr.end(), 0);
-            while (long long f = dfs(src, LLONG_MAX)){
-                flow += f;
-            }
+            flow += blocking_flow();
         }
 
         return flow;
@@ -160,7 +181,7 @@ struct DenseFlowGraph{
     DenseFlowGraph(int n, int src, int sink) : n(n), src(src), sink(sink), cap(n, vector<long long>(n, 0)), dis(n, -1), ptr(n) {}
 
     void add_directed_edge(int u, int v, long long c){
-        cap[u][v] += c;
+        saturating_add(cap[u][v], c);
     }
 
     void add_edge(int u, int v, long long c){
@@ -187,7 +208,7 @@ struct DenseFlowGraph{
             if (dis[v] != dis[u] + 1 || cap[u][v] <= 0) continue;
             long long f = dfs(v, min(flow, cap[u][v]));
             if (f){
-                cap[u][v] -= f, cap[v][u] += f;
+                cap[u][v] -= f, saturating_add(cap[v][u], f);
                 return f;
             }
         }
@@ -207,6 +228,11 @@ struct DenseFlowGraph{
 
     bool in_source_side(int u) const{
         return dis[u] != -1;
+    }
+
+    /// One cell holds u -> v plus the flow on v -> u, so two LLONG_MAX edges would overflow it, LLONG_MAX still acts as infinite
+    static void saturating_add(long long& cell, long long c){
+        cell = cell > LLONG_MAX - c ? LLONG_MAX : cell + c;
     }
 };
 

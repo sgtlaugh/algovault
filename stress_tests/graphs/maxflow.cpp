@@ -71,9 +71,10 @@ void check_flow(const FlowGraph& g, long long value){
 }
 
 /// Header recipe: max closure by min cut against every subset that is closed under the forcing pairs
+template <typename Graph>
 void check_closure(const vector<long long>& weight, const vector<pair<int, int>>& forces){
     int n = weight.size(), src = n, sink = n + 1;
-    FlowGraph g(n + 2, src, sink);
+    Graph g(n + 2, src, sink);
     long long positive = 0;
     for (int i = 0; i < n; i++){
         if (weight[i] > 0) g.add_directed_edge(src, i, weight[i]), positive += weight[i];
@@ -232,6 +233,23 @@ int main(){
         assert(g.maxflow() == n - 2);
     }
 
+    /// Recursion as deep as the src to sink distance overflowed the 8 MB stack: parallel chains of 200000 nodes each
+    {
+        int chains = 3, len = 200000, src = chains * len, sink = src + 1;
+        FlowGraph g(chains * len + 2, src, sink);
+        long long expected = 0;
+        for (int c = 0; c < chains; c++){
+            long long bottleneck = LLONG_MAX;
+            g.add_directed_edge(src, c * len, 1000);
+            for (int i = 0; i + 1 < len; i++){
+                long long cap = stress::rand_int(500, 1000);
+                g.add_directed_edge(c * len + i, c * len + i + 1, cap), bottleneck = min(bottleneck, cap);
+            }
+            g.add_directed_edge(c * len + len - 1, sink, 1000), expected += bottleneck;
+        }
+        assert(g.maxflow() == expected);
+    }
+
     /// Max closure: small weights, then weights near 1e12 so LLONG_MAX forcing edges sit beside large finite ones
     for (long long it = 0; it < stress::scaled(1500); it++){
         int n = stress::rand_int(1, 10);
@@ -240,7 +258,18 @@ int main(){
         for (auto& w : weight) w = stress::rand_int(-max_weight, max_weight);
         vector<pair<int, int>> forces;
         for (int m = stress::rand_int(0, 15); m; m--) forces.push_back({(int)stress::rand_int(0, n - 1), (int)stress::rand_int(0, n - 1)});
-        check_closure(weight, forces);
+        check_closure<FlowGraph>(weight, forces);
+        check_closure<DenseFlowGraph>(weight, forces);
+    }
+
+    /// DenseFlowGraph merges u -> v and v -> u into one cell, so mutual or repeated LLONG_MAX forcing edges sum past LLONG_MAX there
+    check_closure<DenseFlowGraph>({5, -3}, {{0, 1}, {1, 0}});
+    check_closure<DenseFlowGraph>({5, -3}, {{0, 1}, {0, 1}});
+    check_closure<DenseFlowGraph>({6, 10, -2, 10, 2, -7}, {{0, 2}, {0, 4}, {2, 0}, {3, 2}, {4, 5}});
+    {
+        DenseFlowGraph dense(3, 0, 2);
+        dense.add_edge(0, 1, LLONG_MAX), dense.add_directed_edge(1, 2, 7);
+        assert(dense.maxflow() == 7);
     }
 
     /// Max density subgraph on simple graphs, edgeless ones included
