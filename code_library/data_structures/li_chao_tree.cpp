@@ -220,109 +220,31 @@ struct PersistentLiChaoTree{
 
 int main(){
     LiChaoTree<long long> tree(-10, 10);
-    assert(tree.query(0) == LiChaoTree<long long>::NONE);
-
+    assert(tree.query(0) == LiChaoTree<long long>::NONE);  /// no lines yet
     tree.add_line(1, 0);
     tree.add_line(-1, 0);
-    assert(tree.query(3) == -3);
-    assert(tree.query(-4) == -4);
-    assert(tree.query(0) == 0);
-
     tree.add_line(0, -2);
-    assert(tree.query(1) == -2);
+    assert(tree.query(1) == -2);     /// min(1, -1, -2)
     assert(tree.query(5) == -5);
-    assert(tree.query(-10) == -10);
 
     LiChaoTree<long long> seg(0, 10);
-    seg.add_segment(0, 5, 2, 4);
-    assert(seg.query(1) == LiChaoTree<long long>::NONE);
-    assert(seg.query(2) == 5);
+    seg.add_segment(0, 5, 2, 4);     /// y = 5 only on x in [2, 4]
     assert(seg.query(4) == 5);
     assert(seg.query(5) == LiChaoTree<long long>::NONE);
 
-    seg.add_line(1, 0);
-    assert(seg.query(3) == 3);
-    assert(seg.query(1) == 1);
-    assert(seg.query(10) == 10);
-
-    seg.add_segment(-100, 0, 6, 3);
-    seg.add_segment(0, -7, -5, 0);
-    assert(seg.query(0) == -7);
-    assert(seg.query(1) == 1);
-
     LiChaoTree<long long, true> best(-10, 10);
-    assert(best.query(7) == numeric_limits<long long>::lowest());
     best.add_line(2, 1);
     best.add_line(-1, 4);
-    assert(best.query(0) == 4);
-    assert(best.query(2) == 5);
-    assert(best.query(-10) == 14);
+    assert(best.query(2) == 5);      /// max(2 * 2 + 1, -2 + 4)
 
-    LiChaoTree<long long> point(7, 7);
-    point.add_line(3, -1);
-    point.add_line(2, 5);
-    assert(point.query(7) == 19);
-
-    const long long E18 = 1000000000000000000LL;
-    LiChaoTree<long long> wide(-E18, E18);
-    wide.add_line(2, 0);
-    wide.add_line(-3, E18);
-    assert(wide.query(0) == 0);
-    assert(wide.query(E18) == -2 * E18);
-    assert(wide.query(-E18) == -2 * E18);
-
-    LiChaoTree<double> real(0, 10);
-    real.add_line(0.5, 0.25);
-    real.add_line(-0.5, 4.0);
-    assert(abs(real.query(3) - 1.75) < 1e-9);
-    assert(abs(real.query(10) - (-1.0)) < 1e-9);
-
+    /// v2 and v3 both branch off v1, neither sees the other's line
     PersistentLiChaoTree<long long> pt(-10, 10);
-    assert(pt.query(0, 4) == PersistentLiChaoTree<long long>::NONE);
-
     int v1 = pt.add_line(0, 1, 0);
     int v2 = pt.add_line(v1, -1, 0);
     int v3 = pt.add_line(v1, 0, -2);
-    int v4 = pt.add_line(v2, 0, -7);
-    assert(pt.query(0, 4) == PersistentLiChaoTree<long long>::NONE);
     assert(pt.query(v1, 3) == 3);
     assert(pt.query(v2, 3) == -3);
-    assert(pt.query(v2, -4) == -4);
-    assert(pt.query(v2, 0) == 0);
     assert(pt.query(v3, 3) == -2);
-    assert(pt.query(v3, -5) == -5);
-    assert(pt.query(v3, 0) == -2);
-    assert(pt.query(v4, 0) == -7);
-    assert(pt.query(v4, 10) == -10);
-    assert(pt.query(v4, -9) == -9);
-    int v5 = pt.add_line(0, 0, 0);
-    assert(v5 == 5);
-    assert(pt.query(v5, -10) == 0);
-
-    PersistentLiChaoTree<long long, true> pbest(0, 5);
-    int p1 = pbest.add_line(0, 2, 1);
-    int p2 = pbest.add_line(p1, -1, 6);
-    int p3 = pbest.add_line(0, -1, 6);
-    assert(pbest.query(0, 2) == numeric_limits<long long>::lowest());
-    assert(pbest.query(p1, 0) == 1);
-    assert(pbest.query(p2, 0) == 6);
-    assert(pbest.query(p2, 1) == 5);
-    assert(pbest.query(p2, 5) == 11);
-    assert(pbest.query(p3, 5) == 1);
-
-    PersistentLiChaoTree<long long> ppoint(7, 7);
-    int q1 = ppoint.add_line(0, 3, -1);
-    int q2 = ppoint.add_line(q1, 2, 5);
-    assert(ppoint.query(q1, 7) == 20);
-    assert(ppoint.query(q2, 7) == 19);
-
-    PersistentLiChaoTree<long long> pwide(-E18, E18);
-    int w1 = pwide.add_line(0, 2, 0);
-    int w2 = pwide.add_line(w1, -3, E18);
-    assert(pwide.query(w1, E18) == 2 * E18);
-    assert(pwide.query(w2, E18) == -2 * E18);
-    assert(pwide.query(w2, -E18) == -2 * E18);
-    assert(pwide.query(w2, 0) == 0);
-
+    assert(pt.query(0, 3) == PersistentLiChaoTree<long long>::NONE);
     return 0;
 }

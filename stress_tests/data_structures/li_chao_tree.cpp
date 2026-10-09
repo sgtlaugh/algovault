@@ -171,5 +171,15 @@ int main(){
         for (long long x : {-E9, -E9 + 1, -1LL, 0LL, 1LL, E9 - 1, E9}) assert(tree.query(x) == brute_query<false>(segments, x));
     }
 
+    /// Fractional slopes, every other test uses long long
+    LiChaoTree<double> real(0, 10);
+    real.add_line(0.5, 0.25), real.add_line(-0.5, 4.0);
+    assert(abs(real.query(3) - 1.75) < 1e-9 && abs(real.query(10) + 1.0) < 1e-9);
+
+    /// Splitting a negative range with a truncating (l + r) / 2 breaks this case, random tests hit it about once in 1e5
+    LiChaoTree<long long> negative(-26, 13);
+    for (auto [k, b] : vector<pair<long long, long long>>{{-4, -16}, {1, -16}, {-6, -12}, {6, 4}, {-1, 10}}) negative.add_line(k, b);
+    assert(negative.query(-1) == -17);
+
     return 0;
 }
