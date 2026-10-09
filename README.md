@@ -33,13 +33,12 @@ The header at the top of each file lists its API, complexity and limits.
 
 - [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving
 - [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - union by size with path compression, rollback, weighted and persistent variants
-- [Disjoint Sparse Table](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` static range queries for any associative operation
 - [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct gcd/or/and of subarrays ending at each index, `O(log A)`
 - [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point/range update with point/range query, `O(log n)` lower bound on prefix sums
-- [Fenwick Tree 2D](code_library/data_structures/fenwick_tree_2D.cpp) - point/range update with point/range query on a grid
-- [Fenwick Tree 2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - huge grids, columns as on-demand segment trees
-- [Fenwick Tree 2D, Sparse](code_library/data_structures/fenwick_tree_2D_sparse.cpp) - grids up to 1e9 x 1e9 with sparse updates, hashed
-- [Fenwick Tree 3D](code_library/data_structures/fenwick_tree_3D.cpp) - point/range update with point/range query in 3D
+  - [2D](code_library/data_structures/fenwick_tree_2D.cpp) - the same on a grid
+  - [2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - huge grids, columns as on-demand segment trees
+  - [2D, Sparse](code_library/data_structures/fenwick_tree_2D_sparse.cpp) - grids up to 1e9 x 1e9 with sparse updates, hashed
+  - [3D](code_library/data_structures/fenwick_tree_3D.cpp) - the same in 3D
 - [Hash Map](code_library/data_structures/hashmap.cpp) - anti-hack hash map with expected `O(1)` operations
 - [Interval Set](code_library/data_structures/interval_set.cpp) - disjoint half-open intervals with merging add, splitting remove and coverage queries
 - [Leftist Heap, Persistent](code_library/data_structures/leftist_heap.cpp) - meldable priority queue with `O(log n)` push/pop/meld, persistent
@@ -50,18 +49,19 @@ The header at the top of each file lists its API, complexity and limits.
 - [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller element on each side, largest histogram rectangle
 - [Ordered Set](code_library/data_structures/ordered_set.cpp) - GNU policy-based set and multiset with order statistics
 - [Permutation Tree](code_library/data_structures/permutation_tree.cpp) - `O(n log n)` decomposition into common intervals, counts all of them
-- [Persistent Segment Tree](code_library/data_structures/persistent_segment_tree.cpp) - versioned updates, range queries, k-th smallest and k-th on version diffs
 - [Rope](code_library/data_structures/rope.cpp) - persistent text, every edit makes a new readable version
 - [Segment Tree](code_library/data_structures/segment_tree.cpp) - lazy propagation, customizable merge and update, max_right / min_left descent
-- [Segment Tree Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin, chmax, add and assign with range sum, min and max queries
-- [Segment Tree Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets as dynamic segment trees with merge, split by key or rank, k-th
+  - [Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin, chmax, add and assign with range sum, min and max queries
+  - [Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets as dynamic segment trees with merge, split by key or rank, k-th
+  - [Persistent](code_library/data_structures/persistent_segment_tree.cpp) - versioned updates, range queries, k-th smallest and k-th on version diffs
+  - [XOR](code_library/data_structures/xor_segment_tree.cpp) - range sum of `a[p ^ x]` over `[l, r]` for any x, with point add
 - [Sliding Window Aggregation](code_library/data_structures/sliding_window_aggregation.cpp) - fold under any associative operation and a monotonic min/max queue
 - [Sparse Table](code_library/data_structures/sparse_table.cpp) - `O(1)` static range min, plus an `O(n)` build variant
-- [Sparse Table 2D](code_library/data_structures/sparse_table_2D.cpp) - `O(1)` static rectangle min or max on a grid
+  - [2D](code_library/data_structures/sparse_table_2D.cpp) - `O(1)` static rectangle min or max on a grid
+  - [Disjoint](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` static range queries for any associative operation
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
 - [Treap](code_library/data_structures/treap.cpp) - ordered multiset and implicit-key sequence with reversals
 - [Trie](code_library/data_structures/trie.cpp) - prefix tree with pass-through and end counts, and a binary trie for xor queries
-- [XOR Segment Tree](code_library/data_structures/xor_segment_tree.cpp) - range sum of `a[p ^ x]` over `[l, r]` for any x, with point add
 
 ### Trees
 
@@ -202,9 +202,9 @@ The header at the top of each file lists its API, complexity and limits.
 - [Determinant](code_library/linear_algebra/determinant.cpp) - integer determinant modulo any m or exact, Kirchhoff and Tutte tree counts
 - [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
 - [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and matrix inverse over the reals
-- [Gauss, Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - linear systems whose equations touch nearby variables only
-- [Gauss, Bitset](code_library/linear_algebra/gauss_bitset.cpp) - linear systems, rank and matrix inverse over GF(2)
-- [Gauss, Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - linear systems with kernel basis, rank and matrix inverse modulo a prime
+  - [Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - linear systems whose equations touch nearby variables only
+  - [Bitset](code_library/linear_algebra/gauss_bitset.cpp) - linear systems, rank and matrix inverse over GF(2)
+  - [Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - linear systems with kernel basis, rank and matrix inverse modulo a prime
 - [Matrix](code_library/linear_algebra/matrix.cpp) - modular multiplication and exponentiation
 - [Matrix Permanent](code_library/linear_algebra/permanent.cpp) - Ryser's formula with Gray code, modulo any m or exact, `O(2^n n)`
 - [Maximum XOR Subset](code_library/linear_algebra/max_xor_subset.cpp) - largest xor of any subset via a linear basis
