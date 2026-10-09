@@ -44,9 +44,15 @@ int expo(int a, int b, int mod){
     return res;
 }
 
-/// Note, mod needs to be a prime and equation values should be non-negative
+/// Note, mod needs to be a prime, equation values may be any int and are reduced into [0, mod)
 int gauss(vector<vector<int>> equations, vector<int>& res, int mod){
     int n = equations.size(), m = equations[0].size() - 1;
+    for (auto& e : equations){
+        for (auto& v : e){
+            v %= mod;
+            if (v < 0) v += mod;
+        }
+    }
 
     int i, j, k, l, p, x, inv, f_var = 0;
     const long long modsq = (long long)mod * mod;
@@ -64,10 +70,10 @@ int gauss(vector<vector<int>> equations, vector<int>& res, int mod){
             for (l = j; l <= m; l++) swap(equations[p][l], equations[i][l]);
 
             inv = expo(equations[i][j], mod - 2, mod);
-            for (k = 0; k < n && inv; k++){
+            for (k = 0; k < n; k++){
                 if (k != i && equations[k][j]){
                     x = (long long)equations[k][j] * inv % mod;
-                    for (l = j; l <= m && x; l++){
+                    for (l = j; l <= m; l++){
                         if (equations[i][l]){
                             equations[k][l] = (modsq + equations[k][l] - (long long)equations[i][l] * x) % mod;
                         }
@@ -125,6 +131,10 @@ int main(){
     equations = {{2, 1, 6, 1}, {4, 6, 2, 3}, {4, 2, 5, 3}};
     f_var = gauss(equations, res, mod);
     assert(f_var == -1); /// no solution exists
+
+    equations = {{-5, -13}};  /// 2x = 1 (mod 7)
+    f_var = gauss(equations, res, mod);
+    assert(f_var == 0 && res[0] == 4);
 
     return 0;
 }
