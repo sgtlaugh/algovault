@@ -14,10 +14,15 @@ unsigned long long gray_code(unsigned long long x){
     return x ^ (x >> 1);
 }
 
+/// Prefix xor of all higher bits by doubling, 6 steps instead of one per bit
 unsigned long long inverse_gray_code(unsigned long long x){
-    unsigned long long inv = 0;
-    for (inv = 0; x; x >>= 1) inv ^= x;
-    return inv;
+    x ^= x >> 1;
+    x ^= x >> 2;
+    x ^= x >> 4;
+    x ^= x >> 8;
+    x ^= x >> 16;
+    x ^= x >> 32;
+    return x;
 }
 
 int main(){
