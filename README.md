@@ -69,6 +69,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Hopcroft Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, O(m sqrt(n))
 - [Hungarian Algorithm](code_library/graphs/hungarian_algorithm.cpp) - minimum cost assignment, O(min(n, m)^2 max(n, m))
 - [Johnson's Algorithm](code_library/graphs/johnsons_algorithm.cpp) - all-pairs shortest paths with negative edges
+- [Manhattan MST](code_library/graphs/manhattan_mst.cpp) - minimum spanning tree of points under L1 distance via octant sweeps, O(n log n)
 - [Maximum Flow](code_library/graphs/maxflow.cpp) - Dinic, with node capacities and a dense variant
 - [Min Cost Max Flow, Dijkstra](code_library/graphs/mcmf_dijkstra.cpp) - successive shortest paths with potentials, the default
 - [Min Cost Max Flow, SPFA](code_library/graphs/mcmf_spfa.cpp) - successive shortest paths with SPFA
