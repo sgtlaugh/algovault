@@ -11,8 +11,13 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
   - Include `../common.h` and the library with `#define main library_main`
   - Draw randomness through `stress::rand_int` and scale loops with `stress::scaled`, so `STRESS_SEED` and `STRESS_SCALE` reproduce and lengthen runs
   - Keep the default run to a few seconds under sanitizers
+- **Python templates** go under `code_library/python/`, with tests under `stress_tests/python/` that start with `from stress import rng, scaled`
+- **An 8 MB stack.** CI runs tests with `ulimit -s 8192`, as many judges do, so deep recursion must fit or be iterative
+- **Exceptions are explicit.** A file that truly cannot be stress tested in CI goes in `STRESS_SKIP` in `.github/scripts/run_tests.sh`, with the reason
 - **An entry in the README index.** In its section, alphabetically
 - **Comments explain why.** Constraints, tradeoffs and pitfalls, never what the code already says
+- **A struct when there is state**, such as a graph, tree or table; a namespace only for stateless functions that share helpers, like `fft` or `ntt`
+- **Four spaces, no tabs**
 
 ## Running the checks
 
@@ -45,19 +50,23 @@ Flat is preferred over nested
 
 Typing is better than incomprehensible macros
 
+Correct is better than fast
+
 Because readability counts
 
 But not as much as speed
 
-Some documentation is better than no documentation
+Untested is broken, and a brute force is the best reviewer
 
-No documentation is better than extensive documentation
+Warnings are errors
 
-But not as important as ease of reusing as a black box
+Measure, don't guess
 
-Four spaces are better than tabs
+Document the contract, not the code
 
-Tabs are better than no spaces
+A black box needs its limits written down
+
+Comments say why, the code already says what
 
 If the implementation is hard to explain, it's a bad idea
 
