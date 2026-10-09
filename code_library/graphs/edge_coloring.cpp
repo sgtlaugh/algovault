@@ -167,87 +167,18 @@ struct VizingEdgeColoring{
 };
 
 int main(){
-    auto is_proper = [](int n, const vector<array<int, 2>>& edges, const vector<int>& color, int num_colors){
-        if (color.size() != edges.size()) return false;
-        set<pair<int, int>> used;
-        for (int i = 0; i < (int)edges.size(); i++){
-            if (color[i] < 0 || color[i] >= num_colors) return false;
-            for (int x : edges[i]){
-                if (x < 0 || x >= n || !used.insert({x, color[i]}).second) return false;
-            }
-        }
-        return true;
-    };
-
-    vector<array<int, 2>> k33;
-    BipartiteEdgeColoring full(3, 3);
-    for (int u = 0; u < 3; u++){
-        for (int v = 0; v < 3; v++) full.add_edge(u, v), k33.push_back({u, 3 + v});
-    }
-    assert(is_proper(6, k33, full.solve(), 3));
-
     BipartiteEdgeColoring path(2, 2);
     path.add_edge(0, 0), path.add_edge(1, 0), path.add_edge(1, 1);
-    vector<int> path_color = path.solve();
-    assert(path_color[0] != path_color[1] && path_color[1] != path_color[2] && path_color[0] == path_color[2]);
-    assert(path_color[0] < 2 && path_color[1] < 2);
+    vector<int> color = path.solve();
+    assert(color[0] != color[1]);   /// both touch right vertex 0
+    assert(color[1] != color[2]);   /// both touch left vertex 1
+    assert(color[0] == color[2]);   /// max degree 2, so only colors 0 and 1 exist
 
-    BipartiteEdgeColoring parallel(1, 1);
-    for (int i = 0; i < 3; i++) parallel.add_edge(0, 0);
-    vector<int> parallel_color = parallel.solve();
-    sort(parallel_color.begin(), parallel_color.end());
-    assert((parallel_color == vector<int>{0, 1, 2}));
-
-    BipartiteEdgeColoring grow(2, 2);
-    grow.add_edge(0, 0), grow.add_edge(1, 1);
-    assert((grow.solve() == vector<int>{0, 0}));
-    grow.add_edge(0, 1);
-    assert(is_proper(4, {{0, 2}, {1, 3}, {0, 3}}, grow.solve(), 2));
-
-    assert(BipartiteEdgeColoring(0, 0).solve().empty());
-    assert(BipartiteEdgeColoring(4, 2).solve().empty());
-
+    /// A triangle needs D + 1 = 3 colors, the most Vizing ever uses
     VizingEdgeColoring triangle(3);
     triangle.add_edge(0, 1), triangle.add_edge(1, 2), triangle.add_edge(2, 0);
-    vector<int> triangle_color = triangle.solve();
-    sort(triangle_color.begin(), triangle_color.end());
-    assert((triangle_color == vector<int>{0, 1, 2}));
-
-    vector<array<int, 2>> petersen;
-    for (int i = 0; i < 5; i++){
-        petersen.push_back({i, (i + 1) % 5});
-        petersen.push_back({i, i + 5});
-        petersen.push_back({i + 5, (i + 2) % 5 + 5});
-    }
-    VizingEdgeColoring snark(10);
-    for (auto& e : petersen) snark.add_edge(e[0], e[1]);
-    vector<int> petersen_color = snark.solve();
-    assert(is_proper(10, petersen, petersen_color, 4));
-    assert(*max_element(petersen_color.begin(), petersen_color.end()) == 3);
-
-    vector<array<int, 2>> k4;
-    VizingEdgeColoring clique(4);
-    for (int u = 0; u < 4; u++){
-        for (int v = u + 1; v < 4; v++) clique.add_edge(u, v), k4.push_back({u, v});
-    }
-    assert(is_proper(4, k4, clique.solve(), 4));
-
-    VizingEdgeColoring star(5);
-    for (int v = 1; v < 5; v++) star.add_edge(0, v);
-    assert(is_proper(5, {{0, 1}, {0, 2}, {0, 3}, {0, 4}}, star.solve(), 5));
-
-    VizingEdgeColoring regrow(4);
-    regrow.add_edge(0, 1);
-    assert((regrow.solve() == vector<int>{0}));
-    regrow.add_edge(1, 2), regrow.add_edge(2, 0), regrow.add_edge(0, 3);
-    assert(is_proper(4, {{0, 1}, {1, 2}, {2, 0}, {0, 3}}, regrow.solve(), 4));
-
-    VizingEdgeColoring single(2);
-    single.add_edge(1, 0);
-    assert(is_proper(2, {{1, 0}}, single.solve(), 2));
-
-    assert(VizingEdgeColoring(0).solve().empty());
-    assert(VizingEdgeColoring(6).solve().empty());
-
+    color = triangle.solve();
+    sort(color.begin(), color.end());
+    assert((color == vector<int>{0, 1, 2}));
     return 0;
 }

@@ -173,5 +173,22 @@ int main(){
         if (n % 2 == 1 && n > 1) assert(used == n);
     }
 
+    /// solve() after every add_edge: each call must color the grown graph, empty graphs included
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(2, 8);
+        vector<array<int, 2>> edges = random_simple(n, stress::rand_int(0, 28)), seen, shifted;
+        BipartiteEdgeColoring bipartite(n, n);
+        VizingEdgeColoring vizing(n);
+        check(2 * n, shifted, bipartite.solve(), 0);
+        check(n, seen, vizing.solve(), 1);
+        for (auto& e : edges){
+            bipartite.add_edge(e[0], e[1]), vizing.add_edge(e[0], e[1]);
+            seen.push_back(e), shifted.push_back({e[0], n + e[1]});
+            int d = max_degree(2 * n, shifted);
+            assert(check(2 * n, shifted, bipartite.solve(), d) == d);
+            check(n, seen, vizing.solve(), max_degree(n, seen) + 1);
+        }
+    }
+
     return 0;
 }
