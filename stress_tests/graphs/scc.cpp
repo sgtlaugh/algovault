@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/scc.cpp"
+#include "../../code_library/graphs/scc.cpp"
 #undef main
 
 /// Same component iff mutually reachable, components numbered along edges, condensation is the exact DAG

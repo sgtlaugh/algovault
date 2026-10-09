@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/steiner_tree.cpp"
+#include "../../code_library/graphs/steiner_tree.cpp"
 #undef main
 
 /// Minimum over vertex subsets containing every terminal of the MST of the induced subgraph, when connected

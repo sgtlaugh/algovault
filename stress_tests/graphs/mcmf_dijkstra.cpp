@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/mcmf_dijkstra.cpp"
+#include "../../code_library/graphs/mcmf_dijkstra.cpp"
 #undef main
 
 /// Successive shortest paths with a full Bellman Ford each round, no potentials

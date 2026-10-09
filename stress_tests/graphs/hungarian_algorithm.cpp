@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/hungarian_algorithm.cpp"
+#include "../../code_library/graphs/hungarian_algorithm.cpp"
 #undef main
 
 /// Best sum over every way to give each row of the smaller side a distinct column

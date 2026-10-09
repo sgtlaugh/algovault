@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/hopcroft_karp.cpp"
+#include "../../code_library/graphs/hopcroft_karp.cpp"
 #undef main
 
 /// The original Library implementation, unchanged, as a second reference

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/johnsons_algorithm.cpp"
+#include "../../code_library/graphs/johnsons_algorithm.cpp"
 #undef main
 
 /// Floyd Warshall with explicit unreachable markers, negative cycle iff some vertex reaches itself below zero

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/2SAT_kosaraju.cpp"
+#include "../../code_library/graphs/2SAT_kosaraju.cpp"
 #undef main
 
 /// Random mixes of every constraint type against exhaustive search over all 2^n assignments,

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/directed_mst.cpp"
+#include "../../code_library/graphs/directed_mst.cpp"
 #undef main
 
 /// Every choice of one incoming edge per non-root node, kept when all parent chains reach the root

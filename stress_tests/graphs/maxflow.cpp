@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/maxflow.cpp"
+#include "../../code_library/graphs/maxflow.cpp"
 #undef main
 
 struct Arc{ int u, v; long long cap; };

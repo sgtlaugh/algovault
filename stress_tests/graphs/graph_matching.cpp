@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/graph_matching.cpp"
+#include "../../code_library/graphs/graph_matching.cpp"
 #undef main
 
 /// Maximum matching by always deciding the lowest unmatched node: skip it or pair it with a neighbour

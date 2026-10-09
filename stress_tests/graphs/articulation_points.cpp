@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/articulation_points.cpp"
+#include "../../code_library/graphs/articulation_points.cpp"
 #undef main
 
 int components(int n, const vector<pair<int, int>>& edges, int removed){

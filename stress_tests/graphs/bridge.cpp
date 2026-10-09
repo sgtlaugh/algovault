@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/bridge.cpp"
+#include "../../code_library/graphs/bridge.cpp"
 #undef main
 
 /// Component label of every node using all edges except the skipped edge indices

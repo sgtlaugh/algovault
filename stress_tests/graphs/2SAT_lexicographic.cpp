@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/2SAT_lexicographic.cpp"
+#include "../../code_library/graphs/2SAT_lexicographic.cpp"
 #undef main
 
 typedef pair<int, int> Clause;  /// a or b, a == b forces a single literal

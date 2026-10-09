@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/minimum_spanning_tree.cpp"
+#include "../../code_library/graphs/minimum_spanning_tree.cpp"
 #undef main
 
 /// Prim's algorithm on an adjacency matrix, run from every unvisited vertex so it covers each component

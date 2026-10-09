@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/minimum_path_cover.cpp"
+#include "../../code_library/graphs/minimum_path_cover.cpp"
 #undef main
 
 /// Maximum bipartite matching by DP over subsets of used right vertices

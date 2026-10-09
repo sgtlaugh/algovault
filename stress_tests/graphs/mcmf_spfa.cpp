@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/mcmf_spfa.cpp"
+#include "../../code_library/graphs/mcmf_spfa.cpp"
 #undef main
 
 struct Arc{ int u, v, id; long long cap, cost; };
