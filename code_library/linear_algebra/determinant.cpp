@@ -124,73 +124,24 @@ struct Arborescences{
 
 int main(){
     assert(determinant({{1, 2}, {3, 4}}) == -2);
-    assert(determinant({{2, 0, 0}, {0, 3, 0}, {0, 0, 5}}) == 30);
-    assert(determinant({{0, 1}, {1, 0}}) == -1);
-    assert(determinant({{1, 2}, {2, 4}}) == 0);
     assert(determinant({{6, 1, 1}, {4, -2, 5}, {2, 8, 7}}) == -306);
-    assert(determinant({}) == 1);
-    assert(determinant({{-7}}) == -7);
+    assert(determinant_mod({{1, 2}, {3, 4}}, 7) == 5);  /// -2 mod 7
+    assert(determinant_mod({{2, 1}, {1, 3}}, 6) == 5);  /// composite modulus, 2 and 3 have no inverse mod 6
 
-    assert(determinant_mod({{1, 2}, {3, 4}}, 7) == 5);
-    assert(determinant_mod({{2, 1}, {1, 3}}, 6) == 5);
-    assert(determinant_mod({{2, 0}, {0, 3}}, 6) == 0);
-    assert(determinant_mod({{4, 1}, {1, 4}}, 1) == 0);
-    assert(determinant_mod({}, 10) == 1);
+    const long long MOD = 998244353;
+    SpanningTrees k4(4);
+    for (int u = 0; u < 4; u++){
+        for (int v = u + 1; v < 4; v++) k4.add_edge(u, v);
+    }
+    assert(k4.count(MOD) == 16);  /// Cayley, 4^(4 - 2)
 
-    const long long HALF = 2258704744122758558LL;
-    assert(determinant({{HALF}}) == HALF);
-    assert(determinant({{-HALF}}) == -HALF);
-    assert(determinant({{1000000000, 0}, {0, 1000000000}}) == 1000000000000000000LL);
-
-    const long long BIG = (1LL << 62) - 1;
-    auto complete = [](int n){
-        SpanningTrees g(n);
-        for (int u = 0; u < n; u++){
-            for (int v = u + 1; v < n; v++) g.add_edge(u, v);
-        }
-        return g;
-    };
-    assert(complete(4).count(BIG) == 16);
-    assert(complete(5).count(BIG) == 125);
-    assert(complete(6).count(1000) == 296);
-    assert(complete(20).count(998244353) == 826614133);
-    assert(complete(1).count(BIG) == 1);
-    assert(complete(1).count(1) == 0);
-
-    SpanningTrees cycle(5), forest(4), multi(2), bipartite(5), petersen(10);
-    for (int i = 0; i < 5; i++) cycle.add_edge(i, (i + 1) % 5);
-    assert(cycle.count(BIG) == 5);
+    SpanningTrees forest(4);
     forest.add_edge(0, 1), forest.add_edge(2, 3);
-    assert(forest.count(BIG) == 0);
-    multi.add_edge(0, 1), multi.add_edge(1, 0), multi.add_edge(0, 1), multi.add_edge(1, 1);
-    assert(multi.count(BIG) == 3);
-    for (int u = 0; u < 2; u++){
-        for (int v = 2; v < 5; v++) bipartite.add_edge(u, v);
-    }
-    assert(bipartite.count(BIG) == 12);
-    for (int i = 0; i < 5; i++){
-        petersen.add_edge(i, (i + 1) % 5);
-        petersen.add_edge(i, i + 5);
-        petersen.add_edge(i + 5, (i + 2) % 5 + 5);
-    }
-    assert(petersen.count(BIG) == 2000);
+    assert(forest.count(MOD) == 0);  /// disconnected
 
-    Arborescences path(3), ring(3), dag(4), full(4), lone(1);
+    Arborescences path(3);
     path.add_edge(0, 1), path.add_edge(1, 2);
-    assert(path.count(0, BIG) == 1 && path.count(1, BIG) == 0 && path.count(2, BIG) == 0);
-    ring.add_edge(0, 1), ring.add_edge(1, 2), ring.add_edge(2, 0), ring.add_edge(1, 1);
-    assert(ring.count(0, BIG) == 1 && ring.count(1, BIG) == 1 && ring.count(2, BIG) == 1);
-    for (int u = 0; u < 4; u++){
-        for (int v = u + 1; v < 4; v++) dag.add_edge(u, v);
-    }
-    assert(dag.count(0, BIG) == 6 && dag.count(3, BIG) == 0);
-    for (int u = 0; u < 4; u++){
-        for (int v = 0; v < 4; v++){
-            if (u != v) full.add_edge(u, v);
-        }
-    }
-    assert(full.count(2, BIG) == 16 && full.count(2, 7) == 2);
-    assert(lone.count(0, BIG) == 1);
-
+    assert(path.count(0, MOD) == 1);
+    assert(path.count(2, MOD) == 0);  /// edges must point away from the root
     return 0;
 }

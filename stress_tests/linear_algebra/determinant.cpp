@@ -237,6 +237,18 @@ int main(){
         assert(determinant({{v, 0}, {0, 1}}) == v && determinant({{0, v}, {1, 0}}) == -v);
     }
 
+    /// Entries across the whole long long range, 2 x 2 keeps the Laplace products inside __int128
+    assert(determinant_mod({{LLONG_MIN, 1}, {-1, 1}}, 7) == reduce((__int128)LLONG_MIN + 1, 7));
+    for (long long it = 0; it < stress::scaled(2000); it++){
+        int n = stress::rand_int(1, 2);
+        vector<vector<long long>> a(n, vector<long long>(n));
+        for (auto& row : a){
+            for (auto& x : row) x = stress::rand_int(LLONG_MIN, LLONG_MAX);
+        }
+        long long m = pick_modulus(it);
+        assert(determinant_mod(a, m) == reduce(laplace(a), m));
+    }
+
     stress_matrix_tree();
 
     return 0;
