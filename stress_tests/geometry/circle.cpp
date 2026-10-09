@@ -323,7 +323,7 @@ void check_circle_intersections(){
             assert(close(dist(p, ca), sa, max(sa, sb)));
             assert(close(dist(p, cb), sb, max(sa, sb)));
         }
-        if (expected == 2) assert(dist(res[0], res[1]) > 0);
+        if (expected == 2) assert(dist(res[0], res[1]) > 0 && (cb - ca).cross(res[0] - ca) > 0);  /// left of a -> b first
     }
 }
 
@@ -352,7 +352,7 @@ void check_point_tangents(){
             assert(close((t - c).dot(t - p), 0, sr * sqrtl(d2) * unit));
         }
         if (expected == 1) assert(dist(res[0], p) == 0);
-        if (expected == 2) assert(dist(res[0], res[1]) > 1e-9L * sr);
+        if (expected == 2) assert(dist(res[0], res[1]) > 1e-9L * sr && (p - c).cross(res[0] - c) > 0);  /// left of center -> p first
     }
 }
 

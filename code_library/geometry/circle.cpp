@@ -286,83 +286,35 @@ int main(){
     auto near = [](const Point& p, Float x, Float y){ return fabsl(p.x - x) < 1e-9 && fabsl(p.y - y) < 1e-9; };
 
     vector<Point> pts = circle_line_intersection({{0, 0}, 5}, {-10, 3}, {10, 3});
-    assert(pts.size() == 2 && near(pts[0], -4, 3) && near(pts[1], 4, 3));
-    pts = circle_line_intersection({{0, 0}, 5}, {10, 5}, {-10, 5});
-    assert(pts.size() == 1 && near(pts[0], 0, 5));
-    assert(circle_line_intersection({{0, 0}, 5}, {0, 6}, {1, 6}).empty());
-    pts = circle_line_intersection({{1, 1}, 0}, {0, 0}, {2, 2});
-    assert(pts.size() == 1 && near(pts[0], 1, 1));
-    assert(circle_line_intersection({{1, 2}, 0}, {0, 0}, {2, 2}).empty());
+    assert(near(pts[0], -4, 3) && near(pts[1], 4, 3));         /// ordered from a towards b
+    assert(circle_line_intersection({{0, 0}, 5}, {10, 5}, {-10, 5}).size() == 1);  /// tangent at (0, 5)
 
     pts = circle_circle_intersection({{0, 0}, 5}, {{8, 0}, 5});
-    assert(pts.size() == 2 && near(pts[0], 4, 3) && near(pts[1], 4, -3));
-    pts = circle_circle_intersection({{0, 0}, 2}, {{5, 0}, 3});
-    assert(pts.size() == 1 && near(pts[0], 2, 0));
-    pts = circle_circle_intersection({{0, 0}, 5}, {{2, 0}, 3});
-    assert(pts.size() == 1 && near(pts[0], 5, 0));
-    assert(circle_circle_intersection({{0, 0}, 5}, {{0, 0}, 5}).empty());
-    assert(circle_circle_intersection({{0, 0}, 5}, {{1, 0}, 1}).empty());
-    assert(circle_circle_intersection({{0, 0}, 1}, {{3, 0}, 1}).empty());
+    assert(near(pts[0], 4, 3) && near(pts[1], 4, -3));
 
     pts = tangents_from_point({{0, 0}, 3}, {5, 0});
-    assert(pts.size() == 2 && near(pts[0], 1.8, 2.4) && near(pts[1], 1.8, -2.4));
-    pts = tangents_from_point({{0, 0}, 3}, {3, 0});
-    assert(pts.size() == 1 && near(pts[0], 3, 0));
-    assert(tangents_from_point({{0, 0}, 3}, {1, 1}).empty());
+    assert(near(pts[0], 1.8, 2.4) && near(pts[1], 1.8, -2.4));
+    assert(tangents_from_point({{0, 0}, 3}, {1, 1}).empty());  /// p is inside
 
     auto tangents = common_tangents({{0, 0}, 1}, {{4, 0}, 1});
-    Float h = sqrtl(3) / 2;
-    assert(tangents.size() == 4);
-    assert(near(tangents[0].first, 0, 1) && near(tangents[0].second, 4, 1));
-    assert(near(tangents[1].first, 0, -1) && near(tangents[1].second, 4, -1));
-    assert(near(tangents[2].first, 0.5, h) && near(tangents[2].second, 3.5, -h));
-    assert(near(tangents[3].first, 0.5, -h) && near(tangents[3].second, 3.5, h));
-    tangents = common_tangents({{0, 0}, 1}, {{2, 0}, 1});
-    assert(tangents.size() == 3 && near(tangents[2].first, 1, 0) && near(tangents[2].second, 1, 0));
-    tangents = common_tangents({{0, 0}, 2}, {{1, 0}, 1});
-    assert(tangents.size() == 1 && near(tangents[0].first, 2, 0) && near(tangents[0].second, 2, 0));
-    assert(common_tangents({{0, 0}, 2}, {{1, 0}, 2}).size() == 2);
-    assert(common_tangents({{0, 0}, 5}, {{1, 0}, 1}).empty());
-    assert(common_tangents({{3, 4}, 2}, {{3, 4}, 2}).empty());
+    assert(tangents.size() == 4);                              /// apart: 2 outer and 2 inner
+    assert(near(tangents[0].first, 0, 1) && near(tangents[0].second, 4, 1));  /// outer ones first
 
     Circle c = circumcircle({0, 0}, {4, 0}, {0, 3});
-    assert(near(c.center, 2, 1.5) && fabsl(c.r - 2.5) < 1e-9);
+    assert(near(c.center, 2, 1.5) && fabsl(c.r - 2.5) < 1e-9);  /// the hypotenuse is a diameter
 
-    c = minimum_enclosing_circle({{0, 0}, {2, 0}, {0, 2}, {2, 2}, {1, 1}, {2, 2}});
+    c = minimum_enclosing_circle({{0, 0}, {2, 0}, {0, 2}, {2, 2}, {1, 1}});
     assert(near(c.center, 1, 1) && fabsl(c.r - sqrtl(2)) < 1e-9);
-    c = minimum_enclosing_circle({{0, 0}, {10, 0}, {5, 1}});
-    assert(near(c.center, 5, 0) && fabsl(c.r - 5) < 1e-9);
-    c = minimum_enclosing_circle({{0, 0}, {4, 0}, {0, 3}, {1, 1}});
-    assert(near(c.center, 2, 1.5) && fabsl(c.r - 2.5) < 1e-9);
-    c = minimum_enclosing_circle({{7, -3}, {7, -3}});
-    assert(near(c.center, 7, -3) && c.r == 0);
 
     vector<Point> square = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
-    assert(fabsl(circle_polygon_area({{0, 0}, 1}, square) - PI) < 1e-9);
-    assert(fabsl(circle_polygon_area({{0, 0}, sqrtl(2)}, square) - 4) < 1e-9);
-    assert(fabsl(circle_polygon_area({{0, 0}, 1}, {{0, 0}, {0, 1}, {1, 1}, {1, 0}}) - PI / 4) < 1e-9);
-    assert(fabsl(circle_polygon_area({{0, 0}, 1}, {{-2, 0}, {2, 0}, {2, 2}, {-2, 2}}) - PI / 2) < 1e-9);
-    assert(fabsl(circle_polygon_area({{1, 1}, 1}, {{0, 0}, {2, 0}, {0, 2}}) - PI / 2) < 1e-9);
-    assert(circle_polygon_area({{10, 10}, 1}, square) < 1e-9);
+    assert(fabsl(circle_polygon_area({{0, 0}, 1}, square) - PI) < 1e-9);  /// the circle fits inside
 
-    assert(fabsl(circle_circle_area({{0, 0}, 5}, {{4, 0}, 7}) - 62.692413539573) < 1e-9);
-    assert(fabsl(circle_circle_area({{0, 0}, 1}, {{1, 0}, 1}) - (2 * PI / 3 - sqrtl(3) / 2)) < 1e-9);
-    assert(circle_circle_area({{0, 0}, 5}, {{10, 0}, 5}) == 0);
-    assert(fabsl(circle_circle_area({{0, 0}, 5}, {{0, 0}, 10}) - 25 * PI) < 1e-9);
-    assert(fabsl(circle_circle_area({{0, 0}, 10}, {{0, 0}, 5}) - 25 * PI) < 1e-9);
+    Float lens = 2 * PI / 3 - sqrtl(3) / 2;                    /// unit circles one radius apart
+    assert(fabsl(circle_circle_area({{0, 0}, 1}, {{1, 0}, 1}) - lens) < 1e-9);
+    assert(fabsl(circle_union_area({{{0, 0}, 1}, {{1, 0}, 1}}) - (2 * PI - lens)) < 1e-9);
 
-    assert(fabsl(circle_union_area({{{0, 0}, 1}, {{1, 0}, 1}}) - (2 * PI - (2 * PI / 3 - sqrtl(3) / 2))) < 1e-9);
-    assert(fabsl(circle_union_area({{{0, 0}, 1}, {{5, 5}, 2}}) - 5 * PI) < 1e-9);
-    assert(fabsl(circle_union_area({{{2, 3}, 4}, {{2, 3}, 4}, {{3, 3}, 1}, {{9, 9}, 0}}) - 16 * PI) < 1e-9);
-    assert(fabsl(circle_union_area({{{0, 0}, 1}, {{2, 0}, 1}}) - 2 * PI) < 1e-9);
-    assert(circle_union_area({}) == 0);
-
-    auto [covered, at] = max_circle_cover({{0, 0}, {2, 0}, {4, 0}, {10, 10}}, 1);
-    assert(covered == 2 && (near(at, 1, 0) || near(at, 3, 0)));
-    tie(covered, at) = max_circle_cover({{0, 0}, {2, 0}, {4, 0}, {10, 10}}, 2);
-    assert(covered == 3 && near(at, 2, 0));
-    assert(max_circle_cover({{5, 5}, {1, 1}, {5, 5}, {5, 5}}, 0).first == 3);
-    assert(max_circle_cover({}, 3).first == 0);
-
+    auto [covered, at] = max_circle_cover({{0, 0}, {2, 0}, {4, 0}, {10, 10}}, 2);
+    assert(covered == 3);
+    assert(near(at, 2, 0));
     return 0;
 }
