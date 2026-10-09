@@ -32,6 +32,8 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 
 ## Index
 
+[Data Structures](#data-structures) | [Trees](#trees) | [Graphs](#graphs) | [Strings](#strings) | [Number Theory](#number-theory) | [Combinatorics](#combinatorics) | [Algebra](#algebra) | [Linear Algebra](#linear-algebra) | [Geometry](#geometry) | [Dynamic Programming](#dynamic-programming) | [Miscellaneous](#miscellaneous) | [Hacking](#hacking) | [Python](#python)
+
 ### Data Structures
 - [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving
 - [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - path compression and union by size, rollback, weighted (potential) and partially persistent variants
