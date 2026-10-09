@@ -7,7 +7,8 @@
 using Edges = vector<array<long long, 3>>;
 
 /// Enumerates walk prefixes best-first, needs weights >= 1: a zero weight cycle before t would be popped forever
-vector<long long> enumerate_walks(int n, const Edges& edges, int s, int t, int k){
+/// Parallel cheap loops make the prefix count explode, so it gives up (complete = false) after 3e6 pushes
+vector<long long> enumerate_walks(int n, const Edges& edges, int s, int t, int k, bool& complete){
     vector<char> reaches_t(n, 0);
     reaches_t[t] = 1;
     for (int round = 0; round < n; round++){
@@ -17,6 +18,7 @@ vector<long long> enumerate_walks(int n, const Edges& edges, int s, int t, int k
     }
 
     vector<long long> result;
+    complete = true;
     if (!reaches_t[s] || k <= 0) return result;
     priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> prefixes;
     long long pushed = 1;
@@ -28,7 +30,10 @@ vector<long long> enumerate_walks(int n, const Edges& edges, int s, int t, int k
         for (auto [x, v, w] : edges){
             if (x == u && reaches_t[v]) prefixes.push({len + w, (int)v}), pushed++;
         }
-        assert(pushed < 3000000);
+        if (pushed >= 3000000){
+            complete = false;
+            break;
+        }
     }
     return result;
 }
@@ -93,7 +98,9 @@ int main(){
         int n = stress::rand_int(1, 5), m = stress::rand_int(0, 9);
         Edges edges = random_edges(n, m, 1, it % 3 == 0 ? 2 : 5);
         int s = stress::rand_int(0, n - 1), t = stress::rand_int(0, n - 1), k = stress::rand_int(0, 25);
-        assert(run_library(n, edges, s, t, k) == enumerate_walks(n, edges, s, t, k));
+        bool complete;
+        vector<long long> walks = enumerate_walks(n, edges, s, t, k, complete);
+        assert(run_library(n, edges, s, t, k) == (complete ? walks : k_settle_dijkstra(n, edges, s, t, k)));
 
         Edges with_zeros = random_edges(n, m, 0, 2);
         assert(run_library(n, with_zeros, s, t, k) == k_settle_dijkstra(n, with_zeros, s, t, k));
