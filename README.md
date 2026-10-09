@@ -191,6 +191,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region of half-planes clipped to a box, sort and deque, O(n log n)
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
 - [Polygon Union](code_library/geometry/polygon_union.cpp) - area of the union of simple polygons, convex or not, O(N^2 log N)
+- [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of a union of axis-aligned rectangles, segment tree sweep, O(n log n)
 - [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - Shamos-Hoey, finds a pair among n closed segments that share a point, O(n log n), exact __int128 predicates
 
 ### Dynamic Programming
