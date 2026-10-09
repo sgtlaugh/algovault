@@ -146,6 +146,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Big Integer](code_library/algebra/bignum.cpp) - arbitrary precision signed integers
 - [FFT](code_library/algebra/fft.cpp) - polynomial multiplication, exact modular and 64-bit products
 - [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
+- [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - c[k] = sum of a[i] * b[j] over gcd(i, j) = k or lcm(i, j) = k via divisor/multiple zeta and Mobius transforms, O(n log log n)
 - [Lagrange Interpolation](code_library/algebra/lagrange_interpolation.cpp) - value of a polynomial from consecutive samples
 - [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - find a recurrence from terms and compute its n-th term
 - [NTT](code_library/algebra/ntt.cpp) - polynomial multiplication modulo an NTT prime, any modulus, or exact in 64 bits
