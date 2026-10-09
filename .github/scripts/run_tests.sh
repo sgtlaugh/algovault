@@ -3,6 +3,7 @@
 # self (default): compiles and runs every C/C++ self-test in code_library under AddressSanitizer and
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
+# both modes also report library files missing from the README index
 #
 # Reports all failures instead of stopping at the first one.
 #
@@ -122,6 +123,19 @@ check_coverage(){
     failures+=("${missing[@]/%/ (no stress test)}")
 }
 
+check_readme(){
+    local lib missing=()
+    while IFS= read -r lib; do
+        grep -qF "($lib)" README.md || missing+=("$lib")
+    done < <(find code_library -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.py' \) | sort)
+
+    echo "readme index: ${#missing[@]} library files not linked from README.md"
+    [[ ${#missing[@]} -eq 0 ]] && return
+    printf '  missing: %s\n' "${missing[@]}"
+    failed=$((failed + ${#missing[@]}))
+    failures+=("${missing[@]/%/ (not in README index)}")
+}
+
 echo "$("$CXX" --version | head -1) | $("$CC" --version | head -1) | $("$PYTHON" --version)"
 
 cd "$ROOT" || exit 1
@@ -134,6 +148,7 @@ done < <(find "$TESTS_DIR" -type f \( -name '*.c' -o -name '*.cpp' -o -name '*.p
 
 echo
 [[ "$MODE" == "stress" ]] && check_coverage
+check_readme
 echo "passed: $passed  failed: $failed  skipped: $skipped"
 if [[ $failed -gt 0 ]]; then
     printf '  failed: %s\n' "${failures[@]}"
