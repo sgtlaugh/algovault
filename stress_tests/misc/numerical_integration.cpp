@@ -108,13 +108,13 @@ int main(){
         }
     }
 
-    /// R(k, k) is exact up to degree 2k + 1, so on degree <= 9 Romberg stops at its first check (k = 5, 33 evaluations)
+    /// R(k, k) is exact up to degree 2k + 1, so on degree <= 9 Romberg stops at its first check (k = 8, 257 evaluations)
     for (long long it = 0; it < stress::scaled(3000); it++){
         auto c = random_poly(stress::rand_int(0, 9), 5);
         double a = rand_real(-2, 2), b = rand_real(-2, 2);
         long long calls = 0;
         double res = romberg(a, b, [&](double x){ calls++; return poly_eval(c, x); });
-        assert(calls == 33 && abs(res - (poly_antiderivative(c, b) - poly_antiderivative(c, a))) < 1e-9);
+        assert(calls == 257 && abs(res - (poly_antiderivative(c, b) - poly_antiderivative(c, a))) < 1e-9);
     }
 
     for (long long it = 0; it < stress::scaled(3000); it++){
@@ -164,6 +164,36 @@ int main(){
         double a = rand_real(fam.lo, fam.hi), b = rand_real(fam.lo, fam.hi), eps = 1e-6 * fam.abs_bound;
         double exact = fam.antiderivative(b) - fam.antiderivative(a);
         assert(abs(adaptive_simpson(a, b, fam.f, eps) - exact) <= eps / 100);
+    }
+
+    /// c + cos(2 pi p t) over p whole periods reads as constant to samples spaced a whole number of periods apart:
+    /// Romberg's first check (2^8 + 1 samples) and adaptive Simpson's first split (257 samples) both see it for p < 256
+    for (int p = 1; p < 256; p++){
+        double a = rand_real(-3, 3), b = a + rand_real(0.5, 6), c = rand_real(-2, 2), phase = rand_real(0, 7);
+        auto f = [&](double x){ return c + cos(2 * acos(-1.0) * p * (x - a) / (b - a) + phase); };
+        assert(abs(romberg(a, b, f) - c * (b - a)) <= 1e-8);
+        assert(abs(adaptive_simpson(a, b, f) - c * (b - a)) <= 1e-8);
+    }
+
+    /// Integrands that vanish on the whole start grid but are huge between its points: a rounding floor taken from the
+    /// start grid alone is 0 and the panels recurse toward depth 44 (5.7e6 calls at scale 1e6, over 2e8 at 1e8); with
+    /// the floor raised by the panels it costs no more than f shifted off the grid (2.7e5 against 4.9e5 calls, m = 384)
+    for (long long it = 0; it < stress::scaled(300); it++){
+        double scale = pow(10.0, stress::rand_int(0, 14)), exact;
+        long long calls = 0;
+        function<double(double)> f;
+        if (it % 2){
+            double c = rand_real(0.01, 0.99), w = rand_real(0.002, 0.005);
+            f = [=](double x){ double t = (x - c) / w; return abs(t) < 1 ? scale * (1 - t * t) * (1 - t * t) : 0.0; };
+            exact = scale * w * 16 / 15;
+        }
+        else{
+            int m = 128 * (2 * stress::rand_int(0, 1) + 1);
+            f = [=](double x){ double v = sin(m * acos(-1.0) * x); return scale * v * v; };
+            exact = scale / 2;
+        }
+        double res = adaptive_simpson(0, 1, [&](double x){ assert(++calls <= 1000000); return f(x); });
+        assert(abs(res - exact) <= 1e-9 + 1e-12 * exact);
     }
 
     for (long long it = 0; it < stress::scaled(100); it++){
