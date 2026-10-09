@@ -1,14 +1,11 @@
 # Algovault
 
+**Algorithms, data structures and templates for competitive programming**
+
 [![CI](https://github.com/sgtlaugh/algovault/actions/workflows/ci.yml/badge.svg)](https://github.com/sgtlaugh/algovault/actions/workflows/ci.yml)
-[![GitHub stars](https://img.shields.io/github/stars/sgtlaugh/algovault.svg?style=flat&label=star)](https://github.com/sgtlaugh/algovault/)
 [![license](https://img.shields.io/github/license/sgtlaugh/algovault.svg?style=flat)](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
 
-A collection of algorithms, data structures and templates for competitive programming
-
-A black box you can copy easily - simple, fast, and well-tested.
-
-Templates are written in C++17 for GCC, with a few in Python 3 that mostly run on PyPy too, for contests like [Codeforces](https://codeforces.com), [AtCoder](https://atcoder.jp) and ICPC.
+A black box you can copy easily - simple, fast, and well-tested. Templates are C++17 for GCC, with a few in Python 3 that mostly run on PyPy too, for contests like [Codeforces](https://codeforces.com), [AtCoder](https://atcoder.jp) and ICPC.
 
 ## How To Use
 
