@@ -27,5 +27,12 @@ int main(){
         int b = expo(a, k, mod), x = discrete_log(a, b, mod);
         assert(0 <= x && x <= k && expo(a, x, mod) == b);
     }
+
+    /// Baby steps b * 3^i mod 2^30 share their low bits, an identity hash with masked buckets takes 90 s here instead of 1 s
+    auto start = chrono::steady_clock::now();
+    for (int shift = 11; shift <= 14; shift++){
+        for (int odd = 5; odd <= 13; odd += 2) assert(discrete_log(3, odd << shift, 1 << 30) == -1);
+    }
+    assert(chrono::steady_clock::now() - start < chrono::seconds(10));
     return 0;
 }
