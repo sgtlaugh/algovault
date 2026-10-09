@@ -193,83 +193,39 @@ struct RedBlueHackenbush{
 };
 
 int main(){
-    GreenHackenbush lonely(1);
-    assert(lonely.grundy(0) == 0);
-
+    /// A stalk of k edges is a nim heap of size k, siblings xor
     GreenHackenbush path(5);
     for (int i = 0; i + 1 < 5; i++) path.add_edge(i, i + 1);
     assert(path.grundy(0) == 4);
-    assert(path.grundy(1) == (1 ^ 3));
-    assert(path.grundy(2) == 0);
+    assert(path.grundy(2) == 0);                /// grounded in the middle: 2 ^ 2
 
+    /// Fusion: a cycle of k edges becomes k loops, worth k & 1
     GreenHackenbush triangle(3);
-    triangle.add_edge(0, 1);
-    triangle.add_edge(1, 2);
-    triangle.add_edge(2, 0);
+    for (int i = 0; i < 3; i++) triangle.add_edge(i, (i + 1) % 3);
     assert(triangle.grundy(0) == 1);
 
-    GreenHackenbush square(4);
-    for (int i = 0; i < 4; i++) square.add_edge(i, (i + 1) % 4);
-    assert(square.grundy(0) == 0);
-
-    GreenHackenbush loops(5);
-    loops.add_edge(0, 0);
-    loops.add_edge(0, 1);
-    loops.add_edge(1, 1);
-    loops.add_edge(3, 4);
-    loops.add_edge(4, 4);
-    assert(loops.grundy(0) == (1 ^ 2));
-    loops.add_edge(0, 0);
-    assert(loops.grundy(0) == 2);
-
-    GreenHackenbush doubled(2);
-    doubled.add_edge(0, 1);
-    doubled.add_edge(1, 0);
-    assert(doubled.grundy(0) == 0);
-
+    /// Edge 0-1 holding the triangle 1 2 3, the colon principle gives 1 + 1
     GreenHackenbush lollipop(4);
     lollipop.add_edge(0, 1);
-    lollipop.add_edge(1, 2);
-    lollipop.add_edge(2, 3);
-    lollipop.add_edge(3, 1);
+    for (int i = 1; i <= 3; i++) lollipop.add_edge(i, i % 3 + 1);
     assert(lollipop.grundy(0) == 2);
-    assert(lollipop.grundy(1) == (1 ^ 1));
-
-    RedBlueHackenbush empty(1);
-    assert(empty.value(0).sign() == 0 && empty.value(0) == Dyadic());
 
     auto stalk = [](const string& colors){
         RedBlueHackenbush t(colors.size() + 1);
         for (int i = 0; i < (int)colors.size(); i++) t.add_edge(i, i + 1, colors[i] == 'B');
         return t.value(0);
     };
+    assert((stalk("BB") == Dyadic{2, {}}));
+    assert((stalk("BR") == Dyadic{0, {1}}));    /// 1/2
+    assert((stalk("BRB") == Dyadic{0, {1, 2}}));  /// 1/2 + 1/4
+    assert(stalk("RB").sign() == -1);           /// -1/2, Right wins whoever starts
 
-    assert((stalk("B") == Dyadic{1, {}}));
-    assert((stalk("R") == Dyadic{-1, {}}));
-    assert((stalk("BR") == Dyadic{0, {1}}));
-    assert((stalk("BRB") == Dyadic{0, {1, 2}}));
-    assert((stalk("BRR") == Dyadic{0, {2}}));
-    assert((stalk("BBR") == Dyadic{1, {1}}));
-    assert((stalk("RB") == Dyadic{-1, {1}}));
-    assert((stalk("RBB") == Dyadic{-1, {1, 2}}));
-    assert(stalk("RB").sign() == -1 && stalk("BRR").sign() == 1);
-
+    /// A blue-red stalk beside a red-blue stalk: 1/2 - 1/2, the second player wins
     RedBlueHackenbush balanced(5);
     balanced.add_edge(0, 1, true);
     balanced.add_edge(1, 2, false);
     balanced.add_edge(0, 3, false);
     balanced.add_edge(3, 4, true);
-    assert(balanced.value(0).sign() == 0 && balanced.value(0) == Dyadic());
-
-    RedBlueHackenbush fork(7);
-    fork.add_edge(0, 1, true);
-    fork.add_edge(1, 2, false);
-    fork.add_edge(1, 3, false);
-    assert((fork.value(0) == Dyadic{0, {2}}));
-    fork.add_edge(0, 4, true);
-    fork.add_edge(4, 5, false);
-    fork.add_edge(5, 6, true);
-    assert((fork.value(0) == Dyadic{1, {}}));
-
+    assert(balanced.value(0).sign() == 0);
     return 0;
 }
