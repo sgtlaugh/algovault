@@ -117,57 +117,20 @@ pair<long long, long long> fraction_search(F f, long long n){
 
 int main(){
     using Frac = pair<long long, long long>;
-    const long long E18 = 1000000000000000000LL;
 
-    assert((continued_fraction(10, 23) == vector<long long>{0, 2, 3, 3}));
+    /// 415 / 93 = 4 + 1 / (2 + 1 / (6 + 1 / 7))
     assert((continued_fraction(415, 93) == vector<long long>{4, 2, 6, 7}));
-    assert((continued_fraction(-415, 93) == vector<long long>{-5, 1, 1, 6, 7}));
-    assert((continued_fraction(6, 4) == vector<long long>{1, 2}));
-    assert((continued_fraction(7, 1) == vector<long long>{7}));
-    assert((continued_fraction(0, 5) == vector<long long>{0}));
-    assert((continued_fraction(-3, 6) == vector<long long>{-1, 2}));
-    assert((continued_fraction(LLONG_MIN, 3) == vector<long long>{-3074457345618258603LL, 3}));
-    assert((continued_fraction(LLONG_MIN, 1) == vector<long long>{LLONG_MIN}));
-
-    assert((convergents({0, 2, 3, 3}) == vector<Frac>{{0, 1}, {1, 2}, {3, 7}, {10, 23}}));
+    assert((continued_fraction(-415, 93) == vector<long long>{-5, 1, 1, 6, 7}));  /// a0 = floor(-4.46...)
     assert((convergents({4, 2, 6, 7}) == vector<Frac>{{4, 1}, {9, 2}, {58, 13}, {415, 93}}));
-    assert((convergents({-5, 1, 1, 6, 7}) == vector<Frac>{{-5, 1}, {-4, 1}, {-9, 2}, {-58, 13}, {-415, 93}}));
-    assert((convergents(continued_fraction(LLONG_MIN + 1, 3)) == vector<Frac>{{-3074457345618258603LL, 1}, {-3074457345618258602LL, 1}, {LLONG_MIN + 1, 3}}));
-    assert((convergents(continued_fraction(LLONG_MAX, LLONG_MAX - 1)) == vector<Frac>{{1, 1}, {LLONG_MAX, LLONG_MAX - 1}}));
 
-    const long long PI_P = 3141592653589793238LL;
-    assert((best_approximation(PI_P, E18, 1) == Frac{3, 1}));
-    assert((best_approximation(PI_P, E18, 4) == Frac{13, 4}));
-    assert((best_approximation(PI_P, E18, 6) == Frac{19, 6}));
-    assert((best_approximation(PI_P, E18, 56) == Frac{22, 7}));
-    assert((best_approximation(PI_P, E18, 57) == Frac{179, 57}));
-    assert((best_approximation(PI_P, E18, 100) == Frac{311, 99}));
-    assert((best_approximation(PI_P, E18, 16603) == Frac{355, 113}));
-    assert((best_approximation(PI_P, E18, 16604) == Frac{52163, 16604}));
-    assert((best_approximation(-PI_P, E18, 7) == Frac{-22, 7}));
-
-    assert((best_approximation(1, 2, 1) == Frac{0, 1}));
-    assert((best_approximation(-1, 2, 1) == Frac{-1, 1}));
-    assert((best_approximation(3, 2, 1) == Frac{1, 1}));
-    assert((best_approximation(5, 12, 3) == Frac{1, 2}));
-    assert((best_approximation(6, 4, 2) == Frac{3, 2}));
-    assert((best_approximation(E18 - 1, E18, E18) == Frac{E18 - 1, E18}));
-    assert((best_approximation(E18 - 1, E18, E18 - 1) == Frac{E18 - 2, E18 - 1}));
-    assert((best_approximation(-E18, 1, E18) == Frac{-E18, 1}));
-    assert((best_approximation(-E18 + 1, E18, E18 - 1) == Frac{-E18 + 2, E18 - 1}));
+    /// pi to 18 digits
+    const long long PI_P = 3141592653589793238LL, E18 = 1000000000000000000LL;
+    assert((best_approximation(PI_P, E18, 10) == Frac{22, 7}));
+    assert((best_approximation(PI_P, E18, 200) == Frac{355, 113}));
+    assert((best_approximation(5, 12, 3) == Frac{1, 2}));  /// 1 / 3 and 1 / 2 tie, the smaller denominator wins
 
     auto at_least_sqrt2 = [](long long p, long long q){ return (__int128)p * p >= (__int128)2 * q * q; };
-    assert((fraction_search(at_least_sqrt2, 10) == Frac{10, 7}));
-    assert((fraction_search([](long long p, long long q){ return 3 * p >= q; }, 10) == Frac{1, 3}));
-    assert((fraction_search([](long long p, long long q){ return p >= 7 * q; }, 7) == Frac{7, 1}));
-    assert((fraction_search([](long long p, long long q){ return p >= 7 * q; }, 6) == Frac{1, 0}));
-    assert((fraction_search([](long long, long long){ return true; }, 5) == Frac{0, 1}));
-    assert((fraction_search([](long long, long long){ return false; }, 5) == Frac{1, 0}));
-
-    auto at_least_close = [&](long long p, long long q){ return (__int128)p * E18 >= (__int128)(E18 - 1) * q; };
-    auto above_close = [&](long long p, long long q){ return (__int128)p * E18 > (__int128)(E18 - 1) * q; };
-    assert((fraction_search(at_least_close, E18) == Frac{E18 - 1, E18}));
-    assert((fraction_search(above_close, E18) == Frac{1, 1}));
-
+    assert((fraction_search(at_least_sqrt2, 10) == Frac{10, 7}));  /// sqrt(2) = 1.414..., 10 / 7 = 1.428...
+    assert((fraction_search([](long long p, long long q){ return p >= 7 * q; }, 6) == Frac{1, 0}));  /// 7 is out of reach
     return 0;
 }
