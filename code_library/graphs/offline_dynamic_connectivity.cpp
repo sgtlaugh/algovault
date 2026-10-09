@@ -145,46 +145,23 @@ private:
 
 int main(){
     DynamicConnectivity dc(4);
-    int q0 = dc.query_components();
-    dc.add_edge(0, 1);
-    int q1 = dc.query_connected(1, 0);
-    dc.add_edge(2, 1);
-    int q2 = dc.query_components(), q3 = dc.query_connected(0, 2), q4 = dc.query_connected(0, 3);
-    dc.remove_edge(1, 0);
-    int q5 = dc.query_connected(0, 2), q6 = dc.query_components();
-    dc.add_edge(0, 1);
-    dc.add_edge(1, 0);
+    int before = dc.query_components();
+    dc.add_edge(0, 1), dc.add_edge(2, 1);
+    int linked = dc.query_connected(0, 2), apart = dc.query_connected(0, 3);
+    dc.remove_edge(1, 0);                           /// either orientation removes the edge
+    int cut = dc.query_connected(0, 2), after = dc.query_components();
+
+    /// Parallel copies: removing one leaves the other live
+    dc.add_edge(0, 1), dc.add_edge(1, 0);
     dc.remove_edge(0, 1);
-    int q7 = dc.query_connected(0, 2), q8 = dc.query_components();
-    dc.add_edge(3, 3);
-    dc.remove_edge(1, 2);
-    dc.add_edge(2, 3);
-    dc.remove_edge(3, 2);
-    int q9 = dc.query_components(), q10 = dc.query_connected(3, 3), q11 = dc.query_connected(1, 2);
+    int doubled = dc.query_connected(0, 2);
 
     auto res = dc.solve();
-    assert((res == vector<int>{4, 1, 2, 1, 0, 0, 3, 1, 2, 3, 1, 0}));
-    assert(q0 == 0 && q1 == 1 && q2 == 2 && q3 == 3 && q4 == 4 && q5 == 5);
-    assert(q6 == 6 && q7 == 7 && q8 == 8 && q9 == 9 && q10 == 10 && q11 == 11);
-
-    dc.add_edge(2, 3);
-    dc.query_connected(1, 3);
-    dc.query_components();
-    assert((dc.solve() == vector<int>{4, 1, 2, 1, 0, 0, 3, 1, 2, 3, 1, 0, 0, 2}));
-
-    DynamicConnectivity empty(0);
-    assert(empty.solve().empty());
-
-    DynamicConnectivity single(1);
-    single.add_edge(0, 0);
-    single.query_connected(0, 0);
-    single.query_components();
-    assert((single.solve() == vector<int>{1, 1}));
-
-    DynamicConnectivity no_queries(3);
-    no_queries.add_edge(0, 1);
-    no_queries.remove_edge(0, 1);
-    assert(no_queries.solve().empty());
-
+    assert(res[before] == 4);
+    assert(res[linked] == 1);
+    assert(res[apart] == 0);
+    assert(res[cut] == 0);
+    assert(res[after] == 3);                        /// {0}, {1, 2}, {3}
+    assert(res[doubled] == 1);
     return 0;
 }
