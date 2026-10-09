@@ -39,5 +39,28 @@ int main(){
         assert(fen.query(i, j, i, j) == brute(i, j, i, j));
         assert(fen.query(c, d) == brute(1, 1, c, d));
     }
+
+    /// Small tables filled to about 60% load, so probe chains often run past the last slot and wrap to the first
+    for (long long round = 0; round < stress::scaled(100); round++){
+        const int n = stress::rand_int(100, 1000), m = stress::rand_int(100, 1000), lg = 10;  /// enough cells to reach the target load
+        FenwickSparse2D<long long> small(n, m, lg);
+        vector<array<long long, 3>> pts;
+        set<pair<int, int>> nodes;
+        while (nodes.size() < (1 << lg) * 6 / 10){
+            int i = stress::rand_int(1, n), j = stress::rand_int(1, m);
+            long long v = stress::rand_int(-1000, 1000);
+            small.update(i, j, v);
+            pts.push_back({i, j, v});
+            for (int x = i; x <= n; x += x & -x) for (int y = j; y <= m; y += y & -y) nodes.insert({x, y});
+        }
+        for (int q = 0; q < 200; q++){
+            int a = stress::rand_int(1, n), b = stress::rand_int(1, m), c = stress::rand_int(1, n), d = stress::rand_int(1, m);
+            if (a > c) swap(a, c);
+            if (b > d) swap(b, d);
+            long long sum = 0;
+            for (auto& p : pts) if (a <= p[0] && p[0] <= c && b <= p[1] && p[1] <= d) sum += p[2];
+            assert(small.query(a, b, c, d) == sum);
+        }
+    }
     return 0;
 }
