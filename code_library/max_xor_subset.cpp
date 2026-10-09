@@ -1,6 +1,6 @@
 /***
  *
- * Given an array of positive integers,
+ * Given an array of non-negative integers,
  * Finds a subset where the bitwise XOR of all the elements in the subset is maximum
  * Return the maximum xor value
  *
@@ -8,31 +8,18 @@
 
 #include <bits/stdc++.h>
 
-#define bitlen(x) ((x) == 0 ? 0 : 64 - __builtin_clzll(x))
-
 using namespace std;
 
 long long max_xor_subset(const vector<long long>& ar){
-    long long m, x, res = 0;
-    int i, j, l, n = ar.size();
-
-    vector <long long> v[64];
-    for (i = 0; i < n; i++) v[bitlen(ar[i])].push_back(ar[i]);
-
-    for (i = 63; i > 0; i--){
-        l = v[i].size();
-        if (l){
-            m = v[i][0];
-            res = max(res, res ^ m);
-
-            for (j = 1; j < l; j++){
-                x = m ^ v[i][j];
-                if (x) v[bitlen(x)].push_back(x);
-            }
-            v[i].clear();
-        }
+    vector<long long> basis;
+    for (long long x : ar){
+        for (long long b : basis) x = min(x, x ^ b);
+        if (x) basis.push_back(x);
     }
 
+    /// Each b lacks the leading bits of earlier ones, so no sort is needed, every leading bit ends up set
+    long long res = 0;
+    for (long long b : basis) res = max(res, res ^ b);
     return res;
 }
 
