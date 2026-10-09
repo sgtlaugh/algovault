@@ -84,6 +84,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set of two matroids, graphic, partition and xor oracles, O(n r^2) queries
 - [Maximum Clique](code_library/graphs/max_clique.cpp) - bitset branch and bound up to ~150 vertices, maximum independent set, Bron-Kerbosch maximal clique enumeration
 - [Maximum Flow](code_library/graphs/maxflow.cpp) - Dinic, with node capacities and a dense variant, min cut, max closure and max density subgraph recipes
+- [Min Cost Circulation](code_library/graphs/min_cost_circulation.cpp) - cost scaling push-relabel, negative costs and negative cycles, O(n^3 log(nC))
 - [Min Cost Max Flow, Dijkstra](code_library/graphs/mcmf_dijkstra.cpp) - successive shortest paths with potentials, the default
 - [Min Cost Max Flow, SPFA](code_library/graphs/mcmf_spfa.cpp) - successive shortest paths with SPFA
 - [Minimum Mean Cycle (Karp)](code_library/graphs/minimum_mean_cycle.cpp) - exact reduced-fraction minimum mean cycle and the cycle's edge ids in O(n (n + m))
