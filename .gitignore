@@ -6,3 +6,6 @@
 *.o
 *.exe
 
+
+# Local Claude Code session state
+.claude/
