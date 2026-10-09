@@ -87,6 +87,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - feasible circulation, feasible / max / min s-t flow with demands on Dinic
 - [Floyd Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with path reconstruction, negative edges and negative cycles (NEG_INF marking)
 - [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching size via the Tutte matrix rank, Edmonds blossom for the matched pairs in O(n^3)
+- [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - Stoer-Wagner, minimum cut weight and one side, O(n^3)
 - [Gomory-Hu Tree](code_library/graphs/gomory_hu.cpp) - all-pairs min cut and min cut partitions of an undirected graph from n - 1 max flows (Gusfield)
 - [Hopcroft Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, O(m sqrt(n))
 - [Hungarian Algorithm](code_library/graphs/hungarian_algorithm.cpp) - minimum cost assignment, O(min(n, m)^2 max(n, m))
