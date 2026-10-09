@@ -59,6 +59,37 @@ int main(){
         long long flow = g->maxflow();
         assert(flow == min_cut(n, src, sink, arcs));
         check_flow(*g, flow);
+
+        DenseFlowGraph dense(n, src, sink);
+        for (auto& a : arcs) dense.add_directed_edge(a.u, a.v, a.cap);
+        assert(dense.maxflow() == flow);
+    }
+
+    /// Found by search: reaching flow 3 here needs a reverse edge to cancel earlier flow, without one both get 2
+    {
+        vector<Arc> arcs = {{0, 2, 1}, {0, 1, 1}, {1, 3, 3}, {0, 3, 1}, {3, 2, 2}, {3, 5, 2}, {4, 5, 1}, {4, 2, 1}, {1, 4, 2}, {3, 0, 3}, {2, 3, 2}};
+        FlowGraph* g = new FlowGraph(6, 0, 5);
+        DenseFlowGraph dense(6, 0, 5);
+        for (auto& a : arcs) g->add_directed_edge(a.u, a.v, a.cap), dense.add_directed_edge(a.u, a.v, a.cap);
+        assert(min_cut(6, 0, 5, arcs) == 3 && g->maxflow() == 3 && dense.maxflow() == 3);
+        delete g;
+    }
+
+    /// Dense graphs: the matrix version against the edge-list version
+    for (long long it = 0; it < stress::scaled(4); it++){
+        int n = 400;
+        static FlowGraph* g = new FlowGraph();
+        g->n = n, g->src = 0, g->sink = n - 1, g->E.clear();
+        for (int x = 0; x < n; x++) g->adj[x].clear();
+        DenseFlowGraph dense(n, 0, n - 1);
+        for (int u = 0; u < n; u++){
+            for (int v = 0; v < n; v++){
+                if (u == v || stress::rand_int(0, 1)) continue;
+                long long cap = stress::rand_int(1, 1000000000);
+                g->add_directed_edge(u, v, cap), dense.add_directed_edge(u, v, cap);
+            }
+        }
+        assert(dense.maxflow() == g->maxflow());
     }
 
     /// Node capacities limit every node, src and sink included: split x into x_in = 2x and x_out = 2x + 1
