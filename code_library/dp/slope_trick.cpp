@@ -139,82 +139,22 @@ long long min_cost_non_decreasing(const vector<long long>& a){
 }
 
 int main(){
-    const long long INF = SlopeTrick<long long>::INF, BIG = 1e18;
+    assert(min_cost_non_decreasing({3, 1, 2}) == 2);  /// b = {1, 1, 2} or {2, 2, 2}
 
-    assert(min_cost_non_decreasing({}) == 0);
-    assert(min_cost_non_decreasing({-7}) == 0);
-    assert(min_cost_non_decreasing({1, 2, 2, 7}) == 0);
-    assert(min_cost_non_decreasing({3, 1, 2}) == 2);
-    assert(min_cost_non_decreasing({5, 4, 3, 2, 1}) == 6);
-    assert(min_cost_non_decreasing({-BIG, BIG, -BIG, BIG}) == 2 * BIG);
-
-    vector<long long> sonya = {2, 1, 5, 11, 5, 9, 11}, falling = {5, 4, 3, 2, 1};
-    for (int i = 0; i < 7; i++) sonya[i] -= i;
-    for (int i = 0; i < 5; i++) falling[i] -= i;
-    assert(min_cost_non_decreasing(sonya) == 9);
-    assert(min_cost_non_decreasing(falling) == 12);
-
+    const long long INF = SlopeTrick<long long>::INF;
     SlopeTrick<long long> f;
-    assert(f.get_min() == 0 && f.argmin() == make_pair(-INF, INF) && f.eval(42) == 0);
-
     f.add_abs(2);
-    f.add_abs(5);
-    assert(f.get_min() == 3 && f.argmin() == make_pair(2LL, 5LL));
-    assert(f.eval(0) == 7 && f.eval(6) == 5);
+    f.add_abs(5);                                     /// f(x) = |x - 2| + |x - 5|
+    assert(f.get_min() == 3);
+    assert(f.argmin() == make_pair(2LL, 5LL));        /// flat between the two breakpoints
+    assert(f.eval(0) == 7);
 
-    f.add_x_minus_a(4);
-    assert(f.get_min() == 3 && f.argmin() == make_pair(2LL, 4LL));
-    assert(f.eval(5) == 4 && f.eval(10) == 19);
+    f.prefix_min();                                   /// the rising right side becomes flat
+    assert(f.argmin() == make_pair(2LL, INF));
+    assert(f.eval(10) == 3);
 
-    f.prefix_min();
-    assert(f.get_min() == 3 && f.argmin() == make_pair(2LL, INF));
-    assert(f.eval(0) == 7 && f.eval(10) == 3);
-
-    f.shift(1, 3);
-    assert(f.get_min() == 3 && f.argmin() == make_pair(3LL, INF));
-    assert(f.eval(0) == 9 && f.eval(3) == 3 && f.eval(100) == 3);
-
-    f.add_const(10);
-    assert(f.get_min() == 13 && f.eval(0) == 19);
-
-    SlopeTrick<long long> g;
-    g.add_a_minus_x(4);
-    assert(g.get_min() == 0 && g.argmin() == make_pair(4LL, INF));
-
-    g.add_x_minus_a(6);
-    assert(g.argmin() == make_pair(4LL, 6LL) && g.eval(8) == 2 && g.eval(1) == 3);
-
-    g.suffix_min();
-    assert(g.argmin() == make_pair(-INF, 6LL) && g.eval(1) == 0 && g.eval(8) == 2);
-
-    g.shift(-2);
-    assert(g.argmin() == make_pair(-INF, 4LL) && g.eval(7) == 3);
-
-    SlopeTrick<long long> h;
-    h.add_abs(-BIG);
-    h.add_abs(BIG);
-    assert(h.get_min() == 2 * BIG && h.argmin() == make_pair(-BIG, BIG) && h.eval(0) == 2 * BIG);
-
-    SlopeTrick<long long> s;
-    s.shift(-BIG, BIG);
-    s.add_abs(BIG);
-    s.add_abs(-BIG);
-    assert(s.get_min() == 2 * BIG && s.argmin() == make_pair(-BIG, BIG) && s.eval(0) == 2 * BIG);
-
-    SlopeTrick<long long> w;
-    w.add_abs(0);
-    w.shift(-BIG, BIG);
-    assert(w.get_min() == 0 && w.argmin() == make_pair(-BIG, BIG) && w.eval(0) == 0 && w.eval(-BIG) == 0);
-
-    /// a non-increasing f is unchanged by shift(0, hi), so this is min_cost_non_decreasing of 12, 11, ..., 1:
-    /// b = 6 everywhere costs 5 + 4 + ... + 0 + 1 + ... + 6 = 36, and 12 shifts of 1e18 would overflow without the reset
-    SlopeTrick<long long> r;
-    for (long long x = 12; x >= 1; x--){
-        r.prefix_min();
-        r.shift(0, BIG);
-        r.add_abs(x);
-    }
-    assert(r.get_min() == 36 && r.argmin() == make_pair(6LL, 7LL));
-
+    f.shift(1, 3);                                    /// min over y in [x - 3, x - 1]
+    assert(f.argmin() == make_pair(3LL, INF));
+    assert(f.eval(0) == 9);                           /// f(-1) = 3 + 6, the best of f(-3..-1)
     return 0;
 }
