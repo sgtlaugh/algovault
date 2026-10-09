@@ -154,11 +154,11 @@ check_whitespace(){  # tabs, trailing whitespace, CRLF or a missing final newlin
     failures+=("${bad[@]/%/ (whitespace)}")
 }
 
-check_style(){  # ){ opens a body, ) {} is empty, keywords take a space, template arguments do not
+check_style(){  # ){ and struct X{ open a body, ) {} is empty, keywords take a space, template arguments do not
     local line bad=()
     while IFS= read -r line; do
         contains "${line%%:*}" "${STYLE_SKIP[@]}" || bad+=("$line")
-    done < <(git ls-files '*.cpp' '*.h' | xargs grep -nP '\) \{(?!\})|\)\{\}|\b(for|if|while|switch)\(|\b(?!template\b)\w+ <(?=[\w:]+[\s\w:,<>*&]*>)')
+    done < <(git ls-files '*.cpp' '*.h' | xargs grep -nP '\) \{(?!\})|\b(struct|class|namespace)\s+\w+(\s*:\s*[^{;]+)? \{(?!\})|\)\{\}|\b(for|if|while|switch)\(|\b(?!template\b)\w+ <(?=[\w:]+[\s\w:,<>*&]*>)')
 
     echo "style: ${#bad[@]} lines off the brace or spacing convention"
     [[ ${#bad[@]} -eq 0 ]] && return
