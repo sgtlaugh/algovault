@@ -51,5 +51,8 @@ int main(){
     vector<vector<long long>> got;
     assert(johnson(n, chain, got));
     assert(got[n - 1][0] == -1000000LL * (n - 1) && got[0][n - 1] == JOHNSON_INF);
+
+    /// A heavy negative self loop drops h by 1e17 per round, without the early exit it overflows long before round n
+    assert(!johnson(200, {{0, 0, -100000000000000000LL}}, got) && got.empty());
     return 0;
 }
