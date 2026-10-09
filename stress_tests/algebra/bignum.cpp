@@ -1,9 +1,9 @@
 // LINK: -lgmpxx -lgmp
-#include "common.h"
+#include "../common.h"
 #include <gmpxx.h>
 
 #define main library_main
-#include "../code_library/bignum.cpp"
+#include "../../code_library/algebra/bignum.cpp"
 #undef main
 
 /// Random decimal strings with runs of 0s and 9s, which stress carries, borrows and Knuth D's correction steps

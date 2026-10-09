@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/lagrange_interpolation.cpp"
+#include "../../code_library/algebra/lagrange_interpolation.cpp"
 #undef main
 
 int horner(const vector<int>& c, long long x, int mod){

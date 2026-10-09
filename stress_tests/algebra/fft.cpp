@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/fft.cpp"
+#include "../../code_library/algebra/fft.cpp"
 #undef main
 
 typedef long long ll;

@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/walsh_hadamard.cpp"
+#include "../../code_library/algebra/walsh_hadamard.cpp"
 #undef main
 
 int main(){

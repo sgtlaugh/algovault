@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/fraction.cpp"
+#include "../../code_library/algebra/fraction.cpp"
 #undef main
 
 /// Arithmetic and ordering against exact cross multiplication identities in __int128

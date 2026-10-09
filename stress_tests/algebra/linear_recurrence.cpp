@@ -1,7 +1,7 @@
-#include "common.h"
+#include "../common.h"
 
 #define main library_main
-#include "../code_library/linear_recurrence.cpp"
+#include "../../code_library/algebra/linear_recurrence.cpp"
 #undef main
 
 /// Terms 0 .. count - 1 of f(x) = sum c[i] * f(x - k + i), the coefficient order the constructor takes
