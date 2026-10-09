@@ -32,7 +32,22 @@ long long brute(int n, int root, const vector<Edge>& edges){
     return best;
 }
 
+/// Cheap 2-cycles i <-> i + 1 behind expensive root edges, each contraction forms a new 2-cycle with the next node,
+/// so round-based Chu-Liu/Edmonds needs about n / 2 full passes (11 s at -O2 for n = 2e4) while O(m log n) is instant
+void nested_two_cycles(){
+    int n = 20000;
+    vector<Edge> edges;
+    for (int i = 1; i < n; i++) edges.push_back(Edge(0, i, 1000000 + i));
+    for (int i = 1; i + 1 < n; i++) edges.push_back(Edge(i + 1, i, 1)), edges.push_back(Edge(i, i + 1, 2));
+
+    auto start = chrono::steady_clock::now();
+    /// Any single root edge 0 -> j completes the tree with j - 1 edges of weight 1 and n - 1 - j of weight 2
+    assert(directed_mst(n, 0, edges) == 1000000 + 2LL * n - 3);
+    assert(chrono::steady_clock::now() - start < chrono::seconds(2));
+}
+
 int main(){
+    nested_two_cycles();
     for (long long it = 0; it < stress::scaled(40000); it++){
         int n = stress::rand_int(1, 7), root = stress::rand_int(0, n - 1), max_w = it % 4 ? 10 : 1000000000;
         vector<Edge> edges(stress::rand_int(0, 15));
