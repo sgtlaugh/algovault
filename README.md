@@ -161,7 +161,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one
 - [Radix Sort](code_library/misc/radix_sort.cpp) - LSD radix sort of 32-bit integers
 - [Radix Sort 64](code_library/misc/radix_sort_64.cpp) - LSD radix sort of 64-bit integers
-- [Simulated Annealing](code_library/misc/simulated_annealing.c) - simulated annealing on USACO 2017 Subsequence Reversal
+- [Simulated Annealing](code_library/misc/simulated_annealing.cpp) - generic minimizer with a geometric time or iteration cooling schedule
 
 ### Hacking
 - [Anti Double Hash](code_library/hacking/anti_double_hash.cpp) - two strings colliding under a double polynomial hash
