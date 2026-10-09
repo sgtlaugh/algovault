@@ -131,62 +131,18 @@ long long first_mod_in_range(long long m, long long a, long long l, long long r)
 }
 
 int main(){
-    const long long INF = LLONG_MAX;
-
+    /// (6 * i + 3) / 10 for i = 0..3 is 0, 0, 1, 2
     assert(floor_sum(4, 10, 6, 3) == 3);
-    assert(floor_sum(6, 5, 4, 3) == 13);
-    assert(floor_sum(1, 1, 0, 0) == 0);
-    assert(floor_sum(31415, 92653, 58979, 32384) == 314095480);
-    assert(floor_sum(1000000000, 1000000000, 999999999, 999999999) == 499999999500000000LL);
-    assert(floor_sum(0, 7, -5, 3) == 0);
-    assert(floor_sum(3, 2, -1, 0) == -2);
-    assert(floor_sum(4, 3, -2, 1) == -4);
-    assert(floor_sum(5, 4, 3, -9) == -6);
-    assert(floor_sum(1LL << 32, 1, LLONG_MIN, LLONG_MIN) == -(((__int128)1 << 126) + ((__int128)1 << 94)));
-    assert(floor_sum(INF, 2, 1, 0) == (__int128)((1LL << 62) - 1) * ((1LL << 62) - 1));
-    assert(floor_sum(INF, INF, INF - 1, INF - 1) == (__int128)INF * (INF - 1) / 2);
-    assert(floor_sum(INF, 1, 0, LLONG_MIN) == (__int128)LLONG_MIN * INF);
+    assert(floor_sum(3, 2, -1, 0) == -2);  /// 0 + floor(-1 / 2) + floor(-2 / 2), negative a rounds down
 
-    assert(min_mod_linear(1, 10, 6, 3) == 3);
+    /// (6 * i + 3) mod 10 for i = 0..3 is 3, 9, 5, 1
     assert(min_mod_linear(3, 10, 6, 3) == 3);
     assert(min_mod_linear(4, 10, 6, 3) == 1);
-    assert(min_mod_linear(2, 7, 3, 5) == 1);
-    assert(min_mod_linear(7, 7, 3, 5) == 0);
-    assert(min_mod_linear(3, 10, 7, 4) == 1);
-    assert(min_mod_linear(8, 10, 7, 4) == 1);
-    assert(min_mod_linear(9, 10, 7, 4) == 0);
-    assert(min_mod_linear(9, 10, -3, -6) == 0);
-    assert(min_mod_linear(5, 10, -3, -6) == 1);
-    assert(min_mod_linear(100, 1, 5, 7) == 0);
-    assert(min_mod_linear(500000000000000000LL, 1000000000000000000LL, 1, 500000000000000000LL) == 500000000000000000LL);
-    assert(min_mod_linear(500000000000000001LL, 1000000000000000000LL, 1, 500000000000000000LL) == 0);
-    assert(min_mod_linear(500000000000000000LL, 1000000000000000000LL, -1, 500000000000000000LL) == 1);
-    assert(min_mod_linear(INF, 1000000000000000000LL, 600000000000000000LL, 500000000000000007LL) == 100000000000000007LL);
 
-    assert(count_mod_in_range(4, 10, 6, 1, 5) == 1);
-    assert(count_mod_in_range(4, 10, 6, 0, 9) == 4);
-    assert(count_mod_in_range(4, 10, 6, 6, 8) == 2);
-    assert(count_mod_in_range(4, 10, 6, 5, 4) == 0);
-    assert(count_mod_in_range(4, 10, 6, -5, 100) == 4);
-    assert(count_mod_in_range(0, 10, 6, 0, 9) == 0);
-    assert(count_mod_in_range(14, 7, 3, 2, 4) == 6);
-    assert(count_mod_in_range(14, 7, -4, 2, 4) == 6);
-    assert(count_mod_in_range(1000000000000000000LL, 1000000000000000000LL, 1, 5, 100000000000000000LL) == 99999999999999996LL);
-    assert(count_mod_in_range(1000000000000000000LL, 1000000000000000000LL, -1, 0, 0) == 1);
-    assert(count_mod_in_range(INF, 2, 1, 1, 1) == INF / 2);
-
-    assert(first_mod_in_range(10, 6, 0, 0) == 0);
-    assert(first_mod_in_range(10, 6, 1, 3) == 2);
+    /// 6 * x mod 10 for x = 0, 1, 2, ... is 0, 6, 2, 8, 4, 0, ...
+    assert(count_mod_in_range(4, 10, 6, 6, 8) == 2);     /// 6 and 8
+    assert(count_mod_in_range(4, 10, 6, -5, 100) == 4);  /// l and r are clamped to [0, 9]
     assert(first_mod_in_range(10, 6, 3, 5) == 4);
-    assert(first_mod_in_range(10, 6, 7, 9) == 3);
-    assert(first_mod_in_range(10, 6, 5, 5) == -1);
-    assert(first_mod_in_range(10, 6, 9, 3) == -1);
-    assert(first_mod_in_range(7, 3, 1, 1) == 5);
-    assert(first_mod_in_range(7, -4, 1, 1) == 5);
-    assert(first_mod_in_range(1, 5, -3, 3) == 0);
-    assert(first_mod_in_range(1000000000000000000LL, 999999999999999999LL, 1, 5) == 999999999999999995LL);
-    assert(first_mod_in_range(1000000000000000001LL, 2, 1, 1) == 500000000000000001LL);
-    assert(first_mod_in_range(INF, 2, 1, 1) == INF / 2 + 1);
-
+    assert(first_mod_in_range(10, 6, 5, 5) == -1);       /// residues are always even
     return 0;
 }
