@@ -1,4 +1,6 @@
 #include "common.h"
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define main library_main
 #include "../code_library/lca.cpp"
@@ -101,7 +103,38 @@ void check_rmq(int n, int max_v){
     }
 }
 
+/// build must abort on a non-tree, the alarm turns an endless traversal into a failure instead of a hang
+template <typename Tree>
+void check_rejects(int n, const vector<pair<int, int>>& edges){
+    pid_t pid = fork();
+    assert(pid >= 0);
+    if (pid == 0){
+        alarm(5);
+        assert(freopen("/dev/null", "w", stderr));
+        Tree tree(n);
+        for (auto [u, v] : edges) tree.add_edge(u, v);
+        tree.build(0);
+        _exit(0);
+    }
+    int status;
+    assert(waitpid(pid, &status, 0) == pid);
+    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+}
+
+template <typename Tree>
+void check_rejects_all(){
+    check_rejects<Tree>(4, {{0, 1}, {1, 2}, {2, 0}});          /// cycle plus an isolated node, n - 1 edges
+    check_rejects<Tree>(5, {{0, 1}, {1, 2}, {2, 3}, {3, 1}});  /// cycle below the root plus an isolated node
+    check_rejects<Tree>(3, {{0, 1}, {1, 2}, {2, 0}});          /// cycle, n edges
+    check_rejects<Tree>(3, {{0, 1}, {0, 1}, {1, 2}});          /// multi-edge
+    check_rejects<Tree>(3, {{0, 1}});                          /// disconnected
+    check_rejects<Tree>(2, {{0, 0}, {0, 1}});                  /// self-loop at the root, only the edge count sees it
+}
+
 int main(){
+    check_rejects_all<LCA>();
+    check_rejects_all<LinearLCA>();
+
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = it < 200 ? it % 40 + 1 : stress::rand_int(1, 300);
         check(n, it % 5, 200, it % 3 ? 1000000000LL : 1);
