@@ -22,6 +22,7 @@ uint64_t random_modulus(){
         while (pq * p < 100000 && stress::rand_int(0, 1)) pq *= p;
         res *= pq;
     }
+
     return res;
 }
 
@@ -74,5 +75,6 @@ int main(){
         int64_t n = stress::rand_int(0, 1000000000000000000LL), k = stress::rand_int(0, n);
         assert((uint64_t)Binomial(p).binomial(n, k) == lucas(n, k, p));
     }
+
     return 0;
 }

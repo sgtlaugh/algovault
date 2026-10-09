@@ -10,6 +10,7 @@ long long brute_rank(const vector<int>& p){
     long long res = 0;
     vector<long long> factorial(n + 1, 1);
     for (int i = 1; i <= n; i++) factorial[i] = factorial[i - 1] * i;
+
     for (int i = 0; i < n; i++){
         int smaller = 0;
         for (int j = i + 1; j < n; j++) smaller += p[j] < p[i];
@@ -38,5 +39,6 @@ int main(){
             assert(idx.index(p) == brute_rank(p));
         }
     }
+
     return 0;
 }

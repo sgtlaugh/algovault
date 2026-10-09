@@ -30,5 +30,6 @@ int main(){
         for (int i = 0; i < n; i++) assert(sorted[i] == i + 1);
         assert(find_rank(p) == k);
     }
+
     return 0;
 }

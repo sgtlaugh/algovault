@@ -10,6 +10,7 @@
 long double reference(int n1, int n2, long double p){
     if (n1 == 0) return 1;
     if (n2 == 0) return 0;
+
     int n = n1 + n2;
     long double q = 1 - p;
     vector<long double> c(n), d(n);  /// forward sweep over the unknowns P_1 .. P_(n-1), row i is -q P_(i-1) + P_i - p P_(i+1) = 0
@@ -18,6 +19,7 @@ long double reference(int n1, int n2, long double p){
         c[i] = -p / denom;
         d[i] = (i == 1 ? q : q * d[i - 1]) / denom;  /// P_0 = 1 moves q into the first right hand side
     }
+
     long double x = 0;  /// back substitution from P_n = 0 down to P_n1
     for (int i = n - 1; i >= n1; i--) x = d[i] - c[i] * x;
     return x;
@@ -31,6 +33,7 @@ __float128 quad_reference(int n1, int n2, long double p_in){
         __float128 L = log1pq(d / q);
         return expm1q(n2 * L) / expm1q(n * L);
     }
+
     __float128 L = log1pq(-d / p);
     return expq(n1 * L) * expm1q(n2 * L) / expm1q(n * L);
 }
@@ -59,5 +62,6 @@ int main(){
     assert(gamblers_ruin(5, 7, 0.0L) == 1 && gamblers_ruin(5, 7, 1.0L) == 0);
     assert(gamblers_ruin(0, 7, 0.3L) == 1 && gamblers_ruin(5, 0, 0.7L) == 0);
     assert(fabsl(gamblers_ruin(3, 9, 0.5L) - 0.75L) < 1e-18L);
+
     return 0;
 }

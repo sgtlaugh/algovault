@@ -40,5 +40,6 @@ int main(){
     assert(bernoulli[2] == power(6, MOD - 2));
     assert(bernoulli[4] == MOD - power(30, MOD - 2));
     assert(bernoulli[12] == (MOD - 691) * power(2730, MOD - 2) % MOD);
+
     return 0;
 }

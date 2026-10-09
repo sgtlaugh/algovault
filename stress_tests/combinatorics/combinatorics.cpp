@@ -44,6 +44,7 @@ void check_tables(int n, long long mod){
 void check_inverse(long long a, long long m){
     long long inv = mod_inverse(a, m);
     long long r = (long long)(((__int128)a % m + m) % m);
+
     if (__gcd(r, m) != 1){
         assert(inv == -1);
         return;

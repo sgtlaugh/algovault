@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
-
 using namespace std;
 
 /***
@@ -31,7 +30,6 @@ long long find_rank(vector <int> permutation){
     }
     return res;
 }
-
 
 /***
  *

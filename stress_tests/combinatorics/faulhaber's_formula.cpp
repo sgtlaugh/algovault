@@ -27,5 +27,6 @@ int main(){
         long long n = it % 3 ? stress::rand_int(1, 1000000000000000000LL) : MOD * stress::rand_int(1, 1000000) + stress::rand_int(-2, 2);
         assert((faulhaber(n, k) - faulhaber(n - 1, k) + MOD) % MOD == power(n, k));
     }
+
     return 0;
 }

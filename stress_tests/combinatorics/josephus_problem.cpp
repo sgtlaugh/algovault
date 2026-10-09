@@ -32,5 +32,6 @@ int main(){
         int n = stress::rand_int(1, 1000000), k = stress::rand_int(it % 2 ? 2 : INT_MAX - 1000, it % 2 ? 1000 : INT_MAX), m = stress::rand_int(1, n);
         assert(josephus1(n, k, m) == josephus2(n, k, m));
     }
+
     return 0;
 }

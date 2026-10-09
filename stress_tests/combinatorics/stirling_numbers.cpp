@@ -37,6 +37,7 @@ int main(){
         vector<int> rows;
         for (int i = 0; i <= 30; i++) rows.push_back(i);
         for (int i : {60, 90, 120}) rows.push_back(i);
+
         vector<vector<long long>> first, second;
         recurrence(n, m, first, second);
         for (int i : rows){
@@ -67,6 +68,7 @@ int main(){
         for (int i = 0; i < n; i++) rhs = rhs * ((r + i) % m) % m;
         assert(lhs == rhs);
     }
+
     {
         int n = 120000;  /// the product length reaches 2^18
         long long p = BIG_PRIME, r = stress::rand_int(n + 1, p - 1), lhs = 0, rhs = 1, falling = 1;
@@ -85,8 +87,10 @@ int main(){
         stirling_second(0, 1);
         _exit(0);
     }
+
     int status;
     assert(waitpid(pid, &status, 0) == pid);
     assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+
     return 0;
 }

@@ -42,5 +42,6 @@ int main(){
 
     for (int n = 0; n <= 60; n++) check_row(n);
     for (long long it = 0; it < stress::scaled(6); it++) check_row(stress::rand_int(it % 2 ? 61 : MAX - 100, MAX - 1));
+
     return 0;
 }

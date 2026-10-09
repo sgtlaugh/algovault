@@ -31,12 +31,14 @@ namespace stirling_fft{
             rt.resize(2 * len);
             for (int k = 0; k < len; k++) rt[len + k] = polar(1.0L, acosl(-1.0L) * k / len);
         }
+
         for (int i = 1, j = 0; i < n; i++){
             int bit = n >> 1;
             for (; j & bit; bit >>= 1) j ^= bit;
             j ^= bit;
             if (i < j) swap(a[i], a[j]);
         }
+
         for (int len = 2; len <= n; len <<= 1){
             for (int i = 0; i < n; i += len){
                 for (int k = 0; k < len / 2; k++){
@@ -46,6 +48,7 @@ namespace stirling_fft{
                 }
             }
         }
+
         if (invert){
             for (auto& x : a) x /= n;
         }
@@ -93,6 +96,7 @@ vector<long long> stirling_first(int n, long long m){
 
 vector<long long> stirling_second(int n, long long p){
     assert(n >= 0 && 2 <= p && n < p && p <= (1LL << 30));
+
     auto pow_mod = [&](long long b, long long e){
         long long res = 1 % p;
         for (b %= p; e; e >>= 1, b = b * b % p){
@@ -111,6 +115,7 @@ vector<long long> stirling_second(int n, long long p){
         x[i] = pow_mod(i, n) * inv_fact[i] % p;
         y[i] = i % 2 ? (p - inv_fact[i]) % p : inv_fact[i];
     }
+
     vector<long long> res = stirling_fft::mod_multiply(x, y, p);
     res.resize(n + 1);
     return res;
@@ -128,5 +133,6 @@ int main(){
     assert((stirling_second(4, 1000000007) == vector<long long>{0, 1, 7, 6, 1}));
     assert((stirling_second(5, 1000000007) == vector<long long>{0, 1, 15, 25, 10, 1}));
     assert((stirling_second(5, 7) == vector<long long>{0, 1, 1, 4, 3, 1}));
+
     return 0;
 }

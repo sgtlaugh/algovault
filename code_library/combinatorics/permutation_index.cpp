@@ -57,5 +57,6 @@ int main(){
     vector<int> last(20);
     iota(last.rbegin(), last.rend(), 0);
     assert(twenty.index(last) == 2432902008176639999LL);
+
     return 0;
 }
