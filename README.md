@@ -65,7 +65,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Virtual Tree](code_library/trees/virtual_tree.cpp) - compress a tree to k vertices plus their LCAs in O(k log k), O(1) LCA and weighted distance
 
 ### Graphs
-- [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability and an assignment via Kosaraju
+- [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability and an assignment via Kosaraju, with at-most-one constraints in O(k) clauses
 - [2-SAT, Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - lexicographically smallest satisfying assignment
 - [Articulation Points and Biconnected Components](code_library/graphs/articulation_points.cpp) - cut vertices, blocks (edge ids) and the block-cut tree, parallel edges allowed
 - [Bellman Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges, -inf marking, negative cycle retrieval, O(n m)

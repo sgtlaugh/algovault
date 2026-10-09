@@ -7,6 +7,14 @@
  *
  * Complexity: O(n + m), n = number of nodes and m = number of edges or constraints
  *
+ * Literals are signed variable indices: x means x is true, -x means x is false
+ * at_most_one(literals) allows at most one of k literals to be true (a literal listed twice counts twice)
+ * It uses the prefix encoding: for k >= 2, k - 2 auxiliary variables and 3k - 5 clauses instead of k^2 / 2 pairwise clauses
+ * Auxiliary variables come from add_var(), numbered after the existing ones, so earlier indices never change
+ *
+ * The DFS is recursive, so its depth is the longest implication path, and at_most_one over k literals builds a path of about k
+ * On an 8 MB stack a path of 5e4 literals is safe under ASan and 2.5e5 with -O2, 3e5 overflows even with -O2
+ *
 ***/
 
 #include <bits/stdc++.h>
@@ -15,25 +23,26 @@ using namespace std;
 
 struct Graph{
     int n, t;
-    vector<pair<int, int>> edges;
+    vector<pair<int, int>> edges;  /// signed literals, mapped to nodes 1..2n only in build() since add_var() changes n
     vector<int> adj_start, adj_to, rev_start, rev_to;
     vector<int> visited, comp, order, dfs_t;
 
-    Graph(int n): n(n){
-        int m = 2 * n + 2;
-        visited.resize(m, 0), dfs_t.resize(m, 0), order.resize(m, 0), comp.resize(m, 0);
+    Graph(int n): n(n){}
+
+    /// Literal x is node x, literal -x is node n + x
+    inline int node(int x){
+        return x > 0 ? x : n - x;
     }
 
-    inline int neg(int x){
-        return ((x) <= n ? (x + n) : (x - n));
+    /// Adds a fresh variable and returns its index
+    int add_var(){
+        return ++n;
     }
 
     /// Add implication, if a then b
     inline void add_implication(int a, int b){
-        if (a < 0) a = n - a;
-        if (b < 0) b = n - b;
-        assert(a >= 1 && a <= 2 * n && b >= 1 && b <= 2 * n);
-        edges.push_back({a, b}), edges.push_back({neg(b), neg(a)});
+        assert(a != 0 && abs(a) <= n && b != 0 && abs(b) <= n);
+        edges.push_back({a, b}), edges.push_back({-b, -a});
     }
 
     inline void add_or(int a, int b){
@@ -52,23 +61,40 @@ struct Graph{
 
     /// Force variable x to be true (if x is negative, force !x to be true)
     inline void force_true(int x){
-        if (x < 0) x = n - x;
-        edges.push_back({neg(x), x});  /// !x -> x is its own contrapositive, add it once
+        assert(x != 0 && abs(x) <= n);
+        edges.push_back({-x, x});  /// !x -> x is its own contrapositive, add it once
     }
 
     /// Force variable x to be false (if x is negative, force !x to be false)
     inline void force_false(int x){
-        if (x < 0) x = n - x;
-        edges.push_back({x, neg(x)});  /// x -> !x is its own contrapositive, add it once
+        assert(x != 0 && abs(x) <= n);
+        edges.push_back({x, -x});  /// x -> !x is its own contrapositive, add it once
+    }
+
+    /// prev is a literal meaning "one of lits[0..i-1] is true", it forbids lits[i] and carries over to the next prefix
+    void at_most_one(const vector<int>& lits){
+        int k = lits.size();
+        if (k <= 1) return;
+
+        int prev = lits[0];
+        for (int i = 1; i + 1 < k; i++){
+            int cur = add_var();
+            add_implication(prev, -lits[i]);
+            add_implication(prev, cur);
+            add_implication(lits[i], cur);
+            prev = cur;
+        }
+
+        add_implication(prev, -lits[k - 1]);
     }
 
     /// Stable counting sort of the edges by source, so the DFS visits neighbours in insertion order
     void flatten(vector<int>& start, vector<int>& to, bool reverse){
         start.assign(2 * n + 2, 0), to.resize(edges.size());
-        for (auto [u, v]: edges) start[reverse ? v : u]++;
+        for (auto [a, b]: edges) start[node(reverse ? b : a)]++;
         for (int i = 1; i <= 2 * n + 1; i++) start[i] += start[i - 1];
         for (int i = (int)edges.size() - 1; i >= 0; i--){
-            auto [u, v] = edges[i];
+            int u = node(edges[i].first), v = node(edges[i].second);
             if (reverse) swap(u, v);
             to[--start[u]] = v;
         }
@@ -91,16 +117,17 @@ struct Graph{
 
     /// Components are numbered in discovery order, which is a reverse topological order of the implication graph
     void build(){
-        int i, x, c = 0;
+        int i, x, c = 0, m = 2 * n + 2;
         flatten(adj_start, adj_to, false), flatten(rev_start, rev_to, true);
+        dfs_t.assign(m, 0), order.assign(m, 0), comp.assign(m, 0);
 
-        for (i = 0; i <= 2 * n; i++) visited[i] = 0;
+        visited.assign(m, 0);
         for (i = 2 * n, t = 0; i >= 1; i--){
             if (!visited[i]) topsort(i);
             order[dfs_t[i]] = i;
         }
 
-        for (i = 0; i <= 2 * n; i++) visited[i] = 0;
+        visited.assign(m, 0);
         for (i = 2 * n; i >= 1; i--){
             x = order[i];
             if (!visited[x]) dfs(x, c++);
@@ -120,7 +147,7 @@ struct Graph{
     /// If x implies !x then comp[!x] is discovered first, so x is false
     inline bool value(int x){
         if (x < 0) return !value(-x);
-        return comp[x] < comp[neg(x)];
+        return comp[x] < comp[x + n];
     }
 };
 
@@ -135,5 +162,36 @@ int main(){
 
     assert(g.is_satisfiable());
     assert(!g.value(1) && !g.value(2) && !g.value(3) && g.value(4) && !g.value(-4));
+
+    auto h = Graph(4);
+    h.at_most_one({1, -2, 3, 4});
+    assert(h.n == 6);
+    h.add_or(1, 3);
+    assert(h.is_satisfiable());
+    assert(h.value(2) && !h.value(4) && h.value(1) != h.value(3));
+    h.force_true(4);
+    assert(!h.is_satisfiable());
+
+    auto p = Graph(3);
+    p.at_most_one({1, 2, 3});
+    p.force_true(2);
+    assert(p.is_satisfiable());
+    assert(!p.value(1) && p.value(2) && !p.value(3));
+    p.force_true(3);
+    assert(!p.is_satisfiable());
+
+    auto q = Graph(2);
+    q.at_most_one({-1, -2});
+    q.force_false(1);
+    assert(q.is_satisfiable() && !q.value(1) && q.value(2));
+
+    auto d = Graph(1);
+    d.at_most_one({1, 1});
+    d.at_most_one({1});
+    d.at_most_one({});
+    assert(d.n == 1 && d.is_satisfiable() && !d.value(1));
+    d.force_true(1);
+    assert(!d.is_satisfiable());
+
     return 0;
 }
