@@ -1,46 +1,3 @@
-from copy import deepcopy
-
-
-class Matrix:
-    def __init__(self, n, mod, diagonal=0):
-        """
-
-        :param n: size of the matrix, n x n
-        :param mod: all calculations occur modulo this number
-        :param diagonal: diagonal values, mat[i][i]
-        """
-        self.n = n
-        self.mod = mod
-
-        self.mat = [[0 for _ in range(n)] for _ in range(n)]
-        for i in range(n):
-            self.mat[i][i] = diagonal
-
-    def multiply(self, multiplicand):
-        res = Matrix(self.n, self.mod)
-
-        for i in range(self.n):
-            for j in range(self.n):
-                for k in range(self.n):
-                    res.mat[i][j] += self.mat[i][k] * multiplicand.mat[k][j]
-                res.mat[i][j] %= self.mod
-
-        return res
-
-    def power(self, exponent):
-        mat = deepcopy(self)
-        res = Matrix(self.n, self.mod, 1)
-
-        while exponent:
-            if exponent & 1:
-                res = res.multiply(mat)
-
-            exponent >>= 1
-            mat = mat.multiply(mat)
-
-        return res
-
-
 def convolution(first, second, mod):
     res = 0
     for f, s in zip(first, second):
@@ -106,19 +63,36 @@ def solve_linear_recurrence(base_sequence, nth_term, mod):
     recurrence = berlekamp_massey(base_sequence, mod)
 
     k = len(recurrence)
-    ar = Matrix(k, mod)
+    if not k:
+        return 0
 
-    for i in range(k):
-        ar.mat[0][i] = mod - recurrence[i]
-        if i:
-            ar.mat[i][i - 1] = 1
+    # Kitamasa: a_N = sum c_i * a_i where sum c_i * x^i = x^N mod the characteristic polynomial
+    coefficients = [(mod - r) % mod for r in recurrence]
+    poly = [1] + [0] * (k - 1)
+    for bit in bin(nth_term)[2:]:
+        poly = _multiply_mod(poly, poly, coefficients, mod)
+        if bit == '1':
+            poly = _multiply_mod(poly, [0, 1], coefficients, mod)
 
-    result = 0
-    ar = ar.power(nth_term - n + 1)
-    for i in range(k):
-        result += ar.mat[0][i] * base_sequence[n - i - 1]
+    return sum(c * a for c, a in zip(poly, base_sequence)) % mod
 
-    return result % mod
+
+def _multiply_mod(first, second, coefficients, mod):
+    """Product of two polynomials reduced by x^k = sum coefficients[j] * x^(k - 1 - j)"""
+    k = len(coefficients)
+    res = [0] * (len(first) + len(second) - 1)
+    for i, f in enumerate(first):
+        if f:
+            for j, s in enumerate(second):
+                res[i + j] += f * s
+
+    for i in range(len(res) - 1, k - 1, -1):
+        top = res[i] % mod
+        if top:
+            for j, c in enumerate(coefficients):
+                res[i - 1 - j] += top * c
+
+    return [x % mod for x in res[:k]]
 
 
 def main():
