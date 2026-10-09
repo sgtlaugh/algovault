@@ -1,4 +1,6 @@
 #include "common.h"
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define main library_main
 #include "../code_library/dynamic_aho_corasick.cpp"
@@ -18,6 +20,31 @@ long long brute(const vector<string>& patterns, const string& text){
     return res;
 }
 
+/// With every slot full, the next insert must hit the capacity assert rather than touch ar[MAX_LOG]
+/// Its message is checked because the overflow can also abort through a library assert on garbage memory
+void check_full_insert_aborts(){
+    int fd[2];
+    assert(pipe(fd) == 0);
+    pid_t pid = fork();
+    if (pid == 0){
+        dup2(fd[1], STDERR_FILENO);
+        DynamicAhoCorasick ac;
+        for (int i = 0; i < MAX_LOG; i++) ac.ar[i].insert("overbooked");
+        ac.insert("onemore");
+        _exit(0);
+    }
+    close(fd[1]);
+    string err;
+    char buf[4096];
+    for (ssize_t len; (len = read(fd[0], buf, sizeof(buf))) > 0;) err.append(buf, len);
+    close(fd[0]);
+
+    int status;
+    waitpid(pid, &status, 0);
+    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    assert(err.find("k < MAX_LOG") != string::npos);
+}
+
 /// Queried after every insert so that each merge of the binary decomposition is exercised
 int main(){
     for (long long it = 0; it < stress::scaled(200); it++){
@@ -34,5 +61,7 @@ int main(){
             assert(ac.count(text) == brute(patterns, text));
         }
     }
+
+    check_full_insert_aborts();
     return 0;
 }
