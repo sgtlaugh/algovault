@@ -72,6 +72,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Bellman Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges, -inf marking, negative cycle retrieval, O(n m)
 - [Bridges](code_library/graphs/bridge.cpp) - bridges and the bridge tree, parallel edges allowed
 - [Chromatic Number](code_library/graphs/chromatic_number.cpp) - minimum vertex coloring via inclusion-exclusion over independent sets, O(2^n n), n <= 24
+- [Complement Graph BFS](code_library/graphs/complement_graph_bfs.cpp) - BFS distances and components in the complement of a sparse graph, O(n + m)
 - [Dijkstra](code_library/graphs/dijkstra.cpp) - shortest paths with path reconstruction: heap O((n + m) log m), dense O(n^2) and 0-1 BFS
 - [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence with parents, negative weights, O(m log m)
 - [Dominator Tree](code_library/graphs/dominator_tree.cpp) - Lengauer-Tarjan immediate dominators from a root, O((n + m) log n)
