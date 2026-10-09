@@ -103,9 +103,10 @@ int main(){
     ladder.push_back(0);
     check(ladder, gcd_op, 64);
 
+    /// 65 segments, then a push that merges while the list is at its widest
     vector<unsigned long long> bits_up;
     for (int b = 0; b < 64; b++) bits_up.push_back(1ULL << b);
-    bits_up.push_back(0);
+    bits_up.push_back(0), bits_up.push_back(1);
     check(bits_up, bit_or<unsigned long long>(), 65);
 
     /// O(n log A) op calls at n = 2e5 with gcd chains as long as 1e18 allows

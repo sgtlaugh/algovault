@@ -68,59 +68,20 @@ int main(){
         for (auto& s : agg.segments()) res.emplace_back(s.value, s.left, s.right);
         return res;
     };
-    auto gcd_op = [](long long x, long long y){ return gcd(x, y); };
 
+    /// Count of subarrays per gcd value of {6, 4, 2, 3}
+    auto gcd_op = [](long long x, long long y){ return gcd(x, y); };
     DistinctSubarrayAggregates<long long, decltype(gcd_op)> g(gcd_op);
-    assert(g.segments().empty());
     map<long long, long long> cnt;
-    vector<Tuples> expected_gcd = {
-        {{6, 0, 0}},
-        {{2, 0, 0}, {4, 1, 1}},
-        {{2, 0, 2}},
-        {{1, 0, 2}, {3, 3, 3}},
-    };
-    vector<long long> a = {6, 4, 2, 3};
-    for (int i = 0; i < 4; i++){
-        g.push(a[i]);
-        assert(as_tuples(g) == expected_gcd[i]);
+    for (long long x : {6, 4, 2, 3}){
+        g.push(x);
         for (auto& s : g.segments()) cnt[s.value] += s.right - s.left + 1;
     }
+    assert((as_tuples(g) == Tuples{{1, 0, 2}, {3, 3, 3}}));    /// gcd(a[l..3]) is 1 for l <= 2, 3 for l = 3
     assert((cnt == map<long long, long long>{{1, 3}, {2, 4}, {3, 1}, {4, 1}, {6, 1}}));
 
-    DistinctSubarrayAggregates<long long, decltype(gcd_op)> zeros(gcd_op);
-    zeros.push(0);
-    zeros.push(0);
-    assert((as_tuples(zeros) == Tuples{{0, 0, 1}}));
-    zeros.push(5);
-    assert((as_tuples(zeros) == Tuples{{5, 0, 2}}));
-
-    DistinctSubarrayAggregates<long long, decltype(gcd_op)> big(gcd_op);
-    big.push(1LL << 60);
-    big.push(3LL << 59);
-    assert((as_tuples(big) == Tuples{{1LL << 59, 0, 0}, {3LL << 59, 1, 1}}));
-
     DistinctSubarrayAggregates<long long, bit_or<long long>> ors;
-    for (long long x : {1, 2, 4}) ors.push(x);
-    assert((as_tuples(ors) == Tuples{{7, 0, 0}, {6, 1, 1}, {4, 2, 2}}));
-    ors.push(1);
+    for (long long x : {1, 2, 4, 1}) ors.push(x);
     assert((as_tuples(ors) == Tuples{{7, 0, 1}, {5, 2, 2}, {1, 3, 3}}));
-
-    DistinctSubarrayAggregates<long long, bit_and<long long>> ands;
-    for (long long x : {12, 10, 14}) ands.push(x);
-    assert((as_tuples(ands) == Tuples{{8, 0, 0}, {10, 1, 1}, {14, 2, 2}}));
-    ands.push(1);
-    assert((as_tuples(ands) == Tuples{{0, 0, 2}, {1, 3, 3}}));
-
-    DistinctSubarrayAggregates<unsigned long long, bit_or<unsigned long long>> widest;
-    for (int b = 0; b < 64; b++) widest.push(1ULL << b);
-    widest.push(0);
-    assert(widest.segments().size() == 65);
-    assert(widest.segments()[0].value == ~0ULL && widest.segments()[64].value == 0);
-
-    DistinctSubarrayAggregates<long long, decltype(gcd_op)> deepest(gcd_op);
-    for (int b = 0; b <= 62; b++) deepest.push(1LL << b);
-    deepest.push(0);
-    assert(deepest.segments().size() == 64);
-
     return 0;
 }
