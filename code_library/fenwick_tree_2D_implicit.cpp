@@ -7,11 +7,12 @@
  * Space: O(Q log^2 N) where Q is number of updates
  * Time: O(log^2 N) per update/query
  *
- * Nodes come from a fixed pool of MAXNODES (~16 bytes each, ~205 MB by default), each range update takes up to 4 * log^2(N)
+ * Nodes come from a pool of MAXNODES (16 bytes each for long long, ~205 MB by default), each range update takes up to 4 * log^2(N)
+ * The pool is reserved up front but only memory for nodes actually created is touched
  * The row roots take another 4 * (N + 1) bytes, so N is bounded by memory
  *
  * vs sparse hashmap (fenwick_tree_2D_sparse.cpp):
- *   - Better for Q < 100K: no hash table overhead (~270 MB)
+ *   - Better for Q < 100K: no fixed hash table cost (268 MB by default)
  *   - Better cache locality: tree structure vs random hash positions
  *   - No hash collisions
  *   - Hashmap faster for very sparse (Q < 10K) with random access patterns
@@ -26,39 +27,50 @@ template <typename T>
 struct FenwickImplicit2D{
     static const int MAXNODES = 12800000; // Adjust based on memory constraints
 
-    int n, idx;
-    vector<T> tree;
-    vector<int> root, L, R;
+    struct Node{
+        T sum;
+        int l, r;
+    };
 
-    FenwickImplicit2D(int n = 0) : n(n), idx(0), tree(MAXNODES, 0), root(n + 1, 0), L(MAXNODES, 0), R(MAXNODES, 0) {}
+    int n;
+    vector<int> root;
+    vector<Node> nodes;
 
-    void update_seg(int& cur, int a, int b, int p, T v){
+    /// reserve without filling, so pool pages are only touched once nodes are used, node 0 is the empty child
+    FenwickImplicit2D(int n = 0) : n(n), root(n + 1, 0) {
+        nodes.reserve(MAXNODES);
+        nodes.push_back({0, 0, 0});
+    }
+
+    int update_seg(int cur, int a, int b, int p, T v){
         if (!cur){
-            assert(idx + 1 < MAXNODES);  /// out of pool nodes, raise MAXNODES
-            cur = ++idx;
+            assert((int)nodes.size() < MAXNODES);  /// out of pool nodes, raise MAXNODES
+            cur = nodes.size();
+            nodes.push_back({0, 0, 0});
         }
-        tree[cur] += v;
+        nodes[cur].sum += v;
 
         if (a != b){
             int m = (a + b) >> 1;
-            if (p <= m) update_seg(L[cur], a, m, p, v);
-            else update_seg(R[cur], m + 1, b, p, v);
+            if (p <= m) nodes[cur].l = update_seg(nodes[cur].l, a, m, p, v);
+            else nodes[cur].r = update_seg(nodes[cur].r, m + 1, b, p, v);
         }
+        return cur;
     }
 
     T query_seg(int cur, int a, int b, int r){
         if (!cur) return 0;
-        if (r >= b) return tree[cur];
+        if (r >= b) return nodes[cur].sum;
 
         int m = (a + b) >> 1;
-        if (r <= m) return query_seg(L[cur], a, m, r);
-        return tree[L[cur]] + query_seg(R[cur], m + 1, b, r);
+        if (r <= m) return query_seg(nodes[cur].l, a, m, r);
+        return nodes[nodes[cur].l].sum + query_seg(nodes[cur].r, m + 1, b, r);
     }
 
     void update_fen(int x, int y, T v){
         if (y > n) return;  /// column n + 1 from a range update ending at n, otherwise it lands on leaf n
         for (int i = x; i <= n; i += i & -i){
-            update_seg(root[i], 1, n, y, v);
+            root[i] = update_seg(root[i], 1, n, y, v);
         }
     }
 
