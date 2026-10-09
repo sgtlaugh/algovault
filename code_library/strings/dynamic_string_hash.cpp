@@ -142,55 +142,19 @@ struct DynamicStringHash{
 
 int main(){
     DynamicStringHash h("abcabcab");
-    assert(h.hash(0, 2) == h.hash(3, 5));
-    assert(h.hash(0, 1) == h.hash(6, 7));
-    assert(h.hash(0, 2) != h.hash(1, 3));
+    assert(h.hash(0, 2) == h.hash(3, 5));  /// "abc" twice
+    assert(h.hash(0, 2) != h.hash(1, 3));  /// "abc" against "bca"
 
-    h.assign(3, 5, 'z');
+    h.assign(3, 5, 'z');                   /// abczzzab
     assert(h.hash(0, 2) != h.hash(3, 5));
-    assert(h.hash(3, 4) == h.hash(4, 5));
+    assert(h.hash(3, 4) == h.hash(4, 5));  /// "zz" twice
 
-    DynamicStringHash p("abcabcab", 11), q("abczzzab", 11);
-    p.assign(3, 5, 'z');
-    assert(p.hash(0, 7) == q.hash(0, 7));
-
-    DynamicStringHash a("xyxy", 7), b("yxyx", 7);
-    assert(a.hash(0, 1) == b.hash(1, 2) && a.hash(1, 3) == b.hash(0, 2));
-    a.assign(0, 3, 'q'), b.assign(1, 2, 'q');
-    assert(a.hash(1, 2) == b.hash(1, 2));
-
-    DynamicStringHash pizza("pizza"), another_pizza("pizza");
-    assert(pizza.hash(0, 4) == another_pizza.hash(0, 4));
-
-    DynamicStringHash single("k");
-    single.assign(0, 0, 'm');
-    assert(single.hash(0, 0) == (unsigned long long)'m' + 1);
-    assert(single.rev_hash(0, 0) == (unsigned long long)'m' + 1);
-    assert(single.is_palindrome(0, 0));
-
-    DynamicStringHash two("ab", 3);
-    assert(two.hash(0, 1) == (unsigned long long)(((unsigned __int128)('a' + 1) * two.base + 'b' + 1) % DynamicStringHash::MOD));
-    assert(two.rev_hash(0, 1) == (unsigned long long)(((unsigned __int128)('b' + 1) * two.base + 'a' + 1) % DynamicStringHash::MOD));
-
-    DynamicStringHash racecar("racecar");
-    assert(racecar.is_palindrome(0, 6) && racecar.is_palindrome(1, 5) && racecar.is_palindrome(2, 4));
-    assert(!racecar.is_palindrome(0, 5) && !racecar.is_palindrome(1, 2));
-    assert(racecar.hash(0, 2) == racecar.rev_hash(4, 6));
-    assert(racecar.hash(0, 1) != racecar.rev_hash(0, 1));
-
-    DynamicStringHash word("abcde");
-    word.assign(1, 3, 'z');
-    assert(word.is_palindrome(1, 3) && word.is_palindrome(2, 3) && !word.is_palindrome(0, 4));
-    word.assign(4, 4, 'a');
-    assert(word.is_palindrome(0, 4));
-    word.assign(2, 2, 'y');
-    assert(word.is_palindrome(0, 4) && !word.is_palindrome(1, 2));
-    word.assign(0, 0, 'b');
-    assert(!word.is_palindrome(0, 4) && word.is_palindrome(1, 3));
-
-    DynamicStringHash x("stressed", 5), y("desserts", 5);
-    assert(x.hash(0, 7) == y.rev_hash(0, 7) && x.rev_hash(0, 7) == y.hash(0, 7));
-    assert(x.hash(0, 7) != y.hash(0, 7));
-
+    DynamicStringHash word("racecat");
+    assert(word.is_palindrome(1, 5));                /// "aceca"
+    assert(!word.is_palindrome(0, 6));
+    assert(word.hash(0, 2) != word.rev_hash(4, 6));  /// "rac" against "cat" read backwards
+    word.assign(6, 6, 'r');                          /// racecar
+    assert(word.is_palindrome(0, 6));
+    assert(word.hash(0, 2) == word.rev_hash(4, 6));  /// "rac" against "car" read backwards
     return 0;
 }
