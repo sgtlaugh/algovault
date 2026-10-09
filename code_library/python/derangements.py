@@ -48,7 +48,7 @@ def main():
     assert derangement(4, 10) == 3333
     assert derangement(20, 20) == 895014631192902121
     assert derangement(50, 60) == 995388150220927603258765357437017485681332235328576602372114257773098037151
-    
+
     data = [
         (0, 1),
         (1, 0),
@@ -59,7 +59,7 @@ def main():
         (20, 0.36787944117144233),
         (500, 0.36787944117144233),
     ]
-    
+
     for n, expected_result in data:
         assert abs(derangement_probability(n) - expected_result) < 1e-9
 

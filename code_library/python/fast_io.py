@@ -12,7 +12,7 @@ class Scanner():
     def get_tokens(self):
         for line in sys.stdin:
             for token in line.split():
-                yield token  
+                yield token
         yield None
 
 

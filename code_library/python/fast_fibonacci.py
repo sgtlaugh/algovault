@@ -36,7 +36,7 @@ def main():
     assert fibonacci(100, modulo) == 687995182
     assert fibonacci(400, modulo) == 967250938
     assert fibonacci(10**1000, modulo) == 552179166
-    
+
     # Digit counts checked by exact comparison, str() refuses ints over 4300 digits since Python 3.11
     has_digits = lambda x, d: 10 ** (d - 1) <= x < 10 ** d
     assert has_digits(fibonacci(10000), 2090)

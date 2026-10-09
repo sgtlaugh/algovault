@@ -1,9 +1,9 @@
 /***
- * 
+ *
  * Computes the number of digits of n! in base b
  * Exact for n <= 20, uses lgammal beyond that
  * Although fairly accurate, there is no guarantee it'll compute the exact answer for larger n
- * 
+ *
 ***/
 
 #include <stdio.h>

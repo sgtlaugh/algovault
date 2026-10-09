@@ -98,7 +98,7 @@ def _multiply_mod(first, second, coefficients, mod):
 def main():
     mod = 10**9 + 7
     base_sequence = [0, 1, 1, 2, 3, 5, 8, 13]  # fibonacci sequence
-    
+
     assert solve_linear_recurrence(base_sequence, 0, mod) == 0
     assert solve_linear_recurrence(base_sequence, 1, mod) == 1
     assert solve_linear_recurrence(base_sequence, 10, mod) == 55
