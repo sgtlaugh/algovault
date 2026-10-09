@@ -22,7 +22,13 @@ def count_ways(n):
 
         return ways
 
-    return backtrack(n, 0, 0, 0)
+    if not n:
+        return 1
+
+    # Mirror symmetry: first row columns in the left half count twice, the middle column of an odd board once
+    place = lambda x: backtrack(n - 1, x, x << 1, x >> 1)
+    ways = 2 * sum(place(1 << i) for i in range(n // 2))
+    return ways + place(1 << (n // 2)) if n & 1 else ways
 
 
 def main():
