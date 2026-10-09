@@ -17,13 +17,14 @@ struct Point{
 };
 
 /// area of the polygon multiplied by 2
+/// Partial sums overflow long long near 1e9 coordinates even when the area fits
 long long area2(const vector<Point>& poly){
-    long long res = 0;
+    __int128 res = 0;
     int i, j, n = poly.size();
     for (i = 0, j = n - 1; i < n; j = i++){
-        res += ((poly[j].x + poly[i].x) * (poly[j].y - poly[i].y));
+        res += (__int128)(poly[j].x + poly[i].x) * (poly[j].y - poly[i].y);
     }
-    return abs(res);
+    return res < 0 ? -res : res;
 }
 
 /// number of lattice points strictly on the polygon border (edges)
