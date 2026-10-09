@@ -167,8 +167,8 @@ void check_tree(int n, int q, int shape, int verify = 1 << 30){
         vector<int> freq(21, 0);
         int distinct = 0;
         long long sum = 0;
-        vector<int> got_distinct(q);
-        vector<long long> got_sum(q);
+        vector<int> got_distinct(q, -1);  /// -1 so a path that never gets answer() fails
+        vector<long long> got_sum(q, -1);
 
         tree.run(paths,
             [&](int v){ distinct += freq[value[v]]++ == 0, sum += value[v]; },

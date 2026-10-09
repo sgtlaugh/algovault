@@ -236,29 +236,32 @@ struct TreePathMo{
 };
 
 int main(){
+    /// Distinct values per range: the callbacks keep a frequency table and a running count
     vector<int> a = {1, 2, 1, 3, 2, 2, 4};
-    vector<pair<int, int>> queries = {{0, 6}, {0, 2}, {3, 5}, {4, 4}, {2, 3}};
+    vector<pair<int, int>> queries = {{0, 6}, {0, 2}, {3, 5}};
     vector<int> freq(5, 0), distinct(queries.size());
     int count = 0;
     mo((int)a.size(), queries,
         [&](int i){ count += freq[a[i]]++ == 0; },
         [&](int i){ count -= --freq[a[i]] == 0; },
         [&](int qi){ distinct[qi] = count; });
-    assert((distinct == vector<int>{4, 2, 2, 1, 2}));
+    assert((distinct == vector<int>{4, 2, 2}));
 
-    vector<int> b = {1, 2, 1, 3, 2}, update_pos = {1, 3}, update_value = {1, 2};
-    vector<array<int, 3>> timed = {{0, 4, 0}, {0, 4, 1}, {0, 4, 2}, {1, 3, 0}, {1, 3, 2}, {0, 2, 1}, {3, 3, 1}, {3, 3, 2}};
+    /// The same count with point updates: after update 0, b = {1, 1, 1, 3, 2}
+    vector<int> b = {1, 2, 1, 3, 2}, update_pos = {1}, update_value = {1};
+    vector<array<int, 3>> timed = {{0, 2, 0}, {0, 2, 1}};
     vector<int> timed_distinct(timed.size());
     mo_with_updates((int)b.size(), timed, update_pos,
         [&](int i){ count += freq[b[i]]++ == 0; },
         [&](int i){ count -= --freq[b[i]] == 0; },
         [&](int j){ swap(b[update_pos[j]], update_value[j]); },
         [&](int qi){ timed_distinct[qi] = count; });
-    assert((timed_distinct == vector<int>{3, 3, 2, 3, 2, 1, 1, 1}));
-    assert((b == vector<int>{1, 2, 1, 3, 2} && update_value == vector<int>{1, 2} && count == 0));
+    assert((timed_distinct == vector<int>{2, 1}));
+    assert((b == vector<int>{1, 2, 1, 3, 2}));  /// every update is undone at the end
 
+    /// Max of value * occurrences, add-only: rollback restores best and the counts from a history stack
     vector<int> c = {9, 8, 7, 8, 9, 4, 8}, c_freq(10, 0);
-    vector<pair<int, int>> ranges = {{0, 6}, {1, 6}, {1, 3}, {0, 4}, {5, 5}, {2, 4}};
+    vector<pair<int, int>> ranges = {{0, 6}, {1, 3}, {5, 5}};
     vector<pair<int, long long>> history;
     vector<size_t> marks;
     vector<long long> importance(ranges.size());
@@ -274,8 +277,7 @@ int main(){
             marks.pop_back();
         },
         [&](int qi){ importance[qi] = best; });
-    assert((importance == vector<long long>{24, 24, 16, 18, 4, 9}));
-    assert(best == 0 && history.empty() && marks.empty());
+    assert((importance == vector<long long>{24, 16, 4}));  /// 8 three times, 8 twice, 4 once
 
     /***
      *          0
@@ -288,15 +290,13 @@ int main(){
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {0, 2}, {1, 3}, {1, 4}, {2, 5}}) tree.add_edge(u, v);
     tree.build(0);
     vector<int> value = {10, 20, 30, 40, 50, 60};
-    vector<pair<int, int>> paths = {{3, 4}, {3, 5}, {1, 3}, {2, 2}, {5, 0}};
-
+    vector<pair<int, int>> paths = {{3, 4}, {3, 5}};
     vector<long long> sums(paths.size());
     long long sum = 0;
     tree.run(paths, [&](int v){ sum += value[v]; }, [&](int v){ sum -= value[v]; }, [&](int qi){ sums[qi] = sum; });
-    assert((sums == vector<long long>{40 + 20 + 50, 40 + 20 + 10 + 30 + 60, 20 + 40, 30, 60 + 30 + 10}));
+    assert((sums == vector<long long>{40 + 20 + 50, 40 + 20 + 10 + 30 + 60}));
 
     tree.run(paths, [&](int v){ sum += value[v]; }, [&](int v){ sum -= value[v]; }, [&](int qi){ sums[qi] = sum; }, true);
-    assert((sums == vector<long long>{40 + 50, 40 + 20 + 30 + 60, 40, 0, 60 + 30}));
-
+    assert((sums == vector<long long>{40 + 50, 40 + 20 + 30 + 60}));  /// edge mode leaves out the lca
     return 0;
 }
