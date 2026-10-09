@@ -201,6 +201,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [CKY](code_library/dp/cky.cpp) - context-free grammar membership in Chomsky normal form
 - [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - dp[x] = min dp[i] + w(i, x) in O(n log n) under the quadrangle inequality
 - [Divide and Conquer DP Optimization](code_library/dp/divide_conquer_dp.cpp)
+- [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle with the vertex order, bitmask DP in O(2^n n^2)
 - [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - O(n^2) interval DP dp[i][j] = min dp[i][k] + dp[k][j] + cost(i, j) for monotone quadrangle-inequality costs (stone merging, optimal BST)
 - [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS in O(nm)
 - [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS lengths with any comparator
