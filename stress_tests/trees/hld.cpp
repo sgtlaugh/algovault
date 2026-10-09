@@ -23,7 +23,7 @@ vector<pair<int, int>> make_tree(int n, int shape){
     return edges;
 }
 
-/// Path ranges, updates, subtrees and lca against parent climbing on the same rooted tree
+/// Path ranges, exact ordered path sequence, updates, subtrees and lca against parent climbing on the same rooted tree
 void check(int n, int shape, int ops){
     auto edges = make_tree(n, shape);
     int root = stress::rand_int(0, n - 1);
@@ -78,6 +78,13 @@ void check(int n, int shape, int ops){
         for (int x : nodes){
             if (!(edge_mode && x == l)) expected.push_back(hld.pos[x]);
         }
+        vector<int> walked;
+        for (auto [a, b] : hld.ordered_path(u, v, edge_mode)){
+            int step = a <= b ? 1 : -1;
+            for (int i = a; i != b + step; i += step) walked.push_back(i);
+        }
+        assert(walked == expected);
+
         sort(covered.begin(), covered.end());
         sort(expected.begin(), expected.end());
         assert(covered == expected);
@@ -144,6 +151,7 @@ int main(){
         for (int q = 0; q < 2000; q++){
             int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
             assert(hld.path(u, v).size() <= 2 * 18 + 2);
+            assert(hld.ordered_path(u, v, true).size() <= 2 * 18 + 2);
         }
     }
 

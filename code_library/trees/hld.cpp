@@ -10,14 +10,24 @@
  * hld.path(u, v): ranges [l, r] covering the path u..v, inclusive
  * hld.path(u, v, true): same but excludes the lca, for values on edges
  *     store the weight of edge (parent[v], v) at pos[v], the root's position stays unused
+ * hld.ordered_path(u, v): the same ranges as {from, to} pairs listed in path order from u to v,
+ *     each walked from position from to position to: from >= to on the u side (positions decrease while climbing to the lca),
+ *     from <= to on the v side, a single-node range has from == to
+ *     needed for non-commutative folds such as composing affine functions along the path
+ * hld.ordered_path(u, v, true): same but excludes the lca
  * hld.subtree(v): the single range covering the subtree of v
  * hld.lca(u, v)
  *
- * The ranges come back in no particular order, which is fine for commutative operations (sum, min, max, xor)
+ * path() returns ranges in no particular order, which is fine for commutative operations (sum, min, max, xor)
  *
  * Example with a segment tree over positions:
  *     for (auto [l, r] : hld.path(u, v)) res += seg.query(l, r);
  *     for (auto [l, r] : hld.path(u, v)) seg.update(l, r, delta);
+ *
+ * Example of a path composite, the tree keeps both the left-to-right and right-to-left fold of every node:
+ *     for (auto [a, b] : hld.ordered_path(u, v)){
+ *         res = a <= b ? compose(res, seg.query(a, b)) : compose(res, seg.query_reversed(b, a));
+ *     }
  *
 ***/
 
@@ -77,16 +87,34 @@ struct HLD{
     }
 
     vector<pair<int, int>> path(int u, int v, bool edges = false) const{
-        vector<pair<int, int>> ranges;
+        vector<pair<int, int>> ranges = ordered_path(u, v, edges);
+        for (auto& [a, b] : ranges){
+            if (a > b) swap(a, b);
+        }
+        return ranges;
+    }
+
+    vector<pair<int, int>> ordered_path(int u, int v, bool edges = false) const{
+        vector<pair<int, int>> up, down;
         while (head[u] != head[v]){
-            if (depth[head[u]] < depth[head[v]]) swap(u, v);
-            ranges.push_back({pos[head[u]], pos[u]});
-            u = parent[head[u]];
+            if (depth[head[u]] >= depth[head[v]]){
+                up.push_back({pos[u], pos[head[u]]});
+                u = parent[head[u]];
+            }
+            else{
+                down.push_back({pos[head[v]], pos[v]});
+                v = parent[head[v]];
+            }
         }
 
-        if (depth[u] > depth[v]) swap(u, v);
-        if (pos[u] + edges <= pos[v]) ranges.push_back({pos[u] + edges, pos[v]});
-        return ranges;
+        /// u and v now share a chain, the shallower one (smaller position) is the lca
+        if (pos[u] >= pos[v]){
+            if (pos[u] >= pos[v] + edges) up.push_back({pos[u], pos[v] + edges});
+        }
+        else down.push_back({pos[u] + edges, pos[v]});
+
+        up.insert(up.end(), down.rbegin(), down.rend());
+        return up;
     }
 
     pair<int, int> subtree(int v) const{
@@ -143,9 +171,49 @@ int main(){
     assert(hld.lca(6, 5) == 0);
     assert(hld.lca(3, 6) == 3);
 
+    vector<int> node_at(7);
+    for (int v = 0; v < 7; v++) node_at[hld.pos[v]] = v;
+    auto ordered_nodes = [&](int u, int v, bool edges){
+        vector<int> nodes;
+        for (auto [a, b] : hld.ordered_path(u, v, edges)){
+            int step = a <= b ? 1 : -1;
+            for (int i = a; i != b + step; i += step) nodes.push_back(node_at[i]);
+        }
+        return nodes;
+    };
+
+    assert((ordered_nodes(6, 4, false) == vector<int>{6, 3, 1, 4}));
+    assert((ordered_nodes(4, 6, false) == vector<int>{4, 1, 3, 6}));
+    assert((ordered_nodes(6, 5, false) == vector<int>{6, 3, 1, 0, 2, 5}));
+    assert((ordered_nodes(5, 6, false) == vector<int>{5, 2, 0, 1, 3, 6}));
+    assert((ordered_nodes(6, 1, false) == vector<int>{6, 3, 1}));
+    assert((ordered_nodes(1, 6, false) == vector<int>{1, 3, 6}));
+    assert((ordered_nodes(6, 4, true) == vector<int>{6, 3, 4}));
+    assert((ordered_nodes(5, 6, true) == vector<int>{5, 2, 1, 3, 6}));
+    assert((ordered_nodes(1, 6, true) == vector<int>{3, 6}));
+    assert((ordered_nodes(3, 3, false) == vector<int>{3}));
+    assert((ordered_nodes(3, 3, true) == vector<int>{}));
+
+    vector<pair<long long, long long>> affine = {{1, -1}, {1, 5}, {2, 0}, {3, 0}, {10, 0}, {1, 3}, {2, 1}}, func_at(7);
+    for (int v = 0; v < 7; v++) func_at[hld.pos[v]] = affine[v];
+    auto path_apply = [&](int u, int v, bool edges, long long x){
+        for (auto [a, b] : hld.ordered_path(u, v, edges)){
+            int step = a <= b ? 1 : -1;
+            for (int i = a; i != b + step; i += step) x = func_at[i].first * x + func_at[i].second;
+        }
+        return x;
+    };
+
+    assert(path_apply(6, 4, false, 1) == 140);
+    assert(path_apply(4, 6, false, 1) == 91);
+    assert(path_apply(6, 4, true, 1) == 90);
+    assert(path_apply(6, 5, false, 1) == 29);
+    assert(path_apply(5, 6, false, 1) == 73);
+
     HLD single(1);
     single.build(0);
     assert(single.path(0, 0).size() == 1 && single.path(0, 0, true).empty());
+    assert((single.ordered_path(0, 0) == vector<pair<int, int>>{{0, 0}}) && single.ordered_path(0, 0, true).empty());
 
     return 0;
 }
