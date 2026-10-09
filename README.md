@@ -57,6 +57,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Articulation Points](code_library/graphs/articulation_points.cpp) - cut vertices of an undirected graph
 - [Bridges](code_library/graphs/bridge.cpp) - bridges and the bridge tree, parallel edges allowed
 - [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence, O(m log n)
+- [Euler Path](code_library/graphs/euler_path.cpp) - Hierholzer, directed and undirected multigraphs, iterative, O(n + m)
 - [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching size via the Tutte matrix rank
 - [Hopcroft Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, O(m sqrt(n))
 - [Hungarian Algorithm](code_library/graphs/hungarian_algorithm.cpp) - minimum cost assignment, O(min(n, m)^2 max(n, m))
@@ -66,8 +67,8 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Min Cost Max Flow, SPFA](code_library/graphs/mcmf_spfa.cpp) - successive shortest paths with SPFA
 - [Minimum Path Cover](code_library/graphs/minimum_path_cover.cpp) - disjoint and shared path covers of a DAG, maximum antichain
 - [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - Kruskal and Boruvka (struct with add_edge, template for implicit graphs) plus dense O(n^2) Prim on a weight matrix, spanning forest of an undirected graph
-- [Strongly Connected Components](code_library/graphs/scc.cpp) - Kosaraju, components in topological order
 - [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals, O(3^k n + 2^k m log n)
+- [Strongly Connected Components](code_library/graphs/scc.cpp) - Kosaraju, components in topological order
 
 ### Strings
 - [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text by hashing
