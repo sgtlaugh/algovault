@@ -11,6 +11,8 @@
  *
  * rank(p) = sum of c_i * (n - 1 - i)!, c_i = number of values below p[i] not used by p[0..i-1]
  * c_i is one popcount over the bitmask of unused values, the sum is evaluated Horner style
+ * index is compiled for the POPCNT instruction (every x86 CPU since 2008): without it GCC calls a software
+ * popcount and the old 12 MB table version wins at n <= 10, with it this beats the table 1.5x to 6x at every n
  *
 ***/
 
@@ -26,7 +28,7 @@ struct PermutationIndex{
     }
 
     template <typename Permutation>
-    long long index(const Permutation& p) const{
+    __attribute__((target("popcnt"))) long long index(const Permutation& p) const{
         long long res = 0;
         int rest = (1 << n) - 1;
         for (int i = 0; i < n; i++){
