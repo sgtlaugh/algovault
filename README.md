@@ -122,6 +122,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Lagrange Interpolation](code_library/algebra/lagrange_interpolation.cpp) - value of a polynomial from consecutive samples
 - [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - find a recurrence from terms and compute its n-th term
 - [NTT](code_library/algebra/ntt.cpp) - polynomial multiplication modulo an NTT prime, any modulus, or exact in 64 bits
+- [Polynomial](code_library/algebra/polynomial.cpp) - NTT power series: inverse, division, log, exp, sqrt, pow, multipoint evaluation, interpolation and Taylor shift
 - [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - xor, or and and convolutions
 
 ### Linear Algebra
