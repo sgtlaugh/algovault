@@ -54,18 +54,21 @@ bool is_period(ull k, ull m){
     return fib_pair(k, m) == make_pair(0 % m, 1 % m);
 }
 
-/// The answer must be a period, and no p / q for a prime q dividing it may be one
-void check_minimal_period(long long n){
-    long long p = pisano_period(n);
-    assert(p > 0 && p <= 6 * n && is_period(p, n));
+/// The library factorization, checked against the independent primality test before it is trusted
+vector<long long> checked_factors(PisanoPeriod& pisano, long long n){
+    auto factors = pisano.rho.factorize(n);
+    __int128 product = 1;
+    for (auto f : factors) product *= f, assert(reference_is_prime(f));
+    assert(product == n && is_sorted(factors.begin(), factors.end()));
+    return factors;
+}
 
-    long long rest = p;
-    for (long long q = 2; q * q <= rest; q++){
-        if (rest % q) continue;
-        assert(!is_period(p / q, n));
-        while (rest % q == 0) rest /= q;
-    }
-    if (rest > 1) assert(!is_period(p / rest, n));
+/// The answer must be a period, and no p / q for a prime q dividing it may be one
+void check_minimal_period(PisanoPeriod& pisano, long long n){
+    long long p = pisano.period(n);
+    assert(p > 0 && (__int128)p <= (__int128)6 * n && is_period(p, n));
+
+    for (auto q : checked_factors(pisano, p)) assert(!is_period(p / q, n));
 }
 
 long long brute_pisano(long long n){
@@ -76,43 +79,52 @@ long long brute_pisano(long long n){
 }
 
 int main(){
+    PisanoPeriod pisano;
+
     /// Strong pseudoprimes to the smallest bases, a weakened base set would call them prime
-    for (ull n : {3215031751ULL, 2152302898747ULL, 3474749660383ULL, 341550071728321ULL, 3825123056546413051ULL}) assert(!rho::miller_rabin(n));
+    /// 107528788110061 = 7332421 * 14664841 passes the first six bases, only 1795265022 rejects it
+    for (ull n : {3215031751ULL, 2152302898747ULL, 3474749660383ULL, 341550071728321ULL, 3825123056546413051ULL, 107528788110061ULL}) assert(!pisano.rho.is_prime(n));
 
-    rho::init();
-
-    for (long long n = 1; n <= 3000; n++) assert(pisano_period(n) == brute_pisano(n));
+    for (long long n = 1; n <= 3000; n++) assert(pisano.period(n) == brute_pisano(n));
 
     /// 299210837 is a prime that divides a Miller-Rabin base, it used to hang the factorization
-    assert(rho::miller_rabin(299210837) && pisano_period(299210837) == 199473892 && pisano_period(2 * 299210837LL) == 598421676);
+    assert(pisano.rho.is_prime(299210837) && pisano.period(299210837) == 199473892 && pisano.period(2 * 299210837LL) == 598421676);
 
-    for (long long it = 0; it < stress::scaled(60); it++) check_minimal_period(stress::rand_int(2, it % 2 ? 1000000000000LL : 1000000));
+    for (long long it = 0; it < stress::scaled(60); it++) check_minimal_period(pisano, stress::rand_int(2, it % 2 ? 1000000000000LL : 1000000));
+
+    /// The documented bound n <= 1.5 * 10^18, where 2(p + 1) and the 6n period are close to 2^63
+    for (long long it = 0; it < stress::scaled(40); it++) check_minimal_period(pisano, stress::rand_int(1000000000000000000LL, 1500000000000000000LL));
+    check_minimal_period(pisano, 1500000000000000000LL);
 
     /// Primes p = 43# * t + 1 have p - 1 with ~10^5 divisors, scanning all of them took seconds
     for (long long t = 1; t <= 114; t++){
         long long p = 13082761331670030LL * t + 1;
-        if (reference_is_prime(p)) check_minimal_period(p);
+        if (reference_is_prime(p)) check_minimal_period(pisano, p);
     }
-    assert(pisano_period(1177448519850302701LL) == 1177448519850302700LL);
+    assert(pisano.period(1177448519850302701LL) == 1177448519850302700LL);
 
     /// Prime factors of F(k) for k <= 140, pi(p) | 4k must shed the prime > 10^6 dividing p - 1 or 2(p + 1)
     for (long long p : {827728777LL, 1270083883LL, 39589685693LL, 770857978613LL, 32529675488417LL, 8242065050061761LL, 85526722937689093LL}){
-        assert(pisano_period(p) <= 560);
-        check_minimal_period(p);
+        assert(pisano.period(p) <= 560);
+        check_minimal_period(pisano, p);
     }
 
     /// The factorization and primality helpers behind it
     for (long long it = 0; it < stress::scaled(15000); it++){
         long long n = (long long)(stress::rng()() >> stress::rand_int(4, 63)) + 1;
         if (n > 1500000000000000000LL) continue;
-        auto factors = rho::factorize(n);
-        __int128 product = 1;
-        for (auto f : factors) product *= f, assert(reference_is_prime(f));
-        assert(product == n && is_sorted(factors.begin(), factors.end()));
+        checked_factors(pisano, n);
 
         ull m = stress::rand_int(1, 1000000000000000LL) | 1, k = stress::rand_int(0, 1000000000);
         auto expected = fib_pair(k, m);
         assert(fib(k, m) == make_pair((long long)expected.first, (long long)expected.second));
+    }
+
+    /// Instances share no state, a fresh one agrees with the long-lived one
+    PisanoPeriod fresh;
+    for (long long it = 0; it < stress::scaled(200); it++){
+        long long n = stress::rand_int(1, it % 2 ? 1500000000000000000LL : 1000000);
+        assert(fresh.period(n) == pisano.period(n));
     }
 
     return 0;
