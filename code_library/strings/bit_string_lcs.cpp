@@ -37,6 +37,7 @@ int lcs(const char* A, const char* B){
 
         res += __builtin_popcountll(~v);
     }
+
     return res;
 }
 

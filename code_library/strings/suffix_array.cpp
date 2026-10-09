@@ -29,6 +29,7 @@ namespace SuffixArrayDC3 {
             bucket[i] = s;
             s += x;
         }
+
         for (int i = 0; i < n; i++) dest[bucket[val[source[i]]]++] = source[i];
     }
 

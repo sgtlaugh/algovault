@@ -15,6 +15,7 @@ long long brute(const vector<string>& patterns, const string& text){
     for (const auto& p : patterns){
         for (size_t i = 0; i + p.size() <= text.size(); i++) res += text.compare(i, p.size(), p) == 0;
     }
+
     return res;
 }
 
@@ -35,5 +36,6 @@ int main(){
             assert(ac.count(text) == brute(patterns, text));
         }
     }
+
     return 0;
 }

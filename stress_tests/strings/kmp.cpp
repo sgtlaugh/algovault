@@ -39,5 +39,6 @@ int main(){
         for (auto& x : vp) x = x * 1000000007LL - 5;
         check(vt, vp);
     }
+
     return 0;
 }

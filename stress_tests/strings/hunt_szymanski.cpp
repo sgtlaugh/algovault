@@ -10,6 +10,7 @@ int dp_lcs(const string& a, const string& b){
         for (size_t j = 0; j < b.size(); j++) cur[j + 1] = c == b[j] ? prev[j] + 1 : max(prev[j + 1], cur[j]);
         swap(prev, cur);
     }
+
     return prev[b.size()];
 }
 
@@ -21,6 +22,7 @@ string random_string(int len, const string& letters){
 
 int main(){
     const string alphabets[] = {"a", "ab", "acgt", "abcdefghijklmnopqrstuvwxyz", "a\x80\xff\x01 Z~"};
+
     for (long long it = 0; it < stress::scaled(3000); it++){
         const string& letters = alphabets[stress::rand_int(0, 4)];
         string a = random_string(stress::rand_int(0, it % 10 ? 40 : 400), letters), b = random_string(stress::rand_int(0, it % 10 ? 40 : 400), letters);
@@ -33,5 +35,6 @@ int main(){
     string a = random_string(52000, letters), b = a;
     b.erase(stress::rand_int(0, b.size() - 1), 1);
     assert(lcs(a.c_str(), b.c_str()) == (int)b.size());
+
     return 0;
 }

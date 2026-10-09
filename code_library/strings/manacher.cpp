@@ -29,5 +29,6 @@ vector <int> manacher(const string& str){
 
 int main(){
     assert(manacher("abababbaa") == vector<int>({1, 0, 3, 0, 5, 0, 5, 0, 3, 0, 1, 4, 1, 0, 1, 2, 1}));
+
     return 0;
 }

@@ -14,6 +14,7 @@ vector<string> random_grid(int rows, int cols){
 vector<pair<int, int>> brute(const vector<string>& text, const vector<string>& pattern){
     vector<pair<int, int>> res;
     int n = text.size(), m = text[0].size(), r = pattern.size(), c = pattern[0].size();
+
     for (int j = 0; j + c <= m; j++){
         for (int i = 0; i + r <= n; i++){
             bool ok = true;
@@ -21,6 +22,7 @@ vector<pair<int, int>> brute(const vector<string>& text, const vector<string>& p
             if (ok) res.push_back({i, j});
         }
     }
+
     return res;
 }
 

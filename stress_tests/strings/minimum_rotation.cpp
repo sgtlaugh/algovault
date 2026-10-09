@@ -13,9 +13,11 @@ int brute(const Container& s){
         r.insert(r.end(), s.begin(), s.begin() + i);
         return r;
     };
+
     for (int i = 1; i < n; i++){
         if (rotation(i) < rotation(best)) best = i;
     }
+
     return best;
 }
 
@@ -35,6 +37,7 @@ int main(){
         for (auto& x : v) x = stress::rand_int(-2, 2);
         assert(minimum_rotation(v) == brute(v));
     }
+
     for (int n = 0; n <= 14; n++){
         for (int mask = 0; mask < (1 << n); mask++){
             string s;
@@ -42,8 +45,10 @@ int main(){
             assert(minimum_rotation(s) == brute(s));
         }
     }
+
     string big(500000, 'a');
     big[123456] = 'b';
     assert(minimum_rotation(big) == 123457);
+
     return 0;
 }

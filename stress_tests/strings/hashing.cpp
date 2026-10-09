@@ -37,5 +37,6 @@ int main(){
             if (len2 != len) assert(h.get_hash(l1, l1 + len - 1) != h.get_hash(0, len2 - 1));
         }
     }
+
     return 0;
 }

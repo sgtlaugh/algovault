@@ -17,6 +17,7 @@ long long brute(const vector<string>& patterns, const string& text){
     for (const auto& p : patterns){
         for (size_t i = 0; i + p.size() <= text.size(); i++) res += text.compare(i, p.size(), p) == 0;
     }
+
     return res;
 }
 
@@ -33,6 +34,7 @@ void check_full_insert_aborts(){
         ac.insert("onemore");
         _exit(0);
     }
+
     close(fd[1]);
     string err;
     char buf[4096];

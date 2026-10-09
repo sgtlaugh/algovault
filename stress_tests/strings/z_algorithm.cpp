@@ -28,5 +28,6 @@ int main(){
         check(s);
         check(vector<int>(s.begin(), s.end()));
     }
+
     return 0;
 }

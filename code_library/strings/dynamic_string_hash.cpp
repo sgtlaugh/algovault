@@ -60,6 +60,7 @@ struct DynamicStringHash{
             tree[node] = value((unsigned char)s[a]);
             return;
         }
+
         int m = (a + b) / 2;
         build(2 * node, a, m, s);
         build(2 * node + 1, m + 1, b, s);
@@ -136,5 +137,6 @@ int main(){
     DynamicStringHash single("k");
     single.assign(0, 0, 'm');
     assert(single.hash(0, 0) == (unsigned long long)'m' + 1);
+
     return 0;
 }

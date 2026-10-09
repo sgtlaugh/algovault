@@ -91,5 +91,6 @@ int main(){
 
     H = PolyHash(vector<int> {1, 2, 3, 2, 1});
     assert(H.get_hash(0, 4) == H.rev_hash(0, 4));
+
     return 0;
 }

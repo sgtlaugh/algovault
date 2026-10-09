@@ -20,5 +20,6 @@ int main(){
             assert(pal[i] == r - l - 1);
         }
     }
+
     return 0;
 }

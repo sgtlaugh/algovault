@@ -30,6 +30,7 @@ int minimum_rotation(const Container& s){
         if (i == j) j++;
         k = 0;
     }
+
     return i;
 }
 
@@ -46,7 +47,9 @@ int main(){
     assert(minimum_rotation(string("aaaa")) == 0);
     assert(minimum_rotation(string("")) == 0);
     assert(minimum_rotation(string("z")) == 0);
+
     assert(minimum_rotation("dcba") == 3);
     assert(minimum_rotation(vector<int>{3, 1, 2, 1, 1}) == 3);
+
     return 0;
 }

@@ -42,8 +42,10 @@ void check_default_seed(){
 
 int main(){
     check_default_seed();
+
     for (long long it = 0; it < stress::scaled(3000); it++) check(stress::rand_int(1, 50), 100, stress::rand_int(1, 3));
     for (int n : {1, 2, 3, 63, 64, 65}) check(n, 3000, 2);
     check(200000, 2000, 26);
+
     return 0;
 }

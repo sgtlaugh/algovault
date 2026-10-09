@@ -32,6 +32,7 @@ int lcs(const char* A, const char* B){
             }
         }
     }
+
     return ar.size() - 1;
 }
 

@@ -43,5 +43,6 @@ int main(){
         for (auto& ch : s) ch = (char)stress::rand_int(0, 2) ? 'a' + stress::rand_int(0, alphabet - 1) : (char)stress::rand_int(-128, 127);
         check(s);
     }
+
     return 0;
 }

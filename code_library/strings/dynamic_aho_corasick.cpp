@@ -60,6 +60,7 @@ struct AhoCorasick{
     /// Inserting after build() is not supported, DynamicAhoCorasick rebuilds a fresh automaton instead
     inline void insert(const char* str){
         int j, x, cur = 0;
+
         for (j = 0; str[j] != 0; j++){
             x = edge[(unsigned char)str[j]];
             assert(x >= 0);
@@ -119,7 +120,6 @@ struct AhoCorasick{
     }
 };
 
-
 struct DynamicAhoCorasick{
     AhoCorasick ar[MAX_LOG];
 
@@ -137,6 +137,7 @@ struct DynamicAhoCorasick{
             }
             ar[i].clear();
         }
+
         ar[k].build();
     }
 
@@ -154,7 +155,6 @@ struct DynamicAhoCorasick{
         return count(str.c_str());
     }
 };
-
 
 int main(){
     auto ac = DynamicAhoCorasick();

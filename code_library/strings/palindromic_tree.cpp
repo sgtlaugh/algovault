@@ -85,6 +85,7 @@ vector<int> min_palindromic_factorization(const string& s){
     PalindromicTree<SIGMA, BASE> tree;
     vector<int> best(n + 1, INT_MAX), series(2, 0), res(n);
     best[0] = 0;
+
     for (int i = 1; i <= n; i++){
         tree.add(s[i - 1]);
         series.resize(tree.len.size(), 0);
@@ -96,6 +97,7 @@ vector<int> min_palindromic_factorization(const string& s){
         }
         res[i - 1] = best[i];
     }
+
     return res;
 }
 

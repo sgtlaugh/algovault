@@ -8,6 +8,7 @@ bool is_palindrome(const string& s, int l, int r){
     while (l < r){
         if (s[l++] != s[r--]) return false;
     }
+
     return true;
 }
 
@@ -35,6 +36,7 @@ void check(const string& s){
             if (is_palindrome(s, l, r)) count[s.substr(l, r - l + 1)]++;
         }
     }
+
     auto occ = tree.occurrences();
     map<int, vector<long long>> by_length_tree, by_length_brute;
     for (int v = 2; v < (int)tree.len.size(); v++) by_length_tree[tree.len[v]].push_back(occ[v]);
@@ -51,6 +53,7 @@ void check(const string& s){
             if (is_palindrome(s, j, i - 1)) best[i] = min(best[i], best[j] + 1);
         }
     }
+
     auto fact = min_palindromic_factorization<3, 'a'>(s);
     for (int i = 0; i < n; i++) assert(fact[i] == best[i + 1]);
 }
@@ -62,6 +65,7 @@ int main(){
         for (int i = 0; i < n; i++) s += char('a' + stress::rand_int(0, sigma - 1));
         check(s);
     }
+
     for (int n = 0; n <= 12; n++){
         for (int mask = 0; mask < (1 << n); mask++){
             string s;
@@ -78,5 +82,6 @@ int main(){
         assert((int)fact.size() == (int)s.size());
         if (s[1] == 'a') assert(fact.back() == 1);
     }
+
     return 0;
 }
