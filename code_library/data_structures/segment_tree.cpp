@@ -49,7 +49,7 @@ struct SegmentTree {
 
     SegmentTree(const vector<T>& ar, T t_id = T()) : n(ar.size()), tree(n << 2), lazy(n << 2), has_lazy(n << 2, 0),
                                                      t_id(t_id) {
-        build(ar, 1, 1, n);
+        if (n) build(ar, 1, 1, n);
     }
 
     T merge(T a, T b){

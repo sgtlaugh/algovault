@@ -205,7 +205,19 @@ void stress_progression_add(){
     }
 }
 
+/// n = 0 through both constructors: build() never reaches a == b on [1, 0], so it must not be called
+void check_empty(){
+    SegmentTree<long long> from_vec(vector<long long>{}), from_size(0);
+    auto any = [](long long){ return true; };
+    for (auto* st : {&from_vec, &from_size}){
+        assert(st->n == 0);
+        assert(st->max_right(1, any) == 0);
+        assert(st->min_left(0, any) == 1);
+    }
+}
+
 int main(){
+    check_empty();
     stress_default_sum();
     stress_sum_descent();
     stress_prefix_descent();
