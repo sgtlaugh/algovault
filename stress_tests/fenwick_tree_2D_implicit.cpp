@@ -4,29 +4,31 @@
 #include "../code_library/fenwick_tree_2D_implicit.cpp"
 #undef main
 
-/// Rectangle updates and point queries, few instances because each preallocates ~205 MB
+/// Rectangle updates and point queries
 int main(){
-    /// Small grid against a full brute force array, rectangles often touch row and column n
-    const int n = 30;
-    static FenwickImplicit2D<long long> small(n);
-    vector<vector<long long>> grid(n + 1, vector<long long>(n + 1, 0));
-    for (long long it = 0; it < stress::scaled(3000); it++){
-        int x1 = stress::rand_int(1, n), x2 = stress::rand_int(1, n), y1 = stress::rand_int(1, n), y2 = stress::rand_int(1, n);
-        if (x1 > x2) swap(x1, x2);
-        if (y1 > y2) swap(y1, y2);
-        if (stress::rand_int(0, 3) == 0) x2 = y2 = n;
-        long long v = stress::rand_int(-100, 100);
-        small.update(x1, y1, x2, y2, v);
-        for (int x = x1; x <= x2; x++) for (int y = y1; y <= y2; y++) grid[x][y] += v;
+    /// Small grids against a full brute force array, rectangles often touch row and column n
+    for (long long round = 0; round < stress::scaled(20); round++){
+        const int n = stress::rand_int(1, 30);
+        FenwickImplicit2D<long long> small(n);
+        vector<vector<long long>> grid(n + 1, vector<long long>(n + 1, 0));
+        for (int it = 0; it < 150; it++){
+            int x1 = stress::rand_int(1, n), x2 = stress::rand_int(1, n), y1 = stress::rand_int(1, n), y2 = stress::rand_int(1, n);
+            if (x1 > x2) swap(x1, x2);
+            if (y1 > y2) swap(y1, y2);
+            if (stress::rand_int(0, 3) == 0) x2 = y2 = n;
+            long long v = stress::rand_int(-100, 100);
+            small.update(x1, y1, x2, y2, v);
+            for (int x = x1; x <= x2; x++) for (int y = y1; y <= y2; y++) grid[x][y] += v;
 
-        int x = stress::rand_int(1, n), y = stress::rand_int(1, n);
-        assert(small.query(x, y) == grid[x][y]);
+            int x = stress::rand_int(1, n), y = stress::rand_int(1, n);
+            assert(small.query(x, y) == grid[x][y]);
+        }
+        for (int x = 1; x <= n; x++) for (int y = 1; y <= n; y++) assert(small.query(x, y) == grid[x][y]);
     }
-    for (int x = 1; x <= n; x++) for (int y = 1; y <= n; y++) assert(small.query(x, y) == grid[x][y]);
 
     /// Large grid against the list of updates, at most 1500 updates (~0.8M pool nodes) at any scale, larger scales add queries
     const int N = 1000000;
-    static FenwickImplicit2D<long long> large(N);
+    FenwickImplicit2D<long long> large(N);
     vector<array<long long, 5>> rects;
     for (long long it = 0; it < stress::scaled(1500); it++){
         int x1 = stress::rand_int(1, N), x2 = stress::rand_int(1, N), y1 = stress::rand_int(1, N), y2 = stress::rand_int(1, N);
