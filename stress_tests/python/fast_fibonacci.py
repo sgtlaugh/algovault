@@ -1,13 +1,9 @@
-import sys
-
 from stress import rng, scaled
 
 from fast_fibonacci import fibonacci
 
 
 def main():
-    sys.setrecursionlimit(10000)
-
     fib = [0, 1]
     while len(fib) < 3000:
         fib.append(fib[-1] + fib[-2])
@@ -25,6 +21,9 @@ def main():
         a, b = rng.randint(1, 10**100), rng.randint(0, 10**100)
         f = lambda n: fibonacci(n, modulo)
         assert f(a + b) == (f(a) * f(b + 1) + f(a - 1) * f(b)) % modulo
+
+    # Thousands of bits, deeper than the default recursion limit
+    assert fibonacci(10**1000, 10**9 + 7) == 552179166
 
 
 if __name__ == '__main__':
