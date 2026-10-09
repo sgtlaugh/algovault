@@ -26,10 +26,6 @@ The header at the top of each file lists its API, complexity and limits.
 
 Every file has self-tests in its `main()` and a brute-force stress test under [`stress_tests/`](stress_tests) at the same relative path. CI compiles all of them with GCC 14 under AddressSanitizer and UndefinedBehaviorSanitizer, with warnings as errors, on every push, and reruns the stress tests nightly at 20x the iterations with a fresh seed.
 
-<br>
-For bugs, refactoring and improvements, feel free to file an issue or a pull request as contributions are always welcome.
-</br>
-
 ## Index
 
 [Data Structures](#data-structures) | [Trees](#trees) | [Graphs](#graphs) | [Strings](#strings) | [Number Theory](#number-theory) | [Combinatorics](#combinatorics) | [Algebra](#algebra) | [Linear Algebra](#linear-algebra) | [Geometry](#geometry) | [Dynamic Programming](#dynamic-programming) | [Miscellaneous](#miscellaneous) | [Hacking](#hacking) | [Python](#python)
@@ -273,40 +269,9 @@ For bugs, refactoring and improvements, feel free to file an issue or a pull req
 - [String Hash](code_library/python/string_hash.py) - polynomial substring hashes
 - [Z Algorithm](code_library/python/z_algorithm.py) - longest common prefix of every suffix with the string
 
-## The Zen Of Contributing
-Inspired from [The Zen Of Python](https://www.python.org/dev/peps/pep-0020/#id2)
+## Contributing
 
-```python
-Beautiful is better than ugly
-
-Simple is way better than complex
-
-Consistency matters
-
-Flat is preferred over nested
-
-Typing is better than incomprehensible macros
-
-Because readability counts
-
-But not as much as speed
-
-Some documentation is better than no documentation
-
-No documentation is better than extensive documentation
-
-But not as important as ease of reusing as a black box
-
-Four spaces are better than tabs
-
-Tabs are better than no spaces
-
-If the implementation is hard to explain, it's a bad idea
-
-If the implementation is easy to explain, it may be a good idea
-
-Structs are one honking great idea, let's do more of those!
-```
+Bug reports, fixes and new templates are welcome as issues or pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions, the checks CI runs and The Zen Of Contributing.
 
 ## Future Work
   <ol>
