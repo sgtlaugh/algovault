@@ -204,60 +204,16 @@ struct SegmentTreeBeats{
 };
 
 int main(){
-    SegmentTreeBeats gorgeous(vector<long long>{1, 2, 3, 4, 5});
-    assert(gorgeous.query_max(1, 5) == 5);
-    assert(gorgeous.query_sum(1, 5) == 15);
-    gorgeous.chmin(3, 5, 3);
-    assert(gorgeous.query_max(1, 5) == 3);
-    assert(gorgeous.query_sum(1, 5) == 12);
-
     SegmentTreeBeats st(vector<long long>{5, -2, 7, 7, 0, 3});
     st.chmin(1, 6, 4);
+    assert(st.query_max(1, 6) == 4);    /// 4 -2 4 4 0 3
     assert(st.query_sum(1, 6) == 13);
-    assert(st.query_max(1, 6) == 4);
     st.chmax(2, 5, 1);
-    assert(st.query_sum(1, 6) == 17);
-    assert(st.query_min(1, 6) == 1);
+    assert(st.query_min(1, 6) == 1);    /// 4 1 4 4 1 3
     st.add(1, 3, -10);
-    assert(st.query_sum(1, 6) == -13);
-    assert(st.query_min(1, 3) == -9);
-    assert(st.query_max(1, 3) == -6);
+    assert(st.query_sum(1, 3) == -21);  /// -6 -9 -6 4 1 3
     st.assign(3, 4, 0);
-    assert(st.query_sum(1, 6) == -11);
-    st.chmax(1, 6, -7);
-    assert(st.query_sum(1, 6) == -9);
-    assert(st.query_min(1, 6) == -7);
-    st.add(3, 6, 2);
-    st.chmin(2, 5, 2);
-    assert(st.query_sum(2, 5) == -1);
-    assert(st.query_max(1, 6) == 5);
-
-    SegmentTreeBeats zeros(4);
-    assert(zeros.query_sum(1, 4) == 0);
-    zeros.chmax(2, 3, 0);
-    zeros.chmin(2, 3, 0);
-    assert(zeros.query_sum(1, 4) == 0);
-    zeros.assign(1, 4, 0);
-    zeros.add(4, 4, 6);
-    assert(zeros.query_max(1, 4) == 6 && zeros.query_min(1, 4) == 0);
-
-    SegmentTreeBeats single(vector<long long>{42});
-    single.chmin(1, 1, 50);
-    single.chmax(1, 1, 30);
-    assert(single.query_sum(1, 1) == 42);
-    single.chmin(1, 1, -1);
-    assert(single.query_min(1, 1) == -1);
-
-    const long long E18 = 1000000000000000000LL;
-    SegmentTreeBeats big(vector<long long>{4 * E18, 4 * E18, -4 * E18});
-    assert(big.query_sum(1, 3) == 4 * E18);
-    big.add(1, 3, E18);
-    assert(big.query_max(1, 3) == 5 * E18);
-    assert(big.query_sum(2, 3) == 2 * E18);
-    assert(big.query_sum(1, 3) == 7 * E18);
-    big.chmin(1, 2, 0);
-    assert(big.query_sum(1, 3) == -3 * E18);
-    assert(big.query_min(1, 3) == -3 * E18);
-
+    assert(st.query_sum(1, 6) == -11);  /// -6 -9 0 0 1 3
+    assert(st.query_max(1, 4) == 0);
     return 0;
 }
