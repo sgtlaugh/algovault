@@ -1,6 +1,8 @@
 /***
  *
- * Finds bridge edges and builds the bridge tree in simple undirected graphs
+ * Finds bridge edges and builds the bridge tree in undirected graphs, parallel edges and self loops allowed
+ * A doubled edge is never a bridge: the search skips only the edge it arrived by, not every edge to the parent
+ * add_edge returns the edge index, Bridge::id reports it, so weights or labels can be kept outside
  *
  * A bridge is such an edge which when removed makes the graph disconnected
  * Or more precisely, increases the number of connected components
@@ -19,46 +21,38 @@ using namespace std;
 
 typedef pair<int, int> Pair;
 
-struct PairHash{
-    template <class T1, class T2>
-    std::size_t operator () (std::pair<T1, T2> const &pair) const{
-        std::size_t h1 = std::hash<T1>()(pair.first);
-        std::size_t h2 = std::hash<T2>()(pair.second);
-        return h1 ^ h2;
-    }
-};
-
 struct Bridge{
     int u, v; /// bridge edge from node u to v
     int cnt_u, cnt_v; /// number of nodes in the connected component of u and v if bridge edge is disconnected
+    int id; /// index of the edge, in the order add_edge was called
 
     Bridge(){}
-    Bridge(int u, int v, int cnt_u, int cnt_v) : u(u), v(v), cnt_u(cnt_u), cnt_v(cnt_v) {}
+    Bridge(int u, int v, int cnt_u, int cnt_v, int id = -1) : u(u), v(v), cnt_u(cnt_u), cnt_v(cnt_v), id(id) {}
 };
 
 struct Graph{
     bool visited[MAX];
-    vector <int> adj[MAX];
-    int n, dt, discover[MAX], low[MAX], cmp[MAX], num[MAX];
+    vector <Pair> adj[MAX]; /// (neighbor, edge index)
+    int n, m = 0, dt, discover[MAX], low[MAX], cmp[MAX], num[MAX];
 
     Graph() {}
     Graph(int n): n(n) {}
 
-    void dfs(int u, int p, vector <Bridge> &bridges){
+    void dfs(int u, int parent_edge, vector <Bridge> &bridges){
         visited[u] = true;
         discover[u] = low[u] = ++dt;
 
-        for (auto v: adj[u]){
+        for (auto [v, id]: adj[u]){
             if (!visited[v]){
-                dfs(v, u, bridges);
+                dfs(v, id, bridges);
                 low[u] = min(low[u], low[v]);
 
                 if (low[v] > discover[u]){
                     int cnt = dt - discover[v] + 1;
-                    bridges.push_back(Bridge(u, v, cmp[u] - cnt, cnt));
+                    bridges.push_back(Bridge(u, v, cmp[u] - cnt, cnt, id));
                 }
             }
-            else if (v != p) low[u] = min(low[u], discover[v]);
+            else if (id != parent_edge) low[u] = min(low[u], discover[v]);
         }
     }
 
@@ -66,15 +60,16 @@ struct Graph{
         low[dt++] = u;
         visited[u] = true;
 
-        for (auto v: adj[u]){
+        for (auto [v, id]: adj[u]){
             if (!visited[v]) dfs(v);
         }
     }
 
-    /// adds undirected edge from u to v
-    void add_edge(int u, int v){
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+    /// adds undirected edge from u to v and returns its index
+    int add_edge(int u, int v){
+        adj[u].push_back(Pair(v, m));
+        adj[v].push_back(Pair(u, m));
+        return m++;
     }
 
     vector <Bridge> get_bridges(){
@@ -100,11 +95,11 @@ struct Graph{
         return bridges;
     }
 
-    void dfs_bridge_tree(int u, int id, tr1::unordered_set <Pair, PairHash>& bridge_set){
-        num[u] = id;
-        for (auto v: adj[u]) {
-            if (num[v] == -1 && !bridge_set.count(Pair(min(u, v), max(u, v)))){
-                dfs_bridge_tree(v, id, bridge_set);
+    void dfs_bridge_tree(int u, int label, const vector <char>& is_bridge){
+        num[u] = label;
+        for (auto [v, id]: adj[u]) {
+            if (num[v] == -1 && !is_bridge[id]){
+                dfs_bridge_tree(v, label, is_bridge);
             }
         }
     }
@@ -126,19 +121,15 @@ struct Graph{
 
     vector <Pair> get_bridge_tree (){
         auto bridges = get_bridges();
-        tr1::unordered_set <Pair, PairHash> bridge_set;
+        vector <char> is_bridge(m, 0);
+        for (auto bridge: bridges) is_bridge[bridge.id] = 1;
 
-        for (auto bridge: bridges){
-            int u = bridge.u, v = bridge.v;
-            bridge_set.insert(Pair(min(u, v), max(u, v)));
-        }
-
-        int id = 0;
+        int label = 0;
         memset(num, -1, sizeof(num));
         for (int u = 0; u < n; u++){
             if (num[u] == -1){
-                dfs_bridge_tree(u, id, bridge_set);
-                id++;
+                dfs_bridge_tree(u, label, is_bridge);
+                label++;
             }
         }
 
@@ -176,6 +167,18 @@ int main(){
     assert((int)bridge_tree.size() == 2);
     assert(bridge_tree[0] == Pair(0, 1));
     assert(bridge_tree[1] == Pair(2, 3));
+    assert(bridges[0].id == 9 && bridges[1].id == 10);
+
+    auto multi = Graph(4);
+    multi.add_edge(0, 1);
+    multi.add_edge(0, 1);
+    multi.add_edge(1, 2);
+    multi.add_edge(2, 2);
+    multi.add_edge(2, 3);
+    auto multi_bridges = multi.get_bridges();
+    assert((int)multi_bridges.size() == 2);
+    assert(multi_bridges[0].id == 4 && multi_bridges[1].id == 2);
+    assert(multi_bridges[0].cnt_u == 3 && multi_bridges[0].cnt_v == 1);
 
     return 0;
 }
