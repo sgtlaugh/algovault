@@ -15,11 +15,11 @@
  * shift(lo, hi): f(x) = min of f(y) over x - hi <= y <= x - lo, needs lo <= hi
  * shift(d): f(x) = f(x - d), moves the graph right by d
  * get_min(): the minimum of f
- * argmin(): [l, r], the range where f is minimal, -INF or INF when it is unbounded on that side
+ * argmin(): [l, r], the range where f is minimal, -INF or INF when it is unbounded on that side, INF = max of T / 2
  * eval(x): f(x), without changing f
  *
- * For long long keep every breakpoint and each side's accumulated shift within [-1e18, 1e18],
- * and the minimum and any evaluated value within the range of T
+ * Keep every breakpoint, each side's accumulated shift and every eval argument within [-1e18, 1e18] for long long
+ * or [-1e9, 1e9] for int, and the minimum and any evaluated value within the range of T
  * prefix_min() resets the accumulated shift of the right side, suffix_min() the one of the left side
  *
  * Min cost to make a non-decreasing: for each a[i], f.prefix_min() then f.add_abs(a[i]), answer f.get_min()
@@ -33,7 +33,8 @@ using namespace std;
 
 template <typename T>
 struct SlopeTrick{
-    static constexpr T INF = numeric_limits<T>::max() / 3;
+    /// above every allowed breakpoint, so an empty heap's sentinel adds 0 to min_f in add_*, and INF - (-INF) still fits in T
+    static constexpr T INF = numeric_limits<T>::max() / 2;
 
     T min_f = 0, add_left = 0, add_right = 0;
     vector<T> left, right;  /// max-heap and min-heap, every left breakpoint <= every right one, stored without the lazy add
