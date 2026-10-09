@@ -1,11 +1,14 @@
 /***
  *
- * Chu–Liu/Edmonds' algorithm FOR Directed minimum spanning tree
+ * Directed minimum spanning tree (minimum arborescence), Tarjan / Gabow version of Chu–Liu/Edmonds
  * Constructs a rooted tree of minimum total weight from the root node
  * Returns -1 if no solution from root
- * R based index for nodes
- * 
- * Complexity: O(n * m)
+ * 0 based index for nodes, non-negative weights since -1 is the unreachable sentinel
+ *
+ * Each node keeps a skew heap of its incoming edges with a lazy add, cycles are contracted with a DSU
+ * by melding their heaps, so no round ever rescans the whole edge list
+ *
+ * Complexity: O(m log n)
  *
 ***/
 
@@ -21,48 +24,78 @@ struct Edge{
     Edge(int u, int v, int w) : u(u), v(v), w(w) {}
 };
 
-long long directed_mst(int n, int root, vector <Edge> edges){
-    const int INF = INT_MAX;
-    for (auto edge: edges) assert(edge.w >= 0 && edge.w < INF);
+long long directed_mst(int n, int root, const vector <Edge>& edges){
+    for (auto edge: edges) assert(edge.w >= 0);
 
-    int i, k, x, y;
+    struct Node{
+        long long key, lazy;
+        int l, r;
+    };
+
+    int m = edges.size();
+    vector <Node> t(m);
+    vector <int> heap(n, -1), dsu(n), seen(n, -1), path(n), spine;
+    iota(dsu.begin(), dsu.end(), 0);
+
+    auto find = [&](int x){
+        while (dsu[x] != x) x = dsu[x] = dsu[dsu[x]];
+        return x;
+    };
+
+    auto push = [&](int a){
+        if (t[a].l != -1) t[t[a].l].lazy += t[a].lazy;
+        if (t[a].r != -1) t[t[a].r].lazy += t[a].lazy;
+        t[a].key += t[a].lazy, t[a].lazy = 0;
+    };
+
+    /// Iterative because a single skew heap merge can walk an O(m) right spine
+    auto merge = [&](int a, int b){
+        spine.clear();
+        while (a != -1 && b != -1){
+            push(a), push(b);
+            if (t[a].key > t[b].key) swap(a, b);
+            spine.push_back(a);
+            a = t[a].r;
+        }
+        int res = a != -1 ? a : b;
+        while (!spine.empty()){
+            int x = spine.back();
+            spine.pop_back();
+            t[x].r = t[x].l, t[x].l = res, res = x;
+        }
+        return res;
+    };
+
+    for (int i = 0; i < m; i++){
+        t[i] = {edges[i].w, 0, -1, -1};
+        heap[edges[i].v] = merge(heap[edges[i].v], i);
+    }
+
     long long res = 0;
-    vector <int> cost(n), parent(n), label(n), comp(n);
-    
-    while(1) {
-        for (i = 0; i < n; i++) cost[i] = INF;
-        for (auto edge: edges){
-            if (edge.u != edge.v && cost[edge.v] > edge.w){
-                cost[edge.v] = edge.w;
-                parent[edge.v] = edge.u;
+    seen[root] = root;
+    for (int s = 0; s < n; s++){
+        int u = s, len = 0;
+        while (seen[u] == -1){
+            if (heap[u] == -1) return -1;
+
+            int e = heap[u];
+            push(e);
+            res += t[e].key;
+            heap[u] = merge(t[e].l, t[e].r);
+            if (heap[u] != -1) t[heap[u]].lazy -= t[e].key;
+
+            path[len++] = u, seen[u] = s;
+            u = find(edges[e].u);
+            if (seen[u] == s){
+                int cycle = -1, x;
+                do{
+                    x = path[--len];
+                    cycle = merge(cycle, heap[x]);
+                    if (x != u) dsu[x] = u;
+                } while (x != u);
+                heap[u] = cycle, seen[u] = -1;
             }
         }
-
-        cost[root] = 0;
-        for (i = 0; i < n && cost[i] != INF; i++) {};
-        if (i != n) return -1;
-
-        for (i = 0, k = 0; i < n; i++) res += cost[i];
-        for (i = 0; i < n; i++) label[i] = comp[i] = -1;
-
-        for (i = 0; i < n; i++){
-            for (x = i; x != root && comp[x] == -1; x = parent[x]) comp[x] = i;
-            if (x != root && comp[x] == i){
-                for (k++; label[x] == -1; x = parent[x]) label[x] = k - 1;
-            }
-        }
-
-        if (k == 0) break;
-        for (i = 0; i < n; i++){
-            if (label[i] == -1) label[i] = k++;
-        }
-
-        for (auto &edge: edges){
-            x = label[edge.u], y = label[edge.v];
-            if (x != y) edge.w -= cost[edge.v];
-            edge.u = x, edge.v = y;
-        }
-        root = label[root], n = k;
     }
 
     return res;
