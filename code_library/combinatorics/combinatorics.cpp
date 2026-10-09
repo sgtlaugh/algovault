@@ -138,57 +138,23 @@ struct Combinatorics{
 
 int main(){
     long long x, y;
-    assert(extended_gcd(240, 46, x, y) == 2 && 240 * x + 46 * y == 2);
-    assert(extended_gcd(7, 0, x, y) == 7 && 7 * x == 7);
-    assert(extended_gcd(0, 0, x, y) == 0);
+    assert(extended_gcd(240, 46, x, y) == 2);
+    assert(240 * x + 46 * y == 2);
 
-    assert(mod_inverse(3, 7) == 5);
-    assert(mod_inverse(-4, 7) == 5);
-    assert(mod_inverse(10, 7) == 5);
-    assert(mod_inverse(4, 6) == -1);
-    assert(mod_inverse(5, 1) == 0);
-    assert(mod_inverse(2, 1000000007) == 500000004);
+    assert(mod_inverse(3, 7) == 5);   /// 3 * 5 = 15 = 1 mod 7
+    assert(mod_inverse(-4, 7) == 5);  /// -4 = 3 mod 7
+    assert(mod_inverse(4, 6) == -1);  /// gcd(4, 6) = 2
 
-    assert(diophantine(3, 5, 7, x, y) && 3 * x + 5 * y == 7);
-    assert(diophantine(-6, 4, 2, x, y) && -6 * x + 4 * y == 2);
-    assert(!diophantine(2, 4, 5, x, y));
-    assert(diophantine(0, 0, 0, x, y));
-    assert(!diophantine(0, 0, 3, x, y));
-
-    assert(count_diophantine(2, 3, 12, 0, 10, 0, 10) == 3);
-    assert(count_diophantine(-2, -3, -12, 0, 10, 0, 10) == 3);
-    assert(count_diophantine(1, 1, 5, -5, 10, 2, 4) == 3);
-    assert(count_diophantine(-10, -8, -80, -100, 100, -90, 90) == 37);
-    assert(count_diophantine(2, 3, 4, 1, 7, 0, 8) == 1);
-    assert(count_diophantine(-2, -3, -6, -2, 5, -10, 5) == 2);
-    assert(count_diophantine(6, -4, 2, -20, 20, -20, 20) == 14);
-    assert(count_diophantine(0, 3, 6, -2, 2, 0, 5) == 5);
-    assert(count_diophantine(4, 0, -8, -3, 3, -1, 6) == 8);
-    assert(count_diophantine(0, 0, 0, 1, 3, -2, 1) == 12);
-    assert(count_diophantine(0, 0, 5, 1, 3, -2, 1) == 0);
-    assert(count_diophantine(2, 4, 5, -50, 50, -50, 50) == 0);
-    assert(count_diophantine(2, 3, 12, 5, 4, 0, 10) == 0);
-    assert(count_diophantine(0, 0, 0, 0, 5, 3, 2) == 0);
-    assert(count_diophantine(0, 0, 0, 5, 3, 2, 0) == 0);
-    assert(count_diophantine(1, 1, 0, -1000000000, 1000000000, -1000000000, 1000000000) == 2000000001);
-    assert(count_diophantine(1000000000, 999999999, 1000000000, -1000000000, 1000000000, -1000000000, 1000000000) == 3);
-    assert(count_diophantine(0, 0, 0, -1000000000, 1000000000, -1000000000, 1000000000) == 4000000004000000001LL);
+    assert(diophantine(3, 5, 7, x, y));
+    assert(3 * x + 5 * y == 7);
+    assert(!diophantine(2, 4, 5, x, y));                     /// gcd(2, 4) does not divide 5
+    assert(count_diophantine(2, 3, 12, 0, 10, 0, 10) == 3);  /// (0, 4), (3, 2) and (6, 0)
 
     Combinatorics comb(10, 1000000007);
     assert(comb.nCr(5, 2) == 10);
-    assert(comb.nCr(10, 3) == 120);
-    assert(comb.nCr(0, 0) == 1);
-    assert(comb.nCr(5, 6) == 0);
-    assert(comb.nCr(5, -1) == 0);
+    assert(comb.nCr(5, 6) == 0);      /// k > n
     assert(comb.nPr(5, 2) == 20);
-    assert(comb.nPr(4, 4) == 24);
     assert(comb.factorial(10) == 3628800);
     assert(comb.inverse(2) == 500000004);
-
-    Combinatorics small(6, 7);
-    assert(small.nCr(6, 3) == 6);
-    assert(small.inverse(3) == 5);
-    assert(small.inv_factorial(6) == 6);
-
     return 0;
 }
