@@ -27,9 +27,9 @@ struct Matrix{
 
     Matrix operator* (const Matrix& other) const{
         Matrix res(row, other.col);
-        for(int i = 0; i < row; i++){
-            for(int j = 0; j < other.col; j++){
-                for(int k = 0; k < col; k++){
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < other.col; j++){
+                for (int k = 0; k < col; k++){
                     res.mat[i][j] += mat[i][k] * other.mat[k][j];
                 }
             }

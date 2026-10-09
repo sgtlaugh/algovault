@@ -218,7 +218,7 @@ struct Polynomial{
     }
 
     inline void subtract(int* res, int* P, int pn, int* Q, int qn){
-        for(int i = 0; i < qn; i++){
+        for (int i = 0; i < qn; i++){
             res[i] = P[i] - Q[i];
             if (res[i] < 0) res[i] += _POLYNOMIAL_MOD;
         }
@@ -246,7 +246,7 @@ struct Polynomial{
     }
 
     void multiply(Polynomial &res, Polynomial& p, Polynomial& q){
-        if(&res == &p || &res == &q){
+        if (&res == &p || &res == &q){
             Polynomial temp;
             multiply(temp, p, q);
             res = temp;
@@ -281,14 +281,14 @@ struct Polynomial{
 
     Polynomial power(Polynomial &q, long long k){
         int qn = q.size();
-        if(qn == 1) return Polynomial();
-        if(k == 0) return Polynomial({1});
+        if (qn == 1) return Polynomial();
+        if (k == 0) return Polynomial({1});
 
         Polynomial inv = q.inverse(max(size() - qn + 1, qn));
         Polynomial p = this->remainder(q, inv);
 
         Polynomial res = p;
-        for(int l = 62 - __builtin_clzll(k); l >= 0; l--){
+        for (int l = 62 - __builtin_clzll(k); l >= 0; l--){
             multiply(res, res, res);
             res = res.remainder(q, inv);
 
@@ -313,7 +313,7 @@ struct Polynomial{
     }
 
     void inverse_power_series(int* res, int res_n, int* P, int pn){
-        if(res_n == 0) return;
+        if (res_n == 0) return;
         unique_ptr <int[]> ptr(new int[4 * res_n]);
         int* u = ptr.get(), *v = u + res_n * 2, cur = 1, nxt = 1;
 
@@ -345,20 +345,20 @@ struct Polynomial{
     }
 
     void divide_remainder_inverse(int* quot, int* rem, int* P, int pn, int* Q, int qn, int* inv){
-        if(pn < qn){
+        if (pn < qn){
             copy_poly(rem, P, pn);
             for (int i = 0; i < qn - pn - 1; i++) rem[i + pn] = 0;
             return;
         }
 
-        if(qn == 1) return;
+        if (qn == 1) return;
 
         int quot_n = pn - qn + 1;
         int rn = qn - 1, tn = min(quot_n, rn), un = tn + rn;
         unique_ptr <int[]> ptr(new int[pn + un + (quot != 0 ? 0 : quot_n)]);
 
         int* revp = ptr.get(), *qmul = revp + pn;
-        if(quot == 0) quot = qmul + un;
+        if (quot == 0) quot = qmul + un;
 
         reverse_poly(revp, P, pn);
         divide_inverse(quot, quot_n, revp, pn, inv);
@@ -387,7 +387,7 @@ struct LinearRecurrence{
             throw std::invalid_argument("base sequence must be non-empty and of even length");
         }
 
-        if((long long)mod * 2 >= INT_MAX){
+        if ((long long)mod * 2 >= INT_MAX){
             throw std::out_of_range("mod value out of range, consider replacing long long with __int128 and int with long long if need to support higher ranges and improve fft multiplication precision");
         }
 
