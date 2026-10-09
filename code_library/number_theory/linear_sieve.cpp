@@ -4,6 +4,7 @@
  * Smallest prime factors, primes, Euler's phi, Mobius mu and any multiplicative function for 1..n in one pass
  *
  * Complexity: O(n) time, O(n) memory, about 20 bytes per entry (200 MB at n = 1e7)
+ * For mu alone, mobius_function.cpp needs 1 byte per entry and runs about 5x faster
  *
  * LinearSieve sieve(n): tables for 0..n
  * sieve.spf[x]: smallest prime factor of x >= 2, sieve.primes: primes <= n in order
