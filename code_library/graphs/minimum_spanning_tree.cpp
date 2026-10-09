@@ -51,7 +51,7 @@ struct DenseMSTResult{
 struct MSTForest{
     vector<int> parent, rank;
 
-    MSTForest(int n) : parent(n), rank(n, 0) {
+    MSTForest(int n) : parent(n), rank(n, 0){
         iota(parent.begin(), parent.end(), 0);
     }
 

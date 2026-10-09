@@ -55,7 +55,7 @@ void backtrack(int i, int lim, uint64_t cur, uint64_t cnt){
     }
 }
 
-pair<uint64_t, uint64_t> solve(long long n) {
+pair<uint64_t, uint64_t> solve(long long n){
     limit = n;
     max_cnt = 0;
     backtrack(0, 64, 1, 1);

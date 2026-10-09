@@ -36,7 +36,7 @@ struct FenwickSparse2D{
     vector<long long> hashmap;
 
     FenwickSparse2D(int n = 0, int m = 0, int lg_capacity = 24) : n(n), m(m), mask((1 << lg_capacity) - 1),
-        tree(mask + 1, 0), hashmap(mask + 1, 0) {
+        tree(mask + 1, 0), hashmap(mask + 1, 0){
     }
 
     inline unsigned long long hash_func(unsigned long long h){

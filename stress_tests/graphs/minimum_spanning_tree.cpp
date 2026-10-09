@@ -8,7 +8,7 @@
 struct ReferenceForest{
     vector<int> parent, size;
 
-    ReferenceForest(int n) : parent(n), size(n, 1) {
+    ReferenceForest(int n) : parent(n), size(n, 1){
         iota(parent.begin(), parent.end(), 0);
     }
 

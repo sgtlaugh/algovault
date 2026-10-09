@@ -39,7 +39,7 @@ struct PermutationTree {
     vector<pair<int, int>> span, range;
     vector<vector<int>> children;
 
-    PermutationTree(const vector<int>& p) : n(p.size()), root(-1) {
+    PermutationTree(const vector<int>& p) : n(p.size()), root(-1){
         parent.reserve(2 * n), type.reserve(2 * n), span.reserve(2 * n), range.reserve(2 * n), children.reserve(2 * n);
         for (int i = 0; i < n; i++) new_node(CUT, {i, i}, {p[i], p[i]});
 

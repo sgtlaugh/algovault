@@ -48,7 +48,7 @@ struct SegmentTree {
     SegmentTree(int n, T t_id = T()) : n(n), tree(n << 2, t_id), lazy(n << 2), has_lazy(n << 2, 0), t_id(t_id) {}
 
     SegmentTree(const vector<T>& ar, T t_id = T()) : n(ar.size()), tree(n << 2), lazy(n << 2), has_lazy(n << 2, 0),
-                                                     t_id(t_id) {
+                                                     t_id(t_id){
         if (n) build(ar, 1, 1, n);
     }
 

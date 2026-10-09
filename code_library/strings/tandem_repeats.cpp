@@ -60,10 +60,10 @@ namespace main_lorentz{
         solve(s, mid, hi, buf, report);
 
         /// decltype(auto) keeps const T& for ordinary containers and returns vector<bool>'s proxy by value
-        auto u = [&](int i) -> decltype(auto) { return s[lo + i]; };
-        auto v = [&](int i) -> decltype(auto) { return s[mid + i]; };
-        auto ru = [&](int i) -> decltype(auto) { return s[mid - 1 - i]; };
-        auto rv = [&](int i) -> decltype(auto) { return s[hi - 1 - i]; };
+        auto u = [&](int i) -> decltype(auto){ return s[lo + i]; };
+        auto v = [&](int i) -> decltype(auto){ return s[mid + i]; };
+        auto ru = [&](int i) -> decltype(auto){ return s[mid - 1 - i]; };
+        auto rv = [&](int i) -> decltype(auto){ return s[hi - 1 - i]; };
         int *zru = buf, *u_vs_v = buf + nu, *zv = buf + 2 * nu, *rv_vs_ru = buf + 2 * nu + nv;
         z_function(ru, nu, zru);
         z_function(v, nv, zv);

@@ -19,7 +19,7 @@ struct Matrix{
     long long mat[MAX][MAX];
 
     Matrix(){}
-    Matrix(int row, int col, int diagonal = 0) : row(row), col(col) {
+    Matrix(int row, int col, int diagonal = 0) : row(row), col(col){
         assert(row <= MAX && col <= MAX);
         memset(mat, 0, sizeof(mat));
         for (int i = min(row, col) - 1; i >= 0; i--) mat[i][i] = diagonal;

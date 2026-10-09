@@ -31,7 +31,7 @@ struct Graph{
     mt19937 rng = mt19937(chrono::steady_clock::now().time_since_epoch().count());
 
     Graph() {}
-    Graph(int n): n(n) {
+    Graph(int n): n(n){
         adj = vector<vector<bool>>(n, vector<bool>(n, 0));
         tutte_matrix = vector<vector<unsigned int>>(n, vector<unsigned int>(n, 0));
     }

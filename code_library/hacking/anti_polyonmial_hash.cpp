@@ -26,7 +26,7 @@ struct AntiHash{
     string res[2] = {string(n, '0'), string(n, '0')};
     pair<long long, int> ar[1 << chunk], dp[lim][n + 10];
 
-    AntiHash(long long base, long long mod) : base(base), mod(mod) {
+    AntiHash(long long base, long long mod) : base(base), mod(mod){
         generate();
     }
 

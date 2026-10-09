@@ -80,7 +80,7 @@ struct Graph{
 
     void dfs_bridge_tree(int u, int label, const vector <char>& is_bridge){
         num[u] = label;
-        for (auto [v, id]: adj[u]) {
+        for (auto [v, id]: adj[u]){
             if (num[v] == -1 && !is_bridge[id]){
                 dfs_bridge_tree(v, label, is_bridge);
             }

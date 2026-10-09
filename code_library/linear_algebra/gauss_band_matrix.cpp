@@ -30,7 +30,7 @@ struct GaussBand{
      * band_size = maximum band size, the equation for any variable is a linear combination of only variables inside the band
      *
     ***/
-    GaussBand(int n, int m, int band_size=0, T rhs_default=0) : n(n), m(m) {
+    GaussBand(int n, int m, int band_size=0, T rhs_default=0) : n(n), m(m){
         if (!band_size) band_size = 2 * m + 3;
         assert(n >= 1 && m >= 1 && band_size >= 1 && band_size % 2 == 1);
 

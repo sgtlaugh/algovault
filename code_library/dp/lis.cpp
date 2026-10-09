@@ -25,7 +25,7 @@ vector <int> lis_vector(const vector <T>& ar, bool allow_equal=false, Compare cm
     vector <T> idx;
     vector <int> res;
 
-    for (const T &x : ar) {
+    for (const T &x : ar){
         auto it = allow_equal ? upper_bound(idx.begin(), idx.end(), x, cmp)
                               : lower_bound(idx.begin(), idx.end(), x, cmp);
         res.push_back(it - idx.begin() + 1);

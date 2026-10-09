@@ -87,7 +87,7 @@ struct SpanningTrees{
     int n;
     vector<vector<long long>> lap;
 
-    SpanningTrees(int n) : n(n), lap(n, vector<long long>(n, 0)) {
+    SpanningTrees(int n) : n(n), lap(n, vector<long long>(n, 0)){
         assert(n >= 1);
     }
 
@@ -106,7 +106,7 @@ struct Arborescences{
     int n;
     vector<vector<long long>> lap;
 
-    Arborescences(int n) : n(n), lap(n, vector<long long>(n, 0)) {
+    Arborescences(int n) : n(n), lap(n, vector<long long>(n, 0)){
         assert(n >= 1);
     }
 

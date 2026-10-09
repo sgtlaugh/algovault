@@ -67,7 +67,7 @@ void solve(int bx, int by){
     int res, lim = heuristic();
 
     found = 0;
-    while (!found) {
+    while (!found){
         res = ida_star(bx, by, bx, by, 0, lim, 0, heuristic());
         if (res <= lim) return;
         else lim = res;

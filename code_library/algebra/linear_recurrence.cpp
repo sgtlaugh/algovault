@@ -415,7 +415,7 @@ struct LinearRecurrence{
         return (v.size() > 1 || (v.size() == 1 && v[0])) ? v.size() - 1 : (long long)INT_MIN;
     }
 
-    long long compare(const vector <int> &a, const vector <int> &b) {
+    long long compare(const vector <int> &a, const vector <int> &b){
         return max(find_rank(a), find_rank(b) + 1);
     };
 

@@ -37,7 +37,7 @@ struct FenwickImplicit2D{
     vector<Node> nodes;
 
     /// reserve without filling, so pool pages are only touched once nodes are used, node 0 is the empty child
-    FenwickImplicit2D(int n = 0) : n(n), root(n + 1, 0) {
+    FenwickImplicit2D(int n = 0) : n(n), root(n + 1, 0){
         nodes.reserve(MAXNODES);
         nodes.push_back({0, 0, 0});
     }
