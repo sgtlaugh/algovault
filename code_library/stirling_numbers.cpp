@@ -22,8 +22,15 @@ using namespace std;
 namespace stirling_fft{
     typedef complex<long double> cd;
 
+    /// rt[len / 2 + k] is the k-th root for a level of length len, each computed directly so there is no drift
+    vector<cd> rt(2, 1);
+
     void transform(vector<cd>& a, bool invert){
         int n = a.size();
+        for (int len = rt.size(); len < n; len <<= 1){
+            rt.resize(2 * len);
+            for (int k = 0; k < len; k++) rt[len + k] = polar(1.0L, acosl(-1.0L) * k / len);
+        }
         for (int i = 1, j = 0; i < n; i++){
             int bit = n >> 1;
             for (; j & bit; bit >>= 1) j ^= bit;
@@ -31,11 +38,10 @@ namespace stirling_fft{
             if (i < j) swap(a[i], a[j]);
         }
         for (int len = 2; len <= n; len <<= 1){
-            vector<cd> root(len / 2);
-            for (int k = 0; k < len / 2; k++) root[k] = polar(1.0L, (invert ? -2 : 2) * acosl(-1.0L) * k / len);  /// direct, no drift
             for (int i = 0; i < n; i += len){
                 for (int k = 0; k < len / 2; k++){
-                    cd u = a[i + k], v = a[i + k + len / 2] * root[k];
+                    cd w = invert ? conj(rt[len / 2 + k]) : rt[len / 2 + k];
+                    cd u = a[i + k], v = a[i + k + len / 2] * w;
                     a[i + k] = u + v, a[i + k + len / 2] = u - v;
                 }
             }
@@ -86,7 +92,7 @@ vector<long long> stirling_first(int n, long long m){
 }
 
 vector<long long> stirling_second(int n, long long p){
-    assert(n >= 0 && n < p && p <= (1LL << 30));
+    assert(n >= 0 && 2 <= p && n < p && p <= (1LL << 30));
     auto pow_mod = [&](long long b, long long e){
         long long res = 1 % p;
         for (b %= p; e; e >>= 1, b = b * b % p){
