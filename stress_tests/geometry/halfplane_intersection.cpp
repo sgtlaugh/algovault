@@ -103,6 +103,39 @@ int main(){
         check(h, it % 2 ? 1e9 : 1e8);
     }
 
+    /// Twins of horizontal lines tilted by one ulp across the angle 0 and angle pi seams of the sort
+    for (long double y : {-0.3L, 0.3L, -10.0L, 10.0L}){
+        long double below = nextafterl(y, y - 1), above = nextafterl(y, y + 1);
+        check({Halfplane(Point(0, y), Point(1, below)), Halfplane(Point(5, y), Point(6, y))}, 10);
+        check({Halfplane(Point(1, y), Point(0, above)), Halfplane(Point(5, y), Point(4, y))}, 10);
+        check({Halfplane(Point(0, y), Point(1, below))}, 10);
+        check({Halfplane(Point(1, y), Point(0, above))}, 10);
+    }
+
+    /// Distinct integer directions with cross 1 must not be merged as one rounded direction
+    for (long long k : {30000LL, 1000000LL}){
+        check({Halfplane(Point(0, 0), Point(k, k + 1)), Halfplane(Point(0, 0), Point(k - 1, k))}, 1e9);
+        check({Halfplane(Point(k, k + 1), Point(0, 0)), Halfplane(Point(k - 1, k), Point(0, 0))}, 1e9);
+    }
+
+    /// Decimal 0.1-step inputs where some lines repeat through other lattice points, so their rounded directions are not exactly parallel
+    for (long long it = 0; it < stress::scaled(20000); it++){
+        int n = stress::rand_int(1, 8), range = it % 2 ? 10 : 100;
+        Point anchor = random_point(range);
+        vector<Halfplane> h;
+        for (int i = 0; i < n; i++){
+            Halfplane base = random_halfplane(range, stress::rand_int(0, 1) ? &anchor : nullptr);
+            long long dx = llroundl(base.pq.x), dy = llroundl(base.pq.y), g = __gcd(llabs(dx), llabs(dy));
+            for (int copies = stress::rand_int(1, 3); copies > 0; copies--){
+                int s = stress::rand_int(-3, 3), t = s + stress::rand_int(1, 3);
+                Point a = base.p + Point(dx / g, dy / g) * s, b = base.p + Point(dx / g, dy / g) * t;
+                h.emplace_back(Point(a.x / 10, a.y / 10), Point(b.x / 10, b.y / 10));
+            }
+        }
+        shuffle(h.begin(), h.end(), stress::rng());
+        check(h, it % 3 ? 10 : 1e4);
+    }
+
     for (long long it = 0; it < stress::scaled(30); it++){
         int n = stress::rand_int(500, 2000);
         Point anchor = random_point(100);

@@ -12,8 +12,9 @@
  *     A bounded intersection comes out exact when box exceeds all its vertex coordinates
  *
  * Precision: long double, EPS = 1e-9 is a distance tolerance, a vertex within EPS of a boundary counts as on it
- *     Directions are sorted and compared for parallelism exactly, so integer inputs never mix up parallel lines
- *     Verified against brute force clipping for integer coordinates |x|, |y| <= 1e4 with box up to 1e9
+ *     Directions are sorted exactly, and two count as one when they differ by no more than the double rounding of the points,
+ *     so a line given twice through different decimal points is merged, while distinct integer directions with |x|, |y| <= 1e6 never are
+ *     Verified against brute force clipping for integer coordinates |x|, |y| <= 1e4 with box up to 1e9, and for 0.1-step decimals
  *     EPS is absolute, about 9 long double ulps at box 1e9, so a box much beyond 1e9 is not supported
  *
  * Example, x >= 0, y >= 0, x + y <= 4:
@@ -81,13 +82,26 @@ vector<Point> halfplane_intersection(vector<Halfplane> h, long double box){
     });
 
     /// Of each group of same-direction lines only the innermost constrains anything
+    /// One line given by two different decimal point pairs gets directions that differ by the double rounding of its points,
+    /// a few DBL_EPSILON times the coordinate sizes, while distinct integer directions have cross >= 1, well above that up to 1e6
+    /// The dot product, not upper(), separates antiparallel lines, so twins rounded to either side of angle pi still merge
+    auto size = [](const Halfplane& a){ return fabsl(a.p.x) + fabsl(a.p.y) + fabsl(a.pq.x) + fabsl(a.pq.y); };
+    auto same_direction = [&](const Halfplane& a, const Halfplane& b){
+        return a.pq.x * b.pq.x + a.pq.y * b.pq.y > 0 && fabsl(cross(a.pq, b.pq)) <= 8 * DBL_EPSILON * (size(a) * b.len + size(b) * a.len);
+    };
+    auto merge = [](Halfplane& kept, const Halfplane& hp){
+        if (cross(kept.pq, hp.p - kept.p) > 0) kept = hp;
+    };
     vector<Halfplane> lines;
     for (auto& hp : h){
-        if (!lines.empty() && lines.back().upper() == hp.upper() && cross(lines.back().pq, hp.pq) == 0){
-            if (cross(lines.back().pq, hp.p - lines.back().p) > 0) lines.back() = hp;
-            continue;
-        }
-        lines.push_back(hp);
+        if (!lines.empty() && same_direction(lines.back(), hp)) merge(lines.back(), hp);
+        else lines.push_back(hp);
+    }
+
+    /// A direction rounded to just below angle 0 sorts last, next to its twin at the front
+    if (same_direction(lines.back(), lines[0])){
+        merge(lines[0], lines.back());
+        lines.pop_back();
     }
 
     deque<Halfplane> dq;
@@ -155,6 +169,13 @@ int main(){
     vector<Halfplane> cut = {Halfplane(Point(2, 0), Point(3, 1)), Halfplane(Point(0, 4), Point(0, 0)), Halfplane(Point(6, 0), Point(0, 6)),
                              Halfplane(Point(4, 4), Point(0, 4)), Halfplane(Point(0, 0), Point(4, 0)), Halfplane(Point(4, 0), Point(4, 4))};
     assert(matches(halfplane_intersection(cut, 1e9), {Point(0, 0), Point(2, 0), Point(4, 2), Point(2, 4), Point(0, 4)}));
+
+    vector<Halfplane> decimal = {x_min, y_min, Halfplane(Point(0.4, 0), Point(0, 0.4)), Halfplane(Point(0.2, 0.2), Point(0.1, 0.3))};
+    assert(matches(halfplane_intersection(decimal, 1e4), {Point(0, 0), Point(0.4, 0), Point(0, 0.4)}));
+    vector<Halfplane> contradiction = {Halfplane(Point(0.1, 0.8), Point(-0.1, 0.4)), Halfplane(Point(-0.2, -0.1), Point(-0.8, -0.7)),
+                                       Halfplane(Point(-0.4, -0.3), Point(-1.0, -0.9)), Halfplane(Point(-0.6, -0.4), Point(-0.4, 0.0)),
+                                       Halfplane(Point(-0.5, -0.2), Point(-0.4, 0.0))};
+    assert(halfplane_intersection(contradiction, 10).empty());
 
     return 0;
 }
