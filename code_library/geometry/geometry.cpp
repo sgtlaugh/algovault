@@ -301,99 +301,36 @@ long double great_circle_distance(long double lat1, long double lon1, long doubl
 
 int main(){
     Point a{0, 0}, b{4, 0}, c{4, 4}, d{0, 4};
-    assert(cross(a, b, c) == 16 && cross(a, c, b) == -16 && cross(a, b, Point{8, 0}) == 0);
-    assert(on_segment({2, 0}, a, b) && on_segment(a, a, b) && !on_segment({5, 0}, a, b) && !on_segment({2, 1}, a, b));
-    assert(on_segment({3, 3}, {3, 3}, {3, 3}) && !on_segment({3, 4}, {3, 3}, {3, 3}));
-
-    assert(segments_intersect(a, c, b, d) && segments_intersect(a, b, b, c) && !segments_intersect(a, b, c, d));
-    assert(segments_intersect(a, b, {2, 0}, {6, 0}) && !segments_intersect(a, b, {5, 0}, {6, 0}));
-
-    assert(abs(dist_point_segment({2, 3}, a, b) - 3.0) < 1e-9);
-    assert(abs(dist_point_segment({7, 4}, a, b) - 5.0) < 1e-9);
-    assert(abs(dist_point_segment({1, 1}, a, a) - sqrt(2.0)) < 1e-9);
-
     vector<Point> square = {a, b, c, d};
-    assert(area2(square) == 32 && area2({d, c, b, a}) == -32);
-    assert(point_in_convex_polygon(square, {2, 2}) == 1 && point_in_polygon(square, {2, 2}) == 1);
-    assert(point_in_convex_polygon(square, {4, 2}) == 0 && point_in_polygon(square, {4, 2}) == 0);
-    assert(point_in_convex_polygon(square, {0, 0}) == 0 && point_in_polygon(square, {0, 0}) == 0);
-    assert(point_in_convex_polygon(square, {5, 2}) == -1 && point_in_polygon(square, {5, 2}) == -1);
-    assert(point_in_convex_polygon(square, {0, 6}) == -1 && point_in_polygon(square, {0, 6}) == -1);
+    assert(cross(a, b, c) == 16);                           /// left turn
+    assert(on_segment({2, 0}, a, b));
+    assert(segments_intersect(a, c, b, d));                 /// the diagonals
+    assert(abs(dist_point_segment({7, 4}, a, b) - 5) < 1e-9);  /// nearest point is b
+    assert(area2(square) == 32);                            /// twice the area, positive counter-clockwise
+    assert(point_in_polygon(square, {2, 2}) == 1);
+    assert(point_in_polygon(square, {4, 2}) == 0);          /// on the boundary
+    assert(point_in_convex_polygon(square, {5, 2}) == -1);
 
-    vector<Point> notch = {{0, 0}, {4, 0}, {4, 4}, {2, 1}, {0, 4}};
-    assert(point_in_polygon(notch, {2, 3}) == -1 && point_in_polygon(notch, {2, 0}) == 0 && point_in_polygon(notch, {1, 1}) == 1);
+    assert((simple_polygon({c, a, d, b}) == vector<int>{1, 3, 0, 2}));  /// a b c d
+    vector<Point> dirs = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
+    sort(dirs.begin(), dirs.end(), angle_less);
+    assert((dirs == vector<Point>{{1, 0}, {0, 1}, {-1, 0}, {0, -1}}));  /// counter-clockwise from +x
 
-    const long long E9 = 1000000000;
-    vector<Point> huge = {{-E9, -E9}, {E9, -E9}, {E9, E9}, {-E9, E9}};
-    assert(area2(huge) == 8 * E9 * E9);
-    assert(point_in_convex_polygon(huge, {E9, E9}) == 0 && point_in_convex_polygon(huge, {0, 0}) == 1);
+    auto near = [](const PointF& p, const PointF& q){ return hypot(p.x - q.x, p.y - q.y) < 1e-9; };
+    assert(orientation({0, 0}, {1, 0}, {2, 1e-12}) == 0);  /// collinear within EPS
+    auto [kind, at] = line_intersection({0, 0}, {4, 4}, {0, 4}, {4, 0});
+    assert(kind == 1 && near(at, {2, 2}));
+    assert(segment_intersection({0, 0}, {4, 0}, {6, 0}, {2, 0}).size() == 2);  /// overlap from (2, 0) to (4, 0)
+    assert(abs(dist_point_line({2, -3}, {0, 0}, {4, 0}) + 3) < 1e-9);         /// negative right of the line
+    assert(near(project({2, 3}, {0, 0}, {4, 0}), {2, 0}));
+    assert(near(reflect({2, 3}, {0, 0}, {4, 0}), {2, -3}));
 
-    vector<Point> pts = {{0, 0}, {2, 0}, {1, 1}, {0, 2}, {2, 2}};
-    vector<int> order = simple_polygon(pts);
-    assert((int)order.size() == 5 && order[0] == 0);
-
-    vector<Point> by_angle = {{0, -1}, {-1, 1}, {1, 0}, {1, -1}, {-1, 0}, {0, 0}, {0, 1}, {-1, -1}, {1, 1}};
-    sort(by_angle.begin(), by_angle.end(), angle_less);
-    assert((by_angle == vector<Point>{{0, 0}, {1, 0}, {1, 1}, {0, 1}, {-1, 1}, {-1, 0}, {-1, -1}, {0, -1}, {1, -1}}));
-    assert(!angle_less({1, 0}, {5, 0}) && !angle_less({5, 0}, {1, 0}) && !angle_less({0, 0}, {0, 0}));
-    assert(angle_less({0, 0}, {1, 0}) && !angle_less({-2, -2}, {-1, -1}) && angle_less({-3, 0}, {0, -1}));
-    assert(angle_less({E9, E9 - 1}, {E9 - 1, E9}) && !angle_less({E9 - 1, E9}, {E9, E9 - 1}));
-    assert(angle_less({-E9, 1}, {-E9, -1}) && angle_less({-E9, -E9}, {E9, -E9}) && !angle_less({E9, -E9}, {-E9, -E9}));
-
-    auto same = [](const PointF& p, const PointF& q){ return abs(p.x - q.x) < 1e-9 && abs(p.y - q.y) < 1e-9; };
-    auto li = line_intersection({0, 0}, {4, 4}, {0, 4}, {4, 0});
-    assert(li.first == 1 && same(li.second, {2, 2}));
-    li = line_intersection({0, 0}, {1, 0}, {3, 1}, {3, 7});
-    assert(li.first == 1 && same(li.second, {3, 0}));
-    assert(line_intersection({0, 0}, {1, 1}, {0, 1}, {1, 2}).first == 0 && line_intersection({0, 0}, {1, 1}, {3, 3}, {2, 2}).first == -1);
-
-    vector<PointF> hit = segment_intersection({0, 0}, {4, 4}, {0, 4}, {4, 0});
-    assert(hit.size() == 1 && same(hit[0], {2, 2}));
-    hit = segment_intersection({0, 0}, {4, 0}, {6, 0}, {2, 0});
-    assert(hit.size() == 2 && ((same(hit[0], {2, 0}) && same(hit[1], {4, 0})) || (same(hit[0], {4, 0}) && same(hit[1], {2, 0}))));
-    hit = segment_intersection({0, 0}, {4, 0}, {2, 0}, {2, 3});
-    assert(hit.size() == 1 && same(hit[0], {2, 0}));
-    hit = segment_intersection({0, 0}, {2, 0}, {2, 0}, {3, 0});
-    assert(hit.size() == 1 && same(hit[0], {2, 0}));
-    hit = segment_intersection({1, 1}, {1, 1}, {0, 0}, {2, 2});
-    assert(hit.size() == 1 && same(hit[0], {1, 1}));
-    assert(segment_intersection({0, 0}, {1, 0}, {2, 0}, {3, 0}).empty() && segment_intersection({0, 0}, {1, 1}, {3, 0}, {2, 1}).empty());
-    assert(segment_intersection({0, 0}, {0, 0}, {1, 1}, {1, 1}).empty());
-
-    assert(abs(dist_point_line({2, 3}, {0, 0}, {4, 0}) - 3) < 1e-9 && abs(dist_point_line({2, -3}, {0, 0}, {4, 0}) + 3) < 1e-9);
-    assert(abs(dist_point_line({0, 2}, {0, 0}, {2, 2}) - sqrt(2.0)) < 1e-9 && abs(dist_point_line({7, 7}, {0, 0}, {2, 2})) < 1e-9);
-    assert(same(project({2, 3}, {0, 0}, {4, 0}), {2, 0}) && same(reflect({2, 3}, {0, 0}, {4, 0}), {2, -3}));
-    assert(same(project({0, 2}, {0, 0}, {2, 2}), {1, 1}) && same(reflect({0, 2}, {0, 0}, {2, 2}), {2, 0}));
-    assert(same(project({5, 1}, {1, 1}, {2, 1}), {5, 1}) && same(reflect({0, 0}, {3, 0}, {3, 1}), {6, 0}));
-
-    auto area = [](const vector<PointF>& poly){
-        double s = 0;
-        for (int i = 0, n = poly.size(); i < n; i++) s += poly[i].x * poly[(i + 1) % n].y - poly[(i + 1) % n].x * poly[i].y;
-        return s / 2;
-    };
     vector<PointF> box = {{0, 0}, {4, 0}, {4, 4}, {0, 4}};
-    vector<PointF> half = cut_polygon(box, {2, 0}, {2, 1});
-    assert(half.size() == 4 && abs(area(half) - 8) < 1e-9 && same(polygon_centroid(half), {1, 2}));
-    assert(abs(area(cut_polygon(box, {0, 0}, {4, 4})) - 8) < 1e-9 && abs(area(cut_polygon(box, {0, 3}, {1, 4})) - 0.5) < 1e-9);
-    assert(cut_polygon(box, {0, 0}, {4, 0}).size() == 4 && cut_polygon(box, {4, 0}, {0, 0}).empty());
-    assert(cut_polygon(box, {9, 0}, {9, 1}).size() == 4 && cut_polygon(box, {-1, -1}, {-1, 0}).empty());
-    vector<PointF> comb = {{0, -4}, {4, -4}, {4, 0}, {3, -1}, {2, 0}, {1, -1}, {0, 0}};
-    assert(cut_polygon(comb, {0, 0}, {1, 0}).empty() && cut_polygon(comb, {4, 0}, {0, 0}).size() == 7);
-    assert(abs(area(cut_polygon(comb, {1, 0}, {0, 0})) - 14) < 1e-9);
-
-    vector<PointF> ell = {{0, 0}, {4, 0}, {4, 2}, {2, 2}, {2, 4}, {0, 4}};
-    assert(same(polygon_centroid(ell), {5.0 / 3, 5.0 / 3}) && same(polygon_centroid({ell.rbegin(), ell.rend()}), {5.0 / 3, 5.0 / 3}));
-    assert(same(polygon_centroid({{0, 0}, {6, 0}, {0, 3}}), {2, 1}) && same(polygon_centroid(box), {2, 2}));
-    assert(same(polygon_centroid({{1e6, 1e6}, {1e6 + 6, 1e6}, {1e6, 1e6 + 3}}), {1e6 + 2, 1e6 + 1}));
-
-    PointF r = rotate({1, 1}, {2, 1}, 90);
-    assert(abs(r.x - 1) < 1e-9 && abs(r.y - 2) < 1e-9);
-    assert(abs(clockwise_angle({1, 0}, {0, -1}) - 90) < 1e-9 && abs(clockwise_angle({1, 0}, {0, 1}) - 270) < 1e-9);
-
-    long double pi = acosl(-1.0L);
-    assert(fabsl(great_circle_distance(0, 0, 0, 90, 1) - pi / 2) < 1e-12);
-    assert(fabsl(great_circle_distance(0, 0, 0, 180, 1) - pi) < 1e-9);
-    assert(fabsl(great_circle_distance(10, 20, 10, 20, 6371) - 0) < 1e-12);
-
+    vector<PointF> left = cut_polygon(box, {2, 0}, {2, 1});  /// keeps x <= 2
+    assert(left.size() == 4);
+    assert(near(polygon_centroid(left), {1, 2}));
+    assert(near(rotate({1, 1}, {2, 1}, 90), {1, 2}));
+    assert(abs(clockwise_angle({1, 0}, {0, -1}) - 90) < 1e-9);
+    assert(fabsl(great_circle_distance(0, 0, 0, 90, 1) - acosl(-1.0L) / 2) < 1e-12);  /// a quarter of the unit circle
     return 0;
 }

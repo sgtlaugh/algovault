@@ -496,6 +496,11 @@ int main(){
         assert(fabsl(got - 6371 * acosl(-1.0L)) < 1e-9 * 6371);
     }
 
+    /// Near-collinear floating inputs, which the integer-derived cases never produce, must fall inside the EPS tolerance
+    assert(orientation({0, 0}, {1, 0}, {2, 1e-12}) == 0 && orientation({0, 0}, {1e6, 0}, {2e6, 1e-4}) == 0);
+    assert(orientation({0, 0}, {1, 0}, {2, 1e-6}) == 1 && orientation({0, 0}, {1, 0}, {2, -1e-6}) == -1);
+    assert(line_intersection({0, 0}, {1, 0}, {0, 1}, {1, 1 + 1e-12}).first == 0);
+
     /// Small coordinates hit every degenerate case: shared endpoints, collinear overlaps, zero-length segments
     for (long long it = 0; it < stress::scaled(150000); it++){
         long long range = it % 3 ? 4 : 25;
