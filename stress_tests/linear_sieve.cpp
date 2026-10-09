@@ -63,6 +63,20 @@ int main(){
     for (long long it = 0; it < stress::scaled(3000); it++) check_value(b, db, sb, stress::rand_int(1, big));
     for (int x : {big, big - 1, 9999991, 1 << 23, 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3}) check_value(b, db, sb, x);
 
+    /// Every mu up to 1e7 from an Eratosthenes smallest prime factor table
+    vector<int> spf(big + 1, 0);
+    vector<int> mu(big + 1, 0);
+    for (int i = 2; i <= big; i++){
+        if (spf[i]) continue;
+        for (int j = i; j <= big; j += i) if (!spf[j]) spf[j] = i;
+    }
+    mu[1] = 1;
+    for (int i = 2; i <= big; i++){
+        int p = spf[i], rest = i / p;
+        mu[i] = rest % p == 0 ? 0 : -mu[rest];
+    }
+    assert(mu == b.mu);
+
     for (int n = 0; n <= 3; n++){
         LinearSieve t(n);
         assert((int)t.phi.size() == n + 1);
