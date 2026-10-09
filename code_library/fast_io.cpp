@@ -19,7 +19,8 @@
  * In other words we can do write(v1, v2, v3) and they will be printed on separate lines
  * It is discouraged to mix vectors with other types in the same write call because of formatting difference
  *
- * Don't forget to flush the buffer at the end after writing
+ * The output buffer is flushed automatically at normal exit, flush() forces it earlier (e.g. interactive problems)
+ * Output is lost on abnormal termination such as abort() or _exit()
  *
  * Example usage - Read four numbers till EOF and print their sum
  *
@@ -130,6 +131,8 @@ namespace fio{
         fwrite(outbuf, 1, outptr, stdout);
         outptr = 0;
     }
+
+    struct AutoFlush{ ~AutoFlush(){ flush(); } } auto_flush;
 
     inline void write_char(const char& c){
         if (outptr == BUF_SIZE) flush();
