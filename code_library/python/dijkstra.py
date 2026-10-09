@@ -1,5 +1,5 @@
 from collections import defaultdict
-from heapq import heapify, heappop, heappush
+from heapq import heappop, heappush
 
 
 class Graph:
@@ -46,11 +46,11 @@ def dijkstra(graph, source, destination):
     """
 
     distance = {source: 0}
-    queue = [(distance[source], source)]
-    heapify(queue)
+    queue = [(0, source)]
 
     while queue:
         (d, u) = heappop(queue)
+        if d > distance[u]: continue
         if u == destination: return d
 
         for v, w in graph.adj_list[u]:
