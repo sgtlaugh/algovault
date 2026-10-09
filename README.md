@@ -151,6 +151,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Geometry](code_library/geometry/geometry.cpp) - exact integer predicates, polygon queries and angular sort, floating point line and segment intersection, projection, reflection, half-plane polygon cut and centroid
 - [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region of half-planes clipped to a box, sort and deque, O(n log n)
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
+- [Polygon Union](code_library/geometry/polygon_union.cpp) - area of the union of simple polygons, convex or not, O(N^2 log N)
 
 ### Dynamic Programming
 - [Aliens Trick (WQS Binary Search, Lagrangian Relaxation)](code_library/dp/aliens_trick.cpp) - exactly-k optimum of a convex cost via binary search on the per-item penalty, tie-safe
