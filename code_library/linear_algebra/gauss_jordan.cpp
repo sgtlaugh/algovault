@@ -1,78 +1,89 @@
 /***
-Gauss-Jordan Elimination
-
-n = number of linear equations
-m = number of variables
-equations[i][m] = right-hand side value of constants
-
-For instance, the system of linear equations becomes:
-
-2x + y -z = 8      ----->  (i)
--3x -y + 2z = -11  ----->  (ii)
--2x + y + 2z = -3  ----->  (iii)
-
-n = 3 (i, ii, iii), m = 3 (x, y, z)
-equations[0] = {2, 1, -1, 8}    ----->  (i)
-equations[1] = {-3, -1, 2, -11} ----->  (ii)
-equations[2] = {-2, 1, 2, -3}   ----->  (iii)
-
-Returns -1 when there is no solution
-Otherwise returns the number of independent variables, 0 for an unique solution
-Contains a valid solution in the vector res on successful completion
-
-Complexity: O(min(n, m) * n * m)
-
-Notes:
-For problems on graphs, make sure the graph is connected and a single component
-If not, then re-number the vertices and solve for each component separately.
-
-eps is relative to the largest |coefficient|, a row that reduces to 0 = r with |r| <= eps * max|coefficient| counts as consistent
-If more precision is required, use long double or __float128 from quadmath.h if supported
-
+ *
+ * Gauss-Jordan Elimination
+ * Linear systems, rank and inverse of matrices over the reals
+ *
+ * Complexity: O(min(n, m) * n * m) for gauss and matrix_rank, O(n^3) for matrix_inverse
+ *
+ * gauss(equations, res): n >= 1 equations in m variables, equations[i][m] is the right-hand side
+ *     returns -1 when there is no solution
+ *     otherwise returns the number of free variables, 0 for a unique solution, and res holds one solution
+ * matrix_rank(a): rank of any n x m matrix
+ * matrix_inverse(a, inv): for a square a, returns false when it is singular, otherwise inv = a^-1
+ *
+ * For instance, the system of linear equations
+ *
+ *     2x + y - z   = 8    ----->  equations[0] = {2, 1, -1, 8}
+ *     -3x - y + 2z = -11  ----->  equations[1] = {-3, -1, 2, -11}
+ *     -2x + y + 2z = -3   ----->  equations[2] = {-2, 1, 2, -3}
+ *
+ * has the unique solution x = 2, y = 3, z = -1
+ *
+ * For problems on graphs, make sure the graph is connected and a single component
+ * If not, then re-number the vertices and solve for each component separately
+ *
+ * Every function takes an optional eps, scaled by max(1, largest |entry| of its input)
+ * An entry within that tolerance of 0 counts as 0: a row that reduces to 0 = r with |r| within it is consistent,
+ * and a pivot within it makes the matrix rank deficient or singular
+ * If more precision is required, use long double or __float128 from quadmath.h if supported
+ *
 ***/
 
-#include <bits/stdc++.h>
+#include <bits/stdtr1c++.h>
 
 using namespace std;
 
+/// Relative, an absolute eps rejects solvable systems with large coefficients
 template <class T>
-int gauss(vector<vector <T>> equations, vector<T>& res, const T eps=1e-9){
-    int n = equations.size(), m = equations[0].size() - 1;
-    int i, j, k, l, p, f_var = 0;
-
-    res.assign(m, 0);
-    vector <int> pos(m, -1);
-
-    /// Relative, an absolute eps rejects solvable systems with large coefficients
+T tolerance(const vector<vector<T>>& a, T eps){
     T tol = 1;
-    for (auto& row : equations) for (auto& x : row) tol = max(tol, (T)abs(x));
-    tol *= eps;
+    for (auto& row : a) for (auto& x : row) tol = max(tol, (T)abs(x));
+    return tol * eps;
+}
 
-    for (j = 0, i = 0; j < m && i < n; j++){
-        for (k = i, p = i; k < n; k++){
-            if (abs(equations[k][j]) > abs(equations[p][j])) p = k;
+/// Eliminates the first cols columns of a with partial pivoting, pivots are not scaled to 1
+/// Returns pos, pos[j] = row of the pivot in column j or -1, pivot rows are 0, 1, ..., rank - 1 in column order
+template <class T>
+vector<int> row_reduce(vector<vector<T>>& a, int cols, T tol){
+    int n = a.size(), i = 0;
+    vector<int> pos(cols, -1);
+
+    for (int j = 0; j < cols && i < n; j++){
+        int p = i;
+        for (int k = i; k < n; k++){
+            if (abs(a[k][j]) > abs(a[p][j])) p = k;
+        }
+        if (abs(a[p][j]) <= tol) continue;
+
+        swap(a[p], a[i]);
+        int width = a[i].size();
+        for (int k = 0; k < n; k++){
+            if (k == i || a[k][j] == 0) continue;
+            T x = a[k][j] / a[i][j];
+            for (int l = j; l < width; l++) a[k][l] -= a[i][l] * x;
         }
 
-        if (abs(equations[p][j]) > tol){
-            pos[j] = i;
-            swap(equations[p], equations[i]);
-
-            for (k = 0; k < n; k++){
-                if (k != i && equations[k][j] != 0){
-                    T x = equations[k][j] / equations[i][j];
-                    for (l = j; l <= m; l++) equations[k][l] -= equations[i][l] * x;
-                }
-            }
-            i++;
-        }
+        pos[j] = i++;
     }
 
+    return pos;
+}
+
+template <class T>
+int gauss(vector<vector<T>> equations, vector<T>& res, const T eps=1e-9){
+    int n = equations.size(), m = equations[0].size() - 1, f_var = 0;
+    T tol = tolerance(equations, eps);
+    vector<int> pos = row_reduce(equations, m, tol);
+
+    res.assign(m, 0);
+    int rank = m - count(pos.begin(), pos.end(), -1);
+
     /// Only rows without a pivot can be inconsistent, as 0 = nonzero
-    for (k = i; k < n; k++){
+    for (int k = rank; k < n; k++){
         if (abs(equations[k][m]) > tol) return -1;
     }
 
-    for (j = 0; j < m; j++){
+    for (int j = 0; j < m; j++){
         if (pos[j] == -1) f_var++;
         else res[j] = equations[pos[j]][m] / equations[pos[j]][j];
     }
@@ -80,22 +91,49 @@ int gauss(vector<vector <T>> equations, vector<T>& res, const T eps=1e-9){
     return f_var;
 }
 
+template <class T>
+bool matrix_inverse(const vector<vector<T>>& a, vector<vector<T>>& inv, const T eps=1e-9){
+    int n = a.size();
+    vector<vector<T>> aug(n, vector<T>(2 * n, 0));
+    for (int i = 0; i < n; i++){
+        assert((int)a[i].size() == n);
+        for (int j = 0; j < n; j++) aug[i][j] = a[i][j];
+        aug[i][n + i] = 1;
+    }
+
+    vector<int> pos = row_reduce(aug, n, tolerance(a, eps));
+    if (n && pos[n - 1] != n - 1) return false;
+
+    inv.assign(n, vector<T>(n));
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++) inv[i][j] = aug[i][n + j] / aug[i][i];
+    }
+
+    return true;
+}
+
+template <class T>
+int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
+    int cols = a.empty() ? 0 : a[0].size();
+    vector<int> pos = row_reduce(a, cols, tolerance(a, eps));
+    return cols - count(pos.begin(), pos.end(), -1);
+}
+
 int main(){
     vector<vector<double>> equations;
     equations = {{2, 1, -1, 8}, {-3, -1, 2, -11}, {-2, 1, 2, -3}};
 
-    vector <double> res;
+    vector<double> res;
     int f_var = gauss(equations, res);
-    assert(f_var == 0 && res.size() == 3); /// unique solution
+    assert(f_var == 0 && res.size() == 3);
 
-    /// x = 2, y = 3, z = -1
     assert(abs(res[0] - 2) < 1e-9);
     assert(abs(res[1] - 3) < 1e-9);
     assert(abs(res[2] + 1) < 1e-9);
 
     equations = {{2, 1, -1, 8}, {-3, -1, 2, -11}};
     f_var = gauss(equations, res);
-    assert(f_var == 1 && res.size() == 3); /// multiple solution, 1 independent variable
+    assert(f_var == 1 && res.size() == 3);
 
     for (int i = 0; i < (int)equations.size(); i++){
         double v = 0;
@@ -108,7 +146,24 @@ int main(){
 
     equations = {{2, 1, -1, 8}, {-3, -1, 2, -11}, {4, 2, -2, 10}};
     f_var = gauss(equations, res);
-    assert(f_var == -1); /// no solution exists
+    assert(f_var == -1);
+
+    assert(matrix_rank(vector<vector<double>>{{1, 2, 3}, {2, 4, 6}}) == 1);
+    assert(matrix_rank(vector<vector<double>>{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}) == 2);
+    assert(matrix_rank(vector<vector<double>>{{1e-12, 0}, {0, 3}}) == 1);
+    assert(matrix_rank(vector<vector<double>>{}) == 0);
+
+    /// det = -2, inverse = -1/2 * {{4, -2}, {-3, 1}}
+    vector<vector<double>> inv, expected = {{-2, 1}, {1.5, -0.5}};
+    assert(matrix_inverse(vector<vector<double>>{{1, 2}, {3, 4}}, inv));
+    for (int i = 0; i < 2; i++) for (int j = 0; j < 2; j++) assert(abs(inv[i][j] - expected[i][j]) < 1e-9);
+
+    /// Needs a row swap, the 0 pivot in the top-left would divide by zero
+    assert(matrix_inverse(vector<vector<double>>{{0, 1}, {4, 0}}, inv));
+    assert(abs(inv[0][0]) < 1e-12 && abs(inv[0][1] - 0.25) < 1e-12 && abs(inv[1][0] - 1) < 1e-12 && abs(inv[1][1]) < 1e-12);
+
+    assert(!matrix_inverse(vector<vector<double>>{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}, inv));
+    assert(matrix_inverse(vector<vector<double>>{}, inv) && inv.empty());
 
     return 0;
 }

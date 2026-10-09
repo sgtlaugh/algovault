@@ -34,6 +34,40 @@ int exact_rank(const vector<vector<long long>>& a, int cols){
     return r1;
 }
 
+/// Residual of x * y - I against the rounding scale sum |x_ik| |y_kj| of each entry
+bool near_identity_product(const vector<vector<double>>& x, const vector<vector<double>>& y){
+    int n = x.size();
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++){
+            double v = 0, scale = 1;
+            for (int k = 0; k < n; k++) v += x[i][k] * y[k][j], scale += fabs(x[i][k] * y[k][j]);
+            if (fabs(v - (i == j)) > 1e-9 * scale) return false;
+        }
+    }
+    return true;
+}
+
+/// Integer matrix whose rows are random, multiples of row 0 or sums of the two rows above
+vector<vector<long long>> random_dependent(int n, int m){
+    long long big = stress::rand_int(0, 2) ? 10 : 1000000;
+    vector<vector<long long>> a(n, vector<long long>(m));
+    for (int i = 0; i < n; i++){
+        int kind = i ? stress::rand_int(0, 3) : 0;
+        for (int j = 0; j < m; j++){
+            if (kind <= 1) a[i][j] = stress::rand_int(-big, big);
+            else if (kind == 2) a[i][j] = a[0][j] * stress::rand_int(-3, 3);
+            else a[i][j] = a[i - 1][j] + a[i >= 2 ? i - 2 : 0][j];
+        }
+    }
+    return a;
+}
+
+vector<vector<double>> to_double(const vector<vector<long long>>& a){
+    vector<vector<double>> res;
+    for (const auto& row : a) res.emplace_back(row.begin(), row.end());
+    return res;
+}
+
 int main(){
     /// Consistent (row 5 = row 1 + row 4) but rejected by the old 1e-12 tolerance, found by this test at 20x scale
     vector<vector<double>> regression = {{461376, -874886, 67590, 302992, 246673}, {257837, 571397, 503158, -220469, 555968},
@@ -69,6 +103,36 @@ int main(){
                 for (int j = 0; j < m; j++) lhs += eq[i][j] * res[j], scale = max(scale, fabs(eq[i][j] * res[j]));
                 assert(fabs(lhs - eq[i][m]) <= 1e-9 * max(1.0, scale));
             }
+        }
+    }
+
+    /// Rank and inverse against the exact rank of integer matrices
+    for (long long it = 0; it < stress::scaled(20000); it++){
+        int n = stress::rand_int(0, 6), m = stress::rand_int(1, 6);
+        vector<vector<long long>> a = random_dependent(n, m);
+        assert(matrix_rank(to_double(a)) == exact_rank(a, m));
+
+        vector<vector<long long>> square = random_dependent(n, n);
+        vector<vector<double>> inv = {{7}}, d = to_double(square);
+        bool ok = matrix_inverse(d, inv);
+        assert(ok == (exact_rank(square, n) == n));
+        if (ok) assert((int)inv.size() == n && near_identity_product(d, inv) && near_identity_product(inv, d));
+    }
+
+    /// Large random real matrices are invertible almost surely, and lose exactly one rank when a row becomes a combination
+    for (long long it = 0; it < stress::scaled(40); it++){
+        int n = stress::rand_int(1, 80);
+        vector<vector<double>> a(n, vector<double>(n));
+        for (auto& row : a) for (auto& x : row) x = stress::rand_int(-1000000, 1000000) / 1000.0;
+
+        vector<vector<double>> inv;
+        assert(matrix_inverse(a, inv) && near_identity_product(a, inv) && near_identity_product(inv, a));
+        assert(matrix_rank(a) == n);
+
+        if (n >= 2){
+            int r = stress::rand_int(1, n - 1);
+            for (int j = 0; j < n; j++) a[r][j] = a[0][j] * 2 - a[r - 1][j] * 0.5;
+            assert(!matrix_inverse(a, inv) && matrix_rank(a) == n - 1);
         }
     }
 
