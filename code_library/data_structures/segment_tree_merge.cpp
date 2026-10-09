@@ -157,53 +157,20 @@ int main(){
     int a = 0, b = 0;
     for (int x : {3, 1, 4, 1, 5}) st.insert(a, x);
     for (int x : {9, 2, 6}) st.insert(b, x);
-    assert(st.size(a) == 5 && st.size(b) == 3 && st.size(0) == 0);
-    assert(st.kth(a, 0) == 1 && st.kth(a, 1) == 1 && st.kth(a, 2) == 3 && st.kth(a, 4) == 5);
-    assert(st.count(a, 1, 4) == 4 && st.count(a, 0, 0) == 0 && st.count(a, 1, 1) == 2 && st.count(a, -5, 20) == 5);
+    assert(st.size(a) == 5);
+    assert(st.kth(a, 2) == 3);          /// {1, 1, 3, 4, 5}
+    assert(st.count(a, 1, 4) == 4);
 
-    a = st.merge(a, b);
-    assert(st.size(a) == 8 && st.kth(a, 2) == 2 && st.kth(a, 6) == 6 && st.kth(a, 7) == 9);
+    a = st.merge(a, b);                 /// {1, 1, 2, 3, 4, 5, 6, 9}, b is gone
+    assert(st.size(a) == 8);
+    assert(st.kth(a, 7) == 9);
 
-    int high = st.split_k(a, 3);
-    assert(st.size(a) == 3 && st.kth(a, 0) == 1 && st.kth(a, 1) == 1 && st.kth(a, 2) == 2);
-    assert(st.size(high) == 5 && st.kth(high, 0) == 3 && st.kth(high, 4) == 9);
+    int high = st.split_k(a, 3);        /// a = {1, 1, 2}, high = {3, 4, 5, 6, 9}
+    assert(st.kth(a, 2) == 2);
+    assert(st.kth(high, 0) == 3);
 
-    int top = st.split_key(high, 6);
-    assert(st.size(high) == 3 && st.kth(high, 0) == 3 && st.kth(high, 2) == 5);
-    assert(st.size(top) == 2 && st.kth(top, 0) == 6 && st.kth(top, 1) == 9);
-    assert(st.split_key(top, INT_MAX) == 0 && st.size(top) == 2);
-    int same = top;
-    assert(st.split_key(top, INT_MIN) == same && top == 0);
-    assert(st.count(same, INT_MIN, INT_MAX) == 2 && st.count(same, INT_MIN, 5) == 0);
-
-    int all = st.merge(a, high);
-    assert(st.split_k(all, 6) == 0 && st.split_k(all, 100) == 0 && st.size(all) == 6);
-    int moved = st.split_k(all, 0);
-    assert(all == 0 && st.size(moved) == 6 && st.kth(moved, 5) == 5);
-
-    SegmentTreeMerge pool(8);
-    int s = 0, t = 0, u = 0;
-    pool.insert(s, 5);
-    pool.insert(t, 5);
-    assert(pool.nodes.size() == 9);
-    s = pool.merge(s, t);
-    assert(pool.free_nodes.size() == 4 && pool.count(s, 5, 5) == 2);
-    pool.insert(u, 2);
-    assert(pool.nodes.size() == 9 && pool.free_nodes.empty() && pool.kth(u, 0) == 2);
-
-    SegmentTreeMerge wide(1000000000);
-    int w = 0;
-    wide.insert(w, 999999999);
-    wide.insert(w, 0, 1000000000000LL);
-    assert(wide.size(w) == 1000000000001LL);
-    assert(wide.kth(w, 999999999999LL) == 0 && wide.kth(w, 1000000000000LL) == 999999999);
-    assert(wide.count(w, 1, 999999999) == 1);
-
-    SegmentTreeMerge single(1);
-    int one = 0;
-    single.insert(one, 0, 3);
-    int part = single.split_k(one, 1);
-    assert(single.size(one) == 1 && single.size(part) == 2 && single.kth(part, 1) == 0);
-
+    int top = st.split_key(high, 6);    /// high = {3, 4, 5}, top = {6, 9}
+    assert(st.size(high) == 3);
+    assert(st.kth(top, 0) == 6);
     return 0;
 }

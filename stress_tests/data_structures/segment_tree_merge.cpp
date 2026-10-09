@@ -65,8 +65,10 @@ void check(int n, int sets, int ops, int check_every){
             int x = stress::rand_int(0, n - 1), c = stress::rand_int(1, 3);
             if (stress::rand_int(0, 4) == 0) x = stress::rand_int(0, 1) ? 0 : n - 1;
             long long before = live_nodes(st);
+            size_t pool = st.nodes.size(), freed = st.free_nodes.size();
             st.insert(roots[i], x, c);
             assert(live_nodes(st) - before <= bound);
+            if ((int)freed >= bound) assert(st.nodes.size() == pool);  /// freed nodes are reused before the pool grows
             for (int k = 0; k < c; k++) ref[i].insert(x);
         }
         else if (type == 4 && i != j){
@@ -128,6 +130,14 @@ int main(){
     for (int n : {1, 2, 3, 127, 128, 129}) check(n, 5, 3000, 7);
     check(1000000000, 40, 30000, 5000);
     check(200000, 20, 30000, 5000);
+
+    /// Counts and ranks past the int range
+    SegmentTreeMerge wide(1000000000);
+    int w = 0;
+    wide.insert(w, 999999999);
+    wide.insert(w, 0, 1000000000000LL);
+    assert(wide.size(w) == 1000000000001LL && wide.count(w, 0, 0) == 1000000000000LL);
+    assert(wide.kth(w, 999999999999LL) == 0 && wide.kth(w, 1000000000000LL) == 999999999);
 
     return 0;
 }
