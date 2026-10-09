@@ -13,6 +13,8 @@
  * Each phase augments along shortest paths only, which is what bounds the phases by O(sqrt(n))
  * The augmenting search is iterative, so long augmenting paths cannot overflow the stack
  *
+ * minimum_path_cover.cpp embeds a copy of this struct, keep the two in sync
+ *
 ***/
 
 #include <bits/stdtr1c++.h>
