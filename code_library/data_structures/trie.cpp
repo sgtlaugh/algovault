@@ -1,14 +1,23 @@
 /***
  *
- * Trie
- * Prefix tree over strings, counting how many inserted words pass through or end at each node
+ * Trie and Binary Trie
+ * Trie: prefix tree over strings, counting how many inserted words pass through or end at each node
+ * BinaryTrie: multiset of BITS-bit unsigned integers answering xor queries against it
  *
- * Complexity: O(|s|) per operation, O(total length * SIGMA) memory
+ * Complexity: Trie O(|s|) per operation, O(total length * SIGMA) memory
+ *             BinaryTrie O(BITS) per operation, O(distinct inserted values * BITS) memory
  *
  * Trie<SIGMA, BASE> trie; characters must lie in [BASE, BASE + SIGMA), defaults to 'a'..'z'
  * trie.insert(s): adds one copy of s, duplicates count separately
  * trie.count_prefix(p): inserted words that start with p (every word for the empty prefix)
  * trie.count_word(s): copies of exactly s
+ *
+ * BinaryTrie<BITS> bt; values are unsigned long long in [0, 2^BITS), 1 <= BITS <= 64, defaults to 30
+ * bt.insert(x, c = 1), bt.erase(x, c = 1): add or remove c >= 1 copies of x, erase requires count(x) >= c
+ * bt.count(x): copies of x, bt.size(): copies of all values
+ * bt.min_xor(x), bt.max_xor(x): min / max of x ^ y over the y in the multiset, requires size() > 0
+ * bt.kth_xor(x, k): k-th smallest (0-indexed) of x ^ y counting copies, requires 0 <= k < size()
+ * Erased nodes stay allocated, so memory grows with insertions of new values, not with live size
  *
 ***/
 
@@ -70,6 +79,99 @@ struct Trie{
     }
 };
 
+template <int BITS = 30>
+struct BinaryTrie{
+    static_assert(1 <= BITS && BITS <= 64, "BITS must lie in [1, 64]");
+
+    vector<array<int, 2>> next;
+    vector<long long> cnt;
+
+    BinaryTrie(){
+        new_node();
+    }
+
+    int new_node(){
+        next.push_back({-1, -1});
+        cnt.push_back(0);
+        return next.size() - 1;
+    }
+
+    void insert(unsigned long long x, long long c = 1){
+        check_range(x);
+        assert(c >= 1);
+        int v = 0;
+        cnt[0] += c;
+        for (int b = BITS - 1; b >= 0; b--){
+            int bit = x >> b & 1;
+            if (next[v][bit] == -1){
+                int u = new_node();
+                next[v][bit] = u;
+            }
+            v = next[v][bit];
+            cnt[v] += c;
+        }
+    }
+
+    void erase(unsigned long long x, long long c = 1){
+        assert(c >= 1 && count(x) >= c);
+        int v = 0;
+        cnt[0] -= c;
+        for (int b = BITS - 1; b >= 0; b--){
+            v = next[v][x >> b & 1];
+            cnt[v] -= c;
+        }
+    }
+
+    long long count(unsigned long long x) const{
+        check_range(x);
+        int v = 0;
+        for (int b = BITS - 1; b >= 0 && v != -1; b--) v = next[v][x >> b & 1];
+        return weight(v);
+    }
+
+    long long size() const{
+        return cnt[0];
+    }
+
+    unsigned long long min_xor(unsigned long long x) const{
+        return kth_xor(x, 0);
+    }
+
+    unsigned long long max_xor(unsigned long long x) const{
+        return kth_xor(x, size() - 1);
+    }
+
+    unsigned long long kth_xor(unsigned long long x, long long k) const{
+        check_range(x);
+        assert(0 <= k && k < size());
+        int v = 0;
+        unsigned long long res = 0;
+
+        for (int b = BITS - 1; b >= 0; b--){
+            int bit = x >> b & 1;
+            int same = next[v][bit];
+            if (k < weight(same)){
+                v = same;
+                continue;
+            }
+            k -= weight(same);
+            v = next[v][bit ^ 1];
+            res |= 1ULL << b;
+        }
+
+        return res;
+    }
+
+    long long weight(int v) const{
+        return v == -1 ? 0 : cnt[v];
+    }
+
+    static void check_range(unsigned long long x){
+        /// BITS % 64 keeps the shift count legal in the BITS == 64 instantiation, where the left side short-circuits
+        assert(BITS == 64 || x >> (BITS % 64) == 0);
+    }
+};
+
 int main(){
     Trie<> trie;
     for (string s : {"apple", "app", "apply", "banana", "app"}) trie.insert(s);
@@ -84,6 +186,31 @@ int main(){
     Trie<2, '0'> bits;
     bits.insert("0101"), bits.insert("0110");
     assert(bits.count_prefix("01") == 2 && bits.count_prefix("010") == 1 && bits.count_word("0110") == 1);
+
+    BinaryTrie<5> bt;
+    for (unsigned long long x : {3, 10, 5, 25}) bt.insert(x);
+    assert(bt.size() == 4 && bt.count(10) == 1 && bt.count(11) == 0);
+    assert(bt.min_xor(6) == 3 && bt.max_xor(6) == 31);
+    assert(bt.kth_xor(6, 0) == 3 && bt.kth_xor(6, 1) == 5 && bt.kth_xor(6, 2) == 12 && bt.kth_xor(6, 3) == 31);
+    assert(bt.min_xor(25) == 0 && bt.max_xor(0) == 25 && bt.min_xor(0) == 3);
+
+    bt.erase(5), bt.insert(10);
+    assert(bt.size() == 4 && bt.count(5) == 0 && bt.count(10) == 2);
+    assert(bt.kth_xor(6, 0) == 5 && bt.kth_xor(6, 1) == 12 && bt.kth_xor(6, 2) == 12 && bt.kth_xor(6, 3) == 31);
+
+    bt.erase(10, 2), bt.erase(3), bt.erase(25);
+    assert(bt.size() == 0 && bt.count(10) == 0);
+    bt.insert(7, 1000000000000LL);
+    assert(bt.count(7) == 1000000000000LL && bt.min_xor(7) == 0 && bt.kth_xor(1, 999999999999LL) == 6);
+
+    BinaryTrie<64> wide;
+    wide.insert(0), wide.insert(~0ULL);
+    assert(wide.max_xor(0) == ~0ULL && wide.min_xor(~0ULL) == 0);
+    assert(wide.min_xor(1ULL << 63) == (1ULL << 63) - 1 && wide.max_xor(1ULL << 63) == 1ULL << 63);
+
+    BinaryTrie<1> one;
+    one.insert(1);
+    assert(one.min_xor(0) == 1 && one.max_xor(1) == 0);
 
     return 0;
 }
