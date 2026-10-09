@@ -54,6 +54,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
 - [Treap](code_library/data_structures/treap.cpp) - ordered multiset and implicit-key sequence with reversals
 - [Trie](code_library/data_structures/trie.cpp) - prefix tree with pass-through and end counts
+- [XOR Segment Tree](code_library/data_structures/xor_segment_tree.cpp) - range sum of a[p ^ x] over [l, r] for any x, with point add (t[node][x] layout)
 
 ### Trees
 - [Centroid Decomposition](code_library/trees/centroid_decomposition.cpp) - iterative centroid tree with a per-centroid visitor over branch distances, path counting example
