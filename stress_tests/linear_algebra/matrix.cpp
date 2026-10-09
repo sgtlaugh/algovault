@@ -52,6 +52,7 @@ int main(){
         int n = stress::rand_int(1, 7), m = stress::rand_int(1, 7), p = stress::rand_int(1, 7);
         check_product(random_matrix(n, m, mod, it % 3), random_matrix(m, p, mod, (it + 1) % 3));
     }
+
     for (long long it = 0; it < stress::scaled(30); it++){
         long long mod = it % 2 ? MAXMOD : stress::rand_int(1, MAXMOD);
         int n = stress::rand_int(30, 70);

@@ -46,6 +46,7 @@ struct Matrix{
                 if (mat[i][j] != m.mat[i][j]) return false;
             }
         }
+
         return true;
     }
 

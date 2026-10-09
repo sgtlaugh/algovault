@@ -9,6 +9,7 @@ __int128 laplace(const vector<vector<long long>>& a){
     int n = a.size();
     if (n == 0) return 1;
     __int128 res = 0;
+
     for (int c = 0; c < n; c++){
         vector<vector<long long>> minor;
         for (int r = 1; r < n; r++){
@@ -21,6 +22,7 @@ __int128 laplace(const vector<vector<long long>>& a){
         __int128 sub = laplace(minor) * a[0][c];
         res += c % 2 ? -sub : sub;
     }
+
     return res;
 }
 
@@ -28,6 +30,7 @@ __int128 laplace(const vector<vector<long long>>& a){
 __int128 bareiss(vector<vector<__int128>> a){
     int n = a.size(), sign = 1;
     __int128 prev = 1;
+
     for (int i = 0; i < n; i++){
         if (a[i][i] == 0){
             int p = i + 1;
@@ -40,6 +43,7 @@ __int128 bareiss(vector<vector<__int128>> a){
         }
         prev = a[i][i];
     }
+
     return sign * (n ? a[n - 1][n - 1] : 1);
 }
 
@@ -71,6 +75,7 @@ int main(){
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++) a[i][j] = b[i][j] = stress::rand_int(-2, 2);
         }
+
         __int128 exact = bareiss(b);
         assert(determinant(a) == (long long)exact);
         long long m = stress::rand_int(1, 1000000007);
@@ -83,5 +88,6 @@ int main(){
         assert(determinant({{v}}) == v);
         assert(determinant({{v, 0}, {0, 1}}) == v && determinant({{0, v}, {1, 0}}) == -v);
     }
+
     return 0;
 }

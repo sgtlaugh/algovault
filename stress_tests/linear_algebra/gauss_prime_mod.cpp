@@ -96,5 +96,6 @@ int main(){
         int f_var = gauss(equations, res, mod);
         assert(f_var == m - r && satisfies(equations, res, mod));
     }
+
     return 0;
 }

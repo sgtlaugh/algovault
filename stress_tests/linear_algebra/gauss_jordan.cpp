@@ -24,6 +24,7 @@ int rank_mod(const vector<vector<long long>>& a, int cols, long long p){
         }
         rank++;
     }
+
     return rank;
 }
 
@@ -70,5 +71,6 @@ int main(){
             }
         }
     }
+
     return 0;
 }

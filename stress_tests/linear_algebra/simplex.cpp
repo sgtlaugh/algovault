@@ -25,6 +25,7 @@ i128 det(vector<vector<i128>> m){
     i128 res = 1;
     /// Bareiss keeps every intermediate an exact integer, entries here stay far below the 128-bit range
     i128 prev = 1;
+
     for (int k = 0; k < n; k++){
         int p = k;
         while (p < n && m[p][k] == 0) p++;
@@ -35,6 +36,7 @@ i128 det(vector<vector<i128>> m){
         }
         prev = m[k][k];
     }
+
     return res * m[n - 1][n - 1];
 }
 
@@ -88,6 +90,7 @@ bool brute(int n, const vector<long long>& c, const vector<Constraint>& cons, in
             choose(i + 1, depth + 1);
         }
     };
+
     choose(0, 0);
     if (found && sense == MINIMIZE) best.num = -best.num;
     return found;
@@ -128,12 +131,14 @@ void degenerate_cycling(){
         assert(Simplex::solve(result) == FEASIBLE);
         assert(abs(result - opt) < 1e-9);
     }
+
     alarm(0);
 }
 
 int main(){
     degenerate_cycling();
     srand(stress::seed());
+
     for (long long it = 0; it < stress::scaled(2000); it++){
         int n = stress::rand_int(1, it % 5 ? 3 : 4), m = stress::rand_int(0, it % 5 ? 4 : 6), sense = stress::rand_int(0, 1) ? MAXIMIZE : MINIMIZE;
         vector<long long> c(n);
@@ -176,6 +181,7 @@ int main(){
             objective += c[j] * Simplex::val[j + 1];
         }
         assert(fabsl(objective - opt) <= tol);
+
         for (auto& k : cons){
             long double s = 0;
             for (int j = 0; j < n; j++) s += k.a[j] * Simplex::val[j + 1];
@@ -183,5 +189,6 @@ int main(){
             if (k.cmp != LESSEQ) assert(s >= k.b - 1e-6);
         }
     }
+
     return 0;
 }

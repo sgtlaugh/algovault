@@ -46,5 +46,6 @@ int main(){
         assert(!verify(A, B, C));
         assert(!verify(A, Matrix(k + 1, m), product));
     }
+
     return 0;
 }

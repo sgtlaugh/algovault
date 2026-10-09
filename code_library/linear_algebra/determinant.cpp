@@ -42,6 +42,7 @@ long long determinant_mod(vector<vector<long long>> a, long long m){
         res = res * a[i][i] % m;
         if (res == 0) return 0;
     }
+
     res %= m;
     return (long long)(res < 0 ? res + m : res);
 }

@@ -19,12 +19,14 @@ vector<__float128> dense_solve(vector<vector<__float128>> a, vector<__float128> 
             b[r] -= f * b[c];
         }
     }
+
     vector<__float128> x(n);
     for (int r = n - 1; r >= 0; r--){
         __float128 s = b[r];
         for (int k = r + 1; k < n; k++) s -= a[r][k] * x[k];
         x[r] = s / a[r][r];
     }
+
     return x;
 }
 
@@ -62,5 +64,6 @@ int main(){
             for (int i = 0; i < n; i++) assert(fabsq(expected[i] - x[i]) <= (__float128)1e-17L * norm);
         }
     }
+
     return 0;
 }

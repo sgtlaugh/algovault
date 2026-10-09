@@ -17,6 +17,7 @@ long long basis_max(const vector<long long>& ar){
             else x ^= basis[b];
         }
     }
+
     for (int b = 62; b >= 0; b--) res = max(res, res ^ basis[b]);
     return res;
 }
@@ -47,5 +48,6 @@ int main(){
         for (auto& x : ar) x = random_value(stress::rand_int(1, bits));
         assert(max_xor_subset(ar) == basis_max(ar));
     }
+
     return 0;
 }

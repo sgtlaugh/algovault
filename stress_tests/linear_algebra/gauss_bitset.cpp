@@ -18,6 +18,7 @@ int rank_of(const vector<bitset<MAX>>& equations, int m){
     vector<bitset<MAX>> pivot(m);
     vector<bool> used(m, false);
     int rank = 0;
+
     for (auto e : equations){
         e[m] = 0;
         for (int j = m - 1; j >= 0; j--){
@@ -29,6 +30,7 @@ int rank_of(const vector<bitset<MAX>>& equations, int m){
             e ^= pivot[j];
         }
     }
+
     return rank;
 }
 
@@ -76,5 +78,6 @@ int main(){
         int f_var = gauss(m, equations, res);
         assert(f_var == m - rank_of(equations, m) && satisfies(equations, m, res));
     }
+
     return 0;
 }

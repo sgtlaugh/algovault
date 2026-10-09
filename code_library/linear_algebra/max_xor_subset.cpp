@@ -28,5 +28,6 @@ int main(){
     assert(max_xor_subset({1, 2, 4}) == 7);
     assert(max_xor_subset({10, 4, 12, 23, 6, 60}) == 62);
     assert(max_xor_subset({10, 4, 12, 23, 97, 6, 6, 3, 51, 60}) == 127);
+
     return 0;
 }

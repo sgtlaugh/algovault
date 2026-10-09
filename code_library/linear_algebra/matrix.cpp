@@ -60,6 +60,7 @@ struct Matrix{
         Matrix x = normalized(), y = other.normalized(), res(n, other.m, mod);
         const long long limit = mod * mod;  /// sums stay below 2 * mod^2 < 2^63
         vector<long long> acc(other.m);
+
         for (int i = 0; i < n; i++){
             fill(acc.begin(), acc.end(), 0);
             for (int k = 0; k < m; k++){
@@ -72,6 +73,7 @@ struct Matrix{
             }
             for (int j = 0; j < other.m; j++) res.a[i][j] = acc[j] % mod;
         }
+
         return res;
     }
 
