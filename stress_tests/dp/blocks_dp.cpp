@@ -9,6 +9,7 @@ int brute(const vector<int>& v, map<vector<int>, int>& memo){
     if (v.empty()) return 0;
     auto found = memo.find(v);
     if (found != memo.end()) return found->second;
+
     int best = 0;
     for (size_t i = 0, j; i < v.size(); i = j){
         for (j = i; j < v.size() && v[j] == v[i]; j++){}
@@ -16,6 +17,7 @@ int brute(const vector<int>& v, map<vector<int>, int>& memo){
         rest.insert(rest.end(), v.begin() + j, v.end());
         best = max(best, (int)((j - i) * (j - i)) + brute(rest, memo));
     }
+
     return memo[v] = best;
 }
 
@@ -40,5 +42,6 @@ int main(){
         assert(get_max_score(n, same.data()) == n * n);
         assert(get_max_score(n, distinct.data()) == n);
     }
+
     return 0;
 }

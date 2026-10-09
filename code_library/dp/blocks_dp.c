@@ -47,6 +47,7 @@ int get_max_score(const int n, const int blocks[]){
     for (i = 0; i < m; i++){
         for (j = 0; j < m; j++) memset(dp[i][j], -1, sizeof(int) * n);
     }
+
     return solve(0, m - 1, 0);
 }
 

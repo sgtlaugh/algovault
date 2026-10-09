@@ -12,15 +12,18 @@ int brute(const vector<int>& A, const vector<int>& B){
         for (int i = 0; i < n; i++){
             if (mask >> i & 1) seq.push_back(A[i]);
         }
+
         bool increasing = true;
         for (size_t i = 1; i < seq.size(); i++) increasing &= seq[i - 1] < seq[i];
         if (!increasing || (int)seq.size() <= best) continue;
+
         size_t k = 0;
         for (int b : B){
             if (k < seq.size() && b == seq[k]) k++;
         }
         if (k == seq.size()) best = seq.size();
     }
+
     return best;
 }
 
@@ -32,8 +35,10 @@ int main(){
         for (auto& x : B) x = stress::rand_int(-range, range);
         assert(lcis(A, B) == brute(A, B));
     }
+
     vector<int> A(3000), B(3000);
     iota(A.begin(), A.end(), 0), iota(B.begin(), B.end(), 0);
     assert(lcis(A, B) == 3000);
+
     return 0;
 }

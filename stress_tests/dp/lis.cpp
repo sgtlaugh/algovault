@@ -37,6 +37,7 @@ void check(const vector<T>& a){
 void check_by_length(const vector<string>& s){
     auto shorter = [](const string& x, const string& y){ return x.size() < y.size(); };
     auto not_longer = [](const string& x, const string& y){ return x.size() <= y.size(); };
+
     assert(lis_vector(s, false, shorter) == brute(s, shorter));
     assert(lis_vector(s, true, shorter) == brute(s, not_longer));
 }
@@ -50,9 +51,11 @@ int main(){
             a[i] = stress::rand_int(-spread, spread);
             s[i] = string(stress::rand_int(0, 2), 'a' + stress::rand_int(0, 2));  /// prefixes compare below their extensions
         }
+
         check(a);
         check(s);
         check_by_length(s);
     }
+
     return 0;
 }

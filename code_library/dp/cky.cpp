@@ -37,11 +37,13 @@ struct CKY{
         int n = s.size();
         if (n == 0) return false;
         vector<vector<vector<char>>> can(n + 1, vector<vector<char>>(n, vector<char>(r, 0)));
+
         for (int i = 0; i < n; i++){
             for (auto [a, c] : terminals){
                 if (c == s[i]) can[1][i][a] = 1;
             }
         }
+
         for (int len = 2; len <= n; len++){
             for (int i = 0; i + len <= n; i++){
                 for (int k = 1; k < len; k++){
@@ -51,6 +53,7 @@ struct CKY{
                 }
             }
         }
+
         return can[n][0][start];
     }
 };
@@ -68,5 +71,6 @@ int main(){
     for (string good : {"()", "(())", "()()", "(()())", "((()))()"}) assert(parens.accepts(good, S));
     for (string bad : {"", "(", ")(", "(()", "())(", "((("}) assert(!parens.accepts(bad, S));
     assert(!parens.accepts("()", T));
+
     return 0;
 }

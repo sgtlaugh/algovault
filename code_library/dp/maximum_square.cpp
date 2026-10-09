@@ -20,6 +20,7 @@ using namespace std;
 vector<vector<int>> square_sizes(const vector<vector<int>>& g){
     int n = g.size(), m = n ? g[0].size() : 0;
     vector<vector<int>> dp(n, vector<int>(m, 0));
+
     for (int i = 0; i < n; i++){
         for (int j = 0; j < m; j++){
             if (!g[i][j]) continue;
@@ -27,6 +28,7 @@ vector<vector<int>> square_sizes(const vector<vector<int>>& g){
             dp[i][j] = x + (g[i - x][j - x] != 0);  /// the corner cell decides between min(up, left) and one more
         }
     }
+
     return dp;
 }
 
@@ -34,6 +36,7 @@ vector<vector<int>> diamond_sizes(const vector<vector<int>>& g){
     int n = g.size(), m = n ? g[0].size() : 0;
     vector<vector<int>> dp(n, vector<int>(m, 0));
     auto filled = [&](int i, int j){ return i >= 0 && j >= 0 && j < m && g[i][j]; };
+
     for (int i = 0; i < n; i++){
         for (int j = 0; j < m; j++){
             if (!g[i][j]) continue;
@@ -44,6 +47,7 @@ vector<vector<int>> diamond_sizes(const vector<vector<int>>& g){
             else dp[i][j] = x;
         }
     }
+
     return dp;
 }
 
@@ -68,5 +72,6 @@ int main(){
     assert(dm[4][2] == 3 && dm[3][2] == 2 && dm[2][2] == 2 && dm[0][2] == 1 && dm[2][0] == 1);
 
     assert(square_sizes({}).empty() && diamond_sizes({}).empty());
+
     return 0;
 }
