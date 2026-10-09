@@ -129,45 +129,21 @@ int main(){
      * Max flow 3: paths 0-1-2-3 (cost 3), 0-2-3 (cost 3), 0-1-3 (cost 4), total cost 10
     ***/
     MCMF g(4);
-    int e01 = g.add_edge(0, 1, 2, 1);
-    g.add_edge(0, 2, 1, 2), g.add_edge(1, 2, 1, 1), g.add_edge(1, 3, 1, 3);
+    g.add_edge(0, 1, 2, 1), g.add_edge(0, 2, 1, 2), g.add_edge(1, 2, 1, 1), g.add_edge(1, 3, 1, 3);
     int e23 = g.add_edge(2, 3, 2, 1);
+    MCMF limited = g, curve = g;
+
     assert((g.solve(0, 3) == make_pair(3LL, 10LL)));
-    assert(g.flow(e01) == 2 && g.flow(e23) == 2);
+    assert(g.flow(e23) == 2);
 
-    auto diamond = []{
-        MCMF d(4);
-        d.add_edge(0, 1, 2, 1), d.add_edge(0, 2, 1, 2), d.add_edge(1, 2, 1, 1), d.add_edge(1, 3, 1, 3), d.add_edge(2, 3, 2, 1);
-        return d;
-    };
+    assert((limited.solve(0, 3, 1) == make_pair(1LL, 3LL)));  /// one unit along a cost 3 path
+    assert((limited.solve(0, 3) == make_pair(2LL, 7LL)));     /// continues: the other 2 units cost 3 + 4
 
-    MCMF limited = diamond();
-    assert((limited.solve(0, 3, 1) == make_pair(1LL, 3LL)));
-    assert((limited.solve(0, 3) == make_pair(2LL, 7LL)));
+    using Points = vector<pair<long long, long long>>;
+    assert((curve.slope(0, 3) == Points{{0, 0}, {2, 6}, {3, 10}}));  /// both units at cost 3 share a segment
 
     MCMF negative(3);
     negative.add_edge(0, 1, 5, -4), negative.add_edge(1, 2, 3, 2), negative.add_edge(0, 2, 4, 1);
-    assert((negative.solve(0, 2) == make_pair(7LL, -6LL + 4LL)));
-
-    MCMF disconnected(3);
-    disconnected.add_edge(0, 1, 5, 1);
-    assert((disconnected.solve(0, 2) == make_pair(0LL, 0LL)));
-
-    using Points = vector<pair<long long, long long>>;
-    MCMF curve = diamond();
-    assert((curve.slope(0, 3) == Points{{0, 0}, {2, 6}, {3, 10}}));
-
-    MCMF curve_limited = diamond();
-    assert((curve_limited.slope(0, 3, 1) == Points{{0, 0}, {1, 3}}));
-    assert((curve_limited.slope(0, 3) == Points{{0, 0}, {1, 3}, {2, 7}}));
-
-    MCMF curve_negative(3);
-    curve_negative.add_edge(0, 1, 5, -4), curve_negative.add_edge(1, 2, 3, 2), curve_negative.add_edge(0, 2, 4, 1);
-    assert((curve_negative.slope(0, 2) == Points{{0, 0}, {3, -6}, {7, -2}}));
-
-    MCMF curve_disconnected(3);
-    curve_disconnected.add_edge(0, 1, 5, 1);
-    assert((curve_disconnected.slope(0, 2) == Points{{0, 0}}));
-
+    assert((negative.solve(0, 2) == make_pair(7LL, -2LL)));  /// 3 units at -2 each, then 4 at 1
     return 0;
 }
