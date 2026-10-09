@@ -29,7 +29,8 @@ class HashMap{
             TValue value;
         };
 
-        const uint64_t salt = mt19937_64(chrono::steady_clock::now().time_since_epoch().count())();
+        /// static so construction stays cheap for many small maps and copy assignment is not deleted
+        static inline const uint64_t salt = mt19937_64(chrono::steady_clock::now().time_since_epoch().count())();
 
         int cur_id = 1, _size = 0, max_len, mask;
         vector<Slot> slots;
