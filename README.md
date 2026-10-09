@@ -44,6 +44,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Persistent Segment Tree](code_library/data_structures/persistent_segment_tree.cpp) - versioned point add/set, range query with any associative merge, k-th on version differences, range k-th smallest, persistent array
 - [Rope](code_library/data_structures/rope.cpp) - persistent text, every edit makes a new readable version
 - [Segment Tree](code_library/data_structures/segment_tree.cpp) - lazy propagation, customizable merge and update
+- [Segment Tree Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin, chmax, add and assign with range sum, min and max queries
 - [Segment Tree Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets as dynamic segment trees with merge, split by key or rank, k-th
 - [Sparse Table](code_library/data_structures/sparse_table.cpp) - O(1) static range min, plus an O(n) build variant
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
