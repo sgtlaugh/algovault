@@ -3,7 +3,7 @@
 # self (default): compiles and runs every C++ self-test in code_library under AddressSanitizer and
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
-# both modes also report library files missing from the README index
+# both modes also report library files missing from the README index, and whitespace errors in tracked files
 #
 # Reports all failures instead of stopping at the first one.
 #
@@ -133,6 +133,21 @@ check_readme(){
     failures+=("${missing[@]/%/ (not in README index)}")
 }
 
+check_whitespace(){  # tabs, trailing whitespace, CRLF or a missing final newline
+    local file bad=()
+    while IFS= read -r file; do
+        if grep -qP '\t|[ \t]$|\r' "$file" || [[ -s "$file" && -n "$(tail -c1 "$file")" ]]; then
+            bad+=("$file")
+        fi
+    done < <(git ls-files '*.cpp' '*.h' '*.py' '*.md' '*.sh' '*.yml')
+
+    echo "whitespace: ${#bad[@]} tracked files with tabs, trailing whitespace, CRLF or no final newline"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (whitespace)}")
+}
+
 echo "$("$CXX" --version | head -1) | $("$PYTHON" --version)"
 
 cd "$ROOT" || exit 1
@@ -146,6 +161,7 @@ done < <(find "$TESTS_DIR" -type f \( -name '*.cpp' -o -name '*.py' \) ! -name '
 echo
 [[ "$MODE" == "stress" ]] && check_coverage
 check_readme
+check_whitespace
 echo "passed: $passed  failed: $failed  skipped: $skipped"
 if [[ $failed -gt 0 ]]; then
     printf '  failed: %s\n' "${failures[@]}"
