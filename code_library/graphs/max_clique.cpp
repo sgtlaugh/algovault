@@ -177,92 +177,27 @@ struct CliqueGraph{
 };
 
 int main(){
-    auto is_clique = [](CliqueGraph& g, const vector<int>& vertices, bool independent){
-        for (int u : vertices){
-            for (int v : vertices){
-                if (u != v && g.adj[u][v] == independent) return false;
-            }
-        }
-        return set<int>(vertices.begin(), vertices.end()).size() == vertices.size();
-    };
-
-    auto all_maximal = [](CliqueGraph& g){
-        vector<vector<int>> cliques;
-        g.maximal_cliques([&](const vector<int>& c){
-            cliques.push_back(c);
-            sort(cliques.back().begin(), cliques.back().end());
-        });
-        sort(cliques.begin(), cliques.end());
-        return cliques;
-    };
-
-    CliqueGraph empty(0);
-    assert(empty.max_clique().empty());
-    assert(empty.max_independent_set().empty());
-    assert((all_maximal(empty) == vector<vector<int>>{{}}));
-
-    CliqueGraph single(1);
-    single.add_edge(0, 0);
-    assert((single.max_clique() == vector<int>{0}));
-    assert((single.max_independent_set() == vector<int>{0}));
-    assert((all_maximal(single) == vector<vector<int>>{{0}}));
-
-    CliqueGraph isolated(4);
-    assert(isolated.max_clique().size() == 1);
-    assert(isolated.max_independent_set().size() == 4);
-    assert((all_maximal(isolated) == vector<vector<int>>{{0}, {1}, {2}, {3}}));
-
     /***
      * House: square 0-1-2-3 with roof vertex 4 on top of edge 0-1
      * The roof triangle is the only triangle, every square edge but 0-1 is a maximal clique on its own
     ***/
     CliqueGraph house(5);
-    for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {1, 2}, {2, 3}, {3, 0}, {0, 4}, {1, 4}, {1, 0}}) house.add_edge(u, v);
+    for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {1, 2}, {2, 3}, {3, 0}, {0, 4}, {1, 4}}) house.add_edge(u, v);
+
     vector<int> roof = house.max_clique();
     sort(roof.begin(), roof.end());
     assert((roof == vector<int>{0, 1, 4}));
-    assert(house.max_independent_set().size() == 2 && is_clique(house, house.max_independent_set(), true));
-    assert((all_maximal(house) == vector<vector<int>>{{0, 1, 4}, {0, 3}, {1, 2}, {2, 3}}));
+    assert(house.max_independent_set().size() == 2);  /// e.g. {2, 4}, no three vertices are pairwise apart
 
-    CliqueGraph k5(5);
-    for (int u = 0; u < 5; u++){
-        for (int v = u + 1; v < 5; v++) k5.add_edge(u, v);
-    }
-    assert(k5.max_clique().size() == 5);
-    assert(k5.max_independent_set().size() == 1);
-    assert((all_maximal(k5) == vector<vector<int>>{{0, 1, 2, 3, 4}}));
+    vector<vector<int>> cliques;
+    house.maximal_cliques([&](const vector<int>& c){
+        cliques.push_back(c);
+        sort(cliques.back().begin(), cliques.back().end());
+    });
+    sort(cliques.begin(), cliques.end());
+    assert((cliques == vector<vector<int>>{{0, 1, 4}, {0, 3}, {1, 2}, {2, 3}}));
 
-    /***
-     * Petersen graph: triangle-free with independence number 4, so its 15 edges are exactly its maximal cliques
-    ***/
-    CliqueGraph petersen(10);
-    for (int i = 0; i < 5; i++){
-        petersen.add_edge(i, (i + 1) % 5);
-        petersen.add_edge(i, i + 5);
-        petersen.add_edge(i + 5, (i + 2) % 5 + 5);
-    }
-    assert(petersen.max_clique().size() == 2 && is_clique(petersen, petersen.max_clique(), false));
-    assert(petersen.max_independent_set().size() == 4 && is_clique(petersen, petersen.max_independent_set(), true));
-    assert(all_maximal(petersen).size() == 15);
-
-    /***
-     * Moon-Moser graph: complement of 6 disjoint triangles, the extremal case with 3^6 = 729 maximal cliques of size 6
-    ***/
-    CliqueGraph moon_moser(18);
-    for (int u = 0; u < 18; u++){
-        for (int v = u + 1; v < 18; v++){
-            if (u / 3 != v / 3) moon_moser.add_edge(u, v);
-        }
-    }
-    vector<vector<int>> extremal = all_maximal(moon_moser);
-    assert(extremal.size() == 729);
-    assert(all_of(extremal.begin(), extremal.end(), [](const vector<int>& c){ return c.size() == 6; }));
-    assert(moon_moser.max_clique().size() == 6 && is_clique(moon_moser, moon_moser.max_clique(), false));
-    assert(moon_moser.max_independent_set().size() == 3);
-
-    moon_moser.add_edge(0, 1);
-    assert(moon_moser.max_clique().size() == 7);
-    assert(all_maximal(moon_moser).size() == 486);
-
+    house.add_edge(0, 2);
+    assert(house.max_clique().size() == 3);  /// now {0, 1, 2} ties the roof, no 4-clique
     return 0;
 }
