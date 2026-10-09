@@ -13,6 +13,7 @@ struct NaiveTree{
     NaiveTree(int n, int root, const vector<array<long long, 3>>& edges) : parent(n, -1), level(n, 0), up_weight(n, 0){
         vector<vector<pair<int, long long>>> adj(n);
         for (auto [u, v, w] : edges) adj[u].push_back({(int)v, w}), adj[v].push_back({(int)u, w});
+
         vector<int> queue = {root};
         vector<bool> seen(n, false);
         seen[root] = true;
@@ -96,6 +97,7 @@ void check_rmq(int n, int max_v){
     vector<int> val(n);
     for (auto& x : val) x = stress::rand_int(-max_v, max_v);
     LinearRMQ rmq(val);
+
     for (int q = 0; q < 300; q++){
         int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
         if (q < 64) r = min(n - 1, l + q);
@@ -116,6 +118,7 @@ void check_rejects(int n, const vector<pair<int, int>>& edges){
         tree.build(0);
         _exit(0);
     }
+
     int status;
     assert(waitpid(pid, &status, 0) == pid);
     assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
@@ -143,11 +146,13 @@ int main(){
     for (long long it = 0; it < stress::scaled(10); it++){
         check(stress::rand_int(20000, 60000), it % 5, 3000, 1000000000LL);
     }
+
     check(200000, 1, 100, 1000000000LL);  /// a path, deep enough to overflow an 8 MB stack with recursive traversals
 
     for (int n : {1, 2, 63, 64, 65, 127, 128, 129, 1000}){
         for (int it = 0; it < 20; it++) check_rmq(n, it % 2 ? 3 : 1000000000);
     }
+
     for (long long it = 0; it < stress::scaled(200); it++) check_rmq(stress::rand_int(1, 5000), stress::rand_int(0, 1) ? 5 : 1000000000);
 
     return 0;

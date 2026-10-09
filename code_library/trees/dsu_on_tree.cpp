@@ -43,6 +43,7 @@ struct DsuOnTree{
             }
         }
         assert((int)bfs.size() == n);
+
         for (int i = n - 1; i > 0; i--){
             int v = bfs[i], p = parent[v];
             size[p] += size[v];
@@ -60,6 +61,7 @@ struct DsuOnTree{
             }
             if (heavy[u] != -1) stack.push_back(heavy[u]);
         }
+
         for (int i = n - 1; i >= 0; i--) tout[order[i]] = tin[order[i]] + size[order[i]] - 1;
     }
 
@@ -94,6 +96,7 @@ struct DsuOnTree{
                 }
             }
         }
+
         for (int i = 0; i < n; i++) remove(order[i]);
     }
 };
@@ -115,8 +118,10 @@ int main(){
         [&](int v){ count += freq[color[v]]++ == 0; },
         [&](int v){ count -= --freq[color[v]] == 0; },
         [&](int v){ distinct[v] = count; });
+
     assert((distinct == vector<int>{3, 2, 2, 1, 1, 1}));
     assert(count == 0);
+
     assert(tree.tout[1] - tree.tin[1] == 2 && tree.tout[0] - tree.tin[0] == 5 && tree.tout[2] - tree.tin[2] == 1);
     assert(tree.order[tree.tin[4]] == 4);
 
@@ -124,5 +129,6 @@ int main(){
     int calls = 0;
     single.run(0, [&](int){}, [&](int){}, [&](int){ calls++; });
     assert(calls == 1);
+
     return 0;
 }

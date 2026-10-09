@@ -8,6 +8,7 @@ vector<pair<int, int>> make_tree(int n, int shape){
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);
     shuffle(label.begin(), label.end(), stress::rng());
+
     vector<pair<int, int>> edges;
     for (int i = 1; i < n; i++){
         int p = shape == 0 ? stress::rand_int(0, i - 1) : shape == 1 ? i - 1 : shape == 2 ? 0 : (i - 1) / 2;
@@ -39,6 +40,7 @@ void check(int n, int shape, int colors){
     for (int v = 0; v < n; v++){
         if (v != root) children[tree.parent[v]].push_back(v);
     }
+
     for (int v = 0; v < n; v++){
         set<int> seen;
         long long s = 0;
@@ -92,6 +94,7 @@ int main(){
         for (int i = 0; i < spine; i++) edges.push_back({i, spine + i});
         if (order) reverse(edges.begin(), edges.end());
         for (auto [u, v] : edges) comb.add_edge(u, v);
+
         long long adds = 0;
         comb.run(0, [&](int){ adds++; }, [&](int){}, [&](int){});
         assert(adds <= (long long)n * (__lg(n) + 1));
@@ -101,8 +104,10 @@ int main(){
     int n = 200000;
     DsuOnTree path(n);
     for (int i = 1; i < n; i++) path.add_edge(i - 1, i);
+
     long long adds = 0, answers = 0;
     path.run(0, [&](int){ adds++; }, [&](int){}, [&](int){ answers++; });
     assert(answers == n && adds == n);
+
     return 0;
 }

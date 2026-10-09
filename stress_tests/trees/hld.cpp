@@ -73,6 +73,7 @@ void check(int n, int shape, int ops){
             assert(a <= b);
             for (int i = a; i <= b; i++) covered.push_back(i);
         }
+
         vector<int> expected;
         for (int x : nodes){
             if (!(edge_mode && x == l)) expected.push_back(hld.pos[x]);
@@ -90,6 +91,7 @@ void check(int n, int shape, int ops){
                 if (!(edge_mode && x == l)) value[x] += delta;
             }
         }
+
         long long fast = 0, slow = 0;
         for (auto [a, b] : hld.path(u, v, edge_mode)){
             for (int i = a; i <= b; i++) fast += at[i];

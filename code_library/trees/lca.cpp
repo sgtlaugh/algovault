@@ -80,6 +80,7 @@ struct LCA{
         if (level[u] < level[v]) swap(u, v);
         u = kth_ancestor(u, level[u] - level[v]);
         if (u == v) return u;
+
         for (int k = lg - 1; k >= 0; k--){
             if (up[k][u] != up[k][v]) u = up[k][u], v = up[k][v];
         }
@@ -164,6 +165,7 @@ struct LinearLCA{
         tour = {root};
         first[root] = 0, level[root] = 0, weight_sum[root] = 0;
         int visited = 1;
+
         while (!stack.empty()){
             int u = stack.back();
             if (next_edge[u] < (int)adj[u].size()){
@@ -178,6 +180,7 @@ struct LinearLCA{
             stack.pop_back();
             if (!stack.empty()) tour.push_back(stack.back()), depths.push_back(level[stack.back()]);
         }
+
         assert(visited == n);
         rmq = LinearRMQ(depths);
     }
@@ -218,6 +221,7 @@ int main(){
     assert(a.lca(6, 5) == 0 && b.lca(6, 5) == 0);
     assert(a.lca(3, 6) == 3 && b.lca(3, 6) == 3);
     assert(a.lca(5, 5) == 5 && b.lca(5, 5) == 5);
+
     assert(a.dist(6, 4) == 14 && b.dist(6, 4) == 14);
     assert(a.dist(6, 5) == 15 && b.dist(6, 5) == 15);
     assert(a.depth(6) == 3 && b.depth(6) == 3);
@@ -231,6 +235,7 @@ int main(){
     LCA single(1);
     single.build(0);
     assert(single.lca(0, 0) == 0 && single.kth_ancestor(0, 1) == -1);
+
     LinearLCA single_linear(1);
     single_linear.build(0);
     assert(single_linear.lca(0, 0) == 0);

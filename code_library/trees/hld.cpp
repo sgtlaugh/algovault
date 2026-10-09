@@ -83,6 +83,7 @@ struct HLD{
             ranges.push_back({pos[head[u]], pos[u]});
             u = parent[head[u]];
         }
+
         if (depth[u] > depth[v]) swap(u, v);
         if (pos[u] + edges <= pos[v]) ranges.push_back({pos[u] + edges, pos[v]});
         return ranges;
