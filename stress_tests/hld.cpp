@@ -31,6 +31,18 @@ void check(int n, int shape, int ops){
     for (auto [u, v] : edges) hld.add_edge(u, v);
     hld.build(root);
 
+    /// Own BFS from the chosen root, so a build that roots the tree elsewhere cannot agree with itself
+    vector<vector<int>> adj(n);
+    for (auto [u, v] : edges) adj[u].push_back(v), adj[v].push_back(u);
+    vector<int> parent(n, -1), depth(n, -1), bfs = {root};
+    depth[root] = 0;
+    for (int i = 0; i < (int)bfs.size(); i++){
+        for (int v : adj[bfs[i]]){
+            if (depth[v] == -1) parent[v] = bfs[i], depth[v] = depth[bfs[i]] + 1, bfs.push_back(v);
+        }
+    }
+    assert(hld.parent == parent && hld.depth == depth);
+
     vector<int> seen(n, 0);
     for (int v = 0; v < n; v++) seen[hld.pos[v]]++;
     for (int i = 0; i < n; i++) assert(seen[i] == 1);
@@ -38,8 +50,8 @@ void check(int n, int shape, int ops){
     auto naive_path = [&](int u, int v){
         vector<int> left, right;
         while (u != v){
-            if (hld.depth[u] >= hld.depth[v]) left.push_back(u), u = hld.parent[u];
-            else right.push_back(v), v = hld.parent[v];
+            if (depth[u] >= depth[v]) left.push_back(u), u = parent[u];
+            else right.push_back(v), v = parent[v];
         }
         left.push_back(u);
         left.insert(left.end(), right.rbegin(), right.rend());
@@ -92,7 +104,7 @@ void check(int n, int shape, int ops){
         for (int i = a; i <= b; i++) in_range.push_back(i);
         for (int x = 0; x < n; x++){
             int y = x;
-            while (y != -1 && y != u) y = hld.parent[y];
+            while (y != -1 && y != u) y = parent[y];
             if (y == u) in_subtree.push_back(hld.pos[x]);
         }
         sort(in_subtree.begin(), in_subtree.end());
