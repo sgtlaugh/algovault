@@ -74,6 +74,58 @@ void run(long long lo, long long hi, long long max_k, long long max_b, int ops, 
     if (lines_only == ops) assert((int)tree.nodes.size() <= ops);
 }
 
+/// Path length of a root to leaf walk over [lo, hi], every add_line copies at most this many nodes
+int max_path(long long lo, long long hi){
+    int len = 1;
+    for (unsigned long long size = (unsigned long long)(hi - lo) + 1; size > 1; size = (size + 1) / 2) len++;
+    return len;
+}
+
+/// Each version picks a random parent version, the brute force walks the parent chain of the queried version
+template <bool MAXIMIZE>
+void run_persistent(long long lo, long long hi, long long max_k, long long max_b, int ops, bool exhaustive){
+    PersistentLiChaoTree<long long, MAXIMIZE> tree(lo, hi);
+    vector<int> parent = {-1};
+    vector<Segment> lines = {{0, 0, lo, hi}};
+    int path = max_path(lo, hi);
+
+    auto brute = [&](int version, long long x){
+        vector<Segment> chain;
+        for (int v = version; v > 0; v = parent[v]) chain.push_back(lines[v]);
+        return brute_query<MAXIMIZE>(chain, x);
+    };
+
+    auto check = [&](int version, long long x){
+        assert(tree.query(version, x) == brute(version, x));
+    };
+
+    for (int op = 0; op < ops; op++){
+        int last = (int)parent.size() - 1;
+        int choice = stress::rand_int(0, 3);
+        int from = choice == 0 ? 0 : choice == 1 ? last : (int)stress::rand_int(0, last);
+        long long k = stress::rand_int(0, 3) ? stress::rand_int(-max_k, max_k) : stress::rand_int(-2, 2);
+        long long b = stress::rand_int(-max_b, max_b);
+
+        size_t before = tree.nodes.size();
+        int version = tree.add_line(from, k, b);
+        assert(version == (int)parent.size());
+        assert(tree.nodes.size() - before <= (size_t)path);
+        parent.push_back(from);
+        lines.push_back({k, b, lo, hi});
+
+        if (exhaustive){
+            int old = stress::rand_int(0, version);
+            for (long long x = lo; x <= hi; x++) check(version, x), check(old, x), check(from, x);
+        }
+        else if (op % 16 == 0){
+            for (int q = 0; q < 12; q++){
+                int v = stress::rand_int(0, version);
+                for (long long x : {lo, hi, lo + (hi - lo) / 2, stress::rand_int(lo, hi)}) check(v, x);
+            }
+        }
+    }
+}
+
 int main(){
     const long long E9 = 1000000000LL, E18 = 1000000000000000000LL;
 
@@ -89,6 +141,20 @@ int main(){
         run<true>(-E9, E9, E9, E18, 2000, false);
         run<false>(-E18, E18, 4, E18, 2000, false);
         run<true>(-E18, E18, 4, E18, 2000, false);
+    }
+
+    for (long long it = 0; it < stress::scaled(1500); it++){
+        long long lo = stress::rand_int(-20, 20), hi = lo + stress::rand_int(0, 40);
+        int ops = stress::rand_int(1, 30);
+        if (it % 2) run_persistent<false>(lo, hi, 6, 30, ops, true);
+        else run_persistent<true>(lo, hi, 6, 30, ops, true);
+    }
+
+    for (long long it = 0; it < stress::scaled(20); it++){
+        run_persistent<false>(-E9, E9, E9, E18, 2000, false);
+        run_persistent<true>(-E9, E9, E9, E18, 2000, false);
+        run_persistent<false>(-E18, E18, 4, E18, 2000, false);
+        run_persistent<true>(-E18, E18, 4, E18, 2000, false);
     }
 
     for (long long it = 0; it < stress::scaled(200); it++){
