@@ -6,6 +6,8 @@
  * Complexity: exponential worst case for all three
  *     max_clique: measured at n = 150 with -O2 on random graphs: 0.7-2 s at edge density 0.9 (the hard case),
  *         0.2-0.4 s at 0.8, under 0.01 s at 0.5
+ *     max_independent_set: a sparse graph has a 90-99% dense complement, so keep sparse inputs near n <= 120
+ *         measured with -O2: n = 120 shuffled paths and G(n, p <= 0.1) under 0.15 s, n = 160 shuffled paths 4-16 s
  *     maximal_cliques: O(3^(n/3) * n^2 / 64), a graph has at most 3^(n/3) maximal cliques (Moon-Moser)
  *
  * CliqueGraph g(n): vertices 0..n - 1, n <= CLIQUE_MAXN (raise the constant for bigger graphs)
@@ -167,7 +169,8 @@ struct CliqueGraph{
             for (auto& u : r) v.bound += adj[v.id][u.id];
         }
 
-        sort(r.begin(), r.end(), [](const Vertex& a, const Vertex& b){ return a.bound > b.bound; });
+        /// Stable so near-regular graphs keep their labelling: scrambled ties made 256-vertex labelled paths exponential
+        stable_sort(r.begin(), r.end(), [](const Vertex& a, const Vertex& b){ return a.bound > b.bound; });
         int max_degree = r[0].bound;
         for (int i = 0; i < (int)r.size(); i++) r[i].bound = min(i, max_degree) + 1;
     }

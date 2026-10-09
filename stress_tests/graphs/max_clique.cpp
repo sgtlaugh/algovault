@@ -187,5 +187,16 @@ int main(){
         vector<int> independent = dense.max_independent_set();
         assert(valid(dense, independent, true) && independent.size() >= 20 && independent.size() == largest_maximal(complement));
     }
+
+    /// Labelled paths and cycles at n = CLIQUE_MAXN: their complements are ~99% dense with almost every degree equal,
+    /// so a degree sort that scrambles ties leaves branch and bound exponential
+    for (int cycle = 0; cycle < 2; cycle++){
+        int n = CLIQUE_MAXN;
+        CliqueGraph g(n);
+        for (int v = 0; v + 1 < n; v++) g.add_edge(v, v + 1);
+        if (cycle) g.add_edge(n - 1, 0);
+        vector<int> independent = g.max_independent_set();
+        assert(valid(g, independent, true) && (int)independent.size() == (cycle ? n / 2 : (n + 1) / 2));
+    }
     return 0;
 }
