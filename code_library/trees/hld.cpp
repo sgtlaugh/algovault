@@ -165,37 +165,13 @@ int main(){
     HLD hld(7);
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {0, 2}, {1, 3}, {1, 4}, {2, 5}, {3, 6}}) hld.add_edge(u, v);
     hld.build(0);
+    assert(hld.lca(6, 4) == 1);
+    assert(hld.lca(6, 5) == 0);
 
     vector<long long> node_value = {1, 2, 4, 8, 16, 32, 64}, at(8);
     for (int v = 0; v < 7; v++) at[hld.pos[v]] = node_value[v];
-    auto path_sum = [&](int u, int v, bool edges){
-        long long s = 0;
-        for (auto [l, r] : hld.path(u, v, edges)){
-            for (int i = l; i <= r; i++) s += at[i];
-        }
-        return s;
-    };
 
-    assert(path_sum(6, 4, false) == 64 + 8 + 2 + 16);
-    assert(path_sum(6, 5, false) == 64 + 8 + 2 + 1 + 4 + 32);
-    assert(path_sum(3, 3, false) == 8);
-    assert(path_sum(6, 4, true) == 64 + 8 + 16);
-    assert(path_sum(3, 3, true) == 0);
-    assert(path_sum(6, 5, true) == 64 + 8 + 2 + 4 + 32);
-
-    auto [l, r] = hld.subtree(1);
-    long long s = 0;
-    for (int i = l; i <= r; i++) s += at[i];
-    assert(s == 2 + 8 + 16 + 64);
-    assert(hld.subtree(5).first == hld.subtree(5).second);
-
-    assert(hld.lca(6, 4) == 1);
-    assert(hld.lca(6, 5) == 0);
-    assert(hld.lca(3, 6) == 3);
-
-    assert(hld.edge_pos(1, 3) == hld.pos[3] && hld.edge_pos(3, 1) == hld.pos[3] && hld.edge_pos(0, 2) == hld.pos[2]);
-
-    /// Stands in for segment_tree.cpp, max as the merge so a query_path that ignores merge and t_id fails
+    /// Stands in for segment_tree.cpp, with max as the merge
     struct MaxAddArray{
         vector<long long> a;
         long long t_id = LLONG_MIN;
@@ -204,55 +180,22 @@ int main(){
         void update(int l, int r, long long x){ for (int i = l; i <= r; i++) a[i] += x; }
     } seg{at};
 
-    assert(hld.query_path(seg, 6, 5) == 64 && hld.query_path(seg, 1, 2) == 4 && hld.query_path(seg, 0, 0) == 1);
-    hld.update_path(seg, 6, 4, 100, true);
-    assert(hld.query_path(seg, 1, 1) == 2 && hld.query_path(seg, 6, 4) == 164 && hld.query_path(seg, 3, 3) == 108);
-    hld.update_path(seg, 2, 0, 1000);
-    assert(hld.query_path(seg, 0, 5) == 1004 && hld.query_path(seg, 0, 1) == 1001);
+    assert(hld.query_path(seg, 1, 2) == 4);     /// path 1 0 2
+    hld.update_path(seg, 6, 4, 100, true);      /// edge mode skips the lca 1, adding to nodes 6 3 4
+    assert(hld.query_path(seg, 6, 4) == 164);
+    assert(hld.query_path(seg, 1, 1) == 2);
 
-    vector<int> node_at(8);
+    auto [l, r] = hld.subtree(1);
+    assert(r - l + 1 == 4);                     /// nodes 1 3 4 6
+    assert(hld.edge_pos(3, 1) == hld.pos[3]);   /// an edge value lives on its child
+
+    /// ordered_path walks positions in path order, needed for non-commutative folds
+    vector<int> node_at(8), walk;
     for (int v = 0; v < 7; v++) node_at[hld.pos[v]] = v;
-    auto ordered_nodes = [&](int u, int v, bool edges){
-        vector<int> nodes;
-        for (auto [a, b] : hld.ordered_path(u, v, edges)){
-            int step = a <= b ? 1 : -1;
-            for (int i = a; i != b + step; i += step) nodes.push_back(node_at[i]);
-        }
-        return nodes;
-    };
-
-    assert((ordered_nodes(6, 4, false) == vector<int>{6, 3, 1, 4}));
-    assert((ordered_nodes(4, 6, false) == vector<int>{4, 1, 3, 6}));
-    assert((ordered_nodes(6, 5, false) == vector<int>{6, 3, 1, 0, 2, 5}));
-    assert((ordered_nodes(5, 6, false) == vector<int>{5, 2, 0, 1, 3, 6}));
-    assert((ordered_nodes(6, 1, false) == vector<int>{6, 3, 1}));
-    assert((ordered_nodes(1, 6, false) == vector<int>{1, 3, 6}));
-    assert((ordered_nodes(6, 4, true) == vector<int>{6, 3, 4}));
-    assert((ordered_nodes(5, 6, true) == vector<int>{5, 2, 1, 3, 6}));
-    assert((ordered_nodes(1, 6, true) == vector<int>{3, 6}));
-    assert((ordered_nodes(3, 3, false) == vector<int>{3}));
-    assert((ordered_nodes(3, 3, true) == vector<int>{}));
-
-    vector<pair<long long, long long>> affine = {{1, -1}, {1, 5}, {2, 0}, {3, 0}, {10, 0}, {1, 3}, {2, 1}}, func_at(8);
-    for (int v = 0; v < 7; v++) func_at[hld.pos[v]] = affine[v];
-    auto path_apply = [&](int u, int v, bool edges, long long x){
-        for (auto [a, b] : hld.ordered_path(u, v, edges)){
-            int step = a <= b ? 1 : -1;
-            for (int i = a; i != b + step; i += step) x = func_at[i].first * x + func_at[i].second;
-        }
-        return x;
-    };
-
-    assert(path_apply(6, 4, false, 1) == 140);
-    assert(path_apply(4, 6, false, 1) == 91);
-    assert(path_apply(6, 4, true, 1) == 90);
-    assert(path_apply(6, 5, false, 1) == 29);
-    assert(path_apply(5, 6, false, 1) == 73);
-
-    HLD single(1);
-    single.build(0);
-    assert(single.path(0, 0).size() == 1 && single.path(0, 0, true).empty());
-    assert((single.ordered_path(0, 0) == vector<pair<int, int>>{{1, 1}}) && single.ordered_path(0, 0, true).empty());
-
+    for (auto [a, b] : hld.ordered_path(5, 6)){
+        int step = a <= b ? 1 : -1;
+        for (int i = a; i != b + step; i += step) walk.push_back(node_at[i]);
+    }
+    assert((walk == vector<int>{5, 2, 0, 1, 3, 6}));
     return 0;
 }

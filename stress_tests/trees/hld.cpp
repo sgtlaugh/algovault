@@ -28,6 +28,14 @@ vector<pair<int, int>> make_tree(int n, int shape){
     return edges;
 }
 
+/// Max merge with a negative identity, so query_path must fold through seg.merge starting from seg.t_id
+struct MaxArray{
+    const vector<long long>& a;
+    long long t_id = LLONG_MIN;
+    long long merge(long long x, long long y){ return max(x, y); }
+    long long query(int l, int r){ return *max_element(a.begin() + l, a.begin() + r + 1); }
+};
+
 /// Path ranges, exact ordered path sequence, updates, subtrees and lca against parent climbing on the same rooted tree
 void check(int n, int shape, int ops){
     auto edges = make_tree(n, shape);
@@ -67,6 +75,7 @@ void check(int n, int shape, int ops){
     vector<long long> value(n), at(n + 1);
     for (int v = 0; v < n; v++) value[v] = stress::rand_int(-1000000000, 1000000000), at[hld.pos[v]] = value[v];
     SegmentTree<long long> seg(vector<long long>(at.begin() + 1, at.end()));
+    MaxArray max_seg{at};
 
     for (int op = 0; op < ops; op++){
         int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
@@ -107,14 +116,15 @@ void check(int n, int shape, int ops){
             }
         }
 
-        long long fast = 0, slow = 0;
+        long long fast = 0, slow = 0, slow_max = LLONG_MIN;
         for (auto [a, b] : hld.path(u, v, edge_mode)){
             for (int i = a; i <= b; i++) fast += at[i];
         }
         for (int x : nodes){
-            if (!(edge_mode && x == l)) slow += value[x];
+            if (!(edge_mode && x == l)) slow += value[x], slow_max = max(slow_max, value[x]);
         }
         assert(fast == slow && hld.query_path(seg, u, v, edge_mode) == slow);
+        assert(hld.query_path(max_seg, u, v, edge_mode) == slow_max);
 
         auto [a, b] = hld.subtree(u);
         vector<int> in_range, in_subtree;
