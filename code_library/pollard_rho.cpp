@@ -11,6 +11,7 @@
  *
  * Brent's cycle detection with one gcd per batch of 128 steps and Montgomery multiplication
  * Requires __int128 (64-bit GCC or Clang)
+ * pisano_period.cpp carries its own copy of this rho, keep fixes in sync
  *
 ***/
 
