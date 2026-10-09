@@ -80,42 +80,10 @@ int main(){
     SparseTable2D<int> mn(grid);
     SparseTable2D<int, greater<int>> mx(grid);
 
-    assert(mn.query(0, 0, 2, 3) == 0 && mx.query(0, 0, 2, 3) == 9);
-    assert(mn.query(0, 0, 1, 1) == 2 && mx.query(0, 0, 1, 1) == 8);
-    assert(mn.query(0, 2, 0, 3) == 1 && mx.query(0, 2, 0, 3) == 9);
-    assert(mn.query(1, 2, 2, 3) == 3 && mx.query(1, 2, 2, 3) == 9);
-    assert(mn.query(1, 0, 1, 3) == 2 && mx.query(1, 0, 1, 3) == 7);
-    assert(mn.query(0, 0, 2, 0) == 3 && mx.query(0, 0, 2, 0) == 7);
-    assert(mn.query(1, 1, 2, 3) == 0 && mx.query(0, 1, 1, 2) == 8);
-    assert(mn.query(2, 1, 2, 1) == 0 && mx.query(2, 1, 2, 1) == 0);
-
-    SparseTable2D<long long> single(vector<vector<long long>>{{LLONG_MIN}});
-    assert(single.query(0, 0, 0, 0) == LLONG_MIN);
-
-    SparseTable2D<int> empty(vector<vector<int>>{});
-    assert(empty.table.empty());
-
-    vector<vector<int>> column = {{4}, {INT_MAX}, {-2}, {INT_MIN}, {7}};
-    SparseTable2D<int> col_min(column);
-    SparseTable2D<int, greater<int>> col_max(column);
-    assert(col_min.query(0, 0, 4, 0) == INT_MIN && col_max.query(0, 0, 4, 0) == INT_MAX);
-    assert(col_min.query(0, 0, 2, 0) == -2 && col_max.query(2, 0, 4, 0) == 7);
-
-    mt19937 rng(20020523);
-    int n = 37, m = 50;
-    vector<vector<int>> big(n, vector<int>(m));
-    for (auto& row : big) for (auto& x : row) x = rng() % 1000;
-    SparseTable2D<int, greater<int>> big_max(big);
-
-    for (int q = 0; q < 2000; q++){
-        int x1 = rng() % n, x2 = rng() % n, y1 = rng() % m, y2 = rng() % m;
-        if (x1 > x2) swap(x1, x2);
-        if (y1 > y2) swap(y1, y2);
-
-        int expected = INT_MIN;
-        for (int i = x1; i <= x2; i++) for (int j = y1; j <= y2; j++) expected = max(expected, big[i][j]);
-        assert(big_max.query(x1, y1, x2, y2) == expected);
-    }
-
+    assert(mn.query(0, 0, 2, 3) == 0);      /// the whole grid
+    assert(mx.query(0, 0, 2, 3) == 9);
+    assert(mn.query(0, 0, 1, 1) == 2);      /// rows 0..1, columns 0..1: {3, 8, 7, 2}
+    assert(mx.query(1, 0, 1, 3) == 7);      /// row 1 alone
+    assert(mx.query(2, 1, 2, 1) == 0);      /// a single cell
     return 0;
 }

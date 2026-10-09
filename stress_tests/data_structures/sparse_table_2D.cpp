@@ -69,6 +69,9 @@ int main(){
         }
     }
 
+    SparseTable2D<int> empty(vector<vector<int>>{});
+    assert(empty.table.empty());
+
     /// The header's 500 x 500 memory figure
     auto grid = random_grid<int>(500, 500, INT_MIN, INT_MAX);
     SparseTable2D<int> mn(grid);
