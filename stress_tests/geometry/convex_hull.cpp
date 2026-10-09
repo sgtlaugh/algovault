@@ -123,10 +123,78 @@ void check_hull(const vector<Point>& points, const vector<Point>& hull){
     }
 }
 
+bool on_segment(const Point& a, const Point& b, const Point& p){
+    return cross(a, b, p) == 0 && min(a.x, b.x) <= p.x && p.x <= max(a.x, b.x) && min(a.y, b.y) <= p.y && p.y <= max(a.y, b.y);
+}
+
+/// Distinct vertices form a convex polygon iff all lie on the hull boundary and visit it once around in boundary order
+bool brute_is_convex(const vector<Point>& polygon){
+    int n = polygon.size();
+    auto hull = jarvis_hull(polygon);
+    int h = hull.size();
+    if (h < 3) return false;
+
+    vector<pair<int, int64_t>> pos(n);
+    for (int i = 0; i < n; i++){
+        pos[i] = {-1, 0};
+        for (int e = 0; e < h && pos[i].first < 0; e++){
+            if (on_segment(hull[e], hull[(e + 1) % h], polygon[i]) && !same(polygon[i], hull[(e + 1) % h])) pos[i] = {e, dist2(hull[e], polygon[i])};
+        }
+        if (pos[i].first < 0) return false;
+    }
+
+    int up = 0, down = 0;
+    for (int i = 0; i < n; i++) up += pos[i] > pos[(i + 1) % n], down += pos[i] < pos[(i + 1) % n];
+    return up == 1 || down == 1;
+}
+
+/// Boundary lattice points of a small hull in boundary order, then a swap, a moved vertex, a reversal and a rotation at random
+void stress_convexity_orders(){
+    for (long long it = 0; it < stress::scaled(100000); it++){
+        int range = stress::rand_int(1, 4);
+        vector<Point> polygon;
+
+        if (stress::rand_int(0, 1)){
+            auto hull = get_convex_hull(random_points(stress::rand_int(3, 8), range));
+            int h = hull.size();
+            if (h < 3) continue;
+            for (int i = 0; i < h; i++){
+                Point a = hull[i], b = hull[(i + 1) % h];
+                vector<Point> edge;
+                for (int x = -range; x <= range; x++) for (int y = -range; y <= range; y++){
+                    Point p(x, y);
+                    if (on_segment(a, b, p) && !same(p, a) && !same(p, b) && stress::rand_int(0, 1)) edge.push_back(p);
+                }
+                sort(edge.begin(), edge.end(), [&](const Point& p, const Point& q){ return dist2(a, p) < dist2(a, q); });
+                polygon.push_back(a);
+                polygon.insert(polygon.end(), edge.begin(), edge.end());
+            }
+            int m = polygon.size();
+            if (stress::rand_int(0, 2) == 0) swap(polygon[stress::rand_int(0, m - 1)], polygon[stress::rand_int(0, m - 1)]);
+            if (stress::rand_int(0, 3) == 0){
+                Point p(stress::rand_int(-range, range), stress::rand_int(-range, range));
+                if (find(polygon.begin(), polygon.end(), p) == polygon.end()) polygon[stress::rand_int(0, m - 1)] = p;
+            }
+        } else {
+            for (int i = stress::rand_int(3, 8); i > 0; i--){
+                Point p(stress::rand_int(-range, range), stress::rand_int(-range, range));
+                if (find(polygon.begin(), polygon.end(), p) == polygon.end()) polygon.push_back(p);
+            }
+        }
+
+        if (stress::rand_int(0, 1)) reverse(polygon.begin(), polygon.end());
+        if (!polygon.empty()) rotate(polygon.begin(), polygon.begin() + stress::rand_int(0, polygon.size() - 1), polygon.end());
+        assert(is_convex(polygon) == brute_is_convex(polygon));
+    }
+}
+
 void stress_hull_and_convexity(){
     /// Folds along an axis-parallel edge, where only one coordinate changes direction
     assert(!is_convex({Point(0, 0), Point(3, 0), Point(1, 0), Point(4, 0), Point(0, 4)}));
     assert(!is_convex({Point(0, 0), Point(4, 0), Point(0, 4), Point(0, 1), Point(0, 3)}));
+
+    /// A horizontal and a vertical fold whose 180 degree turns cancel, each axis still reverses exactly twice
+    assert(!is_convex({Point(0, -1), Point(-1, 0), Point(1, 0), Point(0, 0), Point(0, 1)}));
 
     for (long long it = 0; it < stress::scaled(20000); it++){
         int n = stress::rand_int(0, it % 10 ? 12 : 300), range = random_range();
@@ -326,6 +394,7 @@ void stress_large(){
 
 int main(){
     stress_hull_and_convexity();
+    stress_convexity_orders();
     stress_calipers();
     stress_minkowski();
     stress_queries();

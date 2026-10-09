@@ -115,6 +115,7 @@ bool is_convex(const vector <Point>& P){
     for (int i = 0; i < n; i++){
         const Point &a = P[i], &b = P[(i + 1) % n], &c = P[(i + 2) % n];
         int64_t turn = cross(a, b, c);
+        if (!turn && dot(b - a, c - b) < 0) return false;
         if (turn){
             if (sign && (turn > 0) != (sign > 0)) return false;
             sign = turn > 0 ? 1 : -1;
@@ -130,7 +131,7 @@ bool is_convex(const vector <Point>& P){
     }
     for (int k = 0; k < 2; k++) flips[k] += first[k] != last[k];
 
-    /// Same-sign turns still allow stars and folded edges, a simple convex polygon reverses x and y exactly twice each
+    /// Same-sign turns without back-tracking still allow stars, a simple convex polygon reverses x and y exactly twice each
     return sign != 0 && flips[0] == 2 && flips[1] == 2;
 }
 
