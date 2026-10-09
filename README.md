@@ -57,7 +57,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 ### Graphs
 - [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability and an assignment via Kosaraju
 - [2-SAT, Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - lexicographically smallest satisfying assignment
-- [Articulation Points](code_library/graphs/articulation_points.cpp) - cut vertices of an undirected graph
+- [Articulation Points and Biconnected Components](code_library/graphs/articulation_points.cpp) - cut vertices, blocks (edge ids) and the block-cut tree, parallel edges allowed
 - [Bridges](code_library/graphs/bridge.cpp) - bridges and the bridge tree, parallel edges allowed
 - [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence, O(m log n)
 - [Euler Path](code_library/graphs/euler_path.cpp) - Hierholzer, directed and undirected multigraphs, iterative, O(n + m)
