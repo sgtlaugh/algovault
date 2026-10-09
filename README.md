@@ -142,7 +142,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
 
 ### Dynamic Programming
-- [Blocks](code_library/dp/blocks_dp.c) - interval DP for UVA 10559 Blocks
+- [Blocks](code_library/dp/blocks_dp.cpp) - interval DP for UVA 10559 Blocks
 - [CKY](code_library/dp/cky.cpp) - context-free grammar membership in Chomsky normal form
 - [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS in O(nm)
 - [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS lengths with any comparator
