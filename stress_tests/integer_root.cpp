@@ -39,9 +39,22 @@ int main(){
                 else p *= r;
             }
             if (overflow) break;
-            for (unsigned long long n : {p - 1, p, p + 1}) assert(iroot(n, k) == brute(n, k));
+            for (unsigned long long n : {p - 1, p, p + 1}){
+                assert(iroot(n, k) == brute(n, k));
+                if (k == 2) assert(isqrt(n) == brute(n, 2));
+                if (k == 3) assert(icbrt(n) == brute(n, 3));
+            }
         }
     }
+
+    /// Every square and cube root near the top of the range, where the correction must not overflow
+    for (unsigned long long r = 4294967295ULL - 20000; r <= 4294967295ULL; r++){
+        for (unsigned long long n : {r * r - 1, r * r, r * r + 1}) assert(isqrt(n) == brute(n, 2));
+    }
+    for (unsigned long long r = 2642245ULL - 20000; r <= 2642245ULL; r++){
+        for (unsigned long long n : {r * r * r - 1, r * r * r, r * r * r + 1}) assert(icbrt(n) == brute(n, 3));
+    }
+    for (unsigned long long n = ULLONG_MAX - 100000; n != 0; n++) assert(isqrt(n) == 4294967295ULL && icbrt(n) == 2642245ULL);
 
     for (long long it = 0; it < stress::scaled(300000); it++){
         unsigned long long n = (unsigned long long)stress::rng()();
