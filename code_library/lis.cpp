@@ -12,15 +12,16 @@ using namespace std;
 /// returns a vector L of size n, where n is the length of input vector
 /// L[i] = length of longest increasing subsequence including and ending at index i
 /// If allow_equal is true, longest non-decreasing subsequence is calculated instead
+/// cmp is a strict weak ordering that defines "increasing"
 
-template <typename T>
-vector <int> lis_vector(const vector <T>& ar, bool allow_equal=false){
+template <typename T, typename Compare = less<T>>
+vector <int> lis_vector(const vector <T>& ar, bool allow_equal=false, Compare cmp=Compare()){
     vector <T> idx;
     vector <int> res;
 
     for (const T &x : ar) {
-        auto it = allow_equal ? upper_bound(idx.begin(), idx.end(), x)
-                              : lower_bound(idx.begin(), idx.end(), x);
+        auto it = allow_equal ? upper_bound(idx.begin(), idx.end(), x, cmp)
+                              : lower_bound(idx.begin(), idx.end(), x, cmp);
         res.push_back(it - idx.begin() + 1);
 
         if (it == idx.end()) idx.push_back(x);
@@ -36,18 +37,7 @@ vector <int> lis_vector(const vector <T>& ar, bool allow_equal=false){
 
 template <typename T>
 vector <int> lds_vector(const vector <T>& ar, bool allow_equal=false){
-    int n = ar.size();
-
-    vector <T> pos;
-    for (int i = 0; i < n; i++) pos.push_back(ar[i]);
-    sort(pos.begin(), pos.end());
-
-    map <T, int> mp;
-    for (int i = 0; i < n; i++) mp[pos[i]] = n - i - 1;
-
-    vector <int> inv(n);
-    for (int i = 0; i < n; i++) inv[i] = mp[ar[i]];
-    return lis_vector(inv, allow_equal);
+    return lis_vector(ar, allow_equal, [](const T& a, const T& b){ return b < a; });
 }
 
 template <typename T>
