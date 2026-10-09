@@ -199,6 +199,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Aliens Trick (WQS Binary Search, Lagrangian Relaxation)](code_library/dp/aliens_trick.cpp) - exactly-k optimum of a convex cost via binary search on the per-item penalty, tie-safe
 - [Blocks](code_library/dp/blocks_dp.cpp) - interval DP for UVA 10559 Blocks
 - [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - max value with item i usable up to counts[i] times, monotone queue per weight residue, O(n * capacity) regardless of counts
+- [Bounded Subset Sum](code_library/dp/bounded_subset_sum.cpp) - reachable sums of a bounded multiset in O(W sqrt W) with subset reconstruction
 - [CKY](code_library/dp/cky.cpp) - context-free grammar membership in Chomsky normal form
 - [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - dp[x] = min dp[i] + w(i, x) in O(n log n) under the quadrangle inequality
 - [Divide and Conquer DP Optimization](code_library/dp/divide_conquer_dp.cpp)
