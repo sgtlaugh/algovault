@@ -114,6 +114,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 - [Linear Sieve](code_library/number_theory/linear_sieve.cpp) - smallest prime factors, phi, mu and any multiplicative function
 - [Maximum Divisors](code_library/number_theory/maximum_divisors.cpp) - number with the most divisors up to a limit
 - [Miller Rabin](code_library/number_theory/miller_rabin.cpp) - deterministic primality test for 64-bit integers
+- [Modular Roots](code_library/number_theory/modular_roots.cpp) - multiplicative order, primitive root, square root and k-th roots modulo a prime
 - [Pisano Period](code_library/number_theory/pisano_period.cpp) - period of Fibonacci numbers modulo n
 - [Pollard Rho](code_library/number_theory/pollard_rho.cpp) - factorization of 64-bit integers
 - [Power Tower](code_library/number_theory/power_tower.cpp) - a1^(a2^(...^an)) modulo m
