@@ -45,6 +45,7 @@ def main():
                 start += size
             edges += [tuple(rng.sample(range(n), 2)) for _ in range(rng.randint(0, 2)) if n >= 2]
             edges = list({(min(e), max(e)) for e in edges})
+
         rng.shuffle(edges)
         nodes = max((max(e) for e in edges), default=-1) + 1  # the library sizes the graph by the largest label
         assert maximum_matching(edges) == brute(nodes, edges)

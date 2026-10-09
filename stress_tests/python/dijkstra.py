@@ -9,10 +9,12 @@ def floyd_warshall(nodes, arcs):
     dist = {u: {v: (0 if u == v else INF) for v in nodes} for u in nodes}
     for u, v, w in arcs:
         dist[u][v] = min(dist[u][v], w)
+
     for k in nodes:
         for i in nodes:
             for j in nodes:
                 dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j])
+
     return dist
 
 

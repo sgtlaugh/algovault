@@ -1,6 +1,7 @@
 BASE = 997
 MOD = 10**18 + 3
 
+
 class StringHash:
     _powers = [1]  # shared by all instances, grown to the longest text seen
 

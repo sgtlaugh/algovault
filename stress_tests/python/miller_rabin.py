@@ -12,9 +12,11 @@ def reference(n):
     for p in SMALL_PRIMES:
         if n % p == 0:
             return n == p
+
     d, s = n - 1, 0
     while d % 2 == 0:
         d, s = d // 2, s + 1
+
     for a in SMALL_PRIMES:
         x = pow(a, d, n)
         if x in (1, n - 1):
@@ -25,6 +27,7 @@ def reference(n):
                 break
         else:
             return False
+
     return True
 
 
@@ -42,6 +45,7 @@ def main():
     for i in range(2, int(limit**0.5) + 1):
         if sieve[i]:
             sieve[i * i::i] = [False] * len(sieve[i * i::i])
+
     for n in range(-5, limit):
         assert is_prime(n) == (n >= 0 and sieve[n]), n
 

@@ -59,6 +59,7 @@ def main():
                 assert value <= alpha
             else:
                 assert value >= beta
+
     assert pruned > 0, 'alpha beta must skip some subtrees'
 
     for stones in range(16):
