@@ -63,7 +63,7 @@ int main(){
     /// Every graph on up to 3 vertices with edge weights from {absent, -1, 0, 2} and self loops from {absent, -1},
     /// a non-negative self loop never changes a distance
     const long long choices[4] = {INF, -1, 0, 2};
-    for (int n = 1; n <= 3; n++){
+    for (int n = 0; n <= 3; n++){
         int cells = n * n, total = 1;
         for (int i = 0; i < cells; i++) total *= 4;
         for (int mask = 0; mask < total; mask++){
