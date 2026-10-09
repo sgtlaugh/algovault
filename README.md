@@ -68,6 +68,7 @@ C++ files compile on their own: copy one into a solution and use it as a black b
 ### Graphs
 - [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability and an assignment via Kosaraju, with at-most-one constraints in O(k) clauses
 - [2-SAT, Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - lexicographically smallest satisfying assignment
+- [3-Edge-Connected Components](code_library/graphs/three_edge_connected_components.cpp) - Tsin, iterative, parallel edges and self loops allowed, O(n + m)
 - [Articulation Points and Biconnected Components](code_library/graphs/articulation_points.cpp) - cut vertices, blocks (edge ids) and the block-cut tree, parallel edges allowed
 - [Bellman Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges, -inf marking, negative cycle retrieval, O(n m)
 - [Bridges](code_library/graphs/bridge.cpp) - bridges and the bridge tree, parallel edges allowed
