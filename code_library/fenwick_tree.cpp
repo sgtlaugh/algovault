@@ -6,7 +6,7 @@
  * 1-based indexing for elements
  *
  * Complexity:
- *   - O(n) to build
+ *   - O(n) to construct, all zeros, filling from an array with n point updates is O(n log n)
  *   - O(log n) per update/query
  *
 ***/
