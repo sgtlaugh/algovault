@@ -101,6 +101,16 @@ int main(){
         check_side(w, weight, side);
     }
 
+    /// Total weight of exactly LLONG_MAX: at n = 2 the only cut weighs LLONG_MAX, the starting best
+    for (long long split: {0LL, 5LL, LLONG_MAX / 2}){
+        GlobalMinCut g(2);
+        vector <vector<long long>> w = {{0, LLONG_MAX}, {LLONG_MAX, 0}};
+        g.add_edge(0, 1, LLONG_MAX - split), g.add_edge(1, 0, split);
+        auto [weight, side] = g.min_cut();
+        assert(weight == LLONG_MAX);
+        check_side(w, weight, side);
+    }
+
     /// Complete graph with unit weights at the O(n^3) worst case: every single node is a cut of n - 1
     {
         int n = 400;

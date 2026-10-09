@@ -55,7 +55,7 @@ struct GlobalMinCut{
                 for (int i = 0; i < n; i++){
                     if (!merged[i] && !added[i] && (sel == -1 || key[i] > key[sel])) sel = i;
                 }
-                if (it == n - phase && key[sel] < best) best = key[sel], side = group[sel];
+                if (it == n - phase && (key[sel] < best || side.empty())) best = key[sel], side = group[sel];
                 added[sel] = true, prev = last, last = sel;
                 for (int i = 0; i < n; i++) key[i] += mat[sel][i];
             }
