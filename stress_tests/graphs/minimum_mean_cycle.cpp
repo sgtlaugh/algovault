@@ -117,6 +117,8 @@ void compare_brute(int n, const Edges& edges){
 }
 
 int main(){
+    assert(!MinimumMeanCycle(0).solve());
+
     for (long long it = 0; it < stress::scaled(6000); it++){
         int n = stress::rand_int(1, 7), m = stress::rand_int(0, 2 * n + 2);
         long long range = it % 3 == 0 ? 3 : 1000;

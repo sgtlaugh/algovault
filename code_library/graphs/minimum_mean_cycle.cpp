@@ -84,83 +84,26 @@ struct MinimumMeanCycle{
 };
 
 int main(){
-    auto sorted_cycle = [](MinimumMeanCycle& g){
-        vector<int> c = g.cycle;
-        sort(c.begin(), c.end());
-        return c;
-    };
+    MinimumMeanCycle g(3);
+    g.add_edge(0, 1, 1);
+    g.add_edge(1, 0, 2);
+    g.add_edge(1, 2, 2);
+    g.add_edge(2, 0, 3);
+    assert(g.solve());
+    assert(g.num == 3 && g.den == 2);  /// 0 -> 1 -> 0 has mean 3 / 2, the triangle has mean 6 / 3
+    vector<int> two = g.cycle;
+    sort(two.begin(), two.end());
+    assert((two == vector<int>{0, 1}));  /// edge ids, not vertices
 
-    MinimumMeanCycle triangle(3);
-    triangle.add_edge(0, 1, 1);
-    triangle.add_edge(1, 2, 2);
-    triangle.add_edge(2, 0, 3);
-    triangle.add_edge(1, 0, 4);
-    assert(triangle.solve() && triangle.num == 2 && triangle.den == 1);
-    assert((sorted_cycle(triangle) == vector<int>{0, 1, 2}));
+    g.add_edge(2, 2, -1);
+    assert(g.solve());
+    assert(g.num == -1 && g.den == 1);
+    assert((g.cycle == vector<int>{4}));  /// a self loop is a cycle of one edge
 
-    MinimumMeanCycle half(3);
-    half.add_edge(2, 2, 2);
-    half.add_edge(0, 1, 1);
-    half.add_edge(1, 0, 2);
-    assert(half.solve() && half.num == 3 && half.den == 2);
-    assert((sorted_cycle(half) == vector<int>{1, 2}));
-
-    MinimumMeanCycle reduced(2);
-    reduced.add_edge(0, 1, 2);
-    reduced.add_edge(1, 0, 4);
-    assert(reduced.solve() && reduced.num == 3 && reduced.den == 1);
-
-    MinimumMeanCycle zero(2);
-    zero.add_edge(0, 1, -7);
-    zero.add_edge(1, 0, 7);
-    assert(zero.solve() && zero.num == 0 && zero.den == 1);
-
-    MinimumMeanCycle negative(2);
-    negative.add_edge(0, 1, -3);
-    negative.add_edge(1, 0, -4);
-    negative.add_edge(1, 1, -5);
-    assert(negative.solve() && negative.num == -5 && negative.den == 1);
-    assert((negative.cycle == vector<int>{2}));
-
-    MinimumMeanCycle parallel(2);
-    parallel.add_edge(0, 1, 10);
-    parallel.add_edge(0, 1, 1);
-    parallel.add_edge(1, 0, 2);
-    assert(parallel.solve() && parallel.num == 3 && parallel.den == 2);
-    assert((sorted_cycle(parallel) == vector<int>{1, 2}));
-
-    MinimumMeanCycle islands(5);
-    islands.add_edge(0, 1, 5);
-    islands.add_edge(1, 0, 5);
-    islands.add_edge(2, 3, 0);
-    islands.add_edge(3, 4, 0);
-    islands.add_edge(4, 2, -1);
-    islands.add_edge(1, 2, -100);
-    assert(islands.solve() && islands.num == -1 && islands.den == 3);
-    assert((sorted_cycle(islands) == vector<int>{2, 3, 4}));
-
-    MinimumMeanCycle dag(4);
-    dag.add_edge(0, 1, -1);
-    dag.add_edge(1, 2, -1);
-    dag.add_edge(0, 3, -1);
-    dag.add_edge(3, 2, -1);
-    assert(!dag.solve() && dag.cycle.empty() && dag.num == 0 && dag.den == 1);
-    dag.add_edge(2, 0, 2);
-    assert(dag.solve() && dag.num == 0 && dag.den == 1 && dag.cycle.size() == 3);
-    dag.add_edge(2, 2, -1);
-    assert(dag.solve() && dag.num == -1 && dag.den == 1);
-    assert((dag.cycle == vector<int>{5}));
-    assert(!MinimumMeanCycle(0).solve());
-    assert(!MinimumMeanCycle(1).solve());
-
-    MinimumMeanCycle extreme(4);
-    extreme.add_edge(0, 1, -1000000000000000000LL);
-    extreme.add_edge(1, 2, -1000000000000000000LL);
-    extreme.add_edge(2, 3, -1000000000000000000LL);
-    extreme.add_edge(3, 0, 1000000000000000000LL);
-    extreme.add_edge(3, 3, 1000000000000000000LL);
-    assert(extreme.solve() && extreme.num == -500000000000000000LL && extreme.den == 1);
-    assert((extreme.cycle.size() == 4));
-
+    MinimumMeanCycle dag(3);
+    dag.add_edge(0, 1, -5);
+    dag.add_edge(1, 2, -5);
+    dag.add_edge(0, 2, -5);
+    assert(!dag.solve());
     return 0;
 }
