@@ -71,6 +71,7 @@ namespace fwht{
         walsh_transform(P2, n, conv_type);
         for (int i = 0; i < n; i++) P1[i] = P1[i] * P2[i];
         inverse_walsh_transform(P1, n, conv_type);
+
         return vector<long long> (P1, P1 + n);
     }
 

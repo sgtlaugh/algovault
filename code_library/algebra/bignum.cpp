@@ -46,6 +46,7 @@ struct Bignum{
             }
             a.push_back(limb);
         }
+
         trim();
     }
 
@@ -56,9 +57,11 @@ struct Bignum{
         string s = (neg ? "-" : "") + std::to_string(a.back());
         size_t pos = s.size();
         s.resize(pos + 9 * (a.size() - 1));
+
         for (int i = (int)a.size() - 2; i >= 0; i--, pos += 9){
             for (int k = 8, v = a[i]; k >= 0; k--, v /= 10) s[pos + k] = '0' + v % 10;
         }
+
         return s;
     }
 
@@ -180,6 +183,7 @@ private:
         if (x.empty() || y.empty()) return {};
         size_t n = x.size(), m = y.size();
         vector<unsigned long long> acc(n + m + 1);
+
         for (size_t i = 0, last = 0; i < n; i++){
             unsigned long long xi = x[i], *r = acc.data() + i;
             for (size_t j = 0; j < m; j++) r[j] += xi * y[j];
@@ -192,6 +196,7 @@ private:
                 last = i + 1;
             }
         }
+
         Limbs res(acc.begin(), acc.end() - 1);
         trim(res);
         return res;
@@ -241,6 +246,7 @@ private:
             unsigned long long cur = rem * BASE + x[i];
             x[i] = cur / d, rem = cur % d;
         }
+
         trim(x);
         return rem;
     }
@@ -252,6 +258,7 @@ private:
             unsigned long long cur = (unsigned long long)x[i] * f + carry;
             res[i] = cur % BASE, carry = cur / BASE;
         }
+
         res[x.size()] = carry;
         return res;
     }

@@ -23,6 +23,7 @@ struct Lagrange{
     int mod, n;
 
     Lagrange() {}
+
     Lagrange(const vector<int>& terms, int mod) : terms(terms), mod(mod){
         n = terms.size();
         assert(n <= mod);
@@ -51,6 +52,7 @@ struct Lagrange{
             a = (long long)a * a % mod;
             b >>= 1;
         }
+
         return res;
     }
 
@@ -76,6 +78,7 @@ struct Lagrange{
             if ((n - i + 1) & 1) w = mod - w;
             res += w;
         }
+
         return res % mod;
     }
 };

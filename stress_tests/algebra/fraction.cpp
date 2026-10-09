@@ -23,10 +23,12 @@ int main(){
         assert((__int128)d.num * den == ((__int128)an * bd - (__int128)bn * ad) * d.den);
         assert((__int128)p.num * den == (__int128)an * bn * p.den);
         for (Fraction f : {s, d, p}) assert(f.den > 0 && __gcd(llabs(f.num), f.den) == 1);
+
         if (bn != 0){
             Fraction q = a / b;
             assert(q * b == a);
         }
+
         assert(s - b == a && d + b == a);
         assert((a < b) == ((__int128)an * bd * (ad > 0 ? 1 : -1) * (bd > 0 ? 1 : -1) < (__int128)bn * ad * (ad > 0 ? 1 : -1) * (bd > 0 ? 1 : -1)));
         assert((a == b) == ((__int128)an * bd == (__int128)bn * ad));
@@ -61,7 +63,9 @@ int main(){
 
     Fraction low(LLONG_MIN, 2);
     assert(low.num == LLONG_MIN / 2 && low.den == 1 && Fraction(LLONG_MIN, 1).num == LLONG_MIN);
+
     /// The unreduced numerator 3 * 2^62 overflows long long, the 64-bit gcd path must not see it
     assert(Fraction(1LL << 62, 3) * Fraction(3) == Fraction(1LL << 62) && Fraction(-(1LL << 62), 3) * 3 == Fraction(-(1LL << 62)));
+
     return 0;
 }

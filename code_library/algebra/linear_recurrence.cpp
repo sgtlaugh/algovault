@@ -11,7 +11,6 @@
  *
 ***/
 
-
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
@@ -77,6 +76,7 @@ namespace nt{
         }
 
         for (j = 0; i < n; i++) res += (unsigned long long)A[i] * B[i];
+
         return res % mod;
     }
 }
@@ -206,6 +206,7 @@ int _POLYNOMIAL_MOD;
 
 struct Polynomial{
     vector <int> coefficient;
+
     Polynomial(vector <int> coefficient={}) : coefficient(coefficient) {}
 
     inline int* data(){
@@ -221,6 +222,7 @@ struct Polynomial{
             res[i] = P[i] - Q[i];
             if (res[i] < 0) res[i] += _POLYNOMIAL_MOD;
         }
+
         copy_poly(res + qn, P + qn, pn - qn);
     }
 
@@ -281,6 +283,7 @@ struct Polynomial{
         int qn = q.size();
         if(qn == 1) return Polynomial();
         if(k == 0) return Polynomial({1});
+
         Polynomial inv = q.inverse(max(size() - qn + 1, qn));
         Polynomial p = this->remainder(q, inv);
 
@@ -294,6 +297,7 @@ struct Polynomial{
                 res = res.remainder(q, inv);
             }
         }
+
         return res;
     }
 
@@ -315,6 +319,7 @@ struct Polynomial{
 
         for (int i = 0; i < res_n; i++) res[i] = 0;
         res[0] = P[0];
+
         while (cur < res_n){
             nxt = min(res_n, cur * 2);
             multiply(u, res, cur, res, cur);
@@ -347,6 +352,7 @@ struct Polynomial{
         }
 
         if(qn == 1) return;
+
         int quot_n = pn - qn + 1;
         int rn = qn - 1, tn = min(quot_n, rn), un = tn + rn;
         unique_ptr <int[]> ptr(new int[pn + un + (quot != 0 ? 0 : quot_n)]);
@@ -421,6 +427,7 @@ struct LinearRecurrence{
             u[i + m] -= c * v[i] % mod;
             if (u[i + m] < 0) u[i + m] += mod;
         }
+
         while (u.size() && !u.back()) u.pop_back();
     }
 
@@ -573,6 +580,7 @@ struct LinearRecurrence{
         for (int i = 0; i < min((int)p.size(), (int)recurrence.size()); i++){
             v[i] = p.coefficient[i];
         }
+
         int len = min(recurrence.size(), base_sequence.size());
         if (!len) return vector <int> (k, 0);
 
@@ -657,5 +665,6 @@ int main(){
     assert(lr.nth_term(1000000000000000000LL) == 255380209);
 
     fprintf(stderr, "\nTime taken = %0.5f\n", (clock() - start) / (double)CLOCKS_PER_SEC);  /// Time taken = 0.44215
+
     return 0;
 }

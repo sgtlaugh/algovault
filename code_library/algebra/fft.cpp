@@ -59,6 +59,7 @@ namespace fft{
         /// dp[k + j] = e^(i * pi * j / k) for every power of two k < len, grown on demand
         void extend_roots(int len){
             dp[1] = ComplexNum(1);
+
             for (; roots_len < len; roots_len <<= 1){
                 fType theta = acosl(-1.0L) / roots_len;
                 ComplexNum mul = ComplexNum(cos(theta), sin(theta));
@@ -92,6 +93,7 @@ namespace fft{
 
         void transform(ComplexNum *in, ComplexNum *out, ComplexNum* ar, int len){
             for (int i = 0; i < len; i++) out[i] = in[rev[i]];
+
             for (int k = 1; k < len; k <<= 1){
                 for (int i = 0; i < len; i += (k << 1)){
                     ComplexNum z, *a = out + i, *b = out + i + k, *c = ar + k;
@@ -117,6 +119,7 @@ namespace fft{
             for (int i = 0; i < (int)v1.size(); i++){
                 if (v1[i] != v2[i]) return false;
             }
+
             return true;
         }
 
@@ -164,6 +167,7 @@ namespace fft{
                 u[j] = a1 * b1 + a2 * b2 * ComplexNum(0, 1);
                 w[j] = a1 * b2 + a2 * b1;
             }
+
             transform(u, f, dp, len);
             transform(w, g, dp, len);
             return len;
@@ -188,6 +192,7 @@ namespace fft{
         for (i = 0; i < min(len, p_len); i++){
             res[i] = round_to_nearest(f[(len - i) & (len - 1)].real / (fType)len);
         }
+
         return res;
     }
 
@@ -234,6 +239,7 @@ namespace fft{
         for (i = 0; i < min(len, p_len); i++){
             res[i] = round_to_nearest(f[i].real);
         }
+
         return res;
     }
 
@@ -279,6 +285,7 @@ namespace fft{
             unsigned long long z = round_to_nearest(f[i].img);
             res[i] = x + (y << MOD_SPLIT_LIMIT) + (z << (2 * MOD_SPLIT_LIMIT));
         }
+
         return res;
     }
 
@@ -351,6 +358,7 @@ namespace fft{
         for (i = 0; (i + m) <= n; i++){
             res.push_back(m - ((v[i + m - 1] + m) >> 1));
         }
+
         return res;
     }
 

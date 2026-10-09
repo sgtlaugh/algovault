@@ -13,6 +13,7 @@ int horner(const vector<int>& c, long long x, int mod){
 
 int main(){
     const int primes[] = {2, 3, 5, 7, 13, 101, 1009, 65537, 998244353, 1000000007, 2147483647};
+
     for (long long it = 0; it < stress::scaled(1500); it++){
         int mod = primes[stress::rand_int(0, 10)];
         int d = stress::rand_int(0, min(mod - 1, it % 10 ? 30 : 400));
@@ -40,5 +41,6 @@ int main(){
         int expected = zero ? (n >= 2 ? 0 : -1) : (n >= d + 2 ? d : -1);
         assert(find_degree(terms, mod) == expected);
     }
+
     return 0;
 }

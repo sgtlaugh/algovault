@@ -29,10 +29,12 @@ struct Fraction{
     static Fraction make(__int128 n, __int128 d){
         assert(d != 0);
         if (d < 0) n = -n, d = -d;
+
         /// 64-bit gcd is about 2x faster, -LLONG_MAX keeps abs(LLONG_MIN) out of std::gcd
         __int128 g = (n >= -LLONG_MAX && n <= LLONG_MAX && d <= LLONG_MAX) ? gcd((long long)n, (long long)d) : gcd128(n, d);
         n /= g, d /= g;
         assert(n >= LLONG_MIN && n <= LLONG_MAX && d <= LLONG_MAX);
+
         Fraction f;
         f.num = (long long)n, f.den = (long long)d;
         return f;
@@ -93,16 +95,20 @@ int main(){
     assert(half - third == Fraction(1, 6));
     assert(half * third == Fraction(1, 6));
     assert(half / third == Fraction(3, 2));
+
     assert(Fraction(1, -2) == Fraction(-1, 2) && Fraction(-1, 2).den == 2 && Fraction(-1, 2).num == -1);
     assert(Fraction(0, -5) == Fraction(0) && Fraction(0, 7).den == 1);
     assert(Fraction(6, 8).num == 3 && Fraction(6, 8).den == 4);
+
     assert(third < half && Fraction(-1, 2) < third && !(half < half) && half <= half && half >= third);
     assert(Fraction(4) / Fraction(2) == Fraction(2));
+
     assert(1 + half == Fraction(3, 2) && half + 1 == Fraction(3, 2) && 1 - half == half && 2 * third == Fraction(2, 3));
     assert(1 / half == Fraction(2) && half < 1 && !(1 < half) && 0 == Fraction(0, 9));
 
     const long long BIG = 1000000000000000000LL;
     assert(Fraction(BIG, 3) * Fraction(3, BIG) == Fraction(1));
     assert(Fraction(BIG - 1, BIG) < Fraction(BIG, BIG + 1));
+
     return 0;
 }

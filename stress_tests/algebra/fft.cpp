@@ -16,6 +16,7 @@ vector<ll> random_vector(int n, ll lo, ll hi){
 vector<ll> naive(const vector<ll>& a, const vector<ll>& b, ll mod = 0){
     vector<__int128> c(a.size() + b.size() - 1, 0);
     for (size_t i = 0; i < a.size(); i++) for (size_t j = 0; j < b.size(); j++) c[i + j] += (__int128)a[i] * b[j];
+
     vector<ll> res(c.size());
     for (size_t i = 0; i < c.size(); i++) res[i] = mod ? (ll)(((c[i] % mod) + mod) % mod) : (ll)c[i];
     return res;
@@ -25,6 +26,7 @@ vector<ll> naive_circular(const vector<ll>& a, const vector<ll>& b, ll mod = 0){
     int n = a.size();
     vector<__int128> c(n, 0);
     for (int i = 0; i < n; i++) for (int j = 0; j < n; j++) c[(i + j) % n] += (__int128)a[i] * b[j];
+
     vector<ll> res(n);
     for (int i = 0; i < n; i++) res[i] = mod ? (ll)(c[i] % mod) : (ll)c[i];
     return res;
@@ -109,5 +111,6 @@ int main(){
             assert(c[k] == (ll)expected);
         }
     }
+
     return 0;
 }

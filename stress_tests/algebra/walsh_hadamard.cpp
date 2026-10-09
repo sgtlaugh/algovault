@@ -22,5 +22,6 @@ int main(){
         assert(fwht::and_convolution(a, b) == c_and);
         assert(fwht::xor_convolution(a, b) == c_xor);
     }
+
     return 0;
 }

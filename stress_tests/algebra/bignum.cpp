@@ -11,14 +11,17 @@ string random_number(int digits){
     if (digits <= 0) return "0";
     int mode = stress::rand_int(0, 3);
     string s(digits, '0');
+
     for (auto& c : s){
         if (mode == 0) c = '0' + stress::rand_int(0, 9);
         else if (mode == 1) c = stress::rand_int(0, 7) ? '9' : '0' + stress::rand_int(0, 9);
         else if (mode == 2) c = stress::rand_int(0, 7) ? '0' : '0' + stress::rand_int(0, 9);
         else c = stress::rand_int(0, 1) ? '9' : '0';
     }
+
     if (s[0] == '0') s[0] = '1' + stress::rand_int(0, 8);
     if (stress::rand_int(0, 3) == 0) s = string(stress::rand_int(1, 3), '0') + s;
+
     int sign = stress::rand_int(0, 7);
     return (sign < 4 ? "-" : (sign == 4 ? "+" : "")) + s;
 }
@@ -69,5 +72,6 @@ int main(){
             check(a % s, r);
         }
     }
+
     return 0;
 }
