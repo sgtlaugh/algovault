@@ -22,6 +22,7 @@ bool brute_on_segment(Point p, Point a, Point b){
 bool brute_intersect(Point a, Point b, Point c, Point d){
     if (a == b) return brute_on_segment(a, c, d);
     if (c == d) return brute_on_segment(c, a, b);
+
     __int128 r_x = b.x - a.x, r_y = b.y - a.y, s_x = d.x - c.x, s_y = d.y - c.y;
     __int128 denom = r_x * s_y - r_y * s_x, qp_x = c.x - a.x, qp_y = c.y - a.y;
     if (denom == 0){
@@ -30,6 +31,7 @@ bool brute_intersect(Point a, Point b, Point c, Point d){
         __int128 t0 = qp_x * r_x + qp_y * r_y, t1 = t0 + s_x * r_x + s_y * r_y;
         return max(min(t0, t1), (__int128)0) <= min(max(t0, t1), rr);
     }
+
     __int128 t = qp_x * s_y - qp_y * s_x, u = qp_x * r_y - qp_y * r_x;
     if (denom < 0) denom = -denom, t = -t, u = -u;
     return 0 <= t && t <= denom && 0 <= u && u <= denom;
@@ -41,6 +43,7 @@ int brute_point_in_polygon(const vector<Point>& poly, Point p){
     for (int i = 0; i < n; i++){
         if (brute_on_segment(p, poly[i], poly[(i + 1) % n])) return 0;
     }
+
     long double total = 0;
     for (int i = 0; i < n; i++){
         long double ax = poly[i].x - p.x, ay = poly[i].y - p.y, bx = poly[(i + 1) % n].x - p.x, by = poly[(i + 1) % n].y - p.y;
@@ -57,6 +60,7 @@ bool is_simple(const vector<Point>& pts, const vector<int>& order){
     for (int i = 0; i < n; i++){
         if (sorted[i] != i) return false;
     }
+
     for (int i = 0; i < n; i++){
         Point a = pts[order[i]], b = pts[order[(i + 1) % n]];
         for (int j = i + 1; j < n; j++){
@@ -97,6 +101,7 @@ vector<Point> brute_convex_hull(vector<Point> pts){
         }
         if (vertex) hull.push_back(p);
     }
+
     vector<Point> res;
     for (Point p : hull){
         bool extreme = false;
@@ -110,6 +115,7 @@ vector<Point> brute_convex_hull(vector<Point> pts){
         }
         if (extreme) res.push_back(p);
     }
+
     if (res.size() < 3) return {};
     Point o = *min_element(res.begin(), res.end(), [](Point u, Point v){ return make_pair(u.y, u.x) < make_pair(v.y, v.x); });
     sort(res.begin(), res.end(), [&](Point u, Point v){
@@ -142,6 +148,7 @@ int main(){
             default: return stress::rand_int(-E9, E9);
         }
     };
+
     for (long long it = 0; it < stress::scaled(20000); it++){
         Point a{near_bound(), near_bound()}, b{near_bound(), near_bound()}, c{near_bound(), near_bound()}, d{near_bound(), near_bound()};
         Point p{near_bound(), near_bound()};
@@ -170,6 +177,7 @@ int main(){
             Point p = random_point(range);
             if (used.insert({p.x, p.y}).second) pts.push_back(p);
         }
+
         bool collinear = true;
         for (int i = 2; i < n; i++) collinear &= cross(pts[0], pts[1], pts[i]) == 0;
         if (collinear) continue;
@@ -234,6 +242,7 @@ int main(){
             }
         }
     }
+
     assert(flat_starts > 0);
 
     /// A spiral whose fan triangulation from vertex 0 has partial sums beyond long long, the total area fits
@@ -278,6 +287,7 @@ int main(){
             assert(min(diff, 360.0 - diff) < 1e-6 && 0 <= got && got < 360.0);
         }
     }
+
     for (long long it = 0; it < stress::scaled(20000); it++){
         PointF u{(double)stress::rand_int(-1000000, 1000000), (double)stress::rand_int(-1000000, 1000000)};
         if (u.x == 0 && u.y == 0) continue;
@@ -285,6 +295,7 @@ int main(){
         double got = clockwise_angle(u, v);
         assert(0 <= got && got < 360.0);
     }
+
     assert(clockwise_angle({1, 0}, {1, 1e-300}) < 360.0 && clockwise_angle({1, 0}, {1, -1e-300}) < 360.0);
 
     for (long long it = 0; it < stress::scaled(20000); it++){

@@ -12,6 +12,7 @@ using namespace std;
 
 struct Point{
     long long x, y;
+
     Point() {}
     Point(long long x, long long y) : x(x), y(y) {}
 };

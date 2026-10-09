@@ -19,6 +19,7 @@ void check_hull(const vector<Point>& points, const vector<Point>& hull){
         assert(h == (int)distinct.size() && (h == 0 || same(hull[0], distinct[0])));
         return;
     }
+
     assert(h >= 2 && same(hull[0], distinct[0]));
     for (auto& v : hull) assert(binary_search(distinct.begin(), distinct.end(), v));
     for (int i = 0; i < h; i++) for (int j = i + 1; j < h; j++) assert(!same(hull[i], hull[j]));
@@ -28,6 +29,7 @@ void check_hull(const vector<Point>& points, const vector<Point>& hull){
         for (auto& p : points) assert(cross(hull[0], hull[1], p) == 0);
         return;
     }
+
     for (int i = 0; i < h; i++){
         assert(cross(hull[i], hull[(i + 1) % h], hull[(i + 2) % h]) > 0);
         for (auto& p : points) assert(cross(hull[i], hull[(i + 1) % h], p) >= 0);
@@ -84,6 +86,7 @@ int main(){
             swap(crossed[i], crossed[(i + 1) % h]);
             assert(!is_convex(crossed));
         }
+
         if (h >= 5){  /// visiting every k-th vertex for k coprime with h winds around more than once: a star
             for (int k = 2; k < h - 1; k++){
                 if (__gcd(k, h) != 1) continue;
@@ -93,5 +96,6 @@ int main(){
             }
         }
     }
+
     return 0;
 }

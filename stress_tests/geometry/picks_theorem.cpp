@@ -89,5 +89,6 @@ int main(){
         }
         assert(area2(poly) == (long long)(fan < 0 ? -fan : fan));
     }
+
     return 0;
 }

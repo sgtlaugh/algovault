@@ -98,12 +98,14 @@ int point_in_convex_polygon(const vector<Point>& poly, const Point& p){
             if (on_ray(poly[1], poly[mid])) a = mid;
             else hi = mid - 1;
         }
+
         int lo = 1, b = n - 1;
         while (lo < b){
             int mid = (lo + b) / 2;
             if (on_ray(poly[n - 1], poly[mid])) b = mid;
             else lo = mid + 1;
         }
+
         return on_segment(p, o, poly[a]) || on_segment(p, o, poly[b]) ? 0 : -1;
     }
 
@@ -168,8 +170,10 @@ int main(){
     assert(cross(a, b, c) == 16 && cross(a, c, b) == -16 && cross(a, b, Point{8, 0}) == 0);
     assert(on_segment({2, 0}, a, b) && on_segment(a, a, b) && !on_segment({5, 0}, a, b) && !on_segment({2, 1}, a, b));
     assert(on_segment({3, 3}, {3, 3}, {3, 3}) && !on_segment({3, 4}, {3, 3}, {3, 3}));
+
     assert(segments_intersect(a, c, b, d) && segments_intersect(a, b, b, c) && !segments_intersect(a, b, c, d));
     assert(segments_intersect(a, b, {2, 0}, {6, 0}) && !segments_intersect(a, b, {5, 0}, {6, 0}));
+
     assert(abs(dist_point_segment({2, 3}, a, b) - 3.0) < 1e-9);
     assert(abs(dist_point_segment({7, 4}, a, b) - 5.0) < 1e-9);
     assert(abs(dist_point_segment({1, 1}, a, a) - sqrt(2.0)) < 1e-9);

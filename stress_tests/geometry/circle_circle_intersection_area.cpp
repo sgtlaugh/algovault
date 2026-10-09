@@ -36,6 +36,7 @@ long double integrate(const Circle& a, const Circle& b){
 int main(){
     /// 2 * acos(0) is the double overload, about 1e-4 off for a contained circle of radius 1e6
     assert(fabsl(PI - (long double)acosq(-1)) <= 1e-18L);
+
     Circle huge(Point(0, 0), 2e6), inner(Point(1, 1), 1e6);
     assert(fabsl(intersection_area(huge, inner) - (long double)lens_area(0, 0, 2e6, 1, 1, 1e6)) <= 1e-6L);
 
@@ -69,5 +70,6 @@ int main(){
         assert(!std::isnan(res));
         assert(fabsl(res - (long double)lens_area(0, 0, r0, b.centre.x, b.centre.y, r1)) <= 1e-6L * scale);
     }
+
     return 0;
 }
