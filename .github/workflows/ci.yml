@@ -5,7 +5,7 @@ on:
   pull_request:
   workflow_dispatch:
   schedule:
-    - cron: "0 3 * * *"  # nightly stress run with more iterations and a fresh seed
+    - cron: "0 3 * * *"  # nightly: every test under sanitizers, then a high-iteration -O2 stress run with a fresh seed
 
 permissions:
   contents: read
@@ -14,26 +14,56 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
   cancel-in-progress: true
 
+env:
+  CXX: g++-14
+  # Pushes and pull requests test only what changed, a library file's tests depend on nothing but that file
+  # An unknown ref (first push of a branch) makes run_tests.sh run everything
+  CHANGED_SINCE: ${{ github.event_name == 'push' && github.event.before || github.event_name == 'pull_request' && github.event.pull_request.base.sha || '' }}
+  JOBS: 4
+
 jobs:
   self-tests:
-    if: github.event_name != 'schedule'
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v7
         with:
           python-version: "3.12"
 
-      - name: Compile and run every self-test under sanitizers
+      - name: Compile and run the self-tests under sanitizers
         env:
-          CXX: g++-14
+          TEST_BUDGET: ${{ github.event_name == 'schedule' && '0' || '60' }}
         run: bash .github/scripts/run_tests.sh self
 
   stress-tests:
     runs-on: ubuntu-24.04
-    timeout-minutes: 120
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install GMP (exact reference for the bignum and digits of factorial stress tests)
+        run: sudo apt-get update -q && sudo apt-get install -y -q libgmp-dev
+
+      - name: Compile and run the stress tests under sanitizers
+        env:
+          TEST_BUDGET: ${{ github.event_name == 'schedule' && '0' || '60' }}
+        run: bash .github/scripts/run_tests.sh stress
+
+  # Wrong answers need volume, not sanitizers: -O2 runs the stress loops 2x to 20x faster than the sanitizer build
+  nightly-high-iteration:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 90
     steps:
       - uses: actions/checkout@v7
 
@@ -44,10 +74,11 @@ jobs:
       - name: Install GMP (exact reference for the bignum and digits of factorial stress tests)
         run: sudo apt-get update -q && sudo apt-get install -y -q libgmp-dev
 
-      - name: Compile and run every stress test under sanitizers
+      - name: Compile and run every stress test at -O2 with 20x iterations and a fresh seed
         env:
-          CXX: g++-14
-          STRESS_SCALE: ${{ github.event_name == 'schedule' && '20' || '1' }}
-          STRESS_SEED: ${{ github.event_name == 'schedule' && github.run_id || '' }}
-          TEST_TIMEOUT: ${{ github.event_name == 'schedule' && '1800' || '300' }}
+          BUILD: fast
+          STRESS_SCALE: 20
+          STRESS_SEED: ${{ github.run_id }}
+          TEST_TIMEOUT: 1800
+          CHANGED_SINCE: ""
         run: bash .github/scripts/run_tests.sh stress
