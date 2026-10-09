@@ -12,7 +12,7 @@ int brute(const vector<int>& v, map<vector<int>, int>& memo){
 
     int best = 0;
     for (size_t i = 0, j; i < v.size(); i = j){
-        for (j = i; j < v.size() && v[j] == v[i]; j++){}
+        for (j = i; j < v.size() && v[j] == v[i]; j++) {}
         vector<int> rest(v.begin(), v.begin() + i);
         rest.insert(rest.end(), v.begin() + j, v.end());
         best = max(best, (int)((j - i) * (j - i)) + brute(rest, memo));

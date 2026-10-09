@@ -36,7 +36,7 @@ struct Rerooting{
     int n, added_edges = 0;
     vector<vector<Edge>> adj;
 
-    Rerooting(int n) : n(n), adj(n){}
+    Rerooting(int n) : n(n), adj(n) {}
 
     void add_edge(int u, int v, E w = E()){
         adj[u].push_back({v, w});

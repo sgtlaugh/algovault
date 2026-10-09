@@ -27,7 +27,7 @@ struct Graph{
     vector<int> adj_start, adj_to, rev_start, rev_to;
     vector<int> visited, comp, order, dfs_t;
 
-    Graph(int n): n(n){}
+    Graph(int n): n(n) {}
 
     /// Literal x is node x, literal -x is node n + x
     inline int node(int x){

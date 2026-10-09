@@ -40,7 +40,7 @@ struct Edge{
     int u, v;
     long long cap, flow;
 
-    Edge(){}
+    Edge() {}
     Edge(int u, int v, long long cap, long long flow) : u(u), v(v), cap(cap), flow(flow) {}
 };
 

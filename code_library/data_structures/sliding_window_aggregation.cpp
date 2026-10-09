@@ -38,7 +38,7 @@ struct SlidingWindowAggregation{
     vector<T> front, back;  /// front.back() is the fold of the whole front stack, oldest element first
     T back_fold;
 
-    SlidingWindowAggregation(T identity, Op op) : identity(identity), op(op), back_fold(identity){}
+    SlidingWindowAggregation(T identity, Op op) : identity(identity), op(op), back_fold(identity) {}
 
     bool empty() const{
         return front.empty() && back.empty();

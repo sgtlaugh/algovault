@@ -37,7 +37,7 @@ struct DynamicDiameter{
     vector<int> child, first, last;
     vector<Node> seg;
 
-    DynamicDiameter(int n) : n(n), adj(n){}
+    DynamicDiameter(int n) : n(n), adj(n) {}
 
     int add_edge(int u, int v, long long w){
         assert(w >= 0);

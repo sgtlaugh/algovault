@@ -126,7 +126,7 @@ struct DynamicAhoCorasick{
     inline void insert(const char* str){
         // Binary decomposition: find first empty slot
         int i, k = 0;
-        for (k = 0; k < MAX_LOG && ar[k].size(); k++){}
+        for (k = 0; k < MAX_LOG && ar[k].size(); k++) {}
         assert(k < MAX_LOG);
 
         // Merge all smaller automata into ar[k]

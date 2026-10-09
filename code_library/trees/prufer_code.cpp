@@ -28,7 +28,7 @@ struct PruferCode{
     int n, added_edges = 0;
     vector<int> degree, neighbor_xor;
 
-    PruferCode(int n) : n(n), degree(n), neighbor_xor(n){}
+    PruferCode(int n) : n(n), degree(n), neighbor_xor(n) {}
 
     void add_edge(int u, int v){
         assert(0 <= u && u < n && 0 <= v && v < n);

@@ -27,7 +27,7 @@ struct Edge{
     int u, v;
     long long w;
 
-    Edge(){}
+    Edge() {}
     Edge(int u, int v, long long w) : u(u), v(v), w(w) {}
 };
 

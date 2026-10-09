@@ -36,7 +36,7 @@ struct GreenHackenbush{
     vector<vector<pair<int, int>>> adj; /// (neighbor, edge index)
     vector<int> loops;
 
-    GreenHackenbush(int n) : n(n), adj(n), loops(n){}
+    GreenHackenbush(int n) : n(n), adj(n), loops(n) {}
 
     void add_edge(int u, int v){
         if (u == v){
@@ -143,7 +143,7 @@ struct RedBlueHackenbush{
     int n, m = 0;
     vector<vector<array<int, 3>>> adj; /// (neighbor, edge index, blue)
 
-    RedBlueHackenbush(int n) : n(n), adj(n){}
+    RedBlueHackenbush(int n) : n(n), adj(n) {}
 
     void add_edge(int u, int v, bool blue){
         adj[u].push_back({v, m, blue});

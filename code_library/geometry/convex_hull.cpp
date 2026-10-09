@@ -33,7 +33,7 @@ using namespace std;
 struct Point {
     int64_t x, y;
 
-    Point(){}
+    Point() {}
     Point(int64_t x, int64_t y) : x(x), y(y) {}
 
     inline bool operator < (const Point &p) const {

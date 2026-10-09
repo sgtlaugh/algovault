@@ -34,7 +34,7 @@ struct KruskalReconstructionTree{
     vector<int> order, pos, first, leaf_count;
     vector<vector<int>> up;
 
-    KruskalReconstructionTree(int n) : n(n){}
+    KruskalReconstructionTree(int n) : n(n) {}
 
     void add_edge(int u, int v, T w){
         edges.push_back({w, u, v});

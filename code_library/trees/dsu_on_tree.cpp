@@ -127,7 +127,7 @@ int main(){
 
     DsuOnTree single(1);
     int calls = 0;
-    single.run(0, [&](int){}, [&](int){}, [&](int){ calls++; });
+    single.run(0, [&](int) {}, [&](int) {}, [&](int){ calls++; });
     assert(calls == 1);
 
     return 0;

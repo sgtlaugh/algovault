@@ -41,7 +41,7 @@ struct DistinctSubarrayAggregates{
     int n = 0;
     vector<Segment> segs;
 
-    explicit DistinctSubarrayAggregates(Op op = Op()) : op(op){}
+    explicit DistinctSubarrayAggregates(Op op = Op()) : op(op) {}
 
     void push(T x){
         for (auto& s : segs) s.value = op(s.value, x);

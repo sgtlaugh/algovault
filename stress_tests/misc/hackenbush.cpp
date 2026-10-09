@@ -211,7 +211,7 @@ struct Fixed{
     long long whole = 0;
     vector<char> bits;
 
-    Fixed(int len) : bits(len + 1, 0){}
+    Fixed(int len) : bits(len + 1, 0) {}
 
     Fixed(const Dyadic& d, int len) : whole(d.whole), bits(len + 1, 0){
         for (int b : d.bits) bits[b] = 1;

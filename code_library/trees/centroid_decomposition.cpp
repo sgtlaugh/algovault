@@ -42,7 +42,7 @@ struct CentroidDecomposition{
 
     /// Skips collecting branches, which is about a third of the build time
     void build(){
-        decompose([](int){});
+        decompose([](int) {});
     }
 
     template <typename Visit>

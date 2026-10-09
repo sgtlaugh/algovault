@@ -7,9 +7,9 @@ using namespace std;
 struct equation{
     long double l, p, r, rhs;
 
-    equation(){}
+    equation() {}
     equation(long double l, long double p, long double r, long double rhs = 0.0):
-        l(l), p(p), r(r), rhs(rhs){}
+        l(l), p(p), r(r), rhs(rhs) {}
 };
 
 /// Thomas algorithm to solve tridiagonal system of equations in O(n)

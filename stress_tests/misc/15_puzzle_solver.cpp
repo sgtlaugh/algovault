@@ -88,7 +88,7 @@ int main(){
         ifstream out(OUT);
         string line;
         for (size_t k = 0; k < boards.size(); k++){
-            while (getline(out, line) && line.empty()){}
+            while (getline(out, line) && line.empty()) {}
             if (!solvable[k]){
                 assert(line == "This puzzle is not solvable.");
                 continue;

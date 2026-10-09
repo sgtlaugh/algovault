@@ -172,7 +172,7 @@ namespace fio{
         }
     }
 
-    void write(){}
+    void write() {}
 
     template <typename T> struct is_vector : false_type {};
     template <typename T, typename A> struct is_vector<vector<T, A>> : true_type {};

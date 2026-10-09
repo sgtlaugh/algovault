@@ -35,7 +35,7 @@ struct DuSieve{
     unordered_map<long long, __int128> phi_memo;
     unordered_map<long long, long long> mu_memo;
 
-    DuSieve(long long n) : DuSieve(n, (int)min(2e9, pow((double)max(n, 1LL), 2.0 / 3.0))){}
+    DuSieve(long long n) : DuSieve(n, (int)min(2e9, pow((double)max(n, 1LL), 2.0 / 3.0))) {}
 
     DuSieve(long long n, int table) : limit(max(1, (int)min<long long>(n, table))), phi_prefix(limit + 1, 0), mu_prefix(limit + 1, 0){
         vector<int> primes;

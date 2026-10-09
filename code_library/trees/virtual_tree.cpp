@@ -46,7 +46,7 @@ struct LinearRMQ{
         return r - (63 - __builtin_clzll(m));
     }
 
-    LinearRMQ(){}
+    LinearRMQ() {}
 
     LinearRMQ(const vector<int>& values) : val(values), mask(values.size()){
         int n = val.size();
@@ -86,7 +86,7 @@ struct LinearLCA{
     vector<long long> weight_sum;
     LinearRMQ rmq;
 
-    LinearLCA(int n) : n(n), adj(n), first(n), level(n), weight_sum(n){}
+    LinearLCA(int n) : n(n), adj(n), first(n), level(n), weight_sum(n) {}
 
     void add_edge(int u, int v, long long w = 1){
         adj[u].push_back({v, w});

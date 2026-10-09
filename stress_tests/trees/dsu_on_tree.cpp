@@ -96,7 +96,7 @@ int main(){
         for (auto [u, v] : edges) comb.add_edge(u, v);
 
         long long adds = 0;
-        comb.run(0, [&](int){ adds++; }, [&](int){}, [&](int){});
+        comb.run(0, [&](int){ adds++; }, [&](int) {}, [&](int) {});
         assert(adds <= (long long)n * (__lg(n) + 1));
     }
 
@@ -106,7 +106,7 @@ int main(){
     for (int i = 1; i < n; i++) path.add_edge(i - 1, i);
 
     long long adds = 0, answers = 0;
-    path.run(0, [&](int){ adds++; }, [&](int){}, [&](int){ answers++; });
+    path.run(0, [&](int){ adds++; }, [&](int) {}, [&](int){ answers++; });
     assert(answers == n && adds == n);
 
     return 0;

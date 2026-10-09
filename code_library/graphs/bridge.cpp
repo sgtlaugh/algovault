@@ -26,7 +26,7 @@ struct Bridge{
     int cnt_u, cnt_v; /// number of nodes in the connected component of u and v if bridge edge is disconnected
     int id; /// index of the edge, in the order add_edge was called
 
-    Bridge(){}
+    Bridge() {}
     Bridge(int u, int v, int cnt_u, int cnt_v, int id = -1) : u(u), v(v), cnt_u(cnt_u), cnt_v(cnt_v), id(id) {}
 };
 
