@@ -1,3 +1,16 @@
+/***
+ *
+ * 15 Puzzle Solver
+ * IDA* with the Manhattan distance heuristic, prints an optimal move sequence for a 4x4 board
+ *
+ * Complexity: O(3^d) for an optimal solution of d moves, the threshold strictly increases up to d
+ *   and an iteration with threshold t visits O(3^t) states since the blank never steps straight back, O(d) memory
+ *
+ * is_solvable(): true if the board in ar, blank stored as 16, can reach the solved state
+ * solve(bx, by): runs IDA* with the blank at (bx, by), prints the move count and the moves
+ *
+***/
+
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
