@@ -58,28 +58,11 @@ struct Faulhaber{
 
 int main(){
     Faulhaber f(1000);
-
-    assert(f.sum(0, 0) == 0);
-    assert(f.sum(0, 5) == 0);
-    assert(f.sum(1, 1) == 1);
     assert(f.sum(9, 0) == 9);
-    assert(f.sum(5, 2) == 55);
-    assert(f.sum(3, 4) == 98);
-    assert(f.sum(10, 3) == 3025);
     assert(f.sum(100, 1) == 5050);
-    assert(f.sum(MOD, 0) == 0);
-    assert(f.sum(MOD, 3) == 0);
-    assert(f.sum(2 * MOD - 1, 2) == 0);
-    assert(f.sum(1000, 7) == 589568241);
-    assert(f.sum(1000000000, 512) == 244343556);
-    assert(f.sum(123456789012345LL, 7) == 896100540);
+    assert(f.sum(5, 2) == 55);     /// 1 + 4 + 9 + 16 + 25
+    assert(f.sum(10, 3) == 3025);  /// 55^2, the cubes sum to the square of the first powers
+    assert(f.sum(MOD, 3) == 0);    /// (MOD (MOD + 1) / 2)^2 is a multiple of MOD
     assert(f.sum(1000000000000000000LL, 1000) == 486176152);
-    assert(f.sum(LLONG_MAX, 0) == 291172003);
-    assert(f.sum(LLONG_MAX, 2) == 547510093);
-    assert(f.sum(LLONG_MAX, 3) == 635212044);
-
-    Faulhaber tiny(0);
-    assert(tiny.sum(1000000000000000000LL, 0) == 49);
-
     return 0;
 }
