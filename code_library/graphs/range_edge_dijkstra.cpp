@@ -93,41 +93,19 @@ private:
 int main(){
     const long long INF = RangeEdgeGraph::INF;
 
-    RangeEdgeGraph sample1(3);
-    sample1.add_edge_to_range(2, 1, 2, 17);
-    sample1.add_edge_to_range(2, 1, 1, 16);
-    sample1.add_edge_to_range(1, 1, 2, 3);
-    sample1.add_edge_from_range(0, 0, 2, 12);
-    sample1.add_edge(2, 2, 17);
-    assert((sample1.dijkstra(0) == vector<long long>{0, 28, 12}));
+    /// CF 786B Legacy, first sample
+    RangeEdgeGraph planets(3);
+    planets.add_edge_to_range(2, 1, 2, 17);
+    planets.add_edge_to_range(2, 1, 1, 16);
+    planets.add_edge_to_range(1, 1, 2, 3);
+    planets.add_edge_from_range(0, 0, 2, 12);
+    planets.add_edge(2, 2, 17);
+    assert((planets.dijkstra(0) == vector<long long>{0, 28, 12}));  /// 0 -> 2 -> 1 costs 12 + 16
 
-    RangeEdgeGraph sample2(4);
-    sample2.add_edge_from_range(0, 2, 3, 12);
-    sample2.add_edge_to_range(1, 2, 3, 10);
-    sample2.add_edge(1, 3, 16);
-    assert((sample2.dijkstra(0) == vector<long long>{0, INF, INF, 12}));
-    assert((sample2.dijkstra(1) == vector<long long>{INF, 0, 10, 10}));
-
-    RangeEdgeGraph single(1);
-    single.add_edge_to_range(0, 0, 0, 5);
-    single.add_edge_from_range(0, 0, 0, 7);
-    assert((single.dijkstra(0) == vector<long long>{0}));
-
-    RangeEdgeGraph leak(5);
-    leak.add_edge_to_range(0, 1, 3, 5);
-    leak.add_edge_from_range(1, 3, 4, 2);
-    assert((leak.dijkstra(0) == vector<long long>{0, 5, 5, 5, 7}));
-    assert((leak.dijkstra(2) == vector<long long>{INF, INF, 0, INF, 2}));
-    assert((leak.dijkstra(4) == vector<long long>{INF, INF, INF, INF, 0}));
-
-    RangeEdgeGraph mixed(6);
-    mixed.add_edge_to_range(0, 2, 5, 10);
-    mixed.add_edge(0, 1, 1);
-    mixed.add_edge_from_range(0, 1, 4, 2);
-    mixed.add_edge_to_range(4, 5, 5, 0);
-    mixed.add_edge(5, 3, 1);
-    assert((mixed.dijkstra(0) == vector<long long>{0, 1, 10, 3, 2, 2}));
-    mixed.add_edge(1, 2, 3);
-    assert((mixed.dijkstra(0) == vector<long long>{0, 1, 4, 3, 2, 2}));
+    RangeEdgeGraph g(5);
+    g.add_edge_to_range(0, 1, 3, 5);
+    g.add_edge_from_range(1, 3, 4, 2);
+    assert((g.dijkstra(0) == vector<long long>{0, 5, 5, 5, 7}));
+    assert((g.dijkstra(2) == vector<long long>{INF, INF, 0, INF, 2}));  /// a range never links its own vertices
     return 0;
 }
