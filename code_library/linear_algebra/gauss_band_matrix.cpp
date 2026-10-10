@@ -4,8 +4,10 @@
  * Usually equations are formed by linear combinations of variables in the same/adjcent rows
  * Since not all variables are used we can group them in "bands" and solve faster
  *
- * Standard gauss in grids complexity: O(n^3 * m^3)
- * Gauss with band matrix: O(n * m^3) or O(n * m * band_size ^ 2) to be more precise
+ * Complexity:
+ *   - O(n m band_size^2) time and O(n m band_size) memory
+ *   - O(n m^3) time and O(n m^2) memory with the default band_size = 2 m + 3, vs O(n^3 m^3) for standard gauss on the grid
+ *
  * If n < m, better to transpose the matrix
  *
  * Pivots on the diagonal without row swaps, so it needs every pivot to stay nonzero
