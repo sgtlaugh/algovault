@@ -44,6 +44,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 ### Data Structures
 
+[Practice problems](code_library/data_structures/README.md)
+
 - [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving
 - [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - union by size with path compression, rollback, weighted and persistent variants [✔](judge_tests/data_structures/persistent_unionfind.cpp)
 - [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct gcd/or/and of subarrays ending at each index, `O(log A)`
@@ -78,6 +80,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 ### Trees
 
+[Practice problems](code_library/trees/README.md)
+
 - [Centroid Decomposition](code_library/trees/centroid_decomposition.cpp) - iterative centroid tree with a visitor over distances to each centroid [✔](judge_tests/trees/frequency_table_of_tree_distance.cpp)
 - [DSU on Tree](code_library/trees/dsu_on_tree.cpp) - small-to-large answers for every subtree
 - [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - weighted tree diameter under edge weight updates in `O(log n)` [✔](judge_tests/trees/aoj_grl_5_a.cpp)
@@ -90,6 +94,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Virtual Tree](code_library/trees/virtual_tree.cpp) - compress a tree to k vertices and their LCAs in `O(k log k)`
 
 ### Graphs
+
+[Practice problems](code_library/graphs/README.md)
 
 - [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability and an assignment via Kosaraju, with at-most-one constraints in `O(k)` clauses [✔](judge_tests/graphs/two_sat.cpp)
 - [2-SAT, Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - lexicographically smallest satisfying assignment [✔](judge_tests/graphs/two_sat_lexicographic.cpp)
@@ -135,6 +141,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 ### Strings
 
+[Practice problems](code_library/strings/README.md)
+
 - [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text by hashing [✔](judge_tests/strings/aoj_alds1_14_c.cpp)
 - [Aho-Corasick](code_library/strings/aho_corasick.cpp) - multi-pattern matching automaton [✔](judge_tests/strings/aho_corasick.cpp)
 - [Aho-Corasick, Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - multi-pattern matching with online pattern insertion
@@ -155,6 +163,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Z Algorithm](code_library/strings/z_algorithm.cpp) - longest common prefix of every suffix with the string [✔](judge_tests/strings/zalgorithm.cpp)
 
 ### Number Theory
+
+[Practice problems](code_library/number_theory/README.md)
 
 - [All Divisors](code_library/number_theory/all_divisors.cpp) - divisor lists of every number up to a limit
 - [Chinese Remainder Theorem](code_library/number_theory/chinese_remainder_theorem.cpp) - systems of congruences with any moduli, and Garner's mixed radix [✔](judge_tests/number_theory/convolution_mod_1000000007_chinese_remainder_theorem.cpp)
@@ -182,6 +192,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 ### Combinatorics
 
+[Practice problems](code_library/combinatorics/README.md)
+
 - [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - Bernoulli numbers modulo a prime
 - [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, Lucas and prime powers [✔](judge_tests/combinatorics/binomial_coefficient.cpp)
 - [Combinatorics](code_library/combinatorics/combinatorics.cpp) - extended gcd, modular inverse, diophantine equations, nCr and nPr [✔](judge_tests/combinatorics/aoj_ntl_1_e.cpp)
@@ -197,6 +209,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 ### Algebra
 
+[Practice problems](code_library/algebra/README.md)
+
 - [Big Integer](code_library/algebra/bignum.cpp) - arbitrary precision signed integers [✔](judge_tests/algebra/addition_of_big_integers.cpp)
 - [FFT](code_library/algebra/fft.cpp) - polynomial multiplication, exact modular and 64-bit products [✔](judge_tests/algebra/convolution_mod_1000000007_fft.cpp)
 - [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
@@ -210,6 +224,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - xor, or and and convolutions [✔](judge_tests/algebra/bitwise_and_convolution_fwht.cpp)
 
 ### Linear Algebra
+
+[Practice problems](code_library/linear_algebra/README.md)
 
 - [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - `det(xI - A)` modulo a prime in `O(n^3)` via Hessenberg reduction [✔](judge_tests/linear_algebra/characteristic_polynomial.cpp)
 - [Determinant](code_library/linear_algebra/determinant.cpp) - integer determinant modulo any m or exact, Kirchhoff and Tutte tree counts [✔](judge_tests/linear_algebra/counting_spanning_tree_directed.cpp)
@@ -226,6 +242,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 ### Geometry
 
+[Practice problems](code_library/geometry/README.md)
+
 - [Circle Geometry](code_library/geometry/circle.cpp) - intersections, tangents, enclosing circle, polygon/lens/union areas, max cover [✔](judge_tests/geometry/aoj_0090.cpp)
 - [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - `O(n log n)` sweep with exact integer squared distances [✔](judge_tests/geometry/aoj_cgl_5_a.cpp)
 - [Convex Hull](code_library/geometry/convex_hull.cpp) - monotone chain, `O(n log n)` [✔](judge_tests/geometry/aoj_cgl_3_b.cpp)
@@ -237,6 +255,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - Shamos-Hoey, finds two intersecting segments exactly, `O(n log n)`
 
 ### Dynamic Programming
+
+[Practice problems](code_library/dp/README.md)
 
 - [Aliens Trick (WQS)](code_library/dp/aliens_trick.cpp) - exactly-k optimum of a convex cost by binary search on a penalty, tie-safe
 - [Blocks](code_library/dp/blocks_dp.cpp) - interval DP for UVA 10559 Blocks
@@ -253,6 +273,8 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Slope Trick](code_library/dp/slope_trick.cpp) - convex piecewise linear functions with hinge adds, prefix/suffix min and shifts
 
 ### Miscellaneous
+
+[Practice problems](code_library/misc/README.md)
 
 - [15 Puzzle Solver](code_library/misc/15_puzzle_solver.cpp) - solvability check and IDA* solver
 - [Assembly](code_library/misc/assembly.cpp) - inline x86 popcount, leading zeros, bit scan, gcd and square root [✔](judge_tests/misc/aoj_alds1_1_b.cpp)
@@ -273,10 +295,14 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 ### Hacking
 
+[Practice problems](code_library/hacking/README.md)
+
 - [Anti Double Hash](code_library/hacking/anti_double_hash.cpp) - two strings colliding under a double polynomial hash
 - [Anti Polynomial Hash](code_library/hacking/anti_polyonmial_hash.cpp) - two strings colliding under a polynomial hash
 
 ### Python
+
+[Practice problems](code_library/python/README.md)
 
 - [Alpha Beta Pruning](code_library/python/alpha_beta_pruning.py) - minimax game search with alpha-beta pruning
 - [Berlekamp Massey](code_library/python/berlekamp_massey.py) - shortest linear recurrence of a sequence modulo a prime
