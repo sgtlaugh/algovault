@@ -28,10 +28,6 @@
 - [SPOJ ADACOINS - Ada and Coins](https://www.spoj.com/problems/ADACOINS/)
 - [SPOJ FCANDY - Candy (Again)](https://www.spoj.com/problems/FCANDY/)
 
-## [CKY](cky.cpp)
-
-- [UVa 12678 - Mixing Colours](https://onlinejudge.org/external/126/12678.pdf)
-
 ## [Divide and Conquer DP](divide_conquer_dp.cpp)
 
 - [AtCoder ARC067 D - Yakiniku Restaurants](https://atcoder.jp/contests/arc067/tasks/arc067_d)
