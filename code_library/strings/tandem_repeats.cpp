@@ -99,36 +99,20 @@ void tandem_repeats(const char* s, F report){
 }
 
 int main(){
-    auto squares = [](const auto& s){
-        vector<pair<int, int>> res;
-        tandem_repeats(s, [&](int first, int last, int l){
-            for (int i = first; i <= last; i++) res.push_back({i, l});
-        });
-        sort(res.begin(), res.end());
-        return res;
-    };
+    vector<pair<int, int>> found;  /// (start, half length)
+    tandem_repeats("acababaee", [&](int first, int last, int l){
+        for (int i = first; i <= last; i++) found.push_back({i, l});
+    });
+    sort(found.begin(), found.end());
+    assert((found == vector<pair<int, int>>{{2, 2}, {3, 2}, {7, 1}}));  /// abab, baba and ee
 
-    using Squares = vector<pair<int, int>>;
-    assert((squares(string("")) == Squares{}));
-    assert((squares(string("a")) == Squares{}));
-    assert((squares(string("aa")) == Squares{{0, 1}}));
-    assert((squares(string("ab")) == Squares{}));
-    assert((squares(string("aaaa")) == Squares{{0, 1}, {0, 2}, {1, 1}, {2, 1}}));
-    assert((squares(string("abcabczz")) == Squares{{0, 3}, {6, 1}}));
-    assert((squares(string("acababaee")) == Squares{{2, 2}, {3, 2}, {7, 1}}));
-    assert((squares(string("abacaba")) == Squares{}));
-
-    assert((squares(string("##")) == Squares{{0, 1}}));
-    assert((squares(string("a#a")) == Squares{}));
-    assert((squares(string("a#a#")) == Squares{{0, 2}}));
-    assert((squares("abaaba") == Squares{{0, 3}, {2, 1}}));
-    assert((squares(vector<int>{1, 2, 1, 2, 2}) == Squares{{0, 2}, {3, 1}}));
-    assert((squares(vector<bool>{1, 0, 1, 0, 0}) == Squares{{0, 2}, {3, 1}}));
-    assert((squares(deque<int>{3, 1, 3, 1, 3}) == Squares{{0, 2}, {1, 2}}));
-
+    /// Count from the triples instead of listing the Theta(n^2) squares one by one
     long long total = 0;
     tandem_repeats(string(6, 'a'), [&](int first, int last, int){ total += last - first + 1; });
-    assert(total == 9);
+    assert(total == 9);  /// 5 of length 2, 3 of length 4, 1 of length 6
 
+    int count = 0;
+    tandem_repeats(vector<int>{1, 2, 1, 2, 2}, [&](int first, int last, int){ count += last - first + 1; });
+    assert(count == 2);  /// 1 2 1 2 and 2 2
     return 0;
 }

@@ -88,7 +88,23 @@ int main(){
         vector<int> v(n);
         for (int i = 0; i < n; i++) v[i] = s[i] == 'a' ? INT_MIN : s[i] - 'a' - 1;
         assert(squares(v) == brute_quadratic(v));
+
+        /// vector<bool> hands out proxies by value, deque is indexable without contiguous storage
+        if (it % 4 == 1){
+            vector<bool> bits(n);
+            for (int i = 0; i < n; i++) bits[i] = s[i] == 'a';
+            deque<int> d(v.begin(), v.end());
+            assert(squares(bits) == brute_quadratic(bits) && squares(d) == brute_quadratic(d));
+        }
     }
+
+    /// The const char* overload
+    vector<pair<int, int>> literal;
+    tandem_repeats("abaabaa", [&](int first, int last, int l){
+        for (int i = first; i <= last; i++) literal.push_back({i, l});
+    });
+    sort(literal.begin(), literal.end());
+    assert(literal == brute_quadratic(string("abaabaa")));
 
     string fib_prev = "a", fib = "ab";
     while (fib.size() < 4000){
