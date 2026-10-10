@@ -171,6 +171,22 @@ int main(){
         for (long long x : {-E9, -E9 + 1, -1LL, 0LL, 1LL, E9 - 1, E9}) assert(tree.query(x) == brute_query<false>(segments, x));
     }
 
+    /// A line that wins or loses at both ends of a node's range settles there, so neither kind descends or adds a node
+    for (long long it = 0; it < stress::scaled(200); it++){
+        LiChaoTree<long long> settled(-E9, E9);
+        LiChaoTree<long long, true> settled_max(-E9, E9);
+        long long k = stress::rand_int(-E9, E9), base = stress::rand_int(-E18 / 2, E18 / 2);
+        long long low = LLONG_MAX, high = LLONG_MIN;
+        for (int i = 0; i < 50; i++){
+            long long b = base + stress::rand_int(-E18 / 4, E18 / 4);
+            settled.add_line(k, b), settled_max.add_line(k, b);
+            low = min(low, b), high = max(high, b);
+        }
+
+        assert(settled.nodes.size() == 1 && settled_max.nodes.size() == 1);
+        assert(settled.query(1) == k + low && settled_max.query(-1) == -k + high);
+    }
+
     /// Fractional slopes, every other test uses long long
     LiChaoTree<double> real(0, 10);
     real.add_line(0.5, 0.25), real.add_line(-0.5, 4.0);

@@ -6,7 +6,7 @@
  * Complexity:
  *   - O(log C) per add_line and query, O(log^2 C) per add_segment, where C = hi - lo + 1
  *   - Nodes are created on demand: at most 1 per add_line, O(log C) per add_segment
- *   - add_segment costs ~1 KB per call at C = 2e9, so 2e5 segments over that range take ~200 MB
+ *   - A node is 24 bytes for long long, random segments at C = 2e9 average ~31 nodes, so 4e5 of them take ~400 MB peak
  *
  * LiChaoTree<T> tree(lo, hi): empty tree over x in [lo, hi], the range can span up to [-1e18, 1e18]
  * add_line(k, b): adds y = k * x + b for every x in [lo, hi]
@@ -53,9 +53,9 @@ struct LiChaoTree{
         }
     };
 
+    /// A node on a segment's split path holds y = NONE, which never wins, so no node needs a has-line flag
     struct Node{
         Line line;
-        bool has;
         int left, right;
     };
 
@@ -81,10 +81,8 @@ struct LiChaoTree{
         long long l = lo, r = hi;
         for (int node = root; node != -1;){
             const Node& cur = nodes[node];
-            if (cur.has){
-                T y = cur.line.eval(x);
-                if (better(y, res)) res = y;
-            }
+            T y = cur.line.eval(x);
+            if (better(y, res)) res = y;
 
             long long m = l + (r - l) / 2;
             if (x <= m) node = cur.left, r = m;
@@ -97,32 +95,33 @@ struct LiChaoTree{
         return MAXIMIZE ? a > b : a < b;
     }
 
-    int new_node(const Line& line, bool has){
-        nodes.push_back({line, has, -1, -1});
+    int new_node(const Line& line){
+        nodes.push_back({line, -1, -1});
         return (int)nodes.size() - 1;
     }
 
     /// Walks a single root to leaf path, each node keeps the line that wins at its midpoint
+    /// Two lines cross at most once, so when one wins at both ends of a node's range it wins on all of it and the walk stops
     int insert(int node, long long l, long long r, Line line){
-        if (node == -1) return new_node(line, true);
+        if (node == -1) return new_node(line);
 
         for (int top = node; ; ){
-            if (!nodes[node].has){
-                nodes[node].line = line, nodes[node].has = true;
+            Line& cur = nodes[node].line;
+            bool left_better = better(line.eval(l), cur.eval(l));
+            bool right_better = better(line.eval(r), cur.eval(r));
+            if (left_better == right_better){
+                if (left_better) cur = line;
                 return top;
             }
 
             long long m = l + (r - l) / 2;
-            Line& cur = nodes[node].line;
-            bool left_better = better(line.eval(l), cur.eval(l));
             bool mid_better = better(line.eval(m), cur.eval(m));
             if (mid_better) swap(cur, line);
-            if (l == r) return top;
 
             bool go_left = left_better != mid_better;
             int child = go_left ? nodes[node].left : nodes[node].right;
             if (child == -1){
-                child = new_node(line, true);
+                child = new_node(line);
                 (go_left ? nodes[node].left : nodes[node].right) = child;
                 return top;
             }
@@ -136,7 +135,7 @@ struct LiChaoTree{
     int insert_segment(int node, long long l, long long r, long long ql, long long qr, const Line& line){
         if (qr < l || r < ql) return node;
         if (ql <= l && r <= qr) return insert(node, l, r, line);
-        if (node == -1) node = new_node(line, false);
+        if (node == -1) node = new_node({0, NONE});
 
         long long m = l + (r - l) / 2;
         int left = insert_segment(nodes[node].left, l, m, ql, qr, line);  /// the call can reallocate nodes, assign after it
@@ -165,7 +164,7 @@ struct PersistentLiChaoTree{
 
     PersistentLiChaoTree(long long lo, long long hi) : lo(lo), hi(hi) {}
 
-    /// Same descent as LiChaoTree::insert, but writes into a copy of every node it visits
+    /// Midpoint rule of LiChaoTree::insert without its early stop, writing into a copy of every node it visits
     int add_line(int version, T k, T b){
         assert(0 <= version && version < (int)roots.size());
 
@@ -231,6 +230,13 @@ int main(){
     seg.add_segment(0, 5, 2, 4);     /// y = 5 only on x in [2, 4]
     assert(seg.query(4) == 5);
     assert(seg.query(5) == LiChaoTree<long long>::NONE);
+
+    LiChaoTree<long long> flat(0, 10);
+    flat.add_line(0, 3);
+    flat.add_line(0, 5);
+    flat.add_line(0, 1);
+    assert(flat.nodes.size() == 1);  /// each line wins or loses on all of [0, 10], none descends to a child
+    assert(flat.query(7) == 1);
 
     LiChaoTree<long long, true> best(-10, 10);
     best.add_line(2, 1);
