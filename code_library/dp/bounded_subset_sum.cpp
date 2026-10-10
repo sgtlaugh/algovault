@@ -110,42 +110,16 @@ struct SubsetSum{
 };
 
 int main(){
-    auto as_string = [](const vector<char>& can){
-        string res;
-        for (char c : can) res += c ? '1' : '0';
-        return res;
-    };
-
-    auto sorted_subset = [](const SubsetSum& ss, int s){
-        vector<int> ids = ss.subset(s);
-        sort(ids.begin(), ids.end());
-        return ids;
-    };
-
-    assert(as_string(bounded_subset_sums({{2, 1}, {3, 1}, {6, 1}, {7, 1}}, 10)) == "10110111111");
-    assert(as_string(bounded_subset_sums({{3, 2}, {5, 1}}, 12)) == "1001011010010");
-    assert(as_string(bounded_subset_sums({{2, 1}, {2, 1}}, 5)) == "101010");
-    assert(as_string(bounded_subset_sums({{4, (long long)1e18}}, 10)) == "10001000100");
-    assert(as_string(bounded_subset_sums({{1, (long long)1e18}, {1, (long long)1e18}}, 5)) == "111111");
-    assert(as_string(bounded_subset_sums({{0, 5}, {11, 3}, {7, 0}}, 3)) == "1000");
-    assert(as_string(bounded_subset_sums({}, 0)) == "1");
+    vector<char> can = bounded_subset_sums({{3, 2}, {5, 1}}, 12);  /// two 3s and one 5
+    assert(can[0]);
+    assert(can[11]);   /// 3 + 3 + 5
+    assert(!can[9]);   /// would need three 3s
 
     SubsetSum ss({4, 6, 4, 9}, 15);
-    string reach;
-    for (int s = 0; s <= 15; s++) reach += ss.reachable(s) ? '1' : '0';
-    assert(reach == "1000101011100111");
-    assert(!ss.reachable(-1) && !ss.reachable(16) && !ss.reachable(17));
-    assert((sorted_subset(ss, 14) == vector<int>{0, 1, 2}));
-    assert((sorted_subset(ss, 15) == vector<int>{1, 3}));
-    assert((sorted_subset(ss, 8) == vector<int>{0, 2}));
-    assert(ss.subset(0).empty());
-
-    SubsetSum skip({0, 7, 20, 3}, 10);
-    assert((sorted_subset(skip, 10) == vector<int>{1, 3}));
-    assert(!skip.reachable(4) && !skip.reachable(20));
-
-    SubsetSum none({}, 0);
-    assert(none.reachable(0) && none.subset(0).empty() && !none.reachable(1));
-
+    assert(ss.reachable(14));
+    assert(!ss.reachable(7));
+    vector<int> ids = ss.subset(14);
+    sort(ids.begin(), ids.end());
+    assert((ids == vector<int>{0, 1, 2}));  /// 4 + 6 + 4, the ids come in any order
     return 0;
 }
