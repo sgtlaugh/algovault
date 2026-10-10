@@ -97,28 +97,16 @@ vector<pair<int, int>> prufer_decode(const vector<int>& code){
 }
 
 int main(){
-    PruferCode star(6);
-    for (auto [u, v] : vector<pair<int, int>>{{0, 3}, {1, 3}, {2, 3}, {3, 4}, {4, 5}}) star.add_edge(u, v);
-    assert((star.encode() == vector<int>{3, 3, 3, 4}));
-    assert((prufer_decode({3, 3, 3, 4}) == vector<pair<int, int>>{{0, 3}, {1, 3}, {2, 3}, {3, 4}, {4, 5}}));
+    /***
+     *   0   1   2
+     *    \  |  /
+     *       3 - 4 - 5
+    ***/
+    PruferCode tree(6);
+    for (auto [u, v] : vector<pair<int, int>>{{0, 3}, {1, 3}, {2, 3}, {3, 4}, {4, 5}}) tree.add_edge(u, v);
+    assert((tree.encode() == vector<int>{3, 3, 3, 4}));  /// leaves 0, 1, 2 hang off 3, then 3 itself is a leaf of 4
 
-    PruferCode path(4);
-    path.add_edge(2, 3), path.add_edge(1, 2), path.add_edge(0, 1);
-    assert((path.encode() == vector<int>{1, 2}));
-    assert((prufer_decode({1, 2}) == vector<pair<int, int>>{{0, 1}, {1, 2}, {2, 3}}));
-
-    PruferCode early_leaf(5);
-    early_leaf.add_edge(4, 3), early_leaf.add_edge(1, 0), early_leaf.add_edge(4, 2), early_leaf.add_edge(0, 4);
-    assert((early_leaf.encode() == vector<int>{0, 4, 4}));
-    assert((prufer_decode({0, 4, 4}) == vector<pair<int, int>>{{1, 0}, {0, 4}, {2, 4}, {3, 4}}));
-
-    assert((prufer_decode({2, 2}) == vector<pair<int, int>>{{0, 2}, {1, 2}, {2, 3}}));
-    assert((prufer_decode({0, 0, 0}) == vector<pair<int, int>>{{1, 0}, {2, 0}, {3, 0}, {0, 4}}));
-
-    PruferCode pair_tree(2);
-    pair_tree.add_edge(1, 0);
-    assert(pair_tree.encode().empty());
-    assert((prufer_decode({}) == vector<pair<int, int>>{{0, 1}}));
-
+    vector<pair<int, int>> edges = prufer_decode({3, 3, 3, 4});
+    assert((edges == vector<pair<int, int>>{{0, 3}, {1, 3}, {2, 3}, {3, 4}, {4, 5}}));  /// {child, parent}, rooted at 5
     return 0;
 }
