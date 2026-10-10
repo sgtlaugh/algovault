@@ -3,7 +3,7 @@
  * w is the key length, and is fixed to 8 bits
  * This enables sorting any list of integers in O(64/8 * n) or O(8 * n) passes
  *
- * Overall complexity: O(8 * n) ~ O(n)
+ * Complexity: O(8 n + 8 * 256) ~ O(n), memory is the static tmp buffer of MAXN unsigned long longs (400 MB at MAXN = 5e7)
  *
  * Most useful in scenarios where you want to sort a large list of items fast
  * Why not make radix_sort (https://github.com/sgtlaugh/algovault/blob/master/code_library/radix_sort.cpp) generic?
