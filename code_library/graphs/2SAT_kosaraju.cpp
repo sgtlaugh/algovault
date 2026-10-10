@@ -12,8 +12,7 @@
  * It uses the prefix encoding: for k >= 2, k - 2 auxiliary variables and 3k - 5 clauses instead of k^2 / 2 pairwise clauses
  * Auxiliary variables come from add_var(), numbered after the existing ones, so earlier indices never change
  *
- * The DFS is recursive, so its depth is the longest implication path, and at_most_one over k literals builds a path of about k
- * On an 8 MB stack a path of 5e4 literals is safe under ASan and 2.5e5 with -O2, 3e5 overflows even with -O2
+ * Both DFS passes are iterative, so long implication paths cannot overflow the stack
  *
 ***/
 
@@ -100,18 +99,32 @@ struct Graph{
         }
     }
 
-    inline void topsort(int i){
-        visited[i] = true;
-        for (int e = rev_start[i]; e < rev_start[i + 1]; e++){
-            if (!visited[rev_to[e]]) topsort(rev_to[e]);
+    /// Post-order DFS on the reverse graph, each stack entry keeps the next edge to scan so neighbours go in insertion order
+    void topsort(int s, vector<pair<int, int>>& stack){
+        visited[s] = true, stack.push_back({s, rev_start[s]});
+        while (!stack.empty()){
+            auto& [u, e] = stack.back();
+            if (e < rev_start[u + 1]){
+                int v = rev_to[e++];
+                if (!visited[v]) visited[v] = true, stack.push_back({v, rev_start[v]});
+            }
+            else{
+                dfs_t[u] = ++t;
+                stack.pop_back();
+            }
         }
-        dfs_t[i] = ++t;
     }
 
-    inline void dfs(int i, int c){
-        comp[i] = c, visited[i] = true;
-        for (int e = adj_start[i]; e < adj_start[i + 1]; e++){
-            if (!visited[adj_to[e]]) dfs(adj_to[e], c);
+    /// Labels everything reachable from s, the visiting order does not matter here
+    void dfs(int s, int c, vector<int>& stack){
+        comp[s] = c, visited[s] = true, stack.push_back(s);
+        while (!stack.empty()){
+            int u = stack.back();
+            stack.pop_back();
+            for (int e = adj_start[u]; e < adj_start[u + 1]; e++){
+                int v = adj_to[e];
+                if (!visited[v]) comp[v] = c, visited[v] = true, stack.push_back(v);
+            }
         }
     }
 
@@ -121,16 +134,18 @@ struct Graph{
         flatten(adj_start, adj_to, false), flatten(rev_start, rev_to, true);
         dfs_t.assign(m, 0), order.assign(m, 0), comp.assign(m, 0);
 
+        vector<pair<int, int>> topsort_stack;
         visited.assign(m, 0);
         for (i = 2 * n, t = 0; i >= 1; i--){
-            if (!visited[i]) topsort(i);
+            if (!visited[i]) topsort(i, topsort_stack);
             order[dfs_t[i]] = i;
         }
 
+        vector<int> dfs_stack;
         visited.assign(m, 0);
         for (i = 2 * n; i >= 1; i--){
             x = order[i];
-            if (!visited[x]) dfs(x, c++);
+            if (!visited[x]) dfs(x, c++, dfs_stack);
         }
     }
 
@@ -192,6 +207,15 @@ int main(){
     assert(d.n == 1 && d.is_satisfiable() && !d.value(1));
     d.force_true(1);
     assert(!d.is_satisfiable());
+
+    /// 1 -> 2 -> ... -> n -> -n -> ... -> -1 is one path of 2n nodes, deeper than a recursive DFS survives on 8 MB
+    int n = 200000;
+    auto chain = Graph(n);
+    for (int i = 1; i < n; i++) chain.add_implication(i, i + 1);
+    chain.force_false(n);
+    assert(chain.is_satisfiable() && !chain.value(1) && !chain.value(n / 2));
+    chain.force_true(1);
+    assert(!chain.is_satisfiable());
 
     return 0;
 }

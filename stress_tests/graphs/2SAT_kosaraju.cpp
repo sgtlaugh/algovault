@@ -91,8 +91,30 @@ void long_groups(){
     }
 }
 
+/// Library Checker two_sat long_chain: 1 -> 2 -> ... -> n -> -n -> ... -> -1 is a single path of 2n nodes, so a recursive DFS
+/// overflows the 8 MB stack; every variable is forced false, and the seed bits flip the signs or reverse the order
+void long_chain(){
+    int n = 500000;
+    for (int seed = 0; seed < 4; seed++){
+        auto flip = [&](int i){
+            if (seed & 1) i = -i;
+            if (seed & 2) i = (i > 0 ? 1 : -1) * (n + 1) - i;
+            return i;
+        };
+
+        Graph g(n);
+        for (int i = 1; i <= n; i++) g.add_or(flip(-i), flip(i == n ? -n : i + 1));
+        assert(g.is_satisfiable());
+        for (int i = 1; i <= n; i++) assert(!g.value(flip(i)));
+
+        g.force_true(flip(1));
+        assert(!g.is_satisfiable());
+    }
+}
+
 int main(){
     random_systems();
     long_groups();
+    long_chain();
     return 0;
 }
