@@ -12,7 +12,7 @@
  * g.min_path_cover(): fewest paths covering every vertex at least once, paths may share vertices
  * g.max_antichain(): largest set of pairwise unreachable vertices, its size equals min_path_cover() by Dilworth's theorem
  *
- * Embeds a copy of hopcroft_karp.cpp to stay standalone, fixes there apply here too
+ * Embeds a checked copy of hopcroft_karp.cpp's HopcroftKarp to stay standalone
  *
 ***/
 
@@ -20,7 +20,7 @@
 
 using namespace std;
 
-/// Same as hopcroft_karp.cpp, shortest augmenting paths per phase and an iterative search
+/// BEGIN COPY hopcroft_karp from code_library/graphs/hopcroft_karp.cpp
 struct HopcroftKarp{
     int n_left, n_right;
     vector<vector<int>> adj;
@@ -32,6 +32,7 @@ struct HopcroftKarp{
         adj[u].push_back(v);
     }
 
+    /// Layers left vertices by distance from free left vertices, stopping at the first layer that reaches a free right vertex
     int bfs(){
         dist.assign(n_left, -1);
         vector<int> queue;
@@ -45,7 +46,10 @@ struct HopcroftKarp{
             for (int v : adj[u]){
                 int w = match_right[v];
                 if (w == -1) limit = min(limit, dist[u]);
-                else if (dist[w] == -1 && dist[u] < limit) dist[w] = dist[u] + 1, queue.push_back(w);
+                else if (dist[w] == -1 && dist[u] < limit){
+                    dist[w] = dist[u] + 1;
+                    queue.push_back(w);
+                }
             }
         }
         return limit;
@@ -85,6 +89,7 @@ struct HopcroftKarp{
         return n_left - count(match_left.begin(), match_left.end(), -1);
     }
 };
+/// END COPY hopcroft_karp
 
 struct DAGPathCover{
     int n;
