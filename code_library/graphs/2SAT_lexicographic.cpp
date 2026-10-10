@@ -10,7 +10,16 @@
  *
  * Fixes variables greedily in index order, a literal can be set iff it does not imply its own negation
  * Easy inputs run in O(n + m), unsatisfiable inputs in O(n + m) once the greedy wastes O(n + m) work,
- * and the worst case is O(n * m / 64) with bitset reachability, instead of O(n * m) for the plain greedy
+ * and the worst case is O(n * (n + m) / 64) with bitset reachability, instead of O(n * m) for the plain greedy
+ *
+ * A literal that implies its negation is false in every solution, it is fixed as soon as a batch finds it and that
+ * decides its ancestors too, so a chain of n of them takes one batch (Library Checker long_chain, n = 5e5: 0.2 s)
+ * The worst case left is many of them with no ancestor relation, each reaching its negation through one shared long
+ * path, at least B / 2 = 128 of them answered per batch over the whole graph, with -O2 at n = 5e5:
+ * 9 to 12 s for n / 2 sources over a path of n / 2, 12 to 14 s for n / 3 sources with the sinks first share of each
+ * batch taken by n / 3 decoys
+ * A search (cp-algorithms, Codeforces blogs) found nothing faster than this greedy, the same bitset reachability
+ * as https://codeforces.com/blog/entry/63164 is the best known to the author
  *
 ***/
 
@@ -19,6 +28,9 @@
 using namespace std;
 
 struct Graph{
+    /// Queries per bitset batch, the worst case runs 2.2x faster than with 64, for B / 8 bytes per component
+    static constexpr int B = 256;
+
     int n;
     vector<vector<int>> adj;  /// node 2x is x true, 2x + 1 is x false
     vector<char> value;
@@ -99,12 +111,14 @@ struct Graph{
         for (auto& v : adj) E += v.size();
 
         /// Wasted (failed or aborted) work allowed before SCC pays for itself, then a per query budget that keeps
-        /// a bitset batch of 64 queries, which costs O(n + m), amortized to the same O((n + m) / 64) per query
-        long long allowance = N + E, budget = max(64LL, (N + E) / 64);
+        /// a bitset batch of B queries, which costs O(n + m), amortized to the same O((n + m) / B) per query
+        long long allowance = N + E, budget = max((long long)B, (N + E) / B);
 
-        vector<int> comp, stk, trail;
+        vector<int> comp, stk, trail, rep, order;
+        size_t next = 0;
+        int ahead = 1;
         vector<vector<int>> dag;
-        vector<unsigned long long> mask;
+        vector<bitset<B>> mask;
         vector<signed char> reach(n + 1, -1);  /// reach[x]: whether node 2x reaches 2x + 1, -1 while unknown
         value.assign(N, 0);
 
@@ -146,25 +160,44 @@ struct Graph{
             return status;
         };
 
-        /// One bitset pass over the condensation answers up to 64 pending queries at once
-        auto answer_batch = [&](int from){
+        /// One bitset pass over the condensation answers up to B pending queries at once, among undecided variables
+        /// whose literal comes before its negation: the first B / 2 in index order, the current x among them since all
+        /// before it are decided, so at most 2n / B batches, then the rest sinks first to reach a long chain's forced end
+        /// A path from an undecided literal to its negation never enters a decided component, so those are skipped
+        /// y implying !y makes !y hold in every solution, so it is fixed right away and decides the ancestors of y
+        auto answer_batch = [&](){
             if (dag.empty()){
-                dag.resize(C), mask.resize(C);
+                dag.resize(C), mask.resize(C), rep.resize(C);
                 for (int u = 2; u < N; u++){
+                    rep[comp[u]] = u;
                     for (int v : adj[u]) if (comp[u] != comp[v]) dag[comp[u]].push_back(comp[v]);
                 }
+                for (int y = 1; y <= n; y++) if (comp[2 * y] > comp[2 * y + 1]) order.push_back(y);
+                sort(order.begin(), order.end(), [&](int a, int b){ return comp[2 * a] < comp[2 * b]; });
             }
 
+            /// A skipped variable stays skipped, so both scans resume where the last batch stopped
             vector<int> qs;
-            for (int x = from; x <= n && qs.size() < 64; x++){
-                if (reach[x] == -1 && comp[2 * x] > comp[2 * x + 1]) qs.push_back(x);
+            int lo = C, hi = -1;
+            auto take = [&](int y){
+                if (reach[y] != -1 || value[2 * y] || value[2 * y + 1] || comp[2 * y] < comp[2 * y + 1]) return;
+                reach[y] = 0;  /// queued, the pass below overwrites it
+                qs.push_back(y), lo = min(lo, comp[2 * y + 1]), hi = max(hi, comp[2 * y]);
+            };
+            for (; ahead <= n && qs.size() < B / 2; ahead++) take(ahead);
+            for (; next < order.size() && qs.size() < B; next++) take(order[next]);
+
+            fill(mask.begin() + lo, mask.begin() + hi + 1, bitset<B>());
+            for (int j = 0; j < (int)qs.size(); j++) mask[comp[2 * qs[j]]][j] = 1;
+            for (int c = hi; c >= lo; c--){
+                if (mask[c].none() || value[rep[c]] || value[rep[c] ^ 1]) continue;
+                for (int d : dag[c]) if (d >= lo) mask[d] |= mask[c];
             }
-            fill(mask.begin(), mask.end(), 0);
-            for (int j = 0; j < (int)qs.size(); j++) mask[comp[2 * qs[j]]] |= 1ULL << j;
-            for (int c = C - 1; c >= 0; c--){
-                if (mask[c]) for (int d : dag[c]) mask[d] |= mask[c];
+
+            for (int j = 0; j < (int)qs.size(); j++){
+                reach[qs[j]] = mask[comp[2 * qs[j] + 1]][j];
+                if (reach[qs[j]]) mark_closure(2 * qs[j] + 1);
             }
-            for (int j = 0; j < (int)qs.size(); j++) reach[qs[j]] = mask[comp[2 * qs[j] + 1]] >> j & 1;
         };
 
         for (int x = 1; x <= n; x++){
@@ -195,7 +228,7 @@ struct Graph{
                 }
 
                 if (status == 0) reach[x] = 1;
-                else answer_batch(x);
+                else answer_batch();
             }
             mark_closure(reach[x] ? t ^ 1 : t);
         }
@@ -239,5 +272,12 @@ int main(){
 
     g.add_xor(1, 5);
     assert(!g.is_satisfiable());
+
+    auto chain = Graph(2001);
+    for (int x = 1; x < 2000; x++) chain.add_implication(x, x + 1);
+    chain.force_false(2000);    /// every x up to 2000 implies 2000, so all are false
+    chain.add_or(2000, 2001);
+    assert(chain.is_satisfiable());
+    assert((chain.get_assignment() == vector<int>{2001}));
     return 0;
 }

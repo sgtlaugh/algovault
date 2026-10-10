@@ -103,6 +103,79 @@ vector<Clause> adversarial(int n, int k, bool contradiction){
     return clauses;
 }
 
+/// Shuffled signed literals form segments, half of them made positive ascending, false in a hidden assignment except p:
+/// a chain l_1 -> ... -> l_k -> !l_k, half the time with a forced false decoy d -> !l_k so Tarjan meets the negated
+/// chain first, or a hub, sources s -> p_1 -> ... -> p_k -> !s forcing each s false with no s an ancestor of another,
+/// so each takes its own batch query. Variables 1..tail are a true chain fixed first, which chain literals point into,
+/// so batches run into decided components
+vector<Clause> chains(int n){
+    int tail = stress::rand_int(0, n / 4), vars = tail + n;
+    vector<int> lit(n);
+    for (int i = 0; i < n; i++) lit[i] = stress::rand_int(0, 1) ? tail + i + 1 : -(tail + i + 1);
+    shuffle(lit.begin(), lit.end(), stress::rng());
+
+    vector<Clause> clauses;
+    vector<char> hidden(vars + n + 1, 0), plain(vars + 1, 1);  /// hidden[x]: x is true, room for one decoy per segment
+    for (int x = 1; x <= tail; x++){
+        hidden[x] = 1;
+        if (x < tail) clauses.push_back({-x, x + 1});
+    }
+
+    for (int start = 0, decoy = vars; start < n;){
+        int end = min(n, start + (int)stress::rand_int(1, 1200));
+        if (stress::rand_int(0, 1)){  /// positive and ascending, so each x fails at full cost and fixes little
+            for (int i = start; i < end; i++) lit[i] = abs(lit[i]), plain[lit[i]] = 0;
+            sort(lit.begin() + start, lit.begin() + end);
+        }
+        if (stress::rand_int(0, 2) || end - start < 2){
+            for (int i = start; i < end; i++){
+                hidden[abs(lit[i])] = lit[i] < 0;
+                if (i + 1 < end) clauses.push_back({-lit[i], lit[i + 1]});
+                if (tail && stress::rand_int(0, 7) == 0) clauses.push_back({-lit[i], (int)stress::rand_int(1, tail)});
+            }
+            clauses.push_back({-lit[end - 1], -lit[end - 1]});
+            if (stress::rand_int(0, 1)){
+                decoy++;
+                clauses.push_back({-decoy, -decoy}), clauses.push_back({-decoy, -lit[end - 1]});
+            }
+        }
+        else {
+            int mid = stress::rand_int(start + 1, end - 1);
+            for (int i = mid; i < end; i++){
+                hidden[abs(lit[i])] = lit[i] > 0;
+                if (i + 1 < end) clauses.push_back({-lit[i], lit[i + 1]});
+            }
+            for (int i = start; i < mid; i++){
+                hidden[abs(lit[i])] = lit[i] < 0;
+                clauses.push_back({-lit[i], lit[mid]}), clauses.push_back({-lit[end - 1], -lit[i]});
+            }
+        }
+        start = end;
+    }
+
+    for (int extra = stress::rand_int(0, n / 4); extra;){
+        int a = random_literal(vars), b = random_literal(vars);
+        if (!plain[abs(a)] || !plain[abs(b)]) continue;  /// noise into a negated chain would fix its whole prefix
+        if ((a > 0) == hidden[abs(a)] || (b > 0) == hidden[abs(b)]) clauses.push_back({a, b}), extra--;
+    }
+    return clauses;
+}
+
+/// Variable 1 fails first, its Tarjan DFS numbers the y_j and the path R they all imply low, so the y_j lead the sinks
+/// first order with ranges spanning R. Sources g_i over a shared path Q burn the waste allowance, SCC starts on some
+/// g_i, whose batch must answer it ahead of the y_j: taking y_j until x comes up costs k / B passes over R
+vector<Clause> decoys(int k, int len){
+    int lq = stress::rand_int(len / 12, len / 6), a = (6 * k + 4 * len) / lq + stress::rand_int(4, 12);
+    int g0 = 1, q0 = g0 + a, y0 = q0 + lq, r0 = y0 + k;
+
+    vector<Clause> clauses = {{-1, -(r0 + len)}};
+    for (int j = 1; j <= k; j++) clauses.push_back({-1, y0 + j}), clauses.push_back({-(y0 + j), r0 + 1});
+    for (int i = 1; i <= a; i++) clauses.push_back({-(g0 + i), q0 + 1}), clauses.push_back({-(q0 + lq), -(g0 + i)});
+    for (int i = 1; i < lq; i++) clauses.push_back({-(q0 + i), q0 + i + 1});
+    for (int i = 1; i < len; i++) clauses.push_back({-(r0 + i), r0 + i + 1});
+    return clauses;
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(4000); it++){
         int n = stress::rand_int(1, 10), m = stress::rand_int(0, 3 * n);
@@ -120,10 +193,11 @@ int main(){
         check_brute(g, n, clauses);
     }
 
-    for (long long it = 0; it < stress::scaled(40); it++){
-        int mode = it % 4, n = stress::rand_int(200, 1500);
+    for (long long it = 0; it < stress::scaled(60); it++){
+        int mode = it % 6, n = stress::rand_int(200, 1500);
         vector<Clause> clauses;
         if (mode < 2) clauses = adversarial(n, stress::rand_int(n / 2, 2 * n), mode == 1);
+        else if (mode >= 4) clauses = chains(2 * n);
         else {
             int vars = 4 * n, m = mode == 2 ? 9 * vars / 10 : 3 * vars;  /// below the satisfiability threshold, and dense
             vector<int> hidden(vars + 1);
@@ -134,6 +208,13 @@ int main(){
             }
         }
 
+        int vars = 0;
+        for (auto [a, b] : clauses) vars = max({vars, abs(a), abs(b)});
+        check_greedy(vars, clauses);
+    }
+
+    for (int it = 0; it < 2; it++){
+        auto clauses = decoys(stress::rand_int(50000, 60000), stress::rand_int(50000, 60000));
         int vars = 0;
         for (auto [a, b] : clauses) vars = max({vars, abs(a), abs(b)});
         check_greedy(vars, clauses);
