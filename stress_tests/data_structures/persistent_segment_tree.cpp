@@ -100,6 +100,10 @@ void check_kth(int n, int queries, long long range){
 }
 
 int main(){
+    /// Empty inputs still build version 0
+    assert(PersistentSegmentTree<int>({}).versions() == 1);
+    assert(RangeKth<int>({}).counts.versions() == 1);
+
     for (long long it = 0; it < stress::scaled(1500); it++){
         int n = it < 300 ? it % 40 + 1 : stress::rand_int(1, 200);
         long long range = it % 3 ? 5 : 1000000000000LL;

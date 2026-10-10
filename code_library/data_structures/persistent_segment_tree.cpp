@@ -160,45 +160,20 @@ struct FirstMerge{
 
 int main(){
     PersistentSegmentTree<long long> tree({3, 1, 4, 1, 5});
-    int v1 = tree.add(0, 2, 10);
-    int v2 = tree.set(0, 0, -7);
-    int v3 = tree.set(v1, 4, 0);
-    assert(v1 == 1 && v2 == 2 && v3 == 3 && tree.versions() == 4);
-    assert(tree.query(0, 0, 4) == 14 && tree.query(0, 1, 3) == 6 && tree.query(0, 4, 4) == 5);
-    assert(tree.query(v1, 0, 4) == 24 && tree.query(v1, 2, 2) == 14 && tree.query(v1, 0, 1) == 4);
-    assert(tree.query(v2, 0, 4) == 4 && tree.query(v2, 0, 0) == -7 && tree.get(v2, 2) == 4);
-    assert(tree.query(v3, 0, 4) == 19 && tree.get(v3, 4) == 0 && tree.get(v3, 2) == 14);
-    assert(tree.get(0, 0) == 3 && tree.get(0, 2) == 4 && tree.get(0, 4) == 5);
-
-    PersistentSegmentTree<int> counts({0, 0, 0, 0});
-    counts.add(0, 2, 1), counts.add(1, 0, 1), counts.add(2, 2, 1), counts.add(3, 3, 1);
-    assert(counts.kth(0, 4, 0) == 0 && counts.kth(0, 4, 1) == 2 && counts.kth(0, 4, 2) == 2 && counts.kth(0, 4, 3) == 3);
-    assert(counts.kth(1, 3, 0) == 0 && counts.kth(1, 3, 1) == 2 && counts.kth(2, 4, 1) == 3);
+    int v1 = tree.add(0, 2, 10);        /// 3 1 14 1 5
+    int v2 = tree.set(v1, 4, 0);        /// 3 1 14 1 0
+    assert(tree.query(0, 0, 4) == 14);  /// version 0 is untouched
+    assert(tree.query(v1, 0, 4) == 24);
+    assert(tree.query(v2, 2, 4) == 15);
+    assert(tree.get(v2, 2) == 14);
 
     PersistentSegmentTree<long long, MinMerge> mins({5, 2, 8, 6});
     int m1 = mins.set(0, 1, 9);
-    assert(mins.query(0, 0, 3) == 2 && mins.query(m1, 0, 3) == 5 && mins.query(m1, 1, 3) == 6 && mins.query(0, 2, 3) == 6);
-
-    PersistentSegmentTree<long long, FirstMerge> arr({LLONG_MAX, LLONG_MAX, 0});
-    int a1 = arr.set(0, 2, LLONG_MIN), a2 = arr.set(a1, 0, -1);
-    assert(arr.get(0, 2) == 0 && arr.get(a1, 2) == LLONG_MIN && arr.get(a1, 0) == LLONG_MAX && arr.get(a2, 0) == -1 && arr.get(a2, 1) == LLONG_MAX);
-    assert(arr.query(0, 1, 2) == LLONG_MAX && arr.query(a2, 0, 2) == -1 && arr.query(a1, 2, 2) == LLONG_MIN);
-
-    PersistentSegmentTree<int> single({42});
-    int s1 = single.add(0, 0, -50);
-    assert(single.get(0, 0) == 42 && single.get(s1, 0) == -8 && single.query(s1, 0, 0) == -8);
+    assert(mins.query(0, 0, 3) == 2);
+    assert(mins.query(m1, 0, 3) == 5);
 
     RangeKth<int> rk({5, 1, 4, 1, 3, 9, 2});
-    assert(rk.kth(0, 6, 0) == 1 && rk.kth(0, 6, 1) == 1 && rk.kth(0, 6, 2) == 2 && rk.kth(0, 6, 6) == 9);
-    assert(rk.kth(2, 4, 0) == 1 && rk.kth(2, 4, 1) == 3 && rk.kth(2, 4, 2) == 4);
-    assert(rk.kth(5, 5, 0) == 9 && rk.kth(0, 0, 0) == 5);
-
-    RangeKth<long long> extremes({-5, LLONG_MIN, LLONG_MAX, 0});
-    assert(extremes.kth(0, 3, 0) == LLONG_MIN && extremes.kth(0, 3, 3) == LLONG_MAX && extremes.kth(2, 3, 0) == 0);
-
-    RangeKth<int> empty({});
-    PersistentSegmentTree<int> none({});
-    assert(empty.counts.versions() == 1 && none.versions() == 1);
-
+    assert(rk.kth(0, 6, 2) == 2);  /// sorted 1 1 2 3 4 5 9
+    assert(rk.kth(2, 4, 1) == 3);  /// sorted 1 3 4
     return 0;
 }
