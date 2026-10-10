@@ -4,7 +4,8 @@
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
 # both modes also report library files missing from the README index, README ✔ marks that disagree with judge_tests,
-# templates whose header does not state their complexity, and whitespace or style errors in tracked files
+# templates whose header does not state their complexity, copied regions that drifted from their original,
+# and whitespace or style errors in tracked files
 #
 # Reports all failures instead of stopping at the first one.
 #
@@ -203,6 +204,24 @@ check_headers(){  # every template opens with a header that states its complexit
     failures+=("${bad[@]/%/ (no complexity in header)}")
 }
 
+check_copies(){  # a "/// BEGIN COPY <name> from <file>" region must match "/// BEGIN SHARED <name>" in <file> byte for byte
+    local file name src copy orig total=0 bad=()
+    while IFS= read -r file; do
+        while IFS='|' read -r name src; do
+            total=$((total + 1))
+            copy="$(awk -v n="$name" '$0 ~ "^ */// BEGIN COPY "n" from " {on = 1; next} $0 ~ "^ */// END COPY "n"$" {on = 0} on' "$file")"
+            orig="$(awk -v n="$name" '$0 ~ "^ */// BEGIN SHARED "n"$" {on = 1; next} $0 ~ "^ */// END SHARED "n"$" {on = 0} on' "$src" 2> /dev/null)"
+            [[ -n "$orig" && "$copy" == "$orig" ]] || bad+=("$file ($name from $src)")
+        done < <(grep -oP '/// BEGIN COPY \K\S+ from \S+' "$file" | sed 's/ from /|/')
+    done < <(git ls-files 'code_library/*.cpp')
+
+    echo "copies: ${#bad[@]} of $total copied regions differ from their original"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  drifted: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (drifted copy)}")
+}
+
 check_whitespace(){  # tabs, trailing whitespace, CRLF or a missing final newline
     local file bad=()
     while IFS= read -r file; do
@@ -288,6 +307,7 @@ echo
 check_readme
 check_judge_marks
 check_headers
+check_copies
 check_whitespace
 check_style
 echo "passed: $passed  failed: $failed  skipped: $skipped"
