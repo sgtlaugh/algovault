@@ -108,6 +108,8 @@ int main(){
         }
         check(s);
         check(vector<int>(s.begin(), s.end()));
+        assert(lyndon_factorization(s.c_str()) == lyndon_factorization(s));  /// the const char* overloads
+        assert(lyndon_min_rotation(s.c_str()) == lyndon_min_rotation(s));
     }
 
     for (long long it = 0; it < stress::scaled(40); it++){

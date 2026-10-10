@@ -68,29 +68,11 @@ int lyndon_min_rotation(const char* s){
 }
 
 int main(){
-    assert((lyndon_factorization("banana") == vector<int>{0, 1, 3, 5}));
-    assert((lyndon_factorization("bara") == vector<int>{0, 1, 3}));
-    assert((lyndon_factorization("abracadabra") == vector<int>{0, 7, 10}));
-    assert((lyndon_factorization("abab") == vector<int>{0, 2}));
-    assert((lyndon_factorization("aab") == vector<int>{0}));
-    assert((lyndon_factorization("aaa") == vector<int>{0, 1, 2}));
-    assert((lyndon_factorization("dcba") == vector<int>{0, 1, 2, 3}));
-    assert((lyndon_factorization("a") == vector<int>{0}));
-    assert((lyndon_factorization("") == vector<int>{}));
-    assert((lyndon_factorization(vector<int>{3, 1, 2, 1, 1}) == vector<int>{0, 1, 3, 4}));
-    assert((lyndon_factorization(vector<int>{-5, 0, -5, 0, -5}) == vector<int>{0, 2, 4}));
+    assert((lyndon_factorization("banana") == vector<int>{0, 1, 3, 5}));                    /// b | an | an | a
+    assert((lyndon_factorization("abracadabra") == vector<int>{0, 7, 10}));                 /// abracad | abr | a
+    assert((lyndon_factorization(vector<int>{3, 1, 2, 1, 1}) == vector<int>{0, 1, 3, 4}));  /// any comparable elements
 
-    assert(lyndon_min_rotation("banana") == 5);
-    assert(lyndon_min_rotation("bca") == 2);
-    assert(lyndon_min_rotation("abc") == 0);
-    assert(lyndon_min_rotation("cab") == 1);
-    assert(lyndon_min_rotation("abab") == 0);
-    assert(lyndon_min_rotation("baba") == 1);
-    assert(lyndon_min_rotation("aaaa") == 0);
-    assert(lyndon_min_rotation("dcba") == 3);
-    assert(lyndon_min_rotation("z") == 0);
-    assert(lyndon_min_rotation("") == 0);
-    assert(lyndon_min_rotation(vector<int>{3, 1, 2, 1, 1}) == 3);
-
+    assert(lyndon_min_rotation("banana") == 5);  /// abanan
+    assert(lyndon_min_rotation("baba") == 1);    /// abab starts at both 1 and 3, the smaller index wins
     return 0;
 }
