@@ -22,6 +22,8 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 - `){` and `struct X{` open a body, `) {}` is empty, `for (` takes a space, `vector<int>` does not
 - A struct when there is state, a namespace only for stateless helpers like `fft`
 - Recursion must fit an 8 MB stack, which CI enforces as most judges do
+- A template that needs another one carries a verbatim copy between `/// BEGIN COPY <name> from <file>` and
+  `/// END COPY <name>`, matching `/// BEGIN SHARED <name>` ... `/// END SHARED <name>` in the original, which CI checks
 
 ## Checks
 
