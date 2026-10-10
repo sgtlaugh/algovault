@@ -1,0 +1,34 @@
+// competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/static_convex_hull
+#include <bits/stdc++.h>
+
+#define main library_main
+#include "../../code_library/geometry/convex_hull.cpp"
+#undef main
+
+long long read_int(){
+    int c = getchar();
+    while (c != '-' && (c < '0' || c > '9')) c = getchar();
+    bool neg = c == '-';
+    if (neg) c = getchar();
+
+    long long x = 0;
+    for (; c >= '0' && c <= '9'; c = getchar()) x = x * 10 + (c - '0');
+    return neg ? -x : x;
+}
+
+int main(){
+    int t = read_int();
+    while (t--){
+        int n = read_int();
+        vector<Point> points(n);
+        for (auto& p : points){
+            p.x = read_int();
+            p.y = read_int();
+        }
+
+        vector<Point> hull = get_convex_hull(points);
+        printf("%d\n", (int)hull.size());
+        for (const Point& p : hull) printf("%" PRId64 " %" PRId64 "\n", p.x, p.y);
+    }
+    return 0;
+}
