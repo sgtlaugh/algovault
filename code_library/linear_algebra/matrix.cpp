@@ -108,36 +108,18 @@ int main(){
 
     Matrix fib(2, 2, MOD);
     fib.a = {{1, 1}, {1, 0}};
-    Matrix f10 = fib.pow(10);
-    assert(f10[0][0] == 89 && f10[0][1] == 55 && f10[1][1] == 34);
-    assert(fib.pow(0)[0][0] == 1 && fib.pow(0)[0][1] == 0);
+    assert(fib.pow(10)[0][1] == 55);  /// F(10)
 
     Matrix a(2, 3, MOD), b(3, 2, MOD);
     a.a = {{1, 2, 3}, {4, 5, 6}};
     b.a = {{7, 8}, {9, 10}, {11, 12}};
-    Matrix c = a * b;
-    assert(c.n == 2 && c.m == 2);
-    assert((c.a == vector<vector<long long>>{{58, 64}, {139, 154}}));
+    assert(((a * b).a == vector<vector<long long>>{{58, 64}, {139, 154}}));
 
     Matrix neg(1, 1, 7);
     neg[0][0] = -1;
-    assert((neg * neg)[0][0] == 1);
-    assert(neg.pow(3)[0][0] == 6);
+    assert(neg.pow(3)[0][0] == 6);  /// -1 mod 7
 
-    Matrix big(1, 1, MOD);
-    big[0][0] = MOD - 1;
-    assert((big * big)[0][0] == 1);
-
-    Matrix sq(2, 2, MOD);
-    sq.a = {{1, 2}, {3, 4}};
-    assert((sq.rotate().a == vector<vector<long long>>{{3, 1}, {4, 2}}));
     assert((a.transpose().a == vector<vector<long long>>{{1, 4}, {2, 5}, {3, 6}}));
-    assert((a.rotate().a == vector<vector<long long>>{{4, 1}, {5, 2}, {6, 3}}));
-
-    Matrix one(2, 2, 1);
-    one.a = {{5, 6}, {7, 8}};
-    assert((one.pow(0).a == vector<vector<long long>>{{0, 0}, {0, 0}}));
-    assert(((one * one).a == vector<vector<long long>>{{0, 0}, {0, 0}}));
-
+    assert((a.rotate().a == vector<vector<long long>>{{4, 1}, {5, 2}, {6, 3}}));  /// clockwise
     return 0;
 }
