@@ -11,6 +11,7 @@
  * For large random numbers not exceeding 2^63, it can process 4*10^6 numbers in one second
  * For large primes not exceeding 2^63, it can process around 5*10^5 numbers in one second
  * Requires __int128 (64-bit GCC or Clang)
+ * Embeds a checked copy of pollard_rho.cpp's Montgomery to stay standalone
  *
  * To gain more speed, check the following resources
  *     i) https://people.ksp.sk/~misof/primes/
@@ -27,50 +28,56 @@
 
 using namespace std;
 
+/***
+ *
+ * Montgomery multiplication for a fixed odd modulus n, values are stored as x * 2^64 mod n
+ * Needs no division, ~6x faster than __int128 % n for primality checks
+ * The modulus must be odd, even moduli give wrong results silently
+ *
+***/
+
+/// BEGIN COPY montgomery from code_library/number_theory/pollard_rho.cpp
+struct Montgomery{
+    unsigned long long n, inv, r2;
+
+    Montgomery(unsigned long long n) : n(n), inv(1){
+        for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// Newton iteration, doubles the correct bits of n^-1 mod 2^64 each step
+        r2 = -n % n;
+        r2 = (unsigned __int128)r2 * r2 % n;
+    }
+
+    unsigned long long reduce(unsigned __int128 x) const{
+        unsigned long long q = (unsigned long long)x * inv, m = ((unsigned __int128)q * n) >> 64, h = x >> 64;
+        return h >= m ? h - m : h + n - m;
+    }
+
+    unsigned long long mul(unsigned long long x, unsigned long long y) const{
+        return reduce((unsigned __int128)x * y);
+    }
+
+    unsigned long long add(unsigned long long x, unsigned long long y) const{
+        return (x += y) >= n ? x - n : x;
+    }
+
+    unsigned long long to_mont(unsigned long long x) const{
+        return mul(x, r2);
+    }
+
+    unsigned long long pow(unsigned long long x, unsigned long long e) const{
+        unsigned long long res = to_mont(1);
+        for (; e; e >>= 1, x = mul(x, x)){
+            if (e & 1) res = mul(res, x);
+        }
+        return res;
+    }
+};
+/// END COPY montgomery
+
 namespace prm{
     const vector<int> BASES_32 = {2, 3, 5, 7};
     const vector<int> BASES_64 = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
 
     const vector<int> SMALL_PRIMES = {3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 193, 407521, 299210837};
-
-    /***
-     *
-     * Montgomery multiplication for a fixed odd modulus n, values are stored as x * 2^64 mod n
-     * Needs no division, ~6x faster than __int128 % n for primality checks
-     * The modulus must be odd, even moduli give wrong results silently
-     *
-    ***/
-
-    struct Montgomery{
-        unsigned long long n, inv, r2;
-
-        Montgomery(unsigned long long n) : n(n), inv(1){
-            for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// Newton iteration, doubles the correct bits of n^-1 mod 2^64 each step
-            r2 = -n % n;
-            r2 = (unsigned __int128)r2 * r2 % n;
-        }
-
-        inline unsigned long long reduce(unsigned __int128 x) const{
-            unsigned long long q = (unsigned long long)x * inv, m = ((unsigned __int128)q * n) >> 64, h = x >> 64;
-            return h >= m ? h - m : h + n - m;
-        }
-
-        inline unsigned long long mul(unsigned long long x, unsigned long long y) const{
-            return reduce((unsigned __int128)x * y);
-        }
-
-        inline unsigned long long to_mont(unsigned long long x) const{
-            return mul(x, r2);
-        }
-
-        inline unsigned long long pow(unsigned long long x, unsigned long long e) const{
-            unsigned long long res = to_mont(1);
-            for (; e; e >>= 1, x = mul(x, x)){
-                if (e & 1) res = mul(res, x);
-            }
-            return res;
-        }
-    };
 
     bool is_probable_composite(int a, long long n, int s, const Montgomery& mont){
         unsigned long long one = mont.to_mont(1), minus_one = mont.to_mont(n - 1);
