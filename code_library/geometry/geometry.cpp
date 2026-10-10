@@ -3,21 +3,27 @@
  * 2D Geometry
  * Exact integer predicates on lattice points, polygon queries, and floating point line and polygon helpers
  *
+ * Complexity, n = number of polygon vertices or points:
+ *   - O(n log n) for simple_polygon
+ *   - O(log n) for point_in_convex_polygon
+ *   - O(n) for area2, point_in_polygon, cut_polygon, polygon_centroid
+ *   - O(1) for every other function
+ *
  * Integer part, Point of long long, |x|, |y| <= 1e9 so every cross / dot product fits in long long:
  *   cross(o, a, b): > 0 if o -> a -> b turns left (counter-clockwise), < 0 right, 0 collinear
  *   on_segment(p, a, b), segments_intersect(a, b, c, d): endpoints inclusive, degenerate segments allowed
  *   dist_point_segment(p, a, b): Euclidean distance as a double
  *   area2(poly): twice the signed area, positive for counter-clockwise order
- *   point_in_polygon(poly, p): any simple polygon, O(n), returns 1 inside, 0 on the boundary, -1 outside
- *   point_in_convex_polygon(poly, p): convex polygon in counter-clockwise order with n >= 3, O(log n), same return values
+ *   point_in_polygon(poly, p): any simple polygon, returns 1 inside, 0 on the boundary, -1 outside
+ *   point_in_convex_polygon(poly, p): convex polygon in counter-clockwise order with n >= 3, same return values
  *       collinear vertices allowed, as long as not all vertices are collinear
- *   simple_polygon(points): an order of the indices forming a simple polygon, O(n log n)
+ *   simple_polygon(points): an order of the indices forming a simple polygon
  *       points must be distinct and not all collinear
  *   angle_less(a, b): polar angle order of vectors, counter-clockwise from the positive x axis over [0, 2 pi)
  *       vectors with the same direction compare equal, (0, 0) comes first
  *       components up to 2e9 are allowed, so sort around a center o by sorting the vectors p - o
  *
- * Floating point part, PointF of doubles, all O(1) unless noted:
+ * Floating point part, PointF of doubles:
  *   Tolerance is relative to the size of the configuration: o, a, b count as collinear when the height of the
  *   triangle is below EPS = 1e-9 times its longest side, two lines are parallel when the sine of their angle is below EPS
  *   With integer coordinates |x|, |y| <= 1e4 every decision below is exact, only the returned points are rounded
@@ -28,13 +34,13 @@
  *       segments, degenerate segments allowed
  *   dist_point_line(p, a, b): signed distance, positive when p is left of a -> b, a != b
  *   project(p, a, b), reflect(p, a, b): projection of p onto, reflection of p across the line through a, b, a != b
- *   cut_polygon(poly, a, b): the part of poly left of a -> b, the half-plane cross(a, b, p) >= 0, O(n)
+ *   cut_polygon(poly, a, b): the part of poly left of a -> b, the half-plane cross(a, b, p) >= 0
  *       a != b, decided by the exact sign of cross(a, b, p) without the EPS tolerance
  *       empty when no vertex lies strictly left of the line
  *       convex poly: a convex polygon with the same orientation, no repeated vertex for exact input
  *       (a vertex within rounding of the line may appear twice)
  *       simple poly: the kept pieces joined by zero-width bridges along the line, the signed area is exact
- *   polygon_centroid(poly): center of mass of a simple polygon with nonzero area, either orientation, O(n)
+ *   polygon_centroid(poly): center of mass of a simple polygon with nonzero area, either orientation
  *   rotate(center, p, degrees): rotates p counter-clockwise around center
  *   clockwise_angle(a, b): clockwise angle in degrees in [0, 360) from vector a to vector b
  *   great_circle_distance(lat1, lon1, lat2, lon2, radius): haversine formula, angles in degrees
