@@ -1,0 +1,13 @@
+// competitive-verifier: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_D
+#include <bits/stdc++.h>
+
+#define main library_main
+#include "../../code_library/algebra/bignum.cpp"
+#undef main
+
+int main(){
+    Bignum a, b;
+    cin >> a >> b;
+    cout << a / b << '\n';
+    return 0;
+}
