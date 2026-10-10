@@ -8,14 +8,13 @@
  * Or more precisely, increases the number of connected components
  *
  * Graph nodes are numbered from 0 to N-1
+ * Both searches are iterative with heap-allocated stacks, so a 2e5-node path needs no extra call stack
  *
  * Complexity: O(N + M)
  *
 ***/
 
 #include <bits/stdtr1c++.h>
-
-#define MAX 100010
 
 using namespace std;
 
@@ -31,28 +30,11 @@ struct Bridge{
 };
 
 struct Graph{
-    bool visited[MAX];
-    vector<Pair> adj[MAX]; /// (neighbor, edge index)
-    int n, m = 0, dt, discover[MAX], low[MAX], num[MAX];
+    int n, m = 0;
+    vector<vector<Pair>> adj; /// (neighbor, edge index)
+    vector<int> num; /// bridge component of each node, filled by get_bridge_tree
 
-    Graph() {}
-    Graph(int n): n(n) {}
-
-    void dfs(int u, int parent_edge, vector<Bridge> &bridges){
-        visited[u] = true;
-        discover[u] = low[u] = ++dt;
-
-        for (auto [v, id]: adj[u]){
-            if (!visited[v]){
-                dfs(v, id, bridges);
-                low[u] = min(low[u], low[v]);
-
-                /// emplace_back, push_back(Bridge(...)) grows the GCC -O2 frame enough to overflow 8 MB on a 1e5-node path
-                if (low[v] > discover[u]) bridges.emplace_back(u, v, 0, dt - discover[v] + 1, id);
-            }
-            else if (id != parent_edge) low[u] = min(low[u], discover[v]);
-        }
-    }
+    Graph(int n): n(n), adj(n), num(n, -1) {}
 
     /// adds undirected edge from u to v and returns its index
     int add_edge(int u, int v){
@@ -61,30 +43,43 @@ struct Graph{
         return m++;
     }
 
+    /// Bridges are listed in the order the DFS finishes their endpoint v
     vector<Bridge> get_bridges(){
         vector<Bridge> bridges;
-        memset(visited, 0, sizeof(visited));
+        vector<int> discover(n, 0), low(n), parent_edge(n), edge_pos(n, 0), dfs_stack;
 
         for (int i = 0; i < n; i++){
-            if (!visited[i]){
-                int first = bridges.size();
-                dt = 0;
-                dfs(i, -1, bridges);
-                /// The component size is known only once its DFS ends
-                for (int j = first; j < (int)bridges.size(); j++) bridges[j].cnt_u = dt - bridges[j].cnt_v;
+            if (discover[i]) continue;
+
+            int first = bridges.size(), dt = 0;
+            discover[i] = low[i] = ++dt, parent_edge[i] = -1;
+            dfs_stack.push_back(i);
+
+            while (!dfs_stack.empty()){
+                int u = dfs_stack.back();
+                if (edge_pos[u] < (int)adj[u].size()){
+                    auto [v, id] = adj[u][edge_pos[u]++];
+                    if (!discover[v]){
+                        discover[v] = low[v] = ++dt, parent_edge[v] = id;
+                        dfs_stack.push_back(v);
+                    }
+                    else if (id != parent_edge[u]) low[u] = min(low[u], discover[v]);
+                    continue;
+                }
+
+                dfs_stack.pop_back();
+                if (dfs_stack.empty()) break;
+
+                int p = dfs_stack.back();
+                low[p] = min(low[p], low[u]);
+                if (low[u] > discover[p]) bridges.emplace_back(p, u, 0, dt - discover[u] + 1, parent_edge[u]);
             }
+
+            /// The component size is known only once its DFS ends
+            for (int j = first; j < (int)bridges.size(); j++) bridges[j].cnt_u = dt - bridges[j].cnt_v;
         }
 
         return bridges;
-    }
-
-    void dfs_bridge_tree(int u, int label, const vector<char>& is_bridge){
-        num[u] = label;
-        for (auto [v, id]: adj[u]){
-            if (num[v] == -1 && !is_bridge[id]){
-                dfs_bridge_tree(v, label, is_bridge);
-            }
-        }
     }
 
     /***
@@ -108,12 +103,24 @@ struct Graph{
         for (auto bridge: bridges) is_bridge[bridge.id] = 1;
 
         int label = 0;
-        memset(num, -1, sizeof(num));
-        for (int u = 0; u < n; u++){
-            if (num[u] == -1){
-                dfs_bridge_tree(u, label, is_bridge);
-                label++;
+        vector<int> dfs_stack;
+        fill(num.begin(), num.end(), -1);
+        for (int root = 0; root < n; root++){
+            if (num[root] != -1) continue;
+
+            num[root] = label;
+            dfs_stack.push_back(root);
+            while (!dfs_stack.empty()){
+                int u = dfs_stack.back();
+                dfs_stack.pop_back();
+                for (auto [v, id]: adj[u]){
+                    if (num[v] == -1 && !is_bridge[id]){
+                        num[v] = label;
+                        dfs_stack.push_back(v);
+                    }
+                }
             }
+            label++;
         }
 
         vector<Pair> bridge_tree;
@@ -127,8 +134,7 @@ struct Graph{
 };
 
 int main(){
-    /// Each Graph holds about 4 MB of arrays, too much for the stack
-    static Graph graph(10);
+    Graph graph(10);
 
     graph.add_edge(0, 1);
     graph.add_edge(1, 2);
@@ -152,8 +158,15 @@ int main(){
     assert(bridge_tree[0] == Pair(0, 1));
     assert(bridge_tree[1] == Pair(2, 3));
     assert(bridges[0].id == 9 && bridges[1].id == 10);
+    assert(graph.num == vector<int>({0, 0, 0, 0, 0, 1, 1, 1, 2, 3}));
 
-    static Graph multi(4);
+    /// Closing the outer cycle 0-8-9-7 leaves no bridge, a second call relabels every node
+    graph.add_edge(8, 0);
+    graph.add_edge(9, 7);
+    assert(graph.get_bridge_tree().empty());
+    assert(graph.num == vector<int>(10, 0));
+
+    Graph multi(4);
     multi.add_edge(0, 1);
     multi.add_edge(0, 1);
     multi.add_edge(1, 2);

@@ -68,15 +68,11 @@ vector<pair<int, int>> random_graph(int n, bool multi){
 }
 
 int main(){
-    /// One graph reused, constructing 100010 adjacency vectors per instance would dominate the run
-    static Graph* g = new Graph();
-
     for (long long it = 0; it < stress::scaled(2500); it++){
         int n = stress::rand_int(1, it % 40 ? 12 : 250);
         auto edges = random_graph(n, it % 2);
-        g->n = n, g->m = 0;
-        for (int i = 0; i < n; i++) g->adj[i].clear();
-        for (int i = 0; i < (int)edges.size(); i++) assert(g->add_edge(edges[i].first, edges[i].second) == i);
+        Graph g(n);
+        for (int i = 0; i < (int)edges.size(); i++) assert(g.add_edge(edges[i].first, edges[i].second) == i);
 
         set<int> expected;
         for (int i = 0; i < (int)edges.size(); i++){
@@ -84,7 +80,7 @@ int main(){
             if (cut[edges[i].first] != cut[edges[i].second]) expected.insert(i);
         }
 
-        auto bridges = g->get_bridges();
+        auto bridges = g.get_bridges();
         set<int> found;
         auto split = labels(n, edges, expected);
         for (auto& b : bridges){
@@ -97,30 +93,37 @@ int main(){
         assert(found == expected);
 
         /// Bridge tree: nodes share a label exactly when they stay connected without the bridges
-        auto tree = g->get_bridge_tree();
+        auto tree = g.get_bridge_tree();
         assert(tree.size() == bridges.size());
         map<int, int> to_num, to_split;
         for (int x = 0; x < n; x++){
-            assert(to_num.emplace(split[x], g->num[x]).first->second == g->num[x]);
-            assert(to_split.emplace(g->num[x], split[x]).first->second == split[x]);
+            assert(to_num.emplace(split[x], g.num[x]).first->second == g.num[x]);
+            assert(to_split.emplace(g.num[x], split[x]).first->second == split[x]);
         }
         assert(to_split.empty() || (to_split.begin()->first == 0 && to_split.rbegin()->first == (int)to_split.size() - 1));
-        for (size_t i = 0; i < bridges.size(); i++) assert(tree[i] == Pair(g->num[bridges[i].u], g->num[bridges[i].v]));
+        for (size_t i = 0; i < bridges.size(); i++) assert(tree[i] == Pair(g.num[bridges[i].u], g.num[bridges[i].v]));
     }
 
-    /// Long paths: every edge (i, i + 1) is a bridge, a bridge set hashed by u ^ v put half of them in one bucket and went quadratic
-    /// Cut every 1000 nodes because the recursive DFS overflows an 8 MB stack under ASan beyond about 15000 deep
-    int n = 100000, len = 1000;
-    g->n = n, g->m = 0;
-    for (int i = 0; i < n; i++) g->adj[i].clear();
-    for (int i = 0; i + 1 < n; i++){
-        if ((i + 1) % len) g->add_edge(i, i + 1);
-    }
+    /// A 2e5-node path is 2e5 deep: a recursive DFS overflows the 8 MB stack and fixed 100010 arrays cannot hold it
+    /// Every edge is a bridge, a bridge set hashed by u ^ v once put half of them in one bucket and went quadratic
+    int n = 200000;
+    Graph path(n);
+    for (int i = 0; i + 1 < n; i++) assert(path.add_edge(i, i + 1) == i);
 
     auto start = chrono::steady_clock::now();
-    auto tree = g->get_bridge_tree();
-    assert((int)tree.size() == n - n / len);
-    for (int x = 0; x < n; x++) assert(g->num[x] == x);
+    auto bridges = path.get_bridges();
+    assert((int)bridges.size() == n - 1);
+    for (auto& b : bridges) assert(b.v == b.u + 1 && b.id == b.u && b.cnt_u == b.u + 1 && b.cnt_v == n - b.v);
+
+    auto tree = path.get_bridge_tree();
+    assert((int)tree.size() == n - 1);
+    for (int x = 0; x < n; x++) assert(path.num[x] == x);
     assert(chrono::steady_clock::now() - start < chrono::seconds(2));
+
+    /// The same depth on a cycle, where low must travel back up all 2e5 levels and no edge is a bridge
+    Graph cycle(n);
+    for (int i = 0; i < n; i++) cycle.add_edge(i, (i + 1) % n);
+    assert(cycle.get_bridge_tree().empty());
+    for (int x = 0; x < n; x++) assert(cycle.num[x] == 0);
     return 0;
 }

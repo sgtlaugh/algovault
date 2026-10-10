@@ -10,7 +10,7 @@ int main(){
     int n, m;
     if (scanf("%d %d", &n, &m) != 2) return 0;
 
-    static Graph g(n);  /// a temporary Graph is several MB, on the stack it leaves too little room for the recursive DFS
+    Graph g(n);
     for (int i = 0; i < m; i++){
         int u, v;
         if (scanf("%d %d", &u, &v) != 2) return 0;
