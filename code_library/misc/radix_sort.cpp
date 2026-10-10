@@ -3,7 +3,8 @@
  * w is the key length, and is fixed to 8 bits
  * This enables sorting any list of integers in O(32/8 * n) or O(4 * n) passes
  *
- * Overall complexity: O(4 * n) ~ O(n)
+ * Complexity: O(n + 4 * 256), one counting pass and 4 scatter passes over the array
+ * Memory is the global tmp buffer of MAXN + 5 unsigned ints, about 400 MB with MAXN = 1e8, n must not exceed it
  *
  * Most useful in scenarios where you want to sort a large list of items fast, usually in sub-optimal solutions
  * Can be generalized with templates and vectors but that usually makes it 2-3 x slower
