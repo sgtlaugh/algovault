@@ -23,6 +23,7 @@
 using namespace std;
 
 /// Static Aho-Corasick (building block for dynamic version)
+/// BEGIN COPY aho_corasick from code_library/strings/aho_corasick.cpp
 struct AhoCorasick{
     int edge[256];
 
@@ -34,7 +35,7 @@ struct AhoCorasick{
     /// go[node][char] = trie child before build(), full automaton transition after. 0 doubles as "no child" since the root is never a child
     vector<array<int, MAX_LETTERS>> go;
 
-    inline int node(){
+    inline int new_node(){
         leaf.push_back(0);
         counter.push_back(0);
         go.push_back({});
@@ -49,7 +50,7 @@ struct AhoCorasick{
         go.clear(), dictionary.clear();
         fail.clear(), leaf.clear(), counter.clear();
 
-        node();
+        new_node();
         // Map lowercase letters to [0, 25]. Change for different alphabet (digits, uppercase, etc)
         memset(edge, -1, sizeof(edge));
         for (int i = 'a'; i <= 'z'; i++) edge[i] = i - 'a';
@@ -59,15 +60,15 @@ struct AhoCorasick{
         clear();
     }
 
-    /// Inserting after build() is not supported, DynamicAhoCorasick rebuilds a fresh automaton instead
-    inline void insert(const char* str){
+    /// Inserting after build() is not supported
+    void insert(const char* str){
         int j, x, cur = 0;
 
         for (j = 0; str[j] != 0; j++){
             x = edge[(unsigned char)str[j]];
             assert(x >= 0);
             if (!go[cur][x]){
-                int next_node = node();
+                int next_node = new_node();
                 go[cur][x] = next_node;
             }
             cur = go[cur][x];
@@ -77,7 +78,7 @@ struct AhoCorasick{
         dictionary.push_back(str);
     }
 
-    inline void insert(const string& str){
+    void insert(const string& str){
         insert(str.c_str());
     }
 
@@ -106,7 +107,7 @@ struct AhoCorasick{
         return go[cur][x];
     }
 
-    /// total number of occurrences of all words from dictionary in str
+    /// Total number of occurrences of all words from dictionary in str
     long long count(const char* str){
         long long res = 0;
         for (int j = 0, cur = 0; str[j]; j++){
@@ -121,6 +122,7 @@ struct AhoCorasick{
         return count(str.c_str());
     }
 };
+/// END COPY aho_corasick
 
 struct DynamicAhoCorasick{
     AhoCorasick ar[MAX_LOG];
