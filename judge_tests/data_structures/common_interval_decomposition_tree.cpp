@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/common_interval_decomposition_tree
+// competitive-verifier: TLE 5
 #include <bits/stdc++.h>
 
 #define main library_main

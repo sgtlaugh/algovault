@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/cartesian_tree
+// competitive-verifier: TLE 5
 #include <bits/stdc++.h>
 
 #define main library_main

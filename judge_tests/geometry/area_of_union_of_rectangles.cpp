@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/area_of_union_of_rectangles
+// competitive-verifier: TLE 5
 #include <bits/stdc++.h>
 
 #define main library_main

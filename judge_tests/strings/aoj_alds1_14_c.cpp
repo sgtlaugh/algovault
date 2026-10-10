@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_C
+// competitive-verifier: TLE 3
 #include <bits/stdc++.h>
 
 #define main library_main

@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/closest_pair
+// competitive-verifier: TLE 5
 #include <bits/stdc++.h>
 
 #define main library_main

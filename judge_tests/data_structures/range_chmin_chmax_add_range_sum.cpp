@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum
+// competitive-verifier: TLE 10
 #include <bits/stdc++.h>
 
 #define main library_main

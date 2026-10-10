@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/vertex_add_range_contour_sum_on_tree
+// competitive-verifier: TLE 10
 #include <bits/stdc++.h>
 
 #define main library_main

@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_G
+// competitive-verifier: TLE 1
 #include <bits/stdc++.h>
 
 #define main fenwick_main

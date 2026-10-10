@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/binomial_coefficient_prime_mod
+// competitive-verifier: TLE 10
 #include <bits/stdc++.h>
 
 #define main library_main

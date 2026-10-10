@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/log_of_formal_power_series
+// competitive-verifier: TLE 10
 #include <bits/stdc++.h>
 
 #define main library_main

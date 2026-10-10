@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/sum_of_floor_of_linear
+// competitive-verifier: TLE 5
 #include <bits/stdc++.h>
 
 #define main library_main

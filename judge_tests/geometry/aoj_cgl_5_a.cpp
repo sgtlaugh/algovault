@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://onlinejudge.u-aizu.ac.jp/problems/CGL_5_A
+// competitive-verifier: TLE 1
 // competitive-verifier: ERROR 1e-6
 #include <bits/stdc++.h>
 

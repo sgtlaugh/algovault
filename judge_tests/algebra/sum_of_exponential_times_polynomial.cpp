@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/sum_of_exponential_times_polynomial
+// competitive-verifier: TLE 5
 #include <bits/stdc++.h>
 
 #define main library_main

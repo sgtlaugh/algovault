@@ -1,4 +1,5 @@
 // competitive-verifier: PROBLEM https://judge.yosupo.jp/problem/convolution_mod_1000000007
+// competitive-verifier: TLE 10
 #include <bits/stdc++.h>
 
 #define main library_main
