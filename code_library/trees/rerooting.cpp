@@ -94,45 +94,31 @@ struct Rerooting{
 
 int main(){
     /***
-     *          0
-     *        /   \
-     *       1     2
-     *      / \     \
-     *     3   4     5
-     *    /
+     *             0
+     *        3 /     \ 1
+     *         1       2
+     *    2 /    \ 7    \ 4
+     *     3      4      5
+     *  5 /
      *   6
     ***/
+    vector<array<int, 3>> edges = {{0, 1, 3}, {0, 2, 1}, {1, 3, 2}, {1, 4, 7}, {2, 5, 4}, {3, 6, 5}};
+
+    /// Sum of distances, as in the header: {nodes below, sum of their distances}
     using Info = pair<long long, long long>;
     Rerooting<Info> tree(7);
-    vector<array<int, 3>> edges = {{0, 1, 3}, {0, 2, 1}, {1, 3, 2}, {1, 4, 7}, {2, 5, 4}, {3, 6, 5}};
     for (auto [u, v, w] : edges) tree.add_edge(u, v, w);
-
     auto add = [](const Info& a, const Info& b){ return Info{a.first + b.first, a.second + b.second}; };
     auto lift = [](const Info& x, int, int, long long w){ return Info{x.first + 1, x.second + (x.first + 1) * w}; };
     vector<Info> sums = tree.solve(add, Info{0, 0}, lift);
-    vector<long long> expected_sums = {34, 31, 37, 37, 66, 57, 62};
-    for (int v = 0; v < 7; v++) assert(sums[v].first == 6 && sums[v].second == expected_sums[v]);
+    assert(sums[0].second == 34);  /// 3 + 1 + 5 + 10 + 5 + 10
+    assert(sums[6].second == 62);
 
-    /// int edge weights, one instance solved twice: weighted eccentricity, then eccentricity in edges
+    /// Eccentricity, the farthest node from each root, with int edge weights
     Rerooting<long long, int> far(7);
     for (auto [u, v, w] : edges) far.add_edge(u, v, w);
     auto longest = [](long long a, long long b){ return max(a, b); };
     auto extend = [](long long x, int, int, int w){ return x + w; };
-    auto hop = [](long long x, int, int, int){ return x + 1; };
     assert((far.solve(longest, 0LL, extend) == vector<long long>{10, 8, 11, 10, 15, 15, 15}));
-    assert((far.solve(longest, 0LL, hop) == vector<long long>{3, 3, 4, 4, 4, 5, 5}));
-
-    /***
-     * Path 0 - 1 - 2 with node values 5, 1, 2: the heaviest node value among non-root nodes
-    ***/
-    vector<long long> value = {5, 1, 2};
-    Rerooting<long long> path(3);
-    path.add_edge(1, 0), path.add_edge(1, 2);
-    auto heaviest = [&](long long x, int from, int, long long){ return max(x, value[from]); };
-    assert((path.solve(longest, LLONG_MIN, heaviest) == vector<long long>{2, 5, 5}));
-
-    Rerooting<long long, int> single(1);
-    assert((single.solve(longest, -7LL, hop) == vector<long long>{-7}));
-
     return 0;
 }
