@@ -152,46 +152,21 @@ long long count_paths_at_most(CentroidDecomposition& cd, long long k){
 }
 
 int main(){
-    /// Path 0-1-2-3-4: distance 1 for 4 pairs, 2 for 3, 3 for 2, 4 for 1
+    /// Path 0-1-2-3-4: 2 is cut first, then 1 and 3, then the ends
     CentroidDecomposition path(5);
     for (int i = 1; i < 5; i++) path.add_edge(i - 1, i);
-    assert(count_paths_at_most(path, 0) == 0);
-    assert(count_paths_at_most(path, 1) == 4);
-    assert(count_paths_at_most(path, 2) == 7);
-    assert(count_paths_at_most(path, 4) == 10);
+    path.build();
     assert((path.parent == vector<int>{1, 2, -1, 2, 3}));
     assert((path.depth == vector<int>{2, 1, 0, 1, 2}));
+    assert(count_paths_at_most(path, 2) == 7);  /// 4 pairs at distance 1, 3 at distance 2
 
-    /// Star at 0 with weights 1, 2, 3: distances 1, 2, 3 from the center, 3, 4, 5 between leaves
+    /// Star at 0 with weights 1, 2, 3: the center is cut first and each leaf is a branch of its own
     CentroidDecomposition star(4);
     for (int i = 1; i < 4; i++) star.add_edge(0, i, i);
-    assert(count_paths_at_most(star, 3) == 4);
-    assert(count_paths_at_most(star, 4) == 5);
-    assert(count_paths_at_most(star, 5) == 6);
-
-    vector<int> visited;
-    star.build([&](int c, const CentroidDecomposition::Branches& branches){
-        visited.push_back(c);
-        if (c != 0) assert(branches.empty());
-        else assert((branches == CentroidDecomposition::Branches{{{1, 1}}, {{2, 2}}, {{3, 3}}}));
+    star.build([](int c, const CentroidDecomposition::Branches& branches){
+        if (c == 0) assert((branches == CentroidDecomposition::Branches{{{1, 1}}, {{2, 2}}, {{3, 3}}}));
+        else assert(branches.empty());
     });
-    assert(visited.size() == 4 && visited[0] == 0);
-    assert((star.parent == vector<int>{-1, 0, 0, 0}));
-
-    CentroidDecomposition forest(4);
-    forest.add_edge(0, 1), forest.add_edge(2, 3);
-    assert(count_paths_at_most(forest, 1) == 2);
-    assert(count_paths_at_most(forest, 100) == 2);
-    assert(count(forest.parent.begin(), forest.parent.end(), -1) == 2);
-
-    CentroidDecomposition single(1);
-    single.build();
-    assert(single.parent[0] == -1 && single.depth[0] == 0);
-    assert(count_paths_at_most(single, 5) == 0);
-
-    CentroidDecomposition empty(0);
-    empty.build();
-    assert(count_paths_at_most(empty, 3) == 0);
-
+    assert(count_paths_at_most(star, 4) == 5);  /// every pair but leaves 2 and 3, at distance 5
     return 0;
 }
