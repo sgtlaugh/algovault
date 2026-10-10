@@ -1,3 +1,11 @@
+"""
+String Hash
+
+Polynomial rolling hash, get_hash(l, r) is the hash of text[l..r] inclusive
+
+Complexity: O(n) to build, O(1) per get_hash, n + 1 prefix hashes per instance plus powers shared up to the longest text
+"""
+
 BASE = 997
 MOD = 10**18 + 3
 
