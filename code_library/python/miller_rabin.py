@@ -1,3 +1,11 @@
+"""
+Miller-Rabin Primality Test
+
+is_prime(n): Miller-Rabin test of n against 7 fixed bases
+
+Complexity: O(log n) modular multiplications of log n bit integers per base, 7 bases
+"""
+
 def is_prime(n):
     _BASES = [2, 450775, 1795265022, 9780504, 28178, 9375, 325]
 
