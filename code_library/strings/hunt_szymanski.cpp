@@ -9,11 +9,7 @@
 
 #include <bits/stdtr1c++.h>
 
-#define MAX 50010
-
 using namespace std;
-
-char A[MAX], B[MAX];
 
 int lcs(const char* A, const char* B){
     vector<int> adj[256], ar(1, -1);
@@ -39,13 +35,13 @@ int lcs(const char* A, const char* B){
 int main(){
     mt19937 rng(666);
 
-    int n = MAX - 10, m = MAX - 10;
+    int n = 50000, m = 50000;
+    string A(n, 0), B(m, 0);
     for (int i = 0; i < n; i++) A[i] = (rng() % 26) + 'A';
     for (int i = 0; i < m; i++) B[i] = (rng() % 26) + 'A';
-    A[n] = B[m] = 0;
 
     clock_t start = clock();
-    assert(lcs(A, B) == 16259);
+    assert(lcs(A.c_str(), B.c_str()) == 16259);
 
     fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC)); /// took 3.96 s locally
     return 0;
