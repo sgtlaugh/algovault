@@ -10,7 +10,7 @@ int main(){
     long long n;
     if (scanf("%lld", &n) != 1) return 0;
 
-    gen();
-    printf("%llu\n", (unsigned long long)lehmer(n));
+    PrimeCounter<> pc;
+    printf("%llu\n", (unsigned long long)pc.lehmer(n));
     return 0;
 }
