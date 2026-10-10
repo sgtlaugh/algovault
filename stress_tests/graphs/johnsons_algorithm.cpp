@@ -63,5 +63,14 @@ int main(){
     Johnson heavy(200);
     heavy.add_edge(0, 0, -100000000000000000LL);
     assert(!heavy.solve() && heavy.dist.empty());
+
+    /// Reweighted distances reach twice the true ones: 1 -> 2 at -B pulls h[2] down to -B, so 0 -> 2 at B becomes 2B
+    const long long B = 1e18 - 1;
+    Johnson wide(3);
+    wide.add_edge(0, 2, B), wide.add_edge(1, 2, -B);
+    assert(wide.solve() && wide.dist[0][2] == B && wide.dist[1][2] == -B);
+
+    Johnson empty(0);
+    assert(empty.solve() && empty.dist.empty());
     return 0;
 }

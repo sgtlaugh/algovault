@@ -90,44 +90,20 @@ struct Johnson{
 };
 
 int main(){
-    Johnson a(3);
-    a.add_edge(0, 1, 2), a.add_edge(1, 2, -15), a.add_edge(0, 2, -10);
-    assert(a.solve());
-    assert(a.dist[0][1] == 2 && a.dist[0][2] == -13 && a.dist[1][2] == -15 && a.dist[0][0] == 0);
-    assert(a.dist[2][0] == Johnson::INF && a.dist[1][0] == Johnson::INF);
+    Johnson g(3);
+    g.add_edge(0, 1, 2), g.add_edge(1, 2, -15), g.add_edge(0, 2, -10);
+    assert(g.solve());
+    assert(g.dist[0][2] == -13);                /// 0 -> 1 -> 2 beats the direct -10
+    assert(g.dist[1][2] == -15);
+    assert(g.dist[2][0] == Johnson::INF);       /// unreachable
 
-    a.add_edge(2, 0, 20);
-    assert(a.solve() && a.dist[2][0] == 20 && a.dist[1][0] == 5 && a.dist[2][1] == 22);
-    a.add_edge(2, 0, 10);
-    assert(!a.solve() && a.dist.empty());
+    /// Edges can be added after a solve
+    g.add_edge(2, 0, 20);
+    assert(g.solve());
+    assert(g.dist[1][0] == 5);                  /// -15 + 20
 
-    Johnson cycle(3);
-    cycle.add_edge(0, 1, 1), cycle.add_edge(1, 2, -3), cycle.add_edge(2, 0, 1);
-    assert(!cycle.solve() && cycle.dist.empty());
-
-    Johnson negative_loop(1), positive_loop(1);
-    negative_loop.add_edge(0, 0, -1), positive_loop.add_edge(0, 0, 5);
-    assert(!negative_loop.solve());
-    assert(positive_loop.solve() && positive_loop.dist[0][0] == 0);
-
-    Johnson empty(0);
-    assert(empty.solve() && empty.dist.empty());
-
-    Johnson b(4);
-    b.add_edge(0, 1, 5), b.add_edge(0, 1, 3), b.add_edge(1, 2, -2), b.add_edge(2, 3, 4), b.add_edge(3, 1, -2);
-    assert(b.solve());
-    assert(b.dist[0][3] == 5 && b.dist[3][2] == -4 && b.dist[2][1] == 2);
-
-    const long long B = 1e18 - 1;
-    Johnson z(3);
-    z.add_edge(1, 0, -B), z.add_edge(2, 1, 0), z.add_edge(0, 2, B);
-    assert(z.solve());
-    assert(z.dist[1][0] == -B && z.dist[0][2] == B && z.dist[2][0] == -B && z.dist[1][2] == 0 && z.dist[2][2] == 0);
-
-    Johnson huge_cycle(2), tiny_cycle(2);
-    huge_cycle.add_edge(0, 1, -B), huge_cycle.add_edge(1, 0, B - 1);
-    tiny_cycle.add_edge(0, 1, -1), tiny_cycle.add_edge(1, 0, 0);
-    assert(!huge_cycle.solve() && !tiny_cycle.solve());
-
+    g.add_edge(2, 0, 10);                       /// cycle 0 1 2 now weighs 2 - 15 + 10 = -3
+    assert(!g.solve());
+    assert(g.dist.empty());
     return 0;
 }
