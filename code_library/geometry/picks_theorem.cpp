@@ -1,10 +1,13 @@
 /***
  *
  * Pick's Thoerem and other related methods
- * Calculates area of polygon in O(n)
- * Calculates number of lattice points inside and on border in O(n log max(P_i))
+ * Calculates area of polygon and number of lattice points inside and on border
  *
-*/
+ * Complexity:
+ *   - area2: O(n)
+ *   - on_border, on_interior: O(n log C), one gcd per edge, C the largest coordinate difference along an edge
+ *
+***/
 
 #include <bits/stdc++.h>
 
