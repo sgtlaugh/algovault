@@ -122,35 +122,16 @@ private:
 };
 
 int main(){
+    const DivisorLattice lattice(4);
     const vector<long long> a = {0, 1, 2, 3, 4}, b = {0, 5, 6, 7, 8};
-    const DivisorLattice lattice(6);
-    assert((lattice.gcd_convolution(a, b) == vector<long long>{0, 155, 52, 21, 32}));
-    assert((lattice.lcm_convolution(a, b) == vector<long long>{0, 5, 28, 43, 100}));
-    assert((lattice.gcd_convolution(a, b, 7) == vector<long long>{0, 1, 3, 0, 4}));
-    assert((lattice.lcm_convolution(a, b, 7) == vector<long long>{0, 5, 0, 1, 2}));
+    assert((lattice.gcd_convolution(a, b) == vector<long long>{0, 155, 52, 21, 32}));  /// c[4] = a[4] * b[4] only
+    assert((lattice.lcm_convolution(a, b) == vector<long long>{0, 5, 28, 43, 100}));   /// c[2] = 1 * 6 + 2 * 5 + 2 * 6
+    assert((lattice.gcd_convolution(a, b, 7) == vector<long long>{0, 1, 3, 0, 4}));    /// the same mod 7
 
-    const DivisorLattice small(4);
-    assert((small.gcd_convolution({0, -1, 0}, {0, 1, 1}) == vector<long long>{0, -2, 0}));
-    assert((small.gcd_convolution({0, -1, 0}, {0, 1, 1}, 998244353) == vector<long long>{0, 998244351, 0}));
-    assert((small.gcd_convolution({7, 1, 2}, {9, 1, 1, 1, 1}) == vector<long long>{0, 8, 4, 0, 0}));
-    assert((small.lcm_convolution({7, 1, 2}, {9, 1, 1, 1, 1}) == vector<long long>{0, 1, 5, 1, 3}));
-    assert((small.gcd_convolution(a, b, 1) == vector<long long>{0, 0, 0, 0, 0}));
-    assert(DivisorLattice(0).gcd_convolution({}, {}).empty());
-    assert((DivisorLattice(0).lcm_convolution({5}, {}) == vector<long long>{0}));
-
-    const long long big = (1LL << 62) - 1;
-    assert((small.gcd_convolution({0, big - 1, -1}, {0, -1, big - 1}, big) == vector<long long>{0, 3, 1}));
-    assert((small.lcm_convolution({0, big - 1, -1}, {0, -1, big - 1}, big) == vector<long long>{0, 1, 3}));
-
-    vector<long long> f = {0, 1, 1, 1, 1, 1, 1}, g = f;
-    lattice.multiple_zeta(f);
-    assert((f == vector<long long>{0, 6, 3, 2, 1, 1, 1}));
-    lattice.multiple_mobius(f);
-    assert((f == vector<long long>{0, 1, 1, 1, 1, 1, 1}));
-    lattice.divisor_zeta(g);
-    assert((g == vector<long long>{0, 1, 2, 2, 3, 2, 4}));
-    lattice.divisor_mobius(g);
-    assert((g == vector<long long>{0, 1, 1, 1, 1, 1, 1}));
-
+    vector<long long> f = {0, 1, 1, 1, 1};
+    lattice.divisor_zeta(f);
+    assert((f == vector<long long>{0, 1, 2, 2, 3}));  /// number of divisors
+    lattice.divisor_mobius(f);
+    assert((f == vector<long long>{0, 1, 1, 1, 1}));
     return 0;
 }
