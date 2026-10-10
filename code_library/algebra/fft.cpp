@@ -9,7 +9,7 @@
  *
 ***/
 
-#include <bits/stdc++.h>
+#include <bits/stdtr1c++.h>
 
 #define MAX 2097152
 
