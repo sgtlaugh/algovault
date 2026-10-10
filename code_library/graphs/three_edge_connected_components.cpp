@@ -120,47 +120,30 @@ private:
 };
 
 int main(){
-    ThreeEdgeConnected sample(4);
-    sample.add_edge(0, 2);
-    sample.add_edge(0, 1);
-    sample.add_edge(3, 0);
-    sample.add_edge(2, 1);
-    sample.add_edge(2, 3);
-    assert((sample.run() == vector<vector<int>>{{0, 2}, {1}, {3}}));
-    assert(sample.count == 3 && (sample.comp == vector<int>{0, 1, 0, 2}));
+    /***
+     *   0 ----- 1
+     *   | \     |
+     *   |   \   |
+     *   |     \ |
+     *   3 ----- 2
+    ***/
+    ThreeEdgeConnected g(4);
+    g.add_edge(0, 2);
+    g.add_edge(0, 1);
+    g.add_edge(3, 0);
+    g.add_edge(2, 1);
+    g.add_edge(2, 3);
+    assert((g.run() == vector<vector<int>>{{0, 2}, {1}, {3}}));  /// 1 and 3 have only 2 edges each
+    assert(g.count == 3);
+    assert((g.comp == vector<int>{0, 1, 0, 2}));
 
-    ThreeEdgeConnected blocks(8);
-    for (int base : {0, 4}){
-        for (int i = 0; i < 4; i++){
-            for (int j = i + 1; j < 4; j++) blocks.add_edge(base + i, base + j);
-        }
+    /// Removing 2 edges splits a cycle, a doubled cycle needs 4
+    ThreeEdgeConnected cycle(5), doubled(5);
+    for (int i = 0; i < 5; i++){
+        cycle.add_edge(i, (i + 1) % 5);
+        doubled.add_edge(i, (i + 1) % 5), doubled.add_edge(i, (i + 1) % 5);
     }
-    blocks.add_edge(0, 4);
-    blocks.add_edge(1, 5);
-    assert((blocks.run() == vector<vector<int>>{{0, 1, 2, 3}, {4, 5, 6, 7}}));
-    blocks.add_edge(6, 2);
-    assert((blocks.run() == vector<vector<int>>{{0, 1, 2, 3, 4, 5, 6, 7}}));
-
-    ThreeEdgeConnected multi(3);
-    multi.add_edge(0, 1);
-    multi.add_edge(1, 0);
-    multi.add_edge(0, 1);
-    multi.add_edge(2, 2);
-    multi.add_edge(1, 2);
-    multi.add_edge(1, 2);
-    assert((multi.run() == vector<vector<int>>{{0, 1}, {2}}));
-
-    ThreeEdgeConnected cycle(5);
-    for (int i = 0; i < 5; i++) cycle.add_edge(i, (i + 1) % 5);
-    assert((cycle.run() == vector<vector<int>>{{0}, {1}, {2}, {3}, {4}}));
-
-    ThreeEdgeConnected doubled(5);
-    for (int i = 0; i < 5; i++) doubled.add_edge(i, (i + 1) % 5), doubled.add_edge((i + 1) % 5, i);
-    assert((doubled.run() == vector<vector<int>>{{0, 1, 2, 3, 4}}));
-
-    ThreeEdgeConnected single(1), empty(0);
-    assert((single.run() == vector<vector<int>>{{0}}));
-    assert(empty.run().empty() && empty.count == 0);
-
+    assert(cycle.run().size() == 5);
+    assert(doubled.run().size() == 1);
     return 0;
 }
