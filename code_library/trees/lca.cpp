@@ -5,18 +5,21 @@
  * Use LinearLCA by default, and LCA when kth_ancestor or jump is needed
  * Measured: LinearLCA answers lca 2-8x faster at every size, both build in about the same time
  *
+ * Complexity:
+ *   - LCA: O(n log n) to build, O(log n) per lca / dist / kth_ancestor / jump, O(n log n) memory
+ *   - LinearLCA: O(n) to build, O(1) per lca / dist, O(n) memory, the RMQ block table has at most n entries for any int n
+ *   - path_intersection: 6 lca calls, O(1) with LinearLCA, O(log n) with LCA
+ *
  * LCA (binary lifting):
- *   - O(n log n) to build, O(log n) per lca / kth_ancestor / jump, O(n log n) memory
  *   - kth_ancestor(v, k): the k-th ancestor of v, v itself for k = 0, -1 if k > depth(v)
  *   - jump(u, v, k): the k-th vertex on the path u -> v, u for k = 0, v for k = edges on the path, -1 beyond that
  *
  * path_intersection(tree, a, b, c, d), works with either structure:
  *   - The common part of paths a - b and c - d is empty or a path, returns its endpoints as an unordered pair
  *   - {-1, -1} when the paths share no vertex, {x, x} when they share exactly x
- *   - 6 lca calls: O(1) with LinearLCA, O(log n) with LCA
  *
  * LinearLCA (Euler tour + linear RMQ):
- *   - O(n) to build, O(1) per lca, O(n) memory, use it for n around 1e6 or many queries
+ *   - Use it for n around 1e6 or many queries
  *
  * Shared API:
  *   LCA tree(n); tree.add_edge(u, v, w); tree.build(root);
