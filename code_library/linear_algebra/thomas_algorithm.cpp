@@ -1,3 +1,15 @@
+/***
+ *
+ * Thomas Algorithm
+ * Solves a tridiagonal system of n linear equations by forward elimination and back substitution
+ *
+ * Complexity: O(n) time and memory
+ *
+ * equation(l, p, r, rhs): the row (x_prev * l) + (x_cur * p) + (x_next * r) = rhs, l of the first row and r of the last are ignored
+ * thomas_algorithm(n, ar): returns x_0..x_{n-1}, no pivoting so it needs a diagonally dominant system, a zero pivot gives inf or nan
+ *
+***/
+
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
