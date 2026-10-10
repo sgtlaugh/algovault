@@ -3,7 +3,8 @@
 # self (default): compiles and runs every C++ self-test in code_library under AddressSanitizer and
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
-# both modes also report library files missing from the README index, and whitespace errors in tracked files
+# both modes also report library files missing from the README index, README ✔ marks that disagree with judge_tests,
+# and whitespace or style errors in tracked files
 #
 # Reports all failures instead of stopping at the first one.
 #
@@ -161,6 +162,30 @@ check_readme(){
     failures+=("${missing[@]/%/ (not in README index)}")
 }
 
+check_judge_marks(){  # a template carries a README ✔ exactly when a judge test's first library include is that template
+    local file lib line target tested=() bad=()
+    while IFS= read -r file; do
+        lib="$(grep -m1 -oP '#include "(\.\./)+\Kcode_library/[^"]+' "$file")"
+        [[ -n "$lib" ]] && tested+=("$lib")
+    done < <(git ls-files 'judge_tests/*.cpp')
+
+    while IFS= read -r lib; do
+        line="$(grep -F "($lib)" README.md | head -1)"
+        target="$(grep -oP '\[✔\]\(\K[^)]+' <<< "$line")"
+        if contains "$lib" "${tested[@]}"; then
+            [[ -n "$target" && -f "$target" ]] || bad+=("$lib")
+        elif [[ -n "$target" ]]; then
+            bad+=("$lib")
+        fi
+    done < <(find code_library -type f \( -name '*.cpp' -o -name '*.py' \) | sort)
+
+    echo "judge marks: ${#bad[@]} index entries whose ✔ disagrees with judge_tests"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (judge mark)}")
+}
+
 check_whitespace(){  # tabs, trailing whitespace, CRLF or a missing final newline
     local file bad=()
     while IFS= read -r file; do
@@ -244,6 +269,7 @@ fi
 echo
 [[ "$MODE" == "stress" ]] && check_coverage
 check_readme
+check_judge_marks
 check_whitespace
 check_style
 echo "passed: $passed  failed: $failed  skipped: $skipped"
