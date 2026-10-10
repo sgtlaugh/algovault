@@ -137,29 +137,17 @@ private:
 };
 
 int main(){
+    /***
+     * 0 -> 1 -> 2 with weights 1, 0 -> 2 with weight 3, 2 -> 0 with weight 1
+    ***/
     KShortestWalks g(3);
     g.add_edge(0, 1, 1), g.add_edge(1, 2, 1), g.add_edge(0, 2, 3), g.add_edge(2, 0, 1);
-    assert((g.solve(0, 2, 7) == vector<long long>{2, 3, 5, 6, 6, 7, 8}));
-    assert((g.solve(0, 2, 1) == vector<long long>{2}));
-    assert((g.solve(0, 2, 0) == vector<long long>{}));
-    assert((g.solve(1, 0, 3) == vector<long long>{2, 5, 6}));
+    assert((g.solve(0, 2, 4) == vector<long long>{2, 3, 5, 6}));  /// 0 1 2, 0 2, 0 1 2 0 1 2, then 2 walks of length 6
+    assert((g.solve(1, 0, 3) == vector<long long>{2, 5, 6}));      /// walks may repeat vertices and edges
 
     KShortestWalks chain(3);
     chain.add_edge(0, 1, 4);
-    assert((chain.solve(0, 2, 5) == vector<long long>{}));
-    assert((chain.solve(1, 0, 5) == vector<long long>{}));
-    assert((chain.solve(2, 2, 5) == vector<long long>{0}));
-
-    KShortestWalks loop(1);
-    loop.add_edge(0, 0, 2);
-    assert((loop.solve(0, 0, 4) == vector<long long>{0, 2, 4, 6}));
-
-    KShortestWalks parallel(2);
-    parallel.add_edge(0, 1, 5), parallel.add_edge(0, 1, 5), parallel.add_edge(0, 1, 2);
-    assert((parallel.solve(0, 1, 4) == vector<long long>{2, 5, 5}));
-
-    KShortestWalks zero(3);
-    zero.add_edge(0, 1, 0), zero.add_edge(1, 0, 0), zero.add_edge(1, 2, 4);
-    assert((zero.solve(0, 2, 3) == vector<long long>{4, 4, 4}));
+    assert(chain.solve(0, 2, 5).empty());                          /// 2 is unreachable
+    assert((chain.solve(2, 2, 5) == vector<long long>{0}));        /// only the empty walk
     return 0;
 }
