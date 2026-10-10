@@ -5,6 +5,10 @@
  * Returns the id of the m'th killed person
  * For example if n = 10 and k = 3, then the people killed are 3, 6, 9, 2, 7, 1, 8, 5, 10, 4 respectively
  *
+ * Complexity:
+ *   - josephus1: O(m), at most O(n)
+ *   - josephus2: O(min(m, k log n)), every step advances the circle size by at least 1
+ *
 ***/
 
 #include <bits/stdc++.h>
