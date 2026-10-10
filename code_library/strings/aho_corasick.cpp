@@ -20,12 +20,11 @@
 
 #include <bits/stdtr1c++.h>
 
-#define MAX_LETTERS 26
-
 using namespace std;
 
 /// BEGIN SHARED aho_corasick
 struct AhoCorasick{
+    static constexpr int MAX_LETTERS = 26;
     int edge[256];
 
     vector<int> leaf;
