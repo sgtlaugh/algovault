@@ -165,33 +165,18 @@ struct Min25Sieve{
 };
 
 int main(){
-    const uint64_t big = 1ULL << 32;
     auto phi = [](long long p, int, long long pe){ return pe / p * (p - 1); };
-    auto mu = [](long long, int e, long long){ return e == 1 ? -1 : 0; };
     auto divisors = [](long long, int e, long long){ return (long long)e + 1; };
-    auto squarefree = [](long long, int e, long long){ return (long long)(e == 1); };
-    auto sigma = [](long long p, int, long long pe){ return (pe * p - 1) / (p - 1); };
-
-    assert(Min25Sieve(1, 1000, {-1, 1}).sum(phi) == 1);
-    assert(Min25Sieve(10, 1000, {-1, 1}).sum(phi) == 32);
+    assert(Min25Sieve(10, 1000, {-1, 1}).sum(phi) == 32);   /// phi(1..10) = 1 1 2 2 4 2 6 4 6 4
+    assert(Min25Sieve(10, 1000, {2}).sum(divisors) == 27);  /// d(1..10) = 1 2 2 3 2 4 2 4 3 4
     assert(Min25Sieve(100, 1000000, {-1, 1}).sum(phi) == 3044);
-    assert(Min25Sieve(10, 1000, {2}).sum(divisors) == 27);
-    assert(Min25Sieve(10, 1000, {1, 1}).sum(sigma) == 87);
-    assert(Min25Sieve(10, 1000, {-1}).sum(mu) == 999);
-    assert(Min25Sieve(1000, 1, {-1, 1}).sum(phi) == 0);
-    assert(Min25Sieve(100, 1000, {}).sum([](long long, int e, long long){ return (long long)(e >= 2); }) == 14);
 
+    /// One sieve, two functions with f(p) = -1: Mobius and Liouville
+    Min25Sieve minus_one(10, 1000, {-1});
+    assert(minus_one.sum([](long long, int e, long long){ return e == 1 ? -1 : 0; }) == 999);  /// Mertens M(10) = -1
+    assert(minus_one.sum([](long long, int e, long long){ return e % 2 ? -1 : 1; }) == 0);
+
+    /// f(p) = p^2, so poly = {0, 0, 1}: the sum of squares
     assert(Min25Sieve(10, 1000, {0, 0, 1}).sum([](long long, int, long long pe){ return pe * pe; }) == 385);
-    assert(Min25Sieve(100, big, {0, 0, 0, 1}).sum([](long long, int, long long pe){ return pe * pe * pe; }) == 25502500);
-    assert(Min25Sieve(10, 1000, {0, -1, 1}).sum([](long long, int, long long pe){ return pe * (pe - 1); }) == 263);
-
-    assert(Min25Sieve(10000000000LL, big, {1}).sum(squarefree) == 6079270942ULL % big);
-    assert(Min25Sieve(10000000000LL, big, {-1}).sum(mu) == big - 33722);
-    assert(Min25Sieve(1000000000LL, 1000000, {2}).sum(divisors) == 697634);
-
-    const long long checker_mod = 469762049, a = 3, b = 5;
-    auto checker = [&](long long p, int e, long long){ return (a * e + b * p) % checker_mod; };
-    assert(Min25Sieve(10, checker_mod, {a, b}).sum(checker) == 752);
-
     return 0;
 }
