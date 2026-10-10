@@ -74,6 +74,15 @@ int main(){
         }
     }
 
+    /// Alphabets the tests above never use: the default 'a'..'z' and a '0'-based one
+    PalindromicTree<> letters;
+    for (char c : string("racecar")) letters.add(c);
+    assert(letters.distinct() == 7 && letters.longest == 7);  /// r a c e cec aceca racecar
+    PalindromicTree<2, '0'> bits;
+    for (char c : string("0110")) bits.add(c);
+    assert(bits.distinct() == 4 && bits.longest == 4);
+    assert((min_palindromic_factorization<2, '0'>("0110") == vector<int>{1, 2, 2, 1}));
+
     /// Long inputs: Fibonacci words have many palindromes, "aaa..." is the worst case for suffix runs
     string fib_a = "a", fib_b = "ab";
     while (fib_b.size() < 200000) tie(fib_a, fib_b) = make_pair(fib_b, fib_b + fib_a);

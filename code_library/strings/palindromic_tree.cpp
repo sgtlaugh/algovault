@@ -103,31 +103,17 @@ vector<int> min_palindromic_factorization(const string& s){
 
 int main(){
     PalindromicTree<> tree;
-    string word = "abacaba";
-    vector<bool> fresh;
-    for (char c : word) fresh.push_back(tree.add(c));
-    assert((fresh == vector<bool>{true, true, true, true, true, true, true}));
-    assert(tree.distinct() == 7 && tree.longest == 7);
+    for (char c : string("abacaba")) tree.add(c);
+    assert(tree.distinct() == 7);  /// a b c aba aca bacab abacaba
+    assert(tree.longest == 7);
 
     auto occ = tree.occurrences();
     map<int, long long> by_length;
     for (int v = 2; v < (int)tree.len.size(); v++) by_length[tree.len[v]] += occ[v];
-    assert(by_length[1] == 7 && by_length[3] == 3 && by_length[5] == 1 && by_length[7] == 1);
+    assert(by_length[1] == 7);
+    assert(by_length[3] == 3);  /// aba twice, aca once
 
-    PalindromicTree<> same;
-    for (char c : string("aaaa")) same.add(c);
-    assert(same.distinct() == 4 && same.longest == 4);
-    auto occ2 = same.occurrences();
-    for (int v = 2; v < (int)same.len.size(); v++) assert(occ2[v] == 5 - same.len[v]);
-
+    /// the prefix abac needs aba | c, the whole word is one palindrome
     assert((min_palindromic_factorization("abacaba") == vector<int>{1, 2, 1, 2, 3, 2, 1}));
-    assert((min_palindromic_factorization("abcd") == vector<int>{1, 2, 3, 4}));
-    assert((min_palindromic_factorization("aab") == vector<int>{1, 1, 2}));
-    assert(min_palindromic_factorization("").empty());
-
-    PalindromicTree<2, '0'> binary;
-    for (char c : string("0110")) binary.add(c);
-    assert(binary.distinct() == 4 && binary.longest == 4);
-
     return 0;
 }
