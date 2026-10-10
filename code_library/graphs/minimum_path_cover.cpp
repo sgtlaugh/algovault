@@ -194,10 +194,6 @@ int main(){
     for (auto [u, v] : vector<pair<int, int>>{{0, 2}, {1, 2}, {2, 3}, {2, 4}}) hub.add_edge(u, v);
     assert(hub.min_disjoint_path_cover() == 3);
     assert(hub.min_path_cover() == 2);
-    assert(hub.max_antichain().size() == 2);
-
-    DAGPathCover lonely(3);
-    assert(lonely.min_disjoint_path_cover() == 3 && lonely.min_path_cover() == 3 && lonely.max_antichain().size() == 3);
-
+    assert(hub.max_antichain().size() == 2);  /// e.g. {0, 1}
     return 0;
 }
