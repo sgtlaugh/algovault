@@ -1,3 +1,12 @@
+"""
+General Graph Matching
+
+maximum_matching(edges, mod): size of a maximum matching of a simple undirected graph, by the Tutte matrix rank,
+wrong with probability at most n / mod
+
+Complexity: O(n^3) for n vertices, even on sparse graphs
+"""
+
 import itertools
 from random import randint
 
