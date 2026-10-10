@@ -8,6 +8,7 @@
  * Every edge copy is alive for a contiguous range of queries, so it is inserted into the O(log q) segment tree
  * nodes covering that range; a DFS over the tree unites a node's edges on entry and rolls them back on exit,
  * using a DSU with union by size and no path compression so each union is undone in O(1)
+ * RollbackDSU is a checked copy of data_structures/disjoint_set.cpp
  *
  * Nodes are numbered from 0 to n - 1, parallel edges and self loops are allowed
  * remove_edge deletes one live copy of (u, v) in either orientation, the copy must exist
@@ -30,15 +31,61 @@
 
 using namespace std;
 
+/// BEGIN COPY rollback_dsu from code_library/data_structures/disjoint_set.cpp
+struct RollbackDSU{
+    vector<int> counter, parent, history;
+
+    RollbackDSU(int n) : counter(n + 1, 1), parent(n + 1){
+        iota(parent.begin(), parent.end(), 0);
+    }
+
+    int find_root(int i){
+        while (i != parent[i]) i = parent[i];
+        return i;
+    }
+
+    bool connect(int a, int b){
+        a = find_root(a), b = find_root(b);
+        if (a == b) return false;
+
+        if (counter[a] > counter[b]) swap(a, b);
+        parent[a] = b, counter[b] += counter[a];
+        history.push_back(a);
+        return true;
+    }
+
+    bool is_connected(int a, int b){
+        return find_root(a) == find_root(b);
+    }
+
+    int component_size(int i){
+        return counter[find_root(i)];
+    }
+
+    int time(){
+        return history.size();
+    }
+
+    void rollback(int t){
+        assert(0 <= t && t <= time());
+        while ((int)history.size() > t){
+            int a = history.back();
+            history.pop_back();
+            counter[parent[a]] -= counter[a], parent[a] = a;
+        }
+    }
+};
+/// END COPY rollback_dsu
+
 struct DynamicConnectivity{
-    int n, components;
+    int n;
     vector<array<int, 2>> queries; /// (u, v), or (-1, -1) for a component count
     vector<array<int, 4>> intervals; /// edge (u, v) alive for queries [l, r)
     map<pair<int, int>, vector<int>> open; /// first query index of each live copy of an edge
     vector<vector<pair<int, int>>> tree;
-    vector<int> parent, set_size, history;
+    RollbackDSU dsu;
 
-    DynamicConnectivity(int n): n(n) {}
+    DynamicConnectivity(int n): n(n), dsu(n) {}
 
     void add_edge(int u, int v){
         if (u > v) swap(u, v);
@@ -79,11 +126,6 @@ struct DynamicConnectivity{
             }
         }
 
-        components = n;
-        parent.resize(n);
-        iota(parent.begin(), parent.end(), 0);
-        set_size.assign(n, 1);
-        history.clear();
         dfs(1, 0, q - 1, res);
 
         tree.clear();
@@ -92,12 +134,12 @@ struct DynamicConnectivity{
 
 private:
     void dfs(int node, int lo, int hi, vector<int>& res){
-        int saved = history.size();
-        for (auto [u, v]: tree[node]) unite(u, v);
+        int saved = dsu.time();
+        for (auto [u, v]: tree[node]) dsu.connect(u, v);
 
         if (lo == hi){
             auto [u, v] = queries[lo];
-            res[lo] = u == -1 ? components : find_root(u) == find_root(v);
+            res[lo] = u == -1 ? n - dsu.time() : dsu.is_connected(u, v);
         }
         else{
             int mid = (lo + hi) / 2;
@@ -105,18 +147,7 @@ private:
             dfs(2 * node + 1, mid + 1, hi, res);
         }
 
-        while ((int)history.size() > saved){
-            int c = history.back();
-            history.pop_back();
-            set_size[parent[c]] -= set_size[c];
-            parent[c] = c;
-            components++;
-        }
-    }
-
-    int find_root(int u){
-        while (parent[u] != u) u = parent[u];
-        return u;
+        dsu.rollback(saved);
     }
 
     void insert(int node, int lo, int hi, int l, int r, pair<int, int> edge){
@@ -129,17 +160,6 @@ private:
         int mid = (lo + hi) / 2;
         insert(2 * node, lo, mid, l, r, edge);
         insert(2 * node + 1, mid + 1, hi, l, r, edge);
-    }
-
-    void unite(int u, int v){
-        u = find_root(u), v = find_root(v);
-        if (u == v) return;
-        if (set_size[u] > set_size[v]) swap(u, v);
-
-        parent[u] = v;
-        set_size[v] += set_size[u];
-        history.push_back(u);
-        components--;
     }
 };
 
