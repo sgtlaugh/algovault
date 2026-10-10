@@ -1,3 +1,14 @@
+"""
+Minimax with alpha beta pruning
+
+AbstractNode: subclass with the game rules, get_utility() returns the value of a node under optimal play
+
+Complexity: O(b^d) get_utility calls in the worst case, b = branching factor, d = depth of the game tree
+Pruning only skips calls, how many depends on the order get_next_states returns, and without memoization
+a state reachable through different move orders is searched again
+Recursion depth d, each level keeps its list of up to b next states, O(b d) memory
+"""
+
 import math
 from abc import ABC, abstractmethod
 
