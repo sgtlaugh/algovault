@@ -131,37 +131,14 @@ string longest_common_substring(const string& a, const string& b){
 
 int main(){
     SuffixAutomaton<> sa("abcbc");
-    assert(sa.distinct_substrings() == 12);
-    assert(sa.contains("") && sa.contains("cbc") && sa.contains("abcbc") && sa.contains("bcb"));
-    assert(!sa.contains("ac") && !sa.contains("abcbcb") && !sa.contains("A") && !sa.contains("c{"));
-    assert(sa.occurrences("bc") == 2 && sa.occurrences("c") == 2 && sa.occurrences("a") == 1);
-    assert(sa.occurrences("cbc") == 1 && sa.occurrences("ca") == 0 && sa.occurrences("") == 6);
+    assert(sa.distinct_substrings() == 12);  /// 15 substrings minus the repeats b, c, bc
+    assert(sa.contains("cbc"));
+    assert(!sa.contains("ac"));
+    assert(sa.occurrences("bc") == 2);
 
-    sa.add('b');
-    sa.add('c');
-    assert(sa.distinct_substrings() == 18);
-    assert(sa.occurrences("bc") == 3 && sa.occurrences("bcbc") == 2 && sa.occurrences("cb") == 2);
+    sa.add('b');                             /// online: now "abcbcb"
+    assert(sa.occurrences("cb") == 2);
 
-    SuffixAutomaton<> same("aaaa");
-    assert(same.distinct_substrings() == 4 && (int)same.len.size() == 5);
-    assert(same.occurrences("a") == 4 && same.occurrences("aa") == 3 && same.occurrences("aaaa") == 1);
-
-    SuffixAutomaton<> empty;
-    assert(empty.distinct_substrings() == 0 && empty.contains("") && !empty.contains("a"));
-    assert(empty.occurrences("") == 1 && empty.occurrences("a") == 0);
-
-    SuffixAutomaton<> skewed("abbb");
-    assert((int)skewed.len.size() == 7 && skewed.distinct_substrings() == 7);
-
-    assert(longest_common_substring("xabcdey", "zzabcdq") == "abcd");
     assert(longest_common_substring("banana", "ananas") == "anana");
-    assert(longest_common_substring("abc", "def") == "");
-    assert(longest_common_substring("", "abc") == "");
-    assert(longest_common_substring("abc", "") == "");
-    assert(longest_common_substring("abab", "b?aba") == "aba");
-
-    SuffixAutomaton<2, '0'> binary("0110");
-    assert(binary.distinct_substrings() == 8 && binary.occurrences("1") == 2 && !binary.contains("00"));
-
     return 0;
 }

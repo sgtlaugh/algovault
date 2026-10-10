@@ -126,5 +126,16 @@ int main(){
     }
     assert(letters_sa.occurrences("zz{") == 0 && !letters_sa.contains("A"));
 
+    /// A non-letter alphabet, every check above uses BASE = 'a'
+    for (long long it = 0; it < stress::scaled(300); it++){
+        string a = random_string(stress::rand_int(0, 12), 2), b = random_string(stress::rand_int(0, 12), 2);
+        for (char& ch : a) ch += '0' - 'a';
+        for (char& ch : b) ch += '0' - 'a';
+        string common = longest_common_substring<2, '0'>(a, b);
+        assert((int)common.size() == lcs_length(a, b) && a.find(common) != string::npos && b.find(common) != string::npos);
+        SuffixAutomaton<2, '0'> digits(a);
+        assert(digits.occurrences(common) == count_occurrences(a, common));
+    }
+
     return 0;
 }
