@@ -1,11 +1,12 @@
 /***
  * Generalized linear recurrence solver for recurrence with high degrees
  * Algorithm uses a combination of Berlekamp-Massey and Reeds-Sloane to derive the recurrence
- * Then it converts the recurrence to a polynomial and evaluates the n'th term efficiently using fast fourier transform
+ * Then it evaluates the n'th term with Bostan-Mori, and a window of terms with x^n mod the characteristic polynomial, using fast fourier transform
  *
  * Overall complexity is roughly O(k^2) + O(k * log k * log n) with high constant factors
  * O(k^2) is for initialization only and can be skipped if the recurrence is known
- * O(k * log k * log n) accounts for each query to calculate the n'th term
+ * O(k * log k * log n) accounts for each query to calculate the n'th term, nth_terms(n, c) adds O(k * c)
+ * Any modulus with 2 * mod < INT_MAX, FFT lengths grow as needed: nth_term with k = 1e5 and n = 1e18 takes about 3 s at -O2
  *
  * Thanks to anta(https://codeforces.com/profile/anta) for first showing me this cool trick and recommending the Black Box Linear Algebra book
  *
@@ -13,8 +14,6 @@
 
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
-
-#define MAX 131072
 
 using namespace std;
 
@@ -82,9 +81,6 @@ namespace nt{
 }
 
 namespace fft{
-    bool initialized = false;
-    int len, last = 0, A[MAX], B[MAX], rev[MAX];
-
     struct ComplexNum{
         double real, img;
 
@@ -105,100 +101,95 @@ namespace fft{
         inline ComplexNum operator * (ComplexNum other){
             return ComplexNum((real * other.real) - (img * other.img), (real * other.img) + (img * other.real));
         }
-    } u[MAX], v[MAX], f[MAX], g[MAX], dp[MAX];
+    };
 
-    void initialize(){
-        if (initialized) return;
+    /// roots[k + j] = e^(i * pi * j / k) for every power of two k, grown on demand and never changed afterwards
+    vector<ComplexNum> roots = {ComplexNum(), ComplexNum(1)};
 
-        int i, j, lim;
-        initialized = true, dp[1] = ComplexNum(1);
-
-        for (i = 1; (1 << i) < MAX; i++){
-            double theta = (2.0 * acos(0.0)) / (1 << i);
-            auto mul = ComplexNum(cos(theta), sin(theta));
-            for (lim = 1 << i, j = lim >> 1; j < lim; j++){
-                dp[2 * j] = dp[j];
-                dp[2 * j + 1] = dp[j] * mul;
+    void extend_roots(int len){
+        for (int k = roots.size(); k < len; k <<= 1){
+            roots.resize(2 * k);
+            for (int j = 0; j < k; j++){
+                long double theta = acosl(-1.0L) * j / k;  /// computed directly, a chain of products would accumulate rounding error
+                roots[k + j] = ComplexNum(cosl(theta), sinl(theta));
             }
         }
     }
 
-    void build(int& a, int* A, int& b, int* B){
-        while (a > 1 && A[a - 1] == 0) a--;
-        while (b > 1 && B[b - 1] == 0) b--;
-
-        int i, nbits;
-        len = 1 << (32 - __builtin_clz(a + b) - (__builtin_popcount(a + b) == 1));
-        for (i = a; i < len; i++) A[i] = 0;
-        for (i = b; i < len; i++) B[i] = 0;
-
-        initialize();
-
-        if (last != len){
-            last = len;
-            nbits = (32 - __builtin_clz(len) - (__builtin_popcount(len) == 1));
-
-            for (i = 0; i < len; i++){
-                rev[i] = (rev[i >> 1] >> 1) + ((i & 1) << (nbits - 1));
-            }
+    void transform(vector<ComplexNum>& a){
+        int i, j, k, len = a.size();
+        for (i = 1, j = 0; i < len; i++){
+            for (k = len >> 1; j & k; k >>= 1) j ^= k;
+            j ^= k;
+            if (i < j) swap(a[i], a[j]);
         }
-    }
-
-    void transform(ComplexNum *in, ComplexNum *out){
-        int i, j, k;
-        for (i = 0; i < len; i++) out[i] = in[rev[i]];
 
         for (k = 1; k < len; k <<= 1){
             for (i = 0; i < len; i += (k << 1)){
                 for (j = 0; j < k; j++){
-                    auto z = out[i + j + k] * dp[j + k];
-                    out[i + j + k] = out[i + j] - z;
-                    out[i + j] = out[i + j] + z;
+                    auto z = a[i + j + k] * roots[j + k];
+                    a[i + j + k] = a[i + j] - z;
+                    a[i + j] = a[i + j] + z;
                 }
             }
         }
     }
 
-    vector<int> mod_multiply(vector<int>& p1, vector<int>& p2, int mod){
-        int i, j, a = 0, b = 0, p_len = -1;
-        for (auto x: p1) A[a++] = x, p_len++;
-        for (auto x: p2) B[b++] = x, p_len++;
+    /// Splits the transforms at i and j (= -i) into the low and high 15 bit halves and writes the products of the halves to u and v
+    inline void combine(ComplexNum fi, ComplexNum fj, ComplexNum gi, ComplexNum gj, int len, ComplexNum& u, ComplexNum& v){
+        auto a1 = (fi + fj.conjugate()) * ComplexNum(0.5, 0);
+        auto a2 = (fi - fj.conjugate()) * ComplexNum(0, -0.5);
+        auto b1 = (gi + gj.conjugate()) * ComplexNum(0.5 / len, 0);
+        auto b2 = (gi - gj.conjugate()) * ComplexNum(0, -0.5 / len);
+        v = a1 * b2 + a2 * b1;
+        u = a1 * b1 + a2 * b2 * ComplexNum(0, 1);
+    }
 
-        build(a, A, b, B);
-        for (i = 0; i < min(a, b) && A[i] == B[i]; i++) {}
-        bool is_equal = (a == b && i == a);
+    /// parity 0 or 1 returns only the coefficients of p1 * p2 at indices of that parity, -1 returns all of them
+    vector<int> mod_multiply(const vector<int>& p1, const vector<int>& p2, int mod, int parity = -1){
+        int i, j, a = p1.size(), b = p2.size(), p_len = a + b - 1, step = parity < 0 ? 1 : 2;
+        while (a > 1 && p1[a - 1] == 0) a--;
+        while (b > 1 && p2[b - 1] == 0) b--;
+        bool is_equal = (a == b && equal(p1.begin(), p1.begin() + a, p2.begin()));
 
-        for (i = 0; i < len; i++){
-            A[i] %= mod, B[i] %= mod;
-            u[i] = ComplexNum(A[i] & 32767, A[i] >> 15);
-            v[i] = ComplexNum(B[i] & 32767, B[i] >> 15);
+        int len = 2;
+        while (len < a + b) len <<= 1;
+        extend_roots(len);
+
+        vector<ComplexNum> f(len), g(len);
+        for (i = 0; i < a; i++) f[i] = ComplexNum((p1[i] % mod) & 32767, (p1[i] % mod) >> 15);
+        for (i = 0; i < b; i++) g[i] = ComplexNum((p2[i] % mod) & 32767, (p2[i] % mod) >> 15);
+
+        transform(f);
+        if (is_equal) g = f;
+        else transform(g);
+
+        for (i = 0; i <= len / 2; i++){  /// in place, so index i and its mirror j are rewritten together
+            j = (len - i) & (len - 1);
+            auto fi = f[i], fj = f[j], gi = g[i], gj = g[j];
+            combine(fi, fj, gi, gj, len, f[j], g[j]);
+            if (i != j) combine(fj, fi, gj, gi, len, f[i], g[i]);
         }
 
-        transform(u, f);
-        for (int i = 0; i < len; i++) g[i] = f[i];
-        if (!is_equal) transform(v, g);
-
-        for (i = 0; i < len; i++){
-            j = (len - 1) & (len - i);
-            auto c1 = f[j].conjugate(), c2 = g[j].conjugate();
-            auto a1 = (f[i] + c1) * ComplexNum(0.5, 0);
-            auto a2 = (f[i] - c1) * ComplexNum(0, -0.5);
-            auto b1 = (g[i] + c2) * ComplexNum(0.5 / len, 0);
-            auto b2 = (g[i] - c2) * ComplexNum(0, -0.5 / len);
-            v[j] = a1 * b2 + a2 * b1;
-            u[j] = a1 * b1 + a2 * b2 * ComplexNum(0, 1);
+        if (parity >= 0){  /// folding the halves of the spectrum leaves the transform of one parity at half the length
+            len >>= 1;
+            for (i = 0; i < len; i++){
+                if (parity) f[i] = (f[i] - f[i + len]) * roots[len + i], g[i] = (g[i] - g[i + len]) * roots[len + i];
+                else f[i] = f[i] + f[i + len], g[i] = g[i] + g[i + len];
+            }
+            f.resize(len), g.resize(len);
         }
 
-        transform(u, f);
-        transform(v, g);
+        transform(f);
+        transform(g);
 
-        memset(A, 0, sizeof(A));
-        for (i = 0; i < len; i++){
+        vector<int> res((p_len - max(parity, 0) + step - 1) / step, 0);
+        for (i = 0; i < min(len, (int)res.size()); i++){
             long long x = f[i].real + 0.5, y = g[i].real + 0.5, z = f[i].img + 0.5;
-            A[i] = (x + ((y % mod) << 15) + ((z % mod) << 30)) % mod;
+            res[i] = (x + ((y % mod) << 15) + ((z % mod) << 30)) % mod;
         }
 
-        return vector<int>(A, A + p_len);
+        return res;
     }
 }
 
@@ -374,17 +365,22 @@ struct LinearRecurrence{
     LinearRecurrence() {}
 
     /***
-     * Construct linear recurrence from the first 2*n terms
-     * sequence: base sequence of 2*n terms, where n >= k and recurrence has degree k
+     * Construct linear recurrence from its first terms
+     * sequence: without a recurrence, the first 2*n terms where n >= k and the recurrence has degree k
+     *           with a recurrence of degree k, at least its first k terms
      * mod: all values are considered modulo this number
      * recurrence: an optional recurrence vector, calculated if not given
     ***/
 
     LinearRecurrence(vector<int> sequence, int mod, vector<int> recurrence={}) : mod(mod), recurrence(recurrence){
-        int n = sequence.size(), m = n >> 1;
+        int n = sequence.size(), m = recurrence.empty() ? n >> 1 : n;
 
-        if (n == 0 || (n % 2) != 0){
+        if (recurrence.empty() && (n == 0 || (n % 2) != 0)){
             throw std::invalid_argument("base sequence must be non-empty and of even length");
+        }
+
+        if (n < (int)recurrence.size()){
+            throw std::invalid_argument("base sequence must have at least as many terms as the recurrence degree");
         }
 
         if ((long long)mod * 2 >= INT_MAX){
@@ -556,6 +552,25 @@ struct LinearRecurrence{
         return res;
     }
 
+    /// Bostan-Mori: f(n) = [x^n] P(x) / Q(x), each step multiplies both by Q(-x) and keeps every second coefficient to halve n
+    int bostan_mori(long long n){
+        int k = recurrence.size();
+        vector<int> q(k + 1), v(k + 1);
+        q[0] = 1;
+        for (int i = 1; i <= k; i++) q[i] = recurrence[k - i];
+
+        auto p = fft::mod_multiply(vector<int>(raw_base_sequence.begin(), raw_base_sequence.begin() + k), q, mod);
+        p.resize(k);
+
+        for (; n; n >>= 1){
+            for (int i = 0; i <= k; i++) v[i] = (i & 1) && q[i] ? mod - q[i] : q[i];
+            p = fft::mod_multiply(p, v, mod, n & 1);
+            q = fft::mod_multiply(q, v, mod, 0);
+        }
+
+        return p[0];
+    }
+
     /***
      * Calculates the n'th, n+1'th, ... , n+k-1'th term of the recurrence
      * k must be at most the recurrence degree
@@ -570,6 +585,10 @@ struct LinearRecurrence{
             return res;
         }
 
+        int len = min(recurrence.size(), base_sequence.size());
+        if (!len) return vector<int> (k, 0);
+        if (k == 1) return {bostan_mori(n)};
+
         _POLYNOMIAL_MOD = mod;  /// set per call so recurrences with different mods can be interleaved
         u.push_back(1);
         auto p = Polynomial(u);
@@ -581,15 +600,20 @@ struct LinearRecurrence{
             v[i] = p.coefficient[i];
         }
 
-        int len = min(recurrence.size(), base_sequence.size());
-        if (!len) return vector<int> (k, 0);
-
         assert(len >= k);
+        vector<int> terms = raw_base_sequence;
+        while ((int)terms.size() < len + k - 1){  /// a given recurrence may come with only its first len terms
+            long long val = 0;
+            int s = terms.size();
+            for (int i = 0; i < len; i++) val = (val + (mod - recurrence[i]) * terms[s - len + i]) % mod;
+            terms.push_back(val);
+        }
+
         for (int j = 0; j < k; j++){
             long long val = 0;
             for (int i = 0; i < len; i++){
-                assert((i + j) < (int)raw_base_sequence.size());
-                val = (val + (long long)v[i] * raw_base_sequence[i + j]) % mod;
+                assert((i + j) < (int)terms.size());
+                val = (val + (long long)v[i] * terms[i + j]) % mod;
             }
             res.push_back(val);
         }
@@ -635,8 +659,15 @@ int main(){
     assert(lr.nth_term(10) == 55);
     assert(lr.nth_term(1e18) == 209783453);
 
-    /// faster than calculating lr.nth_term(8) and lr.nth_term(9) separately
+    /// consecutive terms come from a single polynomial power
     assert(lr.nth_terms(8, 2) == vector<int>({21, 34}));
+
+    /// with the recurrence given, its first k terms are enough
+    lr = LinearRecurrence({0, 1}, mod, recurrence);
+    assert(lr.nth_term(20) == 6765);
+    assert(lr.nth_terms(9, 2) == vector<int>({34, 55}));
+    assert(lr.raw_base_sequence == vector<int>({0, 1}));  /// queries leave the given terms untouched
+    assert(lr.nth_term(1e18) == 209783453);
 
     /***
      *
