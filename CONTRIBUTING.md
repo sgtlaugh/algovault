@@ -13,6 +13,8 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 - An entry in its README index section, alphabetically, variants nested under their base
 - Python templates go in `code_library/python/`, tests in `stress_tests/python/` via `stress.py`
 - A file CI truly cannot stress test goes in `STRESS_SKIP` in `run_tests.sh`, with the reason
+- A judge test under `judge_tests/<topic>/<problem>.cpp` when a Library Checker or Aizu problem fits, starting with
+  `// competitive-verifier: PROBLEM <url>` and `// competitive-verifier: TLE <the problem's time limit>`, plus a ✔ on the index entry
 
 ## Style
 
@@ -28,9 +30,17 @@ CI fails on a failing test, a compiler warning, a missing stress test or index e
 ```bash
 bash .github/scripts/run_tests.sh self      # every self-test
 bash .github/scripts/run_tests.sh stress    # every stress test
+bash .github/scripts/judge_tests.sh         # every judge test, or name files; needs pip install competitive-verifier==4.2.2
 ```
 
-Both build with `-std=c++17 -Wall -Wextra -Werror` under AddressSanitizer and UndefinedBehaviorSanitizer.
+`run_tests.sh` builds with `-std=c++17 -Wall -Wextra -Werror` under AddressSanitizer and UndefinedBehaviorSanitizer and takes:
+
+- `JOBS=n` tests at a time, all cores by default
+- `CHANGED_SINCE=<commit>` only the tests of files changed since that commit, which is what pushes run
+- `BUILD=fast` for `-O2` without sanitizers, with `STRESS_SCALE=20` the nightly high-iteration run
+- `STRESS_SEED` and `STRESS_SCALE` to reproduce a stress failure, every stress test prints its seed when it starts
+
+Judge tests compile with `-O2` and run on the judge's own data; new judge test files must be `git add`ed first.
 
 ## Complexity notation
 

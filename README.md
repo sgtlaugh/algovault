@@ -19,11 +19,24 @@ bool same = dsu.find_root(a) == dsu.find_root(b);
 
 The header at the top of each file lists its API, complexity and limits.
 
-## Quality
+## Testing
 
-- Every file has self-tests in its `main()` and a brute-force stress test under [`stress_tests/`](stress_tests) at the same path
-- CI compiles all of them with GCC 14 under AddressSanitizer and UndefinedBehaviorSanitizer, warnings as errors, on every push
-- Stress tests rerun nightly at 20x the iterations with a fresh seed
+Every template is checked four ways:
+
+| Layer | Where | Checks |
+|---|---|---|
+| Self-tests | `main()` in each file | Usage examples with known answers |
+| Stress tests | [`stress_tests/`](stress_tests), same path | Random inputs against an independent brute force |
+| Repo checks | [`run_tests.sh`](.github/scripts/run_tests.sh) | Every file has a stress test and an index entry, consistent style |
+| Judge tests | [`judge_tests/`](judge_tests) | Official [Library Checker](https://judge.yosupo.jp) and [Aizu](https://onlinejudge.u-aizu.ac.jp) test data at full size, within the real time limit |
+
+Self-tests and stress tests build with GCC 14 under AddressSanitizer and UndefinedBehaviorSanitizer with an 8 MB stack, warnings as errors. Judge tests build with `-O2` like a judge.
+
+- Every push runs the self, stress and judge tests of the files it changes, plus the repo checks
+- Every night all self and stress tests run, and the stress tests again at 20x the iterations with a fresh seed
+- Every week all judge tests run from scratch
+
+A ✔ in the index marks a template that passes a judge test; it links to one of them. The commands to run everything locally are in [CONTRIBUTING.md](CONTRIBUTING.md#checks).
 
 ## Index
 
