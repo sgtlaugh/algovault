@@ -143,7 +143,19 @@ int main(){
     for (long long it = 0; it < stress::scaled(4000); it++){
         int n_left = stress::rand_int(0, 7), n_right = stress::rand_int(0, 7);
         auto adj = random_graph(n_left, n_right, stress::rand_int(0, 20));
-        assert(run(n_left, n_right, adj) == brute(n_left, n_right, adj));
+        int expected = brute(n_left, n_right, adj);
+        assert(run(n_left, n_right, adj) == expected);
+
+        /// Calling max_matching again after adding more edges continues from the old matching
+        HopcroftKarp grow(n_left, n_right);
+        for (int u = 0; u < n_left; u++){
+            for (int i = 0; i < (int)adj[u].size(); i += 2) grow.add_edge(u, adj[u][i]);
+        }
+        grow.max_matching();
+        for (int u = 0; u < n_left; u++){
+            for (int i = 1; i < (int)adj[u].size(); i += 2) grow.add_edge(u, adj[u][i]);
+        }
+        assert(grow.max_matching() == expected);
     }
 
     for (long long it = 0; it < stress::scaled(400); it++){

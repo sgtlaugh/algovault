@@ -91,29 +91,20 @@ struct HopcroftKarp{
 };
 
 int main(){
+    /// Left 1 only likes right 0, so left 0 must take right 1 and left 2 right 2
     HopcroftKarp hk(3, 3);
     hk.add_edge(0, 0), hk.add_edge(0, 1);
     hk.add_edge(1, 0);
     hk.add_edge(2, 1), hk.add_edge(2, 2);
     assert(hk.max_matching() == 3);
     assert(hk.match_left[1] == 0);
-    for (int u = 0; u < 3; u++) assert(hk.match_right[hk.match_left[u]] == u);
+    assert(hk.match_right[2] == 2);
 
-    HopcroftKarp star(4, 1);
-    for (int u = 0; u < 4; u++) star.add_edge(u, 0);
-    assert(star.max_matching() == 1);
-
-    HopcroftKarp empty(5, 7);
-    assert(empty.max_matching() == 0);
-
-    HopcroftKarp none(0, 0);
-    assert(none.max_matching() == 0);
-
+    /// More edges can be added and the matching grown
     HopcroftKarp grow(2, 2);
     grow.add_edge(0, 0), grow.add_edge(1, 0);
     assert(grow.max_matching() == 1);
     grow.add_edge(0, 1);
     assert(grow.max_matching() == 2);
-
     return 0;
 }
