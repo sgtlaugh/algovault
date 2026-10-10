@@ -1,0 +1,151 @@
+name: Judge tests
+
+on:
+  push:
+    paths:
+      - "code_library/**"
+      - "judge_tests/**"
+      - ".competitive-verifier/config.toml"
+      - ".github/workflows/judge_tests.yml"
+  workflow_dispatch:
+  schedule:
+    - cron: "0 5 * * 0"  # weekly: every judge test, ignoring the previous results
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  CV_VERSION: "4.2.2"
+  SPLIT: 4
+
+jobs:
+  # Downloads Aizu data and generates Library Checker data once, into one cache every verify job reads
+  prepare:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    outputs:
+      data-key: ${{ steps.key.outputs.key }}
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install competitive-verifier
+        run: pip install "competitive-verifier==$CV_VERSION"
+
+      - name: Find the judge tests
+        run: competitive-verifier oj-resolve --include judge_tests --config .competitive-verifier/config.toml > verify_files.json
+
+      - name: Name the data cache after the set of problems
+        id: key
+        run: |
+          problems=$(grep -oE '"problem": *"[^"]+"' verify_files.json | sort -u | sha256sum | cut -c1-16)
+          echo "key=judge-data-$problems" >> "$GITHUB_OUTPUT"
+
+      - name: Restore judge data
+        id: restore
+        uses: actions/cache/restore@v6
+        with:
+          path: .competitive-verifier/cache
+          key: ${{ steps.key.outputs.key }}
+          restore-keys: judge-data-
+
+      - name: Download and generate missing judge data
+        if: steps.restore.outputs.cache-hit != 'true'
+        run: competitive-verifier download --verify-json verify_files.json
+
+      - name: Save judge data
+        if: steps.restore.outputs.cache-hit != 'true'
+        uses: actions/cache/save@v6
+        with:
+          path: .competitive-verifier/cache
+          key: ${{ steps.key.outputs.key }}
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: verify-files
+          path: verify_files.json
+
+  verify:
+    needs: prepare
+    runs-on: ubuntu-24.04
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        index: [0, 1, 2, 3]
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install competitive-verifier
+        run: pip install "competitive-verifier==$CV_VERSION"
+
+      - uses: actions/download-artifact@v4
+        with:
+          name: verify-files
+
+      - name: Restore judge data
+        uses: actions/cache/restore@v6
+        with:
+          path: .competitive-verifier/cache
+          key: ${{ needs.prepare.outputs.data-key }}
+          fail-on-cache-miss: true
+
+      # The merged result of the last run: passing judge tests whose files, library dependencies and test data are
+      # unchanged (content hashes) are skipped, failing ones always run again
+      - name: Restore the previous result
+        if: github.event_name != 'schedule'
+        uses: actions/cache/restore@v6
+        with:
+          path: prev-result.json
+          key: judge-result-${{ github.run_id }}
+          restore-keys: judge-result-
+
+      - name: Run this job's share against the judge data
+        run: |
+          prev=()
+          [[ -f prev-result.json ]] && prev=(--prev-result prev-result.json --change-detection hash)
+          competitive-verifier verify --verify-json verify_files.json --output result.json --no-download \
+              --split "$SPLIT" --split-index "${{ matrix.index }}" --write-summary --check-error "${prev[@]}" > /dev/null
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: result-${{ matrix.index }}
+          path: result.json
+
+  # Merges the four results into the one the next run skips unchanged judge tests with
+  merge:
+    needs: verify
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.12"
+
+      - name: Install competitive-verifier
+        run: pip install "competitive-verifier==$CV_VERSION"
+
+      - uses: actions/download-artifact@v4
+        with:
+          pattern: result-*
+
+      - name: Merge the results
+        run: competitive-verifier merge-result result-*/result.json > prev-result.json
+
+      - name: Save the merged result
+        uses: actions/cache/save@v6
+        with:
+          path: prev-result.json
+          key: judge-result-${{ github.run_id }}
