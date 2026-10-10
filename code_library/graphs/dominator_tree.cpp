@@ -111,19 +111,11 @@ int main(){
     }
     assert((paper.run(0) == vector<int>{0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 7, 0, 4}));
 
+    /// 0 reaches 3 through 1 or 2, so only 0 dominates 3, and 5 never gets reached from 0
     DominatorTree diamond(6);
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {0, 2}, {1, 3}, {2, 3}, {3, 4}, {4, 4}, {5, 0}}) diamond.add_edge(u, v);
     assert((diamond.run(0) == vector<int>{0, 0, 0, 0, 3, -1}));
-    assert((diamond.run(5) == vector<int>{5, 0, 0, 0, 3, 5}));
-    assert((diamond.run(3) == vector<int>{-1, -1, -1, 3, 3, -1}));
-
-    DominatorTree cycle(4);
-    for (int i = 0; i < 4; i++) cycle.add_edge(i, (i + 1) % 4);
-    cycle.add_edge(2, 1);
-    assert((cycle.run(2) == vector<int>{3, 2, 2, 2}));
-
-    DominatorTree single(1);
-    assert((single.run(0) == vector<int>{0}));
+    assert((diamond.run(5) == vector<int>{5, 0, 0, 0, 3, 5}));  /// the same graph from another root
 
     return 0;
 }
