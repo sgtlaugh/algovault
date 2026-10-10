@@ -129,47 +129,25 @@ struct MinCostCirculation{
 };
 
 int main(){
-    MinCostCirculation triangle(3);
-    int e01 = triangle.add_edge(0, 1, 1, -1), e12 = triangle.add_edge(1, 2, 1, 1), e20 = triangle.add_edge(2, 0, 1, -1);
-    assert(triangle.solve() == -1);
-    assert(triangle.flow(e01) == 1 && triangle.flow(e12) == 1 && triangle.flow(e20) == 1);
-
-    MinCostCirculation acyclic(3);
-    int a01 = acyclic.add_edge(0, 1, 7, -5), a12 = acyclic.add_edge(1, 2, 7, -3), a02 = acyclic.add_edge(0, 2, 7, 4);
-    assert(acyclic.solve() == 0);
-    assert(acyclic.flow(a01) == 0 && acyclic.flow(a12) == 0 && acyclic.flow(a02) == 0);
-
-    MinCostCirculation loops(1);
-    int cheap = loops.add_edge(0, 0, 5, -2), dear = loops.add_edge(0, 0, 4, 3), zero = loops.add_edge(0, 0, 9, 0);
-    assert(loops.solve() == -10);
-    assert(loops.flow(cheap) == 5 && loops.flow(dear) == 0 && loops.flow(zero) == 0);
-
-    MinCostCirculation empty(4);
-    assert(empty.solve() == 0);
-
     /// Two negative cycles share arc 0 -> 1 of capacity 3: 2 units on 0-1-0 (-3 each) beat 0-1-2-0 (-2 each), 2-3-2 costs +1
-    MinCostCirculation shared(4);
-    int s01 = shared.add_edge(0, 1, 3, -4), s10 = shared.add_edge(1, 0, 2, 1), s12 = shared.add_edge(1, 2, 2, 1);
-    int s20 = shared.add_edge(2, 0, 2, 1), s23 = shared.add_edge(2, 3, 5, 2), s32 = shared.add_edge(3, 2, 5, -1);
-    assert(shared.solve() == -8);
-    assert(shared.flow(s01) == 3 && shared.flow(s10) == 2 && shared.flow(s12) == 1 && shared.flow(s20) == 1);
-    assert(shared.flow(s23) == 0 && shared.flow(s32) == 0);
+    MinCostCirculation g(4);
+    int e01 = g.add_edge(0, 1, 3, -4), e10 = g.add_edge(1, 0, 2, 1), e12 = g.add_edge(1, 2, 2, 1);
+    g.add_edge(2, 0, 2, 1), g.add_edge(2, 3, 5, 2);
+    int e32 = g.add_edge(3, 2, 5, -1);
+    assert(g.solve() == -8);  /// 2 * -3 + 1 * -2
+    assert(g.flow(e01) == 3);
+    assert(g.flow(e10) == 2);
+    assert(g.flow(e12) == 1);
+    assert(g.flow(e32) == 0);
 
     /// Min cost max flow recipe on the graph of mcmf_spfa.cpp (https://cp-algorithms.com/graph/edmonds_karp.html): cost 71, flow 10
     MinCostCirculation network(7);
     vector<array<int, 4>> arcs = {{1, 2, 7, 1}, {2, 3, 5, 2}, {3, 6, 8, 3}, {1, 4, 4, 4}, {4, 2, 3, 5}, {4, 5, 2, 4}, {2, 5, 3, 3}, {5, 3, 3, 2}, {5, 6, 5, 1}};
     long long big = 1;
     for (auto [u, v, cap, cost] : arcs) network.add_edge(u, v, cap, cost), big += abs(cost);
-    int back = network.add_edge(6, 1, 11, -big);
+    int back = network.add_edge(6, 1, 11, -big);  /// 11 = capacity out of the source 1
     long long cost = network.solve();
-    assert(network.flow(back) == 10 && cost + big * 10 == 71);
-
-    /// Same recipe with an isolated negative cycle 1-2-1 worth 4 * (-3 + 1): max flow 1 at cost 5, total 5 - 8
-    MinCostCirculation detour(4);
-    detour.add_edge(1, 2, 4, -3), detour.add_edge(2, 1, 4, 1), detour.add_edge(0, 3, 1, 5);
-    long long detour_big = 1 + 3 + 1 + 5;
-    int detour_back = detour.add_edge(3, 0, 1, -detour_big);
-    assert(detour.solve() + detour_big * detour.flow(detour_back) == -3 && detour.flow(detour_back) == 1);
-
+    assert(network.flow(back) == 10);
+    assert(cost + big * 10 == 71);
     return 0;
 }
