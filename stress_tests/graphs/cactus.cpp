@@ -111,6 +111,23 @@ void check_structure(const Cactus& g){
     }
     assert(owner == g.cycle_of);
 
+    /// The DFS starts each component at its smallest vertex, and each cycle must begin at its unique vertex nearest to it
+    vector<vector<int>> adj(n);
+    for (auto [u, v] : g.edges) adj[u].push_back(v), adj[v].push_back(u);
+    vector<int> dist(n, -1), queue;
+    for (int s = 0; s < n; s++){
+        if (dist[s] != -1) continue;
+        dist[s] = 0, queue = {s};
+        for (size_t i = 0; i < queue.size(); i++){
+            for (int y : adj[queue[i]]){
+                if (dist[y] == -1) dist[y] = dist[queue[i]] + 1, queue.push_back(y);
+            }
+        }
+    }
+    for (auto& cycle : g.cycles){
+        for (size_t j = 1; j < cycle.size(); j++) assert(dist[cycle[0]] < dist[cycle[j]]);
+    }
+
     for (int e = 0; e < m; e++) bridges += owner[e] == -1;
     assert((int)g.tree.size() == n + k);
     vector<int> parent(n + k), graph_parent(n);

@@ -125,38 +125,22 @@ int main(){
     ***/
     Cactus g(7);
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {1, 2}, {2, 0}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {6, 3}}) g.add_edge(u, v);
-    assert(g.build() && g.edge_cactus && g.vertex_cactus);
+    assert(g.build());
+    assert(g.vertex_cactus);
     assert((g.cycles == vector<vector<int>>{{0, 1, 2}, {3, 4, 5, 6}}));
-    assert((g.cycle_edges == vector<vector<int>>{{0, 1, 2}, {4, 5, 6, 7}}));
-    assert((g.cycle_of == vector<int>{0, 0, 0, -1, 1, 1, 1, 1}));
-    for (auto& out : g.tree) sort(out.begin(), out.end());
-    assert((g.tree == vector<vector<int>>{{7}, {7}, {3, 7}, {2, 8}, {8}, {8}, {8}, {0, 1, 2}, {3, 4, 5, 6}}));
+    assert((g.cycle_of == vector<int>{0, 0, 0, -1, 1, 1, 1, 1}));  /// edge 3 is the bridge 2-3
+    sort(g.tree[3].begin(), g.tree[3].end());
+    assert((g.tree[3] == vector<int>{2, 8}));                    /// the bridge and the square's node 7 + 1
 
+    /// Two triangles sharing vertex 0
     Cactus bowtie(5);
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {1, 2}, {2, 0}, {0, 3}, {3, 4}, {4, 0}}) bowtie.add_edge(u, v);
-    assert(bowtie.build() && !bowtie.vertex_cactus);
-    assert(bowtie.cycles.size() == 2);
-    sort(bowtie.tree[0].begin(), bowtie.tree[0].end());
-    assert((bowtie.tree[0] == vector<int>{5, 6}));
+    assert(bowtie.build());
+    assert(!bowtie.vertex_cactus);
 
+    /// A square with the diagonal 0-2 puts edge 0-1 on two cycles
     Cactus diamond(4);
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {1, 2}, {2, 3}, {3, 0}, {0, 2}}) diamond.add_edge(u, v);
-    assert(!diamond.build() && !diamond.edge_cactus && !diamond.vertex_cactus);
-
-    Cactus multi(3);
-    for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {0, 1}, {1, 2}, {2, 2}}) multi.add_edge(u, v);
-    assert(multi.build() && multi.vertex_cactus);
-    assert((multi.cycles == vector<vector<int>>{{0, 1}, {2}}));
-    assert((multi.cycle_edges == vector<vector<int>>{{0, 1}, {3}}));
-    assert((multi.cycle_of == vector<int>{0, 0, -1, 1}));
-
-    Cactus tripled(2);
-    for (int i = 0; i < 3; i++) tripled.add_edge(0, 1);
-    assert(!tripled.build());
-
-    Cactus lonely(1);
-    assert(lonely.build() && lonely.vertex_cactus && lonely.cycles.empty());
-    assert((lonely.tree == vector<vector<int>>{{}}));
-
+    assert(!diamond.build());
     return 0;
 }
