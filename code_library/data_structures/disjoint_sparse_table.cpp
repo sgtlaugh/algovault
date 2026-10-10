@@ -11,9 +11,7 @@
  * For sum or xor, we can just keep a cumulative array but for many operations like the product, disjoint sparse tables can be useful
  * Further reading - https://codeforces.com/blog/entry/87940
  *
- * Time and space complexity is the same as in regular sparse table
- * O(n log n) to build
- * O(1) to query
+ * Complexity: O(n log n) build and memory, O(1) per query, the same as the regular sparse table
  *
  * Note, we can still do this in O(log n) using regular sparse tables
  * And then there are sqrt trees...
