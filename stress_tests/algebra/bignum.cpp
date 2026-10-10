@@ -35,8 +35,9 @@ void check(const Bignum& got, const mpz_class& want){
 }
 
 int main(){
-    /// Digit counts around the 18 row carry fold (162 digits) and the Karatsuba cutoff (96 limbs = 864 digits)
-    const vector<int> sizes = {0, 1, 8, 9, 10, 18, 19, 153, 162, 171, 855, 864, 873, 1728, 1729, 3000};
+    /// Digit counts around the 18 row carry fold (162 digits), the Karatsuba cutoff (96 limbs = 864 digits),
+    /// the Newton division cutoff (400 limbs = 3600 digits) and the NTT cutoff (700 limbs = 6300 digits)
+    const vector<int> sizes = {0, 1, 8, 9, 10, 18, 19, 153, 162, 171, 855, 864, 873, 1728, 1729, 3000, 3591, 3600, 3609, 6291, 6300, 6309};
 
     for (long long it = 0; it < stress::scaled(2000); it++){
         int da = sizes[stress::rand_int(0, sizes.size() - 1)] + stress::rand_int(0, 3);
@@ -71,6 +72,30 @@ int main(){
             check(a / s, q);
             check(a % s, r);
         }
+    }
+
+    /// Newton division with quotient and divisor both 3600+ digits, in the truncated branch (quotient shorter than the
+    /// divisor) and the long division branch (quotient longer), with remainders 0, 1 and |y| - 1 that sit on the edge
+    /// of the final correction, plus NTT products of the same sizes
+    for (long long it = 0; it < stress::scaled(150); it++){
+        int big = it % 10 == 9 ? 50000 : 10000;
+        mpz_class y = abs(to_gmp(random_number(stress::rand_int(3600, big))));
+        mpz_class q = abs(to_gmp(random_number(stress::rand_int(3600, big)))), r = 0;
+
+        int kind = stress::rand_int(0, 3);
+        if (kind == 1) r = 1;
+        if (kind == 2) r = y - 1;
+        if (kind == 3) r = abs(to_gmp(random_number(stress::rand_int(1, big)))) % y;
+
+        mpz_class x = q * y + r;
+        if (stress::rand_int(0, 1)) x = -x;
+        if (stress::rand_int(0, 1)) y = -y;
+        Bignum a(x.get_str()), b(y.get_str());
+
+        check(a * b, x * y);
+        mpz_tdiv_qr(q.get_mpz_t(), r.get_mpz_t(), x.get_mpz_t(), y.get_mpz_t());
+        check(a / b, q);
+        check(a % b, r);
     }
 
     return 0;

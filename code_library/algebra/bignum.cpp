@@ -8,11 +8,14 @@
  *
  * Complexity, with n and m the number of digits:
  *     Addition, subtraction, comparison, I/O: O(n)
- *     Multiplication: O(n * m) for small inputs, Karatsuba O(n^1.58) for large ones
- *     Division: O((n - m) * m), O(n) when the divisor fits in 9 digits
+ *     Multiplication: O(n * m) for small inputs, Karatsuba O(n^1.58) for mid sizes,
+ *                     three prime NTT O((n + m) log(n + m)) once both have 700+ limbs (~6300 digits)
+ *     Division: O(n) when the divisor fits in 9 digits, O((n - m) * m) while the divisor or the quotient has under
+ *               400 limbs (~3600 digits), O(n log n) beyond with a Newton reciprocal
  *
- * Multiplying two 10^5 digit numbers takes ~0.03 s, two 10^6 digit numbers ~1 s
- * Dividing 2 * 10^5 digits by 10^5 digits takes ~0.3 s, quadratic beyond that (Newton iteration with FFT would be needed)
+ * At -O2, multiplying two 2 * 10^6 digit numbers takes ~0.15 s and dividing 2 * 10^6 digits by 10^6 digits ~0.5 s
+ * / and % each run the full division
+ * Products of more than 2^23 limbs (~7.5 * 10^7 digits) split with Karatsuba until the pieces fit the NTT
  * Requires __int128 (64-bit GCC or Clang)
  *
 ***/
@@ -24,6 +27,9 @@ using namespace std;
 struct Bignum{
     static const uint32_t BASE = 1000000000;
     static const int KARATSUBA_CUTOFF = 96;
+    static const int NTT_CUTOFF = 700;
+    static const size_t NTT_MAX = 1 << 23;
+    static const int NEWTON_CUTOFF = 400;
 
     bool neg = false;
     vector<uint32_t> a;
@@ -202,6 +208,102 @@ private:
         return res;
     }
 
+    template<uint32_t MOD>
+    static uint32_t pow_mod(unsigned long long b, unsigned long long e){
+        unsigned long long res = 1;
+        for (b %= MOD; e; e >>= 1, b = b * b % MOD){
+            if (e & 1) res = res * b % MOD;
+        }
+        return res;
+    }
+
+    /// rt[len + j] = w^j for the primitive 2 * len-th root of unity w (inverted if inverse), len = 1, 2, 4, ... < n
+    template<uint32_t MOD>
+    static vector<uint32_t> ntt_roots(size_t n, bool inverse){
+        vector<uint32_t> rt(max<size_t>(n, 2));
+        for (size_t len = 1; len < n; len <<= 1){
+            unsigned long long w = pow_mod<MOD>(3, (MOD - 1) / (2 * len));
+            if (inverse) w = pow_mod<MOD>(w, MOD - 2);
+
+            rt[len] = 1;
+            for (size_t j = 1; j < len; j++) rt[len + j] = rt[len + j - 1] * w % MOD;
+        }
+
+        return rt;
+    }
+
+    /// The forward pass (decimation in frequency) leaves f in bit reversed order and the inverse pass (decimation in time)
+    /// takes it in that order, so pointwise products between them need no bit reversal permutation
+    template<uint32_t MOD>
+    static void ntt(vector<uint32_t>& f, const vector<uint32_t>& rt, bool inverse){
+        size_t n = f.size();
+        if (!inverse){
+            for (size_t len = n >> 1; len; len >>= 1){
+                for (size_t i = 0; i < n; i += 2 * len){
+                    for (size_t j = 0; j < len; j++){
+                        uint32_t u = f[i + j], v = f[i + j + len];
+                        f[i + j] = u + v >= MOD ? u + v - MOD : u + v;
+                        f[i + j + len] = (unsigned long long)(u + MOD - v) * rt[len + j] % MOD;
+                    }
+                }
+            }
+            return;
+        }
+
+        for (size_t len = 1; len < n; len <<= 1){
+            for (size_t i = 0; i < n; i += 2 * len){
+                for (size_t j = 0; j < len; j++){
+                    uint32_t u = f[i + j], v = (unsigned long long)f[i + j + len] * rt[len + j] % MOD;
+                    f[i + j] = u + v >= MOD ? u + v - MOD : u + v;
+                    f[i + j + len] = u >= v ? u - v : u + MOD - v;
+                }
+            }
+        }
+    }
+
+    /// Cyclic convolution of x and y modulo MOD with n points, n a power of 2 dividing MOD - 1
+    template<uint32_t MOD>
+    static vector<uint32_t> convolve_mod(const Limbs& x, const Limbs& y, size_t n){
+        vector<uint32_t> fx(n), fy(n);
+        for (size_t i = 0; i < x.size(); i++) fx[i] = x[i] % MOD;
+        for (size_t i = 0; i < y.size(); i++) fy[i] = y[i] % MOD;
+
+        vector<uint32_t> rt = ntt_roots<MOD>(n, false);
+        ntt<MOD>(fx, rt, false), ntt<MOD>(fy, rt, false);
+
+        unsigned long long inv_n = pow_mod<MOD>(n, MOD - 2);
+        for (size_t i = 0; i < n; i++) fx[i] = (unsigned long long)fx[i] * fy[i] % MOD * inv_n % MOD;
+
+        ntt<MOD>(fx, ntt_roots<MOD>(n, true), true);
+        return fx;
+    }
+
+    /// Three prime NTT, each with primitive root 3 and 2^23 | p - 1
+    /// Every coefficient is below min(n, m) * BASE^2 <= 2^22 * 10^18 < P1 * P2 * P3 ~ 7.9 * 10^25, so the CRT is exact
+    static Limbs mul_ntt(const Limbs& x, const Limbs& y){
+        const uint32_t P1 = 998244353, P2 = 167772161, P3 = 469762049;
+        size_t len = x.size() + y.size() - 1, n = 1;
+        while (n < len) n <<= 1;
+
+        vector<uint32_t> r1 = convolve_mod<P1>(x, y, n), r2 = convolve_mod<P2>(x, y, n), r3 = convolve_mod<P3>(x, y, n);
+
+        const unsigned long long inv1 = pow_mod<P2>(P1, P2 - 2), p12 = (unsigned long long)P1 * P2;
+        const unsigned long long inv12 = pow_mod<P3>(p12, P3 - 2);
+        Limbs res(len + 1);
+        unsigned __int128 carry = 0;
+        for (size_t i = 0; i < len; i++){
+            unsigned long long a1 = r1[i];
+            unsigned long long a2 = (r2[i] + P2 - a1 % P2) * inv1 % P2;
+            unsigned long long a3 = (r3[i] + P3 - (a1 + a2 * P1) % P3) * inv12 % P3;
+            carry += a1 + a2 * P1 + (unsigned __int128)a3 * p12;
+            res[i] = carry % BASE, carry /= BASE;
+        }
+
+        res[len] = carry;
+        trim(res);
+        return res;
+    }
+
     static Limbs mul(const Limbs& x, const Limbs& y){
         if (x.size() < y.size()) return mul(y, x);
         size_t n = x.size(), m = y.size();
@@ -212,7 +314,9 @@ private:
             return res;
         }
         if (m < KARATSUBA_CUTOFF) return mul_schoolbook(x, y);
+        if (m >= NTT_CUTOFF && n + m - 1 <= NTT_MAX) return mul_ntt(x, y);
 
+        /// Beyond NTT_MAX the split below keeps recursing until the pieces fit the transform
         Limbs res(n + m + 1);
         if (n >= 2 * m){
             /// Unbalanced, multiply y by each m limb chunk of x
@@ -263,7 +367,7 @@ private:
         return res;
     }
 
-    /// Knuth's algorithm D, returns {|x| / |y|, |x| % |y|}
+    /// Returns {|x| / |y|, |x| % |y|}
     static pair<Limbs, Limbs> divmod(const Limbs& x, const Limbs& y){
         assert(!y.empty());
         if (cmp(x, y) < 0) return {{}, x};
@@ -273,6 +377,92 @@ private:
             return {q, r ? Limbs{r} : Limbs{}};
         }
 
+        size_t quotient_limbs = x.size() - y.size() + 1;
+        if (y.size() >= NEWTON_CUTOFF && quotient_limbs >= NEWTON_CUTOFF) return divmod_newton(x, y);
+        return divmod_knuth(x, y);
+    }
+
+    static Limbs shift_left(const Limbs& x, size_t k){
+        Limbs res(k + x.size());
+        copy(x.begin(), x.end(), res.begin() + k);
+        return res;
+    }
+
+    static Limbs shift_right(const Limbs& x, size_t k){
+        return k >= x.size() ? Limbs{} : Limbs(x.begin() + k, x.end());
+    }
+
+    /// floor(BASE^(2L) / y) for y with L limbs, give or take a few units
+    /// R0 = r * BASE^(L - h), with r the reciprocal of the top h limbs, has relative error ~BASE^(1 - h) when the top limb
+    /// is 1. The Newton step R = R0 + R0 * (BASE^(2L) - y * R0) / BASE^(2L) squares it, and since R <= BASE^(L + 1),
+    /// 2h >= L + 3 leaves about one unit of error, plus one each from truncating e and the floor below
+    static Limbs reciprocal(const Limbs& y){
+        size_t L = y.size();
+        if (L <= NEWTON_CUTOFF){
+            Limbs power(2 * L + 1);
+            power[2 * L] = 1;
+            return divmod_knuth(power, y).first;
+        }
+
+        size_t h = L / 2 + 2;
+        Limbs r = reciprocal(shift_right(y, L - h));
+
+        /// With R0 = r * BASE^(L - h): R = R0 + r * e / BASE^(2h) where e = BASE^(L + h) - y * r, |e| < ~BASE^(L + 1)
+        /// Dropping the low h - 1 limbs of e costs at most 1 unit since r < BASE^(h + 1)
+        Limbs power(L + h + 1), t = mul(y, r);
+        power[L + h] = 1;
+        bool below = cmp(t, power) > 0;
+        Limbs e = shift_right(below ? sub(t, power) : sub(power, t), h - 1);
+        Limbs correction = shift_right(mul(r, e), h + 1);
+
+        Limbs res = shift_left(r, L - h);
+        return below ? sub(res, correction) : add(res, correction);
+    }
+
+    static pair<Limbs, Limbs> divmod_newton(const Limbs& x, const Limbs& y){
+        size_t n = x.size(), m = y.size(), L = n - m + 2;
+        if (m >= L){
+            /// Dropping the low m - L limbs of both moves the quotient by at most 1, since it is below BASE^(L - 1)
+            /// and the shortened divisor is at least BASE^(L - 1)
+            Limbs ys = shift_right(y, m - L);
+            return fix_quotient(x, y, shift_right(mul(shift_right(x, m - L), reciprocal(ys)), 2 * L));
+        }
+
+        /// Long division in base BASE^m: each window is below y * BASE^m, so its quotient fits in one m limb digit
+        Limbs inv = reciprocal(y), q(n), r;
+        for (size_t b = (n - 1) / m + 1; b-- > 0;){
+            Limbs cur = shift_left(r, m);
+            copy(x.begin() + b * m, x.begin() + min(n, (b + 1) * m), cur.begin());
+            trim(cur);
+
+            pair<Limbs, Limbs> step = fix_quotient(cur, y, shift_right(mul(cur, inv), 2 * m));
+            copy(step.first.begin(), step.first.end(), q.begin() + b * m);
+            r = move(step.second);
+        }
+
+        trim(q);
+        return {q, r};
+    }
+
+    /// Steps an estimate q, off by a few units, to the exact quotient using the remainder x - q * y
+    static pair<Limbs, Limbs> fix_quotient(const Limbs& x, const Limbs& y, Limbs q){
+        Limbs p = mul(q, y);
+        while (cmp(p, x) > 0){
+            sub_from(q, {1}), trim(q);
+            sub_from(p, y), trim(p);
+        }
+
+        Limbs r = sub(x, p);
+        while (cmp(r, y) >= 0){
+            q = add(q, {1});
+            sub_from(r, y), trim(r);
+        }
+
+        return {q, r};
+    }
+
+    /// Knuth's algorithm D, requires |x| >= |y| and y with at least 2 limbs
+    static pair<Limbs, Limbs> divmod_knuth(const Limbs& x, const Limbs& y){
         /// Scaling so the top divisor limb is at least BASE / 2 keeps each estimated quotient limb off by at most 2
         uint32_t norm = BASE / (y.back() + 1ULL);
         Limbs u = mul_small(x, norm), v = mul_small(y, norm);
@@ -350,6 +540,13 @@ int main(){
     assert(fact.to_string().size() == 2568);
     for (int i = 1000; i >= 1; i--) fact /= i;
     assert(fact == 1);
+
+    auto nines = [](int k){ return Bignum(string(k, '9')); };
+    auto pow10 = [](int k){ return Bignum("1" + string(k, '0')); };
+    assert((nines(20000) * nines(20000)).to_string() == string(19999, '9') + "8" + string(19999, '0') + "1");
+    assert(nines(27000) / nines(18000) == pow10(9000) && nines(27000) % nines(18000) == nines(9000));
+    assert((-pow10(27000) / nines(9000)).to_string() == "-1" + string(8999, '0') + "1" + string(8999, '0') + "1");
+    assert(-pow10(27000) % nines(9000) == -1);
 
     return 0;
 }
