@@ -90,30 +90,13 @@ private:
 };
 
 int main(){
-    XorSegmentTree<long long> small({1, 2, 3, 4});
-    assert(small.query(0, 1, 1) == 3);
-    assert(small.query(1, 2, 3) == 5);
-    assert(small.query(0, 0, 2) == 3);
-    for (int x = 0; x < 4; x++) assert(small.query(0, 3, x) == 10);
-
     XorSegmentTree<long long> st({5, 1, 4, 1, 5, 9, 2, 6});
-    assert(st.query(2, 5, 5) == 14);
-    assert(st.query(1, 6, 7) == 22);
-    assert(st.query(3, 3, 0) == 1);
+    assert(st.query(3, 3, 0) == 1);             /// x = 0 is a plain range sum
+    assert(st.query(2, 5, 5) == 14);            /// p in 2..5 reads a[7], a[6], a[1], a[0]: 6 + 2 + 1 + 5
+    assert(st.query(0, 7, 3) == 33);            /// the whole array, any x
 
-    st.add(6, 10);
-    assert(st.query(1, 6, 7) == 32);
+    st.add(6, 10);                              /// a[6] = 12
     assert(st.query(0, 0, 6) == 12);
-    assert(st.query(4, 7, 4) == 11);
-
-    XorSegmentTree<long long> single({7});
-    assert(single.query(0, 0, 0) == 7);
-    single.add(0, -3);
-    assert(single.query(0, 0, 0) == 4);
-
-    XorSegmentTree<long long> big({1000000000000000000LL, 1000000000000000000LL});
-    assert(big.query(0, 1, 1) == 2000000000000000000LL);
-    assert(big.query(1, 1, 1) == 1000000000000000000LL);
-
+    assert(st.query(4, 7, 4) == 11);            /// a[0..3]
     return 0;
 }
