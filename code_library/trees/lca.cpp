@@ -107,6 +107,7 @@ struct LCA{
     }
 };
 
+/// BEGIN SHARED linear_lca
 /// Range minimum index over a fixed array in O(n) build and O(1) query, blocks of 64 with per position stack masks
 /// Same technique as sparse_table.cpp's LinearSparseTable, which is the general purpose version
 struct LinearRMQ{
@@ -214,6 +215,7 @@ struct LinearLCA{
         return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
     }
 };
+/// END SHARED linear_lca
 
 /// The two deepest cross lcas are the endpoints, and the paths meet iff the deepest one is not above the deeper path top
 template <typename Tree>
