@@ -15,6 +15,7 @@
  * Dijkstra from t on the reversed graph gives a shortest path tree, every other edge u -> v is a sidetrack
  * costing w + d[v] - d[u] >= 0, and a walk is the tree path plus a sequence of sidetracks
  * h[u] is a persistent leftist heap of the sidetracks leaving the tree path from u, sharing h[parent]
+ * LeftistHeap is a CI-checked copy of data_structures/leftist_heap.cpp
  * The answers are popped best-first from a heap of (length, heap node): from a node, either replace its
  * sidetrack with a child in the same heap, or append the cheapest sidetrack after it
  *
@@ -29,6 +30,57 @@
 
 using namespace std;
 
+/// BEGIN COPY LeftistHeap from code_library/data_structures/leftist_heap.cpp
+template <typename T, typename Compare = less<T>>
+struct LeftistHeap{
+    static constexpr int EMPTY = -1;
+
+    struct Node{
+        T val;
+        int left, right, rank;
+    };
+
+    vector<Node> nodes;
+    Compare cmp;
+
+    int push(int h, const T& x){
+        nodes.push_back({x, EMPTY, EMPTY, 1});
+        return meld(h, (int)nodes.size() - 1);
+    }
+
+    int pop(int h){
+        assert(h != EMPTY);
+        return meld(nodes[h].left, nodes[h].right);
+    }
+
+    T top(int h) const{
+        assert(h != EMPTY);
+        return nodes[h].val;
+    }
+
+    /// Copies only the nodes on the merged right spines, whose length is bounded by the ranks
+    int meld(int a, int b){
+        if (a == EMPTY) return b;
+        if (b == EMPTY) return a;
+        if (cmp(nodes[b].val, nodes[a].val)) swap(a, b);
+
+        Node copy = nodes[a];
+        nodes.push_back(copy);
+        int c = (int)nodes.size() - 1;
+
+        int right = meld(copy.right, b);  /// the call can reallocate nodes, assign after it
+        nodes[c].right = right;
+        if (rank(nodes[c].left) < rank(right)) swap(nodes[c].left, nodes[c].right);
+        nodes[c].rank = rank(nodes[c].right) + 1;
+        return c;
+    }
+
+    int rank(int h) const{
+        return h == EMPTY ? 0 : nodes[h].rank;
+    }
+};
+/// END COPY LeftistHeap
+
 struct KShortestWalks{
     static constexpr long long INF = numeric_limits<long long>::max();
 
@@ -37,14 +89,9 @@ struct KShortestWalks{
         long long w;
     };
 
-    struct Node{
-        long long key;
-        int to, left, right, rank;
-    };
-
     int n;
     vector<Edge> edges;
-    vector<Node> pool;
+    LeftistHeap<pair<long long, int>> pool;
 
     KShortestWalks(int n) : n(n) {}
 
@@ -77,8 +124,8 @@ struct KShortestWalks{
         if (d[s] == INF || k <= 0) return {};
 
         /// Dijkstra pops a vertex after its tree parent, so h[parent] is complete when h[u] needs it
-        pool.clear();
-        vector<int> h(n, -1);
+        pool.nodes.clear();
+        vector<int> h(n, pool.EMPTY);
         for (int u : order){
             vector<pair<long long, int>> sidetracks;
             for (int id : out[u]){
@@ -87,52 +134,27 @@ struct KShortestWalks{
             }
             sort(sidetracks.rbegin(), sidetracks.rend());
 
-            /// A sorted chain hung on left children is already a valid leftist heap: every right child is empty
-            int own = -1;
-            for (auto [key, v] : sidetracks){
-                pool.push_back({key, v, own, -1, 1});
-                own = pool.size() - 1;
-            }
-            h[u] = meld(own, tree_edge[u] == -1 ? -1 : h[edges[tree_edge[u]].v]);
+            /// Sorted decreasing, each push of a smaller value becomes the root above the old heap and copies O(1) nodes
+            int own = pool.EMPTY;
+            for (auto sidetrack : sidetracks) own = pool.push(own, sidetrack);
+            h[u] = pool.meld(own, tree_edge[u] == -1 ? pool.EMPTY : h[edges[tree_edge[u]].v]);
         }
 
         vector<long long> result = {d[s]};
         priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> best;
-        if (h[s] != -1) best.push({d[s] + pool[h[s]].key, h[s]});
+        if (h[s] != pool.EMPTY) best.push({d[s] + pool.top(h[s]).first, h[s]});
         while ((int)result.size() < k && !best.empty()){
             auto [len, x] = best.top();
             best.pop();
             result.push_back(len);
 
-            const Node& node = pool[x];
-            if (node.left != -1) best.push({len - node.key + pool[node.left].key, node.left});
-            if (node.right != -1) best.push({len - node.key + pool[node.right].key, node.right});
-            if (h[node.to] != -1) best.push({len + pool[h[node.to]].key, h[node.to]});
+            const auto& node = pool.nodes[x];
+            auto [key, to] = node.val;
+            if (node.left != pool.EMPTY) best.push({len - key + pool.top(node.left).first, node.left});
+            if (node.right != pool.EMPTY) best.push({len - key + pool.top(node.right).first, node.right});
+            if (h[to] != pool.EMPTY) best.push({len + pool.top(h[to]).first, h[to]});
         }
         return result;
-    }
-
-private:
-    int rank(int x) const{
-        return x == -1 ? 0 : pool[x].rank;
-    }
-
-    /// Copies only the nodes on the merged right spines, so recursion depth and new nodes are O(log size)
-    int meld(int a, int b){
-        if (a == -1) return b;
-        if (b == -1) return a;
-        if (pool[b].key < pool[a].key) swap(a, b);
-
-        const Node copy = pool[a];
-        int c = pool.size();
-        pool.push_back(copy);
-        int right = meld(copy.right, b);
-
-        Node& node = pool[c];
-        node.right = right;
-        if (rank(node.left) < rank(node.right)) swap(node.left, node.right);
-        node.rank = rank(node.right) + 1;
-        return c;
     }
 };
 

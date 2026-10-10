@@ -139,7 +139,7 @@ int main(){
     KShortestWalks ladder(n);
     for (auto [u, v, w] : loop_ladder(n)) ladder.add_edge(u, v, w);
     assert(ladder.solve(0, n - 1, 20000) == loop_ladder_walks(n, 20000));
-    assert(ladder.pool.size() <= ladder.edges.size() + 2 * n * (__lg(ladder.edges.size()) + 2));
+    assert(ladder.pool.nodes.size() <= 2 * ladder.edges.size() + 2 * n * (__lg(ladder.edges.size()) + 2));  /// each chain push adds 2 nodes
 
     n = 200000;
     assert(run_library(n, loop_ladder(n), 0, n - 1, 300000) == loop_ladder_walks(n, 300000));
