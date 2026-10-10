@@ -8,15 +8,17 @@
  * Edges outside the root's component take no part in the game. Nodes are numbered from 0 to n - 1
  * Traversals are iterative, so deep graphs are safe
  *
+ * Complexity:
+ *   - GreenHackenbush grundy: O(n + m) per call
+ *   - RedBlueHackenbush value: O(n log^2 n) per call, small-to-large merging of fraction bits into the heavy child
+ *
  * GreenHackenbush (impartial, either player deletes any edge):
- *   - Complexity: O(n + m) per grundy call
  *   - GreenHackenbush g(n); g.add_edge(u, v); g.grundy(root): first player wins iff the result is nonzero
  *   - Parallel edges and self loops (u == v) allowed
  *   - Fusion principle: the vertices of a 2-edge-connected part fuse into one, its edges become loops (1 each)
  *   - Colon principle: a subtree of value x on top of a bridge is worth x + 1, siblings combine by xor
  *
  * RedBlueHackenbush (partizan, Left deletes only blue edges, Right only red):
- *   - Complexity: O(n log^2 n) per value call, small-to-large merging of fraction bits into the heavy child
  *   - RedBlueHackenbush t(n); t.add_edge(u, v, blue); t.value(root): the exact value as a Dyadic
  *   - The root's component must be a tree (asserted), parallel edges and self loops are cycles
  *   - Dyadic: whole + sum of 2^-b over b in bits, whole = floor, bits strictly increasing, all >= 1
