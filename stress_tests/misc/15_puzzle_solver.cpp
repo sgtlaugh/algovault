@@ -4,7 +4,6 @@
 #include "../../code_library/misc/15_puzzle_solver.cpp"
 #undef main
 
-const string IN = "/tmp/algovault_15_puzzle_in.txt", OUT = "/tmp/algovault_15_puzzle_out.txt";
 const int bx_step[] = {0, 0, -1, 1}, by_step[] = {-1, 1, 0, 0};  /// L R U D move the blank, as in the solver's output
 typedef array<int, 16> Board;  /// row major, 0 is the blank
 
@@ -56,54 +55,34 @@ int main(){
         Board b;
         iota(b.begin(), b.end(), 0);
         shuffle(b.begin(), b.end(), stress::rng());
-        for (int i = 0; i < 16; i++) ar[i / 4][i % 4] = b[i] ? b[i] : 16;
-        assert(is_solvable() == solvable_oracle(b));
+        assert(FifteenPuzzle(vector<int>(b.begin(), b.end())).is_solvable() == solvable_oracle(b));
     }
 
-    for (long long it = 0; it < stress::scaled(10); it++){
-        vector<Board> boards;
-        vector<int> walks;
-        vector<bool> solvable;
-        for (int k = 0; k < 20; k++){
-            Board b = goal();
-            int walk = stress::rand_int(0, k % 2 ? 16 : 30);
-            for (int s = 0; s < walk; ){
-                if (slide(b, stress::rand_int(0, 3))) s++;
-            }
-            bool ok = k % 5 != 4;
-            if (!ok){
-                int x = stress::rand_int(1, 15), y = x % 15 + 1;  /// a transposition of two tiles flips solvability
-                swap(*find(b.begin(), b.end(), x), *find(b.begin(), b.end(), y));
-            }
-            boards.push_back(b), walks.push_back(walk), solvable.push_back(ok);
+    for (long long it = 0; it < stress::scaled(200); it++){
+        Board b = goal();
+        int walk = stress::rand_int(0, it % 2 ? 16 : 30);
+        for (int s = 0; s < walk; ){
+            if (slide(b, stress::rand_int(0, 3))) s++;
+        }
+        bool ok = it % 5 != 4;
+        if (!ok){
+            int x = stress::rand_int(1, 15), y = x % 15 + 1;  /// a transposition of two tiles flips solvability
+            swap(*find(b.begin(), b.end(), x), *find(b.begin(), b.end(), y));
         }
 
-        string input = to_string(boards.size()) + "\n";
-        for (auto& b : boards) for (int i = 0; i < 16; i++) input += to_string(b[i]) + (i % 4 == 3 ? "\n" : " ");
-        ofstream(IN) << input;
-        assert(freopen(IN.c_str(), "r", stdin) && freopen(OUT.c_str(), "w", stdout));
-        library_main();
-        fflush(stdout);
-
-        ifstream out(OUT);
-        string line;
-        for (size_t k = 0; k < boards.size(); k++){
-            while (getline(out, line) && line.empty()) {}
-            if (!solvable[k]){
-                assert(line == "This puzzle is not solvable.");
-                continue;
-            }
-            int moves = -1;
-            assert(sscanf(line.c_str(), "Puzzle can be solved in %d moves", &moves) == 1);
-            string path;
-            if (moves) getline(out, path);
-            assert((int)path.size() == moves && moves <= walks[k]);
-
-            Board b = boards[k];
-            for (char ch : path) assert(slide(b, strchr("LRUD", ch) - "LRUD"));
-            assert(b == goal());
-            if (walks[k] <= 16) assert(moves == bfs_distance(boards[k]));  /// IDA* overshooting its bound returns longer paths
+        FifteenPuzzle p(vector<int>(b.begin(), b.end()));
+        auto [moves, path] = p.solve();
+        if (!ok){
+            assert(moves == -1 && path.empty());
+            continue;
         }
+        assert((int)path.size() == moves && moves <= walk);
+        assert((p.solve() == pair<int, string>{moves, path}));
+
+        Board e = b;
+        for (char ch : path) assert(slide(e, strchr("LRUD", ch) - "LRUD"));
+        assert(e == goal());
+        if (walk <= 16) assert(moves == bfs_distance(b));  /// IDA* overshooting its bound returns longer paths
     }
 
     return 0;
