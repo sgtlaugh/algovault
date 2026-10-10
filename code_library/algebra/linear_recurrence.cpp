@@ -3,9 +3,12 @@
  * Algorithm uses a combination of Berlekamp-Massey and Reeds-Sloane to derive the recurrence
  * Then it evaluates the n'th term with Bostan-Mori, and a window of terms with x^n mod the characteristic polynomial, using fast fourier transform
  *
- * Overall complexity is roughly O(k^2) + O(k * log k * log n) with high constant factors
- * O(k^2) is for initialization only and can be skipped if the recurrence is known
- * O(k * log k * log n) accounts for each query to calculate the n'th term, nth_terms(n, c) adds O(k * c)
+ * Complexity: k is the recurrence degree, all with high constant factors
+ *   - O(m^2) to find the recurrence from m given terms (m >= 2k) with a prime mod, skipped when the recurrence is given
+ *   - O(m^2 log mod) instead for a composite mod, Reeds-Sloane runs once per prime power p^e in O(e m^2)
+ *   - Plus O(sqrt(mod)) trial division to factor mod, cached per mod
+ *   - O(k log k log n) per nth_term(n), nth_terms(n, c) adds O(k c)
+ *
  * Any modulus with 2 * mod < INT_MAX, FFT lengths grow as needed: nth_term with k = 1e5 and n = 1e18 takes about 3 s at -O2
  *
  * Thanks to anta(https://codeforces.com/profile/anta) for first showing me this cool trick and recommending the Black Box Linear Algebra book
