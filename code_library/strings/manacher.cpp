@@ -5,6 +5,8 @@
  * When i is even, pal[i] = largest palindromic substring centered from str[i / 2]
  * When i is odd,  pal[i] = largest palindromic substring centered between str[i / 2] and str[i / 2] + 1
  *
+ * Complexity: O(n) time and memory
+ *
 ***/
 
 #include <bits/stdc++.h>
