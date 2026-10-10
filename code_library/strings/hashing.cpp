@@ -8,7 +8,7 @@
  *
 ***/
 
-#include <bits/stdc++.h>
+#include <bits/stdtr1c++.h>
 
 #define MAXLEN 1000010
 
