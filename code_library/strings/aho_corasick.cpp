@@ -4,8 +4,11 @@
  * Multi-pattern string matching with failure links
  * Finds all occurrences of multiple pattern strings in a text
  *
- * Build: O(sum of pattern lengths)
- * Query: O(text length + total occurrences)
+ * Complexity:
+ *   - insert: O(|s|) plus O(A) to allocate each new trie node, A = MAX_LETTERS = 26
+ *   - build: O(A L), L = sum of pattern lengths, A transitions for each of the at most L + 1 nodes
+ *   - count: O(text length), counter[] already holds the number of matches ending at each node
+ *   - Memory: O(A L) ints for the transition table
  *
  * Usage:
  *   1. Insert all patterns
