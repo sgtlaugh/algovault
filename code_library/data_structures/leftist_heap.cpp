@@ -27,6 +27,7 @@
 
 using namespace std;
 
+/// BEGIN SHARED LeftistHeap
 template <typename T, typename Compare = less<T>>
 struct LeftistHeap{
     static constexpr int EMPTY = -1;
@@ -75,6 +76,7 @@ struct LeftistHeap{
         return h == EMPTY ? 0 : nodes[h].rank;
     }
 };
+/// END SHARED LeftistHeap
 
 int main(){
     using Heap = LeftistHeap<int>;
