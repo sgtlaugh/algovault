@@ -35,20 +35,21 @@ using namespace std;
 namespace ntt{
     const unsigned P1 = 167772161, P2 = 469762049, P3 = 754974721;
 
-    constexpr unsigned long long power(unsigned long long b, unsigned long long e, unsigned long long mod){
-        unsigned long long res = 1;
-        for (b %= mod; e; e >>= 1, b = b * b % mod){
-            if (e & 1) res = res * b % mod;
-        }
-        return res;
-    }
-
     constexpr bool is_prime(unsigned n){
         if (n < 2) return false;
         for (unsigned long long d = 2; d * d <= n; d++){
             if (n % d == 0) return false;
         }
         return true;
+    }
+
+    /// BEGIN SHARED ntt_core
+    constexpr unsigned long long power(unsigned long long b, unsigned long long e, unsigned long long mod){
+        unsigned long long res = 1;
+        for (b %= mod; e; e >>= 1, b = b * b % mod){
+            if (e & 1) res = res * b % mod;
+        }
+        return res;
     }
 
     /// rt[k + j] = w^j for every power of two k < n, where w is a primitive 2k-th root of unity
@@ -84,6 +85,7 @@ namespace ntt{
             }
         }
     }
+    /// END SHARED ntt_core
 
     template<unsigned MOD = 998244353, unsigned ROOT = 3>
     vector<long long> multiply(const vector<long long>& a, const vector<long long>& b){
