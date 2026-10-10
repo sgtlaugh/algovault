@@ -9,8 +9,13 @@
  * Use 2SAT_kosaraju.cpp when any satisfying assignment will do, it is always linear
  *
  * Fixes variables greedily in index order, a literal can be set iff it does not imply its own negation
- * Easy inputs run in O(n + m), unsatisfiable inputs in O(n + m) once the greedy wastes O(n + m) work,
- * and the worst case is O(n * (n + m) / 64) with bitset reachability, instead of O(n * m) for the plain greedy
+ *
+ * Complexity:
+ *   - O(n + m) when no greedy attempt fails
+ *   - O(n (n + m)) worst case, satisfiable or not, a failed attempt scans the whole adjacency of every literal it
+ *     visits, so n variables implying one literal of out-degree m cost O(n m) (7 s at n = m = 1.6e5 with -O2)
+ *   - The bitset batches alone cost O(n (n + m) / 64), at most 2n / B + 1 batches of O((n + m) B / 64)
+ *   - O(n + m) memory, plus B / 8 bytes per component once a batch runs
  *
  * A literal that implies its negation is false in every solution, it is fixed as soon as a batch finds it and that
  * decides its ancestors too, so a chain of n of them takes one batch (Library Checker long_chain, n = 5e5: 0.2 s)
