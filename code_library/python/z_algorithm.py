@@ -1,6 +1,13 @@
+"""
+Z Algorithm
+z_function(text): z_array[i] = length of the longest common prefix of text[i:] and text
+
+Complexity: O(n) time, O(n) memory for the z array
+"""
+
+
 def z_function(text):
     """
-    Z Algorithm in O(n)
     :param text: text string to process
     :return: the z_array, where z_array[i] = length of the longest common prefix of text[i:] and text
     """
