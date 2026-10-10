@@ -6,25 +6,22 @@
  *
  * Complexity, with N patterns inserted and sigma = MAX_LETTERS:
  *   - insert: O(|pattern| sigma log N) amortized, a pattern is rebuilt into at most log N + 1 automata, each build is O(sigma) per node
- *   - count: O(|text| MAX_LOG), every slot is scanned even when empty, occurrences come from precomputed counters
+ *   - count: O(|text| log N), all floor(log2 N) + 1 slots are scanned even when empty, occurrences come from precomputed counters
  *   - memory: O(sigma) ints per trie node, clear() keeps vector capacity so each slot holds on to its peak size
  *
  * No need to call build() - handled automatically
- * Holds at most 2^MAX_LOG - 1 patterns
  *
 ***/
 
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
-#define MAX_LOG      20
-#define MAX_LETTERS  26
-
 using namespace std;
 
 /// Static Aho-Corasick (building block for dynamic version)
 /// BEGIN COPY aho_corasick from code_library/strings/aho_corasick.cpp
 struct AhoCorasick{
+    static constexpr int MAX_LETTERS = 26;
     int edge[256];
 
     vector<int> leaf;
@@ -125,13 +122,14 @@ struct AhoCorasick{
 /// END COPY aho_corasick
 
 struct DynamicAhoCorasick{
-    AhoCorasick ar[MAX_LOG];
+    /// ar[i] holds 2^i patterns or none, a new top slot is added when every slot is full
+    vector<AhoCorasick> ar;
 
     inline void insert(const char* str){
         // Binary decomposition: find first empty slot
         int i, k = 0;
-        for (k = 0; k < MAX_LOG && ar[k].size(); k++) {}
-        assert(k < MAX_LOG);
+        for (k = 0; k < (int)ar.size() && ar[k].size(); k++) {}
+        if (k == (int)ar.size()) ar.emplace_back();
 
         // Merge all smaller automata into ar[k]
         ar[k].insert(str);
@@ -151,7 +149,7 @@ struct DynamicAhoCorasick{
 
     long long count(const char* str){
         long long res = 0;
-        for (int i = 0; i < MAX_LOG; i++) res += ar[i].count(str);
+        for (auto& a: ar) res += a.count(str);
         return res;
     }
 
