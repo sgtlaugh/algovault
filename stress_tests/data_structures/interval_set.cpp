@@ -81,5 +81,13 @@ int main(){
 
     large_run(stress::scaled(300000));
 
+    /// Floating T, which simulate never uses: cuts at fractional points keep their exact endpoints (all values are dyadic)
+    IntervalSet<double> reals;
+    reals.add(0.5, 1.75), reals.add(1.25, 2.0), reals.add(3.0, 3.5);
+    assert((reals.seg == map<double, double>{{0.5, 2.0}, {3.0, 3.5}}) && reals.covered_length() == 2.0);
+    reals.remove(1.5, 3.25);
+    assert((reals.seg == map<double, double>{{0.5, 1.5}, {3.25, 3.5}}) && reals.covered_length() == 1.25);
+    assert(reals.contains(1.25) && !reals.contains(1.5) && reals.covers(3.25, 3.5) && !reals.covers(1.25, 3.3));
+
     return 0;
 }

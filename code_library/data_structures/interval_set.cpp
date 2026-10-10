@@ -88,45 +88,18 @@ struct IntervalSet{
 
 int main(){
     IntervalSet<int> s;
-    assert(s.covered_length() == 0 && !s.contains(0) && s.covers(5, 5) && !s.covers(0, 1));
-
     s.add(1, 4), s.add(6, 9);
     assert((s.seg == map<int, int>{{1, 4}, {6, 9}}));
     assert(s.covered_length() == 6);
-    assert(s.contains(1) && s.contains(3) && !s.contains(4) && !s.contains(0) && s.contains(8) && !s.contains(9));
-    assert(s.covers(1, 4) && s.covers(2, 3) && !s.covers(3, 7) && !s.covers(0, 2));
+    assert(s.contains(3));
+    assert(!s.contains(4));   /// half-open: 4 is not in [1, 4)
+    assert(!s.covers(3, 7));  /// the gap [4, 6) is uncovered
 
-    s.add(4, 6);
-    assert((s.seg == map<int, int>{{1, 9}}));
-    assert(s.covered_length() == 8 && s.covers(1, 9));
-
-    s.add(5, 5), s.add(7, 3), s.remove(6, 6);
+    s.add(4, 6);  /// touches both sides, so all three merge
     assert((s.seg == map<int, int>{{1, 9}}));
 
     s.remove(3, 5);
     assert((s.seg == map<int, int>{{1, 3}, {5, 9}}));
-    assert(s.covered_length() == 6 && !s.contains(3) && !s.contains(4) && s.contains(5));
-
-    s.add(-10, -7), s.add(20, 30);
-    s.remove(-8, 25);
-    assert((s.seg == map<int, int>{{-10, -8}, {25, 30}}));
-    assert(s.covered_length() == 7);
-
-    s.add(-9, 26);
-    assert((s.seg == map<int, int>{{-10, 30}}));
-    s.remove(-10, 30);
-    assert(s.seg.empty() && s.covered_length() == 0);
-
-    IntervalSet<long long> big;
-    big.add(-4000000000000000000LL, 0), big.add(0, 4000000000000000000LL);
-    assert(big.seg.size() == 1 && big.covered_length() == 8000000000000000000LL);
-    big.remove(-1, 1);
-    assert(big.covered_length() == 7999999999999999998LL && !big.contains(0) && big.contains(1));
-
-    IntervalSet<double> reals;
-    reals.add(0.5, 1.75), reals.add(1.25, 2.0), reals.add(3.0, 3.5);
-    assert(reals.seg.size() == 2 && abs(reals.covered_length() - 2.0) < 1e-9);
-    assert(reals.contains(1.9) && !reals.contains(2.0) && reals.covers(0.5, 2.0) && !reals.covers(1.5, 3.25));
-
+    assert(s.covered_length() == 6);
     return 0;
 }
