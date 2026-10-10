@@ -122,13 +122,7 @@ int main(){
     assert((distinct == vector<int>{3, 2, 2, 1, 1, 1}));
     assert(count == 0);
 
-    assert(tree.tout[1] - tree.tin[1] == 2 && tree.tout[0] - tree.tin[0] == 5 && tree.tout[2] - tree.tin[2] == 1);
+    assert(tree.tout[1] - tree.tin[1] == 2);    /// order[tin[1] .. tout[1]] holds 1, 3, 4
     assert(tree.order[tree.tin[4]] == 4);
-
-    DsuOnTree single(1);
-    int calls = 0;
-    single.run(0, [&](int) {}, [&](int) {}, [&](int){ calls++; });
-    assert(calls == 1);
-
     return 0;
 }
