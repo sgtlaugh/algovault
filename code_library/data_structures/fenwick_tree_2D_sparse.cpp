@@ -6,7 +6,7 @@
  * Point updates and range queries only
  * 1-based indexing for elements
  *
- * Time: O(log N * log M) per update/query
+ * Complexity: O(2^lg_capacity) to construct, O(log N log M) hash probes per update/query, each expected O(1) while the table is at most half full
  * Space: a fixed table of 2^lg_capacity slots, (8 + sizeof(T)) bytes each, allocated up front
  *   - The default lg_capacity = 24 is 16.7M slots, 268 MB for T = long long
  *   - Each update creates up to (log2(N) + 1) * (log2(M) + 1) nodes, 961 at N = M = 1e9
