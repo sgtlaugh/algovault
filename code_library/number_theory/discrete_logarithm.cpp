@@ -11,7 +11,7 @@
  *
 ***/
 
-#include <bits/stdc++.h>
+#include <bits/stdtr1c++.h>
 #include <ext/pb_ds/assoc_container.hpp>
 
 using namespace std;
