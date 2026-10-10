@@ -1,3 +1,10 @@
+"""
+Lagrange Polynomial Interpolation
+lagrange(x_values, y_values, nth_term): value at nth_term of the lowest degree polynomial through the points, exact
+
+Complexity: O(n^2) big integer multiplications and n Fraction additions for n points, the integers grow with n
+"""
+
 from fractions import Fraction
 
 
