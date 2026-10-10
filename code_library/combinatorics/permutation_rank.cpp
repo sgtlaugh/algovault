@@ -1,3 +1,15 @@
+/***
+ *
+ * Permutation Rank
+ * Lexicographic rank of a permutation of 1 to n, and the permutation with a given rank
+ *
+ * Complexity: O(n^2) per call, O(n) memory
+ *
+ * find_rank(permutation): 1-based rank of permutation among all permutations of 1 to n
+ * find_permutation(n, k): k'th permutation of 1 to n, 1 <= k <= n!
+ *
+***/
+
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
