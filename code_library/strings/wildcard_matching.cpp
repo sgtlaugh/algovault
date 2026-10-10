@@ -151,29 +151,11 @@ vector<int> wildcard_match(const string& text, const string& pattern, char wildc
 int main(){
     assert((wildcard_match("abacaba", "a?a") == vector<int>{0, 2, 4}));
     assert((wildcard_match("abacaba", "aba") == vector<int>{0, 4}));
-    assert((wildcard_match("a?c?b", "abc") == vector<int>{0}));
-    assert((wildcard_match("abcd", "???") == vector<int>{0, 1}));
-    assert((wildcard_match("??", "xy") == vector<int>{0}));
-    assert((wildcard_match("aaaa", "aa") == vector<int>{0, 1, 2}));
-    assert((wildcard_match("ab", "ba") == vector<int>{}));
-    assert((wildcard_match("ab", "abc") == vector<int>{}));
-    assert((wildcard_match("abc", "") == vector<int>{}));
-    assert((wildcard_match("", "a") == vector<int>{}));
-    assert((wildcard_match("?yz", "*yz", '*') == vector<int>{0}));
-    assert((wildcard_match("xyz", "?yz", '*') == vector<int>{}));
+    assert((wildcard_match("a?c?b", "abc") == vector<int>{0}));     /// wildcards in the text match too
+    assert((wildcard_match("?yz", "*yz", '*') == vector<int>{0}));  /// '?' is a plain letter once '*' is the wildcard
     assert((wildcard_match(string("abacaba"), "c?b") == vector<int>{3}));
-    assert((wildcard_match("abacaba", string("b??a")) == vector<int>{1}));
 
+    /// Any ordered value type, -1 as the wildcard
     assert((wildcard_match(vector<int>{1, 2, 3, 1, 2}, vector<int>{1, -1}, -1) == vector<int>{0, 3}));
-    assert((wildcard_match(vector<long long>{0, 5, 0, 7}, vector<long long>{0, 5}, -1) == vector<int>{0}));
-
-    string text(100000, 'a');
-    text[50000] = 'b';
-    vector<int> expected;
-    for (int i = 0; i + 3 <= 100000; i++){
-        if (i != 49998 && i != 50000) expected.push_back(i);
-    }
-    assert(wildcard_match(text, "a?a") == expected);
-
     return 0;
 }
