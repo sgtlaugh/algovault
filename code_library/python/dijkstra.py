@@ -1,3 +1,12 @@
+"""
+Dijkstra
+
+Graph().add_edge(u, v, cost, directed=False), costs must be non-negative
+dijkstra(graph, source, destination): shortest distance, or None when unreachable
+
+Complexity: O((V + E) log E), a lazy-deletion heap holds one entry per edge relaxation
+"""
+
 from collections import defaultdict
 from heapq import heappop, heappush
 
