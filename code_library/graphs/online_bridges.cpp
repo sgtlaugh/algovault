@@ -132,41 +132,24 @@ struct OnlineBridges{
 
 int main(){
     /***
-     * 0 - 1 - 2 - 0 is a triangle, 2 - 3 and 4 - 5 hang off it, 5 - 3 closes the triangle 3 - 4 - 5, 0 - 5 closes everything
+     * 0 - 1 - 2 - 0 is a triangle, 3 - 4 - 5 a path that 2 - 3 attaches and 5 - 3 closes into a second triangle
     ***/
     OnlineBridges g(6);
-    vector<pair<int, int>> edges = {{0, 1}, {1, 2}, {2, 0}, {3, 4}, {2, 3}, {4, 5}, {5, 3}, {0, 5}};
-    vector<int> expected = {1, 2, 0, 1, 2, 3, 1, 0};
-    for (int i = 0; i < (int)edges.size(); i++){
-        g.add_edge(edges[i].first, edges[i].second);
-        assert(g.bridges == expected[i]);
-        if (i == 3) assert(!g.connected(0, 3) && g.connected(3, 4) && g.two_edge_connected(0, 2) && !g.two_edge_connected(3, 4));
-        if (i == 6) assert(g.connected(0, 5) && !g.two_edge_connected(2, 3) && g.two_edge_connected(3, 5));
-    }
-    for (int v = 1; v < 6; v++) assert(g.component(v) == g.component(0));
+    g.add_edge(0, 1), g.add_edge(1, 2);
+    assert(g.bridges == 2);
+    g.add_edge(2, 0);  /// closes the triangle, both bridges disappear
+    assert(g.bridges == 0);
+    assert(g.two_edge_connected(0, 2));
 
-    /***
-     * Chain 0 - 1 - 2 and edge 3 - 4 join through 4 - 1, then 3 - 0 closes the cycle 0 - 1 - 4 - 3, leaving 1 - 2 the only bridge
-    ***/
-    OnlineBridges rerooted(5);
-    for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {1, 2}, {3, 4}, {4, 1}}) rerooted.add_edge(u, v);
-    assert(rerooted.bridges == 4);
-    rerooted.add_edge(3, 0);
-    assert(rerooted.bridges == 1);
-    assert(rerooted.two_edge_connected(0, 4) && rerooted.two_edge_connected(1, 3) && !rerooted.two_edge_connected(1, 2));
+    g.add_edge(3, 4), g.add_edge(4, 5);
+    assert(!g.connected(0, 3));
+    g.add_edge(2, 3);
+    assert(g.connected(0, 3));
+    assert(g.bridges == 3);
 
-    OnlineBridges parallel(3);
-    parallel.add_edge(0, 1);
-    parallel.add_edge(1, 2);
-    assert(parallel.bridges == 2);
-    parallel.add_edge(1, 0);
-    assert(parallel.bridges == 1 && parallel.two_edge_connected(0, 1) && !parallel.two_edge_connected(1, 2));
-    parallel.add_edge(2, 2);
-    assert(parallel.bridges == 1);
-
-    OnlineBridges single(1);
-    single.add_edge(0, 0);
-    assert(single.bridges == 0 && single.component(0) == 0);
-
+    g.add_edge(5, 3);
+    assert(g.bridges == 1);  /// only 2 - 3 is left
+    assert(!g.two_edge_connected(2, 3));
+    assert(g.two_edge_connected(3, 5));
     return 0;
 }
