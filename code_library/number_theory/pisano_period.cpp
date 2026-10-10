@@ -20,7 +20,7 @@
  * fib(n, m):              (fib(n) mod m, fib(n + 1) mod m) for an odd modulus m
  *
  * Requires __int128 (64-bit GCC or Clang)
- * Montgomery (plus from_mont) and PollardRho are a copy of pollard_rho.cpp, the canonical factorizer, keep fixes in sync
+ * Embeds checked copies of pollard_rho.cpp's Montgomery and PollardRho to stay standalone
  *
 ***/
 
@@ -29,6 +29,7 @@
 using namespace std;
 
 /// Montgomery form for a fixed odd modulus n, values are stored as x * 2^64 mod n
+/// BEGIN COPY montgomery from code_library/number_theory/pollard_rho.cpp
 struct Montgomery{
     unsigned long long n, inv, r2;
 
@@ -55,10 +56,6 @@ struct Montgomery{
         return mul(x, r2);
     }
 
-    unsigned long long from_mont(unsigned long long x) const{
-        return reduce(x);
-    }
-
     unsigned long long pow(unsigned long long x, unsigned long long e) const{
         unsigned long long res = to_mont(1);
         for (; e; e >>= 1, x = mul(x, x)){
@@ -67,7 +64,9 @@ struct Montgomery{
         return res;
     }
 };
+/// END COPY montgomery
 
+/// BEGIN COPY pollard_rho from code_library/number_theory/pollard_rho.cpp
 struct PollardRho{
     static constexpr int LIMIT = 1000001;
     vector<int> spf, primes;
@@ -172,6 +171,7 @@ struct PollardRho{
         }
     }
 };
+/// END COPY pollard_rho
 
 inline void fib(unsigned long long& x, unsigned long long& y, long long n, const Montgomery& mont){
     if (!n) x = 0, y = mont.to_mont(1);
@@ -196,7 +196,7 @@ inline pair<long long, long long> fib(long long n, long long m){
     Montgomery mont(m);
     unsigned long long x, y;
     fib(x, y, n, mont);
-    return pair<long long, long long>(mont.from_mont(x), mont.from_mont(y));
+    return pair<long long, long long>(mont.reduce(x), mont.reduce(y));
 }
 
 struct PisanoPeriod{
