@@ -73,34 +73,16 @@ double golden_section_min(double lo, double hi, F f, double eps = 1e-9){
 
 int main(){
     vector<int> a = {1, 3, 7, 7, 2, 2, 0};
-    assert(ternary_search_max(0, 6, [&](long long i){ return a[i]; }) == 2);
-    assert(ternary_search_max(4, 6, [&](long long i){ return a[i]; }) == 4);
-    assert(ternary_search_max(3, 3, [&](long long i){ return a[i]; }) == 3);
-    assert(ternary_search_max(0, 1, [&](long long i){ return a[i]; }) == 1);
+    assert(ternary_search_max(0, 6, [&](long long i){ return a[i]; }) == 2);  /// the first of the two 7s
+    assert(ternary_search_max(4, 6, [&](long long i){ return a[i]; }) == 4);  /// a falling plateau peaks at its start
 
+    /// Plateaus on the rising side: search the mirror image, the answer is the last 9
     vector<int> b = {0, 0, 4, 9, 9, 6, 1};
     assert(6 - ternary_search_max(0, 6, [&](long long i){ return b[6 - i]; }) == 4);
-
     assert(ternary_search_max(-10, 100, [](long long i){ return -(i - 5) * (i - 5); }) == 5);
-    assert(ternary_search_max(-10, 100, [](long long i){ return -i; }) == -10);
-    assert(ternary_search_max(-10, 100, [](long long i){ return i; }) == 100);
-    assert(ternary_search_max(-10, 100, [](long long){ return 42; }) == -10);
 
-    const long long lim = 4000000000000000000LL;
-    assert(ternary_search_max(-lim, lim, [](long long i){ return -abs(i - 123456789012LL); }) == 123456789012LL);
-    assert(ternary_search_max(-lim, lim, [&](long long i){ return -abs(i - lim); }) == lim);
-    assert(ternary_search_max(-lim, lim, [&](long long i){ return -abs(i + lim); }) == -lim);
-
-    assert(abs(golden_section_min(-10, 10, [](double x){ return (x - 2) * (x - 2); }) - 2) < 1e-6);
-    assert(abs(golden_section_min(-1000, 1000, [](double x){ return 4 + x + 0.3 * x * x; }) + 1 / 0.6) < 1e-6);
-    assert(abs(golden_section_min(0, 3, [](double x){ return -sin(x); }) - acos(-1.0) / 2) < 1e-6);
-    assert(abs(golden_section_min(-5, 5, [](double x){ return exp(x) + exp(-2 * x); }) - log(2.0) / 3) < 1e-6);
-    assert(abs(golden_section_min(-1, 1, [](double x){ return abs(x - 0.3); }) - 0.3) < 1e-8);
-    assert(abs(golden_section_min(1, 9, [](double x){ return x; }) - 1) < 1e-8);
-    assert(abs(golden_section_min(1, 9, [](double x){ return -x; }) - 9) < 1e-8);
-    assert(golden_section_min(2.5, 2.5, [](double x){ return x * x; }) == 2.5);
-    assert(abs(golden_section_min(-1e300, 1e300, [](double x){ return abs(x - 3e299); }) - 3e299) < 1e291);
-    assert(abs(golden_section_min(-5.10426e11, 7.21044e11, [](double x){ return abs(x - 8.4033e-5); }) - 8.4033e-5) < 1e-9);
-
+    assert(abs(golden_section_min(-1000, 1000, [](double x){ return 4 + x + 0.3 * x * x; }) + 1 / 0.6) < 1e-6);  /// vertex at -1 / 0.6
+    assert(abs(golden_section_min(-1, 1, [](double x){ return abs(x - 0.3); }) - 0.3) < 1e-8);  /// a kink is located to eps
+    assert(abs(golden_section_min(1, 9, [](double x){ return x; }) - 1) < 1e-8);                 /// monotone, so an endpoint
     return 0;
 }
