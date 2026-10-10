@@ -1,13 +1,18 @@
 /***
- * Lagrange polynomial interpolation in O(n)
+ * Lagrange polynomial interpolation
  * A polynomial of degree d can be uniquely identified given its values on d + 1 unique points
  *
- * O(n) to pre-calculate given the first n points (x=0 to n-1) of the polynomial
- * Then answer each query to interpolate the x'th term in O(n)
+ * Pre-calculates given the first n points (x=0 to n-1) of the polynomial
+ * Then answers each query to interpolate the x'th term
  * All values are done modulo mod, which needs to be a prime as we need its inverse modulo
  *
  * Also includes an additional helper function called find_degree(terms, mod)
- * Given at least the first d+2 points of a polynomial of degree d, it finds d in roughly O(n log d)
+ * Given at least the first d+2 points of a polynomial of degree d, it finds d
+ *
+ * Complexity:
+ *   - O(n + log mod) to pre-calculate, O(n) memory
+ *   - O(n) time and memory per interpolate
+ *   - O((k n + log mod) log n) for find_degree, k = smallest power with mod^k >= INT_MAX, 2 for mod near 10^9
  *
  * Note, n should not exceed mod due to the way modular inverse is used
  * In such cases, we can use interpolation without modulo in big integers and take the remainder later
