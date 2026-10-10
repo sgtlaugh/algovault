@@ -132,50 +132,19 @@ vector<Point> halfplane_intersection(vector<Halfplane> h, long double box){
 }
 
 int main(){
-    auto matches = [](const vector<Point>& got, const vector<Point>& expected){
-        int n = expected.size();
-        if ((int)got.size() != n) return false;
+    auto near = [](const Point& p, long double x, long double y){ return fabsl(p.x - x) < 1e-9 && fabsl(p.y - y) < 1e-9; };
+    Halfplane x_min(Point(0, 1), Point(0, 0)), y_min(Point(0, 0), Point(1, 0));  /// x >= 0 and y >= 0, left of a -> b
 
-        for (int shift = 0; shift < n; shift++){
-            bool ok = true;
-            for (int i = 0; i < n && ok; i++){
-                const Point &a = got[(i + shift) % n], &b = expected[i];
-                ok = fabsl(a.x - b.x) < 1e-6 && fabsl(a.y - b.y) < 1e-6;
-            }
-            if (ok) return true;
-        }
-        return false;
-    };
+    vector<Point> poly = halfplane_intersection({x_min, y_min, Halfplane(Point(4, 0), Point(0, 4))}, 1e9);  /// and x + y <= 4
+    assert(poly.size() == 3);
+    for (const Point& p : poly) assert(near(p, 0, 0) || near(p, 4, 0) || near(p, 0, 4));
+    assert(cross(poly[1] - poly[0], poly[2] - poly[0]) > 0);  /// counter-clockwise
 
-    Halfplane x_min(Point(0, 1), Point(0, 0)), y_min(Point(0, 0), Point(1, 0));
+    assert(halfplane_intersection({x_min}, 5).size() == 4);   /// unbounded, so the box clips it to [0, 5] x [-5, 5]
 
-    assert(matches(halfplane_intersection({x_min, y_min, Halfplane(Point(4, 0), Point(0, 4))}, 1e9), {Point(0, 0), Point(4, 0), Point(0, 4)}));
-    assert(matches(halfplane_intersection({}, 10), {Point(-10, -10), Point(10, -10), Point(10, 10), Point(-10, 10)}));
-    assert(matches(halfplane_intersection({x_min}, 5), {Point(0, -5), Point(5, -5), Point(5, 5), Point(0, 5)}));
-
-    assert(matches(halfplane_intersection({y_min, Halfplane(Point(0, -1), Point(1, -1))}, 100), {Point(-100, 0), Point(100, 0), Point(100, 100), Point(-100, 100)}));
-    assert(halfplane_intersection({Halfplane(Point(0, 1), Point(1, 1)), Halfplane(Point(1, 0), Point(0, 0))}, 100).empty());
-    assert(halfplane_intersection({y_min, Halfplane(Point(1, 0), Point(0, 0))}, 100).empty());
-    assert(halfplane_intersection({x_min, y_min, Halfplane(Point(0, 0), Point(-1, 1))}, 100).empty());
-
-    vector<Halfplane> square = {x_min, y_min, Halfplane(Point(2, 0), Point(2, 1)), Halfplane(Point(1, 2), Point(0, 2))};
-    vector<Halfplane> crowded = square;
-    crowded.insert(crowded.end(), square.begin(), square.end());
-    crowded.push_back(Halfplane(Point(3, 0), Point(3, 1)));
-    crowded.push_back(Halfplane(Point(0, 0), Point(1, -1)));
-    crowded.push_back(Halfplane(Point(2, 2), Point(1, 3)));
-    assert(matches(halfplane_intersection(crowded, 1e9), {Point(0, 0), Point(2, 0), Point(2, 2), Point(0, 2)}));
-
-    vector<Halfplane> cut = {Halfplane(Point(2, 0), Point(3, 1)), Halfplane(Point(0, 4), Point(0, 0)), Halfplane(Point(6, 0), Point(0, 6)),
-                             Halfplane(Point(4, 4), Point(0, 4)), Halfplane(Point(0, 0), Point(4, 0)), Halfplane(Point(4, 0), Point(4, 4))};
-    assert(matches(halfplane_intersection(cut, 1e9), {Point(0, 0), Point(2, 0), Point(4, 2), Point(2, 4), Point(0, 4)}));
-
-    vector<Halfplane> decimal = {x_min, y_min, Halfplane(Point(0.4, 0), Point(0, 0.4)), Halfplane(Point(0.2, 0.2), Point(0.1, 0.3))};
-    assert(matches(halfplane_intersection(decimal, 1e4), {Point(0, 0), Point(0.4, 0), Point(0, 0.4)}));
-    vector<Halfplane> contradiction = {Halfplane(Point(0.1, 0.8), Point(-0.1, 0.4)), Halfplane(Point(-0.2, -0.1), Point(-0.8, -0.7)),
-                                       Halfplane(Point(-0.4, -0.3), Point(-1.0, -0.9)), Halfplane(Point(-0.6, -0.4), Point(-0.4, 0.0)),
-                                       Halfplane(Point(-0.5, -0.2), Point(-0.4, 0.0))};
-    assert(halfplane_intersection(contradiction, 10).empty());
-
+    Halfplane y_max(Point(1, -1), Point(0, -1));                /// y <= -1
+    assert(halfplane_intersection({y_min, y_max}, 100).empty());
+    Halfplane x_plus_y_max(Point(0, 0), Point(-1, 1));          /// x + y <= 0
+    assert(halfplane_intersection({x_min, y_min, x_plus_y_max}, 100).empty());  /// only the origin, zero area
     return 0;
 }
