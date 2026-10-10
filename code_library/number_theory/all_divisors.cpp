@@ -2,6 +2,11 @@
  *
  * Generates all divisors from 1 to MAX efficiently
  *
+ * Complexity, with n = MAX:
+ *   - O(n log n) time and memory, the lists hold the sum of d(x) over x < n, about n ln n divisors
+ *   - make_sorted adds O(d log d) per list of d divisors
+ *   - about 1.1 GB peak memory at MAX = 10^7
+ *
  * The idea is to generate lp[x], the largest prime factor of x using sieve
  * Then generate the divisors iteratively
  * To get divisors of x, use lp[x] and the divisors of [x / lp[x]]
