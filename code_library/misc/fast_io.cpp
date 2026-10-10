@@ -2,6 +2,9 @@
  *
  * Fast i/o with fread and fwrite
  *
+ * Complexity: O(1) amortized per character read or written, one fread / fwrite call per BUF_SIZE = 8192 bytes
+ * Memory: two 8192 byte buffers and a 128 byte scratch buffer for integer output
+ *
  * Function read() can take multiple arguments and returns the number of objects read
  * Works for strings or any integral types (int, long long, __int128 etc)
  * Also works for vector, but the type has to be string or integral
