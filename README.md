@@ -180,7 +180,7 @@ The header at the top of each file lists its API, complexity and limits.
 - [Permutation Cycles](code_library/combinatorics/permutation_cycles.cpp) - cycles, k-th power and k-th root in `O(n)`, parity and minimum swaps
 - [Permutation Index](code_library/combinatorics/permutation_index.cpp) - lexicographic rank of a permutation, a perfect hash
 - [Permutation Rank](code_library/combinatorics/permutation_rank.cpp) - rank and unrank of permutations
-- [Stirling Numbers](code_library/combinatorics/stirling_numbers.cpp) - a whole row of either kind modulo m using FFT
+- [Stirling Numbers](code_library/combinatorics/stirling_numbers.cpp) - a whole row of either kind modulo m using exact NTT
 
 ### Algebra
 

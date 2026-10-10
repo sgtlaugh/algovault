@@ -27,16 +27,63 @@ void recurrence(int n, long long m, vector<vector<long long>>& first, vector<vec
     }
 }
 
+/// sum of c(n, k) r^k = r (r + 1) ... (r + n - 1) at a random point r, which catches any wrong coefficient
+void check_first_identity(int n, long long m){
+    long long r = stress::rand_int(0, m - 1), lhs = 0, rhs = 1 % m, power = 1 % m;
+    auto row = stirling_first(n, m);
+    assert((int)row.size() == n + 1);
+    for (long long x : row) lhs = (lhs + x * power) % m, power = power * r % m;
+    for (int i = 0; i < n; i++) rhs = rhs * ((r + i) % m) % m;
+    assert(lhs == rhs);
+}
+
+/// sum of S(n, k) r (r - 1) ... (r - k + 1) = r^n at a random point r
+void check_second_identity(int n, long long p){
+    long long r = stress::rand_int(n + 1, p - 1), lhs = 0, rhs = 1, falling = 1;
+    auto row = stirling_second(n, p);
+    assert((int)row.size() == n + 1);
+    for (int k = 0; k <= n; k++) lhs = (lhs + row[k] * falling) % p, falling = falling * (r - k) % p;
+    for (int i = 0; i < n; i++) rhs = rhs * r % p;
+    assert(lhs == rhs);
+}
+
+/// fn must abort on its assert
+template<typename F>
+void expect_abort(F fn){
+    pid_t pid = fork();
+    assert(pid >= 0);
+    if (pid == 0){
+        alarm(5);
+        assert(freopen("/dev/null", "w", stderr));
+        fn();
+        _exit(0);
+    }
+
+    int status;
+    assert(waitpid(pid, &status, 0) == pid);
+    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+}
+
 int main(){
     const long long BIG_PRIME = 1073741789;  /// largest prime below 2^30
-    vector<long long> moduli = {1, 2, 6, 7, 1000000007, BIG_PRIME, 1LL << 30, 999999937};
+    const long long NTT_PRIME = 998244353;   /// the single-NTT path
+
+    /// Before the large rows, since an aborting child pays for all the memory it inherits
+    /// stirling_second(0, 1) used to spin forever in pow_mod(1, -1)
+    expect_abort([](){ stirling_second(0, 1); });
+    expect_abort([](){ stirling_second(5, 1000000000); });
+    expect_abort([](){ stirling_first((1 << 22) + 1, NTT_PRIME); });
+    expect_abort([](){ stirling_first(5, (1LL << 30) + 1); });
+
+    vector<long long> moduli = {1, 2, 6, 7, 1000000007, NTT_PRIME, BIG_PRIME, 1LL << 30, 999999937};
     for (long long it = 0; it < stress::scaled(12); it++) moduli.push_back(stress::rand_int(1, 1LL << 30));
 
+    /// Primes above n take the doubling path, primes up to n and composites the halving one, both against the recurrence
     for (long long m : moduli){
         int n = 120;
         vector<int> rows;
-        for (int i = 0; i <= 30; i++) rows.push_back(i);
-        for (int i : {60, 90, 120}) rows.push_back(i);
+        for (int i = 0; i <= 70; i++) rows.push_back(i);
+        for (int i : {90, 120}) rows.push_back(i);
 
         vector<vector<long long>> first, second;
         recurrence(n, m, first, second);
@@ -50,47 +97,30 @@ int main(){
         }
     }
 
-    for (long long m : {1000000007LL, BIG_PRIME}){
-        int n = 1500;
+    /// Rows around powers of two, where a product fills its transform exactly and wraps one coefficient
+    for (long long m : {1000000007LL, NTT_PRIME, BIG_PRIME, 1LL << 30, 1000LL}){
+        int n = 1100;
         vector<vector<long long>> first, second;
         recurrence(n, m, first, second);
-        assert(stirling_first(n, m) == first[n]);
-        assert(stirling_second(n, m) == second[n]);
+        for (int i : {127, 128, 129, 255, 256, 257, 511, 512, 513, 1023, 1024, 1025, 1100}){
+            vector<long long> row_first(first[i].begin(), first[i].begin() + i + 1);
+            assert(stirling_first(i, m) == row_first);
+            if (is_prime(m)){
+                vector<long long> row_second(second[i].begin(), second[i].begin() + i + 1);
+                assert(stirling_second(i, m) == row_second);
+            }
+        }
     }
 
-    /// Long rows against their generating identities at a random point r, which catches any wrong coefficient:
-    /// sum of c(n, k) r^k = r (r + 1) ... (r + n - 1) and sum of S(n, k) r (r - 1) ... (r - k + 1) = r^n
-    {
-        int n = 30000;
-        long long m = 1000000007, r = stress::rand_int(1, m - 1), lhs = 0, rhs = 1, power = 1;
-        auto row = stirling_first(n, m);
-        for (long long x : row) lhs = (lhs + x * power) % m, power = power * r % m;
-        for (int i = 0; i < n; i++) rhs = rhs * ((r + i) % m) % m;
-        assert(lhs == rhs);
+    for (int n : {30000, 1 << 16}){
+        for (long long m : {1000000007LL, NTT_PRIME, BIG_PRIME, 1LL << 30, 999999999LL}) check_first_identity(n, m);
     }
 
-    {
-        int n = 120000;  /// the product length reaches 2^18
-        long long p = BIG_PRIME, r = stress::rand_int(n + 1, p - 1), lhs = 0, rhs = 1, falling = 1;
-        auto row = stirling_second(n, p);
-        for (int k = 0; k <= n; k++) lhs = (lhs + row[k] * falling) % p, falling = falling * (r - k) % p;
-        for (int i = 0; i < n; i++) rhs = rhs * r % p;
-        assert(lhs == rhs);
-    }
+    for (long long p : {NTT_PRIME, BIG_PRIME}) check_second_identity(120000, p);
 
-    /// A modulus below 2 must abort, stirling_second(0, 1) used to spin forever in pow_mod(1, -1)
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        alarm(5);
-        assert(freopen("/dev/null", "w", stderr));
-        stirling_second(0, 1);
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    /// The largest n, where stirling_second fills a transform of 2^23, the most 998244353 allows
+    check_first_identity(1 << 22, NTT_PRIME);
+    check_second_identity(1 << 22, NTT_PRIME);
 
     return 0;
 }
