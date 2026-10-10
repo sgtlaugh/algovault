@@ -6,7 +6,7 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 
 - One standalone C++17 file under `code_library/<topic>/` that compiles on its own with GCC
 - A header stating what it computes, its complexity, its API and its limits
-- Assert-based self-tests in `main()`
+- A short usage example in `main()` as asserts, about 20 lines, with edge cases in the stress test
 - A brute-force stress test at the same path under `stress_tests/`, against an independent reference
 - The test includes `../common.h` and the library with `#define main library_main`
 - Randomness through `stress::rand_int`, loops sized by `stress::scaled`, a few seconds by default
