@@ -9,6 +9,10 @@
  * The is_composite[] array is a compressed bit-vector denoting the numbers crossed out for each block
  * The sieve uses a wheel of size 15015 (3*5*7*11*13) to process each block efficiently
  *
+ * Complexity: O(MAX log log MAX) time, about 473 MB of static memory
+ *   - primes[] takes 424 MB and the masks for the primes 17 to 61 take 49 MB
+ *   - The per block bit vector over odd numbers is 64 KB
+ *
  * The algorithm can generate all the prime numbers from 1 to 2^31 in a little under 1 seconds in a 4.00GHz core-i7 PC when compiled with -O2
  * Runtime in CodeForces - 1500 ms with GNU G++ 17
  *
