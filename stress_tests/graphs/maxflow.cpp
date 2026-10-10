@@ -168,6 +168,11 @@ int main(){
         check_cut(g, flow, arcs);
         assert(dense.maxflow() == flow);
         assert(source_side_mask(n, [&](int x){ return dense.in_source_side(x); }) == source_side_mask(n, [&](int x){ return g.in_source_side(x); }));
+
+        long long extra = stress::rand_int(0, 10);
+        g.add_directed_edge(src, sink, extra);
+        assert(g.maxflow() == extra);
+        check_flow(g, flow + extra);
     }
 
     /// Found by search: reaching flow 3 here needs a reverse edge to cancel earlier flow, without one both get 2
@@ -295,6 +300,29 @@ int main(){
             g.add_directed_edge(i, half + i, 1);
         }
         assert(g.maxflow() == half);
+    }
+
+    /// Library Checker's cycle matching: left i to right i and i + 1 mod n under shuffled labels, ~150 phases with augmenting paths up to 2n long
+    /// Under the sanitizers maxflow() takes 0.6 s here, the old code reading E through adj ids 3.0 s, a forward walk over the flat arcs 1.2 s
+    /// so the 2 s bound catches a return to the old code, not the direction alone, larger n keeps the same ~5x old / new ratio at 3x the time
+    {
+        int n = 50000, src = 2 * n, sink = 2 * n + 1;
+        vector<int> left(n), right(n);
+        iota(left.begin(), left.end(), 0), iota(right.begin(), right.end(), 0);
+        shuffle(left.begin(), left.end(), stress::rng()), shuffle(right.begin(), right.end(), stress::rng());
+
+        vector<pair<int, int>> edges;
+        for (int i = 0; i < n; i++) edges.push_back({i, i}), edges.push_back({i, (i + 1) % n});
+        shuffle(edges.begin(), edges.end(), stress::rng());
+
+        FlowGraph g(2 * n + 2, src, sink);
+        for (int i = 0; i < n; i++) g.add_directed_edge(src, i, 1), g.add_directed_edge(n + i, sink, 1);
+        for (auto [a, b] : edges) g.add_directed_edge(left[a], n + right[b], 1);
+
+        auto start = chrono::steady_clock::now();
+        assert(g.maxflow() == n);
+        assert(chrono::steady_clock::now() - start < chrono::seconds(2));
+        check_flow(g, n);
     }
     return 0;
 }

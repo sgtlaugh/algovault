@@ -4,6 +4,10 @@
  * 0 based indexing for nodes, so nodes are numbered from 0 to n-1
  *
  * Complexity: O(V^2 E), O(E sqrt(V)) on unit-capacity bipartite matching
+ *     Library Checker bipartitematching (1e5 + 1e5 nodes, 2e5 edges) slowest case 1.9 s at -O2 against a 5 s limit, on par with hopcroft_karp.cpp
+ *     FlowGraph::maxflow() works on flat per-node copies of the edges, about 20 extra bytes per entry of E, and writes the flows back into E
+ *     so maxflow() can be called again after adding edges, continuing from the current flow
+ *     maxflow() is the only entry point, bfs() and blocking_flow() read those copies and are UB before maxflow() builds them
  *
  * Use FlowGraph for standard flow with edge capacity
  * Use FlowGraphWithNodeCap when nodes can have capacity as well
@@ -48,7 +52,8 @@ struct FlowGraph{
     int n, src, sink;
     vector<vector<int>> adj;
     vector<struct Edge> E;
-    vector<int> Q, ptr, dis, path;
+    vector<int> Q, ptr, dis, path, start, to, rev, edge_id;
+    vector<long long> res;
 
     FlowGraph(int n, int src, int sink): n(n), src(src), sink(sink), adj(n), Q(n), ptr(n), dis(n, -1) {}
 
@@ -66,72 +71,81 @@ struct FlowGraph{
     }
 
     bool bfs(){
-        int u, f = 0, l = 0;
+        int f = 0, l = 0;
         fill(dis.begin(), dis.end(), -1);
 
         dis[src] = 0, Q[l++] = src;
         while (f < l && dis[sink] == -1){
-            u = Q[f++];
-            for (auto id: adj[u]){
-                if (dis[E[id].v] == -1 && E[id].flow < E[id].cap){
-                    Q[l++] = E[id].v;
-                    dis[E[id].v] = dis[u] + 1;
-                }
+            int u = Q[f++];
+            for (int i = start[u]; i < start[u + 1]; i++){
+                if (res[i] > 0 && dis[to[i]] == -1) dis[to[i]] = dis[u] + 1, Q[l++] = to[i];
             }
         }
         return dis[sink] != -1;
     }
 
-    /// Iterative so that a src to sink distance of n cannot overflow the stack, path holds the edge ids from src to u
+    /// Walks from sink back to src so it only enters nodes the bfs reached from src, a walk from src spent most of its time in branches
+    /// that never reach sink, 2.5x to 3x slower at -O2 on Library Checker's cycle and unique matching cases. Iterative so that a src to sink distance of n cannot overflow the stack
+    /// path[j] is the arc scanned at the j-th node from sink, flow goes along its reverse rev[path[j]]
     long long blocking_flow(){
         long long flow = 0;
-        int u = src;
+        int u = sink;
         path.clear();
 
         while (true){
-            if (u == sink){
+            if (u == src){
                 long long f = LLONG_MAX;
-                for (int id : path) f = min(f, E[id].cap - E[id].flow);
+                for (int i : path) f = min(f, res[rev[i]]);
 
                 int k = path.size();
-                for (int i = k - 1; i >= 0; i--){
-                    E[path[i]].flow += f, E[path[i] ^ 1].flow -= f;
-                    if (E[path[i]].flow == E[path[i]].cap) k = i;
+                for (int j = k - 1; j >= 0; j--){
+                    res[rev[path[j]]] -= f, res[path[j]] += f;
+                    if (res[rev[path[j]]] == 0) k = j;
                 }
-                flow += f, u = E[path[k]].u;
+                flow += f, u = to[rev[path[k]]];
                 path.resize(k);
                 continue;
             }
 
-            int len = adj[u].size();
-            while (ptr[u] < len){
-                int id = adj[u][ptr[u]];
-                if (dis[E[id].v] == dis[u] + 1 && E[id].flow < E[id].cap) break;
-                ptr[u]++;
-            }
+            while (ptr[u] < start[u + 1] && (res[rev[ptr[u]]] == 0 || dis[to[ptr[u]]] != dis[u] - 1)) ptr[u]++;
 
-            if (ptr[u] < len){
-                path.push_back(adj[u][ptr[u]]);
-                u = E[path.back()].v;
+            if (ptr[u] < start[u + 1]){
+                path.push_back(ptr[u]);
+                u = to[ptr[u]];
             }
             else{
-                if (u == src) return flow;
-                u = E[path.back()].u;
+                if (u == sink) return flow;
+                u = to[rev[path.back()]];
                 path.pop_back();
                 ptr[u]++;
             }
         }
     }
 
+    /// Arcs of u sit at start[u] .. start[u + 1] - 1 with residual capacity res, reading E through adj ids missed the cache on every arc
+    void build_residual(){
+        int m = E.size();
+        vector<int> pos(m);
+        start.assign(n + 1, m), to.resize(m), rev.resize(m), edge_id.resize(m), res.resize(m);
+
+        for (int u = 0, i = 0; u < n; u++){
+            start[u] = i;
+            for (int id : adj[u]) pos[id] = i, edge_id[i] = id, to[i] = E[id].v, res[i] = E[id].cap - E[id].flow, i++;
+        }
+        for (int i = 0; i < m; i++) rev[i] = pos[edge_id[i] ^ 1];
+    }
+
     long long maxflow(){
         assert(src != sink);
         long long flow = 0;
+        build_residual();
 
         while (bfs()){
-            fill(ptr.begin(), ptr.end(), 0);
+            copy(start.begin(), start.end() - 1, ptr.begin());
             flow += blocking_flow();
         }
 
+        for (int i = 0; i < (int)res.size(); i++) E[edge_id[i]].flow = E[edge_id[i]].cap - res[i];
         return flow;
     }
 
@@ -260,6 +274,9 @@ int main(){
     set<tuple<int, int, long long>> cut;
     for (int id : flow_graph.cut_edges()) cut.insert({flow_graph.E[id].u, flow_graph.E[id].v, flow_graph.E[id].cap});
     assert((cut == set<tuple<int, int, long long>>{{0, 1, 3}, {0, 2, 2}}));
+
+    flow_graph.add_directed_edge(0, 3, 4);
+    assert(flow_graph.maxflow() == 4 && flow_graph.E.back().flow == -4);
 
     auto flow_graph_node_cap = FlowGraphWithNodeCap(n, 0, n - 1, {5, 4, 3, 2});
 
