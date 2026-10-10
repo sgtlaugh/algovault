@@ -1,3 +1,12 @@
+"""
+N-Queens
+
+count_ways(n): number of ways to place n queens on an n x n board with no pair attacking each other
+
+Complexity: O(n!) upper bound, every recursive call extends a non-attacking placement and at most n! / (n - k)!
+placements fill the first k rows with distinct columns, mirror symmetry halves the search, recursion depth n
+"""
+
 def count_ways(n):
     """
     Parameters
