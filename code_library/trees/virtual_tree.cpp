@@ -16,7 +16,7 @@
  *
  * The graph must be a tree, build asserts n - 1 edges and that every node is reached exactly once
  * Traversals are iterative so deep trees are safe
- * The LCA is lca.cpp's LinearLCA, copied in
+ * The LCA is lca.cpp's LinearLCA, a checked copy
  *
  * Example, sum of a DP over the virtual tree per query:
  *     auto vt = tree.compress(nodes);
@@ -28,6 +28,7 @@
 
 using namespace std;
 
+/// BEGIN COPY linear_lca from code_library/trees/lca.cpp
 /// Range minimum index over a fixed array in O(n) build and O(1) query, blocks of 64 with per position stack masks
 /// Same technique as sparse_table.cpp's LinearSparseTable, which is the general purpose version
 struct LinearRMQ{
@@ -135,6 +136,7 @@ struct LinearLCA{
         return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
     }
 };
+/// END COPY linear_lca
 
 struct VirtualTree : LinearLCA{
     using LinearLCA::LinearLCA;
