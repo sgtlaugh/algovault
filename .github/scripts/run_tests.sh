@@ -4,7 +4,7 @@
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
 # both modes also report library files missing from the README index, README ✔ marks that disagree with judge_tests,
-# and whitespace or style errors in tracked files
+# templates whose header does not state their complexity, and whitespace or style errors in tracked files
 #
 # Reports all failures instead of stopping at the first one.
 #
@@ -186,6 +186,23 @@ check_judge_marks(){  # a template carries a README ✔ exactly when a judge tes
     failures+=("${bad[@]/%/ (judge mark)}")
 }
 
+check_headers(){  # every template opens with a header that states its complexity
+    local file bad=()
+    while IFS= read -r file; do
+        if [[ "$file" == *.py ]]; then
+            python3 -c 'import ast, sys; doc = ast.get_docstring(ast.parse(open(sys.argv[1]).read())) or ""; sys.exit("Complexity" not in doc)' "$file" || bad+=("$file")
+        else
+            awk 'NR == 1 && !/^\/\*\*\*/ {exit 1} /^\*\*\*\// {exit !found} /^ \* Complexity/ {found = 1} END {if (!found) exit 1}' "$file" || bad+=("$file")
+        fi
+    done < <(git ls-files 'code_library/*.cpp' 'code_library/*.py')
+
+    echo "headers: ${#bad[@]} templates without a header stating their complexity"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (no complexity in header)}")
+}
+
 check_whitespace(){  # tabs, trailing whitespace, CRLF or a missing final newline
     local file bad=()
     while IFS= read -r file; do
@@ -270,6 +287,7 @@ echo
 [[ "$MODE" == "stress" ]] && check_coverage
 check_readme
 check_judge_marks
+check_headers
 check_whitespace
 check_style
 echo "passed: $passed  failed: $failed  skipped: $skipped"
