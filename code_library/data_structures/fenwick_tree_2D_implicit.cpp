@@ -4,8 +4,10 @@
  * Each Fenwick row uses implicit segment tree for columns - allocates nodes on demand
  * Range updates and point queries only
  *
- * Space: O(Q log^2 N) where Q is number of updates
- * Time: O(log^2 N) per update/query
+ * Complexity:
+ *   - O(n) to construct, for the row roots
+ *   - O(log^2 n) per update/query, a range update is 4 point updates of O(log n) rows each creating up to log n + 1 nodes
+ *   - O(q log^2 n) nodes for q updates
  *
  * Nodes come from a pool of MAXNODES (16 bytes each for long long, ~205 MB by default), each range update takes up to 4 * log^2(N)
  * The pool is reserved up front but only memory for nodes actually created is touched
