@@ -92,23 +92,11 @@ int main(){
     g.run();
     assert(g.count == 3);
     assert(g.comp[0] == g.comp[1] && g.comp[1] == g.comp[2]);
-    assert(g.comp[3] == g.comp[4] && g.comp[3] != g.comp[0]);
-    assert(g.comp[5] != g.comp[0] && g.comp[5] != g.comp[3]);
-    assert(g.comp[0] < g.comp[3]);
+    assert(g.comp[3] == g.comp[4]);
+    assert(g.comp[0] < g.comp[3]);  /// topological order, edge 2 -> 3
 
     auto dag = g.condensation();
     assert((dag[g.comp[0]] == vector<int>{g.comp[3]}));
-    assert(dag[g.comp[3]].empty() && dag[g.comp[5]].empty());
-
-    SCC chain(4);
-    chain.add_edge(0, 1), chain.add_edge(1, 2), chain.add_edge(2, 3);
-    chain.run();
-    assert(chain.count == 4);
-    for (int v = 0; v < 4; v++) assert(chain.comp[v] == v);
-
-    SCC empty(0);
-    empty.run();
-    assert(empty.count == 0);
-
+    assert(dag[g.comp[5]].empty());  /// the self loop is dropped
     return 0;
 }

@@ -6,8 +6,12 @@
 
 /// Same component iff mutually reachable, components numbered along edges, condensation is the exact DAG
 void check(int n, const vector<pair<int, int>>& edges){
+    /// Run once halfway through the edges too, so the final run must not keep components from the first
     SCC g(n);
-    for (auto [u, v] : edges) g.add_edge(u, v);
+    for (int i = 0; i < (int)edges.size(); i++){
+        if (i == (int)edges.size() / 2) g.run();
+        g.add_edge(edges[i].first, edges[i].second);
+    }
     g.run();
 
     vector<vector<int>> adj(n);
