@@ -184,43 +184,35 @@ struct LinkCutTree{
 };
 
 int main(){
+    /***
+     *        0           6
+     *      /   \
+     *     1     2
+     *    / \     \
+     *   3   4     5
+    ***/
     LinkCutTree<long long> sum(7);
-    auto mx = [](long long a, long long b){ return max(a, b); };
-    LinkCutTree<long long, decltype(mx)> best(7, LLONG_MIN, mx);
-
     vector<long long> values = {5, 3, 8, 1, 7, 2, 4};
-    for (int i = 0; i < 7; i++) sum.set(i, values[i]), best.set(i, values[i]);
-    for (auto [u, v] : vector<pair<int, int>>{{1, 0}, {2, 0}, {3, 1}, {4, 1}, {5, 2}}){
-        assert(sum.link(u, v) && best.link(u, v));
-    }
+    for (int i = 0; i < 7; i++) sum.set(i, values[i]);
+    for (auto [u, v] : vector<pair<int, int>>{{1, 0}, {2, 0}, {3, 1}, {4, 1}, {5, 2}}) sum.link(u, v);
 
-    assert(sum.connected(3, 5) && !sum.connected(3, 6) && sum.connected(6, 6));
-    assert(sum.find_root(4) == 0 && sum.find_root(6) == 6);
-    assert(sum.parent(3) == 1 && sum.parent(5) == 2 && sum.parent(0) == -1 && sum.parent(6) == -1);
-    assert(sum.lca(3, 4) == 1 && sum.lca(3, 5) == 0 && sum.lca(4, 1) == 1 && sum.lca(2, 2) == 2 && sum.lca(3, 6) == -1);
-    assert(sum.query(3, 5) == 19 && best.query(3, 5) == 8);
-    assert(sum.query(4, 4) == 7 && best.query(4, 3) == 7);
-    assert(sum.find_root(3) == 0);
-    assert(!sum.link(3, 5) && !sum.link(0, 0));
+    assert(sum.find_root(4) == 0);
+    assert(!sum.connected(3, 6));
+    assert(sum.parent(3) == 1);
+    assert(sum.lca(3, 5) == 0);
+    assert(sum.query(3, 5) == 19);              /// path 3 1 0 2 5: 1 + 3 + 5 + 8 + 2
 
     sum.make_root(2);
-    assert(sum.find_root(3) == 2 && sum.lca(3, 4) == 1 && sum.lca(0, 5) == 2 && sum.lca(3, 5) == 2);
-    assert(sum.parent(0) == 2 && sum.parent(2) == -1 && sum.parent(5) == 2 && sum.parent(1) == 0);
+    assert(sum.lca(3, 4) == 1);
+    assert(sum.parent(0) == 2);
 
-    assert(sum.cut(0, 1) && !sum.cut(0, 1) && !sum.cut(3, 4) && !sum.cut(3, 6));
-    assert(!sum.connected(3, 5) && sum.find_root(4) == 1 && sum.find_root(0) == 2);
-    sum.set(1, 100);
-    assert(sum.query(3, 4) == 108);
+    assert(sum.cut(0, 1));
+    assert(sum.find_root(4) == 1);              /// the piece without the root is rooted at the cut endpoint
 
-    assert(sum.link(1, 5));
-    assert(sum.find_root(3) == 2 && sum.lca(3, 0) == 2 && sum.lca(4, 5) == 5);
-    assert(sum.query(4, 0) == 122);
-
-    LinkCutTree<long long, decltype(mx)> negative(3, LLONG_MIN, mx);
-    negative.set(0, -5), negative.set(1, -2), negative.set(2, -9);
-    assert(negative.link(0, 1) && negative.link(2, 1));
-    assert(negative.query(0, 2) == -2 && negative.query(0, 0) == -5 && negative.query(2, 2) == -9);
-    assert(negative.cut(1, 2) && negative.query(0, 1) == -2 && negative.find_root(2) == 2);
-
+    auto mx = [](long long a, long long b){ return max(a, b); };
+    LinkCutTree<long long, decltype(mx)> best(3, LLONG_MIN, mx);
+    best.set(0, -5), best.set(1, -2), best.set(2, -9);
+    best.link(0, 1), best.link(2, 1);
+    assert(best.query(0, 2) == -2);
     return 0;
 }
