@@ -2,10 +2,12 @@
  *
  * https://en.wikipedia.org/wiki/Bernoulli_number
  *
- * Computes all the bernoulli numbers from 1 to N in O(N^2)
+ * Computes all the bernoulli numbers from 1 to N
  * Bernoulli numbers are sequence of rational numbers of the form p/q
  * Since the numbers can be huge, they are calculated modulo MOD
  * bernoulli[i] = p * inv(q, MOD) % MOD
+ *
+ * Complexity: O(N^2) with N = MAX, plus O(N log MOD) for the modular inverses, O(N) memory
  *
 ***/
 
