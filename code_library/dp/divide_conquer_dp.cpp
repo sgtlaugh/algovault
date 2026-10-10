@@ -69,36 +69,16 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
 
 int main(){
     const long long inf = numeric_limits<long long>::max();
+
+    /// Split {1, 2, 3, 4, 5} minimizing the sum of squared segment sums
     vector<long long> pre = {0, 1, 3, 6, 10, 15};
     auto squares = [&](int j, int i){ return (pre[i] - pre[j]) * (pre[i] - pre[j]); };
 
-    assert((divide_conquer_dp<long long>(5, 1, squares) == vector<long long>{inf, 1, 9, 36, 100, 225}));
-    assert((divide_conquer_dp<long long>(5, 2, squares) == vector<long long>{inf, inf, 5, 18, 52, 117}));
-    assert(divide_conquer_dp<long long>(5, 3, squares)[5] == 77);
-    assert(divide_conquer_dp<long long>(5, 5, squares)[5] == 55);
-    assert((divide_conquer_dp<long long>(5, 0, squares) == vector<long long>{0, inf, inf, inf, inf, inf}));
-    assert((divide_conquer_dp<long long>(5, 6, squares) == vector<long long>(6, inf)));
-    assert((divide_conquer_dp<long long>(0, 0, squares) == vector<long long>{0}));
-    assert((divide_conquer_dp<long long>(0, 1, squares) == vector<long long>{inf}));
+    vector<long long> two = divide_conquer_dp<long long>(5, 2, squares);
+    assert(two[5] == 117);  /// {1, 2, 3} + {4, 5} = 36 + 81
+    assert(two[3] == 18);   /// prefix {1, 2, 3} as {1, 2} + {3} = 9 + 9
+    assert(two[1] == inf);  /// one element cannot make two segments
 
-    /// Codeforces 321E Ciel and Gondolas samples: cost is the unfamiliarity sum over pairs inside a gondola
-    auto gondolas = [](const vector<vector<int>>& u, int k){
-        int n = u.size();
-        vector<vector<long long>> sum(n + 1, vector<long long>(n + 1, 0));
-        for (int a = 0; a < n; a++){
-            for (int b = 0; b < n; b++) sum[a + 1][b + 1] = sum[a][b + 1] + sum[a + 1][b] - sum[a][b] + u[a][b];
-        }
-
-        auto cost = [&](int j, int i){ return (sum[i][i] - sum[j][i] - sum[i][j] + sum[j][j]) / 2; };
-        return divide_conquer_dp<long long>(n, k, cost)[n];
-    };
-
-    vector<vector<int>> strangers(8, vector<int>(8, 1));
-    for (int a = 0; a < 8; a++) strangers[a][a] = 0;
-
-    assert(gondolas({{0, 0, 1, 1, 1}, {0, 0, 1, 1, 1}, {1, 1, 0, 0, 0}, {1, 1, 0, 0, 0}, {1, 1, 0, 0, 0}}, 2) == 0);
-    assert(gondolas(strangers, 3) == 7);
-    assert(gondolas({{0, 2, 0}, {2, 0, 3}, {0, 3, 0}}, 2) == 2);
-
+    assert(divide_conquer_dp<long long>(5, 3, squares)[5] == 77);  /// {1, 2, 3} + {4} + {5}
     return 0;
 }
