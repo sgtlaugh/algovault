@@ -4,13 +4,11 @@
  * Get the forward and reverse hash of any segment
  * Base is chosen randomly to prevent anti-hash cases from being constructed
  *
- * Complexity - O(n) to build, O(1) for each hash query
+ * Complexity - O(n) to build, O(1) for each hash query, O(n) memory per instance
  *
 ***/
 
 #include <bits/stdtr1c++.h>
-
-#define MAXLEN 1000010
 
 using namespace std;
 
@@ -19,8 +17,6 @@ constexpr uint64_t mod = (1ULL << 61) - 1;
 const uint64_t seed = chrono::system_clock::now().time_since_epoch().count();
 const uint64_t base = mt19937_64(seed)() % (mod / 3) + (mod / 3);
 
-uint64_t base_pow[MAXLEN];
-
 /// a, b < mod
 int64_t modmul(uint64_t a, uint64_t b){
     __uint128_t c = (__uint128_t)a * b;
@@ -28,28 +24,19 @@ int64_t modmul(uint64_t a, uint64_t b){
     return r >= mod ? r - mod : r;
 }
 
-void init(){
-    base_pow[0] = 1;
-    for (int i = 1; i < MAXLEN; i++){
-        base_pow[i] = modmul(base_pow[i - 1], base);
-    }
-}
-
 struct PolyHash{
     /// Remove suff vector and usage if reverse hash is not required for more speed
-    vector<int64_t> pref, suff;
+    vector<int64_t> pref, suff, base_pow;
 
     PolyHash() {}
 
     template <typename T>
     PolyHash(const vector<T>& ar){
-        if (!base_pow[0]) init();
-
         int n = ar.size();
-        assert(n < MAXLEN);
-        pref.resize(n + 3, 0), suff.resize(n + 3, 0);
+        pref.resize(n + 3, 0), suff.resize(n + 3, 0), base_pow.resize(n + 1, 1);
 
         for (int i = 1; i <= n; i++){
+            base_pow[i] = modmul(base_pow[i - 1], base);
             pref[i] = modmul(pref[i - 1], base) + value_of(ar[i - 1]);
             if (pref[i] >= (int64_t)mod) pref[i] -= mod;
         }
