@@ -11,7 +11,7 @@
  *
 ***/
 
-#include <bits/stdc++.h>
+#include <bits/stdtr1c++.h>
 
 #define MAX 3010
 #define MOD 1000000007
