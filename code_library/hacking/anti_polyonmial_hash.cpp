@@ -3,7 +3,13 @@
  * Generates two different strings with the same hash
  * Hashing is standard polynomial hashing with base and modulo
  * Base and modulo can be any 64 bit positive integer, provided base + modulo does not exceed signed 64 bit int limit
-
+ *
+ * Complexity, with n = 2000 the string length, chunk = 15 and lim = 6:
+ *   - O(n log n) to build the difference table in the constructor
+ *   - O(2^chunk chunk) per randomized trial in solve(), plus O(n + chunk 2^lim) to build and check each candidate pair
+ *   - trials repeat until a collision is found, their count has no fixed bound
+ *   - about 850 KB per instance, all in fixed arrays inside the struct
+ *
  * Extremely useful for hacking solutions in Codeforces :-D
  * Or if you're the setter and you're in an ominous mood, construct test cases against commonly used base/mod pairs
  *
