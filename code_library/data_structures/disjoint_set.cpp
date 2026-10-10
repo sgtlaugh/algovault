@@ -61,8 +61,10 @@ struct DSU{
  * Undoable unions, for offline dynamic connectivity and divide and conquer over time
  * time(): number of successful connects not yet rolled back
  * rollback(t): undo every union made after time() returned t, O(1) per undone union
+ * offline_dynamic_connectivity.cpp carries a checked copy of this struct
 ***/
 
+/// BEGIN SHARED rollback_dsu
 struct RollbackDSU{
     vector<int> counter, parent, history;
 
@@ -106,6 +108,7 @@ struct RollbackDSU{
         }
     }
 };
+/// END SHARED rollback_dsu
 
 /***
  * Unknowns x[0..n] with relations x[b] - x[a] = d, over the integers (mod = 0) or modulo mod
