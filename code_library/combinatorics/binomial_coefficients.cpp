@@ -6,9 +6,10 @@
  *
  * Let mod = p1^q1 * p2^q2 * ... * pm^qm
  *
- * Then, time complexity will be:
- *     O(sqrt(mod)) + O(max(p_i^q_i)) to pre-process
- *     O(m * (log(n) + log(k))) roughly for each n choose k query
+ * Complexity:
+ *   - O(sqrt(mod)) to construct, factorizing mod by trial division
+ *   - O(p_i^q_i) time and memory per prime power for its factorial table, built by the first query that needs it
+ *   - O(m (log n + log mod)) per query, base p_i digit loops plus modular exponentiation for each prime power
  *
 ***/
 
