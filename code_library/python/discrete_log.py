@@ -1,3 +1,11 @@
+"""
+Discrete logarithm by baby-step giant-step
+
+discrete_log(a, b, mod): smallest x >= 0 with pow(a, x, mod) == b % mod, None if no such x exists
+
+Complexity: O(sqrt(mod)) modular multiplications and dict operations, O(sqrt(mod)) dict entries
+"""
+
 def discrete_log(a, b, mod):
     """
     returns smallest non-negative x s.t. pow(a, x, mod) == b % mod or None if no such x exists.
