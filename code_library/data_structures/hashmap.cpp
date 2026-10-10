@@ -1,13 +1,17 @@
 /***
  * Open addressing hash table with linear probing for integral keys
- * Every operation is expected O(1) with a light constant factor
+ *
+ * Complexity:
+ *   - O(max_len) to construct, the table holds the smallest power of two >= 2 * max_len slots, so the load factor stays at most 1/2
+ *   - Expected O(1) per set/add/get/contains/erase with a light constant factor
+ *   - O(1) to clear
  *
  * Buckets come from splitmix64 of the key plus a salt chosen at runtime
  * Otherwise it'd be easy to generate counter cases leading to O(n) per operation
  * See https://codeforces.com/blog/entry/62393
  *
  * Need to specify the maximum number of entries to be inserted on construction, the table never grows
- * For maximal performance, declare once and clear for re-use, clear is O(1)
+ * For maximal performance, declare once and clear for re-use
  *
  * Default value for missing keys is TValue(), like STL map
  *
