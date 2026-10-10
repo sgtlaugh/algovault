@@ -1,3 +1,13 @@
+"""
+Fast Fibonacci
+
+fibonacci(n, modulo=None): the n-th Fibonacci number by fast doubling, reduced mod modulo when given
+
+Complexity:
+  - with modulo: O(log n) multiplications of O(log modulo) bit integers
+  - without: O(log n) multiplications, but F(n) has about 0.7 n bits, so the last ones dominate at O(n^1.585) with CPython's Karatsuba
+"""
+
 def fibonacci(n, modulo=None):
     """
     calculates the n-th fibonacci number using fast doubling algorithm
