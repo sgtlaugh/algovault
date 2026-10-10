@@ -14,6 +14,7 @@
  *   1. Insert all patterns
  *   2. Call build() once, inserting after build() is not supported
  *   3. Query text with count()
+ *   4. clear() resets to an empty automaton and keeps vector capacity, so it can be reused for a new pattern set
  *
 ***/
 
@@ -23,6 +24,7 @@
 
 using namespace std;
 
+/// BEGIN SHARED aho_corasick
 struct AhoCorasick{
     int edge[256];
 
@@ -45,16 +47,21 @@ struct AhoCorasick{
         return dictionary.size();
     }
 
-    AhoCorasick(){
-        new_node();
+    void clear(){
+        go.clear(), dictionary.clear();
+        fail.clear(), leaf.clear(), counter.clear();
 
+        new_node();
         // Map lowercase letters to [0, 25]. Change for different alphabet (digits, uppercase, etc)
         memset(edge, -1, sizeof(edge));
-        for (int i = 'a'; i <= 'z'; i++){
-            edge[i] = i - 'a';
-        }
+        for (int i = 'a'; i <= 'z'; i++) edge[i] = i - 'a';
     }
 
+    AhoCorasick(){
+        clear();
+    }
+
+    /// Inserting after build() is not supported
     void insert(const char* str){
         int j, x, cur = 0;
 
@@ -116,6 +123,7 @@ struct AhoCorasick{
         return count(str.c_str());
     }
 };
+/// END SHARED aho_corasick
 
 int main(){
     auto ac = AhoCorasick();
