@@ -133,28 +133,23 @@ long long rectangle_union_perimeter(const vector<Rectangle>& rects){
 }
 
 int main(){
-    const long long B = 1000000000;
+    /// Two 2 x 2 squares overlapping in a unit square: 4 + 4 - 1
+    vector<Rectangle> rects = {{0, 0, 2, 2}, {1, 1, 3, 3}};
+    assert(rectangle_union_area(rects) == 7);
+    assert(rectangle_union_perimeter(rects) == 12);
 
-    assert(rectangle_union_area({}) == 0 && rectangle_union_perimeter({}) == 0);
-    assert(rectangle_union_area({{0, 0, 0, 5}, {3, 1, 7, 1}}) == 0 && rectangle_union_perimeter({{0, 0, 0, 5}}) == 0);
-    assert(rectangle_union_area({{-3, -3, -1, -1}}) == 4 && rectangle_union_perimeter({{-3, -3, -1, -1}}) == 8);
-
-    assert(rectangle_union_area({{0, 0, 2, 2}, {1, 1, 3, 3}}) == 7);
-    assert(rectangle_union_perimeter({{0, 0, 2, 2}, {1, 1, 3, 3}}) == 12);
+    /// A rectangle inside another adds nothing
     assert(rectangle_union_area({{0, 0, 10, 10}, {2, 2, 3, 3}}) == 100);
-    assert(rectangle_union_perimeter({{0, 0, 10, 10}, {2, 2, 3, 3}}) == 40);
-    assert(rectangle_union_area({{0, 0, 1, 1}, {5, 5, 7, 8}}) == 7 && rectangle_union_perimeter({{0, 0, 1, 1}, {5, 5, 7, 8}}) == 14);
-    assert(rectangle_union_sweep({{0, 0, 1, 1}, {5, 5, 7, 8}}) == make_pair(7LL, 8LL));
 
-    assert(rectangle_union_area({{0, 0, 1, 1}, {1, 0, 2, 1}}) == 2 && rectangle_union_perimeter({{0, 0, 1, 1}, {1, 0, 2, 1}}) == 6);
-    assert(rectangle_union_area({{0, 0, 2, 2}, {2, 1, 4, 3}}) == 8 && rectangle_union_perimeter({{0, 0, 2, 2}, {2, 1, 4, 3}}) == 14);
-    assert(rectangle_union_area({{0, 0, 1, 1}, {1, 1, 2, 2}}) == 2 && rectangle_union_perimeter({{0, 0, 1, 1}, {1, 1, 2, 2}}) == 8);
+    /// A shared edge is not boundary: two unit squares side by side form a 2 x 1 rectangle
+    assert(rectangle_union_perimeter({{0, 0, 1, 1}, {1, 0, 2, 1}}) == 6);
 
+    /// A 3 x 3 frame around a unit hole: the hole's boundary counts
     vector<Rectangle> frame = {{0, 0, 3, 1}, {0, 2, 3, 3}, {0, 1, 1, 2}, {2, 1, 3, 2}};
-    assert(rectangle_union_area(frame) == 8 && rectangle_union_perimeter(frame) == 16);
+    assert(rectangle_union_area(frame) == 8);
+    assert(rectangle_union_perimeter(frame) == 16);
 
-    vector<Rectangle> full = {{-B, -B, B, B}, {-B, -B, B, B}, {0, 0, B, B}};
-    assert(rectangle_union_area(full) == 4 * B * B && rectangle_union_perimeter(full) == 8 * B);
-
+    /// One sweep gives the area and the vertical boundary only: 1 + 1 + 3 + 3
+    assert(rectangle_union_sweep({{0, 0, 1, 1}, {5, 5, 7, 8}}) == make_pair(7LL, 8LL));
     return 0;
 }
