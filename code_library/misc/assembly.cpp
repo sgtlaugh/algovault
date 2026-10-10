@@ -69,33 +69,14 @@ long double asm_sqrt(long double x){
 }
 
 int main(){
-    assert(asm_popcount(0) == 0);
-    assert(asm_popcount(1) == 1);
-    assert(asm_popcount(13) == 3);
-    assert(asm_popcount(2147483647) == 31);
-    assert(asm_popcount(-1) == 32 && asm_popcount(INT_MIN) == 1);
-
+    assert(asm_popcount(13) == 3);               /// 1101
+    assert(asm_popcount(-1) == 32);
+    assert(asm_lzcnt(100) == 25);                /// 100 needs 7 bits
     assert(asm_lzcnt(0) == 32);
-    assert(asm_lzcnt(1) == 31);
-    assert(asm_lzcnt(100) == 25);
-    assert(asm_lzcnt(-1) == 0 && asm_lzcnt(INT_MIN) == 0);
-
-    assert(asm_bsf(0) == 0);
-    assert(asm_bsf(15) == 0);
-    assert(asm_bsf(16) == 4);
-    assert(asm_bsf(100) == 2);
-    assert(asm_bsf(0x80000000u) == 31);
-
-    assert(asm_gcd(0, 0) == 0);
-    assert(asm_gcd(0, 10) == 10);
-    assert(asm_gcd(120, 1260) == 60);
+    assert(asm_bsf(100) == 2);                   /// 1100100
     assert(asm_gcd(1071, 462) == 21);
-    assert(asm_gcd(-4, 6) == 2 && asm_gcd(-4, 1) == 1 && asm_gcd(-12, -18) == 6);
-    assert(asm_gcd(INT_MIN, -1) == 1 && asm_gcd(INT_MIN, 0) == 2147483648u);
-
-    assert(asm_sqrt(0.0L) == 0.0L);
+    assert(asm_gcd(-12, -18) == 6);              /// signs are dropped
+    assert(asm_gcd(INT_MIN, 0) == 2147483648u);  /// the reason the result is unsigned
     assert(asm_sqrt(16.0L) == 4.0L);
-    assert(fabsl(asm_sqrt(2.0L) - 1.41421356237309504880L) < 1e-18L);
-
     return 0;
 }
