@@ -196,12 +196,11 @@ namespace fft{
     }
 }
 
-int _POLYNOMIAL_MOD;
-
 struct Polynomial{
+    int mod;
     vector<int> coefficient;
 
-    Polynomial(vector<int> coefficient={}) : coefficient(coefficient) {}
+    Polynomial(int mod, vector<int> coefficient={}) : mod(mod), coefficient(coefficient) {}
 
     inline int* data(){
         return coefficient.empty() ? 0 : &coefficient[0];
@@ -214,7 +213,7 @@ struct Polynomial{
     inline void subtract(int* res, int* P, int pn, int* Q, int qn){
         for (int i = 0; i < qn; i++){
             res[i] = P[i] - Q[i];
-            if (res[i] < 0) res[i] += _POLYNOMIAL_MOD;
+            if (res[i] < 0) res[i] += mod;
         }
 
         copy_poly(res + qn, P + qn, pn - qn);
@@ -222,7 +221,7 @@ struct Polynomial{
 
     inline void shift(int* res, int* P, int n, int k){
         for (int i = 0; i < n; i++){
-            res[i] = ((long long)P[i] << k) % _POLYNOMIAL_MOD;
+            res[i] = ((long long)P[i] << k) % mod;
         }
     }
 
@@ -241,7 +240,7 @@ struct Polynomial{
 
     void multiply(Polynomial &res, Polynomial& p, Polynomial& q){
         if (&res == &p || &res == &q){
-            Polynomial temp;
+            Polynomial temp(mod);
             multiply(temp, p, q);
             res = temp;
             return;
@@ -249,12 +248,12 @@ struct Polynomial{
 
         res.coefficient.clear();
         if (p.size() && q.size()){
-            res.coefficient = fft::mod_multiply(p.coefficient, q.coefficient, _POLYNOMIAL_MOD);
+            res.coefficient = fft::mod_multiply(p.coefficient, q.coefficient, mod);
         }
     }
 
     Polynomial inverse(int n){
-        Polynomial res({n});
+        Polynomial res(mod, {n});
         res.coefficient.resize(n);
         find_inverse(res.data(), n, data(), size());
         return res;
@@ -268,15 +267,15 @@ struct Polynomial{
     }
 
     Polynomial remainder(Polynomial &q, Polynomial &inv){
-        Polynomial quot, rem;
+        Polynomial quot(mod), rem(mod);
         divide(quot, rem, *this, q, inv);
         return rem;
     }
 
     Polynomial power(Polynomial &q, long long k){
         int qn = q.size();
-        if (qn == 1) return Polynomial();
-        if (k == 0) return Polynomial({1});
+        if (qn == 1) return Polynomial(mod);
+        if (k == 0) return Polynomial(mod, {1});
 
         Polynomial inv = q.inverse(max(size() - qn + 1, qn));
         Polynomial p = this->remainder(q, inv);
@@ -296,10 +295,10 @@ struct Polynomial{
     }
 
     void multiply(int* res, int* P, int pn, int* Q, int qn){
-        auto P1 = Polynomial(vector<int>(P, P + pn));
-        auto P2 = Polynomial(vector<int>(Q, Q + qn));
+        auto P1 = Polynomial(mod, vector<int>(P, P + pn));
+        auto P2 = Polynomial(mod, vector<int>(Q, Q + qn));
 
-        Polynomial P_res;
+        Polynomial P_res(mod);
         P_res.multiply(P_res, P1, P2);
         for (int i = 0; i < (int)P_res.coefficient.size(); i++){
             res[i] = P_res.coefficient[i];
@@ -592,10 +591,9 @@ struct LinearRecurrence{
         if (!len) return vector<int> (k, 0);
         if (k == 1) return {bostan_mori(n)};
 
-        _POLYNOMIAL_MOD = mod;  /// set per call so recurrences with different mods can be interleaved
         u.push_back(1);
-        auto p = Polynomial(u);
-        p = Polynomial({0, 1}).power(p, n);
+        auto p = Polynomial(mod, u);
+        p = Polynomial(mod, {0, 1}).power(p, n);
 
         /// p drops zero high coefficients, pad them back
         v.assign(recurrence.size(), 0);
