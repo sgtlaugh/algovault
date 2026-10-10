@@ -26,7 +26,7 @@
  *
 ***/
 
-#include <bits/stdc++.h>
+#include <bits/stdtr1c++.h>
 
 using namespace std;
 
