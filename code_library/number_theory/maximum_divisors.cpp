@@ -6,6 +6,9 @@
  *
  * Tested and verified up to limit <= 10^18
  *
+ * Complexity: O(H) where H is the count of numbers <= limit with non-increasing exponents over consecutive primes
+ *   (https://oeis.org/A025487), O(1) work per such number, 32749 calls for limit = 10^18, recursion depth <= 20
+ *
  * Table for n=10^d
  *
  *    1 =                      1              1
