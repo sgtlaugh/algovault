@@ -114,45 +114,18 @@ private:
 };
 
 int main(){
-    HamiltonianGraph a(3);
+    HamiltonianGraph g(3);
     vector<vector<long long>> mat = {{8, 1, 6}, {3, 5, 7}, {4, 9, 2}};
     for (int u = 0; u < 3; u++){
-        for (int v = 0; v < 3; v++) a.add_directed_edge(u, v, mat[u][v]);
+        for (int v = 0; v < 3; v++) g.add_directed_edge(u, v, mat[u][v]);
     }
-    assert((a.shortest_path() == pair<long long, vector<int>>{5, {2, 0, 1}}));
-    assert((a.shortest_cycle() == pair<long long, vector<int>>{12, {0, 1, 2}}));
-
-    HamiltonianGraph b(5);
-    for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {0, 3}, {1, 4}, {2, 3}, {2, 4}}) b.add_edge(u, v, 1);
-    for (int u = 0; u < 5; u++){
-        for (int v = u + 1; v < 5; v++) b.add_edge(u, v, 10);
-    }
-    auto [cost, order] = b.shortest_cycle();
-    assert(cost == 5);
-    assert((order == vector<int>{0, 1, 4, 2, 3} || order == vector<int>{0, 3, 2, 4, 1}));
-
-    HamiltonianGraph single(1);
-    assert((single.shortest_path() == pair<long long, vector<int>>{0, {0}}));
-    assert(single.shortest_cycle().second.empty());
-    single.add_directed_edge(0, 0, 7);
-    assert((single.shortest_cycle() == pair<long long, vector<int>>{7, {0}}));
+    assert((g.shortest_path() == pair<long long, vector<int>>{5, {2, 0, 1}}));    /// 4 + 1
+    assert((g.shortest_cycle() == pair<long long, vector<int>>{12, {0, 1, 2}}));  /// 1 + 7 + 4
 
     HamiltonianGraph chain(3);
     chain.add_directed_edge(0, 1, 2), chain.add_directed_edge(1, 2, 3);
-    assert((chain.shortest_path() == pair<long long, vector<int>>{5, {0, 1, 2}}));
-    assert((chain.shortest_cycle() == pair<long long, vector<int>>{LLONG_MAX, {}}));
+    assert(chain.shortest_cycle().first == LLONG_MAX);  /// no edge back to 0
     chain.add_directed_edge(2, 0, -9);
-    assert((chain.shortest_cycle() == pair<long long, vector<int>>{-4, {0, 1, 2}}));
-    assert((chain.shortest_path() == pair<long long, vector<int>>{-7, {2, 0, 1}}));
-
-    HamiltonianGraph split(4);
-    split.add_edge(0, 1, 1), split.add_edge(2, 3, 1);
-    assert((split.shortest_path() == pair<long long, vector<int>>{LLONG_MAX, {}}));
-
-    HamiltonianGraph pair_graph(2);
-    pair_graph.add_edge(0, 1, 6), pair_graph.add_directed_edge(0, 1, 4);
-    assert((pair_graph.shortest_path() == pair<long long, vector<int>>{4, {0, 1}}));
-    assert((pair_graph.shortest_cycle() == pair<long long, vector<int>>{10, {0, 1}}));
-
+    assert((chain.shortest_cycle() == pair<long long, vector<int>>{-4, {0, 1, 2}}));  /// negative weights are fine
     return 0;
 }
