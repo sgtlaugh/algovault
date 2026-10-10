@@ -1,3 +1,11 @@
+"""
+Derangements
+Ways to seat n people in m seats with person x never in seat x, and the probability a permutation is a derangement
+
+Complexity: O(n) big integer operations on O(n log m) bit values for derangement(n, m), O(1) for
+derangement_probability(n) since it returns 1 / e for n > 20
+"""
+
 from math import exp, factorial
 from decimal import Decimal
 
