@@ -117,6 +117,16 @@ int main(){
         assert(calls == 257 && abs(res - (poly_antiderivative(c, b) - poly_antiderivative(c, a))) < 1e-9);
     }
 
+    /// max_levels below the first check: Romberg runs out of levels and returns R(L, L), exact up to degree 2L + 1
+    for (long long it = 0; it < stress::scaled(1000); it++){
+        int levels = stress::rand_int(1, 7);
+        auto c = random_poly(2 * levels + 1, 5);
+        double a = rand_real(-2, 2), b = rand_real(-2, 2);
+        long long calls = 0;
+        double res = romberg(a, b, [&](double x){ calls++; return poly_eval(c, x); }, 1e-9, levels);
+        assert(calls == (1LL << levels) + 1 && abs(res - (poly_antiderivative(c, b) - poly_antiderivative(c, a))) < 1e-9);
+    }
+
     for (long long it = 0; it < stress::scaled(3000); it++){
         auto c = random_poly(4, 10);
         double a = rand_real(-10, 10), b = rand_real(-10, 10);
