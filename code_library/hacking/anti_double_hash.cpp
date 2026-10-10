@@ -9,6 +9,13 @@
  * Extremely useful for hacking solutions in Codeforces :-D
  * Or if you're the setter and you're in an ominous mood, construct test cases against commonly used base/mod pairs
  *
+ * Complexity:
+ *   - AntiHash: 2^23 modular multiplies to fill the 4 MB table dp[2^16][4][2], independent of the input
+ *   - get_hash: O(1), one table lookup per 16-bit chunk of the 64-bit input
+ *   - solve: O(mu + lambda) get_hash calls, the tail and cycle lengths of the rho from the start value
+ *     get_hash takes at most m1 m2 distinct values, expected O(sqrt(m1 m2)) treating it as a random function
+ *     Never terminates if the start value lies on the cycle (mu = 0)
+ *
 ***/
 
 #include <stdio.h>
