@@ -18,8 +18,9 @@ int main(){
     uint32_t n, a, b;
     if (scanf("%u %u %u", &n, &a, &b) != 3) return 0;
 
-    fast_sieve();
-    uint32_t pi = upper_bound(primes, primes + prime_cnt, n) - primes;
+    FastSieve sieve(n);
+    const vector<uint32_t>& primes = sieve.primes;
+    uint32_t pi = primes.size();
     uint32_t x = b < pi ? (pi - 1 - b) / a + 1 : 0;
 
     printf("%u %u\n", pi, x);
