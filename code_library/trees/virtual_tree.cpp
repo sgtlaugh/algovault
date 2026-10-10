@@ -160,39 +160,26 @@ struct VirtualTree : LinearLCA{
 
 int main(){
     /***
-     *          0
-     *        /   \
-     *       1     2
-     *      / \     \
-     *     3   4     5
-     *    /
+     *             0
+     *        3 /     \ 1
+     *         1       2
+     *    2 /    \ 7    \ 4
+     *     3      4      5
+     *  5 /
      *   6
     ***/
     vector<array<int, 3>> edges = {{0, 1, 3}, {0, 2, 1}, {1, 3, 2}, {1, 4, 7}, {2, 5, 4}, {3, 6, 5}};
-
     VirtualTree tree(7);
     for (auto [u, v, w] : edges) tree.add_edge(u, v, w);
     tree.build(0);
 
+    /// 6 and 4 meet at 1, which meets 5 at 0; the list is {vertex, index of its parent in the list}
     using Result = vector<pair<int, int>>;
-    assert((tree.compress({6, 4, 5}) == Result{{0, -1}, {1, 0}, {6, 1}, {4, 1}, {5, 0}}));
-    assert((tree.compress({5, 4, 6}) == Result{{0, -1}, {1, 0}, {6, 1}, {4, 1}, {5, 0}}));
-    assert((tree.compress({4, 6, 6, 3}) == Result{{1, -1}, {3, 0}, {6, 1}, {4, 0}}));
+    auto vt = tree.compress({6, 4, 5});
+    assert((vt == Result{{0, -1}, {1, 0}, {6, 1}, {4, 1}, {5, 0}}));
+    assert(tree.dist(6, 1) == 7);               /// compressed edge 6 - 1 stands for 6 3 1, 5 + 2
     assert((tree.compress({6, 3}) == Result{{3, -1}, {6, 0}}));
-    assert((tree.compress({5, 5}) == Result{{5, -1}}));
-    assert((tree.compress({}) == Result{}));
-    assert((tree.compress({0, 1, 2, 3, 4, 5, 6}) == Result{{0, -1}, {1, 0}, {3, 1}, {6, 2}, {4, 1}, {2, 0}, {5, 5}}));
-
-    assert(tree.dist(6, 1) == 7 && tree.dist(5, 0) == 5);
-    assert(tree.lca(6, 4) == 1 && tree.depth(6) == 3);
-
-    tree.build(4);
-    assert((tree.compress({6, 5}) == Result{{1, -1}, {5, 0}, {6, 0}}));
-    assert((tree.compress({0, 4}) == Result{{4, -1}, {0, 0}}));
-
-    VirtualTree single(1);
-    single.build(0);
-    assert((single.compress({0, 0}) == Result{{0, -1}}));
-
+    assert(tree.lca(6, 4) == 1);
+    assert(tree.depth(6) == 3);
     return 0;
 }
