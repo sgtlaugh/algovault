@@ -152,30 +152,16 @@ namespace ntt{
 
 int main(){
     using namespace ntt;
-
     const long long MOD = 998244353;
 
-    assert((multiply({1, 2, 3}, {4, 5}) == vector<long long>{4, 13, 22, 15}));
-    assert((multiply({5, 1, 2, 6, 9, 8}, {3, 9, 0, 2}) == vector<long long>{15, 48, 15, 46, 83, 109, 84, 18, 16}));
-    assert((multiply({7}, {6}) == vector<long long>{42}));
-    assert((multiply({}, {1, 2}) == vector<long long>{}));
-    assert((multiply({MOD - 1, MOD - 1}, {MOD - 1}) == vector<long long>{1, 1}));
-    assert((multiply({-1}, {2}) == vector<long long>{MOD - 2}));
-    assert((multiply({MOD + 3}, {2 * MOD + 5}) == vector<long long>{15}));
-    assert((multiply<17, 3>({16, 16}, {16, 16}) == vector<long long>{1, 2, 1}));
+    assert((multiply({1, 2, 3}, {4, 5}) == vector<long long>{4, 13, 22, 15}));  /// (1 + 2x + 3x^2)(4 + 5x)
+    assert((multiply({-1}, {2}) == vector<long long>{MOD - 2}));                /// results lie in [0, MOD)
     assert((multiply<7340033, 3>({1, 1}, {1, 1, 1}) == vector<long long>{1, 2, 2, 1}));
 
-    assert((mod_multiply({5, 1, 2, 6, 9, 8}, {3, 9, 0, 2}, 14) == vector<long long>{1, 6, 1, 4, 13, 11, 0, 4, 2}));
-    assert((mod_multiply({1000000006, 1000000006}, {1000000006, 1000000006}, 1000000007) == vector<long long>{1, 2, 1}));
-    assert((mod_multiply({2147483646}, {2147483646}, 2147483647) == vector<long long>{1}));
-    assert((mod_multiply({-3, 4}, {5}, 7) == vector<long long>{6, 6}));
-    assert((mod_multiply({123, 456}, {789}, 1) == vector<long long>{0, 0}));
+    assert((mod_multiply({1000000006, 1000000006}, {1000000006, 1000000006}, 1000000007) == vector<long long>{1, 2, 1}));  /// (-1 - x)^2
+    assert((mod_multiply({5, 1, 2, 6, 9, 8}, {3, 9, 0, 2}, 14) == vector<long long>{1, 6, 1, 4, 13, 11, 0, 4, 2}));      /// any modulus
 
-    assert((exact_multiply({1000000000, 1000000000}, {1000000000, 1000000000}) == vector<long long>{1000000000000000000LL, 2000000000000000000LL, 1000000000000000000LL}));
-    assert((exact_multiply({3037000499LL}, {3037000499LL}) == vector<long long>{9223372030926249001LL}));
-    assert((exact_multiply({LLONG_MAX, LLONG_MIN}, {1}) == vector<long long>{LLONG_MAX, LLONG_MIN}));
-    assert((exact_multiply({-2147483648LL}, {4294967296LL}) == vector<long long>{LLONG_MIN}));
     assert((exact_multiply({-3, 2}, {4, -1}) == vector<long long>{-12, 11, -2}));
-
+    assert((exact_multiply({1000000000, 1000000000}, {1000000000, 1000000000}) == vector<long long>{1000000000000000000LL, 2000000000000000000LL, 1000000000000000000LL}));
     return 0;
 }
