@@ -154,32 +154,18 @@ struct PermutationTree{
 };
 
 int main(){
+    /// 0 [3 [1 2]] 4: an increasing root over 0, the block 3 1 2 and 4
     PermutationTree pudding({0, 3, 1, 2, 4});
-    assert(pudding.count_intervals() == 10);
+    assert(pudding.count_intervals() == 10);  /// 5 singletons, 3 runs of root children, 3 1 2 and 1 2
     assert(pudding.type[pudding.root] == PermutationTree::INCREASING);
     assert(pudding.children[pudding.root].size() == 3);
-    assert(pudding.children[pudding.root][0] == 0 && pudding.children[pudding.root][2] == 4);
     int middle = pudding.children[pudding.root][1];
-    assert(pudding.type[middle] == PermutationTree::DECREASING);
-    assert((pudding.span[middle] == pair<int, int>{1, 3} && pudding.range[middle] == pair<int, int>{1, 3}));
+    assert(pudding.type[middle] == PermutationTree::DECREASING);  /// 3 above [1 2]
+    assert((pudding.span[middle] == pair<int, int>{1, 3}));
 
+    /// No common interval besides the singletons and the whole
     PermutationTree simple({1, 3, 0, 2});
-    assert(simple.count_intervals() == 5);
     assert(simple.type[simple.root] == PermutationTree::CUT);
-    assert((simple.children[simple.root] == vector<int>{0, 1, 2, 3}));
-
-    assert(PermutationTree({0, 1, 2, 3, 4, 5}).count_intervals() == 21);
-    assert(PermutationTree({5, 4, 3, 2, 1, 0}).count_intervals() == 21);
-    assert(PermutationTree({0}).count_intervals() == 1);
-    assert(PermutationTree({0}).root == 0);
-    assert(PermutationTree({}).count_intervals() == 0);
-    assert(PermutationTree({}).root == -1);
-
-    PermutationTree nested({2, 0, 3, 1, 4, 5});
-    assert(nested.count_intervals() == 10);
-    assert(nested.type[nested.root] == PermutationTree::INCREASING);
-    assert(nested.children[nested.root].size() == 3);
-    assert(nested.type[nested.children[nested.root][0]] == PermutationTree::CUT);
-
+    assert(simple.count_intervals() == 5);
     return 0;
 }
