@@ -303,8 +303,10 @@ int main(){
     }
 
     /// Library Checker's cycle matching: left i to right i and i + 1 mod n under shuffled labels, ~150 phases with augmenting paths up to 2n long
-    /// Under the sanitizers maxflow() takes 0.6 s here, the old code reading E through adj ids 3.0 s, a forward walk over the flat arcs 1.2 s
-    /// so the 2 s bound catches a return to the old code, not the direction alone, larger n keeps the same ~5x old / new ratio at 3x the time
+    /// maxflow() is timed in CPU time against BFS passes reading E through adj ids, the old code's access pattern, run half before and half after
+    /// so machine load slows both alike. Wall time against a fixed 2 s failed with 6 sanitizer builds in parallel: maxflow() took 3.5 s to 7 s, 0.6 s idle
+    /// maxflow() / BFS time under the sanitizers, 6 to 12 copies in parallel at load ~10: 1.7 to 2.4, the old code 5.5 to 6.5, a forward walk over the flat arcs 3.7
+    /// (-O2: 0.8, 10, 3.6), so the 4x bound catches a return to the old code, not the direction alone
     {
         int n = 50000, src = 2 * n, sink = 2 * n + 1;
         vector<int> left(n), right(n);
@@ -319,9 +321,28 @@ int main(){
         for (int i = 0; i < n; i++) g.add_directed_edge(src, i, 1), g.add_directed_edge(n + i, sink, 1);
         for (auto [a, b] : edges) g.add_directed_edge(left[a], n + right[b], 1);
 
-        auto start = chrono::steady_clock::now();
+        vector<int> dis(g.n), queue(g.n);
+        auto bfs_passes = [&](int passes){
+            for (int p = 0; p < passes; p++){
+                fill(dis.begin(), dis.end(), -1);
+                int l = 0;
+                dis[src] = 0, queue[l++] = src;
+                for (int f = 0; f < l; f++){
+                    int u = queue[f];
+                    for (int id : g.adj[u]) if (dis[g.E[id].v] == -1) dis[g.E[id].v] = dis[u] + 1, queue[l++] = g.E[id].v;
+                }
+                assert(l == g.n);
+            }
+        };
+
+        clock_t t0 = clock();
+        bfs_passes(10);
+        clock_t t1 = clock();
         assert(g.maxflow() == n);
-        assert(chrono::steady_clock::now() - start < chrono::seconds(2));
+        clock_t t2 = clock();
+        bfs_passes(10);
+        clock_t t3 = clock();
+        assert(t2 - t1 < 4 * (t1 - t0 + t3 - t2));
         check_flow(g, n);
     }
     return 0;
