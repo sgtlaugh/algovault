@@ -9,8 +9,6 @@
 
 #include <bits/stdtr1c++.h>
 
-#define MAX 100000
-
 using namespace std;
 
 /// Hyyro's row update V = (V + U) | (V - U) with U = V & match, zeros of V count the LCS
@@ -42,15 +40,13 @@ int lcs(const char* A, const char* B){
 }
 
 int main(){
-    char A[MAX], B[MAX];
-
-    int n = MAX - 10, m = MAX - 10;
+    int n = 99990, m = 99990;
+    string A(n, 0), B(m, 0);
     for (int i = 0; i < n; i++) A[i] = ((long long)i * i % 26) + 'a';
     for (int i = 0; i < m; i++) B[i] = ((long long)i * i * i % 26) + 'a';
-    A[n] = B[m] = 0;
 
     clock_t start = clock();
-    assert(lcs(A, B) == 23075);
+    assert(lcs(A.c_str(), B.c_str()) == 23075);
 
     fprintf(stderr, "Time taken = %0.3f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC)); /// 0.715 s locally
     return 0;
