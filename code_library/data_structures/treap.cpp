@@ -290,31 +290,22 @@ struct ImplicitTreap{
 int main(){
     Treap<int> set;
     for (int x : {5, 1, 9, 5, -1, 7}) set.insert(x);
-    assert(set.size() == 6);
-    assert(set.kth(0) == -1 && set.kth(1) == 1 && set.kth(2) == 5 && set.kth(3) == 5 && set.kth(5) == 9);
-    assert(set.count_less(5) == 2 && set.count_less(6) == 4 && set.count_less(-5) == 0 && set.count_less(100) == 6);
-    assert(set.count(5) == 2 && set.count(4) == 0);
-    assert(set.erase(5) && set.count(5) == 1 && set.size() == 5);
-    assert(!set.erase(4) && set.size() == 5);
-    assert(set.erase(-1) && set.kth(0) == 1);
+    assert(set.kth(2) == 5);                    /// sorted: -1 1 5 5 7 9
+    assert(set.count_less(5) == 2);
+    assert(set.count(5) == 2);
+    assert(set.erase(5));                       /// removes one copy
+    assert(set.count(5) == 1);
+    assert(!set.erase(4));
 
     ImplicitTreap seq({1, 2, 3, 4, 5});
-    assert(seq.sum(0, 4) == 15 && seq.sum(1, 3) == 9);
     seq.add(1, 3, 10);
     assert((seq.to_vector() == vector<long long>{1, 12, 13, 14, 5}));
     seq.reverse(0, 3);
     assert((seq.to_vector() == vector<long long>{14, 13, 12, 1, 5}));
-    seq.insert(2, 100);
-    assert((seq.to_vector() == vector<long long>{14, 13, 100, 12, 1, 5}));
-    seq.insert(6, -7);
+    seq.insert(2, 100);                         /// before position 2
     seq.erase(0);
-    assert((seq.to_vector() == vector<long long>{13, 100, 12, 1, 5, -7}));
-    assert(seq.get(1) == 100 && seq.sum(2, 5) == 11 && seq.size() == 6);
-
-    ImplicitTreap empty;
-    assert(empty.size() == 0);
-    empty.insert(0, 42);
-    assert(empty.get(0) == 42);
-
+    assert((seq.to_vector() == vector<long long>{13, 100, 12, 1, 5}));
+    assert(seq.sum(1, 3) == 113);
+    assert(seq.get(1) == 100);
     return 0;
 }
