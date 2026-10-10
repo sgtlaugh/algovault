@@ -1,3 +1,11 @@
+"""
+Fast input scanner
+
+Scanner().next_token(): the next whitespace separated token from sys.stdin, then None at the end of input
+
+Complexity: O(total input length) over all calls, memory holds one line and its tokens at a time
+"""
+
 import io
 import sys
 
