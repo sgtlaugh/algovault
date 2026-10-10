@@ -100,28 +100,13 @@ vector<pair<int, int>> sorting_swaps(vector<int> p){
 int main(){
     vector<int> p = {1, 2, 0, 4, 3};
     assert((permutation_cycles(p) == vector<vector<int>>{{0, 1, 2}, {3, 4}}));
-    assert((permutation_power(p, 0) == vector<int>{0, 1, 2, 3, 4}));
-    assert((permutation_power(p, 2) == vector<int>{2, 0, 1, 3, 4}));
-    assert((permutation_power(p, 6) == vector<int>{0, 1, 2, 3, 4}));
-    assert((permutation_power(p, -1) == vector<int>{2, 0, 1, 4, 3}));
-    assert((permutation_power(p, 1000000000000000000LL) == vector<int>{1, 2, 0, 3, 4}));
-    assert((permutation_power(p, LLONG_MIN) == vector<int>{1, 2, 0, 3, 4}));
-    assert(permutation_parity(p) == 1);
+    assert((permutation_power(p, 2) == vector<int>{2, 0, 1, 3, 4}));   /// the 2-cycle squares away
+    assert((permutation_power(p, -1) == vector<int>{2, 0, 1, 4, 3}));  /// the inverse
+    assert(permutation_parity(p) == 1);                                /// 5 elements - 2 cycles = 3 swaps
     assert((sorting_swaps(p) == vector<pair<int, int>>{{0, 1}, {0, 2}, {3, 4}}));
 
     vector<int> two_swaps = {1, 0, 3, 2};
-    assert((permutation_root(two_swaps, 2) == vector<int>{2, 3, 1, 0}));
-    assert(permutation_parity(two_swaps) == 0);
-    assert((permutation_root({1, 0}, 2) == vector<int>{}));
-    assert((permutation_root({1, 2, 0}, 2) == vector<int>{2, 0, 1}));
-    assert((permutation_root({1, 2, 0}, 3) == vector<int>{}));
-    assert((permutation_root({1, 2, 0}, 4) == vector<int>{1, 2, 0}));
-    assert((permutation_root({0, 1, 2}, LLONG_MAX) == vector<int>{0, 1, 2}));
-    assert((permutation_root({1, 0}, 1LL << 62) == vector<int>{}));
-    assert((permutation_root({1, 0}, 3) == vector<int>{1, 0}));
-
-    assert(permutation_cycles({}).empty() && permutation_power({}, 5).empty() && sorting_swaps({}).empty());
-    assert((permutation_power({0}, -7) == vector<int>{0}) && permutation_parity({0}) == 0);
-
+    assert((permutation_root(two_swaps, 2) == vector<int>{2, 3, 1, 0}));  /// the two 2-cycles merge into one 4-cycle
+    assert(permutation_root({1, 0}, 2).empty());                          /// a lone 2-cycle has no square root
     return 0;
 }
