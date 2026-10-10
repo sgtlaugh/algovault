@@ -1,3 +1,13 @@
+"""
+Berlekamp-Massey
+
+Shortest linear recurrence of a sequence mod an odd prime, then its nth term by Kitamasa
+
+Complexity:
+  - berlekamp_massey: O(n^2 + n log mod), n = len(sequence), one modular inverse per update
+  - solve_linear_recurrence: O(n^2 + k^2 log(nth_term)), k <= n the recurrence length
+"""
+
 def convolution(first, second, mod):
     res = 0
     for f, s in zip(first, second):
