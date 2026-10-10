@@ -3,176 +3,28 @@
  *
  * Uses custom class for complex numbers and various optimizations for better performance
  *
+ * Usage: FFT fft; then fft.multiply(a, b), fft.mod_multiply(a, b, mod), ... (methods documented below)
+ *
  * Complexity:
  *   - O(len) to extend the roots of unity the first time a transform length is used
  *   - O(n log n) for all exposed methods
  *
+ * Memory: len is the smallest power of two >= n + m, an instance keeps its roots of unity and work buffers
+ * at the largest len it has used, 2 complex arrays of len (4 once mod_multiply or ll_multiply ran)
+ *
 ***/
 
 #include <bits/stdtr1c++.h>
-
-#define MAX 2097152
 
 using namespace std;
 
 /// Use double to gain more speed at the cost of precision (double should be fine for most problems)
 typedef long double fType;
 
-namespace fft{
-    namespace{ /// Anonymous namespace to wrap internally used variables and methods
-        const int MOD_SPLIT_LIMIT = 15;
-        const int LL_MULTIPLY_LIMIT = 1500000000;
-
-        int last_len = -1, roots_len = 2, rev[MAX];
-
-        struct ComplexNum{
-            fType real, img;
-
-            constexpr ComplexNum(fType real=0, fType img=0) : real(real), img(img) {}
-
-            inline ComplexNum conjugate(){
-                return ComplexNum(real, -img);
-            }
-
-            inline ComplexNum operator + (ComplexNum x){
-                return ComplexNum(real + x.real, img + x.img);
-            }
-
-            inline ComplexNum operator - (ComplexNum x){
-                return ComplexNum(real - x.real, img - x.img);
-            }
-
-            inline ComplexNum operator * (ComplexNum x){
-                return ComplexNum(real * x.real - img * x.img, real * x.img + img * x.real);
-            }
-        } u[MAX], w[MAX], f[MAX], g[MAX], dp[MAX];
-
-        long long round_to_nearest(const fType& x){
-            long long res = abs(x) + 0.5;
-            return (x < 0) ? -res : res;
-        }
-
-        int get_bit(int len){
-            return 32 - __builtin_clz(len) - (__builtin_popcount(len) == 1);
-        }
-
-        /// dp[k + j] = e^(i * pi * j / k) for every power of two k < len, grown on demand
-        void extend_roots(int len){
-            dp[1] = ComplexNum(1);
-
-            for (; roots_len < len; roots_len <<= 1){
-                fType theta = acosl(-1.0L) / roots_len;
-                ComplexNum mul = ComplexNum(cos(theta), sin(theta));
-
-                for (int j = roots_len >> 1; j < roots_len; j++){
-                    dp[2 * j] = dp[j];
-                    dp[2 * j + 1] = dp[j] * mul;
-                }
-            }
-        }
-
-        int build(vector<long long>& v1, vector<long long>& v2){
-            int i, n = v1.size(), m = v2.size();
-            while (n > 1 && v1[n - 1] == 0) n--;
-            while (m > 1 && v2[m - 1] == 0) m--;
-
-            int len = 1 << get_bit(n + m);
-            v1.resize(len, 0), v2.resize(len, 0);
-
-            extend_roots(len);
-            if (len != last_len){
-                last_len = len;
-                const int bit = get_bit(len);
-                for (i = 0; i < len; i++){
-                    rev[i] = (rev[i >> 1] >> 1) + ((i & 1) << (bit - 1));
-                }
-            }
-
-            return len;
-        }
-
-        void transform(ComplexNum *in, ComplexNum *out, ComplexNum* ar, int len){
-            for (int i = 0; i < len; i++) out[i] = in[rev[i]];
-
-            for (int k = 1; k < len; k <<= 1){
-                for (int i = 0; i < len; i += (k << 1)){
-                    ComplexNum z, *a = out + i, *b = out + i + k, *c = ar + k;
-                    if (k == 1){
-                        z = (*b) * (*c);
-                        *b = *a - z, *a = *a + z;
-                    }
-
-                    for (int j = 0; j < k && k > 1; j += 2, a++, b++, c++){
-                        z = (*b) * (*c);
-                        *b = *a - z, *a = *a + z;
-                        a++, b++, c++;
-                        z = (*b) * (*c);
-                        *b = *a - z, *a = *a + z;
-                    }
-                }
-            }
-        }
-
-        bool is_equal(const vector<long long>& v1, const vector<long long>& v2){
-            if (v1.size() != v2.size()) return false;
-
-            for (int i = 0; i < (int)v1.size(); i++){
-                if (v1[i] != v2[i]) return false;
-            }
-
-            return true;
-        }
-
-        bool is_binary_string(const char* str){
-            for (int j = 0; str[j] != 0; j++){
-                if (!(str[j] == '0' || str[j] == '1')) return false;
-            }
-            return true;
-        }
-
-        void build_convolution(vector<long long>& v1, vector<long long>& v2){
-            assert(v1.size() == v2.size());
-
-            int n = v1.size();
-            v1.resize(2 * n, 0), v2.resize(2 * n, 0);
-            for (int i = 0; i < n; i++) v2[i + n] = v2[i];
-        }
-
-        /// With v1 zero padded and v2 doubled, product index n + k holds the circular convolution term k
-        vector<long long> circular_part(const vector<long long>& product, int n){
-            return vector<long long>(product.begin() + n, product.begin() + 2 * n);
-        }
-
-        /// Splits values into low and high bits, leaving low * low, the cross terms and high * high
-        /// in f.real, g.real and f.img respectively, 4 transforms in total (3 for equal inputs)
-        int split_multiply(vector<long long>& v1, vector<long long>& v2, int bits){
-            const int mask = (1 << bits) - 1;
-
-            int i, j, len = build(v1, v2);
-            for (i = 0; i < len; i++) u[i] = ComplexNum(v1[i] & mask, v1[i] >> bits);
-            for (i = 0; i < len; i++) w[i] = ComplexNum(v2[i] & mask, v2[i] >> bits);
-
-            transform(u, f, dp, len);
-            for (i = 0; i < len; i++) g[i] = f[i];
-            if (!is_equal(v1, v2)) transform(w, g, dp, len);
-
-            for (i = 0; i < len; i++){
-                j = (len - 1) & (len - i);
-                ComplexNum c1 = f[j].conjugate(), c2 = g[j].conjugate();
-
-                ComplexNum a1 = (f[i] + c1) * ComplexNum(0.5, 0);
-                ComplexNum a2 = (f[i] - c1) * ComplexNum(0, -0.5);
-                ComplexNum b1 = (g[i] + c2) * ComplexNum(0.5 / len, 0);
-                ComplexNum b2 = (g[i] - c2) * ComplexNum(0, -0.5 / len);
-                u[j] = a1 * b1 + a2 * b2 * ComplexNum(0, 1);
-                w[j] = a1 * b2 + a2 * b1;
-            }
-
-            transform(u, f, dp, len);
-            transform(w, g, dp, len);
-            return len;
-        }
-    }
+/// Work buffers are members reused across calls: allocating them per call measured 10-25% slower at len = 2^20
+struct FFT{
+    static constexpr int MOD_SPLIT_LIMIT = 15;
+    static constexpr int LL_MULTIPLY_LIMIT = 1500000000;
 
     /***
      * Same as multiply(v, v) but faster
@@ -183,9 +35,9 @@ namespace fft{
 
         len = build(v, v);
         for (i = 0; i < len; i++) u[i] = ComplexNum(v[i], 0);
-        transform(u, f, dp, len);
+        transform(u, f, len);
         for (i = 0; i < len; i++) u[i] = f[i] * f[i];
-        transform(u, f, dp, len);
+        transform(u, f, len);
 
         /// A forward transform read at index -i is the inverse transform scaled by len
         vector<long long> res(p_len, 0);
@@ -227,13 +79,13 @@ namespace fft{
 
         len = build(v1, v2);
         for (i = 0; i < len; i++) u[i] = ComplexNum(v1[i], v2[i]);
-        transform(u, f, dp, len);
+        transform(u, f, len);
 
         for (i = 0; i < len; i++){
             j = (len - 1) & (len - i);
             u[i] = (f[j] * f[j] - f[i].conjugate() * f[i].conjugate()) * ComplexNum(0, -0.25 / len);
         }
-        transform(u, f, dp, len);
+        transform(u, f, len);
 
         vector<long long> res(p_len, 0);
         for (i = 0; i < min(len, p_len); i++){
@@ -387,45 +239,204 @@ namespace fft{
         for (i = n; i >= m; i--) res.push_back(v[i - 1]);
         return res;
     }
-}
+
+private:
+    struct ComplexNum{
+        fType real, img;
+
+        ComplexNum() {}  /// left uninitialised so growing a work buffer does not write it twice, every entry is written before it is read
+        ComplexNum(fType real, fType img=0) : real(real), img(img) {}
+
+        inline ComplexNum conjugate(){
+            return ComplexNum(real, -img);
+        }
+
+        inline ComplexNum operator + (ComplexNum x){
+            return ComplexNum(real + x.real, img + x.img);
+        }
+
+        inline ComplexNum operator - (ComplexNum x){
+            return ComplexNum(real - x.real, img - x.img);
+        }
+
+        inline ComplexNum operator * (ComplexNum x){
+            return ComplexNum(real * x.real - img * x.img, real * x.img + img * x.real);
+        }
+    };
+
+    int last_len = -1;
+    vector<int> rev;
+    vector<ComplexNum> u, w, f, g;
+
+    /// roots[k + j] = e^(i * pi * j / k) for every power of two k < roots.size(), grown on demand
+    vector<ComplexNum> roots = {ComplexNum(0), ComplexNum(1)};
+
+    static long long round_to_nearest(const fType& x){
+        long long res = abs(x) + 0.5;
+        return (x < 0) ? -res : res;
+    }
+
+    static int get_bit(int len){
+        return 32 - __builtin_clz(len) - (__builtin_popcount(len) == 1);
+    }
+
+    static bool is_equal(const vector<long long>& v1, const vector<long long>& v2){
+        if (v1.size() != v2.size()) return false;
+
+        for (int i = 0; i < (int)v1.size(); i++){
+            if (v1[i] != v2[i]) return false;
+        }
+
+        return true;
+    }
+
+    static bool is_binary_string(const char* str){
+        for (int j = 0; str[j] != 0; j++){
+            if (!(str[j] == '0' || str[j] == '1')) return false;
+        }
+        return true;
+    }
+
+    static void build_convolution(vector<long long>& v1, vector<long long>& v2){
+        assert(v1.size() == v2.size());
+
+        int n = v1.size();
+        v1.resize(2 * n, 0), v2.resize(2 * n, 0);
+        for (int i = 0; i < n; i++) v2[i + n] = v2[i];
+    }
+
+    /// With v1 zero padded and v2 doubled, product index n + k holds the circular convolution term k
+    static vector<long long> circular_part(const vector<long long>& product, int n){
+        return vector<long long>(product.begin() + n, product.begin() + 2 * n);
+    }
+
+    void extend_roots(int len){
+        roots.reserve(len);  /// one allocation instead of a copy per doubling
+        for (int k = roots.size(); k < len; k <<= 1){
+            fType theta = acosl(-1.0L) / k;
+            ComplexNum mul = ComplexNum(cos(theta), sin(theta));
+
+            roots.resize(2 * k);
+            for (int j = k >> 1; j < k; j++){
+                roots[2 * j] = roots[j];
+                roots[2 * j + 1] = roots[j] * mul;
+            }
+        }
+    }
+
+    /// Pads v1 and v2 to the transform length len, grows u, f and rev to len and returns len
+    int build(vector<long long>& v1, vector<long long>& v2){
+        int i, n = v1.size(), m = v2.size();
+        while (n > 1 && v1[n - 1] == 0) n--;
+        while (m > 1 && v2[m - 1] == 0) m--;
+
+        int len = 1 << get_bit(n + m);
+        v1.resize(len, 0), v2.resize(len, 0);
+
+        extend_roots(len);
+        if ((int)u.size() < len) u.resize(len), f.resize(len), rev.resize(len);
+        if (len != last_len){
+            last_len = len;
+            const int bit = get_bit(len);
+            for (i = 1; i < len; i++){
+                rev[i] = (rev[i >> 1] >> 1) + ((i & 1) << (bit - 1));
+            }
+        }
+
+        return len;
+    }
+
+    void transform(const vector<ComplexNum>& in, vector<ComplexNum>& out, int len){
+        for (int i = 0; i < len; i++) out[i] = in[rev[i]];
+
+        for (int k = 1; k < len; k <<= 1){
+            for (int i = 0; i < len; i += (k << 1)){
+                ComplexNum z, *a = &out[i], *b = &out[i + k], *c = &roots[k];
+                if (k == 1){
+                    z = (*b) * (*c);
+                    *b = *a - z, *a = *a + z;
+                }
+
+                for (int j = 0; j < k && k > 1; j += 2, a++, b++, c++){
+                    z = (*b) * (*c);
+                    *b = *a - z, *a = *a + z;
+                    a++, b++, c++;
+                    z = (*b) * (*c);
+                    *b = *a - z, *a = *a + z;
+                }
+            }
+        }
+    }
+
+    /// Splits values into low and high bits, leaving low * low, the cross terms and high * high
+    /// in f.real, g.real and f.img respectively, 4 transforms in total (3 for equal inputs)
+    int split_multiply(vector<long long>& v1, vector<long long>& v2, int bits){
+        const int mask = (1 << bits) - 1;
+
+        int i, j, len = build(v1, v2);
+        if ((int)w.size() < len) w.resize(len), g.resize(len);
+        for (i = 0; i < len; i++) u[i] = ComplexNum(v1[i] & mask, v1[i] >> bits);
+        for (i = 0; i < len; i++) w[i] = ComplexNum(v2[i] & mask, v2[i] >> bits);
+
+        transform(u, f, len);
+        for (i = 0; i < len; i++) g[i] = f[i];
+        if (!is_equal(v1, v2)) transform(w, g, len);
+
+        for (i = 0; i < len; i++){
+            j = (len - 1) & (len - i);
+            ComplexNum c1 = f[j].conjugate(), c2 = g[j].conjugate();
+
+            ComplexNum a1 = (f[i] + c1) * ComplexNum(0.5, 0);
+            ComplexNum a2 = (f[i] - c1) * ComplexNum(0, -0.5);
+            ComplexNum b1 = (g[i] + c2) * ComplexNum(0.5 / len, 0);
+            ComplexNum b2 = (g[i] - c2) * ComplexNum(0, -0.5 / len);
+            u[j] = a1 * b1 + a2 * b2 * ComplexNum(0, 1);
+            w[j] = a1 * b2 + a2 * b1;
+        }
+
+        transform(u, f, len);
+        transform(w, g, len);
+        return len;
+    }
+};
 
 int main(){
-    using namespace fft;
+    FFT fft;
 
     vector<long long> v1, v2, expected_result;
 
     v1 = {5, 1, 2, 6, 9, 8};
     v2 = {3, 9, 0, 2};
-    assert(multiply(v1, v2) == vector<long long>({15, 48, 15, 46, 83, 109, 84, 18, 16}));
+    assert(fft.multiply(v1, v2) == vector<long long>({15, 48, 15, 46, 83, 109, 84, 18, 16}));
 
     int mod = 14;
-    assert(mod_multiply(v1, v2, mod) == vector<long long>({1, 6, 1, 4, 13, 11, 0, 4, 2}));
+    assert(fft.mod_multiply(v1, v2, mod) == vector<long long>({1, 6, 1, 4, 13, 11, 0, 4, 2}));
 
     for (auto && x: v1) x = (1 << 30) - x;
     for (auto && x: v2) x = (1 << 30) - x;
     expected_result = {1152921496016912399, 2305842989886341168, 3458764492345704463, 4611685988362616878, 4611685984067649619, 4611685976551456877, 3458764477313318996, 2305842988812599314, 1152921493869428752};
 
-    assert(ll_multiply(v1, v2) == expected_result);
+    assert(fft.ll_multiply(v1, v2) == expected_result);
 
     v1 = {1, 2, 3, 4};
     v2 = {1, 0, 0, 2};
-    assert(convolution(v1, v2) == vector<long long>({5, 8, 11, 6}));
+    assert(fft.convolution(v1, v2) == vector<long long>({5, 8, 11, 6}));
 
     mod = 2;
-    assert(mod_convolution(v1, v2, mod) == vector<long long>({1, 0, 1, 0}));
+    assert(fft.mod_convolution(v1, v2, mod) == vector<long long>({1, 0, 1, 0}));
 
     for (auto && x: v1) x = (1 << 30) - x;
     for (auto && x: v2) x = (1 << 30) - x;
     expected_result = {4611686004468744197, 4611686004468744200, 4611686004468744203, 4611686004468744198};
 
-    assert(convolution(v1, v2) != expected_result);  /// should fail because of precision, even with long double
-    assert(ll_convolution(v1, v2) == expected_result);
+    assert(fft.convolution(v1, v2) != expected_result);  /// should fail because of precision, even with long double
+    assert(fft.ll_convolution(v1, v2) == expected_result);
 
     expected_result = {3, 3, 1, 1, 4, 1, 2};
-    assert(hamming_distance("1000100101", "0110") == expected_result);
+    assert(fft.hamming_distance("1000100101", "0110") == expected_result);
 
     expected_result = {1, 2, 1, 1, 2};
-    assert(and_convolution("0110110", "110") == expected_result);
+    assert(fft.and_convolution("0110110", "110") == expected_result);
 
     return 0;
 }

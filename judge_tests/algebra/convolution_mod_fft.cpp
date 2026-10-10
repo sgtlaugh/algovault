@@ -35,6 +35,6 @@ int main(){
     for (auto& x : a) x = read_int();
     for (auto& x : b) x = read_int();
 
-    print_line(fft::mod_multiply(a, b, 998244353));
+    print_line(FFT().mod_multiply(a, b, 998244353));
     return 0;
 }

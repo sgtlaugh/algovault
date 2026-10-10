@@ -24,6 +24,8 @@ int main(){
         cd.add_edge(u, v);
     }
 
+    FFT fft;
+
     /// Ordered pairs through c are the square of all depth counts minus each branch's own square
     vector<long long> freq(n, 0);
     cd.build([&](int, const CentroidDecomposition::Branches& branches){
@@ -35,10 +37,10 @@ int main(){
                 if ((int)all.size() <= d) all.resize(d + 1, 0);
                 cnt[d]++, all[d]++;
             }
-            vector<long long> sq = fft::square(cnt);
+            vector<long long> sq = fft.square(cnt);
             for (int d = 0; d < (int)sq.size(); d++) freq[d] -= sq[d];
         }
-        vector<long long> sq = fft::square(all);
+        vector<long long> sq = fft.square(all);
         for (int d = 0; d < (int)sq.size(); d++) freq[d] += sq[d];
     });
 

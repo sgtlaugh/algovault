@@ -6,7 +6,7 @@
 #include "../../code_library/algebra/fft.cpp"
 #undef main
 
-/// Base 1000 keeps 2 * 10^6 digits within MAX = 2^21 transform points and every coefficient below 7 * 10^11
+/// Base 1000 keeps every coefficient of 2 * 10^6 digit operands below 7 * 10^11
 vector<long long> to_groups(const string& s, size_t from){
     vector<long long> res;
     for (size_t j = s.size(); j > from; j -= min<size_t>(3, j - from)){
@@ -24,13 +24,14 @@ int main(){
     int t;
     cin >> t;
 
+    FFT fft;
     string out;
     while (t--){
         string x, y;
         cin >> x >> y;
 
         bool neg = (x[0] == '-') != (y[0] == '-');
-        auto res = fft::multiply(to_groups(x, x[0] == '-'), to_groups(y, y[0] == '-'));
+        auto res = fft.multiply(to_groups(x, x[0] == '-'), to_groups(y, y[0] == '-'));
 
         long long carry = 0;
         for (auto& v : res){

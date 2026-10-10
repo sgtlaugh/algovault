@@ -37,6 +37,6 @@ int main(){
     for (auto& x : a) x = read_int();
     for (auto& x : b) x = read_int();
 
-    write_all(fft::mod_multiply(a, b, 1000000007));
+    write_all(FFT().mod_multiply(a, b, 1000000007));
     return 0;
 }
