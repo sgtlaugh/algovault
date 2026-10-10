@@ -4,8 +4,10 @@
  * Multi-pattern string matching with online pattern insertion
  * Uses binary decomposition over static Aho-Corasick automata
  *
- * Insert: O(|pattern| * log N) amortized
- * Query:  O(|text| * log N + occurrences * log N)
+ * Complexity, with N patterns inserted and sigma = MAX_LETTERS:
+ *   - insert: O(|pattern| sigma log N) amortized, a pattern is rebuilt into at most log N + 1 automata, each build is O(sigma) per node
+ *   - count: O(|text| MAX_LOG), every slot is scanned even when empty, occurrences come from precomputed counters
+ *   - memory: O(sigma) ints per trie node, clear() keeps vector capacity so each slot holds on to its peak size
  *
  * No need to call build() - handled automatically
  * Holds at most 2^MAX_LOG - 1 patterns
