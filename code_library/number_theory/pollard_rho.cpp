@@ -11,7 +11,7 @@
  *
  * Brent's cycle detection with one gcd per batch of 128 steps and Montgomery multiplication
  * Requires __int128 (64-bit GCC or Clang)
- * pisano_period.cpp carries its own copy of this rho, keep fixes in sync
+ * pisano_period.cpp carries checked copies of Montgomery and PollardRho, miller_rabin.cpp of Montgomery
  *
 ***/
 
@@ -20,6 +20,7 @@
 using namespace std;
 
 /// Montgomery form for a fixed odd modulus n, values are stored as x * 2^64 mod n
+/// BEGIN SHARED montgomery
 struct Montgomery{
     unsigned long long n, inv, r2;
 
@@ -54,7 +55,9 @@ struct Montgomery{
         return res;
     }
 };
+/// END SHARED montgomery
 
+/// BEGIN SHARED pollard_rho
 struct PollardRho{
     static constexpr int LIMIT = 1000001;
     vector<int> spf, primes;
@@ -159,6 +162,7 @@ struct PollardRho{
         }
     }
 };
+/// END SHARED pollard_rho
 
 int main(){
     PollardRho rho;
