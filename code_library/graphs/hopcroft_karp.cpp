@@ -13,7 +13,7 @@
  * Each phase augments along shortest paths only, which is what bounds the phases by O(sqrt(n))
  * The augmenting search is iterative, so long augmenting paths cannot overflow the stack
  *
- * minimum_path_cover.cpp embeds a copy of this struct, keep the two in sync
+ * minimum_path_cover.cpp carries a checked copy of this struct
  *
 ***/
 
@@ -21,6 +21,7 @@
 
 using namespace std;
 
+/// BEGIN SHARED hopcroft_karp
 struct HopcroftKarp{
     int n_left, n_right;
     vector<vector<int>> adj;
@@ -89,6 +90,7 @@ struct HopcroftKarp{
         return n_left - count(match_left.begin(), match_left.end(), -1);
     }
 };
+/// END SHARED hopcroft_karp
 
 int main(){
     /// Left 1 only likes right 0, so left 0 must take right 1 and left 2 right 2
