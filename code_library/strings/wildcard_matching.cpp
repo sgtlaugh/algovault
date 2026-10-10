@@ -9,6 +9,7 @@
  * Works on strings, string literals (mixed freely) and on vectors of any ordered value type, pass the wildcard value for vectors
  * An empty pattern or one longer than the text returns no positions, as kmp_search does
  * Requires n <= 2^23, the largest NTT length modulo 998244353
+ * The NTT core is a checked copy of algebra/ntt.cpp
  *
  * Each non-wildcard value gets a random nonzero weight w (0 for the wildcard), and position i scores
  * sum_j w(p[j]) * w(t[i + j]) * (w(p[j]) - w(t[i + j]))^2, which is 0 exactly when every pair matches
@@ -27,30 +28,33 @@
 using namespace std;
 
 namespace wildcard_ntt{
-    const uint32_t mod = 998244353;
-    const uint32_t root = 3;
+    const unsigned MOD = 998244353;
+    const unsigned ROOT = 3;
     const int max_log = 23;
 
-    uint32_t power(uint64_t base, uint64_t exp){
-        uint64_t res = 1;
-        for (base %= mod; exp; exp >>= 1, base = base * base % mod){
-            if (exp & 1) res = res * base % mod;
+    /// BEGIN COPY ntt_core from code_library/algebra/ntt.cpp
+    constexpr unsigned long long power(unsigned long long b, unsigned long long e, unsigned long long mod){
+        unsigned long long res = 1;
+        for (b %= mod; e; e >>= 1, b = b * b % mod){
+            if (e & 1) res = res * b % mod;
         }
         return res;
     }
 
-    /// rt[k + j] = w^j for w a primitive 2k-th root of unity, the twiddles of the level with half length k
-    vector<uint32_t> roots(int n){
-        vector<uint32_t> rt(n, 1);
-        for (int k = 2, s = 2; k < n; k *= 2, s++){
-            uint64_t z = power(root, (mod - 1) >> s);
-            for (int i = k; i < 2 * k; i++) rt[i] = i & 1 ? rt[i / 2] * z % mod : rt[i / 2];
+    /// rt[k + j] = w^j for every power of two k < n, where w is a primitive 2k-th root of unity
+    template<unsigned MOD, unsigned ROOT>
+    vector<unsigned> roots(int n){
+        vector<unsigned> rt(max(n, 2), 1);
+        for (int k = 2; k < n; k <<= 1){
+            unsigned long long z = power(ROOT, (MOD - 1) / (2 * k), MOD);
+            for (int i = k; i < 2 * k; i++) rt[i] = i & 1 ? rt[i >> 1] * z % MOD : rt[i >> 1];
         }
         return rt;
     }
 
-    /// Forward transform only, the inverse is a forward transform of the index-reversed array divided by n
-    void ntt(vector<uint32_t>& a, const vector<uint32_t>& rt){
+    /// Forward transform in place, a.size() must be a power of two no larger than rt.size()
+    template<unsigned MOD>
+    void transform(vector<unsigned>& a, const vector<unsigned>& rt){
         int n = a.size();
         for (int i = 1, j = 0; i < n; i++){
             int bit = n >> 1;
@@ -59,22 +63,24 @@ namespace wildcard_ntt{
             if (i < j) swap(a[i], a[j]);
         }
 
-        for (int k = 1; k < n; k *= 2){
+        /// MOD < 2^31 keeps u + v below 2^32
+        for (int k = 1; k < n; k <<= 1){
             for (int i = 0; i < n; i += 2 * k){
-                for (int j = i; j < i + k; j++){
-                    uint32_t u = a[j], v = (uint64_t)rt[j - i + k] * a[j + k] % mod;
-                    a[j] = u + v < mod ? u + v : u + v - mod;
-                    a[j + k] = u >= v ? u - v : u + mod - v;
+                for (int j = 0; j < k; j++){
+                    unsigned u = a[i + j], v = (unsigned long long)rt[j + k] * a[i + j + k] % MOD;
+                    a[i + j] = u + v >= MOD ? u + v - MOD : u + v;
+                    a[i + j + k] = u >= v ? u - v : u + MOD - v;
                 }
             }
         }
     }
+    /// END COPY ntt_core
 
-    /// Transform of w^k placed at the front of a zero-padded array of length rt.size()
-    vector<uint32_t> transformed_powers(const vector<uint32_t>& weights, int k, const vector<uint32_t>& rt){
-        vector<uint32_t> a(rt.size());
-        for (int i = 0; i < (int)weights.size(); i++) a[i] = power(weights[i], k);
-        ntt(a, rt);
+    /// Transform of w^k placed at the front of a zero-padded array of length len
+    vector<unsigned> transformed_powers(const vector<unsigned>& weights, int k, int len, const vector<unsigned>& rt){
+        vector<unsigned> a(len);
+        for (int i = 0; i < (int)weights.size(); i++) a[i] = power(weights[i], k, MOD);
+        transform<MOD>(a, rt);
         return a;
     }
 }
@@ -90,12 +96,12 @@ vector<int> wildcard_match(const Container& text, const Container& pattern, type
     assert(n <= (1 << max_log));
 
     mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
-    auto random_weight = [&]{ return uniform_int_distribution<uint32_t>(1, mod - 1)(rng); };
-    vector<uint32_t> wt(n), wp(m);
+    auto random_weight = [&]{ return uniform_int_distribution<unsigned>(1, MOD - 1)(rng); };
+    vector<unsigned> wt(n), wp(m);
 
     /// Equal values share one weight, given out by a byte table or by runs of a sort: a map lookup per element cost 4x the NTTs
     if constexpr (is_integral_v<T> && sizeof(T) == 1){
-        array<uint32_t, 256> weight_of;
+        array<unsigned, 256> weight_of;
         for (auto& w : weight_of) w = random_weight();
         weight_of[(unsigned char)wildcard] = 0;
         for (int i = 0; i < n; i++) wt[i] = weight_of[(unsigned char)text[i]];
@@ -112,7 +118,7 @@ vector<int> wildcard_match(const Container& text, const Container& pattern, type
         }
         sort(items.begin(), items.end(), [](const pair<T, int>& a, const pair<T, int>& b){ return a.first < b.first; });
 
-        uint32_t w = 0;
+        unsigned w = 0;
         for (int k = 0; k < (int)items.size(); k++){
             if (k == 0 || items[k - 1].first < items[k].first) w = random_weight();
             int at = items[k].second;
@@ -123,19 +129,19 @@ vector<int> wildcard_match(const Container& text, const Container& pattern, type
     /// A cyclic length >= n only wraps the convolution onto indices below m - 1, which are never read
     int len = 1;
     while (len < n) len <<= 1;
-    auto rt = roots(len);
-    uint64_t len_inv = power(len, mod - 2);
+    auto rt = roots<MOD, ROOT>(len);
+    uint64_t len_inv = power(len, MOD - 2, MOD);
 
-    vector<uint32_t> score(len);
+    vector<unsigned> score(len);
     for (int k = 1; k <= 3; k++){
-        auto a = transformed_powers(wt, k, rt), b = transformed_powers(wp, 4 - k, rt);
-        uint64_t coef = (k == 2 ? mod - 2 : 1) * len_inv % mod;
+        auto a = transformed_powers(wt, k, len, rt), b = transformed_powers(wp, 4 - k, len, rt);
+        uint64_t coef = (k == 2 ? MOD - 2 : 1) * len_inv % MOD;
         for (int i = 0; i < len; i++){
-            uint32_t& s = score[(len - i) & (len - 1)];
-            s = (s + (uint64_t)a[i] * b[i] % mod * coef) % mod;
+            unsigned& s = score[(len - i) & (len - 1)];
+            s = (s + (uint64_t)a[i] * b[i] % MOD * coef) % MOD;
         }
     }
-    ntt(score, rt);
+    transform<MOD>(score, rt);
 
     for (int i = m - 1; i < n; i++){
         if (score[i] == 0) positions.push_back(i - m + 1);
