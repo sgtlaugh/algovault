@@ -39,30 +39,35 @@
 
 using namespace std;
 
-uint64_t limit, max_cnt, number;
 const vector<int> primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
 
-uint64_t multiply(uint64_t a, uint64_t b){
-    if (a > limit / b) return 0;
-    return a * b;
-}
+struct MaxDivisorSearch{
+    uint64_t limit, max_cnt = 0, number = 0;
 
-void backtrack(int i, int lim, uint64_t cur, uint64_t cnt){
-    if (cnt > max_cnt || (cnt == max_cnt && cur < number)) max_cnt = cnt, number = cur;
-    if (i == (int)primes.size()) return;
-
-    uint64_t x = cur;
-    for (int c = 1; c <= lim && x; c++){
-        x = multiply(x, primes[i]);
-        if (x) backtrack(i + 1, c, x, cnt * (c + 1));
+    MaxDivisorSearch(uint64_t limit) : limit(limit){
+        backtrack(0, 64, 1, 1);
     }
-}
+
+    void backtrack(int i, int lim, uint64_t cur, uint64_t cnt){
+        if (cnt > max_cnt || (cnt == max_cnt && cur < number)) max_cnt = cnt, number = cur;
+        if (i == (int)primes.size()) return;
+
+        uint64_t x = cur;
+        for (int c = 1; c <= lim && x; c++){
+            x = multiply(x, primes[i]);
+            if (x) backtrack(i + 1, c, x, cnt * (c + 1));
+        }
+    }
+
+    uint64_t multiply(uint64_t a, uint64_t b){
+        if (a > limit / b) return 0;
+        return a * b;
+    }
+};
 
 pair<uint64_t, uint64_t> solve(long long n){
-    limit = n;
-    max_cnt = 0;
-    backtrack(0, 64, 1, 1);
-    return {number, max_cnt};
+    MaxDivisorSearch search(n);
+    return {search.number, search.max_cnt};
 }
 
 int main(){
