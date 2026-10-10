@@ -50,6 +50,8 @@ using namespace std;
     }
 #endif
 
+/// Global buffers on purpose: stdin and stdout are one stream each per process, so a second reader instance
+/// would split the input between two buffers and a second writer would reorder the output
 namespace fio{
     const int BUF_SIZE = 8192;
 
