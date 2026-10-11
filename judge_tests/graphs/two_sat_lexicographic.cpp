@@ -10,7 +10,7 @@ int main(){
     int n, m;
     if (scanf(" p cnf %d %d", &n, &m) != 2) return 0;
 
-    Graph g(n);
+    TwoSat g(n);
     for (int i = 0; i < m; i++){
         int a, b, z;
         if (scanf("%d %d %d", &a, &b, &z) != 3) return 0;
@@ -22,11 +22,8 @@ int main(){
         return 0;
     }
 
-    vector<char> truth(n + 1, 0);
-    for (int x : g.get_assignment()) truth[x] = 1;
-
     string out = "s SATISFIABLE\nv";
-    for (int x = 1; x <= n; x++) out += " " + to_string(truth[x] ? x : -x);
+    for (int x = 1; x <= n; x++) out += " " + to_string(g.value(x) ? x : -x);
     out += " 0\n";
     fputs(out.c_str(), stdout);
     return 0;

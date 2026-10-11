@@ -6,6 +6,7 @@
  * Positive variables are identified from 1 to n, while negative variables from -1 to -n
  *
  * Among all satisfying assignments, returns the one that sets x1 true if possible, then x2, and so on
+ * After is_satisfiable() returns true, value(x) gives literal x in that assignment (x or -x), get_assignment() the true variables
  * Use 2SAT_kosaraju.cpp when any satisfying assignment will do, it is always linear
  *
  * Fixes variables greedily in index order, a literal can be set iff it does not imply its own negation
@@ -32,15 +33,15 @@
 
 using namespace std;
 
-struct Graph{
+struct TwoSat{
     /// Queries per bitset batch, the worst case runs 2.2x faster than with 64, for B / 8 bytes per component
     static constexpr int B = 256;
 
     int n;
     vector<vector<int>> adj;  /// node 2x is x true, 2x + 1 is x false
-    vector<char> value;
+    vector<char> truth;
 
-    Graph(int n) : n(n), adj(2 * n + 2) {}
+    TwoSat(int n) : n(n), adj(2 * n + 2) {}
 
     inline int node(int x){
         assert(x != 0 && abs(x) <= n);
@@ -125,16 +126,16 @@ struct Graph{
         vector<vector<int>> dag;
         vector<bitset<B>> mask;
         vector<signed char> reach(n + 1, -1);  /// reach[x]: whether node 2x reaches 2x + 1, -1 while unknown
-        value.assign(N, 0);
+        truth.assign(N, 0);
 
         auto mark_closure = [&](int l){
             stk.assign(1, l);
             while (!stk.empty()){
                 int u = stk.back();
                 stk.pop_back();
-                if (value[u]) continue;
-                value[u] = 1;
-                for (int w : adj[u]) if (!value[w]) stk.push_back(w);
+                if (truth[u]) continue;
+                truth[u] = 1;
+                for (int w : adj[u]) if (!truth[w]) stk.push_back(w);
             }
         };
 
@@ -146,8 +147,8 @@ struct Graph{
             while (!stk.empty()){
                 int u = stk.back();
                 stk.pop_back();
-                if (value[u]) continue;
-                if (value[u ^ 1]){
+                if (truth[u]) continue;
+                if (truth[u ^ 1]){
                     status = 0;
                     break;
                 }
@@ -155,11 +156,11 @@ struct Graph{
                     status = -1;
                     break;
                 }
-                value[u] = 1, trail.push_back(u);
-                for (int w : adj[u]) if (!value[w]) stk.push_back(w);  /// fixed nodes are closed under implication, stop there
+                truth[u] = 1, trail.push_back(u);
+                for (int w : adj[u]) if (!truth[w]) stk.push_back(w);  /// fixed nodes are closed under implication, stop there
             }
             if (status != 1){
-                for (int u : trail) value[u] = 0;
+                for (int u : trail) truth[u] = 0;
                 allowance -= work;
             }
             return status;
@@ -185,7 +186,7 @@ struct Graph{
             vector<int> qs;
             int lo = C, hi = -1;
             auto take = [&](int y){
-                if (reach[y] != -1 || value[2 * y] || value[2 * y + 1] || comp[2 * y] < comp[2 * y + 1]) return;
+                if (reach[y] != -1 || truth[2 * y] || truth[2 * y + 1] || comp[2 * y] < comp[2 * y + 1]) return;
                 reach[y] = 0;  /// queued, the pass below overwrites it
                 qs.push_back(y), lo = min(lo, comp[2 * y + 1]), hi = max(hi, comp[2 * y]);
             };
@@ -195,7 +196,7 @@ struct Graph{
             fill(mask.begin() + lo, mask.begin() + hi + 1, bitset<B>());
             for (int j = 0; j < (int)qs.size(); j++) mask[comp[2 * qs[j]]][j] = 1;
             for (int c = hi; c >= lo; c--){
-                if (mask[c].none() || value[rep[c]] || value[rep[c] ^ 1]) continue;
+                if (mask[c].none() || truth[rep[c]] || truth[rep[c] ^ 1]) continue;
                 for (int d : dag[c]) if (d >= lo) mask[d] |= mask[c];
             }
 
@@ -207,7 +208,7 @@ struct Graph{
 
         for (int x = 1; x <= n; x++){
             int t = 2 * x;
-            if (value[t] || value[t ^ 1]) continue;
+            if (truth[t] || truth[t ^ 1]) continue;
 
             /// A literal whose component comes after its negation's cannot reach the negation
             if (!comp.empty() && comp[t] < comp[t ^ 1]){
@@ -241,6 +242,11 @@ struct Graph{
         return true;
     }
 
+    /// Value of literal x in the lexicographically first assignment, valid only after is_satisfiable() returned true
+    bool value(int x){
+        return truth[node(x)];
+    }
+
     /***
      * returns variables set to true in a vector, in increasing order
      * only call when is_satisfiable()
@@ -249,7 +255,7 @@ struct Graph{
     vector<int> get_assignment(){
         vector<int> set_nodes;
         for (int x = 1; x <= n; x++){
-            if (value[2 * x]) set_nodes.push_back(x);
+            if (truth[2 * x]) set_nodes.push_back(x);
         }
 
         return set_nodes;
@@ -257,7 +263,7 @@ struct Graph{
 };
 
 int main(){
-    auto g = Graph(5);
+    auto g = TwoSat(5);
     assert(g.is_satisfiable());
     assert((g.get_assignment() == vector<int>{1, 2, 3, 4, 5}));
 
@@ -274,11 +280,12 @@ int main(){
     g.force_false(1);           /// 1 false forces 2 and 3 false, so 4 true and 5 false
     assert(g.is_satisfiable());
     assert((g.get_assignment() == vector<int>{4}));
+    assert(!g.value(1) && g.value(-1) && g.value(4) && !g.value(5) && g.value(-5));
 
     g.add_xor(1, 5);
     assert(!g.is_satisfiable());
 
-    auto chain = Graph(2001);
+    auto chain = TwoSat(2001);
     for (int x = 1; x < 2000; x++) chain.add_implication(x, x + 1);
     chain.force_false(2000);    /// every x up to 2000 implies 2000, so all are false
     chain.add_or(2000, 2001);

@@ -6,7 +6,7 @@
 
 typedef pair<int, int> Clause;  /// a or b, a == b forces a single literal
 
-void add_all(Graph& g, const vector<Clause>& clauses){
+void add_all(TwoSat& g, const vector<Clause>& clauses){
     for (auto [a, b] : clauses){
         if (a == b) g.force_true(a);
         else g.add_or(a, b);
@@ -53,7 +53,7 @@ int random_literal(int n){
 }
 
 /// Exhaustive: satisfiable iff some assignment works, and the answer is the lexicographically first one preferring true
-void check_brute(Graph& g, int n, const vector<Clause>& clauses){
+void check_brute(TwoSat& g, int n, const vector<Clause>& clauses){
     int best = -1;
     auto key = [&](int mask){ int r = 0; for (int i = 0; i < n; i++) r = r * 2 + (mask >> i & 1); return r; };
     for (int mask = 0; mask < (1 << n); mask++){
@@ -70,10 +70,11 @@ void check_brute(Graph& g, int n, const vector<Clause>& clauses){
     vector<int> expected;
     for (int x = 1; x <= n; x++) if (best >> (x - 1) & 1) expected.push_back(x);
     assert(g.get_assignment() == expected);
+    for (int x = 1; x <= n; x++) assert(g.value(x) == (best >> (x - 1) & 1) && g.value(-x) != g.value(x));
 }
 
 void check_greedy(int n, const vector<Clause>& clauses){
-    Graph g(n);
+    TwoSat g(n);
     add_all(g, clauses);
     auto [sat, expected] = greedy(n, clauses);
     assert(g.is_satisfiable() == sat);
@@ -185,7 +186,7 @@ int main(){
     for (long long it = 0; it < stress::scaled(4000); it++){
         int n = stress::rand_int(1, 10), m = stress::rand_int(0, 3 * n);
         vector<Clause> clauses;
-        Graph g(n);
+        TwoSat g(n);
         for (int c = 0; c < m; c++){
             int a = random_literal(n), b = random_literal(n), kind = stress::rand_int(0, 5);
             if (kind == 0) g.add_or(a, b), clauses.push_back({a, b});
@@ -226,7 +227,7 @@ int main(){
     }
 
     /// Solving again after more constraints must start from scratch
-    Graph g(3);
+    TwoSat g(3);
     g.add_or(-1, -2);
     assert(g.is_satisfiable() && (g.get_assignment() == vector<int>{1, 3}));
     g.force_false(1);

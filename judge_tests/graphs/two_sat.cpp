@@ -31,7 +31,7 @@ int read_int(){
 
 int main(){
     int n = read_int(), m = read_int();
-    Graph g(n);
+    TwoSat g(n);
     for (int i = 0; i < m; i++){
         int a = read_int(), b = read_int();
         read_int();

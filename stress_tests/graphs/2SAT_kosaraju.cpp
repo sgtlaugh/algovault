@@ -9,7 +9,7 @@
 void random_systems(){
     for (long long it = 0; it < stress::scaled(60000); it++){
         int n = stress::rand_int(1, 7), m = stress::rand_int(0, 12);
-        Graph g(n);
+        TwoSat g(n);
         vector<array<int, 3>> constraints;  /// kind, a, b
         vector<vector<int>> groups;
         int vars = n;
@@ -78,7 +78,7 @@ void long_groups(){
         for (int i = 0; i < n; i++) lits[i] = stress::rand_int(0, 1) ? i + 1 : -(i + 1);
         shuffle(lits.begin(), lits.end(), stress::rng());
 
-        Graph g(n);
+        TwoSat g(n);
         g.at_most_one(lits);
         int a = stress::rand_int(0, n - 1), b = stress::rand_int(0, n - 2);
         if (b >= a) b++;
@@ -102,7 +102,7 @@ void long_chain(){
             return i;
         };
 
-        Graph g(n);
+        TwoSat g(n);
         for (int i = 1; i <= n; i++) g.add_or(flip(-i), flip(i == n ? -n : i + 1));
         assert(g.is_satisfiable());
         for (int i = 1; i <= n; i++) assert(!g.value(flip(i)));

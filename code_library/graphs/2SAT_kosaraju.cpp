@@ -20,13 +20,13 @@
 
 using namespace std;
 
-struct Graph{
+struct TwoSat{
     int n, t;
     vector<pair<int, int>> edges;  /// signed literals, mapped to nodes 1..2n only in build() since add_var() changes n
     vector<int> adj_start, adj_to, rev_start, rev_to;
     vector<int> visited, comp, order, dfs_t;
 
-    Graph(int n): n(n) {}
+    TwoSat(int n): n(n) {}
 
     /// Literal x is node x, literal -x is node n + x
     inline int node(int x){
@@ -167,7 +167,7 @@ struct Graph{
 };
 
 int main(){
-    auto g = Graph(4);
+    auto g = TwoSat(4);
 
     g.add_implication(1, 2);     /// if 1 is true then 2 is true
     g.add_implication(-2, -3);   /// if 2 is false then 3 is false
@@ -178,7 +178,7 @@ int main(){
     assert(g.is_satisfiable());
     assert(!g.value(1) && !g.value(2) && !g.value(3) && g.value(4) && !g.value(-4));
 
-    auto h = Graph(4);
+    auto h = TwoSat(4);
     h.at_most_one({1, -2, 3, 4});
     assert(h.n == 6);
     h.add_or(1, 3);
@@ -187,7 +187,7 @@ int main(){
     h.force_true(4);
     assert(!h.is_satisfiable());
 
-    auto p = Graph(3);
+    auto p = TwoSat(3);
     p.at_most_one({1, 2, 3});
     p.force_true(2);
     assert(p.is_satisfiable());
@@ -195,12 +195,12 @@ int main(){
     p.force_true(3);
     assert(!p.is_satisfiable());
 
-    auto q = Graph(2);
+    auto q = TwoSat(2);
     q.at_most_one({-1, -2});
     q.force_false(1);
     assert(q.is_satisfiable() && !q.value(1) && q.value(2));
 
-    auto d = Graph(1);
+    auto d = TwoSat(1);
     d.at_most_one({1, 1});
     d.at_most_one({1});
     d.at_most_one({});
@@ -210,7 +210,7 @@ int main(){
 
     /// 1 -> 2 -> ... -> n -> -n -> ... -> -1 is one path of 2n nodes, deeper than a recursive DFS survives on 8 MB
     int n = 200000;
-    auto chain = Graph(n);
+    auto chain = TwoSat(n);
     for (int i = 1; i < n; i++) chain.add_implication(i, i + 1);
     chain.force_false(n);
     assert(chain.is_satisfiable() && !chain.value(1) && !chain.value(n / 2));
