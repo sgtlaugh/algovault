@@ -10,10 +10,9 @@ int main(){
     int n, capacity;
     if (scanf("%d %d", &n, &capacity) != 2) return 0;
 
-    vector<long long> values(n), counts(n);
-    vector<int> weights(n);
+    vector<long long> values(n), weights(n), counts(n);
     for (int i = 0; i < n; i++){
-        if (scanf("%lld %d %lld", &values[i], &weights[i], &counts[i]) != 3) return 0;
+        if (scanf("%lld %lld %lld", &values[i], &weights[i], &counts[i]) != 3) return 0;
     }
 
     printf("%lld\n", bounded_knapsack(values, weights, counts, capacity));

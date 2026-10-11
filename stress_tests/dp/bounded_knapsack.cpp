@@ -5,7 +5,7 @@
 #undef main
 
 /// Each item expanded into min(count, capacity / weight) copies, then plain 0/1 knapsack
-long long expanded_knapsack(const vector<long long>& values, const vector<int>& weights, const vector<long long>& counts, int capacity){
+long long expanded_knapsack(const vector<long long>& values, const vector<long long>& weights, const vector<long long>& counts, int capacity){
     vector<long long> dp(capacity + 1, 0);
     for (size_t i = 0; i < values.size(); i++){
         long long copies = weights[i] == 0 ? counts[i] : min(counts[i], (long long)capacity / weights[i]);
@@ -52,14 +52,15 @@ int main(){
         bool positive = stress::rand_int(0, 1), huge = stress::rand_int(0, 3) == 0;
         /// At most capacity positive-weight copies plus 6 per zero-weight item are taken, so the answer fits
         long long max_value = huge ? LLONG_MAX / (capacity + 6 * n + 1) : 1000;
-        vector<long long> values(n), counts(n);
-        vector<int> weights(n);
+        vector<long long> values(n), weights(n), counts(n);
         for (int i = 0; i < n; i++){
             values[i] = positive ? stress::rand_int(1, max_value) : stress::rand_int(huge ? -max_value : -20, max_value);
             /// Negative values carry no bound in the header since they are never taken
             if (!positive && huge && stress::rand_int(0, 3) == 0) values[i] = stress::rand_int(LLONG_MIN, -1);
             weights[i] = positive ? stress::rand_int(1, max_weight) : stress::rand_int(0, max_weight);
             if (!positive && stress::rand_int(0, 9) == 0) weights[i] = INT_MAX - stress::rand_int(0, 5);
+            /// Low 32 bits within the capacity catch a cast to int before the oversized-item skip
+            if (!positive && stress::rand_int(0, 19) == 0) weights[i] = (stress::rand_int(1, 1 << 30) << 32) + stress::rand_int(0, max_weight);
             counts[i] = stress::rand_int(0, 5) == 0 ? stress::rand_int(0, (long long)1e18) : stress::rand_int(0, 6);
             if (weights[i] == 0) counts[i] = stress::rand_int(0, 6);
         }
@@ -70,7 +71,7 @@ int main(){
         if (positive && !huge){
             vector<int> ps(values.begin(), values.end()), ms(n);
             for (int i = 0; i < n; i++) ms[i] = min(counts[i], (long long)capacity);
-            assert(got == shohag_bounded_knapsack(ps, weights, ms, capacity));
+            assert(got == shohag_bounded_knapsack(ps, vector<int>(weights.begin(), weights.end()), ms, capacity));
         }
     }
 

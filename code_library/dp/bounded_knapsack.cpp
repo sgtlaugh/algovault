@@ -6,6 +6,7 @@
  * Complexity: O(n * capacity), O(capacity) memory, independent of the counts
  *
  * bounded_knapsack(values, weights, counts, capacity) returns the best total value, 0 for no items
+ * values, weights and counts share one integer type: vector<int> or vector<long long> for all three
  *
  * Capacity, weights and counts must be >= 0, values may be negative (such items are never taken)
  * The answer and every positive values[i] * (capacity / weights[i]) must fit in long long,
@@ -20,15 +21,16 @@
 
 using namespace std;
 
-long long bounded_knapsack(const vector<long long>& values, const vector<int>& weights, const vector<long long>& counts, int capacity){
+template <typename T = long long>
+long long bounded_knapsack(const vector<T>& values, const vector<T>& weights, const vector<T>& counts, int capacity){
     vector<long long> dp(capacity + 1, 0);
     vector<pair<int, long long>> window(capacity + 1);
 
     for (size_t i = 0; i < values.size(); i++){
         long long v = values[i], c = counts[i];
-        int w = weights[i];
         /// Skipping items that never help also keeps x += w and dp[x] - k * v below from overflowing
-        if (v <= 0 || w > capacity) continue;
+        if (v <= 0 || weights[i] > capacity) continue;
+        int w = weights[i];
         if (w == 0){
             for (auto& best : dp) best += v * c;
             continue;
@@ -56,6 +58,9 @@ int main(){
     assert(bounded_knapsack({10, 7}, {5, 4}, {1, 1}, 12) == 17);
     assert(bounded_knapsack({60, 100, 120}, {10, 20, 30}, {1, 1, 1}, 50) == 220);
 
+    vector<int> values = {6, 10}, weights = {2, 5}, counts = {3, 1};
+    assert(bounded_knapsack(values, weights, counts, 9) == 22);
+
     assert(bounded_knapsack({}, {}, {}, 10) == 0);
     assert(bounded_knapsack({5}, {3}, {4}, 0) == 0);
     assert(bounded_knapsack({5}, {11}, {4}, 10) == 0);
@@ -64,6 +69,7 @@ int main(){
     assert(bounded_knapsack({5, 2}, {0, 3}, {3, 10}, 7) == 19);
     assert(bounded_knapsack({-5}, {0}, {3}, 7) == 0);
     assert(bounded_knapsack({5}, {INT_MAX}, {3}, 10) == 0);
+    assert(bounded_knapsack({5}, {(1LL << 32) + 2}, {3}, 10) == 0);
     assert(bounded_knapsack({(long long)4e18, -(long long)9e17}, {10, 1}, {1, 10}, 10) == (long long)4e18);
 
     assert(bounded_knapsack({1}, {1}, {(long long)1e18}, 100000) == 100000);
