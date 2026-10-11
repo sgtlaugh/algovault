@@ -8,12 +8,12 @@
  * Requires __int128
  *
  * CRT(rems, mods) returns the unique solution x in [0, lcm(mods)), or -1 if the system is inconsistent
- *   The lcm of the mods must be below 2^63, each mod must be positive, rems can be any int64 (negative too)
+ *   The lcm of the mods must be below 2^63, each mod must be positive, rems can be any long long (negative too)
  *   An empty system returns 0
  *
  * garner(rems, mods, mod) returns x % mod for the solution x modulo the product of the mods (Garner's mixed radix)
  *   For pairwise co-prime mods whose product does not fit in 64 bits, e.g. recombining NTT results
- *   Each mod and the target mod must be in [1, 2^63), rems can be any int64
+ *   Each mod and the target mod must be in [1, 2^63), rems can be any long long
  *
  * Garner g(mods, mod) precomputes the inverses once, then g(rems) = garner(rems, mods, mod) with no inverse and no allocation
  *   Use it when the mods repeat across calls, e.g. one g(rems) per coefficient of an NTT convolution
@@ -29,41 +29,51 @@
 
 using namespace std;
 
-/// Bezout's identity, ax + by = gcd(a,b)
-int64_t exgcd(int64_t a, int64_t b, int64_t& x, int64_t& y){
-    if (!b){
-        y = 0, x = 1;
-        return a;
-    }
+/// BEGIN COPY extended_gcd from code_library/number_theory/extended_gcd.cpp
+long long extended_gcd(long long a, long long b, long long& x, long long& y){
+    assert(a >= 0 && b >= 0);
 
-    int64_t g = exgcd(b, a % b, y, x);
-    y -= (a / b) * x;
-    return g;
+    long long x1 = 0, y1 = 1;
+    x = 1, y = 0;
+    while (b){
+        long long q = a / b;
+        tie(x, x1) = make_pair(x1, x - q * x1);
+        tie(y, y1) = make_pair(y1, y - q * y1);
+        tie(a, b) = make_pair(b, a - q * b);
+    }
+    return a;
 }
 
+long long mod_inverse(long long a, long long m){
+    assert(m >= 1);
+
+    a %= m;
+    if (a < 0) a += m;
+
+    long long x, y;
+    if (extended_gcd(a, m, x, y) != 1) return -1;
+    x %= m;
+    return x < 0 ? x + m : x;
+}
+/// END COPY extended_gcd
+
 /// x % m + m would overflow for m above 2^62
-int64_t normalize(int64_t x, int64_t m){
+long long normalize(long long x, long long m){
     x %= m;
     return x < 0 ? x + m : x;
 }
 
-int64_t mod_inverse(int64_t a, int64_t m){
-    int64_t x, y;
-    exgcd(a, m, x, y);
-    return normalize(x, m);
-}
-
-int64_t CRT(const vector<int64_t>& rems, const vector<int64_t>& mods){
-    int64_t res = 0, lcm = 1;
+long long CRT(const vector<long long>& rems, const vector<long long>& mods){
+    long long res = 0, lcm = 1;
 
     for (size_t i = 0; i < mods.size(); i++){
-        int64_t r = normalize(rems[i], mods[i]);
-        int64_t g = gcd(lcm, mods[i]), step = mods[i] / g;
+        long long r = normalize(rems[i], mods[i]);
+        long long g = gcd(lcm, mods[i]), step = mods[i] / g;
         if ((r - res) % g) return -1;
 
 
         /// res + k * lcm hits r modulo mods[i] exactly when k * (lcm / g) = (r - res) / g modulo step
-        int64_t k = (__int128)normalize((r - res) / g, step) * mod_inverse(lcm / g % step, step) % step;
+        long long k = (__int128)normalize((r - res) / g, step) * mod_inverse(lcm / g % step, step) % step;
         res += k * lcm;
         lcm *= step;
     }
@@ -74,23 +84,23 @@ int64_t CRT(const vector<int64_t>& rems, const vector<int64_t>& mods){
 /// Garner's digits: x = digit[0] + digit[1] * mods[0] + digit[2] * mods[0] * mods[1] + ..., m[k] is the target mod
 struct Garner{
     int k;
-    vector<int64_t> m, inv, coef, digit;
+    vector<long long> m, inv, coef, digit;
 
     /// coef[i * (k + 1) + j] = mods[0] * ... * mods[j - 1] % m[i], inv[i] = (mods[0] * ... * mods[i - 1])^-1 % m[i]
-    Garner(const vector<int64_t>& mods, int64_t mod) : k(mods.size()), m(mods), inv(k), coef((k + 1) * (k + 1)), digit(k){
+    Garner(const vector<long long>& mods, long long mod) : k(mods.size()), m(mods), inv(k), coef((k + 1) * (k + 1)), digit(k){
         m.push_back(mod);
 
         for (int i = 0; i <= k; i++){
-            int64_t* c = &coef[i * (k + 1)];
+            long long* c = &coef[i * (k + 1)];
             c[0] = 1 % m[i];
             for (int j = 1; j <= i; j++) c[j] = (unsigned __int128)c[j - 1] * m[j - 1] % m[i];
             if (i < k) inv[i] = mod_inverse(c[i], m[i]);
         }
     }
 
-    int64_t operator()(const vector<int64_t>& rems){
+    long long operator()(const vector<long long>& rems){
         for (int i = 0; i < k; i++){
-            int64_t diff = normalize(normalize(rems[i], m[i]) - prefix(i), m[i]);
+            long long diff = normalize(normalize(rems[i], m[i]) - prefix(i), m[i]);
             digit[i] = (unsigned __int128)diff * inv[i] % m[i];
         }
 
@@ -98,22 +108,24 @@ struct Garner{
     }
 
     /// The number written by the first i digits, % m[i]
-    int64_t prefix(int i) const{
-        const int64_t* c = &coef[i * (k + 1)];
-        int64_t res = 0;
+    long long prefix(int i) const{
+        const long long* c = &coef[i * (k + 1)];
+        long long res = 0;
         for (int j = 0; j < i; j++) res = (res + (unsigned __int128)digit[j] * c[j]) % m[i];
         return res;
     }
 };
 
-int64_t garner(const vector<int64_t>& rems, const vector<int64_t>& mods, int64_t mod){
+long long garner(const vector<long long>& rems, const vector<long long>& mods, long long mod){
     return Garner(mods, mod)(rems);
 }
 
 int main(){
-    const int64_t INF = numeric_limits<int64_t>::max();
+    const long long INF = numeric_limits<long long>::max();
 
     assert(CRT({2, 3, 2}, {3, 5, 7}) == 23);
+    vector<long long> rems = {2, 3, 2}, mods = {3, 5, 7};
+    assert(CRT(rems, mods) == 23);
     assert(CRT({}, {}) == 0);
     assert(CRT({5}, {1}) == 0);
     assert(CRT({-7}, {5}) == 3);
@@ -140,8 +152,8 @@ int main(){
     assert(garner({1, 2, 3}, {1000000007, 998244353, 1000000009}, (1LL << 61) - 1) == 1131585747248034387);
     assert(garner({1, 2, 3}, {1000000007, 998244353, 1000000009}, INF) == 1131585747206765391);
 
-    vector<int64_t> big_rems = {-1, 100000000000000000, 1LL << 62, INT64_MIN};
-    vector<int64_t> big_mods = {1000000000000000003, 1000000000000000009, (1LL << 61) - 1, INF};
+    vector<long long> big_rems = {-1, 100000000000000000, 1LL << 62, INT64_MIN};
+    vector<long long> big_mods = {1000000000000000003, 1000000000000000009, (1LL << 61) - 1, INF};
     assert(garner(big_rems, big_mods, INF) == INF - 1);
     assert(garner(big_rems, big_mods, 1000000007) == 746669198);
     assert(garner(big_rems, big_mods, 2) == 0);

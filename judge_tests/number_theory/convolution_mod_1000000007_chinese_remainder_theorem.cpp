@@ -34,7 +34,7 @@ int main(){
     auto c1 = ntt::multiply<ntt::P1, 3>(a, b), c2 = ntt::multiply<ntt::P2, 3>(a, b), c3 = ntt::multiply<ntt::P3, 11>(a, b);
     Garner g({ntt::P1, ntt::P2, ntt::P3}, 1000000007);
 
-    vector<int64_t> rems(3);
+    vector<long long> rems(3);
     for (size_t i = 0; i < c1.size(); i++){
         rems[0] = c1[i], rems[1] = c2[i], rems[2] = c3[i];
         write_int(g(rems), i + 1 == c1.size() ? '\n' : ' ');
