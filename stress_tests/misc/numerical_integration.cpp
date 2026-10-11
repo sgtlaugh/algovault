@@ -166,14 +166,14 @@ int main(){
     }
     assert(misses <= 2 + iterations / 1000);
 
-    /// The delta / 15 Richardson term keeps the adaptive error far below eps on smooth f (worst 0.0034 eps over
-    /// 1.2e5 samples, plain Simpson on the halves reaches 0.1 eps)
+    /// The delta / 15 Richardson term keeps the adaptive error far below eps on smooth f: random samples reach 0.0035 eps,
+    /// a hill climb 0.011 eps (Lorentzian with s = 0.3 over nearly all of [-3, 3]), plain Simpson on the halves 0.16 eps
     for (long long it = 0; it < stress::scaled(4000); it++){
         Family fam = random_family();
         if (!fam.smooth) continue;
         double a = rand_real(fam.lo, fam.hi), b = rand_real(fam.lo, fam.hi), eps = 1e-6 * fam.abs_bound;
         double exact = fam.antiderivative(b) - fam.antiderivative(a);
-        assert(abs(adaptive_simpson(a, b, fam.f, eps) - exact) <= eps / 100);
+        assert(abs(adaptive_simpson(a, b, fam.f, eps) - exact) <= eps / 50);
     }
 
     /// c + cos(2 pi p t) over p whole periods reads as constant to samples spaced a whole number of periods apart:
