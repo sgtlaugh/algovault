@@ -27,18 +27,16 @@ int main(){
     values.erase(unique(values.begin(), values.end()), values.end());
     for (int& x : a) x = lower_bound(values.begin(), values.end(), x) - values.begin();
 
-    vector<int> res(q, 0), index;
-    vector<pair<int, int>> queries;
-    for (int i = 0; i < q; i++){
-        int l = read_int(), r = read_int();
-        if (l < r) queries.push_back({l, r - 1}), index.push_back(i);
+    vector<pair<int, int>> queries(q);
+    for (auto& [l, r] : queries){
+        l = read_int(), r = read_int() - 1;  /// half-open [l, r) to inclusive, l = r gives an empty range
     }
 
     vector<int> cnt(values.size(), 0);
     int distinct = 0;
     auto add = [&](int i){ distinct += cnt[a[i]]++ == 0; };
     auto remove = [&](int i){ distinct -= --cnt[a[i]] == 0; };
-    mo(n, queries, add, remove, [&](int qi){ res[index[qi]] = distinct; });
+    auto res = mo(n, queries, add, remove, [&](int){ return distinct; });
 
     string out;
     for (int x : res){

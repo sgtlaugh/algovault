@@ -7,10 +7,13 @@
  *             mo_with_updates: O((q + u) * n^(2/3) + n^(4/3)) calls to add / remove / toggle for u updates, plus O(q log q) sorting
  *             mo_with_rollback: O(n * sqrt(q) + q) calls to add, plus O(q log q) sorting, a rollback costs as much as undoing its adds
  *
- * mo(n, queries, add, remove, answer):
- *   queries[i] = {l, r}, 0-based inclusive ranges over positions 0..n-1
- *   add(i) / remove(i) move position i into / out of the window, answer(qi) records query qi when the window equals it
+ * mo(n, queries, add, remove, get) returns the answers, res[qi] = get(qi) taken while the window is exactly query qi:
+ *   queries[i] = {l, r}, 0-based inclusive ranges over positions 0..n-1, r = l - 1 is an empty range
+ *   add(i) / remove(i) move position i into / out of the window, get(qi) returns the answer for the current window
  *   The window starts and ends empty, so the same callbacks and state can serve several runs
+ *
+ *   auto distinct = mo(n, queries, [&](int i){ count += freq[a[i]]++ == 0; },
+ *                      [&](int i){ count -= --freq[a[i]] == 0; }, [&](int){ return count; });
  *
  * mo_with_updates(n, queries, update_pos, add, remove, toggle, answer):
  *   queries[i] = {l, r, t}, the range l..r after the first t updates, 0 <= t <= u
@@ -38,10 +41,11 @@
 
 using namespace std;
 
-template <typename Add, typename Remove, typename Answer>
-void mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, Answer answer){
+template <typename Add, typename Remove, typename Get>
+auto mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, Get get){
     int q = queries.size();
-    if (q == 0) return;
+    vector<decay_t<decltype(get(0))>> res(q);
+    if (q == 0) return res;
     int block = max(1, (int)(n / sqrt((double)q)));
 
     vector<int> order(q);
@@ -52,18 +56,20 @@ void mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, An
         return (ba & 1) ? queries[a].second > queries[b].second : queries[a].second < queries[b].second;
     });
 
+    /// Growing before shrinking keeps every removed position inside the window, empty targets included
     int cur_l = 0, cur_r = -1;
     for (int qi : order){
         auto [l, r] = queries[qi];
-        assert(0 <= l && l <= r && r < n);
+        assert(0 <= l && l <= r + 1 && r < n);
         while (cur_l > l) add(--cur_l);
         while (cur_r < r) add(++cur_r);
         while (cur_l < l) remove(cur_l++);
         while (cur_r > r) remove(cur_r--);
-        answer(qi);
+        res[qi] = get(qi);
     }
 
     while (cur_r >= cur_l) remove(cur_r--);  /// leave the window empty so the caller's state can be reused
+    return res;
 }
 
 template <typename Add, typename Remove, typename Toggle, typename Answer>
@@ -231,6 +237,7 @@ struct TreePathMo{
             if (extra[i] != -1) toggle(extra[i]);
             answer(i);
             if (extra[i] != -1) toggle(extra[i]);
+            return 0;
         });
     }
 };
@@ -238,14 +245,14 @@ struct TreePathMo{
 int main(){
     /// Distinct values per range: the callbacks keep a frequency table and a running count
     vector<int> a = {1, 2, 1, 3, 2, 2, 4};
-    vector<pair<int, int>> queries = {{0, 6}, {0, 2}, {3, 5}};
-    vector<int> freq(5, 0), distinct(queries.size());
+    vector<pair<int, int>> queries = {{0, 6}, {0, 2}, {3, 5}, {4, 3}};
+    vector<int> freq(5, 0);
     int count = 0;
-    mo((int)a.size(), queries,
+    auto distinct = mo((int)a.size(), queries,
         [&](int i){ count += freq[a[i]]++ == 0; },
         [&](int i){ count -= --freq[a[i]] == 0; },
-        [&](int qi){ distinct[qi] = count; });
-    assert((distinct == vector<int>{4, 2, 2}));
+        [&](int){ return count; });
+    assert((distinct == vector<int>{4, 2, 2, 0}));  /// {4, 3} is empty
 
     /// The same count with point updates: after update 0, b = {1, 1, 1, 3, 2}
     vector<int> b = {1, 2, 1, 3, 2}, update_pos = {1}, update_value = {1};

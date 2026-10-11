@@ -35,7 +35,6 @@ int main(){
     FenwickPointUpdate<int> counts(m);
     int left = 0, right = -1;
     long long inversions = 0;
-    vector<long long> answer(q);
 
     auto add = [&](int i){
         int size = right - left + 1;
@@ -50,7 +49,7 @@ int main(){
         else inversions -= size - counts.query(a[i]), right--;
     };
 
-    mo(n, queries, add, remove, [&](int qi){ answer[qi] = inversions; });
+    auto answer = mo(n, queries, add, remove, [&](int){ return inversions; });
 
     for (long long x: answer) printf("%lld\n", x);
     return 0;
