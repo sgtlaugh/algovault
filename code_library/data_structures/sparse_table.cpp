@@ -1,12 +1,10 @@
 /***
  *
- * Sparse Table For RMQ on a static array
- * Idempotency is necessary for the regular sparse table and it should be an associative operation
- * Because we answer queries in O(1) allowing partial overlaps which doesn't change the result
- * Some examples are finding minimum or maximum, we cannot find sum or xor or product in this way
- *
- * Check out the disjoint sparse table for those situations
- * https://github.com/sgtlaugh/algovault/blob/master/code_library/disjoint_sparse_table.cpp
+ * Sparse Table
+ * O(1) range queries on a static array for any idempotent associative operation: min, max, gcd, and, or
+ * Queries answer with two overlapping blocks, so the operation must not care about counting an element twice
+ * Sum, xor and product need the disjoint sparse table instead
+ * https://github.com/sgtlaugh/algovault/blob/master/code_library/data_structures/disjoint_sparse_table.cpp
  *
  * So why use the regular sparse table at all as opposed to the disjoint sparse table?
  * Because its simpler, easier to understand and faster (roughly ~1.5x to 2x)
@@ -15,9 +13,17 @@
  *   - SparseTable: O(n log n) build and memory, O(1) per query
  *   - LinearSparseTable: O(n + (n / 64) log(n / 64)) build and memory, effectively O(n) for any practical n, O(1) per query
  *
- * LinearSparseTable<T> answers range minimum with the same API
- * Measured with 1e7 queries: n = 1e6 builds 3x faster in 12 MB instead of 76 MB, queries 2.3x slower
+ * SparseTable<T, Op = MinOp<T>> table(values, op), query(l, r) is Op over [l, r], 0-indexed and inclusive
+ * LinearSparseTable<T, Compare = less<T>> answers the minimum by Compare, greater<T> gives the maximum
+ * Op and Compare need a const operator(), since query() is const
+ *
+ * LinearSparseTable measured with 1e7 queries: n = 1e6 builds 3x faster in 12 MB instead of 76 MB, queries 2.3x slower
  * At n = 1e7 the regular table needs 915 MB against 124 MB, so pick the linear one for large n or tight memory
+ *
+ * Example:
+ *   SparseTable<int> mn(v);
+ *   SparseTable g(v, [](int a, int b){ return __gcd(a, b); });
+ *   LinearSparseTable<int, greater<int>> mx(v);
  *
 ***/
 
@@ -26,15 +32,18 @@
 using namespace std;
 
 template <typename T>
-struct SparseTable{
-    vector<T> dp[32];
-
-    /// defined for min by default, change as required
-    T combine(const T& x, const T& y){
+struct MinOp{
+    T operator()(const T& x, const T& y) const{
         return min(x, y);
     }
+};
 
-    SparseTable(const vector<T> &ar){
+template <typename T, typename Op = MinOp<T>>
+struct SparseTable{
+    vector<T> dp[32];
+    Op combine;
+
+    SparseTable(const vector<T> &ar, Op combine = Op()) : combine(combine){
         int i, j, l, h, n = (int)ar.size();
 
         dp[0] = ar;
@@ -46,22 +55,23 @@ struct SparseTable{
         }
     }
 
-    T query(int l, int r){
+    T query(int l, int r) const{
         int h = __lg(r - l + 1);
         return combine(dp[h][l], dp[h][r - (1 << h) + 1]);
     }
 };
 
 /// Blocks of 64, a per position bitmask of the in-block monotonic stack, and a sparse table over block minima
-template <typename T>
+template <typename T, typename Compare = less<T>>
 struct LinearSparseTable{
     static constexpr int B = 64;
+    Compare compare;
     vector<T> val;
     vector<unsigned long long> mask;
     vector<vector<int>> table;
 
     int better(int i, int j) const{
-        return val[i] <= val[j] ? i : j;
+        return compare(val[j], val[i]) ? j : i;
     }
 
     /// Index of the minimum in [r - size + 1, r], size <= 64
@@ -75,7 +85,7 @@ struct LinearSparseTable{
         unsigned long long cur = 0;
         for (int i = 0; i < n; i++){
             cur <<= 1;
-            while (cur && !(val[i - __builtin_ctzll(cur)] < val[i])) cur &= cur - 1;
+            while (cur && !compare(val[i - __builtin_ctzll(cur)], val[i])) cur &= cur - 1;
             cur |= 1;
             mask[i] = cur;
         }
@@ -115,6 +125,13 @@ int main(){
     assert(rmq.query(4, 7) == 4);
     assert(rmq.query(2, 6) == 1);
     assert(rmq.query(1, 8) == 1);
+
+    SparseTable mx(v, [](int x, int y){ return max(x, y); });
+    SparseTable g(v, [](int x, int y){ return __gcd(x, y); });
+    LinearSparseTable<int, greater<int>> big(v);
+    assert(mx.query(0, 3) == 13 && mx.query(4, 8) == 66 && mx.query(5, 6) == 9);
+    assert(g.query(6, 6) == 9 && g.query(3, 4) == 1 && g.query(1, 1) == 6);
+    assert(big.query(0, 3) == 13 && big.query(4, 8) == 66 && big.query(2, 2) == 1 && big.query(0, 2) == 6);
 
     v.clear();
     mt19937 rng(0);

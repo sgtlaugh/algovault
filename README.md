@@ -74,7 +74,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
   - [Persistent](code_library/data_structures/persistent_segment_tree.cpp) - versioned updates, range queries, k-th smallest and k-th on version diffs [✔](judge_tests/data_structures/persistent_queue.cpp)
   - [XOR](code_library/data_structures/xor_segment_tree.cpp) - range sum of `a[p ^ x]` over `[l, r]` for any x, with point add
 - [Sliding Window Aggregation](code_library/data_structures/sliding_window_aggregation.cpp) - fold under any associative operation and a monotonic min/max queue [✔](judge_tests/data_structures/aoj_dsl_3_d.cpp)
-- [Sparse Table](code_library/data_structures/sparse_table.cpp) - `O(1)` static range min, plus an `O(n)` build variant [✔](judge_tests/data_structures/staticrmq.cpp)
+- [Sparse Table](code_library/data_structures/sparse_table.cpp) - `O(1)` static range min, max, gcd or any idempotent operation, plus an `O(n)` build min/max variant [✔](judge_tests/data_structures/staticrmq.cpp)
   - [2D](code_library/data_structures/sparse_table_2D.cpp) - `O(1)` static rectangle min or max on a grid
   - [Disjoint](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` static range queries for any associative operation [✔](judge_tests/data_structures/static_range_sum.cpp)
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
