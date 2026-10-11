@@ -112,6 +112,11 @@ int main(){
         check({Halfplane(Point(1, y), Point(0, above))}, 10);
     }
 
+    /// Exactly antiparallel twins, both tilted by one ulp, around an empty strip: pushing the second next to the first meets parallel lines
+    check({Halfplane(Point(0, nextafterl(-0.6L, -1)), Point(1, -0.6L)),
+           Halfplane(Point(1, -0.9L), Point(0, nextafterl(-0.9L, -1))),
+           Halfplane(Point(-3, -2), Point(-2, -3))}, 3);
+
     /// Distinct integer directions with cross 1 must not be merged as one rounded direction
     for (long long k : {30000LL, 1000000LL}){
         check({Halfplane(Point(0, 0), Point(k, k + 1)), Halfplane(Point(0, 0), Point(k - 1, k))}, 1e9);
