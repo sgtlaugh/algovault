@@ -225,31 +225,40 @@
 
 ## [Mo's Algorithm](mo.cpp)
 
-- [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
-- [CodeChef QCHEF - Chef and Problems](https://www.codechef.com/problems/QCHEF)
 - [Codeforces 86D - Powerful array](https://codeforces.com/problemset/problem/86/D)
 - [Codeforces 576C - Points on Plane](https://codeforces.com/problemset/problem/576/C)
 - [Codeforces 617E - XOR and Favorite Number](https://codeforces.com/problemset/problem/617/E)
 - [Codeforces 633H - Fibonacci-ish II](https://codeforces.com/problemset/problem/633/H)
 - [Codeforces 877F - Ann and Books](https://codeforces.com/problemset/problem/877/F)
 - [Codeforces 2014H - Robin Hood Archery](https://codeforces.com/problemset/problem/2014/H)
-- [Codeforces Gym 100962F - Frank Sinatra](https://codeforces.com/gym/100962/problem/F)
 - [Codeforces Gym 100965I - Prime](https://codeforces.com/gym/100965/problem/I)
-- [Codeforces Gym 101161E - ACM Tax](https://codeforces.com/gym/101161/problem/E)
 - [CSES 1734 - Distinct Values Queries](https://cses.fi/problemset/task/1734)
 - [HackerRank almost-equal-advanced - Almost Equal - Advanced](https://www.hackerrank.com/challenges/almost-equal-advanced)
-- [Library Checker point_set_range_frequency - Point Set Range Frequency](https://judge.yosupo.jp/problem/point_set_range_frequency)
 - [Library Checker static_range_count_distinct - Static Range Count Distinct](https://judge.yosupo.jp/problem/static_range_count_distinct)
 - [Library Checker static_range_inversions_query - Static Range Inversions Query](https://judge.yosupo.jp/problem/static_range_inversions_query)
-- [Library Checker static_range_mode_query - Static Range Mode Query](https://judge.yosupo.jp/problem/static_range_mode_query)
-- [SPOJ COT2 - Count on a tree II](https://www.spoj.com/problems/COT2/)
 - [SPOJ CPAIR2 - Counting diff-pairs](https://www.spoj.com/problems/CPAIR2/)
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/)
 - [SPOJ FREQ2 - Most Frequent Value](https://www.spoj.com/problems/FREQ2/)
 - [SPOJ KDOMINO - K-dominant array](https://www.spoj.com/problems/KDOMINO/)
-- [SPOJ XXXXXXXX - Sum of Distinct Numbers](https://www.spoj.com/problems/XXXXXXXX/)
 - [SPOJ ZQUERY - Zero Query](https://www.spoj.com/problems/ZQUERY/)
 - [UVa 11898 - Killer Problem](https://onlinejudge.org/external/118/11898.pdf)
+
+## [Mo's Algorithm On Tree Paths](tree_path_mo.cpp)
+
+- [Codeforces Gym 100962F - Frank Sinatra](https://codeforces.com/gym/100962/problem/F)
+- [Codeforces Gym 101161E - ACM Tax](https://codeforces.com/gym/101161/problem/E)
+- [SPOJ COT2 - Count on a tree II](https://www.spoj.com/problems/COT2/)
+
+## [Mo's Algorithm With Rollback](mo_with_rollback.cpp)
+
+- [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
+- [CodeChef QCHEF - Chef and Problems](https://www.codechef.com/problems/QCHEF)
+- [Library Checker static_range_mode_query - Static Range Mode Query](https://judge.yosupo.jp/problem/static_range_mode_query)
+
+## [Mo's Algorithm With Updates](mo_with_updates.cpp)
+
+- [Library Checker point_set_range_frequency - Point Set Range Frequency](https://judge.yosupo.jp/problem/point_set_range_frequency)
+- [SPOJ XXXXXXXX - Sum of Distinct Numbers](https://www.spoj.com/problems/XXXXXXXX/)
 - [UVa 12345 - Dynamic len(set(a[L:R]))](https://onlinejudge.org/external/123/12345.pdf)
 
 ## [Monotonic Stack](monotonic_stack.cpp)
