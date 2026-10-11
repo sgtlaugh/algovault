@@ -117,7 +117,7 @@ int main(){
 
         ull m = stress::rand_int(1, 1000000000000000LL) | 1, k = stress::rand_int(0, 1000000000);
         auto expected = fib_pair(k, m);
-        assert(fib(k, m) == make_pair((long long)expected.first, (long long)expected.second));
+        assert(PisanoPeriod::fib(k, m) == make_pair((long long)expected.first, (long long)expected.second));
     }
 
     /// Instances share no state, a fresh one agrees with the long-lived one

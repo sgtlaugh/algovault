@@ -17,7 +17,7 @@
  *
  * PisanoPeriod pisano;    sieves smallest prime factors up to 1e6, keep a single instance around
  * pisano.period(n):       the pisano period of n, can be as large as 6n
- * fib(n, m):              (fib(n) mod m, fib(n + 1) mod m) for an odd modulus m
+ * Fibonacci numbers mod m: fast_fibonacci.cpp
  *
  * Requires __int128 (64-bit GCC or Clang)
  * Embeds checked copies of pollard_rho.cpp's Montgomery and PollardRho to stay standalone
@@ -173,32 +173,6 @@ struct PollardRho{
 };
 /// END COPY pollard_rho
 
-inline void fib(unsigned long long& x, unsigned long long& y, long long n, const Montgomery& mont){
-    if (!n) x = 0, y = mont.to_mont(1);
-    else{
-        unsigned long long a, b;
-        fib(a, b, n >> 1, mont);
-        unsigned long long z = mont.add(b, b) + mont.n - a;
-        if (z >= mont.n) z -= mont.n;
-
-        x = mont.mul(a, z);
-        y = mont.add(mont.mul(a, a), mont.mul(b, b));
-
-        if (n & 1){
-            x = mont.add(x, y);
-            swap(x, y);
-        }
-    }
-}
-
-inline pair<long long, long long> fib(long long n, long long m){
-    assert(m & 1);  /// Montgomery form needs an odd modulus
-    Montgomery mont(m);
-    unsigned long long x, y;
-    fib(x, y, n, mont);
-    return pair<long long, long long>(mont.reduce(x), mont.reduce(y));
-}
-
 struct PisanoPeriod{
     PollardRho rho;
 
@@ -231,6 +205,32 @@ struct PisanoPeriod{
         }
         return d;
     }
+
+    static void fib(unsigned long long& x, unsigned long long& y, long long n, const Montgomery& mont){
+        if (!n) x = 0, y = mont.to_mont(1);
+        else{
+            unsigned long long a, b;
+            fib(a, b, n >> 1, mont);
+            unsigned long long z = mont.add(b, b) + mont.n - a;
+            if (z >= mont.n) z -= mont.n;
+
+            x = mont.mul(a, z);
+            y = mont.add(mont.mul(a, a), mont.mul(b, b));
+
+            if (n & 1){
+                x = mont.add(x, y);
+                swap(x, y);
+            }
+        }
+    }
+
+    static pair<long long, long long> fib(long long n, long long m){
+        assert(m & 1);  /// Montgomery form needs an odd modulus
+        Montgomery mont(m);
+        unsigned long long x, y;
+        fib(x, y, n, mont);
+        return pair<long long, long long>(mont.reduce(x), mont.reduce(y));
+    }
 };
 
 int main(){
@@ -251,8 +251,8 @@ int main(){
     assert(pisano.period(133049351085651000LL) == 5212409202000LL);
     assert(pisano.period(1000000000000000000LL) == 1500000000000000000LL);
 
-    assert(fib(10, 1000000007) == make_pair(55LL, 89LL));
-    assert(fib(0, 1) == make_pair(0LL, 0LL));
+    assert(PisanoPeriod::fib(10, 1000000007) == make_pair(55LL, 89LL));
+    assert(PisanoPeriod::fib(0, 1) == make_pair(0LL, 0LL));
 
     PisanoPeriod second;
     assert(second.period(1000000000000000000LL) == 1500000000000000000LL && second.period(47) == 32);
