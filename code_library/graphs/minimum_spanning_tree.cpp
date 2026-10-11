@@ -22,6 +22,7 @@
  * dense_prim(w): w is an n x n symmetric matrix of int or long long, w[u][v] == numeric_limits<T>::max() means no edge
  *     for complete graphs where m ~ n^2 makes Kruskal's sort the bottleneck, n ~ 5000 with an int matrix (100 MB)
  *     returns {total weight, parent, connected}: parent[v] is v's neighbour in the forest, -1 for one root per tree
+ *     which node of a tree becomes its root is unspecified
  *     the total weight of the forest must fit in long long
  *     the diagonal is ignored
  *
