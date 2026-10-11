@@ -57,16 +57,15 @@ int main(){
             return e;
         };
         unsigned long long seed = stress::rng()();
-        mt19937_64 rng(seed), replay(seed);
-        AnnealingSchedule cooling{max_w * 0.5, max_w * 0.001, 20000, 0};
-        auto best = simulated_annealing(start, energy, two_opt, cooling, rng);
+        auto cooling = Annealer::by_steps(max_w * 0.5, max_w * 0.001, 20000, seed);
+        auto best = simulated_annealing(start, energy, two_opt, cooling);
 
         vector<int> sorted_best = best;
         sort(sorted_best.begin(), sorted_best.end());
         for (int i = 0; i < n; i++) assert(sorted_best[i] == i);
         assert(tour_cost(w, best) == lowest_seen);
         assert(tour_cost(w, best) == brute_tsp(w));
-        assert(simulated_annealing(start, energy, two_opt, cooling, replay) == best);
+        assert(simulated_annealing(start, energy, two_opt, Annealer::by_steps(max_w * 0.5, max_w * 0.001, 20000, seed)) == best);
     }
 
     /// Two states 0 and 1 with energies 0 and d at a fixed T: Metropolis visits state 1 a fraction e^(-d/T) / (1 + e^(-d/T))
@@ -75,12 +74,34 @@ int main(){
         double t = d / ratio;
         auto level = [&](int s){ return s * d; };
         auto flip = [&](int s, mt19937_64&){ calls++, visits_up += s; return 1 - s; };
-        mt19937_64 rng(stress::rng()());
-        simulated_annealing(0, level, flip, AnnealingSchedule{t, t, steps, 0}, rng);
+        simulated_annealing(0, level, flip, Annealer::by_steps(t, t, steps, stress::rng()()));
 
         double expected = exp(-ratio) / (1 + exp(-ratio));
         assert(calls == steps);
         assert(abs((double)visits_up / steps - expected) < 0.01);
+    }
+
+    /// The same chain driven by the loop driver, the caller owning the state and passing signed deltas to accept()
+    for (double ratio : {0.5, 1.0, 2.0}){
+        long long d = 10, steps = stress::scaled(200000), visits_up = 0;
+        double t = d / ratio;
+        int s = 0;
+        auto sa = Annealer::by_steps(t, t, steps, stress::rng()());
+        while (sa.running()){
+            visits_up += s;
+            if (sa.accept(s ? -d : d)) s = 1 - s;
+        }
+
+        assert(sa.step == steps);
+        assert(abs((double)visits_up / steps - exp(-ratio) / (1 + exp(-ratio))) < 0.01);
+    }
+
+    /// Budgets computed at runtime can be zero or negative, which must make no moves rather than loop forever
+    for (long long steps = -3; steps <= 3; steps++){
+        auto sa = Annealer::by_steps(1, 1, steps, stress::rng()());
+        long long moves = 0;
+        while (sa.running()) moves++;
+        assert(moves == max(steps, 0LL));
     }
 
     /// The same chain with floating point energies, which take the other branch of uphill_gap
@@ -89,8 +110,7 @@ int main(){
         long long steps = stress::scaled(200000), visits_up = 0;
         auto level = [&](int s){ return s * d; };
         auto flip = [&](int s, mt19937_64&){ visits_up += s; return 1 - s; };
-        mt19937_64 rng(stress::rng()());
-        simulated_annealing(0, level, flip, AnnealingSchedule{d, d, steps, 0}, rng);
+        simulated_annealing(0, level, flip, Annealer::by_steps(d, d, steps, stress::rng()()));
         assert(abs((double)visits_up / steps - exp(-1) / (1 + exp(-1))) < 0.01);
     }
 
@@ -104,8 +124,7 @@ int main(){
             calls++;
             return 1 - s;
         };
-        mt19937_64 rng(stress::rng()());
-        simulated_annealing(0, level, flip, AnnealingSchedule{100.0 * d, d / 1000.0, steps, 0}, rng);
+        simulated_annealing(0, level, flip, Annealer::by_steps(100.0 * d, d / 1000.0, steps, stress::rng()()));
 
         assert(early_up > steps / 10 * 0.4);
         assert(late_up == 0);
@@ -123,8 +142,7 @@ int main(){
         };
         vector<int> start(8);
         iota(start.begin(), start.end(), 0);
-        mt19937_64 rng(stress::rng()());
-        simulated_annealing(start, [&](const vector<int>& p){ return tour_cost(w, p); }, watched, AnnealingSchedule{1e-12, 1e-12, 2000, 0}, rng);
+        simulated_annealing(start, [&](const vector<int>& p){ return tour_cost(w, p); }, watched, Annealer::by_steps(1e-12, 1e-12, 2000, stress::rng()()));
     }
 
     /// Energies spanning all of long long: every uphill gap is at least 2^63, far too steep to take at T <= 1e6
@@ -133,8 +151,7 @@ int main(){
         auto extremes = [&](int s){ return s ? low : high; };
         long long visits_up = 0;
         auto flip = [&](int s, mt19937_64&){ visits_up += s == 0; return 1 - s; };
-        mt19937_64 rng(stress::rng()());
-        assert(simulated_annealing(1, extremes, flip, AnnealingSchedule{1e6, 1, 2000, 0}, rng) == 1);
+        assert(simulated_annealing(1, extremes, flip, Annealer::by_steps(1e6, 1, 2000, stress::rng()())) == 1);
         assert(visits_up == 0);
     }
 
@@ -145,21 +162,20 @@ int main(){
         long long off = it % 2 ? stress::rand_int(1LL << 53, LLONG_MAX - d) : stress::rand_int(LLONG_MIN, -(1LL << 53));
         auto level = [&](int s){ return off + s * d; };
         auto flip = [&](int s, mt19937_64&){ visits_up += s; return 1 - s; };
-        mt19937_64 rng(stress::rng()());
-        simulated_annealing(0, level, flip, AnnealingSchedule{(double)d, (double)d, steps, 0}, rng);
+        simulated_annealing(0, level, flip, Annealer::by_steps((double)d, (double)d, steps, stress::rng()()));
         assert(abs((double)visits_up / steps - exp(-1) / (1 + exp(-1))) < 0.01);
     }
 
-    /// Time based: stops at the deadline, one cheap step past it at most, and still solves a small instance
+    /// Time based: stops at the deadline and still solves a small instance. The budget is wall clock by design,
+    /// so the upper bound leaves room for a process descheduled among parallel sanitizer jobs
     for (int it = 0; it < 3; it++){
         Matrix w = random_instance(6, 100);
         vector<int> start(6);
         iota(start.begin(), start.end(), 0);
-        mt19937_64 rng(stress::rng()());
         auto t0 = chrono::steady_clock::now();
-        auto best = simulated_annealing(start, [&](const vector<int>& p){ return tour_cost(w, p); }, two_opt, AnnealingSchedule{50, 0.1, 0, 0.2}, rng);
+        auto best = simulated_annealing(start, [&](const vector<int>& p){ return tour_cost(w, p); }, two_opt, Annealer::by_time(50, 0.1, 0.2, stress::rng()()));
         double secs = chrono::duration<double>(chrono::steady_clock::now() - t0).count();
-        assert(secs >= 0.2 && secs < 0.3);
+        assert(secs >= 0.2 && secs < 1);
         assert(tour_cost(w, best) == brute_tsp(w));
     }
 

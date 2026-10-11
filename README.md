@@ -298,7 +298,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Numerical Integration](code_library/misc/numerical_integration.cpp) - composite Simpson, adaptive Simpson and Romberg
 - [Radix Sort](code_library/misc/radix_sort.cpp) - LSD radix sort of 32-bit integers [✔](judge_tests/misc/aoj_alds1_6_a_radix_sort.cpp)
 - [Radix Sort 64](code_library/misc/radix_sort_64.cpp) - LSD radix sort of 64-bit integers [✔](judge_tests/misc/aoj_alds1_6_a_radix_sort_64.cpp)
-- [Simulated Annealing](code_library/misc/simulated_annealing.cpp) - generic minimizer with a geometric time or iteration cooling schedule
+- [Simulated Annealing](code_library/misc/simulated_annealing.cpp) - generic minimizer and an in-place delta loop driver with a geometric time or step schedule
 - [Ternary and Golden-Section Search](code_library/misc/ternary_search.cpp) - integer argmax of a unimodal function, real argmin
 
 ### Hacking
