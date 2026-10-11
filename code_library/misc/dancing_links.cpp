@@ -5,21 +5,21 @@
  *
  * Complexity: exponential worst case (exact cover is NP-complete), O(columns + total row length) memory
  *
- * DancingLinks(ncolumns, max_nodes): columns are 1 based, numbered 1 to ncolumns
+ * DancingLinks(ncolumns, max_nodes): columns are 0 based, numbered 0 to ncolumns - 1
  * max_nodes = total length of all rows presizes the node arrays, more rows still fit after a reallocation
  * add_row(r, columns): r is any int id chosen by the caller, columns must be distinct, an empty row is ignored
  * The search branches on the first column with the fewest remaining rows, stopping early at a count <= 1
  * The search is deterministic: the same rows added in the same order give the same solution
+ * exact_cover() returns the selected row ids, nullopt if no cover exists (0 columns give an empty cover)
  * exact_cover restores the links before returning, so it can be called again or rows can still be added
  * Recursion depth is at most the number of selected rows, at most ncolumns
  * An 8 MB stack overflows near depth 5e4 with -O2 and as early as 4e4 under sanitizers, deeper covers need a larger stack
  *
  * Example:
  *   DancingLinks dlx(3);
- *   dlx.add_row(1, {1, 2});
- *   dlx.add_row(2, {3});
- *   vector<int> rows;
- *   dlx.exact_cover(rows);  // true, rows = {1, 2}
+ *   dlx.add_row(1, {0, 1});
+ *   dlx.add_row(2, {2});
+ *   auto rows = dlx.exact_cover();  // {1, 2}
  *
  * The sudoku namespace below reduces an n x n sudoku (n a perfect square) to exact cover with 4 n^2 columns
  *
@@ -47,7 +47,9 @@ struct DancingLinks{
             for (auto* v : {&row, &col, &L, &R, &U, &D}) v->resize(2 * (idx + l));
         }
 
-        for (int c : columns){
+        for (int column : columns){
+            assert(0 <= column && column < n);
+            int c = column + 1;  /// node 0 is the header of the column list
             L[idx] = idx - 1, R[idx] = idx + 1, D[idx] = c, U[idx] = U[c];
             D[U[c]] = idx, U[c] = idx, row[idx] = r, col[idx] = c;
             column_count[c]++, idx++;
@@ -55,13 +57,10 @@ struct DancingLinks{
         R[idx - 1] = first, L[first] = idx - 1;
     }
 
-    /// Returns true and the selected row ids if an exact cover exists, false otherwise
-    bool exact_cover(vector<int>& rows){
+    optional<vector<int>> exact_cover(){
         int len = algorithm_x(0);
-        if (len == -1) return false;
-
-        rows.assign(selected_rows.begin(), selected_rows.begin() + len);
-        return true;
+        if (len == -1) return nullopt;
+        return vector<int>(selected_rows.begin(), selected_rows.begin() + len);
     }
 
 private:
@@ -117,11 +116,10 @@ private:
 
 namespace sudoku{
     int encode(int n, int a, int b, int c){
-        return a * n * n + b * n + c + 1;
+        return a * n * n + b * n + c;
     }
 
     void decode(int n, int v, int& a, int& b, int& c){
-        v--;
         c = v % n, v /= n;
         b = v % n, a = (v / n) % n;
     }
@@ -156,10 +154,10 @@ namespace sudoku{
             }
         }
 
-        vector<int> res;
-        if (!dlx.exact_cover(res)) return false;
+        auto res = dlx.exact_cover();
+        if (!res) return false;
 
-        for (int v : res){
+        for (int v : *res){
             decode(n, v, i, j, k);
             grid[i][j] = k + 1;
         }
@@ -169,35 +167,38 @@ namespace sudoku{
 
 int main(){
     DancingLinks knuth(7);
-    for (auto& [r, columns] : vector<pair<int, vector<int>>>{{1, {3, 5, 6}}, {2, {1, 4, 7}}, {3, {2, 3, 6}}, {4, {1, 4}}, {5, {2, 7}}, {6, {4, 5, 7}}}){
+    for (auto& [r, columns] : vector<pair<int, vector<int>>>{{1, {2, 4, 5}}, {2, {0, 3, 6}}, {3, {1, 2, 5}}, {4, {0, 3}}, {5, {1, 6}}, {6, {3, 4, 6}}}){
         knuth.add_row(r, columns);
     }
 
     DancingLinks blocked(3);
-    blocked.add_row(10, {1, 2});
-    blocked.add_row(20, {2, 3});
+    blocked.add_row(10, {0, 1});
+    blocked.add_row(20, {1, 2});
     blocked.add_row(30, {});
 
-    vector<int> rows;
-    assert(knuth.exact_cover(rows));
-    sort(rows.begin(), rows.end());
-    assert((rows == vector<int>{1, 4, 5}));
-    assert(!blocked.exact_cover(rows));
-    assert(knuth.exact_cover(rows));
-    sort(rows.begin(), rows.end());
-    assert((rows == vector<int>{1, 4, 5}));
+    auto rows = knuth.exact_cover();
+    assert(rows);
+    sort(rows->begin(), rows->end());
+    assert((*rows == vector<int>{1, 4, 5}));
+    assert(!blocked.exact_cover());
+    rows = knuth.exact_cover();
+    assert(rows);
+    sort(rows->begin(), rows->end());
+    assert((*rows == vector<int>{1, 4, 5}));
 
-    blocked.add_row(40, {3});
-    assert(blocked.exact_cover(rows));
-    sort(rows.begin(), rows.end());
-    assert((rows == vector<int>{10, 40}));
+    blocked.add_row(40, {2});
+    rows = blocked.exact_cover();
+    assert(rows);
+    sort(rows->begin(), rows->end());
+    assert((*rows == vector<int>{10, 40}));
 
     DancingLinks nothing(0);
-    assert(nothing.exact_cover(rows) && rows.empty());
+    rows = nothing.exact_cover();
+    assert(rows && rows->empty());
 
     DancingLinks uncoverable(2);
-    uncoverable.add_row(7, {1});
-    assert(!uncoverable.exact_cover(rows));
+    uncoverable.add_row(7, {0});
+    assert(!uncoverable.exact_cover());
 
     vector<vector<int>> grid = {
         {0, 0, 0, 0, 6, 9, 8, 3, 0},

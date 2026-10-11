@@ -17,22 +17,22 @@ int main(){
         fixed_column[r] = c;
     }
 
-    /// Columns 1-8 rows, 9-16 columns, 17-31 diagonals, 32-46 anti-diagonals
+    /// Columns 0-7 rows, 8-15 columns, 16-30 diagonals, 31-45 anti-diagonals
     /// A slack row per diagonal turns "at most one queen" into exact cover
     DancingLinks dlx(46);
     for (int r = 0; r < 8; r++){
         for (int c = 0; c < 8; c++){
             if (fixed_column[r] != -1 && fixed_column[r] != c) continue;
-            dlx.add_row(r * 8 + c, {r + 1, c + 9, r + c + 17, r - c + 39});
+            dlx.add_row(r * 8 + c, {r, c + 8, r + c + 16, r - c + 38});
         }
     }
-    for (int d = 17; d <= 46; d++) dlx.add_row(64 + d, {d});
+    for (int d = 16; d <= 45; d++) dlx.add_row(64 + d, {d});
 
-    vector<int> rows;
-    if (!dlx.exact_cover(rows)) return 0;
+    auto rows = dlx.exact_cover();
+    if (!rows) return 0;
 
     vector<string> board(8, string(8, '.'));
-    for (int id : rows){
+    for (int id : *rows){
         if (id < 64) board[id / 8][id % 8] = 'Q';
     }
     for (auto& line : board) puts(line.c_str());

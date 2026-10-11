@@ -91,22 +91,22 @@ Instance random_instance(){
 
     for (int m : in.masks){
         in.columns.emplace_back();
-        for (int c = 0; c < in.nc; c++) if (m >> c & 1) in.columns.back().push_back(c + 1);
+        for (int c = 0; c < in.nc; c++) if (m >> c & 1) in.columns.back().push_back(c);
         shuffle(in.columns.back().begin(), in.columns.back().end(), stress::rng());
     }
     return in;
 }
 
-void check(const Instance& in, bool found, vector<int> rows){
+void check(const Instance& in, optional<vector<int>> rows){
     int full = (1 << in.nc) - 1;
     vector<signed char> memo(1 << in.nc, -1);
-    assert(found == brute(0, full, in.masks, memo));
-    if (!found) return;
+    assert(rows.has_value() == brute(0, full, in.masks, memo));
+    if (!rows) return;
 
     int covered = 0;
-    sort(rows.begin(), rows.end());
-    assert(unique(rows.begin(), rows.end()) == rows.end());
-    for (int id : rows){
+    sort(rows->begin(), rows->end());
+    assert(unique(rows->begin(), rows->end()) == rows->end());
+    for (int id : *rows){
         int m = in.masks[find(in.ids.begin(), in.ids.end(), id) - in.ids.begin()];
         assert(!(covered & m));
         covered |= m;
@@ -125,22 +125,20 @@ int main(){
             if (i < b.masks.size()) db.add_row(b.ids[i], b.columns[i]);
         }
 
-        vector<int> rows_a, rows_b, again;
-        bool found_a = da.exact_cover(rows_a), found_b = db.exact_cover(rows_b);
-        check(a, found_a, rows_a);
-        check(b, found_b, rows_b);
-        assert(da.exact_cover(again) == found_a);
-        if (found_a) assert(again == rows_a);
+        auto rows_a = da.exact_cover(), rows_b = db.exact_cover(), again = da.exact_cover();
+        check(a, rows_a);
+        check(b, rows_b);
+        assert(again == rows_a);
 
         int extra = stress::rng()() & ((1 << a.nc) - 1);
         a.masks.push_back(extra);
         a.ids.push_back(a.ids.size() + 1);
         a.columns.emplace_back();
-        for (int c = 0; c < a.nc; c++) if (extra >> c & 1) a.columns.back().push_back(c + 1);
+        for (int c = 0; c < a.nc; c++) if (extra >> c & 1) a.columns.back().push_back(c);
         shuffle(a.columns.back().begin(), a.columns.back().end(), stress::rng());
         da.add_row(a.ids.back(), a.columns.back());
-        found_a = da.exact_cover(rows_a);
-        check(a, found_a, rows_a);
+        rows_a = da.exact_cover();
+        check(a, rows_a);
     }
 
     for (long long it = 0; it < stress::scaled(150); it++){
@@ -162,9 +160,9 @@ int main(){
     /// Guards the header's stack claim: one frame per selected row, CI's flags overflow 8 MB a little past depth 4e4
     int depth = 30000;
     DancingLinks chain(depth, depth);
-    for (int i = 1; i <= depth; i++) chain.add_row(i, {i});
-    vector<int> rows;
-    assert(chain.exact_cover(rows) && (int)rows.size() == depth);
+    for (int i = 1; i <= depth; i++) chain.add_row(i, {i - 1});
+    auto rows = chain.exact_cover();
+    assert(rows && (int)rows->size() == depth);
 
     return 0;
 }
