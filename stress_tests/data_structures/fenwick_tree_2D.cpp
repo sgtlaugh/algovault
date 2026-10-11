@@ -17,10 +17,10 @@ int main(){
         FenwickPointUpdate2D<long long> point(n, m);
         FenwickRangeUpdate2D<long long> range(n, m);
         FenwickFull2D<long long> full(n, m);
-        vector<vector<long long>> a(n + 1, vector<long long>(m + 1)), b = a;
+        vector<vector<long long>> a(n, vector<long long>(m)), b = a;
 
         for (int op = 0; op < 100; op++){
-            int i = stress::rand_int(1, n), k = stress::rand_int(1, n), j = stress::rand_int(1, m), l = stress::rand_int(1, m);
+            int i = stress::rand_int(0, n - 1), k = stress::rand_int(0, n - 1), j = stress::rand_int(0, m - 1), l = stress::rand_int(0, m - 1);
             if (op % 5){  /// otherwise often empty, which must be a no-op
                 if (i > k) swap(i, k);
                 if (j > l) swap(j, l);
@@ -38,6 +38,8 @@ int main(){
                 assert(point.query(i, j, k, l) == rect_sum(a, i, j, k, l));
                 assert(range.query(i, j) == b[i][j]);
                 assert(full.query(i, j, k, l) == rect_sum(b, i, j, k, l));
+                assert(point.prefix(i - 1, l) == rect_sum(a, 0, 0, i - 1, l));
+                assert(full.prefix(k, j - 1) == rect_sum(b, 0, 0, k, j - 1));
             }
         }
     }
