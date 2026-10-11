@@ -31,11 +31,11 @@ int main(){
         if (scanf("%d %d", &t, &v) != 2) return 0;
         if (t == 0){
             if (scanf("%d", &w) != 1) return 0;
-            fen.update(hld.edge_pos(hld.parent[v], v), w);
+            fen.update(hld.edge_pos(hld.parent[v], v) + 1, w);
             continue;
         }
         long long res = 0;
-        for (auto [l, r] : hld.path(0, v, true)) res += fen.query(l, r);
+        for (auto [l, r] : hld.path(0, v, true)) res += fen.query(l + 1, r + 1);
         printf("%lld\n", res);
     }
     return 0;

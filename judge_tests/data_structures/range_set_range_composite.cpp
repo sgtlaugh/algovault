@@ -16,26 +16,24 @@ Affine then(Affine first, Affine second){
     return {second.a * first.a % MOD, (second.a * first.b + second.b) % MOD};
 }
 
-/// The library is customized by editing its CHANGE lines, a judge test specializes those members instead
-template<>
-Affine SegmentTree<Affine, Affine>::merge(Affine left, Affine right){
-    return then(left, right);
-}
-
-/// A range of len positions all set to lz composes to lz applied len times
-template<>
-Affine SegmentTree<Affine, Affine>::apply(Affine, Affine lz, int len){
-    Affine res;
-    for (; len > 0; len >>= 1, lz = then(lz, lz)){
-        if (len & 1) res = then(res, lz);
+struct SetComposite{
+    static Affine merge(Affine left, Affine right){
+        return then(left, right);
     }
-    return res;
-}
 
-template<>
-Affine SegmentTree<Affine, Affine>::compose(Affine, Affine new_lz){
-    return new_lz;
-}
+    /// A range of len positions all set to lz composes to lz applied len times
+    static Affine apply(Affine, Affine lz, int len){
+        Affine res;
+        for (; len > 0; len >>= 1, lz = then(lz, lz)){
+            if (len & 1) res = then(res, lz);
+        }
+        return res;
+    }
+
+    static Affine compose(Affine, Affine new_lz){
+        return new_lz;
+    }
+};
 
 static char buffer[1 << 16];
 static size_t buffer_len = 0, buffer_pos = 0;
@@ -64,10 +62,10 @@ int main(){
     vector<Affine> f(n);
     for (Affine& g: f) g.a = read_int(), g.b = read_int();
 
-    SegmentTree<Affine, Affine> tree(f, Affine());
+    SegmentTree<Affine, SetComposite> tree(f, Affine());
     string out;
     while (q--){
-        int type = read_int(), l = read_int() + 1, r = read_int();
+        int type = read_int(), l = read_int(), r = read_int() - 1;
         if (type == 0){
             long long c = read_int(), d = read_int();
             tree.update(l, r, {c, d});

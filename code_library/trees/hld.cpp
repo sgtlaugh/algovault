@@ -6,7 +6,7 @@
  * Complexity: O(n) to build, O(log n) ranges per path
  *
  * HLD hld(n); hld.add_edge(u, v); hld.build(root);
- * hld.pos[v]: position of v in [1, n], 1-indexed like segment_tree.cpp and fenwick_tree.cpp, store node values there
+ * hld.pos[v]: position of v in [0, n - 1], 0-indexed like segment_tree.cpp and fenwick_tree.cpp, node values go there
  * hld.path(u, v): ranges [l, r] covering the path u..v, inclusive
  * hld.path(u, v, true): same but excludes the lca, for values on edges
  *     store the weight of edge (parent[v], v) at pos[v], the root's position stays unused
@@ -18,13 +18,14 @@
  * hld.ordered_path(u, v, true): same but excludes the lca
  * hld.subtree(v): the single range covering the subtree of v
  * hld.query_path(seg, u, v, edges = false): fold of the path through seg's own merge and t_id, commutative merges only
+ *     seg.t_id must be merge's identity, so SegmentTree(n, v) with any other v breaks it
  * hld.update_path(seg, u, v, x, edges = false): seg.update(l, r, x) on every range of the path
- *     seg is any tree with 1-indexed query(l, r), update(l, r, x), merge(a, b) and t_id, such as segment_tree.cpp
+ *     seg is any size n tree with 0-indexed query(l, r), update(l, r, x), merge(a, b) and t_id, like segment_tree.cpp
  * hld.lca(u, v)
  *
  * path() returns ranges in no particular order, which is fine for commutative operations (sum, min, max, xor)
  *
- * Example with segment_tree.cpp, customizing its merge (sum to max, say) is the only change needed:
+ * Example with segment_tree.cpp, for another fold (max, say) pass an Ops struct and the matching t_id:
  *     SegmentTree<long long> seg(n);
  *     for (int v = 0; v < n; v++) seg.update(hld.pos[v], hld.pos[v], value[v]);
  *     hld.update_path(seg, u, v, delta), res = hld.query_path(seg, u, v);
@@ -76,7 +77,7 @@ struct HLD{
         /// Heavy child is pushed last so it is popped right after its parent, keeping chains and subtrees contiguous
         vector<int> stack = {root};
         head[root] = root;
-        for (int cur = 1; !stack.empty(); cur++){
+        for (int cur = 0; !stack.empty(); cur++){
             int u = stack.back();
             stack.pop_back();
             pos[u] = cur;
@@ -168,7 +169,7 @@ int main(){
     assert(hld.lca(6, 4) == 1);
     assert(hld.lca(6, 5) == 0);
 
-    vector<long long> node_value = {1, 2, 4, 8, 16, 32, 64}, at(8);
+    vector<long long> node_value = {1, 2, 4, 8, 16, 32, 64}, at(7);
     for (int v = 0; v < 7; v++) at[hld.pos[v]] = node_value[v];
 
     /// Stands in for segment_tree.cpp, with max as the merge
@@ -190,7 +191,7 @@ int main(){
     assert(hld.edge_pos(3, 1) == hld.pos[3]);   /// an edge value lives on its child
 
     /// ordered_path walks positions in path order, needed for non-commutative folds
-    vector<int> node_at(8), walk;
+    vector<int> node_at(7), walk;
     for (int v = 0; v < 7; v++) node_at[hld.pos[v]] = v;
     for (auto [a, b] : hld.ordered_path(5, 6)){
         int step = a <= b ? 1 : -1;

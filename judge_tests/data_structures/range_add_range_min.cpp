@@ -6,20 +6,10 @@
 #include "../../code_library/data_structures/segment_tree.cpp"
 #undef main
 
-/// A distinct value type, so specializing merge and apply leaves SegmentTree<long long> untouched
-struct MinValue{
-    long long v;
+struct AddMin : AddSum<long long>{
+    static long long merge(long long a, long long b){ return min(a, b); }
+    static long long apply(long long val, long long lz, int){ return val + lz; }
 };
-
-template<>
-MinValue SegmentTree<MinValue, long long>::merge(MinValue a, MinValue b){
-    return {min(a.v, b.v)};
-}
-
-template<>
-MinValue SegmentTree<MinValue, long long>::apply(MinValue val, long long lz, int){
-    return {val.v + lz};
-}
 
 static char buf[1 << 25];
 int buf_len = 0, buf_pos = 0;
@@ -38,16 +28,16 @@ int main(){
     buf_len = fread(buf, 1, sizeof(buf), stdin);
     int n = read_int(), q = read_int();
 
-    vector<MinValue> a(n);
-    for (auto& x : a) x.v = read_int();
-    auto seg = SegmentTree<MinValue, long long>(a, MinValue{LLONG_MAX});
+    vector<long long> a(n);
+    for (auto& x : a) x = read_int();
+    auto seg = SegmentTree<long long, AddMin>(a, LLONG_MAX);
 
     string out;
     while (q--){
         int t = read_int(), l = read_int(), r = read_int();
-        if (t == 0) seg.update(l + 1, r, read_int());
+        if (t == 0) seg.update(l, r - 1, read_int());
         else{
-            out += to_string(seg.query(l + 1, r).v);
+            out += to_string(seg.query(l, r - 1));
             out += '\n';
         }
     }

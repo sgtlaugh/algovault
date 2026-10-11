@@ -28,16 +28,16 @@ int main(){
     hld.build(0);
 
     FenwickPointUpdate<long long> fen(n);
-    for (int v = 0; v < n; v++) fen.update(hld.pos[v], a[v]);
+    for (int v = 0; v < n; v++) fen.update(hld.pos[v] + 1, a[v]);
 
     while (q--){
         int t = read_int(), u = read_int(), v = read_int();
         if (t == 0){
-            fen.update(hld.pos[u], v);
+            fen.update(hld.pos[u] + 1, v);
             continue;
         }
         long long res = 0;
-        for (auto [l, r] : hld.path(u, v)) res += fen.query(l, r);
+        for (auto [l, r] : hld.path(u, v)) res += fen.query(l + 1, r + 1);
         printf("%lld\n", res);
     }
     return 0;

@@ -57,9 +57,9 @@ void check(int n, int shape, int ops){
     assert(hld.parent == parent && hld.depth == depth);
     for (auto [u, v] : edges) assert(hld.edge_pos(u, v) == hld.pos[parent[u] == v ? u : v]);
 
-    vector<int> seen(n + 1, 0);
+    vector<int> seen(n, 0);
     for (int v = 0; v < n; v++) seen[hld.pos[v]]++;
-    for (int i = 1; i <= n; i++) assert(seen[i] == 1);
+    for (int i = 0; i < n; i++) assert(seen[i] == 1);
 
     auto naive_path = [&](int u, int v){
         vector<int> left, right;
@@ -72,9 +72,9 @@ void check(int n, int shape, int ops){
         return make_pair(left, u);
     };
 
-    vector<long long> value(n), at(n + 1);
+    vector<long long> value(n), at(n);
     for (int v = 0; v < n; v++) value[v] = stress::rand_int(-1000000000, 1000000000), at[hld.pos[v]] = value[v];
-    SegmentTree<long long> seg(vector<long long>(at.begin() + 1, at.end()));
+    SegmentTree<long long> seg(at);
     MaxArray max_seg{at};
 
     for (int op = 0; op < ops; op++){

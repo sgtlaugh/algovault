@@ -17,13 +17,13 @@ Affine compose(Affine f, Affine g){
     return {g.a * f.a % MOD, (g.a * f.b + g.b) % MOD};
 }
 
-/// Point-set tree keeping each range's composite in both walking directions, 1-indexed like hld.pos
+/// Point-set tree keeping each range's composite in both walking directions, 0-indexed like hld.pos
 struct CompositeTree{
     int size;
     vector<Affine> fwd, bwd;
 
     CompositeTree(int n) : size(1){
-        while (size < n + 1) size *= 2;
+        while (size < n) size *= 2;
         fwd.assign(2 * size, Affine()), bwd.assign(2 * size, Affine());
     }
 

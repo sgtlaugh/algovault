@@ -22,11 +22,11 @@ int main(){
             long long x;
             if (scanf("%lld", &x) != 1) return 0;
             fen.update(s, e, x);
-            seg.update(s, e, x);
+            seg.update(s - 1, e - 1, x);
         }
         else{
             long long res = fen.query(s, e);
-            assert(seg.query(s, e) == res);
+            assert(seg.query(s - 1, e - 1) == res);
             printf("%lld\n", res);
         }
     }

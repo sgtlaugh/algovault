@@ -9,34 +9,18 @@ struct PrefixSums{
     long long sum, pre, suf;
 };
 
-PrefixSums operator+(PrefixSums a, PrefixSums b){
-    return {a.sum + b.sum, max(a.pre, a.sum + b.pre), max(b.suf, b.sum + a.suf)};
-}
-
-struct Assign{
-    long long x;
+struct PrefixAssign{
+    static PrefixSums merge(PrefixSums a, PrefixSums b){
+        return {a.sum + b.sum, max(a.pre, a.sum + b.pre), max(b.suf, b.sum + a.suf)};
+    }
+    static PrefixSums apply(PrefixSums, long long x, int len){
+        long long s = x * len;
+        return {s, max(0LL, s), max(0LL, s)};
+    }
+    static long long compose(long long, long long x){ return x; }
 };
 
-struct AssignBlock{
-    long long x;
-    int len;
-};
-
-/// the default apply is val + lz * len and compose is old + new, these overloads turn both into range assignment
-AssignBlock operator*(Assign a, int len){
-    return {a.x, len};
-}
-
-PrefixSums operator+(PrefixSums, AssignBlock b){
-    long long s = b.x * b.len;
-    return {s, max(0LL, s), max(0LL, s)};
-}
-
-Assign operator+(Assign, Assign b){
-    return b;
-}
-
-/// The header's arithmetic progression recipe, expressed through the default merge/apply/compose via overloads
+/// The header's arithmetic progression recipe
 struct ApSum{
     long long sum, cnt, idx_sum;
 };
@@ -45,41 +29,31 @@ struct Linear{
     long long c0, c1;
 };
 
-ApSum operator+(ApSum a, ApSum b){
-    return {a.sum + b.sum, a.cnt + b.cnt, a.idx_sum + b.idx_sum};
-}
-
-Linear operator*(Linear lz, int){
-    return lz;
-}
-
-ApSum operator+(ApSum v, Linear lz){
-    return {v.sum + lz.c0 * v.cnt + lz.c1 * v.idx_sum, v.cnt, v.idx_sum};
-}
-
-Linear operator+(Linear a, Linear b){
-    return {a.c0 + b.c0, a.c1 + b.c1};
-}
+struct ProgressionAdd{
+    static ApSum merge(ApSum a, ApSum b){ return {a.sum + b.sum, a.cnt + b.cnt, a.idx_sum + b.idx_sum}; }
+    static ApSum apply(ApSum v, Linear lz, int){ return {v.sum + lz.c0 * v.cnt + lz.c1 * v.idx_sum, v.cnt, v.idx_sum}; }
+    static Linear compose(Linear a, Linear b){ return {a.c0 + b.c0, a.c1 + b.c1}; }
+};
 
 int brute_max_right(const vector<long long>& a, int l, long long k){
     long long s = 0;
     int r = l - 1;
-    while (r < (int)a.size() && s + a[r] <= k) s += a[r++];
+    while (r + 1 < (int)a.size() && s + a[r + 1] <= k) s += a[++r];
     return r;
 }
 
 int brute_min_left(const vector<long long>& a, int r, long long k){
     long long s = 0;
     int l = r + 1;
-    while (l > 1 && s + a[l - 2] <= k) s += a[--l - 1];
+    while (l > 0 && s + a[l - 1] <= k) s += a[--l];
     return l;
 }
 
 int brute_max_right_pre(const vector<long long>& a, int l, long long k){
     long long s = 0, best = 0;
     int r = l - 1;
-    while (r < (int)a.size() && max(best, s + a[r]) <= k){
-        s += a[r++];
+    while (r + 1 < (int)a.size() && max(best, s + a[r + 1]) <= k){
+        s += a[++r];
         best = max(best, s);
     }
     return r;
@@ -88,8 +62,8 @@ int brute_max_right_pre(const vector<long long>& a, int l, long long k){
 int brute_min_left_suf(const vector<long long>& a, int r, long long k){
     long long s = 0, best = 0;
     int l = r + 1;
-    while (l > 1 && max(best, s + a[l - 2]) <= k){
-        s += a[--l - 1];
+    while (l > 0 && max(best, s + a[l - 1]) <= k){
+        s += a[--l];
         best = max(best, s);
     }
     return l;
@@ -98,18 +72,19 @@ int brute_min_left_suf(const vector<long long>& a, int r, long long k){
 void stress_default_sum(){
     for (long long it = 0; it < stress::scaled(15000); it++){
         int n = stress::rand_int(1, it % 20 == 0 ? 2000 : 40);
-        vector<long long> a(n, 0);  /// the size constructor starts every element at the identity, 0 for sum
+        long long fill = stress::rand_int(-1000000, 1000000) * stress::rand_int(0, 1);
+        vector<long long> a(n, fill);   /// the size constructor builds n copies of its value, not only of 0
         if (it % 2) for (auto& x : a) x = stress::rand_int(-1000000, 1000000);
-        SegmentTree<long long> st = it % 2 ? SegmentTree<long long>(a) : SegmentTree<long long>(n);
+        SegmentTree<long long> st = it % 2 ? SegmentTree<long long>(a) : SegmentTree<long long>(n, fill);
 
         for (int op = 0; op < 100; op++){
-            int l = stress::rand_int(1, n), r = stress::rand_int(l, n);
+            int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
             if (stress::rand_int(0, 1)){
                 long long v = stress::rand_int(-1000000, 1000000) * stress::rand_int(0, 1);  /// half the updates add 0
                 st.update(l, r, v);
-                for (int i = l; i <= r; i++) a[i - 1] += v;
+                for (int i = l; i <= r; i++) a[i] += v;
             }
-            else assert(st.query(l, r) == accumulate(a.begin() + l - 1, a.begin() + r, 0LL));
+            else assert(st.query(l, r) == accumulate(a.begin() + l, a.begin() + r + 1, 0LL));
         }
     }
 }
@@ -126,21 +101,21 @@ void stress_sum_descent(){
         for (int op = 0; op < 60; op++){
             int kind = stress::rand_int(0, 2);
             if (kind == 0){
-                int l = stress::rand_int(1, n), r = stress::rand_int(l, n);
+                int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
                 long long v = stress::rand_int(0, hi);
                 st.update(l, r, v);
-                for (int i = l; i <= r; i++) a[i - 1] += v;
+                for (int i = l; i <= r; i++) a[i] += v;
                 continue;
             }
 
             long long k = stress::rand_int(0, (long long)hi * min(n, 8) * 2);
             auto pred = [k](long long s){ return s <= k; };
             if (kind == 1){
-                int l = stress::rand_int(1, n + 1);
+                int l = stress::rand_int(0, n);
                 assert(st.max_right(l, pred) == brute_max_right(a, l, k));
             }
             else{
-                int r = stress::rand_int(0, n);
+                int r = stress::rand_int(-1, n - 1);
                 assert(st.min_left(r, pred) == brute_min_left(a, r, k));
             }
         }
@@ -149,32 +124,31 @@ void stress_sum_descent(){
 
 /// Descent with a non-commutative merge and range assignment, values of both signs
 void stress_prefix_descent(){
-    const PrefixSums id = {0, 0, 0};
     for (long long it = 0; it < stress::scaled(6000); it++){
         int n = stress::rand_int(1, it % 20 == 0 ? 1000 : 30);
         vector<long long> a(n);
         for (auto& x : a) x = stress::rand_int(-20, 20);
         vector<PrefixSums> init(n);
         for (int i = 0; i < n; i++) init[i] = {a[i], max(0LL, a[i]), max(0LL, a[i])};
-        SegmentTree<PrefixSums, Assign> st(init, id);
+        SegmentTree<PrefixSums, PrefixAssign, long long> st(init);    /// no identity passed, descent must not need one
 
         for (int op = 0; op < 60; op++){
             int kind = stress::rand_int(0, 2);
             if (kind == 0){
-                int l = stress::rand_int(1, n), r = stress::rand_int(l, n);
+                int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
                 long long x = stress::rand_int(-20, 20);
-                st.update(l, r, Assign{x});
-                for (int i = l; i <= r; i++) a[i - 1] = x;
+                st.update(l, r, x);
+                for (int i = l; i <= r; i++) a[i] = x;
                 continue;
             }
 
             long long k = stress::rand_int(0, 120);
             if (kind == 1){
-                int l = stress::rand_int(1, n + 1);
+                int l = stress::rand_int(0, n);
                 assert(st.max_right(l, [k](PrefixSums v){ return v.pre <= k; }) == brute_max_right_pre(a, l, k));
             }
             else{
-                int r = stress::rand_int(0, n);
+                int r = stress::rand_int(-1, n - 1);
                 assert(st.min_left(r, [k](PrefixSums v){ return v.suf <= k; }) == brute_min_left_suf(a, r, k));
             }
         }
@@ -189,30 +163,30 @@ void stress_progression_add(){
         vector<ApSum> init(n);
         for (int i = 0; i < n; i++){
             a[i] = stress::rand_int(-1000, 1000);
-            init[i] = {a[i], 1, i + 1};
+            init[i] = {a[i], 1, i};
         }
-        SegmentTree<ApSum, Linear> st(init, ApSum{0, 0, 0});
+        SegmentTree<ApSum, ProgressionAdd, Linear> st(init, ApSum{0, 0, 0});
 
         for (int op = 0; op < 60; op++){
-            int l = stress::rand_int(1, n), r = stress::rand_int(l, n);
+            int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
             if (stress::rand_int(0, 1)){
                 long long x = stress::rand_int(-1000, 1000), d = stress::rand_int(-1000, 1000);
                 st.update(l, r, Linear{x - d * l, d});
-                for (int i = l; i <= r; i++) a[i - 1] += x + d * (i - l);
+                for (int i = l; i <= r; i++) a[i] += x + d * (i - l);
             }
-            else assert(st.query(l, r).sum == accumulate(a.begin() + l - 1, a.begin() + r, 0LL));
+            else assert(st.query(l, r).sum == accumulate(a.begin() + l, a.begin() + r + 1, 0LL));
         }
     }
 }
 
-/// n = 0 through both constructors: build() never reaches a == b on [1, 0], so it must not be called
+/// n = 0 through both constructors: build() never reaches a == b on [0, -1], so it must not be called
 void check_empty(){
     SegmentTree<long long> from_vec(vector<long long>{}), from_size(0);
     auto any = [](long long){ return true; };
     for (auto* st : {&from_vec, &from_size}){
         assert(st->n == 0);
-        assert(st->max_right(1, any) == 0);
-        assert(st->min_left(0, any) == 1);
+        assert(st->max_right(0, any) == -1);
+        assert(st->min_left(-1, any) == 0);
     }
 }
 
