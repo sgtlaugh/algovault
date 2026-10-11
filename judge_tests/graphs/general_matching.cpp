@@ -11,7 +11,7 @@ int main(){
     if (scanf("%d %d", &n, &m) != 2) return 0;
 
     Blossom b(n);
-    Graph tutte(n);
+    TutteMatching tutte(n);
     for (int i = 0; i < m; i++){
         int u, v;
         if (scanf("%d %d", &u, &v) != 2) return 0;

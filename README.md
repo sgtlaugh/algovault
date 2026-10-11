@@ -119,7 +119,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Euler Path](code_library/graphs/euler_path.cpp) - Hierholzer, directed and undirected multigraphs, iterative, `O(n + m)` [✔](judge_tests/graphs/eulerian_trail_directed.cpp)
 - [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - feasible circulation, feasible / max / min s-t flow with demands on Dinic [✔](judge_tests/graphs/aoj_grl_6_a_lower_bound.cpp)
 - [Floyd Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with paths, negative edges and negative cycle marking [✔](judge_tests/graphs/aoj_grl_1_c.cpp)
-- [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching by Tutte rank, pairs by blossom, `O(n^3)` [✔](judge_tests/graphs/general_matching.cpp)
+- [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching and pairs by blossom, Tutte rank cross-check, `O(n^3)` [✔](judge_tests/graphs/general_matching.cpp)
 - [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - Stoer-Wagner, minimum cut weight and one side, `O(n^3)`
 - [Gomory-Hu Tree](code_library/graphs/gomory_hu.cpp) - all-pairs min cuts of an undirected graph from n - 1 max flows
 - [Hopcroft Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, `O(m sqrt(n))` [✔](judge_tests/graphs/bipartitematching.cpp)

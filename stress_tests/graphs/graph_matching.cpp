@@ -24,7 +24,7 @@ int brute(int n, const vector<int>& adj_mask){
 
 /// The rank test errs with probability at most n / mod ~ 1e-8 per call and only ever underestimates, but a nightly
 /// run makes ~1e5 calls, so a short answer is redrawn twice before it counts as a bug
-int matching(Graph& g, int want){
+int matching(TutteMatching& g, int want){
     int got = g.maximum_matching();
     for (int retry = 0; retry < 2 && got < want; retry++) got = g.maximum_matching();
     return got;
@@ -118,7 +118,7 @@ void random_large(){
         edges.erase(unique(edges.begin(), edges.end()), edges.end());
         auto order = edges;
         shuffle(order.begin(), order.end(), stress::rng());
-        Graph g(n);
+        TutteMatching g(n);
         g.rng.seed(stress::rng()());
         Blossom b(n);
         for (auto [u, v] : order){
@@ -137,7 +137,7 @@ void random_large(){
 int main(){
     for (long long it = 0; it < stress::scaled(1200); it++){
         int n = stress::rand_int(1, 14), density = stress::rand_int(0, 100);
-        Graph g(n);
+        TutteMatching g(n);
         g.rng.seed(stress::rng()());
         Blossom b(n);
         vector<int> adj_mask(n);

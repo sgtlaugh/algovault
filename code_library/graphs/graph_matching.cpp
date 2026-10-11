@@ -1,13 +1,11 @@
 /***
  *
  * Maximum matching in general graphs
- * Two structs with the same API: Graph (randomized Tutte matrix rank, size only) and Blossom (Edmonds, the pairs too)
+ * Two structs with the same API: Blossom (Edmonds, the pairs too) and TutteMatching (randomized Tutte matrix rank, size only)
+ * Use Blossom: exact, gives the pairs, faster in practice, TutteMatching is a randomized size-only cross-check
  *
- * Complexity: O(n ^ 3) for Graph even on sparse graphs, O(n ^ 2) memory
- *             O(n * (n ^ 2 + m)) for Blossom, so O(n ^ 3) without repeated edges, O(n + m) memory
- *
- * Graph g(n), g.add_edge(u, v), g.maximum_matching(): the rank of the Tutte matrix is twice the size of the
- * maximum matching with probability >= 1 - n / mod (Schwartz-Zippel), a wrong answer is always too small
+ * Complexity: O(n * (n ^ 2 + m)) for Blossom, so O(n ^ 3) without repeated edges, O(n + m) memory
+ *             O(n ^ 3) for TutteMatching even on sparse graphs, O(n ^ 2) memory
  *
  * Blossom b(n), b.add_edge(u, v), b.maximum_matching(): size of a maximum matching, always exact
  * b.mate[v]: vertex matched to v or -1, valid after maximum_matching(), which can be called again after adding edges
@@ -15,14 +13,19 @@
  * at most n / 2 contractions of O(n) each per search and n searches, which is the O(n ^ 3) bound
  * The search is a BFS, so long augmenting paths cannot overflow the stack
  *
-**/
+ * TutteMatching g(n), g.add_edge(u, v), g.maximum_matching(): the rank of the Tutte matrix is twice the size of the
+ * maximum matching with probability >= 1 - n / mod (Schwartz-Zippel), a wrong answer is always too small
+ *
+ * Both add_edge functions assert u != v: a self loop is never part of a matching, so skip it when reading the input
+ *
+***/
 
 #include <stdio.h>
 #include <bits/stdtr1c++.h>
 
 using namespace std;
 
-struct Graph{
+struct TutteMatching{
     static constexpr unsigned int mod = 1073750017; /// prime, constexpr so % compiles to a multiply
 
     int n;
@@ -30,8 +33,8 @@ struct Graph{
     vector<vector<unsigned int>> tutte_matrix;
     mt19937 rng = mt19937(chrono::steady_clock::now().time_since_epoch().count());
 
-    Graph() {}
-    Graph(int n): n(n){
+    TutteMatching() {}
+    TutteMatching(int n): n(n){
         adj = vector<vector<bool>>(n, vector<bool>(n, 0));
         tutte_matrix = vector<vector<unsigned int>>(n, vector<unsigned int>(n, 0));
     }
@@ -219,7 +222,7 @@ int main(){
         return pairs == size;
     };
 
-    auto g = Graph(12);
+    auto g = TutteMatching(12);
     auto b = Blossom(12);
     auto add_edge = [&](int u, int v){
         g.add_edge(u, v);
@@ -287,7 +290,7 @@ int main(){
     srand(666);
     clock_t start = clock();
     int n = 2000, m = 5000;
-    g = Graph(n);
+    g = TutteMatching(n);
     b = Blossom(n);
 
     for (int i = 0; i < m; i++){
@@ -297,7 +300,7 @@ int main(){
     }
 
     assert(g.maximum_matching() == 992);
-    fprintf(stderr, "Time taken = %0.5f\n", (clock() - start) / (double)CLOCKS_PER_SEC);  /// 1.35343 s
+    fprintf(stderr, "Time taken = %0.5f\n", (clock() - start) / (double)CLOCKS_PER_SEC);
 
     start = clock();
     assert(b.maximum_matching() == 992 && is_matching(b, 992));
