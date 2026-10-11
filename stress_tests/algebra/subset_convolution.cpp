@@ -66,6 +66,48 @@ void check(int n, int mod){
     assert(f == sup_inv);
 }
 
+/// Exact (mod = 0) and 64-bit modular transforms on long long values against exact submask sums
+void check_long(int n){
+    int size = 1 << n;
+    long long mod = stress::rand_int(0, 1) ? stress::rand_int(1, LLONG_MAX) : stress::rand_int(1, 3);
+    vector<long long> a(size), sub(size, 0), sub_inv(size, 0), sup(size, 0), sup_inv(size, 0);
+    for (auto& x : a) x = stress::rand_int(-1000000000000LL, 1000000000000LL);
+
+    for (int s = 0; s < size; s++){
+        for (int t = s; ; t = (t - 1) & s){
+            long long sign = __builtin_popcount(s ^ t) & 1 ? -1 : 1;
+            sub[s] += a[t], sub_inv[s] += sign * a[t], sup[t] += a[s], sup_inv[t] += sign * a[s];
+            if (t == 0) break;
+        }
+    }
+
+    auto reduced = [&](vector<long long> v){
+        for (auto& x : v) x = (x % mod + mod) % mod;
+        return v;
+    };
+
+    vector<long long> f = a;
+    subset_zeta(f);
+    assert(f == sub);
+    subset_mobius(f);
+    assert(f == a);
+    f = a, superset_mobius(f);
+    assert(f == sup_inv);
+    superset_zeta(f);
+    assert(f == a);
+
+    f = a, subset_zeta(f, mod);
+    assert(f == reduced(sub));
+    subset_mobius(f, mod);
+    assert(f == reduced(a));
+    f = a, subset_mobius(f, mod);
+    assert(f == reduced(sub_inv));
+    f = a, superset_zeta(f, mod);
+    assert(f == reduced(sup));
+    superset_mobius(f, mod);
+    assert(f == reduced(a));
+}
+
 /// Every transform and the subset convolution against direct sums over all submasks
 int main(){
     const int mods[] = {1, 2, 3, 6, 1024, 998244353, 1000000007, 2147483646, 2147483647};
@@ -74,6 +116,7 @@ int main(){
         int n = it < 300 ? it % 11 : stress::rand_int(0, 10);
         int mod = stress::rand_int(0, 4) ? mods[stress::rand_int(0, 8)] : stress::rand_int(1, INT_MAX);
         check(n, mod);
+        check_long(n);
     }
 
     for (int mod : {998244353, 2147483647}) check(14, mod);
