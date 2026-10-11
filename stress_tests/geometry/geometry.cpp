@@ -241,7 +241,7 @@ long double area_f(const vector<PointF>& poly){
     return s / 2;
 }
 
-/// Monte Carlo area of poly cut by the half-plane, the complementary cut, and for convex polygons point membership
+/// Exact area of poly cut by the half-plane, the complementary cut, and for convex polygons point membership of random samples
 void check_cut(const vector<Point>& poly, Point a, Point b, bool convex){
     vector<PointF> fpoly;
     for (Point p : poly) fpoly.push_back(to_f(p));
@@ -252,17 +252,26 @@ void check_cut(const vector<Point>& poly, Point a, Point b, bool convex){
     assert(kept.empty() == !any_left && rest.empty() == !any_right);
     long double total = area_f(fpoly), scale = 1 + fabsl(total);
     assert(fabsl(area_f(kept) + area_f(rest) - total) < 1e-9 * scale);
+    assert(fabsl(area2(kept) / 2 - area_f(kept)) < 1e-9 * scale && fabsl(area2(rest) / 2 - area_f(rest)) < 1e-9 * scale);
+
+    /// a lies on the line, so triangle a, p, q cut by the half-plane is the triangle over the share of p -> q left of it
+    long double exact = 0;
+    for (int i = 0, n = poly.size(); i < n; i++){
+        Point p = poly[i], q = poly[(i + 1) % n];
+        long long sp = cross(a, b, p), sq = cross(a, b, q);
+        long double share = min(sp, sq) >= 0 ? 1 : max(0LL, max(sp, sq)) / (long double)(llabs(sp) + llabs(sq));
+        exact += cross(a, p, q) * share / 2;
+    }
+    assert(fabsl(area_f(kept) - exact) < 1e-9 * scale);
+    if (!convex) return;
 
     long long lx = LLONG_MAX, hx = LLONG_MIN, ly = LLONG_MAX, hy = LLONG_MIN;
     for (Point p : poly) lx = min(lx, p.x), hx = max(hx, p.x), ly = min(ly, p.y), hy = max(hy, p.y);
     const int samples = 1500;
-    int hits = 0;
     for (int i = 0; i < samples; i++){
         long double x = lx + (hx - lx) * (stress::rand_int(0, 1LL << 40) / (long double)(1LL << 40));
         long double y = ly + (hy - ly) * (stress::rand_int(0, 1LL << 40) / (long double)(1LL << 40));
         bool expected = brute_inside(fpoly, x, y) && (b.x - a.x) * (y - a.y) - (b.y - a.y) * (x - a.x) > 0;
-        hits += expected;
-        if (!convex) continue;
 
         bool near_edge = fabsl((b.x - a.x) * (y - a.y) - (b.y - a.y) * (x - a.x)) < 1e-6 * hypotl(b.x - a.x, b.y - a.y);
         for (int j = 0, n = poly.size(); j < n; j++){
@@ -280,16 +289,9 @@ void check_cut(const vector<Point>& poly, Point a, Point b, bool convex){
         assert(got == expected);
     }
 
-    /// The spread comes from the claimed area, the observed hit rate understates it when only a few samples land
-    long double box = (long double)(hx - lx) * (hy - ly), claimed = min(1.0L, max(0.0L, area_f(kept) / box));
-    long double sd = box * sqrtl(max(claimed * (1 - claimed), 1.0L / samples) / samples);
-    assert(fabsl(area_f(kept) - box * hits / samples) <= 6 * sd);
-
-    if (convex){
-        for (int j = 0, m = kept.size(); j < m; j++){
-            assert(!(kept[j].x == kept[(j + 1) % m].x && kept[j].y == kept[(j + 1) % m].y));
-            assert(cross(kept[j], kept[(j + 1) % m], kept[(j + 2) % m]) >= -1e-9);
-        }
+    for (int j = 0, m = kept.size(); j < m; j++){
+        assert(!(kept[j].x == kept[(j + 1) % m].x && kept[j].y == kept[(j + 1) % m].y));
+        assert(cross(kept[j], kept[(j + 1) % m], kept[(j + 2) % m]) >= -1e-9);
     }
 }
 

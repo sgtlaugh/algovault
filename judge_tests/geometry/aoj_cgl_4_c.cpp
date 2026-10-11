@@ -21,15 +21,7 @@ int main(){
     while (q--){
         PointF a, b;
         if (scanf("%lf %lf %lf %lf", &a.x, &a.y, &b.x, &b.y) != 4) return 0;
-        vector<PointF> part = cut_polygon(poly, a, b);
-
-        double area = 0;
-        for (int i = 0, m = part.size(); i < m; i++){
-            const PointF& p = part[i];
-            const PointF& r = part[(i + 1) % m];
-            area += p.x * r.y - p.y * r.x;
-        }
-        printf("%.10f\n", fabs(area) / 2);
+        printf("%.10f\n", fabs(area2(cut_polygon(poly, a, b))) / 2);
     }
     return 0;
 }

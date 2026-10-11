@@ -10,6 +10,7 @@
  *   - O(1) for every other function
  *
  * Integer part, Point of long long, |x|, |y| <= 1e9 so every cross / dot product fits in long long:
+ *   Point has +, -, == and < (x, then y), so points sort, deduplicate and key a map
  *   cross(o, a, b): > 0 if o -> a -> b turns left (counter-clockwise), < 0 right, 0 collinear
  *   on_segment(p, a, b), segments_intersect(a, b, c, d): endpoints inclusive, degenerate segments allowed
  *   dist_point_segment(p, a, b): Euclidean distance as a double
@@ -40,10 +41,13 @@
  *       convex poly: a convex polygon with the same orientation, no repeated vertex for exact input
  *       (a vertex within rounding of the line may appear twice)
  *       simple poly: the kept pieces joined by zero-width bridges along the line, the signed area is exact
+ *   area2(poly): twice the signed area, positive for counter-clockwise order, 0 for fewer than 3 vertices
  *   polygon_centroid(poly): center of mass of a simple polygon with nonzero area, either orientation
  *   rotate(center, p, degrees): rotates p counter-clockwise around center
  *   clockwise_angle(a, b): clockwise angle in degrees in [0, 360) from vector a to vector b
  *   great_circle_distance(lat1, lon1, lat2, lon2, radius): haversine formula, angles in degrees
+ *
+ * Defines its own Point, cross and area2: pasted next to another geometry file, merge the Point blocks first
  *
 ***/
 
@@ -54,12 +58,20 @@ using namespace std;
 struct Point{
     long long x, y;
 
+    Point operator+(const Point& p) const{
+        return {x + p.x, y + p.y};
+    }
+
     Point operator-(const Point& p) const{
         return {x - p.x, y - p.y};
     }
 
     bool operator==(const Point& p) const{
         return x == p.x && y == p.y;
+    }
+
+    bool operator<(const Point& p) const{
+        return x != p.x ? x < p.x : y < p.y;
     }
 };
 
@@ -273,6 +285,12 @@ vector<PointF> cut_polygon(const vector<PointF>& poly, const PointF& a, const Po
     return res;
 }
 
+double area2(const vector<PointF>& poly){
+    double res = 0;  /// fanned from poly[0] like polygon_centroid, so far away polygons keep their precision
+    for (int i = 1; i + 1 < (int)poly.size(); i++) res += cross(poly[0], poly[i], poly[i + 1]);
+    return res;
+}
+
 PointF polygon_centroid(const vector<PointF>& poly){
     /// Fan from poly[0] instead of the origin, so far away polygons do not lose precision to cancellation
     const PointF& o = poly[0];
@@ -316,6 +334,12 @@ int main(){
     assert(point_in_polygon(square, {2, 2}) == 1);
     assert(point_in_polygon(square, {4, 2}) == 0);          /// on the boundary
     assert(point_in_convex_polygon(square, {5, 2}) == -1);
+    assert((Point{1, 2} + Point{3, 4} == Point{4, 6}));
+
+    vector<Point> pts = {{2, 1}, {1, 5}, {2, 1}, {1, 3}};
+    sort(pts.begin(), pts.end());
+    pts.erase(unique(pts.begin(), pts.end()), pts.end());
+    assert((pts == vector<Point>{{1, 3}, {1, 5}, {2, 1}}));
 
     assert((simple_polygon({c, a, d, b}) == vector<int>{1, 3, 0, 2}));  /// a b c d
     vector<Point> dirs = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
@@ -334,6 +358,9 @@ int main(){
     vector<PointF> box = {{0, 0}, {4, 0}, {4, 4}, {0, 4}};
     vector<PointF> left = cut_polygon(box, {2, 0}, {2, 1});  /// keeps x <= 2
     assert(left.size() == 4);
+    assert(abs(area2(left) - 16) < 1e-9);                   /// the 2 x 4 half, counter-clockwise
+    assert(abs(area2(vector<PointF>{{4, 0}, {0, 0}, {0, 4}}) + 16) < 1e-9);  /// clockwise is negative
+    assert(area2(vector<PointF>{}) == 0);
     assert(near(polygon_centroid(left), {1, 2}));
     assert(near(rotate({1, 1}, {2, 1}, 90), {1, 2}));
     assert(abs(clockwise_angle({1, 0}, {0, -1}) - 90) < 1e-9);
