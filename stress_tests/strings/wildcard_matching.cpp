@@ -33,16 +33,12 @@ void plant(string& text, const string& pattern, int copies){
     }
 }
 
-/// Fastest of three runs, so one slow scheduling slice cannot fail the timing check
+/// CPU time, not wall time, so other processes competing for the core cannot inflate one side of the ratio
 template<typename F>
-double best_seconds(F run){
-    double best = 1e18;
-    for (int rep = 0; rep < 3; rep++){
-        auto start = chrono::steady_clock::now();
-        run();
-        best = min(best, chrono::duration<double>(chrono::steady_clock::now() - start).count());
-    }
-    return best;
+double cpu_seconds(F run){
+    clock_t start = clock();
+    run();
+    return double(clock() - start) / CLOCKS_PER_SEC;
 }
 
 /// Compares against the naive O(n * m) scan on random strings and int vectors, then checks the n = 2^23 boundary and the cost of many distinct values
@@ -90,8 +86,11 @@ int main(){
     string st = random_string(big, 2, 10), sp = random_string(1000, 2, 10);
 
     vector<int> found;
-    double vector_time = best_seconds([&]{ found = wildcard_match(vt, vp, -1); });
-    double string_time = best_seconds([&]{ wildcard_match(st, sp); });
+    double vector_time = 1e18, string_time = 1e18;
+    for (int rep = 0; rep < 3; rep++){  /// interleaved, so frequency and cache effects hit both sides alike
+        vector_time = min(vector_time, cpu_seconds([&]{ found = wildcard_match(vt, vp, -1); }));
+        string_time = min(string_time, cpu_seconds([&]{ wildcard_match(st, sp); }));
+    }
     /// Distinct values are the worst case for false positions (< 0.5% per call), so a few extra ones are tolerated
     assert(find(found.begin(), found.end(), at) != found.end() && found.size() <= 4);
     fprintf(stderr, "distinct ints %.2fs, string %.2fs\n", vector_time, string_time);
