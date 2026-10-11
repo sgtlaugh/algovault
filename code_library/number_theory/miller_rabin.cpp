@@ -1,9 +1,10 @@
 /***
  *
- * Fast primality check with Miller Rabin
+ * Miller Rabin
+ * Deterministic primality test for 64-bit integers
  *
- * Uses the deterministic variant of Miller Rabin
- * For more details, check https://miller-rabin.appspot.com/
+ * prm::is_prime(n): deterministic for every long long n, false for n < 2
+ * Uses the 7 bases from https://miller-rabin.appspot.com/, valid for n < 2^64
  *
  * Complexity: O(24) + O(7 * log n)
  * Or, O(24) + O(4 * log n) when n ≤ INT_MAX
