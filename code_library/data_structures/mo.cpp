@@ -1,11 +1,10 @@
 /***
  *
  * Mo's Algorithm
- * Answers offline range queries by moving a window, for arrays, add-only (rollback) state and tree paths
- * mo_with_updates.cpp handles arrays that also receive point assignments
+ * Answers offline range queries by moving a window, for arrays and tree paths
+ * mo_with_updates.cpp handles arrays that also receive point assignments, mo_with_rollback.cpp state that cannot remove
  *
- * Complexity: mo and TreePathMo: O((n + q) * sqrt(n)) calls to add / remove, plus O(q log q) sorting
- * *             mo_with_rollback: O(n * sqrt(q) + q) calls to add, plus O(q log q) sorting, a rollback costs as much as undoing its adds
+ * Complexity: O((n + q) * sqrt(n)) calls to add / remove, plus O(q log q) sorting
  *
  * mo(n, queries, add, remove, get) returns the answers, res[qi] = get(qi) taken while the window is exactly query qi:
  *   queries[i] = {l, r}, 0-based inclusive ranges over positions 0..n-1, r = l - 1 is an empty range
@@ -14,11 +13,6 @@
  *
  *   auto distinct = mo(n, queries, [&](int i){ count += freq[a[i]]++ == 0; },
  *                      [&](int i){ count -= --freq[a[i]] == 0; }, [&](int){ return count; });
- *
- * mo_with_rollback(n, queries, add, snapshot, rollback, answer):
- *   For state that supports add but not remove (max, DSU with rollback): queries[i] = {l, r} as in mo
- *   snapshot() saves the state on a stack, rollback() restores the top saved state and pops it, at most 2 are saved
- *   The window is always contiguous and add(i) extends it at one end, it starts and ends empty
  *
  * TreePathMo tree(n); tree.add_edge(u, v); tree.build(root);
  * tree.run(paths, add, remove, answer, edges):
@@ -61,43 +55,6 @@ auto mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, Ge
 
     while (cur_r >= cur_l) remove(cur_r--);  /// leave the window empty so the caller's state can be reused
     return res;
-}
-
-template <typename Add, typename Snapshot, typename Rollback, typename Answer>
-void mo_with_rollback(int n, const vector<pair<int, int>>& queries, Add add, Snapshot snapshot, Rollback rollback, Answer answer){
-    int q = queries.size();
-    if (q == 0) return;
-    int block = max(1, (int)(n / sqrt((double)q)));
-
-    vector<int> order(q);
-    iota(order.begin(), order.end(), 0);
-    sort(order.begin(), order.end(), [&](int a, int b){
-        int ba = queries[a].first / block, bb = queries[b].first / block;
-        if (ba != bb) return ba < bb;
-        return queries[a].second < queries[b].second;
-    });
-
-    /// Per block of l the right part grows from the block end and is kept, the left part is added and rolled back per query
-    for (int i = 0; i < q; ){
-        int b = queries[order[i]].first / block, block_end = min(n - 1, (b + 1) * block - 1), cur_r = block_end;
-        snapshot();
-        for (; i < q && queries[order[i]].first / block == b; i++){
-            int qi = order[i];
-            auto [l, r] = queries[qi];
-            assert(0 <= l && l <= r && r < n);
-            while (cur_r < r) add(++cur_r);
-            snapshot();
-            if (r <= block_end){
-                for (int j = l; j <= r; j++) add(j);  /// sorted by r, so these run before the right part grows
-            }
-            else{
-                for (int j = block_end; j >= l; j--) add(j);
-            }
-            answer(qi);
-            rollback();
-        }
-        rollback();
-    }
 }
 
 struct TreePathMo{
@@ -202,26 +159,6 @@ int main(){
         [&](int i){ count -= --freq[a[i]] == 0; },
         [&](int){ return count; });
     assert((distinct == vector<int>{4, 2, 2, 0}));  /// {4, 3} is empty
-
-    /// Max of value * occurrences, add-only: rollback restores best and the counts from a history stack
-    vector<int> c = {9, 8, 7, 8, 9, 4, 8}, c_freq(10, 0);
-    vector<pair<int, int>> ranges = {{0, 6}, {1, 3}, {5, 5}};
-    vector<pair<int, long long>> history;
-    vector<size_t> marks;
-    vector<long long> importance(ranges.size());
-    long long best = 0;
-    mo_with_rollback((int)c.size(), ranges,
-        [&](int i){
-            history.push_back({c[i], best});
-            best = max(best, (long long)c[i] * ++c_freq[c[i]]);
-        },
-        [&](){ marks.push_back(history.size()); },
-        [&](){
-            for (; history.size() > marks.back(); history.pop_back()) c_freq[history.back().first]--, best = history.back().second;
-            marks.pop_back();
-        },
-        [&](int qi){ importance[qi] = best; });
-    assert((importance == vector<long long>{24, 16, 4}));  /// 8 three times, 8 twice, 4 once
 
     /***
      *          0

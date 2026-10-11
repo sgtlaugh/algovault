@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 
 #define main library_main
-#include "../../code_library/data_structures/mo.cpp"
+#include "../../code_library/data_structures/mo_with_rollback.cpp"
 #undef main
 
 int read_int(){
@@ -35,7 +35,6 @@ int main(){
     vector<int> cnt(values.size(), 0), log;
     pair<int, int> best = {0, 0};
     vector<pair<int, pair<int, int>>> saved;
-    vector<pair<int, int>> res(q);
 
     auto add = [&](int i){
         int c = code[i];
@@ -51,10 +50,7 @@ int main(){
         for (; (int)log.size() > size; log.pop_back()) cnt[log.back()]--;
         best = prev_best;
     };
-    auto answer = [&](int qi){
-        res[qi] = best;
-    };
-    mo_with_rollback(n, queries, add, snapshot, rollback, answer);
+    auto res = mo_with_rollback(n, queries, add, snapshot, rollback, [&](int){ return best; });
 
     for (auto& [count, c]: res) printf("%d %d\n", values[c], count);
     return 0;
