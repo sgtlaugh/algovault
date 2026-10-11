@@ -59,7 +59,7 @@ long long flow_min_cut(const vector<vector<long long>>& w){
 /// The side must be a non-empty proper subset of distinct nodes whose cut weighs exactly the returned weight
 void check_side(const vector<vector<long long>>& w, long long weight, const vector<int>& side){
     int n = w.size();
-    assert(!side.empty() && (int)side.size() < n);
+    assert(!side.empty() && (int)side.size() < n && is_sorted(side.begin(), side.end()));
     vector<bool> in_side(n, false);
     for (int x: side){
         assert(0 <= x && x < n && !in_side[x]);

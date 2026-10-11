@@ -8,7 +8,7 @@
  *
  * add_edge(u, v, w) adds an undirected edge, parallel edges add up and self-loops are ignored
  * Weights must be non-negative and the sum of all weights must fit in a long long
- * min_cut() needs n >= 2 and returns {weight, side}: side holds the nodes of one part, the rest form the other
+ * min_cut() needs n >= 2 and returns {weight, side}: side holds the nodes of one part in increasing order, the rest form the other
  * A disconnected graph has cut weight 0 and side is a union of components
  * min_cut() works on a copy of the matrix, so edges can be added and the cut queried again
  *
