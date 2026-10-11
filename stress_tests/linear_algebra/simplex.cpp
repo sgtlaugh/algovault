@@ -8,6 +8,7 @@
 #include <unistd.h>
 
 typedef __int128 i128;
+using Float = Simplex::Float;
 
 struct Constraint{
     vector<long long> a;
@@ -76,12 +77,12 @@ bool brute(int n, const vector<long long>& c, const vector<Constraint>& cons, in
                 i128 s = 0;
                 for (int j = 0; j < n; j++) s += k.a[j] * num[j];
                 i128 rhs = (i128)k.b * d;
-                if ((k.cmp == LESSEQ && s > rhs) || (k.cmp == GREATEQ && s < rhs) || (k.cmp == EQUAL && s != rhs)) return;
+                if ((k.cmp == Simplex::LESSEQ && s > rhs) || (k.cmp == Simplex::GREATEQ && s < rhs) || (k.cmp == Simplex::EQUAL && s != rhs)) return;
             }
 
             Fraction value{0, d};
             for (int j = 0; j < n; j++) value.num += c[j] * num[j];
-            if (sense == MINIMIZE) value.num = -value.num;
+            if (sense == Simplex::MINIMIZE) value.num = -value.num;
             if (!found || best < value) best = value;
             found = true;
             return;
@@ -93,35 +94,33 @@ bool brute(int n, const vector<long long>& c, const vector<Constraint>& cons, in
     };
 
     choose(0, 0);
-    if (found && sense == MINIMIZE) best.num = -best.num;
+    if (found && sense == Simplex::MINIMIZE) best.num = -best.num;
     return found;
 }
 
-/// Phase 1 enters x1 and row 2 wins the ratio test by 2e-7, leaving the artificial basic at 2e-10, inside double's EPS
-/// Left basic it grows in phase 2 and relaxes x1 >= 1000 away, so min x1 came out 0 instead of 1000 or INFEASIBLE
+/// Phase 1 enters x0 and row 2 wins the ratio test by 2e-7, leaving the artificial basic at 2e-10, inside double's EPS
+/// Left basic it grows in phase 2 and relaxes x0 >= 1000 away, so min x0 came out 0 instead of 1000 or INFEASIBLE
 void artificial_left_basic(){
-    Float result;
-    Simplex lp(1, {0, 1}, MINIMIZE);
-    lp.add_constraint({0, 0.001}, 1, GREATEQ);
-    lp.add_constraint({0, 1}, 1000 - 2e-7, LESSEQ);
+    Simplex lp({1}, Simplex::MINIMIZE);
+    lp.add_constraint({0.001}, 1, Simplex::GREATEQ);
+    lp.add_constraint({1}, 1000 - 2e-7, Simplex::LESSEQ);
 
-    int status = lp.solve(result);
-    assert(status == INFEASIBLE || (status == FEASIBLE && abs(result - 1000) < 1e-6));
+    int status = lp.solve();
+    assert(status == Simplex::INFEASIBLE || (status == Simplex::FEASIBLE && abs(lp.value - 1000) < 1e-6));
 }
 
 /// Degenerate LPs that cycle forever without anti-cycling, the alarm turns a hang into a failure
 void degenerate_cycling(){
-    Float result;
     alarm(2);
 
-    /// Beale (1955): Dantzig's rule with first-row ratio ties cycles here, optimum 1/20 at x1 = 1/25, x3 = 1
-    Simplex beale(4, {0, 0.75, -150, 0.02, -6}, MAXIMIZE);
-    beale.add_constraint({0, 0.25, -60, -0.04, 9}, 0, LESSEQ);
-    beale.add_constraint({0, 0.5, -90, -0.02, 3}, 0, LESSEQ);
-    beale.add_constraint({0, 0, 0, 1, 0}, 1, LESSEQ);
-    assert(beale.solve(result) == FEASIBLE);
-    assert(abs(result - 0.05) < 1e-9);
-    assert(abs(beale.val[1] - 0.04) < 1e-9 && abs(beale.val[3] - 1) < 1e-9);
+    /// Beale (1955): Dantzig's rule with first-row ratio ties cycles here, optimum 1/20 at x0 = 1/25, x2 = 1
+    Simplex beale({0.75, -150, 0.02, -6}, Simplex::MAXIMIZE);
+    beale.add_constraint({0.25, -60, -0.04, 9}, 0, Simplex::LESSEQ);
+    beale.add_constraint({0.5, -90, -0.02, 3}, 0, Simplex::LESSEQ);
+    beale.add_constraint({0, 0, 1, 0}, 1, Simplex::LESSEQ);
+    assert(beale.solve() == Simplex::FEASIBLE);
+    assert(abs(beale.value - 0.05) < 1e-9);
+    assert(abs(beale.val[0] - 0.04) < 1e-9 && abs(beale.val[2] - 1) < 1e-9);
 
     /// Found by random search, each cycles under a different broken tie rule, rows are {coefficients..., rhs} plus sum(x) <= 10
     vector<tuple<vector<Float>, vector<vector<Float>>, Float>> cases = {
@@ -132,17 +131,11 @@ void degenerate_cycling(){
     };
     for (auto& [obj, rows, opt] : cases){
         int n = obj.size();
-        vector<Float> row(n + 1, 0);
-        copy(obj.begin(), obj.end(), row.begin() + 1);
-        Simplex lp(n, row, MAXIMIZE);
-        for (auto& r : rows){
-            copy(r.begin(), r.begin() + n, row.begin() + 1);
-            lp.add_constraint(row, r[n], LESSEQ);
-        }
-        fill(row.begin() + 1, row.end(), 1);
-        lp.add_constraint(row, 10, LESSEQ);
-        assert(lp.solve(result) == FEASIBLE);
-        assert(abs(result - opt) < 1e-9);
+        Simplex lp(obj, Simplex::MAXIMIZE);
+        for (auto& r : rows) lp.add_constraint(vector<Float>(r.begin(), r.begin() + n), r[n], Simplex::LESSEQ);
+        lp.add_constraint(vector<Float>(n, 1), 10, Simplex::LESSEQ);
+        assert(lp.solve() == Simplex::FEASIBLE);
+        assert(abs(lp.value - opt) < 1e-9);
     }
 
     alarm(0);
@@ -170,53 +163,51 @@ void duality(long long iterations, int lo, int hi, bool planted){
             for (int i = 0; i < m; i++) c[j] += a[i][j] * y0[i];
         }
 
-        vector<Float> row(n + 1, 0), col(m + 1, 0);
-        for (int j = 0; j < n; j++) row[j + 1] = c[j];
-        for (int i = 0; i < m; i++) col[i + 1] = b[i];
-        Simplex primal(n, row, MAXIMIZE), dual(m, col, MINIMIZE);
+        vector<Float> row(n), col(m);
+        Simplex primal(vector<Float>(c.begin(), c.end()), Simplex::MAXIMIZE), dual(vector<Float>(b.begin(), b.end()), Simplex::MINIMIZE);
         for (int i = 0; i < m; i++){
-            for (int j = 0; j < n; j++) row[j + 1] = a[i][j];
-            primal.add_constraint(row, b[i], LESSEQ);
+            for (int j = 0; j < n; j++) row[j] = a[i][j];
+            primal.add_constraint(row, b[i], Simplex::LESSEQ);
         }
         for (int j = 0; j < n; j++){
-            for (int i = 0; i < m; i++) col[i + 1] = a[i][j];
-            dual.add_constraint(col, c[j], GREATEQ);
+            for (int i = 0; i < m; i++) col[i] = a[i][j];
+            dual.add_constraint(col, c[j], Simplex::GREATEQ);
         }
 
-        Float primal_value, dual_value;
         alarm(10);
-        int primal_status = primal.solve(primal_value), dual_status = dual.solve(dual_value);
+        int primal_status = primal.solve(), dual_status = dual.solve();
         alarm(0);
-        if (planted) assert(primal_status == FEASIBLE);
-        assert((primal_status == FEASIBLE) == (dual_status == FEASIBLE));
-        assert(primal_status != UNBOUNDED || dual_status == INFEASIBLE);
-        assert(dual_status != UNBOUNDED || primal_status == INFEASIBLE);
-        if (primal_status != FEASIBLE) continue;
+        Float primal_value = primal.value, dual_value = dual.value;
+        if (planted) assert(primal_status == Simplex::FEASIBLE);
+        assert((primal_status == Simplex::FEASIBLE) == (dual_status == Simplex::FEASIBLE));
+        assert(primal_status != Simplex::UNBOUNDED || dual_status == Simplex::INFEASIBLE);
+        assert(dual_status != Simplex::UNBOUNDED || primal_status == Simplex::INFEASIBLE);
+        if (primal_status != Simplex::FEASIBLE) continue;
 
         long double tol = 1e-6L * max(1.0L, fabsl(primal_value));
         assert(fabsl(primal_value - dual_value) <= tol);
 
         long double objective = 0;
         for (int j = 0; j < n; j++){
-            assert(primal.val[j + 1] >= -1e-7);
-            objective += c[j] * primal.val[j + 1];
+            assert(primal.val[j] >= -1e-7);
+            objective += c[j] * primal.val[j];
         }
         assert(fabsl(objective - primal_value) <= tol);
         for (int i = 0; i < m; i++){
             long double s = 0;
-            for (int j = 0; j < n; j++) s += a[i][j] * primal.val[j + 1];
+            for (int j = 0; j < n; j++) s += a[i][j] * primal.val[j];
             assert(s <= b[i] + 1e-6);
         }
 
         objective = 0;
         for (int i = 0; i < m; i++){
-            assert(dual.val[i + 1] >= -1e-7);
-            objective += b[i] * dual.val[i + 1];
+            assert(dual.val[i] >= -1e-7);
+            objective += b[i] * dual.val[i];
         }
         assert(fabsl(objective - dual_value) <= tol);
         for (int j = 0; j < n; j++){
             long double s = 0;
-            for (int i = 0; i < m; i++) s += a[i][j] * dual.val[i + 1];
+            for (int i = 0; i < m; i++) s += a[i][j] * dual.val[i];
             assert(s >= c[j] - 1e-6);
         }
     }
@@ -227,11 +218,10 @@ void solve_twice_aborts(){
     pid_t pid = fork();
     if (pid == 0){
         close(STDERR_FILENO);
-        Float result;
-        Simplex encore(2, {0, 3, 2}, MAXIMIZE);
-        encore.add_constraint({0, 1, 1}, 4, LESSEQ);
-        encore.solve(result);
-        encore.solve(result);
+        Simplex encore({3, 2}, Simplex::MAXIMIZE);
+        encore.add_constraint({1, 1}, 4, Simplex::LESSEQ);
+        encore.solve();
+        encore.solve();
         _exit(0);
     }
 
@@ -250,7 +240,7 @@ int main(){
     duality(stress::scaled(30), 50, 100, false);
 
     for (long long it = 0; it < stress::scaled(2000); it++){
-        int n = stress::rand_int(1, it % 5 ? 3 : 4), m = stress::rand_int(0, it % 5 ? 4 : 6), sense = stress::rand_int(0, 1) ? MAXIMIZE : MINIMIZE;
+        int n = stress::rand_int(1, it % 5 ? 3 : 4), m = stress::rand_int(0, it % 5 ? 4 : 6), sense = stress::rand_int(0, 1) ? Simplex::MAXIMIZE : Simplex::MINIMIZE;
         vector<long long> c(n);
         for (auto& x : c) x = stress::rand_int(-5, 5);
         vector<Constraint> cons(m);
@@ -259,44 +249,38 @@ int main(){
             for (auto& x : k.a) x = stress::rand_int(0, 2) ? stress::rand_int(-5, 5) : 0;
             k.b = stress::rand_int(-20, 20);
             int t = stress::rand_int(0, 5);
-            k.cmp = t < 3 ? LESSEQ : t < 5 ? GREATEQ : EQUAL;
+            k.cmp = t < 3 ? Simplex::LESSEQ : t < 5 ? Simplex::GREATEQ : Simplex::EQUAL;
         }
 
         Fraction small, large;
         bool feasible = brute(n, c, cons, sense, 1000000, small);
         bool feasible_large = brute(n, c, cons, sense, 10000000, large);
         assert(feasible == feasible_large);
-        int expected = !feasible ? INFEASIBLE : (small.num * large.den != large.num * small.den) ? UNBOUNDED : FEASIBLE;
+        int expected = !feasible ? Simplex::INFEASIBLE : (small.num * large.den != large.num * small.den) ? Simplex::UNBOUNDED : Simplex::FEASIBLE;
 
-        vector<Float> obj(n + 1, 0);
-        for (int j = 0; j < n; j++) obj[j + 1] = c[j];
-        Simplex lp(n, obj, sense);
-        for (auto& k : cons){
-            vector<Float> coef(n + 1, 0);
-            for (int j = 0; j < n; j++) coef[j + 1] = k.a[j];
-            lp.add_constraint(coef, k.b, k.cmp);
-        }
+        Simplex lp(vector<Float>(c.begin(), c.end()), sense);
+        for (auto& k : cons) lp.add_constraint(vector<Float>(k.a.begin(), k.a.end()), k.b, k.cmp);
 
-        Float result;
-        int status = lp.solve(result);
+        int status = lp.solve();
+        Float result = lp.value;
         assert(status == expected);
-        if (status != FEASIBLE) continue;
+        if (status != Simplex::FEASIBLE) continue;
 
         long double opt = small.value(), tol = 1e-6L * max(1.0L, fabsl(opt));
         assert(fabsl(result - opt) <= tol);
 
         long double objective = 0;
         for (int j = 0; j < n; j++){
-            assert(lp.val[j + 1] >= -1e-7);
-            objective += c[j] * lp.val[j + 1];
+            assert(lp.val[j] >= -1e-7);
+            objective += c[j] * lp.val[j];
         }
         assert(fabsl(objective - opt) <= tol);
 
         for (auto& k : cons){
             long double s = 0;
-            for (int j = 0; j < n; j++) s += k.a[j] * lp.val[j + 1];
-            if (k.cmp != GREATEQ) assert(s <= k.b + 1e-6);
-            if (k.cmp != LESSEQ) assert(s >= k.b - 1e-6);
+            for (int j = 0; j < n; j++) s += k.a[j] * lp.val[j];
+            if (k.cmp != Simplex::GREATEQ) assert(s <= k.b + 1e-6);
+            if (k.cmp != Simplex::LESSEQ) assert(s >= k.b - 1e-6);
         }
     }
 

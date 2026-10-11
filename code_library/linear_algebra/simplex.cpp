@@ -7,29 +7,25 @@
  * Optimized with sparse pivot - only updates non-zero coefficients
  *
  * Usage:
- *   1. Simplex lp(n, objective, MAXIMIZE or MINIMIZE)
- *   2. lp.add_constraint(coefficients, rhs, LESSEQ or GREATEQ or EQUAL)
- *   3. lp.solve(result) returns FEASIBLE, INFEASIBLE, or UNBOUNDED
- *   4. If feasible, result has optimal value, lp.val[] has variable values
+ *   1. Simplex lp(objective, Simplex::MAXIMIZE or Simplex::MINIMIZE), objective[j] is the coefficient of x_j
+ *   2. lp.add_constraint(coefficients, rhs, Simplex::LESSEQ or Simplex::GREATEQ or Simplex::EQUAL)
+ *   3. lp.solve() returns Simplex::FEASIBLE, Simplex::INFEASIBLE or Simplex::UNBOUNDED
+ *   4. If feasible, lp.value is the optimum and lp.val[j] the value of x_j
  *
- * Variables x1, x2, ..., xn (1-indexed) satisfy xi >= 0
- * objective and coefficients have n + 1 entries, index 0 is ignored
+ * Variables x_0, ..., x_{n - 1} satisfy x_j >= 0, n = objective.size() and every coefficient vector has n entries
  * solve() pivots the tableau in place, so it asserts it is called once per instance
  * For unbounded variable: replace x with (x1 - x2) where x1, x2 >= 0
  * For constraint |x| <= M: add both x <= M and -x <= M
  *
- * Change `using Float = long double;` for higher precision (auto-adjusts EPS)
+ * Change `using Float = double;` to long double for higher precision (EPS follows)
  *
  * Example:
- *   Maximize 3x1 + 2x2 subject to x1 + x2 <= 4, 2x1 + x2 <= 5
+ *   Maximize 3x0 + 2x1 subject to x0 + x1 <= 4, 2x0 + x1 <= 5
  *
- *   Float result;
- *   Simplex lp(2, {0, 3, 2}, MAXIMIZE);
- *   lp.add_constraint({0, 1, 1}, 4, LESSEQ);
- *   lp.add_constraint({0, 2, 1}, 5, LESSEQ);
- *   int status = lp.solve(result);
- *
- *   // result = 9, lp.val[1] = 1, lp.val[2] = 3
+ *   Simplex lp({3, 2}, Simplex::MAXIMIZE);
+ *   lp.add_constraint({1, 1}, 4, Simplex::LESSEQ);
+ *   lp.add_constraint({2, 1}, 5, Simplex::LESSEQ);
+ *   if (lp.solve() == Simplex::FEASIBLE) ...  // lp.value = 9, lp.val = {1, 3}
  *
 ***/
 
@@ -37,43 +33,91 @@
 
 using namespace std;
 
-using Float = double;  // Change to 'long double' for higher precision
-
-const Float EPS = std::is_same<Float, long double>::value ? 1e-13L : 1e-9;
-
-const int EQUAL = 0;
-const int LESSEQ = -1;
-const int GREATEQ = 1;
-const int MINIMIZE = -1;
-const int MAXIMIZE = 1;
-
-const int FEASIBLE = 1;
-const int INFEASIBLE = -1;
-const int UNBOUNDED = 666;
-
 struct Simplex{
-    int n, m, flag;
-    vector<vector<Float>> ar;
-    vector<Float> val, rhs;
-    vector<int> adj, down, link;
+    using Float = double;
+    static constexpr Float EPS = is_same<Float, long double>::value ? 1e-13L : 1e-9;
 
-    Simplex(int n, const vector<Float>& obj, int min_or_max)
-        : n(n), m(0), flag(min_or_max), ar(1, vector<Float>(n + 1, 0)), val(n + 1, 0), rhs(1, 0), adj(n + 1), down(n + 1){
-        assert((int)obj.size() == n + 1);
-        for (int i = 1; i <= n; i++) ar[0][i] = obj[i] * flag;
+    static constexpr int LESSEQ = -1, EQUAL = 0, GREATEQ = 1;
+    static constexpr int MINIMIZE = -1, MAXIMIZE = 1;
+    static constexpr int INFEASIBLE = -1, FEASIBLE = 1, UNBOUNDED = 666;
+
+    Float value = 0;
+    vector<Float> val;
+
+    Simplex(const vector<Float>& objective, int sense)
+        : val(objective.size(), 0), n(objective.size()), m(0), flag(sense), ar(1, vector<Float>(n + 1, 0)), rhs(1, 0), adj(n + 1), down(n + 1){
+        for (int j = 0; j < n; j++) ar[0][j + 1] = objective[j] * flag;
     }
 
     void add_constraint(const vector<Float>& coef, Float lim, int cmp){
-        assert((int)coef.size() == n + 1);
+        assert((int)coef.size() == n);
         if (cmp != GREATEQ) add_row(coef, lim, 1);
         if (cmp != LESSEQ) add_row(coef, lim, -1);
     }
+
+    int solve(){
+        /// link is filled only by solve, a second call would read the already pivoted tableau and return garbage
+        assert(link.empty());
+        int i, j, x = 1;
+
+        /// Variable ids: 0 is the phase 1 artificial, 1..n the inputs, n + i the slack of row i
+        link.assign(m + 1, 0);
+        for (i = 0; i <= n; i++) down[i] = i;
+        for (i = 1; i <= m; i++) link[i] = i + n;
+
+        // Phase 1: relax every row by an artificial x0 in column 0, then maximize -x0 to reach a feasible basis
+        for (i = 2; i <= m; i++){
+            if (rhs[i] < rhs[x]) x = i;
+        }
+        if (m > 0 && rhs[x] < -EPS){
+            ar.emplace_back(n + 1, 0), rhs.push_back(0);
+            for (i = 1; i <= m; i++) ar[i][0] = -1;
+            ar[m + 1][0] = -1;
+
+            pivot(x, 0);
+            optimize(m + 1);
+            if (rhs[m + 1] > EPS) return INFEASIBLE;
+
+            /// Ratio ties go to x0's id 0, but x0 can stay basic at a value within EPS and would grow in phase 2, so pivot it out
+            /// A row with no usable pivot is redundant and stays inert
+            for (i = 1; i <= m; i++){
+                if (link[i] != 0) continue;
+                int y = 0;
+                for (j = 1; j <= n; j++){
+                    if (abs(ar[i][j]) > abs(ar[i][y])) y = j;
+                }
+                if (abs(ar[i][y]) > EPS) pivot(i, y);
+            }
+            for (j = 0; j <= n; j++){
+                if (down[j] == 0) for (auto& r : ar) r[j] = 0;
+            }
+            ar.pop_back(), rhs.pop_back();
+        }
+
+        // Phase 2: optimize objective function
+        if (!optimize(0)) return UNBOUNDED;
+
+        value = -rhs[0] * flag;
+        vector<int> idx(n + 1, 0);
+        for (i = 1; i <= m; i++){
+            if (link[i] <= n) idx[link[i]] = i;
+        }
+
+        for (j = 1; j <= n; j++) val[j - 1] = idx[j] ? rhs[idx[j]] : 0;
+        return FEASIBLE;
+    }
+
+private:
+    int n, m, flag;
+    vector<vector<Float>> ar;
+    vector<Float> rhs;
+    vector<int> adj, down, link;
 
     void add_row(const vector<Float>& coef, Float lim, int sign){
         m++;
         rhs.push_back(lim * sign);
         ar.emplace_back(n + 1, 0);
-        for (int i = 1; i <= n; i++) ar[m][i] = coef[i] * sign;
+        for (int j = 0; j < n; j++) ar[m][j + 1] = coef[j] * sign;
     }
 
     bool optimize(int z){
@@ -119,112 +163,57 @@ struct Simplex{
             }
         }
     }
-
-    int solve(Float& res){
-        /// link is filled only by solve, a second call would read the already pivoted tableau and return garbage
-        assert(link.empty());
-        res = 0;
-        int i, j, x = 1;
-
-        /// Variable ids: 0 is the phase 1 artificial, 1..n the inputs, n + i the slack of row i
-        link.assign(m + 1, 0);
-        for (i = 0; i <= n; i++) down[i] = i;
-        for (i = 1; i <= m; i++) link[i] = i + n;
-
-        // Phase 1: relax every row by an artificial x0 in column 0, then maximize -x0 to reach a feasible basis
-        for (i = 2; i <= m; i++){
-            if (rhs[i] < rhs[x]) x = i;
-        }
-        if (m > 0 && rhs[x] < -EPS){
-            ar.emplace_back(n + 1, 0), rhs.push_back(0);
-            for (i = 1; i <= m; i++) ar[i][0] = -1;
-            ar[m + 1][0] = -1;
-
-            pivot(x, 0);
-            optimize(m + 1);
-            if (rhs[m + 1] > EPS) return INFEASIBLE;
-
-            /// Ratio ties go to x0's id 0, but x0 can stay basic at a value within EPS and would grow in phase 2, so pivot it out
-            /// A row with no usable pivot is redundant and stays inert
-            for (i = 1; i <= m; i++){
-                if (link[i] != 0) continue;
-                int y = 0;
-                for (j = 1; j <= n; j++){
-                    if (abs(ar[i][j]) > abs(ar[i][y])) y = j;
-                }
-                if (abs(ar[i][y]) > EPS) pivot(i, y);
-            }
-            for (j = 0; j <= n; j++){
-                if (down[j] == 0) for (auto& r : ar) r[j] = 0;
-            }
-            ar.pop_back(), rhs.pop_back();
-        }
-
-        // Phase 2: optimize objective function
-        if (!optimize(0)) return UNBOUNDED;
-
-        res = -rhs[0] * flag;
-        vector<int> idx(n + 1, 0);
-        for (i = 1; i <= m; i++){
-            if (link[i] <= n) idx[link[i]] = i;
-        }
-
-        for (i = 1; i <= n; i++) val[i] = idx[i] ? rhs[idx[i]] : 0;
-        return FEASIBLE;
-    }
 };
 
 int main(){
     // Production planning problem
-    // Maximize profit: 5x1 + 4x2 + 3x3
-    // Subject to:      2x1 + 3x2 + x3 <= 100  (material A)
-    //                  4x1 + x2 + 2x3 <= 80   (material B)
-    //                  3x1 + 4x2 + 2x3 <= 120 (labor hours)
+    // Maximize profit: 5x0 + 4x1 + 3x2
+    // Subject to:      2x0 + 3x1 + x2 <= 100  (material A)
+    //                  4x0 + x1 + 2x2 <= 80   (material B)
+    //                  3x0 + 4x1 + 2x2 <= 120 (labor hours)
 
-    Float result = 0;
+    Simplex production({5, 4, 3}, Simplex::MAXIMIZE);
+    production.add_constraint({2, 3, 1}, 100, Simplex::LESSEQ);
+    production.add_constraint({4, 1, 2}, 80, Simplex::LESSEQ);
+    production.add_constraint({3, 4, 2}, 120, Simplex::LESSEQ);
 
-    Simplex production(3, {0, 5, 4, 3}, MAXIMIZE);
-    production.add_constraint({0, 2, 3, 1}, 100, LESSEQ);
-    production.add_constraint({0, 4, 1, 2}, 80, LESSEQ);
-    production.add_constraint({0, 3, 4, 2}, 120, LESSEQ);
-
-    assert(production.solve(result) == FEASIBLE);
-    assert(abs(result - 153.333333333) < 1e-6);
+    assert(production.solve() == Simplex::FEASIBLE);
+    assert(abs(production.value - 153.333333333) < 1e-6);
 
     // Infeasible constraints
-    Simplex contradiction(2, {0, 1, 1}, MAXIMIZE);
-    contradiction.add_constraint({0, 1, 1}, 10, LESSEQ);
-    contradiction.add_constraint({0, 1, 1}, 20, GREATEQ);
+    Simplex contradiction({1, 1}, Simplex::MAXIMIZE);
+    contradiction.add_constraint({1, 1}, 10, Simplex::LESSEQ);
+    contradiction.add_constraint({1, 1}, 20, Simplex::GREATEQ);
 
-    assert(contradiction.solve(result) == INFEASIBLE);
+    assert(contradiction.solve() == Simplex::INFEASIBLE);
 
     // Header example, both LPs built before either is solved
-    Simplex header(2, {0, 3, 2}, MAXIMIZE);
-    Simplex diet(2, {0, 1, 2}, MINIMIZE);
-    header.add_constraint({0, 1, 1}, 4, LESSEQ);
-    diet.add_constraint({0, 1, 1}, 3, GREATEQ);
-    header.add_constraint({0, 2, 1}, 5, LESSEQ);
-    diet.add_constraint({0, 1, -1}, 1, EQUAL);
+    Simplex header({3, 2}, Simplex::MAXIMIZE);
+    Simplex diet({1, 2}, Simplex::MINIMIZE);
+    header.add_constraint({1, 1}, 4, Simplex::LESSEQ);
+    diet.add_constraint({1, 1}, 3, Simplex::GREATEQ);
+    header.add_constraint({2, 1}, 5, Simplex::LESSEQ);
+    diet.add_constraint({1, -1}, 1, Simplex::EQUAL);
 
-    assert(header.solve(result) == FEASIBLE);
-    assert(abs(result - 9) < 1e-9);
-    assert(abs(header.val[1] - 1) < 1e-9 && abs(header.val[2] - 3) < 1e-9);
+    assert(header.solve() == Simplex::FEASIBLE);
+    assert(abs(header.value - 9) < 1e-9);
+    assert(abs(header.val[0] - 1) < 1e-9 && abs(header.val[1] - 3) < 1e-9);
 
-    assert(diet.solve(result) == FEASIBLE);
-    assert(abs(result - 4) < 1e-9);
-    assert(abs(diet.val[1] - 2) < 1e-9 && abs(diet.val[2] - 1) < 1e-9);
+    assert(diet.solve() == Simplex::FEASIBLE);
+    assert(abs(diet.value - 4) < 1e-9);
+    assert(abs(diet.val[0] - 2) < 1e-9 && abs(diet.val[1] - 1) < 1e-9);
 
     // Unbounded, and no constraints at all
-    Simplex runaway(2, {0, 1, 0}, MAXIMIZE);
-    runaway.add_constraint({0, 1, -1}, 1, LESSEQ);
-    assert(runaway.solve(result) == UNBOUNDED);
+    Simplex runaway({1, 0}, Simplex::MAXIMIZE);
+    runaway.add_constraint({1, -1}, 1, Simplex::LESSEQ);
+    assert(runaway.solve() == Simplex::UNBOUNDED);
 
-    Simplex free_lunch(2, {0, 1, 0}, MAXIMIZE);
-    assert(free_lunch.solve(result) == UNBOUNDED);
+    Simplex free_lunch({1, 0}, Simplex::MAXIMIZE);
+    assert(free_lunch.solve() == Simplex::UNBOUNDED);
 
-    Simplex idle(2, {0, -1, -3}, MAXIMIZE);
-    assert(idle.solve(result) == FEASIBLE);
-    assert(abs(result) < 1e-9 && abs(idle.val[1]) < 1e-9 && abs(idle.val[2]) < 1e-9);
+    Simplex idle({-1, -3}, Simplex::MAXIMIZE);
+    assert(idle.solve() == Simplex::FEASIBLE);
+    assert(abs(idle.value) < 1e-9 && abs(idle.val[0]) < 1e-9 && abs(idle.val[1]) < 1e-9);
 
     return 0;
 }
