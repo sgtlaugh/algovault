@@ -39,7 +39,7 @@ int main(){
         if (it % 50 == 0) m = stress::rand_int(31, 60), n = min(n, 30);  /// the widest band, kept small: cells and band size multiply
         int band_size = it % 3 ? 2 * m + 3 : 2 * stress::rand_int(0, min(34, 2 * m + 2)) + 1, h = band_size / 2, cells = n * m;
         long double rhs_default = stress::rand_int(-5, 5);
-        Band gauss(n, m, it % 3 ? 0 : band_size, rhs_default);
+        Band gauss(n, m, rhs_default, it % 3 ? 0 : band_size);
 
         /// Cell numbers as the library assigns them, so that coefficients land inside the band
         auto cell = [&](int u){ return make_pair((cells - 1 - u) / m, (cells - 1 - u) % m); };
@@ -59,9 +59,12 @@ int main(){
 
             auto [i, j] = cell(u);
             for (auto [v, c] : coef[u]){
-                if (v == u && c == 1 && stress::rand_int(0, 1)) continue;  /// the constructor's default diagonal
+                long double add = v == u ? c - 1 : c;  /// the diagonal starts at 1
+                if (add == 0 && stress::rand_int(0, 1)) continue;
                 auto [k, l] = cell(v);
-                gauss.set_matrix(i, j, k, l, c);
+                long double part = stress::rand_int(0, 1) ? stress::rand_int(-1000, 1000) / 64.0L : 0;  /// two calls must accumulate
+                gauss.add_coef(i, j, k, l, part);
+                gauss.add_coef(i, j, k, l, add - part);
             }
             if (rhs[u] != rhs_default || stress::rand_int(0, 1)) gauss.set_rhs(i, j, rhs[u]);
         }
