@@ -19,12 +19,12 @@ int main(){
         FenwickPointUpdate3D<long long> point(n, m, r);
         FenwickRangeUpdate3D<long long> range(n, m, r);
         FenwickFull3D<long long> full(n, m, r);
-        Grid a(n + 1, vector<vector<long long>>(m + 1, vector<long long>(r + 1))), b = a;
+        Grid a(n, vector<vector<long long>>(m, vector<long long>(r))), b = a;
 
         for (int op = 0; op < 60; op++){
             int c[2][3], lim[3] = {n, m, r};
             for (int d = 0; d < 3; d++){
-                c[0][d] = stress::rand_int(1, lim[d]), c[1][d] = stress::rand_int(1, lim[d]);
+                c[0][d] = stress::rand_int(0, lim[d] - 1), c[1][d] = stress::rand_int(0, lim[d] - 1);
                 if (op % 5) tie(c[0][d], c[1][d]) = make_pair(min(c[0][d], c[1][d]), max(c[0][d], c[1][d]));  /// otherwise often empty, which must be a no-op
             }
             auto [x1, y1, z1] = make_tuple(c[0][0], c[0][1], c[0][2]);
@@ -42,6 +42,8 @@ int main(){
                 assert(point.query(x1, y1, z1, x2, y2, z2) == box_sum(a, x1, y1, z1, x2, y2, z2));
                 assert(range.query(x1, y1, z1) == b[x1][y1][z1]);
                 assert(full.query(x1, y1, z1, x2, y2, z2) == box_sum(b, x1, y1, z1, x2, y2, z2));
+                assert(point.prefix(x1 - 1, y2, z2) == box_sum(a, 0, 0, 0, x1 - 1, y2, z2));
+                assert(full.prefix(x2, y1 - 1, z1) == box_sum(b, 0, 0, 0, x2, y1 - 1, z1));
             }
         }
     }
