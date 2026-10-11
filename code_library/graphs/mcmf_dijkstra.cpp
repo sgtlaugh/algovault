@@ -16,7 +16,7 @@
  * Costs may be negative as long as there is no negative cycle
  * flow * |cost| summed over a path must fit in long long
  *
- * The default min cost flow choice, see mcmf_spfa.cpp for an SPFA variant without potentials
+ * The default min cost flow choice, mcmf_spfa.cpp has the same API, augments along all tied shortest paths per phase, faster when costs are small integers
  *
 ***/
 

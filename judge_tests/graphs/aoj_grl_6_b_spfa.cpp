@@ -10,16 +10,14 @@ int main(){
     int n, m, f;
     if (scanf("%d %d %d", &n, &m, &f) != 3) return 0;
 
-    /// FlowGraph(n) covers nodes 0..n, so node n is free for a super source that limits the flow to f
-    static FlowGraph<long long> g(n);
-    g.add_edge(n, 0, f, 0);
+    MCMFSpfa g(n);
     for (int i = 0; i < m; i++){
         int u, v, c, d;
         if (scanf("%d %d %d %d", &u, &v, &c, &d) != 4) return 0;
         g.add_edge(u, v, c, d);
     }
 
-    auto [cost, flow] = g.mincost_maxflow(n, n - 1);
+    auto [flow, cost] = g.solve(0, n - 1, f);
     printf("%lld\n", flow == f ? cost : -1LL);
     return 0;
 }

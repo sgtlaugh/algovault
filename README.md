@@ -133,7 +133,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Maximum Flow](code_library/graphs/maxflow.cpp) - Dinic with node capacities and a dense variant, min cut and closure recipes [✔](judge_tests/graphs/aoj_grl_6_a.cpp)
 - [Min Cost Circulation](code_library/graphs/min_cost_circulation.cpp) - cost scaling with negative costs and cycles, `O(n^3 log(n C))` [✔](judge_tests/graphs/aoj_grl_6_b_circulation.cpp)
 - [Min Cost Max Flow, Dijkstra](code_library/graphs/mcmf_dijkstra.cpp) - successive shortest paths with potentials and the cost slope, the default [✔](judge_tests/graphs/aoj_grl_6_b.cpp)
-- [Min Cost Max Flow, SPFA](code_library/graphs/mcmf_spfa.cpp) - successive shortest paths with SPFA [✔](judge_tests/graphs/aoj_grl_6_b_spfa.cpp)
+- [Min Cost Max Flow, SPFA](code_library/graphs/mcmf_spfa.cpp) - same API as the Dijkstra version, all tied shortest paths per phase [✔](judge_tests/graphs/aoj_grl_6_b_spfa.cpp)
 - [Minimum Mean Cycle (Karp)](code_library/graphs/minimum_mean_cycle.cpp) - exact minimum mean cycle as a fraction, with its edges, `O(n (n + m))`
 - [Minimum Path Cover](code_library/graphs/minimum_path_cover.cpp) - disjoint and shared path covers of a DAG, maximum antichain [✔](judge_tests/graphs/aoj_2251.cpp)
 - [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - Kruskal, Boruvka for implicit graphs, dense `O(n^2)` Prim [✔](judge_tests/graphs/aoj_alds1_12_a.cpp)

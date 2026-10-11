@@ -1,17 +1,22 @@
 /***
  *
- * Mincost Maxflow with SPFA
+ * Min Cost Max Flow with SPFA
+ * Successive shortest paths where each SPFA phase pushes flow along every tied shortest path with one DFS
  *
- * Initialize with the maximum number of nodes in the graph first
- * Works both for 0 and 1 based indexing
+ * Complexity: exponential in theory, fast in practice, see https://codeforces.com/blog/entry/70740
  *
- * Complexity is exponential in theory, however in practice it is very fast
- * Further reading - https://codeforces.com/blog/entry/70740
+ * MCMFSpfa g(n); g.add_edge(u, v, cap, cost): directed edge, returns its index, add both directions for undirected edges
+ * g.solve(s, t, limit): pushes up to limit units (default: as much as possible), returns {flow, cost}
+ * g.flow(id): flow on edge id after solve
+ * Repeated solve calls continue from the residual graph, results count only the newly added flow and cost
+ * Nodes are 0 to n - 1, 1 based graphs use MCMFSpfa(n + 1)
  *
- * Note, flow[2*i] contains the amount of flow in i-th edge
- * So if we ever need to print it we can retrieve it easily
+ * Costs may be negative as long as there is no negative cycle
+ * flow * |cost| summed over a path must fit in long long
+ * The DFS recurses once per edge of a shortest path: 1.5e5 edges overflow an 8 MB stack at -O2, use mcmf_dijkstra.cpp for long paths
  *
- * Prefer mcmf_dijkstra.cpp by default, this is for negative costs without computing potentials
+ * Same API as mcmf_dijkstra.cpp, prefer this one when costs are small integers with many tied shortest paths
+ *     300 x 300 assignment with costs 0 to 3: 20x faster than mcmf_dijkstra.cpp, about 2x slower on random sparse graphs
  *
 ***/
 
@@ -19,111 +24,121 @@
 
 using namespace std;
 
-const int MAXV = 100010;
-const int MAXE = 1000010;
+struct MCMFSpfa{
+    static constexpr long long INF = numeric_limits<long long>::max() / 4;
 
-template <typename T>
-struct FlowGraph{
-    const T INF = numeric_limits<T>::max();
+    struct Edge{
+        int to;
+        long long cap, cost;
+    };
 
-    queue<int> Q;
-    bitset<MAXV> visited;
-    int n, id, head[MAXV], nxt[MAXE], to[MAXE];
-    T cap[MAXE], cost[MAXE], flow[MAXE], dis[MAXV];
+    int n;
+    vector<Edge> edges;
+    vector<vector<int>> adj;
+    vector<long long> dis;
+    vector<char> visited;
 
-    FlowGraph(int n) : n(n), id(1){
-        for (int i = 0; i <= n; i++) head[i] = 0;
+    MCMFSpfa(int n) : n(n), adj(n), dis(n), visited(n) {}
+
+    int add_edge(int u, int v, long long cap, long long cost){
+        adj[u].push_back(edges.size()), edges.push_back({v, cap, cost});
+        adj[v].push_back(edges.size()), edges.push_back({u, 0, -cost});
+        return edges.size() - 2;
     }
 
-    /// Add an edge from u to v with edge capacity c and edge weight w
-    void add_edge(int u, int v, T c, T w, bool directed=true){
-        nxt[++id] = head[u], to[id] = v, head[u] = id, cap[id] = c, cost[id] = w, flow[id] = 0;
-        nxt[++id] = head[v], to[id] = u, head[v] = id, cap[id] = 0, cost[id] = -w, flow[id] = 0;
-        if (!directed) add_edge(v, u, c, w, true);
+    long long flow(int id) const{
+        return edges[id ^ 1].cap;
     }
 
-    bool spfa(int src, int sink){
-        int i, u, v;
-        for (i = 0; i <= n; i++) dis[i] = INF, visited[i] = 0;
+    bool spfa(int s, int t){
+        fill(dis.begin(), dis.end(), INF);
+        fill(visited.begin(), visited.end(), 0);
+        queue<int> q;
+        dis[s] = 0, q.push(s), visited[s] = 1;
 
-        dis[src] = 0;
-        if (!visited[src]) Q.push(src), visited[src] = 1;
-
-        while (!Q.empty()){
-            u = Q.front();
-            Q.pop(), visited[u] = 0;
-
-            for (i = head[u]; i; i = nxt[i]){
-                v = to[i];
-                auto new_dis = dis[u] + cost[i];
-
-                if (flow[i] < cap[i] && new_dis < dis[v]){
-                    dis[v] = new_dis;
-                    if (!visited[v]){
-                        Q.push(v), visited[v] = 1;
-                    }
+        while (!q.empty()){
+            int u = q.front();
+            q.pop(), visited[u] = 0;
+            for (int id : adj[u]){
+                const Edge& e = edges[id];
+                if (e.cap > 0 && dis[u] + e.cost < dis[e.to]){
+                    dis[e.to] = dis[u] + e.cost;
+                    if (!visited[e.to]) q.push(e.to), visited[e.to] = 1;
                 }
             }
         }
 
-        return dis[sink] < INF;
+        return dis[t] < INF;
     }
 
-    T dfs(int u, int sink, T lim){
-        /// The sink is never marked so one DFS can push along several shortest paths
-        if (u == sink) return lim;
+    /// The sink is never marked so one DFS can push along several shortest paths
+    long long dfs(int u, int t, long long lim){
+        if (u == t) return lim;
         visited[u] = 1;
+        long long aug = 0;
 
-        T aug = 0;
-        for (int i = head[u]; i && aug < lim; i = nxt[i]){
-            int v = to[i];
-            if (!visited[v] && flow[i] < cap[i] && dis[v] == dis[u] + cost[i]){
-                auto x = dfs(v, sink, min(cap[i] - flow[i], lim - aug));
-                flow[i] += x, flow[i ^ 1] -= x;
-                aug += x;
+        for (int id : adj[u]){
+            if (aug == lim) break;
+            Edge& e = edges[id];
+            if (!visited[e.to] && e.cap > 0 && dis[e.to] == dis[u] + e.cost){
+                long long x = dfs(e.to, t, min(e.cap, lim - aug));
+                e.cap -= x, edges[id ^ 1].cap += x, aug += x;
             }
         }
 
         return aug;
     }
 
-    pair<T, T> mincost_maxflow(int src, int sink){
-        assert(src != sink);
-        T mincost = 0, maxflow = 0;
+    pair<long long, long long> solve(int s, int t, long long limit = INF){
+        assert(s != t);
+        long long flow = 0, cost = 0;
 
-        while (spfa(src, sink)){
-            T aug = INF;
-            while (aug){
-                for (int i = 0; i <= n; i++) visited[i] = 0;
-                aug = dfs(src, sink, INF);
-                maxflow += aug, mincost += aug * dis[sink];
+        while (flow < limit && spfa(s, t)){
+            while (flow < limit){
+                fill(visited.begin(), visited.end(), 0);
+                long long aug = dfs(s, t, limit - flow);
+                if (!aug) break;
+                flow += aug, cost += aug * dis[t];
             }
         }
 
-        return {mincost, maxflow};
+        return {flow, cost};
     }
 };
 
 int main(){
-    const int n = 6;
-    static FlowGraph<int> flow_graph(n);
+    MCMFSpfa g(6);
 
-    /// Graph taken from https://cp-algorithms.com/graph/edmonds_karp.html
-    flow_graph.add_edge(1, 2, 7, 1);
-    flow_graph.add_edge(2, 3, 5, 2);
-    flow_graph.add_edge(3, 6, 8, 3);
-    flow_graph.add_edge(1, 4, 4, 4);
-    flow_graph.add_edge(4, 2, 3, 5);
-    flow_graph.add_edge(4, 5, 2, 4);
-    flow_graph.add_edge(2, 5, 3, 3);
-    flow_graph.add_edge(5, 3, 3, 2);
-    flow_graph.add_edge(5, 6, 5, 1);
+    /// Graph taken from https://cp-algorithms.com/graph/edmonds_karp.html, nodes shifted to 0 based
+    g.add_edge(0, 1, 7, 1);
+    g.add_edge(1, 2, 5, 2);
+    g.add_edge(2, 5, 8, 3);
+    g.add_edge(0, 3, 4, 4);
+    g.add_edge(3, 1, 3, 5);
+    g.add_edge(3, 4, 2, 4);
+    g.add_edge(1, 4, 3, 3);
+    g.add_edge(4, 2, 3, 2);
+    g.add_edge(4, 5, 5, 1);
+    assert((g.solve(0, 5) == make_pair(10LL, 71LL)));
 
-    int mincost, maxflow;
-    tie(mincost, maxflow) = flow_graph.mincost_maxflow(1, n);
+    /***
+     * 0 -> 1 (cap 2, cost 1), 0 -> 2 (cap 1, cost 2), 1 -> 2 (cap 1, cost 1), 1 -> 3 (cap 1, cost 3), 2 -> 3 (cap 2, cost 1)
+     * Max flow 3: paths 0-1-2-3 (cost 3), 0-2-3 (cost 3), 0-1-3 (cost 4), total cost 10
+    ***/
+    MCMFSpfa small(4);
+    small.add_edge(0, 1, 2, 1), small.add_edge(0, 2, 1, 2), small.add_edge(1, 2, 1, 1), small.add_edge(1, 3, 1, 3);
+    int e23 = small.add_edge(2, 3, 2, 1);
+    MCMFSpfa limited = small;
 
-    assert(mincost == 71);
-    assert(maxflow == 10);
+    assert(e23 == 8 && (small.solve(0, 3) == make_pair(3LL, 10LL)));
+    assert(small.flow(e23) == 2);
+
+    assert((limited.solve(0, 3, 1) == make_pair(1LL, 3LL)));
+    assert((limited.solve(0, 3) == make_pair(2LL, 7LL)));
+
+    MCMFSpfa negative(3);
+    negative.add_edge(0, 1, 5, -4), negative.add_edge(1, 2, 3, 2), negative.add_edge(0, 2, 4, 1);
+    assert((negative.solve(0, 2) == make_pair(7LL, -2LL)));
 
     return 0;
 }

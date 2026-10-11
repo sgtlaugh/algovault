@@ -30,54 +30,61 @@ bool has_negative_cycle(int nodes, const vector<array<long long, 3>>& residual){
     return true;
 }
 
-int main(){
-    auto* g = new FlowGraph<long long>(1);  /// fixed size arrays, too big for the stack, rebuilt in place per case
+/// Flow on every arc within capacity, conserved, summing to value at cost, and cheapest for its value
+void check_flow(const MCMFSpfa& g, int src, int sink, const vector<Arc>& arcs, long long value, long long cost){
+    long long total = 0;
+    vector<long long> net(g.n, 0);
+    vector<array<long long, 3>> residual;
+    for (auto& a : arcs){
+        long long f = g.flow(a.id);
+        assert(0 <= f && f <= a.cap);
+        net[a.u] -= f, net[a.v] += f, total += f * a.cost;
+        if (f < a.cap) residual.push_back({a.u, a.v, a.cost});
+        if (f > 0) residual.push_back({a.v, a.u, -a.cost});
+    }
+    for (int x = 0; x < g.n; x++) assert(net[x] == (x == sink ? value : x == src ? -value : 0));
+    assert(cost == total);
+    assert(!has_negative_cycle(g.n, residual));
+}
 
+int main(){
     for (long long it = 0; it < stress::scaled(15000); it++){
-        int n = stress::rand_int(1, it % 10 ? 7 : 11), nodes = n + 1;  /// the library sizes for nodes 0 .. n, so both 0 and 1 based work
-        int src = stress::rand_int(0, n), sink = (src + stress::rand_int(1, n)) % nodes;
+        int n = stress::rand_int(2, it % 10 ? 8 : 12);
+        int src = stress::rand_int(0, n - 1), sink = (src + stress::rand_int(1, n - 1)) % n;
 
         /// cost = base + p[u] - p[v] with base >= 0 allows negative arcs but no negative cycle
-        vector<long long> potential(nodes);
+        vector<long long> potential(n);
         for (auto& p : potential) p = it % 2 ? stress::rand_int(0, 20) : 0;
 
-        g->~FlowGraph();
-        g = new (g) FlowGraph<long long>(n);  /// the returned pointer is valid for the new object even with a const member
+        MCMFSpfa g(n);
         vector<Arc> arcs;
-        int next_id = 2;
-        for (int m = stress::rand_int(0, 2 * n + 6); m; m--){
-            int u = stress::rand_int(0, n), v = stress::rand_int(0, n);
+        for (int m = stress::rand_int(0, 2 * n + 4); m; m--){
+            int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
             long long cap = stress::rand_int(0, it % 5 ? 8 : 1000000000), base = stress::rand_int(0, 15);
             if (stress::rand_int(0, 3)){
                 long long cost = base + potential[u] - potential[v];
-                g->add_edge(u, v, cap, cost);
-                arcs.push_back({u, v, next_id, cap, cost}), next_id += 2;
+                arcs.push_back({u, v, g.add_edge(u, v, cap, cost), cap, cost});
             }
             else{
                 long long cost = base + abs(potential[u] - potential[v]);  /// reduced cost stays >= 0 both ways
-                g->add_edge(u, v, cap, cost, false);
-                arcs.push_back({u, v, next_id, cap, cost}), arcs.push_back({v, u, next_id + 2, cap, cost}), next_id += 4;
+                arcs.push_back({u, v, g.add_edge(u, v, cap, cost), cap, cost});
+                arcs.push_back({v, u, g.add_edge(v, u, cap, cost), cap, cost});
             }
         }
+        MCMFSpfa limited = g;
 
-        auto [cost, flow] = g->mincost_maxflow(src, sink);
-        assert(flow == min_cut(nodes, src, sink, arcs));
+        auto [flow, cost] = g.solve(src, sink);
+        assert(flow == min_cut(n, src, sink, arcs));
+        check_flow(g, src, sink, arcs, flow, cost);
 
-        long long total = 0;
-        vector<long long> net(nodes, 0);
-        vector<array<long long, 3>> residual;
-        for (auto& a : arcs){
-            long long f = g->flow[a.id];
-            assert(0 <= f && f <= a.cap && g->flow[a.id ^ 1] == -f);
-            net[a.u] -= f, net[a.v] += f, total += f * a.cost;
-            if (f < a.cap) residual.push_back({a.u, a.v, a.cost});
-            if (f > 0) residual.push_back({a.v, a.u, -a.cost});
-        }
-        for (int x = 0; x < nodes; x++) assert(net[x] == (x == sink ? flow : x == src ? -flow : 0));
-        assert(cost == total);
-        assert(!has_negative_cycle(nodes, residual));
+        /// A limited solve stops at the cheapest flow of that value, a second solve continues to the full answer
+        long long k = stress::rand_int(0, flow);
+        auto [first_flow, first_cost] = limited.solve(src, sink, k);
+        assert(first_flow == k);
+        check_flow(limited, src, sink, arcs, k, first_cost);
+        auto [rest_flow, rest_cost] = limited.solve(src, sink);
+        assert(first_flow + rest_flow == flow && first_cost + rest_cost == cost);
     }
 
-    delete g;
     return 0;
 }
