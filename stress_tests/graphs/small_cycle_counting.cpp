@@ -94,9 +94,9 @@ int main(){
     SmallCycles book(leaves + 2);
     for (int i = 2; i < leaves + 2; i++) book.add_edge(0, i), book.add_edge(1, i);
 
-    auto start = chrono::steady_clock::now();
+    clock_t start = clock();
     assert(book.triangles() == 0 && book.four_cycles() == 1LL * leaves * (leaves - 1) / 2);
-    assert(chrono::steady_clock::now() - start < chrono::seconds(5));
+    assert(clock() - start < 5 * CLOCKS_PER_SEC);
 
     /// K_400, m = 79800: C(n, 3) triangles and 3 C(n, 4) 4-cycles
     long long n = 400;
@@ -105,9 +105,9 @@ int main(){
         for (int v = u + 1; v < n; v++) dense.add_edge(u, v);
     }
 
-    start = chrono::steady_clock::now();
+    start = clock();
     assert(dense.triangles() == n * (n - 1) * (n - 2) / 6);
     assert(dense.four_cycles() == n * (n - 1) * (n - 2) * (n - 3) / 8);
-    assert(chrono::steady_clock::now() - start < chrono::seconds(5));
+    assert(clock() - start < 5 * CLOCKS_PER_SEC);
     return 0;
 }
