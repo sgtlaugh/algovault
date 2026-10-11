@@ -6,7 +6,7 @@
  * Complexity: O(log^2 n) amortized per update, O(log n) per query, O(n) build and memory
  *
  * SegmentTreeBeats st(n): n zeros, SegmentTreeBeats st(a): the values of a, n >= 1
- * Positions are 1-indexed and every range [l, r] is inclusive
+ * Positions are 0-indexed and every range [l, r] is inclusive, 0 <= l <= r < n
  *
  * chmin(l, r, x): a[i] = min(a[i], x) for i in [l, r]
  * chmax(l, r, x): a[i] = max(a[i], x) for i in [l, r]
@@ -49,17 +49,17 @@ struct SegmentTreeBeats{
 
     SegmentTreeBeats(int n) : SegmentTreeBeats(vector<long long>(n, 0)) {}
 
-    /// The mid-split recursion on [1, n] never reaches index 2 * next_pow2(n), 4n would waste up to half
+    /// The mid-split recursion on [0, n - 1] never reaches index 2 * next_pow2(n), 4n would waste up to half
     SegmentTreeBeats(const vector<long long>& a) : n(a.size()){
         assert(n >= 1);
         tree.assign(2 << __lg(2 * n - 1), Node());
-        build(a, 1, 1, n);
+        build(a, 1, 0, n - 1);
     }
 
-    void add(int l, int r, long long x){ update(1, 1, n, l, r, ADD, x); }
-    void assign(int l, int r, long long x){ update(1, 1, n, l, r, ASSIGN, x); }
-    void chmax(int l, int r, long long x){ update(1, 1, n, l, r, CHMAX, x); }
-    void chmin(int l, int r, long long x){ update(1, 1, n, l, r, CHMIN, x); }
+    void add(int l, int r, long long x){ update(l, r, ADD, x); }
+    void assign(int l, int r, long long x){ update(l, r, ASSIGN, x); }
+    void chmax(int l, int r, long long x){ update(l, r, CHMAX, x); }
+    void chmin(int l, int r, long long x){ update(l, r, CHMIN, x); }
     long long query_max(int l, int r){ return query(l, r).max; }
     long long query_min(int l, int r){ return query(l, r).min; }
     long long query_sum(int l, int r){ return (long long)query(l, r).sum; }
@@ -116,7 +116,7 @@ struct SegmentTreeBeats{
         tree[idx].len = r - l + 1;
         if (l == r){
             Node& v = tree[idx];
-            v.sum = a[l - 1], v.max1 = v.min1 = a[l - 1], v.cnt_max = v.cnt_min = 1;
+            v.sum = a[l], v.max1 = v.min1 = a[l], v.cnt_max = v.cnt_min = 1;
             return;
         }
 
@@ -181,11 +181,16 @@ struct SegmentTreeBeats{
     }
 
     Summary query(int l, int r){
-        assert(1 <= l && l <= r && r <= n);
+        assert(0 <= l && l <= r && r < n);
 
         Summary res;
-        collect(1, 1, n, l, r, res);
+        collect(1, 0, n - 1, l, r, res);
         return res;
+    }
+
+    void update(int l, int r, Op op, long long x){
+        assert(0 <= l && l <= r && r < n);
+        update(1, 0, n - 1, l, r, op, x);
     }
 
     void update(int idx, int a, int b, int l, int r, Op op, long long x){
@@ -205,15 +210,15 @@ struct SegmentTreeBeats{
 
 int main(){
     SegmentTreeBeats st(vector<long long>{5, -2, 7, 7, 0, 3});
-    st.chmin(1, 6, 4);
-    assert(st.query_max(1, 6) == 4);    /// 4 -2 4 4 0 3
-    assert(st.query_sum(1, 6) == 13);
-    st.chmax(2, 5, 1);
-    assert(st.query_min(1, 6) == 1);    /// 4 1 4 4 1 3
-    st.add(1, 3, -10);
-    assert(st.query_sum(1, 3) == -21);  /// -6 -9 -6 4 1 3
-    st.assign(3, 4, 0);
-    assert(st.query_sum(1, 6) == -11);  /// -6 -9 0 0 1 3
-    assert(st.query_max(1, 4) == 0);
+    st.chmin(0, 5, 4);
+    assert(st.query_max(0, 5) == 4);    /// 4 -2 4 4 0 3
+    assert(st.query_sum(0, 5) == 13);
+    st.chmax(1, 4, 1);
+    assert(st.query_min(0, 5) == 1);    /// 4 1 4 4 1 3
+    st.add(0, 2, -10);
+    assert(st.query_sum(0, 2) == -21);  /// -6 -9 -6 4 1 3
+    st.assign(2, 3, 0);
+    assert(st.query_sum(0, 5) == -11);  /// -6 -9 0 0 1 3
+    assert(st.query_max(0, 3) == 0);
     return 0;
 }

@@ -7,29 +7,29 @@
 void update(SegmentTreeBeats& st, vector<long long>& a, int type, int l, int r, long long x){
     if (type == 0){
         st.chmin(l, r, x);
-        for (int i = l - 1; i < r; i++) a[i] = min(a[i], x);
+        for (int i = l; i <= r; i++) a[i] = min(a[i], x);
     }
     else if (type == 1){
         st.chmax(l, r, x);
-        for (int i = l - 1; i < r; i++) a[i] = max(a[i], x);
+        for (int i = l; i <= r; i++) a[i] = max(a[i], x);
     }
     else if (type == 2){
         st.add(l, r, x);
-        for (int i = l - 1; i < r; i++) a[i] += x;
+        for (int i = l; i <= r; i++) a[i] += x;
     }
     else{
         st.assign(l, r, x);
-        for (int i = l - 1; i < r; i++) a[i] = x;
+        for (int i = l; i <= r; i++) a[i] = x;
     }
 }
 
 /// Sums are compared mod 2^64 because node sums may wrap while the documented queried sums still fit
 void check(SegmentTreeBeats& st, const vector<long long>& a, int l, int r){
     __int128 sum = 0;
-    for (int i = l - 1; i < r; i++) sum += a[i];
+    for (int i = l; i <= r; i++) sum += a[i];
     assert((unsigned long long)st.query_sum(l, r) == (unsigned long long)sum);
-    assert(st.query_min(l, r) == *min_element(a.begin() + l - 1, a.begin() + r));
-    assert(st.query_max(l, r) == *max_element(a.begin() + l - 1, a.begin() + r));
+    assert(st.query_min(l, r) == *min_element(a.begin() + l, a.begin() + r + 1));
+    assert(st.query_max(l, r) == *max_element(a.begin() + l, a.begin() + r + 1));
 }
 
 void run(int n, int ops, long long lo, long long hi){
@@ -40,7 +40,7 @@ void run(int n, int ops, long long lo, long long hi){
 
     for (int op = 0; op < ops; op++){
         int type = stress::rand_int(0, 6);
-        int l = stress::rand_int(1, n), r = stress::rand_int(l, n);
+        int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
         long long x = stress::rand_int(lo, hi);
 
         if (type < 4) update(st, a, type, l, r, x);
@@ -56,10 +56,10 @@ void run_extreme(int n){
     SegmentTreeBeats st(n);
 
     for (int op = 0; op < 2; op++){
-        int l = stress::rand_int(1, n), r = stress::rand_int(l, n);
+        int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
         update(st, a, stress::rand_int(0, 3), l, r, stress::rand_int(-C, C));
-        for (int ql = 1; ql <= n; ql++){
-            for (int qr = ql; qr <= n; qr++) check(st, a, ql, qr);
+        for (int ql = 0; ql < n; ql++){
+            for (int qr = ql; qr < n; qr++) check(st, a, ql, qr);
         }
     }
 }
@@ -74,15 +74,15 @@ void run_million(){
     assert(st.tree.size() * sizeof(SegmentTreeBeats::Node) <= (200u << 20));
 
     for (int op = 0; op < 100000; op++){
-        int l = stress::rand_int(1, n), r = min(n, l + (int)stress::rand_int(0, 64));
-        if (op % 2000 == 0) l = stress::rand_int(1, 10), r = stress::rand_int(n - 10, n);
+        int l = stress::rand_int(0, n - 1), r = min(n - 1, l + (int)stress::rand_int(0, 64));
+        if (op % 2000 == 0) l = stress::rand_int(0, 9), r = stress::rand_int(n - 11, n - 1);
         int type = stress::rand_int(0, 6);
         long long x = stress::rand_int(-1000000000, 1000000000);
 
         if (type < 4) update(st, a, type, l, r, x);
         else check(st, a, l, r);
     }
-    check(st, a, 1, n);
+    check(st, a, 0, n - 1);
 }
 
 int main(){
@@ -99,7 +99,7 @@ int main(){
         vector<long long> a(n);
         for (auto& x : a) x = stress::rand_int(-4, 4);
         SegmentTreeBeats st(a);
-        check(st, a, 1, n);
+        check(st, a, 0, n - 1);
     }
     run_million();
 

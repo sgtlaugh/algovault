@@ -25,7 +25,7 @@ int main(){
 
     SegmentTreeBeats st(a);
     while (q--){
-        int t = read_int(), l = read_int() + 1, r = read_int();
+        int t = read_int(), l = read_int(), r = read_int() - 1;
         if (t == 3){
             printf("%lld\n", st.query_sum(l, r));
             continue;
