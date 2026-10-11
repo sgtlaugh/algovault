@@ -1,15 +1,15 @@
 /***
  *
- * Prime sum function in sublinear time with the Meissel-Lehmer algorithm
+ * Fast Prime Sums
+ * Sum of primes not exceeding n in sublinear time with the Meissel-Lehmer algorithm
  *
  * PrimeSum ps(maxv, maxn, maxm): sieves below maxv and tabulates phi for the first maxn primes and m < maxm
- *     maxv must exceed the maxn-th prime, the defaults are tuned for n around 1e13
+ *     maxv must exceed the maxn-th prime
  * ps.prime_sum(n): the sum of primes not exceeding n, for 0 <= n < maxv^2
- * It is just a templatized wrapper of lehmer(n)
  *
  * Complexity: Roughly ~O(n^(2/3)) per query, O(maxv + maxn * maxm) to build
- * Memory: 12 * maxv + 8 * maxn * maxm bytes, about 1 GB with the defaults
- * For 256 MB judges use PrimeSum ps(5000000, 20, 200000): 95 MB, about 1.9x slower on the self-test
+ * Memory: 12 * maxv + 8 * maxn * maxm bytes, about 95 MB with the defaults (n < 2.5e13)
+ * PrimeSum ps(20000010, 50, 2000010): about 1 GB, about 3x faster for n near 1e13
  *
 ***/
 
@@ -22,7 +22,7 @@ struct PrimeSum{
     vector<int> pi, primes;
     vector<uint64_t> pi_sum, dp;   /// dp[i * maxm + j] = phi(j, i)
 
-    PrimeSum(int maxv = 20000010, int maxn = 50, int maxm = 2000010) : maxv(maxv), maxn(maxn), maxm(maxm){
+    PrimeSum(int maxv = 5000000, int maxn = 20, int maxm = 200000) : maxv(maxv), maxn(maxn), maxm(maxm){
         sieve();
         assert(maxn >= 1 && maxm >= 1 && (int)primes.size() > maxn);
 
@@ -37,6 +37,7 @@ struct PrimeSum{
     }
 
     __int128 prime_sum(long long n){
+        assert(0 <= n && n < (long long)maxv * maxv);
         if (n <= UINT_MAX) return lehmer((uint64_t)n);
         return lehmer((__int128)n);
     }
@@ -93,7 +94,7 @@ private:
 int main(){
     auto start = clock();
     PrimeSum ps;
-    fprintf(stderr, "Pre-process time = %0.3f\n\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 0.940
+    fprintf(stderr, "Pre-process time = %0.3f\n\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 0.090
 
     start = clock();
 
@@ -107,6 +108,6 @@ int main(){
     assert(ps.prime_sum(1e12) == (__int128)15929208151LL * 1157344946327LL); /// 18435588552550705911377
     assert(ps.prime_sum(1e13) == (__int128)10166702 * 167138413556114797LL); /// 1699246443377779418889494
 
-    fprintf(stderr, "\nCalculation time = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 2.130
+    fprintf(stderr, "\nCalculation time = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 6.400
     return 0;
 }

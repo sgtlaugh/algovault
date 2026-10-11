@@ -46,8 +46,8 @@ int main(){
     check_small_tables(5000, 20, 2000);
 
     {
-        PrimeSum ps(5000000, 20, 200000);   /// the 256 MB preset from the header
-        for (long long n : {4999999LL, 5000000LL, (long long)UINT_MAX, UINT_MAX + 1LL}) assert(ps.prime_sum(n) == lucy(n));
+        PrimeSum ps(20000010, 50, 2000010);   /// the 1 GB preset from the header
+        for (long long n : {20000009LL, 20000010LL, (long long)UINT_MAX, UINT_MAX + 1LL}) assert(ps.prime_sum(n) == lucy(n));
         for (long long it = 0; it < stress::scaled(3); it++){
             long long n = stress::rand_int(1, 2000000000LL);
             assert(ps.prime_sum(n) == lucy(n));
