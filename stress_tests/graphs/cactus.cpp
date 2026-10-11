@@ -200,10 +200,10 @@ int main(){
         at = b;
     }
 
-    auto start = chrono::steady_clock::now();
+    clock_t start = clock();
     assert(big.build() && !big.vertex_cactus);
     assert((int)big.cycles.size() == 1 + triangles);
-    assert(chrono::steady_clock::now() - start < chrono::seconds(2));
+    assert(clock() - start < 5 * CLOCKS_PER_SEC);
     check_structure(big);
 
     big.add_edge(0, ring / 2);

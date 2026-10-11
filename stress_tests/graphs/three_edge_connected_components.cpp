@@ -113,9 +113,9 @@ void blocks_test(int k, int links, bool ring){
         for (int l = 0; l < links; l++) g.add_edge(label[4 * b + stress::rand_int(0, 3)], label[4 * c + stress::rand_int(0, 3)]);
     }
 
-    auto start = chrono::steady_clock::now();
+    clock_t start = clock();
     auto groups = g.run();
-    assert(chrono::steady_clock::now() - start < chrono::seconds(3));
+    assert(clock() - start < 3 * CLOCKS_PER_SEC);
 
     bool merged = links >= 3 || (ring && k > 2 && links >= 2);
     assert(g.count == (merged ? 1 : k));
@@ -140,9 +140,9 @@ void parallel_path_test(int n, int copies){
     ThreeEdgeConnected g(n);
     for (auto [u, v] : edges) g.add_edge(u, v);
 
-    auto start = chrono::steady_clock::now();
+    clock_t start = clock();
     g.run();
-    assert(chrono::steady_clock::now() - start < chrono::seconds(3));
+    assert(clock() - start < 3 * CLOCKS_PER_SEC);
 
     assert(g.count == (copies >= 3 ? 1 : n));
 }
