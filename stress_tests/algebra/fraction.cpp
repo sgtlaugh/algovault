@@ -25,9 +25,13 @@ int main(){
         for (Fraction f : {s, d, p}) assert(f.den > 0 && __gcd(llabs(f.num), f.den) == 1);
 
         if (bn != 0){
-            Fraction q = a / b;
-            assert(q * b == a);
+            Fraction q = a / b, c = a;
+            assert(q * b == a && (c /= b) == q);
         }
+
+        Fraction neg = -a, c = a, e = a, f = a;
+        assert((__int128)neg.num * ad == -(__int128)an * neg.den && neg.den > 0 && -neg == a);
+        assert((c += b) == s && (e -= b) == d && (f *= b) == p && c == s);
 
         assert(s - b == a && d + b == a);
         assert((a < b) == ((__int128)an * bd * (ad > 0 ? 1 : -1) * (bd > 0 ? 1 : -1) < (__int128)bn * ad * (ad > 0 ? 1 : -1) * (bd > 0 ? 1 : -1)));

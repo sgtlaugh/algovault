@@ -6,7 +6,7 @@
  * Complexity: O(log) per operation for the gcd
  *
  * Fraction f(num, den): den != 0, Fraction(x) = x / 1, -1/2 and 1/-2 become the same value
- * f + g, f - g, f * g, f / g (g != 0), comparisons ==, !=, <, <=, >, >=, f.num and f.den
+ * f + g, f - g, f * g, f / g (g != 0), -f, +=, -=, *=, /=, comparisons ==, !=, <, <=, >, >=, f.num and f.den
  * Intermediate products use __int128, the reduced result must fit in long long (asserted)
  * Requires __int128 (64-bit GCC or Clang)
  *
@@ -64,6 +64,26 @@ struct Fraction{
         return make((__int128)a.num * b.den, (__int128)a.den * b.num);
     }
 
+    friend Fraction operator-(const Fraction& a){
+        return make(-(__int128)a.num, a.den);
+    }
+
+    Fraction& operator+=(const Fraction& b){
+        return *this = *this + b;
+    }
+
+    Fraction& operator-=(const Fraction& b){
+        return *this = *this - b;
+    }
+
+    Fraction& operator*=(const Fraction& b){
+        return *this = *this * b;
+    }
+
+    Fraction& operator/=(const Fraction& b){
+        return *this = *this / b;
+    }
+
     friend bool operator==(const Fraction& a, const Fraction& b){
         return a.num == b.num && a.den == b.den;
     }
@@ -105,6 +125,12 @@ int main(){
 
     assert(1 + half == Fraction(3, 2) && half + 1 == Fraction(3, 2) && 1 - half == half && 2 * third == Fraction(2, 3));
     assert(1 / half == Fraction(2) && half < 1 && !(1 < half) && 0 == Fraction(0, 9));
+
+    Fraction sum;
+    for (int k = 1; k <= 4; k++) sum += Fraction(1, k);
+    assert(sum == Fraction(25, 12) && -sum == Fraction(-25, 12));
+    sum -= 2, sum *= 12, sum /= Fraction(-1, 2);
+    assert(sum == Fraction(-2));
 
     const long long BIG = 1000000000000000000LL;
     assert(Fraction(BIG, 3) * Fraction(3, BIG) == Fraction(1));
