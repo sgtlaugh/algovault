@@ -42,44 +42,6 @@ unsigned long long cell_hash(int i, int v){
     return x ^ (x >> 31);
 }
 
-/// Distinct values and cell hash of every timed range against replaying the updates on a fresh copy
-/// check_calls holds the callback count to 2 * the header bound, random inputs reach about 1.16 at large n
-void check_updates(int n, int q, int u, int max_v, int verify = 1 << 30, bool check_calls = false){
-    vector<int> a(n), update_pos(u), value(u);
-    for (auto& x : a) x = stress::rand_int(0, max_v);
-    for (int j = 0; j < u; j++) update_pos[j] = stress::rand_int(0, n - 1), value[j] = stress::rand_int(0, max_v);
-    vector<array<int, 3>> queries(q);
-    for (auto& [l, r, t] : queries) l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1), t = stress::rand_int(0, u);
-    const vector<int> initial = a, initial_value = value;
-
-    vector<int> freq(max_v + 1, 0), got_distinct(q);
-    vector<unsigned long long> got_hash(q);
-    int distinct = 0;
-    unsigned long long hash = 0;
-    double block = cbrt((double)n * n);
-
-    for (int round = 0; round < 2; round++){
-        long long calls = 0;
-        mo_with_updates(n, queries, update_pos,
-            [&](int i){ distinct += freq[a[i]]++ == 0, hash += cell_hash(i, a[i]), calls++; },
-            [&](int i){ distinct -= --freq[a[i]] == 0, hash -= cell_hash(i, a[i]), calls++; },
-            [&](int j){ swap(a[update_pos[j]], value[j]), calls++; },
-            [&](int qi){ got_distinct[qi] = distinct, got_hash[qi] = hash; });
-        assert(distinct == 0 && hash == 0 && a == initial && value == initial_value);
-        assert(!check_calls || calls <= 2 * ((q + u) * block + block * block));
-
-        for (int i = 0; i < q && i < verify; i++){
-            auto [l, r, t] = queries[i];
-            vector<int> b = initial;
-            for (int j = 0; j < t; j++) b[update_pos[j]] = initial_value[j];
-
-            unsigned long long h = 0;
-            for (int k = l; k <= r; k++) h += cell_hash(k, b[k]);
-            assert(got_hash[i] == h && got_distinct[i] == (int)set<int>(b.begin() + l, b.begin() + r + 1).size());
-        }
-    }
-}
-
 /// max(value * count) and cell hash of every range against direct scans, with add-only state and a contiguity check
 /// check_calls holds the add count to 2 * the header bound, random inputs reach about 0.99 at large n
 void check_rollback(int n, int q, int max_v, int verify = 1 << 30, bool check_calls = false){
@@ -207,12 +169,10 @@ int main(){
     for (long long it = 0; it < stress::scaled(2000); it++){
         check_array(stress::rand_int(1, 60), stress::rand_int(1, 60), it % 2 ? 3 : 50);
         check_tree(stress::rand_int(1, 40), stress::rand_int(1, 40), it % 4);
-        check_updates(stress::rand_int(1, 60), stress::rand_int(1, 60), stress::rand_int(0, 30), it % 2 ? 3 : 50);
         check_rollback(stress::rand_int(1, 60), stress::rand_int(1, 60), it % 2 ? 3 : 50);
     }
 
     check_array(100000, 100000, 1000, 300);
-    check_updates(20000, 20000, 20000, 1000, 200, true);
     check_rollback(50000, 50000, 1000, 300, true);
     check_tree(100000, 2000, 1, 200);  /// a path, deep enough to break a recursive Euler tour on an 8 MB stack
     check_tree(30000, 30000, 0, 2000);

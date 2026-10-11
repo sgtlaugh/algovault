@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 
 #define main library_main
-#include "../../code_library/data_structures/mo.cpp"
+#include "../../code_library/data_structures/mo_with_updates.cpp"
 #undef main
 
 static char buf[1 << 25];
@@ -23,39 +23,37 @@ int main(){
     vector<int> a(n);
     for (int& x : a) x = read_int();
 
-    vector<int> update_pos, value, targets, res(q, -1), index;
+    vector<pair<int, int>> updates;
     vector<array<int, 3>> queries;
+    vector<int> targets;
     for (int i = 0; i < q; i++){
         if (read_int() == 0){
-            update_pos.push_back(read_int());
-            value.push_back(read_int());
+            int p = read_int(), x = read_int();
+            updates.push_back({p, x});
             continue;
         }
 
         int l = read_int(), r = read_int(), x = read_int();
-        res[i] = 0;
-        if (l < r) queries.push_back({l, r - 1, (int)update_pos.size()}), targets.push_back(x), index.push_back(i);
+        queries.push_back({l, r - 1, (int)updates.size()}), targets.push_back(x);  /// half-open [l, r) to inclusive
     }
 
     vector<int> values = a;
-    values.insert(values.end(), value.begin(), value.end());
+    for (auto& [p, x] : updates) values.push_back(x);
     values.insert(values.end(), targets.begin(), targets.end());
     sort(values.begin(), values.end());
     values.erase(unique(values.begin(), values.end()), values.end());
     auto compress = [&](int& x){ x = lower_bound(values.begin(), values.end(), x) - values.begin(); };
     for (int& x : a) compress(x);
-    for (int& x : value) compress(x);
+    for (auto& [p, x] : updates) compress(x);
     for (int& x : targets) compress(x);
 
     vector<int> cnt(values.size(), 0);
     auto add = [&](int i){ cnt[a[i]]++; };
     auto remove = [&](int i){ cnt[a[i]]--; };
-    auto toggle = [&](int j){ swap(a[update_pos[j]], value[j]); };
-    mo_with_updates(n, queries, update_pos, add, remove, toggle, [&](int qi){ res[index[qi]] = cnt[targets[qi]]; });
+    auto res = mo_with_updates(a, queries, updates, add, remove, [&](int qi){ return cnt[targets[qi]]; });
 
     string out;
     for (int x : res){
-        if (x == -1) continue;
         out += to_string(x);
         out += '\n';
     }
