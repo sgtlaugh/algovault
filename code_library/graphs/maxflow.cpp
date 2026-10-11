@@ -9,8 +9,10 @@
  *     so maxflow() can be called again after adding edges, continuing from the current flow
  *     maxflow() is the only entry point, bfs() and blocking_flow() read those copies and are UB before maxflow() builds them
  *
+ * FlowGraph g(n, src, sink); int id = g.add_directed_edge(u, v, cap); g.add_undirected_edge(u, v, cap); g.maxflow(); g.E[id].flow
+ *
  * Use FlowGraph for standard flow with edge capacity
- * Use FlowGraphWithNodeCap when nodes can have capacity as well
+ * Use FlowGraphWithNodeCap when nodes can have capacity as well, its add_directed_edge returns an id into .flowgraph.E
  * Use DenseFlowGraph for dense graphs: an n x n capacity matrix, same API, O(n^2) memory (32 MB at n = 2000)
  *     measured 2x to 7x faster than FlowGraph with half or more of all n^2 edges present, n from 600 to 2000
  *     same construction and maxflow() calls, but no per-edge flow values since only residual capacities are kept
@@ -40,32 +42,27 @@
 
 using namespace std;
 
-struct Edge{
-    int u, v;
-    long long cap, flow;
-
-    Edge() {}
-    Edge(int u, int v, long long cap, long long flow) : u(u), v(v), cap(cap), flow(flow) {}
-};
-
 struct FlowGraph{
+    struct Edge{
+        int u, v;
+        long long cap, flow;
+    };
+
     int n, src, sink;
     vector<vector<int>> adj;
-    vector<struct Edge> E;
+    vector<Edge> E;
     vector<int> Q, ptr, dis, path, start, to, rev, edge_id;
     vector<long long> res;
 
     FlowGraph(int n, int src, int sink): n(n), src(src), sink(sink), adj(n), Q(n), ptr(n), dis(n, -1) {}
 
-    void add_directed_edge(int u, int v, long long cap){
-        adj[u].push_back(E.size());
-        E.push_back(Edge(u, v, cap, 0));
-
-        adj[v].push_back(E.size());
-        E.push_back(Edge(v, u, 0, 0));
+    int add_directed_edge(int u, int v, long long cap){
+        adj[u].push_back(E.size()), E.push_back({u, v, cap, 0});
+        adj[v].push_back(E.size()), E.push_back({v, u, 0, 0});
+        return E.size() - 2;
     }
 
-    void add_edge(int u, int v, long long cap){
+    void add_undirected_edge(int u, int v, long long cap){
         add_directed_edge(u, v, cap);
         add_directed_edge(v, u, cap);
     }
@@ -172,11 +169,11 @@ struct FlowGraphWithNodeCap{
         }
     }
 
-    void add_directed_edge(int u, int v, long long cap){
-        flowgraph.add_directed_edge(2 * u + 1, 2 * v, cap);
+    int add_directed_edge(int u, int v, long long cap){
+        return flowgraph.add_directed_edge(2 * u + 1, 2 * v, cap);
     }
 
-    void add_edge(int u, int v, long long cap){
+    void add_undirected_edge(int u, int v, long long cap){
         add_directed_edge(u, v, cap);
         add_directed_edge(v, u, cap);
     }
@@ -198,7 +195,7 @@ struct DenseFlowGraph{
         saturating_add(cap[u][v], c);
     }
 
-    void add_edge(int u, int v, long long c){
+    void add_undirected_edge(int u, int v, long long c){
         add_directed_edge(u, v, c);
         add_directed_edge(v, u, c);
     }
@@ -253,17 +250,17 @@ struct DenseFlowGraph{
 int main(){
     const int n = 4;
     auto dense = DenseFlowGraph(n, 0, n - 1);
-    dense.add_edge(0, 1, 3), dense.add_edge(1, 2, 4), dense.add_edge(2, 0, 2), dense.add_edge(1, 1, 5), dense.add_edge(2, 3, 3), dense.add_edge(3, 2, 3);
+    dense.add_undirected_edge(0, 1, 3), dense.add_undirected_edge(1, 2, 4), dense.add_undirected_edge(2, 0, 2), dense.add_undirected_edge(1, 1, 5), dense.add_undirected_edge(2, 3, 3), dense.add_undirected_edge(3, 2, 3);
     assert(dense.maxflow() == 5);
 
     auto flow_graph = FlowGraph(n, 0, n - 1);
 
-    flow_graph.add_edge(0, 1, 3);
-    flow_graph.add_edge(1, 2, 4);
-    flow_graph.add_edge(2, 0, 2);
-    flow_graph.add_edge(1, 1, 5);
-    flow_graph.add_edge(2, 3, 3);
-    flow_graph.add_edge(3, 2, 3);
+    flow_graph.add_undirected_edge(0, 1, 3);
+    flow_graph.add_undirected_edge(1, 2, 4);
+    flow_graph.add_undirected_edge(2, 0, 2);
+    flow_graph.add_undirected_edge(1, 1, 5);
+    flow_graph.add_undirected_edge(2, 3, 3);
+    flow_graph.add_undirected_edge(3, 2, 3);
 
     assert(flow_graph.cut_edges().empty());
     for (int u = 0; u < n; u++) assert(!flow_graph.in_source_side(u) && !DenseFlowGraph(n, 0, n - 1).in_source_side(u));
@@ -275,17 +272,17 @@ int main(){
     for (int id : flow_graph.cut_edges()) cut.insert({flow_graph.E[id].u, flow_graph.E[id].v, flow_graph.E[id].cap});
     assert((cut == set<tuple<int, int, long long>>{{0, 1, 3}, {0, 2, 2}}));
 
-    flow_graph.add_directed_edge(0, 3, 4);
-    assert(flow_graph.maxflow() == 4 && flow_graph.E.back().flow == -4);
+    int id = flow_graph.add_directed_edge(0, 3, 4);
+    assert(id == 24 && flow_graph.maxflow() == 4 && flow_graph.E[id].flow == 4 && flow_graph.E.back().flow == -4);
 
     auto flow_graph_node_cap = FlowGraphWithNodeCap(n, 0, n - 1, {5, 4, 3, 2});
 
-    flow_graph_node_cap.add_edge(0, 1, 3);
-    flow_graph_node_cap.add_edge(1, 2, 4);
-    flow_graph_node_cap.add_edge(2, 0, 2);
-    flow_graph_node_cap.add_edge(1, 1, 5);
-    flow_graph_node_cap.add_edge(2, 3, 3);
-    flow_graph_node_cap.add_edge(3, 2, 3);
+    flow_graph_node_cap.add_undirected_edge(0, 1, 3);
+    flow_graph_node_cap.add_undirected_edge(1, 2, 4);
+    flow_graph_node_cap.add_undirected_edge(2, 0, 2);
+    flow_graph_node_cap.add_undirected_edge(1, 1, 5);
+    flow_graph_node_cap.add_undirected_edge(2, 3, 3);
+    flow_graph_node_cap.add_undirected_edge(3, 2, 3);
 
     assert(flow_graph_node_cap.maxflow() == 2);
     auto node_cut = flow_graph_node_cap.flowgraph.cut_edges();

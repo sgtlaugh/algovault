@@ -150,11 +150,13 @@ int main(){
             int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
             long long cap = stress::rand_int(0, max_cap);
             if (stress::rand_int(0, 1)){
-                g.add_directed_edge(u, v, cap), dense.add_directed_edge(u, v, cap);
+                int id = g.add_directed_edge(u, v, cap);
+                dense.add_directed_edge(u, v, cap);
+                assert(g.E[id].u == u && g.E[id].v == v && g.E[id].cap == cap);
                 arcs.push_back({u, v, cap});
             }
             else{
-                g.add_edge(u, v, cap), dense.add_edge(u, v, cap);
+                g.add_undirected_edge(u, v, cap), dense.add_undirected_edge(u, v, cap);
                 arcs.push_back({u, v, cap}), arcs.push_back({v, u, cap});
             }
         }
@@ -213,11 +215,12 @@ int main(){
             int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
             long long cap = stress::rand_int(0, 10);
             if (stress::rand_int(0, 1)){
-                g.add_directed_edge(u, v, cap);
+                int id = g.add_directed_edge(u, v, cap);
+                assert(g.flowgraph.E[id].u == 2 * u + 1 && g.flowgraph.E[id].v == 2 * v && g.flowgraph.E[id].cap == cap);
                 arcs.push_back({2 * u + 1, 2 * v, cap});
             }
             else{
-                g.add_edge(u, v, cap);
+                g.add_undirected_edge(u, v, cap);
                 arcs.push_back({2 * u + 1, 2 * v, cap}), arcs.push_back({2 * v + 1, 2 * u, cap});
             }
         }
@@ -273,7 +276,7 @@ int main(){
     check_closure<DenseFlowGraph>({6, 10, -2, 10, 2, -7}, {{0, 2}, {0, 4}, {2, 0}, {3, 2}, {4, 5}});
     {
         DenseFlowGraph dense(3, 0, 2);
-        dense.add_edge(0, 1, LLONG_MAX), dense.add_directed_edge(1, 2, 7);
+        dense.add_undirected_edge(0, 1, LLONG_MAX), dense.add_directed_edge(1, 2, 7);
         assert(dense.maxflow() == 7);
     }
 

@@ -19,15 +19,14 @@ int main(){
     for (int i = 0; i < m; i++){
         int u, v;
         if (scanf("%d %d", &u, &v) != 2) return 0;
-        ids[i] = g.E.size();
-        g.add_directed_edge(u, l + v, 1);
+        ids[i] = g.add_directed_edge(u, l + v, 1);
     }
 
     long long k = g.maxflow();
 
     string out = to_string(k) + "\n";
     for (int id : ids){
-        const Edge& e = g.E[id];
+        const auto& e = g.E[id];
         if (e.flow == 1) out += to_string(e.u) + " " + to_string(e.v - l) + "\n";
     }
     fputs(out.c_str(), stdout);
