@@ -185,6 +185,16 @@ int main(){
         assert(abs(adaptive_simpson(a, b, f) - c * (b - a)) <= 1e-8);
     }
 
+    /// sqrt|sin(m pi x)| has m + 1 infinite-slope points, each refined deep: eps halves per level so their leftover
+    /// errors sum below eps (worst 0.08 eps over m <= 128), an unhalved eps on either half misses by up to 16 eps
+    double sqrt_sin_exact = tgamma(0.75) / (sqrt(acos(-1.0)) * tgamma(1.25));
+    for (int m = 1; m <= 128; m++){
+        for (double eps : {1e-8, 1e-9, 1e-10}){
+            double res = adaptive_simpson(0, 1, [&](double x){ return sqrt(abs(sin(m * acos(-1.0) * x))); }, eps);
+            assert(abs(res - sqrt_sin_exact) <= eps);
+        }
+    }
+
     /// Integrands that vanish on the whole start grid but are huge between its points: a rounding floor taken from the
     /// start grid alone is 0 and the panels recurse toward depth 44 (5.7e6 calls at scale 1e6, over 2e8 at 1e8); with
     /// the floor raised by the panels it costs no more than f shifted off the grid (2.7e5 against 4.9e5 calls, m = 384)
