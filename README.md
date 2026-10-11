@@ -108,7 +108,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [3-Edge-Connected Components](code_library/graphs/three_edge_connected_components.cpp) - Tsin, iterative, parallel edges and self loops allowed, `O(n + m)` [✔](judge_tests/graphs/three_edge_connected_components.cpp)
 - [Articulation Points and Blocks](code_library/graphs/articulation_points.cpp) - cut vertices, blocks and the block-cut tree, parallel edges allowed [✔](judge_tests/graphs/aoj_grl_3_a.cpp)
 - [Bellman Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges, -inf marking, negative cycle retrieval, `O(n m)` [✔](judge_tests/graphs/aoj_grl_1_b.cpp)
-- [Bridges](code_library/graphs/bridge.cpp) - bridges and the bridge tree, parallel edges allowed [✔](judge_tests/graphs/aoj_grl_3_b.cpp)
+- [Bridges](code_library/graphs/bridge.cpp) - bridges, 2-edge-connected components and the bridge tree, parallel edges allowed [✔](judge_tests/graphs/aoj_grl_3_b.cpp)
 - [Cactus Graph](code_library/graphs/cactus.cpp) - edge/vertex cactus recognition, cycle listing and cactus tree, `O(n + m)`
 - [Chromatic Number](code_library/graphs/chromatic_number.cpp) - minimum vertex coloring by inclusion-exclusion, `O(2^n n)` for `n <= 24` [✔](judge_tests/graphs/chromatic_number.cpp)
 - [Complement Graph BFS](code_library/graphs/complement_graph_bfs.cpp) - BFS and components in the complement of a sparse graph, `O(n + m)` [✔](judge_tests/graphs/connected_components_of_complement_graph.cpp)

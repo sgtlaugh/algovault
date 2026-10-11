@@ -28,18 +28,15 @@ int read_int(){
 
 int main(){
     int n = read_int(), m = read_int();
-    Graph g(n);
+    BridgeGraph g(n);
     for (int i = 0; i < m; i++){
         int a = read_int(), b = read_int();
         g.add_edge(a, b);
     }
 
-    g.get_bridge_tree();
-    int k = n ? *max_element(g.num.begin(), g.num.end()) + 1 : 0;
-    vector<vector<int>> groups(k);
-    for (int v = 0; v < n; v++) groups[g.num[v]].push_back(v);
+    auto groups = g.get_components();
 
-    string out = to_string(k) + '\n';
+    string out = to_string(g.count) + '\n';
     for (auto& group : groups){
         out += to_string(group.size());
         for (int v : group) out += ' ' + to_string(v);
