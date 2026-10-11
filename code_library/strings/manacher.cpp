@@ -1,11 +1,15 @@
 /***
  *
- * Manacher's algorithm to generate longest palindromic substrings for all centers
- * For a string of length n, returns a vector pal, of size 2 * n - 1
- * When i is even, pal[i] = largest palindromic substring centered from str[i / 2]
- * When i is odd,  pal[i] = largest palindromic substring centered between str[i / 2] and str[i / 2] + 1
+ * Manacher's Algorithm
+ * Length of the longest palindrome around every center of a string or vector
  *
  * Complexity: O(n) time and memory
+ *
+ * pal = manacher(s) has 2n - 1 entries, empty for an empty s, 0-based positions, ranges [l, r] inclusive
+ *   i even: pal[i] = length of the longest odd palindrome centered at s[i / 2]
+ *   i odd:  pal[i] = length of the longest even palindrome centered between s[i / 2] and s[i / 2 + 1], 0 if none
+ * s[l..r] is a palindrome iff pal[l + r] >= r - l + 1
+ * The palindrome at center i starts at (i - pal[i] + 1) / 2, the longest one has length *max_element(pal)
  *
 ***/
 
@@ -13,7 +17,8 @@
 
 using namespace std;
 
-vector<int> manacher(const string& str){
+template<typename Container>
+vector<int> manacher(const Container& str){
     if (str.empty()) return {};
     int i, j, k, l = str.size(), n = l << 1;
     vector<int> pal(n);
@@ -29,8 +34,15 @@ vector<int> manacher(const string& str){
     return pal;
 }
 
+vector<int> manacher(const char* s){
+    return manacher(string(s));
+}
+
 int main(){
     assert(manacher("abababbaa") == vector<int>({1, 0, 3, 0, 5, 0, 5, 0, 3, 0, 1, 4, 1, 0, 1, 2, 1}));
+    assert(manacher("") == vector<int>{});
+    assert(manacher("z") == vector<int>{1});
+    assert(manacher(vector<int>{4, 9, 9, 4}) == vector<int>({1, 0, 1, 4, 1, 0, 1}));
 
     return 0;
 }

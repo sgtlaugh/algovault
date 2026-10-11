@@ -18,7 +18,20 @@ int main(){
             int l = i / 2, r = (i + 1) / 2;
             while (l >= 0 && r < n && s[l] == s[r]) l--, r++;
             assert(pal[i] == r - l - 1);
+            assert((i - pal[i] + 1) / 2 == l + 1);  /// the header's start formula
         }
+
+        /// The header's recipe: s[l..r] is a palindrome iff pal[l + r] >= r - l + 1
+        for (int l = 0; n <= 40 && l < n; l++){
+            for (int r = l; r < n; r++){
+                bool is_pal = equal(s.begin() + l, s.begin() + r + 1, s.rbegin() + (n - 1 - r));
+                assert(is_pal == (pal[l + r] >= r - l + 1));
+            }
+        }
+
+        vector<long long> v(s.begin(), s.end());
+        for (auto& x : v) x = x * 1000000007LL - 5;
+        assert(manacher(v) == pal);
     }
 
     return 0;
