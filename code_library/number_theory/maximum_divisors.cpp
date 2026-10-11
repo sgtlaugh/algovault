@@ -1,10 +1,9 @@
 /***
  *
- * Finds a number with maximum divisor count not exceeding the given limit
- * If there are multiple candidates, picks the smallest one
- * Returns the number as well as the maximum divisor count
+ * Maximum Divisors
+ * Smallest number not exceeding a limit with the most divisors, and its divisor count
  *
- * Tested and verified up to limit <= 10^18
+ * max_divisors(limit): {smallest x <= limit with the most divisors, its divisor count}, 1 <= limit <= 1e18
  *
  * Complexity: O(H) where H is the count of numbers <= limit with non-increasing exponents over consecutive primes
  *   (https://oeis.org/A025487), O(1) work per such number, 32749 calls for limit = 10^18, recursion depth <= 20
@@ -39,43 +38,29 @@
 
 using namespace std;
 
-const vector<int> primes = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
+pair<long long, long long> max_divisors(long long limit){
+    assert(limit >= 1);
+    static const int primes[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
+    long long best = 1, best_cnt = 1;
 
-struct MaxDivisorSearch{
-    uint64_t limit, max_cnt = 0, number = 0;
-
-    MaxDivisorSearch(uint64_t limit) : limit(limit){
-        backtrack(0, 64, 1, 1);
-    }
-
-    void backtrack(int i, int lim, uint64_t cur, uint64_t cnt){
-        if (cnt > max_cnt || (cnt == max_cnt && cur < number)) max_cnt = cnt, number = cur;
-        if (i == (int)primes.size()) return;
-
-        uint64_t x = cur;
-        for (int c = 1; c <= lim && x; c++){
-            x = multiply(x, primes[i]);
-            if (x) backtrack(i + 1, c, x, cnt * (c + 1));
-        }
-    }
-
-    uint64_t multiply(uint64_t a, uint64_t b){
-        if (a > limit / b) return 0;
-        return a * b;
-    }
-};
-
-pair<uint64_t, uint64_t> solve(long long n){
-    MaxDivisorSearch search(n);
-    return {search.number, search.max_cnt};
+    /// exponents never increase from one prime to the next, any other shape has a smaller number with as many divisors
+    auto search = [&](auto& self, int i, int max_e, long long x, long long cnt) -> void{
+        if (cnt > best_cnt || (cnt == best_cnt && x < best)) best = x, best_cnt = cnt;
+        for (int e = 1; i < 20 && e <= max_e && x <= limit / primes[i]; e++) self(self, i + 1, e, x *= primes[i], cnt * (e + 1));
+    };
+    search(search, 0, 64, 1, 1);
+    return {best, best_cnt};
 }
 
 int main(){
-    typedef pair<uint64_t, uint64_t> Pair;
+    typedef pair<long long, long long> Pair;
 
-    assert(solve(1000000) == Pair(720720, 240));
-    assert(solve(1000000000000LL) == Pair(963761198400LL, 6720));
-    assert(solve(1000000000000000000LL) == Pair(897612484786617600LL, 103680));
+    assert(max_divisors(1) == Pair(1, 1));
+    assert(max_divisors(2) == Pair(2, 2));
+    assert(max_divisors(12) == Pair(12, 6));
+    assert(max_divisors(1000000) == Pair(720720, 240));
+    assert(max_divisors(1000000000000LL) == Pair(963761198400LL, 6720));
+    assert(max_divisors(1000000000000000000LL) == Pair(897612484786617600LL, 103680));
 
     return 0;
 }
