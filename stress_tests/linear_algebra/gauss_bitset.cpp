@@ -143,8 +143,11 @@ int main(){
     const size_t SMALL = 10;
     for (long long it = 0; it < stress::scaled(3000); it++){
         int m = stress::rand_int(0, SMALL), n = stress::rand_int(0, SMALL), density = stress::rand_int(1, 3);
-        vector<bitset<SMALL>> a(n);
-        for (auto& row : a) for (int j = 0; j < m; j++) row[j] = stress::rand_int(0, density) == 0;
+        vector<string> text(n, string(m, '0'));
+        for (auto& s : text) for (auto& ch : s) ch = stress::rand_int(0, density) == 0 ? '1' : '0';
+        auto a = rows_of<SMALL>(text);
+        assert((int)a.size() == n);
+        for (int i = 0; i < n; i++) for (int j = 0; j < (int)SMALL; j++) assert(a[i][j] == (j < m && text[i][j] == '1'));
         if (n >= 2 && stress::rand_int(0, 1)) a[stress::rand_int(0, n - 1)] = a[0] ^ a[n - 1];
 
         long long kernel = 0;
@@ -168,9 +171,9 @@ int main(){
         }
     }
 
-    /// Widths above 1024: random sizes at W = 2000 (not a multiple of 64), then the full default width n = MAX
+    /// Widths above 1024: random sizes at W = 2000 (not a multiple of 64), then the full default width n = GF2_WIDTH
     for (long long it = 0; it < stress::scaled(8); it++) check_invertible<2000>(it == 0 ? 2000 : stress::rand_int(1, 2000));
-    check_invertible<MAX>(MAX);
+    check_invertible<GF2_WIDTH>(GF2_WIDTH);
 
     /// Small systems at width W = 13, so m = W - 1 is reached, checked against all 2^m assignments
     const size_t NARROW = 13;
@@ -222,7 +225,7 @@ int main(){
 
     /// The m = W - 1 boundary above 1024 and at the default width
     for (long long it = 0; it < stress::scaled(2); it++) check_full_width_system<WIDE>();
-    check_full_width_system<MAX>();
+    check_full_width_system<GF2_WIDTH>();
 
     return 0;
 }

@@ -10,7 +10,7 @@
 /// The width is the smallest power of two that fits: 2^24 rows of the default 4096 bits would take 8 GB
 template <size_t W>
 int read_rank(int n, int m){
-    if constexpr (W < MAX){
+    if constexpr (W < GF2_WIDTH){
         if ((int)W < min(n, m)) return read_rank<2 * W>(n, m);
     }
 

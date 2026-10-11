@@ -7,7 +7,7 @@
 #undef main
 
 /// 4096 variables plus the right-hand side bit need more than the default width
-const size_t WIDTH = MAX + 64;
+const size_t WIDTH = GF2_WIDTH + 64;
 
 int main(){
     ios::sync_with_stdio(false);

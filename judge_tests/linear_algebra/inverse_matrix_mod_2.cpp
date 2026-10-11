@@ -15,7 +15,7 @@ int main(){
     vector<string> rows(n);
     for (auto& s : rows) cin >> s;
 
-    vector<bitset<MAX>> inv;
+    vector<bitset<GF2_WIDTH>> inv;
     if (!matrix_inverse(n, rows_of(rows), inv)){
         cout << "-1\n";
         return 0;

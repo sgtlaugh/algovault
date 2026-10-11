@@ -4,7 +4,7 @@
  * Linear systems, rank and inverse of matrices over GF(2), with bitset rows
  *
  * Complexity: O(min(n, m) * n * W / 64) for gauss and matrix_rank, O(n^2 * W / 64) for matrix_inverse
- * Rows are bitset<W>, W is deduced from the arguments and defaults to MAX = 4096, several widths can be used in one program
+ * Rows are bitset<W>, W is deduced from the arguments and defaults to GF2_WIDTH = 4096, several widths can be used in one program
  * Every row operation costs W / 64 whatever m is, so pick the smallest W that fits: bitset<128> rows for 100 columns XOR 2 words per row operation instead of 64
  *
  * gauss(m, equations, res): equations in m variables, bit j of equations[i] is the coefficient of x_j, bit m the right-hand side
@@ -16,6 +16,7 @@
  * eliminate_gf2(a, cols, side): reduces the first cols columns of a to reduced row echelon form in place, needs cols <= W
  *     returns pos, pos[j] = row of the pivot in column j or -1, pivot rows are 0, 1, ..., rank - 1 in column order
  *     every row operation is applied to *side as well when side is not null
+ * rows_of<W>(strings): rows from strings of '0' and '1', character j is bit j
  *
  * For instance, the system of linear equations modulo 2
  *
@@ -33,7 +34,7 @@
 
 using namespace std;
 
-const int MAX = 4096;
+const int GF2_WIDTH = 4096;
 
 template <size_t W>
 vector<int> eliminate_gf2(vector<bitset<W>>& a, int cols, vector<bitset<W>>* side = nullptr){
@@ -60,7 +61,7 @@ vector<int> eliminate_gf2(vector<bitset<W>>& a, int cols, vector<bitset<W>>* sid
     return pos;
 }
 
-template <size_t W = MAX>
+template <size_t W = GF2_WIDTH>
 int gauss(int m, vector<bitset<W>> equations, bitset<W>& res){
     assert(m < (int)W);
     int n = equations.size(), f_var = 0;
@@ -82,7 +83,7 @@ int gauss(int m, vector<bitset<W>> equations, bitset<W>& res){
     return f_var;
 }
 
-template <size_t W = MAX>
+template <size_t W = GF2_WIDTH>
 bool matrix_inverse(int n, vector<bitset<W>> a, vector<bitset<W>>& inv){
     /// Checked before the identity is written, side[i][i] with i >= W is past the end of the row
     assert((int)a.size() == n && n <= (int)W);
@@ -96,14 +97,14 @@ bool matrix_inverse(int n, vector<bitset<W>> a, vector<bitset<W>>& inv){
     return true;
 }
 
-/// W is not deduced from an empty braced list, matrix_rank(0, {}), so it falls back to MAX
-template <size_t W = MAX>
+/// W is not deduced from an empty braced list, matrix_rank(0, {}), so it falls back to GF2_WIDTH
+template <size_t W = GF2_WIDTH>
 int matrix_rank(int m, vector<bitset<W>> a){
     vector<int> pos = eliminate_gf2(a, m);
     return m - count(pos.begin(), pos.end(), -1);
 }
 
-template <size_t W = MAX>
+template <size_t W = GF2_WIDTH>
 vector<bitset<W>> rows_of(const vector<string>& bits){
     vector<bitset<W>> res;
     for (const string& s : bits){
@@ -115,7 +116,7 @@ vector<bitset<W>> rows_of(const vector<string>& bits){
 }
 
 int main(){
-    bitset<MAX> res;
+    bitset<GF2_WIDTH> res;
     int f_var = gauss(3, rows_of({"0110", "1101", "0101"}), res);
     assert(f_var == 0);
 
@@ -131,7 +132,7 @@ int main(){
     assert(matrix_rank(0, {}) == 0);
 
     /// {{1, 1}, {0, 1}} is its own inverse mod 2, and {{1, 1, 0}, {0, 1, 1}, {0, 0, 1}} has inverse {{1, 1, 1}, {0, 1, 1}, {0, 0, 1}}
-    vector<bitset<MAX>> inv;
+    vector<bitset<GF2_WIDTH>> inv;
     assert(matrix_inverse(2, rows_of({"11", "01"}), inv) && inv == rows_of({"11", "01"}));
     assert(matrix_inverse(3, rows_of({"110", "011", "001"}), inv) && inv == rows_of({"111", "011", "001"}));
     assert(!matrix_inverse(3, rows_of({"110", "011", "101"}), inv));
@@ -141,12 +142,12 @@ int main(){
     bitset<4> narrow;
     assert(gauss(3, rows_of<4>({"0110", "1101", "0101"}), narrow) == 0 && narrow == bitset<4>("0110"));
 
-    /// The full default width: MAX columns for a matrix, MAX - 1 variables for a system
-    vector<bitset<MAX>> identity(MAX);
-    for (int i = 0; i < MAX; i++) identity[i][i] = 1;
-    assert(matrix_rank(MAX, identity) == MAX);
-    assert(matrix_inverse(MAX, identity, inv) && inv == identity);
-    assert(gauss(MAX - 1, vector<bitset<MAX>>(), res) == MAX - 1 && res.none());
+    /// The full default width: GF2_WIDTH columns for a matrix, GF2_WIDTH - 1 variables for a system
+    vector<bitset<GF2_WIDTH>> identity(GF2_WIDTH);
+    for (int i = 0; i < GF2_WIDTH; i++) identity[i][i] = 1;
+    assert(matrix_rank(GF2_WIDTH, identity) == GF2_WIDTH);
+    assert(matrix_inverse(GF2_WIDTH, identity, inv) && inv == identity);
+    assert(gauss(GF2_WIDTH - 1, vector<bitset<GF2_WIDTH>>(), res) == GF2_WIDTH - 1 && res.none());
 
     return 0;
 }
