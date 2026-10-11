@@ -442,6 +442,14 @@ void check_minimum_enclosing_circle(){
         assert(close(res.r, brute_mec_radius(points), 10000));
     }
 
+    /// Two points a few ulps apart and a far one: the rounded diameter center leaves one of the pair just outside,
+    /// and without the relative tolerance the near-degenerate circumcircle comes out far too large
+    {
+        vector<Point> points = {{nextafterl(nextafterl(10, 0), 0), -30}, {10, nextafterl(-30, -31)}, {nextafterl(30, 0), 20}};
+        Circle res = minimum_enclosing_circle(points);
+        assert(encloses(points, res.center, res.r) && close(res.r, brute_mec_radius(points), 30));
+    }
+
     /// Large inputs for the expected O(n) bound: random squares, and lattice points on one circle where every point is on the boundary
     for (int round = 0; round < 6; round++){
         int n = stress::rand_int(50000, 100000);
