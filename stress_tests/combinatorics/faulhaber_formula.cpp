@@ -4,6 +4,23 @@
 #include "../../code_library/combinatorics/faulhaber_formula.cpp"
 #undef main
 
+const long long MOD = 1000000007;
+
+/// A small prime modulus at the largest max_k it allows, against direct summation with n crossing several multiples of P
+template <int P>
+void check_small_prime(){
+    Faulhaber<P> f(P - 2);
+    for (int k = 0; k <= P - 2; k++){
+        long long sum = 0;
+        for (int n = 0; n <= 5 * P; n++){
+            long long term = n > 0;
+            for (int i = 0; i < k; i++) term = term * n % P;
+            sum = (sum + term) % P;
+            assert(f.sum(n, k) == sum);
+        }
+    }
+}
+
 long long power(long long x, long long n){
     long long res = 1;
     for (x %= MOD; n; n >>= 1, x = x * x % MOD) if (n & 1) res = res * x % MOD;
@@ -35,6 +52,11 @@ long long lagrange_sum(long long n, int k){
 int main(){
     const int MAXK = 1009;
     Faulhaber f(MAXK);
+
+    check_small_prime<2>();
+    check_small_prime<3>();
+    check_small_prime<13>();
+    check_small_prime<101>();
 
     for (int max_k = 0; max_k <= 12; max_k++){
         Faulhaber g(max_k);

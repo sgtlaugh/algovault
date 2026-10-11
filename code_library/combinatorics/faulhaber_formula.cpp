@@ -1,17 +1,19 @@
 /***
  *
  * Faulhaber's Formula
- * Sum of k-th powers 1^k + 2^k + ... + n^k modulo 1e9 + 7 through Stirling numbers of the second kind
+ * Sum of k-th powers 1^k + 2^k + ... + n^k modulo a prime through Stirling numbers of the second kind
  *
  * Complexity: O(max_k^2) time and memory to build, O(k) per query
  *
- * Faulhaber f(max_k) builds the Stirling triangle S(i, j) for i <= max_k
+ * Faulhaber<MOD> f(max_k) builds the Stirling triangle S(i, j) for i <= max_k
+ *     MOD must be a prime > max_k + 1, the default is 10^9 + 7
  * f.sum(n, k) for 0 <= k <= max_k and any 0 <= n <= LLONG_MAX
  *     sum of i^k = sum over j of S(k, j) (n + 1) n (n - 1) ... (n + 1 - j) / (j + 1)
  *
  * Example:
  *   Faulhaber f(1000);
  *   f.sum(5, 2);  // 1 + 4 + 9 + 16 + 25 = 55
+ *   Faulhaber<998244353> g(1000);
  *
 ***/
 
@@ -19,15 +21,14 @@
 
 using namespace std;
 
-const long long MOD = 1000000007;
-
+template <int MOD = 1000000007>
 struct Faulhaber{
     int max_k;
     vector<vector<int>> stirling;
     vector<long long> inv;
 
     Faulhaber(int max_k) : max_k(max_k), stirling(max_k + 1), inv(max_k + 2){
-        assert(max_k >= 0);
+        assert(max_k >= 0 && max_k + 1 < MOD);
         inv[1] = 1;
         for (int i = 2; i <= max_k + 1; i++) inv[i] = (MOD - MOD / i) * inv[MOD % i] % MOD;
 
@@ -62,7 +63,12 @@ int main(){
     assert(f.sum(100, 1) == 5050);
     assert(f.sum(5, 2) == 55);     /// 1 + 4 + 9 + 16 + 25
     assert(f.sum(10, 3) == 3025);  /// 55^2, the cubes sum to the square of the first powers
-    assert(f.sum(MOD, 3) == 0);    /// (MOD (MOD + 1) / 2)^2 is a multiple of MOD
+    assert(f.sum(1000000007, 3) == 0);  /// (MOD (MOD + 1) / 2)^2 is a multiple of MOD
     assert(f.sum(1000000000000000000LL, 1000) == 486176152);
+
+    Faulhaber<7> g(5);
+    assert(g.sum(5, 2) == 6);      /// 55 mod 7
+    assert(g.sum(10, 3) == 1);     /// 3025 mod 7
+    assert(g.sum(8, 5) == 1);      /// 1^5 + ... + 6^5 = 0 mod 7, 7^5 = 0, 8^5 = 1
     return 0;
 }
