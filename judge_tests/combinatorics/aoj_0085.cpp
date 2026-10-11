@@ -9,9 +9,7 @@
 int main(){
     int n, m;
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
-        int survivor = josephus1(n, m, n);
-        assert(survivor == josephus2(n, m, n));
-        printf("%d\n", survivor);
+        printf("%lld\n", josephus(n, m, n));
     }
     return 0;
 }
