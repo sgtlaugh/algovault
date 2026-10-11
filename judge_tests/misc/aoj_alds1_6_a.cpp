@@ -10,8 +10,10 @@
 #undef main
 
 int main(){
-    vector<int> a;
-    if (!fio::read(a)) return 0;
+    int n;
+    if (!fio::read(n)) return 0;
+    vector<int> a(n);
+    fio::read(a);
 
     combsort(a.begin(), a.end());
     fio::write(a);

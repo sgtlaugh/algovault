@@ -80,6 +80,32 @@ int main(){
         for (auto& expected : lines) assert(read_line(line) && line == expected);
         assert(!read_line(line));
 
+        /// Vectors read exactly their current size, nested ones fill a pre-sized grid, chars skip whitespace only
+        int n = min(count, 50), rows = stress::rand_int(0, 4), cols = stress::rand_int(0, 4);
+        vector<vector<long long>> grid(rows, vector<long long>(cols));
+        string chars(stress::rand_int(1, 10), 'a');
+        string vec_input = to_string(n);
+        for (int i = 0; i < n; i++) vec_input += separator() + to_string(ints[i]);
+        for (auto& row : grid){
+            for (auto& x : row) x = random_value<long long>(), vec_input += separator() + to_string(x);
+        }
+        for (auto& ch : chars) ch = (char)stress::rand_int(33, 126);
+        vec_input += separator() + chars + separator();
+
+        set_input(vec_input);
+        int len;
+        assert(read(len) == 1 && len == n);
+        vector<int> got_ints(len);
+        vector<vector<long long>> got_grid(rows, vector<long long>(cols));
+        assert(read(got_ints, got_grid) == 2);
+        assert(got_ints == vector<int>(ints.begin(), ints.begin() + n) && got_grid == grid);
+        for (char expected : chars){
+            char ch;
+            assert(read(ch) == 1 && ch == expected);
+        }
+        char past_end;
+        assert(read(past_end) == 0);
+
         /// Output against to_string, including the minimum values
         assert(freopen(OUT.c_str(), "wb", stdout));
         string expected_out;
@@ -91,6 +117,8 @@ int main(){
         write(vector<int>(ints.begin(), ints.begin() + min(count, 5)));
         for (int i = 0; i < min(count, 5); i++) expected_out += (i ? " " : "") + to_string(ints[i]);
         expected_out += "\n";
+        write(chars[0], ints[0], chars.back());
+        expected_out += string(1, chars[0]) + " " + to_string(ints[0]) + " " + chars.back() + "\n";
         flush();
         fflush(stdout);
         assert(read_file(OUT) == expected_out);

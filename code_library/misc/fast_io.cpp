@@ -7,12 +7,14 @@
  *
  * Function read() can take multiple arguments and returns the number of objects read
  * Works for strings or any integral types (int, long long, __int128 etc)
- * Also works for vector, but the type has to be string or integral
+ * char reads one non-space character
+ * Also works for vectors of these types, reading exactly v.size() elements, nested vectors fill a pre-sized grid
+ * For length-prefixed input read the length first: read(n); a.resize(n); read(a);
  *
  * Function read_line() reads one line at a time
  * It does not skip empty lines
  *
- * Similarly, write() can take multiple arguments, which can be string or integral
+ * Similarly, write() can take multiple arguments, which can be string, char or integral
  * The write functions prints them separated by a single space, ending with a newline
  *
  * The write function also works for vectors just like read
@@ -27,6 +29,7 @@
  *
  * Example usage - Read four numbers till EOF and print their sum
  *
+ * using namespace fio;
  * int a, c;
  * long long b;
  * __int128 d;
@@ -95,14 +98,17 @@ namespace fio{
         return true;
     }
 
-    template <typename T>
-    bool read_one(vector<T>& v, bool read_length=true){
-        if (read_length){
-            int n;
-            if (!read_one(n)) return false;
-            v.resize(n);
-        }
+    bool read_one(char& ch){
+        int c;
+        do c = read_char(); while (isspace(c));
+        if (c == EOF) return false;
 
+        ch = c;
+        return true;
+    }
+
+    template <typename T>
+    bool read_one(vector<T>& v){
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
@@ -142,6 +148,10 @@ namespace fio{
     inline void write_char(const char& c){
         if (outptr == BUF_SIZE) flush();
         outbuf[outptr++] = c;
+    }
+
+    void write_one(char c){
+        write_char(c);
     }
 
     void write_one(const char* s){

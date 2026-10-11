@@ -10,8 +10,10 @@
 #undef main
 
 int main(){
-    vector<unsigned long long> a;
-    if (!fio::read(a)) return 0;
+    int n;
+    if (!fio::read(n)) return 0;
+    vector<unsigned long long> a(n);
+    fio::read(a);
 
     radix_sort(a.data(), a.size());
     fio::write(a);
