@@ -20,19 +20,20 @@ int main(){
     buf_len = fread(buf, 1, sizeof(buf), stdin);
     int n = read_int(), q = read_int();
 
-    auto fen = FenwickPointUpdate<long long>(n);
-    for (int i = 1; i <= n; i++) fen.update(i, read_int());
+    vector<long long> a(n);
+    for (auto& x : a) x = read_int();
+    auto fen = FenwickPointUpdate<long long>(a);
 
     string out;
     while (q--){
         int t = read_int();
         if (t == 0){
             int p = read_int();
-            fen.update(p + 1, read_int());
+            fen.update(p, read_int());
         }
         else{
             int l = read_int(), r = read_int();
-            out += to_string(fen.query(l + 1, r));
+            out += to_string(fen.query(l, r - 1));
             out += '\n';
         }
     }

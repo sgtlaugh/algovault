@@ -52,13 +52,13 @@ int main(){
 
     auto add = [&](int p, long long x){
         for (auto [c, d, piece] : anc[p]){
-            by_centroid[c].update(d + 1, x);
-            if (piece != -1) by_piece[piece].update(d + 1, x);
+            by_centroid[c].update(d, x);
+            if (piece != -1) by_piece[piece].update(d, x);
         }
     };
     auto range_sum = [&](FenwickPointUpdate<long long>& fen, int lo, int hi){
         lo = max(lo, 0), hi = min(hi, fen.n - 1);
-        return lo > hi ? 0LL : fen.query(lo + 1, hi + 1);
+        return lo > hi ? 0LL : fen.query(lo, hi);
     };
 
     for (int v = 0; v < n; v++) add(v, a[v]);

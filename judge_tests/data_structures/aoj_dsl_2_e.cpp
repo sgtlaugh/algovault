@@ -19,12 +19,12 @@ int main(){
             int s, e;
             long long x;
             if (scanf("%d %d %lld", &s, &e, &x) != 3) return 0;
-            fen.update(s, e, x);
+            fen.update(s - 1, e - 1, x);
         }
         else{
             int i;
             if (scanf("%d", &i) != 1) return 0;
-            printf("%lld\n", fen.query(i));
+            printf("%lld\n", fen.query(i - 1));
         }
     }
     return 0;

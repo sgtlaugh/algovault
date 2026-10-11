@@ -23,7 +23,7 @@ int main(){
     sort(values.begin(), values.end());
     values.erase(unique(values.begin(), values.end()), values.end());
     int m = values.size();
-    for (int& x: a) x = lower_bound(values.begin(), values.end(), x) - values.begin() + 1;
+    for (int& x: a) x = lower_bound(values.begin(), values.end(), x) - values.begin();
 
     vector<pair<int, int>> queries(q);
     for (auto& [l, r]: queries){
@@ -38,15 +38,15 @@ int main(){
 
     auto add = [&](int i){
         int size = right - left + 1;
-        if (i == left - 1) inversions += counts.query(a[i] - 1), left--;
-        else inversions += size - counts.query(a[i]), right++;
+        if (i == left - 1) inversions += counts.prefix(a[i] - 1), left--;
+        else inversions += size - counts.prefix(a[i]), right++;
         counts.update(a[i], 1);
     };
     auto remove = [&](int i){
         counts.update(a[i], -1);
         int size = right - left;
-        if (i == left) inversions -= counts.query(a[i] - 1), left++;
-        else inversions -= size - counts.query(a[i]), right--;
+        if (i == left) inversions -= counts.prefix(a[i] - 1), left++;
+        else inversions -= size - counts.prefix(a[i]), right--;
     };
 
     auto answer = mo(n, queries, add, remove, [&](int){ return inversions; });

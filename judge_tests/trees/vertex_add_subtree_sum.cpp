@@ -25,16 +25,16 @@ int main(){
     hld.build(0);
 
     FenwickPointUpdate<long long> fen(n);
-    for (int v = 0; v < n; v++) fen.update(hld.pos[v] + 1, a[v]);
+    for (int v = 0; v < n; v++) fen.update(hld.pos[v], a[v]);
 
     while (q--){
         int t = read_int(), u = read_int();
         if (t == 0){
-            fen.update(hld.pos[u] + 1, read_int());
+            fen.update(hld.pos[u], read_int());
             continue;
         }
         auto [l, r] = hld.subtree(u);
-        printf("%lld\n", fen.query(l + 1, r + 1));
+        printf("%lld\n", fen.query(l, r));
     }
     return 0;
 }

@@ -33,27 +33,26 @@ int main(){
     int c = read_char();
     while (c != '0' && c != '1') c = read_char();
 
-    /// Key k lives at Fenwick index k + 1
     vector<char> present(n, 0);
     FenwickPointUpdate<int> fenwick(n);
     int total = 0;
     for (int i = 0; i < n; i++, c = read_char()){
-        if (c == '1') present[i] = 1, fenwick.update(i + 1, 1), total++;
+        if (c == '1') present[i] = 1, fenwick.update(i, 1), total++;
     }
 
     string out;
     while (q--){
         int type = read_int(), k = read_int();
-        if (type == 0 && !present[k]) present[k] = 1, fenwick.update(k + 1, 1), total++;
-        if (type == 1 && present[k]) present[k] = 0, fenwick.update(k + 1, -1), total--;
+        if (type == 0 && !present[k]) present[k] = 1, fenwick.update(k, 1), total++;
+        if (type == 1 && present[k]) present[k] = 0, fenwick.update(k, -1), total--;
         if (type == 2) out += present[k] ? "1\n" : "0\n";
         if (type == 3){
-            int before = fenwick.query(k);
-            out += to_string(before < total ? fenwick.lower_bound(before + 1) - 1 : -1) + '\n';
+            int before = fenwick.prefix(k - 1);
+            out += to_string(before < total ? fenwick.lower_bound(before + 1) : -1) + '\n';
         }
         if (type == 4){
-            int upto = fenwick.query(k + 1);
-            out += to_string(upto > 0 ? fenwick.lower_bound(upto) - 1 : -1) + '\n';
+            int upto = fenwick.prefix(k);
+            out += to_string(upto > 0 ? fenwick.lower_bound(upto) : -1) + '\n';
         }
     }
 

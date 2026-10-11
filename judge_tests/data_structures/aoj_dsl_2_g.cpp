@@ -21,11 +21,11 @@ int main(){
         if (t == 0){
             long long x;
             if (scanf("%lld", &x) != 1) return 0;
-            fen.update(s, e, x);
+            fen.update(s - 1, e - 1, x);
             seg.update(s - 1, e - 1, x);
         }
         else{
-            long long res = fen.query(s, e);
+            long long res = fen.query(s - 1, e - 1);
             assert(seg.query(s - 1, e - 1) == res);
             printf("%lld\n", res);
         }
