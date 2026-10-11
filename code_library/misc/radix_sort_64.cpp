@@ -1,16 +1,17 @@
 /***
  * Fast radix sort in O(w * n) with loop unrolling
  * w is the key length, and is fixed to 8 bits
- * This enables sorting any list of integers in O(64/8 * n) or O(8 * n) passes
+ * This sorts 64-bit integers in O(64/8 * n) or O(8 * n) passes
  *
  * Complexity: O(8 n + 8 * 256) ~ O(n), memory is a scratch vector of n unsigned long longs (80 MB at n = 1e7)
  *
- * radix_sort(ar, n) sorts ar[0, n) with a scratch vector allocated per call
+ * radix_sort(ar, n) sorts unsigned long longs ar[0, n) with a scratch vector allocated per call
+ * radix_sort(v) sorts a vector<long long>, negatives first
  * radix_sort(ar, n, tmp) uses the caller's tmp (grown to n if smaller), pass the same tmp to repeated sorts:
  * at -O2 on n = 1e7 a fresh scratch per call measured 270 ms per sort vs 229 ms reused, its pages fault in on every call
  *
  * Most useful in scenarios where you want to sort a large list of items fast
- * Why not make radix_sort (https://github.com/sgtlaugh/algovault/blob/master/code_library/radix_sort.cpp) generic?
+ * Why not make radix_sort (https://github.com/sgtlaugh/algovault/blob/master/code_library/misc/radix_sort.cpp) generic?
  * Because you want to use radix sort instead of std::sort when speed is important (think squeezing sub-optimal solutions into TL)
  * And making it generic is usally also making it slower
  *
@@ -53,9 +54,16 @@ void radix_sort(unsigned long long ar[], int n){
     radix_sort(ar, n, tmp);
 }
 
+/// Flipping the sign bit maps long long order onto unsigned order
+void radix_sort(vector<long long>& v){
+    for (auto& x : v) x ^= LLONG_MIN;
+    radix_sort((unsigned long long*)v.data(), v.size());
+    for (auto& x : v) x ^= LLONG_MIN;
+}
+
 int main(){
     mt19937_64 rng(42);
-    int i, n = 50000000;
+    int i, n = 10000000;
     vector<unsigned long long> ar(n);
 
     puts("Generating array");
@@ -63,7 +71,7 @@ int main(){
 
     clock_t start = clock();
     radix_sort(ar.data(), n);
-    printf("Time taken to sort = %0.6f s\n", (clock() - start) / (double)CLOCKS_PER_SEC);  /// Time taken = 0.876000
+    printf("Time taken to sort = %0.6f s\n", (clock() - start) / (double)CLOCKS_PER_SEC);  /// Time taken = 0.302028 at -O2
 
     for (i = 0; (i + 1) < n; i++){
         assert(ar[i] <= ar[i + 1]);
@@ -74,6 +82,14 @@ int main(){
     radix_sort(small.data(), small.size(), tmp);
     assert((big == vector<unsigned long long>{0, 7, 7, 256, 65536, 18446744073709551615ull}));
     assert((small == vector<unsigned long long>{1, 2, 3}));
+
+    vector<long long> signed_values = {3, -5, LLONG_MAX, 0, -1, LLONG_MIN, 1LL << 40, -(1LL << 40), -1};
+    radix_sort(signed_values);
+    assert((signed_values == vector<long long>{LLONG_MIN, -(1LL << 40), -5, -1, -1, 0, 3, 1LL << 40, LLONG_MAX}));
+
+    vector<long long> none;
+    radix_sort(none);
+    assert(none.empty());
 
     return 0;
 }

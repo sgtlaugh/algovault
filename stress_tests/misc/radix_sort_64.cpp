@@ -17,6 +17,14 @@ int main(){
             else x = r;
         }
 
+        /// The same keys as signed long longs, shifted so that small values and the extremes straddle zero
+        vector<long long> s(n);
+        for (int i = 0; i < n; i++) s[i] = mode == 2 ? (v[i] ? LLONG_MAX : LLONG_MIN) : (long long)(v[i] - (mode == 3 ? 150 : 0));
+        auto signed_expected = s;
+        sort(signed_expected.begin(), signed_expected.end());
+        radix_sort(s);
+        assert(s == signed_expected);
+
         auto expected = v;
         sort(expected.begin(), expected.end());
         if (it % 3) radix_sort(v.data(), n, buf);  /// not it % 2, the large n iterations are all even
