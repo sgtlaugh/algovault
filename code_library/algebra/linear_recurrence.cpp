@@ -1,7 +1,8 @@
 /***
- * Generalized linear recurrence solver for recurrence with high degrees
- * Algorithm uses a combination of Berlekamp-Massey and Reeds-Sloane to derive the recurrence
- * Then it evaluates the n'th term with Bostan-Mori, and a window of terms with x^n mod the characteristic polynomial, using fast fourier transform
+ *
+ * Linear Recurrence
+ * Finds and evaluates linear recurrences of high degree modulo any mod, Berlekamp-Massey and Reeds-Sloane to derive
+ * the recurrence, Bostan-Mori for the n'th term, x^n mod the characteristic polynomial for a window of terms, all on FFT
  *
  * Complexity: k is the recurrence degree, all with high constant factors
  *   - O(m^2) to find the recurrence from m given terms (m >= 2k) with a prime mod, skipped when the recurrence is given
@@ -10,6 +11,16 @@
  *   - O(k log k log n) per nth_term(n), nth_terms(n, c) adds O(k c)
  *
  * Any modulus with 2 * mod < INT_MAX, FFT lengths grow as needed: nth_term with k = 1e5 and n = 1e18 takes about 3 s at -O2
+ *
+ * LinearRecurrence lr(sequence, mod, recurrence = {}): f(n) = recurrence[0] f(n-1) + ... + recurrence[k-1] f(n-k)
+ *   sequence holds the first terms f(0), f(1), ..., at least k of them when the recurrence is given
+ *   Without a recurrence, one is found and stored in lr.recurrence in the same order, 2k terms are enough for degree k
+ *   With a prime mod it is the shortest one generating every given term, from any number of terms
+ *   A composite mod needs those 2k terms (fewer may miss given terms) and may give zero tail coefficients
+ *   nth_term(n) returns f(n), nth_terms(n, c) returns f(n), ..., f(n + c - 1) with c <= k
+ *
+ * LinearRecurrence fib({0, 1}, 1000000007, {1, 1}); fib.nth_term(10) == 55
+ * LinearRecurrence({1, 2, 4, 8, 16}, mod).recurrence == {2}
  *
  * Thanks to anta(https://codeforces.com/profile/anta) for first showing me this cool trick and recommending the Black Box Linear Algebra book
  *
@@ -196,11 +207,11 @@ namespace fft{
     }
 }
 
-struct Polynomial{
+struct RecurrencePolynomial{
     int mod;
     vector<int> coefficient;
 
-    Polynomial(int mod, vector<int> coefficient={}) : mod(mod), coefficient(coefficient) {}
+    RecurrencePolynomial(int mod, vector<int> coefficient={}) : mod(mod), coefficient(coefficient) {}
 
     inline int* data(){
         return coefficient.empty() ? 0 : &coefficient[0];
@@ -238,9 +249,9 @@ struct Polynomial{
         while (size() && !coefficient.back()) coefficient.pop_back();
     }
 
-    void multiply(Polynomial &res, Polynomial& p, Polynomial& q){
+    void multiply(RecurrencePolynomial &res, RecurrencePolynomial& p, RecurrencePolynomial& q){
         if (&res == &p || &res == &q){
-            Polynomial temp(mod);
+            RecurrencePolynomial temp(mod);
             multiply(temp, p, q);
             res = temp;
             return;
@@ -252,35 +263,35 @@ struct Polynomial{
         }
     }
 
-    Polynomial inverse(int n){
-        Polynomial res(mod, {n});
+    RecurrencePolynomial inverse(int n){
+        RecurrencePolynomial res(mod, {n});
         res.coefficient.resize(n);
         find_inverse(res.data(), n, data(), size());
         return res;
     }
 
-    void divide(Polynomial &quot, Polynomial &rem, Polynomial &p, Polynomial &q, Polynomial &inv){
+    void divide(RecurrencePolynomial &quot, RecurrencePolynomial &rem, RecurrencePolynomial &p, RecurrencePolynomial &q, RecurrencePolynomial &inv){
         int pn = p.size(), qn = q.size();
         quot.coefficient.resize(max((int)0, pn - qn + 1)), rem.coefficient.resize(qn - 1);
         divide_remainder_inverse(quot.data(), rem.data(), p.data(), pn, q.data(), qn, inv.data());
         quot.normalize(), rem.normalize();
     }
 
-    Polynomial remainder(Polynomial &q, Polynomial &inv){
-        Polynomial quot(mod), rem(mod);
+    RecurrencePolynomial remainder(RecurrencePolynomial &q, RecurrencePolynomial &inv){
+        RecurrencePolynomial quot(mod), rem(mod);
         divide(quot, rem, *this, q, inv);
         return rem;
     }
 
-    Polynomial power(Polynomial &q, long long k){
+    RecurrencePolynomial power(RecurrencePolynomial &q, long long k){
         int qn = q.size();
-        if (qn == 1) return Polynomial(mod);
-        if (k == 0) return Polynomial(mod, {1});
+        if (qn == 1) return RecurrencePolynomial(mod);
+        if (k == 0) return RecurrencePolynomial(mod, {1});
 
-        Polynomial inv = q.inverse(max(size() - qn + 1, qn));
-        Polynomial p = this->remainder(q, inv);
+        RecurrencePolynomial inv = q.inverse(max(size() - qn + 1, qn));
+        RecurrencePolynomial p = this->remainder(q, inv);
 
-        Polynomial res = p;
+        RecurrencePolynomial res = p;
         for (int l = 62 - __builtin_clzll(k); l >= 0; l--){
             multiply(res, res, res);
             res = res.remainder(q, inv);
@@ -295,10 +306,10 @@ struct Polynomial{
     }
 
     void multiply(int* res, int* P, int pn, int* Q, int qn){
-        auto P1 = Polynomial(mod, vector<int>(P, P + pn));
-        auto P2 = Polynomial(mod, vector<int>(Q, Q + qn));
+        auto P1 = RecurrencePolynomial(mod, vector<int>(P, P + pn));
+        auto P2 = RecurrencePolynomial(mod, vector<int>(Q, Q + qn));
 
-        Polynomial P_res(mod);
+        RecurrencePolynomial P_res(mod);
         P_res.multiply(P_res, P1, P2);
         for (int i = 0; i < (int)P_res.coefficient.size(); i++){
             res[i] = P_res.coefficient[i];
@@ -362,53 +373,58 @@ struct Polynomial{
 
 struct LinearRecurrence{
     long long mod;
-    vector<int> raw_base_sequence, base_sequence, recurrence;
+    vector<int> sequence, recurrence;
 
     LinearRecurrence() {}
 
-    /***
-     * Construct linear recurrence from its first terms
-     * sequence: without a recurrence, the first 2*n terms where n >= k and the recurrence has degree k
-     *           with a recurrence of degree k, at least its first k terms
-     * mod: all values are considered modulo this number
-     * recurrence: an optional recurrence vector, calculated if not given
-    ***/
+    LinearRecurrence(vector<int> sequence, int mod, vector<int> recurrence={}) : mod(mod), sequence(sequence), recurrence(recurrence){
+        int n = sequence.size(), k = recurrence.size();
+        assert(n >= k && mod >= 1 && 2LL * mod < INT_MAX);
 
-    LinearRecurrence(vector<int> sequence, int mod, vector<int> recurrence={}) : mod(mod), recurrence(recurrence){
-        int n = sequence.size(), m = recurrence.empty() ? n >> 1 : n;
-
-        if (recurrence.empty() && (n == 0 || (n % 2) != 0)){
-            throw std::invalid_argument("base sequence must be non-empty and of even length");
-        }
-
-        if (n < (int)recurrence.size()){
-            throw std::invalid_argument("base sequence must have at least as many terms as the recurrence degree");
-        }
-
-        if ((long long)mod * 2 >= INT_MAX){
-            throw std::out_of_range("mod value out of range, consider replacing long long with __int128 and int with long long if need to support higher ranges and improve fft multiplication precision");
-        }
-
-        for (int i = 0; i < n; i++){
-            sequence[i] = ((long long)sequence[i] % mod + mod) % mod;
-        }
-
-        raw_base_sequence = sequence;
-        base_sequence = {sequence.begin(), sequence.begin() + m};
-
-        if (this->recurrence.size()){
-            for (int i = 0; i < (int)this->recurrence.size(); i++){
-                this->recurrence[i] %= mod;
-                this->recurrence[i] = ((long long)mod - this->recurrence[i] + mod) % mod;
-            }
-        }
-        else if (mod > 1){
-            this->recurrence = decompose(sequence, mod);
-            reverse(this->recurrence.begin(), this->recurrence.end());
-            this->recurrence.pop_back();
+        for (auto& x : this->sequence) x = ((long long)x % mod + mod) % mod;
+        for (auto& c : this->recurrence) c = ((long long)c % mod + mod) % mod;
+        if (recurrence.empty() && n > 0 && mod > 1){
+            auto C = decompose(this->sequence, mod);  /// C = [1, C1, ..., Cd] with sum C[j] * f(x - j) = 0
+            for (int j = 1; j < (int)C.size(); j++) this->recurrence.push_back((mod - C[j]) % mod);
         }
     }
 
+    vector<int> nth_terms(long long n, int k){
+        int len = recurrence.size();
+        if (n + k <= (long long)sequence.size()) return vector<int>(sequence.begin() + n, sequence.begin() + n + k);
+        if (mod == 1 || len == 0) return vector<int>(k, 0);
+        assert(1 <= k && k <= len);
+        if (k == 1) return {bostan_mori(n)};
+
+        /// x^n modulo the characteristic polynomial x^len - c_1 x^(len - 1) - ... - c_len, lowest coefficient first
+        vector<int> u(len + 1, 1);
+        for (int j = 0; j < len; j++) u[j] = (mod - recurrence[len - 1 - j]) % mod;
+        auto charpoly = RecurrencePolynomial(mod, u);
+        auto p = RecurrencePolynomial(mod, {0, 1}).power(charpoly, n);
+
+        vector<int> terms = sequence;
+        while ((int)terms.size() < len + k - 1){  /// a given recurrence may come with only its first len terms
+            long long val = 0;
+            int s = terms.size();
+            for (int i = 0; i < len; i++) val = (val + (long long)recurrence[i] * terms[s - 1 - i]) % mod;
+            terms.push_back(val);
+        }
+
+        vector<int> res(k);
+        for (int j = 0; j < k; j++){
+            long long val = 0;
+            for (int i = 0; i < min(p.size(), len); i++) val = (val + (long long)p.coefficient[i] * terms[i + j]) % mod;
+            res[j] = val;
+        }
+
+        return res;
+    }
+
+    int nth_term(long long n){
+        return nth_terms(n, 1)[0];
+    }
+
+private:
     long long find_rank(const vector<int> & v){
         return (v.size() > 1 || (v.size() == 1 && v[0])) ? v.size() - 1 : (long long)INT_MIN;
     }
@@ -559,9 +575,9 @@ struct LinearRecurrence{
         int k = recurrence.size();
         vector<int> q(k + 1), v(k + 1);
         q[0] = 1;
-        for (int i = 1; i <= k; i++) q[i] = recurrence[k - i];
+        for (int i = 1; i <= k; i++) q[i] = (mod - recurrence[i - 1]) % mod;
 
-        auto p = fft::mod_multiply(vector<int>(raw_base_sequence.begin(), raw_base_sequence.begin() + k), q, mod);
+        auto p = fft::mod_multiply(vector<int>(sequence.begin(), sequence.begin() + k), q, mod);
         p.resize(k);
 
         for (; n; n >>= 1){
@@ -572,60 +588,6 @@ struct LinearRecurrence{
 
         return p[0];
     }
-
-    /***
-     * Calculates the n'th, n+1'th, ... , n+k-1'th term of the recurrence
-     * k must be at most the recurrence degree
-    ***/
-
-    vector<int> nth_terms(long long n, int k){
-        vector<int> u = recurrence, v, res;
-
-        if (mod == 1) return vector<int> (k, 0);
-        if ((n + k - 1) < (int)base_sequence.size()){
-            for (int i = 0; i < k; i++) res.push_back(base_sequence[(int)n + i]);
-            return res;
-        }
-
-        int len = min(recurrence.size(), base_sequence.size());
-        if (!len) return vector<int> (k, 0);
-        if (k == 1) return {bostan_mori(n)};
-
-        u.push_back(1);
-        auto p = Polynomial(mod, u);
-        p = Polynomial(mod, {0, 1}).power(p, n);
-
-        /// p drops zero high coefficients, pad them back
-        v.assign(recurrence.size(), 0);
-        for (int i = 0; i < min((int)p.size(), (int)recurrence.size()); i++){
-            v[i] = p.coefficient[i];
-        }
-
-        assert(len >= k);
-        vector<int> terms = raw_base_sequence;
-        while ((int)terms.size() < len + k - 1){  /// a given recurrence may come with only its first len terms
-            long long val = 0;
-            int s = terms.size();
-            for (int i = 0; i < len; i++) val = (val + (mod - recurrence[i]) * terms[s - len + i]) % mod;
-            terms.push_back(val);
-        }
-
-        for (int j = 0; j < k; j++){
-            long long val = 0;
-            for (int i = 0; i < len; i++){
-                assert((i + j) < (int)terms.size());
-                val = (val + (long long)v[i] * terms[i + j]) % mod;
-            }
-            res.push_back(val);
-        }
-
-        return res;
-    }
-
-    int nth_term(long long n){
-        auto v = nth_terms(n, 1);
-        return v[0];
-    }
 };
 
 int main(){
@@ -633,8 +595,8 @@ int main(){
     LinearRecurrence lr;
     vector<int> sequence, recurrence;
 
-    /// recurrence given, f(x) = f(x - 3) + 2*f(x - 2) + 4*f(x-1), x > 2
-    recurrence = {1, 2, 4};
+    /// recurrence given, f(x) = 4*f(x - 1) + 2*f(x - 2) + f(x - 3), x > 2
+    recurrence = {4, 2, 1};
     sequence = {0, 1, 1, 6, 27, 121}, mod = 100;
 
     lr = LinearRecurrence(sequence, mod, recurrence);
@@ -660,6 +622,17 @@ int main(){
     assert(lr.nth_term(10) == 55);
     assert(lr.nth_term(1e18) == 209783453);
 
+    /// any number of terms, the found recurrence is read back in the same order
+    lr = LinearRecurrence({1, 2, 4, 8, 16}, mod);
+    assert(lr.recurrence == vector<int>({2}) && lr.nth_term(30) == (1 << 30) % mod);
+    lr = LinearRecurrence({0, 0, 0, 1}, mod);
+    assert(lr.nth_terms(3, 2) == vector<int>({1, 0}) && lr.nth_term(3) == 1);
+    assert(LinearRecurrence({}, mod).recurrence.empty() && LinearRecurrence({}, 6).recurrence.empty());
+    assert(LinearRecurrence({5}, mod).recurrence.size() == 1);  /// f(0) != 0 needs degree 1
+    lr = LinearRecurrence({0, 0, 0}, mod);
+    assert(lr.recurrence.empty() && lr.nth_terms(10, 2) == vector<int>({0, 0}));
+    lr = LinearRecurrence(sequence, mod);
+
     /// consecutive terms come from a single polynomial power
     assert(lr.nth_terms(8, 2) == vector<int>({21, 34}));
 
@@ -667,7 +640,7 @@ int main(){
     lr = LinearRecurrence({0, 1}, mod, recurrence);
     assert(lr.nth_term(20) == 6765);
     assert(lr.nth_terms(9, 2) == vector<int>({34, 55}));
-    assert(lr.raw_base_sequence == vector<int>({0, 1}));  /// queries leave the given terms untouched
+    assert(lr.sequence == vector<int>({0, 1}));  /// queries leave the given terms untouched
     assert(lr.nth_term(1e18) == 209783453);
 
     /***

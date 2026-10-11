@@ -27,8 +27,6 @@ int main(){
     for (auto& x : a) x = read_int();
     for (auto& x : c) x = read_int();
 
-    /// the constructor takes c in the order f(x) = sum c[i] * f(x - d + i), the reverse of c_1 .. c_d
-    reverse(c.begin(), c.end());
     printf("%d\n", LinearRecurrence(a, mod, c).nth_term(k));
     return 0;
 }

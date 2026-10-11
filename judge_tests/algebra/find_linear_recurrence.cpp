@@ -35,11 +35,7 @@ int main(){
     vector<int> a(n);
     for (auto& x : a) x = read_int();
 
-    /// berlekamp_massey returns C = [1, C1, ..., Cd] with sum C[j] * a[i - j] = 0, so c_j = -C[j]
-    auto C = LinearRecurrence().berlekamp_massey(a, mod);
-    vector<int> c;
-    for (size_t j = 1; j < C.size(); j++) c.push_back((mod - C[j]) % mod);
-
+    auto c = LinearRecurrence(a, mod).recurrence;
     printf("%d\n", (int)c.size());
     print_line(c);
     return 0;

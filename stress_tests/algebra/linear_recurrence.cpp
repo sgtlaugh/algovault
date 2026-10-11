@@ -4,14 +4,14 @@
 #include "../../code_library/algebra/linear_recurrence.cpp"
 #undef main
 
-/// Terms 0 .. count - 1 of f(x) = sum c[i] * f(x - k + i), the coefficient order the constructor takes
+/// Terms 0 .. count - 1 of f(x) = sum c[i] * f(x - 1 - i), the coefficient order the constructor takes
 vector<int> brute_terms(const vector<int>& c, const vector<int>& start, int count, long long mod){
     int k = c.size();
     vector<int> f = start;
 
     while ((int)f.size() < count){
         long long v = 0;
-        for (int i = 0; i < k; i++) v = (v + (long long)c[i] * f[f.size() - k + i]) % mod;
+        for (int i = 0; i < k; i++) v = (v + (long long)c[i] * f[f.size() - 1 - i]) % mod;
         f.push_back(v);
     }
 
@@ -29,7 +29,7 @@ int main(){
         for (auto& x : start) x = stress::rand_int(0, mod - 1);
         if (stress::rand_int(0, 2) == 0){  /// zero f(x - k), f(x - k + 1), ... coefficients lower the true order below k
             int zeros = stress::rand_int(1, k);
-            fill(c.begin(), c.begin() + zeros, 0);
+            fill(c.end() - zeros, c.end(), 0);
         }
         auto terms = brute_terms(c, start, 3000, mod);
 
@@ -45,7 +45,7 @@ int main(){
         auto window = given.nth_terms(n, k);
         auto next = given.nth_terms(n + 1, k);
         long long predicted = 0;
-        for (int i = 0; i < k; i++) predicted = (predicted + (long long)c[i] * window[i]) % mod;
+        for (int i = 0; i < k; i++) predicted = (predicted + (long long)c[i] * window[k - 1 - i]) % mod;
         assert(next[k - 1] == predicted);
         for (int i = 0; i + 1 < k; i++) assert(next[i] == window[i + 1]);
         assert(given.nth_term(n) == window[0] && given.nth_term(n + k) == next[k - 1]);  /// Bostan-Mori against the polynomial power
@@ -57,7 +57,7 @@ int main(){
             int count = stress::rand_int(1, k);
             assert(minimal.nth_terms(m, count) == vector<int>(terms.begin() + m, terms.begin() + m + count));
         }
-        assert(minimal.raw_base_sequence == vector<int>(terms.begin(), terms.begin() + k));  /// the extension stays local to the query
+        assert(minimal.sequence == vector<int>(terms.begin(), terms.begin() + k));  /// the extension stays local to the query
 
         /// Recurrence derived from 2k terms (Berlekamp-Massey for primes, Reeds-Sloane otherwise)
         LinearRecurrence derived(vector<int>(terms.begin(), terms.begin() + 2 * k), mod);
@@ -65,6 +65,22 @@ int main(){
             long long m = stress::rand_int(0, 2999);
             assert(derived.nth_term(m) == terms[m]);
         }
+
+        /// Any length from 2k up, odd included, and the found recurrence generates every given term
+        /// A prime mod also takes fewer terms: Berlekamp-Massey still returns a recurrence generating all of them
+        bool prime = true;
+        for (long long p = 2; p * p <= mod; p++) prime &= mod % p != 0;
+        int len = prime && stress::rand_int(0, 1) ? stress::rand_int(1, 2 * k - 1) : 2 * k + stress::rand_int(0, 3);
+        LinearRecurrence any(vector<int>(terms.begin(), terms.begin() + len), mod);
+        int d = any.recurrence.size();
+        assert(d <= len);
+        for (int x = d; x < len; x++){
+            long long v = 0;
+            for (int i = 0; i < d; i++) v = (v + (long long)any.recurrence[i] * terms[x - 1 - i]) % mod;
+            assert(v == terms[x]);
+        }
+        assert(any.nth_terms(len - 1, 1)[0] == terms[len - 1]);
+        if (len >= 2 * k) assert(any.nth_term(2999) == terms[2999]);
 
         /// Interleaved with a different modulus
         LinearRecurrence other({0, 1, 1, 2}, 7);
@@ -75,15 +91,15 @@ int main(){
     {
         long long mod = 1073741789;  /// the largest prime the constructor accepts, where FFT precision is tightest
         int k = stress::rand_int(65537, 100000);
-        vector<pair<int, int>> taps = {{0, stress::rand_int(1, mod - 1)}};
-        for (int t = 0; t < 12; t++) taps.push_back({stress::rand_int(1, k - 1), stress::rand_int(0, mod - 1)});
+        vector<pair<int, int>> taps = {{k - 1, stress::rand_int(1, mod - 1)}};
+        for (int t = 0; t < 12; t++) taps.push_back({stress::rand_int(0, k - 2), stress::rand_int(0, mod - 1)});
 
         vector<int> c(k, 0), terms(k);
         for (auto [i, x] : taps) c[i] = x;
         for (auto& x : terms) x = stress::rand_int(0, mod - 1);
         while ((int)terms.size() < 2 * k + 500){
             long long v = 0;
-            for (auto [i, x] : taps) v = (v + (long long)c[i] * terms[terms.size() - k + i]) % mod;
+            for (auto [i, x] : taps) v = (v + (long long)c[i] * terms[terms.size() - 1 - i]) % mod;
             terms.push_back(v);
         }
 
@@ -98,7 +114,7 @@ int main(){
         long long mod = 998244353, a = stress::rand_int(2, mod - 1);
         int k = 16000;
         vector<int> c(k, 0), start(k);
-        c[0] = a;
+        c[k - 1] = a;
         for (int i = 0; i < k; i++) start[i] = stress::rand_int(0, mod - 1);
 
         LinearRecurrence given(start, mod, c);
