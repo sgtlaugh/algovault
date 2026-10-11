@@ -17,11 +17,7 @@ int main(){
     string s;
     for (int i = 0; i < q; i++){
         cin >> s;
-        ac.insert(s);
-
-        int cur = 0;
-        for (char ch : s) cur = ac.go[cur][ac.edge[(unsigned char)ch]];
-        terminal[i] = cur;
+        terminal[i] = ac.insert(s);
     }
 
     /// build() overwrites go with full transitions, so the trie parents must be read before it
