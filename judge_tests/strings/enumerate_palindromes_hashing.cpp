@@ -13,7 +13,7 @@ int main(){
     string s;
     cin >> s;
     int n = s.size();
-    PolyHash h(vector<char>(s.begin(), s.end()));
+    PolyHash h(s);
 
     /// Center c spans s[c / 2 - k .. (c + 1) / 2 + k], binary search the largest k whose span reads the same backwards
     for (int c = 0; c < 2 * n - 1; c++){

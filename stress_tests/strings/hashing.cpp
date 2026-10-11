@@ -8,10 +8,11 @@
 int main(){
     /// modmul must return the canonical residue, a value in [mod, 2 mod) would hash equal segments differently
     for (long long it = 0; it < stress::scaled(1000000); it++){
+        const uint64_t mod = PolyHash::mod;
         uint64_t a = stress::rng()() % mod, b = stress::rng()() % mod;
         if (it % 7 == 0) a = mod - 1 - stress::rand_int(0, 3), b = mod - 1 - stress::rand_int(0, 3);
         if (it % 7 == 1) a = stress::rand_int(0, 3), b = it % 2 ? mod - 1 - stress::rand_int(0, 3) : stress::rand_int(0, 3);
-        assert((uint64_t)modmul(a, b) == (uint64_t)((unsigned __int128)a * b % mod));
+        assert((uint64_t)PolyHash::modmul(a, b) == (uint64_t)((unsigned __int128)a * b % mod));
     }
 
     for (long long it = 0; it < stress::scaled(10000); it++){
@@ -25,6 +26,11 @@ int main(){
             else x = v;
         }
         PolyHash h(a), hr(vector<long long>(a.rbegin(), a.rend()));
+        if (mode == 0){
+            string s(a.begin(), a.end());
+            PolyHash hs(s);
+            assert(hs.get_hash(0, n - 1) == h.get_hash(0, n - 1) && hs.rev_hash(0, n - 1) == h.rev_hash(0, n - 1));  /// strings hash like vectors
+        }
 
         for (int q = 0; q < 200; q++){
             int len = stress::rand_int(1, n), l1 = stress::rand_int(0, n - len), l2 = stress::rand_int(0, n - len);
