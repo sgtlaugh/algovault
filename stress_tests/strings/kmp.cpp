@@ -13,12 +13,19 @@ void check(const Container& text, const Container& pattern){
     }
     assert(kmp_search(text, pattern) == expected);
 
-    auto fail = kmp_failure(pattern);
-    assert((int)fail.size() == m);
+    auto pi = prefix_function(pattern);
+    assert((int)pi.size() == m);
     for (int i = 0; i < m; i++){
         int border = i;
         while (border > 0 && !equal(pattern.begin(), pattern.begin() + border, pattern.begin() + i + 1 - border)) border--;
-        assert(fail[i] == border - 1);
+        assert(pi[i] == border);
+    }
+
+    /// The header's period formula against the smallest p with pattern[i] == pattern[i + p] everywhere
+    if (m){
+        int p = 1;
+        while (!equal(pattern.begin() + p, pattern.end(), pattern.begin())) p++;
+        assert(m - pi[m - 1] == p);
     }
 }
 
@@ -73,6 +80,7 @@ int main(){
             pattern = text.substr(l, stress::rand_int(1, text.size() - l));  /// guaranteed to occur
         }
         check(text, pattern);
+        assert(kmp_search(text, pattern.c_str()) == kmp_search(text, pattern));  /// the mixed string / literal overload
 
         vector<long long> vt(text.begin(), text.end()), vp(pattern.begin(), pattern.end());
         for (auto& x : vt) x = x * 1000000007LL - 5;

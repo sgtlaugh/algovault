@@ -1,13 +1,13 @@
 /***
  *
  * Knuth-Morris-Pratt (KMP) Algorithm
- * Fast pattern matching using failure function
- * Finds all occurrences of pattern in text without backtracking
+ * Prefix function, all occurrences of a pattern in a text, and the prefix-function automaton
  *
  * Complexity: O(n + m) where n = text length, m = pattern length
  *
- * Failure function: fail[i] = (length of longest proper prefix of pattern[0..i] that is also suffix) - 1, -1 if none
- * Allows skipping redundant comparisons when mismatch occurs
+ * prefix_function(s)[i] = length of the longest proper prefix of s[0..i] that is also its suffix, 0 if none
+ * Smallest period of s: p = n - prefix_function(s)[n - 1], s is a repetition of s[0..p) iff n % p == 0
+ * kmp_search(text, pattern): starting indices of every occurrence, overlaps included, none for an empty pattern
  *
  * Prefix-function automaton: aut[i][c] = KMP state after reading symbol c in state i
  * State i = length of the longest pattern prefix that is a suffix of the text read so far, 0 <= i <= m
@@ -19,32 +19,24 @@
  *     int state = 0;
  *     for (char ch : text) state = aut[state][ch - 'a'];  // state == 3 where an "aba" ends
  *
- * Applications:
- *   - String pattern matching in linear time
- *   - Multiple pattern searches by rebuilding failure function
- *   - Period detection in strings
- *
 ***/
 
 #include <bits/stdtr1c++.h>
 
 using namespace std;
 
-/// fail[i] = (length of longest proper prefix of c[0..i] that is also suffix) - 1, -1 if none
 template<typename Container>
-vector<int> kmp_failure(const Container& c){
+vector<int> prefix_function(const Container& c){
     int n = c.size();
-    vector<int> fail(n);
-    if (n == 0) return fail;
+    vector<int> pi(n, 0);
 
-    int k = fail[0] = -1;
-    for (int i = 1; i < n; i++){
-        while (k >= 0 && c[k + 1] != c[i]) k = fail[k];
-        if (c[i] == c[k + 1]) k++;
-        fail[i] = k;
+    for (int i = 1, k = 0; i < n; i++){
+        while (k > 0 && c[k] != c[i]) k = pi[k - 1];
+        if (c[k] == c[i]) k++;
+        pi[i] = k;
     }
 
-    return fail;
+    return pi;
 }
 
 /// Find all occurrences of pattern in text, return starting indices
@@ -53,16 +45,16 @@ vector<int> kmp_search(const Container& text, const Container& pattern){
     vector<int> positions;
     if (pattern.size() == 0) return positions;
 
-    auto fail = kmp_failure(pattern);
+    auto pi = prefix_function(pattern);
     int k = 0;
     int m = pattern.size();
 
     for (int i = 0; i < (int)text.size(); i++){
-        while (k > 0 && text[i] != pattern[k]) k = fail[k - 1] + 1;
+        while (k > 0 && text[i] != pattern[k]) k = pi[k - 1];
         if (pattern[k] == text[i]) k++;
         if (k == m){
             positions.push_back(i - m + 1);
-            k = fail[k - 1] + 1;
+            k = pi[k - 1];
         }
     }
 
@@ -73,11 +65,11 @@ vector<int> kmp_search(const Container& text, const Container& pattern){
 template<typename Container>
 vector<vector<int>> kmp_automaton(const Container& pattern, int alphabet = 26, int first = 'a'){
     int m = pattern.size();
-    auto fail = kmp_failure(pattern);
+    auto pi = prefix_function(pattern);
     vector<vector<int>> aut(m + 1, vector<int>(alphabet, 0));
 
     for (int i = 0; i <= m; i++){
-        int border = i ? fail[i - 1] + 1 : 0;
+        int border = i ? pi[i - 1] : 0;
         int next = i < m ? int(pattern[i] - first) : -1;
         for (int c = 0; c < alphabet; c++){
             if (c == next) aut[i][c] = i + 1;
@@ -88,8 +80,13 @@ vector<vector<int>> kmp_automaton(const Container& pattern, int alphabet = 26, i
     return aut;
 }
 
-vector<int> kmp_failure(const char* s){
-    return kmp_failure(string(s));
+vector<int> prefix_function(const char* s){
+    return prefix_function(string(s));
+}
+
+/// Lets a std::string be mixed with a literal, kmp_search(s, "ab"), where the template cannot deduce one Container
+vector<int> kmp_search(const string& text, const string& pattern){
+    return kmp_search<string>(text, pattern);
 }
 
 vector<int> kmp_search(const char* text, const char* pattern){
@@ -117,15 +114,20 @@ int main(){
         return accumulate(dp.begin(), dp.begin() + m, 0LL);
     };
 
-    assert((kmp_failure("ababaca") == vector<int>{-1, -1, 0, 1, 2, -1, 0}));
-    assert((kmp_failure("aaa") == vector<int>{-1, 0, 1}));
-    assert((kmp_failure("abcde") == vector<int>{-1, -1, -1, -1, -1}));
+    assert((prefix_function("ababaca") == vector<int>{0, 0, 1, 2, 3, 0, 1}));
+    assert((prefix_function("aaa") == vector<int>{0, 1, 2}));
+    assert((prefix_function("abcde") == vector<int>{0, 0, 0, 0, 0}));
+    assert((prefix_function("") == vector<int>{}));
+    assert((prefix_function(vector<int>{7, 7, 3, 7, 7}) == vector<int>{0, 1, 0, 1, 2}));
 
     assert((kmp_search("ababcababa", "aba") == vector<int>{0, 5, 7}));
     assert((kmp_search("hello world", "o") == vector<int>{4, 7}));
     assert((kmp_search("aaaaaa", "aa") == vector<int>{0, 1, 2, 3, 4}));
     assert((kmp_search("test", "xyz") == vector<int>{}));
     assert((kmp_search("", "a") == vector<int>{}));
+    assert((kmp_search(string("abab"), "ab") == vector<int>{0, 2}));
+    assert((kmp_search("abab", string("bab")) == vector<int>{1}));
+    assert((kmp_search(vector<int>{1, 2, 1, 2, 1}, vector<int>{1, 2, 1}) == vector<int>{0, 2}));
 
     assert((kmp_automaton("aba", 2) == vector<vector<int>>{{1, 0}, {1, 2}, {3, 0}, {1, 2}}));
     assert((kmp_automaton("aab", 2) == vector<vector<int>>{{1, 0}, {2, 0}, {2, 3}, {1, 0}}));

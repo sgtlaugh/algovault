@@ -157,7 +157,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Dynamic String Hash](code_library/strings/dynamic_string_hash.cpp) - substring hashes and palindrome checks under range assignment [✔](judge_tests/strings/aoj_alds1_14_b_dynamic_string_hash.cpp)
 - [Hashing](code_library/strings/hashing.cpp) - forward and reverse polynomial hash of any segment [✔](judge_tests/strings/enumerate_palindromes_hashing.cpp)
 - [Hunt-Szymanski](code_library/strings/hunt_szymanski.cpp) - LCS in `O((r + n) log n)` for r matching pairs [✔](judge_tests/strings/aoj_alds1_10_c_hunt_szymanski.cpp)
-- [KMP](code_library/strings/kmp.cpp) - failure function, pattern search and the prefix function automaton [✔](judge_tests/strings/aoj_alds1_14_b.cpp)
+- [KMP](code_library/strings/kmp.cpp) - prefix function, pattern search and the prefix function automaton [✔](judge_tests/strings/aoj_alds1_14_b.cpp)
 - [Lyndon Factorization](code_library/strings/lyndon_factorization.cpp) - Duval factorization into Lyndon words, plus a least rotation [✔](judge_tests/strings/lyndon_factorization.cpp)
 - [Manacher](code_library/strings/manacher.cpp) - longest palindrome at every center [✔](judge_tests/strings/enumerate_palindromes.cpp)
 - [Minimum Rotation](code_library/strings/minimum_rotation.cpp) - start of the lexicographically smallest rotation
