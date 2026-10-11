@@ -153,9 +153,14 @@ vector<Clause> chains(int n){
         start = end;
     }
 
-    for (int extra = stress::rand_int(0, n / 4); extra;){
-        int a = random_literal(vars), b = random_literal(vars);
-        if (!plain[abs(a)] || !plain[abs(b)]) continue;  /// noise into a negated chain would fix its whole prefix
+    /// Noise only between plain variables: noise into a negated chain would fix its whole prefix
+    /// Picking from the plain list also ends the loop when every segment came out positive and no variable is plain
+    vector<int> plain_vars;
+    for (int x = 1; x <= vars; x++) if (plain[x]) plain_vars.push_back(x);
+    for (int extra = plain_vars.empty() ? 0 : stress::rand_int(0, n / 4); extra;){
+        int a = plain_vars[stress::rand_int(0, plain_vars.size() - 1)], b = plain_vars[stress::rand_int(0, plain_vars.size() - 1)];
+        if (stress::rand_int(0, 1)) a = -a;
+        if (stress::rand_int(0, 1)) b = -b;
         if ((a > 0) == hidden[abs(a)] || (b > 0) == hidden[abs(b)]) clauses.push_back({a, b}), extra--;
     }
     return clauses;
