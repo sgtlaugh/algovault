@@ -12,10 +12,10 @@ int main(){
 
     auto coordinate = [&](int limit){
         int mode = stress::rand_int(0, 3);
-        if (mode == 0) return (int)stress::rand_int(1, limit);
-        if (mode == 1) return (int)stress::rand_int(1, 50);                       /// dense corner, many shared tree nodes
-        if (mode == 2) return limit - (int)stress::rand_int(0, 3);                /// the grid edge, where update loops end
-        return (int)min<long long>(limit, 1000003LL * stress::rand_int(1, 900));   /// the stride the old key scheme collided on
+        if (mode == 0) return (int)stress::rand_int(0, limit - 1);
+        if (mode == 1) return (int)stress::rand_int(0, 49);                               /// dense corner, many shared tree nodes
+        if (mode == 2) return limit - 1 - (int)stress::rand_int(0, 3);                    /// the grid edge, where update loops end
+        return (int)min<long long>(limit - 1, 1000003LL * stress::rand_int(1, 900) - 1);   /// node stride the old key scheme collided on
     };
 
     auto brute = [&](int i, int j, int k, int l){
@@ -38,7 +38,8 @@ int main(){
         if (b > d) swap(b, d);
         assert(fen.query(a, b, c, d) == brute(a, b, c, d));
         assert(fen.query(i, j, i, j) == brute(i, j, i, j));
-        assert(fen.query(c, d) == brute(1, 1, c, d));
+        assert(fen.prefix(c, d) == brute(0, 0, c, d));
+        assert(fen.prefix(a - 1, d) == brute(0, 0, a - 1, d));
     }
 
     /// Small tables filled to about 60% load, so probe chains often run past the last slot and wrap to the first
@@ -49,15 +50,15 @@ int main(){
         set<pair<int, int>> nodes;
 
         while (nodes.size() < (1 << lg) * 6 / 10){
-            int i = stress::rand_int(1, n), j = stress::rand_int(1, m);
+            int i = stress::rand_int(0, n - 1), j = stress::rand_int(0, m - 1);
             long long v = stress::rand_int(-1000, 1000);
             small.update(i, j, v);
             pts.push_back({i, j, v});
-            for (int x = i; x <= n; x += x & -x) for (int y = j; y <= m; y += y & -y) nodes.insert({x, y});
+            for (int x = i + 1; x <= n; x += x & -x) for (int y = j + 1; y <= m; y += y & -y) nodes.insert({x, y});
         }
 
         for (int q = 0; q < 200; q++){
-            int a = stress::rand_int(1, n), b = stress::rand_int(1, m), c = stress::rand_int(1, n), d = stress::rand_int(1, m);
+            int a = stress::rand_int(0, n - 1), b = stress::rand_int(0, m - 1), c = stress::rand_int(0, n - 1), d = stress::rand_int(0, m - 1);
             if (a > c) swap(a, c);
             if (b > d) swap(b, d);
             long long sum = 0;

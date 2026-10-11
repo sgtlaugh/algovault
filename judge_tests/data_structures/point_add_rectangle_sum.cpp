@@ -40,10 +40,10 @@ int main(){
     /// 2e5 updates on 18 x 18 level chains create about 1.6e7 nodes, 2^25 slots keeps the load near half
     auto fen = FenwickSparse2D<long long>(xs.size(), ys.size(), 25);
     for (auto& op: ops){
-        if (op[0] == 0) fen.update(rank_below(xs, op[1]) + 1, rank_below(ys, op[2]) + 1, op[3]);
+        if (op[0] == 0) fen.update(rank_below(xs, op[1]), rank_below(ys, op[2]), op[3]);
         else{
-            int l = rank_below(xs, op[1]) + 1, d = rank_below(ys, op[2]) + 1;
-            int r = rank_below(xs, op[3]), u = rank_below(ys, op[4]);
+            int l = rank_below(xs, op[1]), d = rank_below(ys, op[2]);
+            int r = rank_below(xs, op[3]) - 1, u = rank_below(ys, op[4]) - 1;
             printf("%lld\n", fen.query(l, d, r, u));
         }
     }

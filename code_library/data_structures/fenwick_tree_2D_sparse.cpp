@@ -4,15 +4,21 @@
  * For very large matrices (N up to 10^9) with sparse updates
  * Uses custom hashmap (SplitMix64) to store only non-zero Fenwick tree nodes
  * Point updates and range queries only
- * 1-based indexing for elements
+ * 0-based cells, rectangles [i, k] x [j, l] inclusive, a cell outside [0, n - 1] x [0, m - 1] asserts
+ * i > k or j > l is an empty rectangle and query returns 0
+ *
+ * FenwickSparse2D<long long> f(n, m, lg_capacity);
+ * f.update(i, j, v): add v to cell [i, j]
+ * f.prefix(i, j): sum of rectangle [0, 0] to [i, j], 0 when i or j is -1
+ * f.query(i, j, k, l): sum of rectangle [i, j] to [k, l]
  *
  * Complexity: O(2^lg_capacity) to construct, O(log N log M) hash probes per update/query, each expected O(1) while the table is at most half full
  * Space: a fixed table of 2^lg_capacity slots, (8 + sizeof(T)) bytes each, allocated up front
  *   - The default lg_capacity = 24 is 16.7M slots, 268 MB for T = long long
  *   - Each update creates up to (log2(N) + 1) * (log2(M) + 1) nodes, 961 at N = M = 1e9
- *   - The table must hold every node created, a full table makes probing loop forever
+ *   - The table must hold every node created, an update that fills it past 3/4 asserts, raise lg_capacity
  *   - Size it so 2^lg_capacity is at least twice Q * (log2(N) + 1) * (log2(M) + 1) to keep probes short
- *   - So N = M = 1e9 with 100K updates (up to 9e7 nodes) does not fit the default, it hangs
+ *   - So N = M = 1e9 with 100K updates (up to 9e7 nodes) does not fit the default, it asserts
  *
  * Benchmarks (Codeforces server):
  *   - N = 100K, Q = 100K random operations: 0.8 seconds
@@ -31,7 +37,7 @@ using namespace std;
 
 template <typename T>
 struct FenwickSparse2D{
-    int n, m, mask;
+    int n, m, mask, used = 0;
     vector<T> tree;
     vector<long long> hashmap;
 
@@ -39,45 +45,20 @@ struct FenwickSparse2D{
         tree(mask + 1, 0), hashmap(mask + 1, 0){
     }
 
-    inline unsigned long long hash_func(unsigned long long h){
-        h ^= h >> 33;
-        h *= 0xff51afd7ed558ccdULL;
-        h ^= h >> 33;
-        h *= 0xc4ceb9fe1a85ec53ULL;
-        h ^= h >> 33;
-        return h;
-    }
-
-    /// Key 0 marks an empty slot, i >= 1 keeps every key non-zero
-    inline void add(int i, int j, T v){
-        long long h = ((long long)i << 32) | j;
-        int k = hash_func(h) & mask;
-        while (hashmap[k] && hashmap[k] != h) k = (k + 1) & mask;
-        hashmap[k] = h;
-        tree[k] += v;
-    }
-
-    inline T find(int i, int j){
-        long long h = ((long long)i << 32) | j;
-        int k = hash_func(h) & mask;
-        while (hashmap[k] && hashmap[k] != h) k = (k + 1) & mask;
-        return (hashmap[k] ? tree[k] : 0);
-    }
-
     void update(int i, int j, T v){
-        for (int x = i; x <= n; x += x & -x){
-            for (int y = j; y <= m; y += y & -y){
+        assert(0 <= i && i < n && 0 <= j && j < m);
+        for (int x = i + 1; x <= n; x += x & -x){
+            for (int y = j + 1; y <= m; y += y & -y){
                 add(x, y, v);
             }
         }
     }
 
-    T query(int i, int j){
-        if (i < 0 || j < 0 || i > n || j > m) return 0;
-
+    T prefix(int i, int j){
+        assert(-1 <= i && i < n && -1 <= j && j < m);
         T res = 0;
-        for (int x = i; x > 0; x -= x & -x){
-            for (int y = j; y > 0; y -= y & -y){
+        for (int x = i + 1; x > 0; x -= x & -x){
+            for (int y = j + 1; y > 0; y -= y & -y){
                 res += find(x, y);
             }
         }
@@ -86,7 +67,38 @@ struct FenwickSparse2D{
 
     T query(int i, int j, int k, int l){
         if (i > k || j > l) return 0;
-        return query(k, l) - query(i - 1, l) - query(k, j - 1) + query(i - 1, j - 1);
+        assert(0 <= i && k < n && 0 <= j && l < m);
+        return prefix(k, l) - prefix(i - 1, l) - prefix(k, j - 1) + prefix(i - 1, j - 1);
+    }
+
+private:
+    /// Key 0 marks an empty slot, Fenwick node indices start at 1 so every key is non-zero
+    void add(int x, int y, T v){
+        long long h = ((long long)x << 32) | y;
+        int k = hash_func(h) & mask;
+        while (hashmap[k] && hashmap[k] != h) k = (k + 1) & mask;
+        if (!hashmap[k]){
+            used++;
+            assert(used <= (mask + 1) / 4 * 3);  /// table over 3/4 full, raise lg_capacity
+            hashmap[k] = h;
+        }
+        tree[k] += v;
+    }
+
+    T find(int x, int y){
+        long long h = ((long long)x << 32) | y;
+        int k = hash_func(h) & mask;
+        while (hashmap[k] && hashmap[k] != h) k = (k + 1) & mask;
+        return (hashmap[k] ? tree[k] : 0);
+    }
+
+    unsigned long long hash_func(unsigned long long h){
+        h ^= h >> 33;
+        h *= 0xff51afd7ed558ccdULL;
+        h ^= h >> 33;
+        h *= 0xc4ceb9fe1a85ec53ULL;
+        h ^= h >> 33;
+        return h;
     }
 };
 
@@ -94,21 +106,25 @@ int main(){
     /// Sparse 2D Fenwick for large matrix
     auto fen = FenwickSparse2D<long long>(1000000000, 1000000000);
 
-    fen.update(1, 1, 5);
-    fen.update(1000000000, 1000000000, 10);
-    fen.update(500000000, 500000000, 7);
+    fen.update(0, 0, 5);
+    fen.update(999999999, 999999999, 10);
+    fen.update(499999999, 499999999, 7);
 
-    assert(fen.query(1, 1, 1, 1) == 5);
-    assert(fen.query(1, 1, 1000000000, 1000000000) == 22);
-    assert(fen.query(500000000, 500000000, 1000000000, 1000000000) == 17);
+    assert(fen.query(0, 0, 0, 0) == 5);
+    assert(fen.query(0, 0, 999999999, 999999999) == 22);
+    assert(fen.query(499999999, 499999999, 999999999, 999999999) == 17);
+    assert(fen.query(1, 0, 499999998, 999999999) == 0);
+    assert(fen.prefix(499999999, 999999999) == 12);
+    assert(fen.prefix(-1, 999999999) == 0);
 
     /// A 2^16 slot table is plenty for a few updates on a small grid
     auto small = FenwickSparse2D<int>(1000, 1000, 16);
-    small.update(3, 4, 2);
-    small.update(1000, 1000, 9);
+    small.update(2, 3, 2);
+    small.update(999, 999, 9);
 
-    assert(small.query(1, 1, 3, 4) == 2);
-    assert(small.query(3, 4, 1000, 1000) == 11);
+    assert(small.query(0, 0, 2, 3) == 2);
+    assert(small.query(2, 3, 999, 999) == 11);
+    assert(small.query(3, 3, 2, 3) == 0);
 
     return 0;
 }
