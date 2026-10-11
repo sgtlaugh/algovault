@@ -220,6 +220,8 @@ int main(){
         if (it % 100 == 0 && range <= 8) check_grid(polys, range, expected);
     }
 
+    /// A collinear zigzag runs up the triangle's edge twice, so if kept its own edges would not cancel
+    assert(fabsl(polygon_union({{{1, 0}, {1, 2}, {1, 1}, {1, 3}}, {{0, 1}, {1, 1}, {1, 2}}}) - 0.5L) < 1e-9L);
     for (long long it = 0; it < stress::scaled(20); it++) check_rectangles(stress::rand_int(1, 60));
     check_rectangles(500);
 
