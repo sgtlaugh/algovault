@@ -275,7 +275,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Divide and Conquer DP](code_library/dp/divide_conquer_dp.cpp) - `dp[k][i] = min dp[k-1][j] + cost(j, i)` with monotone optimum
 - [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle with the order, `O(2^n n^2)` [✔](judge_tests/dp/aoj_dpl_2_a.cpp)
 - [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - `dp[i][j] = min dp[i][k] + dp[k][j] + cost(i, j)` in `O(n^2)` [✔](judge_tests/dp/aoj_alds1_10_d.cpp)
-- [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS in `O(n m)`
+- [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS and one witness in `O(n m)`
 - [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS with one optimal subsequence, any comparator [✔](judge_tests/dp/longest_increasing_subsequence.cpp)
 - [Maximum Square](code_library/dp/maximum_square.cpp) - largest filled square and diamond ending at every cell [✔](judge_tests/dp/aoj_dpl_3_a.cpp)
 - [Slope Trick](code_library/dp/slope_trick.cpp) - convex piecewise linear functions with hinge adds, prefix/suffix min and shifts
