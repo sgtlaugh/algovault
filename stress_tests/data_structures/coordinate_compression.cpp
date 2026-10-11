@@ -12,8 +12,8 @@ void check(const vector<T>& v){
     for (const T& x : v) if (find(first_seen.begin(), first_seen.end(), x) == first_seen.end()) first_seen.push_back(x);
 
     vector<T> sorted = v, appearance = v;
-    compress(sorted);
-    compress(appearance, false);
+    assert(compress(sorted) == distinct);
+    assert(compress(appearance, false) == first_seen);
     for (size_t i = 0; i < v.size(); i++){
         assert(sorted[i] == lower_bound(distinct.begin(), distinct.end(), v[i]) - distinct.begin());
         assert(appearance[i] == find(first_seen.begin(), first_seen.end(), v[i]) - first_seen.begin());

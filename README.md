@@ -46,7 +46,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 [Practice problems](code_library/data_structures/README.md)
 
-- [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving
+- [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving, returns the distinct values
 - [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - union by size with path compression, rollback, weighted and persistent variants [✔](judge_tests/data_structures/persistent_unionfind.cpp)
 - [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct gcd/or/and of subarrays ending at each index, `O(log A)`
 - [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point/range update with point/range query, `O(log n)` lower bound on prefix sums [✔](judge_tests/data_structures/aoj_dsl_2_e.cpp)
