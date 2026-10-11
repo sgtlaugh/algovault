@@ -1,26 +1,22 @@
 /***
  *
- * Disjoint Sparse Table For RMQ on a static array
- * Idempotency is necessary for the regular sparse table
- * Because we answer queries in O(1) allowing partial overlaps which doesn't change the result
- * Some examples are finding minimum or maximum
- *
- * Disjoint Sparse Table can answer RMQ on a static array in O(1), even when they are not idempotent
- * The operation needs to be associative
- * Examples are sum, xor, product, matrix multiplication, etc
- * For sum or xor, we can just keep a cumulative array but for many operations like the product, disjoint sparse tables can be useful
- * Further reading - https://codeforces.com/blog/entry/87940
+ * Disjoint Sparse Table
+ * O(1) range queries on a static array for any associative operation, idempotent or not
  *
  * Complexity: O(n log n) build and memory, O(1) per query, the same as the regular sparse table
  *
- * Note, we can still do this in O(log n) using regular sparse tables
- * And then there are sqrt trees...
- * Disjoint sparse tables should be rarely useful in CP, nonetheless they are quite cool
+ * The regular sparse table answers with two overlapping blocks, so it only works for idempotent operations like min
+ * This one splits every query into two disjoint precomputed halves, so sum, xor, product mod p and matrix products work
+ * For sum or xor a prefix array is simpler, the table pays off for operations without an inverse
+ * Further reading - https://codeforces.com/blog/entry/87940
  *
- * To use, update the combine function and use an appropriate identity element
- * An identity element is any element which leaves any element unchanged when combined with it
- * Or in other words, i is an identity element if combine(i, x) = x for all x
- * It is 0 for xor, 1 for product, -infinity for maximum and so on
+ * DisjointST<T, Op = plus<T>> table(values, identity, op), query(l, r) is Op over [l, r], 0-indexed and inclusive
+ * identity must satisfy op(identity, x) = op(x, identity) = x: 0 for sum or xor, 1 for product, "" for concatenation
+ * Op needs a const operator(), since query() is const, and need not be commutative
+ *
+ * Example:
+ *   DisjointST<long long> sum(v);
+ *   DisjointST prod(v, 1LL, [](long long a, long long b){ return a * b % MOD; });
  *
 ***/
 
@@ -28,16 +24,12 @@
 
 using namespace std;
 
-template <typename T>
+template <typename T, typename Op = plus<T>>
 struct DisjointST{
     vector<T> dp[32];
+    Op combine;
 
-    /// defined for sum by default, change as required
-    T combine(const T& x, const T& y){
-        return x + y;
-    }
-
-    DisjointST(const vector<T> &ar, const T& identity_elem){
+    DisjointST(const vector<T> &ar, const T& identity_elem = T(), Op combine = Op()) : combine(combine){
         int i, c, h, l, n = (int)ar.size();
 
         for (h = 0; n && h <= __lg(n); h++){  /// __lg(0) is undefined
@@ -55,7 +47,7 @@ struct DisjointST{
         }
     }
 
-    T query(int l, int r){
+    T query(int l, int r) const{
         int h = __lg(l ^ (r + 1));
         return combine(dp[h][l], dp[h][r + 1]);
     }
@@ -72,6 +64,10 @@ int main(){
     assert(rmq.query(4, 7) == 86);
     assert(rmq.query(2, 6) == 34);
     assert(rmq.query(1, 8) == 129);
+
+    const long long MOD = 1000000007;
+    DisjointST prod(vector<long long>{5, 6, 1, 13, 100000, 100000}, 1LL, [&](long long x, long long y){ return x * y % MOD; });
+    assert(prod.query(0, 3) == 390 && prod.query(1, 2) == 6 && prod.query(4, 5) == 999999937 && prod.query(3, 3) == 13);
 
     v.clear();
     mt19937 rng(0);
