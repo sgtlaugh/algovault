@@ -8,7 +8,7 @@
  * Every edge copy is alive for a contiguous range of queries, so it is inserted into the O(log q) segment tree
  * nodes covering that range; a DFS over the tree unites a node's edges on entry and rolls them back on exit,
  * using a DSU with union by size and no path compression so each union is undone in O(1)
- * RollbackDSU is a checked copy of data_structures/disjoint_set.cpp
+ * RollbackDSU is a checked copy of data_structures/rollback_dsu.cpp
  *
  * Nodes are numbered from 0 to n - 1, parallel edges and self loops are allowed
  * remove_edge deletes one live copy of (u, v) in either orientation, the copy must exist
@@ -31,7 +31,7 @@
 
 using namespace std;
 
-/// BEGIN COPY rollback_dsu from code_library/data_structures/disjoint_set.cpp
+/// BEGIN COPY rollback_dsu from code_library/data_structures/rollback_dsu.cpp
 struct RollbackDSU{
     vector<int> counter, parent, history;
 

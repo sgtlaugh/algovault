@@ -9,12 +9,9 @@
 
 ## [Disjoint Set Union](disjoint_set.cpp)
 
-- [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d)
-- [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
 - [Codeforces 25D - Roads not only in Berland](https://codeforces.com/problemset/problem/25/D)
 - [Codeforces 468B - Two Sets](https://codeforces.com/problemset/problem/468/B)
 - [Codeforces 744A - Hongcow Builds A Nation](https://codeforces.com/problemset/problem/744/A)
-- [Codeforces Gym 100570D - TROY Query](https://codeforces.com/gym/100570/problem/D)
 - [CSES 1666 - Building Roads](https://cses.fi/problemset/task/1666)
 - [CSES 1676 - Road Construction](https://cses.fi/problemset/task/1676)
 - [CSES 1677 - Network Breakdown](https://cses.fi/problemset/task/1677)
@@ -22,13 +19,9 @@
 - [HackerEarth lexicographically-minimal-string-6edc1406 - Lexicographically minimal string](https://www.hackerearth.com/practice/data-structures/disjoint-data-strutures/basics-of-disjoint-data-structures/practice-problems/algorithm/lexicographically-minimal-string-6edc1406/)
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma)
 - [Kattis slimcut - Slim Cut](https://open.kattis.com/problems/slimcut)
-- [Library Checker persistent_unionfind - Persistent Unionfind](https://judge.yosupo.jp/problem/persistent_unionfind)
 - [Library Checker unionfind - Unionfind](https://judge.yosupo.jp/problem/unionfind)
-- [Library Checker unionfind_with_potential - Unionfind with Potential](https://judge.yosupo.jp/problem/unionfind_with_potential)
-- [SPOJ CHAIN - Strange Food Chain](https://www.spoj.com/problems/CHAIN/)
 - [SPOJ CLFLARR - COLORFUL ARRAY](https://www.spoj.com/problems/CLFLARR/)
 - [SPOJ KOICOST - Cost](https://www.spoj.com/problems/KOICOST/)
-- [Timus 1003 - Parity](https://acm.timus.ru/problem.aspx?num=1003)
 - [Timus 1671 - Anansi's Cobweb](https://acm.timus.ru/problem.aspx?num=1671)
 - [Toph unbelievable-array - Unbelievable Array](https://toph.co/p/unbelievable-array)
 - [USACO 384 - Ski Course Rating](https://usaco.org/index.php?page=viewproblem2&cpid=384)
@@ -44,16 +37,32 @@
 - [UVa 1160 - X-Plosives](https://onlinejudge.org/external/11/1160.pdf)
 - [UVa 1197 - The Suspects](https://onlinejudge.org/external/11/1197.pdf)
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf)
-- [UVa 10158 - War](https://onlinejudge.org/external/101/10158.pdf)
 - [UVa 10178 - Count the Faces.](https://onlinejudge.org/external/101/10178.pdf)
 - [UVa 10583 - Ubiquitous Religions](https://onlinejudge.org/external/105/10583.pdf)
 - [UVa 10608 - Friends](https://onlinejudge.org/external/106/10608.pdf)
 - [UVa 10685 - Nature](https://onlinejudge.org/external/106/10685.pdf)
 - [UVa 11503 - Virtual Friends](https://onlinejudge.org/external/115/11503.pdf)
 - [UVa 11690 - Money Matters](https://onlinejudge.org/external/116/11690.pdf)
-- [UVa 11870 - Antonyms](https://onlinejudge.org/external/118/11870.pdf)
 - [UVa 11966 - Galactic Bonding](https://onlinejudge.org/external/119/11966.pdf)
 - [UVa 11987 - Almost Union-Find](https://onlinejudge.org/external/119/11987.pdf)
+
+## [Disjoint Set Union, Partially Persistent](partially_persistent_dsu.cpp)
+
+- [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d)
+
+## [Disjoint Set Union, Rollback](rollback_dsu.cpp)
+
+- [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
+- [Library Checker persistent_unionfind - Persistent Unionfind](https://judge.yosupo.jp/problem/persistent_unionfind)
+
+## [Disjoint Set Union, Weighted](weighted_dsu.cpp)
+
+- [Codeforces Gym 100570D - TROY Query](https://codeforces.com/gym/100570/problem/D)
+- [Library Checker unionfind_with_potential - Unionfind with Potential](https://judge.yosupo.jp/problem/unionfind_with_potential)
+- [SPOJ CHAIN - Strange Food Chain](https://www.spoj.com/problems/CHAIN/)
+- [Timus 1003 - Parity](https://acm.timus.ru/problem.aspx?num=1003)
+- [UVa 10158 - War](https://onlinejudge.org/external/101/10158.pdf)
+- [UVa 11870 - Antonyms](https://onlinejudge.org/external/118/11870.pdf)
 
 ## [Disjoint Sparse Table](disjoint_sparse_table.cpp)
 

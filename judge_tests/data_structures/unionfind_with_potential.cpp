@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 
 #define main library_main
-#include "../../code_library/data_structures/disjoint_set.cpp"
+#include "../../code_library/data_structures/weighted_dsu.cpp"
 #undef main
 
 int main(){
