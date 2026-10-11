@@ -7,7 +7,7 @@
 #undef main
 
 void print(const vector<int>& a){
-    for (int i = 0; i < (int)a.size(); i++) printf("%d%c", a[i], i + 1 == (int)a.size() ? '\n' : ' ');
+    for (int i = 0; i < (int)a.size(); i++) printf("%d%c", a[i] + 1, i + 1 == (int)a.size() ? '\n' : ' ');
 }
 
 int main(){
@@ -16,13 +16,14 @@ int main(){
     vector<int> a(n);
     for (auto& x: a){
         if (scanf("%d", &x) != 1) return 0;
+        x--;
     }
 
-    long long rank = find_rank(a), total = 1;
+    long long rank = permutation_rank(a), total = 1;
     for (int i = 2; i <= n; i++) total *= i;
 
-    if (rank > 1) print(find_permutation(n, rank - 1));
+    if (rank > 0) print(kth_permutation(n, rank - 1));
     print(a);
-    if (rank < total) print(find_permutation(n, rank + 1));
+    if (rank + 1 < total) print(kth_permutation(n, rank + 1));
     return 0;
 }

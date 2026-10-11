@@ -7,7 +7,7 @@
  *
  * PermutationIndex idx(n); idx.index(p): rank of p among all n! permutations in [0, n!), p holds 0..n-1
  * Use it as a dense state id in BFS / DP over permutations, e.g. visited[idx.index(p)]
- * permutation_rank.cpp computes the same rank for any n in O(n^2)
+ * permutation_rank.cpp ranks any distinct values (n <= 20) and unranks for any n
  *
  * rank(p) = sum of c_i * (n - 1 - i)!, c_i = number of values below p[i] not used by p[0..i-1]
  * c_i is one popcount over the bitmask of unused values, the sum is evaluated Horner style
