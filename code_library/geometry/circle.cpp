@@ -11,7 +11,9 @@
  *   circle_line_intersection(c, a, b): where the line through a != b meets c, 0, 1 (tangent) or 2 points in the a -> b direction
  *       the tolerance scales with r, so r = 0 meets the line only when the center lies exactly on it
  *   circle_circle_intersection(a, b): 0, 1 (tangent) or 2 points, none for concentric circles (identical ones included)
+ *       with 2 points the first lies left of the line from a's center to b's
  *   tangents_from_point(c, p): tangency points of the lines through p touching c (r > 0), none if p is inside, p itself if on c
+ *       with 2 points the first lies left of the line from c's center to p
  *   common_tangents(a, b): every common tangent line as its tangency points {on a, on b}, r > 0 for both, outer ones first
  *       0 nested, 1 internally tangent, 2 overlapping, 3 externally tangent, 4 apart, none for identical circles
  *       when both points coincide the line goes through them perpendicular to the line of centers
