@@ -4,6 +4,12 @@
  * Uses custom class for complex numbers and various optimizations for better performance
  *
  * Usage: FFT fft; then fft.multiply(a, b), fft.mod_multiply(a, b, mod), ... (methods documented below)
+ * All products are linear (no wrap around) of length |a| + |b| - 1, an empty input gives an empty result
+ *
+ * Circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
+ *   auto c = fft.multiply(a, b);
+ *   for (int i = n; i < (int)c.size(); i++) c[i - n] += c[i];
+ *   c.resize(n);
  *
  * Complexity:
  *   - O(len) to extend the roots of unity the first time a transform length is used
@@ -31,6 +37,7 @@ struct FFT{
      *
     ***/
     vector<long long> square(vector<long long> v){
+        if (v.empty()) return {};
         int i, len, p_len = 2 * v.size() - 1;
 
         len = build(v, v);
@@ -73,6 +80,7 @@ struct FFT{
      *
     ***/
     vector<long long> multiply(vector<long long> v1, vector<long long> v2){
+        if (v1.empty() || v2.empty()) return {};
         if (is_equal(v1, v2)) return square(v1);
 
         int i, j, len, p_len = v1.size() + v2.size() - 1;
@@ -96,13 +104,16 @@ struct FFT{
     }
 
     /***
-     * Same as multiply(v1, v2), only values are calculated modulo mod
+     * Same as multiply(v1, v2), only values are calculated modulo mod, 1 <= mod < 2^31
+     * Inputs may be negative or >= mod, they are reduced first, results lie in [0, mod)
      *
     ***/
-    vector<long long> mod_multiply(vector<long long> v1, vector<long long> v2, int mod, int bits=MOD_SPLIT_LIMIT){
+    vector<long long> mod_multiply(vector<long long> v1, vector<long long> v2, int mod){
+        if (v1.empty() || v2.empty()) return {};
+        const int bits = MOD_SPLIT_LIMIT;
         int p_len = v1.size() + v2.size() - 1;
-        for (auto&& x: v1) x %= mod;
-        for (auto&& x: v2) x %= mod;
+        for (auto&& x: v1) x = (x % mod + mod) % mod;
+        for (auto&& x: v2) x = (x % mod + mod) % mod;
 
         int len = split_multiply(v1, v2, bits);
         vector<long long> res(p_len, 0);
@@ -126,6 +137,7 @@ struct FFT{
     vector<long long> ll_multiply(vector<long long> v1, vector<long long> v2){
         for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
         for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
+        if (v1.empty() || v2.empty()) return {};
 
         int p_len = v1.size() + v2.size() - 1;
         int len = split_multiply(v1, v2, MOD_SPLIT_LIMIT);
@@ -142,50 +154,6 @@ struct FFT{
     }
 
     /***
-     * Computes the circular convolution of v1 and v2
-     * The vectors must be of the same size, if not normalize and pad with zeros
-     * Example to demonstrate convolution for n = 5, let A=v1, B=v2 and the result be C
-     *
-     * C0 = A0B0 + A1B4 + A2B3 + A3B2 + A4B1
-     * C1 = A0B1 + A1B0 + A2B4 + A3B3 + A4B2
-     * ...
-     * ...
-     * C4 = A0B4 + A1B3 + A2B2 + A3B1 + A4B0
-     *
-     * Note: If linear convolution is required (i.e, no wrapping around), pad with zeros accordingly
-     *
-     * Also read the notes on multiply()
-     *
-    ***/
-    vector<long long> convolution(vector<long long> v1, vector<long long> v2){
-        int n = v1.size();
-        build_convolution(v1, v2);
-        return circular_part(multiply(v1, v2), n);
-    }
-
-    /***
-     * Same as convolution(v1, v2), only values are calculated modulo mod
-     *
-    ***/
-    vector<long long> mod_convolution(vector<long long> v1, vector<long long> v2, int mod){
-        int n = v1.size();
-        build_convolution(v1, v2);
-        return circular_part(mod_multiply(v1, v2, mod), n);
-    }
-
-    /***
-     * Same as convolution(v1, v2), but supports larger values
-     *
-     * Also read the notes on ll_multiply()
-     *
-    ***/
-    vector<long long> ll_convolution(vector<long long> v1, vector<long long> v2){
-        int n = v1.size();
-        build_convolution(v1, v2);
-        return circular_part(ll_multiply(v1, v2), n);
-    }
-
-    /***
      * Hamming distance vector with every substring of length |pattern| in str
      * Hamming distance is basically the number of mismatches
      *
@@ -197,10 +165,10 @@ struct FFT{
      *     returns: [3, 3, 1, 1, 4, 1, 2]
      *
     ***/
-    vector<long long> hamming_distance(const char* str, const char* pattern){
+    vector<long long> hamming_distance(const string& str, const string& pattern){
         assert(is_binary_string(str) && is_binary_string(pattern));
 
-        int i, j, n = strlen(str), m = strlen(pattern);
+        int i, j, n = str.size(), m = pattern.size();
         vector<long long> res, v1(n, 0), v2(m, 0);
 
         for (i = 0; i < n; i++) v1[i] = str[i] == '1' ? 1 : -1;
@@ -215,7 +183,7 @@ struct FFT{
     }
 
     /***
-     * And convolution vector with every substring of length |pattern| in str (sharing only common 1 bits)
+     * Number of common 1 bits of pattern and every substring of length |pattern| in str
      *
      * str and pattern consists of only '1' and '0'
      *
@@ -225,10 +193,10 @@ struct FFT{
      *     returns: [1, 2, 1, 1, 2]
      *
     ***/
-    vector<long long> and_convolution(const char* str, const char* pattern){
+    vector<long long> common_ones(const string& str, const string& pattern){
         assert(is_binary_string(str) && is_binary_string(pattern));
 
-        int i, n = strlen(str), m = strlen(pattern);
+        int i, n = str.size(), m = pattern.size();
         vector<long long> v1(n, 0), v2(m, 0);
 
         for (i = 0; i < n; i++) v1[i] = str[n - i - 1] - 48;
@@ -290,24 +258,8 @@ private:
         return true;
     }
 
-    static bool is_binary_string(const char* str){
-        for (int j = 0; str[j] != 0; j++){
-            if (!(str[j] == '0' || str[j] == '1')) return false;
-        }
-        return true;
-    }
-
-    static void build_convolution(vector<long long>& v1, vector<long long>& v2){
-        assert(v1.size() == v2.size());
-
-        int n = v1.size();
-        v1.resize(2 * n, 0), v2.resize(2 * n, 0);
-        for (int i = 0; i < n; i++) v2[i + n] = v2[i];
-    }
-
-    /// With v1 zero padded and v2 doubled, product index n + k holds the circular convolution term k
-    static vector<long long> circular_part(const vector<long long>& product, int n){
-        return vector<long long>(product.begin() + n, product.begin() + 2 * n);
+    static bool is_binary_string(const string& str){
+        return all_of(str.begin(), str.end(), [](char c){ return c == '0' || c == '1'; });
     }
 
     void extend_roots(int len){
@@ -418,25 +370,14 @@ int main(){
 
     assert(fft.ll_multiply(v1, v2) == expected_result);
 
-    v1 = {1, 2, 3, 4};
-    v2 = {1, 0, 0, 2};
-    assert(fft.convolution(v1, v2) == vector<long long>({5, 8, 11, 6}));
-
-    mod = 2;
-    assert(fft.mod_convolution(v1, v2, mod) == vector<long long>({1, 0, 1, 0}));
-
-    for (auto && x: v1) x = (1 << 30) - x;
-    for (auto && x: v2) x = (1 << 30) - x;
-    expected_result = {4611686004468744197, 4611686004468744200, 4611686004468744203, 4611686004468744198};
-
-    assert(fft.convolution(v1, v2) != expected_result);  /// should fail because of precision, even with long double
-    assert(fft.ll_convolution(v1, v2) == expected_result);
+    assert(fft.mod_multiply({-1, 2}, {1, 1}, 7) == vector<long long>({6, 1, 2}));
+    assert(fft.multiply({}, {1, 2}).empty() && fft.mod_multiply({}, {}, 7).empty());
 
     expected_result = {3, 3, 1, 1, 4, 1, 2};
     assert(fft.hamming_distance("1000100101", "0110") == expected_result);
 
     expected_result = {1, 2, 1, 1, 2};
-    assert(fft.and_convolution("0110110", "110") == expected_result);
+    assert(fft.common_ones(string("0110110"), "110") == expected_result);
 
     return 0;
 }

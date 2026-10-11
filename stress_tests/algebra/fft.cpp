@@ -32,6 +32,13 @@ vector<ll> naive_circular(const vector<ll>& a, const vector<ll>& b, ll mod = 0){
     return res;
 }
 
+/// The header's circular convolution recipe: fold the linear product back onto its first n coefficients
+vector<ll> fold(vector<ll> c, int n, ll mod = 0){
+    for (int i = n; i < (int)c.size(); i++) c[i - n] = mod ? (c[i - n] + c[i]) % mod : c[i - n] + c[i];
+    c.resize(n);
+    return c;
+}
+
 string random_bits(int n){
     string s(n, '0');
     for (auto& c : s) c = '0' + stress::rand_int(0, 1);
@@ -46,6 +53,8 @@ int main(){
     assert(fft.ll_multiply({big, big, big, big}, {big, big, big, big}) == naive({big, big, big, big}, {big, big, big, big}));
     assert(fft.ll_multiply({big, big, big, big}, {big, big, big, big - 1}) == naive({big, big, big, big}, {big, big, big, big - 1}));
 
+    assert(fft.multiply({}, {}).empty() && fft.square({}).empty() && fft.ll_multiply({1}, {}).empty() && fft.mod_multiply({}, {3}, 5).empty());
+
     for (long long it = 0; it < stress::scaled(300); it++){
         int n = stress::rand_int(1, it % 20 ? 300 : 1200), m = stress::rand_int(1, it % 20 ? 300 : 1200);
 
@@ -54,7 +63,7 @@ int main(){
         assert(fft.square(a) == naive(a, a));
 
         ll mod = stress::rand_int(2, 2147483647);
-        auto p = random_vector(n, 0, mod - 1), q = random_vector(m, 0, mod - 1);
+        auto p = random_vector(n, it % 4 ? 0 : -5 * mod, it % 4 ? mod - 1 : 5 * mod), q = random_vector(m, 0, mod - 1);
         assert(fft.mod_multiply(p, q, mod) == naive(p, q, mod));
         assert(fft.mod_multiply(p, p, mod) == naive(p, p, mod));  /// equal inputs skip the second transform
 
@@ -67,14 +76,14 @@ int main(){
 
         int k = min(n, 500);
         auto c1 = random_vector(k, -1000, 1000), c2 = random_vector(k, -1000, 1000);
-        assert(fft.convolution(c1, c2) == naive_circular(c1, c2));
+        assert(fold(fft.multiply(c1, c2), k) == naive_circular(c1, c2));
         auto d1 = random_vector(k, 0, mod - 1), d2 = random_vector(k, 0, mod - 1);
-        assert(fft.mod_convolution(d1, d2, mod) == naive_circular(d1, d2, mod));
+        assert(fold(fft.mod_multiply(d1, d2, mod), k, mod) == naive_circular(d1, d2, mod));
         auto e1 = random_vector(k, 0, 1000000), e2 = random_vector(k, 0, 1000000);
-        assert(fft.ll_convolution(e1, e2) == naive_circular(e1, e2));
+        assert(fold(fft.ll_multiply(e1, e2), k) == naive_circular(e1, e2));
 
         string text = random_bits(stress::rand_int(1, 400)), pattern = random_bits(stress::rand_int(1, text.size()));
-        auto hd = fft.hamming_distance(text.c_str(), pattern.c_str()), ac = fft.and_convolution(text.c_str(), pattern.c_str());
+        auto hd = fft.hamming_distance(text, pattern), ac = fft.common_ones(text, pattern);
         assert(hd.size() == text.size() - pattern.size() + 1 && ac.size() == hd.size());
         for (size_t i = 0; i < hd.size(); i++){
             ll mismatches = 0, common = 0;
