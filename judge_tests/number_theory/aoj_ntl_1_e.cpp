@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 
 #define main library_main
-#include "../../code_library/combinatorics/combinatorics.cpp"
+#include "../../code_library/number_theory/extended_gcd.cpp"
 #undef main
 
 int main(){

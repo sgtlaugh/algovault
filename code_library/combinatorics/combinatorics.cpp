@@ -1,99 +1,21 @@
 /***
  *
- * Modular Combinatorics
- * Extended gcd, modular inverse, linear diophantine equations (solve and count in ranges), and factorial based nCr / nPr modulo a prime
+ * Combinatorics
+ * Factorial tables, nCr and nPr modulo a prime
  *
- * Complexity:
- *   - O(log m) for extended_gcd, mod_inverse, diophantine and count_diophantine
- *   - O(n) to build Combinatorics(n, mod), O(1) per query afterwards
- *
- * extended_gcd(a, b, x, y): returns g = gcd(a, b) and sets a * x + b * y = g, for a, b >= 0
- * mod_inverse(a, m): inverse of a modulo m for any 1 <= m < 2^63, -1 if gcd(a, m) != 1, a may be negative or >= m
- * diophantine(a, b, c, x, y): solves a * x + b * y = c, returns false if there is no solution
- *     a, b, c may be negative, |a|, |b|, |c| <= 1e9 keeps x and y within long long
- * count_diophantine(a, b, c, x1, x2, y1, y2): number of solutions with x1 <= x <= x2 and y1 <= y <= y2
- *     every argument within [-1e9, 1e9], empty ranges give 0
- *     a = b = 0 and c = 0 gives the full box, (2e9 + 1)^2 at most, still within long long
+ * Complexity: O(n) to build Combinatorics(n, mod), O(1) per query afterwards
  *
  * Combinatorics comb(n, mod): tables for 0..n, mod must be a prime with n < mod < 2^31
- * comb.nCr(n, k), comb.nPr(n, k): 0 when k < 0 or k > n
+ * comb.nCr(n, k), comb.nPr(n, k): 0 when k < 0 or k > n, n must not exceed the table size
  * comb.inverse(i): inverse of i for 1 <= i <= n, comb.factorial(i), comb.inv_factorial(i)
+ *
+ * Extended gcd, modular inverse for any modulus and diophantine equations: extended_gcd.cpp
  *
 ***/
 
 #include <bits/stdtr1c++.h>
 
 using namespace std;
-
-long long extended_gcd(long long a, long long b, long long& x, long long& y){
-    assert(a >= 0 && b >= 0);
-
-    long long x1 = 0, y1 = 1;
-    x = 1, y = 0;
-    while (b){
-        long long q = a / b;
-        tie(x, x1) = make_pair(x1, x - q * x1);
-        tie(y, y1) = make_pair(y1, y - q * y1);
-        tie(a, b) = make_pair(b, a - q * b);
-    }
-    return a;
-}
-
-long long mod_inverse(long long a, long long m){
-    assert(m >= 1);
-
-    a %= m;
-    if (a < 0) a += m;
-
-    long long x, y;
-    if (extended_gcd(a, m, x, y) != 1) return -1;
-    x %= m;
-    return x < 0 ? x + m : x;
-}
-
-bool diophantine(long long a, long long b, long long c, long long& x, long long& y){
-    if (a == 0 && b == 0){
-        x = y = 0;
-        return c == 0;
-    }
-
-    long long g = extended_gcd(llabs(a), llabs(b), x, y);
-    if (c % g) return false;
-
-    x *= c / g, y *= c / g;
-    if (a < 0) x = -x;
-    if (b < 0) y = -y;
-    return true;
-}
-
-/// den > 0, restrict_steps flips the sign of step before calling
-long long floor_div(long long num, long long den){
-    return num / den - (num % den < 0);
-}
-
-/// shrinks [lo, hi] to the k with lo_val <= base + k * step <= hi_val
-void restrict_steps(long long base, long long step, long long lo_val, long long hi_val, long long& lo, long long& hi){
-    if (step == 0){
-        if (base < lo_val || base > hi_val) lo = 1, hi = 0;
-        return;
-    }
-
-    if (step < 0) step = -step, base = -base, tie(lo_val, hi_val) = make_pair(-hi_val, -lo_val);
-    lo = max(lo, -floor_div(base - lo_val, step));
-    hi = min(hi, floor_div(hi_val - base, step));
-}
-
-long long count_diophantine(long long a, long long b, long long c, long long x1, long long x2, long long y1, long long y2){
-    long long x, y;
-    if (!diophantine(a, b, c, x, y)) return 0;
-    if (a == 0 && b == 0) return max(0LL, x2 - x1 + 1) * max(0LL, y2 - y1 + 1);
-
-    long long g = gcd(llabs(a), llabs(b));
-    long long lo = LLONG_MIN, hi = LLONG_MAX;
-    restrict_steps(x, b / g, x1, x2, lo, hi);
-    restrict_steps(y, -a / g, y1, y2, lo, hi);
-    return max(0LL, hi - lo + 1);
-}
 
 struct Combinatorics{
     long long mod;
@@ -113,10 +35,12 @@ struct Combinatorics{
     }
 
     long long factorial(int i) const{
+        assert(0 <= i && i < (int)fact.size());
         return fact[i];
     }
 
     long long inv_factorial(int i) const{
+        assert(0 <= i && i < (int)fact.size());
         return inv_fact[i];
     }
 
@@ -126,35 +50,29 @@ struct Combinatorics{
     }
 
     long long nCr(int n, int k) const{
+        assert(n < (int)fact.size());
         if (k < 0 || k > n) return 0;
         return fact[n] * inv_fact[k] % mod * inv_fact[n - k] % mod;
     }
 
     long long nPr(int n, int k) const{
+        assert(n < (int)fact.size());
         if (k < 0 || k > n) return 0;
         return fact[n] * inv_fact[n - k] % mod;
     }
 };
 
 int main(){
-    long long x, y;
-    assert(extended_gcd(240, 46, x, y) == 2);
-    assert(240 * x + 46 * y == 2);
-
-    assert(mod_inverse(3, 7) == 5);   /// 3 * 5 = 15 = 1 mod 7
-    assert(mod_inverse(-4, 7) == 5);  /// -4 = 3 mod 7
-    assert(mod_inverse(4, 6) == -1);  /// gcd(4, 6) = 2
-
-    assert(diophantine(3, 5, 7, x, y));
-    assert(3 * x + 5 * y == 7);
-    assert(!diophantine(2, 4, 5, x, y));                     /// gcd(2, 4) does not divide 5
-    assert(count_diophantine(2, 3, 12, 0, 10, 0, 10) == 3);  /// (0, 4), (3, 2) and (6, 0)
-
     Combinatorics comb(10, 1000000007);
     assert(comb.nCr(5, 2) == 10);
     assert(comb.nCr(5, 6) == 0);      /// k > n
+    assert(comb.nCr(10, 5) == 252);
     assert(comb.nPr(5, 2) == 20);
     assert(comb.factorial(10) == 3628800);
     assert(comb.inverse(2) == 500000004);
+
+    Combinatorics small(4, 5);
+    assert(small.nCr(4, 2) == 1);         /// 6 mod 5
+    assert(small.inv_factorial(4) == 4);  /// 4! = 24 = 4 mod 5, 4 * 4 = 16 = 1 mod 5
     return 0;
 }

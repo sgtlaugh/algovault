@@ -179,6 +179,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Discrete Logarithm](code_library/number_theory/discrete_logarithm.cpp) - smallest x with `a^x = b mod m`, any m [✔](judge_tests/number_theory/discrete_logarithm_mod.cpp)
 - [Divisors](code_library/number_theory/divisors.cpp) - sorted divisors of one number, or from its prime factors
 - [Du's Sieve](code_library/number_theory/du_sieve.cpp) - prefix sums of Euler's phi and Mobius mu up to 1e11 in `O(n^(2/3))` [✔](judge_tests/number_theory/counting_squarefrees.cpp)
+- [Extended GCD](code_library/number_theory/extended_gcd.cpp) - extended gcd, modular inverse, linear diophantine equations (solve and count in a box) [✔](judge_tests/number_theory/aoj_ntl_1_e.cpp)
 - [Fast Fibonacci](code_library/number_theory/fast_fibonacci.cpp) - n-th Fibonacci number by fast doubling [✔](judge_tests/number_theory/aoj_alds1_10_a.cpp)
 - [Fast Prime Counting](code_library/number_theory/fast_prime_counting.cpp) - `pi(n)` in about `O(n^(2/3))`, Meissel-Lehmer [✔](judge_tests/number_theory/counting_primes.cpp)
 - [Fast Prime Sums](code_library/number_theory/fast_prime_sums.cpp) - sum of primes up to n, Meissel-Lehmer
@@ -202,7 +203,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 - [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - Bernoulli numbers modulo a prime
 - [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, Lucas and prime powers [✔](judge_tests/combinatorics/binomial_coefficient.cpp)
-- [Combinatorics](code_library/combinatorics/combinatorics.cpp) - extended gcd, modular inverse, diophantine equations, nCr and nPr [✔](judge_tests/combinatorics/aoj_ntl_1_e.cpp)
+- [Combinatorics](code_library/combinatorics/combinatorics.cpp) - factorial tables, nCr and nPr modulo a prime [✔](judge_tests/combinatorics/binomial_coefficient_prime_mod.cpp)
 - [Eulerian Numbers](code_library/combinatorics/eulerian_numbers.cpp) - permutations with k ascents, modulo any m
 - [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of 1..n
 - [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke in the gambler's ruin game

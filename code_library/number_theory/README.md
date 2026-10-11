@@ -53,6 +53,13 @@
 - [Library Checker counting_squarefrees - Counting Square-free Integers](https://judge.yosupo.jp/problem/counting_squarefrees)
 - [Library Checker sum_of_totient_function - Sum of Totient Function](https://judge.yosupo.jp/problem/sum_of_totient_function)
 
+## [Extended GCD](extended_gcd.cpp)
+
+- [AOJ NTL_1_E - Extended Euclid Algorithm](https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E)
+- [AtCoder ABC340 F - S = 1](https://atcoder.jp/contests/abc340/tasks/abc340_f)
+- [Codeforces 633A - Ebony and Ivory](https://codeforces.com/problemset/problem/633/A)
+- [Codeforces Gym 100963J - Once Upon A Time](https://codeforces.com/gym/100963/problem/J)
+
 ## [Fast Fibonacci](fast_fibonacci.cpp)
 
 - [AOJ ALDS1_10_A - Fibonacci Number](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_A)
