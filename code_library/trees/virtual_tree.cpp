@@ -6,13 +6,13 @@
  * Complexity: O(n) to build, O(k log k) per compress of k vertices
  *
  * VirtualTree tree(n); tree.add_edge(u, v, w); tree.build(root);
- * tree.compress(nodes): the virtual tree of nodes as a list of {vertex, parent}
- *   - parent is the index of the vertex's parent in the list, -1 for the root at index 0
+ * tree.compress(nodes): the virtual tree of nodes as a list of VirtualTree::Node {v, parent, len}
+ *   - parent is the index of v's parent in the list, -1 for the root at index 0
+ *   - len is the original length of the compressed edge, dist(v, list[parent].v), 0 for the root
  *   - vertices appear in DFS order, so parents come before children and every subtree is a contiguous range
  *     loop the list backwards to process children before their parents
  *   - at most 2k - 1 vertices, duplicates in nodes are ignored, an empty nodes gives an empty list
  * tree.lca(u, v), tree.dist(u, v) (sum of weights, w defaults to 1), tree.depth(v)
- *   the original length of a compressed edge is tree.dist(vertex, list[parent].first)
  *
  * The graph must be a tree, build asserts n - 1 edges and that every node is reached exactly once
  * Traversals are iterative so deep trees are safe
@@ -20,7 +20,7 @@
  *
  * Example, sum of a DP over the virtual tree per query:
  *     auto vt = tree.compress(nodes);
- *     for (int i = vt.size() - 1; i > 0; i--) dp[vt[i].second] += combine(dp[i], tree.dist(vt[i].first, vt[vt[i].second].first));
+ *     for (int i = vt.size() - 1; i > 0; i--) dp[vt[i].parent] += combine(dp[i], vt[i].len);
  *
 ***/
 
@@ -141,8 +141,10 @@ struct LinearLCA{
 struct VirtualTree : LinearLCA{
     using LinearLCA::LinearLCA;
 
+    struct Node{ int v, parent; long long len; };
+
     /// The parent of each vertex is the lca of it and its predecessor in DFS order, so no stack is needed
-    vector<pair<int, int>> compress(vector<int> nodes) const{
+    vector<Node> compress(vector<int> nodes) const{
         auto by_tour = [&](int u, int v){ return first[u] < first[v]; };
         sort(nodes.begin(), nodes.end(), by_tour);
         int k = nodes.size();
@@ -151,10 +153,11 @@ struct VirtualTree : LinearLCA{
         nodes.erase(unique(nodes.begin(), nodes.end()), nodes.end());
         if (nodes.empty()) return {};
 
-        vector<pair<int, int>> res = {{nodes[0], -1}};
+        vector<Node> res = {{nodes[0], -1, 0}};
         for (int i = 1; i < (int)nodes.size(); i++){
             int p = lca(nodes[i - 1], nodes[i]);
-            res.push_back({nodes[i], int(lower_bound(nodes.begin(), nodes.end(), p, by_tour) - nodes.begin())});
+            int p_idx = lower_bound(nodes.begin(), nodes.end(), p, by_tour) - nodes.begin();
+            res.push_back({nodes[i], p_idx, dist(nodes[i], p)});
         }
         return res;
     }
@@ -175,12 +178,17 @@ int main(){
     for (auto [u, v, w] : edges) tree.add_edge(u, v, w);
     tree.build(0);
 
-    /// 6 and 4 meet at 1, which meets 5 at 0; the list is {vertex, index of its parent in the list}
-    using Result = vector<pair<int, int>>;
-    auto vt = tree.compress({6, 4, 5});
-    assert((vt == Result{{0, -1}, {1, 0}, {6, 1}, {4, 1}, {5, 0}}));
-    assert(tree.dist(6, 1) == 7);               /// compressed edge 6 - 1 stands for 6 3 1, 5 + 2
-    assert((tree.compress({6, 3}) == Result{{3, -1}, {6, 0}}));
+    using Result = vector<array<long long, 3>>;
+    auto fields = [](const vector<VirtualTree::Node>& vt){
+        Result res;
+        for (auto [v, parent, len] : vt) res.push_back({v, parent, len});
+        return res;
+    };
+
+    /// 6 and 4 meet at 1, which meets 5 at 0; compressed edge 6 - 1 stands for 6 3 1, 5 + 2
+    assert((fields(tree.compress({6, 4, 5})) == Result{{0, -1, 0}, {1, 0, 3}, {6, 1, 7}, {4, 1, 7}, {5, 0, 5}}));
+    assert((fields(tree.compress({6, 3})) == Result{{3, -1, 0}, {6, 0, 5}}));
+    assert(tree.compress({}).empty());
     assert(tree.lca(6, 4) == 1);
     assert(tree.depth(6) == 3);
     return 0;

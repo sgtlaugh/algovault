@@ -60,7 +60,7 @@ vector<array<long long, 3>> make_tree(int n, int shape, long long max_w){
 }
 
 /// Shared checks given the expected vertex set (as a mask) and each member's expected virtual parent
-void check_result(const vector<pair<int, int>>& res, const vector<char>& in_set, const vector<int>& expected_parent, int distinct){
+void check_result(const vector<VirtualTree::Node>& res, const vector<char>& in_set, const vector<int>& expected_parent, int distinct){
     int members = count(in_set.begin(), in_set.end(), 1);
     assert((int)res.size() == members);
     assert(distinct == 0 ? res.empty() : (int)res.size() <= 2 * distinct - 1);
@@ -69,11 +69,11 @@ void check_result(const vector<pair<int, int>>& res, const vector<char>& in_set,
     vector<int> stack;
     vector<char> seen(in_set.size(), 0);
     for (int i = 0; i < (int)res.size(); i++){
-        auto [v, p] = res[i];
+        auto [v, p, len] = res[i];
         assert(in_set[v] && !seen[v]);
         seen[v] = 1;
         assert(i == 0 ? p == -1 : (p >= 0 && p < i));
-        assert(expected_parent[v] == (p == -1 ? -1 : res[p].first));
+        assert(expected_parent[v] == (p == -1 ? -1 : res[p].v));
 
         /// DFS order: the parent must be on the current root path
         while (!stack.empty() && stack.back() != p) stack.pop_back();
@@ -112,9 +112,9 @@ void check_small(const VirtualTree& tree, const NaiveTree& naive, const vector<i
     auto res = tree.compress(nodes);
     check_result(res, in_set, expected_parent, distinct);
     for (int i = 0; i < (int)res.size(); i++){
-        auto [v, p] = res[i];
+        auto [v, p, len] = res[i];
         assert(tree.depth(v) == naive.level[v]);
-        if (p != -1) assert(tree.dist(v, res[p].first) == naive.dist(v, res[p].first));
+        assert(len == (p == -1 ? 0 : naive.dist(v, res[p].v)));
     }
 }
 
