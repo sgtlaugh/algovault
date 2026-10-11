@@ -185,6 +185,9 @@
 - [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F)
 - [Library Checker kth_root_mod - Kth Root (Mod)](https://judge.yosupo.jp/problem/kth_root_mod)
 - [Library Checker primitive_root - Primitive Root](https://judge.yosupo.jp/problem/primitive_root)
+
+## [Modular Square Root](modular_sqrt.cpp)
+
 - [Library Checker sqrt_mod - Sqrt Mod](https://judge.yosupo.jp/problem/sqrt_mod)
 
 ## [Pisano Period](pisano_period.cpp)

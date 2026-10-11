@@ -25,7 +25,9 @@
  * so a huge such q is infeasible, a huge q with equal exponents (k = q, p = 2q + 1) needs no table
  * Requires __int128 (64-bit GCC or Clang)
  *
- * The factorization is a small Pollard rho copy, not the tuned one in pollard_rho.cpp
+ * The factorization is a small Pollard rho copy in namespace rho (rho::factorize, rho::is_prime),
+ * not the tuned one in pollard_rho.cpp
+ * sqrt_mod alone is in modular_sqrt.cpp, a much shorter paste
  *
 ***/
 
@@ -33,6 +35,7 @@
 
 using namespace std;
 
+/// BEGIN COPY modular_sqrt from code_library/number_theory/modular_sqrt.cpp
 long long mul_mod(long long a, long long b, long long m){
     return (unsigned __int128)a * b % m;
 }
@@ -43,128 +46,6 @@ long long pow_mod(long long x, long long e, long long m){
         if (e & 1) res = mul_mod(res, x, m);
     }
     return res;
-}
-
-/// Requires gcd(a, m) = 1, returns 0 for m = 1
-long long inverse_mod(long long a, long long m){
-    long long r = a % m, next_r = m, s = 1, next_s = 0;
-
-    while (next_r){
-        long long q = r / next_r;
-        r -= q * next_r, swap(r, next_r);
-        s -= q * next_s, swap(s, next_s);
-    }
-
-    return (s % m + m) % m;
-}
-
-bool is_prime(long long n){
-    static const long long bases[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
-    if (n < 2) return false;
-    for (long long q : bases){
-        if (n % q == 0) return n == q;
-    }
-
-    long long d = n - 1;
-    int s = 0;
-    for (; !(d & 1); d >>= 1) s++;
-
-    for (long long base : bases){
-        long long x = pow_mod(base, d, n);
-        if (x == 1) continue;
-        for (int i = 1; i < s && x != n - 1; i++) x = mul_mod(x, x, n);
-        if (x != n - 1) return false;
-    }
-    return true;
-}
-
-/// Brent's cycle detection with one gcd per 128 steps, returns a proper divisor of a composite n
-long long pollard_rho(long long n){
-    if (n % 2 == 0) return 2;
-
-    for (long long c = 1; ; c++){
-        auto next = [&](long long x){ return (mul_mod(x, x, n) + c) % n; };
-        long long x = 0, y = 0, ys = 0, q = 1, g = 1;
-
-        for (long long r = 1; g == 1; r <<= 1){
-            x = y;
-            for (long long i = 0; i < r; i++) y = next(y);
-            for (long long k = 0; k < r && g == 1; k += 128){
-                ys = y;
-                for (long long i = 0; i < 128 && i < r - k; i++){
-                    y = next(y);
-                    q = mul_mod(q, abs(x - y), n);
-                }
-                g = gcd(q, n);
-            }
-        }
-
-        /// The batch overshot to a multiple of n, replay it one step at a time
-        if (g == n){
-            do{
-                ys = next(ys);
-                g = gcd(abs(x - ys), n);
-            } while (g == 1);
-        }
-        if (g != n) return g;
-    }
-}
-
-void collect_primes(long long n, vector<long long>& primes){
-    if (n == 1) return;
-    if (is_prime(n)){
-        primes.push_back(n);
-        return;
-    }
-
-    long long d = pollard_rho(n);
-    collect_primes(d, primes);
-    collect_primes(n / d, primes);
-}
-
-/// Sorted (prime, exponent) pairs
-vector<pair<long long, int>> factorize(long long n){
-    vector<long long> primes;
-    collect_primes(n, primes);
-    sort(primes.begin(), primes.end());
-
-    vector<pair<long long, int>> res;
-    for (long long q : primes){
-        if (!res.empty() && res.back().first == q) res.back().second++;
-        else res.emplace_back(q, 1);
-    }
-    return res;
-}
-
-long long multiplicative_order(long long a, long long m){
-    a = (a % m + m) % m;
-    if (gcd(a, m) != 1) return -1;
-
-    long long phi = m;
-    for (auto [q, e] : factorize(m)) phi = phi / q * (q - 1);
-
-    long long order = phi;
-    for (auto [q, e] : factorize(phi)){
-        while (order % q == 0 && pow_mod(a, order / q, m) == 1) order /= q;
-    }
-    return order;
-}
-
-long long primitive_root(long long m){
-    if (m <= 4) return m - 1;
-
-    long long odd = m % 2 ? m : m / 2;
-    auto f = factorize(odd);
-    if (m % 4 == 0 || f.size() != 1) return -1;
-
-    long long phi = odd / f[0].first * (f[0].first - 1);
-    auto phi_factors = factorize(phi);
-    for (long long g = 2; ; g++){
-        if (gcd(g, m) != 1) continue;
-        bool is_root = true;
-        for (auto [q, e] : phi_factors) is_root = is_root && pow_mod(g, phi / q, m) != 1;
-        if (is_root) return g;
-    }
 }
 
 /// Smallest n that is not a q-th power mod p, for a prime q dividing p - 1
@@ -194,6 +75,131 @@ long long sqrt_mod(long long a, long long p){
     }
 
     return min(x, p - x);
+}
+/// END COPY modular_sqrt
+
+/// Requires gcd(a, m) = 1, returns 0 for m = 1
+long long inverse_mod(long long a, long long m){
+    long long r = a % m, next_r = m, s = 1, next_s = 0;
+
+    while (next_r){
+        long long q = r / next_r;
+        r -= q * next_r, swap(r, next_r);
+        s -= q * next_s, swap(s, next_s);
+    }
+
+    return (s % m + m) % m;
+}
+
+namespace rho{
+    bool is_prime(long long n){
+        static const long long bases[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
+        if (n < 2) return false;
+        for (long long q : bases){
+            if (n % q == 0) return n == q;
+        }
+
+        long long d = n - 1;
+        int s = 0;
+        for (; !(d & 1); d >>= 1) s++;
+
+        for (long long base : bases){
+            long long x = pow_mod(base, d, n);
+            if (x == 1) continue;
+            for (int i = 1; i < s && x != n - 1; i++) x = mul_mod(x, x, n);
+            if (x != n - 1) return false;
+        }
+        return true;
+    }
+
+    /// Brent's cycle detection with one gcd per 128 steps, returns a proper divisor of a composite n
+    long long pollard_rho(long long n){
+        if (n % 2 == 0) return 2;
+
+        for (long long c = 1; ; c++){
+            auto next = [&](long long x){ return (mul_mod(x, x, n) + c) % n; };
+            long long x = 0, y = 0, ys = 0, q = 1, g = 1;
+
+            for (long long r = 1; g == 1; r <<= 1){
+                x = y;
+                for (long long i = 0; i < r; i++) y = next(y);
+                for (long long k = 0; k < r && g == 1; k += 128){
+                    ys = y;
+                    for (long long i = 0; i < 128 && i < r - k; i++){
+                        y = next(y);
+                        q = mul_mod(q, abs(x - y), n);
+                    }
+                    g = gcd(q, n);
+                }
+            }
+
+            /// The batch overshot to a multiple of n, replay it one step at a time
+            if (g == n){
+                do{
+                    ys = next(ys);
+                    g = gcd(abs(x - ys), n);
+                } while (g == 1);
+            }
+            if (g != n) return g;
+        }
+    }
+
+    void collect_primes(long long n, vector<long long>& primes){
+        if (n == 1) return;
+        if (is_prime(n)){
+            primes.push_back(n);
+            return;
+        }
+
+        long long d = pollard_rho(n);
+        collect_primes(d, primes);
+        collect_primes(n / d, primes);
+    }
+
+    /// Sorted (prime, exponent) pairs
+    vector<pair<long long, int>> factorize(long long n){
+        vector<long long> primes;
+        collect_primes(n, primes);
+        sort(primes.begin(), primes.end());
+
+        vector<pair<long long, int>> res;
+        for (long long q : primes){
+            if (!res.empty() && res.back().first == q) res.back().second++;
+            else res.emplace_back(q, 1);
+        }
+        return res;
+    }
+}
+
+long long multiplicative_order(long long a, long long m){
+    a = (a % m + m) % m;
+    if (gcd(a, m) != 1) return -1;
+
+    long long phi = m;
+    for (auto [q, e] : rho::factorize(m)) phi = phi / q * (q - 1);
+
+    long long order = phi;
+    for (auto [q, e] : rho::factorize(phi)){
+        while (order % q == 0 && pow_mod(a, order / q, m) == 1) order /= q;
+    }
+    return order;
+}
+
+long long primitive_root(long long m){
+    if (m <= 4) return m - 1;
+
+    long long odd = m % 2 ? m : m / 2;
+    auto f = rho::factorize(odd);
+    if (m % 4 == 0 || f.size() != 1) return -1;
+
+    long long phi = odd / f[0].first * (f[0].first - 1);
+    auto phi_factors = rho::factorize(phi);
+    for (long long g = 2; ; g++){
+        if (gcd(g, m) != 1) continue;
+        bool is_root = true;
+        for (auto [q, e] : phi_factors) is_root = is_root && pow_mod(g, phi / q, m) != 1;
+        if (is_root) return g;
+    }
 }
 
 /// Some x with x^(q^e) = b mod p, for a prime power q^e dividing p - 1 and b != 0 a q^e-th power
@@ -248,7 +254,7 @@ long long kth_root(long long a, long long k, long long p){
 
     /// a is a g-th power, so b = a^(1 / (k / g)) is one too, and any g-th root of b is a k-th root of a
     long long b = pow_mod(a, inverse_mod(k / g % m, m), p);
-    for (auto [q, e] : factorize(g)) b = prime_power_root(b, q, e, p);
+    for (auto [q, e] : rho::factorize(g)) b = prime_power_root(b, q, e, p);
     return b;
 }
 
@@ -265,7 +271,7 @@ vector<long long> kth_roots(long long a, long long k, long long p){
 
     /// w has order exactly g, so x * w^i for i < g are the g distinct roots
     long long g = gcd(k, p - 1), w = 1;
-    for (auto [q, e] : factorize(g)){
+    for (auto [q, e] : rho::factorize(g)){
         long long cofactor = p - 1;
         for (int i = 0; i < e; i++) cofactor /= q;
         w = mul_mod(w, pow_mod(non_residue(q, p), cofactor, p), p);

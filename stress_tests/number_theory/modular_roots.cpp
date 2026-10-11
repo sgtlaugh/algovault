@@ -54,7 +54,7 @@ void check_kth_roots(long long k, long long p){
 long long random_prime(long long lo, long long hi){
     while (1){
         long long n = stress::rand_int(lo, hi);
-        if (is_prime(n)) return n;
+        if (rho::is_prime(n)) return n;
     }
 }
 
@@ -68,27 +68,27 @@ int main(){
 
     for (long long n = 1; n <= 30000; n++){
         long long prod = 1;
-        for (auto [q, e] : factorize(n)){
+        for (auto [q, e] : rho::factorize(n)){
             assert(brute_is_prime(q));
             for (int i = 0; i < e; i++) prod *= q;
         }
         assert(prod == n);
-        assert(is_prime(n) == brute_is_prime(n));
+        assert(rho::is_prime(n) == brute_is_prime(n));
     }
     for (long long it = 0; it < stress::scaled(300); it++){
         long long n = stress::rand_int(1, it % 2 ? 1000000000000LL : (1LL << 62) - 1), rest = n;
-        for (auto [q, e] : factorize(n)){
-            assert(is_prime(q));
+        for (auto [q, e] : rho::factorize(n)){
+            assert(rho::is_prime(q));
             for (int i = 0; i < e; i++) assert(rest % q == 0), rest /= q;
         }
         assert(rest == 1);
-        if (n <= 1000000000000LL) assert(is_prime(n) == brute_is_prime(n));
+        if (n <= 1000000000000LL) assert(rho::is_prime(n) == brute_is_prime(n));
     }
 
     /// Strong pseudoprimes to bases 2..7 and 2..31 (151 * 751 * 28351, 149491 * 747451 * 34233211),
     /// random inputs never hit them, and only the full base set rejects them
-    assert(!is_prime(3215031751LL));
-    assert(!is_prime(3825123056546413051LL));
+    assert(!rho::is_prime(3215031751LL));
+    assert(!rho::is_prime(3825123056546413051LL));
 
     for (long long m = 1; m <= 400; m++){
         for (long long a = -m; a < 2 * m; a++) assert(multiplicative_order(a, m) == brute_order((a % m + m) % m, m));
@@ -127,7 +127,7 @@ int main(){
 
         long long order = multiplicative_order(x, p);
         assert((p - 1) % order == 0 && pow_mod(x, order, p) == 1);
-        for (auto [q, e] : factorize(order)) assert(pow_mod(x, order / q, p) != 1);
+        for (auto [q, e] : rho::factorize(order)) assert(pow_mod(x, order / q, p) != 1);
 
         long long g = primitive_root(p);
         assert(multiplicative_order(g, p) == p - 1);

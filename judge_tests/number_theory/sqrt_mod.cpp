@@ -3,7 +3,7 @@
 #include <bits/stdc++.h>
 
 #define main library_main
-#include "../../code_library/number_theory/modular_roots.cpp"
+#include "../../code_library/number_theory/modular_sqrt.cpp"
 #undef main
 
 int main(){

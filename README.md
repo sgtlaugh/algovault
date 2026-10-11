@@ -192,6 +192,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Min_25 Sieve](code_library/number_theory/min_25_sieve.cpp) - prefix sums of a multiplicative function in `O(deg n^(3/4) / log n)`, any modulus [✔](judge_tests/number_theory/sum_of_multiplicative_function.cpp)
 - [Mobius Function](code_library/number_theory/mobius_function.cpp) - Mobius mu for `1..n` in `O(n)` at 1 byte per entry
 - [Modular Roots](code_library/number_theory/modular_roots.cpp) - multiplicative order, primitive root, square root and k-th roots modulo a prime [✔](judge_tests/number_theory/kth_root_mod.cpp)
+- [Modular Square Root](code_library/number_theory/modular_sqrt.cpp) - Tonelli-Shanks square root modulo a prime [✔](judge_tests/number_theory/sqrt_mod.cpp)
 - [Pisano Period](code_library/number_theory/pisano_period.cpp) - period of Fibonacci numbers modulo n
 - [Pollard Rho](code_library/number_theory/pollard_rho.cpp) - factorization of 64-bit integers [✔](judge_tests/number_theory/factorize.cpp)
 - [Power Tower](code_library/number_theory/power_tower.cpp) - `a1^(a2^(...^an))` modulo m [✔](judge_tests/number_theory/tetration_mod.cpp)
