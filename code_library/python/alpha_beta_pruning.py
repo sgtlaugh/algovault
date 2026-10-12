@@ -16,7 +16,6 @@ from abc import ABC, abstractmethod
 class AbstractNode(ABC):
     def __init__(self, state):
         self.state = state
-        super().__init__()
 
     @abstractmethod
     def get_next_states(self):
@@ -54,13 +53,13 @@ class AbstractNode(ABC):
         for next_state in self.get_next_states():
             value = next_state.get_utility(is_first_player_turn ^ True, alpha, beta)
 
-            if is_first_player_turn and value > alpha:  # First player maximizes score
+            if is_first_player_turn and value > alpha:
                 alpha = value
 
-            if not is_first_player_turn and value < beta:  # Second player minimizes score
+            if not is_first_player_turn and value < beta:
                 beta = value
 
-            if alpha >= beta:  # Alpha beta pruning applied here
+            if alpha >= beta:
                 break
 
         return alpha if is_first_player_turn else beta
