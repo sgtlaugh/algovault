@@ -39,7 +39,6 @@ vector<int> prefix_function(const Container& c){
     return pi;
 }
 
-/// Find all occurrences of pattern in text, return starting indices
 template<typename Container>
 vector<int> kmp_search(const Container& text, const Container& pattern){
     vector<int> positions;
