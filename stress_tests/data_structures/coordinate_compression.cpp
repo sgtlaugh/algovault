@@ -20,7 +20,24 @@ void check(const vector<T>& v){
     }
 }
 
+/// Multiples of the bucket count unordered_map picks after reserve(n) all collide under the identity std::hash
+void check_anti_hash(){
+    const int n = 100000;
+    unordered_map<long long, int> probe;
+    probe.reserve(n);
+    long long buckets = probe.bucket_count();
+
+    vector<long long> v(n);
+    for (int i = 0; i < n; i++) v[i] = buckets * (i / 2 + 1);
+    clock_t start = clock();
+    auto vals = compress(v, false);
+    assert(clock() - start < 2 * CLOCKS_PER_SEC);  /// CPU time, parallel sanitizer jobs inflate wall time
+    assert((int)vals.size() == n / 2 && vals[0] == buckets && v[n - 1] == n / 2 - 1);
+}
+
 int main(){
+    check_anti_hash();
+
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(0, it % 10 ? 30 : 500), spread = stress::rand_int(1, 50);
         vector<int> a(n);

@@ -7,7 +7,7 @@
  * 0 based indexing for compressed values
  * Returns the distinct values in id order, vals[v[i]] is the original value of v[i]
  *
- * Complexity: O(N) expected if sorting is not necessary (hash map), otherwise O(N log N) (no hashing)
+ * Complexity: O(N log N) in both modes, deterministic (no hashing)
  *
  * Example:
  *   auto vals = compress(v);
@@ -20,26 +20,33 @@ using namespace std;
 
 template <class T>
 vector<T> compress(vector<T>& v, bool make_sorted=true){
-    vector<T> vals;
-    if (!make_sorted){
-        unordered_map<T, int> mp;
-        mp.reserve(v.size());
-        for (auto &&x: v){
-            auto [it, fresh] = mp.emplace(x, vals.size());
-            if (fresh) vals.push_back(x);
-            x = it->second;
-        }
-        return vals;
-    }
-
     int n = v.size();
     vector<pair<T, int>> order(n);
     for (int i = 0; i < n; i++) order[i] = {v[i], i};
     sort(order.begin(), order.end());
+
+    vector<T> vals;
+    vector<int> ids(n);
     for (int i = 0; i < n; i++){
         if (!i || order[i - 1].first < order[i].first) vals.push_back(order[i].first);
-        v[order[i].second] = vals.size() - 1;
+        ids[order[i].second] = vals.size() - 1;
     }
+
+    /// Relabel by scanning in input order instead of hashing, std::hash is the identity on ints and hackable
+    if (!make_sorted){
+        vector<int> relabel(vals.size(), -1);
+        vector<T> first_seen;
+        for (int& id: ids){
+            if (relabel[id] == -1){
+                relabel[id] = first_seen.size();
+                first_seen.push_back(vals[id]);
+            }
+            id = relabel[id];
+        }
+        vals.swap(first_seen);
+    }
+
+    for (int i = 0; i < n; i++) v[i] = ids[i];
     return vals;
 }
 
