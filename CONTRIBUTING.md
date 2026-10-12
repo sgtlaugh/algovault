@@ -11,7 +11,8 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 - The test includes `../common.h` and the library with `#define main library_main`
 - Randomness through `stress::rand_int`, loops sized by `stress::scaled`, a few seconds by default
 - An entry in its README index section, alphabetically, variants nested under their base
-- Verified practice problems in `code_library/<topic>/README.md`, as `[<Judge> <code> - <title>](<url>)` in natural order
+- Verified practice problems in `code_library/<topic>/README.md`, as `[<Judge> <code> - <title>](<url>)` in natural order,
+  each on a live judge or with official data and a judge, like the Code Jam archive
 - Python templates go in `code_library/python/`, tests in `stress_tests/python/` via `stress.py`
 - A file CI truly cannot stress test goes in `STRESS_SKIP` in `run_tests.sh`, with the reason
 - A judge test under `judge_tests/<topic>/<problem>.cpp` when a Library Checker or Aizu problem fits, starting with
