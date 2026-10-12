@@ -103,7 +103,6 @@ vector<Point> get_convex_hull(vector<Point> P){
 
 /***
  *
- * Returns whether the polygon is convex or not
  * Points in P are given in clockwise or anti-clockwise order, collinear vertices are allowed
  *
 ***/
