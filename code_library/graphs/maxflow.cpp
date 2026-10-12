@@ -1,7 +1,7 @@
 /***
  *
- * Fast maximum flow with Dinic's algorithm
- * 0 based indexing for nodes, so nodes are numbered from 0 to n-1
+ * Maximum flow with Dinic's algorithm
+ * Nodes are 0 to n - 1
  *
  * Complexity: O(V^2 E), O(E sqrt(V)) on unit-capacity bipartite matching
  *     Library Checker bipartitematching (1e5 + 1e5 nodes, 2e5 edges) slowest case 1.9 s at -O2 against a 5 s limit, on par with hopcroft_karp.cpp
@@ -13,6 +13,7 @@
  *
  * Use FlowGraph for standard flow with edge capacity
  * Use FlowGraphWithNodeCap when nodes can have capacity as well, its add_directed_edge returns an id into .flowgraph.E
+ *     node capacities apply to src and sink too, give them a huge capacity to leave them uncapped
  * Use DenseFlowGraph for dense graphs: an n x n capacity matrix, same API, O(n^2) memory (32 MB at n = 2000)
  *     measured 2x to 7x faster than FlowGraph with half or more of all n^2 edges present, n from 600 to 2000
  *     same construction and maxflow() calls, but no per-edge flow values since only residual capacities are kept
@@ -287,6 +288,13 @@ int main(){
     assert(flow_graph_node_cap.maxflow() == 2);
     auto node_cut = flow_graph_node_cap.flowgraph.cut_edges();
     assert(node_cut.size() == 1 && flow_graph_node_cap.flowgraph.E[node_cut[0]].u == 6 && flow_graph_node_cap.flowgraph.E[node_cut[0]].v == 7);
+
+    for (auto [src_cap, sink_cap] : vector<pair<long long, long long>>{{1, LLONG_MAX}, {LLONG_MAX, 1}, {LLONG_MAX, LLONG_MAX}}){
+        auto capped_ends = FlowGraphWithNodeCap(3, 0, 2, {src_cap, 100, sink_cap});
+        capped_ends.add_directed_edge(0, 1, 50);
+        capped_ends.add_directed_edge(1, 2, 50);
+        assert(capped_ends.maxflow() == min({src_cap, sink_cap, 50LL}));
+    }
 
     vector<long long> weight = {10, 5, -4, -3, -6};
     auto closure = FlowGraph(7, 5, 6);
