@@ -120,6 +120,7 @@
 - [CodeChef MGCHPERM - Misha and Permutation](https://www.codechef.com/problems/MGCHPERM)
 - [CodeChef RNG - Random Number Generator](https://www.codechef.com/problems/RNG)
 - [Codeforces 506E - Mr. Kitayuta's Gift](https://codeforces.com/problemset/problem/506/E)
+- [Codeforces 717A - Festival Organization](https://codeforces.com/problemset/problem/717/A) [✅](../../practice/algebra/codeforces_717a_linear_recurrence.cpp "Accepted solution")
 - [Codeforces 1117D - Magic Gems](https://codeforces.com/problemset/problem/1117/D) [✅](../../practice/algebra/codeforces_1117d.cpp "Accepted solution")
 - [CSES 1096 - Throwing Dice](https://cses.fi/problemset/task/1096)
 - [HDU 4914 - Linear recursive sequence](https://acm.hdu.edu.cn/showproblem.php?pid=4914)

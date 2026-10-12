@@ -102,7 +102,7 @@
 
 ## [Stirling Numbers](stirling_numbers.cpp)
 
-- [Codeforces 717A - Festival Organization](https://codeforces.com/problemset/problem/717/A) [✅](../../practice/combinatorics/codeforces_717a.cpp "Accepted solution")
+- [Codeforces 717A - Festival Organization](https://codeforces.com/problemset/problem/717/A) [✅](../../practice/combinatorics/codeforces_717a_stirling_numbers.cpp "Accepted solution")
 - [Codeforces 932E - Team Work](https://codeforces.com/problemset/problem/932/E) [✅](../../practice/combinatorics/codeforces_932e.cpp "Accepted solution")
 - [CSES 2228 - Counting Sequences](https://cses.fi/problemset/task/2228)
 - [HackerRank sasha-and-swaps-ii - Sasha and the Swaps II](https://www.hackerrank.com/contests/w23/challenges/sasha-and-swaps-ii)
