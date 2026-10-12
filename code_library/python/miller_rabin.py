@@ -2,6 +2,7 @@
 Miller-Rabin Primality Test
 
 is_prime(n): Miller-Rabin test of n against 7 fixed bases
+The bases are proven deterministic only for n < 2^64, above that a True is probabilistic (a composite can pass)
 
 Complexity: O(log n) modular multiplications of log n bit integers per base, 7 bases
 """
