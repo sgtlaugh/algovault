@@ -17,7 +17,7 @@
  *   - The default lg_capacity = 24 is 16.7M slots, 268 MB for T = long long
  *   - Each update creates up to (floor(log2(N)) + 1) * (floor(log2(M)) + 1) nodes, 900 at N = M = 1e9
  *   - The table must hold every node created, an update that fills it past 3/4 asserts, raise lg_capacity
- *   - Size it so 2^lg_capacity is at least twice Q * (log2(N) + 1) * (log2(M) + 1) to keep probes short
+ *   - Size it so 2^lg_capacity is at least twice Q * (floor(log2(N)) + 1) * (floor(log2(M)) + 1) to keep probes short
  *   - So N = M = 1e9 with 100K updates (up to 9e7 nodes) does not fit the default, it asserts
  *
  * Benchmarks (Codeforces server):
