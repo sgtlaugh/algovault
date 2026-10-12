@@ -1,4 +1,6 @@
 #include "../common.h"
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/number_theory/fast_prime_counting.cpp"
@@ -26,6 +28,29 @@ long long lucy(long long n){
     return hi[1];
 }
 
+/// -D_GLIBCXX_ASSERTIONS aborts on the out of range pi[] read too, so only the range assert's own message counts
+template<int MAXN, int MAXP>
+bool range_assert_fires(PrimeCounter<MAXN, MAXP>& pc, long long n){
+    FILE* log = tmpfile();
+    assert(log);
+    pid_t pid = fork();
+    assert(pid >= 0);
+
+    if (pid == 0){
+        dup2(fileno(log), STDERR_FILENO);
+        pc.lehmer(n);
+        _exit(0);
+    }
+
+    int status;
+    assert(waitpid(pid, &status, 0) == pid);
+    char buf[4096] = {0};
+    rewind(log);
+    bool logged = fread(buf, 1, sizeof(buf) - 1, log) > 0;
+    fclose(log);
+    return logged && WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT && strstr(buf, "Assertion `0 <= n");
+}
+
 /// Tables far smaller than the queries, up to the maxv^2 - 1 limit, and both ends of the MAXP range
 template<int MAXN, int MAXP>
 void check_small_tables(int maxv){
@@ -33,6 +58,7 @@ void check_small_tables(int maxv){
     long long top = (long long)maxv * maxv - 1;
     assert(pc.lehmer(0) == 0);
     for (long long n : {1LL, 2LL, (long long)maxv - 1, (long long)maxv, top - 1, top}) assert((long long)pc.lehmer(n) == lucy(n));
+    assert(range_assert_fires(pc, -1) && range_assert_fires(pc, top + 1) && range_assert_fires(pc, 5 * top));
     for (long long it = 0; it < stress::scaled(30); it++){
         long long n = stress::rand_int(1, top);
         assert((long long)pc.lehmer(n) == lucy(n));

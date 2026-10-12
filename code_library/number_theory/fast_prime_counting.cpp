@@ -48,6 +48,7 @@ struct PrimeCounter{
     }
 
     uint64_t lehmer(long long n){
+        assert(0 <= n && n < (long long)maxv * maxv);
         if (n < maxv) return pi[n];
 
         int s = sqrt(0.5 + n), c = cbrt(0.5 + n);
