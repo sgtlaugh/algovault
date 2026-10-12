@@ -78,7 +78,6 @@ struct AhoCorasick{
         return insert(str.c_str());
     }
 
-    /// Build automaton: compute failure links and fill in missing transitions. Call once after all inserts.
     inline void build(){
         assert(!built);
         built = true;
@@ -105,7 +104,6 @@ struct AhoCorasick{
         return go[cur][x];
     }
 
-    /// Total number of occurrences of all words from dictionary in str
     long long count(const char* str){
         assert(built);
         long long res = 0;
