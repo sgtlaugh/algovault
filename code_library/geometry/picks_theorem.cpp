@@ -1,11 +1,16 @@
 /***
  *
- * Pick's Thoerem and other related methods
+ * Pick's Theorem and other related methods
  * Calculates area of polygon and number of lattice points inside and on border
  *
  * Complexity:
  *   - area2: O(n)
  *   - on_border, on_interior: O(n log C), one gcd per edge, C the largest coordinate difference along an edge
+ *
+ * poly is a simple polygon with lattice vertices in either orientation, |x|, |y| <= 1e9
+ *   area2(poly): twice the area, exact
+ *   on_border(poly): the count of lattice points on the border, vertices included
+ *   on_interior(poly): the count of lattice points strictly inside, from Pick's theorem A = I + B / 2 - 1
  *
 ***/
 
@@ -31,7 +36,7 @@ long long area2(const vector<Point>& poly){
     return res < 0 ? -res : res;
 }
 
-/// number of lattice points strictly on the polygon border (edges)
+/// number of lattice points on the polygon border, vertices included
 long long on_border(const vector<Point>& poly){
     long long res = 0;
     int i, j, n = poly.size();
