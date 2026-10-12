@@ -27,7 +27,7 @@ int expo(long long x, int n){
         x = x * x % MOD;
         n >>= 1;
     }
-    return res % MOD;
+    return res;
 }
 
 template <int MOD = 1000000007>
