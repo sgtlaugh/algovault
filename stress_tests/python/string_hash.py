@@ -1,5 +1,6 @@
 from stress import rng, scaled
 
+import string_hash
 from string_hash import StringHash
 
 
@@ -20,6 +21,12 @@ def main():
     h = StringHash(text)
     assert h.get_hash(0, len(text) - 3) == h.get_hash(2, len(text) - 1)
     assert h.get_hash(0, len(text) - 2) != h.get_hash(1, len(text) - 1)
+
+    # Contest code in the same file reusing the names MOD and BASE must not affect live or new instances
+    h = StringHash('abracadabra')
+    string_hash.MOD, string_hash.BASE = 10**9 + 7, 31
+    assert h.get_hash(0, 3) == h.get_hash(7, 10) and h.get_hash(0, 4) != h.get_hash(5, 9)
+    assert StringHash('cadabra').get_hash(3, 6) == h.get_hash(7, 10)
 
 
 if __name__ == '__main__':

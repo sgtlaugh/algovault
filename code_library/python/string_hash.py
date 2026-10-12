@@ -6,26 +6,26 @@ Polynomial rolling hash, get_hash(l, r) is the hash of text[l..r] inclusive
 Complexity: O(n) to build, O(1) per get_hash, n + 1 prefix hashes per instance plus powers shared up to the longest text
 """
 
-BASE = 997
-MOD = 10**18 + 3
-
 
 class StringHash:
+    # Class attributes so contest code that assigns a global MOD or BASE cannot corrupt live instances
+    _BASE = 997
+    _MOD = 10**18 + 3
     _powers = [1]  # shared by all instances, grown to the longest text seen
 
     def __init__(self, text):
-        powers = StringHash._powers
+        base, mod, powers = StringHash._BASE, StringHash._MOD, StringHash._powers
         while len(powers) <= len(text):
-            powers.append(powers[-1] * BASE % MOD)
+            powers.append(powers[-1] * base % mod)
 
         h, prefix_hash = 0, [0]
         for c in text:
-            h = (h * BASE + ord(c) + 13) % MOD
+            h = (h * base + ord(c) + 13) % mod
             prefix_hash.append(h)
         self.prefix_hash = prefix_hash
 
     def get_hash(self, l, r):
-        return (self.prefix_hash[r + 1] - StringHash._powers[r - l + 1] * self.prefix_hash[l]) % MOD
+        return (self.prefix_hash[r + 1] - StringHash._powers[r - l + 1] * self.prefix_hash[l]) % StringHash._MOD
 
 
 def main():
