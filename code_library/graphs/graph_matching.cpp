@@ -20,7 +20,6 @@
  *
 ***/
 
-#include <stdio.h>
 #include <bits/stdtr1c++.h>
 
 using namespace std;
@@ -33,7 +32,6 @@ struct TutteMatching{
     vector<vector<unsigned int>> tutte_matrix;
     mt19937 rng = mt19937(chrono::steady_clock::now().time_since_epoch().count());
 
-    TutteMatching() {}
     TutteMatching(int n): n(n){
         adj = vector<vector<bool>>(n, vector<bool>(n, 0));
         tutte_matrix = vector<vector<unsigned int>>(n, vector<unsigned int>(n, 0));
