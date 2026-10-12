@@ -5,7 +5,7 @@
  * Variables must satisfy a system of constraints on pairs of variables
  * After is_satisfiable() returns true, value(x) gives a satisfying assignment
  *
- * Complexity: O(n + m), n = number of nodes and m = number of edges or constraints
+ * Complexity: O(n + m), n = number of variables, m = number of clauses
  *
  * Literals are signed variable indices: x means x is true, -x means x is false
  * at_most_one(literals) allows at most one of k literals to be true (a literal listed twice counts twice)
