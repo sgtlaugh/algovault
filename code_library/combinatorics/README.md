@@ -55,10 +55,6 @@
 - [UVa 12887 - The Soldier's Dilemma](https://onlinejudge.org/external/128/12887.pdf)
 - [UVa 13184 - Counting Edges and Graphs](https://onlinejudge.org/external/131/13184.pdf)
 
-## [Faulhaber's Formula](faulhaber_formula.cpp)
-
-- [Codeforces 622F - The Sum of the k-th Powers](https://codeforces.com/problemset/problem/622/F)
-
 ## [Gambler's Ruin](gamblers_ruin.cpp)
 
 - [UVa 1573 - Hey, Better Bettor](https://onlinejudge.org/external/15/1573.pdf)
