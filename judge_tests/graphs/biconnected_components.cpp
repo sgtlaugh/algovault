@@ -37,7 +37,7 @@ void write_int(string& out, long long x, char end){
 
 int main(){
     int n = read_int(), m = read_int();
-    Graph g(n);
+    Biconnected g(n);
     for (int i = 0; i < m; i++){
         int a = read_int(), b = read_int();
         g.add_edge(a, b);

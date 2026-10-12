@@ -5,7 +5,7 @@
  *
  * Complexity: O(n + m)
  *
- * Graph g(n); int id = g.add_edge(u, v); nodes are 0 to n - 1, edge ids count up from 0 in add_edge order
+ * Biconnected g(n); int id = g.add_edge(u, v); nodes are 0 to n - 1, edge ids count up from 0 in add_edge order
  * g.get_cuts(): sorted articulation points, the vertices whose removal increases the number of connected components
  * g.get_blocks(): edge ids of each block, two edges share a block iff they lie on a common simple cycle
  *     A bridge is a block of its own, a doubled bridge is a 2-edge block, a self loop belongs to no block
@@ -24,14 +24,14 @@
 
 using namespace std;
 
-struct Graph{
+struct Biconnected{
     int n;
     vector<vector<pair<int, int>>> adj; /// (neighbor, edge id)
     vector<pair<int, int>> edges;
     vector<bool> is_cut;
     vector<vector<int>> blocks;
 
-    Graph(int n) : n(n), adj(n) {}
+    Biconnected(int n) : n(n), adj(n) {}
 
     int add_edge(int u, int v){
         int id = edges.size();
@@ -127,7 +127,7 @@ struct Graph{
 };
 
 int main(){
-    auto graph = Graph(10);
+    auto graph = Biconnected(10);
 
     graph.add_edge(0, 1);
     graph.add_edge(1, 2);
@@ -170,19 +170,19 @@ int main(){
     for (int v = 0; v < 10; v++) degrees.push_back(tree[v].size());
     assert((degrees == vector<int>{1, 1, 2, 1, 2, 2, 2, 1, 1, 1}));
 
-    auto star = Graph(4);
+    auto star = Biconnected(4);
     star.add_edge(0, 1);
     star.add_edge(0, 2);
     star.add_edge(0, 3);
     assert((star.get_cuts() == vector<int>{0}));
     assert((sorted_blocks(star.get_blocks()) == vector<vector<int>>{{0}, {1}, {2}}));
 
-    auto cycle = Graph(4);
+    auto cycle = Biconnected(4);
     for (int v = 0; v < 4; v++) cycle.add_edge(v, (v + 1) % 4);
     assert(cycle.get_cuts().empty());
     assert((sorted_blocks(cycle.get_blocks()) == vector<vector<int>>{{0, 1, 2, 3}}));
 
-    auto multi = Graph(5);
+    auto multi = Biconnected(5);
     multi.add_edge(0, 1);
     multi.add_edge(1, 0);
     multi.add_edge(1, 1);
@@ -194,7 +194,7 @@ int main(){
     assert(multi_tree.size() == 7u);
     assert(multi_tree[3].empty() && multi_tree[4].empty() && multi_tree[1].size() == 2u);
 
-    auto empty = Graph(0);
+    auto empty = Biconnected(0);
     assert(empty.get_cuts().empty() && empty.get_blocks().empty() && empty.get_block_cut_tree().empty());
 
     return 0;

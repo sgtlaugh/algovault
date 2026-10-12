@@ -252,7 +252,7 @@ vector<pair<int, int>> tiny_graph(int n){
 
 void check(int n, const vector<pair<int, int>>& edges, bool by_cycles){
     int m = edges.size();
-    Graph g(n);
+    Biconnected g(n);
 
     /// Query halfway through the edges too, a second call must not keep results from the first
     int half = stress::rand_int(0, m);
@@ -292,7 +292,7 @@ int main(){
     /// Past the old fixed MAX = 100010 arrays
     {
         int n = 150000;
-        Graph g(n);
+        Biconnected g(n);
         for (int v = 1; v < n; v++) g.add_edge(0, v);
         assert(g.get_cuts() == vector<int>({0}));
     }
@@ -300,7 +300,7 @@ int main(){
     /// DFS depth n, a recursive search overflows the 8 MB stack here
     {
         int n = 200000;
-        Graph path(n), cycle(n);
+        Biconnected path(n), cycle(n);
         for (int v = 0; v + 1 < n; v++) path.add_edge(v, v + 1), cycle.add_edge(v, v + 1);
         cycle.add_edge(n - 1, 0);
 
