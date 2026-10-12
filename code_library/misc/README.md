@@ -70,6 +70,7 @@
 ## [Simulated Annealing](simulated_annealing.cpp)
 
 - [AtCoder INTRO-HEURISTICS A - AtCoder Contest Scheduling](https://atcoder.jp/contests/intro-heuristics/tasks/intro_heuristics_a)
+- [Code Jam 2015 World Finals D - Taking Over The World](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/world_finals/taking_over_the_world)
 - [Codeforces 2C - Commentator problem](https://codeforces.com/problemset/problem/2/C)
 - [Codeforces 106E - Space Rescuers](https://codeforces.com/problemset/problem/106/E)
 - [Codeforces 1556H - DIY Tree](https://codeforces.com/problemset/problem/1556/H)
