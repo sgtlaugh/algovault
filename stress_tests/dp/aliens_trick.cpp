@@ -16,7 +16,7 @@ void check_synthetic(){
     sort(slopes.begin(), slopes.end());
 
     vector<long long> f(n + 1, INF);
-    f[first] = stress::rand_int(-range, range);
+    f[first] = stress::rand_int(-range, range) + (stress::rand_int(0, 1) ? 5000000000LL : 0);
     for (int c = first + 1; c <= n; c++) f[c] = f[c - 1] + slopes[c - first - 1];
 
     auto solver = [&](long long lambda){
@@ -30,6 +30,11 @@ void check_synthetic(){
     if (stress::rand_int(0, 1)) lo -= stress::rand_int(0, 1000000000000LL), hi += stress::rand_int(0, 1000000000000LL);
 
     for (int k = first; k <= n; k++) assert(aliens_trick(k, lo, hi, solver) == f[k]);
+
+    /// int bounds with an int64 solver must still return f(k) beyond 2^31
+    if (lo == int(lo) && hi == int(hi) && hi - lo <= INT_MAX){
+        for (int k = first; k <= n; k++) assert(aliens_trick(k, int(lo), int(hi), solver) == f[k]);
+    }
 }
 
 /// Split into k segments minimizing the sum of squared segment sums, against the O(n^2 k) DP

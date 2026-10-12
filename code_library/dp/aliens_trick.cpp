@@ -13,7 +13,8 @@
  * Requirements:
  *   - integer costs, f convex on its domain and k inside the domain
  *   - [lo, hi] contains every marginal -(f(c) - f(c - 1)), so M = max |f(c) - f(c - 1)| gives [-M, M]
- *   - T is a signed integer type wide enough for cost + max(|lo|, |hi|) * (max items) and for hi - lo
+ *   - the bounds' type is wide enough for hi - lo, the solver's value type for cost + max(|lo|, |hi|) * (max items)
+ *   - f(k) comes back in the solver's value type, so int bounds with an int64 solver still return int64
  *
  * Ties: several counts can be optimal for one lambda, so a lambda with count == k may not exist
  * The driver takes the smallest lambda whose minimum optimal count is <= k; k is then optimal there too,
@@ -31,14 +32,15 @@
 using namespace std;
 
 template <typename T, typename Solver>
-T aliens_trick(int k, T lo, T hi, Solver solver){
+auto aliens_trick(int k, T lo, T hi, Solver solver){
     while (lo < hi){
         T mid = lo + (hi - lo) / 2;
         if (solver(mid).second <= k) hi = mid;
         else lo = mid + 1;
     }
 
-    return solver(lo).first - lo * k;
+    auto value = solver(lo).first;
+    return value - decltype(value)(lo) * k;
 }
 
 int main(){
@@ -86,6 +88,20 @@ int main(){
     assert(max_k_subarrays({3, -1, 2, -5, 4}, 2) == 8);  /// [3, -1, 2] and [4]
     assert(max_k_subarrays({3, -1, 2, -5, 4}, 3) == 9);  /// [3], [2] and [4]
     assert(max_k_subarrays({-3, -1, -2}, 2) == -3);      /// exactly k, even when every pick loses
+
+    auto shifted_squares = [](long long lambda){      /// f(c) = 5e9 + c^2 for c in [0, 10]
+        pair<long long, int> best = {LLONG_MAX, 0};
+        for (int c = 0; c <= 10; c++) best = min(best, {5000000000LL + c * c + lambda * c, c});
+        return best;
+    };
+    assert(aliens_trick(2, -20, 20, shifted_squares) == 5000000004LL);  /// int bounds keep the int64 value
+
+    auto steep = [](long long lambda){                /// f(c) = c^2 - 1.2e9 c for c in [0, 10]
+        pair<long long, int> best = {LLONG_MAX, 0};
+        for (int c = 0; c <= 10; c++) best = min(best, {1LL * c * c - 1200000000LL * c + lambda * c, c});
+        return best;
+    };
+    assert(aliens_trick(5, 1000000000, 1300000000, steep) == -5999999975LL);  /// lambda * k overflows int
 
     return 0;
 }
