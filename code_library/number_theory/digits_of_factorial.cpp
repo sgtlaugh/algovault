@@ -1,6 +1,8 @@
 /***
  *
  * Computes the number of digits of n! in base b
+ *
+ * digits_of_factorial(n, b = 10): the digit count of n! in base b, for n >= 0 and b >= 2
  * Exact for n <= 20, uses lgammal beyond that
  * Although fairly accurate, there is no guarantee it'll compute the exact answer for larger n
  *
@@ -8,7 +10,6 @@
  *
 ***/
 
-#include <stdio.h>
 #include <math.h>
 #include <assert.h>
 
