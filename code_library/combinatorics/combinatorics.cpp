@@ -45,7 +45,7 @@ struct Combinatorics{
     }
 
     long long inverse(int i) const{
-        assert(i >= 1);
+        assert(1 <= i && i < (int)inv.size());
         return inv[i];
     }
 
@@ -70,6 +70,7 @@ int main(){
     assert(comb.nPr(5, 2) == 20);
     assert(comb.factorial(10) == 3628800);
     assert(comb.inverse(2) == 500000004);
+    assert(comb.inverse(10) == 700000005);  /// 10 * 700000005 = 7 * (10^9 + 7) + 1
 
     Combinatorics small(4, 5);
     assert(small.nCr(4, 2) == 1);         /// 6 mod 5

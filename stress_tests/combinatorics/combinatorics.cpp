@@ -1,4 +1,8 @@
+/// Without this, vector's own bounds check aborts first and hides a missing range assert in inverse()
+#undef _GLIBCXX_ASSERTIONS
 #include "../common.h"
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/combinatorics/combinatorics.cpp"
@@ -41,7 +45,27 @@ void check_tables(int n, long long mod){
     }
 }
 
+/// fn must abort on its assert
+template<typename F>
+void expect_abort(F fn){
+    pid_t pid = fork();
+    assert(pid >= 0);
+    if (pid == 0){
+        alarm(5);
+        assert(freopen("/dev/null", "w", stderr));
+        fn();
+        _exit(0);
+    }
+
+    int status;
+    assert(waitpid(pid, &status, 0) == pid);
+    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+}
+
 int main(){
+    expect_abort([]{ Combinatorics(10, 1000000007).inverse(11); });
+    expect_abort([]{ Combinatorics(10, 1000000007).inverse(0); });
+
     const long long INT31 = (1LL << 31) - 1;
 
     for (int n = 0; n <= 40; n++){
