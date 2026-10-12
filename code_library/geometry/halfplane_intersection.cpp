@@ -32,7 +32,7 @@ const long double EPS = 1e-9;
 struct Point{
     long double x, y;
 
-    Point(long double x = 0, long double y = 0) : x(x), y(y) {}
+    explicit Point(long double x = 0, long double y = 0) : x(x), y(y) {}
 
     Point operator+(const Point& p) const{
         return Point(x + p.x, y + p.y);
@@ -146,5 +146,7 @@ int main(){
     assert(halfplane_intersection({y_min, y_max}, 100).empty());
     Halfplane x_plus_y_max(Point(0, 0), Point(-1, 1));          /// x + y <= 0
     assert(halfplane_intersection({x_min, y_min, x_plus_y_max}, 100).empty());  /// only the origin, zero area
+
+    static_assert(!is_convertible_v<int, Point>, "Halfplane(3, 7) and out(5) must not compile");
     return 0;
 }
