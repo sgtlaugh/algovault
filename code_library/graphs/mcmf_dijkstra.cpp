@@ -3,7 +3,7 @@
  * Min Cost Max Flow with Dijkstra and potentials
  * Successive shortest paths where Johnson potentials keep reduced costs non-negative
  *
- * Complexity: O(F * m log n) for total flow F, plus O(n * m) once for the initial Bellman Ford
+ * Complexity: O(F * m log n) for total flow F, plus O(n * m) per solve or slope call for its initial Bellman Ford
  *
  * MCMF g(n); g.add_edge(u, v, cap, cost): directed edge, returns its index, add both directions for undirected edges
  * g.solve(s, t, limit): pushes up to limit units (default: as much as possible), returns {flow, cost}
@@ -16,7 +16,7 @@
  * Costs may be negative as long as there is no negative cycle
  * flow * |cost| summed over a path must fit in long long
  *
- * The default min cost flow choice, mcmf_spfa.cpp has the same API, augments along all tied shortest paths per phase, faster when costs are small integers
+ * The default min cost flow choice, mcmf_spfa.cpp has the same API minus slope(), augments along all tied shortest paths per phase, faster when costs are small integers
  *
 ***/
 
