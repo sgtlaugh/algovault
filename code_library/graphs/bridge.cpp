@@ -40,7 +40,6 @@ struct BridgeGraph{
 
     BridgeGraph(int n): n(n), adj(n), comp(n, -1) {}
 
-    /// adds undirected edge from u to v and returns its index
     int add_edge(int u, int v){
         adj[u].push_back({v, m});
         adj[v].push_back({u, m});
