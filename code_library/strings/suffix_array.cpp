@@ -10,6 +10,7 @@
  * suffix_array(c) works on any container of integers (string, vector<int>, vector<unsigned long long>), any values including 0 and negatives
  *   sa[i]  = start of the i-th smallest suffix
  *   lcp[i] = longest common prefix of the suffixes at sa[i] and sa[i + 1], lcp[n - 1] = 0
+ *   distinct_substrings() = number of distinct non-empty substrings, n * (n + 1) / 2 - sum(lcp), O(n)
  *
  * SuffixArrayQueries<Container> q(c) has everything above and also:
  *   rank[p]                 = position of the suffix starting at p in sa
@@ -131,10 +132,9 @@ namespace SuffixArrayDC3{
 
 struct SuffixArray{
     int n;
-    vector<int> sa;  // sa[i] = starting position of i-th smallest suffix
-    vector<int> lcp;  // lcp[i] = longest common prefix of sa[i] and sa[i+1]
+    vector<int> sa;
+    vector<int> lcp;
 
-    // Count distinct substrings = n*(n+1)/2 - sum(lcp)
     long long distinct_substrings() const {
         long long total = ((long long)n * (n + 1)) / 2;
         for (int i = 0; i + 1 < n; i++) total -= lcp[i];
@@ -142,7 +142,6 @@ struct SuffixArray{
     }
 };
 
-/// Build suffix array for any container (string, vector<int>, etc)
 template<typename Container>
 SuffixArray suffix_array(const Container& c){
     int n = c.size();
