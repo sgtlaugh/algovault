@@ -23,14 +23,6 @@
 
 using namespace std;
 
-struct Edge{
-    int u, v;
-    long long w;
-
-    Edge() {}
-    Edge(int u, int v, long long w) : u(u), v(v), w(w) {}
-};
-
 struct Arborescence{
     bool exists;
     long long weight;
@@ -38,13 +30,18 @@ struct Arborescence{
 };
 
 struct DirectedMST{
+    struct Edge{
+        int u, v;
+        long long w;
+    };
+
     int n;
     vector<Edge> edges;
 
     DirectedMST(int n) : n(n) {}
 
     void add_edge(int u, int v, long long w){
-        edges.push_back(Edge(u, v, w));
+        edges.push_back({u, v, w});
     }
 
     Arborescence solve(int root) const{

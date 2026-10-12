@@ -5,7 +5,7 @@
 #undef main
 
 /// Every choice of one incoming edge per non-root node, kept when all parent chains reach the root
-pair<bool, long long> brute(int n, int root, const vector<Edge>& edges){
+pair<bool, long long> brute(int n, int root, const vector<DirectedMST::Edge>& edges){
     vector<vector<int>> incoming(n);
     for (auto& e : edges) if (e.u != e.v) incoming[e.v].push_back(&e - &edges[0]);
 
@@ -43,7 +43,7 @@ pair<bool, long long> brute(int n, int root, const vector<Edge>& edges){
 }
 
 /// Checks res.parent is an arborescence from root made of given edges and returns its cheapest weight, O(n + m)
-long long tree_weight(int n, int root, const vector<Edge>& edges, const Arborescence& res){
+long long tree_weight(int n, int root, const vector<DirectedMST::Edge>& edges, const Arborescence& res){
     assert((int)res.parent.size() == n && res.parent[root] == -1);
 
     const long long none = LLONG_MAX;
@@ -115,12 +115,12 @@ int main(){
         /// mode 3 sits on the header's n * max|w| <= 1e18 boundary
         long long max_w = mode == 3 ? 1000000000000000000LL / n : mode == 2 ? 1000000000 : 10;
         long long min_w = mode == 0 ? 0 : -max_w;
-        vector<Edge> edges(stress::rand_int(0, 15));
-        for (auto& e : edges) e = Edge(stress::rand_int(0, n - 1), stress::rand_int(0, n - 1), stress::rand_int(min_w, max_w));
+        vector<DirectedMST::Edge> edges(stress::rand_int(0, 15));
+        for (auto& e : edges) e = DirectedMST::Edge{(int)stress::rand_int(0, n - 1), (int)stress::rand_int(0, n - 1), stress::rand_int(min_w, max_w)};
         if (it % 2){
             /// Plant an arborescence so most instances have an answer and cycles must be contracted
             for (int x = 0; x < n; x++){
-                if (x != root) edges.push_back(Edge(x ? stress::rand_int(0, x - 1) : root, x, stress::rand_int(min_w, max_w)));
+                if (x != root) edges.push_back({x ? (int)stress::rand_int(0, x - 1) : root, x, stress::rand_int(min_w, max_w)});
             }
             shuffle(edges.begin(), edges.end(), stress::rng());
         }
