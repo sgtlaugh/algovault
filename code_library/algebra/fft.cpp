@@ -3,8 +3,15 @@
  *
  * Uses custom class for complex numbers and various optimizations for better performance
  *
- * Usage: FFT fft; then fft.multiply(a, b), fft.mod_multiply(a, b, mod), ... (methods documented below)
+ * Usage (FFT fft; each method is documented above its definition):
+ *   fft.multiply(a, b)               // exact product of small integer vectors, negatives allowed
+ *   fft.square(a)                    // same as multiply(a, a) but faster
+ *   fft.mod_multiply(a, b, mod)      // product modulo mod, 1 <= mod < 2^31, results in [0, mod)
+ *   fft.ll_multiply(a, b)            // exact product of values in [0, LL_MULTIPLY_LIMIT)
+ *   fft.hamming_distance(str, pat)   // mismatches of binary pat against each window of str, |str| - |pat| + 1 values
+ *   fft.common_ones(str, pat)        // common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
  * All products are linear (no wrap around) of length |a| + |b| - 1, an empty input gives an empty result
+ * The two string methods return an empty vector when |pat| > |str|
  *
  * Circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
  *   auto c = fft.multiply(a, b);
@@ -170,6 +177,7 @@ struct FFT{
 
         int i, j, n = str.size(), m = pattern.size();
         vector<long long> res, v1(n, 0), v2(m, 0);
+        if (m == 0) return vector<long long>(n + 1, 0);
 
         for (i = 0; i < n; i++) v1[i] = str[i] == '1' ? 1 : -1;
         for (i = 0, j = m - 1; j >= 0; i++, j--) v2[i] = pattern[j] == '1' ? 1 : -1;
@@ -198,6 +206,7 @@ struct FFT{
 
         int i, n = str.size(), m = pattern.size();
         vector<long long> v1(n, 0), v2(m, 0);
+        if (m == 0) return vector<long long>(n + 1, 0);
 
         for (i = 0; i < n; i++) v1[i] = str[n - i - 1] - 48;
         for (i = 0; i < m; i++) v2[i] = pattern[i] - 48;
@@ -378,6 +387,10 @@ int main(){
 
     expected_result = {1, 2, 1, 1, 2};
     assert(fft.common_ones(string("0110110"), "110") == expected_result);
+
+    expected_result = {0, 0, 0, 0, 0};
+    assert(fft.hamming_distance("0101", "") == expected_result && fft.common_ones("0101", "") == expected_result);
+    assert(fft.hamming_distance("", "") == vector<long long>({0}) && fft.common_ones("01", "011").empty());
 
     return 0;
 }

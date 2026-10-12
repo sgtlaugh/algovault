@@ -82,7 +82,7 @@ int main(){
         auto e1 = random_vector(k, 0, 1000000), e2 = random_vector(k, 0, 1000000);
         assert(fold(fft.ll_multiply(e1, e2), k) == naive_circular(e1, e2));
 
-        string text = random_bits(stress::rand_int(1, 400)), pattern = random_bits(stress::rand_int(1, text.size()));
+        string text = random_bits(stress::rand_int(0, 400)), pattern = random_bits(stress::rand_int(0, 9) ? stress::rand_int(0, text.size()) : 0);
         auto hd = fft.hamming_distance(text, pattern), ac = fft.common_ones(text, pattern);
         assert(hd.size() == text.size() - pattern.size() + 1 && ac.size() == hd.size());
         for (size_t i = 0; i < hd.size(); i++){
