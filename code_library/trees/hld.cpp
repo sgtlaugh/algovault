@@ -6,6 +6,7 @@
  * Complexity: O(n) to build, O(log n) ranges per path
  *
  * HLD hld(n); hld.add_edge(u, v); hld.build(root);
+ * The graph must be a tree, build asserts that every node is reached exactly once
  * hld.pos[v]: position of v in [0, n - 1], 0-indexed like segment_tree.cpp and fenwick_tree.cpp, node values go there
  * hld.path(u, v): ranges [l, r] covering the path u..v, inclusive
  * hld.path(u, v, true): same but excludes the lca, for values on edges
@@ -55,13 +56,14 @@ struct HLD{
     }
 
     void build(int root = 0){
-        fill(size.begin(), size.end(), 1), fill(heavy.begin(), heavy.end(), -1);  /// build may run again, e.g. with a new root
+        size.assign(n, 1), heavy.assign(n, -1), parent.assign(n, -1);  /// build may run again, e.g. with a new root
         vector<int> order = {root};
         parent[root] = -1, depth[root] = 0;
         for (int i = 0; i < (int)order.size(); i++){
             int u = order[i];
             for (int v : adj[u]){
                 if (v == parent[u]) continue;
+                assert(v != root && parent[v] == -1);  /// a revisit means a cycle, which would grow order forever
                 parent[v] = u, depth[v] = depth[u] + 1;
                 order.push_back(v);
             }
