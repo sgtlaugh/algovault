@@ -48,6 +48,7 @@ struct VersionedText{
     }
 
     int size(int v) const{
+        assert(0 <= v && v < (int)versions.size());
         return versions[v].size();
     }
 
