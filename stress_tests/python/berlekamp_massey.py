@@ -18,7 +18,7 @@ def main():
         coefficients = [rng.randrange(mod) for _ in range(k)]
         terms = iterate(coefficients, [rng.randrange(mod) for _ in range(k)], 300, mod)
 
-        base = terms[:2 * k + 2 * rng.randint(0, 3)]
+        base = terms[:2 * k + rng.randint(0, 6)]
         shifted = [x + mod * rng.randint(-3, 3) for x in base]  # the solver reduces inputs itself
         for _ in range(5):
             n = rng.randrange(300)

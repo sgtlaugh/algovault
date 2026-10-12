@@ -17,7 +17,6 @@ def convolution(first, second, mod):
 
 def berlekamp_massey(sequence, mod):
     n = len(sequence)
-    assert n and n % 2 == 0
 
     u_vals = [int(i == 0) for i in range(n + 1)]
     v_vals = [int(i == 0) for i in range(n + 1)]
@@ -48,14 +47,13 @@ def berlekamp_massey(sequence, mod):
         else:
             m += 1
 
-    v_vals = v_vals[:l + 1] + [0 for _ in range(max(0, l - len(v_vals) + 1))]
-    return v_vals[1:]
+    return v_vals[1:l + 1]
 
 
 def solve_linear_recurrence(base_sequence, nth_term, mod):
     """
 
-    :param base_sequence: If the recurrence degree is k, len(base_sequence) should be at least 2*k and even
+    :param base_sequence: If the recurrence degree is k, len(base_sequence) should be at least 2*k
     :param nth_term: nth_term of the recurrence to evaluate
     :param mod: all calculations will occur mod this number, needs to be an odd prime
     :return: remainder when the nth_term of the recurrence is divided by mod
@@ -64,9 +62,6 @@ def solve_linear_recurrence(base_sequence, nth_term, mod):
     base_sequence = [val % mod for val in base_sequence]
 
     n = len(base_sequence)
-    if n % 2 != 0:
-        raise ValueError('Length of base_sequence must be even')
-
     if nth_term < n:
         return base_sequence[nth_term]
 
@@ -114,6 +109,7 @@ def main():
     assert solve_linear_recurrence(base_sequence, 10, mod) == 55
     assert solve_linear_recurrence(base_sequence, 11, mod) == 89
     assert solve_linear_recurrence(base_sequence, 10**18, mod) == 209783453
+    assert solve_linear_recurrence([1, 2, 4, 8, 16], 10, mod) == 1024
 
 
 if __name__ == '__main__':
