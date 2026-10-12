@@ -141,12 +141,10 @@ struct DynamicAhoCorasick{
     vector<AhoCorasick<SIGMA, BASE>> ar;
 
     inline void insert(const char* str){
-        // Binary decomposition: find first empty slot
-        int i, k = 0;
+        int i, k;
         for (k = 0; k < (int)ar.size() && ar[k].size(); k++) {}
         if (k == (int)ar.size()) ar.emplace_back();
 
-        // Merge all smaller automata into ar[k]
         ar[k].insert(str);
         for (i = 0; i < k; i++){
             for (const auto& s: ar[i].dictionary){
