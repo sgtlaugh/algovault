@@ -25,8 +25,6 @@
  *     }
  * }
  *
- * Note, with n = 10^7 it might crash if not sufficient memory available to store the divisors
- *
 ***/
 
 #include <bits/stdtr1c++.h>
