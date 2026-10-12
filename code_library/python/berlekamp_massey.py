@@ -36,7 +36,7 @@ def berlekamp_massey(sequence, mod):
         if (l * 2) <= i:
             w_vals = v_vals[:l + 1]
 
-        x = (pow(b, mod - 2, mod) * (mod - d) % mod + mod) % mod
+        x = pow(b, mod - 2, mod) * (mod - d) % mod
         for j in range(deg + 1):
             v_vals[m + j] = (v_vals[m + j] + x * u_vals[j]) % mod
 
