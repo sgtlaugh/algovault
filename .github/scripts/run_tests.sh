@@ -4,7 +4,7 @@
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
 # both modes also report library files missing from the README index, README ✔ marks that disagree with judge_tests,
-# templates whose header does not state their complexity, copied regions that drifted from their original,
+# practice solutions and practice section links that disagree, templates whose header does not state their complexity, copied regions that drifted from their original,
 # and whitespace or style errors in tracked files
 #
 # Reports all failures instead of stopping at the first one.
@@ -187,6 +187,24 @@ check_judge_marks(){  # a template carries a README ✔ exactly when a judge tes
     failures+=("${bad[@]/%/ (judge mark)}")
 }
 
+check_practice(){  # practice/ holds exactly the solutions linked from the practice sections
+    local file files linked bad=()
+    files="$(git ls-files 'practice/*.cpp' | sort)"
+    linked="$(grep -ohP '\]\(\.\./\.\./\Kpractice/[^)]+' code_library/*/README.md | sort -u)"
+    while IFS= read -r file; do
+        [[ -n "$file" ]] && bad+=("$file (no practice section links it)")
+    done < <(comm -23 <(echo "$files") <(echo "$linked"))
+    while IFS= read -r file; do
+        [[ -n "$file" ]] && bad+=("$file (linked but not a tracked file)")
+    done < <(comm -13 <(echo "$files") <(echo "$linked"))
+
+    echo "practice links: ${#bad[@]} solutions and practice section links that disagree"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]}")
+}
+
 check_headers(){  # every template opens with a header that states its complexity
     local file bad=()
     while IFS= read -r file; do
@@ -306,6 +324,7 @@ echo
 [[ "$MODE" == "stress" ]] && check_coverage
 check_readme
 check_judge_marks
+check_practice
 check_headers
 check_copies
 check_whitespace
