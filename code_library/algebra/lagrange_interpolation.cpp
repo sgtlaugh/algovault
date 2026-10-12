@@ -33,8 +33,6 @@ struct Lagrange{
     vector<int> terms, dp;
     int mod, n;
 
-    Lagrange() {}
-
     Lagrange(const vector<int>& terms, int mod) : terms(terms), mod(mod){
         n = terms.size();
         assert(n <= mod);
