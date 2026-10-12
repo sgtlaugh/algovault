@@ -14,7 +14,7 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 - Verified practice problems in `code_library/<topic>/README.md`, as `[<Judge> <code> - <title>](<url>)` in natural order,
   each on a live judge or with official data and a judge, like the Code Jam archive
 - An accepted solution built on the template goes in `practice/<topic>/<judge>_<code>.cpp` as submitted, linked from its
-  practice problem as ` - [solution](../../practice/<topic>/<file>)`; templates are copied from `code_library/`, never from `practice/`
+  practice problem as ` [✅](../../practice/<topic>/<file> "Accepted solution")`; templates are copied from `code_library/`, never from `practice/`
 - Python templates go in `code_library/python/`, tests in `stress_tests/python/` via `stress.py`
 - A file CI truly cannot stress test goes in `STRESS_SKIP` in `run_tests.sh`, with the reason
 - A judge test under `judge_tests/<topic>/<problem>.cpp` when a Library Checker or Aizu problem fits, starting with
