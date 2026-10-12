@@ -1,4 +1,6 @@
 #include "../common.h"
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/trees/dsu_on_tree.cpp"
@@ -62,7 +64,33 @@ void check(int n, int shape, int colors){
     }
 }
 
+/// run must abort on a non-tree, the alarm turns an endless traversal into a failure instead of a hang
+void check_rejects(int n, const vector<pair<int, int>>& edges){
+    pid_t pid = fork();
+    assert(pid >= 0);
+    if (pid == 0){
+        alarm(5);
+        assert(freopen("/dev/null", "w", stderr));
+        DsuOnTree tree(n);
+        for (auto [u, v] : edges) tree.add_edge(u, v);
+        tree.run(0, [](int) {}, [](int) {}, [](int) {});
+        _exit(0);
+    }
+
+    int status;
+    assert(waitpid(pid, &status, 0) == pid);
+    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+}
+
 int main(){
+    check_rejects(4, {{0, 1}, {1, 2}, {2, 0}});          /// cycle plus an isolated node, n - 1 edges
+    check_rejects(5, {{0, 1}, {1, 2}, {2, 3}, {3, 1}});  /// cycle below the root plus an isolated node
+    check_rejects(3, {{0, 1}, {1, 2}, {2, 0}});          /// cycle, n edges
+    check_rejects(3, {{0, 1}, {0, 1}, {1, 2}});          /// multi-edge
+    check_rejects(3, {{0, 1}});                          /// disconnected
+    check_rejects(2, {{0, 0}, {0, 1}});                  /// self-loop at the root
+    check_rejects(2, {{0, 0}});                          /// the root enqueued twice fills bfs to n with node 1 unreached
+
     for (long long it = 0; it < stress::scaled(3000); it++) check(stress::rand_int(1, 40), it % 4, it % 2 ? 3 : 30);
     check(2000, 0, 50);
     check(1500, 1, 50);

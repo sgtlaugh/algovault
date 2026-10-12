@@ -6,6 +6,7 @@
  * Complexity: O(n log n) calls to add / remove
  *
  * DsuOnTree tree(n); tree.add_edge(u, v); tree.run(root, add, remove, answer);
+ *   the graph must be a tree, run asserts that every node is reached exactly once
  *   add(v) / remove(v) put node v into / take it out of your data structure
  *   answer(v) is called when the structure holds exactly the nodes of v's subtree
  *   the structure is empty again when run returns
@@ -39,7 +40,9 @@ struct DsuOnTree{
         parent[root] = -1;
         for (int i = 0; i < (int)bfs.size(); i++){
             for (int v : adj[bfs[i]]){
-                if (v != parent[bfs[i]]) parent[v] = bfs[i], bfs.push_back(v);
+                if (v == parent[bfs[i]]) continue;
+                assert(v != root && parent[v] == -1);  /// a revisit means a cycle, which would grow bfs forever
+                parent[v] = bfs[i], bfs.push_back(v);
             }
         }
         assert((int)bfs.size() == n);
