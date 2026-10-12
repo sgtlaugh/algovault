@@ -44,7 +44,7 @@ struct BinomialPrimePow{
             n >>= 1;
         }
 
-        return res % mod;
+        return res;
     }
 
     uint64_t fact(uint64_t x){
