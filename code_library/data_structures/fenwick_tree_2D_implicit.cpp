@@ -34,7 +34,7 @@ using namespace std;
 
 template <typename T>
 struct FenwickImplicit2D{
-    static const int MAXNODES = 12800000; // Adjust based on memory constraints
+    static const int MAXNODES = 12800000;
 
     struct Node{
         T sum;
