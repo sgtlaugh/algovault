@@ -2,7 +2,6 @@
 
 ## [Coordinate Compression](coordinate_compression.cpp)
 
-- [Codeforces 817F - MEX Queries](https://codeforces.com/problemset/problem/817/F)
 - [CSES 1144 - Salary Queries](https://cses.fi/problemset/task/1144)
 - [Library Checker rectangle_sum - Rectangle Sum](https://judge.yosupo.jp/problem/rectangle_sum)
 - [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/)
@@ -353,7 +352,7 @@
 - [Codeforces 610E - Alphabet Permutations](https://codeforces.com/problemset/problem/610/E)
 - [Codeforces 718C - Sasha and Array](https://codeforces.com/problemset/problem/718/C)
 - [Codeforces 803G - Periodic RMQ Problem](https://codeforces.com/problemset/problem/803/G)
-- [Codeforces 817F - MEX Queries](https://codeforces.com/problemset/problem/817/F)
+- [Codeforces 817F - MEX Queries](https://codeforces.com/problemset/problem/817/F) [✅](../../practice/data_structures/codeforces_817f_segment_tree.cpp "Accepted solution")
 - [Codeforces 838B - Diverging Directions](https://codeforces.com/problemset/problem/838/B)
 - [Codeforces 895E - Eyes Closed](https://codeforces.com/problemset/problem/895/E)
 - [Codeforces 920F - SUM and REPLACE](https://codeforces.com/problemset/problem/920/F)
