@@ -1,21 +1,22 @@
 /***
  *
  * Segment Tree with Lazy Propagation
- * Range updates and range queries under any merge and lazy update passed as an Ops struct
+ * Range update, range query and binary search for any associative merge and lazy update
  *
- * Complexity: O(n) to build, O(log n) per update/query/descent
+ * Complexity: O(n) to build, O(log n) per update, query, max_right and min_left
  *
- * SegmentTree<T, Ops = AddSum<T>, L = T>, 0-based positions, ranges [l, r] inclusive, asserts 0 <= l <= r < n
- * Default: range add update, range sum query
- *     SegmentTree<long long> st(n); st.update(l, r, x); st.query(l, r);
- * SegmentTree(n, v): n copies of v, and v also becomes t_id, SegmentTree(ar, t_id): built from ar
- * t_id is the identity of merge (0 for sum, INT_MAX for min), read only by hld.cpp's query_path, so with hld
- * build a filled tree through the vector constructor and pass the identity
+ * SegmentTree<T, Ops = AddSum<T>, L = T>: 0-based, ranges [l, r] inclusive, default range add and range sum
+ *   SegmentTree<long long> st(n); st.update(l, r, x); st.query(l, r);
+ *   SegmentTree(n, v): n copies of v, SegmentTree(ar, t_id): built from ar, t_id the identity of merge
+ *   max_right(l, pred), l in [0, n]: largest r with pred(query(l, r)) true, l - 1 if none
+ *   min_left(r, pred), r in [-1, n - 1]: smallest l with pred(query(l, r)) true, r + 1 if none
+ *   pred must be monotone: once false it stays false as the range grows
  *
  * Ops holds three static functions, L is the lazy type when it differs from T:
  *   merge(a, b): fold of two adjacent ranges, a on the left
- *   apply(val, lz, len): fold of a range of len elements after the update lz
- *   compose(old_lz, new_lz): one lazy meaning old_lz followed by new_lz
+ *   apply(val, lz, len): value of a range of len elements after lz
+ *   compose(old, new): one lazy meaning old then new, a lazy that changes nothing must return old
+ *
  * Range set, range min:
  *     struct MinSet{
  *         static int merge(int a, int b){ return min(a, b); }
@@ -23,26 +24,10 @@
  *         static int compose(int, int lz){ return lz; }
  *     };
  *     SegmentTree<int, MinSet> st(a, INT_MAX);
- * Range add, range min, inheriting compose from AddSum:
- *     struct AddMin : AddSum<long long>{
- *         static long long merge(long long a, long long b){ return min(a, b); }
- *         static long long apply(long long val, long long lz, int){ return val + lz; }
- *     };
- * Range max or gcd with range set: MinSet with max or __gcd as merge, t_id INT_MIN or 0
- * Arithmetic progression add (x, x + d, x + 2d, ... on [l, r]), range sum: lazy {c0, c1} adds c0 + c1 * i at index i
- *     T = {sum, cnt, idx_sum}, L = {c0, c1}, built with the vector constructor from {ar[i], 1, i} so leaves know
- *     their index, merge and compose add componentwise, apply returns {sum + c0 * cnt + c1 * idx_sum, cnt, idx_sum}
- *     update(l, r, {x - d * l, d})
- *     c1 * idx_sum reaches d * n^2 / 2 (5e18 at d = 1e9, n = 1e5) and composed lazies add up, so large inputs
- *     overflow long long: use a modulus or __int128
  *
- * Descent (binary search on the tree), pred must be monotone: once false it stays false as the range grows
- *   max_right(l, pred), l in [0, n]: largest r in [l - 1, n - 1] with pred(query(l, r)) true, r = l - 1 when none
- *   min_left(r, pred), r in [-1, n - 1]: smallest l in [0, r + 1] with pred(query(l, r)) true, l = r + 1 when none
- *   pred is never called on the empty range, so the descent does not depend on t_id
- *   Example: with non-negative values, max_right(l, [&](long long s){ return s <= k; }) is the last r with sum <= k
- *
- * A pending update is tracked with a flag rather than a reserved lazy value, so any value (including 0) can be set
+ * Arithmetic progression add (x, x + d, ... on [l, r]) with range sum: T = {sum, cnt, idx_sum}, L = {c0, c1}
+ *     leaves {ar[i], 1, i}, merge and compose add componentwise, apply adds c0 * cnt + c1 * idx_sum,
+ *     update(l, r, {x - d * l, d}), sums reach d * n^2 / 2 so large inputs need a modulus or __int128
  *
 ***/
 
