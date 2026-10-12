@@ -69,10 +69,11 @@ struct Montgomery{
 /// BEGIN COPY pollard_rho from code_library/number_theory/pollard_rho.cpp
 struct PollardRho{
     static constexpr int LIMIT = 1000001;
-    vector<int> spf, primes;
+    vector<int> spf;
     mt19937_64 rng;
 
     PollardRho() : spf(LIMIT, 0), rng(20260105){
+        vector<int> primes;
         for (int i = 2; i < LIMIT; i++){
             if (!spf[i]) spf[i] = i, primes.push_back(i);
             for (int p : primes){
