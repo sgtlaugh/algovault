@@ -1,18 +1,11 @@
 /***
  *
  * Z Algorithm
- * Computes Z array where Z[i] = length of longest common prefix of s[i..] and s
+ *
+ * z_function(s): z[i] = length of the longest common prefix of s[i..] and s, z[0] = n, empty for n = 0
+ *     s is a string, C string, vector or any container with size() and [] whose elements compare with ==
  *
  * Complexity: O(n)
- *
- * Algorithm maintains window [l, r] where s[l..r] matches prefix s[0..r-l]
- * For each position i, reuses previously computed values when inside window
- * Z[i] = length of longest prefix of s starting at i that matches s[0..]
- *
- * Applications:
- *   - Pattern matching: concatenate "pattern$text", Z[i] == |pattern| means match at (i - |pattern| - 1)
- *   - Find period of string
- *   - String borders/prefixes analysis
  *
 ***/
 
