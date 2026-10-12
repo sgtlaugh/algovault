@@ -26,7 +26,6 @@
  *
 ***/
 
-#include <stdio.h>
 #include <bits/stdtr1c++.h>
 
 using namespace std;
@@ -88,7 +87,7 @@ namespace nt{
             for (j = 0; j < lim; j++, i++) res += (unsigned long long)A[i] * B[i];
         }
 
-        for (j = 0; i < n; i++) res += (unsigned long long)A[i] * B[i];
+        for (; i < n; i++) res += (unsigned long long)A[i] * B[i];
 
         return res % mod;
     }
@@ -264,8 +263,7 @@ struct RecurrencePolynomial{
     }
 
     RecurrencePolynomial inverse(int n){
-        RecurrencePolynomial res(mod, {n});
-        res.coefficient.resize(n);
+        RecurrencePolynomial res(mod, vector<int>(n));
         find_inverse(res.data(), n, data(), size());
         return res;
     }
@@ -359,10 +357,9 @@ struct RecurrencePolynomial{
 
         int quot_n = pn - qn + 1;
         int rn = qn - 1, tn = min(quot_n, rn), un = tn + rn;
-        unique_ptr <int[]> ptr(new int[pn + un + (quot != 0 ? 0 : quot_n)]);
+        unique_ptr <int[]> ptr(new int[pn + un]);
 
         int* revp = ptr.get(), *qmul = revp + pn;
-        if (quot == 0) quot = qmul + un;
 
         reverse_poly(revp, P, pn);
         divide_inverse(quot, quot_n, revp, pn, inv);
@@ -431,7 +428,7 @@ private:
 
     long long compare(const vector<int> &a, const vector<int> &b){
         return max(find_rank(a), find_rank(b) + 1);
-    };
+    }
 
     void update(vector<int>& u, vector<int>& v, int m, long long c){
         int i, k = v.size();
@@ -510,7 +507,7 @@ private:
 
         C[0] = 1, B[0] = 1;
         int i, j, d, l = 0, m = 1, deg = 0;
-        unsigned long long x, b = nt::mod_inverse(1, mod);
+        unsigned long long x, b = 1;
 
         for (i = 0; i < n; i++){
             d = sequence[n - i - 1];
@@ -518,7 +515,7 @@ private:
             if (d == 0) m++;
             else{
                 if (l * 2 <= i) T = C, T.resize(l + 1);
-                x = (b * (mod - d) % mod + mod) % mod;
+                x = b * (mod - d) % mod;
 
                 for (j = 0, m++; j <= deg; j++){
                     C[m + j - 1] = (C[m + j - 1] + x * B[j]) % mod;
