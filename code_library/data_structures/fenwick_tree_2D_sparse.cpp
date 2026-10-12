@@ -2,7 +2,7 @@
  *
  * Sparse 2D Fenwick Tree (Binary Indexed Tree)
  * For very large matrices (N up to 10^9) with sparse updates
- * Uses custom hashmap (SplitMix64) to store only non-zero Fenwick tree nodes
+ * Uses custom hashmap (MurmurHash3 fmix64 finalizer) to store only non-zero Fenwick tree nodes
  * Point updates and range queries only
  * 0-based cells, rectangles [i, k] x [j, l] inclusive, a cell outside [0, n - 1] x [0, m - 1] asserts
  * i > k or j > l is an empty rectangle and query returns 0
@@ -15,7 +15,7 @@
  * Complexity: O(2^lg_capacity) to construct, O(log N log M) hash probes per update/query, each expected O(1) while the table is at most half full
  * Space: a fixed table of 2^lg_capacity slots, (8 + sizeof(T)) bytes each, allocated up front
  *   - The default lg_capacity = 24 is 16.7M slots, 268 MB for T = long long
- *   - Each update creates up to (log2(N) + 1) * (log2(M) + 1) nodes, 961 at N = M = 1e9
+ *   - Each update creates up to (floor(log2(N)) + 1) * (floor(log2(M)) + 1) nodes, 900 at N = M = 1e9
  *   - The table must hold every node created, an update that fills it past 3/4 asserts, raise lg_capacity
  *   - Size it so 2^lg_capacity is at least twice Q * (log2(N) + 1) * (log2(M) + 1) to keep probes short
  *   - So N = M = 1e9 with 100K updates (up to 9e7 nodes) does not fit the default, it asserts
@@ -41,7 +41,7 @@ struct FenwickSparse2D{
     vector<T> tree;
     vector<long long> hashmap;
 
-    FenwickSparse2D(int n = 0, int m = 0, int lg_capacity = 24) : n(n), m(m), mask((1 << lg_capacity) - 1),
+    FenwickSparse2D(int n, int m, int lg_capacity = 24) : n(n), m(m), mask((1 << lg_capacity) - 1),
         tree(mask + 1, 0), hashmap(mask + 1, 0){
     }
 
