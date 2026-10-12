@@ -167,7 +167,6 @@ int main(){
 
     assert(s1.length() == s2.length() && s1 != s2 && h1 == h2);
 
-    /// freopen("out.txt", "w", stdout);
     puts(s1.c_str());
     puts(s2.c_str());
 
