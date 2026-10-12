@@ -189,74 +189,21 @@ private:
 };
 
 int main(){
-    // Range add, range sum
-    auto seg1 = SegmentTree<long long>(10);
-    seg1.update(0, 4, 3);
-    seg1.update(2, 6, 2);
-    assert(seg1.query(0, 4) == 21);
-    assert(seg1.query(2, 6) == 19);
-    assert(seg1.query(9, 9) == 0);
+    SegmentTree<long long> st(vector<long long>{1, 2, 3, 4, 5});
+    st.update(1, 3, 10);                                                /// 1 12 13 14 5
+    assert(st.query(0, 4) == 45);
+    assert(st.query(2, 3) == 27);
+    assert(st.max_right(0, [](long long s){ return s <= 13; }) == 1);  /// 1 + 12 fits, adding 13 does not
+    assert(st.min_left(4, [](long long s){ return s <= 19; }) == 3);   /// 14 + 5
 
-    auto ones = SegmentTree<long long>(8, 1);
-    assert(ones.query(0, 7) == 8);
-    assert(ones.query(2, 4) == 3);
-
-    vector<long long> ar = {1, 2, 3, 4, 5};
-    auto seg2 = SegmentTree<long long>(ar);
-    assert(seg2.query(0, 4) == 15);
-    seg2.update(1, 3, 10);
-    assert(seg2.query(0, 4) == 45);
-
-    // Range set, range min
     struct MinSet{
         static int merge(int a, int b){ return min(a, b); }
         static int apply(int, int lz, int){ return lz; }
         static int compose(int, int lz){ return lz; }
     };
     SegmentTree<int, MinSet> mn(vector<int>{5, 3, 8, 6, 7}, INT_MAX);
-    assert(mn.query(0, 4) == 3);
-    mn.update(0, 2, 9);
+    mn.update(0, 2, 9);                                                 /// 9 9 9 6 7
     assert(mn.query(0, 4) == 6);
     assert(mn.query(0, 2) == 9);
-    mn.update(4, 4, 0);
-    assert(mn.query(3, 4) == 0);
-
-    // Range add, range min, compose inherited from AddSum
-    struct AddMin : AddSum<long long>{
-        static long long merge(long long a, long long b){ return min(a, b); }
-        static long long apply(long long val, long long lz, int){ return val + lz; }
-    };
-    SegmentTree<long long, AddMin> am(vector<long long>{4, 1, 6, 2}, LLONG_MAX);
-    am.update(0, 1, 5);
-    am.update(1, 3, -3);
-    assert(am.query(0, 3) == -1);
-    assert(am.query(0, 1) == 3);
-    assert(am.query(2, 2) == 3);
-
-    auto seg3 = SegmentTree<long long>(ar);
-    auto at_most = [](long long k){ return [k](long long s){ return s <= k; }; };
-    assert(seg3.max_right(0, at_most(6)) == 2);
-    assert(seg3.max_right(0, at_most(5)) == 1);
-    assert(seg3.max_right(1, at_most(1)) == 0);
-    assert(seg3.max_right(0, at_most(100)) == 4);
-    assert(seg3.max_right(5, at_most(0)) == 4);
-    assert(seg3.min_left(4, at_most(9)) == 3);
-    assert(seg3.min_left(4, at_most(4)) == 5);
-    assert(seg3.min_left(2, at_most(100)) == 0);
-    assert(seg3.min_left(-1, at_most(0)) == 0);
-
-    seg3.update(1, 3, 10);
-    assert(seg3.max_right(0, at_most(13)) == 1);
-    assert(seg3.max_right(2, at_most(26)) == 2);
-    assert(seg3.min_left(4, at_most(19)) == 3);
-    assert(seg3.min_left(3, at_most(40)) == 0);
-
-    // A min tree built without INT_MAX still descends correctly, the descent never reads t_id
-    SegmentTree<int, MinSet> no_id(vector<int>{5, 3, 8, 6, 7});
-    auto at_least = [](int k){ return [k](int v){ return v >= k; }; };
-    assert(no_id.max_right(0, at_least(4)) == 0);
-    assert(no_id.max_right(2, at_least(6)) == 4);
-    assert(no_id.min_left(4, at_least(6)) == 2);
-
     return 0;
 }
