@@ -1,8 +1,10 @@
 /***
  * Hunt-Szymanski Algorithm for LCS
  *
+ * lcs(A, B): the LCS length of the null-terminated strings A and B (const char*), any byte values except 0
+ *
  * Complexity: O(R + N) log N
- * R = numbered of ordered pairs of positions where the two strings match (worst case, R = N^2)
+ * R = number of ordered pairs of positions where the two strings match (worst case, R = N^2)
  * For dense inputs (small alphabet, large R) bit_string_lcs.cpp is faster at O(N * M / 64)
  *
 ***/
