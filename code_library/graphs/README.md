@@ -270,6 +270,7 @@
 
 ## [General Graph Matching](graph_matching.cpp)
 
+- [Code Jam 2008 AMER Semifinal D - King](https://github.com/google/coding-competitions-archive/tree/main/codejam/2008/amer_semifinal/king)
 - [Library Checker general_matching - Matching on General Graph](https://judge.yosupo.jp/problem/general_matching)
 - [Timus 1099 - Work Scheduling](https://acm.timus.ru/problem.aspx?num=1099)
 - [UVa 11439 - Maximizing the ICPC](https://onlinejudge.org/external/114/11439.pdf)
@@ -371,6 +372,7 @@
 
 - [AOJ GRL_6_A - Maximum Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A)
 - [AtCoder ARC085 E - MUL](https://atcoder.jp/contests/arc085/tasks/arc085_c)
+- [Code Jam 2015 World Finals D - Taking Over The World](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/world_finals/taking_over_the_world)
 - [Codeforces 498C - Array and Operations](https://codeforces.com/problemset/problem/498/C)
 - [Codeforces 546E - Soldier and Traveling](https://codeforces.com/problemset/problem/546/E)
 - [Codeforces 720B - Cactusophobia](https://codeforces.com/problemset/problem/720/B)
@@ -475,6 +477,7 @@
 ## [Minimum Path Cover](minimum_path_cover.cpp)
 
 - [AOJ 2251 - Merry Christmas](https://onlinejudge.u-aizu.ac.jp/problems/2251)
+- [Code Jam 2009 Round 2 C - Stock Charts](https://github.com/google/coding-competitions-archive/tree/main/codejam/2009/round_2/stock_charts)
 - [SPOJ DIVREL - Divisibility Relation](https://www.spoj.com/problems/DIVREL/)
 - [UVa 1184 - Air Raid](https://onlinejudge.org/external/11/1184.pdf)
 - [UVa 1201 - Taxi Cab Scheme](https://onlinejudge.org/external/12/1201.pdf)
