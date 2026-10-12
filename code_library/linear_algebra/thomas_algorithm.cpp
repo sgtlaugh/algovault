@@ -6,16 +6,14 @@
  * Complexity: O(n) time and memory
  *
  * equation(l, p, r, rhs): the row (x_prev * l) + (x_cur * p) + (x_next * r) = rhs, l of the first row and r of the last are ignored
- * thomas_algorithm(n, ar): returns x_0..x_{n-1}, no pivoting so it needs a diagonally dominant system, a zero pivot gives inf or nan
+ * thomas_algorithm(ar): returns x_0..x_{n-1} for the n = ar.size() rows, no pivoting so it needs a diagonally dominant system (|p| >= |l| + |r|), a zero pivot gives inf or nan
  *
 ***/
 
-#include <stdio.h>
 #include <bits/stdtr1c++.h>
 
 using namespace std;
 
-/// Equation of the form: (x_prev * l) + (x_cur * p) + (x_next * r) = rhs
 struct equation{
     long double l, p, r, rhs;
 
@@ -24,9 +22,8 @@ struct equation{
         l(l), p(p), r(r), rhs(rhs) {}
 };
 
-/// Thomas algorithm to solve tridiagonal system of equations in O(n)
-/// No pivoting: safe for diagonally dominant systems (|p| >= |l| + |r|), a zero pivot gives inf or nan
-vector<long double> thomas_algorithm(int n, vector<struct equation> ar){
+vector<long double> thomas_algorithm(vector<struct equation> ar){
+    int n = ar.size();
     ar[0].r = ar[0].r / ar[0].p;
     ar[0].rhs = ar[0].rhs / ar[0].p;
 
@@ -45,8 +42,12 @@ vector<long double> thomas_algorithm(int n, vector<struct equation> ar){
 
 int main(){
     /// 2x + y = 4, x + 3y + z = 9, y + 2z = 6 has the solution x = 1, y = 2, z = 2
-    auto res = thomas_algorithm(3, {equation(0, 2, 1, 4), equation(1, 3, 1, 9), equation(1, 2, 0, 6)});
-    assert(fabsl(res[0] - 1) < 1e-12 && fabsl(res[1] - 2) < 1e-12 && fabsl(res[2] - 2) < 1e-12);
+    auto res = thomas_algorithm({equation(0, 2, 1, 4), equation(1, 3, 1, 9), equation(1, 2, 0, 6)});
+    assert(res.size() == 3 && fabsl(res[0] - 1) < 1e-12 && fabsl(res[1] - 2) < 1e-12 && fabsl(res[2] - 2) < 1e-12);
+
+    /// 4x = 2, a lone row ignores both l and r
+    res = thomas_algorithm({equation(7, 4, 9, 2)});
+    assert(res.size() == 1 && fabsl(res[0] - 0.5) < 1e-12);
 
     return 0;
 }

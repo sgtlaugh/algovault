@@ -41,7 +41,7 @@ int main(){
             ar[i] = equation(l, p, r, stress::rand_int(-100000, 100000) / 64.0L);
         }
 
-        auto x = thomas_algorithm(n, ar);
+        auto x = thomas_algorithm(ar);
         assert((int)x.size() == n);
 
         long double norm = 1;
