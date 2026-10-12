@@ -40,12 +40,6 @@ def dijkstra(graph, source, destination):
     Returns the shortest distance in the graph between source and destination nodes
     Returns None if source and destination are not connected or does not exist
 
-    Complexity
-    ----------
-    O((E + V) log(V)) roughly
-    E : Number of edges in the graph
-    V : Number of nodes in the graph
-
     Parameters
     ----------
     graph : Graph object containing the nodes and edges
