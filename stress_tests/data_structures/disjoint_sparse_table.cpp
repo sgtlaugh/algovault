@@ -1,12 +1,34 @@
 #include "../common.h"
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/data_structures/disjoint_sparse_table.cpp"
 #undef main
 
+void check_rejects(int n, int l, int r){
+    pid_t pid = fork();
+    assert(pid >= 0);
+    if (pid == 0){
+        assert(freopen("/dev/null", "w", stderr));
+        DisjointST<int> table(vector<int>(n, 1), 0);
+        table.query(l, r);
+        _exit(0);
+    }
+
+    int status;
+    assert(waitpid(pid, &status, 0) == pid);
+    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+}
+
 /// The default plus makes strings concatenate: associative but not commutative, operand order must be exact
 /// A product mod p lambda checks a custom op with a non-zero identity against a direct scan
 int main(){
+    check_rejects(9, 3, 1);
+    check_rejects(9, -1, 2);
+    check_rejects(9, 0, 9);
+    check_rejects(0, 0, 0);
+
     const long long MOD = 998244353;
     auto mul = [&](long long x, long long y){ return x * y % MOD; };
 

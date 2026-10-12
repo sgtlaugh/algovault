@@ -26,11 +26,12 @@ using namespace std;
 
 template <typename T, typename Op = plus<T>>
 struct DisjointST{
+    int n;
     vector<T> dp[32];
     Op combine;
 
-    DisjointST(const vector<T> &ar, const T& identity_elem = T(), Op combine = Op()) : combine(combine){
-        int i, c, h, l, n = (int)ar.size();
+    DisjointST(const vector<T> &ar, const T& identity_elem = T(), Op combine = Op()) : n(ar.size()), combine(combine){
+        int i, c, h, l;
 
         for (h = 0; n && h <= __lg(n); h++){  /// __lg(0) is undefined
             dp[h].resize(n + 1, identity_elem);
@@ -48,6 +49,7 @@ struct DisjointST{
     }
 
     T query(int l, int r) const{
+        assert(0 <= l && l <= r && r < n);
         int h = __lg(l ^ (r + 1));
         return combine(dp[h][l], dp[h][r + 1]);
     }
@@ -55,15 +57,15 @@ struct DisjointST{
 
 int main(){
     vector<int> v = {5, 6, 1, 13, 7, 4, 9, 66, 23};
-    auto rmq = DisjointST<int>(v, 0);
+    auto sum = DisjointST<int>(v, 0);
 
-    assert(rmq.query(0, 0) == 5);
-    assert(rmq.query(0, 2) == 12);
-    assert(rmq.query(1, 4) == 27);
-    assert(rmq.query(3, 5) == 24);
-    assert(rmq.query(4, 7) == 86);
-    assert(rmq.query(2, 6) == 34);
-    assert(rmq.query(1, 8) == 129);
+    assert(sum.query(0, 0) == 5);
+    assert(sum.query(0, 2) == 12);
+    assert(sum.query(1, 4) == 27);
+    assert(sum.query(3, 5) == 24);
+    assert(sum.query(4, 7) == 86);
+    assert(sum.query(2, 6) == 34);
+    assert(sum.query(1, 8) == 129);
 
     const long long MOD = 1000000007;
     DisjointST prod(vector<long long>{5, 6, 1, 13, 100000, 100000}, 1LL, [&](long long x, long long y){ return x * y % MOD; });
@@ -78,7 +80,7 @@ int main(){
     }
 
     clock_t start = clock();
-    rmq = DisjointST<int>(v, 0);
+    sum = DisjointST<int>(v, 0);
     fprintf(stderr, "\nTime taken to build = %0.6f\n", (clock() - start) / (double)CLOCKS_PER_SEC);  /// Took 0.105 s locally
 
     return 0;
