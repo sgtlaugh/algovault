@@ -1,7 +1,7 @@
 /***
- * Fast radix sort in O(w * n) with loop unrolling
- * w is the key length, and is fixed to 8 bits
- * This sorts 32-bit integers in O(32/8 * n) or O(4 * n) passes
+ *
+ * Radix Sort
+ * LSD radix sort with 8-bit digits, 4 counting-sort passes over 32-bit integers, loop unrolled
  *
  * Complexity: O(n + 4 * 256), one counting pass and 4 scatter passes over the array
  * Memory: a scratch vector of n unsigned ints, about 40 MB for n = 1e7
@@ -11,8 +11,7 @@
  * radix_sort(ar, n, tmp) uses the caller's tmp (grown to n if smaller), pass the same tmp to repeated sorts:
  * at -O2 on n = 1e7 a fresh scratch per call measured 98 ms per sort vs 78 ms reused, its pages fault in on every call
  *
- * Most useful in scenarios where you want to sort a large list of items fast, usually in sub-optimal solutions
- * Can be generalized with templates but that usually makes it 2-3 x slower
+ * Not templated over the key type: templating made it 2-3x slower
  *
 ***/
 
