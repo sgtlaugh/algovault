@@ -247,11 +247,6 @@ struct TwoSat{
         return truth[node(x)];
     }
 
-    /***
-     * returns variables set to true in a vector, in increasing order
-     * only call when is_satisfiable()
-    ***/
-
     vector<int> get_assignment(){
         vector<int> set_nodes;
         for (int x = 1; x <= n; x++){
