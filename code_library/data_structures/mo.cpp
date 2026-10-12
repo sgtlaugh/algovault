@@ -4,7 +4,7 @@
  * Answers offline range queries on an array by moving a window over it
  * Variants: mo_with_updates.cpp (point assignments), mo_with_rollback.cpp (add-only state), tree_path_mo.cpp (tree paths)
  *
- * Complexity: O((n + q) * sqrt(n)) calls to add / remove, plus O(q log q) sorting
+ * Complexity: O(n * sqrt(q) + q) calls to add / remove, plus O(q log q) sorting
  *
  * mo(n, queries, add, remove, get) returns the answers, res[qi] = get(qi) taken while the window is exactly query qi:
  *   queries[i] = {l, r}, 0-based inclusive ranges over positions 0..n-1, r = l - 1 is an empty range

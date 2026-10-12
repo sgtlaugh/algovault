@@ -3,7 +3,7 @@
  * Mo's Algorithm On Tree Paths
  * Answers offline path queries on a tree by running Mo's algorithm over an Euler tour that lists each node twice
  *
- * Complexity: O(n log n) to build, O((n + q) * sqrt(n)) calls to add / remove per run, plus O(q log q) sorting
+ * Complexity: O(n log n) to build, O(n * sqrt(q) + q) calls to add / remove per run, plus O(q log q) sorting
  *
  * TreePathMo tree(n); tree.add_edge(u, v); tree.build(root);
  * tree.run(paths, add, remove, get, edges) returns the answers, res[qi] = get(qi):
