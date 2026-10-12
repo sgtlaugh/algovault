@@ -9,6 +9,10 @@
  * Extremely useful for hacking solutions in Codeforces :-D
  * Or if you're the setter and you're in an ominous mood, construct test cases against commonly used base/mod pairs
  *
+ * Usage:
+ *   auto [s, t] = AntiHash(base1, mod1, base2, mod2).solve();
+ *   s != t are 64-character strings of '0' and '1' whose hashes h = (h * base + s[i]) % mod match under both pairs
+ *
  * Complexity:
  *   - AntiHash: 2^23 modular multiplies to fill the 4 MB table dp[2^16][4][2], independent of the input
  *   - get_hash: O(1), one table lookup per 16-bit chunk of the 64-bit input
@@ -24,7 +28,8 @@
 using namespace std;
 
 struct AntiHash{
-    unsigned long long b[2], m[2], expo[2][64], dp[65536][4][2];
+    unsigned long long b[2], m[2], expo[2][64];
+    vector<array<array<unsigned long long, 2>, 4>> dp;  /// 4 MB, as a member array it overflowed the stack when AntiHash lives there
 
     AntiHash(long long base1, long long mod1, long long base2, long long mod2){
         int l, i, j, k;
@@ -34,7 +39,7 @@ struct AntiHash{
             for (expo[l][0] = 1, i = 1; i < 64; i++) expo[l][i] = multiply(expo[l][i - 1], b[l], m[l]);
         }
 
-        memset(dp, 0, sizeof(dp));
+        dp.assign(1 << 16, {});
         for (j = 0; j < (1 << 16); j++){
             for (i = 0; i < 4; i++){
                 for (l = 0; l < 2; l++){
