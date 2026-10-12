@@ -1,7 +1,10 @@
 /***
  *
- * Bit-String LCS (http://users.monash.edu/~lloyd/tildeStrings/Alignment/86.IPL.html)
+ * Bit-String LCS
  * Calculates the longest common subsequence of two strings with bitset
+ * L. Allison and T. I. Dix, "A bit-string longest-common-subsequence algorithm", Information Processing Letters 23, pp. 305-310, 1986, doi:10.1016/0020-0190(86)90091-8
+ *
+ * lcs(A, B): the LCS length of the null-terminated strings A and B (const char*), any byte values except 0
  *
  * Complexity: O(N * M / 64)
  *
