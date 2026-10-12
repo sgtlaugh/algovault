@@ -11,6 +11,9 @@
  *   - O(p_i^q_i) time and memory per prime power for its factorial table, built by the first query that needs it
  *   - O(m (log n + log mod)) per query, base p_i digit loops plus modular exponentiation for each prime power
  *
+ * Binomial bin(mod): 1 <= mod < 2^64, every prime power p_i^q_i must be < 2^32 (asserted, its table takes p_i^q_i words)
+ * bin.binomial(n, k): C(n, k) mod mod for 0 <= k <= n < 2^63, returns 0 if n < 0, k < 0 or k > n, and always 0 for mod 1
+ *
 ***/
 
 #include <bits/stdtr1c++.h>
@@ -57,8 +60,12 @@ struct BinomialPrimePow{
         return res * dp[x] % mod;
     }
 
-    BinomialPrimePow(uint32_t p, uint32_t q): p(p), q(q){
-        this->mod = pow(p, q) + 0.25;
+    BinomialPrimePow(uint64_t p, uint32_t q): p(p), q(q){
+        /// p^q divides the 64-bit mod, so this never overflows before the assert
+        uint64_t pw = 1;
+        for (uint32_t i = 0; i < q; i++) pw *= p;
+        assert(pw < (1ULL << 32));
+        this->mod = pw;
     }
 
     int64_t binomial(int64_t n, int64_t k){
@@ -99,7 +106,7 @@ struct Binomial{
     uint32_t mod_inverse(uint32_t a, uint32_t m){
         uint32_t x, y, inv;
         extended_gcd(a, m, x, y);
-        inv = (x + m) % m;
+        inv = (int32_t)x < 0 ? x + m : x;  /// |x| <= m / 2 < 2^31, (x + m) % m wraps in 32 bits for m near 2^32
         return inv;
     }
 
@@ -116,7 +123,7 @@ struct Binomial{
     Binomial(uint64_t mod): mod(mod){
         uint64_t m = mod;
 
-        for (uint64_t i = 2; i * i <= m; i++){
+        for (uint64_t i = 2; i <= m / i; i++){
             uint32_t c = 0;
             while (m % i == 0){
                 c++;
@@ -173,6 +180,13 @@ int main(){
     assert(Binomial(1000000007 * 997LL).binomial(100000000000000000LL, 10000000009LL) == 353000002471LL);
     assert(Binomial(1000000007 * 997LL).binomial(1000000000000000000LL, 10000000009LL) == 361000002527LL);
     assert(Binomial(1000000007 * 997LL).binomial(1000000000000000000LL, 1000) == 625000004375LL);
+
+    /// 4294967291 is the largest prime below 2^32, C(p, 1) = p and p < 3p
+    assert(Binomial(3 * 4294967291ULL).binomial(4294967291LL, 1) == 4294967291LL);
+    Binomial wide(3 * 4294967291ULL);
+    for (size_t i = 0; i < wide.dp.size(); i++) assert(wide.mods[i] % wide.dp[i].mod * wide.invs[i] % wide.dp[i].mod == 1);
+    /// 2^63 - 1 is all ones in binary, so by Lucas every C(2^63 - 1, k) is odd
+    assert(Binomial(2).binomial(INT64_MAX, 123456789) == 1);
 
     fprintf(stderr, "\nTime taken = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC); /// 0.010 s
     return 0;

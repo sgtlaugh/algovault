@@ -1,4 +1,6 @@
 #include "../common.h"
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/combinatorics/binomial_coefficients.cpp"
@@ -50,7 +52,30 @@ uint64_t lucas(int64_t n, int64_t k, int p){
     return res;
 }
 
+/// fn must abort on its assert
+template<typename F>
+void expect_abort(F fn){
+    pid_t pid = fork();
+    assert(pid >= 0);
+    if (pid == 0){
+        alarm(5);
+        assert(freopen("/dev/null", "w", stderr));
+        fn();
+        _exit(0);
+    }
+
+    int status;
+    assert(waitpid(pid, &status, 0) == pid);
+    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+}
+
 int main(){
+    /// Prime powers of 2^32 and above would be truncated to 32 bits, 4294967311 is the smallest prime above 2^32
+    expect_abort([]{ Binomial(4294967311ULL).binomial(10, 5); });
+    expect_abort([]{ Binomial(3 * 4294967311ULL).binomial(10, 5); });
+    expect_abort([]{ Binomial(1ULL << 32).binomial(10, 5); });
+    expect_abort([]{ Binomial(65537ULL * 65537 * 7).binomial(10, 5); });
+
     check_pascal(18410739107493357137ULL, 300);  /// 65521 * 65519 * 65497 * 65479, above 2^63
 
     for (long long it = 0; it < stress::scaled(150); it++){
