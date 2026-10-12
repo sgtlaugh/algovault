@@ -13,6 +13,9 @@
  * Need to specify the maximum number of entries to be inserted on construction, the table never grows
  * For maximal performance, declare once and clear for re-use
  *
+ * HashMap<TKey, TValue> mp(max_len);
+ * mp.set(x, v), mp.add(x, v), mp.get(x), mp.contains(x), mp.erase(x), mp.clear(), mp.size()
+ *
  * Default value for missing keys is TValue(), like STL map
  *
 ***/
