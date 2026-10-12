@@ -6,7 +6,8 @@
  * Complexity: O(n log n) evaluations of w, O(n) memory
  *
  * concave_1d1d_dp(n, dp0, w, &opt): returns dp[0..n], opt (optional) gets opt[x] = an argmin i for x >= 1
- * w(i, x) is called only with 0 <= i < x <= n, T is any type with +, < and copy (int64, double, ...)
+ * w(i, x) is called only with 0 <= i < x <= n, values have the common type of dp0 and w(i, x), any type with +, < and copy
+ *   (int64, double, ...), so a literal 0 for dp0 with an int64 cost still computes in int64
  *
  * Requirement, the quadrangle inequality: w(a, c) + w(b, d) <= w(a, d) + w(b, c) for all a <= b <= c <= d
  * It holds for g(x - i) with g convex, for -A[x] * B[i] with A and B nondecreasing, for any term that
@@ -25,8 +26,8 @@
 
 using namespace std;
 
-template <typename T, typename Cost>
-vector<T> concave_1d1d_dp(int n, T dp0, Cost w, vector<int>* opt = nullptr){
+template <typename D, typename Cost, typename T = common_type_t<D, invoke_result_t<Cost, int, int>>>
+vector<T> concave_1d1d_dp(int n, D dp0, Cost w, vector<int>* opt = nullptr){
     vector<T> dp(n + 1, dp0);
     if (opt) opt->assign(n + 1, -1);
     auto value = [&](int i, int x){ return dp[i] + w(i, x); };
@@ -68,6 +69,9 @@ int main(){
     assert((concave_1d1d_dp(4, 0LL, squares(100)) == vector<long long>{0, 101, 104, 109, 116}));
     assert((concave_1d1d_dp(0, 7LL, squares(1)) == vector<long long>{7}));
     assert((concave_1d1d_dp(1, -3LL, squares(1)) == vector<long long>{-3, -1}));
+    auto big = concave_1d1d_dp(2, 0, squares(3000000000LL));  /// int dp0 still computes in int64
+    static_assert(is_same_v<decltype(big), vector<long long>>);
+    assert((big == vector<long long>{0, 3000000001, 3000000004}));
 
     int n = 5, s = 1;
     vector<long long> T = {0, 1, 3, 4, 2, 1}, F = {0, 3, 2, 3, 3, 4};
