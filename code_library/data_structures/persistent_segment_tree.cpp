@@ -74,6 +74,7 @@ struct PersistentSegmentTree{
     }
 
     int kth(int lo_version, int hi_version, T k) const{
+        static_assert(is_same_v<Merge, plus<T>>, "kth descends by subtracting subtree sums, only valid for Merge = plus");
         assert(0 <= lo_version && lo_version < versions() && 0 <= hi_version && hi_version < versions());
         int lo = roots[lo_version], hi = roots[hi_version], a = 0, b = n - 1;
         assert(n > 0 && 0 <= k && k < val[hi] - val[lo]);
