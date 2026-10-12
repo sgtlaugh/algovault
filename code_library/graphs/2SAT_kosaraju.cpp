@@ -149,7 +149,6 @@ struct TwoSat{
         }
     }
 
-    /// Returns whether the system is 2-satisfiable
     bool is_satisfiable(){
         build();
         for (int i = 1; i <= n; i++){
