@@ -2,6 +2,7 @@
 
 ## [Chinese Remainder Theorem](chinese_remainder_theorem.cpp)
 
+- [Code Jam 2019 Round 1A B - Golf Gophers](https://github.com/google/coding-competitions-archive/tree/main/codejam/2019/round_1a/golf_gophers)
 - [Codeforces Gym 104648B2 - Golf Gophers B2](https://codeforces.com/gym/104648/problem/B2)
 - [HackerRank number-of-sequences - Number of Sequences](https://www.hackerrank.com/contests/w22/challenges/number-of-sequences/problem)
 - [Kattis chineseremainder - Chinese Remainder](https://open.kattis.com/problems/chineseremainder)
@@ -13,6 +14,7 @@
 
 ## [Continued Fractions](continued_fractions.cpp)
 
+- [Code Jam 2019 Round 2 C - New Elements: Part 2](https://github.com/google/coding-competitions-archive/tree/main/codejam/2019/round_2/new_elements_part_2)
 - [CodeChef EBAIT - Election Bait](https://www.codechef.com/problems/EBAIT)
 - [CodeChef ES - Euler Sum](https://www.codechef.com/problems/ES)
 - [Codeforces 305B - Continued Fractions](https://codeforces.com/problemset/problem/305/B)
