@@ -15,7 +15,7 @@
  * flow * |cost| summed over a path must fit in long long
  * The DFS recurses once per edge of a shortest path: 1.5e5 edges overflow an 8 MB stack at -O2, use mcmf_dijkstra.cpp for long paths
  *
- * Same API as mcmf_dijkstra.cpp, prefer this one when costs are small integers with many tied shortest paths
+ * Same API as mcmf_dijkstra.cpp minus slope(), prefer this one when costs are small integers with many tied shortest paths
  *     300 x 300 assignment with costs 0 to 3: 20x faster than mcmf_dijkstra.cpp, about 2x slower on random sparse graphs
  *
 ***/
