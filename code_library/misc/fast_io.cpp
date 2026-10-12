@@ -136,8 +136,6 @@ namespace fio{
         return read(args...) + 1;
     }
 
-    /* End of read methods, write methods start below */
-
     void flush(){
         fwrite(outbuf, 1, outptr, stdout);
         outptr = 0;
