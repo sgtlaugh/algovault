@@ -1,8 +1,14 @@
 /***
  *
  * Hungarian Algorithm (aka Kuhn-Munkres) for weighted bipartite matching or the assignment problem
- * Returns the optimal assignment in a weighted bipartite graph
- * Sum of edges in the optimal matching is either minimum or maximum
+ * Matches rows to distinct columns of a cost matrix so the sum of the chosen cells is minimum or maximum
+ *
+ * auto [total, pairs] = hungarian(mat, minimize = true): mat is an n x m vector<vector<T>>, rectangular allowed
+ *     pairs holds min(n, m) (row, col) pairs, 0-based, sorted by row, each row and column appears at most once
+ *     total is the sum of mat[row][col] over pairs, minimize = false maximizes it instead
+ *     T must be signed (int, long long or double), 2 * max(n, m) * max|mat[i][j]| must fit in T
+ *     (potentials reach about max(n, m) * (max - min) of the entries, 4C on a 3 x 3 matrix of +-C)
+ *     An empty mat returns {0, {}}
  *
  * Let n = number of rows, m = number of columns
  * Complexity: O(min(n, m)^2 * max(n, m))
@@ -96,6 +102,15 @@ int main(){
     };
     tie(res, matches) = hungarian(mat, false);
     assert(res == 1 && matches == exp_matches);
+
+    const int C = INT_MAX / 6;
+    mat = {
+        {-C, C, -C},
+        {-C, C, -C},
+        {C, -C, C},
+    };
+    tie(res, matches) = hungarian(mat, false);
+    assert(res == C);  /// C + C - C, and 2 * 3 * C fits in int
 
     mat = {
         {1, 2},
