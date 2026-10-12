@@ -27,6 +27,9 @@ int main(){
 
         vector<int> terms(n);
         for (int x = 0; x < n; x++) terms[x] = horner(c, x, mod);
+        if (stress::rand_int(0, 1)){
+            for (auto& t : terms) t -= mod * stress::rand_int(0, 1);
+        }
 
         auto lagrange = Lagrange(terms, mod);
         for (int q = 0; q < 20; q++){

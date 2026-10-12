@@ -9,6 +9,12 @@
  * Also includes an additional helper function called find_degree(terms, mod)
  * Given at least the first d+2 points of a polynomial of degree d, it finds d
  *
+ * Usage:
+ *   Lagrange lagrange(terms, mod);                  // terms[x] = f(x) for x = 0 .. n - 1, any int values (reduced mod mod)
+ *   int y = lagrange.interpolate(x);                // f(x) mod mod in [0, mod) for any long long x, negative too
+ *   vector<int> w = get_terms(terms, mod, l, r);    // f(l), f(l + 1), ..., f(r) mod mod
+ *   int d = find_degree(terms, mod);                // degree d, or -1 if fewer than d + 2 terms are given
+ *
  * Complexity:
  *   - O(n + log mod) to pre-calculate, O(n) memory
  *   - O(n) time and memory per interpolate
@@ -34,6 +40,10 @@ struct Lagrange{
         assert(n <= mod);
 
         int i, v, f;
+        for (auto& t : this->terms){
+            if ((t %= mod) < 0) t += mod;
+        }
+
         for (f = 1, i = 1; i < n; i++) f = (long long)f * i % mod;
         v = expo(f, mod - 2);
 
@@ -45,7 +55,7 @@ struct Lagrange{
         dp.resize(n, 1);
         for (i = 0; i < n; i++){
             dp[i] = (long long)inv[i] * inv[n - i - 1] % mod;
-            dp[i] = (long long)dp[i] * terms[i] % mod;
+            dp[i] = (long long)dp[i] * this->terms[i] % mod;
         }
     }
 
@@ -62,7 +72,7 @@ struct Lagrange{
     }
 
     int interpolate(long long x){
-        if (0 <= x && x < n) return terms[x] % mod;
+        if (0 <= x && x < n) return terms[x];
         x %= mod;
 
         int i, w;
@@ -140,6 +150,15 @@ int main(){
     assert(lagrange.interpolate(6) == 91);
     assert(lagrange.interpolate(1 << 30) == 300663155);
     assert(lagrange.interpolate(1LL << 60) == 717860166);
+
+    /// f(x) = -5 - 2x from negative terms, f(2^40) = -5 - 2^41 = 976759843 mod 10^9 + 7
+    auto negative = Lagrange(vector<int> {-5, -7, -9}, mod);
+    assert(negative.interpolate(0) == mod - 5);
+    assert(negative.interpolate(2) == mod - 9);
+    assert(negative.interpolate(3) == mod - 11);
+    assert(negative.interpolate(1LL << 40) == 976759843);
+    assert(get_terms(vector<int> {-5, -7, -9}, mod, -1, 1) == (vector<int> {mod - 3, mod - 5, mod - 7}));
+    assert(find_degree(vector<int> {-5, -7, -9}, mod) == 1);
 
     assert(find_degree(terms, mod) == 3);
     terms.pop_back();
