@@ -1,7 +1,7 @@
 /***
- * Fast radix sort in O(w * n) with loop unrolling
- * w is the key length, and is fixed to 8 bits
- * This sorts 64-bit integers in O(64/8 * n) or O(8 * n) passes
+ *
+ * Radix Sort (64-bit)
+ * LSD radix sort with 8-bit digits, 8 counting-sort passes over 64-bit integers, loop unrolled
  *
  * Complexity: O(8 n + 8 * 256) ~ O(n), memory is a scratch vector of n unsigned long longs (80 MB at n = 1e7)
  *
@@ -10,10 +10,7 @@
  * radix_sort(ar, n, tmp) uses the caller's tmp (grown to n if smaller), pass the same tmp to repeated sorts:
  * at -O2 on n = 1e7 a fresh scratch per call measured 270 ms per sort vs 229 ms reused, its pages fault in on every call
  *
- * Most useful in scenarios where you want to sort a large list of items fast
- * Why not make radix_sort (https://github.com/sgtlaugh/algovault/blob/master/code_library/misc/radix_sort.cpp) generic?
- * Because you want to use radix sort instead of std::sort when speed is important (think squeezing sub-optimal solutions into TL)
- * And making it generic is usally also making it slower
+ * Kept separate from radix_sort.cpp instead of templated: templating made it 2-3x slower
  *
 ***/
 
