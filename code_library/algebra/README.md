@@ -108,7 +108,7 @@
 
 ## [Lagrange Interpolation](lagrange_interpolation.cpp)
 
-- [Codeforces 622F - The Sum of the k-th Powers](https://codeforces.com/problemset/problem/622/F)
+- [Codeforces 622F - The Sum of the k-th Powers](https://codeforces.com/problemset/problem/622/F) [✅](../../practice/algebra/codeforces_622f.cpp "Accepted solution")
 - [HackerRank summing-the-k-n-r-series - Summing the K-N-R Series](https://www.hackerrank.com/contests/infinitum-mar14/challenges/summing-the-k-n-r-series)
 - [Library Checker sum_of_exponential_times_polynomial - $\sum_{i=0}^{n-1} r^i i^d$](https://judge.yosupo.jp/problem/sum_of_exponential_times_polynomial)
 - [SPOJ MOON1 - Moon Safari (medium)](https://www.spoj.com/problems/MOON1/)

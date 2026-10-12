@@ -1,0 +1,96 @@
+/***
+ *
+ * Combinatorics
+ * Factorial tables, nCr and nPr modulo a prime
+ *
+ * Complexity: O(n) to build Combinatorics(n, mod), O(1) per query afterwards
+ *
+ * Combinatorics comb(n, mod): tables for 0..n, mod must be a prime with n < mod < 2^31
+ * comb.nCr(n, k), comb.nPr(n, k): 0 when k < 0 or k > n, n must not exceed the table size
+ * comb.inverse(i): inverse of i for 1 <= i <= n, comb.factorial(i), comb.inv_factorial(i)
+ *
+ * Extended gcd, modular inverse for any modulus and diophantine equations: extended_gcd.cpp
+ *
+***/
+
+#include <bits/stdtr1c++.h>
+
+using namespace std;
+
+struct Combinatorics{
+    long long mod;
+    vector<long long> fact, inv_fact, inv;
+
+    Combinatorics(int n, long long mod) : mod(mod), fact(n + 1), inv_fact(n + 1), inv(n + 1){
+        assert(n >= 0 && n < mod && mod < (1LL << 31));
+
+        fact[0] = 1;
+        for (int i = 1; i <= n; i++) fact[i] = fact[i - 1] * i % mod;
+
+        if (n >= 1) inv[1] = 1;
+        for (int i = 2; i <= n; i++) inv[i] = mod - (mod / i) * inv[mod % i] % mod;  /// needs a prime mod
+
+        inv_fact[0] = 1;
+        for (int i = 1; i <= n; i++) inv_fact[i] = inv_fact[i - 1] * inv[i] % mod;
+    }
+
+    long long factorial(int i) const{
+        assert(0 <= i && i < (int)fact.size());
+        return fact[i];
+    }
+
+    long long inv_factorial(int i) const{
+        assert(0 <= i && i < (int)fact.size());
+        return inv_fact[i];
+    }
+
+    long long inverse(int i) const{
+        assert(1 <= i && i < (int)inv.size());
+        return inv[i];
+    }
+
+    long long nCr(int n, int k) const{
+        assert(n < (int)fact.size());
+        if (k < 0 || k > n) return 0;
+        return fact[n] * inv_fact[k] % mod * inv_fact[n - k] % mod;
+    }
+
+    long long nPr(int n, int k) const{
+        assert(n < (int)fact.size());
+        if (k < 0 || k > n) return 0;
+        return fact[n] * inv_fact[n - k] % mod;
+    }
+};
+
+int main(){
+    int n, m;
+    scanf("%d %d", &n, &m);
+
+    const int K = 100;
+    const long long MOD = 1000000007;
+    Combinatorics comb(n + K, MOD);
+
+    vector<long long> a(n + 1);
+    for (int i = 1; i <= n; i++) scanf("%lld", &a[i]);
+
+    /// level t is prefix-summed t more times than level 0, so a 1 at add[k][l] grows into C(k + j - l, k) at level 0
+    vector<vector<int>> add(K + 1, vector<int>(n + 2, 0));
+    while (m--){
+        int l, r, k;
+        scanf("%d %d %d", &l, &r, &k);
+        add[k][l] = (add[k][l] + 1) % MOD;
+        /// cancels what level k - j accumulated up to r, so nothing leaks past r into lower levels
+        for (int j = 0; j <= k; j++){
+            add[k - j][r + 1] = (add[k - j][r + 1] - comb.nCr(r - l + j, j) + MOD) % MOD;
+        }
+    }
+
+    vector<long long> upper(n + 2, 0), cur(n + 2, 0);
+    for (int t = K; t >= 0; t--){
+        for (int i = 1; i <= n; i++) cur[i] = (cur[i - 1] + upper[i] + add[t][i]) % MOD;
+        swap(upper, cur);
+    }
+
+    for (int i = 1; i <= n; i++) printf("%lld%c", (a[i] + upper[i]) % MOD, i == n ? '\n' : ' ');
+    return 0;
+}
