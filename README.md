@@ -104,47 +104,47 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 [Practice problems](code_library/graphs/README.md)
 
-- [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability and an assignment via Kosaraju, with at-most-one constraints in `O(k)` clauses [✔](judge_tests/graphs/two_sat.cpp)
+- [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability with an assignment and at-most-one [✔](judge_tests/graphs/two_sat.cpp)
 - [2-SAT, Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - lexicographically smallest satisfying assignment [✔](judge_tests/graphs/two_sat_lexicographic.cpp)
-- [3-Edge-Connected Components](code_library/graphs/three_edge_connected_components.cpp) - Tsin, iterative, parallel edges and self loops allowed, `O(n + m)` [✔](judge_tests/graphs/three_edge_connected_components.cpp)
-- [Articulation Points and Blocks](code_library/graphs/articulation_points.cpp) - cut vertices, blocks and the block-cut tree, parallel edges allowed [✔](judge_tests/graphs/aoj_grl_3_a.cpp)
-- [Bellman Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges, -inf marking, negative cycle retrieval, `O(n m)` [✔](judge_tests/graphs/aoj_grl_1_b.cpp)
-- [Bridges](code_library/graphs/bridge.cpp) - bridges, 2-edge-connected components and the bridge tree, parallel edges allowed [✔](judge_tests/graphs/aoj_grl_3_b.cpp)
-- [Cactus Graph](code_library/graphs/cactus.cpp) - edge/vertex cactus recognition, cycle listing and cactus tree, `O(n + m)`
-- [Chromatic Number](code_library/graphs/chromatic_number.cpp) - minimum vertex coloring by inclusion-exclusion, `O(2^n n)` for `n <= 24` [✔](judge_tests/graphs/chromatic_number.cpp)
-- [Complement Graph BFS](code_library/graphs/complement_graph_bfs.cpp) - BFS and components in the complement of a sparse graph, `O(n + m)` [✔](judge_tests/graphs/connected_components_of_complement_graph.cpp)
-- [Dijkstra](code_library/graphs/dijkstra.cpp) - shortest paths with parents, heap `O((n + m) log m)`, dense `O(n^2)`, 0-1 BFS [✔](judge_tests/graphs/aoj_alds1_11_c.cpp)
-- [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence with parents, negative weights, `O(m log m)` [✔](judge_tests/graphs/directedmst.cpp)
-- [Dominator Tree](code_library/graphs/dominator_tree.cpp) - Lengauer-Tarjan immediate dominators from a root, `O((n + m) log n)` [✔](judge_tests/graphs/dominatortree.cpp)
-- [Edge Coloring](code_library/graphs/edge_coloring.cpp) - bipartite with D colors (Konig), simple graphs with D + 1 colors (Vizing) [✔](judge_tests/graphs/bipartite_edge_coloring.cpp)
-- [Euler Path](code_library/graphs/euler_path.cpp) - Hierholzer, directed and undirected multigraphs, iterative, `O(n + m)` [✔](judge_tests/graphs/eulerian_trail_directed.cpp)
-- [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - feasible circulation, feasible / max / min s-t flow with demands on Dinic [✔](judge_tests/graphs/aoj_grl_6_a_lower_bound.cpp)
-- [Floyd Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with paths, negative edges and negative cycle marking [✔](judge_tests/graphs/aoj_grl_1_c.cpp)
-- [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching and pairs by blossom, Tutte rank cross-check, `O(n^3)` [✔](judge_tests/graphs/general_matching.cpp)
-- [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - Stoer-Wagner, minimum cut weight and one side, `O(n^3)`
-- [Gomory-Hu Tree](code_library/graphs/gomory_hu.cpp) - all-pairs min cuts of an undirected graph from n - 1 max flows
+- [3-Edge-Connected Components](code_library/graphs/three_edge_connected_components.cpp) - vertices joined by 3 edge-disjoint paths [✔](judge_tests/graphs/three_edge_connected_components.cpp)
+- [Articulation Points and Blocks](code_library/graphs/articulation_points.cpp) - cut vertices, blocks and the block-cut tree [✔](judge_tests/graphs/aoj_grl_3_a.cpp)
+- [Bellman Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges and cycles [✔](judge_tests/graphs/aoj_grl_1_b.cpp)
+- [Bridges](code_library/graphs/bridge.cpp) - bridges and 2-edge-connected components [✔](judge_tests/graphs/aoj_grl_3_b.cpp)
+- [Cactus Graph](code_library/graphs/cactus.cpp) - cactus recognition, cycles and the cactus tree
+- [Chromatic Number](code_library/graphs/chromatic_number.cpp) - minimum colors in a vertex coloring [✔](judge_tests/graphs/chromatic_number.cpp)
+- [Complement Graph BFS](code_library/graphs/complement_graph_bfs.cpp) - BFS and components of the complement graph [✔](judge_tests/graphs/connected_components_of_complement_graph.cpp)
+- [Dijkstra](code_library/graphs/dijkstra.cpp) - shortest paths with non-negative edges, 0-1 BFS [✔](judge_tests/graphs/aoj_alds1_11_c.cpp)
+- [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence from a root [✔](judge_tests/graphs/directedmst.cpp)
+- [Dominator Tree](code_library/graphs/dominator_tree.cpp) - immediate dominators from a root [✔](judge_tests/graphs/dominatortree.cpp)
+- [Edge Coloring](code_library/graphs/edge_coloring.cpp) - D colors if bipartite, D + 1 for simple graphs [✔](judge_tests/graphs/bipartite_edge_coloring.cpp)
+- [Euler Path](code_library/graphs/euler_path.cpp) - walk using every edge exactly once [✔](judge_tests/graphs/eulerian_trail_directed.cpp)
+- [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - circulation and s-t flow with edge lower bounds [✔](judge_tests/graphs/aoj_grl_6_a_lower_bound.cpp)
+- [Floyd Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with negative cycles [✔](judge_tests/graphs/aoj_grl_1_c.cpp)
+- [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching in general graphs [✔](judge_tests/graphs/general_matching.cpp)
+- [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - minimum cut weight and one side
+- [Gomory-Hu Tree](code_library/graphs/gomory_hu.cpp) - all-pairs min cuts of an undirected graph
 - [Hopcroft Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, `O(m sqrt(n))` [✔](judge_tests/graphs/bipartitematching.cpp)
-- [Hungarian Algorithm](code_library/graphs/hungarian_algorithm.cpp) - minimum cost assignment, `O(min(n, m)^2 max(n, m))` [✔](judge_tests/graphs/assignment.cpp)
+- [Hungarian Algorithm](code_library/graphs/hungarian_algorithm.cpp) - minimum or maximum cost assignment [✔](judge_tests/graphs/assignment.cpp)
 - [Johnson's Algorithm](code_library/graphs/johnsons_algorithm.cpp) - all-pairs shortest paths with negative edges [✔](judge_tests/graphs/aoj_grl_1_c_johnson.cpp)
-- [K Shortest Walks](code_library/graphs/k_shortest_walks.cpp) - Eppstein with a persistent leftist heap, `O((n + m) log m + k log k)` [✔](judge_tests/graphs/k_shortest_walk_k_shortest_walks.cpp)
-- [Kruskal Reconstruction Tree](code_library/graphs/kruskal_reconstruction_tree.cpp) - vertices reachable from v using edges <= w, as a range, `O(log n)`
-- [Manhattan MST](code_library/graphs/manhattan_mst.cpp) - minimum spanning tree of points under L1 distance, `O(n log n)` [✔](judge_tests/graphs/manhattanmst.cpp)
-- [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set, graphic/partition/xor, `O(n r^2)` queries [✔](judge_tests/graphs/aoj_grl_7_a.cpp)
-- [Maximum Clique](code_library/graphs/max_clique.cpp) - bitset branch and bound to ~150 vertices, independent set, clique enumeration [✔](judge_tests/graphs/maximum_independent_set.cpp)
-- [Maximum Flow](code_library/graphs/maxflow.cpp) - Dinic with node capacities and a dense variant, min cut and closure recipes [✔](judge_tests/graphs/aoj_grl_6_a.cpp)
-- [Min Cost Circulation](code_library/graphs/min_cost_circulation.cpp) - cost scaling with negative costs and cycles, `O(n^3 log(n C))` [✔](judge_tests/graphs/aoj_grl_6_b_circulation.cpp)
-- [Min Cost Max Flow, Dijkstra](code_library/graphs/mcmf_dijkstra.cpp) - successive shortest paths with potentials and the cost slope, the default [✔](judge_tests/graphs/aoj_grl_6_b.cpp)
-- [Min Cost Max Flow, SPFA](code_library/graphs/mcmf_spfa.cpp) - same API as the Dijkstra version minus slope(), all tied shortest paths per phase [✔](judge_tests/graphs/aoj_grl_6_b_spfa.cpp)
-- [Minimum Mean Cycle (Karp)](code_library/graphs/minimum_mean_cycle.cpp) - exact minimum mean cycle as a fraction, with its edges, `O(n (n + m))`
-- [Minimum Path Cover](code_library/graphs/minimum_path_cover.cpp) - disjoint and shared path covers of a DAG, maximum antichain [✔](judge_tests/graphs/aoj_2251.cpp)
-- [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - Kruskal, Boruvka for implicit graphs, dense `O(n^2)` Prim [✔](judge_tests/graphs/aoj_alds1_12_a.cpp)
-- [Offline Dynamic Connectivity](code_library/graphs/offline_dynamic_connectivity.cpp) - connectivity and components under edge insertions and deletions
-- [Online Bridges](code_library/graphs/online_bridges.cpp) - bridges and 2-edge components under insertions, `O((n log n + m) α(n))` [✔](judge_tests/graphs/two_edge_connected_components.cpp)
-- [Range Edge Dijkstra](code_library/graphs/range_edge_dijkstra.cpp) - shortest paths with vertex-to-range and range-to-vertex edges
-- [Small Cycle Counting](code_library/graphs/small_cycle_counting.cpp) - triangles and 4-cycles of a simple graph in `O(n + m sqrt(m))`
-- [Stable Marriage](code_library/graphs/stable_marriage.cpp) - Gale-Shapley, proposer optimal stable matching, `O(n^2)`
-- [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals, `O(3^k n + 2^k m log n)`
-- [Strongly Connected Components](code_library/graphs/scc.cpp) - Kosaraju, components in topological order [✔](judge_tests/graphs/scc.cpp)
+- [K Shortest Walks](code_library/graphs/k_shortest_walks.cpp) - lengths of the k shortest walks from s to t [✔](judge_tests/graphs/k_shortest_walk_k_shortest_walks.cpp)
+- [Kruskal Reconstruction Tree](code_library/graphs/kruskal_reconstruction_tree.cpp) - vertices reachable from v using edges <= w
+- [Manhattan MST](code_library/graphs/manhattan_mst.cpp) - minimum spanning tree under L1 distance [✔](judge_tests/graphs/manhattanmst.cpp)
+- [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set of two matroids [✔](judge_tests/graphs/aoj_grl_7_a.cpp)
+- [Maximum Clique](code_library/graphs/max_clique.cpp) - plus independent set and all maximal cliques [✔](judge_tests/graphs/maximum_independent_set.cpp)
+- [Maximum Flow](code_library/graphs/maxflow.cpp) - max flow and min cut, with node capacities [✔](judge_tests/graphs/aoj_grl_6_a.cpp)
+- [Min Cost Circulation](code_library/graphs/min_cost_circulation.cpp) - cheapest circulation with negative cycles [✔](judge_tests/graphs/aoj_grl_6_b_circulation.cpp)
+- [Min Cost Max Flow, Dijkstra](code_library/graphs/mcmf_dijkstra.cpp) - default min cost flow, with the cost slope [✔](judge_tests/graphs/aoj_grl_6_b.cpp)
+- [Min Cost Max Flow, SPFA](code_library/graphs/mcmf_spfa.cpp) - same as Dijkstra, without the cost slope [✔](judge_tests/graphs/aoj_grl_6_b_spfa.cpp)
+- [Minimum Mean Cycle (Karp)](code_library/graphs/minimum_mean_cycle.cpp) - exact minimum mean cycle and its edges
+- [Minimum Path Cover](code_library/graphs/minimum_path_cover.cpp) - path covers of a DAG and maximum antichain [✔](judge_tests/graphs/aoj_2251.cpp)
+- [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - minimum spanning forest, also implicit graphs [✔](judge_tests/graphs/aoj_alds1_12_a.cpp)
+- [Offline Dynamic Connectivity](code_library/graphs/offline_dynamic_connectivity.cpp) - connectivity under edge insertions and deletions
+- [Online Bridges](code_library/graphs/online_bridges.cpp) - bridges and 2-edge components under insertions [✔](judge_tests/graphs/two_edge_connected_components.cpp)
+- [Range Edge Dijkstra](code_library/graphs/range_edge_dijkstra.cpp) - shortest paths with edges to and from ranges
+- [Small Cycle Counting](code_library/graphs/small_cycle_counting.cpp) - counts triangles and 4-cycles
+- [Stable Marriage](code_library/graphs/stable_marriage.cpp) - proposer-optimal stable matching
+- [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals
+- [Strongly Connected Components](code_library/graphs/scc.cpp) - components in topological order [✔](judge_tests/graphs/scc.cpp)
 
 ### Strings
 
