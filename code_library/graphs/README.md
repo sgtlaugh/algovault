@@ -247,7 +247,7 @@
 - [USACO 971 - Moortal Cowmbat](https://usaco.org/index.php?page=viewproblem2&cpid=971)
 - [UVa 117 - The Postal Worker Rings Once](https://onlinejudge.org/external/1/117.pdf) [✅](../../practice/graphs/uva_117.cpp "Accepted solution")
 - [UVa 423 - MPI Maelstrom](https://onlinejudge.org/external/4/423.pdf) [✅](../../practice/graphs/uva_423.cpp "Accepted solution")
-- [UVa 436 - Arbitrage (II)](https://onlinejudge.org/external/4/436.pdf)
+- [UVa 436 - Arbitrage (II)](https://onlinejudge.org/external/4/436.pdf) [✅](../../practice/graphs/uva_436.cpp "Accepted solution")
 - [UVa 523 - Minimum Transport Cost](https://onlinejudge.org/external/5/523.pdf) [✅](../../practice/graphs/uva_523.cpp "Accepted solution")
 - [UVa 567 - Risk](https://onlinejudge.org/external/5/567.pdf) [✅](../../practice/graphs/uva_567.cpp "Accepted solution")
 - [UVa 821 - Page Hopping](https://onlinejudge.org/external/8/821.pdf) [✅](../../practice/graphs/uva_821.cpp "Accepted solution")
