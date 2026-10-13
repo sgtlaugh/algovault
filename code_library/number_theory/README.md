@@ -142,7 +142,7 @@
 - [UVa 11353 - A Different Kind of Sorting](https://onlinejudge.org/external/113/11353.pdf)
 - [UVa 11408 - Count DePrimes](https://onlinejudge.org/external/114/11408.pdf)
 - [UVa 11415 - Count the Factorials](https://onlinejudge.org/external/114/11415.pdf)
-- [UVa 11424 - GCD - Extreme (I)](https://onlinejudge.org/external/114/11424.pdf)
+- [UVa 11424 - GCD - Extreme (I)](https://onlinejudge.org/external/114/11424.pdf) [✅](../../practice/number_theory/uva_11424.cpp "Accepted solution")
 - [UVa 11426 - GCD - Extreme (II)](https://onlinejudge.org/external/114/11426.pdf)
 - [UVa 11876 - N + NOD (N)](https://onlinejudge.org/external/118/11876.pdf)
 - [UVa 12043 - Divisors](https://onlinejudge.org/external/120/12043.pdf)
