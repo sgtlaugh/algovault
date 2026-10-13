@@ -1,18 +1,17 @@
 /***
  *
- * Binomial co-efficients (n choose k) modulo mod
+ * Binomial Coefficients
+ * C(n, k) modulo any mod, prime or not, by Lucas per prime power of mod joined with the Chinese remainder theorem
  *
- * Generalization of the Lucas theorem, which calculates binomial mod p^q
+ * Complexity, for mod = p1^q1 * ... * pm^qm and table sizes Pi = min(pi^qi, max_n + 1):
+ *   - constructor: O(sqrt(mod)) trial division, instant below 2^32, about 50 s for two prime factors near 2^32
+ *   - tables: O(Pi) time and 4 Pi bytes per prime power, built by the first query that needs them
+ *   - query: O(m (log n + log mod))
  *
- * Let mod = p1^q1 * p2^q2 * ... * pm^qm
+ * Binomial bin(mod, max_n = INT64_MAX): 1 <= mod < 2^64, every prime power below 2^32, queries need n <= max_n
+ * bin.binomial(n, k): C(n, k) mod mod for n < 2^63, 0 when n < 0, k < 0 or k > n, always 0 for mod 1
  *
- * Complexity:
- *   - O(sqrt(mod)) to construct, factorizing mod by trial division
- *   - O(p_i^q_i) time and memory per prime power for its factorial table, built by the first query that needs it
- *   - O(m (log n + log mod)) per query, base p_i digit loops plus modular exponentiation for each prime power
- *
- * Binomial bin(mod): 1 <= mod < 2^64, every prime power p_i^q_i must be < 2^32 (asserted, its table takes p_i^q_i words)
- * bin.binomial(n, k): C(n, k) mod mod for 0 <= k <= n < 2^63, returns 0 if n < 0, k < 0 or k > n, and always 0 for mod 1
+ * Without max_n a prime mod near 2e9 builds an 8 GB table, so pass max_n whenever n stays small
  *
 ***/
 
@@ -21,7 +20,7 @@
 using namespace std;
 
 struct BinomialPrimePow{
-    uint32_t p, q, mod;
+    uint32_t p, q, mod, len;
     vector<uint32_t> dp;
 
     uint64_t get_tz(uint64_t x){
@@ -60,12 +59,14 @@ struct BinomialPrimePow{
         return res * dp[x] % mod;
     }
 
-    BinomialPrimePow(uint64_t p, uint32_t q): p(p), q(q){
+    BinomialPrimePow(uint64_t p, uint32_t q, int64_t max_n): p(p), q(q){
         /// p^q divides the 64-bit mod, so this never overflows before the assert
         uint64_t pw = 1;
         for (uint32_t i = 0; i < q; i++) pw *= p;
         assert(pw < (1ULL << 32));
         this->mod = pw;
+        /// While n <= max_n < p^q, fact() only ever reads dp[0..max_n], so a longer table would never be touched
+        this->len = min<uint64_t>(pw, (uint64_t)max_n + 1);
     }
 
     int64_t binomial(int64_t n, int64_t k){
@@ -73,8 +74,8 @@ struct BinomialPrimePow{
         if (t >= q) return 0;
 
         if (!dp.size()){
-            dp.resize(mod, 1);
-            for (uint32_t i = 1, r = 1; i < mod; i++, r++){
+            dp.resize(len, 1);
+            for (uint32_t i = 1, r = 1; i < len; i++, r++){
                 if (r == p) r = 0;
                 dp[i] = (uint64_t)dp[i - 1] * (r ? i : 1) % mod;
             }
@@ -88,6 +89,7 @@ struct BinomialPrimePow{
 
 struct Binomial{
     uint64_t mod;
+    int64_t max_n;
     vector<BinomialPrimePow> dp;
     vector<uint64_t> mods;
     vector<uint32_t> invs;
@@ -120,7 +122,8 @@ struct Binomial{
         return res;
     }
 
-    Binomial(uint64_t mod): mod(mod){
+    Binomial(uint64_t mod, int64_t max_n = INT64_MAX): mod(mod), max_n(max_n){
+        assert(max_n >= 0);
         uint64_t m = mod;
 
         for (uint64_t i = 2; i <= m / i; i++){
@@ -129,9 +132,9 @@ struct Binomial{
                 c++;
                 m /= i;
             }
-            if (c) dp.push_back(BinomialPrimePow(i, c));
+            if (c) dp.push_back(BinomialPrimePow(i, c, max_n));
         }
-        if (m > 1) dp.push_back(BinomialPrimePow(m, 1));
+        if (m > 1) dp.push_back(BinomialPrimePow(m, 1, max_n));
 
         for (auto d: dp){
             mods.push_back(mod / d.mod);
@@ -141,6 +144,7 @@ struct Binomial{
 
     int64_t binomial(int64_t n, int64_t k){
         if (k > n || n < 0 || k < 0 || !dp.size()) return 0;
+        assert(n <= max_n);
         if (n == k || k == 0) return 1;
 
         vector<uint32_t> rem;
@@ -187,6 +191,11 @@ int main(){
     for (size_t i = 0; i < wide.dp.size(); i++) assert(wide.mods[i] % wide.dp[i].mod * wide.invs[i] % wide.dp[i].mod == 1);
     /// 2^63 - 1 is all ones in binary, so by Lucas every C(2^63 - 1, k) is odd
     assert(Binomial(2).binomial(INT64_MAX, 123456789) == 1);
+
+    /// Uncapped, these would build tables of 2e9, 1.16e9 and 1e9 entries, max_n keeps each at 100001
+    assert(Binomial(1999999973, 100000).binomial(100000, 50000) == 1615655902);
+    assert(Binomial(1162261467, 100000).binomial(100000, 33333) == 641856042);  /// 3^19
+    assert(Binomial(2 * 999999937, 100000).binomial(100000, 33333) == 166212410);
 
     fprintf(stderr, "\nTime taken = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC); /// 0.010 s
     return 0;

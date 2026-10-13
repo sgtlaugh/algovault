@@ -29,8 +29,8 @@ uint64_t random_modulus(){
 }
 
 /// Rows of Pascal's triangle mod m up to n
-void check_pascal(uint64_t m, int n){
-    Binomial b(m);
+void check_pascal(uint64_t m, int n, int64_t max_n = INT64_MAX){
+    Binomial b(m, max_n);
     vector<unsigned __int128> row;
     for (int i = 0; i <= n; i++){
         row.push_back(1 % m);
@@ -75,8 +75,15 @@ int main(){
     expect_abort([]{ Binomial(3 * 4294967311ULL).binomial(10, 5); });
     expect_abort([]{ Binomial(1ULL << 32).binomial(10, 5); });
     expect_abort([]{ Binomial(65537ULL * 65537 * 7).binomial(10, 5); });
+    expect_abort([]{ Binomial(97, 10).binomial(11, 3); });  /// n above max_n would read past the capped table
 
     check_pascal(18410739107493357137ULL, 300);  /// 65521 * 65519 * 65497 * 65479, above 2^63
+
+    /// Uncapped, these prime powers would need tables of 1e9 to 4e9 entries
+    check_pascal(1999999973, 300, 300);
+    check_pascal(4294967291ULL, 300, 300);
+    check_pascal(1162261467, 300, 300);  /// 3^19, multiples of 3 below n exercise the p-free factorials
+    check_pascal(2 * 999999937ULL, 300, 400);
 
     for (long long it = 0; it < stress::scaled(150); it++){
         uint64_t m = random_modulus();
@@ -91,6 +98,14 @@ int main(){
             assert(a == (uint64_t)b.binomial(n, n - k));
             assert(a < m || m == 1);
             assert(b.binomial(n, n + 1 + stress::rand_int(0, 5)) == 0);
+        }
+
+        /// The cap lands below, inside and above the prime powers' table sizes, answers must not change
+        int64_t cap = stress::rand_int(0, stress::rand_int(0, 1) ? 200 : 300000);
+        Binomial capped(m, cap);
+        for (int q = 0; q < 50; q++){
+            int64_t n = stress::rand_int(0, cap), k = stress::rand_int(-2, n + 2);
+            assert(capped.binomial(n, k) == b.binomial(n, k));
         }
     }
 
