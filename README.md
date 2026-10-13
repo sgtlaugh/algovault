@@ -150,24 +150,24 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 [Practice problems](code_library/strings/README.md)
 
-- [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text by hashing [✔](judge_tests/strings/aoj_alds1_14_c.cpp)
+- [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text [✔](judge_tests/strings/aoj_alds1_14_c.cpp)
 - [Aho-Corasick](code_library/strings/aho_corasick.cpp) - multi-pattern matching automaton [✔](judge_tests/strings/aho_corasick.cpp)
-- [Aho-Corasick, Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - multi-pattern matching with online pattern insertion
-- [Bit-String LCS](code_library/strings/bit_string_lcs.cpp) - longest common subsequence with bitsets, `O(n m / 64)` [✔](judge_tests/strings/aoj_alds1_10_c.cpp)
-- [De Bruijn Sequence](code_library/strings/de_bruijn_sequence.cpp) - lexicographically smallest `B(k, n)` by Lyndon words, `O(k^n)`
-- [Dynamic String Hash](code_library/strings/dynamic_string_hash.cpp) - substring hashes and palindrome checks under range assignment [✔](judge_tests/strings/aoj_alds1_14_b_dynamic_string_hash.cpp)
+- [Aho-Corasick, Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - patterns can be inserted online
+- [Bit-String LCS](code_library/strings/bit_string_lcs.cpp) - longest common subsequence in `O(n m / 64)` [✔](judge_tests/strings/aoj_alds1_10_c.cpp)
+- [De Bruijn Sequence](code_library/strings/de_bruijn_sequence.cpp) - cyclic sequence containing every length n word
+- [Dynamic String Hash](code_library/strings/dynamic_string_hash.cpp) - substring hashes under range assignment [✔](judge_tests/strings/aoj_alds1_14_b_dynamic_string_hash.cpp)
 - [Hashing](code_library/strings/hashing.cpp) - forward and reverse polynomial hash of any segment [✔](judge_tests/strings/enumerate_palindromes_hashing.cpp)
 - [Hunt-Szymanski](code_library/strings/hunt_szymanski.cpp) - LCS in `O((r + n) log n)` for r matching pairs [✔](judge_tests/strings/aoj_alds1_10_c_hunt_szymanski.cpp)
-- [KMP](code_library/strings/kmp.cpp) - prefix function, pattern search and the prefix function automaton [✔](judge_tests/strings/aoj_alds1_14_b.cpp)
-- [Lyndon Factorization](code_library/strings/lyndon_factorization.cpp) - Duval factorization into Lyndon words, plus a least rotation [✔](judge_tests/strings/lyndon_factorization.cpp)
+- [KMP](code_library/strings/kmp.cpp) - prefix function and pattern search [✔](judge_tests/strings/aoj_alds1_14_b.cpp)
+- [Lyndon Factorization](code_library/strings/lyndon_factorization.cpp) - splits a sequence into Lyndon words [✔](judge_tests/strings/lyndon_factorization.cpp)
 - [Manacher](code_library/strings/manacher.cpp) - longest palindrome at every center [✔](judge_tests/strings/enumerate_palindromes.cpp)
 - [Minimum Rotation](code_library/strings/minimum_rotation.cpp) - start of the lexicographically smallest rotation
 - [Palindromic Tree](code_library/strings/palindromic_tree.cpp) - eertree, one node per distinct palindrome [✔](judge_tests/strings/eertree.cpp)
-- [Suffix Array](code_library/strings/suffix_array.cpp) - DC3 in `O(n)` with LCP array, `O(1)` LCP queries and pattern ranges [✔](judge_tests/strings/aoj_alds1_14_d.cpp)
-- [Suffix Automaton](code_library/strings/suffix_automaton.cpp) - substring counts (distinct, occurrences) and longest common substring [✔](judge_tests/strings/number_of_substrings.cpp)
-- [Tandem Repeats](code_library/strings/tandem_repeats.cpp) - Main-Lorentz, every square as `O(n log n)` compact triples [✔](judge_tests/strings/runenumerate.cpp)
-- [Wildcard Matching](code_library/strings/wildcard_matching.cpp) - matching with wildcards in text or pattern via NTT, `O(n log n)` [✔](judge_tests/strings/wildcard_pattern_matching.cpp)
-- [Z Algorithm](code_library/strings/z_algorithm.cpp) - longest common prefix of every suffix with the string [✔](judge_tests/strings/zalgorithm.cpp)
+- [Suffix Array](code_library/strings/suffix_array.cpp) - `O(n)` suffix array with LCP and pattern search [✔](judge_tests/strings/aoj_alds1_14_d.cpp)
+- [Suffix Automaton](code_library/strings/suffix_automaton.cpp) - substring counts and longest common substring [✔](judge_tests/strings/number_of_substrings.cpp)
+- [Tandem Repeats](code_library/strings/tandem_repeats.cpp) - every tandem repeat (square) in a string [✔](judge_tests/strings/runenumerate.cpp)
+- [Wildcard Matching](code_library/strings/wildcard_matching.cpp) - matching with wildcards in text or pattern [✔](judge_tests/strings/wildcard_pattern_matching.cpp)
+- [Z Algorithm](code_library/strings/z_algorithm.cpp) - LCP of every suffix with the string [✔](judge_tests/strings/zalgorithm.cpp)
 
 ### Number Theory
 
