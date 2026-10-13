@@ -170,7 +170,7 @@
 - [UVa 10816 - Travel in Desert](https://onlinejudge.org/external/108/10816.pdf) [✅](../../practice/graphs/uva_10816.cpp "Accepted solution")
 - [UVa 10917 - Walk Through the Forest](https://onlinejudge.org/external/109/10917.pdf)
 - [UVa 10967 - The Great Escape](https://onlinejudge.org/external/109/10967.pdf) [✅](../../practice/graphs/uva_10967.cpp "Accepted solution")
-- [UVa 10986 - Sending email](https://onlinejudge.org/external/109/10986.pdf)
+- [UVa 10986 - Sending email](https://onlinejudge.org/external/109/10986.pdf) [✅](../../practice/graphs/uva_10986.cpp "Accepted solution")
 - [UVa 11338 - Minefield](https://onlinejudge.org/external/113/11338.pdf)
 - [UVa 11367 - Full Tank?](https://onlinejudge.org/external/113/11367.pdf)
 - [UVa 11374 - Airport Express](https://onlinejudge.org/external/113/11374.pdf) [✅](../../practice/graphs/uva_11374.cpp "Accepted solution")
