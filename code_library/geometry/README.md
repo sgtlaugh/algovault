@@ -116,7 +116,7 @@
 - [POJ 3130 - How I Mathematician Wonder What You Are!](http://poj.org/problem?id=3130)
 - [Timus 1681 - Brother Bear's Garden](https://acm.timus.ru/problem.aspx?num=1681)
 - [UVa 1298 - Triathlon](https://onlinejudge.org/external/12/1298.pdf)
-- [UVa 1396 - Most Distant Point from the Sea](https://onlinejudge.org/external/13/1396.pdf)
+- [UVa 1396 - Most Distant Point from the Sea](https://onlinejudge.org/external/13/1396.pdf) [✅](../../practice/geometry/uva_1396.cpp "Accepted solution")
 - [UVa 1475 - Jungle Outpost](https://onlinejudge.org/external/14/1475.pdf)
 - [UVa 1571 - How I Mathematician Wonder What You Are!](https://onlinejudge.org/external/15/1571.pdf)
 - [UVa 13213 - Quidditch Match](https://onlinejudge.org/external/132/13213.pdf)
