@@ -115,7 +115,7 @@
 - [UVa 11996 - Jewel Magic](https://onlinejudge.org/external/119/11996.pdf)
 - [UVa 12012 - Detection of Extraterrestrial](https://onlinejudge.org/external/120/12012.pdf)
 - [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf)
-- [UVa 12837 - Hasmot Ali Professor](https://onlinejudge.org/external/128/12837.pdf)
+- [UVa 12837 - Hasmot Ali Professor](https://onlinejudge.org/external/128/12837.pdf) [✅](../../practice/strings/uva_12837.cpp "Accepted solution")
 - [UVa 13126 - Wildcards](https://onlinejudge.org/external/131/13126.pdf)
 
 #### [Hunt-Szymanski](hunt_szymanski.cpp)
