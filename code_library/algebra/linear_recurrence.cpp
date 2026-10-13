@@ -421,7 +421,6 @@ struct LinearRecurrence{
         return nth_terms(n, 1)[0];
     }
 
-private:
     long long find_rank(const vector<int> & v){
         return (v.size() > 1 || (v.size() == 1 && v[0])) ? v.size() - 1 : (long long)INT_MIN;
     }
