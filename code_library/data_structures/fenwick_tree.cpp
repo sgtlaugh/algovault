@@ -101,7 +101,6 @@ struct FenwickRangeUpdate{
         return res;
     }
 
-private:
     void add_suffix(int p, T v){
         for (p++; p <= n; p += p & -p) tree[p] += v;
     }
@@ -135,7 +134,6 @@ struct FenwickFull{
         return prefix(r) - prefix(l - 1);
     }
 
-private:
     void update_tree(vector<T>& t, int p, T v){
         for (p++; p <= n; p += p & -p) t[p] += v;
     }
