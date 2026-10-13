@@ -71,7 +71,7 @@
 #### [Distinct Subarray Aggregates](distinct_subarray_aggregates.cpp)
 
 - [Codeforces 475D - CGCDSSQ](https://codeforces.com/problemset/problem/475/D)
-- [UVa 1642 - Magical GCD](https://onlinejudge.org/external/16/1642.pdf)
+- [UVa 1642 - Magical GCD](https://onlinejudge.org/external/16/1642.pdf) [✅](../../practice/data_structures/uva_1642.cpp "Accepted solution")
 
 #### [Fenwick Tree](fenwick_tree.cpp)
 
