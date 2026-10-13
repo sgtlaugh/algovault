@@ -206,7 +206,7 @@
 - [SPOJ DIVSUM2 - Divisor Summation (Hard)](https://www.spoj.com/problems/DIVSUM2/)
 - [SPOJ FACT0 - Integer Factorization (15 digits)](https://www.spoj.com/problems/FACT0/)
 - [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf) [✅](../../practice/number_theory/uva_11476_pollard_rho.cpp "Accepted solution")
-- [UVa 12005 - Find Solutions](https://onlinejudge.org/external/120/12005.pdf)
+- [UVa 12005 - Find Solutions](https://onlinejudge.org/external/120/12005.pdf) [✅](../../practice/number_theory/uva_12005.cpp "Accepted solution")
 - [UVa 13067 - Prime Kebab Menu](https://onlinejudge.org/external/130/13067.pdf) [✅](../../practice/number_theory/uva_13067.cpp "Accepted solution")
 - [UVa 13191 - Tobby Primes](https://onlinejudge.org/external/131/13191.pdf) [✅](../../practice/number_theory/uva_13191.cpp "Accepted solution")
 
