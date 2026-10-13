@@ -408,7 +408,7 @@
 - [UVa 1574 - Surely You Congest](https://onlinejudge.org/external/15/1574.pdf)
 - [UVa 10249 - The Grand Dinner](https://onlinejudge.org/external/102/10249.pdf) [✅](../../practice/graphs/uva_10249.cpp "Accepted solution")
 - [UVa 10330 - Power Transmission](https://onlinejudge.org/external/103/10330.pdf) [✅](../../practice/graphs/uva_10330.cpp "Accepted solution")
-- [UVa 10480 - Sabotage](https://onlinejudge.org/external/104/10480.pdf)
+- [UVa 10480 - Sabotage](https://onlinejudge.org/external/104/10480.pdf) [✅](../../practice/graphs/uva_10480.cpp "Accepted solution")
 - [UVa 10779 - Collectors Problem](https://onlinejudge.org/external/107/10779.pdf)
 - [UVa 11045 - My T-shirt suits me](https://onlinejudge.org/external/110/11045.pdf) [✅](../../practice/graphs/uva_11045.cpp "Accepted solution")
 - [UVa 11082 - Matrix Decompressing](https://onlinejudge.org/external/110/11082.pdf) [✅](../../practice/graphs/uva_11082_maxflow.cpp "Accepted solution")
