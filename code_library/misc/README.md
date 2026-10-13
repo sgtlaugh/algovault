@@ -83,7 +83,7 @@
 - [Kattis europeantrip - European Trip](https://open.kattis.com/problems/europeantrip)
 - [POJ 1379 - Run Away](http://poj.org/problem?id=1379)
 - [POJ 2069 - Super Star](http://poj.org/problem?id=2069)
-- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf)
+- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✅](../../practice/misc/uva_10228_simulated_annealing.cpp "Accepted solution")
 
 #### [Ternary and Golden-Section Search](ternary_search.cpp)
 
@@ -107,7 +107,7 @@
 - [Timus 1436 - Billboard](https://acm.timus.ru/problem.aspx?num=1436)
 - [Timus 1451 - Beerhouse Tale](https://acm.timus.ru/problem.aspx?num=1451)
 - [USACO 1355 - Haybale Distribution](https://usaco.org/index.php?page=viewproblem2&cpid=1355)
-- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf)
+- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✅](../../practice/misc/uva_10228_ternary_search.cpp "Accepted solution")
 - [UVa 10385 - Duathlon](https://onlinejudge.org/external/103/10385.pdf)
 - [UVa 12197 - Trick or Treat](https://onlinejudge.org/external/121/12197.pdf) [✅](../../practice/misc/uva_12197.cpp "Accepted solution")
 - [UVa 13010 - Galactic taxes](https://onlinejudge.org/external/130/13010.pdf)
