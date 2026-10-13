@@ -38,7 +38,7 @@
 - [UVa 10583 - Ubiquitous Religions](https://onlinejudge.org/external/105/10583.pdf)
 - [UVa 10608 - Friends](https://onlinejudge.org/external/106/10608.pdf)
 - [UVa 10685 - Nature](https://onlinejudge.org/external/106/10685.pdf)
-- [UVa 11503 - Virtual Friends](https://onlinejudge.org/external/115/11503.pdf)
+- [UVa 11503 - Virtual Friends](https://onlinejudge.org/external/115/11503.pdf) [✅](../../practice/data_structures/uva_11503.cpp "Accepted solution")
 - [UVa 11690 - Money Matters](https://onlinejudge.org/external/116/11690.pdf)
 - [UVa 11966 - Galactic Bonding](https://onlinejudge.org/external/119/11966.pdf)
 - [UVa 11987 - Almost Union-Find](https://onlinejudge.org/external/119/11987.pdf)
