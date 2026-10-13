@@ -1,30 +1,22 @@
 /***
  *
  * Interval Set
- * Set of disjoint half-open intervals [l, r) with merging add, splitting remove and coverage queries
+ * Set of disjoint half-open intervals [l, r) that merges on add, splits on remove and answers coverage queries
  *
- * Complexity: O(log n) amortized per add and remove, O(log n) per query, n = number of stored intervals
+ * Complexity: amortized O(log n) per add and remove, O(log n) per query, n = number of stored intervals
  *
- * IntervalSet<T> s:
- *   add(l, r): covers [l, r), merging with every stored interval it overlaps or touches
- *   remove(l, r): uncovers [l, r), cutting stored intervals that stick out of it
- *   contains(x): whether the point x is covered
- *   covers(l, r): whether all of [l, r) is covered (true for an empty range)
- *   covered_length(): total length covered, kept as a running sum
+ * IntervalSet<T> s: empty set, T is long long by default
+ * s.add(l, r): cover [l, r), merging with every stored interval it overlaps or touches
+ * s.remove(l, r): uncover [l, r), cutting stored intervals that stick out of it
+ * s.contains(x): true if the point x is covered
+ * s.covers(l, r): true if all of [l, r) is covered, always true for an empty range
+ * s.covered_length(): total covered length, kept as a running sum
+ * s.seg: map l -> r of the stored intervals in increasing order, never two that touch
  *
- * s.seg is the map l -> r of the stored intervals in increasing order; it never holds two intervals
- * that touch, so it is the canonical form of the covered set
- * Empty ranges (l >= r) are ignored by add and remove
- * T is an integer or floating point type; the total covered length must fit in T, so long long
- * coordinates in [-4e18, 4e18] are safe
- * With floating T the running sum drifts over long add/remove workloads, so covered_length() can
- * end slightly off (e.g. a tiny nonzero value once everything is removed)
+ * Empty ranges, l >= r, are ignored by add and remove
  * For closed integer intervals [l, r] call add(l, r + 1)
- *
- * Example:
- *   IntervalSet<int> s;
- *   s.add(1, 4), s.add(6, 9), s.add(4, 6);   // seg = {[1, 9)}
- *   s.remove(3, 5);                          // seg = {[1, 3), [5, 9)}, covered_length() = 6
+ * The total covered length must fit in T, long long coordinates in [-4e18, 4e18] are safe
+ * With floating point T the running sum drifts, so covered_length() can end slightly off
  *
 ***/
 
@@ -87,8 +79,10 @@ struct IntervalSet{
 };
 
 int main(){
+    /// Add, merge and split
     IntervalSet<int> s;
-    s.add(1, 4), s.add(6, 9);
+    s.add(1, 4);
+    s.add(6, 9);
     assert((s.seg == map<int, int>{{1, 4}, {6, 9}}));
     assert(s.covered_length() == 6);
     assert(s.contains(3));
@@ -101,5 +95,6 @@ int main(){
     s.remove(3, 5);
     assert((s.seg == map<int, int>{{1, 3}, {5, 9}}));
     assert(s.covered_length() == 6);
+
     return 0;
 }
