@@ -526,7 +526,7 @@
 - [UVa 11267 - The Hire-a-Coder Business Model](https://onlinejudge.org/external/112/11267.pdf)
 - [UVa 11354 - Bond](https://onlinejudge.org/external/113/11354.pdf)
 - [UVa 11603 - Its all about the Bandwidth](https://onlinejudge.org/external/116/11603.pdf)
-- [UVa 11631 - Dark roads](https://onlinejudge.org/external/116/11631.pdf)
+- [UVa 11631 - Dark roads](https://onlinejudge.org/external/116/11631.pdf) [✅](../../practice/graphs/uva_11631.cpp "Accepted solution")
 - [UVa 11710 - Expensive subway](https://onlinejudge.org/external/117/11710.pdf)
 - [UVa 11733 - Airports](https://onlinejudge.org/external/117/11733.pdf)
 - [UVa 11747 - Heavy Cycle Edges](https://onlinejudge.org/external/117/11747.pdf) [✅](../../practice/graphs/uva_11747.cpp "Accepted solution")
