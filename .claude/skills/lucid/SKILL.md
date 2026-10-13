@@ -29,7 +29,7 @@ The rules live in the `## Documentation` section of `CONTRIBUTING.md`. Read it f
    - value ranges from the types and asserts
    A claim you cannot confirm from the code is removed, not guessed.
 3. **main().** Rewrite it to the CONTRIBUTING rules: the first block is the worked example, one call per assert, a blank line before each new object. Each further block shows one more use of the API, like a second constructor or a mode; a block that only checks an edge case or scale the stress test covers is removed. Every expected value is worked out by hand from the input; a value taken from running the program is forbidden.
-4. **README.** Make the index entry agree with the header's second line: the same meaning, often shorter. If the template's display name changed, update its practice section heading in `code_library/<topic>/README.md` to match.
+4. **README.** Make the index entry one short phrase on what the template is for, at most 50 characters, agreeing with the header's second line; details stay in the header. If the template's display name changed, update its practice section heading in `code_library/<topic>/README.md` to match.
 5. **Verify.** Run both, from the repo root:
    ```bash
    env CHANGED_SINCE=$base JOBS=4 bash .github/scripts/run_tests.sh self
@@ -51,6 +51,7 @@ Every item is a yes, or the file is not done. The list mirrors CONTRIBUTING.md, 
 - [ ] The header has no usage example; a snippet appears only where calling the template needs code
 - [ ] `main()` has no chained `assert(a && b)` over several calls, no `auto x = T(...)`, no timing, no printing
 - [ ] A blank line separates blocks and precedes each new object in `main()`
+- [ ] The README index description is one phrase of at most 50 characters
 - [ ] Both suite runs exited 0, and the diff touches only the header, `main()` and README lines
 
 ## Output, per file

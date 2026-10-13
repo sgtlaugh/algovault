@@ -113,7 +113,9 @@ int main(){
 
 ### README
 
-- An index entry is `[Name](path) - short description`, agreeing with the header's second line, variants nested under their base
+- An index entry is `[Name](path) - description`, the description one short phrase on what the template is for, at most 50 characters
+- Details live in the header, not the index: no feature lists, no implementation names, a complexity only when it sets the template apart
+- A variant is nested under its base and says only how it differs, like `every version stays queryable`
 - Practice section headings match the index names
 
 ## Style
@@ -127,7 +129,7 @@ int main(){
 
 ## Checks
 
-CI fails on a failing test, a compiler warning, a missing stress test or index entry, a ✔ that disagrees with `judge_tests/`, a ✅ that disagrees with `practice/`, a header without a complexity, a copied region that drifted, or a whitespace or style error.
+CI fails on a failing test, a compiler warning, a missing stress test or index entry, an index description over 50 characters, a ✔ that disagrees with `judge_tests/`, a ✅ that disagrees with `practice/`, a header without a complexity, a copied region that drifted, or a whitespace or style error.
 
 ```bash
 bash .github/scripts/run_tests.sh self      # every self-test
