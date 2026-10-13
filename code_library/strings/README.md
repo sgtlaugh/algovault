@@ -46,7 +46,7 @@
 - [SPOJ TREEBA - Hackers](https://www.spoj.com/problems/TREEBA/)
 - [SPOJ WPUZZLES - Word Puzzles](https://www.spoj.com/problems/WPUZZLES/)
 - [USACO 533 - Censoring (Gold)](https://usaco.org/index.php?page=viewproblem2&cpid=533)
-- [UVa 1076 - Password Suspects](https://onlinejudge.org/external/10/1076.pdf)
+- [UVa 1076 - Password Suspects](https://onlinejudge.org/external/10/1076.pdf) [✅](../../practice/strings/uva_1076.cpp "Accepted solution")
 - [UVa 1254 - Top 10](https://onlinejudge.org/external/12/1254.pdf)
 - [UVa 1399 - Puzzle](https://onlinejudge.org/external/13/1399.pdf)
 - [UVa 1449 - Dominating Patterns](https://onlinejudge.org/external/14/1449.pdf) [✅](../../practice/strings/uva_1449.cpp "Accepted solution")
