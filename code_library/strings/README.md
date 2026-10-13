@@ -244,7 +244,7 @@
 - [UVa 10679 - I Love Strings!!](https://onlinejudge.org/external/106/10679.pdf)
 - [UVa 10829 - L-Gap Substrings](https://onlinejudge.org/external/108/10829.pdf)
 - [UVa 11107 - Life Forms](https://onlinejudge.org/external/111/11107.pdf) [✅](../../practice/strings/uva_11107_suffix_array.cpp "Accepted solution")
-- [UVa 11512 - GATTACA](https://onlinejudge.org/external/115/11512.pdf)
+- [UVa 11512 - GATTACA](https://onlinejudge.org/external/115/11512.pdf) [✅](../../practice/strings/uva_11512.cpp "Accepted solution")
 - [UVa 12191 - File Recover](https://onlinejudge.org/external/121/12191.pdf)
 - [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf)
 - [UVa 12338 - Anti-Rhyme Pairs](https://onlinejudge.org/external/123/12338.pdf) [✅](../../practice/strings/uva_12338.cpp "Accepted solution")
