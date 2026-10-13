@@ -52,7 +52,7 @@
 - [UVa 1449 - Dominating Patterns](https://onlinejudge.org/external/14/1449.pdf)
 - [UVa 1502 - GRE Words](https://onlinejudge.org/external/15/1502.pdf)
 - [UVa 10679 - I Love Strings!!](https://onlinejudge.org/external/106/10679.pdf)
-- [UVa 10975 - Dueue's Quiz](https://onlinejudge.org/external/109/10975.pdf)
+- [UVa 10975 - Dueue's Quiz](https://onlinejudge.org/external/109/10975.pdf) [✅](../../practice/strings/uva_10975.cpp "Accepted solution")
 - [UVa 11468 - Substring](https://onlinejudge.org/external/114/11468.pdf)
 - [UVa 12244 - Growing Strings](https://onlinejudge.org/external/122/12244.pdf)
 - [UVa 13163 - Passwords](https://onlinejudge.org/external/131/13163.pdf)
