@@ -298,7 +298,7 @@
 - [CSES 2169 - Nested Ranges Count](https://cses.fi/problemset/task/2169)
 - [Library Checker ordered_set - Ordered Set](https://judge.yosupo.jp/problem/ordered_set)
 - [SPOJ ADACROP - Ada and Harvest](https://www.spoj.com/problems/ADACROP/)
-- [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/)
+- [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/) [✅](../../practice/data_structures/spoj_meanarr_ordered_set.cpp "Accepted solution")
 - [SPOJ ORDERSET - Order statistic set](https://www.spoj.com/problems/ORDERSET/)
 - [UVa 501 - Black Box](https://onlinejudge.org/external/5/501.pdf)
 - [UVa 1480 - Jewel](https://onlinejudge.org/external/14/1480.pdf)
