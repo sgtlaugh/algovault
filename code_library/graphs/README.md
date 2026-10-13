@@ -26,7 +26,7 @@
 - [SPOJ SUPSUP - Supplying the Suppliers](https://www.spoj.com/problems/SUPSUP/)
 - [SPOJ TORNJEVI - TORNJEVI](https://www.spoj.com/problems/TORNJEVI/)
 - [Szkopul rem - Remont](https://szkopul.edu.pl/problemset/problem/xNjwUvwdHQoQTFBrmyG8vD1O/site/)
-- [UVa 1086 - The Ministers' Major Mess](https://onlinejudge.org/external/10/1086.pdf)
+- [UVa 1086 - The Ministers' Major Mess](https://onlinejudge.org/external/10/1086.pdf) [✅](../../practice/graphs/uva_1086.cpp "Accepted solution")
 - [UVa 1146 - Now or later](https://onlinejudge.org/external/11/1146.pdf)
 - [UVa 1391 - Astronauts](https://onlinejudge.org/external/13/1391.pdf)
 - [UVa 1514 - Piece it together](https://onlinejudge.org/external/15/1514.pdf)
