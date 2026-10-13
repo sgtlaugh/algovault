@@ -17,7 +17,7 @@
 - [SPOJ VFMUL - Very Fast Multiplication](https://www.spoj.com/problems/VFMUL/)
 - [UVa 288 - Arithmetic Operations With Large Integers](https://onlinejudge.org/external/2/288.pdf)
 - [UVa 324 - Factorial Frequencies](https://onlinejudge.org/external/3/324.pdf) [✅](../../practice/algebra/uva_324.cpp "Accepted solution")
-- [UVa 424 - Integer Inquiry](https://onlinejudge.org/external/4/424.pdf)
+- [UVa 424 - Integer Inquiry](https://onlinejudge.org/external/4/424.pdf) [✅](../../practice/algebra/uva_424.cpp "Accepted solution")
 - [UVa 485 - Pascal's Triangle of Death](https://onlinejudge.org/external/4/485.pdf) [✅](../../practice/algebra/uva_485.cpp "Accepted solution")
 - [UVa 495 - Fibonacci Freeze](https://onlinejudge.org/external/4/495.pdf) [✅](../../practice/algebra/uva_495.cpp "Accepted solution")
 - [UVa 623 - 500!](https://onlinejudge.org/external/6/623.pdf) [✅](../../practice/algebra/uva_623.cpp "Accepted solution")
