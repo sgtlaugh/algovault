@@ -448,7 +448,7 @@
 - [UVa 11613 - Acme Corporation](https://onlinejudge.org/external/116/11613.pdf)
 - [UVa 12433 - Rent a Car](https://onlinejudge.org/external/124/12433.pdf)
 - [UVa 12534 - Binary Matrix 2](https://onlinejudge.org/external/125/12534.pdf)
-- [UVa 12623 - Choosing Presents](https://onlinejudge.org/external/126/12623.pdf)
+- [UVa 12623 - Choosing Presents](https://onlinejudge.org/external/126/12623.pdf) [✅](../../practice/graphs/uva_12623.cpp "Accepted solution")
 - [UVa 12821 - Double Shortest Paths](https://onlinejudge.org/external/128/12821.pdf) [✅](../../practice/graphs/uva_12821.cpp "Accepted solution")
 
 #### [Min Cost Max Flow, SPFA](mcmf_spfa.cpp)
