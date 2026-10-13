@@ -46,44 +46,44 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 [Practice problems](code_library/data_structures/README.md)
 
-- [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - replaces values with small ids in place, returns the distinct values
-- [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - merges sets of nodes and tells whether two nodes share a set [✔](judge_tests/data_structures/unionfind.cpp)
+- [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - replaces values with small ids
+- [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - merges sets and tells if two nodes share one [✔](judge_tests/data_structures/unionfind.cpp)
   - [Partially Persistent](code_library/data_structures/partially_persistent_dsu.cpp) - connectivity and component sizes at any past time
-  - [Potential](code_library/data_structures/potential_dsu.cpp) - relations `x[b] = x[a] + d` over the integers or modulo m, parity [✔](judge_tests/data_structures/unionfind_with_potential.cpp)
-  - [Rollback](code_library/data_structures/rollback_dsu.cpp) - union-find whose unions can be undone, for offline connectivity [✔](judge_tests/data_structures/persistent_unionfind.cpp)
-- [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct gcd/or/and of subarrays ending at each index, `O(log A)`
-- [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point/range update with point/range query, `O(log n)` lower bound on prefix sums [✔](judge_tests/data_structures/aoj_dsl_2_e.cpp)
+  - [Potential](code_library/data_structures/potential_dsu.cpp) - differences `x[b] - x[a]` within each set [✔](judge_tests/data_structures/unionfind_with_potential.cpp)
+  - [Rollback](code_library/data_structures/rollback_dsu.cpp) - unions can be undone, for offline connectivity [✔](judge_tests/data_structures/persistent_unionfind.cpp)
+- [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct gcd/or/and of subarrays ending at i
+- [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point or range add with range sums [✔](judge_tests/data_structures/aoj_dsl_2_e.cpp)
   - [2D](code_library/data_structures/fenwick_tree_2D.cpp) - the same on a grid [✔](judge_tests/data_structures/aoj_dsl_5_b.cpp)
-  - [2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - rectangle add and cell value on huge grids, columns as on-demand segment trees
-  - [2D, Sparse](code_library/data_structures/fenwick_tree_2D_sparse.cpp) - point add and rectangle sum on grids up to 1e9 x 1e9, nodes in a hash table [✔](judge_tests/data_structures/point_add_rectangle_sum.cpp)
+  - [2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - rectangle add and cell value on huge grids
+  - [2D, Sparse](code_library/data_structures/fenwick_tree_2D_sparse.cpp) - point add and rectangle sum on huge grids [✔](judge_tests/data_structures/point_add_rectangle_sum.cpp)
   - [3D](code_library/data_structures/fenwick_tree_3D.cpp) - the same in 3D
-- [Hash Map](code_library/data_structures/hashmap.cpp) - hash table for integral keys that hack tests cannot slow down, expected `O(1)` [✔](judge_tests/data_structures/associative_array.cpp)
-- [Interval Set](code_library/data_structures/interval_set.cpp) - disjoint half-open intervals that merge on add, split on remove and answer coverage queries [✔](judge_tests/data_structures/aoj_dsl_4_a.cpp)
-- [Leftist Heap, Persistent](code_library/data_structures/leftist_heap.cpp) - meldable priority queue with `O(log n)` push/pop/meld, persistent [✔](judge_tests/data_structures/k_shortest_walk.cpp)
-- [Li Chao Tree](code_library/data_structures/li_chao_tree.cpp) - min/max of lines and segments at a point, plus a persistent variant [✔](judge_tests/data_structures/line_add_get_min.cpp)
-- [Link-Cut Tree](code_library/data_structures/link_cut_tree.cpp) - dynamic forest with link, cut, re-rooting, LCA and path aggregates [✔](judge_tests/data_structures/dynamic_tree_vertex_add_path_sum.cpp)
-- [Merge Sort Tree and Wavelet](code_library/data_structures/merge_sort_tree.cpp) - count below a threshold, range frequency, range k-th smallest [✔](judge_tests/data_structures/range_kth_smallest.cpp)
-- [Mo's Algorithm](code_library/data_structures/mo.cpp) - offline range queries on an array, returns the answers [✔](judge_tests/data_structures/static_range_count_distinct.cpp)
-  - [On Tree Paths](code_library/data_structures/tree_path_mo.cpp) - path queries over an Euler tour, nodes or edges
-  - [With Rollback](code_library/data_structures/mo_with_rollback.cpp) - add-only state such as max or a rollback DSU, `O(n sqrt(q))` adds [✔](judge_tests/data_structures/static_range_mode_query.cpp)
-  - [With Updates](code_library/data_structures/mo_with_updates.cpp) - range queries on an array with point assignments, `O((q + u) n^(2/3))` [✔](judge_tests/data_structures/point_set_range_frequency.cpp)
-- [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller element on each side, largest histogram rectangle [✔](judge_tests/data_structures/aoj_dpl_3_c.cpp)
-- [Ordered Set](code_library/data_structures/ordered_set.cpp) - GNU policy-based set and multiset with order statistics [✔](judge_tests/data_structures/ordered_set.cpp)
-- [Permutation Tree](code_library/data_structures/permutation_tree.cpp) - `O(n log n)` decomposition into common intervals, counts all of them [✔](judge_tests/data_structures/common_interval_decomposition_tree.cpp)
-- [Rope](code_library/data_structures/rope.cpp) - persistent text, every edit makes a new readable version
-- [Segment Tree](code_library/data_structures/segment_tree.cpp) - lazy range update, range query and max_right / min_left binary search for any associative combine [✔](judge_tests/data_structures/point_set_range_composite.cpp)
-  - [Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin, chmax, add and assign with range sum, min and max queries [✔](judge_tests/data_structures/range_chmin_chmax_add_range_sum.cpp)
-  - [Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets as dynamic segment trees with merge, split by key or rank, k-th
-  - [Persistent](code_library/data_structures/persistent_segment_tree.cpp) - versioned updates, range queries, k-th smallest and k-th on version diffs [✔](judge_tests/data_structures/persistent_queue.cpp)
-  - [XOR](code_library/data_structures/xor_segment_tree.cpp) - fold of `a[p ^ x]` over `[l, r]` for any x, with point add when the fold is a sum
-- [Sliding Window Aggregation](code_library/data_structures/sliding_window_aggregation.cpp) - queue folded in order under any associative operation, plus a monotonic min/max queue [✔](judge_tests/data_structures/aoj_dsl_3_d.cpp)
-- [Sparse Table](code_library/data_structures/sparse_table.cpp) - `O(1)` static range min, max, gcd or any idempotent operation, plus an `O(n)` build min/max variant [✔](judge_tests/data_structures/staticrmq.cpp)
+- [Hash Map](code_library/data_structures/hashmap.cpp) - anti-hack hash table for integer keys [✔](judge_tests/data_structures/associative_array.cpp)
+- [Interval Set](code_library/data_structures/interval_set.cpp) - interval union with add, remove, coverage [✔](judge_tests/data_structures/aoj_dsl_4_a.cpp)
+- [Leftist Heap, Persistent](code_library/data_structures/leftist_heap.cpp) - persistent meldable priority queue [✔](judge_tests/data_structures/k_shortest_walk.cpp)
+- [Li Chao Tree](code_library/data_structures/li_chao_tree.cpp) - min or max of lines and segments at a point [✔](judge_tests/data_structures/line_add_get_min.cpp)
+- [Link-Cut Tree](code_library/data_structures/link_cut_tree.cpp) - dynamic forest with link, cut and path queries [✔](judge_tests/data_structures/dynamic_tree_vertex_add_path_sum.cpp)
+- [Merge Sort Tree and Wavelet](code_library/data_structures/merge_sort_tree.cpp) - range k-th smallest and count below x [✔](judge_tests/data_structures/range_kth_smallest.cpp)
+- [Mo's Algorithm](code_library/data_structures/mo.cpp) - offline range queries on an array [✔](judge_tests/data_structures/static_range_count_distinct.cpp)
+  - [On Tree Paths](code_library/data_structures/tree_path_mo.cpp) - offline path queries on a tree
+  - [With Rollback](code_library/data_structures/mo_with_rollback.cpp) - state that can add but not remove [✔](judge_tests/data_structures/static_range_mode_query.cpp)
+  - [With Updates](code_library/data_structures/mo_with_updates.cpp) - range queries with point assignments [✔](judge_tests/data_structures/point_set_range_frequency.cpp)
+- [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller element and histogram rectangle [✔](judge_tests/data_structures/aoj_dpl_3_c.cpp)
+- [Ordered Set](code_library/data_structures/ordered_set.cpp) - set and multiset with k-th smallest and rank [✔](judge_tests/data_structures/ordered_set.cpp)
+- [Permutation Tree](code_library/data_structures/permutation_tree.cpp) - decomposes a permutation into common intervals [✔](judge_tests/data_structures/common_interval_decomposition_tree.cpp)
+- [Rope](code_library/data_structures/rope.cpp) - persistent text, every version stays readable
+- [Segment Tree](code_library/data_structures/segment_tree.cpp) - range update and range query, with binary search [✔](judge_tests/data_structures/point_set_range_composite.cpp)
+  - [Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin and chmax with range sum [✔](judge_tests/data_structures/range_chmin_chmax_add_range_sum.cpp)
+  - [Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets with merge, split and k-th
+  - [Persistent](code_library/data_structures/persistent_segment_tree.cpp) - every version stays queryable, with k-th search [✔](judge_tests/data_structures/persistent_queue.cpp)
+  - [XOR](code_library/data_structures/xor_segment_tree.cpp) - range fold of `a[p ^ x]` for any x
+- [Sliding Window Aggregation](code_library/data_structures/sliding_window_aggregation.cpp) - queue fold under any associative operation [✔](judge_tests/data_structures/aoj_dsl_3_d.cpp)
+- [Sparse Table](code_library/data_structures/sparse_table.cpp) - `O(1)` range min, max or gcd on a static array [✔](judge_tests/data_structures/staticrmq.cpp)
   - [2D](code_library/data_structures/sparse_table_2D.cpp) - `O(1)` static rectangle min or max on a grid
-  - [Disjoint](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` static range queries for any associative operation [✔](judge_tests/data_structures/static_range_sum.cpp)
+  - [Disjoint](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` query for any associative operation [✔](judge_tests/data_structures/static_range_sum.cpp)
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
-- [Treap](code_library/data_structures/treap.cpp) - ordered multiset and implicit-key sequence with reversals [✔](judge_tests/data_structures/double_ended_priority_queue.cpp)
-- [Treap, Run-Length Implicit](code_library/data_structures/run_length_implicit_treap.cpp) - sequences up to `4.6e18` long kept as runs, edited and queried by position
-- [Trie](code_library/data_structures/trie.cpp) - prefix tree with pass-through and end counts, and a binary trie for xor queries [✔](judge_tests/data_structures/aoj_alds1_4_c.cpp)
+- [Treap](code_library/data_structures/treap.cpp) - ordered multiset and sequence with reversals [✔](judge_tests/data_structures/double_ended_priority_queue.cpp)
+- [Treap, Run-Length Implicit](code_library/data_structures/run_length_implicit_treap.cpp) - huge sequences stored as runs of equal values
+- [Trie](code_library/data_structures/trie.cpp) - prefix counts and binary trie xor queries [✔](judge_tests/data_structures/aoj_alds1_4_c.cpp)
 
 ### Trees
 
