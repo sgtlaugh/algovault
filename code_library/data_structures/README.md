@@ -247,7 +247,7 @@
 - [SPOJ FREQ2 - Most Frequent Value](https://www.spoj.com/problems/FREQ2/)
 - [SPOJ KDOMINO - K-dominant array](https://www.spoj.com/problems/KDOMINO/)
 - [SPOJ ZQUERY - Zero Query](https://www.spoj.com/problems/ZQUERY/)
-- [UVa 11898 - Killer Problem](https://onlinejudge.org/external/118/11898.pdf)
+- [UVa 11898 - Killer Problem](https://onlinejudge.org/external/118/11898.pdf) [✅](../../practice/data_structures/uva_11898.cpp "Accepted solution")
 
 #### [Mo's Algorithm On Tree Paths](tree_path_mo.cpp)
 
