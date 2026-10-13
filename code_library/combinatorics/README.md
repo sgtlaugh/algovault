@@ -10,7 +10,7 @@
 - [Codeforces 896D - Nephren Runs a Cinema](https://codeforces.com/problemset/problem/896/D) [✅](../../practice/combinatorics/codeforces_896d.cpp "Accepted solution")
 - [Library Checker binomial_coefficient - Binomial Coefficient](https://judge.yosupo.jp/problem/binomial_coefficient)
 - [SPOJ DCEPC13D - The Ultimate Riddle](https://www.spoj.com/problems/DCEPC13D/)
-- [UVa 1264 - Binary Search Tree](https://onlinejudge.org/external/12/1264.pdf)
+- [UVa 1264 - Binary Search Tree](https://onlinejudge.org/external/12/1264.pdf) [✅](../../practice/combinatorics/uva_1264.cpp "Accepted solution")
 - [UVa 10232 - Bit-wise Sequence](https://onlinejudge.org/external/102/10232.pdf)
 - [UVa 11481 - Arrange the Numbers](https://onlinejudge.org/external/114/11481.pdf)
 
