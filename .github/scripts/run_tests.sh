@@ -277,7 +277,7 @@ select_tests(){  # prints the tests to run, one per line
         return
     fi
 
-    changed="$(git diff --name-only "$CHANGED_SINCE" HEAD)"
+    changed="$(git diff --name-only "$CHANGED_SINCE")"  # the working tree, so uncommitted edits count too
     for file in "${SHARED[@]}"; do
         grep -qxF "$file" <<< "$changed" && { echo "$file changed, running everything" >&2; echo "$all"; return; }
     done
