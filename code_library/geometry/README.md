@@ -58,7 +58,7 @@
 - [Timus 1185 - Wall](https://acm.timus.ru/problem.aspx?num=1185)
 - [USACO 382 - Cow Curling](https://usaco.org/index.php?page=viewproblem2&cpid=382)
 - [USACO 864 - Balance Beam](https://usaco.org/index.php?page=viewproblem2&cpid=864)
-- [UVa 675 - Convex Hull of the Polygon](https://onlinejudge.org/external/6/675.pdf)
+- [UVa 675 - Convex Hull of the Polygon](https://onlinejudge.org/external/6/675.pdf) [✅](../../practice/geometry/uva_675.cpp "Accepted solution")
 - [UVa 681 - Convex Hull Finding](https://onlinejudge.org/external/6/681.pdf) [✅](../../practice/geometry/uva_681.cpp "Accepted solution")
 - [UVa 1453 - Squares](https://onlinejudge.org/external/14/1453.pdf)
 - [UVa 10078 - The Art Gallery](https://onlinejudge.org/external/100/10078.pdf) [✅](../../practice/geometry/uva_10078.cpp "Accepted solution")
