@@ -1,21 +1,19 @@
 /***
  *
  * Mo's Algorithm With Rollback
- * Answers offline range queries with state that supports adding a position but not removing one (max, DSU with rollback)
+ * Answers offline range queries when the state can add a position but not remove one, like a max or a DSU with rollback
  *
- * Complexity: O(n * sqrt(q) + q) calls to add, plus O(q log q) sorting, a rollback costs as much as undoing its adds
+ * Complexity: O(n sqrt(q) + q) calls to add plus O(q log q) sorting, a rollback costs as much as undoing its adds
  *
- * mo_with_rollback(n, queries, add, snapshot, rollback, get) returns the answers, res[qi] = get(qi):
- *   queries[i] = {l, r}, 0-based inclusive ranges over positions 0..n-1, r = l - 1 is an empty range
- *   add(i) puts position i into the window, which is always contiguous and grows at one end
- *   snapshot() saves the state on a stack, rollback() restores the top saved state and pops it, at most 2 are saved
- *   get(qi) returns the answer for the current window, empty ranges are answered first, while the state is empty
- *   The window starts and ends empty
+ * mo_with_rollback(n, queries, add, snapshot, rollback, get): the answers, res[qi] = get(qi) over the window queries[qi]
+ * queries[qi] = {l, r}: the inclusive range l..r of positions 0..n - 1, r = l - 1 is an empty range
+ * add(i): puts position i into the window, which stays contiguous and grows at one end
+ * snapshot(): saves the state on a stack, at most 2 are saved at once
+ * rollback(): restores the top saved state and pops it
+ * get(qi): the answer for the current window
  *
- * A history stack gives snapshot and rollback for any add:
- *   add:      history.push_back(what the add changes, before changing it), then change it
- *   snapshot: marks.push_back(history.size())
- *   rollback: undo history entries back down to marks.back(), then marks.pop_back()
+ * The window starts and ends empty, and empty ranges are answered first, while the state is still empty
+ * A history stack gives snapshot and rollback for any add, main() shows it
  *
 ***/
 
@@ -82,7 +80,12 @@ int main(){
         },
         [&](){ marks.push_back(history.size()); },
         [&](){
-            for (; history.size() > marks.back(); history.pop_back()) freq[history.back().first]--, best = history.back().second;
+            while (history.size() > marks.back()){
+                auto [value, old_best] = history.back();
+                history.pop_back();
+                freq[value]--;
+                best = old_best;
+            }
             marks.pop_back();
         },
         [&](int){ return best; });
