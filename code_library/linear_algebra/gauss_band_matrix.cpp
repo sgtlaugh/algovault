@@ -66,7 +66,6 @@ struct GaussBand{
         return res;
     }
 
-private:
     vector<T> band, rhs;
 
     /// Cells are numbered in reverse row-major order, the band offsets of a cell's neighbours are what matter
