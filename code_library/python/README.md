@@ -8,7 +8,7 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 - [UVa 751 - Triangle War](https://onlinejudge.org/external/7/751.pdf)
 - [UVa 1085 - House of Cards](https://onlinejudge.org/external/10/1085.pdf) [✅](../../practice/python/uva_1085.py "Accepted solution")
 - [UVa 10111 - Find the Winning Move](https://onlinejudge.org/external/101/10111.pdf) [✅](../../practice/python/uva_10111.py "Accepted solution")
-- [UVa 10838 - The Pawn Chess](https://onlinejudge.org/external/108/10838.pdf)
+- [UVa 10838 - The Pawn Chess](https://onlinejudge.org/external/108/10838.pdf) [✅](../../practice/python/uva_10838.py "Accepted solution")
 - [UVa 12180 - The Game](https://onlinejudge.org/external/121/12180.pdf)
 
 #### [Derangements](derangements.py)
