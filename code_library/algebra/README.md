@@ -88,7 +88,7 @@
 - [UVa 11640 - Mayor Election](https://onlinejudge.org/external/116/11640.pdf)
 - [UVa 12298 - Super Poker II](https://onlinejudge.org/external/122/12298.pdf) [✅](../../practice/algebra/uva_12298.cpp "Accepted solution")
 - [UVa 12327 - Xavier is Learning to Count](https://onlinejudge.org/external/123/12327.pdf)
-- [UVa 12633 - Super Rooks on Chessboard](https://onlinejudge.org/external/126/12633.pdf)
+- [UVa 12633 - Super Rooks on Chessboard](https://onlinejudge.org/external/126/12633.pdf) [✅](../../practice/algebra/uva_12633.cpp "Accepted solution")
 - [UVa 12879 - Golf Bot](https://onlinejudge.org/external/128/12879.pdf)
 - [UVa 12914 - Sum of all permutations](https://onlinejudge.org/external/129/12914.pdf)
 - [ZOJ 1637 - Fast Image Match](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827365136)
