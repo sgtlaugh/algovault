@@ -30,7 +30,7 @@
 - [USACO 1042 - Favorite Colors](https://usaco.org/index.php?page=viewproblem2&cpid=1042)
 - [USACO 1259 - Strongest Friendship Group](https://usaco.org/index.php?page=viewproblem2&cpid=1259)
 - [USACO 1474 - Reachable Pairs](https://usaco.org/index.php?page=viewproblem2&cpid=1474)
-- [UVa 793 - Network Connections](https://onlinejudge.org/external/7/793.pdf)
+- [UVa 793 - Network Connections](https://onlinejudge.org/external/7/793.pdf) [✅](../../practice/data_structures/uva_793.cpp "Accepted solution")
 - [UVa 1160 - X-Plosives](https://onlinejudge.org/external/11/1160.pdf)
 - [UVa 1197 - The Suspects](https://onlinejudge.org/external/11/1197.pdf)
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf)
