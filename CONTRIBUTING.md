@@ -23,6 +23,31 @@ The `/crucible` skill in `.claude/skills/crucible/` walks through all of this, f
 - A judge test under `judge_tests/<topic>/<problem>.cpp` when a Library Checker or Aizu problem fits, starting with
   `// competitive-verifier: PROBLEM <url>` and `// competitive-verifier: TLE <the problem's time limit>`, plus a ✔ on the index entry
 
+## API and code
+
+A template is used under contest pressure by someone who did not write it, so the simplest correct design wins over the cleverest one.
+
+### The API
+
+- The common case is one or two lines with no configuration: `DSU dsu(n)`, `SegmentTree<long long> st(n)`, `DisjointSparseTable<int> sum(a)`
+- Ask for nothing the code can do without; `DisjointSparseTable` and `SegmentTree` need no identity because their folds start from the data
+- Names say what a call does and read as a sentence: `dsu.relate(a, b, d)` records `x[b] = x[a] + d`, `same(a, b)`, `size(a)`
+- One family, one vocabulary: `find`, `same`, `size` in every DSU, `combine` for every fold functor
+- Customize by passing a lambda, a functor or an `Ops` struct, never by editing the template
+- Return the answer instead of filling an out-parameter: `mo()` returns its answers, `exact_cover()` an `optional`
+- 0-based positions and inclusive ranges `[l, r]` everywhere
+- Only what users call is public, helpers go under `private:`
+- An API change breaks old calls at compile time; a call that still compiles never changes meaning
+
+### The code
+
+- Plain loops and named variables: `v, va, vb, vab` with a derivation comment, not `t0..t7` or `x, y, z, c, d`
+- Standard terms over clever ones: `__lg` over `31 - __builtin_clz`, a `while` loop over a comma chain in a `for` header
+- No abstraction for one use, and no language machinery (template template parameters, SFINAE traits, CRTP, macros) unless
+  it turns a silent wrong answer into a compile error, with a comment saying so
+- The one non-obvious line gets a one-line derivation; everything else should not need a comment
+- A trick for speed stays only with a measured reason in a comment
+
 ## Documentation
 
 Every template reads the same way, so a reader knows what it does and how to call it within a minute.
