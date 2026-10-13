@@ -137,7 +137,7 @@
 - [UVa 10498 - Happiness](https://onlinejudge.org/external/104/10498.pdf) [✅](../../practice/linear_algebra/uva_10498.cpp "Accepted solution")
 - [UVa 11647 - Judgment Day](https://onlinejudge.org/external/116/11647.pdf)
 - [UVa 12567 - Never7, Ever17 and Water](https://onlinejudge.org/external/125/12567.pdf) [✅](../../practice/linear_algebra/uva_12567.cpp "Accepted solution")
-- [UVa 12900 - Flood in Gridland](https://onlinejudge.org/external/129/12900.pdf)
+- [UVa 12900 - Flood in Gridland](https://onlinejudge.org/external/129/12900.pdf) [✅](../../practice/linear_algebra/uva_12900.cpp "Accepted solution")
 
 #### [Thomas Algorithm](thomas_algorithm.cpp)
 
