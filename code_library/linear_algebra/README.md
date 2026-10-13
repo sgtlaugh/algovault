@@ -14,7 +14,7 @@
 - [Library Checker matrix_det - Determinant of Matrix](https://judge.yosupo.jp/problem/matrix_det)
 - [Library Checker matrix_det_arbitrary_mod - Determinant of Matrix (Arbitrary Mod)](https://judge.yosupo.jp/problem/matrix_det_arbitrary_mod)
 - [SPOJ KPMAZE - Maze](https://www.spoj.com/problems/KPMAZE/)
-- [UVa 684 - Integral Determinant](https://onlinejudge.org/external/6/684.pdf)
+- [UVa 684 - Integral Determinant](https://onlinejudge.org/external/6/684.pdf) [✅](../../practice/linear_algebra/uva_684.cpp "Accepted solution")
 
 #### [Gauss Jordan](gauss_jordan.cpp)
 
