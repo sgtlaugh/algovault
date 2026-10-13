@@ -115,7 +115,7 @@
 - [UVa 12593 - Next Generation Macaw](https://onlinejudge.org/external/125/12593.pdf) [✅](../../practice/linear_algebra/uva_12593.cpp "Accepted solution")
 - [UVa 12653 - Buses](https://onlinejudge.org/external/126/12653.pdf) [✅](../../practice/linear_algebra/uva_12653.cpp "Accepted solution")
 - [UVa 12761 - Blue Chips](https://onlinejudge.org/external/127/12761.pdf)
-- [UVa 12796 - Teletransport](https://onlinejudge.org/external/127/12796.pdf)
+- [UVa 12796 - Teletransport](https://onlinejudge.org/external/127/12796.pdf) [✅](../../practice/linear_algebra/uva_12796.cpp "Accepted solution")
 - [UVa 13136 - Recurrences](https://onlinejudge.org/external/131/13136.pdf)
 - [UVa 13284 - Macarons](https://onlinejudge.org/external/132/13284.pdf)
 
