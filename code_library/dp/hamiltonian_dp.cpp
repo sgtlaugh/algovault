@@ -55,7 +55,6 @@ struct HamiltonianGraph{
         return solve(false);
     }
 
-private:
     vector<long long> build_dp(bool cycle) const{
         vector<long long> dp((size_t(1) << n) * n, INF);
         if (cycle) dp[n] = 0;  // flat index mask * n + i with mask = {0}, i = 0
