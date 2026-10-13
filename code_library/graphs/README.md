@@ -300,7 +300,7 @@
 - [UVa 10080 - Gopher II](https://onlinejudge.org/external/100/10080.pdf) [✅](../../practice/graphs/uva_10080.cpp "Accepted solution")
 - [UVa 10804 - Gopher Strategy](https://onlinejudge.org/external/108/10804.pdf)
 - [UVa 11138 - Nuts and Bolts](https://onlinejudge.org/external/111/11138.pdf) [✅](../../practice/graphs/uva_11138.cpp "Accepted solution")
-- [UVa 11159 - Factors and Multiples](https://onlinejudge.org/external/111/11159.pdf)
+- [UVa 11159 - Factors and Multiples](https://onlinejudge.org/external/111/11159.pdf) [✅](../../practice/graphs/uva_11159.cpp "Accepted solution")
 - [UVa 11262 - Weird Fence](https://onlinejudge.org/external/112/11262.pdf)
 - [UVa 11419 - SAM I AM](https://onlinejudge.org/external/114/11419.pdf) [✅](../../practice/graphs/uva_11419.cpp "Accepted solution")
 - [UVa 11985 - Prime Independence](https://onlinejudge.org/external/119/11985.pdf)
