@@ -108,7 +108,6 @@ struct PermutationTree{
         return total;
     }
 
-private:
     static void add(vector<int>& tree_min, vector<int>& tree_add, int idx, int a, int b, int l, int r, int val){
         if (r < a || b < l) return;
         if (l <= a && b <= r){
