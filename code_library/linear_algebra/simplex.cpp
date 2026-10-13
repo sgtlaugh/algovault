@@ -107,7 +107,6 @@ struct Simplex{
         return FEASIBLE;
     }
 
-private:
     int n, m, flag;
     vector<vector<Float>> ar;
     vector<Float> rhs;
