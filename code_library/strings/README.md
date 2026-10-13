@@ -177,7 +177,7 @@
 - [Library Checker enumerate_palindromes - Enumerate Palindromes](https://judge.yosupo.jp/problem/enumerate_palindromes)
 - [SPOJ NUMOFPAL - Number of Palindromes](https://www.spoj.com/problems/NUMOFPAL/)
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✅](../../practice/strings/uva_11475_manacher.cpp "Accepted solution")
-- [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf)
+- [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf) [✅](../../practice/strings/uva_12833_manacher.cpp "Accepted solution")
 - [UVa 13092 - Fold the String](https://onlinejudge.org/external/130/13092.pdf)
 
 #### [Minimum Rotation](minimum_rotation.cpp)
@@ -201,7 +201,7 @@
 - [Timus 2044 - 31 Palindromes](https://acm.timus.ru/problem.aspx?num=2044)
 - [Timus 2059 - Not common palindromes](https://acm.timus.ru/problem.aspx?num=2059)
 - [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf) [✅](../../practice/strings/uva_1470.cpp "Accepted solution")
-- [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf)
+- [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf) [✅](../../practice/strings/uva_12833_palindromic_tree.cpp "Accepted solution")
 
 #### [Suffix Array](suffix_array.cpp)
 
