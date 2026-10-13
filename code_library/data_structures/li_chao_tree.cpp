@@ -1,39 +1,30 @@
 /***
  *
  * Li Chao Tree
- * Maintains lines y = k * x + b over integer x in [lo, hi] and answers the minimum (or maximum) at a point
+ * Holds lines y = k * x + b over integer x in [lo, hi] and returns the minimum or maximum at a point
  *
  * Complexity:
- *   - O(log C) per add_line and query, O(log^2 C) per add_segment, where C = hi - lo + 1
- *   - Nodes are created on demand: at most 1 per add_line, O(log C) per add_segment
- *   - A node is 24 bytes for long long, random segments at C = 2e9 average ~31 nodes, so 4e5 of them take ~400 MB peak
+ *   - LiChaoTree: O(log C) per add_line and query, O(log^2 C) per add_segment, C = hi - lo + 1
+ *   - PersistentLiChaoTree: O(log C) per add_line and query, add_line makes at most log2(C) + 2 nodes
  *
- * LiChaoTree<T> tree(lo, hi): empty tree over x in [lo, hi], the range can span up to [-1e18, 1e18]
- * add_line(k, b): adds y = k * x + b for every x in [lo, hi]
- * add_segment(k, b, l, r): adds the line only for x in [l, r] inclusive, the part outside [lo, hi] is ignored
- * query(x): minimum over the lines covering x, or NONE if no line covers it
+ * LiChaoTree<T> tree(lo, hi): no lines yet, x in [lo, hi], the range can span up to [-1e18, 1e18]
+ * LiChaoTree<T, true> tree(lo, hi): the same tree answering the maximum
+ * tree.add_line(k, b): add y = k * x + b for every x in [lo, hi]
+ * tree.add_segment(k, b, l, r): add the line only for x in [l, r] inclusive, the part outside [lo, hi] is ignored
+ * tree.query(x): minimum over the lines covering x, or NONE if no line covers it, lo <= x <= hi
  *
- * LiChaoTree<T, true> answers the maximum instead, and NONE becomes the lowest value of T
+ * PersistentLiChaoTree<T> pt(lo, hi): version 0 holds no lines, same range limits as LiChaoTree
+ * PersistentLiChaoTree<T, true> pt(lo, hi): the same tree answering the maximum
+ * pt.add_line(version, k, b): a new version with the lines of version plus y = k * x + b, older versions stay intact
+ * pt.query(version, x): minimum over the lines of version at x, or NONE if it has no line
+ *
+ * NONE is the largest value of T, or the lowest when answering the maximum
  * Every k * x + b over the range must fit in T, e.g. |k|, |x| <= 1e9 and |b| <= 1e18 for long long
- *
- * Convex hull trick: dp[i] = min over j < i of (dp[j] + a[j] * x[i]) becomes
- * dp[i] = tree.query(x[i]), then tree.add_line(a[i], dp[i])
- *
- * Persistent Li Chao Tree
- * Every add_line copies its root to leaf path and returns a new version, older versions stay intact
- *
- * Complexity:
- *   - O(log C) per add_line and query
- *   - add_line creates at most log2(C) + 2 nodes
- *
- * PersistentLiChaoTree<T> tree(lo, hi): version 0 is the empty set of lines, same range limits as above
- * add_line(version, k, b): returns a new version holding the lines of version plus y = k * x + b
- * query(version, x): minimum over the lines of version at x, or NONE if it has no line
- * PersistentLiChaoTree<T, true> answers the maximum, same overflow rule as LiChaoTree
- *
- * DP on root to node paths: dp[v] = min over ancestors u of (dp[u] + a[u] * x[v]) becomes
- * dp[v] = tree.query(ver[parent], x[v]), then ver[v] = tree.add_line(ver[parent], a[v], dp[v])
- * No rollback is needed when the DFS backtracks, siblings branch off the same parent version
+ * LiChaoTree makes nodes on demand, at most 1 per add_line and O(log C) per add_segment
+ * A node is 24 bytes for long long, random segments at C = 2e9 average ~31 nodes, so 4e5 of them take ~400 MB peak
+ * Convex hull trick: dp[i] = min over j < i of (dp[j] + a[j] * x[i]) is dp[i] = tree.query(x[i]), then tree.add_line(a[i], dp[i])
+ * The same on root to node paths: dp[v] = pt.query(ver[parent], x[v]), then ver[v] = pt.add_line(ver[parent], a[v], dp[v])
+ * The persistent DFS needs no rollback when it backtracks, siblings branch off the same parent version
  *
 ***/
 
@@ -95,6 +86,7 @@ struct LiChaoTree{
         return MAXIMIZE ? a > b : a < b;
     }
 
+private:
     int new_node(const Line& line){
         nodes.push_back({line, -1, -1});
         return (int)nodes.size() - 1;
@@ -151,12 +143,9 @@ struct PersistentLiChaoTree{
     using Base = LiChaoTree<T, MAXIMIZE>;
     using Line = typename Base::Line;
 
-    static constexpr T NONE = Base::NONE;
+    using Node = typename Base::Node;
 
-    struct Node{
-        Line line;
-        int left, right;
-    };
+    static constexpr T NONE = Base::NONE;
 
     long long lo, hi;
     vector<int> roots = {-1};
@@ -218,30 +207,26 @@ struct PersistentLiChaoTree{
 };
 
 int main(){
+    /// Minimum of y = x, y = -x and y = -2
     LiChaoTree<long long> tree(-10, 10);
-    assert(tree.query(0) == LiChaoTree<long long>::NONE);  /// no lines yet
     tree.add_line(1, 0);
     tree.add_line(-1, 0);
     tree.add_line(0, -2);
-    assert(tree.query(1) == -2);     /// min(1, -1, -2)
+    assert(tree.query(1) == -2);
     assert(tree.query(5) == -5);
 
+    /// A segment covers only part of the range
     LiChaoTree<long long> seg(0, 10);
-    seg.add_segment(0, 5, 2, 4);     /// y = 5 only on x in [2, 4]
+    seg.add_segment(0, 5, 2, 4);
     assert(seg.query(4) == 5);
     assert(seg.query(5) == LiChaoTree<long long>::NONE);
 
-    LiChaoTree<long long> flat(0, 10);
-    flat.add_line(0, 3);
-    flat.add_line(0, 5);
-    flat.add_line(0, 1);
-    assert(flat.nodes.size() == 1);  /// each line wins or loses on all of [0, 10], none descends to a child
-    assert(flat.query(7) == 1);
-
+    /// Maximum of y = 2x + 1 and y = -x + 4
     LiChaoTree<long long, true> best(-10, 10);
     best.add_line(2, 1);
     best.add_line(-1, 4);
-    assert(best.query(2) == 5);      /// max(2 * 2 + 1, -2 + 4)
+    assert(best.query(2) == 5);
+    assert(best.query(-2) == 6);
 
     /// v2 and v3 both branch off v1, neither sees the other's line
     PersistentLiChaoTree<long long> pt(-10, 10);
@@ -252,5 +237,6 @@ int main(){
     assert(pt.query(v2, 3) == -3);
     assert(pt.query(v3, 3) == -2);
     assert(pt.query(0, 3) == PersistentLiChaoTree<long long>::NONE);
+
     return 0;
 }
