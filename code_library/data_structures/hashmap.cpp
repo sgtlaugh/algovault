@@ -32,94 +32,94 @@ template <typename TKey, typename TValue>
 struct HashMap{
     static_assert(is_integral<TKey>::value, "HashMap needs an integral key type");
 
-        /// home caches the bucket of key so erase never re-hashes, it fits in the padding next to id for 8 byte keys
-        struct Slot{
-            int id, home;
-            TKey key;
-            TValue value;
-        };
+    /// home caches the bucket of key so erase never re-hashes, it fits in the padding next to id for 8 byte keys
+    struct Slot{
+        int id, home;
+        TKey key;
+        TValue value;
+    };
 
-        /// static so construction stays cheap for many small maps and copy assignment is not deleted
-        static inline const uint64_t salt = mt19937_64(chrono::steady_clock::now().time_since_epoch().count())();
+    /// static so construction stays cheap for many small maps and copy assignment is not deleted
+    static inline const uint64_t salt = mt19937_64(chrono::steady_clock::now().time_since_epoch().count())();
 
-        /// A slot is live only while its id equals cur_id, so clear() empties every slot at once by bumping cur_id
-        int cur_id = 1, _size = 0, max_len, mask;
-        vector<Slot> slots;
+    /// A slot is live only while its id equals cur_id, so clear() empties every slot at once by bumping cur_id
+    int cur_id = 1, _size = 0, max_len, mask;
+    vector<Slot> slots;
 
-        static uint64_t splitmix64(uint64_t x){
-            x += 0x9e3779b97f4a7c15ULL;
-            x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
-            x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
-            return x ^ (x >> 31);
-        }
+    static uint64_t splitmix64(uint64_t x){
+        x += 0x9e3779b97f4a7c15ULL;
+        x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9ULL;
+        x = (x ^ (x >> 27)) * 0x94d049bb133111ebULL;
+        return x ^ (x >> 31);
+    }
 
-        int home(TKey x) const{
-            return splitmix64((uint64_t)x + salt) & mask;
-        }
+    int home(TKey x) const{
+        return splitmix64((uint64_t)x + salt) & mask;
+    }
 
-        /// Returns the slot holding x, or the empty slot where x would be inserted
-        int get_pos(TKey x, int i) const{
-            while (slots[i].id == cur_id && slots[i].key != x) i = (i + 1) & mask;
-            return i;
-        }
+    /// Returns the slot holding x, or the empty slot where x would be inserted
+    int get_pos(TKey x, int i) const{
+        while (slots[i].id == cur_id && slots[i].key != x) i = (i + 1) & mask;
+        return i;
+    }
 
-        void insert_at(int i, int h, TKey x, TValue v){
-            assert(_size < max_len);
-            slots[i] = {cur_id, h, x, v};
-            _size++;
-        }
+    void insert_at(int i, int h, TKey x, TValue v){
+        assert(_size < max_len);
+        slots[i] = {cur_id, h, x, v};
+        _size++;
+    }
 
-        HashMap(int max_len) : max_len(max(max_len, 1)){
-            int bits = 1;
-            while ((1 << bits) < 2 * this->max_len) bits++;  /// load factor stays at most 1/2
-            mask = (1 << bits) - 1;
-            slots.assign(mask + 1, Slot{0, 0, TKey(), TValue()});
-        }
+    HashMap(int max_len) : max_len(max(max_len, 1)){
+        int bits = 1;
+        while ((1 << bits) < 2 * this->max_len) bits++;  /// load factor stays at most 1/2
+        mask = (1 << bits) - 1;
+        slots.assign(mask + 1, Slot{0, 0, TKey(), TValue()});
+    }
 
-        void set(TKey x, TValue v){
-            int h = home(x), i = get_pos(x, h);
-            if (slots[i].id == cur_id) slots[i].value = v;
-            else insert_at(i, h, x, v);
-        }
+    void set(TKey x, TValue v){
+        int h = home(x), i = get_pos(x, h);
+        if (slots[i].id == cur_id) slots[i].value = v;
+        else insert_at(i, h, x, v);
+    }
 
-        void add(TKey x, TValue v){
-            int h = home(x), i = get_pos(x, h);
-            if (slots[i].id == cur_id) slots[i].value += v;
-            else insert_at(i, h, x, v);
-        }
+    void add(TKey x, TValue v){
+        int h = home(x), i = get_pos(x, h);
+        if (slots[i].id == cur_id) slots[i].value += v;
+        else insert_at(i, h, x, v);
+    }
 
-        TValue get(TKey x) const{
-            const Slot& s = slots[get_pos(x, home(x))];
-            return s.id == cur_id ? s.value : TValue();
-        }
+    TValue get(TKey x) const{
+        const Slot& s = slots[get_pos(x, home(x))];
+        return s.id == cur_id ? s.value : TValue();
+    }
 
-        bool contains(TKey x) const{
-            return slots[get_pos(x, home(x))].id == cur_id;
-        }
+    bool contains(TKey x) const{
+        return slots[get_pos(x, home(x))].id == cur_id;
+    }
 
-        void erase(TKey x){
-            int i = get_pos(x, home(x));
-            if (slots[i].id != cur_id) return;
-            _size--;
+    void erase(TKey x){
+        int i = get_pos(x, home(x));
+        if (slots[i].id != cur_id) return;
+        _size--;
 
-            /// Backward shift instead of tombstones: an entry moves into the hole at i unless its home lies cyclically in (i, j]
-            for (int j = (i + 1) & mask; slots[j].id == cur_id; j = (j + 1) & mask){
-                if (((j - slots[j].home) & mask) >= ((j - i) & mask)){
-                    slots[i] = slots[j];
-                    i = j;
-                }
+        /// Backward shift instead of tombstones: an entry moves into the hole at i unless its home lies cyclically in (i, j]
+        for (int j = (i + 1) & mask; slots[j].id == cur_id; j = (j + 1) & mask){
+            if (((j - slots[j].home) & mask) >= ((j - i) & mask)){
+                slots[i] = slots[j];
+                i = j;
             }
-            slots[i].id = 0;
         }
+        slots[i].id = 0;
+    }
 
-        void clear(){
-            _size = 0;
-            cur_id++;
-        }
+    void clear(){
+        _size = 0;
+        cur_id++;
+    }
 
-        int size() const{
-            return _size;
-        }
+    int size() const{
+        return _size;
+    }
 };
 
 int main(){
