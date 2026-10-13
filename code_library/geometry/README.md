@@ -124,7 +124,7 @@
 #### [Pick's Theorem](picks_theorem.cpp)
 
 - [CSES 2193 - Polygon Lattice Points](https://cses.fi/problemset/task/2193)
-- [UVa 1059 - Jacquard Circuits](https://onlinejudge.org/external/10/1059.pdf)
+- [UVa 1059 - Jacquard Circuits](https://onlinejudge.org/external/10/1059.pdf) [✅](../../practice/geometry/uva_1059.cpp "Accepted solution")
 - [UVa 10088 - Trees on My Island](https://onlinejudge.org/external/100/10088.pdf)
 
 #### [Polygon Union](polygon_union.cpp)
