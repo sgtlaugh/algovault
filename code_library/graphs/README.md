@@ -532,7 +532,7 @@
 - [UVa 11747 - Heavy Cycle Edges](https://onlinejudge.org/external/117/11747.pdf)
 - [UVa 11857 - Driving Range](https://onlinejudge.org/external/118/11857.pdf)
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf)
-- [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf)
+- [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf) [✅](../../practice/graphs/uva_12655.cpp "Accepted solution")
 
 #### [Offline Dynamic Connectivity](offline_dynamic_connectivity.cpp)
 
