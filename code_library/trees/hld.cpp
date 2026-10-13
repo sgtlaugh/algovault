@@ -18,15 +18,14 @@
  *     needed for non-commutative folds such as composing affine functions along the path
  * hld.ordered_path(u, v, true): same but excludes the lca
  * hld.subtree(v): the single range covering the subtree of v
- * hld.query_path(seg, u, v, edges = false): fold of the path through seg's own combine and t_id, commutative combines only
- *     seg.t_id must be combine's identity, so SegmentTree(n, v) with any other v breaks it
+ * hld.query_path(seg, u, v, edges = false): fold of the path through seg.combine starting from seg.identity, commutative combines only
  * hld.update_path(seg, u, v, x, edges = false): seg.update(l, r, x) on every range of the path
- *     seg is any size n tree with 0-indexed query(l, r), update(l, r, x), combine(a, b) and t_id, like segment_tree.cpp
+ *     seg is any size n tree with 0-indexed query(l, r), update(l, r, x), combine(a, b) and identity, like segment_tree.cpp
  * hld.lca(u, v)
  *
  * path() returns ranges in no particular order, which is fine for commutative operations (sum, min, max, xor)
  *
- * Example with segment_tree.cpp, for another fold (max, say) pass an Ops struct and the matching t_id:
+ * Example with segment_tree.cpp, for another fold (max, say) pass an Ops struct and its identity:
  *     SegmentTree<long long> seg(n);
  *     for (int v = 0; v < n; v++) seg.update(hld.pos[v], hld.pos[v], value[v]);
  *     hld.update_path(seg, u, v, delta), res = hld.query_path(seg, u, v);
@@ -136,7 +135,7 @@ struct HLD{
 
     template <typename Tree>
     auto query_path(Tree& seg, int u, int v, bool edges = false) const{
-        auto res = seg.t_id;
+        auto res = seg.identity;
         for (auto [l, r] : path(u, v, edges)) res = seg.combine(res, seg.query(l, r));
         return res;
     }
@@ -177,7 +176,7 @@ int main(){
     /// Stands in for segment_tree.cpp, with max as the combine
     struct MaxAddArray{
         vector<long long> a;
-        long long t_id = LLONG_MIN;
+        long long identity = LLONG_MIN;
         long long combine(long long x, long long y){ return max(x, y); }
         long long query(int l, int r){ return *max_element(a.begin() + l, a.begin() + r + 1); }
         void update(int l, int r, long long x){ for (int i = l; i <= r; i++) a[i] += x; }

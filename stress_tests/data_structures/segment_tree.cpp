@@ -72,10 +72,9 @@ int brute_min_left_suf(const vector<long long>& a, int r, long long k){
 void stress_default_sum(){
     for (long long it = 0; it < stress::scaled(15000); it++){
         int n = stress::rand_int(1, it % 20 == 0 ? 2000 : 40);
-        long long fill = stress::rand_int(-1000000, 1000000) * stress::rand_int(0, 1);
-        vector<long long> a(n, fill);   /// the size constructor builds n copies of its value, not only of 0
+        vector<long long> a(n);
         if (it % 2) for (auto& x : a) x = stress::rand_int(-1000000, 1000000);
-        SegmentTree<long long> st = it % 2 ? SegmentTree<long long>(a) : SegmentTree<long long>(n, fill);
+        SegmentTree<long long> st = it % 2 ? SegmentTree<long long>(a) : SegmentTree<long long>(n);
 
         for (int op = 0; op < 100; op++){
             int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
