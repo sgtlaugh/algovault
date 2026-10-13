@@ -73,7 +73,7 @@
 - [LightOJ 1221 - Travel Company](https://lightoj.com/problem/travel-company)
 - [POJ 1275 - Cashier Employment](http://poj.org/problem?id=1275)
 - [UVa 515 - King](https://onlinejudge.org/external/5/515.pdf)
-- [UVa 558 - Wormholes](https://onlinejudge.org/external/5/558.pdf)
+- [UVa 558 - Wormholes](https://onlinejudge.org/external/5/558.pdf) [✅](../../practice/graphs/uva_558.cpp "Accepted solution")
 - [UVa 1171 - Board Games](https://onlinejudge.org/external/11/1171.pdf)
 - [UVa 10449 - Traffic](https://onlinejudge.org/external/104/10449.pdf)
 - [UVa 10557 - XYZZY](https://onlinejudge.org/external/105/10557.pdf)
