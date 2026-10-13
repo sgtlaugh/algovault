@@ -1,24 +1,24 @@
 /***
  *
  * Segment Tree Merging
- * Dynamic segment trees over values [0, n), each one a multiset, with merge and split by key or by rank
+ * Multisets of values in [0, n - 1] with merge, split by key or by rank, and k-th smallest
  *
- * Complexity: O(log n) per insert, split, kth and count
- *             merge is amortized: all merges together cost O(nodes ever created) = O((inserts + splits) log n)
+ * Complexity:
+ *   - insert, split_k, split_key, kth, count: O(log n)
+ *   - merge: amortized, all merges together cost O(nodes ever created) = O((inserts + splits) log n)
  *
- * SegmentTreeMerge st(n), values in [0, n), n >= 1
- * A set is a root index, 0 is the empty set, all sets share one node pool
- *   st.insert(root, x, c): adds c >= 1 copies of x to the set root (passed by reference, may start as 0)
- *   st.merge(a, b): returns the union of two different sets (a != b unless both are 0),
- *                   a and b must not be used afterwards, b's shared nodes are recycled
- *   st.split_k(root, k): root keeps its k smallest elements, returns the set of the others
- *   st.split_key(root, x): root keeps the elements < x, returns the set of the elements >= x, any int x
- *   st.kth(root, k): the k-th smallest element, 0-based, needs 0 <= k < size(root)
- *   st.count(root, lo, hi): number of elements in [lo, hi], st.size(root): number of elements
+ * SegmentTreeMerge st(n): an empty node pool for sets of values in [0, n - 1], n >= 1
+ * st.insert(root, x, c = 1): adds c >= 1 copies of x to the set root, passed by reference and 0 for a new set
+ * st.merge(a, b): the union of a and b, which must not be used afterwards, a != b unless both are 0
+ * st.split_k(root, k): root keeps its k smallest elements, returns the set of the others, k >= 0
+ * st.split_key(root, x): root keeps the elements < x, returns the set of the elements >= x, any int x
+ * st.kth(root, k): the k-th smallest element, 0-based, 0 <= k < size(root)
+ * st.count(root, lo, hi): number of elements in [lo, hi]
+ * st.size(root): number of elements in root
  *
- * Each insert and split creates at most ceil(log2 n) + 1 nodes, nodes freed by merge are reused first
- * Recipe: sorting ranges of an array (CF 558E style) keeps one set per sorted run in a std::set,
- * splits the runs at l and r, then merges the runs in between
+ * A set is a root index, 0 is the empty set, and all sets share one node pool
+ * Each insert and split creates at most ceil(log2 n) + 1 nodes, and nodes freed by merge are reused first
+ * Sorting ranges of an array (CF 558E) keeps one set per sorted run in a std::set, splits the runs at l and r, then merges the runs between
  *
 ***/
 
@@ -153,6 +153,7 @@ struct SegmentTreeMerge{
 };
 
 int main(){
+    /// Two sets merged, then split by rank and by key
     SegmentTreeMerge st(10);
     int a = 0, b = 0;
     for (int x : {3, 1, 4, 1, 5}) st.insert(a, x);
@@ -172,5 +173,6 @@ int main(){
     int top = st.split_key(high, 6);    /// high = {3, 4, 5}, top = {6, 9}
     assert(st.size(high) == 3);
     assert(st.kth(top, 0) == 6);
+
     return 0;
 }
