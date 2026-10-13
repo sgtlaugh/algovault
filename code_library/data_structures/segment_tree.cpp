@@ -115,6 +115,7 @@ struct SegmentTree : Ops{
         }
         propagate(idx, a, b);
 
+        /// the untouched child gets propagated too, so the combine below reads its true value
         int p = idx << 1, q = p | 1, c = (a + b) >> 1;
         if (r <= c){
             propagate(q, c + 1, b);
