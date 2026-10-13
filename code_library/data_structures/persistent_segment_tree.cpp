@@ -7,6 +7,7 @@
  *   - build: O(n)
  *   - add, set: O(log n) time and O(log n) new nodes
  *   - get, query, kth: O(log n)
+ *   - RangeKth: O(n log n) build time and memory, O(log n) per kth
  *
  * PersistentSegmentTree<T> tree(values): version 0 holds values, ranges fold with +
  * PersistentSegmentTree<T, Combine> tree(values, combine): ranges fold with combine, any associative functor with a const operator()
