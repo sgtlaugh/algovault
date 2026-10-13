@@ -22,10 +22,8 @@ using namespace std;
 struct DSU{
     vector<int> sz, parent;
 
-    DSU(int n){
-        parent.resize(n + 1);
-        sz.resize(n + 1, 1);
-        for (int i = 0; i <= n; i++) parent[i] = i;
+    DSU(int n) : sz(n + 1, 1), parent(n + 1){
+        iota(parent.begin(), parent.end(), 0);
     }
 
     int find(int i){
@@ -37,11 +35,11 @@ struct DSU{
     }
 
     bool connect(int a, int b){
-        int c = find(a), d = find(b);
-        if (c == d) return false;
-        if (sz[c] > sz[d]) swap(c, d);
-        parent[c] = d;
-        sz[d] += sz[c], sz[c] = 0;
+        a = find(a), b = find(b);
+        if (a == b) return false;
+
+        if (sz[a] > sz[b]) swap(a, b);
+        parent[a] = b, sz[b] += sz[a];
         return true;
     }
 
@@ -50,8 +48,7 @@ struct DSU{
     }
 
     int size(int i){
-        int p = find(i);
-        return sz[p];
+        return sz[find(i)];
     }
 };
 
