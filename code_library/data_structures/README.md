@@ -115,7 +115,7 @@
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/)
 - [SPOJ INVCNT - Inversion Count](https://www.spoj.com/problems/INVCNT/)
 - [SPOJ KQUERY - K-query](https://www.spoj.com/problems/KQUERY/)
-- [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/)
+- [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/) [✅](../../practice/data_structures/spoj_meanarr_fenwick_tree.cpp "Accepted solution")
 - [SPOJ METEORS - Meteors](https://www.spoj.com/problems/METEORS/)
 - [SPOJ NKTEAM - Team Selection](https://www.spoj.com/problems/NKTEAM/)
 - [SPOJ SUMSUM - Enjoy Sum with Operations](https://www.spoj.com/problems/SUMSUM/)
