@@ -226,7 +226,7 @@
 - [SPOJ KQUERY - K-query](https://www.spoj.com/problems/KQUERY/)
 - [SPOJ MKTHNUM - K-th Number](https://www.spoj.com/problems/MKTHNUM/)
 - [SPOJ PATULJCI - Snow White and the N dwarfs](https://www.spoj.com/problems/PATULJCI/)
-- [UVa 1480 - Jewel](https://onlinejudge.org/external/14/1480.pdf)
+- [UVa 1480 - Jewel](https://onlinejudge.org/external/14/1480.pdf) [✅](../../practice/data_structures/uva_1480_merge_sort_tree.cpp "Accepted solution")
 - [UVa 13164 - Performance Review](https://onlinejudge.org/external/131/13164.pdf)
 
 #### [Mo's Algorithm](mo.cpp)
