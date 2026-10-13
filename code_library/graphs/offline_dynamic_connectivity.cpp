@@ -132,7 +132,6 @@ struct DynamicConnectivity{
         return res;
     }
 
-private:
     void dfs(int node, int lo, int hi, vector<int>& res){
         int saved = dsu.time();
         for (auto [u, v]: tree[node]) dsu.connect(u, v);
