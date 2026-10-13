@@ -88,7 +88,6 @@ struct PersistentSegmentTree{
         return a;
     }
 
-private:
     int new_node(int l, int r, T x){
         lc.push_back(l), rc.push_back(r), val.push_back(x);
         return val.size() - 1;
@@ -140,7 +139,6 @@ struct RangeKth{
         return sorted_values[counts.kth(l, r + 1, k)];
     }
 
-private:
     static vector<T> distinct(vector<T> values){
         sort(values.begin(), values.end());
         values.erase(unique(values.begin(), values.end()), values.end());
