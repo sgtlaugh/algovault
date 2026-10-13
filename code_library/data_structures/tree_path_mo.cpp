@@ -1,17 +1,20 @@
 /***
  *
  * Mo's Algorithm On Tree Paths
- * Answers offline path queries on a tree by running Mo's algorithm over an Euler tour that lists each node twice
+ * Offline path queries on a tree, by Mo's algorithm over an Euler tour that lists each node twice
  *
- * Complexity: O(n log n) to build, O(n * sqrt(q) + q) calls to add / remove per run, plus O(q log q) sorting
+ * Complexity: O(n log n) to build, O(n sqrt(q) + q) calls to add and remove per run, plus O(q log q) sorting and O(q log n) for the lcas
  *
- * TreePathMo tree(n); tree.add_edge(u, v); tree.build(root);
- * tree.run(paths, add, remove, get, edges) returns the answers, res[qi] = get(qi):
- *   paths[i] = {u, v}, add(node) / remove(node) receive tree nodes, get(qi) returns the answer for the current path
- *   edges = false: the window holds every node on the path u..v
- *   edges = true: the window holds every node on the path except the lca, store the value of edge (parent[v], v) on v
- *   The window starts and ends empty, so the same callbacks and state can serve several runs
+ * TreePathMo tree(n): nodes 0..n - 1 and no edges yet
+ * tree.add_edge(u, v): adds the tree edge between u and v
+ * tree.build(root): roots the tree at root once all n - 1 edges are added
+ * tree.lca(u, v): the lowest common ancestor of u and v, after build
+ * tree.run(paths, add, remove, get, edges = false): the answers, res[i] = get(i) while the window holds the path paths[i] = {u, v}
  *
+ * add(node) and remove(node) receive tree nodes, get(i) returns the answer for the current window
+ * edges = false: the window holds every node on the path u..v
+ * edges = true: the window holds the path without the lca, so store the value of edge (parent[v], v) on v
+ * The window starts and ends empty, so the same callbacks and state can serve several runs
  * Embeds a checked copy of mo.cpp's mo to stay standalone
  *
 ***/
@@ -112,13 +115,21 @@ struct TreePathMo{
     template <typename Add, typename Remove, typename Get>
     auto run(const vector<pair<int, int>>& paths, Add add, Remove remove, Get get, bool edges = false){
         /// A node inside the tour range twice is not on the path, so each tour position toggles its node
+        /// With first[u] <= first[v] and u an ancestor of v, [first[u], first[v]] holds exactly the path u..v
+        /// Otherwise [last[u], first[v]] holds the path minus the lca, whose entry and exit both lie outside it
         vector<pair<int, int>> ranges;
-        vector<int> extra;
+        vector<int> lca_to_add;  /// toggled in around get(i) for node paths whose range misses the lca, else -1
         for (auto [u, v] : paths){
             if (first[u] > first[v]) swap(u, v);
-            int l = lca(u, v);
-            if (l == u) ranges.push_back({first[u] + edges, first[v]}), extra.push_back(-1);  /// u == v in edge mode is empty
-            else ranges.push_back({last[u], first[v]}), extra.push_back(edges ? -1 : l);
+            int w = lca(u, v);
+            if (w == u){
+                ranges.push_back({first[u] + (edges ? 1 : 0), first[v]});  /// edge mode drops the lca u, u == v leaves it empty
+                lca_to_add.push_back(-1);
+            }
+            else{
+                ranges.push_back({last[u], first[v]});
+                lca_to_add.push_back(edges ? -1 : w);
+            }
         }
 
         vector<char> inside(n, 0);
@@ -129,15 +140,16 @@ struct TreePathMo{
         };
 
         return mo(2 * n, ranges, [&](int i){ toggle(tour[i]); }, [&](int i){ toggle(tour[i]); }, [&](int i){
-            if (extra[i] != -1) toggle(extra[i]);
+            if (lca_to_add[i] != -1) toggle(lca_to_add[i]);
             auto res = get(i);
-            if (extra[i] != -1) toggle(extra[i]);
+            if (lca_to_add[i] != -1) toggle(lca_to_add[i]);
             return res;
         });
     }
 };
 
 int main(){
+    /// Path sums over nodes, then over edges with each edge's value stored on its lower node
     /***
      *          0
      *        /   \
@@ -159,5 +171,6 @@ int main(){
 
     auto edges = tree.run(paths, add, remove, [&](int){ return sum; }, true);
     assert((edges == vector<long long>{40 + 50, 40 + 20 + 30 + 60, 0}));  /// edge mode leaves out the lca
+
     return 0;
 }
