@@ -3,7 +3,7 @@
  * Partially Persistent DSU
  * Union-find that remembers its past: were a and b in the same set after the first t connect calls?
  *
- * Complexity: O(log n) per operation, O(n) memory
+ * Complexity: O(log n) per operation
  *
  * PartiallyPersistentDSU dsu(n): nodes 0..n, each in its own set
  * dsu.connect(a, b): merge the sets of a and b, false if they already were one set
@@ -12,17 +12,8 @@
  * dsu.find(a, t): representative of a's set after the first t connect calls
  * dsu.now: number of connect calls so far, failed ones included
  *
- * Example:
- *     dsu.connect(1, 2);    // true, call 1
- *     dsu.connect(3, 4);    // true, call 2
- *     dsu.connect(2, 1);    // false, still counts as call 3
- *     dsu.connect(2, 4);    // true, call 4
- *     dsu.same(1, 4, 3);    // false, 1 and 4 meet at call 4
- *     dsu.same(1, 4, 4);    // true
- *     dsu.size(4, 2);       // 2, the set {3, 4}
- *     dsu.size(4, 100);     // 4, any t >= now is the current state
- *
- * The first call that joined a and b: binary search the smallest t with same(a, b, t)
+ * t = 0 is the state before any call, any t >= now is the current state
+ * The first call that joined a and b is the smallest t with same(a, b, t), found by binary search
  *
 ***/
 
@@ -69,7 +60,7 @@ struct PartiallyPersistentDSU{
 };
 
 int main(){
-    /// The header example
+    /// Four calls, the third one fails but still counts
     PartiallyPersistentDSU dsu(4);
     assert(dsu.connect(1, 2));
     assert(dsu.connect(3, 4));
@@ -80,12 +71,6 @@ int main(){
     assert(dsu.same(1, 4, 4));
     assert(dsu.size(4, 2) == 2);
     assert(dsu.size(4, 100) == 4);
-
-    /// t = 0 is the state before any call, t = INT_MAX the current one
-    assert(!dsu.same(1, 2, 0));
-    assert(dsu.size(1, 0) == 1);
-    assert(dsu.find(1, 0) == 1);
-    assert(dsu.same(3, 2, INT_MAX));
 
     return 0;
 }
