@@ -37,6 +37,10 @@ vector<long long> random_array(int n, long long lo, long long hi){
 }
 
 int main(){
+    MergeSortTree<long long> no_values({});
+    WaveletMatrix<long long> no_codes({});
+    assert(no_values.n == 0 && no_codes.n == 0);
+
     for (long long it = 0; it < stress::scaled(4000); it++){
         int n = stress::rand_int(1, 70);
         long long range = it % 3 == 0 ? 1000000000000000000LL : it % 3 == 1 ? 5 : stress::rand_int(0, 2);
