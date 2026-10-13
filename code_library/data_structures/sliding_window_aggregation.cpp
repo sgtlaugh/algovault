@@ -26,11 +26,11 @@ using namespace std;
 template <typename T, typename Op>
 struct SlidingWindowAggregation{
     T identity;
-    Op op;
+    Op combine;
     vector<T> front, back;  /// front.back() is the fold of the whole front stack, oldest element first
     T back_fold;            /// op over the back stack, oldest element first
 
-    SlidingWindowAggregation(T identity, Op op) : identity(identity), op(op), back_fold(identity) {}
+    SlidingWindowAggregation(T identity, Op combine) : identity(identity), combine(combine), back_fold(identity) {}
 
     bool empty() const{
         return front.empty() && back.empty();
@@ -38,13 +38,13 @@ struct SlidingWindowAggregation{
 
     T fold() const{
         if (front.empty()) return back_fold;
-        return back.empty() ? front.back() : op(front.back(), back_fold);
+        return back.empty() ? front.back() : combine(front.back(), back_fold);
     }
 
     void pop(){
         if (front.empty()){
             for (int i = (int)back.size() - 1; i >= 0; i--){
-                front.push_back(front.empty() ? back[i] : op(back[i], front.back()));
+                front.push_back(front.empty() ? back[i] : combine(back[i], front.back()));
             }
             back.clear();
             back_fold = identity;
@@ -54,7 +54,7 @@ struct SlidingWindowAggregation{
 
     void push(const T& x){
         back.push_back(x);
-        back_fold = op(back_fold, x);
+        back_fold = combine(back_fold, x);
     }
 
     int size() const{
