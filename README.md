@@ -221,15 +221,15 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 [Practice problems](code_library/algebra/README.md)
 
 - [Big Integer](code_library/algebra/bignum.cpp) - arbitrary precision signed integers [✔](judge_tests/algebra/addition_of_big_integers.cpp)
-- [FFT](code_library/algebra/fft.cpp) - polynomial multiplication, exact modular and 64-bit products [✔](judge_tests/algebra/convolution_mod_1000000007_fft.cpp)
+- [FFT](code_library/algebra/fft.cpp) - polynomial multiplication, exact or modular [✔](judge_tests/algebra/convolution_mod_1000000007_fft.cpp)
 - [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
-- [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - `c[k] = sum of a[i] b[j]` over `gcd(i, j) = k` or `lcm(i, j) = k` [✔](judge_tests/algebra/gcd_convolution.cpp)
+- [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - convolution over `gcd(i, j)` or `lcm(i, j)` [✔](judge_tests/algebra/gcd_convolution.cpp)
 - [Lagrange Interpolation](code_library/algebra/lagrange_interpolation.cpp) - value of a polynomial from consecutive samples [✔](judge_tests/algebra/sum_of_exponential_times_polynomial.cpp)
-- [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - find a recurrence from terms and compute its n-th term [✔](judge_tests/algebra/find_linear_recurrence.cpp)
-- [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - convex-convex in `O(n + m)`, convex-arbitrary via monotone minima [✔](judge_tests/algebra/min_plus_convolution_convex_arbitrary.cpp)
-- [NTT](code_library/algebra/ntt.cpp) - polynomial multiplication modulo an NTT prime, any modulus, or exact in 64 bits [✔](judge_tests/algebra/convolution_mod.cpp)
-- [Polynomial](code_library/algebra/polynomial.cpp) - NTT power series: inv, div, log, exp, sqrt, pow, multipoint eval, interpolation, Taylor shift [✔](judge_tests/algebra/division_of_polynomials.cpp)
-- [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - zeta and Mobius transforms, subset convolution in `O(2^n n^2)` [✔](judge_tests/algebra/bitwise_and_convolution.cpp)
+- [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - finds a recurrence and computes its n-th term [✔](judge_tests/algebra/find_linear_recurrence.cpp)
+- [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - fast when one or both sides are convex [✔](judge_tests/algebra/min_plus_convolution_convex_arbitrary.cpp)
+- [NTT](code_library/algebra/ntt.cpp) - polynomial multiplication modulo any m or exact [✔](judge_tests/algebra/convolution_mod.cpp)
+- [Polynomial](code_library/algebra/polynomial.cpp) - power series ops and multipoint evaluation [✔](judge_tests/algebra/division_of_polynomials.cpp)
+- [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - zeta and Mobius transforms, subset convolution [✔](judge_tests/algebra/bitwise_and_convolution.cpp)
 - [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - xor, or and and convolutions [✔](judge_tests/algebra/bitwise_and_convolution_fwht.cpp)
 
 ### Linear Algebra
