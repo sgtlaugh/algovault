@@ -8,7 +8,7 @@
 
 - [Codeforces 25D - Roads not only in Berland](https://codeforces.com/problemset/problem/25/D) [✅](../../practice/data_structures/codeforces_25d.cpp "Accepted solution")
 - [Codeforces 468B - Two Sets](https://codeforces.com/problemset/problem/468/B) [✅](../../practice/data_structures/codeforces_468b.cpp "Accepted solution")
-- [Codeforces 744A - Hongcow Builds A Nation](https://codeforces.com/problemset/problem/744/A)
+- [Codeforces 744A - Hongcow Builds A Nation](https://codeforces.com/problemset/problem/744/A) [✅](../../practice/data_structures/codeforces_744a.cpp "Accepted solution")
 - [CSES 1666 - Building Roads](https://cses.fi/problemset/task/1666)
 - [CSES 1676 - Road Construction](https://cses.fi/problemset/task/1676)
 - [CSES 1677 - Network Breakdown](https://cses.fi/problemset/task/1677)
