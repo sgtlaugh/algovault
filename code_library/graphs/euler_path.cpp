@@ -88,7 +88,6 @@ struct EulerPath{
         return path;
     }
 
-private:
     int excess(int u) const{
         return directed ? balance[u] : balance[u] % 2;
     }
