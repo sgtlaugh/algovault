@@ -289,7 +289,6 @@ struct Polynomial{
         return res;
     }
 
-private:
     static int add(int x, int y){
         return x + y >= MOD ? x + y - MOD : x + y;
     }
