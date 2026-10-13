@@ -61,7 +61,7 @@
 - [UVa 675 - Convex Hull of the Polygon](https://onlinejudge.org/external/6/675.pdf)
 - [UVa 681 - Convex Hull Finding](https://onlinejudge.org/external/6/681.pdf)
 - [UVa 1453 - Squares](https://onlinejudge.org/external/14/1453.pdf)
-- [UVa 10078 - The Art Gallery](https://onlinejudge.org/external/100/10078.pdf)
+- [UVa 10078 - The Art Gallery](https://onlinejudge.org/external/100/10078.pdf) [✅](../../practice/geometry/uva_10078.cpp "Accepted solution")
 - [UVa 11626 - Convex Hull](https://onlinejudge.org/external/116/11626.pdf)
 - [UVa 12999 - Defense Plan](https://onlinejudge.org/external/129/12999.pdf)
 - [UVa 13024 - Saint John Festival](https://onlinejudge.org/external/130/13024.pdf)
