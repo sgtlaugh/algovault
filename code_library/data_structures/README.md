@@ -133,7 +133,7 @@
 - [UVa 10810 - Ultra-QuickSort](https://onlinejudge.org/external/108/10810.pdf)
 - [UVa 11525 - Permutation](https://onlinejudge.org/external/115/11525.pdf) [✅](../../practice/data_structures/uva_11525.cpp "Accepted solution")
 - [UVa 11610 - Reverse Prime](https://onlinejudge.org/external/116/11610.pdf) [✅](../../practice/data_structures/uva_11610.cpp "Accepted solution")
-- [UVa 11858 - Frosh Week](https://onlinejudge.org/external/118/11858.pdf)
+- [UVa 11858 - Frosh Week](https://onlinejudge.org/external/118/11858.pdf) [✅](../../practice/data_structures/uva_11858.cpp "Accepted solution")
 - [UVa 12086 - Potentiometers](https://onlinejudge.org/external/120/12086.pdf) [✅](../../practice/data_structures/uva_12086_fenwick_tree.cpp "Accepted solution")
 - [UVa 12595 - Galactic Transmission](https://onlinejudge.org/external/125/12595.pdf)
 - [UVa 12998 - Tree Weights](https://onlinejudge.org/external/129/12998.pdf)
