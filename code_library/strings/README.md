@@ -111,7 +111,7 @@
 - [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf) [✅](../../practice/strings/uva_1470.cpp "Accepted solution")
 - [UVa 11107 - Life Forms](https://onlinejudge.org/external/111/11107.pdf) [✅](../../practice/strings/uva_11107_hashing.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✅](../../practice/strings/uva_11475_hashing.cpp "Accepted solution")
-- [UVa 11855 - Buzzwords](https://onlinejudge.org/external/118/11855.pdf)
+- [UVa 11855 - Buzzwords](https://onlinejudge.org/external/118/11855.pdf) [✅](../../practice/strings/uva_11855.cpp "Accepted solution")
 - [UVa 11996 - Jewel Magic](https://onlinejudge.org/external/119/11996.pdf)
 - [UVa 12012 - Detection of Extraterrestrial](https://onlinejudge.org/external/120/12012.pdf)
 - [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf)
