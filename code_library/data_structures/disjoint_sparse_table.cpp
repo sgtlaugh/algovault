@@ -1,22 +1,17 @@
 /***
  *
  * Disjoint Sparse Table
- * O(1) range queries on a static array for any associative operation: sum, xor, product mod p, matrix product
+ * O(1) range queries on a static array for any associative operation
  *
- * Complexity: O(n log n) build and memory, O(1) per query
+ * Complexity:
+ *   - build: O(n log n) time and memory
+ *   - query: O(1)
  *
- * DisjointSparseTable<T> table(a): table.query(l, r) is a[l] + ... + a[r], 0-based, l <= r
- * DisjointSparseTable table(a, op): the same with any associative op, it need not commute or have an identity
+ * DisjointSparseTable<T> table(a): range sums of a
+ * DisjointSparseTable table(a, op): range folds with op, which must be associative but need not commute
+ * table.query(l, r): op over a[l..r], 0 <= l <= r < n
  *
- * Example, a = {5, 6, 1, 13, 7}:
- *     DisjointSparseTable<int> sum(a);
- *     sum.query(1, 3);     // 20
- *     sum.query(4, 4);     // 7
- *     DisjointSparseTable prod(a, [](int x, int y){ return x * y % 1000; });
- *     prod.query(0, 3);    // 390
- *
- * For min, max or gcd sparse_table.cpp is simpler and faster, for a plain sum a prefix array is enough
- * Further reading - https://codeforces.com/blog/entry/87940
+ * Use sparse_table.cpp for min, max or gcd, and a prefix array for plain sums
  *
 ***/
 
@@ -51,19 +46,14 @@ struct DisjointSparseTable{
 };
 
 int main(){
-    /// The header example
+    /// Sum and product over the same array
     vector<int> a = {5, 6, 1, 13, 7};
     DisjointSparseTable<int> sum(a);
     assert(sum.query(1, 3) == 20);
     assert(sum.query(4, 4) == 7);
+
     DisjointSparseTable prod(a, [](int x, int y){ return x * y % 1000; });
     assert(prod.query(0, 3) == 390);
-
-    /// Strings concatenate in order, so a wrong operand order would show
-    DisjointSparseTable<string> words({"a", "b", "c", "d", "e", "f", "g", "h", "i"});
-    assert(words.query(1, 3) == "bcd");
-    assert(words.query(3, 8) == "defghi");
-    assert(words.query(0, 8) == "abcdefghi");
 
     return 0;
 }
