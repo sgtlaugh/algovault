@@ -107,7 +107,7 @@
 - [UVa 11149 - Power of Matrix](https://onlinejudge.org/external/111/11149.pdf) [✅](../../practice/linear_algebra/uva_11149.cpp "Accepted solution")
 - [UVa 11551 - Experienced Endeavour](https://onlinejudge.org/external/115/11551.pdf)
 - [UVa 11651 - Krypton Number System](https://onlinejudge.org/external/116/11651.pdf)
-- [UVa 11741 - Ignore the Blocks](https://onlinejudge.org/external/117/11741.pdf)
+- [UVa 11741 - Ignore the Blocks](https://onlinejudge.org/external/117/11741.pdf) [✅](../../practice/linear_algebra/uva_11741.cpp "Accepted solution")
 - [UVa 12000 - K-Transformed Permutations](https://onlinejudge.org/external/120/12000.pdf)
 - [UVa 12037 - Musical Chair](https://onlinejudge.org/external/120/12037.pdf)
 - [UVa 12042 - Colorful Eggs](https://onlinejudge.org/external/120/12042.pdf)
