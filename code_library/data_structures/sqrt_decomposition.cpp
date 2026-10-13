@@ -64,7 +64,6 @@ struct SqrtDecomposition{
         return raw[i] + pending[i / block_size];
     }
 
-private:
     void rebuild(int b){
         int lo = b * block_size, hi = min(n, lo + block_size);
         sorted_block[b].assign(raw.begin() + lo, raw.begin() + hi);
