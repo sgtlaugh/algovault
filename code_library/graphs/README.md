@@ -79,7 +79,7 @@
 - [UVa 10557 - XYZZY](https://onlinejudge.org/external/105/10557.pdf)
 - [UVa 11280 - Flying to Fredericton](https://onlinejudge.org/external/112/11280.pdf) [✅](../../practice/graphs/uva_11280.cpp "Accepted solution")
 - [UVa 11721 - Instant View of Big Bang](https://onlinejudge.org/external/117/11721.pdf)
-- [UVa 11874 - Travel Company](https://onlinejudge.org/external/118/11874.pdf)
+- [UVa 11874 - Travel Company](https://onlinejudge.org/external/118/11874.pdf) [✅](../../practice/graphs/uva_11874.cpp "Accepted solution")
 - [UVa 12519 - The Farnsworth Parabox](https://onlinejudge.org/external/125/12519.pdf)
 
 #### [Bridges](bridge.cpp)
