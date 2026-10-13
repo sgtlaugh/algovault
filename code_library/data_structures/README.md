@@ -396,7 +396,7 @@
 - [UVa 12365 - Jupiter Atacks!](https://onlinejudge.org/external/123/12365.pdf) [✅](../../practice/data_structures/uva_12365.cpp "Accepted solution")
 - [UVa 12436 - Rip Van Winkle's Code](https://onlinejudge.org/external/124/12436.pdf)
 - [UVa 12477 - Good Measures of Dispersion](https://onlinejudge.org/external/124/12477.pdf) [✅](../../practice/data_structures/uva_12477.cpp "Accepted solution")
-- [UVa 12501 - Bulky process of bulk reduction](https://onlinejudge.org/external/125/12501.pdf)
+- [UVa 12501 - Bulky process of bulk reduction](https://onlinejudge.org/external/125/12501.pdf) [✅](../../practice/data_structures/uva_12501.cpp "Accepted solution")
 - [UVa 12532 - Interval Product](https://onlinejudge.org/external/125/12532.pdf) [✅](../../practice/data_structures/uva_12532.cpp "Accepted solution")
 - [ZOJ 3899 - State Reversing](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827370003)
 
