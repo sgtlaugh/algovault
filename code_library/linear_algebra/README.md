@@ -35,7 +35,7 @@
 - [UVa 1397 - The Teacher's Side of Math](https://onlinejudge.org/external/13/1397.pdf)
 - [UVa 1704 - Pachinko](https://onlinejudge.org/external/17/1704.pdf)
 - [UVa 10109 - Solving Systems of Linear Equations](https://onlinejudge.org/external/101/10109.pdf)
-- [UVa 10524 - Matrix Reloaded](https://onlinejudge.org/external/105/10524.pdf)
+- [UVa 10524 - Matrix Reloaded](https://onlinejudge.org/external/105/10524.pdf) [✅](../../practice/linear_algebra/uva_10524.cpp "Accepted solution")
 - [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf)
 - [UVa 11912 - Chutes and Ladders](https://onlinejudge.org/external/119/11912.pdf)
 - [UVa 12695 - Traveling Fool](https://onlinejudge.org/external/126/12695.pdf) [✅](../../practice/linear_algebra/uva_12695.cpp "Accepted solution")
