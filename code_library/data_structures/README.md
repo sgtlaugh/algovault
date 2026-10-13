@@ -509,7 +509,7 @@
 - [Codeforces 817F - MEX Queries](https://codeforces.com/problemset/problem/817/F)
 - [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436)
 - [Luogu P2042 - [NOI2005] 维护数列](https://www.luogu.com.cn/problem/P2042)
-- [UVa 12634 - Pairing Boys and Girls](https://onlinejudge.org/external/126/12634.pdf)
+- [UVa 12634 - Pairing Boys and Girls](https://onlinejudge.org/external/126/12634.pdf) [✅](../../practice/data_structures/uva_12634_run_length_implicit_treap.cpp "Accepted solution")
 
 #### [Trie](trie.cpp)
 
