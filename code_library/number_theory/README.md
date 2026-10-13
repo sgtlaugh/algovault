@@ -140,7 +140,7 @@
 - [UVa 10990 - Another New Function](https://onlinejudge.org/external/109/10990.pdf) [✅](../../practice/number_theory/uva_10990.cpp "Accepted solution")
 - [UVa 11327 - Enumerating Rational Numbers](https://onlinejudge.org/external/113/11327.pdf)
 - [UVa 11353 - A Different Kind of Sorting](https://onlinejudge.org/external/113/11353.pdf) [✅](../../practice/number_theory/uva_11353.cpp "Accepted solution")
-- [UVa 11408 - Count DePrimes](https://onlinejudge.org/external/114/11408.pdf)
+- [UVa 11408 - Count DePrimes](https://onlinejudge.org/external/114/11408.pdf) [✅](../../practice/number_theory/uva_11408.cpp "Accepted solution")
 - [UVa 11415 - Count the Factorials](https://onlinejudge.org/external/114/11415.pdf) [✅](../../practice/number_theory/uva_11415.cpp "Accepted solution")
 - [UVa 11424 - GCD - Extreme (I)](https://onlinejudge.org/external/114/11424.pdf) [✅](../../practice/number_theory/uva_11424.cpp "Accepted solution")
 - [UVa 11426 - GCD - Extreme (II)](https://onlinejudge.org/external/114/11426.pdf) [✅](../../practice/number_theory/uva_11426.cpp "Accepted solution")
