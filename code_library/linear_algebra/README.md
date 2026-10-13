@@ -38,7 +38,7 @@
 - [UVa 10524 - Matrix Reloaded](https://onlinejudge.org/external/105/10524.pdf)
 - [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf)
 - [UVa 11912 - Chutes and Ladders](https://onlinejudge.org/external/119/11912.pdf)
-- [UVa 12695 - Traveling Fool](https://onlinejudge.org/external/126/12695.pdf)
+- [UVa 12695 - Traveling Fool](https://onlinejudge.org/external/126/12695.pdf) [✅](../../practice/linear_algebra/uva_12695.cpp "Accepted solution")
 - [UVa 12910 - Snakes and Ladders](https://onlinejudge.org/external/129/12910.pdf)
 
 #### [Gauss, Band Matrix](gauss_band_matrix.cpp)
