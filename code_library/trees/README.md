@@ -108,7 +108,7 @@
 - [UVa 1674 - Lightning Energy Report](https://onlinejudge.org/external/16/1674.pdf)
 - [UVa 10938 - Flea circus](https://onlinejudge.org/external/109/10938.pdf) [✅](../../practice/trees/uva_10938.cpp "Accepted solution")
 - [UVa 11354 - Bond](https://onlinejudge.org/external/113/11354.pdf)
-- [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf)
+- [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf) [✅](../../practice/trees/uva_12176.cpp "Accepted solution")
 - [UVa 12238 - Ants Colony](https://onlinejudge.org/external/122/12238.pdf)
 - [UVa 12533 - Joining Couples](https://onlinejudge.org/external/125/12533.pdf)
 - [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf)
