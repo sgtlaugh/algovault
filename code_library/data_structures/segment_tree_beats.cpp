@@ -64,7 +64,6 @@ struct SegmentTreeBeats{
     long long query_min(int l, int r){ return query(l, r).min; }
     long long query_sum(int l, int r){ return (long long)query(l, r).sum; }
 
-private:
     enum Op{ADD, ASSIGN, CHMAX, CHMIN};
 
     void apply(int idx, Op op, long long x){
