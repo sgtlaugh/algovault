@@ -330,7 +330,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 ## Contributing
 
-Bug reports, fixes and new templates are welcome as issues or pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions, the checks CI runs and The Zen Of Contributing; the `/lucid` skill in [`.claude/skills/`](.claude/skills) applies its documentation rules.
+Bug reports, fixes and new templates are welcome as issues or pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions, the checks CI runs and The Zen Of Contributing; the skills in [`.claude/skills/`](.claude/skills) apply them: `/crucible` adds or refactors a template, `/lucid` keeps the docs consistent.
 
 ## License
 

@@ -4,6 +4,8 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 
 ## Adding a template
 
+The `/crucible` skill in `.claude/skills/crucible/` walks through all of this, for a new template or a refactor of an existing one.
+
 - One standalone C++17 file under `code_library/<topic>/` that compiles on its own with GCC
 - A header and a usage example in `main()` as described in [Documentation](#documentation), with edge cases in the stress test
 - A brute-force stress test at the same path under `stress_tests/`, against an independent reference
