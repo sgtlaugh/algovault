@@ -57,7 +57,6 @@ struct ComplementGraph{
         return comp;
     }
 
-private:
     /// visit(u, v) fires once per newly reached v, with u its BFS parent
     template<typename F>
     void sweep(int s, vector<int>& unvisited, vector<int>& mark, vector<int>& frontier, F&& visit) const{
