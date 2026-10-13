@@ -75,7 +75,7 @@
 - [UVa 515 - King](https://onlinejudge.org/external/5/515.pdf)
 - [UVa 558 - Wormholes](https://onlinejudge.org/external/5/558.pdf) [✅](../../practice/graphs/uva_558.cpp "Accepted solution")
 - [UVa 1171 - Board Games](https://onlinejudge.org/external/11/1171.pdf)
-- [UVa 10449 - Traffic](https://onlinejudge.org/external/104/10449.pdf)
+- [UVa 10449 - Traffic](https://onlinejudge.org/external/104/10449.pdf) [✅](../../practice/graphs/uva_10449.cpp "Accepted solution")
 - [UVa 10557 - XYZZY](https://onlinejudge.org/external/105/10557.pdf)
 - [UVa 11280 - Flying to Fredericton](https://onlinejudge.org/external/112/11280.pdf) [✅](../../practice/graphs/uva_11280.cpp "Accepted solution")
 - [UVa 11721 - Instant View of Big Bang](https://onlinejudge.org/external/117/11721.pdf)
