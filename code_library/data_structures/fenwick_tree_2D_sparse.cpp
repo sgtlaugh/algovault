@@ -5,7 +5,7 @@
  *
  * Complexity:
  *   - build: O(2^lg_capacity)
- *   - update, prefix, query: O(log n * log m) hash probes, each expected O(1) while the table is at most half full
+ *   - update, prefix, query: O(log n log m) hash probes, each expected O(1) while the table is at most half full
  *
  * FenwickSparse2D<T> fen(n, m, lg_capacity = 24): n rows, m columns, all zeros, in a table of 2^lg_capacity slots
  * fen.update(i, j, v): add v to a[i][j]
