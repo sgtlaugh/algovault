@@ -57,7 +57,6 @@ struct MergeSortTree{
         return sorted_values[a];
     }
 
-private:
     /// The tree is over ranks, not positions: a count binary searches x once in sorted_values, then descends over
     /// that rank prefix, and kth descends the same tree instead of binary searching on the answer
     void build(int node, int a, int b, const vector<int>& order){
@@ -149,7 +148,6 @@ struct WaveletMatrix{
         return distinct[code];
     }
 
-private:
     int code_of(const T& x) const{
         return lower_bound(distinct.begin(), distinct.end(), x) - distinct.begin();
     }
