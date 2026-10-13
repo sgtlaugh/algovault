@@ -31,7 +31,7 @@
 - [UVa 10106 - Product](https://onlinejudge.org/external/101/10106.pdf)
 - [UVa 10183 - How Many Fibs?](https://onlinejudge.org/external/101/10183.pdf) [✅](../../practice/algebra/uva_10183.cpp "Accepted solution")
 - [UVa 10198 - Counting](https://onlinejudge.org/external/101/10198.pdf)
-- [UVa 10220 - I Love Big Numbers !](https://onlinejudge.org/external/102/10220.pdf)
+- [UVa 10220 - I Love Big Numbers !](https://onlinejudge.org/external/102/10220.pdf) [✅](../../practice/algebra/uva_10220.cpp "Accepted solution")
 - [UVa 10329 - Combinatorial Expression](https://onlinejudge.org/external/103/10329.pdf)
 - [UVa 10430 - Dear GOD](https://onlinejudge.org/external/104/10430.pdf)
 - [UVa 10494 - If We Were a Child Again](https://onlinejudge.org/external/104/10494.pdf)
