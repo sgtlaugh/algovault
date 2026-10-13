@@ -217,7 +217,6 @@ struct FFT{
         return res;
     }
 
-private:
     struct ComplexNum{
         fType real, img;
 
