@@ -5,7 +5,7 @@ description: >
   web page, or refactor an existing code_library file to be simpler, easier to use or faster. Every result ships with a
   brute-force stress test proven to catch a planted bug, docs from /lucid, and a green CI suite.
 trigger: /crucible
-allowed-tools: Read, Write, Edit, Glob, Grep, WebFetch, Skill, Bash(git grep:*), Bash(git diff:*), Bash(git log:*), Bash(git status:*), Bash(git rev-parse:*), Bash(git add:*), Bash(git commit:*), Bash(ls:*), Bash(g++:*), Bash(python3:*), Bash(env CHANGED_SINCE=:*), Bash(bash .github/scripts/run_tests.sh:*), Bash(bash .github/scripts/judge_tests.sh:*), Bash(bash .claude/skills/crucible/scripts/mutant.sh:*), Bash(env LD_LIBRARY_PATH=:*), Bash(mkdir:*), Bash(cp:*), Bash(/tmp/crucible_bench/:*)
+allowed-tools: Read, Write, Edit, Glob, Grep, WebFetch, Skill, Bash(git grep:*), Bash(git diff:*), Bash(git log:*), Bash(git status:*), Bash(git rev-parse:*), Bash(git stash create:*), Bash(git add:*), Bash(git commit:*), Bash(ls:*), Bash(g++:*), Bash(python3:*), Bash(env CHANGED_SINCE=:*), Bash(bash .github/scripts/run_tests.sh:*), Bash(bash .github/scripts/judge_tests.sh:*), Bash(bash .claude/skills/crucible/scripts/mutant.sh:*), Bash(env LD_LIBRARY_PATH=:*), Bash(mkdir:*), Bash(cp:*), Bash(/tmp/crucible_bench/:*)
 argument-hint: "<file path | URL | code_library file> [--name <file name>] [--commit]"
 ---
 
@@ -55,7 +55,7 @@ Run shell commands under bash, edit files with Edit or Write (never `sed -i`), a
    - refactor: keep the existing test and extend it for every new behaviour
    - no practical reference: stop and ask; `STRESS_SKIP` needs the user's approval and a reason
    - a test that expects an abort must check that the library's own assert fired (its stderr names the library file and `Assertion`): CI's `-D_GLIBCXX_ASSERTIONS` also aborts on an out-of-range access, so a bare SIGABRT check passes even with the assert deleted
-5. **Prove the stress test can fail.** For every logic change, plant one realistic bug (an off-by-one, a dropped edge case, a swapped operand):
+5. **Prove the stress test can fail.** Plant one realistic bug (an off-by-one, a dropped edge case, a swapped operand) for every logic change, and at least one even when no logic changed:
    ```bash
    bash .claude/skills/crucible/scripts/mutant.sh <path under code_library> '<sed expression>'
    ```
@@ -63,14 +63,15 @@ Run shell commands under bash, edit files with Edit or Write (never `sed -i`), a
 6. **Performance.**
    - refactor: benchmark old against new at -O2 on the same input. More than 5% slower is reverted, unless the user asked for the trade. A kept slower choice gets a `///` comment with the numbers. A reverted attempt is reported with its numbers.
    - port: compare with the source when it compiles; a port slower than its source reports both timings, and the header notes state the trade.
-7. **Judge test**, when a Library Checker or Aizu problem fits: `judge_tests/<topic>/<problem>.cpp` per CONTRIBUTING, plus the ✔ on the README index entry. refactor: run every judge test that includes a file whose code changed. The first run prepares the judge data and can take minutes.
-8. **Docs.** Commit the code change first (with `--commit`), or note the commit it sits on, and give that to `/lucid` as its base: its scope check then covers only the docs. Run `/lucid` on the file (header, `main()`, README index entry and practice section heading). A new template also gets its README index entry, alphabetical, variants nested under their base. Practice problems are optional; any you add must be verified per CONTRIBUTING.
+7. **Judge test**, when a Library Checker or Aizu problem fits: `judge_tests/<topic>/<problem>.cpp` per CONTRIBUTING, plus the ✔ on the README index entry; one ✔ linking any one of the file's judge tests is enough. refactor: run every judge test that includes a file whose code changed. The first run prepares the judge data and can take minutes.
+8. **Docs.** Give `/lucid` the state after the code change as its base, so its scope check covers only the docs: the commit of the code change with `--commit`, otherwise a snapshot from `git stash create`, which records the working tree without changing any file. Run `/lucid` on the file (header, `main()`, README index entry and practice section heading). A new template also gets its README index entry, alphabetical, variants nested under their base. Practice problems are optional; any you add must be verified per CONTRIBUTING.
 9. **Verify**, from the repo root:
    ```bash
    env CHANGED_SINCE=<commit before the run> JOBS=4 bash .github/scripts/run_tests.sh self
    env CHANGED_SINCE=<commit before the run> JOBS=4 bash .github/scripts/run_tests.sh stress
    env LD_LIBRARY_PATH="$(dirname "$(g++ -print-file-name=libstdc++.so)")" bash .github/scripts/judge_tests.sh <the judge tests from step 7>
    ```
+   When `competitive-verifier` is not on the PATH, add `COMPETITIVE_VERIFIER=<path to the executable>` just before `bash`.
    Done only when both suites exit 0 with the file's tests among those passed (`passed: 0` tested nothing and does not count) and every judge test succeeds.
 10. **Commit**, only with `--commit`: one commit per library file together with its stress test, judge test and README lines. Conventional subject (`feat:` new template, `refactor:`, `perf:`, `fix:`), at most 72 characters, no body. No AI attribution, never `--no-verify`, never amend, never push.
 
