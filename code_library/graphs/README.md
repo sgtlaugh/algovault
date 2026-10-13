@@ -530,7 +530,7 @@
 - [UVa 11710 - Expensive subway](https://onlinejudge.org/external/117/11710.pdf)
 - [UVa 11733 - Airports](https://onlinejudge.org/external/117/11733.pdf)
 - [UVa 11747 - Heavy Cycle Edges](https://onlinejudge.org/external/117/11747.pdf)
-- [UVa 11857 - Driving Range](https://onlinejudge.org/external/118/11857.pdf)
+- [UVa 11857 - Driving Range](https://onlinejudge.org/external/118/11857.pdf) [✅](../../practice/graphs/uva_11857.cpp "Accepted solution")
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf) [✅](../../practice/graphs/uva_12176.cpp "Accepted solution")
 - [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf) [✅](../../practice/graphs/uva_12655.cpp "Accepted solution")
 
