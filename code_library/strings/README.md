@@ -178,7 +178,7 @@
 - [SPOJ NUMOFPAL - Number of Palindromes](https://www.spoj.com/problems/NUMOFPAL/)
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✅](../../practice/strings/uva_11475_manacher.cpp "Accepted solution")
 - [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf) [✅](../../practice/strings/uva_12833_manacher.cpp "Accepted solution")
-- [UVa 13092 - Fold the String](https://onlinejudge.org/external/130/13092.pdf)
+- [UVa 13092 - Fold the String](https://onlinejudge.org/external/130/13092.pdf) [✅](../../practice/strings/uva_13092.cpp "Accepted solution")
 
 #### [Minimum Rotation](minimum_rotation.cpp)
 
