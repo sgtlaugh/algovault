@@ -589,7 +589,7 @@
 - [UVa 10731 - Test](https://onlinejudge.org/external/107/10731.pdf) [✅](../../practice/graphs/uva_10731.cpp "Accepted solution")
 - [UVa 11324 - The Largest Clique](https://onlinejudge.org/external/113/11324.pdf)
 - [UVa 11504 - Dominos](https://onlinejudge.org/external/115/11504.pdf) [✅](../../practice/graphs/uva_11504.cpp "Accepted solution")
-- [UVa 11709 - Trust groups](https://onlinejudge.org/external/117/11709.pdf)
+- [UVa 11709 - Trust groups](https://onlinejudge.org/external/117/11709.pdf) [✅](../../practice/graphs/uva_11709.cpp "Accepted solution")
 - [UVa 11770 - Lighting Away](https://onlinejudge.org/external/117/11770.pdf) [✅](../../practice/graphs/uva_11770.cpp "Accepted solution")
 - [UVa 11838 - Come and Go](https://onlinejudge.org/external/118/11838.pdf) [✅](../../practice/graphs/uva_11838.cpp "Accepted solution")
 - [UVa 12167 - Proving Equivalences](https://onlinejudge.org/external/121/12167.pdf) [✅](../../practice/graphs/uva_12167.cpp "Accepted solution")
