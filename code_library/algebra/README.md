@@ -24,7 +24,7 @@
 - [UVa 748 - Exponentiation](https://onlinejudge.org/external/7/748.pdf) [✅](../../practice/algebra/uva_748.cpp "Accepted solution")
 - [UVa 787 - Maximum Sub-sequence Product](https://onlinejudge.org/external/7/787.pdf) [✅](../../practice/algebra/uva_787.cpp "Accepted solution")
 - [UVa 1478 - Delta Wave](https://onlinejudge.org/external/14/1478.pdf)
-- [UVa 1647 - Computer Transformation](https://onlinejudge.org/external/16/1647.pdf)
+- [UVa 1647 - Computer Transformation](https://onlinejudge.org/external/16/1647.pdf) [✅](../../practice/algebra/uva_1647.cpp "Accepted solution")
 - [UVa 10007 - Count the Trees](https://onlinejudge.org/external/100/10007.pdf)
 - [UVa 10069 - Distinct Subsequences](https://onlinejudge.org/external/100/10069.pdf)
 - [UVa 10083 - Division](https://onlinejudge.org/external/100/10083.pdf)
