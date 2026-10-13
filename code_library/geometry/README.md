@@ -99,7 +99,7 @@
 - [UVa 10263 - Railway](https://onlinejudge.org/external/102/10263.pdf)
 - [UVa 10335 - Ray Inside a Polygon](https://onlinejudge.org/external/103/10335.pdf)
 - [UVa 10902 - Pick-up Sticks](https://onlinejudge.org/external/109/10902.pdf) [✅](../../practice/geometry/uva_10902.cpp "Accepted solution")
-- [UVa 11343 - Isolated Segments](https://onlinejudge.org/external/113/11343.pdf)
+- [UVa 11343 - Isolated Segments](https://onlinejudge.org/external/113/11343.pdf) [✅](../../practice/geometry/uva_11343.cpp "Accepted solution")
 - [UVa 11612 - Sultan and Khairun Shundori](https://onlinejudge.org/external/116/11612.pdf)
 - [UVa 11783 - Nails](https://onlinejudge.org/external/117/11783.pdf)
 - [UVa 12048 - Inhabitants](https://onlinejudge.org/external/120/12048.pdf)
