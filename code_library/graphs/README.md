@@ -583,7 +583,7 @@
 - [SPOJ GOODA - Good Travels](https://www.spoj.com/problems/GOODA/)
 - [SPOJ TFRIENDS - True Friends](https://www.spoj.com/problems/TFRIENDS/)
 - [USACO 516 - Grass Cownoisseur](https://usaco.org/index.php?page=viewproblem2&cpid=516)
-- [UVa 247 - Calling Circles](https://onlinejudge.org/external/2/247.pdf)
+- [UVa 247 - Calling Circles](https://onlinejudge.org/external/2/247.pdf) [✅](../../practice/graphs/uva_247.cpp "Accepted solution")
 - [UVa 1229 - Sub-dictionary](https://onlinejudge.org/external/12/1229.pdf)
 - [UVa 1263 - Mines](https://onlinejudge.org/external/12/1263.pdf)
 - [UVa 10731 - Test](https://onlinejudge.org/external/107/10731.pdf) [✅](../../practice/graphs/uva_10731.cpp "Accepted solution")
