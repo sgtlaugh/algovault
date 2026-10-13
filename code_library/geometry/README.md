@@ -125,7 +125,7 @@
 
 - [CSES 2193 - Polygon Lattice Points](https://cses.fi/problemset/task/2193)
 - [UVa 1059 - Jacquard Circuits](https://onlinejudge.org/external/10/1059.pdf) [✅](../../practice/geometry/uva_1059.cpp "Accepted solution")
-- [UVa 10088 - Trees on My Island](https://onlinejudge.org/external/100/10088.pdf)
+- [UVa 10088 - Trees on My Island](https://onlinejudge.org/external/100/10088.pdf) [✅](../../practice/geometry/uva_10088.cpp "Accepted solution")
 
 #### [Polygon Union](polygon_union.cpp)
 
