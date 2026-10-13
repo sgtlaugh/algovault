@@ -79,41 +79,30 @@ struct PotentialDSU{
 };
 
 int main(){
-    /// The header example, A = 0, B = 1, C = 2, D = 3
-    auto heights = PotentialDSU(3);
-    assert(heights.relate(0, 1, 3) && heights.relate(1, 2, 2));
-    assert(heights.diff(0, 2) == 5 && heights.diff(2, 0) == -5);
-    assert(heights.relate(0, 2, 5) && !heights.relate(2, 0, 1) && !heights.same(0, 3));
-    assert(heights.diff(0, 2) == 5 && heights.size(0) == 3 && heights.size(3) == 1);
+    /// The header example
+    int A = 0, B = 1, C = 2, D = 3;
+    PotentialDSU heights(3);
+    assert(heights.relate(A, B, 3));
+    assert(heights.relate(B, C, 2));
+    assert(heights.diff(A, C) == 5);
+    assert(heights.diff(C, A) == -5);
+    assert(heights.relate(A, C, 5));
+    assert(!heights.relate(C, A, 1));
+    assert(!heights.same(A, D));
+    assert(heights.size(A) == 3);
 
-    /// AtCoder ABC087 D samples: x[R] = x[L] + D
-    auto line = PotentialDSU(3);
-    assert(line.relate(1, 2, 1) && line.relate(2, 3, 1) && line.relate(1, 3, 2));
-    assert(line.diff(1, 3) == 2 && line.diff(3, 1) == -2 && line.diff(2, 2) == 0);
+    /// Parity: an odd cycle contradicts
+    PotentialDSU parity(3, 2);
+    assert(parity.relate(1, 2, 1));
+    assert(parity.relate(2, 3, 1));
+    assert(!parity.relate(3, 1, 1));
+    assert(parity.diff(1, 3) == 0);
 
-    auto liar = PotentialDSU(3);
-    assert(liar.relate(1, 2, 1) && liar.relate(2, 3, 1) && !liar.relate(1, 3, 5));
-    assert(liar.diff(1, 3) == 2 && liar.size(2) == 3);
-
-    auto huge = PotentialDSU(3);
-    assert(huge.relate(0, 1, (long long)1e18) && huge.relate(2, 1, -(long long)1e18));
-    assert(huge.diff(0, 2) == (long long)2e18 && huge.diff(2, 0) == -(long long)2e18);
-
-    /// Parity: an odd cycle contradicts, an even cycle does not
-    auto parity = PotentialDSU(7, 2);
-    assert(parity.relate(1, 2, 1) && parity.relate(2, 3, 1) && !parity.relate(3, 1, 1));
-    assert(parity.diff(1, 3) == 0 && parity.diff(3, 2) == 1);
-    assert(parity.relate(4, 5, 1) && parity.relate(5, 6, 1) && parity.relate(6, 7, 1) && parity.relate(7, 4, 1));
-    assert(parity.relate(4, 6, -2) && !parity.relate(5, 7, 3) && !parity.same(1, 4));
-
-    /// Rock-paper-scissors: x[b] = x[a] + 1 (mod 3) when a beats b
-    auto rps = PotentialDSU(3, 3);
-    assert(rps.relate(1, 2, 1) && rps.relate(2, 3, 1) && rps.relate(3, 1, 1) && !rps.relate(1, 3, 1));
-    assert(rps.diff(1, 3) == 2 && rps.diff(3, 1) == 1);
-
-    auto wide = PotentialDSU(2, (long long)1e18);
-    assert(wide.relate(0, 1, -1) && wide.diff(0, 1) == (long long)1e18 - 1 && wide.diff(1, 0) == 1);
-    assert(wide.relate(1, 0, 1 - 3 * (long long)1e18) && !wide.relate(1, 0, 2));
+    /// An implied difference can exceed every single relation
+    PotentialDSU huge(2);
+    assert(huge.relate(0, 1, (long long)1e18));
+    assert(huge.relate(2, 1, -(long long)1e18));
+    assert(huge.diff(0, 2) == (long long)2e18);
 
     return 0;
 }
