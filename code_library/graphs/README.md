@@ -61,7 +61,7 @@
 - [UVa 1108 - Mining Your Own Business](https://onlinejudge.org/external/11/1108.pdf)
 - [UVa 10199 - Tourist Guide](https://onlinejudge.org/external/101/10199.pdf)
 - [UVa 10765 - Doves and bombs](https://onlinejudge.org/external/107/10765.pdf) [✅](../../practice/graphs/uva_10765.cpp "Accepted solution")
-- [UVa 12616 - Gymman vs Fila](https://onlinejudge.org/external/126/12616.pdf)
+- [UVa 12616 - Gymman vs Fila](https://onlinejudge.org/external/126/12616.pdf) [✅](../../practice/graphs/uva_12616.cpp "Accepted solution")
 
 #### [Bellman Ford](bellman_ford.cpp)
 
