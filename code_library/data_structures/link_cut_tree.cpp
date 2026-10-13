@@ -115,7 +115,6 @@ struct LinkCutTree{
         return res;
     }
 
-private:
     bool is_root(int x) const{
         int p = nodes[x].par;
         return p == -1 || (nodes[p].ch[0] != x && nodes[p].ch[1] != x);
