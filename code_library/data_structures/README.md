@@ -393,7 +393,7 @@
 - [UVa 11402 - Ahoy, Pirates!](https://onlinejudge.org/external/114/11402.pdf)
 - [UVa 12086 - Potentiometers](https://onlinejudge.org/external/120/12086.pdf) [✅](../../practice/data_structures/uva_12086_segment_tree.cpp "Accepted solution")
 - [UVa 12299 - RMQ with Shifts](https://onlinejudge.org/external/122/12299.pdf)
-- [UVa 12365 - Jupiter Atacks!](https://onlinejudge.org/external/123/12365.pdf)
+- [UVa 12365 - Jupiter Atacks!](https://onlinejudge.org/external/123/12365.pdf) [✅](../../practice/data_structures/uva_12365.cpp "Accepted solution")
 - [UVa 12436 - Rip Van Winkle's Code](https://onlinejudge.org/external/124/12436.pdf)
 - [UVa 12477 - Good Measures of Dispersion](https://onlinejudge.org/external/124/12477.pdf) [✅](../../practice/data_structures/uva_12477.cpp "Accepted solution")
 - [UVa 12501 - Bulky process of bulk reduction](https://onlinejudge.org/external/125/12501.pdf)
