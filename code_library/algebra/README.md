@@ -20,7 +20,7 @@
 - [UVa 424 - Integer Inquiry](https://onlinejudge.org/external/4/424.pdf)
 - [UVa 485 - Pascal's Triangle of Death](https://onlinejudge.org/external/4/485.pdf) [✅](../../practice/algebra/uva_485.cpp "Accepted solution")
 - [UVa 495 - Fibonacci Freeze](https://onlinejudge.org/external/4/495.pdf)
-- [UVa 623 - 500!](https://onlinejudge.org/external/6/623.pdf)
+- [UVa 623 - 500!](https://onlinejudge.org/external/6/623.pdf) [✅](../../practice/algebra/uva_623.cpp "Accepted solution")
 - [UVa 748 - Exponentiation](https://onlinejudge.org/external/7/748.pdf)
 - [UVa 787 - Maximum Sub-sequence Product](https://onlinejudge.org/external/7/787.pdf)
 - [UVa 1478 - Delta Wave](https://onlinejudge.org/external/14/1478.pdf)
