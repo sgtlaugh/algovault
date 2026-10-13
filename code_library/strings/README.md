@@ -249,7 +249,7 @@
 - [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf)
 - [UVa 12338 - Anti-Rhyme Pairs](https://onlinejudge.org/external/123/12338.pdf) [✅](../../practice/strings/uva_12338.cpp "Accepted solution")
 - [UVa 12361 - File Retrieval](https://onlinejudge.org/external/123/12361.pdf)
-- [UVa 12974 - Exquisite Strings](https://onlinejudge.org/external/129/12974.pdf)
+- [UVa 12974 - Exquisite Strings](https://onlinejudge.org/external/129/12974.pdf) [✅](../../practice/strings/uva_12974.cpp "Accepted solution")
 
 #### [Suffix Automaton](suffix_automaton.cpp)
 
