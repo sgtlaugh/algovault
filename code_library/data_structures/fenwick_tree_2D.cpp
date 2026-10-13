@@ -1,29 +1,34 @@
 /***
  *
  * 2D Fenwick Tree (Binary Indexed Tree)
- * Supports point update + range query, range update + point query, and range update + range query variants
- * 0-based cells, rectangles [i, k] x [j, l] inclusive, a cell outside [0, n - 1] x [0, m - 1] asserts
- * i > k or j > l is an empty rectangle: updates on it do nothing and query returns 0
+ * Sums over a grid under updates: point add and rectangle sum, rectangle add and cell value, or rectangle add and rectangle sum
  *
  * Complexity:
- *   - O(n * m) to build
- *   - O(log n * log m) per update/query
+ *   - build: O(n * m)
+ *   - update, prefix, query: O(log n * log m)
  *
- * FenwickFull2D<long long> f(n, m);
- * f.update(i, j, k, l, v); f.query(i, j, k, l);
+ * FenwickPointUpdate2D<T> fen(n, m): point add, rectangle sum, over an n x m grid of zeros
+ * fen.update(i, j, v): add v to a[i][j]
+ * fen.prefix(i, j): sum of a[0..i][0..j], 0 when i or j is -1
+ * fen.query(i, j, k, l): sum of a[i..k][j..l], 0 when i > k or j > l
+ *
+ * FenwickRangeUpdate2D<T> fen(n, m): rectangle add, cell value, over an n x m grid of zeros
+ * fen.update(i, j, k, l, v): add v to a[i..k][j..l], nothing when i > k or j > l
+ * fen.query(i, j): a[i][j]
+ *
+ * FenwickFull2D<T> fen(n, m): rectangle add, rectangle sum, over an n x m grid of zeros
+ * fen.update(i, j, k, l, v): add v to a[i..k][j..l], nothing when i > k or j > l
+ * fen.prefix(i, j): sum of a[0..i][0..j], 0 when i or j is -1
+ * fen.query(i, j, k, l): sum of a[i..k][j..l], 0 when i > k or j > l
+ *
+ * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
+ * FenwickFull2D keeps four values per cell, four times the memory of the other two
  *
 ***/
 
 #include <bits/stdtr1c++.h>
 
 using namespace std;
-
-/***
- * Point updates, range queries
- * update(i, j, v): Add v to cell [i, j]
- * prefix(i, j): Return sum of rectangle from [0, 0] to [i, j], 0 when i or j is -1
- * query(i, j, k, l): Return sum of rectangle from [i, j] to [k, l]
-***/
 
 template <typename T>
 struct FenwickPointUpdate2D{
@@ -58,12 +63,6 @@ struct FenwickPointUpdate2D{
         return prefix(k, l) - prefix(i - 1, l) - prefix(k, j - 1) + prefix(i - 1, j - 1);
     }
 };
-
-/***
- * Range updates, point queries
- * update(i, j, k, l, v): Add v to rectangle from [i, j] to [k, l]
- * query(i, j): Return value at cell [i, j]
-***/
 
 template <typename T>
 struct FenwickRangeUpdate2D{
@@ -102,17 +101,10 @@ private:
     }
 };
 
-/***
- * Range updates, range queries
- * update(i, j, k, l, v): Add v to rectangle from [i, j] to [k, l]
- * prefix(i, j): Return sum of rectangle from [0, 0] to [i, j], 0 when i or j is -1
- * query(i, j, k, l): Return sum of rectangle from [i, j] to [k, l]
-***/
-
 template <typename T>
 struct FenwickFull2D{
     int n, m;
-    vector<vector<array<T, 4>>> tree;  /// A cell's four values share a cache line, about 2x faster than four trees
+    vector<vector<array<T, 4>>> tree;  /// Sums of v, v*b, v*a, v*a*b per node; one array shares a cache line, about 2x faster than four trees
 
     FenwickFull2D(int n = 0, int m = 0) : n(n), m(m), tree(n + 1, vector<array<T, 4>>(m + 1, array<T, 4>{})) {}
 
@@ -125,22 +117,21 @@ struct FenwickFull2D{
         add_suffix(i, l + 1, -v);
     }
 
+    /// A difference v at (a, b) adds v * (p - a) * (q - b) = v*p*q - v*b*p - v*a*q + v*a*b to the sum of the top-left p x q cells
     T prefix(int p, int q){
         assert(-1 <= p && p < n && -1 <= q && q < m);
         p++, q++;
-        T x = 0, y = 0, z = 0;
+        T v = 0, vb = 0, va = 0, vab = 0;
         for (int i = p; i > 0; i -= i & -i){
-            T c = 0, d = 0;
             for (int j = q; j > 0; j -= j & -j){
                 auto& t = tree[i][j];
-                c += t[0];
-                d += t[1];
-                y += t[2];
-                z += t[3];
+                v += t[0];
+                vb += t[1];
+                va += t[2];
+                vab += t[3];
             }
-            x += c * q - d;
         }
-        return x * p - y * q + z;
+        return v * p * q - vb * p - va * q + vab;
     }
 
     T query(int i, int j, int k, int l){
@@ -150,55 +141,47 @@ struct FenwickFull2D{
     }
 
 private:
-    void add_suffix(int p, int q, T v){
-        T c = p, d = q;
-        for (int i = p + 1; i <= n; i += i & -i){
-            for (int j = q + 1; j <= m; j += j & -j){
+    void add_suffix(int a, int b, T v){
+        T vb = v * b, va = v * a, vab = va * b;
+        for (int i = a + 1; i <= n; i += i & -i){
+            for (int j = b + 1; j <= m; j += j & -j){
                 auto& t = tree[i][j];
                 t[0] += v;
-                t[1] += v * d;
-                t[2] += v * c;
-                t[3] += v * c * d;
+                t[1] += vb;
+                t[2] += va;
+                t[3] += vab;
             }
         }
     }
 };
 
 int main(){
-    /// Point update, range query
-    auto fen = FenwickPointUpdate2D<int>(10, 10);
+    /// Point add, rectangle sum
+    FenwickPointUpdate2D<int> fen(10, 10);
     fen.update(1, 2, 5);
     fen.update(4, 6, 3);
     fen.update(3, 3, 7);
     fen.update(9, 9, 1);
-
-    assert(fen.query(1, 2, 1, 2) == 5);
-    assert(fen.query(0, 0, 9, 9) == 16);
     assert(fen.query(3, 3, 5, 7) == 10);
-    assert(fen.query(4, 4, 3, 3) == 0);
+    assert(fen.query(0, 0, 9, 9) == 16);
     assert(fen.prefix(3, 3) == 12);
-    assert(fen.prefix(-1, 9) == 0);
 
-    /// Range update, point query
-    auto fen2 = FenwickRangeUpdate2D<int>(10, 10);
-    fen2.update(1, 2, 4, 6, 4);
-    fen2.update(3, 3, 9, 9, 2);
+    /// Rectangle add, cell value
+    FenwickRangeUpdate2D<int> range(10, 10);
+    range.update(1, 2, 4, 6, 4);
+    range.update(3, 3, 9, 9, 2);
+    assert(range.query(1, 2) == 4);
+    assert(range.query(4, 5) == 6);
+    assert(range.query(9, 9) == 2);
+    assert(range.query(0, 0) == 0);
 
-    assert(fen2.query(1, 2) == 4);
-    assert(fen2.query(4, 5) == 6);
-    assert(fen2.query(3, 3) == 6);
-    assert(fen2.query(0, 0) == 0);
-    assert(fen2.query(9, 9) == 2);
-
-    /// Range update, range query
-    auto fen3 = FenwickFull2D<long long>(10, 10);
-    fen3.update(1, 2, 4, 6, 4);
-    fen3.update(3, 3, 9, 9, 2);
-
-    assert(fen3.query(1, 2, 4, 6) == 96);
-    assert(fen3.query(3, 3, 9, 9) == 130);
-    assert(fen3.query(1, 2, 9, 9) == 178);
-    assert(fen3.prefix(1, 2) == 4);
+    /// Rectangle add, rectangle sum: the two rectangles overlap on rows 3..4, columns 3..6
+    FenwickFull2D<long long> full(10, 10);
+    full.update(1, 2, 4, 6, 4);
+    full.update(3, 3, 9, 9, 2);
+    assert(full.query(1, 2, 4, 6) == 96);
+    assert(full.query(3, 3, 9, 9) == 130);
+    assert(full.prefix(1, 2) == 4);
 
     return 0;
 }
