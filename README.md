@@ -82,6 +82,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
   - [Disjoint](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` static range queries for any associative operation [✔](judge_tests/data_structures/static_range_sum.cpp)
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
 - [Treap](code_library/data_structures/treap.cpp) - ordered multiset and implicit-key sequence with reversals [✔](judge_tests/data_structures/double_ended_priority_queue.cpp)
+- [Treap, Run-Length Implicit](code_library/data_structures/run_length_implicit_treap.cpp) - sequences up to `1e18` long as runs, insert, erase, reverse and assign
 - [Trie](code_library/data_structures/trie.cpp) - prefix tree with pass-through and end counts, and a binary trie for xor queries [✔](judge_tests/data_structures/aoj_alds1_4_c.cpp)
 
 ### Trees
