@@ -70,7 +70,7 @@
 - [UVa 440 - Eeny Meeny Moo](https://onlinejudge.org/external/4/440.pdf)
 - [UVa 1394 - And Then There Was One](https://onlinejudge.org/external/13/1394.pdf) [✅](../../practice/combinatorics/uva_1394.cpp "Accepted solution")
 - [UVa 10774 - Repeated Josephus](https://onlinejudge.org/external/107/10774.pdf) [✅](../../practice/combinatorics/uva_10774.cpp "Accepted solution")
-- [UVa 11351 - Last Man Standing](https://onlinejudge.org/external/113/11351.pdf)
+- [UVa 11351 - Last Man Standing](https://onlinejudge.org/external/113/11351.pdf) [✅](../../practice/combinatorics/uva_11351.cpp "Accepted solution")
 
 #### [Partition Numbers](partition_numbers.cpp)
 
