@@ -12,7 +12,7 @@
 - [SPOJ DCEPC13D - The Ultimate Riddle](https://www.spoj.com/problems/DCEPC13D/)
 - [UVa 1264 - Binary Search Tree](https://onlinejudge.org/external/12/1264.pdf) [✅](../../practice/combinatorics/uva_1264.cpp "Accepted solution")
 - [UVa 10232 - Bit-wise Sequence](https://onlinejudge.org/external/102/10232.pdf) [✅](../../practice/combinatorics/uva_10232.cpp "Accepted solution")
-- [UVa 11481 - Arrange the Numbers](https://onlinejudge.org/external/114/11481.pdf)
+- [UVa 11481 - Arrange the Numbers](https://onlinejudge.org/external/114/11481.pdf) [✅](../../practice/combinatorics/uva_11481.cpp "Accepted solution")
 
 #### [Combinatorics](combinatorics.cpp)
 
