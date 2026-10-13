@@ -525,7 +525,7 @@
 - [UVa 1401 - Remember the Word](https://onlinejudge.org/external/14/1401.pdf) [✅](../../practice/data_structures/uva_1401.cpp "Accepted solution")
 - [UVa 1462 - Fuzzy Google Suggest](https://onlinejudge.org/external/14/1462.pdf) [✅](../../practice/data_structures/uva_1462.cpp "Accepted solution")
 - [UVa 11362 - Phone List](https://onlinejudge.org/external/113/11362.pdf) [✅](../../practice/data_structures/uva_11362.cpp "Accepted solution")
-- [UVa 11488 - Hyper Prefix Sets](https://onlinejudge.org/external/114/11488.pdf)
+- [UVa 11488 - Hyper Prefix Sets](https://onlinejudge.org/external/114/11488.pdf) [✅](../../practice/data_structures/uva_11488.cpp "Accepted solution")
 - [UVa 11539 - Another Word Game](https://onlinejudge.org/external/115/11539.pdf)
 - [UVa 11590 - Prefix Lookup](https://onlinejudge.org/external/115/11590.pdf)
 - [UVa 11732 - "strcmp()" Anyone?](https://onlinejudge.org/external/117/11732.pdf)
