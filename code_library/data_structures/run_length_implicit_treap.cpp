@@ -1,31 +1,34 @@
 /***
  *
  * Run-Length Implicit Treap
- * Implicit treap whose nodes are runs of equal (or arithmetic progression) values, for sequences up to 1e18 long
+ * A sequence of up to 4.6e18 values kept as runs (stretches of equal values), edited and queried by position
+ * Use it when positions shift (insert, erase, reverse) or the sequence is too long for an array,
+ * for fixed positions known in advance a segment tree over compressed coordinates is simpler
  *
- * Complexity: expected O(log m) per operation, m = number of runs, at most the initial runs plus 3 per operation
+ * Complexity: expected O(log r) per operation, r = number of runs, each operation adds at most 3 runs
  *
- * RunLengthImplicitTreap<Ops = SumRuns>: long long positions, 0-based, ranges [l, r] inclusive
- *   RunLengthImplicitTreap(len, v): len copies of v, RunLengthImplicitTreap(runs): from {value, len} pairs in O(n)
- *   insert(pos, v, len): len copies of v before position pos, pos = size() appends, erase(l, r), size()
- *   assign(l, r, v): [l, r] becomes a single run of v
- *   apply(l, r, lz), reverse(l, r), query(l, r): aggregate of [l, r], get(pos): the value at pos as a run of length 1
- *   max_right(l, pred), min_left(r, pred): as in segment_tree.cpp, pred monotone and also tried on parts of a run
- *   for_each_run(l, r, f): f(v, len) for the runs covering [l, r] in order, cut at l and r
- *   The total length must stay below 4.6e18
+ * RunLengthImplicitTreap<SumRuns> seq(n, x): n copies of x, positions 0 .. n - 1, ranges [l, r] inclusive
+ *   seq.insert(pos, x, count): count copies of x before position pos, pos = seq.size() appends
+ *   seq.erase(l, r), seq.assign(l, r, x), seq.apply(l, r, lz), seq.reverse(l, r)
+ *   seq.query(l, r): the Agg of positions l .. r, seq.get(pos): the value at pos, seq.size()
+ *   seq.max_right(l, ok): last r with ok(seq.query(l, r)) true, l - 1 if none
+ *   seq.min_left(r, ok): first l with ok(seq.query(l, r)) true, r + 1 if none
+ *       ok must stay false once false as the range grows
+ *   seq.for_each_run(l, r, f): f(x, count) for each run inside l .. r, left to right
+ *   RunLengthImplicitTreap<Runs>(runs): built from {value, count} pairs in O(n)
  *
- * Ops: V run value, S aggregate (default constructible), L lazy, derive from RunOps for the defaults
- *   summarize(v, len): aggregate of a run of len values described by v
- *   merge(a, b): aggregate of two adjacent ranges, a on the left
- *   cut(v, k): {first k values, the rest} of a run, default {v, v} for equal values
- *   apply_run(v, lz, len), apply_agg(s, lz, len), compose(old, new): a lazy as in segment_tree.cpp, it must
- *       commute with reverse, and compose must return old for a lazy that changes nothing, default no lazy
- *   reverse_run(v, len), reverse_agg(s): the run and the aggregate read backwards, default unchanged
- * SumRuns: equal long long values with range add and range sum
- * Arithmetic progression runs: V = {a, d}, cut(v, k) = {v, {a + k * d, d}}, reverse_run(v, len) = {a + (len - 1) * d, -d}
+ * Runs says what a run holds, SumRuns below (long long values, sums, add as the lazy) is the model to copy:
+ *   Value, Agg: what a run stores and what query returns
+ *   run_agg(x, count): the Agg of count copies of x, e.g. x * count for sums
+ *   combine(a, b): the Agg of two neighbouring pieces, a on the left
+ *   Lazy, apply(x, lz), apply(a, lz, count), compose(old, new): only for seq.apply, a lazy update of a value, of an
+ *       Agg covering count positions, and old followed by new as one lazy
+ *   reversed(x, count), reversed(a): only for seq.reverse, the run and the Agg read backwards
+ *   cut(x, k): the first k values and the rest of a run, only for runs that are not all equal
+ *   A missing part only matters when its operation is called, which then names the part at compile time
  *
- * For fixed positions known in advance, a segment tree over compressed coordinates is simpler and faster,
- * this treap is for positions that shift (insert, erase, reverse) or arrive online
+ * 0/1 flags with flip (Codeforces 817F): Value int, Agg {ones, count}, Lazy int, apply flips, compose(a, b) = a ^ b
+ * Arithmetic progressions: Value {a, d}, cut(x, k) = {x, {a + k * d, d}}, reversed(x, count) = {a + (count - 1) * d, -d}
  *
 ***/
 
@@ -33,51 +36,56 @@
 
 using namespace std;
 
-/// Defaults for Ops without a lazy whose runs and aggregates read the same backwards
-struct RunOps{
-    using L = char;
+struct SumRuns{
+    using Value = long long;
+    using Agg = long long;
+    using Lazy = long long;
 
-    template<typename V>
-    static pair<V, V> cut(const V& v, long long){ return {v, v}; }
-
-    template<typename V>
-    static V apply_run(const V& v, L, long long){ return v; }
-
-    template<typename S>
-    static S apply_agg(const S& s, L, long long){ return s; }
-
-    static L compose(L, L lz){ return lz; }
-
-    template<typename V>
-    static V reverse_run(const V& v, long long){ return v; }
-
-    template<typename S>
-    static S reverse_agg(const S& s){ return s; }
+    static Agg run_agg(Value x, long long count){ return x * count; }
+    static Agg combine(Agg a, Agg b){ return a + b; }
+    static Value apply(Value x, Lazy lz){ return x + lz; }
+    static Agg apply(Agg a, Lazy lz, long long count){ return a + lz * count; }
+    static Lazy compose(Lazy old_lz, Lazy new_lz){ return old_lz + new_lz; }
+    static Value reversed(Value x, long long){ return x; }
+    static Agg reversed(Agg a){ return a; }
 };
 
-struct SumRuns : RunOps{
-    using V = long long;
-    using S = long long;
-    using L = long long;
-
-    static S summarize(V v, long long len){ return v * len; }
-    static S merge(S a, S b){ return a + b; }
-    static V apply_run(V v, L lz, long long){ return v + lz; }
-    static S apply_agg(S s, L lz, long long len){ return s + lz * len; }
-    static L compose(L old_lz, L new_lz){ return old_lz + new_lz; }
+/// The optional parts of a Runs type, so a type defines only what its operations use
+template<typename R, typename = void>
+struct LazyOf{
+    using type = char;
+    static constexpr bool exists = false;
 };
 
-template<typename Ops = SumRuns>
+template<typename R>
+struct LazyOf<R, void_t<typename R::Lazy>>{
+    using type = typename R::Lazy;
+    static constexpr bool exists = true;
+};
+
+template<typename R, typename = void>
+struct HasReversed : false_type {};
+
+template<typename R>
+struct HasReversed<R, void_t<decltype(R::reversed(declval<typename R::Agg>()))>> : true_type {};
+
+template<typename R, typename = void>
+struct HasCut : false_type {};
+
+template<typename R>
+struct HasCut<R, void_t<decltype(R::cut(declval<typename R::Value>(), 0LL))>> : true_type {};
+
+template<typename Runs = SumRuns>
 struct RunLengthImplicitTreap{
-    using V = typename Ops::V;
-    using S = typename Ops::S;
-    using L = typename Ops::L;
+    using Value = typename Runs::Value;
+    using Agg = typename Runs::Agg;
+    using Lazy = typename LazyOf<Runs>::type;
 
     struct Node{
-        V v;
-        S agg;
-        L lz;
-        long long len, size;
+        Value x;
+        Agg agg;
+        Lazy lz;
+        long long count, size;
         unsigned int priority;
         int l, r;
         bool has_lz, rev;
@@ -87,17 +95,17 @@ struct RunLengthImplicitTreap{
     int root = -1;
     mt19937 rng{(unsigned int)chrono::steady_clock::now().time_since_epoch().count()};
 
-    RunLengthImplicitTreap(long long len, const V& v){
-        assert(0 <= len && len <= LLONG_MAX / 2);
-        if (len > 0) root = new_node(v, len);
+    RunLengthImplicitTreap(long long n, const Value& x){
+        assert(0 <= n && n <= LLONG_MAX / 2);
+        if (n > 0) root = new_node(x, n);
     }
 
-    RunLengthImplicitTreap(const vector<pair<V, long long>>& runs){
+    RunLengthImplicitTreap(const vector<pair<Value, long long>>& runs){
         /// Cartesian tree on random priorities with a stack, O(n)
         vector<int> stack;
-        for (auto& [v, len] : runs){
-            assert(len >= 1);
-            int t = new_node(v, len), last = -1;
+        for (auto& [x, count] : runs){
+            assert(count >= 1);
+            int t = new_node(x, count), last = -1;
             while (!stack.empty() && nodes[stack.back()].priority < nodes[t].priority){
                 last = stack.back();
                 stack.pop_back();
@@ -120,38 +128,40 @@ struct RunLengthImplicitTreap{
         return size(root);
     }
 
-    void insert(long long pos, const V& v, long long len){
-        assert(0 <= pos && pos <= size() && len >= 1 && len <= LLONG_MAX / 2 - size());
+    void insert(long long pos, const Value& x, long long count){
+        assert(0 <= pos && pos <= size() && count >= 1 && count <= LLONG_MAX / 2 - size());
         int a, b;
         split(root, pos, a, b);
-        root = merge(merge(a, new_node(v, len)), b);
+        root = merge(merge(a, new_node(x, count)), b);
     }
 
     void erase(long long l, long long r){
         on_range(l, r, [&](int& t){ t = -1; });
     }
 
-    void assign(long long l, long long r, const V& v){
-        on_range(l, r, [&](int& t){ t = new_node(v, r - l + 1); });
+    void assign(long long l, long long r, const Value& x){
+        on_range(l, r, [&](int& t){ t = new_node(x, r - l + 1); });
     }
 
-    void apply(long long l, long long r, const L& lz){
+    void apply(long long l, long long r, const Lazy& lz){
+        static_assert(LazyOf<Runs>::exists, "define Lazy, apply(value, lz), apply(agg, lz, count) and compose to use apply");
         on_range(l, r, [&](int& t){ apply_lazy(t, lz); });
     }
 
     void reverse(long long l, long long r){
+        static_assert(HasReversed<Runs>::value, "define reversed(value, count) and reversed(agg) to use reverse");
         on_range(l, r, [&](int& t){ apply_reverse(t); });
     }
 
-    S query(long long l, long long r){
-        S res{};
+    Agg query(long long l, long long r){
+        Agg res{};
         on_range(l, r, [&](int& t){ res = nodes[t].agg; });
         return res;
     }
 
-    V get(long long pos){
-        V res{};
-        on_range(pos, pos, [&](int& t){ res = nodes[t].v; });
+    Value get(long long pos){
+        Value res{};
+        on_range(pos, pos, [&](int& t){ res = nodes[t].x; });
         return res;
     }
 
@@ -159,34 +169,32 @@ struct RunLengthImplicitTreap{
     void for_each_run(long long l, long long r, F f){
         on_range(l, r, [&](int& t){
             vector<int> stack;
-            for (int x = t; x != -1 || !stack.empty(); ){
-                for (; x != -1; x = nodes[x].l) push(x), stack.push_back(x);
-                x = stack.back();
+            for (int u = t; u != -1 || !stack.empty(); ){
+                for (; u != -1; u = nodes[u].l) push(u), stack.push_back(u);
+                u = stack.back();
                 stack.pop_back();
-                f(nodes[x].v, nodes[x].len);
-                x = nodes[x].r;
+                f(nodes[u].x, nodes[u].count);
+                u = nodes[u].r;
             }
         });
     }
 
-    /// Largest r in [l - 1, size() - 1] with pred(query(l, r)) true, pred is never called on an empty range
-    template<typename Pred>
-    long long max_right(long long l, Pred pred){
+    template<typename Ok>
+    long long max_right(long long l, Ok ok){
         assert(0 <= l && l <= size());
         int a, b;
         split(root, l, a, b);
-        long long taken = descend(b, pred, false);
+        long long taken = descend(b, ok, false);
         root = merge(a, b);
         return l + taken - 1;
     }
 
-    /// Smallest l in [0, r + 1] with pred(query(l, r)) true, pred is never called on an empty range
-    template<typename Pred>
-    long long min_left(long long r, Pred pred){
+    template<typename Ok>
+    long long min_left(long long r, Ok ok){
         assert(-1 <= r && r < size());
         int a, b;
         split(root, r + 1, a, b);
-        long long taken = descend(a, pred, true);
+        long long taken = descend(a, ok, true);
         root = merge(a, b);
         return r - taken + 1;
     }
@@ -195,27 +203,36 @@ struct RunLengthImplicitTreap{
         return t == -1 ? 0 : nodes[t].size;
     }
 
-    int new_node(const V& v, long long len){
-        nodes.push_back({v, Ops::summarize(v, len), L(), len, len, (unsigned int)rng(), -1, -1, false, false});
+    int new_node(const Value& x, long long count){
+        nodes.push_back({x, Runs::run_agg(x, count), Lazy(), count, count, (unsigned int)rng(), -1, -1, false, false});
         return nodes.size() - 1;
     }
 
-    void apply_lazy(int t, const L& lz){
-        if (t == -1) return;
-        Node& u = nodes[t];
-        u.v = Ops::apply_run(u.v, lz, u.len);
-        u.agg = Ops::apply_agg(u.agg, lz, u.size);
-        u.lz = u.has_lz ? Ops::compose(u.lz, lz) : lz;
-        u.has_lz = true;
+    pair<Value, Value> cut_run(const Value& x, long long k){
+        if constexpr (HasCut<Runs>::value) return Runs::cut(x, k);
+        else return {x, x};
+    }
+
+    void apply_lazy(int t, const Lazy& lz){
+        if constexpr (LazyOf<Runs>::exists){
+            if (t == -1) return;
+            Node& u = nodes[t];
+            u.x = Runs::apply(u.x, lz);
+            u.agg = Runs::apply(u.agg, lz, u.size);
+            u.lz = u.has_lz ? Runs::compose(u.lz, lz) : lz;
+            u.has_lz = true;
+        }
     }
 
     void apply_reverse(int t){
-        if (t == -1) return;
-        Node& u = nodes[t];
-        swap(u.l, u.r);
-        u.v = Ops::reverse_run(u.v, u.len);
-        u.agg = Ops::reverse_agg(u.agg);
-        u.rev ^= 1;
+        if constexpr (HasReversed<Runs>::value){
+            if (t == -1) return;
+            Node& u = nodes[t];
+            swap(u.l, u.r);
+            u.x = Runs::reversed(u.x, u.count);
+            u.agg = Runs::reversed(u.agg);
+            u.rev ^= 1;
+        }
     }
 
     void push(int t){
@@ -234,14 +251,14 @@ struct RunLengthImplicitTreap{
 
     void pull(int t){
         Node& u = nodes[t];
-        u.size = u.len + size(u.l) + size(u.r);
-        S s = Ops::summarize(u.v, u.len);
-        if (u.l != -1) s = Ops::merge(nodes[u.l].agg, s);
-        if (u.r != -1) s = Ops::merge(s, nodes[u.r].agg);
-        u.agg = s;
+        u.size = u.count + size(u.l) + size(u.r);
+        Agg a = Runs::run_agg(u.x, u.count);
+        if (u.l != -1) a = Runs::combine(nodes[u.l].agg, a);
+        if (u.r != -1) a = Runs::combine(a, nodes[u.r].agg);
+        u.agg = a;
     }
 
-    /// First k elements into a, the rest into b, cutting the run that straddles position k
+    /// First k positions into a, the rest into b, cutting the run that straddles position k
     /// Children go through locals: new_node may reallocate nodes, so no reference into it is held across a call
     void split(int t, long long k, int& a, int& b){
         if (t == -1){
@@ -250,27 +267,27 @@ struct RunLengthImplicitTreap{
         }
 
         push(t);
-        long long left = size(nodes[t].l), len = nodes[t].len;
+        long long left = size(nodes[t].l), count = nodes[t].count;
         if (k <= left){
-            int x, y;
-            split(nodes[t].l, k, x, y);
-            nodes[t].l = y;
-            a = x, b = t;
+            int p, q;
+            split(nodes[t].l, k, p, q);
+            nodes[t].l = q;
+            a = p, b = t;
         }
-        else if (k >= left + len){
-            int x, y;
-            split(nodes[t].r, k - left - len, x, y);
-            nodes[t].r = x;
-            a = t, b = y;
+        else if (k >= left + count){
+            int p, q;
+            split(nodes[t].r, k - left - count, p, q);
+            nodes[t].r = p;
+            a = t, b = q;
         }
         else{
             /// t keeps the first part of its run, the rest becomes a new node merged in front of t's right subtree
             /// The new node draws a fresh priority: inheriting t's would give every piece of a run the same one,
             /// and equal priorities chain up (200000 cuts of one run overflowed the stack)
-            auto [first, rest] = Ops::cut(nodes[t].v, k - left);
-            int u = new_node(rest, len - (k - left)), right = nodes[t].r;
+            auto [first, rest] = cut_run(nodes[t].x, k - left);
+            int u = new_node(rest, count - (k - left)), right = nodes[t].r;
             nodes[t].r = -1;
-            nodes[t].v = first, nodes[t].len = k - left;
+            nodes[t].x = first, nodes[t].count = k - left;
             a = t, b = merge(u, right);
         }
         pull(t);
@@ -303,40 +320,41 @@ struct RunLengthImplicitTreap{
         root = merge(merge(a, b), c);
     }
 
-    /// Number of elements of t, from its left end (or its right end when backwards), whose fold passes pred
-    template<typename Pred>
-    long long descend(int t, Pred& pred, bool backwards){
+    /// Number of positions of t, from its left end (or its right end when backwards), whose Agg passes ok,
+    /// ok is never called on an empty range
+    template<typename Ok>
+    long long descend(int t, Ok& ok, bool backwards){
         long long taken = 0;
         bool empty = true;
-        S acc{};
-        auto extend = [&](const S& s){ return empty ? s : backwards ? Ops::merge(s, acc) : Ops::merge(acc, s); };
+        Agg acc{};
+        auto extend = [&](const Agg& a){ return empty ? a : backwards ? Runs::combine(a, acc) : Runs::combine(acc, a); };
         while (t != -1){
             push(t);
             int near = backwards ? nodes[t].r : nodes[t].l, far = backwards ? nodes[t].l : nodes[t].r;
             if (near != -1){
-                S s = extend(nodes[near].agg);
-                if (!pred(s)){
+                Agg a = extend(nodes[near].agg);
+                if (!ok(a)){
                     t = near;
                     continue;
                 }
-                acc = s, empty = false, taken += nodes[near].size;
+                acc = a, empty = false, taken += nodes[near].size;
             }
 
-            const V v = nodes[t].v;
-            long long len = nodes[t].len;
-            S whole = extend(Ops::summarize(v, len));
-            if (pred(whole)){
-                acc = whole, empty = false, taken += len;
+            const Value x = nodes[t].x;
+            long long count = nodes[t].count;
+            Agg whole = extend(Runs::run_agg(x, count));
+            if (ok(whole)){
+                acc = whole, empty = false, taken += count;
                 t = far;
                 continue;
             }
 
             /// The answer ends inside this run: binary search the longest part of it that still passes
-            long long lo = 0, hi = len - 1;
+            long long lo = 0, hi = count - 1;
             while (lo < hi){
                 long long mid = lo + (hi - lo + 1) / 2;
-                auto parts = Ops::cut(v, backwards ? len - mid : mid);
-                if (pred(extend(Ops::summarize(backwards ? parts.second : parts.first, mid)))) lo = mid;
+                auto parts = cut_run(x, backwards ? count - mid : mid);
+                if (ok(extend(Runs::run_agg(backwards ? parts.second : parts.first, mid)))) lo = mid;
                 else hi = mid - 1;
             }
             return taken + lo;
@@ -346,7 +364,7 @@ struct RunLengthImplicitTreap{
 };
 
 int main(){
-    RunLengthImplicitTreap<> seq(10, 0);                  /// 0 0 0 0 0 0 0 0 0 0
+    RunLengthImplicitTreap<SumRuns> seq(10, 0);           /// 0 0 0 0 0 0 0 0 0 0
     seq.assign(2, 5, 3);                                  /// 0 0 3 3 3 3 0 0 0 0
     seq.insert(4, 7, 2);                                  /// 0 0 3 3 7 7 3 3 0 0 0 0
     seq.apply(5, 9, 1);                                   /// 0 0 3 3 7 8 4 4 1 1 0 0
@@ -355,7 +373,7 @@ int main(){
     assert(seq.get(3) == 8);
     assert(seq.query(2, 4) == 19);
 
-    RunLengthImplicitTreap<> big(1000000000000000000LL, 1);
+    RunLengthImplicitTreap<SumRuns> big(1000000000000000000LL, 1);
     big.assign(10, 19, 5);                                /// ten 1s, ten 5s, then 1s
     big.erase(0, 4);
     assert(big.size() == 999999999999999995LL);

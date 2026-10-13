@@ -9,70 +9,85 @@ struct Progression{
     long long a, d;
 };
 
-struct ProgressionRuns : RunOps{
-    using V = Progression;
-    using S = long long;
-    using L = long long;
+struct ProgressionRuns{
+    using Value = Progression;
+    using Agg = long long;
+    using Lazy = long long;
 
-    static S summarize(V v, long long len){ return v.a * len + v.d * (len * (len - 1) / 2); }
-    static S merge(S a, S b){ return a + b; }
-    static pair<V, V> cut(V v, long long k){ return {v, {v.a + k * v.d, v.d}}; }
-    static V apply_run(V v, L lz, long long){ return {v.a + lz, v.d}; }
-    static S apply_agg(S s, L lz, long long len){ return s + lz * len; }
-    static L compose(L old_lz, L new_lz){ return old_lz + new_lz; }
-    static V reverse_run(V v, long long len){ return {v.a + (len - 1) * v.d, -v.d}; }
+    static Agg run_agg(Value x, long long count){ return x.a * count + x.d * (count * (count - 1) / 2); }
+    static Agg combine(Agg a, Agg b){ return a + b; }
+    static pair<Value, Value> cut(Value x, long long k){ return {x, {x.a + k * x.d, x.d}}; }
+    static Value apply(Value x, Lazy lz){ return {x.a + lz, x.d}; }
+    static Agg apply(Agg a, Lazy lz, long long count){ return a + lz * count; }
+    static Lazy compose(Lazy old_lz, Lazy new_lz){ return old_lz + new_lz; }
+    static Value reversed(Value x, long long count){ return {x.a + (count - 1) * x.d, -x.d}; }
+    static Agg reversed(Agg a){ return a; }
 };
 
-/// An aggregate that reads differently backwards, so a wrong reverse_agg or a lazy applied in the wrong order shows
+/// An Agg that reads differently backwards, so a wrong reversed(agg) or a lazy applied in the wrong order shows
 struct Ends{
     long long first, last, sum;
 };
 
-struct EndsRuns : RunOps{
-    using V = long long;
-    using S = Ends;
-    using L = long long;
+struct EndsRuns{
+    using Value = long long;
+    using Agg = Ends;
+    using Lazy = long long;
 
-    static S summarize(V v, long long len){ return {v, v, v * len}; }
-    static S merge(S a, S b){ return {a.first, b.last, a.sum + b.sum}; }
-    static V apply_run(V v, L lz, long long){ return v + lz; }
-    static S apply_agg(S s, L lz, long long len){ return {s.first + lz, s.last + lz, s.sum + lz * len}; }
-    static L compose(L old_lz, L new_lz){ return old_lz + new_lz; }
-    static S reverse_agg(S s){ return {s.last, s.first, s.sum}; }
+    static Agg run_agg(Value x, long long count){ return {x, x, x * count}; }
+    static Agg combine(Agg a, Agg b){ return {a.first, b.last, a.sum + b.sum}; }
+    static Value apply(Value x, Lazy lz){ return x + lz; }
+    static Agg apply(Agg a, Lazy lz, long long count){ return {a.first + lz, a.last + lz, a.sum + lz * count}; }
+    static Lazy compose(Lazy old_lz, Lazy new_lz){ return old_lz + new_lz; }
+    static Value reversed(Value x, long long){ return x; }
+    static Agg reversed(Agg a){ return {a.last, a.first, a.sum}; }
 };
 
-/// Polynomial hashes read forwards and backwards: a merge that does not commute, for the descents, and an aggregate
-/// whose reverse differs, which only a descent can see (queries recompute every aggregate on their split paths)
+/// Polynomial hashes read forwards and backwards: a combine that does not commute, for the descents, and an Agg
+/// whose reverse differs, which only a descent can see (queries recompute every Agg on their split paths)
+/// No Lazy, so the treap must work without one
 struct Hash{
     long long h, hr, pw;
 };
 
-struct HashRuns : RunOps{
+struct HashRuns{
     static constexpr long long MOD = 1000000007, B = 131;
-    using V = long long;
-    using S = Hash;
+    using Value = long long;
+    using Agg = Hash;
 
-    static S summarize(V v, long long len){
-        S s{0, 0, 1};
-        for (long long i = 0; i < len; i++) s.h = (s.h * B + v) % MOD, s.pw = s.pw * B % MOD;
-        s.hr = s.h;   /// a run of equal values reads the same backwards
-        return s;
+    static Agg run_agg(Value x, long long count){
+        Agg a{0, 0, 1};
+        for (long long i = 0; i < count; i++) a.h = (a.h * B + x) % MOD, a.pw = a.pw * B % MOD;
+        a.hr = a.h;   /// a run of equal values reads the same backwards
+        return a;
     }
-    static S merge(S a, S b){ return {(a.h * b.pw + b.h) % MOD, (b.hr * a.pw + a.hr) % MOD, a.pw * b.pw % MOD}; }
-    static S reverse_agg(S s){ return {s.hr, s.h, s.pw}; }
+    static Agg combine(Agg a, Agg b){ return {(a.h * b.pw + b.h) % MOD, (b.hr * a.pw + a.hr) % MOD, a.pw * b.pw % MOD}; }
+    static Value reversed(Value x, long long){ return x; }
+    static Agg reversed(Agg a){ return {a.hr, a.h, a.pw}; }
+};
+
+/// Only the required parts, no Lazy, reversed or cut: insert, erase, assign, query and the descents still work
+struct MinRuns{
+    using Value = long long;
+    using Agg = long long;
+
+    static Agg run_agg(Value x, long long){ return x; }
+    static Agg combine(Agg a, Agg b){ return min(a, b); }
 };
 
 /// Sums of 1e18 long runs do not fit in long long
-struct WideSumRuns : RunOps{
-    using V = long long;
-    using S = __int128;
-    using L = long long;
+struct WideSumRuns{
+    using Value = long long;
+    using Agg = __int128;
+    using Lazy = long long;
 
-    static S summarize(V v, long long len){ return (__int128)v * len; }
-    static S merge(S a, S b){ return a + b; }
-    static V apply_run(V v, L lz, long long){ return v + lz; }
-    static S apply_agg(S s, L lz, long long len){ return s + (__int128)lz * len; }
-    static L compose(L old_lz, L new_lz){ return old_lz + new_lz; }
+    static Agg run_agg(Value x, long long count){ return (__int128)x * count; }
+    static Agg combine(Agg a, Agg b){ return a + b; }
+    static Value apply(Value x, Lazy lz){ return x + lz; }
+    static Agg apply(Agg a, Lazy lz, long long count){ return a + (__int128)lz * count; }
+    static Lazy compose(Lazy old_lz, Lazy new_lz){ return old_lz + new_lz; }
+    static Value reversed(Value x, long long){ return x; }
+    static Agg reversed(Agg a){ return a; }
 };
 
 vector<pair<long long, long long>> random_runs(int count, long long max_len, long long lo, long long hi){
@@ -92,7 +107,7 @@ void check_sum_runs(int ops, long long max_len){
     for (auto [v, len] : runs) a.insert(a.end(), len, v);
     bool from_runs = stress::rand_int(0, 1);   /// both constructors
     if (!from_runs) fill(a.begin(), a.end(), 7);
-    RunLengthImplicitTreap<> t = from_runs ? RunLengthImplicitTreap<>(runs) : RunLengthImplicitTreap<>(a.size(), 7);
+    RunLengthImplicitTreap<SumRuns> t = from_runs ? RunLengthImplicitTreap<SumRuns>(runs) : RunLengthImplicitTreap<SumRuns>(a.size(), 7);
 
     for (int op = 0; op < ops; op++){
         int n = a.size(), kind = stress::rand_int(0, 9);
@@ -280,7 +295,7 @@ void check_hash_descents(int ops){
         auto segment = [&](long long x, long long len){
             return ((pre[x + len] - pre[x] * pw[len]) % HashRuns::MOD + HashRuns::MOD) % HashRuns::MOD;
         };
-        auto length = [&](const Hash& s){ return (long long)(find(pw.begin(), pw.end(), s.pw) - pw.begin()); };
+        auto length = [&](const Hash& a){ return (long long)(find(pw.begin(), pw.end(), a.pw) - pw.begin()); };
 
         long long expected = l;
         while (expected < n && a[expected] == target[expected]) expected++;
@@ -327,6 +342,42 @@ void check_progression_descents(int ops){
         expected = r + 1;
         while (expected - 1 >= 0 && brute_sum(a, expected - 1, r) <= k) expected--;
         assert(t.min_left(r, [k](long long s){ return s <= k; }) == expected);
+    }
+}
+
+/// A Runs type with only Value, Agg, run_agg and combine (a minimum) against a plain array
+void check_min_runs(int ops){
+    vector<long long> a;
+    RunLengthImplicitTreap<MinRuns> t(vector<pair<long long, long long>>{});
+    for (int op = 0; op < ops; op++){
+        int n = a.size(), kind = stress::rand_int(0, 4);
+        if (n == 0 || kind == 0){
+            long long pos = stress::rand_int(0, n), x = stress::rand_int(0, 20), count = stress::rand_int(1, 4);
+            t.insert(pos, x, count);
+            a.insert(a.begin() + pos, count, x);
+            continue;
+        }
+
+        long long l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
+        if (kind == 1 && n > 1){
+            t.erase(l, r);
+            a.erase(a.begin() + l, a.begin() + r + 1);
+        }
+        else if (kind == 2){
+            long long x = stress::rand_int(0, 20);
+            t.assign(l, r, x);
+            fill(a.begin() + l, a.begin() + r + 1, x);
+        }
+        else{
+            assert(t.query(l, r) == *min_element(a.begin() + l, a.begin() + r + 1));
+            long long k = stress::rand_int(0, 20), expected = l - 1;
+            while (expected + 1 < n && a[expected + 1] >= k) expected++;
+            assert(t.max_right(l, [k](long long m){ return m >= k; }) == expected);
+            expected = r + 1;
+            while (expected - 1 >= 0 && a[expected - 1] >= k) expected--;
+            assert(t.min_left(r, [k](long long m){ return m >= k; }) == expected);
+        }
+        assert(t.size() == (long long)a.size());
     }
 }
 
@@ -476,6 +527,7 @@ int main(){
     for (long long it = 0; it < stress::scaled(3000); it++) check_ends_runs(60);
     for (long long it = 0; it < stress::scaled(2000); it++) check_hash_descents(60);
     for (long long it = 0; it < stress::scaled(2000); it++) check_progression_descents(60);
+    for (long long it = 0; it < stress::scaled(2000); it++) check_min_runs(60);
     for (long long it = 0; it < stress::scaled(1500); it++) check_huge(60);
     check_node_bound_and_speed();
     return 0;
