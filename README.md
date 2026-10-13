@@ -89,16 +89,16 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 [Practice problems](code_library/trees/README.md)
 
-- [Centroid Decomposition](code_library/trees/centroid_decomposition.cpp) - iterative centroid tree with a visitor over distances to each centroid [✔](judge_tests/trees/frequency_table_of_tree_distance.cpp)
+- [Centroid Decomposition](code_library/trees/centroid_decomposition.cpp) - centroid tree with distances to each centroid [✔](judge_tests/trees/frequency_table_of_tree_distance.cpp)
 - [DSU on Tree](code_library/trees/dsu_on_tree.cpp) - small-to-large answers for every subtree
-- [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - weighted tree diameter under edge weight updates in `O(log n)` [✔](judge_tests/trees/aoj_grl_5_a.cpp)
-- [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths and subtrees as `O(log n)` ranges for any range structure [✔](judge_tests/trees/aoj_grl_5_d.cpp)
-- [Long-Path Decomposition](code_library/trees/long_path_decomposition.cpp) - `O(n)` depth-indexed subtree DP and `O(1)` k-th ancestor via ladders [✔](judge_tests/trees/jump_on_tree_long_path_decomposition.cpp)
-- [Lowest Common Ancestor](code_library/trees/lca.cpp) - k-th ancestor, path jump and intersection, plus an `O(n)` / `O(1)` LCA [✔](judge_tests/trees/jump_on_tree.cpp)
-- [Prufer Code](code_library/trees/prufer_code.cpp) - `O(n)` encode/decode between labeled trees and Prufer sequences
-- [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP answered for every node as the root in `O(n)` [✔](judge_tests/trees/aoj_grl_5_b.cpp)
-- [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - AHU canonical ids for rooted and unrooted trees, exact via a map dictionary [✔](judge_tests/trees/rooted_tree_isomorphism_classification.cpp)
-- [Virtual Tree](code_library/trees/virtual_tree.cpp) - compress a tree to k vertices and their LCAs in `O(k log k)`
+- [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - tree diameter under edge weight updates [✔](judge_tests/trees/aoj_grl_5_a.cpp)
+- [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths and subtrees as array ranges [✔](judge_tests/trees/aoj_grl_5_d.cpp)
+- [Long-Path Decomposition](code_library/trees/long_path_decomposition.cpp) - depth-indexed subtree DP and `O(1)` k-th ancestor [✔](judge_tests/trees/jump_on_tree_long_path_decomposition.cpp)
+- [Lowest Common Ancestor](code_library/trees/lca.cpp) - LCA, distance, k-th ancestor and path jump [✔](judge_tests/trees/jump_on_tree.cpp)
+- [Prufer Code](code_library/trees/prufer_code.cpp) - converts labeled trees to and from sequences
+- [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP with every node as the root [✔](judge_tests/trees/aoj_grl_5_b.cpp)
+- [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - rooted and unrooted tree isomorphism [✔](judge_tests/trees/rooted_tree_isomorphism_classification.cpp)
+- [Virtual Tree](code_library/trees/virtual_tree.cpp) - compresses a tree to k vertices and their LCAs
 
 ### Graphs
 
