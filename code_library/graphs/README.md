@@ -522,7 +522,7 @@
 - [UVa 10462 - Is There A Second Way Left?](https://onlinejudge.org/external/104/10462.pdf)
 - [UVa 10600 - ACM Contest and Blackout](https://onlinejudge.org/external/106/10600.pdf)
 - [UVa 10842 - Traffic Flow](https://onlinejudge.org/external/108/10842.pdf)
-- [UVa 11228 - Transportation system.](https://onlinejudge.org/external/112/11228.pdf)
+- [UVa 11228 - Transportation system.](https://onlinejudge.org/external/112/11228.pdf) [✅](../../practice/graphs/uva_11228.cpp "Accepted solution")
 - [UVa 11267 - The Hire-a-Coder Business Model](https://onlinejudge.org/external/112/11267.pdf)
 - [UVa 11354 - Bond](https://onlinejudge.org/external/113/11354.pdf)
 - [UVa 11603 - Its all about the Bandwidth](https://onlinejudge.org/external/116/11603.pdf)
