@@ -41,7 +41,7 @@
 #### [Gray Codes](gray_codes.cpp)
 
 - [CSES 2205 - Gray Code](https://cses.fi/problemset/task/2205)
-- [UVa 11173 - Grey Codes](https://onlinejudge.org/external/111/11173.pdf)
+- [UVa 11173 - Grey Codes](https://onlinejudge.org/external/111/11173.pdf) [✅](../../practice/misc/uva_11173.cpp "Accepted solution")
 
 #### [Knight Distance](knight_distance.cpp)
 
