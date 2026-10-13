@@ -323,7 +323,7 @@
 - [UVa 1006 - Fixed Partition Memory Management](https://onlinejudge.org/external/10/1006.pdf)
 - [UVa 1045 - The Great Wall Game](https://onlinejudge.org/external/10/1045.pdf) [✅](../../practice/graphs/uva_1045.cpp "Accepted solution")
 - [UVa 1349 - Optimal Bus Route Design](https://onlinejudge.org/external/13/1349.pdf)
-- [UVa 10746 - Crime Wave - The Sequel](https://onlinejudge.org/external/107/10746.pdf)
+- [UVa 10746 - Crime Wave - The Sequel](https://onlinejudge.org/external/107/10746.pdf) [✅](../../practice/graphs/uva_10746.cpp "Accepted solution")
 - [UVa 10888 - Warehouse](https://onlinejudge.org/external/108/10888.pdf)
 - [UVa 12637 - 30 Minutes or Less](https://onlinejudge.org/external/126/12637.pdf)
 - [UVa 12891 - Risk of Trading](https://onlinejudge.org/external/128/12891.pdf)
