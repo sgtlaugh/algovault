@@ -180,7 +180,7 @@
 - [SPOJ VLATTICE - Visible Lattice Points](https://www.spoj.com/problems/VLATTICE/)
 - [UVa 10738 - Riemann vs Mertens](https://onlinejudge.org/external/107/10738.pdf) [✅](../../practice/number_theory/uva_10738.cpp "Accepted solution")
 - [UVa 12631 - Chocolate and Money](https://onlinejudge.org/external/126/12631.pdf)
-- [UVa 12888 - Count LCM](https://onlinejudge.org/external/128/12888.pdf)
+- [UVa 12888 - Count LCM](https://onlinejudge.org/external/128/12888.pdf) [✅](../../practice/number_theory/uva_12888.cpp "Accepted solution")
 
 #### [Modular Roots](modular_roots.cpp)
 
