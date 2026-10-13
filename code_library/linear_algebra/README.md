@@ -103,7 +103,7 @@
 - [UVa 10518 - How Many Calls?](https://onlinejudge.org/external/105/10518.pdf) [✅](../../practice/linear_algebra/uva_10518.cpp "Accepted solution")
 - [UVa 10743 - Blocks on Blocks](https://onlinejudge.org/external/107/10743.pdf) [✅](../../practice/linear_algebra/uva_10743.cpp "Accepted solution")
 - [UVa 10870 - Recurrences](https://onlinejudge.org/external/108/10870.pdf)
-- [UVa 11091 - How many Knight Placing?](https://onlinejudge.org/external/110/11091.pdf)
+- [UVa 11091 - How many Knight Placing?](https://onlinejudge.org/external/110/11091.pdf) [✅](../../practice/linear_algebra/uva_11091.cpp "Accepted solution")
 - [UVa 11149 - Power of Matrix](https://onlinejudge.org/external/111/11149.pdf)
 - [UVa 11551 - Experienced Endeavour](https://onlinejudge.org/external/115/11551.pdf)
 - [UVa 11651 - Krypton Number System](https://onlinejudge.org/external/116/11651.pdf)
