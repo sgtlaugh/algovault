@@ -105,7 +105,7 @@
 - [UVa 10635 - Prince and Princess](https://onlinejudge.org/external/106/10635.pdf)
 - [UVa 11031 - Looking for a Subset](https://onlinejudge.org/external/110/11031.pdf)
 - [UVa 11368 - Nested Dolls](https://onlinejudge.org/external/113/11368.pdf)
-- [UVa 11456 - Trainsorting](https://onlinejudge.org/external/114/11456.pdf)
+- [UVa 11456 - Trainsorting](https://onlinejudge.org/external/114/11456.pdf) [✅](../../practice/dp/uva_11456.cpp "Accepted solution")
 - [UVa 12002 - Happy Birthday](https://onlinejudge.org/external/120/12002.pdf)
 - [UVa 12747 - Back to Edit Distance](https://onlinejudge.org/external/127/12747.pdf)
 
