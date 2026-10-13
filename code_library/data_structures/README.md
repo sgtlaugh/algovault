@@ -536,3 +536,8 @@
 - [UVa 12506 - Shortest Names](https://onlinejudge.org/external/125/12506.pdf)
 - [UVa 12526 - Cellphone Typing](https://onlinejudge.org/external/125/12526.pdf)
 - [UVa 12857 - Dividing the names](https://onlinejudge.org/external/128/12857.pdf)
+
+#### [XOR Segment Tree](xor_segment_tree.cpp)
+
+- [Codeforces 1654F - Minimal String Xoration](https://codeforces.com/problemset/problem/1654/F)
+- [Codeforces 1716E - Swap and Maximum Block](https://codeforces.com/problemset/problem/1716/E)
