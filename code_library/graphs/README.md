@@ -177,7 +177,7 @@
 - [UVa 11377 - Airport Setup](https://onlinejudge.org/external/113/11377.pdf)
 - [UVa 11492 - Babel](https://onlinejudge.org/external/114/11492.pdf)
 - [UVa 11635 - Hotel booking](https://onlinejudge.org/external/116/11635.pdf)
-- [UVa 11813 - Shopping](https://onlinejudge.org/external/118/11813.pdf)
+- [UVa 11813 - Shopping](https://onlinejudge.org/external/118/11813.pdf) [✅](../../practice/graphs/uva_11813.cpp "Accepted solution")
 - [UVa 11833 - Route Change](https://onlinejudge.org/external/118/11833.pdf)
 - [UVa 12047 - Highest Paid Toll](https://onlinejudge.org/external/120/12047.pdf)
 - [UVa 12144 - Almost Shortest Path](https://onlinejudge.org/external/121/12144.pdf)
