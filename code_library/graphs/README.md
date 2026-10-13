@@ -515,7 +515,7 @@
 - [UVa 1395 - Slim Span](https://onlinejudge.org/external/13/1395.pdf)
 - [UVa 10034 - Freckles](https://onlinejudge.org/external/100/10034.pdf)
 - [UVa 10048 - Audiophobia](https://onlinejudge.org/external/100/10048.pdf) [✅](../../practice/graphs/uva_10048.cpp "Accepted solution")
-- [UVa 10147 - Highways](https://onlinejudge.org/external/101/10147.pdf)
+- [UVa 10147 - Highways](https://onlinejudge.org/external/101/10147.pdf) [✅](../../practice/graphs/uva_10147.cpp "Accepted solution")
 - [UVa 10307 - Killing Aliens in Borg Maze](https://onlinejudge.org/external/103/10307.pdf)
 - [UVa 10369 - Arctic Network](https://onlinejudge.org/external/103/10369.pdf) [✅](../../practice/graphs/uva_10369.cpp "Accepted solution")
 - [UVa 10397 - Connect the Campus](https://onlinejudge.org/external/103/10397.pdf)
