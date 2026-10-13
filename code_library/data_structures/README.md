@@ -54,7 +54,7 @@
 - [SPOJ CHAIN - Strange Food Chain](https://www.spoj.com/problems/CHAIN/)
 - [Timus 1003 - Parity](https://acm.timus.ru/problem.aspx?num=1003)
 - [UVa 10158 - War](https://onlinejudge.org/external/101/10158.pdf) [✅](../../practice/data_structures/uva_10158.cpp "Accepted solution")
-- [UVa 11870 - Antonyms](https://onlinejudge.org/external/118/11870.pdf)
+- [UVa 11870 - Antonyms](https://onlinejudge.org/external/118/11870.pdf) [✅](../../practice/data_structures/uva_11870.cpp "Accepted solution")
 
 #### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
