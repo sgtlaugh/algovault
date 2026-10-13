@@ -2,7 +2,7 @@
 
 #### [Bernoulli Numbers](bernoulli_numbers.cpp)
 
-- [UVa 766 - Sum of powers](https://onlinejudge.org/external/7/766.pdf)
+- [UVa 766 - Sum of powers](https://onlinejudge.org/external/7/766.pdf) [✅](../../practice/combinatorics/uva_766.cpp "Accepted solution")
 
 #### [Binomial Coefficients](binomial_coefficients.cpp)
 
