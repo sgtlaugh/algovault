@@ -42,7 +42,7 @@
 #### [2-SAT, Lexicographic](2SAT_lexicographic.cpp)
 
 - [Library Checker two_sat - 2 Sat](https://judge.yosupo.jp/problem/two_sat)
-- [UVa 11751 - Installing Diagnostic Software](https://onlinejudge.org/external/117/11751.pdf)
+- [UVa 11751 - Installing Diagnostic Software](https://onlinejudge.org/external/117/11751.pdf) [✅](../../practice/graphs/uva_11751.cpp "Accepted solution")
 
 #### [3-Edge-Connected Components](three_edge_connected_components.cpp)
 
