@@ -86,7 +86,7 @@
 - [UVa 1733 - Design New Capital](https://onlinejudge.org/external/17/1733.pdf)
 - [UVa 11564 - Just A Few More Triangles!](https://onlinejudge.org/external/115/11564.pdf)
 - [UVa 11640 - Mayor Election](https://onlinejudge.org/external/116/11640.pdf)
-- [UVa 12298 - Super Poker II](https://onlinejudge.org/external/122/12298.pdf)
+- [UVa 12298 - Super Poker II](https://onlinejudge.org/external/122/12298.pdf) [✅](../../practice/algebra/uva_12298.cpp "Accepted solution")
 - [UVa 12327 - Xavier is Learning to Count](https://onlinejudge.org/external/123/12327.pdf)
 - [UVa 12633 - Super Rooks on Chessboard](https://onlinejudge.org/external/126/12633.pdf)
 - [UVa 12879 - Golf Bot](https://onlinejudge.org/external/128/12879.pdf)
