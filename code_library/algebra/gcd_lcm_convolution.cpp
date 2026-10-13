@@ -86,7 +86,6 @@ struct DivisorLattice{
         }
     }
 
-private:
     static void add(long long& x, long long y, long long mod){
         x += y;
         if (mod && x >= mod) x -= mod;
