@@ -36,7 +36,8 @@ The rules live in the `## Documentation` section of `CONTRIBUTING.md`. Read it f
    env CHANGED_SINCE=$base JOBS=4 bash .github/scripts/run_tests.sh stress
    ```
    Then check the scope: `git diff $base --stat` lists only the library file and READMEs, and every changed hunk of the library file lies inside the header or `main()`.
-   The file is not done until both suites exit 0 and the scope check holds. A failure is fixed in the header or `main()`; if the fix needs a library change, stop and report it.
+   A run that reports `passed: 0` tested nothing and does not count.
+   The file is not done until both suites exit 0 with the file's tests among those passed, and the scope check holds. A failure is fixed in the header or `main()`; if the fix needs a library change, stop and report it.
 6. **Commit** (only with `--commit`): one commit per library file, together with its README lines. Subject `docs: <template> header and usage follow CONTRIBUTING` or similar, conventional, at most 72 characters, no body. No AI attribution, never `--no-verify`, never amend, never push.
 
 ## Checklist before finishing a file
