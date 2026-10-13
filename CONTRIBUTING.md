@@ -84,7 +84,7 @@ int main(){
 
 ### README
 
-- An index entry is `[Name](path) - short description`, matching the header's second line, variants nested under their base
+- An index entry is `[Name](path) - short description`, agreeing with the header's second line, variants nested under their base
 - Practice section headings match the index names
 
 ## Style
