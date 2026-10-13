@@ -286,20 +286,20 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 [Practice problems](code_library/misc/README.md)
 
 - [15 Puzzle Solver](code_library/misc/15_puzzle_solver.cpp) - solvability check and IDA* solver
-- [Assembly](code_library/misc/assembly.cpp) - inline x86 popcount, leading zeros, bit scan, gcd and square root [✔](judge_tests/misc/aoj_alds1_1_b.cpp)
+- [Assembly](code_library/misc/assembly.cpp) - inline x86 bit ops, gcd and square root [✔](judge_tests/misc/aoj_alds1_1_b.cpp)
 - [Bit Twiddling](code_library/misc/bit_twiddling.cpp) - bit manipulation tricks [✔](judge_tests/misc/aoj_itp2_11_d.cpp)
 - [Comb Sort](code_library/misc/combsort.cpp) - comb sort on any random access range [✔](judge_tests/misc/aoj_alds1_6_a.cpp)
 - [Dancing Links](code_library/misc/dancing_links.cpp) - exact cover with Algorithm X [✔](judge_tests/misc/aoj_alds1_13_a.cpp)
-- [Fast I/O](code_library/misc/fast_io.cpp) - buffered input and output with fread and fwrite [✔](judge_tests/misc/many_aplusb.cpp)
+- [Fast I/O](code_library/misc/fast_io.cpp) - fast buffered input and output [✔](judge_tests/misc/many_aplusb.cpp)
 - [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
-- [Hackenbush](code_library/misc/hackenbush.cpp) - green Hackenbush Grundy values on graphs, exact red-blue values on trees
+- [Hackenbush](code_library/misc/hackenbush.cpp) - green values on graphs, red-blue on trees
 - [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in `O(1)`
 - [N Queens](code_library/misc/n_queen.cpp) - number of N queens solutions
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one
-- [Numerical Integration](code_library/misc/numerical_integration.cpp) - composite Simpson, adaptive Simpson and Romberg
+- [Numerical Integration](code_library/misc/numerical_integration.cpp) - definite integrals by Simpson or Romberg
 - [Radix Sort](code_library/misc/radix_sort.cpp) - LSD radix sort of 32-bit integers [✔](judge_tests/misc/aoj_alds1_6_a_radix_sort.cpp)
 - [Radix Sort 64](code_library/misc/radix_sort_64.cpp) - LSD radix sort of 64-bit integers [✔](judge_tests/misc/aoj_alds1_6_a_radix_sort_64.cpp)
-- [Simulated Annealing](code_library/misc/simulated_annealing.cpp) - generic minimizer and an in-place delta loop driver with a geometric time or step schedule
+- [Simulated Annealing](code_library/misc/simulated_annealing.cpp) - generic randomized minimizer
 - [Ternary and Golden-Section Search](code_library/misc/ternary_search.cpp) - integer argmax of a unimodal function, real argmin
 
 ### Hacking
