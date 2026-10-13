@@ -183,7 +183,7 @@
 - [UVa 12144 - Almost Shortest Path](https://onlinejudge.org/external/121/12144.pdf) [✅](../../practice/graphs/uva_12144.cpp "Accepted solution")
 - [UVa 12625 - Shortest Gas Paths](https://onlinejudge.org/external/126/12625.pdf)
 - [UVa 12680 - Shopping Malls](https://onlinejudge.org/external/126/12680.pdf) [✅](../../practice/graphs/uva_12680.cpp "Accepted solution")
-- [UVa 12933 - Easy Graph Problem?](https://onlinejudge.org/external/129/12933.pdf)
+- [UVa 12933 - Easy Graph Problem?](https://onlinejudge.org/external/129/12933.pdf) [✅](../../practice/graphs/uva_12933.cpp "Accepted solution")
 - [UVa 12950 - Even Obsession](https://onlinejudge.org/external/129/12950.pdf)
 - [UVa 13127 - Bank Robbery](https://onlinejudge.org/external/131/13127.pdf) [✅](../../practice/graphs/uva_13127.cpp "Accepted solution")
 - [UVa 13147 - Travel Planning](https://onlinejudge.org/external/131/13147.pdf) [✅](../../practice/graphs/uva_13147.cpp "Accepted solution")
