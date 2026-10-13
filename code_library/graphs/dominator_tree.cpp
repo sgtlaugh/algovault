@@ -60,7 +60,6 @@ struct DominatorTree{
         return idom;
     }
 
-private:
     vector<int> order, num, parent, sdom, label, anc, path;
 
     /// Preorder numbering, parent[i] is the DFS tree parent of the i-th visited vertex, num[v] = -1 if unreachable
