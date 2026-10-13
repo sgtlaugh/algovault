@@ -129,7 +129,7 @@
 - [USACO 720 - Why Did the Cow Cross the Road](https://usaco.org/index.php?page=viewproblem2&cpid=720)
 - [USACO 898 - Sleepy Cow Sorting](https://usaco.org/index.php?page=viewproblem2&cpid=898)
 - [USACO 1041 - Haircut](https://usaco.org/index.php?page=viewproblem2&cpid=1041)
-- [UVa 1513 - Movie collection](https://onlinejudge.org/external/15/1513.pdf)
+- [UVa 1513 - Movie collection](https://onlinejudge.org/external/15/1513.pdf) [✅](../../practice/data_structures/uva_1513.cpp "Accepted solution")
 - [UVa 10810 - Ultra-QuickSort](https://onlinejudge.org/external/108/10810.pdf)
 - [UVa 11525 - Permutation](https://onlinejudge.org/external/115/11525.pdf)
 - [UVa 11610 - Reverse Prime](https://onlinejudge.org/external/116/11610.pdf)
