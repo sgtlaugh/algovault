@@ -3,27 +3,19 @@
  * Sliding Window Aggregation
  * A queue that folds its elements in queue order under any associative operation, commutative or not
  *
- * Complexity: O(1) amortized per push, pop and fold, each element is combined at most twice
- * A single pop can take O(n) when it refills the front stack, so the bound is amortized, not worst case
+ * Complexity: O(1) amortized per operation, a pop that refills the front stack takes O(n)
  *
- * SlidingWindowAggregation(identity, op): two stacks, pushes go to the back, pops come from the front
- *   push(x) appends x, pop() removes the oldest element (the queue must not be empty)
- *   fold() returns op(...op(op(a_0, a_1), a_2)..., a_k) over the elements oldest first, identity when empty
- *   op only needs associativity and identity only needs op(identity, x) = x (identity is never combined on the right),
- *   so composition of functions, matrix products and string concatenation work as well as sum, min, gcd
- *   Composition f_k(...f_0(x)) of linear maps f(x) = a x + b: op(f, g) = (f.a * g.a, f.b * g.a + g.b)
+ * SlidingWindowAggregation q(identity, op): an empty queue
+ * q.push(x): appends x
+ * q.pop(): removes the oldest element, the queue must not be empty
+ * q.fold(): op(...op(op(a_0, a_1), a_2)..., a_k) over the elements oldest first, identity when empty
+ * q.size(): the number of elements
+ * q.empty(): true if the queue has no elements
+ * MonotonicQueue<T, Compare = less<T>> q: an empty queue with the same push, pop, size and empty
+ * q.best(): the minimum under Compare of the elements, the queue must not be empty
  *
- * MonotonicQueue<T, Compare = less<T>>: the same queue API restricted to min (or max with greater<T>)
- *   best() returns the minimum under Compare of the current elements, best() and pop() need a non-empty queue
- *   It keeps only the elements that can still become the answer, fewer comparisons and no identity needed
- *
- * Sliding minimum of every window of size k:
- *   MonotonicQueue<int> q;
- *   for (int i = 0; i < n; i++){
- *       q.push(a[i]);
- *       if (i >= k) q.pop();
- *       if (i >= k - 1) res.push_back(q.best());
- *   }
+ * op only needs associativity, and identity only needs op(identity, x) = x since it is never combined on the right
+ * For min or max use MonotonicQueue: no identity and fewer comparisons, greater<T> gives the maximum
  *
 ***/
 
@@ -36,7 +28,7 @@ struct SlidingWindowAggregation{
     T identity;
     Op op;
     vector<T> front, back;  /// front.back() is the fold of the whole front stack, oldest element first
-    T back_fold;
+    T back_fold;            /// op over the back stack, oldest element first
 
     SlidingWindowAggregation(T identity, Op op) : identity(identity), op(op), back_fold(identity) {}
 
@@ -113,18 +105,30 @@ int main(){
     maps.pop();
     maps.push({3, 7});
     assert(maps.fold() == Linear(15, 10));  /// 3 (5x + 1) + 7
-    maps.pop(), maps.pop();
-    assert(maps.empty() && maps.fold() == Linear(1, 0));
+    maps.pop();
+    maps.pop();
+    assert(maps.empty());
+    assert(maps.fold() == Linear(1, 0));
 
+    /// Minimum and maximum of every window of 3
     vector<int> a = {4, 2, 12, 3, 8, 1, 7}, lows, highs;
     MonotonicQueue<int> low;
+
     MonotonicQueue<int, greater<int>> high;
     for (int i = 0; i < (int)a.size(); i++){
-        low.push(a[i]), high.push(a[i]);
-        if (i >= 3) low.pop(), high.pop();
-        if (i >= 2) lows.push_back(low.best()), highs.push_back(high.best());
+        low.push(a[i]);
+        high.push(a[i]);
+        if (i >= 3){
+            low.pop();
+            high.pop();
+        }
+        if (i >= 2){
+            lows.push_back(low.best());
+            highs.push_back(high.best());
+        }
     }
-    assert((lows == vector<int>{2, 2, 3, 1, 1}));  /// every window of 3
+    assert((lows == vector<int>{2, 2, 3, 1, 1}));
     assert((highs == vector<int>{12, 12, 12, 8, 8}));
+
     return 0;
 }

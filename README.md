@@ -76,7 +76,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
   - [Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets as dynamic segment trees with merge, split by key or rank, k-th
   - [Persistent](code_library/data_structures/persistent_segment_tree.cpp) - versioned updates, range queries, k-th smallest and k-th on version diffs [✔](judge_tests/data_structures/persistent_queue.cpp)
   - [XOR](code_library/data_structures/xor_segment_tree.cpp) - fold of `a[p ^ x]` over `[l, r]` for any x, with point add when the fold is a sum
-- [Sliding Window Aggregation](code_library/data_structures/sliding_window_aggregation.cpp) - fold under any associative operation and a monotonic min/max queue [✔](judge_tests/data_structures/aoj_dsl_3_d.cpp)
+- [Sliding Window Aggregation](code_library/data_structures/sliding_window_aggregation.cpp) - queue folded in order under any associative operation, plus a monotonic min/max queue [✔](judge_tests/data_structures/aoj_dsl_3_d.cpp)
 - [Sparse Table](code_library/data_structures/sparse_table.cpp) - `O(1)` static range min, max, gcd or any idempotent operation, plus an `O(n)` build min/max variant [✔](judge_tests/data_structures/staticrmq.cpp)
   - [2D](code_library/data_structures/sparse_table_2D.cpp) - `O(1)` static rectangle min or max on a grid
   - [Disjoint](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` static range queries for any associative operation [✔](judge_tests/data_structures/static_range_sum.cpp)
