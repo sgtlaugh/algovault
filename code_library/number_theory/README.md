@@ -32,7 +32,7 @@
 
 - [UVa 1185 - Big Number](https://onlinejudge.org/external/11/1185.pdf)
 - [UVa 10061 - How many zero's and how many digits ?](https://onlinejudge.org/external/100/10061.pdf)
-- [UVa 10916 - Factstone Benchmark](https://onlinejudge.org/external/109/10916.pdf)
+- [UVa 10916 - Factstone Benchmark](https://onlinejudge.org/external/109/10916.pdf) [✅](../../practice/number_theory/uva_10916.cpp "Accepted solution")
 
 #### [Discrete Logarithm](discrete_logarithm.cpp)
 
