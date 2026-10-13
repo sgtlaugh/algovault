@@ -273,7 +273,7 @@
 - [Code Jam 2008 AMER Semifinal D - King](https://github.com/google/coding-competitions-archive/tree/main/codejam/2008/amer_semifinal/king)
 - [Library Checker general_matching - Matching on General Graph](https://judge.yosupo.jp/problem/general_matching)
 - [Timus 1099 - Work Scheduling](https://acm.timus.ru/problem.aspx?num=1099)
-- [UVa 11439 - Maximizing the ICPC](https://onlinejudge.org/external/114/11439.pdf)
+- [UVa 11439 - Maximizing the ICPC](https://onlinejudge.org/external/114/11439.pdf) [✅](../../practice/graphs/uva_11439.cpp "Accepted solution")
 
 #### [Gomory-Hu Tree](gomory_hu.cpp)
 
