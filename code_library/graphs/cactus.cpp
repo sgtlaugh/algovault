@@ -65,7 +65,6 @@ struct Cactus{
         return true;
     }
 
-private:
     /// Every non-tree edge closes exactly one cycle with tree edges, a tree edge claimed twice breaks the edge cactus
     bool find_cycles(){
         vector<int> parent_edge(n, -1), it(n, 0), stack;
