@@ -6,7 +6,7 @@
 
 #### [Disjoint Set Union](disjoint_set.cpp)
 
-- [Codeforces 25D - Roads not only in Berland](https://codeforces.com/problemset/problem/25/D)
+- [Codeforces 25D - Roads not only in Berland](https://codeforces.com/problemset/problem/25/D) [✅](../../practice/data_structures/codeforces_25d.cpp "Accepted solution")
 - [Codeforces 468B - Two Sets](https://codeforces.com/problemset/problem/468/B)
 - [Codeforces 744A - Hongcow Builds A Nation](https://codeforces.com/problemset/problem/744/A)
 - [CSES 1666 - Building Roads](https://cses.fi/problemset/task/1666)
