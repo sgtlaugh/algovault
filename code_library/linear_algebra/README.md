@@ -58,7 +58,7 @@
 - [Library Checker system_of_linear_equations_mod_2 - System of Linear Equations (Mod 2)](https://judge.yosupo.jp/problem/system_of_linear_equations_mod_2)
 - [POJ 1681 - Painter's Problem](http://poj.org/problem?id=1681)
 - [Timus 1042 - Central Heating](https://acm.timus.ru/problem.aspx?num=1042)
-- [UVa 1560 - Extended Lights Out](https://onlinejudge.org/external/15/1560.pdf)
+- [UVa 1560 - Extended Lights Out](https://onlinejudge.org/external/15/1560.pdf) [✅](../../practice/linear_algebra/uva_1560.cpp "Accepted solution")
 - [UVa 11542 - Square](https://onlinejudge.org/external/115/11542.pdf) [✅](../../practice/linear_algebra/uva_11542.cpp "Accepted solution")
 
 #### [Gauss, Prime Modulus](gauss_prime_mod.cpp)
