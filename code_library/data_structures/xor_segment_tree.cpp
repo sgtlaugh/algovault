@@ -42,7 +42,6 @@ struct XorSegmentTree{
         return query(1, 0, n, l, r, x);
     }
 
-private:
     void add(int node, int b, int len, int i, T v){
         added[node] += v;
         if (len == 1) return;
