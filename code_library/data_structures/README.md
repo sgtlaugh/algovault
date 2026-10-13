@@ -34,7 +34,7 @@
 - [UVa 1160 - X-Plosives](https://onlinejudge.org/external/11/1160.pdf)
 - [UVa 1197 - The Suspects](https://onlinejudge.org/external/11/1197.pdf)
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf)
-- [UVa 10178 - Count the Faces.](https://onlinejudge.org/external/101/10178.pdf)
+- [UVa 10178 - Count the Faces.](https://onlinejudge.org/external/101/10178.pdf) [✅](../../practice/data_structures/uva_10178.cpp "Accepted solution")
 - [UVa 10583 - Ubiquitous Religions](https://onlinejudge.org/external/105/10583.pdf)
 - [UVa 10608 - Friends](https://onlinejudge.org/external/106/10608.pdf)
 - [UVa 10685 - Nature](https://onlinejudge.org/external/106/10685.pdf)
