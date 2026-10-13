@@ -206,7 +206,6 @@ struct RunLengthImplicitTreap{
         return r - taken + 1;
     }
 
-private:
     long long size(int t) const{
         return t == -1 ? 0 : nodes[t].size;
     }
