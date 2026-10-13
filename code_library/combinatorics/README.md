@@ -57,7 +57,7 @@
 
 #### [Gambler's Ruin](gamblers_ruin.cpp)
 
-- [UVa 1573 - Hey, Better Bettor](https://onlinejudge.org/external/15/1573.pdf)
+- [UVa 1573 - Hey, Better Bettor](https://onlinejudge.org/external/15/1573.pdf) [✅](../../practice/combinatorics/uva_1573.cpp "Accepted solution")
 - [UVa 11500 - Vampires](https://onlinejudge.org/external/115/11500.pdf)
 
 #### [Josephus Problem](josephus_problem.cpp)
