@@ -586,7 +586,7 @@
 - [UVa 247 - Calling Circles](https://onlinejudge.org/external/2/247.pdf)
 - [UVa 1229 - Sub-dictionary](https://onlinejudge.org/external/12/1229.pdf)
 - [UVa 1263 - Mines](https://onlinejudge.org/external/12/1263.pdf)
-- [UVa 10731 - Test](https://onlinejudge.org/external/107/10731.pdf)
+- [UVa 10731 - Test](https://onlinejudge.org/external/107/10731.pdf) [✅](../../practice/graphs/uva_10731.cpp "Accepted solution")
 - [UVa 11324 - The Largest Clique](https://onlinejudge.org/external/113/11324.pdf)
 - [UVa 11504 - Dominos](https://onlinejudge.org/external/115/11504.pdf)
 - [UVa 11709 - Trust groups](https://onlinejudge.org/external/117/11709.pdf)
