@@ -236,18 +236,18 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 [Practice problems](code_library/linear_algebra/README.md)
 
-- [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - `det(xI - A)` modulo a prime in `O(n^3)` via Hessenberg reduction [✔](judge_tests/linear_algebra/characteristic_polynomial.cpp)
-- [Determinant](code_library/linear_algebra/determinant.cpp) - integer determinant modulo any m or exact, Kirchhoff and Tutte tree counts [✔](judge_tests/linear_algebra/counting_spanning_tree_directed.cpp)
+- [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - `det(xI - A)` modulo a prime [✔](judge_tests/linear_algebra/characteristic_polynomial.cpp)
+- [Determinant](code_library/linear_algebra/determinant.cpp) - determinant modulo any m, spanning tree counts [✔](judge_tests/linear_algebra/counting_spanning_tree_directed.cpp)
 - [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
-- [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and matrix inverse over the reals
-  - [Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - linear systems whose equations touch nearby variables only
-  - [Bitset](code_library/linear_algebra/gauss_bitset.cpp) - linear systems, rank and matrix inverse over GF(2) [✔](judge_tests/linear_algebra/inverse_matrix_mod_2.cpp)
-  - [Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - linear systems with kernel basis, rank and matrix inverse modulo a prime [✔](judge_tests/linear_algebra/inverse_matrix.cpp)
+- [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and inverse over the reals
+  - [Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - systems whose equations touch nearby variables
+  - [Bitset](code_library/linear_algebra/gauss_bitset.cpp) - the same over GF(2) [✔](judge_tests/linear_algebra/inverse_matrix_mod_2.cpp)
+  - [Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - the same modulo a prime, with kernel basis [✔](judge_tests/linear_algebra/inverse_matrix.cpp)
 - [Matrix](code_library/linear_algebra/matrix.cpp) - modular multiplication and exponentiation [✔](judge_tests/linear_algebra/matrix_product.cpp)
-- [Matrix Permanent](code_library/linear_algebra/permanent.cpp) - Ryser's formula with Gray code, modulo any m or exact, `O(2^n n)`
+- [Matrix Permanent](code_library/linear_algebra/permanent.cpp) - permanent modulo any m, or exact
 - [Simplex](code_library/linear_algebra/simplex.cpp) - linear programming
 - [Thomas Algorithm](code_library/linear_algebra/thomas_algorithm.cpp) - tridiagonal linear systems in `O(n)`
-- [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - 64-bit linear basis with max/min xor, k-th smallest, count below x and intersection [✔](judge_tests/linear_algebra/intersection_of_f2_vector_spaces.cpp)
+- [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - max xor, k-th xor and span intersection [✔](judge_tests/linear_algebra/intersection_of_f2_vector_spaces.cpp)
 
 ### Geometry
 
