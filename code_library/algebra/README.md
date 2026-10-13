@@ -204,4 +204,4 @@
 - [Library Checker bitwise_and_convolution - Bitwise And Convolution](https://judge.yosupo.jp/problem/bitwise_and_convolution)
 - [Library Checker bitwise_xor_convolution - Bitwise Xor Convolution](https://judge.yosupo.jp/problem/bitwise_xor_convolution)
 - [SPOJ VECTAR1 - Matrices with XOR property](https://www.spoj.com/problems/VECTAR1/)
-- [UVa 13277 - XOR Path](https://onlinejudge.org/external/132/13277.pdf)
+- [UVa 13277 - XOR Path](https://onlinejudge.org/external/132/13277.pdf) [✅](../../practice/algebra/uva_13277.cpp "Accepted solution")
