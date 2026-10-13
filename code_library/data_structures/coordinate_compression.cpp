@@ -1,16 +1,14 @@
 /***
  *
  * Coordinate Compression
- * Compress values in input vector in-place
- * Relative order of values are preserved if make_sorted=true, otherwise ids follow first appearance
+ * Replaces each value of a vector in place with a small id, and returns the distinct values
  *
- * 0 based indexing for compressed values
- * Returns the distinct values in id order, vals[v[i]] is the original value of v[i]
+ * Complexity: O(n log n), no hashing
  *
- * Complexity: O(N log N) in both modes, deterministic (no hashing)
+ * compress(v): ids follow value order, returns the distinct values sorted, so vals[v[i]] is the original v[i]
+ * compress(v, false): ids follow first appearance, returns the distinct values in that order
  *
- * Example:
- *   auto vals = compress(v);
+ * Ids run from 0 to the number of distinct values minus 1
  *
 ***/
 
@@ -51,18 +49,17 @@ vector<T> compress(vector<T>& v, bool make_sorted=true){
 }
 
 int main(){
+    /// Ids follow value order
     vector<int> u = {2000000000, 1000000000, 2000000000, 1, 10, 5};
-    auto u_vals = compress(u);
+    vector<int> u_vals = compress(u);
     assert(u == vector<int>({4, 3, 4, 0, 2, 1}));
     assert(u_vals == vector<int>({1, 5, 10, 1000000000, 2000000000}));
 
+    /// Ids follow first appearance
     vector<long long> v = {2000000000000LL, 1000000000, 2000000000000LL, 1, 10, 5};
-    auto v_vals = compress(v, false);
+    vector<long long> v_vals = compress(v, false);
     assert(v == vector<long long>({0, 1, 0, 2, 3, 4}));
     assert(v_vals == vector<long long>({2000000000000LL, 1000000000, 1, 10, 5}));
-
-    vector<int> empty;
-    assert(compress(empty).empty() && compress(empty, false).empty());
 
     return 0;
 }

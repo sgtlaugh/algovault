@@ -46,7 +46,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 [Practice problems](code_library/data_structures/README.md)
 
-- [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving, returns the distinct values
+- [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - replaces values with small ids in place, returns the distinct values
 - [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - merges sets of nodes and tells whether two nodes share a set [✔](judge_tests/data_structures/unionfind.cpp)
   - [Partially Persistent](code_library/data_structures/partially_persistent_dsu.cpp) - connectivity and component sizes at any past time
   - [Potential](code_library/data_structures/potential_dsu.cpp) - relations `x[b] = x[a] + d` over the integers or modulo m, parity [✔](judge_tests/data_structures/unionfind_with_potential.cpp)
