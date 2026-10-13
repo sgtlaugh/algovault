@@ -49,12 +49,7 @@
 
 - [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d)
 
-#### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
-
-- [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
-- [Library Checker persistent_unionfind - Persistent Unionfind](https://judge.yosupo.jp/problem/persistent_unionfind)
-
-#### [Disjoint Set Union, Weighted](weighted_dsu.cpp)
+#### [Disjoint Set Union, Potential](potential_dsu.cpp)
 
 - [Codeforces Gym 100570D - TROY Query](https://codeforces.com/gym/100570/problem/D)
 - [Library Checker unionfind_with_potential - Unionfind with Potential](https://judge.yosupo.jp/problem/unionfind_with_potential)
@@ -62,6 +57,11 @@
 - [Timus 1003 - Parity](https://acm.timus.ru/problem.aspx?num=1003)
 - [UVa 10158 - War](https://onlinejudge.org/external/101/10158.pdf)
 - [UVa 11870 - Antonyms](https://onlinejudge.org/external/118/11870.pdf)
+
+#### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
+
+- [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
+- [Library Checker persistent_unionfind - Persistent Unionfind](https://judge.yosupo.jp/problem/persistent_unionfind)
 
 #### [Disjoint Sparse Table](disjoint_sparse_table.cpp)
 

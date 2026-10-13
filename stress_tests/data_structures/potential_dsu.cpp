@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/data_structures/weighted_dsu.cpp"
+#include "../../code_library/data_structures/potential_dsu.cpp"
 #undef main
 
 /// Union by size keeps every node within log2(component size) parent hops of its root
@@ -10,7 +10,7 @@ void check_depths(const Dsu& dsu){
     for (int i = 0; i < (int)dsu.parent.size(); i++){
         int depth = 0, root = i;
         while (dsu.parent[root] != root) root = dsu.parent[root], depth++;
-        assert(depth < 31 && (1 << depth) <= dsu.counter[root]);
+        assert(depth < 31 && (1 << depth) <= dsu.sz[root]);
     }
 }
 
@@ -31,10 +31,10 @@ vector<int> naive_labels(int n, const vector<pair<int, int>>& edges){
 /// Relations generated from a hidden assignment, some perturbed into contradictions once the pair is connected
 int main(){
     for (int n : {1000, 100000}){
-        WeightedDSU chain(n);
-        for (int i = 0; i < n; i++) assert(chain.connect(i, i + 1, 1));
+        PotentialDSU chain(n);
+        for (int i = 0; i < n; i++) assert(chain.relate(i, i + 1, 1));
         check_depths(chain);
-        assert(chain.diff(0, n) == n && chain.diff(n, 0) == -n && !chain.connect(n, 0, n));
+        assert(chain.diff(0, n) == n && chain.diff(n, 0) == -n && !chain.relate(n, 0, n));
     }
 
     /// Pairwise merges of equal blocks never compress a path, so node i sits popcount(i) hops deep
@@ -45,9 +45,9 @@ int main(){
         vector<long long> x(n + 1);
         for (auto& v : x) v = stress::rand_int(0, mod - 1);
 
-        WeightedDSU binomial(n, mod);
+        PotentialDSU binomial(n, mod);
         for (int step = 1; step <= n; step *= 2){
-            for (int i = 0; i + step <= n; i += 2 * step) assert(binomial.connect(i, i + step, x[i + step] - x[i]));
+            for (int i = 0; i + step <= n; i += 2 * step) assert(binomial.relate(i, i + step, x[i + step] - x[i]));
         }
         check_depths(binomial);
 
@@ -67,7 +67,7 @@ int main(){
             return ((x[b] - x[a]) % mod + mod) % mod;
         };
 
-        WeightedDSU dsu(n, mod);
+        PotentialDSU dsu(n, mod);
         vector<int> label = naive_labels(n, {});
 
         for (int q = stress::rand_int(0, 4 * n + 5); q; q--){
@@ -79,12 +79,12 @@ int main(){
             if (lie && !mod) d += d >= 0 ? -stress::rand_int(1, 5) : stress::rand_int(1, 5);
             if (mod) d += mod * stress::rand_int(-3, 3);
 
-            assert(dsu.connect(a, b, d) == !lie);
+            assert(dsu.relate(a, b, d) == !lie);
             relabel(label, a, b);
 
             int i = stress::rand_int(0, n), j = stress::rand_int(0, n);
-            assert(dsu.is_connected(i, j) == (label[i] == label[j]));
-            assert(dsu.component_size(i) == count(label.begin(), label.end(), label[i]));
+            assert(dsu.same(i, j) == (label[i] == label[j]));
+            assert(dsu.size(i) == count(label.begin(), label.end(), label[i]));
             if (label[i] == label[j]) assert(dsu.diff(i, j) == truth(i, j));
         }
 

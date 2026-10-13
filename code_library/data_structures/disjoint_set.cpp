@@ -7,7 +7,7 @@
  *
  * Complexity: amortized O(α(n)) per operation, where α(n) is the inverse Ackermann function, O(n) memory
  *
- * Variants: rollback_dsu.cpp (undoable unions), weighted_dsu.cpp (relations x[b] - x[a] = d), partially_persistent_dsu.cpp (queries at past times)
+ * Variants: rollback_dsu.cpp (undoable unions), potential_dsu.cpp (relations x[b] = x[a] + d), partially_persistent_dsu.cpp (queries at past times)
  *
 ***/
 
