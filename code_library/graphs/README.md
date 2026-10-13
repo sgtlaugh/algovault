@@ -306,7 +306,7 @@
 - [UVa 11985 - Prime Independence](https://onlinejudge.org/external/119/11985.pdf)
 - [UVa 12007 - Crossboard Coloring](https://onlinejudge.org/external/120/12007.pdf)
 - [UVa 12083 - Guardian of Decency](https://onlinejudge.org/external/120/12083.pdf)
-- [UVa 12168 - Cat vs. Dog](https://onlinejudge.org/external/121/12168.pdf)
+- [UVa 12168 - Cat vs. Dog](https://onlinejudge.org/external/121/12168.pdf) [✅](../../practice/graphs/uva_12168.cpp "Accepted solution")
 - [UVa 12549 - Sentry Robots](https://onlinejudge.org/external/125/12549.pdf)
 - [UVa 12644 - Vocabulary](https://onlinejudge.org/external/126/12644.pdf)
 - [UVa 12668 - Attacking rooks](https://onlinejudge.org/external/126/12668.pdf)
