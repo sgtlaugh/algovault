@@ -511,7 +511,7 @@
 - [UVa 1174 - IP-TV](https://onlinejudge.org/external/11/1174.pdf)
 - [UVa 1208 - Oreon](https://onlinejudge.org/external/12/1208.pdf) [✅](../../practice/graphs/uva_1208.cpp "Accepted solution")
 - [UVa 1216 - The Bug Sensor Problem](https://onlinejudge.org/external/12/1216.pdf) [✅](../../practice/graphs/uva_1216.cpp "Accepted solution")
-- [UVa 1235 - Anti Brute Force Lock](https://onlinejudge.org/external/12/1235.pdf)
+- [UVa 1235 - Anti Brute Force Lock](https://onlinejudge.org/external/12/1235.pdf) [✅](../../practice/graphs/uva_1235.cpp "Accepted solution")
 - [UVa 1395 - Slim Span](https://onlinejudge.org/external/13/1395.pdf)
 - [UVa 10034 - Freckles](https://onlinejudge.org/external/100/10034.pdf) [✅](../../practice/graphs/uva_10034.cpp "Accepted solution")
 - [UVa 10048 - Audiophobia](https://onlinejudge.org/external/100/10048.pdf) [✅](../../practice/graphs/uva_10048.cpp "Accepted solution")
