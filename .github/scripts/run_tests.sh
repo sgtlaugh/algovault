@@ -208,7 +208,7 @@ check_judge_marks(){  # a template carries a README ✔ exactly when a judge tes
 
 check_practice(){  # practice/ holds exactly the solutions linked from the practice sections
     local file files linked bad=()
-    files="$(git ls-files 'practice/*.cpp' | sort)"
+    files="$(git ls-files 'practice/*.cpp' 'practice/*.py' | sort)"
     linked="$(grep -ohP '\]\(\.\./\.\./\Kpractice/[^) ]+' code_library/*/README.md | sort -u)"
     while IFS= read -r file; do
         [[ -n "$file" ]] && bad+=("$file (no practice section links it)")
