@@ -5,19 +5,18 @@
  *
  * Complexity: O(log^2 n) amortized per update, O(log n) per query, O(n) build and memory
  *
- * SegmentTreeBeats st(n): n zeros, SegmentTreeBeats st(a): the values of a, n >= 1
- * Positions are 0-indexed and every range [l, r] is inclusive, 0 <= l <= r < n
+ * SegmentTreeBeats st(n): n zeros, n >= 1
+ * SegmentTreeBeats st(a): the values of a, a.size() >= 1
+ * st.chmin(l, r, x): a[i] = min(a[i], x) for l <= i <= r
+ * st.chmax(l, r, x): a[i] = max(a[i], x) for l <= i <= r
+ * st.add(l, r, x): a[i] += x for l <= i <= r
+ * st.assign(l, r, x): a[i] = x for l <= i <= r
+ * st.query_sum(l, r): sum of a[l..r]
+ * st.query_min(l, r): minimum of a[l..r]
+ * st.query_max(l, r): maximum of a[l..r]
  *
- * chmin(l, r, x): a[i] = min(a[i], x) for i in [l, r]
- * chmax(l, r, x): a[i] = max(a[i], x) for i in [l, r]
- * add(l, r, x): a[i] += x, assign(l, r, x): a[i] = x
- * query_sum(l, r), query_min(l, r), query_max(l, r)
- *
- * Each node keeps its maximum, its count and the strict second maximum (same for the minimum)
- * A chmin with second max < x < max only rewrites the maximums, so it is tagged without recursing
- *
- * Values: max |a[i]| plus the sum of |x| over all updates must be at most 9e18, and a queried sum must fit in long long
- * Node sums are kept unsigned so they wrap instead of overflowing when an intermediate sum does not fit
+ * Positions are 0-indexed and every call needs 0 <= l <= r < n
+ * max |a[i]| plus the sum of |x| over all updates must be at most 9e18, and a queried sum must fit in long long
  *
 ***/
 
@@ -31,6 +30,9 @@ struct SegmentTreeBeats{
     /// Marks a missing second maximum / second minimum, values never reach these under the documented range
     static constexpr long long NO_MAX = LLONG_MIN, NO_MIN = LLONG_MAX;
 
+    /// max1 is the maximum, cnt_max its count, max2 the strictly second largest value, the same for the min side
+    /// A chmin with max2 < x < max1 only rewrites the max1 entries, so it is tagged without recursing
+    /// sum is unsigned so it wraps instead of overflowing when an intermediate sum does not fit
     struct Node{
         unsigned long long sum = 0;
         long long max1 = 0, max2 = NO_MAX, min1 = 0, min2 = NO_MIN;
@@ -64,6 +66,7 @@ struct SegmentTreeBeats{
     long long query_min(int l, int r){ return query(l, r).min; }
     long long query_sum(int l, int r){ return (long long)query(l, r).sum; }
 
+private:
     void apply(int idx, Op op, long long x){
         if (op == ADD) apply_add(idx, x);
         else if (op == ASSIGN) apply_assign(idx, x);
@@ -209,16 +212,18 @@ struct SegmentTreeBeats{
 };
 
 int main(){
+    /// Each update, then queries on the array it leaves
     SegmentTreeBeats st(vector<long long>{5, -2, 7, 7, 0, 3});
-    st.chmin(0, 5, 4);
-    assert(st.query_max(0, 5) == 4);    /// 4 -2 4 4 0 3
+    st.chmin(0, 5, 4);                  /// 4 -2 4 4 0 3
+    assert(st.query_max(0, 5) == 4);
     assert(st.query_sum(0, 5) == 13);
-    st.chmax(1, 4, 1);
-    assert(st.query_min(0, 5) == 1);    /// 4 1 4 4 1 3
-    st.add(0, 2, -10);
-    assert(st.query_sum(0, 2) == -21);  /// -6 -9 -6 4 1 3
-    st.assign(2, 3, 0);
-    assert(st.query_sum(0, 5) == -11);  /// -6 -9 0 0 1 3
+    st.chmax(1, 4, 1);                  /// 4 1 4 4 1 3
+    assert(st.query_min(0, 5) == 1);
+    st.add(0, 2, -10);                  /// -6 -9 -6 4 1 3
+    assert(st.query_sum(0, 2) == -21);
+    st.assign(2, 3, 0);                 /// -6 -9 0 0 1 3
+    assert(st.query_sum(0, 5) == -11);
     assert(st.query_max(0, 3) == 0);
+
     return 0;
 }
