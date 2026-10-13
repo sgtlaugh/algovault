@@ -297,7 +297,7 @@
 - [UVa 1221 - Against Mammoths](https://onlinejudge.org/external/12/1221.pdf)
 - [UVa 1514 - Piece it together](https://onlinejudge.org/external/15/1514.pdf)
 - [UVa 1663 - Purifying Machine](https://onlinejudge.org/external/16/1663.pdf)
-- [UVa 10080 - Gopher II](https://onlinejudge.org/external/100/10080.pdf)
+- [UVa 10080 - Gopher II](https://onlinejudge.org/external/100/10080.pdf) [✅](../../practice/graphs/uva_10080.cpp "Accepted solution")
 - [UVa 10804 - Gopher Strategy](https://onlinejudge.org/external/108/10804.pdf)
 - [UVa 11138 - Nuts and Bolts](https://onlinejudge.org/external/111/11138.pdf) [✅](../../practice/graphs/uva_11138.cpp "Accepted solution")
 - [UVa 11159 - Factors and Multiples](https://onlinejudge.org/external/111/11159.pdf)
