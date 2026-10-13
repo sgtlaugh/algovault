@@ -303,7 +303,7 @@
 - [UVa 11159 - Factors and Multiples](https://onlinejudge.org/external/111/11159.pdf) [✅](../../practice/graphs/uva_11159.cpp "Accepted solution")
 - [UVa 11262 - Weird Fence](https://onlinejudge.org/external/112/11262.pdf) [✅](../../practice/graphs/uva_11262.cpp "Accepted solution")
 - [UVa 11419 - SAM I AM](https://onlinejudge.org/external/114/11419.pdf) [✅](../../practice/graphs/uva_11419.cpp "Accepted solution")
-- [UVa 11985 - Prime Independence](https://onlinejudge.org/external/119/11985.pdf)
+- [UVa 11985 - Prime Independence](https://onlinejudge.org/external/119/11985.pdf) [✅](../../practice/graphs/uva_11985.cpp "Accepted solution")
 - [UVa 12007 - Crossboard Coloring](https://onlinejudge.org/external/120/12007.pdf)
 - [UVa 12083 - Guardian of Decency](https://onlinejudge.org/external/120/12083.pdf)
 - [UVa 12168 - Cat vs. Dog](https://onlinejudge.org/external/121/12168.pdf) [✅](../../practice/graphs/uva_12168.cpp "Accepted solution")

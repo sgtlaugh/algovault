@@ -1,0 +1,138 @@
+/***
+ *
+ * Hopcroft Karp
+ * Maximum matching in a bipartite graph
+ *
+ * Complexity: O(m * sqrt(n)), O(n + m) memory
+ *
+ * HopcroftKarp hk(n_left, n_right): left vertices 0..n_left - 1, right vertices 0..n_right - 1
+ * hk.add_edge(u, v): edge from left u to right v
+ * hk.max_matching(): size of a maximum matching, can be called again after adding more edges
+ * hk.match_left[u]: right vertex matched to u or -1, hk.match_right[v]: left vertex matched to v or -1
+ *
+ * Each phase augments along shortest paths only, which is what bounds the phases by O(sqrt(n))
+ * The augmenting search is iterative, so long augmenting paths cannot overflow the stack
+ *
+ * minimum_path_cover.cpp carries a checked copy of this struct
+ *
+***/
+
+#include <bits/stdtr1c++.h>
+
+using namespace std;
+
+/// BEGIN SHARED hopcroft_karp
+struct HopcroftKarp{
+    int n_left, n_right;
+    vector<vector<int>> adj;
+    vector<int> match_left, match_right, dist, it;
+
+    HopcroftKarp(int n_left, int n_right) : n_left(n_left), n_right(n_right), adj(n_left), match_left(n_left, -1), match_right(n_right, -1) {}
+
+    void add_edge(int u, int v){
+        adj[u].push_back(v);
+    }
+
+    /// Layers left vertices by distance from free left vertices, stopping at the first layer that reaches a free right vertex
+    int bfs(){
+        dist.assign(n_left, -1);
+        vector<int> queue;
+        for (int u = 0; u < n_left; u++){
+            if (match_left[u] == -1) dist[u] = 0, queue.push_back(u);
+        }
+
+        int limit = INT_MAX;
+        for (int i = 0; i < (int)queue.size(); i++){
+            int u = queue[i];
+            for (int v : adj[u]){
+                int w = match_right[v];
+                if (w == -1) limit = min(limit, dist[u]);
+                else if (dist[w] == -1 && dist[u] < limit){
+                    dist[w] = dist[u] + 1;
+                    queue.push_back(w);
+                }
+            }
+        }
+        return limit;
+    }
+
+    void augment(int root, int limit){
+        vector<int> stack = {root};
+        while (!stack.empty()){
+            int u = stack.back();
+            if (it[u] == (int)adj[u].size()){
+                dist[u] = -1;
+                stack.pop_back();
+                continue;
+            }
+
+            int v = adj[u][it[u]++], w = match_right[v];
+            if (w == -1 && dist[u] == limit){
+                for (int x : stack){
+                    int y = adj[x][it[x] - 1];
+                    match_left[x] = y, match_right[y] = x;
+                }
+                return;
+            }
+            if (w != -1 && dist[w] == dist[u] + 1) stack.push_back(w);
+        }
+    }
+
+    int max_matching(){
+        while (true){
+            int limit = bfs();
+            if (limit == INT_MAX) break;
+            it.assign(n_left, 0);
+            for (int u = 0; u < n_left; u++){
+                if (match_left[u] == -1) augment(u, limit);
+            }
+        }
+        return n_left - count(match_left.begin(), match_left.end(), -1);
+    }
+};
+/// END SHARED hopcroft_karp
+
+int main(){
+    const int MAXV = 500000;
+    vector<int> primes, omega(MAXV + 1, 0);
+    for (int i = 2; i <= MAXV; i++){
+        if (!omega[i]){
+            primes.push_back(i);
+            for (int j = i; j <= MAXV; j += i){
+                for (int x = j; x % i == 0; x /= i) omega[j]++;
+            }
+        }
+    }
+
+    int t;
+    scanf("%d", &t);
+    vector<int> pos(MAXV + 1, -1);
+    for (int tc = 1; tc <= t; tc++){
+        int n;
+        scanf("%d", &n);
+        vector<int> a(n);
+        int hi = 0;
+        for (int i = 0; i < n; i++) scanf("%d", &a[i]), pos[a[i]] = i, hi = max(hi, a[i]);
+
+        /// a and a * p differ by one prime factor counted with multiplicity, so the parity of that count splits the graph in two
+        vector<int> side(n, -1);
+        int left = 0, right = 0;
+        for (int i = 0; i < n; i++) side[i] = omega[a[i]] & 1 ? left++ : right++;
+
+        HopcroftKarp hk(left, right);
+        for (int i = 0; i < n; i++){
+            for (int p : primes){
+                if ((long long)a[i] * p > hi) break;
+                int j = pos[a[i] * p];
+                if (j == -1) continue;
+                if (omega[a[i]] & 1) hk.add_edge(side[i], side[j]);
+                else hk.add_edge(side[j], side[i]);
+            }
+        }
+
+        /// Largest independent set in a bipartite graph is n minus the maximum matching (Konig)
+        printf("Case %d: %d\n", tc, n - hk.max_matching());
+        for (int x : a) pos[x] = -1;
+    }
+    return 0;
+}
