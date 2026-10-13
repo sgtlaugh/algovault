@@ -78,7 +78,7 @@
 #### [Longest Common Increasing Subsequence](lcis.cpp)
 
 - [Codeforces 10D - LCIS](https://codeforces.com/problemset/problem/10/D)
-- [UVa 12511 - Virus](https://onlinejudge.org/external/125/12511.pdf)
+- [UVa 12511 - Virus](https://onlinejudge.org/external/125/12511.pdf) [✅](../../practice/dp/uva_12511.cpp "Accepted solution")
 
 #### [Longest Increasing Subsequence](lis.cpp)
 
