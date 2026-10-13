@@ -151,7 +151,7 @@
 - [UVa 11452 - Dancing the Cheeky-Cheeky](https://onlinejudge.org/external/114/11452.pdf) [✅](../../practice/strings/uva_11452.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf)
 - [UVa 12467 - Secret Word](https://onlinejudge.org/external/124/12467.pdf)
-- [UVa 12604 - Caesar Cipher](https://onlinejudge.org/external/126/12604.pdf)
+- [UVa 12604 - Caesar Cipher](https://onlinejudge.org/external/126/12604.pdf) [✅](../../practice/strings/uva_12604.cpp "Accepted solution")
 - [UVa 12785 - Emacs Plugin](https://onlinejudge.org/external/127/12785.pdf)
 - [UVa 12916 - Perfect Cyclic String](https://onlinejudge.org/external/129/12916.pdf)
 
