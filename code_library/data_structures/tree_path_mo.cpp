@@ -3,7 +3,10 @@
  * Mo's Algorithm On Tree Paths
  * Offline path queries on a tree, by Mo's algorithm over an Euler tour that lists each node twice
  *
- * Complexity: O(n log n) to build, O(n sqrt(q) + q) calls to add and remove per run, plus O(q log q) sorting and O(q log n) for the lcas
+ * Complexity:
+ *   - build: O(n log n) time and memory
+ *   - lca: O(log n)
+ *   - run: O(n sqrt(q) + q) calls to add and remove, plus O(q log q) sorting and O(q log n) for the lcas
  *
  * TreePathMo tree(n): nodes 0..n - 1 and no edges yet
  * tree.add_edge(u, v): adds the tree edge between u and v
