@@ -261,7 +261,7 @@
 - [UVa 10296 - Jogging Trails](https://onlinejudge.org/external/102/10296.pdf)
 - [UVa 10389 - Subway](https://onlinejudge.org/external/103/10389.pdf)
 - [UVa 10724 - Road Construction](https://onlinejudge.org/external/107/10724.pdf)
-- [UVa 10793 - The Orc Attack](https://onlinejudge.org/external/107/10793.pdf)
+- [UVa 10793 - The Orc Attack](https://onlinejudge.org/external/107/10793.pdf) [✅](../../practice/graphs/uva_10793.cpp "Accepted solution")
 - [UVa 10803 - Thunder Mountain](https://onlinejudge.org/external/108/10803.pdf)
 - [UVa 11284 - Shopping Trip](https://onlinejudge.org/external/112/11284.pdf)
 - [UVa 11463 - Commandos](https://onlinejudge.org/external/114/11463.pdf) [✅](../../practice/graphs/uva_11463.cpp "Accepted solution")
