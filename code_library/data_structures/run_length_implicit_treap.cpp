@@ -1,31 +1,37 @@
 /***
  *
  * Run-Length Implicit Treap
- * A sequence of up to 4.6e18 values kept as runs (stretches of equal values), edited and queried by position
- * Use it when positions shift (insert, erase, reverse) or the sequence is too long for an array,
- * for fixed positions known in advance a segment tree over compressed coordinates is simpler
+ * A sequence of up to 4.6e18 values kept as runs of equal values, edited and queried by position
  *
  * Complexity: expected O(log r) per operation, r = number of runs, each operation adds at most 3 runs
  *
- * RunLengthImplicitTreap<SumRuns> seq(n, x): n copies of x, positions 0 .. n - 1, ranges [l, r] inclusive
- *   seq.insert(pos, x, count): count copies of x before position pos, pos = seq.size() appends
- *   seq.erase(l, r), seq.assign(l, r, x), seq.apply(l, r, lz), seq.reverse(l, r)
- *   seq.query(l, r): the Agg of positions l .. r, seq.get(pos): the value at pos, seq.size()
- *   seq.max_right(l, ok): last r with ok(seq.query(l, r)) true, l - 1 if none
- *   seq.min_left(r, ok): first l with ok(seq.query(l, r)) true, r + 1 if none
- *       ok must stay false once false as the range grows
- *   seq.for_each_run(l, r, f): f(x, count) for each run inside l .. r, left to right
- *   RunLengthImplicitTreap<Runs>(runs): built from {value, count} pairs in O(n)
+ * RunLengthImplicitTreap<Runs = SumRuns> seq(n, x): n copies of x, 0 <= n <= 4.6e18
+ * RunLengthImplicitTreap<Runs> seq(runs): built from {value, count} pairs in O(r), every count >= 1
+ * seq.size(): the length of the sequence
+ * seq.insert(pos, x, count): count copies of x before position pos, pos = seq.size() appends
+ * seq.erase(l, r): removes positions l..r
+ * seq.assign(l, r, x): sets positions l..r to x
+ * seq.apply(l, r, lz): applies the lazy update lz to positions l..r
+ * seq.reverse(l, r): reverses the order of positions l..r
+ * seq.query(l, r): the Agg of positions l..r
+ * seq.get(pos): the value at position pos
+ * seq.max_right(l, ok): last r with ok(seq.query(l, r)) true, l - 1 if none, 0 <= l <= size()
+ * seq.min_left(r, ok): first l with ok(seq.query(l, r)) true, r + 1 if none, -1 <= r < size()
+ * seq.for_each_run(l, r, f): f(x, count) for each run inside l..r, left to right
+ *
+ * Positions are 0-indexed and ranges need 0 <= l <= r < size()
+ * ok must stay false once false as the range grows, it is never called on an empty range
+ * For fixed positions known in advance, a segment tree over compressed coordinates is simpler
  *
  * Runs says what a run holds, SumRuns below (long long values, sums, add as the lazy) is the model to copy:
  *   Value, Agg: what a run stores and what query returns
- *   run_agg(x, count): the Agg of count copies of x, e.g. x * count for sums
+ *   run_agg(x, count): the Agg of count copies of x, x * count for sums
  *   combine(a, b): the Agg of two neighbouring pieces, a on the left
- *   Lazy, apply(x, lz), apply(a, lz, count), compose(old, new): only for seq.apply, a lazy update of a value, of an
- *       Agg covering count positions, and old followed by new as one lazy
+ *   Lazy, apply(x, lz), apply(a, lz, count), compose(old, new): only for seq.apply
+ *   apply(x, lz) updates one value, apply(a, lz, count) an Agg covering count positions, compose is old then new as one lazy
  *   reversed(x, count), reversed(a): only for seq.reverse, the run and the Agg read backwards
  *   cut(x, k): the first k values and the rest of a run, only for runs that are not all equal
- *   A missing part only matters when its operation is called, which then names the part at compile time
+ *   Calling apply without Lazy or reverse without reversed fails to compile, without cut every run counts as all equal
  *
  * 0/1 flags with flip (Codeforces 817F): Value int, Agg {ones, count}, Lazy int, apply flips, compose(a, b) = a ^ b
  * Arithmetic progressions: Value {a, d}, cut(x, k) = {x, {a + k * d, d}}, reversed(x, count) = {a + (count - 1) * d, -d}
@@ -51,6 +57,7 @@ struct SumRuns{
 };
 
 /// The optional parts of a Runs type, so a type defines only what its operations use
+/// Detected rather than defaulted: a missing Lazy or reversed then stops apply or reverse at compile time instead of doing nothing
 template<typename R, typename = void>
 struct LazyOf{
     using type = char;
@@ -199,6 +206,7 @@ struct RunLengthImplicitTreap{
         return r - taken + 1;
     }
 
+private:
     long long size(int t) const{
         return t == -1 ? 0 : nodes[t].size;
     }
@@ -364,6 +372,7 @@ struct RunLengthImplicitTreap{
 };
 
 int main(){
+    /// Edits by position on a short sequence
     RunLengthImplicitTreap<SumRuns> seq(10, 0);           /// 0 0 0 0 0 0 0 0 0 0
     seq.assign(2, 5, 3);                                  /// 0 0 3 3 3 3 0 0 0 0
     seq.insert(4, 7, 2);                                  /// 0 0 3 3 7 7 3 3 0 0 0 0
@@ -373,11 +382,13 @@ int main(){
     assert(seq.get(3) == 8);
     assert(seq.query(2, 4) == 19);
 
+    /// A sequence far too long for an array
     RunLengthImplicitTreap<SumRuns> big(1000000000000000000LL, 1);
     big.assign(10, 19, 5);                                /// ten 1s, ten 5s, then 1s
-    big.erase(0, 4);
+    big.erase(0, 4);                                      /// five 1s, ten 5s, then 1s
     assert(big.size() == 999999999999999995LL);
     assert(big.query(0, 24) == 5 + 50 + 10);
     assert(big.max_right(0, [](long long s){ return s <= 20; }) == 7);   /// 1 1 1 1 1 5 5 5 sums to 20
+
     return 0;
 }
