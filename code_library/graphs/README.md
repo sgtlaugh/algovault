@@ -509,7 +509,7 @@
 - [USACO 1211 - Moo Network](https://usaco.org/index.php?page=viewproblem2&cpid=1211)
 - [UVa 908 - Re-connecting Computer Sites](https://onlinejudge.org/external/9/908.pdf)
 - [UVa 1174 - IP-TV](https://onlinejudge.org/external/11/1174.pdf)
-- [UVa 1208 - Oreon](https://onlinejudge.org/external/12/1208.pdf)
+- [UVa 1208 - Oreon](https://onlinejudge.org/external/12/1208.pdf) [✅](../../practice/graphs/uva_1208.cpp "Accepted solution")
 - [UVa 1216 - The Bug Sensor Problem](https://onlinejudge.org/external/12/1216.pdf)
 - [UVa 1235 - Anti Brute Force Lock](https://onlinejudge.org/external/12/1235.pdf)
 - [UVa 1395 - Slim Span](https://onlinejudge.org/external/13/1395.pdf)
