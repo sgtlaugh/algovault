@@ -48,7 +48,7 @@
 
 - [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713)
 - [UVa 12425 - Best Friend](https://onlinejudge.org/external/124/12425.pdf)
-- [UVa 13131 - Divisors](https://onlinejudge.org/external/131/13131.pdf)
+- [UVa 13131 - Divisors](https://onlinejudge.org/external/131/13131.pdf) [✅](../../practice/number_theory/uva_13131.cpp "Accepted solution")
 
 #### [Du's Sieve](du_sieve.cpp)
 
