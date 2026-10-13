@@ -7,7 +7,7 @@
 #### [Binomial Coefficients](binomial_coefficients.cpp)
 
 - [CodeChef SANDWICH - Long Sandwich](https://www.codechef.com/problems/SANDWICH)
-- [Codeforces 896D - Nephren Runs a Cinema](https://codeforces.com/problemset/problem/896/D)
+- [Codeforces 896D - Nephren Runs a Cinema](https://codeforces.com/problemset/problem/896/D) [✅](../../practice/combinatorics/codeforces_896d.cpp "Accepted solution")
 - [Library Checker binomial_coefficient - Binomial Coefficient](https://judge.yosupo.jp/problem/binomial_coefficient)
 - [SPOJ DCEPC13D - The Ultimate Riddle](https://www.spoj.com/problems/DCEPC13D/)
 - [UVa 1264 - Binary Search Tree](https://onlinejudge.org/external/12/1264.pdf)
