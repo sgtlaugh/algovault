@@ -1,28 +1,26 @@
 /***
  *
  * Permutation Tree
- * Decomposition of a permutation into its common intervals: ranges [l, r] whose values form a contiguous set
+ * Splits a permutation into its common intervals, the ranges whose values form a contiguous set
  *
- * Complexity: O(n log n) to build, O(n) nodes (at most 2n - 1), O(n) count_intervals
+ * Complexity: O(n log n) to build, O(n) for count_intervals
  *
- * PermutationTree pt(p) takes a permutation p of 0..n-1 (n may be 0)
- * Nodes 0..n-1 are the leaves, node i is position i; internal nodes get ids n, n + 1, ...
- * span[v] = [l, r] positions covered by v, range[v] = [lo, hi] values p[l..r], always hi - lo == r - l
- * children[v] in position order, parent[root] = -1
+ * PermutationTree pt(p): the tree of a permutation p of 0..n - 1, n may be 0
+ * pt.count_intervals(): number of common intervals, the n singletons included
+ * pt.root: the root node, -1 if n = 0
+ * pt.parent[v]: parent of v, -1 for the root
+ * pt.children[v]: children of v in position order
+ * pt.span[v]: the positions [l, r] that v covers
+ * pt.range[v]: the values [lo, hi] of p[l..r], always hi - lo == r - l
+ * pt.type[v]: INCREASING, DECREASING or CUT
  *
- * type[v] is one of
- *   INCREASING: children ranges ascend by one step each, every run of 2+ consecutive children is a common interval
- *   DECREASING: same with descending ranges
- *   CUT: a leaf, or a node with 4+ children where only the whole node is a common interval, no shorter run
- * A join node never has a child that is a join node of the same direction, which makes the tree unique
+ * Nodes 0..n - 1 are the leaves, node i is position i, internal nodes get ids n, n + 1, ..., at most 2n - 1 nodes in all
+ * INCREASING children ranges ascend one step each, so every run of 2+ consecutive children is a common interval
+ * DECREASING is the same with descending ranges
+ * CUT is a leaf, or a node with 4+ children where only the whole node is a common interval
+ * No join node has a child that is a join node of the same direction, which makes the tree unique
  * Every common interval is a leaf, a whole cut node, or a run of 2+ consecutive children of a join node
- *
- * count_intervals(): number of common intervals [l, r], including the n singletons, as long long
- *   For 1-indexed or arbitrary distinct values, compress them to ranks 0..n-1 first
- *
- * Example:
- *   PermutationTree pt({0, 3, 1, 2, 4});
- *   pt.count_intervals();   // 10
+ * For 1-indexed or arbitrary distinct values, compress them to ranks 0..n - 1 first
  *
 ***/
 
@@ -45,7 +43,7 @@ struct PermutationTree{
 
         /// tree_min at j holds (max - min of p[j..i]) - (i - j), which is 0 exactly when [j, i] is a common interval
         vector<int> tree_min(4 * n), tree_add(4 * n);
-        vector<int> max_stack, min_stack, nodes;
+        vector<int> max_stack, min_stack, roots_stack;  /// roots_stack: roots of the trees built so far, left to right
         for (int i = 0; i < n; i++){
             while (!max_stack.empty() && p[max_stack.back()] < p[i]){
                 int r = max_stack.back();
@@ -63,10 +61,10 @@ struct PermutationTree{
 
             int cur = i;
             while (true){
-                if (!nodes.empty() && (adjacent(nodes.back(), cur) || adjacent(cur, nodes.back()))){
-                    int top = nodes.back();
+                if (!roots_stack.empty() && (adjacent(roots_stack.back(), cur) || adjacent(cur, roots_stack.back()))){
+                    int top = roots_stack.back();
                     Type dir = adjacent(top, cur) ? INCREASING : DECREASING;
-                    nodes.pop_back();
+                    roots_stack.pop_back();
                     if (type[top] == dir){
                         attach(top, cur);
                         cur = top;
@@ -86,18 +84,19 @@ struct PermutationTree{
                 int v = new_node(CUT, span[cur], range[cur]);
                 attach(v, cur);
                 do {
-                    attach(v, nodes.back());
-                    nodes.pop_back();
+                    attach(v, roots_stack.back());
+                    roots_stack.pop_back();
                 } while (range[v].second - range[v].first != span[v].second - span[v].first);
                 reverse(children[v].begin(), children[v].end());
                 cur = v;
             }
-            nodes.push_back(cur);
+            roots_stack.push_back(cur);
 
+            /// Moving to i + 1 lengthens every [j, i] by one, so the -(i - j) term drops by 1 for every j <= i
             add(tree_min, tree_add, 1, 0, n - 1, 0, i, -1);
         }
 
-        if (n) root = nodes.back();
+        if (n) root = roots_stack.back();
     }
 
     long long count_intervals() const {
@@ -109,6 +108,7 @@ struct PermutationTree{
         return total;
     }
 
+private:
     static void add(vector<int>& tree_min, vector<int>& tree_add, int idx, int a, int b, int l, int r, int val){
         if (r < a || b < l) return;
         if (l <= a && b <= r){
@@ -167,5 +167,6 @@ int main(){
     PermutationTree simple({1, 3, 0, 2});
     assert(simple.type[simple.root] == PermutationTree::CUT);
     assert(simple.count_intervals() == 5);
+
     return 0;
 }
