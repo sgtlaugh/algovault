@@ -67,7 +67,7 @@ int main(){
 
         for (int i = 0; i <= n; i++){
             int depth = 0, root = i;
-            while (dsu.joined[root] <= m) root = dsu.parent[root], depth++;
+            while (dsu.merged_at[root] <= m) root = dsu.parent[root], depth++;
             assert(depth < 31 && (1 << depth) <= dsu.size(i, m));
         }
     }

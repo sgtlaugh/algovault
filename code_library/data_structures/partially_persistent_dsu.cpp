@@ -1,16 +1,28 @@
 /***
  *
- * Partially Persistent Disjoint Set Union
- * Unions at increasing times, connectivity and component size queries at any past time
- * Nodes can be 0 or 1 based, allocates nodes 0..n
- * connect returns true if a and b were in different components
+ * Partially Persistent DSU
+ * Union-find that remembers its past: were a and b in the same set after the first t connect calls?
  *
- * Complexity: O(log n) per operation, union by size without path compression, O(n) memory
+ * Complexity: O(log n) per operation, O(n) memory
  *
- * The k-th call to connect happens at time k, now is the number of calls so far
- * find(i, t), same(a, b, t), size(i, t): the state after the first t calls, t >= 0
- * Any t >= now gives the current state
- * The first time a and b were connected is a binary search over t on same
+ * PartiallyPersistentDSU dsu(n): nodes 0..n, each in its own set
+ * dsu.connect(a, b): merge the sets of a and b, false if they already were one set
+ * dsu.same(a, b, t): true if a and b were in the same set after the first t connect calls
+ * dsu.size(a, t): number of nodes in a's set after the first t connect calls
+ * dsu.find(a, t): representative of a's set after the first t connect calls
+ * dsu.now: number of connect calls so far, failed ones included
+ *
+ * Example:
+ *     dsu.connect(1, 2);    // true, call 1
+ *     dsu.connect(3, 4);    // true, call 2
+ *     dsu.connect(2, 1);    // false, still counts as call 3
+ *     dsu.connect(2, 4);    // true, call 4
+ *     dsu.same(1, 4, 3);    // false, 1 and 4 meet at call 4
+ *     dsu.same(1, 4, 4);    // true
+ *     dsu.size(4, 2);       // 2, the set {3, 4}
+ *     dsu.size(4, 100);     // 4, any t >= now is the current state
+ *
+ * The first call that joined a and b: binary search the smallest t with same(a, b, t)
  *
 ***/
 
@@ -20,17 +32,17 @@ using namespace std;
 
 struct PartiallyPersistentDSU{
     int now = 0;
-    vector<int> parent, joined;  /// joined[i]: time i stopped being a root, INT_MAX while it still is one
-    vector<vector<pair<int, int>>> sizes;  /// (time, size) of root i, times increasing
+    vector<int> parent, merged_at;                /// merged_at[i]: call that gave i a parent, INT_MAX while i is a root
+    vector<vector<pair<int, int>>> size_history;  /// (call, size) of root i, calls increasing
 
-    PartiallyPersistentDSU(int n) : parent(n + 1), joined(n + 1, INT_MAX), sizes(n + 1, {{0, 1}}){
+    PartiallyPersistentDSU(int n) : parent(n + 1), merged_at(n + 1, INT_MAX), size_history(n + 1, {{0, 1}}){
         iota(parent.begin(), parent.end(), 0);
     }
 
-    int find(int i, int t){
+    int find(int a, int t){
         assert(t >= 0);
-        while (i != parent[i] && joined[i] <= t) i = parent[i];
-        return i;
+        while (a != parent[a] && merged_at[a] <= t) a = parent[a];
+        return a;
     }
 
     bool connect(int a, int b){
@@ -38,9 +50,10 @@ struct PartiallyPersistentDSU{
         a = find(a, now), b = find(b, now);
         if (a == b) return false;
 
-        if (sizes[a].back().second > sizes[b].back().second) swap(a, b);
-        parent[a] = b, joined[a] = now;
-        sizes[b].push_back({now, sizes[a].back().second + sizes[b].back().second});
+        int size_a = size_history[a].back().second, size_b = size_history[b].back().second;
+        if (size_a > size_b) swap(a, b);
+        parent[a] = b, merged_at[a] = now;
+        size_history[b].push_back({now, size_a + size_b});
         return true;
     }
 
@@ -48,25 +61,31 @@ struct PartiallyPersistentDSU{
         return find(a, t) == find(b, t);
     }
 
-    int size(int i, int t){
-        auto& history = sizes[find(i, t)];
+    int size(int a, int t){
+        auto& history = size_history[find(a, t)];
+        /// the last entry recorded at or before call t
         return prev(upper_bound(history.begin(), history.end(), make_pair(t, INT_MAX)))->second;
     }
 };
 
 int main(){
-    auto pp = PartiallyPersistentDSU(5);
-    assert(pp.connect(1, 2) && pp.connect(3, 4) && !pp.connect(2, 1) && pp.connect(2, 4));
-    assert(pp.now == 4);
+    /// The header example
+    PartiallyPersistentDSU dsu(4);
+    assert(dsu.connect(1, 2));
+    assert(dsu.connect(3, 4));
+    assert(!dsu.connect(2, 1));
+    assert(dsu.connect(2, 4));
+    assert(dsu.now == 4);
+    assert(!dsu.same(1, 4, 3));
+    assert(dsu.same(1, 4, 4));
+    assert(dsu.size(4, 2) == 2);
+    assert(dsu.size(4, 100) == 4);
 
-    assert(!pp.same(1, 2, 0) && pp.same(1, 2, 1));
-    assert(!pp.same(1, 4, 3) && pp.same(1, 4, 4) && pp.same(3, 2, 100));
-    assert(pp.find(1, 0) == 1 && pp.find(5, 4) == 5);
-
-    assert(pp.size(1, 0) == 1 && pp.size(1, 1) == 2 && pp.size(4, 1) == 1);
-    assert(pp.size(4, 3) == 2 && pp.size(3, 4) == 4 && pp.size(1, 100) == 4);
-    assert(pp.size(5, 4) == 1);
-    assert(pp.same(3, 2, INT_MAX) && pp.size(1, INT_MAX) == 4 && !pp.same(1, 5, INT_MAX));
+    /// t = 0 is the state before any call, t = INT_MAX the current one
+    assert(!dsu.same(1, 2, 0));
+    assert(dsu.size(1, 0) == 1);
+    assert(dsu.find(1, 0) == 1);
+    assert(dsu.same(3, 2, INT_MAX));
 
     return 0;
 }
