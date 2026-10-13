@@ -83,7 +83,7 @@
 - [Codeforces 755F - PolandBall and Gifts](https://codeforces.com/problemset/problem/755/F) [✅](../../practice/combinatorics/codeforces_755f.cpp "Accepted solution")
 - [CSES 1698 - Swap Round Sorting](https://cses.fi/problemset/task/1698)
 - [CSES 3398 - Permutation Rounds](https://cses.fi/problemset/task/3398)
-- [UVa 10570 - Meeting with Aliens](https://onlinejudge.org/external/105/10570.pdf)
+- [UVa 10570 - Meeting with Aliens](https://onlinejudge.org/external/105/10570.pdf) [✅](../../practice/combinatorics/uva_10570.cpp "Accepted solution")
 - [UVa 11495 - Bubbles and Buckets](https://onlinejudge.org/external/114/11495.pdf)
 
 #### [Permutation Index](permutation_index.cpp)
