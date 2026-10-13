@@ -6,12 +6,12 @@
  * Complexity: O(n log n) time and memory to build, O(log n) per query and per add
  *
  * XorSegmentTree<T> st(a): sums of a, a.size() a power of two
- * XorSegmentTree<T, Combine> st(a, combine): folds with combine, which must be associative and have a const operator() but need not commute
+ * XorSegmentTree<T, Combine> st(a, combine): tree with combine, which must be associative and have a const operator() but need not commute
  * st.query(l, r, x): combine of a[p ^ x] over l <= p <= r in p order, 0 <= l <= r < n, 0 <= x < n
  * st.add(i, v): a[i] += v, only with the default Combine = plus<T>, every other combine builds a static tree
  *
  * Pad a to a power of two by hand, the padding values depend on what a padded a[p ^ x] should mean
- * For sums every stored fold of a node is the same block sum, the n log n layout pays off for order-dependent folds like max subarray sum (CF 1716E)
+ * For sums every stored fold of a node is the same block sum, the n log n layout pays off for order-dependent tree like max subarray sum (CF 1716E)
  *
 ***/
 
@@ -23,10 +23,10 @@ template <typename T, typename Combine = plus<T>>
 struct XorSegmentTree{
     int n;
     Combine combine;
-    vector<vector<T>> t;  /// t[node][y] = combine of a[p ^ y] in p order over the node's block, 0 <= y < block length, adds excluded
-    vector<T> added;      /// added[node] = sum of the add() values at positions in the node's block
+    vector<vector<T>> tree;  /// tree[node][y] = combine of a[p ^ y] in p order over the node's block, 0 <= y < block length, adds excluded
+    vector<T> added;         /// added[node] = sum of the add() values at positions in the node's block
 
-    XorSegmentTree(const vector<T>& a, Combine combine = Combine()) : n((int)a.size()), combine(combine), t(2 * a.size()), added(2 * a.size()){
+    XorSegmentTree(const vector<T>& a, Combine combine = Combine()) : n((int)a.size()), combine(combine), tree(2 * a.size()), added(2 * a.size()){
         assert(n > 0 && (n & (n - 1)) == 0);
         build(1, 0, n, a);
     }
@@ -53,7 +53,7 @@ struct XorSegmentTree{
 
     void build(int node, int b, int len, const vector<T>& a){
         if (len == 1){
-            t[node] = {a[b]};
+            tree[node] = {a[b]};
             return;
         }
 
@@ -61,18 +61,18 @@ struct XorSegmentTree{
         build(lc, b, half, a);
         build(rc, b + half, half, a);
 
-        t[node].resize(len);
+        tree[node].resize(len);
         for (int y = 0; y < half; y++){
-            t[node][y] = combine(t[lc][y], t[rc][y]);
-            t[node][y + half] = combine(t[rc][y], t[lc][y]);
+            tree[node][y] = combine(tree[lc][y], tree[rc][y]);
+            tree[node][y + half] = combine(tree[rc][y], tree[lc][y]);
         }
     }
 
-    /// x < len, b <= l <= r < b + len; folds a[p ^ x] over p in [l, r], never visiting an empty range
+    /// x < len, b <= l <= r < b + len; tree a[p ^ x] over p in [l, r], never visiting an empty range
     T query(int node, int b, int len, int l, int r, int x) const{
         if (l == b && r == b + len - 1){
-            if constexpr (is_same_v<Combine, plus<T>>) return added[node] + t[node][x];
-            else return t[node][x];
+            if constexpr (is_same_v<Combine, plus<T>>) return added[node] + tree[node][x];
+            else return tree[node][x];
         }
 
         /// a set bit half of x sends positions [b, mid) to the right child and [mid, b + len) to the left one
@@ -82,7 +82,7 @@ struct XorSegmentTree{
         if (r < mid) return query(left_src, b + shift, half, l + shift, r + shift, x);
         if (l >= mid) return query(right_src, b + half - shift, half, l - shift, r - shift, x);
         return combine(query(left_src, b + shift, half, l + shift, mid - 1 + shift, x),
-                     query(right_src, b + half - shift, half, mid - shift, r - shift, x));
+                       query(right_src, b + half - shift, half, mid - shift, r - shift, x));
     }
 };
 
