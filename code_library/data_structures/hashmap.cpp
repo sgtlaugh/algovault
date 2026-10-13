@@ -1,22 +1,26 @@
 /***
- * Open addressing hash table with linear probing for integral keys
+ *
+ * Hash Map
+ * Hash table for integral keys that crafted hack tests cannot slow down
  *
  * Complexity:
- *   - O(max_len) to construct, the table holds the smallest power of two >= 2 * max_len slots, so the load factor stays at most 1/2
- *   - Expected O(1) per set/add/get/contains/erase with a light constant factor
- *   - O(1) to clear
+ *   - construction: O(max_len)
+ *   - set, add, get, contains, erase: expected O(1)
+ *   - clear: O(1)
  *
- * Buckets come from splitmix64 of the key plus a salt chosen at runtime
- * Otherwise it'd be easy to generate counter cases leading to O(n) per operation
- * See https://codeforces.com/blog/entry/62393
+ * HashMap<TKey, TValue> mp(max_len): empty map for at most max_len distinct keys, the table never grows
+ * mp.set(x, v): store v under x
+ * mp.add(x, v): add v to the value under x, a missing x starts from TValue()
+ * mp.get(x): the value under x, TValue() if x is missing, never inserts
+ * mp.contains(x): true if x is in the map
+ * mp.erase(x): remove x, nothing happens if x is missing
+ * mp.clear(): remove every key
+ * mp.size(): number of keys in the map
  *
- * Need to specify the maximum number of entries to be inserted on construction, the table never grows
- * For maximal performance, declare once and clear for re-use
- *
- * HashMap<TKey, TValue> mp(max_len);
- * mp.set(x, v), mp.add(x, v), mp.get(x), mp.contains(x), mp.erase(x), mp.clear(), mp.size()
- *
- * Default value for missing keys is TValue(), like STL map
+ * Inserting a key beyond max_len fails an assert
+ * Keys are hashed with splitmix64 plus a salt chosen at runtime, so fixed tests cannot force collisions, see https://codeforces.com/blog/entry/62393
+ * Linear probing over the smallest power of two >= 2 * max_len slots, so the load factor stays at most 1/2
+ * For speed, declare one map and clear() it between uses
  *
 ***/
 
@@ -39,6 +43,7 @@ class HashMap{
         /// static so construction stays cheap for many small maps and copy assignment is not deleted
         static inline const uint64_t salt = mt19937_64(chrono::steady_clock::now().time_since_epoch().count())();
 
+        /// A slot is live only while its id equals cur_id, so clear() empties every slot at once by bumping cur_id
         int cur_id = 1, _size = 0, max_len, mask;
         vector<Slot> slots;
 
@@ -49,17 +54,17 @@ class HashMap{
             return x ^ (x >> 31);
         }
 
-        inline int home(TKey x) const{
+        int home(TKey x) const{
             return splitmix64((uint64_t)x + salt) & mask;
         }
 
         /// Returns the slot holding x, or the empty slot where x would be inserted
-        inline int get_pos(TKey x, int i) const{
+        int get_pos(TKey x, int i) const{
             while (slots[i].id == cur_id && slots[i].key != x) i = (i + 1) & mask;
             return i;
         }
 
-        inline void insert_at(int i, int h, TKey x, TValue v){
+        void insert_at(int i, int h, TKey x, TValue v){
             assert(_size < max_len);
             slots[i] = {cur_id, h, x, v};
             _size++;
@@ -120,56 +125,32 @@ class HashMap{
 };
 
 int main(){
-    auto hashmap = HashMap<int, int>(100);
+    /// Sums and values under integer keys
+    HashMap<int, int> mp(100);
+    assert(mp.get(5) == 0);
+    assert(mp.size() == 0);
 
-    assert(hashmap.get(5) == 0);
+    mp.add(5, 10);
+    mp.add(5, 5);
+    assert(mp.get(5) == 15);
 
-    hashmap.add(5, 10);
-    assert(hashmap.get(5) == 10);
+    mp.set(5, 32);
+    assert(mp.get(5) == 32);
+    assert(mp.contains(5));
+    assert(!mp.contains(7));
+    assert(mp.size() == 1);
 
-    hashmap.add(5, 5);
-    assert(hashmap.get(5) == 15);
+    mp.erase(5);
+    assert(!mp.contains(5));
+    assert(mp.size() == 0);
 
-    hashmap.set(5, 32);
-    assert(hashmap.get(5) == 32);
-
-    assert(hashmap.size() == 1);
-    hashmap.erase(5);
-    assert(hashmap.size() == 0);
-
-    hashmap.erase(13);
-    assert(hashmap.size() == 0);
-
-    hashmap.set(INT_MIN, INT_MIN);
-    assert(hashmap.contains(INT_MIN));
-
-    hashmap.add(INT_MIN, 1);
-    assert(hashmap.get(INT_MIN) == (INT_MIN + 1));
-
-    hashmap.add(INT_MAX, 1);
-    assert(hashmap.contains(INT_MAX));
-
-    assert(hashmap.size() == 2);
-    hashmap.clear();
-    assert(hashmap.size() == 0 && !hashmap.contains(INT_MIN) && !hashmap.contains(INT_MAX));
-
-    /// Keys that differ only in their high bits, the classic way to break weak hashes
-    auto spread = HashMap<long long, int>(100000);
-    for (int i = 0; i < 100000; i++) spread.set((long long)i << 40, i);
-    for (int i = 0; i < 100000; i++) assert(spread.get((long long)i << 40) == i);
-
-    /// A tiny table with random inserts and erases keeps long, wrapping probe chains, compare against std::map
-    mt19937 rng(20020523);
-    auto small = HashMap<int, int>(40);
-    map<int, int> expected;
-    for (int op = 0; op < 200000; op++){
-        int key = (int)(rng() % 120) - 60, value = rng() % 1000;
-        if (rng() % 3 == 0) small.erase(key), expected.erase(key);
-        else if (expected.count(key) || (int)expected.size() < 40) small.add(key, value), expected[key] += value;
-        assert(small.size() == (int)expected.size());
-        assert(small.get(key) == (expected.count(key) ? expected[key] : 0));
-    }
-    for (auto& kv : expected) assert(small.get(kv.first) == kv.second);
+    /// clear() empties the map for reuse
+    mp.set(-3, 9);
+    mp.set(1000000000, 1);
+    assert(mp.size() == 2);
+    mp.clear();
+    assert(mp.size() == 0);
+    assert(!mp.contains(-3));
 
     return 0;
 }

@@ -57,7 +57,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
   - [2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - huge grids, columns as on-demand segment trees
   - [2D, Sparse](code_library/data_structures/fenwick_tree_2D_sparse.cpp) - grids up to 1e9 x 1e9 with sparse updates, hashed [✔](judge_tests/data_structures/point_add_rectangle_sum.cpp)
   - [3D](code_library/data_structures/fenwick_tree_3D.cpp) - the same in 3D
-- [Hash Map](code_library/data_structures/hashmap.cpp) - anti-hack hash map with expected `O(1)` operations [✔](judge_tests/data_structures/associative_array.cpp)
+- [Hash Map](code_library/data_structures/hashmap.cpp) - hash table for integral keys that hack tests cannot slow down, expected `O(1)` [✔](judge_tests/data_structures/associative_array.cpp)
 - [Interval Set](code_library/data_structures/interval_set.cpp) - disjoint half-open intervals with merging add, splitting remove and coverage queries [✔](judge_tests/data_structures/aoj_dsl_4_a.cpp)
 - [Leftist Heap, Persistent](code_library/data_structures/leftist_heap.cpp) - meldable priority queue with `O(log n)` push/pop/meld, persistent [✔](judge_tests/data_structures/k_shortest_walk.cpp)
 - [Li Chao Tree](code_library/data_structures/li_chao_tree.cpp) - min/max of lines and segments at a point, plus a persistent variant [✔](judge_tests/data_structures/line_add_get_min.cpp)
