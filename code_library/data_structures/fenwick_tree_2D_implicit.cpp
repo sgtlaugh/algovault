@@ -62,7 +62,6 @@ struct FenwickImplicit2D{
         return res;
     }
 
-private:
     int update_seg(int cur, int a, int b, int p, T v){
         if (!cur){
             assert((int)nodes.size() < MAXNODES);  /// out of pool nodes, raise MAXNODES
