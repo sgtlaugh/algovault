@@ -148,7 +148,7 @@
 - [UVa 1328 - Period](https://onlinejudge.org/external/13/1328.pdf) [✅](../../practice/strings/uva_1328.cpp "Accepted solution")
 - [UVa 1358 - Generator](https://onlinejudge.org/external/13/1358.pdf)
 - [UVa 10298 - Power Strings](https://onlinejudge.org/external/102/10298.pdf)
-- [UVa 11452 - Dancing the Cheeky-Cheeky](https://onlinejudge.org/external/114/11452.pdf)
+- [UVa 11452 - Dancing the Cheeky-Cheeky](https://onlinejudge.org/external/114/11452.pdf) [✅](../../practice/strings/uva_11452.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf)
 - [UVa 12467 - Secret Word](https://onlinejudge.org/external/124/12467.pdf)
 - [UVa 12604 - Caesar Cipher](https://onlinejudge.org/external/126/12604.pdf)
