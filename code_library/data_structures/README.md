@@ -328,7 +328,7 @@
 #### [Rope](rope.cpp)
 
 - [CSES 2072 - Cut and Paste](https://cses.fi/problemset/task/2072)
-- [UVa 12538 - Version Controlled IDE](https://onlinejudge.org/external/125/12538.pdf)
+- [UVa 12538 - Version Controlled IDE](https://onlinejudge.org/external/125/12538.pdf) [✅](../../practice/data_structures/uva_12538.cpp "Accepted solution")
 
 #### [Segment Tree](segment_tree.cpp)
 
