@@ -92,7 +92,7 @@
 - [SPOJ DICE - Three-sided Dice](https://www.spoj.com/problems/DICE/)
 - [USACO 207 - Crazy Fences](https://usaco.org/index.php?page=viewproblem2&cpid=207)
 - [UVa 191 - Intersection](https://onlinejudge.org/external/1/191.pdf) [✅](../../practice/geometry/uva_191.cpp "Accepted solution")
-- [UVa 273 - Jack Straws](https://onlinejudge.org/external/2/273.pdf)
+- [UVa 273 - Jack Straws](https://onlinejudge.org/external/2/273.pdf) [✅](../../practice/geometry/uva_273.cpp "Accepted solution")
 - [UVa 378 - Intersecting Lines](https://onlinejudge.org/external/3/378.pdf)
 - [UVa 634 - Polygon](https://onlinejudge.org/external/6/634.pdf)
 - [UVa 1301 - Fishnet](https://onlinejudge.org/external/13/1301.pdf)
