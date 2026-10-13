@@ -63,7 +63,6 @@ struct DancingLinks{
         return vector<int>(selected_rows.begin(), selected_rows.begin() + len);
     }
 
-private:
     /// Returns the number of selected rows of the first cover found, or -1 if none exists
     int algorithm_x(int depth){
         if (R[0] == 0) return depth;
