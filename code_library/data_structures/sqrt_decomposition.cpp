@@ -8,7 +8,7 @@
  * SqrtDecomposition<T> s(values): positions 0..n - 1
  * s.add(l, r, v): adds v to every value in [l, r], 0 <= l <= r < n
  * s.count_less(l, r, x): how many values in [l, r] are < x, 0 <= l <= r < n
- * s.get(i): the current value at position i
+ * s.get(i): the current value at position i, 0 <= i < n
  *
  * Every current value and every x must stay within half the range of T, |v| <= 1e9 for int and about 4.6e18 for long long
  * The bound holds because a block's pending addition is the difference of two such values
