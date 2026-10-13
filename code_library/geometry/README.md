@@ -1,6 +1,6 @@
-# Geometry - Practice Problems
+## Geometry - Practice Problems
 
-## [Circle Geometry](circle.cpp)
+#### [Circle Geometry](circle.cpp)
 
 - [AOJ 0090 - Overlaps of Seals](https://onlinejudge.u-aizu.ac.jp/problems/0090)
 - [AOJ CGL_7_A - Intersection of Circles](https://onlinejudge.u-aizu.ac.jp/problems/CGL_7_A)
@@ -27,7 +27,7 @@
 - [UVa 11978 - Fukushima Nuclear Blast](https://onlinejudge.org/external/119/11978.pdf)
 - [UVa 12056 - Circle Strafing](https://onlinejudge.org/external/120/12056.pdf)
 
-## [Closest Pair of Points](closest_pair.cpp)
+#### [Closest Pair of Points](closest_pair.cpp)
 
 - [AOJ CGL_5_A - Closest Pair](https://onlinejudge.u-aizu.ac.jp/problems/CGL_5_A)
 - [Codeforces 120J - Minimum Sum](https://codeforces.com/problemset/problem/120/J)
@@ -39,7 +39,7 @@
 - [UVa 10245 - The Closest Pair Problem](https://onlinejudge.org/external/102/10245.pdf)
 - [UVa 11378 - Bey Battle](https://onlinejudge.org/external/113/11378.pdf)
 
-## [Convex Hull](convex_hull.cpp)
+#### [Convex Hull](convex_hull.cpp)
 
 - [AOJ CGL_3_B - Is-Convex](https://onlinejudge.u-aizu.ac.jp/problems/CGL_3_B)
 - [AOJ CGL_4_B - Diameter of a Convex Polygon](https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B)
@@ -66,7 +66,7 @@
 - [UVa 12999 - Defense Plan](https://onlinejudge.org/external/129/12999.pdf)
 - [UVa 13024 - Saint John Festival](https://onlinejudge.org/external/130/13024.pdf)
 
-## [Geometry](geometry.cpp)
+#### [Geometry](geometry.cpp)
 
 - [AOJ 0177 - Distance Between Two Cities](https://onlinejudge.u-aizu.ac.jp/problems/0177)
 - [AOJ CGL_1_A - Projection](https://onlinejudge.u-aizu.ac.jp/problems/CGL_1_A)
@@ -105,7 +105,7 @@
 - [UVa 12123 - Magnetic Train Tracks](https://onlinejudge.org/external/121/12123.pdf)
 - [UVa 13117 - ACIS, A Contagious vIruS](https://onlinejudge.org/external/131/13117.pdf)
 
-## [Half-plane Intersection](halfplane_intersection.cpp)
+#### [Half-plane Intersection](halfplane_intersection.cpp)
 
 - [AOJ 1283 - Most Distant Point from the Sea](https://onlinejudge.u-aizu.ac.jp/problems/1283)
 - [CodeChef CHN02 - Animesh decides to settle down](https://www.codechef.com/problems/CHN02)
@@ -120,23 +120,23 @@
 - [UVa 1571 - How I Mathematician Wonder What You Are!](https://onlinejudge.org/external/15/1571.pdf)
 - [UVa 13213 - Quidditch Match](https://onlinejudge.org/external/132/13213.pdf)
 
-## [Pick's Theorem](picks_theorem.cpp)
+#### [Pick's Theorem](picks_theorem.cpp)
 
 - [CSES 2193 - Polygon Lattice Points](https://cses.fi/problemset/task/2193)
 - [UVa 1059 - Jacquard Circuits](https://onlinejudge.org/external/10/1059.pdf)
 - [UVa 10088 - Trees on My Island](https://onlinejudge.org/external/100/10088.pdf)
 
-## [Polygon Union](polygon_union.cpp)
+#### [Polygon Union](polygon_union.cpp)
 
 - [Codeforces 107E - Darts](https://codeforces.com/problemset/problem/107/E)
 
-## [Rectangle Union](rectangle_union.cpp)
+#### [Rectangle Union](rectangle_union.cpp)
 
 - [CSES 1741 - Area of Rectangles](https://cses.fi/problemset/task/1741)
 - [Library Checker area_of_union_of_rectangles - Area of Union of Rectangles](https://judge.yosupo.jp/problem/area_of_union_of_rectangles)
 - [UVa 1492 - Adding New Machine](https://onlinejudge.org/external/14/1492.pdf)
 
-## [Segment Intersection Sweep](segment_intersection_sweep.cpp)
+#### [Segment Intersection Sweep](segment_intersection_sweep.cpp)
 
 - [Timus 1469 - No Smoking!](https://acm.timus.ru/problem.aspx?num=1469)
 - [USACO 943 - Cow Steeplechase II](https://usaco.org/index.php?page=viewproblem2&cpid=943)

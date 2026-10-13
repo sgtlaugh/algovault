@@ -1,6 +1,6 @@
-# Graphs - Practice Problems
+## Graphs - Practice Problems
 
-## [2-SAT](2SAT_kosaraju.cpp)
+#### [2-SAT](2SAT_kosaraju.cpp)
 
 - [AtCoder ABC210 F - Coprime Solitaire](https://atcoder.jp/contests/abc210/tasks/abc210_f)
 - [Codeforces 568C - New Language](https://codeforces.com/problemset/problem/568/C)
@@ -39,16 +39,16 @@
 - [UVa 12745 - Wishmaster](https://onlinejudge.org/external/127/12745.pdf)
 - [UVa 13016 - Black Vienna](https://onlinejudge.org/external/130/13016.pdf)
 
-## [2-SAT, Lexicographic](2SAT_lexicographic.cpp)
+#### [2-SAT, Lexicographic](2SAT_lexicographic.cpp)
 
 - [Library Checker two_sat - 2 Sat](https://judge.yosupo.jp/problem/two_sat)
 - [UVa 11751 - Installing Diagnostic Software](https://onlinejudge.org/external/117/11751.pdf)
 
-## [3-Edge-Connected Components](three_edge_connected_components.cpp)
+#### [3-Edge-Connected Components](three_edge_connected_components.cpp)
 
 - [Library Checker three_edge_connected_components - Three-Edge-Connected Components](https://judge.yosupo.jp/problem/three_edge_connected_components)
 
-## [Articulation Points and Blocks](articulation_points.cpp)
+#### [Articulation Points and Blocks](articulation_points.cpp)
 
 - [AOJ GRL_3_A - Articulation Points](https://onlinejudge.u-aizu.ac.jp/problems/GRL_3_A)
 - [Codeforces 193A - Cutting Figure](https://codeforces.com/problemset/problem/193/A)
@@ -63,7 +63,7 @@
 - [UVa 10765 - Doves and bombs](https://onlinejudge.org/external/107/10765.pdf)
 - [UVa 12616 - Gymman vs Fila](https://onlinejudge.org/external/126/12616.pdf)
 
-## [Bellman Ford](bellman_ford.cpp)
+#### [Bellman Ford](bellman_ford.cpp)
 
 - [AOJ GRL_1_B - Single Source Shortest Path (Negative Edges)](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B)
 - [CSES 1197 - Cycle Finding](https://cses.fi/problemset/task/1197)
@@ -82,7 +82,7 @@
 - [UVa 11874 - Travel Company](https://onlinejudge.org/external/118/11874.pdf)
 - [UVa 12519 - The Farnsworth Parabox](https://onlinejudge.org/external/125/12519.pdf)
 
-## [Bridges](bridge.cpp)
+#### [Bridges](bridge.cpp)
 
 - [AOJ GRL_3_B - Bridges](https://onlinejudge.u-aizu.ac.jp/problems/GRL_3_B)
 - [Codeforces 555E - Case of Computer Network](https://codeforces.com/problemset/problem/555/E)
@@ -105,20 +105,20 @@
 - [UVa 12587 - Reduce the Maintenance Cost](https://onlinejudge.org/external/125/12587.pdf)
 - [UVa 12783 - Weak Links](https://onlinejudge.org/external/127/12783.pdf)
 
-## [Cactus Graph](cactus.cpp)
+#### [Cactus Graph](cactus.cpp)
 
 - [Codeforces 720B - Cactusophobia](https://codeforces.com/problemset/problem/720/B)
 
-## [Chromatic Number](chromatic_number.cpp)
+#### [Chromatic Number](chromatic_number.cpp)
 
 - [CSES 3308 - Graph Coloring](https://cses.fi/problemset/task/3308)
 - [Library Checker chromatic_number - Chromatic Number](https://judge.yosupo.jp/problem/chromatic_number)
 
-## [Complement Graph BFS](complement_graph_bfs.cpp)
+#### [Complement Graph BFS](complement_graph_bfs.cpp)
 
 - [Library Checker connected_components_of_complement_graph - Connected Components of Complement Graph](https://judge.yosupo.jp/problem/connected_components_of_complement_graph)
 
-## [Dijkstra](dijkstra.cpp)
+#### [Dijkstra](dijkstra.cpp)
 
 - [AOJ ALDS1_11_C - Breadth First Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_11_C)
 - [AOJ ALDS1_12_B - Single Source Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_12_B)
@@ -189,12 +189,12 @@
 - [UVa 13147 - Travel Planning](https://onlinejudge.org/external/131/13147.pdf)
 - [UVa 13172 - The music teacher](https://onlinejudge.org/external/131/13172.pdf)
 
-## [Directed MST](directed_mst.cpp)
+#### [Directed MST](directed_mst.cpp)
 
 - [Codeforces 17B - Hierarchy](https://codeforces.com/problemset/problem/17/B)
 - [Library Checker directedmst - Directed MST](https://judge.yosupo.jp/problem/directedmst)
 
-## [Dominator Tree](dominator_tree.cpp)
+#### [Dominator Tree](dominator_tree.cpp)
 
 - [Codeforces 757F - Team Rocket Rises Again](https://codeforces.com/problemset/problem/757/F)
 - [Codeforces Gym 100513L - Useful Roads](https://codeforces.com/gym/100513/problem/L)
@@ -204,12 +204,12 @@
 - [Library Checker dominatortree - Dominator Tree](https://judge.yosupo.jp/problem/dominatortree)
 - [UVa 11902 - Dominator](https://onlinejudge.org/external/119/11902.pdf)
 
-## [Edge Coloring](edge_coloring.cpp)
+#### [Edge Coloring](edge_coloring.cpp)
 
 - [Library Checker bipartite_edge_coloring - Edge Coloring of Bipartite Graph](https://judge.yosupo.jp/problem/bipartite_edge_coloring)
 - [UVa 10615 - Rooks](https://onlinejudge.org/external/106/10615.pdf)
 
-## [Euler Path](euler_path.cpp)
+#### [Euler Path](euler_path.cpp)
 
 - [Codeforces 508D - Tanya and Password](https://codeforces.com/problemset/problem/508/D)
 - [Codeforces 527E - Data Center Drama](https://codeforces.com/problemset/problem/527/E)
@@ -221,7 +221,7 @@
 - [Library Checker eulerian_trail_undirected - Eulerian Trail (Undirected)](https://judge.yosupo.jp/problem/eulerian_trail_undirected)
 - [oj.uz BOI14_postmen - Senior Postmen](https://oj.uz/problem/view/BOI14_postmen)
 
-## [Flow with Lower Bounds](lower_bound_flow.cpp)
+#### [Flow with Lower Bounds](lower_bound_flow.cpp)
 
 - [AOJ GRL_6_A - Maximum Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A)
 - [Codeforces 704D - Captain America](https://codeforces.com/problemset/problem/704/D)
@@ -230,7 +230,7 @@
 - [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf)
 - [UVa 11082 - Matrix Decompressing](https://onlinejudge.org/external/110/11082.pdf)
 
-## [Floyd Warshall](floyd_warshall.cpp)
+#### [Floyd Warshall](floyd_warshall.cpp)
 
 - [AOJ GRL_1_C - All Pairs Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_C)
 - [Codeforces 21D - Traveling Graph](https://codeforces.com/problemset/problem/21/D)
@@ -268,20 +268,20 @@
 - [UVa 12179 - Randomly-priced Tickets](https://onlinejudge.org/external/121/12179.pdf)
 - [UVa 13211 - Geonosis](https://onlinejudge.org/external/132/13211.pdf)
 
-## [General Graph Matching](graph_matching.cpp)
+#### [General Graph Matching](graph_matching.cpp)
 
 - [Code Jam 2008 AMER Semifinal D - King](https://github.com/google/coding-competitions-archive/tree/main/codejam/2008/amer_semifinal/king)
 - [Library Checker general_matching - Matching on General Graph](https://judge.yosupo.jp/problem/general_matching)
 - [Timus 1099 - Work Scheduling](https://acm.timus.ru/problem.aspx?num=1099)
 - [UVa 11439 - Maximizing the ICPC](https://onlinejudge.org/external/114/11439.pdf)
 
-## [Gomory-Hu Tree](gomory_hu.cpp)
+#### [Gomory-Hu Tree](gomory_hu.cpp)
 
 - [Codeforces Gym 101480J - Juice Junctions](https://codeforces.com/gym/101480/problem/J)
 - [SPOJ MCQUERY - MinCut Query](https://www.spoj.com/problems/MCQUERY/)
 - [UVa 11594 - All Pairs Maximum Flow](https://onlinejudge.org/external/115/11594.pdf)
 
-## [Hopcroft Karp](hopcroft_karp.cpp)
+#### [Hopcroft Karp](hopcroft_karp.cpp)
 
 - [Codeforces Gym 100741C - Reordering Ones](https://codeforces.com/gym/100741/problem/C)
 - [CSES 1696 - School Dance](https://cses.fi/problemset/task/1696)
@@ -315,7 +315,7 @@
 - [UVa 12972 - Cuban Challenge](https://onlinejudge.org/external/129/12972.pdf)
 - [UVa 13100 - Painting the Wall](https://onlinejudge.org/external/131/13100.pdf)
 
-## [Hungarian Algorithm](hungarian_algorithm.cpp)
+#### [Hungarian Algorithm](hungarian_algorithm.cpp)
 
 - [Codeforces acmsguru 210 - Beloved Sons](https://codeforces.com/problemsets/acmsguru/problem/99999/210)
 - [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129)
@@ -328,18 +328,18 @@
 - [UVa 12637 - 30 Minutes or Less](https://onlinejudge.org/external/126/12637.pdf)
 - [UVa 12891 - Risk of Trading](https://onlinejudge.org/external/128/12891.pdf)
 
-## [Johnson's Algorithm](johnsons_algorithm.cpp)
+#### [Johnson's Algorithm](johnsons_algorithm.cpp)
 
 - [AOJ GRL_1_C - All Pairs Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_C)
 - [SPOJ JHNSN - Johnsons Algorithm](https://www.spoj.com/problems/JHNSN/)
 
-## [K Shortest Walks](k_shortest_walks.cpp)
+#### [K Shortest Walks](k_shortest_walks.cpp)
 
 - [CSES 1196 - Flight Routes](https://cses.fi/problemset/task/1196)
 - [Library Checker k_shortest_walk - K-Shortest Walk](https://judge.yosupo.jp/problem/k_shortest_walk)
 - [POJ 2449 - Remmarguts' Date](http://poj.org/problem?id=2449)
 
-## [Kruskal Reconstruction Tree](kruskal_reconstruction_tree.cpp)
+#### [Kruskal Reconstruction Tree](kruskal_reconstruction_tree.cpp)
 
 - [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d)
 - [CodeChef TULIPS - Tiptoe through the tulips](https://www.codechef.com/problems/TULIPS)
@@ -350,12 +350,12 @@
 - [QOJ 436 - Swapping Cities](https://qoj.ac/problem/436)
 - [QOJ 2744 - Werewolf](https://qoj.ac/problem/2744)
 
-## [Manhattan MST](manhattan_mst.cpp)
+#### [Manhattan MST](manhattan_mst.cpp)
 
 - [Kattis gridmst - Grid MST](https://open.kattis.com/problems/gridmst)
 - [Library Checker manhattanmst - Manhattan MST](https://judge.yosupo.jp/problem/manhattanmst)
 
-## [Matroid Intersection](matroid_intersection.cpp)
+#### [Matroid Intersection](matroid_intersection.cpp)
 
 - [AOJ GRL_7_A - Bipartite Matching](https://onlinejudge.u-aizu.ac.jp/problems/GRL_7_A)
 - [CodeChef CNNCT2 - Faulty System](https://www.codechef.com/problems/CNNCT2)
@@ -363,12 +363,12 @@
 - [Codeforces 1556H - DIY Tree](https://codeforces.com/problemset/problem/1556/H)
 - [Codeforces Gym 102156D - Pick Your Own Nim](https://codeforces.com/gym/102156/problem/D)
 
-## [Maximum Clique](max_clique.cpp)
+#### [Maximum Clique](max_clique.cpp)
 
 - [Library Checker maximum_independent_set - Maximum Independent Set](https://judge.yosupo.jp/problem/maximum_independent_set)
 - [UVa 193 - Graph Coloring](https://onlinejudge.org/external/1/193.pdf)
 
-## [Maximum Flow](maxflow.cpp)
+#### [Maximum Flow](maxflow.cpp)
 
 - [AOJ GRL_6_A - Maximum Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A)
 - [AtCoder ARC085 E - MUL](https://atcoder.jp/contests/arc085/tasks/arc085_c)
@@ -425,7 +425,7 @@
 - [UVa 13000 - VIP Treatment](https://onlinejudge.org/external/130/13000.pdf)
 - [UVa 13020 - Landscaping](https://onlinejudge.org/external/130/13020.pdf)
 
-## [Min Cost Circulation](min_cost_circulation.cpp)
+#### [Min Cost Circulation](min_cost_circulation.cpp)
 
 - [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B)
 - [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D)
@@ -433,7 +433,7 @@
 - [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D)
 - [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf)
 
-## [Min Cost Max Flow, Dijkstra](mcmf_dijkstra.cpp)
+#### [Min Cost Max Flow, Dijkstra](mcmf_dijkstra.cpp)
 
 - [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B)
 - [Codeforces 717G - Underfail](https://codeforces.com/problemset/problem/717/G)
@@ -451,7 +451,7 @@
 - [UVa 12623 - Choosing Presents](https://onlinejudge.org/external/126/12623.pdf)
 - [UVa 12821 - Double Shortest Paths](https://onlinejudge.org/external/128/12821.pdf)
 
-## [Min Cost Max Flow, SPFA](mcmf_spfa.cpp)
+#### [Min Cost Max Flow, SPFA](mcmf_spfa.cpp)
 
 - [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B)
 - [AtCoder ABC247 G - Dream Team](https://atcoder.jp/contests/abc247/tasks/abc247_g)
@@ -470,11 +470,11 @@
 - [UVa 10806 - Dijkstra, Dijkstra.](https://onlinejudge.org/external/108/10806.pdf)
 - [UVa 11301 - Great Wall of China](https://onlinejudge.org/external/113/11301.pdf)
 
-## [Minimum Mean Cycle (Karp)](minimum_mean_cycle.cpp)
+#### [Minimum Mean Cycle (Karp)](minimum_mean_cycle.cpp)
 
 - [UVa 11090 - Going in Cycle!!](https://onlinejudge.org/external/110/11090.pdf)
 
-## [Minimum Path Cover](minimum_path_cover.cpp)
+#### [Minimum Path Cover](minimum_path_cover.cpp)
 
 - [AOJ 2251 - Merry Christmas](https://onlinejudge.u-aizu.ac.jp/problems/2251)
 - [Code Jam 2009 Round 2 C - Stock Charts](https://github.com/google/coding-competitions-archive/tree/main/codejam/2009/round_2/stock_charts)
@@ -484,7 +484,7 @@
 - [UVa 12679 - It Can Be Arranged](https://onlinejudge.org/external/126/12679.pdf)
 - [UVa 12831 - Bob the Builder](https://onlinejudge.org/external/128/12831.pdf)
 
-## [Minimum Spanning Tree](minimum_spanning_tree.cpp)
+#### [Minimum Spanning Tree](minimum_spanning_tree.cpp)
 
 - [AOJ ALDS1_12_A - Minimum Spanning Tree](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_12_A)
 - [AtCoder ABC282 E - Choose Two and Eat One](https://atcoder.jp/contests/abc282/tasks/abc282_e)
@@ -534,7 +534,7 @@
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf)
 - [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf)
 
-## [Offline Dynamic Connectivity](offline_dynamic_connectivity.cpp)
+#### [Offline Dynamic Connectivity](offline_dynamic_connectivity.cpp)
 
 - [Codeforces 1140F - Extending Set of Points](https://codeforces.com/problemset/problem/1140/F)
 - [Codeforces Gym 100551A - Connect and Disconnect](https://codeforces.com/gym/100551/problem/A)
@@ -542,16 +542,16 @@
 - [CSES 2133 - Dynamic Connectivity](https://cses.fi/problemset/task/2133)
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/)
 
-## [Online Bridges](online_bridges.cpp)
+#### [Online Bridges](online_bridges.cpp)
 
 - [Library Checker two_edge_connected_components - Two-Edge-Connected Components](https://judge.yosupo.jp/problem/two_edge_connected_components)
 
-## [Small Cycle Counting](small_cycle_counting.cpp)
+#### [Small Cycle Counting](small_cycle_counting.cpp)
 
 - [SPOJ ADACHERY - Ada and Cherry](https://www.spoj.com/problems/ADACHERY/)
 - [SPOJ VILLAGES - Villages by the River](https://www.spoj.com/problems/VILLAGES/)
 
-## [Steiner Tree](steiner_tree.cpp)
+#### [Steiner Tree](steiner_tree.cpp)
 
 - [Codeforces 152E - Garden](https://codeforces.com/problemset/problem/152/E)
 - [HDU 3311 - Dig The Wells](https://acm.hdu.edu.cn/showproblem.php?pid=3311)
@@ -564,7 +564,7 @@
 - [UVa 12254 - Electricity Connection](https://onlinejudge.org/external/122/12254.pdf)
 - [ZOJ 3613 - Wormhole Transport](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369236)
 
-## [Strongly Connected Components](scc.cpp)
+#### [Strongly Connected Components](scc.cpp)
 
 - [CodeChef CHEFRRUN - Chef and Round Run](https://www.codechef.com/problems/CHEFRRUN)
 - [Codeforces 22E - Scheme](https://codeforces.com/problemset/problem/22/E)

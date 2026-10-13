@@ -1,6 +1,6 @@
-# Algebra - Practice Problems
+## Algebra - Practice Problems
 
-## [Big Integer](bignum.cpp)
+#### [Big Integer](bignum.cpp)
 
 - [AOJ NTL_2_D - Division of Big Integers](https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_D)
 - [AOJ NTL_2_E - Remainder of Big Integers](https://onlinejudge.u-aizu.ac.jp/problems/NTL_2_E)
@@ -41,7 +41,7 @@
 - [UVa 10925 - Krakovia](https://onlinejudge.org/external/109/10925.pdf)
 - [UVa 12924 - Immortal Rabbits](https://onlinejudge.org/external/129/12924.pdf)
 
-## [FFT](fft.cpp)
+#### [FFT](fft.cpp)
 
 - [CodeChef COUNTARI - Arithmetic Progressions](https://www.codechef.com/problems/COUNTARI)
 - [CodeChef FARASA - Furik and Rubik and Sub Array](https://www.codechef.com/problems/FARASA)
@@ -94,19 +94,19 @@
 - [ZOJ 1637 - Fast Image Match](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827365136)
 - [ZOJ 3856 - Goldbach](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369948)
 
-## [Fraction](fraction.cpp)
+#### [Fraction](fraction.cpp)
 
 - [POJ 3807 - Chemist’s Math](http://poj.org/problem?id=3807)
 - [UVa 10288 - Coupons](https://onlinejudge.org/external/102/10288.pdf)
 - [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf)
 
-## [GCD and LCM Convolution](gcd_lcm_convolution.cpp)
+#### [GCD and LCM Convolution](gcd_lcm_convolution.cpp)
 
 - [CSES 3161 - GCD Subsets](https://cses.fi/problemset/task/3161)
 - [Library Checker gcd_convolution - Gcd Convolution](https://judge.yosupo.jp/problem/gcd_convolution)
 - [Library Checker lcm_convolution - Lcm Convolution](https://judge.yosupo.jp/problem/lcm_convolution)
 
-## [Lagrange Interpolation](lagrange_interpolation.cpp)
+#### [Lagrange Interpolation](lagrange_interpolation.cpp)
 
 - [Codeforces 622F - The Sum of the k-th Powers](https://codeforces.com/problemset/problem/622/F) [✅](../../practice/algebra/codeforces_622f.cpp "Accepted solution")
 - [HackerRank summing-the-k-n-r-series - Summing the K-N-R Series](https://www.hackerrank.com/contests/infinitum-mar14/challenges/summing-the-k-n-r-series)
@@ -115,7 +115,7 @@
 - [UVa 1546 - Complete the sequence!](https://onlinejudge.org/external/15/1546.pdf)
 - [UVa 12143 - Stopping Doom's Day](https://onlinejudge.org/external/121/12143.pdf)
 
-## [Linear Recurrence](linear_recurrence.cpp)
+#### [Linear Recurrence](linear_recurrence.cpp)
 
 - [CodeChef MGCHPERM - Misha and Permutation](https://www.codechef.com/problems/MGCHPERM)
 - [CodeChef RNG - Random Number Generator](https://www.codechef.com/problems/RNG)
@@ -142,12 +142,12 @@
 - [UVa 13284 - Macarons](https://onlinejudge.org/external/132/13284.pdf)
 - [UVa 13298 - A Fibonacci Family Formula](https://onlinejudge.org/external/132/13298.pdf)
 
-## [Min-Plus Convolution](min_plus_convolution.cpp)
+#### [Min-Plus Convolution](min_plus_convolution.cpp)
 
 - [Library Checker min_plus_convolution_convex_arbitrary - Min Plus Convolution (Convex and Arbitrary)](https://judge.yosupo.jp/problem/min_plus_convolution_convex_arbitrary)
 - [Library Checker min_plus_convolution_convex_convex - Min Plus Convolution (Convex and Convex)](https://judge.yosupo.jp/problem/min_plus_convolution_convex_convex)
 
-## [NTT](ntt.cpp)
+#### [NTT](ntt.cpp)
 
 - [CodeChef DEVLOCK - Devu and Locks](https://www.codechef.com/problems/DEVLOCK)
 - [Codeforces Gym 100341C - AVL Trees](https://codeforces.com/gym/100341/problem/C)
@@ -156,7 +156,7 @@
 - [Library Checker convolution_mod_1000000007 - Convolution (Mod 1,000,000,007)](https://judge.yosupo.jp/problem/convolution_mod_1000000007)
 - [UVa 1733 - Design New Capital](https://onlinejudge.org/external/17/1733.pdf)
 
-## [Polynomial](polynomial.cpp)
+#### [Polynomial](polynomial.cpp)
 
 - [CodeChef RNG - Random Number Generator](https://www.codechef.com/problems/RNG)
 - [Codeforces 438E - The Child and Binary Tree](https://codeforces.com/problemset/problem/438/E)
@@ -175,7 +175,7 @@
 - [Library Checker sqrt_of_formal_power_series - Sqrt of Formal Power Series](https://judge.yosupo.jp/problem/sqrt_of_formal_power_series)
 - [ZOJ 3874 - Permutation Graph](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369978)
 
-## [Subset Convolution and SOS DP](subset_convolution.cpp)
+#### [Subset Convolution and SOS DP](subset_convolution.cpp)
 
 - [Codeforces 165E - Compatible Numbers](https://codeforces.com/problemset/problem/165/E)
 - [Codeforces 383E - Vowels](https://codeforces.com/problemset/problem/383/E)
@@ -189,7 +189,7 @@
 - [oj.uz JOI18_snake_escaping - Snake Escaping](https://oj.uz/problem/view/JOI18_snake_escaping)
 - [USACO 1309 - Problem Setting](https://usaco.org/index.php?page=viewproblem2&cpid=1309)
 
-## [Walsh Hadamard Transform](walsh_hadamard.cpp)
+#### [Walsh Hadamard Transform](walsh_hadamard.cpp)
 
 - [Codeforces 453D - Little Pony and Elements of Harmony](https://codeforces.com/problemset/problem/453/D)
 - [Codeforces 662C - Binary Table](https://codeforces.com/problemset/problem/662/C)

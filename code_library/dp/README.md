@@ -1,6 +1,6 @@
-# Dynamic Programming - Practice Problems
+## Dynamic Programming - Practice Problems
 
-## [Aliens Trick (WQS)](aliens_trick.cpp)
+#### [Aliens Trick (WQS)](aliens_trick.cpp)
 
 - [Codeforces 802M3 - April Fools' Problem (hard)](https://codeforces.com/problemset/problem/802/M3)
 - [Codeforces 1279F - New Year and Handle Change](https://codeforces.com/problemset/problem/1279/F)
@@ -9,18 +9,18 @@
 - [oj.uz IOI16_aliens - Aliens](https://oj.uz/problem/view/IOI16_aliens)
 - [USACO 697 - Building a Tall Barn](https://usaco.org/index.php?page=viewproblem2&cpid=697)
 
-## [Blocks](blocks_dp.cpp)
+#### [Blocks](blocks_dp.cpp)
 
 - [UVa 10559 - Blocks](https://onlinejudge.org/external/105/10559.pdf)
 
-## [Bounded Knapsack](bounded_knapsack.cpp)
+#### [Bounded Knapsack](bounded_knapsack.cpp)
 
 - [AOJ DPL_1_G - Knapsack Problem with Limitations](https://onlinejudge.u-aizu.ac.jp/problems/DPL_1_G)
 - [AtCoder DP D - Knapsack 1](https://atcoder.jp/contests/dp/tasks/dp_d)
 - [CSES 1159 - Book Shop II](https://cses.fi/problemset/task/1159)
 - [DMOJ knapsack - Knapsack 3](https://dmoj.ca/problem/knapsack)
 
-## [Bounded Subset Sum](bounded_subset_sum.cpp)
+#### [Bounded Subset Sum](bounded_subset_sum.cpp)
 
 - [Codeforces 356D - Bags and Coins](https://codeforces.com/problemset/problem/356/D)
 - [Codeforces 755F - PolandBall and Gifts](https://codeforces.com/problemset/problem/755/F)
@@ -28,7 +28,7 @@
 - [SPOJ ADACOINS - Ada and Coins](https://www.spoj.com/problems/ADACOINS/)
 - [SPOJ FCANDY - Candy (Again)](https://www.spoj.com/problems/FCANDY/)
 
-## [Divide and Conquer DP](divide_conquer_dp.cpp)
+#### [Divide and Conquer DP](divide_conquer_dp.cpp)
 
 - [AtCoder ARC067 D - Yakiniku Restaurants](https://atcoder.jp/contests/arc067/tasks/arc067_d)
 - [CodeChef CHEFAOR - Chef and Bitwise OR Operation](https://www.codechef.com/problems/CHEFAOR)
@@ -53,7 +53,7 @@
 - [UVa 12524 - Arranging Heaps](https://onlinejudge.org/external/125/12524.pdf)
 - [UVa 12594 - Naming Babies](https://onlinejudge.org/external/125/12594.pdf)
 
-## [Hamiltonian Path and Cycle](hamiltonian_dp.cpp)
+#### [Hamiltonian Path and Cycle](hamiltonian_dp.cpp)
 
 - [AOJ DPL_2_A - Traveling Salesman Problem](https://onlinejudge.u-aizu.ac.jp/problems/DPL_2_A)
 - [POJ 1699 - Best Sequence](http://poj.org/problem?id=1699)
@@ -64,7 +64,7 @@
 - [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf)
 - [UVa 11813 - Shopping](https://onlinejudge.org/external/118/11813.pdf)
 
-## [Knuth Optimization](knuth_optimization.cpp)
+#### [Knuth Optimization](knuth_optimization.cpp)
 
 - [AOJ ALDS1_10_D - Optimal Binary Search Tree](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_D)
 - [CSES 2088 - Knuth Division](https://cses.fi/problemset/task/2088)
@@ -75,12 +75,12 @@
 - [UVa 12809 - Binary Search Tree](https://onlinejudge.org/external/128/12809.pdf)
 - [UVa 12836 - Gain Battle Power](https://onlinejudge.org/external/128/12836.pdf)
 
-## [Longest Common Increasing Subsequence](lcis.cpp)
+#### [Longest Common Increasing Subsequence](lcis.cpp)
 
 - [Codeforces 10D - LCIS](https://codeforces.com/problemset/problem/10/D)
 - [UVa 12511 - Virus](https://onlinejudge.org/external/125/12511.pdf)
 
-## [Longest Increasing Subsequence](lis.cpp)
+#### [Longest Increasing Subsequence](lis.cpp)
 
 - [Codeforces 76F - Tourist](https://codeforces.com/problemset/problem/76/F)
 - [Codeforces acmsguru 521 - "North-East"](https://codeforces.com/problemsets/acmsguru/problem/99999/521)
@@ -109,11 +109,11 @@
 - [UVa 12002 - Happy Birthday](https://onlinejudge.org/external/120/12002.pdf)
 - [UVa 12747 - Back to Edit Distance](https://onlinejudge.org/external/127/12747.pdf)
 
-## [Maximum Square](maximum_square.cpp)
+#### [Maximum Square](maximum_square.cpp)
 
 - [AOJ DPL_3_A - Largest Square](https://onlinejudge.u-aizu.ac.jp/problems/DPL_3_A)
 
-## [Slope Trick](slope_trick.cpp)
+#### [Slope Trick](slope_trick.cpp)
 
 - [Codeforces 713C - Sonya and Problem Wihtout a Legend](https://codeforces.com/problemset/problem/713/C)
 - [Codeforces 865D - Buy Low Sell High](https://codeforces.com/problemset/problem/865/D)

@@ -1,10 +1,10 @@
-# Combinatorics - Practice Problems
+## Combinatorics - Practice Problems
 
-## [Bernoulli Numbers](bernoulli_numbers.cpp)
+#### [Bernoulli Numbers](bernoulli_numbers.cpp)
 
 - [UVa 766 - Sum of powers](https://onlinejudge.org/external/7/766.pdf)
 
-## [Binomial Coefficients](binomial_coefficients.cpp)
+#### [Binomial Coefficients](binomial_coefficients.cpp)
 
 - [CodeChef SANDWICH - Long Sandwich](https://www.codechef.com/problems/SANDWICH)
 - [Codeforces 896D - Nephren Runs a Cinema](https://codeforces.com/problemset/problem/896/D)
@@ -14,7 +14,7 @@
 - [UVa 10232 - Bit-wise Sequence](https://onlinejudge.org/external/102/10232.pdf)
 - [UVa 11481 - Arrange the Numbers](https://onlinejudge.org/external/114/11481.pdf)
 
-## [Combinatorics](combinatorics.cpp)
+#### [Combinatorics](combinatorics.cpp)
 
 - [AtCoder ABC171 F - Strivore](https://atcoder.jp/contests/abc171/tasks/abc171_f)
 - [AtCoder DP Y - Grid 2](https://atcoder.jp/contests/dp/tasks/dp_y)
@@ -55,12 +55,12 @@
 - [UVa 12887 - The Soldier's Dilemma](https://onlinejudge.org/external/128/12887.pdf)
 - [UVa 13184 - Counting Edges and Graphs](https://onlinejudge.org/external/131/13184.pdf)
 
-## [Gambler's Ruin](gamblers_ruin.cpp)
+#### [Gambler's Ruin](gamblers_ruin.cpp)
 
 - [UVa 1573 - Hey, Better Bettor](https://onlinejudge.org/external/15/1573.pdf)
 - [UVa 11500 - Vampires](https://onlinejudge.org/external/115/11500.pdf)
 
-## [Josephus Problem](josephus_problem.cpp)
+#### [Josephus Problem](josephus_problem.cpp)
 
 - [AOJ 0085 - Joseph's Potato](https://onlinejudge.u-aizu.ac.jp/problems/0085)
 - [CSES 2162 - Josephus Problem I](https://cses.fi/problemset/task/2162)
@@ -72,11 +72,11 @@
 - [UVa 10774 - Repeated Josephus](https://onlinejudge.org/external/107/10774.pdf)
 - [UVa 11351 - Last Man Standing](https://onlinejudge.org/external/113/11351.pdf)
 
-## [Partition Numbers](partition_numbers.cpp)
+#### [Partition Numbers](partition_numbers.cpp)
 
 - [Library Checker partition_function - Partition Function](https://judge.yosupo.jp/problem/partition_function)
 
-## [Permutation Cycles](permutation_cycles.cpp)
+#### [Permutation Cycles](permutation_cycles.cpp)
 
 - [AOJ ALDS1_6_D - Minimum Cost Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_D)
 - [CodeChef RIFFLES - Chef and Riffles](https://www.codechef.com/problems/RIFFLES)
@@ -86,17 +86,17 @@
 - [UVa 10570 - Meeting with Aliens](https://onlinejudge.org/external/105/10570.pdf)
 - [UVa 11495 - Bubbles and Buckets](https://onlinejudge.org/external/114/11495.pdf)
 
-## [Permutation Index](permutation_index.cpp)
+#### [Permutation Index](permutation_index.cpp)
 
 - [SPOJ TPGA - The Permutation Game Again](https://www.spoj.com/problems/TPGA/)
 
-## [Permutation Rank](permutation_rank.cpp)
+#### [Permutation Rank](permutation_rank.cpp)
 
 - [AOJ ITP2_5_C - Permutation](https://onlinejudge.u-aizu.ac.jp/problems/ITP2_5_C)
 - [CSES 3397 - Permutation Order](https://cses.fi/problemset/task/3397)
 - [UVa 12335 - Lexicographic Order](https://onlinejudge.org/external/123/12335.pdf)
 
-## [Stirling Numbers](stirling_numbers.cpp)
+#### [Stirling Numbers](stirling_numbers.cpp)
 
 - [Codeforces 717A - Festival Organization](https://codeforces.com/problemset/problem/717/A) [✅](../../practice/combinatorics/codeforces_717a_stirling_numbers.cpp "Accepted solution")
 - [Codeforces 932E - Team Work](https://codeforces.com/problemset/problem/932/E) [✅](../../practice/combinatorics/codeforces_932e.cpp "Accepted solution")

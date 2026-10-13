@@ -1,11 +1,11 @@
-# Strings - Practice Problems
+## Strings - Practice Problems
 
-## [2D Pattern Matcher](2D_pattern_matcher.cpp)
+#### [2D Pattern Matcher](2D_pattern_matcher.cpp)
 
 - [AOJ ALDS1_14_C - Pattern Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_C)
 - [UVa 11019 - Matrix Matcher](https://onlinejudge.org/external/110/11019.pdf)
 
-## [Aho-Corasick](aho_corasick.cpp)
+#### [Aho-Corasick](aho_corasick.cpp)
 
 - [CodeChef LYRC - Music & Lyrics](https://www.codechef.com/problems/LYRC)
 - [CodeChef TWOSTRS - Buying a New String](https://www.codechef.com/problems/TWOSTRS)
@@ -61,29 +61,29 @@
 - [ZOJ 3430 - Detect the Virus](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827368613)
 - [ZOJ 3494 - BCD Code](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827368816)
 
-## [Aho-Corasick, Dynamic](dynamic_aho_corasick.cpp)
+#### [Aho-Corasick, Dynamic](dynamic_aho_corasick.cpp)
 
 - [Codeforces 710F - String Set Queries](https://codeforces.com/problemset/problem/710/F)
 - [UVa 1676 - GRE Words Revenge](https://onlinejudge.org/external/16/1676.pdf)
 
-## [Bit-String LCS](bit_string_lcs.cpp)
+#### [Bit-String LCS](bit_string_lcs.cpp)
 
 - [AOJ ALDS1_10_C - Longest Common Subsequence](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_C)
 - [SPOJ LCS0 - Longest Common Subsequence](https://www.spoj.com/problems/LCS0/)
 - [UVa 10949 - Kids in a Grid](https://onlinejudge.org/external/109/10949.pdf)
 
-## [De Bruijn Sequence](de_bruijn_sequence.cpp)
+#### [De Bruijn Sequence](de_bruijn_sequence.cpp)
 
 - [CSES 1692 - De Bruijn Sequence](https://cses.fi/problemset/task/1692)
 - [UVa 10040 - Ouroboros Snake](https://onlinejudge.org/external/100/10040.pdf)
 - [UVa 10506 - The Ouroboros problem](https://onlinejudge.org/external/105/10506.pdf)
 
-## [Dynamic String Hash](dynamic_string_hash.cpp)
+#### [Dynamic String Hash](dynamic_string_hash.cpp)
 
 - [AOJ ALDS1_14_B - String Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B)
 - [CSES 2420 - Palindrome Queries](https://cses.fi/problemset/task/2420)
 
-## [Hashing](hashing.cpp)
+#### [Hashing](hashing.cpp)
 
 - [CodeChef INSQ15_A - The Gift Of Raksha Bandhan](https://www.codechef.com/problems/INSQ15_A)
 - [Codeforces 7D - Palindrome Degree](https://codeforces.com/problemset/problem/7/D)
@@ -118,7 +118,7 @@
 - [UVa 12837 - Hasmot Ali Professor](https://onlinejudge.org/external/128/12837.pdf)
 - [UVa 13126 - Wildcards](https://onlinejudge.org/external/131/13126.pdf)
 
-## [Hunt-Szymanski](hunt_szymanski.cpp)
+#### [Hunt-Szymanski](hunt_szymanski.cpp)
 
 - [AOJ ALDS1_10_C - Longest Common Subsequence](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_C)
 - [Codeforces Gym 102951C - LCS on Permutations](https://codeforces.com/gym/102951/problem/C)
@@ -126,7 +126,7 @@
 - [UVa 10949 - Kids in a Grid](https://onlinejudge.org/external/109/10949.pdf)
 - [UVa 12747 - Back to Edit Distance](https://onlinejudge.org/external/127/12747.pdf)
 
-## [KMP](kmp.cpp)
+#### [KMP](kmp.cpp)
 
 - [AOJ ALDS1_14_B - String Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B)
 - [Codeforces 25E - Test](https://codeforces.com/problemset/problem/25/E)
@@ -155,13 +155,13 @@
 - [UVa 12785 - Emacs Plugin](https://onlinejudge.org/external/127/12785.pdf)
 - [UVa 12916 - Perfect Cyclic String](https://onlinejudge.org/external/129/12916.pdf)
 
-## [Lyndon Factorization](lyndon_factorization.cpp)
+#### [Lyndon Factorization](lyndon_factorization.cpp)
 
 - [CSES 1110 - Minimal Rotation](https://cses.fi/problemset/task/1110)
 - [Library Checker lyndon_factorization - Lyndon Factorization](https://judge.yosupo.jp/problem/lyndon_factorization)
 - [UVa 719 - Glass Beads](https://onlinejudge.org/external/7/719.pdf)
 
-## [Manacher](manacher.cpp)
+#### [Manacher](manacher.cpp)
 
 - [CodeChef NONPALIN - First non-Palindrome](https://www.codechef.com/problems/NONPALIN)
 - [Codeforces 17E - Palisection](https://codeforces.com/problemset/problem/17/E)
@@ -180,14 +180,14 @@
 - [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf)
 - [UVa 13092 - Fold the String](https://onlinejudge.org/external/130/13092.pdf)
 
-## [Minimum Rotation](minimum_rotation.cpp)
+#### [Minimum Rotation](minimum_rotation.cpp)
 
 - [CSES 1110 - Minimal Rotation](https://cses.fi/problemset/task/1110)
 - [UVa 719 - Glass Beads](https://onlinejudge.org/external/7/719.pdf)
 - [UVa 1314 - Hidden Password](https://onlinejudge.org/external/13/1314.pdf)
 - [UVa 1584 - Circular Sequence](https://onlinejudge.org/external/15/1584.pdf)
 
-## [Palindromic Tree](palindromic_tree.cpp)
+#### [Palindromic Tree](palindromic_tree.cpp)
 
 - [Codeforces 932G - Palindrome Partition](https://codeforces.com/problemset/problem/932/G)
 - [Codeforces Gym 100543G - Virus synthesis](https://codeforces.com/gym/100543/problem/G)
@@ -203,7 +203,7 @@
 - [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf)
 - [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf)
 
-## [Suffix Array](suffix_array.cpp)
+#### [Suffix Array](suffix_array.cpp)
 
 - [AOJ ALDS1_14_D - String Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_D)
 - [CodeChef ANUSAR - Substrings and Repetitions](https://www.codechef.com/problems/ANUSAR)
@@ -251,7 +251,7 @@
 - [UVa 12361 - File Retrieval](https://onlinejudge.org/external/123/12361.pdf)
 - [UVa 12974 - Exquisite Strings](https://onlinejudge.org/external/129/12974.pdf)
 
-## [Suffix Automaton](suffix_automaton.cpp)
+#### [Suffix Automaton](suffix_automaton.cpp)
 
 - [CodeChef SSTORY - A Story with Strings](https://www.codechef.com/problems/SSTORY)
 - [CodeChef SUBQUERY - Substring Query](https://www.codechef.com/problems/SUBQUERY)
@@ -279,16 +279,16 @@
 - [SPOJ TAP2013E - Escaping from escaping](https://www.spoj.com/problems/TAP2013E/)
 - [UVa 1673 - str2int](https://onlinejudge.org/external/16/1673.pdf)
 
-## [Tandem Repeats](tandem_repeats.cpp)
+#### [Tandem Repeats](tandem_repeats.cpp)
 
 - [Library Checker runenumerate - Run Enumerate](https://judge.yosupo.jp/problem/runenumerate)
 
-## [Wildcard Matching](wildcard_matching.cpp)
+#### [Wildcard Matching](wildcard_matching.cpp)
 
 - [Codeforces 754E - Dasha and cyclic table](https://codeforces.com/problemset/problem/754/E)
 - [Library Checker wildcard_pattern_matching - Wildcard Pattern Matching](https://judge.yosupo.jp/problem/wildcard_pattern_matching)
 
-## [Z Algorithm](z_algorithm.cpp)
+#### [Z Algorithm](z_algorithm.cpp)
 
 - [CodeChef CHSTR - Chef and String](https://www.codechef.com/problems/CHSTR)
 - [CodeChef INSQ15_A - The Gift Of Raksha Bandhan](https://www.codechef.com/problems/INSQ15_A)

@@ -1,6 +1,6 @@
-# Trees - Practice Problems
+## Trees - Practice Problems
 
-## [Centroid Decomposition](centroid_decomposition.cpp)
+#### [Centroid Decomposition](centroid_decomposition.cpp)
 
 - [CodeChef PRIMEDST - Prime Distance On Tree](https://www.codechef.com/problems/PRIMEDST)
 - [Codeforces 293E - Close Vertices](https://codeforces.com/problemset/problem/293/E)
@@ -25,7 +25,7 @@
 - [SPOJ QTREE5 - Query on a tree V](https://www.spoj.com/problems/QTREE5/)
 - [USACO 286 - Yin and Yang](https://usaco.org/index.php?page=viewproblem2&cpid=286)
 
-## [DSU on Tree](dsu_on_tree.cpp)
+#### [DSU on Tree](dsu_on_tree.cpp)
 
 - [Codeforces 375D - Tree and Queries](https://codeforces.com/problemset/problem/375/D)
 - [Codeforces 600E - Lomsat gelral](https://codeforces.com/problemset/problem/600/E)
@@ -33,11 +33,11 @@
 - [CSES 1139 - Distinct Colors](https://cses.fi/problemset/task/1139)
 - [USACO 696 - Promotion Counting](https://usaco.org/index.php?page=viewproblem2&cpid=696)
 
-## [Dynamic Tree Diameter](dynamic_diameter.cpp)
+#### [Dynamic Tree Diameter](dynamic_diameter.cpp)
 
 - [AOJ GRL_5_A - Diameter of a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A)
 
-## [Heavy Light Decomposition](hld.cpp)
+#### [Heavy Light Decomposition](hld.cpp)
 
 - [AOJ GRL_5_D - Range Query on a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_D)
 - [AOJ GRL_5_E - Range Query on a Tree II](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_E)
@@ -67,12 +67,12 @@
 - [UVa 13101 - Tobby on Tree](https://onlinejudge.org/external/131/13101.pdf)
 - [UVa 13139 - Lucas Numbers](https://onlinejudge.org/external/131/13139.pdf)
 
-## [Long-Path Decomposition](long_path_decomposition.cpp)
+#### [Long-Path Decomposition](long_path_decomposition.cpp)
 
 - [CSES 2080 - Fixed-Length Paths I](https://cses.fi/problemset/task/2080)
 - [Library Checker jump_on_tree - Jump on Tree](https://judge.yosupo.jp/problem/jump_on_tree)
 
-## [Lowest Common Ancestor](lca.cpp)
+#### [Lowest Common Ancestor](lca.cpp)
 
 - [CodeChef LGSEG - Longest Good Segment](https://www.codechef.com/problems/LGSEG)
 - [CodeChef PSHTTR - Pishty and tree](https://www.codechef.com/problems/PSHTTR)
@@ -113,12 +113,12 @@
 - [UVa 12533 - Joining Couples](https://onlinejudge.org/external/125/12533.pdf)
 - [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf)
 
-## [Prufer Code](prufer_code.cpp)
+#### [Prufer Code](prufer_code.cpp)
 
 - [CSES 1134 - Prüfer Code](https://cses.fi/problemset/task/1134)
 - [Timus 1069 - Prufer Code](https://acm.timus.ru/problem.aspx?num=1069)
 
-## [Rerooting DP](rerooting.cpp)
+#### [Rerooting DP](rerooting.cpp)
 
 - [AOJ GRL_5_B - Height of a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_B)
 - [AtCoder DP V - Subtree](https://atcoder.jp/contests/dp/tasks/dp_v)
@@ -130,13 +130,13 @@
 - [Library Checker tree_path_composite_sum - Tree Path Composite Sum](https://judge.yosupo.jp/problem/tree_path_composite_sum)
 - [USACO 814 - Directory Traversal](https://usaco.org/index.php?page=viewproblem2&cpid=814)
 
-## [Tree Isomorphism](tree_isomorphism.cpp)
+#### [Tree Isomorphism](tree_isomorphism.cpp)
 
 - [CSES 1700 - Tree Isomorphism I](https://cses.fi/problemset/task/1700)
 - [CSES 1701 - Tree Isomorphism II](https://cses.fi/problemset/task/1701)
 - [Library Checker rooted_tree_isomorphism_classification - Rooted Tree Isomorphism Classification](https://judge.yosupo.jp/problem/rooted_tree_isomorphism_classification)
 
-## [Virtual Tree](virtual_tree.cpp)
+#### [Virtual Tree](virtual_tree.cpp)
 
 - [AtCoder ABC340 G - Leaf Color](https://atcoder.jp/contests/abc340/tasks/abc340_g)
 - [Codeforces 613D - Kingdom and its Cities](https://codeforces.com/problemset/problem/613/D)

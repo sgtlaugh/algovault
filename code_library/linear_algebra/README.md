@@ -1,10 +1,10 @@
-# Linear Algebra - Practice Problems
+## Linear Algebra - Practice Problems
 
-## [Characteristic Polynomial](characteristic_polynomial.cpp)
+#### [Characteristic Polynomial](characteristic_polynomial.cpp)
 
 - [Library Checker characteristic_polynomial - Characteristic Polynomial](https://judge.yosupo.jp/problem/characteristic_polynomial)
 
-## [Determinant](determinant.cpp)
+#### [Determinant](determinant.cpp)
 
 - [CodeChef CSTREE - Complement Spanning Trees](https://www.codechef.com/problems/CSTREE)
 - [CodeChef STARROAD - Roads in Stars](https://www.codechef.com/problems/STARROAD)
@@ -16,7 +16,7 @@
 - [SPOJ KPMAZE - Maze](https://www.spoj.com/problems/KPMAZE/)
 - [UVa 684 - Integral Determinant](https://onlinejudge.org/external/6/684.pdf)
 
-## [Gauss Jordan](gauss_jordan.cpp)
+#### [Gauss Jordan](gauss_jordan.cpp)
 
 - [Codeforces 113D - Museum](https://codeforces.com/problemset/problem/113/D)
 - [Codeforces Gym 100495I - Two friends](https://codeforces.com/gym/100495/problem/I)
@@ -41,12 +41,12 @@
 - [UVa 12695 - Traveling Fool](https://onlinejudge.org/external/126/12695.pdf)
 - [UVa 12910 - Snakes and Ladders](https://onlinejudge.org/external/129/12910.pdf)
 
-## [Gauss, Band Matrix](gauss_band_matrix.cpp)
+#### [Gauss, Band Matrix](gauss_band_matrix.cpp)
 
 - [UVa 1704 - Pachinko](https://onlinejudge.org/external/17/1704.pdf)
 - [UVa 12177 - First Knight](https://onlinejudge.org/external/121/12177.pdf)
 
-## [Gauss, Bitset](gauss_bitset.cpp)
+#### [Gauss, Bitset](gauss_bitset.cpp)
 
 - [AOJ 1308 - Awkward Lights](https://onlinejudge.u-aizu.ac.jp/problems/1308)
 - [CSES 3193 - Square Subsets](https://cses.fi/problemset/task/3193)
@@ -61,7 +61,7 @@
 - [UVa 1560 - Extended Lights Out](https://onlinejudge.org/external/15/1560.pdf)
 - [UVa 11542 - Square](https://onlinejudge.org/external/115/11542.pdf)
 
-## [Gauss, Prime Modulus](gauss_prime_mod.cpp)
+#### [Gauss, Prime Modulus](gauss_prime_mod.cpp)
 
 - [Codeforces 1411G - No Game No Life](https://codeforces.com/problemset/problem/1411/G)
 - [Codeforces Gym 102129D - Basis Change](https://codeforces.com/gym/102129/problem/D)
@@ -77,7 +77,7 @@
 - [UVa 1564 - Widget Factory](https://onlinejudge.org/external/15/1564.pdf)
 - [UVa 11778 - Graph Coloring in HSL](https://onlinejudge.org/external/117/11778.pdf)
 
-## [Matrix](matrix.cpp)
+#### [Matrix](matrix.cpp)
 
 - [Codeforces 222E - Decoding Genome](https://codeforces.com/problemset/problem/222/E)
 - [Codeforces 498E - Stairs and Lines](https://codeforces.com/problemset/problem/498/E)
@@ -119,7 +119,7 @@
 - [UVa 13136 - Recurrences](https://onlinejudge.org/external/131/13136.pdf)
 - [UVa 13284 - Macarons](https://onlinejudge.org/external/132/13284.pdf)
 
-## [Simplex](simplex.cpp)
+#### [Simplex](simplex.cpp)
 
 - [Code Jam 2008 Round 2 C - Star Wars](https://github.com/google/coding-competitions-archive/tree/main/codejam/2008/round_2/star_wars)
 - [Code Jam 2015 Round 2 B - Kiddie Pool](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/round_2/kiddie_pool)
@@ -139,12 +139,12 @@
 - [UVa 12567 - Never7, Ever17 and Water](https://onlinejudge.org/external/125/12567.pdf)
 - [UVa 12900 - Flood in Gridland](https://onlinejudge.org/external/129/12900.pdf)
 
-## [Thomas Algorithm](thomas_algorithm.cpp)
+#### [Thomas Algorithm](thomas_algorithm.cpp)
 
 - [Codeforces 24D - Broken robot](https://codeforces.com/problemset/problem/24/D)
 - [UVa 1413 - Game](https://onlinejudge.org/external/14/1413.pdf)
 
-## [XOR Basis](xor_basis.cpp)
+#### [XOR Basis](xor_basis.cpp)
 
 - [AtCoder ABC141 F - Xor Sum 3](https://atcoder.jp/contests/abc141/tasks/abc141_f)
 - [AtCoder AGC045 A - Xor Battle](https://atcoder.jp/contests/agc045/tasks/agc045_a)

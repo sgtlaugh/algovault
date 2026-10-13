@@ -1,12 +1,12 @@
-# Data Structures - Practice Problems
+## Data Structures - Practice Problems
 
-## [Coordinate Compression](coordinate_compression.cpp)
+#### [Coordinate Compression](coordinate_compression.cpp)
 
 - [CSES 1144 - Salary Queries](https://cses.fi/problemset/task/1144)
 - [Library Checker rectangle_sum - Rectangle Sum](https://judge.yosupo.jp/problem/rectangle_sum)
 - [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/)
 
-## [Disjoint Set Union](disjoint_set.cpp)
+#### [Disjoint Set Union](disjoint_set.cpp)
 
 - [Codeforces 25D - Roads not only in Berland](https://codeforces.com/problemset/problem/25/D)
 - [Codeforces 468B - Two Sets](https://codeforces.com/problemset/problem/468/B)
@@ -45,16 +45,16 @@
 - [UVa 11966 - Galactic Bonding](https://onlinejudge.org/external/119/11966.pdf)
 - [UVa 11987 - Almost Union-Find](https://onlinejudge.org/external/119/11987.pdf)
 
-## [Disjoint Set Union, Partially Persistent](partially_persistent_dsu.cpp)
+#### [Disjoint Set Union, Partially Persistent](partially_persistent_dsu.cpp)
 
 - [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d)
 
-## [Disjoint Set Union, Rollback](rollback_dsu.cpp)
+#### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
 - [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
 - [Library Checker persistent_unionfind - Persistent Unionfind](https://judge.yosupo.jp/problem/persistent_unionfind)
 
-## [Disjoint Set Union, Weighted](weighted_dsu.cpp)
+#### [Disjoint Set Union, Weighted](weighted_dsu.cpp)
 
 - [Codeforces Gym 100570D - TROY Query](https://codeforces.com/gym/100570/problem/D)
 - [Library Checker unionfind_with_potential - Unionfind with Potential](https://judge.yosupo.jp/problem/unionfind_with_potential)
@@ -63,19 +63,19 @@
 - [UVa 10158 - War](https://onlinejudge.org/external/101/10158.pdf)
 - [UVa 11870 - Antonyms](https://onlinejudge.org/external/118/11870.pdf)
 
-## [Disjoint Sparse Table](disjoint_sparse_table.cpp)
+#### [Disjoint Sparse Table](disjoint_sparse_table.cpp)
 
 - [CodeChef SEGPROD - Product on the segment by modulo](https://www.codechef.com/problems/SEGPROD)
 - [CSES 1647 - Static Range Minimum Queries](https://cses.fi/problemset/task/1647)
 - [Library Checker static_range_sum - Static Range Sum](https://judge.yosupo.jp/problem/static_range_sum)
 - [oj.uz JOI14_secret - Secret](https://oj.uz/problem/view/JOI14_secret)
 
-## [Distinct Subarray Aggregates](distinct_subarray_aggregates.cpp)
+#### [Distinct Subarray Aggregates](distinct_subarray_aggregates.cpp)
 
 - [Codeforces 475D - CGCDSSQ](https://codeforces.com/problemset/problem/475/D)
 - [UVa 1642 - Magical GCD](https://onlinejudge.org/external/16/1642.pdf)
 
-## [Fenwick Tree](fenwick_tree.cpp)
+#### [Fenwick Tree](fenwick_tree.cpp)
 
 - [AOJ DSL_2_E - Range Add Query (RAQ)](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_E)
 - [AOJ DSL_2_G - RSQ and RAQ](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_G)
@@ -141,7 +141,7 @@
 - [UVa 12998 - Tree Weights](https://onlinejudge.org/external/129/12998.pdf)
 - [UVa 13212 - How many inversions?](https://onlinejudge.org/external/132/13212.pdf)
 
-## [Fenwick Tree 2D](fenwick_tree_2D.cpp)
+#### [Fenwick Tree 2D](fenwick_tree_2D.cpp)
 
 - [AOJ DSL_5_B - The Maximum Number of Overlaps](https://onlinejudge.u-aizu.ac.jp/problems/DSL_5_B)
 - [Codeforces 707E - Garlands](https://codeforces.com/problemset/problem/707/E)
@@ -150,33 +150,33 @@
 - [SPOJ ADABEHIVE - Ada and Behives](https://www.spoj.com/problems/ADABEHIVE/)
 - [SPOJ MATSUM - Matrix Summation](https://www.spoj.com/problems/MATSUM/)
 
-## [Fenwick Tree 2D, Implicit](fenwick_tree_2D_implicit.cpp)
+#### [Fenwick Tree 2D, Implicit](fenwick_tree_2D_implicit.cpp)
 
 - [UVa 11990 - ``Dynamic'' Inversion](https://onlinejudge.org/external/119/11990.pdf)
 
-## [Fenwick Tree 2D, Sparse](fenwick_tree_2D_sparse.cpp)
+#### [Fenwick Tree 2D, Sparse](fenwick_tree_2D_sparse.cpp)
 
 - [Library Checker point_add_rectangle_sum - Point Add Rectangle Sum](https://judge.yosupo.jp/problem/point_add_rectangle_sum)
 - [SPOJ KL11B - Arnook Defensive Line](https://www.spoj.com/problems/KL11B/)
 
-## [Fenwick Tree 3D](fenwick_tree_3D.cpp)
+#### [Fenwick Tree 3D](fenwick_tree_3D.cpp)
 
 - [HackerEarth counting-in-byteland - Counting In Byteland](https://www.hackerearth.com/practice/data-structures/advanced-data-structures/fenwick-binary-indexed-trees/practice-problems/algorithm/counting-in-byteland/)
 
-## [Hash Map](hashmap.cpp)
+#### [Hash Map](hashmap.cpp)
 
 - [Library Checker associative_array - Associative Array](https://judge.yosupo.jp/problem/associative_array)
 
-## [Interval Set](interval_set.cpp)
+#### [Interval Set](interval_set.cpp)
 
 - [AOJ DSL_4_A - Union of Rectangles](https://onlinejudge.u-aizu.ac.jp/problems/DSL_4_A)
 - [SPOJ MON2012 - Monkey and apples](https://www.spoj.com/problems/MON2012/)
 
-## [Leftist Heap, Persistent](leftist_heap.cpp)
+#### [Leftist Heap, Persistent](leftist_heap.cpp)
 
 - [Library Checker k_shortest_walk - K-Shortest Walk](https://judge.yosupo.jp/problem/k_shortest_walk)
 
-## [Li Chao Tree](li_chao_tree.cpp)
+#### [Li Chao Tree](li_chao_tree.cpp)
 
 - [AtCoder ARC066 F - Contest with Drinks Hard](https://atcoder.jp/contests/arc066/tasks/arc066_d)
 - [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B)
@@ -208,7 +208,7 @@
 - [SPOJ CHTPRAC - CHT Practice](https://www.spoj.com/problems/CHTPRAC/)
 - [SPOJ GOODG - Good Inflation](https://www.spoj.com/problems/GOODG/)
 
-## [Link-Cut Tree](link_cut_tree.cpp)
+#### [Link-Cut Tree](link_cut_tree.cpp)
 
 - [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6)
 - [DMOJ ds5easy - Dynamic Tree Test (Easy)](https://dmoj.ca/problem/ds5easy)
@@ -219,7 +219,7 @@
 - [SPOJ DYNALCA - Dynamic LCA](https://www.spoj.com/problems/DYNALCA/)
 - [UVa 11994 - Happy Painting!](https://onlinejudge.org/external/119/11994.pdf)
 
-## [Merge Sort Tree and Wavelet](merge_sort_tree.cpp)
+#### [Merge Sort Tree and Wavelet](merge_sort_tree.cpp)
 
 - [CSES 3163 - Range Interval Queries](https://cses.fi/problemset/task/3163)
 - [Library Checker range_kth_smallest - Range Kth Smallest](https://judge.yosupo.jp/problem/range_kth_smallest)
@@ -231,7 +231,7 @@
 - [UVa 1480 - Jewel](https://onlinejudge.org/external/14/1480.pdf)
 - [UVa 13164 - Performance Review](https://onlinejudge.org/external/131/13164.pdf)
 
-## [Mo's Algorithm](mo.cpp)
+#### [Mo's Algorithm](mo.cpp)
 
 - [Codeforces 86D - Powerful array](https://codeforces.com/problemset/problem/86/D)
 - [Codeforces 576C - Points on Plane](https://codeforces.com/problemset/problem/576/C)
@@ -251,25 +251,25 @@
 - [SPOJ ZQUERY - Zero Query](https://www.spoj.com/problems/ZQUERY/)
 - [UVa 11898 - Killer Problem](https://onlinejudge.org/external/118/11898.pdf)
 
-## [Mo's Algorithm On Tree Paths](tree_path_mo.cpp)
+#### [Mo's Algorithm On Tree Paths](tree_path_mo.cpp)
 
 - [Codeforces Gym 100962F - Frank Sinatra](https://codeforces.com/gym/100962/problem/F)
 - [Codeforces Gym 101161E - ACM Tax](https://codeforces.com/gym/101161/problem/E)
 - [SPOJ COT2 - Count on a tree II](https://www.spoj.com/problems/COT2/)
 
-## [Mo's Algorithm With Rollback](mo_with_rollback.cpp)
+#### [Mo's Algorithm With Rollback](mo_with_rollback.cpp)
 
 - [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
 - [CodeChef QCHEF - Chef and Problems](https://www.codechef.com/problems/QCHEF)
 - [Library Checker static_range_mode_query - Static Range Mode Query](https://judge.yosupo.jp/problem/static_range_mode_query)
 
-## [Mo's Algorithm With Updates](mo_with_updates.cpp)
+#### [Mo's Algorithm With Updates](mo_with_updates.cpp)
 
 - [Library Checker point_set_range_frequency - Point Set Range Frequency](https://judge.yosupo.jp/problem/point_set_range_frequency)
 - [SPOJ XXXXXXXX - Sum of Distinct Numbers](https://www.spoj.com/problems/XXXXXXXX/)
 - [UVa 12345 - Dynamic len(set(a[L:R]))](https://onlinejudge.org/external/123/12345.pdf)
 
-## [Monotonic Stack](monotonic_stack.cpp)
+#### [Monotonic Stack](monotonic_stack.cpp)
 
 - [AOJ DPL_3_C - Largest Rectangle in a Histogram](https://onlinejudge.u-aizu.ac.jp/problems/DPL_3_C)
 - [Codeforces 547B - Mike and Feet](https://codeforces.com/problemset/problem/547/B)
@@ -292,7 +292,7 @@
 - [UVa 11871 - New Land](https://onlinejudge.org/external/118/11871.pdf)
 - [UVa 12462 - Rectangle](https://onlinejudge.org/external/124/12462.pdf)
 
-## [Ordered Set](ordered_set.cpp)
+#### [Ordered Set](ordered_set.cpp)
 
 - [CSES 1076 - Sliding Window Median](https://cses.fi/problemset/task/1076)
 - [CSES 1749 - List Removals](https://cses.fi/problemset/task/1749)
@@ -307,11 +307,11 @@
 - [UVa 10909 - Lucky Number](https://onlinejudge.org/external/109/10909.pdf)
 - [UVa 12912 - Josephus lottery](https://onlinejudge.org/external/129/12912.pdf)
 
-## [Permutation Tree](permutation_tree.cpp)
+#### [Permutation Tree](permutation_tree.cpp)
 
 - [Library Checker common_interval_decomposition_tree - Common Interval Decomposition Tree](https://judge.yosupo.jp/problem/common_interval_decomposition_tree)
 
-## [Persistent Segment Tree](persistent_segment_tree.cpp)
+#### [Persistent Segment Tree](persistent_segment_tree.cpp)
 
 - [Codeforces 464E - The Classic Problem](https://codeforces.com/problemset/problem/464/E)
 - [Codeforces 786C - Till I Collapse](https://codeforces.com/problemset/problem/786/C)
@@ -327,12 +327,12 @@
 - [SPOJ MKTHNUM - K-th Number](https://www.spoj.com/problems/MKTHNUM/)
 - [SPOJ PSEGTREE - Make Versions in Segment Tree](https://www.spoj.com/problems/PSEGTREE/)
 
-## [Rope](rope.cpp)
+#### [Rope](rope.cpp)
 
 - [CSES 2072 - Cut and Paste](https://cses.fi/problemset/task/2072)
 - [UVa 12538 - Version Controlled IDE](https://onlinejudge.org/external/125/12538.pdf)
 
-## [Segment Tree](segment_tree.cpp)
+#### [Segment Tree](segment_tree.cpp)
 
 - [AOJ 1351 - Flipping Parentheses](https://onlinejudge.u-aizu.ac.jp/problems/1351)
 - [AOJ DSL_2_G - RSQ and RAQ](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_G)
@@ -402,16 +402,16 @@
 - [UVa 12532 - Interval Product](https://onlinejudge.org/external/125/12532.pdf)
 - [ZOJ 3899 - State Reversing](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827370003)
 
-## [Segment Tree Beats](segment_tree_beats.cpp)
+#### [Segment Tree Beats](segment_tree_beats.cpp)
 
 - [HDU 5306 - Gorgeous Sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5306)
 - [Library Checker range_chmin_chmax_add_range_sum - Range Chmin Chmax Add Range Sum](https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum)
 
-## [Segment Tree Merging](segment_tree_merge.cpp)
+#### [Segment Tree Merging](segment_tree_merge.cpp)
 
 - [CodeChef CHEFDTRE - Chef and Sets](https://www.codechef.com/problems/CHEFDTRE)
 
-## [Sliding Window Aggregation](sliding_window_aggregation.cpp)
+#### [Sliding Window Aggregation](sliding_window_aggregation.cpp)
 
 - [AOJ DSL_3_D - Sliding Minimum Element](https://onlinejudge.u-aizu.ac.jp/problems/DSL_3_D)
 - [CodeChef BINLAND - Binary Land](https://www.codechef.com/problems/BINLAND)
@@ -424,7 +424,7 @@
 - [Library Checker queue_operate_all_composite - Queue Operate All Composite](https://judge.yosupo.jp/problem/queue_operate_all_composite)
 - [USACO 767 - Haybale Feast](https://usaco.org/index.php?page=viewproblem2&cpid=767)
 
-## [Sparse Table](sparse_table.cpp)
+#### [Sparse Table](sparse_table.cpp)
 
 - [CodeChef FRMQ - Chef and Array](https://www.codechef.com/problems/FRMQ)
 - [CodeChef MSTICK - Matchsticks](https://www.codechef.com/problems/MSTICK)
@@ -446,11 +446,11 @@
 - [UVa 11235 - Frequent values](https://onlinejudge.org/external/112/11235.pdf)
 - [UVa 12697 - Minimal Subarray Length](https://onlinejudge.org/external/126/12697.pdf)
 
-## [Sparse Table 2D](sparse_table_2D.cpp)
+#### [Sparse Table 2D](sparse_table_2D.cpp)
 
 - [Codeforces 713D - Animals and Puzzle](https://codeforces.com/problemset/problem/713/D)
 
-## [Square Root Decomposition](sqrt_decomposition.cpp)
+#### [Square Root Decomposition](sqrt_decomposition.cpp)
 
 - [SPOJ GIVEAWAY - Give Away](https://www.spoj.com/problems/GIVEAWAY/)
 - [SPOJ KQUERY2 - K-query II](https://www.spoj.com/problems/KQUERY2/)
@@ -459,7 +459,7 @@
 - [UVa 12003 - Array Transformer](https://onlinejudge.org/external/120/12003.pdf)
 - [UVa 13094 - Tobby Bones](https://onlinejudge.org/external/130/13094.pdf)
 
-## [Treap](treap.cpp)
+#### [Treap](treap.cpp)
 
 - [CodeChef CARDSHUF - Card Shuffle](https://www.codechef.com/problems/CARDSHUF)
 - [CodeChef PALINDR - Lucy and Palindromes](https://www.codechef.com/problems/PALINDR)
@@ -505,7 +505,7 @@
 - [UVa 13102 - Tobby Stones](https://onlinejudge.org/external/131/13102.pdf)
 - [ZOJ 3765 - Lights](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369708)
 
-## [Trie](trie.cpp)
+#### [Trie](trie.cpp)
 
 - [AOJ ALDS1_4_C - Search III](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_4_C)
 - [AtCoder ARC122 D - XOR Game](https://atcoder.jp/contests/arc122/tasks/arc122_d)

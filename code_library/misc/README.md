@@ -1,23 +1,23 @@
-# Miscellaneous - Practice Problems
+## Miscellaneous - Practice Problems
 
-## [15 Puzzle Solver](15_puzzle_solver.cpp)
+#### [15 Puzzle Solver](15_puzzle_solver.cpp)
 
 - [HackerRank n-puzzle - N Puzzle](https://www.hackerrank.com/challenges/n-puzzle/problem)
 - [UVa 10181 - 15-Puzzle Problem](https://onlinejudge.org/external/101/10181.pdf)
 
-## [Assembly](assembly.cpp)
+#### [Assembly](assembly.cpp)
 
 - [AOJ ALDS1_1_B - Greatest Common Divisor](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_1_B)
 
-## [Bit Twiddling](bit_twiddling.cpp)
+#### [Bit Twiddling](bit_twiddling.cpp)
 
 - [AOJ ITP2_11_D - Enumeration of Combinations](https://onlinejudge.u-aizu.ac.jp/problems/ITP2_11_D)
 
-## [Comb Sort](combsort.cpp)
+#### [Comb Sort](combsort.cpp)
 
 - [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A)
 
-## [Dancing Links](dancing_links.cpp)
+#### [Dancing Links](dancing_links.cpp)
 
 - [AOJ ALDS1_13_A - 8 Queens Problem](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_13_A)
 - [Code Jam 2015 Qualification Round D - Ominous Omino](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/qualification_round/ominous_omino)
@@ -32,42 +32,42 @@
 - [UVa 11846 - Finding Seats Again](https://onlinejudge.org/external/118/11846.pdf)
 - [UVa 12719 - Fill the Cuboid](https://onlinejudge.org/external/127/12719.pdf)
 
-## [Fast I/O](fast_io.cpp)
+#### [Fast I/O](fast_io.cpp)
 
 - [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A)
 - [Library Checker many_aplusb - Many A + B](https://judge.yosupo.jp/problem/many_aplusb)
 - [Library Checker many_aplusb_128bit - Many A + B (128 bit)](https://judge.yosupo.jp/problem/many_aplusb_128bit)
 
-## [Gray Codes](gray_codes.cpp)
+#### [Gray Codes](gray_codes.cpp)
 
 - [CSES 2205 - Gray Code](https://cses.fi/problemset/task/2205)
 - [UVa 11173 - Grey Codes](https://onlinejudge.org/external/111/11173.pdf)
 
-## [Knight Distance](knight_distance.cpp)
+#### [Knight Distance](knight_distance.cpp)
 
 - [CSES 3218 - Knight Moves Queries](https://cses.fi/problemset/task/3218)
 - [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf)
 - [UVa 11852 - Knight's Trip](https://onlinejudge.org/external/118/11852.pdf)
 
-## [N Queens](n_queen.cpp)
+#### [N Queens](n_queen.cpp)
 
 - [UVa 11195 - Another n-Queen Problem](https://onlinejudge.org/external/111/11195.pdf)
 
-## [Numerical Integration](numerical_integration.cpp)
+#### [Numerical Integration](numerical_integration.cpp)
 
 - [MatCom 9335 - Environment Protection](https://matcomgrader.com/problem/9335/environment-protection/)
 - [UVa 1356 - Bridge](https://onlinejudge.org/external/13/1356.pdf)
 - [UVa 12997 - Train Station](https://onlinejudge.org/external/129/12997.pdf)
 
-## [Radix Sort](radix_sort.cpp)
+#### [Radix Sort](radix_sort.cpp)
 
 - [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A)
 
-## [Radix Sort 64](radix_sort_64.cpp)
+#### [Radix Sort 64](radix_sort_64.cpp)
 
 - [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A)
 
-## [Simulated Annealing](simulated_annealing.cpp)
+#### [Simulated Annealing](simulated_annealing.cpp)
 
 - [AtCoder INTRO-HEURISTICS A - AtCoder Contest Scheduling](https://atcoder.jp/contests/intro-heuristics/tasks/intro_heuristics_a)
 - [Code Jam 2015 World Finals D - Taking Over The World](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/world_finals/taking_over_the_world)
@@ -85,7 +85,7 @@
 - [POJ 2069 - Super Star](http://poj.org/problem?id=2069)
 - [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf)
 
-## [Ternary and Golden-Section Search](ternary_search.cpp)
+#### [Ternary and Golden-Section Search](ternary_search.cpp)
 
 - [AtCoder ABC279 D - Freefall](https://atcoder.jp/contests/abc279/tasks/abc279_d)
 - [CodeChef AMCS03 - Race Time!](https://www.codechef.com/problems/AMCS03)
