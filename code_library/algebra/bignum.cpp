@@ -125,7 +125,6 @@ struct Bignum{
     friend bool operator <= (const Bignum& x, const Bignum& y){ return !(y < x); }
     friend bool operator >= (const Bignum& x, const Bignum& y){ return !(x < y); }
 
-private:
     typedef vector<uint32_t> Limbs;
 
     Bignum(Limbs&& limbs, bool negative) : neg(negative), a(move(limbs)){
