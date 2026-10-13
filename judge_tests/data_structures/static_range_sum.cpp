@@ -20,7 +20,7 @@ int main(){
     vector<long long> a(n);
     for (auto& x: a) x = read_int();
 
-    auto table = DisjointST<long long>(a, 0);
+    DisjointSparseTable<long long> table(a);
     while (q--){
         int l = read_int(), r = read_int();
         printf("%lld\n", table.query(l, r - 1));

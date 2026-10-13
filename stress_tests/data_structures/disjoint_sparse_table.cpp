@@ -11,7 +11,7 @@ void check_rejects(int n, int l, int r){
     assert(pid >= 0);
     if (pid == 0){
         assert(freopen("/dev/null", "w", stderr));
-        DisjointST<int> table(vector<int>(n, 1), 0);
+        DisjointSparseTable<int> table(vector<int>(n, 1));
         table.query(l, r);
         _exit(0);
     }
@@ -22,7 +22,7 @@ void check_rejects(int n, int l, int r){
 }
 
 /// The default plus makes strings concatenate: associative but not commutative, operand order must be exact
-/// A product mod p lambda checks a custom op with a non-zero identity against a direct scan
+/// A product mod p lambda checks a custom op against a direct scan
 int main(){
     check_rejects(9, 3, 1);
     check_rejects(9, -1, 2);
@@ -44,9 +44,9 @@ int main(){
             factors[i] = stress::rand_int(0, it % 2 ? 3 : MOD - 1);
         }
 
-        DisjointST<string> concat(words, "");
-        DisjointST<long long> sum(nums, 0);
-        DisjointST prod(factors, 1LL, mul);
+        DisjointSparseTable<string> concat(words);
+        DisjointSparseTable<long long> sum(nums);
+        DisjointSparseTable prod(factors, mul);
         for (int q = 0; q < 50; q++){
             int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, min(n - 1, l + (q % 2 ? 5 : n)));
             string expected;
