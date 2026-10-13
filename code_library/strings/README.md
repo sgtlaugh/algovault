@@ -3,7 +3,7 @@
 #### [2D Pattern Matcher](2D_pattern_matcher.cpp)
 
 - [AOJ ALDS1_14_C - Pattern Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_C)
-- [UVa 11019 - Matrix Matcher](https://onlinejudge.org/external/110/11019.pdf)
+- [UVa 11019 - Matrix Matcher](https://onlinejudge.org/external/110/11019.pdf) [✅](../../practice/strings/uva_11019.cpp "Accepted solution")
 
 #### [Aho-Corasick](aho_corasick.cpp)
 
