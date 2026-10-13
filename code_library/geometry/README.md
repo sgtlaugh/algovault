@@ -104,7 +104,7 @@
 - [UVa 11783 - Nails](https://onlinejudge.org/external/117/11783.pdf)
 - [UVa 12048 - Inhabitants](https://onlinejudge.org/external/120/12048.pdf)
 - [UVa 12123 - Magnetic Train Tracks](https://onlinejudge.org/external/121/12123.pdf)
-- [UVa 13117 - ACIS, A Contagious vIruS](https://onlinejudge.org/external/131/13117.pdf)
+- [UVa 13117 - ACIS, A Contagious vIruS](https://onlinejudge.org/external/131/13117.pdf) [✅](../../practice/geometry/uva_13117.cpp "Accepted solution")
 
 #### [Half-plane Intersection](halfplane_intersection.cpp)
 
