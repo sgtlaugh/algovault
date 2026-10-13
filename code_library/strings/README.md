@@ -147,7 +147,7 @@
 - [UVa 455 - Periodic Strings](https://onlinejudge.org/external/4/455.pdf) [✅](../../practice/strings/uva_455_kmp.cpp "Accepted solution")
 - [UVa 1328 - Period](https://onlinejudge.org/external/13/1328.pdf) [✅](../../practice/strings/uva_1328.cpp "Accepted solution")
 - [UVa 1358 - Generator](https://onlinejudge.org/external/13/1358.pdf) [✅](../../practice/strings/uva_1358.cpp "Accepted solution")
-- [UVa 10298 - Power Strings](https://onlinejudge.org/external/102/10298.pdf)
+- [UVa 10298 - Power Strings](https://onlinejudge.org/external/102/10298.pdf) [✅](../../practice/strings/uva_10298.cpp "Accepted solution")
 - [UVa 11452 - Dancing the Cheeky-Cheeky](https://onlinejudge.org/external/114/11452.pdf) [✅](../../practice/strings/uva_11452.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✅](../../practice/strings/uva_11475_kmp.cpp "Accepted solution")
 - [UVa 12467 - Secret Word](https://onlinejudge.org/external/124/12467.pdf) [✅](../../practice/strings/uva_12467.cpp "Accepted solution")
