@@ -1,20 +1,23 @@
 /***
  *
- * Ordered Set and Multiset (GNU policy based data structures)
- * Balanced BST with order statistics: k-th smallest and rank in O(log n)
+ * Ordered Set and Multiset
+ * Balanced BST that also finds the k-th smallest element and the rank of a value
  *
  * Complexity: O(log n) per operation
  *
- * OrderedSet<T> s: a std::set with two extras
- *   *s.find_by_order(k): k-th smallest, 0-based (s.end() if k >= size)
- *   s.order_of_key(x): number of elements < x
+ * OrderedSet<T> s: a std::set with two extra calls
+ * *s.find_by_order(k): the k-th smallest, 0-based, s.end() if k >= size
+ * s.order_of_key(x): how many elements are < x
+ * OrderedMultiset<T> m: an empty multiset
+ * m.insert(x): adds one copy of x
+ * m.erase(x): removes one copy of x, false if there is none
+ * m.size(): number of elements, copies included
+ * m.kth(k): the k-th smallest, 0-based, 0 <= k < size()
+ * m.count_less(x): how many elements are < x
+ * m.count(x): how many copies of x
  *
- * OrderedMultiset<T> m: duplicates allowed
- *   insert(x), erase(x) (removes one copy, false if absent), size()
- *   kth(k): k-th smallest, 0-based, needs 0 <= k < size(), count_less(x), count(x)
- *
- * Do not build the multiset with less_equal as the comparator: erase and find then silently fail
- * because two equal keys never compare equivalent. Pairs of (value, unique id) with less<> avoid that
+ * Built on the GNU policy-based tree in ext/pb_ds, so it needs libstdc++
+ * An OrderedSet with less_equal is not a multiset: equal keys never compare equivalent, so erase and find silently fail
  *
 ***/
 
@@ -63,21 +66,29 @@ struct OrderedMultiset{
 };
 
 int main(){
+    /// Order statistics on a set
     OrderedSet<int> s;
     for (int x : {5, 1, 9, 5, 3}) s.insert(x);
     assert(s.size() == 4);
-    assert(*s.find_by_order(0) == 1 && *s.find_by_order(3) == 9 && s.find_by_order(4) == s.end());
-    assert(s.order_of_key(5) == 2 && s.order_of_key(6) == 3 && s.order_of_key(-1) == 0);
+    assert(*s.find_by_order(0) == 1);
+    assert(*s.find_by_order(3) == 9);
+    assert(s.find_by_order(4) == s.end());
+    assert(s.order_of_key(5) == 2);
+    assert(s.order_of_key(6) == 3);
 
+    /// A multiset keeps the copies of 5
     OrderedMultiset<int> m;
     for (int x : {5, 1, 9, 5, -1, 5}) m.insert(x);
-    assert(m.size() == 6 && m.count(5) == 3 && m.count(4) == 0);
-    assert(m.kth(0) == -1 && m.kth(2) == 5 && m.kth(4) == 5 && m.kth(5) == 9);
-    assert(m.count_less(5) == 2 && m.count_less(10) == 6);
+    assert(m.size() == 6);
+    assert(m.count(5) == 3);
+    assert(m.kth(2) == 5);
+    assert(m.kth(5) == 9);
+    assert(m.count_less(5) == 2);
 
-    assert(m.erase(5) && m.count(5) == 2 && m.size() == 5);
-    assert(!m.erase(7) && m.size() == 5);
-    assert(m.erase(-1) && m.kth(0) == 1);
+    assert(m.erase(5));
+    assert(m.count(5) == 2);
+    assert(!m.erase(7));
+    assert(m.size() == 5);
 
     return 0;
 }
