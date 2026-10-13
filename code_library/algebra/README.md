@@ -22,7 +22,7 @@
 - [UVa 495 - Fibonacci Freeze](https://onlinejudge.org/external/4/495.pdf) [✅](../../practice/algebra/uva_495.cpp "Accepted solution")
 - [UVa 623 - 500!](https://onlinejudge.org/external/6/623.pdf) [✅](../../practice/algebra/uva_623.cpp "Accepted solution")
 - [UVa 748 - Exponentiation](https://onlinejudge.org/external/7/748.pdf)
-- [UVa 787 - Maximum Sub-sequence Product](https://onlinejudge.org/external/7/787.pdf)
+- [UVa 787 - Maximum Sub-sequence Product](https://onlinejudge.org/external/7/787.pdf) [✅](../../practice/algebra/uva_787.cpp "Accepted solution")
 - [UVa 1478 - Delta Wave](https://onlinejudge.org/external/14/1478.pdf)
 - [UVa 1647 - Computer Transformation](https://onlinejudge.org/external/16/1647.pdf)
 - [UVa 10007 - Count the Trees](https://onlinejudge.org/external/100/10007.pdf)
