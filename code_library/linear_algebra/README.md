@@ -111,7 +111,7 @@
 - [UVa 12000 - K-Transformed Permutations](https://onlinejudge.org/external/120/12000.pdf)
 - [UVa 12037 - Musical Chair](https://onlinejudge.org/external/120/12037.pdf)
 - [UVa 12042 - Colorful Eggs](https://onlinejudge.org/external/120/12042.pdf)
-- [UVa 12470 - Tribonacci](https://onlinejudge.org/external/124/12470.pdf)
+- [UVa 12470 - Tribonacci](https://onlinejudge.org/external/124/12470.pdf) [✅](../../practice/linear_algebra/uva_12470.cpp "Accepted solution")
 - [UVa 12593 - Next Generation Macaw](https://onlinejudge.org/external/125/12593.pdf)
 - [UVa 12653 - Buses](https://onlinejudge.org/external/126/12653.pdf)
 - [UVa 12761 - Blue Chips](https://onlinejudge.org/external/127/12761.pdf)
