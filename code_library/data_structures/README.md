@@ -497,7 +497,7 @@
 - [UVa 1402 - Robotic Sort](https://onlinejudge.org/external/14/1402.pdf)
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf)
 - [UVa 11672 - Dynamic Summation](https://onlinejudge.org/external/116/11672.pdf) [✅](../../practice/data_structures/uva_11672.cpp "Accepted solution")
-- [UVa 11922 - Permutation Transformer](https://onlinejudge.org/external/119/11922.pdf)
+- [UVa 11922 - Permutation Transformer](https://onlinejudge.org/external/119/11922.pdf) [✅](../../practice/data_structures/uva_11922.cpp "Accepted solution")
 - [UVa 11996 - Jewel Magic](https://onlinejudge.org/external/119/11996.pdf)
 - [UVa 12634 - Pairing Boys and Girls](https://onlinejudge.org/external/126/12634.pdf)
 - [UVa 13102 - Tobby Stones](https://onlinejudge.org/external/131/13102.pdf)
