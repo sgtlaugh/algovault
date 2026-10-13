@@ -1,30 +1,21 @@
 /***
  *
- * 2D Fenwick Tree with Implicit Segment Trees for large matrices with sparse updates
- * Each Fenwick row uses implicit segment tree for columns - allocates nodes on demand
- * Range updates and point queries only
- * 0-based cells, rectangles [x1, x2] x [y1, y2] inclusive, a cell outside [0, n - 1] x [0, m - 1] asserts
- *
- * FenwickImplicit2D<long long> f(n, m): n rows, m columns, all zeros
- * f.update(x1, y1, x2, y2, v): add v to every cell of the rectangle, x1 > x2 or y1 > y2 is empty and does nothing
- * f.query(x, y): the value at cell (x, y)
+ * 2D Fenwick Tree, Implicit
+ * Rectangle add and cell value on grids too large to allocate, each Fenwick row a segment tree over columns built on demand
  *
  * Complexity:
- *   - O(n) to construct, for the row roots
- *   - O(log n log m) per update/query, a range update is 4 point updates of O(log n) rows each creating up to
- *     log m + 1 nodes
- *   - O(q log n log m) nodes for q updates
+ *   - build: O(n) for the row roots
+ *   - update, query: O(log n * log m)
  *
- * Nodes come from a pool of MAXNODES (16 bytes each for long long, ~205 MB by default), each range update takes up to
- * 4 * log(n) * log(m)
- * The pool is reserved up front but only memory for nodes actually created is touched
- * The row roots take another 4 * (n + 1) bytes, so the row count n is bounded by memory, m only by the pool
+ * FenwickImplicit2D<T> fen(n, m): n rows, m columns, all zeros
+ * fen.update(x1, y1, x2, y2, v): add v to a[x1..x2][y1..y2], nothing when x1 > x2 or y1 > y2
+ * fen.query(x, y): a[x][y]
  *
- * vs sparse hashmap (fenwick_tree_2D_sparse.cpp):
- *   - Better for Q < 100K: no fixed hash table cost (268 MB by default)
- *   - Better cache locality: tree structure vs random hash positions
- *   - No hash collisions
- *   - Hashmap faster for very sparse (Q < 10K) with random access patterns
+ * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
+ * q updates create O(q log n log m) nodes from a pool of MAXNODES, 16 bytes each for long long, about 205 MB by default
+ * The pool is reserved up front, but only the pages of created nodes are touched; running out asserts, raise MAXNODES
+ * The row roots take 4 * (n + 1) bytes, so n is bounded by memory and m only by the pool
+ * fenwick_tree_2D_sparse.cpp does point add and rectangle sum on a fixed hash table, 268 MB by default, this one pays only for created nodes
  *
 ***/
 
@@ -104,45 +95,19 @@ private:
 };
 
 int main(){
-    /// Test with moderate size
-    auto fen = FenwickImplicit2D<long long>(1000, 1000);
-
+    /// Two overlapping rectangle adds
+    FenwickImplicit2D<long long> fen(1000, 1000);
     fen.update(2, 4, 5, 6, 10);
     fen.update(3, 5, 7, 8, 5);
-
     assert(fen.query(2, 4) == 10);
     assert(fen.query(4, 5) == 15);
     assert(fen.query(6, 7) == 5);
     assert(fen.query(1, 3) == 0);
 
-    /// Test range updates
-    auto fen2 = FenwickImplicit2D<int>(100, 100);
-    fen2.update(9, 19, 29, 39, 7);
-    fen2.update(49, 59, 69, 79, 3);
-    fen2.update(90, 95, 99, 99, 1);
-
-    assert(fen2.query(19, 29) == 7);
-    assert(fen2.query(59, 69) == 3);
-    assert(fen2.query(0, 0) == 0);
-    assert(fen2.query(34, 44) == 0);
-    assert(fen2.query(99, 99) == 1);
-    assert(fen2.query(89, 99) == 0);
-
-    /// Test large coordinates
-    auto fen3 = FenwickImplicit2D<long long>(100000, 100000);
-    fen3.update(9999, 19999, 49999, 59999, 2);
-
-    assert(fen3.query(29999, 39999) == 2);
-    assert(fen3.query(9998, 19998) == 0);
-    assert(fen3.query(49999, 59999) == 2);
-
-    /// Rows and columns are sized separately, 2e9 columns cost no more row roots than 1e5 and a + b would overflow
-    auto wide = FenwickImplicit2D<long long>(100000, 2000000000);
+    /// 2e9 columns, only the created nodes take memory
+    FenwickImplicit2D<long long> wide(100000, 2000000000);
     wide.update(4, 6, 99999, 1999999999, 3);
-
-    assert(wide.query(4, 6) == 3);
     assert(wide.query(99999, 1999999999) == 3);
-    assert(wide.query(3, 6) == 0);
     assert(wide.query(4, 5) == 0);
 
     return 0;

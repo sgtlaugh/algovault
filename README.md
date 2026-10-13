@@ -54,7 +54,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct gcd/or/and of subarrays ending at each index, `O(log A)`
 - [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point/range update with point/range query, `O(log n)` lower bound on prefix sums [✔](judge_tests/data_structures/aoj_dsl_2_e.cpp)
   - [2D](code_library/data_structures/fenwick_tree_2D.cpp) - the same on a grid [✔](judge_tests/data_structures/aoj_dsl_5_b.cpp)
-  - [2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - huge grids, columns as on-demand segment trees
+  - [2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - rectangle add and cell value on huge grids, columns as on-demand segment trees
   - [2D, Sparse](code_library/data_structures/fenwick_tree_2D_sparse.cpp) - grids up to 1e9 x 1e9 with sparse updates, hashed [✔](judge_tests/data_structures/point_add_rectangle_sum.cpp)
   - [3D](code_library/data_structures/fenwick_tree_3D.cpp) - the same in 3D
 - [Hash Map](code_library/data_structures/hashmap.cpp) - hash table for integral keys that hack tests cannot slow down, expected `O(1)` [✔](judge_tests/data_structures/associative_array.cpp)
