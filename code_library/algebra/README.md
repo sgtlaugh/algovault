@@ -29,7 +29,7 @@
 - [UVa 10069 - Distinct Subsequences](https://onlinejudge.org/external/100/10069.pdf)
 - [UVa 10083 - Division](https://onlinejudge.org/external/100/10083.pdf)
 - [UVa 10106 - Product](https://onlinejudge.org/external/101/10106.pdf)
-- [UVa 10183 - How Many Fibs?](https://onlinejudge.org/external/101/10183.pdf)
+- [UVa 10183 - How Many Fibs?](https://onlinejudge.org/external/101/10183.pdf) [✅](../../practice/algebra/uva_10183.cpp "Accepted solution")
 - [UVa 10198 - Counting](https://onlinejudge.org/external/101/10198.pdf)
 - [UVa 10220 - I Love Big Numbers !](https://onlinejudge.org/external/102/10220.pdf)
 - [UVa 10329 - Combinatorial Expression](https://onlinejudge.org/external/103/10329.pdf)
