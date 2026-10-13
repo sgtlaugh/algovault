@@ -82,7 +82,7 @@
 - [SPOJ VFMUL - Very Fast Multiplication](https://www.spoj.com/problems/VFMUL/)
 - [Timus 1996 - Cipher Message 3](https://acm.timus.ru/problem.aspx?num=1996)
 - [Toph counting-triplets - Counting Triplets](https://toph.co/p/counting-triplets)
-- [UVa 1718 - Tile Cutting](https://onlinejudge.org/external/17/1718.pdf)
+- [UVa 1718 - Tile Cutting](https://onlinejudge.org/external/17/1718.pdf) [✅](../../practice/algebra/uva_1718.cpp "Accepted solution")
 - [UVa 1733 - Design New Capital](https://onlinejudge.org/external/17/1733.pdf)
 - [UVa 11564 - Just A Few More Triangles!](https://onlinejudge.org/external/115/11564.pdf)
 - [UVa 11640 - Mayor Election](https://onlinejudge.org/external/116/11640.pdf)
