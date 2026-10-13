@@ -404,7 +404,7 @@
 - [UVa 820 - Internet Bandwidth](https://onlinejudge.org/external/8/820.pdf) [✅](../../practice/graphs/uva_820.cpp "Accepted solution")
 - [UVa 1067 - Tunnels](https://onlinejudge.org/external/10/1067.pdf) [✅](../../practice/graphs/uva_1067.cpp "Accepted solution")
 - [UVa 1212 - Duopoly](https://onlinejudge.org/external/12/1212.pdf) [✅](../../practice/graphs/uva_1212.cpp "Accepted solution")
-- [UVa 1345 - Jamie's Contact Groups](https://onlinejudge.org/external/13/1345.pdf)
+- [UVa 1345 - Jamie's Contact Groups](https://onlinejudge.org/external/13/1345.pdf) [✅](../../practice/graphs/uva_1345.cpp "Accepted solution")
 - [UVa 1574 - Surely You Congest](https://onlinejudge.org/external/15/1574.pdf)
 - [UVa 10249 - The Grand Dinner](https://onlinejudge.org/external/102/10249.pdf) [✅](../../practice/graphs/uva_10249.cpp "Accepted solution")
 - [UVa 10330 - Power Transmission](https://onlinejudge.org/external/103/10330.pdf) [✅](../../practice/graphs/uva_10330.cpp "Accepted solution")
