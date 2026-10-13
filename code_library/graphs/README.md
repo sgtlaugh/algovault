@@ -31,7 +31,7 @@
 - [UVa 1391 - Astronauts](https://onlinejudge.org/external/13/1391.pdf)
 - [UVa 1514 - Piece it together](https://onlinejudge.org/external/15/1514.pdf)
 - [UVa 1703 - Metal Processing Plant](https://onlinejudge.org/external/17/1703.pdf)
-- [UVa 10319 - Manhattan](https://onlinejudge.org/external/103/10319.pdf)
+- [UVa 10319 - Manhattan](https://onlinejudge.org/external/103/10319.pdf) [✅](../../practice/graphs/uva_10319.cpp "Accepted solution")
 - [UVa 11294 - Wedding](https://onlinejudge.org/external/112/11294.pdf) [✅](../../practice/graphs/uva_11294.cpp "Accepted solution")
 - [UVa 11861 - Explosion](https://onlinejudge.org/external/118/11861.pdf) [✅](../../practice/graphs/uva_11861.cpp "Accepted solution")
 - [UVa 11930 - Rectangles](https://onlinejudge.org/external/119/11930.pdf) [✅](../../practice/graphs/uva_11930.cpp "Accepted solution")
