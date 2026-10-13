@@ -95,7 +95,7 @@
 - [SPOJ SUPPER - Supernumbers in a permutation](https://www.spoj.com/problems/SUPPER/)
 - [USACO 496 - Cow Jog](https://usaco.org/index.php?page=viewproblem2&cpid=496)
 - [UVa 111 - History Grading](https://onlinejudge.org/external/1/111.pdf) [✅](../../practice/dp/uva_111.cpp "Accepted solution")
-- [UVa 231 - Testing the CATCHER](https://onlinejudge.org/external/2/231.pdf)
+- [UVa 231 - Testing the CATCHER](https://onlinejudge.org/external/2/231.pdf) [✅](../../practice/dp/uva_231.cpp "Accepted solution")
 - [UVa 481 - What Goes Up](https://onlinejudge.org/external/4/481.pdf) [✅](../../practice/dp/uva_481.cpp "Accepted solution")
 - [UVa 497 - Strategic Defense Initiative](https://onlinejudge.org/external/4/497.pdf) [✅](../../practice/dp/uva_497.cpp "Accepted solution")
 - [UVa 1062 - Containers](https://onlinejudge.org/external/10/1062.pdf) [✅](../../practice/dp/uva_1062.cpp "Accepted solution")
