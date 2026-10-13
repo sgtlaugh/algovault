@@ -48,7 +48,7 @@ One template per run. A directory in port mode means one algorithm spread over i
    It must print `mutant caught`. A mutant that survives means the test is too weak: strengthen it and plant again. `INVALID MUTANT` does not count.
 5. **Performance.**
    - refactor: benchmark old against new at -O2 on the same input. More than 5% slower is reverted, unless the user asked for the trade. A kept slower choice gets a `///` comment with the numbers.
-   - port: compare with the source when it compiles; a slower port needs a measured reason.
+   - port: compare with the source when it compiles; a port slower than its source reports both timings, and the header notes state the trade.
 6. **Judge test**, when a Library Checker or Aizu problem fits: `judge_tests/<topic>/<problem>.cpp` per CONTRIBUTING, plus the ✔ on the README index entry. refactor: run every judge test that includes a file whose API changed.
 7. **Docs.** Run `/lucid` on the file (header, `main()`, README index entry and practice section heading). A new template also gets its README index entry, alphabetical, variants nested under their base. Practice problems are optional; any you add must be verified per CONTRIBUTING.
 8. **Verify**, from the repo root:
