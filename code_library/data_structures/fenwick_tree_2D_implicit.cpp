@@ -5,7 +5,7 @@
  *
  * Complexity:
  *   - build: O(n) for the row roots
- *   - update, query: O(log n * log m)
+ *   - update, query: O(log n log m)
  *
  * FenwickImplicit2D<T> fen(n, m): n rows, m columns, all zeros
  * fen.update(x1, y1, x2, y2, v): add v to a[x1..x2][y1..y2], nothing when x1 > x2 or y1 > y2
