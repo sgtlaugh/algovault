@@ -47,7 +47,7 @@
 
 - [CSES 3218 - Knight Moves Queries](https://cses.fi/problemset/task/3218)
 - [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf)
-- [UVa 11852 - Knight's Trip](https://onlinejudge.org/external/118/11852.pdf)
+- [UVa 11852 - Knight's Trip](https://onlinejudge.org/external/118/11852.pdf) [✅](../../practice/misc/uva_11852.cpp "Accepted solution")
 
 #### [N Queens](n_queen.cpp)
 
