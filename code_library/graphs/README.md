@@ -513,7 +513,7 @@
 - [UVa 1216 - The Bug Sensor Problem](https://onlinejudge.org/external/12/1216.pdf) [✅](../../practice/graphs/uva_1216.cpp "Accepted solution")
 - [UVa 1235 - Anti Brute Force Lock](https://onlinejudge.org/external/12/1235.pdf)
 - [UVa 1395 - Slim Span](https://onlinejudge.org/external/13/1395.pdf)
-- [UVa 10034 - Freckles](https://onlinejudge.org/external/100/10034.pdf)
+- [UVa 10034 - Freckles](https://onlinejudge.org/external/100/10034.pdf) [✅](../../practice/graphs/uva_10034.cpp "Accepted solution")
 - [UVa 10048 - Audiophobia](https://onlinejudge.org/external/100/10048.pdf) [✅](../../practice/graphs/uva_10048.cpp "Accepted solution")
 - [UVa 10147 - Highways](https://onlinejudge.org/external/101/10147.pdf) [✅](../../practice/graphs/uva_10147.cpp "Accepted solution")
 - [UVa 10307 - Killing Aliens in Borg Maze](https://onlinejudge.org/external/103/10307.pdf)
