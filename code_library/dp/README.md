@@ -70,7 +70,7 @@
 - [CSES 2088 - Knuth Division](https://cses.fi/problemset/task/2088)
 - [SPOJ BRKSTRNG - Breaking String](https://www.spoj.com/problems/BRKSTRNG/)
 - [UVa 10003 - Cutting Sticks](https://onlinejudge.org/external/100/10003.pdf) [✅](../../practice/dp/uva_10003.cpp "Accepted solution")
-- [UVa 10304 - Optimal Binary Search Tree](https://onlinejudge.org/external/103/10304.pdf)
+- [UVa 10304 - Optimal Binary Search Tree](https://onlinejudge.org/external/103/10304.pdf) [✅](../../practice/dp/uva_10304.cpp "Accepted solution")
 - [UVa 12057 - Prefix Codes](https://onlinejudge.org/external/120/12057.pdf)
 - [UVa 12809 - Binary Search Tree](https://onlinejudge.org/external/128/12809.pdf)
 - [UVa 12836 - Gain Battle Power](https://onlinejudge.org/external/128/12836.pdf)
