@@ -112,7 +112,7 @@
 - [HackerRank summing-the-k-n-r-series - Summing the K-N-R Series](https://www.hackerrank.com/contests/infinitum-mar14/challenges/summing-the-k-n-r-series)
 - [Library Checker sum_of_exponential_times_polynomial - $\sum_{i=0}^{n-1} r^i i^d$](https://judge.yosupo.jp/problem/sum_of_exponential_times_polynomial)
 - [SPOJ MOON1 - Moon Safari (medium)](https://www.spoj.com/problems/MOON1/)
-- [UVa 1546 - Complete the sequence!](https://onlinejudge.org/external/15/1546.pdf)
+- [UVa 1546 - Complete the sequence!](https://onlinejudge.org/external/15/1546.pdf) [✅](../../practice/algebra/uva_1546.cpp "Accepted solution")
 - [UVa 12143 - Stopping Doom's Day](https://onlinejudge.org/external/121/12143.pdf) [✅](../../practice/algebra/uva_12143.cpp "Accepted solution")
 
 #### [Linear Recurrence](linear_recurrence.cpp)
