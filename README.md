@@ -52,7 +52,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
   - [Potential](code_library/data_structures/potential_dsu.cpp) - differences `x[b] - x[a]` within each set [✔](judge_tests/data_structures/unionfind_with_potential.cpp)
   - [Rollback](code_library/data_structures/rollback_dsu.cpp) - unions can be undone, for offline connectivity [✔](judge_tests/data_structures/persistent_unionfind.cpp)
 - [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct gcd/or/and of subarrays ending at i
-- [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point or range add with range sums [✔](judge_tests/data_structures/aoj_dsl_2_e.cpp)
+- [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point or range add with point or range sums [✔](judge_tests/data_structures/aoj_dsl_2_e.cpp)
   - [2D](code_library/data_structures/fenwick_tree_2D.cpp) - the same on a grid [✔](judge_tests/data_structures/aoj_dsl_5_b.cpp)
   - [2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - rectangle add and cell value on huge grids
   - [2D, Sparse](code_library/data_structures/fenwick_tree_2D_sparse.cpp) - point add and rectangle sum on huge grids [✔](judge_tests/data_structures/point_add_rectangle_sum.cpp)
@@ -195,7 +195,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Modular Roots](code_library/number_theory/modular_roots.cpp) - k-th roots modulo a prime, primitive root [✔](judge_tests/number_theory/kth_root_mod.cpp)
 - [Modular Square Root](code_library/number_theory/modular_sqrt.cpp) - Tonelli-Shanks square root modulo a prime [✔](judge_tests/number_theory/sqrt_mod.cpp)
 - [Pisano Period](code_library/number_theory/pisano_period.cpp) - period of Fibonacci numbers modulo n
-- [Pollard Rho](code_library/number_theory/pollard_rho.cpp) - factorization of 64-bit integers [✔](judge_tests/number_theory/factorize.cpp)
+- [Pollard Rho](code_library/number_theory/pollard_rho.cpp) - factorization and primality below `2^63` [✔](judge_tests/number_theory/factorize.cpp)
 - [Power Tower](code_library/number_theory/power_tower.cpp) - `a1^(a2^(...^an))` modulo m [✔](judge_tests/number_theory/tetration_mod.cpp)
 - [Segmented Sieve](code_library/number_theory/segmented_sieve.cpp) - primes in a window `[L, R]` far from zero [✔](judge_tests/number_theory/enumerate_primes_segmented_sieve.cpp)
 
@@ -225,7 +225,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
 - [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - convolution over `gcd(i, j)` or `lcm(i, j)` [✔](judge_tests/algebra/gcd_convolution.cpp)
 - [Lagrange Interpolation](code_library/algebra/lagrange_interpolation.cpp) - value of a polynomial from consecutive samples [✔](judge_tests/algebra/sum_of_exponential_times_polynomial.cpp)
-- [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - finds a recurrence and computes its n-th term [✔](judge_tests/algebra/find_linear_recurrence.cpp)
+- [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - Berlekamp-Massey and n-th term of a recurrence [✔](judge_tests/algebra/find_linear_recurrence.cpp)
 - [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - fast when one or both sides are convex [✔](judge_tests/algebra/min_plus_convolution_convex_arbitrary.cpp)
 - [NTT](code_library/algebra/ntt.cpp) - polynomial multiplication modulo any m or exact [✔](judge_tests/algebra/convolution_mod.cpp)
 - [Polynomial](code_library/algebra/polynomial.cpp) - power series ops and multipoint evaluation [✔](judge_tests/algebra/division_of_polynomials.cpp)
@@ -260,7 +260,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region common to all half-planes [✔](judge_tests/geometry/aoj_1283.cpp)
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
 - [Polygon Union](code_library/geometry/polygon_union.cpp) - area of a union of simple polygons
-- [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of axis-aligned rectangles [✔](judge_tests/geometry/area_of_union_of_rectangles.cpp)
+- [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of a union of rectangles [✔](judge_tests/geometry/area_of_union_of_rectangles.cpp)
 - [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - whether any two segments intersect
 
 ### Dynamic Programming
