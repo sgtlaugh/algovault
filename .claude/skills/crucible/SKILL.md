@@ -35,33 +35,43 @@ Run shell commands under bash, edit files with Edit or Write (never `sed -i`), a
    - web: find the page's licence. Code under a permissive licence (CC0, MIT, Apache, public domain) may be adapted, credited in the header. Code under CC BY-SA, GPL or no stated licence is never copied: reimplement it from the idea and cite the page. A run without a licence verdict in the report is not done.
    - refactor: read the file's stress test, judge tests and callers (`git grep -n <struct or function> -- code_library stress_tests judge_tests`), and benchmark the current version at -O2 before changing anything, on its largest documented input, or else the stress test's largest input or the judge problem's limit.
    - Ambiguous or suspicious source (an off-by-one in a known algorithm, a complexity claim the code does not meet): stop and ask. Porting a suspected bug silently is not allowed.
-2. **Write the code** to the CONTRIBUTING style: a struct with per-instance state, 0-based positions with inclusive ranges `[l, r]`, no mutable globals and no generic global names, `T x(args)`. For each item of the edge-case list below that applies, the code handles it or the header states the limit.
-   - refactor: an API change must break old calls at compile time, never change their meaning silently; update every caller. Renaming a template parameter or a local that callers never spell needs no caller change. A new requirement on a type (such as default constructible) counts as an API change and goes in the header's notes. Keep the library's simple patterns (a functor template with a default, an Ops struct).
-3. **Stress test**, at `stress_tests/<same path>` (`stress_tests/python/` for Python), mandatory:
+2. **Write the code** to the CONTRIBUTING rules, sections `## API and code` and `## Style`: a struct with per-instance state, 0-based positions with inclusive ranges `[l, r]`, no mutable globals and no generic global names, `T x(args)`. For each item of the edge-case list below that applies, the code handles it or the header states the limit.
+   - port and web: the source's API is not a constraint. Design the call a contestant would want, then fit the algorithm to it.
+   - refactor: an API change must break old calls at compile time, never change their meaning silently; update every caller. Renaming a template parameter or a local that callers never spell needs no caller change. A new requirement on a type (such as default constructible) counts as an API change and goes in the header's notes.
+3. **Simplicity gate**, before any testing. Write the common case as the 1 to 3 lines a contestant would type, then answer each question with yes, or change the code until it is yes:
+   - Does the common case need no configuration and no parameter the code could do without?
+   - Does every public name say what the call does, with arguments in the order the sentence reads?
+   - Does it reuse the names its family already uses (`find`, `same`, `size`, `combine`, `query`, `update`)?
+   - Is customizing a matter of passing a lambda, functor or `Ops` struct, never editing the template?
+   - Does every call return its answer rather than fill an out-parameter?
+   - Is everything public something a user calls, with helpers under `private:`?
+   - Are loops plain and variables named for what they hold, with no abstraction used once and no language machinery that does not prevent a silent wrong answer?
+   A no that stays a no is allowed only with a one-line reason in the report, such as a measured speed cost.
+4. **Stress test**, at `stress_tests/<same path>` (`stress_tests/python/` for Python), mandatory:
    - an independent reference: a brute force, and also the original source when it compiles (port mode)
    - exhaustive on small inputs, random on large ones, every boundary the header claims (max n, max value, extreme moduli)
    - randomness through `stress::rand_int` and loop counts through `stress::scaled` (`rng` and `scaled` in Python)
    - refactor: keep the existing test and extend it for every new behaviour
    - no practical reference: stop and ask; `STRESS_SKIP` needs the user's approval and a reason
    - a test that expects an abort must check that the library's own assert fired (its stderr names the library file and `Assertion`): CI's `-D_GLIBCXX_ASSERTIONS` also aborts on an out-of-range access, so a bare SIGABRT check passes even with the assert deleted
-4. **Prove the stress test can fail.** For every logic change, plant one realistic bug (an off-by-one, a dropped edge case, a swapped operand):
+5. **Prove the stress test can fail.** For every logic change, plant one realistic bug (an off-by-one, a dropped edge case, a swapped operand):
    ```bash
    bash .claude/skills/crucible/scripts/mutant.sh <path under code_library> '<sed expression>'
    ```
    It must print `mutant caught by: ...`. A mutant that survives means the test is too weak: strengthen it and plant again. `INVALID MUTANT` does not count.
-5. **Performance.**
+6. **Performance.**
    - refactor: benchmark old against new at -O2 on the same input. More than 5% slower is reverted, unless the user asked for the trade. A kept slower choice gets a `///` comment with the numbers. A reverted attempt is reported with its numbers.
    - port: compare with the source when it compiles; a port slower than its source reports both timings, and the header notes state the trade.
-6. **Judge test**, when a Library Checker or Aizu problem fits: `judge_tests/<topic>/<problem>.cpp` per CONTRIBUTING, plus the ✔ on the README index entry. refactor: run every judge test that includes a file whose code changed. The first run prepares the judge data and can take minutes.
-7. **Docs.** Commit the code change first (with `--commit`), or note the commit it sits on, and give that to `/lucid` as its base: its scope check then covers only the docs. Run `/lucid` on the file (header, `main()`, README index entry and practice section heading). A new template also gets its README index entry, alphabetical, variants nested under their base. Practice problems are optional; any you add must be verified per CONTRIBUTING.
-8. **Verify**, from the repo root:
+7. **Judge test**, when a Library Checker or Aizu problem fits: `judge_tests/<topic>/<problem>.cpp` per CONTRIBUTING, plus the ✔ on the README index entry. refactor: run every judge test that includes a file whose code changed. The first run prepares the judge data and can take minutes.
+8. **Docs.** Commit the code change first (with `--commit`), or note the commit it sits on, and give that to `/lucid` as its base: its scope check then covers only the docs. Run `/lucid` on the file (header, `main()`, README index entry and practice section heading). A new template also gets its README index entry, alphabetical, variants nested under their base. Practice problems are optional; any you add must be verified per CONTRIBUTING.
+9. **Verify**, from the repo root:
    ```bash
    env CHANGED_SINCE=<commit before the run> JOBS=4 bash .github/scripts/run_tests.sh self
    env CHANGED_SINCE=<commit before the run> JOBS=4 bash .github/scripts/run_tests.sh stress
-   env LD_LIBRARY_PATH="$(dirname "$(g++ -print-file-name=libstdc++.so)")" bash .github/scripts/judge_tests.sh <the judge tests from step 6>
+   env LD_LIBRARY_PATH="$(dirname "$(g++ -print-file-name=libstdc++.so)")" bash .github/scripts/judge_tests.sh <the judge tests from step 7>
    ```
    Done only when both suites exit 0 with the file's tests among those passed (`passed: 0` tested nothing and does not count) and every judge test succeeds.
-9. **Commit**, only with `--commit`: one commit per library file together with its stress test, judge test and README lines. Conventional subject (`feat:` new template, `refactor:`, `perf:`, `fix:`), at most 72 characters, no body. No AI attribution, never `--no-verify`, never amend, never push.
+10. **Commit**, only with `--commit`: one commit per library file together with its stress test, judge test and README lines. Conventional subject (`feat:` new template, `refactor:`, `perf:`, `fix:`), at most 72 characters, no body. No AI attribution, never `--no-verify`, never amend, never push.
 
 ## Edge cases to check
 
@@ -79,7 +89,7 @@ The bug classes the October 2026 audit found in this repo:
 The report MUST contain, in this order:
 
 1. **Mode and source:** the file or URL; for web mode the licence and whether the code was adapted or reimplemented.
-2. **API:** for a new template, its public calls; for refactor, before and after with every caller updated.
+2. **API:** the common case as written in step 3, the simplicity gate answers (any no with its reason), and for refactor the API before and after with every caller updated.
 3. **Header claims:** each range and complexity claim with the stress case or self-test that checks it.
 4. **Stress test:** the reference used and what it covers.
 5. **Planted bugs:** each sed expression with its `mutant caught by:` line, and any mutant that first survived with how the test was strengthened.
