@@ -159,7 +159,7 @@
 
 - [CSES 1110 - Minimal Rotation](https://cses.fi/problemset/task/1110)
 - [Library Checker lyndon_factorization - Lyndon Factorization](https://judge.yosupo.jp/problem/lyndon_factorization)
-- [UVa 719 - Glass Beads](https://onlinejudge.org/external/7/719.pdf)
+- [UVa 719 - Glass Beads](https://onlinejudge.org/external/7/719.pdf) [✅](../../practice/strings/uva_719_lyndon_factorization.cpp "Accepted solution")
 
 #### [Manacher](manacher.cpp)
 
@@ -183,7 +183,7 @@
 #### [Minimum Rotation](minimum_rotation.cpp)
 
 - [CSES 1110 - Minimal Rotation](https://cses.fi/problemset/task/1110)
-- [UVa 719 - Glass Beads](https://onlinejudge.org/external/7/719.pdf)
+- [UVa 719 - Glass Beads](https://onlinejudge.org/external/7/719.pdf) [✅](../../practice/strings/uva_719_minimum_rotation.cpp "Accepted solution")
 - [UVa 1314 - Hidden Password](https://onlinejudge.org/external/13/1314.pdf) [✅](../../practice/strings/uva_1314.cpp "Accepted solution")
 - [UVa 1584 - Circular Sequence](https://onlinejudge.org/external/15/1584.pdf) [✅](../../practice/strings/uva_1584.cpp "Accepted solution")
 
