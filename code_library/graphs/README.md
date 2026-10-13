@@ -594,4 +594,4 @@
 - [UVa 11838 - Come and Go](https://onlinejudge.org/external/118/11838.pdf) [✅](../../practice/graphs/uva_11838.cpp "Accepted solution")
 - [UVa 12167 - Proving Equivalences](https://onlinejudge.org/external/121/12167.pdf) [✅](../../practice/graphs/uva_12167.cpp "Accepted solution")
 - [UVa 12645 - Water Supply](https://onlinejudge.org/external/126/12645.pdf) [✅](../../practice/graphs/uva_12645.cpp "Accepted solution")
-- [UVa 13057 - Prove Them All](https://onlinejudge.org/external/130/13057.pdf)
+- [UVa 13057 - Prove Them All](https://onlinejudge.org/external/130/13057.pdf) [✅](../../practice/graphs/uva_13057.cpp "Accepted solution")
