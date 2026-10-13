@@ -507,7 +507,7 @@
 - [USACO 531 - Superbull](https://usaco.org/index.php?page=viewproblem2&cpid=531)
 - [USACO 623 - Fenced In](https://usaco.org/index.php?page=viewproblem2&cpid=623)
 - [USACO 1211 - Moo Network](https://usaco.org/index.php?page=viewproblem2&cpid=1211)
-- [UVa 908 - Re-connecting Computer Sites](https://onlinejudge.org/external/9/908.pdf)
+- [UVa 908 - Re-connecting Computer Sites](https://onlinejudge.org/external/9/908.pdf) [✅](../../practice/graphs/uva_908.cpp "Accepted solution")
 - [UVa 1174 - IP-TV](https://onlinejudge.org/external/11/1174.pdf)
 - [UVa 1208 - Oreon](https://onlinejudge.org/external/12/1208.pdf) [✅](../../practice/graphs/uva_1208.cpp "Accepted solution")
 - [UVa 1216 - The Bug Sensor Problem](https://onlinejudge.org/external/12/1216.pdf) [✅](../../practice/graphs/uva_1216.cpp "Accepted solution")
