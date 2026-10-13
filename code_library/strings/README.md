@@ -114,7 +114,7 @@
 - [UVa 11855 - Buzzwords](https://onlinejudge.org/external/118/11855.pdf) [✅](../../practice/strings/uva_11855.cpp "Accepted solution")
 - [UVa 11996 - Jewel Magic](https://onlinejudge.org/external/119/11996.pdf)
 - [UVa 12012 - Detection of Extraterrestrial](https://onlinejudge.org/external/120/12012.pdf) [✅](../../practice/strings/uva_12012.cpp "Accepted solution")
-- [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf)
+- [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf) [✅](../../practice/strings/uva_12206_hashing.cpp "Accepted solution")
 - [UVa 12837 - Hasmot Ali Professor](https://onlinejudge.org/external/128/12837.pdf) [✅](../../practice/strings/uva_12837.cpp "Accepted solution")
 - [UVa 13126 - Wildcards](https://onlinejudge.org/external/131/13126.pdf)
 
@@ -246,7 +246,7 @@
 - [UVa 11107 - Life Forms](https://onlinejudge.org/external/111/11107.pdf) [✅](../../practice/strings/uva_11107_suffix_array.cpp "Accepted solution")
 - [UVa 11512 - GATTACA](https://onlinejudge.org/external/115/11512.pdf) [✅](../../practice/strings/uva_11512.cpp "Accepted solution")
 - [UVa 12191 - File Recover](https://onlinejudge.org/external/121/12191.pdf) [✅](../../practice/strings/uva_12191.cpp "Accepted solution")
-- [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf)
+- [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf) [✅](../../practice/strings/uva_12206_suffix_array.cpp "Accepted solution")
 - [UVa 12338 - Anti-Rhyme Pairs](https://onlinejudge.org/external/123/12338.pdf) [✅](../../practice/strings/uva_12338.cpp "Accepted solution")
 - [UVa 12361 - File Retrieval](https://onlinejudge.org/external/123/12361.pdf)
 - [UVa 12974 - Exquisite Strings](https://onlinejudge.org/external/129/12974.pdf) [✅](../../practice/strings/uva_12974.cpp "Accepted solution")
