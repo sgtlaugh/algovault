@@ -174,25 +174,25 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 [Practice problems](code_library/number_theory/README.md)
 
 - [All Divisors](code_library/number_theory/all_divisors.cpp) - divisor lists of every number up to a limit
-- [Chinese Remainder Theorem](code_library/number_theory/chinese_remainder_theorem.cpp) - systems of congruences with any moduli, and Garner's mixed radix [✔](judge_tests/number_theory/convolution_mod_1000000007_chinese_remainder_theorem.cpp)
-- [Continued Fractions](code_library/number_theory/continued_fractions.cpp) - convergents, best rational approximation, Stern-Brocot search [✔](judge_tests/number_theory/rational_approximation.cpp)
+- [Chinese Remainder Theorem](code_library/number_theory/chinese_remainder_theorem.cpp) - systems of congruences with any moduli [✔](judge_tests/number_theory/convolution_mod_1000000007_chinese_remainder_theorem.cpp)
+- [Continued Fractions](code_library/number_theory/continued_fractions.cpp) - best rational approximation, Stern-Brocot search [✔](judge_tests/number_theory/rational_approximation.cpp)
 - [Digits of Factorial](code_library/number_theory/digits_of_factorial.cpp) - number of digits of n! in any base
 - [Discrete Logarithm](code_library/number_theory/discrete_logarithm.cpp) - smallest x with `a^x = b mod m`, any m [✔](judge_tests/number_theory/discrete_logarithm_mod.cpp)
-- [Divisors](code_library/number_theory/divisors.cpp) - sorted divisors of one number, or from its prime factors
-- [Du's Sieve](code_library/number_theory/du_sieve.cpp) - prefix sums of Euler's phi and Mobius mu up to 1e11 in `O(n^(2/3))` [✔](judge_tests/number_theory/counting_squarefrees.cpp)
-- [Extended GCD](code_library/number_theory/extended_gcd.cpp) - extended gcd, modular inverse, linear diophantine equations (solve and count in a box) [✔](judge_tests/number_theory/aoj_ntl_1_e.cpp)
+- [Divisors](code_library/number_theory/divisors.cpp) - sorted divisors of one number
+- [Du's Sieve](code_library/number_theory/du_sieve.cpp) - prefix sums of phi and mu in `O(n^(2/3))` [✔](judge_tests/number_theory/counting_squarefrees.cpp)
+- [Extended GCD](code_library/number_theory/extended_gcd.cpp) - modular inverse, linear diophantine equations [✔](judge_tests/number_theory/aoj_ntl_1_e.cpp)
 - [Fast Fibonacci](code_library/number_theory/fast_fibonacci.cpp) - n-th Fibonacci number by fast doubling [✔](judge_tests/number_theory/aoj_alds1_10_a.cpp)
-- [Fast Prime Counting](code_library/number_theory/fast_prime_counting.cpp) - `pi(n)` in about `O(n^(2/3))`, Meissel-Lehmer [✔](judge_tests/number_theory/counting_primes.cpp)
-- [Fast Prime Sums](code_library/number_theory/fast_prime_sums.cpp) - sum of primes up to n, Meissel-Lehmer
-- [Fast Sieve](code_library/number_theory/fast_sieve.cpp) - optimized sieve of Eratosthenes up to `2^31 - 1` [✔](judge_tests/number_theory/enumerate_primes.cpp)
-- [Floor Sum](code_library/number_theory/floor_sum.cpp) - `sum floor((a i + b) / m)`, `min (a i + b) mod m`, first x with `a x mod m` in `[l, r]` [✔](judge_tests/number_theory/min_of_mod_of_linear.cpp)
-- [Integer Root](code_library/number_theory/integer_root.cpp) - exact floor of square, cube and k-th roots of 64-bit integers [✔](judge_tests/number_theory/kth_root_integer.cpp)
-- [Linear Sieve](code_library/number_theory/linear_sieve.cpp) - smallest prime factors, phi, mu and any multiplicative function
+- [Fast Prime Counting](code_library/number_theory/fast_prime_counting.cpp) - count of primes up to n in sublinear time [✔](judge_tests/number_theory/counting_primes.cpp)
+- [Fast Prime Sums](code_library/number_theory/fast_prime_sums.cpp) - sum of primes up to n in sublinear time
+- [Fast Sieve](code_library/number_theory/fast_sieve.cpp) - lists all primes up to n [✔](judge_tests/number_theory/enumerate_primes.cpp)
+- [Floor Sum](code_library/number_theory/floor_sum.cpp) - floor sums and minima of `(a i + b) mod m` [✔](judge_tests/number_theory/min_of_mod_of_linear.cpp)
+- [Integer Root](code_library/number_theory/integer_root.cpp) - exact floor of square, cube and k-th roots [✔](judge_tests/number_theory/kth_root_integer.cpp)
+- [Linear Sieve](code_library/number_theory/linear_sieve.cpp) - smallest prime factors, phi, mu and more
 - [Maximum Divisors](code_library/number_theory/maximum_divisors.cpp) - number with the most divisors up to a limit
 - [Miller Rabin](code_library/number_theory/miller_rabin.cpp) - deterministic primality test for 64-bit integers [✔](judge_tests/number_theory/primality_test.cpp)
-- [Min_25 Sieve](code_library/number_theory/min_25_sieve.cpp) - prefix sums of a multiplicative function in `O(deg n^(3/4) / log n)`, any modulus [✔](judge_tests/number_theory/sum_of_multiplicative_function.cpp)
-- [Mobius Function](code_library/number_theory/mobius_function.cpp) - Mobius mu for `1..n` in `O(n)` at 1 byte per entry
-- [Modular Roots](code_library/number_theory/modular_roots.cpp) - multiplicative order, primitive root, square root and k-th roots modulo a prime [✔](judge_tests/number_theory/kth_root_mod.cpp)
+- [Min_25 Sieve](code_library/number_theory/min_25_sieve.cpp) - prefix sums of a multiplicative function [✔](judge_tests/number_theory/sum_of_multiplicative_function.cpp)
+- [Mobius Function](code_library/number_theory/mobius_function.cpp) - Mobius mu for `1..n` at 1 byte per entry
+- [Modular Roots](code_library/number_theory/modular_roots.cpp) - k-th roots modulo a prime, primitive root [✔](judge_tests/number_theory/kth_root_mod.cpp)
 - [Modular Square Root](code_library/number_theory/modular_sqrt.cpp) - Tonelli-Shanks square root modulo a prime [✔](judge_tests/number_theory/sqrt_mod.cpp)
 - [Pisano Period](code_library/number_theory/pisano_period.cpp) - period of Fibonacci numbers modulo n
 - [Pollard Rho](code_library/number_theory/pollard_rho.cpp) - factorization of 64-bit integers [✔](judge_tests/number_theory/factorize.cpp)
