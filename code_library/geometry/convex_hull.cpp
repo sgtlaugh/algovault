@@ -282,7 +282,6 @@ struct DynamicHull{
         return res;
     }
 
-private:
     /// An upper hull with one point per x, strictly concave, covers(p) means p lies on or below it
     struct Chain{
         map<int64_t, int64_t> pts;
