@@ -454,7 +454,7 @@
 - [SPOJ KQUERY2 - K-query II](https://www.spoj.com/problems/KQUERY2/)
 - [SPOJ RACETIME - Race Against Time](https://www.spoj.com/problems/RACETIME/)
 - [UVa 11990 - ``Dynamic'' Inversion](https://onlinejudge.org/external/119/11990.pdf)
-- [UVa 12003 - Array Transformer](https://onlinejudge.org/external/120/12003.pdf)
+- [UVa 12003 - Array Transformer](https://onlinejudge.org/external/120/12003.pdf) [✅](../../practice/data_structures/uva_12003.cpp "Accepted solution")
 - [UVa 13094 - Tobby Bones](https://onlinejudge.org/external/130/13094.pdf)
 
 #### [Treap](treap.cpp)
