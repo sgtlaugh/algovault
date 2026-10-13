@@ -47,10 +47,10 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 [Practice problems](code_library/data_structures/README.md)
 
 - [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - in-place compression, optionally order preserving, returns the distinct values
-- [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - union by size with path compression [✔](judge_tests/data_structures/unionfind.cpp)
+- [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - merges sets of nodes and tells whether two nodes share a set [✔](judge_tests/data_structures/unionfind.cpp)
   - [Partially Persistent](code_library/data_structures/partially_persistent_dsu.cpp) - connectivity and component sizes at any past time
   - [Potential](code_library/data_structures/potential_dsu.cpp) - relations `x[b] = x[a] + d` over the integers or modulo m, parity [✔](judge_tests/data_structures/unionfind_with_potential.cpp)
-  - [Rollback](code_library/data_structures/rollback_dsu.cpp) - undoable unions for offline connectivity and divide and conquer [✔](judge_tests/data_structures/persistent_unionfind.cpp)
+  - [Rollback](code_library/data_structures/rollback_dsu.cpp) - union-find whose unions can be undone, for offline connectivity [✔](judge_tests/data_structures/persistent_unionfind.cpp)
 - [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct gcd/or/and of subarrays ending at each index, `O(log A)`
 - [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point/range update with point/range query, `O(log n)` lower bound on prefix sums [✔](judge_tests/data_structures/aoj_dsl_2_e.cpp)
   - [2D](code_library/data_structures/fenwick_tree_2D.cpp) - the same on a grid [✔](judge_tests/data_structures/aoj_dsl_5_b.cpp)

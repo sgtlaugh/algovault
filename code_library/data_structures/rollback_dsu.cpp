@@ -1,14 +1,19 @@
 /***
  *
  * Disjoint Set Union With Rollback
- * Undoable unions, for offline dynamic connectivity and divide and conquer over time
- * Nodes can be 0 or 1 based, allocates nodes 0..n
- * connect returns true if a and b were in different components
+ * Union-find whose unions can be undone, for offline dynamic connectivity and divide and conquer over time
  *
- * Complexity: O(log n) per operation, union by size without path compression, O(n) memory
+ * Complexity: O(log n) per operation, O(1) per undone union
  *
- * time(): number of successful connects not yet rolled back
- * rollback(t): undo every union made after time() returned t, O(1) per undone union
+ * RollbackDSU dsu(n): nodes 0..n, each in its own set
+ * dsu.connect(a, b): merge the sets of a and b, false if they are already one set
+ * dsu.same(a, b): true if a and b are in the same set
+ * dsu.size(a): number of nodes in a's set
+ * dsu.find(a): the root of a's set, the same node for every member
+ * dsu.time(): number of successful connects not yet rolled back, use it as a checkpoint
+ * dsu.rollback(t): undo every union made after time() returned t, 0 <= t <= time()
+ *
+ * Union by size without path compression, so a union changes one parent and undoing it is O(1)
  * offline_dynamic_connectivity.cpp carries a checked copy of this struct
  *
 ***/
@@ -64,22 +69,23 @@ struct RollbackDSU{
 /// END SHARED rollback_dsu
 
 int main(){
-    auto rb = RollbackDSU(6);
-    assert(rb.connect(1, 2));
-    int checkpoint = rb.time();
-    assert(rb.connect(3, 4) && rb.connect(2, 3) && !rb.connect(1, 4));
+    /// Take a checkpoint, merge more, roll back to it
+    RollbackDSU dsu(6);
+    assert(dsu.connect(1, 2));
+    int checkpoint = dsu.time();
+    assert(checkpoint == 1);
+    assert(dsu.connect(3, 4));
+    assert(dsu.connect(2, 3));
+    assert(!dsu.connect(1, 4));
+    assert(dsu.time() == 3);
+    assert(dsu.size(4) == 4);
+    assert(dsu.same(1, 4));
 
-    assert(rb.time() == 3 && checkpoint == 1);
-    assert(rb.size(4) == 4 && rb.same(1, 4));
-
-    rb.rollback(checkpoint);
-    assert(rb.time() == 1);
-    assert(rb.size(1) == 2 && rb.size(3) == 1 && rb.size(4) == 1);
-    assert(!rb.same(1, 3) && !rb.same(3, 4));
-
-    assert(rb.connect(4, 5) && rb.size(5) == 2);
-    rb.rollback(0);
-    for (int i = 0; i <= 6; i++) assert(rb.size(i) == 1);
+    dsu.rollback(checkpoint);
+    assert(dsu.time() == 1);
+    assert(dsu.size(1) == 2);
+    assert(dsu.size(4) == 1);
+    assert(!dsu.same(1, 3));
 
     return 0;
 }
