@@ -60,7 +60,6 @@ struct PrimeCounter{
         return res;
     }
 
-private:
     static long long fast_div(long long a, int b){
         return double(a) / b + 1e-9;
     }
