@@ -155,7 +155,7 @@
 - [UVa 721 - Invitation Cards](https://onlinejudge.org/external/7/721.pdf)
 - [UVa 929 - Number Maze](https://onlinejudge.org/external/9/929.pdf) [✅](../../practice/graphs/uva_929.cpp "Accepted solution")
 - [UVa 1027 - Toll](https://onlinejudge.org/external/10/1027.pdf)
-- [UVa 1078 - Steam Roller](https://onlinejudge.org/external/10/1078.pdf)
+- [UVa 1078 - Steam Roller](https://onlinejudge.org/external/10/1078.pdf) [✅](../../practice/graphs/uva_1078.cpp "Accepted solution")
 - [UVa 1112 - Mice and Maze](https://onlinejudge.org/external/11/1112.pdf)
 - [UVa 1233 - USHER](https://onlinejudge.org/external/12/1233.pdf)
 - [UVa 1247 - Interstar Transport](https://onlinejudge.org/external/12/1247.pdf)
