@@ -14,10 +14,10 @@ Every C++ file compiles on its own. Copy it into your solution, delete its `main
 ```cpp
 DSU dsu(n);
 dsu.connect(a, b);
-bool same = dsu.find_root(a) == dsu.find_root(b);
+bool together = dsu.same(a, b);
 ```
 
-The header at the top of each file lists its API, complexity and limits.
+The header at the top of each file lists its API, complexity and limits, and `main()` shows a worked example.
 
 ## Testing
 
@@ -36,7 +36,7 @@ Self-tests and stress tests build with GCC 14 under AddressSanitizer and Undefin
 - Every night all self and stress tests run, and the stress tests again at 20x the iterations with a fresh seed
 - Every week all judge tests run from scratch
 
-A ✔ in the index marks a template that passes a judge test; it links to one of them. The commands to run everything locally are in [CONTRIBUTING.md](CONTRIBUTING.md#checks).
+A ✔ in the index marks a template that passes a judge test; it links to one of them. A ✅ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice). The commands to run everything locally are in [CONTRIBUTING.md](CONTRIBUTING.md#checks).
 
 ## Index
 
@@ -330,7 +330,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 ## Contributing
 
-Bug reports, fixes and new templates are welcome as issues or pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions, the checks CI runs and The Zen Of Contributing.
+Bug reports, fixes and new templates are welcome as issues or pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions, the checks CI runs and The Zen Of Contributing; the `/lucid` skill in [`.claude/skills/`](.claude/skills) applies its documentation rules.
 
 ## License
 
