@@ -259,7 +259,7 @@
 - [UVa 10171 - Meeting Prof. Miguel...](https://onlinejudge.org/external/101/10171.pdf) [✅](../../practice/graphs/uva_10171.cpp "Accepted solution")
 - [UVa 10246 - Asterix and Obelix](https://onlinejudge.org/external/102/10246.pdf)
 - [UVa 10296 - Jogging Trails](https://onlinejudge.org/external/102/10296.pdf)
-- [UVa 10389 - Subway](https://onlinejudge.org/external/103/10389.pdf)
+- [UVa 10389 - Subway](https://onlinejudge.org/external/103/10389.pdf) [✅](../../practice/graphs/uva_10389.cpp "Accepted solution")
 - [UVa 10724 - Road Construction](https://onlinejudge.org/external/107/10724.pdf)
 - [UVa 10793 - The Orc Attack](https://onlinejudge.org/external/107/10793.pdf) [✅](../../practice/graphs/uva_10793.cpp "Accepted solution")
 - [UVa 10803 - Thunder Mountain](https://onlinejudge.org/external/108/10803.pdf) [✅](../../practice/graphs/uva_10803.cpp "Accepted solution")
