@@ -44,7 +44,7 @@ Run shell commands under bash, edit files with Edit or Write (never `sed -i`), a
    - Does it reuse the names its family already uses (`find`, `same`, `size`, `combine`, `query`, `update`)?
    - Is customizing a matter of passing a lambda, functor or `Ops` struct, never editing the template?
    - Does every call return its answer rather than fill an out-parameter?
-   - Is everything public something a user calls, with helpers under `private:`?
+   - Is everything public, with no `private:` section and no `class`?
    - Are loops plain and variables named for what they hold, with no abstraction used once and no language machinery that does not prevent a silent wrong answer?
    A no that stays a no is allowed only with a one-line reason in the report, such as a measured speed cost.
    The questions mirror CONTRIBUTING.md `## API and code`, so a change there updates them in the same commit.

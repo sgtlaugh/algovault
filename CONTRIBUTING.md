@@ -36,7 +36,7 @@ A template is used under contest pressure by someone who did not write it, so th
 - Customize by passing a lambda, a functor or an `Ops` struct, never by editing the template
 - Return the answer instead of filling an out-parameter: `mo()` returns its answers, `exact_cover()` an `optional`
 - 0-based positions and inclusive ranges `[l, r]` everywhere
-- Only what users call is public, helpers go under `private:`
+- Everything is public, no `private:` and no `class`: contestants read and extend a template's state, and the header says which calls are the API
 - An API change breaks old calls at compile time; a call that still compiles never changes meaning
 
 ### The code
