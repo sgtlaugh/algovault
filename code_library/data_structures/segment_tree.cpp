@@ -6,14 +6,14 @@
  * Complexity: O(n) to build, O(log n) per update, query, max_right and min_left
  *
  * SegmentTree<T, Ops = AddSum<T>, L = T> st(n): n copies of T(), range add and range sum by default
- * SegmentTree<T, Ops, L> st(ar, identity = T()): built from ar, identity is combine's identity and only hld.cpp's query_path reads it
+ * SegmentTree<T, Ops, L> st(ar): built from ar
  * st.update(l, r, lz): apply lz to a[l..r], 0 <= l <= r < n
  * st.query(l, r): combine over a[l..r], 0 <= l <= r < n
  * st.max_right(l, pred): largest r with pred(query(l, r)) true, l - 1 if none, 0 <= l <= n
  * st.min_left(r, pred): smallest l with pred(query(l, r)) true, r + 1 if none, -1 <= r < n
  *
  * pred must be monotone: once false it stays false as the range grows
- * pred is never called on an empty range, so max_right and min_left work without an identity
+ * pred is never called on an empty range, so combine needs no identity anywhere
  *
  * Ops holds three static functions, L is the lazy type when it differs from T:
  *   combine(a, b): fold of two adjacent ranges, a on the left
@@ -42,16 +42,13 @@ struct AddSum{
 template<typename T, typename Ops = AddSum<T>, typename L = T>
 struct SegmentTree : Ops{
     int n;
-    T identity;
     vector<T> tree;
     vector<L> lazy;
     vector<char> has_lazy;
 
     SegmentTree(int n) : SegmentTree(vector<T>(n)) {}
 
-    /// No (n, fill) constructor: a fill value must never double as the identity hld.cpp's query_path folds from
-    SegmentTree(const vector<T>& ar, T identity = T()) : n(ar.size()), identity(identity), tree(4 * n), lazy(4 * n),
-                                                         has_lazy(4 * n){
+    SegmentTree(const vector<T>& ar) : n(ar.size()), tree(4 * n), lazy(4 * n), has_lazy(4 * n){
         if (n) build(ar, 1, 0, n - 1);
     }
 
@@ -68,7 +65,7 @@ struct SegmentTree : Ops{
     template<typename Pred>
     int max_right(int l, Pred pred){
         assert(0 <= l && l <= n);
-        T acc = identity;
+        T acc{};
         bool empty = true;
         int pos = l < n ? first_fail(1, 0, n - 1, l, pred, acc, empty) : -1;
         return pos == -1 ? n - 1 : pos - 1;
@@ -77,7 +74,7 @@ struct SegmentTree : Ops{
     template<typename Pred>
     int min_left(int r, Pred pred){
         assert(-1 <= r && r < n);
-        T acc = identity;
+        T acc{};
         bool empty = true;
         int pos = r >= 0 ? last_fail(1, 0, n - 1, r, pred, acc, empty) : -1;
         return pos == -1 ? 0 : pos + 1;
@@ -146,7 +143,7 @@ private:
     }
 
     /// first position in [max(a, l), b] where pred(acc merged with values l..pos) fails, or -1, acc absorbs every passing node
-    /// acc starts empty rather than at identity, so a missing or wrong identity cannot move the answer
+    /// acc holds nothing until empty turns false, so the descent never needs an identity
     template<typename Pred>
     int first_fail(int idx, int a, int b, int l, Pred& pred, T& acc, bool& empty){
         if (b < l) return -1;
@@ -194,14 +191,14 @@ int main(){
     assert(st.max_right(0, [](long long s){ return s <= 13; }) == 1);  /// 1 + 12 fits, adding 13 does not
     assert(st.min_left(4, [](long long s){ return s <= 19; }) == 3);   /// 14 + 5
 
-    /// Range set and range min through an Ops struct, INT_MAX is the identity of min
+    /// Range set and range min through an Ops struct
     struct MinSet{
         static int combine(int a, int b){ return min(a, b); }
         static int apply(int, int lz, int){ return lz; }
         static int compose(int, int lz){ return lz; }
     };
 
-    SegmentTree<int, MinSet> mn(vector<int>{5, 3, 8, 6, 7}, INT_MAX);
+    SegmentTree<int, MinSet> mn(vector<int>{5, 3, 8, 6, 7});
     mn.update(0, 2, 9);                                                 /// 9 9 9 6 7
     assert(mn.query(0, 4) == 6);
     assert(mn.query(0, 2) == 9);

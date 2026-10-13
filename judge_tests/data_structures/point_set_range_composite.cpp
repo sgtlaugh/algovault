@@ -33,7 +33,7 @@ int main(){
     vector<Affine> fs(n);
     for (auto& f: fs) f.a = read_int(), f.b = read_int();
 
-    auto seg = SegmentTree<Affine, Composite>(fs, Affine{1, 0});
+    SegmentTree<Affine, Composite> seg(fs);
     while (q--){
         int t = read_int(), x = read_int(), y = read_int(), z = read_int();
         if (t == 0) seg.update(x, x, Affine{y, z});

@@ -129,7 +129,7 @@ void stress_prefix_descent(){
         for (auto& x : a) x = stress::rand_int(-20, 20);
         vector<PrefixSums> init(n);
         for (int i = 0; i < n; i++) init[i] = {a[i], max(0LL, a[i]), max(0LL, a[i])};
-        SegmentTree<PrefixSums, PrefixAssign, long long> st(init);    /// no identity passed, descent must not need one
+        SegmentTree<PrefixSums, PrefixAssign, long long> st(init);
 
         for (int op = 0; op < 60; op++){
             int kind = stress::rand_int(0, 2);
@@ -164,7 +164,7 @@ void stress_progression_add(){
             a[i] = stress::rand_int(-1000, 1000);
             init[i] = {a[i], 1, i};
         }
-        SegmentTree<ApSum, ProgressionAdd, Linear> st(init, ApSum{0, 0, 0});
+        SegmentTree<ApSum, ProgressionAdd, Linear> st(init);
 
         for (int op = 0; op < 60; op++){
             int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);

@@ -30,10 +30,9 @@ vector<pair<int, int>> make_tree(int n, int shape){
     return edges;
 }
 
-/// Max combine with a negative identity, so query_path must fold through seg.combine starting from seg.identity
+/// Max combine over negative values, so a fold that started from T() = 0 instead of the first range would show
 struct MaxArray{
     const vector<long long>& a;
-    long long identity = LLONG_MIN;
     long long combine(long long x, long long y){ return max(x, y); }
     long long query(int l, int r){ return *max_element(a.begin() + l, a.begin() + r + 1); }
 };
@@ -126,7 +125,8 @@ void check(int n, int shape, int ops){
             if (!(edge_mode && x == l)) slow += value[x], slow_max = max(slow_max, value[x]);
         }
         assert(fast == slow && hld.query_path(seg, u, v, edge_mode) == slow);
-        assert(hld.query_path(max_seg, u, v, edge_mode) == slow_max);
+        bool empty_path = hld.path(u, v, edge_mode).empty();  /// only u == v in edge mode, which folds to T() = 0
+        assert(hld.query_path(max_seg, u, v, edge_mode) == (empty_path ? 0 : slow_max));
 
         auto [a, b] = hld.subtree(u);
         vector<int> in_range, in_subtree;

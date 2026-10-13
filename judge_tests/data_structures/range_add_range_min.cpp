@@ -30,7 +30,7 @@ int main(){
 
     vector<long long> a(n);
     for (auto& x : a) x = read_int();
-    auto seg = SegmentTree<long long, AddMin>(a, LLONG_MAX);
+    SegmentTree<long long, AddMin> seg(a);
 
     string out;
     while (q--){

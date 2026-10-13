@@ -62,7 +62,7 @@ int main(){
     vector<Affine> f(n);
     for (Affine& g: f) g.a = read_int(), g.b = read_int();
 
-    SegmentTree<Affine, SetComposite> tree(f, Affine());
+    SegmentTree<Affine, SetComposite> tree(f);
     string out;
     while (q--){
         int type = read_int(), l = read_int(), r = read_int() - 1;
