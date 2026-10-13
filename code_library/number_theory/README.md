@@ -208,7 +208,7 @@
 - [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf) [✅](../../practice/number_theory/uva_11476_pollard_rho.cpp "Accepted solution")
 - [UVa 12005 - Find Solutions](https://onlinejudge.org/external/120/12005.pdf)
 - [UVa 13067 - Prime Kebab Menu](https://onlinejudge.org/external/130/13067.pdf)
-- [UVa 13191 - Tobby Primes](https://onlinejudge.org/external/131/13191.pdf)
+- [UVa 13191 - Tobby Primes](https://onlinejudge.org/external/131/13191.pdf) [✅](../../practice/number_theory/uva_13191.cpp "Accepted solution")
 
 #### [Power Tower](power_tower.cpp)
 
