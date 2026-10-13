@@ -388,7 +388,7 @@
 - [USACO 1332 - Pareidolia](https://usaco.org/index.php?page=viewproblem2&cpid=1332)
 - [UVa 1136 - Help R2-D2!](https://onlinejudge.org/external/11/1136.pdf) [✅](../../practice/data_structures/uva_1136.cpp "Accepted solution")
 - [UVa 1383 - Harmony Forever](https://onlinejudge.org/external/13/1383.pdf) [✅](../../practice/data_structures/uva_1383.cpp "Accepted solution")
-- [UVa 1400 - "Ray, Pass me the dishes!"](https://onlinejudge.org/external/14/1400.pdf)
+- [UVa 1400 - "Ray, Pass me the dishes!"](https://onlinejudge.org/external/14/1400.pdf) [✅](../../practice/data_structures/uva_1400.cpp "Accepted solution")
 - [UVa 1502 - GRE Words](https://onlinejudge.org/external/15/1502.pdf) [✅](../../practice/data_structures/uva_1502.cpp "Accepted solution")
 - [UVa 11402 - Ahoy, Pirates!](https://onlinejudge.org/external/114/11402.pdf)
 - [UVa 12086 - Potentiometers](https://onlinejudge.org/external/120/12086.pdf) [✅](../../practice/data_structures/uva_12086_segment_tree.cpp "Accepted solution")
