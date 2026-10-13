@@ -294,7 +294,7 @@
 - [USACO 93 - Cow Steeplechase](https://usaco.org/index.php?page=viewproblem2&cpid=93)
 - [UVa 670 - The dog task](https://onlinejudge.org/external/6/670.pdf)
 - [UVa 1194 - Machine Schedule](https://onlinejudge.org/external/11/1194.pdf) [✅](../../practice/graphs/uva_1194.cpp "Accepted solution")
-- [UVa 1221 - Against Mammoths](https://onlinejudge.org/external/12/1221.pdf)
+- [UVa 1221 - Against Mammoths](https://onlinejudge.org/external/12/1221.pdf) [✅](../../practice/graphs/uva_1221.cpp "Accepted solution")
 - [UVa 1514 - Piece it together](https://onlinejudge.org/external/15/1514.pdf)
 - [UVa 1663 - Purifying Machine](https://onlinejudge.org/external/16/1663.pdf)
 - [UVa 10080 - Gopher II](https://onlinejudge.org/external/100/10080.pdf) [✅](../../practice/graphs/uva_10080.cpp "Accepted solution")
