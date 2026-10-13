@@ -67,7 +67,6 @@ struct SmallCycles{
         return res;
     }
 
-private:
     bool above(int a, int b) const{
         return adj[a].size() != adj[b].size() ? adj[a].size() > adj[b].size() : a > b;
     }
