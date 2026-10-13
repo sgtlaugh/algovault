@@ -67,7 +67,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
   - [On Tree Paths](code_library/data_structures/tree_path_mo.cpp) - offline path queries on a tree
   - [With Rollback](code_library/data_structures/mo_with_rollback.cpp) - state that can add but not remove [✔](judge_tests/data_structures/static_range_mode_query.cpp)
   - [With Updates](code_library/data_structures/mo_with_updates.cpp) - range queries with point assignments [✔](judge_tests/data_structures/point_set_range_frequency.cpp)
-- [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller element and histogram rectangle [✔](judge_tests/data_structures/aoj_dpl_3_c.cpp)
+- [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller or greater and histogram rectangle [✔](judge_tests/data_structures/aoj_dpl_3_c.cpp)
 - [Ordered Set](code_library/data_structures/ordered_set.cpp) - set and multiset with k-th smallest and rank [✔](judge_tests/data_structures/ordered_set.cpp)
 - [Permutation Tree](code_library/data_structures/permutation_tree.cpp) - decomposes a permutation into common intervals [✔](judge_tests/data_structures/common_interval_decomposition_tree.cpp)
 - [Rope](code_library/data_structures/rope.cpp) - persistent text, every version stays readable

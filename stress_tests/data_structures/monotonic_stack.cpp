@@ -4,7 +4,19 @@
 #include "../../code_library/data_structures/monotonic_stack.cpp"
 #undef main
 
-/// Nearest strictly smaller elements by scanning outward, rectangle by trying every range
+template <typename Compare>
+void check_nearest(const vector<long long>& a, Compare compare){
+    int n = a.size();
+    auto left = previous_smaller(a, compare), right = next_smaller(a, compare);
+    for (int i = 0; i < n; i++){
+        int l = i - 1, r = i + 1;
+        while (l >= 0 && !compare(a[l], a[i])) l--;
+        while (r < n && !compare(a[r], a[i])) r++;
+        assert(left[i] == l && right[i] == r);
+    }
+}
+
+/// Nearest elements under each of the four orderings by scanning outward, rectangle by trying every range
 int main(){
     for (long long it = 0; it < stress::scaled(20000); it++){
         int n = stress::rand_int(0, 40);
@@ -19,6 +31,9 @@ int main(){
             while (r < n && !(a[r] < a[i])) r++;
             assert(left[i] == l && right[i] == r);
         }
+        check_nearest(a, less_equal<long long>());
+        check_nearest(a, greater<long long>());
+        check_nearest(a, greater_equal<long long>());
 
         long long best = 0;
         for (int l = 0; l < n; l++){

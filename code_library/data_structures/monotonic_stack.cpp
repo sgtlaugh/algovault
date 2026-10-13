@@ -1,18 +1,19 @@
 /***
  *
  * Monotonic Stack
- * Nearest strictly smaller element on each side, and the largest rectangle in a histogram
+ * Nearest smaller or greater element on each side, and the largest rectangle in a histogram
  *
  * Complexity: O(n)
  *
  * previous_smaller(a)[i]: largest j < i with a[j] < a[i], or -1
  * next_smaller(a)[i]: smallest j > i with a[j] < a[i], or n
- * So a[i] is the minimum of every range inside (previous_smaller[i], next_smaller[i]), equal values included,
- * which gives the span lengths L[i] = i - previous_smaller[i] and R[i] = next_smaller[i] - i
- * For the sum of minimums over all subarrays, sum a[i] * L[i] * R[i] counts a subarray with tied minimums
- * once per tie; make one side non-strict (stop at a[j] <= a[i]) so each subarray is credited to exactly one index
- *
+ * previous_smaller(a, compare)[i]: largest j < i with compare(a[j], a[i]), or -1
+ * next_smaller(a, compare)[i]: smallest j > i with compare(a[j], a[i]), or n
  * largest_rectangle(h): largest axis aligned rectangle under the histogram h, as long long
+ *
+ * compare is an ordering, strict like greater<T>() for the nearest greater element or non-strict like less_equal<T>()
+ * a[i] is the minimum of every range that contains i and lies inside (previous_smaller(a)[i], next_smaller(a)[i])
+ * For the sum of subarray minimums, pass less_equal<T>() to one side so a tied minimum is counted once
  *
 ***/
 
@@ -20,24 +21,24 @@
 
 using namespace std;
 
-template <typename T>
-vector<int> previous_smaller(const vector<T>& a){
+template <typename T, typename Compare = less<T>>
+vector<int> previous_smaller(const vector<T>& a, Compare compare = Compare()){
     int n = a.size();
     vector<int> res(n), stack;
     for (int i = 0; i < n; i++){
-        while (!stack.empty() && !(a[stack.back()] < a[i])) stack.pop_back();
+        while (!stack.empty() && !compare(a[stack.back()], a[i])) stack.pop_back();
         res[i] = stack.empty() ? -1 : stack.back();
         stack.push_back(i);
     }
     return res;
 }
 
-template <typename T>
-vector<int> next_smaller(const vector<T>& a){
+template <typename T, typename Compare = less<T>>
+vector<int> next_smaller(const vector<T>& a, Compare compare = Compare()){
     int n = a.size();
     vector<int> res(n), stack;
     for (int i = n - 1; i >= 0; i--){
-        while (!stack.empty() && !(a[stack.back()] < a[i])) stack.pop_back();
+        while (!stack.empty() && !compare(a[stack.back()], a[i])) stack.pop_back();
         res[i] = stack.empty() ? n : stack.back();
         stack.push_back(i);
     }
@@ -53,20 +54,17 @@ long long largest_rectangle(const vector<T>& h){
 }
 
 int main(){
+    /// Nearest strictly smaller element on each side
     vector<int> a = {5, 3, 4, 3, 1, 2, 6};
-    auto left = previous_smaller(a), right = next_smaller(a);
-    assert((left == vector<int>{-1, -1, 1, -1, -1, 4, 5}));
-    assert((right == vector<int>{1, 4, 3, 4, 7, 7, 7}));
+    assert((previous_smaller(a) == vector<int>{-1, -1, 1, -1, -1, 4, 5}));
+    assert((next_smaller(a) == vector<int>{1, 4, 3, 4, 7, 7, 7}));
 
-    vector<int> L(7), R(7);
-    for (int i = 0; i < 7; i++) L[i] = i - left[i], R[i] = right[i] - i;
-    assert((L == vector<int>{1, 2, 1, 4, 5, 1, 1}));
-    assert((R == vector<int>{1, 3, 1, 1, 3, 2, 1}));
+    /// Previous greater, and next smaller or equal, which stops at the tie a[3] = a[1]
+    assert((previous_smaller(a, greater<int>()) == vector<int>{-1, 0, 0, 2, 3, 3, -1}));
+    assert((next_smaller(a, less_equal<int>()) == vector<int>{1, 3, 3, 4, 7, 7, 7}));
 
+    /// The bars 5 and 6 make a 2 x 5 rectangle
     assert(largest_rectangle(vector<int>{2, 1, 5, 6, 2, 3}) == 10);
-    assert(largest_rectangle(vector<int>{}) == 0);
-    assert(largest_rectangle(vector<int>{4}) == 4);
-    assert(largest_rectangle(vector<long long>{1000000000, 1000000000, 1000000000}) == 3000000000LL);
 
     return 0;
 }
