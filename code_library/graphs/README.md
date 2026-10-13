@@ -161,7 +161,7 @@
 - [UVa 1247 - Interstar Transport](https://onlinejudge.org/external/12/1247.pdf)
 - [UVa 1574 - Surely You Congest](https://onlinejudge.org/external/15/1574.pdf)
 - [UVa 10278 - Fire Station](https://onlinejudge.org/external/102/10278.pdf)
-- [UVa 10342 - Always Late](https://onlinejudge.org/external/103/10342.pdf)
+- [UVa 10342 - Always Late](https://onlinejudge.org/external/103/10342.pdf) [✅](../../practice/graphs/uva_10342.cpp "Accepted solution")
 - [UVa 10356 - Rough Roads](https://onlinejudge.org/external/103/10356.pdf)
 - [UVa 10537 - The Toll! Revisited](https://onlinejudge.org/external/105/10537.pdf)
 - [UVa 10603 - Fill](https://onlinejudge.org/external/106/10603.pdf)
