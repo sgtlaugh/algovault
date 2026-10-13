@@ -42,7 +42,7 @@
 - [Library Checker discrete_logarithm_mod - Discrete Logarithm](https://judge.yosupo.jp/problem/discrete_logarithm_mod)
 - [SPOJ MOD - Power Modulo Inverted](https://www.spoj.com/problems/MOD/)
 - [UVa 10225 - Discrete Logging](https://onlinejudge.org/external/102/10225.pdf)
-- [UVa 11916 - Emoogle Grid](https://onlinejudge.org/external/119/11916.pdf)
+- [UVa 11916 - Emoogle Grid](https://onlinejudge.org/external/119/11916.pdf) [✅](../../practice/number_theory/uva_11916.cpp "Accepted solution")
 
 #### [Divisors](divisors.cpp)
 
