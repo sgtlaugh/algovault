@@ -11,7 +11,7 @@
 
 #### [Blocks](blocks_dp.cpp)
 
-- [UVa 10559 - Blocks](https://onlinejudge.org/external/105/10559.pdf)
+- [UVa 10559 - Blocks](https://onlinejudge.org/external/105/10559.pdf) [✅](../../practice/dp/uva_10559.cpp "Accepted solution")
 
 #### [Bounded Knapsack](bounded_knapsack.cpp)
 
