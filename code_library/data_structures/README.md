@@ -427,7 +427,7 @@
 - [CodeChef FRMQ - Chef and Array](https://www.codechef.com/problems/FRMQ)
 - [CodeChef MSTICK - Matchsticks](https://www.codechef.com/problems/MSTICK)
 - [CodeChef SEAD - Sereja and D](https://www.codechef.com/problems/SEAD)
-- [Codeforces 475D - CGCDSSQ](https://codeforces.com/problemset/problem/475/D)
+- [Codeforces 475D - CGCDSSQ](https://codeforces.com/problemset/problem/475/D) [✅](../../practice/data_structures/codeforces_475d.cpp "Accepted solution")
 - [Codeforces 514D - R2D2 and Droid Army](https://codeforces.com/problemset/problem/514/D)
 - [Codeforces 675E - Trains and Statistic](https://codeforces.com/problemset/problem/675/E)
 - [Codeforces 803G - Periodic RMQ Problem](https://codeforces.com/problemset/problem/803/G)
