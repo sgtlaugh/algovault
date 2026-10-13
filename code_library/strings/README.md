@@ -107,7 +107,7 @@
 - [SPOJ SUB_PROB - Substring Problem](https://www.spoj.com/problems/SUB_PROB/)
 - [USACO 529 - Censoring (Silver)](https://usaco.org/index.php?page=viewproblem2&cpid=529)
 - [USACO 741 - Bovine Genomics](https://usaco.org/index.php?page=viewproblem2&cpid=741)
-- [UVa 1227 - The longest constant gene](https://onlinejudge.org/external/12/1227.pdf)
+- [UVa 1227 - The longest constant gene](https://onlinejudge.org/external/12/1227.pdf) [✅](../../practice/strings/uva_1227_hashing.cpp "Accepted solution")
 - [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf) [✅](../../practice/strings/uva_1470.cpp "Accepted solution")
 - [UVa 11107 - Life Forms](https://onlinejudge.org/external/111/11107.pdf) [✅](../../practice/strings/uva_11107_hashing.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✅](../../practice/strings/uva_11475_hashing.cpp "Accepted solution")
