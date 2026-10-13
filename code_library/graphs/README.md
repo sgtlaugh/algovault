@@ -150,7 +150,7 @@
 - [USACO 899 - Shortcut](https://usaco.org/index.php?page=viewproblem2&cpid=899)
 - [USACO 969 - Milk Pumping](https://usaco.org/index.php?page=viewproblem2&cpid=969)
 - [USACO 1090 - Telephone](https://usaco.org/index.php?page=viewproblem2&cpid=1090)
-- [UVa 341 - Non-Stop Travel](https://onlinejudge.org/external/3/341.pdf)
+- [UVa 341 - Non-Stop Travel](https://onlinejudge.org/external/3/341.pdf) [✅](../../practice/graphs/uva_341.cpp "Accepted solution")
 - [UVa 658 - It's not a Bug, it's a Feature!](https://onlinejudge.org/external/6/658.pdf)
 - [UVa 721 - Invitation Cards](https://onlinejudge.org/external/7/721.pdf)
 - [UVa 929 - Number Maze](https://onlinejudge.org/external/9/929.pdf) [✅](../../practice/graphs/uva_929.cpp "Accepted solution")
