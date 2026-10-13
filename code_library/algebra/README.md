@@ -135,7 +135,7 @@
 - [SPOJ TRKNIGHT - Travelling Knight](https://www.spoj.com/problems/TRKNIGHT/)
 - [UVa 11625 - Nice Prefixes](https://onlinejudge.org/external/116/11625.pdf)
 - [UVa 11720 - How Many Ways](https://onlinejudge.org/external/117/11720.pdf)
-- [UVa 11868 - Game of Blocks](https://onlinejudge.org/external/118/11868.pdf)
+- [UVa 11868 - Game of Blocks](https://onlinejudge.org/external/118/11868.pdf) [✅](../../practice/algebra/uva_11868.cpp "Accepted solution")
 - [UVa 12000 - K-Transformed Permutations](https://onlinejudge.org/external/120/12000.pdf)
 - [UVa 12037 - Musical Chair](https://onlinejudge.org/external/120/12037.pdf)
 - [UVa 12297 - Super Poker](https://onlinejudge.org/external/122/12297.pdf)
