@@ -389,7 +389,7 @@
 - [UVa 1136 - Help R2-D2!](https://onlinejudge.org/external/11/1136.pdf)
 - [UVa 1383 - Harmony Forever](https://onlinejudge.org/external/13/1383.pdf)
 - [UVa 1400 - "Ray, Pass me the dishes!"](https://onlinejudge.org/external/14/1400.pdf)
-- [UVa 1502 - GRE Words](https://onlinejudge.org/external/15/1502.pdf)
+- [UVa 1502 - GRE Words](https://onlinejudge.org/external/15/1502.pdf) [✅](../../practice/data_structures/uva_1502.cpp "Accepted solution")
 - [UVa 11402 - Ahoy, Pirates!](https://onlinejudge.org/external/114/11402.pdf)
 - [UVa 12086 - Potentiometers](https://onlinejudge.org/external/120/12086.pdf)
 - [UVa 12299 - RMQ with Shifts](https://onlinejudge.org/external/122/12299.pdf)
