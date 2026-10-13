@@ -76,7 +76,6 @@ struct WalshHadamard{
         return convolution(A, B, XOR, mod);
     }
 
-private:
     /// modular operands are in [0, mod); (s >> 63) & mod adds mod back exactly when s went negative
     template<bool modular>
     static long long add(long long x, long long y, long long mod){
