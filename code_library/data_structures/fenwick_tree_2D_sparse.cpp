@@ -62,7 +62,6 @@ struct FenwickSparse2D{
         return prefix(k, l) - prefix(i - 1, l) - prefix(k, j - 1) + prefix(i - 1, j - 1);
     }
 
-private:
     void add(int x, int y, T v){
         long long key = ((long long)x << 32) | y;
         int k = slot(key);
