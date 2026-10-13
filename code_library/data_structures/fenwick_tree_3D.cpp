@@ -4,8 +4,8 @@
  * Sums over a 3D grid under updates: point add and box sum, box add and cell value, or box add and box sum
  *
  * Complexity:
- *   - build: O(n * m * r)
- *   - update, prefix, query: O(log n * log m * log r)
+ *   - build: O(n m r)
+ *   - update, prefix, query: O(log n log m log r)
  *
  * FenwickPointUpdate3D<T> fen(n, m, r): point add, box sum, over an n x m x r grid of zeros
  * fen.update(x, y, z, v): add v to a[x][y][z]
