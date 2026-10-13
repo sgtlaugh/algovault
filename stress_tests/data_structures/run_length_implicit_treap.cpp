@@ -129,7 +129,7 @@ void check_sum_runs(int ops, long long max_len){
             }
             else if (kind == 3){
                 long long lz = stress::rand_int(0, 3);
-                t.apply(l, r, lz);
+                t.update(l, r, lz);
                 for (long long i = l; i <= r; i++) a[i] += lz;
             }
             else if (kind == 4){
@@ -198,7 +198,7 @@ void check_progression_runs(int ops){
         }
         else if (kind == 3){
             long long lz = stress::rand_int(-4, 4);
-            t.apply(l, r, lz);
+            t.update(l, r, lz);
             for (long long i = l; i <= r; i++) a[i] += lz;
         }
         else if (kind == 4){
@@ -234,7 +234,7 @@ void check_ends_runs(int ops){
         }
         else if (kind == 1){
             long long lz = stress::rand_int(-5, 5);
-            t.apply(l, r, lz);
+            t.update(l, r, lz);
             for (long long i = l; i <= r; i++) a[i] += lz;
         }
         else if (kind == 2){
@@ -461,7 +461,7 @@ void check_huge(int ops){
             ref.runs.insert(ref.runs.begin() + i, {v, r - l + 1});
         }
         else if (kind == 3){
-            t.apply(l, r, 1);
+            t.update(l, r, 1);
             int i = ref.cut(l), j = ref.cut(r + 1);
             for (int k = i; k < j; k++) ref.runs[k].first++;
         }
@@ -492,7 +492,7 @@ void check_node_bound_and_speed(){
         long long n = t.size(), l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
         int kind = stress::rand_int(0, 4);
         if (kind == 0) t.assign(l, r, stress::rand_int(0, 3));
-        else if (kind == 1) t.apply(l, r, 1);
+        else if (kind == 1) t.update(l, r, 1);
         else if (kind == 2) t.reverse(l, r);
         else if (kind == 3) t.insert(l, stress::rand_int(0, 3), stress::rand_int(1, 1000));
         else t.query(l, r);

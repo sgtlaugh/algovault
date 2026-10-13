@@ -11,7 +11,7 @@
  * seq.insert(pos, x, count): count copies of x before position pos, pos = seq.size() appends
  * seq.erase(l, r): removes positions l..r
  * seq.assign(l, r, x): sets positions l..r to x
- * seq.apply(l, r, lz): applies the lazy update lz to positions l..r
+ * seq.update(l, r, lz): applies the lazy update lz to positions l..r
  * seq.reverse(l, r): reverses the order of positions l..r
  * seq.query(l, r): the Agg of positions l..r
  * seq.get(pos): the value at position pos
@@ -27,11 +27,11 @@
  *   Value, Agg: what a run stores and what query returns
  *   run_agg(x, count): the Agg of count copies of x, x * count for sums
  *   combine(a, b): the Agg of two neighbouring pieces, a on the left
- *   Lazy, apply(x, lz), apply(a, lz, count), compose(old, new): only for seq.apply
+ *   Lazy, apply(x, lz), apply(a, lz, count), compose(old, new): only for seq.update
  *   apply(x, lz) updates one value, apply(a, lz, count) an Agg covering count positions, compose is old then new as one lazy
  *   reversed(x, count), reversed(a): only for seq.reverse, the run and the Agg read backwards
  *   cut(x, k): the first k values and the rest of a run, only for runs that are not all equal
- *   Calling apply without Lazy or reverse without reversed fails to compile, without cut every run counts as all equal
+ *   Calling update without Lazy or reverse without reversed fails to compile, without cut every run counts as all equal
  *
  * 0/1 flags with flip (Codeforces 817F): Value int, Agg {ones, count}, Lazy int, apply flips, compose(a, b) = a ^ b
  * Arithmetic progressions: Value {a, d}, cut(x, k) = {x, {a + k * d, d}}, reversed(x, count) = {a + (count - 1) * d, -d}
@@ -57,7 +57,7 @@ struct SumRuns{
 };
 
 /// The optional parts of a Runs type, so a type defines only what its operations use
-/// Detected rather than defaulted: a missing Lazy or reversed then stops apply or reverse at compile time instead of doing nothing
+/// Detected rather than defaulted: a missing Lazy or reversed then stops update or reverse at compile time instead of doing nothing
 template<typename R, typename = void>
 struct LazyOf{
     using type = char;
@@ -150,8 +150,8 @@ struct RunLengthImplicitTreap{
         on_range(l, r, [&](int& t){ t = new_node(x, r - l + 1); });
     }
 
-    void apply(long long l, long long r, const Lazy& lz){
-        static_assert(LazyOf<Runs>::exists, "define Lazy, apply(value, lz), apply(agg, lz, count) and compose to use apply");
+    void update(long long l, long long r, const Lazy& lz){
+        static_assert(LazyOf<Runs>::exists, "define Lazy, apply(value, lz), apply(agg, lz, count) and compose to use update");
         on_range(l, r, [&](int& t){ apply_lazy(t, lz); });
     }
 
@@ -375,7 +375,7 @@ int main(){
     RunLengthImplicitTreap<SumRuns> seq(10, 0);           /// 0 0 0 0 0 0 0 0 0 0
     seq.assign(2, 5, 3);                                  /// 0 0 3 3 3 3 0 0 0 0
     seq.insert(4, 7, 2);                                  /// 0 0 3 3 7 7 3 3 0 0 0 0
-    seq.apply(5, 9, 1);                                   /// 0 0 3 3 7 8 4 4 1 1 0 0
+    seq.update(5, 9, 1);                                   /// 0 0 3 3 7 8 4 4 1 1 0 0
     assert(seq.query(0, 11) == 31);
     seq.reverse(2, 6);                                    /// 0 0 4 8 7 3 3 4 1 1 0 0
     assert(seq.get(3) == 8);
