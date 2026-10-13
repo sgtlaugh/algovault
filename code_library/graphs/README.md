@@ -252,7 +252,7 @@
 - [UVa 567 - Risk](https://onlinejudge.org/external/5/567.pdf)
 - [UVa 821 - Page Hopping](https://onlinejudge.org/external/8/821.pdf) [✅](../../practice/graphs/uva_821.cpp "Accepted solution")
 - [UVa 869 - Airline Comparison](https://onlinejudge.org/external/8/869.pdf)
-- [UVa 1056 - Degrees of Separation](https://onlinejudge.org/external/10/1056.pdf)
+- [UVa 1056 - Degrees of Separation](https://onlinejudge.org/external/10/1056.pdf) [✅](../../practice/graphs/uva_1056.cpp "Accepted solution")
 - [UVa 1057 - Routing](https://onlinejudge.org/external/10/1057.pdf)
 - [UVa 1198 - The Geodetic Set Problem](https://onlinejudge.org/external/11/1198.pdf)
 - [UVa 10075 - Airlines](https://onlinejudge.org/external/100/10075.pdf) [✅](../../practice/graphs/uva_10075.cpp "Accepted solution")
