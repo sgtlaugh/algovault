@@ -100,7 +100,7 @@
 - [SPOJ SEQ - Recursive Sequence](https://www.spoj.com/problems/SEQ/)
 - [USACO 746 - COWBASIC](https://usaco.org/index.php?page=viewproblem2&cpid=746)
 - [UVa 1177 - A General Recurrence Relation](https://onlinejudge.org/external/11/1177.pdf)
-- [UVa 10518 - How Many Calls?](https://onlinejudge.org/external/105/10518.pdf)
+- [UVa 10518 - How Many Calls?](https://onlinejudge.org/external/105/10518.pdf) [✅](../../practice/linear_algebra/uva_10518.cpp "Accepted solution")
 - [UVa 10743 - Blocks on Blocks](https://onlinejudge.org/external/107/10743.pdf)
 - [UVa 10870 - Recurrences](https://onlinejudge.org/external/108/10870.pdf)
 - [UVa 11091 - How many Knight Placing?](https://onlinejudge.org/external/110/11091.pdf)
