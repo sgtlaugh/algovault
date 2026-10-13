@@ -86,7 +86,6 @@ struct LiChaoTree{
         return MAXIMIZE ? a > b : a < b;
     }
 
-private:
     int new_node(const Line& line){
         nodes.push_back({line, -1, -1});
         return (int)nodes.size() - 1;
