@@ -52,7 +52,7 @@
 - [UVa 11904 - One Unit Machine](https://onlinejudge.org/external/119/11904.pdf)
 - [UVa 12257 - The Queue](https://onlinejudge.org/external/122/12257.pdf)
 - [UVa 12775 - Gift Dilemma](https://onlinejudge.org/external/127/12775.pdf)
-- [UVa 12887 - The Soldier's Dilemma](https://onlinejudge.org/external/128/12887.pdf)
+- [UVa 12887 - The Soldier's Dilemma](https://onlinejudge.org/external/128/12887.pdf) [✅](../../practice/combinatorics/uva_12887.cpp "Accepted solution")
 - [UVa 13184 - Counting Edges and Graphs](https://onlinejudge.org/external/131/13184.pdf)
 
 #### [Gambler's Ruin](gamblers_ruin.cpp)
