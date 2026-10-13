@@ -202,7 +202,7 @@
 - [CSES 1703 - Critical Cities](https://cses.fi/problemset/task/1703)
 - [Kattis skiresort - Ski Resort](https://open.kattis.com/problems/skiresort)
 - [Library Checker dominatortree - Dominator Tree](https://judge.yosupo.jp/problem/dominatortree)
-- [UVa 11902 - Dominator](https://onlinejudge.org/external/119/11902.pdf)
+- [UVa 11902 - Dominator](https://onlinejudge.org/external/119/11902.pdf) [✅](../../practice/graphs/uva_11902.cpp "Accepted solution")
 
 #### [Edge Coloring](edge_coloring.cpp)
 
