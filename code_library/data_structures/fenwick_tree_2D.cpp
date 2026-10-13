@@ -91,7 +91,6 @@ struct FenwickRangeUpdate2D{
         return res;
     }
 
-private:
     void add_suffix(int i, int j, T v){
         for (int x = i + 1; x <= n; x += x & -x){
             for (int y = j + 1; y <= m; y += y & -y){
@@ -140,7 +139,6 @@ struct FenwickFull2D{
         return prefix(k, l) - prefix(i - 1, l) - prefix(k, j - 1) + prefix(i - 1, j - 1);
     }
 
-private:
     /// The products stay inside the loop: hoisting them spills registers and measured 5% slower
     void add_suffix(int a, int b, T v){
         for (int i = a + 1; i <= n; i += i & -i){
