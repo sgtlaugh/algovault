@@ -63,7 +63,7 @@
 - [UVa 1453 - Squares](https://onlinejudge.org/external/14/1453.pdf)
 - [UVa 10078 - The Art Gallery](https://onlinejudge.org/external/100/10078.pdf) [✅](../../practice/geometry/uva_10078.cpp "Accepted solution")
 - [UVa 11626 - Convex Hull](https://onlinejudge.org/external/116/11626.pdf) [✅](../../practice/geometry/uva_11626.cpp "Accepted solution")
-- [UVa 12999 - Defense Plan](https://onlinejudge.org/external/129/12999.pdf)
+- [UVa 12999 - Defense Plan](https://onlinejudge.org/external/129/12999.pdf) [✅](../../practice/geometry/uva_12999.cpp "Accepted solution")
 - [UVa 13024 - Saint John Festival](https://onlinejudge.org/external/130/13024.pdf) [✅](../../practice/geometry/uva_13024.cpp "Accepted solution")
 
 #### [Geometry](geometry.cpp)
