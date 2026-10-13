@@ -533,7 +533,7 @@
 - [UVa 12359 - Diccionário Portuñol](https://onlinejudge.org/external/123/12359.pdf)
 - [UVa 12506 - Shortest Names](https://onlinejudge.org/external/125/12506.pdf)
 - [UVa 12526 - Cellphone Typing](https://onlinejudge.org/external/125/12526.pdf)
-- [UVa 12857 - Dividing the names](https://onlinejudge.org/external/128/12857.pdf)
+- [UVa 12857 - Dividing the names](https://onlinejudge.org/external/128/12857.pdf) [✅](../../practice/data_structures/uva_12857.cpp "Accepted solution")
 
 #### [XOR Segment Tree](xor_segment_tree.cpp)
 
