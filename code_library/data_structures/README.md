@@ -287,7 +287,7 @@
 - [UVa 1330 - City Game](https://onlinejudge.org/external/13/1330.pdf) [✅](../../practice/data_structures/uva_1330.cpp "Accepted solution")
 - [UVa 1619 - Feel Good](https://onlinejudge.org/external/16/1619.pdf)
 - [UVa 10667 - Largest Block](https://onlinejudge.org/external/106/10667.pdf) [✅](../../practice/data_structures/uva_10667.cpp "Accepted solution")
-- [UVa 11871 - New Land](https://onlinejudge.org/external/118/11871.pdf)
+- [UVa 11871 - New Land](https://onlinejudge.org/external/118/11871.pdf) [✅](../../practice/data_structures/uva_11871.cpp "Accepted solution")
 - [UVa 12462 - Rectangle](https://onlinejudge.org/external/124/12462.pdf)
 
 #### [Ordered Set](ordered_set.cpp)
