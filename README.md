@@ -253,15 +253,15 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 [Practice problems](code_library/geometry/README.md)
 
-- [Circle Geometry](code_library/geometry/circle.cpp) - intersections, tangents, enclosing circle, polygon/lens/union areas, max cover [✔](judge_tests/geometry/aoj_0090.cpp)
-- [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - `O(n log n)` sweep with exact integer squared distances [✔](judge_tests/geometry/aoj_cgl_5_a.cpp)
-- [Convex Hull](code_library/geometry/convex_hull.cpp) - monotone chain, `O(n log n)` [✔](judge_tests/geometry/aoj_cgl_3_b.cpp)
-- [Geometry](code_library/geometry/geometry.cpp) - exact predicates, polygon queries/cuts, angular sort, intersections, centroid [✔](judge_tests/geometry/aoj_0177.cpp)
-- [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region of half-planes clipped to a box, sort and deque, `O(n log n)` [✔](judge_tests/geometry/aoj_1283.cpp)
+- [Circle Geometry](code_library/geometry/circle.cpp) - intersections, tangents, enclosing circle, areas [✔](judge_tests/geometry/aoj_0090.cpp)
+- [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - nearest two points by exact squared distance [✔](judge_tests/geometry/aoj_cgl_5_a.cpp)
+- [Convex Hull](code_library/geometry/convex_hull.cpp) - static and online hull, Minkowski sum [✔](judge_tests/geometry/aoj_cgl_3_b.cpp)
+- [Geometry](code_library/geometry/geometry.cpp) - exact predicates and polygon queries [✔](judge_tests/geometry/aoj_0177.cpp)
+- [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region common to all half-planes [✔](judge_tests/geometry/aoj_1283.cpp)
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
-- [Polygon Union](code_library/geometry/polygon_union.cpp) - area of a union of simple polygons, `O(N^2 log N)` for N vertices
-- [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of a union of axis-aligned rectangles, `O(n log n)` [✔](judge_tests/geometry/area_of_union_of_rectangles.cpp)
-- [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - Shamos-Hoey, finds two intersecting segments exactly, `O(n log n)`
+- [Polygon Union](code_library/geometry/polygon_union.cpp) - area of a union of simple polygons
+- [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of axis-aligned rectangles [✔](judge_tests/geometry/area_of_union_of_rectangles.cpp)
+- [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - whether any two segments intersect
 
 ### Dynamic Programming
 
