@@ -1,22 +1,26 @@
 /***
  *
  * Trie and Binary Trie
- * Trie: prefix tree over strings, counting how many inserted words pass through or end at each node
- * BinaryTrie: multiset of BITS-bit unsigned integers answering xor queries against it
+ * Prefix tree that counts inserted words by prefix, and a binary trie answering xor queries over a multiset of integers
  *
- * Complexity: Trie O(|s|) per operation, O(total length * SIGMA) memory
- *             BinaryTrie O(BITS) per operation, O(distinct inserted values * BITS) memory
+ * Complexity:
+ *   - Trie: O(|s|) per operation, O(total length * SIGMA) memory
+ *   - BinaryTrie: O(BITS) per operation, O(distinct inserted values * BITS) memory
  *
- * Trie<SIGMA, BASE> trie; characters must lie in [BASE, BASE + SIGMA), defaults to 'a'..'z'
+ * Trie<SIGMA = 26, BASE = 'a'> trie: no words yet, characters must lie in [BASE, BASE + SIGMA)
  * trie.insert(s): adds one copy of s, duplicates count separately
- * trie.count_prefix(p): inserted words that start with p (every word for the empty prefix)
+ * trie.count_prefix(p): inserted words that start with p, every word for the empty prefix
  * trie.count_word(s): copies of exactly s
  *
- * BinaryTrie<BITS> bt; values are unsigned long long in [0, 2^BITS), 1 <= BITS <= 64, defaults to 30
- * bt.insert(x, c = 1), bt.erase(x, c = 1): add or remove c >= 1 copies of x, erase requires count(x) >= c
- * bt.count(x): copies of x, bt.size(): copies of all values
- * bt.min_xor(x), bt.max_xor(x): min / max of x ^ y over the y in the multiset, requires size() > 0
- * bt.kth_xor(x, k): k-th smallest (0-indexed) of x ^ y counting copies, requires 0 <= k < size()
+ * BinaryTrie<BITS = 30> bt: an empty multiset of unsigned long long values in [0, 2^BITS), 1 <= BITS <= 64
+ * bt.insert(x, c = 1): adds c >= 1 copies of x
+ * bt.erase(x, c = 1): removes c >= 1 copies of x, count(x) >= c
+ * bt.count(x): copies of x
+ * bt.size(): copies of all values
+ * bt.min_xor(x): min of x ^ y over the y in the multiset, size() > 0
+ * bt.max_xor(x): max of x ^ y over the y in the multiset, size() > 0
+ * bt.kth_xor(x, k): k-th smallest x ^ y counting copies, 0-based, 0 <= k < size()
+ *
  * Erased nodes stay allocated, so memory grows with insertions of new values, not with live size
  *
 ***/
@@ -173,12 +177,14 @@ struct BinaryTrie{
 };
 
 int main(){
+    /// Word and prefix counts
     Trie<> trie;
     for (string s : {"apple", "app", "apply", "banana", "app"}) trie.insert(s);
     assert(trie.count_prefix("app") == 4);  /// app twice, apple, apply
     assert(trie.count_word("app") == 2);
     assert(trie.count_word("appl") == 0);   /// a prefix, never inserted whole
 
+    /// Xor queries over {3, 10, 5, 25}
     BinaryTrie<5> bt;
     for (int x : {3, 10, 5, 25}) bt.insert(x);
     assert(bt.min_xor(6) == 3);             /// 6 ^ {3, 10, 5, 25} = {5, 12, 3, 31}
@@ -188,5 +194,6 @@ int main(){
     bt.erase(5);
     assert(bt.count(5) == 0);
     assert(bt.min_xor(6) == 5);
+
     return 0;
 }
