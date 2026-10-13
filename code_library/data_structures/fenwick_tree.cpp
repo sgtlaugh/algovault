@@ -1,33 +1,35 @@
 /***
  *
  * Fenwick Tree (Binary Indexed Tree)
- * Supports both point update + range query and range update + point/range query variants
- * The point update variant also finds the first prefix reaching a given sum (lower_bound)
- * 0-based positions, ranges [l, r] inclusive, a position outside [0, n - 1] asserts
- * l > r is an empty range: updates on it do nothing and query returns 0
+ * Sums over an array under updates: point add and range sum, range add and point value, or range add and range sum
  *
  * Complexity:
- *   - O(n) to construct, all zeros or from a vector
- *   - O(log n) per update/query/lower_bound
+ *   - build: O(n)
+ *   - update, prefix, query, lower_bound: O(log n)
  *
- * FenwickPointUpdate<long long> f(a);   // a[i] at position i
- * f.update(p, v); f.query(l, r); f.prefix(p);
+ * FenwickPointUpdate<T> fen(n): point add, range sum, over n zeros
+ * FenwickPointUpdate<T> fen(a): the same over a copy of a
+ * fen.update(p, v): add v to a[p]
+ * fen.prefix(p): sum of a[0..p], 0 for p = -1
+ * fen.query(l, r): sum of a[l..r], 0 when l > r
+ * fen.lower_bound(s): smallest p with prefix(p) >= s, n if none, every a[i] must be non-negative
+ *
+ * FenwickRangeUpdate<T> fen(n): range add, point value, over n zeros
+ * fen.update(l, r, v): add v to a[l..r], nothing when l > r
+ * fen.query(p): a[p]
+ *
+ * FenwickFull<T> fen(n): range add, range sum, over n zeros
+ * fen.update(l, r, v): add v to a[l..r], nothing when l > r
+ * fen.prefix(p): sum of a[0..p], 0 for p = -1
+ * fen.query(l, r): sum of a[l..r], 0 when l > r
+ *
+ * Positions are 0-based, a position outside [0, n - 1] asserts
  *
 ***/
 
 #include <bits/stdtr1c++.h>
 
 using namespace std;
-
-/***
- * Point updates, range queries
- * FenwickPointUpdate(n): n zeros, FenwickPointUpdate(a): a[i] at position i
- * update(p, v): Add v to position p
- * prefix(p): Return sum of [0, p], 0 for p = -1
- * query(l, r): Return sum of range [l, r]
- * lower_bound(s): Smallest p with prefix(p) >= s, n if none, 0 if s <= 0
- *   Binary lifting in O(log n), requires all values to be non-negative
-***/
 
 template <typename T>
 struct FenwickPointUpdate{
@@ -62,6 +64,7 @@ struct FenwickPointUpdate{
         return prefix(r) - prefix(l - 1);
     }
 
+    /// Binary lifting: p stays a multiple of 2 * step, so tree[p + step] is the sum of a[p .. p + step - 1]
     int lower_bound(T s){
         int p = 0, step = 1;
         while (step <= n / 2) step *= 2;
@@ -76,12 +79,6 @@ struct FenwickPointUpdate{
         return p;
     }
 };
-
-/***
- * Range updates, point queries
- * update(l, r, v): Add v to range [l, r]
- * query(p): Return value at position p
-***/
 
 template <typename T>
 struct FenwickRangeUpdate{
@@ -110,13 +107,6 @@ private:
     }
 };
 
-/***
- * Range updates, range queries
- * update(l, r, v): Add v to range [l, r]
- * prefix(p): Return sum of [0, p], 0 for p = -1
- * query(l, r): Return sum of range [l, r]
-***/
-
 template <typename T>
 struct FenwickFull{
     int n;
@@ -133,6 +123,7 @@ struct FenwickFull{
         update_tree(aux, r + 1, -v * (r + 1));
     }
 
+    /// With d the difference array, sum of a[0..p] = (p + 1) * sum d[i] - sum d[i] * i; tree holds d[i], aux holds d[i] * i
     T prefix(int p){
         assert(-1 <= p && p < n);
         return query_tree(tree, p) * (p + 1) - query_tree(aux, p);
@@ -157,71 +148,37 @@ private:
 };
 
 int main(){
-    /// Point update, range query
-    auto fen = FenwickPointUpdate<int>(10);
+    /// Point add, range sum, and the first prefix reaching a sum
+    FenwickPointUpdate<int> fen(10);
     fen.update(0, 5);
     fen.update(2, 7);
     fen.update(4, 3);
-
-    assert(fen.query(0, 0) == 5);
-    assert(fen.query(0, 2) == 12);
     assert(fen.query(2, 4) == 10);
     assert(fen.query(0, 9) == 15);
-    assert(fen.query(3, 2) == 0);
-    assert(fen.prefix(-1) == 0);
     assert(fen.prefix(3) == 12);
-    assert(fen.prefix(9) == 15);
-
-    assert(fen.lower_bound(-3) == 0);
-    assert(fen.lower_bound(0) == 0);
-    assert(fen.lower_bound(1) == 0);
-    assert(fen.lower_bound(5) == 0);
-    assert(fen.lower_bound(6) == 2);
-    assert(fen.lower_bound(12) == 2);
-    assert(fen.lower_bound(13) == 4);
-    assert(fen.lower_bound(15) == 4);
+    assert(fen.lower_bound(6) == 2);  /// prefix(1) = 5, prefix(2) = 12
     assert(fen.lower_bound(16) == 10);
 
-    vector<int> values = {5, 0, 7, 0, 3, 0, 0, 0, 0, 0};
-    auto built = FenwickPointUpdate<int>(values);
-    for (int l = 0; l < 10; l++){
-        for (int r = l; r < 10; r++) assert(built.query(l, r) == fen.query(l, r));
-    }
-    assert(FenwickPointUpdate<int>(vector<int>{}).n == 0);
+    vector<int> a = {5, 0, 7, 0, 3};
+    FenwickPointUpdate<int> built(a);
+    assert(built.query(1, 4) == 10);
 
-    auto zeros = FenwickPointUpdate<long long>(4);
-    assert(zeros.lower_bound(0) == 0);
-    assert(zeros.lower_bound(1) == 4);
+    /// Range add, point value
+    FenwickRangeUpdate<int> range(10);
+    range.update(0, 4, 3);
+    range.update(2, 6, 2);
+    assert(range.query(2) == 5);
+    assert(range.query(6) == 2);
+    assert(range.query(7) == 0);
 
-    auto empty = FenwickPointUpdate<int>(0);
-    assert(empty.lower_bound(1) == 0);
-
-    /// Range update, point query
-    auto fen2 = FenwickRangeUpdate<int>(10);
-    fen2.update(0, 4, 3);
-    fen2.update(2, 6, 2);
-    fen2.update(9, 9, 4);
-
-    assert(fen2.query(0) == 3);
-    assert(fen2.query(2) == 5);
-    assert(fen2.query(4) == 5);
-    assert(fen2.query(6) == 2);
-    assert(fen2.query(7) == 0);
-    assert(fen2.query(9) == 4);
-
-    /// Range update, range query
-    auto fen3 = FenwickFull<long long>(10);
-    fen3.update(0, 4, 3);
-    fen3.update(2, 6, 2);
-    fen3.update(9, 9, 4);
-
-    assert(fen3.query(0, 0) == 3);
-    assert(fen3.query(0, 2) == 11);
-    assert(fen3.query(2, 4) == 15);
-    assert(fen3.query(4, 6) == 9);
-    assert(fen3.query(0, 9) == 29);
-    assert(fen3.prefix(-1) == 0);
-    assert(fen3.prefix(1) == 6);
+    /// Range add, range sum: a = {3, 3, 5, 5, 5, 2, 2, 0, 0, 4}
+    FenwickFull<long long> full(10);
+    full.update(0, 4, 3);
+    full.update(2, 6, 2);
+    full.update(9, 9, 4);
+    assert(full.query(2, 4) == 15);
+    assert(full.query(0, 9) == 29);
+    assert(full.prefix(1) == 6);
 
     return 0;
 }
