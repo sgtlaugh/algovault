@@ -5,17 +5,28 @@
  *
  * Complexity: expected O(log n) per operation, O(n) to build an ImplicitTreap from an array
  *
- * Treap<T>: ordered multiset of keys
- *   insert(key), erase(key) (removes one copy, false if absent), size()
- *   count_less(key): number of keys < key, count(key): copies of key
- *   kth(k): the k-th smallest key, 0-based, needs 0 <= k < size()
+ * Treap<T> set: an empty multiset of keys
+ * set.insert(key): adds one copy of key
+ * set.erase(key): removes one copy of key, false if there is none
+ * set.size(): number of keys, copies included
+ * set.kth(k): the k-th smallest key, 0-based, 0 <= k < size()
+ * set.count_less(key): how many keys are < key
+ * set.count(key): how many copies of key
  *
- * ImplicitTreap: sequence of long long values, 0-based positions, ranges [l, r] inclusive
- *   ImplicitTreap(values), insert(pos, value) (before position pos, pos = size() appends), erase(pos), size()
- *   add(l, r, delta), sum(l, r), reverse(l, r), get(pos), to_vector()
- *   Sums must fit in long long
+ * ImplicitTreap seq(values): the sequence of long long values, empty when values is omitted
+ * seq.insert(pos, value): inserts value before position pos, 0 <= pos <= size(), pos = size() appends
+ * seq.erase(pos): removes the value at pos, 0 <= pos < size()
+ * seq.size(): length of the sequence
+ * seq.add(l, r, delta): adds delta to positions l..r
+ * seq.sum(l, r): sum of positions l..r
+ * seq.reverse(l, r): reverses the order of positions l..r
+ * seq.get(pos): the value at pos, 0 <= pos < size()
+ * seq.to_vector(): the whole sequence in order
  *
+ * Positions are 0-based and ranges need 0 <= l <= r < size()
+ * Sums must fit in long long
  * Treap is a portable, augmentable alternative to ordered_set.cpp's OrderedMultiset for judges without pb_ds
+ * For other values, aggregates or lazy updates use run_length_implicit_treap.cpp, which takes them through a Runs struct
  * Priorities are seeded from the clock, a fixed seed lets an adversary force an O(n) deep chain
  *
 ***/
@@ -288,6 +299,7 @@ struct ImplicitTreap{
 };
 
 int main(){
+    /// Ordered multiset that keeps copies
     Treap<int> set;
     for (int x : {5, 1, 9, 5, -1, 7}) set.insert(x);
     assert(set.kth(2) == 5);                    /// sorted: -1 1 5 5 7 9
@@ -297,6 +309,7 @@ int main(){
     assert(set.count(5) == 1);
     assert(!set.erase(4));
 
+    /// Sequence edited by position
     ImplicitTreap seq({1, 2, 3, 4, 5});
     seq.add(1, 3, 10);
     assert((seq.to_vector() == vector<long long>{1, 12, 13, 14, 5}));
@@ -307,5 +320,6 @@ int main(){
     assert((seq.to_vector() == vector<long long>{13, 100, 12, 1, 5}));
     assert(seq.sum(1, 3) == 113);
     assert(seq.get(1) == 100);
+
     return 0;
 }
