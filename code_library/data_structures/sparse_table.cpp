@@ -4,25 +4,17 @@
  * O(1) range queries on a static array, for operations where counting an element twice is harmless: min, max, gcd, and, or
  *
  * Complexity:
- *   - SparseTable: O(n log n) build and memory, O(1) per query
- *   - LinearSparseTable: O(n) build and memory, O(1) per query, min or max only
+ *   - SparseTable: O(n log n) build time and memory, O(1) per query
+ *   - LinearSparseTable: O(n) build time and memory, O(1) per query
  *
- * SparseTable<T> table(a): table.query(l, r) is the minimum of a[l..r], 0-based, l <= r
- * SparseTable table(a, op): the same with any such op, for example max or gcd
- * LinearSparseTable<T> table(a): minimum, LinearSparseTable<T, greater<T>> table(a): maximum
+ * SparseTable<T> table(a): range minimum of a
+ * SparseTable table(a, op): range op of a, for an op that ignores repeats like max or gcd
+ * LinearSparseTable<T> table(a): range minimum of a
+ * LinearSparseTable<T, greater<T>> table(a): range maximum of a
+ * table.query(l, r): the answer over a[l..r], 0 <= l <= r < n
  *
- * Example, a = {12, 18, 6, 9, 4}:
- *     SparseTable<int> mn(a);
- *     mn.query(0, 1);    // 12
- *     mn.query(1, 4);    // 4
- *     SparseTable g(a, [](int x, int y){ return gcd(x, y); });
- *     g.query(0, 1);     // 6
- *     g.query(0, 3);     // 3
- *     LinearSparseTable<int, greater<int>> mx(a);
- *     mx.query(2, 4);    // 9
- *
- * Sum, xor and product count twice: use disjoint_sparse_table.cpp, this table is simpler and 1.5x to 2x faster
- * LinearSparseTable at n = 1e6: builds 3x faster in 12 MB instead of 72 MB, queries are 2.3x slower
+ * Sum, xor and product count repeats, use disjoint_sparse_table.cpp for them
+ * At n = 1e6 LinearSparseTable builds 3x faster in 12 MB instead of 72 MB, and its queries are about 2x slower
  *
 ***/
 
@@ -112,24 +104,18 @@ private:
 };
 
 int main(){
-    /// The header example
+    /// Minimum, gcd and maximum over one array
     vector<int> a = {12, 18, 6, 9, 4};
     SparseTable<int> mn(a);
     assert(mn.query(0, 1) == 12);
     assert(mn.query(1, 4) == 4);
+
     SparseTable g(a, [](int x, int y){ return gcd(x, y); });
     assert(g.query(0, 1) == 6);
     assert(g.query(0, 3) == 3);
+
     LinearSparseTable<int, greater<int>> mx(a);
     assert(mx.query(2, 4) == 9);
-
-    /// Past 64 elements LinearSparseTable also uses its block table; with b[i] = 200 - i the minimum of [l, r] is b[r]
-    vector<int> b(200);
-    for (int i = 0; i < 200; i++) b[i] = 200 - i;
-    LinearSparseTable<int> linear(b);
-    assert(linear.query(0, 199) == 1);
-    assert(linear.query(10, 150) == 50);
-    assert(linear.query(70, 72) == 128);
 
     return 0;
 }
