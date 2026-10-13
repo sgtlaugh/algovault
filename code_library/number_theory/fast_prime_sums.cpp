@@ -42,7 +42,6 @@ struct PrimeSum{
         return lehmer((__int128)n);
     }
 
-private:
     static uint64_t fast_div(uint64_t a, uint32_t b){
         return double(a) / b + 1e-9;
     }
