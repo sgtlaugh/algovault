@@ -255,7 +255,7 @@
 - [UVa 1056 - Degrees of Separation](https://onlinejudge.org/external/10/1056.pdf)
 - [UVa 1057 - Routing](https://onlinejudge.org/external/10/1057.pdf)
 - [UVa 1198 - The Geodetic Set Problem](https://onlinejudge.org/external/11/1198.pdf)
-- [UVa 10075 - Airlines](https://onlinejudge.org/external/100/10075.pdf)
+- [UVa 10075 - Airlines](https://onlinejudge.org/external/100/10075.pdf) [✅](../../practice/graphs/uva_10075.cpp "Accepted solution")
 - [UVa 10171 - Meeting Prof. Miguel...](https://onlinejudge.org/external/101/10171.pdf)
 - [UVa 10246 - Asterix and Obelix](https://onlinejudge.org/external/102/10246.pdf)
 - [UVa 10296 - Jogging Trails](https://onlinejudge.org/external/102/10296.pdf)
