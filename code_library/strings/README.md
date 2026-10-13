@@ -108,7 +108,7 @@
 - [USACO 529 - Censoring (Silver)](https://usaco.org/index.php?page=viewproblem2&cpid=529)
 - [USACO 741 - Bovine Genomics](https://usaco.org/index.php?page=viewproblem2&cpid=741)
 - [UVa 1227 - The longest constant gene](https://onlinejudge.org/external/12/1227.pdf)
-- [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf)
+- [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf) [✅](../../practice/strings/uva_1470.cpp "Accepted solution")
 - [UVa 11107 - Life Forms](https://onlinejudge.org/external/111/11107.pdf) [✅](../../practice/strings/uva_11107_hashing.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf)
 - [UVa 11855 - Buzzwords](https://onlinejudge.org/external/118/11855.pdf)
@@ -200,7 +200,7 @@
 - [SPOJ APIO14_A - Palindromes](https://www.spoj.com/problems/APIO14_A/)
 - [Timus 2044 - 31 Palindromes](https://acm.timus.ru/problem.aspx?num=2044)
 - [Timus 2059 - Not common palindromes](https://acm.timus.ru/problem.aspx?num=2059)
-- [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf)
+- [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf) [✅](../../practice/strings/uva_1470.cpp "Accepted solution")
 - [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf)
 
 #### [Suffix Array](suffix_array.cpp)
