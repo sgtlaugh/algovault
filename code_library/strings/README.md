@@ -247,7 +247,7 @@
 - [UVa 11512 - GATTACA](https://onlinejudge.org/external/115/11512.pdf)
 - [UVa 12191 - File Recover](https://onlinejudge.org/external/121/12191.pdf)
 - [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf)
-- [UVa 12338 - Anti-Rhyme Pairs](https://onlinejudge.org/external/123/12338.pdf)
+- [UVa 12338 - Anti-Rhyme Pairs](https://onlinejudge.org/external/123/12338.pdf) [✅](../../practice/strings/uva_12338.cpp "Accepted solution")
 - [UVa 12361 - File Retrieval](https://onlinejudge.org/external/123/12361.pdf)
 - [UVa 12974 - Exquisite Strings](https://onlinejudge.org/external/129/12974.pdf)
 
