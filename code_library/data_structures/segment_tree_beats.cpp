@@ -25,8 +25,6 @@
 using namespace std;
 
 struct SegmentTreeBeats{
-    enum Op{ADD, ASSIGN, CHMAX, CHMIN};
-
     /// Marks a missing second maximum / second minimum, values never reach these under the documented range
     static constexpr long long NO_MAX = LLONG_MIN, NO_MIN = LLONG_MAX;
 
@@ -67,6 +65,8 @@ struct SegmentTreeBeats{
     long long query_sum(int l, int r){ return (long long)query(l, r).sum; }
 
 private:
+    enum Op{ADD, ASSIGN, CHMAX, CHMIN};
+
     void apply(int idx, Op op, long long x){
         if (op == ADD) apply_add(idx, x);
         else if (op == ASSIGN) apply_assign(idx, x);
