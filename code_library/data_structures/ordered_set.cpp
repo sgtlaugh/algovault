@@ -17,7 +17,7 @@
  * m.count(x): how many copies of x
  *
  * Built on the GNU policy-based tree in ext/pb_ds, so it needs libstdc++
- * An OrderedSet with less_equal is not a multiset: equal keys never compare equivalent, so erase and find silently fail
+ * A pb_ds tree with less_equal as the comparator is not a multiset: equal keys never compare equivalent, so erase and find silently fail
  *
 ***/
 
