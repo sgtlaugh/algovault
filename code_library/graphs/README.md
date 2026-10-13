@@ -482,7 +482,7 @@
 - [UVa 1184 - Air Raid](https://onlinejudge.org/external/11/1184.pdf)
 - [UVa 1201 - Taxi Cab Scheme](https://onlinejudge.org/external/12/1201.pdf)
 - [UVa 12679 - It Can Be Arranged](https://onlinejudge.org/external/126/12679.pdf)
-- [UVa 12831 - Bob the Builder](https://onlinejudge.org/external/128/12831.pdf)
+- [UVa 12831 - Bob the Builder](https://onlinejudge.org/external/128/12831.pdf) [✅](../../practice/graphs/uva_12831.cpp "Accepted solution")
 
 #### [Minimum Spanning Tree](minimum_spanning_tree.cpp)
 
