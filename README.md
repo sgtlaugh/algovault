@@ -314,19 +314,19 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 [Practice problems](code_library/python/README.md)
 
 - [Alpha Beta Pruning](code_library/python/alpha_beta_pruning.py) - minimax game search with alpha-beta pruning
-- [Berlekamp Massey](code_library/python/berlekamp_massey.py) - shortest linear recurrence of a sequence modulo a prime
+- [Berlekamp Massey](code_library/python/berlekamp_massey.py) - shortest linear recurrence and its n-th term
 - [Derangements](code_library/python/derangements.py) - generalized derangement counts
 - [Dijkstra](code_library/python/dijkstra.py) - single-source shortest paths
 - [Discrete Log](code_library/python/discrete_log.py) - smallest x with `a^x = b mod m`, any m
 - [Fast Fibonacci](code_library/python/fast_fibonacci.py) - n-th Fibonacci number by fast doubling
 - [Fast I/O](code_library/python/fast_io.py) - token scanner over stdin
-- [General Graph Matching](code_library/python/graph_matching.py) - maximum matching via the Tutte matrix rank
+- [General Graph Matching](code_library/python/graph_matching.py) - maximum matching size in a general graph
 - [Lagrange Interpolation](code_library/python/lagrange_polynomial_interpolation.py) - value of a polynomial from any samples
 - [Miller Rabin](code_library/python/miller_rabin.py) - deterministic primality test for 64-bit integers
 - [N Queens](code_library/python/n_queen.py) - number of N queens solutions
 - [Sieve](code_library/python/sieve.py) - sieve of Eratosthenes
 - [String Hash](code_library/python/string_hash.py) - polynomial substring hashes
-- [Z Algorithm](code_library/python/z_algorithm.py) - longest common prefix of every suffix with the string
+- [Z Algorithm](code_library/python/z_algorithm.py) - LCP of every suffix with the string
 
 ## Contributing
 
