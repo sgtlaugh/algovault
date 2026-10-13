@@ -16,15 +16,15 @@
 using namespace std;
 
 struct DSU{
-    vector<int> counter, parent;
+    vector<int> sz, parent;
 
     DSU(int n){
         parent.resize(n + 1);
-        counter.resize(n + 1, 1);
+        sz.resize(n + 1, 1);
         for (int i = 0; i <= n; i++) parent[i] = i;
     }
 
-    int find_root(int i){
+    int find(int i){
         while (i != parent[i]){
             parent[i] = parent[parent[i]];
             i = parent[i];
@@ -33,21 +33,21 @@ struct DSU{
     }
 
     bool connect(int a, int b){
-        int c = find_root(a), d = find_root(b);
+        int c = find(a), d = find(b);
         if (c == d) return false;
-        if (counter[c] > counter[d]) swap(c, d);
+        if (sz[c] > sz[d]) swap(c, d);
         parent[c] = d;
-        counter[d] += counter[c], counter[c] = 0;
+        sz[d] += sz[c], sz[c] = 0;
         return true;
     }
 
-    bool is_connected(int a, int b){
-        return find_root(a) == find_root(b);
+    bool same(int a, int b){
+        return find(a) == find(b);
     }
 
-    int component_size(int i){
-        int p = find_root(i);
-        return counter[p];
+    int size(int i){
+        int p = find(i);
+        return sz[p];
     }
 };
 
@@ -59,16 +59,16 @@ int main(){
     dsu.connect(5, 6);
     dsu.connect(6, 7);
 
-    assert(dsu.component_size(3) == 3);
-    assert(dsu.component_size(5) == 4);
-    assert(!dsu.is_connected(3, 5));
+    assert(dsu.size(3) == 3);
+    assert(dsu.size(5) == 4);
+    assert(!dsu.same(3, 5));
 
     assert(dsu.connect(2, 5));
     assert(!dsu.connect(7, 1));
 
-    assert(dsu.component_size(2) == 7);
-    assert(dsu.component_size(6) == 7);
-    assert(dsu.is_connected(3, 5));
+    assert(dsu.size(2) == 7);
+    assert(dsu.size(6) == 7);
+    assert(dsu.same(3, 5));
 
     return 0;
 }

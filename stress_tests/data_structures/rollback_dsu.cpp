@@ -10,7 +10,7 @@ void check_depths(const Dsu& dsu){
     for (int i = 0; i < (int)dsu.parent.size(); i++){
         int depth = 0, root = i;
         while (dsu.parent[root] != root) root = dsu.parent[root], depth++;
-        assert(depth < 31 && (1 << depth) <= dsu.counter[root]);
+        assert(depth < 31 && (1 << depth) <= dsu.sz[root]);
     }
 }
 
@@ -41,10 +41,10 @@ int main(){
         RollbackDSU chain(n);
         for (int i = 0; i < n; i++) assert(chain.connect(i, i + 1));
         check_depths(chain);
-        assert(chain.component_size(n) == n + 1);
+        assert(chain.size(n) == n + 1);
 
         chain.rollback(n / 2);
-        assert(chain.time() == n / 2 && chain.component_size(0) == n / 2 + 1 && chain.component_size(n) == 1);
+        assert(chain.time() == n / 2 && chain.size(0) == n / 2 + 1 && chain.size(n) == 1);
     }
 
     for (long long it = 0; it < stress::scaled(1500); it++){
@@ -74,8 +74,8 @@ int main(){
             assert(dsu.time() == (int)unions.size());
             for (int i = 0; i <= n; i++){
                 int j = stress::rand_int(0, n);
-                assert(dsu.is_connected(i, j) == (label[i] == label[j]));
-                assert(dsu.component_size(i) == cnt[label[i]]);
+                assert(dsu.same(i, j) == (label[i] == label[j]));
+                assert(dsu.size(i) == cnt[label[i]]);
             }
         }
         check_depths(dsu);

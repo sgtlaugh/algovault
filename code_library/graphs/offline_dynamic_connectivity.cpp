@@ -33,33 +33,33 @@ using namespace std;
 
 /// BEGIN COPY rollback_dsu from code_library/data_structures/rollback_dsu.cpp
 struct RollbackDSU{
-    vector<int> counter, parent, history;
+    vector<int> sz, parent, history;
 
-    RollbackDSU(int n) : counter(n + 1, 1), parent(n + 1){
+    RollbackDSU(int n) : sz(n + 1, 1), parent(n + 1){
         iota(parent.begin(), parent.end(), 0);
     }
 
-    int find_root(int i){
+    int find(int i){
         while (i != parent[i]) i = parent[i];
         return i;
     }
 
     bool connect(int a, int b){
-        a = find_root(a), b = find_root(b);
+        a = find(a), b = find(b);
         if (a == b) return false;
 
-        if (counter[a] > counter[b]) swap(a, b);
-        parent[a] = b, counter[b] += counter[a];
+        if (sz[a] > sz[b]) swap(a, b);
+        parent[a] = b, sz[b] += sz[a];
         history.push_back(a);
         return true;
     }
 
-    bool is_connected(int a, int b){
-        return find_root(a) == find_root(b);
+    bool same(int a, int b){
+        return find(a) == find(b);
     }
 
-    int component_size(int i){
-        return counter[find_root(i)];
+    int size(int i){
+        return sz[find(i)];
     }
 
     int time(){
@@ -71,7 +71,7 @@ struct RollbackDSU{
         while ((int)history.size() > t){
             int a = history.back();
             history.pop_back();
-            counter[parent[a]] -= counter[a], parent[a] = a;
+            sz[parent[a]] -= sz[a], parent[a] = a;
         }
     }
 };
@@ -139,7 +139,7 @@ private:
 
         if (lo == hi){
             auto [u, v] = queries[lo];
-            res[lo] = u == -1 ? n - dsu.time() : dsu.is_connected(u, v);
+            res[lo] = u == -1 ? n - dsu.time() : dsu.same(u, v);
         }
         else{
             int mid = (lo + hi) / 2;

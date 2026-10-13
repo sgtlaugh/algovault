@@ -22,7 +22,7 @@ int main(){
     while (q--){
         int t = read_int(), u = read_int(), v = read_int();
         if (t == 0) dsu.connect(u, v);
-        else putchar(dsu.is_connected(u, v) ? '1' : '0'), putchar('\n');
+        else putchar(dsu.same(u, v) ? '1' : '0'), putchar('\n');
     }
     return 0;
 }

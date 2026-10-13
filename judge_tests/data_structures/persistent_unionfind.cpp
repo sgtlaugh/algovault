@@ -33,7 +33,7 @@ int main(){
 
         entry_time[node] = dsu.time();
         if (node > 0) dsu.connect(u[node - 1], v[node - 1]);
-        for (int i: asks[node]) answer[i] = dsu.is_connected(u[i], v[i]);
+        for (int i: asks[node]) answer[i] = dsu.same(u[i], v[i]);
 
         stack.push_back({node, true});
         for (int child: children[node]) stack.push_back({child, false});

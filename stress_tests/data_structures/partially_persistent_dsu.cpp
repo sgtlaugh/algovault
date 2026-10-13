@@ -30,8 +30,8 @@ int main(){
     for (int n : {1, 2, 1000, 100000}){
         PartiallyPersistentDSU chain(n);
         for (int i = 0; i < n; i++) assert(chain.connect(i, i + 1));
-        assert(chain.component_size(0, n) == n + 1 && chain.component_size(n, n / 2) == 1);
-        assert(chain.component_size(0, n / 2) == n / 2 + 1 && !chain.is_connected(0, n, n - 1));
+        assert(chain.size(0, n) == n + 1 && chain.size(n, n / 2) == 1);
+        assert(chain.size(0, n / 2) == n / 2 + 1 && !chain.same(0, n, n - 1));
     }
 
     for (long long it = 0; it < stress::scaled(1500); it++){
@@ -58,17 +58,17 @@ int main(){
 
             vector<int> cnt = naive_sizes(label);
             for (int i = 0; i <= n; i++){
-                int j = stress::rand_int(0, n), root = dsu.find_root(i, t);
-                assert(label[root] == label[i] && dsu.find_root(root, t) == root);
-                assert(dsu.is_connected(i, j, t) == (label[i] == label[j]));
-                assert(dsu.component_size(i, t) == cnt[label[i]]);
+                int j = stress::rand_int(0, n), root = dsu.find(i, t);
+                assert(label[root] == label[i] && dsu.find(root, t) == root);
+                assert(dsu.same(i, j, t) == (label[i] == label[j]));
+                assert(dsu.size(i, t) == cnt[label[i]]);
             }
         }
 
         for (int i = 0; i <= n; i++){
             int depth = 0, root = i;
             while (dsu.joined[root] <= m) root = dsu.parent[root], depth++;
-            assert(depth < 31 && (1 << depth) <= dsu.component_size(i, m));
+            assert(depth < 31 && (1 << depth) <= dsu.size(i, m));
         }
     }
 

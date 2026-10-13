@@ -10,7 +10,7 @@ void check_depths(const Dsu& dsu){
     for (int i = 0; i < (int)dsu.parent.size(); i++){
         int depth = 0, root = i;
         while (dsu.parent[root] != root) root = dsu.parent[root], depth++;
-        assert(depth < 31 && (1 << depth) <= dsu.counter[root]);
+        assert(depth < 31 && (1 << depth) <= dsu.sz[root]);
     }
 }
 
@@ -34,7 +34,7 @@ int main(){
         DSU chain(n);
         for (int i = 0; i < n; i++) assert(chain.connect(i, i + 1));  /// links the grown root under a fresh node each time
         check_depths(chain);
-        assert(chain.component_size(0) == n + 1 && !chain.connect(0, n));
+        assert(chain.size(0) == n + 1 && !chain.connect(0, n));
     }
 
     for (long long it = 0; it < stress::scaled(3000); it++){
@@ -48,8 +48,8 @@ int main(){
                 assert(dsu.connect(a, b) == (label[a] != label[b]));
                 relabel(label, a, b);
             }
-            assert(dsu.is_connected(a, b) == (label[a] == label[b]));
-            assert(dsu.component_size(a) == count(label.begin(), label.end(), label[a]));
+            assert(dsu.same(a, b) == (label[a] == label[b]));
+            assert(dsu.size(a) == count(label.begin(), label.end(), label[a]));
         }
         check_depths(dsu);
     }
