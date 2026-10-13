@@ -505,6 +505,14 @@
 - [UVa 13102 - Tobby Stones](https://onlinejudge.org/external/131/13102.pdf)
 - [ZOJ 3765 - Lights](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369708)
 
+#### [Treap, Run-Length Implicit](run_length_implicit_treap.cpp)
+
+- [Codeforces 803G - Periodic RMQ Problem](https://codeforces.com/problemset/problem/803/G)
+- [Codeforces 817F - MEX Queries](https://codeforces.com/problemset/problem/817/F)
+- [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436)
+- [Luogu P2042 - [NOI2005] 维护数列](https://www.luogu.com.cn/problem/P2042)
+- [UVa 12634 - Pairing Boys and Girls](https://onlinejudge.org/external/126/12634.pdf)
+
 #### [Trie](trie.cpp)
 
 - [AOJ ALDS1_4_C - Search III](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_4_C)
