@@ -98,7 +98,7 @@ int main(){
 
 ## Checks
 
-CI fails on a failing test, a compiler warning, a missing stress test or index entry, or a whitespace or style error.
+CI fails on a failing test, a compiler warning, a missing stress test or index entry, a ✔ that disagrees with `judge_tests/`, a ✅ that disagrees with `practice/`, a header without a complexity, a copied region that drifted, or a whitespace or style error.
 
 ```bash
 bash .github/scripts/run_tests.sh self      # every self-test
@@ -109,7 +109,7 @@ bash .github/scripts/judge_tests.sh         # every judge test, or name files; n
 `run_tests.sh` builds with `-std=c++17 -Wall -Wextra -Werror` under AddressSanitizer and UndefinedBehaviorSanitizer and takes:
 
 - `JOBS=n` tests at a time, all cores by default
-- `CHANGED_SINCE=<commit>` only the tests of files changed since that commit, which is what pushes run
+- `CHANGED_SINCE=<commit>` only the tests of files changed since that commit, uncommitted edits included, which is what pushes run
 - `BUILD=fast` for `-O2` without sanitizers, with `STRESS_SCALE=20` the nightly high-iteration run
 - `STRESS_SEED` and `STRESS_SCALE` to reproduce a stress failure, every stress test prints its seed when it starts
 
