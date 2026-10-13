@@ -5,8 +5,7 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 ## Adding a template
 
 - One standalone C++17 file under `code_library/<topic>/` that compiles on its own with GCC
-- A header stating what it computes, its complexity, its API and its limits
-- A short usage example in `main()` as asserts, about 20 lines, with edge cases in the stress test
+- A header and a usage example in `main()` as described in [Documentation](#documentation), with edge cases in the stress test
 - A brute-force stress test at the same path under `stress_tests/`, against an independent reference
 - The test includes `../common.h` and the library with `#define main library_main`
 - Randomness through `stress::rand_int`, loops sized by `stress::scaled`, a few seconds by default
@@ -20,6 +19,72 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 - A file CI truly cannot stress test goes in `STRESS_SKIP` in `run_tests.sh`, with the reason
 - A judge test under `judge_tests/<topic>/<problem>.cpp` when a Library Checker or Aizu problem fits, starting with
   `// competitive-verifier: PROBLEM <url>` and `// competitive-verifier: TLE <the problem's time limit>`, plus a ✔ on the index entry
+
+## Documentation
+
+Every template reads the same way, so a reader knows what it does and how to call it within a minute.
+
+### Header
+
+```cpp
+/***
+ *
+ * Disjoint Sparse Table
+ * O(1) range queries on a static array for any associative operation
+ *
+ * Complexity:
+ *   - build: O(n log n) time and memory
+ *   - query: O(1)
+ *
+ * DisjointSparseTable<T> table(a): range sums of a
+ * DisjointSparseTable table(a, op): range folds with op, which must be associative but need not commute
+ * table.query(l, r): op over a[l..r], 0 <= l <= r < n
+ *
+ * Use sparse_table.cpp for min, max or gcd, and a prefix array for plain sums
+ *
+***/
+```
+
+- The name on the first line, one plain sentence on what it is for on the second
+- Blank lines between the blocks: name, complexity, API, notes
+- Complexity on one line when there is one cost, `Complexity: O(α(n)) amortized per operation`
+- Otherwise one bullet per operation, or per struct when a file has several, time first
+- Memory only when it is not the obvious O(n) or its real size matters, like `about 205 MB by default`
+- The API lists the constructor first, then one line per public call: `call(args): what it returns or does, preconditions`
+- One sentence per line, a sentence never split across lines, never two calls on one line
+- No usage example, `main()` is the example; a short snippet only when calling it needs code, like a functor
+- Notes on value ranges, traps and which template to use instead, one short line each
+- Plain words: no filler, no marketing, no lists of applications
+
+### main()
+
+```cpp
+int main(){
+    /// Sum and product over the same array
+    vector<int> a = {5, 6, 1, 13, 7};
+    DisjointSparseTable<int> sum(a);
+    assert(sum.query(1, 3) == 20);
+    assert(sum.query(4, 4) == 7);
+
+    DisjointSparseTable prod(a, [](int x, int y){ return x * y % 1000; });
+    assert(prod.query(0, 3) == 390);
+
+    return 0;
+}
+```
+
+- The first block is the worked example of the main API, under a `///` line saying what it shows
+- One call per assert, never `assert(a && b)` over several calls
+- `T x(args)`, not `auto x = T(args)`
+- A blank line between blocks, and before each new object inside a block
+- A `///` comment only where the expected value is not obvious
+- A few blocks only: edge cases and scale belong in the stress test, no timing and no printing
+- Expected values worked out by hand, never copied from the program's output
+
+### README
+
+- An index entry is `[Name](path) - short description`, matching the header's second line, variants nested under their base
+- Practice section headings match the index names
 
 ## Style
 
