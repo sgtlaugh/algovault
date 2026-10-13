@@ -28,7 +28,7 @@ The rules live in the `## Documentation` section of `CONTRIBUTING.md`. Read it f
    - each API line from the actual signature, its return value and its asserts
    - value ranges from the types and asserts
    A claim you cannot confirm from the code is removed, not guessed.
-3. **main().** Rewrite it to the CONTRIBUTING rules: the first block is the worked example, one call per assert, a blank line before each new object. A block that repeats a stress test check is removed; a block that tests something the stress test does not is kept. Every expected value is worked out by hand from the input; a value taken from running the program is forbidden.
+3. **main().** Rewrite it to the CONTRIBUTING rules: the first block is the worked example, one call per assert, a blank line before each new object. Each further block shows one more use of the API, like a second constructor or a mode; a block that only checks an edge case or scale the stress test covers is removed. Every expected value is worked out by hand from the input; a value taken from running the program is forbidden.
 4. **README.** Make the index entry match the header's second line. If the template's display name changed, update its practice section heading in `code_library/<topic>/README.md` to match.
 5. **Verify.** Run both, from the repo root:
    ```bash
@@ -58,7 +58,7 @@ The report MUST contain, in this order:
 
 1. **File** and its README entry, before and after.
 2. **Claims:** a table of every header line, each with the code that confirms it (`file:line` or the signature). A line without evidence is not allowed in the header.
-3. **main():** each kept block with what it tests that the stress test does not, and each removed block with the stress test check that covers it.
+3. **main():** each kept block with the API use it shows, and each removed block with the stress test check that covers it.
 4. **Proposed, not applied:** renames, missing derivation comments and library defects noticed, or "none".
 5. **Verification:** the last 3 lines of both suite runs and the `git diff --stat` output.
 6. **Commit:** the sha and subject, or "not committed".
