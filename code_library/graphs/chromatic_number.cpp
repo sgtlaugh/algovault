@@ -63,7 +63,6 @@ struct ChromaticNumber{
         return n;
     }
 
-private:
     static uint64_t mul(uint64_t a, uint64_t b){
         unsigned __int128 product = (unsigned __int128)a * b;
         uint64_t res = (uint64_t)(product & MOD) + (uint64_t)(product >> 61);
