@@ -1,7 +1,7 @@
 /***
  *
  * Merge Sort Tree and Wavelet Matrix
- * Counts values below a threshold and finds the k-th smallest value in a range of a static array
+ * Counts values below a threshold or equal to a value and finds the k-th smallest in a range of a static array
  *
  * Complexity:
  *   - MergeSortTree: O(n log n) to build and memory, O(log^2 n) per query
@@ -99,7 +99,6 @@ struct WaveletMatrix{
 
     /// Values become codes [0, sigma) split on one bit per level, high bit first; each level stably moves the 0-bit
     /// elements before the 1-bit ones, so a range maps to one range per level
-    /// Plain int prefix counts instead of rank bitvectors: simpler, but 4 bytes per element per level
     WaveletMatrix(const vector<T>& values) : n(values.size()), distinct(values){
         sort(distinct.begin(), distinct.end());
         distinct.erase(unique(distinct.begin(), distinct.end()), distinct.end());
