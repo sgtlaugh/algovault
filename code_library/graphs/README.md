@@ -366,7 +366,7 @@
 #### [Maximum Clique](max_clique.cpp)
 
 - [Library Checker maximum_independent_set - Maximum Independent Set](https://judge.yosupo.jp/problem/maximum_independent_set)
-- [UVa 193 - Graph Coloring](https://onlinejudge.org/external/1/193.pdf)
+- [UVa 193 - Graph Coloring](https://onlinejudge.org/external/1/193.pdf) [✅](../../practice/graphs/uva_193.cpp "Accepted solution")
 
 #### [Maximum Flow](maxflow.cpp)
 
