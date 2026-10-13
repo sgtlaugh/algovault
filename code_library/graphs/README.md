@@ -36,7 +36,7 @@
 - [UVa 11861 - Explosion](https://onlinejudge.org/external/118/11861.pdf)
 - [UVa 11930 - Rectangles](https://onlinejudge.org/external/119/11930.pdf)
 - [UVa 12273 - Palindromic DNA](https://onlinejudge.org/external/122/12273.pdf)
-- [UVa 12745 - Wishmaster](https://onlinejudge.org/external/127/12745.pdf)
+- [UVa 12745 - Wishmaster](https://onlinejudge.org/external/127/12745.pdf) [✅](../../practice/graphs/uva_12745.cpp "Accepted solution")
 - [UVa 13016 - Black Vienna](https://onlinejudge.org/external/130/13016.pdf)
 
 #### [2-SAT, Lexicographic](2SAT_lexicographic.cpp)
