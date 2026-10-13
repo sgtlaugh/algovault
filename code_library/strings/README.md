@@ -185,7 +185,7 @@
 - [CSES 1110 - Minimal Rotation](https://cses.fi/problemset/task/1110)
 - [UVa 719 - Glass Beads](https://onlinejudge.org/external/7/719.pdf)
 - [UVa 1314 - Hidden Password](https://onlinejudge.org/external/13/1314.pdf)
-- [UVa 1584 - Circular Sequence](https://onlinejudge.org/external/15/1584.pdf)
+- [UVa 1584 - Circular Sequence](https://onlinejudge.org/external/15/1584.pdf) [✅](../../practice/strings/uva_1584.cpp "Accepted solution")
 
 #### [Palindromic Tree](palindromic_tree.cpp)
 
