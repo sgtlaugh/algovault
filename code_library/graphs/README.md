@@ -158,7 +158,7 @@
 - [UVa 1078 - Steam Roller](https://onlinejudge.org/external/10/1078.pdf) [✅](../../practice/graphs/uva_1078.cpp "Accepted solution")
 - [UVa 1112 - Mice and Maze](https://onlinejudge.org/external/11/1112.pdf)
 - [UVa 1233 - USHER](https://onlinejudge.org/external/12/1233.pdf)
-- [UVa 1247 - Interstar Transport](https://onlinejudge.org/external/12/1247.pdf)
+- [UVa 1247 - Interstar Transport](https://onlinejudge.org/external/12/1247.pdf) [✅](../../practice/graphs/uva_1247.cpp "Accepted solution")
 - [UVa 1574 - Surely You Congest](https://onlinejudge.org/external/15/1574.pdf)
 - [UVa 10278 - Fire Station](https://onlinejudge.org/external/102/10278.pdf)
 - [UVa 10342 - Always Late](https://onlinejudge.org/external/103/10342.pdf) [✅](../../practice/graphs/uva_10342.cpp "Accepted solution")
