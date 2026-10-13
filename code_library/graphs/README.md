@@ -250,7 +250,7 @@
 - [UVa 436 - Arbitrage (II)](https://onlinejudge.org/external/4/436.pdf)
 - [UVa 523 - Minimum Transport Cost](https://onlinejudge.org/external/5/523.pdf)
 - [UVa 567 - Risk](https://onlinejudge.org/external/5/567.pdf)
-- [UVa 821 - Page Hopping](https://onlinejudge.org/external/8/821.pdf)
+- [UVa 821 - Page Hopping](https://onlinejudge.org/external/8/821.pdf) [✅](../../practice/graphs/uva_821.cpp "Accepted solution")
 - [UVa 869 - Airline Comparison](https://onlinejudge.org/external/8/869.pdf)
 - [UVa 1056 - Degrees of Separation](https://onlinejudge.org/external/10/1056.pdf)
 - [UVa 1057 - Routing](https://onlinejudge.org/external/10/1057.pdf)
