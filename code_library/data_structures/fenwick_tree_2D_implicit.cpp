@@ -13,9 +13,11 @@
  *
  * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
  * q updates create O(q log n log m) nodes from a pool of MAXNODES, 16 bytes each for long long, about 205 MB by default
- * The pool is reserved up front, but only the pages of created nodes are touched; running out asserts, raise MAXNODES
+ * The pool is reserved up front, but only the pages of created nodes are touched
+ * Running out of nodes asserts, raise MAXNODES then
  * The row roots take 4 * (n + 1) bytes, so n is bounded by memory and m only by the pool
- * fenwick_tree_2D_sparse.cpp does point add and rectangle sum on a fixed hash table, 268 MB by default, this one pays only for created nodes
+ * fenwick_tree_2D_sparse.cpp does point add and rectangle sum on a fixed hash table of 268 MB by default
+ * This one pays only for the nodes it creates
  *
 ***/
 

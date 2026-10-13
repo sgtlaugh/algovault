@@ -17,6 +17,7 @@ int main(){
             if (x1 > x2) swap(x1, x2);
             if (y1 > y2) swap(y1, y2);
             if (stress::rand_int(0, 3) == 0) x2 = n - 1, y2 = m - 1;
+            if (it % 7 == 0) swap(x1, x2);  /// an empty rectangle when x1 != x2, the update must change nothing
 
             long long v = stress::rand_int(-100, 100);
             small.update(x1, y1, x2, y2, v);
