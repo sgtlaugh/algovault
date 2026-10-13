@@ -60,6 +60,6 @@ The report MUST contain, in this order:
 1. **File** and its README entry, before and after.
 2. **Claims:** a table of every header line, each with the code that confirms it (`file:line` or the signature). A line without evidence is not allowed in the header.
 3. **main():** each kept block with the API use it shows, and each removed block with the stress test check that covers it.
-4. **Proposed, not applied:** renames, missing derivation comments and library defects noticed, or "none".
+4. **Proposed, not applied:** each `## API and code` rule of CONTRIBUTING.md the file breaks (a needless parameter, a name that hides the job, an out-parameter, a public helper, a cryptic variable), renames, missing derivation comments and library defects noticed, or "none".
 5. **Verification:** the last 3 lines of both suite runs and the `git diff --stat` output.
 6. **Commit:** the sha and subject, or "not committed".
