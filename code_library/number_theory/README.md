@@ -216,7 +216,7 @@
 - [Codeforces Gym 100975F - Simple Calculations](https://codeforces.com/gym/100975/problem/F)
 - [Kattis exponial - Exponial](https://open.kattis.com/problems/exponial)
 - [Library Checker tetration_mod - Tetration Mod](https://judge.yosupo.jp/problem/tetration_mod)
-- [UVa 10692 - Huge Mods](https://onlinejudge.org/external/106/10692.pdf)
+- [UVa 10692 - Huge Mods](https://onlinejudge.org/external/106/10692.pdf) [✅](../../practice/number_theory/uva_10692.cpp "Accepted solution")
 
 #### [Segmented Sieve](segmented_sieve.cpp)
 
