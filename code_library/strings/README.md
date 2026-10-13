@@ -145,7 +145,7 @@
 - [SPOJ NHAY - A Needle in the Haystack](https://www.spoj.com/problems/NHAY/)
 - [Timus 1996 - Cipher Message 3](https://acm.timus.ru/problem.aspx?num=1996)
 - [UVa 455 - Periodic Strings](https://onlinejudge.org/external/4/455.pdf)
-- [UVa 1328 - Period](https://onlinejudge.org/external/13/1328.pdf)
+- [UVa 1328 - Period](https://onlinejudge.org/external/13/1328.pdf) [✅](../../practice/strings/uva_1328.cpp "Accepted solution")
 - [UVa 1358 - Generator](https://onlinejudge.org/external/13/1358.pdf)
 - [UVa 10298 - Power Strings](https://onlinejudge.org/external/102/10298.pdf)
 - [UVa 11452 - Dancing the Cheeky-Cheeky](https://onlinejudge.org/external/114/11452.pdf)
