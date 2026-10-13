@@ -23,6 +23,7 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 ## Documentation
 
 Every template reads the same way, so a reader knows what it does and how to call it within a minute.
+The `/lucid` skill in `.claude/skills/lucid/` applies these rules to existing files.
 
 ### Header
 

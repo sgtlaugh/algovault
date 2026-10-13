@@ -7,8 +7,9 @@
 *.exe
 
 
-# Local Claude Code session state
-.claude/
+# Local Claude Code session state, except the repo skills
+.claude/*
+!.claude/skills/
 
 # competitive-verifier: downloaded judge data and build outputs, only the config is tracked
 .competitive-verifier/*
