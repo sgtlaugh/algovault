@@ -81,7 +81,6 @@ struct ThreeEdgeConnected{
         return groups;
     }
 
-private:
     /// path[v]: the chain of descendants that will join v's class once a back edge closes over them
     /// nxt: classes kept as cyclic lists, merged in O(1) by swapping successors
     vector<int> in, out, low, deg, path, nxt;
