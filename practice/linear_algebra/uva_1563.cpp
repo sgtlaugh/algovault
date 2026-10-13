@@ -1,0 +1,164 @@
+/***
+ *
+ * Gauss-Jordan Elimination modulo a prime
+ * Linear systems, solution spaces, rank and inverse of matrices modulo a prime
+ *
+ * Complexity: O(min(n, m) * n * m) for gauss and matrix_rank, O(n^3) for matrix_inverse
+ *
+ * mod must be a prime below 2^31, entries may be any int and are reduced into [0, mod)
+ *
+ * gauss(equations, res, mod): n >= 1 equations in m variables, equations[i][m] is the right-hand side
+ *     returns -1 when there is no solution
+ *     otherwise returns the number of free variables f, 0 for a unique solution, and res holds one solution
+ * gauss(equations, res, basis, mod): as above, and basis holds f vectors spanning the kernel {x : Ax = 0}
+ *     every solution is res + c_1 * basis[0] + ... + c_f * basis[f - 1] for exactly one choice of the c_k
+ *     basis is filled even when there is no solution, it depends only on the coefficients
+ * matrix_rank(a, mod): rank of any n x m matrix
+ * matrix_inverse(a, inv, mod): for a square a, returns false when it is singular, otherwise inv = a^-1
+ *
+ * For instance, the system of linear equations modulo 7
+ *
+ *     2x + y - z   = 1  ----->  equations[0] = {2, 1, 6, 1}
+ *     -3x - y + 2z = 3  ----->  equations[1] = {4, 6, 2, 3}
+ *     -2x + y + 2z = 4  ----->  equations[2] = {5, 1, 2, 4}
+ *
+ * has the unique solution x = 2, y = 3, z = 6
+ *
+ * For problems on graphs, make sure the graph is connected and a single component
+ * If not, then re-number the vertices and solve for each component separately
+ *
+***/
+
+#include <bits/stdtr1c++.h>
+
+using namespace std;
+
+int expo(int a, int b, int mod){
+    int res = 1;
+
+    while (b){
+        if (b & 1) res = (long long)res * a % mod;
+        a = (long long)a * a % mod;
+        b >>= 1;
+    }
+
+    return res;
+}
+
+/// Brings a into reduced row echelon form over its first cols columns, pivots become 1
+/// Returns pos, pos[j] = row of the pivot in column j or -1, pivot rows are 0, 1, ..., rank - 1 in column order
+vector<int> rref_mod(vector<vector<int>>& a, int cols, int mod){
+    int n = a.size(), i = 0;
+    for (auto& row : a){
+        for (auto& v : row){
+            v %= mod;
+            if (v < 0) v += mod;
+        }
+    }
+
+    vector<int> pos(cols, -1);
+    for (int j = 0; j < cols && i < n; j++){
+        int p = i;
+        while (p < n && !a[p][j]) p++;
+        if (p == n) continue;
+
+        swap(a[p], a[i]);
+        int width = a[i].size(), inv = expo(a[i][j], mod - 2, mod);
+        for (int l = j; l < width; l++) a[i][l] = (long long)a[i][l] * inv % mod;
+
+        for (int k = 0; k < n; k++){
+            if (k == i || !a[k][j]) continue;
+            int x = a[k][j];
+            for (int l = j; l < width; l++){
+                if (!a[i][l]) continue;
+                long long v = (a[k][l] - (long long)a[i][l] * x) % mod;
+                a[k][l] = v < 0 ? v + mod : v;
+            }
+        }
+
+        pos[j] = i++;
+    }
+
+    return pos;
+}
+
+int gauss(vector<vector<int>> equations, vector<int>& res, vector<vector<int>>& basis, int mod){
+    int n = equations.size(), m = equations[0].size() - 1;
+    vector<int> pos = rref_mod(equations, m, mod);
+
+    basis.clear();
+    for (int f = 0; f < m; f++){
+        if (pos[f] != -1) continue;
+        vector<int> x(m, 0);
+        x[f] = 1;
+        for (int j = 0; j < f; j++){
+            if (pos[j] != -1 && equations[pos[j]][f]) x[j] = mod - equations[pos[j]][f];
+        }
+        basis.push_back(x);
+    }
+
+    res.assign(m, 0);
+    int rank = m - basis.size();
+    for (int k = rank; k < n; k++){
+        if (equations[k][m]) return -1;
+    }
+
+    for (int j = 0; j < m; j++){
+        if (pos[j] != -1) res[j] = equations[pos[j]][m];
+    }
+
+    return basis.size();
+}
+
+int gauss(vector<vector<int>> equations, vector<int>& res, int mod){
+    vector<vector<int>> basis;
+    return gauss(equations, res, basis, mod);
+}
+
+bool matrix_inverse(const vector<vector<int>>& a, vector<vector<int>>& inv, int mod){
+    int n = a.size();
+    vector<vector<int>> aug(n, vector<int>(2 * n, 0));
+    for (int i = 0; i < n; i++){
+        assert((int)a[i].size() == n);
+        for (int j = 0; j < n; j++) aug[i][j] = a[i][j];
+        aug[i][n + i] = 1;
+    }
+
+    vector<int> pos = rref_mod(aug, n, mod);
+    if (n && pos[n - 1] != n - 1) return false;
+
+    inv.assign(n, vector<int>(n));
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < n; j++) inv[i][j] = aug[i][n + j];
+    }
+
+    return true;
+}
+
+int matrix_rank(vector<vector<int>> a, int mod){
+    int cols = a.empty() ? 0 : a[0].size();
+    vector<int> pos = rref_mod(a, cols, mod);
+    return cols - count(pos.begin(), pos.end(), -1);
+}
+
+int main(){
+    int t, p;
+    char s[128];
+    scanf("%d", &t);
+    while (t--){
+        scanf("%d %127s", &p, s);
+        int n = strlen(s);
+
+        /// Row k - 1 is f(k) = a_0 + a_1 k + ... + a_{n-1} k^{n-1}, a Vandermonde system with distinct k < p, so one solution
+        vector<vector<int>> equations(n, vector<int>(n + 1));
+        for (int k = 1; k <= n; k++){
+            for (int j = 0, x = 1; j < n; j++, x = x * k % p) equations[k - 1][j] = x;
+            equations[k - 1][n] = s[k - 1] == '*' ? 0 : s[k - 1] - 'a' + 1;
+        }
+
+        vector<int> a;
+        gauss(equations, a, p);
+        for (int i = 0; i < n; i++) printf("%d%c", a[i], i + 1 < n ? ' ' : '\n');
+    }
+    return 0;
+}

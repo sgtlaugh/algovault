@@ -73,7 +73,7 @@
 - [Library Checker system_of_linear_equations - System of Linear Equations](https://judge.yosupo.jp/problem/system_of_linear_equations)
 - [LightOJ 1279 - Graph Coloring](https://lightoj.com/problem/graph-coloring)
 - [SPOJ NWERC04H - SETI](https://www.spoj.com/problems/NWERC04H/)
-- [UVa 1563 - SETI](https://onlinejudge.org/external/15/1563.pdf)
+- [UVa 1563 - SETI](https://onlinejudge.org/external/15/1563.pdf) [✅](../../practice/linear_algebra/uva_1563.cpp "Accepted solution")
 - [UVa 1564 - Widget Factory](https://onlinejudge.org/external/15/1564.pdf)
 - [UVa 11778 - Graph Coloring in HSL](https://onlinejudge.org/external/117/11778.pdf) [✅](../../practice/linear_algebra/uva_11778.cpp "Accepted solution")
 
