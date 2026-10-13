@@ -140,7 +140,7 @@
 - [UVa 12037 - Musical Chair](https://onlinejudge.org/external/120/12037.pdf) [✅](../../practice/algebra/uva_12037.cpp "Accepted solution")
 - [UVa 12297 - Super Poker](https://onlinejudge.org/external/122/12297.pdf) [✅](../../practice/algebra/uva_12297.cpp "Accepted solution")
 - [UVa 13284 - Macarons](https://onlinejudge.org/external/132/13284.pdf)
-- [UVa 13298 - A Fibonacci Family Formula](https://onlinejudge.org/external/132/13298.pdf)
+- [UVa 13298 - A Fibonacci Family Formula](https://onlinejudge.org/external/132/13298.pdf) [✅](../../practice/algebra/uva_13298.cpp "Accepted solution")
 
 #### [Min-Plus Convolution](min_plus_convolution.cpp)
 
