@@ -12,6 +12,7 @@ Bug reports, fixes and new templates are welcome as issues or pull requests.
 - An entry in its README index section, alphabetically, variants nested under their base
 - Verified practice problems in `code_library/<topic>/README.md`, as `[<Judge> <code> - <title>](<url>)` in natural order,
   each on a live judge or with official data and a judge, like the Code Jam archive
+- A problem goes under the template at the core of its solution, not under setup steps like compression or sorting
 - An accepted solution built on the template goes in `practice/<topic>/<judge>_<code>.cpp` as submitted, linked from its
   practice problem as ` [✅](../../practice/<topic>/<file> "Accepted solution")`; templates are copied from `code_library/`, never from `practice/`
 - A problem solved on several templates gets one file per template, `<judge>_<code>_<template>.cpp`, each linked from its section
