@@ -50,7 +50,6 @@ struct CentroidDecomposition{
         decompose([&](int c){ visit(c, collect_branches(c)); });
     }
 
-private:
     vector<char> removed;
     vector<int> from, size, order;
 
