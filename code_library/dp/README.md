@@ -60,7 +60,7 @@
 - [UVa 10496 - Collecting Beepers](https://onlinejudge.org/external/104/10496.pdf)
 - [UVa 10937 - Blackbeard the Pirate](https://onlinejudge.org/external/109/10937.pdf)
 - [UVa 10944 - Nuts for nuts..](https://onlinejudge.org/external/109/10944.pdf)
-- [UVa 11284 - Shopping Trip](https://onlinejudge.org/external/112/11284.pdf)
+- [UVa 11284 - Shopping Trip](https://onlinejudge.org/external/112/11284.pdf) [✅](../../practice/dp/uva_11284.cpp "Accepted solution")
 - [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf)
 - [UVa 11813 - Shopping](https://onlinejudge.org/external/118/11813.pdf)
 
