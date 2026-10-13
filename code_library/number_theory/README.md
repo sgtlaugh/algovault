@@ -10,7 +10,7 @@
 - [Library Checker convolution_mod_1000000007 - Convolution (Mod 1,000,000,007)](https://judge.yosupo.jp/problem/convolution_mod_1000000007)
 - [SPOJ PIBO2 - Fibonacci vs Polynomial (HARD)](https://www.spoj.com/problems/PIBO2/)
 - [SPOJ PIBO - Fibonacci vs Polynomial](https://www.spoj.com/problems/PIBO/)
-- [UVa 11754 - Code Feat](https://onlinejudge.org/external/117/11754.pdf)
+- [UVa 11754 - Code Feat](https://onlinejudge.org/external/117/11754.pdf) [✅](../../practice/number_theory/uva_11754.cpp "Accepted solution")
 
 #### [Continued Fractions](continued_fractions.cpp)
 
