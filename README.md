@@ -306,7 +306,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 
 [Practice problems](code_library/hacking/README.md)
 
-- [Anti Double Hash](code_library/hacking/anti_double_hash.cpp) - two strings colliding under a double polynomial hash
+- [Anti Double Hash](code_library/hacking/anti_double_hash.cpp) - two strings colliding under a double hash
 - [Anti Polynomial Hash](code_library/hacking/anti_polyonmial_hash.cpp) - two strings colliding under a polynomial hash
 
 ### Python
