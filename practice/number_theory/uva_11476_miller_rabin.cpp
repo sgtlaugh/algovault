@@ -1,0 +1,203 @@
+/***
+ *
+ * Miller Rabin
+ * Deterministic primality test for 64-bit integers
+ *
+ * prm::is_prime(n): deterministic for every long long n, false for n < 2
+ * Uses the 7 bases from https://miller-rabin.appspot.com/, valid for n < 2^64
+ *
+ * Complexity: O(24) + O(7 * log n)
+ * Or, O(24) + O(4 * log n) when n ≤ INT_MAX
+ *
+ * For large random numbers not exceeding 2^63, it can process 4*10^6 numbers in one second
+ * For large primes not exceeding 2^63, it can process around 5*10^5 numbers in one second
+ * Requires __int128 (64-bit GCC or Clang)
+ * Embeds a checked copy of pollard_rho.cpp's Montgomery to stay standalone
+ *
+ * To gain more speed, check the following resources
+ *     i) https://people.ksp.sk/~misof/primes/
+ *    ii) https://github.com/wizykowski/miller-rabin/blob/master/sprp64.h
+ *
+ * One hack if we need to gain more speed can be to use only the base 921211727, particularly for numbers greater than INT_MAX
+ * It's not guaranteed to provide correct answer in all cases, but its highly likely there won't be cases against it
+ * Picking random numbers from 1 to 2^31 10^9 times resulted in 600 mismatches with 921211727
+ * Picking random numbers from 1 to 2^63 10^9 times resulted in 0 mismatches
+ *
+***/
+
+#include <bits/stdtr1c++.h>
+
+using namespace std;
+
+/***
+ *
+ * Montgomery multiplication for a fixed odd modulus n, values are stored as x * 2^64 mod n
+ * Needs no division, ~6x faster than __int128 % n for primality checks
+ * The modulus must be odd, even moduli give wrong results silently
+ *
+***/
+
+/// BEGIN COPY montgomery from code_library/number_theory/pollard_rho.cpp
+struct Montgomery{
+    unsigned long long n, inv, r2;
+
+    Montgomery(unsigned long long n) : n(n), inv(1){
+        for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// Newton iteration, doubles the correct bits of n^-1 mod 2^64 each step
+        r2 = -n % n;
+        r2 = (unsigned __int128)r2 * r2 % n;
+    }
+
+    unsigned long long reduce(unsigned __int128 x) const{
+        unsigned long long q = (unsigned long long)x * inv, m = ((unsigned __int128)q * n) >> 64, h = x >> 64;
+        return h >= m ? h - m : h + n - m;
+    }
+
+    unsigned long long mul(unsigned long long x, unsigned long long y) const{
+        return reduce((unsigned __int128)x * y);
+    }
+
+    unsigned long long add(unsigned long long x, unsigned long long y) const{
+        return (x += y) >= n ? x - n : x;
+    }
+
+    unsigned long long to_mont(unsigned long long x) const{
+        return mul(x, r2);
+    }
+
+    unsigned long long pow(unsigned long long x, unsigned long long e) const{
+        unsigned long long res = to_mont(1);
+        for (; e; e >>= 1, x = mul(x, x)){
+            if (e & 1) res = mul(res, x);
+        }
+        return res;
+    }
+};
+/// END COPY montgomery
+
+namespace prm{
+    const vector<int> BASES_32 = {2, 3, 5, 7};
+    const vector<int> BASES_64 = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
+
+    const vector<int> SMALL_PRIMES = {3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 193, 407521, 299210837};
+
+    bool is_probable_composite(int a, long long n, int s, const Montgomery& mont){
+        unsigned long long one = mont.to_mont(1), minus_one = mont.to_mont(n - 1);
+        unsigned long long x = mont.pow(mont.to_mont(a), (n - 1) >> s);
+        if (x == one) return false;
+
+        for (int i = 0; i < s; i++){
+            if (x == minus_one) return false;
+            x = mont.mul(x, x);
+        }
+        return true;
+    }
+
+    bool miller_rabin(long long n, const vector<int>& bases){
+        if (n < 2 || (n & 1) == 0) return n == 2;
+
+        for (auto &&p: SMALL_PRIMES){
+            if (n == p) return true;
+            if (n % p == 0) return false;
+        }
+
+        int s = __builtin_ctzll(n - 1);
+        Montgomery mont(n);
+        for (auto a: bases){
+            if (is_probable_composite(a, n, s, mont)) return false;
+        }
+
+        return true;
+    }
+
+    bool is_prime(long long n){
+        if (n < INT_MAX) return miller_rabin(n, BASES_32);
+        return miller_rabin(n, BASES_64);
+    }
+}
+
+/// Shanks' square forms factorization with multiplier k: a factor of n, or 1 when this k fails
+/// n must be odd, composite and not a perfect square
+unsigned long long squfof(unsigned long long n, int k){
+    unsigned long long m = n * k, s = sqrtl((long double)m), b, x, P[2], Q[2];
+    while (s * s > m) s--;
+    while ((s + 1) * (s + 1) <= m) s++;
+
+    int u = 0, v = 0;
+    Q[0] = 1, P[0] = s, Q[1] = m - s * s;
+    for (int i = 1; ; i++){
+        u = i & 1, v = u ^ 1;
+        if (v){
+            x = sqrtl((long double)Q[u]);
+            while (x * x > Q[u]) x--;
+            while ((x + 1) * (x + 1) <= Q[u]) x++;
+            if (x * x == Q[u]){
+                b = (s - P[v]) / x;
+                P[0] = b * x + P[v];
+                Q[0] = x, Q[1] = (m - P[0] * P[0]) / Q[0];
+                break;
+            }
+        }
+        b = (s + P[v]) / Q[u];
+        P[u] = b * Q[u] - P[v];
+        Q[v] = Q[v] + b * (P[v] - P[u]);
+    }
+
+    for (int i = 1; ; i++){
+        u = i & 1, v = u ^ 1;
+        b = (s + P[v]) / Q[u];
+        P[u] = b * Q[u] - P[v];
+        Q[v] = Q[v] + b * (P[v] - P[u]);
+        if (P[u] == P[v]) break;
+    }
+
+    unsigned long long g = __gcd(n, P[u]);
+    return g == n ? 1 : g;
+}
+
+int main(){
+    const int LIMIT = 215444;  /// above the cube root of 10^16
+    vector<int> primes;
+    vector<bool> composite(LIMIT, false);
+    for (int i = 2; i < LIMIT; i++){
+        if (composite[i]) continue;
+        primes.push_back(i);
+        for (long long j = (long long)i * i; j < LIMIT; j += i) composite[j] = true;
+    }
+
+    int t;
+    long long n;
+    scanf("%d", &t);
+    while (t--){
+        scanf("%lld", &n);
+
+        /// Past the cube root at most two primes remain: a prime, a prime square or a product split by SQUFOF
+        vector<long long> f;
+        long long r = n;
+        for (int p : primes){
+            if ((long long)p * p * p > r && p > 2) break;  /// dividing out every 2 keeps r odd for SQUFOF
+            for (; r % p == 0; r /= p) f.push_back(p);
+        }
+        if (prm::is_prime(r)) f.push_back(r);
+        else if (r > 1){
+            long long s = sqrtl((long double)r);
+            while (s * s > r) s--;
+            while ((s + 1) * (s + 1) <= r) s++;
+            if (s * s == r) f.push_back(s), f.push_back(s);
+            else{
+                unsigned long long d = 1;
+                for (int k = 1; d == 1; k++) d = squfof(r, k);
+                f.push_back(d), f.push_back(r / d);
+            }
+        }
+        sort(f.begin(), f.end());
+
+        printf("%lld =", n);
+        for (size_t i = 0, j; i < f.size(); i = j){
+            for (j = i; j < f.size() && f[j] == f[i]; j++) {}
+            printf("%s %lld", i ? " *" : "", f[i]);
+            if (j - i > 1) printf("^%d", (int)(j - i));
+        }
+        puts("");
+    }
+    return 0;
+}

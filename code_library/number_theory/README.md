@@ -159,7 +159,7 @@
 - [Library Checker primality_test - Primality Test](https://judge.yosupo.jp/problem/primality_test)
 - [Project Euler 146 - Investigating a Prime Pattern](https://projecteuler.net/problem=146)
 - [SPOJ PON - Prime or Not](https://www.spoj.com/problems/PON/)
-- [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf)
+- [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf) [✅](../../practice/number_theory/uva_11476_miller_rabin.cpp "Accepted solution")
 
 #### [Min_25 Sieve](min_25_sieve.cpp)
 
@@ -205,7 +205,7 @@
 - [Library Checker factorize - Factorize](https://judge.yosupo.jp/problem/factorize)
 - [SPOJ DIVSUM2 - Divisor Summation (Hard)](https://www.spoj.com/problems/DIVSUM2/)
 - [SPOJ FACT0 - Integer Factorization (15 digits)](https://www.spoj.com/problems/FACT0/)
-- [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf)
+- [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf) [✅](../../practice/number_theory/uva_11476_pollard_rho.cpp "Accepted solution")
 - [UVa 12005 - Find Solutions](https://onlinejudge.org/external/120/12005.pdf)
 - [UVa 13067 - Prime Kebab Menu](https://onlinejudge.org/external/130/13067.pdf)
 - [UVa 13191 - Tobby Primes](https://onlinejudge.org/external/131/13191.pdf)
