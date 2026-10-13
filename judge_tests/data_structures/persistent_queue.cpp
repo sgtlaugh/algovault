@@ -20,7 +20,7 @@ int read_int(){
 
 int main(){
     int q = read_int();
-    PersistentSegmentTree<long long, FirstMerge> arr(vector<long long>(q, 0));
+    PersistentSegmentTree<long long, FirstCombine> arr(vector<long long>(q, 0));
 
     /// Queue S_i is (array version, head, tail) at index i + 1, the empty S_{-1} at index 0
     vector<int> version(q + 1, 0), head(q + 1, 0), tail(q + 1, 0);

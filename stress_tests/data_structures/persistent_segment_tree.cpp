@@ -5,11 +5,11 @@
 #undef main
 
 /// Every version against a full copy of the array, branching updates from random old versions
-template<typename Merge>
+template<typename Combine>
 void check_versions(int n, int ops, long long range, bool sum){
     vector<long long> a(n);
     for (auto& x : a) x = stress::rand_int(-range, range);
-    PersistentSegmentTree<long long, Merge> tree(a);
+    PersistentSegmentTree<long long, Combine> tree(a);
     vector<vector<long long>> copies = {a};
 
     for (int q = 0; q < ops; q++){
@@ -26,7 +26,7 @@ void check_versions(int n, int ops, long long range, bool sum){
 
         int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
         long long expected = copies[v][l];
-        for (int j = l + 1; j <= r; j++) expected = Merge()(expected, copies[v][j]);
+        for (int j = l + 1; j <= r; j++) expected = Combine()(expected, copies[v][j]);
         assert(tree.query(v, l, r) == expected);
         assert(tree.get(v, i) == copies[v][i]);
     }
@@ -36,12 +36,12 @@ void check_versions(int n, int ops, long long range, bool sum){
     }
 }
 
-/// Persistent array use with values at the long long extremes, which a summing Merge would overflow
+/// Persistent array use with values at the long long extremes, which a summing combine would overflow
 void check_array(int n, int ops){
     vector<long long> pool = {LLONG_MIN, LLONG_MAX, LLONG_MIN + 1, LLONG_MAX - 1, -1, 0, 1};
     vector<long long> a(n);
     for (auto& x : a) x = pool[stress::rand_int(0, pool.size() - 1)];
-    PersistentSegmentTree<long long, FirstMerge> arr(a);
+    PersistentSegmentTree<long long, FirstCombine> arr(a);
     vector<vector<long long>> copies = {a};
 
     for (int q = 0; q < ops; q++){
@@ -108,8 +108,8 @@ int main(){
         int n = it < 300 ? it % 40 + 1 : stress::rand_int(1, 200);
         long long range = it % 3 ? 5 : 1000000000000LL;
         check_versions<plus<long long>>(n, 200, range, true);
-        check_versions<MinMerge>(n, 200, range, false);
-        check_versions<FirstMerge>(n, 200, range, false);
+        check_versions<MinCombine>(n, 200, range, false);
+        check_versions<FirstCombine>(n, 200, range, false);
         check_array(n, 200);
         check_kth_versions(n, 100);
         check_kth(n, 60, it % 2 ? 5 : 1000000000000000000LL);
