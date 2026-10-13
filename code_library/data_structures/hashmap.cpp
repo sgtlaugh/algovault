@@ -29,10 +29,9 @@
 using namespace std;
 
 template <typename TKey, typename TValue>
-class HashMap{
+struct HashMap{
     static_assert(is_integral<TKey>::value, "HashMap needs an integral key type");
 
-    private:
         /// home caches the bucket of key so erase never re-hashes, it fits in the padding next to id for 8 byte keys
         struct Slot{
             int id, home;
@@ -70,7 +69,6 @@ class HashMap{
             _size++;
         }
 
-    public:
         HashMap(int max_len) : max_len(max(max_len, 1)){
             int bits = 1;
             while ((1 << bits) < 2 * this->max_len) bits++;  /// load factor stays at most 1/2
