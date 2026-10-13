@@ -35,7 +35,7 @@
 - [UVa 10329 - Combinatorial Expression](https://onlinejudge.org/external/103/10329.pdf) [✅](../../practice/algebra/uva_10329.cpp "Accepted solution")
 - [UVa 10430 - Dear GOD](https://onlinejudge.org/external/104/10430.pdf) [✅](../../practice/algebra/uva_10430.cpp "Accepted solution")
 - [UVa 10494 - If We Were a Child Again](https://onlinejudge.org/external/104/10494.pdf) [✅](../../practice/algebra/uva_10494.cpp "Accepted solution")
-- [UVa 10579 - Fibonacci Numbers](https://onlinejudge.org/external/105/10579.pdf)
+- [UVa 10579 - Fibonacci Numbers](https://onlinejudge.org/external/105/10579.pdf) [✅](../../practice/algebra/uva_10579.cpp "Accepted solution")
 - [UVa 10814 - Simplifying Fractions](https://onlinejudge.org/external/108/10814.pdf) [✅](../../practice/algebra/uva_10814.cpp "Accepted solution")
 - [UVa 10862 - Connect the Cable Wires](https://onlinejudge.org/external/108/10862.pdf) [✅](../../practice/algebra/uva_10862.cpp "Accepted solution")
 - [UVa 10925 - Krakovia](https://onlinejudge.org/external/109/10925.pdf) [✅](../../practice/algebra/uva_10925.cpp "Accepted solution")
