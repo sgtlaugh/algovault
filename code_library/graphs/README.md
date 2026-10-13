@@ -34,7 +34,7 @@
 - [UVa 10319 - Manhattan](https://onlinejudge.org/external/103/10319.pdf)
 - [UVa 11294 - Wedding](https://onlinejudge.org/external/112/11294.pdf)
 - [UVa 11861 - Explosion](https://onlinejudge.org/external/118/11861.pdf) [✅](../../practice/graphs/uva_11861.cpp "Accepted solution")
-- [UVa 11930 - Rectangles](https://onlinejudge.org/external/119/11930.pdf)
+- [UVa 11930 - Rectangles](https://onlinejudge.org/external/119/11930.pdf) [✅](../../practice/graphs/uva_11930.cpp "Accepted solution")
 - [UVa 12273 - Palindromic DNA](https://onlinejudge.org/external/122/12273.pdf) [✅](../../practice/graphs/uva_12273.cpp "Accepted solution")
 - [UVa 12745 - Wishmaster](https://onlinejudge.org/external/127/12745.pdf) [✅](../../practice/graphs/uva_12745.cpp "Accepted solution")
 - [UVa 13016 - Black Vienna](https://onlinejudge.org/external/130/13016.pdf)
