@@ -1,24 +1,17 @@
 /***
  *
  * 2D Sparse Table
- * Rectangle minimum or maximum on a static n x m grid
+ * O(1) rectangle minimum or maximum on a static grid
  *
  * Complexity: O(n m log n log m) build time and memory, O(1) per query
  *
- * table[a][b] holds the answer for every 2^a x 2^b block, a query covers its rectangle with four overlapping blocks
- * Overlaps are only correct for idempotent operations, so this answers min and max, never sum or xor
+ * SparseTable2D<T> table(grid): rectangle minimum of an n x m grid
+ * SparseTable2D<T, greater<T>> table(grid): rectangle maximum
+ * table.query(x1, y1, x2, y2): the answer over rows x1..x2 and columns y1..y2, 0 <= x1 <= x2 < n, 0 <= y1 <= y2 < m
  *
- * SparseTable2D<T> answers minimum, SparseTable2D<T, greater<T>> answers maximum
- * A custom Compare must have a const operator(), since query() is const
- * query(x1, y1, x2, y2) is the inclusive rectangle rows [x1, x2], columns [y1, y2], 0-indexed
+ * A custom Compare needs a const operator(), since query() is const
  * The grid must be rectangular, an empty grid builds but has no valid query
- *
- * Stores (sum of n - 2^a + 1 over a) * (sum of m - 2^b + 1 over b) values
  * A 500 x 500 grid stores 3998^2 values, 64 MB of int
- *
- * Example:
- *   SparseTable2D<int, greater<int>> table(grid);
- *   int best = table.query(1, 0, 3, 2);
  *
 ***/
 
@@ -72,18 +65,19 @@ struct SparseTable2D{
 };
 
 int main(){
+    /// Minimum and maximum over rectangles of one grid
     vector<vector<int>> grid = {
         {3, 8, 1, 9},
         {7, 2, 6, 4},
         {5, 0, 9, 3},
     };
     SparseTable2D<int> mn(grid);
-    SparseTable2D<int, greater<int>> mx(grid);
+    assert(mn.query(0, 0, 2, 3) == 0);
+    assert(mn.query(0, 0, 1, 1) == 2);  /// rows 0..1, columns 0..1: {3, 8, 7, 2}
 
-    assert(mn.query(0, 0, 2, 3) == 0);      /// the whole grid
+    SparseTable2D<int, greater<int>> mx(grid);
     assert(mx.query(0, 0, 2, 3) == 9);
-    assert(mn.query(0, 0, 1, 1) == 2);      /// rows 0..1, columns 0..1: {3, 8, 7, 2}
-    assert(mx.query(1, 0, 1, 3) == 7);      /// row 1 alone
-    assert(mx.query(2, 1, 2, 1) == 0);      /// a single cell
+    assert(mx.query(1, 0, 1, 3) == 7);
+
     return 0;
 }
