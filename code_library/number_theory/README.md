@@ -26,7 +26,7 @@
 - [HDU 6624 - fraction](http://acm.hdu.edu.cn/showproblem.php?pid=6624)
 - [Library Checker rational_approximation - Rational Approximation](https://judge.yosupo.jp/problem/rational_approximation)
 - [Library Checker stern_brocot_tree - Stern–Brocot Tree](https://judge.yosupo.jp/problem/stern_brocot_tree)
-- [UVa 834 - Continued Fractions](https://onlinejudge.org/external/8/834.pdf)
+- [UVa 834 - Continued Fractions](https://onlinejudge.org/external/8/834.pdf) [✅](../../practice/number_theory/uva_834.cpp "Accepted solution")
 
 #### [Digits of Factorial](digits_of_factorial.cpp)
 
