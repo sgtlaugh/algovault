@@ -90,6 +90,7 @@
 - [Kattis segmentintersection - Line Segment Intersection](https://open.kattis.com/problems/segmentintersection)
 - [Library Checker sort_points_by_argument - Sort Points by Argument](https://judge.yosupo.jp/problem/sort_points_by_argument)
 - [SPOJ DICE - Three-sided Dice](https://www.spoj.com/problems/DICE/)
+- [USACO 207 - Crazy Fences](https://usaco.org/index.php?page=viewproblem2&cpid=207)
 - [UVa 191 - Intersection](https://onlinejudge.org/external/1/191.pdf)
 - [UVa 273 - Jack Straws](https://onlinejudge.org/external/2/273.pdf)
 - [UVa 378 - Intersecting Lines](https://onlinejudge.org/external/3/378.pdf)

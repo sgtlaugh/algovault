@@ -2,9 +2,7 @@
 
 #### [Coordinate Compression](coordinate_compression.cpp)
 
-- [CSES 1144 - Salary Queries](https://cses.fi/problemset/task/1144)
-- [Library Checker rectangle_sum - Rectangle Sum](https://judge.yosupo.jp/problem/rectangle_sum)
-- [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/)
+- [USACO 207 - Crazy Fences](https://usaco.org/index.php?page=viewproblem2&cpid=207)
 
 #### [Disjoint Set Union](disjoint_set.cpp)
 
