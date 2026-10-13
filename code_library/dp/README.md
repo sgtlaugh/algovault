@@ -59,7 +59,7 @@
 - [POJ 1699 - Best Sequence](http://poj.org/problem?id=1699)
 - [UVa 10496 - Collecting Beepers](https://onlinejudge.org/external/104/10496.pdf) [✅](../../practice/dp/uva_10496.cpp "Accepted solution")
 - [UVa 10937 - Blackbeard the Pirate](https://onlinejudge.org/external/109/10937.pdf) [✅](../../practice/dp/uva_10937.cpp "Accepted solution")
-- [UVa 10944 - Nuts for nuts..](https://onlinejudge.org/external/109/10944.pdf)
+- [UVa 10944 - Nuts for nuts..](https://onlinejudge.org/external/109/10944.pdf) [✅](../../practice/dp/uva_10944.cpp "Accepted solution")
 - [UVa 11284 - Shopping Trip](https://onlinejudge.org/external/112/11284.pdf) [✅](../../practice/dp/uva_11284.cpp "Accepted solution")
 - [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf)
 - [UVa 11813 - Shopping](https://onlinejudge.org/external/118/11813.pdf) [✅](../../practice/dp/uva_11813.cpp "Accepted solution")
