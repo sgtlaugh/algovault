@@ -153,7 +153,7 @@
 - [UVa 12467 - Secret Word](https://onlinejudge.org/external/124/12467.pdf) [✅](../../practice/strings/uva_12467.cpp "Accepted solution")
 - [UVa 12604 - Caesar Cipher](https://onlinejudge.org/external/126/12604.pdf) [✅](../../practice/strings/uva_12604.cpp "Accepted solution")
 - [UVa 12785 - Emacs Plugin](https://onlinejudge.org/external/127/12785.pdf) [✅](../../practice/strings/uva_12785.cpp "Accepted solution")
-- [UVa 12916 - Perfect Cyclic String](https://onlinejudge.org/external/129/12916.pdf)
+- [UVa 12916 - Perfect Cyclic String](https://onlinejudge.org/external/129/12916.pdf) [✅](../../practice/strings/uva_12916.cpp "Accepted solution")
 
 #### [Lyndon Factorization](lyndon_factorization.cpp)
 
