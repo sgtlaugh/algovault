@@ -1,0 +1,153 @@
+/***
+ *
+ * 2D Fenwick Tree, Implicit
+ * Rectangle add and cell value on grids too large to allocate, each Fenwick row a segment tree over columns built on demand
+ *
+ * Complexity:
+ *   - build: O(n) for the row roots
+ *   - update, query: O(log n * log m)
+ *
+ * FenwickImplicit2D<T> fen(n, m): n rows, m columns, all zeros
+ * fen.update(x1, y1, x2, y2, v): add v to a[x1..x2][y1..y2], nothing when x1 > x2 or y1 > y2
+ * fen.query(x, y): a[x][y]
+ *
+ * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
+ * q updates create O(q log n log m) nodes from a pool of MAXNODES, 16 bytes each for long long, about 205 MB by default
+ * The pool is reserved up front, but only the pages of created nodes are touched
+ * Running out of nodes asserts, raise MAXNODES then
+ * The row roots take 4 * (n + 1) bytes, so n is bounded by memory and m only by the pool
+ * fenwick_tree_2D_sparse.cpp does point add and rectangle sum on a fixed hash table of 268 MB by default
+ * This one pays only for the nodes it creates
+ *
+***/
+
+#include <bits/stdtr1c++.h>
+
+using namespace std;
+
+template <typename T>
+struct FenwickImplicit2D{
+    static const int MAXNODES = 12800000;
+
+    struct Node{
+        T sum;
+        int l, r;
+    };
+
+    int n, m;
+    vector<int> root;
+    vector<Node> nodes;
+
+    /// reserve without filling, so pool pages are only touched once nodes are used, node 0 is the empty child
+    FenwickImplicit2D(int n, int m) : n(n), m(m), root(n + 1, 0){
+        nodes.reserve(MAXNODES);
+        nodes.push_back({0, 0, 0});
+    }
+
+    void update(int x1, int y1, int x2, int y2, T v){
+        if (x1 > x2 || y1 > y2) return;
+        assert(0 <= x1 && x2 < n && 0 <= y1 && y2 < m);
+        update_fen(x1, y1, v);
+        update_fen(x2 + 1, y1, -v);
+        update_fen(x2 + 1, y2 + 1, v);
+        update_fen(x1, y2 + 1, -v);
+    }
+
+    T query(int x, int y){
+        assert(0 <= x && x < n && 0 <= y && y < m);
+        T res = 0;
+        for (int i = x + 1; i > 0; i -= i & -i){
+            res += query_seg(root[i], 0, m - 1, y);
+        }
+        return res;
+    }
+
+    int update_seg(int cur, int a, int b, int p, T v){
+        if (!cur){
+            assert((int)nodes.size() < MAXNODES);  /// out of pool nodes, raise MAXNODES
+            cur = nodes.size();
+            nodes.push_back({0, 0, 0});
+        }
+        nodes[cur].sum += v;
+
+        if (a != b){
+            int mid = a + (b - a) / 2;
+            if (p <= mid) nodes[cur].l = update_seg(nodes[cur].l, a, mid, p, v);
+            else nodes[cur].r = update_seg(nodes[cur].r, mid + 1, b, p, v);
+        }
+        return cur;
+    }
+
+    T query_seg(int cur, int a, int b, int r){
+        if (!cur) return 0;
+        if (r >= b) return nodes[cur].sum;
+
+        int mid = a + (b - a) / 2;
+        if (r <= mid) return query_seg(nodes[cur].l, a, mid, r);
+        return nodes[nodes[cur].l].sum + query_seg(nodes[cur].r, mid + 1, b, r);
+    }
+
+    void update_fen(int x, int y, T v){
+        if (y >= m) return;  /// column m from a range update ending at m - 1, otherwise it lands on leaf m - 1
+        for (int i = x + 1; i <= n; i += i & -i){
+            root[i] = update_seg(root[i], 0, m - 1, y, v);
+        }
+    }
+};
+
+/// For each element, how many smaller values sit to its left, stored by value: a merge sort that credits each
+/// right-half element with the left-half elements already merged before it
+void count_smaller_left(vector<int>& a, int lo, int hi, vector<int>& buf, vector<int>& smaller){
+    if (hi - lo < 2) return;
+    int mid = (lo + hi) / 2;
+    count_smaller_left(a, lo, mid, buf, smaller);
+    count_smaller_left(a, mid, hi, buf, smaller);
+
+    int i = lo, j = mid, k = lo;
+    while (i < mid || j < hi){
+        if (j == hi || (i < mid && a[i] < a[j])) buf[k++] = a[i++];
+        else smaller[a[j]] += i - lo, buf[k++] = a[j++];
+    }
+    copy(buf.begin() + lo, buf.begin() + hi, a.begin() + lo);
+}
+
+int main(){
+    int n, m;
+    while (scanf("%d %d", &n, &m) == 2){
+        vector<int> a(n), pos(n + 1), del(m);
+        for (int i = 0; i < n; i++){
+            scanf("%d", &a[i]);
+            pos[a[i]] = i;
+        }
+        for (auto& x : del) scanf("%d", &x);
+
+        vector<int> sorted = a, buf(n), smaller(n + 1, 0);
+        count_smaller_left(sorted, 0, n, buf, smaller);
+        long long res = 0;
+        for (int i = 0; i < n; i++) res += i - smaller[a[i]];
+
+        /// Removed elements as ranks among the removed positions and values, so the grid is only m x m
+        vector<int> rows(m), cols = del, row(m), col(m);
+        for (int k = 0; k < m; k++) rows[k] = pos[del[k]];
+        sort(rows.begin(), rows.end());
+        sort(cols.begin(), cols.end());
+        for (int k = 0; k < m; k++){
+            row[k] = lower_bound(rows.begin(), rows.end(), pos[del[k]]) - rows.begin();
+            col[k] = lower_bound(cols.begin(), cols.end(), del[k]) - cols.begin();
+        }
+
+        /// Each removal adds 1 to the quadrant after it and above it, so point (r, c) counts earlier removals before
+        /// and below, (r, m) those before and (m, c) those below; the ones in inversion with (r, c) number
+        /// before + below - 2 * both. One corner update per removal: adding the two inversion quadrants directly
+        /// overflowed the default node pool at n = 2e5, m = 1e5
+        FenwickImplicit2D<int> gone(m + 1, m + 1);
+        for (int k = 0; k < m; k++){
+            printf("%lld\n", res);
+            int x = del[k], p = pos[x], s = smaller[x], r = row[k], c = col[k];
+            long long with_all = (p - s) + (x - 1 - s);  /// larger values before it, smaller values after it
+            res -= with_all - (gone.query(r, m) + gone.query(m, c) - 2 * gone.query(r, c));
+            gone.update(r + 1, c + 1, m, m, 1);
+        }
+    }
+    return 0;
+}

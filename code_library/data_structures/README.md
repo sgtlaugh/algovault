@@ -150,7 +150,7 @@
 
 #### [Fenwick Tree 2D, Implicit](fenwick_tree_2D_implicit.cpp)
 
-- [UVa 11990 - ``Dynamic'' Inversion](https://onlinejudge.org/external/119/11990.pdf)
+- [UVa 11990 - ``Dynamic'' Inversion](https://onlinejudge.org/external/119/11990.pdf) [✅](../../practice/data_structures/uva_11990_fenwick_tree_2D_implicit.cpp "Accepted solution")
 
 #### [Fenwick Tree 2D, Sparse](fenwick_tree_2D_sparse.cpp)
 
