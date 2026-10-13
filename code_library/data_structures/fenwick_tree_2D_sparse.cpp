@@ -15,7 +15,8 @@
  * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
  * The table takes 8 + sizeof(T) bytes per slot up front, 268 MB at the default lg_capacity = 24 for T = long long
  * An update creates up to (floor(log2(n)) + 1) * (floor(log2(m)) + 1) nodes, 900 at n = m = 1e9
- * Size 2^lg_capacity to at least twice the nodes created to keep probes short, an update that fills it past 3/4 asserts
+ * Size 2^lg_capacity to at least twice the nodes created to keep probes short
+ * An update that fills the table past 3/4 asserts
  * So n = m = 1e9 with 100K updates, up to 9e7 nodes, does not fit the default
  * fenwick_tree_2D_implicit.cpp does rectangle add and cell value instead, paying only for the nodes it creates
  *

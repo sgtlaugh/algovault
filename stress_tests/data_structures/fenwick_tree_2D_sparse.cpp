@@ -36,6 +36,7 @@ int main(){
         int a = coordinate(N), b = coordinate(M), c = coordinate(N), d = coordinate(M);
         if (a > c) swap(a, c);
         if (b > d) swap(b, d);
+        if (it % 5 == 0) swap(a, c);  /// an empty rectangle when a != c, the sum must be 0
         assert(fen.query(a, b, c, d) == brute(a, b, c, d));
         assert(fen.query(i, j, i, j) == brute(i, j, i, j));
         assert(fen.prefix(c, d) == brute(0, 0, c, d));
