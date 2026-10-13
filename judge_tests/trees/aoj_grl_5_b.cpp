@@ -16,9 +16,9 @@ int main(){
         tree.add_edge(s, t, w);
     }
 
-    auto merge = [](long long a, long long b){ return max(a, b); };
+    auto combine = [](long long a, long long b){ return max(a, b); };
     auto apply_edge = [](long long x, int, int, long long w){ return x + w; };
-    vector<long long> height = tree.solve(merge, 0LL, apply_edge);
+    vector<long long> height = tree.solve(combine, 0LL, apply_edge);
     for (long long h : height) printf("%lld\n", h);
     return 0;
 }

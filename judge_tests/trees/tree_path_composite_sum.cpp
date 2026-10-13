@@ -27,14 +27,14 @@ int main(){
     }
 
     /// A value is (nodes strictly below, sum of P over them), so from's own a joins as the value crosses the edge
-    auto merge = [](const Value& x, const Value& y){
+    auto combine = [](const Value& x, const Value& y){
         return Value{x.first + y.first, (x.second + y.second) % MOD};
     };
     auto apply_edge = [&](const Value& x, int from, int, const pair<long long, long long>& e){
         long long cnt = x.first + 1;
         return Value{cnt, (e.first * ((x.second + a[from]) % MOD) + e.second * (cnt % MOD)) % MOD};
     };
-    vector<Value> res = tree.solve(merge, Value{0, 0}, apply_edge);
+    vector<Value> res = tree.solve(combine, Value{0, 0}, apply_edge);
 
     string out;
     for (int x = 0; x < n; x++) out += to_string((res[x].second + a[x]) % MOD) + (x + 1 < n ? ' ' : '\n');

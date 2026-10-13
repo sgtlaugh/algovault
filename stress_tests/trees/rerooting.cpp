@@ -31,8 +31,8 @@ vector<array<long long, 3>> make_tree(int n, int shape, long long max_w){
 }
 
 /// The plain tree DP rooted at root: children before parents in reverse BFS order
-template<typename T, typename Merge, typename Apply>
-T naive_dp(const vector<vector<pair<int, long long>>>& adj, int root, Merge merge, T identity, Apply apply_edge){
+template<typename T, typename Combine, typename Apply>
+T naive_dp(const vector<vector<pair<int, long long>>>& adj, int root, Combine combine, T identity, Apply apply_edge){
     int n = adj.size();
     vector<int> parent(n, -1), order = {root};
     vector<bool> seen(n, false);
@@ -47,24 +47,24 @@ T naive_dp(const vector<vector<pair<int, long long>>>& adj, int root, Merge merg
     for (int i = n - 1; i >= 0; i--){
         int u = order[i];
         for (auto [v, w] : adj[u]){
-            if (v != parent[u]) dp[u] = merge(dp[u], apply_edge(dp[v], v, u, w));
+            if (v != parent[u]) dp[u] = combine(dp[u], apply_edge(dp[v], v, u, w));
         }
     }
     return dp[root];
 }
 
-template<typename T, typename E = long long, typename Merge, typename Apply>
-void compare(int n, const vector<array<long long, 3>>& edges, Merge merge, T identity, Apply apply_edge){
+template<typename T, typename E = long long, typename Combine, typename Apply>
+void compare(int n, const vector<array<long long, 3>>& edges, Combine combine, T identity, Apply apply_edge){
     Rerooting<T, E> tree(n);
     vector<vector<pair<int, long long>>> adj(n);
     for (auto [u, v, w] : edges){
         adj[u].push_back({(int)v, w}), adj[v].push_back({(int)u, w});
         tree.add_edge(u, v, (E)w);
     }
-    vector<T> res = tree.solve(merge, identity, apply_edge);
+    vector<T> res = tree.solve(combine, identity, apply_edge);
 
     assert((int)res.size() == n);
-    for (int r = 0; r < n; r++) assert(res[r] == naive_dp(adj, r, merge, identity, apply_edge));
+    for (int r = 0; r < n; r++) assert(res[r] == naive_dp(adj, r, combine, identity, apply_edge));
 }
 
 /// Labelled tree from a Pruefer sequence of length n - 2, by the O(n^2) smallest-leaf definition
@@ -169,22 +169,33 @@ void check_path(int n){
     for (long long i = 0; i < n; i++) assert(res[i].first == n - 1 && res[i].second == i * (i + 1) / 2 + (n - 1 - i) * (n - i) / 2);
 }
 
-/// solve must abort on a non-tree, the alarm turns an endless traversal into a failure instead of a hang
+/// solve must abort on a non-tree through its own assert, the alarm turns an endless traversal into a failure instead of a hang
+/// An out of range index also aborts under _GLIBCXX_ASSERTIONS but is undefined behaviour in a judge build, hence the message check
 void check_rejects(int n, const vector<pair<int, int>>& edges){
+    int fd[2];
+    assert(pipe(fd) == 0);
     pid_t pid = fork();
     assert(pid >= 0);
     if (pid == 0){
         alarm(5);
-        assert(freopen("/dev/null", "w", stderr));
+        dup2(fd[1], STDERR_FILENO);
+        close(fd[0]), close(fd[1]);
         Rerooting<long long> tree(n);
         for (auto [u, v] : edges) tree.add_edge(u, v);
         tree.solve([](long long a, long long b){ return a + b; }, 0LL, [](long long x, int, int, long long){ return x + 1; });
         _exit(0);
     }
 
+    close(fd[1]);
+    string err;
+    char buf[4096];
+    for (ssize_t got; (got = read(fd[0], buf, sizeof buf)) > 0;) err.append(buf, got);
+    close(fd[0]);
+
     int status;
     assert(waitpid(pid, &status, 0) == pid);
     assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    assert(err.find("code_library/trees/rerooting.cpp:") != string::npos && err.find("Assertion") != string::npos);
 }
 
 int main(){
