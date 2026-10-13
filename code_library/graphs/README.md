@@ -101,7 +101,7 @@
 - [UVa 796 - Critical Links](https://onlinejudge.org/external/7/796.pdf)
 - [UVa 1310 - One-way traffic](https://onlinejudge.org/external/13/1310.pdf)
 - [UVa 11972 - Round Trip](https://onlinejudge.org/external/119/11972.pdf)
-- [UVa 12363 - Hedge Mazes](https://onlinejudge.org/external/123/12363.pdf)
+- [UVa 12363 - Hedge Mazes](https://onlinejudge.org/external/123/12363.pdf) [✅](../../practice/graphs/uva_12363.cpp "Accepted solution")
 - [UVa 12587 - Reduce the Maintenance Cost](https://onlinejudge.org/external/125/12587.pdf)
 - [UVa 12783 - Weak Links](https://onlinejudge.org/external/127/12783.pdf) [✅](../../practice/graphs/uva_12783.cpp "Accepted solution")
 
