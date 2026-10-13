@@ -106,7 +106,7 @@
 - [USACO 901 - Exercise Route](https://usaco.org/index.php?page=viewproblem2&cpid=901)
 - [USACO 970 - Milk Visits](https://usaco.org/index.php?page=viewproblem2&cpid=970)
 - [UVa 1674 - Lightning Energy Report](https://onlinejudge.org/external/16/1674.pdf)
-- [UVa 10938 - Flea circus](https://onlinejudge.org/external/109/10938.pdf)
+- [UVa 10938 - Flea circus](https://onlinejudge.org/external/109/10938.pdf) [✅](../../practice/trees/uva_10938.cpp "Accepted solution")
 - [UVa 11354 - Bond](https://onlinejudge.org/external/113/11354.pdf)
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf)
 - [UVa 12238 - Ants Colony](https://onlinejudge.org/external/122/12238.pdf)
