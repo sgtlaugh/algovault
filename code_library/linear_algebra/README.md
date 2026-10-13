@@ -131,7 +131,7 @@
 - [Kattis roadtimes - Road Times](https://open.kattis.com/problems/roadtimes)
 - [UVa 802 - Lead or Gold](https://onlinejudge.org/external/8/802.pdf) [✅](../../practice/linear_algebra/uva_802.cpp "Accepted solution")
 - [UVa 1298 - Triathlon](https://onlinejudge.org/external/12/1298.pdf) [✅](../../practice/linear_algebra/uva_1298.cpp "Accepted solution")
-- [UVa 1410 - Expensive Drink](https://onlinejudge.org/external/14/1410.pdf)
+- [UVa 1410 - Expensive Drink](https://onlinejudge.org/external/14/1410.pdf) [✅](../../practice/linear_algebra/uva_1410.cpp "Accepted solution")
 - [UVa 1744 - Road Times](https://onlinejudge.org/external/17/1744.pdf)
 - [UVa 10089 - Repackaging](https://onlinejudge.org/external/100/10089.pdf)
 - [UVa 10498 - Happiness](https://onlinejudge.org/external/104/10498.pdf) [✅](../../practice/linear_algebra/uva_10498.cpp "Accepted solution")
