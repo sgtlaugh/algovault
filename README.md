@@ -204,17 +204,17 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 [Practice problems](code_library/combinatorics/README.md)
 
 - [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - Bernoulli numbers modulo a prime
-- [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, Lucas and prime powers [✔](judge_tests/combinatorics/binomial_coefficient.cpp)
+- [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, prime or not [✔](judge_tests/combinatorics/binomial_coefficient.cpp)
 - [Combinatorics](code_library/combinatorics/combinatorics.cpp) - factorial tables, nCr and nPr modulo a prime [✔](judge_tests/combinatorics/binomial_coefficient_prime_mod.cpp)
 - [Eulerian Numbers](code_library/combinatorics/eulerian_numbers.cpp) - permutations with k ascents, modulo any m
 - [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of 1..n
-- [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke in the gambler's ruin game
+- [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke
 - [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - survivor of the Josephus elimination [✔](judge_tests/combinatorics/aoj_0085.cpp)
-- [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - `p(0..n)` modulo any m in `O(n sqrt(n))` via the pentagonal number theorem [✔](judge_tests/combinatorics/partition_function.cpp)
-- [Permutation Cycles](code_library/combinatorics/permutation_cycles.cpp) - cycles, k-th power and k-th root in `O(n)`, parity and minimum swaps [✔](judge_tests/combinatorics/aoj_alds1_6_d.cpp)
-- [Permutation Index](code_library/combinatorics/permutation_index.cpp) - lexicographic rank of a permutation, a perfect hash
+- [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - `p(0..n)` modulo any m [✔](judge_tests/combinatorics/partition_function.cpp)
+- [Permutation Cycles](code_library/combinatorics/permutation_cycles.cpp) - cycles, k-th power and root, minimum swaps [✔](judge_tests/combinatorics/aoj_alds1_6_d.cpp)
+- [Permutation Index](code_library/combinatorics/permutation_index.cpp) - `O(n)` rank of a permutation, a perfect hash
 - [Permutation Rank](code_library/combinatorics/permutation_rank.cpp) - rank and unrank of permutations [✔](judge_tests/combinatorics/aoj_itp2_5_c.cpp)
-- [Stirling Numbers](code_library/combinatorics/stirling_numbers.cpp) - a whole row of either kind modulo m using exact NTT [✔](judge_tests/combinatorics/stirling_number_of_the_first_kind.cpp)
+- [Stirling Numbers](code_library/combinatorics/stirling_numbers.cpp) - a whole row of either kind modulo m [✔](judge_tests/combinatorics/stirling_number_of_the_first_kind.cpp)
 
 ### Algebra
 
