@@ -3,7 +3,7 @@
 # self (default): compiles and runs every C++ self-test in code_library under AddressSanitizer and
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
-# both modes also report library files missing from the README index, README ✔ marks that disagree with judge_tests,
+# both modes also report library files missing from the README index, index descriptions over 50 characters, README ✔ marks that disagree with judge_tests,
 # practice solutions and practice section links that disagree, templates whose header does not state their complexity, copied regions that drifted from their original,
 # and whitespace or style errors in tracked files
 #
@@ -161,6 +161,25 @@ check_readme(){
     printf '  missing: %s\n' "${missing[@]}"
     failed=$((failed + ${#missing[@]}))
     failures+=("${missing[@]/%/ (not in README index)}")
+}
+
+check_index_descriptions(){  # an index entry's description says what the template is for in at most 50 characters
+    local long
+    long="$(python3 - <<'PY'
+import re
+for line in open('README.md', encoding='utf-8'):
+    m = re.match(r'\s*- \[[^\]]+\]\((code_library/[^)]+)\) - (.*?)(?: \[✔\]\(.*)?$', line.rstrip('\n'))
+    if m and len(m.group(2)) > 50:
+        print(f"{m.group(1)} ({len(m.group(2))} characters)")
+PY
+)"
+    local count=0
+    [[ -n "$long" ]] && count=$(grep -c . <<< "$long")
+    echo "index descriptions: $count README index entries over 50 characters"
+    [[ $count -eq 0 ]] && return
+    sed 's/^/  long: /' <<< "$long"
+    failed=$((failed + count))
+    while IFS= read -r line; do failures+=("$line (index description)"); done <<< "$long"
 }
 
 check_judge_marks(){  # a template carries a README ✔ exactly when a judge test's first library include is that template
@@ -323,6 +342,7 @@ fi
 echo
 [[ "$MODE" == "stress" ]] && check_coverage
 check_readme
+check_index_descriptions
 check_judge_marks
 check_practice
 check_headers
