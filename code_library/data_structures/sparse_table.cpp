@@ -91,7 +91,6 @@ struct LinearSparseTable{
         return val[res];
     }
 
-private:
     int better(int i, int j) const{
         return compare(val[j], val[i]) ? j : i;
     }
