@@ -49,7 +49,7 @@
 
 #### [Disjoint Set Union, Potential](potential_dsu.cpp)
 
-- [Codeforces Gym 100570D - TROY Query](https://codeforces.com/gym/100570/problem/D)
+- [Codeforces Gym 100570D - TROY Query](https://codeforces.com/gym/100570/problem/D) [✅](../../practice/data_structures/codeforces_gym_100570d.cpp "Accepted solution")
 - [Library Checker unionfind_with_potential - Unionfind with Potential](https://judge.yosupo.jp/problem/unionfind_with_potential)
 - [SPOJ CHAIN - Strange Food Chain](https://www.spoj.com/problems/CHAIN/)
 - [Timus 1003 - Parity](https://acm.timus.ru/problem.aspx?num=1003)
