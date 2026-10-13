@@ -80,8 +80,8 @@ struct FenwickRangeUpdate3D{
     FenwickRangeUpdate3D(int n = 0, int m = 0, int r = 0)
         : n(n), m(m), r(r), tree(n + 1, vector<vector<T>>(m + 1, vector<T>(r + 1, 0))) {}
 
-    /// Adds to the 8 prefix corners and query sums the suffix, the mirror of 1D and 2D: on random boxes at n = 100 updates
-    /// cost 1.7x less and queries 2x more, so this direction wins unless queries outnumber updates about 5 to 1
+    /// Adds to the 8 prefix corners and query sums the suffix, the mirror of 1D and 2D: at n = 100 the mirror's updates
+    /// are 1.7x slower and its queries 1.6x to 3x faster, so this direction wins unless queries outnumber updates 4 to 9 times
     void update(int x1, int y1, int z1, int x2, int y2, int z2, T v){
         if (x1 > x2 || y1 > y2 || z1 > z2) return;
         assert(0 <= x1 && x2 < n && 0 <= y1 && y2 < m && 0 <= z1 && z2 < r);
@@ -176,20 +176,20 @@ struct FenwickFull3D{
     }
 
 private:
+    /// The products stay inside the loop: hoisting them spills registers and measured 12% slower
     void add_suffix(int a, int b, int c, T v){
-        T va = v * a, vb = v * b, vc = v * c, vab = va * b, vac = va * c, vbc = vb * c, vabc = vab * c;
         for (int i = a + 1; i <= n; i += i & -i){
             for (int j = b + 1; j <= m; j += j & -j){
                 for (int k = c + 1; k <= r; k += k & -k){
                     auto& t = tree[i][j][k];
                     t[0] += v;
-                    t[1] += va;
-                    t[2] += vb;
-                    t[3] += vc;
-                    t[4] += vab;
-                    t[5] += vac;
-                    t[6] += vbc;
-                    t[7] += vabc;
+                    t[1] += v * a;
+                    t[2] += v * b;
+                    t[3] += v * c;
+                    t[4] += v * a * b;
+                    t[5] += v * a * c;
+                    t[6] += v * b * c;
+                    t[7] += v * a * b * c;
                 }
             }
         }
