@@ -32,14 +32,14 @@ struct DistinctSubarrayAggregates{
         int left, right;
     };
 
-    Op op;
+    Op combine;
     int n = 0;
     vector<Segment> segs;
 
-    explicit DistinctSubarrayAggregates(Op op = Op()) : op(op) {}
+    explicit DistinctSubarrayAggregates(Op combine = Op()) : combine(combine) {}
 
     void push(T x){
-        for (auto& s : segs) s.value = op(s.value, x);
+        for (auto& s : segs) s.value = combine(s.value, x);
         segs.push_back({x, n, n});
         n++;
 
