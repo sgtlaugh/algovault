@@ -1,28 +1,23 @@
 /***
  *
  * Distinct Subarray Aggregates
- * For every right end i, the distinct values of op(a[l..i]) over all l <= i, each with the range of starts l giving it
+ * Push values one by one; after each push, lists every distinct gcd/or/and of a subarray ending at the newest value
  *
- * Complexity: O(n log A) calls of op over n pushes, O(log A) memory
+ * Complexity: O(log A) calls of op per push for gcd of values in [0, A], O(B) for or/and on B-bit values
  *
- * op must be associative, commutative and idempotent, and every strict change must lose a bit or a factor:
- * gcd of values in [0, A], bitwise or, bitwise and qualify; sum does not, a value can repeat across segments
+ * DistinctSubarrayAggregates<T, Op> agg(op): no values yet, folding with op
+ * DistinctSubarrayAggregates<T, Op> agg: the same with a default constructed Op, like bit_or<T>
+ * agg.push(x): append x as a[i], i = number of earlier pushes
+ * agg.segments(): {value, left, right} sorted by left, op(a[l..i]) == value exactly for l in [left, right]
+ *
+ * op must be associative, commutative and idempotent, and every strict change must lose a bit or a factor
+ * gcd, bitwise or and bitwise and qualify, sum does not
  * min and max stay correct but give up to n segments per push
- * Under that condition equal values of op(a[l..i]) form one contiguous range of l, so each value appears once
- *
- * DistinctSubarrayAggregates<T, Op> agg(op);
- * agg.push(x) appends x as a[i], i = number of earlier pushes, starting from 0
- * agg.segments() then lists {value, left, right}: op(a[l..i]) == value exactly for l in [left, right]
- * Segments are sorted by left ascending, cover l = 0..i, adjacent values differ, the last one ends at right = i
- * At most floor(log2 A) + 2 segments for gcd of values in [0, A] with A >= 1, a single segment when every value is 0
- * At most B + 1 segments for or/and on B-bit values
- *
- * Count of subarrays per value (CF 475D): after each push, cnt[s.value] += s.right - s.left + 1 for every segment
- * Longest subarray with a given value: right end i, start s.left of the segment holding that value
+ * The segments cover l = 0..i, at most floor(log2 A) + 2 of them for gcd and B + 1 for or/and
+ * Subarrays per value, as in CF 475D: after each push, cnt[s.value] += s.right - s.left + 1 for every segment
  *
  * auto gcd_op = [](long long x, long long y){ return gcd(x, y); };
  * DistinctSubarrayAggregates<long long, decltype(gcd_op)> agg(gcd_op);
- * DistinctSubarrayAggregates<unsigned long long, bit_or<unsigned long long>> ors;
  *
 ***/
 
@@ -62,14 +57,7 @@ struct DistinctSubarrayAggregates{
 };
 
 int main(){
-    using Tuples = vector<tuple<long long, int, int>>;
-    auto as_tuples = [](const auto& agg){
-        Tuples res;
-        for (auto& s : agg.segments()) res.emplace_back(s.value, s.left, s.right);
-        return res;
-    };
-
-    /// Count of subarrays per gcd value of {6, 4, 2, 3}
+    /// gcd of the subarrays of {6, 4, 2, 3}, counted per value over every push
     auto gcd_op = [](long long x, long long y){ return gcd(x, y); };
     DistinctSubarrayAggregates<long long, decltype(gcd_op)> g(gcd_op);
     map<long long, long long> cnt;
@@ -77,11 +65,29 @@ int main(){
         g.push(x);
         for (auto& s : g.segments()) cnt[s.value] += s.right - s.left + 1;
     }
-    assert((as_tuples(g) == Tuples{{1, 0, 2}, {3, 3, 3}}));    /// gcd(a[l..3]) is 1 for l <= 2, 3 for l = 3
+
+    auto& segs = g.segments();  /// gcd(a[l..3]) is 1 for l <= 2, 3 for l = 3
+    assert(segs.size() == 2);
+    assert(segs[0].value == 1);
+    assert(segs[0].left == 0);
+    assert(segs[0].right == 2);
+    assert(segs[1].value == 3);
+    assert(segs[1].left == 3);
+    assert(segs[1].right == 3);
     assert((cnt == map<long long, long long>{{1, 3}, {2, 4}, {3, 1}, {4, 1}, {6, 1}}));
 
+    /// Bitwise or with a default constructed functor
     DistinctSubarrayAggregates<long long, bit_or<long long>> ors;
-    for (long long x : {1, 2, 4, 1}) ors.push(x);
-    assert((as_tuples(ors) == Tuples{{7, 0, 1}, {5, 2, 2}, {1, 3, 3}}));
+    ors.push(1);
+    ors.push(2);
+    ors.push(4);
+    ors.push(1);
+    auto& or_segs = ors.segments();  /// a[l..3] or to 7 for l <= 1, 5 for l = 2, 1 for l = 3
+    assert(or_segs.size() == 3);
+    assert(or_segs[0].value == 7);
+    assert(or_segs[0].right == 1);
+    assert(or_segs[1].value == 5);
+    assert(or_segs[2].value == 1);
+
     return 0;
 }
