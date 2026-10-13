@@ -80,7 +80,6 @@ struct SegmentTree : Ops{
         return pos == -1 ? 0 : pos + 1;
     }
 
-private:
     void build(const vector<T>& ar, int idx, int a, int b){
         if (a == b){
             tree[idx] = ar[a];
