@@ -6,12 +6,12 @@
  * Complexity: O(n log n) time and memory to build, O(log n) per query and per add
  *
  * XorSegmentTree<T> st(a): sums of a, a.size() a power of two
- * XorSegmentTree<T, Merge> st(a, merge): folds with merge, which must be associative and have a const operator() but need not commute
- * st.query(l, r, x): merge of a[p ^ x] over l <= p <= r in p order, 0 <= l <= r < n, 0 <= x < n
- * st.add(i, v): a[i] += v, only with the default Merge = plus<T>, every other merge builds a static tree
+ * XorSegmentTree<T, Combine> st(a, combine): folds with combine, which must be associative and have a const operator() but need not commute
+ * st.query(l, r, x): combine of a[p ^ x] over l <= p <= r in p order, 0 <= l <= r < n, 0 <= x < n
+ * st.add(i, v): a[i] += v, only with the default Combine = plus<T>, every other combine builds a static tree
  *
  * Pad a to a power of two by hand, the padding values depend on what a padded a[p ^ x] should mean
- * For sums every stored fold of a node is the same block sum, the n log n layout pays off for order-dependent merges like max subarray sum (CF 1716E)
+ * For sums every stored fold of a node is the same block sum, the n log n layout pays off for order-dependent folds like max subarray sum (CF 1716E)
  *
 ***/
 
@@ -19,20 +19,20 @@
 
 using namespace std;
 
-template <typename T, typename Merge = plus<T>>
+template <typename T, typename Combine = plus<T>>
 struct XorSegmentTree{
     int n;
-    Merge merge;
-    vector<vector<T>> t;  /// t[node][y] = merge of a[p ^ y] in p order over the node's block, 0 <= y < block length, adds excluded
+    Combine combine;
+    vector<vector<T>> t;  /// t[node][y] = combine of a[p ^ y] in p order over the node's block, 0 <= y < block length, adds excluded
     vector<T> added;      /// added[node] = sum of the add() values at positions in the node's block
 
-    XorSegmentTree(const vector<T>& a, Merge merge = Merge()) : n((int)a.size()), merge(merge), t(2 * a.size()), added(2 * a.size()){
+    XorSegmentTree(const vector<T>& a, Combine combine = Combine()) : n((int)a.size()), combine(combine), t(2 * a.size()), added(2 * a.size()){
         assert(n > 0 && (n & (n - 1)) == 0);
         build(1, 0, n, a);
     }
 
     void add(int i, T v){
-        static_assert(is_same_v<Merge, plus<T>>, "add relies on every node value being the plain block sum");
+        static_assert(is_same_v<Combine, plus<T>>, "add relies on every node value being the plain block sum");
         assert(0 <= i && i < n);
         add(1, 0, n, i, v);
     }
@@ -64,15 +64,15 @@ private:
 
         t[node].resize(len);
         for (int y = 0; y < half; y++){
-            t[node][y] = merge(t[lc][y], t[rc][y]);
-            t[node][y + half] = merge(t[rc][y], t[lc][y]);
+            t[node][y] = combine(t[lc][y], t[rc][y]);
+            t[node][y + half] = combine(t[rc][y], t[lc][y]);
         }
     }
 
     /// x < len, b <= l <= r < b + len; folds a[p ^ x] over p in [l, r], never visiting an empty range
     T query(int node, int b, int len, int l, int r, int x) const{
         if (l == b && r == b + len - 1){
-            if constexpr (is_same_v<Merge, plus<T>>) return added[node] + t[node][x];
+            if constexpr (is_same_v<Combine, plus<T>>) return added[node] + t[node][x];
             else return t[node][x];
         }
 
@@ -82,7 +82,7 @@ private:
         x &= half - 1;
         if (r < mid) return query(left_src, b + shift, half, l + shift, r + shift, x);
         if (l >= mid) return query(right_src, b + half - shift, half, l - shift, r - shift, x);
-        return merge(query(left_src, b + shift, half, l + shift, mid - 1 + shift, x),
+        return combine(query(left_src, b + shift, half, l + shift, mid - 1 + shift, x),
                      query(right_src, b + half - shift, half, mid - shift, r - shift, x));
     }
 };
