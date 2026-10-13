@@ -4,8 +4,8 @@
  * Sums over a grid under updates: point add and rectangle sum, rectangle add and cell value, or rectangle add and rectangle sum
  *
  * Complexity:
- *   - build: O(n * m)
- *   - update, prefix, query: O(log n * log m)
+ *   - build: O(n m)
+ *   - update, prefix, query: O(log n log m)
  *
  * FenwickPointUpdate2D<T> fen(n, m): point add, rectangle sum, over an n x m grid of zeros
  * fen.update(i, j, v): add v to a[i][j]
