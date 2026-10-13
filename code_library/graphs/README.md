@@ -472,7 +472,7 @@
 
 #### [Minimum Mean Cycle (Karp)](minimum_mean_cycle.cpp)
 
-- [UVa 11090 - Going in Cycle!!](https://onlinejudge.org/external/110/11090.pdf)
+- [UVa 11090 - Going in Cycle!!](https://onlinejudge.org/external/110/11090.pdf) [✅](../../practice/graphs/uva_11090.cpp "Accepted solution")
 
 #### [Minimum Path Cover](minimum_path_cover.cpp)
 
