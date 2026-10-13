@@ -138,7 +138,7 @@
 - [UVa 11868 - Game of Blocks](https://onlinejudge.org/external/118/11868.pdf) [✅](../../practice/algebra/uva_11868.cpp "Accepted solution")
 - [UVa 12000 - K-Transformed Permutations](https://onlinejudge.org/external/120/12000.pdf)
 - [UVa 12037 - Musical Chair](https://onlinejudge.org/external/120/12037.pdf)
-- [UVa 12297 - Super Poker](https://onlinejudge.org/external/122/12297.pdf)
+- [UVa 12297 - Super Poker](https://onlinejudge.org/external/122/12297.pdf) [✅](../../practice/algebra/uva_12297.cpp "Accepted solution")
 - [UVa 13284 - Macarons](https://onlinejudge.org/external/132/13284.pdf)
 - [UVa 13298 - A Fibonacci Family Formula](https://onlinejudge.org/external/132/13298.pdf)
 
