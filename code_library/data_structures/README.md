@@ -36,7 +36,7 @@
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf)
 - [UVa 10178 - Count the Faces.](https://onlinejudge.org/external/101/10178.pdf) [✅](../../practice/data_structures/uva_10178.cpp "Accepted solution")
 - [UVa 10583 - Ubiquitous Religions](https://onlinejudge.org/external/105/10583.pdf)
-- [UVa 10608 - Friends](https://onlinejudge.org/external/106/10608.pdf)
+- [UVa 10608 - Friends](https://onlinejudge.org/external/106/10608.pdf) [✅](../../practice/data_structures/uva_10608.cpp "Accepted solution")
 - [UVa 10685 - Nature](https://onlinejudge.org/external/106/10685.pdf) [✅](../../practice/data_structures/uva_10685.cpp "Accepted solution")
 - [UVa 11503 - Virtual Friends](https://onlinejudge.org/external/115/11503.pdf) [✅](../../practice/data_structures/uva_11503.cpp "Accepted solution")
 - [UVa 11690 - Money Matters](https://onlinejudge.org/external/116/11690.pdf) [✅](../../practice/data_structures/uva_11690.cpp "Accepted solution")
