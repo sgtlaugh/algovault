@@ -73,7 +73,7 @@
 - [SPOJ FIBOSUM - Fibonacci Sum](https://www.spoj.com/problems/FIBOSUM/)
 - [SPOJ MAIN74 - Euclids algorithm revisited](https://www.spoj.com/problems/MAIN74/)
 - [UVa 10229 - Modular Fibonacci](https://onlinejudge.org/external/102/10229.pdf)
-- [UVa 10518 - How Many Calls?](https://onlinejudge.org/external/105/10518.pdf)
+- [UVa 10518 - How Many Calls?](https://onlinejudge.org/external/105/10518.pdf) [✅](../../practice/number_theory/uva_10518.cpp "Accepted solution")
 - [UVa 10689 - Yet another Number Sequence](https://onlinejudge.org/external/106/10689.pdf) [✅](../../practice/number_theory/uva_10689.cpp "Accepted solution")
 
 #### [Fast Prime Counting](fast_prime_counting.cpp)
