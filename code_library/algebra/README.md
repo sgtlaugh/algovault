@@ -90,7 +90,7 @@
 - [UVa 12327 - Xavier is Learning to Count](https://onlinejudge.org/external/123/12327.pdf) [✅](../../practice/algebra/uva_12327.cpp "Accepted solution")
 - [UVa 12633 - Super Rooks on Chessboard](https://onlinejudge.org/external/126/12633.pdf) [✅](../../practice/algebra/uva_12633.cpp "Accepted solution")
 - [UVa 12879 - Golf Bot](https://onlinejudge.org/external/128/12879.pdf)
-- [UVa 12914 - Sum of all permutations](https://onlinejudge.org/external/129/12914.pdf)
+- [UVa 12914 - Sum of all permutations](https://onlinejudge.org/external/129/12914.pdf) [✅](../../practice/algebra/uva_12914.cpp "Accepted solution")
 - [ZOJ 1637 - Fast Image Match](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827365136)
 - [ZOJ 3856 - Goldbach](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369948)
 
