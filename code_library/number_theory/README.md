@@ -135,7 +135,7 @@
 - [UVa 1210 - Sum of Consecutive Prime Numbers](https://onlinejudge.org/external/12/1210.pdf) [✅](../../practice/number_theory/uva_1210.cpp "Accepted solution")
 - [UVa 10168 - Summation of Four Primes](https://onlinejudge.org/external/101/10168.pdf)
 - [UVa 10235 - Simply Emirp](https://onlinejudge.org/external/102/10235.pdf) [✅](../../practice/number_theory/uva_10235.cpp "Accepted solution")
-- [UVa 10820 - Send a Table](https://onlinejudge.org/external/108/10820.pdf)
+- [UVa 10820 - Send a Table](https://onlinejudge.org/external/108/10820.pdf) [✅](../../practice/number_theory/uva_10820.cpp "Accepted solution")
 - [UVa 10948 - The primary problem](https://onlinejudge.org/external/109/10948.pdf) [✅](../../practice/number_theory/uva_10948.cpp "Accepted solution")
 - [UVa 10990 - Another New Function](https://onlinejudge.org/external/109/10990.pdf)
 - [UVa 11327 - Enumerating Rational Numbers](https://onlinejudge.org/external/113/11327.pdf)
