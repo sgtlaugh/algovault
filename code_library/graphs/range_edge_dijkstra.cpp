@@ -70,7 +70,6 @@ struct RangeEdgeGraph{
         return dist;
     }
 
-private:
     /// Bottom-up segment tree nodes whose leaves are exactly [l, r], valid for any n, not only powers of two
     vector<int> cover(int l, int r) const{
         vector<int> nodes;
