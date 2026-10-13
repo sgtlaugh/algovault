@@ -302,7 +302,7 @@
 - [SPOJ ORDERSET - Order statistic set](https://www.spoj.com/problems/ORDERSET/)
 - [UVa 501 - Black Box](https://onlinejudge.org/external/5/501.pdf) [✅](../../practice/data_structures/uva_501.cpp "Accepted solution")
 - [UVa 1480 - Jewel](https://onlinejudge.org/external/14/1480.pdf)
-- [UVa 10909 - Lucky Number](https://onlinejudge.org/external/109/10909.pdf)
+- [UVa 10909 - Lucky Number](https://onlinejudge.org/external/109/10909.pdf) [✅](../../practice/data_structures/uva_10909.cpp "Accepted solution")
 - [UVa 12912 - Josephus lottery](https://onlinejudge.org/external/129/12912.pdf)
 
 #### [Permutation Tree](permutation_tree.cpp)
