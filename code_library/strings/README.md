@@ -75,7 +75,7 @@
 #### [De Bruijn Sequence](de_bruijn_sequence.cpp)
 
 - [CSES 1692 - De Bruijn Sequence](https://cses.fi/problemset/task/1692)
-- [UVa 10040 - Ouroboros Snake](https://onlinejudge.org/external/100/10040.pdf)
+- [UVa 10040 - Ouroboros Snake](https://onlinejudge.org/external/100/10040.pdf) [✅](../../practice/strings/uva_10040.cpp "Accepted solution")
 - [UVa 10506 - The Ouroboros problem](https://onlinejudge.org/external/105/10506.pdf)
 
 #### [Dynamic String Hash](dynamic_string_hash.cpp)
