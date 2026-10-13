@@ -94,7 +94,6 @@ struct SlopeTrick{
         add_left = 0;
     }
 
-private:
     T pop_left(){
         T x = top_left();
         pop_heap(left.begin(), left.end());
