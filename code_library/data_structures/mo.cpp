@@ -2,17 +2,15 @@
  *
  * Mo's Algorithm
  * Answers offline range queries on an array by moving a window over it
- * Variants: mo_with_updates.cpp (point assignments), mo_with_rollback.cpp (add-only state), tree_path_mo.cpp (tree paths)
  *
- * Complexity: O(n * sqrt(q) + q) calls to add / remove, plus O(q log q) sorting
+ * Complexity: O(n sqrt(q) + q) calls to add and remove, plus O(q log q) sorting
  *
- * mo(n, queries, add, remove, get) returns the answers, res[qi] = get(qi) taken while the window is exactly query qi:
- *   queries[i] = {l, r}, 0-based inclusive ranges over positions 0..n-1, r = l - 1 is an empty range
- *   add(i) / remove(i) move position i into / out of the window, get(qi) returns the answer for the current window
- *   The window starts and ends empty, so the same callbacks and state can serve several runs
+ * mo(n, queries, add, remove, get): the answers, res[i] = get(i) taken while the window holds exactly queries[i] = {l, r}, 0 <= l <= r + 1 <= n
  *
- *   auto distinct = mo(n, queries, [&](int i){ count += freq[a[i]]++ == 0; },
- *                      [&](int i){ count -= --freq[a[i]] == 0; }, [&](int){ return count; });
+ * add(i) and remove(i) move position i into and out of the window, get(i) returns the answer for the current window
+ * r = l - 1 is an empty range
+ * The window starts and ends empty, so the same callbacks and state can serve several runs
+ * Use mo_with_updates.cpp for point assignments, mo_with_rollback.cpp for add-only state, tree_path_mo.cpp for tree paths
  *
 ***/
 
