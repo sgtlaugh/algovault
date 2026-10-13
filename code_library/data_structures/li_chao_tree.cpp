@@ -15,8 +15,8 @@
  *
  * PersistentLiChaoTree<T> pt(lo, hi): version 0 holds no lines, same range limits as LiChaoTree
  * PersistentLiChaoTree<T, true> pt(lo, hi): the same tree answering the maximum
- * pt.add_line(version, k, b): a new version with the lines of version plus y = k * x + b, older versions stay intact
- * pt.query(version, x): minimum over the lines of version at x, or NONE if it has no line
+ * pt.add_line(version, k, b): a new version with the lines of version plus y = k * x + b, older versions stay intact, version is 0 or a value add_line returned
+ * pt.query(version, x): minimum over the lines of version at x, or NONE if it has no line, lo <= x <= hi
  *
  * NONE is the largest value of T, or the lowest when answering the maximum
  * Every k * x + b over the range must fit in T, e.g. |k|, |x| <= 1e9 and |b| <= 1e18 for long long
@@ -142,7 +142,6 @@ template <typename T, bool MAXIMIZE = false>
 struct PersistentLiChaoTree{
     using Base = LiChaoTree<T, MAXIMIZE>;
     using Line = typename Base::Line;
-
     using Node = typename Base::Node;
 
     static constexpr T NONE = Base::NONE;
