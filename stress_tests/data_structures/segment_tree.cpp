@@ -4,13 +4,13 @@
 #include "../../code_library/data_structures/segment_tree.cpp"
 #undef main
 
-/// Max prefix and suffix sums, empty allowed: a non-commutative merge, so a swapped merge order in descent shows up
+/// Max prefix and suffix sums, empty allowed: a non-commutative combine, so a swapped combine order in descent shows up
 struct PrefixSums{
     long long sum, pre, suf;
 };
 
 struct PrefixAssign{
-    static PrefixSums merge(PrefixSums a, PrefixSums b){
+    static PrefixSums combine(PrefixSums a, PrefixSums b){
         return {a.sum + b.sum, max(a.pre, a.sum + b.pre), max(b.suf, b.sum + a.suf)};
     }
     static PrefixSums apply(PrefixSums, long long x, int len){
@@ -30,7 +30,7 @@ struct Linear{
 };
 
 struct ProgressionAdd{
-    static ApSum merge(ApSum a, ApSum b){ return {a.sum + b.sum, a.cnt + b.cnt, a.idx_sum + b.idx_sum}; }
+    static ApSum combine(ApSum a, ApSum b){ return {a.sum + b.sum, a.cnt + b.cnt, a.idx_sum + b.idx_sum}; }
     static ApSum apply(ApSum v, Linear lz, int){ return {v.sum + lz.c0 * v.cnt + lz.c1 * v.idx_sum, v.cnt, v.idx_sum}; }
     static Linear compose(Linear a, Linear b){ return {a.c0 + b.c0, a.c1 + b.c1}; }
 };
@@ -122,7 +122,7 @@ void stress_sum_descent(){
     }
 }
 
-/// Descent with a non-commutative merge and range assignment, values of both signs
+/// Descent with a non-commutative combine and range assignment, values of both signs
 void stress_prefix_descent(){
     for (long long it = 0; it < stress::scaled(6000); it++){
         int n = stress::rand_int(1, it % 20 == 0 ? 1000 : 30);

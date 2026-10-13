@@ -7,7 +7,7 @@
 #undef main
 
 struct AddMin : AddSum<long long>{
-    static long long merge(long long a, long long b){ return min(a, b); }
+    static long long combine(long long a, long long b){ return min(a, b); }
     static long long apply(long long val, long long lz, int){ return val + lz; }
 };
 

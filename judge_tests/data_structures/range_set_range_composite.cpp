@@ -17,7 +17,7 @@ Affine then(Affine first, Affine second){
 }
 
 struct SetComposite{
-    static Affine merge(Affine left, Affine right){
+    static Affine combine(Affine left, Affine right){
         return then(left, right);
     }
 

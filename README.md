@@ -71,7 +71,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Ordered Set](code_library/data_structures/ordered_set.cpp) - GNU policy-based set and multiset with order statistics [✔](judge_tests/data_structures/ordered_set.cpp)
 - [Permutation Tree](code_library/data_structures/permutation_tree.cpp) - `O(n log n)` decomposition into common intervals, counts all of them [✔](judge_tests/data_structures/common_interval_decomposition_tree.cpp)
 - [Rope](code_library/data_structures/rope.cpp) - persistent text, every edit makes a new readable version
-- [Segment Tree](code_library/data_structures/segment_tree.cpp) - lazy propagation, customizable merge and update, max_right / min_left descent [✔](judge_tests/data_structures/point_set_range_composite.cpp)
+- [Segment Tree](code_library/data_structures/segment_tree.cpp) - lazy propagation, customizable combine and update, max_right / min_left descent [✔](judge_tests/data_structures/point_set_range_composite.cpp)
   - [Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin, chmax, add and assign with range sum, min and max queries [✔](judge_tests/data_structures/range_chmin_chmax_add_range_sum.cpp)
   - [Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets as dynamic segment trees with merge, split by key or rank, k-th
   - [Persistent](code_library/data_structures/persistent_segment_tree.cpp) - versioned updates, range queries, k-th smallest and k-th on version diffs [✔](judge_tests/data_structures/persistent_queue.cpp)

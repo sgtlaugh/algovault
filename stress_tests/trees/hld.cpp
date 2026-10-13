@@ -30,11 +30,11 @@ vector<pair<int, int>> make_tree(int n, int shape){
     return edges;
 }
 
-/// Max merge with a negative identity, so query_path must fold through seg.merge starting from seg.t_id
+/// Max combine with a negative identity, so query_path must fold through seg.combine starting from seg.t_id
 struct MaxArray{
     const vector<long long>& a;
     long long t_id = LLONG_MIN;
-    long long merge(long long x, long long y){ return max(x, y); }
+    long long combine(long long x, long long y){ return max(x, y); }
     long long query(int l, int r){ return *max_element(a.begin() + l, a.begin() + r + 1); }
 };
 

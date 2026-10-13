@@ -13,7 +13,7 @@ struct Affine{
 };
 
 struct AffineSum{
-    static long long merge(long long x, long long y){ return (x + y) % MOD; }
+    static long long combine(long long x, long long y){ return (x + y) % MOD; }
     static long long apply(long long val, Affine lz, int len){ return (lz.a * val + lz.b * len) % MOD; }
     static Affine compose(Affine old_lz, Affine new_lz){
         return {new_lz.a * old_lz.a % MOD, (new_lz.a * old_lz.b + new_lz.b) % MOD};

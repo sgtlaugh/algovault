@@ -12,9 +12,9 @@ struct Affine{
     long long a = 1, b = 0;
 };
 
-/// merge(f, g) applies f first, then g, matching the left to right order of query
+/// combine(f, g) applies f first, then g, matching the left to right order of query
 struct Composite{
-    static Affine merge(Affine f, Affine g){ return {f.a * g.a % MOD, (f.b * g.a + g.b) % MOD}; }
+    static Affine combine(Affine f, Affine g){ return {f.a * g.a % MOD, (f.b * g.a + g.b) % MOD}; }
     static Affine apply(Affine, Affine lz, int){ return lz; }
     static Affine compose(Affine, Affine new_lz){ return new_lz; }
 };
