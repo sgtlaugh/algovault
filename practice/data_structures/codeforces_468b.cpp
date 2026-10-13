@@ -1,0 +1,88 @@
+/***
+ *
+ * Disjoint Set Union
+ * Union-find: merges sets of nodes and tells whether two nodes share a set
+ *
+ * Complexity: amortized O(α(n)) per operation, union by size with path halving
+ *
+ * DSU dsu(n): nodes 0..n, each in its own set
+ * dsu.connect(a, b): merge the sets of a and b, false if they are already one set
+ * dsu.same(a, b): true if a and b are in the same set
+ * dsu.size(a): number of nodes in a's set
+ * dsu.find(a): the root of a's set, the same node for every member
+ *
+ * Variants: rollback_dsu.cpp (undoable unions), potential_dsu.cpp (relations x[b] = x[a] + d), partially_persistent_dsu.cpp (queries at past times)
+ *
+***/
+
+#include <bits/stdtr1c++.h>
+
+using namespace std;
+
+struct DSU{
+    vector<int> sz, parent;
+
+    DSU(int n){
+        parent.resize(n + 1);
+        sz.resize(n + 1, 1);
+        for (int i = 0; i <= n; i++) parent[i] = i;
+    }
+
+    int find(int i){
+        while (i != parent[i]){
+            parent[i] = parent[parent[i]];
+            i = parent[i];
+        }
+        return parent[i];
+    }
+
+    bool connect(int a, int b){
+        int c = find(a), d = find(b);
+        if (c == d) return false;
+        if (sz[c] > sz[d]) swap(c, d);
+        parent[c] = d;
+        sz[d] += sz[c], sz[c] = 0;
+        return true;
+    }
+
+    bool same(int a, int b){
+        return find(a) == find(b);
+    }
+
+    int size(int i){
+        int p = find(i);
+        return sz[p];
+    }
+};
+
+int main(){
+    int n, a, b;
+    scanf("%d %d %d", &n, &a, &b);
+
+    vector<int> p(n);
+    map<int, int> index;
+    for (int i = 0; i < n; i++){
+        scanf("%d", &p[i]);
+        index[p[i]] = i;
+    }
+
+    /// Nodes n and n + 1 stand for sets A and B, every number ends up joined to the set it is forced into
+    DSU dsu(n + 1);
+    const int A = n, B = n + 1;
+    for (int i = 0; i < n; i++){
+        /// x and a - x share a set either way: x in A pulls a - x into A, and a - x in A would pull x back into A
+        auto it = index.find(a - p[i]);
+        dsu.connect(i, it != index.end() ? it->second : B);
+        it = index.find(b - p[i]);
+        dsu.connect(i, it != index.end() ? it->second : A);
+    }
+
+    if (dsu.same(A, B)){
+        puts("NO");
+        return 0;
+    }
+
+    puts("YES");
+    for (int i = 0; i < n; i++) printf("%d%c", dsu.same(i, B) ? 1 : 0, i == n - 1 ? '\n' : ' ');
+    return 0;
+}
