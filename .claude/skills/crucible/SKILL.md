@@ -47,6 +47,7 @@ Run shell commands under bash, edit files with Edit or Write (never `sed -i`), a
    - Is everything public something a user calls, with helpers under `private:`?
    - Are loops plain and variables named for what they hold, with no abstraction used once and no language machinery that does not prevent a silent wrong answer?
    A no that stays a no is allowed only with a one-line reason in the report, such as a measured speed cost.
+   The questions mirror CONTRIBUTING.md `## API and code`, so a change there updates them in the same commit.
 4. **Stress test**, at `stress_tests/<same path>` (`stress_tests/python/` for Python), mandatory:
    - an independent reference: a brute force, and also the original source when it compiles (port mode)
    - exhaustive on small inputs, random on large ones, every boundary the header claims (max n, max value, extreme moduli)
