@@ -31,7 +31,7 @@
 
 using namespace std;
 
-/// Use double to gain more speed at the cost of precision (double should be fine for most problems)
+/// double is faster, but one transform is then exact only to about 1e14 instead of 1e17 (see EXACT_LIMIT)
 typedef long double fType;
 
 /// Work buffers are members reused across calls: allocating them per call measured 10-25% slower at len = 2^20
@@ -39,12 +39,17 @@ struct FFT{
     static constexpr int MOD_SPLIT_LIMIT = 15;
     static constexpr int LL_MULTIPLY_LIMIT = 1500000000;
 
+    /// Largest n_max * max|value|^2 multiply and square still do with one transform, about 9.2e16 for long double and 4.5e13 for double
+    /// Measured first errors up to n = 10^6: 6.3e17 for long double and 4e14 for double, so the limit keeps at least a 6x margin
+    static constexpr fType EXACT_LIMIT = 0.01 / numeric_limits<fType>::epsilon();
+
     /***
      * Same as multiply(v, v) but faster
      *
     ***/
     vector<long long> square(vector<long long> v){
         if (v.empty()) return {};
+        if (!fits_fast_path(v, v)) return split_product(v, v);
         int i, len, p_len = 2 * v.size() - 1;
 
         len = build(v, v);
@@ -77,18 +82,15 @@ struct FFT{
      *
      *     return res
      *
-     * Note that the values in vector shouldn't be too large in general
-     * Multiplying them and adding them up may cause precision error otherwise
-     * The error margin will depend on two things mostly:
-     *     i) The magnitude of the initial numbers
-     *    ii) The chosen data type for complex numbers - double or long double, etc
-     *
-     * In general, if the values are larger than 10^6, it'd be better to use ll_multiply instead
+     * One transform is exact while max(n, m) * max|value|^2 <= EXACT_LIMIT, above it the product is
+     * computed exactly from 15 bit halves like ll_multiply, about 2x slower, which needs |values| < LL_MULTIPLY_LIMIT
+     * Exact whenever every coefficient fits in a long long
      *
     ***/
     vector<long long> multiply(vector<long long> v1, vector<long long> v2){
         if (v1.empty() || v2.empty()) return {};
         if (is_equal(v1, v2)) return square(v1);
+        if (!fits_fast_path(v1, v2)) return split_product(v1, v2);
 
         int i, j, len, p_len = v1.size() + v2.size() - 1;
 
@@ -145,19 +147,7 @@ struct FFT{
         for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
         for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
         if (v1.empty() || v2.empty()) return {};
-
-        int p_len = v1.size() + v2.size() - 1;
-        int len = split_multiply(v1, v2, MOD_SPLIT_LIMIT);
-
-        vector<long long> res(p_len, 0);
-        for (int i = 0; i < min(len, p_len); i++){
-            unsigned long long x = round_to_nearest(f[i].real);
-            unsigned long long y = round_to_nearest(g[i].real);
-            unsigned long long z = round_to_nearest(f[i].img);
-            res[i] = x + (y << MOD_SPLIT_LIMIT) + (z << (2 * MOD_SPLIT_LIMIT));
-        }
-
-        return res;
+        return split_product(v1, v2);
     }
 
     /***
@@ -270,6 +260,18 @@ struct FFT{
         return all_of(str.begin(), str.end(), [](char c){ return c == '0' || c == '1'; });
     }
 
+    /// multiply packs v1 + i v2 into one transform, so its error follows the larger input: n_max * max(|v1|, |v2|)^2
+    /// The output bound n_min * max|v1| * max|v2| is not enough: n = 10^5, v1 in {0, 1}, v2 < 1.3 * 10^7 already errs
+    static bool fits_fast_path(const vector<long long>& v1, const vector<long long>& v2){
+        long long max_value = 0;
+        for (auto x: v1) max_value = max(max_value, abs(x));
+        for (auto x: v2) max_value = max(max_value, abs(x));
+        if ((fType)max(v1.size(), v2.size()) * max_value * max_value <= EXACT_LIMIT) return true;
+
+        assert(max_value < LL_MULTIPLY_LIMIT);
+        return false;
+    }
+
     void extend_roots(int len){
         roots.reserve(len);  /// one allocation instead of a copy per doubling
         for (int k = roots.size(); k < len; k <<= 1){
@@ -357,6 +359,23 @@ struct FFT{
         transform(u, f, len);
         transform(w, g, len);
         return len;
+    }
+
+    /// A negative value splits into floor(v / 2^15) and v mod 2^15, so the parts stay as small as for |v|
+    /// The parts are recombined modulo 2^64, exact whenever the true coefficient fits in a long long
+    vector<long long> split_product(vector<long long>& v1, vector<long long>& v2){
+        int p_len = v1.size() + v2.size() - 1;
+        int len = split_multiply(v1, v2, MOD_SPLIT_LIMIT);
+
+        vector<long long> res(p_len, 0);
+        for (int i = 0; i < min(len, p_len); i++){
+            unsigned long long x = round_to_nearest(f[i].real);
+            unsigned long long y = round_to_nearest(g[i].real);
+            unsigned long long z = round_to_nearest(f[i].img);
+            res[i] = x + (y << MOD_SPLIT_LIMIT) + (z << (2 * MOD_SPLIT_LIMIT));
+        }
+
+        return res;
     }
 };
 

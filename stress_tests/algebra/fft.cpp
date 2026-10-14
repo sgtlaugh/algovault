@@ -39,6 +39,15 @@ vector<ll> fold(vector<ll> c, int n, ll mod = 0){
     return c;
 }
 
+/// All-equal inputs have a closed form, c[k] = va * vb * (number of pairs i + j = k), so large n needs no brute force
+bool equal_product_is_exact(FFT& fft, int n, int m, ll va, ll vb){
+    auto c = n == m && va == vb ? fft.square(vector<ll>(n, va)) : fft.multiply(vector<ll>(n, va), vector<ll>(m, vb));
+    for (int k = 0; k < n + m - 1; k++){
+        if (c[k] != va * vb * min({k + 1, n, m, n + m - 1 - k})) return false;
+    }
+    return true;
+}
+
 string random_bits(int n){
     string s(n, '0');
     for (auto& c : s) c = '0' + stress::rand_int(0, 1);
@@ -61,6 +70,17 @@ int main(){
         auto a = random_vector(n, -10000, 10000), b = random_vector(m, -10000, 10000);
         assert(fft.multiply(a, b) == naive(a, b));
         assert(fft.square(a) == naive(a, a));
+
+        /// Past EXACT_LIMIT multiply and square switch to the split product, signed values up to LL_MULTIPLY_LIMIT,
+        /// hi keeps every coefficient below 2^63
+        ll big_hi = FFT::LL_MULTIPLY_LIMIT - 1, small_hi = 9e18L / max(n, m) / big_hi;
+        auto sa = random_vector(n, -big_hi, big_hi), sb = random_vector(m, -small_hi, small_hi);
+        assert(fft.multiply(sa, sb) == naive(sa, sb));
+        assert(fft.multiply(sb, sa) == naive(sb, sa));
+        ll square_hi = min<ll>(big_hi, sqrtl(9e18L / m));
+        auto sq = random_vector(m, it % 3 ? -square_hi : 0, it % 3 == 1 ? 0 : square_hi);
+        assert(fft.square(sq) == naive(sq, sq));
+        assert(fft.multiply(sq, sq) == naive(sq, sq));
 
         ll mod = stress::rand_int(2, 2147483647);
         auto p = random_vector(n, it % 4 ? 0 : -5 * mod, it % 4 ? mod - 1 : 5 * mod), q = random_vector(m, 0, mod - 1);
@@ -91,6 +111,16 @@ int main(){
             assert(hd[i] == mismatches && ac[i] == common);
         }
     }
+
+    /// One transform was wrong on each of these: the error follows n_max * max|value|^2, not the output bound
+    /// n_min * max|a| * max|b|, which is only 1.8e13 for the first one
+    assert(equal_product_is_exact(fft, 30000, 30000, 2, 300000000));
+    assert(equal_product_is_exact(fft, 30000, 30000, -2, -300000000));
+    assert(equal_product_is_exact(fft, 1000, 30000, 300000000, -1));
+    assert(equal_product_is_exact(fft, 20000, 20000, 7071068, 7071068));
+    assert(equal_product_is_exact(fft, 20000, 20000, -7071068, 7071067));
+    assert(equal_product_is_exact(fft, 1, 100000, 1, 100000000));
+    assert(equal_product_is_exact(fft, 100000, 1, -100000000, 1));
 
     /// Near the precision limit: n = 10^4 with values up to 2 * 10^6 is exact with a long double pi (limit ~1.6 * 10^7)
     /// but not with a double pi (limit ~7.5 * 10^5), 200 sampled coefficients are checked exactly
