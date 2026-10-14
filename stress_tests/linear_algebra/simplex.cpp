@@ -13,7 +13,7 @@ using Float = Simplex::Float;
 struct Constraint{
     vector<long long> a;
     long long b;
-    int cmp;
+    Simplex::Cmp cmp;
 };
 
 struct Fraction{
@@ -43,7 +43,7 @@ i128 det(vector<vector<i128>> m){
 }
 
 /// Best objective over vertices of {constraints, 0 <= x <= box}, or nothing when that region is empty
-bool brute(int n, const vector<long long>& c, const vector<Constraint>& cons, int sense, long long box, Fraction& best){
+bool brute(int n, const vector<long long>& c, const vector<Constraint>& cons, Simplex::Sense sense, long long box, Fraction& best){
     vector<pair<vector<long long>, long long>> planes;
     for (auto& k : cons) planes.push_back({k.a, k.b});
     for (int i = 0; i < n; i++){
@@ -283,7 +283,8 @@ int main(){
     duality(stress::scaled(30), 50, 100, false);
 
     for (long long it = 0; it < stress::scaled(2000); it++){
-        int n = stress::rand_int(1, it % 5 ? 3 : 4), m = stress::rand_int(0, it % 5 ? 4 : 6), sense = stress::rand_int(0, 1) ? Simplex::MAXIMIZE : Simplex::MINIMIZE;
+        int n = stress::rand_int(1, it % 5 ? 3 : 4), m = stress::rand_int(0, it % 5 ? 4 : 6);
+        Simplex::Sense sense = stress::rand_int(0, 1) ? Simplex::MAXIMIZE : Simplex::MINIMIZE;
         vector<long long> c(n);
         for (auto& x : c) x = stress::rand_int(-5, 5);
         vector<Constraint> cons(m);
