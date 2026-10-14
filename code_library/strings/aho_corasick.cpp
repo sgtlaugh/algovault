@@ -1,30 +1,32 @@
 /***
  *
  * Aho-Corasick Automaton
- * Multi-pattern string matching with failure links
- * Finds all occurrences of multiple pattern strings in a text
+ * Counts the occurrences of many patterns in a text in one pass, and walks the automaton for string DP
  *
  * Complexity:
- *   - insert: O(|s|) plus O(SIGMA) to allocate each new trie node
- *   - build: O(SIGMA L), L = sum of pattern lengths, SIGMA transitions for each of the at most L + 1 nodes
- *   - count, occurrences: O(text length), plus O(L) for occurrences to push hits up the failure links
- *   - Memory: O(SIGMA L) ints for the transition table
+ *   - insert: O(|p|), plus O(SIGMA) for each new node
+ *   - build: O(SIGMA L), L = sum of pattern lengths, as there are at most L + 1 nodes
+ *   - count: O(|t|)
+ *   - occurrences: O(|t| + L)
+ *   - memory: O(SIGMA) ints per node
  *
- * AhoCorasick<SIGMA, BASE> ac; pattern characters must lie in [BASE, BASE + SIGMA), defaults to 'a'..'z'
- *   Text characters outside that range end every match. Remap a sparse alphabet such as ACGT to BASE.. first
- * ac.insert(p): adds pattern p and returns its terminal node, a duplicate pattern is counted once per insert
- * ac.build(): call once after the last insert, inserting after build() is not supported
- * ac.count(t): total number of occurrences of all patterns in t, overlaps included
- * ac.occurrences(t)[i]: number of occurrences of the i-th inserted pattern in t, overlaps included
- * ac.next(v, c): the node reached from node v by character c, for string DP
- * ac.nodes(): number of nodes, node 0 is the root
- * ac.link(v): failure link of node v, its longest proper suffix that is a node, link(0) = 0, after build()
+ * AhoCorasick<SIGMA = 26, BASE = 'a'> ac: an empty automaton, pattern characters must lie in [BASE, BASE + SIGMA)
+ * ac.insert(p): adds pattern p before build() and returns its node, a duplicate pattern counts once per insert
+ * ac.build(): finishes the automaton, called once after the last insert
+ * ac.count(t): occurrences of all patterns in t, overlaps included
+ * ac.occurrences(t): a vector whose i-th value is the occurrences of the i-th inserted pattern in t
+ * ac.size(): number of inserted patterns
+ * ac.clear(): resets to an empty automaton for a new pattern set, keeping vector capacity
+ * ac.nodes(): number of nodes, node 0 is the root and each node spells a prefix of a pattern
+ * ac.next(v, c): the node of the longest suffix of node v + c, after build()
+ * ac.link(v): the node of the longest proper suffix of node v, link(0) = 0, after build()
  * ac.ends(v): number of inserted patterns equal to node v
  * ac.matches(v): number of inserted patterns that are suffixes of node v, after build()
- * ac.order: every node in BFS order from the root, so link(v) comes before v, after build()
  * ac.terminal[i]: the node of the i-th inserted pattern
- * ac.size(): number of inserted patterns
- * ac.clear(): resets to an empty automaton and keeps vector capacity, so it can be reused for a new pattern set
+ * ac.order: every node in BFS order, so link(v) comes before v, after build()
+ *
+ * A text character outside [BASE, BASE + SIGMA) ends every match, next(v, c) returns the root for it
+ * Remap a sparse alphabet such as ACGT to BASE, BASE + 1, ... first
  *
 ***/
 
@@ -167,8 +169,8 @@ struct AhoCorasick{
 /// END SHARED aho_corasick
 
 int main(){
+    /// Counting seven patterns, "lol" inserted twice, so its hits count twice
     AhoCorasick ac;
-
     assert(ac.insert("hello") == 5);
     ac.insert("world");
     assert(ac.insert("lol") == 13);
@@ -186,12 +188,16 @@ int main(){
     assert((ac.occurrences("helloworldlolol") == vector<int>{1, 1, 2, 2, 0, 0, 0}));
     assert((ac.occurrences("aabaaba") == vector<int>{0, 0, 0, 0, 0, 0, 2}));
 
+    /// A 4-letter alphabet starting at 'A', where X ends every match
     AhoCorasick<4, 'A'> dna;
-    dna.insert("AC"), dna.insert("CA"), dna.insert("A");
+    dna.insert("AC");
+    dna.insert("CA");
+    dna.insert("A");
     dna.build();
     assert(dna.count("ACAXA") == 5);
     assert((dna.occurrences("ACACA") == vector<int>{2, 2, 3}));
 
+    /// Walking the automaton of he, she, his, hers by hand
     AhoCorasick walk;
     for (string p : {"he", "she", "his", "hers"}) walk.insert(p);
     walk.build();
