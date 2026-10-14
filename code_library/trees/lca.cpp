@@ -14,6 +14,11 @@
  *   - kth_ancestor(v, k): the k-th ancestor of v, v itself for k = 0, -1 if k > depth(v)
  *   - jump(u, v, k): the k-th vertex on the path u -> v, u for k = 0, v for k = edges on the path, -1 beyond that
  *
+ * PathFold fold(tree, op), on a built LCA, op associative and commutative on long long, like max, min or gcd:
+ *   - fold.query(u, v): op over the edge weights on the path u - v, u != v
+ *   - O(n log n) to build and memory, O(log n) per query
+ *   - Keeps a reference to tree, so rebuild the fold after tree.build with another root
+ *
  * path_intersection(tree, a, b, c, d), works with either structure:
  *   - The common part of paths a - b and c - d is empty or a path, returns its endpoints as an unordered pair
  *   - {-1, -1} when the paths share no vertex, {x, x} when they share exactly x
@@ -104,6 +109,42 @@ struct LCA{
 
     long long dist(int u, int v) const{
         return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
+    }
+};
+
+template <typename Op>
+struct PathFold{
+    const LCA& tree;
+    Op op;
+    vector<vector<long long>> table;
+
+    /// table[k][v] folds the 2^k edges above v; jumps past the root fold in the root's 0 and are never queried
+    PathFold(const LCA& tree, Op op) : tree(tree), op(op), table(tree.lg, vector<long long>(tree.n)){
+        for (int v = 0; v < tree.n; v++) table[0][v] = tree.weight_sum[v] - tree.weight_sum[tree.up[0][v]];
+        for (int k = 1; k < tree.lg; k++){
+            for (int v = 0; v < tree.n; v++) table[k][v] = op(table[k - 1][v], table[k - 1][tree.up[k - 1][v]]);
+        }
+    }
+
+    /// op over the k >= 1 edges above v
+    long long climb(int v, int k) const{
+        int i = __builtin_ctz(k);
+        long long res = table[i][v];
+        v = tree.up[i][v];
+        for (k &= k - 1; k; k &= k - 1){
+            i = __builtin_ctz(k);
+            res = op(res, table[i][v]);
+            v = tree.up[i][v];
+        }
+        return res;
+    }
+
+    long long query(int u, int v) const{
+        assert(u != v);
+        int l = tree.lca(u, v), up_u = tree.level[u] - tree.level[l], up_v = tree.level[v] - tree.level[l];
+        if (up_u == 0) return climb(v, up_v);
+        if (up_v == 0) return climb(u, up_u);
+        return op(climb(u, up_u), climb(v, up_v));
     }
 };
 
@@ -256,6 +297,13 @@ int main(){
     assert(lifting.kth_ancestor(6, 4) == -1);  /// above the root
     assert(lifting.jump(6, 5, 3) == 0);        /// path 6 3 1 0 2 5
     assert(lifting.jump(6, 5, 6) == -1);
+
+    PathFold path_max(lifting, [](long long a, long long b){ return max(a, b); });
+    assert(path_max.query(6, 5) == 5);  /// weights 5 2 3 1 4
+    assert(path_max.query(0, 2) == 1);
+
+    PathFold path_min(lifting, [](long long a, long long b){ return min(a, b); });
+    assert(path_min.query(6, 4) == 2);  /// weights 5 2 7
 
     auto [x, y] = path_intersection(tree, 6, 5, 4, 2);  /// 6 3 1 0 2 5 and 4 1 0 2 share 1 0 2
     assert(min(x, y) == 1 && max(x, y) == 2);          /// endpoints come unordered

@@ -42,6 +42,16 @@ struct NaiveTree{
         return res;
     }
 
+    /// Edge weights on the path u - v, the u side bottom up then the v side
+    vector<long long> path_weights(int u, int v) const{
+        vector<long long> res, right;
+        while (level[u] > level[v]) res.push_back(up_weight[u]), u = parent[u];
+        while (level[v] > level[u]) right.push_back(up_weight[v]), v = parent[v];
+        while (u != v) res.push_back(up_weight[u]), right.push_back(up_weight[v]), u = parent[u], v = parent[v];
+        res.insert(res.end(), right.begin(), right.end());
+        return res;
+    }
+
     int kth(int v, int k) const{
         if (k < 0 || k > level[v]) return -1;
         while (k--) v = parent[v];
@@ -62,7 +72,7 @@ struct NaiveTree{
 };
 
 /// Random tree of a given shape with random labels and weights
-vector<array<long long, 3>> make_tree(int n, int shape, long long max_w){
+vector<array<long long, 3>> make_tree(int n, int shape, long long min_w, long long max_w){
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);
     shuffle(label.begin(), label.end(), stress::rng());
@@ -75,7 +85,7 @@ vector<array<long long, 3>> make_tree(int n, int shape, long long max_w){
         else if (shape == 2) p = 0;
         else if (shape == 3) p = i % 2 ? i - 1 : max(0, i - 2);
         else p = i < n / 2 ? i - 1 : stress::rand_int(max(0, n / 2 - 3), i - 1);
-        edges.push_back({label[i], label[p], stress::rand_int(0, max_w)});
+        edges.push_back({label[i], label[p], stress::rand_int(min_w, max_w)});
     }
     shuffle(edges.begin(), edges.end(), stress::rng());
     return edges;
@@ -105,8 +115,32 @@ void check_intersection(const LCA& a, const LinearLCA& b, const NaiveTree& naive
     }
 }
 
+/// Folds over a path walk: max and min, sum against dist, and xor, which double counting an overlap would cancel
+void check_folds(const LCA& a, const NaiveTree& naive, int n, int queries){
+    PathFold path_max(a, [](long long x, long long y){ return max(x, y); });
+    PathFold path_min(a, [](long long x, long long y){ return min(x, y); });
+    PathFold path_sum(a, [](long long x, long long y){ return x + y; });
+    PathFold path_xor(a, [](long long x, long long y){ return x ^ y; });
+
+    for (int q = 0; q < queries && n > 1; q++){
+        int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
+        if (q % 4 == 0) v = naive.kth(u, stress::rand_int(1, max(1, naive.level[u])));
+        if (v < 0 || u == v) continue;
+        if (q % 8 == 0) swap(u, v);
+
+        auto w = naive.path_weights(u, v);
+        assert(path_max.query(u, v) == *max_element(w.begin(), w.end()));
+        assert(path_min.query(u, v) == *min_element(w.begin(), w.end()));
+        assert(path_sum.query(u, v) == naive.dist(u, v));
+        long long x = 0;
+        for (auto y : w) x ^= y;
+        assert(path_xor.query(u, v) == x);
+    }
+}
+
 void check(int n, int shape, int queries, long long max_w){
-    auto edges = make_tree(n, shape, max_w);
+    long long min_w = stress::rand_int(0, 1) ? -max_w : 0;
+    auto edges = make_tree(n, shape, min_w, max_w);
     int root = stress::rand_int(0, n - 1);
 
     LCA a(n);
@@ -132,11 +166,13 @@ void check(int n, int shape, int queries, long long max_w){
         assert(a.jump(u, v, j) == (j >= 0 && j < (int)walk.size() ? walk[j] : -1));
         check_intersection(a, b, naive, n, walk);
     }
+    check_folds(a, naive, n, n <= 1000 ? 60 : 10);
 
     /// Rebuilding the same objects from another root must match that root's tree
     int new_root = stress::rand_int(0, n - 1);
     a.build(new_root), b.build(new_root);
     NaiveTree renaive(n, new_root, edges);
+    check_folds(a, renaive, n, n <= 1000 ? 20 : 5);
     for (int q = 0; q < 20; q++){
         int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1), k = stress::rand_int(0, renaive.level[u]);
         assert(a.lca(u, v) == renaive.lca(u, v) && b.lca(u, v) == renaive.lca(u, v));
