@@ -8,8 +8,8 @@
  * MobiusSieve sieve(n): sieve.mu[x] for 1 <= x <= n, sieve.primes: primes <= n in order
  * mobius_by_divisors(n): the same mu table in O(n log n) from sum over d | x of mu[d] = [x == 1], less code
  *
- * linear_sieve.cpp also gives mu, along with spf, phi and any multiplicative function, at about 20 bytes per entry
- * When only mu is needed this uses about 12x less memory and runs about 5x faster, n = 1e8 fits in about 135 MB
+ * linear_sieve.cpp also gives mu, along with spf, phi and any multiplicative function, at about 13 bytes per entry
+ * When only mu is needed this uses about 8x less memory and runs about 3x faster, n = 1e8 fits in about 135 MB
  *
 ***/
 
