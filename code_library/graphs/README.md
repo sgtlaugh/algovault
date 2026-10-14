@@ -587,7 +587,7 @@
 - [UVa 1229 - Sub-dictionary](https://onlinejudge.org/external/12/1229.pdf) [✅](../../practice/graphs/uva_1229.cpp "Accepted solution")
 - [UVa 1263 - Mines](https://onlinejudge.org/external/12/1263.pdf) [✅](../../practice/graphs/uva_1263.cpp "Accepted solution")
 - [UVa 10731 - Test](https://onlinejudge.org/external/107/10731.pdf) [✅](../../practice/graphs/uva_10731.cpp "Accepted solution")
-- [UVa 11324 - The Largest Clique](https://onlinejudge.org/external/113/11324.pdf)
+- [UVa 11324 - The Largest Clique](https://onlinejudge.org/external/113/11324.pdf) [✅](../../practice/graphs/uva_11324.cpp "Accepted solution")
 - [UVa 11504 - Dominos](https://onlinejudge.org/external/115/11504.pdf) [✅](../../practice/graphs/uva_11504.cpp "Accepted solution")
 - [UVa 11709 - Trust groups](https://onlinejudge.org/external/117/11709.pdf) [✅](../../practice/graphs/uva_11709.cpp "Accepted solution")
 - [UVa 11770 - Lighting Away](https://onlinejudge.org/external/117/11770.pdf) [✅](../../practice/graphs/uva_11770.cpp "Accepted solution")
