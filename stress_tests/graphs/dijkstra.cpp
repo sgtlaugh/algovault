@@ -63,26 +63,43 @@ vector<long long> bellman_ford(int n, const map<pair<int, int>, long long>& ligh
     return to_library_inf(d);
 }
 
-/// Every path must start at src, end at v and use arcs whose weights add up to exactly dist[v]
+/// The path must start at src, end at v and use arcs whose weights add up to exactly dist[v].
+/// After run(src, target) only v = target is promised.
+template<typename Graph>
+void check_vertex(const Graph& g, const map<pair<int, int>, long long>& lightest, int src, int v, long long expected){
+    assert(g.dist[v] == expected);
+    vector<int> path = g.path(v);
+    if (expected == DIJKSTRA_INF){
+        assert(path.empty());
+        return;
+    }
+
+    assert(!path.empty() && path.front() == src && path.back() == v);
+    long long total = 0;
+    for (size_t i = 0; i + 1 < path.size(); i++){
+        auto it = lightest.find({path[i], path[i + 1]});
+        assert(it != lightest.end());
+        total += it->second;
+    }
+    assert(total == expected);
+}
+
 template<typename Graph>
 void check_run(const Graph& g, const map<pair<int, int>, long long>& lightest, int src, const vector<long long>& expected){
     assert(g.dist == expected);
-    for (int v = 0; v < g.n; v++){
-        vector<int> path = g.path(v);
-        if (expected[v] == DIJKSTRA_INF){
-            assert(path.empty());
-            continue;
-        }
+    for (int v = 0; v < g.n; v++) check_vertex(g, lightest, src, v, expected[v]);
+}
 
-        assert(!path.empty() && path.front() == src && path.back() == v);
-        long long total = 0;
-        for (size_t i = 0; i + 1 < path.size(); i++){
-            auto it = lightest.find({path[i], path[i + 1]});
-            assert(it != lightest.end());
-            total += it->second;
-        }
-        assert(total == expected[v]);
+/// A few target runs first, then a full run that must not see their leftovers
+template<typename Graph>
+void check_targets_then_full(Graph& g, const map<pair<int, int>, long long>& lightest, int src, const vector<long long>& expected){
+    for (int i = 0; i < 5; i++){
+        int target = stress::rand_int(0, g.n - 1);
+        g.run(src, target);
+        check_vertex(g, lightest, src, target, expected[target]);
     }
+    g.run(src);
+    check_run(g, lightest, src, expected);
 }
 
 template<typename Graph>
@@ -92,16 +109,36 @@ Graph build(int n, const vector<TestEdge>& edges){
     return g;
 }
 
-/// Runs from every source on one graph, which also checks that a second run leaves no stale state
+/// Runs from every source on one graph, which also checks that a second run leaves no stale state.
+/// Target runs are interleaved with full runs so a full run after an early exit must still reset everything.
 template<typename Graph>
 void check_all_sources(int n, const vector<TestEdge>& edges){
     Graph g = build<Graph>(n, edges);
     auto lightest = lightest_arcs(edges);
     auto expected = floyd(n, lightest);
     for (int src = 0; src < n; src++){
+        for (int target = 0; target < n; target++){
+            g.run(src, target);
+            check_vertex(g, lightest, src, target, expected[src][target]);
+        }
         g.run(src);
         check_run(g, lightest, src, expected[src]);
     }
+}
+
+/// On the chain 0 -> 1 -> ... -> n - 1 a search that stops when it settles k has never relaxed the arc k -> k + 1
+template<typename Graph>
+void early_exit_case(){
+    int n = stress::rand_int(2, 50);
+    Graph g(n);
+    for (int v = 0; v + 1 < n; v++) g.add_edge(v, v + 1, stress::rand_int(0, 1));
+
+    int target = stress::rand_int(0, n - 2);
+    g.run(0, target);
+    assert(g.dist[target + 1] == DIJKSTRA_INF);
+
+    g.run(0);
+    assert(g.dist[n - 1] != DIJKSTRA_INF);
 }
 
 /// An 11 edge chain of weights near 2e17 plus single edges up to 2.2e18 puts distances right below the documented limit.
@@ -188,17 +225,14 @@ int main(){
         auto expected = bellman_ford(n, lightest, src);
 
         auto sparse = build<Dijkstra>(n, edges);
-        sparse.run(src);
-        check_run(sparse, lightest, src, expected);
+        check_targets_then_full(sparse, lightest, src, expected);
 
         auto dense = build<DenseDijkstra>(n, edges);
-        dense.run(src);
-        check_run(dense, lightest, src, expected);
+        check_targets_then_full(dense, lightest, src, expected);
 
         if (max_w > 1) continue;
         auto zero_one = build<ZeroOneBFS>(n, edges);
-        zero_one.run(src);
-        check_run(zero_one, lightest, src, expected);
+        check_targets_then_full(zero_one, lightest, src, expected);
     }
 
     /// A 300 x 300 grid of 0/1 weights, 0-1 BFS against Dijkstra on 90000 vertices
@@ -222,5 +256,10 @@ int main(){
     assert(longest > 2000000000000000000LL);
 
     zero_one_adversarial_case();
+    for (long long it = 0; it < stress::scaled(200); it++){
+        early_exit_case<Dijkstra>();
+        early_exit_case<DenseDijkstra>();
+        early_exit_case<ZeroOneBFS>();
+    }
     return 0;
 }

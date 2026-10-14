@@ -35,7 +35,7 @@ int main(){
         g.add_edge(a, b, c);
     }
 
-    g.run(s);
+    g.run(s, t);
     if (g.dist[t] == DIJKSTRA_INF){
         puts("-1");
         return 0;

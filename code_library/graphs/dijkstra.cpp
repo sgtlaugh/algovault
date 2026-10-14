@@ -12,6 +12,7 @@
  *     Graph g(n);
  *     g.add_edge(u, v, w);           directed edge u -> v, pass directed = false for an undirected one
  *     g.run(src);                    fills g.dist and g.parent
+ *     g.run(src, target);            stops once target is settled, only dist[target] and path(target) are then final
  *     g.dist[v]                      shortest distance from src, or DIJKSTRA_INF if v is unreachable
  *     g.path(v)                      vertices of one shortest path src, ..., v, empty if v is unreachable
  *
@@ -57,7 +58,7 @@ struct Dijkstra{
         return trace_path(dist, parent, v);
     }
 
-    void run(int src){
+    void run(int src, int target = -1){
         fill(dist.begin(), dist.end(), DIJKSTRA_INF);
         fill(parent.begin(), parent.end(), -1);
         priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
@@ -67,6 +68,7 @@ struct Dijkstra{
             auto [du, u] = heap.top();
             heap.pop();
             if (du != dist[u]) continue;  /// stale entry, u was already settled with a smaller distance
+            if (u == target) break;
             for (auto [v, w] : adj[u]){
                 if (du + w < dist[v]) dist[v] = du + w, parent[v] = u, heap.push({dist[v], v});
             }
@@ -93,7 +95,7 @@ struct DenseDijkstra{
         return trace_path(dist, parent, v);
     }
 
-    void run(int src){
+    void run(int src, int target = -1){
         fill(dist.begin(), dist.end(), DIJKSTRA_INF);
         fill(parent.begin(), parent.end(), -1);
         vector<bool> done(n, false);
@@ -104,7 +106,7 @@ struct DenseDijkstra{
             for (int v = 0; v < n; v++){
                 if (!done[v] && (u == -1 || dist[v] < dist[u])) u = v;
             }
-            if (dist[u] == DIJKSTRA_INF) break;
+            if (dist[u] == DIJKSTRA_INF || u == target) break;
 
             done[u] = true;
             /// A missing edge holds DIJKSTRA_INF, so dist[u] + INF >= INF >= dist[v] never relaxes and needs no branch
@@ -134,7 +136,7 @@ struct ZeroOneBFS{
         return trace_path(dist, parent, v);
     }
 
-    void run(int src){
+    void run(int src, int target = -1){
         fill(dist.begin(), dist.end(), DIJKSTRA_INF);
         fill(parent.begin(), parent.end(), -1);
         deque<int> dq;
@@ -144,6 +146,7 @@ struct ZeroOneBFS{
         while (!dq.empty()){
             int u = dq.front();
             dq.pop_front();
+            if (u == target) break;
             for (auto [v, w] : adj[u]){
                 if (dist[u] + w >= dist[v]) continue;
                 dist[v] = dist[u] + w, parent[v] = u;
@@ -172,6 +175,10 @@ void self_test(){
     g.run(3);
     assert((g.dist == vector<long long>{DIJKSTRA_INF, 1, DIJKSTRA_INF, 0, 1, DIJKSTRA_INF}));
     assert((g.path(1) == vector<int>{3, 1}));
+
+    g.run(0, 3);
+    assert(g.dist[3] == 1);
+    assert((g.path(3) == vector<int>{0, 2, 3}));
 
     Graph single(1);
     single.run(0);
