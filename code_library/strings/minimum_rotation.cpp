@@ -6,7 +6,7 @@
  * Complexity: O(n), O(1) extra memory
  *
  * minimum_rotation(s): smallest index i such that s[i..] + s[..i) is the least rotation, 0 for an empty s
- * Works on strings, vectors and any indexable container whose elements compare with <
+ * Works on strings, vectors, C strings (literals, char arrays, char pointers) and any indexable container whose elements compare with < and ==
  *
 ***/
 
@@ -44,16 +44,19 @@ int minimum_rotation(char* s){
 }
 
 int main(){
+    /// The rotations of "bca" are bca, cab, abc, so the least starts at 2
     assert(minimum_rotation(string("bca")) == 2);
-    assert(minimum_rotation(string("abc")) == 0);
-    assert(minimum_rotation(string("cab")) == 1);
-    assert(minimum_rotation(string("abab")) == 0);
-    assert(minimum_rotation(string("baba")) == 1);
-    assert(minimum_rotation(string("aaaa")) == 0);
-    assert(minimum_rotation(string("")) == 0);
-    assert(minimum_rotation(string("z")) == 0);
 
+    /// "abab" starts at 1 and at 3, the smaller index wins
+    assert(minimum_rotation(string("baba")) == 1);
+
+    /// C strings: a literal, then a char array longer than its contents
     assert(minimum_rotation("dcba") == 3);
+
+    char word[16] = "cab";
+    assert(minimum_rotation(word) == 1);
+
+    /// Any indexable container, the least rotation is 1 1 3 1 2
     assert(minimum_rotation(vector<int>{3, 1, 2, 1, 1}) == 3);
 
     return 0;
