@@ -102,7 +102,7 @@
 - [UVa 1196 - Tiling Up Blocks](https://onlinejudge.org/external/11/1196.pdf) [✅](../../practice/dp/uva_1196.cpp "Accepted solution")
 - [UVa 10131 - Is Bigger Smarter?](https://onlinejudge.org/external/101/10131.pdf) [✅](../../practice/dp/uva_10131.cpp "Accepted solution")
 - [UVa 10534 - Wavio Sequence](https://onlinejudge.org/external/105/10534.pdf) [✅](../../practice/dp/uva_10534.cpp "Accepted solution")
-- [UVa 10635 - Prince and Princess](https://onlinejudge.org/external/106/10635.pdf)
+- [UVa 10635 - Prince and Princess](https://onlinejudge.org/external/106/10635.pdf) [✅](../../practice/dp/uva_10635.cpp "Accepted solution")
 - [UVa 11031 - Looking for a Subset](https://onlinejudge.org/external/110/11031.pdf) [✅](../../practice/dp/uva_11031.cpp "Accepted solution")
 - [UVa 11368 - Nested Dolls](https://onlinejudge.org/external/113/11368.pdf) [✅](../../practice/dp/uva_11368.cpp "Accepted solution")
 - [UVa 11456 - Trainsorting](https://onlinejudge.org/external/114/11456.pdf) [✅](../../practice/dp/uva_11456.cpp "Accepted solution")
