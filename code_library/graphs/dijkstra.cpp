@@ -4,20 +4,22 @@
  * Single source shortest paths with non-negative edge weights, plus shortest path reconstruction
  *
  * Complexity:
- *     Dijkstra       O((n + m) log m) with a binary heap, O(n + m) memory
- *     DenseDijkstra  O(n^2) per run, O(n^2) memory for the weight matrix (32 MB at n = 2000)
- *     ZeroOneBFS     O(n + m) with a deque, weights must be 0 or 1
+ *   - Dijkstra: O((n + m) log m) per run with a binary heap, O(n + m) memory
+ *   - DenseDijkstra: O(n^2) per run, O(n^2) memory for the weight matrix (32 MB at n = 2000)
+ *   - ZeroOneBFS: O(n + m) per run with a deque
  *
- * All three structs share the same API, 0-based vertices:
- *     Graph g(n);
- *     g.add_edge(u, v, w);           directed edge u -> v, pass directed = false for an undirected one
- *     g.run(src);                    fills g.dist and g.parent
- *     g.run(src, target);            stops once target is settled, only dist[target] and path(target) are then final
- *     g.dist[v]                      shortest distance from src, or DIJKSTRA_INF if v is unreachable
- *     g.path(v)                      vertices of one shortest path src, ..., v, empty if v is unreachable
+ * Dijkstra, DenseDijkstra and ZeroOneBFS share one API on 0-based vertices, shown for Dijkstra:
+ * Dijkstra g(n): an empty graph on n vertices
+ * g.add_edge(u, v, w): adds the directed edge u -> v of weight w, pass directed = false for an undirected one
+ * g.run(src): fills g.dist and g.parent with the shortest paths from src
+ * g.run(src, target): stops as soon as target is settled, so only dist[target] and path(target) are final
+ * g.dist[v]: the shortest distance from src to v, or DIJKSTRA_INF if v is unreachable
+ * g.path(v): the vertices of one shortest path src, ..., v, empty if v is unreachable
  *
- * Weights are long long in [0, DIJKSTRA_INF) and every shortest distance must stay below DIJKSTRA_INF (~2.3e18)
- * Parallel edges and self loops are allowed, run can be called again with another source on the same graph
+ * Weights are long long in [0, DIJKSTRA_INF), and 0 or 1 for ZeroOneBFS
+ * Every shortest distance must stay below DIJKSTRA_INF (~2.3e18)
+ * Parallel edges and self loops are allowed, and run can be called again with another source on the same graph
+ * A single-target query should pass its target: the search then settles no vertex farther from src than target
  *
  * DenseDijkstra is for dense graphs where the heap version hits its worst case, measured at -O2 with n = 2000:
  *     complete DAG weighted so every edge relaxes (2e6 heap pushes): DenseDijkstra 17 ms, Dijkstra 685 ms
