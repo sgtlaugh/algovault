@@ -3,9 +3,10 @@
  * Min Cost Max Flow with Dijkstra and potentials
  * Successive shortest paths where Johnson potentials keep reduced costs non-negative
  *
- * Complexity: O(F * m log n) for total flow F, plus O(n * m) per solve or slope call for its initial Bellman Ford
+ * Complexity: O(F * m log n) for total flow F, plus O(m) per solve or slope call for starting potentials, O(n * m) when a residual edge has negative cost
  *
- * MCMF g(n); g.add_edge(u, v, cap, cost): directed edge, returns its index, add both directions for undirected edges
+ * MCMF g(n): empty graph on nodes 0 to n - 1
+ * g.add_edge(u, v, cap, cost): adds a directed edge and returns its index, add both directions for undirected edges
  * g.solve(s, t, limit): pushes up to limit units (default: as much as possible), returns {flow, cost}
  * g.slope(s, t, limit): same augmentation as solve, returns the breakpoints {flow, cost} of min cost as a function of flow
  *   starts at {0, 0}, ends at what solve returns, cost is linear between consecutive points
@@ -13,10 +14,10 @@
  * g.flow(id): flow on edge id after solve or slope
  * Repeated solve or slope calls continue from the residual graph, results count only the newly added flow and cost
  *
- * Costs may be negative as long as there is no negative cycle
+ * Costs may be negative, but a negative cycle reachable from s makes solve and slope loop forever
  * flow * |cost| summed over a path must fit in long long
  *
- * The default min cost flow choice, mcmf_spfa.cpp has the same API minus slope(), augments along all tied shortest paths per phase, faster when costs are small integers
+ * The default min cost flow choice; mcmf_spfa.cpp has the same API minus slope() and is faster when costs are small integers
  *
 ***/
 
@@ -138,6 +139,7 @@ int main(){
     MCMF g(4);
     g.add_edge(0, 1, 2, 1), g.add_edge(0, 2, 1, 2), g.add_edge(1, 2, 1, 1), g.add_edge(1, 3, 1, 3);
     int e23 = g.add_edge(2, 3, 2, 1);
+
     MCMF limited = g, curve = g;
 
     assert((g.solve(0, 3) == make_pair(3LL, 10LL)));
