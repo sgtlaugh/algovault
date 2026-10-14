@@ -516,7 +516,7 @@
 - [UVa 10034 - Freckles](https://onlinejudge.org/external/100/10034.pdf) [✅](../../practice/graphs/uva_10034.cpp "Accepted solution")
 - [UVa 10048 - Audiophobia](https://onlinejudge.org/external/100/10048.pdf) [✅](../../practice/graphs/uva_10048.cpp "Accepted solution")
 - [UVa 10147 - Highways](https://onlinejudge.org/external/101/10147.pdf) [✅](../../practice/graphs/uva_10147.cpp "Accepted solution")
-- [UVa 10307 - Killing Aliens in Borg Maze](https://onlinejudge.org/external/103/10307.pdf)
+- [UVa 10307 - Killing Aliens in Borg Maze](https://onlinejudge.org/external/103/10307.pdf) [✅](../../practice/graphs/uva_10307.cpp "Accepted solution")
 - [UVa 10369 - Arctic Network](https://onlinejudge.org/external/103/10369.pdf) [✅](../../practice/graphs/uva_10369.cpp "Accepted solution")
 - [UVa 10397 - Connect the Campus](https://onlinejudge.org/external/103/10397.pdf)
 - [UVa 10462 - Is There A Second Way Left?](https://onlinejudge.org/external/104/10462.pdf) [✅](../../practice/graphs/uva_10462.cpp "Accepted solution")
