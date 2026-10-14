@@ -13,6 +13,12 @@ void check(const Container& text, const Container& pattern){
     }
     assert(kmp_search(text, pattern) == expected);
 
+    /// the first brute-force match at or after from, every from on short texts and about 40 on long ones, past the end too
+    for (int from = 0; from <= n + 1; from += max(1, n / 40)){
+        auto it = lower_bound(expected.begin(), expected.end(), from);
+        assert(kmp_find(text, pattern, from) == (it == expected.end() ? -1 : *it));
+    }
+
     auto pi = prefix_function(pattern);
     assert((int)pi.size() == m);
     for (int i = 0; i < m; i++){
@@ -81,6 +87,8 @@ int main(){
         }
         check(text, pattern);
         assert(kmp_search(text, pattern.c_str()) == kmp_search(text, pattern));  /// the mixed string / literal overload
+        assert(kmp_find(text, pattern.c_str()) == kmp_find(text, pattern));
+        assert(kmp_find(text.c_str(), pattern.c_str(), 1) == kmp_find(text, pattern, 1));
 
         vector<long long> vt(text.begin(), text.end()), vp(pattern.begin(), pattern.end());
         for (auto& x : vt) x = x * 1000000007LL - 5;

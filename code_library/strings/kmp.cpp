@@ -8,6 +8,7 @@
  * prefix_function(s)[i] = length of the longest proper prefix of s[0..i] that is also its suffix, 0 if none
  * Smallest period of s: p = n - prefix_function(s)[n - 1], s is a repetition of s[0..p) iff n % p == 0
  * kmp_search(text, pattern): starting indices of every occurrence, overlaps included, none for an empty pattern
+ * kmp_find(text, pattern, from = 0): start of the first occurrence at index >= from, or -1, and stops scanning there
  *
  * Prefix-function automaton: aut[i][c] = KMP state after reading symbol c in state i
  * State i = length of the longest pattern prefix that is a suffix of the text read so far, 0 <= i <= m
@@ -60,6 +61,24 @@ vector<int> kmp_search(const Container& text, const Container& pattern){
     return positions;
 }
 
+/// Its own loop rather than a limit on kmp_search, so kmp_search's hot loop gains no per-match check
+template<typename Container>
+int kmp_find(const Container& text, const Container& pattern, int from = 0){
+    int m = pattern.size();
+    if (m == 0) return -1;
+
+    auto pi = prefix_function(pattern);
+    int k = 0;
+
+    for (int i = max(from, 0); i < (int)text.size(); i++){
+        while (k > 0 && text[i] != pattern[k]) k = pi[k - 1];
+        if (pattern[k] == text[i]) k++;
+        if (k == m) return i - m + 1;
+    }
+
+    return -1;
+}
+
 /// aut[i][c] = longest pattern prefix that is a suffix of pattern[0..i) + c, for 0 <= i <= m
 template<typename Container>
 vector<vector<int>> kmp_automaton(const Container& pattern, int alphabet = 26, int first = 'a'){
@@ -90,6 +109,14 @@ vector<int> kmp_search(const string& text, const string& pattern){
 
 vector<int> kmp_search(const char* text, const char* pattern){
     return kmp_search(string(text), string(pattern));
+}
+
+int kmp_find(const string& text, const string& pattern, int from = 0){
+    return kmp_find<string>(text, pattern, from);
+}
+
+int kmp_find(const char* text, const char* pattern, int from = 0){
+    return kmp_find(string(text), string(pattern), from);
 }
 
 vector<vector<int>> kmp_automaton(const char* pattern, int alphabet = 26, int first = 'a'){
@@ -127,6 +154,12 @@ int main(){
     assert((kmp_search(string("abab"), "ab") == vector<int>{0, 2}));
     assert((kmp_search("abab", string("bab")) == vector<int>{1}));
     assert((kmp_search(vector<int>{1, 2, 1, 2, 1}, vector<int>{1, 2, 1}) == vector<int>{0, 2}));
+
+    assert(kmp_find("ababcababa", "aba") == 0);
+    assert(kmp_find("ababcababa", "aba", 1) == 5);
+    assert(kmp_find("ababcababa", "aba", 8) == -1);
+    assert(kmp_find("test", "") == -1);
+    assert(kmp_find(string("abab"), "bab") == 1);
 
     assert((kmp_automaton("aba", 2) == vector<vector<int>>{{1, 0}, {1, 2}, {3, 0}, {1, 2}}));
     assert((kmp_automaton("aab", 2) == vector<vector<int>>{{1, 0}, {2, 0}, {2, 3}, {1, 0}}));
