@@ -5,7 +5,7 @@
  *
  * Complexity:
  *   - build: O(n log n)
- *   - add: O(sqrt(n))
+ *   - add: O(sqrt(n)) amortized, the first add covering part of a block sorts that block once
  *   - count_less: O(sqrt(n) log n)
  *   - get: O(1)
  *
