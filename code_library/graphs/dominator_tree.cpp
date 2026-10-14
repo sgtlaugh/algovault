@@ -23,6 +23,7 @@ using namespace std;
 struct DominatorTree{
     int n;
     vector<vector<int>> adj;
+    vector<int> order, num, parent, sdom, label, anc, path;
 
     DominatorTree(int n) : n(n), adj(n) {}
 
@@ -59,8 +60,6 @@ struct DominatorTree{
         }
         return idom;
     }
-
-    vector<int> order, num, parent, sdom, label, anc, path;
 
     /// Preorder numbering, parent[i] is the DFS tree parent of the i-th visited vertex, num[v] = -1 if unreachable
     void dfs(int root){

@@ -29,7 +29,7 @@
 using namespace std;
 
 struct PermutationTree{
-    enum Type { CUT, INCREASING, DECREASING };
+    enum Type{CUT, INCREASING, DECREASING};
 
     int n, root;
     vector<int> parent;

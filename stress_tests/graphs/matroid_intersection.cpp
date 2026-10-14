@@ -6,7 +6,7 @@
 
 using ull = unsigned long long;
 
-enum Kind {GRAPHIC, PARTITION, XOR};
+enum Kind{GRAPHIC, PARTITION, XOR};
 
 struct Spec{
     Kind kind;

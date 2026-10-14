@@ -32,6 +32,8 @@ struct CentroidDecomposition{
     int n;
     vector<vector<pair<int, long long>>> adj;
     vector<int> parent, depth;
+    vector<char> removed;
+    vector<int> from, size, order;
 
     CentroidDecomposition(int n) : n(n), adj(n), parent(n, -1), depth(n, 0), removed(n, 0), from(n, -1), size(n, 0) {}
 
@@ -49,9 +51,6 @@ struct CentroidDecomposition{
     void build(Visit visit){
         decompose([&](int c){ visit(c, collect_branches(c)); });
     }
-
-    vector<char> removed;
-    vector<int> from, size, order;
 
     Branches collect_branches(int c){
         Branches branches;

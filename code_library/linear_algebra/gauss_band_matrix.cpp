@@ -32,6 +32,7 @@ using namespace std;
 template <class T>  /// If more precision is required, use __float128 from quadmath.h if supported :)
 struct GaussBand{
     int n, m, h, band_size;
+    vector<T> band, rhs;
 
     GaussBand(int n, int m, T rhs_default=0, int band_size=0) : n(n), m(m), band_size(band_size ? band_size : 2 * m + 3){
         assert(n >= 1 && m >= 1 && this->band_size >= 1 && this->band_size % 2 == 1);
@@ -65,8 +66,6 @@ struct GaussBand{
 
         return res;
     }
-
-    vector<T> band, rhs;
 
     /// Cells are numbered in reverse row-major order, the band offsets of a cell's neighbours are what matter
     int get_cell_num(int i, int j){

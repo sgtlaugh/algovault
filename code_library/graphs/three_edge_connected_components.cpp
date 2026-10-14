@@ -25,6 +25,9 @@ struct ThreeEdgeConnected{
     int n, m = 0, count = 0;
     vector<vector<pair<int, int>>> adj; /// (neighbor, edge index)
     vector<int> comp;
+    /// path[v]: the chain of descendants that will join v's class once a back edge closes over them
+    /// nxt: classes kept as cyclic lists, merged in O(1) by swapping successors
+    vector<int> in, out, low, deg, path, nxt;
 
     ThreeEdgeConnected(int n) : n(n), adj(n), comp(n, -1) {}
 
@@ -80,10 +83,6 @@ struct ThreeEdgeConnected{
         for (int v = 0; v < n; v++) groups[comp[v]].push_back(v);
         return groups;
     }
-
-    /// path[v]: the chain of descendants that will join v's class once a back edge closes over them
-    /// nxt: classes kept as cyclic lists, merged in O(1) by swapping successors
-    vector<int> in, out, low, deg, path, nxt;
 
     void absorb(int v, int w){
         swap(nxt[v], nxt[w]);

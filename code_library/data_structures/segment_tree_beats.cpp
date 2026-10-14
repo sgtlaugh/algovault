@@ -44,6 +44,8 @@ struct SegmentTreeBeats{
         long long min = LLONG_MAX, max = LLONG_MIN;
     };
 
+    enum Op{ADD, ASSIGN, CHMAX, CHMIN};
+
     int n;
     vector<Node> tree;
 
@@ -63,8 +65,6 @@ struct SegmentTreeBeats{
     long long query_max(int l, int r){ return query(l, r).max; }
     long long query_min(int l, int r){ return query(l, r).min; }
     long long query_sum(int l, int r){ return (long long)query(l, r).sum; }
-
-    enum Op{ADD, ASSIGN, CHMAX, CHMIN};
 
     void apply(int idx, Op op, long long x){
         if (op == ADD) apply_add(idx, x);

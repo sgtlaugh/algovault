@@ -44,6 +44,36 @@ struct FFT{
     /// Measured first errors up to n = 10^6: 6.3e17 for long double and 4e14 for double, so the limit keeps at least a 6x margin
     static constexpr fType EXACT_LIMIT = 0.01 / numeric_limits<fType>::epsilon();
 
+    struct ComplexNum{
+        fType real, img;
+
+        ComplexNum() {}  /// left uninitialised so growing a work buffer does not write it twice, every entry is written before it is read
+        ComplexNum(fType real, fType img=0) : real(real), img(img) {}
+
+        inline ComplexNum conjugate(){
+            return ComplexNum(real, -img);
+        }
+
+        inline ComplexNum operator + (ComplexNum x){
+            return ComplexNum(real + x.real, img + x.img);
+        }
+
+        inline ComplexNum operator - (ComplexNum x){
+            return ComplexNum(real - x.real, img - x.img);
+        }
+
+        inline ComplexNum operator * (ComplexNum x){
+            return ComplexNum(real * x.real - img * x.img, real * x.img + img * x.real);
+        }
+    };
+
+    int last_len = -1;
+    vector<int> rev;
+    vector<ComplexNum> u, w, f, g;
+
+    /// roots[k + j] = e^(i * pi * j / k) for every power of two k < roots.size(), grown on demand
+    vector<ComplexNum> roots = {ComplexNum(0), ComplexNum(1)};
+
     /***
      * Same as multiply(v, v) but faster
      *
@@ -207,36 +237,6 @@ struct FFT{
         for (i = n; i >= m; i--) res.push_back(v[i - 1]);
         return res;
     }
-
-    struct ComplexNum{
-        fType real, img;
-
-        ComplexNum() {}  /// left uninitialised so growing a work buffer does not write it twice, every entry is written before it is read
-        ComplexNum(fType real, fType img=0) : real(real), img(img) {}
-
-        inline ComplexNum conjugate(){
-            return ComplexNum(real, -img);
-        }
-
-        inline ComplexNum operator + (ComplexNum x){
-            return ComplexNum(real + x.real, img + x.img);
-        }
-
-        inline ComplexNum operator - (ComplexNum x){
-            return ComplexNum(real - x.real, img - x.img);
-        }
-
-        inline ComplexNum operator * (ComplexNum x){
-            return ComplexNum(real * x.real - img * x.img, real * x.img + img * x.real);
-        }
-    };
-
-    int last_len = -1;
-    vector<int> rev;
-    vector<ComplexNum> u, w, f, g;
-
-    /// roots[k + j] = e^(i * pi * j / k) for every power of two k < roots.size(), grown on demand
-    vector<ComplexNum> roots = {ComplexNum(0), ComplexNum(1)};
 
     static long long round_to_nearest(const fType& x){
         long long res = abs(x) + 0.5;

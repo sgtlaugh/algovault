@@ -30,6 +30,7 @@ struct Bignum{
     static const int NTT_CUTOFF = 700;
     static const size_t NTT_MAX = 1 << 23;
     static const int NEWTON_CUTOFF = 400;
+    typedef vector<uint32_t> Limbs;
 
     bool neg = false;
     vector<uint32_t> a;
@@ -124,8 +125,6 @@ struct Bignum{
     friend bool operator > (const Bignum& x, const Bignum& y){ return y < x; }
     friend bool operator <= (const Bignum& x, const Bignum& y){ return !(y < x); }
     friend bool operator >= (const Bignum& x, const Bignum& y){ return !(x < y); }
-
-    typedef vector<uint32_t> Limbs;
 
     Bignum(Limbs&& limbs, bool negative) : neg(negative), a(move(limbs)){
         trim();
