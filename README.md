@@ -94,7 +94,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - tree diameter under edge weight updates [✔](judge_tests/trees/aoj_grl_5_a.cpp)
 - [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths and subtrees as array ranges [✔](judge_tests/trees/aoj_grl_5_d.cpp)
 - [Long-Path Decomposition](code_library/trees/long_path_decomposition.cpp) - depth-indexed subtree DP and `O(1)` k-th ancestor [✔](judge_tests/trees/jump_on_tree_long_path_decomposition.cpp)
-- [Lowest Common Ancestor](code_library/trees/lca.cpp) - LCA, distance, k-th ancestor and path jump [✔](judge_tests/trees/jump_on_tree.cpp)
+- [Lowest Common Ancestor](code_library/trees/lca.cpp) - LCA, distance, jumps and path folds on a tree [✔](judge_tests/trees/jump_on_tree.cpp)
 - [Prufer Code](code_library/trees/prufer_code.cpp) - converts labeled trees to and from sequences
 - [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP with every node as the root [✔](judge_tests/trees/aoj_grl_5_b.cpp)
 - [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - rooted and unrooted tree isomorphism [✔](judge_tests/trees/rooted_tree_isomorphism_classification.cpp)

@@ -1,36 +1,35 @@
 /***
  *
  * Lowest Common Ancestor
- * Two interchangeable structures for a weighted tree, 0-based nodes
- * Use LinearLCA by default, and LCA when kth_ancestor or jump is needed
- * Measured: LinearLCA answers lca 2-8x faster at every size, both build in about the same time
+ * LCA, distance, jumps and path folds on a weighted tree, 0-based nodes
  *
  * Complexity:
- *   - LCA: O(n log n) to build, O(log n) per lca / dist / kth_ancestor / jump, O(n log n) memory
- *   - LinearLCA: O(n) to build, O(1) per lca / dist, O(n) memory, the RMQ block table has at most n entries for any int n
+ *   - LCA: O(n log n) to build, O(log n) per lca, dist, kth_ancestor and jump, O(n log n) memory
+ *   - LinearLCA: O(n) to build, O(1) per lca and dist, O(n) memory
+ *   - PathFold: O(n log n) to build, O(log n) per query, n log n long longs of memory
  *   - path_intersection: 6 lca calls, O(1) with LinearLCA, O(log n) with LCA
  *
- * LCA (binary lifting):
- *   - kth_ancestor(v, k): the k-th ancestor of v, v itself for k = 0, -1 if k > depth(v)
- *   - jump(u, v, k): the k-th vertex on the path u -> v, u for k = 0, v for k = edges on the path, -1 beyond that
+ * LCA tree(n) or LinearLCA tree(n): an empty tree on nodes 0..n-1, both share the calls below
+ * tree.add_edge(u, v, w): adds the edge u - v of weight w, 1 by default
+ * tree.build(root): roots the tree at root, 0 by default, asserts n - 1 edges and that every node is reached exactly once
+ * tree.lca(u, v): the lowest common ancestor of u and v
+ * tree.dist(u, v): the sum of the edge weights on the path u - v
+ * tree.depth(v): the number of edges from the root to v
  *
- * PathFold fold(tree, op), on a built LCA, op associative and commutative on long long, like max, min or gcd:
- *   - fold.query(u, v): op over the edge weights on the path u - v, u != v
- *   - O(n log n) to build and memory, O(log n) per query
- *   - Keeps a reference to tree, so rebuild the fold after tree.build with another root
+ * tree.kth_ancestor(v, k), LCA only: the k-th ancestor of v, v itself for k = 0, -1 if k > depth(v)
+ * tree.jump(u, v, k), LCA only: the k-th vertex on the path u -> v, u for k = 0, v for k = edges on the path, -1 beyond that
  *
- * path_intersection(tree, a, b, c, d), works with either structure:
- *   - The common part of paths a - b and c - d is empty or a path, returns its endpoints as an unordered pair
- *   - {-1, -1} when the paths share no vertex, {x, x} when they share exactly x
+ * PathFold fold(tree, op): on a built LCA, op associative and commutative on long long, like max, min or gcd
+ * fold.query(u, v): op over the edge weights on the path u - v, u != v
  *
- * LinearLCA (Euler tour + linear RMQ):
- *   - Use it for n around 1e6 or many queries
+ * path_intersection(tree, a, b, c, d): the common part of paths a - b and c - d as an unordered pair of endpoints, either structure
+ * path_intersection returns {-1, -1} when the paths share no vertex, {x, x} when they share exactly x
  *
- * Shared API:
- *   LCA tree(n); tree.add_edge(u, v, w); tree.build(root);
- *   tree.lca(u, v), tree.dist(u, v) (sum of weights on the path, w defaults to 1), tree.depth(v)
- *   The graph must be a tree, build asserts n - 1 edges and that every node is reached exactly once
- *   Traversals are iterative so deep trees are safe
+ * Use LinearLCA by default, for n around 1e6 or many queries, and LCA for kth_ancestor, jump or PathFold
+ * Measured: LinearLCA answers lca 2-8x faster at every size, both build in about the same time
+ * PathFold keeps a reference to tree, so build a new fold after tree.build with another root
+ * The LinearRMQ block table has at most n entries for any int n
+ * Traversals are iterative so deep trees are safe
  *
 ***/
 
@@ -306,7 +305,8 @@ int main(){
     assert(path_min.query(6, 4) == 2);  /// weights 5 2 7
 
     auto [x, y] = path_intersection(tree, 6, 5, 4, 2);  /// 6 3 1 0 2 5 and 4 1 0 2 share 1 0 2
-    assert(min(x, y) == 1 && max(x, y) == 2);          /// endpoints come unordered
+    assert(min(x, y) == 1);                             /// endpoints come unordered
+    assert(max(x, y) == 2);
     assert(path_intersection(tree, 6, 4, 5, 2) == make_pair(-1, -1));
     return 0;
 }
