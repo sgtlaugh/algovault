@@ -3,7 +3,7 @@
 #### [15 Puzzle Solver](15_puzzle_solver.cpp)
 
 - [HackerRank n-puzzle - N Puzzle](https://www.hackerrank.com/challenges/n-puzzle/problem)
-- [UVa 10181 - 15-Puzzle Problem](https://onlinejudge.org/external/101/10181.pdf)
+- [UVa 10181 - 15-Puzzle Problem](https://onlinejudge.org/external/101/10181.pdf) [✅](../../practice/misc/uva_10181.cpp "Accepted solution")
 
 #### [Assembly](assembly.cpp)
 
