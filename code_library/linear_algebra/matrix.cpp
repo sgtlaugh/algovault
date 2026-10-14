@@ -3,16 +3,23 @@
  * Matrix
  * Modular matrix multiplication and exponentiation, plus transpose and rotation
  *
- * Complexity: O(n * m * p) per multiplication, O(n^3 log e) for pow(e)
+ * Complexity:
+ *   - multiplication: O(n m p) for an n x m times an m x p matrix
+ *   - pow(e): O(n^3 log e), with no allocation inside the loop
  *
- * Matrix a(n, m, mod): n x m zero matrix modulo mod, 1 <= mod < 2^31, Matrix::identity(n, mod)
- * a[i][j] = value: any long long, negative values are reduced modulo mod when multiplying
- * a * b: needs a.m == b.n and the same mod
+ * Matrix a(n, m, mod): n x m zero matrix modulo mod, 1 <= mod < 2^31
+ * Matrix::identity(n, mod): the n x n identity modulo mod
+ * a[i][j] = value: any long long, reduced modulo mod when multiplying
+ * a * b: the product, needs a.m == b.n and the same mod
  * a.pow(e): a^e for a square matrix and e >= 0, a.pow(0) is the identity
- * a.transpose(), a.rotate(): rotate turns the matrix 90 degrees clockwise
+ * Matrix::multiply(x, y, res): writes x * y into res's existing rows, for products in a hot loop
+ * multiply needs y normalized, res of size x.n x y.m, and res neither x nor y
+ * a.normalized(): a copy with every entry in [0, mod)
+ * a.is_normalized(): whether every entry is already in [0, mod)
+ * a.transpose(): the m x n transpose
+ * a.rotate(): the matrix turned 90 degrees clockwise
  *
- * Linear recurrences: f(n) = 2 f(n - 1) + 3 f(n - 2) uses M = {{2, 3}, {1, 0}},
- * then (f(n + 1), f(n)) = M^n * (f(1), f(0))
+ * Linear recurrence f(n) = 2 f(n - 1) + 3 f(n - 2): with M = {{2, 3}, {1, 0}}, (f(n + 1), f(n)) = M^n * (f(1), f(0))
  *
 ***/
 
@@ -125,6 +132,7 @@ struct Matrix{
 };
 
 int main(){
+    /// Fibonacci by exponentiation, then a plain product
     const long long MOD = 1000000007;
 
     Matrix fib(2, 2, MOD);
@@ -136,9 +144,17 @@ int main(){
     b.a = {{7, 8}, {9, 10}, {11, 12}};
     assert(((a * b).a == vector<vector<long long>>{{58, 64}, {139, 154}}));
 
+    /// The same product into a reused buffer
+    Matrix res(2, 2, MOD);
+    Matrix::multiply(a, b, res);
+    assert((res.a == vector<vector<long long>>{{58, 64}, {139, 154}}));
+
+    /// Negative entries are reduced
     Matrix neg(1, 1, 7);
     neg[0][0] = -1;
-    assert(neg.pow(3)[0][0] == 6);  /// -1 mod 7
+    assert(!neg.is_normalized());
+    assert(neg.normalized()[0][0] == 6);
+    assert(neg.pow(3)[0][0] == 6);  /// (-1)^3 = -1 = 6 mod 7
 
     assert((a.transpose().a == vector<vector<long long>>{{1, 4}, {2, 5}, {3, 6}}));
     assert((a.rotate().a == vector<vector<long long>>{{4, 1}, {5, 2}, {6, 3}}));  /// clockwise
