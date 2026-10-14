@@ -527,7 +527,7 @@
 - [UVa 11354 - Bond](https://onlinejudge.org/external/113/11354.pdf) [✅](../../practice/graphs/uva_11354.cpp "Accepted solution")
 - [UVa 11603 - Its all about the Bandwidth](https://onlinejudge.org/external/116/11603.pdf)
 - [UVa 11631 - Dark roads](https://onlinejudge.org/external/116/11631.pdf) [✅](../../practice/graphs/uva_11631.cpp "Accepted solution")
-- [UVa 11710 - Expensive subway](https://onlinejudge.org/external/117/11710.pdf)
+- [UVa 11710 - Expensive subway](https://onlinejudge.org/external/117/11710.pdf) [✅](../../practice/graphs/uva_11710.cpp "Accepted solution")
 - [UVa 11733 - Airports](https://onlinejudge.org/external/117/11733.pdf) [✅](../../practice/graphs/uva_11733.cpp "Accepted solution")
 - [UVa 11747 - Heavy Cycle Edges](https://onlinejudge.org/external/117/11747.pdf) [✅](../../practice/graphs/uva_11747.cpp "Accepted solution")
 - [UVa 11857 - Driving Range](https://onlinejudge.org/external/118/11857.pdf) [✅](../../practice/graphs/uva_11857.cpp "Accepted solution")
