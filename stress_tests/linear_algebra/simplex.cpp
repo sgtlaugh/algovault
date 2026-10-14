@@ -128,6 +128,8 @@ void degenerate_cycling(){
         {{3, -1, -1, -1, -4, 0, -2}, {{0, -4, 0, 0, 2, 1, 2, 0}, {4, 3, 0, -1, 0, -1, 1, 0}, {2, 0, -2, -4, 2, 0, 2, 0}, {-2, 0, 0, 4, 3, -2, 0, 0}, {0, 4, 1, 3, 3, -2, 2, 0}, {1, 0, 2, 0, 0, -4, 3, 0}, {-3, -4, -3, -3, 0, 0, 0, 0}}, 0},
         {{-1, 5, -3, -1, -1, 3, 2}, {{-2, 0, -3, 1, 1, 2, 1, 3}, {0, 2, 2, -2, 0, -2, 0, 0}, {3, 4, -2, 4, 0, 4, -3, 0}, {2, 1, -3, 0, 3, 0, -4, 0}, {0, -2, 4, 2, 0, 0, 0, 0}, {-3, 0, 1, 2, 1, 0, 0, 0}, {0, -1, -3, 0, 0, -4, -3, 0}}, 123.0 / 7},
         {{-3, 2, -1, -2, -3, 3, 4}, {{-4, -4, 0, -1, -2, -1, 4, 0}, {-1, 2, 1, 0, -2, 2, -2, 0}, {0, 2, 3, -1, 0, 0, -1, 0}, {4, 0, -2, -3, -3, 0, 3, 0}, {2, -3, 0, 1, -2, 1, 4, 0}}, 65.0 / 8},
+        /// Cycles when degenerate ratio ties take the largest pivot instead of Bland's lowest id
+        {{-3, 5, 1, 3, 3, 4, 3}, {{1, -2, -3, 2, 2, 0, 0, 0}, {0, 0, -1, -2, 3, 0, 3, 0}, {-4, 1, -2, 3, -3, -1, -4, 0}, {-2, 0, -2, 0, -2, -2, 3, 0}, {0, 4, 2, 0, 0, 0, -1, 0}}, 40},
     };
     for (auto& [obj, rows, opt] : cases){
         int n = obj.size();
@@ -213,6 +215,44 @@ void duality(long long iterations, int lo, int hi, bool planted){
     }
 }
 
+/// UVa 1298: three nearly parallel rows of 1e5-sized coefficients; the last row, -6x0 - 3x1 >= 1, cannot hold for x >= 0,
+/// yet a ratio test taking the lowest id among near ties pivoted on 5.5e-8 and answered FEASIBLE at x = (0, 0, 1.8e7)
+void uva_1298_rows(){
+    int s[7][3] = {{2470, 6466, 793}, {2472, 6468, 794}, {2470, 6472, 791}, {2472, 6469, 789}, {9991, 9998, 9999}, {10000, 9999, 10000},
+                   {9994, 9996, 10000}};
+    Simplex lp({0, 0, 0}, Simplex::MAXIMIZE);
+    for (int j = 0; j < 6; j++){
+        vector<Float> c(3);
+        for (int k = 0; k < 3; k++) c[k] = 1e8 / s[j][k] - 1e8 / s[6][k];
+        lp.add_constraint(c, 1, Simplex::GREATEQ);
+    }
+    assert(lp.solve() == Simplex::INFEASIBLE);
+}
+
+/// Rows of very different size: unscaled, the optimum value came out right at x = 3 but y = 1.833173 broke 600000y >= 1100000 by 96
+void mixed_magnitude_rows(){
+    Simplex lp({-4, -3}, Simplex::MAXIMIZE);
+    lp.add_constraint({0, 0}, 800, Simplex::LESSEQ);
+    lp.add_constraint({0, 600000}, 1100000, Simplex::GREATEQ);
+    lp.add_constraint({-40, 0}, -120, Simplex::LESSEQ);
+    lp.add_constraint({500000, 0}, 300000, Simplex::GREATEQ);
+    assert(lp.solve() == Simplex::FEASIBLE);
+    assert(abs(lp.value + 17.5) < 1e-9);
+    assert(abs(lp.val[0] - 3) < 1e-9);
+    assert(abs(lp.val[1] - 11.0 / 6) < 1e-9);
+}
+
+/// Nearly parallel rows, infeasible by an exact rational simplex and still infeasible when every limit moves by 1e-7 of its row:
+/// rows divided by their largest coefficient but a ratio test taking the lowest id among near ties answered FEASIBLE
+void nearly_parallel_rows(){
+    Simplex lp({-4, 4, -2}, Simplex::MINIMIZE);
+    lp.add_constraint({0, -1, -2}, 3, Simplex::LESSEQ);
+    lp.add_constraint({89997, -30003, -90002}, 30000, Simplex::GREATEQ);
+    lp.add_constraint({89999, -29997, -90001}, 30000, Simplex::EQUAL);
+    lp.add_constraint({90002, -30001, -90002}, 4, Simplex::GREATEQ);
+    assert(lp.solve() == Simplex::INFEASIBLE);
+}
+
 /// The tableau is pivoted in place, so a second solve() on the same instance must abort instead of answering
 void solve_twice_aborts(){
     pid_t pid = fork();
@@ -233,6 +273,9 @@ void solve_twice_aborts(){
 int main(){
     solve_twice_aborts();
     artificial_left_basic();
+    uva_1298_rows();
+    mixed_magnitude_rows();
+    nearly_parallel_rows();
     degenerate_cycling();
     duality(stress::scaled(300), 1, 40, true);
     duality(stress::scaled(300), 1, 40, false);
@@ -258,8 +301,15 @@ int main(){
         assert(feasible == feasible_large);
         int expected = !feasible ? Simplex::INFEASIBLE : (small.num * large.den != large.num * small.den) ? Simplex::UNBOUNDED : Simplex::FEASIBLE;
 
+        /// Every third LP multiplies each row by 10^k for its own k: the same polytope, but rows of very different size
         Simplex lp(vector<Float>(c.begin(), c.end()), sense);
-        for (auto& k : cons) lp.add_constraint(vector<Float>(k.a.begin(), k.a.end()), k.b, k.cmp);
+        for (auto& k : cons){
+            long long mult = 1;
+            if (it % 3 == 0) for (int e = stress::rand_int(0, 5); e > 0; e--) mult *= 10;
+            vector<Float> row(n);
+            for (int j = 0; j < n; j++) row[j] = (Float)k.a[j] * mult;
+            lp.add_constraint(row, (Float)k.b * mult, k.cmp);
+        }
 
         int status = lp.solve();
         Float result = lp.value;

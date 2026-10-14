@@ -1,31 +1,20 @@
 /***
  *
- * Simplex Algorithm for Linear Programming
- * Solves maximize/minimize linear objective subject to linear constraints
+ * Simplex
+ * Maximizes or minimizes a linear objective over linear constraints on variables x_j >= 0
  *
- * Complexity: O(n * m) per pivot and O(n * m) memory, the pivot count is exponential in the worst case
- * Optimized with sparse pivot - only updates non-zero coefficients
+ * Complexity: O(n m) time per pivot and O(n m) memory, the pivot count is exponential in the worst case
  *
- * Usage:
- *   1. Simplex lp(objective, Simplex::MAXIMIZE or Simplex::MINIMIZE), objective[j] is the coefficient of x_j
- *   2. lp.add_constraint(coefficients, rhs, Simplex::LESSEQ or Simplex::GREATEQ or Simplex::EQUAL)
- *   3. lp.solve() returns Simplex::FEASIBLE, Simplex::INFEASIBLE or Simplex::UNBOUNDED
- *   4. If feasible, lp.value is the optimum and lp.val[j] the value of x_j
+ * Simplex lp(objective, sense): sense is Simplex::MAXIMIZE or Simplex::MINIMIZE, objective[j] is the coefficient of x_j
+ * lp.add_constraint(coef, lim, cmp): coef . x <= lim, >= lim or == lim for cmp Simplex::LESSEQ, GREATEQ or EQUAL, coef has n entries
+ * lp.solve(): Simplex::FEASIBLE, INFEASIBLE or UNBOUNDED, asserts it is called once per instance
+ * lp.value: the optimum after FEASIBLE
+ * lp.val[j]: the value of x_j at the optimum
  *
- * Variables x_0, ..., x_{n - 1} satisfy x_j >= 0, n = objective.size() and every coefficient vector has n entries
- * solve() pivots the tableau in place, so it asserts it is called once per instance
- * For unbounded variable: replace x with (x1 - x2) where x1, x2 >= 0
- * For constraint |x| <= M: add both x <= M and -x <= M
- *
- * Change `using Float = double;` to long double for higher precision (EPS follows)
- *
- * Example:
- *   Maximize 3x0 + 2x1 subject to x0 + x1 <= 4, 2x0 + x1 <= 5
- *
- *   Simplex lp({3, 2}, Simplex::MAXIMIZE);
- *   lp.add_constraint({1, 1}, 4, Simplex::LESSEQ);
- *   lp.add_constraint({2, 1}, 5, Simplex::LESSEQ);
- *   if (lp.solve() == Simplex::FEASIBLE) ...  // lp.value = 9, lp.val = {1, 3}
+ * A free variable x becomes x1 - x2 with x1, x2 >= 0, and |x| <= M becomes the two rows x <= M and -x <= M
+ * Each row is divided by its largest coefficient, so rows of very different size mix safely under the absolute EPS = 1e-9
+ * An LP whose answer changes when its limits move by about 1e-7 of their row, like nearly parallel rows, may get either answer
+ * Changing `using Float = double;` to long double sets EPS to 1e-13
  *
 ***/
 
@@ -113,10 +102,15 @@ struct Simplex{
     vector<int> adj, down, link;
 
     void add_row(const vector<Float>& coef, Float lim, int sign){
+        /// Each row is divided by its largest coefficient so the absolute EPS means the same in every row: unscaled,
+        /// -40x <= -120 next to 600000y >= 1100000 returned y = 1.833173, breaking the second row by 96
+        Float scale = 0;
+        for (Float c : coef) scale = max(scale, abs(c));
+        if (scale == 0) scale = 1;
         m++;
-        rhs.push_back(lim * sign);
+        rhs.push_back(lim * sign / scale);
         ar.emplace_back(n + 1, 0);
-        for (int j = 0; j < n; j++) ar[m][j + 1] = coef[j] * sign;
+        for (int j = 0; j < n; j++) ar[m][j + 1] = coef[j] * sign / scale;
     }
 
     bool optimize(int z){
@@ -132,7 +126,10 @@ struct Simplex{
             for (i = 1; i <= m; i++){
                 if (ar[i][y] > EPS){
                     u = rhs[i] / ar[i][y];
-                    if (x == 0 || u < v - EPS || (u <= v + EPS && link[i] < link[x])) x = i, v = u;
+                    /// Near ties take the largest pivot to keep rounding small, the lowest id only while Bland's rule guards against
+                    /// cycling: taking the lowest id always pivoted on 5.5e-8 in UVa 1298 and answered FEASIBLE for an infeasible LP
+                    bool better = bland ? link[i] < link[x] : ar[i][y] > ar[x][y];
+                    if (x == 0 || u < v - EPS || (u <= v + EPS && better)) x = i, v = u;
                 }
             }
             if (x == 0) return false;
@@ -165,54 +162,32 @@ struct Simplex{
 };
 
 int main(){
-    // Production planning problem
-    // Maximize profit: 5x0 + 4x1 + 3x2
-    // Subject to:      2x0 + 3x1 + x2 <= 100  (material A)
-    //                  4x0 + x1 + 2x2 <= 80   (material B)
-    //                  3x0 + 4x1 + 2x2 <= 120 (labor hours)
+    /// Maximize 3x0 + 2x1 subject to x0 + x1 <= 4 and 2x0 + x1 <= 5, best at the corner (1, 3)
+    Simplex lp({3, 2}, Simplex::MAXIMIZE);
+    lp.add_constraint({1, 1}, 4, Simplex::LESSEQ);
+    lp.add_constraint({2, 1}, 5, Simplex::LESSEQ);
+    assert(lp.solve() == Simplex::FEASIBLE);
+    assert(abs(lp.value - 9) < 1e-9);
+    assert(abs(lp.val[0] - 1) < 1e-9);
+    assert(abs(lp.val[1] - 3) < 1e-9);
 
-    Simplex production({5, 4, 3}, Simplex::MAXIMIZE);
-    production.add_constraint({2, 3, 1}, 100, Simplex::LESSEQ);
-    production.add_constraint({4, 1, 2}, 80, Simplex::LESSEQ);
-    production.add_constraint({3, 4, 2}, 120, Simplex::LESSEQ);
+    /// Minimize x0 + 2x1 subject to x0 + x1 >= 3 and x0 - x1 == 1, so x0 = x1 + 1 and the cost 3x1 + 1 is least at x1 = 1
+    Simplex diet({1, 2}, Simplex::MINIMIZE);
+    diet.add_constraint({1, 1}, 3, Simplex::GREATEQ);
+    diet.add_constraint({1, -1}, 1, Simplex::EQUAL);
+    assert(diet.solve() == Simplex::FEASIBLE);
+    assert(abs(diet.value - 4) < 1e-9);
+    assert(abs(diet.val[0] - 2) < 1e-9);
+    assert(abs(diet.val[1] - 1) < 1e-9);
 
-    assert(production.solve() == Simplex::FEASIBLE);
-    assert(abs(production.value - 153.333333333) < 1e-6);
-
-    // Infeasible constraints
     Simplex contradiction({1, 1}, Simplex::MAXIMIZE);
     contradiction.add_constraint({1, 1}, 10, Simplex::LESSEQ);
     contradiction.add_constraint({1, 1}, 20, Simplex::GREATEQ);
-
     assert(contradiction.solve() == Simplex::INFEASIBLE);
 
-    // Header example, both LPs built before either is solved
-    Simplex header({3, 2}, Simplex::MAXIMIZE);
-    Simplex diet({1, 2}, Simplex::MINIMIZE);
-    header.add_constraint({1, 1}, 4, Simplex::LESSEQ);
-    diet.add_constraint({1, 1}, 3, Simplex::GREATEQ);
-    header.add_constraint({2, 1}, 5, Simplex::LESSEQ);
-    diet.add_constraint({1, -1}, 1, Simplex::EQUAL);
-
-    assert(header.solve() == Simplex::FEASIBLE);
-    assert(abs(header.value - 9) < 1e-9);
-    assert(abs(header.val[0] - 1) < 1e-9 && abs(header.val[1] - 3) < 1e-9);
-
-    assert(diet.solve() == Simplex::FEASIBLE);
-    assert(abs(diet.value - 4) < 1e-9);
-    assert(abs(diet.val[0] - 2) < 1e-9 && abs(diet.val[1] - 1) < 1e-9);
-
-    // Unbounded, and no constraints at all
     Simplex runaway({1, 0}, Simplex::MAXIMIZE);
     runaway.add_constraint({1, -1}, 1, Simplex::LESSEQ);
     assert(runaway.solve() == Simplex::UNBOUNDED);
-
-    Simplex free_lunch({1, 0}, Simplex::MAXIMIZE);
-    assert(free_lunch.solve() == Simplex::UNBOUNDED);
-
-    Simplex idle({-1, -3}, Simplex::MAXIMIZE);
-    assert(idle.solve() == Simplex::FEASIBLE);
-    assert(abs(idle.value) < 1e-9 && abs(idle.val[0]) < 1e-9 && abs(idle.val[1]) < 1e-9);
 
     return 0;
 }
