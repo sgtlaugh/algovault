@@ -34,7 +34,7 @@ int main(){
         assert(minimum_rotation(s) == brute(s));
 
         /// A buffer longer than the string, filled past the terminator, so only the C string may be read
-        char buf[40];
+        char buf[80];
         memset(buf, 'a', sizeof(buf));
         strcpy(buf, s.c_str());
         char* p = buf;
