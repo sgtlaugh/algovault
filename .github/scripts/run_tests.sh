@@ -5,7 +5,7 @@
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
 # both modes also report library files missing from the README index, index descriptions over 50 characters, README ✔ marks that disagree with judge_tests,
 # practice solutions and practice section links that disagree, templates whose header does not state their complexity, copied regions that drifted from their original,
-# and whitespace or style errors in tracked files
+# and whitespace, style or member order errors in tracked files
 #
 # Reports all failures instead of stopping at the first one.
 #
@@ -278,13 +278,30 @@ check_style(){  # ){ and struct X{ open a body, ) {} is empty, keywords take a s
     local line bad=()
     while IFS= read -r line; do
         contains "${line%%:*}" "${STYLE_SKIP[@]}" || bad+=("$line")
-    done < <(git ls-files '*.cpp' '*.h' | xargs grep -nP '\) \{(?!\})|\b(struct|class|namespace)\s+\w+(\s*:\s*[^{;]+)? \{(?!\})|\)\{\}|\b(for|if|while|switch)\(|\b(?!template\b)\w+ <(?=[\w:]+[\s\w:,<>*&]*>)')
+    done < <(git ls-files '*.cpp' '*.h' | xargs grep -nP '\) \{(?!\})|\b(struct|class|namespace|enum)\s+\w+(\s*:\s*[^{;]+)? \{(?!\})|\)\{\}|\b(for|if|while|switch)\(|\b(?!template\b)\w+ <(?=[\w:]+[\s\w:,<>*&]*>)')
 
     echo "style: ${#bad[@]} lines off the brace or spacing convention"
     [[ ${#bad[@]} -eq 0 ]] && return
     printf '  bad: %s\n' "${bad[@]}"
     failed=$((failed + ${#bad[@]}))
     failures+=("${bad[@]/%/ (style)}")
+}
+
+check_member_order(){  # a struct declares its types, constants and fields before its first method
+    local bad=()
+    mapfile -t bad < <(git ls-files 'code_library/*.cpp' | xargs awk '
+        /^struct [A-Za-z_0-9]+\{$/ {in_struct = 1; method = 0; next}
+        in_struct && /^};/ {in_struct = 0; next}
+        in_struct && /^    [^ \/}]/ {
+            if ($0 ~ /^    [^(=]*\(/ && $0 ~ /\{$/) method = 1
+            else if (method && $0 ~ /;$/ && $0 !~ /\(/ && $0 !~ /^    (return|friend) /) print FILENAME ":" FNR
+        }')
+
+    echo "member order: ${#bad[@]} struct fields or types declared after a method"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (member order)}")
 }
 
 select_tests(){  # prints the tests to run, one per line
@@ -349,6 +366,7 @@ check_headers
 check_copies
 check_whitespace
 check_style
+check_member_order
 echo "passed: $passed  failed: $failed  skipped: $skipped"
 if [[ $failed -gt 0 ]]; then
     printf '  failed: %s\n' "${failures[@]}"
