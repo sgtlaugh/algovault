@@ -8,17 +8,18 @@
  *   - BinaryTrie: O(BITS) per operation, O(distinct inserted values * BITS) memory
  *
  * Trie<SIGMA = 26, BASE = 'a'> trie: no words yet, characters must lie in [BASE, BASE + SIGMA)
- * Trie<> trie(max_nodes): the same with room reserved for max_nodes >= 1 nodes, which caps peak memory near the nodes used
+ * Trie<> trie(max_nodes): the same with memory for max_nodes >= 1 nodes reserved up front, more nodes still fit
  * trie.insert(s): adds one copy of s, duplicates count separately
  * trie.count_prefix(p): inserted words that start with p, every word for the empty prefix
  * trie.count_word(s): copies of exactly s
  * trie.find(s): node of the prefix s, -1 if no inserted word starts with s, the root 0 for the empty prefix
- * trie.child(v, ch): node one character ch below node v, -1 if none or ch is outside the alphabet
+ * trie.child(v, ch): node one character ch below node v, -1 if there is none or ch is outside the alphabet, v != -1
  * trie.pass[v]: inserted words that start with node v's prefix
  * trie.ends[v]: copies of exactly node v's prefix
  *
  * A trie holds at most 1 + total inserted length nodes, the natural max_nodes
- * Each node costs 4 * SIGMA + 8 bytes, without max_nodes the vector doubling can briefly hold twice that
+ * Each node takes 4 * SIGMA + 8 bytes
+ * Without max_nodes the vector doubling briefly holds up to twice the memory of the nodes in use
  *
  * BinaryTrie<BITS = 30> bt: an empty multiset of unsigned long long values in [0, 2^BITS), 1 <= BITS <= 64
  * bt.insert(x, c = 1): adds c >= 1 copies of x
