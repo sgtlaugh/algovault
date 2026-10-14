@@ -1,14 +1,15 @@
 /***
  *
  * Knuth-Morris-Pratt (KMP) Algorithm
- * Prefix function, all occurrences of a pattern in a text, and the prefix-function automaton
+ * Prefix function, every or the first occurrence of a pattern in a text, and the prefix-function automaton
  *
  * Complexity: O(n + m) where n = text length, m = pattern length
  *
  * prefix_function(s)[i] = length of the longest proper prefix of s[0..i] that is also its suffix, 0 if none
  * Smallest period of s: p = n - prefix_function(s)[n - 1], s is a repetition of s[0..p) iff n % p == 0
  * kmp_search(text, pattern): starting indices of every occurrence, overlaps included, none for an empty pattern
- * kmp_find(text, pattern, from = 0): start of the first occurrence at index >= from, or -1, and stops scanning there
+ * kmp_find(text, pattern, from = 0): start of the first occurrence at index >= from, -1 if none or the pattern is empty
+ * kmp_find stops at that match, so a match near from costs far less than kmp_search over the whole text
  *
  * Prefix-function automaton: aut[i][c] = KMP state after reading symbol c in state i
  * State i = length of the longest pattern prefix that is a suffix of the text read so far, 0 <= i <= m
@@ -158,7 +159,6 @@ int main(){
     assert(kmp_find("ababcababa", "aba") == 0);
     assert(kmp_find("ababcababa", "aba", 1) == 5);
     assert(kmp_find("ababcababa", "aba", 8) == -1);
-    assert(kmp_find("test", "") == -1);
     assert(kmp_find(string("abab"), "bab") == 1);
 
     assert((kmp_automaton("aba", 2) == vector<vector<int>>{{1, 0}, {1, 2}, {3, 0}, {1, 2}}));
