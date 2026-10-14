@@ -16,8 +16,14 @@
  * ac.build(): call once after the last insert, inserting after build() is not supported
  * ac.count(t): total number of occurrences of all patterns in t, overlaps included
  * ac.occurrences(t)[i]: number of occurrences of the i-th inserted pattern in t, overlaps included
- * ac.next(v, c): automaton transition for string DP, counter[v] = number of inserted patterns that are suffixes of node v
- * ac.size() is the number of inserted patterns, go.size() the number of nodes, node 0 is the root
+ * ac.next(v, c): the node reached from node v by character c, for string DP
+ * ac.nodes(): number of nodes, node 0 is the root
+ * ac.link(v): failure link of node v, its longest proper suffix that is a node, link(0) = 0, after build()
+ * ac.ends(v): number of inserted patterns equal to node v
+ * ac.matches(v): number of inserted patterns that are suffixes of node v, after build()
+ * ac.order: every node in BFS order from the root, so link(v) comes before v, after build()
+ * ac.terminal[i]: the node of the i-th inserted pattern
+ * ac.size(): number of inserted patterns
  * ac.clear(): resets to an empty automaton and keeps vector capacity, so it can be reused for a new pattern set
  *
 ***/
@@ -110,6 +116,25 @@ struct AhoCorasick{
         return go[cur][x];
     }
 
+    inline int nodes(){
+        return go.size();
+    }
+
+    inline int link(int v){
+        assert(built);
+        return fail[v];
+    }
+
+    inline int ends(int v){
+        return leaf[v];
+    }
+
+    /// Before build() counter is still all zeros, so the assert turns a silent wrong count into an abort
+    inline long long matches(int v){
+        assert(built);
+        return counter[v];
+    }
+
     long long count(const char* str){
         assert(built);
         long long res = 0;
@@ -166,6 +191,19 @@ int main(){
     dna.build();
     assert(dna.count("ACAXA") == 5);
     assert((dna.occurrences("ACACA") == vector<int>{2, 2, 3}));
+
+    AhoCorasick walk;
+    for (string p : {"he", "she", "his", "hers"}) walk.insert(p);
+    walk.build();
+    assert(walk.nodes() == 10);
+
+    int v = 0;
+    for (char c : string("ushe")) v = walk.next(v, c);
+    assert(v == walk.terminal[1]);
+    assert(walk.ends(v) == 1);
+    /// she and he both end here
+    assert(walk.matches(v) == 2);
+    assert(walk.link(v) == walk.terminal[0]);
 
     return 0;
 }

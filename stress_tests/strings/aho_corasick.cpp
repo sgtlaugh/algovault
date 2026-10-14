@@ -30,7 +30,56 @@ vector<int> brute_each(const vector<string>& patterns, const string& text){
     return res;
 }
 
+/// Checks the node API against the strings the nodes spell, read off the plain trie before build()
+void check_nodes(const vector<string>& patterns, int alphabet){
+    AhoCorasick ac;
+    for (const auto& p : patterns) ac.insert(p);
+    vector<string> spelled(ac.nodes());
+    map<string, int> node_of = {{"", 0}};
+    for (int u = 0; u < ac.nodes(); u++){
+        for (int c = 0; c < 26; c++){
+            int v = ac.go[u][c];
+            if (v) spelled[v] = spelled[u] + char('a' + c), node_of[spelled[v]] = v;
+        }
+    }
+    assert((int)node_of.size() == ac.nodes());
+    for (int v = 0; v < ac.nodes(); v++) assert(ac.ends(v) == count(patterns.begin(), patterns.end(), spelled[v]));
+    ac.build();
+
+    /// The node of the longest suffix of s that is a node, the root at worst
+    auto longest_suffix_node = [&](const string& s, size_t from){
+        for (size_t i = from; i < s.size(); i++){
+            if (node_of.count(s.substr(i))) return node_of[s.substr(i)];
+        }
+        return 0;
+    };
+
+    vector<int> position(ac.nodes(), -1);
+    assert((int)ac.order.size() == ac.nodes() && ac.order[0] == 0);
+    for (int i = 0; i < ac.nodes(); i++) position[ac.order[i]] = i;
+    for (int i = 0; i < (int)patterns.size(); i++) assert(ac.terminal[i] == node_of[patterns[i]]);
+
+    for (int v = 0; v < ac.nodes(); v++){
+        const string& s = spelled[v];
+        assert(position[v] != -1);
+        assert(ac.link(v) == longest_suffix_node(s, 1));
+        assert(v == 0 || position[ac.link(v)] < position[v]);
+
+        long long suffixes = 0;
+        for (const auto& p : patterns) suffixes += p.size() <= s.size() && s.compare(s.size() - p.size(), p.size(), p) == 0;
+        assert(ac.matches(v) == suffixes);
+        for (int c = 0; c < alphabet; c++) assert(ac.next(v, 'a' + c) == longest_suffix_node(s + char('a' + c), 0));
+    }
+}
+
 int main(){
+    for (long long it = 0; it < stress::scaled(2000); it++){
+        vector<string> patterns(stress::rand_int(0, it % 10 ? 6 : 30));
+        int alphabet = stress::rand_int(1, it % 5 ? 3 : 26);
+        for (auto& p : patterns) p = random_word(stress::rand_int(1, 6), alphabet);
+        check_nodes(patterns, alphabet);
+    }
+
     for (long long it = 0; it < stress::scaled(1000); it++){
         int alphabet = stress::rand_int(1, it % 5 ? 3 : 26);
         vector<string> patterns(stress::rand_int(0, it % 10 ? 8 : 60));

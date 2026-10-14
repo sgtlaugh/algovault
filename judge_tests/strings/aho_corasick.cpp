@@ -21,7 +21,7 @@ int main(){
     }
 
     /// build() overwrites go with full transitions, so the trie parents must be read before it
-    int n = ac.go.size();
+    int n = ac.nodes();
     vector<int> parent(n, -1);
     for (int u = 0; u < n; u++){
         for (int v : ac.go[u]){
@@ -31,7 +31,7 @@ int main(){
     ac.build();
 
     cout << n << '\n';
-    for (int v = 1; v < n; v++) cout << parent[v] << ' ' << ac.fail[v] << '\n';
+    for (int v = 1; v < n; v++) cout << parent[v] << ' ' << ac.link(v) << '\n';
     for (int i = 0; i < q; i++) cout << terminal[i] << (i + 1 < q ? ' ' : '\n');
     return 0;
 }

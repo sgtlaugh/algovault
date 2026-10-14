@@ -104,6 +104,25 @@ struct AhoCorasick{
         return go[cur][x];
     }
 
+    inline int nodes(){
+        return go.size();
+    }
+
+    inline int link(int v){
+        assert(built);
+        return fail[v];
+    }
+
+    inline int ends(int v){
+        return leaf[v];
+    }
+
+    /// Before build() counter is still all zeros, so the assert turns a silent wrong count into an abort
+    inline long long matches(int v){
+        assert(built);
+        return counter[v];
+    }
+
     long long count(const char* str){
         assert(built);
         long long res = 0;
