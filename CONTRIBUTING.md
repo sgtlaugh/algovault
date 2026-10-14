@@ -48,6 +48,13 @@ A template is used under contest pressure by someone who did not write it, so th
   it turns a silent wrong answer into a compile error, with a comment saying so
 - The one non-obvious line gets a one-line derivation; everything else should not need a comment
 - A trick for speed stays only with a measured reason in a comment
+- A struct reads top down: types and constants, every field, constructors, the API in header order, then helpers in the
+  order they are called; CI fails a field or type declared after a method
+- Related fields or constants share a line, `int n, m;` or `vector<int> parent, depth;`, unrelated ones do not
+- A set of named options is a nested enum, `enum Cmp{LESSEQ, EQUAL, GREATEQ};`, not int constants, so passing an option
+  from the wrong set or a bare number fails to compile
+- Loop variables live in their loop; short conventional names (`i, j, u, v, cur, res`) suit locals, while fields and API
+  names say what they hold
 
 ## Documentation
 
@@ -121,6 +128,9 @@ int main(){
 ## Style
 
 - Comments explain why, never what
+- A comment is one line at the code it explains, with no debugging history, failing inputs or judge anecdotes: those go in
+  the commit message or the stress test
+- A header note states the condition instead of hedging: `beyond double precision`, not `may get either answer`
 - `){` and `struct X{` open a body, `) {}` is empty, `for (` takes a space, `vector<int>` does not
 - A struct when there is state, a namespace only for stateless helpers like `fft`
 - Recursion must fit an 8 MB stack, which CI enforces as most judges do
@@ -129,7 +139,7 @@ int main(){
 
 ## Checks
 
-CI fails on a failing test, a compiler warning, a missing stress test or index entry, an index description over 50 characters, a ✔ that disagrees with `judge_tests/`, a ✅ that disagrees with `practice/`, a header without a complexity, a copied region that drifted, or a whitespace or style error.
+CI fails on a failing test, a compiler warning, a missing stress test or index entry, an index description over 50 characters, a ✔ that disagrees with `judge_tests/`, a ✅ that disagrees with `practice/`, a header without a complexity, a copied region that drifted, a struct member declared after a method, or a whitespace or style error.
 
 ```bash
 bash .github/scripts/run_tests.sh self      # every self-test

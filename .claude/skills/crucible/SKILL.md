@@ -46,8 +46,10 @@ Run shell commands under bash, edit files with Edit or Write (never `sed -i`), a
    - Does every call return its answer rather than fill an out-parameter?
    - Is everything public, with no `private:` section and no `class`?
    - Are loops plain and variables named for what they hold, with no abstraction used once and no language machinery that does not prevent a silent wrong answer?
+   - Does the struct read top down (types and constants, fields, constructors, the API in header order, helpers in call order), with named options as a nested enum rather than int constants?
+   - Is every comment one line of why, free of debugging history, failing inputs and judge anecdotes, which go in the commit or the stress test?
    A no that stays a no is allowed only with a one-line reason in the report, such as a measured speed cost.
-   The questions mirror CONTRIBUTING.md `## API and code`, so a change there updates them in the same commit.
+   The questions mirror CONTRIBUTING.md `## API and code` and `## Style`, so a change there updates them in the same commit.
 4. **Stress test**, at `stress_tests/<same path>` (`stress_tests/python/` for Python), mandatory:
    - an independent reference: a brute force, and also the original source when it compiles (port mode)
    - exhaustive on small inputs, random on large ones, every boundary the header claims (max n, max value, extreme moduli)
