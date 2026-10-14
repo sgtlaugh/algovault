@@ -34,8 +34,13 @@ int minimum_rotation(const Container& s){
     return i;
 }
 
+/// Without the char* overload a non-const char[] or char* skips the const conversion by binding to the template, which has no size()
 int minimum_rotation(const char* s){
-    return minimum_rotation(string(s));
+    return minimum_rotation(string_view(s));
+}
+
+int minimum_rotation(char* s){
+    return minimum_rotation(string_view(s));
 }
 
 int main(){

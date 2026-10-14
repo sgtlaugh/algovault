@@ -33,6 +33,16 @@ int main(){
         }
         assert(minimum_rotation(s) == brute(s));
 
+        /// A buffer longer than the string, filled past the terminator, so only the C string may be read
+        char buf[40];
+        memset(buf, 'a', sizeof(buf));
+        strcpy(buf, s.c_str());
+        char* p = buf;
+        const char* cp = buf;
+        assert(minimum_rotation(buf) == brute(s));
+        assert(minimum_rotation(p) == brute(s));
+        assert(minimum_rotation(cp) == brute(s));
+
         vector<int> v(n);
         for (auto& x : v) x = stress::rand_int(-2, 2);
         assert(minimum_rotation(v) == brute(v));
