@@ -292,7 +292,7 @@
 - [Library Checker bipartitematching - Matching on Bipartite Graph](https://judge.yosupo.jp/problem/bipartitematching)
 - [SPOJ GRIMM - A Terribly Grimm Problem](https://www.spoj.com/problems/GRIMM/)
 - [USACO 93 - Cow Steeplechase](https://usaco.org/index.php?page=viewproblem2&cpid=93)
-- [UVa 670 - The dog task](https://onlinejudge.org/external/6/670.pdf)
+- [UVa 670 - The dog task](https://onlinejudge.org/external/6/670.pdf) [✅](../../practice/graphs/uva_670.cpp "Accepted solution")
 - [UVa 1194 - Machine Schedule](https://onlinejudge.org/external/11/1194.pdf) [✅](../../practice/graphs/uva_1194.cpp "Accepted solution")
 - [UVa 1221 - Against Mammoths](https://onlinejudge.org/external/12/1221.pdf) [✅](../../practice/graphs/uva_1221.cpp "Accepted solution")
 - [UVa 1514 - Piece it together](https://onlinejudge.org/external/15/1514.pdf) [✅](../../practice/graphs/uva_1514_hopcroft_karp.cpp "Accepted solution")
