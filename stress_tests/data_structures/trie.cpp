@@ -4,6 +4,12 @@
 #include "../../code_library/data_structures/trie.cpp"
 #undef main
 
+template <class T, class = void>
+struct takes_int_child : false_type {};
+
+template <class T>
+struct takes_int_child<T, void_t<decltype(declval<T>().child(0, 0))>> : true_type {};
+
 template <int BITS>
 void stress_binary_trie(long long iterations, int ops, unsigned long long max_value, long long max_copies){
     for (long long it = 0; it < iterations; it++){
@@ -60,7 +66,7 @@ void stress_binary_trie(long long iterations, int ops, unsigned long long max_va
 int main(){
     for (long long it = 0; it < stress::scaled(2000); it++){
         int sigma = stress::rand_int(1, 3);
-        Trie<3, 'a'> trie;
+        Trie<3, 'a'> trie = stress::rand_int(0, 1) ? Trie<3, 'a'>() : Trie<3, 'a'>(stress::rand_int(1, 700));  /// below, at and above the 601 nodes 100 words of length 6 can need
         vector<string> words;
 
         auto random_word = [&](){
@@ -80,14 +86,37 @@ int main(){
             int prefix = 0, exact = 0;
             for (auto& w : words) prefix += w.compare(0, q.size(), q) == 0 && w.size() >= q.size(), exact += w == q;
             assert(trie.count_prefix(q) == prefix && trie.count_word(q) == exact);
+
+            /// Step along q with child, every prefix's node and counts must match find and the brute force
+            int v = 0;
+            for (int len = 0; len <= (int)q.size(); len++){
+                string p = q.substr(0, len);
+                assert(trie.find(p) == v);
+                int prefix_p = 0, exact_p = 0;
+                for (auto& w : words) prefix_p += w.compare(0, p.size(), p) == 0 && w.size() >= p.size(), exact_p += w == p;
+                if (v == -1){
+                    assert(prefix_p == 0);
+                    break;
+                }
+                assert(trie.pass[v] == prefix_p && trie.ends[v] == exact_p);
+                if (len < (int)q.size()) v = trie.child(v, q[len]);
+            }
         }
     }
+
+    /// child(v, int) is deleted, so the easy slip child(v, s[i] - 'a') does not compile
+    static_assert(!takes_int_child<Trie<>>::value);
+    static_assert(is_same_v<decltype(declval<Trie<>>().child(0, 'a')), int>);
 
     /// A non-letter alphabet, the random tests above only use BASE = 'a'
     Trie<2, '0'> bits;
     bits.insert("0101"), bits.insert("0110"), bits.insert("");
     assert(bits.count_prefix("01") == 2 && bits.count_prefix("010") == 1 && bits.count_prefix("") == 3);
     assert(bits.count_word("0110") == 1 && bits.count_word("") == 1 && bits.count_word("2") == 0 && bits.count_word("a") == 0);
+    int zero = bits.child(0, '0');
+    assert(zero == bits.find("0") && bits.pass[zero] == 2 && bits.ends[zero] == 0);
+    assert(bits.child(0, '1') == -1 && bits.child(0, '2') == -1 && bits.child(0, '/') == -1);
+    assert(bits.child(bits.child(zero, '1'), '1') == bits.find("011"));
 
     Trie<> big;
     for (int i = 0; i < 100000; i++) big.insert(string(10, 'a' + i % 26));

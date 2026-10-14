@@ -8,9 +8,17 @@
  *   - BinaryTrie: O(BITS) per operation, O(distinct inserted values * BITS) memory
  *
  * Trie<SIGMA = 26, BASE = 'a'> trie: no words yet, characters must lie in [BASE, BASE + SIGMA)
+ * Trie<> trie(max_nodes): the same with room reserved for max_nodes >= 1 nodes, which caps peak memory near the nodes used
  * trie.insert(s): adds one copy of s, duplicates count separately
  * trie.count_prefix(p): inserted words that start with p, every word for the empty prefix
  * trie.count_word(s): copies of exactly s
+ * trie.find(s): node of the prefix s, -1 if no inserted word starts with s, the root 0 for the empty prefix
+ * trie.child(v, ch): node one character ch below node v, -1 if none or ch is outside the alphabet
+ * trie.pass[v]: inserted words that start with node v's prefix
+ * trie.ends[v]: copies of exactly node v's prefix
+ *
+ * A trie holds at most 1 + total inserted length nodes, the natural max_nodes
+ * Each node costs 4 * SIGMA + 8 bytes, without max_nodes the vector doubling can briefly hold twice that
  *
  * BinaryTrie<BITS = 30> bt: an empty multiset of unsigned long long values in [0, 2^BITS), 1 <= BITS <= 64
  * bt.insert(x, c = 1): adds c >= 1 copies of x
@@ -38,6 +46,21 @@ struct Trie{
         new_node();
     }
 
+    /// Reserving up front skips the vector doubling, whose copy otherwise holds up to twice the nodes in memory at once
+    explicit Trie(int max_nodes){
+        assert(max_nodes >= 1);
+        next.reserve(max_nodes), pass.reserve(max_nodes), ends.reserve(max_nodes);
+        new_node();
+    }
+
+    int child(int v, char ch) const{
+        int c = ch - BASE;
+        return c < 0 || c >= SIGMA ? -1 : next[v][c];
+    }
+
+    /// Deleted so that child(v, s[i] - 'a') fails to compile instead of reading the int as a character
+    int child(int v, int c) const = delete;
+
     int new_node(){
         next.push_back({});
         next.back().fill(-1);
@@ -61,14 +84,9 @@ struct Trie{
         ends[v]++;
     }
 
-    /// Node reached by s, or -1 if no inserted word has s as a prefix
     int find(const string& s) const{
         int v = 0;
-        for (char ch : s){
-            int c = ch - BASE;
-            if (c < 0 || c >= SIGMA || next[v][c] == -1) return -1;
-            v = next[v][c];
-        }
+        for (int i = 0; i < (int)s.size() && v != -1; i++) v = child(v, s[i]);
         return v;
     }
 
@@ -183,6 +201,15 @@ int main(){
     assert(trie.count_prefix("app") == 4);  /// app twice, apple, apply
     assert(trie.count_word("app") == 2);
     assert(trie.count_word("appl") == 0);   /// a prefix, never inserted whole
+
+    /// Walk one character at a time, reading each node's counts
+    int v = trie.child(0, 'a');
+    v = trie.child(v, 'p');
+    v = trie.child(v, 'p');
+    assert(v == trie.find("app"));
+    assert(trie.pass[v] == 4);
+    assert(trie.ends[v] == 2);
+    assert(trie.child(v, 'x') == -1);
 
     /// Xor queries over {3, 10, 5, 25}
     BinaryTrie<5> bt;
