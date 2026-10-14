@@ -12,8 +12,6 @@
  * a[i][j] = value: any long long, reduced modulo mod when multiplying
  * a * b: the product, needs a.m == b.n and the same mod
  * a.pow(e): a^e for a square matrix and e >= 0, a.pow(0) is the identity
- * Matrix::multiply(x, y, res): writes x * y into res's existing rows, for products in a hot loop
- * multiply needs y normalized, res of size x.n x y.m, and res neither x nor y
  * a.normalized(): a copy with every entry in [0, mod)
  * a.is_normalized(): whether every entry is already in [0, mod)
  * a.transpose(): the m x n transpose
@@ -143,11 +141,6 @@ int main(){
     a.a = {{1, 2, 3}, {4, 5, 6}};
     b.a = {{7, 8}, {9, 10}, {11, 12}};
     assert(((a * b).a == vector<vector<long long>>{{58, 64}, {139, 154}}));
-
-    /// The same product into a reused buffer
-    Matrix res(2, 2, MOD);
-    Matrix::multiply(a, b, res);
-    assert((res.a == vector<vector<long long>>{{58, 64}, {139, 154}}));
 
     /// Negative entries are reduced
     Matrix neg(1, 1, 7);
