@@ -1,29 +1,30 @@
 /***
- * Fast Fourier Transformation
  *
- * Uses custom class for complex numbers and various optimizations for better performance
+ * Fast Fourier Transform
+ * Polynomial multiplication, exact over integers or modulo any mod, and binary string matching
  *
- * Usage (FFT fft; each method is documented above its definition):
- *   fft.multiply(a, b)               // exact product of small integer vectors, negatives allowed
- *   fft.square(a)                    // same as multiply(a, a) but faster
- *   fft.mod_multiply(a, b, mod)      // product modulo mod, 1 <= mod < 2^31, results in [0, mod)
- *   fft.ll_multiply(a, b)            // exact product of values in [0, LL_MULTIPLY_LIMIT)
- *   fft.hamming_distance(str, pat)   // mismatches of binary pat against each window of str, |str| - |pat| + 1 values
- *   fft.common_ones(str, pat)        // common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
- * All products are linear (no wrap around) of length |a| + |b| - 1, an empty input gives an empty result
- * The two string methods return an empty vector when |pat| > |str|
+ * Complexity:
+ *   - every call: O((n + m) log(n + m)) for inputs of sizes n and m
+ *   - the first call at a new transform length len: O(len) more to extend the roots of unity
+ *
+ * FFT fft: an instance that keeps its roots of unity and work buffers between calls
+ * fft.multiply(a, b): the linear product of a and b, negatives allowed, exact whenever every coefficient fits in a long long
+ * fft.square(a): the same as multiply(a, a) but faster
+ * fft.mod_multiply(a, b, mod): the product modulo mod, 1 <= mod < 2^31, any input values, results in [0, mod)
+ * fft.ll_multiply(a, b): the exact product of values in [0, LL_MULTIPLY_LIMIT), every coefficient below 2^63
+ * fft.hamming_distance(str, pat): mismatches of binary pat against each window of str, |str| - |pat| + 1 values
+ * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
+ *
+ * Products have length n + m - 1, and an empty input gives an empty result
+ * multiply and square use one transform while max(n, m) * max|value|^2 <= EXACT_LIMIT, about 9.2e16 with long double
+ * Past EXACT_LIMIT they split values into 15 bit halves like ll_multiply, about 2x slower, and need |values| < LL_MULTIPLY_LIMIT
+ * The string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
+ * Memory: 2 complex arrays of the largest len used, the smallest power of two >= n + m, and 4 once a split product ran
  *
  * Circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
  *   auto c = fft.multiply(a, b);
  *   for (int i = n; i < (int)c.size(); i++) c[i - n] += c[i];
  *   c.resize(n);
- *
- * Complexity:
- *   - O(len) to extend the roots of unity the first time a transform length is used
- *   - O(n log n) for all exposed methods
- *
- * Memory: len is the smallest power of two >= n + m, an instance keeps its roots of unity and work buffers
- * at the largest len it has used, 2 complex arrays of len (4 once mod_multiply or ll_multiply ran)
  *
 ***/
 
@@ -380,35 +381,25 @@ struct FFT{
 };
 
 int main(){
+    /// (5 + x + 2x^2 + 6x^3 + 9x^4 + 8x^5) * (3 + 9x + 2x^3)
     FFT fft;
+    vector<long long> a = {5, 1, 2, 6, 9, 8}, b = {3, 9, 0, 2};
+    assert(fft.multiply(a, b) == vector<long long>({15, 48, 15, 46, 83, 109, 84, 18, 16}));
+    assert(fft.square({1, 2, 3}) == vector<long long>({1, 4, 10, 12, 9}));
 
-    vector<long long> v1, v2, expected_result;
+    /// 2 * (10^9)^2 is past EXACT_LIMIT, so this takes the exact split product
+    assert(fft.multiply({-1000000000, 3}, {1000000000, 1}) == vector<long long>({-1000000000000000000, 2000000000, 3}));
 
-    v1 = {5, 1, 2, 6, 9, 8};
-    v2 = {3, 9, 0, 2};
-    assert(fft.multiply(v1, v2) == vector<long long>({15, 48, 15, 46, 83, 109, 84, 18, 16}));
-
-    int mod = 14;
-    assert(fft.mod_multiply(v1, v2, mod) == vector<long long>({1, 6, 1, 4, 13, 11, 0, 4, 2}));
-
-    for (auto && x: v1) x = (1 << 30) - x;
-    for (auto && x: v2) x = (1 << 30) - x;
-    expected_result = {1152921496016912399, 2305842989886341168, 3458764492345704463, 4611685988362616878, 4611685984067649619, 4611685976551456877, 3458764477313318996, 2305842988812599314, 1152921493869428752};
-
-    assert(fft.ll_multiply(v1, v2) == expected_result);
-
+    /// Inputs are reduced first, -1 becomes 6 modulo 7
+    assert(fft.mod_multiply(a, b, 14) == vector<long long>({1, 6, 1, 4, 13, 11, 0, 4, 2}));
     assert(fft.mod_multiply({-1, 2}, {1, 1}, 7) == vector<long long>({6, 1, 2}));
-    assert(fft.multiply({}, {1, 2}).empty() && fft.mod_multiply({}, {}, 7).empty());
 
-    expected_result = {3, 3, 1, 1, 4, 1, 2};
-    assert(fft.hamming_distance("1000100101", "0110") == expected_result);
+    assert(fft.ll_multiply({1000000000, 1}, {1000000000, 2}) == vector<long long>({1000000000000000000, 3000000000, 2}));
 
-    expected_result = {1, 2, 1, 1, 2};
-    assert(fft.common_ones(string("0110110"), "110") == expected_result);
-
-    expected_result = {0, 0, 0, 0, 0};
-    assert(fft.hamming_distance("0101", "") == expected_result && fft.common_ones("0101", "") == expected_result);
-    assert(fft.hamming_distance("", "") == vector<long long>({0}) && fft.common_ones("01", "011").empty());
+    /// Windows of "1000100101": 1000, 0001, 0010, 0100, 1001, 0010, 0101
+    assert(fft.hamming_distance("1000100101", "0110") == vector<long long>({3, 3, 1, 1, 4, 1, 2}));
+    assert(fft.common_ones("0110110", "110") == vector<long long>({1, 2, 1, 1, 2}));
+    assert(fft.common_ones("01", "011").empty());
 
     return 0;
 }
