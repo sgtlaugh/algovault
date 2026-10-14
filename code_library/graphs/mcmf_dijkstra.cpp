@@ -50,20 +50,27 @@ struct MCMF{
         return edges[id ^ 1].cap;
     }
 
-    /// Bellman Ford from s so that negative costs give valid starting potentials
+    /// Zero potentials are valid without negative residual costs; otherwise SPFA, since index-order Bellman Ford
+    /// needed about n passes on adversarially numbered chains (UVa 12821)
     void init_potential(int s){
-        fill(potential.begin(), potential.end(), INF);
-        potential[s] = 0;
-        for (int round = 0; round < n; round++){
-            bool changed = false;
-            for (int u = 0; u < n; u++){
-                if (potential[u] == INF) continue;
-                for (int id : adj[u]){
-                    const Edge& e = edges[id];
-                    if (e.cap > 0 && potential[u] + e.cost < potential[e.to]) potential[e.to] = potential[u] + e.cost, changed = true;
+        bool negative = false;
+        for (const Edge& e : edges) negative |= e.cap > 0 && e.cost < 0;
+        fill(potential.begin(), potential.end(), negative ? INF : 0);
+        if (!negative) return;
+
+        vector<char> queued(n, 0);
+        queue<int> q;
+        potential[s] = 0, q.push(s), queued[s] = 1;
+        while (!q.empty()){
+            int u = q.front();
+            q.pop(), queued[u] = 0;
+            for (int id : adj[u]){
+                const Edge& e = edges[id];
+                if (e.cap > 0 && potential[u] + e.cost < potential[e.to]){
+                    potential[e.to] = potential[u] + e.cost;
+                    if (!queued[e.to]) q.push(e.to), queued[e.to] = 1;
                 }
             }
-            if (!changed) break;
         }
     }
 

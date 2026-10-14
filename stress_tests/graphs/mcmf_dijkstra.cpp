@@ -53,12 +53,55 @@ vector<array<long long, 4>> random_graph(int n, int m, long long max_cap, long l
     return edges;
 }
 
+/// A path 0 -> n-2 -> n-3 -> ... -> 1 -> n-1 numbered against index order (UVa 12821), two parallel edges per step,
+/// plus random shortcuts that go forward along the path so negative costs make no cycle
+vector<array<long long, 4>> reversed_chain(int n, int extra, long long min_cost, long long max_cost){
+    vector<int> path = {0};
+    for (int v = n - 2; v >= 1; v--) path.push_back(v);
+    path.push_back(n - 1);
+
+    vector<array<long long, 4>> edges;
+    for (int i = 0; i + 1 < n; i++){
+        long long d = stress::rand_int(min_cost, max_cost);
+        edges.push_back({path[i], path[i + 1], 1, d});
+        edges.push_back({path[i], path[i + 1], stress::rand_int(0, 2), d + stress::rand_int(0, max_cost - min_cost)});
+    }
+    for (int i = 0; i < extra; i++){
+        int a = stress::rand_int(0, n - 2), b = stress::rand_int(a + 1, n - 1);
+        edges.push_back({path[a], path[b], stress::rand_int(0, 3), stress::rand_int(min_cost, max_cost)});
+    }
+    return edges;
+}
+
+/// Lazy Dijkstra stays correct under negative reduced costs and only slows down, so answers alone cannot catch
+/// bad starting potentials: check that every residual edge reachable from s has a non-negative reduced cost
+void check_potentials(MCMF& g, int s){
+    g.init_potential(s);
+    vector<char> seen(g.n, 0);
+    vector<int> stack = {s};
+    seen[s] = 1;
+    while (!stack.empty()){
+        int u = stack.back();
+        stack.pop_back();
+        assert(g.potential[u] < MCMF::INF);
+        for (int id : g.adj[u]){
+            const auto& e = g.edges[id];
+            if (e.cap <= 0) continue;
+            assert(g.potential[u] + e.cost - g.potential[e.to] >= 0);
+            if (!seen[e.to]) seen[e.to] = 1, stack.push_back(e.to);
+        }
+    }
+}
+
 void check(int n, const vector<array<long long, 4>>& edges, long long limit){
     int s = 0, t = n - 1;
     MCMF g(n);
     vector<int> ids;
     for (auto [u, v, cap, cost] : edges) ids.push_back(g.add_edge(u, v, cap, cost));
+    check_potentials(g, s);
     auto got = g.solve(s, t, limit);
+    MCMF residual = g;
+    check_potentials(residual, s);
     assert(got == brute(n, edges, s, t, limit));
 
     vector<long long> balance(n, 0);
@@ -116,12 +159,21 @@ int main(){
         check(n, random_graph(n, m, 5, 0, 10, false), MCMF::INF);
         check(n, random_graph(n, m, 5, -10, 10, true), MCMF::INF);
         check(n, random_graph(n, m, 5, 0, 10, false), stress::rand_int(0, 6));
+        check(n, random_graph(n, m, 5, -1, 3, true), stress::rand_int(0, 6));
     }
 
     for (long long it = 0; it < stress::scaled(1500); it++){
         int n = stress::rand_int(2, 8), m = stress::rand_int(0, 20);
         check_slope(n, random_graph(n, m, 5, 0, 4, false));
         check_slope(n, random_graph(n, m, 5, -6, 6, true));
+        check_slope(n, random_graph(n, m, 5, -1, 3, true));
+        check_slope(n, reversed_chain(n, m, -6, 6));
+    }
+
+    for (long long it = 0; it < stress::scaled(500); it++){
+        int n = stress::rand_int(2, 40), extra = stress::rand_int(0, 2 * n);
+        check(n, reversed_chain(n, extra, 0, 10), stress::rand_int(1, 3));
+        check(n, reversed_chain(n, extra, -10, 10), MCMF::INF);
     }
 
     for (long long it = 0; it < stress::scaled(150); it++){
