@@ -133,7 +133,7 @@
 - [SPOJ VECTAR8 - Primal Fear](https://www.spoj.com/problems/VECTAR8/)
 - [UVa 884 - Factorial Factors](https://onlinejudge.org/external/8/884.pdf) [✅](../../practice/number_theory/uva_884.cpp "Accepted solution")
 - [UVa 1210 - Sum of Consecutive Prime Numbers](https://onlinejudge.org/external/12/1210.pdf) [✅](../../practice/number_theory/uva_1210.cpp "Accepted solution")
-- [UVa 10168 - Summation of Four Primes](https://onlinejudge.org/external/101/10168.pdf)
+- [UVa 10168 - Summation of Four Primes](https://onlinejudge.org/external/101/10168.pdf) [✅](../../practice/number_theory/uva_10168.cpp "Accepted solution")
 - [UVa 10235 - Simply Emirp](https://onlinejudge.org/external/102/10235.pdf) [✅](../../practice/number_theory/uva_10235.cpp "Accepted solution")
 - [UVa 10820 - Send a Table](https://onlinejudge.org/external/108/10820.pdf) [✅](../../practice/number_theory/uva_10820.cpp "Accepted solution")
 - [UVa 10948 - The primary problem](https://onlinejudge.org/external/109/10948.pdf) [✅](../../practice/number_theory/uva_10948.cpp "Accepted solution")
