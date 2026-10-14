@@ -54,38 +54,59 @@ struct Matrix{
         return res;
     }
 
+    bool is_normalized() const{
+        for (const auto& row : a){
+            for (long long x : row){
+                if (x < 0 || x >= mod) return false;
+            }
+        }
+        return true;
+    }
+
     Matrix operator*(const Matrix& other) const{
         assert(m == other.n && mod == other.mod);
 
-        Matrix x = normalized(), y = other.normalized(), res(n, other.m, mod);
-        const long long limit = mod * mod;  /// sums stay below 2 * mod^2 < 2^63
-        vector<long long> acc(other.m);
-
-        for (int i = 0; i < n; i++){
-            fill(acc.begin(), acc.end(), 0);
-            for (int k = 0; k < m; k++){
-                long long v = x.a[i][k];
-                if (!v) continue;
-                for (int j = 0; j < other.m; j++){
-                    acc[j] += v * y.a[k][j];
-                    if (acc[j] >= limit) acc[j] -= limit;
-                }
-            }
-            for (int j = 0; j < other.m; j++) res.a[i][j] = acc[j] % mod;
-        }
-
+        Matrix res(n, other.m, mod);
+        if (other.is_normalized()) multiply(*this, other, res);
+        else multiply(*this, other.normalized(), res);
         return res;
     }
 
     Matrix pow(long long e) const{
         assert(n == m && e >= 0);
 
-        Matrix res = identity(n, mod), base = normalized();
+        /// tmp is the one scratch buffer, so the loop allocates nothing
+        Matrix res = identity(n, mod), base = normalized(), tmp(n, n, mod);
         for (; e; e >>= 1){
-            if (e & 1) res = res * base;
-            base = base * base;
+            if (e & 1){
+                multiply(res, base, tmp);
+                swap(res, tmp);
+            }
+            multiply(base, base, tmp);
+            swap(base, tmp);
         }
         return res;
+    }
+
+    /// res = x * y in res's existing rows; y must be normalized and res must not alias x or y
+    static void multiply(const Matrix& x, const Matrix& y, Matrix& res){
+        const long long mod = x.mod, limit = mod * mod;  /// sums stay below 2 * mod^2 < 2^63
+
+        for (int i = 0; i < x.n; i++){
+            vector<long long>& acc = res.a[i];
+            fill(acc.begin(), acc.end(), 0);
+            for (int k = 0; k < x.m; k++){
+                long long v = x.a[i][k] % mod;
+                if (v < 0) v += mod;
+                if (!v) continue;
+                const vector<long long>& row = y.a[k];
+                for (int j = 0; j < y.m; j++){
+                    acc[j] += v * row[j];
+                    if (acc[j] >= limit) acc[j] -= limit;
+                }
+            }
+            for (long long& value : acc) value %= mod;
+        }
     }
 
     Matrix transpose() const{

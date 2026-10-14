@@ -53,6 +53,22 @@ int main(){
         check_product(random_matrix(n, m, mod, it % 3), random_matrix(m, p, mod, (it + 1) % 3));
     }
 
+    /// multiply must overwrite whatever an earlier product left in res
+    for (long long it = 0; it < stress::scaled(1000); it++){
+        long long mod = it % 2 ? MAXMOD : stress::rand_int(1, 20);
+        int n = stress::rand_int(1, 6), m = stress::rand_int(1, 6), p = stress::rand_int(1, 6);
+        Matrix x = random_matrix(n, m, mod, it % 3), y = random_matrix(m, p, mod, 0);
+        Matrix res = random_matrix(n, p, mod, 1);
+        Matrix::multiply(x, y, res);
+        assert(res.a == (x * y).a);
+
+        bool reduced = true;
+        for (auto& row : x.a){
+            for (long long v : row) reduced &= 0 <= v && v < mod;
+        }
+        assert(x.is_normalized() == reduced);
+    }
+
     for (long long it = 0; it < stress::scaled(30); it++){
         long long mod = it % 2 ? MAXMOD : stress::rand_int(1, MAXMOD);
         int n = stress::rand_int(30, 70);
