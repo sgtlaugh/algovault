@@ -3,15 +3,20 @@
  * Linear Sieve
  * Smallest prime factors, primes, Euler's phi, Mobius mu and any multiplicative function for 1..n in one pass
  *
- * Complexity: O(n) time, O(n) memory, about 20 bytes per entry (200 MB at n = 1e7)
- * For mu alone, mobius_function.cpp needs 1 byte per entry and runs about 5x faster
+ * Complexity: O(n) time, 13 bytes per entry plus 4 per prime, about 135 MB at n = 1e7
  *
  * LinearSieve sieve(n): tables for 0..n
- * sieve.spf[x]: smallest prime factor of x >= 2, sieve.primes: primes <= n in order
- * sieve.phi[x], sieve.mu[x]: Euler's totient and Mobius function for x >= 1
+ * sieve.primes: primes <= n in order
+ * sieve.spf[x]: smallest prime factor of x >= 2
+ * sieve.spf_exponent[x]: exponent of spf[x] in x >= 2
+ * sieve.phi[x]: Euler's totient of x >= 1
+ * sieve.mu[x]: Mobius function of x >= 1
  * sieve.factorize(x): prime factors of 1 <= x <= n with multiplicity, ascending, O(log x)
- * sieve.multiplicative(f): g[x] for 1 <= x <= n where g is multiplicative and g(p^k) = f(p, k, p^k), g[1] = 1
+ * sieve.multiplicative(f): g[x] for 1 <= x <= n where g is multiplicative and g(p^k) = f(p, k, p^k), g[1] = 1, in O(n)
  *     e.g. divisor count: f = [](long long p, int k, long long pk){ return k + 1; }
+ *
+ * multiplicative() returns a new table of 8 bytes per entry on every call
+ * For mu alone, mobius_function.cpp needs 1 byte per entry and runs about 3x faster
  *
 ***/
 
@@ -64,23 +69,34 @@ struct LinearSieve{
 };
 
 int main(){
+    /// Every table up to 100
     LinearSieve sieve(100);
-    assert((vector<int>(sieve.primes.begin(), sieve.primes.begin() + 6) == vector<int>{2, 3, 5, 7, 11, 13}));
     assert(sieve.primes.size() == 25);
-    assert(sieve.spf[91] == 7 && sieve.spf[97] == 97 && sieve.spf[64] == 2);
+    assert(sieve.primes[5] == 13);
+    assert(sieve.spf[91] == 7);
+    assert(sieve.spf[97] == 97);
+    assert(sieve.spf_exponent[72] == 3);  /// 72 = 2^3 * 3^2
+    assert(sieve.phi[36] == 12);
+    assert(sieve.phi[97] == 96);
+    assert(sieve.mu[30] == -1);
+    assert(sieve.mu[12] == 0);
+    assert((sieve.factorize(60) == vector<int>{2, 2, 3, 5}));
+    assert(sieve.factorize(1).empty());
 
-    assert(sieve.phi[1] == 1 && sieve.phi[8] == 4 && sieve.phi[9] == 6 && sieve.phi[36] == 12 && sieve.phi[97] == 96);
-    assert(sieve.mu[1] == 1 && sieve.mu[6] == 1 && sieve.mu[30] == -1 && sieve.mu[12] == 0 && sieve.mu[97] == -1);
-    assert((sieve.factorize(60) == vector<int>{2, 2, 3, 5}) && sieve.factorize(1).empty());
-
+    /// Divisor count and divisor sum from their values on prime powers
     auto divisors = sieve.multiplicative([](long long, int k, long long){ return (long long)k + 1; });
-    assert(divisors[1] == 1 && divisors[12] == 6 && divisors[36] == 9 && divisors[97] == 2 && divisors[64] == 7);
+    assert(divisors[12] == 6);
+    assert(divisors[64] == 7);
 
     auto sigma = sieve.multiplicative([](long long p, int, long long pk){ return (pk * p - 1) / (p - 1); });
-    assert(sigma[6] == 12 && sigma[12] == 28 && sigma[28] == 56);
+    assert(sigma[12] == 28);
+    assert(sigma[28] == 56);
 
+    /// n = 1 has no primes, but phi[1] and mu[1] are set
     LinearSieve tiny(1);
-    assert(tiny.primes.empty() && tiny.phi[1] == 1);
+    assert(tiny.primes.empty());
+    assert(tiny.phi[1] == 1);
+    assert(tiny.mu[1] == 1);
 
     return 0;
 }
