@@ -466,7 +466,7 @@
 - [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf)
 - [UVa 1658 - Admiral](https://onlinejudge.org/external/16/1658.pdf) [✅](../../practice/graphs/uva_1658_mcmf_spfa.cpp "Accepted solution")
 - [UVa 1711 - Catering](https://onlinejudge.org/external/17/1711.pdf) [✅](../../practice/graphs/uva_1711_mcmf_spfa.cpp "Accepted solution")
-- [UVa 10594 - Data Flow](https://onlinejudge.org/external/105/10594.pdf)
+- [UVa 10594 - Data Flow](https://onlinejudge.org/external/105/10594.pdf) [✅](../../practice/graphs/uva_10594.cpp "Accepted solution")
 - [UVa 10806 - Dijkstra, Dijkstra.](https://onlinejudge.org/external/108/10806.pdf) [✅](../../practice/graphs/uva_10806.cpp "Accepted solution")
 - [UVa 11301 - Great Wall of China](https://onlinejudge.org/external/113/11301.pdf)
 
