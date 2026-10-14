@@ -181,7 +181,7 @@
 - [UVa 11833 - Route Change](https://onlinejudge.org/external/118/11833.pdf) [✅](../../practice/graphs/uva_11833.cpp "Accepted solution")
 - [UVa 12047 - Highest Paid Toll](https://onlinejudge.org/external/120/12047.pdf) [✅](../../practice/graphs/uva_12047.cpp "Accepted solution")
 - [UVa 12144 - Almost Shortest Path](https://onlinejudge.org/external/121/12144.pdf) [✅](../../practice/graphs/uva_12144.cpp "Accepted solution")
-- [UVa 12625 - Shortest Gas Paths](https://onlinejudge.org/external/126/12625.pdf)
+- [UVa 12625 - Shortest Gas Paths](https://onlinejudge.org/external/126/12625.pdf) [✅](../../practice/graphs/uva_12625.cpp "Accepted solution")
 - [UVa 12680 - Shopping Malls](https://onlinejudge.org/external/126/12680.pdf) [✅](../../practice/graphs/uva_12680.cpp "Accepted solution")
 - [UVa 12933 - Easy Graph Problem?](https://onlinejudge.org/external/129/12933.pdf) [✅](../../practice/graphs/uva_12933.cpp "Accepted solution")
 - [UVa 12950 - Even Obsession](https://onlinejudge.org/external/129/12950.pdf) [✅](../../practice/graphs/uva_12950.cpp "Accepted solution")
