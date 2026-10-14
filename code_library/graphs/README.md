@@ -312,7 +312,7 @@
 - [UVa 12668 - Attacking rooks](https://onlinejudge.org/external/126/12668.pdf) [✅](../../practice/graphs/uva_12668.cpp "Accepted solution")
 - [UVa 12873 - The Programmers](https://onlinejudge.org/external/128/12873.pdf) [✅](../../practice/graphs/uva_12873.cpp "Accepted solution")
 - [UVa 12963 - Astragalus Nitidiflorus](https://onlinejudge.org/external/129/12963.pdf) [✅](../../practice/graphs/uva_12963.cpp "Accepted solution")
-- [UVa 12972 - Cuban Challenge](https://onlinejudge.org/external/129/12972.pdf)
+- [UVa 12972 - Cuban Challenge](https://onlinejudge.org/external/129/12972.pdf) [✅](../../practice/graphs/uva_12972.cpp "Accepted solution")
 - [UVa 13100 - Painting the Wall](https://onlinejudge.org/external/131/13100.pdf)
 
 #### [Hungarian Algorithm](hungarian_algorithm.cpp)
