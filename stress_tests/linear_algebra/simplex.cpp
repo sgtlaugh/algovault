@@ -8,7 +8,7 @@
 #include <unistd.h>
 
 typedef __int128 i128;
-using Float = Simplex::Float;
+using Float = double;
 
 struct Constraint{
     vector<long long> a;
@@ -254,20 +254,74 @@ void nearly_parallel_rows(){
 }
 
 /// The tableau is pivoted in place, so a second solve() on the same instance must abort instead of answering
+/// stderr must name simplex.cpp, since _GLIBCXX_ASSERTIONS also aborts on a bad index with the assert deleted
 void solve_twice_aborts(){
+    int fd[2];
+    assert(pipe(fd) == 0);
     pid_t pid = fork();
     if (pid == 0){
-        close(STDERR_FILENO);
+        dup2(fd[1], STDERR_FILENO);
         Simplex encore({3, 2}, Simplex::MAXIMIZE);
         encore.add_constraint({1, 1}, 4, Simplex::LESSEQ);
         encore.solve();
         encore.solve();
         _exit(0);
     }
+    close(fd[1]);
+    string err;
+    char buf[512];
+    for (ssize_t k; (k = read(fd[0], buf, sizeof(buf))) > 0; ) err.append(buf, k);
+    close(fd[0]);
 
     int status;
     waitpid(pid, &status, 0);
     assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    assert(err.find("simplex.cpp") != string::npos && err.find("Assertion") != string::npos);
+}
+
+/// Rows scaled by 2^-13..2^13 and columns by 2^-10..2^10, so variables reach 1e5 and dropping elimination entries at the
+/// decision EPS breaks rows by up to 1e-4 of their size in double, which only shows past n = 100
+/// Checked by each row's backward error, the long double optimum and the dual's optimum, every coefficient exact in both types
+template <typename Float>
+void scaled_rows_and_columns(long long iterations, int lo, int hi){
+    for (long long it = 0; it < iterations; it++){
+        int n = stress::rand_int(lo, hi), m = 2 * n;
+        vector<long double> c(n), b(m), col(n);
+        vector<vector<long double>> a(m, vector<long double>(n, 0));
+        for (auto& x : c) x = stress::rand_int(1, 100);
+        for (auto& x : col) x = ldexpl(1, stress::rand_int(-10, 10));
+        for (int i = 0; i < n; i++){
+            bool ge = i % 2;
+            long double k = ldexpl(ge ? -1 : 1, stress::rand_int(-13, 13));
+            for (int j = 0; j < n; j++) a[i][j] = stress::rand_int(-50, 100) * k * col[j];
+            b[i] = (ge ? stress::rand_int(1, 500) : stress::rand_int(1000, 10000)) * k;
+        }
+        for (int j = 0; j < n; j++) a[n + j][j] = col[j], b[n + j] = 100;
+
+        BasicSimplex<Float> primal(vector<Float>(c.begin(), c.end()), Simplex::MAXIMIZE);
+        BasicSimplex<long double> wide(c, Simplex::MAXIMIZE), dual(b, Simplex::MINIMIZE);
+        for (int i = 0; i < m; i++){
+            primal.add_constraint(vector<Float>(a[i].begin(), a[i].end()), b[i], Simplex::LESSEQ);
+            wide.add_constraint(a[i], b[i], Simplex::LESSEQ);
+        }
+        for (int j = 0; j < n; j++){
+            vector<long double> column(m);
+            for (int i = 0; i < m; i++) column[i] = a[i][j];
+            dual.add_constraint(column, c[j], Simplex::GREATEQ);
+        }
+        assert(primal.solve() == Simplex::FEASIBLE);
+        assert(wide.solve() == Simplex::FEASIBLE);
+        assert(dual.solve() == Simplex::FEASIBLE);
+
+        long double tol = 1e-9L * fabsl(wide.value);
+        assert(fabsl(wide.value - dual.value) <= tol);
+        assert(fabsl(primal.value - wide.value) <= tol);
+        for (int i = 0; i < m; i++){
+            long double s = 0, size = fabsl(b[i]);
+            for (int j = 0; j < n; j++) s += a[i][j] * primal.val[j], size += fabsl(a[i][j] * primal.val[j]);
+            assert(s - b[i] <= 1e-9L * size);
+        }
+    }
 }
 
 int main(){
@@ -277,6 +331,8 @@ int main(){
     mixed_magnitude_rows();
     nearly_parallel_rows();
     degenerate_cycling();
+    scaled_rows_and_columns<double>(stress::scaled(15), 100, 150);
+    scaled_rows_and_columns<long double>(stress::scaled(10), 20, 60);
     duality(stress::scaled(300), 1, 40, true);
     duality(stress::scaled(300), 1, 40, false);
     duality(stress::scaled(10), 80, 100, true);
