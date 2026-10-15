@@ -290,7 +290,7 @@ check_style(){  # ){ and struct X{ open a body, ) {} is empty, keywords take a s
 check_member_order(){  # a struct declares its types, constants and fields before its first method
     local bad=()
     mapfile -t bad < <(git ls-files 'code_library/*.cpp' | xargs awk '
-        /^struct [A-Za-z_0-9]+\{$/ {in_struct = 1; method = 0; next}
+        /^struct [A-Za-z_0-9]+( : [^{]+)?\{$/ {in_struct = 1; method = 0; next}
         in_struct && /^};/ {in_struct = 0; next}
         in_struct && /^    [^ \/}]/ {
             if ($0 ~ /^    [^(=]*\(/ && $0 ~ /\{$/) method = 1
