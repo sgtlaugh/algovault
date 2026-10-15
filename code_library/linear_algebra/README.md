@@ -125,7 +125,7 @@
 - [Code Jam 2015 Round 2 B - Kiddie Pool](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/round_2/kiddie_pool)
 - [CodeChef FLYDIST - Flight Distance](https://www.codechef.com/problems/FLYDIST)
 - [Codeforces 375E - Red and Black Tree](https://codeforces.com/problemset/problem/375/E) [✅](../../practice/linear_algebra/codeforces_375e.cpp "Accepted solution")
-- [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A)
+- [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A) [✅](../../practice/linear_algebra/codeforces_gym_100491a.cpp "Accepted solution")
 - [Codeforces Gym 101161J - Printing Press](https://codeforces.com/gym/101161/problem/J)
 - [Kattis goatropes - Goat Ropes](https://open.kattis.com/problems/goatropes)
 - [Kattis roadtimes - Road Times](https://open.kattis.com/problems/roadtimes)
