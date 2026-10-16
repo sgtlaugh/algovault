@@ -473,7 +473,7 @@
 - [Codeforces Gym 100739E - Life as a Monster](https://codeforces.com/gym/100739/problem/E)
 - [Codeforces Gym 101319C - Problem Strudel. Efficient Evaluation](https://codeforces.com/gym/101319/problem/C)
 - [CSES 2072 - Cut and Paste](https://cses.fi/problemset/task/2072) [✅](../../practice/data_structures/cses_2072_treap.cpp "Accepted solution")
-- [CSES 2073 - Substring Reversals](https://cses.fi/problemset/task/2073)
+- [CSES 2073 - Substring Reversals](https://cses.fi/problemset/task/2073) [✅](../../practice/data_structures/cses_2073.cpp "Accepted solution")
 - [CSES 2074 - Reversals and Sums](https://cses.fi/problemset/task/2074)
 - [DMOJ noi05p2 - NOI '05 P2 - Maintaining a Sequence](https://dmoj.ca/problem/noi05p2)
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma)
