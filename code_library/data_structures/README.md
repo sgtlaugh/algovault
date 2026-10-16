@@ -382,7 +382,7 @@
 - [SPOJ GSS3 - Can you answer these queries III](https://www.spoj.com/problems/GSS3/)
 - [SPOJ HORRIBLE - Horrible Queries](https://www.spoj.com/problems/HORRIBLE/)
 - [SPOJ NCKLCE - Another Necklace Problem](https://www.spoj.com/problems/NCKLCE/)
-- [Timus 2042 - Nikita](https://acm.timus.ru/problem.aspx?num=2042)
+- [Timus 2042 - Nikita](https://acm.timus.ru/problem.aspx?num=2042) [✅](../../practice/data_structures/timus_2042.cpp "Accepted solution")
 - [USACO 495 - Marathon](https://usaco.org/index.php?page=viewproblem2&cpid=495)
 - [USACO 578 - Counting Haybales](https://usaco.org/index.php?page=viewproblem2&cpid=578) [✅](../../practice/data_structures/usaco_578.cpp "Accepted solution")
 - [USACO 1332 - Pareidolia](https://usaco.org/index.php?page=viewproblem2&cpid=1332) [✅](../../practice/data_structures/usaco_1332.cpp "Accepted solution")
