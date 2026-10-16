@@ -75,7 +75,7 @@
 
 #### [Fenwick Tree](fenwick_tree.cpp)
 
-- [AOJ DSL_2_E - Range Add Query (RAQ)](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_E)
+- [AOJ DSL_2_E - Range Add Query (RAQ)](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_E) [✅](../../practice/data_structures/aoj_dsl_2_e.cpp "Accepted solution")
 - [AOJ DSL_2_G - RSQ and RAQ](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_G)
 - [AOJ GRL_5_D - Range Query on a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_D)
 - [AOJ GRL_5_E - Range Query on a Tree II](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_E)
