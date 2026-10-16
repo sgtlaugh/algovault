@@ -149,6 +149,7 @@
 - [UVa 10089 - Repackaging](https://onlinejudge.org/external/100/10089.pdf) [✅](../../practice/linear_algebra/uva_10089.cpp "Accepted solution")
 - [UVa 10498 - Happiness](https://onlinejudge.org/external/104/10498.pdf) [✅](../../practice/linear_algebra/uva_10498.cpp "Accepted solution")
 - [UVa 11647 - Judgment Day](https://onlinejudge.org/external/116/11647.pdf) [✅](../../practice/linear_algebra/uva_11647.cpp "Accepted solution")
+- [UVa 12278 - 3-sided dice](https://onlinejudge.org/external/122/12278.pdf) [✅](../../practice/linear_algebra/uva_12278.cpp "Accepted solution")
 - [UVa 12567 - Never7, Ever17 and Water](https://onlinejudge.org/external/125/12567.pdf) [✅](../../practice/linear_algebra/uva_12567.cpp "Accepted solution")
 - [UVa 12900 - Flood in Gridland](https://onlinejudge.org/external/129/12900.pdf) [✅](../../practice/linear_algebra/uva_12900.cpp "Accepted solution")
 
