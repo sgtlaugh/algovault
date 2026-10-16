@@ -240,7 +240,7 @@
 - [Codeforces Gym 100965I - Prime](https://codeforces.com/gym/100965/problem/I)
 - [CSES 1734 - Distinct Values Queries](https://cses.fi/problemset/task/1734) [✅](../../practice/data_structures/cses_1734.cpp "Accepted solution")
 - [HackerRank almost-equal-advanced - Almost Equal - Advanced](https://www.hackerrank.com/challenges/almost-equal-advanced) [✅](../../practice/data_structures/hackerrank_almost_equal_advanced_mo.cpp "Accepted solution")
-- [Library Checker static_range_count_distinct - Static Range Count Distinct](https://judge.yosupo.jp/problem/static_range_count_distinct)
+- [Library Checker static_range_count_distinct - Static Range Count Distinct](https://judge.yosupo.jp/problem/static_range_count_distinct) [✅](../../practice/data_structures/library_checker_static_range_count_distinct.cpp "Accepted solution")
 - [Library Checker static_range_inversions_query - Static Range Inversions Query](https://judge.yosupo.jp/problem/static_range_inversions_query)
 - [SPOJ CPAIR2 - Counting diff-pairs](https://www.spoj.com/problems/CPAIR2/)
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/)
