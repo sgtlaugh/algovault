@@ -90,7 +90,7 @@
 - [Codeforces 849E - Goodbye Souvenir](https://codeforces.com/problemset/problem/849/E)
 - [CSES 1144 - Salary Queries](https://cses.fi/problemset/task/1144) [✅](../../practice/data_structures/cses_1144.cpp "Accepted solution")
 - [CSES 1648 - Dynamic Range Sum Queries](https://cses.fi/problemset/task/1648) [✅](../../practice/data_structures/cses_1648_fenwick_tree.cpp "Accepted solution")
-- [CSES 1651 - Range Update Queries](https://cses.fi/problemset/task/1651)
+- [CSES 1651 - Range Update Queries](https://cses.fi/problemset/task/1651) [✅](../../practice/data_structures/cses_1651.cpp "Accepted solution")
 - [CSES 1740 - Intersection Points](https://cses.fi/problemset/task/1740)
 - [CSES 1747 - Pyramid Array](https://cses.fi/problemset/task/1747)
 - [CSES 1748 - Increasing Subsequence II](https://cses.fi/problemset/task/1748)
