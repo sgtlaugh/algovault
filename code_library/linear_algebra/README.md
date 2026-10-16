@@ -175,6 +175,6 @@
 - [CSES 3191 - Maximum Xor Subset](https://cses.fi/problemset/task/3191) [✅](../../practice/linear_algebra/cses_3191.cpp "Accepted solution")
 - [CSES 3192 - K Subset Xors](https://cses.fi/problemset/task/3192) [✅](../../practice/linear_algebra/cses_3192.cpp "Accepted solution")
 - [CSES 3211 - Number of Subset Xors](https://cses.fi/problemset/task/3211) [✅](../../practice/linear_algebra/cses_3211.cpp "Accepted solution")
-- [HDU 3949 - XOR](https://acm.hdu.edu.cn/showproblem.php?pid=3949)
+- [HDU 3949 - XOR](https://acm.hdu.edu.cn/showproblem.php?pid=3949) [✅](../../practice/linear_algebra/hdu_3949.cpp "Accepted solution")
 - [Library Checker intersection_of_f2_vector_spaces - Intersection of $\mathbb{F}_{2}$ vector spaces](https://judge.yosupo.jp/problem/intersection_of_f2_vector_spaces)
 - [SPOJ XMAX - XOR Maximization](https://www.spoj.com/problems/XMAX/)
