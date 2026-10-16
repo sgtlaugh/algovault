@@ -189,7 +189,7 @@
 - [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✅](../../practice/data_structures/cses_2084.cpp "Accepted solution")
 - [CSES 2085 - Monster Game II](https://cses.fi/problemset/task/2085) [✅](../../practice/data_structures/cses_2085.cpp "Accepted solution")
 - [CSES 3427 - Line Segments Trace I](https://cses.fi/problemset/task/3427) [✅](../../practice/data_structures/cses_3427.cpp "Accepted solution")
-- [CSES 3428 - Line Segments Trace II](https://cses.fi/problemset/task/3428)
+- [CSES 3428 - Line Segments Trace II](https://cses.fi/problemset/task/3428) [✅](../../practice/data_structures/cses_3428.cpp "Accepted solution")
 - [CSES 3429 - Lines and Queries I](https://cses.fi/problemset/task/3429)
 - [CSES 3430 - Lines and Queries II](https://cses.fi/problemset/task/3430)
 - [DMOJ apio10p1 - APIO '10 P1 - Commando](https://dmoj.ca/problem/apio10p1)
