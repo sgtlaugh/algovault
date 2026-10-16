@@ -163,7 +163,7 @@
 
 #### [Hash Map](hashmap.cpp)
 
-- [Library Checker associative_array - Associative Array](https://judge.yosupo.jp/problem/associative_array)
+- [Library Checker associative_array - Associative Array](https://judge.yosupo.jp/problem/associative_array) [✅](../../practice/data_structures/library_checker_associative_array.cpp "Accepted solution")
 
 #### [Interval Set](interval_set.cpp)
 
