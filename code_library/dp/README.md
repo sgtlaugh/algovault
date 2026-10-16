@@ -86,7 +86,7 @@
 - [Codeforces acmsguru 521 - "North-East"](https://codeforces.com/problemsets/acmsguru/problem/99999/521)
 - [Codeforces Gym 102951C - LCS on Permutations](https://codeforces.com/gym/102951/problem/C)
 - [CSES 1145 - Increasing Subsequence](https://cses.fi/problemset/task/1145) [✅](../../practice/dp/cses_1145.cpp "Accepted solution")
-- [CSES 3404 - Permutation Subsequence](https://cses.fi/problemset/task/3404)
+- [CSES 3404 - Permutation Subsequence](https://cses.fi/problemset/task/3404) [✅](../../practice/dp/cses_3404.cpp "Accepted solution")
 - [Library Checker longest_increasing_subsequence - Longest Increasing Subsequence](https://judge.yosupo.jp/problem/longest_increasing_subsequence)
 - [oj.uz CEOI18_glo - Global Warming](https://oj.uz/problem/view/CEOI18_glo)
 - [SPOJ CARDSHUF - Cards shuffing](https://www.spoj.com/problems/CARDSHUF/)
