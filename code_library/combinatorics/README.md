@@ -64,7 +64,7 @@
 
 - [AOJ 0085 - Joseph's Potato](https://onlinejudge.u-aizu.ac.jp/problems/0085) [✅](../../practice/combinatorics/aoj_0085.cpp "Accepted solution")
 - [CSES 2162 - Josephus Problem I](https://cses.fi/problemset/task/2162) [✅](../../practice/combinatorics/cses_2162.cpp "Accepted solution")
-- [CSES 2164 - Josephus Queries](https://cses.fi/problemset/task/2164)
+- [CSES 2164 - Josephus Queries](https://cses.fi/problemset/task/2164) [✅](../../practice/combinatorics/cses_2164.cpp "Accepted solution")
 - [UVa 151 - Power Crisis](https://onlinejudge.org/external/1/151.pdf) [✅](../../practice/combinatorics/uva_151.cpp "Accepted solution")
 - [UVa 180 - Eeny Meeny](https://onlinejudge.org/external/1/180.pdf) [✅](../../practice/combinatorics/uva_180.cpp "Accepted solution")
 - [UVa 440 - Eeny Meeny Moo](https://onlinejudge.org/external/4/440.pdf) [✅](../../practice/combinatorics/uva_440.cpp "Accepted solution")
