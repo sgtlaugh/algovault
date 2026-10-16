@@ -117,7 +117,7 @@
 - [UVa 12761 - Blue Chips](https://onlinejudge.org/external/127/12761.pdf) [✅](../../practice/linear_algebra/uva_12761.cpp "Accepted solution")
 - [UVa 12796 - Teletransport](https://onlinejudge.org/external/127/12796.pdf) [✅](../../practice/linear_algebra/uva_12796.cpp "Accepted solution")
 - [UVa 13136 - Recurrences](https://onlinejudge.org/external/131/13136.pdf) [✅](../../practice/linear_algebra/uva_13136.cpp "Accepted solution")
-- [UVa 13284 - Macarons](https://onlinejudge.org/external/132/13284.pdf)
+- [UVa 13284 - Macarons](https://onlinejudge.org/external/132/13284.pdf) [✅](../../practice/linear_algebra/uva_13284.cpp "Accepted solution")
 
 #### [Simplex](simplex.cpp)
 
