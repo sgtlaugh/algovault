@@ -62,7 +62,7 @@
 
 #### [Josephus Problem](josephus_problem.cpp)
 
-- [AOJ 0085 - Joseph's Potato](https://onlinejudge.u-aizu.ac.jp/problems/0085)
+- [AOJ 0085 - Joseph's Potato](https://onlinejudge.u-aizu.ac.jp/problems/0085) [✅](../../practice/combinatorics/aoj_0085.cpp "Accepted solution")
 - [CSES 2162 - Josephus Problem I](https://cses.fi/problemset/task/2162)
 - [CSES 2164 - Josephus Queries](https://cses.fi/problemset/task/2164)
 - [UVa 151 - Power Crisis](https://onlinejudge.org/external/1/151.pdf) [✅](../../practice/combinatorics/uva_151.cpp "Accepted solution")
