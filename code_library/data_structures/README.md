@@ -478,7 +478,7 @@
 - [DMOJ noi05p2 - NOI '05 P2 - Maintaining a Sequence](https://dmoj.ca/problem/noi05p2)
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma) [✅](../../practice/data_structures/hackerrank_xaero_and_breaking_enigma_treap.cpp "Accepted solution")
 - [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436) [✅](../../practice/data_structures/hdu_3436_treap.cpp "Accepted solution")
-- [HDU 3487 - Play with Chain](https://acm.hdu.edu.cn/showproblem.php?pid=3487)
+- [HDU 3487 - Play with Chain](https://acm.hdu.edu.cn/showproblem.php?pid=3487) [✅](../../practice/data_structures/hdu_3487.cpp "Accepted solution")
 - [Library Checker double_ended_priority_queue - Double-Ended Priority Queue](https://judge.yosupo.jp/problem/double_ended_priority_queue)
 - [Library Checker range_reverse_range_sum - Range Reverse Range Sum](https://judge.yosupo.jp/problem/range_reverse_range_sum)
 - [POJ 3580 - SuperMemo](http://poj.org/problem?id=3580)
