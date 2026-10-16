@@ -71,7 +71,7 @@
 - [Library Checker inverse_matrix - Inverse Matrix](https://judge.yosupo.jp/problem/inverse_matrix)
 - [Library Checker matrix_rank - Rank of Matrix](https://judge.yosupo.jp/problem/matrix_rank)
 - [Library Checker system_of_linear_equations - System of Linear Equations](https://judge.yosupo.jp/problem/system_of_linear_equations)
-- [LightOJ 1279 - Graph Coloring](https://lightoj.com/problem/graph-coloring)
+- [LightOJ 1279 - Graph Coloring](https://lightoj.com/problem/graph-coloring) [✅](../../practice/linear_algebra/lightoj_1279.cpp "Accepted solution")
 - [SPOJ NWERC04H - SETI](https://www.spoj.com/problems/NWERC04H/)
 - [UVa 1563 - SETI](https://onlinejudge.org/external/15/1563.pdf) [✅](../../practice/linear_algebra/uva_1563.cpp "Accepted solution")
 - [UVa 1564 - Widget Factory](https://onlinejudge.org/external/15/1564.pdf)
