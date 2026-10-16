@@ -188,7 +188,7 @@
 - [CS Academy squared-ends - Squared Ends](https://csacademy.com/contest/archive/task/squared-ends/) [✅](../../practice/data_structures/cs_academy_squared_ends.cpp "Accepted solution")
 - [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✅](../../practice/data_structures/cses_2084.cpp "Accepted solution")
 - [CSES 2085 - Monster Game II](https://cses.fi/problemset/task/2085) [✅](../../practice/data_structures/cses_2085.cpp "Accepted solution")
-- [CSES 3427 - Line Segments Trace I](https://cses.fi/problemset/task/3427)
+- [CSES 3427 - Line Segments Trace I](https://cses.fi/problemset/task/3427) [✅](../../practice/data_structures/cses_3427.cpp "Accepted solution")
 - [CSES 3428 - Line Segments Trace II](https://cses.fi/problemset/task/3428)
 - [CSES 3429 - Lines and Queries I](https://cses.fi/problemset/task/3429)
 - [CSES 3430 - Lines and Queries II](https://cses.fi/problemset/task/3430)
