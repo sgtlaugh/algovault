@@ -154,7 +154,7 @@
 
 #### [Fenwick Tree 2D, Sparse](fenwick_tree_2D_sparse.cpp)
 
-- [Library Checker point_add_rectangle_sum - Point Add Rectangle Sum](https://judge.yosupo.jp/problem/point_add_rectangle_sum)
+- [Library Checker point_add_rectangle_sum - Point Add Rectangle Sum](https://judge.yosupo.jp/problem/point_add_rectangle_sum) [✅](../../practice/data_structures/library_checker_point_add_rectangle_sum.cpp "Accepted solution")
 - [SPOJ KL11B - Arnook Defensive Line](https://www.spoj.com/problems/KL11B/)
 
 #### [Fenwick Tree 3D](fenwick_tree_3D.cpp)
