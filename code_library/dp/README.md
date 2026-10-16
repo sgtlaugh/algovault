@@ -55,7 +55,7 @@
 
 #### [Hamiltonian Path and Cycle](hamiltonian_dp.cpp)
 
-- [AOJ DPL_2_A - Traveling Salesman Problem](https://onlinejudge.u-aizu.ac.jp/problems/DPL_2_A)
+- [AOJ DPL_2_A - Traveling Salesman Problem](https://onlinejudge.u-aizu.ac.jp/problems/DPL_2_A) [✅](../../practice/dp/aoj_dpl_2_a.cpp "Accepted solution")
 - [POJ 1699 - Best Sequence](http://poj.org/problem?id=1699)
 - [UVa 10496 - Collecting Beepers](https://onlinejudge.org/external/104/10496.pdf) [✅](../../practice/dp/uva_10496.cpp "Accepted solution")
 - [UVa 10937 - Blackbeard the Pirate](https://onlinejudge.org/external/109/10937.pdf) [✅](../../practice/dp/uva_10937.cpp "Accepted solution")
