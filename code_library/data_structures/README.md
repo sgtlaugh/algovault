@@ -176,7 +176,7 @@
 
 #### [Li Chao Tree](li_chao_tree.cpp)
 
-- [AtCoder ARC066 F - Contest with Drinks Hard](https://atcoder.jp/contests/arc066/tasks/arc066_d)
+- [AtCoder ARC066 F - Contest with Drinks Hard](https://atcoder.jp/contests/arc066/tasks/arc066_d) [✅](../../practice/data_structures/atcoder_arc066_f.cpp "Accepted solution")
 - [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B)
 - [Codeforces 319C - Kalila and Dimna in the Logging Industry](https://codeforces.com/problemset/problem/319/C)
 - [Codeforces 631E - Product Sum](https://codeforces.com/problemset/problem/631/E)
