@@ -24,7 +24,7 @@
 
 - [Codeforces 356D - Bags and Coins](https://codeforces.com/problemset/problem/356/D)
 - [Codeforces 755F - PolandBall and Gifts](https://codeforces.com/problemset/problem/755/F)
-- [CSES 1706 - School Excursion](https://cses.fi/problemset/task/1706)
+- [CSES 1706 - School Excursion](https://cses.fi/problemset/task/1706) [✅](../../practice/dp/cses_1706.cpp "Accepted solution")
 - [SPOJ ADACOINS - Ada and Coins](https://www.spoj.com/problems/ADACOINS/)
 - [SPOJ FCANDY - Candy (Again)](https://www.spoj.com/problems/FCANDY/)
 
