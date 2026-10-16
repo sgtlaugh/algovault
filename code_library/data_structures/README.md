@@ -476,7 +476,7 @@
 - [CSES 2073 - Substring Reversals](https://cses.fi/problemset/task/2073) [✅](../../practice/data_structures/cses_2073.cpp "Accepted solution")
 - [CSES 2074 - Reversals and Sums](https://cses.fi/problemset/task/2074) [✅](../../practice/data_structures/cses_2074.cpp "Accepted solution")
 - [DMOJ noi05p2 - NOI '05 P2 - Maintaining a Sequence](https://dmoj.ca/problem/noi05p2)
-- [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma)
+- [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma) [✅](../../practice/data_structures/hackerrank_xaero_and_breaking_enigma_treap.cpp "Accepted solution")
 - [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436)
 - [HDU 3487 - Play with Chain](https://acm.hdu.edu.cn/showproblem.php?pid=3487)
 - [Library Checker double_ended_priority_queue - Double-Ended Priority Queue](https://judge.yosupo.jp/problem/double_ended_priority_queue)
