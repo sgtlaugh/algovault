@@ -375,7 +375,7 @@
 - [Library Checker point_set_range_composite - Point Set Range Composite](https://judge.yosupo.jp/problem/point_set_range_composite) [✅](../../practice/data_structures/library_checker_point_set_range_composite.cpp "Accepted solution")
 - [Library Checker range_add_range_min - Range Add Range Min](https://judge.yosupo.jp/problem/range_add_range_min) [✅](../../practice/data_structures/library_checker_range_add_range_min.cpp "Accepted solution")
 - [Library Checker range_affine_point_get - Range Affine Point Get](https://judge.yosupo.jp/problem/range_affine_point_get) [✅](../../practice/data_structures/library_checker_range_affine_point_get.cpp "Accepted solution")
-- [Library Checker range_affine_range_sum - Range Affine Range Sum](https://judge.yosupo.jp/problem/range_affine_range_sum)
+- [Library Checker range_affine_range_sum - Range Affine Range Sum](https://judge.yosupo.jp/problem/range_affine_range_sum) [✅](../../practice/data_structures/library_checker_range_affine_range_sum.cpp "Accepted solution")
 - [Library Checker range_set_range_composite - Range Set Range Composite](https://judge.yosupo.jp/problem/range_set_range_composite)
 - [oj.uz COCI17_deda - Deda](https://oj.uz/problem/view/COCI17_deda)
 - [oj.uz IOI14_wall - Wall](https://oj.uz/problem/view/IOI14_wall)
