@@ -117,7 +117,7 @@
 
 - [Codeforces 713C - Sonya and Problem Wihtout a Legend](https://codeforces.com/problemset/problem/713/C)
 - [Codeforces 865D - Buy Low Sell High](https://codeforces.com/problemset/problem/865/D)
-- [CSES 2132 - Increasing Array II](https://cses.fi/problemset/task/2132)
+- [CSES 2132 - Increasing Array II](https://cses.fi/problemset/task/2132) [✅](../../practice/dp/cses_2132.cpp "Accepted solution")
 - [oj.uz APIO16_fireworks - Fireworks](https://oj.uz/problem/view/APIO16_fireworks)
 - [oj.uz LMIO19_bulves - Potatoes and fertilizers](https://oj.uz/problem/view/LMIO19_bulves)
 - [USACO 650 - Landscaping](https://usaco.org/index.php?page=viewproblem2&cpid=650)
