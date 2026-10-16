@@ -1,31 +1,31 @@
 /***
  *
- * Simplex Algorithm for Linear Programming
- * Solves maximize/minimize linear objective subject to linear constraints
+ * Simplex
+ * Maximizes or minimizes a linear objective subject to linear constraints on variables x_j >= 0
  *
- * Complexity: O(n * m) per pivot and O(n * m) memory, the pivot count is exponential in the worst case
- * Optimized with sparse pivot - only updates non-zero coefficients
+ * Complexity: O(n m) time per pivot and O(n m) memory, the pivot count is exponential in the worst case
  *
- * Usage:
- *   1. Simplex lp(objective, Simplex::MAXIMIZE or Simplex::MINIMIZE), objective[j] is the coefficient of x_j
- *   2. lp.add_constraint(coefficients, rhs, Simplex::LESSEQ or Simplex::GREATEQ or Simplex::EQUAL)
- *   3. lp.solve() returns Simplex::FEASIBLE, Simplex::INFEASIBLE or Simplex::UNBOUNDED
- *   4. If feasible, lp.value is the optimum and lp.val[j] the value of x_j
+ * Simplex lp(objective, sense): an LP in n = objective.size() variables, sense is Simplex::MAXIMIZE or Simplex::MINIMIZE
+ * BasicSimplex<long double> lp(objective, sense): the same in long double, 2-3x slower, resolving 1e-13 instead of 1e-9
+ * lp.add_constraint(coef, lim, cmp): adds coef . x <= lim, >= lim or == lim for cmp Simplex::LESSEQ, GREATEQ or EQUAL, coef has n entries
+ * lp.solve(): Simplex::FEASIBLE, INFEASIBLE or UNBOUNDED, asserts it is called once per instance
+ * lp.value: the optimum after FEASIBLE
+ * lp.val[j]: the value of x_j at the optimum
  *
- * Variables x_0, ..., x_{n - 1} satisfy x_j >= 0, n = objective.size() and every coefficient vector has n entries
- * solve() pivots the tableau in place, so it asserts it is called once per instance
- * For unbounded variable: replace x with (x1 - x2) where x1, x2 >= 0
- * For constraint |x| <= M: add both x <= M and -x <= M
+ * A free variable x becomes x1 - x2 with x1, x2 >= 0
+ * |x| <= M becomes the two rows x <= M and -x <= M
+ * A ratio objective with a denominator positive on every feasible x becomes linear with t = 1 / denominator and y = t x:
  *
- * Change `using Float = double;` to long double for higher precision (EPS follows)
+ *     max (3x1 + 2x2 + 4x3 + 6) / (3x1 + 3x2 + 2x3 + 5)    ->    max 3y1 + 2y2 + 4y3 + 6t
+ *     2x1 + 3x2 + 5x3 >= 23                                      3y1 + 3y2 + 2y3 + 5t == 1
+ *     3x1 + 5x2 + 4x3 <= 30                                      2y1 + 3y2 + 5y3 - 23t >= 0
+ *                                                                3y1 + 5y2 + 4y3 - 30t <= 0
  *
- * Example:
- *   Maximize 3x0 + 2x1 subject to x0 + x1 <= 4, 2x0 + x1 <= 5
+ *   then x = y / t
  *
- *   Simplex lp({3, 2}, Simplex::MAXIMIZE);
- *   lp.add_constraint({1, 1}, 4, Simplex::LESSEQ);
- *   lp.add_constraint({2, 1}, 5, Simplex::LESSEQ);
- *   if (lp.solve() == Simplex::FEASIBLE) ...  // lp.value = 9, lp.val = {1, 3}
+ * Each pivot picks steepest edge while pricing it costs less than the pivot itself, otherwise the largest reduced cost
+ * Rows are scaled internally, so mixing very large and very small coefficients is fine
+ * The answer is unreliable only when moving a limit by about 1e-7 of its row changes it, as with nearly parallel rows
  *
 ***/
 
@@ -33,107 +33,126 @@
 
 using namespace std;
 
-struct Simplex{
-    using Float = double;
-    static constexpr Float EPS = is_same<Float, long double>::value ? 1e-13L : 1e-9;
+/// Outside the template so Simplex::MAXIMIZE also serves BasicSimplex<long double>
+struct SimplexOptions{
+    enum Cmp{LESSEQ, EQUAL, GREATEQ};
+    enum Sense{MINIMIZE = -1, MAXIMIZE = 1};
+    enum Status{INFEASIBLE, FEASIBLE, UNBOUNDED};
+};
 
-    static constexpr int LESSEQ = -1, EQUAL = 0, GREATEQ = 1;
-    static constexpr int MINIMIZE = -1, MAXIMIZE = 1;
-    static constexpr int INFEASIBLE = -1, FEASIBLE = 1, UNBOUNDED = 666;
+template <typename Float>
+struct BasicSimplex : SimplexOptions{
+    static constexpr bool WIDE = is_same<Float, long double>::value;
+    /// EPS decides pivots and feasibility, DROP only prunes elimination: pruning at EPS broke rows once variables grew large
+    static constexpr Float EPS = WIDE ? 1e-13L : 1e-9, DROP = WIDE ? 1e-16L : 1e-12;
 
     Float value = 0;
     vector<Float> val;
+    int n, m, pivot_width;
+    Sense sense;
+    vector<vector<Float>> ar;
+    vector<Float> rhs;
+    vector<int> nonzero, nonbasic, basic;
 
-    Simplex(const vector<Float>& objective, int sense)
-        : val(objective.size(), 0), n(objective.size()), m(0), flag(sense), ar(1, vector<Float>(n + 1, 0)), rhs(1, 0), adj(n + 1), down(n + 1){
-        for (int j = 0; j < n; j++) ar[0][j + 1] = objective[j] * flag;
+    BasicSimplex(const vector<Float>& objective, Sense sense)
+        : val(objective.size(), 0), n(objective.size()), m(0), pivot_width(n + 1), sense(sense), ar(1, vector<Float>(n + 1, 0)), rhs(1, 0), nonzero(n + 1), nonbasic(n + 1){
+        for (int j = 0; j < n; j++) ar[0][j + 1] = objective[j] * sense;
     }
 
-    void add_constraint(const vector<Float>& coef, Float lim, int cmp){
+    void add_constraint(const vector<Float>& coef, Float lim, Cmp cmp){
         assert((int)coef.size() == n);
         if (cmp != GREATEQ) add_row(coef, lim, 1);
         if (cmp != LESSEQ) add_row(coef, lim, -1);
     }
 
-    int solve(){
-        /// link is filled only by solve, a second call would read the already pivoted tableau and return garbage
-        assert(link.empty());
-        int i, j, x = 1;
+    Status solve(){
+        assert(basic.empty());  /// the tableau is pivoted in place, so a second call would read garbage
 
         /// Variable ids: 0 is the phase 1 artificial, 1..n the inputs, n + i the slack of row i
-        link.assign(m + 1, 0);
-        for (i = 0; i <= n; i++) down[i] = i;
-        for (i = 1; i <= m; i++) link[i] = i + n;
+        basic.assign(m + 1, 0);
+        for (int j = 0; j <= n; j++) nonbasic[j] = j;
+        for (int i = 1; i <= m; i++) basic[i] = i + n;
 
-        // Phase 1: relax every row by an artificial x0 in column 0, then maximize -x0 to reach a feasible basis
-        for (i = 2; i <= m; i++){
+        /// Phase 1: an artificial x0 in column 0 relaxes every row, maximizing -x0 reaches a feasible basis
+        int x = 1;
+        for (int i = 2; i <= m; i++){
             if (rhs[i] < rhs[x]) x = i;
         }
         if (m > 0 && rhs[x] < -EPS){
             ar.emplace_back(n + 1, 0), rhs.push_back(0);
-            for (i = 1; i <= m; i++) ar[i][0] = -1;
-            ar[m + 1][0] = -1;
+            for (int i = 1; i <= m + 1; i++) ar[i][0] = -1;
 
             pivot(x, 0);
             optimize(m + 1);
             if (rhs[m + 1] > EPS) return INFEASIBLE;
 
-            /// Ratio ties go to x0's id 0, but x0 can stay basic at a value within EPS and would grow in phase 2, so pivot it out
-            /// A row with no usable pivot is redundant and stays inert
-            for (i = 1; i <= m; i++){
-                if (link[i] != 0) continue;
+            /// x0 can stay basic within EPS and grow in phase 2, so pivot it out; a row with no pivot is redundant
+            for (int i = 1; i <= m; i++){
+                if (basic[i] != 0) continue;
                 int y = 0;
-                for (j = 1; j <= n; j++){
+                for (int j = 1; j <= n; j++){
                     if (abs(ar[i][j]) > abs(ar[i][y])) y = j;
                 }
                 if (abs(ar[i][y]) > EPS) pivot(i, y);
             }
-            for (j = 0; j <= n; j++){
-                if (down[j] == 0) for (auto& r : ar) r[j] = 0;
+            for (int j = 0; j <= n; j++){
+                if (nonbasic[j] == 0) for (auto& row : ar) row[j] = 0;
             }
             ar.pop_back(), rhs.pop_back();
         }
 
-        // Phase 2: optimize objective function
         if (!optimize(0)) return UNBOUNDED;
 
-        value = -rhs[0] * flag;
-        vector<int> idx(n + 1, 0);
-        for (i = 1; i <= m; i++){
-            if (link[i] <= n) idx[link[i]] = i;
+        value = -rhs[0] * sense;
+        vector<int> row_of(n + 1, 0);
+        for (int i = 1; i <= m; i++){
+            if (basic[i] <= n) row_of[basic[i]] = i;
         }
-
-        for (j = 1; j <= n; j++) val[j - 1] = idx[j] ? rhs[idx[j]] : 0;
+        for (int j = 1; j <= n; j++) val[j - 1] = row_of[j] ? rhs[row_of[j]] : 0;
         return FEASIBLE;
     }
 
-    int n, m, flag;
-    vector<vector<Float>> ar;
-    vector<Float> rhs;
-    vector<int> adj, down, link;
-
     void add_row(const vector<Float>& coef, Float lim, int sign){
+        Float scale = 0;
+        for (Float c : coef) scale = max(scale, abs(c));
+        if (scale == 0) scale = 1;
         m++;
-        rhs.push_back(lim * sign);
+        rhs.push_back(lim * sign / scale);
         ar.emplace_back(n + 1, 0);
-        for (int j = 0; j < n; j++) ar[m][j + 1] = coef[j] * sign;
+        for (int j = 0; j < n; j++) ar[m][j + 1] = coef[j] * sign / scale;
     }
 
     bool optimize(int z){
-        /// Dantzig's rule, falling back to Bland's after a degenerate pivot since only degenerate pivots can cycle
+        /// Bland's rule after a degenerate pivot, since only degenerate pivots can cycle
         for (bool bland = false; ; ){
-            int i, x = 0, y = -1;
-            Float u, v = 0, mx = EPS;
-            for (i = 0; i <= n; i++){
-                if (ar[z][i] > mx && (!bland || y < 0 || down[i] < down[y])) mx = bland ? EPS : ar[z][i], y = i;
+            int x = 0, y = -1;
+            Float v = 0;
+            if (bland){
+                for (int j = 0; j <= n; j++){
+                    if (ar[z][j] > EPS && (y < 0 || nonbasic[j] < nonbasic[y])) y = j;
+                }
+            }
+            else{
+                /// Steepest edge costs O(m) per candidate, so it runs only while that is cheaper than the last pivot, else Dantzig
+                int candidates = 0;
+                for (int j = 0; j <= n; j++) candidates += ar[z][j] > EPS;
+                bool steepest = candidates <= pivot_width;
+                Float best = 0;
+                for (int j = 0; j <= n; j++){
+                    if (ar[z][j] <= EPS) continue;
+                    Float len = 1;
+                    for (int i = 1; i <= m && steepest; i++) len += ar[i][j] * ar[i][j];
+                    if (ar[z][j] * ar[z][j] / len > best) best = ar[z][j] * ar[z][j] / len, y = j;
+                }
             }
             if (y < 0) return true;
 
-            for (i = 1; i <= m; i++){
-                if (ar[i][y] > EPS){
-                    u = rhs[i] / ar[i][y];
-                    if (x == 0 || u < v - EPS || (u <= v + EPS && link[i] < link[x])) x = i, v = u;
-                }
+            for (int i = 1; i <= m; i++){
+                if (ar[i][y] <= EPS) continue;
+                Float u = rhs[i] / ar[i][y];
+                /// Near ties take the largest pivot to limit rounding, or the lowest id under Bland's rule
+                bool better = bland ? basic[i] < basic[x] : ar[i][y] > ar[x][y];
+                if (x == 0 || u < v - EPS || (u <= v + EPS && better)) x = i, v = u;
             }
             if (x == 0) return false;
             bland = v <= EPS;
@@ -142,27 +161,29 @@ struct Simplex{
     }
 
     void pivot(int x, int y){
-        int i, j, len = 0;
+        int len = 0;
         vector<Float>& row = ar[x];
         Float v = row[y];
 
-        swap(link[x], down[y]);
+        swap(basic[x], nonbasic[y]);
         rhs[x] /= v, row[y] = 1;
-        for (j = 0; j <= n; j++){
+        for (int j = 0; j <= n; j++){
             row[j] /= v;
-            if (abs(row[j]) > EPS) adj[len++] = j;
+            if (abs(row[j]) > DROP) nonzero[len++] = j;
         }
+        pivot_width = len;
 
-        /// Row 0 is the objective and row m + 1 the phase 1 objective while it exists, their rhs holds minus their value
-        for (i = 0; i < (int)ar.size(); i++){
+        /// Row 0 is the objective and row m + 1 the phase 1 objective while it exists, each rhs holds minus its value
+        for (int i = 0; i < (int)ar.size(); i++){
             vector<Float>& cur = ar[i];
-            if (abs(cur[y]) > EPS && i != x){
-                rhs[i] -= cur[y] * rhs[x], v = cur[y], cur[y] = 0;
-                for (j = 0; j < len; j++) cur[adj[j]] -= (v * row[adj[j]]);
-            }
+            if (i == x || abs(cur[y]) <= DROP) continue;
+            rhs[i] -= cur[y] * rhs[x], v = cur[y], cur[y] = 0;
+            for (int k = 0; k < len; k++) cur[nonzero[k]] -= v * row[nonzero[k]];
         }
     }
 };
+
+using Simplex = BasicSimplex<double>;
 
 int main(){
     mt19937 rng(20250820);
@@ -173,7 +194,7 @@ int main(){
         scanf("%d %d %d %d", &n, &m, &lo, &hi);
 
         /// x_i = row i raises, x_{n + j} = column j lowerings, each land cell (i, j) gains x_i - x_{n + j}
-        vector<Simplex::Float> objective(n + m, 0);
+        vector<double> objective(n + m, 0);
         vector<array<int, 3>> lands;
         long long base = 0;
         for (int i = 0; i < n; i++){
@@ -192,7 +213,7 @@ int main(){
         /// vertex breaking the bounds on some 75 x 75 grids. Loosening each bound by a distinct ~1e-7 breaks the ties,
         /// while an infeasible system, a negative cycle of integer weight <= -1, stays infeasible
         uniform_real_distribution<double> slack(1e-7, 2e-7);
-        vector<Simplex::Float> coef(n + m, 0);
+        vector<double> coef(n + m, 0);
         for (auto [i, j, h]: lands){
             coef[i] = 1, coef[n + j] = -1;
             lp.add_constraint(coef, hi - h + slack(rng), Simplex::LESSEQ);
