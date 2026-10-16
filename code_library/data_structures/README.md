@@ -364,7 +364,7 @@
 - [CSES 1190 - Subarray Sum Queries](https://cses.fi/problemset/task/1190) [✅](../../practice/data_structures/cses_1190.cpp "Accepted solution")
 - [CSES 1648 - Dynamic Range Sum Queries](https://cses.fi/problemset/task/1648) [✅](../../practice/data_structures/cses_1648_segment_tree.cpp "Accepted solution")
 - [CSES 1649 - Dynamic Range Minimum Queries](https://cses.fi/problemset/task/1649) [✅](../../practice/data_structures/cses_1649.cpp "Accepted solution")
-- [CSES 1735 - Range Updates and Sums](https://cses.fi/problemset/task/1735)
+- [CSES 1735 - Range Updates and Sums](https://cses.fi/problemset/task/1735) [✅](../../practice/data_structures/cses_1735.cpp "Accepted solution")
 - [CSES 1736 - Polynomial Queries](https://cses.fi/problemset/task/1736)
 - [CSES 2166 - Prefix Sum Queries](https://cses.fi/problemset/task/2166)
 - [CSES 2206 - Pizzeria Queries](https://cses.fi/problemset/task/2206)
