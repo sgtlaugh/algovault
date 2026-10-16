@@ -172,7 +172,7 @@
 - [Codeforces 1336E1 - Chiori and Doll Picking (easy version)](https://codeforces.com/problemset/problem/1336/E1)
 - [Codeforces 1778E - The Tree Has Fallen!](https://codeforces.com/problemset/problem/1778/E)
 - [Codeforces 1902F - Trees and XOR Queries Again](https://codeforces.com/problemset/problem/1902/F)
-- [CSES 3191 - Maximum Xor Subset](https://cses.fi/problemset/task/3191)
+- [CSES 3191 - Maximum Xor Subset](https://cses.fi/problemset/task/3191) [✅](../../practice/linear_algebra/cses_3191.cpp "Accepted solution")
 - [CSES 3192 - K Subset Xors](https://cses.fi/problemset/task/3192)
 - [CSES 3211 - Number of Subset Xors](https://cses.fi/problemset/task/3211)
 - [HDU 3949 - XOR](https://acm.hdu.edu.cn/showproblem.php?pid=3949)
