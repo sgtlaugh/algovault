@@ -369,7 +369,7 @@
 - [CSES 2166 - Prefix Sum Queries](https://cses.fi/problemset/task/2166) [✅](../../practice/data_structures/cses_2166.cpp "Accepted solution")
 - [CSES 2206 - Pizzeria Queries](https://cses.fi/problemset/task/2206) [✅](../../practice/data_structures/cses_2206.cpp "Accepted solution")
 - [CSES 3226 - Subarray Sum Queries II](https://cses.fi/problemset/task/3226) [✅](../../practice/data_structures/cses_3226.cpp "Accepted solution")
-- [CSES 3356 - Distinct Values Queries II](https://cses.fi/problemset/task/3356)
+- [CSES 3356 - Distinct Values Queries II](https://cses.fi/problemset/task/3356) [✅](../../practice/data_structures/cses_3356.cpp "Accepted solution")
 - [HackerRank white-falcon-and-tree - White Falcon And Tree](https://www.hackerrank.com/contests/w12/challenges/white-falcon-and-tree)
 - [HDU 1754 - I Hate It](https://acm.hdu.edu.cn/showproblem.php?pid=1754)
 - [Library Checker point_set_range_composite - Point Set Range Composite](https://judge.yosupo.jp/problem/point_set_range_composite)
