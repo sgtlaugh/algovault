@@ -45,7 +45,7 @@
 - [SPOJ GOODB - Good Predictions](https://www.spoj.com/problems/GOODB/)
 - [SPOJ HC12 - Card Game](https://www.spoj.com/problems/HC12/)
 - [SPOJ UCV2013E - Greedy Walking](https://www.spoj.com/problems/UCV2013E/)
-- [USACO 1283 - Moo Route](https://usaco.org/index.php?page=viewproblem2&cpid=1283)
+- [USACO 1283 - Moo Route](https://usaco.org/index.php?page=viewproblem2&cpid=1283) [✅](../../practice/combinatorics/usaco_1283.cpp "Accepted solution")
 - [UVa 991 - Safe Salutations](https://onlinejudge.org/external/9/991.pdf) [✅](../../practice/combinatorics/uva_991.cpp "Accepted solution")
 - [UVa 10104 - Euclid Problem](https://onlinejudge.org/external/101/10104.pdf)
 - [UVa 11174 - Stand in a Line](https://onlinejudge.org/external/111/11174.pdf) [✅](../../practice/combinatorics/uva_11174.cpp "Accepted solution")
