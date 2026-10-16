@@ -19,7 +19,7 @@
 - [Library Checker unionfind - Unionfind](https://judge.yosupo.jp/problem/unionfind) [✅](../../practice/data_structures/library_checker_unionfind.cpp "Accepted solution")
 - [SPOJ CLFLARR - COLORFUL ARRAY](https://www.spoj.com/problems/CLFLARR/)
 - [SPOJ KOICOST - Cost](https://www.spoj.com/problems/KOICOST/)
-- [Timus 1671 - Anansi's Cobweb](https://acm.timus.ru/problem.aspx?num=1671)
+- [Timus 1671 - Anansi's Cobweb](https://acm.timus.ru/problem.aspx?num=1671) [✅](../../practice/data_structures/timus_1671.cpp "Accepted solution")
 - [Toph unbelievable-array - Unbelievable Array](https://toph.co/p/unbelievable-array)
 - [USACO 384 - Ski Course Rating](https://usaco.org/index.php?page=viewproblem2&cpid=384)
 - [USACO 646 - Closing the Farm](https://usaco.org/index.php?page=viewproblem2&cpid=646)
