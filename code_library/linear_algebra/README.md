@@ -98,7 +98,7 @@
 - [POJ 2778 - DNA Sequence](http://poj.org/problem?id=2778) [✅](../../practice/linear_algebra/poj_2778.cpp "Accepted solution")
 - [SPOJ PBOARD - Blocks for kids](https://www.spoj.com/problems/PBOARD/)
 - [SPOJ SEQ - Recursive Sequence](https://www.spoj.com/problems/SEQ/)
-- [USACO 746 - COWBASIC](https://usaco.org/index.php?page=viewproblem2&cpid=746)
+- [USACO 746 - COWBASIC](https://usaco.org/index.php?page=viewproblem2&cpid=746) [✅](../../practice/linear_algebra/usaco_746.cpp "Accepted solution")
 - [UVa 1177 - A General Recurrence Relation](https://onlinejudge.org/external/11/1177.pdf) [✅](../../practice/linear_algebra/uva_1177.cpp "Accepted solution")
 - [UVa 10518 - How Many Calls?](https://onlinejudge.org/external/105/10518.pdf) [✅](../../practice/linear_algebra/uva_10518.cpp "Accepted solution")
 - [UVa 10743 - Blocks on Blocks](https://onlinejudge.org/external/107/10743.pdf) [✅](../../practice/linear_algebra/uva_10743.cpp "Accepted solution")
