@@ -165,7 +165,7 @@
 #### [XOR Basis](xor_basis.cpp)
 
 - [AtCoder ABC141 F - Xor Sum 3](https://atcoder.jp/contests/abc141/tasks/abc141_f) [✅](../../practice/linear_algebra/atcoder_abc141_f.cpp "Accepted solution")
-- [AtCoder AGC045 A - Xor Battle](https://atcoder.jp/contests/agc045/tasks/agc045_a)
+- [AtCoder AGC045 A - Xor Battle](https://atcoder.jp/contests/agc045/tasks/agc045_a) [✅](../../practice/linear_algebra/atcoder_agc045_a.cpp "Accepted solution")
 - [Codeforces 1100F - Ivan and Burgers](https://codeforces.com/problemset/problem/1100/F)
 - [Codeforces 1101G - (Zero XOR Subset)-less](https://codeforces.com/problemset/problem/1101/G)
 - [Codeforces 1299D - Around the World](https://codeforces.com/problemset/problem/1299/D)
