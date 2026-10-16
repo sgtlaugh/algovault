@@ -78,7 +78,7 @@
 - [AOJ DSL_2_E - Range Add Query (RAQ)](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_E) [✅](../../practice/data_structures/aoj_dsl_2_e.cpp "Accepted solution")
 - [AOJ DSL_2_G - RSQ and RAQ](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_G) [✅](../../practice/data_structures/aoj_dsl_2_g_fenwick_tree.cpp "Accepted solution")
 - [AOJ GRL_5_D - Range Query on a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_D) [✅](../../practice/data_structures/aoj_grl_5_d.cpp "Accepted solution")
-- [AOJ GRL_5_E - Range Query on a Tree II](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_E)
+- [AOJ GRL_5_E - Range Query on a Tree II](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_E) [✅](../../practice/data_structures/aoj_grl_5_e.cpp "Accepted solution")
 - [Codeforces 12D - Ball](https://codeforces.com/problemset/problem/12/D)
 - [Codeforces 163E - e-Government](https://codeforces.com/problemset/problem/163/E)
 - [Codeforces 594D - REQ](https://codeforces.com/problemset/problem/594/D)
