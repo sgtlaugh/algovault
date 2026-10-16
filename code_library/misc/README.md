@@ -46,7 +46,7 @@
 #### [Knight Distance](knight_distance.cpp)
 
 - [CSES 3218 - Knight Moves Queries](https://cses.fi/problemset/task/3218)
-- [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf) [✅](../../practice/misc/uva_11643.cpp "Accepted solution")
+- [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf) [✅](../../practice/misc/uva_11643_knight_distance.cpp "Accepted solution")
 - [UVa 11852 - Knight's Trip](https://onlinejudge.org/external/118/11852.pdf) [✅](../../practice/misc/uva_11852.cpp "Accepted solution")
 
 #### [N Queens](n_queen.cpp)
