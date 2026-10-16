@@ -20,7 +20,7 @@
 - [SPOJ CLFLARR - COLORFUL ARRAY](https://www.spoj.com/problems/CLFLARR/)
 - [SPOJ KOICOST - Cost](https://www.spoj.com/problems/KOICOST/)
 - [Timus 1671 - Anansi's Cobweb](https://acm.timus.ru/problem.aspx?num=1671) [✅](../../practice/data_structures/timus_1671.cpp "Accepted solution")
-- [Toph unbelievable-array - Unbelievable Array](https://toph.co/p/unbelievable-array)
+- [Toph unbelievable-array - Unbelievable Array](https://toph.co/p/unbelievable-array) [✅](../../practice/data_structures/toph_unbelievable_array.cpp "Accepted solution")
 - [USACO 384 - Ski Course Rating](https://usaco.org/index.php?page=viewproblem2&cpid=384)
 - [USACO 646 - Closing the Farm](https://usaco.org/index.php?page=viewproblem2&cpid=646)
 - [USACO 669 - Moocast](https://usaco.org/index.php?page=viewproblem2&cpid=669)
