@@ -461,7 +461,7 @@
 
 - [CodeChef CARDSHUF - Card Shuffle](https://www.codechef.com/problems/CARDSHUF) [✅](../../practice/data_structures/codechef_cardshuf.cpp "Accepted solution")
 - [CodeChef PALINDR - Lucy and Palindromes](https://www.codechef.com/problems/PALINDR) [✅](../../practice/data_structures/codechef_palindr.cpp "Accepted solution")
-- [CodeChef PRESTIGE - The Prestige](https://www.codechef.com/problems/PRESTIGE)
+- [CodeChef PRESTIGE - The Prestige](https://www.codechef.com/problems/PRESTIGE) [✅](../../practice/data_structures/codechef_prestige.cpp "Accepted solution")
 - [Codeforces 167D - Wizards and Roads](https://codeforces.com/problemset/problem/167/D)
 - [Codeforces 295E - Yaroslav and Points](https://codeforces.com/problemset/problem/295/E)
 - [Codeforces 702F - T-Shirts](https://codeforces.com/problemset/problem/702/F)
