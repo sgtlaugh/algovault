@@ -120,4 +120,4 @@
 - [CSES 2132 - Increasing Array II](https://cses.fi/problemset/task/2132) [✅](../../practice/dp/cses_2132.cpp "Accepted solution")
 - [oj.uz APIO16_fireworks - Fireworks](https://oj.uz/problem/view/APIO16_fireworks) [✅](../../practice/dp/oj_uz_apio16_fireworks.cpp "Accepted solution")
 - [oj.uz LMIO19_bulves - Potatoes and fertilizers](https://oj.uz/problem/view/LMIO19_bulves) [✅](../../practice/dp/oj_uz_lmio19_bulves.cpp "Accepted solution")
-- [USACO 650 - Landscaping](https://usaco.org/index.php?page=viewproblem2&cpid=650)
+- [USACO 650 - Landscaping](https://usaco.org/index.php?page=viewproblem2&cpid=650) [✅](../../practice/dp/usaco_650.cpp "Accepted solution")
