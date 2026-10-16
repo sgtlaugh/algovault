@@ -66,7 +66,7 @@
 
 #### [Knuth Optimization](knuth_optimization.cpp)
 
-- [AOJ ALDS1_10_D - Optimal Binary Search Tree](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_D)
+- [AOJ ALDS1_10_D - Optimal Binary Search Tree](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_D) [✅](../../practice/dp/aoj_alds1_10_d.cpp "Accepted solution")
 - [CSES 2088 - Knuth Division](https://cses.fi/problemset/task/2088)
 - [SPOJ BRKSTRNG - Breaking String](https://www.spoj.com/problems/BRKSTRNG/)
 - [UVa 10003 - Cutting Sticks](https://onlinejudge.org/external/100/10003.pdf) [✅](../../practice/dp/uva_10003.cpp "Accepted solution")
