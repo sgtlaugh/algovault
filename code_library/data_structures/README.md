@@ -377,7 +377,7 @@
 - [Library Checker range_affine_point_get - Range Affine Point Get](https://judge.yosupo.jp/problem/range_affine_point_get) [✅](../../practice/data_structures/library_checker_range_affine_point_get.cpp "Accepted solution")
 - [Library Checker range_affine_range_sum - Range Affine Range Sum](https://judge.yosupo.jp/problem/range_affine_range_sum) [✅](../../practice/data_structures/library_checker_range_affine_range_sum.cpp "Accepted solution")
 - [Library Checker range_set_range_composite - Range Set Range Composite](https://judge.yosupo.jp/problem/range_set_range_composite) [✅](../../practice/data_structures/library_checker_range_set_range_composite.cpp "Accepted solution")
-- [oj.uz COCI17_deda - Deda](https://oj.uz/problem/view/COCI17_deda)
+- [oj.uz COCI17_deda - Deda](https://oj.uz/problem/view/COCI17_deda) [✅](../../practice/data_structures/oj_uz_coci17_deda.cpp "Accepted solution")
 - [oj.uz IOI14_wall - Wall](https://oj.uz/problem/view/IOI14_wall)
 - [SPOJ GSS3 - Can you answer these queries III](https://www.spoj.com/problems/GSS3/)
 - [SPOJ HORRIBLE - Horrible Queries](https://www.spoj.com/problems/HORRIBLE/)
