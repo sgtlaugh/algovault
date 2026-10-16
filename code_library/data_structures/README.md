@@ -384,7 +384,7 @@
 - [SPOJ NCKLCE - Another Necklace Problem](https://www.spoj.com/problems/NCKLCE/)
 - [Timus 2042 - Nikita](https://acm.timus.ru/problem.aspx?num=2042)
 - [USACO 495 - Marathon](https://usaco.org/index.php?page=viewproblem2&cpid=495)
-- [USACO 578 - Counting Haybales](https://usaco.org/index.php?page=viewproblem2&cpid=578)
+- [USACO 578 - Counting Haybales](https://usaco.org/index.php?page=viewproblem2&cpid=578) [✅](../../practice/data_structures/usaco_578.cpp "Accepted solution")
 - [USACO 1332 - Pareidolia](https://usaco.org/index.php?page=viewproblem2&cpid=1332)
 - [UVa 1136 - Help R2-D2!](https://onlinejudge.org/external/11/1136.pdf) [✅](../../practice/data_structures/uva_1136.cpp "Accepted solution")
 - [UVa 1383 - Harmony Forever](https://onlinejudge.org/external/13/1383.pdf) [✅](../../practice/data_structures/uva_1383.cpp "Accepted solution")
