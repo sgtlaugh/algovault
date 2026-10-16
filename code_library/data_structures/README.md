@@ -122,7 +122,7 @@
 - [SPOJ TPGA - The Permutation Game Again](https://www.spoj.com/problems/TPGA/)
 - [SPOJ TRIPINV - Mega Inversions](https://www.spoj.com/problems/TRIPINV/)
 - [SPOJ YODANESS - Yodaness Level](https://www.spoj.com/problems/YODANESS/)
-- [USACO 624 - Load Balancing](https://usaco.org/index.php?page=viewproblem2&cpid=624)
+- [USACO 624 - Load Balancing](https://usaco.org/index.php?page=viewproblem2&cpid=624) [✅](../../practice/data_structures/usaco_624.cpp "Accepted solution")
 - [USACO 693 - Balanced Photo](https://usaco.org/index.php?page=viewproblem2&cpid=693) [✅](../../practice/data_structures/usaco_693.cpp "Accepted solution")
 - [USACO 696 - Promotion Counting](https://usaco.org/index.php?page=viewproblem2&cpid=696) [✅](../../practice/data_structures/usaco_696.cpp "Accepted solution")
 - [USACO 719 - Why Did the Cow Cross the Road III](https://usaco.org/index.php?page=viewproblem2&cpid=719) [✅](../../practice/data_structures/usaco_719.cpp "Accepted solution")
