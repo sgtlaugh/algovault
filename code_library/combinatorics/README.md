@@ -82,7 +82,7 @@
 - [CodeChef RIFFLES - Chef and Riffles](https://www.codechef.com/problems/RIFFLES) [✅](../../practice/combinatorics/codechef_riffles.cpp "Accepted solution")
 - [Codeforces 755F - PolandBall and Gifts](https://codeforces.com/problemset/problem/755/F) [✅](../../practice/combinatorics/codeforces_755f.cpp "Accepted solution")
 - [CSES 1698 - Swap Round Sorting](https://cses.fi/problemset/task/1698) [✅](../../practice/combinatorics/cses_1698.cpp "Accepted solution")
-- [CSES 3398 - Permutation Rounds](https://cses.fi/problemset/task/3398)
+- [CSES 3398 - Permutation Rounds](https://cses.fi/problemset/task/3398) [✅](../../practice/combinatorics/cses_3398.cpp "Accepted solution")
 - [UVa 10570 - Meeting with Aliens](https://onlinejudge.org/external/105/10570.pdf) [✅](../../practice/combinatorics/uva_10570.cpp "Accepted solution")
 - [UVa 11495 - Bubbles and Buckets](https://onlinejudge.org/external/114/11495.pdf) [✅](../../practice/combinatorics/uva_11495.cpp "Accepted solution")
 
