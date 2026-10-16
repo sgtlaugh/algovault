@@ -127,7 +127,7 @@
 - [USACO 696 - Promotion Counting](https://usaco.org/index.php?page=viewproblem2&cpid=696) [✅](../../practice/data_structures/usaco_696.cpp "Accepted solution")
 - [USACO 719 - Why Did the Cow Cross the Road III](https://usaco.org/index.php?page=viewproblem2&cpid=719) [✅](../../practice/data_structures/usaco_719.cpp "Accepted solution")
 - [USACO 720 - Why Did the Cow Cross the Road](https://usaco.org/index.php?page=viewproblem2&cpid=720) [✅](../../practice/data_structures/usaco_720.cpp "Accepted solution")
-- [USACO 898 - Sleepy Cow Sorting](https://usaco.org/index.php?page=viewproblem2&cpid=898)
+- [USACO 898 - Sleepy Cow Sorting](https://usaco.org/index.php?page=viewproblem2&cpid=898) [✅](../../practice/data_structures/usaco_898.cpp "Accepted solution")
 - [USACO 1041 - Haircut](https://usaco.org/index.php?page=viewproblem2&cpid=1041)
 - [UVa 1513 - Movie collection](https://onlinejudge.org/external/15/1513.pdf) [✅](../../practice/data_structures/uva_1513.cpp "Accepted solution")
 - [UVa 10810 - Ultra-QuickSort](https://onlinejudge.org/external/108/10810.pdf) [✅](../../practice/data_structures/uva_10810.cpp "Accepted solution")
