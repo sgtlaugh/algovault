@@ -124,6 +124,7 @@
 - [Code Jam 2008 Round 2 C - Star Wars](https://github.com/google/coding-competitions-archive/tree/main/codejam/2008/round_2/star_wars) [✅](../../practice/linear_algebra/code_jam_2008_round_2_c.cpp "Accepted solution")
 - [Code Jam 2015 Round 2 B - Kiddie Pool](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/round_2/kiddie_pool) [✅](../../practice/linear_algebra/code_jam_2015_round_2_b.cpp "Accepted solution")
 - [CodeChef FLYDIST - Flight Distance](https://www.codechef.com/problems/FLYDIST) [✅](../../practice/linear_algebra/codechef_flydist.cpp "Accepted solution")
+- [Codeforces 97C - Winning Strategy](https://codeforces.com/contest/97/problem/C) [✅](../../practice/linear_algebra/codeforces_97c.cpp "Accepted solution")
 - [Codeforces 356C - Compartments](https://codeforces.com/contest/356/problem/C) [✅](../../practice/linear_algebra/codeforces_356c.cpp "Accepted solution")
 - [Codeforces 375E - Red and Black Tree](https://codeforces.com/problemset/problem/375/E) [✅](../../practice/linear_algebra/codeforces_375e.cpp "Accepted solution")
 - [Codeforces 611E - New Year and Three Musketeers](https://codeforces.com/contest/611/problem/E) [✅](../../practice/linear_algebra/codeforces_611e.cpp "Accepted solution")
