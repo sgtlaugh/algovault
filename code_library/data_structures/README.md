@@ -22,7 +22,7 @@
 - [Timus 1671 - Anansi's Cobweb](https://acm.timus.ru/problem.aspx?num=1671) [✅](../../practice/data_structures/timus_1671.cpp "Accepted solution")
 - [Toph unbelievable-array - Unbelievable Array](https://toph.co/p/unbelievable-array) [✅](../../practice/data_structures/toph_unbelievable_array.cpp "Accepted solution")
 - [USACO 384 - Ski Course Rating](https://usaco.org/index.php?page=viewproblem2&cpid=384) [✅](../../practice/data_structures/usaco_384.cpp "Accepted solution")
-- [USACO 646 - Closing the Farm](https://usaco.org/index.php?page=viewproblem2&cpid=646)
+- [USACO 646 - Closing the Farm](https://usaco.org/index.php?page=viewproblem2&cpid=646) [✅](../../practice/data_structures/usaco_646.cpp "Accepted solution")
 - [USACO 669 - Moocast](https://usaco.org/index.php?page=viewproblem2&cpid=669)
 - [USACO 789 - MooTube](https://usaco.org/index.php?page=viewproblem2&cpid=789)
 - [USACO 950 - Valleys](https://usaco.org/index.php?page=viewproblem2&cpid=950)
