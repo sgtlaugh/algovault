@@ -2,7 +2,7 @@
 
 #### [Characteristic Polynomial](characteristic_polynomial.cpp)
 
-- [Library Checker characteristic_polynomial - Characteristic Polynomial](https://judge.yosupo.jp/problem/characteristic_polynomial)
+- [Library Checker characteristic_polynomial - Characteristic Polynomial](https://judge.yosupo.jp/problem/characteristic_polynomial) [✅](../../practice/linear_algebra/library_checker_characteristic_polynomial.cpp "Accepted solution")
 
 #### [Determinant](determinant.cpp)
 
