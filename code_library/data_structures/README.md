@@ -167,7 +167,7 @@
 
 #### [Interval Set](interval_set.cpp)
 
-- [AOJ DSL_4_A - Union of Rectangles](https://onlinejudge.u-aizu.ac.jp/problems/DSL_4_A)
+- [AOJ DSL_4_A - Union of Rectangles](https://onlinejudge.u-aizu.ac.jp/problems/DSL_4_A) [✅](../../practice/data_structures/aoj_dsl_4_a.cpp "Accepted solution")
 - [SPOJ MON2012 - Monkey and apples](https://www.spoj.com/problems/MON2012/)
 
 #### [Leftist Heap, Persistent](leftist_heap.cpp)
