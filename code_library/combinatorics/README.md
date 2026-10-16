@@ -92,7 +92,7 @@
 
 #### [Permutation Rank](permutation_rank.cpp)
 
-- [AOJ ITP2_5_C - Permutation](https://onlinejudge.u-aizu.ac.jp/problems/ITP2_5_C)
+- [AOJ ITP2_5_C - Permutation](https://onlinejudge.u-aizu.ac.jp/problems/ITP2_5_C) [✅](../../practice/combinatorics/aoj_itp2_5_c.cpp "Accepted solution")
 - [CSES 3397 - Permutation Order](https://cses.fi/problemset/task/3397)
 - [UVa 12335 - Lexicographic Order](https://onlinejudge.org/external/123/12335.pdf) [✅](../../practice/combinatorics/uva_12335.cpp "Accepted solution")
 
