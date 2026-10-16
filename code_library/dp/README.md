@@ -119,5 +119,5 @@
 - [Codeforces 865D - Buy Low Sell High](https://codeforces.com/problemset/problem/865/D)
 - [CSES 2132 - Increasing Array II](https://cses.fi/problemset/task/2132) [✅](../../practice/dp/cses_2132.cpp "Accepted solution")
 - [oj.uz APIO16_fireworks - Fireworks](https://oj.uz/problem/view/APIO16_fireworks) [✅](../../practice/dp/oj_uz_apio16_fireworks.cpp "Accepted solution")
-- [oj.uz LMIO19_bulves - Potatoes and fertilizers](https://oj.uz/problem/view/LMIO19_bulves)
+- [oj.uz LMIO19_bulves - Potatoes and fertilizers](https://oj.uz/problem/view/LMIO19_bulves) [✅](../../practice/dp/oj_uz_lmio19_bulves.cpp "Accepted solution")
 - [USACO 650 - Landscaping](https://usaco.org/index.php?page=viewproblem2&cpid=650)
