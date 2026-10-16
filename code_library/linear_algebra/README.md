@@ -125,6 +125,7 @@
 - [Code Jam 2015 Round 2 B - Kiddie Pool](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/round_2/kiddie_pool) [✅](../../practice/linear_algebra/code_jam_2015_round_2_b.cpp "Accepted solution")
 - [CodeChef FLYDIST - Flight Distance](https://www.codechef.com/problems/FLYDIST) [✅](../../practice/linear_algebra/codechef_flydist.cpp "Accepted solution")
 - [Codeforces 375E - Red and Black Tree](https://codeforces.com/problemset/problem/375/E) [✅](../../practice/linear_algebra/codeforces_375e.cpp "Accepted solution")
+- [Codeforces 727D - T-shirts Distribution](https://codeforces.com/contest/727/problem/D) [✅](../../practice/linear_algebra/codeforces_727d.cpp "Accepted solution")
 - [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A) [✅](../../practice/linear_algebra/codeforces_gym_100491a.cpp "Accepted solution")
 - [Codeforces Gym 101161J - Printing Press](https://codeforces.com/gym/101161/problem/J) [✅](../../practice/linear_algebra/codeforces_gym_101161j.cpp "Accepted solution")
 - [Kattis cheeseifyouplease - Cheese, If You Please](https://open.kattis.com/problems/cheeseifyouplease) [✅](../../practice/linear_algebra/kattis_cheeseifyouplease.cpp "Accepted solution")
