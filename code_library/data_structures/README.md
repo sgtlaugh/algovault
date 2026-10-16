@@ -211,7 +211,7 @@
 - [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6) [✅](../../practice/data_structures/codechef_qtree6.cpp "Accepted solution")
 - [DMOJ ds5easy - Dynamic Tree Test (Easy)](https://dmoj.ca/problem/ds5easy)
 - [Library Checker dynamic_tree_vertex_add_path_sum - Dynamic Tree Vertex Add Path Sum](https://judge.yosupo.jp/problem/dynamic_tree_vertex_add_path_sum) [✅](../../practice/data_structures/library_checker_dynamic_tree_vertex_add_path_sum.cpp "Accepted solution")
-- [Library Checker incremental_minimum_spanning_forest - Incremental Minimum Spanning Forest](https://judge.yosupo.jp/problem/incremental_minimum_spanning_forest)
+- [Library Checker incremental_minimum_spanning_forest - Incremental Minimum Spanning Forest](https://judge.yosupo.jp/problem/incremental_minimum_spanning_forest) [✅](../../practice/data_structures/library_checker_incremental_minimum_spanning_forest.cpp "Accepted solution")
 - [Library Checker lca - Lowest Common Ancestor](https://judge.yosupo.jp/problem/lca)
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/)
 - [SPOJ DYNALCA - Dynamic LCA](https://www.spoj.com/problems/DYNALCA/)
