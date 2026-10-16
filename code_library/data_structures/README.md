@@ -172,7 +172,7 @@
 
 #### [Leftist Heap, Persistent](leftist_heap.cpp)
 
-- [Library Checker k_shortest_walk - K-Shortest Walk](https://judge.yosupo.jp/problem/k_shortest_walk)
+- [Library Checker k_shortest_walk - K-Shortest Walk](https://judge.yosupo.jp/problem/k_shortest_walk) [✅](../../practice/data_structures/library_checker_k_shortest_walk.cpp "Accepted solution")
 
 #### [Li Chao Tree](li_chao_tree.cpp)
 
