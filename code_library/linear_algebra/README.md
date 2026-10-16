@@ -6,7 +6,7 @@
 
 #### [Determinant](determinant.cpp)
 
-- [CodeChef CSTREE - Complement Spanning Trees](https://www.codechef.com/problems/CSTREE)
+- [CodeChef CSTREE - Complement Spanning Trees](https://www.codechef.com/problems/CSTREE) [✅](../../practice/linear_algebra/codechef_cstree.cpp "Accepted solution")
 - [CodeChef STARROAD - Roads in Stars](https://www.codechef.com/problems/STARROAD)
 - [Codeforces 167E - Wizards and Bets](https://codeforces.com/problemset/problem/167/E)
 - [Library Checker counting_spanning_tree_directed - Counting Spanning Trees (Directed)](https://judge.yosupo.jp/problem/counting_spanning_tree_directed)
