@@ -258,7 +258,7 @@
 #### [Mo's Algorithm With Rollback](mo_with_rollback.cpp)
 
 - [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
-- [CodeChef QCHEF - Chef and Problems](https://www.codechef.com/problems/QCHEF)
+- [CodeChef QCHEF - Chef and Problems](https://www.codechef.com/problems/QCHEF) [✅](../../practice/data_structures/codechef_qchef.cpp "Accepted solution")
 - [Library Checker static_range_mode_query - Static Range Mode Query](https://judge.yosupo.jp/problem/static_range_mode_query)
 
 #### [Mo's Algorithm With Updates](mo_with_updates.cpp)
