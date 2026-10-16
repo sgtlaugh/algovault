@@ -425,7 +425,7 @@
 #### [Sparse Table](sparse_table.cpp)
 
 - [CodeChef FRMQ - Chef and Array](https://www.codechef.com/problems/FRMQ) [✅](../../practice/data_structures/codechef_frmq.cpp "Accepted solution")
-- [CodeChef MSTICK - Matchsticks](https://www.codechef.com/problems/MSTICK)
+- [CodeChef MSTICK - Matchsticks](https://www.codechef.com/problems/MSTICK) [✅](../../practice/data_structures/codechef_mstick.cpp "Accepted solution")
 - [CodeChef SEAD - Sereja and D](https://www.codechef.com/problems/SEAD)
 - [Codeforces 475D - CGCDSSQ](https://codeforces.com/problemset/problem/475/D) [✅](../../practice/data_structures/codeforces_475d_sparse_table.cpp "Accepted solution")
 - [Codeforces 514D - R2D2 and Droid Army](https://codeforces.com/problemset/problem/514/D)
