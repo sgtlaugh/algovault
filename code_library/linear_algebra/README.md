@@ -129,6 +129,7 @@
 - [Codeforces Gym 101161J - Printing Press](https://codeforces.com/gym/101161/problem/J) [✅](../../practice/linear_algebra/codeforces_gym_101161j.cpp "Accepted solution")
 - [Kattis cheeseifyouplease - Cheese, If You Please](https://open.kattis.com/problems/cheeseifyouplease) [✅](../../practice/linear_algebra/kattis_cheeseifyouplease.cpp "Accepted solution")
 - [Kattis goatropes - Goat Ropes](https://open.kattis.com/problems/goatropes) [✅](../../practice/linear_algebra/kattis_goatropes.cpp "Accepted solution")
+- [Kattis maximumrent - Maximum Rent](https://open.kattis.com/problems/maximumrent) [✅](../../practice/linear_algebra/kattis_maximumrent.cpp "Accepted solution")
 - [UVa 802 - Lead or Gold](https://onlinejudge.org/external/8/802.pdf) [✅](../../practice/linear_algebra/uva_802.cpp "Accepted solution")
 - [UVa 1298 - Triathlon](https://onlinejudge.org/external/12/1298.pdf) [✅](../../practice/linear_algebra/uva_1298.cpp "Accepted solution")
 - [UVa 1410 - Expensive Drink](https://onlinejudge.org/external/14/1410.pdf) [✅](../../practice/linear_algebra/uva_1410.cpp "Accepted solution")
