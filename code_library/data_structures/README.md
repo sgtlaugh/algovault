@@ -518,7 +518,7 @@
 - [Codeforces 665E - Beautiful Subarrays](https://codeforces.com/problemset/problem/665/E)
 - [Codeforces 888G - Xor-MST](https://codeforces.com/problemset/problem/888/G)
 - [CSES 1655 - Maximum Xor Subarray](https://cses.fi/problemset/task/1655) [✅](../../practice/data_structures/cses_1655.cpp "Accepted solution")
-- [CSES 1731 - Word Combinations](https://cses.fi/problemset/task/1731)
+- [CSES 1731 - Word Combinations](https://cses.fi/problemset/task/1731) [✅](../../practice/data_structures/cses_1731.cpp "Accepted solution")
 - [HackerRank xor-key - XOR key](https://www.hackerrank.com/challenges/xor-key)
 - [Library Checker set_xor_min - Set Xor-Min](https://judge.yosupo.jp/problem/set_xor_min)
 - [oj.uz IZhO12_xor - XOR](https://oj.uz/problem/view/IZhO12_xor)
