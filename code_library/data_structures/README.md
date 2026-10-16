@@ -208,7 +208,7 @@
 
 #### [Link-Cut Tree](link_cut_tree.cpp)
 
-- [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6)
+- [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6) [✅](../../practice/data_structures/codechef_qtree6.cpp "Accepted solution")
 - [DMOJ ds5easy - Dynamic Tree Test (Easy)](https://dmoj.ca/problem/ds5easy)
 - [Library Checker dynamic_tree_vertex_add_path_sum - Dynamic Tree Vertex Add Path Sum](https://judge.yosupo.jp/problem/dynamic_tree_vertex_add_path_sum)
 - [Library Checker incremental_minimum_spanning_forest - Incremental Minimum Spanning Forest](https://judge.yosupo.jp/problem/incremental_minimum_spanning_forest)
