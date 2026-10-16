@@ -372,7 +372,7 @@
 - [CSES 3356 - Distinct Values Queries II](https://cses.fi/problemset/task/3356) [✅](../../practice/data_structures/cses_3356.cpp "Accepted solution")
 - [HackerRank white-falcon-and-tree - White Falcon And Tree](https://www.hackerrank.com/contests/w12/challenges/white-falcon-and-tree) [✅](../../practice/data_structures/hackerrank_white_falcon_and_tree.cpp "Accepted solution")
 - [HDU 1754 - I Hate It](https://acm.hdu.edu.cn/showproblem.php?pid=1754) [✅](../../practice/data_structures/hdu_1754.cpp "Accepted solution")
-- [Library Checker point_set_range_composite - Point Set Range Composite](https://judge.yosupo.jp/problem/point_set_range_composite)
+- [Library Checker point_set_range_composite - Point Set Range Composite](https://judge.yosupo.jp/problem/point_set_range_composite) [✅](../../practice/data_structures/library_checker_point_set_range_composite.cpp "Accepted solution")
 - [Library Checker range_add_range_min - Range Add Range Min](https://judge.yosupo.jp/problem/range_add_range_min)
 - [Library Checker range_affine_point_get - Range Affine Point Get](https://judge.yosupo.jp/problem/range_affine_point_get)
 - [Library Checker range_affine_range_sum - Range Affine Range Sum](https://judge.yosupo.jp/problem/range_affine_range_sum)
