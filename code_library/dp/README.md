@@ -6,7 +6,7 @@
 - [Codeforces 1279F - New Year and Handle Change](https://codeforces.com/problemset/problem/1279/F)
 - [Codeforces 1661F - Teleporters](https://codeforces.com/problemset/problem/1661/F)
 - [Kattis blazingnewtrails - Blazing New Trails](https://open.kattis.com/problems/blazingnewtrails) [✅](../../practice/dp/kattis_blazingnewtrails.cpp "Accepted solution")
-- [oj.uz IOI16_aliens - Aliens](https://oj.uz/problem/view/IOI16_aliens)
+- [oj.uz IOI16_aliens - Aliens](https://oj.uz/problem/view/IOI16_aliens) [✅](../../practice/dp/oj_uz_ioi16_aliens.cpp "Accepted solution")
 - [USACO 697 - Building a Tall Barn](https://usaco.org/index.php?page=viewproblem2&cpid=697)
 
 #### [Blocks](blocks_dp.cpp)
