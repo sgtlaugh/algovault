@@ -141,6 +141,7 @@
 - [Kattis maximumrent - Maximum Rent](https://open.kattis.com/problems/maximumrent) [✅](../../practice/linear_algebra/kattis_maximumrent.cpp "Accepted solution")
 - [SPOJ FAKEHASH - Faketorial Hashing](https://www.spoj.com/problems/FAKEHASH/) [✅](../../practice/linear_algebra/spoj_fakehash.cpp "Accepted solution")
 - [SPOJ FUKU11G - Captain Q's Treasure](https://www.spoj.com/problems/FUKU11G/) [✅](../../practice/linear_algebra/spoj_fuku11g.cpp "Accepted solution")
+- [SPOJ SEQ1 - 01 Sequence](https://www.spoj.com/problems/SEQ1/) [✅](../../practice/linear_algebra/spoj_seq1.cpp "Accepted solution")
 - [UVa 802 - Lead or Gold](https://onlinejudge.org/external/8/802.pdf) [✅](../../practice/linear_algebra/uva_802.cpp "Accepted solution")
 - [UVa 1298 - Triathlon](https://onlinejudge.org/external/12/1298.pdf) [✅](../../practice/linear_algebra/uva_1298.cpp "Accepted solution")
 - [UVa 1410 - Expensive Drink](https://onlinejudge.org/external/14/1410.pdf) [✅](../../practice/linear_algebra/uva_1410.cpp "Accepted solution")
