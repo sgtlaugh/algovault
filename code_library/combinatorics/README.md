@@ -79,7 +79,7 @@
 #### [Permutation Cycles](permutation_cycles.cpp)
 
 - [AOJ ALDS1_6_D - Minimum Cost Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_D) [✅](../../practice/combinatorics/aoj_alds1_6_d.cpp "Accepted solution")
-- [CodeChef RIFFLES - Chef and Riffles](https://www.codechef.com/problems/RIFFLES)
+- [CodeChef RIFFLES - Chef and Riffles](https://www.codechef.com/problems/RIFFLES) [✅](../../practice/combinatorics/codechef_riffles.cpp "Accepted solution")
 - [Codeforces 755F - PolandBall and Gifts](https://codeforces.com/problemset/problem/755/F) [✅](../../practice/combinatorics/codeforces_755f.cpp "Accepted solution")
 - [CSES 1698 - Swap Round Sorting](https://cses.fi/problemset/task/1698)
 - [CSES 3398 - Permutation Rounds](https://cses.fi/problemset/task/3398)
