@@ -199,7 +199,7 @@
 - [Library Checker segment_add_get_min - Segment Add Get Min](https://judge.yosupo.jp/problem/segment_add_get_min) [✅](../../practice/data_structures/library_checker_segment_add_get_min.cpp "Accepted solution")
 - [oj.uz APIO14_sequence - Split the sequence](https://oj.uz/problem/view/APIO14_sequence)
 - [oj.uz CEOI09_harbingers - Harbingers](https://oj.uz/problem/view/CEOI09_harbingers)
-- [oj.uz CEOI17_building - Building Bridges](https://oj.uz/problem/view/CEOI17_building)
+- [oj.uz CEOI17_building - Building Bridges](https://oj.uz/problem/view/CEOI17_building) [✅](../../practice/data_structures/oj_uz_ceoi17_building.cpp "Accepted solution")
 - [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180)
 - [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/)
 - [SPOJ APIO10A - Commando](https://www.spoj.com/problems/APIO10A/)
