@@ -52,7 +52,7 @@
 - [Codeforces Gym 100570D - TROY Query](https://codeforces.com/gym/100570/problem/D) [✅](../../practice/data_structures/codeforces_gym_100570d.cpp "Accepted solution")
 - [Library Checker unionfind_with_potential - Unionfind with Potential](https://judge.yosupo.jp/problem/unionfind_with_potential) [✅](../../practice/data_structures/library_checker_unionfind_with_potential.cpp "Accepted solution")
 - [SPOJ CHAIN - Strange Food Chain](https://www.spoj.com/problems/CHAIN/)
-- [Timus 1003 - Parity](https://acm.timus.ru/problem.aspx?num=1003)
+- [Timus 1003 - Parity](https://acm.timus.ru/problem.aspx?num=1003) [✅](../../practice/data_structures/timus_1003.cpp "Accepted solution")
 - [UVa 10158 - War](https://onlinejudge.org/external/101/10158.pdf) [✅](../../practice/data_structures/uva_10158.cpp "Accepted solution")
 - [UVa 11870 - Antonyms](https://onlinejudge.org/external/118/11870.pdf) [✅](../../practice/data_structures/uva_11870.cpp "Accepted solution")
 
