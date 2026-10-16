@@ -191,7 +191,7 @@
 - [CSES 3427 - Line Segments Trace I](https://cses.fi/problemset/task/3427) [✅](../../practice/data_structures/cses_3427.cpp "Accepted solution")
 - [CSES 3428 - Line Segments Trace II](https://cses.fi/problemset/task/3428) [✅](../../practice/data_structures/cses_3428.cpp "Accepted solution")
 - [CSES 3429 - Lines and Queries I](https://cses.fi/problemset/task/3429) [✅](../../practice/data_structures/cses_3429.cpp "Accepted solution")
-- [CSES 3430 - Lines and Queries II](https://cses.fi/problemset/task/3430)
+- [CSES 3430 - Lines and Queries II](https://cses.fi/problemset/task/3430) [✅](../../practice/data_structures/cses_3430.cpp "Accepted solution")
 - [DMOJ apio10p1 - APIO '10 P1 - Commando](https://dmoj.ca/problem/apio10p1)
 - [DMOJ ioi02p4 - IOI '02 P4 - Batch Scheduling](https://dmoj.ca/problem/ioi02p4)
 - [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507)
