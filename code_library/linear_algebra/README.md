@@ -28,7 +28,7 @@
 - [SPOJ GS - Going to school](https://www.spoj.com/problems/GS/)
 - [SPOJ LIM - Lost in Madrid](https://www.spoj.com/problems/LIM/)
 - [SPOJ RESIST - Kirchhof Law](https://www.spoj.com/problems/RESIST/)
-- [Timus 1041 - Nikifor](https://acm.timus.ru/problem.aspx?num=1041)
+- [Timus 1041 - Nikifor](https://acm.timus.ru/problem.aspx?num=1041) [✅](../../practice/linear_algebra/timus_1041.cpp "Accepted solution")
 - [Timus 1266 - Kirchhoff's Law](https://acm.timus.ru/problem.aspx?num=1266)
 - [Timus 1766 - Humpty Dumpty](https://acm.timus.ru/problem.aspx?num=1766)
 - [UVa 1358 - Generator](https://onlinejudge.org/external/13/1358.pdf) [✅](../../practice/linear_algebra/uva_1358.cpp "Accepted solution")
