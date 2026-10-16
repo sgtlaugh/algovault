@@ -30,7 +30,7 @@
 - [Codeforces 1696E - Placing Jinas](https://codeforces.com/problemset/problem/1696/E) [✅](../../practice/combinatorics/codeforces_1696e.cpp "Accepted solution")
 - [Codeforces 1931G - One-Dimensional Puzzle](https://codeforces.com/problemset/problem/1931/G) [✅](../../practice/combinatorics/codeforces_1931g.cpp "Accepted solution")
 - [CSES 1078 - Grid Paths II](https://cses.fi/problemset/task/1078) [✅](../../practice/combinatorics/cses_1078.cpp "Accepted solution")
-- [CSES 1079 - Binomial Coefficients](https://cses.fi/problemset/task/1079)
+- [CSES 1079 - Binomial Coefficients](https://cses.fi/problemset/task/1079) [✅](../../practice/combinatorics/cses_1079.cpp "Accepted solution")
 - [CSES 1715 - Creating Strings II](https://cses.fi/problemset/task/1715)
 - [CSES 1716 - Distributing Apples](https://cses.fi/problemset/task/1716)
 - [CSES 2064 - Bracket Sequences I](https://cses.fi/problemset/task/2064)
