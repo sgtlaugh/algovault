@@ -415,7 +415,7 @@
 - [CodeChef BINLAND - Binary Land](https://www.codechef.com/problems/BINLAND) [✅](../../practice/data_structures/codechef_binland.cpp "Accepted solution")
 - [Codeforces 15D - Map](https://codeforces.com/problemset/problem/15/D)
 - [CSES 3221 - Sliding Window Minimum](https://cses.fi/problemset/task/3221) [✅](../../practice/data_structures/cses_3221.cpp "Accepted solution")
-- [CSES 3405 - Sliding Window Or](https://cses.fi/problemset/task/3405)
+- [CSES 3405 - Sliding Window Or](https://cses.fi/problemset/task/3405) [✅](../../practice/data_structures/cses_3405.cpp "Accepted solution")
 - [CSES POI 527 - Little Bird](https://cses.fi/poi/task/527)
 - [HackerRank queries-with-fixed-length - Queries with Fixed Length](https://www.hackerrank.com/challenges/queries-with-fixed-length/problem)
 - [LeetCode 239 - Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/)
