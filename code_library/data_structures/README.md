@@ -269,7 +269,7 @@
 
 #### [Monotonic Stack](monotonic_stack.cpp)
 
-- [AOJ DPL_3_C - Largest Rectangle in a Histogram](https://onlinejudge.u-aizu.ac.jp/problems/DPL_3_C)
+- [AOJ DPL_3_C - Largest Rectangle in a Histogram](https://onlinejudge.u-aizu.ac.jp/problems/DPL_3_C) [✅](../../practice/data_structures/aoj_dpl_3_c.cpp "Accepted solution")
 - [Codeforces 547B - Mike and Feet](https://codeforces.com/problemset/problem/547/B)
 - [Codeforces 1299C - Water Balance](https://codeforces.com/problemset/problem/1299/C)
 - [Codeforces 1402A - Fancy Fence](https://codeforces.com/problemset/problem/1402/A)
