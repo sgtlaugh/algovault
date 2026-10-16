@@ -195,7 +195,7 @@
 - [DMOJ apio10p1 - APIO '10 P1 - Commando](https://dmoj.ca/problem/apio10p1)
 - [DMOJ ioi02p4 - IOI '02 P4 - Batch Scheduling](https://dmoj.ca/problem/ioi02p4)
 - [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507) [✅](../../practice/data_structures/hdu_3507.cpp "Accepted solution")
-- [Library Checker line_add_get_min - Line Add Get Min](https://judge.yosupo.jp/problem/line_add_get_min)
+- [Library Checker line_add_get_min - Line Add Get Min](https://judge.yosupo.jp/problem/line_add_get_min) [✅](../../practice/data_structures/library_checker_line_add_get_min.cpp "Accepted solution")
 - [Library Checker segment_add_get_min - Segment Add Get Min](https://judge.yosupo.jp/problem/segment_add_get_min)
 - [oj.uz APIO14_sequence - Split the sequence](https://oj.uz/problem/view/APIO14_sequence)
 - [oj.uz CEOI09_harbingers - Harbingers](https://oj.uz/problem/view/CEOI09_harbingers)
