@@ -480,7 +480,7 @@
 - [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436) [✅](../../practice/data_structures/hdu_3436_treap.cpp "Accepted solution")
 - [HDU 3487 - Play with Chain](https://acm.hdu.edu.cn/showproblem.php?pid=3487) [✅](../../practice/data_structures/hdu_3487.cpp "Accepted solution")
 - [Library Checker double_ended_priority_queue - Double-Ended Priority Queue](https://judge.yosupo.jp/problem/double_ended_priority_queue) [✅](../../practice/data_structures/library_checker_double_ended_priority_queue.cpp "Accepted solution")
-- [Library Checker range_reverse_range_sum - Range Reverse Range Sum](https://judge.yosupo.jp/problem/range_reverse_range_sum)
+- [Library Checker range_reverse_range_sum - Range Reverse Range Sum](https://judge.yosupo.jp/problem/range_reverse_range_sum) [✅](../../practice/data_structures/library_checker_range_reverse_range_sum.cpp "Accepted solution")
 - [POJ 3580 - SuperMemo](http://poj.org/problem?id=3580)
 - [SPOJ ADAAPHID - Ada and Aphids](https://www.spoj.com/problems/ADAAPHID/)
 - [SPOJ ALLIN1 - All in One](https://www.spoj.com/problems/ALLIN1/)
