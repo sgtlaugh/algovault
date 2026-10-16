@@ -418,7 +418,7 @@
 - [CSES 3405 - Sliding Window Or](https://cses.fi/problemset/task/3405) [✅](../../practice/data_structures/cses_3405.cpp "Accepted solution")
 - [CSES POI 527 - Little Bird](https://cses.fi/poi/task/527) [✅](../../practice/data_structures/cses_poi_527.cpp "Accepted solution")
 - [HackerRank queries-with-fixed-length - Queries with Fixed Length](https://www.hackerrank.com/challenges/queries-with-fixed-length/problem) [✅](../../practice/data_structures/hackerrank_queries_with_fixed_length.cpp "Accepted solution")
-- [LeetCode 239 - Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/)
+- [LeetCode 239 - Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) [✅](../../practice/data_structures/leetcode_239.cpp "Accepted solution")
 - [Library Checker queue_operate_all_composite - Queue Operate All Composite](https://judge.yosupo.jp/problem/queue_operate_all_composite)
 - [USACO 767 - Haybale Feast](https://usaco.org/index.php?page=viewproblem2&cpid=767)
 
