@@ -128,6 +128,7 @@
 - [Codeforces 356C - Compartments](https://codeforces.com/problemset/problem/356/C) [✅](../../practice/linear_algebra/codeforces_356c.cpp "Accepted solution")
 - [Codeforces 375E - Red and Black Tree](https://codeforces.com/problemset/problem/375/E) [✅](../../practice/linear_algebra/codeforces_375e.cpp "Accepted solution")
 - [Codeforces 611E - New Year and Three Musketeers](https://codeforces.com/problemset/problem/611/E) [✅](../../practice/linear_algebra/codeforces_611e.cpp "Accepted solution")
+- [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D) [✅](../../practice/linear_algebra/codeforces_708d.cpp "Accepted solution")
 - [Codeforces 727D - T-shirts Distribution](https://codeforces.com/problemset/problem/727/D) [✅](../../practice/linear_algebra/codeforces_727d.cpp "Accepted solution")
 - [Codeforces 1061E - Politics](https://codeforces.com/problemset/problem/1061/E) [✅](../../practice/linear_algebra/codeforces_1061e.cpp "Accepted solution")
 - [Codeforces 1288F - Red-Blue Graph](https://codeforces.com/problemset/problem/1288/F) [✅](../../practice/linear_algebra/codeforces_1288f.cpp "Accepted solution")
