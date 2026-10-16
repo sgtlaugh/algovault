@@ -412,7 +412,7 @@
 #### [Sliding Window Aggregation](sliding_window_aggregation.cpp)
 
 - [AOJ DSL_3_D - Sliding Minimum Element](https://onlinejudge.u-aizu.ac.jp/problems/DSL_3_D) [✅](../../practice/data_structures/aoj_dsl_3_d.cpp "Accepted solution")
-- [CodeChef BINLAND - Binary Land](https://www.codechef.com/problems/BINLAND)
+- [CodeChef BINLAND - Binary Land](https://www.codechef.com/problems/BINLAND) [✅](../../practice/data_structures/codechef_binland.cpp "Accepted solution")
 - [Codeforces 15D - Map](https://codeforces.com/problemset/problem/15/D)
 - [CSES 3221 - Sliding Window Minimum](https://cses.fi/problemset/task/3221)
 - [CSES 3405 - Sliding Window Or](https://cses.fi/problemset/task/3405)
