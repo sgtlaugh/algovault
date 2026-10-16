@@ -108,7 +108,7 @@
 - [UVa 11551 - Experienced Endeavour](https://onlinejudge.org/external/115/11551.pdf) [✅](../../practice/linear_algebra/uva_11551.cpp "Accepted solution")
 - [UVa 11651 - Krypton Number System](https://onlinejudge.org/external/116/11651.pdf)
 - [UVa 11741 - Ignore the Blocks](https://onlinejudge.org/external/117/11741.pdf) [✅](../../practice/linear_algebra/uva_11741.cpp "Accepted solution")
-- [UVa 12000 - K-Transformed Permutations](https://onlinejudge.org/external/120/12000.pdf)
+- [UVa 12000 - K-Transformed Permutations](https://onlinejudge.org/external/120/12000.pdf) [✅](../../practice/linear_algebra/uva_12000.cpp "Accepted solution")
 - [UVa 12037 - Musical Chair](https://onlinejudge.org/external/120/12037.pdf) [✅](../../practice/linear_algebra/uva_12037.cpp "Accepted solution")
 - [UVa 12042 - Colorful Eggs](https://onlinejudge.org/external/120/12042.pdf) [✅](../../practice/linear_algebra/uva_12042.cpp "Accepted solution")
 - [UVa 12470 - Tribonacci](https://onlinejudge.org/external/124/12470.pdf) [✅](../../practice/linear_algebra/uva_12470.cpp "Accepted solution")
