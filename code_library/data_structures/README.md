@@ -514,7 +514,7 @@
 #### [Trie](trie.cpp)
 
 - [AOJ ALDS1_4_C - Search III](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_4_C) [✅](../../practice/data_structures/aoj_alds1_4_c.cpp "Accepted solution")
-- [AtCoder ARC122 D - XOR Game](https://atcoder.jp/contests/arc122/tasks/arc122_d)
+- [AtCoder ARC122 D - XOR Game](https://atcoder.jp/contests/arc122/tasks/arc122_d) [✅](../../practice/data_structures/atcoder_arc122_d.cpp "Accepted solution")
 - [Codeforces 665E - Beautiful Subarrays](https://codeforces.com/problemset/problem/665/E)
 - [Codeforces 888G - Xor-MST](https://codeforces.com/problemset/problem/888/G)
 - [CSES 1655 - Maximum Xor Subarray](https://cses.fi/problemset/task/1655)
