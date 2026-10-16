@@ -332,7 +332,7 @@
 
 #### [Segment Tree](segment_tree.cpp)
 
-- [AOJ 1351 - Flipping Parentheses](https://onlinejudge.u-aizu.ac.jp/problems/1351)
+- [AOJ 1351 - Flipping Parentheses](https://onlinejudge.u-aizu.ac.jp/problems/1351) [✅](../../practice/data_structures/aoj_1351.cpp "Accepted solution")
 - [AOJ DSL_2_G - RSQ and RAQ](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_G)
 - [Codeforces 52C - Circular RMQ](https://codeforces.com/problemset/problem/52/C)
 - [Codeforces 121E - Lucky Array](https://codeforces.com/problemset/problem/121/E)
