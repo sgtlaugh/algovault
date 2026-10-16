@@ -32,8 +32,7 @@
 
 using namespace std;
 
-/// Enums rather than ints, so passing LESSEQ as the sense or a bare number fails to compile
-/// They live outside the template so Simplex::MAXIMIZE also serves BasicSimplex<long double>
+/// Outside the template so Simplex::MAXIMIZE also serves BasicSimplex<long double>
 struct SimplexOptions{
     enum Cmp{LESSEQ, EQUAL, GREATEQ};
     enum Sense{MINIMIZE = -1, MAXIMIZE = 1};
@@ -43,20 +42,19 @@ struct SimplexOptions{
 template <typename Float>
 struct BasicSimplex : SimplexOptions{
     static constexpr bool WIDE = is_same<Float, long double>::value;
-    /// EPS decides pivots, feasibility and optimality; elimination drops only entries below DROP, since dropping at EPS
-    /// loses entries that still matter once variables grow large
+    /// EPS decides pivots and feasibility, DROP only prunes elimination: pruning at EPS broke rows once variables grew large
     static constexpr Float EPS = WIDE ? 1e-13L : 1e-9, DROP = WIDE ? 1e-16L : 1e-12;
 
     Float value = 0;
     vector<Float> val;
-    int n, m;
+    int n, m, pivot_width;
     Sense sense;
     vector<vector<Float>> ar;
-    vector<Float> rhs, norm;
+    vector<Float> rhs;
     vector<int> nonzero, nonbasic, basic;
 
     BasicSimplex(const vector<Float>& objective, Sense sense)
-        : val(objective.size(), 0), n(objective.size()), m(0), sense(sense), ar(1, vector<Float>(n + 1, 0)), rhs(1, 0), nonzero(n + 1), nonbasic(n + 1){
+        : val(objective.size(), 0), n(objective.size()), m(0), pivot_width(n + 1), sense(sense), ar(1, vector<Float>(n + 1, 0)), rhs(1, 0), nonzero(n + 1), nonbasic(n + 1){
         for (int j = 0; j < n; j++) ar[0][j + 1] = objective[j] * sense;
     }
 
@@ -67,14 +65,14 @@ struct BasicSimplex : SimplexOptions{
     }
 
     Status solve(){
-        assert(basic.empty());  /// the tableau is pivoted in place, a second call would answer from garbage
+        assert(basic.empty());  /// the tableau is pivoted in place, so a second call would read garbage
 
         /// Variable ids: 0 is the phase 1 artificial, 1..n the inputs, n + i the slack of row i
         basic.assign(m + 1, 0);
         for (int j = 0; j <= n; j++) nonbasic[j] = j;
         for (int i = 1; i <= m; i++) basic[i] = i + n;
 
-        /// Phase 1: relax every row by an artificial x0 in column 0, then maximize -x0 to reach a feasible basis
+        /// Phase 1: an artificial x0 in column 0 relaxes every row, maximizing -x0 reaches a feasible basis
         int x = 1;
         for (int i = 2; i <= m; i++){
             if (rhs[i] < rhs[x]) x = i;
@@ -87,7 +85,7 @@ struct BasicSimplex : SimplexOptions{
             optimize(m + 1);
             if (rhs[m + 1] > EPS) return INFEASIBLE;
 
-            /// x0 may stay basic at a value within EPS and grow in phase 2, so pivot it out, a row with no pivot is redundant
+            /// x0 can stay basic within EPS and grow in phase 2, so pivot it out; a row with no pivot is redundant
             for (int i = 1; i <= m; i++){
                 if (basic[i] != 0) continue;
                 int y = 0;
@@ -114,7 +112,6 @@ struct BasicSimplex : SimplexOptions{
     }
 
     void add_row(const vector<Float>& coef, Float lim, int sign){
-        /// Dividing by the largest coefficient makes the absolute EPS mean the same in every row
         Float scale = 0;
         for (Float c : coef) scale = max(scale, abs(c));
         if (scale == 0) scale = 1;
@@ -125,7 +122,7 @@ struct BasicSimplex : SimplexOptions{
     }
 
     bool optimize(int z){
-        /// Steepest edge, falling back to Bland's rule after a degenerate pivot since only degenerate pivots can cycle
+        /// Bland's rule after a degenerate pivot, since only degenerate pivots can cycle
         for (bool bland = false; ; ){
             int x = 0, y = -1;
             Float v = 0;
@@ -135,14 +132,16 @@ struct BasicSimplex : SimplexOptions{
                 }
             }
             else{
-                /// Gain per unit length of the edge, not per unit of the variable: 1.4-3.6x faster from n = 300, 20-30% slower under 15 ms
-                norm.assign(n + 1, 1);
-                for (int i = 1; i <= m; i++){
-                    for (int j = 0; j <= n; j++) norm[j] += ar[i][j] * ar[i][j];
-                }
+                /// Steepest edge costs O(m) per candidate, so it runs only while that is cheaper than the last pivot, else Dantzig
+                int candidates = 0;
+                for (int j = 0; j <= n; j++) candidates += ar[z][j] > EPS;
+                bool steepest = candidates <= pivot_width;
                 Float best = 0;
                 for (int j = 0; j <= n; j++){
-                    if (ar[z][j] > EPS && ar[z][j] * ar[z][j] / norm[j] > best) best = ar[z][j] * ar[z][j] / norm[j], y = j;
+                    if (ar[z][j] <= EPS) continue;
+                    Float len = 1;
+                    for (int i = 1; i <= m && steepest; i++) len += ar[i][j] * ar[i][j];
+                    if (ar[z][j] * ar[z][j] / len > best) best = ar[z][j] * ar[z][j] / len, y = j;
                 }
             }
             if (y < 0) return true;
@@ -150,7 +149,7 @@ struct BasicSimplex : SimplexOptions{
             for (int i = 1; i <= m; i++){
                 if (ar[i][y] <= EPS) continue;
                 Float u = rhs[i] / ar[i][y];
-                /// Near ties take the largest pivot to limit rounding, the lowest id only while Bland's rule prevents cycling
+                /// Near ties take the largest pivot to limit rounding, or the lowest id under Bland's rule
                 bool better = bland ? basic[i] < basic[x] : ar[i][y] > ar[x][y];
                 if (x == 0 || u < v - EPS || (u <= v + EPS && better)) x = i, v = u;
             }
@@ -171,8 +170,9 @@ struct BasicSimplex : SimplexOptions{
             row[j] /= v;
             if (abs(row[j]) > DROP) nonzero[len++] = j;
         }
+        pivot_width = len;
 
-        /// Row 0 is the objective and row m + 1 the phase 1 objective while it exists, their rhs holds minus their value
+        /// Row 0 is the objective and row m + 1 the phase 1 objective while it exists, each rhs holds minus its value
         for (int i = 0; i < (int)ar.size(); i++){
             vector<Float>& cur = ar[i];
             if (i == x || abs(cur[y]) <= DROP) continue;
