@@ -59,7 +59,7 @@
 #### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
 - [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
-- [Library Checker persistent_unionfind - Persistent Unionfind](https://judge.yosupo.jp/problem/persistent_unionfind)
+- [Library Checker persistent_unionfind - Persistent Unionfind](https://judge.yosupo.jp/problem/persistent_unionfind) [✅](../../practice/data_structures/library_checker_persistent_unionfind.cpp "Accepted solution")
 
 #### [Disjoint Sparse Table](disjoint_sparse_table.cpp)
 
