@@ -6,7 +6,7 @@
  * Complexity: O(n m) time per pivot and O(n m) memory, the pivot count is exponential in the worst case
  *
  * Simplex lp(objective, sense): an LP in n = objective.size() variables, sense is Simplex::MAXIMIZE or Simplex::MINIMIZE
- * BasicSimplex<long double> lp(objective, sense): the same in long double, about 4x slower, resolving 1e-13 instead of 1e-9
+ * BasicSimplex<long double> lp(objective, sense): the same in long double, 2-3x slower, resolving 1e-13 instead of 1e-9
  * lp.add_constraint(coef, lim, cmp): adds coef . x <= lim, >= lim or == lim for cmp Simplex::LESSEQ, GREATEQ or EQUAL, coef has n entries
  * lp.solve(): Simplex::FEASIBLE, INFEASIBLE or UNBOUNDED, asserts it is called once per instance
  * lp.value: the optimum after FEASIBLE
@@ -23,6 +23,7 @@
  *
  *   then x = y / t
  *
+ * Each pivot picks steepest edge while pricing it costs less than the pivot itself, otherwise the largest reduced cost
  * Rows are scaled internally, so mixing very large and very small coefficients is fine
  * The answer is unreliable only when moving a limit by about 1e-7 of its row changes it, as with nearly parallel rows
  *
