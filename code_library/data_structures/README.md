@@ -407,7 +407,7 @@
 
 #### [Segment Tree Merging](segment_tree_merge.cpp)
 
-- [CodeChef CHEFDTRE - Chef and Sets](https://www.codechef.com/problems/CHEFDTRE)
+- [CodeChef CHEFDTRE - Chef and Sets](https://www.codechef.com/problems/CHEFDTRE) [✅](../../practice/data_structures/codechef_chefdtre.cpp "Accepted solution")
 
 #### [Sliding Window Aggregation](sliding_window_aggregation.cpp)
 
