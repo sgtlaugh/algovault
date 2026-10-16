@@ -98,7 +98,7 @@
 - [HackerRank almost-equal-advanced - Almost Equal - Advanced](https://www.hackerrank.com/challenges/almost-equal-advanced) [✅](../../practice/data_structures/hackerrank_almost_equal_advanced_fenwick_tree.cpp "Accepted solution")
 - [HackerRank connection-queries - Connection Queries](https://www.hackerrank.com/contests/sears-dots-arrows/challenges/connection-queries) [✅](../../practice/data_structures/hackerrank_connection_queries.cpp "Accepted solution")
 - [Kattis megainversions - Mega Inversions](https://open.kattis.com/problems/megainversions) [✅](../../practice/data_structures/kattis_megainversions.cpp "Accepted solution")
-- [Library Checker point_add_range_sum - Point Add Range Sum](https://judge.yosupo.jp/problem/point_add_range_sum)
+- [Library Checker point_add_range_sum - Point Add Range Sum](https://judge.yosupo.jp/problem/point_add_range_sum) [✅](../../practice/data_structures/library_checker_point_add_range_sum.cpp "Accepted solution")
 - [Library Checker predecessor_problem - Predecessor Problem](https://judge.yosupo.jp/problem/predecessor_problem)
 - [Library Checker rectangle_sum - Rectangle Sum](https://judge.yosupo.jp/problem/rectangle_sum)
 - [Library Checker static_range_inversions_query - Static Range Inversions Query](https://judge.yosupo.jp/problem/static_range_inversions_query)
