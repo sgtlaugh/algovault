@@ -12,7 +12,7 @@
 - [CSES 1666 - Building Roads](https://cses.fi/problemset/task/1666) [✅](../../practice/data_structures/cses_1666.cpp "Accepted solution")
 - [CSES 1676 - Road Construction](https://cses.fi/problemset/task/1676) [✅](../../practice/data_structures/cses_1676.cpp "Accepted solution")
 - [CSES 1677 - Network Breakdown](https://cses.fi/problemset/task/1677) [✅](../../practice/data_structures/cses_1677.cpp "Accepted solution")
-- [CSES 3111 - Transfer Speeds Sum](https://cses.fi/problemset/task/3111)
+- [CSES 3111 - Transfer Speeds Sum](https://cses.fi/problemset/task/3111) [✅](../../practice/data_structures/cses_3111.cpp "Accepted solution")
 - [HackerEarth lexicographically-minimal-string-6edc1406 - Lexicographically minimal string](https://www.hackerearth.com/practice/data-structures/disjoint-data-strutures/basics-of-disjoint-data-structures/practice-problems/algorithm/lexicographically-minimal-string-6edc1406/)
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma)
 - [Kattis slimcut - Slim Cut](https://open.kattis.com/problems/slimcut)
