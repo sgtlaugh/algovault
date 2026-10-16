@@ -259,7 +259,7 @@
 
 - [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
 - [CodeChef QCHEF - Chef and Problems](https://www.codechef.com/problems/QCHEF) [✅](../../practice/data_structures/codechef_qchef.cpp "Accepted solution")
-- [Library Checker static_range_mode_query - Static Range Mode Query](https://judge.yosupo.jp/problem/static_range_mode_query)
+- [Library Checker static_range_mode_query - Static Range Mode Query](https://judge.yosupo.jp/problem/static_range_mode_query) [✅](../../practice/data_structures/library_checker_static_range_mode_query.cpp "Accepted solution")
 
 #### [Mo's Algorithm With Updates](mo_with_updates.cpp)
 
