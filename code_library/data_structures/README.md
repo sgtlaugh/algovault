@@ -28,7 +28,7 @@
 - [USACO 950 - Valleys](https://usaco.org/index.php?page=viewproblem2&cpid=950) [✅](../../practice/data_structures/usaco_950.cpp "Accepted solution")
 - [USACO 992 - Wormhole Sort](https://usaco.org/index.php?page=viewproblem2&cpid=992) [✅](../../practice/data_structures/usaco_992.cpp "Accepted solution")
 - [USACO 1042 - Favorite Colors](https://usaco.org/index.php?page=viewproblem2&cpid=1042) [✅](../../practice/data_structures/usaco_1042.cpp "Accepted solution")
-- [USACO 1259 - Strongest Friendship Group](https://usaco.org/index.php?page=viewproblem2&cpid=1259)
+- [USACO 1259 - Strongest Friendship Group](https://usaco.org/index.php?page=viewproblem2&cpid=1259) [✅](../../practice/data_structures/usaco_1259.cpp "Accepted solution")
 - [USACO 1474 - Reachable Pairs](https://usaco.org/index.php?page=viewproblem2&cpid=1474)
 - [UVa 793 - Network Connections](https://onlinejudge.org/external/7/793.pdf) [✅](../../practice/data_structures/uva_793.cpp "Accepted solution")
 - [UVa 1160 - X-Plosives](https://onlinejudge.org/external/11/1160.pdf) [✅](../../practice/data_structures/uva_1160.cpp "Accepted solution")
