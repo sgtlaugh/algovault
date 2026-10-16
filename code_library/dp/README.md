@@ -50,7 +50,7 @@
 - [SPOJ NKLEAVES - Leaves](https://www.spoj.com/problems/NKLEAVES/)
 - [Timus 1167 - Bicolored Horses](https://acm.timus.ru/problem.aspx?num=1167) [✅](../../practice/dp/timus_1167.cpp "Accepted solution")
 - [USACO 626 - Circular Barn](https://usaco.org/index.php?page=viewproblem2&cpid=626) [✅](../../practice/dp/usaco_626.cpp "Accepted solution")
-- [UVa 12524 - Arranging Heaps](https://onlinejudge.org/external/125/12524.pdf)
+- [UVa 12524 - Arranging Heaps](https://onlinejudge.org/external/125/12524.pdf) [✅](../../practice/dp/uva_12524.cpp "Accepted solution")
 - [UVa 12594 - Naming Babies](https://onlinejudge.org/external/125/12594.pdf)
 
 #### [Hamiltonian Path and Cycle](hamiltonian_dp.cpp)
