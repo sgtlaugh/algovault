@@ -23,7 +23,7 @@
 - [Toph unbelievable-array - Unbelievable Array](https://toph.co/p/unbelievable-array) [✅](../../practice/data_structures/toph_unbelievable_array.cpp "Accepted solution")
 - [USACO 384 - Ski Course Rating](https://usaco.org/index.php?page=viewproblem2&cpid=384) [✅](../../practice/data_structures/usaco_384.cpp "Accepted solution")
 - [USACO 646 - Closing the Farm](https://usaco.org/index.php?page=viewproblem2&cpid=646) [✅](../../practice/data_structures/usaco_646.cpp "Accepted solution")
-- [USACO 669 - Moocast](https://usaco.org/index.php?page=viewproblem2&cpid=669)
+- [USACO 669 - Moocast](https://usaco.org/index.php?page=viewproblem2&cpid=669) [✅](../../practice/data_structures/usaco_669.cpp "Accepted solution")
 - [USACO 789 - MooTube](https://usaco.org/index.php?page=viewproblem2&cpid=789)
 - [USACO 950 - Valleys](https://usaco.org/index.php?page=viewproblem2&cpid=950)
 - [USACO 992 - Wormhole Sort](https://usaco.org/index.php?page=viewproblem2&cpid=992)
