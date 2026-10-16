@@ -34,7 +34,7 @@
 - [CSES 1715 - Creating Strings II](https://cses.fi/problemset/task/1715) [✅](../../practice/combinatorics/cses_1715.cpp "Accepted solution")
 - [CSES 1716 - Distributing Apples](https://cses.fi/problemset/task/1716) [✅](../../practice/combinatorics/cses_1716.cpp "Accepted solution")
 - [CSES 2064 - Bracket Sequences I](https://cses.fi/problemset/task/2064) [✅](../../practice/combinatorics/cses_2064.cpp "Accepted solution")
-- [CSES 2187 - Bracket Sequences II](https://cses.fi/problemset/task/2187)
+- [CSES 2187 - Bracket Sequences II](https://cses.fi/problemset/task/2187) [✅](../../practice/combinatorics/cses_2187.cpp "Accepted solution")
 - [CSES 2228 - Counting Sequences](https://cses.fi/problemset/task/2228)
 - [HackerRank longest-increasing-subsequence-arrays - Longest Increasing Subsequence Arrays](https://www.hackerrank.com/contests/world-codesprint-5/challenges/longest-increasing-subsequence-arrays/problem)
 - [Kattis modulararithmetic - Modular Arithmetic](https://open.kattis.com/problems/modulararithmetic)
