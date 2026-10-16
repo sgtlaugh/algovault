@@ -38,7 +38,7 @@
 - [CSES 2228 - Counting Sequences](https://cses.fi/problemset/task/2228) [✅](../../practice/combinatorics/cses_2228_combinatorics.cpp "Accepted solution")
 - [HackerRank longest-increasing-subsequence-arrays - Longest Increasing Subsequence Arrays](https://www.hackerrank.com/contests/world-codesprint-5/challenges/longest-increasing-subsequence-arrays/problem) [✅](../../practice/combinatorics/hackerrank_longest_increasing_subsequence_arrays.cpp "Accepted solution")
 - [Kattis modulararithmetic - Modular Arithmetic](https://open.kattis.com/problems/modulararithmetic)
-- [Library Checker binomial_coefficient_prime_mod - Binomial Coefficient (Prime Mod)](https://judge.yosupo.jp/problem/binomial_coefficient_prime_mod)
+- [Library Checker binomial_coefficient_prime_mod - Binomial Coefficient (Prime Mod)](https://judge.yosupo.jp/problem/binomial_coefficient_prime_mod) [✅](../../practice/combinatorics/library_checker_binomial_coefficient_prime_mod.cpp "Accepted solution")
 - [LightOJ 1306 - Solutions to an Equation](https://lightoj.com/problem/solutions-to-an-equation)
 - [SPOJ ADATEAMS - Ada and Teams](https://www.spoj.com/problems/ADATEAMS/)
 - [SPOJ CEQU - Crucial Equation](https://www.spoj.com/problems/CEQU/)
