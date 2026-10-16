@@ -92,7 +92,7 @@
 - [CSES 1648 - Dynamic Range Sum Queries](https://cses.fi/problemset/task/1648) [✅](../../practice/data_structures/cses_1648_fenwick_tree.cpp "Accepted solution")
 - [CSES 1651 - Range Update Queries](https://cses.fi/problemset/task/1651) [✅](../../practice/data_structures/cses_1651.cpp "Accepted solution")
 - [CSES 1740 - Intersection Points](https://cses.fi/problemset/task/1740) [✅](../../practice/data_structures/cses_1740.cpp "Accepted solution")
-- [CSES 1747 - Pyramid Array](https://cses.fi/problemset/task/1747)
+- [CSES 1747 - Pyramid Array](https://cses.fi/problemset/task/1747) [✅](../../practice/data_structures/cses_1747.cpp "Accepted solution")
 - [CSES 1748 - Increasing Subsequence II](https://cses.fi/problemset/task/1748)
 - [CSES 3223 - Sliding Window Inversions](https://cses.fi/problemset/task/3223)
 - [HackerRank almost-equal-advanced - Almost Equal - Advanced](https://www.hackerrank.com/challenges/almost-equal-advanced)
