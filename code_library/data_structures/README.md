@@ -94,7 +94,7 @@
 - [CSES 1740 - Intersection Points](https://cses.fi/problemset/task/1740) [✅](../../practice/data_structures/cses_1740.cpp "Accepted solution")
 - [CSES 1747 - Pyramid Array](https://cses.fi/problemset/task/1747) [✅](../../practice/data_structures/cses_1747.cpp "Accepted solution")
 - [CSES 1748 - Increasing Subsequence II](https://cses.fi/problemset/task/1748) [✅](../../practice/data_structures/cses_1748.cpp "Accepted solution")
-- [CSES 3223 - Sliding Window Inversions](https://cses.fi/problemset/task/3223)
+- [CSES 3223 - Sliding Window Inversions](https://cses.fi/problemset/task/3223) [✅](../../practice/data_structures/cses_3223.cpp "Accepted solution")
 - [HackerRank almost-equal-advanced - Almost Equal - Advanced](https://www.hackerrank.com/challenges/almost-equal-advanced)
 - [HackerRank connection-queries - Connection Queries](https://www.hackerrank.com/contests/sears-dots-arrows/challenges/connection-queries)
 - [Kattis megainversions - Mega Inversions](https://open.kattis.com/problems/megainversions)
