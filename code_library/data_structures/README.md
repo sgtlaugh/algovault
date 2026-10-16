@@ -65,7 +65,7 @@
 
 - [CodeChef SEGPROD - Product on the segment by modulo](https://www.codechef.com/problems/SEGPROD) [✅](../../practice/data_structures/codechef_segprod.cpp "Accepted solution")
 - [CSES 1647 - Static Range Minimum Queries](https://cses.fi/problemset/task/1647) [✅](../../practice/data_structures/cses_1647_disjoint_sparse_table.cpp "Accepted solution")
-- [Library Checker static_range_sum - Static Range Sum](https://judge.yosupo.jp/problem/static_range_sum)
+- [Library Checker static_range_sum - Static Range Sum](https://judge.yosupo.jp/problem/static_range_sum) [✅](../../practice/data_structures/library_checker_static_range_sum.cpp "Accepted solution")
 - [oj.uz JOI14_secret - Secret](https://oj.uz/problem/view/JOI14_secret)
 
 #### [Distinct Subarray Aggregates](distinct_subarray_aggregates.cpp)
