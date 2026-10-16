@@ -100,7 +100,7 @@
 
 - [Codeforces 717A - Festival Organization](https://codeforces.com/problemset/problem/717/A) [✅](../../practice/combinatorics/codeforces_717a_stirling_numbers.cpp "Accepted solution")
 - [Codeforces 932E - Team Work](https://codeforces.com/problemset/problem/932/E) [✅](../../practice/combinatorics/codeforces_932e.cpp "Accepted solution")
-- [CSES 2228 - Counting Sequences](https://cses.fi/problemset/task/2228)
+- [CSES 2228 - Counting Sequences](https://cses.fi/problemset/task/2228) [✅](../../practice/combinatorics/cses_2228_stirling_numbers.cpp "Accepted solution")
 - [HackerRank sasha-and-swaps-ii - Sasha and the Swaps II](https://www.hackerrank.com/contests/w23/challenges/sasha-and-swaps-ii)
 - [HDU 5197 - DZY Loves Orzing](https://acm.hdu.edu.cn/showproblem.php?pid=5197)
 - [Library Checker stirling_number_of_the_first_kind - Stirling Number of the First Kind](https://judge.yosupo.jp/problem/stirling_number_of_the_first_kind)
