@@ -32,7 +32,7 @@
 - [CSES 1078 - Grid Paths II](https://cses.fi/problemset/task/1078) [✅](../../practice/combinatorics/cses_1078.cpp "Accepted solution")
 - [CSES 1079 - Binomial Coefficients](https://cses.fi/problemset/task/1079) [✅](../../practice/combinatorics/cses_1079.cpp "Accepted solution")
 - [CSES 1715 - Creating Strings II](https://cses.fi/problemset/task/1715) [✅](../../practice/combinatorics/cses_1715.cpp "Accepted solution")
-- [CSES 1716 - Distributing Apples](https://cses.fi/problemset/task/1716)
+- [CSES 1716 - Distributing Apples](https://cses.fi/problemset/task/1716) [✅](../../practice/combinatorics/cses_1716.cpp "Accepted solution")
 - [CSES 2064 - Bracket Sequences I](https://cses.fi/problemset/task/2064)
 - [CSES 2187 - Bracket Sequences II](https://cses.fi/problemset/task/2187)
 - [CSES 2228 - Counting Sequences](https://cses.fi/problemset/task/2228)
