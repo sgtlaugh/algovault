@@ -66,7 +66,7 @@
 - [Codeforces 1411G - No Game No Life](https://codeforces.com/problemset/problem/1411/G)
 - [Codeforces Gym 102129D - Basis Change](https://codeforces.com/gym/102129/problem/D)
 - [CSES 3154 - System of Linear Equations](https://cses.fi/problemset/task/3154) [✅](../../practice/linear_algebra/cses_3154.cpp "Accepted solution")
-- [HDU 3571 - N-dimensional Sphere](https://acm.hdu.edu.cn/showproblem.php?pid=3571)
+- [HDU 3571 - N-dimensional Sphere](https://acm.hdu.edu.cn/showproblem.php?pid=3571) [✅](../../practice/linear_algebra/hdu_3571.cpp "Accepted solution")
 - [Kattis whiterabbit - The White Rabbit Pocket Watch](https://open.kattis.com/problems/whiterabbit)
 - [Library Checker inverse_matrix - Inverse Matrix](https://judge.yosupo.jp/problem/inverse_matrix)
 - [Library Checker matrix_rank - Rank of Matrix](https://judge.yosupo.jp/problem/matrix_rank)
