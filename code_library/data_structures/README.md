@@ -459,7 +459,7 @@
 
 #### [Treap](treap.cpp)
 
-- [CodeChef CARDSHUF - Card Shuffle](https://www.codechef.com/problems/CARDSHUF)
+- [CodeChef CARDSHUF - Card Shuffle](https://www.codechef.com/problems/CARDSHUF) [✅](../../practice/data_structures/codechef_cardshuf.cpp "Accepted solution")
 - [CodeChef PALINDR - Lucy and Palindromes](https://www.codechef.com/problems/PALINDR)
 - [CodeChef PRESTIGE - The Prestige](https://www.codechef.com/problems/PRESTIGE)
 - [Codeforces 167D - Wizards and Roads](https://codeforces.com/problemset/problem/167/D)
