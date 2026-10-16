@@ -527,7 +527,7 @@
 - [UVa 11362 - Phone List](https://onlinejudge.org/external/113/11362.pdf) [✅](../../practice/data_structures/uva_11362.cpp "Accepted solution")
 - [UVa 11488 - Hyper Prefix Sets](https://onlinejudge.org/external/114/11488.pdf) [✅](../../practice/data_structures/uva_11488.cpp "Accepted solution")
 - [UVa 11539 - Another Word Game](https://onlinejudge.org/external/115/11539.pdf) [✅](../../practice/data_structures/uva_11539.cpp "Accepted solution")
-- [UVa 11590 - Prefix Lookup](https://onlinejudge.org/external/115/11590.pdf)
+- [UVa 11590 - Prefix Lookup](https://onlinejudge.org/external/115/11590.pdf) [✅](../../practice/data_structures/uva_11590.cpp "Accepted solution")
 - [UVa 11732 - "strcmp()" Anyone?](https://onlinejudge.org/external/117/11732.pdf) [✅](../../practice/data_structures/uva_11732.cpp "Accepted solution")
 - [UVa 12333 - Revenge of Fibonacci](https://onlinejudge.org/external/123/12333.pdf) [✅](../../practice/data_structures/uva_12333.cpp "Accepted solution")
 - [UVa 12359 - Diccionário Portuñol](https://onlinejudge.org/external/123/12359.pdf)
