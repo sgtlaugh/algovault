@@ -16,7 +16,7 @@
 - [HackerEarth lexicographically-minimal-string-6edc1406 - Lexicographically minimal string](https://www.hackerearth.com/practice/data-structures/disjoint-data-strutures/basics-of-disjoint-data-structures/practice-problems/algorithm/lexicographically-minimal-string-6edc1406/) [✅](../../practice/data_structures/hackerearth_lexicographically_minimal_string_6edc1406.cpp "Accepted solution")
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma) [✅](../../practice/data_structures/hackerrank_xaero_and_breaking_enigma_disjoint_set.cpp "Accepted solution")
 - [Kattis slimcut - Slim Cut](https://open.kattis.com/problems/slimcut) [✅](../../practice/data_structures/kattis_slimcut.cpp "Accepted solution")
-- [Library Checker unionfind - Unionfind](https://judge.yosupo.jp/problem/unionfind)
+- [Library Checker unionfind - Unionfind](https://judge.yosupo.jp/problem/unionfind) [✅](../../practice/data_structures/library_checker_unionfind.cpp "Accepted solution")
 - [SPOJ CLFLARR - COLORFUL ARRAY](https://www.spoj.com/problems/CLFLARR/)
 - [SPOJ KOICOST - Cost](https://www.spoj.com/problems/KOICOST/)
 - [Timus 1671 - Anansi's Cobweb](https://acm.timus.ru/problem.aspx?num=1671)
