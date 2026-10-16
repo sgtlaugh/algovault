@@ -42,7 +42,7 @@
 - [Codeforces Gym 103536A - Guards](https://codeforces.com/gym/103536/problem/A)
 - [CSES 2086 - Subarray Squares](https://cses.fi/problemset/task/2086) [✅](../../practice/dp/cses_2086.cpp "Accepted solution")
 - [CSES 2087 - Houses and Schools](https://cses.fi/problemset/task/2087) [✅](../../practice/dp/cses_2087.cpp "Accepted solution")
-- [HackerRank guardians-lunatics-ioi14 - [IOI] Guardians of the Lunatics](https://www.hackerrank.com/contests/ioi-2014-practice-contest-2/challenges/guardians-lunatics-ioi14/problem)
+- [HackerRank guardians-lunatics-ioi14 - [IOI] Guardians of the Lunatics](https://www.hackerrank.com/contests/ioi-2014-practice-contest-2/challenges/guardians-lunatics-ioi14/problem) [✅](../../practice/dp/hackerrank_guardians_lunatics_ioi14.cpp "Accepted solution")
 - [HDU 3480 - Division](https://acm.hdu.edu.cn/showproblem.php?pid=3480)
 - [Kattis money - Money for Nothing](https://open.kattis.com/problems/money)
 - [SPOJ ADAMOLD - Ada and Mold](https://www.spoj.com/problems/ADAMOLD/)
