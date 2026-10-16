@@ -10,7 +10,7 @@
 - [CodeChef STARROAD - Roads in Stars](https://www.codechef.com/problems/STARROAD) [✅](../../practice/linear_algebra/codechef_starroad.cpp "Accepted solution")
 - [Codeforces 167E - Wizards and Bets](https://codeforces.com/problemset/problem/167/E)
 - [Library Checker counting_spanning_tree_directed - Counting Spanning Trees (Directed)](https://judge.yosupo.jp/problem/counting_spanning_tree_directed) [✅](../../practice/linear_algebra/library_checker_counting_spanning_tree_directed.cpp "Accepted solution")
-- [Library Checker counting_spanning_tree_undirected - Counting Spanning Trees (Undirected)](https://judge.yosupo.jp/problem/counting_spanning_tree_undirected)
+- [Library Checker counting_spanning_tree_undirected - Counting Spanning Trees (Undirected)](https://judge.yosupo.jp/problem/counting_spanning_tree_undirected) [✅](../../practice/linear_algebra/library_checker_counting_spanning_tree_undirected.cpp "Accepted solution")
 - [Library Checker matrix_det - Determinant of Matrix](https://judge.yosupo.jp/problem/matrix_det)
 - [Library Checker matrix_det_arbitrary_mod - Determinant of Matrix (Arbitrary Mod)](https://judge.yosupo.jp/problem/matrix_det_arbitrary_mod)
 - [SPOJ KPMAZE - Maze](https://www.spoj.com/problems/KPMAZE/)
