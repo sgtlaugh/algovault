@@ -378,7 +378,7 @@
 - [Library Checker range_affine_range_sum - Range Affine Range Sum](https://judge.yosupo.jp/problem/range_affine_range_sum) [✅](../../practice/data_structures/library_checker_range_affine_range_sum.cpp "Accepted solution")
 - [Library Checker range_set_range_composite - Range Set Range Composite](https://judge.yosupo.jp/problem/range_set_range_composite) [✅](../../practice/data_structures/library_checker_range_set_range_composite.cpp "Accepted solution")
 - [oj.uz COCI17_deda - Deda](https://oj.uz/problem/view/COCI17_deda) [✅](../../practice/data_structures/oj_uz_coci17_deda.cpp "Accepted solution")
-- [oj.uz IOI14_wall - Wall](https://oj.uz/problem/view/IOI14_wall)
+- [oj.uz IOI14_wall - Wall](https://oj.uz/problem/view/IOI14_wall) [✅](../../practice/data_structures/oj_uz_ioi14_wall.cpp "Accepted solution")
 - [SPOJ GSS3 - Can you answer these queries III](https://www.spoj.com/problems/GSS3/)
 - [SPOJ HORRIBLE - Horrible Queries](https://www.spoj.com/problems/HORRIBLE/)
 - [SPOJ NCKLCE - Another Necklace Problem](https://www.spoj.com/problems/NCKLCE/)
