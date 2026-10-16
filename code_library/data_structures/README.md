@@ -100,7 +100,7 @@
 - [Kattis megainversions - Mega Inversions](https://open.kattis.com/problems/megainversions) [✅](../../practice/data_structures/kattis_megainversions.cpp "Accepted solution")
 - [Library Checker point_add_range_sum - Point Add Range Sum](https://judge.yosupo.jp/problem/point_add_range_sum) [✅](../../practice/data_structures/library_checker_point_add_range_sum.cpp "Accepted solution")
 - [Library Checker predecessor_problem - Predecessor Problem](https://judge.yosupo.jp/problem/predecessor_problem) [✅](../../practice/data_structures/library_checker_predecessor_problem.cpp "Accepted solution")
-- [Library Checker rectangle_sum - Rectangle Sum](https://judge.yosupo.jp/problem/rectangle_sum)
+- [Library Checker rectangle_sum - Rectangle Sum](https://judge.yosupo.jp/problem/rectangle_sum) [✅](../../practice/data_structures/library_checker_rectangle_sum.cpp "Accepted solution")
 - [Library Checker static_range_inversions_query - Static Range Inversions Query](https://judge.yosupo.jp/problem/static_range_inversions_query)
 - [Library Checker vertex_add_path_sum - Vertex Add Path Sum](https://judge.yosupo.jp/problem/vertex_add_path_sum)
 - [Library Checker vertex_add_range_contour_sum_on_tree - Vertex Add Range Contour Sum on Tree](https://judge.yosupo.jp/problem/vertex_add_range_contour_sum_on_tree)
