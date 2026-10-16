@@ -263,7 +263,7 @@
 
 #### [Mo's Algorithm With Updates](mo_with_updates.cpp)
 
-- [Library Checker point_set_range_frequency - Point Set Range Frequency](https://judge.yosupo.jp/problem/point_set_range_frequency)
+- [Library Checker point_set_range_frequency - Point Set Range Frequency](https://judge.yosupo.jp/problem/point_set_range_frequency) [✅](../../practice/data_structures/library_checker_point_set_range_frequency.cpp "Accepted solution")
 - [SPOJ XXXXXXXX - Sum of Distinct Numbers](https://www.spoj.com/problems/XXXXXXXX/)
 - [UVa 12345 - Dynamic len(set(a[L:R]))](https://onlinejudge.org/external/123/12345.pdf) [✅](../../practice/data_structures/uva_12345.cpp "Accepted solution")
 
