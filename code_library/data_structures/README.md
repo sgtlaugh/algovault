@@ -530,7 +530,7 @@
 - [UVa 11590 - Prefix Lookup](https://onlinejudge.org/external/115/11590.pdf) [✅](../../practice/data_structures/uva_11590.cpp "Accepted solution")
 - [UVa 11732 - "strcmp()" Anyone?](https://onlinejudge.org/external/117/11732.pdf) [✅](../../practice/data_structures/uva_11732.cpp "Accepted solution")
 - [UVa 12333 - Revenge of Fibonacci](https://onlinejudge.org/external/123/12333.pdf) [✅](../../practice/data_structures/uva_12333.cpp "Accepted solution")
-- [UVa 12359 - Diccionário Portuñol](https://onlinejudge.org/external/123/12359.pdf)
+- [UVa 12359 - Diccionário Portuñol](https://onlinejudge.org/external/123/12359.pdf) [✅](../../practice/data_structures/uva_12359.cpp "Accepted solution")
 - [UVa 12506 - Shortest Names](https://onlinejudge.org/external/125/12506.pdf) [✅](../../practice/data_structures/uva_12506.cpp "Accepted solution")
 - [UVa 12526 - Cellphone Typing](https://onlinejudge.org/external/125/12526.pdf) [✅](../../practice/data_structures/uva_12526.cpp "Accepted solution")
 - [UVa 12857 - Dividing the names](https://onlinejudge.org/external/128/12857.pdf) [✅](../../practice/data_structures/uva_12857.cpp "Accepted solution")
