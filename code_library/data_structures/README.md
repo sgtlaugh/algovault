@@ -221,7 +221,7 @@
 
 - [CSES 3163 - Range Interval Queries](https://cses.fi/problemset/task/3163) [✅](../../practice/data_structures/cses_3163.cpp "Accepted solution")
 - [Library Checker range_kth_smallest - Range Kth Smallest](https://judge.yosupo.jp/problem/range_kth_smallest) [✅](../../practice/data_structures/library_checker_range_kth_smallest_merge_sort_tree.cpp "Accepted solution")
-- [Library Checker static_range_frequency - Static Range Frequency](https://judge.yosupo.jp/problem/static_range_frequency)
+- [Library Checker static_range_frequency - Static Range Frequency](https://judge.yosupo.jp/problem/static_range_frequency) [✅](../../practice/data_structures/library_checker_static_range_frequency.cpp "Accepted solution")
 - [POJ 2104 - K-th Number](http://poj.org/problem?id=2104)
 - [SPOJ KQUERY - K-query](https://www.spoj.com/problems/KQUERY/)
 - [SPOJ MKTHNUM - K-th Number](https://www.spoj.com/problems/MKTHNUM/)
