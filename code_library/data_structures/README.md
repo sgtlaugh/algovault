@@ -14,7 +14,7 @@
 - [CSES 1677 - Network Breakdown](https://cses.fi/problemset/task/1677) [✅](../../practice/data_structures/cses_1677.cpp "Accepted solution")
 - [CSES 3111 - Transfer Speeds Sum](https://cses.fi/problemset/task/3111) [✅](../../practice/data_structures/cses_3111.cpp "Accepted solution")
 - [HackerEarth lexicographically-minimal-string-6edc1406 - Lexicographically minimal string](https://www.hackerearth.com/practice/data-structures/disjoint-data-strutures/basics-of-disjoint-data-structures/practice-problems/algorithm/lexicographically-minimal-string-6edc1406/) [✅](../../practice/data_structures/hackerearth_lexicographically_minimal_string_6edc1406.cpp "Accepted solution")
-- [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma)
+- [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma) [✅](../../practice/data_structures/hackerrank_xaero_and_breaking_enigma_disjoint_set.cpp "Accepted solution")
 - [Kattis slimcut - Slim Cut](https://open.kattis.com/problems/slimcut)
 - [Library Checker unionfind - Unionfind](https://judge.yosupo.jp/problem/unionfind)
 - [SPOJ CLFLARR - COLORFUL ARRAY](https://www.spoj.com/problems/CLFLARR/)
