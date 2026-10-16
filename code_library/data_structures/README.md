@@ -520,7 +520,7 @@
 - [CSES 1655 - Maximum Xor Subarray](https://cses.fi/problemset/task/1655) [✅](../../practice/data_structures/cses_1655.cpp "Accepted solution")
 - [CSES 1731 - Word Combinations](https://cses.fi/problemset/task/1731) [✅](../../practice/data_structures/cses_1731.cpp "Accepted solution")
 - [HackerRank xor-key - XOR key](https://www.hackerrank.com/challenges/xor-key) [✅](../../practice/data_structures/hackerrank_xor_key.cpp "Accepted solution")
-- [Library Checker set_xor_min - Set Xor-Min](https://judge.yosupo.jp/problem/set_xor_min)
+- [Library Checker set_xor_min - Set Xor-Min](https://judge.yosupo.jp/problem/set_xor_min) [✅](../../practice/data_structures/library_checker_set_xor_min.cpp "Accepted solution")
 - [oj.uz IZhO12_xor - XOR](https://oj.uz/problem/view/IZhO12_xor)
 - [UVa 1401 - Remember the Word](https://onlinejudge.org/external/14/1401.pdf) [✅](../../practice/data_structures/uva_1401.cpp "Accepted solution")
 - [UVa 1462 - Fuzzy Google Suggest](https://onlinejudge.org/external/14/1462.pdf) [✅](../../practice/data_structures/uva_1462.cpp "Accepted solution")
