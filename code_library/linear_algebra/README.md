@@ -94,7 +94,7 @@
 - [HDU 2243 - 考研路茫茫——单词情结](https://acm.hdu.edu.cn/showproblem.php?pid=2243)
 - [Library Checker matrix_product - Matrix Product](https://judge.yosupo.jp/problem/matrix_product) [✅](../../practice/linear_algebra/library_checker_matrix_product.cpp "Accepted solution")
 - [Library Checker pow_of_matrix - Pow of Matrix](https://judge.yosupo.jp/problem/pow_of_matrix) [✅](../../practice/linear_algebra/library_checker_pow_of_matrix.cpp "Accepted solution")
-- [POJ 1977 - Odd Loving Bakers](http://poj.org/problem?id=1977)
+- [POJ 1977 - Odd Loving Bakers](http://poj.org/problem?id=1977) [✅](../../practice/linear_algebra/poj_1977.cpp "Accepted solution")
 - [POJ 2778 - DNA Sequence](http://poj.org/problem?id=2778)
 - [SPOJ PBOARD - Blocks for kids](https://www.spoj.com/problems/PBOARD/)
 - [SPOJ SEQ - Recursive Sequence](https://www.spoj.com/problems/SEQ/)
