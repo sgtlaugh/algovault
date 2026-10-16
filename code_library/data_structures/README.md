@@ -159,7 +159,7 @@
 
 #### [Fenwick Tree 3D](fenwick_tree_3D.cpp)
 
-- [HackerEarth counting-in-byteland - Counting In Byteland](https://www.hackerearth.com/practice/data-structures/advanced-data-structures/fenwick-binary-indexed-trees/practice-problems/algorithm/counting-in-byteland/)
+- [HackerEarth counting-in-byteland - Counting In Byteland](https://www.hackerearth.com/practice/data-structures/advanced-data-structures/fenwick-binary-indexed-trees/practice-problems/algorithm/counting-in-byteland/) [✅](../../practice/data_structures/hackerearth_counting_in_byteland.cpp "Accepted solution")
 
 #### [Hash Map](hashmap.cpp)
 
