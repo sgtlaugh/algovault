@@ -24,7 +24,7 @@
 - [USACO 384 - Ski Course Rating](https://usaco.org/index.php?page=viewproblem2&cpid=384) [✅](../../practice/data_structures/usaco_384.cpp "Accepted solution")
 - [USACO 646 - Closing the Farm](https://usaco.org/index.php?page=viewproblem2&cpid=646) [✅](../../practice/data_structures/usaco_646.cpp "Accepted solution")
 - [USACO 669 - Moocast](https://usaco.org/index.php?page=viewproblem2&cpid=669) [✅](../../practice/data_structures/usaco_669.cpp "Accepted solution")
-- [USACO 789 - MooTube](https://usaco.org/index.php?page=viewproblem2&cpid=789)
+- [USACO 789 - MooTube](https://usaco.org/index.php?page=viewproblem2&cpid=789) [✅](../../practice/data_structures/usaco_789.cpp "Accepted solution")
 - [USACO 950 - Valleys](https://usaco.org/index.php?page=viewproblem2&cpid=950)
 - [USACO 992 - Wormhole Sort](https://usaco.org/index.php?page=viewproblem2&cpid=992)
 - [USACO 1042 - Favorite Colors](https://usaco.org/index.php?page=viewproblem2&cpid=1042)
