@@ -385,7 +385,7 @@
 - [Timus 2042 - Nikita](https://acm.timus.ru/problem.aspx?num=2042)
 - [USACO 495 - Marathon](https://usaco.org/index.php?page=viewproblem2&cpid=495)
 - [USACO 578 - Counting Haybales](https://usaco.org/index.php?page=viewproblem2&cpid=578) [✅](../../practice/data_structures/usaco_578.cpp "Accepted solution")
-- [USACO 1332 - Pareidolia](https://usaco.org/index.php?page=viewproblem2&cpid=1332)
+- [USACO 1332 - Pareidolia](https://usaco.org/index.php?page=viewproblem2&cpid=1332) [✅](../../practice/data_structures/usaco_1332.cpp "Accepted solution")
 - [UVa 1136 - Help R2-D2!](https://onlinejudge.org/external/11/1136.pdf) [✅](../../practice/data_structures/uva_1136.cpp "Accepted solution")
 - [UVa 1383 - Harmony Forever](https://onlinejudge.org/external/13/1383.pdf) [✅](../../practice/data_structures/uva_1383.cpp "Accepted solution")
 - [UVa 1400 - "Ray, Pass me the dishes!"](https://onlinejudge.org/external/14/1400.pdf) [✅](../../practice/data_structures/uva_1400.cpp "Accepted solution")
