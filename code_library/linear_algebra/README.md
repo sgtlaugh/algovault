@@ -89,7 +89,7 @@
 - [Codeforces 1117D - Magic Gems](https://codeforces.com/problemset/problem/1117/D)
 - [Codeforces 1182E - Product Oriented Recurrence](https://codeforces.com/problemset/problem/1182/E)
 - [Codeforces Gym 101161G - Binary Strings](https://codeforces.com/gym/101161/problem/G)
-- [CSES 1096 - Throwing Dice](https://cses.fi/problemset/task/1096)
+- [CSES 1096 - Throwing Dice](https://cses.fi/problemset/task/1096) [✅](../../practice/linear_algebra/cses_1096.cpp "Accepted solution")
 - [CSES 1723 - Graph Paths I](https://cses.fi/problemset/task/1723)
 - [HDU 2243 - 考研路茫茫——单词情结](https://acm.hdu.edu.cn/showproblem.php?pid=2243)
 - [Library Checker matrix_product - Matrix Product](https://judge.yosupo.jp/problem/matrix_product)
