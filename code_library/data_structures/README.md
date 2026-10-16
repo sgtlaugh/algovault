@@ -472,7 +472,7 @@
 - [Codeforces Gym 100488L - Two Heads Are Better](https://codeforces.com/gym/100488/problem/L)
 - [Codeforces Gym 100739E - Life as a Monster](https://codeforces.com/gym/100739/problem/E)
 - [Codeforces Gym 101319C - Problem Strudel. Efficient Evaluation](https://codeforces.com/gym/101319/problem/C)
-- [CSES 2072 - Cut and Paste](https://cses.fi/problemset/task/2072)
+- [CSES 2072 - Cut and Paste](https://cses.fi/problemset/task/2072) [✅](../../practice/data_structures/cses_2072_treap.cpp "Accepted solution")
 - [CSES 2073 - Substring Reversals](https://cses.fi/problemset/task/2073)
 - [CSES 2074 - Reversals and Sums](https://cses.fi/problemset/task/2074)
 - [DMOJ noi05p2 - NOI '05 P2 - Maintaining a Sequence](https://dmoj.ca/problem/noi05p2)
