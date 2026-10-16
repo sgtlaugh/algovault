@@ -74,7 +74,7 @@
 
 #### [Partition Numbers](partition_numbers.cpp)
 
-- [Library Checker partition_function - Partition Function](https://judge.yosupo.jp/problem/partition_function)
+- [Library Checker partition_function - Partition Function](https://judge.yosupo.jp/problem/partition_function) [✅](../../practice/combinatorics/library_checker_partition_function.cpp "Accepted solution")
 
 #### [Permutation Cycles](permutation_cycles.cpp)
 
