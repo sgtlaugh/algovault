@@ -105,7 +105,7 @@
 - [Library Checker vertex_add_path_sum - Vertex Add Path Sum](https://judge.yosupo.jp/problem/vertex_add_path_sum) [✅](../../practice/data_structures/library_checker_vertex_add_path_sum.cpp "Accepted solution")
 - [Library Checker vertex_add_range_contour_sum_on_tree - Vertex Add Range Contour Sum on Tree](https://judge.yosupo.jp/problem/vertex_add_range_contour_sum_on_tree) [✅](../../practice/data_structures/library_checker_vertex_add_range_contour_sum_on_tree.cpp "Accepted solution")
 - [Library Checker vertex_add_subtree_sum - Vertex Add Subtree Sum](https://judge.yosupo.jp/problem/vertex_add_subtree_sum) [✅](../../practice/data_structures/library_checker_vertex_add_subtree_sum.cpp "Accepted solution")
-- [LightOJ 1112 - Curious Robin Hood](https://lightoj.com/problem/curious-robin-hood)
+- [LightOJ 1112 - Curious Robin Hood](https://lightoj.com/problem/curious-robin-hood) [✅](../../practice/data_structures/lightoj_1112.cpp "Accepted solution")
 - [MatCom 9346 - Fundraising](https://matcomgrader.com/problem/9346/fundraising/)
 - [SPOJ ADACABAA - Ada and Species](https://www.spoj.com/problems/ADACABAA/)
 - [SPOJ CRAYON - Crayon](https://www.spoj.com/problems/CRAYON/)
