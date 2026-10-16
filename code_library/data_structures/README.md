@@ -124,7 +124,7 @@
 - [SPOJ YODANESS - Yodaness Level](https://www.spoj.com/problems/YODANESS/)
 - [USACO 624 - Load Balancing](https://usaco.org/index.php?page=viewproblem2&cpid=624)
 - [USACO 693 - Balanced Photo](https://usaco.org/index.php?page=viewproblem2&cpid=693) [✅](../../practice/data_structures/usaco_693.cpp "Accepted solution")
-- [USACO 696 - Promotion Counting](https://usaco.org/index.php?page=viewproblem2&cpid=696)
+- [USACO 696 - Promotion Counting](https://usaco.org/index.php?page=viewproblem2&cpid=696) [✅](../../practice/data_structures/usaco_696.cpp "Accepted solution")
 - [USACO 719 - Why Did the Cow Cross the Road III](https://usaco.org/index.php?page=viewproblem2&cpid=719)
 - [USACO 720 - Why Did the Cow Cross the Road](https://usaco.org/index.php?page=viewproblem2&cpid=720)
 - [USACO 898 - Sleepy Cow Sorting](https://usaco.org/index.php?page=viewproblem2&cpid=898)
