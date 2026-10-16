@@ -420,7 +420,7 @@
 - [HackerRank queries-with-fixed-length - Queries with Fixed Length](https://www.hackerrank.com/challenges/queries-with-fixed-length/problem) [✅](../../practice/data_structures/hackerrank_queries_with_fixed_length.cpp "Accepted solution")
 - [LeetCode 239 - Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) [✅](../../practice/data_structures/leetcode_239.cpp "Accepted solution")
 - [Library Checker queue_operate_all_composite - Queue Operate All Composite](https://judge.yosupo.jp/problem/queue_operate_all_composite) [✅](../../practice/data_structures/library_checker_queue_operate_all_composite.cpp "Accepted solution")
-- [USACO 767 - Haybale Feast](https://usaco.org/index.php?page=viewproblem2&cpid=767)
+- [USACO 767 - Haybale Feast](https://usaco.org/index.php?page=viewproblem2&cpid=767) [✅](../../practice/data_structures/usaco_767.cpp "Accepted solution")
 
 #### [Sparse Table](sparse_table.cpp)
 
