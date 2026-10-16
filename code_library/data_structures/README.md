@@ -185,7 +185,7 @@
 - [Codeforces 932F - Escape Through Leaf](https://codeforces.com/problemset/problem/932/F)
 - [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E)
 - [Codeforces Gym 103536B - Troubles](https://codeforces.com/gym/103536/problem/B)
-- [CS Academy squared-ends - Squared Ends](https://csacademy.com/contest/archive/task/squared-ends/)
+- [CS Academy squared-ends - Squared Ends](https://csacademy.com/contest/archive/task/squared-ends/) [✅](../../practice/data_structures/cs_academy_squared_ends.cpp "Accepted solution")
 - [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084)
 - [CSES 2085 - Monster Game II](https://cses.fi/problemset/task/2085)
 - [CSES 3427 - Line Segments Trace I](https://cses.fi/problemset/task/3427)
