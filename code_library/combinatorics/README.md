@@ -17,7 +17,7 @@
 #### [Combinatorics](combinatorics.cpp)
 
 - [AtCoder ABC171 F - Strivore](https://atcoder.jp/contests/abc171/tasks/abc171_f) [✅](../../practice/combinatorics/atcoder_abc171_f.cpp "Accepted solution")
-- [AtCoder DP Y - Grid 2](https://atcoder.jp/contests/dp/tasks/dp_y)
+- [AtCoder DP Y - Grid 2](https://atcoder.jp/contests/dp/tasks/dp_y) [✅](../../practice/combinatorics/atcoder_dp_y.cpp "Accepted solution")
 - [CodeChef NWAYS - Number of Ways](https://www.codechef.com/problems/NWAYS)
 - [Codeforces 57C - Array](https://codeforces.com/problemset/problem/57/C) [✅](../../practice/combinatorics/codeforces_57c.cpp "Accepted solution")
 - [Codeforces 300C - Beautiful Numbers](https://codeforces.com/problemset/problem/300/C) [✅](../../practice/combinatorics/codeforces_300c.cpp "Accepted solution")
