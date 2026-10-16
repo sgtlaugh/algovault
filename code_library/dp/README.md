@@ -111,7 +111,7 @@
 
 #### [Maximum Square](maximum_square.cpp)
 
-- [AOJ DPL_3_A - Largest Square](https://onlinejudge.u-aizu.ac.jp/problems/DPL_3_A)
+- [AOJ DPL_3_A - Largest Square](https://onlinejudge.u-aizu.ac.jp/problems/DPL_3_A) [✅](../../practice/dp/aoj_dpl_3_a.cpp "Accepted solution")
 
 #### [Slope Trick](slope_trick.cpp)
 
