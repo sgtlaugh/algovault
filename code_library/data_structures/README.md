@@ -275,7 +275,7 @@
 - [Codeforces 1402A - Fancy Fence](https://codeforces.com/problemset/problem/1402/A)
 - [Codeforces 1482E - Skyline Photo](https://codeforces.com/problemset/problem/1482/E)
 - [Codeforces Gym 101102D - Rectangles](https://codeforces.com/gym/101102/problem/D)
-- [CSES 1142 - Advertisement](https://cses.fi/problemset/task/1142)
+- [CSES 1142 - Advertisement](https://cses.fi/problemset/task/1142) [✅](../../practice/data_structures/cses_1142.cpp "Accepted solution")
 - [CSES 1147 - Maximum Building I](https://cses.fi/problemset/task/1147)
 - [CSES 1645 - Nearest Smaller Values](https://cses.fi/problemset/task/1645)
 - [HackerRank poisonous-plants - Poisonous Plants](https://www.hackerrank.com/challenges/poisonous-plants/problem)
