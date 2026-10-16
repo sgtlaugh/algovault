@@ -44,7 +44,7 @@
 - [CSES 2087 - Houses and Schools](https://cses.fi/problemset/task/2087) [✅](../../practice/dp/cses_2087.cpp "Accepted solution")
 - [HackerRank guardians-lunatics-ioi14 - [IOI] Guardians of the Lunatics](https://www.hackerrank.com/contests/ioi-2014-practice-contest-2/challenges/guardians-lunatics-ioi14/problem) [✅](../../practice/dp/hackerrank_guardians_lunatics_ioi14.cpp "Accepted solution")
 - [HDU 3480 - Division](https://acm.hdu.edu.cn/showproblem.php?pid=3480) [✅](../../practice/dp/hdu_3480.cpp "Accepted solution")
-- [Kattis money - Money for Nothing](https://open.kattis.com/problems/money)
+- [Kattis money - Money for Nothing](https://open.kattis.com/problems/money) [✅](../../practice/dp/kattis_money.cpp "Accepted solution")
 - [SPOJ ADAMOLD - Ada and Mold](https://www.spoj.com/problems/ADAMOLD/)
 - [SPOJ LARMY - Lannister Army](https://www.spoj.com/problems/LARMY/)
 - [SPOJ NKLEAVES - Leaves](https://www.spoj.com/problems/NKLEAVES/)
