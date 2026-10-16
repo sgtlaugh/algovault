@@ -12,7 +12,7 @@
 - [Library Checker counting_spanning_tree_directed - Counting Spanning Trees (Directed)](https://judge.yosupo.jp/problem/counting_spanning_tree_directed) [✅](../../practice/linear_algebra/library_checker_counting_spanning_tree_directed.cpp "Accepted solution")
 - [Library Checker counting_spanning_tree_undirected - Counting Spanning Trees (Undirected)](https://judge.yosupo.jp/problem/counting_spanning_tree_undirected) [✅](../../practice/linear_algebra/library_checker_counting_spanning_tree_undirected.cpp "Accepted solution")
 - [Library Checker matrix_det - Determinant of Matrix](https://judge.yosupo.jp/problem/matrix_det) [✅](../../practice/linear_algebra/library_checker_matrix_det.cpp "Accepted solution")
-- [Library Checker matrix_det_arbitrary_mod - Determinant of Matrix (Arbitrary Mod)](https://judge.yosupo.jp/problem/matrix_det_arbitrary_mod)
+- [Library Checker matrix_det_arbitrary_mod - Determinant of Matrix (Arbitrary Mod)](https://judge.yosupo.jp/problem/matrix_det_arbitrary_mod) [✅](../../practice/linear_algebra/library_checker_matrix_det_arbitrary_mod.cpp "Accepted solution")
 - [SPOJ KPMAZE - Maze](https://www.spoj.com/problems/KPMAZE/)
 - [UVa 684 - Integral Determinant](https://onlinejudge.org/external/6/684.pdf) [✅](../../practice/linear_algebra/uva_684.cpp "Accepted solution")
 
