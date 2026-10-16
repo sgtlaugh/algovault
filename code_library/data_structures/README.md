@@ -361,7 +361,7 @@
 - [Codeforces Gym 101081A - Card Show](https://codeforces.com/gym/101081/problem/A)
 - [CSES 1143 - Hotel Queries](https://cses.fi/problemset/task/1143) [✅](../../practice/data_structures/cses_1143.cpp "Accepted solution")
 - [CSES 1188 - Bit Inversions](https://cses.fi/problemset/task/1188) [✅](../../practice/data_structures/cses_1188.cpp "Accepted solution")
-- [CSES 1190 - Subarray Sum Queries](https://cses.fi/problemset/task/1190)
+- [CSES 1190 - Subarray Sum Queries](https://cses.fi/problemset/task/1190) [✅](../../practice/data_structures/cses_1190.cpp "Accepted solution")
 - [CSES 1648 - Dynamic Range Sum Queries](https://cses.fi/problemset/task/1648)
 - [CSES 1649 - Dynamic Range Minimum Queries](https://cses.fi/problemset/task/1649)
 - [CSES 1735 - Range Updates and Sums](https://cses.fi/problemset/task/1735)
