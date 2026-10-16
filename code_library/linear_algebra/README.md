@@ -129,6 +129,7 @@
 - [Codeforces 375E - Red and Black Tree](https://codeforces.com/problemset/problem/375/E) [✅](../../practice/linear_algebra/codeforces_375e.cpp "Accepted solution")
 - [Codeforces 611E - New Year and Three Musketeers](https://codeforces.com/contest/611/problem/E) [✅](../../practice/linear_algebra/codeforces_611e.cpp "Accepted solution")
 - [Codeforces 727D - T-shirts Distribution](https://codeforces.com/contest/727/problem/D) [✅](../../practice/linear_algebra/codeforces_727d.cpp "Accepted solution")
+- [Codeforces 1455E - Four Points](https://codeforces.com/contest/1455/problem/E) [✅](../../practice/linear_algebra/codeforces_1455e.cpp "Accepted solution")
 - [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A) [✅](../../practice/linear_algebra/codeforces_gym_100491a.cpp "Accepted solution")
 - [Codeforces Gym 101161J - Printing Press](https://codeforces.com/gym/101161/problem/J) [✅](../../practice/linear_algebra/codeforces_gym_101161j.cpp "Accepted solution")
 - [Kattis cheeseifyouplease - Cheese, If You Please](https://open.kattis.com/problems/cheeseifyouplease) [✅](../../practice/linear_algebra/kattis_cheeseifyouplease.cpp "Accepted solution")
