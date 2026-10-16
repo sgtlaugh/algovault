@@ -105,4 +105,4 @@
 - [HDU 5197 - DZY Loves Orzing](https://acm.hdu.edu.cn/showproblem.php?pid=5197) [✅](../../practice/combinatorics/hdu_5197.cpp "Accepted solution")
 - [Library Checker stirling_number_of_the_first_kind - Stirling Number of the First Kind](https://judge.yosupo.jp/problem/stirling_number_of_the_first_kind) [✅](../../practice/combinatorics/library_checker_stirling_number_of_the_first_kind.cpp "Accepted solution")
 - [Library Checker stirling_number_of_the_second_kind - Stirling Number of the Second Kind](https://judge.yosupo.jp/problem/stirling_number_of_the_second_kind) [✅](../../practice/combinatorics/library_checker_stirling_number_of_the_second_kind.cpp "Accepted solution")
-- [ZOJ 3899 - State Reversing](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827370003) [✅](../../practice/combinatorics/zoj_3899.cpp "Accepted solution")
+- [ZOJ 3899 - State Reversing](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827370003) [✅](../../practice/combinatorics/zoj_3899_stirling_numbers.cpp "Accepted solution")
