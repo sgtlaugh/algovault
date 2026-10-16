@@ -29,7 +29,7 @@
 - [Codeforces 1462E2 - Close Tuples (hard version)](https://codeforces.com/problemset/problem/1462/E2) [✅](../../practice/combinatorics/codeforces_1462e2.cpp "Accepted solution")
 - [Codeforces 1696E - Placing Jinas](https://codeforces.com/problemset/problem/1696/E) [✅](../../practice/combinatorics/codeforces_1696e.cpp "Accepted solution")
 - [Codeforces 1931G - One-Dimensional Puzzle](https://codeforces.com/problemset/problem/1931/G) [✅](../../practice/combinatorics/codeforces_1931g.cpp "Accepted solution")
-- [CSES 1078 - Grid Paths II](https://cses.fi/problemset/task/1078)
+- [CSES 1078 - Grid Paths II](https://cses.fi/problemset/task/1078) [✅](../../practice/combinatorics/cses_1078.cpp "Accepted solution")
 - [CSES 1079 - Binomial Coefficients](https://cses.fi/problemset/task/1079)
 - [CSES 1715 - Creating Strings II](https://cses.fi/problemset/task/1715)
 - [CSES 1716 - Distributing Apples](https://cses.fi/problemset/task/1716)
