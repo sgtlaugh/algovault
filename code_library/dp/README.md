@@ -16,7 +16,7 @@
 #### [Bounded Knapsack](bounded_knapsack.cpp)
 
 - [AOJ DPL_1_G - Knapsack Problem with Limitations](https://onlinejudge.u-aizu.ac.jp/problems/DPL_1_G) [✅](../../practice/dp/aoj_dpl_1_g.cpp "Accepted solution")
-- [AtCoder DP D - Knapsack 1](https://atcoder.jp/contests/dp/tasks/dp_d)
+- [AtCoder DP D - Knapsack 1](https://atcoder.jp/contests/dp/tasks/dp_d) [✅](../../practice/dp/atcoder_dp_d.cpp "Accepted solution")
 - [CSES 1159 - Book Shop II](https://cses.fi/problemset/task/1159)
 - [DMOJ knapsack - Knapsack 3](https://dmoj.ca/problem/knapsack)
 
