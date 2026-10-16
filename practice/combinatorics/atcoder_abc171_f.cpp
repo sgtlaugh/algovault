@@ -1,0 +1,89 @@
+/***
+ *
+ * Combinatorics
+ * Factorial tables, nCr and nPr modulo a prime
+ *
+ * Complexity: O(n) to build Combinatorics(n, mod), O(1) per query afterwards
+ *
+ * Combinatorics comb(n, mod): tables for 0..n, mod must be a prime with n < mod < 2^31
+ * comb.nCr(n, k), comb.nPr(n, k): 0 when k < 0 or k > n, n must not exceed the table size
+ * comb.inverse(i): inverse of i for 1 <= i <= n, comb.factorial(i), comb.inv_factorial(i)
+ *
+ * Extended gcd, modular inverse for any modulus and diophantine equations: extended_gcd.cpp
+ *
+***/
+
+#include <bits/stdtr1c++.h>
+
+using namespace std;
+
+struct Combinatorics{
+    long long mod;
+    vector<long long> fact, inv_fact, inv;
+
+    Combinatorics(int n, long long mod) : mod(mod), fact(n + 1), inv_fact(n + 1), inv(n + 1){
+        assert(n >= 0 && n < mod && mod < (1LL << 31));
+
+        fact[0] = 1;
+        for (int i = 1; i <= n; i++) fact[i] = fact[i - 1] * i % mod;
+
+        if (n >= 1) inv[1] = 1;
+        for (int i = 2; i <= n; i++) inv[i] = mod - (mod / i) * inv[mod % i] % mod;  /// needs a prime mod
+
+        inv_fact[0] = 1;
+        for (int i = 1; i <= n; i++) inv_fact[i] = inv_fact[i - 1] * inv[i] % mod;
+    }
+
+    long long factorial(int i) const{
+        assert(0 <= i && i < (int)fact.size());
+        return fact[i];
+    }
+
+    long long inv_factorial(int i) const{
+        assert(0 <= i && i < (int)fact.size());
+        return inv_fact[i];
+    }
+
+    long long inverse(int i) const{
+        assert(1 <= i && i < (int)inv.size());
+        return inv[i];
+    }
+
+    long long nCr(int n, int k) const{
+        assert(n < (int)fact.size());
+        if (k < 0 || k > n) return 0;
+        return fact[n] * inv_fact[k] % mod * inv_fact[n - k] % mod;
+    }
+
+    long long nPr(int n, int k) const{
+        assert(n < (int)fact.size());
+        if (k < 0 || k > n) return 0;
+        return fact[n] * inv_fact[n - k] % mod;
+    }
+};
+
+const long long MOD = 1000000007;
+
+int main(){
+    int k;
+    string s;
+    cin >> k >> s;
+    int n = s.size();
+    Combinatorics comb(n + k, MOD);
+
+    /// fix where the greedy leftmost match of S ends: j free letters before it avoid the next needed letter (25 choices),
+    /// the k - j letters after the match are arbitrary (26 choices)
+    vector<long long> p25(k + 1), p26(k + 1);
+    p25[0] = p26[0] = 1;
+    for (int i = 1; i <= k; i++){
+        p25[i] = p25[i - 1] * 25 % MOD;
+        p26[i] = p26[i - 1] * 26 % MOD;
+    }
+
+    long long res = 0;
+    for (int j = 0; j <= k; j++){
+        res = (res + comb.nCr(n - 1 + j, n - 1) * p25[j] % MOD * p26[k - j]) % MOD;
+    }
+    printf("%lld\n", res);
+    return 0;
+}
