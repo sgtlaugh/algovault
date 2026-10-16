@@ -403,7 +403,7 @@
 #### [Segment Tree Beats](segment_tree_beats.cpp)
 
 - [HDU 5306 - Gorgeous Sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5306)
-- [Library Checker range_chmin_chmax_add_range_sum - Range Chmin Chmax Add Range Sum](https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum)
+- [Library Checker range_chmin_chmax_add_range_sum - Range Chmin Chmax Add Range Sum](https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum) [✅](../../practice/data_structures/library_checker_range_chmin_chmax_add_range_sum.cpp "Accepted solution")
 
 #### [Segment Tree Merging](segment_tree_merge.cpp)
 
