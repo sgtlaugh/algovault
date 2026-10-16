@@ -128,7 +128,7 @@
 - [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A) [✅](../../practice/linear_algebra/codeforces_gym_100491a.cpp "Accepted solution")
 - [Codeforces Gym 101161J - Printing Press](https://codeforces.com/gym/101161/problem/J) [✅](../../practice/linear_algebra/codeforces_gym_101161j.cpp "Accepted solution")
 - [Kattis goatropes - Goat Ropes](https://open.kattis.com/problems/goatropes) [✅](../../practice/linear_algebra/kattis_goatropes.cpp "Accepted solution")
-- [Kattis roadtimes - Road Times](https://open.kattis.com/problems/roadtimes)
+- [Kattis roadtimes - Road Times](https://open.kattis.com/problems/roadtimes) [✅](../../practice/linear_algebra/kattis_roadtimes.cpp "Accepted solution")
 - [UVa 802 - Lead or Gold](https://onlinejudge.org/external/8/802.pdf) [✅](../../practice/linear_algebra/uva_802.cpp "Accepted solution")
 - [UVa 1298 - Triathlon](https://onlinejudge.org/external/12/1298.pdf) [✅](../../practice/linear_algebra/uva_1298.cpp "Accepted solution")
 - [UVa 1410 - Expensive Drink](https://onlinejudge.org/external/14/1410.pdf) [✅](../../practice/linear_algebra/uva_1410.cpp "Accepted solution")
