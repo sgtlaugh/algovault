@@ -144,7 +144,7 @@
 - [AOJ DSL_5_B - The Maximum Number of Overlaps](https://onlinejudge.u-aizu.ac.jp/problems/DSL_5_B) [✅](../../practice/data_structures/aoj_dsl_5_b.cpp "Accepted solution")
 - [Codeforces 707E - Garlands](https://codeforces.com/problemset/problem/707/E)
 - [Codeforces 869E - The Untended Antiquity](https://codeforces.com/problemset/problem/869/E)
-- [CSES 1739 - Forest Queries II](https://cses.fi/problemset/task/1739)
+- [CSES 1739 - Forest Queries II](https://cses.fi/problemset/task/1739) [✅](../../practice/data_structures/cses_1739.cpp "Accepted solution")
 - [SPOJ ADABEHIVE - Ada and Behives](https://www.spoj.com/problems/ADABEHIVE/)
 - [SPOJ MATSUM - Matrix Summation](https://www.spoj.com/problems/MATSUM/)
 
