@@ -53,7 +53,7 @@
 - [UVa 12257 - The Queue](https://onlinejudge.org/external/122/12257.pdf) [✅](../../practice/combinatorics/uva_12257.cpp "Accepted solution")
 - [UVa 12775 - Gift Dilemma](https://onlinejudge.org/external/127/12775.pdf)
 - [UVa 12887 - The Soldier's Dilemma](https://onlinejudge.org/external/128/12887.pdf) [✅](../../practice/combinatorics/uva_12887.cpp "Accepted solution")
-- [UVa 13184 - Counting Edges and Graphs](https://onlinejudge.org/external/131/13184.pdf)
+- [UVa 13184 - Counting Edges and Graphs](https://onlinejudge.org/external/131/13184.pdf) [✅](../../practice/combinatorics/uva_13184.cpp "Accepted solution")
 
 #### [Gambler's Ruin](gamblers_ruin.cpp)
 
