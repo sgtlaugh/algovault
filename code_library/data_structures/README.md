@@ -278,7 +278,7 @@
 - [CSES 1142 - Advertisement](https://cses.fi/problemset/task/1142) [✅](../../practice/data_structures/cses_1142.cpp "Accepted solution")
 - [CSES 1147 - Maximum Building I](https://cses.fi/problemset/task/1147) [✅](../../practice/data_structures/cses_1147.cpp "Accepted solution")
 - [CSES 1645 - Nearest Smaller Values](https://cses.fi/problemset/task/1645) [✅](../../practice/data_structures/cses_1645.cpp "Accepted solution")
-- [HackerRank poisonous-plants - Poisonous Plants](https://www.hackerrank.com/challenges/poisonous-plants/problem)
+- [HackerRank poisonous-plants - Poisonous Plants](https://www.hackerrank.com/challenges/poisonous-plants/problem) [✅](../../practice/data_structures/hackerrank_poisonous_plants.cpp "Accepted solution")
 - [Library Checker cartesian_tree - Cartesian Tree](https://judge.yosupo.jp/problem/cartesian_tree)
 - [oj.uz CEOI11_bal - Balloons](https://oj.uz/problem/view/CEOI11_bal)
 - [SPOJ CITY2 - A Famous City](https://www.spoj.com/problems/CITY2/)
