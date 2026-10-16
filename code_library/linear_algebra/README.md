@@ -135,6 +135,7 @@
 - [Codeforces 1061E - Politics](https://codeforces.com/problemset/problem/1061/E) [✅](../../practice/linear_algebra/codeforces_1061e.cpp "Accepted solution")
 - [Codeforces 1288F - Red-Blue Graph](https://codeforces.com/problemset/problem/1288/F) [✅](../../practice/linear_algebra/codeforces_1288f.cpp "Accepted solution")
 - [Codeforces 1421D - Hexagons](https://codeforces.com/problemset/problem/1421/D) [✅](../../practice/linear_algebra/codeforces_1421d.cpp "Accepted solution")
+- [Codeforces 1426E - Rock, Paper, Scissors](https://codeforces.com/problemset/problem/1426/E) [✅](../../practice/linear_algebra/codeforces_1426e.cpp "Accepted solution")
 - [Codeforces 1430G - Yet Another DAG Problem](https://codeforces.com/problemset/problem/1430/G) [✅](../../practice/linear_algebra/codeforces_1430g.cpp "Accepted solution")
 - [Codeforces 1455E - Four Points](https://codeforces.com/problemset/problem/1455/E) [✅](../../practice/linear_algebra/codeforces_1455e.cpp "Accepted solution")
 - [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A) [✅](../../practice/linear_algebra/codeforces_gym_100491a.cpp "Accepted solution")
