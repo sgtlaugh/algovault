@@ -436,7 +436,7 @@
 - [Codeforces 1454F - Array Partition](https://codeforces.com/problemset/problem/1454/F)
 - [Codeforces 1547F - Array Stabilization (GCD version)](https://codeforces.com/problemset/problem/1547/F)
 - [CSES 1647 - Static Range Minimum Queries](https://cses.fi/problemset/task/1647) [✅](../../practice/data_structures/cses_1647_sparse_table.cpp "Accepted solution")
-- [Library Checker staticrmq - Static RMQ](https://judge.yosupo.jp/problem/staticrmq)
+- [Library Checker staticrmq - Static RMQ](https://judge.yosupo.jp/problem/staticrmq) [✅](../../practice/data_structures/library_checker_staticrmq.cpp "Accepted solution")
 - [SPOJ RMQSQ - Range Minimum Query](https://www.spoj.com/problems/RMQSQ/)
 - [SPOJ RPLN - Negative Score](https://www.spoj.com/problems/RPLN/)
 - [SPOJ THRBL - Catapult that ball](https://www.spoj.com/problems/THRBL/)
