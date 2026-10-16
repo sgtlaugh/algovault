@@ -45,7 +45,7 @@
 
 #### [Disjoint Set Union, Partially Persistent](partially_persistent_dsu.cpp)
 
-- [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d)
+- [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d) [✅](../../practice/data_structures/atcoder_agc002_d.cpp "Accepted solution")
 
 #### [Disjoint Set Union, Potential](potential_dsu.cpp)
 
