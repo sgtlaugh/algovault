@@ -121,7 +121,7 @@
 
 #### [Simplex](simplex.cpp)
 
-- [Code Jam 2008 Round 2 C - Star Wars](https://github.com/google/coding-competitions-archive/tree/main/codejam/2008/round_2/star_wars)
+- [Code Jam 2008 Round 2 C - Star Wars](https://github.com/google/coding-competitions-archive/tree/main/codejam/2008/round_2/star_wars) [✅](../../practice/linear_algebra/code_jam_2008_round_2_c.cpp "Accepted solution")
 - [Code Jam 2015 Round 2 B - Kiddie Pool](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/round_2/kiddie_pool)
 - [CodeChef FLYDIST - Flight Distance](https://www.codechef.com/problems/FLYDIST)
 - [Codeforces 375E - Red and Black Tree](https://codeforces.com/problemset/problem/375/E) [✅](../../practice/linear_algebra/codeforces_375e.cpp "Accepted solution")
