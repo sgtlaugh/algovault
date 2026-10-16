@@ -48,7 +48,7 @@
 
 #### [Gauss, Bitset](gauss_bitset.cpp)
 
-- [AOJ 1308 - Awkward Lights](https://onlinejudge.u-aizu.ac.jp/problems/1308)
+- [AOJ 1308 - Awkward Lights](https://onlinejudge.u-aizu.ac.jp/problems/1308) [✅](../../practice/linear_algebra/aoj_1308.cpp "Accepted solution")
 - [CSES 3193 - Square Subsets](https://cses.fi/problemset/task/3193)
 - [HDU 3364 - Lanterns](https://acm.hdu.edu.cn/showproblem.php?pid=3364)
 - [HDU 4200 - Bad Wiring](https://acm.hdu.edu.cn/showproblem.php?pid=4200)
