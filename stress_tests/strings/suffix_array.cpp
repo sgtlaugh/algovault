@@ -16,6 +16,9 @@ void check(const Container& c){
     sort(sorted_sa.begin(), sorted_sa.end());
     for (int i = 0; i < n; i++) assert(sorted_sa[i] == i);
 
+    assert((int)res.rank.size() == n);
+    for (int i = 0; i < n; i++) assert(res.rank[res.sa[i]] == i);
+
     long long distinct = (long long)n * (n + 1) / 2;
     for (int i = 0; i + 1 < n; i++){
         int a = res.sa[i], b = res.sa[i + 1], k = 0;
@@ -71,8 +74,6 @@ void check_queries(const Container& c){
     using T = typename Container::value_type;
     int n = c.size();
     SuffixArrayQueries<Container> q(c);
-
-    for (int i = 0; i < n; i++) assert(q.sa[q.rank[i]] == i);
 
     int pairs = n <= 12 ? n * n : 60;
     for (int t = 0; t < pairs; t++){
