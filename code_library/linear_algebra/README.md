@@ -25,7 +25,7 @@
 - [HDU 5006 - Resistance](https://acm.hdu.edu.cn/showproblem.php?pid=5006)
 - [POJ 1487 - Single-Player Games](http://poj.org/problem?id=1487)
 - [POJ 3807 - Chemist’s Math](http://poj.org/problem?id=3807) [✅](../../practice/linear_algebra/poj_3807.cpp "Accepted solution")
-- [SPOJ GS - Going to school](https://www.spoj.com/problems/GS/)
+- [SPOJ GS - Going to school](https://www.spoj.com/problems/GS/) [✅](../../practice/linear_algebra/spoj_gs.cpp "Accepted solution")
 - [SPOJ LIM - Lost in Madrid](https://www.spoj.com/problems/LIM/)
 - [SPOJ RESIST - Kirchhof Law](https://www.spoj.com/problems/RESIST/)
 - [Timus 1041 - Nikifor](https://acm.timus.ru/problem.aspx?num=1041)
