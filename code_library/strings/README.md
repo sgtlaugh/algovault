@@ -242,7 +242,7 @@
 - [UVa 1254 - Top 10](https://onlinejudge.org/external/12/1254.pdf) [✅](../../practice/strings/uva_1254_suffix_array.cpp "Accepted solution")
 - [UVa 10526 - Intellectual Property](https://onlinejudge.org/external/105/10526.pdf) [✅](../../practice/strings/uva_10526.cpp "Accepted solution")
 - [UVa 10679 - I Love Strings!!](https://onlinejudge.org/external/106/10679.pdf) [✅](../../practice/strings/uva_10679_suffix_array.cpp "Accepted solution")
-- [UVa 10829 - L-Gap Substrings](https://onlinejudge.org/external/108/10829.pdf)
+- [UVa 10829 - L-Gap Substrings](https://onlinejudge.org/external/108/10829.pdf) [✅](../../practice/strings/uva_10829.cpp "Accepted solution")
 - [UVa 11107 - Life Forms](https://onlinejudge.org/external/111/11107.pdf) [✅](../../practice/strings/uva_11107_suffix_array.cpp "Accepted solution")
 - [UVa 11512 - GATTACA](https://onlinejudge.org/external/115/11512.pdf) [✅](../../practice/strings/uva_11512.cpp "Accepted solution")
 - [UVa 12191 - File Recover](https://onlinejudge.org/external/121/12191.pdf) [✅](../../practice/strings/uva_12191.cpp "Accepted solution")
