@@ -226,7 +226,7 @@
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110)
 - [HackerRank sherlock-and-unique-substrings - Sherlock and Unique Substrings](https://www.hackerrank.com/contests/101hack26/challenges/sherlock-and-unique-substrings)
 - [Library Checker longest_common_substring - Longest Common Substring](https://judge.yosupo.jp/problem/longest_common_substring) [✅](../../practice/strings/library_checker_longest_common_substring.cpp "Accepted solution")
-- [Library Checker suffixarray - Suffix Array](https://judge.yosupo.jp/problem/suffixarray)
+- [Library Checker suffixarray - Suffix Array](https://judge.yosupo.jp/problem/suffixarray) [✅](../../practice/strings/library_checker_suffixarray.cpp "Accepted solution")
 - [Library Checker zalgorithm - Z Algorithm](https://judge.yosupo.jp/problem/zalgorithm)
 - [SPOJ ADAPHOTO - Ada and Terramorphing](https://www.spoj.com/problems/ADAPHOTO/) [✅](../../practice/strings/spoj_adaphoto.cpp "Accepted solution")
 - [SPOJ ADASTRNG - Ada and Substring](https://www.spoj.com/problems/ADASTRNG/) [✅](../../practice/strings/spoj_adastrng.cpp "Accepted solution")
