@@ -23,7 +23,7 @@
 - [HDU 3976 - Electric resistance](https://acm.hdu.edu.cn/showproblem.php?pid=3976) [✅](../../practice/linear_algebra/hdu_3976.cpp "Accepted solution")
 - [HDU 4870 - Rating](https://acm.hdu.edu.cn/showproblem.php?pid=4870) [✅](../../practice/linear_algebra/hdu_4870.cpp "Accepted solution")
 - [HDU 5006 - Resistance](https://acm.hdu.edu.cn/showproblem.php?pid=5006) [✅](../../practice/linear_algebra/hdu_5006.cpp "Accepted solution")
-- [POJ 1487 - Single-Player Games](http://poj.org/problem?id=1487)
+- [POJ 1487 - Single-Player Games](http://poj.org/problem?id=1487) [✅](../../practice/linear_algebra/poj_1487.cpp "Accepted solution")
 - [POJ 3807 - Chemist’s Math](http://poj.org/problem?id=3807) [✅](../../practice/linear_algebra/poj_3807.cpp "Accepted solution")
 - [SPOJ GS - Going to school](https://www.spoj.com/problems/GS/) [✅](../../practice/linear_algebra/spoj_gs.cpp "Accepted solution")
 - [SPOJ LIM - Lost in Madrid](https://www.spoj.com/problems/LIM/) [✅](../../practice/linear_algebra/spoj_lim.cpp "Accepted solution")
