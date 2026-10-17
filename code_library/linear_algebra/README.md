@@ -36,7 +36,7 @@
 - [UVa 1704 - Pachinko](https://onlinejudge.org/external/17/1704.pdf)
 - [UVa 10109 - Solving Systems of Linear Equations](https://onlinejudge.org/external/101/10109.pdf) [✅](../../practice/linear_algebra/uva_10109.cpp "Accepted solution")
 - [UVa 10524 - Matrix Reloaded](https://onlinejudge.org/external/105/10524.pdf) [✅](../../practice/linear_algebra/uva_10524.cpp "Accepted solution")
-- [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf)
+- [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf) [✅](../../practice/linear_algebra/uva_10808.cpp "Accepted solution")
 - [UVa 11912 - Chutes and Ladders](https://onlinejudge.org/external/119/11912.pdf) [✅](../../practice/linear_algebra/uva_11912.cpp "Accepted solution")
 - [UVa 12695 - Traveling Fool](https://onlinejudge.org/external/126/12695.pdf) [✅](../../practice/linear_algebra/uva_12695.cpp "Accepted solution")
 - [UVa 12910 - Snakes and Ladders](https://onlinejudge.org/external/129/12910.pdf) [✅](../../practice/linear_algebra/uva_12910.cpp "Accepted solution")
