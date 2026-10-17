@@ -49,7 +49,7 @@
 #### [Gauss, Bitset](gauss_bitset.cpp)
 
 - [AOJ 1308 - Awkward Lights](https://onlinejudge.u-aizu.ac.jp/problems/1308) [✅](../../practice/linear_algebra/aoj_1308.cpp "Accepted solution")
-- [CSES 3193 - Square Subsets](https://cses.fi/problemset/task/3193)
+- [CSES 3193 - Square Subsets](https://cses.fi/problemset/task/3193) [✅](../../practice/linear_algebra/cses_3193.cpp "Accepted solution")
 - [HDU 3364 - Lanterns](https://acm.hdu.edu.cn/showproblem.php?pid=3364)
 - [HDU 4200 - Bad Wiring](https://acm.hdu.edu.cn/showproblem.php?pid=4200)
 - [Library Checker inverse_matrix_mod_2 - Inverse Matrix (Mod 2)](https://judge.yosupo.jp/problem/inverse_matrix_mod_2) [✅](../../practice/linear_algebra/library_checker_inverse_matrix_mod_2.cpp "Accepted solution")
