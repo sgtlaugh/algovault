@@ -55,7 +55,7 @@
 - [Library Checker inverse_matrix_mod_2 - Inverse Matrix (Mod 2)](https://judge.yosupo.jp/problem/inverse_matrix_mod_2) [✅](../../practice/linear_algebra/library_checker_inverse_matrix_mod_2.cpp "Accepted solution")
 - [Library Checker matrix_det_mod_2 - Determinant of Matrix (Mod 2)](https://judge.yosupo.jp/problem/matrix_det_mod_2) [✅](../../practice/linear_algebra/library_checker_matrix_det_mod_2.cpp "Accepted solution")
 - [Library Checker matrix_rank_mod_2 - Rank of Matrix (Mod 2)](https://judge.yosupo.jp/problem/matrix_rank_mod_2) [✅](../../practice/linear_algebra/library_checker_matrix_rank_mod_2.cpp "Accepted solution")
-- [Library Checker system_of_linear_equations_mod_2 - System of Linear Equations (Mod 2)](https://judge.yosupo.jp/problem/system_of_linear_equations_mod_2)
+- [Library Checker system_of_linear_equations_mod_2 - System of Linear Equations (Mod 2)](https://judge.yosupo.jp/problem/system_of_linear_equations_mod_2) [✅](../../practice/linear_algebra/library_checker_system_of_linear_equations_mod_2.cpp "Accepted solution")
 - [POJ 1681 - Painter's Problem](http://poj.org/problem?id=1681)
 - [Timus 1042 - Central Heating](https://acm.timus.ru/problem.aspx?num=1042)
 - [UVa 1560 - Extended Lights Out](https://onlinejudge.org/external/15/1560.pdf) [✅](../../practice/linear_algebra/uva_1560.cpp "Accepted solution")
