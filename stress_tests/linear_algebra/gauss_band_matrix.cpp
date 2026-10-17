@@ -37,16 +37,23 @@ int main(){
     for (long long it = 0; it < stress::scaled(400); it++){
         int n = stress::rand_int(1, it % 10 ? 12 : 400), m = stress::rand_int(1, it % 10 ? 8 : 6);
         if (it % 50 == 0) m = stress::rand_int(31, 60), n = min(n, 30);  /// the widest band, kept small: cells and band size multiply
-        int band_size = it % 3 ? 2 * m + 3 : 2 * stress::rand_int(0, min(34, 2 * m + 2)) + 1, h = band_size / 2, cells = n * m;
-        long double rhs_default = stress::rand_int(-5, 5);
-        Band gauss(n, m, rhs_default, it % 3 ? 0 : band_size);
+        if (stress::rand_int(0, 1)) swap(n, m);  /// so that numbering by column is the narrower band as often as by row
 
-        /// Cell numbers as the library assigns them, so that coefficients land inside the band
-        auto cell = [&](int u){ return make_pair((cells - 1 - u) / m, (cells - 1 - u) % m); };
+        /// The system is generated as a band of half width h in an order of its own, the library must find an order at least as narrow
+        bool by_column = stress::rand_int(0, 1);
+        int cells = n * m, h = stress::rand_int(0, min(34, cells - 1));
+        auto cell = [&](int u){ return by_column ? make_pair(u % n, u / n) : make_pair(u / m, u % m); };
 
         vector<map<int, long double>> coef(cells);
-        vector<long double> rhs(cells, rhs_default);
+        vector<long double> rhs(cells, 0);
+        vector<bool> untouched(cells, false);
         for (int u = 0; u < cells; u++){
+            /// A cell without calls stands for x(u) = 0, other equations may still use it
+            if (it % 4 == 0 && stress::rand_int(0, 3) == 0){
+                coef[u][u] = 1, untouched[u] = true;
+                continue;
+            }
+
             long double off = 0;
             for (int v = max(0, u - h); v <= min(cells - 1, u + h); v++){
                 if (v == u || stress::rand_int(0, 2)) continue;
@@ -54,27 +61,50 @@ int main(){
                 coef[u][v] = c, off += fabsl(c);
             }
             /// Strict diagonal dominance, the library pivots on the diagonal only
-            coef[u][u] = it % 4 == 0 && off == 0 ? 1 : (off + stress::rand_int(1, 100) / 10.0L) * (stress::rand_int(0, 1) ? 1 : -1);
+            coef[u][u] = (off + stress::rand_int(1, 100) / 10.0L) * (stress::rand_int(0, 1) ? 1 : -1);
             if (stress::rand_int(0, 1)) rhs[u] = stress::rand_int(-1000, 1000) / 8.0L;
+        }
+
+        /// sum of a(u, v) x(v) = b(u) is x(u) = b(u) + (1 - a(u, u)) x(u) - sum over v != u of a(u, v) x(v)
+        Band gauss(n, m);
+        int row_reach = 0, column_reach = 0;
+        auto add_term = [&](int i, int j, int k, int l, long double weight){
+            gauss.add_term(i, j, k, l, weight);
+            row_reach = max(row_reach, abs((i * m + j) - (k * m + l)));
+            column_reach = max(column_reach, abs((j * n + i) - (l * n + k)));
+        };
+
+        for (int u = 0; u < cells; u++){
+            if (untouched[u]) continue;
 
             auto [i, j] = cell(u);
             for (auto [v, c] : coef[u]){
-                long double add = v == u ? c - 1 : c;  /// the diagonal starts at 1
-                if (add == 0 && stress::rand_int(0, 1)) continue;
+                long double weight = v == u ? 1 - c : -c;
+                if (weight == 0 && stress::rand_int(0, 1)) continue;
+
                 auto [k, l] = cell(v);
                 long double part = stress::rand_int(0, 1) ? stress::rand_int(-1000, 1000) / 64.0L : 0;  /// two calls must accumulate
-                gauss.add_coef(i, j, k, l, part);
-                gauss.add_coef(i, j, k, l, add - part);
+                add_term(i, j, k, l, part);
+                add_term(i, j, k, l, weight - part);
             }
-            if (rhs[u] != rhs_default || stress::rand_int(0, 1)) gauss.set_rhs(i, j, rhs[u]);
+
+            long double part = stress::rand_int(0, 1) ? stress::rand_int(-1000, 1000) / 64.0L : 0;
+            if (rhs[u] != 0 || stress::rand_int(0, 1)){
+                gauss.add_constant(i, j, part);
+                gauss.add_constant(i, j, rhs[u] - part);
+            }
         }
 
         auto res = gauss.solve();
+        assert(gauss.reach == min(row_reach, column_reach));
+        if (row_reach != column_reach) assert(gauss.transposed == (column_reach < row_reach));
+
         assert((int)res.size() == n);
         vector<long double> x(cells);
-        for (int i = 0; i < n; i++){
+        for (int u = 0; u < cells; u++){
+            auto [i, j] = cell(u);
             assert((int)res[i].size() == m);
-            for (int j = 0; j < m; j++) x[m * (n - i) - j - 1] = res[i][j];
+            x[u] = res[i][j];
         }
 
         long double norm = 1;
@@ -83,6 +113,7 @@ int main(){
             long double s = 0;
             for (auto [v, c] : coef[u]) s += c * x[v];
             assert(fabsl(s - rhs[u]) <= 1e-12L * norm * (1 + fabsl(coef[u][u])));
+            if (untouched[u]) assert(x[u] == 0);
         }
 
         if (cells <= 80){
