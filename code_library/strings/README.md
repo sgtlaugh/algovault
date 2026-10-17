@@ -227,7 +227,7 @@
 - [HackerRank sherlock-and-unique-substrings - Sherlock and Unique Substrings](https://www.hackerrank.com/contests/101hack26/challenges/sherlock-and-unique-substrings)
 - [Library Checker longest_common_substring - Longest Common Substring](https://judge.yosupo.jp/problem/longest_common_substring) [✅](../../practice/strings/library_checker_longest_common_substring.cpp "Accepted solution")
 - [Library Checker suffixarray - Suffix Array](https://judge.yosupo.jp/problem/suffixarray) [✅](../../practice/strings/library_checker_suffixarray.cpp "Accepted solution")
-- [Library Checker zalgorithm - Z Algorithm](https://judge.yosupo.jp/problem/zalgorithm)
+- [Library Checker zalgorithm - Z Algorithm](https://judge.yosupo.jp/problem/zalgorithm) [✅](../../practice/strings/library_checker_zalgorithm.cpp "Accepted solution")
 - [SPOJ ADAPHOTO - Ada and Terramorphing](https://www.spoj.com/problems/ADAPHOTO/) [✅](../../practice/strings/spoj_adaphoto.cpp "Accepted solution")
 - [SPOJ ADASTRNG - Ada and Substring](https://www.spoj.com/problems/ADASTRNG/) [✅](../../practice/strings/spoj_adastrng.cpp "Accepted solution")
 - [SPOJ LCS2 - Longest Common Substring II](https://www.spoj.com/problems/LCS2/) [✅](../../practice/strings/spoj_lcs2.cpp "Accepted solution")
