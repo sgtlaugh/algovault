@@ -220,7 +220,7 @@
 - [Codeforces Gym 100738F - Sequence of words](https://codeforces.com/gym/100738/problem/F)
 - [Codeforces Gym 103957C - Suffixes and Palindromes](https://codeforces.com/gym/103957/problem/C)
 - [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103) [✅](../../practice/strings/cses_2103.cpp "Accepted solution")
-- [CSES 2105 - Distinct Substrings](https://cses.fi/problemset/task/2105)
+- [CSES 2105 - Distinct Substrings](https://cses.fi/problemset/task/2105) [✅](../../practice/strings/cses_2105.cpp "Accepted solution")
 - [CSES 2106 - Repeating Substring](https://cses.fi/problemset/task/2106)
 - [CSES 2108 - Substring Order I](https://cses.fi/problemset/task/2108)
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110)
