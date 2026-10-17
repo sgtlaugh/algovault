@@ -218,7 +218,7 @@
 - [Codeforces 873F - Forbidden Indices](https://codeforces.com/problemset/problem/873/F)
 - [Codeforces 1073G - Yet Another LCP Problem](https://codeforces.com/problemset/problem/1073/G)
 - [Codeforces Gym 100738F - Sequence of words](https://codeforces.com/gym/100738/problem/F)
-- [Codeforces Gym 103957C - Suffixes and Palindromes](https://codeforces.com/gym/103957/problem/C)
+- [Codeforces Gym 103957C - Suffixes and Palindromes](https://codeforces.com/gym/103957/problem/C) [✅](../../practice/strings/codeforces_gym_103957c.cpp "Accepted solution")
 - [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103) [✅](../../practice/strings/cses_2103.cpp "Accepted solution")
 - [CSES 2105 - Distinct Substrings](https://cses.fi/problemset/task/2105) [✅](../../practice/strings/cses_2105.cpp "Accepted solution")
 - [CSES 2106 - Repeating Substring](https://cses.fi/problemset/task/2106) [✅](../../practice/strings/cses_2106.cpp "Accepted solution")
