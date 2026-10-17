@@ -210,7 +210,7 @@
 - [CodeChef INSQ16F - JARVIS and LCP](https://www.codechef.com/problems/INSQ16F) [✅](../../practice/strings/codechef_insq16f.cpp "Accepted solution")
 - [CodeChef TANDEM - Tandem](https://www.codechef.com/problems/TANDEM) [✅](../../practice/strings/codechef_tandem.cpp "Accepted solution")
 - [CodeChef TANGLED - Entangled Strings](https://www.codechef.com/problems/TANGLED) [✅](../../practice/strings/codechef_tangled.cpp "Accepted solution")
-- [Codeforces 204E - Little Elephant and Strings](https://codeforces.com/problemset/problem/204/E)
+- [Codeforces 204E - Little Elephant and Strings](https://codeforces.com/problemset/problem/204/E) [✅](../../practice/strings/codeforces_204e.cpp "Accepted solution")
 - [Codeforces 452E - Three strings](https://codeforces.com/problemset/problem/452/E)
 - [Codeforces 616F - Expensive Strings](https://codeforces.com/problemset/problem/616/F)
 - [Codeforces 653F - Paper task](https://codeforces.com/problemset/problem/653/F)
