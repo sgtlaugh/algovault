@@ -298,17 +298,23 @@ struct SuffixArrayQueries : SuffixArray{
 };
 
 int main(){
+    ios::sync_with_stdio(false);
+    cin.tie(nullptr);
+
     vector<int> text, color;
-    static char buf[100005];
+    string line;
     int k = 0;
-    while (scanf("%100004s", buf) == 1){
-        /// Separators are distinct values below 'a' so no common prefix crosses a string boundary
+    while (getline(cin, line)){
+        if (!line.empty() && line.back() == '\r') line.pop_back();
+        if (line.empty()) continue;
+
+        /// The data holds bytes beyond lowercase, so separators sit below every char value
         if (k > 0){
-            text.push_back(k - 1);
+            text.push_back(-129 - k);
             color.push_back(-1);
         }
-        for (int i = 0; buf[i]; i++){
-            text.push_back(buf[i]);
+        for (char ch : line){
+            text.push_back(ch);
             color.push_back(k);
         }
         k++;
