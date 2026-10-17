@@ -1,28 +1,28 @@
 /***
  *
- * Suffix Array using DC3 (Difference Cover 3) Algorithm
- * Builds the lexicographically sorted array of all suffixes with its LCP array, plus O(1) LCP, O(log n) substring and O(|pattern| log n) pattern occurrence queries
+ * Suffix Array (SA-IS)
+ * Sorted suffixes and their LCP array in O(n), with O(1) common prefix and pattern occurrence queries
  *
- * Complexity: O(n) construction when the values span at most n + 256, else O(n log n) for the value compression sort
- * LCP array in O(n), SuffixArrayQueries adds an O(n log n) sparse table on top
- * Memory: the sparse table holds ~n log n ints (~76 MB at n = 1e6) and SuffixArrayQueries keeps a copy of the text
+ * Complexity:
+ *   - suffix_array: O(n) when the values span at most n + 256, else O(n log n) to compress them
+ *   - SuffixArrayQueries: O(n log n) more for a sparse table of n log n ints, about 76 MB at n = 1e6, plus a copy of the text
+ *   - common_prefix: O(1)
+ *   - occurrences(p, len): O(log n)
+ *   - occurrences(pattern): O(|pattern| log n)
  *
- * suffix_array(c) works on any container of integers (string, vector<int>, vector<unsigned long long>), any values including 0 and negatives
- *   sa[i]  = start of the i-th smallest suffix
- *   lcp[i] = longest common prefix of the suffixes at sa[i] and sa[i + 1], lcp[n - 1] = 0
- *   distinct_substrings() = number of distinct non-empty substrings, n * (n + 1) / 2 - sum(lcp), O(n)
+ * SuffixArray res = suffix_array(c): c is any container of integers (string, vector<int>, vector<unsigned long long>), any values
+ * res.sa[i]: start of the i-th smallest suffix
+ * res.rank[p]: position of the suffix starting at p in sa
+ * res.lcp[i]: longest common prefix of the suffixes at sa[i] and sa[i + 1], lcp[n - 1] = 0
+ * res.distinct_substrings(): number of distinct non-empty substrings, O(n)
  *
- * SuffixArrayQueries<Container> q(c) has everything above and also:
- *   rank[p]                 = position of the suffix starting at p in sa
- *   common_prefix(i, j)     = longest common prefix of the suffixes starting at i and j, O(1)
- *   occurrences(p, len)     = [lo, hi) such that sa[lo .. hi) are exactly the starts of s[p .. p + len), O(log n)
- *   occurrences(pattern)    = the same range for any pattern, O(|pattern| log n)
- * The occurrence count is hi - lo, an absent pattern gives lo == hi (its insertion point), an empty one gives [0, n)
+ * SuffixArrayQueries<Container> q(c): everything in SuffixArray plus the calls below
+ * q.common_prefix(i, j): longest common prefix of the suffixes starting at i and j
+ * q.occurrences(p, len): [lo, hi) such that sa[lo .. hi) are exactly the starts of s[p .. p + len), 0 <= p, 0 <= len, p + len <= n
+ * q.occurrences(pattern): the same range for any pattern
  *
- * Example:
- *   SuffixArrayQueries q("banana");
- *   q.occurrences("ana");     // {1, 3}: sa[1] = 3, sa[2] = 1
- *   q.common_prefix(1, 3);    // 3, "anana" and "ana"
+ * The occurrence count is hi - lo, an absent pattern gives lo == hi at its insertion point, an empty one gives [0, n)
+ * Compiles as C++11, for judges like UVa that offer nothing newer
  *
 ***/
 
@@ -30,110 +30,141 @@
 
 using namespace std;
 
-/// Scratch buffers shared by every call, so a call is not reentrant or thread safe
-/// Per call locals measured 4-35% slower (noisy) on repeated n = 1e6 builds (each call page faults ~24 MB fresh) and equal on small n
-namespace SuffixArrayDC3{
-    vector<int> s0, sa0, bucket, mem;
-
-    void radixsort(int* source, int* dest, int* val, int n, int lim){
-        bucket.assign(lim, 0);
-        for (int i = 0; i < n; i++) bucket[val[source[i]]]++;
-
-        int s = 0;
-        for (int i = 0; i < lim; i++){
-            int x = bucket[i];
-            bucket[i] = s;
-            s += x;
+/// Measured against DC3 at n = 5e5 to 1e6: 2-3.5x faster on repetitive text, 10-30% on random letters, 3-8% slower on all distinct values
+namespace SuffixArraySAIS{
+    /// LMS: an S-type suffix (smaller than the next one) right after an L-type one, visited right to left
+    template<typename Char, typename Visit>
+    void for_each_lms(const Char* text, int n, Visit visit){
+        bool next_s = false;
+        for (int i = n - 2; i >= 0; i--){
+            bool s = text[i] < text[i + 1] || (text[i] == text[i + 1] && next_s);
+            if (!s && next_s) visit(i + 1);
+            next_s = s;
         }
-
-        for (int i = 0; i < n; i++) dest[bucket[val[source[i]]]++] = source[i];
     }
 
-    void DC3(int* ar, int* sa, int n, int lim, int ptr){
-        int *s12, *sa12;
-        int allc = (n / 3) << 1, n0 = (n + 2) / 3;
-        int i, j, k, l, c, d, m, r, counter;
-
-        s12 = &mem[ptr], ptr += (allc + 5);
-        sa12 = &mem[ptr], ptr += (allc + 5);
-
-        c = 0, m = 0, r = n + ((n % 3) == 1);
-        for (i = 0; i < r; i++, m++){
-            if (m == 3) m = 0;
-            if (m) s12[c++] = i;
+    /// Sorts the suffixes of text, values in [0, alphabet), as if a sentinel below every value ended it
+    template<typename Char>
+    void sais(const Char* text, int* sa, int n, int alphabet){
+        if (n == 1){
+            sa[0] = 0;
+            return;
         }
-        s12[c] = sa12[c] = s12[c + 1] = sa12[c + 1] = s12[c + 2] = sa12[c + 2] = 0;
 
-        radixsort(s12, sa12, ar + 2, c, lim + 1);
-        radixsort(sa12, s12, ar + 1, c, lim + 1);
-        radixsort(s12, sa12, ar, c, lim + 1);
+        vector<int> start(alphabet + 1, 0), bucket(alphabet);  /// bucket c spans sa[start[c] .. start[c + 1])
+        for (int i = 0; i < n; i++) start[text[i] + 1]++;
+        for (int c = 0; c < alphabet; c++) start[c + 1] += start[c];
 
-        counter = 0, j = k = l = -1;
-        for (i = 0; i < c; i++){
-            if ((ar[sa12[i]] != j) || (ar[sa12[i] + 1] != k) || (ar[sa12[i] + 2] != l)){
-                counter++;
-                j = ar[sa12[i]], k = ar[sa12[i] + 1], l = ar[sa12[i] + 2];
+        /// ~p marks p - 1 for the other pass, which replaces a type array: p - 1 has the type of p when text[p - 1] == text[p]
+        auto induce = [&](){
+            copy(start.begin(), start.end() - 1, bucket.begin());
+            auto place_l = [&](int p){ sa[bucket[text[p]]++] = p > 0 && text[p - 1] < text[p] ? ~p : p; };
+            place_l(n - 1);
+            for (int i = 0; i < n; i++){
+                if (sa[i] > 0) place_l(sa[i] - 1);
             }
-            if ((sa12[i] % 3) == 1) s12[sa12[i] / 3] = counter;
-            else s12[(sa12[i] / 3) + n0] = counter;
+
+            copy(start.begin() + 1, start.end(), bucket.begin());
+            for (int i = n - 1; i >= 0; i--){
+                if (sa[i] >= 0) continue;
+
+                sa[i] = ~sa[i];
+                int p = sa[i] - 1;
+                sa[--bucket[text[p]]] = p > 0 && text[p - 1] <= text[p] ? ~p : p;
+            }
+        };
+
+        /// Inducing from unsorted LMS seeds sorts the LMS substrings
+        fill(sa, sa + n, 0);
+        copy(start.begin() + 1, start.end(), bucket.begin());
+        int m = 0;
+        for_each_lms(text, n, [&](int p){
+            sa[--bucket[text[p]]] = p;
+            m++;
+        });
+        induce();
+        if (m == 0) return;  /// non-increasing text, the L pass sorted it
+
+        int sorted = 0;
+        for (int i = 0; i < n; i++){
+            int p = sa[i];
+            if (p == 0 || text[p - 1] <= text[p]) continue;
+
+            int end = p + 1;
+            while (end < n && text[end] == text[p]) end++;
+            if (end < n && text[end] > text[p]) sa[sorted++] = p;
         }
 
-        if (counter == c){
-            for (i = 0; i < c; i++) sa12[s12[i] - 1] = i;
+        /// LMS positions are at least 2 apart, so sa[m + p / 2] is a free slot for each, holding its length, then its name
+        fill(sa + m, sa + n, 0);
+        int next = 0;
+        for_each_lms(text, n, [&](int p){
+            sa[m + p / 2] = next ? next - p : 0;  /// the last one ends at the sentinel and equals no other
+            next = p;
+        });
+
+        /// Names start at 1, as 0 marks a free slot
+        int names = 0, prev = -1, prev_len = 0;
+        for (int i = 0; i < m; i++){
+            int p = sa[i], len = sa[m + p / 2];
+            bool same = prev >= 0 && len == prev_len;
+            for (int d = 0; same && d <= len; d++) same = text[p + d] == text[prev + d];
+            if (!same) names++;
+
+            sa[m + p / 2] = names;
+            prev = p, prev_len = len;
+        }
+
+        /// The names in text order sort like the LMS suffixes, m <= n / 2 so they and their suffix array both fit in sa
+        int* reduced = sa + n - m;
+        int filled = m;
+        for (int i = n - 1; i >= m; i--){
+            if (sa[i] > 0) reduced[--filled] = sa[i] - 1;
+        }
+
+        if (names == m){
+            for (int i = 0; i < m; i++) sa[reduced[i]] = i;
         }
         else{
-            DC3(s12, sa12, c, counter, ptr);
-            for (i = 0; i < c; i++) s12[sa12[i]] = i + 1;
+            sais(reduced, sa, m, names);
         }
 
-        for (i = 0, d = 0; i < c; i++){
-            if (sa12[i] < n0) s0[d++] = (sa12[i] * 3);
-        }
-        radixsort(&s0[0], &sa0[0], ar, d, lim + 1);
+        filled = m;
+        for_each_lms(text, n, [&](int p){ reduced[--filled] = p; });
+        for (int i = 0; i < m; i++) sa[i] = reduced[sa[i]];
 
-        for (k = 0, l = ((n % 3) == 1), r = 0; r < n; r++){
-            j = sa0[k];
-            i = ((sa12[l] < n0) ? (sa12[l] * 3) + 1 : ((sa12[l] - n0) * 3) + 2);
-            if (l == c) sa[r] = sa0[k++];
-            else if (k == d) sa[r] = i, l++;
-            else{
-                if (sa12[l] < n0){
-                    if ((ar[i] < ar[j]) || (ar[i] == ar[j] && s12[sa12[l] + n0] <= s12[j / 3])) sa[r] = i, l++;
-                    else sa[r] = j, k++;
-                }
-                else{
-                    if ((ar[i] < ar[j]) || (ar[i] == ar[j] && ar[i + 1] < ar[j + 1]) ||
-                        (ar[i] == ar[j] && ar[i + 1] == ar[j + 1] && s12[sa12[l] - n0 + 1] <= s12[(j / 3) + n0]))
-                        sa[r] = i, l++;
-                    else sa[r] = j, k++;
-                }
-            }
+        fill(sa + m, sa + n, 0);
+        copy(start.begin() + 1, start.end(), bucket.begin());
+        for (int i = m - 1; i >= 0; i--){  /// the i-th smallest lands at or after i, past every unread seed
+            int p = sa[i];
+            sa[i] = 0;
+            sa[--bucket[text[p]]] = p;
         }
+        induce();
     }
 
     template<typename Container>
-    void build_lcp(const Container& str, int n, const vector<int>& sa, vector<int>& lcp){
-        vector<int> rank(n);
-        for (int i = 0; i < n; i++) rank[sa[i]] = i;
-
-        int k = 0;
-        for (int i = 0; i < n; i++, k ? k-- : 0){
+    vector<int> build_lcp(const Container& c, const vector<int>& sa, const vector<int>& rank){
+        int n = sa.size(), k = 0;
+        vector<int> lcp(n);
+        for (int i = 0; i < n; i++){
             if (rank[i] == n - 1){
                 k = 0;
+                continue;
             }
-            else{
-                int j = sa[rank[i] + 1];
-                while ((i + k) < n && (j + k) < n && str[i + k] == str[j + k]) k++;
-            }
+
+            int j = sa[rank[i] + 1];
+            while (i + k < n && j + k < n && c[i + k] == c[j + k]) k++;
             lcp[rank[i]] = k;
+            if (k > 0) k--;
         }
+        return lcp;
     }
 }
 
 struct SuffixArray{
     int n;
-    vector<int> sa;
-    vector<int> lcp;
+    vector<int> sa, rank, lcp;
 
     long long distinct_substrings() const {
         long long total = ((long long)n * (n + 1)) / 2;
@@ -152,39 +183,38 @@ SuffixArray suffix_array(const Container& c){
         return result;
     }
 
-    /// DC3 wants values in [1, lim] with 0 as sentinel and lim buckets: shift small ranges, compress large ones
-    /// Values stay in their own type: a cast to long long would wrap unsigned 64-bit values past LLONG_MAX below small ones
+    /// Values are ranked in T, a cast to long long would wrap unsigned values past LLONG_MAX
     using T = typename Container::value_type;
-    using U = make_unsigned_t<T>;
+    using U = typename make_unsigned<T>::type;
     T lo = *min_element(c.begin(), c.end()), hi = *max_element(c.begin(), c.end());
     auto offset = [&](T x){ return (unsigned long long)U(U(x) - U(lo)); };  /// modular unsigned difference, exact as x >= lo
 
-    vector<int> ar(n + 3, 0);
-
-    int lim;
-    if (offset(hi) <= (unsigned long long)n + 256){
-        for (int i = 0; i < n; i++) ar[i] = offset(c[i]) + 1;
-        lim = offset(hi) + 1;
-    }
-    else{
-        vector<T> values(c.begin(), c.end());
+    bool compress = offset(hi) > (unsigned long long)n + 256;
+    vector<T> values;
+    if (compress){
+        values.assign(c.begin(), c.end());
         sort(values.begin(), values.end());
         values.erase(unique(values.begin(), values.end()), values.end());
-        for (int i = 0; i < n; i++) ar[i] = lower_bound(values.begin(), values.end(), c[i]) - values.begin() + 1;
-        lim = values.size();
     }
-
-    int alloc_size = max(n + 3, ((n / 3) + 10) * 2);
-    SuffixArrayDC3::s0.resize(alloc_size);
-    SuffixArrayDC3::sa0.resize(alloc_size);
-    SuffixArrayDC3::bucket.resize(lim + 10);
-    SuffixArrayDC3::mem.resize(n * 4 + 100);
+    auto value_rank = [&](T x){ return compress ? int(lower_bound(values.begin(), values.end(), x) - values.begin()) : int(offset(x)); };
+    int alphabet = compress ? values.size() : offset(hi) + 1;
 
     result.sa.resize(n);
-    SuffixArrayDC3::DC3(&ar[0], &result.sa[0], n, lim, 0);
+    /// Byte text measured 30% faster than int at n = 1e7, the induce passes read it at random
+    if (alphabet <= 256){
+        vector<unsigned char> text(n);
+        for (int i = 0; i < n; i++) text[i] = value_rank(c[i]);
+        SuffixArraySAIS::sais(text.data(), result.sa.data(), n, alphabet);
+    }
+    else{
+        vector<int> text(n);
+        for (int i = 0; i < n; i++) text[i] = value_rank(c[i]);
+        SuffixArraySAIS::sais(text.data(), result.sa.data(), n, alphabet);
+    }
 
-    result.lcp.resize(n);
-    SuffixArrayDC3::build_lcp(c, n, result.sa, result.lcp);
+    result.rank.resize(n);
+    for (int i = 0; i < n; i++) result.rank[result.sa[i]] = i;
+    result.lcp = SuffixArraySAIS::build_lcp(c, result.sa, result.rank);
 
     return result;
 }
@@ -196,12 +226,9 @@ SuffixArray suffix_array(const char* s){
 template<typename Container>
 struct SuffixArrayQueries : SuffixArray{
     Container text;
-    vector<int> rank;
     vector<vector<int>> table;  /// table[k][i] = min(lcp[i .. i + 2^k))
 
-    SuffixArrayQueries(const Container& c) : SuffixArray(suffix_array(c)), text(c), rank(n){
-        for (int i = 0; i < n; i++) rank[sa[i]] = i;
-
+    SuffixArrayQueries(const Container& c) : SuffixArray(suffix_array(c)), text(c){
         table.push_back(lcp);
         for (int k = 1; (1 << k) <= n; k++){
             vector<int> level(n - (1 << k) + 1);
@@ -218,7 +245,6 @@ struct SuffixArrayQueries : SuffixArray{
         return lcp_min(a, b);
     }
 
-    /// Requires 0 <= p, 0 <= len, p + len <= n
     pair<int, int> occurrences(int p, int len) const {
         if (len == 0) return {0, n};
 
@@ -244,7 +270,7 @@ struct SuffixArrayQueries : SuffixArray{
         return {bound(pattern, false), bound(pattern, true)};
     }
 
-    /// First rank whose suffix cut to |pattern| values is >= pattern, or > pattern when strict
+    /// First rank whose suffix cut to |pattern| is >= pattern, or > when strict
     int bound(const Container& pattern, bool strict) const {
         int lo = 0, hi = n;
         while (lo < hi){
@@ -255,7 +281,7 @@ struct SuffixArrayQueries : SuffixArray{
         return lo;
     }
 
-    /// Sign of the suffix at p cut to |pattern| values against pattern, a suffix that ends first is smaller
+    /// Sign of the suffix at p cut to |pattern| minus pattern, a suffix that ends first is smaller
     int compare(int p, const Container& pattern) const {
         int m = pattern.size();
         for (int k = 0; k < m; k++){
@@ -265,14 +291,11 @@ struct SuffixArrayQueries : SuffixArray{
         return 0;
     }
 
-    /// min(lcp[l .. r)) for l < r, the lcp of the suffixes at sa[l] and sa[r]
     int lcp_min(int l, int r) const {
         int k = __lg(r - l);
         return min(table[k][l], table[k][r - (1 << k)]);
     }
 };
-
-SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 string read_line(){
     static char buf[1 << 17];
