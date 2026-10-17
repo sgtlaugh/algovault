@@ -63,7 +63,7 @@
 
 #### [Gauss, Prime Modulus](gauss_prime_mod.cpp)
 
-- [Codeforces 1411G - No Game No Life](https://codeforces.com/problemset/problem/1411/G)
+- [Codeforces 1411G - No Game No Life](https://codeforces.com/problemset/problem/1411/G) [✅](../../practice/linear_algebra/codeforces_1411g.cpp "Accepted solution")
 - [Codeforces Gym 102129D - Basis Change](https://codeforces.com/gym/102129/problem/D)
 - [CSES 3154 - System of Linear Equations](https://cses.fi/problemset/task/3154)
 - [HDU 3571 - N-dimensional Sphere](https://acm.hdu.edu.cn/showproblem.php?pid=3571)
