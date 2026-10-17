@@ -36,8 +36,9 @@ using namespace std;
 
 const int GF2_WIDTH = 4096;
 
+/// Row echelon form of the first cols columns, only rows below a pivot are cleared
 template <size_t W>
-vector<int> eliminate_gf2(vector<bitset<W>>& a, int cols, vector<bitset<W>>* side = nullptr){
+vector<int> echelon_gf2(vector<bitset<W>>& a, int cols, vector<bitset<W>>* side = nullptr){
     assert(cols <= (int)W);
     int n = a.size(), i = 0;
     vector<int> pos(cols, -1);
@@ -49,8 +50,8 @@ vector<int> eliminate_gf2(vector<bitset<W>>& a, int cols, vector<bitset<W>>* sid
 
         swap(a[p], a[i]);
         if (side) swap((*side)[p], (*side)[i]);
-        for (int k = 0; k < n; k++){
-            if (k == i || !a[k][j]) continue;
+        for (int k = i + 1; k < n; k++){
+            if (!a[k][j]) continue;
             a[k] ^= a[i];
             if (side) (*side)[k] ^= (*side)[i];
         }
@@ -61,11 +62,28 @@ vector<int> eliminate_gf2(vector<bitset<W>>& a, int cols, vector<bitset<W>>* sid
     return pos;
 }
 
+template <size_t W>
+vector<int> eliminate_gf2(vector<bitset<W>>& a, int cols, vector<bitset<W>>* side = nullptr){
+    vector<int> pos = echelon_gf2(a, cols, side);
+    for (int j = 0; j < cols; j++){
+        if (pos[j] == -1) continue;
+
+        int i = pos[j];
+        for (int k = 0; k < i; k++){
+            if (!a[k][j]) continue;
+            a[k] ^= a[i];
+            if (side) (*side)[k] ^= (*side)[i];
+        }
+    }
+
+    return pos;
+}
+
 template <size_t W = GF2_WIDTH>
 int gauss(int m, vector<bitset<W>> equations, bitset<W>& res){
     assert(m < (int)W);
     int n = equations.size(), f_var = 0;
-    vector<int> pos = eliminate_gf2(equations, m);
+    vector<int> pos = echelon_gf2(equations, m);
 
     res.reset();
     int rank = m - count(pos.begin(), pos.end(), -1);
@@ -75,9 +93,15 @@ int gauss(int m, vector<bitset<W>> equations, bitset<W>& res){
         if (equations[k][m]) return -1;
     }
 
-    for (int j = 0; j < m; j++){
-        if (pos[j] == -1) f_var++;
-        else res[j] = equations[pos[j]][m];
+    /// Back substitution from the last pivot up, res holds only the variables after j, so the AND is their parity in the row
+    for (int j = m - 1; j >= 0; j--){
+        if (pos[j] == -1){
+            f_var++;
+            continue;
+        }
+
+        bitset<W>& row = equations[pos[j]];
+        res[j] = row[m] ^ ((row & res).count() & 1);
     }
 
     return f_var;
@@ -100,7 +124,7 @@ bool matrix_inverse(int n, vector<bitset<W>> a, vector<bitset<W>>& inv){
 /// W is not deduced from an empty braced list, matrix_rank(0, {}), so it falls back to GF2_WIDTH
 template <size_t W = GF2_WIDTH>
 int matrix_rank(int m, vector<bitset<W>> a){
-    vector<int> pos = eliminate_gf2(a, m);
+    vector<int> pos = echelon_gf2(a, m);
     return m - count(pos.begin(), pos.end(), -1);
 }
 
