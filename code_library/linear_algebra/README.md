@@ -140,7 +140,7 @@
 
 #### [Thomas Algorithm](thomas_algorithm.cpp)
 
-- [Codeforces 24D - Broken robot](https://codeforces.com/problemset/problem/24/D)
+- [Codeforces 24D - Broken robot](https://codeforces.com/problemset/problem/24/D) [✅](../../practice/linear_algebra/codeforces_24d.cpp "Accepted solution")
 - [UVa 1413 - Game](https://onlinejudge.org/external/14/1413.pdf)
 
 #### [XOR Basis](xor_basis.cpp)
