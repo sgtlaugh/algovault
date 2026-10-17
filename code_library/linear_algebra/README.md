@@ -21,7 +21,7 @@
 - [Codeforces 113D - Museum](https://codeforces.com/problemset/problem/113/D) [✅](../../practice/linear_algebra/codeforces_113d.cpp "Accepted solution")
 - [Codeforces Gym 100495I - Two friends](https://codeforces.com/gym/100495/problem/I)
 - [HDU 3976 - Electric resistance](https://acm.hdu.edu.cn/showproblem.php?pid=3976) [✅](../../practice/linear_algebra/hdu_3976.cpp "Accepted solution")
-- [HDU 4870 - Rating](https://acm.hdu.edu.cn/showproblem.php?pid=4870)
+- [HDU 4870 - Rating](https://acm.hdu.edu.cn/showproblem.php?pid=4870) [✅](../../practice/linear_algebra/hdu_4870.cpp "Accepted solution")
 - [HDU 5006 - Resistance](https://acm.hdu.edu.cn/showproblem.php?pid=5006)
 - [POJ 1487 - Single-Player Games](http://poj.org/problem?id=1487)
 - [POJ 3807 - Chemist’s Math](http://poj.org/problem?id=3807) [✅](../../practice/linear_algebra/poj_3807.cpp "Accepted solution")
