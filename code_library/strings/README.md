@@ -240,7 +240,7 @@
 - [UVa 1223 - Editor](https://onlinejudge.org/external/12/1223.pdf) [✅](../../practice/strings/uva_1223.cpp "Accepted solution")
 - [UVa 1227 - The longest constant gene](https://onlinejudge.org/external/12/1227.pdf) [✅](../../practice/strings/uva_1227_suffix_array.cpp "Accepted solution")
 - [UVa 1254 - Top 10](https://onlinejudge.org/external/12/1254.pdf) [✅](../../practice/strings/uva_1254_suffix_array.cpp "Accepted solution")
-- [UVa 10526 - Intellectual Property](https://onlinejudge.org/external/105/10526.pdf)
+- [UVa 10526 - Intellectual Property](https://onlinejudge.org/external/105/10526.pdf) [✅](../../practice/strings/uva_10526.cpp "Accepted solution")
 - [UVa 10679 - I Love Strings!!](https://onlinejudge.org/external/106/10679.pdf) [✅](../../practice/strings/uva_10679_suffix_array.cpp "Accepted solution")
 - [UVa 10829 - L-Gap Substrings](https://onlinejudge.org/external/108/10829.pdf)
 - [UVa 11107 - Life Forms](https://onlinejudge.org/external/111/11107.pdf) [✅](../../practice/strings/uva_11107_suffix_array.cpp "Accepted solution")
