@@ -219,7 +219,7 @@
 - [Codeforces 1073G - Yet Another LCP Problem](https://codeforces.com/problemset/problem/1073/G)
 - [Codeforces Gym 100738F - Sequence of words](https://codeforces.com/gym/100738/problem/F)
 - [Codeforces Gym 103957C - Suffixes and Palindromes](https://codeforces.com/gym/103957/problem/C)
-- [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103)
+- [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103) [✅](../../practice/strings/cses_2103.cpp "Accepted solution")
 - [CSES 2105 - Distinct Substrings](https://cses.fi/problemset/task/2105)
 - [CSES 2106 - Repeating Substring](https://cses.fi/problemset/task/2106)
 - [CSES 2108 - Substring Order I](https://cses.fi/problemset/task/2108)
