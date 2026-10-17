@@ -214,7 +214,7 @@
 - [Codeforces 452E - Three strings](https://codeforces.com/problemset/problem/452/E) [✅](../../practice/strings/codeforces_452e.cpp "Accepted solution")
 - [Codeforces 616F - Expensive Strings](https://codeforces.com/problemset/problem/616/F) [✅](../../practice/strings/codeforces_616f.cpp "Accepted solution")
 - [Codeforces 653F - Paper task](https://codeforces.com/problemset/problem/653/F) [✅](../../practice/strings/codeforces_653f.cpp "Accepted solution")
-- [Codeforces 802I - Fake News (hard)](https://codeforces.com/problemset/problem/802/I)
+- [Codeforces 802I - Fake News (hard)](https://codeforces.com/problemset/problem/802/I) [✅](../../practice/strings/codeforces_802i.cpp "Accepted solution")
 - [Codeforces 873F - Forbidden Indices](https://codeforces.com/problemset/problem/873/F)
 - [Codeforces 1073G - Yet Another LCP Problem](https://codeforces.com/problemset/problem/1073/G)
 - [Codeforces Gym 100738F - Sequence of words](https://codeforces.com/gym/100738/problem/F)
