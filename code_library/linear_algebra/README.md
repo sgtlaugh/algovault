@@ -32,7 +32,7 @@
 - [Timus 1266 - Kirchhoff's Law](https://acm.timus.ru/problem.aspx?num=1266) [✅](../../practice/linear_algebra/timus_1266.cpp "Accepted solution")
 - [Timus 1766 - Humpty Dumpty](https://acm.timus.ru/problem.aspx?num=1766) [✅](../../practice/linear_algebra/timus_1766.cpp "Accepted solution")
 - [UVa 1358 - Generator](https://onlinejudge.org/external/13/1358.pdf) [✅](../../practice/linear_algebra/uva_1358.cpp "Accepted solution")
-- [UVa 1397 - The Teacher's Side of Math](https://onlinejudge.org/external/13/1397.pdf)
+- [UVa 1397 - The Teacher's Side of Math](https://onlinejudge.org/external/13/1397.pdf) [✅](../../practice/linear_algebra/uva_1397.cpp "Accepted solution")
 - [UVa 1704 - Pachinko](https://onlinejudge.org/external/17/1704.pdf)
 - [UVa 10109 - Solving Systems of Linear Equations](https://onlinejudge.org/external/101/10109.pdf) [✅](../../practice/linear_algebra/uva_10109.cpp "Accepted solution")
 - [UVa 10524 - Matrix Reloaded](https://onlinejudge.org/external/105/10524.pdf) [✅](../../practice/linear_algebra/uva_10524.cpp "Accepted solution")
