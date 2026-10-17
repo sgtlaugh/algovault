@@ -212,7 +212,7 @@
 - [CodeChef TANGLED - Entangled Strings](https://www.codechef.com/problems/TANGLED) [✅](../../practice/strings/codechef_tangled.cpp "Accepted solution")
 - [Codeforces 204E - Little Elephant and Strings](https://codeforces.com/problemset/problem/204/E) [✅](../../practice/strings/codeforces_204e.cpp "Accepted solution")
 - [Codeforces 452E - Three strings](https://codeforces.com/problemset/problem/452/E) [✅](../../practice/strings/codeforces_452e.cpp "Accepted solution")
-- [Codeforces 616F - Expensive Strings](https://codeforces.com/problemset/problem/616/F)
+- [Codeforces 616F - Expensive Strings](https://codeforces.com/problemset/problem/616/F) [✅](../../practice/strings/codeforces_616f.cpp "Accepted solution")
 - [Codeforces 653F - Paper task](https://codeforces.com/problemset/problem/653/F)
 - [Codeforces 802I - Fake News (hard)](https://codeforces.com/problemset/problem/802/I)
 - [Codeforces 873F - Forbidden Indices](https://codeforces.com/problemset/problem/873/F)
