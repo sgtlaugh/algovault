@@ -235,7 +235,7 @@
 - [SPOJ LONGCS - Longest Common Substring](https://www.spoj.com/problems/LONGCS/) [✅](../../practice/strings/spoj_longcs.cpp "Accepted solution")
 - [SPOJ SARRAY - Suffix Array](https://www.spoj.com/problems/SARRAY/) [✅](../../practice/strings/spoj_sarray.cpp "Accepted solution")
 - [SPOJ SUBLEX - Lexicographical Substring Search](https://www.spoj.com/problems/SUBLEX/) [✅](../../practice/strings/spoj_sublex.cpp "Accepted solution")
-- [USACO 768 - Standing Out from the Herd](https://usaco.org/index.php?page=viewproblem2&cpid=768)
+- [USACO 768 - Standing Out from the Herd](https://usaco.org/index.php?page=viewproblem2&cpid=768) [✅](../../practice/strings/usaco_768.cpp "Accepted solution")
 - [UVa 760 - DNA Sequencing](https://onlinejudge.org/external/7/760.pdf) [✅](../../practice/strings/uva_760.cpp "Accepted solution")
 - [UVa 1223 - Editor](https://onlinejudge.org/external/12/1223.pdf) [✅](../../practice/strings/uva_1223.cpp "Accepted solution")
 - [UVa 1227 - The longest constant gene](https://onlinejudge.org/external/12/1227.pdf) [✅](../../practice/strings/uva_1227_suffix_array.cpp "Accepted solution")
