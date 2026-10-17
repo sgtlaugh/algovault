@@ -224,7 +224,7 @@
 - [CSES 2106 - Repeating Substring](https://cses.fi/problemset/task/2106) [✅](../../practice/strings/cses_2106.cpp "Accepted solution")
 - [CSES 2108 - Substring Order I](https://cses.fi/problemset/task/2108) [✅](../../practice/strings/cses_2108.cpp "Accepted solution")
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110) [✅](../../practice/strings/cses_2110.cpp "Accepted solution")
-- [HackerRank sherlock-and-unique-substrings - Sherlock and Unique Substrings](https://www.hackerrank.com/contests/101hack26/challenges/sherlock-and-unique-substrings)
+- [HackerRank sherlock-and-unique-substrings - Sherlock and Unique Substrings](https://www.hackerrank.com/contests/101hack26/challenges/sherlock-and-unique-substrings) [✅](../../practice/strings/hackerrank_sherlock_and_unique_substrings.cpp "Accepted solution")
 - [Library Checker longest_common_substring - Longest Common Substring](https://judge.yosupo.jp/problem/longest_common_substring) [✅](../../practice/strings/library_checker_longest_common_substring.cpp "Accepted solution")
 - [Library Checker suffixarray - Suffix Array](https://judge.yosupo.jp/problem/suffixarray) [✅](../../practice/strings/library_checker_suffixarray.cpp "Accepted solution")
 - [Library Checker zalgorithm - Z Algorithm](https://judge.yosupo.jp/problem/zalgorithm) [✅](../../practice/strings/library_checker_zalgorithm.cpp "Accepted solution")
