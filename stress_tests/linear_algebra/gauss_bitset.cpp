@@ -72,14 +72,15 @@ vector<bitset<W>> random_invertible(int n){
 /// One product direction is enough here: a square a * inv = I implies inv * a = I, and each product costs as much as the inverse
 template <size_t W>
 void check_invertible(int n){
-    vector<bitset<W>> a = random_invertible<W>(n), inv;
-    assert(matrix_inverse(n, a, inv) && is_identity_product(a, inv));
+    vector<bitset<W>> a = random_invertible<W>(n);
+    auto inv = matrix_inverse(n, a);
+    assert(inv && is_identity_product(a, *inv));
     assert(matrix_rank(n, a) == n);
 
     if (n >= 3){
         int r = stress::rand_int(0, n - 1);
         a[r] = a[(r + 1) % n] ^ a[(r + 2) % n];
-        assert(!matrix_inverse(n, a, inv) && matrix_rank(n, a) == n - 1);
+        assert(!matrix_inverse(n, a) && matrix_rank(n, a) == n - 1);
     }
 }
 
@@ -92,8 +93,8 @@ void check_full_width_system(){
     for (int j = 0; j < m; j++) planted[j] = stress::rand_int(0, 1);
     for (auto& e : equations) e[m] = (e & planted).count() & 1;
 
-    bitset<W> res;
-    assert(gauss(m, equations, res) == 0 && res == planted);
+    auto solution = gauss(m, equations);
+    assert(solution.solvable && solution.free_variables == 0 && solution.x == planted);
 }
 
 /// Reduced row echelon form: pivots at rows 0, 1, ..., rank - 1 in column order, each pivot column a unit column,
@@ -126,8 +127,8 @@ void check_inverse_rejects_too_wide(){
     assert(pid >= 0);
     if (pid == 0){
         assert(freopen("/dev/null", "w", stderr));
-        vector<bitset<128>> a(400), inv;
-        matrix_inverse(400, a, inv);
+        vector<bitset<128>> a(400);
+        matrix_inverse(400, a);
         _exit(0);
     }
 
@@ -162,12 +163,11 @@ int main(){
         check_reduced(a, m, rank);
 
         if (n != m) continue;
-        vector<bitset<SMALL>> inv(1);
-        bool ok = matrix_inverse(n, a, inv);
-        assert(ok == (kernel == 1));
-        if (ok){
-            assert((int)inv.size() == n && is_identity_product(a, inv) && is_identity_product(inv, a));
-            for (const auto& row : inv) assert((row >> n).none());
+        auto inv = matrix_inverse(n, a);
+        assert(inv.has_value() == (kernel == 1));
+        if (inv){
+            assert((int)inv->size() == n && is_identity_product(a, *inv) && is_identity_product(*inv, a));
+            for (const auto& row : *inv) assert((row >> n).none());
         }
     }
 
@@ -189,12 +189,12 @@ int main(){
         long long solutions = 0;
         for (int mask = 0; mask < (1 << m); mask++) solutions += satisfies(equations, m, bitset<NARROW>(mask));
 
-        bitset<NARROW> res;
-        res.set();  /// stale bits must be cleared by gauss
-        int f_var = gauss(m, equations, res);
-        if (!solutions) assert(f_var == -1);
+        auto [solvable, res, free_variables] = gauss(m, equations);
+        assert(solvable == (solutions > 0));
+        assert(free_variables == m - rank_of(equations, m));
+        if (!solvable) assert(res.none());
         else{
-            assert(f_var >= 0 && solutions == 1LL << f_var);
+            assert(solutions == 1LL << free_variables);
             assert(satisfies(equations, m, res));
             assert((res >> m).none());
         }
@@ -217,9 +217,9 @@ int main(){
             e[m] = (e & planted).count() & 1;
         }
 
-        bitset<WIDE> res;
-        int f_var = gauss(m, equations, res), true_rank = rank_of(equations, m);
-        assert(f_var == m - true_rank && satisfies(equations, m, res));
+        auto [solvable, res, free_variables] = gauss(m, equations);
+        int true_rank = rank_of(equations, m);
+        assert(solvable && free_variables == m - true_rank && satisfies(equations, m, res));
         check_reduced(equations, m, true_rank);
     }
 

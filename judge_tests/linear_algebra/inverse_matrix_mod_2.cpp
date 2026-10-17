@@ -15,14 +15,14 @@ int main(){
     vector<string> rows(n);
     for (auto& s : rows) cin >> s;
 
-    vector<bitset<GF2_WIDTH>> inv;
-    if (!matrix_inverse(n, rows_of(rows), inv)){
+    auto inv = matrix_inverse(n, rows_of(rows));
+    if (!inv){
         cout << "-1\n";
         return 0;
     }
 
     string line(n, '0');
-    for (const auto& row : inv){
+    for (const auto& row : *inv){
         for (int j = 0; j < n; j++) line[j] = '0' + row[j];
         cout << line << '\n';
     }
