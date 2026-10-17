@@ -1,12 +1,16 @@
 /***
  *
  * Thomas Algorithm
- * Solves a tridiagonal system of n linear equations by forward elimination and back substitution
+ * Solves a tridiagonal system of n linear equations in linear time
  *
  * Complexity: O(n) time and memory
  *
- * equation(l, p, r, rhs): the row (x_prev * l) + (x_cur * p) + (x_next * r) = rhs, l of the first row and r of the last are ignored
- * thomas_algorithm(ar): returns x_0..x_{n-1} for the n = ar.size() rows, no pivoting so it needs a diagonally dominant system (|p| >= |l| + |r|), a zero pivot gives inf or nan
+ * solve_tridiagonal(lower, diagonal, upper, rhs): x with lower[i] x[i - 1] + diagonal[i] x[i] + upper[i] x[i + 1] = rhs[i] for every i
+ *
+ * All four vectors have size n and a floating type, lower[0] and upper[n - 1] lie outside the matrix and are ignored
+ * No pivoting: safe when every |diagonal[i]| > |lower[i]| + |upper[i]|, entries outside the matrix counting as 0
+ * Weak dominance (>=) is safe too when the first row is strict and every lower[i] past the first is nonzero, like -1 2 -1
+ * Otherwise a pivot can reach 0 and the answer turns inf or nan
  *
 ***/
 
@@ -14,45 +18,35 @@
 
 using namespace std;
 
-struct equation{
-    long double l, p, r, rhs;
-
-    equation() {}
-    equation(long double l, long double p, long double r, long double rhs = 0.0):
-        l(l), p(p), r(r), rhs(rhs) {}
-};
-
-vector<long double> thomas_algorithm(vector<struct equation> ar){
-    int n = ar.size();
+template <class T>
+vector<T> solve_tridiagonal(vector<T> lower, vector<T> diagonal, vector<T> upper, vector<T> rhs){
+    int n = diagonal.size();
+    assert((int)lower.size() == n && (int)upper.size() == n && (int)rhs.size() == n);
     if (n == 0) return {};
 
-    ar[0].r = ar[0].r / ar[0].p;
-    ar[0].rhs = ar[0].rhs / ar[0].p;
-
+    /// Forward sweep, row i becomes x[i] + upper[i] x[i + 1] = rhs[i]
+    upper[0] /= diagonal[0];
+    rhs[0] /= diagonal[0];
     for (int i = 1; i < n; i++){
-        long double v = 1.0 / (ar[i].p - ar[i].l * ar[i - 1].r);
-        ar[i].r = ar[i].r * v;
-        ar[i].rhs = (ar[i].rhs - ar[i].l * ar[i - 1].rhs) * v;
+        T scale = 1 / (diagonal[i] - lower[i] * upper[i - 1]);
+        upper[i] *= scale;
+        rhs[i] = (rhs[i] - lower[i] * rhs[i - 1]) * scale;
     }
 
-    for (int i = n - 2; i >= 0; i--) ar[i].rhs = ar[i].rhs - ar[i].r * ar[i + 1].rhs;
+    /// Back substitution, rhs turns into x from the last row up
+    for (int i = n - 2; i >= 0; i--) rhs[i] -= upper[i] * rhs[i + 1];
 
-    vector<long double> res;
-    for (int i = 0; i < n; i++) res.push_back(ar[i].rhs);
-    return res;
+    return rhs;
 }
 
 int main(){
     /// 2x + y = 4, x + 3y + z = 9, y + 2z = 6 has the solution x = 1, y = 2, z = 2
-    auto res = thomas_algorithm({equation(0, 2, 1, 4), equation(1, 3, 1, 9), equation(1, 2, 0, 6)});
-    assert(res.size() == 3 && fabsl(res[0] - 1) < 1e-12 && fabsl(res[1] - 2) < 1e-12 && fabsl(res[2] - 2) < 1e-12);
-
-    /// An empty system has the empty solution
-    assert(thomas_algorithm({}).empty());
-
-    /// 4x = 2, a lone row ignores both l and r
-    res = thomas_algorithm({equation(7, 4, 9, 2)});
-    assert(res.size() == 1 && fabsl(res[0] - 0.5) < 1e-12);
+    vector<double> lower = {0, 1, 1}, diagonal = {2, 3, 2}, upper = {1, 1, 0}, rhs = {4, 9, 6};
+    vector<double> x = solve_tridiagonal(lower, diagonal, upper, rhs);
+    assert(x.size() == 3);
+    assert(abs(x[0] - 1) < 1e-12);
+    assert(abs(x[1] - 2) < 1e-12);
+    assert(abs(x[2] - 2) < 1e-12);
 
     return 0;
 }
