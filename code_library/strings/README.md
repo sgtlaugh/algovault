@@ -207,7 +207,7 @@
 
 - [AOJ ALDS1_14_D - String Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_D) [✅](../../practice/strings/aoj_alds1_14_d.cpp "Accepted solution")
 - [CodeChef ANUSAR - Substrings and Repetitions](https://www.codechef.com/problems/ANUSAR) [✅](../../practice/strings/codechef_anusar.cpp "Accepted solution")
-- [CodeChef INSQ16F - JARVIS and LCP](https://www.codechef.com/problems/INSQ16F)
+- [CodeChef INSQ16F - JARVIS and LCP](https://www.codechef.com/problems/INSQ16F) [✅](../../practice/strings/codechef_insq16f.cpp "Accepted solution")
 - [CodeChef TANDEM - Tandem](https://www.codechef.com/problems/TANDEM)
 - [CodeChef TANGLED - Entangled Strings](https://www.codechef.com/problems/TANGLED)
 - [Codeforces 204E - Little Elephant and Strings](https://codeforces.com/problemset/problem/204/E)
