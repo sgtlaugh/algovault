@@ -43,8 +43,9 @@ T tolerance(const vector<vector<T>>& a, int cols, T eps){
     return tol * eps;
 }
 
-/// Eliminates the first cols columns of a with partial pivoting, pivots are not scaled to 1
+/// Brings the first cols columns of a to row echelon form with partial pivoting, pivots are not scaled to 1
 /// Returns pos, pos[j] = row of the pivot in column j or -1, pivot rows are 0, 1, ..., rank - 1 in column order
+/// Only rows below a pivot are cleared, about 2/3 of the work of clearing above too
 template <class T>
 vector<int> row_reduce(vector<vector<T>>& a, int cols, T tol){
     int n = a.size(), i = 0;
@@ -59,10 +60,10 @@ vector<int> row_reduce(vector<vector<T>>& a, int cols, T tol){
 
         swap(a[p], a[i]);
         int width = a[i].size();
-        for (int k = 0; k < n; k++){
-            if (k == i || a[k][j] == 0) continue;
-            T x = a[k][j] / a[i][j];
-            for (int l = j; l < width; l++) a[k][l] -= a[i][l] * x;
+        for (int k = i + 1; k < n; k++){
+            if (a[k][j] == 0) continue;
+            T factor = a[k][j] / a[i][j];
+            for (int l = j; l < width; l++) a[k][l] -= a[i][l] * factor;
         }
 
         pos[j] = i++;
@@ -85,9 +86,17 @@ int gauss(vector<vector<T>> equations, vector<T>& res, const T eps=1e-9){
         if (abs(equations[k][m]) > tol) return -1;
     }
 
-    for (int j = 0; j < m; j++){
-        if (pos[j] == -1) f_var++;
-        else res[j] = equations[pos[j]][m] / equations[pos[j]][j];
+    /// Back substitution from the last pivot up, free variables stay 0
+    for (int j = m - 1; j >= 0; j--){
+        if (pos[j] == -1){
+            f_var++;
+            continue;
+        }
+
+        vector<T>& row = equations[pos[j]];
+        T value = row[m];
+        for (int l = j + 1; l < m; l++) value -= row[l] * res[l];
+        res[j] = value / row[j];
     }
 
     return f_var;
@@ -105,6 +114,15 @@ bool matrix_inverse(const vector<vector<T>>& a, vector<vector<T>>& inv, const T 
 
     vector<int> pos = row_reduce(aug, n, tolerance(a, n, eps));
     if (n && pos[n - 1] != n - 1) return false;
+
+    /// Clears above each pivot from the last up, the left half of a pivot row is then 0 past its pivot
+    for (int i = n - 1; i >= 0; i--){
+        for (int k = 0; k < i; k++){
+            if (aug[k][i] == 0) continue;
+            T factor = aug[k][i] / aug[i][i];
+            for (int l = n; l < 2 * n; l++) aug[k][l] -= aug[i][l] * factor;
+        }
+    }
 
     inv.assign(n, vector<T>(n));
     for (int i = 0; i < n; i++){
