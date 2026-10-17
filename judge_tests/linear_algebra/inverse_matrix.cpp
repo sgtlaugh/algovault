@@ -14,12 +14,12 @@ int main(){
         for (auto& x : row) scanf("%d", &x);
     }
 
-    vector<vector<int>> inv;
-    if (!matrix_inverse(a, inv, 998244353)){
+    auto inv = matrix_inverse(a, 998244353);
+    if (!inv){
         puts("-1");
         return 0;
     }
-    for (auto& row : inv){
+    for (auto& row : *inv){
         for (int j = 0; j < n; j++) printf("%d%c", row[j], j + 1 == n ? '\n' : ' ');
     }
     return 0;

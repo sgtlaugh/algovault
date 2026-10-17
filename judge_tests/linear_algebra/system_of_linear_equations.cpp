@@ -15,18 +15,15 @@ int main(){
     }
     for (int i = 0; i < n; i++) scanf("%d", &equations[i][m]);
 
-    vector<int> res;
-    vector<vector<int>> basis;
-    int r = gauss(equations, res, basis, 998244353);
-
-    if (r == -1){
+    auto [solvable, x, basis] = gauss(equations, 998244353);
+    if (!solvable){
         puts("-1");
         return 0;
     }
-    printf("%d\n", r);
-    for (int j = 0; j < m; j++) printf("%d%c", res[j], j + 1 == m ? '\n' : ' ');
-    for (auto& x : basis){
-        for (int j = 0; j < m; j++) printf("%d%c", x[j], j + 1 == m ? '\n' : ' ');
+    printf("%d\n", (int)basis.size());
+    for (int j = 0; j < m; j++) printf("%d%c", x[j], j + 1 == m ? '\n' : ' ');
+    for (auto& direction : basis){
+        for (int j = 0; j < m; j++) printf("%d%c", direction[j], j + 1 == m ? '\n' : ' ');
     }
     return 0;
 }

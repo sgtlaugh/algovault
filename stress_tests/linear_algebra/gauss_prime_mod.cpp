@@ -81,17 +81,21 @@ void check_solution_space(const vector<vector<int>>& equations, const vector<int
 }
 
 int main(){
-    vector<int> res;
-    assert(gauss({{1, 8}}, res, 7) == 0 && res[0] == 1);  /// unreduced RHS
-    assert(gauss({{7, 0}}, res, 7) == 1 && res[0] == 0);  /// coefficient 7 is zero mod 7
-    assert(gauss({{7, 3}}, res, 7) == -1);
-    assert(gauss({{-1, -3}, {-2, 1}}, res, 5) == -1);  /// -x = -3 and -2x = 1 imply x = 3 and x = 2
-    assert(gauss({{-1, 0, -3}, {0, -2, 1}}, res, 5) == 0 && res[0] == 3 && res[1] == 2);
-    assert(gauss({{INT_MIN, INT_MAX, 0}}, res, 1000000007) == 1 && satisfies({{(INT_MIN % 1000000007) + 1000000007, INT_MAX % 1000000007, 0}}, res, 1000000007));
+    auto unreduced_rhs = gauss({{1, 8}}, 7);
+    assert(unreduced_rhs.solvable && unreduced_rhs.basis.empty() && unreduced_rhs.x[0] == 1);
+    auto zero_coefficient = gauss({{7, 0}}, 7);  /// coefficient 7 is zero mod 7
+    assert(zero_coefficient.solvable && zero_coefficient.basis.size() == 1 && zero_coefficient.x[0] == 0);
+    assert(!gauss({{7, 3}}, 7).solvable);
+    assert(!gauss({{-1, -3}, {-2, 1}}, 5).solvable);  /// -x = -3 and -2x = 1 imply x = 3 and x = 2
+    auto negatives = gauss({{-1, 0, -3}, {0, -2, 1}}, 5);
+    assert(negatives.solvable && negatives.basis.empty() && negatives.x[0] == 3 && negatives.x[1] == 2);
+    auto extremes = gauss({{INT_MIN, INT_MAX, 0}}, 1000000007);
+    assert(extremes.solvable && extremes.basis.size() == 1);
+    assert(satisfies({{(INT_MIN % 1000000007) + 1000000007, INT_MAX % 1000000007, 0}}, extremes.x, 1000000007));
 
     const int max_prime = 2147483647;
-    vector<vector<int>> inv;
-    assert(matrix_inverse({{max_prime - 1, 0}, {0, 2}}, inv, max_prime) && (inv == vector<vector<int>>{{max_prime - 1, 0}, {0, max_prime / 2 + 1}}));
+    auto inv = matrix_inverse({{max_prime - 1, 0}, {0, 2}}, max_prime);
+    assert(inv && (*inv == vector<vector<int>>{{max_prime - 1, 0}, {0, max_prime / 2 + 1}}));
     assert(matrix_rank({{INT_MAX, 1}, {0, 1}}, max_prime) == 1);
 
     const int small_primes[] = {2, 3, 5, 7};
@@ -122,20 +126,16 @@ int main(){
             for (auto& e : unreduced) for (auto& v : e) v += mod * stress::rand_int(-3, 3);
         }
 
-        vector<int> res = {42, 42};  /// stale contents must be replaced
-        vector<vector<int>> basis = {{1}};
-        int f_var = gauss(unreduced, res, basis, mod);
+        auto [solvable, res, basis] = gauss(unreduced, mod);
         check_solution_space(zero_rhs, vector<int>(m, 0), basis, mod, kernel);
-        if (!solutions) assert(f_var == -1);
+        for (const auto& b : basis) assert((int)b.size() == m);
+        assert(solvable == (solutions > 0));
+        if (!solvable) assert(res.empty());
         else{
-            long long expected = 1;
-            for (int j = 0; j < f_var; j++) expected *= mod;
-            assert(f_var >= 0 && solutions == expected);
             assert((int)res.size() == m && satisfies(equations, res, mod));
             for (int v : res) assert(0 <= v && v < mod);
             for (const auto& b : basis) for (int v : b) assert(0 <= v && v < mod);
             check_solution_space(equations, res, basis, mod, solutions);
-            assert(gauss(unreduced, res, mod) == f_var && satisfies(equations, res, mod));
         }
 
         /// The kernel has mod^(m - rank) vectors
@@ -168,12 +168,11 @@ int main(){
             kernel += zero;
         }
 
-        vector<vector<int>> inv = {{3}};
-        bool ok = matrix_inverse(a, inv, mod);
-        assert(ok == (kernel == 1));
-        if (ok){
-            assert((int)inv.size() == n && is_identity_product(a, inv, mod) && is_identity_product(inv, a, mod));
-            for (const auto& row : inv) for (int v : row) assert(0 <= v && v < mod);
+        auto inv = matrix_inverse(a, mod);
+        assert(inv.has_value() == (kernel == 1));
+        if (inv){
+            assert((int)inv->size() == n && is_identity_product(a, *inv, mod) && is_identity_product(*inv, a, mod));
+            for (const auto& row : *inv) for (int v : row) assert(0 <= v && v < mod);
         }
     }
 
@@ -204,16 +203,12 @@ int main(){
             vector<vector<int>> probe = equations;
             int row = stress::rand_int(0, n - 1);
             probe[row][m] = (probe[row][m] + stress::rand_int(1, mod - 1)) % mod;
-            vector<int> res;
-            assert(gauss(probe, res, mod) == -1);
+            assert(!gauss(probe, mod).solvable);
         }
 
-        vector<int> res;
-        int f_var = gauss(equations, res, mod);
-        assert(f_var == m - r && satisfies(equations, res, mod));
-
-        vector<vector<int>> basis;
-        assert(gauss(equations, res, basis, mod) == m - r && (int)basis.size() == m - r);
+        auto [solvable, res, basis] = gauss(equations, mod);
+        assert(solvable && satisfies(equations, res, mod));
+        assert((int)basis.size() == m - r);
         assert(rank_ref(widen(basis), m, mod) == m - r);
         for (int t = 0; t < 5; t++){
             vector<int> x = res;
@@ -242,10 +237,9 @@ int main(){
             }
         }
 
-        vector<vector<int>> inv;
-        bool ok = matrix_inverse(square, inv, mod);
-        assert(ok == (rank_ref(widen(square), n, mod) == n));
-        if (ok) assert(is_identity_product(square, inv, mod) && is_identity_product(inv, square, mod));
+        auto inv = matrix_inverse(square, mod);
+        assert(inv.has_value() == (rank_ref(widen(square), n, mod) == n));
+        if (inv) assert(is_identity_product(square, *inv, mod) && is_identity_product(*inv, square, mod));
     }
 
     return 0;

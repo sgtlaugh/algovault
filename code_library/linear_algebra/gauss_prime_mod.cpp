@@ -3,35 +3,28 @@
  * Gauss-Jordan Elimination modulo a prime
  * Linear systems, solution spaces, rank and inverse of matrices modulo a prime
  *
- * Complexity: O(min(n, m) * n * m) for gauss and matrix_rank, O(n^3) for matrix_inverse
+ * Complexity: O(min(n, m) n m + m^2) for gauss, O(min(n, m) n m) for matrix_rank, O(n^3) for matrix_inverse
  *
- * mod must be a prime below 2^31, entries may be any int and are reduced into [0, mod)
- *
- * gauss(equations, res, mod): n >= 1 equations in m variables, equations[i][m] is the right-hand side
- *     returns -1 when there is no solution
- *     otherwise returns the number of free variables f, 0 for a unique solution, and res holds one solution
- * gauss(equations, res, basis, mod): as above, and basis holds f vectors spanning the kernel {x : Ax = 0}
- *     every solution is res + c_1 * basis[0] + ... + c_f * basis[f - 1] for exactly one choice of the c_k
- *     basis is filled even when there is no solution, it depends only on the coefficients
+ * gauss(equations, mod): {solvable, x, basis} for n >= 1 equations in m variables, equations[i][m] is the right-hand side
  * matrix_rank(a, mod): rank of any n x m matrix
- * matrix_inverse(a, inv, mod): for a square a, returns false when it is singular, otherwise inv = a^-1
+ * matrix_inverse(a, mod): a^-1 for a square a, nullopt when a is singular
  *
- * For instance, the system of linear equations modulo 7
- *
- *     2x + y - z   = 1  ----->  equations[0] = {2, 1, 6, 1}
- *     -3x - y + 2z = 3  ----->  equations[1] = {4, 6, 2, 3}
- *     -2x + y + 2z = 4  ----->  equations[2] = {5, 1, 2, 4}
- *
- * has the unique solution x = 2, y = 3, z = 6
- *
- * For problems on graphs, make sure the graph is connected and a single component
- * If not, then re-number the vertices and solve for each component separately
+ * x is one solution, empty when solvable is false
+ * basis spans the kernel {x : Ax = 0}, every solution is x + c_1 basis[0] + ... + c_f basis[f - 1] for exactly one choice of the c_k
+ * basis is filled even when there is no solution, it depends only on the coefficients
+ * mod must be a prime below 2^31, entries may be any int and are reduced into [0, mod)
  *
 ***/
 
 #include <bits/stdtr1c++.h>
 
 using namespace std;
+
+struct GaussModSolution{
+    bool solvable;
+    vector<int> x;
+    vector<vector<int>> basis;
+};
 
 int expo(int a, int b, int mod){
     int res = 1;
@@ -99,40 +92,44 @@ vector<int> rref_mod(vector<vector<int>>& a, int cols, int mod){
     return pos;
 }
 
-int gauss(vector<vector<int>> equations, vector<int>& res, vector<vector<int>>& basis, int mod){
+GaussModSolution gauss(vector<vector<int>> equations, int mod){
     int n = equations.size(), m = equations[0].size() - 1;
     vector<int> pos = rref_mod(equations, m, mod);
 
-    basis.clear();
+    /// Free variable f at 1 and the other free ones at 0 force every pivot variable j to -equations[pos[j]][f]
+    vector<vector<int>> basis;
     for (int f = 0; f < m; f++){
         if (pos[f] != -1) continue;
-        vector<int> x(m, 0);
-        x[f] = 1;
+
+        vector<int> direction(m, 0);
+        direction[f] = 1;
         for (int j = 0; j < f; j++){
-            if (pos[j] != -1 && equations[pos[j]][f]) x[j] = mod - equations[pos[j]][f];
+            if (pos[j] != -1 && equations[pos[j]][f]) direction[j] = mod - equations[pos[j]][f];
         }
-        basis.push_back(x);
+        basis.push_back(direction);
     }
 
-    res.assign(m, 0);
+    /// Only rows without a pivot can be inconsistent, as 0 = nonzero
     int rank = m - basis.size();
     for (int k = rank; k < n; k++){
-        if (equations[k][m]) return -1;
+        if (equations[k][m]) return {false, {}, basis};
     }
 
+    vector<int> x(m, 0);
     for (int j = 0; j < m; j++){
-        if (pos[j] != -1) res[j] = equations[pos[j]][m];
+        if (pos[j] != -1) x[j] = equations[pos[j]][m];
     }
 
-    return basis.size();
+    return {true, x, basis};
 }
 
-int gauss(vector<vector<int>> equations, vector<int>& res, int mod){
-    vector<vector<int>> basis;
-    return gauss(equations, res, basis, mod);
+int matrix_rank(vector<vector<int>> a, int mod){
+    int cols = a.empty() ? 0 : a[0].size();
+    vector<int> pos = echelon_mod(a, cols, mod);
+    return cols - count(pos.begin(), pos.end(), -1);
 }
 
-bool matrix_inverse(const vector<vector<int>>& a, vector<vector<int>>& inv, int mod){
+optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int mod){
     int n = a.size();
     vector<vector<int>> aug(n, vector<int>(2 * n, 0));
     for (int i = 0; i < n; i++){
@@ -142,76 +139,47 @@ bool matrix_inverse(const vector<vector<int>>& a, vector<vector<int>>& inv, int 
     }
 
     vector<int> pos = rref_mod(aug, n, mod);
-    if (n && pos[n - 1] != n - 1) return false;
+    if (n && pos[n - 1] != n - 1) return nullopt;
 
-    inv.assign(n, vector<int>(n));
+    vector<vector<int>> inv(n, vector<int>(n));
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++) inv[i][j] = aug[i][n + j];
     }
 
-    return true;
-}
-
-int matrix_rank(vector<vector<int>> a, int mod){
-    int cols = a.empty() ? 0 : a[0].size();
-    vector<int> pos = echelon_mod(a, cols, mod);
-    return cols - count(pos.begin(), pos.end(), -1);
+    return inv;
 }
 
 int main(){
+    /// Modulo 7, 2x + y - z = 1, -3x - y + 2z = 3 and -2x + y + 2z = 4 have the unique solution x = 2, y = 3, z = 6
     const int mod = 7;
-    vector<vector<int>> equations;
-    equations = {{2, 1, 6, 1}, {4, 6, 2, 3}, {5, 1, 2, 4}};
+    vector<vector<int>> equations = {{2, 1, -1, 1}, {-3, -1, 2, 3}, {-2, 1, 2, 4}};
+    auto [solvable, x, basis] = gauss(equations, mod);
+    assert(solvable);
+    assert(basis.empty());
+    assert((x == vector<int>{2, 3, 6}));
 
-    vector<int> res;
-    int f_var = gauss(equations, res, mod);
-    assert(f_var == 0 && res.size() == 3);
+    /// x + 2y + 3z = 6 gives x = 6 - 2y - 3z, so the kernel is spanned by (-2, 1, 0) and (-3, 0, 1)
+    GaussModSolution plane = gauss({{1, 2, 3, 6}}, mod);
+    assert(plane.solvable);
+    assert((plane.x == vector<int>{6, 0, 0}));
+    assert((plane.basis == vector<vector<int>>{{5, 1, 0}, {4, 0, 1}}));
 
-    assert(res[0] == 2);
-    assert(res[1] == 3);
-    assert(res[2] == 6);
+    /// x + y = 1 and x + y = 2 contradict each other, the kernel is still spanned by (-1, 1)
+    GaussModSolution contradiction = gauss({{1, 1, 1}, {1, 1, 2}}, mod);
+    assert(!contradiction.solvable);
+    assert(contradiction.x.empty());
+    assert((contradiction.basis == vector<vector<int>>{{6, 1}}));
 
-    equations = {{2, 1, 6, 1}, {4, 6, 2, 3}};
-    f_var = gauss(equations, res, mod);
-    assert(f_var == 1 && res.size() == 3);
-
-    for (int i = 0; i < (int)equations.size(); i++){
-        long long v = 0;
-        int m = res.size();
-        for (int j = 0; j < m; j++){
-            v = (v + (long long)res[j] * equations[i][j]) % mod;
-        }
-        assert(v == equations[i][m]);
-    }
-
-    equations = {{2, 1, 6, 1}, {4, 6, 2, 3}, {4, 2, 5, 3}};
-    f_var = gauss(equations, res, mod);
-    assert(f_var == -1);
-
-    equations = {{-5, -13}};
-    f_var = gauss(equations, res, mod);
-    assert(f_var == 0 && res[0] == 4);
-
-    /// x + 2y + 3z = 6 (mod 7): x = 6 - 2y - 3z, so the kernel is spanned by (-2, 1, 0) and (-3, 0, 1)
-    vector<vector<int>> basis;
-    f_var = gauss({{1, 2, 3, 6}}, res, basis, mod);
-    assert(f_var == 2 && (res == vector<int>{6, 0, 0}));
-    assert((basis == vector<vector<int>>{{5, 1, 0}, {4, 0, 1}}));
-
-    assert(gauss({{1, 1, 1}, {1, 1, 2}}, res, basis, mod) == -1 && (basis == vector<vector<int>>{{6, 1}}));
-
-    assert(matrix_rank({{1, 2, 3}, {2, 4, 6}}, mod) == 1);
+    /// det = -2 is a unit modulo 7 but 0 modulo 2
     assert(matrix_rank({{1, 2}, {3, 4}}, mod) == 2);
     assert(matrix_rank({{1, 2}, {3, 4}}, 2) == 1);
-    assert(matrix_rank({}, mod) == 0);
 
-    /// det = -2, inverse = -1/2 * {{4, -2}, {-3, 1}} and 1/2 = 4 (mod 7)
-    vector<vector<int>> inv;
-    assert(matrix_inverse({{1, 2}, {3, 4}}, inv, mod));
-    assert((inv == vector<vector<int>>{{5, 1}, {5, 3}}));
-    assert(!matrix_inverse({{1, 2}, {3, 4}}, inv, 2));
-    assert(!matrix_inverse({{0, 0}, {0, 0}}, inv, mod));
-    assert(matrix_inverse({}, inv, mod) && inv.empty());
+    /// The inverse is -1/2 * {{4, -2}, {-3, 1}}, and 1/2 = 4 modulo 7
+    optional<vector<vector<int>>> inv = matrix_inverse({{1, 2}, {3, 4}}, mod);
+    assert(inv.has_value());
+    assert((*inv == vector<vector<int>>{{5, 1}, {5, 3}}));
+
+    assert(!matrix_inverse({{1, 2}, {3, 4}}, 2).has_value());
 
     return 0;
 }
