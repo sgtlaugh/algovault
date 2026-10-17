@@ -229,7 +229,7 @@
 - [Library Checker suffixarray - Suffix Array](https://judge.yosupo.jp/problem/suffixarray)
 - [Library Checker zalgorithm - Z Algorithm](https://judge.yosupo.jp/problem/zalgorithm)
 - [SPOJ ADAPHOTO - Ada and Terramorphing](https://www.spoj.com/problems/ADAPHOTO/) [✅](../../practice/strings/spoj_adaphoto.cpp "Accepted solution")
-- [SPOJ ADASTRNG - Ada and Substring](https://www.spoj.com/problems/ADASTRNG/)
+- [SPOJ ADASTRNG - Ada and Substring](https://www.spoj.com/problems/ADASTRNG/) [✅](../../practice/strings/spoj_adastrng.cpp "Accepted solution")
 - [SPOJ LCS2 - Longest Common Substring II](https://www.spoj.com/problems/LCS2/) [✅](../../practice/strings/spoj_lcs2.cpp "Accepted solution")
 - [SPOJ LCS - Longest Common Substring](https://www.spoj.com/problems/LCS/)
 - [SPOJ LONGCS - Longest Common Substring](https://www.spoj.com/problems/LONGCS/)
