@@ -233,7 +233,7 @@
 - [SPOJ LCS2 - Longest Common Substring II](https://www.spoj.com/problems/LCS2/) [✅](../../practice/strings/spoj_lcs2.cpp "Accepted solution")
 - [SPOJ LCS - Longest Common Substring](https://www.spoj.com/problems/LCS/)
 - [SPOJ LONGCS - Longest Common Substring](https://www.spoj.com/problems/LONGCS/)
-- [SPOJ SARRAY - Suffix Array](https://www.spoj.com/problems/SARRAY/)
+- [SPOJ SARRAY - Suffix Array](https://www.spoj.com/problems/SARRAY/) [✅](../../practice/strings/spoj_sarray.cpp "Accepted solution")
 - [SPOJ SUBLEX - Lexicographical Substring Search](https://www.spoj.com/problems/SUBLEX/) [✅](../../practice/strings/spoj_sublex.cpp "Accepted solution")
 - [USACO 768 - Standing Out from the Herd](https://usaco.org/index.php?page=viewproblem2&cpid=768)
 - [UVa 760 - DNA Sequencing](https://onlinejudge.org/external/7/760.pdf) [✅](../../practice/strings/uva_760.cpp "Accepted solution")
