@@ -24,6 +24,8 @@ struct equation{
 
 vector<long double> thomas_algorithm(vector<struct equation> ar){
     int n = ar.size();
+    if (n == 0) return {};
+
     ar[0].r = ar[0].r / ar[0].p;
     ar[0].rhs = ar[0].rhs / ar[0].p;
 
@@ -44,6 +46,9 @@ int main(){
     /// 2x + y = 4, x + 3y + z = 9, y + 2z = 6 has the solution x = 1, y = 2, z = 2
     auto res = thomas_algorithm({equation(0, 2, 1, 4), equation(1, 3, 1, 9), equation(1, 2, 0, 6)});
     assert(res.size() == 3 && fabsl(res[0] - 1) < 1e-12 && fabsl(res[1] - 2) < 1e-12 && fabsl(res[2] - 2) < 1e-12);
+
+    /// An empty system has the empty solution
+    assert(thomas_algorithm({}).empty());
 
     /// 4x = 2, a lone row ignores both l and r
     res = thomas_algorithm({equation(7, 4, 9, 2)});

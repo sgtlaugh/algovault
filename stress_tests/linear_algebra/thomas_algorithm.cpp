@@ -32,7 +32,7 @@ vector<__float128> dense_solve(vector<vector<__float128>> a, vector<__float128> 
 
 int main(){
     for (long long it = 0; it < stress::scaled(8000); it++){
-        int n = stress::rand_int(1, it % 10 ? 12 : 3000);
+        int n = stress::rand_int(0, it % 10 ? 12 : 3000);
         vector<equation> ar(n);
         for (int i = 0; i < n; i++){
             /// Coefficients outside the matrix must be ignored, so they get junk
