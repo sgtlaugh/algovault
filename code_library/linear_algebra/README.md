@@ -69,7 +69,7 @@
 - [HDU 3571 - N-dimensional Sphere](https://acm.hdu.edu.cn/showproblem.php?pid=3571)
 - [Kattis whiterabbit - The White Rabbit Pocket Watch](https://open.kattis.com/problems/whiterabbit)
 - [Library Checker inverse_matrix - Inverse Matrix](https://judge.yosupo.jp/problem/inverse_matrix) [✅](../../practice/linear_algebra/library_checker_inverse_matrix.cpp "Accepted solution")
-- [Library Checker matrix_rank - Rank of Matrix](https://judge.yosupo.jp/problem/matrix_rank)
+- [Library Checker matrix_rank - Rank of Matrix](https://judge.yosupo.jp/problem/matrix_rank) [✅](../../practice/linear_algebra/library_checker_matrix_rank.cpp "Accepted solution")
 - [Library Checker system_of_linear_equations - System of Linear Equations](https://judge.yosupo.jp/problem/system_of_linear_equations)
 - [LightOJ 1279 - Graph Coloring](https://lightoj.com/problem/graph-coloring)
 - [SPOJ NWERC04H - SETI](https://www.spoj.com/problems/NWERC04H/)
