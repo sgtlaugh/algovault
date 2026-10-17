@@ -18,7 +18,7 @@
 
 #### [Gauss Jordan](gauss_jordan.cpp)
 
-- [Codeforces 113D - Museum](https://codeforces.com/problemset/problem/113/D)
+- [Codeforces 113D - Museum](https://codeforces.com/problemset/problem/113/D) [✅](../../practice/linear_algebra/codeforces_113d.cpp "Accepted solution")
 - [Codeforces Gym 100495I - Two friends](https://codeforces.com/gym/100495/problem/I)
 - [HDU 3976 - Electric resistance](https://acm.hdu.edu.cn/showproblem.php?pid=3976)
 - [HDU 4870 - Rating](https://acm.hdu.edu.cn/showproblem.php?pid=4870)
