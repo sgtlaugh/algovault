@@ -8,9 +8,10 @@
  * solve_tridiagonal(lower, diagonal, upper, rhs): x with lower[i] x[i - 1] + diagonal[i] x[i] + upper[i] x[i + 1] = rhs[i] for every i
  *
  * All four vectors have size n and a floating type, lower[0] and upper[n - 1] lie outside the matrix and are ignored
- * No pivoting: safe when every |diagonal[i]| > |lower[i]| + |upper[i]|, entries outside the matrix counting as 0
- * Weak dominance (>=) is safe too when the first row is strict and every lower[i] past the first is nonzero, like -1 2 -1
+ * No pivoting: every pivot stays nonzero when every |diagonal[i]| > |lower[i]| + |upper[i]|, entries outside the matrix counting as 0
+ * Weak dominance (>=) keeps the pivots nonzero too when the first row is strict and every lower[i] past the first is nonzero, like -1 2 -1
  * Otherwise a pivot can reach 0 and the answer turns inf or nan
+ * Nonzero pivots do not mean an accurate answer: hitting probabilities of a random walk with strong drift are weakly dominant yet too ill-conditioned for floating point
  *
 ***/
 
