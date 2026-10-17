@@ -45,9 +45,17 @@ int expo(int a, int b, int mod){
     return res;
 }
 
-/// Brings a into reduced row echelon form over its first cols columns, pivots become 1
+/// target -= factor * source over the columns from first on
+/// (mod - factor) * source[l] + target[l] stays below 2^62 for mod < 2^31, so one % and no sign fix
+void subtract_row(vector<int>& target, const vector<int>& source, int factor, int first, int mod){
+    long long negated = mod - factor;
+    int width = target.size();
+    for (int l = first; l < width; l++) target[l] = (target[l] + negated * source[l]) % mod;
+}
+
+/// Brings a into row echelon form over its first cols columns, pivots become 1
 /// Returns pos, pos[j] = row of the pivot in column j or -1, pivot rows are 0, 1, ..., rank - 1 in column order
-vector<int> rref_mod(vector<vector<int>>& a, int cols, int mod){
+vector<int> echelon_mod(vector<vector<int>>& a, int cols, int mod){
     int n = a.size(), i = 0;
     for (auto& row : a){
         for (auto& v : row){
@@ -66,17 +74,26 @@ vector<int> rref_mod(vector<vector<int>>& a, int cols, int mod){
         int width = a[i].size(), inv = expo(a[i][j], mod - 2, mod);
         for (int l = j; l < width; l++) a[i][l] = (long long)a[i][l] * inv % mod;
 
-        for (int k = 0; k < n; k++){
-            if (k == i || !a[k][j]) continue;
-            int x = a[k][j];
-            for (int l = j; l < width; l++){
-                if (!a[i][l]) continue;
-                long long v = (a[k][l] - (long long)a[i][l] * x) % mod;
-                a[k][l] = v < 0 ? v + mod : v;
-            }
+        for (int k = i + 1; k < n; k++){
+            if (a[k][j]) subtract_row(a[k], a[i], a[k][j], j, mod);
         }
 
         pos[j] = i++;
+    }
+
+    return pos;
+}
+
+/// Reduced row echelon form: echelon form, then every pivot clears its column above it
+vector<int> rref_mod(vector<vector<int>>& a, int cols, int mod){
+    vector<int> pos = echelon_mod(a, cols, mod);
+    for (int j = cols - 1; j >= 0; j--){
+        if (pos[j] == -1) continue;
+
+        int i = pos[j];
+        for (int k = 0; k < i; k++){
+            if (a[k][j]) subtract_row(a[k], a[i], a[k][j], j, mod);
+        }
     }
 
     return pos;
@@ -137,7 +154,7 @@ bool matrix_inverse(const vector<vector<int>>& a, vector<vector<int>>& inv, int 
 
 int matrix_rank(vector<vector<int>> a, int mod){
     int cols = a.empty() ? 0 : a[0].size();
-    vector<int> pos = rref_mod(a, cols, mod);
+    vector<int> pos = echelon_mod(a, cols, mod);
     return cols - count(pos.begin(), pos.end(), -1);
 }
 
