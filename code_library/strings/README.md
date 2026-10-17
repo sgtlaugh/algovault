@@ -238,7 +238,7 @@
 - [USACO 768 - Standing Out from the Herd](https://usaco.org/index.php?page=viewproblem2&cpid=768)
 - [UVa 760 - DNA Sequencing](https://onlinejudge.org/external/7/760.pdf) [✅](../../practice/strings/uva_760.cpp "Accepted solution")
 - [UVa 1223 - Editor](https://onlinejudge.org/external/12/1223.pdf) [✅](../../practice/strings/uva_1223.cpp "Accepted solution")
-- [UVa 1227 - The longest constant gene](https://onlinejudge.org/external/12/1227.pdf)
+- [UVa 1227 - The longest constant gene](https://onlinejudge.org/external/12/1227.pdf) [✅](../../practice/strings/uva_1227_suffix_array.cpp "Accepted solution")
 - [UVa 1254 - Top 10](https://onlinejudge.org/external/12/1254.pdf) [✅](../../practice/strings/uva_1254_suffix_array.cpp "Accepted solution")
 - [UVa 10526 - Intellectual Property](https://onlinejudge.org/external/105/10526.pdf)
 - [UVa 10679 - I Love Strings!!](https://onlinejudge.org/external/106/10679.pdf) [✅](../../practice/strings/uva_10679_suffix_array.cpp "Accepted solution")
