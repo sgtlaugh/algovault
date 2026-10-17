@@ -299,15 +299,15 @@ struct SuffixArrayQueries : SuffixArray{
 
 int main(){
     static char buf[300005];
-    if (scanf("%300004s", buf) != 1) return 0;
+    while (scanf("%300004s", buf) == 1){
+        string s(buf);
+        SuffixArray res = suffix_array(s);
+        long long count[26] = {};
+        for (int i = 0; i < res.n; i++){
+            count[s[res.sa[i]] - 'a'] += (res.n - res.sa[i]) - (i > 0 ? res.lcp[i - 1] : 0);
+        }
 
-    string s(buf);
-    SuffixArray res = suffix_array(s);
-    long long count[26] = {};
-    for (int i = 0; i < res.n; i++){
-        count[s[res.sa[i]] - 'a'] += (res.n - res.sa[i]) - (i > 0 ? res.lcp[i - 1] : 0);
+        for (int c = 0; c < 26; c++) printf("%lld%c", count[c], c == 25 ? '\n' : ' ');
     }
-
-    for (int c = 0; c < 26; c++) printf("%lld%c", count[c], c == 25 ? '\n' : ' ');
     return 0;
 }
