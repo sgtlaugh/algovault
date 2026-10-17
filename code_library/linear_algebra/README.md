@@ -52,7 +52,7 @@
 - [CSES 3193 - Square Subsets](https://cses.fi/problemset/task/3193)
 - [HDU 3364 - Lanterns](https://acm.hdu.edu.cn/showproblem.php?pid=3364)
 - [HDU 4200 - Bad Wiring](https://acm.hdu.edu.cn/showproblem.php?pid=4200)
-- [Library Checker inverse_matrix_mod_2 - Inverse Matrix (Mod 2)](https://judge.yosupo.jp/problem/inverse_matrix_mod_2)
+- [Library Checker inverse_matrix_mod_2 - Inverse Matrix (Mod 2)](https://judge.yosupo.jp/problem/inverse_matrix_mod_2) [✅](../../practice/linear_algebra/library_checker_inverse_matrix_mod_2.cpp "Accepted solution")
 - [Library Checker matrix_det_mod_2 - Determinant of Matrix (Mod 2)](https://judge.yosupo.jp/problem/matrix_det_mod_2)
 - [Library Checker matrix_rank_mod_2 - Rank of Matrix (Mod 2)](https://judge.yosupo.jp/problem/matrix_rank_mod_2)
 - [Library Checker system_of_linear_equations_mod_2 - System of Linear Equations (Mod 2)](https://judge.yosupo.jp/problem/system_of_linear_equations_mod_2)
