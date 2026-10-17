@@ -83,7 +83,6 @@ namespace SuffixArraySAIS{
         induce();
         if (m == 0) return;  /// non-increasing text, the L pass sorted it
 
-        /// Each run of equal values is scanned once, so O(n)
         int sorted = 0;
         for (int i = 0; i < n; i++){
             int p = sa[i];
@@ -122,7 +121,7 @@ namespace SuffixArraySAIS{
         }
 
         if (names == m){
-            for (int i = 0; i < m; i++) sa[reduced[i]] = i;  /// distinct names are already the ranks
+            for (int i = 0; i < m; i++) sa[reduced[i]] = i;
         }
         else{
             sais(reduced, sa, m, names);
@@ -142,7 +141,6 @@ namespace SuffixArraySAIS{
         induce();
     }
 
-    /// Kasai: the lcp of suffix i + 1 with its successor is at least that of suffix i minus 1, so O(n)
     template<typename Container>
     vector<int> build_lcp(const Container& c, const vector<int>& sa, const vector<int>& rank){
         int n = sa.size(), k = 0;
@@ -183,7 +181,7 @@ SuffixArray suffix_array(const Container& c){
         return result;
     }
 
-    /// Shift small value ranges to [0, alphabet), compress large ones, in T as long long would wrap unsigned values past LLONG_MAX
+    /// Values are ranked in T, a cast to long long would wrap unsigned values past LLONG_MAX
     using T = typename Container::value_type;
     using U = make_unsigned_t<T>;
     T lo = *min_element(c.begin(), c.end()), hi = *max_element(c.begin(), c.end());
@@ -288,7 +286,6 @@ struct SuffixArrayQueries : SuffixArray{
         return 0;
     }
 
-    /// lcp of the suffixes at sa[l] and sa[r] for l < r
     int lcp_min(int l, int r) const {
         int k = __lg(r - l);
         return min(table[k][l], table[k][r - (1 << k)]);
