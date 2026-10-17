@@ -74,7 +74,7 @@
 - [LightOJ 1279 - Graph Coloring](https://lightoj.com/problem/graph-coloring)
 - [SPOJ NWERC04H - SETI](https://www.spoj.com/problems/NWERC04H/) [✅](../../practice/linear_algebra/spoj_nwerc04h.cpp "Accepted solution")
 - [UVa 1563 - SETI](https://onlinejudge.org/external/15/1563.pdf) [✅](../../practice/linear_algebra/uva_1563.cpp "Accepted solution")
-- [UVa 1564 - Widget Factory](https://onlinejudge.org/external/15/1564.pdf)
+- [UVa 1564 - Widget Factory](https://onlinejudge.org/external/15/1564.pdf) [✅](../../practice/linear_algebra/uva_1564.cpp "Accepted solution")
 - [UVa 11778 - Graph Coloring in HSL](https://onlinejudge.org/external/117/11778.pdf) [✅](../../practice/linear_algebra/uva_11778.cpp "Accepted solution")
 
 #### [Matrix](matrix.cpp)
