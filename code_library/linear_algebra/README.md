@@ -27,7 +27,7 @@
 - [POJ 3807 - Chemist’s Math](http://poj.org/problem?id=3807) [✅](../../practice/linear_algebra/poj_3807.cpp "Accepted solution")
 - [SPOJ GS - Going to school](https://www.spoj.com/problems/GS/) [✅](../../practice/linear_algebra/spoj_gs.cpp "Accepted solution")
 - [SPOJ LIM - Lost in Madrid](https://www.spoj.com/problems/LIM/) [✅](../../practice/linear_algebra/spoj_lim.cpp "Accepted solution")
-- [SPOJ RESIST - Kirchhof Law](https://www.spoj.com/problems/RESIST/)
+- [SPOJ RESIST - Kirchhof Law](https://www.spoj.com/problems/RESIST/) [✅](../../practice/linear_algebra/spoj_resist.cpp "Accepted solution")
 - [Timus 1041 - Nikifor](https://acm.timus.ru/problem.aspx?num=1041)
 - [Timus 1266 - Kirchhoff's Law](https://acm.timus.ru/problem.aspx?num=1266)
 - [Timus 1766 - Humpty Dumpty](https://acm.timus.ru/problem.aspx?num=1766)
