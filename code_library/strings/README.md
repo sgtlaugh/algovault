@@ -231,7 +231,7 @@
 - [SPOJ ADAPHOTO - Ada and Terramorphing](https://www.spoj.com/problems/ADAPHOTO/) [✅](../../practice/strings/spoj_adaphoto.cpp "Accepted solution")
 - [SPOJ ADASTRNG - Ada and Substring](https://www.spoj.com/problems/ADASTRNG/) [✅](../../practice/strings/spoj_adastrng.cpp "Accepted solution")
 - [SPOJ LCS2 - Longest Common Substring II](https://www.spoj.com/problems/LCS2/) [✅](../../practice/strings/spoj_lcs2.cpp "Accepted solution")
-- [SPOJ LCS - Longest Common Substring](https://www.spoj.com/problems/LCS/)
+- [SPOJ LCS - Longest Common Substring](https://www.spoj.com/problems/LCS/) [✅](../../practice/strings/spoj_lcs.cpp "Accepted solution")
 - [SPOJ LONGCS - Longest Common Substring](https://www.spoj.com/problems/LONGCS/)
 - [SPOJ SARRAY - Suffix Array](https://www.spoj.com/problems/SARRAY/) [✅](../../practice/strings/spoj_sarray.cpp "Accepted solution")
 - [SPOJ SUBLEX - Lexicographical Substring Search](https://www.spoj.com/problems/SUBLEX/) [✅](../../practice/strings/spoj_sublex.cpp "Accepted solution")
