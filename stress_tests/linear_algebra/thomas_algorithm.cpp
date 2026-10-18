@@ -71,5 +71,64 @@ int main(){
         }
     }
 
+    /// M-matrix version on well-conditioned random systems: an excess of at least 1/2 in every row, checked per component against quad
+    for (long long it = 0; it < stress::scaled(8000); it++){
+        int n = stress::rand_int(0, it % 10 ? 12 : 60);
+        vector<long double> lower(n), upper(n), excess(n), rhs(n);
+        for (int i = 0; i < n; i++){
+            lower[i] = stress::rand_int(0, 3) ? stress::rand_int(0, 1000) / 100.0L : 0;
+            upper[i] = stress::rand_int(0, 3) ? stress::rand_int(0, 1000) / 100.0L : 0;
+            excess[i] = stress::rand_int(50, 500) / 100.0L;
+            rhs[i] = stress::rand_int(0, 3) ? stress::rand_int(0, 100000) / 64.0L : 0;
+        }
+
+        auto x = solve_tridiagonal_m_matrix(lower, upper, excess, rhs);
+        assert((int)x.size() == n);
+        if (n == 0) continue;
+
+        vector<vector<__float128>> a(n, vector<__float128>(n, 0));
+        vector<__float128> b(n);
+        for (int i = 0; i < n; i++){
+            a[i][i] = (__float128)lower[i] + upper[i] + excess[i];  /// lower[0] and upper[n - 1] count in the diagonal
+            if (i) a[i][i - 1] = -lower[i];
+            if (i + 1 < n) a[i][i + 1] = -upper[i];
+            b[i] = rhs[i];
+        }
+        auto expected = dense_solve(a, b);
+        __float128 largest = 0;
+        for (auto v : expected) largest = max(largest, fabsq(v));
+        /// Pivoted quad elimination is only accurate relative to the largest entry, so the floor scales with it
+        for (int i = 0; i < n; i++) assert(fabsq(expected[i] - x[i]) <= (__float128)1e-16L * fabsq(expected[i]) + (__float128)1e-30L * largest);
+    }
+
+    /// Walks with strong drift, where elimination with subtraction loses every digit: cell i steps right with chance p[i]
+    /// The chance to leave on the right first is a ratio of sums of positive products, d_0 = 1 and d_j = d_(j - 1) (1 - p[j]) / p[j]
+    for (long long it = 0; it < stress::scaled(3000); it++){
+        int n = stress::rand_int(1, it % 10 ? 50 : 400);
+        vector<long double> p(n);
+        int style = stress::rand_int(0, 2);
+        for (int i = 0; i < n; i++){
+            if (style == 0) p[i] = stress::rand_int(1, 99) / 100.0L;
+            else if (style == 1) p[i] = 2 * i < n ? 0.99L : 0.01L;  /// a trap in the middle, as in UVa 1413
+            else p[i] = stress::rand_int(0, 1) ? 0.99L : stress::rand_int(1, 99) / 100.0L;
+        }
+
+        vector<long double> lower(n), upper(n), excess(n, 0), rhs(n, 0);
+        for (int i = 0; i < n; i++) lower[i] = 1 - p[i], upper[i] = p[i];
+        rhs[n - 1] = p[n - 1];
+        auto h = solve_tridiagonal_m_matrix(lower, upper, excess, rhs);
+
+        vector<long double> prefix(n + 1, 0);
+        long double d = 1;
+        for (int j = 0; j <= n; j++){
+            if (j) d *= (1 - p[j - 1]) / p[j - 1];
+            prefix[j] = (j ? prefix[j - 1] : 0) + d;
+        }
+        for (int i = 0; i < n; i++){
+            long double expected = prefix[i] / prefix[n];
+            assert(fabsl(h[i] - expected) <= 1e-15L * expected);
+        }
+    }
+
     return 0;
 }
