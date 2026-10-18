@@ -318,7 +318,7 @@
 - [CSES 1737 - Range Queries and Copies](https://cses.fi/problemset/task/1737) [✅](../../practice/data_structures/cses_1737.cpp "Accepted solution")
 - [Library Checker persistent_queue - Persistent Queue](https://judge.yosupo.jp/problem/persistent_queue) [✅](../../practice/data_structures/library_checker_persistent_queue.cpp "Accepted solution")
 - [Library Checker range_kth_smallest - Range Kth Smallest](https://judge.yosupo.jp/problem/range_kth_smallest) [✅](../../practice/data_structures/library_checker_range_kth_smallest_persistent_segment_tree.cpp "Accepted solution")
-- [POJ 2104 - K-th Number](http://poj.org/problem?id=2104)
+- [POJ 2104 - K-th Number](http://poj.org/problem?id=2104) [✅](../../practice/data_structures/poj_2104_persistent_segment_tree.cpp "Accepted solution")
 - [SPOJ COT - Count on a tree](https://www.spoj.com/problems/COT/)
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/)
 - [SPOJ GOT - Gao on a tree](https://www.spoj.com/problems/GOT/)
