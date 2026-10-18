@@ -307,7 +307,7 @@
 
 #### [Permutation Tree](permutation_tree.cpp)
 
-- [Library Checker common_interval_decomposition_tree - Common Interval Decomposition Tree](https://judge.yosupo.jp/problem/common_interval_decomposition_tree)
+- [Library Checker common_interval_decomposition_tree - Common Interval Decomposition Tree](https://judge.yosupo.jp/problem/common_interval_decomposition_tree) [✅](../../practice/data_structures/library_checker_common_interval_decomposition_tree.cpp "Accepted solution")
 
 #### [Persistent Segment Tree](persistent_segment_tree.cpp)
 
