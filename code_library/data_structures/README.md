@@ -296,7 +296,7 @@
 - [CSES 1749 - List Removals](https://cses.fi/problemset/task/1749) [✅](../../practice/data_structures/cses_1749.cpp "Accepted solution")
 - [CSES 2163 - Josephus Problem II](https://cses.fi/problemset/task/2163) [✅](../../practice/data_structures/cses_2163.cpp "Accepted solution")
 - [CSES 2169 - Nested Ranges Count](https://cses.fi/problemset/task/2169) [✅](../../practice/data_structures/cses_2169.cpp "Accepted solution")
-- [Library Checker ordered_set - Ordered Set](https://judge.yosupo.jp/problem/ordered_set)
+- [Library Checker ordered_set - Ordered Set](https://judge.yosupo.jp/problem/ordered_set) [✅](../../practice/data_structures/library_checker_ordered_set.cpp "Accepted solution")
 - [SPOJ ADACROP - Ada and Harvest](https://www.spoj.com/problems/ADACROP/)
 - [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/) [✅](../../practice/data_structures/spoj_meanarr_ordered_set.cpp "Accepted solution")
 - [SPOJ ORDERSET - Order statistic set](https://www.spoj.com/problems/ORDERSET/)
