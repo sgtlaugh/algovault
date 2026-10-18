@@ -292,7 +292,7 @@
 
 #### [Ordered Set](ordered_set.cpp)
 
-- [CSES 1076 - Sliding Window Median](https://cses.fi/problemset/task/1076)
+- [CSES 1076 - Sliding Window Median](https://cses.fi/problemset/task/1076) [✅](../../practice/data_structures/cses_1076.cpp "Accepted solution")
 - [CSES 1749 - List Removals](https://cses.fi/problemset/task/1749)
 - [CSES 2163 - Josephus Problem II](https://cses.fi/problemset/task/2163)
 - [CSES 2169 - Nested Ranges Count](https://cses.fi/problemset/task/2169)
