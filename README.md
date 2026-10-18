@@ -240,7 +240,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Determinant](code_library/linear_algebra/determinant.cpp) - determinant modulo any m, spanning tree counts [✔](judge_tests/linear_algebra/counting_spanning_tree_directed.cpp)
 - [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
 - [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and inverse over the reals
-  - [Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - systems whose equations touch nearby variables
+  - [Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - grid equations that only use nearby cells
   - [Bitset](code_library/linear_algebra/gauss_bitset.cpp) - the same over GF(2) [✔](judge_tests/linear_algebra/inverse_matrix_mod_2.cpp)
   - [Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - the same modulo a prime, with kernel basis [✔](judge_tests/linear_algebra/inverse_matrix.cpp)
 - [Matrix](code_library/linear_algebra/matrix.cpp) - modular multiplication and exponentiation [✔](judge_tests/linear_algebra/matrix_product.cpp)

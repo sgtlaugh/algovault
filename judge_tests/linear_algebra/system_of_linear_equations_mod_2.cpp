@@ -24,16 +24,15 @@ int main(){
     cin >> s;
     for (int i = 0; i < n; i++) equations[i][m] = s[i] == '1';
 
-    bitset<WIDTH> res;
-    int f_var = gauss(m, equations, res);
-    if (f_var == -1){
+    auto [solvable, x, free_variables] = gauss(m, equations);
+    if (!solvable){
         cout << "-1\n";
         return 0;
     }
 
     string line(m, '0');
-    for (int j = 0; j < m; j++) line[j] = '0' + res[j];
-    cout << f_var << '\n' << line << '\n';
+    for (int j = 0; j < m; j++) line[j] = '0' + x[j];
+    cout << free_variables << '\n' << line << '\n';
 
     /// gauss does not return its reduced rows, so they are rebuilt with eliminate_gf2
     /// Each free column f gives a kernel vector: x_f = 1, and x_j = bit f of the pivot row of each pivot column j

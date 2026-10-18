@@ -18,16 +18,16 @@
 
 #### [Gauss Jordan](gauss_jordan.cpp)
 
-- [Codeforces 113D - Museum](https://codeforces.com/problemset/problem/113/D)
+- [Codeforces 113D - Museum](https://codeforces.com/problemset/problem/113/D) [✅](../../practice/linear_algebra/codeforces_113d.cpp "Accepted solution")
 - [Codeforces Gym 100495I - Two friends](https://codeforces.com/gym/100495/problem/I)
 - [HDU 3976 - Electric resistance](https://acm.hdu.edu.cn/showproblem.php?pid=3976) [✅](../../practice/linear_algebra/hdu_3976.cpp "Accepted solution")
 - [HDU 4870 - Rating](https://acm.hdu.edu.cn/showproblem.php?pid=4870) [✅](../../practice/linear_algebra/hdu_4870.cpp "Accepted solution")
 - [HDU 5006 - Resistance](https://acm.hdu.edu.cn/showproblem.php?pid=5006) [✅](../../practice/linear_algebra/hdu_5006.cpp "Accepted solution")
 - [POJ 1487 - Single-Player Games](http://poj.org/problem?id=1487) [✅](../../practice/linear_algebra/poj_1487.cpp "Accepted solution")
 - [POJ 3807 - Chemist’s Math](http://poj.org/problem?id=3807) [✅](../../practice/linear_algebra/poj_3807.cpp "Accepted solution")
-- [SPOJ GS - Going to school](https://www.spoj.com/problems/GS/)
-- [SPOJ LIM - Lost in Madrid](https://www.spoj.com/problems/LIM/)
-- [SPOJ RESIST - Kirchhof Law](https://www.spoj.com/problems/RESIST/)
+- [SPOJ GS - Going to school](https://www.spoj.com/problems/GS/) [✅](../../practice/linear_algebra/spoj_gs.cpp "Accepted solution")
+- [SPOJ LIM - Lost in Madrid](https://www.spoj.com/problems/LIM/) [✅](../../practice/linear_algebra/spoj_lim.cpp "Accepted solution")
+- [SPOJ RESIST - Kirchhof Law](https://www.spoj.com/problems/RESIST/) [✅](../../practice/linear_algebra/spoj_resist.cpp "Accepted solution")
 - [Timus 1041 - Nikifor](https://acm.timus.ru/problem.aspx?num=1041) [✅](../../practice/linear_algebra/timus_1041.cpp "Accepted solution")
 - [Timus 1266 - Kirchhoff's Law](https://acm.timus.ru/problem.aspx?num=1266) [✅](../../practice/linear_algebra/timus_1266.cpp "Accepted solution")
 - [Timus 1766 - Humpty Dumpty](https://acm.timus.ru/problem.aspx?num=1766) [✅](../../practice/linear_algebra/timus_1766.cpp "Accepted solution")
@@ -36,7 +36,7 @@
 - [UVa 1704 - Pachinko](https://onlinejudge.org/external/17/1704.pdf) [✅](../../practice/linear_algebra/uva_1704_gauss_jordan.cpp "Accepted solution")
 - [UVa 10109 - Solving Systems of Linear Equations](https://onlinejudge.org/external/101/10109.pdf) [✅](../../practice/linear_algebra/uva_10109.cpp "Accepted solution")
 - [UVa 10524 - Matrix Reloaded](https://onlinejudge.org/external/105/10524.pdf) [✅](../../practice/linear_algebra/uva_10524.cpp "Accepted solution")
-- [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf)
+- [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf) [✅](../../practice/linear_algebra/uva_10808.cpp "Accepted solution")
 - [UVa 11912 - Chutes and Ladders](https://onlinejudge.org/external/119/11912.pdf) [✅](../../practice/linear_algebra/uva_11912.cpp "Accepted solution")
 - [UVa 12695 - Traveling Fool](https://onlinejudge.org/external/126/12695.pdf) [✅](../../practice/linear_algebra/uva_12695.cpp "Accepted solution")
 - [UVa 12910 - Snakes and Ladders](https://onlinejudge.org/external/129/12910.pdf) [✅](../../practice/linear_algebra/uva_12910.cpp "Accepted solution")
@@ -63,8 +63,8 @@
 
 #### [Gauss, Prime Modulus](gauss_prime_mod.cpp)
 
-- [Codeforces 1411G - No Game No Life](https://codeforces.com/problemset/problem/1411/G)
-- [Codeforces Gym 102129D - Basis Change](https://codeforces.com/gym/102129/problem/D)
+- [Codeforces 1411G - No Game No Life](https://codeforces.com/problemset/problem/1411/G) [✅](../../practice/linear_algebra/codeforces_1411g.cpp "Accepted solution")
+- [Codeforces Gym 102129D - Basis Change](https://codeforces.com/gym/102129/problem/D) [✅](../../practice/linear_algebra/codeforces_gym_102129d.cpp "Accepted solution")
 - [CSES 3154 - System of Linear Equations](https://cses.fi/problemset/task/3154) [✅](../../practice/linear_algebra/cses_3154.cpp "Accepted solution")
 - [HDU 3571 - N-dimensional Sphere](https://acm.hdu.edu.cn/showproblem.php?pid=3571) [✅](../../practice/linear_algebra/hdu_3571.cpp "Accepted solution")
 - [Kattis whiterabbit - The White Rabbit Pocket Watch](https://open.kattis.com/problems/whiterabbit) [✅](../../practice/linear_algebra/kattis_whiterabbit.cpp "Accepted solution")
@@ -72,7 +72,7 @@
 - [Library Checker matrix_rank - Rank of Matrix](https://judge.yosupo.jp/problem/matrix_rank) [✅](../../practice/linear_algebra/library_checker_matrix_rank.cpp "Accepted solution")
 - [Library Checker system_of_linear_equations - System of Linear Equations](https://judge.yosupo.jp/problem/system_of_linear_equations) [✅](../../practice/linear_algebra/library_checker_system_of_linear_equations.cpp "Accepted solution")
 - [LightOJ 1279 - Graph Coloring](https://lightoj.com/problem/graph-coloring) [✅](../../practice/linear_algebra/lightoj_1279.cpp "Accepted solution")
-- [SPOJ NWERC04H - SETI](https://www.spoj.com/problems/NWERC04H/)
+- [SPOJ NWERC04H - SETI](https://www.spoj.com/problems/NWERC04H/) [✅](../../practice/linear_algebra/spoj_nwerc04h.cpp "Accepted solution")
 - [UVa 1563 - SETI](https://onlinejudge.org/external/15/1563.pdf) [✅](../../practice/linear_algebra/uva_1563.cpp "Accepted solution")
 - [UVa 1564 - Widget Factory](https://onlinejudge.org/external/15/1564.pdf) [✅](../../practice/linear_algebra/uva_1564.cpp "Accepted solution")
 - [UVa 11778 - Graph Coloring in HSL](https://onlinejudge.org/external/117/11778.pdf) [✅](../../practice/linear_algebra/uva_11778.cpp "Accepted solution")
@@ -159,8 +159,8 @@
 
 #### [Thomas Algorithm](thomas_algorithm.cpp)
 
-- [Codeforces 24D - Broken robot](https://codeforces.com/problemset/problem/24/D)
-- [UVa 1413 - Game](https://onlinejudge.org/external/14/1413.pdf)
+- [Codeforces 24D - Broken robot](https://codeforces.com/problemset/problem/24/D) [✅](../../practice/linear_algebra/codeforces_24d.cpp "Accepted solution")
+- [UVa 1413 - Game](https://onlinejudge.org/external/14/1413.pdf) [✅](../../practice/linear_algebra/uva_1413.cpp "Accepted solution")
 
 #### [XOR Basis](xor_basis.cpp)
 

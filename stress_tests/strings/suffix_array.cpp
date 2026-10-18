@@ -16,6 +16,9 @@ void check(const Container& c){
     sort(sorted_sa.begin(), sorted_sa.end());
     for (int i = 0; i < n; i++) assert(sorted_sa[i] == i);
 
+    assert((int)res.rank.size() == n);
+    for (int i = 0; i < n; i++) assert(res.rank[res.sa[i]] == i);
+
     long long distinct = (long long)n * (n + 1) / 2;
     for (int i = 0; i + 1 < n; i++){
         int a = res.sa[i], b = res.sa[i + 1], k = 0;
@@ -72,8 +75,6 @@ void check_queries(const Container& c){
     int n = c.size();
     SuffixArrayQueries<Container> q(c);
 
-    for (int i = 0; i < n; i++) assert(q.sa[q.rank[i]] == i);
-
     int pairs = n <= 12 ? n * n : 60;
     for (int t = 0; t < pairs; t++){
         int i = n <= 12 ? t / n : stress::rand_int(0, n - 1), j = n <= 12 ? t % n : stress::rand_int(0, n - 1);
@@ -101,14 +102,17 @@ void check_queries(const Container& c){
 
 int main(){
     for (long long it = 0; it < stress::scaled(4000); it++){
-        int n = stress::rand_int(0, it % 10 ? 40 : 2000), alphabet = stress::rand_int(1, 4), mode = stress::rand_int(0, 3);
+        int n = stress::rand_int(0, it % 10 ? 40 : 2000), alphabet = stress::rand_int(1, 4), mode = stress::rand_int(0, 5);
+        int period = stress::rand_int(1, 12);
         vector<long long> v(n);
-        for (auto& x : v){
-            long long s = stress::rand_int(0, alphabet - 1);
-            if (mode == 0) x = s;                                  /// zeros, DC3's sentinel value
+        for (int i = 0; i < n; i++){
+            long long s = stress::rand_int(0, alphabet - 1), &x = v[i];
+            if (mode == 0) x = s;                                  /// zeros, the lowest bucket next to the virtual sentinel
             else if (mode == 1) x = s - 2;                         /// negatives
-            else if (mode == 2) x = s * 1000000000000LL;           /// a range far too large for DC3 buckets
-            else x = stress::rand_int(-1000000, 1000000);
+            else if (mode == 2) x = s * 1000000000000LL;           /// a range far too large for buckets, compressed
+            else if (mode == 3) x = stress::rand_int(-1000000, 1000000);
+            else if (mode == 4) x = stress::rand_int(0, n + 256);  /// more than 256 buckets without compression, the int text path
+            else x = i >= period && stress::rand_int(0, 15) ? v[i - period] : s;  /// near-periodic, repeated LMS names deep in the recursion
         }
         check(v);
         check_queries(v);

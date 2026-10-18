@@ -73,15 +73,15 @@ int main(){
     vector<vector<double>> regression = {{461376, -874886, 67590, 302992, 246673}, {257837, 571397, 503158, -220469, 555968},
                                          {-906930, 685565, -202946, 547555, 179852}, {-16614, 203028, -207928, -632214, 573819},
                                          {444762, -671858, -140338, -329222, 820492}};
-    vector<double> solution;
-    assert(gauss(regression, solution) == 0);
+    assert(gauss(regression).free_variables == 0);
+    assert(gauss(regression).solvable);
 
     /// Unique solutions near 1e9 with small coefficients, rejected as -1 when the right-hand side scaled the pivot tolerance
-    assert(gauss(vector<vector<double>>{{1, 1e9}}, solution) == 0 && solution[0] == 1e9);
-    assert(gauss(vector<vector<double>>{{1, 1, 2e9}, {1, -1, 0}}, solution) == 0);
-    assert(gauss(vector<vector<double>>{{1000, 1, 1e13}, {1, 1000, 1e13}}, solution) == 0);
-    vector<long double> solution_ld;
-    assert(gauss(vector<vector<long double>>{{1, 1e9L}}, solution_ld) == 0);
+    auto lone = gauss(vector<vector<double>>{{1, 1e9}});
+    assert(lone.solvable && lone.free_variables == 0 && lone.x[0] == 1e9);
+    assert(gauss(vector<vector<double>>{{1, 1, 2e9}, {1, -1, 0}}).solvable);
+    assert(gauss(vector<vector<double>>{{1000, 1, 1e13}, {1, 1000, 1e13}}).solvable);
+    assert(gauss(vector<vector<long double>>{{1, 1e9L}}).solvable);
 
     /// Small coefficients and a planted solution up to 1e9, so the right-hand side dwarfs every coefficient
     for (long long it = 0; it < stress::scaled(20000); it++){
@@ -95,9 +95,8 @@ int main(){
         }
 
         vector<vector<double>> eq = to_double(a);
-        vector<double> res;
-        int got = gauss(eq, res);
-        assert(got == m - exact_rank(a, m));
+        auto [solvable, res, free_variables] = gauss(eq);
+        assert(solvable && free_variables == m - exact_rank(a, m) && (int)res.size() == m);
         for (int i = 0; i < n; i++){
             double lhs = 0, scale = fabs(eq[i][m]);
             for (int j = 0; j < m; j++) lhs += eq[i][j] * res[j], scale = max(scale, fabs(eq[i][j] * res[j]));
@@ -123,10 +122,11 @@ int main(){
         for (int i = 0; i < n; i++) for (int j = 0; j <= m; j++) eq[i][j] = a[i][j];
         int rank = exact_rank(a, m), expected = rank == exact_rank(a, m + 1) ? m - rank : -1;
 
-        vector<double> res;
-        int got = gauss(eq, res);
-        assert(got == expected);
-        if (got >= 0){
+        auto [solvable, res, free_variables] = gauss(eq);
+        assert(free_variables == m - rank);
+        assert(solvable == (expected >= 0));
+        assert((int)res.size() == (solvable ? m : 0));
+        if (solvable){
             for (int i = 0; i < n; i++){
                 double lhs = 0, scale = fabs(eq[i][m]);
                 for (int j = 0; j < m; j++) lhs += eq[i][j] * res[j], scale = max(scale, fabs(eq[i][j] * res[j]));
@@ -142,10 +142,10 @@ int main(){
         assert(matrix_rank(to_double(a)) == exact_rank(a, m));
 
         vector<vector<long long>> square = random_dependent(n, n);
-        vector<vector<double>> inv = {{7}}, d = to_double(square);
-        bool ok = matrix_inverse(d, inv);
-        assert(ok == (exact_rank(square, n) == n));
-        if (ok) assert((int)inv.size() == n && near_identity_product(d, inv) && near_identity_product(inv, d));
+        vector<vector<double>> d = to_double(square);
+        auto inv = matrix_inverse(d);
+        assert(inv.has_value() == (exact_rank(square, n) == n));
+        if (inv) assert((int)inv->size() == n && near_identity_product(d, *inv) && near_identity_product(*inv, d));
     }
 
     /// Large random real matrices are invertible almost surely, and lose exactly one rank when a row becomes a combination
@@ -154,14 +154,14 @@ int main(){
         vector<vector<double>> a(n, vector<double>(n));
         for (auto& row : a) for (auto& x : row) x = stress::rand_int(-1000000, 1000000) / 1000.0;
 
-        vector<vector<double>> inv;
-        assert(matrix_inverse(a, inv) && near_identity_product(a, inv) && near_identity_product(inv, a));
+        auto inv = matrix_inverse(a);
+        assert(inv && near_identity_product(a, *inv) && near_identity_product(*inv, a));
         assert(matrix_rank(a) == n);
 
         if (n >= 2){
             int r = stress::rand_int(1, n - 1);
             for (int j = 0; j < n; j++) a[r][j] = a[0][j] * 2 - a[r - 1][j] * 0.5;
-            assert(!matrix_inverse(a, inv) && matrix_rank(a) == n - 1);
+            assert(!matrix_inverse(a) && matrix_rank(a) == n - 1);
         }
     }
 
