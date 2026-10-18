@@ -188,7 +188,17 @@ using Simplex = BasicSimplex<double>;
 int main(){
     int n, lim[2][3];
     while (scanf("%d %d %d %d %d %d %d", &n, &lim[0][0], &lim[0][1], &lim[0][2], &lim[1][0], &lim[1][1], &lim[1][2]) == 7){
-        /// x_i = 1 when position i holds '1', so a window of length L holds sum x ones and L - sum x zeros
+        int low[2], high[2], len[2];
+        for (int c = 0; c < 2; c++){
+            int a = lim[c][0], b = lim[c][1];
+            len[c] = lim[c][2], low[c] = c ? a : len[c] - b, high[c] = c ? b : len[c] - a;
+        }
+        /// Warm start: a balanced sequence of density r, the middle of the densities both window bounds allow
+        double rl = max((double)low[0] / len[0], (double)low[1] / len[1]), rh = min((double)high[0] / len[0], (double)high[1] / len[1]);
+        double r = (rl + rh) / 2;
+        vector<int> x0(n), sgn(n);
+        for (int i = 0; i < n; i++) x0[i] = (int)floor((i + 1) * r + 0.5) - (int)floor(i * r + 0.5), sgn[i] = x0[i] ? -1 : 1;
+
         Simplex lp(vector<double>(n, 0), Simplex::MAXIMIZE);
         for (int i = 0; i < n; i++){
             vector<double> coef(n, 0);
@@ -196,23 +206,20 @@ int main(){
             lp.add_constraint(coef, 1, Simplex::LESSEQ);
         }
         for (int c = 0; c < 2; c++){
-            int a = lim[c][0], b = lim[c][1], len = lim[c][2];
-            int low = c ? a : len - b, high = c ? b : len - a;
-            for (int i = 0; i + len <= n; i++){
+            for (int i = 0; i + len[c] <= n; i++){
                 vector<double> coef(n, 0);
-                for (int j = i; j < i + len; j++) coef[j] = 1;
-                if (low > 0) lp.add_constraint(coef, low, Simplex::GREATEQ);
-                if (high < len) lp.add_constraint(coef, high, Simplex::LESSEQ);
+                int base = 0;
+                for (int j = i; j < i + len[c]; j++) coef[j] = sgn[j], base += x0[j];
+                if (low[c] > 0) lp.add_constraint(coef, low[c] - base, Simplex::GREATEQ);
+                if (high[c] < len[c]) lp.add_constraint(coef, high[c] - base, Simplex::LESSEQ);
             }
         }
-
-        /// Every row is an interval of ones, so the matrix is totally unimodular and the basic solution is 0/1
         if (lp.solve() != Simplex::FEASIBLE){
             puts("-1");
             continue;
         }
         string s(n, '0');
-        for (int i = 0; i < n; i++) s[i] += llround(lp.val[i]);
+        for (int i = 0; i < n; i++) s[i] += x0[i] + sgn[i] * llround(lp.val[i]);
         puts(s.c_str());
     }
     return 0;
