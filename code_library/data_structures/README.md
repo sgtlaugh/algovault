@@ -301,7 +301,7 @@
 - [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/) [✅](../../practice/data_structures/spoj_meanarr_ordered_set.cpp "Accepted solution")
 - [SPOJ ORDERSET - Order statistic set](https://www.spoj.com/problems/ORDERSET/)
 - [UVa 501 - Black Box](https://onlinejudge.org/external/5/501.pdf) [✅](../../practice/data_structures/uva_501.cpp "Accepted solution")
-- [UVa 1480 - Jewel](https://onlinejudge.org/external/14/1480.pdf)
+- [UVa 1480 - Jewel](https://onlinejudge.org/external/14/1480.pdf) [✅](../../practice/data_structures/uva_1480_ordered_set.cpp "Accepted solution")
 - [UVa 10909 - Lucky Number](https://onlinejudge.org/external/109/10909.pdf) [✅](../../practice/data_structures/uva_10909.cpp "Accepted solution")
 - [UVa 12912 - Josephus lottery](https://onlinejudge.org/external/129/12912.pdf) [✅](../../practice/data_structures/uva_12912.cpp "Accepted solution")
 
