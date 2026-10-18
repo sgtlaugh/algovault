@@ -253,6 +253,60 @@ void nearly_parallel_rows(){
     assert(lp.solve() == Simplex::INFEASIBLE);
 }
 
+/// Degenerate rows whose limits come out as roundoff, not 0: unless such a limit counts as exactly 0, the ratio test breaks
+/// those ties by noise instead of by Bland's lowest id and cycles; rows are {coefficients..., limit}, optimum 562 by HiGHS
+void roundoff_degenerate_rows(){
+    alarm(2);
+    vector<Float> objective = {57, 36, 4, -18, -16, 45, 96, -1, 35, 59, 63, 100, 57};
+    vector<vector<Float>> rows = {
+        {-2, 0, 0, 0, 5, 0, 5, 0, 1, -3, 6, 6, 4, 22},
+        {5, 0, -4, 6, 1, 1, 0, 3, -2, 4, 0, 5, -4, -4},
+        {-4, -2, 0, 5, 0, -2, -4, 3, 0, 3, 3, 0, 6, -12},
+        {6, -4, 3, -3, 2, 0, 0, 2, 4, 4, 2, -2, -4, -4},
+        {3, 4, -3, 2, 2, 0, 6, -2, 1, 3, 0, -3, 3, 38},
+        {-3, -4, -2, 3, 0, 0, 0, -1, 3, 6, 5, -1, 0, -6},
+        {6, 6, -4, -4, -1, -1, -1, -2, 4, 0, 0, 4, 0, 22},
+        {0, 4, 0, 0, -2, -1, -4, 0, -3, 5, 4, 5, -3, -10},
+        {4, 0, 0, -2, 1, 6, 0, 3, -1, -4, -2, 5, 4, -2},
+        {0, 3, 0, 0, 0, 5, 5, 4, 0, 0, 2, 5, 2, 29},
+        {-1, -2, 2, 1, -3, -1, 0, 0, -1, -3, 0, -2, 5, -8}
+    };
+    int n = objective.size();
+    Simplex lp(objective, Simplex::MAXIMIZE);
+    for (auto& r : rows) lp.add_constraint(vector<Float>(r.begin(), r.begin() + n), r[n], Simplex::LESSEQ);
+    assert(lp.solve() == Simplex::FEASIBLE);
+    assert(abs(lp.value - 562) < 1e-6);
+    alarm(0);
+}
+
+/// Codeforces 605C in dual form, max p x + q y with a_i x + b_i y <= 1 and a_i up to 1e6, puts the corners near x ~ 1e-6:
+/// an absolute ratio-test tolerance of 1e-9 then tied rows whose ratios differ by 1e-12 and returned optima off by 1e-3
+/// The primal, min sum t_i with sum a_i t_i >= p and sum b_i t_i >= q, is optimal on one project or a pair, solved exactly
+void tiny_ratio_rows(long long iterations){
+    for (long long it = 0; it < iterations; it++){
+        int n = stress::rand_int(2, 60);
+        long long lo = it % 2 ? 900000 : 1, p = stress::rand_int(1, 1000000), q = stress::rand_int(1, 1000000);
+        vector<long long> a(n), b(n);
+        for (int i = 0; i < n; i++) a[i] = stress::rand_int(lo, 1000000), b[i] = stress::rand_int(lo, 1000000);
+
+        long double best = 1e30L;
+        for (int i = 0; i < n; i++){
+            best = min(best, max((long double)p / a[i], (long double)q / b[i]));
+            for (int j = 0; j < i; j++){
+                long double d = (long double)a[i] * b[j] - (long double)a[j] * b[i];
+                if (d == 0) continue;
+                long double ti = ((long double)p * b[j] - (long double)q * a[j]) / d, tj = ((long double)q * a[i] - (long double)p * b[i]) / d;
+                if (ti >= 0 && tj >= 0) best = min(best, ti + tj);
+            }
+        }
+
+        Simplex lp({(Float)p, (Float)q}, Simplex::MAXIMIZE);
+        for (int i = 0; i < n; i++) lp.add_constraint({(Float)a[i], (Float)b[i]}, 1, Simplex::LESSEQ);
+        assert(lp.solve() == Simplex::FEASIBLE);
+        assert(fabsl(lp.value - best) <= 1e-9L * best);
+    }
+}
+
 /// The tableau is pivoted in place, so a second solve() on the same instance must abort instead of answering
 /// stderr must name simplex.cpp, since _GLIBCXX_ASSERTIONS also aborts on a bad index with the assert deleted
 void solve_twice_aborts(){
@@ -331,6 +385,8 @@ int main(){
     mixed_magnitude_rows();
     nearly_parallel_rows();
     degenerate_cycling();
+    roundoff_degenerate_rows();
+    tiny_ratio_rows(stress::scaled(400));
     scaled_rows_and_columns<double>(stress::scaled(15), 100, 150);
     scaled_rows_and_columns<long double>(stress::scaled(10), 20, 60);
     duality(stress::scaled(300), 1, 40, true);

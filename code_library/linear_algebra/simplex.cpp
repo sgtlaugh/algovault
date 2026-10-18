@@ -149,10 +149,11 @@ struct BasicSimplex : SimplexOptions{
 
             for (int i = 1; i <= m; i++){
                 if (ar[i][y] <= EPS) continue;
-                Float u = rhs[i] / ar[i][y];
+                /// A ratio is the entering value and can be tiny, so ties are relative; a limit at roundoff is exactly degenerate
+                Float u = rhs[i] <= DROP ? 0 : rhs[i] / ar[i][y], tol = EPS * max(u, v);
                 /// Near ties take the largest pivot to limit rounding, or the lowest id under Bland's rule
                 bool better = bland ? basic[i] < basic[x] : ar[i][y] > ar[x][y];
-                if (x == 0 || u < v - EPS || (u <= v + EPS && better)) x = i, v = u;
+                if (x == 0 || u < v - tol || (u <= v + tol && better)) x = i, v = u;
             }
             if (x == 0) return false;
             bland = v <= EPS;
