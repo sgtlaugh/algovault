@@ -16,7 +16,8 @@ The rules live in the `## Documentation` section of `CONTRIBUTING.md`. Read it f
 ## Scope
 
 - **Edits only:** the `/*** ... ***/` header (the module docstring for Python), the body of `main()`, and the file's README index entry and practice section heading.
-- **Never:** library code outside the header and `main()`, stress tests, judge tests, public names. A rename that would help is reported under "Proposed, not applied", never made: renames break pasted code and callers.
+- **Comments only, elsewhere:** when a header line describes how the code works rather than what a caller passes and gets back, move it to a one-line `///` comment at the code it explains; no other change outside the header and `main()`.
+- **Never:** library code outside the header and `main()` beyond those comment lines, stress tests, judge tests, public names. A rename that would help is reported under "Proposed, not applied", never made: renames break pasted code and callers.
 - **Commits only with `--commit`.** Without it, leave the edits in the working tree and say "not committed".
 - A directory argument means every library file in it, one file at a time, each finished (verified, and committed with `--commit`) before the next.
 
@@ -28,6 +29,7 @@ The rules live in the `## Documentation` section of `CONTRIBUTING.md`. Read it f
    - each API line from the actual signature, its return value and its asserts
    - value ranges from the types and asserts
    A claim you cannot confirm from the code is removed, not guessed.
+   Every call the old header documented keeps its API line, preconditions included, unless the report's Claims table says why it was removed: a precondition on a public call is caller contract, never an internal.
 3. **main().** Rewrite it to the CONTRIBUTING rules: the first block is the worked example, one call per assert, a blank line before each new object. Each further block shows one more use of the API, like a second constructor or a mode; a block that only checks an edge case or scale the stress test covers is removed. Every expected value is worked out by hand from the input; a value taken from running the program is forbidden.
 4. **README.** Make the index entry one short phrase on what the template is for, at most 50 characters, agreeing with the header's second line; details stay in the header. If the template's display name changed, update its practice section heading in `code_library/<topic>/README.md` to match.
 5. **Verify.** Run both, from the repo root:
@@ -35,7 +37,7 @@ The rules live in the `## Documentation` section of `CONTRIBUTING.md`. Read it f
    env CHANGED_SINCE=$base JOBS=4 bash .github/scripts/run_tests.sh self
    env CHANGED_SINCE=$base JOBS=4 bash .github/scripts/run_tests.sh stress
    ```
-   Then check the scope: `git diff $base --stat` lists only the library file and READMEs, and every changed hunk of the library file lies inside the header or `main()`.
+   Then check the scope: `git diff $base --stat` lists only the library file and READMEs, and every changed hunk of the library file lies inside the header or `main()`, or only adds or edits `///` comment lines.
    A run that reports `passed: 0` tested nothing and does not count.
    The file is not done until both suites exit 0 with the file's tests among those passed, and the scope check holds. A failure is fixed in the header or `main()`; if the fix needs a library change, stop and report it.
 6. **Commit** (only with `--commit`): one commit per library file, together with its README lines. Subject `docs: <template> header and usage follow CONTRIBUTING` or similar, conventional, at most 72 characters, no body. No AI attribution, never `--no-verify`, never amend, never push.
@@ -53,7 +55,7 @@ Every item is a yes, or the file is not done. The list mirrors CONTRIBUTING.md, 
 - [ ] `main()` has no chained `assert(a && b)` over several calls, no `auto x = T(...)`, no timing, no printing
 - [ ] A blank line separates blocks and precedes each new object in `main()`
 - [ ] The README index description is one phrase of at most 50 characters
-- [ ] Both suite runs exited 0, and the diff touches only the header, `main()` and README lines
+- [ ] Both suite runs exited 0, and the diff touches only the header, `main()`, `///` comment lines and README lines
 
 ## Output, per file
 
