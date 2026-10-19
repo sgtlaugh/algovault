@@ -18,14 +18,14 @@ using namespace std;
 
 template<typename It>
 void combsort(It first, It last){
-    auto n = last - first, gap = n;
+    long long n = last - first, gap = n;
     bool swapped = false;
 
     while (gap > 1 || swapped){
         swapped = false;
-        if (gap > 1) gap = decltype(n)(gap * 0.77425);
+        if (gap > 1) gap = (long long)(gap * 0.77425);
 
-        for (decltype(n) i = 0; i + gap < n; i++){
+        for (long long i = 0; i + gap < n; i++){
             if (first[i + gap] < first[i]){
                 swapped = true;
                 iter_swap(first + i, first + i + gap);
