@@ -111,6 +111,10 @@ struct FifteenPuzzle{
     }
 };
 
+constexpr char FifteenPuzzle::dir[];
+constexpr int FifteenPuzzle::dx[];
+constexpr int FifteenPuzzle::dy[];
+
 int main(){
     int t;
     scanf("%d", &t);
@@ -118,9 +122,9 @@ int main(){
         vector<int> tiles(16);
         for (auto& x : tiles) scanf("%d", &x);
 
-        auto [moves, path] = FifteenPuzzle(tiles).solve();
-        if (moves == -1) puts("This puzzle is not solvable.");
-        else puts(path.c_str());
+        auto res = FifteenPuzzle(tiles).solve();
+        if (res.first == -1) puts("This puzzle is not solvable.");
+        else puts(res.second.c_str());
     }
     return 0;
 }

@@ -57,10 +57,10 @@ struct DancingLinks{
         R[idx - 1] = first, L[first] = idx - 1;
     }
 
-    optional<vector<int>> exact_cover(){
+    pair<bool, vector<int>> exact_cover(){
         int len = algorithm_x(0);
-        if (len == -1) return nullopt;
-        return vector<int>(selected_rows.begin(), selected_rows.begin() + len);
+        if (len == -1) return {false, {}};
+        return {true, vector<int>(selected_rows.begin(), selected_rows.begin() + len)};
     }
 
     /// Returns the number of selected rows of the first cover found, or -1 if none exists
@@ -154,9 +154,9 @@ namespace sudoku{
         }
 
         auto res = dlx.exact_cover();
-        if (!res) return false;
+        if (!res.first) return false;
 
-        for (int v : *res){
+        for (int v : res.second){
             decode(n, v, i, j, k);
             grid[i][j] = k + 1;
         }

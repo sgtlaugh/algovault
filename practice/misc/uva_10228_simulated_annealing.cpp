@@ -43,6 +43,9 @@ struct Annealer{
     mt19937_64 rng;
     chrono::steady_clock::time_point start;
 
+    Annealer(double t_start, double t_end, double seconds, long long steps, long long step, double temperature, mt19937_64 rng, chrono::steady_clock::time_point start)
+        : t_start(t_start), t_end(t_end), seconds(seconds), steps(steps), step(step), temperature(temperature), rng(rng), start(start) {}
+
     static Annealer by_steps(double t_start, double t_end, long long steps, unsigned long long seed = 17){
         return {t_start, t_end, 0, steps, 0, 0, mt19937_64(seed), {}};
     }
@@ -70,8 +73,7 @@ struct Annealer{
 /// first would round values past 2^53 together and turn small uphill gaps into free moves
 template<typename E>
 double uphill_gap(E lo, E hi){
-    if constexpr (is_integral_v<E>) return (double)((make_unsigned_t<E>)hi - (make_unsigned_t<E>)lo);
-    else return (double)(hi - lo);
+    return (double)(hi - lo);
 }
 
 template<typename State, typename Energy, typename Neighbour>
