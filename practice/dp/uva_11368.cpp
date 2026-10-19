@@ -77,7 +77,7 @@ int main(){
     while (t--){
         scanf("%d", &m);
         vector<pair<int, int>> dolls(m);
-        for (auto& [w, h]: dolls) scanf("%d %d", &w, &h);
+        for (auto& doll: dolls) scanf("%d %d", &doll.first, &doll.second);
 
         /// Dilworth: fewest chains = largest antichain, a non-increasing run of heights once sorted by width ascending,
         /// equal widths by height descending so they never chain with each other

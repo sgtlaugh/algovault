@@ -112,6 +112,8 @@ struct HamiltonianGraph{
     }
 };
 
+constexpr long long HamiltonianGraph::INF;
+
 long long cents(){
     double x;
     scanf("%lf", &x);

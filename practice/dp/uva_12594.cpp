@@ -41,7 +41,7 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
     }
 
     /// fills cur[l..r] knowing their optimal j lie in [opt_l, opt_r], invariant opt_l < l keeps the scan non-empty
-    auto solve = [&](auto&& self, int l, int r, int opt_l, int opt_r) -> void{
+    function<void(int, int, int, int)> solve = [&](int l, int r, int opt_l, int opt_r) -> void{
         if (l > r) return;
 
         int mid = (l + r) / 2, best = -1;
@@ -52,15 +52,15 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
         }
         cur[mid] = best_val;
 
-        self(self, l, mid - 1, opt_l, best);
-        self(self, mid + 1, r, best, opt_r);
+        solve(l, mid - 1, opt_l, best);
+        solve(mid + 1, r, best, opt_r);
     };
 
     for (int i = 1; i <= n; i++) prev[i] = cost(0, i);
     for (int g = 2; g <= k; g++){
         /// layer g - 1 is finite exactly from index g - 1, so starting j there keeps inf out of every addition
         cur.assign(n + 1, inf);
-        solve(solve, g, n, g - 1, n - 1);
+        solve(g, n, g - 1, n - 1);
         prev.swap(cur);
     }
 

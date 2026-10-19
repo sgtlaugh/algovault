@@ -75,7 +75,7 @@ int main(){
     int n;
     while (scanf("%d", &n) == 1 && n){
         vector<pair<int, int>> blocks(n);
-        for (auto& [l, m]: blocks) scanf("%d %d", &l, &m);
+        for (auto& block: blocks) scanf("%d %d", &block.first, &block.second);
 
         /// Sorted by l, a tower is a non-decreasing subsequence of m
         sort(blocks.begin(), blocks.end());

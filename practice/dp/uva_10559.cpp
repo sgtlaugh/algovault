@@ -34,22 +34,22 @@ int blocks_max_score(const Sequence& blocks){
     int m = run_len.size();
     vector<int> dp((size_t)m * m * n, -1);
 
-    auto solve = [&](auto&& self, int start, int end, int cnt) -> int{
+    function<int(int, int, int)> solve = [&](int start, int end, int cnt) -> int{
         if (start > end) return 0;
         int& memo = dp[((size_t)start * m + end) * n + cnt];
         if (memo != -1) return memo;
 
-        int k = cnt + run_len[start], res = k * k + self(self, start + 1, end, 0);
+        int k = cnt + run_len[start], res = k * k + solve(start + 1, end, 0);
         for (int mid = start + 1; mid <= end; mid++){
             if (blocks[run_start[start]] == blocks[run_start[mid]]){
-                res = max(res, self(self, start + 1, mid - 1, 0) + self(self, mid, end, k));
+                res = max(res, solve(start + 1, mid - 1, 0) + solve(mid, end, k));
             }
         }
 
         return memo = res;
     };
 
-    return solve(solve, 0, m - 1, 0);
+    return solve(0, m - 1, 0);
 }
 
 int main(){

@@ -112,6 +112,8 @@ struct HamiltonianGraph{
     }
 };
 
+constexpr long long HamiltonianGraph::INF;
+
 int h, w;
 vector<string> grid;
 
@@ -136,7 +138,7 @@ vector<vector<int>> bfs(int si, int sj, const vector<vector<bool>>& bad){
     queue<pair<int, int>> q;
     dis[si][sj] = 0, q.push({si, sj});
     while (!q.empty()){
-        auto [x, y] = q.front();
+        int x = q.front().first, y = q.front().second;
         q.pop();
         for (int d = 0; d < 4; d++){
             int i = x + dx[d], j = y + dy[d];

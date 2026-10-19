@@ -112,6 +112,8 @@ struct HamiltonianGraph{
     }
 };
 
+constexpr long long HamiltonianGraph::INF;
+
 int main(){
     int x, y;
     while (scanf("%d %d", &x, &y) == 2){

@@ -112,6 +112,8 @@ struct HamiltonianGraph{
     }
 };
 
+constexpr long long HamiltonianGraph::INF;
+
 int main(){
     int t;
     scanf("%d", &t);
@@ -135,14 +137,16 @@ int main(){
         HamiltonianGraph g(s + 1);
         for (int i = 0; i <= s; i++){
             vector<long long> dist(n, LLONG_MAX);
-            priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> pq;
+            priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> pq;
             dist[places[i]] = 0;
             pq.push({0, places[i]});
             while (!pq.empty()){
-                auto [d, u] = pq.top();
+                long long d = pq.top().first;
+                int u = pq.top().second;
                 pq.pop();
                 if (d > dist[u]) continue;
-                for (auto [v, w] : adj[u]){
+                for (auto e : adj[u]){
+                    int v = e.first, w = e.second;
                     if (d + w < dist[v]){
                         dist[v] = d + w;
                         pq.push({dist[v], v});
