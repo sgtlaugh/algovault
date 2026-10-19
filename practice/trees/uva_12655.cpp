@@ -59,7 +59,9 @@ struct LCA{
         up[0][root] = root, level[root] = 0, weight_sum[root] = 0;
         for (int i = 0; i < (int)order.size(); i++){
             int u = order[i];
-            for (auto [v, w] : adj[u]){
+            for (auto e : adj[u]){
+                int v = e.first;
+                long long w = e.second;
                 if (v == up[0][u]) continue;
                 assert(up[0][v] == -1);
                 up[0][v] = u, level[v] = level[u] + 1, weight_sum[v] = weight_sum[u] + w;
@@ -158,6 +160,7 @@ struct LinearRMQ{
         return res;
     }
 };
+constexpr int LinearRMQ::B;
 
 struct LinearLCA{
     int n, added_edges = 0;
@@ -185,7 +188,9 @@ struct LinearLCA{
         while (!stack.empty()){
             int u = stack.back();
             if (next_edge[u] < (int)adj[u].size()){
-                auto [v, w] = adj[u][next_edge[u]++];
+                auto e = adj[u][next_edge[u]++];
+                int v = e.first;
+                long long w = e.second;
                 if (v == parent[u]) continue;
                 assert(parent[v] == -1);
                 parent[v] = u, level[v] = level[u] + 1, weight_sum[v] = weight_sum[u] + w;
@@ -233,7 +238,7 @@ int main(){
     int n, m, s;
     while (scanf("%d %d %d", &n, &m, &s) == 3){
         vector<array<int, 3>> bridges(m);
-        for (auto& [w, a, b]: bridges) scanf("%d %d %d", &a, &b, &w), a--, b--;
+        for (auto& e: bridges) scanf("%d %d %d", &e[1], &e[2], &e[0]), e[1]--, e[2]--;
         sort(bridges.rbegin(), bridges.rend());
 
         /// Kruskal reconstruction tree: taking bridges heaviest first, each merge of two islands groups gets a new
@@ -247,7 +252,8 @@ int main(){
 
         LinearLCA tree(2 * n - 1);
         int next = n;
-        for (auto [w, a, b]: bridges){
+        for (auto e: bridges){
+            int w = e[0], a = e[1], b = e[2];
             a = find(a), b = find(b);
             if (a == b) continue;
             limit[next] = w;

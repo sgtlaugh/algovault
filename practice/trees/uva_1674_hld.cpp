@@ -96,8 +96,8 @@ struct HLD{
 
     vector<pair<int, int>> path(int u, int v, bool edges = false) const{
         vector<pair<int, int>> ranges = ordered_path(u, v, edges);
-        for (auto& [a, b] : ranges){
-            if (a > b) swap(a, b);
+        for (auto& e : ranges){
+            if (e.first > e.second) swap(e.first, e.second);
         }
         return ranges;
     }
@@ -135,7 +135,7 @@ struct HLD{
 
     /// Folds from the first range, so seg needs no identity; only u == v with edges gives an empty path
     template <typename Tree>
-    auto query_path(Tree& seg, int u, int v, bool edges = false) const{
+    auto query_path(Tree& seg, int u, int v, bool edges = false) const -> decltype(seg.query(0, 0)){
         using T = decltype(seg.query(0, 0));
         auto ranges = path(u, v, edges);
         if (ranges.empty()) return T();
@@ -147,7 +147,7 @@ struct HLD{
 
     template <typename Tree, typename Value>
     void update_path(Tree& seg, int u, int v, Value x, bool edges = false) const{
-        for (auto [l, r] : path(u, v, edges)) seg.update(l, r, x);
+        for (auto e : path(u, v, edges)) seg.update(e.first, e.second, x);
     }
 
     int lca(int u, int v) const{

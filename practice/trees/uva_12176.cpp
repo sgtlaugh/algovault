@@ -59,7 +59,9 @@ struct LCA{
         up[0][root] = root, level[root] = 0, weight_sum[root] = 0;
         for (int i = 0; i < (int)order.size(); i++){
             int u = order[i];
-            for (auto [v, w] : adj[u]){
+            for (auto e : adj[u]){
+                int v = e.first;
+                long long w = e.second;
                 if (v == up[0][u]) continue;
                 assert(up[0][v] == -1);
                 up[0][v] = u, level[v] = level[u] + 1, weight_sum[v] = weight_sum[u] + w;
@@ -185,7 +187,9 @@ struct LinearLCA{
         while (!stack.empty()){
             int u = stack.back();
             if (next_edge[u] < (int)adj[u].size()){
-                auto [v, w] = adj[u][next_edge[u]++];
+                auto e = adj[u][next_edge[u]++];
+                int v = e.first;
+                long long w = e.second;
                 if (v == parent[u]) continue;
                 assert(parent[v] == -1);
                 parent[v] = u, level[v] = level[u] + 1, weight_sum[v] = weight_sum[u] + w;
@@ -240,14 +244,15 @@ int main(){
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d", &n, &r);
         vector<array<int, 3>> roads(r);
-        for (auto& [l, a, b] : roads) scanf("%d %d %d", &a, &b, &l);
+        for (auto& e : roads) scanf("%d %d %d", &e[1], &e[2], &e[0]);
         sort(roads.begin(), roads.end());
 
         /// Kruskal: the longest day trip on the minimum spanning tree path is the best any itinerary can do
         LCA tree(n);
         vector<int> root(n);
         iota(root.begin(), root.end(), 0);
-        for (auto [l, a, b] : roads){
+        for (auto e : roads){
+            int l = e[0], a = e[1], b = e[2];
             int x = find(root, a - 1), y = find(root, b - 1);
             if (x != y) root[x] = y, tree.add_edge(a - 1, b - 1, l);
         }

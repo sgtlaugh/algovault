@@ -59,7 +59,9 @@ struct LCA{
         up[0][root] = root, level[root] = 0, weight_sum[root] = 0;
         for (int i = 0; i < (int)order.size(); i++){
             int u = order[i];
-            for (auto [v, w] : adj[u]){
+            for (auto e : adj[u]){
+                int v = e.first;
+                long long w = e.second;
                 if (v == up[0][u]) continue;
                 assert(up[0][v] == -1);
                 up[0][v] = u, level[v] = level[u] + 1, weight_sum[v] = weight_sum[u] + w;
@@ -158,6 +160,7 @@ struct LinearRMQ{
         return res;
     }
 };
+constexpr int LinearRMQ::B;
 
 struct LinearLCA{
     int n, added_edges = 0;
@@ -185,7 +188,9 @@ struct LinearLCA{
         while (!stack.empty()){
             int u = stack.back();
             if (next_edge[u] < (int)adj[u].size()){
-                auto [v, w] = adj[u][next_edge[u]++];
+                auto e = adj[u][next_edge[u]++];
+                int v = e.first;
+                long long w = e.second;
                 if (v == parent[u]) continue;
                 assert(parent[v] == -1);
                 parent[v] = u, level[v] = level[u] + 1, weight_sum[v] = weight_sum[u] + w;
@@ -233,7 +238,7 @@ int main(){
     int n, m;
     for (int tc = 0; scanf("%d %d", &n, &m) == 2; tc++){
         vector<array<int, 3>> roads(m);
-        for (auto& [d, x, y]: roads) scanf("%d %d %d", &x, &y, &d), x--, y--;
+        for (auto& e: roads) scanf("%d %d %d", &e[1], &e[2], &e[0]), e[1]--, e[2]--;
         sort(roads.begin(), roads.end());
 
         /// Kruskal reconstruction tree: each union hangs both components under a new node holding the road's danger,
@@ -253,7 +258,8 @@ int main(){
             tree.add_edge(nodes, a), tree.add_edge(nodes, b);
             parent[a] = parent[b] = nodes++;
         };
-        for (auto& [d, x, y]: roads){
+        for (auto& e: roads){
+            int d = e[0], x = e[1], y = e[2];
             int a = find(x), b = find(y);
             if (a != b) join(a, b, d);
         }
