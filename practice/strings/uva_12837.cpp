@@ -21,7 +21,7 @@ using namespace std;
 
 struct PolyHash{
     static constexpr uint64_t mod = (1ULL << 61) - 1;
-    static inline const uint64_t base = mt19937_64(chrono::system_clock::now().time_since_epoch().count())() % (mod / 3) + (mod / 3);
+    static const uint64_t base;
 
     /// Remove suff vector and usage if reverse hash is not required for more speed
     vector<int64_t> pref, suff, base_pow;
@@ -71,6 +71,8 @@ struct PolyHash{
         return h < 0 ? h + mod : h;
     }
 };
+
+const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_since_epoch().count())() % (mod / 3) + (mod / 3);
 
 int main(){
     const int K = 10;
@@ -130,11 +132,13 @@ int main(){
         vector<int> cnt(shorts.size(), 0);
         for (int p = 0; p < (int)shorts.size(); p++){
             if (asked[p].empty()) continue;
-            for (auto [i, j] : by_prefix[p]){
+            for (auto window : by_prefix[p]){
+                int i = window.first, j = window.second;
                 for (int l = 1; l <= min(K, j - i + 1); l++) cnt[id[j - l + 1][l]]++;
             }
             for (int qi : asked[p]) res[qi] = cnt[qy[qi]];
-            for (auto [i, j] : by_prefix[p]){
+            for (auto window : by_prefix[p]){
+                int i = window.first, j = window.second;
                 for (int l = 1; l <= min(K, j - i + 1); l++) cnt[id[j - l + 1][l]] = 0;
             }
         }

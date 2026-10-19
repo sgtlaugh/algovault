@@ -311,7 +311,8 @@ int main(){
         SuffixArrayQueries<string> text(read_line());
         int q = stoi(read_line());
         while (q--){
-            auto [lo, hi] = text.occurrences(read_line());
+            int lo, hi;
+            tie(lo, hi) = text.occurrences(read_line());
             puts(lo < hi ? "y" : "n");
         }
     }

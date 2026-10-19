@@ -174,23 +174,23 @@ int main(){
 
         /// ways(i, v, seen): passwords completing the first i letters that end in node v having matched the patterns in seen
         vector<long long> memo((size_t)(n + 1) * nodes << m, -1);
-        auto ways = [&](auto&& self, int i, int v, int seen) -> long long{
+        function<long long(int, int, int)> ways = [&](int i, int v, int seen) -> long long{
             seen |= mask[v];
             if (seen == full) return pw[n - i];
             if (i == n) return 0;
             long long& res = memo[(((size_t)i * nodes + v) << m) + seen];
             if (res != -1) return res;
             res = 0;
-            for (auto [u, letters] : moves[v]) res += letters * self(self, i + 1, u, seen);
+            for (auto edge : moves[v]) res += edge.second * ways(i + 1, edge.first, seen);
             return res;
         };
 
-        long long total = ways(ways, 0, 0, 0);
+        long long total = ways(0, 0, 0);
         printf("Case %d: %lld suspects\n", ++tc, total);
         if (total > 42) continue;
 
         string password(n, ' ');
-        auto list = [&](auto&& self, int i, int v, int seen) -> void{
+        function<void(int, int, int)> list = [&](int i, int v, int seen) -> void{
             seen |= mask[v];
             if (i == n){
                 puts(password.c_str());
@@ -198,10 +198,10 @@ int main(){
             }
             for (char c = 'a'; c <= 'z'; c++){
                 int u = ac.next(v, c);
-                if (ways(ways, i + 1, u, seen)) password[i] = c, self(self, i + 1, u, seen);
+                if (ways(i + 1, u, seen)) password[i] = c, list(i + 1, u, seen);
             }
         };
-        if (total) list(list, 0, 0, 0);
+        if (total) list(0, 0, 0);
     }
     return 0;
 }

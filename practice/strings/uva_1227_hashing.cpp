@@ -21,7 +21,7 @@ using namespace std;
 
 struct PolyHash{
     static constexpr uint64_t mod = (1ULL << 61) - 1;
-    static inline const uint64_t base = mt19937_64(chrono::system_clock::now().time_since_epoch().count())() % (mod / 3) + (mod / 3);
+    static const uint64_t base;
 
     /// Remove suff vector and usage if reverse hash is not required for more speed
     vector<int64_t> pref, suff, base_pow;
@@ -71,6 +71,8 @@ struct PolyHash{
         return h < 0 ? h + mod : h;
     }
 };
+
+const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_since_epoch().count())() % (mod / 3) + (mod / 3);
 
 /// Open addressing set of window hashes, mask[k] has bit i once genome i contains the window
 struct HashSet{

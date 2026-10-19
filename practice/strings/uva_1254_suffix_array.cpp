@@ -348,7 +348,8 @@ int main(){
         scanf("%d", &q);
         while (q--){
             scanf("%s", buf);
-            auto [lo, hi] = sa.occurrences(string(buf));
+            int lo, hi;
+            tie(lo, hi) = sa.occurrences(string(buf));
             Best best;
             for (int l = lo + m, r = hi + m; l < r; l >>= 1, r >>= 1){
                 if (l & 1) best = merge(best, tree[l++]);

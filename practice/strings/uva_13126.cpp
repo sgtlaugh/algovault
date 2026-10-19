@@ -21,7 +21,7 @@ using namespace std;
 
 struct PolyHash{
     static constexpr uint64_t mod = (1ULL << 61) - 1;
-    static inline const uint64_t base = mt19937_64(chrono::system_clock::now().time_since_epoch().count())() % (mod / 3) + (mod / 3);
+    static const uint64_t base;
 
     /// Remove suff vector and usage if reverse hash is not required for more speed
     vector<int64_t> pref, suff, base_pow;
@@ -72,6 +72,8 @@ struct PolyHash{
     }
 };
 
+const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_since_epoch().count())() % (mod / 3) + (mod / 3);
+
 int main(){
     static char text[100005], word[100005];
     while (scanf("%100004s %100004s", text, word) == 2){
@@ -86,7 +88,7 @@ int main(){
             j += j == i;
         }
         vector<uint64_t> want;
-        for (auto [l, r] : runs) want.push_back(hw.get_hash(l, r));
+        for (auto run : runs) want.push_back(hw.get_hash(run.first, run.second));
 
         int res = 0;
         for (int s = 0; s + m <= n; s++){
