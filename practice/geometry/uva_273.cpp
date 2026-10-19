@@ -333,18 +333,18 @@ int main(){
         for (int i = 0; i < n; i++) scanf("%lld %lld %lld %lld", &a[i].x, &a[i].y, &b[i].x, &b[i].y);
 
         vector<int> color(n, -1);
-        auto dfs = [&](auto&& self, int i) -> void{
+        function<void(int)> dfs = [&](int i) -> void{
             for (int j = 0; j < n; j++){
                 if (color[j] == -1 && segments_intersect(a[i], b[i], a[j], b[j])){
                     color[j] = color[i];
-                    self(self, j);
+                    dfs(j);
                 }
             }
         };
         for (int i = 0; i < n; i++){
             if (color[i] == -1){
                 color[i] = i;
-                dfs(dfs, i);
+                dfs(i);
             }
         }
 

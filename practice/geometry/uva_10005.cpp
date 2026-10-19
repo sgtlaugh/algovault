@@ -200,8 +200,8 @@ Float circle_circle_area(const Circle& a, const Circle& b){
     if (d >= a.r + b.r) return 0;
     if (d <= fabsl(a.r - b.r)) return PI * r * r;
 
-    Float alpha = acosl(clamp((d * d + a.r * a.r - b.r * b.r) / (2 * d * a.r), (Float)-1, (Float)1));
-    Float beta = acosl(clamp((d * d + b.r * b.r - a.r * a.r) / (2 * d * b.r), (Float)-1, (Float)1));
+    Float alpha = acosl(max((Float)-1, min((d * d + a.r * a.r - b.r * b.r) / (2 * d * a.r), (Float)1)));
+    Float beta = acosl(max((Float)-1, min((d * d + b.r * b.r - a.r * a.r) / (2 * d * b.r), (Float)1)));
     return a.r * a.r * (alpha - sinl(2 * alpha) / 2) + b.r * b.r * (beta - sinl(2 * beta) / 2);
 }
 
@@ -221,7 +221,7 @@ Float circle_union_area(const vector<Circle>& circles){
             if (j != i && d <= o.r - c.r && (o.r > c.r || j < i)) hidden = true;
             if (j == i || d >= c.r + o.r || d <= fabsl(c.r - o.r)) continue;
 
-            Float mid = atan2l(v.y, v.x), half = acosl(clamp((c.r * c.r + d * d - o.r * o.r) / (2 * c.r * d), (Float)-1, (Float)1));
+            Float mid = atan2l(v.y, v.x), half = acosl(max((Float)-1, min((c.r * c.r + d * d - o.r * o.r) / (2 * c.r * d), (Float)1)));
             Float lo = mid - half, hi = mid + half;
             if (lo < 0) lo += 2 * PI, hi += 2 * PI;
             if (hi <= 2 * PI) covered.push_back({lo, hi});
@@ -236,9 +236,9 @@ Float circle_union_area(const vector<Circle>& circles){
 
         sort(covered.begin(), covered.end());
         Float from = 0;
-        for (auto [lo, hi] : covered){
-            if (lo > from) res += arc(from, lo);
-            from = max(from, hi);
+        for (auto e : covered){
+            if (e.first > from) res += arc(from, e.first);
+            from = max(from, e.second);
         }
         if (from < 2 * PI) res += arc(from, 2 * PI);
     }
@@ -274,9 +274,9 @@ pair<int, Point> max_circle_cover(const vector<Point>& points, Float r){
         sort(events.begin(), events.end());
         Float at = 0;
         int most = count;
-        for (auto [angle, type] : events){
-            count -= type;
-            if (count > most) most = count, at = angle;
+        for (auto e : events){
+            count -= e.second;
+            if (count > most) most = count, at = e.first;
         }
         if (most > best) best = most, center = points[i] + Point{cosl(at), sinl(at)} * r;
     }

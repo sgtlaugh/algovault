@@ -331,10 +331,10 @@ int main(){
         PointF p[4];
         for (int i = 0; i < 4; i++) scanf("%lf %lf", &p[i].x, &p[i].y);
 
-        auto [type, at] = line_intersection(p[0], p[1], p[2], p[3]);
-        if (type == -1) puts("LINE");
-        else if (type == 0) puts("NONE");
-        else printf("POINT %.2f %.2f\n", at.x, at.y);
+        auto res = line_intersection(p[0], p[1], p[2], p[3]);
+        if (res.first == -1) puts("LINE");
+        else if (res.first == 0) puts("NONE");
+        else printf("POINT %.2f %.2f\n", res.second.x, res.second.y);
     }
     puts("END OF OUTPUT");
     return 0;

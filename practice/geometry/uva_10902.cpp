@@ -329,7 +329,8 @@ int main(){
         vector<array<PointF, 2>> sticks(n);
         vector<array<double, 5>> box(n);
         for (int i = 0; i < n; i++){
-            auto& [a, b] = sticks[i];
+            auto& a = sticks[i][0];
+            auto& b = sticks[i][1];
             scanf("%lf %lf %lf %lf", &a.x, &a.y, &b.x, &b.y);
             box[i] = {min(a.x, b.x), max(a.x, b.x), min(a.y, b.y), max(a.y, b.y), hypot(b.x - a.x, b.y - a.y)};
         }

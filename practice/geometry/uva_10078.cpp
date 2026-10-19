@@ -273,7 +273,7 @@ struct DynamicHull{
 
     vector<Point> hull() const {
         vector<Point> res;
-        for (auto& [x, y] : lower.pts) res.push_back(Point(x, -y));
+        for (auto& e : lower.pts) res.push_back(Point(e.first, -e.second));
 
         for (auto it = upper.pts.rbegin(); it != upper.pts.rend(); it++){
             Point p(it->first, it->second);
