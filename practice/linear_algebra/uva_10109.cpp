@@ -99,36 +99,6 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
     return cols - count(pos.begin(), pos.end(), -1);
 }
 
-template <class T>
-optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T eps=1e-9){
-    int n = a.size();
-    vector<vector<T>> aug(n, vector<T>(2 * n, 0));
-    for (int i = 0; i < n; i++){
-        assert((int)a[i].size() == n);
-        for (int j = 0; j < n; j++) aug[i][j] = a[i][j];
-        aug[i][n + i] = 1;
-    }
-
-    vector<int> pos = row_reduce(aug, n, tolerance(a, n, eps));
-    if (n && pos[n - 1] != n - 1) return nullopt;
-
-    /// Clears above each pivot from the last up, the left half of a pivot row is then 0 past its pivot
-    for (int i = n - 1; i >= 0; i--){
-        for (int k = 0; k < i; k++){
-            if (aug[k][i] == 0) continue;
-            T factor = aug[k][i] / aug[i][i];
-            for (int l = n; l < 2 * n; l++) aug[k][l] -= aug[i][l] * factor;
-        }
-    }
-
-    vector<vector<T>> inv(n, vector<T>(n));
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++) inv[i][j] = aug[i][n + j] / aug[i][i];
-    }
-
-    return inv;
-}
-
 /// Exact rationals so gauss runs with eps = 0, 128-bit parts leave headroom for the products before reducing
 struct Fraction{
     __int128 num, den;
@@ -201,15 +171,15 @@ int main(){
             }
         }
 
-        auto [solvable, res, free_vars] = gauss(equations, Fraction(0));
+        auto sol = gauss(equations, Fraction(0));
         if (tc++) puts("");
         printf("Solution for Matrix System # %d\n", id);
-        if (!solvable) puts("No Solution.");
-        else if (free_vars) printf("Infinitely many solutions containing %d arbitrary constants.\n", free_vars);
+        if (!sol.solvable) puts("No Solution.");
+        else if (sol.free_variables) printf("Infinitely many solutions containing %d arbitrary constants.\n", sol.free_variables);
         else{
             for (int i = 0; i < unknowns; i++){
-                printf("x[%d] = %lld", i + 1, (long long)res[i].num);
-                if (res[i].den != 1) printf("/%lld", (long long)res[i].den);
+                printf("x[%d] = %lld", i + 1, (long long)sol.x[i].num);
+                if (sol.x[i].den != 1) printf("/%lld", (long long)sol.x[i].den);
                 puts("");
             }
         }

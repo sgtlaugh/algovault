@@ -222,10 +222,10 @@ int main(){
         int r, q;
         scanf("%d", &r);
         vector<pair<vector<int>, int>> known(r);
-        for (auto& [roads, t] : known){
+        for (auto& entry : known){
             int s, d;
-            scanf("%d %d %d", &s, &d, &t);
-            roads = path(s, d);
+            scanf("%d %d %d", &s, &d, &entry.second);
+            entry.first = path(s, d);
         }
 
         scanf("%d", &q);
@@ -249,10 +249,10 @@ int main(){
                 row[e] = 1;
                 lp.add_constraint(row, road_len[e], Simplex::LESSEQ);
             }
-            for (auto& [roads, t] : known){
+            for (auto& entry : known){
                 vector<double> row(m, 0);
-                long long rhs = t;
-                for (int e : roads) row[e] += 1, rhs -= road_len[e];
+                long long rhs = entry.second;
+                for (int e : entry.first) row[e] += 1, rhs -= road_len[e];
                 lp.add_constraint(row, rhs, Simplex::EQUAL);
             }
             lp.solve();

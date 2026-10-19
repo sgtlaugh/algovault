@@ -150,7 +150,8 @@ int main(){
         };
 
         int done = 0;
-        for (auto [c, mask] : blocked){
+        for (auto e : blocked){
+            int c = e.first, mask = e.second;
             advance(c - done);
             v = v * transfer(mask);
             done = c + 1;

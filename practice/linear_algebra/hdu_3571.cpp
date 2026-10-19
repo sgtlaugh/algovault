@@ -129,26 +129,6 @@ int matrix_rank(vector<vector<int>> a, int mod){
     return cols - count(pos.begin(), pos.end(), -1);
 }
 
-optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int mod){
-    int n = a.size();
-    vector<vector<int>> aug(n, vector<int>(2 * n, 0));
-    for (int i = 0; i < n; i++){
-        assert((int)a[i].size() == n);
-        for (int j = 0; j < n; j++) aug[i][j] = a[i][j];
-        aug[i][n + i] = 1;
-    }
-
-    vector<int> pos = rref_mod(aug, n, mod);
-    if (n && pos[n - 1] != n - 1) return nullopt;
-
-    vector<vector<int>> inv(n, vector<int>(n));
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++) inv[i][j] = aug[i][n + j];
-    }
-
-    return inv;
-}
-
 /// Center coordinates reach 10^17, two primes near 2^31 give a CRT range above 4 * 10^18
 const int PRIMES[] = {2147483647, 2147483629, 2147483587, 2147483579, 2147483563, 2147483549};
 
@@ -189,11 +169,11 @@ int main(){
             }
 
             /// The determinant may vanish modulo an unlucky prime, then the next one is tried
-            auto [solvable, x, basis] = gauss(equations, mod);
-            if (!basis.empty()) continue;
+            auto sol = gauss(equations, mod);
+            if (!sol.basis.empty()) continue;
 
             moduli.push_back(mod);
-            residues.push_back(x);
+            residues.push_back(sol.x);
         }
 
         long long p = moduli[0], q = moduli[1], product = p * q;

@@ -99,42 +99,12 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
     return cols - count(pos.begin(), pos.end(), -1);
 }
 
-template <class T>
-optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T eps=1e-9){
-    int n = a.size();
-    vector<vector<T>> aug(n, vector<T>(2 * n, 0));
-    for (int i = 0; i < n; i++){
-        assert((int)a[i].size() == n);
-        for (int j = 0; j < n; j++) aug[i][j] = a[i][j];
-        aug[i][n + i] = 1;
-    }
-
-    vector<int> pos = row_reduce(aug, n, tolerance(a, n, eps));
-    if (n && pos[n - 1] != n - 1) return nullopt;
-
-    /// Clears above each pivot from the last up, the left half of a pivot row is then 0 past its pivot
-    for (int i = n - 1; i >= 0; i--){
-        for (int k = 0; k < i; k++){
-            if (aug[k][i] == 0) continue;
-            T factor = aug[k][i] / aug[i][i];
-            for (int l = n; l < 2 * n; l++) aug[k][l] -= aug[i][l] * factor;
-        }
-    }
-
-    vector<vector<T>> inv(n, vector<T>(n));
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++) inv[i][j] = aug[i][n + j] / aug[i][i];
-    }
-
-    return inv;
-}
-
 int main(){
     vector<int> jump(101);
     iota(jump.begin(), jump.end(), 0);
-    for (auto [a, b] : vector<pair<int, int>>{{1, 38}, {4, 14}, {9, 31}, {21, 42}, {28, 84}, {36, 44}, {51, 67}, {71, 91}, {80, 100},
+    for (auto e : vector<pair<int, int>>{{1, 38}, {4, 14}, {9, 31}, {21, 42}, {28, 84}, {36, 44}, {51, 67}, {71, 91}, {80, 100},
                                              {16, 6}, {47, 26}, {49, 11}, {56, 53}, {62, 19}, {64, 60}, {87, 24}, {93, 73}, {95, 75}, {98, 78}}){
-        jump[a] = b;
+        jump[e.first] = e.second;
     }
 
     int k;

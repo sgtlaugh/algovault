@@ -214,7 +214,8 @@ int main(){
         /// while an infeasible system, a negative cycle of integer weight <= -1, stays infeasible
         uniform_real_distribution<double> slack(1e-7, 2e-7);
         vector<double> coef(n + m, 0);
-        for (auto [i, j, h]: lands){
+        for (auto land: lands){
+            int i = land[0], j = land[1], h = land[2];
             coef[i] = 1, coef[n + j] = -1;
             lp.add_constraint(coef, hi - h + slack(rng), Simplex::LESSEQ);
             lp.add_constraint(coef, lo - h - slack(rng), Simplex::GREATEQ);

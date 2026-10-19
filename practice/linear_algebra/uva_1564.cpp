@@ -129,26 +129,6 @@ int matrix_rank(vector<vector<int>> a, int mod){
     return cols - count(pos.begin(), pos.end(), -1);
 }
 
-optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int mod){
-    int n = a.size();
-    vector<vector<int>> aug(n, vector<int>(2 * n, 0));
-    for (int i = 0; i < n; i++){
-        assert((int)a[i].size() == n);
-        for (int j = 0; j < n; j++) aug[i][j] = a[i][j];
-        aug[i][n + i] = 1;
-    }
-
-    vector<int> pos = rref_mod(aug, n, mod);
-    if (n && pos[n - 1] != n - 1) return nullopt;
-
-    vector<vector<int>> inv(n, vector<int>(n));
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++) inv[i][j] = aug[i][n + j];
-    }
-
-    return inv;
-}
-
 int day_of(const char* s){
     const char* days[] = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
     for (int d = 0; d < 7; d++){

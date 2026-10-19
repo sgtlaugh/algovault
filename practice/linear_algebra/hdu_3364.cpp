@@ -106,18 +106,6 @@ int matrix_rank(int m, vector<bitset<W>> a){
 }
 
 template <size_t W = GF2_WIDTH>
-optional<vector<bitset<W>>> matrix_inverse(int n, vector<bitset<W>> a){
-    /// Checked before the identity is written, side[i][i] with i >= W is past the end of the row
-    assert((int)a.size() == n && n <= (int)W);
-    vector<bitset<W>> side(n);
-    for (int i = 0; i < n; i++) side[i][i] = 1;
-
-    vector<int> pos = eliminate_gf2(a, n, &side);
-    if (n && pos[n - 1] != n - 1) return nullopt;
-    return side;
-}
-
-template <size_t W = GF2_WIDTH>
 vector<bitset<W>> rows_of(const vector<string>& bits){
     vector<bitset<W>> res;
     for (const string& s : bits){
@@ -156,8 +144,8 @@ int main(){
                 equations[i][m] = state;
             }
 
-            auto [solvable, x, free_variables] = gauss(m, equations);
-            printf("%lld\n", solvable ? 1LL << free_variables : 0LL);
+            auto sol = gauss(m, equations);
+            printf("%lld\n", sol.solvable ? 1LL << sol.free_variables : 0LL);
         }
     }
     return 0;

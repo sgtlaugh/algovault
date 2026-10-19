@@ -126,8 +126,8 @@ int main(){
     for (int i = 0; i < s; i++){
         start[0][i] = 1;
         for (int j = 0; j < s; j++){
-            auto [a, b] = states[i];
-            auto [c, d] = states[j];
+            int a = states[i].first, b = states[i].second;
+            int c = states[j].first, d = states[j].second;
             if (b == c && apart(a, d, 1)) step[i][j] = 1;
         }
     }

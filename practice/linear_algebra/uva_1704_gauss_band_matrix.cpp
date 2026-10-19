@@ -151,7 +151,7 @@ int main(){
             if (grid[0][j] == '.') starts++, seen[0][j] = true, stack.push_back({0, j});
         }
         while (!stack.empty()){
-            auto [i, j] = stack.back();
+            int i = stack.back().first, j = stack.back().second;
             stack.pop_back();
             if (grid[i][j] == 'T') continue;
             for (int k = 0; k < 4; k++){

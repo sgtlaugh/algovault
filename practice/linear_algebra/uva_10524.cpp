@@ -100,7 +100,7 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
 }
 
 template <class T>
-optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T eps=1e-9){
+pair<bool, vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T eps=1e-9){
     int n = a.size();
     vector<vector<T>> aug(n, vector<T>(2 * n, 0));
     for (int i = 0; i < n; i++){
@@ -110,7 +110,7 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
     }
 
     vector<int> pos = row_reduce(aug, n, tolerance(a, n, eps));
-    if (n && pos[n - 1] != n - 1) return nullopt;
+    if (n && pos[n - 1] != n - 1) return {false, {}};
 
     /// Clears above each pivot from the last up, the left half of a pivot row is then 0 past its pivot
     for (int i = n - 1; i >= 0; i--){
@@ -126,7 +126,7 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
         for (int j = 0; j < n; j++) inv[i][j] = aug[i][n + j] / aug[i][i];
     }
 
-    return inv;
+    return {true, inv};
 }
 
 int main(){
@@ -140,16 +140,16 @@ int main(){
         /// Without pivoting, elimination only gets through when every leading principal minor is nonsingular
         bool possible = true;
         for (int k = 1; k <= n && possible; k++){
-            vector<vector<double>> minor(k, vector<double>(k));
-            for (int i = 0; i < k; i++) copy(a[i].begin(), a[i].begin() + k, minor[i].begin());
-            possible = matrix_rank(minor) == k;
+            vector<vector<double>> leading(k, vector<double>(k));
+            for (int i = 0; i < k; i++) copy(a[i].begin(), a[i].begin() + k, leading[i].begin());
+            possible = matrix_rank(leading) == k;
         }
 
-        optional<vector<vector<double>>> inv;
+        pair<bool, vector<vector<double>>> inv;
         if (possible) inv = matrix_inverse(a);
-        if (!inv) puts("Not possible");
+        if (!inv.first) puts("Not possible");
         else{
-            for (auto& row: *inv){
+            for (auto& row: inv.second){
                 /// The nudge keeps a tiny negative from printing as -0.000000
                 for (int j = 0; j < n; j++) printf("%s%.6f", j ? " " : "", row[j] + 1e-10);
                 puts("");

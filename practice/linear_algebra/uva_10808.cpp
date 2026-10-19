@@ -100,7 +100,7 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
 }
 
 template <class T>
-optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T eps=1e-9){
+pair<bool, vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T eps=1e-9){
     int n = a.size();
     vector<vector<T>> aug(n, vector<T>(2 * n, 0));
     for (int i = 0; i < n; i++){
@@ -110,7 +110,7 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
     }
 
     vector<int> pos = row_reduce(aug, n, tolerance(a, n, eps));
-    if (n && pos[n - 1] != n - 1) return nullopt;
+    if (n && pos[n - 1] != n - 1) return {false, {}};
 
     /// Clears above each pivot from the last up, the left half of a pivot row is then 0 past its pivot
     for (int i = n - 1; i >= 0; i--){
@@ -126,7 +126,7 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
         for (int j = 0; j < n; j++) inv[i][j] = aug[i][n + j] / aug[i][i];
     }
 
-    return inv;
+    return {true, inv};
 }
 
 /// Sign and magnitude in base 1e9 limbs, least significant first, zero has no limbs and is never negative
@@ -348,7 +348,7 @@ BigInt gcd(BigInt a, BigInt b){
     if (b == 0) return a;
     long long small = b.limbs[0];
     BigInt rest = a % b;
-    return std::gcd(small, rest.limbs.empty() ? 0LL : (long long)rest.limbs[0]);
+    return __gcd(small, rest.limbs.empty() ? 0LL : (long long)rest.limbs[0]);
 }
 
 /// Exact rationals so matrix_inverse runs with eps = 0, big integers because answers on dense networks pass 60 digits
@@ -466,7 +466,7 @@ int main(){
             }
             laplacian[u][u] = total;
         }
-        vector<vector<Fraction>> inv = *matrix_inverse(laplacian, Fraction(0));
+        vector<vector<Fraction>> inv = matrix_inverse(laplacian, Fraction(0)).second;
 
         int queries;
         scanf("%d", &queries);

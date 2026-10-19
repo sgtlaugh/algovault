@@ -99,36 +99,6 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
     return cols - count(pos.begin(), pos.end(), -1);
 }
 
-template <class T>
-optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T eps=1e-9){
-    int n = a.size();
-    vector<vector<T>> aug(n, vector<T>(2 * n, 0));
-    for (int i = 0; i < n; i++){
-        assert((int)a[i].size() == n);
-        for (int j = 0; j < n; j++) aug[i][j] = a[i][j];
-        aug[i][n + i] = 1;
-    }
-
-    vector<int> pos = row_reduce(aug, n, tolerance(a, n, eps));
-    if (n && pos[n - 1] != n - 1) return nullopt;
-
-    /// Clears above each pivot from the last up, the left half of a pivot row is then 0 past its pivot
-    for (int i = n - 1; i >= 0; i--){
-        for (int k = 0; k < i; k++){
-            if (aug[k][i] == 0) continue;
-            T factor = aug[k][i] / aug[i][i];
-            for (int l = n; l < 2 * n; l++) aug[k][l] -= aug[i][l] * factor;
-        }
-    }
-
-    vector<vector<T>> inv(n, vector<T>(n));
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++) inv[i][j] = aug[i][n + j] / aug[i][i];
-    }
-
-    return inv;
-}
-
 /// Exact rationals so gauss runs with eps = 0, 128-bit parts leave headroom for the products before reducing
 struct Fraction{
     __int128 num, den;
@@ -227,16 +197,16 @@ int main(){
         for (int j = 0; j < m; j++){
             map<string, int> counts;
             add_atoms(molecules[j], j < left ? 1 : -1, counts);
-            for (auto& [element, count]: counts){
-                auto& row = element_rows[element];
+            for (auto& entry: counts){
+                auto& row = element_rows[entry.first];
                 row.resize(m + 1, 0);
-                row[j] = count;
+                row[j] = entry.second;
             }
         }
 
         /// The balanced coefficients are one ray, so pinning the first to 1 leaves a unique rational solution
         vector<vector<Fraction>> equations;
-        for (auto& [element, row]: element_rows) equations.emplace_back(row.begin(), row.end());
+        for (auto& entry: element_rows) equations.emplace_back(entry.second.begin(), entry.second.end());
         equations.emplace_back(m + 1, Fraction(0));
         equations.back()[0] = equations.back()[m] = 1;
 
