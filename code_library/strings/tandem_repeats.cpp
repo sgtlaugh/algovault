@@ -55,31 +55,32 @@ namespace main_lorentz{
     void solve(const Container& s, int lo, int hi, int* buf, F& report){
         if (hi - lo < 2) return;
 
-        int mid = lo + (hi - lo) / 2, nu = mid - lo, nv = hi - mid;
+        int mid = lo + (hi - lo) / 2, n_left = mid - lo, n_right = hi - mid;
         solve(s, lo, mid, buf, report);
         solve(s, mid, hi, buf, report);
 
         /// decltype(auto) keeps const T& for ordinary containers and returns vector<bool>'s proxy by value
-        auto u = [&](int i) -> decltype(auto){ return s[lo + i]; };
-        auto v = [&](int i) -> decltype(auto){ return s[mid + i]; };
-        auto ru = [&](int i) -> decltype(auto){ return s[mid - 1 - i]; };
-        auto rv = [&](int i) -> decltype(auto){ return s[hi - 1 - i]; };
-        int *zru = buf, *u_vs_v = buf + nu, *zv = buf + 2 * nu, *rv_vs_ru = buf + 2 * nu + nv;
-        z_function(ru, nu, zru);
-        z_function(v, nv, zv);
-        prefix_matches(v, nv, zv, u, nu, u_vs_v);
-        prefix_matches(ru, nu, zru, rv, nv, rv_vs_ru);
+        auto left = [&](int i) -> decltype(auto){ return s[lo + i]; };
+        auto right = [&](int i) -> decltype(auto){ return s[mid + i]; };
+        auto left_reversed = [&](int i) -> decltype(auto){ return s[mid - 1 - i]; };
+        auto right_reversed = [&](int i) -> decltype(auto){ return s[hi - 1 - i]; };
+        int *z_left_reversed = buf, *left_vs_right = buf + n_left;
+        int *z_right = buf + 2 * n_left, *right_reversed_vs_left_reversed = buf + 2 * n_left + n_right;
+        z_function(left_reversed, n_left, z_left_reversed);
+        z_function(right, n_right, z_right);
+        prefix_matches(right, n_right, z_right, left, n_left, left_vs_right);
+        prefix_matches(left_reversed, n_left, z_left_reversed, right_reversed, n_right, right_reversed_vs_left_reversed);
 
-        /// Second half starts in u: the repeat holds the pair (mid - l, mid) and l1 >= 1 matches before mid - l
-        for (int l = 1; l <= nu; l++){
-            int back = l < nu ? zru[l] : 0, front = u_vs_v[nu - l];
+        /// Second half starts in left: the repeat holds the pair (mid - l, mid) and l1 >= 1 matches before mid - l
+        for (int l = 1; l <= n_left; l++){
+            int back = l < n_left ? z_left_reversed[l] : 0, front = left_vs_right[n_left - l];
             int lo1 = max(1, l - front), hi1 = min(l - 1, back);
             if (lo1 <= hi1) report(mid - l - hi1, mid - l - lo1, l);
         }
 
-        /// Second half starts in v: the repeat holds the pair (mid - 1, mid - 1 + l) and l1 >= 1 matches up to mid - 1
-        for (int l = 1; l <= nv; l++){
-            int back = rv_vs_ru[nv - l], front = l < nv ? zv[l] : 0;
+        /// Second half starts in right: the repeat holds the pair (mid - 1, mid - 1 + l) and l1 >= 1 matches up to mid - 1
+        for (int l = 1; l <= n_right; l++){
+            int back = right_reversed_vs_left_reversed[n_right - l], front = l < n_right ? z_right[l] : 0;
             int lo1 = max(1, l - front), hi1 = min(l, back);
             if (lo1 <= hi1) report(mid - hi1, mid - lo1, l);
         }
