@@ -49,6 +49,7 @@ Every item is a yes, or the file is not done. The list mirrors CONTRIBUTING.md, 
 - [ ] One API line per public call, constructor first, each one sentence: `call(args): what it returns or does, preconditions`
 - [ ] No sentence is split across lines and no line holds two calls
 - [ ] The header has no usage example; a snippet appears only where calling the template needs code
+- [ ] The header states only what a caller passes and gets back, no internals; every uncommon term is defined where it first appears, and math is one sentence, not pseudocode
 - [ ] `main()` has no chained `assert(a && b)` over several calls, no `auto x = T(...)`, no timing, no printing
 - [ ] A blank line separates blocks and precedes each new object in `main()`
 - [ ] The README index description is one phrase of at most 50 characters

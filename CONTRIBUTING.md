@@ -17,6 +17,8 @@ The `/crucible` skill in `.claude/skills/crucible/` walks through all of this, f
 - A problem goes under the template at the core of its solution, not under setup steps like compression or sorting
 - An accepted solution built on the template goes in `practice/<topic>/<judge>_<code>.cpp` (`.py` for Python templates) as submitted, linked from its
   practice problem as ` [✅](../../practice/<topic>/<file> "Accepted solution")`; templates are copied from `code_library/`, never from `practice/`
+- POJ, UVa and HDU solutions compile as C++11, which CI checks: their template copy changes only where C++11 needs it, as the
+  `/verdict` skill lists
 - A problem solved on several templates gets one file per template, `<judge>_<code>_<template>.cpp`, each linked from its section
 - `<judge>` and `<code>` are the practice entry's in lowercase with underscores for spaces, `codeforces_25d.cpp`, `codeforces_gym_100570d.cpp`
 - Python templates go in `code_library/python/`, tests in `stress_tests/python/` via `stress.py`
@@ -27,6 +29,7 @@ The `/crucible` skill in `.claude/skills/crucible/` walks through all of this, f
 ## API and code
 
 A template is used under contest pressure by someone who did not write it, so the simplest correct design wins over the cleverest one.
+The priorities, in order: correct, fast, easy to call, easy to read inside; a rule below gives way only to a higher priority, with a comment saying so.
 
 ### The API
 
@@ -47,6 +50,7 @@ A template is used under contest pressure by someone who did not write it, so th
 - No abstraction for one use, and no language machinery (template template parameters, SFINAE traits, CRTP, macros) unless
   it turns a silent wrong answer into a compile error, with a comment saying so
 - The one non-obvious line gets a one-line derivation; everything else should not need a comment
+- Blank lines split a function body into its steps, like setup, the main loop and the answer
 - A trick for speed stays only with a measured reason in a comment
 - A struct reads top down: types and constants, every field, constructors, the API in header order, then helpers in the
   order they are called; CI fails a field or type declared after a method
@@ -91,7 +95,9 @@ The `/lucid` skill in `.claude/skills/lucid/` applies these rules to existing fi
 - One sentence per line, a sentence never split across lines, never two calls on one line
 - No usage example, `main()` is the example; a short snippet only when calling it needs code, like a functor
 - Notes on value ranges, traps and which template to use instead, one short line each
+- The header states what a caller must pass and gets back; how the code works goes in a comment at that code
 - Plain words: no filler, no marketing, no lists of applications
+- A term outside standard contest vocabulary is defined in plain words where it first appears, and math is one sentence, never pseudocode
 
 ### main()
 
