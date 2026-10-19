@@ -74,7 +74,7 @@ Run shell commands under bash, edit files with Edit or Write (never `sed -i`), a
    env CHANGED_SINCE=<commit before the run> JOBS=4 bash .github/scripts/run_tests.sh stress
    env LD_LIBRARY_PATH="$(dirname "$(g++ -print-file-name=libstdc++.so)")" bash .github/scripts/judge_tests.sh <the judge tests from step 7>
    ```
-   When `competitive-verifier` is not on the PATH, add `COMPETITIVE_VERIFIER=<path to the executable>` just before `bash`.
+   When `competitive-verifier` is not on the PATH, add `COMPETITIVE_VERIFIER=<path to the executable>` just before `bash`. When it is not installed at all, stop before committing and ask the user to install it (`pip install competitive-verifier==4.2.2`): an unrun judge test is not a pass, and indirect checks such as comparing disassembly do not replace it.
    Done only when both suites exit 0 with the file's tests among those passed (`passed: 0` tested nothing and does not count) and every judge test succeeds.
 10. **Commit**, only with `--commit`: one commit per library file together with its stress test, judge test and README lines. Conventional subject (`feat:` new template, `refactor:`, `perf:`, `fix:`), at most 72 characters, no body. No AI attribution, never `--no-verify`, never amend, never push.
 
