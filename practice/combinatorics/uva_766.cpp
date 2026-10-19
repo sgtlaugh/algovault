@@ -106,9 +106,9 @@ int main(){
         vector<long long> a(k + 2, 0), b(k + 2, 1);
         long long m = 1;
         for (int j = 0; j <= k; j++){
-            long long p = binom[k + 1][j] * num[j], q = den[j] * (k + 1), g = gcd(abs(p), q);
+            long long p = binom[k + 1][j] * num[j], q = den[j] * (k + 1), g = __gcd(abs(p), q);
             a[k + 1 - j] = p / g, b[k + 1 - j] = q / g;
-            m = lcm(m, b[k + 1 - j]);
+            m = m / __gcd(m, b[k + 1 - j]) * b[k + 1 - j];
         }
 
         if (tc) puts("");

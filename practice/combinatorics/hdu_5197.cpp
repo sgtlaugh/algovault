@@ -39,7 +39,7 @@ namespace stirling_ntt{
     /// Montgomery reduction with R = 2^32, x / R modulo P in [0, 2P) for any x < P R, replacing the slower x % P
     template<unsigned P>
     unsigned redc(unsigned long long x){
-        constexpr unsigned NEG_INV = [](){
+        const unsigned NEG_INV = [](){
             unsigned y = P;
             for (int i = 0; i < 4; i++) y *= 2 - P * y;
             return -y;
