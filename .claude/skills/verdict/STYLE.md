@@ -1,6 +1,7 @@
 # Practice solution style
 
 The code after the template copies reads like the user wrote it in a contest: short, plain, no comments. The excerpts at the end are the user's own accepted code; match them more than any rule here.
+For that code these rules replace CONTRIBUTING's `## API and code`, `## Style` and `main()` rules, which govern templates; CI's whitespace and brace checks still apply.
 
 ## Rules
 

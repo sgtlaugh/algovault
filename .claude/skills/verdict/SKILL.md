@@ -23,10 +23,10 @@ Read the practice bullets of `CONTRIBUTING.md` (`## Adding a template`) and all 
    ```bash
    bash .claude/skills/verdict/scripts/check_solution.sh <solution> <template> [<template> ...]
    ```
-   It must print `OK`. Then run the binary it built:
+   It must print `OK`. Then run the binary it built, `/tmp/verdict/solution`:
    - every sample, compared with `diff` against the expected output, exactly
-   - one random input at the maximum limits, timed, well under the time limit
-   - when the solution is not obviously right, a brute force on small random inputs as well
+   - one random input at the maximum limits, timed, at most half the time limit
+   - a brute force on small random inputs, compared with `diff`, unless `main` only reads the input, makes the template's calls and prints their results
 6. **Hand over.** Copy the file to the clipboard, then confirm it in a separate call, since a plain `xclip` dies with its shell:
    ```bash
    setsid -f xclip -selection clipboard -i <solution> < /dev/null > /dev/null 2>&1

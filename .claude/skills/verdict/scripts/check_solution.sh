@@ -39,7 +39,8 @@ if [[ $old_judge -eq 1 ]]; then
 else
     flags=(-std=c++17 -O2)
 fi
-out=$("$cxx" "${flags[@]}" "$solution" -o /tmp/verdict_solution 2>&1) || { echo "FAIL: does not build with ${flags[*]}:"; grep -m5 -E 'error|undefined' <<< "$out"; bad=1; }
+mkdir -p /tmp/verdict
+out=$("$cxx" "${flags[@]}" "$solution" -o /tmp/verdict/solution 2>&1) || { echo "FAIL: does not build with ${flags[*]}:"; grep -m5 -E 'error|undefined' <<< "$out"; bad=1; }
 
 # GCC 14 flags miss GCC 5 library differences, like tuple's explicit constructor or glibc's minor() macro
 if [[ $old_judge -eq 1 ]] && docker image inspect gcc:5 > /dev/null 2>&1; then
@@ -50,5 +51,5 @@ elif [[ $old_judge -eq 1 ]]; then
     echo "note: docker pull gcc:5 checks against the judge's real compiler"
 fi
 
-[[ $bad -eq 0 ]] && echo "OK: built as /tmp/verdict_solution with ${flags[*]}"
+[[ $bad -eq 0 ]] && echo "OK: built as /tmp/verdict/solution with ${flags[*]}"
 exit $bad
