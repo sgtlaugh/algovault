@@ -186,7 +186,8 @@ struct PisanoPeriod{
         for (auto it: pf_cnts){
             long long x = 1;
             for (int i = 1; i < it.second; i++) x *= it.first;
-            res = lcm(res, prime_period(it.first) * x);
+            x *= prime_period(it.first);
+            res = res / __gcd(res, x) * x;
         }
 
         return res;

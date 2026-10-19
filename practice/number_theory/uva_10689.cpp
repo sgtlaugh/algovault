@@ -57,8 +57,8 @@ int main(){
         /// f(n) = a F(n - 1) + b F(n) for n >= 1
         long long res = a % mod;
         if (n > 0){
-            auto [x, y] = fibonacci_pair(n - 1, mod);
-            res = (a * x + b * y) % mod;
+            auto f = fibonacci_pair(n - 1, mod);
+            res = (a * f.first + b * f.second) % mod;
         }
         printf("%lld\n", res);
     }

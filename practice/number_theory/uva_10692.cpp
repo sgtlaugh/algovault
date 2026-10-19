@@ -88,6 +88,8 @@ struct PowerTower{
     }
 };
 
+constexpr long long PowerTower::LIMIT;
+
 long long power_tower(const vector<long long>& a, long long m){
     return PowerTower(m).query(a, 0, a.size() - 1);
 }

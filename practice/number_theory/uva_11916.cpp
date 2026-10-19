@@ -84,10 +84,10 @@ int main(){
         /// Colorings of m rows: k choices for a free cell with no free cell above it, k - 1 for the rest
         auto ways = [&](long long m){
             long long below = (m - 1) * n, top = n;
-            for (auto [x, y] : blocked){
-                if (x == 1) top--;
+            for (auto e : blocked){
+                if (e.first == 1) top--;
                 else below--;
-                if (x + 1 <= m && !blocked.count({x + 1, y})) below--, top++;
+                if (e.first + 1 <= m && !blocked.count({e.first + 1, e.second})) below--, top++;
             }
             return pow_mod(k - 1, below) * pow_mod(k, top) % MOD;
         };

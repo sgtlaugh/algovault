@@ -68,7 +68,7 @@ long long CRT(const vector<long long>& rems, const vector<long long>& mods){
 
     for (size_t i = 0; i < mods.size(); i++){
         long long r = normalize(rems[i], mods[i]);
-        long long g = gcd(lcm, mods[i]), step = mods[i] / g;
+        long long g = __gcd(lcm, mods[i]), step = mods[i] / g;
         if ((r - res) % g) return -1;
 
 
@@ -143,17 +143,17 @@ int main(){
         if (combos <= LIMIT){
             /// Few remainder choices: every combination is one residue modulo the product, by CRT
             vector<long long> base, rems(c);
-            auto pick = [&](auto&& self, int i) -> void{
+            function<void(int)> pick = [&](int i) -> void{
                 if (i == c){
                     base.push_back(CRT(rems, x));
                     return;
                 }
                 for (long long y : ys[i]){
                     rems[i] = y;
-                    self(self, i + 1);
+                    pick(i + 1);
                 }
             };
-            pick(pick, 0);
+            pick(0);
             sort(base.begin(), base.end());
 
             for (long long d = 0; s; d++){
