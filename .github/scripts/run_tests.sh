@@ -4,7 +4,7 @@
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
 # both modes also report library files missing from the README index, index descriptions over 50 characters, README ✔ marks that disagree with judge_tests,
-# practice solutions and practice section links that disagree, templates whose header does not state their complexity, copied regions that drifted from their original,
+# practice solutions and practice section links that disagree, POJ, UVa and HDU solutions that do not build as C++11, templates whose header does not state their complexity, copied regions that drifted from their original,
 # and whitespace, style or member order errors in tracked files
 #
 # Reports all failures instead of stopping at the first one.
@@ -224,6 +224,23 @@ check_practice(){  # practice/ holds exactly the solutions linked from the pract
     failures+=("${bad[@]}")
 }
 
+check_old_judges(){  # POJ, UVa and HDU judge C++11, so their solutions must build as C++11; linking at -O0 catches static constexpr members that lack a definition
+    local files bad=()
+    files="$(git ls-files 'practice/*/poj_*.cpp' 'practice/*/uva_*.cpp' 'practice/*/hdu_*.cpp')"
+    # A full check takes minutes, so pushes check only the solutions they touch
+    if [[ -n "${CHANGED_SINCE:-}" ]] && git cat-file -e "${CHANGED_SINCE}^{commit}" 2> /dev/null; then
+        files="$(grep -xFf <(git diff --name-only "$CHANGED_SINCE") <<< "$files")"
+    fi
+    mapfile -t bad < <(grep . <<< "$files" | xargs -r -P "$JOBS" -I{} \
+        sh -c '"$0" -std=c++11 -Werror=c++14-extensions -Werror=c++17-extensions -O0 "$1" -o /dev/null 2>/dev/null || echo "$1"' "$CXX" {})
+
+    echo "old judges: ${#bad[@]} of $(grep -c . <<< "$files") POJ, UVa or HDU solutions do not build as C++11"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (not C++11)}")
+}
+
 check_headers(){  # every template opens with a header that states its complexity
     local file bad=()
     while IFS= read -r file; do
@@ -362,6 +379,7 @@ check_readme
 check_index_descriptions
 check_judge_marks
 check_practice
+[[ "$MODE" == "self" ]] && check_old_judges
 check_headers
 check_copies
 check_whitespace
