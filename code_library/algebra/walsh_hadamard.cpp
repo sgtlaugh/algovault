@@ -9,6 +9,9 @@
  * fwht.xor_convolution(A, B, mod = 0): C where C[k] is the sum of A[i] * B[j] over all i ^ j = k, reduced modulo mod when mod > 0
  * fwht.or_convolution(A, B, mod = 0): the same with i | j = k
  * fwht.and_convolution(A, B, mod = 0): the same with i & j = k
+ * WalshHadamard::walsh_transform(ar, n, conv_type, mod = 0): transforms ar[0..n) in place, conv_type WalshHadamard::OR, AND or XOR
+ * WalshHadamard::inverse_walsh_transform(ar, n, conv_type, mod = 0): undoes walsh_transform
+ * With a mod, the two transforms need every ar[i] already in [0, mod)
  *
  * A and B must have the same length n, and n must be a power of 2
  * Exact mode (mod = 0): no overflow while n^2 * max|A[i]| * max|B[j]| < 2^62
