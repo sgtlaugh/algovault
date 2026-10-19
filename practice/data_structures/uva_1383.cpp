@@ -198,7 +198,9 @@ int main(){
         int n = 0;
         vector<int> small;
         vector<char> seen(LIM);
-        for (auto& [op, x] : ops){
+        for (auto& e : ops){
+            char& op = e.first;
+            int& x = e.second;
             char s[4];
             scanf("%s %d", s, &x);
             op = s[0];
@@ -211,7 +213,9 @@ int main(){
 
         if (tc > 1) puts("");
         printf("Case %d:\n", tc);
-        for (auto [op, x] : ops){
+        for (auto e : ops){
+            char op = e.first;
+            int x = e.second;
             if (op == 'B'){
                 value.push_back(x);
                 int time = value.size() - 1;

@@ -59,7 +59,7 @@ struct DistinctSubarrayAggregates{
 int main(){
     int t;
     scanf("%d", &t);
-    auto gcd_op = [](long long x, long long y){ return gcd(x, y); };
+    auto gcd_op = [](long long x, long long y){ return __gcd(x, y); };
     while (t--){
         int n;
         scanf("%d", &n);

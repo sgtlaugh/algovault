@@ -195,7 +195,7 @@ int main(){
         /// best(v, j, f, s): least letters for the names below children j.. of v, f of them streets and s avenues
         /// f + s is fixed by (v, j), so the child kids[v][j] and f identify the state
         vector<vector<int>> memo(nodes, vector<int>(n + 1, -1));
-        auto best = [&](auto&& self, int v, int j, int f, int s) -> int{
+        function<int(int, int, int, int)> best = [&](int v, int j, int f, int s) -> int{
             if (f == 0 && s == 0) return 0;
             if (trie.pass[v] == 1) return 1;
             if (j == (int)kids[v].size()) return INF;
@@ -208,14 +208,14 @@ int main(){
             for (int k = max(0, cnt - s); k <= cnt && k <= f; k++){
                 int l = cnt - k;
                 /// a group of one name stops at this letter, larger groups pay it once per name
-                int r = self(self, x, 0, k, l) + self(self, v, j + 1, f - k, s - l);
+                int r = best(x, 0, k, l) + best(v, j + 1, f - k, s - l);
                 if (k != 1) r += k;
                 if (l != 1) r += l;
                 res = min(res, r);
             }
             return res;
         };
-        printf("%d\n", best(best, 0, 0, n, n) * n);
+        printf("%d\n", best(0, 0, n, n) * n);
     }
     return 0;
 }

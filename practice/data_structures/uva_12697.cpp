@@ -102,6 +102,8 @@ private:
         return r - __lg(m);
     }
 };
+template <typename T, typename Compare>
+constexpr int LinearSparseTable<T, Compare>::B;
 
 int main(){
     int t;

@@ -22,9 +22,9 @@
 using namespace std;
 
 template <typename T, typename Add, typename Remove, typename Get>
-auto mo_with_updates(vector<T>& a, const vector<array<int, 3>>& queries, const vector<pair<int, T>>& updates, Add add, Remove remove, Get get){
+auto mo_with_updates(vector<T>& a, const vector<array<int, 3>>& queries, const vector<pair<int, T>>& updates, Add add, Remove remove, Get get) -> vector<typename decay<decltype(get(0))>::type>{
     int n = a.size(), q = queries.size(), u = updates.size();
-    vector<decay_t<decltype(get(0))>> res(q);
+    vector<typename decay<decltype(get(0))>::type> res(q);
     if (q == 0) return res;
     int block = max(1, (int)cbrt((double)n * n));
 
@@ -54,7 +54,7 @@ auto mo_with_updates(vector<T>& a, const vector<array<int, 3>>& queries, const v
     };
 
     for (int qi : order){
-        auto [l, r, t] = queries[qi];
+        int l = queries[qi][0], r = queries[qi][1], t = queries[qi][2];
         assert(0 <= l && l <= r + 1 && r < n && 0 <= t && t <= u);
         while (cur_t < t) flip(cur_t++);
         while (cur_t > t) flip(--cur_t);

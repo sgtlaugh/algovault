@@ -122,7 +122,8 @@ int main(){
             last.back() = i;
             count.back()++;
         }
-        SparseTable table(count, [](int x, int y){ return max(x, y); });
+        auto op = [](int x, int y){ return max(x, y); };
+        SparseTable<int, decltype(op)> table(count, op);
 
         while (q--){
             int l, r;

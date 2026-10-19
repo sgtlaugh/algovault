@@ -64,23 +64,8 @@ struct LazyOf{
     static constexpr bool exists = false;
 };
 
-template<typename R>
-struct LazyOf<R, void_t<typename R::Lazy>>{
-    using type = typename R::Lazy;
-    static constexpr bool exists = true;
-};
-
 template<typename R, typename = void>
 struct HasReversed : false_type {};
-
-template<typename R>
-struct HasReversed<R, void_t<decltype(R::reversed(declval<typename R::Agg>()))>> : true_type {};
-
-template<typename R, typename = void>
-struct HasCut : false_type {};
-
-template<typename R>
-struct HasCut<R, void_t<decltype(R::cut(declval<typename R::Value>(), 0LL))>> : true_type {};
 
 template<typename Runs = SumRuns>
 struct RunLengthImplicitTreap{
@@ -110,9 +95,9 @@ struct RunLengthImplicitTreap{
     RunLengthImplicitTreap(const vector<pair<Value, long long>>& runs){
         /// Cartesian tree on random priorities with a stack, O(n)
         vector<int> stack;
-        for (auto& [x, count] : runs){
-            assert(count >= 1);
-            int t = new_node(x, count), last = -1;
+        for (auto& e : runs){
+            assert(e.second >= 1);
+            int t = new_node(e.first, e.second), last = -1;
             while (!stack.empty() && nodes[stack.back()].priority < nodes[t].priority){
                 last = stack.back();
                 stack.pop_back();
@@ -216,30 +201,13 @@ struct RunLengthImplicitTreap{
     }
 
     pair<Value, Value> cut_run(const Value& x, long long k){
-        if constexpr (HasCut<Runs>::value) return Runs::cut(x, k);
-        else return {x, x};
+        return Runs::cut(x, k);
     }
 
     void apply_lazy(int t, const Lazy& lz){
-        if constexpr (LazyOf<Runs>::exists){
-            if (t == -1) return;
-            Node& u = nodes[t];
-            u.x = Runs::apply(u.x, lz);
-            u.agg = Runs::apply(u.agg, lz, u.size);
-            u.lz = u.has_lz ? Runs::compose(u.lz, lz) : lz;
-            u.has_lz = true;
-        }
     }
 
     void apply_reverse(int t){
-        if constexpr (HasReversed<Runs>::value){
-            if (t == -1) return;
-            Node& u = nodes[t];
-            swap(u.l, u.r);
-            u.x = Runs::reversed(u.x, u.count);
-            u.agg = Runs::reversed(u.agg);
-            u.rev ^= 1;
-        }
     }
 
     void push(int t){
@@ -291,7 +259,8 @@ struct RunLengthImplicitTreap{
             /// t keeps the first part of its run, the rest becomes a new node merged in front of t's right subtree
             /// The new node draws a fresh priority: inheriting t's would give every piece of a run the same one,
             /// and equal priorities chain up (200000 cuts of one run overflowed the stack)
-            auto [first, rest] = cut_run(nodes[t].x, k - left);
+            Value first, rest;
+            tie(first, rest) = cut_run(nodes[t].x, k - left);
             int u = new_node(rest, count - (k - left)), right = nodes[t].r;
             nodes[t].r = -1;
             nodes[t].x = first, nodes[t].count = k - left;

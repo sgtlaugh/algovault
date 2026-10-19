@@ -397,7 +397,7 @@ int main(){
 
         long long sum = 0;
         for (int i = ops.size() - 1; i >= 0; i--){
-            auto [type, x, y] = ops[i];
+            int type = ops[i][0], x = ops[i][1], y = ops[i][2];
             if (type == 0){
                 join(u[x], v[x]);
                 continue;

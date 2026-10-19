@@ -229,7 +229,7 @@ int main(){
                 Stats s = st.query(l, r);
                 /// V = (m * sum x^2 - (sum x)^2) / m^2
                 long long m = r - l + 1, num = m * s.sum_square - s.sum * s.sum, den = m * m;
-                long long g = gcd(num, den);
+                long long g = __gcd(num, den);
                 printf("%lld/%lld %lld\n", num / g, den / g, s.mx - s.mn);
             }
             else{

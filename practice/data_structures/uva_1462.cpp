@@ -191,7 +191,7 @@ int main(){
 
         /// row[j] is the edit distance between the node's prefix and q[0..j), once row[len] <= d every word below matches
         int res = 0;
-        auto dfs = [&](auto&& self, int v, const vector<int>& row) -> void{
+        function<void(int, const vector<int>&)> dfs = [&](int v, const vector<int>& row) -> void{
             if (row[len] <= d){
                 res += trie.pass[v];
                 return;
@@ -206,13 +206,13 @@ int main(){
                 for (int j = 1; j <= len; j++){
                     nxt[j] = min({row[j] + 1, nxt[j - 1] + 1, row[j - 1] + (q[j - 1] - 'a' != c)});
                 }
-                self(self, u, nxt);
+                dfs(u, nxt);
             }
         };
 
         vector<int> row(len + 1);
         iota(row.begin(), row.end(), 0);
-        dfs(dfs, 0, row);
+        dfs(0, row);
         printf("%d\n", res);
     }
     return 0;

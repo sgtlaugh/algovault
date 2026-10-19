@@ -182,17 +182,17 @@ int main(){
         Trie<> dict;
         vector<pair<string, int>> words(n);
         char buf[10010];
-        for (auto& [word, w] : words){
-            scanf("%s %d", buf, &w);
-            word = buf;
-            dict.insert(word);
+        for (auto& e : words){
+            scanf("%s %d", buf, &e.second);
+            e.first = buf;
+            dict.insert(e.first);
         }
 
         /// Weight of the word ending at each trie node, the best one if a word repeats
         vector<int> weight(dict.next.size(), 0);
-        for (auto& [word, w] : words){
-            int v = dict.find(word);
-            weight[v] = max(weight[v], w);
+        for (auto& e : words){
+            int v = dict.find(e.first);
+            weight[v] = max(weight[v], e.second);
         }
 
         scanf("%s", buf);

@@ -22,9 +22,9 @@ using namespace std;
 
 /// BEGIN SHARED mo
 template <typename Add, typename Remove, typename Get>
-auto mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, Get get){
+auto mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, Get get) -> vector<typename decay<decltype(get(0))>::type>{
     int q = queries.size();
-    vector<decay_t<decltype(get(0))>> res(q);
+    vector<typename decay<decltype(get(0))>::type> res(q);
     if (q == 0) return res;
     int block = max(1, (int)(n / sqrt((double)q)));
 
@@ -40,7 +40,7 @@ auto mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, Ge
     /// Growing before shrinking keeps every removed position inside the window, empty targets included
     int cur_l = 0, cur_r = -1;
     for (int qi : order){
-        auto [l, r] = queries[qi];
+        int l = queries[qi].first, r = queries[qi].second;
         assert(0 <= l && l <= r + 1 && r < n);
         while (cur_l > l) add(--cur_l);
         while (cur_r < r) add(++cur_r);
@@ -66,9 +66,9 @@ int main(){
 
         scanf("%d", &q);
         vector<pair<int, int>> queries(q);
-        for (auto& [l, r] : queries){
-            scanf("%d %d", &l, &r);
-            l--, r--;
+        for (auto& e : queries){
+            scanf("%d %d", &e.first, &e.second);
+            e.first--, e.second--;
         }
 
         /// A repeated value answers 0 at once; otherwise the window holds distinct values and one sweep over the
