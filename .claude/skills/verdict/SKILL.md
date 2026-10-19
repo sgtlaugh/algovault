@@ -48,9 +48,10 @@ Read the practice bullets of `CONTRIBUTING.md` (`## Adding a template`) and all 
 | `undefined reference to X::NAME` | Define it after the struct: `constexpr long long X::NAME;`, or `template <typename T> constexpr int X<T>::NAME;` |
 | `inline variables are only available` | Drop `inline` and define it once after the struct as above |
 | `optional does not name a type` | Delete the function when the solution never calls it, else return `pair<bool, T>` |
-| `gcd` or `lcm` not declared | `__gcd(a, b)`, `a / __gcd(a, b) * b` |
+| `gcd` or `lcm` not declared | `__gcd(a, b)`, `a / __gcd(a, b) * b`, with `abs` on any argument that can be negative: `__gcd(-6, 4)` is -2 where `gcd` gives 2 |
 | `is_same_v`, `void_t`, `if constexpr` | Keep only the branch the solution's types take, or `is_same<A, B>::value` |
-| `auto` in a lambda parameter or as a return type | The real type |
+| `auto` in a lambda parameter or as a return type | The real type; a lambda that recursed through an `auto&& self` parameter becomes a `function<...>` calling itself by name |
+| `converting to tuple from initializer list would use explicit constructor` (GCC 5) | `make_tuple(...)` instead of `{...}` |
 | `constexpr` function body not a single return, call to non-constexpr | Drop that `constexpr` unless a compile-time constant needs it |
 | `clamp` not declared | `max(lo, min(x, hi))` |
 | `could not convert {...}` for a struct with default member values | Add a constructor taking the fields |
