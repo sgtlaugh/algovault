@@ -262,7 +262,7 @@ int main(){
         vector<pair<int, int>> cut;
         for (int id : g.cut_edges()) cut.push_back({g.E[id].v + 1, g.E[id].u + 1});
         sort(cut.begin(), cut.end());
-        for (auto [a, b] : cut) printf("%d %d\n", a, b);
+        for (auto e : cut) printf("%d %d\n", e.first, e.second);
         puts("");
     }
     return 0;

@@ -73,6 +73,9 @@ struct FloydWarshall{
     }
 };
 
+constexpr long long FloydWarshall::INF;
+constexpr long long FloydWarshall::NEG_INF;
+
 const int MAX_BUDGET = 10000;
 
 int main(){

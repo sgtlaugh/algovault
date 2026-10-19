@@ -48,7 +48,8 @@ struct MinimumMeanCycle{
         fill(d[0].begin(), d[0].end(), 0);
         for (int k = 1; k <= n; k++){
             for (int i = 0; i < m; i++){
-                auto [u, v, w] = edges[i];
+                int u = edges[i].u, v = edges[i].v;
+                long long w = edges[i].w;
                 if (d[k - 1][u] != INF && d[k - 1][u] + w < d[k][v]) d[k][v] = d[k - 1][u] + w, par[k][v] = i;
             }
         }
@@ -68,7 +69,7 @@ struct MinimumMeanCycle{
         }
         if (best == -1) return false;
 
-        long long g = gcd(num, den);
+        long long g = __gcd(abs(num), den);
         num /= g, den /= g;
 
         /// Walking back n edges visits n + 1 vertices, so a vertex repeats before par[0] is ever read

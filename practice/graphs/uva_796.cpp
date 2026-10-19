@@ -61,7 +61,8 @@ struct BridgeGraph{
             while (!dfs_stack.empty()){
                 int u = dfs_stack.back();
                 if (edge_pos[u] < (int)adj[u].size()){
-                    auto [v, id] = adj[u][edge_pos[u]++];
+                    int v, id;
+                    tie(v, id) = adj[u][edge_pos[u]++];
                     if (!discover[v]){
                         discover[v] = low[v] = ++dt, parent_edge[v] = id;
                         dfs_stack.push_back(v);
@@ -99,7 +100,8 @@ struct BridgeGraph{
             while (!dfs_stack.empty()){
                 int u = dfs_stack.back();
                 dfs_stack.pop_back();
-                for (auto [v, id] : adj[u]){
+                for (auto edge : adj[u]){
+                    int v = edge.first, id = edge.second;
                     if (comp[v] == -1 && !is_bridge[id]) comp[v] = count, dfs_stack.push_back(v);
                 }
             }
@@ -138,7 +140,7 @@ int main(){
         for (auto& b: g.get_bridges()) links.push_back(minmax(b.u, b.v));
         sort(links.begin(), links.end());
         printf("%d critical links\n", (int)links.size());
-        for (auto [u, v]: links) printf("%d - %d\n", u, v);
+        for (auto link: links) printf("%d - %d\n", link.first, link.second);
         puts("");
     }
     return 0;

@@ -60,14 +60,17 @@ struct Dijkstra{
     void run(int src){
         fill(dist.begin(), dist.end(), DIJKSTRA_INF);
         fill(parent.begin(), parent.end(), -1);
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> heap;
 
         dist[src] = 0, heap.push({0, src});
         while (!heap.empty()){
-            auto [du, u] = heap.top();
+            long long du = heap.top().first;
+            int u = heap.top().second;
             heap.pop();
             if (du != dist[u]) continue;  /// stale entry, u was already settled with a smaller distance
-            for (auto [v, w] : adj[u]){
+            for (auto e : adj[u]){
+                int v = e.first;
+                long long w = e.second;
                 if (du + w < dist[v]) dist[v] = du + w, parent[v] = u, heap.push({dist[v], v});
             }
         }
@@ -144,7 +147,8 @@ struct ZeroOneBFS{
         while (!dq.empty()){
             int u = dq.front();
             dq.pop_front();
-            for (auto [v, w] : adj[u]){
+            for (auto e : adj[u]){
+                int v = e.first, w = e.second;
                 if (dist[u] + w >= dist[v]) continue;
                 dist[v] = dist[u] + w, parent[v] = u;
                 if (w == 0) dq.push_front(v);

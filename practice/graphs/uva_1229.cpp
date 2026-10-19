@@ -102,7 +102,7 @@ int main(){
 
         SCC g(n);
         vector<int> size(n, 0);
-        for (auto [u, v] : edges) g.add_edge(u, v);
+        for (auto edge : edges) g.add_edge(edge.first, edge.second);
         g.run();
         for (int v = 0; v < n; v++) size[g.comp[v]]++;
 
@@ -122,8 +122,8 @@ int main(){
         }
 
         vector<string> res;
-        for (auto& [word, v] : id){
-            if (chosen[v]) res.push_back(word);
+        for (auto& entry : id){
+            if (chosen[entry.second]) res.push_back(entry.first);
         }
         printf("%d\n", (int)res.size());
         for (int i = 0; i < (int)res.size(); i++) printf("%s%s", i ? " " : "", res[i].c_str());

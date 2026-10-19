@@ -73,6 +73,9 @@ struct FloydWarshall{
     }
 };
 
+constexpr long long FloydWarshall::INF;
+constexpr long long FloydWarshall::NEG_INF;
+
 int main(){
     int t;
     string line;

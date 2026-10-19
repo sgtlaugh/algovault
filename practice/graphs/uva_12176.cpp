@@ -196,7 +196,8 @@ int main(){
             while (!stack.empty()){
                 int u = stack.back();
                 stack.pop_back();
-                for (auto [v, w] : adj[u]){
+                for (auto e : adj[u]){
+                    int v = e.first, w = e.second;
                     if (longest[v] == -1) longest[v] = max(longest[u], w), stack.push_back(v);
                 }
             }

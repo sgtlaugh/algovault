@@ -90,7 +90,7 @@ struct TwoSat{
     /// Stable counting sort of the edges by source, so the DFS visits neighbours in insertion order
     void flatten(vector<int>& start, vector<int>& to, bool reverse){
         start.assign(2 * n + 2, 0), to.resize(edges.size());
-        for (auto [a, b]: edges) start[node(reverse ? b : a)]++;
+        for (auto edge: edges) start[node(reverse ? edge.second : edge.first)]++;
         for (int i = 1; i <= 2 * n + 1; i++) start[i] += start[i - 1];
         for (int i = (int)edges.size() - 1; i >= 0; i--){
             int u = node(edges[i].first), v = node(edges[i].second);
@@ -103,7 +103,8 @@ struct TwoSat{
     void topsort(int s, vector<pair<int, int>>& stack){
         visited[s] = true, stack.push_back({s, rev_start[s]});
         while (!stack.empty()){
-            auto& [u, e] = stack.back();
+            int& u = stack.back().first;
+            int& e = stack.back().second;
             if (e < rev_start[u + 1]){
                 int v = rev_to[e++];
                 if (!visited[v]) visited[v] = true, stack.push_back({v, rev_start[v]});

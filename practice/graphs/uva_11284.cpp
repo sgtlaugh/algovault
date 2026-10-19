@@ -73,6 +73,9 @@ struct FloydWarshall{
     }
 };
 
+constexpr long long FloydWarshall::INF;
+constexpr long long FloydWarshall::NEG_INF;
+
 int cents(){
     double x;
     scanf("%lf", &x);
@@ -103,7 +106,7 @@ int main(){
         }
         vector<int> stores;
         vector<long long> gain;
-        for (auto [a, s] : saving) stores.push_back(a), gain.push_back(s);
+        for (auto p : saving) stores.push_back(p.first), gain.push_back(p.second);
 
         int k = stores.size();
         vector<vector<long long>> dp(1 << k, vector<long long>(k, FloydWarshall::INF));

@@ -37,7 +37,7 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
             for (j = 0; j < m; j++) t[j][i] = mat[i][j];
         }
         auto res = hungarian(t, minimize);
-        for (auto& [x, y]: res.second) swap(x, y);
+        for (auto& e: res.second) swap(e.first, e.second);
         sort(res.second.begin(), res.second.end());
         return res;
     }
@@ -93,7 +93,7 @@ int main(){
     int n, t = 0;
     while (scanf("%d", &n) == 1 && n){
         vector<pair<int, int>> stones(n);
-        for (auto& [r, c] : stones) scanf("%d %d", &r, &c);
+        for (auto& e : stones) scanf("%d %d", &e.first, &e.second);
 
         /// Every row, column and both diagonals, each a list of n target cells
         vector<vector<pair<int, int>>> walls;

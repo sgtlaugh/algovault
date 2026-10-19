@@ -191,7 +191,8 @@ int main(){
             while (!stk.empty()){
                 int u = stk.back();
                 stk.pop_back();
-                for (auto [v, w] : adj[u]){
+                for (auto e : adj[u]){
+                    int v = e.first, w = e.second;
                     if (loud[s][v] == -1) loud[s][v] = max(loud[s][u], w), stk.push_back(v);
                 }
             }

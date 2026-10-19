@@ -204,7 +204,7 @@ int main(){
         }
 
         DAGPathCover g(order.size());
-        for (auto [u, v] : edges) g.add_edge(u, v);
+        for (auto e : edges) g.add_edge(e.first, e.second);
         printf("Case %d: %d\n", cs, g.min_disjoint_path_cover());
     }
     return 0;

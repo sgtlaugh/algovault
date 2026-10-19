@@ -56,7 +56,8 @@ struct Biconnected{
             while (!path.empty()){
                 int u = path.back();
                 if (next_edge[u] < (int)adj[u].size()){
-                    auto [v, id] = adj[u][next_edge[u]++];
+                    int v, id;
+                    tie(v, id) = adj[u][next_edge[u]++];
                     /// Skip only the edge we arrived by, a parallel edge back to the parent is a real back edge
                     if (v == u || id == parent_edge[u]) continue;
                     if (!discover[v]){

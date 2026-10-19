@@ -73,6 +73,9 @@ struct FloydWarshall{
     }
 };
 
+constexpr long long FloydWarshall::INF;
+constexpr long long FloydWarshall::NEG_INF;
+
 int main(){
     /// Edge weights are metres of subway travel in micrometres: walking is 4 times slower, so it costs 4 * distance
     const double SCALE = 1e6;
@@ -101,7 +104,8 @@ int main(){
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++) fw.add_edge(i, j, llround(4 * SCALE * metres(i, j)));
         }
-        for (auto [i, j]: rails){
+        for (auto p: rails){
+            int i = p.first, j = p.second;
             fw.add_edge(i, j, llround(SCALE * metres(i, j)));
             fw.add_edge(j, i, llround(SCALE * metres(i, j)));
         }

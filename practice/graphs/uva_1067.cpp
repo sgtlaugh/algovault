@@ -261,7 +261,8 @@ int main(){
         vector<char> done(n + 1, 0);
         auto cut = [&](int room){
             FlowGraph g(n + 1, room, 0);
-            for (auto [a, b] : tunnels){
+            for (auto e : tunnels){
+                int a = e.first, b = e.second;
                 if (!done[a] && !done[b]) g.add_undirected_edge(a, b, 1);
             }
             return (int)g.maxflow();

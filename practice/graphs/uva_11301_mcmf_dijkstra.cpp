@@ -69,10 +69,11 @@ struct MCMF{
 
     bool dijkstra(int s, int t){
         fill(dist.begin(), dist.end(), INF);
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> heap;
         dist[s] = 0, heap.push({0, s});
         while (!heap.empty()){
-            auto [d, u] = heap.top();
+            long long d = heap.top().first;
+            int u = heap.top().second;
             heap.pop();
             if (d != dist[u]) continue;
             for (int id : adj[u]){
@@ -104,7 +105,7 @@ struct MCMF{
         long long prev_unit_cost = 0;
 
         while (points.back().first < limit && dijkstra(s, t)){
-            auto [total_flow, total_cost] = points.back();
+            long long total_flow = points.back().first, total_cost = points.back().second;
             long long push = limit - total_flow, unit_cost = 0;
             for (int v = t; v != s; v = edges[parent_edge[v] ^ 1].to){
                 push = min(push, edges[parent_edge[v]].cap);
@@ -122,6 +123,7 @@ struct MCMF{
         return points;
     }
 };
+constexpr long long MCMF::INF;
 
 int main(){
     const int dx[] = {0, 0, -1, 1}, dy[] = {-1, 1, 0, 0};

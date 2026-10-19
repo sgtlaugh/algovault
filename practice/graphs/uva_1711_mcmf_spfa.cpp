@@ -105,6 +105,7 @@ struct MCMFSpfa{
         return {flow, cost};
     }
 };
+constexpr long long MCMFSpfa::INF;
 
 int main(){
     int n, k;

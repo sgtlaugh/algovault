@@ -105,19 +105,21 @@ struct MCMFSpfa{
         return {flow, cost};
     }
 };
+constexpr long long MCMFSpfa::INF;
 
 int main(){
     int n, m;
     while (scanf("%d %d", &n, &m) == 2){
         vector<array<long long, 3>> links(m);
-        for (auto& [u, v, w] : links) scanf("%lld %lld %lld", &u, &v, &w);
+        for (auto& e : links) scanf("%lld %lld %lld", &e[0], &e[1], &e[2]);
         long long d, k;
         scanf("%lld %lld", &d, &k);
 
         MCMFSpfa g(n + 1);
-        for (auto [u, v, w] : links) g.add_edge(u, v, k, w), g.add_edge(v, u, k, w);
+        for (auto e : links) g.add_edge(e[0], e[1], k, e[2]), g.add_edge(e[1], e[0], k, e[2]);
 
-        auto [flow, cost] = g.solve(1, n, d);
+        long long flow, cost;
+        tie(flow, cost) = g.solve(1, n, d);
         if (flow == d) printf("%lld\n", cost);
         else puts("Impossible.");
     }

@@ -205,7 +205,7 @@ int main(){
             vector<pair<int, int>> queue = {nodes[s]};
             dist[nodes[s].first][nodes[s].second] = 0;
             for (int i = 0; i < (int)queue.size(); i++){
-                auto [r, c] = queue[i];
+                int r = queue[i].first, c = queue[i].second;
                 if (id[r][c] > s) mst.add_edge(s, id[r][c], dist[r][c]);
                 for (int d = 0; d < 4; d++){
                     int nr = r + dr[d], nc = c + dc[d];

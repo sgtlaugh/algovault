@@ -104,7 +104,7 @@ int main(){
         }
 
         SCC g(names.size());
-        for (auto [u, v] : calls) g.add_edge(u, v);
+        for (auto call : calls) g.add_edge(call.first, call.second);
         g.run();
 
         /// Circles listed by their first named member, members in order of appearance, as in the sample

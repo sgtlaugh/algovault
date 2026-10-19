@@ -73,6 +73,9 @@ struct FloydWarshall{
     }
 };
 
+constexpr long long FloydWarshall::INF;
+constexpr long long FloydWarshall::NEG_INF;
+
 int main(){
     /// Distances in units of 1e-9 so the integer template carries the Euclidean costs, sums of the same rounded
     /// lengths stay exactly equal, so symmetric candidates still tie

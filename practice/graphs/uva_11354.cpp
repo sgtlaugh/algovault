@@ -183,7 +183,8 @@ int main(){
         /// The minimax path between two cities runs along the minimum spanning tree, its answer is the heaviest tree edge on it
         vector<vector<pair<int, long long>>> adj(n);
         for (int i: mst.solve().chosen){
-            auto [u, v, w] = mst.edges[i];
+            int u = mst.edges[i].u, v = mst.edges[i].v;
+            long long w = mst.edges[i].w;
             adj[u].push_back({v, w}), adj[v].push_back({u, w});
         }
 
@@ -196,7 +197,9 @@ int main(){
             depth[root] = 0, up[0][root] = root, order.push_back(root);
             for (size_t h = order.size() - 1; h < order.size(); h++){
                 int u = order[h];
-                for (auto [v, w]: adj[u]){
+                for (auto e: adj[u]){
+                    int v = e.first;
+                    long long w = e.second;
                     if (depth[v] != -1) continue;
                     depth[v] = depth[u] + 1, up[0][v] = u, heaviest[0][v] = w;
                     order.push_back(v);

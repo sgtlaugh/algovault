@@ -105,6 +105,7 @@ struct MCMFSpfa{
         return {flow, cost};
     }
 };
+constexpr long long MCMFSpfa::INF;
 
 int main(){
     int n, m;
@@ -117,7 +118,8 @@ int main(){
             scanf("%d %d %d", &u, &v, &w);
             g.add_edge(u - 1, v - 1, 1, w), g.add_edge(v - 1, u - 1, 1, w);
         }
-        auto [flow, cost] = g.solve(0, n - 1, 2);
+        long long flow, cost;
+        tie(flow, cost) = g.solve(0, n - 1, 2);
         if (flow == 2) printf("%lld\n", cost);
         else puts("Back to jail");
     }

@@ -192,7 +192,8 @@ int main(){
         depth[0] = 0;
         for (int i = 0; i < (int)order.size(); i++){
             int u = order[i];
-            for (auto [v, w]: adj[u]){
+            for (auto e: adj[u]){
+                int v = e.first, w = e.second;
                 if (depth[v] == -1) depth[v] = depth[u] + 1, up[0][v] = u, low[0][v] = w, order.push_back(v);
             }
         }

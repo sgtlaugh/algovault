@@ -73,6 +73,9 @@ struct FloydWarshall{
     }
 };
 
+constexpr long long FloydWarshall::INF;
+constexpr long long FloydWarshall::NEG_INF;
+
 int main(){
     const int INF = 1 << 20;
 
@@ -107,9 +110,10 @@ int main(){
         }
 
         priority_queue<tuple<int, int, int>, vector<tuple<int, int, int>>, greater<tuple<int, int, int>>> pq;
-        pq.push({dp[s][s], s, s});
+        pq.push(make_tuple(dp[s][s], s, s));
         while (!pq.empty()){
-            auto [d, i, j] = pq.top();
+            int d, i, j;
+            tie(d, i, j) = pq.top();
             pq.pop();
             if (visited[i][j] || d != dp[i][j]) continue;
             if (i == t && j == t) break;
@@ -120,7 +124,7 @@ int main(){
                 for (int l = 0; l < n; l++){
                     if (l == i || l == j || visited[k][l]) continue;
                     int w = d + dis[j][k] + dis[k][l] + dis[l][i] - 1;
-                    if (w < dp[k][l]) dp[k][l] = w, pq.push({w, k, l});
+                    if (w < dp[k][l]) dp[k][l] = w, pq.push(make_tuple(w, k, l));
                 }
             }
         }

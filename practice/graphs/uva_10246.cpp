@@ -73,20 +73,24 @@ struct FloydWarshall{
     }
 };
 
+constexpr long long FloydWarshall::INF;
+constexpr long long FloydWarshall::NEG_INF;
+
 int main(){
     int n, m, q, tc = 0;
     while (scanf("%d %d %d", &n, &m, &q) == 3 && (n || m || q)){
         vector<int> cost(n);
         for (auto& x: cost) scanf("%d", &x);
         vector<array<int, 3>> edges(m);
-        for (auto& [u, v, w]: edges) scanf("%d %d %d", &u, &v, &w), u--, v--;
+        for (auto& e: edges) scanf("%d %d %d", &e[0], &e[1], &e[2]), e[0]--, e[1]--;
 
         /// Fixing the costliest feast city k, the route may only use cities no costlier than k: one Floyd Warshall per k
         const long long INF = FloydWarshall::INF;
         vector<vector<long long>> res(n, vector<long long>(n, INF));
         for (int k = 0; k < n; k++){
             FloydWarshall fw(n);
-            for (auto [u, v, w]: edges){
+            for (auto e: edges){
+                int u = e[0], v = e[1], w = e[2];
                 if (cost[u] <= cost[k] && cost[v] <= cost[k]) fw.add_edge(u, v, w), fw.add_edge(v, u, w);
             }
             fw.solve();

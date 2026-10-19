@@ -37,7 +37,7 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
             for (j = 0; j < m; j++) t[j][i] = mat[i][j];
         }
         auto res = hungarian(t, minimize);
-        for (auto& [x, y]: res.second) swap(x, y);
+        for (auto& e: res.second) swap(e.first, e.second);
         sort(res.second.begin(), res.second.end());
         return res;
     }
@@ -119,7 +119,7 @@ int main(){
                 queue<pair<int, int>> q;
                 dis[si][sj] = 0, q.push({si, sj});
                 while (!q.empty()){
-                    auto [i, j] = q.front();
+                    int i = q.front().first, j = q.front().second;
                     q.pop();
                     if (target_id[i][j] != -1) to_target[target_id[i][j]] = dis[i][j];
                     for (int d = 0; d < 4; d++){

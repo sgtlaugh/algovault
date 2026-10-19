@@ -73,6 +73,9 @@ struct FloydWarshall{
     }
 };
 
+constexpr long long FloydWarshall::INF;
+constexpr long long FloydWarshall::NEG_INF;
+
 const double PI = 3.141592653589793, RADIUS = 6378;
 
 /// Haversine great circle distance, coordinates in degrees

@@ -288,7 +288,8 @@ int main(){
         vector<vector<pair<int, int>>> drink(n);
         vector<int> pos(segs, 0);
         for (int i = 0; i < n; i++){
-            for (auto [k, id] : arcs[i]){
+            for (auto e : arcs[i]){
+                int k = e.first, id = e.second;
                 int s = times[k], len = times[k + 1] - times[k], f = g.E[id].flow;
                 if (!f) continue;
                 if (pos[k] + f <= len) drink[i].push_back({s + pos[k], s + pos[k] + f});
@@ -303,12 +304,13 @@ int main(){
         for (int i = 0; i < n; i++){
             sort(drink[i].begin(), drink[i].end());
             vector<pair<int, int>> merged;
-            for (auto [l, r] : drink[i]){
+            for (auto e : drink[i]){
+                int l = e.first, r = e.second;
                 if (!merged.empty() && merged.back().second == l) merged.back().second = r;
                 else merged.push_back({l, r});
             }
             printf("%d", (int)merged.size());
-            for (auto [l, r] : merged) printf(" (%d,%d)", l, r);
+            for (auto e : merged) printf(" (%d,%d)", e.first, e.second);
             puts("");
         }
     }

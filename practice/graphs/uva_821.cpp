@@ -73,6 +73,9 @@ struct FloydWarshall{
     }
 };
 
+constexpr long long FloydWarshall::INF;
+constexpr long long FloydWarshall::NEG_INF;
+
 int main(){
     int a, b, cs = 0;
     while (scanf("%d %d", &a, &b) == 2 && (a || b)){

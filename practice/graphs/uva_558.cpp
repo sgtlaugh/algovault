@@ -48,7 +48,9 @@ struct BellmanFord{
         /// Unaffected vertices are exact after n - 1 passes, any edge still relaxing after that leads into a negative cycle's reach
         for (int pass = 0; pass < n; pass++){
             bool changed = false;
-            for (auto [u, v, w] : edges){
+            for (Edge e : edges){
+                int u = e.u, v = e.v;
+                long long w = e.w;
                 if (dist[u] == INF || dist[u] == NEG_INF || dist[u] + w >= dist[v]) continue;
                 dist[v] = (pass == n - 1 || dist[u] + w < low) ? NEG_INF : dist[u] + w;
                 changed = true;
@@ -58,7 +60,8 @@ struct BellmanFord{
 
         for (bool changed = true; changed;){
             changed = false;
-            for (auto [u, v, w] : edges){
+            for (Edge e : edges){
+                int u = e.u, v = e.v;
                 if (dist[u] == NEG_INF && dist[v] != NEG_INF) dist[v] = NEG_INF, changed = true;
             }
         }
@@ -72,7 +75,9 @@ struct BellmanFord{
 
         for (int pass = 0; pass < n; pass++){
             int relaxed = -1;
-            for (auto [u, v, w] : edges){
+            for (Edge e : edges){
+                int u = e.u, v = e.v;
+                long long w = e.w;
                 if (dist[u] + w >= dist[v]) continue;
                 dist[v] = dist[u] + w, parent[v] = u, relaxed = v;
                 /// Below every simple path weight, so the parent chain of v cannot end at a root: it holds a cycle
@@ -87,7 +92,7 @@ struct BellmanFord{
 
     long long max_abs_weight() const{
         long long res = 0;
-        for (auto [u, v, w] : edges) res = max(res, abs(w));
+        for (Edge e : edges) res = max(res, abs(e.w));
         return res;
     }
 

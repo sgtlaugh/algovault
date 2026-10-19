@@ -103,8 +103,8 @@ int main(){
         int n, m;
         scanf("%d %d", &n, &m);
         vector<pair<int, int>> bob(n), places(m);
-        for (auto& [x, y] : bob) scanf("%d %d", &x, &y);
-        for (auto& [x, y] : places) scanf("%d %d", &x, &y);
+        for (auto& e : bob) scanf("%d %d", &e.first, &e.second);
+        for (auto& e : places) scanf("%d %d", &e.first, &e.second);
 
         /// Leg i can take place j when the detour fits in twice the leg's length
         HopcroftKarp hk(n - 1, m);
