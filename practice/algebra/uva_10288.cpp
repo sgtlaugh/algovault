@@ -31,7 +31,7 @@ struct Fraction{
         if (d < 0) n = -n, d = -d;
 
         /// 64-bit gcd is about 2x faster, -LLONG_MAX keeps abs(LLONG_MIN) out of std::gcd
-        __int128 g = (n >= -LLONG_MAX && n <= LLONG_MAX && d <= LLONG_MAX) ? gcd((long long)n, (long long)d) : gcd128(n, d);
+        __int128 g = (n >= -LLONG_MAX && n <= LLONG_MAX && d <= LLONG_MAX) ? __gcd(abs((long long)n), (long long)d) : gcd128(n, d);
         n /= g, d /= g;
         assert(n >= LLONG_MIN && n <= LLONG_MAX && d <= LLONG_MAX);
 

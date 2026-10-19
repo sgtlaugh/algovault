@@ -35,7 +35,7 @@ using namespace std;
 namespace ntt{
     const unsigned P1 = 167772161, P2 = 469762049, P3 = 754974721;
 
-    constexpr bool is_prime(unsigned n){
+    bool is_prime(unsigned n){
         if (n < 2) return false;
         for (unsigned long long d = 2; d * d <= n; d++){
             if (n % d == 0) return false;
@@ -44,7 +44,7 @@ namespace ntt{
     }
 
     /// BEGIN SHARED ntt_core
-    constexpr unsigned long long power(unsigned long long b, unsigned long long e, unsigned long long mod){
+    unsigned long long power(unsigned long long b, unsigned long long e, unsigned long long mod){
         unsigned long long res = 1;
         for (b %= mod; e; e >>= 1, b = b * b % mod){
             if (e & 1) res = res * b % mod;
@@ -89,8 +89,6 @@ namespace ntt{
 
     template<unsigned MOD = 998244353, unsigned ROOT = 3>
     vector<long long> multiply(const vector<long long>& a, const vector<long long>& b){
-        static_assert(MOD < (1u << 31) && is_prime(MOD), "MOD must be a prime below 2^31");
-        static_assert(power(ROOT, (MOD - 1) / 2, MOD) == MOD - 1, "ROOT must be a quadratic non-residue modulo MOD");
         if (a.empty() || b.empty()) return {};
 
         int s = a.size() + b.size() - 1, n = 1;
@@ -115,8 +113,8 @@ namespace ntt{
 
     /// The true coefficients modulo M = P1 * P2 * P3, in [0, M)
     vector<unsigned __int128> crt_multiply(const vector<long long>& a, const vector<long long>& b){
-        constexpr unsigned long long INV1 = power(P1, P2 - 2, P2);
-        constexpr unsigned long long INV12 = power((unsigned long long)P1 * P2, P3 - 2, P3);
+        const unsigned long long INV1 = power(P1, P2 - 2, P2);
+        const unsigned long long INV12 = power((unsigned long long)P1 * P2, P3 - 2, P3);
 
         auto c1 = multiply<P1, 3>(a, b), c2 = multiply<P2, 3>(a, b), c3 = multiply<P3, 11>(a, b);
 

@@ -80,7 +80,7 @@ struct WalshHadamard{
     template<bool modular>
     static long long add(long long x, long long y, long long mod){
         long long s = x + y;
-        if constexpr (modular) s -= mod, s += (s >> 63) & mod;
+        if (modular) s -= mod, s += (s >> 63) & mod;
         return s;
     }
 
@@ -96,14 +96,14 @@ struct WalshHadamard{
     /// exact mode: v is even, so >> 1 divides; modular mode: mod is odd, so adding it to an odd v makes v + mod even
     template<bool modular>
     static long long half(long long v, long long mod){
-        if constexpr (modular) v += (v & 1) * mod;
+        if (modular) v += (v & 1) * mod;
         return v >> 1;
     }
 
     template<bool modular>
     static long long sub(long long x, long long y, long long mod){
         long long d = x - y;
-        if constexpr (modular) d += (d >> 63) & mod;
+        if (modular) d += (d >> 63) & mod;
         return d;
     }
 
@@ -117,11 +117,11 @@ struct WalshHadamard{
 
         for (int i = 0; i < m; i++){
             long long x = ar[i], y = ar[i + m];
-            if constexpr (conv_type == OR) ar[i + m] = inverse ? sub<modular>(y, x, mod) : add<modular>(x, y, mod);
-            if constexpr (conv_type == AND) ar[i] = inverse ? sub<modular>(x, y, mod) : add<modular>(x, y, mod);
-            if constexpr (conv_type == XOR){
+            if (conv_type == OR) ar[i + m] = inverse ? sub<modular>(y, x, mod) : add<modular>(x, y, mod);
+            if (conv_type == AND) ar[i] = inverse ? sub<modular>(x, y, mod) : add<modular>(x, y, mod);
+            if (conv_type == XOR){
                 ar[i] = add<modular>(x, y, mod), ar[i + m] = sub<modular>(x, y, mod);
-                if constexpr (inverse) ar[i] = half<modular>(ar[i], mod), ar[i + m] = half<modular>(ar[i + m], mod);
+                if (inverse) ar[i] = half<modular>(ar[i], mod), ar[i + m] = half<modular>(ar[i + m], mod);
             }
         }
     }
@@ -148,8 +148,8 @@ int main(){
             int u = stack.back();
             stack.pop_back();
             cnt[root_xor[u]]++;
-            for (auto [v, w] : adj[u]){
-                if (root_xor[v] == -1) root_xor[v] = root_xor[u] ^ w, stack.push_back(v);
+            for (auto e : adj[u]){
+                if (root_xor[e.first] == -1) root_xor[e.first] = root_xor[u] ^ e.second, stack.push_back(e.first);
             }
         }
 
