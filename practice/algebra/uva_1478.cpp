@@ -1,21 +1,30 @@
 /***
  *
- * Arbitrary precision signed integer
+ * Big Integer
+ * Arbitrary precision signed integers that behave like C++ integers
  *
- * Stored as base 10^9 limbs in little endian order, zero is always non-negative
- * Supports + - * / % with Bignum or long long on either side, comparisons, stream I/O and to_string()
- * Division truncates toward zero and the remainder takes the sign of the dividend, like C++ integers
+ * Complexity, for numbers of n and m digits:
+ *   - +, -, comparisons, to_string and stream I/O: O(n + m)
+ *   - *: O(n m) below about 860 digits, O(n^1.58) above, O((n + m) log(n + m)) once both have about 6300 digits
+ *   - / and %: O(n) for a divisor below 10^9, O((n - m) m) unless divisor and quotient both pass 3600 digits, O(n log n) then
  *
- * Complexity, with n and m the number of digits:
- *     Addition, subtraction, comparison, I/O: O(n)
- *     Multiplication: O(n * m) for small inputs, Karatsuba O(n^1.58) for mid sizes,
- *                     three prime NTT O((n + m) log(n + m)) once both have 700+ limbs (~6300 digits)
- *     Division: O(n) when the divisor fits in 9 digits, O((n - m) * m) while the divisor or the quotient has under
- *               400 limbs (~3600 digits), O(n log n) beyond with a Newton reciprocal
+ * Bignum x(v): the long long v, 0 by default
+ * Bignum x(s): the decimal string s, optional sign and leading zeros allowed, asserts at least one digit and nothing else
+ * x + y: the sum, either side may be a long long
+ * x - y: the difference
+ * x * y: the product
+ * x / y: the quotient truncated toward zero, asserts y != 0
+ * x % y: the remainder with the sign of x, asserts y != 0
+ * -x: the negation
+ * x += y: x + y stored in x, likewise -=, *=, /= and %=
+ * x < y: the comparison, likewise <=, >, >=, == and !=
+ * x.to_string(): the decimal digits, with a leading - when x is negative
+ * cin >> x: reads one whitespace separated decimal token
+ * cout << x: writes x.to_string()
  *
+ * In loops prefer the compound operators: x += y reuses x's storage, and *=, /= and %= by a long long below 10^9 never allocate
+ * x / y and x % y each run the full division, so needing both costs two
  * At -O2, multiplying two 2 * 10^6 digit numbers takes ~0.15 s and dividing 2 * 10^6 digits by 10^6 digits ~0.5 s
- * / and % each run the full division
- * Products of more than 2^23 limbs (~7.5 * 10^7 digits) split with Karatsuba until the pieces fit the NTT
  * Requires __int128 (64-bit GCC or Clang)
  *
 ***/
@@ -30,9 +39,10 @@ struct Bignum{
     static const int NTT_CUTOFF = 700;
     static const size_t NTT_MAX = 1 << 23;
     static const int NEWTON_CUTOFF = 400;
+    typedef vector<uint32_t> Limbs;
 
-    bool neg = false;
-    vector<uint32_t> a;
+    bool neg = false;      /// false for zero, so 0 has one representation
+    vector<uint32_t> a;    /// limbs of 9 decimal digits each, value = sum a[i] * 10^(9i), no zero limbs at the top
 
     Bignum(long long v = 0){
         neg = v < 0;
@@ -109,11 +119,38 @@ struct Bignum{
         return Bignum(divmod(x.a, y.a).second, x.neg);
     }
 
-    Bignum& operator += (const Bignum& y){ return *this = *this + y; }
-    Bignum& operator -= (const Bignum& y){ return *this = *this - y; }
+    Bignum& operator += (const Bignum& y){ return add_signed(y.a, y.neg); }
+    Bignum& operator -= (const Bignum& y){ return add_signed(y.a, !y.neg); }
     Bignum& operator *= (const Bignum& y){ return *this = *this * y; }
     Bignum& operator /= (const Bignum& y){ return *this = *this / y; }
     Bignum& operator %= (const Bignum& y){ return *this = *this % y; }
+
+    /// A factor or divisor below BASE works on these limbs without allocating, larger ones take the general path
+    Bignum& operator *= (long long y){
+        if (y <= -(long long)BASE || y >= (long long)BASE) return *this *= Bignum(y);
+        if (y < 0) neg = !neg, y = -y;
+        mul_small(a, y);
+        trim();
+        return *this;
+    }
+
+    Bignum& operator /= (long long y){
+        assert(y != 0);
+        if (y <= -(long long)BASE || y >= (long long)BASE) return *this /= Bignum(y);
+        if (y < 0) neg = !neg, y = -y;
+        divmod_small(a, y);
+        trim();
+        return *this;
+    }
+
+    Bignum& operator %= (long long y){
+        assert(y != 0);
+        if (y <= -(long long)BASE || y >= (long long)BASE) return *this %= Bignum(y);
+        uint32_t r = divmod_small(a, y < 0 ? -y : y);
+        a.assign(r ? 1 : 0, r);
+        trim();
+        return *this;
+    }
 
     friend bool operator == (const Bignum& x, const Bignum& y){ return x.neg == y.neg && x.a == y.a; }
     friend bool operator != (const Bignum& x, const Bignum& y){ return !(x == y); }
@@ -125,10 +162,24 @@ struct Bignum{
     friend bool operator <= (const Bignum& x, const Bignum& y){ return !(y < x); }
     friend bool operator >= (const Bignum& x, const Bignum& y){ return !(x < y); }
 
-    typedef vector<uint32_t> Limbs;
-
     Bignum(Limbs&& limbs, bool negative) : neg(negative), a(move(limbs)){
         trim();
+    }
+
+    Bignum& add_signed(const Limbs& y, bool y_neg){
+        if (neg == y_neg){
+            a.resize(max(a.size(), y.size()) + 1);
+            add_to(a, y, 0);
+        }
+        else if (cmp(a, y) >= 0) sub_from(a, y);
+        else{
+            Limbs d = y;
+            sub_from(d, a);
+            a = move(d), neg = y_neg;
+        }
+
+        trim();
+        return *this;
     }
 
     void trim(){
@@ -308,7 +359,8 @@ struct Bignum{
         size_t n = x.size(), m = y.size();
         if (m <= 1){
             if (!m) return {};
-            Limbs res = mul_small(x, y[0]);
+            Limbs res = x;
+            mul_small(res, y[0]);
             trim(res);
             return res;
         }
@@ -344,26 +396,28 @@ struct Bignum{
     }
 
     static uint32_t divmod_small(Limbs& x, uint32_t d){
-        unsigned long long rem = 0;
+        /// One reciprocal turns each 64-bit division into a multiply: inv underestimates 2^64 / d, so q is low by at most 1
+        unsigned long long inv = ~0ULL / d, rem = 0;
         for (int i = (int)x.size() - 1; i >= 0; i--){
-            unsigned long long cur = rem * BASE + x[i];
-            x[i] = cur / d, rem = cur % d;
+            unsigned long long cur = rem * BASE + x[i], q = (unsigned __int128)cur * inv >> 64;
+            rem = cur - q * d;
+            if (rem >= d) q++, rem -= d;
+            x[i] = q;
         }
 
         trim(x);
         return rem;
     }
 
-    static Limbs mul_small(const Limbs& x, uint32_t f){
-        Limbs res(x.size() + 1);
+    /// Always appends the carry limb, even 0, since Knuth D's normalized dividend needs that extra top limb
+    static void mul_small(Limbs& x, uint32_t f){
         unsigned long long carry = 0;
-        for (size_t i = 0; i < x.size(); i++){
-            unsigned long long cur = (unsigned long long)x[i] * f + carry;
-            res[i] = cur % BASE, carry = cur / BASE;
+        for (auto& limb : x){
+            unsigned long long cur = (unsigned long long)limb * f + carry;
+            limb = cur % BASE, carry = cur / BASE;
         }
 
-        res[x.size()] = carry;
-        return res;
+        x.push_back(carry);
     }
 
     /// Returns {|x| / |y|, |x| % |y|}
@@ -464,7 +518,8 @@ struct Bignum{
     static pair<Limbs, Limbs> divmod_knuth(const Limbs& x, const Limbs& y){
         /// Scaling so the top divisor limb is at least BASE / 2 keeps each estimated quotient limb off by at most 2
         uint32_t norm = BASE / (y.back() + 1ULL);
-        Limbs u = mul_small(x, norm), v = mul_small(y, norm);
+        Limbs u = x, v = y;
+        mul_small(u, norm), mul_small(v, norm);
         v.pop_back();
 
         size_t n = v.size(), m = u.size() - n;
@@ -510,20 +565,34 @@ struct Bignum{
     }
 };
 
-int main(){
-    const int MAXN = 10000;
-    const Bignum MOD("1" + string(100, '0'));
+#define MAX 10010
 
-    /// Motzkin numbers, M(n) = ((2n + 1) M(n - 1) + (3n - 3) M(n - 2)) / (n + 2) divides exactly
-    vector<string> ans(MAXN + 1);
+int top;
+bool asked[MAX];
+string ans[MAX];
+
+int main(){
+    int n, i;
+    vector<int> queries;
+
+    while (scanf("%d", &n) != EOF) queries.push_back(n), asked[n] = true, top = max(top, n);
+
     Bignum prev = 1, cur = 1;
-    for (int n = 2; n <= MAXN; n++){
-        Bignum next = (cur * (2 * n + 1) + prev * (3 * n - 3)) / (n + 2);
-        prev = cur, cur = next;
-        ans[n] = (cur % MOD).to_string();
+    for (n = 2; n <= top; n++){
+        Bignum term = cur;
+        term *= 2 * n + 1, prev *= 3 * n - 3;
+        prev += term;
+        prev /= n + 2;
+        swap(prev, cur);
+        if (!asked[n]) continue;
+
+        string s = cur.to_string();
+        if (s.size() > 100) s = s.substr(s.size() - 100);
+        i = 0;
+        while ((i + 1) < (int)s.size() && s[i] == '0') i++;
+        ans[n] = s.substr(i);
     }
 
-    int n;
-    while (scanf("%d", &n) == 1) printf("%s\n", ans[n].c_str());
+    for (i = 0; i < (int)queries.size(); i++) printf("%s\n", ans[queries[i]].c_str());
     return 0;
 }
