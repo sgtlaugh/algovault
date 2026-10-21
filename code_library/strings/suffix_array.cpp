@@ -29,7 +29,6 @@
 
 using namespace std;
 
-/// Measured against DC3 at n = 5e5 to 1e6: 2-3.5x faster on repetitive text, 10-30% on random letters, 3-8% slower on all distinct values
 namespace SuffixArraySAIS{
     /// Sorts the suffixes of text, values in [0, alphabet), as if a sentinel below every value ended it
     template<typename Char>
@@ -75,14 +74,15 @@ namespace SuffixArraySAIS{
         /// Inducing from unsorted LMS seeds sorts the LMS substrings
         fill(sa, sa + n, 0);
         copy(start.begin() + 1, start.end(), bucket.begin());
-        int m = 0;
+        int lms_count = 0;
         for_each_lms([&](int p){
             sa[--bucket[text[p]]] = p;
-            m++;
+            lms_count++;
         });
         induce();
-        if (m == 0) return;  /// non-increasing text, the L pass sorted it
+        if (lms_count == 0) return;  /// non-increasing text, the L pass sorted it
 
+        /// Compacts the LMS positions to the front of sa, in their sorted order
         int sorted = 0;
         for (int i = 0; i < n; i++){
             int p = sa[i];
@@ -93,47 +93,47 @@ namespace SuffixArraySAIS{
             if (end < n && text[end] > text[p]) sa[sorted++] = p;
         }
 
-        /// LMS positions are at least 2 apart, so sa[m + p / 2] is a free slot for each, holding its length, then its name
-        fill(sa + m, sa + n, 0);
+        /// LMS positions are at least 2 apart, so sa[lms_count + p / 2] is a free slot for each, holding its length, then its name
+        fill(sa + lms_count, sa + n, 0);
         int next = 0;
         for_each_lms([&](int p){
-            sa[m + p / 2] = next ? next - p : 0;  /// the last one ends at the sentinel and equals no other
+            sa[lms_count + p / 2] = next ? next - p : 0;  /// the last one ends at the sentinel and equals no other
             next = p;
         });
 
         /// Names start at 1, as 0 marks a free slot
         int names = 0, prev = -1, prev_len = 0;
-        for (int i = 0; i < m; i++){
-            int p = sa[i], len = sa[m + p / 2];
+        for (int i = 0; i < lms_count; i++){
+            int p = sa[i], len = sa[lms_count + p / 2];
             bool same = prev >= 0 && len == prev_len;
             for (int d = 0; same && d <= len; d++) same = text[p + d] == text[prev + d];
             if (!same) names++;
 
-            sa[m + p / 2] = names;
+            sa[lms_count + p / 2] = names;
             prev = p, prev_len = len;
         }
 
-        /// The names in text order sort like the LMS suffixes, m <= n / 2 so they and their suffix array both fit in sa
-        int* reduced = sa + n - m;
-        int filled = m;
-        for (int i = n - 1; i >= m; i--){
+        /// The names in text order sort like the LMS suffixes, lms_count <= n / 2 so they and their suffix array both fit in sa
+        int* reduced = sa + n - lms_count;
+        int filled = lms_count;
+        for (int i = n - 1; i >= lms_count; i--){
             if (sa[i] > 0) reduced[--filled] = sa[i] - 1;
         }
 
-        if (names == m){
-            for (int i = 0; i < m; i++) sa[reduced[i]] = i;
+        if (names == lms_count){
+            for (int i = 0; i < lms_count; i++) sa[reduced[i]] = i;
         }
         else{
-            sais(reduced, sa, m, names);
+            sais(reduced, sa, lms_count, names);
         }
 
-        filled = m;
+        filled = lms_count;
         for_each_lms([&](int p){ reduced[--filled] = p; });
-        for (int i = 0; i < m; i++) sa[i] = reduced[sa[i]];
+        for (int i = 0; i < lms_count; i++) sa[i] = reduced[sa[i]];
 
-        fill(sa + m, sa + n, 0);
+        fill(sa + lms_count, sa + n, 0);
         copy(start.begin() + 1, start.end(), bucket.begin());
-        for (int i = m - 1; i >= 0; i--){  /// the i-th smallest lands at or after i, past every unread seed
+        for (int i = lms_count - 1; i >= 0; i--){  /// the i-th smallest lands at or after i, past every unread seed
             int p = sa[i];
             sa[i] = 0;
             sa[--bucket[text[p]]] = p;
@@ -154,7 +154,7 @@ namespace SuffixArraySAIS{
             int j = sa[rank[i] + 1];
             while (i + k < n && j + k < n && c[i + k] == c[j + k]) k++;
             lcp[rank[i]] = k;
-            if (k > 0) k--;
+            if (k > 0) k--;  /// Kasai: dropping the first character loses at most 1 of the match, so the scan totals O(n)
         }
         return lcp;
     }
@@ -177,9 +177,7 @@ SuffixArray suffix_array(const Container& c){
     SuffixArray result;
     result.n = n;
 
-    if (n == 0){
-        return result;
-    }
+    if (n == 0) return result;
 
     /// Values are ranked in T, a cast to long long would wrap unsigned values past LLONG_MAX
     using T = typename Container::value_type;
