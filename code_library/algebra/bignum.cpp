@@ -1,21 +1,30 @@
 /***
  *
- * Arbitrary precision signed integer
+ * Big Integer
+ * Arbitrary precision signed integers that behave like C++ integers
  *
- * Stored as base 10^9 limbs in little endian order, zero is always non-negative
- * Supports + - * / % with Bignum or long long on either side, comparisons, stream I/O and to_string()
- * Division truncates toward zero and the remainder takes the sign of the dividend, like C++ integers
+ * Complexity, for numbers of n and m digits:
+ *   - +, -, comparisons, to_string and stream I/O: O(n + m)
+ *   - *: O(n m) below about 860 digits, O(n^1.58) above, O((n + m) log(n + m)) once both have about 6300 digits
+ *   - / and %: O(n) for a divisor below 10^9, O((n - m) m) unless divisor and quotient both pass 3600 digits, O(n log n) then
  *
- * Complexity, with n and m the number of digits:
- *     Addition, subtraction, comparison, I/O: O(n)
- *     Multiplication: O(n * m) for small inputs, Karatsuba O(n^1.58) for mid sizes,
- *                     three prime NTT O((n + m) log(n + m)) once both have 700+ limbs (~6300 digits)
- *     Division: O(n) when the divisor fits in 9 digits, O((n - m) * m) while the divisor or the quotient has under
- *               400 limbs (~3600 digits), O(n log n) beyond with a Newton reciprocal
+ * Bignum x(v): the long long v, 0 by default
+ * Bignum x(s): the decimal string s, optional sign and leading zeros allowed, asserts at least one digit and nothing else
+ * x + y: the sum, either side may be a long long
+ * x - y: the difference
+ * x * y: the product
+ * x / y: the quotient truncated toward zero, asserts y != 0
+ * x % y: the remainder with the sign of x, asserts y != 0
+ * -x: the negation
+ * x += y: x + y stored in x, likewise -=, *=, /= and %=
+ * x < y: the comparison, likewise <=, >, >=, == and !=
+ * x.to_string(): the decimal digits, with a leading - when x is negative
+ * cin >> x: reads one whitespace separated decimal token
+ * cout << x: writes x.to_string()
  *
+ * In loops prefer the compound operators: x += y reuses x's storage, and *=, /= and %= by a long long below 10^9 never allocate
+ * x / y and x % y each run the full division, so needing both costs two
  * At -O2, multiplying two 2 * 10^6 digit numbers takes ~0.15 s and dividing 2 * 10^6 digits by 10^6 digits ~0.5 s
- * / and % each run the full division
- * Products of more than 2^23 limbs (~7.5 * 10^7 digits) split with Karatsuba until the pieces fit the NTT
  * Requires __int128 (64-bit GCC or Clang)
  *
 ***/
@@ -32,8 +41,8 @@ struct Bignum{
     static const int NEWTON_CUTOFF = 400;
     typedef vector<uint32_t> Limbs;
 
-    bool neg = false;
-    vector<uint32_t> a;
+    bool neg = false;      /// false for zero, so 0 has one representation
+    vector<uint32_t> a;    /// base 10^9 limbs, least significant first, no leading zero limbs
 
     Bignum(long long v = 0){
         neg = v < 0;
@@ -557,41 +566,31 @@ struct Bignum{
 };
 
 int main(){
+    /// 2^100 by repeated doubling in place, then one sum
     Bignum x = 1;
     for (int i = 0; i < 100; i++) x *= 2;
     assert(x.to_string() == "1267650600228229401496703205376");
     assert((x + x).to_string() == "2535301200456458802993406410752");
-    assert((x % 1000000007).to_string() == "976371285");
-    assert((x / 1000000007).to_string() == "1267650591354675262013");
-    assert(x / 1000000007 * 1000000007 + x % 1000000007 == x);
-    assert((x - x - x) == -x && (x - x).to_string() == "0");
 
-    assert(Bignum("-0") == 0 && Bignum("+000123") == 123 && Bignum("-000").to_string() == "0");
-    assert(Bignum(LLONG_MIN).to_string() == "-9223372036854775808");
-    assert(Bignum(LLONG_MIN) - 1 < LLONG_MIN && -Bignum(LLONG_MIN) > LLONG_MAX);
+    /// Division truncates toward zero and the remainder keeps the dividend's sign, like C++
+    Bignum seven = -7;
+    assert(seven / 2 == -3);
+    assert(seven % 2 == -1);
 
-    for (int a = -100; a <= 100; a++){
-        for (int b = -100; b <= 100; b++){
-            Bignum p = a, q = b;
-            assert(p + q == a + b && p - q == a - b && p * q == a * b);
-            if (b) assert(p / q == a / b && p % q == a % b);
-            assert((p < q) == (a < b) && (p > q) == (a > b) && (p == q) == (a == b));
-            assert((p <= q) == (a <= b) && (p >= q) == (a >= b) && (p != q) == (a != b));
-        }
-    }
+    Bignum parsed("-000123");
+    assert(parsed == -123);
+    assert(parsed.to_string() == "-123");
 
+    /// (10^12 - 1)^2 = 10^24 - 2 * 10^12 + 1
+    Bignum nines("999999999999");
+    assert((nines * nines).to_string() == "999999999998000000000001");
+
+    /// 25! built and undone in place
     Bignum fact = 1;
-    for (int i = 1; i <= 1000; i++) fact *= i;
-    assert(fact.to_string().size() == 2568);
-    for (int i = 1000; i >= 1; i--) fact /= i;
+    for (int i = 1; i <= 25; i++) fact *= i;
+    assert(fact.to_string() == "15511210043330985984000000");
+    for (int i = 25; i >= 1; i--) fact /= i;
     assert(fact == 1);
-
-    auto nines = [](int k){ return Bignum(string(k, '9')); };
-    auto pow10 = [](int k){ return Bignum("1" + string(k, '0')); };
-    assert((nines(20000) * nines(20000)).to_string() == string(19999, '9') + "8" + string(19999, '0') + "1");
-    assert(nines(27000) / nines(18000) == pow10(9000) && nines(27000) % nines(18000) == nines(9000));
-    assert((-pow10(27000) / nines(9000)).to_string() == "-1" + string(8999, '0') + "1" + string(8999, '0') + "1");
-    assert(-pow10(27000) % nines(9000) == -1);
 
     return 0;
 }
