@@ -39,7 +39,7 @@
 - [UVa 10814 - Simplifying Fractions](https://onlinejudge.org/external/108/10814.pdf) [✅](../../practice/algebra/uva_10814.cpp "Accepted solution")
 - [UVa 10862 - Connect the Cable Wires](https://onlinejudge.org/external/108/10862.pdf) [✅](../../practice/algebra/uva_10862.cpp "Accepted solution")
 - [UVa 10925 - Krakovia](https://onlinejudge.org/external/109/10925.pdf) [✅](../../practice/algebra/uva_10925.cpp "Accepted solution")
-- [UVa 12924 - Immortal Rabbits](https://onlinejudge.org/external/129/12924.pdf)
+- [UVa 12924 - Immortal Rabbits](https://onlinejudge.org/external/129/12924.pdf) [✅](../../practice/algebra/uva_12924.cpp "Accepted solution")
 
 #### [FFT](fft.cpp)
 
