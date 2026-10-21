@@ -42,7 +42,7 @@ struct Bignum{
     typedef vector<uint32_t> Limbs;
 
     bool neg = false;      /// false for zero, so 0 has one representation
-    vector<uint32_t> a;    /// base 10^9 limbs, least significant first, no leading zero limbs
+    vector<uint32_t> a;    /// limbs of 9 decimal digits each, value = sum a[i] * 10^(9i), no zero limbs at the top
 
     Bignum(long long v = 0){
         neg = v < 0;
