@@ -110,11 +110,38 @@ struct Bignum{
         return Bignum(divmod(x.a, y.a).second, x.neg);
     }
 
-    Bignum& operator += (const Bignum& y){ return *this = *this + y; }
-    Bignum& operator -= (const Bignum& y){ return *this = *this - y; }
+    Bignum& operator += (const Bignum& y){ return add_signed(y.a, y.neg); }
+    Bignum& operator -= (const Bignum& y){ return add_signed(y.a, !y.neg); }
     Bignum& operator *= (const Bignum& y){ return *this = *this * y; }
     Bignum& operator /= (const Bignum& y){ return *this = *this / y; }
     Bignum& operator %= (const Bignum& y){ return *this = *this % y; }
+
+    /// A factor or divisor below BASE works on these limbs without allocating, larger ones take the general path
+    Bignum& operator *= (long long y){
+        if (y <= -(long long)BASE || y >= (long long)BASE) return *this *= Bignum(y);
+        if (y < 0) neg = !neg, y = -y;
+        mul_small(a, y);
+        trim();
+        return *this;
+    }
+
+    Bignum& operator /= (long long y){
+        assert(y != 0);
+        if (y <= -(long long)BASE || y >= (long long)BASE) return *this /= Bignum(y);
+        if (y < 0) neg = !neg, y = -y;
+        divmod_small(a, y);
+        trim();
+        return *this;
+    }
+
+    Bignum& operator %= (long long y){
+        assert(y != 0);
+        if (y <= -(long long)BASE || y >= (long long)BASE) return *this %= Bignum(y);
+        uint32_t r = divmod_small(a, y < 0 ? -y : y);
+        a.assign(r ? 1 : 0, r);
+        trim();
+        return *this;
+    }
 
     friend bool operator == (const Bignum& x, const Bignum& y){ return x.neg == y.neg && x.a == y.a; }
     friend bool operator != (const Bignum& x, const Bignum& y){ return !(x == y); }
@@ -128,6 +155,22 @@ struct Bignum{
 
     Bignum(Limbs&& limbs, bool negative) : neg(negative), a(move(limbs)){
         trim();
+    }
+
+    Bignum& add_signed(const Limbs& y, bool y_neg){
+        if (neg == y_neg){
+            a.resize(max(a.size(), y.size()) + 1);
+            add_to(a, y, 0);
+        }
+        else if (cmp(a, y) >= 0) sub_from(a, y);
+        else{
+            Limbs d = y;
+            sub_from(d, a);
+            a = move(d), neg = y_neg;
+        }
+
+        trim();
+        return *this;
     }
 
     void trim(){
@@ -307,7 +350,8 @@ struct Bignum{
         size_t n = x.size(), m = y.size();
         if (m <= 1){
             if (!m) return {};
-            Limbs res = mul_small(x, y[0]);
+            Limbs res = x;
+            mul_small(res, y[0]);
             trim(res);
             return res;
         }
@@ -343,26 +387,28 @@ struct Bignum{
     }
 
     static uint32_t divmod_small(Limbs& x, uint32_t d){
-        unsigned long long rem = 0;
+        /// One reciprocal turns each 64-bit division into a multiply: inv underestimates 2^64 / d, so q is low by at most 1
+        unsigned long long inv = ~0ULL / d, rem = 0;
         for (int i = (int)x.size() - 1; i >= 0; i--){
-            unsigned long long cur = rem * BASE + x[i];
-            x[i] = cur / d, rem = cur % d;
+            unsigned long long cur = rem * BASE + x[i], q = (unsigned __int128)cur * inv >> 64;
+            rem = cur - q * d;
+            if (rem >= d) q++, rem -= d;
+            x[i] = q;
         }
 
         trim(x);
         return rem;
     }
 
-    static Limbs mul_small(const Limbs& x, uint32_t f){
-        Limbs res(x.size() + 1);
+    /// Always appends the carry limb, even 0, since Knuth D's normalized dividend needs that extra top limb
+    static void mul_small(Limbs& x, uint32_t f){
         unsigned long long carry = 0;
-        for (size_t i = 0; i < x.size(); i++){
-            unsigned long long cur = (unsigned long long)x[i] * f + carry;
-            res[i] = cur % BASE, carry = cur / BASE;
+        for (auto& limb : x){
+            unsigned long long cur = (unsigned long long)limb * f + carry;
+            limb = cur % BASE, carry = cur / BASE;
         }
 
-        res[x.size()] = carry;
-        return res;
+        x.push_back(carry);
     }
 
     /// Returns {|x| / |y|, |x| % |y|}
@@ -463,7 +509,8 @@ struct Bignum{
     static pair<Limbs, Limbs> divmod_knuth(const Limbs& x, const Limbs& y){
         /// Scaling so the top divisor limb is at least BASE / 2 keeps each estimated quotient limb off by at most 2
         uint32_t norm = BASE / (y.back() + 1ULL);
-        Limbs u = mul_small(x, norm), v = mul_small(y, norm);
+        Limbs u = x, v = y;
+        mul_small(u, norm), mul_small(v, norm);
         v.pop_back();
 
         size_t n = v.size(), m = u.size() - n;

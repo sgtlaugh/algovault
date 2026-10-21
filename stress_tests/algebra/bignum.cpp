@@ -72,6 +72,30 @@ int main(){
             check(a / s, q);
             check(a % s, r);
         }
+
+        /// Compound operators run in place: same-sign sums, sign flips, aliasing, and factors around BASE on both paths
+        Bignum c = a;
+        c += b;
+        check(c, x + y);
+        c = a, c -= b;
+        check(c, x - y);
+        c = a, c += c;
+        check(c, x + x);
+        c = a, c -= c;
+        assert(c == 0 && !(c < 0));
+
+        const long long base = Bignum::BASE;
+        long long t = stress::rand_int(0, 2) ? stress::rand_int(-(base - 1), base - 1) : vector<long long>{0, 1, -1, base - 1, 1 - base, base, -base, s}[stress::rand_int(0, 7)];
+        mpz_set_si(z.get_mpz_t(), t);
+        c = a, c *= t;
+        check(c, x * z);
+        if (t){
+            mpz_tdiv_qr(q.get_mpz_t(), r.get_mpz_t(), x.get_mpz_t(), z.get_mpz_t());
+            c = a, c /= t;
+            check(c, q);
+            c = a, c %= t;
+            check(c, r);
+        }
     }
 
     /// Newton division with quotient and divisor both 3600+ digits, in the truncated branch (quotient shorter than the
