@@ -133,7 +133,8 @@ int main(){
 
 ## Style
 
-- Comments explain why, never what
+- Comments explain why, never what: a comment whose deletion loses nothing the code already shows is deleted, and one naming
+  what a variable holds becomes a better name
 - A comment is one line at the code it explains, with no debugging history, failing inputs or judge anecdotes: those go in
   the commit message or the stress test
 - A header note states the condition instead of hedging: `beyond double precision`, not `may get either answer`

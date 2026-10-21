@@ -47,7 +47,7 @@ Run shell commands under bash, edit files with Edit or Write (never `sed -i`), a
    - Is everything public, with no `private:` section and no `class`?
    - Are loops plain and variables named for what they hold, with no abstraction used once and no language machinery that does not prevent a silent wrong answer?
    - Does the struct read top down (types and constants, fields, constructors, the API in header order, helpers in call order), with named options as a nested enum rather than int constants?
-   - Is every comment one line of why, free of debugging history, failing inputs and judge anecdotes, which go in the commit or the stress test?
+   - Would deleting each comment lose something the code does not already show? A comment restating the next line goes, one naming what a variable holds becomes a rename, and debugging history, failing inputs and judge anecdotes go in the commit or the stress test. Answer it from the comment table in the report, never from memory.
    - Do blank lines split each function body into its steps?
    A no that stays a no is allowed only for a higher priority (correct, fast, easy to call, easy to read inside), with a one-line reason in the report, such as a measured speed cost.
    The questions mirror CONTRIBUTING.md `## API and code` and `## Style`, so a change there updates them in the same commit.
@@ -95,11 +95,12 @@ The report MUST contain, in this order:
 
 1. **Mode and source:** the file or URL; for web mode the licence and whether the code was adapted or reimplemented.
 2. **API:** the common case as written in step 3, the simplicity gate answers (any no with its reason), and for refactor the API before and after with every caller updated.
-3. **Header claims:** each range and complexity claim with the stress case or self-test that checks it.
-4. **Stress test:** the reference used and what it covers.
-5. **Planted bugs:** each sed expression with its `mutant caught by:` line, and any mutant that first survived with how the test was strengthened.
-6. **Performance:** the benchmark numbers, including reverted attempts, or "not measured" with the reason (port with no compilable source).
-7. **Judge tests:** each one with its result, or "none fits".
-8. **Docs:** sections 1 to 4 of the `/lucid` report (README entry, claims, main(), proposed); its verification and commit are items 9 and 10 here.
-9. **Verification:** the last 3 lines of both suite runs.
-10. **Commits:** sha and subject for each, or "not committed".
+3. **Comments:** a table of every `///` line outside the header and `main()`, each with `why:` and the information it adds that the code does not show, marked kept, added or removed. A comment with no such information is removed, not listed as kept.
+4. **Header claims:** each range and complexity claim with the stress case or self-test that checks it.
+5. **Stress test:** the reference used and what it covers.
+6. **Planted bugs:** each sed expression with its `mutant caught by:` line, and any mutant that first survived with how the test was strengthened.
+7. **Performance:** the benchmark numbers, including reverted attempts, or "not measured" with the reason (port with no compilable source).
+8. **Judge tests:** each one with its result, or "none fits".
+9. **Docs:** sections 1 to 4 of the `/lucid` report (README entry, claims, main(), proposed); its verification and commit are items 10 and 11 here.
+10. **Verification:** the last 3 lines of both suite runs.
+11. **Commits:** sha and subject for each, or "not committed".
