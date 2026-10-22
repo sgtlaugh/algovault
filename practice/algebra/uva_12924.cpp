@@ -66,8 +66,6 @@ struct Bignum{
         trim();
     }
 
-    explicit Bignum(const char* s) : Bignum(string(s)) {}
-
     string to_string() const{
         if (a.empty()) return "0";
         string s = (neg ? "-" : "") + std::to_string(a.back());
@@ -216,20 +214,32 @@ struct Bignum{
     /// res += y * BASE^offset, res must be large enough to hold the result
     static void add_to(Limbs& res, const Limbs& y, size_t offset){
         uint32_t carry = 0;
-        for (size_t i = 0; i < y.size() || carry; i++){
-            uint32_t s = res[i + offset] + carry + (i < y.size() ? y[i] : 0);
+        size_t i = offset;
+        for (uint32_t v : y){
+            uint32_t s = res[i] + v + carry;
             carry = s >= BASE;
-            res[i + offset] = carry ? s - BASE : s;
+            res[i++] = carry ? s - BASE : s;
+        }
+
+        for (; carry; i++){
+            carry = res[i] == BASE - 1;
+            res[i] = carry ? 0 : res[i] + 1;
         }
     }
 
     /// x -= y, requires x >= y
     static void sub_from(Limbs& x, const Limbs& y){
         int borrow = 0;
-        for (size_t i = 0; i < y.size() || borrow; i++){
-            long long d = (long long)x[i] - borrow - (i < y.size() ? y[i] : 0);
+        size_t i = 0;
+        for (uint32_t v : y){
+            long long d = (long long)x[i] - v - borrow;
             borrow = d < 0;
-            x[i] = borrow ? d + BASE : d;
+            x[i++] = borrow ? d + BASE : d;
+        }
+
+        for (; borrow; i++){
+            borrow = x[i] == 0;
+            x[i] = borrow ? BASE - 1 : x[i] - 1;
         }
     }
 
@@ -565,40 +575,29 @@ struct Bignum{
     }
 };
 
-#define MAX 1010
+Bignum f, g;
 
-int t, A[MAX], B[MAX], M[MAX], order[MAX];
-string ans[MAX];
-
-bool compare(int i, int j){
-    return M[i] < M[j];
+void fib(int m){
+    f = 0, g = 1;
+    for (int i = 16; i >= 0; i--){
+        Bignum c = f * (g * 2 - f), d = f * f + g * g;
+        if ((m >> i) & 1) f = d, g = c + d;
+        else f = c, g = d;
+    }
 }
 
 int main(){
-    int i, k, m;
+    int t, a, b, m;
 
     scanf("%d", &t);
-    for (i = 0; i < t; i++){
-        scanf("%d %d %d", &A[i], &B[i], &M[i]);
-        order[i] = i;
+    while (t--){
+        scanf("%d %d %d", &a, &b, &m);
+        fib(m);
+
+        Bignum res = g - f, x = f;
+        res *= a, x *= b;
+        res += x;
+        printf("%s\n", res.to_string().c_str());
     }
-    sort(order, order + t, compare);
-
-    Bignum x = 1, y = 0;
-    for (m = 0, k = 0; k < t; k++){
-        i = order[k];
-        while (m < M[i]){
-            x += y;
-            swap(x, y);
-            m++;
-        }
-
-        Bignum res = x, z = y;
-        res *= A[i], z *= B[i];
-        res += z;
-        ans[i] = res.to_string();
-    }
-
-    for (i = 0; i < t; i++) printf("%s\n", ans[i].c_str());
     return 0;
 }
