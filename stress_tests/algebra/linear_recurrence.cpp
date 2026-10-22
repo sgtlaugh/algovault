@@ -33,7 +33,6 @@ int main(){
         }
         auto terms = brute_terms(c, start, 3000, mod);
 
-        /// Recurrence given
         LinearRecurrence given(vector<int>(terms.begin(), terms.begin() + 2 * k), mod, c);
         for (int q = 0; q < 6; q++){
             long long n = stress::rand_int(0, 2999);
@@ -67,9 +66,9 @@ int main(){
         }
 
         /// Any length from 2k up, odd included, and the found recurrence generates every given term
-        /// A prime mod also takes fewer terms: Berlekamp-Massey still returns a recurrence generating all of them
         bool prime = true;
         for (long long p = 2; p * p <= mod; p++) prime &= mod % p != 0;
+        /// A prime mod also takes fewer terms: Berlekamp-Massey still returns a recurrence generating all of them
         int len = prime && stress::rand_int(0, 1) ? stress::rand_int(1, 2 * k - 1) : 2 * k + stress::rand_int(0, 3);
         LinearRecurrence any(vector<int>(terms.begin(), terms.begin() + len), mod);
         int d = any.recurrence.size();

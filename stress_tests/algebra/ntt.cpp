@@ -92,12 +92,12 @@ int main(){
     assert((multiply<257, 3>(u, v) == naive(u, v, 257)));
     assert((multiply<7340033, 3>(vector<ll>((1 << 19) + 1, 1), vector<ll>(1 << 19, 1)) == ones_product((1 << 19) + 1, 1 << 19)));
 
-    /// The header's maximum lengths, nightly only (STRESS_SCALE > 1) since a 2^24 three-prime product is slow under sanitizers
-    /// (m - 1)^2 = 1 modulo m, so all-(m - 1) inputs reduce to the all-ones closed form while every true coefficient nears M
+    /// The header's maximum lengths, nightly only since a 2^24 three-prime product is slow under sanitizers
     if (stress::scaled(1) > 1){
         auto c = ones_product((1 << 22) + 1, 1 << 22);
         assert((multiply(vector<ll>((1 << 22) + 1, 1), vector<ll>(1 << 22, 1)) == c));
 
+        /// (m - 1)^2 = 1 modulo m, so all-(m - 1) inputs reduce to the all-ones closed form while every true coefficient nears M
         const ll top = (1LL << 31) - 1;
         auto d = ones_product((1 << 23) + 1, 1 << 23);
         auto e = mod_multiply(vector<ll>((1 << 23) + 1, top - 1), vector<ll>(1 << 23, top - 1), top);

@@ -71,8 +71,7 @@ int main(){
         assert(fft.multiply(a, b) == naive(a, b));
         assert(fft.square(a) == naive(a, a));
 
-        /// Past EXACT_LIMIT multiply and square switch to the split product, signed values up to LL_MULTIPLY_LIMIT,
-        /// hi keeps every coefficient below 2^63
+        /// Signed values up to LL_MULTIPLY_LIMIT push multiply and square onto the split product, hi keeps sums below 2^63
         ll big_hi = FFT::LL_MULTIPLY_LIMIT - 1, small_hi = 9e18L / max(n, m) / big_hi;
         auto sa = random_vector(n, -big_hi, big_hi), sb = random_vector(m, -small_hi, small_hi);
         assert(fft.multiply(sa, sb) == naive(sa, sb));
@@ -112,8 +111,7 @@ int main(){
         }
     }
 
-    /// One transform was wrong on each of these: the error follows n_max * max|value|^2, not the output bound
-    /// n_min * max|a| * max|b|, which is only 1.8e13 for the first one
+    /// Unbalanced inputs: the error follows n_max * max|value|^2, not the output bound n_min * max|a| * max|b|
     assert(equal_product_is_exact(fft, 30000, 30000, 2, 300000000));
     assert(equal_product_is_exact(fft, 30000, 30000, -2, -300000000));
     assert(equal_product_is_exact(fft, 1000, 30000, 300000000, -1));
@@ -122,8 +120,7 @@ int main(){
     assert(equal_product_is_exact(fft, 1, 100000, 1, 100000000));
     assert(equal_product_is_exact(fft, 100000, 1, -100000000, 1));
 
-    /// Both sides of each switch: double up to DOUBLE_LIMIT, long double up to EXACT_LIMIT, the split product past it,
-    /// at the largest all-equal value on the cheaper side and one more; also the length 2 transform with a half of 1
+    /// Both sides of the double, long double and split switches: the largest value on the cheaper side and one more
     for (int n : {100000, 1000000}){
         for (long double limit : {(long double)FFT::DOUBLE_LIMIT, FFT::EXACT_LIMIT}){
             ll v = sqrtl(limit / n);
@@ -137,41 +134,38 @@ int main(){
     /// Between double's first error (about 3e14) and EXACT_LIMIT only long double is exact
     assert(equal_product_is_exact(fft, 100000, 100000, 100000, 100000));
     assert(equal_product_is_exact(fft, 1000000, 1000000, 40000, -40000));
-    /// The split product runs in double while max(n, m) * 2^30 <= DOUBLE_LIMIT, about n = 41909, else in long double;
-    /// values near sqrt(9.2e18 / n) force the split while every coefficient still fits in a long long
+    /// The split product runs in double while max(n, m) * 2^30 <= DOUBLE_LIMIT, up to n = 41909, else in long double
     for (int n : {41909, 41910}){
-        ll v = sqrtl(9.2e18L / n);
+        ll v = sqrtl(9.2e18L / n);  /// forces the split while every coefficient still fits in a long long
         assert(equal_product_is_exact(fft, n, n, v, v));
         assert(equal_product_is_exact(fft, n, n, v, -v));
         assert(fft.ll_multiply(vector<ll>(n, v), vector<ll>(n, v - 1))[n - 1] == v * (v - 1) * n);
     }
 
-    /// Halves of 2^30 - 1 are both 2^15 - 1, the split's worst case: in double it errs from n = 2e5 on (87719 wrong
-    /// coefficients at 4e5), long double stays exact; the recombination is modulo 2^64, so compare wrapped
+    /// Both halves of 2^30 - 1 are 2^15 - 1, the split path's worst case
     {
         int n = 400000;
         unsigned long long v = (1ULL << 30) - 1;
         auto c = fft.ll_multiply(vector<ll>(n, v), vector<ll>(n, v));
+        /// The split recombines modulo 2^64, so compare wrapped
         for (int k = 0; k < 2 * n - 1; k += 997) assert((unsigned long long)c[k] == v * v * (unsigned long long)min({k + 1, n, 2 * n - 1 - k}));
     }
 
-    /// mod_multiply takes one transform while max(n, m) * (mod - 1)^2 <= EXACT_LIMIT, the split past it; all values
-    /// mod - 1 give (mod - 1)^2 = 1 per pair, so coefficient k is its pair count modulo mod
+    /// mod_multiply takes one transform while max(n, m) * (mod - 1)^2 <= EXACT_LIMIT, the split past it
     for (ll mod : {786433LL, 7340033LL}){
         ll edge = FFT::EXACT_LIMIT / ((mod - 1) * (mod - 1));
         for (ll n : {edge, edge + 1}){
             if (n > 400000) continue;
-            vector<ll> ones(n, mod - 1);
+            vector<ll> ones(n, mod - 1);  /// (mod - 1)^2 = 1, so coefficient k is its pair count modulo mod
             auto c = fft.mod_multiply(ones, ones, mod);
             for (ll k = 0; k < 2 * n - 1; k += max(1LL, n / 97)) assert(c[k] == min({k + 1, n, 2 * n - 1 - k}) % mod);
         }
     }
 
-    assert(fft.multiply({7}, {-6}) == vector<ll>({-42}));
+    assert(fft.multiply({7}, {-6}) == vector<ll>({-42}));  /// a length 2 transform with a half of 1
     assert(fft.square({-9}) == vector<ll>({81}));
 
-    /// Near the precision limit: n = 10^4 with values up to 2 * 10^6 is exact with a long double pi (limit ~1.6 * 10^7)
-    /// but not with a double pi (limit ~7.5 * 10^5), 200 sampled coefficients are checked exactly
+    /// n = 10^4 with values up to 2 * 10^6 is exact with a long double pi (limit ~1.6e7), not a double pi (~7.5e5)
     for (long long it = 0; it < stress::scaled(2); it++){
         int n = 10000;
         auto a = random_vector(n, 0, 2000000), b = random_vector(n, 0, 2000000);

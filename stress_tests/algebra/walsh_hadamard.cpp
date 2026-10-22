@@ -111,8 +111,6 @@ void stress_mod(){
     check_all_max_mod(10, 1);
 }
 
-/// brute force O(n^2) up to 2^11, closed form for unit vectors up to 2^21, and the n^2 * max|A| * max|B| < 2^62 boundary
-/// modular mode: brute force up to 2^10 over small, even and near 2^31 moduli, closed forms at 2^20 with all values mod - 1
 int main(){
     for (long long it = 0; it < stress::scaled(1000); it++){
         int n = 1 << stress::rand_int(0, it % 20 ? 7 : 11), range = stress::rand_int(0, 1) ? 3 : 100000;
@@ -125,6 +123,7 @@ int main(){
     for (long long it = 0; it < stress::scaled(20); it++) check_scaled_unit(1 << stress::rand_int(12, 18));
     check_scaled_unit(1 << 21);
 
+    /// n^2 * max|A| * max|B| sits just under the exact mode's 2^62 bound
     const int n = 1 << 11, limit = (1 << 20) - 1;
     check_brute(vector<long long>(n, limit), vector<long long>(n, -limit));
     check_brute(vector<long long>(n, -limit), vector<long long>(n, -limit));

@@ -305,12 +305,12 @@ int main(){
         check_all<754974721>(n, m);
     }
 
-    /// The size limit 2^(v - 1) with v = 4 for 17, 5 for 97 and 12 for 12289: 17 and 97 push the series operations
-    /// to that limit, 12289 with n = m = 2048 reaches the transform length 2^v through multiply and interpolate
+    /// The size limit is 2^(v - 1), v = 4 for 17 and 5 for 97: the series operations reach it
     for (ll it = 0; it < stress::scaled(200); it++){
         check_all<17>(stress::rand_int(0, 8), stress::rand_int(0, 8), 8);
         check_all<97>(stress::rand_int(0, 16), stress::rand_int(0, 16), 16);
     }
+    /// v = 12 for 12289: n = m = 2048 reaches the transform length 2^v through multiply and interpolate
     for (ll it = 0; it < stress::scaled(2); it++){
         check_all<12289>(2048, 2048, 2048);
     }
