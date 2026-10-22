@@ -33,6 +33,8 @@ Read the practice bullets of `CONTRIBUTING.md` (`## Adding a template`) and all 
    xclip -selection clipboard -o | cmp - <solution>
    ```
    Wait for the user's verdict. Wrong answer or time limit: fix, check again and hand over again.
+   On UVa, only when the user says submit, `python3 .claude/skills/verdict/scripts/uva_submit.py submit <code> <solution>` submits and waits
+   for the verdict; credentials stay in `~/.config/uva/` (mode 600), several submissions run one at a time with a random 2-5 s pause.
 7. **Commit**, only after the user reports it accepted and said commit, or passed `--commit`. Save it as `practice/<topic>/<judge>_<code>.cpp` (naming per CONTRIBUTING, `_<template>` suffix when the problem has solutions on several templates), run `env CHANGED_SINCE=HEAD JOBS=4 bash .github/scripts/run_tests.sh self` until it exits 0, then:
    ```bash
    python3 .claude/skills/verdict/scripts/commit_one.py <readme> '<section header>' '<entry line>' <solution> '<message>'
