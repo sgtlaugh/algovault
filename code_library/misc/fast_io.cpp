@@ -1,44 +1,24 @@
 /***
  *
- * Fast i/o with fread and fwrite
+ * Fast I/O
+ * Buffered stdin and stdout through fread and fwrite, about 8x faster than scanf for integers and strings
  *
- * Complexity: O(1) amortized per character read or written, one fread / fwrite call per BUF_SIZE = 8192 bytes
- * Memory: two 8192 byte buffers and a 128 byte scratch buffer for integer output
+ * Complexity: O(1) amortized per character, one fread or fwrite call per 8192 bytes
  *
- * Function read() can take multiple arguments and returns the number of objects read
- * Works for strings or any integral types (int, long long, __int128 etc)
- * char reads one non-space character
- * Also works for vectors of these types, reading exactly v.size() elements, nested vectors fill a pre-sized grid
- * For length-prefixed input read the length first: read(n); a.resize(n); read(a);
+ * fio::read(a, b, ...): reads whitespace separated values into a, b, ... and returns how many it read before the input ended
+ * read accepts integers of any width including __int128, float, double, long double, strings, chars and vectors of these
+ * fio::read_line(s): reads one line into s without its newline or a trailing \r, false only at the end of input
+ * fio::write(a, b, ...): writes a, b, ... separated by single spaces and ends the line, a vector argument on its own line
+ * write accepts integers, strings, chars, vectors of these and fio::fixed values
+ * fio::fixed(x, digits): a floating x printed with exactly digits digits after the point, rounded like printf("%.*f")
+ * fio::flush(): writes the pending output now, which also happens at normal exit
  *
- * Function read_line() reads one line at a time
- * It does not skip empty lines
- *
- * Similarly, write() can take multiple arguments, which can be string, char or integral
- * The write functions prints them separated by a single space, ending with a newline
- *
- * The write function also works for vectors just like read
- * Vector elements are separated by a single space and ends with a newline
- *
- * If multiple vector arguments are passed however, write will print them on separate lines
- * In other words we can do write(v1, v2, v3) and they will be printed on separate lines
- * It is discouraged to mix vectors with other types in the same write call because of formatting difference
- *
- * The output buffer is flushed automatically at normal exit, flush() forces it earlier (e.g. interactive problems)
+ * Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
+ * A char reads one non-space character
+ * A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
+ * Writing a float without fixed() does not compile, so its precision is always chosen
+ * Floats print at printf's speed, since the formatting itself dominates; a floating token keeps its first 127 characters
  * Output is lost on abnormal termination such as abort() or _exit()
- *
- * Example usage - Read four numbers till EOF and print their sum
- *
- * using namespace fio;
- * int a, c;
- * long long b;
- * __int128 d;
- *
- * while (read(a, b, c, d)){
- *     write(a + b + c + d);
- * }
- *
- * flush();
  *
 ***/
 
