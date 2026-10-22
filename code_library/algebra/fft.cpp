@@ -132,22 +132,22 @@ struct FFT{
         for (auto& x: v1) x = (x % mod + mod) % mod;
         for (auto& x: v2) x = (x % mod + mod) % mod;
 
-        int p_len = v1.size() + v2.size() - 1, len = split_multiply(v1, v2);
-        vector<long long> res(p_len, 0);
-        for (int i = 0; i < min(len, p_len); i++){
-            long long low = round_to_nearest(wide.f[i].real), mid = round_to_nearest(wide.g[i].real);
-            long long high = round_to_nearest(wide.f[i].img);
-            res[i] = (low + ((mid % mod) << SPLIT_BITS) + ((high % mod) << (2 * SPLIT_BITS))) % mod;
+        /// Reduced values below a small mod keep the whole product exact in one transform, reduced afterwards
+        if ((long double)max(v1.size(), v2.size()) * (mod - 1) * (mod - 1) <= EXACT_LIMIT){
+            vector<long long> res = product(v1, v2, v1 == v2);
+            for (auto& x: res) x %= mod;
+            return res;
         }
 
-        return res;
+        if (split_fits_double(v1, v2)) return split_mod(fast, v1, v2, mod);
+        return split_mod(wide, v1, v2, mod);
     }
 
     vector<long long> ll_multiply(vector<long long> v1, vector<long long> v2){
         for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
         for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
         if (v1.empty() || v2.empty()) return {};
-        return split_product(v1, v2);
+        return product(v1, v2, v1 == v2);
     }
 
     /// Mapping bits to +1 and -1 makes each window's dot product matches - mismatches
@@ -192,7 +192,8 @@ struct FFT{
         if (bound <= DOUBLE_LIMIT) return real_product(fast, v1, v2, same);
         if (bound <= EXACT_LIMIT) return real_product(wide, v1, v2, same);
         assert(max_value < LL_MULTIPLY_LIMIT);
-        return split_product(v1, v2);
+        if (split_fits_double(v1, v2)) return split_product(fast, v1, v2);
+        return split_product(wide, v1, v2);
     }
 
     /// Real inputs of length len transform as complex ones of length len / 2, even positions real and odd imaginary:
@@ -232,16 +233,35 @@ struct FFT{
         return res;
     }
 
+    /// The split halves stay below 2^15, so their products need max(n, m) * 2^30 <= DOUBLE_LIMIT to run in double
+    static bool split_fits_double(const vector<long long>& v1, const vector<long long>& v2){
+        return (long double)max(v1.size(), v2.size()) * (1LL << (2 * SPLIT_BITS)) <= DOUBLE_LIMIT;
+    }
+
     /// A negative value splits into floor(v / 2^15) and v mod 2^15, so the parts stay as small as for |v|
     /// The parts are recombined modulo 2^64, exact whenever the true coefficient fits in a long long
-    vector<long long> split_product(vector<long long>& v1, vector<long long>& v2){
-        int p_len = v1.size() + v2.size() - 1, len = split_multiply(v1, v2);
+    template <typename T>
+    vector<long long> split_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2){
+        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2);
 
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
-            unsigned long long low = round_to_nearest(wide.f[i].real), mid = round_to_nearest(wide.g[i].real);
-            unsigned long long high = round_to_nearest(wide.f[i].img);
+            unsigned long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real);
+            unsigned long long high = round_to_nearest(e.f[i].img);
             res[i] = low + (mid << SPLIT_BITS) + (high << (2 * SPLIT_BITS));
+        }
+
+        return res;
+    }
+
+    template <typename T>
+    vector<long long> split_mod(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, int mod){
+        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2);
+
+        vector<long long> res(p_len, 0);
+        for (int i = 0; i < min(len, p_len); i++){
+            long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real), high = round_to_nearest(e.f[i].img);
+            res[i] = (low + ((mid % mod) << SPLIT_BITS) + ((high % mod) << (2 * SPLIT_BITS))) % mod;
         }
 
         return res;
@@ -249,14 +269,14 @@ struct FFT{
 
     /// Splits values into low and high bits, leaving low * low, the cross terms and high * high
     /// in f.real, g.real and f.img respectively, 4 transforms in total (3 for equal inputs)
-    int split_multiply(vector<long long>& v1, vector<long long>& v2){
+    template <typename T>
+    int split_multiply(Engine<T>& e, vector<long long>& v1, vector<long long>& v2){
         const int mask = (1 << SPLIT_BITS) - 1;
-        Engine<long double>& e = wide;
 
         int len = pad(v1, v2);
         e.prepare(len, len);
-        for (int i = 0; i < len; i++) e.u[i] = Complex<long double>(v1[i] & mask, v1[i] >> SPLIT_BITS);
-        for (int i = 0; i < len; i++) e.w[i] = Complex<long double>(v2[i] & mask, v2[i] >> SPLIT_BITS);
+        for (int i = 0; i < len; i++) e.u[i] = Complex<T>(v1[i] & mask, v1[i] >> SPLIT_BITS);
+        for (int i = 0; i < len; i++) e.w[i] = Complex<T>(v2[i] & mask, v2[i] >> SPLIT_BITS);
 
         e.transform(e.u, e.f, len);
         if (v1 == v2){
@@ -266,13 +286,13 @@ struct FFT{
 
         for (int i = 0; i < len; i++){
             int j = (len - i) & (len - 1);
-            Complex<long double> c1 = e.f[j].conjugate(), c2 = e.g[j].conjugate();
+            Complex<T> c1 = e.f[j].conjugate(), c2 = e.g[j].conjugate();
 
-            Complex<long double> a1 = (e.f[i] + c1) * Complex<long double>(0.5, 0);
-            Complex<long double> a2 = (e.f[i] - c1) * Complex<long double>(0, -0.5);
-            Complex<long double> b1 = (e.g[i] + c2) * Complex<long double>(0.5 / len, 0);
-            Complex<long double> b2 = (e.g[i] - c2) * Complex<long double>(0, -0.5 / len);
-            e.u[j] = a1 * b1 + a2 * b2 * Complex<long double>(0, 1);
+            Complex<T> a1 = (e.f[i] + c1) * Complex<T>(0.5, 0);
+            Complex<T> a2 = (e.f[i] - c1) * Complex<T>(0, -0.5);
+            Complex<T> b1 = (e.g[i] + c2) * Complex<T>(0.5 / len, 0);
+            Complex<T> b2 = (e.g[i] - c2) * Complex<T>(0, -0.5 / len);
+            e.u[j] = a1 * b1 + a2 * b2 * Complex<T>(0, 1);
             e.w[j] = a1 * b2 + a2 * b1;
         }
 

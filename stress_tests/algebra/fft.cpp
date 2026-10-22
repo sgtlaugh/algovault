@@ -137,6 +137,36 @@ int main(){
     /// Between double's first error (about 3e14) and EXACT_LIMIT only long double is exact
     assert(equal_product_is_exact(fft, 100000, 100000, 100000, 100000));
     assert(equal_product_is_exact(fft, 1000000, 1000000, 40000, -40000));
+    /// The split product runs in double while max(n, m) * 2^30 <= DOUBLE_LIMIT, about n = 41909, else in long double;
+    /// values near sqrt(9.2e18 / n) force the split while every coefficient still fits in a long long
+    for (int n : {41909, 41910}){
+        ll v = sqrtl(9.2e18L / n);
+        assert(equal_product_is_exact(fft, n, n, v, v));
+        assert(equal_product_is_exact(fft, n, n, v, -v));
+        assert(fft.ll_multiply(vector<ll>(n, v), vector<ll>(n, v - 1))[n - 1] == v * (v - 1) * n);
+    }
+
+    /// Halves of 2^30 - 1 are both 2^15 - 1, the split's worst case: in double it errs from n = 2e5 on (87719 wrong
+    /// coefficients at 4e5), long double stays exact; the recombination is modulo 2^64, so compare wrapped
+    {
+        int n = 400000;
+        unsigned long long v = (1ULL << 30) - 1;
+        auto c = fft.ll_multiply(vector<ll>(n, v), vector<ll>(n, v));
+        for (int k = 0; k < 2 * n - 1; k += 997) assert((unsigned long long)c[k] == v * v * (unsigned long long)min({k + 1, n, 2 * n - 1 - k}));
+    }
+
+    /// mod_multiply takes one transform while max(n, m) * (mod - 1)^2 <= EXACT_LIMIT, the split past it; all values
+    /// mod - 1 give (mod - 1)^2 = 1 per pair, so coefficient k is its pair count modulo mod
+    for (ll mod : {786433LL, 7340033LL}){
+        ll edge = FFT::EXACT_LIMIT / ((mod - 1) * (mod - 1));
+        for (ll n : {edge, edge + 1}){
+            if (n > 400000) continue;
+            vector<ll> ones(n, mod - 1);
+            auto c = fft.mod_multiply(ones, ones, mod);
+            for (ll k = 0; k < 2 * n - 1; k += max(1LL, n / 97)) assert(c[k] == min({k + 1, n, 2 * n - 1 - k}) % mod);
+        }
+    }
+
     assert(fft.multiply({7}, {-6}) == vector<ll>({-42}));
     assert(fft.square({-9}) == vector<ll>({81}));
 
