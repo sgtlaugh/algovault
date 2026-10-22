@@ -170,7 +170,6 @@ void check_path(int n){
 }
 
 /// solve must abort on a non-tree through its own assert, the alarm turns an endless traversal into a failure instead of a hang
-/// An out of range index also aborts under _GLIBCXX_ASSERTIONS but is undefined behaviour in a judge build, hence the message check
 void check_rejects(int n, const vector<pair<int, int>>& edges){
     int fd[2];
     assert(pipe(fd) == 0);
@@ -195,6 +194,7 @@ void check_rejects(int n, const vector<pair<int, int>>& edges){
     int status;
     assert(waitpid(pid, &status, 0) == pid);
     assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    /// an out of range index also aborts under _GLIBCXX_ASSERTIONS but is undefined behaviour in a judge build
     assert(err.find("code_library/trees/rerooting.cpp:") != string::npos && err.find("Assertion") != string::npos);
 }
 
