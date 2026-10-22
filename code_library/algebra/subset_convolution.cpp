@@ -1,27 +1,22 @@
 /***
  *
  * Subset Convolution and SOS DP
- * Zeta and Mobius transforms over subsets and supersets, exact or modulo mod, and subset convolution modulo mod
+ * Sums over all subsets or supersets of each bitmask and their inverses, exact or modulo mod, and subset convolution
  *
- * Complexity: transforms O(2^n n), subset convolution O(2^n n^2) time and O(2^n n) memory
+ * Complexity:
+ *   - transforms: O(2^n n) time, in place
+ *   - subset_convolution: O(2^n n^2) time, 2 * 2^n * (n + 1) ints of memory, 176 MB at n = 20
  *
- * Every array has size 2^n, index S is the set of bits on in S, values are vector<int> or vector<long long>
- * Nothing is divided, so mod does not have to be prime
+ * subset_zeta(f, mod = 0): replaces f[S] with the sum of f[T] over every T subset of S, the SOS DP
+ * subset_mobius(f, mod = 0): undoes subset_zeta
+ * superset_zeta(f, mod = 0): replaces f[S] with the sum of f[T] over every T superset of S
+ * superset_mobius(f, mod = 0): undoes superset_zeta
+ * subset_convolution(a, b, mod): returns c with c[S] the sum of a[T] * b[S \ T] over every T subset of S, a and b the same size, 1 <= mod < 2^31
  *
- *   subset_zeta(f, mod = 0)          f[S] = sum of f[T] over every T subset of S (SOS DP)
- *   subset_mobius(f, mod = 0)        inverse of subset_zeta
- *   superset_zeta(f, mod = 0)        f[S] = sum of f[T] over every T superset of S
- *   superset_mobius(f, mod = 0)      inverse of superset_zeta
- *   subset_convolution(a, b, mod)    c[S] = sum of a[T] * b[S \ T] over every T subset of S, 1 <= mod < 2^31
- *
- * mod = 0: exact, the transforms require sum |f[S]| to fit the element type
- * mod >= 1: any input values, negatives included, are reduced and results lie in [0, mod), mod must fit the element type
- * The transforms work in place, subset_convolution allocates 2 * 2^n * (n + 1) ints, 176 MB at n = 20
- *
- * Example:
- *   vector<long long> f = {1, 2, 3, 4};
- *   subset_zeta(f);                                    // f == {1, 3, 4, 10}
- *   subset_convolution({1, 2, 3, 4}, {5, 6, 7, 8}, 1000) == {5, 16, 22, 60}
+ * Every array has a size 2^n with n >= 0, index S is the set of bits on in S, values are vector<int> or vector<long long>
+ * mod = 0 is exact and needs the sum of |f[S]| to fit the element type
+ * mod >= 1 reduces any input, negatives included, gives results in [0, mod) and must fit the element type
+ * Nothing is divided, so mod need not be prime
  *
 ***/
 
@@ -42,26 +37,28 @@ void sos_transform(vector<T>& f, int width, long long mod, bool superset, bool i
     int size = f.size() / width;
     assert(size > 0 && (size & (size - 1)) == 0 && mod >= 0);
 
+    /// Masks start..start + bit - 1 lack bit and are contiguous, so their entries pair with the next bit * width entries
     for (int bit = 1; bit < size; bit <<= 1){
-        for (int mask = 0; mask < size; mask++){
-            if (!(mask & bit)) continue;
+        int len = bit * width;
+        for (int start = 0; start < size; start += 2 * bit){
+            T* without_bit = &f[start * width];
+            T* to = superset ? without_bit : without_bit + len;
+            const T* from = superset ? without_bit + len : without_bit;
 
-            T* to = &f[(superset ? mask ^ bit : mask) * width];
-            const T* from = &f[(superset ? mask : mask ^ bit) * width];
             if (!mod){
-                if (inverse) for (int k = 0; k < width; k++) to[k] -= from[k];
-                else for (int k = 0; k < width; k++) to[k] += from[k];
+                if (inverse) for (int i = 0; i < len; i++) to[i] -= from[i];
+                else for (int i = 0; i < len; i++) to[i] += from[i];
             }
             else if (inverse){
-                for (int k = 0; k < width; k++){
-                    U diff = (U)to[k] - (U)from[k];
-                    to[k] = min(diff, diff + umod);
+                for (int i = 0; i < len; i++){
+                    U diff = (U)to[i] - (U)from[i];
+                    to[i] = min(diff, diff + umod);
                 }
             }
             else{
-                for (int k = 0; k < width; k++){
-                    U sum = (U)to[k] + (U)from[k];
-                    to[k] = min(sum, sum - umod);
+                for (int i = 0; i < len; i++){
+                    U sum = (U)to[i] + (U)from[i];
+                    to[i] = min(sum, sum - umod);
                 }
             }
         }
@@ -95,9 +92,9 @@ void superset_mobius(vector<T>& f, long long mod = 0){
 }
 
 template<typename T = long long>
-vector<T> subset_convolution(const vector<T>& a, const vector<T>& b, int mod){
+vector<T> subset_convolution(const vector<T>& a, const vector<T>& b, long long mod){
     int size = a.size();
-    assert(size > 0 && (size & (size - 1)) == 0 && b.size() == a.size() && mod >= 1);
+    assert(size > 0 && (size & (size - 1)) == 0 && b.size() == a.size() && mod >= 1 && mod <= INT_MAX);
 
     int n = __builtin_ctz(size), width = n + 1;
     vector<int> fa(size * width), fb(size * width);
@@ -136,23 +133,23 @@ vector<T> subset_convolution(const vector<T>& a, const vector<T>& b, int mod){
 int main(){
     /// c[3] = a[0] b[3] + a[1] b[2] + a[2] b[1] + a[3] b[0] = 8 + 14 + 18 + 20
     assert((subset_convolution({1, 2, 3, 4}, {5, 6, 7, 8}, 1000) == vector<long long>{5, 16, 22, 60}));
-    assert((subset_convolution({-1, 4}, {3, -2}, 10) == vector<long long>{7, 4}));  /// -3 and 2 + 12, reduced mod 10
 
-    vector<int> f = {1, 2, 3, 4};
-    subset_zeta(f, 1000);
-    assert((f == vector<int>{1, 3, 4, 10}));  /// f[3] = f[0] + f[1] + f[2] + f[3]
-    subset_mobius(f, 1000);
-    assert((f == vector<int>{1, 2, 3, 4}));
+    /// Exact sums over subsets and supersets, and back
+    vector<long long> f = {1, 2, 3, 4};
+    subset_zeta(f);
+    assert((f == vector<long long>{1, 3, 4, 10}));  /// f[3] = f[0] + f[1] + f[2] + f[3]
+    subset_mobius(f);
+    assert((f == vector<long long>{1, 2, 3, 4}));
 
-    superset_zeta(f, 1000);
-    assert((f == vector<int>{10, 6, 7, 4}));  /// f[1] = f[1] + f[3]
-    superset_mobius(f, 1000);
-    assert((f == vector<int>{1, 2, 3, 4}));
+    superset_zeta(f);
+    assert((f == vector<long long>{10, 6, 7, 4}));  /// f[1] = f[1] + f[3]
+    superset_mobius(f);
+    assert((f == vector<long long>{1, 2, 3, 4}));
 
-    vector<long long> big(1 << 20, 1000000000);
-    subset_zeta(big);
-    assert(big.back() == 1000000000LL << 20 && big[5] == 4000000000LL);
-    subset_mobius(big);
-    assert(big == vector<long long>(1 << 20, 1000000000));
+    /// Modulo 7, -1 is reduced to 6 first
+    vector<int> g = {-1, 2, 3, 4};
+    subset_zeta(g, 7);
+    assert((g == vector<int>{6, 1, 2, 1}));
+
     return 0;
 }
