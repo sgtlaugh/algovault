@@ -1,27 +1,22 @@
 /***
- * Lagrange polynomial interpolation
- * A polynomial of degree d can be uniquely identified given its values on d + 1 unique points
  *
- * Pre-calculates given the first n points (x=0 to n-1) of the polynomial
- * Then answers each query to interpolate the x'th term
- * All values are done modulo mod, which needs to be a prime as we need its inverse modulo
- *
- * Also includes an additional helper function called find_degree(terms, mod)
- * Given at least the first d+2 points of a polynomial of degree d, it finds d
- *
- * Usage:
- *   Lagrange lagrange(terms, mod);                  // terms[x] = f(x) for x = 0 .. n - 1, any int values (reduced mod mod)
- *   int y = lagrange.interpolate(x);                // f(x) mod mod in [0, mod) for any long long x, negative too
- *   vector<int> w = get_terms(terms, mod, l, r);    // f(l), f(l + 1), ..., f(r) mod mod
- *   int d = find_degree(terms, mod);                // degree d, or -1 if fewer than d + 2 terms are given
+ * Lagrange Interpolation
+ * Value of a polynomial at any x from its values at x = 0, 1, ..., n - 1, modulo a prime
  *
  * Complexity:
- *   - O(n + log mod) to pre-calculate, O(n) memory
- *   - O(n) time and memory per interpolate
- *   - O((k n + log mod) log n) for find_degree, k = smallest power with mod^k >= INT_MAX, 2 for mod near 10^9
+ *   - Lagrange(terms, mod): O(n + log mod)
+ *   - interpolate: O(n) time and memory per call
+ *   - get_terms(terms, mod, l, r): O(n (r - l + 1) + log mod)
+ *   - find_degree: O(n (d + 2)) for the degree d it finds, O(n^2) when it returns -1
  *
- * Note, n should not exceed mod due to the way modular inverse is used
- * In such cases, we can use interpolation without modulo in big integers and take the remainder later
+ * Lagrange lagrange(terms, mod): the polynomial f of degree below n with f(x) = terms[x] for x = 0..n - 1
+ * lagrange.interpolate(x): f(x) in [0, mod), for any long long x, negatives included
+ * get_terms(terms, mod, l, r): f(l), f(l + 1), ..., f(r), for any ints l <= r
+ * find_degree(terms, mod): the lowest degree d of a polynomial through all the terms, or -1 when fewer than d + 2 terms leave it unconfirmed
+ *
+ * mod must be a prime below 2^31 with n <= mod, which is asserted
+ * Terms may be any ints, negatives included, and are reduced modulo mod
+ * The zero polynomial has degree 0, so find_degree needs at least 2 terms of it
  *
 ***/
 
@@ -30,31 +25,53 @@
 using namespace std;
 
 struct Lagrange{
-    vector<int> terms, dp;
+    vector<int> terms, weight;
     int mod, n;
 
     Lagrange(const vector<int>& terms, int mod) : terms(terms), mod(mod){
         n = terms.size();
         assert(n <= mod);
-
-        int i, v, f;
         for (auto& t : this->terms){
             if ((t %= mod) < 0) t += mod;
         }
 
-        for (f = 1, i = 1; i < n; i++) f = (long long)f * i % mod;
-        v = expo(f, mod - 2);
+        int fact = 1;
+        for (int i = 1; i < n; i++) fact = (long long)fact * i % mod;
 
-        vector<int> inv(n, v);
-        for (i = n - 1; i > 0; i--){
-            inv[i - 1] = (long long)inv[i] * i % mod;
+        vector<int> inv_fact(n, expo(fact, mod - 2));
+        for (int i = n - 1; i > 0; i--) inv_fact[i - 1] = (long long)inv_fact[i] * i % mod;
+
+        /// The basis denominator, the product of (i - j) over j != i, is (-1)^(n - 1 - i) i! (n - 1 - i)!
+        weight.resize(n);
+        for (int i = 0; i < n; i++){
+            weight[i] = (long long)inv_fact[i] * inv_fact[n - i - 1] % mod * this->terms[i] % mod;
+        }
+    }
+
+    int interpolate(long long x){
+        if (0 <= x && x < n) return terms[x];
+        x %= mod;
+
+        /// prefix[i] * suffix[i] is the product of (x - j) over j != i
+        vector<int> prefix(n, 1), suffix(n, 1);
+        for (int i = 1; i < n; i++){
+            prefix[i] = (long long)prefix[i - 1] * (x - i + 1) % mod;
+            if (prefix[i] < 0) prefix[i] += mod;
         }
 
-        dp.resize(n, 1);
-        for (i = 0; i < n; i++){
-            dp[i] = (long long)inv[i] * inv[n - i - 1] % mod;
-            dp[i] = (long long)dp[i] * this->terms[i] % mod;
+        for (int i = n - 2; i >= 0; i--){
+            suffix[i] = (long long)suffix[i + 1] * (x - i - 1) % mod;
+            if (suffix[i] < 0) suffix[i] += mod;
         }
+
+        long long res = 0;
+        for (int i = 0; i < n; i++){
+            int w = (long long)prefix[i] * suffix[i] % mod * weight[i] % mod;
+            if ((n - 1 - i) & 1) w = mod - w;
+            res += w;
+        }
+
+        return res % mod;
     }
 
     int expo(int a, int b){
@@ -68,36 +85,10 @@ struct Lagrange{
 
         return res;
     }
-
-    int interpolate(long long x){
-        if (0 <= x && x < n) return terms[x];
-        x %= mod;
-
-        int i, w;
-        vector<int> X(n, 1), Y(n, 1);
-        for (i = 1; i < n; i++){
-            X[i] = (long long)X[i - 1] * (x - i + 1) % mod;
-            if (X[i] < 0) X[i] += mod;
-        }
-
-        for (i = n - 2; i >= 0; i--){
-            Y[i] = (long long)Y[i + 1] * (x - i - 1) % mod;
-            if (Y[i] < 0) Y[i] += mod;
-        }
-
-        long long res = 0;
-        for (i = 0; i < n; i++){
-            w = ((long long)X[i] * Y[i] % mod) * dp[i] % mod;
-            if ((n - i + 1) & 1) w = mod - w;
-            res += w;
-        }
-
-        return res % mod;
-    }
 };
 
 vector<int> get_terms(const vector<int>& terms, int mod, int l, int r){
-    auto lagrange = Lagrange(terms, mod);
+    Lagrange lagrange(terms, mod);
 
     vector<int> res;
     for (int i = l; i <= r; i++){
@@ -108,29 +99,26 @@ vector<int> get_terms(const vector<int>& terms, int mod, int l, int r){
 }
 
 int find_degree(const vector<int>& terms, int mod){
-    long long v = mod;
-    int k = 1, n = terms.size();
+    int n = terms.size();
+    assert(n <= mod);
 
-    while (v < INT_MAX){
-        v *= mod;
-        k++;
+    vector<int> diff(terms);
+    for (auto& x : diff){
+        if ((x %= mod) < 0) x += mod;
     }
 
-    /// Top residues, a point congruent to a prefix's nodes 0 .. mid - 1 would match it by construction
-    int l = mod - k, r = mod - 1;
-    auto expected = get_terms(terms, mod, l, r);
+    /// The k-th differences all vanish exactly when k > d, as the d-th ones equal d! times the leading coefficient and d < n <= mod
+    /// Exact but slower than matching prefix fits at a few points, which roots at those points fool: 509 ms against 107 ms at n = 30000, d = n - 1
+    for (int k = 0; k < n; k++){
+        if (all_of(diff.begin(), diff.end() - k, [](int x){ return x == 0; })){
+            int d = max(k - 1, 0);
+            return n >= d + 2 ? d : -1;
+        }
 
-    int low = 1, high = n - 1;
-    while ((low + 1) < high){
-        int mid = (low + high) >> 1;
-        vector<int> v(terms.begin(), terms.begin() + mid);
-        if (get_terms(v, mod, l, r) == expected) high = mid;
-        else low = mid;
-    }
-
-    for (int d = low; d <= high; d++){
-        vector<int> v(terms.begin(), terms.begin() + d);
-        if (get_terms(v, mod, l, r) == expected) return d - 1;
+        for (int i = 0; i + k + 1 < n; i++){
+            diff[i] = diff[i + 1] - diff[i];
+            if (diff[i] < 0) diff[i] += mod;
+        }
     }
 
     return -1;
@@ -139,28 +127,22 @@ int find_degree(const vector<int>& terms, int mod){
 int main(){
     const int mod = 1000000007;
 
-    /// Sum of first x squares, f(x) = 1^2 + 2^2 + ... + x^2
-    /// Polynomial is f(x) = (2x^3 + 3x^2 + x) / 6, a cubic polynomial of degree 3
-    vector<int> terms = vector<int> {0, 1, 5, 14, 30};
-
-    auto lagrange = Lagrange(terms, mod);
+    /// f(x) = 0^2 + 1^2 + ... + x^2 = x (x + 1) (2x + 1) / 6, a cubic, from its first 5 values
+    vector<int> terms = {0, 1, 5, 14, 30};
+    Lagrange lagrange(terms, mod);
     assert(lagrange.interpolate(5) == 55);
     assert(lagrange.interpolate(6) == 91);
-    assert(lagrange.interpolate(1 << 30) == 300663155);
-    assert(lagrange.interpolate(1LL << 60) == 717860166);
-
-    /// f(x) = -5 - 2x from negative terms, f(2^40) = -5 - 2^41 = 976759843 mod 10^9 + 7
-    auto negative = Lagrange(vector<int> {-5, -7, -9}, mod);
-    assert(negative.interpolate(0) == mod - 5);
-    assert(negative.interpolate(2) == mod - 9);
-    assert(negative.interpolate(3) == mod - 11);
-    assert(negative.interpolate(1LL << 40) == 976759843);
-    assert(get_terms(vector<int> {-5, -7, -9}, mod, -1, 1) == (vector<int> {mod - 3, mod - 5, mod - 7}));
-    assert(find_degree(vector<int> {-5, -7, -9}, mod) == 1);
-
+    assert(get_terms(terms, mod, 4, 6) == (vector<int>{30, 55, 91}));
     assert(find_degree(terms, mod) == 3);
+
     terms.pop_back();
-    assert(find_degree(terms, mod) == -1);
+    assert(find_degree(terms, mod) == -1);  /// 4 terms cannot tell a cubic from a quartic
+
+    /// f(x) = -5 - 2x from negative terms, f(2^40) = -5 - 2^41 = 976759843 modulo 10^9 + 7
+    Lagrange line({-5, -7, -9}, mod);
+    assert(line.interpolate(-1) == mod - 3);
+    assert(line.interpolate(1LL << 40) == 976759843);
+    assert(find_degree({-5, -7, -9}, mod) == 1);
 
     return 0;
 }
