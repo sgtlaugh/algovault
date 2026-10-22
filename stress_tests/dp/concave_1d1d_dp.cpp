@@ -16,8 +16,7 @@ vector<long long> brute(int n, long long dp0, Cost w){
     return dp;
 }
 
-/// w(i, x) = r[i] + c[x] + sum of D[p][q] >= 0 over p <= i, q >= x satisfies the quadrangle inequality,
-/// and every Monge matrix has this form, so this samples the whole valid input space
+/// w(i, x) = r[i] + c[x] + sum of D[p][q] >= 0 over p <= i, q >= x is Monge, and every Monge matrix has this form
 vector<vector<long long>> random_monge(int n, int density, int range){
     vector<vector<long long>> D(n + 2, vector<long long>(n + 2, 0)), S(n + 2, vector<long long>(n + 2, 0));
     for (int p = 0; p <= n; p++){

@@ -4,8 +4,7 @@
 #include "../../code_library/dp/slope_trick.cpp"
 #undef main
 
-/// f as an array over x in [-D, D]; every breakpoint stays inside |x| < C (see random_ops), so after each operation
-/// the cells beyond |x| > C are rebuilt as the straight-line continuation, exact for the shift windows to read
+/// Breakpoints stay inside |x| < C (see random_ops), so the cells beyond C are exactly the straight-line continuation
 const int C = 100, D = C + 3;
 
 struct Brute{
@@ -90,9 +89,7 @@ void random_ops(){
     }
 }
 
-/// SlopeTrick<int> against SlopeTrick<long long> (checked by random_ops) with contest-sized values: breakpoints up to
-/// +-1e9 sit outside INT_MAX / 3, so a hinge added while the opposite heap is empty must not treat the sentinel as a breakpoint;
-/// shifted runs keep breakpoints within 5e8 and both accumulated shifts within 5e8, so every breakpoint stays within the 1e9 bound
+/// Against SlopeTrick<long long>, which random_ops checks: breakpoints at +-1e9 sit outside INT_MAX / 3, so a hinge added to an empty opposite heap must not read the sentinel
 void int_ops(){
     const long long E9 = 1000000000, LL_INF = SlopeTrick<long long>::INF, INT_INF = SlopeTrick<int>::INF;
     SlopeTrick<int> f;
@@ -102,6 +99,7 @@ void int_ops(){
 
     for (int op = 0; op < ops; op++){
         int type = stress::rand_int(0, shifting ? 6 : 5), pick = stress::rand_int(0, 3);
+        /// shifted runs keep breakpoints and both accumulated shifts within 5e8, so breakpoints stay within 1e9
         long long bound = shifting ? E9 / 2 : E9, a = pick == 0 ? -bound : pick == 1 ? bound : stress::rand_int(-bound, bound);
         if (type == 6 && shifts == 2) type = 0;
 
@@ -191,8 +189,7 @@ int main(){
         assert(min_cost_non_decreasing(a) == brute_non_decreasing(a));
     }
 
-    /// shift(0, 1e18) leaves a non-increasing f unchanged and shift(-1e18, 0) a non-decreasing one, so these compute
-    /// the non-decreasing and non-increasing costs; more than 9 rounds overflow unless prefix_min / suffix_min reset the offset
+    /// shift(0, 1e18) keeps a non-increasing f and shift(-1e18, 0) a non-decreasing one; past 9 rounds the offset overflows unless the min resets it
     for (long long it = 0; it < stress::scaled(500); it++){
         int n = stress::rand_int(1, 30);
         vector<long long> a(n);

@@ -54,11 +54,10 @@ void check(const vector<int>& a, int W, int subset_checks){
 }
 
 /// Distinct values 1..k reach every sum up to their total, so only sums above total are unreachable
-/// CPU time, parallel sanitizer jobs inflate wall time; a byte-per-sum DP takes 5 s and 18 s on the two cases
 void check_timed(const vector<pair<int, long long>>& items, int W, long long total, double seconds){
-    clock_t start = clock();
+    clock_t start = clock();  /// CPU time, parallel sanitizer jobs inflate wall time
     vector<char> can = bounded_subset_sums(items, W);
-    assert(clock() - start < seconds * CLOCKS_PER_SEC);
+    assert(clock() - start < seconds * CLOCKS_PER_SEC);  /// a byte-per-sum DP misses this limit
     assert((int)can.size() == W + 1);
     for (int s = 0; s <= W; s++) assert(can[s] == (s <= total));
 }

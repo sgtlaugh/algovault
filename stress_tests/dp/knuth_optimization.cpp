@@ -18,15 +18,14 @@ vector<vector<long long>> naive_dp(int n, Cost cost){
 }
 
 /// Shapes 0-3 are f(interval sum of nonnegative weights) with f convex and nondecreasing, the class the header claims
-/// Shape 4 is the optimal BST cost, shape 5 adds a squared length term that no interval sum produces
 long long shaped_cost(int shape, const vector<long long>& pre, int i, int j, long long threshold){
     long long s = pre[j] - pre[i];
     if (shape == 0) return s;
     if (shape == 1) return s * s;
     if (shape == 2) return max(0LL, s - threshold);
     if (shape == 3) return s * s + 3 * s + threshold;
-    if (shape == 4) return pre[j - 1] - pre[i];
-    return (long long)(j - i) * (j - i) + s;
+    if (shape == 4) return pre[j - 1] - pre[i];  /// the optimal BST cost
+    return (long long)(j - i) * (j - i) + s;  /// a squared length term no interval sum produces
 }
 
 void check(const vector<long long>& weights, int shape, long long threshold){

@@ -6,8 +6,7 @@
 
 const long long INF = numeric_limits<long long>::max();
 
-/// Sum of Monge parts: non-negative pair weights inside the segment, a convex function of the length,
-/// the squared sum of a non-negative segment, f(j) + g(i) of any sign
+/// Sum of Monge parts: non-negative pair weights, convex in length, squared non-negative sum, f(j) + g(i) of any sign
 struct MongeCost{
     vector<vector<long long>> pairs;
     vector<long long> by_length, sums, f, g;
