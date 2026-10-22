@@ -1,13 +1,20 @@
 /***
  *
  * Fraction
- * Exact rational arithmetic, always kept reduced with a positive denominator
+ * Exact rational arithmetic in long long, always kept reduced with a positive denominator
  *
- * Complexity: O(log) per operation for the gcd
+ * Complexity: O(log v) per arithmetic operation for the gcd, v the largest numerator or denominator, O(1) per comparison
  *
- * Fraction f(num, den): den != 0, Fraction(x) = x / 1, -1/2 and 1/-2 become the same value
- * f + g, f - g, f * g, f / g (g != 0), -f, +=, -=, *=, /=, comparisons ==, !=, <, <=, >, >=, f.num and f.den
- * Intermediate products use __int128, the reduced result must fit in long long (asserted)
+ * Fraction f(x): the integer x, 0 by default
+ * Fraction f(num, den): num / den in lowest terms, den != 0
+ * f.num, f.den: the reduced numerator and denominator, den > 0, so 1/-2 and -2/4 both hold -1 and 2
+ * f + g, f - g, f * g: the sum, difference and product
+ * f / g: the quotient, g != 0
+ * -f and f += g, -=, *=, /=: negation and the compound assignments
+ * f == g, !=, <, <=, >, >=: exact comparison
+ *
+ * Every binary operator and comparison also takes a long long on either side
+ * Intermediate products use __int128, every reduced result must fit in long long (asserted)
  * Requires __int128 (64-bit GCC or Clang)
  *
 ***/
@@ -18,27 +25,6 @@ using namespace std;
 
 struct Fraction{
     long long num, den;
-
-    static __int128 gcd128(__int128 a, __int128 b){
-        if (a < 0) a = -a;
-        if (b < 0) b = -b;
-        while (b) a %= b, swap(a, b);
-        return a;
-    }
-
-    static Fraction make(__int128 n, __int128 d){
-        assert(d != 0);
-        if (d < 0) n = -n, d = -d;
-
-        /// 64-bit gcd is about 2x faster, -LLONG_MAX keeps abs(LLONG_MIN) out of std::gcd
-        __int128 g = (n >= -LLONG_MAX && n <= LLONG_MAX && d <= LLONG_MAX) ? gcd((long long)n, (long long)d) : gcd128(n, d);
-        n /= g, d /= g;
-        assert(n >= LLONG_MIN && n <= LLONG_MAX && d <= LLONG_MAX);
-
-        Fraction f;
-        f.num = (long long)n, f.den = (long long)d;
-        return f;
-    }
 
     Fraction(long long x = 0) : num(x), den(1) {}
 
@@ -107,33 +93,53 @@ struct Fraction{
     friend bool operator>=(const Fraction& a, const Fraction& b){
         return !(a < b);
     }
+
+    static Fraction make(__int128 n, __int128 d){
+        assert(d != 0);
+        if (d < 0) n = -n, d = -d;
+
+        /// 64-bit gcd is about 2x faster, -LLONG_MAX keeps abs(LLONG_MIN) out of std::gcd
+        __int128 g = (n >= -LLONG_MAX && n <= LLONG_MAX && d <= LLONG_MAX) ? gcd((long long)n, (long long)d) : gcd128(n, d);
+        n /= g, d /= g;
+        assert(n >= LLONG_MIN && n <= LLONG_MAX && d <= LLONG_MAX);
+
+        Fraction f;
+        f.num = (long long)n, f.den = (long long)d;
+        return f;
+    }
+
+    static __int128 gcd128(__int128 a, __int128 b){
+        if (a < 0) a = -a;
+        if (b < 0) b = -b;
+        while (b) a %= b, swap(a, b);
+        return a;
+    }
 };
 
 int main(){
+    /// 1/2 and 1/3 under each operation
     Fraction half(1, 2), third(1, 3);
     assert(half + third == Fraction(5, 6));
     assert(half - third == Fraction(1, 6));
     assert(half * third == Fraction(1, 6));
     assert(half / third == Fraction(3, 2));
+    assert(third < half);
 
-    assert(Fraction(1, -2) == Fraction(-1, 2) && Fraction(-1, 2).den == 2 && Fraction(-1, 2).num == -1);
-    assert(Fraction(0, -5) == Fraction(0) && Fraction(0, 7).den == 1);
-    assert(Fraction(6, 8).num == 3 && Fraction(6, 8).den == 4);
+    Fraction f(6, -8);
+    assert(f.num == -3);
+    assert(f.den == 4);
 
-    assert(third < half && Fraction(-1, 2) < third && !(half < half) && half <= half && half >= third);
-    assert(Fraction(4) / Fraction(2) == Fraction(2));
-
-    assert(1 + half == Fraction(3, 2) && half + 1 == Fraction(3, 2) && 1 - half == half && 2 * third == Fraction(2, 3));
-    assert(1 / half == Fraction(2) && half < 1 && !(1 < half) && 0 == Fraction(0, 9));
+    /// An integer works on either side
+    assert(1 - half == half);
+    assert(2 * third == Fraction(2, 3));
+    assert(half < 1);
 
     Fraction sum;
     for (int k = 1; k <= 4; k++) sum += Fraction(1, k);
-    assert(sum == Fraction(25, 12) && -sum == Fraction(-25, 12));
-    sum -= 2, sum *= 12, sum /= Fraction(-1, 2);
-    assert(sum == Fraction(-2));
+    assert(sum == Fraction(25, 12));
 
+    /// The cross products near 10^36 only fit in __int128
     const long long BIG = 1000000000000000000LL;
-    assert(Fraction(BIG, 3) * Fraction(3, BIG) == Fraction(1));
     assert(Fraction(BIG - 1, BIG) < Fraction(BIG, BIG + 1));
 
     return 0;

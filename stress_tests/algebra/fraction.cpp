@@ -37,6 +37,7 @@ int main(){
         assert((a < b) == ((__int128)an * bd * (ad > 0 ? 1 : -1) * (bd > 0 ? 1 : -1) < (__int128)bn * ad * (ad > 0 ? 1 : -1) * (bd > 0 ? 1 : -1)));
         assert((a == b) == ((__int128)an * bd == (__int128)bn * ad));
         assert((a < b) + (a == b) + (a > b) == 1);
+        assert((a <= b) == !(a > b) && (a >= b) == !(a < b) && (a != b) == !(a == b));
     }
 
     /// Shared denominators near 1e18: the unreduced denominator is ~1e36, only __int128 holds it
