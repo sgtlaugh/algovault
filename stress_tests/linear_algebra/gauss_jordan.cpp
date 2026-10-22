@@ -69,14 +69,14 @@ vector<vector<double>> to_double(const vector<vector<long long>>& a){
 }
 
 int main(){
-    /// Consistent (row 5 = row 1 + row 4) but rejected by the old 1e-12 tolerance, found by this test at 20x scale
+    /// Consistent (row 5 = row 1 + row 4) but rejected by a fixed 1e-12 tolerance
     vector<vector<double>> regression = {{461376, -874886, 67590, 302992, 246673}, {257837, 571397, 503158, -220469, 555968},
                                          {-906930, 685565, -202946, 547555, 179852}, {-16614, 203028, -207928, -632214, 573819},
                                          {444762, -671858, -140338, -329222, 820492}};
     assert(gauss(regression).free_variables == 0);
     assert(gauss(regression).solvable);
 
-    /// Unique solutions near 1e9 with small coefficients, rejected as -1 when the right-hand side scaled the pivot tolerance
+    /// Unique solutions near 1e9 with small coefficients, which a pivot tolerance scaled by the right-hand side rejects as -1
     auto lone = gauss(vector<vector<double>>{{1, 1e9}});
     assert(lone.solvable && lone.free_variables == 0 && lone.x[0] == 1e9);
     assert(gauss(vector<vector<double>>{{1, 1, 2e9}, {1, -1, 0}}).solvable);

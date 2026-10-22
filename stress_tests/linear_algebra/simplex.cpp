@@ -98,8 +98,7 @@ bool brute(int n, const vector<long long>& c, const vector<Constraint>& cons, Si
     return found;
 }
 
-/// Phase 1 enters x0 and row 2 wins the ratio test by 2e-7, leaving the artificial basic at 2e-10, inside double's EPS
-/// Left basic it grows in phase 2 and relaxes x0 >= 1000 away, so min x0 came out 0 instead of 1000 or INFEASIBLE
+/// Phase 1 leaves an artificial basic at 2e-10, inside EPS, which grows in phase 2 and relaxes x0 >= 1000 away
 void artificial_left_basic(){
     Simplex lp({1}, Simplex::MINIMIZE);
     lp.add_constraint({0.001}, 1, Simplex::GREATEQ);
@@ -122,7 +121,7 @@ void degenerate_cycling(){
     assert(abs(beale.value - 0.05) < 1e-9);
     assert(abs(beale.val[0] - 0.04) < 1e-9 && abs(beale.val[2] - 1) < 1e-9);
 
-    /// Found by random search, each cycles under a different broken tie rule, rows are {coefficients..., rhs} plus sum(x) <= 10
+    /// Each cycles under a different broken tie rule, rows are {coefficients..., rhs} plus sum(x) <= 10
     vector<tuple<vector<Float>, vector<vector<Float>>, Float>> cases = {
         {{3, -2, 2, 6, 6}, {{-2, 0, 0, -1, -3, 0}, {0, 3, 0, 0, 0, 0}, {0, 3, 4, 0, -3, 1}, {0, -4, 1, 4, 2, 0}, {0, -2, -1, -2, 4, 1}, {1, 0, 0, 1, 3, 0}, {4, 2, 2, 0, 2, 0}}, 0},
         {{3, -1, -1, -1, -4, 0, -2}, {{0, -4, 0, 0, 2, 1, 2, 0}, {4, 3, 0, -1, 0, -1, 1, 0}, {2, 0, -2, -4, 2, 0, 2, 0}, {-2, 0, 0, 4, 3, -2, 0, 0}, {0, 4, 1, 3, 3, -2, 2, 0}, {1, 0, 2, 0, 0, -4, 3, 0}, {-3, -4, -3, -3, 0, 0, 0, 0}}, 0},
@@ -144,14 +143,13 @@ void degenerate_cycling(){
 }
 
 /// Primal max c.x, Ax <= b and dual min b.y, A^T y >= c solved as two live instances, strong duality pins their statuses and optima
-/// Planted LPs build b and c from x0, y0 >= 0 so both sides are feasible and bounded, arbitrary ones mix in infeasible and unbounded pairs
-/// Past n, m = 50 a phase 1 without a ratio test wandered for minutes, the per-instance alarm turns such a hang into a failure
 void duality(long long iterations, int lo, int hi, bool planted){
     for (long long it = 0; it < iterations; it++){
         int n = stress::rand_int(lo, hi), m = stress::rand_int(lo, hi);
         vector<vector<long long>> a(m, vector<long long>(n));
         vector<long long> b(m), c(n), x0(n, 0), y0(m, 0);
         for (auto& r : a) for (auto& x : r) x = stress::rand_int(0, 3) ? stress::rand_int(-4, 6) : 0;
+        /// b and c built from x0, y0 >= 0 make both sides feasible and bounded, arbitrary LPs mix in infeasible and unbounded pairs
         if (planted){
             for (auto& x : x0) x = stress::rand_int(0, 1) ? stress::rand_int(0, 5) : 0;
             for (auto& y : y0) y = stress::rand_int(0, 1) ? stress::rand_int(0, 5) : 0;
@@ -176,7 +174,7 @@ void duality(long long iterations, int lo, int hi, bool planted){
             dual.add_constraint(col, c[j], Simplex::GREATEQ);
         }
 
-        alarm(10);
+        alarm(10);  /// past n, m = 50 a phase 1 without a ratio test hangs, the alarm turns that into a failure
         int primal_status = primal.solve(), dual_status = dual.solve();
         alarm(0);
         Float primal_value = primal.value, dual_value = dual.value;
@@ -215,8 +213,7 @@ void duality(long long iterations, int lo, int hi, bool planted){
     }
 }
 
-/// UVa 1298: three nearly parallel rows of 1e5-sized coefficients; the last row, -6x0 - 3x1 >= 1, cannot hold for x >= 0,
-/// yet a ratio test taking the lowest id among near ties pivoted on 5.5e-8 and answered FEASIBLE at x = (0, 0, 1.8e7)
+/// UVa 1298: nearly parallel rows of 1e5-sized coefficients, infeasible, which a lowest-id rule among near ties answers FEASIBLE
 void uva_1298_rows(){
     int s[7][3] = {{2470, 6466, 793}, {2472, 6468, 794}, {2470, 6472, 791}, {2472, 6469, 789}, {9991, 9998, 9999}, {10000, 9999, 10000},
                    {9994, 9996, 10000}};
@@ -229,7 +226,7 @@ void uva_1298_rows(){
     assert(lp.solve() == Simplex::INFEASIBLE);
 }
 
-/// Rows of very different size: unscaled, the optimum value came out right at x = 3 but y = 1.833173 broke 600000y >= 1100000 by 96
+/// Rows of very different size: unscaled, the optimum value stays right while y breaks 600000y >= 1100000
 void mixed_magnitude_rows(){
     Simplex lp({-4, -3}, Simplex::MAXIMIZE);
     lp.add_constraint({0, 0}, 800, Simplex::LESSEQ);
@@ -242,8 +239,7 @@ void mixed_magnitude_rows(){
     assert(abs(lp.val[1] - 11.0 / 6) < 1e-9);
 }
 
-/// Nearly parallel rows, infeasible by an exact rational simplex and still infeasible when every limit moves by 1e-7 of its row:
-/// rows divided by their largest coefficient but a ratio test taking the lowest id among near ties answered FEASIBLE
+/// Nearly parallel rows, infeasible by exact rational simplex even with every limit moved by 1e-7 of its row, still FEASIBLE to a lowest-id rule among near ties
 void nearly_parallel_rows(){
     Simplex lp({-4, 4, -2}, Simplex::MINIMIZE);
     lp.add_constraint({0, -1, -2}, 3, Simplex::LESSEQ);
@@ -253,11 +249,11 @@ void nearly_parallel_rows(){
     assert(lp.solve() == Simplex::INFEASIBLE);
 }
 
-/// Degenerate rows whose limits come out as roundoff, not 0: unless such a limit counts as exactly 0, the ratio test breaks
-/// those ties by noise instead of by Bland's lowest id and cycles; rows are {coefficients..., limit}, optimum 562 by HiGHS
+/// Degenerate limits that come out as roundoff: unless they count as exactly 0, ties break by noise instead of Bland's lowest id and cycle
 void roundoff_degenerate_rows(){
     alarm(2);
     vector<Float> objective = {57, 36, 4, -18, -16, 45, 96, -1, 35, 59, 63, 100, 57};
+    /// {coefficients..., limit}, optimum 562 by HiGHS
     vector<vector<Float>> rows = {
         {-2, 0, 0, 0, 5, 0, 5, 0, 1, -3, 6, 6, 4, 22},
         {5, 0, -4, 6, 1, 1, 0, 3, -2, 4, 0, 5, -4, -4},
@@ -279,9 +275,7 @@ void roundoff_degenerate_rows(){
     alarm(0);
 }
 
-/// Codeforces 605C in dual form, max p x + q y with a_i x + b_i y <= 1 and a_i up to 1e6, puts the corners near x ~ 1e-6:
-/// an absolute ratio-test tolerance of 1e-9 then tied rows whose ratios differ by 1e-12 and returned optima off by 1e-3
-/// The primal, min sum t_i with sum a_i t_i >= p and sum b_i t_i >= q, is optimal on one project or a pair, solved exactly
+/// Codeforces 605C in dual form puts corners near x ~ 1e-6, where an absolute 1e-9 ratio tolerance ties rows whose ratios differ by 1e-12
 void tiny_ratio_rows(long long iterations){
     for (long long it = 0; it < iterations; it++){
         int n = stress::rand_int(2, 60);
@@ -289,6 +283,7 @@ void tiny_ratio_rows(long long iterations){
         vector<long long> a(n), b(n);
         for (int i = 0; i < n; i++) a[i] = stress::rand_int(lo, 1000000), b[i] = stress::rand_int(lo, 1000000);
 
+        /// The primal, min sum t_i with sum a_i t_i >= p and sum b_i t_i >= q, is optimal on one project or a pair, solved exactly
         long double best = 1e30L;
         for (int i = 0; i < n; i++){
             best = min(best, max((long double)p / a[i], (long double)q / b[i]));
@@ -308,7 +303,6 @@ void tiny_ratio_rows(long long iterations){
 }
 
 /// The tableau is pivoted in place, so a second solve() on the same instance must abort instead of answering
-/// stderr must name simplex.cpp, since _GLIBCXX_ASSERTIONS also aborts on a bad index with the assert deleted
 void solve_twice_aborts(){
     int fd[2];
     assert(pipe(fd) == 0);
@@ -330,12 +324,11 @@ void solve_twice_aborts(){
     int status;
     waitpid(pid, &status, 0);
     assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    /// _GLIBCXX_ASSERTIONS also aborts on a bad index with the assert deleted, so stderr must name simplex.cpp
     assert(err.find("simplex.cpp") != string::npos && err.find("Assertion") != string::npos);
 }
 
-/// Rows scaled by 2^-13..2^13 and columns by 2^-10..2^10, so variables reach 1e5 and dropping elimination entries at the
-/// decision EPS breaks rows by up to 1e-4 of their size in double, which only shows past n = 100
-/// Checked by each row's backward error, the long double optimum and the dual's optimum, every coefficient exact in both types
+/// Rows scaled by 2^-13..2^13 and columns by 2^-10..2^10 reach variables of 1e5, where dropping elimination entries at EPS breaks rows in double past n = 100
 template <typename Float>
 void scaled_rows_and_columns(long long iterations, int lo, int hi){
     for (long long it = 0; it < iterations; it++){
@@ -352,6 +345,7 @@ void scaled_rows_and_columns(long long iterations, int lo, int hi){
         }
         for (int j = 0; j < n; j++) a[n + j][j] = col[j], b[n + j] = 100;
 
+        /// Power of two scales keep every coefficient exact in both types, so the long double and dual optima check the same LP
         BasicSimplex<Float> primal(vector<Float>(c.begin(), c.end()), Simplex::MAXIMIZE);
         BasicSimplex<long double> wide(c, Simplex::MAXIMIZE), dual(b, Simplex::MINIMIZE);
         for (int i = 0; i < m; i++){

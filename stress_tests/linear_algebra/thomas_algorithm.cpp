@@ -102,7 +102,6 @@ int main(){
     }
 
     /// Walks with strong drift, where elimination with subtraction loses every digit: cell i steps right with chance p[i]
-    /// The chance to leave on the right first is a ratio of sums of positive products, d_0 = 1 and d_j = d_(j - 1) (1 - p[j]) / p[j]
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(1, it % 10 ? 50 : 400);
         vector<long double> p(n);
@@ -118,6 +117,7 @@ int main(){
         rhs[n - 1] = p[n - 1];
         auto h = solve_tridiagonal_m_matrix(lower, upper, excess, rhs);
 
+        /// The chance to leave on the right first is a ratio of sums of positive products, d_0 = 1 and d_j = d_(j - 1) (1 - p[j]) / p[j]
         vector<long double> prefix(n + 1, 0);
         long double d = 1;
         for (int j = 0; j <= n; j++){

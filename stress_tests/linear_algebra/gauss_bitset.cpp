@@ -17,7 +17,6 @@ bool satisfies(const vector<bitset<W>>& equations, int m, const bitset<W>& x){
 }
 
 /// Rank of the first m columns by a leading-bit XOR basis, an elimination order independent of the library's
-/// Only bits below m are read, so a right-hand side in bit m is ignored and m = W works
 template <size_t W>
 int rank_of(const vector<bitset<W>>& rows, int m){
     vector<bitset<W>> pivot(m);
@@ -25,6 +24,7 @@ int rank_of(const vector<bitset<W>>& rows, int m){
     int rank = 0;
 
     for (auto e : rows){
+        /// Only bits below m are read, so a right-hand side in bit m is ignored and m = W works
         for (int j = m - 1; j >= 0; j--){
             if (!e[j]) continue;
             if (!used[j]){
@@ -68,17 +68,17 @@ vector<bitset<W>> random_invertible(int n){
     return a;
 }
 
-/// A built invertible n x n matrix, then made singular by replacing a row with the sum of two others, which leaves rank exactly n - 1
-/// One product direction is enough here: a square a * inv = I implies inv * a = I, and each product costs as much as the inverse
 template <size_t W>
 void check_invertible(int n){
     vector<bitset<W>> a = random_invertible<W>(n);
     auto inv = matrix_inverse(n, a);
+    /// One direction is enough: a square a * inv = I implies inv * a = I, and each product costs as much as the inverse
     assert(inv && is_identity_product(a, *inv));
     assert(matrix_rank(n, a) == n);
 
     if (n >= 3){
         int r = stress::rand_int(0, n - 1);
+        /// A row replaced by the sum of two others leaves rank exactly n - 1
         a[r] = a[(r + 1) % n] ^ a[(r + 2) % n];
         assert(!matrix_inverse(n, a) && matrix_rank(n, a) == n - 1);
     }
@@ -97,8 +97,7 @@ void check_full_width_system(){
     assert(solution.solvable && solution.free_variables == 0 && solution.x == planted);
 }
 
-/// Reduced row echelon form: pivots at rows 0, 1, ..., rank - 1 in column order, each pivot column a unit column,
-/// no bit left of a pivot, zero rows below the pivot rows, and the same row space as a
+/// Reduced row echelon form: pivots at rows 0..rank - 1 in column order, unit pivot columns, zero rows below, the same row space as a
 template <size_t W>
 void check_reduced(const vector<bitset<W>>& a, int m, int rank){
     vector<bitset<W>> r = a;
@@ -121,12 +120,12 @@ void check_reduced(const vector<bitset<W>>& a, int m, int rank){
 }
 
 /// matrix_inverse must abort on n > W before it writes the identity past the end of the rows
-/// A single-word bitset maps every index to its one word, so only W > 64 lets the late check be seen as an overflow
 void check_inverse_rejects_too_wide(){
     pid_t pid = fork();
     assert(pid >= 0);
     if (pid == 0){
         assert(freopen("/dev/null", "w", stderr));
+        /// A single-word bitset maps every index to its one word, so only W > 64 lets a late check show as an overflow
         vector<bitset<128>> a(400);
         matrix_inverse(400, a);
         _exit(0);
