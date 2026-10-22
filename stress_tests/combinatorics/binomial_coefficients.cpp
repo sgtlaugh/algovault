@@ -9,7 +9,7 @@
 uint64_t random_modulus(){
     if (stress::rand_int(0, 1)) return stress::rand_int(1, 3000);
 
-    /// Up to three coprime prime powers below 1e5, the product reaches ~1e15 where the old CRT overflowed
+    /// Up to three coprime prime powers below 1e5, so the product reaches ~1e15 and a careless CRT overflows
     uint64_t res = 1;
     vector<int> used;
     for (int parts = stress::rand_int(1, 3); parts; parts--){
@@ -52,7 +52,6 @@ uint64_t lucas(int64_t n, int64_t k, int p){
     return res;
 }
 
-/// fn must abort on its assert
 template<typename F>
 void expect_abort(F fn){
     pid_t pid = fork();

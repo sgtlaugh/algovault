@@ -85,8 +85,6 @@ void check_root(const vector<int>& p, long long k, bool exists){
 }
 
 /// Most cycles of any k-th root of p, or -1 when none exists
-/// A root cycle of length s * len splits under q^k into len-cycles exactly when gcd(s * len, k) = s,
-/// so per length a knapsack partitions the count of len-cycles into such group sizes s, maximizing groups
 int root_cycles_oracle(const vector<int>& p, long long k){
     int n = p.size();
     vector<int> count(n + 1, 0);
@@ -97,10 +95,12 @@ int root_cycles_oracle(const vector<int>& p, long long k){
         int c = count[len];
         if (c == 0) continue;
         vector<int> sizes;
+        /// A root cycle of length s * len splits under q^k into len-cycles exactly when gcd(s * len, k) = s
         for (int s = 1; s <= c; s++){
             if (gcd((long long)s * len, k) == s) sizes.push_back(s);
         }
 
+        /// Knapsack: split the c len-cycles into such groups, maximizing the number of groups
         vector<int> best(c + 1, -1);
         best[0] = 0;
         for (int x = 1; x <= c; x++){

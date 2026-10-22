@@ -45,7 +45,6 @@ void check_tables(int n, long long mod){
     }
 }
 
-/// fn must abort on its assert
 template<typename F>
 void expect_abort(F fn){
     pid_t pid = fork();

@@ -47,7 +47,6 @@ void check_second_identity(int n, long long p){
     assert(lhs == rhs);
 }
 
-/// fn must abort on its assert
 template<typename F>
 void expect_abort(F fn){
     pid_t pid = fork();
@@ -69,8 +68,7 @@ int main(){
     const long long NTT_PRIME = 998244353;   /// the single-NTT path
 
     /// Before the large rows, since an aborting child pays for all the memory it inherits
-    /// stirling_second(0, 1) used to spin forever in pow_mod(1, -1)
-    expect_abort([](){ stirling_second(0, 1); });
+    expect_abort([](){ stirling_second(0, 1); });  /// unchecked, it spins forever in pow_mod(1, -1)
     expect_abort([](){ stirling_second(5, 1000000000); });
     expect_abort([](){ stirling_first((1 << 22) + 1, NTT_PRIME); });
     expect_abort([](){ stirling_first(5, (1LL << 30) + 1); });
