@@ -75,7 +75,7 @@ int main(){
     plant(text, pattern, 5000);
     assert(wildcard_match(text, pattern) == naive_match(text, pattern, '?'));
 
-    /// Weighing values by one map lookup per element made this call 3x the string time under the sanitizers, it is now 1.3x
+    /// All-distinct values must stay within 2x the string time
     int big = 1 << 20;
     vector<int> vt(big);
     iota(vt.begin(), vt.end(), 0);
@@ -91,7 +91,7 @@ int main(){
         vector_time = min(vector_time, cpu_seconds([&]{ found = wildcard_match(vt, vp, -1); }));
         string_time = min(string_time, cpu_seconds([&]{ wildcard_match(st, sp); }));
     }
-    /// Distinct values are the worst case for false positions (< 0.5% per call), so a few extra ones are tolerated
+    /// Distinct values are the worst case for false positions, so a few extra ones are tolerated
     assert(find(found.begin(), found.end(), at) != found.end() && found.size() <= 4);
     fprintf(stderr, "distinct ints %.2fs, string %.2fs\n", vector_time, string_time);
     assert(vector_time < 2 * string_time);

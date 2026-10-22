@@ -21,7 +21,7 @@ int main(){
         vector<long long> a(n);
         for (auto& x : a){
             long long v = stress::rand_int(0, alphabet - 1);
-            if (mode == 1) x = v - 1000000;                                    /// far below the old +997 offset
+            if (mode == 1) x = v - 1000000;                                    /// below -997, so the 997 offset alone cannot make them nonnegative
             else if (mode == 2) x = v ? (v == 1 ? LLONG_MIN : LLONG_MAX) : 0;  /// limits of the element type
             else x = v;
         }

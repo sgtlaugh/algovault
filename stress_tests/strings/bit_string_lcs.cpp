@@ -37,7 +37,7 @@ int main(){
         assert(lcs(a.c_str(), b.c_str()) == dp_lcs(a, b));
     }
 
-    /// A longer than the old fixed carry buffer
+    /// A long enough to overflow a fixed-size carry buffer
     string a = random_string(150000, "ab"), b = random_string(stress::rand_int(1, 130), "ab");
     assert(lcs(a.c_str(), b.c_str()) == dp_lcs(a, b));
 

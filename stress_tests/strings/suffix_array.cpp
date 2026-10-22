@@ -4,8 +4,7 @@
 #include "../../code_library/strings/suffix_array.cpp"
 #undef main
 
-/// A permutation of the suffixes is sorted iff each adjacent pair is in order, and the pair's lcp k decides that order,
-/// so one naive lcp pass checks both arrays without the quadratic compares of sorting repetitive input
+/// Each adjacent pair's lcp k decides its order, so one naive lcp pass checks sa and lcp without quadratic sorting
 template <typename Container>
 void check(const Container& c){
     int n = c.size();
@@ -36,8 +35,7 @@ int naive_prefix(const Container& c, int i, const Container& pattern, int j, int
     return k;
 }
 
-/// The range must hold exactly the starts where a direct scan finds the pattern, and an absent pattern must sit at its
-/// insertion point: every suffix before lo is smaller than the pattern, every suffix from hi on is larger
+/// The range must hold exactly the starts where a direct scan finds the pattern
 template <typename Container>
 void check_range(const SuffixArrayQueries<Container>& q, const Container& c, const Container& pattern, pair<int, int> range){
     int n = c.size(), m = pattern.size(), lo = range.first, hi = range.second;
@@ -50,6 +48,7 @@ void check_range(const SuffixArrayQueries<Container>& q, const Container& c, con
     sort(found.begin(), found.end());
     assert(found == expected);
 
+    /// Insertion point: every suffix before lo is smaller than the pattern, every suffix from hi on is larger
     auto below = [&](int p){
         int k = naive_prefix(c, p, pattern, 0, m);
         return k < m && (p + k == n || c[p + k] < pattern[k]);

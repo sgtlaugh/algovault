@@ -29,7 +29,7 @@ int main(){
         assert(lcs(a.c_str(), b.c_str()) == dp_lcs(a, b));
     }
 
-    /// Longer than the old fixed MAX buffer, a wide alphabet keeps the match count R small
+    /// Long enough to overflow a fixed-size buffer, a wide alphabet keeps the match count R small
     string letters;
     for (int c = 1; c < 256; c++) letters += (char)c;
     string a = random_string(52000, letters), b = a;
