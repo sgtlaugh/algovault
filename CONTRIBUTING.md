@@ -135,8 +135,9 @@ int main(){
 
 - Comments explain why, never what: a comment whose deletion loses nothing the code already shows is deleted, and one naming
   what a variable holds becomes a better name
-- A comment is one line at the code it explains, with no debugging history, failing inputs or judge anecdotes: those go in
-  the commit message or the stress test
+- A comment is one line at the code it explains, with no debugging history, measurements, failing inputs or judge anecdotes:
+  those go in the commit message
+- These rules cover tests too: a test comment names the case it covers and why that case matters, the bug it would catch
 - A header note states the condition instead of hedging: `beyond double precision`, not `may get either answer`
 - `){` and `struct X{` open a body, `) {}` is empty, `for (` takes a space, `vector<int>` does not
 - A struct when there is state, a namespace only for stateless helpers like `fft`
