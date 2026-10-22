@@ -34,8 +34,7 @@ int main(){
         if (x > 100 && 2 * llabs(y) + 10 < x) assert(knight_distance(x + 4, y) == d + 2);
     }
 
-    /// Huge coordinates near the diagonal: parity, the lower bound max(x / 2, (x + y) / 3) rounded up, and
-    /// a second closed form (delta - 2 floor((delta - y) / k), k = 3 or 4) derived independently of the library's
+    /// Huge coordinates near the diagonal: parity, the max(x / 2, (x + y) / 3) lower bound and a closed form independent of the library's
     auto floor_div = [](long long a, long long b){ return a / b - (a % b != 0 && (a < 0) != (b < 0)); };
     auto reference = [&](long long x, long long y){
         x = llabs(x), y = llabs(y);

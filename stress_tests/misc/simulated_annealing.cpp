@@ -39,8 +39,7 @@ Matrix random_instance(int n, int max_w){
     return w;
 }
 
-/// TSP against all permutations, plus the bookkeeping the optimum alone cannot see:
-/// the returned state is the lowest energy ever evaluated, and the Metropolis rule matches its stationary distribution
+/// TSP against all permutations, plus the bookkeeping the optimum alone cannot see
 int main(){
     for (long long it = 0; it < stress::scaled(200); it++){
         int n = it < 40 ? it % 8 + 1 : stress::rand_int(5, 8);
@@ -63,7 +62,7 @@ int main(){
         vector<int> sorted_best = best;
         sort(sorted_best.begin(), sorted_best.end());
         for (int i = 0; i < n; i++) assert(sorted_best[i] == i);
-        assert(tour_cost(w, best) == lowest_seen);
+        assert(tour_cost(w, best) == lowest_seen);  /// the returned state is the lowest energy ever evaluated
         assert(tour_cost(w, best) == brute_tsp(w));
         assert(simulated_annealing(start, energy, two_opt, Annealer::by_steps(max_w * 0.5, max_w * 0.001, 20000, seed)) == best);
     }
@@ -155,8 +154,7 @@ int main(){
         assert(visits_up == 0);
     }
 
-    /// The same two-state chain shifted far past 2^53, where a double cannot hold the energies apart:
-    /// the stationary fraction depends only on the gap, so it must not move with the offset
+    /// The two-state chain shifted past 2^53, where a double cannot hold the energies apart: the fraction must not move
     for (long long it = 0; it < stress::scaled(30); it++){
         long long d = stress::rand_int(1, 10), steps = stress::scaled(100000), visits_up = 0;
         long long off = it % 2 ? stress::rand_int(1LL << 53, LLONG_MAX - d) : stress::rand_int(LLONG_MIN, -(1LL << 53));
@@ -166,8 +164,7 @@ int main(){
         assert(abs((double)visits_up / steps - exp(-1) / (1 + exp(-1))) < 0.01);
     }
 
-    /// Time based: stops at the deadline and still solves a small instance. The budget is wall clock by design,
-    /// so the upper bound leaves room for a process descheduled among parallel sanitizer jobs
+    /// Time based: stops at the deadline and still solves a small instance
     for (int it = 0; it < 3; it++){
         Matrix w = random_instance(6, 100);
         vector<int> start(6);
@@ -175,7 +172,7 @@ int main(){
         auto t0 = chrono::steady_clock::now();
         auto best = simulated_annealing(start, [&](const vector<int>& p){ return tour_cost(w, p); }, two_opt, Annealer::by_time(50, 0.1, 0.2, stress::rng()()));
         double secs = chrono::duration<double>(chrono::steady_clock::now() - t0).count();
-        assert(secs >= 0.2 && secs < 1);
+        assert(secs >= 0.2 && secs < 1);  /// wall clock, so the upper bound leaves room for descheduling among parallel sanitizer jobs
         assert(tour_cost(w, best) == brute_tsp(w));
     }
 

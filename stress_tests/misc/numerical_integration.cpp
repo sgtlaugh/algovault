@@ -75,18 +75,14 @@ Family random_family(){
                 [=](double x){ return scale * (x < c ? left * (x - c) : right * (x - c)); }, -3, 3, scale * 5, false};
     }
 
-    /// floor(k x) has up to 6k jumps, each needing its own deep refinement: int_0^t floor = n t - n (n + 1) / 2, n = floor(t)
-    /// k <= 10 keeps the jumps further apart than a start panel ((b - a) / 64), two jumps in one panel can cancel
+    /// floor(k x) has up to 6k jumps, each refined deep; k <= 10 keeps them a start panel apart, two in one panel can cancel
     double k = rand_real(1, 10);
     return {[=](double x){ return scale * floor(k * x); },
             [=](double x){ double n = floor(k * x); return scale * (n * k * x - n * (n + 1) / 2) / k; }, -3, 3, scale * 3 * k + scale, false};
 }
 
-/// Every integrand is checked against its closed-form antiderivative: Simpson exactly on cubics and with
-/// the exact error term (b - a) h^4 / 180 * 24 c4 on quartics, adaptive Simpson and Romberg within eps and
-/// stopping at the first check where they are exact (adaptive on cubics, Romberg up to degree 9)
-/// (their estimates can be fooled, so a rare miss up to 1000 eps is allowed, a frequent one is not)
 int main(){
+    /// Every method is exact on cubics, so adaptive Simpson must stop at its first check
     for (int c0 = -1; c0 <= 1; c0++){
         for (int c1 = -1; c1 <= 1; c1++){
             for (int c2 = -1; c2 <= 1; c2++){
@@ -127,6 +123,7 @@ int main(){
         assert(calls == (1LL << levels) + 1 && abs(res - (poly_antiderivative(c, b) - poly_antiderivative(c, a))) < 1e-9);
     }
 
+    /// On quartics Simpson misses by exactly the error term (b - a) h^4 / 180 * 24 c4
     for (long long it = 0; it < stress::scaled(3000); it++){
         auto c = random_poly(4, 10);
         double a = rand_real(-10, 10), b = rand_real(-10, 10);
@@ -164,10 +161,9 @@ int main(){
         assert(err <= 1000 * tol);
         misses += err > tol;
     }
-    assert(misses <= 2 + iterations / 1000);
+    assert(misses <= 2 + iterations / 1000);  /// error estimates can be fooled, so a rare miss is allowed, a frequent one is not
 
-    /// The delta / 15 Richardson term keeps the adaptive error far below eps on smooth f: random samples reach 0.0035 eps,
-    /// a hill climb 0.011 eps (Lorentzian with s = 0.3 over nearly all of [-3, 3]), plain Simpson on the halves 0.16 eps
+    /// The delta / 15 Richardson term keeps the adaptive error far below eps on smooth f, plain Simpson on the halves fails eps / 50
     for (long long it = 0; it < stress::scaled(4000); it++){
         Family fam = random_family();
         if (!fam.smooth) continue;
@@ -176,8 +172,7 @@ int main(){
         assert(abs(adaptive_simpson(a, b, fam.f, eps) - exact) <= eps / 50);
     }
 
-    /// c + cos(2 pi p t) over p whole periods reads as constant to samples spaced a whole number of periods apart:
-    /// Romberg's first check (2^8 + 1 samples) and adaptive Simpson's first split (257 samples) both see it for p < 256
+    /// p < 256 whole periods of cos read as constant to the 257 samples of Romberg's and adaptive Simpson's first checks
     for (int p = 1; p < 256; p++){
         double a = rand_real(-3, 3), b = a + rand_real(0.5, 6), c = rand_real(-2, 2), phase = rand_real(0, 7);
         auto f = [&](double x){ return c + cos(2 * acos(-1.0) * p * (x - a) / (b - a) + phase); };
@@ -185,8 +180,7 @@ int main(){
         assert(abs(adaptive_simpson(a, b, f) - c * (b - a)) <= 1e-8);
     }
 
-    /// sqrt|sin(m pi x)| has m + 1 infinite-slope points, each refined deep: eps halves per level so their leftover
-    /// errors sum below eps (worst 0.08 eps over m <= 128), an unhalved eps on either half misses by up to 16 eps
+    /// sqrt|sin(m pi x)| has m + 1 infinite-slope points refined deep, their errors sum below eps only if eps halves per level
     double sqrt_sin_exact = tgamma(0.75) / (sqrt(acos(-1.0)) * tgamma(1.25));
     for (int m = 1; m <= 128; m++){
         for (double eps : {1e-8, 1e-9, 1e-10}){
@@ -195,9 +189,7 @@ int main(){
         }
     }
 
-    /// Integrands that vanish on the whole start grid but are huge between its points: a rounding floor taken from the
-    /// start grid alone is 0 and the panels recurse toward depth 44 (5.7e6 calls at scale 1e6, over 2e8 at 1e8); with
-    /// the floor raised by the panels it costs no more than f shifted off the grid (2.7e5 against 4.9e5 calls, m = 384)
+    /// Zero on the whole start grid but huge between its points: a rounding floor from that grid alone is 0 and recursion runs away
     for (long long it = 0; it < stress::scaled(300); it++){
         double scale = pow(10.0, stress::rand_int(0, 14)), exact;
         long long calls = 0;

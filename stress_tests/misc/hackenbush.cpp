@@ -315,9 +315,7 @@ vector<int> random_stalk(int len){
     return s;
 }
 
-/// Green: game search (exhaustive and random), then fusion without lowlinks on mid-size graphs, closed forms at 2e5
-/// Red-blue: game search (also with extra components), the edge rule in 64-bit fixed point up to 63 edges,
-/// Berlekamp's stalk rule at 2e5 edges, negation identities on 2e5-vertex random, binary, caterpillar and broom trees
+/// Green and red-blue values against game search on small graphs, independent rules and closed forms on 2e5-edge ones
 int main(){
     for (int n = 1; n <= 4; n++){
         vector<Edge> kinds;

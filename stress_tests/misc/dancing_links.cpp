@@ -114,8 +114,7 @@ void check(const Instance& in, optional<vector<int>> rows){
     assert(covered == full);
 }
 
-/// Two live instances with interleaved add_row calls, each checked against brute force, then re-solved to check the links were restored,
-/// then one more row added after the solve and checked against brute force again
+/// Two live instances with interleaved add_row calls, each checked against brute force
 int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
         Instance a = random_instance(), b = random_instance();
@@ -128,8 +127,9 @@ int main(){
         auto rows_a = da.exact_cover(), rows_b = db.exact_cover(), again = da.exact_cover();
         check(a, rows_a);
         check(b, rows_b);
-        assert(again == rows_a);
+        assert(again == rows_a);  /// a second solve finds the same rows only if the first restored the links
 
+        /// A row added after a solve must link into the restored structure
         int extra = stress::rng()() & ((1 << a.nc) - 1);
         a.masks.push_back(extra);
         a.ids.push_back(a.ids.size() + 1);

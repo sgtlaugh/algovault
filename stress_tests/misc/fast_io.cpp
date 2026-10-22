@@ -167,8 +167,7 @@ int main(){
         assert(read_file(OUT) == expected.str());
     }
 
-    /// Just above the midpoint of two doubles: strtold lands on the midpoint and a cast to double rounds it to the even
-    /// neighbor below, while the correctly rounded double is the one above
+    /// Just above the midpoint of two doubles: strtold then a cast rounds to the even neighbor below, the correct double is above
     for (long long it = 0; it < stress::scaled(200); it++){
         double lo = ldexp((double)(((stress::rng()() >> 11) | (1ULL << 52)) & ~1ULL), -52), hi = nextafter(lo, 2.0);
         char buf[128];
