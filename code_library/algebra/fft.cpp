@@ -16,8 +16,9 @@
  * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
  *
  * Products have length n + m - 1, and an empty input gives an empty result
- * multiply and square run in double while max(n, m) * max|value|^2 <= DOUBLE_LIMIT (~4.5e13), in long double to EXACT_LIMIT (~9.2e16)
- * Past EXACT_LIMIT they split values into 15 bit halves like ll_multiply, about 2x slower, and need |values| < LL_MULTIPLY_LIMIT
+ * Every product runs in double while max(n, m) * max|value|^2 <= DOUBLE_LIMIT (~4.5e13), in long double to EXACT_LIMIT (~9.2e16)
+ * mod_multiply bounds the values by mod - 1, so a mod below about 3e5 never needs more than one transform for n up to 10^6
+ * Past EXACT_LIMIT values split into 15 bit halves, about 2x slower, need |values| < LL_MULTIPLY_LIMIT, and run in double while n <= 41909
  * The string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
  * Memory: with len the smallest power of two >= n + m, 4 complex arrays of len / 2 per precision used, 4 of len once a split product ran
  *
