@@ -1,37 +1,38 @@
 /***
  *
  * Polynomial and Formal Power Series
- * Polynomial arithmetic and power series operations modulo an NTT prime, with its own number theoretic transform
+ * Polynomial arithmetic and power series operations modulo an NTT prime
  *
  * Complexity:
- *   - O(n log n) for multiply, inverse, divmod, log, exp, sqrt, pow and taylor_shift
- *   - O(n log^2 n) for multipoint evaluate and interpolate
- *   - O(n) for derivative, integral and single point evaluate
+ *   - O(n log n) for *, /, %, divmod, inverse, log, exp, sqrt, pow and taylor_shift
+ *   - O(n log^2 n) for evaluate at many points and interpolate
+ *   - O(n) for +, -, derivative, integral and evaluate at one point
  *
- * Polynomial<MOD> holds a[0] + a[1] x + a[2] x^2 + ..., coefficients and points are reduced into [0, MOD)
+ * Polynomial<MOD> p(v): the polynomial v[0] + v[1] x + v[2] x^2 + ... from a vector or braced list of integers, default MOD = 998244353
+ * p.a: the coefficients in [0, MOD), lowest degree first
+ * p.size(): the number of coefficients, trailing zeros included
+ * p.coef(i): the coefficient of x^i, 0 when i is out of range
+ * p.trimmed(): p without trailing zeros
+ * p + q, p - q, p * q: the sum, difference and product
+ * p / q, p % q: the quotient and remainder, q must be nonzero
+ * p.divmod(q): the pair {p / q, p % q}, q must be nonzero
+ * p.derivative(): the derivative, max(size() - 1, 0) coefficients
+ * p.integral(): the integral with constant term 0, size() + 1 coefficients
+ * p.evaluate(x): the value p(x)
+ * p.evaluate(xs): the value p(x) for every point x of xs
+ * Polynomial<MOD>::interpolate(xs, ys): the polynomial of degree < n through the n points (xs[i], ys[i]), the xs distinct modulo MOD
+ * p.inverse(n): 1 / p mod x^n, requires p.coef(0) != 0
+ * p.log(n): ln p mod x^n, requires p.coef(0) = 1
+ * p.exp(n): e^p mod x^n, requires p.coef(0) = 0
+ * p.sqrt(n): a square root of p mod x^n whose lowest nonzero coefficient is the smaller modular root, nullopt when none exists
+ * p.pow(k, n): p^k mod x^n for any k >= 0, p may start with zeros, and 0^0 = 1
+ * p.taylor_shift(c): p(x + c), size() coefficients
+ *
  * MOD is a prime below 2^30 of the form c * 2^v + 1, the default 998244353 = 119 * 2^23 + 1
- * Every size involved (series length n, polynomial lengths, number of points) must be at most 2^(v - 1),
- * which is 2^22 for the default modulus
- *
- * Polynomial results (+, -, *, /, %, divmod, interpolate) have trailing zeros trimmed, the zero polynomial is empty
- * Power series results (inverse, log, exp, sqrt, pow) have exactly n coefficients and read only the first n of P
- * derivative, integral and taylor_shift are not trimmed, they return max(size() - 1, 0), size() + 1 and size()
- * coefficients
- *
- *   inverse(n)            1 / P mod x^n, requires P[0] != 0
- *   log(n)                ln P mod x^n, requires P[0] = 1
- *   exp(n)                e^P mod x^n, requires P[0] = 0
- *   sqrt(n)               first n coefficients of the power series square root of (P mod x^n) whose lowest
- *                         nonzero coefficient is the smaller modular root, nullopt when no root exists
- *   pow(k, n)             P^k mod x^n for any k >= 0, P may start with zeros, 0^0 = 1
- *   divmod(B)             quotient and remainder of P / B, B must be nonzero
- *   evaluate(xs)          P(x) for every point x
- *   interpolate(xs, ys)   the polynomial of degree < n through n points, the xs must be distinct
- *   taylor_shift(c)       P(x + c)
- *
- * Example:
- *   Polynomial<> p = {0, 1};
- *   p.exp(4).a;      // {1, 1, 1/2, 1/6} = {1, 1, 499122177, 166374059}
+ * Every size involved, the series length n, the polynomial lengths and the number of points, must be at most 2^(v - 1), 2^22 for 998244353
+ * Results of +, -, *, /, %, divmod and interpolate have trailing zeros trimmed, and the zero polynomial is empty
+ * inverse, log, exp, sqrt and pow return exactly n coefficients and read only the first n of p
+ * Coefficients, points and c may be any integers, they are reduced into [0, MOD)
  *
 ***/
 
@@ -57,14 +58,42 @@ struct Polynomial{
         for (auto x : v) a.push_back(norm(x));
     }
 
+    int size() const{
+        return a.size();
+    }
+
     int coef(int i) const{
         return (i >= 0 && i < size()) ? a[i] : 0;
     }
 
-    Polynomial derivative() const{
-        vector<int> res(max(size() - 1, 0));
-        for (int i = 1; i < size(); i++) res[i - 1] = mul(a[i], i);
+    Polynomial trimmed() const{
+        Polynomial res = *this;
+        while (!res.a.empty() && res.a.back() == 0) res.a.pop_back();
         return res;
+    }
+
+    Polynomial operator + (const Polynomial& b) const{
+        vector<int> res(max(size(), b.size()));
+        for (int i = 0; i < (int)res.size(); i++) res[i] = add(coef(i), b.coef(i));
+        return Polynomial(res).trimmed();
+    }
+
+    Polynomial operator - (const Polynomial& b) const{
+        vector<int> res(max(size(), b.size()));
+        for (int i = 0; i < (int)res.size(); i++) res[i] = sub(coef(i), b.coef(i));
+        return Polynomial(res).trimmed();
+    }
+
+    Polynomial operator * (const Polynomial& b) const{
+        return Polynomial(multiply(a, b.a)).trimmed();
+    }
+
+    Polynomial operator / (const Polynomial& b) const{
+        return divmod(b).first;
+    }
+
+    Polynomial operator % (const Polynomial& b) const{
+        return divmod(b).second;
     }
 
     pair<Polynomial, Polynomial> divmod(const Polynomial& b) const{
@@ -82,6 +111,20 @@ struct Polynomial{
         return {res, p - res * q};
     }
 
+    Polynomial derivative() const{
+        vector<int> res(max(size() - 1, 0));
+        for (int i = 1; i < size(); i++) res[i - 1] = mul(a[i], i);
+        return res;
+    }
+
+    Polynomial integral() const{
+        int n = size();
+        vector<int> inv(n + 1, 1), res(n + 1);
+        for (int i = 2; i <= n; i++) inv[i] = mul(MOD - MOD / i, inv[MOD % i]);
+        for (int i = 0; i < n; i++) res[i + 1] = mul(a[i], inv[i + 1]);
+        return res;
+    }
+
     int evaluate(long long x) const{
         int v = norm(x), res = 0;
         for (int i = size() - 1; i >= 0; i--) res = add(mul(res, v), a[i]);
@@ -97,33 +140,6 @@ struct Polynomial{
         vector<Polynomial> tree(4 * n);
         build(tree, 1, 0, n - 1, pts);
         descend(tree, 1, 0, n - 1, *this, pts, res);
-        return res;
-    }
-
-    Polynomial exp(int n) const{
-        assert(n >= 0);
-        if (n == 0) return {};
-        assert(coef(0) == 0);
-
-        /// Newton step g = g * (1 + P - ln g) doubles the number of correct coefficients
-        Polynomial g = {1};
-        for (int m = 1; m < n; m *= 2){
-            vector<int> h = prefix(2 * m), lg = g.log(2 * m).a;
-            for (int i = 0; i < 2 * m; i++) h[i] = sub(h[i], lg[i]);
-            h[0] = add(h[0], 1);
-            g.a = multiply(g.a, h);
-            g.a.resize(2 * m);
-        }
-
-        g.a.resize(n);
-        return g;
-    }
-
-    Polynomial integral() const{
-        int n = size();
-        vector<int> inv(n + 1, 1), res(n + 1);
-        for (int i = 2; i <= n; i++) inv[i] = mul(MOD - MOD / i, inv[MOD % i]);
-        for (int i = 0; i < n; i++) res[i + 1] = mul(a[i], inv[i + 1]);
         return res;
     }
 
@@ -156,7 +172,8 @@ struct Polynomial{
         for (int m = 1; m < n; m *= 2){
             vector<int> f = prefix(2 * m), g = b, roots = make_roots(2 * m);
             g.resize(2 * m);
-            ntt(f, roots), ntt(g, roots);
+            ntt(f, roots);
+            ntt(g, roots);
             for (int i = 0; i < 2 * m; i++) f[i] = mul(f[i], g[i]);
             inverse_ntt(f, roots);
 
@@ -184,28 +201,47 @@ struct Polynomial{
         return Polynomial(q).integral();
     }
 
-    Polynomial operator % (const Polynomial& b) const{
-        return divmod(b).second;
+    Polynomial exp(int n) const{
+        assert(n >= 0);
+        if (n == 0) return {};
+        assert(coef(0) == 0);
+
+        /// Newton step g = g * (1 + P - ln g) doubles the number of correct coefficients
+        Polynomial g = {1};
+        for (int m = 1; m < n; m *= 2){
+            vector<int> h = prefix(2 * m), lg = g.log(2 * m).a;
+            for (int i = 0; i < 2 * m; i++) h[i] = sub(h[i], lg[i]);
+            h[0] = add(h[0], 1);
+            g.a = multiply(g.a, h);
+            g.a.resize(2 * m);
+        }
+
+        g.a.resize(n);
+        return g;
     }
 
-    Polynomial operator * (const Polynomial& b) const{
-        return Polynomial(multiply(a, b.a)).trimmed();
-    }
+    optional<Polynomial> sqrt(int n) const{
+        assert(n >= 0);
+        vector<int> res(n);
+        int i = 0, lim = min(n, size());
+        while (i < lim && a[i] == 0) i++;
+        if (i == lim) return Polynomial(res);
+        if (i % 2) return nullopt;
 
-    Polynomial operator + (const Polynomial& b) const{
-        vector<int> res(max(size(), b.size()));
-        for (int i = 0; i < (int)res.size(); i++) res[i] = add(coef(i), b.coef(i));
-        return Polynomial(res).trimmed();
-    }
+        int s = mod_sqrt(a[i]);
+        if (s < 0) return nullopt;
 
-    Polynomial operator - (const Polynomial& b) const{
-        vector<int> res(max(size(), b.size()));
-        for (int i = 0; i < (int)res.size(); i++) res[i] = sub(coef(i), b.coef(i));
-        return Polynomial(res).trimmed();
-    }
+        /// P mod x^n = x^i Y, the root is x^(i / 2) R with R^2 = Y, Newton step R = (R + Y / R) / 2
+        int len = n - i / 2, inv2 = (MOD + 1) / 2;
+        Polynomial y(vector<int>(a.begin() + i, a.begin() + lim)), r = {s};
+        for (int m = 1; m < len; m *= 2){
+            vector<int> q = multiply(y.prefix(2 * m), r.inverse(2 * m).a);
+            r.a.resize(2 * m);
+            for (int j = 0; j < 2 * m; j++) r.a[j] = mul(add(r.a[j], q[j]), inv2);
+        }
 
-    Polynomial operator / (const Polynomial& b) const{
-        return divmod(b).first;
+        for (int j = 0; j < len; j++) res[i / 2 + j] = r.a[j];
+        return Polynomial(res);
     }
 
     Polynomial pow(long long k, int n) const{
@@ -234,34 +270,6 @@ struct Polynomial{
         return res;
     }
 
-    int size() const{
-        return a.size();
-    }
-
-    optional<Polynomial> sqrt(int n) const{
-        assert(n >= 0);
-        vector<int> res(n);
-        int i = 0, lim = min(n, size());
-        while (i < lim && a[i] == 0) i++;
-        if (i == lim) return Polynomial(res);
-        if (i % 2) return nullopt;
-
-        int s = mod_sqrt(a[i]);
-        if (s < 0) return nullopt;
-
-        /// P mod x^n = x^i Y, the root is x^(i / 2) R with R^2 = Y, Newton step R = (R + Y / R) / 2
-        int len = n - i / 2, inv2 = (MOD + 1) / 2;
-        Polynomial y(vector<int>(a.begin() + i, a.begin() + lim)), r = {s};
-        for (int m = 1; m < len; m *= 2){
-            vector<int> q = multiply(y.prefix(2 * m), r.inverse(2 * m).a);
-            r.a.resize(2 * m);
-            for (int j = 0; j < 2 * m; j++) r.a[j] = mul(add(r.a[j], q[j]), inv2);
-        }
-
-        for (int j = 0; j < len; j++) res[i / 2 + j] = r.a[j];
-        return Polynomial(res);
-    }
-
     Polynomial taylor_shift(long long c) const{
         int n = size(), v = norm(c);
         if (n == 0) return {};
@@ -273,9 +281,11 @@ struct Polynomial{
 
         /// res[j] j! = sum over i >= j of (a[i] i!) (c^(i - j) / (i - j)!), a convolution after reversing a[i] i!
         vector<int> x(n), y(n);
-        for (int i = 0, pw = 1; i < n; i++, pw = mul(pw, v)){
+        int pw = 1;
+        for (int i = 0; i < n; i++){
             x[n - 1 - i] = mul(a[i], fact[i]);
             y[i] = mul(pw, inv_fact[i]);
+            pw = mul(pw, v);
         }
 
         vector<int> z = multiply(x, y), res(n);
@@ -283,54 +293,60 @@ struct Polynomial{
         return res;
     }
 
-    Polynomial trimmed() const{
-        Polynomial res = *this;
-        while (!res.a.empty() && res.a.back() == 0) res.a.pop_back();
-        return res;
+    static int norm(long long x){
+        x %= MOD;
+        return x < 0 ? x + MOD : x;
     }
 
     static int add(int x, int y){
         return x + y >= MOD ? x + y - MOD : x + y;
     }
 
-    /// tree[v] = prod (x - pts[i]) over the node's range
-    static void build(vector<Polynomial>& tree, int v, int l, int r, const vector<int>& pts){
-        if (l == r){
-            tree[v].a = {sub(0, pts[l]), 1};
-            return;
+    static int sub(int x, int y){
+        return x - y < 0 ? x - y + MOD : x - y;
+    }
+
+    static int mul(int x, int y){
+        return (long long)x * y % MOD;
+    }
+
+    static constexpr int power(long long b, long long e){
+        long long res = 1;
+        b %= MOD;
+        while (e > 0){
+            if (e & 1) res = res * b % MOD;
+            b = b * b % MOD;
+            e >>= 1;
+        }
+        return res;
+    }
+
+    static vector<int> multiply(const vector<int>& x, const vector<int>& y){
+        if (x.empty() || y.empty()) return {};
+
+        int n = x.size(), m = y.size();
+        vector<int> res(n + m - 1);
+
+        /// Without this schoolbook cutoff interpolate at 2^17 points measured 12% slower
+        if (min(n, m) <= 32){
+            for (int i = 0; i < n; i++){
+                for (int j = 0; j < m; j++) res[i + j] = add(res[i + j], mul(x[i], y[j]));
+            }
+            return res;
         }
 
-        int mid = (l + r) / 2;
-        build(tree, 2 * v, l, mid, pts);
-        build(tree, 2 * v + 1, mid + 1, r, pts);
-        tree[v].a = multiply(tree[2 * v].a, tree[2 * v + 1].a);
-    }
-
-    static Polynomial combine(const vector<Polynomial>& tree, int v, int l, int r, const vector<int>& w){
-        if (l == r) return vector<int>{w[l]};
-
-        int mid = (l + r) / 2;
-        return combine(tree, 2 * v, l, mid, w) * tree[2 * v + 1] + combine(tree, 2 * v + 1, mid + 1, r, w) * tree[2 * v];
-    }
-
-    static void descend(const vector<Polynomial>& tree, int v, int l, int r, Polynomial p, const vector<int>& pts, vector<int>& res){
-        p = p % tree[v];
-        if (r - l < 32){
-            for (int i = l; i <= r; i++) res[i] = p.evaluate(pts[i]);
-            return;
-        }
-
-        int mid = (l + r) / 2;
-        descend(tree, 2 * v, l, mid, p, pts, res);
-        descend(tree, 2 * v + 1, mid + 1, r, p, pts, res);
-    }
-
-    static void inverse_ntt(vector<int>& f, const vector<int>& roots){
+        int len = 1;
+        while (len < n + m - 1) len *= 2;
+        vector<int> f = x, g = y, roots = make_roots(len);
+        f.resize(len);
+        g.resize(len);
         ntt(f, roots);
-        reverse(f.begin() + 1, f.end());
+        ntt(g, roots);
+        for (int i = 0; i < len; i++) f[i] = mul(f[i], g[i]);
+        inverse_ntt(f, roots);
 
-        int inv = power(f.size(), MOD - 2);
-        for (auto& x : f) x = mul(x, inv);
+        f.resize(n + m - 1);
+        return f;
     }
 
     /// roots[k + j] = w^j for the principal 2k-th root of unity w, for every power of two k < len
@@ -351,59 +367,20 @@ struct Polynomial{
         return roots;
     }
 
-    /// Tonelli-Shanks, -1 when x is not a quadratic residue, otherwise the smaller of the two roots
-    static int mod_sqrt(int x){
-        if (x == 0) return 0;
-        if (power(x, (MOD - 1) / 2) != 1) return -1;
-
-        int s = 0, q = MOD - 1, z = 2;
-        while (q % 2 == 0) q /= 2, s++;
-        while (power(z, (MOD - 1) / 2) != MOD - 1) z++;
-
-        int c = power(z, q), t = power(x, q), r = power(x, (q + 1) / 2);
-        while (t != 1){
-            int i = 0;
-            for (int u = t; u != 1; u = mul(u, u)) i++;
-
-            int b = c;
-            for (int j = 0; j < s - i - 1; j++) b = mul(b, b);
-            s = i, c = mul(b, b), t = mul(t, c), r = mul(r, b);
+    static constexpr int primitive_root(){
+        int factors[32] = {}, cnt = 0, x = MOD - 1;
+        for (int d = 2; d * d <= x; d++){
+            if (x % d) continue;
+            factors[cnt++] = d;
+            while (x % d == 0) x /= d;
         }
+        if (x > 1) factors[cnt++] = x;
 
-        return min(r, MOD - r);
-    }
-
-    static int mul(int x, int y){
-        return (long long)x * y % MOD;
-    }
-
-    static vector<int> multiply(const vector<int>& x, const vector<int>& y){
-        if (x.empty() || y.empty()) return {};
-
-        int n = x.size(), m = y.size();
-        vector<int> res(n + m - 1);
-        if (min(n, m) <= 32){
-            for (int i = 0; i < n; i++){
-                for (int j = 0; j < m; j++) res[i + j] = add(res[i + j], mul(x[i], y[j]));
-            }
-            return res;
+        for (int g = 2; ; g++){
+            bool ok = true;
+            for (int i = 0; i < cnt && ok; i++) ok = power(g, (MOD - 1) / factors[i]) != 1;
+            if (ok) return g;
         }
-
-        int len = 1;
-        while (len < n + m - 1) len *= 2;
-        vector<int> f = x, g = y, roots = make_roots(len);
-        f.resize(len), g.resize(len);
-        ntt(f, roots), ntt(g, roots);
-        for (int i = 0; i < len; i++) f[i] = mul(f[i], g[i]);
-        inverse_ntt(f, roots);
-
-        f.resize(n + m - 1);
-        return f;
-    }
-
-    static int norm(long long x){
-        x %= MOD;
-        return x < 0 ? x + MOD : x;
     }
 
     static void ntt(vector<int>& f, const vector<int>& roots){
@@ -426,13 +403,12 @@ struct Polynomial{
         }
     }
 
-    static constexpr int power(long long b, long long e){
-        long long res = 1;
-        b %= MOD;
-        for (; e > 0; e >>= 1, b = b * b % MOD){
-            if (e & 1) res = res * b % MOD;
-        }
-        return res;
+    static void inverse_ntt(vector<int>& f, const vector<int>& roots){
+        ntt(f, roots);
+        reverse(f.begin() + 1, f.end());
+
+        int inv = power(f.size(), MOD - 2);
+        for (auto& x : f) x = mul(x, inv);
     }
 
     vector<int> prefix(int k) const{
@@ -441,24 +417,68 @@ struct Polynomial{
         return res;
     }
 
-    static constexpr int primitive_root(){
-        int factors[32] = {}, cnt = 0, x = MOD - 1;
-        for (int d = 2; d * d <= x; d++){
-            if (x % d) continue;
-            factors[cnt++] = d;
-            while (x % d == 0) x /= d;
+    /// tree[v] = prod (x - pts[i]) over the node's range
+    static void build(vector<Polynomial>& tree, int v, int l, int r, const vector<int>& pts){
+        if (l == r){
+            tree[v].a = {sub(0, pts[l]), 1};
+            return;
         }
-        if (x > 1) factors[cnt++] = x;
 
-        for (int g = 2; ; g++){
-            bool ok = true;
-            for (int i = 0; i < cnt && ok; i++) ok = power(g, (MOD - 1) / factors[i]) != 1;
-            if (ok) return g;
-        }
+        int mid = (l + r) / 2;
+        build(tree, 2 * v, l, mid, pts);
+        build(tree, 2 * v + 1, mid + 1, r, pts);
+        tree[v].a = multiply(tree[2 * v].a, tree[2 * v + 1].a);
     }
 
-    static int sub(int x, int y){
-        return x - y < 0 ? x - y + MOD : x - y;
+    /// p mod tree[v] agrees with p at every point of the node's range
+    static void descend(const vector<Polynomial>& tree, int v, int l, int r, Polynomial p, const vector<int>& pts, vector<int>& res){
+        p = p % tree[v];
+
+        /// Horner below 32 points: descending to single points measured 30% slower at 2^17 points
+        if (r - l < 32){
+            for (int i = l; i <= r; i++) res[i] = p.evaluate(pts[i]);
+            return;
+        }
+
+        int mid = (l + r) / 2;
+        descend(tree, 2 * v, l, mid, p, pts, res);
+        descend(tree, 2 * v + 1, mid + 1, r, p, pts, res);
+    }
+
+    /// Sum of w[i] tree[v] / (x - pts[i]) over the node's range
+    static Polynomial combine(const vector<Polynomial>& tree, int v, int l, int r, const vector<int>& w){
+        if (l == r) return vector<int>{w[l]};
+
+        int mid = (l + r) / 2;
+        return combine(tree, 2 * v, l, mid, w) * tree[2 * v + 1] + combine(tree, 2 * v + 1, mid + 1, r, w) * tree[2 * v];
+    }
+
+    /// Tonelli-Shanks, -1 when x is not a quadratic residue, otherwise the smaller of the two roots
+    static int mod_sqrt(int x){
+        if (x == 0) return 0;
+        if (power(x, (MOD - 1) / 2) != 1) return -1;
+
+        int s = 0, q = MOD - 1, z = 2;
+        while (q % 2 == 0){
+            q /= 2;
+            s++;
+        }
+        while (power(z, (MOD - 1) / 2) != MOD - 1) z++;
+
+        int c = power(z, q), t = power(x, q), r = power(x, (q + 1) / 2);
+        while (t != 1){
+            int i = 0;
+            for (int u = t; u != 1; u = mul(u, u)) i++;
+
+            int b = c;
+            for (int j = 0; j < s - i - 1; j++) b = mul(b, b);
+            s = i;
+            c = mul(b, b);
+            t = mul(t, c);
+            r = mul(r, b);
+        }
+
+        return min(r, MOD - r);
     }
 };
 
@@ -466,22 +486,31 @@ int main(){
     using P = Polynomial<>;
     const int mod = 998244353, inv2 = 499122177, inv3 = 332748118, inv6 = 166374059, minus_inv8 = 124780544;
 
+    /// Arithmetic modulo 998244353: x^3 - 1 = (x - 1)(x^2 + x + 1), and x^2 + 1 leaves P(1) = 2 modulo x - 1
     assert(((P{1, 2, 3} * P{4, 5}).a == vector<int>{4, 13, 22, 15}));
     assert(((P{1, 2} - P{0, 0, 7}).a == vector<int>{1, 2, mod - 7}));
-    assert(((P{-1, 0, 0, 1} / P{-1, 1}).a == vector<int>{1, 1, 1}));  /// x^3 - 1 = (x - 1)(x^2 + x + 1)
-    assert(((P{1, 0, 1} % P{-1, 1}).a == vector<int>{2}));            /// remainder is P(1)
+    assert(((P{-1, 0, 0, 1} / P{-1, 1}).a == vector<int>{1, 1, 1}));
+    assert(((P{1, 0, 1} % P{-1, 1}).a == vector<int>{2}));
 
-    assert((P{1, -1}.inverse(5).a == vector<int>{1, 1, 1, 1, 1}));      /// 1 / (1 - x) = 1 + x + x^2 + ...
-    assert((P{1, 1, 1, 1}.log(4).a == vector<int>{0, 1, inv2, inv3}));  /// ln(1 / (1 - x)) = sum x^k / k
-    assert((P{0, 1}.exp(4).a == vector<int>{1, 1, inv2, inv6}));        /// e^x = sum x^k / k!
-    assert((P{1, 1}.sqrt(3)->a == vector<int>{1, inv2, minus_inv8}));   /// 1 + x / 2 - x^2 / 8
-    assert((!P{0, 1}.sqrt(3).has_value()));                             /// x has no square root series
-    assert((P{0, 1, 1}.pow(3, 6).a == vector<int>{0, 0, 0, 1, 3, 3}));  /// (x + x^2)^3 mod x^6
+    /// Power series: 1 / (1 - x) = sum x^k, ln(1 / (1 - x)) = sum x^k / k, e^x = sum x^k / k!
+    assert((P{1, -1}.inverse(5).a == vector<int>{1, 1, 1, 1, 1}));
+    assert((P{1, 1, 1, 1}.log(4).a == vector<int>{0, 1, inv2, inv3}));
+    assert((P{0, 1}.exp(4).a == vector<int>{1, 1, inv2, inv6}));
 
+    /// sqrt(1 + x) = 1 + x / 2 - x^2 / 8 + ..., x has no square root series, and (x + x^2)^3 = x^3 + 3x^4 + 3x^5 + x^6
+    assert((P{1, 1}.sqrt(3)->a == vector<int>{1, inv2, minus_inv8}));
+    assert((!P{0, 1}.sqrt(3).has_value()));
+    assert((P{0, 1, 1}.pow(3, 6).a == vector<int>{0, 0, 0, 1, 3, 3}));
+
+    /// 1 + 2x + 3x^2 at the points 0, 1, 2 and back through them
     assert((P{1, 2, 3}.derivative().a == vector<int>{2, 6}));
     assert((P{2, 6}.integral().a == vector<int>{0, 2, 3}));
+    assert((P{1, 2, 3}.evaluate(2) == 17));
     assert((P{1, 2, 3}.evaluate(vector<int>{0, 1, 2}) == vector<int>{1, 6, 17}));
     assert((P::interpolate({0, 1, 2}, {1, 6, 17}).a == vector<int>{1, 2, 3}));
-    assert((P{0, 0, 1}.taylor_shift(1).a == vector<int>{1, 2, 1}));  /// x^2 becomes (x + 1)^2
+
+    /// x^2 becomes (x + 1)^2
+    assert((P{0, 0, 1}.taylor_shift(1).a == vector<int>{1, 2, 1}));
+
     return 0;
 }
