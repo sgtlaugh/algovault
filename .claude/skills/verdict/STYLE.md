@@ -14,6 +14,7 @@ For that code these rules replace CONTRIBUTING's `## API and code`, `## Style` a
 - Small free functions above `main` for the steps, named for their job: `gen()`, `solve(k)`, `check()`, `is_equal()`
 - `int main(){` reads input, calls the steps, prints, and ends with `return 0;`
 - Test cases run as `read(t); while (t--){` or `while (read(n)){`, with a `Case %d: ` prefix only when the problem asks for it
+- On UVa, POJ and HDU a test count is read until EOF, `while (read(t)){ while (t--){`, since their input files often repeat the block (UVa 1718 failed reading one)
 - One-statement bodies go on the same line without braces: `for (i = 0; i < n; i++) read(ar[i]);`, `if (x > n) return false;`
 - Related assignments share a line with commas: `low = 0, high = n - 1;`
 - Parentheses make the order obvious: `if ((i + 1) < n)`, `res += (x * y)`; halving and parity use `>> 1` and `& 1`
