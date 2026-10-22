@@ -122,6 +122,24 @@ int main(){
     assert(equal_product_is_exact(fft, 1, 100000, 1, 100000000));
     assert(equal_product_is_exact(fft, 100000, 1, -100000000, 1));
 
+    /// Both sides of each switch: double up to DOUBLE_LIMIT, long double up to EXACT_LIMIT, the split product past it,
+    /// at the largest all-equal value on the cheaper side and one more; also the length 2 transform with a half of 1
+    for (int n : {100000, 1000000}){
+        for (long double limit : {(long double)FFT::DOUBLE_LIMIT, FFT::EXACT_LIMIT}){
+            ll v = sqrtl(limit / n);
+            while ((long double)n * (v + 1) * (v + 1) <= limit) v++;
+            while ((long double)n * v * v > limit) v--;
+            assert(equal_product_is_exact(fft, n, n, v, v));
+            assert(equal_product_is_exact(fft, n, n, v + 1, -(v + 1)));
+            assert(equal_product_is_exact(fft, n, n / 3, v, v + 1));
+        }
+    }
+    /// Between double's first error (about 3e14) and EXACT_LIMIT only long double is exact
+    assert(equal_product_is_exact(fft, 100000, 100000, 100000, 100000));
+    assert(equal_product_is_exact(fft, 1000000, 1000000, 40000, -40000));
+    assert(fft.multiply({7}, {-6}) == vector<ll>({-42}));
+    assert(fft.square({-9}) == vector<ll>({81}));
+
     /// Near the precision limit: n = 10^4 with values up to 2 * 10^6 is exact with a long double pi (limit ~1.6 * 10^7)
     /// but not with a double pi (limit ~7.5 * 10^5), 200 sampled coefficients are checked exactly
     for (long long it = 0; it < stress::scaled(2); it++){
