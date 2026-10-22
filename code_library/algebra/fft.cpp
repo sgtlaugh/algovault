@@ -16,10 +16,10 @@
  * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
  *
  * Products have length n + m - 1, and an empty input gives an empty result
- * multiply and square use one transform while max(n, m) * max|value|^2 <= EXACT_LIMIT, about 9.2e16 with long double
+ * multiply and square run in double while max(n, m) * max|value|^2 <= DOUBLE_LIMIT, about 4.5e13, else in long double up to EXACT_LIMIT, about 9.2e16
  * Past EXACT_LIMIT they split values into 15 bit halves like ll_multiply, about 2x slower, and need |values| < LL_MULTIPLY_LIMIT
  * The string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
- * Memory: 2 complex arrays of the largest len used, the smallest power of two >= n + m, and 4 once a split product ran
+ * Memory: with len the smallest power of two >= n + m, 4 complex arrays of len / 2 per precision used, 4 of len once a split product ran
  *
  * Circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
  *   auto c = fft.multiply(a, b);
@@ -107,7 +107,8 @@ struct FFT{
     static constexpr int SPLIT_BITS = 15;
     static constexpr int LL_MULTIPLY_LIMIT = 1500000000;
 
-    /// Largest n_max * max|value|^2 that multiply and square keep exact in one double or long double transform
+    /// Largest n_max * max|value|^2 that multiply and square keep exact in one double or long double transform; all-equal
+    /// inputs first err near 2.7e14 and 3.8e17 up to n = 10^6, leaving 6x and 4x margins
     static constexpr double DOUBLE_LIMIT = 0.01 / numeric_limits<double>::epsilon();
     static constexpr long double EXACT_LIMIT = 0.01L / numeric_limits<long double>::epsilon();
 
