@@ -1,22 +1,24 @@
 #!/bin/bash
 # check_solution.sh <solution> <template> [<template> ...]
 # Checks a practice solution before it is submitted: the template copies come first and unchanged (POJ, UVa and HDU may adapt
-# them for C++11), the code after them has no comments and no warnings, and the file builds for its judge
+# them for C++11), fast_io.cpp is copied last, the code after them has no comments, no stdio or iostream and no warnings,
+# and the file builds for its judge
 set -uo pipefail
 solution=$1; shift
 bad=0
 cxx="${CXX:-g++}"
 
+# The trailing x keeps each copy's closing blank line, which command substitution would strip and so misjoin two copies
 prefix=""
 for template in "$@"; do
-    prefix+="$(awk '/^int main\(\)\{/{exit} {print}' "$template")"$'\n'
+    part=$(awk '/^int main\(\)\{/{exit} {print}' "$template"; printf x)
+    prefix+="${part%x}"
 done
-copy_lines=$(grep -c '' <<< "$prefix")
-copy_lines=$((copy_lines - 1))
+copy_lines=$(printf '%s' "$prefix" | grep -c '')
 old_judge=0
 [[ "$(basename "$solution")" =~ ^(poj|uva|hdu)_ ]] && old_judge=1
 
-if [[ "$(head -n "$copy_lines" "$solution")"$'\n' != "$prefix" ]]; then
+if ! cmp -s <(head -n "$copy_lines" "$solution") <(printf '%s' "$prefix"); then
     changed=$(diff <(printf '%s' "$prefix") <(head -n "$copy_lines" "$solution") | grep -c '^[<>]')
     if [[ $old_judge -eq 1 ]]; then
         echo "note: template copy differs in $changed lines, allowed only for C++11"
@@ -28,6 +30,11 @@ fi
 
 comments=$(awk -v n="$copy_lines" 'NR > n && /\/\/|\/\*/ {print NR": "$0}' "$solution")
 [[ -n "$comments" ]] && { echo "FAIL: comments after the template copy:"; echo "$comments"; bad=1; }
+
+# All input and output go through fio: scanf, printf, cin or cout next to its buffers would reorder the stream
+[[ " $* " == *"misc/fast_io.cpp "* ]] || { echo "FAIL: copy code_library/misc/fast_io.cpp last, after the other templates"; bad=1; }
+stdio=$(grep -nP '\b(scanf|printf|puts|gets|getchar|putchar|cin|cout)\b' "$solution" | awk -F: -v n="$copy_lines" '$1 > n')
+[[ -n "$stdio" ]] && { echo "FAIL: stdio or iostream after the template copy, use fio read and write:"; echo "$stdio"; bad=1; }
 
 warnings=$("$cxx" -std=c++17 -Wall -Wextra -fsyntax-only "$solution" 2>&1 | grep -P "^\Q$solution\E:\d+:\d+: warning" |
     awk -F: -v n="$copy_lines" '$2 > n')

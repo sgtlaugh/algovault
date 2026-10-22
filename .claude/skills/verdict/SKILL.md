@@ -16,12 +16,12 @@ Read the practice bullets of `CONTRIBUTING.md` (`## Adding a template`) and all 
 ## Steps
 
 1. **Problem.** Fetch the statement; when the judge blocks fetching, ask the user to paste it instead of guessing. Find its entry in `code_library/<topic>/README.md`: the `#### ` section header and the exact entry line. A problem missing from the README needs the user's approval before it is added.
-2. **Template.** Copy the section's template from `code_library/` byte for byte up to its `int main(){`, never from `practice/`. A solution on two templates copies both, in the order they are used.
+2. **Template.** Copy the section's template from `code_library/` byte for byte up to its `int main(){`, never from `practice/`. A solution on two templates copies both, in the order they are used. Every solution then copies `code_library/misc/fast_io.cpp` the same way, last, unless the section's template is that file: all input and output go through `fio`, about 8x faster than `scanf` for integers and strings and never slower.
 3. **C++11 for POJ, UVa and HDU.** These judges compile C++11 with GCC 5. Change the copy only where `check_solution.sh` reports an error, with the smallest fix from the table below, and keep every other line identical.
 4. **Solve.** Correctness first, then speed: pick the algorithm that fits the limits with room, and use the template's API as its header documents it. Write everything after the copies to `STYLE.md`: no comments, the user's habits, blank lines between steps.
 5. **Check:**
    ```bash
-   bash .claude/skills/verdict/scripts/check_solution.sh <solution> <template> [<template> ...]
+   bash .claude/skills/verdict/scripts/check_solution.sh <solution> <template> [<template> ...] code_library/misc/fast_io.cpp
    ```
    It must print `OK`. Then run the binary it built, `/tmp/verdict/solution`:
    - every sample, compared with `diff` against the expected output, exactly

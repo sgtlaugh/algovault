@@ -1,19 +1,20 @@
 # Practice solution style
 
-The code after the template copies reads like the user wrote it in a contest: short, plain, no comments. The excerpts at the end are the user's own accepted code; match them more than any rule here.
+The code after the template copies reads like the user wrote it in a contest: short, plain, no comments. The excerpts at the end are the user's own accepted code; match them more than any rule here. Their `scanf` and `printf` predate the `fio` rule: read them as `read` and `write`.
 For that code these rules replace CONTRIBUTING's `## API and code`, `## Style` and `main()` rules, which govern templates; CI's whitespace and brace checks still apply.
 
 ## Rules
 
 - No comments at all after the template copies
-- `scanf` / `printf` / `puts`, never `cin` / `cout`
+- Input and output only through the `fio` copy, with `using namespace fio;` first in `main`: `read(n, m)`, `write(res)`, `write(fixed(x, 6))` for a float; never `scanf`, `printf`, `puts`, `cin` or `cout`, which would reorder the stream
+- A line `write` cannot shape, like a field width or `Case 3: ` before the answer, is built with `snprintf(buf, sizeof(buf), "Case %d: %lld", ++T, res);` and written as `write(string(buf));`
 - Declare the loop and scratch variables at the top of the function, `int t, i, j, res;`, and loop with `for (i = 0; ...)`; a variable used in one small spot may be declared there
 - Never declare a variable that is not used
 - Fixed-size input lives in globals sized by a macro, `#define MAX 100010` and `int n, ar[MAX];`; use a `vector` when a template takes one
 - Small free functions above `main` for the steps, named for their job: `gen()`, `solve(k)`, `check()`, `is_equal()`
 - `int main(){` reads input, calls the steps, prints, and ends with `return 0;`
-- Test cases run as `scanf("%d", &t); while (t--){` or `while (scanf("%d", &n) != EOF){`, and `printf("Case %d: ...", ++T)` only when the problem asks for it
-- One-statement bodies go on the same line without braces: `for (i = 0; i < n; i++) scanf("%d", &ar[i]);`, `if (x > n) return false;`
+- Test cases run as `read(t); while (t--){` or `while (read(n)){`, with a `Case %d: ` prefix only when the problem asks for it
+- One-statement bodies go on the same line without braces: `for (i = 0; i < n; i++) read(ar[i]);`, `if (x > n) return false;`
 - Related assignments share a line with commas: `low = 0, high = n - 1;`
 - Parentheses make the order obvious: `if ((i + 1) < n)`, `res += (x * y)`; halving and parity use `>> 1` and `& 1`
 - Binary search is `while ((low + 1) < high)`, then check `low` and `high`
@@ -22,7 +23,7 @@ For that code these rules replace CONTRIBUTING's `## API and code`, `## Style` a
 - `clr(ar)` and `dbg(x)` may be defined and used, other macros only when they shorten something used several times; macros go right after the template copies:
   ```cpp
   #define clr(ar) memset(ar, 0, sizeof(ar))
-  #define dbg(x) cout << #x << " = " << x << endl
+  #define dbg(x) cerr << #x << " = " << x << endl
   ```
 - Nothing the excerpts never use: `auto [a, b]`, lambdas for code that runs once, `const auto&` everywhere, `std::` prefixes, `#define int long long`
 
