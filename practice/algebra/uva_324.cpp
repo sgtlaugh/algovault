@@ -42,11 +42,11 @@ struct Bignum{
     typedef vector<uint32_t> Limbs;
 
     bool neg = false;      /// false for zero, so 0 has one representation
-    vector<uint32_t> a;    /// limbs of 9 decimal digits each, value = sum a[i] * 10^(9i), no zero limbs at the top
+    Limbs limbs;           /// 9 decimal digits each, value = sum limbs[i] * 10^(9i), no zero limbs at the top
 
     Bignum(long long v = 0){
         neg = v < 0;
-        for (unsigned long long x = neg ? 0ULL - v : v; x; x /= BASE) a.push_back(x % BASE);
+        for (unsigned long long x = neg ? 0ULL - v : v; x; x /= BASE) limbs.push_back(x % BASE);
     }
 
     explicit Bignum(const string& s){
@@ -60,45 +60,20 @@ struct Bignum{
                 assert(isdigit(s[k]));
                 limb = limb * 10 + (s[k] - '0');
             }
-            a.push_back(limb);
+            limbs.push_back(limb);
         }
 
         trim();
     }
 
-    string to_string() const{
-        if (a.empty()) return "0";
-        string s = (neg ? "-" : "") + std::to_string(a.back());
-        size_t pos = s.size();
-        s.resize(pos + 9 * (a.size() - 1));
-
-        for (int i = (int)a.size() - 2; i >= 0; i--, pos += 9){
-            for (int k = 8, v = a[i]; k >= 0; k--, v /= 10) s[pos + k] = '0' + v % 10;
-        }
-
-        return s;
-    }
-
-    friend ostream& operator << (ostream& os, const Bignum& x){
-        return os << x.to_string();
-    }
-
-    friend istream& operator >> (istream& is, Bignum& x){
-        string s;
-        if (is >> s) x = Bignum(s);
-        return is;
-    }
-
-    Bignum operator - () const{
-        Bignum res = *this;
-        if (!res.a.empty()) res.neg = !res.neg;
-        return res;
+    Bignum(Limbs&& x, bool negative) : neg(negative), limbs(move(x)){
+        trim();
     }
 
     friend Bignum operator + (const Bignum& x, const Bignum& y){
-        if (x.neg == y.neg) return Bignum(add(x.a, y.a), x.neg);
-        if (cmp(x.a, y.a) >= 0) return Bignum(sub(x.a, y.a), x.neg);
-        return Bignum(sub(y.a, x.a), y.neg);
+        if (x.neg == y.neg) return Bignum(add(x.limbs, y.limbs), x.neg);
+        if (cmp(x.limbs, y.limbs) >= 0) return Bignum(sub(x.limbs, y.limbs), x.neg);
+        return Bignum(sub(y.limbs, x.limbs), y.neg);
     }
 
     friend Bignum operator - (const Bignum& x, const Bignum& y){
@@ -106,19 +81,25 @@ struct Bignum{
     }
 
     friend Bignum operator * (const Bignum& x, const Bignum& y){
-        return Bignum(mul(x.a, y.a), x.neg != y.neg);
+        return Bignum(mul(x.limbs, y.limbs), x.neg != y.neg);
     }
 
     friend Bignum operator / (const Bignum& x, const Bignum& y){
-        return Bignum(divmod(x.a, y.a).first, x.neg != y.neg);
+        return Bignum(divmod(x.limbs, y.limbs).first, x.neg != y.neg);
     }
 
     friend Bignum operator % (const Bignum& x, const Bignum& y){
-        return Bignum(divmod(x.a, y.a).second, x.neg);
+        return Bignum(divmod(x.limbs, y.limbs).second, x.neg);
     }
 
-    Bignum& operator += (const Bignum& y){ return add_signed(y.a, y.neg); }
-    Bignum& operator -= (const Bignum& y){ return add_signed(y.a, !y.neg); }
+    Bignum operator - () const{
+        Bignum res = *this;
+        if (!res.limbs.empty()) res.neg = !res.neg;
+        return res;
+    }
+
+    Bignum& operator += (const Bignum& y){ return add_signed(y.limbs, y.neg); }
+    Bignum& operator -= (const Bignum& y){ return add_signed(y.limbs, !y.neg); }
     Bignum& operator *= (const Bignum& y){ return *this = *this * y; }
     Bignum& operator /= (const Bignum& y){ return *this = *this / y; }
     Bignum& operator %= (const Bignum& y){ return *this = *this % y; }
@@ -127,7 +108,7 @@ struct Bignum{
     Bignum& operator *= (long long y){
         if (y <= -(long long)BASE || y >= (long long)BASE) return *this *= Bignum(y);
         if (y < 0) neg = !neg, y = -y;
-        mul_small(a, y);
+        mul_small(limbs, y);
         trim();
         return *this;
     }
@@ -136,7 +117,7 @@ struct Bignum{
         assert(y != 0);
         if (y <= -(long long)BASE || y >= (long long)BASE) return *this /= Bignum(y);
         if (y < 0) neg = !neg, y = -y;
-        divmod_small(a, y);
+        divmod_small(limbs, y);
         trim();
         return *this;
     }
@@ -144,36 +125,60 @@ struct Bignum{
     Bignum& operator %= (long long y){
         assert(y != 0);
         if (y <= -(long long)BASE || y >= (long long)BASE) return *this %= Bignum(y);
-        uint32_t r = divmod_small(a, y < 0 ? -y : y);
-        a.assign(r ? 1 : 0, r);
+        uint32_t r = divmod_small(limbs, y < 0 ? -y : y);
+        limbs.assign(r ? 1 : 0, r);
         trim();
         return *this;
     }
 
-    friend bool operator == (const Bignum& x, const Bignum& y){ return x.neg == y.neg && x.a == y.a; }
+    friend bool operator == (const Bignum& x, const Bignum& y){ return x.neg == y.neg && x.limbs == y.limbs; }
     friend bool operator != (const Bignum& x, const Bignum& y){ return !(x == y); }
     friend bool operator < (const Bignum& x, const Bignum& y){
         if (x.neg != y.neg) return x.neg;
-        return x.neg ? cmp(y.a, x.a) < 0 : cmp(x.a, y.a) < 0;
+        return x.neg ? cmp(y.limbs, x.limbs) < 0 : cmp(x.limbs, y.limbs) < 0;
     }
     friend bool operator > (const Bignum& x, const Bignum& y){ return y < x; }
     friend bool operator <= (const Bignum& x, const Bignum& y){ return !(y < x); }
     friend bool operator >= (const Bignum& x, const Bignum& y){ return !(x < y); }
 
-    Bignum(Limbs&& limbs, bool negative) : neg(negative), a(move(limbs)){
-        trim();
+    string to_string() const{
+        if (limbs.empty()) return "0";
+        string s = (neg ? "-" : "") + std::to_string(limbs.back());
+        size_t pos = s.size();
+        s.resize(pos + 9 * (limbs.size() - 1));
+
+        for (int i = (int)limbs.size() - 2; i >= 0; i--){
+            uint32_t v = limbs[i];
+            for (int k = 8; k >= 0; k--){
+                s[pos + k] = '0' + v % 10;
+                v /= 10;
+            }
+            pos += 9;
+        }
+
+        return s;
+    }
+
+    friend istream& operator >> (istream& is, Bignum& x){
+        string s;
+        if (is >> s) x = Bignum(s);
+        return is;
+    }
+
+    friend ostream& operator << (ostream& os, const Bignum& x){
+        return os << x.to_string();
     }
 
     Bignum& add_signed(const Limbs& y, bool y_neg){
         if (neg == y_neg){
-            a.resize(max(a.size(), y.size()) + 1);
-            add_to(a, y, 0);
+            limbs.resize(max(limbs.size(), y.size()) + 1);
+            add_to(limbs, y, 0);
         }
-        else if (cmp(a, y) >= 0) sub_from(a, y);
+        else if (cmp(limbs, y) >= 0) sub_from(limbs, y);
         else{
             Limbs d = y;
-            sub_from(d, a);
-            a = move(d), neg = y_neg;
+            sub_from(d, limbs);
+            limbs = move(d), neg = y_neg;
         }
 
         trim();
@@ -181,8 +186,8 @@ struct Bignum{
     }
 
     void trim(){
-        while (!a.empty() && !a.back()) a.pop_back();
-        if (a.empty()) neg = false;
+        trim(limbs);
+        if (limbs.empty()) neg = false;
     }
 
     static void trim(Limbs& x){
@@ -227,7 +232,7 @@ struct Bignum{
         }
     }
 
-    /// x -= y, requires x >= y
+    /// Requires x >= y
     static void sub_from(Limbs& x, const Limbs& y){
         int borrow = 0;
         size_t i = 0;
@@ -241,127 +246,6 @@ struct Bignum{
             borrow = x[i] == 0;
             x[i] = borrow ? BASE - 1 : x[i] - 1;
         }
-    }
-
-    /// Rows accumulate in 64 bits and fold carries every 18 rows, since 18 * (BASE - 1)^2 < 2^64
-    /// Only the window touched since the last fold is normalized, ~1.5x faster than summing whole columns in 128 bits
-    static Limbs mul_schoolbook(const Limbs& x, const Limbs& y){
-        if (x.empty() || y.empty()) return {};
-        size_t n = x.size(), m = y.size();
-        vector<unsigned long long> acc(n + m + 1);
-
-        for (size_t i = 0, last = 0; i < n; i++){
-            unsigned long long xi = x[i], *r = acc.data() + i;
-            for (size_t j = 0; j < m; j++) r[j] += xi * y[j];
-            if (i - last == 17 || i == n - 1){
-                unsigned long long carry = 0;
-                for (size_t k = last; k < i + m || carry; k++){
-                    unsigned long long t = acc[k] + carry;
-                    acc[k] = t % BASE, carry = t / BASE;
-                }
-                last = i + 1;
-            }
-        }
-
-        Limbs res(acc.begin(), acc.end() - 1);
-        trim(res);
-        return res;
-    }
-
-    template<uint32_t MOD>
-    static uint32_t pow_mod(unsigned long long b, unsigned long long e){
-        unsigned long long res = 1;
-        for (b %= MOD; e; e >>= 1, b = b * b % MOD){
-            if (e & 1) res = res * b % MOD;
-        }
-        return res;
-    }
-
-    /// rt[len + j] = w^j for the primitive 2 * len-th root of unity w (inverted if inverse), len = 1, 2, 4, ... < n
-    template<uint32_t MOD>
-    static vector<uint32_t> ntt_roots(size_t n, bool inverse){
-        vector<uint32_t> rt(max<size_t>(n, 2));
-        for (size_t len = 1; len < n; len <<= 1){
-            unsigned long long w = pow_mod<MOD>(3, (MOD - 1) / (2 * len));
-            if (inverse) w = pow_mod<MOD>(w, MOD - 2);
-
-            rt[len] = 1;
-            for (size_t j = 1; j < len; j++) rt[len + j] = rt[len + j - 1] * w % MOD;
-        }
-
-        return rt;
-    }
-
-    /// The forward pass (decimation in frequency) leaves f in bit reversed order and the inverse pass (decimation in time)
-    /// takes it in that order, so pointwise products between them need no bit reversal permutation
-    template<uint32_t MOD>
-    static void ntt(vector<uint32_t>& f, const vector<uint32_t>& rt, bool inverse){
-        size_t n = f.size();
-        if (!inverse){
-            for (size_t len = n >> 1; len; len >>= 1){
-                for (size_t i = 0; i < n; i += 2 * len){
-                    for (size_t j = 0; j < len; j++){
-                        uint32_t u = f[i + j], v = f[i + j + len];
-                        f[i + j] = u + v >= MOD ? u + v - MOD : u + v;
-                        f[i + j + len] = (unsigned long long)(u + MOD - v) * rt[len + j] % MOD;
-                    }
-                }
-            }
-            return;
-        }
-
-        for (size_t len = 1; len < n; len <<= 1){
-            for (size_t i = 0; i < n; i += 2 * len){
-                for (size_t j = 0; j < len; j++){
-                    uint32_t u = f[i + j], v = (unsigned long long)f[i + j + len] * rt[len + j] % MOD;
-                    f[i + j] = u + v >= MOD ? u + v - MOD : u + v;
-                    f[i + j + len] = u >= v ? u - v : u + MOD - v;
-                }
-            }
-        }
-    }
-
-    /// Cyclic convolution of x and y modulo MOD with n points, n a power of 2 dividing MOD - 1
-    template<uint32_t MOD>
-    static vector<uint32_t> convolve_mod(const Limbs& x, const Limbs& y, size_t n){
-        vector<uint32_t> fx(n), fy(n);
-        for (size_t i = 0; i < x.size(); i++) fx[i] = x[i] % MOD;
-        for (size_t i = 0; i < y.size(); i++) fy[i] = y[i] % MOD;
-
-        vector<uint32_t> rt = ntt_roots<MOD>(n, false);
-        ntt<MOD>(fx, rt, false), ntt<MOD>(fy, rt, false);
-
-        unsigned long long inv_n = pow_mod<MOD>(n, MOD - 2);
-        for (size_t i = 0; i < n; i++) fx[i] = (unsigned long long)fx[i] * fy[i] % MOD * inv_n % MOD;
-
-        ntt<MOD>(fx, ntt_roots<MOD>(n, true), true);
-        return fx;
-    }
-
-    /// Three prime NTT, each with primitive root 3 and 2^23 | p - 1
-    /// Every coefficient is below min(n, m) * BASE^2 <= 2^22 * 10^18 < P1 * P2 * P3 ~ 7.9 * 10^25, so the CRT is exact
-    static Limbs mul_ntt(const Limbs& x, const Limbs& y){
-        const uint32_t P1 = 998244353, P2 = 167772161, P3 = 469762049;
-        size_t len = x.size() + y.size() - 1, n = 1;
-        while (n < len) n <<= 1;
-
-        vector<uint32_t> r1 = convolve_mod<P1>(x, y, n), r2 = convolve_mod<P2>(x, y, n), r3 = convolve_mod<P3>(x, y, n);
-
-        const unsigned long long inv1 = pow_mod<P2>(P1, P2 - 2), p12 = (unsigned long long)P1 * P2;
-        const unsigned long long inv12 = pow_mod<P3>(p12, P3 - 2);
-        Limbs res(len + 1);
-        unsigned __int128 carry = 0;
-        for (size_t i = 0; i < len; i++){
-            unsigned long long a1 = r1[i];
-            unsigned long long a2 = (r2[i] + P2 - a1 % P2) * inv1 % P2;
-            unsigned long long a3 = (r3[i] + P3 - (a1 + a2 * P1) % P3) * inv12 % P3;
-            carry += a1 + a2 * P1 + (unsigned __int128)a3 * p12;
-            res[i] = carry % BASE, carry /= BASE;
-        }
-
-        res[len] = carry;
-        trim(res);
-        return res;
     }
 
     static Limbs mul(const Limbs& x, const Limbs& y){
@@ -405,20 +289,6 @@ struct Bignum{
         return res;
     }
 
-    static uint32_t divmod_small(Limbs& x, uint32_t d){
-        /// One reciprocal turns each 64-bit division into a multiply: inv underestimates 2^64 / d, so q is low by at most 1
-        unsigned long long inv = ~0ULL / d, rem = 0;
-        for (int i = (int)x.size() - 1; i >= 0; i--){
-            unsigned long long cur = rem * BASE + x[i], q = (unsigned __int128)cur * inv >> 64;
-            rem = cur - q * d;
-            if (rem >= d) q++, rem -= d;
-            x[i] = q;
-        }
-
-        trim(x);
-        return rem;
-    }
-
     /// Always appends the carry limb, even 0, since Knuth D's normalized dividend needs that extra top limb
     static void mul_small(Limbs& x, uint32_t f){
         unsigned long long carry = 0;
@@ -428,6 +298,127 @@ struct Bignum{
         }
 
         x.push_back(carry);
+    }
+
+    /// Rows accumulate in 64 bits and fold carries every 18 rows, since 18 * (BASE - 1)^2 < 2^64
+    /// Only the window touched since the last fold is normalized, ~1.5x faster than summing whole columns in 128 bits
+    static Limbs mul_schoolbook(const Limbs& x, const Limbs& y){
+        if (x.empty() || y.empty()) return {};
+        size_t n = x.size(), m = y.size();
+        vector<unsigned long long> acc(n + m + 1);
+
+        for (size_t i = 0, last = 0; i < n; i++){
+            unsigned long long xi = x[i], *r = acc.data() + i;
+            for (size_t j = 0; j < m; j++) r[j] += xi * y[j];
+            if (i - last == 17 || i == n - 1){
+                unsigned long long carry = 0;
+                for (size_t k = last; k < i + m || carry; k++){
+                    unsigned long long t = acc[k] + carry;
+                    acc[k] = t % BASE, carry = t / BASE;
+                }
+                last = i + 1;
+            }
+        }
+
+        Limbs res(acc.begin(), acc.end() - 1);
+        trim(res);
+        return res;
+    }
+
+    /// Three prime NTT, each with primitive root 3 and 2^23 | p - 1
+    /// Every coefficient is below min(n, m) * BASE^2 <= 2^22 * 10^18 < P1 * P2 * P3 ~ 7.9 * 10^25, so the CRT is exact
+    static Limbs mul_ntt(const Limbs& x, const Limbs& y){
+        const uint32_t P1 = 998244353, P2 = 167772161, P3 = 469762049;
+        size_t len = x.size() + y.size() - 1, n = 1;
+        while (n < len) n <<= 1;
+
+        vector<uint32_t> r1 = convolve_mod<P1>(x, y, n), r2 = convolve_mod<P2>(x, y, n), r3 = convolve_mod<P3>(x, y, n);
+
+        const unsigned long long inv1 = pow_mod<P2>(P1, P2 - 2), p12 = (unsigned long long)P1 * P2;
+        const unsigned long long inv12 = pow_mod<P3>(p12, P3 - 2);
+        Limbs res(len + 1);
+        unsigned __int128 carry = 0;
+        for (size_t i = 0; i < len; i++){
+            unsigned long long a1 = r1[i];
+            unsigned long long a2 = (r2[i] + P2 - a1 % P2) * inv1 % P2;
+            unsigned long long a3 = (r3[i] + P3 - (a1 + a2 * P1) % P3) * inv12 % P3;
+            carry += a1 + a2 * P1 + (unsigned __int128)a3 * p12;
+            res[i] = carry % BASE, carry /= BASE;
+        }
+
+        res[len] = carry;
+        trim(res);
+        return res;
+    }
+
+    /// Cyclic convolution of x and y modulo MOD with n points, n a power of 2 dividing MOD - 1
+    template<uint32_t MOD>
+    static vector<uint32_t> convolve_mod(const Limbs& x, const Limbs& y, size_t n){
+        vector<uint32_t> fx(n), fy(n);
+        for (size_t i = 0; i < x.size(); i++) fx[i] = x[i] % MOD;
+        for (size_t i = 0; i < y.size(); i++) fy[i] = y[i] % MOD;
+
+        vector<uint32_t> rt = ntt_roots<MOD>(n, false);
+        ntt<MOD>(fx, rt, false), ntt<MOD>(fy, rt, false);
+
+        unsigned long long inv_n = pow_mod<MOD>(n, MOD - 2);
+        for (size_t i = 0; i < n; i++) fx[i] = (unsigned long long)fx[i] * fy[i] % MOD * inv_n % MOD;
+
+        ntt<MOD>(fx, ntt_roots<MOD>(n, true), true);
+        return fx;
+    }
+
+    /// rt[len + j] = w^j for the primitive 2 * len-th root of unity w (inverted if inverse), len = 1, 2, 4, ... < n
+    template<uint32_t MOD>
+    static vector<uint32_t> ntt_roots(size_t n, bool inverse){
+        vector<uint32_t> rt(max<size_t>(n, 2));
+        for (size_t len = 1; len < n; len <<= 1){
+            unsigned long long w = pow_mod<MOD>(3, (MOD - 1) / (2 * len));
+            if (inverse) w = pow_mod<MOD>(w, MOD - 2);
+
+            rt[len] = 1;
+            for (size_t j = 1; j < len; j++) rt[len + j] = rt[len + j - 1] * w % MOD;
+        }
+
+        return rt;
+    }
+
+    template<uint32_t MOD>
+    static uint32_t pow_mod(unsigned long long b, unsigned long long e){
+        unsigned long long res = 1;
+        for (b %= MOD; e; e >>= 1, b = b * b % MOD){
+            if (e & 1) res = res * b % MOD;
+        }
+        return res;
+    }
+
+    /// The forward pass (decimation in frequency) leaves f in bit reversed order and the inverse pass (decimation in time)
+    /// takes it in that order, so pointwise products between them need no bit reversal permutation
+    template<uint32_t MOD>
+    static void ntt(vector<uint32_t>& f, const vector<uint32_t>& rt, bool inverse){
+        size_t n = f.size();
+        if (!inverse){
+            for (size_t len = n >> 1; len; len >>= 1){
+                for (size_t i = 0; i < n; i += 2 * len){
+                    for (size_t j = 0; j < len; j++){
+                        uint32_t u = f[i + j], v = f[i + j + len];
+                        f[i + j] = u + v >= MOD ? u + v - MOD : u + v;
+                        f[i + j + len] = (unsigned long long)(u + MOD - v) * rt[len + j] % MOD;
+                    }
+                }
+            }
+            return;
+        }
+
+        for (size_t len = 1; len < n; len <<= 1){
+            for (size_t i = 0; i < n; i += 2 * len){
+                for (size_t j = 0; j < len; j++){
+                    uint32_t u = f[i + j], v = (unsigned long long)f[i + j + len] * rt[len + j] % MOD;
+                    f[i + j] = u + v >= MOD ? u + v - MOD : u + v;
+                    f[i + j + len] = u >= v ? u - v : u + MOD - v;
+                }
+            }
+        }
     }
 
     /// Returns {|x| / |y|, |x| % |y|}
@@ -445,14 +436,43 @@ struct Bignum{
         return divmod_knuth(x, y);
     }
 
-    static Limbs shift_left(const Limbs& x, size_t k){
-        Limbs res(k + x.size());
-        copy(x.begin(), x.end(), res.begin() + k);
-        return res;
+    static uint32_t divmod_small(Limbs& x, uint32_t d){
+        /// One reciprocal turns each 64-bit division into a multiply: inv underestimates 2^64 / d, so q is low by at most 1
+        unsigned long long inv = ~0ULL / d, rem = 0;
+        for (int i = (int)x.size() - 1; i >= 0; i--){
+            unsigned long long cur = rem * BASE + x[i], q = (unsigned __int128)cur * inv >> 64;
+            rem = cur - q * d;
+            if (rem >= d) q++, rem -= d;
+            x[i] = q;
+        }
+
+        trim(x);
+        return rem;
     }
 
-    static Limbs shift_right(const Limbs& x, size_t k){
-        return k >= x.size() ? Limbs{} : Limbs(x.begin() + k, x.end());
+    static pair<Limbs, Limbs> divmod_newton(const Limbs& x, const Limbs& y){
+        size_t n = x.size(), m = y.size(), L = n - m + 2;
+        if (m >= L){
+            /// Dropping the low m - L limbs of both moves the quotient by at most 1, since it is below BASE^(L - 1)
+            /// and the shortened divisor is at least BASE^(L - 1)
+            Limbs ys = shift_right(y, m - L);
+            return fix_quotient(x, y, shift_right(mul(shift_right(x, m - L), reciprocal(ys)), 2 * L));
+        }
+
+        /// Long division in base BASE^m: each window is below y * BASE^m, so its quotient fits in one m limb digit
+        Limbs inv = reciprocal(y), q(n), r;
+        for (size_t b = (n - 1) / m + 1; b-- > 0;){
+            Limbs cur = shift_left(r, m);
+            copy(x.begin() + b * m, x.begin() + min(n, (b + 1) * m), cur.begin());
+            trim(cur);
+
+            pair<Limbs, Limbs> step = fix_quotient(cur, y, shift_right(mul(cur, inv), 2 * m));
+            copy(step.first.begin(), step.first.end(), q.begin() + b * m);
+            r = move(step.second);
+        }
+
+        trim(q);
+        return {q, r};
     }
 
     /// floor(BASE^(2L) / y) for y with L limbs, give or take a few units
@@ -482,29 +502,14 @@ struct Bignum{
         return below ? sub(res, correction) : add(res, correction);
     }
 
-    static pair<Limbs, Limbs> divmod_newton(const Limbs& x, const Limbs& y){
-        size_t n = x.size(), m = y.size(), L = n - m + 2;
-        if (m >= L){
-            /// Dropping the low m - L limbs of both moves the quotient by at most 1, since it is below BASE^(L - 1)
-            /// and the shortened divisor is at least BASE^(L - 1)
-            Limbs ys = shift_right(y, m - L);
-            return fix_quotient(x, y, shift_right(mul(shift_right(x, m - L), reciprocal(ys)), 2 * L));
-        }
+    static Limbs shift_right(const Limbs& x, size_t k){
+        return k >= x.size() ? Limbs{} : Limbs(x.begin() + k, x.end());
+    }
 
-        /// Long division in base BASE^m: each window is below y * BASE^m, so its quotient fits in one m limb digit
-        Limbs inv = reciprocal(y), q(n), r;
-        for (size_t b = (n - 1) / m + 1; b-- > 0;){
-            Limbs cur = shift_left(r, m);
-            copy(x.begin() + b * m, x.begin() + min(n, (b + 1) * m), cur.begin());
-            trim(cur);
-
-            pair<Limbs, Limbs> step = fix_quotient(cur, y, shift_right(mul(cur, inv), 2 * m));
-            copy(step.first.begin(), step.first.end(), q.begin() + b * m);
-            r = move(step.second);
-        }
-
-        trim(q);
-        return {q, r};
+    static Limbs shift_left(const Limbs& x, size_t k){
+        Limbs res(k + x.size());
+        copy(x.begin(), x.end(), res.begin() + k);
+        return res;
     }
 
     /// Steps an estimate q, off by a few units, to the exact quotient using the remainder x - q * y
