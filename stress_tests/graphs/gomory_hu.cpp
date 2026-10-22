@@ -60,8 +60,7 @@ GomoryHu build_tree(int n, const vector<Link>& links){
     return g;
 }
 
-/// Every pair against a reference min cut, each tree edge carries the cut between its endpoints,
-/// and the subtree below each tree edge is a side of the graph whose cut equals the edge weight
+/// Every pair against a reference min cut, and the subtree below each tree edge is a side whose cut equals its weight
 template<typename Reference>
 void check_all_pairs(int n, const vector<Link>& links, Reference reference){
     GomoryHu g = build_tree(n, links);

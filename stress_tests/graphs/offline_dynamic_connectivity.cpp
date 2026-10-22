@@ -29,7 +29,6 @@ vector<int> bfs_labels(int n, const vector<pair<int, int>>& live){
 }
 
 /// Random operations, every query whose index check_every divides is compared against a BFS recount
-/// On reuse runs solve() is also called halfway, so the final solve() checks it consumed nothing
 void run(int n, int ops, int check_every, bool reuse){
     DynamicConnectivity dc(n);
     vector<pair<int, int>> live;
@@ -41,7 +40,7 @@ void run(int n, int ops, int check_every, bool reuse){
     };
 
     for (int i = 0; i < ops; i++){
-        if (reuse && i == ops / 2) check();
+        if (reuse && i == ops / 2) check();  /// the final solve() then checks this one consumed nothing
 
         int type = n == 0 ? 4 : stress::rand_int(0, 5);
 
@@ -99,9 +98,7 @@ int main(){
     assert(path.solve() == vector<int>(len, 1));
     assert(clock() - start < 2 * CLOCKS_PER_SEC);
 
-    /// Two permanent sets of size half + 1 and half are joined in every other leaf and rolled back each time
-    /// A rollback that leaves the larger root's size inflated grows it by half per leaf, past INT_MAX here
-    /// Within int range stale sizes still double per level of depth, so only the overflow is observable
+    /// Sets of size half + 1 and half joined and rolled back per leaf: a stale root size grows by half each time, past INT_MAX, its only visible symptom
     int half = 1 << 16;
     DynamicConnectivity sets(2 * half + 1);
     for (int i = 1; i <= half; i++) sets.add_edge(0, i), sets.add_edge(half + 1, half + i);

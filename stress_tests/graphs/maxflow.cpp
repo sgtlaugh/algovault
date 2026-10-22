@@ -177,7 +177,7 @@ int main(){
         check_flow(g, flow + extra);
     }
 
-    /// Found by search: reaching flow 3 here needs a reverse edge to cancel earlier flow, without one both get 2
+    /// Reaching flow 3 here needs a reverse edge to cancel earlier flow, without one both get 2
     {
         vector<Arc> arcs = {{0, 2, 1}, {0, 1, 1}, {1, 3, 3}, {0, 3, 1}, {3, 2, 2}, {3, 5, 2}, {4, 5, 1}, {4, 2, 1}, {1, 4, 2}, {3, 0, 3}, {2, 3, 2}};
         FlowGraph g(6, 0, 5);
@@ -231,7 +231,7 @@ int main(){
         check_cut(g.flowgraph, flow, arcs);
     }
 
-    /// Node splitting doubles the node count, past the old fixed MAXN = 50010 arrays at n > 25005
+    /// Node splitting doubles the node count, so storage sized for n nodes overflows
     {
         int n = 30000;
         vector<long long> node_cap(n, 1);
@@ -241,7 +241,7 @@ int main(){
         assert(g.maxflow() == n - 2);
     }
 
-    /// Recursion as deep as the src to sink distance overflowed the 8 MB stack: parallel chains of 200000 nodes each
+    /// Chains of 200000 nodes: recursion as deep as the src to sink distance overflows the 8 MB stack
     {
         int chains = 3, len = 200000, src = chains * len, sink = src + 1;
         FlowGraph g(chains * len + 2, src, sink);
@@ -306,10 +306,6 @@ int main(){
     }
 
     /// Library Checker's cycle matching: left i to right i and i + 1 mod n under shuffled labels, ~150 phases with augmenting paths up to 2n long
-    /// maxflow() is timed in CPU time against BFS passes reading E through adj ids, the old code's access pattern, run half before and half after
-    /// so machine load slows both alike. Wall time against a fixed 2 s failed with 6 sanitizer builds in parallel: maxflow() took 3.5 s to 7 s, 0.6 s idle
-    /// maxflow() / BFS time under the sanitizers, 6 to 12 copies in parallel at load ~10: 1.7 to 2.4, the old code 5.5 to 6.5, a forward walk over the flat arcs 3.7
-    /// (-O2: 0.8, 10, 3.6), so the 4x bound catches a return to the old code, not the direction alone
     {
         int n = 50000, src = 2 * n, sink = 2 * n + 1;
         vector<int> left(n), right(n);
@@ -324,6 +320,7 @@ int main(){
         for (int i = 0; i < n; i++) g.add_directed_edge(src, i, 1), g.add_directed_edge(n + i, sink, 1);
         for (auto [a, b] : edges) g.add_directed_edge(left[a], n + right[b], 1);
 
+        /// BFS reading E through adj ids, the old code's access pattern
         vector<int> dis(g.n), queue(g.n);
         auto bfs_passes = [&](int passes){
             for (int p = 0; p < passes; p++){
@@ -338,6 +335,7 @@ int main(){
             }
         };
 
+        /// CPU time with BFS passes half before and half after maxflow(), so machine load slows both alike
         clock_t t0 = clock();
         bfs_passes(10);
         clock_t t1 = clock();
@@ -345,7 +343,7 @@ int main(){
         clock_t t2 = clock();
         bfs_passes(10);
         clock_t t3 = clock();
-        assert(t2 - t1 < 4 * (t1 - t0 + t3 - t2));
+        assert(t2 - t1 < 4 * (t1 - t0 + t3 - t2));  /// 4x sits between this code and the old one, sanitizers included
         check_flow(g, n);
     }
     return 0;

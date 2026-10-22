@@ -85,7 +85,7 @@ int main(){
         assert(res.first == hungarian(t, minimize).first);
     }
 
-    /// Tall inputs used to cost O(row^2 * col), this one took 27 s before the internal transpose
+    /// A tall input costs O(row^2 * col) unless the solver transposes it internally
     for (int minimize = 0; minimize < 2; minimize++){
         auto tall = random_matrix<long long>(3000, 50, -1000000, 1000000);
         vector<vector<long long>> wide(50, vector<long long>(3000));

@@ -6,8 +6,7 @@
 
 const long long INF = FloydWarshall::INF, NEG_INF = FloydWarshall::NEG_INF;
 
-/// Bellman Ford from s: after n - 1 rounds an edge that still relaxes ends on a vertex that a negative cycle reaches,
-/// and everything reachable from such a vertex is NEG_INF
+/// Bellman Ford from s: everything reachable from an edge that still relaxes after n - 1 rounds is NEG_INF
 vector<long long> bellman_ford(int n, const vector<array<long long, 3>>& edges, int s){
     vector<long long> d(n, INF);
     d[s] = 0;
@@ -60,8 +59,7 @@ void check(int n, const vector<array<long long, 3>>& edges){
 }
 
 int main(){
-    /// Every graph on up to 3 vertices with edge weights from {absent, -1, 0, 2} and self loops from {absent, -1},
-    /// a non-negative self loop never changes a distance
+    /// Every graph on up to 3 vertices with edge weights from {absent, -1, 0, 2}
     const long long choices[4] = {INF, -1, 0, 2};
     for (int n = 0; n <= 3; n++){
         int cells = n * n, total = 1;
@@ -70,7 +68,7 @@ int main(){
             vector<array<long long, 3>> edges;
             bool skip = false;
             for (int i = 0, x = mask; i < cells; i++, x /= 4){
-                if (i / n == i % n && x % 4 > 1) skip = true;
+                if (i / n == i % n && x % 4 > 1) skip = true;  /// a non-negative self loop never changes a distance
                 if (x % 4) edges.push_back({i / n, i % n, choices[x % 4]});
             }
             if (!skip) check(n, edges);

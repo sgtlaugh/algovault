@@ -22,8 +22,7 @@ int brute(int n, const vector<int>& adj_mask){
     return best(0);
 }
 
-/// The rank test errs with probability at most n / mod ~ 1e-8 per call and only ever underestimates, but a nightly
-/// run makes ~1e5 calls, so a short answer is redrawn twice before it counts as a bug
+/// The rank test only underestimates, at most n / mod ~ 1e-8 per call, but a nightly run makes ~1e5 calls: short answers retry twice
 int matching(TutteMatching& g, int want){
     int got = g.maximum_matching();
     for (int retry = 0; retry < 2 && got < want; retry++) got = g.maximum_matching();
@@ -80,13 +79,13 @@ void exhaustive_small(){
     }
 }
 
-/// Larger graphs, Blossom (given some edges twice) against the Tutte rank: random sparse ones, odd cycles chained by bridges (nested blossoms),
-/// and up to 400 vertices with about one edge per vertex, where augmenting paths run long through big blossoms
+/// Larger graphs, Blossom (given some edges twice) against the Tutte rank
 void random_large(){
     for (long long it = 0; it < stress::scaled(450); it++){
+        /// it % 3 == 2 has about one edge per vertex, where augmenting paths run long through big blossoms
         int n = it % 3 == 2 ? stress::rand_int(100, 400) : stress::rand_int(2, 120);
         vector<pair<int, int>> edges;
-        if (it % 3 == 1){
+        if (it % 3 == 1){  /// odd cycles chained by bridges nest blossoms
             for (int start = 0; start < n;){
                 int len = min(n - start, 2 * (int)stress::rand_int(1, 4) + 1);
                 for (int i = 0; i < len; i++){

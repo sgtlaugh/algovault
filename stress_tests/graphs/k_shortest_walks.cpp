@@ -7,7 +7,6 @@
 using Edges = vector<array<long long, 3>>;
 
 /// Enumerates walk prefixes best-first, needs weights >= 1: a zero weight cycle before t would be popped forever
-/// Parallel cheap loops make the prefix count explode, so it gives up (complete = false) after 3e6 pushes
 vector<long long> enumerate_walks(int n, const Edges& edges, int s, int t, int k, bool& complete){
     vector<char> reaches_t(n, 0);
     reaches_t[t] = 1;
@@ -30,7 +29,7 @@ vector<long long> enumerate_walks(int n, const Edges& edges, int s, int t, int k
         for (auto [x, v, w] : edges){
             if (x == u && reaches_t[v]) prefixes.push({len + w, (int)v}), pushed++;
         }
-        if (pushed >= 3000000){
+        if (pushed >= 3000000){  /// parallel cheap loops make the prefix count explode
             complete = false;
             break;
         }

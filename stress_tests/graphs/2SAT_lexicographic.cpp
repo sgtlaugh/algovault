@@ -81,34 +81,30 @@ void check_greedy(int n, const vector<Clause>& clauses){
     if (sat) assert(g.get_assignment() == expected);
 }
 
-/// x_i = true walks the whole chain p, so attempts blow the budget and SCC, the topological shortcut and bitset batches
-/// all run; a random length prefix reaches !x_i and is wasted work, so SCC starts at varying points, later x may skip
-/// x_i -> p_1 and then must not reach !x_i, while p_k -> !x_i keeps them off the shortcut
-/// A few forced false x fail within the budget after SCC, noise only adds !x_a or !x_b, which never forces an x true
+/// x_i = true walks the whole chain p, so attempts blow the budget and SCC, the topological shortcut and bitset batches all run
 vector<Clause> adversarial(int n, int k, bool contradiction){
     vector<Clause> clauses;
-    /// The SCC switch happens once the waste of failed attempts (~k + n each) passes ~2 (vars + clauses), aim the
-    /// reaching prefix near that point so the switch also lands on non-reaching x, whose answer is true
+    /// SCC starts once failed attempts (~k + n each) waste ~2 (vars + clauses), a reaching prefix near there starts it on true x too
     long long size = 2LL * (n + k) + 2LL * (k + 2 * n);
     int reaching = max(1LL, min<long long>(n / 2, size / (k + n) + stress::rand_int(-3, 2)));
     if (stress::rand_int(0, 2) == 0) reaching = stress::rand_int(1, n / 2);
 
     for (int j = 1; j < k; j++) clauses.push_back({-(n + j), n + j + 1});
     for (int i = 1; i <= n; i++){
+        /// past the reaching prefix x_i may skip x_i -> p_1, and then must not reach !x_i
         if (i <= reaching || stress::rand_int(0, 1)) clauses.push_back({-i, n + 1});
+        /// p_k -> !x_i keeps them off the topological shortcut
         clauses.push_back({-(n + k), -i});
+        /// a few forced false x fail within the budget after SCC
         if (i > reaching && stress::rand_int(0, 9) == 0) clauses.push_back({-i, -i});
     }
+    /// noise only adds !x_a or !x_b, which never forces an x true
     for (int extra = stress::rand_int(0, n / 4); extra; extra--) clauses.push_back({-stress::rand_int(1, n), -stress::rand_int(1, n)});
     if (contradiction) clauses.push_back({n, n});  /// the last x, reached only after the waste has paid for SCC
     return clauses;
 }
 
-/// Shuffled signed literals form segments, half of them made positive ascending, false in a hidden assignment except p:
-/// a chain l_1 -> ... -> l_k -> !l_k, half the time with a forced false decoy d -> !l_k so Tarjan meets the negated
-/// chain first, or a hub, sources s -> p_1 -> ... -> p_k -> !s forcing each s false with no s an ancestor of another,
-/// so each takes its own batch query. Variables 1..tail are a true chain fixed first, which chain literals point into,
-/// so batches run into decided components
+/// Segments of shuffled signed literals, false in a hidden assignment except the hub paths p
 vector<Clause> chains(int n){
     int tail = stress::rand_int(0, n / 4), vars = tail + n;
     vector<int> lit(n);
@@ -117,6 +113,7 @@ vector<Clause> chains(int n){
 
     vector<Clause> clauses;
     vector<char> hidden(vars + n + 1, 0), plain(vars + 1, 1);  /// hidden[x]: x is true, room for one decoy per segment
+    /// 1..tail is a true chain fixed first that chain literals point into, so batches run into decided components
     for (int x = 1; x <= tail; x++){
         hidden[x] = 1;
         if (x < tail) clauses.push_back({-x, x + 1});
@@ -128,19 +125,19 @@ vector<Clause> chains(int n){
             for (int i = start; i < end; i++) lit[i] = abs(lit[i]), plain[lit[i]] = 0;
             sort(lit.begin() + start, lit.begin() + end);
         }
-        if (stress::rand_int(0, 2) || end - start < 2){
+        if (stress::rand_int(0, 2) || end - start < 2){  /// a chain l_1 -> ... -> l_k -> !l_k
             for (int i = start; i < end; i++){
                 hidden[abs(lit[i])] = lit[i] < 0;
                 if (i + 1 < end) clauses.push_back({-lit[i], lit[i + 1]});
                 if (tail && stress::rand_int(0, 7) == 0) clauses.push_back({-lit[i], (int)stress::rand_int(1, tail)});
             }
             clauses.push_back({-lit[end - 1], -lit[end - 1]});
-            if (stress::rand_int(0, 1)){
+            if (stress::rand_int(0, 1)){  /// a forced false decoy d -> !l_k, so Tarjan meets the negated chain first
                 decoy++;
                 clauses.push_back({-decoy, -decoy}), clauses.push_back({-decoy, -lit[end - 1]});
             }
         }
-        else {
+        else {  /// a hub: s -> p_1 -> ... -> p_k -> !s, no s an ancestor of another, so each s takes its own batch query
             int mid = stress::rand_int(start + 1, end - 1);
             for (int i = mid; i < end; i++){
                 hidden[abs(lit[i])] = lit[i] > 0;
@@ -155,9 +152,9 @@ vector<Clause> chains(int n){
     }
 
     /// Noise only between plain variables: noise into a negated chain would fix its whole prefix
-    /// Picking from the plain list also ends the loop when every segment came out positive and no variable is plain
     vector<int> plain_vars;
     for (int x = 1; x <= vars; x++) if (plain[x]) plain_vars.push_back(x);
+    /// drawing from plain_vars instead of rejecting other picks ends the loop when no variable is plain
     for (int extra = plain_vars.empty() ? 0 : stress::rand_int(0, n / 4); extra;){
         int a = plain_vars[stress::rand_int(0, plain_vars.size() - 1)], b = plain_vars[stress::rand_int(0, plain_vars.size() - 1)];
         if (stress::rand_int(0, 1)) a = -a;
@@ -167,15 +164,15 @@ vector<Clause> chains(int n){
     return clauses;
 }
 
-/// Variable 1 fails first, its Tarjan DFS numbers the y_j and the path R they all imply low, so the y_j lead the sinks
-/// first order with ranges spanning R. Sources g_i over a shared path Q burn the waste allowance, SCC starts on some
-/// g_i, whose batch must answer it ahead of the y_j: taking y_j until x comes up costs k / B passes over R
+/// The batch must answer a source g_i ahead of the decoys y_j: taking y_j until g_i comes up costs k / B passes over R
 vector<Clause> decoys(int k, int len){
     int lq = stress::rand_int(len / 12, len / 6), a = (6 * k + 4 * len) / lq + stress::rand_int(4, 12);
     int g0 = 1, q0 = g0 + a, y0 = q0 + lq, r0 = y0 + k;
 
     vector<Clause> clauses = {{-1, -(r0 + len)}};
+    /// variable 1 fails first, its Tarjan DFS numbers the y_j and path R low, so the y_j lead sinks first order spanning R
     for (int j = 1; j <= k; j++) clauses.push_back({-1, y0 + j}), clauses.push_back({-(y0 + j), r0 + 1});
+    /// sources g_i over a shared path Q burn the waste allowance, so SCC starts on some g_i
     for (int i = 1; i <= a; i++) clauses.push_back({-(g0 + i), q0 + 1}), clauses.push_back({-(q0 + lq), -(g0 + i)});
     for (int i = 1; i < lq; i++) clauses.push_back({-(q0 + i), q0 + i + 1});
     for (int i = 1; i < len; i++) clauses.push_back({-(r0 + i), r0 + i + 1});

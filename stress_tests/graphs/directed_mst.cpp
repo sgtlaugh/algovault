@@ -71,15 +71,14 @@ long long tree_weight(int n, int root, const vector<DirectedMST::Edge>& edges, c
     return total;
 }
 
-/// Cheap 2-cycles i <-> i + 1 behind expensive root edges, each contraction forms a new 2-cycle with the next node,
-/// so round-based Chu-Liu/Edmonds needs about n / 2 full passes (11 s at -O2 for n = 2e4) while O(m log m) is instant;
-/// the 5 s bound leaves headroom for slow CI runners and still separates the two
+/// Each contraction of a cheap 2-cycle i <-> i + 1 forms a new one with the next node: round-based Chu-Liu/Edmonds needs n / 2 passes
 void nested_two_cycles(){
     int n = 20000;
     DirectedMST g(n);
     for (int i = 1; i < n; i++) g.add_edge(0, i, 1000000 + i);
     for (int i = 1; i + 1 < n; i++) g.add_edge(i + 1, i, 1), g.add_edge(i, i + 1, 2);
 
+    /// 5 s leaves headroom for slow CI runners and still separates O(m log m) from the round-based passes
     auto start = chrono::steady_clock::now();
     Arborescence res = g.solve(0);
     assert(chrono::steady_clock::now() - start < chrono::seconds(5));

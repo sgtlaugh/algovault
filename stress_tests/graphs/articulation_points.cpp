@@ -276,8 +276,7 @@ void check(int n, const vector<pair<int, int>>& edges, bool by_cycles){
     check_tree(n, edges, blocks, g.get_block_cut_tree(), expected, n <= 40);
 }
 
-/// Cuts against vertex removal, blocks against vertex separators and against simple cycle enumeration,
-/// the block-cut tree against both
+/// Cuts against vertex removal, blocks against vertex separators and simple cycle enumeration, the block-cut tree against both
 int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(1, it % 20 ? 12 : 250);
@@ -289,7 +288,7 @@ int main(){
         check(n, it % 3 ? tiny_graph(n) : random_graph(n, it % 2), true);
     }
 
-    /// Past the old fixed MAX = 100010 arrays
+    /// A star past 100010 nodes, the size of a fixed MAX array
     {
         int n = 150000;
         Biconnected g(n);

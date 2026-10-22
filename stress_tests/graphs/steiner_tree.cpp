@@ -33,8 +33,7 @@ long long brute(int n, const vector<array<long long, 3>>& edges, const vector<in
     return best;
 }
 
-/// Same subset recurrence, but spreading through Floyd-Warshall distances instead of Dijkstra, for graphs too big for brute()
-/// It shares the recurrence with the library, so brute() on n <= 9 is the independent oracle; this one guards the Dijkstra spreading
+/// The library's subset recurrence spread through Floyd-Warshall instead of Dijkstra: it guards only the spreading, brute() is the independent oracle
 long long floyd_reference(int n, const vector<array<long long, 3>>& edges, const vector<int>& terminals){
     int k = terminals.size();
     if (k <= 1) return 0;
@@ -68,9 +67,8 @@ long long floyd_reference(int n, const vector<array<long long, 3>>& edges, const
 }
 
 /// Tiny weights force ties, 1e15 weights catch any narrowing of the 64-bit weight type
-/// Bit 31 stays clear so a narrowed weight is wrong but nonnegative: an assertion fires instead of Dijkstra looping
 long long random_weight(long long it){
-    if (it % 3 == 2) return stress::rand_int(0, 1000000000000000LL) & ~(1LL << 31);
+    if (it % 3 == 2) return stress::rand_int(0, 1000000000000000LL) & ~(1LL << 31);  /// a narrowed weight stays nonnegative, so an assertion fires instead of Dijkstra looping
     return stress::rand_int(0, it % 3 ? 1000000000 : 5);
 }
 
@@ -82,8 +80,7 @@ vector<int> random_terminals(int n, int max_k){
     return terminals;
 }
 
-/// Small graphs against the subset brute force, medium ones against the Floyd-Warshall recurrence,
-/// several terminal sets per graph to check solve() leaves the graph intact
+/// Several terminal sets per graph check that solve() leaves the graph intact
 int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(1, 9), m = stress::rand_int(0, 3 * n);

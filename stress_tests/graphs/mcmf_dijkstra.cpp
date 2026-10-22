@@ -53,8 +53,7 @@ vector<array<long long, 4>> random_graph(int n, int m, long long max_cap, long l
     return edges;
 }
 
-/// A path 0 -> n-2 -> n-3 -> ... -> 1 -> n-1 numbered against index order (UVa 12821), two parallel edges per step,
-/// plus random shortcuts that go forward along the path so negative costs make no cycle
+/// A path numbered against index order, two parallel edges per step, plus shortcuts forward along it so negative costs make no cycle
 vector<array<long long, 4>> reversed_chain(int n, int extra, long long min_cost, long long max_cost){
     vector<int> path = {0};
     for (int v = n - 2; v >= 1; v--) path.push_back(v);
@@ -73,8 +72,7 @@ vector<array<long long, 4>> reversed_chain(int n, int extra, long long min_cost,
     return edges;
 }
 
-/// Lazy Dijkstra stays correct under negative reduced costs and only slows down, so answers alone cannot catch
-/// bad starting potentials: check that every residual edge reachable from s has a non-negative reduced cost
+/// Lazy Dijkstra only slows down under bad starting potentials, so check every residual edge reachable from s has a non-negative reduced cost
 void check_potentials(MCMF& g, int s){
     g.init_potential(s);
     vector<char> seen(g.n, 0);

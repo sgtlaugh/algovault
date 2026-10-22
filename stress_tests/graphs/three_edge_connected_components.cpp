@@ -94,8 +94,7 @@ void check(ThreeEdgeConnected& g, const vector<vector<int>>& groups, const vecto
     }
 }
 
-/// k blocks of K4 in a chain or ring, consecutive blocks joined by `links` edges between random endpoints
-/// A chain with links <= 2 splits into the blocks, links >= 3 or a ring with links >= 2 merges everything
+/// k blocks of K4 in a chain or ring joined by `links` random edges: a ring's two routes merge everything from 2 links, a chain needs 3
 void blocks_test(int k, int links, bool ring){
     int n = 4 * k;
     vector<int> label(n);
@@ -125,8 +124,7 @@ void blocks_test(int k, int links, bool ring){
     for (auto& group : groups) assert(is_sorted(group.begin(), group.end()));
 }
 
-/// Path over shuffled labels where each step carries `copies` parallel edges, so m = copies * (n - 1) dominates n
-/// Cutting one step needs all of its copies removed: copies <= 2 isolates every vertex, copies >= 3 keeps one class
+/// `copies` parallel edges per path step, so m dominates n and cutting a step takes all its copies: 3 or more keep one class
 void parallel_path_test(int n, int copies){
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);

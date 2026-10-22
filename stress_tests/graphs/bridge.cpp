@@ -121,12 +121,12 @@ int main(){
         }
     }
 
-    /// A 2e5-node path is 2e5 deep: a recursive DFS overflows the 8 MB stack and fixed 100010 arrays cannot hold it
-    /// Every edge is a bridge, a bridge set hashed by u ^ v once put half of them in one bucket and went quadratic
+    /// A 2e5-node path: too deep for a recursive DFS on an 8 MB stack, too big for fixed 100010 arrays
     int n = 200000;
     BridgeGraph path(n);
     for (int i = 0; i + 1 < n; i++) assert(path.add_edge(i, i + 1) == i);
 
+    /// every edge is a bridge, so a bridge set hashed by u ^ v puts half of them in one bucket and goes quadratic
     clock_t start = clock();
     auto bridges = path.get_bridges();
     assert((int)bridges.size() == n - 1);

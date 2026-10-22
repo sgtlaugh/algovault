@@ -163,14 +163,12 @@ int main(){
         check(n, edges, prim(n, edges), true);
     }
 
-    /// A large instance with a known answer: tree edge (parent[i] < i, i) weighs i * K - C, so the heaviest tree edge
-    /// on any u-v path ends at max(u, v) and an extra edge weighing at least max(u, v) * K - C can never improve the tree
-    /// The last 3 vertices stay isolated, and vertices are relabeled so indices carry no order
+    /// Tree edge (parent[i] < i, i) weighs i * K - C, so an extra u-v edge weighing at least max(u, v) * K - C never improves the tree
     const long long K = 1000, C = 100000000;
     int n = 200000, isolated = 3, core = n - isolated;
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);
-    shuffle(label.begin(), label.end(), stress::rng());
+    shuffle(label.begin(), label.end(), stress::rng());  /// relabeled so indices carry no order
 
     vector<MSTEdge> edges;
     long long total = 0;

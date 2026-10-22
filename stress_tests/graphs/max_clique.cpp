@@ -9,8 +9,7 @@ struct Brute{
     vector<int> maximal;
 };
 
-/// Every vertex subset as a bitmask: clique[mask] extends clique[mask without its lowest vertex], and a clique
-/// is maximal when no vertex is adjacent to all of it (common = intersection of the neighbourhoods)
+/// Every vertex subset as a bitmask, each built from the subset without its lowest vertex, common = intersection of the neighbourhoods
 Brute brute(int n, const vector<int>& adj){
     Brute result;
     int full = (1 << n) - 1;
@@ -188,8 +187,7 @@ int main(){
         assert(valid(dense, independent, true) && independent.size() >= 20 && independent.size() == largest_maximal(complement));
     }
 
-    /// Labelled paths and cycles at n = CLIQUE_MAXN: their complements are ~99% dense with almost every degree equal,
-    /// so a degree sort that scrambles ties leaves branch and bound exponential
+    /// Paths and cycles at n = CLIQUE_MAXN: the ~99% dense complements have near-equal degrees, so a degree sort scrambling ties leaves branch and bound exponential
     for (int cycle = 0; cycle < 2; cycle++){
         int n = CLIQUE_MAXN;
         CliqueGraph g(n);

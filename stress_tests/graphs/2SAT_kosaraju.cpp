@@ -4,8 +4,7 @@
 #include "../../code_library/graphs/2SAT_kosaraju.cpp"
 #undef main
 
-/// Random mixes of every constraint type, at_most_one included, against exhaustive search over all 2^n assignments
-/// of the original variables, and the returned assignment must satisfy every constraint
+/// Every constraint type mixed, at_most_one included, against exhaustive search over the original variables
 void random_systems(){
     for (long long it = 0; it < stress::scaled(60000); it++){
         int n = stress::rand_int(1, 7), m = stress::rand_int(0, 12);
@@ -69,8 +68,7 @@ void random_systems(){
     }
 }
 
-/// One long at_most_one over shuffled distinct literals with a planted true literal: the rest must come out false,
-/// and planting a second true literal must make it unsatisfiable
+/// One long at_most_one: a planted true literal forces the rest false, a second one makes it unsatisfiable
 void long_groups(){
     for (long long it = 0; it < stress::scaled(20); it++){
         int n = stress::rand_int(2, 5000);
@@ -91,11 +89,11 @@ void long_groups(){
     }
 }
 
-/// Library Checker two_sat long_chain: 1 -> 2 -> ... -> n -> -n -> ... -> -1 is a single path of 2n nodes, so a recursive DFS
-/// overflows the 8 MB stack; every variable is forced false, and the seed bits flip the signs or reverse the order
+/// Library Checker long_chain: 1 -> ... -> n -> -n -> ... -> -1 is one path of 2n nodes, too deep for a recursive DFS
 void long_chain(){
     int n = 500000;
     for (int seed = 0; seed < 4; seed++){
+        /// seed bits flip the signs or reverse the order
         auto flip = [&](int i){
             if (seed & 1) i = -i;
             if (seed & 2) i = (i > 0 ? 1 : -1) * (n + 1) - i;
