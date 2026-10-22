@@ -16,7 +16,7 @@ def main():
             equal = text[l1:l1 + length] == text[l2:l2 + length]
             assert (h.get_hash(l1, l1 + length - 1) == h.get_hash(l2, l2 + length - 1)) == equal
 
-    # Longer than the old fixed power table
+    # A text far longer than the random ones, so the shared power table must grow
     text = 'ab' * 75000 + 'a'
     h = StringHash(text)
     assert h.get_hash(0, len(text) - 3) == h.get_hash(2, len(text) - 1)
