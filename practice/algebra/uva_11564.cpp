@@ -16,10 +16,10 @@
  * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
  *
  * Products have length n + m - 1, and an empty input gives an empty result
- * multiply and square use one transform while max(n, m) * max|value|^2 <= EXACT_LIMIT, about 9.2e16 with long double
+ * multiply and square run in double while max(n, m) * max|value|^2 <= DOUBLE_LIMIT (~4.5e13), in long double to EXACT_LIMIT (~9.2e16)
  * Past EXACT_LIMIT they split values into 15 bit halves like ll_multiply, about 2x slower, and need |values| < LL_MULTIPLY_LIMIT
  * The string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
- * Memory: 2 complex arrays of the largest len used, the smallest power of two >= n + m, and 4 once a split product ran
+ * Memory: with len the smallest power of two >= n + m, 4 complex arrays of len / 2 per precision used, 4 of len once a split product ran
  *
  * Circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
  *   auto c = fft.multiply(a, b);
@@ -33,83 +33,98 @@
 using namespace std;
 
 struct FFT{
-    /// double is faster, but one transform is then exact only to about 1e14 instead of 1e17 (see EXACT_LIMIT)
-    typedef double fType;
+    template <typename T>
+    struct Complex{
+        T real, img;
 
-    struct ComplexNum{
-        fType real, img;
+        Complex() {}  /// left uninitialised so growing a work buffer does not write it twice, every entry is written before it is read
+        Complex(T real, T img=0) : real(real), img(img) {}
 
-        ComplexNum() {}  /// left uninitialised so growing a work buffer does not write it twice, every entry is written before it is read
-        ComplexNum(fType real, fType img=0) : real(real), img(img) {}
-
-        ComplexNum conjugate(){
-            return ComplexNum(real, -img);
+        Complex conjugate() const{
+            return Complex(real, -img);
         }
 
-        ComplexNum operator + (ComplexNum x){
-            return ComplexNum(real + x.real, img + x.img);
+        Complex operator + (const Complex& x) const{
+            return Complex(real + x.real, img + x.img);
         }
 
-        ComplexNum operator - (ComplexNum x){
-            return ComplexNum(real - x.real, img - x.img);
+        Complex operator - (const Complex& x) const{
+            return Complex(real - x.real, img - x.img);
         }
 
-        ComplexNum operator * (ComplexNum x){
-            return ComplexNum(real * x.real - img * x.img, real * x.img + img * x.real);
+        Complex operator * (const Complex& x) const{
+            return Complex(real * x.real - img * x.img, real * x.img + img * x.real);
+        }
+    };
+
+    /// Roots of unity, bit reversal and work buffers of one precision, kept between calls
+    template <typename T>
+    struct Engine{
+        int last_len = -1;
+        vector<int> rev;
+
+        /// Work buffers are reused across calls: allocating them per call measured 10-25% slower at len = 2^20
+        vector<Complex<T>> u, w, f, g;
+
+        /// roots[k + j] = e^(i * pi * j / k) for every power of two k < roots.size(), grown on demand
+        vector<Complex<T>> roots = {Complex<T>(0), Complex<T>(1)};
+
+        void prepare(int len, int roots_len){
+            for (int k = roots.size(); k < roots_len; k <<= 1){
+                T theta = acosl(-1.0L) / k;
+                Complex<T> mul(cos(theta), sin(theta));
+
+                roots.resize(2 * k);
+                for (int j = k >> 1; j < k; j++){
+                    roots[2 * j] = roots[j];
+                    roots[2 * j + 1] = roots[j] * mul;
+                }
+            }
+
+            if ((int)u.size() < len) u.resize(len), w.resize(len), f.resize(len), g.resize(len), rev.resize(len);
+            if (len != last_len){
+                last_len = len;
+                int bits = __lg(len);
+                for (int i = 1; i < len; i++) rev[i] = (rev[i >> 1] >> 1) | ((i & 1) << (bits - 1));
+            }
+        }
+
+        void transform(const vector<Complex<T>>& in, vector<Complex<T>>& out, int len){
+            for (int i = 0; i < len; i++) out[i] = in[rev[i]];
+
+            for (int k = 1; k < len; k <<= 1){
+                for (int i = 0; i < len; i += 2 * k){
+                    for (int j = 0; j < k; j++){
+                        Complex<T> z = out[i + j + k] * roots[k + j];
+                        out[i + j + k] = out[i + j] - z;
+                        out[i + j] = out[i + j] + z;
+                    }
+                }
+            }
         }
     };
 
     static constexpr int SPLIT_BITS = 15;
     static constexpr int LL_MULTIPLY_LIMIT = 1500000000;
 
-    /// Largest n_max * max|value|^2 multiply and square still do with one transform, about 9.2e16 for long double and 4.5e13 for double
-    /// Measured first errors up to n = 10^6: 6.3e17 for long double and 4e14 for double, so the limit keeps at least a 6x margin
-    static constexpr fType EXACT_LIMIT = 0.01 / numeric_limits<fType>::epsilon();
+    /// Largest n_max * max|value|^2 that multiply and square keep exact in one double or long double transform; all-equal
+    /// inputs first err near 2.7e14 and 3.8e17 up to n = 10^6, leaving 6x and 4x margins
+    static constexpr double DOUBLE_LIMIT = 0.01 / numeric_limits<double>::epsilon();
+    static constexpr long double EXACT_LIMIT = 0.01L / numeric_limits<long double>::epsilon();
 
-    int last_len = -1;
-    vector<int> rev;
-
-    /// Work buffers are members reused across calls: allocating them per call measured 10-25% slower at len = 2^20
-    vector<ComplexNum> u, w, f, g;
-
-    /// roots[k + j] = e^(i * pi * j / k) for every power of two k < roots.size(), grown on demand
-    vector<ComplexNum> roots = {ComplexNum(0), ComplexNum(1)};
+    Engine<double> fast;
+    Engine<long double> wide;
 
     vector<long long> multiply(vector<long long> v1, vector<long long> v2){
         if (v1.empty() || v2.empty()) return {};
         if (v1 == v2) return square(v1);
-        if (!fits_fast_path(v1, v2)) return split_product(v1, v2);
-
-        int p_len = v1.size() + v2.size() - 1, len = build(v1, v2);
-        for (int i = 0; i < len; i++) u[i] = ComplexNum(v1[i], v2[i]);
-        transform(u, f, len);
-
-        /// With f = FFT(v1 + i v2), FFT(v1 * v2)[j] = (f[j]^2 - conj(f[-j])^2) / 4i, stored at -j so a forward transform inverts it
-        for (int i = 0; i < len; i++){
-            int j = (len - i) & (len - 1);
-            u[i] = (f[j] * f[j] - f[i].conjugate() * f[i].conjugate()) * ComplexNum(0, -0.25 / len);
-        }
-        transform(u, f, len);
-
-        vector<long long> res(p_len, 0);
-        for (int i = 0; i < min(len, p_len); i++) res[i] = round_to_nearest(f[i].real);
-        return res;
+        return product(v1, v2, false);
     }
 
     vector<long long> square(vector<long long> v){
         if (v.empty()) return {};
-        if (!fits_fast_path(v, v)) return split_product(v, v);
-
-        int p_len = 2 * v.size() - 1, len = build(v, v);
-        for (int i = 0; i < len; i++) u[i] = ComplexNum(v[i], 0);
-        transform(u, f, len);
-        for (int i = 0; i < len; i++) u[i] = f[i] * f[i];
-        transform(u, f, len);
-
-        /// A forward transform read at index -i is the inverse transform scaled by len
-        vector<long long> res(p_len, 0);
-        for (int i = 0; i < min(len, p_len); i++) res[i] = round_to_nearest(f[(len - i) & (len - 1)].real / (fType)len);
-        return res;
+        vector<long long> copy = v;
+        return product(v, copy, true);
     }
 
     vector<long long> mod_multiply(vector<long long> v1, vector<long long> v2, int mod){
@@ -120,7 +135,8 @@ struct FFT{
         int p_len = v1.size() + v2.size() - 1, len = split_multiply(v1, v2);
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
-            long long low = round_to_nearest(f[i].real), mid = round_to_nearest(g[i].real), high = round_to_nearest(f[i].img);
+            long long low = round_to_nearest(wide.f[i].real), mid = round_to_nearest(wide.g[i].real);
+            long long high = round_to_nearest(wide.f[i].img);
             res[i] = (low + ((mid % mod) << SPLIT_BITS) + ((high % mod) << (2 * SPLIT_BITS))) % mod;
         }
 
@@ -165,16 +181,55 @@ struct FFT{
         return res;
     }
 
-    /// multiply packs v1 + i v2 into one transform, so its error follows the larger input: n_max * max(|v1|, |v2|)^2
-    /// The output bound n_min * max|v1| * max|v2| is not enough: n = 10^5, v1 in {0, 1}, v2 < 1.3 * 10^7 already errs
-    static bool fits_fast_path(const vector<long long>& v1, const vector<long long>& v2){
+    /// The error of one transform follows n_max * max|value|^2: the output bound n_min * max|v1| * max|v2| misses
+    /// n = 10^5 with v1 in {0, 1} and v2 < 1.3 * 10^7, which already errs
+    vector<long long> product(vector<long long>& v1, vector<long long>& v2, bool same){
         long long max_value = 0;
         for (auto x: v1) max_value = max(max_value, abs(x));
         for (auto x: v2) max_value = max(max_value, abs(x));
-        if ((fType)max(v1.size(), v2.size()) * max_value * max_value <= EXACT_LIMIT) return true;
 
+        long double bound = (long double)max(v1.size(), v2.size()) * max_value * max_value;
+        if (bound <= DOUBLE_LIMIT) return real_product(fast, v1, v2, same);
+        if (bound <= EXACT_LIMIT) return real_product(wide, v1, v2, same);
         assert(max_value < LL_MULTIPLY_LIMIT);
-        return false;
+        return split_product(v1, v2);
+    }
+
+    /// Real inputs of length len transform as complex ones of length len / 2, even positions real and odd imaginary:
+    /// with Z = FFT(z), the halves are E = (Z[k] + conj Z[-k]) / 2 and O = (Z[k] - conj Z[-k]) / 2i, and
+    /// X[k] = E + w^k O, X[k + len / 2] = E - w^k O for w = e^(2 pi i / len); the inverse runs the same steps backwards
+    template <typename T>
+    vector<long long> real_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, bool same){
+        int p_len = v1.size() + v2.size() - 1, len = pad(v1, v2), half = len / 2;
+        e.prepare(half, len);
+
+        for (int k = 0; k < half; k++) e.u[k] = Complex<T>(v1[2 * k], v1[2 * k + 1]);
+        e.transform(e.u, e.f, half);
+        if (!same){
+            for (int k = 0; k < half; k++) e.w[k] = Complex<T>(v2[2 * k], v2[2 * k + 1]);
+            e.transform(e.w, e.g, half);
+        }
+        vector<Complex<T>>& h = same ? e.f : e.g;
+
+        const Complex<T> half_real(0.5, 0), half_imag(0, -0.5), unit_imag(0, 1);
+        for (int k = 0; k < half; k++){
+            int j = (half - k) & (half - 1);
+            Complex<T> wk = e.roots[half + k];
+            Complex<T> even1 = (e.f[k] + e.f[j].conjugate()) * half_real, odd1 = (e.f[k] - e.f[j].conjugate()) * half_imag * wk;
+            Complex<T> even2 = (h[k] + h[j].conjugate()) * half_real, odd2 = (h[k] - h[j].conjugate()) * half_imag * wk;
+            Complex<T> low = (even1 + odd1) * (even2 + odd2), high = (even1 - odd1) * (even2 - odd2);
+            e.u[k] = (low + high) * half_real + unit_imag * ((low - high) * half_real * wk.conjugate());
+        }
+        e.transform(e.u, e.f, half);
+
+        /// A forward transform read at index -m is the inverse transform scaled by half
+        vector<long long> res(p_len, 0);
+        for (int i = 0; i < min(len, p_len); i++){
+            const Complex<T>& c = e.f[(half - (i >> 1)) & (half - 1)];
+            res[i] = round_to_nearest(((i & 1) ? c.img : c.real) / half);
+        }
+
+        return res;
     }
 
     /// A negative value splits into floor(v / 2^15) and v mod 2^15, so the parts stay as small as for |v|
@@ -184,7 +239,8 @@ struct FFT{
 
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
-            unsigned long long low = round_to_nearest(f[i].real), mid = round_to_nearest(g[i].real), high = round_to_nearest(f[i].img);
+            unsigned long long low = round_to_nearest(wide.f[i].real), mid = round_to_nearest(wide.g[i].real);
+            unsigned long long high = round_to_nearest(wide.f[i].img);
             res[i] = low + (mid << SPLIT_BITS) + (high << (2 * SPLIT_BITS));
         }
 
@@ -195,37 +251,38 @@ struct FFT{
     /// in f.real, g.real and f.img respectively, 4 transforms in total (3 for equal inputs)
     int split_multiply(vector<long long>& v1, vector<long long>& v2){
         const int mask = (1 << SPLIT_BITS) - 1;
+        Engine<long double>& e = wide;
 
-        int len = build(v1, v2);
-        if ((int)w.size() < len) w.resize(len), g.resize(len);
-        for (int i = 0; i < len; i++) u[i] = ComplexNum(v1[i] & mask, v1[i] >> SPLIT_BITS);
-        for (int i = 0; i < len; i++) w[i] = ComplexNum(v2[i] & mask, v2[i] >> SPLIT_BITS);
+        int len = pad(v1, v2);
+        e.prepare(len, len);
+        for (int i = 0; i < len; i++) e.u[i] = Complex<long double>(v1[i] & mask, v1[i] >> SPLIT_BITS);
+        for (int i = 0; i < len; i++) e.w[i] = Complex<long double>(v2[i] & mask, v2[i] >> SPLIT_BITS);
 
-        transform(u, f, len);
+        e.transform(e.u, e.f, len);
         if (v1 == v2){
-            for (int i = 0; i < len; i++) g[i] = f[i];
+            for (int i = 0; i < len; i++) e.g[i] = e.f[i];
         }
-        else transform(w, g, len);
+        else e.transform(e.w, e.g, len);
 
         for (int i = 0; i < len; i++){
             int j = (len - i) & (len - 1);
-            ComplexNum c1 = f[j].conjugate(), c2 = g[j].conjugate();
+            Complex<long double> c1 = e.f[j].conjugate(), c2 = e.g[j].conjugate();
 
-            ComplexNum a1 = (f[i] + c1) * ComplexNum(0.5, 0);
-            ComplexNum a2 = (f[i] - c1) * ComplexNum(0, -0.5);
-            ComplexNum b1 = (g[i] + c2) * ComplexNum(0.5 / len, 0);
-            ComplexNum b2 = (g[i] - c2) * ComplexNum(0, -0.5 / len);
-            u[j] = a1 * b1 + a2 * b2 * ComplexNum(0, 1);
-            w[j] = a1 * b2 + a2 * b1;
+            Complex<long double> a1 = (e.f[i] + c1) * Complex<long double>(0.5, 0);
+            Complex<long double> a2 = (e.f[i] - c1) * Complex<long double>(0, -0.5);
+            Complex<long double> b1 = (e.g[i] + c2) * Complex<long double>(0.5 / len, 0);
+            Complex<long double> b2 = (e.g[i] - c2) * Complex<long double>(0, -0.5 / len);
+            e.u[j] = a1 * b1 + a2 * b2 * Complex<long double>(0, 1);
+            e.w[j] = a1 * b2 + a2 * b1;
         }
 
-        transform(u, f, len);
-        transform(w, g, len);
+        e.transform(e.u, e.f, len);
+        e.transform(e.w, e.g, len);
         return len;
     }
 
-    /// Pads v1 and v2 to the transform length len, grows u, f and rev to len and returns len
-    int build(vector<long long>& v1, vector<long long>& v2){
+    /// Pads v1 and v2 with zeros to the smallest power of two >= n + m, which is at least 2, so a half transform exists
+    static int pad(vector<long long>& v1, vector<long long>& v2){
         int n = v1.size(), m = v2.size();
         while (n > 1 && v1[n - 1] == 0) n--;
         while (m > 1 && v2[m - 1] == 0) m--;
@@ -233,48 +290,11 @@ struct FFT{
         int len = 1;
         while (len < n + m) len <<= 1;
         v1.resize(len, 0), v2.resize(len, 0);
-
-        extend_roots(len);
-        if ((int)u.size() < len) u.resize(len), f.resize(len), rev.resize(len);
-        if (len != last_len){
-            last_len = len;
-            int bits = __lg(len);
-            for (int i = 1; i < len; i++) rev[i] = (rev[i >> 1] >> 1) | ((i & 1) << (bits - 1));
-        }
-
         return len;
     }
 
-    void extend_roots(int len){
-        roots.reserve(len);
-        for (int k = roots.size(); k < len; k <<= 1){
-            fType theta = acosl(-1.0L) / k;
-            ComplexNum mul(cos(theta), sin(theta));
-
-            roots.resize(2 * k);
-            for (int j = k >> 1; j < k; j++){
-                roots[2 * j] = roots[j];
-                roots[2 * j + 1] = roots[j] * mul;
-            }
-        }
-    }
-
-    void transform(const vector<ComplexNum>& in, vector<ComplexNum>& out, int len){
-        for (int i = 0; i < len; i++) out[i] = in[rev[i]];
-
-        for (int k = 1; k < len; k <<= 1){
-            for (int i = 0; i < len; i += 2 * k){
-                for (int j = 0; j < k; j++){
-                    ComplexNum z = out[i + j + k] * roots[k + j];
-                    out[i + j + k] = out[i + j] - z;
-                    out[i + j] = out[i + j] + z;
-                }
-            }
-        }
-    }
-
-    static long long round_to_nearest(fType x){
-        long long res = abs(x) + 0.5;
+    static long long round_to_nearest(long double x){
+        long long res = fabsl(x) + 0.5L;
         return x < 0 ? -res : res;
     }
 
