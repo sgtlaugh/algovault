@@ -34,7 +34,7 @@ using namespace std;
 
 struct FFT{
     /// double is faster, but one transform is then exact only to about 1e14 instead of 1e17 (see EXACT_LIMIT)
-    typedef long double fType;
+    typedef double fType;
 
     struct ComplexNum{
         fType real, img;
