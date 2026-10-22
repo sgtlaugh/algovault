@@ -1,21 +1,30 @@
 /***
  *
- * Arbitrary precision signed integer
+ * Big Integer
+ * Arbitrary precision signed integers that behave like C++ integers
  *
- * Stored as base 10^9 limbs in little endian order, zero is always non-negative
- * Supports + - * / % with Bignum or long long on either side, comparisons, stream I/O and to_string()
- * Division truncates toward zero and the remainder takes the sign of the dividend, like C++ integers
+ * Complexity, for numbers of n and m digits:
+ *   - +, -, comparisons, to_string and stream I/O: O(n + m)
+ *   - *: O(n m) below about 860 digits, O(n^1.58) above, O((n + m) log(n + m)) once both have about 6300 digits
+ *   - / and %: O(n) for a divisor below 10^9, O((n - m) m) unless divisor and quotient both pass 3600 digits, O(n log n) then
  *
- * Complexity, with n and m the number of digits:
- *     Addition, subtraction, comparison, I/O: O(n)
- *     Multiplication: O(n * m) for small inputs, Karatsuba O(n^1.58) for mid sizes,
- *                     three prime NTT O((n + m) log(n + m)) once both have 700+ limbs (~6300 digits)
- *     Division: O(n) when the divisor fits in 9 digits, O((n - m) * m) while the divisor or the quotient has under
- *               400 limbs (~3600 digits), O(n log n) beyond with a Newton reciprocal
+ * Bignum x(v): the long long v, 0 by default
+ * Bignum x(s): the decimal string s, optional sign and leading zeros allowed, asserts at least one digit and nothing else
+ * x + y: the sum, either side may be a long long
+ * x - y: the difference
+ * x * y: the product
+ * x / y: the quotient truncated toward zero, asserts y != 0
+ * x % y: the remainder with the sign of x, asserts y != 0
+ * -x: the negation
+ * x += y: x + y stored in x, likewise -=, *=, /= and %=
+ * x < y: the comparison, likewise <=, >, >=, == and !=
+ * x.to_string(): the decimal digits, with a leading - when x is negative
+ * cin >> x: reads one whitespace separated decimal token
+ * cout << x: writes x.to_string()
  *
+ * In loops prefer the compound operators: x += y reuses x's storage, and *=, /= and %= by a long long below 10^9 never allocate
+ * x / y and x % y each run the full division, so needing both costs two
  * At -O2, multiplying two 2 * 10^6 digit numbers takes ~0.15 s and dividing 2 * 10^6 digits by 10^6 digits ~0.5 s
- * / and % each run the full division
- * Products of more than 2^23 limbs (~7.5 * 10^7 digits) split with Karatsuba until the pieces fit the NTT
  * Requires __int128 (64-bit GCC or Clang)
  *
 ***/
@@ -30,9 +39,10 @@ struct Bignum{
     static const int NTT_CUTOFF = 700;
     static const size_t NTT_MAX = 1 << 23;
     static const int NEWTON_CUTOFF = 400;
+    typedef vector<uint32_t> Limbs;
 
-    bool neg = false;
-    vector<uint32_t> a;
+    bool neg = false;      /// false for zero, so 0 has one representation
+    vector<uint32_t> a;    /// limbs of 9 decimal digits each, value = sum a[i] * 10^(9i), no zero limbs at the top
 
     Bignum(long long v = 0){
         neg = v < 0;
@@ -55,8 +65,6 @@ struct Bignum{
 
         trim();
     }
-
-    explicit Bignum(const char* s) : Bignum(string(s)) {}
 
     string to_string() const{
         if (a.empty()) return "0";
@@ -109,11 +117,38 @@ struct Bignum{
         return Bignum(divmod(x.a, y.a).second, x.neg);
     }
 
-    Bignum& operator += (const Bignum& y){ return *this = *this + y; }
-    Bignum& operator -= (const Bignum& y){ return *this = *this - y; }
+    Bignum& operator += (const Bignum& y){ return add_signed(y.a, y.neg); }
+    Bignum& operator -= (const Bignum& y){ return add_signed(y.a, !y.neg); }
     Bignum& operator *= (const Bignum& y){ return *this = *this * y; }
     Bignum& operator /= (const Bignum& y){ return *this = *this / y; }
     Bignum& operator %= (const Bignum& y){ return *this = *this % y; }
+
+    /// A factor or divisor below BASE works on these limbs without allocating, larger ones take the general path
+    Bignum& operator *= (long long y){
+        if (y <= -(long long)BASE || y >= (long long)BASE) return *this *= Bignum(y);
+        if (y < 0) neg = !neg, y = -y;
+        mul_small(a, y);
+        trim();
+        return *this;
+    }
+
+    Bignum& operator /= (long long y){
+        assert(y != 0);
+        if (y <= -(long long)BASE || y >= (long long)BASE) return *this /= Bignum(y);
+        if (y < 0) neg = !neg, y = -y;
+        divmod_small(a, y);
+        trim();
+        return *this;
+    }
+
+    Bignum& operator %= (long long y){
+        assert(y != 0);
+        if (y <= -(long long)BASE || y >= (long long)BASE) return *this %= Bignum(y);
+        uint32_t r = divmod_small(a, y < 0 ? -y : y);
+        a.assign(r ? 1 : 0, r);
+        trim();
+        return *this;
+    }
 
     friend bool operator == (const Bignum& x, const Bignum& y){ return x.neg == y.neg && x.a == y.a; }
     friend bool operator != (const Bignum& x, const Bignum& y){ return !(x == y); }
@@ -125,10 +160,24 @@ struct Bignum{
     friend bool operator <= (const Bignum& x, const Bignum& y){ return !(y < x); }
     friend bool operator >= (const Bignum& x, const Bignum& y){ return !(x < y); }
 
-    typedef vector<uint32_t> Limbs;
-
     Bignum(Limbs&& limbs, bool negative) : neg(negative), a(move(limbs)){
         trim();
+    }
+
+    Bignum& add_signed(const Limbs& y, bool y_neg){
+        if (neg == y_neg){
+            a.resize(max(a.size(), y.size()) + 1);
+            add_to(a, y, 0);
+        }
+        else if (cmp(a, y) >= 0) sub_from(a, y);
+        else{
+            Limbs d = y;
+            sub_from(d, a);
+            a = move(d), neg = y_neg;
+        }
+
+        trim();
+        return *this;
     }
 
     void trim(){
@@ -165,20 +214,32 @@ struct Bignum{
     /// res += y * BASE^offset, res must be large enough to hold the result
     static void add_to(Limbs& res, const Limbs& y, size_t offset){
         uint32_t carry = 0;
-        for (size_t i = 0; i < y.size() || carry; i++){
-            uint32_t s = res[i + offset] + carry + (i < y.size() ? y[i] : 0);
+        size_t i = offset;
+        for (uint32_t v : y){
+            uint32_t s = res[i] + v + carry;
             carry = s >= BASE;
-            res[i + offset] = carry ? s - BASE : s;
+            res[i++] = carry ? s - BASE : s;
+        }
+
+        for (; carry; i++){
+            carry = res[i] == BASE - 1;
+            res[i] = carry ? 0 : res[i] + 1;
         }
     }
 
     /// x -= y, requires x >= y
     static void sub_from(Limbs& x, const Limbs& y){
         int borrow = 0;
-        for (size_t i = 0; i < y.size() || borrow; i++){
-            long long d = (long long)x[i] - borrow - (i < y.size() ? y[i] : 0);
+        size_t i = 0;
+        for (uint32_t v : y){
+            long long d = (long long)x[i] - v - borrow;
             borrow = d < 0;
-            x[i] = borrow ? d + BASE : d;
+            x[i++] = borrow ? d + BASE : d;
+        }
+
+        for (; borrow; i++){
+            borrow = x[i] == 0;
+            x[i] = borrow ? BASE - 1 : x[i] - 1;
         }
     }
 
@@ -308,7 +369,8 @@ struct Bignum{
         size_t n = x.size(), m = y.size();
         if (m <= 1){
             if (!m) return {};
-            Limbs res = mul_small(x, y[0]);
+            Limbs res = x;
+            mul_small(res, y[0]);
             trim(res);
             return res;
         }
@@ -344,26 +406,28 @@ struct Bignum{
     }
 
     static uint32_t divmod_small(Limbs& x, uint32_t d){
-        unsigned long long rem = 0;
+        /// One reciprocal turns each 64-bit division into a multiply: inv underestimates 2^64 / d, so q is low by at most 1
+        unsigned long long inv = ~0ULL / d, rem = 0;
         for (int i = (int)x.size() - 1; i >= 0; i--){
-            unsigned long long cur = rem * BASE + x[i];
-            x[i] = cur / d, rem = cur % d;
+            unsigned long long cur = rem * BASE + x[i], q = (unsigned __int128)cur * inv >> 64;
+            rem = cur - q * d;
+            if (rem >= d) q++, rem -= d;
+            x[i] = q;
         }
 
         trim(x);
         return rem;
     }
 
-    static Limbs mul_small(const Limbs& x, uint32_t f){
-        Limbs res(x.size() + 1);
+    /// Always appends the carry limb, even 0, since Knuth D's normalized dividend needs that extra top limb
+    static void mul_small(Limbs& x, uint32_t f){
         unsigned long long carry = 0;
-        for (size_t i = 0; i < x.size(); i++){
-            unsigned long long cur = (unsigned long long)x[i] * f + carry;
-            res[i] = cur % BASE, carry = cur / BASE;
+        for (auto& limb : x){
+            unsigned long long cur = (unsigned long long)limb * f + carry;
+            limb = cur % BASE, carry = cur / BASE;
         }
 
-        res[x.size()] = carry;
-        return res;
+        x.push_back(carry);
     }
 
     /// Returns {|x| / |y|, |x| % |y|}
@@ -464,7 +528,8 @@ struct Bignum{
     static pair<Limbs, Limbs> divmod_knuth(const Limbs& x, const Limbs& y){
         /// Scaling so the top divisor limb is at least BASE / 2 keeps each estimated quotient limb off by at most 2
         uint32_t norm = BASE / (y.back() + 1ULL);
-        Limbs u = mul_small(x, norm), v = mul_small(y, norm);
+        Limbs u = x, v = y;
+        mul_small(u, norm), mul_small(v, norm);
         v.pop_back();
 
         size_t n = v.size(), m = u.size() - n;
@@ -510,13 +575,237 @@ struct Bignum{
     }
 };
 
+/***
+ *
+ * Fast I/O
+ * Buffered stdin and stdout through fread and fwrite, about 8x faster than scanf for integers and strings
+ *
+ * Complexity: O(1) amortized per character, one fread or fwrite call per 8192 bytes
+ *
+ * fio::read(a, b, ...): reads whitespace separated values into a, b, ... and returns how many it read before the input ended
+ * read accepts integers of any width including __int128, float, double, long double, strings, chars and vectors of these
+ * fio::read_line(s): reads one line into s without its newline or a trailing \r, false only at the end of input
+ * fio::write(a, b, ...): writes a, b, ... separated by single spaces and ends the line, a vector argument on its own line
+ * write accepts integers, strings, chars, vectors of these and fio::fixed values
+ * fio::fixed(x, digits): a floating x printed with exactly digits digits after the point, rounded like printf("%.*f")
+ * fio::flush(): writes the pending output now, which also happens at normal exit
+ *
+ * Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
+ * A char reads one non-space character
+ * A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
+ * Writing a float without fixed() does not compile, so its precision is always chosen
+ * Floats print at printf's speed, since the formatting itself dominates; a floating token keeps its first 127 characters
+ * Output is lost on abnormal termination such as abort() or _exit()
+ *
+***/
+
+#include <bits/stdtr1c++.h>
+
+using namespace std;
+
+/// Because is_integral is not always true for __int128
+#ifdef __SIZEOF_INT128__
+    namespace std{
+        template<> struct is_integral<__int128_t>: true_type {};
+    }
+#endif
+
+/// Global buffers on purpose: stdin and stdout are one stream each per process, so a second reader instance
+/// would split the input between two buffers and a second writer would reorder the output
+namespace fio{
+    const int BUF_SIZE = 8192;
+
+    int buf_len = 0, inptr = 0, outptr = 0;
+    char inbuf[BUF_SIZE], outbuf[BUF_SIZE], tmpbuf[128];
+
+    /// Returns int so that EOF never collides with a 0xFF byte or with an unsigned char platform
+    inline int read_char(){
+        if (inptr >= buf_len){
+            inptr = 0, buf_len = fread(inbuf, 1, BUF_SIZE, stdin);
+            if (buf_len == 0) return EOF;
+        }
+
+        return (unsigned char)inbuf[inptr++];
+    }
+
+    template <typename T, typename=typename enable_if<is_integral<T>::value, T>::type>
+    bool read_one(T &x){
+        int c = ' ', neg = 0;
+        while (c != '-' && !isdigit(c) && c != EOF) c = read_char();
+        if (c == '-') neg = 1, c = read_char();
+        if (c == EOF) return false;
+
+        /// Accumulate as negative so that the minimum value (e.g. INT_MIN) does not overflow
+        for (x = 0; isdigit(c); c = read_char()){
+            x = x * 10 - (c - '0');
+        }
+        if (!neg) x = -x;
+
+        return true;
+    }
+
+    /// enable_if in the return type, since a second default template argument would redeclare the integral overload
+    template <typename T>
+    typename enable_if<is_floating_point<T>::value, bool>::type read_one(T& x){
+        int c = ' ', len = 0;
+        while (isspace(c) && c != EOF) c = read_char();
+        if (c == EOF) return false;
+
+        for (; !isspace(c) && c != EOF; c = read_char()){
+            if (len + 1 < (int)sizeof(tmpbuf)) tmpbuf[len++] = c;
+        }
+        tmpbuf[len] = 0;
+
+        /// Parsing at the target's own width, since strtold then a cast to double rounds twice and can miss by one ulp
+        if (is_same<T, float>::value) x = strtof(tmpbuf, nullptr);
+        else if (is_same<T, double>::value) x = strtod(tmpbuf, nullptr);
+        else x = strtold(tmpbuf, nullptr);
+        return true;
+    }
+
+    bool read_one(string &s){
+        int c = ' ';
+        while (isspace(c) && c != EOF) c = read_char();
+        if (c == EOF) return false;
+
+        for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
+            s.push_back(c);
+        }
+        return true;
+    }
+
+    bool read_one(char& ch){
+        int c;
+        do c = read_char(); while (isspace(c));
+        if (c == EOF) return false;
+
+        ch = c;
+        return true;
+    }
+
+    template <typename T>
+    bool read_one(vector<T>& v){
+        for (auto &&x: v){
+            if (!read_one(x)) return false;
+        }
+        return true;
+    }
+
+    /// Returns false only at the end of input, a last line without a trailing newline is still returned
+    bool read_line(string &s){
+        s.clear();
+        int c = read_char();
+        if (c == EOF) return false;
+
+        for (; c != '\n' && c != EOF; c = read_char()) s.push_back(c);
+        if (!s.empty() && s.back() == '\r') s.pop_back();  /// CRLF line endings
+        return true;
+    }
+
+    int read(){
+        return 0;
+    }
+
+    template <typename T, typename ...Args>
+    int read(T &x, Args& ...args){
+        if (!read_one(x)) return 0;
+        return read(args...) + 1;
+    }
+
+    void flush(){
+        fwrite(outbuf, 1, outptr, stdout);
+        outptr = 0;
+    }
+
+    struct AutoFlush{ ~AutoFlush(){ flush(); } } auto_flush;
+
+    inline void write_char(const char& c){
+        if (outptr == BUF_SIZE) flush();
+        outbuf[outptr++] = c;
+    }
+
+    void write_one(char c){
+        write_char(c);
+    }
+
+    void write_one(const char* s){
+        for (int j = 0; s[j]; j++) write_char(s[j]);
+    }
+
+    void write_one(const string& s){
+        for (auto &&c: s) write_char(c);
+    }
+
+    template <typename T, typename=typename enable_if<is_integral<T>::value, T>::type>
+    void write_one(T x){
+        int l = 0;
+        if (x < 0){
+            /// Peel one digit while still negative so that -x cannot overflow for the minimum value
+            write_char('-');
+            tmpbuf[l++] = '0' - x % 10;
+            x = -(x / 10);
+        }
+
+        while (x || !l){
+            tmpbuf[l++] = (x % 10) + '0';
+            x /= 10;
+        }
+        while (l) write_char(tmpbuf[--l]);
+    }
+
+    /// write(x) for a floating x does not compile on purpose: the digits after the point must be chosen
+    struct Fixed{
+        long double value;
+        int digits;
+    };
+
+    Fixed fixed(long double value, int digits){
+        return {value, digits};
+    }
+
+    void write_one(const Fixed& f){
+        int len = snprintf(tmpbuf, sizeof(tmpbuf), "%.*Lf", f.digits, f.value);
+        if (len < (int)sizeof(tmpbuf)){
+            for (int j = 0; j < len; j++) write_char(tmpbuf[j]);
+            return;
+        }
+
+        string s(len + 1, '\0');
+        snprintf(&s[0], len + 1, "%.*Lf", f.digits, f.value);
+        s.resize(len);
+        write_one(s);
+    }
+
+    template <typename T>
+    void write_one(const vector<T>& v){
+        for (int i = 0; i < (int)v.size(); i++){
+            if (i) write_char(' ');
+            write_one(v[i]);
+        }
+    }
+
+    void write() {}
+
+    template <typename T> struct is_vector : false_type {};
+    template <typename T, typename A> struct is_vector<vector<T, A>> : true_type {};
+
+    template <typename T, typename ...Args>
+    void write(const T& x, const Args& ...args){
+        write_one(x);
+        write_char(sizeof...(args) && !is_vector<T>::value ? ' ' : '\n');
+        write(args...);
+    }
+}
+
 int main(){
-    static char a[1 << 20];
-    char op[4];
+    using namespace fio;
+    char op;
+    string a;
     long long d;
-    while (scanf("%s %s %lld", a, op, &d) == 3){
+
+    while (read(a, op, d) == 3){
         Bignum x(a);
-        puts((op[0] == '/' ? x / d : x % d).to_string().c_str());
+        write((op == '/' ? x / d : x % d).to_string());
     }
     return 0;
 }
