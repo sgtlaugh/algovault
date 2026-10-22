@@ -15,7 +15,7 @@ int main(){
         if (mode == 0) return (int)stress::rand_int(0, limit - 1);
         if (mode == 1) return (int)stress::rand_int(0, 49);                               /// dense corner, many shared tree nodes
         if (mode == 2) return limit - 1 - (int)stress::rand_int(0, 3);                    /// the grid edge, where update loops end
-        return (int)min<long long>(limit - 1, 1000003LL * stress::rand_int(1, 900) - 1);   /// node stride the old key scheme collided on
+        return (int)min<long long>(limit - 1, 1000003LL * stress::rand_int(1, 900) - 1);   /// multiples of 1000003, a key packed as i * 1000003 + j collides there
     };
 
     auto brute = [&](int i, int j, int k, int l){

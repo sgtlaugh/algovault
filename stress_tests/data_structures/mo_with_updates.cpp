@@ -13,7 +13,7 @@ unsigned long long cell_hash(int i, int v){
 }
 
 /// Distinct values and cell hash of every timed range, empty ones included, against replaying the updates on a fresh copy
-/// check_calls holds the callback count to 2 * the header bound, random inputs reach about 1.16 at large n
+/// check_calls holds the callback count to 2 * the header bound, leaving headroom over random inputs
 void check_updates(int n, int q, int u, int max_v, int verify = 1 << 30, bool check_calls = false){
     vector<int> a(n);
     for (auto& x : a) x = stress::rand_int(0, max_v);

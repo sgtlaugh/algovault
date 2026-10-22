@@ -38,7 +38,6 @@ int main(){
     }
 
     /// Pairwise merges of equal blocks never compress a path, so node i sits popcount(i) hops deep
-    /// The first diff from the deepest node sums 17 potentials near 1e18, which overflows unless reduced per hop
     {
         const int n = (1 << 17) - 1;
         const long long mod = 1e18;
@@ -51,6 +50,7 @@ int main(){
         }
         check_depths(binomial);
 
+        /// The deepest node sums 17 potentials near 1e18, which overflows unless reduced per hop
         for (int i = n; i >= 0; i--) assert(binomial.diff(i, 0) == ((x[0] - x[i]) % mod + mod) % mod);
     }
 

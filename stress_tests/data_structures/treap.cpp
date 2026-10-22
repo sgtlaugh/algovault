@@ -92,8 +92,7 @@ int max_depth(const Tree& tree){
     return res;
 }
 
-/// Insertion orders that line keys up with the priorities of a generator seeded 20260105, the old fixed seed
-/// They build an n deep chain on that seed and stay logarithmic on a clock seed
+/// Keys ordered by the priorities of seed 20260105 build an n deep chain, so a fixed seed fails here
 void check_adversarial(int n){
     mt19937 old_rng(20260105);
     vector<unsigned int> priority(n);

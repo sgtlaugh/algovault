@@ -14,13 +14,11 @@ void check_depths(const Dsu& dsu){
     }
 }
 
-/// Applies one union to a label array in O(n)
 void relabel(vector<int>& label, int a, int b){
     int from = label[a], to = label[b];
     if (from != to) for (auto& x : label) if (x == from) x = to;
 }
 
-/// Component labels recomputed from scratch over the edge list
 vector<int> naive_labels(int n, const vector<pair<int, int>>& edges){
     vector<int> label(n + 1);
     iota(label.begin(), label.end(), 0);

@@ -29,7 +29,6 @@ T naive_fold(const deque<T>& q, T identity, Op op){
 }
 
 /// Every push/pop pattern up to length 14 with distinct letters, so any misordered or lost element changes the string
-/// The newest fold checks that a left identity alone is enough
 void exhaustive_patterns(){
     for (int len = 0; len <= 14; len++){
         for (int mask = 0; mask < (1 << len); mask++){

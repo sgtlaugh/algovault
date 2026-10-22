@@ -13,7 +13,7 @@ unsigned long long cell_hash(int i, int v){
 }
 
 /// max(value * count) and cell hash of every range, empty ones included, against direct scans, with add-only state and a contiguity check
-/// check_calls holds the add count to 2 * the header bound, random inputs reach about 0.99 at large n
+/// check_calls holds the add count to 2 * the header bound, leaving headroom over random inputs
 void check_rollback(int n, int q, int max_v, int verify = 1 << 30, bool check_calls = false){
     vector<int> a(n);
     for (auto& x : a) x = stress::rand_int(1, max_v);

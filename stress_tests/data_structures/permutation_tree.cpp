@@ -19,6 +19,7 @@ long long brute_count(const vector<int>& p, vector<vector<char>>* good = nullptr
     return total;
 }
 
+/// Leaves, whole cut nodes and runs of 2+ join children must be exactly the intervals with max - min == r - l
 void check_tree(const vector<int>& p){
     int n = p.size();
     PermutationTree pt(p);
@@ -88,8 +89,6 @@ vector<int> blocky_permutation(int n){
     return p;
 }
 
-/// O(n^2) scan marks every [l, r] with max - min == r - l, then checks the tree's node invariants and that
-/// leaves, whole cut nodes and runs of 2+ join children are exactly those intervals
 int main(){
     for (int n = 0; n <= 7; n++){
         vector<int> p(n);

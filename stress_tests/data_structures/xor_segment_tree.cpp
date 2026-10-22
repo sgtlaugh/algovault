@@ -27,9 +27,9 @@ long long brute_best(const vector<long long>& a, int l, int r, int x){
     return best;
 }
 
-/// compares against relabelling every index p -> p ^ x and summing directly, after random point adds
-/// order-dependent merges (concatenation, max subarray sum) check that the fold follows p order
+/// Every query against relabelling each index p -> p ^ x directly
 int main(){
+    /// Concatenation and max subarray sum do not commute, so a fold out of p order shows
     for (int k = 0; k <= 4; k++){
         int n = 1 << k;
         vector<string> words(n);

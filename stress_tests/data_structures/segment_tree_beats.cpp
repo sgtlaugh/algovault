@@ -48,8 +48,7 @@ void run(int n, int ops, long long lo, long long hi){
     }
 }
 
-/// Two updates with |x| up to 4.5e18 from zeros spend the whole 9e18 budget, so a chmin / chmax delta
-/// times a count of 2+ leaves the signed range and only the unsigned sum arithmetic survives it
+/// Two updates with |x| up to 4.5e18 spend the 9e18 budget, so a chmin / chmax delta times 2+ leaves needs unsigned sums
 void run_extreme(int n){
     const long long C = 4500000000000000000LL;
     vector<long long> a(n, 0);
@@ -64,8 +63,7 @@ void run_extreme(int n){
     }
 }
 
-/// n = 1e6 is the classic beats size (HDU 5306 Gorgeous Sequence, 256 MB), so the tree must leave room for the input
-/// Most ranges are short to keep the brute force cheap, a few span nearly everything to reach the deep nodes
+/// n = 1e6 in 256 MB is the classic beats size (HDU 5306), so the tree must leave room for the input
 void run_million(){
     const int n = 1000000;
     vector<long long> a(n);
@@ -74,6 +72,7 @@ void run_million(){
     assert(st.tree.size() * sizeof(SegmentTreeBeats::Node) <= (200u << 20));
 
     for (int op = 0; op < 100000; op++){
+        /// Short ranges keep the brute force cheap, a few near-full ones reach the deep nodes
         int l = stress::rand_int(0, n - 1), r = min(n - 1, l + (int)stress::rand_int(0, 64));
         if (op % 2000 == 0) l = stress::rand_int(0, 9), r = stress::rand_int(n - 11, n - 1);
         int type = stress::rand_int(0, 6);

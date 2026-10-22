@@ -41,7 +41,7 @@ void run(long long rounds){
     }
 }
 
-/// Reassigning a fresh table must compile and cost little, a per-instance salt deleted operator= and seeded an mt19937_64 per construction
+/// Reassigning a fresh table must compile and cost little, which a per-instance salt breaks by deleting operator= and seeding an RNG per construction
 void check_reassign(){
     HashMap<int, int> table(1);
     for (int i = 0; i < 300000; i++){

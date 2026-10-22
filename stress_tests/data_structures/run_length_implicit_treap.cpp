@@ -43,9 +43,7 @@ struct EndsRuns{
     static Agg reversed(Agg a){ return {a.last, a.first, a.sum}; }
 };
 
-/// Polynomial hashes read forwards and backwards: a combine that does not commute, for the descents, and an Agg
-/// whose reverse differs, which only a descent can see (queries recompute every Agg on their split paths)
-/// No Lazy, so the treap must work without one
+/// Forward and backward polynomial hashes without a Lazy: a combine that does not commute, and an Agg whose reverse differs
 struct Hash{
     long long h, hr, pw;
 };
@@ -63,7 +61,7 @@ struct HashRuns{
     }
     static Agg combine(Agg a, Agg b){ return {(a.h * b.pw + b.h) % MOD, (b.hr * a.pw + a.hr) % MOD, a.pw * b.pw % MOD}; }
     static Value reversed(Value x, long long){ return x; }
-    static Agg reversed(Agg a){ return {a.hr, a.h, a.pw}; }
+    static Agg reversed(Agg a){ return {a.hr, a.h, a.pw}; }   /// only descents see this, queries recompute every Agg they split
 };
 
 /// Only the required parts, no Lazy, reversed or cut: insert, erase, assign, query and the descents still work
@@ -262,7 +260,6 @@ void check_ends_runs(int ops){
 }
 
 /// Descents under a merge that does not commute: the longest stretch from l (or ending at r) that matches a target
-/// equal to the sequence except at one position, pred is monotone because a mismatch never goes away
 void check_hash_descents(int ops){
     vector<long long> a;
     RunLengthImplicitTreap<HashRuns> t(vector<pair<long long, long long>>{});
@@ -284,6 +281,7 @@ void check_hash_descents(int ops){
             continue;
         }
 
+        /// target differs from the sequence in at most one position, so pred is monotone: a mismatch never goes away
         vector<long long> target = a;
         long long j = stress::rand_int(0, n - 1);
         if (stress::rand_int(0, 3)) target[j] = (target[j] + 1) % 3;

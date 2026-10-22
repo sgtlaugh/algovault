@@ -192,7 +192,7 @@ int main(){
     real.add_line(0.5, 0.25), real.add_line(-0.5, 4.0);
     assert(abs(real.query(3) - 1.75) < 1e-9 && abs(real.query(10) + 1.0) < 1e-9);
 
-    /// Splitting a negative range with a truncating (l + r) / 2 breaks this case, random tests hit it about once in 1e5
+    /// Splitting a negative range with a truncating (l + r) / 2 breaks this case, which random tests rarely reach
     LiChaoTree<long long> negative(-26, 13);
     for (auto [k, b] : vector<pair<long long, long long>>{{-4, -16}, {1, -16}, {-6, -12}, {6, 4}, {-1, 10}}) negative.add_line(k, b);
     assert(negative.query(-1) == -17);
