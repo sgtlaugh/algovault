@@ -61,6 +61,7 @@ int main(){
         check(a - b, x - y);
         check(a * b, x * y);
         assert((a < b) == (x < y) && (a == b) == (x == y) && (a > b) == (x > y));
+        assert((a <= b) == (x <= y) && (a != b) == (x != y) && (a >= b) == (x >= y));
         if (y != 0){
             mpz_tdiv_qr(q.get_mpz_t(), r.get_mpz_t(), x.get_mpz_t(), y.get_mpz_t());
             check(a / b, q);
