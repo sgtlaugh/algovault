@@ -87,6 +87,25 @@ namespace fio{
         return true;
     }
 
+    /// enable_if in the return type, since a second default template argument would redeclare the integral overload
+    template <typename T>
+    typename enable_if<is_floating_point<T>::value, bool>::type read_one(T& x){
+        int c = ' ', len = 0;
+        while (isspace(c) && c != EOF) c = read_char();
+        if (c == EOF) return false;
+
+        for (; !isspace(c) && c != EOF; c = read_char()){
+            if (len + 1 < (int)sizeof(tmpbuf)) tmpbuf[len++] = c;
+        }
+        tmpbuf[len] = 0;
+
+        /// Parsing at the target's own width, since strtold then a cast to double rounds twice and can miss by one ulp
+        if (is_same<T, float>::value) x = strtof(tmpbuf, nullptr);
+        else if (is_same<T, double>::value) x = strtod(tmpbuf, nullptr);
+        else x = strtold(tmpbuf, nullptr);
+        return true;
+    }
+
     bool read_one(string &s){
         int c = ' ';
         while (isspace(c) && c != EOF) c = read_char();
@@ -175,6 +194,29 @@ namespace fio{
             x /= 10;
         }
         while (l) write_char(tmpbuf[--l]);
+    }
+
+    /// write(x) for a floating x does not compile on purpose: the digits after the point must be chosen
+    struct Fixed{
+        long double value;
+        int digits;
+    };
+
+    Fixed fixed(long double value, int digits){
+        return {value, digits};
+    }
+
+    void write_one(const Fixed& f){
+        int len = snprintf(tmpbuf, sizeof(tmpbuf), "%.*Lf", f.digits, f.value);
+        if (len < (int)sizeof(tmpbuf)){
+            for (int j = 0; j < len; j++) write_char(tmpbuf[j]);
+            return;
+        }
+
+        string s(len + 1, '\0');
+        snprintf(&s[0], len + 1, "%.*Lf", f.digits, f.value);
+        s.resize(len);
+        write_one(s);
     }
 
     template <typename T>

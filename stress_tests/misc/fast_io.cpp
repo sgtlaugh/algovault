@@ -124,6 +124,64 @@ int main(){
         assert(read_file(OUT) == expected_out);
     }
 
+    /// Floating reads round-trip shortest exact forms, ints and floats mixed; fixed() output matches iostream's fixed
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int count = stress::rand_int(1, it % 5 ? 50 : 3000);
+        vector<double> ds(count);
+        vector<long double> lds(count);
+        vector<int> mixed(count);
+        string input;
+        char buf[64];
+        for (int i = 0; i < count; i++){
+            int mode = stress::rand_int(0, 4);
+            double d = mode == 0 ? 0.0 : mode == 1 ? -0.0 : mode == 2 ? (double)stress::rand_int(-1000, 1000) / 8 : ldexp((double)(stress::rng()() >> 11), stress::rand_int(-80, 40)) * (stress::rand_int(0, 1) ? 1 : -1);
+            ds[i] = d, lds[i] = (long double)d / 3, mixed[i] = random_value<int>();
+            snprintf(buf, sizeof(buf), "%.17g", ds[i]);
+            input += string(stress::rand_int(0, 1) && !signbit(ds[i]) ? "+" : "") + buf + separator();
+            snprintf(buf, sizeof(buf), "%.21Lg", lds[i]);
+            input += string(buf) + separator() + to_string(mixed[i]) + separator();
+        }
+
+        set_input(input);
+        for (int i = 0; i < count; i++){
+            double d;
+            long double ld;
+            int x;
+            assert(read(d, ld, x) == 3);
+            assert(d == ds[i] && signbit(d) == signbit(ds[i]));
+            assert(ld == lds[i] && x == mixed[i]);
+        }
+        double past;
+        assert(read(past) == 0);
+
+        assert(freopen(OUT.c_str(), "wb", stdout));
+        ostringstream expected;
+        for (int i = 0; i < min(count, 300); i++){
+            int digits = stress::rand_int(0, 18);
+            long double big = ldexp((long double)1, stress::rand_int(300, 1000));
+            write(fixed(ds[i], digits), fixed(lds[i], digits), fixed(big, digits % 4));
+            expected << std::fixed << setprecision(digits) << (long double)ds[i] << ' ' << lds[i] << ' ' << setprecision(digits % 4) << big << '\n';
+        }
+        flush();
+        fflush(stdout);
+        assert(read_file(OUT) == expected.str());
+    }
+
+    /// Just above the midpoint of two doubles: strtold lands on the midpoint and a cast to double rounds it to the even
+    /// neighbor below, while the correctly rounded double is the one above
+    for (long long it = 0; it < stress::scaled(200); it++){
+        double lo = ldexp((double)(((stress::rng()() >> 11) | (1ULL << 52)) & ~1ULL), -52), hi = nextafter(lo, 2.0);
+        char buf[128];
+        snprintf(buf, sizeof(buf), "%.60Le", ((long double)lo + hi) / 2);
+        string token(buf);
+        token.insert(token.find('e'), "1");
+
+        set_input(token + "\n");
+        double d;
+        assert(read(d) == 1);
+        assert(d == hi);
+    }
+
     /// A forgotten flush() must not lose output, the child writes the pending buffer when it exits
     assert(freopen(OUT.c_str(), "wb", stdout));
     write("forgotten", 42);
