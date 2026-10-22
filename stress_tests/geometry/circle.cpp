@@ -26,8 +26,7 @@ long double adaptive_simpson(const G& g, long double a, long double b, long doub
     return adaptive_simpson(g, a, m, fa, flm, fm, left, eps / 2, depth - 1) + adaptive_simpson(g, m, b, fm, frm, fb, right, eps / 2, depth - 1);
 }
 
-/// Adaptive Simpson slab by slab between breakpoints, x = a + (b - a)(1 - cos t) / 2 smooths the square roots at slab ends,
-/// adaptivity covers a square root singularity sitting just outside a narrow slab
+/// Simpson slab by slab between breakpoints, x = a + (b - a)(1 - cos t) / 2 smooths the square roots at slab ends
 template<typename F>
 long double integrate(F f, vector<long double> xs, long double eps){
     sort(xs.begin(), xs.end());
@@ -38,6 +37,7 @@ long double integrate(F f, vector<long double> xs, long double eps){
 
         auto g = [&](long double t){ return f(a + (b - a) * (1 - cosl(t)) / 2) * (b - a) / 2 * sinl(t); };
         const int pieces = 8;
+        /// Adaptivity covers a square root singularity sitting just outside a narrow slab
         for (int s = 0; s < pieces; s++){
             long double lo = PI * s / pieces, hi = PI * (s + 1) / pieces, flo = g(lo), fmid = g((lo + hi) / 2), fhi = g(hi);
             res += adaptive_simpson(g, lo, hi, flo, fmid, fhi, (hi - lo) / 6 * (flo + 4 * fmid + fhi), eps / xs.size() / pieces, 40);
@@ -234,8 +234,7 @@ int brute_cover(const vector<Point>& points, long double r){
 
 const int TRIPLES[][3] = {{1, 0, 1}, {0, 1, 1}, {3, 4, 5}, {4, 3, 5}, {5, 12, 13}, {8, 15, 17}, {7, 24, 25}};
 
-/// A random unit direction with rational coordinates dx / len, dy / len, so tangent configurations stay exact on integers,
-/// the checks scale some of them by 0.1, which no binary float holds, so the tolerances decide those tangencies
+/// Rational unit direction dx / len, dy / len: tangencies stay exact on integers, after a 0.1 scaling the tolerances decide them
 array<long long, 3> rational_direction(){
     auto t = TRIPLES[stress::rand_int(0, 6)];
     long long sx = stress::rand_int(0, 1) ? 1 : -1, sy = stress::rand_int(0, 1) ? 1 : -1;
@@ -425,10 +424,10 @@ void check_minimum_enclosing_circle(){
         assert(close(res.r, brute_mec_radius(points), range));
     }
 
-    /// Clusters about 1e-6 wide near coordinates up to 1e4, where rounding the center exceeds the relative tolerance of a tiny radius,
-    /// sometimes with farther points so the cluster decides only an intermediate circle
+    /// Clusters 1e-6 wide near coordinates up to 1e4, where rounding the center exceeds a tiny radius's relative tolerance
     for (long long it = 0; it < stress::scaled(20000); it++){
         Point base = rand_point(10000);
+        /// Farther points make the cluster decide only an intermediate circle
         int n = stress::rand_int(2, 8), far = it % 2 ? stress::rand_int(1, 3) : 0;
         vector<Point> points;
         for (int i = 0; i < n; i++){
@@ -442,8 +441,7 @@ void check_minimum_enclosing_circle(){
         assert(close(res.r, brute_mec_radius(points), 10000));
     }
 
-    /// Two points a few ulps apart and a far one: the rounded diameter center leaves one of the pair just outside,
-    /// and without the relative tolerance the near-degenerate circumcircle comes out far too large
+    /// Points ulps apart plus a far one: the rounded diameter center misses one of the pair, the circumcircle comes out too large
     {
         vector<Point> points = {{nextafterl(nextafterl(10, 0), 0), -30}, {10, nextafterl(-30, -31)}, {nextafterl(30, 0), 20}};
         Circle res = minimum_enclosing_circle(points);
@@ -620,8 +618,7 @@ void check_max_cover(){
     assert(count >= single && count <= 2000 && covered_by(points, center, r) == count);
 }
 
-/// Intersections, tangents and the circumcircle against exact integer classification and the defining properties,
-/// the enclosing circle against all O(n^3) candidates, areas against numerical integration, cover against candidate centers
+/// Intersections, tangents and the circumcircle against exact integer classification, the rest against the brute forces above
 int main(){
     check_line_intersections();
     check_circle_intersections();

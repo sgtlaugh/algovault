@@ -84,8 +84,7 @@ int main(){
         check(rects);
     }
 
-    /// Large n: random rectangles inside the cells of a 200 x 200 grid of disjoint, non touching boxes,
-    /// so the union area and perimeter are the sums over the distinct boxes
+    /// Large n: one box per cell of a 200 x 200 grid, none touching, so area and perimeter sum over the boxes
     for (long long it = 0; it < stress::scaled(1); it++){
         const int k = 200;
         const long long cell = 2 * B / k;

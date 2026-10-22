@@ -491,7 +491,7 @@ int main(){
         assert(fabsl(got - expected) < 1e-9);
     }
 
-    /// The haversine term of about 4% of antipodal pairs rounds to 1 + 1 ulp, the distance must still be pi * radius
+    /// The haversine term of an antipodal pair can round to 1 + 1 ulp, the distance must still be pi * radius
     for (long long it = 0; it < stress::scaled(20000); it++){
         long double lat = stress::rand_int(-90000000, 90000000) / 1e6L, lon = stress::rand_int(-180000000, 0) / 1e6L;
         long double got = great_circle_distance(lat, lon, -lat, lon + 180, 6371);
