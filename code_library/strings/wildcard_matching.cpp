@@ -35,8 +35,11 @@ namespace wildcard_ntt{
     /// BEGIN COPY ntt_core from code_library/algebra/ntt.cpp
     constexpr unsigned long long power(unsigned long long b, unsigned long long e, unsigned long long mod){
         unsigned long long res = 1;
-        for (b %= mod; e; e >>= 1, b = b * b % mod){
+        b %= mod;
+        while (e){
             if (e & 1) res = res * b % mod;
+            b = b * b % mod;
+            e >>= 1;
         }
         return res;
     }

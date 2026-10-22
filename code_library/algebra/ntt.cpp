@@ -5,26 +5,16 @@
  *
  * Complexity: O(n log n) for a product of total length n
  *
- * ntt::multiply<MOD, ROOT>(a, b): a * b modulo MOD, default MOD = 998244353 and ROOT = 3
- *     MOD must be a prime below 2^31 and ROOT a quadratic non-residue modulo MOD (any primitive root is one)
- *     the result length |a| + |b| - 1, rounded up to a power of two, must divide MOD - 1:
- *     at most 2^23 for 998244353, 2^20 for 7340033 = 7 * 2^20 + 1
+ * ntt::multiply<MOD, ROOT>(a, b): a * b modulo MOD, default MOD = 998244353 and ROOT = 3, the result length rounded up to a power of two must divide MOD - 1
  * ntt::mod_multiply(a, b, m): a * b modulo any 1 <= m < 2^31, prime or not, result length at most 2^24
- * ntt::exact_multiply(a, b): the exact a * b, correct whenever every true coefficient lies in [-2^63, 2^63)
- *     result length at most 2^24, inputs may be any long long
- * ntt::crt_multiply(a, b): the core of the two above, every true coefficient of a * b modulo M as an unsigned __int128 in [0, M)
- *     result length at most 2^24
+ * ntt::exact_multiply(a, b): the exact a * b of any long long inputs, correct whenever every true coefficient lies in [-2^63, 2^63), result length at most 2^24
+ * ntt::crt_multiply(a, b): every true coefficient of a * b modulo M = 167772161 * 469762049 * 754974721 ~ 5.95e25 as an unsigned __int128 in [0, M), result length at most 2^24
  *
- * crt_multiply runs three NTTs modulo 167772161, 469762049 and 754974721 and combines them with Garner's CRT,
- * their product M ~ 5.95e25 exceeds 2^23 * (2^31 - 1)^2, so every mod_multiply coefficient is recovered exactly
- * Inputs may be negative or >= the modulus, they are reduced first, results lie in [0, modulus)
- * An empty input gives an empty result
- * Holds no mutable global state, the roots are computed per call in O(n)
- * Requires __int128 (64-bit GCC or Clang) for mod_multiply and exact_multiply
- *
- * Example:
- *     ntt::multiply({1, 2, 3}, {4, 5}) == {4, 13, 22, 15}
- *     ntt::mod_multiply({1000000006}, {1000000006}, 1000000007) == {1}
+ * The result length is |a| + |b| - 1, and an empty input gives an empty result
+ * MOD must be a prime below 2^31 and ROOT a quadratic non-residue modulo MOD, which any primitive root is
+ * multiply allows result lengths up to 2^23 modulo 998244353 and 2^20 modulo 7340033 = 7 * 2^20 + 1
+ * Inputs may be negative or >= the modulus, multiply and mod_multiply return values in [0, modulus)
+ * Requires __int128 (64-bit GCC or Clang) for mod_multiply, exact_multiply and crt_multiply
  *
 ***/
 
@@ -46,8 +36,11 @@ namespace ntt{
     /// BEGIN SHARED ntt_core
     constexpr unsigned long long power(unsigned long long b, unsigned long long e, unsigned long long mod){
         unsigned long long res = 1;
-        for (b %= mod; e; e >>= 1, b = b * b % mod){
+        b %= mod;
+        while (e){
             if (e & 1) res = res * b % mod;
+            b = b * b % mod;
+            e >>= 1;
         }
         return res;
     }
@@ -102,7 +95,8 @@ namespace ntt{
         for (size_t i = 0; i < b.size(); i++) y[i] = (b[i] % (long long)MOD + MOD) % MOD;
 
         auto rt = roots<MOD, ROOT>(n);
-        transform<MOD>(x, rt), transform<MOD>(y, rt);
+        transform<MOD>(x, rt);
+        transform<MOD>(y, rt);
 
         /// The forward transform with reversed indices 1..n-1 is the inverse transform scaled by n
         unsigned long long inv = power(n, MOD - 2, MOD);
@@ -113,7 +107,6 @@ namespace ntt{
         return vector<long long>(x.begin(), x.begin() + s);
     }
 
-    /// The true coefficients modulo M = P1 * P2 * P3, in [0, M)
     vector<unsigned __int128> crt_multiply(const vector<long long>& a, const vector<long long>& b){
         constexpr unsigned long long INV1 = power(P1, P2 - 2, P2);
         constexpr unsigned long long INV12 = power((unsigned long long)P1 * P2, P3 - 2, P3);
@@ -122,6 +115,7 @@ namespace ntt{
 
         vector<unsigned __int128> res(c1.size());
         for (size_t i = 0; i < res.size(); i++){
+            /// Garner: res = x1 + x2 * P1 + x3 * P1 * P2, each digit chosen so res matches c1, c2, c3 modulo P1, P2, P3
             unsigned long long x1 = c1[i];
             unsigned long long x2 = (c2[i] + P2 - x1) % P2 * INV1 % P2;
             unsigned long long x3 = (c3[i] + 2ULL * P3 - x1 - x2 * P1 % P3) % P3 * INV12 % P3;
@@ -136,6 +130,7 @@ namespace ntt{
         for (auto& x : a) x = (x % m + m) % m;
         for (auto& x : b) x = (x % m + m) % m;
 
+        /// A coefficient sums at most 2^23 products below m^2 < 2^62, under M ~ 5.95e25, so the CRT value is exact
         auto c = crt_multiply(a, b);
         vector<long long> res(c.size());
         for (size_t i = 0; i < c.size(); i++) res[i] = c[i] % m;
@@ -147,6 +142,8 @@ namespace ntt{
 
         auto c = crt_multiply(a, b);
         vector<long long> res(c.size());
+
+        /// A negative true value v comes back as M + v, which lies above M / 2
         for (size_t i = 0; i < c.size(); i++) res[i] = c[i] > M / 2 ? (long long)((__int128)c[i] - (__int128)M) : (long long)c[i];
         return res;
     }
@@ -154,16 +151,24 @@ namespace ntt{
 
 int main(){
     using namespace ntt;
-    const long long MOD = 998244353;
 
-    assert((multiply({1, 2, 3}, {4, 5}) == vector<long long>{4, 13, 22, 15}));  /// (1 + 2x + 3x^2)(4 + 5x)
-    assert((multiply({-1}, {2}) == vector<long long>{MOD - 2}));                /// results lie in [0, MOD)
+    /// (1 + 2x + 3x^2)(4 + 5x) modulo 998244353, where -1 * 2 comes back as 998244353 - 2
+    assert((multiply({1, 2, 3}, {4, 5}) == vector<long long>{4, 13, 22, 15}));
+    assert((multiply({-1}, {2}) == vector<long long>{998244351}));
+
+    /// Another NTT-friendly prime, 7340033 = 7 * 2^20 + 1 with primitive root 3
     assert((multiply<7340033, 3>({1, 1}, {1, 1, 1}) == vector<long long>{1, 2, 2, 1}));
 
-    assert((mod_multiply({1000000006, 1000000006}, {1000000006, 1000000006}, 1000000007) == vector<long long>{1, 2, 1}));  /// (-1 - x)^2
-    assert((mod_multiply({5, 1, 2, 6, 9, 8}, {3, 9, 0, 2}, 14) == vector<long long>{1, 6, 1, 4, 13, 11, 0, 4, 2}));      /// any modulus
+    /// 1000000006 is -1 modulo 10^9 + 7, so this is (-1 - x)^2, and 14 is a composite modulus
+    assert((mod_multiply({1000000006, 1000000006}, {1000000006, 1000000006}, 1000000007) == vector<long long>{1, 2, 1}));
+    assert((mod_multiply({5, 1, 2, 6, 9, 8}, {3, 9, 0, 2}, 14) == vector<long long>{1, 6, 1, 4, 13, 11, 0, 4, 2}));
 
+    /// Signed results, and (10^9 + 10^9 x)^2 = 10^18 + 2 * 10^18 x + 10^18 x^2, past any single prime
     assert((exact_multiply({-3, 2}, {4, -1}) == vector<long long>{-12, 11, -2}));
     assert((exact_multiply({1000000000, 1000000000}, {1000000000, 1000000000}) == vector<long long>{1000000000000000000LL, 2000000000000000000LL, 1000000000000000000LL}));
+
+    /// 2^40 * 2^40 = 2^80 does not fit in 64 bits but lies below M
+    assert((crt_multiply({1LL << 40}, {1LL << 40}) == vector<unsigned __int128>{(unsigned __int128)1 << 80}));
+
     return 0;
 }
