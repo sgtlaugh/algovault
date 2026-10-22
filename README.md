@@ -225,7 +225,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
 - [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - convolution over `gcd(i, j)` or `lcm(i, j)` [✔](judge_tests/algebra/gcd_convolution.cpp)
 - [Lagrange Interpolation](code_library/algebra/lagrange_interpolation.cpp) - value of a polynomial from consecutive samples [✔](judge_tests/algebra/sum_of_exponential_times_polynomial.cpp)
-- [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - Berlekamp-Massey and n-th term of a recurrence [✔](judge_tests/algebra/find_linear_recurrence.cpp)
+- [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - linear recurrence of a sequence and its n-th term [✔](judge_tests/algebra/find_linear_recurrence.cpp)
 - [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - fast when one or both sides are convex [✔](judge_tests/algebra/min_plus_convolution_convex_arbitrary.cpp)
 - [NTT](code_library/algebra/ntt.cpp) - polynomial multiplication modulo any m or exact [✔](judge_tests/algebra/convolution_mod.cpp)
 - [Polynomial](code_library/algebra/polynomial.cpp) - power series ops and multipoint evaluation [✔](judge_tests/algebra/division_of_polynomials.cpp)

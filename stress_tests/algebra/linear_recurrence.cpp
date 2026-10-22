@@ -87,6 +87,23 @@ int main(){
         assert(other.nth_term(10) == 55 % 7 && given.nth_term(2 * k + 5) == terms[2 * k + 5] && other.nth_term(11) == 89 % 7);
     }
 
+    /// No terms, all zeros, a single nonzero term and a recurrence that only starts at the last term
+    {
+        long long mod = 1000000007;
+        assert(LinearRecurrence({}, mod).recurrence.empty());
+        assert(LinearRecurrence({}, 6).recurrence.empty());
+
+        LinearRecurrence zeros({0, 0, 0}, mod);
+        assert(zeros.recurrence.empty());
+        assert(zeros.nth_terms(10, 2) == vector<int>({0, 0}));
+
+        assert(LinearRecurrence({5}, mod).recurrence.size() == 1);
+
+        LinearRecurrence late({0, 0, 0, 1}, mod);
+        assert(late.nth_terms(3, 2) == vector<int>({1, 0}));
+        assert(late.nth_term(3) == 1);
+    }
+
     /// Order above 65536 needs FFTs longer than 131072, sparse coefficients keep the brute force cheap
     {
         long long mod = 1073741789;  /// the largest prime the constructor accepts, where FFT precision is tightest
