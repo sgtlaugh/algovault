@@ -87,6 +87,8 @@ def logged_in(page):
 
 def login(s):
     page = s.get(BASE + '/', timeout=30).text
+    if '<title>Online Judge - Offline</title>' in page:
+        sys.exit('UVa is offline, try again later')
     if logged_in(page):
         return True
     form = LoginForm()
