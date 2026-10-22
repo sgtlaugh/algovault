@@ -66,8 +66,6 @@ struct Bignum{
         trim();
     }
 
-    explicit Bignum(const char* s) : Bignum(string(s)) {}
-
     string to_string() const{
         if (a.empty()) return "0";
         string s = (neg ? "-" : "") + std::to_string(a.back());
@@ -216,20 +214,32 @@ struct Bignum{
     /// res += y * BASE^offset, res must be large enough to hold the result
     static void add_to(Limbs& res, const Limbs& y, size_t offset){
         uint32_t carry = 0;
-        for (size_t i = 0; i < y.size() || carry; i++){
-            uint32_t s = res[i + offset] + carry + (i < y.size() ? y[i] : 0);
+        size_t i = offset;
+        for (uint32_t v : y){
+            uint32_t s = res[i] + v + carry;
             carry = s >= BASE;
-            res[i + offset] = carry ? s - BASE : s;
+            res[i++] = carry ? s - BASE : s;
+        }
+
+        for (; carry; i++){
+            carry = res[i] == BASE - 1;
+            res[i] = carry ? 0 : res[i] + 1;
         }
     }
 
     /// x -= y, requires x >= y
     static void sub_from(Limbs& x, const Limbs& y){
         int borrow = 0;
-        for (size_t i = 0; i < y.size() || borrow; i++){
-            long long d = (long long)x[i] - borrow - (i < y.size() ? y[i] : 0);
+        size_t i = 0;
+        for (uint32_t v : y){
+            long long d = (long long)x[i] - v - borrow;
             borrow = d < 0;
-            x[i] = borrow ? d + BASE : d;
+            x[i++] = borrow ? d + BASE : d;
+        }
+
+        for (; borrow; i++){
+            borrow = x[i] == 0;
+            x[i] = borrow ? BASE - 1 : x[i] - 1;
         }
     }
 

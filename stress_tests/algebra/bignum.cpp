@@ -35,6 +35,12 @@ void check(const Bignum& got, const mpz_class& want){
 }
 
 int main(){
+    /// A literal 0 also converts to a null pointer, so a const char* constructor would make these ambiguous
+    Bignum zero(0);
+    assert(zero == Bignum(0));
+    assert(zero.to_string() == "0");
+    assert(Bignum("123") == 123);
+
     /// Digit counts around the 18 row carry fold (162 digits), the Karatsuba cutoff (96 limbs = 864 digits),
     /// the Newton division cutoff (400 limbs = 3600 digits) and the NTT cutoff (700 limbs = 6300 digits)
     const vector<int> sizes = {0, 1, 8, 9, 10, 18, 19, 153, 162, 171, 855, 864, 873, 1728, 1729, 3000, 3591, 3600, 3609, 6291, 6300, 6309};
