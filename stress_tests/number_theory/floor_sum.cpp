@@ -145,8 +145,7 @@ int main(){
         check_first(m, a, l, r);
     }
 
-    /// Known answers at full 64-bit moduli: single residues against the modular inverse, with a shared factor half the time so
-    /// unsolvable targets occur, and a = -1 where residue m - x makes the first hit of [l, r] equal m - r
+    /// Known answers at full 64-bit moduli: single residues against the modular inverse, a shared factor half the time makes unsolvable targets occur
     for (long long it = 0; it < stress::scaled(4000); it++){
         long long g = it % 2 ? stress::rand_int(2, 1000000) : 1;
         long long m = g * stress::rand_int(1, LLONG_MAX / g), a = g * stress::rand_int(0, m / g - 1);
@@ -155,6 +154,7 @@ int main(){
         assert(first_mod_in_range(m, a - m, v, v) == inverse_first(m, a, v));
 
         if (m == 1) continue;
+        /// a = -1 sends x to residue m - x, so the first hit of [l, r] is m - r
         long long l = stress::rand_int(1, m - 1), r = stress::rand_int(l, m - 1);
         assert(first_mod_in_range(m, m - 1, l, r) == m - r);
         assert(first_mod_in_range(m, -1, l, r) == m - r);

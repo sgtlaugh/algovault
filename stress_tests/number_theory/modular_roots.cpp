@@ -58,8 +58,7 @@ long long random_prime(long long lo, long long hi){
     }
 }
 
-/// Order, primitive root, square root and k-th roots against direct scans over every residue for small moduli,
-/// then defining properties on random 62-bit primes
+/// Order, primitive root, square root and k-th roots against scans over every residue for small moduli, then defining properties on random 62-bit primes
 int main(){
     vector<long long> primes;
     for (long long n = 2; n < 1000; n++){
@@ -85,8 +84,7 @@ int main(){
         if (n <= 1000000000000LL) assert(rho::is_prime(n) == brute_is_prime(n));
     }
 
-    /// Strong pseudoprimes to bases 2..7 and 2..31 (151 * 751 * 28351, 149491 * 747451 * 34233211),
-    /// random inputs never hit them, and only the full base set rejects them
+    /// Strong pseudoprimes to bases 2..7 and 2..31, which random inputs never hit: only the full base set rejects them
     assert(!rho::is_prime(3215031751LL));
     assert(!rho::is_prime(3825123056546413051LL));
 
@@ -116,7 +114,6 @@ int main(){
     }
 
     /// Random 62-bit primes, the largest prime below 2^62, and two with a deep 2-adic p - 1 for Tonelli-Shanks
-    /// k <= 10^6 keeps the baby step giant step tables small
     const vector<long long> fixed_primes = {998244353, 29 * (1LL << 57) + 1, (1LL << 62) - 57};
     for (long long it = 0; it < stress::scaled(300); it++){
         long long p = it % 3 ? random_prime(1LL << 61, (1LL << 62) - 1) : fixed_primes[it / 3 % 3];
@@ -133,6 +130,7 @@ int main(){
         assert(multiplicative_order(g, p) == p - 1);
         for (long long h = 1; h < g; h++) assert(multiplicative_order(h, p) < p - 1);
 
+        /// k <= 10^6 keeps the baby step giant step tables small
         long long k = stress::rand_int(1, 1000000);
         long long y = kth_root(pow_mod(x, k, p), k, p);
         assert(pow_mod(y, k, p) == pow_mod(x, k, p));
@@ -151,8 +149,7 @@ int main(){
         assert(sqrt_mod(pow_mod(x, 1LL << 40, Q), Q) == min(root, Q - root));
     }
 
-    /// gcd(k, p - 1) holds the full power of a huge prime q in p - 1, so every discrete log is trivial:
-    /// a baby step table of sqrt(q) entries would take 16 GB for the safe prime and 0.1 s per call for 2^20 q + 1
+    /// gcd(k, p - 1) holds the full power of a huge prime q in p - 1, so each discrete log must be trivial, not a sqrt(q) baby step table
     const long long safe = 2305843009213699919LL, deep = 1048576000185597953LL;
     const long long safe_q = (safe - 1) / 2, deep_q = (deep - 1) >> 20;
     long long one_root = kth_root(1, safe - 1, safe);

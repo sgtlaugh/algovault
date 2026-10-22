@@ -81,13 +81,12 @@ long long brute_pisano(long long n){
 int main(){
     PisanoPeriod pisano;
 
-    /// Strong pseudoprimes to the smallest bases, a weakened base set would call them prime
-    /// 107528788110061 = 7332421 * 14664841 passes the first six bases, only 1795265022 rejects it
+    /// Strong pseudoprimes a weakened base set would call prime; 107528788110061 passes all bases but 1795265022
     for (ull n : {3215031751ULL, 2152302898747ULL, 3474749660383ULL, 341550071728321ULL, 3825123056546413051ULL, 107528788110061ULL}) assert(!pisano.rho.is_prime(n));
 
     for (long long n = 1; n <= 3000; n++) assert(pisano.period(n) == brute_pisano(n));
 
-    /// 299210837 is a prime that divides a Miller-Rabin base, it used to hang the factorization
+    /// The prime 299210837 divides the Miller-Rabin base 1795265022, a factorization that tests it against that base never ends
     assert(pisano.rho.is_prime(299210837) && pisano.period(299210837) == 199473892 && pisano.period(2 * 299210837LL) == 598421676);
 
     for (long long it = 0; it < stress::scaled(60); it++) check_minimal_period(pisano, stress::rand_int(2, it % 2 ? 1000000000000LL : 1000000));
@@ -96,7 +95,7 @@ int main(){
     for (long long it = 0; it < stress::scaled(40); it++) check_minimal_period(pisano, stress::rand_int(1000000000000000000LL, 1500000000000000000LL));
     check_minimal_period(pisano, 1500000000000000000LL);
 
-    /// Primes p = 43# * t + 1 have p - 1 with ~10^5 divisors, scanning all of them took seconds
+    /// Primes p = 43# * t + 1 have p - 1 with ~10^5 divisors, too many to test one by one
     for (long long t = 1; t <= 114; t++){
         long long p = 13082761331670030LL * t + 1;
         if (reference_is_prime(p)) check_minimal_period(pisano, p);

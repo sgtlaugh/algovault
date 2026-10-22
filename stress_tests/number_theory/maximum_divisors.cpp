@@ -17,8 +17,7 @@ long long divisor_count(long long x){
     return res;
 }
 
-/// Every record holder has non-increasing exponents over consecutive primes, so enumerating all such products
-/// and keeping each new divisor count record lists the answers, built here by full enumeration rather than pruned search
+/// Record holders have non-increasing exponents over consecutive primes, so enumerating all such products without pruning finds every record
 vector<pair<long long, long long>> highly_composite(long long limit){
     const int ps[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
     vector<pair<long long, long long>> all;

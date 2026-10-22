@@ -64,7 +64,6 @@ Frac brute_search(F f, long long n){
 }
 
 /// Smallest fraction >= tp / tq with denominator <= n, for 0 <= tp / tq < 1 with reduced denominator > n
-/// One of the last convergent within n and the largest semiconvergent lies above tp / tq, that one is the answer
 Frac right_neighbour(long long tp, long long tq, long long n){
     auto c = convergents(continued_fraction(tp, tq));
     size_t k = 0;
@@ -73,6 +72,7 @@ Frac right_neighbour(long long tp, long long tq, long long n){
     Frac prev = k ? c[k - 1] : Frac{1, 0};
     long long t = (n - prev.second) / c[k].second;
     Frac semi = {prev.first + t * c[k].first, prev.second + t * c[k].second};
+    /// One of the last convergent within n and the largest semiconvergent lies above tp / tq, that one is the answer
     bool conv_above = (__int128)c[k].first * tq > (__int128)tp * c[k].second;
     return conv_above ? c[k] : semi;
 }

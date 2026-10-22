@@ -208,8 +208,8 @@ int main(){
     }
 
     /// Random f(p) of degree 3 to 5 with mixed coefficients at large n, the prime sum at every vals[i] against a segmented sieve
-    /// The modulus stays above 2^31, a tiny one such as 1 or 2 would zero out the high coefficients this block is here to test
     for (long long it = 0; it < stress::scaled(1); it++){
+        /// Above 2^31: a tiny modulus such as 1 or 2 would zero out the high coefficients this block tests
         uint64_t mod = stress::rand_int(1LL << 31, 1LL << 32);
         auto [poly, f] = random_function(mod, 4);
         check_prime_sums(Min25Sieve(stress::rand_int(100000000LL, 200000000LL), mod, poly), f);

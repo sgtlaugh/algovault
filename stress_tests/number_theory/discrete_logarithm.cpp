@@ -41,7 +41,7 @@ int main(){
         assert(0 <= x && x <= k && pow_mod(a, x, mod) == b);
     }
 
-    /// Baby steps b * 3^i mod 2^30 share their low bits, an identity hash with masked buckets takes 90 s here instead of 1 s
+    /// Baby steps b * 3^i mod 2^30 share their low bits, the worst case for an identity hash with masked buckets
     auto start = chrono::steady_clock::now();
     for (int shift = 11; shift <= 14; shift++){
         for (int odd = 5; odd <= 13; odd += 2) assert(discrete_log(3, odd << shift, 1 << 30) == -1);
