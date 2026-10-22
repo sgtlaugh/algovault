@@ -25,21 +25,31 @@
 using namespace std;
 
 struct WalshHadamard{
-    static constexpr int OR = 0;
-    static constexpr int AND = 1;
-    static constexpr int XOR = 2;
+    enum ConvType{OR, AND, XOR};
 
     vector<long long> buffer;  /// reused across calls: allocating a fresh 8 MB vector per call at n = 2^20 costs ~10% in page faults
 
-    static void walsh_transform(long long* ar, int n, int conv_type, long long mod = 0){
+    vector<long long> xor_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
+        return convolution(A, B, XOR, mod);
+    }
+
+    vector<long long> or_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
+        return convolution(A, B, OR, mod);
+    }
+
+    vector<long long> and_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
+        return convolution(A, B, AND, mod);
+    }
+
+    static void walsh_transform(long long* ar, int n, ConvType conv_type, long long mod = 0){
         dispatch<false>(ar, n, conv_type, mod);
     }
 
-    static void inverse_walsh_transform(long long* ar, int n, int conv_type, long long mod = 0){
+    static void inverse_walsh_transform(long long* ar, int n, ConvType conv_type, long long mod = 0){
         dispatch<true>(ar, n, conv_type, mod);
     }
 
-    vector<long long> convolution(const vector<long long>& A, const vector<long long>& B, int conv_type, long long mod = 0){
+    vector<long long> convolution(const vector<long long>& A, const vector<long long>& B, ConvType conv_type, long long mod = 0){
         int n = A.size();
         assert(A.size() == B.size() && __builtin_popcount(n) == 1);
         vector<long long> res = A;
@@ -58,50 +68,16 @@ struct WalshHadamard{
         return res;
     }
 
-    vector<long long> or_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
-        return convolution(A, B, OR, mod);
-    }
-
-    vector<long long> and_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
-        return convolution(A, B, AND, mod);
-    }
-
-    vector<long long> xor_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
-        return convolution(A, B, XOR, mod);
-    }
-
-    /// modular operands are in [0, mod); (s >> 63) & mod adds mod back exactly when s went negative
-    template<bool modular>
-    static long long add(long long x, long long y, long long mod){
-        long long s = x + y;
-        if constexpr (modular) s -= mod, s += (s >> 63) & mod;
-        return s;
-    }
-
     /// conv_type and mod != 0 become template arguments so the butterfly loops carry no per-element branches
     template<bool inverse>
-    static void dispatch(long long* ar, int n, int conv_type, long long mod){
+    static void dispatch(long long* ar, int n, ConvType conv_type, long long mod){
         assert(mod >= 0 && mod < (1LL << 31) && (conv_type != XOR || !mod || mod % 2 == 1));
         if (conv_type == OR) mod ? transform<OR, inverse, true>(ar, n, mod) : transform<OR, inverse, false>(ar, n, mod);
         if (conv_type == AND) mod ? transform<AND, inverse, true>(ar, n, mod) : transform<AND, inverse, false>(ar, n, mod);
         if (conv_type == XOR) mod ? transform<XOR, inverse, true>(ar, n, mod) : transform<XOR, inverse, false>(ar, n, mod);
     }
 
-    /// exact mode: v is even, so >> 1 divides; modular mode: mod is odd, so adding it to an odd v makes v + mod even
-    template<bool modular>
-    static long long half(long long v, long long mod){
-        if constexpr (modular) v += (v & 1) * mod;
-        return v >> 1;
-    }
-
-    template<bool modular>
-    static long long sub(long long x, long long y, long long mod){
-        long long d = x - y;
-        if constexpr (modular) d += (d >> 63) & mod;
-        return d;
-    }
-
-    template<int conv_type, bool inverse, bool modular>
+    template<ConvType conv_type, bool inverse, bool modular>
     static void transform(long long* ar, int n, long long mod){
         if (n < 2) return;
 
@@ -118,6 +94,28 @@ struct WalshHadamard{
                 if constexpr (inverse) ar[i] = half<modular>(ar[i], mod), ar[i + m] = half<modular>(ar[i + m], mod);
             }
         }
+    }
+
+    /// modular operands are in [0, mod); (s >> 63) & mod adds mod back exactly when s went negative
+    template<bool modular>
+    static long long add(long long x, long long y, long long mod){
+        long long s = x + y;
+        if constexpr (modular) s -= mod, s += (s >> 63) & mod;
+        return s;
+    }
+
+    template<bool modular>
+    static long long sub(long long x, long long y, long long mod){
+        long long d = x - y;
+        if constexpr (modular) d += (d >> 63) & mod;
+        return d;
+    }
+
+    /// exact mode: v is even, so >> 1 divides; modular mode: mod is odd, so adding it to an odd v makes v + mod even
+    template<bool modular>
+    static long long half(long long v, long long mod){
+        if constexpr (modular) v += (v & 1) * mod;
+        return v >> 1;
     }
 };
 
