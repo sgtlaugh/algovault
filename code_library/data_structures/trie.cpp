@@ -47,7 +47,6 @@ struct Trie{
         new_node();
     }
 
-    /// Reserving up front skips the vector doubling, whose copy otherwise holds up to twice the nodes in memory at once
     explicit Trie(int max_nodes){
         assert(max_nodes >= 1);
         next.reserve(max_nodes), pass.reserve(max_nodes), ends.reserve(max_nodes);
