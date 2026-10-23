@@ -73,19 +73,21 @@ The `/lucid` skill in `.claude/skills/lucid/` applies these rules to existing fi
 ```cpp
 /***
  *
- * Disjoint Sparse Table
- * O(1) range queries on a static array for any associative operation
+ * Lagrange Interpolation
+ * Evaluates a polynomial anywhere from its values at x = 0, 1, ..., n - 1, modulo a prime
  *
  * Complexity:
- *   - build: O(n log n) time and memory
- *   - query: O(1)
+ *   - constructor: O(n + log mod)
+ *   - f(x): O(n)
+ *   - find_degree: O(n (d + 1)) for the degree d it returns, O(n^2) when it returns -1
  *
- * DisjointSparseTable<T> table(a): range sums of a
- * DisjointSparseTable table(a, op): range folds with op, which must be associative but need not commute
- * table.query(l, r): op over a[l..r], 0 <= l <= r < n
+ * Lagrange f(terms, mod): the polynomial of degree below n with f(x) = terms[x]
+ * f(x): the value at any long long x
+ * find_degree(terms, mod): the lowest degree d that fits, -1 if fewer than d + 2 terms
  *
- * The default plus is a convenience, a prefix array answers plain sums in O(n) memory
- * Use sparse_table.cpp for min, max or gcd
+ * Notes:
+ *   - mod is a prime below 2^31 and n <= mod
+ *   - Terms and x may be negative, every result is in [0, mod)
  *
 ***/
 ```
@@ -96,12 +98,18 @@ The `/lucid` skill in `.claude/skills/lucid/` applies these rules to existing fi
 - Otherwise one bullet per operation, or per struct when a file has several, time first
 - Memory only when it is not the obvious O(n) or its real size matters, like `about 205 MB by default`
 - The API lists the constructor first, then one line per public call: `call(args): what it returns or does, preconditions`
+- Name the object the way the math does, so a call reads as the formula: `Lagrange f(terms, mod)`, then `f(x)`
+- An API line says what the call returns or does, never how, and nothing an assert or the signature already shows
+- Each line defines its call by itself, `a becomes the f with divisor_zeta(f) = a`, never as `undoes divisor_zeta`
 - Constructors come first, simplest first, then calls that change the structure, then calls that only read it, these two
   groups alphabetical; a call goes by its main effect, so `link` returning a bool changes and `find` compressing paths reads
 - Public fields a caller reads, like `dsu.now`, come after the calls, in the order a reader needs them
-- One sentence per line, a sentence never split across lines, never two calls on one line
+- One sentence per line, a sentence never split across lines, never two calls on one line, no line over 120 characters:
+  a long line is cut, never wrapped
 - No usage example, `main()` is the example; a short snippet only when calling it needs code, like a functor
-- Notes on value ranges, traps and which template to use instead, one short line each
+- Notes on value ranges, traps and which template to use instead go under `Notes:`, one bullet each, like `Complexity:`
+- Every line gives a caller a fact no other line gives: one that does not is deleted, and two that only make sense
+  together are merged
 - The header states what a caller must pass and gets back; how the code works goes in a comment at that code
 - Plain words: no filler, no marketing, no lists of applications
 - A term outside standard contest vocabulary is defined in plain words where it first appears, and math is one sentence, never pseudocode
@@ -142,8 +150,8 @@ int main(){
 
 - Comments explain why, never what: a comment whose deletion loses nothing the code already shows is deleted, and one naming
   what a variable holds becomes a better name
-- A comment is one line at the code it explains, with no debugging history, measurements, failing inputs or judge anecdotes:
-  those go in the commit message
+- A comment is one line of at most 120 characters at the code it explains, never two `///` lines in a row, with no
+  debugging history, measurements, failing inputs or judge anecdotes: those go in the commit message
 - These rules cover tests too: a test comment names the case it covers and why that case matters, the bug it would catch
 - A header note states the condition instead of hedging: `beyond double precision`, not `may get either answer`
 - `){` and `struct X{` open a body, `) {}` is empty, `for (` takes a space, `vector<int>` does not
@@ -154,7 +162,7 @@ int main(){
 
 ## Checks
 
-CI fails on a failing test, a compiler warning, a missing stress test or index entry, an index description over 50 characters, a ✔ that disagrees with `judge_tests/`, a ✅ that disagrees with `practice/`, a header without a complexity, a copied region that drifted, a struct member declared after a method, or a whitespace or style error.
+CI fails on a failing test, a compiler warning, a missing stress test or index entry, an index description over 50 characters, a ✔ that disagrees with `judge_tests/`, a ✅ that disagrees with `practice/`, a header without a complexity, a copied region that drifted, a struct member declared after a method, a header or `///` line over 120 characters, two `///` lines in a row, or a whitespace or style error.
 
 ```bash
 bash .github/scripts/run_tests.sh self      # every self-test

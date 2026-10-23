@@ -312,6 +312,36 @@ check_whitespace(){  # tabs, trailing whitespace, CRLF or a missing final newlin
     failures+=("${bad[@]/%/ (whitespace)}")
 }
 
+check_line_length(){  # a header or /// comment line is cut to 120 characters, never wrapped
+    local bad=()
+    mapfile -t bad < <(git ls-files 'code_library/*.cpp' 'stress_tests/*.cpp' 'stress_tests/*.h' 'judge_tests/*.cpp' | xargs awk '
+        FNR == 1 {header = 0}
+        /^\/\*\*\*/ {header = 1}
+        (header || /\/\/\//) && length($0) > 120 {print FILENAME ":" FNR}
+        /^\*\*\*\// {header = 0}')
+
+    echo "line length: ${#bad[@]} header or comment lines over 120 characters"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (over 120 characters)}")
+}
+
+check_split_comments(){  # a comment is one /// line, so a sentence is never split over two
+    local bad=()
+    mapfile -t bad < <(git ls-files 'code_library/*.cpp' 'stress_tests/*.cpp' 'stress_tests/*.h' 'judge_tests/*.cpp' | xargs awk '
+        FNR == 1 {prev = 0}
+        /^[ \t]*\/\/\/ (BEGIN|END) (COPY|SHARED) / {prev = 0; next}
+        /^[ \t]*\/\/\// {if (prev) print FILENAME ":" FNR; prev = 1; next}
+        {prev = 0}')
+
+    echo "split comments: ${#bad[@]} /// lines continuing the comment above them"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (split comment)}")
+}
+
 check_style(){  # ){ and struct X{ open a body, ) {} is empty, keywords take a space, template arguments do not
     local line bad=()
     while IFS= read -r line; do
@@ -417,6 +447,8 @@ check_headers
 check_complexity_notation
 check_copies
 check_whitespace
+check_line_length
+check_split_comments
 check_style
 check_member_order
 check_api_order

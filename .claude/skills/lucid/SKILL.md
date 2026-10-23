@@ -30,6 +30,7 @@ The rules live in the `## Documentation` section of `CONTRIBUTING.md`. Read it f
    - value ranges from the types and asserts
    A claim you cannot confirm from the code is removed, not guessed.
    Every call the old header documented keeps its API line, preconditions included, unless the report's Claims table says why it was removed: a precondition on a public call is caller contract, never an internal.
+   Then the cut pass: for each line, name the fact a caller would lose without it. A line whose fact another line already gives, or that no caller needs, is deleted; two lines that only make sense together become one; a line over 120 characters is cut down, never wrapped.
 3. **main().** Rewrite it to the CONTRIBUTING rules: the first block is the worked example, one call per assert, a blank line before each new object. Each further block shows one more use of the API, like a second constructor or a mode; a block that only checks an edge case or scale the stress test covers is removed. Every expected value is worked out by hand from the input; a value taken from running the program is forbidden.
 4. **README.** Make the index entry one short phrase on what the template is for, at most 50 characters, agreeing with the header's second line; details stay in the header. If the template's display name changed, update its practice section heading in `code_library/<topic>/README.md` to match.
 5. **Verify.** Run both, from the repo root:
@@ -49,8 +50,10 @@ Every item is a yes, or the file is not done. The list mirrors CONTRIBUTING.md, 
 - [ ] Line 1 is the name, line 2 one plain sentence; blank lines separate name, complexity, API and notes
 - [ ] Complexity is one line for one cost, otherwise one bullet per operation or struct, time first, memory only when it matters
 - [ ] One API line per public call, each one sentence: `call(args): what it returns or does, preconditions`
+- [ ] The object is named the way the math names it, and each API line defines its call by itself, never as "undoes X"
 - [ ] The calls come as constructors, simplest first, then calls that change the structure, then calls that only read it, these two groups alphabetical, then public fields
-- [ ] No sentence is split across lines and no line holds two calls
+- [ ] No sentence is split across lines, no line holds two calls, and no line is over 120 characters
+- [ ] Notes sit under `Notes:`, one bullet each, and the cut pass left no line without its own fact
 - [ ] The header has no usage example; a snippet appears only where calling the template needs code
 - [ ] Every `///` comment moved into the code says something the code does not already show
 - [ ] The header states only what a caller passes and gets back, no internals; every uncommon term is defined where it first appears, and math is one sentence, not pseudocode
@@ -64,7 +67,7 @@ Every item is a yes, or the file is not done. The list mirrors CONTRIBUTING.md, 
 The report MUST contain, in this order:
 
 1. **File** and its README entry, before and after.
-2. **Claims:** a table of every header line, each with the code that confirms it (`file:line` or the signature). A line without evidence is not allowed in the header.
+2. **Claims:** a table of every header line, each with the code that confirms it (`file:line` or the signature) and the fact a caller would lose without it. A line without evidence is not allowed in the header. Below it, the header's line count before and after.
 3. **main():** each kept block with the API use it shows, and each removed block with the stress test check that covers it.
 4. **Proposed, not applied:** each `## API and code` rule of CONTRIBUTING.md the file breaks (a needless parameter, a name that hides the job, an out-parameter, a `private:` section, a cryptic variable), renames, missing invariant comments and library defects noticed, or "none".
 5. **Verification:** the last 3 lines of both suite runs and the `git diff --stat` output.
