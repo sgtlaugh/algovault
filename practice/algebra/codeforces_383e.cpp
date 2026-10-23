@@ -352,12 +352,13 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define BITS 24
 
 int n;
 
 int main(){
-    using namespace fio;
     int i, mask;
     string s;
 

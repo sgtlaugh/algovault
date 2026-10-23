@@ -341,10 +341,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define LOG 7
 
 int main(){
-    using namespace fio;
     int n, x, i;
     double p, zero = 0;
 

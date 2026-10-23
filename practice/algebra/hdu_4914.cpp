@@ -682,6 +682,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 119
 
 int f(vector<int>& seq, int k){
@@ -689,7 +691,6 @@ int f(vector<int>& seq, int k){
 }
 
 int main(){
-    using namespace fio;
     int n, a, b, p, q, i;
 
     while (read(n, a, b, p, q)){

@@ -372,6 +372,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 258280327
 #define MAX 131073
 
@@ -385,7 +387,6 @@ vector<long long> shift_square(const vector<long long>& a){
 }
 
 int main(){
-    using namespace fio;
     int i, j;
 
     freopen("dichromatic.in", "r", stdin);

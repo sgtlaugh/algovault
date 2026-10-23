@@ -682,6 +682,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 1000000007
 
 int dp[2][101][101];
@@ -711,7 +713,6 @@ vector<int> nice_counts(int k){
 }
 
 int main(){
-    using namespace fio;
     int t, k;
     long long l;
 

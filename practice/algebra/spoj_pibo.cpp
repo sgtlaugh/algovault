@@ -682,10 +682,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 1111111111
 
 int main(){
-    using namespace fio;
     int n, d, i, j, k;
 
     read(n, d);

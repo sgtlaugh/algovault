@@ -802,13 +802,14 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 Bignum gcd(Bignum a, Bignum b){
     while (b != 0) a = a % b, swap(a, b);
     return a;
 }
 
 int main(){
-    using namespace fio;
     int t;
     string x, slash, y;
 

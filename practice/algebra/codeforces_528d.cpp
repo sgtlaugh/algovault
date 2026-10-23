@@ -540,13 +540,14 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 200010
 
 int n, m, k, near[MAX];
 long long cnt[MAX];
 
 int main(){
-    using namespace fio;
     int i, res = 0;
     string s, t;
     FFT fft;

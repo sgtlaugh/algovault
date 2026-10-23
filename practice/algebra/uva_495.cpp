@@ -802,8 +802,9 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int main(){
-    using namespace fio;
     int i, n;
     vector<Bignum> fib(5001);
 

@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 50010
 
 const int MOD = 99991;
@@ -571,7 +573,6 @@ long long esum(long long root){
 }
 
 int main(){
-    using namespace fio;
     int i;
     long long s = 1, phi, psi, res;
 

@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 100010
 #define MAXV 30001
 #define BLOCK 2000
@@ -548,7 +550,6 @@ int n, ar[MAX], inside[MAXV];
 vector<long long> lft(MAXV, 0), rgt(MAXV, 0);
 
 int main(){
-    using namespace fio;
     int i, j, k, l, r, x;
     long long res = 0;
     FFT fft;

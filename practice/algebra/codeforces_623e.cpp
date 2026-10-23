@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 30010
 
 const int MOD = 1000000007;
@@ -566,7 +568,6 @@ vector<long long> combine(vector<long long> x, const vector<long long>& y, long 
 }
 
 int main(){
-    using namespace fio;
     int j;
     long long n, len = 1, res = 0;
 

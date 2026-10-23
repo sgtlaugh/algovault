@@ -546,6 +546,9 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
+const int N = 100010;
 const int MOD = 1711276033;
 
 long long expo(long long b, long long e){
@@ -557,8 +560,6 @@ long long expo(long long b, long long e){
 }
 
 int main(){
-    using namespace fio;
-    const int N = 100010;
     int i, k, m, n;
     long long res;
     vector<long long> fact(N, 1), inv_fact(N);

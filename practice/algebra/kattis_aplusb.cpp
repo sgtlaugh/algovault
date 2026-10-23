@@ -540,13 +540,14 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 200010
 #define OFFSET 50000
 
 int n, ar[MAX];
 
 int main(){
-    using namespace fio;
     int i, zero;
 
     read(n);

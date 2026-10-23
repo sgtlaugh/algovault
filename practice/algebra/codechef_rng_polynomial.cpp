@@ -704,10 +704,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 typedef Polynomial<104857601> poly;
 
 int main(){
-    using namespace fio;
     int k, i;
     long long n;
 

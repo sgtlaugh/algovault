@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 100010
 #define MAXV 65536
 #define BLOCK 2048
@@ -579,7 +581,6 @@ long long solve(){
 }
 
 int main(){
-    using namespace fio;
     int t, i;
 
     read(t);

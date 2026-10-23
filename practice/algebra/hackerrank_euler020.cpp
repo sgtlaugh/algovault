@@ -802,6 +802,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 1010
 
 int res[MAX];
@@ -815,7 +817,6 @@ void gen(){
 }
 
 int main(){
-    using namespace fio;
     int t, n;
 
     gen();

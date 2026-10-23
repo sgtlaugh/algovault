@@ -682,6 +682,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 10007
 #define MAX 205
 
@@ -728,7 +730,6 @@ vector<int> gen(int terms, int odd){
 }
 
 int main(){
-    using namespace fio;
     int n;
 
     read(s, n);

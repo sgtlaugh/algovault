@@ -802,9 +802,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
+const Bignum limit("1" + string(60, '0'));
+
 int main(){
-    using namespace fio;
-    const Bignum limit("1" + string(60, '0'));
     vector<Bignum> row = {1};
     size_t i;
 

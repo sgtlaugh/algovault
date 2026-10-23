@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 250010
 
 int n, m, img[MAX], sec[MAX], fail[MAX];
@@ -567,7 +569,6 @@ void match(){
 }
 
 int main(){
-    using namespace fio;
     int i, j;
     string byte;
     FFT fft;

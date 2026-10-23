@@ -540,12 +540,13 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAXL 1000001
 
 int best[MAXL];
 
 int main(){
-    using namespace fio;
     int n, x, y, q, i, j, l, lap;
     FFT fft;
 

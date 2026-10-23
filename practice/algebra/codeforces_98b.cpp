@@ -802,6 +802,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 Bignum gcd(Bignum a, Bignum b){
     while (b != 0){
         a %= b;
@@ -811,7 +813,6 @@ Bignum gcd(Bignum a, Bignum b){
 }
 
 int main(){
-    using namespace fio;
     int n, a = 0, k, l, r;
 
     read(n);

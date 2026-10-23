@@ -546,6 +546,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 FFT fft;
 
 vector<long long> multiply(const vector<long long>& a, const vector<long long>& b){
@@ -561,7 +563,6 @@ vector<long long> multiply(const vector<long long>& a, const vector<long long>& 
 }
 
 int main(){
-    using namespace fio;
     int t, tc, m, p, lim, i, j, k, sign;
     char buf[64];
 

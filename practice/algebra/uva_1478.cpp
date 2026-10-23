@@ -802,6 +802,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 10010
 
 int top;
@@ -809,7 +811,6 @@ bool asked[MAX];
 string ans[MAX];
 
 int main(){
-    using namespace fio;
     int n, i;
     vector<int> queries;
 

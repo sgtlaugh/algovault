@@ -682,8 +682,9 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int main(){
-    using namespace fio;
     int t, k, i, j;
     LinearRecurrence lr;
     vector<int> mods = {1000000007, 1000000009, 998244353};

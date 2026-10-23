@@ -546,10 +546,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAXV 50000
 
 int main(){
-    using namespace fio;
     int a, b, c, i, j, s, v;
     string card, suits = "SHCD";
     vector<bool> composite(MAXV + 1);

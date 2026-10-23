@@ -352,6 +352,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 1000010
 #define BITS 22
 
@@ -366,7 +368,6 @@ int find(int mask, vector<int>& cnt){
 }
 
 int main(){
-    using namespace fio;
     int i, full = (1 << BITS) - 1;
 
     read(n);

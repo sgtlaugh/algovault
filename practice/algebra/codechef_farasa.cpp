@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 200010
 
 int n;
@@ -579,7 +581,6 @@ long long solve_fft(){
 }
 
 int main(){
-    using namespace fio;
     int i, x;
     long long res;
 

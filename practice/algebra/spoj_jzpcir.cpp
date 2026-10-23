@@ -682,6 +682,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 1000000009
 #define MAXN 22
 
@@ -705,7 +707,6 @@ void dfs(int x, int d){
 }
 
 int main(){
-    using namespace fio;
     int t;
     long long m;
     vector<int> seq;

@@ -802,6 +802,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 Bignum f, g;
 
 void fib(int m){
@@ -814,7 +816,6 @@ void fib(int m){
 }
 
 int main(){
-    using namespace fio;
     int t, a, b, m;
 
     while (read(t)){

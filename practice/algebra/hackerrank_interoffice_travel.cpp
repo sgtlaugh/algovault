@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 100010
 
 FFT fft;
@@ -614,7 +616,6 @@ void decompose(){
 }
 
 int main(){
-    using namespace fio;
     int i, u, v;
 
     read(n);

@@ -372,6 +372,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 998244353
 
 int n, p, mm, w;
@@ -406,7 +408,6 @@ void count_weights(){
 }
 
 int main(){
-    using namespace fio;
     int i, k, r;
 
     read(n, p, mm);

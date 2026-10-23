@@ -372,10 +372,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 786433
 
 int main(){
-    using namespace fio;
     int n, h, i, j;
 
     freopen("avl.in", "r", stdin);

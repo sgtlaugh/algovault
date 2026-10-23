@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 200010
 
 const int MOD = 1009;
@@ -557,7 +559,6 @@ vector<long long> product(int l, int r){
 }
 
 int main(){
-    using namespace fio;
     int i, x;
 
     read(n, m, k);

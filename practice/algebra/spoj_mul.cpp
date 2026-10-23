@@ -802,8 +802,9 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int main(){
-    using namespace fio;
     int t;
     string a, b;
 

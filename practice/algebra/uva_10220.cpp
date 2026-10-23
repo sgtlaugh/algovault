@@ -802,8 +802,9 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int main(){
-    using namespace fio;
     int i, n;
     vector<int> digit_sum(1001);
     Bignum fact = 1;

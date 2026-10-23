@@ -341,6 +341,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define LOG 16
 #define MOD 30011
 
@@ -353,7 +355,6 @@ long long expo(long long b, int e){
 }
 
 int main(){
-    using namespace fio;
     int n, k, i;
 
     read(n, k);

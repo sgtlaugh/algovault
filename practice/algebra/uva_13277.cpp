@@ -341,8 +341,9 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int main(){
-    using namespace fio;
     WalshHadamard fwht;
     char buf[64];
     int t, tc, n, i, u, v, w;

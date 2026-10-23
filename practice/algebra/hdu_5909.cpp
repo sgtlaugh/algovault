@@ -341,6 +341,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 1010
 #define MOD 1000000007
 
@@ -365,7 +367,6 @@ vector<long long> dfs(int u, int parent){
 }
 
 int main(){
-    using namespace fio;
     int t, i, a, b;
 
     while (read(t)){

@@ -546,8 +546,9 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int main(){
-    using namespace fio;
     int n, m, i, k, d, res;
     FFT fft;
 

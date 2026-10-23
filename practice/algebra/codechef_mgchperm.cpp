@@ -682,6 +682,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 1000000007
 #define TERMS 400
 
@@ -711,7 +713,6 @@ void gen(){
 }
 
 int main(){
-    using namespace fio;
     int t, n, k;
 
     gen();

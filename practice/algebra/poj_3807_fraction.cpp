@@ -338,6 +338,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAXE 105
 #define MAXM 25
 
@@ -434,7 +436,6 @@ vector<long long> solve(){
 }
 
 int main(){
-    using namespace fio;
     int i, j;
 
     while (read_line(s)){

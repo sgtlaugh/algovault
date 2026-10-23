@@ -341,6 +341,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 8192
 #define LOG 6
 
@@ -368,7 +370,6 @@ void add_frequency(int k){
 }
 
 int main(){
-    using namespace fio;
     int i, k;
 
     read(n, mod);

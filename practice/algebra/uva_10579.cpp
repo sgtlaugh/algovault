@@ -802,9 +802,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
+const int MAXN = 4800;
+
 int main(){
-    using namespace fio;
-    const int MAXN = 4800;
     int n, i;
 
     vector<Bignum> fib(MAXN + 1);

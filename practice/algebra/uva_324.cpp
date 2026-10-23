@@ -802,10 +802,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int cnt[367][10];
 
 int main(){
-    using namespace fio;
     int n, d;
     char buf[64];
     string line;

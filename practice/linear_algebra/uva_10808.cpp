@@ -926,6 +926,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 16
 #define clr(ar) memset(ar, 0, sizeof(ar))
 
@@ -1015,7 +1017,6 @@ string resistance(int a, int b){
 }
 
 int main(){
-    using namespace fio;
     int t, cs, i, u, v, r, q, a, b;
 
     while (read(t)){

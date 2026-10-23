@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 400010
 #define MOD 1000003
 
@@ -560,7 +562,6 @@ long long binomial(int x, int k){
 }
 
 int main(){
-    using namespace fio;
     int i, k;
 
     read(n, a, b, c);

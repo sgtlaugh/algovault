@@ -802,6 +802,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAXN 5000
 
 int legendre(int n, int p){
@@ -811,7 +813,6 @@ int legendre(int n, int p){
 }
 
 int main(){
-    using namespace fio;
     int n, m, i, j, k, a, b, p, sign;
     vector<int> primes;
     vector<bool> composite(MAXN + 1);

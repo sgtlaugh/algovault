@@ -346,6 +346,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 1000000007
 
 long long expo(long long a, long long b){
@@ -419,7 +421,6 @@ long long solve(long long r, int d, long long n){
 }
 
 int main(){
-    using namespace fio;
     int t, d;
     long long n, a;
 

@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 410
 
 int n, m, r, c, pat[MAX][MAX];
@@ -560,7 +562,6 @@ bool fold(){
 }
 
 int main(){
-    using namespace fio;
     int i, j, x, y, w, len;
     long long cube = 0;
     FFT fft;

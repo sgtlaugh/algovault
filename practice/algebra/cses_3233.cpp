@@ -341,10 +341,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define LOG 20
 
 int main(){
-    using namespace fio;
     int n, i, x, p = 0;
     bool repeat = false;
     WalshHadamard fwht;

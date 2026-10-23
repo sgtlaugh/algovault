@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 125010
 
 int parent[6];
@@ -550,7 +552,6 @@ int find(int x){
 }
 
 int main(){
-    using namespace fio;
     int n, m, i, a, b, cnt;
     string s, t;
     FFT fft;

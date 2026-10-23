@@ -802,6 +802,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 vector<Bignum> values;
 vector<char> ops;
 
@@ -830,7 +832,6 @@ void apply(){
 }
 
 int main(){
-    using namespace fio;
     size_t i, j;
     string line;
 

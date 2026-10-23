@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 510
 #define CHUNK 87
 #define clr(ar) memset(ar, 0, sizeof(ar))
@@ -570,7 +572,6 @@ void add_block(int r0, int rows, int b0, int g){
 }
 
 int main(){
-    using namespace fio;
     int t, i, j, r, c, r0, b0;
 
     read(t);

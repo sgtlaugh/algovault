@@ -546,11 +546,12 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define LIM 500001
 #define BLOCK 1024
 
 int main(){
-    using namespace fio;
     int t, i, j, lo, hi, best;
     vector<long long> divisors(LIM, 0);
     vector<int> block_best;

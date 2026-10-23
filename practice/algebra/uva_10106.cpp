@@ -802,8 +802,9 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int main(){
-    using namespace fio;
     string x, y;
 
     while (read(x, y) == 2) write((Bignum(x) * Bignum(y)).to_string());

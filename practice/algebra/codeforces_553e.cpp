@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAXT 20010
 #define MAXM 110
 #define SHIFT 30
@@ -594,7 +596,6 @@ void solve(int l, int r){
 }
 
 int main(){
-    using namespace fio;
     int i, j, k, e;
     long long suffix;
 

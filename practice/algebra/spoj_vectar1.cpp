@@ -341,6 +341,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 1000010
 #define LOG 10
 #define MOD 1000000007
@@ -348,7 +350,6 @@ namespace fio{
 long long fact[MAX];
 
 int main(){
-    using namespace fio;
     int t, n, m, i;
     WalshHadamard fwht;
 

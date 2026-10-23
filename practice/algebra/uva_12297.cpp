@@ -682,11 +682,12 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
+const int choose4[] = {1, 4, 6, 4, 1};
 const int MOD = 1000000009, TERMS = 200;
 
 int main(){
-    using namespace fio;
-    const int choose4[] = {1, 4, 6, 4, 1};
     int p, j, s, t, k, n;
     vector<vector<long long>> ways(11, vector<long long>(TERMS));
     vector<LinearRecurrence> at_most(11);

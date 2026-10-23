@@ -682,6 +682,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 const int MOD = 34830;
 
 int len;
@@ -726,7 +728,6 @@ long long brute(int n){
 
 
 int main(){
-    using namespace fio;
     int t, tc, j;
     long long n, res;
     char buf[64];

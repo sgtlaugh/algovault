@@ -704,6 +704,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 100001
 #define MOD 786433
 
@@ -719,7 +721,6 @@ void gen(){
 }
 
 int main(){
-    using namespace fio;
     int t, n, m, c, i, v, lo, hi;
 
     gen();

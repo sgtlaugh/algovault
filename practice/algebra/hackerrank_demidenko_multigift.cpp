@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int n, mod;
 long long q, d;
 
@@ -553,7 +555,6 @@ long long expo(long long x, long long k){
 }
 
 int main(){
-    using namespace fio;
     int i;
 
     read(q, n, d, mod);

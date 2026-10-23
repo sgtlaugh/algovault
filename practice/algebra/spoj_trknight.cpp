@@ -682,6 +682,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 1000007
 
 int dp[2][24][24], dx[] = {1, 2, 2, 1, -1, -2, -2, -1}, dy[] = {2, 1, -1, -2, -2, -1, 1, 2};
@@ -715,7 +717,6 @@ void gen(int n){
 }
 
 int main(){
-    using namespace fio;
     int t, n, k;
 
     read(t);

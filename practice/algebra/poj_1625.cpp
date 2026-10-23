@@ -802,6 +802,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAXS 110
 
 int n, m, p, sz, id[256], nxt[MAXS][55], fail[MAXS];
@@ -837,7 +839,6 @@ void build(){
 }
 
 int main(){
-    using namespace fio;
     int i, j, c, u, cur;
     string s, w;
 

@@ -540,8 +540,9 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int main(){
-    using namespace fio;
     int t, n;
     FFT fft;
 

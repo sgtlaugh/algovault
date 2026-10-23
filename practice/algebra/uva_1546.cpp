@@ -346,9 +346,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
+const long long P = 1000000007, Q = 998244353, P_INV_Q = 993328907;
+
 int main(){
-    using namespace fio;
-    const long long P = 1000000007, Q = 998244353, P_INV_Q = 993328907;
     int t, s, c, i;
     long long a, b, k;
 

@@ -540,11 +540,12 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define OFFSET 20000
 #define MAXV 40001
 
 int main(){
-    using namespace fio;
     int i, n, x;
     char buf[64];
     FFT fft;

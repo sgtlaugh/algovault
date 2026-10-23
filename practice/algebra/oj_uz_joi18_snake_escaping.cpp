@@ -352,6 +352,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int l, q;
 string s, t;
 vector<int> sub, sup;
@@ -389,7 +391,6 @@ int solve(){
 }
 
 int main(){
-    using namespace fio;
     int i;
 
     read(l, q, s);

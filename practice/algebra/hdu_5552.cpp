@@ -680,6 +680,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 10001
 #define MOD 152076289
 
@@ -712,7 +714,6 @@ long long solve(int n, long long m){
 }
 
 int main(){
-    using namespace fio;
     int t, n, T;
     long long m;
     char buf[64];

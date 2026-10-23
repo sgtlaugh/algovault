@@ -802,8 +802,9 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int main(){
-    using namespace fio;
     int n, i, scale;
     bool frac;
     string r, digits, s, ip, fp;

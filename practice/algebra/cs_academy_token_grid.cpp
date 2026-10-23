@@ -341,6 +341,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define clr(ar) memset(ar, 0, sizeof(ar))
 #define MOD 1000000007
 
@@ -365,7 +367,6 @@ void zeta(int j){
 }
 
 int main(){
-    using namespace fio;
     int i, j, T;
 
     read(n, m);

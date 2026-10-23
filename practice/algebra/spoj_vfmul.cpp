@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define DIGITS 4
 #define BASE 10000
 
@@ -578,7 +580,6 @@ string mul(string a, string b){
 }
 
 int main(){
-    using namespace fio;
     int t;
     string a, b;
 

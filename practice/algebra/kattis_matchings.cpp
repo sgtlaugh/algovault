@@ -540,10 +540,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int w, h, W, H;
 
 int main(){
-    using namespace fio;
     int i, j, x, y, c;
 
     read(w, h);

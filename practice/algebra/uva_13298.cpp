@@ -682,10 +682,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 1000000009
 
 int main(){
-    using namespace fio;
     int k, i, j;
     long long n;
     map<int, LinearRecurrence> family;

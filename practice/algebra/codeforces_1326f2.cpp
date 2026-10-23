@@ -352,6 +352,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAXN 18
 
 int n, adj[MAXN];
@@ -382,7 +384,6 @@ void dfs(int rem, int low, int depth){
 }
 
 int main(){
-    using namespace fio;
     int i, j, mask, v, u, len;
     string s;
 

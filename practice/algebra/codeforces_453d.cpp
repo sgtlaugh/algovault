@@ -341,6 +341,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define LOW 25
 
 long long M;
@@ -362,7 +364,6 @@ long long norm(long long x){
 }
 
 int main(){
-    using namespace fio;
     int m, n, i;
     long long t, p;
 

@@ -352,6 +352,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 200010
 #define BITS 18
 #define MOD 1000000007
@@ -359,7 +361,6 @@ namespace fio{
 int n, pw[MAX];
 
 int main(){
-    using namespace fio;
     int i, x;
 
     read(n);

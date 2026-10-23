@@ -540,11 +540,12 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 int n, m;
 string str, pat;
 
 int main(){
-    using namespace fio;
     int i, j;
 
     read(n, m, str, pat);

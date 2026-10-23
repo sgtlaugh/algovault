@@ -341,13 +341,14 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 200010
 #define MOD 1000000007
 
 long long pw[MAX];
 
 int main(){
-    using namespace fio;
     int n, i, x;
 
     read(n);

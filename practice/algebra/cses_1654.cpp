@@ -352,13 +352,14 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 200010
 #define BITS 20
 
 int n, ar[MAX];
 
 int main(){
-    using namespace fio;
     int i, full = (1 << BITS) - 1;
 
     read(n);

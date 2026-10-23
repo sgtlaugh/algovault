@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 100010
 #define BASE 100000
 
@@ -551,7 +553,6 @@ vector<long long> correlate(FFT& fft, vector<long long>& a, vector<long long> b)
 }
 
 int main(){
-    using namespace fio;
     int t, i, j, s, total;
 
     FFT fft;

@@ -682,13 +682,14 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 1000000007
 #define TERMS 120
 
 int ways[11][TERMS + 1];
 
 int main(){
-    using namespace fio;
     int t, k, n, c, s;
 
     ways[0][0] = 1;

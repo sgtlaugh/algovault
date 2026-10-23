@@ -346,9 +346,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
+const int mod = 10007;
+
 int main(){
-    using namespace fio;
-    const int mod = 10007;
     int n, i, j, k, l, m;
 
     vector<int> terms(11);

@@ -352,6 +352,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 100010
 #define MOD 1000000007
 
@@ -360,7 +362,6 @@ long long ways[MAX];
 string s;
 
 int main(){
-    using namespace fio;
     int i, j, k, mask;
 
     read(n, m);

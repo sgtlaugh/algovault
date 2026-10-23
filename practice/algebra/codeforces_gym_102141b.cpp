@@ -508,10 +508,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MOD 2147483647
 
 int main(){
-    using namespace fio;
     int t, T = 0, n, i, j, k, mask, res;
     long long X, a;
     char buf[64];

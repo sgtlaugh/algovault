@@ -540,6 +540,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 #define MAX 100010
 #define MOD 1000003
 #define BLOCK 32768
@@ -584,7 +586,6 @@ vector<long long> convolve(FFT& fft, vector<long long>& a, vector<long long>& b)
 }
 
 int main(){
-    using namespace fio;
     int i;
 
     read(n, b, c, d);
