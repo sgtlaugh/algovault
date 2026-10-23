@@ -8,20 +8,20 @@
  * HLD hld(n); hld.add_edge(u, v); hld.build(root);
  * The graph must be a tree, build asserts that every node is reached exactly once
  * hld.pos[v]: position of v in [0, n - 1], 0-indexed like segment_tree.cpp and fenwick_tree.cpp, node values go there
- * hld.path(u, v): ranges [l, r] covering the path u..v, inclusive
- * hld.path(u, v, true): same but excludes the lca, for values on edges
- *     store the weight of edge (parent[v], v) at pos[v], the root's position stays unused
+ * hld.update_path(seg, u, v, x, edges = false): seg.update(l, r, x) on every range of the path
+ *     seg is any size n tree with 0-indexed query(l, r), update(l, r, x) and combine(a, b), like segment_tree.cpp
  * hld.edge_pos(u, v): position holding the value of tree edge (u, v), in either order
+ * hld.lca(u, v)
  * hld.ordered_path(u, v): the same ranges as {from, to} pairs listed in path order from u to v,
  *     each walked from position from to position to: from >= to on the u side (positions decrease while climbing to the lca),
  *     from <= to on the v side, a single-node range has from == to
  *     needed for non-commutative folds such as composing affine functions along the path
  * hld.ordered_path(u, v, true): same but excludes the lca
- * hld.subtree(v): the single range covering the subtree of v
+ * hld.path(u, v): ranges [l, r] covering the path u..v, inclusive
+ * hld.path(u, v, true): same but excludes the lca, for values on edges
+ *     store the weight of edge (parent[v], v) at pos[v], the root's position stays unused
  * hld.query_path(seg, u, v, edges = false): fold of the path through seg.combine, commutative combines only, T() for an empty path
- * hld.update_path(seg, u, v, x, edges = false): seg.update(l, r, x) on every range of the path
- *     seg is any size n tree with 0-indexed query(l, r), update(l, r, x) and combine(a, b), like segment_tree.cpp
- * hld.lca(u, v)
+ * hld.subtree(v): the single range covering the subtree of v
  *
  * path() returns ranges in no particular order, which is fine for commutative operations (sum, min, max, xor)
  *
@@ -94,12 +94,21 @@ struct HLD{
         }
     }
 
-    vector<pair<int, int>> path(int u, int v, bool edges = false) const{
-        vector<pair<int, int>> ranges = ordered_path(u, v, edges);
-        for (auto& [a, b] : ranges){
-            if (a > b) swap(a, b);
+    template <typename Tree, typename Value>
+    void update_path(Tree& seg, int u, int v, Value x, bool edges = false) const{
+        for (auto [l, r] : path(u, v, edges)) seg.update(l, r, x);
+    }
+
+    int edge_pos(int u, int v) const{
+        return pos[depth[u] > depth[v] ? u : v];  /// edge values live on the child
+    }
+
+    int lca(int u, int v) const{
+        while (head[u] != head[v]){
+            if (depth[head[u]] < depth[head[v]]) swap(u, v);
+            u = parent[head[u]];
         }
-        return ranges;
+        return depth[u] < depth[v] ? u : v;
     }
 
     vector<pair<int, int>> ordered_path(int u, int v, bool edges = false) const{
@@ -125,12 +134,12 @@ struct HLD{
         return up;
     }
 
-    pair<int, int> subtree(int v) const{
-        return {pos[v], pos[v] + size[v] - 1};
-    }
-
-    int edge_pos(int u, int v) const{
-        return pos[depth[u] > depth[v] ? u : v];  /// edge values live on the child
+    vector<pair<int, int>> path(int u, int v, bool edges = false) const{
+        vector<pair<int, int>> ranges = ordered_path(u, v, edges);
+        for (auto& [a, b] : ranges){
+            if (a > b) swap(a, b);
+        }
+        return ranges;
     }
 
     /// Folds from the first range, so seg needs no identity; only u == v with edges gives an empty path
@@ -145,17 +154,8 @@ struct HLD{
         return res;
     }
 
-    template <typename Tree, typename Value>
-    void update_path(Tree& seg, int u, int v, Value x, bool edges = false) const{
-        for (auto [l, r] : path(u, v, edges)) seg.update(l, r, x);
-    }
-
-    int lca(int u, int v) const{
-        while (head[u] != head[v]){
-            if (depth[head[u]] < depth[head[v]]) swap(u, v);
-            u = parent[head[u]];
-        }
-        return depth[u] < depth[v] ? u : v;
+    pair<int, int> subtree(int v) const{
+        return {pos[v], pos[v] + size[v] - 1};
     }
 };
 

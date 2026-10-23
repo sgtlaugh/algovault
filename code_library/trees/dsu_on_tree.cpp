@@ -33,41 +33,6 @@ struct DsuOnTree{
         adj[v].push_back(u);
     }
 
-    /// Preorder with the heavy child first, so every subtree is one contiguous range
-    void prepare(int root){
-        size.assign(n, 1), heavy.assign(n, -1), parent.assign(n, -1);  /// run may be called again, possibly from another root
-        vector<int> bfs = {root};
-        parent[root] = -1;
-        for (int i = 0; i < (int)bfs.size(); i++){
-            for (int v : adj[bfs[i]]){
-                if (v == parent[bfs[i]]) continue;
-                assert(v != root && parent[v] == -1);  /// a revisit means a cycle, which would grow bfs forever
-                parent[v] = bfs[i], bfs.push_back(v);
-            }
-        }
-        assert((int)bfs.size() == n);
-
-        for (int i = n - 1; i > 0; i--){
-            int v = bfs[i], p = parent[v];
-            size[p] += size[v];
-            if (heavy[p] == -1 || size[v] > size[heavy[p]]) heavy[p] = v;
-        }
-
-        order.clear();
-        vector<int> stack = {root};
-        while (!stack.empty()){
-            int u = stack.back();
-            stack.pop_back();
-            tin[u] = order.size(), order.push_back(u);
-            for (int v : adj[u]){
-                if (v != parent[u] && v != heavy[u]) stack.push_back(v);
-            }
-            if (heavy[u] != -1) stack.push_back(heavy[u]);
-        }
-
-        for (int i = n - 1; i >= 0; i--) tout[order[i]] = tin[order[i]] + size[order[i]] - 1;
-    }
-
     template <typename Add, typename Remove, typename Answer>
     void run(int root, Add add, Remove remove, Answer answer){
         prepare(root);
@@ -101,6 +66,41 @@ struct DsuOnTree{
         }
 
         for (int i = 0; i < n; i++) remove(order[i]);
+    }
+
+    /// Preorder with the heavy child first, so every subtree is one contiguous range
+    void prepare(int root){
+        size.assign(n, 1), heavy.assign(n, -1), parent.assign(n, -1);  /// run may be called again, possibly from another root
+        vector<int> bfs = {root};
+        parent[root] = -1;
+        for (int i = 0; i < (int)bfs.size(); i++){
+            for (int v : adj[bfs[i]]){
+                if (v == parent[bfs[i]]) continue;
+                assert(v != root && parent[v] == -1);  /// a revisit means a cycle, which would grow bfs forever
+                parent[v] = bfs[i], bfs.push_back(v);
+            }
+        }
+        assert((int)bfs.size() == n);
+
+        for (int i = n - 1; i > 0; i--){
+            int v = bfs[i], p = parent[v];
+            size[p] += size[v];
+            if (heavy[p] == -1 || size[v] > size[heavy[p]]) heavy[p] = v;
+        }
+
+        order.clear();
+        vector<int> stack = {root};
+        while (!stack.empty()){
+            int u = stack.back();
+            stack.pop_back();
+            tin[u] = order.size(), order.push_back(u);
+            for (int v : adj[u]){
+                if (v != parent[u] && v != heavy[u]) stack.push_back(v);
+            }
+            if (heavy[u] != -1) stack.push_back(heavy[u]);
+        }
+
+        for (int i = n - 1; i >= 0; i--) tout[order[i]] = tin[order[i]] + size[order[i]] - 1;
     }
 };
 

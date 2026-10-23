@@ -12,11 +12,11 @@
  *
  * Usage:
  *   IsoTree a(n), b(n); a.add_edge(u, v); ...
+ *   a.centers()                                          the 1 or 2 centers, ascending
  *   TreeCanonizer canon;
  *   canon.rooted_id(a, ra) == canon.rooted_id(b, rb)    rooted isomorphism
- *   canon.unrooted_id(a) == canon.unrooted_id(b)         unrooted isomorphism
  *   canon.subtree_ids(a, root)[v]                        id of the subtree of v, distinct values = distinct subtrees
- *   a.centers()                                          the 1 or 2 centers, ascending
+ *   canon.unrooted_id(a) == canon.unrooted_id(b)         unrooted isomorphism
  *
  * Ids are only comparable within one TreeCanonizer, and unrooted ids only with unrooted ids
  * The dictionary keeps every distinct subtree it has seen, use a fresh instance to free it
@@ -43,26 +43,6 @@ struct IsoTree{
         added_edges++;
     }
 
-    /// parent[root] = root
-    pair<vector<int>, vector<int>> bfs(int root) const{
-        assert(0 <= root && root < n);
-        assert(added_edges == n - 1);
-        vector<int> order = {root}, parent(n, -1);
-        parent[root] = root;
-        for (int i = 0; i < (int)order.size(); i++){
-            int u = order[i];
-            for (int v : adj[u]){
-                if (v == parent[u]) continue;
-                assert(parent[v] == -1);
-                parent[v] = u;
-                order.push_back(v);
-            }
-        }
-
-        assert((int)order.size() == n);
-        return {order, parent};
-    }
-
     /// Peels leaves layer by layer, the last layer of 1 or 2 nodes is the center
     vector<int> centers() const{
         bfs(0);
@@ -86,10 +66,34 @@ struct IsoTree{
         sort(layer.begin(), layer.end());
         return layer;
     }
+
+    /// parent[root] = root
+    pair<vector<int>, vector<int>> bfs(int root) const{
+        assert(0 <= root && root < n);
+        assert(added_edges == n - 1);
+        vector<int> order = {root}, parent(n, -1);
+        parent[root] = root;
+        for (int i = 0; i < (int)order.size(); i++){
+            int u = order[i];
+            for (int v : adj[u]){
+                if (v == parent[u]) continue;
+                assert(parent[v] == -1);
+                parent[v] = u;
+                order.push_back(v);
+            }
+        }
+
+        assert((int)order.size() == n);
+        return {order, parent};
+    }
 };
 
 struct TreeCanonizer{
     map<vector<int>, int> ids;
+
+    int rooted_id(const IsoTree& t, int root){
+        return subtree_ids(t, root)[root];
+    }
 
     /// Reverse BFS order finishes every child before its parent
     vector<int> subtree_ids(const IsoTree& t, int root){
@@ -105,10 +109,6 @@ struct TreeCanonizer{
             if (v != root) children[parent[v]].push_back(id[v]);
         }
         return id;
-    }
-
-    int rooted_id(const IsoTree& t, int root){
-        return subtree_ids(t, root)[root];
     }
 
     int unrooted_id(const IsoTree& t){

@@ -78,15 +78,26 @@ struct DynamicDiameter{
         build_seg(1, 0, m - 1, tour);
     }
 
-    long long diameter() const{
-        return seg[1].xyz;
-    }
-
     void update(int id, long long w){
         assert(w >= 0);
         int v = child[id];
         add(1, 0, m - 1, first[v], last[v], w - weight[id]);
         weight[id] = w;
+    }
+
+    long long diameter() const{
+        return seg[1].xyz;
+    }
+
+    void build_seg(int node, int b, int e, const vector<long long>& f){
+        if (b == e){
+            seg[node] = {f[b], -2 * f[b], -f[b], -f[b], 0};
+            return;
+        }
+
+        int mid = (b + e) / 2;
+        build_seg(2 * node, b, mid, f), build_seg(2 * node + 1, mid + 1, e, f);
+        seg[node] = merge(seg[2 * node], seg[2 * node + 1]);
     }
 
     void add(int node, int b, int e, int l, int r, long long delta){
@@ -106,24 +117,6 @@ struct DynamicDiameter{
         seg[node] = merge(seg[2 * node], seg[2 * node + 1]);
     }
 
-    /// xyz is unchanged: f[x] - 2 f[y] + f[z] cancels a delta shared by the whole range
-    void apply(int node, long long delta){
-        Node& t = seg[node];
-        t.x += delta, t.y -= 2 * delta, t.xy -= delta, t.yz -= delta;
-        lazy[node] += delta;
-    }
-
-    void build_seg(int node, int b, int e, const vector<long long>& f){
-        if (b == e){
-            seg[node] = {f[b], -2 * f[b], -f[b], -f[b], 0};
-            return;
-        }
-
-        int mid = (b + e) / 2;
-        build_seg(2 * node, b, mid, f), build_seg(2 * node + 1, mid + 1, e, f);
-        seg[node] = merge(seg[2 * node], seg[2 * node + 1]);
-    }
-
     static Node merge(const Node& l, const Node& r){
         Node res;
         res.x = max(l.x, r.x);
@@ -132,6 +125,13 @@ struct DynamicDiameter{
         res.yz = max({l.yz, r.yz, l.y + r.x});
         res.xyz = max({l.xyz, r.xyz, l.xy + r.x, l.x + r.yz});
         return res;
+    }
+
+    /// xyz is unchanged: f[x] - 2 f[y] + f[z] cancels a delta shared by the whole range
+    void apply(int node, long long delta){
+        Node& t = seg[node];
+        t.x += delta, t.y -= 2 * delta, t.xy -= delta, t.yz -= delta;
+        lazy[node] += delta;
     }
 };
 

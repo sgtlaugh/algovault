@@ -12,12 +12,12 @@
  * LCA tree(n) or LinearLCA tree(n): an empty tree on nodes 0..n-1, both share the calls below
  * tree.add_edge(u, v, w): adds the edge u - v of weight w, 1 by default
  * tree.build(root): roots the tree at root, 0 by default, asserts n - 1 edges and that every node is reached exactly once
- * tree.lca(u, v): the lowest common ancestor of u and v
- * tree.dist(u, v): the sum of the edge weights on the path u - v
  * tree.depth(v): the number of edges from the root to v
+ * tree.dist(u, v): the sum of the edge weights on the path u - v
+ * tree.lca(u, v): the lowest common ancestor of u and v
  *
- * tree.kth_ancestor(v, k), LCA only: the k-th ancestor of v, v itself for k = 0, -1 if k > depth(v)
  * tree.jump(u, v, k), LCA only: the k-th vertex on the path u -> v, u for k = 0, v for k = edges on the path, -1 beyond that
+ * tree.kth_ancestor(v, k), LCA only: the k-th ancestor of v, v itself for k = 0, -1 if k > depth(v)
  *
  * PathFold fold(tree, op): on a built LCA, op associative and commutative on long long, like max, min or gcd
  * fold.query(u, v): op over the edge weights on the path u - v, u != v
@@ -81,18 +81,8 @@ struct LCA{
         return level[v];
     }
 
-    int jump(int u, int v, int k) const{
-        int l = lca(u, v), up_len = level[u] - level[l], len = up_len + level[v] - level[l];
-        if (k < 0 || k > len) return -1;
-        return k <= up_len ? kth_ancestor(u, k) : kth_ancestor(v, len - k);
-    }
-
-    int kth_ancestor(int v, int k) const{
-        if (k < 0 || k > level[v]) return -1;
-        for (int i = 0; k; i++, k >>= 1){
-            if (k & 1) v = up[i][v];
-        }
-        return v;
+    long long dist(int u, int v) const{
+        return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
     }
 
     int lca(int u, int v) const{
@@ -106,8 +96,18 @@ struct LCA{
         return up[0][u];
     }
 
-    long long dist(int u, int v) const{
-        return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
+    int jump(int u, int v, int k) const{
+        int l = lca(u, v), up_len = level[u] - level[l], len = up_len + level[v] - level[l];
+        if (k < 0 || k > len) return -1;
+        return k <= up_len ? kth_ancestor(u, k) : kth_ancestor(v, len - k);
+    }
+
+    int kth_ancestor(int v, int k) const{
+        if (k < 0 || k > level[v]) return -1;
+        for (int i = 0; k; i++, k >>= 1){
+            if (k & 1) v = up[i][v];
+        }
+        return v;
     }
 };
 
@@ -125,6 +125,14 @@ struct PathFold{
         }
     }
 
+    long long query(int u, int v) const{
+        assert(u != v);
+        int l = tree.lca(u, v), up_u = tree.level[u] - tree.level[l], up_v = tree.level[v] - tree.level[l];
+        if (up_u == 0) return climb(v, up_v);
+        if (up_v == 0) return climb(u, up_u);
+        return op(climb(u, up_u), climb(v, up_v));
+    }
+
     /// op over the k >= 1 edges above v
     long long climb(int v, int k) const{
         int i = __builtin_ctz(k);
@@ -137,14 +145,6 @@ struct PathFold{
         }
         return res;
     }
-
-    long long query(int u, int v) const{
-        assert(u != v);
-        int l = tree.lca(u, v), up_u = tree.level[u] - tree.level[l], up_v = tree.level[v] - tree.level[l];
-        if (up_u == 0) return climb(v, up_v);
-        if (up_v == 0) return climb(u, up_u);
-        return op(climb(u, up_u), climb(v, up_v));
-    }
 };
 
 /// BEGIN SHARED linear_lca
@@ -155,16 +155,6 @@ struct LinearRMQ{
     vector<int> val;
     vector<unsigned long long> mask;
     vector<vector<int>> table;
-
-    int better(int i, int j) const{
-        return val[i] <= val[j] ? i : j;
-    }
-
-    /// Index of the minimum in [r - size + 1, r], size <= 64
-    int small_query(int r, int size = B) const{
-        unsigned long long m = size == B ? mask[r] : mask[r] & ((1ULL << size) - 1);
-        return r - (63 - __builtin_clzll(m));
-    }
 
     LinearRMQ() {}
 
@@ -196,6 +186,16 @@ struct LinearRMQ{
             res = better(res, better(table[k][x], table[k][y - (1 << k) + 1]));
         }
         return res;
+    }
+
+    /// Index of the minimum in [r - size + 1, r], size <= 64
+    int small_query(int r, int size = B) const{
+        unsigned long long m = size == B ? mask[r] : mask[r] & ((1ULL << size) - 1);
+        return r - (63 - __builtin_clzll(m));
+    }
+
+    int better(int i, int j) const{
+        return val[i] <= val[j] ? i : j;
     }
 };
 
@@ -245,14 +245,14 @@ struct LinearLCA{
         return level[v];
     }
 
+    long long dist(int u, int v) const{
+        return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
+    }
+
     int lca(int u, int v) const{
         int l = first[u], r = first[v];
         if (l > r) swap(l, r);
         return tour[rmq.query(l, r)];
-    }
-
-    long long dist(int u, int v) const{
-        return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
     }
 };
 /// END SHARED linear_lca

@@ -37,16 +37,6 @@ struct LinearRMQ{
     vector<unsigned long long> mask;
     vector<vector<int>> table;
 
-    int better(int i, int j) const{
-        return val[i] <= val[j] ? i : j;
-    }
-
-    /// Index of the minimum in [r - size + 1, r], size <= 64
-    int small_query(int r, int size = B) const{
-        unsigned long long m = size == B ? mask[r] : mask[r] & ((1ULL << size) - 1);
-        return r - (63 - __builtin_clzll(m));
-    }
-
     LinearRMQ() {}
 
     LinearRMQ(const vector<int>& values) : val(values), mask(values.size()){
@@ -77,6 +67,16 @@ struct LinearRMQ{
             res = better(res, better(table[k][x], table[k][y - (1 << k) + 1]));
         }
         return res;
+    }
+
+    /// Index of the minimum in [r - size + 1, r], size <= 64
+    int small_query(int r, int size = B) const{
+        unsigned long long m = size == B ? mask[r] : mask[r] & ((1ULL << size) - 1);
+        return r - (63 - __builtin_clzll(m));
+    }
+
+    int better(int i, int j) const{
+        return val[i] <= val[j] ? i : j;
     }
 };
 
@@ -126,14 +126,14 @@ struct LinearLCA{
         return level[v];
     }
 
+    long long dist(int u, int v) const{
+        return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
+    }
+
     int lca(int u, int v) const{
         int l = first[u], r = first[v];
         if (l > r) swap(l, r);
         return tour[rmq.query(l, r)];
-    }
-
-    long long dist(int u, int v) const{
-        return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
     }
 };
 /// END COPY linear_lca

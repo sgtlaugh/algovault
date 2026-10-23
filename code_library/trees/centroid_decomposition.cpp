@@ -52,23 +52,6 @@ struct CentroidDecomposition{
         decompose([&](int c){ visit(c, collect_branches(c)); });
     }
 
-    Branches collect_branches(int c){
-        Branches branches;
-        for (auto [v, w] : adj[c]){
-            if (removed[v]) continue;
-            vector<pair<int, long long>> branch = {{v, w}};
-            from[v] = c;
-            for (int i = 0; i < (int)branch.size(); i++){
-                auto [x, d] = branch[i];  /// a copy: pushing below may reallocate the branch
-                for (auto [y, wy] : adj[x]){
-                    if (y != from[x] && !removed[y]) from[y] = x, branch.push_back({y, d + wy});
-                }
-            }
-            branches.push_back(move(branch));
-        }
-        return branches;
-    }
-
     template <typename OnCentroid>
     void decompose(OnCentroid on_centroid){
         removed.assign(n, 0);
@@ -89,6 +72,23 @@ struct CentroidDecomposition{
                 }
             }
         }
+    }
+
+    Branches collect_branches(int c){
+        Branches branches;
+        for (auto [v, w] : adj[c]){
+            if (removed[v]) continue;
+            vector<pair<int, long long>> branch = {{v, w}};
+            from[v] = c;
+            for (int i = 0; i < (int)branch.size(); i++){
+                auto [x, d] = branch[i];  /// a copy: pushing below may reallocate the branch
+                for (auto [y, wy] : adj[x]){
+                    if (y != from[x] && !removed[y]) from[y] = x, branch.push_back({y, d + wy});
+                }
+            }
+            branches.push_back(move(branch));
+        }
+        return branches;
     }
 
     /// Walks from r toward the child holding more than half the component, the part behind stays below half
