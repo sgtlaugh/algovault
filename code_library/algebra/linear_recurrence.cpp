@@ -17,7 +17,6 @@
  * 2k terms are enough to find a recurrence of degree k
  * With a prime mod the found recurrence is the shortest one generating every given term, from any number of terms
  * With a composite mod fewer than 2k terms may give a recurrence missing given terms, and it may end in zero coefficients
- * nth_term with k = 1e5 and n = 1e18 takes about 3 s at -O2
  *
  * Thanks to anta(https://codeforces.com/profile/anta) for first showing me this cool trick and recommending the Black Box Linear Algebra book
  *
