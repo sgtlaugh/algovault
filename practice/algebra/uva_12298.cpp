@@ -571,11 +571,9 @@ int main(){
             if (v <= b) cards[suits.find(card.back())][v] = 0;
         }
 
-        vector<long long> ways = cards[0];
-        for (s = 1; s < 4; s++){
-            ways = fft.ll_multiply(ways, cards[s]);
-            ways.resize(b + 1);
-        }
+        vector<long long> low = fft.multiply(cards[0], cards[1]), high = fft.multiply(cards[2], cards[3]);
+        low.resize(b + 1), high.resize(b + 1);
+        vector<long long> ways = fft.multiply(low, high);
 
         for (i = a; i <= b; i++) write(ways[i]);
         write("");
