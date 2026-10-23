@@ -52,7 +52,7 @@
 - [AtCoder ABC340 F - S = 1](https://atcoder.jp/contests/abc340/tasks/abc340_f)
 - [Codeforces 633A - Ebony and Ivory](https://codeforces.com/problemset/problem/633/A)
 - [Codeforces Gym 100963J - Once Upon A Time](https://codeforces.com/gym/100963/problem/J)
-- [Kattis modulararithmetic - Modular Arithmetic](https://open.kattis.com/problems/modulararithmetic)
+- [Kattis modulararithmetic - Modular Arithmetic](https://open.kattis.com/problems/modulararithmetic) [✅](../../practice/number_theory/kattis_modulararithmetic.cpp "Accepted solution")
 - [LightOJ 1306 - Solutions to an Equation](https://lightoj.com/problem/solutions-to-an-equation)
 - [SPOJ CEQU - Crucial Equation](https://www.spoj.com/problems/CEQU/)
 - [UVa 10104 - Euclid Problem](https://onlinejudge.org/external/101/10104.pdf) [✅](../../practice/number_theory/uva_10104.cpp "Accepted solution")
