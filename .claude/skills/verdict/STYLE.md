@@ -6,10 +6,11 @@ For that code these rules replace CONTRIBUTING's `## API and code`, `## Style` a
 ## Rules
 
 - No comments at all after the template copies
-- Input and output only through the `fio` copy, with `using namespace fio;` first in `main`: `read(n, m)`, `write(res)`, `write(fixed(x, 6))` for a float; never `scanf`, `printf`, `puts`, `cin` or `cout`, which would reorder the stream
+- Input and output only through the `fio` copy, with `using namespace fio;` on its own line right after the copy, never inside a function: `read(n, m)`, `write(res)`, `write(fixed(x, 6))` for a float; never `scanf`, `printf`, `puts`, `cin` or `cout`, which would reorder the stream
 - A line `write` cannot shape, like a field width or `Case 3: ` before the answer, is built with `snprintf(buf, sizeof(buf), "Case %d: %lld", ++T, res);` and written as `write(string(buf));`
 - Declare the loop and scratch variables at the top of the function, `int t, i, j, res;`, and loop with `for (i = 0; ...)`; a variable used in one small spot may be declared there
 - Never declare a variable that is not used
+- Constants like `const int MOD = 100000007;` are globals after `using namespace fio;`, a blank line between, never locals of `main`
 - Fixed-size input lives in globals sized by a macro, `#define MAX 100010` and `int n, ar[MAX];`; use a `vector` when a template takes one
 - Small free functions above `main` for the steps, named for their job: `gen()`, `solve(k)`, `check()`, `is_equal()`
 - `int main(){` reads input, calls the steps, prints, and ends with `return 0;`
