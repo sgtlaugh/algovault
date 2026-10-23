@@ -89,7 +89,7 @@ int main(){
     check_rejects(3, {{0, 1}, {0, 1}, {1, 2}});          /// multi-edge
     check_rejects(3, {{0, 1}});                          /// disconnected
     check_rejects(2, {{0, 0}, {0, 1}});                  /// self-loop at the root
-    check_rejects(2, {{0, 0}});                          /// the root enqueued twice fills bfs to n with node 1 unreached
+    check_rejects(2, {{0, 0}});                          /// the root enqueued twice fills bfs with node 1 unreached
 
     for (long long it = 0; it < stress::scaled(3000); it++) check(stress::rand_int(1, 40), it % 4, it % 2 ? 3 : 30);
     check(2000, 0, 50);

@@ -5,15 +5,16 @@
  *
  * Complexity: O(n log n) calls to add / remove
  *
- * DsuOnTree tree(n); tree.add_edge(u, v); tree.run(root, add, remove, answer);
- *   the graph must be a tree, run asserts that every node is reached exactly once
- *   add(v) / remove(v) put node v into / take it out of your data structure
- *   answer(v) is called when the structure holds exactly the nodes of v's subtree
- *   the structure is empty again when run returns
- * Subtree positions (Euler tour), filled by run:
- *   tree.tin[v], tree.tout[v]: the subtree of v is order[tin[v] .. tout[v]], tree.order[i]: node at position i
+ * DsuOnTree tree(n): an empty tree on nodes 0..n-1
+ * tree.add_edge(u, v): adds the edge u - v
+ * tree.run(root, add, remove, answer): calls answer(v) for every v while the structure holds exactly v's subtree
+ * tree.tin[v], tree.tout[v]: the subtree of v is order[tin[v] .. tout[v]], filled by run
+ * tree.order[i]: the node at Euler tour position i
  *
- * Iterative, so deep trees cannot overflow the stack
+ * Notes:
+ *   - add(v) / remove(v) put node v into / take it out of your data structure, empty again when run returns
+ *   - The graph must be a tree, run asserts that every node is reached exactly once
+ *   - Iterative, so deep trees cannot overflow the stack
  *
 ***/
 
@@ -70,7 +71,7 @@ struct DsuOnTree{
 
     /// Preorder with the heavy child first, so every subtree is one contiguous range
     void prepare(int root){
-        size.assign(n, 1), heavy.assign(n, -1), parent.assign(n, -1);  /// run may be called again, possibly from another root
+        size.assign(n, 1), heavy.assign(n, -1), parent.assign(n, -1);  /// run may be called again, from any root
         vector<int> bfs = {root};
         parent[root] = -1;
         for (int i = 0; i < (int)bfs.size(); i++){

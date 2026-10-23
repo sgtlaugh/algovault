@@ -1,24 +1,23 @@
 /***
  *
  * Centroid Decomposition
- * Recursively cuts a weighted tree (or forest) at centroids, the path u-v always passes through lca(u, v) in the centroid tree
+ * Recursively cuts a weighted forest at centroids, so the path u-v passes through lca(u, v) in the centroid tree
  *
  * Complexity: O(n log n) to build, plus the visitor's own work on O(n log n) delivered (node, distance) pairs
  *
- * CentroidDecomposition cd(n); cd.add_edge(u, v, w); cd.build(visit);  (w defaults to 1, nodes 0-based)
- *   cd.parent[c]: parent of c in the centroid tree, -1 for the root centroid of each tree of the forest
- *   cd.depth[c]: depth of c in the centroid tree, at most floor(log2(n))
- *   visit(c, branches) is called once per centroid, parents before children, with c already cut out:
- *     branches[i] lists (node, distance to c) for every node of the i-th piece the cut of c leaves,
- *     the piece hanging off one neighbor of c, which becomes the component of one child centroid
- *     its type is CentroidDecomposition::Branches, a vector<vector<pair<int, long long>>>
- *   build() without a visitor only fills parent and depth
- * Distances are long long sums of edge weights, keep 2 * n * max|w| below 9.2e18 so d1 + d2 cannot overflow
- * Iterative, so deep trees cannot overflow the stack
+ * CentroidDecomposition cd(n): an empty forest on nodes 0..n-1
+ * cd.add_edge(u, v, w): adds the edge u - v of weight w, 1 by default
+ * cd.build(visit): calls visit(c, branches) once per centroid c, parents before children, with c already cut out
+ * cd.build(): fills only parent and depth
+ * count_paths_at_most(cd, k): the number of unordered pairs u != v with dist(u, v) <= k, in O(n log^2 n)
+ * cd.parent[c]: parent of c in the centroid tree, -1 for the root centroid of each tree of the forest
+ * cd.depth[c]: depth of c in the centroid tree, at most floor(log2(n))
  *
- * Example, count_paths_at_most below: unordered pairs u != v with dist(u, v) <= k in O(n log^2 n)
- *   at each centroid, count pairs over {c} and all branches with d1 + d2 <= k (sort + two pointers),
- *   minus the pairs inside a single branch, whose path does not pass through c
+ * Notes:
+ *   - branches[i] lists (node, distance to c) for the piece behind the i-th uncut neighbor of c, one child's component
+ *   - branches has type CentroidDecomposition::Branches
+ *   - Distances are long long sums of edge weights, keep 2 n max|w| below 9.2e18 so d1 + d2 cannot overflow
+ *   - Iterative, so deep trees cannot overflow the stack
  *
 ***/
 

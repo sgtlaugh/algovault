@@ -2,21 +2,18 @@
  *
  * Prufer Code
  * Bijection between labeled trees on n >= 2 nodes (0-based) and sequences of n - 2 values in [0, n)
- * The code lists, for each removal of the smallest-labeled leaf, the neighbor of that leaf
  *
  * Complexity: O(n) for both encode and decode, O(n) memory
  *
- * Encode:
- *   PruferCode tree(n); tree.add_edge(u, v); vector<int> code = tree.encode();
- *   add_edge asserts both endpoints are in [0, n), encode asserts n >= 2 and that the n - 1 edges form a tree
- *   No adjacency lists or recursion: a leaf's only neighbor is the xor of its remaining neighbors
+ * PruferCode tree(n): an empty tree on nodes 0..n-1
+ * tree.add_edge(u, v): adds the edge u - v, asserts both endpoints are in [0, n)
+ * tree.encode(): for each removal of the smallest-labeled leaf, its neighbor, asserts n >= 2 and a tree
+ * prufer_decode(code): the tree on n = code.size() + 2 nodes as n - 1 edges {child, parent}, rooted at n - 1
  *
- * Decode:
- *   vector<pair<int, int>> edges = prufer_decode(code);   n = code.size() + 2
- *   Returns the n - 1 edges as {child, parent} with the tree rooted at n - 1, asserts every value is in [0, n)
- *
- * Every code of length n - 2 decodes to a distinct tree, so there are n^(n - 2) labeled trees (Cayley)
- * The number of times v appears in the code is deg(v) - 1
+ * Notes:
+ *   - prufer_decode asserts every value is in [0, n)
+ *   - v appears deg(v) - 1 times in the code
+ *   - Every code decodes to a distinct tree, so there are n^(n - 2) labeled trees (Cayley)
  *
 ***/
 
@@ -37,9 +34,7 @@ struct PruferCode{
         added_edges++;
     }
 
-    /// Leaves are removed in label order, ptr only moves forward: a node that turns into a leaf
-    /// below ptr is the smallest leaf right away, any other new leaf is found later by the scan
-    /// Node n - 1 is never removed, and a removed leaf is never revisited since it sits at or below ptr
+    /// Leaves go in label order with ptr only moving forward: a new leaf below ptr is the smallest leaf right away
     vector<int> encode() const{
         assert(n >= 2 && added_edges == n - 1);
         vector<int> deg = degree, rest = neighbor_xor, code(n - 2);
@@ -68,7 +63,6 @@ struct PruferCode{
 };
 
 /// Same leaf order as encode, degree[v] - 1 counts the occurrences of v still ahead in the code
-/// After n - 2 removals only the current leaf and n - 1 remain
 vector<pair<int, int>> prufer_decode(const vector<int>& code){
     int n = code.size() + 2;
     vector<int> degree(n, 1);

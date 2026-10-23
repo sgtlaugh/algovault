@@ -86,7 +86,7 @@ int main(){
         check(stress::rand_int(20000, 60000), it % 5, 20000, 1000000000LL, 1000);
     }
 
-    check(200000, 1, 20000, 1000000000LL, 5000);  /// a path, deep enough to overflow an 8 MB stack with a recursive tour
+    check(200000, 1, 20000, 1000000000LL, 5000);  /// a path, too deep for a recursive tour on an 8 MB stack
 
     return 0;
 }

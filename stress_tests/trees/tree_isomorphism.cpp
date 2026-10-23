@@ -88,7 +88,7 @@ bool brute_isomorphic(int n, const Edges& a, const Edges& b, int ra = -1, int rb
     return false;
 }
 
-/// Every labeled tree on n nodes via Prufer sequences: distinct unrooted ids must number OEIS A000055(n), rooted ids A000081(n)
+/// Every labeled tree via Prufer sequences: distinct unrooted ids must number OEIS A000055(n), rooted ids A000081(n)
 void check_exhaustive(int n){
     const int unrooted_count[] = {0, 1, 1, 1, 2, 3, 6, 11};
     const int rooted_count[] = {0, 1, 1, 2, 4, 9, 20, 48};

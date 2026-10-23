@@ -3,25 +3,23 @@
  * Tree Isomorphism (AHU canonical ids)
  * Rooted and unrooted isomorphism of trees, 0-based nodes
  *
- * Complexity: O(n log N) per tree, N = total nodes canonized by the instance, O(N) memory for the dictionary
+ * Complexity: O(n log N) per tree, N = total nodes of all trees given to the instance, O(N) memory for the dictionary
  *
- * Every rooted subtree gets an integer id from a dictionary keyed by the sorted ids of its children,
- * so two rooted trees are isomorphic iff their roots get the same id from the same TreeCanonizer
- * An unrooted tree's id is the smaller rooted id over its 1 or 2 centers, since isomorphisms map centers to centers
- * The dictionary is a map, so equal ids are exact isomorphism, never a hash collision
+ * IsoTree a(n): an empty tree on n >= 1 nodes
+ * a.add_edge(u, v): adds the edge u - v
+ * a.centers(): the 1 or 2 centers, ascending
  *
- * Usage:
- *   IsoTree a(n), b(n); a.add_edge(u, v); ...
- *   a.centers()                                          the 1 or 2 centers, ascending
- *   TreeCanonizer canon;
- *   canon.rooted_id(a, ra) == canon.rooted_id(b, rb)    rooted isomorphism
- *   canon.subtree_ids(a, root)[v]                        id of the subtree of v, distinct values = distinct subtrees
- *   canon.unrooted_id(a) == canon.unrooted_id(b)         unrooted isomorphism
+ * TreeCanonizer canon: an empty dictionary of subtree ids
+ * canon.rooted_id(a, root): the id of a rooted at root, equal for two rooted trees iff they are isomorphic
+ * canon.subtree_ids(a, root): ids where ids[v] is the id of the subtree of v, equal iff the subtrees are isomorphic
+ * canon.unrooted_id(a): the id of a as an unrooted tree, equal for two trees iff they are isomorphic
  *
- * Ids are only comparable within one TreeCanonizer, and unrooted ids only with unrooted ids
- * The dictionary keeps every distinct subtree it has seen, use a fresh instance to free it
- * The graph must be a tree with n >= 1, every call asserts n - 1 edges and that every node is reached exactly once
- * Traversals are iterative so deep trees are safe
+ * Notes:
+ *   - Ids are only comparable within one TreeCanonizer, and unrooted ids only with unrooted ids
+ *   - Equal ids are exact isomorphism, never a hash collision
+ *   - The dictionary keeps every distinct subtree it has seen, use a fresh instance to free it
+ *   - Every call asserts n - 1 edges and that every node is reached exactly once
+ *   - Traversals are iterative so deep trees are safe
  *
 ***/
 

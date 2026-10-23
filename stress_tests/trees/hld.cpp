@@ -166,7 +166,7 @@ int main(){
     check_rejects(3, {{0, 1}, {0, 1}, {1, 2}});          /// multi-edge
     check_rejects(3, {{0, 1}});                          /// disconnected
     check_rejects(2, {{0, 0}, {0, 1}});                  /// self-loop at the root
-    check_rejects(2, {{0, 0}});                          /// the root enqueued twice fills order to n with node 1 unreached
+    check_rejects(2, {{0, 0}});                          /// the root enqueued twice fills order with node 1 unreached
 
     /// Rebuilding from another root must match a fresh decomposition
     for (long long it = 0; it < stress::scaled(500); it++){

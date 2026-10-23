@@ -11,25 +11,23 @@
  *
  * LCA tree(n) or LinearLCA tree(n): an empty tree on nodes 0..n-1, both share the calls below
  * tree.add_edge(u, v, w): adds the edge u - v of weight w, 1 by default
- * tree.build(root): roots the tree at root, 0 by default, asserts n - 1 edges and that every node is reached exactly once
+ * tree.build(root): roots the tree at root, 0 by default, asserts n - 1 edges and every node reached exactly once
  * tree.depth(v): the number of edges from the root to v
  * tree.dist(u, v): the sum of the edge weights on the path u - v
  * tree.lca(u, v): the lowest common ancestor of u and v
- *
- * tree.jump(u, v, k), LCA only: the k-th vertex on the path u -> v, u for k = 0, v for k = edges on the path, -1 beyond that
+ * tree.jump(u, v, k), LCA only: the k-th vertex on the path u -> v, u for k = 0, v for the last, -1 beyond v
  * tree.kth_ancestor(v, k), LCA only: the k-th ancestor of v, v itself for k = 0, -1 if k > depth(v)
  *
  * PathFold fold(tree, op): on a built LCA, op associative and commutative on long long, like max, min or gcd
  * fold.query(u, v): op over the edge weights on the path u - v, u != v
  *
- * path_intersection(tree, a, b, c, d): the common part of paths a - b and c - d as an unordered pair of endpoints, either structure
- * path_intersection returns {-1, -1} when the paths share no vertex, {x, x} when they share exactly x
+ * path_intersection(tree, a, b, c, d): the common part of paths a - b and c - d as an unordered pair of endpoints
  *
- * Use LinearLCA by default, for n around 1e6 or many queries, and LCA for kth_ancestor, jump or PathFold
- * Measured: LinearLCA answers lca 2-8x faster at every size, both build in about the same time
- * PathFold keeps a reference to tree, so build a new fold after tree.build with another root
- * The LinearRMQ block table has at most n entries for any int n
- * Traversals are iterative so deep trees are safe
+ * Notes:
+ *   - path_intersection takes either structure, returns {-1, -1} for no shared vertex, {x, x} for exactly x
+ *   - Use LinearLCA by default, it answers lca 2-8x faster, and LCA for kth_ancestor, jump or PathFold
+ *   - PathFold keeps a reference to tree, so build a new fold after tree.build with another root
+ *   - Traversals are iterative so deep trees are safe
  *
 ***/
 
@@ -148,8 +146,7 @@ struct PathFold{
 };
 
 /// BEGIN SHARED linear_lca
-/// Range minimum index over a fixed array in O(n) build and O(1) query, blocks of 64 with per position stack masks
-/// Same technique as sparse_table.cpp's LinearSparseTable, which is the general purpose version
+/// Range minimum index in O(n) build and O(1) query, the technique of sparse_table.cpp's LinearSparseTable
 struct LinearRMQ{
     static constexpr int B = 64;
     vector<int> val;
@@ -257,7 +254,7 @@ struct LinearLCA{
 };
 /// END SHARED linear_lca
 
-/// The two deepest cross lcas are the endpoints, and the paths meet iff the deepest one is not above the deeper path top
+/// The two deepest cross lcas are the endpoints, the paths meet iff the deepest is not above the deeper path top
 template <typename Tree>
 pair<int, int> path_intersection(const Tree& tree, int a, int b, int c, int d){
     int top = tree.lca(a, b), other_top = tree.lca(c, d);

@@ -5,22 +5,20 @@
  *
  * Complexity: O(n) to build, O(k log k) per compress of k vertices
  *
- * VirtualTree tree(n); tree.add_edge(u, v, w); tree.build(root);
+ * VirtualTree tree(n): an empty tree on nodes 0..n-1
+ * tree.add_edge(u, v, w): adds the edge u - v of weight w, 1 by default
+ * tree.build(root): roots the tree at root, 0 by default, asserts n - 1 edges and every node reached exactly once
  * tree.compress(nodes): the virtual tree of nodes as a list of VirtualTree::Node {v, parent, len}
+ * tree.depth(v): the number of edges from the root to v
+ * tree.dist(u, v): the sum of the edge weights on the path u - v
+ * tree.lca(u, v): the lowest common ancestor of u and v
+ *
+ * Notes:
  *   - parent is the index of v's parent in the list, -1 for the root at index 0
  *   - len is the original length of the compressed edge, dist(v, list[parent].v), 0 for the root
- *   - vertices appear in DFS order, so parents come before children and every subtree is a contiguous range
- *     loop the list backwards to process children before their parents
- *   - at most 2k - 1 vertices, duplicates in nodes are ignored, an empty nodes gives an empty list
- * tree.lca(u, v), tree.dist(u, v) (sum of weights, w defaults to 1), tree.depth(v)
- *
- * The graph must be a tree, build asserts n - 1 edges and that every node is reached exactly once
- * Traversals are iterative so deep trees are safe
- * The LCA is lca.cpp's LinearLCA, a checked copy
- *
- * Example, sum of a DP over the virtual tree per query:
- *     auto vt = tree.compress(nodes);
- *     for (int i = vt.size() - 1; i > 0; i--) dp[vt[i].parent] += combine(dp[i], vt[i].len);
+ *   - The list is in DFS order, so parents come before children and every subtree is a contiguous range
+ *   - The list has at most 2k - 1 vertices, duplicates in nodes are ignored, an empty nodes gives an empty list
+ *   - Traversals are iterative so deep trees are safe
  *
 ***/
 
@@ -29,8 +27,7 @@
 using namespace std;
 
 /// BEGIN COPY linear_lca from code_library/trees/lca.cpp
-/// Range minimum index over a fixed array in O(n) build and O(1) query, blocks of 64 with per position stack masks
-/// Same technique as sparse_table.cpp's LinearSparseTable, which is the general purpose version
+/// Range minimum index in O(n) build and O(1) query, the technique of sparse_table.cpp's LinearSparseTable
 struct LinearRMQ{
     static constexpr int B = 64;
     vector<int> val;

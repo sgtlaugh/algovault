@@ -7,14 +7,15 @@
  *
  * Rerooting<T, E = long long> tree(n): nodes 0..n-1, T is the DP value of a rooted subtree and E the edge data
  * tree.add_edge(u, v, w = E()): adds the edge (u, v) with data w, 0 <= u, v < n
- * tree.solve(combine, identity, apply_edge): res where res[r] is the DP with r as the root, asserts n >= 1 and that the graph is a tree
+ * tree.solve(combine, identity, apply_edge): res with res[r] the contributions of every neighbor of r combined
  *
- * apply_edge(value, from, to, w): what the subtree hanging at from, whose DP is value, contributes to to across the edge (from, to) with data w
- * combine(a, b): two contributions as one, must be associative and commutative with combine(identity, a) = a
- * res[r] combines the contributions of every neighbor of r, identity when n = 1
- * Node data goes inside apply_edge through from, the child's own node, or is applied to res afterwards
- * E must be default constructible
- * Iterative, so deep trees are safe
+ * Notes:
+ *   - apply_edge(value, from, to, w): what the subtree at from, whose DP is value, contributes to to across edge w
+ *   - combine(a, b): two contributions as one, associative and commutative with combine(identity, a) = a
+ *   - solve asserts n >= 1 and a tree, res[0] is identity when n = 1
+ *   - Node data goes inside apply_edge through from, the child's own node, or is applied to res afterwards
+ *   - E must be default constructible
+ *   - Iterative, so deep trees are safe
  *
 ***/
 
@@ -44,8 +45,7 @@ struct Rerooting{
     vector<T> solve(Combine combine, const T& identity, Apply apply_edge) const{
         assert(n >= 1 && added_edges == n - 1);
 
-        /// BFS from 0, everything below is indexed by BFS position: the children of position i are first[i]..first[i + 1] - 1,
-        /// so both passes scan arrays in order, parent[i] is a position and w[i] the weight of the edge to it
+        /// Indexed by BFS position from 0, so the children of i are first[i]..first[i + 1] - 1 and passes scan in order
         vector<int> order = {0}, parent(n, -1), first(n + 1, n);
         vector<E> w = {E()};
         vector<char> seen(n, false);
@@ -61,8 +61,7 @@ struct Rerooting{
         }
         assert((int)order.size() == n);
 
-        /// down[i] first combines the children of i, then becomes what i's subtree contributes to its parent
-        /// up[i] is what the parent's side contributes to i, identity at the root
+        /// down[i] combines i's children, then what i's subtree gives its parent, up[i] what the parent side gives i
         vector<T> down(n, identity), up(n, identity), suffix, res(n, identity);
         for (int i = n - 1; i > 0; i--){
             down[i] = apply_edge(down[i], order[i], order[parent[i]], w[i]);

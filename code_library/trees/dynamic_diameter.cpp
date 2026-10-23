@@ -5,19 +5,15 @@
  *
  * Complexity: O(n) to build, O(log n) per weight update, O(1) per diameter query, O(n) memory
  *
- * DynamicDiameter tree(n);           n >= 1
- * int id = tree.add_edge(u, v, w);   edge ids are 0, 1, ..., n - 2 in insertion order
- * tree.build();                      after all n - 1 edges
- * tree.update(id, w);                sets the weight of edge id to w
- * tree.diameter();                   longest path length, 0 for a single node
+ * DynamicDiameter tree(n): an empty tree on n >= 1 nodes
+ * tree.add_edge(u, v, w): adds the edge u - v of weight w, returns its id, ids are 0, 1, ..., n - 2 in insertion order
+ * tree.build(): call after all n - 1 edges
+ * tree.update(id, w): sets the weight of edge id to w
+ * tree.diameter(): the longest path length, 0 for a single node
  *
- * Weights must be non-negative and their sum must stay at most 2e18
- *
- * With f[v] the distance from the root, the diameter is max f[x] - 2 f[y] + f[z] over positions x <= y <= z
- * of the Euler tour: the minimum f between two tour positions is at the lca, which needs non-negative weights
- * A weight change adds the same delta to f over the child's subtree, one contiguous tour range,
- * so a lazy segment tree keeps the five partial maxima of that expression per range
- * Traversals are iterative so deep trees are safe
+ * Notes:
+ *   - Weights must be non-negative and their sum must stay at most 2e18
+ *   - Traversals are iterative so deep trees are safe
  *
 ***/
 

@@ -5,20 +5,19 @@
  *
  * Complexity: O(n log n) build and memory, O(1) per kth_ancestor, O(n) per depth_counts pass plus the cost of visit
  *
- * LongPathDecomposition tree(n); tree.add_edge(u, v); tree.build(root);   n >= 1, 0-based nodes, unweighted edges
- *   - depth(v): edges from the root to v, height(v): edges on the longest downward path from v
- *   - depth_counts(visit): calls visit(v, cnt, len) once per node, children before parents, where
- *     cnt[d] for 0 <= d < len = height(v) + 1 is the number of nodes in v's subtree exactly d edges below v
- *     cnt points into a shared buffer that later merges overwrite, so read it during the call only
- *     A node inherits its long child's array in place and merges only the other children, which is O(n) in total
- *   - kth_ancestor(v, k): the k-th ancestor of v, v itself for k = 0, -1 if k < 0 or k > depth(v)
- *     Ladder algorithm: every path is extended upwards by its own length, one binary lifting jump by the highest
- *     bit of k lands on a node whose path's ladder reaches the answer, so the rest is an array lookup
- *   The graph must be a tree, build asserts n - 1 edges and that every node is reached exactly once
- *   Traversals are iterative so deep trees are safe, build may be called again with another root
+ * LongPathDecomposition tree(n): an empty tree on n >= 1 nodes 0..n-1
+ * tree.add_edge(u, v): adds the unweighted edge u - v
+ * tree.build(root): roots the tree at root, 0 by default, asserts n - 1 edges and every node reached exactly once
+ * tree.depth(v): the number of edges from the root to v
+ * tree.height(v): the number of edges on the longest downward path from v
+ * tree.depth_counts(visit): calls visit(v, cnt, len) once per node, children before parents
+ * tree.kth_ancestor(v, k): the k-th ancestor of v, v itself for k = 0, -1 if k < 0 or k > depth(v)
  *
- * Offline "how many nodes are d edges below v": group the queries by v, then inside visit(v, cnt, len)
- *   each query (v, d) is d < len ? cnt[d] : 0
+ * Notes:
+ *   - cnt[d] for 0 <= d < len = height(v) + 1 is the number of nodes in v's subtree exactly d edges below v
+ *   - cnt points into a shared buffer that later merges overwrite, so read it during the call only
+ *   - build may be called again with another root
+ *   - Traversals are iterative so deep trees are safe
  *
 ***/
 
@@ -110,7 +109,7 @@ struct LongPathDecomposition{
         }
     }
 
-    /// The jump lands on u with height(u) >= 2^h > the remaining distance, and u's path is at least that tall, so its ladder covers it
+    /// The jump lands on u with height(u) >= 2^h > the remaining distance, so the ladder of u's path covers it
     int kth_ancestor(int v, int k) const{
         if (k < 0 || k > level[v]) return -1;
         if (k == 0) return v;

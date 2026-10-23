@@ -85,7 +85,7 @@ vector<array<long long, 3>> pruefer_tree(int n, const vector<int>& code, long lo
     return edges;
 }
 
-/// Four DPs against the DP run from every root: distance sums, eccentricities (long long and int weights), a node-valued hash
+/// Four DPs against the DP from every root: distance sums, eccentricities (long long and int weights), a node hash
 void check_edges(int n, const vector<array<long long, 3>>& edges){
     vector<unsigned long long> value(n);
     for (auto& x : value) x = stress::rand_int(0, MOD - 1);
@@ -169,7 +169,7 @@ void check_path(int n){
     for (long long i = 0; i < n; i++) assert(res[i].first == n - 1 && res[i].second == i * (i + 1) / 2 + (n - 1 - i) * (n - i) / 2);
 }
 
-/// solve must abort on a non-tree through its own assert, the alarm turns an endless traversal into a failure instead of a hang
+/// solve must abort on a non-tree through its assert, the alarm turns an endless traversal into a failure
 void check_rejects(int n, const vector<pair<int, int>>& edges){
     int fd[2];
     assert(pipe(fd) == 0);
@@ -208,7 +208,7 @@ int main(){
     check_rejects(2, {{0, 0}});                          /// self-loop at the root plus an isolated node, n - 1 edges
     check_rejects(0, {});
 
-    for (int n = 1; n <= 6; n++) check_all_trees(n, n % 2 ? 1000000000LL : 3);  /// 1296 trees at n = 6, n = 7 adds 16807 for little new structure
+    for (int n = 1; n <= 6; n++) check_all_trees(n, n % 2 ? 1000000000LL : 3);  /// 1296 trees at n = 6
 
     for (long long it = 0; it < stress::scaled(2000); it++){
         int n = it < 200 ? it % 40 + 1 : stress::rand_int(1, 80);
@@ -217,7 +217,7 @@ int main(){
 
     for (long long it = 0; it < stress::scaled(5); it++) check(stress::rand_int(300, 600), it % 5, 1000000000LL);
 
-    for (int shape = 0; shape < 5; shape++) check_large(200000, shape);  /// the path shape is deep enough to overflow an 8 MB stack with recursion
+    for (int shape = 0; shape < 5; shape++) check_large(200000, shape);  /// the path shape is too deep for recursion
 
     for (int n : {1, 2, 3, 200000}) check_path(n);
 

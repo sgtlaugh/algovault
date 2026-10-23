@@ -5,36 +5,23 @@
  *
  * Complexity: O(n) to build, O(log n) ranges per path
  *
- * HLD hld(n); hld.add_edge(u, v); hld.build(root);
- * The graph must be a tree, build asserts that every node is reached exactly once
- * hld.pos[v]: position of v in [0, n - 1], 0-indexed like segment_tree.cpp and fenwick_tree.cpp, node values go there
- * hld.update_path(seg, u, v, x, edges = false): seg.update(l, r, x) on every range of the path
- *     seg is any size n tree with 0-indexed query(l, r), update(l, r, x) and combine(a, b), like segment_tree.cpp
- * hld.edge_pos(u, v): position holding the value of tree edge (u, v), in either order
- * hld.lca(u, v)
- * hld.ordered_path(u, v): the same ranges as {from, to} pairs listed in path order from u to v,
- *     each walked from position from to position to: from >= to on the u side (positions decrease while climbing to the lca),
- *     from <= to on the v side, a single-node range has from == to
- *     needed for non-commutative folds such as composing affine functions along the path
- * hld.ordered_path(u, v, true): same but excludes the lca
- * hld.path(u, v): ranges [l, r] covering the path u..v, inclusive
- * hld.path(u, v, true): same but excludes the lca, for values on edges
- *     store the weight of edge (parent[v], v) at pos[v], the root's position stays unused
- * hld.query_path(seg, u, v, edges = false): fold of the path through seg.combine, commutative combines only, T() for an empty path
+ * HLD hld(n): an empty tree on nodes 0..n-1
+ * hld.add_edge(u, v): adds the edge u - v
+ * hld.build(root): roots the tree at root, 0 by default, asserts that every node is reached exactly once
+ * hld.update_path(seg, u, v, x, edges = false): seg.update(l, r, x) on every range of the path u - v
+ * hld.edge_pos(u, v): the position holding the value of tree edge (u, v), in either order
+ * hld.lca(u, v): the lowest common ancestor of u and v
+ * hld.ordered_path(u, v, edges = false): the ranges of the path as {from, to} pairs, in path order from u to v
+ * hld.path(u, v, edges = false): ranges [l, r] covering the path u - v, in no particular order
+ * hld.query_path(seg, u, v, edges = false): the fold of the path through seg.combine, T() for an empty path
  * hld.subtree(v): the single range covering the subtree of v
+ * hld.pos[v]: the position of v in [0, n - 1], where the value of node v goes
  *
- * path() returns ranges in no particular order, which is fine for commutative operations (sum, min, max, xor)
- *
- * Example with segment_tree.cpp, for another fold (max, say) pass an Ops struct:
- *     SegmentTree<long long> seg(n);
- *     for (int v = 0; v < n; v++) seg.update(hld.pos[v], hld.pos[v], value[v]);
- *     hld.update_path(seg, u, v, delta), res = hld.query_path(seg, u, v);
- *     int p = hld.edge_pos(u, v); seg.update(p, p, w), res = hld.query_path(seg, a, b, true);
- *
- * Example of a path composite, the tree keeps both the left-to-right and right-to-left fold of every node:
- *     for (auto [a, b] : hld.ordered_path(u, v)){
- *         res = a <= b ? compose(res, seg.query(a, b)) : compose(res, seg.query_reversed(b, a));
- *     }
+ * Notes:
+ *   - seg is any size n tree with 0-indexed query(l, r), update(l, r, x) and combine(a, b), like segment_tree.cpp
+ *   - edges = true excludes the lca, for values on edges: store the weight of edge (parent[v], v) at pos[v]
+ *   - ordered_path walks each range from position from to to: from >= to on the u side, from <= to on the v side
+ *   - path and query_path suit commutative folds only (sum, min, max, xor), ordered_path suits any, like affine maps
  *
 ***/
 
