@@ -17,6 +17,9 @@ vector<int> sizes_by_label(const vector<int>& label){
 
 /// Builds the whole edge history, then checks every time t against labels rebuilt from the first t edges
 int main(){
+    /// A negative time would otherwise step before the first size entry, undefined behaviour
+    stress::expect_assert("data_structures/partially_persistent_dsu.cpp", []{ PartiallyPersistentDSU(3).size(0, -1); });
+
     for (int n : {1, 2, 1000, 100000}){
         PartiallyPersistentDSU chain(n);
         for (int i = 0; i < n; i++) assert(chain.connect(i, i + 1));

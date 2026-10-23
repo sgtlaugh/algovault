@@ -19,7 +19,6 @@ void relabel(vector<int>& label, int a, int b){
     if (from != to) for (auto& x : label) if (x == from) x = to;
 }
 
-/// Component labels recomputed from scratch over the edge list
 vector<int> naive_labels(int n, const vector<pair<int, int>>& edges){
     vector<int> label(n + 1);
     iota(label.begin(), label.end(), 0);
@@ -35,6 +34,14 @@ vector<int> sizes_by_label(const vector<int>& label){
 
 /// Connects, checkpoints and rollbacks to random checkpoints, against labels recomputed from the surviving unions
 int main(){
+    /// A checkpoint in the future would otherwise roll back nothing and return silently
+    stress::expect_assert("data_structures/rollback_dsu.cpp", []{
+        RollbackDSU dsu(3);
+        dsu.connect(0, 1);
+        dsu.rollback(2);
+    });
+    stress::expect_assert("data_structures/rollback_dsu.cpp", []{ RollbackDSU(3).rollback(-1); });
+
     for (int n : {1, 2, 1000, 100000}){
         RollbackDSU chain(n);
         for (int i = 0; i < n; i++) assert(chain.connect(i, i + 1));

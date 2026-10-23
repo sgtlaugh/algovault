@@ -54,7 +54,6 @@ struct PartiallyPersistentDSU{
 
     int size(int a, int t){
         auto& history = size_history[find(a, t)];
-        /// the last entry recorded at or before call t
         return prev(upper_bound(history.begin(), history.end(), make_pair(t, INT_MAX)))->second;
     }
 };
