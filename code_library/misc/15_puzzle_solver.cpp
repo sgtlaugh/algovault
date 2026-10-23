@@ -64,10 +64,6 @@ struct FifteenPuzzle{
         }
     }
 
-    int get_cost(int i, int j) const{
-        return abs(((ar[i][j] - 1) >> 2) - i) + abs(((ar[i][j] - 1) & 3) - j);
-    }
-
     int heuristic() const{
         int i, j, manhattan_distance = 0;
 
@@ -108,6 +104,10 @@ struct FifteenPuzzle{
         }
 
         return res;
+    }
+
+    int get_cost(int i, int j) const{
+        return abs(((ar[i][j] - 1) >> 2) - i) + abs(((ar[i][j] - 1) & 3) - j);
     }
 };
 

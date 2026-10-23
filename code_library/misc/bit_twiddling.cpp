@@ -5,11 +5,11 @@
  *
  * Complexity: O(1) per operation, O(popcount) for set_bit_indices
  *
- * reverse_bits(x)            bit i of x moves to bit 31 - i
  * next_same_popcount(x)      smallest y > x with popcount(y) == popcount(x)
  *                            requires a successor: x != 0 and the set bits of x not all packed at the top
  * prev_same_popcount(x)      largest y < x with popcount(y) == popcount(x)
  *                            requires a predecessor: x != 0 and the set bits of x not all packed at the bottom
+ * reverse_bits(x)            bit i of x moves to bit 31 - i
  * set_bit_indices(mask)      indices of the set bits of a 64-bit mask, ascending
  *
  * The index of the lowest set bit is __builtin_ctz(x) (undefined for x = 0)
@@ -24,14 +24,6 @@
 
 using namespace std;
 
-unsigned int reverse_bits(unsigned int v){
-    v = ((v >> 1) & 0x55555555) | ((v & 0x55555555) << 1);
-    v = ((v >> 2) & 0x33333333) | ((v & 0x33333333) << 2);
-    v = ((v >> 4) & 0x0F0F0F0F) | ((v & 0x0F0F0F0F) << 4);
-    v = ((v >> 8) & 0x00FF00FF) | ((v & 0x00FF00FF) << 8);
-    return (v >> 16) | (v << 16);
-}
-
 unsigned int next_same_popcount(unsigned int x){
     unsigned int y = x & -x;
     assert(x + y != 0);  /// x == 0 or bits packed at the top: no successor, x + y wraps to 0
@@ -45,6 +37,14 @@ unsigned int next_same_popcount(unsigned int x){
 
 unsigned int prev_same_popcount(unsigned int x){
     return ~next_same_popcount(~x);
+}
+
+unsigned int reverse_bits(unsigned int v){
+    v = ((v >> 1) & 0x55555555) | ((v & 0x55555555) << 1);
+    v = ((v >> 2) & 0x33333333) | ((v & 0x33333333) << 2);
+    v = ((v >> 4) & 0x0F0F0F0F) | ((v & 0x0F0F0F0F) << 4);
+    v = ((v >> 8) & 0x00FF00FF) | ((v & 0x00FF00FF) << 8);
+    return (v >> 16) | (v << 16);
 }
 
 vector<int> set_bit_indices(unsigned long long mask){

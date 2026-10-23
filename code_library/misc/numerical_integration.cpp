@@ -6,9 +6,6 @@
  * Complexity: simpson O(n) evaluations, adaptive_simpson O(panels it needs) with recursion depth <= 44,
  *             romberg O(2^k) evaluations for k <= max_levels levels
  *
- * simpson(a, b, f, n = 1000): 2n equal subintervals for n >= 1, 2n + 1 evaluations
- *     Exact for cubics, error (b - a) h^4 max|f''''| / 180 with h = (b - a) / 2n
- *
  * adaptive_simpson(a, b, f, eps = 1e-9): starts from 64 equal panels and splits a panel until its halves agree
  *     with it; the start grid keeps periodic f that vanishes on a coarse grid (sin^2 over [0, 8pi]) from
  *     reading as 0, but a spike, or two jumps, within one start panel ((b - a) / 64) can still be missed
@@ -23,6 +20,9 @@
  *     number of periods), else returns the last estimate (2^max_levels + 1 evaluations); fast only on smooth f,
  *     use adaptive_simpson for kinks and jumps
  *
+ * simpson(a, b, f, n = 1000): 2n equal subintervals for n >= 1, 2n + 1 evaluations
+ *     Exact for cubics, error (b - a) h^4 max|f''''| / 180 with h = (b - a) / 2n
+ *
  * eps is an absolute error target judged by the method's own estimate, not a guarantee: a coincidental
  * cancellation in the estimate stops early; on the stress test's random integrands the error exceeded
  * eps + 1e-13 relative for about 1 in 10^5 adaptive calls (worst 6x) and 1 in 2 * 10^5 Romberg calls (worst 1.4x)
@@ -36,13 +36,6 @@
 #include <bits/stdtr1c++.h>
 
 using namespace std;
-
-template<typename F>
-double simpson(double a, double b, F f, int n = 1000){
-    double h = (b - a) / (2 * n), sum = f(a) + f(b);
-    for (int i = 1; i < 2 * n; i++) sum += f(a + i * h) * (i & 1 ? 4 : 2);
-    return sum * h / 3;
-}
 
 template<typename F>
 double adaptive_simpson_panel(F& f, double a, double b, double fa, double fm, double fb, double whole, double eps, double& noise, int depth){
@@ -104,6 +97,13 @@ double romberg(double a, double b, F f, double eps = 1e-9, int max_levels = 20){
         swap(prev, cur);
     }
     return prev.back();
+}
+
+template<typename F>
+double simpson(double a, double b, F f, int n = 1000){
+    double h = (b - a) / (2 * n), sum = f(a) + f(b);
+    for (int i = 1; i < 2 * n; i++) sum += f(a + i * h) * (i & 1 ? 4 : 2);
+    return sum * h / 3;
 }
 
 int main(){

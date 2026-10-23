@@ -5,13 +5,13 @@
  *
  * Complexity: O(1) amortized per character, one fread or fwrite call per 8192 bytes
  *
+ * fio::flush(): writes the pending output now, which also happens at normal exit
  * fio::read(a, b, ...): reads whitespace separated values into a, b, ... and returns how many it read before the input ended
  * read accepts integers of any width including __int128, float, double, long double, strings, chars and vectors of these
  * fio::read_line(s): reads one line into s without its newline or a trailing \r, false only at the end of input
  * fio::write(a, b, ...): writes a, b, ... separated by single spaces and ends the line, a vector argument on its own line
  * write accepts integers, strings, chars, vectors of these and fio::fixed values
  * fio::fixed(x, digits): a floating x printed with exactly digits digits after the point, rounded like printf("%.*f")
- * fio::flush(): writes the pending output now, which also happens at normal exit
  *
  * Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
  * A char reads one non-space character
@@ -120,15 +120,9 @@ namespace fio{
         return true;
     }
 
-    /// Returns false only at the end of input, a last line without a trailing newline is still returned
-    bool read_line(string &s){
-        s.clear();
-        int c = read_char();
-        if (c == EOF) return false;
-
-        for (; c != '\n' && c != EOF; c = read_char()) s.push_back(c);
-        if (!s.empty() && s.back() == '\r') s.pop_back();  /// CRLF line endings
-        return true;
+    void flush(){
+        fwrite(outbuf, 1, outptr, stdout);
+        outptr = 0;
     }
 
     template <typename T>
@@ -142,9 +136,15 @@ namespace fio{
         return read(args...) + 1;
     }
 
-    void flush(){
-        fwrite(outbuf, 1, outptr, stdout);
-        outptr = 0;
+    /// Returns false only at the end of input, a last line without a trailing newline is still returned
+    bool read_line(string &s){
+        s.clear();
+        int c = read_char();
+        if (c == EOF) return false;
+
+        for (; c != '\n' && c != EOF; c = read_char()) s.push_back(c);
+        if (!s.empty() && s.back() == '\r') s.pop_back();  /// CRLF line endings
+        return true;
     }
 
     struct AutoFlush{ ~AutoFlush(){ flush(); } } auto_flush;
@@ -190,10 +190,6 @@ namespace fio{
         int digits;
     };
 
-    Fixed fixed(long double value, int digits){
-        return {value, digits};
-    }
-
     void write_one(const Fixed &f){
         int len = snprintf(tmpbuf, sizeof(tmpbuf), "%.*Lf", f.digits, f.value);
         if (len < (int)sizeof(tmpbuf)){
@@ -236,6 +232,10 @@ namespace fio{
         write_one(x);
         write_char(separator_after(x));
         write(args...);
+    }
+
+    Fixed fixed(long double value, int digits){
+        return {value, digits};
     }
 }
 
