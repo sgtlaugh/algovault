@@ -10,7 +10,7 @@
  *
  * Bignum x(v): the long long v, 0 by default
  * Bignum x(s): the decimal string s, optional sign and leading zeros allowed, asserts at least one digit and nothing else
- * 
+ *
  * x + y: the sum, either side may be a long long
  * x - y: the difference
  * x * y: the product
@@ -19,16 +19,16 @@
  * -x: the negation
  * x += y: x + y stored in x, likewise -=, *=, /= and %=
  * x < y: the comparison, likewise <=, >, >=, == and !=
- * 
+ *
  * x.to_string(): the decimal digits, with a leading - when x is negative
  * cin >> x: reads one whitespace separated decimal token
  * cout << x: writes x.to_string()
  *
  * In loops prefer the compound operators: x += y reuses x's storage, and *=, /= and %= by a long long below 10^9 never allocate
  * x / y and x % y each run the full division, so needing both costs two
- * 
+ *
  * At -O2, multiplying two 2 * 10^6 digit numbers takes ~0.15 s and dividing 2 * 10^6 digits by 10^6 digits ~0.5 s
- * 
+ *
  * Note: Requires __int128 (64-bit GCC or Clang)
  *
 ***/
@@ -40,14 +40,14 @@ using namespace std;
 struct Bignum{
     static const uint32_t BASE = 1000000000;
     static const size_t NTT_MAX = 1 << 23;
-    
+
     static const int KARATSUBA_CUTOFF = 96;
     static const int NTT_CUTOFF = 700;
     static const int NEWTON_CUTOFF = 400;
 
     typedef vector<uint32_t> Limbs;
 
-    bool neg = false;
+    bool neg = false;      /// false for zero, so 0 has one representation and == can compare fields
     Limbs limbs;           /// 9 decimal digits each, value = sum limbs[i] * 10^(9i), no zero limbs at the top
 
     Bignum(long long v = 0){
