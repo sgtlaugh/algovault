@@ -572,13 +572,14 @@ struct Bignum{
 };
 
 int main(){
-    Bignum x = 1;
+    /// 2^100 by repeated doubling, past every built-in integer type
+    Bignum x(1);
     for (int i = 0; i < 100; i++) x *= 2;
     assert(x.to_string() == "1267650600228229401496703205376");
     assert((x + x).to_string() == "2535301200456458802993406410752");
 
     /// Division truncates toward zero and the remainder keeps the dividend's sign
-    Bignum seven = -7;
+    Bignum seven(-7);
     assert(seven / 2 == -3);
     assert(seven % 2 == -1);
 
@@ -589,7 +590,7 @@ int main(){
     Bignum nines("999999999999");
     assert((nines * nines).to_string() == "999999999998000000000001");
 
-    Bignum fact = 1;
+    Bignum fact(1);
     for (int i = 1; i <= 25; i++) fact *= i;
     assert(fact.to_string() == "15511210043330985984000000");
     for (int i = 25; i >= 1; i--) fact /= i;
