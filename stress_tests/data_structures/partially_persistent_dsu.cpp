@@ -4,22 +4,12 @@
 #include "../../code_library/data_structures/partially_persistent_dsu.cpp"
 #undef main
 
-/// Applies one union to a label array in O(n)
 void relabel(vector<int>& label, int a, int b){
     int from = label[a], to = label[b];
     if (from != to) for (auto& x : label) if (x == from) x = to;
 }
 
-/// Component labels recomputed from scratch over the edge list
-vector<int> naive_labels(int n, const vector<pair<int, int>>& edges){
-    vector<int> label(n + 1);
-    iota(label.begin(), label.end(), 0);
-    for (auto [a, b] : edges) relabel(label, a, b);
-    return label;
-}
-
-/// Component sizes indexed by label
-vector<int> naive_sizes(const vector<int>& label){
+vector<int> sizes_by_label(const vector<int>& label){
     vector<int> cnt(label.size());
     for (int x : label) cnt[x]++;
     return cnt;
@@ -38,7 +28,8 @@ int main(){
         int n = stress::rand_int(0, it % 10 ? 12 : 150), m = stress::rand_int(0, 3 * n + 3);
         PartiallyPersistentDSU dsu(n);
         vector<pair<int, int>> edges;
-        vector<int> label = naive_labels(n, {});
+        vector<int> label(n + 1);
+        iota(label.begin(), label.end(), 0);
 
         for (int k = 0; k < m; k++){
             int a = stress::rand_int(0, n), b = stress::rand_int(0, n);
@@ -52,11 +43,11 @@ int main(){
         iota(times.begin(), times.end(), 0);
         times.push_back(INT_MAX);
 
-        label = naive_labels(n, {});
+        iota(label.begin(), label.end(), 0);
         for (int t : times){
             if (t >= 1 && t <= m) relabel(label, edges[t - 1].first, edges[t - 1].second);
 
-            vector<int> cnt = naive_sizes(label);
+            vector<int> cnt = sizes_by_label(label);
             for (int i = 0; i <= n; i++){
                 int j = stress::rand_int(0, n), root = dsu.find(i, t);
                 assert(label[root] == label[i] && dsu.find(root, t) == root);
