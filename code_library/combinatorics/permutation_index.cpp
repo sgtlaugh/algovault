@@ -3,16 +3,14 @@
  * Permutation Index
  * Lexicographic rank of a permutation of 0..n-1 in O(n) with no allocation, a perfect hash for permutation states
  *
- * Complexity: O(n) per query, no build cost and no tables, 1 <= n <= 20 (20! still fits in long long)
+ * Complexity: O(n) per query, no build cost and no tables
  *
- * PermutationIndex idx(n); idx.index(p): rank of p among all n! permutations in [0, n!), p holds 0..n-1
- * Use it as a dense state id in BFS / DP over permutations, e.g. visited[idx.index(p)]
- * permutation_rank.cpp ranks any distinct values (n <= 20) and unranks for any n
+ * PermutationIndex idx(n): ranks permutations of 0..n-1 for 1 <= n <= 20
+ * idx.index(p): rank of p among all n! permutations in [0, n!), p holds 0..n-1
  *
- * rank(p) = sum of c_i * (n - 1 - i)!, c_i = number of values below p[i] not used by p[0..i-1]
- * c_i is one popcount over the bitmask of unused values, the sum is evaluated Horner style
- * index is compiled for the POPCNT instruction (every x86 CPU since 2008): without it GCC calls a software
- * popcount and the old 12 MB table version wins at n <= 10, with it this beats the table 1.5x to 6x at every n
+ * Notes:
+ *   - index uses the POPCNT instruction, present on every x86 CPU since 2008
+ *   - permutation_rank.cpp ranks any distinct values (n <= 20) and unranks for any n
  *
 ***/
 

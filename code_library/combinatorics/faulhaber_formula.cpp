@@ -5,15 +5,8 @@
  *
  * Complexity: O(max_k^2) time and memory to build, O(k) per query
  *
- * Faulhaber<MOD> f(max_k) builds the Stirling triangle S(i, j) for i <= max_k
- *     MOD must be a prime > max_k + 1, the default is 10^9 + 7
- * f.sum(n, k) for 0 <= k <= max_k and any 0 <= n <= LLONG_MAX
- *     sum of i^k = sum over j of S(k, j) (n + 1) n (n - 1) ... (n + 1 - j) / (j + 1)
- *
- * Example:
- *   Faulhaber f(1000);
- *   f.sum(5, 2);  // 1 + 4 + 9 + 16 + 25 = 55
- *   Faulhaber<998244353> g(1000);
+ * Faulhaber<MOD> f(max_k): MOD a prime > max_k + 1, 10^9 + 7 by default
+ * f.sum(n, k): 1^k + 2^k + ... + n^k mod MOD for 0 <= k <= max_k and any 0 <= n <= LLONG_MAX
  *
 ***/
 

@@ -3,13 +3,9 @@
  * Partition Numbers
  * p(0..n) modulo m, p(i) is the number of ways to write i as a sum of positive integers ignoring order
  *
- * Complexity: O(n sqrt n), O(n) memory
+ * Complexity: O(n sqrt n) time, O(n) memory
  *
- * partition_numbers(n, m) returns p(0), ..., p(n) modulo m, any modulus 1 <= m <= 2^62
- * Euler's pentagonal number theorem gives p(i) = sum over k >= 1 of (-1)^(k + 1) (p(i - k (3k - 1) / 2) + p(i - k (3k + 1) / 2)),
- * and only O(sqrt i) generalized pentagonal numbers are at most i
- *
- * Only additions and subtractions modulo m, so the modulus need not be prime
+ * partition_numbers(n, m): p(0), ..., p(n) modulo any 1 <= m <= 2^62, prime or not
  *
 ***/
 
@@ -20,7 +16,7 @@ using namespace std;
 vector<long long> partition_numbers(int n, long long m){
     assert(n >= 0 && 1 <= m && m <= (1LL << 62));
 
-    /// generalized pentagonal numbers k (3k - 1) / 2 and k (3k + 1) / 2 in increasing order, so their signs run + + - - + + ...
+    /// Generalized pentagonal numbers k (3k - 1) / 2 and k (3k + 1) / 2 in increasing order, signs + + - - + + ...
     vector<long long> pentagonal;
     for (long long k = 1; k * (3 * k - 1) / 2 <= n; k++){
         pentagonal.push_back(k * (3 * k - 1) / 2);

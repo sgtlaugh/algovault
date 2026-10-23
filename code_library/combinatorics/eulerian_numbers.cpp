@@ -8,8 +8,9 @@
  * EulerianNumbers eul(n, m): rows 0..n modulo any 1 <= m <= 2^31 - 1, m = 10^9 + 7 by default
  * eul.get(n, k): A(n, k) mod m, 0 when k < 0 or k >= n, and A(0, 0) = 1 by convention
  *
- * An ascent is an element greater than the one before it, and A(n, k) = (k + 1) A(n - 1, k) + (n - k) A(n - 1, k - 1)
- * The triangle is OEIS A008292 (https://oeis.org/A008292)
+ * Notes:
+ *   - An ascent is an element greater than the one before it
+ *   - The triangle is OEIS A008292 (https://oeis.org/A008292)
  *
 ***/
 

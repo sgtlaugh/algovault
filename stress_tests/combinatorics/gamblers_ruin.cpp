@@ -8,14 +8,15 @@
 #include "../../code_library/combinatorics/gamblers_ruin.cpp"
 #undef main
 
-/// Reference: solve P_i = p P_(i+1) + q P_(i-1), P_0 = 1, P_N = 0 with the Thomas algorithm (diagonally dominant, stable)
+/// Reference: P_i = p P_(i+1) + q P_(i-1), P_0 = 1, P_N = 0 by the Thomas algorithm, stable as diagonally dominant
 long double reference(int n1, int n2, long double p){
     if (n1 == 0) return 1;
     if (n2 == 0) return 0;
 
     int n = n1 + n2;
     long double q = 1 - p;
-    vector<long double> c(n), d(n);  /// forward sweep over the unknowns P_1 .. P_(n-1), row i is -q P_(i-1) + P_i - p P_(i+1) = 0
+    /// Forward sweep over the unknowns P_1 .. P_(n-1), row i is -q P_(i-1) + P_i - p P_(i+1) = 0
+    vector<long double> c(n), d(n);
     for (int i = 1; i < n; i++){
         long double denom = (i == 1) ? 1 : 1 + q * c[i - 1];
         c[i] = -p / denom;

@@ -3,21 +3,17 @@
  * Stirling Numbers
  * A whole row of Stirling numbers of the first or second kind modulo m, using exact NTT multiplication
  *
- * Complexity: O(n log n) for stirling_second and for stirling_first with a prime m > n,
- *             O(n log^2 n) for stirling_first with any other m
+ * Complexity:
+ *   - stirling_first: O(n log n) for a prime m > n, O(n log^2 n) for any other m
+ *   - stirling_second: O(n log n)
  *
- * stirling_first(n, m): c(n, k) for k = 0..n, the unsigned numbers counting permutations of n with k cycles
- *     coefficients of P_n(x) = x (x + 1) ... (x + n - 1), any modulus 1 <= m <= 2^30, n <= 2^22
- *     the signed numbers are s(n, k) = (-1)^(n - k) c(n, k)
- *     a prime m > n doubles with P_2k(x) = P_k(x) P_k(x + k), the Taylor shift dividing by factorials,
- *     any other m multiplies halves of the product instead, since factorials need not be invertible
- * stirling_second(n, p): S(n, k) for k = 0..n, the ways to split n labelled items into k non-empty groups
- *     S(n, k) = sum over i of (-1)^i / i! * (k - i)^n / (k - i)!, needs a prime p with n < p <= 2^30, n <= 2^22
+ * stirling_first(n, m): c(n, k) for k = 0..n, the count of permutations of n with k cycles, 1 <= m <= 2^30, n <= 2^22
+ * stirling_second(n, p): S(n, k) for k = 0..n, the count of splits of n labelled items into k non-empty groups
  *
- * Products modulo 998244353 run one NTT, any other modulus runs three NTTs modulo 167772161, 469762049
- * and 754974721 joined by Garner's CRT, their product ~5.95e25 exceeds 2^23 * (2^30)^2, so every coefficient
- * is exact before the reduction modulo m
- * Holds no mutable global state, the roots are computed per product
+ * Notes:
+ *   - c(n, k) is the coefficient of x^k in x (x + 1) ... (x + n - 1), the signed s(n, k) is (-1)^(n - k) c(n, k)
+ *   - stirling_second needs a prime p with n < p <= 2^30 and n <= 2^22
+ *   - Holds no mutable global state
  *
 ***/
 
@@ -62,8 +58,7 @@ namespace stirling_ntt{
         return rt;
     }
 
-    /// Decimation in frequency, natural order in, bit-reversed order out, values stay in [0, 2P)
-    /// P < 2^30 keeps u - v + 2P below 2^32 and every redc input below P R
+    /// Bit-reversed order out, values in [0, 2P), P < 2^30 keeps u - v + 2P below 2^32 and redc inputs below P R
     template<unsigned P>
     void forward(vector<unsigned>& a, const vector<unsigned>& rt){
         int n = a.size();
@@ -78,7 +73,7 @@ namespace stirling_ntt{
         }
     }
 
-    /// Decimation in time with inverse roots, bit-reversed order in, natural order out scaled by n, values stay in [0, 2P)
+    /// Inverse roots, bit-reversed order in, natural order out scaled by n, values stay in [0, 2P)
     template<unsigned P>
     void inverse(vector<unsigned>& a, const vector<unsigned>& rt){
         int n = a.size();

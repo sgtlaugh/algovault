@@ -76,7 +76,7 @@ int main(){
     vector<long long> moduli = {1, 2, 6, 7, 1000000007, NTT_PRIME, BIG_PRIME, 1LL << 30, 999999937};
     for (long long it = 0; it < stress::scaled(12); it++) moduli.push_back(stress::rand_int(1, 1LL << 30));
 
-    /// Primes above n take the doubling path, primes up to n and composites the halving one, both against the recurrence
+    /// Primes above n take the doubling path, other moduli the halving one, both against the recurrence
     for (long long m : moduli){
         int n = 120;
         vector<int> rows;

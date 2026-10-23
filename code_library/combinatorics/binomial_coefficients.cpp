@@ -4,14 +4,15 @@
  * C(n, k) modulo any mod, prime or not, by Lucas per prime power of mod joined with the Chinese remainder theorem
  *
  * Complexity, for mod = p1^q1 * ... * pm^qm and table sizes Pi = min(pi^qi, max_n + 1):
- *   - constructor: O(sqrt(mod)) trial division, instant below 2^32, about 50 s for two prime factors near 2^32
+ *   - constructor: O(sqrt(mod)), instant below 2^32, about 50 s for two prime factors near 2^32
  *   - tables: O(Pi) time and 4 Pi bytes per prime power, built by the first query that needs them
  *   - query: O(m (log n + log mod))
  *
  * Binomial bin(mod, max_n = INT64_MAX): 1 <= mod < 2^64, every prime power below 2^32, queries need n <= max_n
  * bin.binomial(n, k): C(n, k) mod mod for n < 2^63, 0 when n < 0, k < 0 or k > n, always 0 for mod 1
  *
- * Without max_n a prime mod near 2e9 builds an 8 GB table, so pass max_n whenever n stays small
+ * Notes:
+ *   - Without max_n a prime mod near 2e9 builds an 8 GB table, so pass max_n whenever n stays small
  *
 ***/
 

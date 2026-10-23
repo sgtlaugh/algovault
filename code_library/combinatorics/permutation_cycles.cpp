@@ -8,16 +8,14 @@
  * p is a permutation of 0..n-1, p^k applies p k times: p^2[i] = p[p[i]]
  *
  * permutation_cycles(p): the cycles, each listed as i, p[i], p[p[i]], ...
- * permutation_parity(p): 0 for even, 1 for odd, (n - cycles) mod 2
+ * permutation_parity(p): 0 for even, 1 for odd
  * permutation_power(p, k): p^k for any long long k, negative k gives powers of the inverse
- * permutation_root(p, k): some q with q^k = p for 1 <= k <= LLONG_MAX, or {} when none exists (n >= 1)
- *     among all k-th roots it returns one with the most cycles, so the fewest sorting swaps
+ * permutation_root(p, k): the q with q^k = p and the most cycles, {} when none exists, 1 <= k <= LLONG_MAX, n >= 1
  * sorting_swaps(p): the minimum list of position swaps that turns the array p into the identity, n - cycles long
- *     replaying it in reverse on the identity rebuilds p
  *
- * Root: q^k splits a q-cycle of length m into gcd(m, k) cycles of length m / gcd(m, k)
- * So the cycles of p of length len are merged in groups of t, the smallest t with gcd(t * len, k) = t
- * No root exists when the number of len-cycles is not a multiple of t
+ * Notes:
+ *   - The most cycles make permutation_root's q need the fewest sorting swaps
+ *   - Replaying sorting_swaps(p) in reverse on the identity rebuilds p
  *
 ***/
 

@@ -6,7 +6,7 @@
 
 const long long MOD = 1000000007;
 
-/// A small prime modulus at the largest max_k it allows, against direct summation with n crossing several multiples of P
+/// A small prime at the largest max_k it allows, against direct summation with n crossing several multiples of P
 template <int P>
 void check_small_prime(){
     Faulhaber<P> f(P - 2);

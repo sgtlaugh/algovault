@@ -128,7 +128,7 @@ void exhaustive(int n){
     do perms.push_back(p);
     while (next_permutation(p.begin(), p.end()));
 
-    /// Minimum swaps by BFS from the identity, a swap is its own inverse so distance(identity, p) = distance(p, identity)
+    /// Minimum swaps by BFS from the identity, a swap is its own inverse so the distance is symmetric
     map<vector<int>, int> dist = {{perms[0], 0}};
     queue<vector<int>> q;
     q.push(perms[0]);

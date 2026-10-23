@@ -7,8 +7,8 @@
  *
  * bernoulli_numbers<MOD>(n): B_0, ..., B_n modulo MOD, with the convention B_1 = -1/2
  *
- * MOD must be a prime with n + 1 < MOD < 2^31, the default is 10^9 + 7
- * MOD is a template parameter so the % compiles to a multiplication, a runtime modulus measured 6x slower
+ * Notes:
+ *   - MOD is a prime with n + 1 < MOD < 2^31, 10^9 + 7 by default
  *
 ***/
 
@@ -16,6 +16,7 @@
 
 using namespace std;
 
+/// MOD is a template parameter so % compiles to a multiplication, a runtime modulus measured 6x slower
 template <int MOD = 1000000007>
 vector<int> bernoulli_numbers(int n){
     assert(0 <= n && n + 1 < MOD);

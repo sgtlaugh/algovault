@@ -3,14 +3,18 @@
  * Combinatorics
  * Factorial tables, nCr and nPr modulo a prime
  *
- * Complexity: O(n) to build Combinatorics(n, mod), O(1) per query afterwards
+ * Complexity: O(n) to build, O(1) per query
  *
  * Combinatorics comb(n, mod): tables for 0..n, mod must be a prime with n < mod < 2^31
- * comb.inverse(i): inverse of i for 1 <= i <= n, comb.factorial(i), comb.inv_factorial(i)
- * comb.nCr(n, k), comb.nPr(n, k): 0 when k < 0 or k > n, n must not exceed the table size
+ * comb.inverse(i): inverse of i for 1 <= i <= n
+ * comb.factorial(i): i!
+ * comb.inv_factorial(i): the inverse of i!
+ * comb.nCr(n, k): 0 when k < 0 or k > n, n must not exceed the table size
+ * comb.nPr(n, k): 0 when k < 0 or k > n, n must not exceed the table size
  *
- * The tables are int to halve their memory, so read them through the calls, which return long long
- * Extended gcd, modular inverse for any modulus and diophantine equations: extended_gcd.cpp
+ * Notes:
+ *   - The tables are int to halve their memory, so read them through the calls, which return long long
+ *   - Modular inverse for any modulus and diophantine equations: extended_gcd.cpp
  *
 ***/
 

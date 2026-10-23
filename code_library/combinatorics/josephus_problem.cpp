@@ -3,11 +3,13 @@
  * Josephus Problem
  * n people numbered 1 to n stand in a circle, counting starts from 1 and every k-th person dies
  *
- * Complexity: O(min(m, k log n)), every step grows the circle by at least one person
+ * Complexity: O(min(m, k log n))
  *
  * josephus(n, k, m): id in 1..n of the m-th person killed, 1 <= m <= n <= 4e18, 1 <= k <= 4e18
- *   josephus(n, k, n) is the survivor
- * For example if n = 10 and k = 3, then the people killed are 3, 6, 9, 2, 7, 1, 8, 5, 10, 4 respectively
+ *
+ * Notes:
+ *   - josephus(n, k, n) is the survivor
+ *   - n = 10 and k = 3 kill 3, 6, 9, 2, 7, 1, 8, 5, 10, 4 in that order
  *
 ***/
 
@@ -25,7 +27,8 @@ long long josephus(long long n, long long k, long long m){
         long long r = i - m > k - 1 ? min((i - m + k - 2) / (k - 1), n - i) : 1;
         i += r;
         unsigned long long x = m + r * k;
-        m = (x | i) >> 32 ? x % i : (unsigned)x % (unsigned)i;  /// 32-bit division when both fit, 1.5x faster for k >= n
+        /// 32-bit division when both fit, 1.5x faster for k >= n
+        m = (x | i) >> 32 ? x % i : (unsigned)x % (unsigned)i;
     }
     return m + 1;
 }

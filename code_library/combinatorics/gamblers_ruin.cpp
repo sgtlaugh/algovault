@@ -5,11 +5,12 @@
  *
  * Complexity: O(1)
  *
- * gamblers_ruin(n1, n2, p): probability that a player with n1 coins loses them all to one with n2, winning each bet with probability p
+ * gamblers_ruin(n1, n2, p): chance a player with n1 coins loses them all to one with n2, winning each bet with chance p
  *
- * Each bet moves one coin from loser to winner, and the game ends when either player has no coins
- * Needs 0 <= n1, n2 <= INT_MAX, n1 + n2 > 0 and 0 <= p <= 1
- * Relative error stays below ~1e-15 for any such input, p very close to 0.5 included; results under ~1e-4900 underflow to 0
+ * Notes:
+ *   - Each bet moves one coin from loser to winner, and the game ends when either player has no coins
+ *   - Needs 0 <= n1, n2 <= INT_MAX, n1 + n2 > 0 and 0 <= p <= 1
+ *   - Relative error below 1e-15 for any such input, p near 0.5 included, results under 1e-4900 underflow to 0
  *
 ***/
 
@@ -24,8 +25,7 @@ long double gamblers_ruin(int n1, int n2, long double p){
     if (n2 == 0) return 0;
     if (d == 0) return (long double)n2 / ((long double)n1 + n2);
 
-    /// With L = log of a ratio below 1, 1 - ratio^k = -expm1l(k * L) avoids cancellation when the ratio is near 1
-    /// log1pl is accurate for a ratio near 1, logl for a ratio far from 1
+    /// 1 - ratio^k = -expm1l(k L) avoids cancellation for a ratio near 1, where log1pl beats logl for L = log(ratio)
     if (p < q){
         long double r = p / q, L = r < 0.5 ? logl(r) : log1pl(d / q);
         return expm1l(n2 * L) / expm1l(((long double)n1 + n2) * L);
