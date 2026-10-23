@@ -36,14 +36,15 @@ namespace stirling_ntt{
         return res;
     }
 
+    /// Newton's step y (2 - p y) doubles the correct low bits of 1 / p modulo 2^32, y = p starts with 3 of them
+    constexpr unsigned inverse_mod_2_32(unsigned p, unsigned y, int steps){
+        return steps ? inverse_mod_2_32(p, y * (2 - p * y), steps - 1) : y;
+    }
+
     /// Montgomery reduction with R = 2^32, x / R modulo P in [0, 2P) for any x < P R, replacing the slower x % P
     template<unsigned P>
     unsigned redc(unsigned long long x){
-        constexpr unsigned NEG_INV = [](){
-            unsigned y = P;
-            for (int i = 0; i < 4; i++) y *= 2 - P * y;
-            return -y;
-        }();
+        constexpr unsigned NEG_INV = 0u - inverse_mod_2_32(P, P, 4);
         return (x + (unsigned long long)((unsigned)x * NEG_INV) * P) >> 32;
     }
 
