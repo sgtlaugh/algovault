@@ -46,11 +46,12 @@ The priorities, in order: correct, fast, easy to call, easy to read inside; a ru
 
 ### The code
 
-- Plain loops and named variables: `v, va, vb, vab` with a derivation comment, not `t0..t7` or `x, y, z, c, d`
+- Plain loops and named variables: `v, va, vb, vab`, not `t0..t7` or `x, y, z, c, d`
 - Standard terms over clever ones: `__lg` over `31 - __builtin_clz`, a `while` loop over a comma chain in a `for` header
 - No abstraction for one use, and no language machinery (template template parameters, SFINAE traits, CRTP, macros) unless
   it turns a silent wrong answer into a compile error, with a comment saying so
-- The one non-obvious line gets a one-line derivation; everything else should not need a comment
+- A comment marks only an invariant or contract that a caller or editor could break unknowingly, like a field that must stay
+  false for zero; derivations and proofs go in the commit message, since the stress test keeps the code correct, not prose
 - Blank lines split a function body into its steps, like setup, the main loop and the answer
 - A trick for speed stays only with a measured reason in a comment
 - A struct reads top down: types and constants, every field, constructors, the API in header order, then helpers in the
