@@ -546,6 +546,8 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
 const int MOD = 786433;
 
 FFT fft;
@@ -557,7 +559,6 @@ vector<long long> product(const vector<vector<long long>>& polys, int l, int r){
 }
 
 int main(){
-    using namespace fio;
     int t, tc, n, i, j, k, p, lo, hi, run, q, len;
     char buf[64];
 

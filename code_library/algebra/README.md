@@ -78,7 +78,7 @@
 - [UVa 1718 - Tile Cutting](https://onlinejudge.org/external/17/1718.pdf) [✅](../../practice/algebra/uva_1718.cpp "Accepted solution")
 - [UVa 1733 - Design New Capital](https://onlinejudge.org/external/17/1733.pdf) [✅](../../practice/algebra/uva_1733_fft.cpp "Accepted solution")
 - [UVa 11564 - Just A Few More Triangles!](https://onlinejudge.org/external/115/11564.pdf) [✅](../../practice/algebra/uva_11564.cpp "Accepted solution")
-- [UVa 11640 - Mayor Election](https://onlinejudge.org/external/116/11640.pdf) [✅](../../practice/algebra/uva_11640.cpp "Accepted solution")
+- [UVa 11640 - Mayor Election](https://onlinejudge.org/external/116/11640.pdf) [✅](../../practice/algebra/uva_11640_fft.cpp "Accepted solution")
 - [UVa 12298 - Super Poker II](https://onlinejudge.org/external/122/12298.pdf) [✅](../../practice/algebra/uva_12298.cpp "Accepted solution")
 - [UVa 12327 - Xavier is Learning to Count](https://onlinejudge.org/external/123/12327.pdf) [✅](../../practice/algebra/uva_12327.cpp "Accepted solution")
 - [UVa 12633 - Super Rooks on Chessboard](https://onlinejudge.org/external/126/12633.pdf) [✅](../../practice/algebra/uva_12633.cpp "Accepted solution")
@@ -135,6 +135,7 @@
 - [Codeforces Gym 100341C - AVL Trees](https://codeforces.com/gym/100341/problem/C) [✅](../../practice/algebra/codeforces_gym_100341c.cpp "Accepted solution")
 - [Codeforces Gym 100524D - Dichromatic Trees](https://codeforces.com/gym/100524/problem/D) [✅](../../practice/algebra/codeforces_gym_100524d_ntt.cpp "Accepted solution")
 - [UVa 1733 - Design New Capital](https://onlinejudge.org/external/17/1733.pdf) [✅](../../practice/algebra/uva_1733_ntt.cpp "Accepted solution")
+- [UVa 11640 - Mayor Election](https://onlinejudge.org/external/116/11640.pdf) [✅](../../practice/algebra/uva_11640_ntt.cpp "Accepted solution")
 
 #### [Polynomial](polynomial.cpp)
 
