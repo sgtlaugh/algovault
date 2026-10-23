@@ -239,7 +239,6 @@ struct ImplicitTreap{
         nodes[t].total = nodes[t].value + (l == -1 ? 0 : nodes[l].total) + (r == -1 ? 0 : nodes[r].total);
     }
 
-    /// Applies f to the treap holding exactly [l, r], then joins everything back
     template <typename F>
     void on_range(int l, int r, F f){
         assert(0 <= l && l <= r && r < size());
