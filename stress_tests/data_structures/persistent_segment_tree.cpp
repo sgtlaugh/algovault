@@ -4,6 +4,18 @@
 #include "../../code_library/data_structures/persistent_segment_tree.cpp"
 #undef main
 
+struct MinCombine{
+    long long operator()(long long a, long long b) const{
+        return min(a, b);
+    }
+};
+
+struct FirstCombine{
+    long long operator()(long long a, long long) const{
+        return a;
+    }
+};
+
 /// Every version against a full copy of the array, branching updates from random old versions
 template<typename Combine>
 void check_versions(int n, int ops, long long range, bool sum){

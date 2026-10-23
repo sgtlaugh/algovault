@@ -18,6 +18,12 @@ int read_int(){
     return negative ? -x : x;
 }
 
+struct FirstCombine{
+    long long operator()(long long a, long long) const{
+        return a;
+    }
+};
+
 int main(){
     int q = read_int();
     PersistentSegmentTree<long long, FirstCombine> arr(vector<long long>(q, 0));

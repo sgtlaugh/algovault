@@ -146,19 +146,19 @@ struct RangeKth{
     }
 };
 
-struct MinCombine{
-    long long operator()(long long a, long long b) const{
-        return min(a, b);
-    }
-};
-
-struct FirstCombine{
-    long long operator()(long long a, long long) const{
-        return a;
-    }
-};
-
 int main(){
+    struct MinCombine{
+        long long operator()(long long a, long long b) const{
+            return min(a, b);
+        }
+    };
+
+    struct FirstCombine{
+        long long operator()(long long a, long long) const{
+            return a;
+        }
+    };
+
     /// Range sums over versions
     PersistentSegmentTree<long long> tree({3, 1, 4, 1, 5});
     int v1 = tree.add(0, 2, 10);        /// 3 1 14 1 5
