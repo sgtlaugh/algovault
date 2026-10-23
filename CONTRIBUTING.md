@@ -96,8 +96,9 @@ The `/lucid` skill in `.claude/skills/lucid/` applies these rules to existing fi
 - Otherwise one bullet per operation, or per struct when a file has several, time first
 - Memory only when it is not the obvious O(n) or its real size matters, like `about 205 MB by default`
 - The API lists the constructor first, then one line per public call: `call(args): what it returns or does, preconditions`
-- Calls come in three groups, each alphabetical: constructors, then calls that change the structure, then calls that only
-  read it; a call goes by its main effect, so `link` returning a bool changes and `find` compressing paths reads
+- Constructors come first, simplest first, then calls that change the structure, then calls that only read it, these two
+  groups alphabetical; a call goes by its main effect, so `link` returning a bool changes and `find` compressing paths reads
+- Public fields a caller reads, like `dsu.now`, come after the calls, in the order a reader needs them
 - One sentence per line, a sentence never split across lines, never two calls on one line
 - No usage example, `main()` is the example; a short snippet only when calling it needs code, like a functor
 - Notes on value ranges, traps and which template to use instead, one short line each

@@ -49,7 +49,7 @@ Every item is a yes, or the file is not done. The list mirrors CONTRIBUTING.md, 
 - [ ] Line 1 is the name, line 2 one plain sentence; blank lines separate name, complexity, API and notes
 - [ ] Complexity is one line for one cost, otherwise one bullet per operation or struct, time first, memory only when it matters
 - [ ] One API line per public call, each one sentence: `call(args): what it returns or does, preconditions`
-- [ ] The calls come as constructors, then calls that change the structure, then calls that only read it, alphabetical within each group
+- [ ] The calls come as constructors, simplest first, then calls that change the structure, then calls that only read it, these two groups alphabetical, then public fields
 - [ ] No sentence is split across lines and no line holds two calls
 - [ ] The header has no usage example; a snippet appears only where calling the template needs code
 - [ ] Every `///` comment moved into the code says something the code does not already show
