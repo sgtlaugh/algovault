@@ -30,8 +30,10 @@
  *   Lazy, apply(x, lz), apply(a, lz, count), compose(old, new): only for seq.update
  *   apply(x, lz) updates one value, apply(a, lz, count) an Agg covering count positions, compose is old then new as one lazy
  *   reversed(x, count), reversed(a): only for seq.reverse, the run and the Agg read backwards
- *   cut(x, k): the first k values and the rest of a run, only for runs that are not all equal
- *   Calling update without Lazy or reverse without reversed fails to compile, without cut every run counts as all equal
+ *   cut(x, k): the first k values and the rest of a run, {x, x} when every run is all equal
+ *   Calling update without Lazy or reverse without reversed fails to compile
+ *
+ * Every Agg, the whole sequence's included, must fit its type: SumRuns needs every sum within long long
  *
  * 0/1 flags with flip (Codeforces 817F): Value int, Agg {ones, count}, Lazy int, apply flips, compose(a, b) = a ^ b
  * Arithmetic progressions: Value {a, d}, cut(x, k) = {x, {a + k * d, d}}, reversed(x, count) = {a + (count - 1) * d, -d}
@@ -54,6 +56,7 @@ struct SumRuns{
     static Lazy compose(Lazy old_lz, Lazy new_lz){ return old_lz + new_lz; }
     static Value reversed(Value x, long long){ return x; }
     static Agg reversed(Agg a){ return a; }
+    static pair<Value, Value> cut(Value x, long long){ return {x, x}; }
 };
 
 /// The optional parts of a Runs type, so a type defines only what its operations use
@@ -75,12 +78,6 @@ struct HasReversed : false_type {};
 
 template<typename R>
 struct HasReversed<R, void_t<decltype(R::reversed(declval<typename R::Agg>()))>> : true_type {};
-
-template<typename R, typename = void>
-struct HasCut : false_type {};
-
-template<typename R>
-struct HasCut<R, void_t<decltype(R::cut(declval<typename R::Value>(), 0LL))>> : true_type {};
 
 template<typename Runs = SumRuns>
 struct RunLengthImplicitTreap{
@@ -259,9 +256,8 @@ struct RunLengthImplicitTreap{
         }
         else{
             /// t keeps the first part of its run, the rest becomes a new node merged in front of t's right subtree
-            /// The new node draws a fresh priority: inheriting t's would give every piece of a run the same one,
-            /// and equal priorities chain up (200000 cuts of one run overflowed the stack)
-            auto [first, rest] = cut_run(nodes[t].x, k - left);
+            /// The new node draws a fresh priority: pieces of one run sharing a priority would chain into a path
+            auto [first, rest] = Runs::cut(nodes[t].x, k - left);
             int u = new_node(rest, count - (k - left)), right = nodes[t].r;
             nodes[t].r = -1;
             nodes[t].x = first, nodes[t].count = k - left;
@@ -342,7 +338,7 @@ struct RunLengthImplicitTreap{
                 acc = a, empty = false, taken += nodes[near].size;
             }
 
-            const Value x = nodes[t].x;
+            Value x = nodes[t].x;
             long long count = nodes[t].count;
             Agg whole = extend(Runs::run_agg(x, count));
             if (ok(whole)){
@@ -355,18 +351,13 @@ struct RunLengthImplicitTreap{
             long long lo = 0, hi = count - 1;
             while (lo < hi){
                 long long mid = lo + (hi - lo + 1) / 2;
-                auto parts = cut_run(x, backwards ? count - mid : mid);
+                auto parts = Runs::cut(x, backwards ? count - mid : mid);
                 if (ok(extend(Runs::run_agg(backwards ? parts.second : parts.first, mid)))) lo = mid;
                 else hi = mid - 1;
             }
             return taken + lo;
         }
         return taken;
-    }
-
-    pair<Value, Value> cut_run(const Value& x, long long k){
-        if constexpr (HasCut<Runs>::value) return Runs::cut(x, k);
-        else return {x, x};
     }
 };
 

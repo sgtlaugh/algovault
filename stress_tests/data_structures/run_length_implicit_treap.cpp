@@ -24,6 +24,11 @@ struct ProgressionRuns{
     static Agg reversed(Agg a){ return a; }
 };
 
+/// A cut taking a non-const reference must still be called, not mistaken for runs that are all equal
+struct ProgressionRefRuns : ProgressionRuns{
+    static pair<Value, Value> cut(Value& x, long long k){ return {x, {x.a + k * x.d, x.d}}; }
+};
+
 /// An Agg that reads differently backwards, so a wrong reversed(agg) or a lazy applied in the wrong order shows
 struct Ends{
     long long first, last, sum;
@@ -41,6 +46,7 @@ struct EndsRuns{
     static Lazy compose(Lazy old_lz, Lazy new_lz){ return old_lz + new_lz; }
     static Value reversed(Value x, long long){ return x; }
     static Agg reversed(Agg a){ return {a.last, a.first, a.sum}; }
+    static pair<Value, Value> cut(Value x, long long){ return {x, x}; }
 };
 
 /// Forward and backward polynomial hashes without a Lazy: a combine that does not commute, and an Agg whose reverse differs
@@ -62,15 +68,17 @@ struct HashRuns{
     static Agg combine(Agg a, Agg b){ return {(a.h * b.pw + b.h) % MOD, (b.hr * a.pw + a.hr) % MOD, a.pw * b.pw % MOD}; }
     static Value reversed(Value x, long long){ return x; }
     static Agg reversed(Agg a){ return {a.hr, a.h, a.pw}; }   /// only descents see this, queries recompute every Agg they split
+    static pair<Value, Value> cut(Value x, long long){ return {x, x}; }
 };
 
-/// Only the required parts, no Lazy, reversed or cut: insert, erase, assign, query and the descents still work
+/// Only the required parts, no Lazy or reversed: insert, erase, assign, query and the descents still work
 struct MinRuns{
     using Value = long long;
     using Agg = long long;
 
     static Agg run_agg(Value x, long long){ return x; }
     static Agg combine(Agg a, Agg b){ return min(a, b); }
+    static pair<Value, Value> cut(Value x, long long){ return {x, x}; }
 };
 
 /// Sums of 1e18 long runs do not fit in long long
@@ -86,6 +94,7 @@ struct WideSumRuns{
     static Lazy compose(Lazy old_lz, Lazy new_lz){ return old_lz + new_lz; }
     static Value reversed(Value x, long long){ return x; }
     static Agg reversed(Agg a){ return a; }
+    static pair<Value, Value> cut(Value x, long long){ return {x, x}; }
 };
 
 vector<pair<long long, long long>> random_runs(int count, long long max_len, long long lo, long long hi){
@@ -164,9 +173,10 @@ void check_sum_runs(int ops, long long max_len){
 }
 
 /// Arithmetic progression runs: cut must restart the right part, reverse must flip the step
+template<typename R>
 void check_progression_runs(int ops){
     vector<long long> a;
-    RunLengthImplicitTreap<ProgressionRuns> t(vector<pair<Progression, long long>>{});
+    RunLengthImplicitTreap<R> t(vector<pair<Progression, long long>>{});
     auto push_run = [&](long long pos, Progression p, long long len){
         vector<long long> run;
         for (long long i = 0; i < len; i++) run.push_back(p.a + i * p.d);
@@ -379,9 +389,13 @@ void check_min_runs(int ops){
     }
 }
 
+struct Run{
+    long long value, len;
+};
+
 /// Reference for huge lengths: the sequence as a plain list of runs, cut by a linear scan
 struct RunList{
-    vector<pair<long long, long long>> runs;   /// {value, len}
+    vector<Run> runs;
 
     long long size() const{
         long long s = 0;
@@ -394,13 +408,13 @@ struct RunList{
         long long start = 0;
         for (int i = 0; i < (int)runs.size(); i++){
             if (start == pos) return i;
-            if (pos < start + runs[i].second){
-                long long v = runs[i].first, len = runs[i].second;
-                runs[i].second = pos - start;
+            if (pos < start + runs[i].len){
+                long long v = runs[i].value, len = runs[i].len;
+                runs[i].len = pos - start;
                 runs.insert(runs.begin() + i + 1, {v, len - (pos - start)});
                 return i + 1;
             }
-            start += runs[i].second;
+            start += runs[i].len;
         }
         return runs.size();
     }
@@ -408,7 +422,7 @@ struct RunList{
     __int128 sum(long long l, long long r){
         int i = cut(l), j = cut(r + 1);
         __int128 s = 0;
-        for (int k = i; k < j; k++) s += (__int128)runs[k].first * runs[k].second;
+        for (int k = i; k < j; k++) s += (__int128)runs[k].value * runs[k].len;
         return s;
     }
 
@@ -461,7 +475,7 @@ void check_huge(int ops){
         else if (kind == 3){
             t.update(l, r, 1);
             int i = ref.cut(l), j = ref.cut(r + 1);
-            for (int k = i; k < j; k++) ref.runs[k].first++;
+            for (int k = i; k < j; k++) ref.runs[k].value++;
         }
         else if (kind == 4){
             t.reverse(l, r);
@@ -521,7 +535,8 @@ void check_node_bound_and_speed(){
 
 int main(){
     for (long long it = 0; it < stress::scaled(3000); it++) check_sum_runs(60, it % 3 ? 4 : 1);
-    for (long long it = 0; it < stress::scaled(3000); it++) check_progression_runs(60);
+    for (long long it = 0; it < stress::scaled(3000); it++) check_progression_runs<ProgressionRuns>(60);
+    for (long long it = 0; it < stress::scaled(1000); it++) check_progression_runs<ProgressionRefRuns>(60);
     for (long long it = 0; it < stress::scaled(3000); it++) check_ends_runs(60);
     for (long long it = 0; it < stress::scaled(2000); it++) check_hash_descents(60);
     for (long long it = 0; it < stress::scaled(2000); it++) check_progression_descents(60);
