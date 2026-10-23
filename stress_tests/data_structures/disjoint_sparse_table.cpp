@@ -1,35 +1,14 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/data_structures/disjoint_sparse_table.cpp"
 #undef main
 
-/// An out of range index also aborts under _GLIBCXX_ASSERTIONS but is undefined behaviour in a judge build, hence the message check
 void check_rejects(int n, int l, int r){
-    int fd[2];
-    assert(pipe(fd) == 0);
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        dup2(fd[1], STDERR_FILENO);
-        close(fd[0]), close(fd[1]);
+    stress::expect_assert("data_structures/disjoint_sparse_table.cpp", [&]{
         DisjointSparseTable<int> table(vector<int>(n, 1));
         table.query(l, r);
-        _exit(0);
-    }
-
-    close(fd[1]);
-    string err;
-    char buf[4096];
-    for (ssize_t got; (got = read(fd[0], buf, sizeof buf)) > 0;) err.append(buf, got);
-    close(fd[0]);
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
-    assert(err.find("code_library/data_structures/disjoint_sparse_table.cpp:") != string::npos && err.find("Assertion") != string::npos);
+    });
 }
 
 /// The default plus makes strings concatenate: associative but not commutative, operand order must be exact
