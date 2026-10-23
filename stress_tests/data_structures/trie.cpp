@@ -64,6 +64,14 @@ void stress_binary_trie(long long iterations, int ops, unsigned long long max_va
 
 /// Trie prefix and exact counts against a list of inserted words, BinaryTrie xor queries against a std::map multiset
 int main(){
+    /// x = 2^BITS would be stored as x mod 2^BITS, and erasing more copies than exist would drive counts negative
+    stress::expect_assert("data_structures/trie.cpp", []{ BinaryTrie<3>().insert(8); });
+    stress::expect_assert("data_structures/trie.cpp", []{
+        BinaryTrie<3> trie;
+        trie.insert(5);
+        trie.erase(5, 2);
+    });
+
     for (long long it = 0; it < stress::scaled(2000); it++){
         int sigma = stress::rand_int(1, 3);
         Trie<3, 'a'> trie = stress::rand_int(0, 1) ? Trie<3, 'a'>() : Trie<3, 'a'>(stress::rand_int(1, 700));  /// below, at and above the 601 nodes 100 words of length 6 can need

@@ -1,41 +1,24 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/data_structures/rope.cpp"
 #undef main
 
-/// _GLIBCXX_ASSERTIONS also aborts on the raw vector access, so the message must name the version assert
-void check_rejects_version(int v){
-    int fds[2];
-    assert(pipe(fds) == 0);
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        dup2(fds[1], STDERR_FILENO);
-        VersionedText text;
-        text.insert(0, 0, "ab");
-        text.size(v);
-        _exit(0);
-    }
-
-    close(fds[1]);
-    string message;
-    char buffer[256];
-    for (ssize_t got; (got = read(fds[0], buffer, sizeof buffer)) > 0;) message.append(buffer, got);
-    close(fds[0]);
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
-    assert(message.find("v < (int)versions.size()") != string::npos);
-}
-
 /// Every version against a std::string copy kept alongside it
 int main(){
-    check_rejects_version(2);
-    check_rejects_version(-1);
+    /// A missing version would read past the version list, and a range past the end would read past the text
+    for (int v : {2, -1}){
+        stress::expect_assert("data_structures/rope.cpp", [v]{
+            VersionedText text;
+            text.insert(0, 0, "ab");
+            text.size(v);
+        });
+    }
+    stress::expect_assert("data_structures/rope.cpp", []{
+        VersionedText text;
+        int v = text.insert(0, 0, "ab");
+        text.substr(v, 1, 2);
+    });
 
     for (long long it = 0; it < stress::scaled(300); it++){
         VersionedText text;

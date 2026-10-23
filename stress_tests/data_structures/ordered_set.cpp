@@ -6,6 +6,13 @@
 
 /// Multiset and set operations against a sorted vector and std::set
 int main(){
+    /// kth(size()) would dereference end()
+    stress::expect_assert("data_structures/ordered_set.cpp", []{
+        OrderedMultiset<int> m;
+        m.insert(4);
+        m.kth(1);
+    });
+
     for (long long it = 0; it < stress::scaled(2000); it++){
         long long range = it % 2 ? 5 : 1000000000000000000LL;
         OrderedMultiset<long long> m;

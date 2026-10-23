@@ -38,6 +38,12 @@ void check_array(int n, int q, int max_v, int verify = 1 << 30, bool check_calls
 }
 
 int main(){
+    /// r = n would call add(n) past the array, and l > r + 1 would remove positions never added
+    auto nop = [](int) {};
+    auto zero = [](int){ return 0; };
+    stress::expect_assert("data_structures/mo.cpp", [&]{ mo(3, {{0, 3}}, nop, nop, zero); });
+    stress::expect_assert("data_structures/mo.cpp", [&]{ mo(3, {{2, 0}}, nop, nop, zero); });
+
     for (long long it = 0; it < stress::scaled(2000); it++){
         check_array(stress::rand_int(1, 60), stress::rand_int(1, 60), it % 2 ? 3 : 50);
     }

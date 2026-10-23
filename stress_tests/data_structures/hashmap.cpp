@@ -53,6 +53,12 @@ void check_reassign(){
 }
 
 int main(){
+    /// The table never grows, so a key past max_len would push the load factor past the 1/2 the header promises
+    stress::expect_assert("data_structures/hashmap.cpp", []{
+        HashMap<int, int> mp(2);
+        for (int x = 1; x <= 3; x++) mp.set(x, x);
+    });
+
     check_reassign();
 
     run<int>(stress::scaled(1600));

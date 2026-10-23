@@ -118,6 +118,14 @@ void check_adversarial(int n){
 }
 
 int main(){
+    /// kth past the end would read a missing child, and insert past the end would append silently
+    stress::expect_assert("data_structures/treap.cpp", []{
+        Treap<int> set;
+        set.insert(7);
+        set.kth(1);
+    });
+    stress::expect_assert("data_structures/treap.cpp", []{ ImplicitTreap({1, 2}).insert(3, 9); });
+
     check_adversarial(5000);
 
     for (long long it = 0; it < stress::scaled(1500); it++){

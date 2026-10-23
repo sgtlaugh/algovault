@@ -69,6 +69,12 @@ void run(int ops, long long lo, long long hi, size_t max_size, int drain_every){
 }
 
 int main(){
+    /// pop(EMPTY) would read nodes[-1]
+    stress::expect_assert("data_structures/leftist_heap.cpp", []{
+        LeftistHeap<int> heap;
+        heap.pop(heap.EMPTY);
+    });
+
     for (long long it = 0; it < stress::scaled(1500); it++){
         int ops = it < 300 ? it + 1 : stress::rand_int(1, 120);
         if (it % 3 == 0) run<int, less<int>>(ops, -5, 5, 40, 1);

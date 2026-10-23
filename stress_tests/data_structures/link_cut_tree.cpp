@@ -144,6 +144,9 @@ void check_long_path(int n){
 }
 
 int main(){
+    /// Without the assert a query across two trees would return a fold over a path that does not exist
+    stress::expect_assert("data_structures/link_cut_tree.cpp", []{ LinkCutTree<long long>(3).query(0, 2); });
+
     auto add = [](long long a, long long b){ return a + b; };
     auto mx = [](long long a, long long b){ return max(a, b); };
 
