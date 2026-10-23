@@ -48,7 +48,7 @@ struct HashMap{
 
     HashMap(int max_len) : max_len(max(max_len, 1)){
         int bits = 1;
-        while ((1 << bits) < 2 * this->max_len) bits++;  /// load factor stays at most 1/2
+        while ((1 << bits) < 2 * this->max_len) bits++;
         mask = (1 << bits) - 1;
         slots.assign(mask + 1, Slot{0, 0, TKey(), TValue()});
     }
