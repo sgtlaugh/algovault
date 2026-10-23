@@ -18,6 +18,7 @@
 ***/
 
 #include <bits/stdc++.h>
+#include <sys/prctl.h>
 #include <sys/wait.h>
 #include <unistd.h>
 
@@ -58,6 +59,7 @@ namespace stress{
         if (pid == 0){
             dup2(fd[1], STDERR_FILENO);
             close(fd[0]), close(fd[1]);
+            prctl(PR_SET_DUMPABLE, 0);  /// the system's core dump handler would run on every expected abort
             alarm(10);
             call();
             _exit(0);

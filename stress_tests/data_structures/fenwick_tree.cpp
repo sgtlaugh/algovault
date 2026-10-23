@@ -4,8 +4,31 @@
 #include "../../code_library/data_structures/fenwick_tree.cpp"
 #undef main
 
+template <typename Call>
+void check_rejects(Call call){
+    stress::expect_assert("data_structures/fenwick_tree.cpp", call);
+}
+
 /// All three variants against a plain array, interleaving updates and queries
 int main(){
+    /// Without the asserts p = -1 loops forever at p += p & -p = 0, and p = n or r = n silently drops the update
+    for (int n : {0, 1, 6}){
+        check_rejects([&]{ FenwickPointUpdate<int>(n).update(-1, 1); });
+        check_rejects([&]{ FenwickPointUpdate<int>(n).update(n, 1); });
+        check_rejects([&]{ FenwickPointUpdate<int>(n).prefix(-2); });
+        check_rejects([&]{ FenwickPointUpdate<int>(n).prefix(n); });
+        check_rejects([&]{ FenwickPointUpdate<int>(n).query(0, n); });
+        check_rejects([&]{ FenwickRangeUpdate<int>(n).update(-1, 0, 1); });
+        check_rejects([&]{ FenwickRangeUpdate<int>(n).update(0, n, 1); });
+        check_rejects([&]{ FenwickRangeUpdate<int>(n).query(-1); });
+        check_rejects([&]{ FenwickRangeUpdate<int>(n).query(n); });
+        check_rejects([&]{ FenwickFull<long long>(n).update(-1, 0, 1); });
+        check_rejects([&]{ FenwickFull<long long>(n).update(0, n, 1); });
+        check_rejects([&]{ FenwickFull<long long>(n).prefix(-2); });
+        check_rejects([&]{ FenwickFull<long long>(n).prefix(n); });
+        check_rejects([&]{ FenwickFull<long long>(n).query(0, n); });
+    }
+
     for (long long it = 0; it < stress::scaled(5000); it++){
         int n = stress::rand_int(1, it % 10 ? 20 : 300);
         FenwickPointUpdate<long long> point(n);
