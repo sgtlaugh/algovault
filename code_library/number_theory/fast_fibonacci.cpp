@@ -6,8 +6,8 @@
  * Complexity: O(log n)
  *
  * fibonacci(n, m): F(n) mod m for 0 <= n < 2^63 and any modulus 1 <= m < 2^63
- * fibonacci_pair(n, m): {F(n) mod m, F(n + 1) mod m}
  * fibonacci(n): exact F(n) for 0 <= n <= 92, F(93) no longer fits in long long
+ * fibonacci_pair(n, m): {F(n) mod m, F(n + 1) mod m}
  *
  * F(2k) = F(k) (2 F(k + 1) - F(k)), F(2k + 1) = F(k)^2 + F(k + 1)^2, walking the bits of n from the top
  * Requires __int128 (64-bit GCC or Clang)

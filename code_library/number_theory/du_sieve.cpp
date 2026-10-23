@@ -10,8 +10,8 @@
  * DuSieve du(n): sieves phi and mu up to limit = n^(2/3) and memoizes the prefix sums above it
  * DuSieve du(n, table): limit = max(1, min(n, table)) instead, queries then cost O(n / sqrt(table)) for table >= sqrt(n),
  *     so a smaller table trades time for memory and a larger one memory for time (n = 1e11, table = 5e7: 600 MB, 3.7 s)
- * du.phi_sum(x): phi(1) + ... + phi(x) for x >= 0, exact, reduce it modulo a prime with % mod
  * du.mertens(x): mu(1) + ... + mu(x) for x >= 0
+ * du.phi_sum(x): phi(1) + ... + phi(x) for x >= 0, exact, reduce it modulo a prime with % mod
  * Queries x <= n keep the complexity, larger x work too but cost more than O(n^(2/3))
  *
  * Both come from the Dirichlet convolutions phi * 1 = id and mu * 1 = e:

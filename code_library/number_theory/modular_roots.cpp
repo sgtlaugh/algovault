@@ -12,12 +12,12 @@
  *                      plus O(v sqrt(q) log q) for baby step giant step when e < v
  *   kth_roots(a, k, p): kth_root, plus O(g log g) to list and sort the g = gcd(k, p - 1) roots
  *
+ * kth_root(a, k, p): any x with x^k = a mod p, -1 if there is none
+ * kth_roots(a, k, p): every such x in increasing order, gcd(k, p - 1) of them when a != 0 has a root
  * multiplicative_order(a, m): smallest x >= 1 with a^x = 1 mod m, -1 if gcd(a, m) != 1
  * primitive_root(m): smallest g whose order is phi(m), -1 if none exists
  *                    one exists only for m = 1, 2, 4, p^k and 2p^k with p an odd prime, primitive_root(1) = 0
  * sqrt_mod(a, p): the smaller of the two x with x^2 = a mod p (the other is p - x), -1 if there is none
- * kth_root(a, k, p): any x with x^k = a mod p, -1 if there is none
- * kth_roots(a, k, p): every such x in increasing order, gcd(k, p - 1) of them when a != 0 has a root
  *
  * p must be prime (not checked), every modulus in [1, 2^62), k >= 0, a is any long long and is reduced mod m
  * 0^0 = 1, so kth_roots(1, 0, p) returns all p residues
@@ -171,37 +171,6 @@ namespace rho{
     }
 }
 
-long long multiplicative_order(long long a, long long m){
-    a = (a % m + m) % m;
-    if (gcd(a, m) != 1) return -1;
-
-    long long phi = m;
-    for (auto [q, e] : rho::factorize(m)) phi = phi / q * (q - 1);
-
-    long long order = phi;
-    for (auto [q, e] : rho::factorize(phi)){
-        while (order % q == 0 && pow_mod(a, order / q, m) == 1) order /= q;
-    }
-    return order;
-}
-
-long long primitive_root(long long m){
-    if (m <= 4) return m - 1;
-
-    long long odd = m % 2 ? m : m / 2;
-    auto f = rho::factorize(odd);
-    if (m % 4 == 0 || f.size() != 1) return -1;
-
-    long long phi = odd / f[0].first * (f[0].first - 1);
-    auto phi_factors = rho::factorize(phi);
-    for (long long g = 2; ; g++){
-        if (gcd(g, m) != 1) continue;
-        bool is_root = true;
-        for (auto [q, e] : phi_factors) is_root = is_root && pow_mod(g, phi / q, m) != 1;
-        if (is_root) return g;
-    }
-}
-
 /// Some x with x^(q^e) = b mod p, for a prime power q^e dividing p - 1 and b != 0 a q^e-th power
 long long prime_power_root(long long b, long long q, int e, long long p){
     long long t = p - 1, qe = 1;
@@ -281,6 +250,37 @@ vector<long long> kth_roots(long long a, long long k, long long p){
     for (long long i = 0; i < g; i++, x = mul_mod(x, w, p)) roots[i] = x;
     sort(roots.begin(), roots.end());
     return roots;
+}
+
+long long multiplicative_order(long long a, long long m){
+    a = (a % m + m) % m;
+    if (gcd(a, m) != 1) return -1;
+
+    long long phi = m;
+    for (auto [q, e] : rho::factorize(m)) phi = phi / q * (q - 1);
+
+    long long order = phi;
+    for (auto [q, e] : rho::factorize(phi)){
+        while (order % q == 0 && pow_mod(a, order / q, m) == 1) order /= q;
+    }
+    return order;
+}
+
+long long primitive_root(long long m){
+    if (m <= 4) return m - 1;
+
+    long long odd = m % 2 ? m : m / 2;
+    auto f = rho::factorize(odd);
+    if (m % 4 == 0 || f.size() != 1) return -1;
+
+    long long phi = odd / f[0].first * (f[0].first - 1);
+    auto phi_factors = rho::factorize(phi);
+    for (long long g = 2; ; g++){
+        if (gcd(g, m) != 1) continue;
+        bool is_root = true;
+        for (auto [q, e] : phi_factors) is_root = is_root && pow_mod(g, phi / q, m) != 1;
+        if (is_root) return g;
+    }
 }
 
 int main(){

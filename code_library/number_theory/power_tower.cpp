@@ -23,6 +23,16 @@ struct PowerTower{
     static constexpr long long LIMIT = 1LL << 62;
     vector<long long> chain;
 
+    PowerTower(long long m) : chain{m}{
+        assert(1 <= m && m <= 1000000000000LL);
+        while (chain.back() > 1) chain.push_back(phi(chain.back()));
+    }
+
+    long long query(const vector<long long>& a, int l, int r) const{
+        assert(0 <= l && l <= r && r < (int)a.size());
+        return solve(a, l, r, 0);
+    }
+
     static long long phi(long long n){
         long long res = n;
         for (long long p = 2; p * p <= n; p++){
@@ -33,17 +43,27 @@ struct PowerTower{
         return n > 1 ? res / n * (n - 1) : res;
     }
 
-    PowerTower(long long m) : chain{m}{
-        assert(1 <= m && m <= 1000000000000LL);
-        while (chain.back() > 1) chain.push_back(phi(chain.back()));
+    long long solve(const vector<long long>& a, int i, int r, int depth) const{
+        long long m = chain[depth];
+        if (m == 1) return 0;
+        assert(a[i] >= 1);
+        if (i == r || a[i] == 1) return a[i] % m;
+
+        long long e = exact(a, i + 1, r);
+        if (e < LIMIT) return pow_mod(a[i], e, m);
+        long long ph = chain[depth + 1];
+        return pow_mod(a[i], solve(a, i + 1, r, depth + 1) + ph, m);
     }
 
-    static long long pow_mod(long long b, long long e, long long m){
-        __int128 res = 1 % m, x = b % m;
-        for (; e; e >>= 1, x = x * x % m){
-            if (e & 1) res = res * x % m;
-        }
-        return (long long)res;
+    /// Exact value of a[i..r] capped at LIMIT, a 1 ends the tower and five values >= 2 always exceed it
+    long long exact(const vector<long long>& a, int i, int r) const{
+        int j = i;
+        while (j < r && a[j] != 1 && j - i < 4) j++;
+        for (int k = i; k <= j; k++) assert(a[k] >= 1);
+
+        long long value = min(a[j], LIMIT);
+        for (int k = j - 1; k >= i; k--) value = pow_saturated(a[k], value);
+        return value;
     }
 
     /// b^e capped at LIMIT
@@ -59,32 +79,12 @@ struct PowerTower{
         return (long long)res;
     }
 
-    /// Exact value of a[i..r] capped at LIMIT, a 1 ends the tower and five values >= 2 always exceed it
-    long long exact(const vector<long long>& a, int i, int r) const{
-        int j = i;
-        while (j < r && a[j] != 1 && j - i < 4) j++;
-        for (int k = i; k <= j; k++) assert(a[k] >= 1);
-
-        long long value = min(a[j], LIMIT);
-        for (int k = j - 1; k >= i; k--) value = pow_saturated(a[k], value);
-        return value;
-    }
-
-    long long solve(const vector<long long>& a, int i, int r, int depth) const{
-        long long m = chain[depth];
-        if (m == 1) return 0;
-        assert(a[i] >= 1);
-        if (i == r || a[i] == 1) return a[i] % m;
-
-        long long e = exact(a, i + 1, r);
-        if (e < LIMIT) return pow_mod(a[i], e, m);
-        long long ph = chain[depth + 1];
-        return pow_mod(a[i], solve(a, i + 1, r, depth + 1) + ph, m);
-    }
-
-    long long query(const vector<long long>& a, int l, int r) const{
-        assert(0 <= l && l <= r && r < (int)a.size());
-        return solve(a, l, r, 0);
+    static long long pow_mod(long long b, long long e, long long m){
+        __int128 res = 1 % m, x = b % m;
+        for (; e; e >>= 1, x = x * x % m){
+            if (e & 1) res = res * x % m;
+        }
+        return (long long)res;
     }
 };
 

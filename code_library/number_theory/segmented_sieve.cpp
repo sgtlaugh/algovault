@@ -9,8 +9,8 @@
  * SegmentedSieve sieve(max_r): base primes up to sqrt(max_r), for max_r <= 1e14
  *   sieve.window(L, R): res[i] = 1 if L + i is prime, for 0 <= L <= R <= max_r and R - L <= 1e7
  *   Build it once for many windows, at R around 1e14 the base primes dominate a single window
- * segmented_sieve(L, R): one window, builds a fresh SegmentedSieve(R)
  * count_primes(L, R), primes_in_range(L, R): convenience wrappers over segmented_sieve
+ * segmented_sieve(L, R): one window, builds a fresh SegmentedSieve(R)
  *
 ***/
 

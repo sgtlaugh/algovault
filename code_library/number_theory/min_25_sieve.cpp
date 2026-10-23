@@ -97,8 +97,8 @@ struct Min25Sieve{
         return add(rec(n, 0, f), 1 % mod);
     }
 
-    uint64_t add(uint64_t a, uint64_t b) const{
-        return a + b >= mod ? a + b - mod : a + b;
+    uint64_t mul(uint64_t a, uint64_t b) const{
+        return fold(a * b);
     }
 
     /// Barrett reduction of any 64-bit x, inv = floor((2^64 - 1) / m) leaves the quotient estimate at most 1 short
@@ -107,12 +107,16 @@ struct Min25Sieve{
         return res >= mod ? res - mod : res;
     }
 
-    int index(long long v) const{
-        return v <= r ? cnt - v : n / v - 1;
+    uint64_t add(uint64_t a, uint64_t b) const{
+        return a + b >= mod ? a + b - mod : a + b;
     }
 
-    uint64_t mul(uint64_t a, uint64_t b) const{
-        return fold(a * b);
+    uint64_t reduce(long long x) const{
+        return x >= 0 ? fold(x) : sub(0, fold(-(uint64_t)x));
+    }
+
+    uint64_t sub(uint64_t a, uint64_t b) const{
+        return a >= b ? a - b : a + mod - b;
     }
 
     /// out[k] = sum of x^k over 2 <= x <= v, from sum_{x=0}^{v} x^k = sum_j surj[k][j] C(v + 1, j + 1)
@@ -155,12 +159,8 @@ struct Min25Sieve{
         return res;
     }
 
-    uint64_t reduce(long long x) const{
-        return x >= 0 ? fold(x) : sub(0, fold(-(uint64_t)x));
-    }
-
-    uint64_t sub(uint64_t a, uint64_t b) const{
-        return a >= b ? a - b : a + mod - b;
+    int index(long long v) const{
+        return v <= r ? cnt - v : n / v - 1;
     }
 };
 

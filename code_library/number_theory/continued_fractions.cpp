@@ -5,16 +5,16 @@
  *
  * Complexity: O(log q) for the expansion, convergents and best approximation, O(log N) predicate calls for the search
  *
+ * best_approximation(p, q, N): the fraction closest to p / q among all fractions with denominator <= N
+ *     Ties go to the smaller denominator, then to the smaller value: (1, 2, 1) gives 0 / 1, (5, 12, 3) gives 1 / 2
+ *     Requires |p| <= 1e18, 1 <= q <= 1e18, 1 <= N <= 1e18 and __int128
+ *
  * continued_fraction(p, q): [a0; a1, ..., ak] with p / q = a0 + 1 / (a1 + 1 / (... + 1 / ak))
  *     a0 = floor(p / q) can be negative, a1..ak >= 1 and ak >= 2 when k >= 1, so the expansion is unique
  *     p / q need not be reduced, requires q >= 1, any p works
  *
  * convergents(a): the fractions [a0; a1, ..., ai] for every i, reduced, the last one is p / q reduced
  *     Requires a non-empty expansion, never overflows on continued_fraction(p, q) for p > LLONG_MIN
- *
- * best_approximation(p, q, N): the fraction closest to p / q among all fractions with denominator <= N
- *     Ties go to the smaller denominator, then to the smaller value: (1, 2, 1) gives 0 / 1, (5, 12, 3) gives 1 / 2
- *     Requires |p| <= 1e18, 1 <= q <= 1e18, 1 <= N <= 1e18 and __int128
  *
  * fraction_search(f, N): the smallest fraction p / q with 0 <= p <= N and 1 <= q <= N for which f(p, q) is true
  *     f must be monotone over the non-negative rationals: false up to some point, true from there on
@@ -44,20 +44,6 @@ vector<long long> continued_fraction(long long p, long long q){
     return a;
 }
 
-vector<pair<long long, long long>> convergents(const vector<long long>& a){
-    assert(!a.empty());
-    vector<pair<long long, long long>> res;
-    long long pp = 1, pq = 0, cp = a[0], cq = 1;
-    res.push_back({cp, cq});
-
-    for (size_t i = 1; i < a.size(); i++){
-        tie(pp, pq, cp, cq) = make_tuple(cp, cq, a[i] * cp + pp, a[i] * cq + pq);
-        res.push_back({cp, cq});
-    }
-
-    return res;
-}
-
 pair<long long, long long> best_approximation(long long p, long long q, long long n){
     assert(q > 0 && n > 0);
     auto a = continued_fraction(p, q);
@@ -82,6 +68,20 @@ pair<long long, long long> best_approximation(long long p, long long q, long lon
     }
 
     return {cp, cq};
+}
+
+vector<pair<long long, long long>> convergents(const vector<long long>& a){
+    assert(!a.empty());
+    vector<pair<long long, long long>> res;
+    long long pp = 1, pq = 0, cp = a[0], cq = 1;
+    res.push_back({cp, cq});
+
+    for (size_t i = 1; i < a.size(); i++){
+        tie(pp, pq, cp, cq) = make_tuple(cp, cq, a[i] * cp + pp, a[i] * cq + pq);
+        res.push_back({cp, cq});
+    }
+
+    return res;
 }
 
 template<typename F>

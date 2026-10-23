@@ -42,33 +42,6 @@ struct PrimeSum{
         return lehmer((__int128)n);
     }
 
-    static uint64_t fast_div(uint64_t a, uint32_t b){
-        return double(a) / b + 1e-9;
-    }
-
-    template <typename T>
-    T phi(T m, int n){
-        if (!n) return (T)m * (m + 1) / 2;
-        if (n < maxn && m < (T)maxm) return dp[(size_t)n * maxm + (size_t)m];
-        if (m < (T)maxv && (uint64_t)primes[n] * primes[n] >= m) return pi_sum[m] - pi_sum[primes[n]] + 1;
-        return phi(m, n - 1) - phi((T)fast_div(m, primes[n]), n - 1) * primes[n];
-    }
-
-    template <typename T>
-    T lehmer(T n){
-        if (n < (T)maxv) return pi_sum[n];
-
-        int s = sqrt(0.5 + n), c = cbrt(0.5 + n);
-        T res = phi(n, pi[c]) + pi_sum[c] - 1;
-
-        for (int i = pi[c] + 1; i <= pi[s]; i++){
-            T w = lehmer(fast_div(n, primes[i])) - pi_sum[primes[i] - 1];
-            res -= w * primes[i];
-        }
-
-        return res;
-    }
-
     void sieve(){
         vector<bool> is_prime(maxv);
         is_prime[2] = true;
@@ -87,6 +60,33 @@ struct PrimeSum{
             if (is_prime[i]) cnt++, sum += i, primes.push_back(i);
             pi[i] = cnt, pi_sum[i] = sum;
         }
+    }
+
+    static uint64_t fast_div(uint64_t a, uint32_t b){
+        return double(a) / b + 1e-9;
+    }
+
+    template <typename T>
+    T lehmer(T n){
+        if (n < (T)maxv) return pi_sum[n];
+
+        int s = sqrt(0.5 + n), c = cbrt(0.5 + n);
+        T res = phi(n, pi[c]) + pi_sum[c] - 1;
+
+        for (int i = pi[c] + 1; i <= pi[s]; i++){
+            T w = lehmer(fast_div(n, primes[i])) - pi_sum[primes[i] - 1];
+            res -= w * primes[i];
+        }
+
+        return res;
+    }
+
+    template <typename T>
+    T phi(T m, int n){
+        if (!n) return (T)m * (m + 1) / 2;
+        if (n < maxn && m < (T)maxm) return dp[(size_t)n * maxm + (size_t)m];
+        if (m < (T)maxv && (uint64_t)primes[n] * primes[n] >= m) return pi_sum[m] - pi_sum[primes[n]] + 1;
+        return phi(m, n - 1) - phi((T)fast_div(m, primes[n]), n - 1) * primes[n];
     }
 };
 

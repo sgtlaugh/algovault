@@ -5,13 +5,13 @@
  *
  * Complexity: O(log m) for extended_gcd, mod_inverse, diophantine and count_diophantine
  *
- * extended_gcd(a, b, x, y): returns g = gcd(a, b) and sets a * x + b * y = g, for a, b >= 0
- * mod_inverse(a, m): inverse of a modulo m for any 1 <= m < 2^63, -1 if gcd(a, m) != 1, a may be negative or >= m
- * diophantine(a, b, c, x, y): solves a * x + b * y = c, returns false if there is no solution
- *     a, b, c may be negative, |a|, |b|, |c| <= 1e9 keeps x and y within long long
  * count_diophantine(a, b, c, x1, x2, y1, y2): number of solutions with x1 <= x <= x2 and y1 <= y <= y2
  *     every argument within [-1e9, 1e9], empty ranges give 0
  *     a = b = 0 and c = 0 gives the full box, (2e9 + 1)^2 at most, still within long long
+ * diophantine(a, b, c, x, y): solves a * x + b * y = c, returns false if there is no solution
+ *     a, b, c may be negative, |a|, |b|, |c| <= 1e9 keeps x and y within long long
+ * extended_gcd(a, b, x, y): returns g = gcd(a, b) and sets a * x + b * y = g, for a, b >= 0
+ * mod_inverse(a, m): inverse of a modulo m for any 1 <= m < 2^63, -1 if gcd(a, m) != 1, a may be negative or >= m
  *
 ***/
 

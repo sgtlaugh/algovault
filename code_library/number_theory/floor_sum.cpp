@@ -6,12 +6,12 @@
  * Complexity: O(log m) per call
  * Requires __int128 (64-bit GCC or Clang)
  *
+ * count_mod_in_range(n, m, a, l, r): number of 0 <= x < n with l <= (a * x) mod m <= r, any n >= 0
+ * first_mod_in_range(m, a, l, r): smallest x >= 0 with l <= (a * x) mod m <= r, or -1 if there is none
  * floor_sum(n, m, a, b): sum of floor((a * i + b) / m) for 0 <= i < n, n >= 0, m >= 1, any signed a, b
  *     Exact for any long long a, b when n <= 2^32, and for any n >= 0 when 0 <= a < m
  *     Returns __int128, cast to long long when the sum is known to fit
  * min_mod_linear(n, m, a, b): min of (a * i + b) mod m over 0 <= i < n, n >= 1, any signed a, b
- * count_mod_in_range(n, m, a, l, r): number of 0 <= x < n with l <= (a * x) mod m <= r, any n >= 0
- * first_mod_in_range(m, a, l, r): smallest x >= 0 with l <= (a * x) mod m <= r, or -1 if there is none
  *
  * Arguments are long long; l and r may lie outside [0, m - 1], they are clamped to it
  *
@@ -66,38 +66,6 @@ __int128 floor_sum(long long n, long long m, long long a, long long b){
     return res + (__int128)floor_sum_unsigned(n, m, ra, rb);
 }
 
-/// Each round keeps only the candidates that can be minimal: the start and the values right after a wrap when the step is
-/// small (2a <= m), the end and the values right before a wrap when it is large; those form a progression mod a or m - a
-long long min_mod_linear(long long n, long long m, long long a, long long b){
-    assert(n >= 1 && m >= 1);
-    a = mod_floor(a, m);
-    b = mod_floor(b, m);
-
-    long long res = m;
-    while (a){
-        if (2 * (__int128)a <= m){
-            res = min(res, b);
-            long long wraps = ((__int128)a * (n - 1) + b) / m;
-            if (!wraps) return res;
-
-            n = wraps;
-            b = ((b - m) % a + a) % a;
-            long long step = (a - m % a) % a;
-            m = a, a = step;
-        }
-        else{
-            long long c = m - a;
-            res = min(res, (long long)(((__int128)a * (n - 1) + b) % m));
-            if (b >= (__int128)c * n) return res;
-
-            n = ((__int128)c * n - 1 - b) / m + 1;
-            a = m % c, b %= c, m = c;
-        }
-    }
-
-    return min(res, b);
-}
-
 long long count_mod_in_range(long long n, long long m, long long a, long long l, long long r){
     assert(n >= 0 && m >= 1);
     l = max(l, 0LL), r = min(r, m - 1);
@@ -128,6 +96,38 @@ long long first_mod_in_range(long long m, long long a, long long l, long long r)
 
     a = mod_floor(a, m);
     return first_mod_in_range_reduced(m, a, l, r);
+}
+
+/// Each round keeps only the candidates that can be minimal: the start and the values right after a wrap when the step is
+/// small (2a <= m), the end and the values right before a wrap when it is large; those form a progression mod a or m - a
+long long min_mod_linear(long long n, long long m, long long a, long long b){
+    assert(n >= 1 && m >= 1);
+    a = mod_floor(a, m);
+    b = mod_floor(b, m);
+
+    long long res = m;
+    while (a){
+        if (2 * (__int128)a <= m){
+            res = min(res, b);
+            long long wraps = ((__int128)a * (n - 1) + b) / m;
+            if (!wraps) return res;
+
+            n = wraps;
+            b = ((b - m) % a + a) % a;
+            long long step = (a - m % a) % a;
+            m = a, a = step;
+        }
+        else{
+            long long c = m - a;
+            res = min(res, (long long)(((__int128)a * (n - 1) + b) % m));
+            if (b >= (__int128)c * n) return res;
+
+            n = ((__int128)c * n - 1 - b) / m + 1;
+            a = m % c, b %= c, m = c;
+        }
+    }
+
+    return min(res, b);
 }
 
 int main(){

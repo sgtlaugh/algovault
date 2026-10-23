@@ -5,9 +5,9 @@
  *
  * Complexity: O(1) for isqrt and icbrt, O(log n) for iroot
  *
- * isqrt(n): largest r with r * r <= n, for any unsigned long long n
  * icbrt(n): largest r with r * r * r <= n, for any unsigned long long n
  * iroot(n, k): largest r with r^k <= n, for k >= 1
+ * isqrt(n): largest r with r * r <= n, for any unsigned long long n
  *
  * Floating roots alone can be off by one near the top of the range, e.g. (long long)sqrt(999999999999999999LL) gives 1e9
  * The floating estimate here is only a starting point that is then corrected exactly
@@ -29,6 +29,13 @@ bool power_at_most(unsigned long long r, int k, unsigned long long n){
     return res <= n;
 }
 
+unsigned long long icbrt(unsigned long long n){
+    unsigned long long r = min<unsigned long long>(cbrtl((long double)n), 2642245ULL);
+    while (r * r * r > n) r--;
+    while (r < 2642245ULL && (r + 1) * (r + 1) * (r + 1) <= n) r++;
+    return r;
+}
+
 unsigned long long iroot(unsigned long long n, int k){
     assert(k >= 1);
     if (k == 1 || n < 2) return n;
@@ -44,13 +51,6 @@ unsigned long long isqrt(unsigned long long n){
     unsigned long long r = min<unsigned long long>(sqrtl((long double)n), 4294967295ULL);
     while (r * r > n) r--;
     while (r < 4294967295ULL && (r + 1) * (r + 1) <= n) r++;
-    return r;
-}
-
-unsigned long long icbrt(unsigned long long n){
-    unsigned long long r = min<unsigned long long>(cbrtl((long double)n), 2642245ULL);
-    while (r * r * r > n) r--;
-    while (r < 2642245ULL && (r + 1) * (r + 1) * (r + 1) <= n) r++;
     return r;
 }
 

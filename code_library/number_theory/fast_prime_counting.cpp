@@ -60,6 +60,23 @@ struct PrimeCounter{
         return res;
     }
 
+    void sieve(){
+        vector<bool> is_prime(maxv);
+        is_prime[2] = true;
+        for (int i = 3; i < maxv; i += 2) is_prime[i] = true;
+
+        for (int i = 3; i * i < maxv; i += 2){
+            if (!is_prime[i]) continue;
+            for (int j = i * i; j < maxv; j += (i << 1)) is_prime[j] = false;
+        }
+
+        pi.resize(maxv);
+        for (int i = 1, cnt = 0; i < maxv; i++){
+            if (is_prime[i]) cnt++, primes.push_back(i);
+            pi[i] = cnt;
+        }
+    }
+
     static long long fast_div(long long a, int b){
         return double(a) / b + 1e-9;
     }
@@ -80,23 +97,6 @@ struct PrimeCounter{
         }
 
         return res;
-    }
-
-    void sieve(){
-        vector<bool> is_prime(maxv);
-        is_prime[2] = true;
-        for (int i = 3; i < maxv; i += 2) is_prime[i] = true;
-
-        for (int i = 3; i * i < maxv; i += 2){
-            if (!is_prime[i]) continue;
-            for (int j = i * i; j < maxv; j += (i << 1)) is_prime[j] = false;
-        }
-
-        pi.resize(maxv);
-        for (int i = 1, cnt = 0; i < maxv; i++){
-            if (is_prime[i]) cnt++, primes.push_back(i);
-            pi[i] = cnt;
-        }
     }
 };
 

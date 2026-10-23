@@ -74,6 +74,14 @@ struct PollardRho{
         }
     }
 
+    vector<long long> factorize(long long n){
+        assert(n >= 1);
+        vector<long long> res;
+        collect(n, res);
+        sort(res.begin(), res.end());
+        return res;
+    }
+
     bool is_prime(long long n) const{
         if (n < LIMIT) return n >= 2 && spf[n] == n;
         if (!(n & 1)) return false;
@@ -97,14 +105,6 @@ struct PollardRho{
             if (c != one) return false;
         }
         return true;
-    }
-
-    vector<long long> factorize(long long n){
-        assert(n >= 1);
-        vector<long long> res;
-        collect(n, res);
-        sort(res.begin(), res.end());
-        return res;
     }
 
     void collect(long long n, vector<long long>& out){
