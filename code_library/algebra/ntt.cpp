@@ -5,13 +5,13 @@
  *
  * Complexity: O(n log n) for a product of total length n
  *
- * ntt::multiply<MOD, ROOT>(a, b): a * b modulo MOD, default MOD = 998244353 and ROOT = 3, the result length rounded up to a power of two must divide MOD - 1
+ * ntt::multiply<MOD, ROOT>(a, b): a * b modulo MOD, default MOD = 998244353, ROOT found from MOD, the result length rounded up to a power of two must divide MOD - 1
  * ntt::mod_multiply(a, b, m): a * b modulo any 1 <= m < 2^31, prime or not, result length at most 2^24
  * ntt::exact_multiply(a, b): the exact a * b of any long long inputs, correct whenever every true coefficient lies in [-2^63, 2^63), result length at most 2^24
  * ntt::crt_multiply(a, b): every true coefficient of a * b modulo M = 167772161 * 469762049 * 754974721 ~ 5.95e25 as an unsigned __int128 in [0, M), result length at most 2^24
  *
  * The result length is |a| + |b| - 1, and an empty input gives an empty result
- * MOD must be a prime below 2^31 and ROOT a quadratic non-residue modulo MOD, which any primitive root is
+ * MOD must be a prime below 2^31; an explicit ROOT must be a quadratic non-residue modulo MOD, which any primitive root is
  * multiply allows result lengths up to 2^23 modulo 998244353 and 2^20 modulo 7340033 = 7 * 2^20 + 1
  * Inputs may be negative or >= the modulus, multiply and mod_multiply return values in [0, modulus)
  * Requires __int128 (64-bit GCC or Clang) for mod_multiply, exact_multiply and crt_multiply
@@ -81,7 +81,14 @@ namespace ntt{
     }
     /// END SHARED ntt_core
 
-    template<unsigned MOD = 998244353, unsigned ROOT = 3>
+    /// Any quadratic non-residue g works as ROOT: g^((MOD - 1) / n) then has order exactly n for every power of two n dividing MOD - 1
+    constexpr unsigned non_residue(unsigned mod){
+        unsigned g = 2;
+        while (power(g, (mod - 1) / 2, mod) != mod - 1) g++;
+        return g;
+    }
+
+    template<unsigned MOD = 998244353, unsigned ROOT = non_residue(MOD)>
     vector<long long> multiply(const vector<long long>& a, const vector<long long>& b){
         static_assert(MOD < (1u << 31) && is_prime(MOD), "MOD must be a prime below 2^31");
         static_assert(power(ROOT, (MOD - 1) / 2, MOD) == MOD - 1, "ROOT must be a quadratic non-residue modulo MOD");
@@ -157,8 +164,8 @@ int main(){
     assert((multiply({1, 2, 3}, {4, 5}) == vector<long long>{4, 13, 22, 15}));
     assert((multiply({-1}, {2}) == vector<long long>{998244351}));
 
-    /// Another NTT-friendly prime, 7340033 = 7 * 2^20 + 1 with primitive root 3
-    assert((multiply<7340033, 3>({1, 1}, {1, 1, 1}) == vector<long long>{1, 2, 2, 1}));
+    /// Another NTT-friendly prime, 786433 = 3 * 2^18 + 1, where 3 is a quadratic residue so its root is found as 5
+    assert((multiply<786433>({1, 1}, {1, 1, 1}) == vector<long long>{1, 2, 2, 1}));
 
     /// 1000000006 is -1 modulo 10^9 + 7, so this is (-1 - x)^2, and 14 is a composite modulus
     assert((mod_multiply({1000000006, 1000000006}, {1000000006, 1000000006}, 1000000007) == vector<long long>{1, 2, 1}));

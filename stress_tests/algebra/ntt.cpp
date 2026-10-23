@@ -31,7 +31,7 @@ vector<ll> naive(const vector<ll>& a, const vector<ll>& b, ll mod = 0){
 }
 
 /// Compares one prime's multiply against the naive product, sizes from 0 up to the given caps
-template<unsigned MOD, unsigned ROOT>
+template<unsigned MOD, unsigned ROOT = ntt::non_residue(MOD)>
 void check_prime(int max_n, int max_m){
     int n = stress::rand_int(0, max_n), m = stress::rand_int(0, max_m);
     ll lo = stress::rand_int(0, 3) ? 0 : LLONG_MIN, hi = lo ? LLONG_MAX : MOD - 1;
@@ -71,6 +71,9 @@ int main(){
         check_prime<P3, 11>(300, 300);
         check_prime<257, 3>(128, 128);
         check_prime<17, 3>(8, 8);
+        check_prime<786433>(300, 300);  /// 3 is a quadratic residue here, so the found root must differ from the old default
+        check_prime<13>(2, 2);  /// smallest non-residue 2; 4 is the largest power of two dividing 12, so results stay within 3 terms
+        check_prime<P3>(300, 300);
 
         /// mod_multiply over any modulus, inputs anywhere in long long, the top modulus 2^31 - 1 a quarter of the time
         int n = stress::rand_int(0, big ? 2000 : 200), m = stress::rand_int(0, big ? 2000 : 200);
