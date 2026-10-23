@@ -21,6 +21,14 @@ string read_file(const string& path){
     return string(istreambuf_iterator<char>(f), istreambuf_iterator<char>());
 }
 
+string int128_to_string(__int128 v){
+    unsigned __int128 u = v < 0 ? -(unsigned __int128)v : v;
+    string s;
+    do s += char('0' + u % 10), u /= 10; while (u);
+    if (v < 0) s += '-';
+    return string(s.rbegin(), s.rend());
+}
+
 string separator(){
     const string seps[] = {" ", "\t", "\n", "\r\n", "  \n ", "\n\n"};
     return seps[stress::rand_int(0, 5)];
@@ -114,9 +122,10 @@ int main(){
             expected_out += to_string(ints[i]) + " " + to_string(lls[i]) + " " + to_string(ulls[i]) + " " + strs[i] + "\n";
         }
 
-        write(vector<int>(ints.begin(), ints.begin() + min(count, 5)));
+        /// A vector argument ends its line even when more arguments follow
+        write(vector<int>(ints.begin(), ints.begin() + min(count, 5)), lls[0]);
         for (int i = 0; i < min(count, 5); i++) expected_out += (i ? " " : "") + to_string(ints[i]);
-        expected_out += "\n";
+        expected_out += "\n" + to_string(lls[0]) + "\n";
         write(chars[0], ints[0], chars.back());
         expected_out += string(1, chars[0]) + " " + to_string(ints[0]) + " " + chars.back() + "\n";
         flush();
@@ -179,6 +188,41 @@ int main(){
         double d;
         assert(read(d) == 1);
         assert(d == hi);
+    }
+
+    /// __int128 at both extremes goes through the integer reader and writer, though strict -std=c++NN denies it is_integral;
+    /// float parses at its own width and short through the integer reader
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int count = stress::rand_int(1, 200);
+        vector<__int128> bigs(count);
+        vector<float> fs(count);
+        vector<short> shorts(count);
+        string input, expected_out;
+        char buf[64];
+        for (int i = 0; i < count; i++){
+            int mode = stress::rand_int(0, 3);
+            __int128 top = ~((unsigned __int128)1 << 127);
+            bigs[i] = mode == 0 ? -top - 1 : mode == 1 ? top : (__int128)(((unsigned __int128)stress::rng()() << 64) | stress::rng()());
+            fs[i] = ldexpf((float)stress::rand_int(-(1 << 23), 1 << 23), stress::rand_int(-60, 40));
+            shorts[i] = random_value<short>();
+            snprintf(buf, sizeof(buf), "%.9g", fs[i]);
+            input += int128_to_string(bigs[i]) + separator() + buf + separator() + to_string(shorts[i]) + separator();
+            expected_out += int128_to_string(bigs[i]) + "\n";
+        }
+
+        set_input(input);
+        assert(freopen(OUT.c_str(), "wb", stdout));
+        for (int i = 0; i < count; i++){
+            __int128 big;
+            float f;
+            short sh;
+            assert(read(big, f, sh) == 3);
+            assert(big == bigs[i] && f == fs[i] && sh == shorts[i]);
+            write(big);
+        }
+        flush();
+        fflush(stdout);
+        assert(read_file(OUT) == expected_out);
     }
 
     /// A forgotten flush() must not lose output, the child writes the pending buffer when it exits

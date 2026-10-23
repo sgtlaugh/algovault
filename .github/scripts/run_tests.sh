@@ -4,7 +4,7 @@
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
 # both modes also report library files missing from the README index, index descriptions over 50 characters, README ✔ marks that disagree with judge_tests,
-# practice solutions and practice section links that disagree, POJ, UVa and HDU solutions that do not build as C++11, templates whose header does not state their complexity, copied regions that drifted from their original,
+# practice solutions and practice section links that disagree, POJ, UVa and HDU solutions that do not build as C++11, a fast_io.cpp that does not build as C++20, templates whose header does not state their complexity, copied regions that drifted from their original,
 # and whitespace, style or member order errors in tracked files
 #
 # Reports all failures instead of stopping at the first one.
@@ -241,6 +241,16 @@ check_old_judges(){  # POJ, UVa and HDU judge C++11, so their solutions must bui
     failures+=("${bad[@]/%/ (not C++11)}")
 }
 
+check_cpp20(){  # every practice solution copies fast_io.cpp, and Codeforces' 64-bit compilers judge strict C++20
+    if "$CXX" -std=c++20 -Wall -Wextra -Werror -fsyntax-only code_library/misc/fast_io.cpp 2> /dev/null; then
+        echo "c++20: fast_io.cpp builds as strict C++20"
+        return
+    fi
+    echo "c++20: fast_io.cpp does not build as strict C++20"
+    failed=$((failed + 1))
+    failures+=("code_library/misc/fast_io.cpp (not C++20)")
+}
+
 check_headers(){  # every template opens with a header that states its complexity
     local file bad=()
     while IFS= read -r file; do
@@ -380,6 +390,7 @@ check_index_descriptions
 check_judge_marks
 check_practice
 [[ "$MODE" == "self" ]] && check_old_judges
+[[ "$MODE" == "self" ]] && check_cpp20
 check_headers
 check_copies
 check_whitespace
