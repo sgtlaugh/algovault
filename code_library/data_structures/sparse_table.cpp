@@ -69,9 +69,9 @@ struct LinearSparseTable{
             mask[i] = stack;
         }
 
-        int blocks = (n + B - 1) / B;
+        int blocks = n / B;  /// a query reads only blocks wholly before r's, so a partial last block is never read
         table.assign(1, vector<int>(blocks));
-        for (int b = 0; b < blocks; b++) table[0][b] = best_ending_at(min(n - 1, b * B + B - 1), min(B, n - b * B));
+        for (int b = 0; b < blocks; b++) table[0][b] = best_ending_at(b * B + B - 1);
         for (int k = 1; (1 << k) <= blocks; k++){
             table.push_back(vector<int>(blocks - (1 << k) + 1));
             for (int b = 0; b + (1 << k) <= blocks; b++) table[k][b] = better(table[k - 1][b], table[k - 1][b + (1 << (k - 1))]);
