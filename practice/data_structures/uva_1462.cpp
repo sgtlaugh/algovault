@@ -193,7 +193,7 @@ int main(){
         int res = 0;
         function<void(int, const vector<int>&)> dfs = [&](int v, const vector<int>& row) -> void{
             if (row[len] <= d){
-                res += trie.pass[v];
+                if (v) res += trie.pass[v];
                 return;
             }
             if (*min_element(row.begin(), row.end()) > d) return;
