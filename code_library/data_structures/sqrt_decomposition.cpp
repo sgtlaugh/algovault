@@ -14,8 +14,8 @@
  * s.count_less(l, r, x): how many values in [l, r] are < x, 0 <= l <= r < n
  * s.get(i): the current value at position i, 0 <= i < n
  *
- * Every current value and every x must stay within half the range of T, |v| <= 1e9 for int and about 4.6e18 for long long
- * The bound holds because a block's pending addition is the difference of two such values
+ * Notes:
+ *   - Every current value and every x stays within half the range of T: |v| <= 1e9 for int, about 4.6e18 for long long
  *
 ***/
 
@@ -26,13 +26,15 @@ using namespace std;
 template <typename T>
 struct SqrtDecomposition{
     int n, block_size;
-    vector<T> raw, pending;            /// a value is raw[i] + pending[i / block_size], whole-block adds only touch pending
+    vector<T> raw, pending;            /// value = raw[i] + pending[i / block_size], whole-block adds only touch pending
     vector<vector<T>> sorted_block;    /// raw values of each block, sorted
-    vector<vector<int>> sorted_index;  /// sorted_index[b][j] is the position holding sorted_block[b][j], empty until block b's first partial add
-    vector<T> moved_value;             /// add_partial's scratch as members, not locals: 4e5 adds run 18% faster at n = 1e4
+    /// sorted_index[b][j] is the position holding sorted_block[b][j], empty until block b's first partial add
+    vector<vector<int>> sorted_index;
+    /// add_partial's scratch as members, not locals: 4e5 adds run 18% faster at n = 1e4
+    vector<T> moved_value;
     vector<int> moved_index;
 
-    /// Sorting values alone builds about 25% faster than sorting positions by value, so the positions wait for the first partial add
+    /// Sorting values alone builds 25% faster than sorting positions, so positions wait for the first partial add
     SqrtDecomposition(const vector<T>& values) : n(values.size()), raw(values){
         block_size = max(1, (int)sqrt((double)n));
         int blocks = (n + block_size - 1) / block_size;

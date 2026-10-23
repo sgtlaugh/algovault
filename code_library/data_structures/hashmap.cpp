@@ -17,10 +17,11 @@
  * mp.get(x): the value under x, TValue() if x is missing, never inserts
  * mp.size(): number of keys in the map
  *
- * Inserting a key beyond max_len fails an assert
- * Keys are hashed with splitmix64 plus a salt chosen at runtime, so fixed tests cannot force collisions, see https://codeforces.com/blog/entry/62393
- * Linear probing over the smallest power of two >= 2 * max_len slots, so the load factor stays at most 1/2
- * For speed, declare one map and clear() it between uses
+ * Notes:
+ *   - Inserting a key beyond max_len fails an assert
+ *   - Keys are hashed with splitmix64 and a runtime salt, see https://codeforces.com/blog/entry/62393
+ *   - The table has the smallest power of two >= 2 * max_len slots, so the load factor stays at most 1/2
+ *   - For speed, declare one map and clear() it between uses
  *
 ***/
 
@@ -69,7 +70,7 @@ struct HashMap{
         if (slots[i].id != cur_id) return;
         _size--;
 
-        /// Backward shift instead of tombstones: an entry moves into the hole at i unless its home lies cyclically in (i, j]
+        /// Backward shift, no tombstones: an entry moves into the hole at i unless its home lies cyclically in (i, j]
         for (int j = (i + 1) & mask; slots[j].id == cur_id; j = (j + 1) & mask){
             if (((j - slots[j].home) & mask) >= ((j - i) & mask)){
                 slots[i] = slots[j];

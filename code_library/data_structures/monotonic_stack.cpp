@@ -11,9 +11,10 @@
  * previous_smaller(a)[i]: largest j < i with a[j] < a[i], or -1
  * previous_smaller(a, compare)[i]: largest j < i with compare(a[j], a[i]), or -1
  *
- * compare is an ordering, strict like greater<T>() for the nearest greater element or non-strict like less_equal<T>()
- * a[i] is the minimum of every range that contains i and lies inside (previous_smaller(a)[i], next_smaller(a)[i])
- * For the sum of subarray minimums, pass less_equal<T>() to one side so a tied minimum is counted once
+ * Notes:
+ *   - compare is strict like greater<T>() for the nearest greater element, or non-strict like less_equal<T>()
+ *   - a[i] is the minimum of every range that contains i and lies inside (previous_smaller(a)[i], next_smaller(a)[i])
+ *   - For the sum of subarray minimums, pass less_equal<T>() to one side so a tied minimum is counted once
  *
 ***/
 

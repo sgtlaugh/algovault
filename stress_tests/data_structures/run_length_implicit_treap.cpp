@@ -49,7 +49,7 @@ struct EndsRuns{
     static pair<Value, Value> cut(Value x, long long){ return {x, x}; }
 };
 
-/// Forward and backward polynomial hashes without a Lazy: a combine that does not commute, and an Agg whose reverse differs
+/// Forward and backward hashes without a Lazy: a combine that does not commute, and an Agg whose reverse differs
 struct Hash{
     long long h, hr, pw;
 };
@@ -67,7 +67,8 @@ struct HashRuns{
     }
     static Agg combine(Agg a, Agg b){ return {(a.h * b.pw + b.h) % MOD, (b.hr * a.pw + a.hr) % MOD, a.pw * b.pw % MOD}; }
     static Value reversed(Value x, long long){ return x; }
-    static Agg reversed(Agg a){ return {a.hr, a.h, a.pw}; }   /// only descents see this, queries recompute every Agg they split
+    /// Only descents see this, queries recompute every Agg they split
+    static Agg reversed(Agg a){ return {a.hr, a.h, a.pw}; }
     static pair<Value, Value> cut(Value x, long long){ return {x, x}; }
 };
 

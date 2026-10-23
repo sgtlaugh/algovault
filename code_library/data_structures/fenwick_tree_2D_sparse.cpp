@@ -12,13 +12,13 @@
  * fen.prefix(i, j): sum of a[0..i][0..j], 0 when i or j is -1
  * fen.query(i, j, k, l): sum of a[i..k][j..l], 0 when i > k or j > l
  *
- * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
- * The table takes 8 + sizeof(T) bytes per slot up front, 268 MB at the default lg_capacity = 24 for T = long long
- * An update creates up to (floor(log2(n)) + 1) * (floor(log2(m)) + 1) nodes, 900 at n = m = 1e9
- * Size 2^lg_capacity to at least twice the nodes created to keep probes short
- * An update that fills the table past 3/4 asserts
- * So n = m = 1e9 with 100K updates, up to 9e7 nodes, does not fit the default
- * fenwick_tree_2D_implicit.cpp does rectangle add and cell value instead, paying only for the nodes it creates
+ * Notes:
+ *   - Cells are 0-based in [0, n - 1] x [0, m - 1], outside asserts
+ *   - The table takes 8 + sizeof(T) bytes per slot up front, 268 MB at the default lg_capacity = 24 for T = long long
+ *   - An update creates up to (floor(log2(n)) + 1) * (floor(log2(m)) + 1) nodes, 900 at n = m = 1e9
+ *   - Size 2^lg_capacity to at least twice the nodes created, an update that fills the table past 3/4 asserts
+ *   - So n = m = 1e9 with 100K updates, up to 9e7 nodes, does not fit the default
+ *   - Use fenwick_tree_2D_implicit.cpp for rectangle add and cell value, paying only for the nodes it creates
  *
 ***/
 
@@ -73,7 +73,7 @@ struct FenwickSparse2D{
         vals[k] += v;
     }
 
-    /// Testing the key first skips a cache miss on vals at empty slots: queries 1.3x faster at n = 1e9, 1.17x at n = 2e5
+    /// Testing the key first skips a cache miss on vals at empty slots, queries 1.3x faster at n = 1e9
     T find(int x, int y){
         int k = slot(((long long)x << 32) | y);
         return keys[k] ? vals[k] : 0;

@@ -12,18 +12,16 @@
  * st.min_left(r, pred): smallest l with pred(query(l, r)) true, r + 1 if none, -1 <= r < n
  * st.query(l, r): combine over a[l..r], 0 <= l <= r < n
  *
- * pred must be monotone: once false it stays false as the range grows
- * pred is never called on an empty range, so combine needs no identity anywhere
- *
- * Ops holds three static functions, L is the lazy type when it differs from T:
- *   combine(a, b): fold of two adjacent ranges, a on the left
- *   apply(val, lz, len): value of a range of len elements after lz
- *   compose(old, new): one lazy meaning old then new, a lazy that changes nothing must return old
- *
- * Arithmetic progression add (x, x + d, ... on [l, r]) with range sum: T = {sum, cnt, idx_sum}, L = {c0, c1}
- *   leaves are {ar[i], 1, i}, combine and compose add componentwise, apply adds c0 * cnt + c1 * idx_sum
- *   the update is update(l, r, {x - d * l, d})
- *   sums reach d * n^2 / 2, so large inputs need a modulus or __int128
+ * Notes:
+ *   - pred must be monotone, once false it stays false as the range grows, and is never called on an empty range
+ *   - Ops holds three static functions, L is the lazy type when it differs from T, and no identity is needed:
+ *       - combine(a, b): fold of two adjacent ranges, a on the left
+ *       - apply(val, lz, len): value of a range of len elements after lz
+ *       - compose(old, new): one lazy meaning old then new, a lazy that changes nothing must return old
+ *   - Arithmetic progression add (x, x + d, ... on [l, r]) with range sum: T = {sum, cnt, idx_sum}, L = {c0, c1}
+ *       - leaves are {ar[i], 1, i}, combine and compose add componentwise, apply adds c0 * cnt + c1 * idx_sum
+ *       - the update is update(l, r, {x - d * l, d})
+ *       - sums reach d * n^2 / 2, so large inputs need a modulus or __int128
  *
 ***/
 
@@ -142,8 +140,7 @@ struct SegmentTree : Ops{
         has_lazy[idx] = 0;
     }
 
-    /// first position in [max(a, l), b] where pred(acc merged with values l..pos) fails, or -1, acc absorbs every passing node
-    /// acc holds nothing until empty turns false, so the descent never needs an identity
+    /// First position in [max(a, l), b] where pred(acc merged with l..pos) fails, or -1, acc absorbs each passing node
     template<typename Pred>
     int first_fail(int idx, int a, int b, int l, Pred& pred, T& acc, bool& empty){
         if (b < l) return -1;

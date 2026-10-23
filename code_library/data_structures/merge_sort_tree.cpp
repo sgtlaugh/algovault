@@ -5,7 +5,7 @@
  *
  * Complexity:
  *   - MergeSortTree: O(n log n) to build and memory, O(log^2 n) per query
- *   - WaveletMatrix: O(n log n) to build, O(n log sigma) memory, O(log sigma) per query, sigma = number of distinct values
+ *   - WaveletMatrix: O(n log n) to build, O(n log sigma) memory, O(log sigma) per query, sigma = distinct values
  *
  * MergeSortTree<T> tree(values): positions 0..n - 1
  * WaveletMatrix<T> tree(values): positions 0..n - 1, the same queries plus count_equal
@@ -14,7 +14,8 @@
  * tree.count_less_equal(l, r, x): how many of values[l..r] are <= x, 0 <= l <= r < n
  * tree.kth(l, r, k): the k-th smallest of values[l..r], 0-based, 0 <= k <= r - l
  *
- * WaveletMatrix takes 4 bytes per element per level, about 80 MB for n = 1e6 distinct values
+ * Notes:
+ *   - WaveletMatrix takes 4 bytes per element per level, about 80 MB for n = 1e6 distinct values
  *
 ***/
 

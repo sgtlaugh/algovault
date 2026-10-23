@@ -11,8 +11,7 @@ void check_rejects(int n, int l, int r){
     });
 }
 
-/// The default plus makes strings concatenate: associative but not commutative, operand order must be exact
-/// A product mod p lambda checks a custom op against a direct scan
+/// Strings under plus concatenate, so operand order must be exact, and a product mod p lambda checks a custom op
 int main(){
     check_rejects(9, 3, 1);
     check_rejects(9, -1, 2);

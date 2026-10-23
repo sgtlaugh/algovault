@@ -12,8 +12,7 @@ unsigned long long cell_hash(int i, int v){
     return x ^ (x >> 31);
 }
 
-/// Distinct values and cell hash of every timed range, empty ones included, against replaying the updates on a fresh copy
-/// check_calls holds the callback count to the header bound with constant 1 over non-empty ranges, empty ones would hide a too small block
+/// Distinct values and cell hash of timed ranges vs a replay; check_calls caps callbacks at the bound, non-empty only
 void check_updates(int n, int q, int u, int max_v, int verify = 1 << 30, bool check_calls = false){
     vector<int> a(n);
     for (auto& x : a) x = stress::rand_int(0, max_v);

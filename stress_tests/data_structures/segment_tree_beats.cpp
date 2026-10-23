@@ -48,7 +48,7 @@ void run(int n, int ops, long long lo, long long hi){
     }
 }
 
-/// Two updates with |x| up to 4.5e18 spend the 9e18 budget, so a chmin / chmax delta times 2+ leaves needs unsigned sums
+/// Two updates with |x| up to 4.5e18 spend the 9e18 budget, so chmin / chmax deltas over 2+ leaves need unsigned sums
 void run_extreme(int n){
     const long long C = 4500000000000000000LL;
     vector<long long> a(n, 0);

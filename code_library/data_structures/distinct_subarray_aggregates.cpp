@@ -10,14 +10,14 @@
  * agg.push(x): append x as a[i], i = number of earlier pushes
  * agg.segments(): {value, left, right} sorted by left, op(a[l..i]) == value exactly for l in [left, right]
  *
- * op must be associative, commutative and idempotent, and every strict change must lose a bit or a factor
- * gcd, bitwise or and bitwise and qualify, sum does not
- * min and max stay correct but give up to n segments per push
- * The segments cover l = 0..i, at most floor(log2 A) + 2 of them for gcd and B + 1 for or/and
- * Subarrays per value, as in CF 475D: after each push, cnt[s.value] += s.right - s.left + 1 for every segment
- *
- * auto gcd_op = [](long long x, long long y){ return gcd(x, y); };
- * DistinctSubarrayAggregates<long long, decltype(gcd_op)> agg(gcd_op);
+ * Notes:
+ *   - op must be associative, commutative and idempotent, and every strict change must lose a bit or a factor
+ *   - gcd, bitwise or and bitwise and qualify, sum does not, min and max work but give up to n segments per push
+ *   - The segments cover l = 0..i, at most floor(log2 A) + 2 of them for gcd and B + 1 for or/and
+ *   - Subarrays per value, as in CF 475D: after each push, cnt[s.value] += s.right - s.left + 1 for every segment
+ *   - A lambda op is passed with its type:
+ *         auto gcd_op = [](long long x, long long y){ return gcd(x, y); };
+ *         DistinctSubarrayAggregates<long long, decltype(gcd_op)> agg(gcd_op);
  *
 ***/
 

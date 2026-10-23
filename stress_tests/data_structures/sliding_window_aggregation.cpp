@@ -82,7 +82,7 @@ void random_operations(){
     }
 }
 
-/// Long runs: the min fold must match the monotonic queue, and a periodic scan checks both, which also times the amortized bound
+/// Long runs: the min fold must match the monotonic queue, a periodic scan checks both and times the amortized bound
 void long_runs(){
     auto take_min = [](long long a, long long b){ return min(a, b); };
     SlidingWindowAggregation window(LLONG_MAX, take_min);

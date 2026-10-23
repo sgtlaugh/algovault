@@ -13,8 +13,9 @@ void run(long long rounds){
         unordered_map<K, long long> expected;
 
         auto random_key = [&]() -> K {
-            if (mode == 0) return (K)(stress::rand_int(-cap, cap));                         /// few distinct keys, negatives
-            if (mode == 1) return (K)((unsigned long long)stress::rand_int(0, 3 * cap) << (8 * sizeof(K) - 13));  /// only high bits differ, 3 * cap < 2^13
+            if (mode == 0) return (K)(stress::rand_int(-cap, cap));  /// few distinct keys, negatives
+            /// only high bits differ, 3 * cap < 2^13
+            if (mode == 1) return (K)((unsigned long long)stress::rand_int(0, 3 * cap) << (8 * sizeof(K) - 13));
             if (mode == 2 && stress::rand_int(0, 2) == 0) return stress::rand_int(0, 1) ? numeric_limits<K>::min() : numeric_limits<K>::max();
             return (K)stress::rng()();
         };
@@ -41,7 +42,7 @@ void run(long long rounds){
     }
 }
 
-/// Reassigning a fresh table must compile and cost little, which a per-instance salt breaks by deleting operator= and seeding an RNG per construction
+/// Reassigning a fresh table must compile and stay cheap, a per-instance salt breaks both
 void check_reassign(){
     HashMap<int, int> table(1);
     for (int i = 0; i < 300000; i++){

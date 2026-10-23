@@ -15,16 +15,17 @@
  *
  * PersistentLiChaoTree<T> pt(lo, hi): version 0 holds no lines, same range limits as LiChaoTree
  * PersistentLiChaoTree<T, true> pt(lo, hi): the same tree answering the maximum
- * pt.add_line(version, k, b): a new version with the lines of version plus y = k * x + b, older versions stay intact, version is 0 or a value add_line returned
+ * pt.add_line(version, k, b): a new version with the lines of version plus y = k * x + b, version stays intact
  * pt.query(version, x): minimum over the lines of version at x, or NONE if it has no line, lo <= x <= hi
  *
- * NONE is the largest value of T, or the lowest when answering the maximum
- * Every k * x + b over the range must fit in T, e.g. |k|, |x| <= 1e9 and |b| <= 1e18 for long long
- * LiChaoTree makes nodes on demand, at most 1 per add_line and O(log C) per add_segment
- * A node is 24 bytes for long long, random segments at C = 2e9 average ~31 nodes, so 4e5 of them take ~400 MB peak
- * Convex hull trick: dp[i] = min over j < i of (dp[j] + a[j] * x[i]) is dp[i] = tree.query(x[i]), then tree.add_line(a[i], dp[i])
- * The same on root to node paths: dp[v] = pt.query(ver[parent], x[v]), then ver[v] = pt.add_line(ver[parent], a[v], dp[v])
- * The persistent DFS needs no rollback when it backtracks, siblings branch off the same parent version
+ * Notes:
+ *   - NONE is the largest value of T, or the lowest when answering the maximum
+ *   - Every k * x + b over the range must fit in T, e.g. |k|, |x| <= 1e9 and |b| <= 1e18 for long long
+ *   - LiChaoTree makes nodes on demand, at most 1 per add_line and O(log C) per add_segment
+ *   - A node is 24 bytes for long long, random segments at C = 2e9 average ~31 nodes, so 4e5 of them take ~400 MB peak
+ *   - Convex hull trick: for dp[i] = min over j < i of dp[j] + a[j] * x[i], query(x[i]) then add_line(a[i], dp[i])
+ *   - On root to node paths: dp[v] = pt.query(ver[parent], x[v]), then ver[v] = pt.add_line(ver[parent], a[v], dp[v])
+ *   - The persistent DFS needs no rollback when it backtracks, siblings branch off the same parent version
  *
 ***/
 
@@ -118,7 +119,7 @@ struct LiChaoTree{
         if (node == -1) node = new_node({0, NONE});
 
         long long m = l + (r - l) / 2;
-        int left = insert_segment(nodes[node].left, l, m, ql, qr, line);  /// the call can reallocate nodes, assign after it
+        int left = insert_segment(nodes[node].left, l, m, ql, qr, line);  /// can reallocate nodes, assign after
         nodes[node].left = left;
         int right = insert_segment(nodes[node].right, m + 1, r, ql, qr, line);
         nodes[node].right = right;

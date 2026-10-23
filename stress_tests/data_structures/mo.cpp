@@ -4,8 +4,7 @@
 #include "../../code_library/data_structures/mo.cpp"
 #undef main
 
-/// Distinct values and sum of every range, empty ones included, against direct scans; get also sees the right query index
-/// check_calls holds add and remove to the header bound with constant 1, which random inputs stay under and a too small block exceeds
+/// Distinct counts and sums, empty ranges included, vs scans; check_calls caps add and remove at the header bound
 void check_array(int n, int q, int max_v, int verify = 1 << 30, bool check_calls = false){
     vector<int> a(n);
     for (auto& x : a) x = stress::rand_int(0, max_v);

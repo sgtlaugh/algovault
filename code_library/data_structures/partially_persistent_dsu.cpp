@@ -12,8 +12,9 @@
  * dsu.size(a, t): number of nodes in a's set after the first t connect calls
  * dsu.now: number of connect calls so far, failed ones included
  *
- * t = 0 is the state before any call, any t >= now is the current state
- * The first call that joined a and b is the smallest t with same(a, b, t), found by binary search
+ * Notes:
+ *   - t = 0 is the state before any call, any t >= now is the current state
+ *   - The first call that joined a and b is the smallest t with same(a, b, t), found by binary search
  *
 ***/
 

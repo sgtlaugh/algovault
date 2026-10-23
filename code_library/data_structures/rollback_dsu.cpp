@@ -13,9 +13,6 @@
  * dsu.size(a): number of nodes in a's set
  * dsu.time(): number of successful connects not yet rolled back, use it as a checkpoint
  *
- * Union by size without path compression, so a union changes one parent and undoing it is O(1)
- * offline_dynamic_connectivity.cpp carries a checked copy of this struct
- *
 ***/
 
 #include <bits/stdtr1c++.h>

@@ -14,8 +14,9 @@
  * MonotonicQueue<T, Compare = less<T>> q: an empty queue with the same push, pop, size and empty
  * q.best(): the minimum under Compare of the elements, the queue must not be empty
  *
- * op only needs associativity, and identity only needs op(identity, x) = x since it is never combined on the right
- * For min or max use MonotonicQueue: no identity and fewer comparisons, greater<T> gives the maximum
+ * Notes:
+ *   - op only needs associativity, and identity only needs op(identity, x) = x
+ *   - For min or max use MonotonicQueue: no identity and fewer comparisons, greater<T> gives the maximum
  *
 ***/
 

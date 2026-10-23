@@ -13,10 +13,11 @@
  * s.covers(l, r): true if all of [l, r) is covered, always true for an empty range
  * s.seg: map l -> r of the stored intervals in increasing order, never two that touch
  *
- * Empty ranges, l >= r, are ignored by add and remove
- * For closed integer intervals [l, r] call add(l, r + 1)
- * The total covered length must fit in T, long long coordinates in [-4e18, 4e18] are safe
- * With floating point T the running sum drifts, so covered_length() can end slightly off
+ * Notes:
+ *   - Empty ranges, l >= r, are ignored by add and remove
+ *   - For closed integer intervals [l, r] call add(l, r + 1)
+ *   - The total covered length must fit in T, long long coordinates in [-4e18, 4e18] are safe
+ *   - With floating point T the running sum drifts, so covered_length() can end slightly off
  *
 ***/
 

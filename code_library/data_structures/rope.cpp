@@ -16,7 +16,8 @@
  * text.size(v): length of version v
  * text.substr(v, pos, len): the len characters of version v starting at pos
  *
- * Without the wrapper the same calls work on a crope directly, main() shows it
+ * Notes:
+ *   - Without the wrapper the same calls work on a crope directly, main() shows it
  *
 ***/
 

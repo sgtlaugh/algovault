@@ -23,7 +23,7 @@ void relabel(vector<int>& label, int a, int b){
 int main(){
     for (int n : {1, 2, 1000, 100000}){
         DSU chain(n);
-        for (int i = 0; i < n; i++) assert(chain.connect(i, i + 1));  /// Without union by size this chain reaches depth n
+        for (int i = 0; i < n; i++) assert(chain.connect(i, i + 1));  /// depth n without union by size
         check_depths(chain);
         assert(chain.size(0) == n + 1 && !chain.connect(0, n));
     }

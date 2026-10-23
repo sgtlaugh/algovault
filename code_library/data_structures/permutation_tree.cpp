@@ -14,13 +14,13 @@
  * pt.range[v]: the values [lo, hi] of p[l..r], always hi - lo == r - l
  * pt.type[v]: INCREASING, DECREASING or CUT
  *
- * Nodes 0..n - 1 are the leaves, node i is position i, internal nodes get ids n, n + 1, ..., at most 2n - 1 nodes in all
- * INCREASING children ranges ascend one step each, so every run of 2+ consecutive children is a common interval
- * DECREASING is the same with descending ranges
- * CUT is a leaf, or a node with 4+ children where only the whole node is a common interval
- * No join node has a child that is a join node of the same direction, which makes the tree unique
- * Every common interval is a leaf, a whole cut node, or a run of 2+ consecutive children of a join node
- * For 1-indexed or arbitrary distinct values, compress them to ranks 0..n - 1 first
+ * Notes:
+ *   - Nodes 0..n - 1 are the leaves, node i is position i, internal nodes get ids n, n + 1, ..., at most 2n - 1 in all
+ *   - INCREASING and DECREASING are join nodes: children ranges ascend or descend one step each
+ *   - CUT is a leaf, or a node with 4+ children where only the whole node is a common interval
+ *   - No join node has a child that is a join node of the same direction, which makes the tree unique
+ *   - Every common interval is a leaf, a whole cut node, or a run of 2+ consecutive children of a join node
+ *   - For 1-indexed or arbitrary distinct values, compress them to ranks 0..n - 1 first
  *
 ***/
 

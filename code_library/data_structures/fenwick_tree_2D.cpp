@@ -1,7 +1,7 @@
 /***
  *
  * 2D Fenwick Tree (Binary Indexed Tree)
- * Sums over a grid under updates: point add and rectangle sum, rectangle add and cell value, or rectangle add and rectangle sum
+ * Grid sums under updates: point add and rectangle sum, rectangle add and cell value, or both rectangle add and sum
  *
  * Complexity:
  *   - build: O(n m)
@@ -21,9 +21,10 @@
  * fen.prefix(i, j): sum of a[0..i][0..j], 0 when i or j is -1
  * fen.query(i, j, k, l): sum of a[i..k][j..l], 0 when i > k or j > l
  *
- * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
- * FenwickFull2D keeps four values per cell, four times the memory of the other two
- * FenwickFull2D needs a T that holds 4 n m times the sum of |v| over all updates, use long long even when every answer fits in int
+ * Notes:
+ *   - Cells are 0-based in [0, n - 1] x [0, m - 1], outside asserts
+ *   - FenwickFull2D keeps four values per cell, four times the memory of the other two
+ *   - FenwickFull2D needs a T that holds 4 n m times the sum of |v| over all updates, long long even if answers fit int
  *
 ***/
 
@@ -104,7 +105,8 @@ struct FenwickRangeUpdate2D{
 template <typename T>
 struct FenwickFull2D{
     int n, m;
-    vector<vector<array<T, 4>>> tree;  /// Sums of v, v*b, v*a, v*a*b per node; one array shares a cache line, about 2x faster than four trees
+    /// Sums of v, v*b, v*a, v*a*b per node in one cache line, about 2x faster than four trees
+    vector<vector<array<T, 4>>> tree;
 
     FenwickFull2D(int n = 0, int m = 0) : n(n), m(m), tree(n + 1, vector<array<T, 4>>(m + 1, array<T, 4>{})) {}
 
@@ -117,7 +119,7 @@ struct FenwickFull2D{
         add_suffix(i, l + 1, -v);
     }
 
-    /// A difference v at (a, b) adds v * (p - a) * (q - b) = v*p*q - v*b*p - v*a*q + v*a*b to the sum of the top-left p x q cells
+    /// A difference v at (a, b) adds v * (p - a) * (q - b) = v*p*q - v*b*p - v*a*q + v*a*b to the top-left p x q sum
     T prefix(int p, int q){
         assert(-1 <= p && p < n && -1 <= q && q < m);
         p++, q++;

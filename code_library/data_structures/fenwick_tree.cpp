@@ -23,8 +23,9 @@
  * fen.prefix(p): sum of a[0..p], 0 for p = -1
  * fen.query(l, r): sum of a[l..r], 0 when l > r
  *
- * Positions are 0-based, a position outside [0, n - 1] asserts
- * FenwickFull needs a T that holds 2 n times the sum of |v| over all updates, use long long even when every answer fits in int
+ * Notes:
+ *   - Positions are 0-based in [0, n - 1], outside asserts
+ *   - FenwickFull needs a T that holds 2 n times the sum of |v| over all updates, long long even if answers fit int
  *
 ***/
 
@@ -110,7 +111,8 @@ struct FenwickRangeUpdate{
 template <typename T>
 struct FenwickFull{
     int n;
-    vector<array<T, 2>> tree;  /// Sums of v and v*a per node; one array per node, 1.3x faster than two trees at n = 1e5 and 1.5x at n = 1e6
+    /// Sums of v and v*a per node, one array is 1.3x faster than two trees at n = 1e5, 1.5x at n = 1e6
+    vector<array<T, 2>> tree;
 
     FenwickFull(int n = 0) : n(n), tree(n + 1, array<T, 2>{}) {}
 

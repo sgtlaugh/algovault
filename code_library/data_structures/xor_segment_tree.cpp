@@ -6,12 +6,13 @@
  * Complexity: O(n log n) time and memory to build, O(log n) per query and per add
  *
  * XorSegmentTree<T> st(a): sums of a, a.size() a power of two
- * XorSegmentTree<T, Combine> st(a, combine): folds with combine, which must be associative and have a const operator() but need not commute
+ * XorSegmentTree<T, Combine> st(a, combine): folds with combine, associative with a const operator(), need not commute
  * st.add(i, v): a[i] += v, only with the default Combine = plus<T>, every other combine builds a static tree
  * st.query(l, r, x): combine of a[p ^ x] over l <= p <= r in p order, 0 <= l <= r < n, 0 <= x < n
  *
- * Pad a to a power of two by hand, the padding values depend on what a padded a[p ^ x] should mean
- * For sums every stored fold of a node is the same block sum, the n log n layout pays off for order-dependent folds like max subarray sum (CF 1716E)
+ * Notes:
+ *   - Pad a to a power of two by hand, the padding values depend on what a padded a[p ^ x] should mean
+ *   - The n log n layout pays off for order-dependent folds like max subarray sum (CF 1716E), sums do not need it
  *
 ***/
 
@@ -23,7 +24,7 @@ template <typename T, typename Combine = plus<T>>
 struct XorSegmentTree{
     int n;
     Combine combine;
-    vector<vector<T>> tree;  /// tree[node][y] = combine of a[p ^ y] in p order over the node's block, 0 <= y < block length, adds excluded
+    vector<vector<T>> tree;  /// tree[node][y]: fold of a[p ^ y] over the node's block in p order, adds excluded
     vector<T> added;         /// added[node] = sum of the add() values at positions in the node's block
 
     XorSegmentTree(const vector<T>& a, Combine combine = Combine()) : n((int)a.size()), combine(combine), tree(2 * a.size()), added(2 * a.size()){

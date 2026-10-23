@@ -4,7 +4,7 @@
 #include "../../code_library/data_structures/distinct_subarray_aggregates.cpp"
 #undef main
 
-/// Runs of op(a[l..i]) folded directly from every l, and the O(n^2) map of all subarray values, against the segments after each push
+/// Segments after each push against op(a[l..i]) folded from every l, and the O(n^2) map of all subarray values
 template <typename T, typename Op>
 void check(const vector<T>& a, Op op, size_t max_segments){
     int n = a.size();

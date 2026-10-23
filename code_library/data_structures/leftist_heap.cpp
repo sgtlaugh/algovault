@@ -3,7 +3,7 @@
  * Persistent Leftist Heap
  * Meldable priority queue where every operation returns a new version and old versions stay valid
  *
- * Complexity: O(log n) time and at most 2 * log2(n + 1) + 2 new nodes per push, pop and meld, n = size of the largest heap involved
+ * Complexity: O(log n) time and at most 2 * log2(n + 1) + 2 new nodes per push, pop and meld, n = largest heap size
  *
  * LeftistHeap<T> heap: a pool of min-heaps, each version is an int and EMPTY (-1) is the empty heap
  * LeftistHeap<T, greater<T>> heap: the same pool of max-heaps
@@ -12,9 +12,10 @@
  * heap.push(h, x): a new version holding the values of h plus x
  * heap.top(h): first value of h under Compare, the smallest for less<T>, h != EMPTY
  *
- * No call changes an existing version, and a version only works with the object that made it
- * Nodes are never freed, so q operations hold O(q log n) nodes
- * Usual use: k shortest walks (Eppstein), where each vertex's heap extends its parent's
+ * Notes:
+ *   - No call changes an existing version, and a version only works with the object that made it
+ *   - Nodes are never freed, so q operations hold O(q log n) nodes
+ *   - Usual use: k shortest walks (Eppstein), where each vertex's heap extends its parent's
  *
 ***/
 

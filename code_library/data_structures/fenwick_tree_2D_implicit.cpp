@@ -1,7 +1,7 @@
 /***
  *
  * 2D Fenwick Tree, Implicit
- * Rectangle add and cell value on grids too large to allocate, each Fenwick row a segment tree over columns built on demand
+ * Rectangle add and cell value on grids too large to allocate, creating tree nodes only where updates land
  *
  * Complexity:
  *   - build: O(n) for the row roots
@@ -11,14 +11,14 @@
  * fen.update(x1, y1, x2, y2, v): add v to a[x1..x2][y1..y2], nothing when x1 > x2 or y1 > y2
  * fen.query(x, y): a[x][y]
  *
- * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
- * q updates create O(q log n log m) nodes from a pool of max_nodes, 16 bytes each for long long, about 205 MB by default
- * The default pool fits about 13000 random rectangle updates at n = 1e6, m = 1e9, which create about 1000 nodes each
- * The pool is reserved up front, but only the pages of created nodes are touched
- * Running out of nodes asserts, raise max_nodes then
- * The row roots take 4 * (n + 1) bytes, so n is bounded by memory and m only by the pool
- * fenwick_tree_2D_sparse.cpp does point add and rectangle sum on a fixed hash table of 268 MB by default
- * This one pays only for the nodes it creates
+ * Notes:
+ *   - Cells are 0-based in [0, n - 1] x [0, m - 1], outside asserts
+ *   - q updates create O(q log n log m) nodes, 16 bytes each for long long, a pool of about 205 MB by default
+ *   - The pool is reserved up front, but only the pages of created nodes are touched
+ *   - The default pool fits about 13000 random rectangle updates at n = 1e6, m = 1e9, about 1000 nodes each
+ *   - Running out of nodes asserts, raise max_nodes then
+ *   - The row roots take 4 * (n + 1) bytes, so n is bounded by memory and m only by the pool
+ *   - Use fenwick_tree_2D_sparse.cpp for point add and rectangle sum, on a fixed 268 MB hash table by default
  *
 ***/
 

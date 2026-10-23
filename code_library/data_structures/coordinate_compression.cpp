@@ -8,8 +8,9 @@
  * compress(v): ids follow value order, returns the distinct values sorted, so vals[v[i]] is the original v[i]
  * compress_by_appearance(v): ids follow first appearance, returns the distinct values in that order
  *
- * Ids run from 0 to the number of distinct values minus 1
- * The element type must be a number that holds every id, 32769 distinct values overflow a vector<short>
+ * Notes:
+ *   - Ids run from 0 to the number of distinct values minus 1
+ *   - The element type must hold every id, 32769 distinct values overflow a vector<short>
  *
 ***/
 

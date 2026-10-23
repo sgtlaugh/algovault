@@ -17,11 +17,12 @@
  * lct.parent(u): parent of u under the current root, -1 for the root
  * lct.query(u, v): combine of the values on the path u..v, both ends included, u and v must be connected
  *
- * combine must be associative and commutative with identity as its neutral element, since re-rooting reverses paths
- * link re-roots u's tree at u and v's tree keeps its root, so link(child, parent) builds a rooted forest for lca
- * After cut the piece holding the old root keeps it, the other piece is rooted at its endpoint of the edge
- * query leaves the root where it was
- * Everything is iterative, deep paths are safe
+ * Notes:
+ *   - combine must be associative and commutative with identity as its neutral element, since re-rooting reverses paths
+ *   - link re-roots u's tree at u and v's tree keeps its root, so link(child, parent) builds a rooted forest for lca
+ *   - After cut the piece holding the old root keeps it, the other piece is rooted at its endpoint of the edge
+ *   - query leaves the root where it was
+ *   - Everything is iterative, deep paths are safe
  *
 ***/
 
@@ -133,7 +134,7 @@ struct LinkCutTree{
         nodes[x].agg = combine(combine(agg_of(nodes[x].ch[0]), nodes[x].value), agg_of(nodes[x].ch[1]));
     }
 
-    /// Pushing only g, p, x is enough: a flip pending higher up reverses the whole subtree and commutes with rotations below
+    /// Pushing only g, p, x is enough: a flip pending higher up reverses the whole subtree and commutes with rotations
     void splay(int x){
         push(x);
         while (!is_root(x)){

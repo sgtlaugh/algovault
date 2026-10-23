@@ -11,8 +11,8 @@
  * DisjointSparseTable table(a, op): range folds with op, which must be associative but need not commute
  * table.query(l, r): op over a[l..r], 0 <= l <= r < n
  *
- * The default plus is a convenience, a prefix array answers plain sums in O(n) memory
- * Use sparse_table.cpp for min, max or gcd
+ * Notes:
+ *   - Use a prefix array for plain sums in O(n) memory, sparse_table.cpp for min, max or gcd
  *
 ***/
 
@@ -23,7 +23,8 @@ using namespace std;
 template <typename T, typename Op = plus<T>>
 struct DisjointSparseTable{
     vector<T> a;
-    vector<vector<T>> dp;  /// dp[h][i]: op over a[i .. c - 1] if bit h of i is 0, over a[c .. i] if it is 1, c = middle of i's block of 2^(h + 1)
+    /// dp[h][i]: op over a[i .. c - 1] if bit h of i is 0, else over a[c .. i], c = middle of i's block of 2^(h + 1)
+    vector<vector<T>> dp;
     Op combine;
 
     DisjointSparseTable(const vector<T>& a, Op combine = Op()) : a(a), combine(combine){

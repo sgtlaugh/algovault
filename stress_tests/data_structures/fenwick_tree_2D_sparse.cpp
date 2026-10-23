@@ -25,9 +25,10 @@ int main(){
     auto coordinate = [&](int limit){
         int mode = stress::rand_int(0, 3);
         if (mode == 0) return (int)stress::rand_int(0, limit - 1);
-        if (mode == 1) return (int)stress::rand_int(0, 49);                               /// dense corner, many shared tree nodes
-        if (mode == 2) return limit - 1 - (int)stress::rand_int(0, 3);                    /// the grid edge, where update loops end
-        return (int)min<long long>(limit - 1, 1000003LL * stress::rand_int(1, 900) - 1);   /// multiples of 1000003, a key packed as i * 1000003 + j collides there
+        if (mode == 1) return (int)stress::rand_int(0, 49);  /// dense corner, many shared tree nodes
+        if (mode == 2) return limit - 1 - (int)stress::rand_int(0, 3);  /// the grid edge, where update loops end
+        /// multiples of 1000003, where a key packed as i * 1000003 + j collides
+        return (int)min<long long>(limit - 1, 1000003LL * stress::rand_int(1, 900) - 1);
     };
 
     auto brute = [&](int i, int j, int k, int l){
@@ -57,7 +58,7 @@ int main(){
 
     /// Small tables filled to about 60% load, so probe chains often run past the last slot and wrap to the first
     for (long long round = 0; round < stress::scaled(100); round++){
-        const int n = stress::rand_int(100, 1000), m = stress::rand_int(100, 1000), lg = 10;  /// enough cells to reach the target load
+        const int n = stress::rand_int(100, 1000), m = stress::rand_int(100, 1000), lg = 10;
         FenwickSparse2D<long long> small(n, m, lg);
         vector<array<long long, 3>> pts;
         set<pair<int, int>> nodes;

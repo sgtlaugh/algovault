@@ -6,14 +6,15 @@
  * Complexity: O((q + u) n^(2/3) + n^(4/3)) calls to add and remove for q queries and u updates, plus O(q log q) sorting
  *
  * mo_with_updates(a, queries, updates, add, remove, get): the answers, res[qi] = get(qi) over the window of queries[qi]
- * queries[qi] = {l, r, t}: the inclusive range l..r of a after the first t updates, 0 <= t <= u, r = l - 1 is an empty range
+ * queries[qi] = {l, r, t}: range l..r of a after the first t updates, 0 <= t <= u, r = l - 1 is an empty range
  * updates[j] = {pos, value}: update j assigns a[pos] = value
  * add(i): moves position i into the window, reading the current a[i]
  * remove(i): moves position i out of the window, reading the current a[i]
  * get(qi): the answer for the current window
  *
- * a holds the current version during the run and is restored at the end, the window starts and ends empty
- * The n^(2/3) blocks assume q and u close to n, without updates mo.cpp is faster: n sqrt(q) against q n^(2/3)
+ * Notes:
+ *   - a holds the current version during the run and is restored at the end, the window starts and ends empty
+ *   - The n^(2/3) blocks assume q and u close to n, without updates mo.cpp is faster: n sqrt(q) against q n^(2/3)
  *
 ***/
 
@@ -44,7 +45,7 @@ auto mo_with_updates(vector<T>& a, const vector<array<int, 3>>& queries, const v
     for (int j = 0; j < u; j++) value[j] = updates[j].second;
 
     int cur_l = 0, cur_r = -1, cur_t = 0;
-    /// A position inside the window leaves before its value changes and re-enters after, so remove reads the value add saw
+    /// A position in the window leaves before its value changes and re-enters after, so remove reads the value add saw
     auto flip = [&](int j){
         int p = updates[j].first;
         assert(0 <= p && p < n);

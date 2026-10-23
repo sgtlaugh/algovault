@@ -15,8 +15,9 @@
  * st.query_min(l, r): minimum of a[l..r]
  * st.query_sum(l, r): sum of a[l..r]
  *
- * Positions are 0-indexed and every call needs 0 <= l <= r < n
- * max |a[i]| plus the sum of |x| over all updates must be at most 9e18, and a queried sum must fit in long long
+ * Notes:
+ *   - Positions are 0-indexed and every call needs 0 <= l <= r < n
+ *   - max |a[i]| plus the sum of |x| over all updates must be at most 9e18, and a queried sum must fit in long long
  *
 ***/
 
@@ -28,8 +29,7 @@ struct SegmentTreeBeats{
     /// Marks a missing second maximum / second minimum, values never reach these under the documented range
     static constexpr long long NO_MAX = LLONG_MIN, NO_MIN = LLONG_MAX;
 
-    /// max2 and min2 are strict: never equal to max1 and min1
-    /// sum is unsigned so it wraps instead of overflowing when an intermediate sum does not fit
+    /// max2 and min2 are strict, never equal to max1 and min1, and sum is unsigned so an intermediate overflow wraps
     struct Node{
         unsigned long long sum = 0;
         long long max1 = 0, max2 = NO_MAX, min1 = 0, min2 = NO_MIN;
@@ -137,7 +137,7 @@ struct SegmentTreeBeats{
         else apply_chmin(idx, x);
     }
 
-    /// The pending chmin / chmax of a node is implicit: a child whose max exceeds the node's max gets clamped down to it
+    /// A node's pending chmin / chmax is implicit: a child whose max exceeds the node's max is clamped down to it
     void push(int idx){
         Node& v = tree[idx];
         for (int child : {idx << 1, idx << 1 | 1}){
@@ -186,7 +186,7 @@ struct SegmentTreeBeats{
         v.assign = x, v.has_assign = true, v.add = 0;
     }
 
-    /// Requires min1 < x < min2: only the minimums change, and a node with one or two distinct values also moves its max side
+    /// Requires min1 < x < min2: only minimums change, a node with one or two distinct values also moves its max side
     void apply_chmax(int idx, long long x){
         Node& v = tree[idx];
         v.sum += ((unsigned long long)x - (unsigned long long)v.min1) * v.cnt_min;

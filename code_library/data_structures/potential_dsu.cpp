@@ -6,15 +6,16 @@
  * Complexity: amortized O(α(n)) per operation
  *
  * PotentialDSU dsu(n, mod = 0): nodes 0..n, all values unknown
- * dsu.relate(a, b, d): record x[b] = x[a] + d, false if that contradicts what is known, which leaves the state unchanged
+ * dsu.relate(a, b, d): record x[b] = x[a] + d, false and no change if that contradicts what is known
  * dsu.diff(a, b): x[b] - x[a], a and b must be in the same set
  * dsu.find(a): the root of a's set, the same node for every member
  * dsu.same(a, b): true if a and b are in the same set, so diff(a, b) is known
  * dsu.size(a): number of nodes in a's set
  *
- * mod = 0 works on plain integers, every implied difference must fit in long long
- * mod > 0 works modulo mod, mod <= 1e18
- * mod = 2 is parity, relate(a, b, 1) means a and b differ
+ * Notes:
+ *   - mod = 0 works on plain integers, every implied difference must fit in long long
+ *   - mod > 0 works modulo mod, mod <= 1e18
+ *   - mod = 2 is parity, relate(a, b, 1) means a and b differ
  *
 ***/
 

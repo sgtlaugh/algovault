@@ -74,7 +74,8 @@ int main(){
 
     for (long long it = 0; it < stress::scaled(2000); it++){
         int sigma = stress::rand_int(1, 3);
-        Trie<3, 'a'> trie = stress::rand_int(0, 1) ? Trie<3, 'a'>() : Trie<3, 'a'>(stress::rand_int(1, 700));  /// below, at and above the 601 nodes 100 words of length 6 can need
+        /// max_nodes below, at and above the 601 nodes 100 words of length 6 can need
+        Trie<3, 'a'> trie = stress::rand_int(0, 1) ? Trie<3, 'a'>() : Trie<3, 'a'>(stress::rand_int(1, 700));
         vector<string> words;
 
         auto random_word = [&](){
@@ -90,7 +91,8 @@ int main(){
             }
 
             string q = stress::rand_int(0, 3) ? random_word() : (words.empty() ? "" : words[stress::rand_int(0, words.size() - 1)]);
-            if (stress::rand_int(0, 9) == 0) q.insert(stress::rand_int(0, q.size()), 1, "z`d"[stress::rand_int(0, 2)]);  /// outside [BASE, BASE + SIGMA), 'd' is BASE + SIGMA
+            /// Characters outside [BASE, BASE + SIGMA), 'd' is BASE + SIGMA
+            if (stress::rand_int(0, 9) == 0) q.insert(stress::rand_int(0, q.size()), 1, "z`d"[stress::rand_int(0, 2)]);
             int prefix = 0, exact = 0;
             for (auto& w : words) prefix += w.compare(0, q.size(), q) == 0 && w.size() >= q.size(), exact += w == q;
             assert(trie.count_prefix(q) == prefix && trie.count_word(q) == exact);

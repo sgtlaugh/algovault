@@ -10,18 +10,19 @@
  *   - RangeKth: O(n log n) build time and memory, O(log n) per kth
  *
  * PersistentSegmentTree<T> tree(values): version 0 holds values, ranges fold with +
- * PersistentSegmentTree<T, Combine> tree(values, combine): ranges fold with combine, any associative functor with a const operator()
+ * PersistentSegmentTree<T, Combine> tree(values, combine): ranges fold with combine, associative, const operator()
  * tree.add(v, i, x): id of a new version equal to version v with x added at position i
  * tree.set(v, i, x): id of a new version equal to version v with position i replaced by x
  * tree.get(v, i): the value at position i in version v
- * tree.kth(lo, hi, k): smallest position p whose prefix sum [0, p] of version hi minus version lo exceeds k, Combine = plus only
+ * tree.kth(lo, hi, k): smallest p whose prefix sum [0, p] of version hi minus version lo exceeds k, Combine = plus only
  * tree.query(v, l, r): combine over positions l..r in version v, 0 <= l <= r < n
  * tree.versions(): number of versions, the ids are 0..versions() - 1
  * RangeKth<T> rk(values): k-th smallest queries over values
  * rk.kth(l, r, k): the k-th smallest of values[l..r], 0-based, 0 <= k <= r - l
  *
- * kth needs 0 <= k < the total difference and every position's difference nonnegative, as with counts on prefix versions
- * A persistent array uses only set and get, with a combine that cannot overflow T, like FirstCombine in main()
+ * Notes:
+ *   - kth needs 0 <= k < the total difference and no negative position difference, as with counts on prefix versions
+ *   - A persistent array uses only set and get, with a combine that cannot overflow T, like FirstCombine in main()
  *
 ***/
 

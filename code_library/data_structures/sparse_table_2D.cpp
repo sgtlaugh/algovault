@@ -9,9 +9,10 @@
  * SparseTable2D<T, greater<T>> table(grid): rectangle maximum
  * table.query(x1, y1, x2, y2): the answer over rows x1..x2 and columns y1..y2, 0 <= x1 <= x2 < n, 0 <= y1 <= y2 < m
  *
- * A custom Compare needs a const operator(), since query() is const
- * The grid must be rectangular, an empty grid builds but has no valid query
- * A 500 x 500 grid stores 3998^2 values, 64 MB of int
+ * Notes:
+ *   - A custom Compare needs a const operator(), since query() is const
+ *   - The grid must be rectangular, an empty grid builds but has no valid query
+ *   - A 500 x 500 grid stores 3998^2 values, 64 MB of int
  *
 ***/
 

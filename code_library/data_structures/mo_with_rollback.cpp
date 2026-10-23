@@ -5,15 +5,16 @@
  *
  * Complexity: O(n sqrt(q) + q) calls to add plus O(q log q) sorting, a rollback costs as much as undoing its adds
  *
- * mo_with_rollback(n, queries, add, snapshot, rollback, get): the answers, res[qi] = get(qi) over the window queries[qi]
+ * mo_with_rollback(n, queries, add, snapshot, rollback, get): res[qi] = get(qi) over the window queries[qi]
  * queries[qi] = {l, r}: the inclusive range l..r of positions 0..n - 1, r = l - 1 is an empty range
  * add(i): puts position i into the window, which stays contiguous and grows at one end
  * snapshot(): saves the state on a stack, at most 2 are saved at once
  * rollback(): restores the top saved state and pops it
  * get(qi): the answer for the current window
  *
- * The window starts and ends empty, and empty ranges are answered first, while the state is still empty
- * A history stack gives snapshot and rollback for any add, main() shows it
+ * Notes:
+ *   - The window starts and ends empty, and empty ranges are answered first, while the state is still empty
+ *   - A history stack gives snapshot and rollback for any add, main() shows it
  *
 ***/
 
@@ -42,7 +43,7 @@ auto mo_with_rollback(int n, const vector<pair<int, int>>& queries, Add add, Sna
         return queries[a].second < queries[b].second;
     });
 
-    /// Per block of l the right part grows from the block end and is kept, the left part is added and rolled back per query
+    /// Per block of l the right part grows from the block end and stays, the left is added and rolled back per query
     for (int i = 0; i < m; ){
         int b = queries[order[i]].first / block, block_end = min(n - 1, (b + 1) * block - 1), cur_r = block_end;
         snapshot();

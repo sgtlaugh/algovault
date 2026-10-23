@@ -17,8 +17,8 @@ int main(){
     check_rejects([]{ FenwickImplicit2D<int>(4, 5).query(0, 5); });
     check_rejects([]{ FenwickImplicit2D<int>(4, 5, 3).update(0, 0, 0, 0, 1); });
 
-    /// Small grids against a full brute force array, square or not, rectangles often touch the last row and column
-    for (long long round = 0; round < stress::scaled(40); round++){  /// few rounds, every instance reserves the whole node pool
+    /// Small grids, square or not, against a brute force array, few rounds as each instance reserves the node pool
+    for (long long round = 0; round < stress::scaled(40); round++){
         const int n = stress::rand_int(1, 30), m = round % 2 ? n : stress::rand_int(1, 30);
         FenwickImplicit2D<long long> small(n, m);
         vector<vector<long long>> grid(n, vector<long long>(m, 0));
@@ -40,7 +40,7 @@ int main(){
         for (int x = 0; x < n; x++) for (int y = 0; y < m; y++) assert(small.query(x, y) == grid[x][y]);
     }
 
-    /// Large grid against the list of updates, at most 1500 updates (~1.2M pool nodes) at any scale, larger scales add queries
+    /// Large grid against the list of updates, at most 1500 updates (~1.2M pool nodes) at any scale
     const int N = 1000000, M = 2000000000;  /// a column midpoint written as (a + b) / 2 overflows int
     FenwickImplicit2D<long long> large(N, M);
     vector<array<long long, 5>> rects;

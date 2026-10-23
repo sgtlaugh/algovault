@@ -23,11 +23,11 @@
  * seq.sum(l, r): sum of positions l..r
  * seq.to_vector(): the whole sequence in order
  *
- * Positions are 0-based and ranges need 0 <= l <= r < size()
- * Sums must fit in long long
- * Treap is a portable, augmentable alternative to ordered_set.cpp's OrderedMultiset for judges without pb_ds
- * For other values, aggregates or lazy updates use run_length_implicit_treap.cpp, which takes them through a Runs struct
- * Priorities are seeded from the clock, a fixed seed lets an adversary force an O(n) deep chain
+ * Notes:
+ *   - Positions are 0-based, ranges need 0 <= l <= r < size() and sums must fit in long long
+ *   - Treap is a portable, augmentable alternative to ordered_set.cpp's OrderedMultiset for judges without pb_ds
+ *   - For other values, aggregates or lazy updates use run_length_implicit_treap.cpp and its Runs struct
+ *   - Priorities are seeded from the clock: a fixed seed lets an adversary force an O(n) deep chain
  *
 ***/
 

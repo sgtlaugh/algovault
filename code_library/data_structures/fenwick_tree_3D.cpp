@@ -21,9 +21,10 @@
  * fen.prefix(x, y, z): sum of a[0..x][0..y][0..z], 0 when any coordinate is -1
  * fen.query(x1, y1, z1, x2, y2, z2): sum of a[x1..x2][y1..y2][z1..z2], 0 when x1 > x2, y1 > y2 or z1 > z2
  *
- * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] x [0, r - 1] asserts
- * FenwickFull3D keeps eight values per cell, eight times the memory of the other two
- * FenwickFull3D needs a T that holds 8 n m r times the sum of |v| over all updates, use long long even when every answer fits in int
+ * Notes:
+ *   - Cells are 0-based in [0, n - 1] x [0, m - 1] x [0, r - 1], outside asserts
+ *   - FenwickFull3D keeps eight values per cell, eight times the memory of the other two
+ *   - FenwickFull3D needs a T that holds 8 n m r times the sum of |v| over all updates, even if answers fit int
  *
 ***/
 
@@ -81,8 +82,7 @@ struct FenwickRangeUpdate3D{
     FenwickRangeUpdate3D(int n = 0, int m = 0, int r = 0)
         : n(n), m(m), r(r), tree(n + 1, vector<vector<T>>(m + 1, vector<T>(r + 1, 0))) {}
 
-    /// Adds to prefix corners and queries a suffix, the mirror of 1D and 2D: at n = 100 updates 1.7x faster, queries 1.6x to 3x slower,
-    /// so this side wins unless queries outnumber updates 4 to 9 times
+    /// Mirror of 1D and 2D: updates 1.7x faster, queries 1.6x to 3x slower, wins unless queries outnumber updates 4-9x
     void update(int x1, int y1, int z1, int x2, int y2, int z2, T v){
         if (x1 > x2 || y1 > y2 || z1 > z2) return;
         assert(0 <= x1 && x2 < n && 0 <= y1 && y2 < m && 0 <= z1 && z2 < r);
@@ -123,7 +123,8 @@ struct FenwickRangeUpdate3D{
 template <typename T>
 struct FenwickFull3D{
     int n, m, r;
-    vector<vector<vector<array<T, 8>>>> tree;  /// Sums of v, v*a, v*b, v*c, v*a*b, v*a*c, v*b*c, v*a*b*c per node, adjacent, about 2x faster than eight trees
+    /// Sums of v, v*a, v*b, v*c, v*a*b, v*a*c, v*b*c, v*a*b*c per node in one array, about 2x faster than eight trees
+    vector<vector<vector<array<T, 8>>>> tree;
 
     FenwickFull3D(int n = 0, int m = 0, int r = 0)
         : n(n), m(m), r(r), tree(n + 1, vector<vector<array<T, 8>>>(m + 1, vector<array<T, 8>>(r + 1, array<T, 8>{}))) {}
@@ -142,7 +143,7 @@ struct FenwickFull3D{
         add_suffix(x2 + 1, y2 + 1, z2 + 1, -v);
     }
 
-    /// A difference v at (a, b, c) adds v * (p - a) * (q - b) * (s - c) to the p x q x s corner box, one term per kept sum
+    /// A difference v at (a, b, c) adds v * (p - a) * (q - b) * (s - c) to the p x q x s corner box
     T prefix(int p, int q, int s){
         assert(-1 <= p && p < n && -1 <= q && q < m && -1 <= s && s < r);
         p++, q++, s++;

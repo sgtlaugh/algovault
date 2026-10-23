@@ -19,7 +19,7 @@ void check_rejects(Call call){
 
 /// All three variants against a plain 3D grid, boxes touching the borders included
 int main(){
-    /// Without the asserts a coordinate of -1 loops forever at i += i & -i = 0, and one past the edge silently drops the update
+    /// Without the asserts -1 loops forever at i += i & -i = 0, and one past the edge silently drops the update
     for (int n : {1, 3}){
         int m = n + 1, r = n + 2;
         check_rejects([&]{ FenwickPointUpdate3D<int>(n, m, r).update(n, 0, 0, 1); });
@@ -46,7 +46,8 @@ int main(){
             int c[2][3], lim[3] = {n, m, r};
             for (int d = 0; d < 3; d++){
                 c[0][d] = stress::rand_int(0, lim[d] - 1), c[1][d] = stress::rand_int(0, lim[d] - 1);
-                if (op % 5) tie(c[0][d], c[1][d]) = make_pair(min(c[0][d], c[1][d]), max(c[0][d], c[1][d]));  /// otherwise often empty, which must be a no-op
+                /// left unsorted 1 in 5 times, often an empty box, which must be a no-op
+                if (op % 5) tie(c[0][d], c[1][d]) = make_pair(min(c[0][d], c[1][d]), max(c[0][d], c[1][d]));
             }
             auto [x1, y1, z1] = make_tuple(c[0][0], c[0][1], c[0][2]);
             auto [x2, y2, z2] = make_tuple(c[1][0], c[1][1], c[1][2]);

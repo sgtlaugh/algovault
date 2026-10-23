@@ -16,8 +16,9 @@
  * m.kth(k): the k-th smallest, 0-based, 0 <= k < size()
  * m.size(): number of elements, copies included
  *
- * Built on the GNU policy-based tree in ext/pb_ds, so it needs libstdc++
- * A pb_ds tree with less_equal as the comparator is not a multiset: equal keys never compare equivalent, so erase and find silently fail
+ * Notes:
+ *   - Built on the GNU policy-based tree in ext/pb_ds, so it needs libstdc++
+ *   - A pb_ds tree with less_equal is not a multiset: equal keys never compare equivalent, so erase and find fail
  *
 ***/
 

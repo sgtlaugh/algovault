@@ -1,7 +1,7 @@
 /***
  *
  * Sparse Table
- * O(1) range queries on a static array, for operations where counting an element twice is harmless: min, max, gcd, and, or
+ * O(1) range queries on a static array for operations that ignore repeats: min, max, gcd, and, or
  *
  * Complexity:
  *   - SparseTable: O(n log n) build time and memory, O(1) per query
@@ -13,8 +13,9 @@
  * LinearSparseTable<T, greater<T>> table(a): range maximum of a
  * table.query(l, r): the answer over a[l..r], 0 <= l <= r < n
  *
- * Sum, xor and product count repeats, use disjoint_sparse_table.cpp for them
- * At n = 1e6 LinearSparseTable builds 3x faster in 12 MB instead of 72 MB, and its queries are about 2x slower
+ * Notes:
+ *   - Sum, xor and product count repeats, use disjoint_sparse_table.cpp for them
+ *   - At n = 1e6 LinearSparseTable builds 3x faster in 12 MB instead of 72 MB, and its queries are about 2x slower
  *
 ***/
 

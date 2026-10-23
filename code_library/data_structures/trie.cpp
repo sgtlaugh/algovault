@@ -1,7 +1,7 @@
 /***
  *
  * Trie and Binary Trie
- * Prefix tree that counts inserted words by prefix, and a binary trie answering xor queries over a multiset of integers
+ * Prefix tree that counts inserted words by prefix, and a binary trie for xor queries over a multiset of integers
  *
  * Complexity:
  *   - Trie: O(|s|) per operation, O(L SIGMA) memory for L inserted characters in total
@@ -17,10 +17,6 @@
  * trie.pass[v]: inserted words that start with node v's prefix
  * trie.ends[v]: copies of exactly node v's prefix
  *
- * A trie holds at most 1 + total inserted length nodes, the natural max_nodes
- * Each node takes 4 * SIGMA + 8 bytes
- * Without max_nodes the vector doubling briefly holds up to twice the memory of the nodes in use
- *
  * BinaryTrie<BITS = 30> bt: an empty multiset of unsigned long long values in [0, 2^BITS), 1 <= BITS <= 64
  * bt.erase(x, c = 1): removes c >= 1 copies of x, count(x) >= c
  * bt.insert(x, c = 1): adds c >= 1 copies of x
@@ -30,7 +26,10 @@
  * bt.min_xor(x): min of x ^ y over the y in the multiset, size() > 0
  * bt.size(): copies of all values
  *
- * Erased nodes stay allocated, so memory grows with insertions of new values, not with live size
+ * Notes:
+ *   - A trie holds at most 1 + total inserted length nodes, the natural max_nodes, of 4 * SIGMA + 8 bytes each
+ *   - Without max_nodes the vector doubling briefly holds up to twice the memory of the nodes in use
+ *   - BinaryTrie keeps erased nodes allocated, so memory grows with insertions of new values, not with live size
  *
 ***/
 

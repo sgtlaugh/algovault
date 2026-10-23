@@ -46,8 +46,7 @@ int main(){
         }
     }
 
-    /// Eppstein: a walk is its sequence of sidetracks, edges off the shortest path tree towards t
-    /// Vertex v's heap holds (detour cost, head) of the sidetracks leaving v and its tree ancestors
+    /// Eppstein: the heap of v holds (detour cost, head) of non-tree edges leaving v and its ancestors towards t
     using Heap = LeftistHeap<pair<long long, int>>;
     Heap heap;
     vector<int> root(n, Heap::EMPTY);

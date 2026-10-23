@@ -19,24 +19,22 @@
  * seq.query(l, r): the Agg of positions l..r
  * seq.size(): the length of the sequence
  *
- * Positions are 0-based and ranges need 0 <= l <= r < size()
- * ok must stay false once false as the range grows, it is never called on an empty range
- * For fixed positions known in advance, a segment tree over compressed coordinates is simpler
- *
- * Runs says what a run holds, SumRuns below (long long values, sums, add as the lazy) is the model to copy:
- *   Value, Agg: what a run stores and what query returns
- *   run_agg(x, count): the Agg of count copies of x, x * count for sums
- *   combine(a, b): the Agg of two neighbouring pieces, a on the left
- *   Lazy, apply(x, lz), apply(a, lz, count), compose(old, new): only for seq.update
- *   apply(x, lz) updates one value, apply(a, lz, count) an Agg covering count positions, compose is old then new as one lazy
- *   reversed(x, count), reversed(a): only for seq.reverse, the run and the Agg read backwards
- *   cut(x, k): the first k values and the rest of a run, {x, x} when every run is all equal
- *   Calling update without Lazy or reverse without reversed fails to compile
- *
- * Every Agg, the whole sequence's included, must fit its type: SumRuns needs every sum within long long
- *
- * 0/1 flags with flip (Codeforces 817F): Value int, Agg {ones, count}, Lazy int, apply flips, compose(a, b) = a ^ b
- * Arithmetic progressions: Value {a, d}, cut(x, k) = {x, {a + k * d, d}}, reversed(x, count) = {a + (count - 1) * d, -d}
+ * Notes:
+ *   - Positions are 0-based and ranges need 0 <= l <= r < size()
+ *   - ok must stay false once false as the range grows, it is never called on an empty range
+ *   - For fixed positions known in advance, a segment tree over compressed coordinates is simpler
+ *   - Runs says what a run holds, SumRuns below (long long values, sums, add as the lazy) is the model to copy:
+ *       - Value, Agg: what a run stores and what query returns
+ *       - run_agg(x, count): the Agg of count copies of x, x * count for sums
+ *       - combine(a, b): the Agg of two neighbouring pieces, a on the left
+ *       - Lazy, apply(x, lz), apply(a, lz, count), compose(old, new): only for seq.update, compose is old then new
+ *       - apply(x, lz) updates one value, apply(a, lz, count) an Agg covering count positions
+ *       - reversed(x, count), reversed(a): only for seq.reverse, the run and the Agg read backwards
+ *       - cut(x, k): the first k values and the rest of a run, {x, x} when every run is all equal
+ *       - Calling update without Lazy or reverse without reversed fails to compile
+ *   - Every Agg, the whole sequence's included, must fit its type: SumRuns needs every sum within long long
+ *   - 0/1 flags with flip (Codeforces 817F): Value int, Agg {ones, count}, Lazy int, apply flips, compose(a, b) = a ^ b
+ *   - Arithmetic progressions: Value {a, d}, cut(x, k) = {x, {a + k * d, d}}, reversed(x, c) = {a + (c - 1) * d, -d}
  *
 ***/
 
@@ -59,8 +57,7 @@ struct SumRuns{
     static pair<Value, Value> cut(Value x, long long){ return {x, x}; }
 };
 
-/// The optional parts of a Runs type, so a type defines only what its operations use
-/// Detected rather than defaulted: a missing Lazy or reversed then stops update or reverse at compile time instead of doing nothing
+/// Optional Runs parts are detected, not defaulted, so a missing Lazy or reversed fails update or reverse to compile
 template<typename R, typename = void>
 struct LazyOf{
     using type = char;
@@ -232,8 +229,7 @@ struct RunLengthImplicitTreap{
         root = merge(merge(a, b), c);
     }
 
-    /// First k positions into a, the rest into b, cutting the run that straddles position k
-    /// Children go through locals: new_node may reallocate nodes, so no reference into it is held across a call
+    /// First k positions into a, the rest into b; new_node may reallocate nodes, so children go through locals
     void split(int t, long long k, int& a, int& b){
         if (t == -1){
             a = b = -1;
@@ -317,8 +313,7 @@ struct RunLengthImplicitTreap{
         }
     }
 
-    /// Number of positions of t, from its left end (or its right end when backwards), whose Agg passes ok,
-    /// ok is never called on an empty range
+    /// Count of positions of t from its left end (right end if backwards) whose Agg passes ok, never on an empty range
     template<typename Ok>
     long long descend(int t, Ok& ok, bool backwards){
         long long taken = 0;

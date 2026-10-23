@@ -3,7 +3,7 @@
 /// The library built with NDEBUG, as judges may do, so work done only inside its asserts would vanish
 #define NDEBUG
 #include <assert.h>
-/// Under NDEBUG the values diff and main() compute only for asserts go unused, a warning judges do not treat as an error
+/// Under NDEBUG values computed only for asserts go unused, a warning judges do not treat as an error
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
 #define main library_main

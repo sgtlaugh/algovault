@@ -12,13 +12,13 @@
  * tree.add_edge(u, v): adds the tree edge between u and v
  * tree.build(root = 0): roots the tree at root once all n - 1 edges are added
  * tree.lca(u, v): the lowest common ancestor of u and v, after build
- * tree.run(paths, add, remove, get, mode = NODES): the answers, res[i] = get(i) while the window holds the path paths[i] = {u, v}
+ * tree.run(paths, add, remove, get, mode = NODES): res[i] = get(i) while the window holds the path paths[i] = {u, v}
  *
- * add(node) and remove(node) receive tree nodes, get(i) returns the answer for the current window
- * mode = NODES: the window holds every node on the path u..v
- * mode = EDGES: the window holds the path without the lca, so store the value of edge (parent[v], v) on v
- * The window starts and ends empty, so the same callbacks and state can serve several runs
- * Embeds a checked copy of mo.cpp's mo to stay standalone
+ * Notes:
+ *   - add(node) and remove(node) receive tree nodes, get(i) returns the answer for the current window
+ *   - mode = NODES: the window holds every node on the path u..v
+ *   - mode = EDGES: the window holds the path without the lca, so store the value of edge (parent[v], v) on v
+ *   - The window starts and ends empty, so the same callbacks and state can serve several runs
  *
 ***/
 
@@ -119,16 +119,15 @@ struct TreePathMo{
 
     template <typename Add, typename Remove, typename Get>
     auto run(const vector<pair<int, int>>& paths, Add add, Remove remove, Get get, Mode mode = NODES){
-        /// A node inside the tour range twice is not on the path, so each tour position toggles its node
-        /// With first[u] <= first[v] and u an ancestor of v, [first[u], first[v]] holds exactly the path u..v
-        /// Otherwise [last[u], first[v]] holds the path minus the lca, whose entry and exit both lie outside it
+        /// Tour positions toggle their node: [first[u], first[v]] if u is an ancestor, else [last[u], first[v]] + lca
         vector<pair<int, int>> ranges;
         vector<int> lca_to_add;  /// toggled in around get(i) for node paths whose range misses the lca, else -1
         for (auto [u, v] : paths){
             if (first[u] > first[v]) swap(u, v);
             int w = lca(u, v);
             if (w == u){
-                ranges.push_back({first[u] + (mode == EDGES), first[v]});  /// edge mode drops the lca u, u == v leaves it empty
+                /// Edge mode drops the lca u, u == v leaves it empty
+                ranges.push_back({first[u] + (mode == EDGES), first[v]});
                 lca_to_add.push_back(-1);
             }
             else{

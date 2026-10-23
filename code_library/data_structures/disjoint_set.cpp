@@ -3,7 +3,7 @@
  * Disjoint Set Union
  * Union-find: merges sets of nodes and tells whether two nodes share a set
  *
- * Complexity: amortized O(α(n)) per operation, union by size with path halving
+ * Complexity: amortized O(α(n)) per operation
  *
  * DSU dsu(n): nodes 0..n, each in its own set
  * dsu.connect(a, b): merge the sets of a and b, false if they are already one set
@@ -11,7 +11,9 @@
  * dsu.same(a, b): true if a and b are in the same set
  * dsu.size(a): number of nodes in a's set
  *
- * Variants: rollback_dsu.cpp (undoable unions), potential_dsu.cpp (relations x[b] = x[a] + d), partially_persistent_dsu.cpp (queries at past times)
+ * Notes:
+ *   - Use rollback_dsu.cpp to undo unions, potential_dsu.cpp for relations x[b] = x[a] + d
+ *   - Use partially_persistent_dsu.cpp for queries at past times
  *
 ***/
 

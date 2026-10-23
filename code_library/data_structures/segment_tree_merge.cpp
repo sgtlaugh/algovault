@@ -16,9 +16,10 @@
  * st.kth(root, k): the k-th smallest element, 0-based, 0 <= k < size(root)
  * st.size(root): number of elements in root
  *
- * A set is a root index, 0 is the empty set, and all sets share one node pool
- * Each insert and split creates at most ceil(log2 n) + 1 nodes, and nodes freed by merge are reused first
- * Sorting ranges of an array (CF 558E) keeps one set per sorted run in a std::set, splits the runs at l and r, then merges the runs between
+ * Notes:
+ *   - A set is a root index, 0 is the empty set, and all sets share one node pool
+ *   - Each insert and split creates at most ceil(log2 n) + 1 nodes, and nodes freed by merge are reused first
+ *   - To sort ranges of an array (CF 558E), keep one set per sorted run, split at l and r, then merge the runs between
  *
 ***/
 
