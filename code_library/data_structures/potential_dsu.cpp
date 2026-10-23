@@ -37,7 +37,7 @@ struct PotentialDSU{
         d = norm(d);
         if (ra == rb) return norm(up[b] - up[a]) == d;
 
-        /// x[rb] = x[b] - up[b] = x[ra] + up[a] + d - up[b]; d + up[a] first, it is an implied difference
+        /// d + up[a] first: it is the implied difference x[b] - x[ra], so it fits
         long long w = norm(d + up[a] - up[b]);
         if (sz[ra] < sz[rb]) swap(ra, rb), w = norm(-w);
         parent[rb] = ra, up[rb] = w, sz[ra] += sz[rb];
