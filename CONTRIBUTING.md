@@ -84,7 +84,8 @@ The `/lucid` skill in `.claude/skills/lucid/` applies these rules to existing fi
  * DisjointSparseTable table(a, op): range folds with op, which must be associative but need not commute
  * table.query(l, r): op over a[l..r], 0 <= l <= r < n
  *
- * Use sparse_table.cpp for min, max or gcd, and a prefix array for plain sums
+ * The default plus is a convenience, a prefix array answers plain sums in O(n) memory
+ * Use sparse_table.cpp for min, max or gcd
  *
 ***/
 ```
