@@ -190,35 +190,47 @@ struct MaxAdd{
 int main(){
     int k, n;
     for (int tc = 0; scanf("%d %d", &k, &n) == 2; tc++){
-        /// Free space per starship, the first one with room is where the running max first reaches v
+        /// Free space per starship; first fit opens ships in index order, so the used ones are always a prefix
         SegmentTree<int, MaxAdd> st(vector<int>(n, k));
-        auto load = [&](int v){
-            int i = st.max_right(0, [&](int m){ return m < v; }) + 1;
-            if (i < n) st.update(i, i, -v);
+        int used = 0;
+        long long loaded = 0;
+
+        auto load = [&](long long r, int v){
+            if (v == 0) return;
+            while (r > 0){
+                int i = st.max_right(0, [&](int m){ return m < v; }) + 1;
+                if (i >= n) return;
+                if (i < used){
+                    int t = min<long long>(r, st.query(i, i) / v);
+                    st.update(i, i, -t * v);
+                    r -= t, loaded += (long long)t * v;
+                }
+                else{
+                    int per = k / v, full = r / per, rest = r % per;
+                    if (full) st.update(used, used + full - 1, -per * v), used += full;
+                    if (rest) st.update(used, used, -rest * v), used++;
+                    loaded += r * v, r = 0;
+                }
+            }
         };
 
         for (int done = 0; done < n; ){
             char tok[16];
-            scanf("%s", tok);
+            if (scanf("%s", tok) != 1) break;
             if (tok[0] == 'b'){
                 int r, v;
                 scanf("%d %d", &r, &v);
-                for (int j = 0; j < r; j++) load(v);
+                load(r, v);
                 done += r;
             }
             else{
-                load(atoi(tok));
+                load(1, atoi(tok));
                 done++;
             }
         }
 
-        int used = 0, waste = 0;
-        for (int i = 0; i < n; i++){
-            int left = st.query(i, i);
-            if (left != k) used++, waste += left;
-        }
         if (tc) puts("");
-        printf("%d %d\n", used, waste);
+        printf("%d %lld\n", used, (long long)used * k - loaded);
     }
     return 0;
 }
