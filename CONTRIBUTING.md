@@ -55,7 +55,8 @@ The priorities, in order: correct, fast, easy to call, easy to read inside; a ru
 - Blank lines split a function body into its steps, like setup, the main loop and the answer
 - A trick for speed stays only with a measured reason in a comment
 - A struct reads top down: types and constants, every field, constructors, the API in header order, then helpers in the
-  order they are called; CI fails a field or type declared after a method
+  order they are called; CI fails a field or type declared after a method, or API calls defined out of header order
+- Free functions follow the header too, except that a helper a later function calls is defined before it
 - Related fields or constants share a line, `int n, m;` or `vector<int> parent, depth;`, unrelated ones do not
 - A set of named options is a nested enum, `enum Cmp{LESSEQ, EQUAL, GREATEQ};`, not int constants, so passing an option
   from the wrong set or a bare number fails to compile
@@ -94,6 +95,8 @@ The `/lucid` skill in `.claude/skills/lucid/` applies these rules to existing fi
 - Otherwise one bullet per operation, or per struct when a file has several, time first
 - Memory only when it is not the obvious O(n) or its real size matters, like `about 205 MB by default`
 - The API lists the constructor first, then one line per public call: `call(args): what it returns or does, preconditions`
+- Calls come in three groups, each alphabetical: constructors, then calls that change the structure, then calls that only
+  read it; a call goes by its main effect, so `link` returning a bool changes and `find` compressing paths reads
 - One sentence per line, a sentence never split across lines, never two calls on one line
 - No usage example, `main()` is the example; a short snippet only when calling it needs code, like a functor
 - Notes on value ranges, traps and which template to use instead, one short line each

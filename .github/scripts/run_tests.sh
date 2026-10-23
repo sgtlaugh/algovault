@@ -325,6 +325,17 @@ check_style(){  # ){ and struct X{ open a body, ) {} is empty, keywords take a s
     failures+=("${bad[@]/%/ (style)}")
 }
 
+check_api_order(){  # the code defines a template's public calls in the order its header lists them
+    local bad=()
+    mapfile -t bad < <(git ls-files 'code_library/*.cpp' | xargs python3 .github/scripts/api_order.py)
+
+    echo "api order: ${#bad[@]} templates defining header calls out of header order"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (api order)}")
+}
+
 check_member_order(){  # a struct declares its types, constants and fields before its first method
     local bad=()
     mapfile -t bad < <(git ls-files 'code_library/*.cpp' | xargs awk '
@@ -408,6 +419,7 @@ check_copies
 check_whitespace
 check_style
 check_member_order
+check_api_order
 echo "passed: $passed  failed: $failed  skipped: $skipped"
 if [[ $failed -gt 0 ]]; then
     printf '  failed: %s\n' "${failures[@]}"
