@@ -155,7 +155,7 @@
 - [Codeforces 1326F2 - Wise Men (Hard Version)](https://codeforces.com/problemset/problem/1326/F2) [✅](../../practice/algebra/codeforces_1326f2.cpp "Accepted solution")
 - [CSES 1654 - SOS Bit Problem](https://cses.fi/problemset/task/1654) [✅](../../practice/algebra/cses_1654.cpp "Accepted solution")
 - [CSES 3141 - And Subset Count](https://cses.fi/problemset/task/3141) [✅](../../practice/algebra/cses_3141.cpp "Accepted solution")
-- [oj.uz JOI18_snake_escaping - Snake Escaping](https://oj.uz/problem/view/JOI18_snake_escaping)
+- [oj.uz JOI18_snake_escaping - Snake Escaping](https://oj.uz/problem/view/JOI18_snake_escaping) [✅](../../practice/algebra/oj_uz_joi18_snake_escaping.cpp "Accepted solution")
 - [USACO 1309 - Problem Setting](https://usaco.org/index.php?page=viewproblem2&cpid=1309) [✅](../../practice/algebra/usaco_1309.cpp "Accepted solution")
 
 #### [Walsh Hadamard Transform](walsh_hadamard.cpp)
