@@ -143,8 +143,8 @@
 
 #### [Min-Plus Convolution](min_plus_convolution.cpp)
 
-- [Library Checker min_plus_convolution_convex_arbitrary - Min Plus Convolution (Convex and Arbitrary)](https://judge.yosupo.jp/problem/min_plus_convolution_convex_arbitrary)
-- [Library Checker min_plus_convolution_convex_convex - Min Plus Convolution (Convex and Convex)](https://judge.yosupo.jp/problem/min_plus_convolution_convex_convex)
+- [Library Checker min_plus_convolution_convex_arbitrary - Min Plus Convolution (Convex and Arbitrary)](https://judge.yosupo.jp/problem/min_plus_convolution_convex_arbitrary) [✅](../../practice/algebra/library_checker_min_plus_convolution_convex_arbitrary.cpp "Accepted solution")
+- [Library Checker min_plus_convolution_convex_convex - Min Plus Convolution (Convex and Convex)](https://judge.yosupo.jp/problem/min_plus_convolution_convex_convex) [✅](../../practice/algebra/library_checker_min_plus_convolution_convex_convex.cpp "Accepted solution")
 
 #### [NTT](ntt.cpp)
 
