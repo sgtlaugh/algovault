@@ -43,7 +43,7 @@ struct PermutationTree{
 
         /// tree_min at j holds (max - min of p[j..i]) - (i - j), which is 0 exactly when [j, i] is a common interval
         vector<int> tree_min(4 * n), tree_add(4 * n);
-        vector<int> max_stack, min_stack, roots_stack;  /// roots_stack: roots of the trees built so far, left to right
+        vector<int> max_stack, min_stack, roots_left_to_right;
         for (int i = 0; i < n; i++){
             while (!max_stack.empty() && p[max_stack.back()] < p[i]){
                 int r = max_stack.back();
@@ -61,10 +61,10 @@ struct PermutationTree{
 
             int cur = i;
             while (true){
-                if (!roots_stack.empty() && (adjacent(roots_stack.back(), cur) || adjacent(cur, roots_stack.back()))){
-                    int top = roots_stack.back();
+                if (!roots_left_to_right.empty() && (adjacent(roots_left_to_right.back(), cur) || adjacent(cur, roots_left_to_right.back()))){
+                    int top = roots_left_to_right.back();
                     Type dir = adjacent(top, cur) ? INCREASING : DECREASING;
-                    roots_stack.pop_back();
+                    roots_left_to_right.pop_back();
                     if (type[top] == dir){
                         attach(top, cur);
                         cur = top;
@@ -84,19 +84,19 @@ struct PermutationTree{
                 int v = new_node(CUT, span[cur], range[cur]);
                 attach(v, cur);
                 do {
-                    attach(v, roots_stack.back());
-                    roots_stack.pop_back();
+                    attach(v, roots_left_to_right.back());
+                    roots_left_to_right.pop_back();
                 } while (range[v].second - range[v].first != span[v].second - span[v].first);
                 reverse(children[v].begin(), children[v].end());
                 cur = v;
             }
-            roots_stack.push_back(cur);
+            roots_left_to_right.push_back(cur);
 
             /// Moving to i + 1 lengthens every [j, i] by one, so the -(i - j) term drops by 1 for every j <= i
             add(tree_min, tree_add, 1, 0, n - 1, 0, i, -1);
         }
 
-        if (n) root = roots_stack.back();
+        if (n) root = roots_left_to_right.back();
     }
 
     long long count_intervals() const {
