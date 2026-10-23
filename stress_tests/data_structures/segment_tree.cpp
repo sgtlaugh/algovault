@@ -79,7 +79,7 @@ void stress_default_sum(){
         for (int op = 0; op < 100; op++){
             int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
             if (stress::rand_int(0, 1)){
-                long long v = stress::rand_int(-1000000, 1000000) * stress::rand_int(0, 1);  /// half the updates add 0
+                long long v = stress::rand_int(-1000000, 1000000) * stress::rand_int(0, 1);  /// half the updates add 0, which must compose without dropping a pending lazy
                 st.update(l, r, v);
                 for (int i = l; i <= r; i++) a[i] += v;
             }
