@@ -24,7 +24,7 @@ struct ProgressionRuns{
     static Agg reversed(Agg a){ return a; }
 };
 
-/// A cut taking a non-const reference must still be called, not mistaken for runs that are all equal
+/// A cut taking a non-const reference must compile at every call, the descents of max_right and min_left included
 struct ProgressionRefRuns : ProgressionRuns{
     static pair<Value, Value> cut(Value& x, long long k){ return {x, {x.a + k * x.d, x.d}}; }
 };
@@ -226,6 +226,11 @@ void check_progression_runs(int ops){
         }
         assert(t.size() == (long long)a.size());
     }
+
+    /// One run 1, 2, 3, 4, 5 with prefix sums 1, 3, 6, 10, 15: both descents stop inside the run and cut it
+    RunLengthImplicitTreap<R> run(vector<pair<Progression, long long>>{{{1, 1}, 5}});
+    assert(run.max_right(0, [](long long s){ return s <= 7; }) == 2);
+    assert(run.min_left(4, [](long long s){ return s <= 9; }) == 3);
 }
 
 /// First and last values change places under reverse, and negative lazies interleave with reversals and cuts
@@ -534,6 +539,12 @@ void check_node_bound_and_speed(){
 }
 
 int main(){
+    /// A length past LLONG_MAX / 2 would overflow the position arithmetic in split
+    stress::expect_assert("data_structures/run_length_implicit_treap.cpp", []{
+        RunLengthImplicitTreap<> seq(1, 0);
+        seq.insert(0, 5, LLONG_MAX / 2);
+    });
+
     for (long long it = 0; it < stress::scaled(3000); it++) check_sum_runs(60, it % 3 ? 4 : 1);
     for (long long it = 0; it < stress::scaled(3000); it++) check_progression_runs<ProgressionRuns>(60);
     for (long long it = 0; it < stress::scaled(1000); it++) check_progression_runs<ProgressionRefRuns>(60);
