@@ -19,18 +19,11 @@ void relabel(vector<int>& label, int a, int b){
     if (from != to) for (auto& x : label) if (x == from) x = to;
 }
 
-vector<int> naive_labels(int n, const vector<pair<int, int>>& edges){
-    vector<int> label(n + 1);
-    iota(label.begin(), label.end(), 0);
-    for (auto [a, b] : edges) relabel(label, a, b);
-    return label;
-}
-
 /// Random unions and queries against a naive label array, merged by relabeling
 int main(){
     for (int n : {1, 2, 1000, 100000}){
         DSU chain(n);
-        for (int i = 0; i < n; i++) assert(chain.connect(i, i + 1));  /// links the grown root under a fresh node each time
+        for (int i = 0; i < n; i++) assert(chain.connect(i, i + 1));  /// Without union by size this chain reaches depth n
         check_depths(chain);
         assert(chain.size(0) == n + 1 && !chain.connect(0, n));
     }
@@ -38,7 +31,8 @@ int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(0, it % 10 ? 15 : 400);
         DSU dsu(n);
-        vector<int> label = naive_labels(n, {});
+        vector<int> label(n + 1);
+        iota(label.begin(), label.end(), 0);
 
         for (int q = stress::rand_int(0, 4 * n + 5); q; q--){
             int a = stress::rand_int(0, n), b = stress::rand_int(0, n);
