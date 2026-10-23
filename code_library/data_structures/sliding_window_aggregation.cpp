@@ -33,6 +33,7 @@ struct SlidingWindowAggregation{
     SlidingWindowAggregation(T identity, Op combine) : identity(identity), combine(combine), back_fold(identity) {}
 
     void pop(){
+        assert(!empty());
         if (front.empty()){
             for (int i = (int)back.size() - 1; i >= 0; i--){
                 front.push_back(front.empty() ? back[i] : combine(back[i], front.back()));
@@ -69,6 +70,7 @@ struct MonotonicQueue{
     long long pushed = 0, popped = 0;
 
     void pop(){
+        assert(!empty());
         if (candidates.front().second == popped) candidates.pop_front();
         popped++;
     }
@@ -79,6 +81,7 @@ struct MonotonicQueue{
     }
 
     T best() const{
+        assert(!empty());
         return candidates.front().first;
     }
 
