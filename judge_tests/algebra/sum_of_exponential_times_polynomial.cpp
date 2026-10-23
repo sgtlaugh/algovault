@@ -47,7 +47,7 @@ int main(){
     pw.clear(), pw.shrink_to_fit();
 
     if (r == 1){
-        printf("%d\n", Lagrange(s, MOD).interpolate(n));
+        printf("%d\n", Lagrange(s, MOD)(n));
         return 0;
     }
 
@@ -70,6 +70,6 @@ int main(){
     s.clear(), s.shrink_to_fit(), inv.clear(), inv.shrink_to_fit();
 
     long long rn = power(r, n % (MOD - 1));
-    printf("%lld\n", (rn * Lagrange(f, MOD).interpolate(n) + c) % MOD);
+    printf("%lld\n", (rn * Lagrange(f, MOD)(n) + c) % MOD);
     return 0;
 }

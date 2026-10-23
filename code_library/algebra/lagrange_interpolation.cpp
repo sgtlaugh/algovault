@@ -1,22 +1,20 @@
 /***
  *
  * Lagrange Interpolation
- * Value of a polynomial at any x from its values at x = 0, 1, ..., n - 1, modulo a prime
+ * Evaluates a polynomial anywhere from its values at x = 0, 1, ..., n - 1, modulo a prime
  *
  * Complexity:
- *   - Lagrange(terms, mod): O(n + log mod)
- *   - interpolate: O(n) time and memory per call
- *   - get_terms(terms, mod, l, r): O(n (r - l + 1) + log mod)
- *   - find_degree: O(n (d + 2)) for the degree d it finds, O(n^2) when it returns -1
+ *   - constructor: O(n + log mod)
+ *   - f(x): O(n)
+ *   - find_degree: O(n (d + 1)) for the degree d it returns, O(n^2) when it returns -1
  *
- * Lagrange lagrange(terms, mod): the polynomial f of degree below n with f(x) = terms[x] for x = 0..n - 1
- * lagrange.interpolate(x): f(x) in [0, mod), for any long long x, negatives included
- * find_degree(terms, mod): the lowest degree d of a polynomial through all the terms, or -1 when fewer than d + 2 terms leave it unconfirmed
- * get_terms(terms, mod, l, r): f(l), f(l + 1), ..., f(r), for any ints l <= r
+ * Lagrange f(terms, mod): the polynomial of degree below n with f(x) = terms[x]
+ * f(x): the value at any long long x
+ * find_degree(terms, mod): the lowest degree d that fits the terms, -1 when there are too few terms to be sure, it needs d + 2
  *
- * mod must be a prime below 2^31 with n <= mod, which is asserted
- * Terms may be any ints, negatives included, and are reduced modulo mod
- * The zero polynomial has degree 0, so find_degree needs at least 2 terms of it
+ * Notes:
+ *   - mod is a prime below 2^31 and n <= mod
+ *   - Terms and x may be negative, every result is in [0, mod)
  *
 ***/
 
@@ -48,7 +46,7 @@ struct Lagrange{
         }
     }
 
-    int interpolate(long long x){
+    int operator()(long long x){
         if (0 <= x && x < n) return terms[x];
         x %= mod;
 
@@ -113,26 +111,14 @@ int find_degree(const vector<int>& terms, int mod){
     return -1;
 }
 
-vector<int> get_terms(const vector<int>& terms, int mod, int l, int r){
-    Lagrange lagrange(terms, mod);
-
-    vector<int> res;
-    for (int i = l; i <= r; i++){
-        res.push_back(lagrange.interpolate(i));
-    }
-
-    return res;
-}
-
 int main(){
     const int mod = 1000000007;
 
     /// f(x) = 0^2 + 1^2 + ... + x^2 = x (x + 1) (2x + 1) / 6, a cubic, from its first 5 values
     vector<int> terms = {0, 1, 5, 14, 30};
-    Lagrange lagrange(terms, mod);
-    assert(lagrange.interpolate(5) == 55);
-    assert(lagrange.interpolate(6) == 91);
-    assert(get_terms(terms, mod, 4, 6) == (vector<int>{30, 55, 91}));
+    Lagrange f(terms, mod);
+    assert(f(5) == 55);
+    assert(f(6) == 91);
     assert(find_degree(terms, mod) == 3);
 
     terms.pop_back();
@@ -140,8 +126,8 @@ int main(){
 
     /// f(x) = -5 - 2x from negative terms, f(2^40) = -5 - 2^41 = 976759843 modulo 10^9 + 7
     Lagrange line({-5, -7, -9}, mod);
-    assert(line.interpolate(-1) == mod - 3);
-    assert(line.interpolate(1LL << 40) == 976759843);
+    assert(line(-1) == mod - 3);
+    assert(line(1LL << 40) == 976759843);
     assert(find_degree({-5, -7, -9}, mod) == 1);
 
     return 0;

@@ -40,15 +40,11 @@ int main(){
             for (auto& t : terms) t -= mod * stress::rand_int(0, 1);
         }
 
-        auto lagrange = Lagrange(terms, mod);
+        Lagrange f(terms, mod);
         for (int q = 0; q < 20; q++){
             long long x = q < 5 ? stress::rand_int(-2 * n, 2 * n) : stress::rand_int(-1000000000000000000LL, 1000000000000000000LL);
-            assert(lagrange.interpolate(x) == horner(c, x, mod));
+            assert(f(x) == horner(c, x, mod));
         }
-
-        int l = stress::rand_int(-50, 50);
-        auto window = get_terms(terms, mod, l, l + 10);
-        for (int i = 0; i <= 10; i++) assert(window[i] == horner(c, l + i, mod));
 
         int expected = zero ? (n >= 2 ? 0 : -1) : (n >= d + 2 ? d : -1);
         assert(find_degree(terms, mod) == expected);
@@ -74,7 +70,7 @@ int main(){
         vector<int> terms(n);
         for (int x = 0; x < n; x++) terms[x] = horner(c, x, mod);
         assert(find_degree(terms, mod) == d);
-        assert(Lagrange(terms, mod).interpolate(mod - 1) == horner(c, mod - 1, mod));
+        assert(Lagrange(terms, mod)(mod - 1) == horner(c, mod - 1, mod));
     }
 
     return 0;
