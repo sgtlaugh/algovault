@@ -32,7 +32,8 @@ int main(){
             assert((int)ac.ar.size() == __lg((int)patterns.size()) + 1);
 
             string text = random_word(stress::rand_int(0, 60), alphabet);
-            for (auto& c : text) if (stress::rand_int(0, 15) == 0) c = "A{ .\xe9\x80"[stress::rand_int(0, 5)];  /// outside the alphabet, including bytes above 0x7f
+            /// outside the alphabet, including bytes above 0x7f
+            for (auto& c : text) if (stress::rand_int(0, 15) == 0) c = "A{ .\xe9\x80"[stress::rand_int(0, 5)];
             assert(ac.count(text) == brute(patterns, text));
         }
     }

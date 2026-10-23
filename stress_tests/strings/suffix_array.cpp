@@ -22,7 +22,8 @@ void check(const Container& c){
     for (int i = 0; i + 1 < n; i++){
         int a = res.sa[i], b = res.sa[i + 1], k = 0;
         while (a + k < n && b + k < n && c[a + k] == c[b + k]) k++;
-        assert(res.lcp[i] == k && (a + k == n || (b + k < n && c[a + k] < c[b + k])));  /// suffix a ends first or is smaller at k
+        /// suffix a ends first or is smaller at k
+        assert(res.lcp[i] == k && (a + k == n || (b + k < n && c[a + k] < c[b + k])));
         distinct -= k;
     }
     assert(res.distinct_substrings() == distinct);
@@ -81,7 +82,8 @@ void check_queries(const Container& c){
     }
 
     for (int t = 0; t < (n <= 40 ? 12 : 4); t++){
-        int p = stress::rand_int(0, n), len = stress::rand_int(0, min(n - p, n <= 40 ? n : 64));  /// long patterns on repetitive input make the naive scan quadratic
+        /// long patterns on repetitive input make the naive scan quadratic
+        int p = stress::rand_int(0, n), len = stress::rand_int(0, min(n - p, n <= 40 ? n : 64));
         Container sub(c.begin() + p, c.begin() + p + len);
         check_range(q, c, sub, q.occurrences(p, len));
         check_range(q, c, sub, q.occurrences(sub));
@@ -106,12 +108,15 @@ int main(){
         vector<long long> v(n);
         for (int i = 0; i < n; i++){
             long long s = stress::rand_int(0, alphabet - 1), &x = v[i];
-            if (mode == 0) x = s;                                  /// zeros, the lowest bucket next to the virtual sentinel
+            /// zeros, the lowest bucket next to the virtual sentinel
+            if (mode == 0) x = s;
             else if (mode == 1) x = s - 2;                         /// negatives
             else if (mode == 2) x = s * 1000000000000LL;           /// a range far too large for buckets, compressed
             else if (mode == 3) x = stress::rand_int(-1000000, 1000000);
-            else if (mode == 4) x = stress::rand_int(0, n + 256);  /// more than 256 buckets without compression, the int text path
-            else x = i >= period && stress::rand_int(0, 15) ? v[i - period] : s;  /// near-periodic, repeated LMS names deep in the recursion
+            /// more than 256 buckets without compression, the int text path
+            else if (mode == 4) x = stress::rand_int(0, n + 256);
+            /// near-periodic, repeated LMS names deep in the recursion
+            else x = i >= period && stress::rand_int(0, 15) ? v[i - period] : s;
         }
         check(v);
         check_queries(v);
@@ -122,7 +127,8 @@ int main(){
         check_queries(s);
 
         vector<unsigned long long> u(n);
-        for (auto& x : u){                                         /// values past LLONG_MAX next to small ones, 64-bit hashes
+        /// values past LLONG_MAX next to small ones, 64-bit hashes
+        for (auto& x : u){
             unsigned long long s = stress::rand_int(0, alphabet - 1);
             x = mode < 2 ? s << 63 | s : mode == 2 ? ULLONG_MAX - s : (unsigned long long)stress::rand_int(LLONG_MIN, LLONG_MAX);
         }

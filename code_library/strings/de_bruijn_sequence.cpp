@@ -6,12 +6,10 @@
  * Complexity: O(k^n) time and memory
  *
  * de_bruijn(k, n): the lexicographically smallest De Bruijn sequence B(k, n), of length k^n, for k >= 1, n >= 1
- * Built by the FKM algorithm: concatenates in lexicographic order the Lyndon words whose length divides n
- * Read cyclically, so a window may wrap around the end. For a linear sequence holding every word,
- * append the first n - 1 symbols (length k^n + n - 1)
- * Map the symbols to any alphabet afterwards, e.g. "ACGT"[x]
  *
- * de_bruijn(2, 3) = {0, 0, 0, 1, 0, 1, 1, 1}
+ * Notes:
+ *   - A window may wrap around the end, append the first n - 1 symbols for a linear sequence holding every word
+ *   - Map the symbols to any alphabet afterwards, e.g. "ACGT"[x]
  *
 ***/
 
@@ -28,8 +26,7 @@ vector<int> de_bruijn(int k, int n){
     vector<int> seq, word = {-1};
     seq.reserve(len);
 
-    /// Walks the prenecklaces in lexicographic order: bump the last symbol, then word is a Lyndon word of
-    /// length p, extend it periodically to length n and drop trailing k - 1 symbols to reach the next one
+    /// FKM: bump the last symbol, extend the Lyndon word of length p periodically to n, drop trailing k - 1 symbols
     while (!word.empty()){
         word.back()++;
         int p = word.size();

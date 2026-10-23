@@ -1,17 +1,18 @@
 /***
  *
- * 64-bit hashing for vectors or strings
- * Get the forward and reverse hash of any segment
- * Base is chosen randomly to prevent anti-hash cases from being constructed
+ * Hashing
+ * Forward and reverse hash of any segment of a string or vector
  *
- * Complexity - O(n) to build, O(1) for each hash query, O(n) memory per instance
+ * Complexity: O(n) to build, O(1) per hash query
  *
- * PolyHash h(s): s is a string, vector or const char*, 0-based positions, ranges [l, r] inclusive
+ * PolyHash h(s): s is a string, vector or const char*, 0-based ranges [l, r] inclusive
  * h.get_hash(l, r): hash of s[l..r] modulo 2^61 - 1, equal segments give equal hashes
  * h.rev_hash(l, r): hash of s[l..r] read backwards, s[l..r] is a palindrome iff get_hash(l, r) == rev_hash(l, r)
- * All instances share one base per run, so segments of different strings can be compared
- * Two different segments of equal length collide with probability about length / 2^61
- * Requires __int128 (64-bit GCC or Clang)
+ *
+ * Notes:
+ *   - The base is random per run, so anti-hash tests cannot target it, and shared by all instances, so strings compare
+ *   - Two different segments of equal length collide with probability about length / 2^61
+ *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
 

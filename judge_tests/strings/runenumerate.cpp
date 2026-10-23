@@ -18,8 +18,7 @@ int main(){
     });
     sort(triples.begin(), triples.end());
 
-    /// A maximal block of square starts [a, b] with half length l is a maximal substring s[a, b + 2l) with period l,
-    /// which is the run whose minimum period t divides l, so each run shows up once per multiple of t that fits
+    /// Maximal square starts [a, b] of half length l are the run s[a, b + 2l) of period t dividing l: keep l == t
     vector<array<int, 3>> runs;
     for (int i = 0; i < (int)triples.size();){
         auto [l, a, b] = triples[i];

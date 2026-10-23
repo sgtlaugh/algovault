@@ -21,7 +21,8 @@ int main(){
         vector<long long> a(n);
         for (auto& x : a){
             long long v = stress::rand_int(0, alphabet - 1);
-            if (mode == 1) x = v - 1000000;                                    /// below -997, so the 997 offset alone cannot make them nonnegative
+            /// below -997, so the 997 offset alone cannot make them nonnegative
+            if (mode == 1) x = v - 1000000;
             else if (mode == 2) x = v ? (v == 1 ? LLONG_MIN : LLONG_MAX) : 0;  /// limits of the element type
             else x = v;
         }
@@ -29,14 +30,16 @@ int main(){
         if (mode == 0){
             string s(a.begin(), a.end());
             PolyHash hs(s);
-            assert(hs.get_hash(0, n - 1) == h.get_hash(0, n - 1) && hs.rev_hash(0, n - 1) == h.rev_hash(0, n - 1));  /// strings hash like vectors
+            /// strings hash like vectors
+            assert(hs.get_hash(0, n - 1) == h.get_hash(0, n - 1) && hs.rev_hash(0, n - 1) == h.rev_hash(0, n - 1));
         }
 
         for (int q = 0; q < 200; q++){
             int len = stress::rand_int(1, n), l1 = stress::rand_int(0, n - len), l2 = stress::rand_int(0, n - len);
             bool equal = std::equal(a.begin() + l1, a.begin() + l1 + len, a.begin() + l2);
             assert((h.get_hash(l1, l1 + len - 1) == h.get_hash(l2, l2 + len - 1)) == equal);
-            assert(h.rev_hash(l1, l1 + len - 1) == hr.get_hash(n - l1 - len, n - l1 - 1));  /// the reversed segment in the reversed array
+            /// the reversed segment in the reversed array
+            assert(h.rev_hash(l1, l1 + len - 1) == hr.get_hash(n - l1 - len, n - l1 - 1));
 
             /// Different lengths must differ too, without the offset runs of zeros would all hash to 0
             int len2 = stress::rand_int(1, n);

@@ -3,19 +3,18 @@
  * Dynamic String Hash
  * Forward and reverse polynomial hash of any substring while ranges of the string are reassigned to a single character
  *
- * Complexity: O(n) to build, O(log n) per assign and per hash query
+ * Complexity: O(n) to build, O(log n) per assign and per hash query, about 96n bytes
  *
- * DynamicStringHash h(s): 0-based positions, ranges [l, r] inclusive
- * h.assign(l, r, c): sets every character in [l, r] to c, h.assign(i, i, c) is a point update
+ * DynamicStringHash h(s, seed): 0-based ranges [l, r] inclusive, the base comes from seed, random per run by default
+ * h.assign(l, r, c): sets every character in [l, r] to c
  * h.hash(l, r): hash of s[l..r] modulo 2^61 - 1, equal substrings give equal hashes
  * h.is_palindrome(l, r): whether s[l..r] reads the same backwards, one query
  * h.rev_hash(l, r): hash of s[l..r] read backwards, equal to hash() of the same characters in reverse order
  *
- * The base is random per run (as in hashing.cpp) so anti-hash tests cannot target it, pass a seed to fix it
- * Instances built with the default seed share a base, so their hashes are comparable
- * Two different substrings of equal length collide with probability about length / 2^61
- * Memory: about 96n bytes (two hash trees and lazy tags over 4n nodes, plus power tables)
- * Requires __int128 (64-bit GCC or Clang)
+ * Notes:
+ *   - Instances built with the default seed share a base, so their hashes are comparable
+ *   - Two different substrings of equal length collide with probability about length / 2^61
+ *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
 

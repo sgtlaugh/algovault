@@ -41,7 +41,7 @@ double cpu_seconds(F run){
     return double(clock() - start) / CLOCKS_PER_SEC;
 }
 
-/// Compares against the naive O(n * m) scan on random strings and int vectors, then checks the n = 2^23 boundary and the cost of many distinct values
+/// Checks the naive O(n * m) scan on random strings and int vectors, the n = 2^23 boundary and many distinct values
 int main(){
     for (long long it = 0; it < stress::scaled(4000); it++){
         int n = it < 500 ? it % 12 : stress::rand_int(0, it % 20 ? 60 : 3000);

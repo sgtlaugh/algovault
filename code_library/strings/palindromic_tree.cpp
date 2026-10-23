@@ -5,13 +5,13 @@
  *
  * Complexity: O(n SIGMA) memory, amortized O(1) per add, O(n log n) for min_palindromic_factorization
  *
- * PalindromicTree<SIGMA, BASE> tree; characters must lie in [BASE, BASE + SIGMA), defaults to 'a'..'z'
+ * PalindromicTree<SIGMA = 26, BASE = 'a'> tree: an empty tree, characters must lie in [BASE, BASE + SIGMA)
  * tree.add(c): appends c, returns true if a new distinct palindrome appeared
  * tree.distinct(): number of distinct non-empty palindromic substrings so far
+ * tree.occurrences(): occurrences[v] = how many times node v occurs as a substring
  * tree.longest: length of the longest palindromic substring so far
- * tree.occurrences(): occurrences[v] = how many times node v occurs as a substring, nodes 2.. are real palindromes
  * Node v: len[v], link[v] = longest proper palindromic suffix, next[v][c] = c + palindrome(v) + c
- * Nodes 0 and 1 are the roots: node 0 is the empty palindrome, node 1 the imaginary one of length -1
+ * Nodes 0 and 1 are the roots, the empty palindrome and an imaginary one of length -1, nodes 2.. are real palindromes
  *
  * min_palindromic_factorization(s): res[i] = fewest palindromes that the prefix s[0..i] splits into
  *
@@ -89,7 +89,7 @@ vector<int> min_palindromic_factorization(const string& s){
     for (int i = 1; i <= n; i++){
         tree.add(s[i - 1]);
         series.resize(tree.len.size(), 0);
-        /// Palindromic suffixes split into O(log n) runs with equal length differences, each run reuses its link's answer
+        /// Palindromic suffixes form O(log n) runs of equal length differences, each run reuses its link's answer
         for (int v = tree.last; tree.len[v] > 0; v = tree.series_link[v]){
             series[v] = best[i - (tree.len[tree.series_link[v]] + tree.diff[v])];
             if (tree.diff[v] == tree.diff[tree.link[v]]) series[v] = min(series[v], series[tree.link[v]]);

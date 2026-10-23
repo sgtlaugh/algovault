@@ -6,7 +6,9 @@
  * Complexity: O(n), O(1) extra memory
  *
  * minimum_rotation(s): smallest index i such that s[i..] + s[..i) is the least rotation, 0 for an empty s
- * Works on strings, vectors, C strings (literals, char arrays, char pointers) and any indexable container whose elements compare with < and ==
+ *
+ * Notes:
+ *   - Works on strings, vectors, C strings and any indexable container whose elements compare with < and ==
  *
 ***/
 
@@ -17,8 +19,7 @@ using namespace std;
 template <typename Container>
 int minimum_rotation(const Container& s){
     int n = s.size(), i = 0, j = 1, k = 0;
-    /// Two candidate starts i != j, the one that loses a comparison skips past everything it just matched
-    /// The smallest least start is never skipped and i starts at 0, so i ends on it
+    /// The start losing a comparison skips all it matched, the smallest least start never is, so i ends on it
     while (i < n && j < n && k < n){
         auto a = s[(i + k) % n], b = s[(j + k) % n];
         if (a == b){
@@ -34,7 +35,7 @@ int minimum_rotation(const Container& s){
     return i;
 }
 
-/// Without the char* overload a non-const char[] or char* skips the const conversion by binding to the template, which has no size()
+/// Without the char* overload a non-const char[] or char* binds to the template, which has no size()
 int minimum_rotation(const char* s){
     return minimum_rotation(string_view(s));
 }

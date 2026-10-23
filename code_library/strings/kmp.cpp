@@ -3,23 +3,19 @@
  * Knuth-Morris-Pratt (KMP) Algorithm
  * Prefix function, every or the first occurrence of a pattern in a text, and the prefix-function automaton
  *
- * Complexity: O(n + m) where n = text length, m = pattern length
+ * Complexity: O(n + m) for text length n and pattern length m, O(m alphabet) for kmp_automaton
  *
+ * prefix_function(s)[i]: length of the longest proper prefix of s[0..i] that is also its suffix
  * kmp_find(text, pattern, from = 0): start of the first occurrence at index >= from, -1 if none or the pattern is empty
- * Smallest period of s: p = n - prefix_function(s)[n - 1], s is a repetition of s[0..p) iff n % p == 0
  * kmp_search(text, pattern): starting indices of every occurrence, overlaps included, none for an empty pattern
- * prefix_function(s)[i] = length of the longest proper prefix of s[0..i] that is also its suffix, 0 if none
- * kmp_find stops at that match, so a match near from costs far less than kmp_search over the whole text
+ * kmp_automaton(pattern, alphabet = 26, first = 'a'): aut[i][c] = the state after reading symbol first + c in state i
  *
- * Prefix-function automaton: aut[i][c] = KMP state after reading symbol c in state i
- * State i = length of the longest pattern prefix that is a suffix of the text read so far, 0 <= i <= m
- * State m is a full match, and its transitions continue through the border so overlapping matches count
- * Symbols are pattern[i] - first and must lie in [0, alphabet), build is O(m alphabet) time and space
- * Use it for string DP: dp over (text position, KMP state) with one table lookup per transition
- *
- *     auto aut = kmp_automaton("aba", 2);
- *     int state = 0;
- *     for (char ch : text) state = aut[state][ch - 'a'];  // state == 3 where an "aba" ends
+ * Notes:
+ *   - State i is the length of the longest pattern prefix that is a suffix of the text read, so m is a full match
+ *   - State m continues through the border, so overlapping matches count
+ *   - Pattern symbols must lie in [first, first + alphabet)
+ *   - kmp_find stops at that match, so a match near from costs far less than kmp_search over the whole text
+ *   - The smallest period of s is p = n - prefix_function(s)[n - 1], s repeats s[0..p) iff n % p == 0
  *
 ***/
 

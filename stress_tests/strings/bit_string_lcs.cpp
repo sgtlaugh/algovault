@@ -25,12 +25,13 @@ int main(){
 
     for (long long it = 0; it < stress::scaled(2000); it++){
         const string& letters = alphabets[stress::rand_int(0, 4)];
-        int n = stress::rand_int(0, it % 10 ? 70 : 600), m = stress::rand_int(0, it % 10 ? 200 : 600);  /// m crosses several 64-bit blocks
+        /// m crosses several 64-bit blocks
+        int n = stress::rand_int(0, it % 10 ? 70 : 600), m = stress::rand_int(0, it % 10 ? 200 : 600);
         string a = random_string(n, letters), b = random_string(m, letters);
         assert(lcs(a.c_str(), b.c_str()) == dp_lcs(a, b));
     }
 
-    /// Long single-letter runs leave whole 64-bit blocks without a match, so a carry must ripple through an all-ones block
+    /// Long single-letter runs leave 64-bit blocks matchless, so a carry must ripple through an all-ones block
     for (long long it = 0; it < stress::scaled(300); it++){
         string a = random_string(stress::rand_int(0, 200), "ab"), b;
         for (int runs = stress::rand_int(1, 6); runs; runs--) b += string(stress::rand_int(1, 130), "ab"[stress::rand_int(0, 1)]);

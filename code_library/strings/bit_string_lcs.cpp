@@ -2,11 +2,13 @@
  *
  * Bit-String LCS
  * Calculates the longest common subsequence of two strings with bitset
- * L. Allison and T. I. Dix, "A bit-string longest-common-subsequence algorithm", Information Processing Letters 23, pp. 305-310, 1986, doi:10.1016/0020-0190(86)90091-8
+ *
+ * Complexity: O(N M / 64)
  *
  * lcs(A, B): the LCS length of the null-terminated strings A and B (const char*), any byte values except 0
  *
- * Complexity: O(N M / 64)
+ * Notes:
+ *   - Allison and Dix, "A bit-string longest-common-subsequence algorithm", IPL 23, 1986
  *
 ***/
 
@@ -14,8 +16,7 @@
 
 using namespace std;
 
-/// Hyyro's row update V = (V + U) | (V - U) with U = V & match, zeros of V count the LCS
-/// U is a submask of V so V - U never borrows, only the addition carries into the next 64-bit block
+/// Hyyro: V = (V + U) | (V - U), U = V & match, zeros of V count the LCS, only V + U carries between blocks
 int lcs(const char* A, const char* B){
     int i, j, k, n = strlen(A), m = strlen(B), res = 0;
     unsigned long long u, v, sum, mask[256];

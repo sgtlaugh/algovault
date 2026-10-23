@@ -5,18 +5,12 @@
  *
  * Complexity: O(n log n) time and at most n * ceil(log2 n) triples, O(n) extra memory
  *
- * tandem_repeats(s, report) calls report(first, last, l) once per triple:
- *   s[i..i + 2l) is a tandem repeat for every first <= i <= last
- * Every tandem repeat belongs to exactly one triple, triples come in no particular order
- * The repeats themselves can number Theta(n^2) ("aaaa..."): count them as the sum of last - first + 1 in a long long
- * Works on strings, vectors and any indexable container whose elements compare with ==
+ * tandem_repeats(s, report): calls report(first, last, l) per triple, a square s[i..i + 2l) at every first <= i <= last
  *
- * Divide and conquer: repeats crossing the middle come from z-functions of the halves and their reverses,
- * matched without separator characters, so every element value is allowed
- *
- * Example:
- *   tandem_repeats("acababaee", [&](int first, int last, int l){ ... });
- *   // repeats: abab at 2, baba at 3, ee at 7
+ * Notes:
+ *   - Every tandem repeat belongs to exactly one triple, triples come in no particular order
+ *   - The repeats can number Theta(n^2) ("aaaa..."): count them as the sum of last - first + 1 in a long long
+ *   - Works on strings, vectors and any indexable container whose elements compare with ==, of any values
  *
 ***/
 
@@ -49,8 +43,7 @@ namespace main_lorentz{
         }
     }
 
-    /// Reports the repeats inside s[lo..hi), those crossing mid here and the rest recursively
-    /// buf holds 2 * (hi - lo) ints, reused by the children since they finish before this level writes it
+    /// Reports the repeats inside s[lo..hi), buf holds 2 * (hi - lo) ints the children reuse as they finish first
     template <typename Container, typename F>
     void solve(const Container& s, int lo, int hi, int* buf, F& report){
         if (hi - lo < 2) return;
@@ -78,7 +71,7 @@ namespace main_lorentz{
             if (lo1 <= hi1) report(mid - l - hi1, mid - l - lo1, l);
         }
 
-        /// Second half starts in right: the repeat holds the pair (mid - 1, mid - 1 + l) and l1 >= 1 matches up to mid - 1
+        /// Second half starts in right: the repeat holds pair (mid - 1, mid - 1 + l), l1 >= 1 matches up to mid - 1
         for (int l = 1; l <= n_right; l++){
             int back = right_reversed_vs_left_reversed[n_right - l], front = l < n_right ? z_right[l] : 0;
             int lo1 = max(1, l - front), hi1 = min(l, back);

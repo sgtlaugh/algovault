@@ -5,12 +5,12 @@
  *
  * Complexity:
  *   - suffix_array: O(n) when the values span at most n + 256, else O(n log n) to compress them
- *   - SuffixArrayQueries: O(n log n) more for a sparse table of n log n ints, about 76 MB at n = 1e6, plus a copy of the text
+ *   - SuffixArrayQueries: O(n log n) more for a sparse table, about 76 MB at n = 1e6, plus a copy of the text
  *   - common_prefix: O(1)
  *   - occurrences(p, len): O(log n)
  *   - occurrences(pattern): O(|pattern| log n)
  *
- * SuffixArray res = suffix_array(c): c is any container of integers (string, vector<int>, vector<unsigned long long>), any values
+ * SuffixArray res = suffix_array(c): c is a string or any container of integers, of any values
  * res.sa[i]: start of the i-th smallest suffix
  * res.rank[p]: position of the suffix starting at p in sa
  * res.lcp[i]: longest common prefix of the suffixes at sa[i] and sa[i + 1], lcp[n - 1] = 0
@@ -18,10 +18,11 @@
  *
  * SuffixArrayQueries q(c): everything in SuffixArray plus the calls below
  * q.common_prefix(i, j): longest common prefix of the suffixes starting at i and j
- * q.occurrences(p, len): [lo, hi) such that sa[lo .. hi) are exactly the starts of s[p .. p + len), 0 <= p, 0 <= len, p + len <= n
+ * q.occurrences(p, len): [lo, hi) with sa[lo .. hi) the starts of s[p .. p + len), 0 <= p, 0 <= len, p + len <= n
  * q.occurrences(pattern): the same range for any pattern
  *
- * The occurrence count is hi - lo, an absent pattern gives lo == hi at its insertion point, an empty one gives [0, n)
+ * Notes:
+ *   - The count is hi - lo, an absent pattern gives lo == hi at its insertion point, an empty one gives [0, n)
  *
 ***/
 
@@ -52,7 +53,7 @@ namespace SuffixArraySAIS{
             }
         };
 
-        /// ~p marks p - 1 for the other pass, which replaces a type array: p - 1 has the type of p when text[p - 1] == text[p]
+        /// ~p marks p - 1 for the other pass, no type array: p - 1 has the type of p when text[p - 1] == text[p]
         auto induce = [&](){
             copy(start.begin(), start.end() - 1, bucket.begin());
             auto place_l = [&](int p){ sa[bucket[text[p]]++] = p > 0 && text[p - 1] < text[p] ? ~p : p; };
@@ -93,7 +94,7 @@ namespace SuffixArraySAIS{
             if (end < n && text[end] > text[p]) sa[sorted++] = p;
         }
 
-        /// LMS positions are at least 2 apart, so sa[lms_count + p / 2] is a free slot for each, holding its length, then its name
+        /// LMS positions are at least 2 apart, so sa[lms_count + p / 2] is a free slot for its length, then its name
         fill(sa + lms_count, sa + n, 0);
         int next = 0;
         for_each_lms([&](int p){
@@ -113,7 +114,7 @@ namespace SuffixArraySAIS{
             prev = p, prev_len = len;
         }
 
-        /// The names in text order sort like the LMS suffixes, lms_count <= n / 2 so they and their suffix array both fit in sa
+        /// Names in text order sort like the LMS suffixes, lms_count <= n / 2 so they and their suffix array fit in sa
         int* reduced = sa + n - lms_count;
         int filled = lms_count;
         for (int i = n - 1; i >= lms_count; i--){
@@ -154,7 +155,7 @@ namespace SuffixArraySAIS{
             int j = sa[rank[i] + 1];
             while (i + k < n && j + k < n && c[i + k] == c[j + k]) k++;
             lcp[rank[i]] = k;
-            if (k > 0) k--;  /// Kasai: dropping the first character loses at most 1 of the match, so the scan totals O(n)
+            if (k > 0) k--;  /// Kasai: dropping the first character loses at most 1 of the match, so O(n) total
         }
         return lcp;
     }
@@ -183,7 +184,7 @@ SuffixArray suffix_array(const Container& c){
     using T = typename Container::value_type;
     using U = make_unsigned_t<T>;
     T lo = *min_element(c.begin(), c.end()), hi = *max_element(c.begin(), c.end());
-    auto offset = [&](T x){ return (unsigned long long)U(U(x) - U(lo)); };  /// modular unsigned difference, exact as x >= lo
+    auto offset = [&](T x){ return (unsigned long long)U(U(x) - U(lo)); };  /// exact as x >= lo
 
     bool compress = offset(hi) > (unsigned long long)n + 256;
     vector<T> values;

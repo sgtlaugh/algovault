@@ -2,16 +2,18 @@
  *
  * Dynamic Aho-Corasick Automaton
  * Multi-pattern string matching with online pattern insertion
- * Uses binary decomposition over static Aho-Corasick automata
  *
  * Complexity, with N patterns inserted:
- *   - insert: O(|pattern| SIGMA log N) amortized, a pattern is rebuilt into at most log N + 1 automata, each build is O(SIGMA) per node
- *   - count: O(|text| log N), one scan per non-empty slot (popcount(N) of them), occurrences come from precomputed counters
- *   - memory: O(SIGMA) ints per trie node, clear() keeps vector capacity so each slot holds on to its peak size
+ *   - insert: O(|p| SIGMA log N) amortized
+ *   - count: O(|t| log N)
+ *   - memory: O(SIGMA) ints per trie node, each automaton keeps its peak capacity
  *
- * DynamicAhoCorasick<SIGMA, BASE> ac; pattern characters must lie in [BASE, BASE + SIGMA), defaults to 'a'..'z'
- * ac.insert(p): adds pattern p, no build() call needed, ac.count(t): total occurrences of all patterns in t
- * Deletion: keep a second instance for removed patterns, answer = added.count(t) - removed.count(t)
+ * DynamicAhoCorasick<SIGMA = 26, BASE = 'a'> ac: an empty automaton, characters must lie in [BASE, BASE + SIGMA)
+ * ac.insert(p): adds pattern p, no build() call needed
+ * ac.count(t): total occurrences of all patterns in t
+ *
+ * Notes:
+ *   - For deletions keep a second instance of removed patterns, the answer is added.count(t) - removed.count(t)
  *
 ***/
 
@@ -28,7 +30,7 @@ struct AhoCorasick{
     vector<long long> counter;
     vector<string> dictionary;
 
-    /// go[node][char] = trie child before build(), full automaton transition after. 0 doubles as "no child" since the root is never a child
+    /// go[node][c] is the trie child before build(), the automaton move after, 0 is no child as the root is never one
     vector<array<int, SIGMA>> go;
 
     AhoCorasick(){

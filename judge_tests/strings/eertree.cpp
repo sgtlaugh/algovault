@@ -20,7 +20,7 @@ int main(){
         longest_suffix.push_back(tree.last);
     }
 
-    /// Node 0 (empty) is EVEN = 0, node 1 (imaginary) is ODD = -1, real nodes v >= 2 are created in judge order as v - 1
+    /// Node 0 (empty) is 0, node 1 (imaginary) is -1, real nodes v >= 2 come in judge order as v - 1
     auto id = [](int v){ return v < 2 ? -v : v - 1; };
     int nodes = tree.len.size();
     vector<int> parent(nodes);

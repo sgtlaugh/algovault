@@ -60,7 +60,8 @@ void check_large(){
 int main(){
     for (long long it = 0; it < stress::scaled(60000); it++){
         int n = stress::rand_int(1, 8), m = stress::rand_int(1, 8), alphabet = stress::rand_int(1, 3);
-        auto pattern1 = random_grid(stress::rand_int(1, n + 2), stress::rand_int(1, m + 2), alphabet);  /// sometimes larger than the text
+        /// sometimes larger than the text
+        auto pattern1 = random_grid(stress::rand_int(1, n + 2), stress::rand_int(1, m + 2), alphabet);
         auto pattern2 = random_grid(stress::rand_int(1, n), stress::rand_int(1, m), alphabet);
         PatternMatcher2D matcher1(pattern1), matcher2(pattern2);
 

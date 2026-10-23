@@ -13,7 +13,7 @@ void check(const Container& text, const Container& pattern){
     }
     assert(kmp_search(text, pattern) == expected);
 
-    /// the first brute-force match at or after from, every from on short texts and about 40 on long ones, past the end too
+    /// first brute-force match at or after from: every from on short texts, about 40 on long ones, past the end too
     for (int from = 0; from <= n + 1; from += max(1, n / 40)){
         auto it = lower_bound(expected.begin(), expected.end(), from);
         assert(kmp_find(text, pattern, from) == (it == expected.end() ? -1 : *it));

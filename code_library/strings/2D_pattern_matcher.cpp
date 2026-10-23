@@ -5,19 +5,12 @@
  *
  * Complexity: O(r c) to build, O(n m) per find
  *
- * PatternMatcher2D matcher(pattern) hashes the pattern once, find(text) can then be called on any number of texts
- * find returns the top-left corners (i, j) of all matches in column-major order (by j, then by i):
- * text[i + k][j + l] == pattern[k][l] for every 0 <= k < r, 0 <= l < c
- * All rows of the pattern must have the same non-zero length, the same for the rows of a text
- * A pattern larger than the text in either dimension has no match
+ * PatternMatcher2D matcher(pattern): hashes the pattern, whose rows share one non-zero length
+ * matcher.find(text): every (i, j) with text[i + k][j + l] == pattern[k][l] for all k < r, l < c, sorted by j then i
  *
- * Hashing modulo 2^61 - 1 with two random bases per instance
- * A false match has probability of about 3 * n * m * (r + c) / 2^61 (Schwartz-Zippel over the base range)
- * Modulo 2^64 is avoided on purpose, Thue-Morse patterns collide there for every odd base
- *
- * Example:
- *   text = {"ababa", "babab", "abaaa"}, pattern = {"ba", "ab"}
- *   PatternMatcher2D(pattern).find(text) == {{1, 0}, {0, 1}, {0, 3}}
+ * Notes:
+ *   - The rows of a text share one length, a pattern larger than the text in either dimension has no match
+ *   - A false match has probability about 3 n m (r + c) / 2^61, from two random bases modulo 2^61 - 1
  *
 ***/
 

@@ -3,11 +3,12 @@
  * Suffix Automaton
  * Smallest DFA accepting every suffix of a string, built online one character at a time
  *
- * Complexity: O(n SIGMA) time and memory to build, at most max(n + 1, 2n - 1) states
- * contains / occurrences: O(|pattern|), plus O(n) on the first occurrences call after an add
- * longest_common_substring(a, b): O(|a| SIGMA + |b|)
+ * Complexity:
+ *   - build: O(n SIGMA) time and memory, at most max(n + 1, 2n - 1) states
+ *   - contains, occurrences: O(|pattern|), plus O(n) on the first occurrences call after an add
+ *   - longest_common_substring(a, b): O(|a| SIGMA + |b|)
  *
- * SuffixAutomaton<SIGMA, BASE> sa(s); characters must lie in [BASE, BASE + SIGMA), defaults to 'a'..'z'
+ * SuffixAutomaton<SIGMA = 26, BASE = 'a'> sa(s): the automaton of s, characters must lie in [BASE, BASE + SIGMA)
  * sa.add(c): appends c to the string
  * sa.contains(p): true if p is a substring, the empty string included
  * sa.distinct_substrings(): number of distinct non-empty substrings so far

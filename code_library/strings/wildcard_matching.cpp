@@ -5,21 +5,15 @@
  *
  * Complexity: O(n log n) for text length n, three convolutions modulo 998244353
  *
- * wildcard_match(text, pattern, wildcard = '?') returns the 0-indexed start positions in increasing order
- * Works on strings, string literals (mixed freely) and on vectors of any ordered value type, pass the wildcard value for vectors
- * An empty pattern or one longer than the text returns no positions, as kmp_search does
- * Requires n <= 2^23, the largest NTT length modulo 998244353
- * The NTT core is a checked copy of algebra/ntt.cpp
+ * wildcard_match(text, pattern, wildcard = '?'): the 0-indexed start positions in increasing order
  *
- * Each non-wildcard value gets a random nonzero weight w (0 for the wildcard), and position i scores
- * sum_j w(p[j]) * w(t[i + j]) * (w(p[j]) - w(t[i + j]))^2, which is 0 exactly when every pair matches
- * A real match is always reported, a mismatching position is falsely reported with probability at most 4 / 998244352
- * A whole call reports some false position with probability at most (n - m + 1) * 4 / 998244352 (~3% at n = 2^23)
- * Small alphabets err far less: with two letters every score is a multiple of one term, so a call errs only if both weights collide
- *
- * Example:
- *   wildcard_match("abacaba", "a?a")  // {0, 2, 4}
- *   wildcard_match("a?c?b", "abc")    // {0}
+ * Notes:
+ *   - Works on strings and string literals mixed freely, and on vectors of any ordered type given the wildcard value
+ *   - An empty pattern or one longer than the text returns no positions, as kmp_search does
+ *   - Requires n <= 2^23, the largest NTT length modulo 998244353
+ *   - A real match is always reported, a mismatching position is reported with probability at most 4 / 998244352
+ *   - A call reports some false position with probability at most (n - m + 1) * 4 / 998244352, about 3% at n = 2^23
+ *   - Small alphabets err far less: with two letters a call errs only if both random weights collide
  *
 ***/
 
@@ -49,7 +43,7 @@ namespace wildcard_ntt{
         return steps ? inverse_mod_2_32(p, y * (2 - p * y), steps - 1) : y;
     }
 
-    /// Values live in [0, BOUND): 2 MOD below 2^30 saves the final reduction, MOD above, so u - v + BOUND stays below 2^32
+    /// Values live in [0, BOUND), 2 MOD below 2^30 to skip the final reduction, else MOD, so u - v + BOUND < 2^32
     template<unsigned MOD>
     constexpr unsigned bound(){
         return MOD < (1u << 30) ? 2 * MOD : MOD;
@@ -63,7 +57,7 @@ namespace wildcard_ntt{
         return MOD < (1u << 30) || r < MOD ? r : r - MOD;
     }
 
-    /// rt[k + j] = w^j R modulo MOD for every power of two k < n, where w is a primitive 2k-th root of unity, or its inverse
+    /// rt[k + j] = w^j R modulo MOD for each power of two k < n, w a primitive 2k-th root of unity or its inverse
     template<unsigned MOD, unsigned ROOT>
     vector<unsigned> roots(int n, bool invert){
         vector<unsigned> rt(max(n, 2), 1);
@@ -77,7 +71,7 @@ namespace wildcard_ntt{
         return rt;
     }
 
-    /// Decimation in frequency, natural order in, bit-reversed order out, a.size() a power of two no larger than rt.size()
+    /// Decimation in frequency, natural order in, bit-reversed order out, a.size() a power of two at most rt.size()
     template<unsigned MOD>
     void forward_transform(vector<unsigned>& a, const vector<unsigned>& rt){
         const unsigned BOUND = bound<MOD>();
@@ -133,7 +127,7 @@ vector<int> wildcard_match(const Container& text, const Container& pattern, type
     auto random_weight = [&]{ return uniform_int_distribution<unsigned>(1, MOD - 1)(rng); };
     vector<unsigned> wt(n), wp(m);
 
-    /// Equal values share one weight, given out by a byte table or by runs of a sort: a map lookup per element cost 4x the NTTs
+    /// Equal values share one weight, from a byte table or runs of a sort: a map lookup per element cost 4x the NTTs
     if constexpr (is_integral_v<T> && sizeof(T) == 1){
         array<unsigned, 256> weight_of;
         for (auto& w : weight_of) w = random_weight();

@@ -96,7 +96,8 @@ int main(){
 
         for (int q = 0; q < 10; q++){
             string text = random_word(stress::rand_int(0, it % 10 ? 40 : 2000), alphabet);
-            for (auto& c : text) if (stress::rand_int(0, 15) == 0) c = "A{ .\xe9\x80"[stress::rand_int(0, 5)];  /// outside the alphabet, including bytes above 0x7f
+            /// outside the alphabet, including bytes above 0x7f
+            for (auto& c : text) if (stress::rand_int(0, 15) == 0) c = "A{ .\xe9\x80"[stress::rand_int(0, 5)];
             assert(ac.count(text) == brute(patterns, text));
             assert(ac.occurrences(text) == brute_each(patterns, text));
         }

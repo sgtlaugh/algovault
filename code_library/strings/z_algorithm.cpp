@@ -1,11 +1,14 @@
 /***
  *
  * Z Algorithm
- *
- * z_function(s): z[i] = length of the longest common prefix of s[i..] and s, z[0] = n, empty for n = 0
- *     s is a string, C string, vector or any container with size() and [] whose elements compare with ==
+ * Longest common prefix of every suffix with the whole sequence
  *
  * Complexity: O(n)
+ *
+ * z_function(s): z[i] = length of the longest common prefix of s[i..] and s, z[0] = n, empty for n = 0
+ *
+ * Notes:
+ *   - s is a string, C string, vector or any container with size() and [] whose elements compare with ==
  *
 ***/
 

@@ -3,13 +3,15 @@
  * Manacher's Algorithm
  * Length of the longest palindrome around every center of a string or vector
  *
- * Complexity: O(n) time and memory
+ * Complexity: O(n)
  *
- * pal = manacher(s) has 2n - 1 entries, empty for an empty s, 0-based positions, ranges [l, r] inclusive
- *   i even: pal[i] = length of the longest odd palindrome centered at s[i / 2]
- *   i odd:  pal[i] = length of the longest even palindrome centered between s[i / 2] and s[i / 2 + 1], 0 if none
- * s[l..r] is a palindrome iff pal[l + r] >= r - l + 1
- * The palindrome at center i starts at (i - pal[i] + 1) / 2, the longest one has length *max_element(pal)
+ * pal = manacher(s): 2n - 1 entries, empty for an empty s
+ * pal[i] for even i: length of the longest odd palindrome centered at s[i / 2]
+ * pal[i] for odd i: length of the longest even palindrome centered between s[i / 2] and s[i / 2 + 1], 0 if none
+ *
+ * Notes:
+ *   - s[l..r], l and r inclusive, is a palindrome iff pal[l + r] >= r - l + 1
+ *   - The palindrome at center i starts at (i - pal[i] + 1) / 2
  *
 ***/
 

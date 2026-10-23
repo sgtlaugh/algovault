@@ -5,7 +5,7 @@
  *
  * Complexity:
  *   - insert: O(|p|), plus O(SIGMA) for each new node
- *   - build: O(SIGMA L), L = sum of pattern lengths, as there are at most L + 1 nodes
+ *   - build: O(SIGMA L), L = sum of pattern lengths
  *   - count: O(|t|)
  *   - occurrences: O(|t| + L)
  *   - memory: O(SIGMA) ints per node
@@ -25,8 +25,9 @@
  * ac.terminal[i]: the node of the i-th inserted pattern
  * ac.order: every node in BFS order, so link(v) comes before v, after build()
  *
- * A text character outside [BASE, BASE + SIGMA) ends every match, next(v, c) returns the root for it
- * Remap a sparse alphabet such as ACGT to BASE, BASE + 1, ... first
+ * Notes:
+ *   - A text character outside [BASE, BASE + SIGMA) ends every match, next(v, c) returns the root for it
+ *   - Remap a sparse alphabet such as ACGT to BASE, BASE + 1, ... first
  *
 ***/
 
@@ -42,7 +43,7 @@ struct AhoCorasick{
     vector<long long> counter;
     vector<string> dictionary;
 
-    /// go[node][char] = trie child before build(), full automaton transition after. 0 doubles as "no child" since the root is never a child
+    /// go[node][c] is the trie child before build(), the automaton move after, 0 is no child as the root is never one
     vector<array<int, SIGMA>> go;
 
     AhoCorasick(){
