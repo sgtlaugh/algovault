@@ -6,8 +6,8 @@
  * Complexity: O(n) to build Combinatorics(n, mod), O(1) per query afterwards
  *
  * Combinatorics comb(n, mod): tables for 0..n, mod must be a prime with n < mod < 2^31
- * comb.nCr(n, k), comb.nPr(n, k): 0 when k < 0 or k > n, n must not exceed the table size
  * comb.inverse(i): inverse of i for 1 <= i <= n, comb.factorial(i), comb.inv_factorial(i)
+ * comb.nCr(n, k), comb.nPr(n, k): 0 when k < 0 or k > n, n must not exceed the table size
  *
  * The tables are int to halve their memory, so read them through the calls, which return long long
  * Extended gcd, modular inverse for any modulus and diophantine equations: extended_gcd.cpp
@@ -35,6 +35,11 @@ struct Combinatorics{
         for (int i = 1; i <= n; i++) inv_fact[i] = (long long)inv_fact[i - 1] * inv[i] % mod;
     }
 
+    long long inverse(int i) const{
+        assert(1 <= i && i < (int)inv.size());
+        return inv[i];
+    }
+
     long long factorial(int i) const{
         assert(0 <= i && i < (int)fact.size());
         return fact[i];
@@ -43,11 +48,6 @@ struct Combinatorics{
     long long inv_factorial(int i) const{
         assert(0 <= i && i < (int)fact.size());
         return inv_fact[i];
-    }
-
-    long long inverse(int i) const{
-        assert(1 <= i && i < (int)inv.size());
-        return inv[i];
     }
 
     long long nCr(int n, int k) const{

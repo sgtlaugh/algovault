@@ -5,30 +5,16 @@
  *
  * Complexity: O(n^2) for permutation_rank (n <= 20), O(n + 21^2) for kth_permutation
  *
- * permutation_rank(p): 0-based rank of p among all orderings of its values, in [0, n!)
- *   p holds n <= 20 distinct values of any kind (1..n, 0..n-1, arbitrary), duplicates give no meaningful rank
  * kth_permutation(n, k): 0-based k-th permutation of 0..n-1, any n >= 0 and 0 <= k < n! (any k >= 0 when n > 20)
  *   permutation_rank(kth_permutation(n, k)) == k, add 1 to each element for 1-based problems
+ * permutation_rank(p): 0-based rank of p among all orderings of its values, in [0, n!)
+ *   p holds n <= 20 distinct values of any kind (1..n, 0..n-1, arbitrary), duplicates give no meaningful rank
  *
 ***/
 
 #include <bits/stdtr1c++.h>
 
 using namespace std;
-
-template <typename Permutation>
-long long permutation_rank(const Permutation& p){
-    int n = p.size();
-    assert(n <= 20);
-
-    long long res = 0;
-    for (int i = 0; i < n; i++){
-        int smaller = 0;
-        for (int j = i + 1; j < n; j++) smaller += p[j] < p[i];
-        res = res * (n - i) + smaller;
-    }
-    return res;
-}
 
 /// Only the last 21 positions can move for k < 2^63, the prefix stays the identity
 vector<int> kth_permutation(int n, long long k){
@@ -42,6 +28,20 @@ vector<int> kth_permutation(int n, long long k){
         int j = i + k / fact[n - 1 - i];
         k %= fact[n - 1 - i];
         rotate(res.begin() + i, res.begin() + j, res.begin() + j + 1);
+    }
+    return res;
+}
+
+template <typename Permutation>
+long long permutation_rank(const Permutation& p){
+    int n = p.size();
+    assert(n <= 20);
+
+    long long res = 0;
+    for (int i = 0; i < n; i++){
+        int smaller = 0;
+        for (int j = i + 1; j < n; j++) smaller += p[j] < p[i];
+        res = res * (n - i) + smaller;
     }
     return res;
 }
