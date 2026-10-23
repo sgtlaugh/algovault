@@ -148,15 +148,15 @@
 
 #### [Subset Convolution and SOS DP](subset_convolution.cpp)
 
-- [Codeforces 165E - Compatible Numbers](https://codeforces.com/problemset/problem/165/E)
-- [Codeforces 383E - Vowels](https://codeforces.com/problemset/problem/383/E)
+- [Codeforces 165E - Compatible Numbers](https://codeforces.com/problemset/problem/165/E) [✅](../../practice/algebra/codeforces_165e.cpp "Accepted solution")
+- [Codeforces 383E - Vowels](https://codeforces.com/problemset/problem/383/E) [✅](../../practice/algebra/codeforces_383e.cpp "Accepted solution")
 - [Codeforces 449D - Jzzhu and Numbers](https://codeforces.com/problemset/problem/449/D) [✅](../../practice/algebra/codeforces_449d.cpp "Accepted solution")
 - [Codeforces 1208F - Bits And Pieces](https://codeforces.com/problemset/problem/1208/F)
-- [Codeforces 1326F2 - Wise Men (Hard Version)](https://codeforces.com/problemset/problem/1326/F2)
-- [CSES 1654 - SOS Bit Problem](https://cses.fi/problemset/task/1654)
-- [CSES 3141 - And Subset Count](https://cses.fi/problemset/task/3141)
+- [Codeforces 1326F2 - Wise Men (Hard Version)](https://codeforces.com/problemset/problem/1326/F2) [✅](../../practice/algebra/codeforces_1326f2.cpp "Accepted solution")
+- [CSES 1654 - SOS Bit Problem](https://cses.fi/problemset/task/1654) [✅](../../practice/algebra/cses_1654.cpp "Accepted solution")
+- [CSES 3141 - And Subset Count](https://cses.fi/problemset/task/3141) [✅](../../practice/algebra/cses_3141.cpp "Accepted solution")
 - [oj.uz JOI18_snake_escaping - Snake Escaping](https://oj.uz/problem/view/JOI18_snake_escaping)
-- [USACO 1309 - Problem Setting](https://usaco.org/index.php?page=viewproblem2&cpid=1309)
+- [USACO 1309 - Problem Setting](https://usaco.org/index.php?page=viewproblem2&cpid=1309) [✅](../../practice/algebra/usaco_1309.cpp "Accepted solution")
 
 #### [Walsh Hadamard Transform](walsh_hadamard.cpp)
 
