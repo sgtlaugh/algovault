@@ -6,6 +6,12 @@
 
 /// Point updates and rectangle queries against a list of every update, one instance because each preallocates ~270 MB
 int main(){
+    /// 2^4 slots hold 12 nodes: on one column rows 15 down to 4 create nodes 16 down to 5, one each, and row 3 the 13th
+    FenwickSparse2D<long long> tiny(16, 1, 4);
+    for (int i = 15; i >= 4; i--) tiny.update(i, 0, i);
+    assert(tiny.query(4, 0, 15, 0) == 114);
+    stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", [&]{ tiny.update(3, 0, 1); });
+
     const int N = 1000000000, M = 1000000000;
     static FenwickSparse2D<long long> fen(N, M);
     vector<array<long long, 3>> points;  /// i, j, value
