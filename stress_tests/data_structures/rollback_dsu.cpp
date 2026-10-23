@@ -14,7 +14,6 @@ void check_depths(const Dsu& dsu){
     }
 }
 
-/// Applies one union to a label array in O(n)
 void relabel(vector<int>& label, int a, int b){
     int from = label[a], to = label[b];
     if (from != to) for (auto& x : label) if (x == from) x = to;
@@ -28,8 +27,7 @@ vector<int> naive_labels(int n, const vector<pair<int, int>>& edges){
     return label;
 }
 
-/// Component sizes indexed by label
-vector<int> naive_sizes(const vector<int>& label){
+vector<int> sizes_by_label(const vector<int>& label){
     vector<int> cnt(label.size());
     for (int x : label) cnt[x]++;
     return cnt;
@@ -70,7 +68,7 @@ int main(){
                 label = naive_labels(n, unions);
             }
 
-            vector<int> cnt = naive_sizes(label);
+            vector<int> cnt = sizes_by_label(label);
             assert(dsu.time() == (int)unions.size());
             for (int i = 0; i <= n; i++){
                 int j = stress::rand_int(0, n);
