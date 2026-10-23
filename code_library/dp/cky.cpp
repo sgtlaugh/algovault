@@ -6,8 +6,8 @@
  * Complexity: O(n^3 B + n T) for B binary and T terminal rules, O(n^2 r) memory
  *
  * CKY parser(r): nonterminals 0..r-1
- * parser.add_terminal(A, c): rule A -> c
  * parser.add_binary(A, B, C): rule A -> B C
+ * parser.add_terminal(A, c): rule A -> c
  * parser.accepts(s, start): true if start derives s, the empty string is never accepted (no epsilon rules in CNF)
  *
  * can[len][i][A] = A derives s[i .. i + len - 1], built from shorter spans split at every point
@@ -25,12 +25,12 @@ struct CKY{
 
     CKY(int r) : r(r) {}
 
-    void add_terminal(int a, char c){
-        terminals.push_back({a, c});
-    }
-
     void add_binary(int a, int b, int c){
         binaries.push_back({a, b, c});
+    }
+
+    void add_terminal(int a, char c){
+        terminals.push_back({a, c});
     }
 
     bool accepts(const string& s, int start) const{

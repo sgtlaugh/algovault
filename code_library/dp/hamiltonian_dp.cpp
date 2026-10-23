@@ -8,9 +8,9 @@
  * HamiltonianGraph g(n): vertices 0 to n - 1, n >= 1
  * g.add_directed_edge(u, v, w): edge u -> v, parallel edges keep the minimum weight
  * g.add_edge(u, v, w): undirected edge, both directions
- * g.shortest_path(): {cost, order} of the cheapest path, any start and end
  * g.shortest_cycle(): {cost, order} of the cheapest cycle, order starts at 0 and closes back to it
  *     a cycle on n = 1 vertex is the self-loop 0 -> 0, on n = 2 it is 0 -> 1 -> 0
+ * g.shortest_path(): {cost, order} of the cheapest path, any start and end
  * Both return {LLONG_MAX, {}} when no such path or cycle exists
  *
  * Weights may be negative; every path sum must fit in a long long, so |w| <= 4e17 is safe up to n = 20
@@ -55,30 +55,6 @@ struct HamiltonianGraph{
         return solve(false);
     }
 
-    vector<long long> build_dp(bool cycle) const{
-        vector<long long> dp((size_t(1) << n) * n, INF);
-        if (cycle) dp[n] = 0;  // flat index mask * n + i with mask = {0}, i = 0
-        else{
-            for (int i = 0; i < n; i++) dp[(size_t(1) << i) * n + i] = 0;
-        }
-
-        for (size_t mask = 1; mask < (size_t(1) << n); mask++){
-            for (int i = 0; i < n; i++){
-                if (!(mask >> i & 1) || mask == (size_t(1) << i)) continue;
-
-                size_t prev = mask ^ (size_t(1) << i);
-                long long best = INF;
-                for (int j = 0; j < n; j++){
-                    long long d = dp[prev * n + j];
-                    if (d != INF && w[j][i] != INF) best = min(best, d + w[j][i]);
-                }
-                dp[mask * n + i] = best;
-            }
-        }
-
-        return dp;
-    }
-
     pair<long long, vector<int>> solve(bool cycle) const{
         vector<long long> dp = build_dp(cycle);
         size_t full = (size_t(1) << n) - 1;
@@ -109,6 +85,30 @@ struct HamiltonianGraph{
         order[0] = last;
 
         return {cost, order};
+    }
+
+    vector<long long> build_dp(bool cycle) const{
+        vector<long long> dp((size_t(1) << n) * n, INF);
+        if (cycle) dp[n] = 0;  // flat index mask * n + i with mask = {0}, i = 0
+        else{
+            for (int i = 0; i < n; i++) dp[(size_t(1) << i) * n + i] = 0;
+        }
+
+        for (size_t mask = 1; mask < (size_t(1) << n); mask++){
+            for (int i = 0; i < n; i++){
+                if (!(mask >> i & 1) || mask == (size_t(1) << i)) continue;
+
+                size_t prev = mask ^ (size_t(1) << i);
+                long long best = INF;
+                for (int j = 0; j < n; j++){
+                    long long d = dp[prev * n + j];
+                    if (d != INF && w[j][i] != INF) best = min(best, d + w[j][i]);
+                }
+                dp[mask * n + i] = best;
+            }
+        }
+
+        return dp;
     }
 };
 

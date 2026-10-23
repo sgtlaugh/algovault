@@ -6,17 +6,17 @@
  * Complexity: O(log n) per add, O(1) per shift, prefix_min, suffix_min and min query, O(n) per eval, n = breakpoints added so far
  *
  * SlopeTrick<T> f: starts as f(x) = 0, T is a signed integer type
- * add_const(c): f(x) += c
- * add_x_minus_a(a): f(x) += max(0, x - a)
  * add_a_minus_x(a): f(x) += max(0, a - x)
  * add_abs(a): f(x) += |x - a|
+ * add_const(c): f(x) += c
+ * add_x_minus_a(a): f(x) += max(0, x - a)
  * prefix_min(): f(x) = min of f(y) over y <= x, drops every breakpoint right of the minimum
- * suffix_min(): f(x) = min of f(y) over y >= x
  * shift(lo, hi): f(x) = min of f(y) over x - hi <= y <= x - lo, needs lo <= hi
  * shift(d): f(x) = f(x - d), moves the graph right by d
- * get_min(): the minimum of f
+ * suffix_min(): f(x) = min of f(y) over y >= x
  * argmin(): [l, r], the range where f is minimal, -INF or INF when it is unbounded on that side, INF = max of T / 2
  * eval(x): f(x), without changing f
+ * get_min(): the minimum of f
  *
  * Keep every breakpoint, each side's accumulated shift and every eval argument within [-1e18, 1e18] for long long
  * or [-1e9, 1e9] for int, and the minimum and any evaluated value within the range of T
@@ -60,21 +60,6 @@ struct SlopeTrick{
         push_right(pop_left());
     }
 
-    pair<T, T> argmin() const{
-        return {top_left(), top_right()};
-    }
-
-    T eval(T x) const{
-        T res = min_f;
-        for (T l : left) res += max(T(0), l + add_left - x);
-        for (T r : right) res += max(T(0), x - r - add_right);
-        return res;
-    }
-
-    T get_min() const{
-        return min_f;
-    }
-
     void prefix_min(){
         right.clear();
         add_right = 0;
@@ -94,11 +79,33 @@ struct SlopeTrick{
         add_left = 0;
     }
 
-    T pop_left(){
-        T x = top_left();
-        pop_heap(left.begin(), left.end());
-        left.pop_back();
-        return x;
+    pair<T, T> argmin() const{
+        return {top_left(), top_right()};
+    }
+
+    T eval(T x) const{
+        T res = min_f;
+        for (T l : left) res += max(T(0), l + add_left - x);
+        for (T r : right) res += max(T(0), x - r - add_right);
+        return res;
+    }
+
+    T get_min() const{
+        return min_f;
+    }
+
+    T top_right() const{
+        return right.empty() ? INF : right[0] + add_right;
+    }
+
+    void push_right(T x){
+        right.push_back(x - add_right);
+        push_heap(right.begin(), right.end(), greater<T>());
+    }
+
+    void push_left(T x){
+        left.push_back(x - add_left);
+        push_heap(left.begin(), left.end());
     }
 
     T pop_right(){
@@ -108,22 +115,15 @@ struct SlopeTrick{
         return x;
     }
 
-    void push_left(T x){
-        left.push_back(x - add_left);
-        push_heap(left.begin(), left.end());
-    }
-
-    void push_right(T x){
-        right.push_back(x - add_right);
-        push_heap(right.begin(), right.end(), greater<T>());
-    }
-
     T top_left() const{
         return left.empty() ? -INF : left[0] + add_left;
     }
 
-    T top_right() const{
-        return right.empty() ? INF : right[0] + add_right;
+    T pop_left(){
+        T x = top_left();
+        pop_heap(left.begin(), left.end());
+        left.pop_back();
+        return x;
     }
 };
 

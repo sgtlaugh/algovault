@@ -6,8 +6,8 @@
  * Complexity: O(n log n)
  *
  * cmp is a strict weak ordering that defines "increasing", allow_equal = true gives the non-decreasing version
- * lis_vector(a)[i] = length of the longest increasing subsequence ending at index i
  * lis_indices(a) = increasing indices of one longest increasing subsequence, empty for empty input
+ * lis_vector(a)[i] = length of the longest increasing subsequence ending at index i
  * lds_* are the decreasing counterparts, lis_indices(a, false, greater<T>()) gives one LDS
  *
  * Example:

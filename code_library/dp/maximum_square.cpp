@@ -5,9 +5,9 @@
  *
  * Complexity: O(r c) for an r x c grid
  *
- * square_sizes(g)[i][j]: side of the largest filled square whose bottom-right cell is (i, j)
  * diamond_sizes(g)[i][j]: size of the largest filled diamond whose bottom tip is (i, j)
  *     a diamond of size k is every cell within Manhattan distance k - 1 of (i - k + 1, j)
+ * square_sizes(g)[i][j]: side of the largest filled square whose bottom-right cell is (i, j)
  * A value k counts k shapes ending there (sizes 1..k), so the sum is the number of filled squares or diamonds
  * and the maximum is the largest one; g[i][j] != 0 means filled
  *
@@ -16,21 +16,6 @@
 #include <bits/stdtr1c++.h>
 
 using namespace std;
-
-vector<vector<int>> square_sizes(const vector<vector<int>>& g){
-    int n = g.size(), m = n ? g[0].size() : 0;
-    vector<vector<int>> dp(n, vector<int>(m, 0));
-
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < m; j++){
-            if (!g[i][j]) continue;
-            int up = i ? dp[i - 1][j] : 0, left = j ? dp[i][j - 1] : 0, x = min(up, left);
-            dp[i][j] = x + (g[i - x][j - x] != 0);  /// the corner cell decides between min(up, left) and one more
-        }
-    }
-
-    return dp;
-}
 
 vector<vector<int>> diamond_sizes(const vector<vector<int>>& g){
     int n = g.size(), m = n ? g[0].size() : 0;
@@ -45,6 +30,21 @@ vector<vector<int>> diamond_sizes(const vector<vector<int>>& g){
             if (!x || !filled(i - 1, j)) dp[i][j] = 1;
             else if (filled(i - 2 * x, j) && filled(i - 2 * x + 1, j)) dp[i][j] = x + 1;
             else dp[i][j] = x;
+        }
+    }
+
+    return dp;
+}
+
+vector<vector<int>> square_sizes(const vector<vector<int>>& g){
+    int n = g.size(), m = n ? g[0].size() : 0;
+    vector<vector<int>> dp(n, vector<int>(m, 0));
+
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < m; j++){
+            if (!g[i][j]) continue;
+            int up = i ? dp[i - 1][j] : 0, left = j ? dp[i][j - 1] : 0, x = min(up, left);
+            dp[i][j] = x + (g[i - x][j - x] != 0);  /// the corner cell decides between min(up, left) and one more
         }
     }
 
