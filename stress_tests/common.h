@@ -13,7 +13,7 @@
  * STRESS_SCALE multiplies iteration counts for longer runs, the default is 1
  * The seed is printed to stderr so any failing run can be replayed
  *
- * stress::expect_assert(library, call): call, run in a child, must abort on an assert in library, a path suffix like "data_structures/mo.cpp"
+ * stress::expect_assert(library, call): call must abort on an assert in library, a path suffix like "strings/kmp.cpp"
  *
 ***/
 
@@ -49,7 +49,7 @@ namespace stress{
         return uniform_int_distribution<long long>(lo, hi)(rng());
     }
 
-    /// _GLIBCXX_ASSERTIONS also aborts on a bad index, so only the message proves library's own assert fired; the alarm ends a child that loops
+    /// _GLIBCXX_ASSERTIONS also aborts on a bad index, so only the message proves the library's assert fired
     template <typename Call>
     void expect_assert(const string& library, Call call){
         int fd[2];
@@ -61,7 +61,7 @@ namespace stress{
             dup2(fd[1], STDERR_FILENO);
             close(fd[0]), close(fd[1]);
             prctl(PR_SET_DUMPABLE, 0);  /// the system's core dump handler would run on every expected abort
-            alarm(10);
+            alarm(10);  /// ends a child that loops forever
             call();
             _exit(0);
         }
