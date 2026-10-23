@@ -20,6 +20,7 @@
  * Once max(n, m) * max|value|^2 passes EXACT_LIMIT (~9.2e16), multiply and square need |values| < LL_MULTIPLY_LIMIT and take about 2x longer
  * mod_multiply takes that slower path unless max(n, m) * (mod - 1)^2 <= EXACT_LIMIT, which holds for mod below about 3e5 at n = 10^6
  * The string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
+ * Use ntt.cpp modulo an NTT-friendly prime like 998244353 (about 4x faster) or for values near 10^9 (about 2x), fft for small values
  *
  * Circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
  *   auto c = fft.multiply(a, b);

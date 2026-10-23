@@ -15,6 +15,7 @@
  * multiply allows result lengths up to 2^23 modulo 998244353 and 2^20 modulo 7340033 = 7 * 2^20 + 1
  * Inputs may be negative or >= the modulus, multiply and mod_multiply return values in [0, modulus)
  * Requires __int128 (64-bit GCC or Clang) for mod_multiply, exact_multiply and crt_multiply
+ * Use fft.cpp for exact products of small values like 0..100, about 3x faster there; any other mod runs at a similar speed in both
  *
 ***/
 
