@@ -13,7 +13,7 @@ unsigned long long cell_hash(int i, int v){
 }
 
 /// max(value * count) and cell hash of every range, empty ones included, against direct scans, with add-only state and a contiguity check
-/// check_calls holds the add count to 2 * the header bound, leaving headroom over random inputs
+/// check_calls holds the add count to the header bound with constant 1, which random inputs stay under and a too small block exceeds
 void check_rollback(int n, int q, int max_v, int verify = 1 << 30, bool check_calls = false){
     vector<int> a(n);
     for (auto& x : a) x = stress::rand_int(1, max_v);
@@ -60,7 +60,7 @@ void check_rollback(int n, int q, int max_v, int verify = 1 << 30, bool check_ca
             },
             [&](int qi){ return make_tuple(best, hash, qi); });
         assert(marks.empty() && history.empty() && wl > wr && best == 0 && hash == 0 && (int)got.size() == q);
-        assert(!check_calls || calls <= 2 * (n * sqrt((double)q) + q));
+        assert(!check_calls || calls <= n * sqrt((double)q) + q);
 
         for (int i = 0; i < q && i < verify; i++){
             auto [l, r] = queries[i];
