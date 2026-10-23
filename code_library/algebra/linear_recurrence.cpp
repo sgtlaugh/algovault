@@ -281,6 +281,72 @@ struct LinearRecurrence{
         return res;
     }
 
+    /// Bostan-Mori: f(n) = [x^n] P(x) / Q(x), each step multiplies both by Q(-x) and keeps every second coefficient to halve n
+    int bostan_mori(long long n){
+        int k = recurrence.size();
+        vector<int> q(k + 1), v(k + 1);
+        q[0] = 1;
+        for (int i = 1; i <= k; i++) q[i] = (mod - recurrence[i - 1]) % mod;
+
+        auto p = fft::mod_multiply(vector<int>(sequence.begin(), sequence.begin() + k), q, mod);
+        p.resize(k);
+
+        for (; n; n >>= 1){
+            for (int i = 0; i <= k; i++) v[i] = (i & 1) && q[i] ? mod - q[i] : q[i];
+            p = fft::mod_multiply(p, v, mod, n & 1);
+            q = fft::mod_multiply(q, v, mod, 0);
+        }
+
+        return p[0];
+    }
+
+    /// x^n modulo the characteristic polynomial x^k - c_1 x^(k - 1) - ... - c_k, lowest coefficient first, for n >= 1 and k >= 2
+    vector<int> power_of_x(long long n){
+        int k = recurrence.size();
+        vector<int> charpoly(k + 1, 1);
+        for (int j = 0; j < k; j++) charpoly[j] = (mod - recurrence[k - 1 - j]) % mod;
+        vector<int> reversed(charpoly.rbegin(), charpoly.rend());
+
+        /// Newton's step inv = inv (2 - reversed inv) doubles the correct prefix of 1 / reversed, k - 1 terms cover every quotient
+        vector<int> inv = {1};
+        while ((int)inv.size() < k - 1){
+            int len = min(2 * (int)inv.size(), k - 1);
+            auto t = fft::mod_multiply(inv, vector<int>(reversed.begin(), reversed.begin() + len), mod);
+            t.resize(len);
+            for (auto& x : t) x = x ? mod - x : 0;
+            t[0] = (t[0] + 2) % mod;
+            inv = fft::mod_multiply(inv, t, mod);
+            inv.resize(len);
+        }
+
+        vector<int> res = {1};
+        for (int bit = __lg(n); bit >= 0; bit--){
+            res = fft::mod_multiply(res, res, mod);
+
+            if ((int)res.size() > k){  /// the top m coefficients reversed, times 1 / reversed charpoly, give the quotient reversed
+                int m = res.size() - k;
+                auto quot = fft::mod_multiply(vector<int>(res.rbegin(), res.rbegin() + m), vector<int>(inv.begin(), inv.begin() + m), mod);
+                quot.resize(m);
+                reverse(quot.begin(), quot.end());
+
+                auto sub = fft::mod_multiply(vector<int>(charpoly.begin(), charpoly.begin() + k), quot, mod);
+                res.resize(k);
+                for (int j = 0; j < k; j++) res[j] = (res[j] - sub[j] + mod) % mod;
+            }
+
+            if (n >> bit & 1){
+                res.insert(res.begin(), 0);
+                if ((int)res.size() > k){  /// x^k reduces to x^k - charpoly
+                    long long top = res.back();
+                    res.pop_back();
+                    for (int j = 0; j < k; j++) res[j] = (res[j] + (mod - charpoly[j]) * top) % mod;
+                }
+            }
+        }
+
+        return res;
+    }
+
     vector<int> berlekamp_massey(vector<int> sequence, long long mod){
         int n = sequence.size();
         vector<int> T, B(n + 1, 0), C(n + 1, 0);
@@ -376,10 +442,6 @@ struct LinearRecurrence{
         return max(find_rank(a), find_rank(b) + 1);
     }
 
-    long long find_rank(const vector<int> & v){
-        return (v.size() > 1 || (v.size() == 1 && v[0])) ? v.size() - 1 : (long long)INT_MIN;
-    }
-
     void update(vector<int>& u, vector<int>& v, int m, long long c){
         int i, k = v.size();
         if (k + m > (int)u.size()) u.resize(k + m, 0);
@@ -392,70 +454,8 @@ struct LinearRecurrence{
         while (u.size() && !u.back()) u.pop_back();
     }
 
-    /// Bostan-Mori: f(n) = [x^n] P(x) / Q(x), each step multiplies both by Q(-x) and keeps every second coefficient to halve n
-    int bostan_mori(long long n){
-        int k = recurrence.size();
-        vector<int> q(k + 1), v(k + 1);
-        q[0] = 1;
-        for (int i = 1; i <= k; i++) q[i] = (mod - recurrence[i - 1]) % mod;
-
-        auto p = fft::mod_multiply(vector<int>(sequence.begin(), sequence.begin() + k), q, mod);
-        p.resize(k);
-
-        for (; n; n >>= 1){
-            for (int i = 0; i <= k; i++) v[i] = (i & 1) && q[i] ? mod - q[i] : q[i];
-            p = fft::mod_multiply(p, v, mod, n & 1);
-            q = fft::mod_multiply(q, v, mod, 0);
-        }
-
-        return p[0];
-    }
-
-    /// x^n modulo the characteristic polynomial x^k - c_1 x^(k - 1) - ... - c_k, lowest coefficient first, for n >= 1 and k >= 2
-    vector<int> power_of_x(long long n){
-        int k = recurrence.size();
-        vector<int> charpoly(k + 1, 1);
-        for (int j = 0; j < k; j++) charpoly[j] = (mod - recurrence[k - 1 - j]) % mod;
-        vector<int> reversed(charpoly.rbegin(), charpoly.rend());
-
-        /// Newton's step inv = inv (2 - reversed inv) doubles the correct prefix of 1 / reversed, k - 1 terms cover every quotient
-        vector<int> inv = {1};
-        while ((int)inv.size() < k - 1){
-            int len = min(2 * (int)inv.size(), k - 1);
-            auto t = fft::mod_multiply(inv, vector<int>(reversed.begin(), reversed.begin() + len), mod);
-            t.resize(len);
-            for (auto& x : t) x = x ? mod - x : 0;
-            t[0] = (t[0] + 2) % mod;
-            inv = fft::mod_multiply(inv, t, mod);
-            inv.resize(len);
-        }
-
-        vector<int> res = {1};
-        for (int bit = __lg(n); bit >= 0; bit--){
-            res = fft::mod_multiply(res, res, mod);
-
-            if ((int)res.size() > k){  /// the top m coefficients reversed, times 1 / reversed charpoly, give the quotient reversed
-                int m = res.size() - k;
-                auto quot = fft::mod_multiply(vector<int>(res.rbegin(), res.rbegin() + m), vector<int>(inv.begin(), inv.begin() + m), mod);
-                quot.resize(m);
-                reverse(quot.begin(), quot.end());
-
-                auto sub = fft::mod_multiply(vector<int>(charpoly.begin(), charpoly.begin() + k), quot, mod);
-                res.resize(k);
-                for (int j = 0; j < k; j++) res[j] = (res[j] - sub[j] + mod) % mod;
-            }
-
-            if (n >> bit & 1){
-                res.insert(res.begin(), 0);
-                if ((int)res.size() > k){  /// x^k reduces to x^k - charpoly
-                    long long top = res.back();
-                    res.pop_back();
-                    for (int j = 0; j < k; j++) res[j] = (res[j] + (mod - charpoly[j]) * top) % mod;
-                }
-            }
-        }
-
-        return res;
+    long long find_rank(const vector<int> & v){
+        return (v.size() > 1 || (v.size() == 1 && v[0])) ? v.size() - 1 : (long long)INT_MIN;
     }
 };
 

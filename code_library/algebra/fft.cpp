@@ -9,12 +9,12 @@
  *   - memory: work buffers and roots of unity stay allocated between calls, sized by the largest n + m so far
  *
  * FFT fft: an instance that keeps its roots of unity and work buffers between calls
+ * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
+ * fft.hamming_distance(str, pat): mismatches of binary pat against each window of str, |str| - |pat| + 1 values
+ * fft.ll_multiply(a, b): the exact product of values in [0, LL_MULTIPLY_LIMIT), every coefficient below 2^63
+ * fft.mod_multiply(a, b, mod): the product modulo mod, 1 <= mod < 2^31, any input values, results in [0, mod)
  * fft.multiply(a, b): the linear product of a and b, |values| < LL_MULTIPLY_LIMIT, exact whenever every coefficient fits in a long long
  * fft.square(a): the same as multiply(a, a)
- * fft.mod_multiply(a, b, mod): the product modulo mod, 1 <= mod < 2^31, any input values, results in [0, mod)
- * fft.ll_multiply(a, b): the exact product of values in [0, LL_MULTIPLY_LIMIT), every coefficient below 2^63
- * fft.hamming_distance(str, pat): mismatches of binary pat against each window of str, |str| - |pat| + 1 values
- * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
  *
  * Notes:
  *   - products have length n + m - 1, and an empty input gives an empty result
@@ -111,16 +111,41 @@ struct FFT{
     Engine<double> fast;
     Engine<long double> wide;
 
-    vector<long long> multiply(vector<long long> v1, vector<long long> v2){
-        if (v1.empty() || v2.empty()) return {};
-        if (v1 == v2) return square(v1);
-        return product(v1, v2, false);
+    vector<long long> common_ones(const string& str, const string& pat){
+        assert(is_binary_string(str) && is_binary_string(pat));
+        int n = str.size(), m = pat.size();
+        if (m == 0) return vector<long long>(n + 1, 0);
+
+        vector<long long> v1(n), v2(m);
+        for (int i = 0; i < n; i++) v1[i] = str[i] - '0';
+        for (int i = 0; i < m; i++) v2[i] = pat[m - 1 - i] - '0';
+
+        auto dot = multiply(v1, v2);
+        vector<long long> res;
+        for (int i = 0; i + m <= n; i++) res.push_back(dot[i + m - 1]);
+        return res;
     }
 
-    vector<long long> square(vector<long long> v){
-        if (v.empty()) return {};
-        vector<long long> copy = v;
-        return product(v, copy, true);
+    vector<long long> hamming_distance(const string& str, const string& pat){
+        assert(is_binary_string(str) && is_binary_string(pat));
+        int n = str.size(), m = pat.size();
+        if (m == 0) return vector<long long>(n + 1, 0);
+
+        vector<long long> v1(n), v2(m);
+        for (int i = 0; i < n; i++) v1[i] = str[i] == '1' ? 1 : -1;
+        for (int i = 0; i < m; i++) v2[i] = pat[m - 1 - i] == '1' ? 1 : -1;
+
+        auto dot = multiply(v1, v2);
+        vector<long long> res;
+        for (int i = 0; i + m <= n; i++) res.push_back((m - dot[i + m - 1]) / 2);
+        return res;
+    }
+
+    vector<long long> ll_multiply(vector<long long> v1, vector<long long> v2){
+        for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
+        for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
+        if (v1.empty() || v2.empty()) return {};
+        return product(v1, v2, v1 == v2);
     }
 
     vector<long long> mod_multiply(vector<long long> v1, vector<long long> v2, int mod){
@@ -140,41 +165,20 @@ struct FFT{
         return split_mod(wide, v1, v2, mod, base);
     }
 
-    vector<long long> ll_multiply(vector<long long> v1, vector<long long> v2){
-        for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
-        for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
+    vector<long long> multiply(vector<long long> v1, vector<long long> v2){
         if (v1.empty() || v2.empty()) return {};
-        return product(v1, v2, v1 == v2);
+        if (v1 == v2) return square(v1);
+        return product(v1, v2, false);
     }
 
-    vector<long long> hamming_distance(const string& str, const string& pat){
-        assert(is_binary_string(str) && is_binary_string(pat));
-        int n = str.size(), m = pat.size();
-        if (m == 0) return vector<long long>(n + 1, 0);
-
-        vector<long long> v1(n), v2(m);
-        for (int i = 0; i < n; i++) v1[i] = str[i] == '1' ? 1 : -1;
-        for (int i = 0; i < m; i++) v2[i] = pat[m - 1 - i] == '1' ? 1 : -1;
-
-        auto dot = multiply(v1, v2);
-        vector<long long> res;
-        for (int i = 0; i + m <= n; i++) res.push_back((m - dot[i + m - 1]) / 2);
-        return res;
+    vector<long long> square(vector<long long> v){
+        if (v.empty()) return {};
+        vector<long long> copy = v;
+        return product(v, copy, true);
     }
 
-    vector<long long> common_ones(const string& str, const string& pat){
-        assert(is_binary_string(str) && is_binary_string(pat));
-        int n = str.size(), m = pat.size();
-        if (m == 0) return vector<long long>(n + 1, 0);
-
-        vector<long long> v1(n), v2(m);
-        for (int i = 0; i < n; i++) v1[i] = str[i] - '0';
-        for (int i = 0; i < m; i++) v2[i] = pat[m - 1 - i] - '0';
-
-        auto dot = multiply(v1, v2);
-        vector<long long> res;
-        for (int i = 0; i + m <= n; i++) res.push_back(dot[i + m - 1]);
-        return res;
+    static bool is_binary_string(const string& str){
+        return all_of(str.begin(), str.end(), [](char c){ return c == '0' || c == '1'; });
     }
 
     vector<long long> product(vector<long long>& v1, vector<long long>& v2, bool same){
@@ -190,6 +194,24 @@ struct FFT{
         long long max_part = max(1LL << SPLIT_BITS, (max_value >> SPLIT_BITS) + 1);
         if (split_fits_double(v1, v2, max_part)) return split_product(fast, v1, v2);
         return split_product(wide, v1, v2);
+    }
+
+    static bool split_fits_double(const vector<long long>& v1, const vector<long long>& v2, long long max_part){
+        return (long double)max(v1.size(), v2.size()) * max_part * max_part <= DOUBLE_LIMIT;
+    }
+
+    template <typename T>
+    vector<long long> split_mod(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, int mod, long long base){
+        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2, base);
+        long long base_sq = base * base % mod;
+
+        vector<long long> res(p_len, 0);
+        for (int i = 0; i < min(len, p_len); i++){
+            long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real), high = round_to_nearest(e.f[i].img);
+            res[i] = (low + mid % mod * base + high % mod * base_sq) % mod;  /// stays below 4.7e18: high % mod * base_sq < 2^62
+        }
+
+        return res;
     }
 
     template <typename T>
@@ -225,10 +247,6 @@ struct FFT{
         return res;
     }
 
-    static bool split_fits_double(const vector<long long>& v1, const vector<long long>& v2, long long max_part){
-        return (long double)max(v1.size(), v2.size()) * max_part * max_part <= DOUBLE_LIMIT;
-    }
-
     template <typename T>
     vector<long long> split_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2){
         int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2, 1LL << SPLIT_BITS);
@@ -238,20 +256,6 @@ struct FFT{
             unsigned long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real);
             unsigned long long high = round_to_nearest(e.f[i].img);
             res[i] = low + (mid << SPLIT_BITS) + (high << (2 * SPLIT_BITS));
-        }
-
-        return res;
-    }
-
-    template <typename T>
-    vector<long long> split_mod(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, int mod, long long base){
-        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2, base);
-        long long base_sq = base * base % mod;
-
-        vector<long long> res(p_len, 0);
-        for (int i = 0; i < min(len, p_len); i++){
-            long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real), high = round_to_nearest(e.f[i].img);
-            res[i] = (low + mid % mod * base + high % mod * base_sq) % mod;  /// stays below 4.7e18: high % mod * base_sq < 2^62
         }
 
         return res;
@@ -287,6 +291,11 @@ struct FFT{
         return len;
     }
 
+    static long long round_to_nearest(long double x){
+        long long res = fabsl(x) + 0.5L;
+        return x < 0 ? -res : res;
+    }
+
     static int pad(vector<long long>& v1, vector<long long>& v2){
         int n = v1.size(), m = v2.size();
         while (n > 1 && v1[n - 1] == 0) n--;
@@ -301,15 +310,6 @@ struct FFT{
     template <typename T>
     static Complex<T> split(long long v, long long base){
         return Complex<T>(v % base, v / base);
-    }
-
-    static long long round_to_nearest(long double x){
-        long long res = fabsl(x) + 0.5L;
-        return x < 0 ? -res : res;
-    }
-
-    static bool is_binary_string(const string& str){
-        return all_of(str.begin(), str.end(), [](char c){ return c == '0' || c == '1'; });
     }
 };
 

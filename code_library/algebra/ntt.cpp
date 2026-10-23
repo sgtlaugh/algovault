@@ -5,10 +5,10 @@
  *
  * Complexity: O(n log n) for a product of total length n
  *
- * ntt::multiply<MOD, ROOT>(a, b): a * b modulo MOD, default MOD = 998244353, ROOT found from MOD, the result length rounded up to a power of two must divide MOD - 1
- * ntt::mod_multiply(a, b, m): a * b modulo any 1 <= m < 2^31, prime or not, result length at most 2^24
- * ntt::exact_multiply(a, b): the exact a * b of any long long inputs, correct whenever every true coefficient lies in [-2^63, 2^63), result length at most 2^24
  * ntt::crt_multiply(a, b): every true coefficient of a * b modulo M = 167772161 * 469762049 * 754974721 ~ 5.95e25 as an unsigned __int128 in [0, M), result length at most 2^24
+ * ntt::exact_multiply(a, b): the exact a * b of any long long inputs, correct whenever every true coefficient lies in [-2^63, 2^63), result length at most 2^24
+ * ntt::mod_multiply(a, b, m): a * b modulo any 1 <= m < 2^31, prime or not, result length at most 2^24
+ * ntt::multiply<MOD, ROOT>(a, b): a * b modulo MOD, default MOD = 998244353, ROOT found from MOD, the result length rounded up to a power of two must divide MOD - 1
  *
  * The result length is |a| + |b| - 1, and an empty input gives an empty result
  * MOD must be a prime below 2^31; an explicit ROOT must be a quadratic non-residue modulo MOD, which any primitive root is
@@ -164,6 +164,17 @@ namespace ntt{
         return res;
     }
 
+    vector<long long> exact_multiply(const vector<long long>& a, const vector<long long>& b){
+        const unsigned __int128 M = (unsigned __int128)P1 * P2 * P3;
+
+        auto c = crt_multiply(a, b);
+        vector<long long> res(c.size());
+
+        /// A negative true value v comes back as M + v, which lies above M / 2
+        for (size_t i = 0; i < c.size(); i++) res[i] = c[i] > M / 2 ? (long long)((__int128)c[i] - (__int128)M) : (long long)c[i];
+        return res;
+    }
+
     vector<long long> mod_multiply(vector<long long> a, vector<long long> b, long long m){
         assert(1 <= m && m < (1LL << 31));
         for (auto& x : a) x = (x % m + m) % m;
@@ -182,17 +193,6 @@ namespace ntt{
             unsigned long long x3 = (c3[i] + 2ULL * P3 - x1 - x2 * P1 % P3) % P3 * INV12 % P3;
             res[i] = (x1 + x2 * M1 + x3 * M12) % m;
         }
-        return res;
-    }
-
-    vector<long long> exact_multiply(const vector<long long>& a, const vector<long long>& b){
-        const unsigned __int128 M = (unsigned __int128)P1 * P2 * P3;
-
-        auto c = crt_multiply(a, b);
-        vector<long long> res(c.size());
-
-        /// A negative true value v comes back as M + v, which lies above M / 2
-        for (size_t i = 0; i < c.size(); i++) res[i] = c[i] > M / 2 ? (long long)((__int128)c[i] - (__int128)M) : (long long)c[i];
         return res;
     }
 }

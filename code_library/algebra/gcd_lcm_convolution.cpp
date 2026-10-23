@@ -8,12 +8,12 @@
  *   - each convolution or transform: O(m log log m) for vectors of size m + 1
  *
  * DivisorLattice lattice(n): serves any number of calls on vectors of size at most n + 1
+ * lattice.divisor_mobius(a, mod = 0): in place, undoes divisor_zeta
+ * lattice.divisor_zeta(a, mod = 0): in place, a[m] becomes the sum of a[d] over the divisors d of m
+ * lattice.multiple_mobius(a, mod = 0): in place, undoes multiple_zeta
+ * lattice.multiple_zeta(a, mod = 0): in place, a[d] becomes the sum of a[m] over the multiples m of d
  * lattice.gcd_convolution(a, b, mod = 0): c of size max(a.size(), b.size()) with c[k] = sum of a[i] * b[j] over gcd(i, j) = k
  * lattice.lcm_convolution(a, b, mod = 0): the same over lcm(i, j) = k, dropping pairs whose lcm is out of range
- * lattice.multiple_zeta(a, mod = 0): in place, a[d] becomes the sum of a[m] over the multiples m of d
- * lattice.multiple_mobius(a, mod = 0): in place, undoes multiple_zeta
- * lattice.divisor_zeta(a, mod = 0): in place, a[m] becomes the sum of a[d] over the divisors d of m
- * lattice.divisor_mobius(a, mod = 0): in place, undoes divisor_zeta
  *
  * Vectors are indexed by value from 1: the transforms ignore a[0] and the convolutions return c[0] = 0
  * mod = 0 is exact over long long, needing (sum |a[i]|) * (sum |b[j]|) < 2^63 for a convolution and sum |a[i]| < 2^63 for a transform
@@ -40,29 +40,12 @@ struct DivisorLattice{
         }
     }
 
-    vector<long long> gcd_convolution(vector<long long> a, vector<long long> b, long long mod = 0) const{
-        return convolve(a, b, mod, true);
-    }
-
-    vector<long long> lcm_convolution(vector<long long> a, vector<long long> b, long long mod = 0) const{
-        return convolve(a, b, mod, false);
-    }
-
-    void multiple_zeta(vector<long long>& a, long long mod = 0) const{
+    void divisor_mobius(vector<long long>& a, long long mod = 0) const{
         int m = prepare(a, mod);
 
         for (int p : primes){
             if (p > m) break;
-            for (int i = m / p; i >= 1; i--) add(a[i], a[i * p], mod);
-        }
-    }
-
-    void multiple_mobius(vector<long long>& a, long long mod = 0) const{
-        int m = prepare(a, mod);
-
-        for (int p : primes){
-            if (p > m) break;
-            for (int i = 1; i <= m / p; i++) subtract(a[i], a[i * p], mod);
+            for (int i = m / p; i >= 1; i--) subtract(a[i * p], a[i], mod);
         }
     }
 
@@ -75,13 +58,46 @@ struct DivisorLattice{
         }
     }
 
-    void divisor_mobius(vector<long long>& a, long long mod = 0) const{
+    void multiple_mobius(vector<long long>& a, long long mod = 0) const{
         int m = prepare(a, mod);
 
         for (int p : primes){
             if (p > m) break;
-            for (int i = m / p; i >= 1; i--) subtract(a[i * p], a[i], mod);
+            for (int i = 1; i <= m / p; i++) subtract(a[i], a[i * p], mod);
         }
+    }
+
+    void multiple_zeta(vector<long long>& a, long long mod = 0) const{
+        int m = prepare(a, mod);
+
+        for (int p : primes){
+            if (p > m) break;
+            for (int i = m / p; i >= 1; i--) add(a[i], a[i * p], mod);
+        }
+    }
+
+    vector<long long> gcd_convolution(vector<long long> a, vector<long long> b, long long mod = 0) const{
+        return convolve(a, b, mod, true);
+    }
+
+    vector<long long> lcm_convolution(vector<long long> a, vector<long long> b, long long mod = 0) const{
+        return convolve(a, b, mod, false);
+    }
+
+    int prepare(vector<long long>& a, long long mod) const{
+        assert((long long)a.size() <= (long long)n + 1);
+        if (mod) for (auto& x : a) x = (x % mod + mod) % mod;
+        return (int)a.size() - 1;
+    }
+
+    static void subtract(long long& x, long long y, long long mod){
+        x -= y;
+        if (mod && x < 0) x += mod;
+    }
+
+    static void add(long long& x, long long y, long long mod){
+        x += y;
+        if (mod && x >= mod) x -= mod;
     }
 
     vector<long long> convolve(vector<long long>& a, vector<long long>& b, long long mod, bool by_gcd) const{
@@ -100,22 +116,6 @@ struct DivisorLattice{
         else divisor_mobius(a, mod);
         a[0] = 0;
         return a;
-    }
-
-    int prepare(vector<long long>& a, long long mod) const{
-        assert((long long)a.size() <= (long long)n + 1);
-        if (mod) for (auto& x : a) x = (x % mod + mod) % mod;
-        return (int)a.size() - 1;
-    }
-
-    static void add(long long& x, long long y, long long mod){
-        x += y;
-        if (mod && x >= mod) x -= mod;
-    }
-
-    static void subtract(long long& x, long long y, long long mod){
-        x -= y;
-        if (mod && x < 0) x += mod;
     }
 };
 

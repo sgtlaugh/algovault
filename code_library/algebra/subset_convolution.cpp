@@ -7,10 +7,10 @@
  *   - transforms: O(2^n n) time, in place
  *   - subset_convolution: O(2^n n^2) time, 2 * 2^n * (n + 1) ints of memory, 176 MB at n = 20
  *
- * subset_zeta(f, mod = 0): replaces f[S] with the sum of f[T] over every T subset of S, the SOS DP
  * subset_mobius(f, mod = 0): undoes subset_zeta
- * superset_zeta(f, mod = 0): replaces f[S] with the sum of f[T] over every T superset of S
+ * subset_zeta(f, mod = 0): replaces f[S] with the sum of f[T] over every T subset of S, the SOS DP
  * superset_mobius(f, mod = 0): undoes superset_zeta
+ * superset_zeta(f, mod = 0): replaces f[S] with the sum of f[T] over every T superset of S
  * subset_convolution(a, b, mod): returns c with c[S] the sum of a[T] * b[S \ T] over every T subset of S, a and b the same size, 1 <= mod < 2^31
  *
  * Every array has a size 2^n with n >= 0, index S is the set of bits on in S, values are vector<int> or vector<long long>
@@ -72,23 +72,23 @@ void sos_reduce_and_transform(vector<T>& f, long long mod, bool superset, bool i
 }
 
 template<typename T = long long>
-void subset_zeta(vector<T>& f, long long mod = 0){
-    sos_reduce_and_transform(f, mod, false, false);
-}
-
-template<typename T = long long>
 void subset_mobius(vector<T>& f, long long mod = 0){
     sos_reduce_and_transform(f, mod, false, true);
 }
 
 template<typename T = long long>
-void superset_zeta(vector<T>& f, long long mod = 0){
-    sos_reduce_and_transform(f, mod, true, false);
+void subset_zeta(vector<T>& f, long long mod = 0){
+    sos_reduce_and_transform(f, mod, false, false);
 }
 
 template<typename T = long long>
 void superset_mobius(vector<T>& f, long long mod = 0){
     sos_reduce_and_transform(f, mod, true, true);
+}
+
+template<typename T = long long>
+void superset_zeta(vector<T>& f, long long mod = 0){
+    sos_reduce_and_transform(f, mod, true, false);
 }
 
 template<typename T = long long>

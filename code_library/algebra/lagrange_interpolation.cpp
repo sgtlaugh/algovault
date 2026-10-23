@@ -11,8 +11,8 @@
  *
  * Lagrange lagrange(terms, mod): the polynomial f of degree below n with f(x) = terms[x] for x = 0..n - 1
  * lagrange.interpolate(x): f(x) in [0, mod), for any long long x, negatives included
- * get_terms(terms, mod, l, r): f(l), f(l + 1), ..., f(r), for any ints l <= r
  * find_degree(terms, mod): the lowest degree d of a polynomial through all the terms, or -1 when fewer than d + 2 terms leave it unconfirmed
+ * get_terms(terms, mod, l, r): f(l), f(l + 1), ..., f(r), for any ints l <= r
  *
  * mod must be a prime below 2^31 with n <= mod, which is asserted
  * Terms may be any ints, negatives included, and are reduced modulo mod
@@ -87,17 +87,6 @@ struct Lagrange{
     }
 };
 
-vector<int> get_terms(const vector<int>& terms, int mod, int l, int r){
-    Lagrange lagrange(terms, mod);
-
-    vector<int> res;
-    for (int i = l; i <= r; i++){
-        res.push_back(lagrange.interpolate(i));
-    }
-
-    return res;
-}
-
 int find_degree(const vector<int>& terms, int mod){
     int n = terms.size();
     assert(n <= mod);
@@ -122,6 +111,17 @@ int find_degree(const vector<int>& terms, int mod){
     }
 
     return -1;
+}
+
+vector<int> get_terms(const vector<int>& terms, int mod, int l, int r){
+    Lagrange lagrange(terms, mod);
+
+    vector<int> res;
+    for (int i = l; i <= r; i++){
+        res.push_back(lagrange.interpolate(i));
+    }
+
+    return res;
 }
 
 int main(){

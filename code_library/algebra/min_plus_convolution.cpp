@@ -7,9 +7,9 @@
  *   - min_plus_convex_convex, max_plus_concave_concave: O(n + m)
  *   - min_plus_convex_arbitrary: O((n + m) log(n + m))
  *
- * min_plus_convex_convex(a, b): c of size n + m - 1 for a of size n and b of size m, both convex
  * max_plus_concave_concave(a, b): c of size n + m - 1 with c[k] = max over i + j = k of a[i] + b[j], both concave
  * min_plus_convex_arbitrary(a, b): c of size n + m - 1, a convex and b arbitrary
+ * min_plus_convex_convex(a, b): c of size n + m - 1 for a of size n and b of size m, both convex
  *
  * Convex means a[i + 1] - a[i] >= a[i] - a[i - 1] for every inner i, so sizes 1 and 2 are always convex
  * Convexity is not checked, and a non-convex input gives wrong results

@@ -6,11 +6,11 @@
  * Complexity: O(n log n)
  *
  * WalshHadamard fwht: a convolver for any number of calls of any length
- * fwht.xor_convolution(A, B, mod = 0): C where C[k] is the sum of A[i] * B[j] over all i ^ j = k, reduced modulo mod when mod > 0
- * fwht.or_convolution(A, B, mod = 0): the same with i | j = k
- * fwht.and_convolution(A, B, mod = 0): the same with i & j = k
- * WalshHadamard::walsh_transform(ar, n, conv_type, mod = 0): transforms ar[0..n) in place, conv_type WalshHadamard::OR, AND or XOR
  * WalshHadamard::inverse_walsh_transform(ar, n, conv_type, mod = 0): undoes walsh_transform
+ * WalshHadamard::walsh_transform(ar, n, conv_type, mod = 0): transforms ar[0..n) in place, conv_type WalshHadamard::OR, AND or XOR
+ * fwht.and_convolution(A, B, mod = 0): the same with i & j = k
+ * fwht.or_convolution(A, B, mod = 0): the same with i | j = k
+ * fwht.xor_convolution(A, B, mod = 0): C where C[k] is the sum of A[i] * B[j] over all i ^ j = k, reduced modulo mod when mod > 0
  *
  * A and B must have the same length n, and n must be a power of 2
  * With a mod, the two transforms need every ar[i] already in [0, mod)
@@ -29,24 +29,33 @@ struct WalshHadamard{
 
     vector<long long> buffer;  /// reused across calls: allocating a fresh 8 MB vector per call at n = 2^20 costs ~10% in page faults
 
-    vector<long long> xor_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
-        return convolution(A, B, XOR, mod);
-    }
-
-    vector<long long> or_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
-        return convolution(A, B, OR, mod);
-    }
-
-    vector<long long> and_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
-        return convolution(A, B, AND, mod);
+    static void inverse_walsh_transform(long long* ar, int n, ConvType conv_type, long long mod = 0){
+        dispatch<true>(ar, n, conv_type, mod);
     }
 
     static void walsh_transform(long long* ar, int n, ConvType conv_type, long long mod = 0){
         dispatch<false>(ar, n, conv_type, mod);
     }
 
-    static void inverse_walsh_transform(long long* ar, int n, ConvType conv_type, long long mod = 0){
-        dispatch<true>(ar, n, conv_type, mod);
+    vector<long long> and_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
+        return convolution(A, B, AND, mod);
+    }
+
+    vector<long long> or_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
+        return convolution(A, B, OR, mod);
+    }
+
+    vector<long long> xor_convolution(const vector<long long>& A, const vector<long long>& B, long long mod = 0){
+        return convolution(A, B, XOR, mod);
+    }
+
+    /// conv_type and mod != 0 become template arguments so the butterfly loops carry no per-element branches
+    template<bool inverse>
+    static void dispatch(long long* ar, int n, ConvType conv_type, long long mod){
+        assert(mod >= 0 && mod < (1LL << 31) && (conv_type != XOR || !mod || mod % 2 == 1));
+        if (conv_type == OR) mod ? transform<OR, inverse, true>(ar, n, mod) : transform<OR, inverse, false>(ar, n, mod);
+        if (conv_type == AND) mod ? transform<AND, inverse, true>(ar, n, mod) : transform<AND, inverse, false>(ar, n, mod);
+        if (conv_type == XOR) mod ? transform<XOR, inverse, true>(ar, n, mod) : transform<XOR, inverse, false>(ar, n, mod);
     }
 
     vector<long long> convolution(const vector<long long>& A, const vector<long long>& B, ConvType conv_type, long long mod = 0){
@@ -66,15 +75,6 @@ struct WalshHadamard{
         inverse_walsh_transform(res.data(), n, conv_type, mod);
 
         return res;
-    }
-
-    /// conv_type and mod != 0 become template arguments so the butterfly loops carry no per-element branches
-    template<bool inverse>
-    static void dispatch(long long* ar, int n, ConvType conv_type, long long mod){
-        assert(mod >= 0 && mod < (1LL << 31) && (conv_type != XOR || !mod || mod % 2 == 1));
-        if (conv_type == OR) mod ? transform<OR, inverse, true>(ar, n, mod) : transform<OR, inverse, false>(ar, n, mod);
-        if (conv_type == AND) mod ? transform<AND, inverse, true>(ar, n, mod) : transform<AND, inverse, false>(ar, n, mod);
-        if (conv_type == XOR) mod ? transform<XOR, inverse, true>(ar, n, mod) : transform<XOR, inverse, false>(ar, n, mod);
     }
 
     template<ConvType conv_type, bool inverse, bool modular>
