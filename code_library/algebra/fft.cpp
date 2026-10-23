@@ -37,7 +37,7 @@ struct FFT{
     struct Complex{
         T real, img;
 
-        Complex() {}  /// left uninitialised so growing a work buffer does not write it twice, every entry is written before it is read
+        Complex() {}
         Complex(T real, T img=0) : real(real), img(img) {}
 
         Complex conjugate() const{
@@ -63,10 +63,7 @@ struct FFT{
         int last_len = -1;
         vector<int> rev;
 
-        /// Work buffers are reused across calls: allocating them per call measured 10-25% slower at len = 2^20
         vector<Complex<T>> u, w, f, g;
-
-        /// roots[k + j] = e^(i * pi * j / k) for every power of two k < roots.size(), grown on demand
         vector<Complex<T>> roots = {Complex<T>(0), Complex<T>(1)};
 
         void prepare(int len, int roots_len){
@@ -131,14 +128,12 @@ struct FFT{
         for (auto& x: v1) x = (x % mod + mod) % mod;
         for (auto& x: v2) x = (x % mod + mod) % mod;
 
-        /// Reduced values below a small mod keep the whole product exact in one transform, reduced afterwards
         if ((long double)max(v1.size(), v2.size()) * (mod - 1) * (mod - 1) <= EXACT_LIMIT){
             vector<long long> res = product(v1, v2, v1 == v2);
             for (auto& x: res) x %= mod;
             return res;
         }
 
-        /// Parts below ceil(sqrt(mod)) keep the products below mod, half of what fixed 2^15 halves reach for a mod near 2^31
         long long base = sqrtl(mod);
         while (base * base < mod) base++;
         if (split_fits_double(v1, v2, base)) return split_mod(fast, v1, v2, mod, base);
@@ -152,7 +147,6 @@ struct FFT{
         return product(v1, v2, v1 == v2);
     }
 
-    /// Mapping bits to +1 and -1 makes each window's dot product matches - mismatches
     vector<long long> hamming_distance(const string& str, const string& pat){
         assert(is_binary_string(str) && is_binary_string(pat));
         int n = str.size(), m = pat.size();
@@ -183,7 +177,6 @@ struct FFT{
         return res;
     }
 
-    /// The error follows n_max * max|value|^2, which the output bound n_min * max|v1| * max|v2| underestimates
     vector<long long> product(vector<long long>& v1, vector<long long>& v2, bool same){
         long long max_value = 0;
         for (auto x: v1) max_value = max(max_value, abs(x));
@@ -193,12 +186,12 @@ struct FFT{
         if (bound <= DOUBLE_LIMIT) return real_product(fast, v1, v2, same);
         if (bound <= EXACT_LIMIT) return real_product(wide, v1, v2, same);
         assert(max_value < LL_MULTIPLY_LIMIT);
+
         long long max_part = max(1LL << SPLIT_BITS, (max_value >> SPLIT_BITS) + 1);
         if (split_fits_double(v1, v2, max_part)) return split_product(fast, v1, v2);
         return split_product(wide, v1, v2);
     }
 
-    /// Real data packs into half-length complex z: E = (Z[k] + conj Z[-k]) / 2, O = (Z[k] - conj Z[-k]) / 2i, X[k] = E + w^k O, X[k + len / 2] = E - w^k O
     template <typename T>
     vector<long long> real_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, bool same){
         int p_len = v1.size() + v2.size() - 1, len = pad(v1, v2), half = len / 2;
@@ -223,7 +216,6 @@ struct FFT{
         }
         e.transform(e.u, e.f, half);
 
-        /// A forward transform read at index -m is the inverse transform scaled by half
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
             const Complex<T>& c = e.f[(half - (i >> 1)) & (half - 1)];
@@ -233,12 +225,10 @@ struct FFT{
         return res;
     }
 
-    /// Parts of magnitude below max_part keep each transform within max(n, m) * max_part^2, so double suffices up to DOUBLE_LIMIT
     static bool split_fits_double(const vector<long long>& v1, const vector<long long>& v2, long long max_part){
         return (long double)max(v1.size(), v2.size()) * max_part * max_part <= DOUBLE_LIMIT;
     }
 
-    /// Negative values split into floor(v / 2^15) and v mod 2^15, and recombining modulo 2^64 is exact when the coefficient fits a long long
     template <typename T>
     vector<long long> split_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2){
         int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2, 1LL << SPLIT_BITS);
@@ -267,7 +257,6 @@ struct FFT{
         return res;
     }
 
-    /// Leaves low * low, the cross terms and high * high in f.real, g.real and f.img, in 4 transforms or 3 for equal inputs
     template <typename T>
     int split_multiply(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, long long base){
         int len = pad(v1, v2);
@@ -298,7 +287,6 @@ struct FFT{
         return len;
     }
 
-    /// Pads v1 and v2 with zeros to the smallest power of two >= n + m, which is at least 2, so a half transform exists
     static int pad(vector<long long>& v1, vector<long long>& v2){
         int n = v1.size(), m = v2.size();
         while (n > 1 && v1[n - 1] == 0) n--;
@@ -310,7 +298,6 @@ struct FFT{
         return len;
     }
 
-    /// v = high * base + low with |low| < base, which the recombination undoes exactly for either sign of v
     template <typename T>
     static Complex<T> split(long long v, long long base){
         return Complex<T>(v % base, v / base);
