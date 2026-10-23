@@ -4,7 +4,7 @@
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
 # both modes also report library files missing from the README index, index descriptions over 50 characters, README ✔ marks that disagree with judge_tests,
-# practice solutions and practice section links that disagree, POJ, UVa and HDU solutions that do not build as C++11, a fast_io.cpp that does not build as C++20, templates whose header does not state their complexity, copied regions that drifted from their original,
+# practice solutions and practice section links that disagree, POJ, UVa and HDU solutions that do not build as C++11, a fast_io.cpp that does not build as C++20, templates whose header does not state their complexity, O(...) products written with *, copied regions that drifted from their original,
 # and whitespace, style or member order errors in tracked files
 #
 # Reports all failures instead of stopping at the first one.
@@ -268,6 +268,17 @@ check_headers(){  # every template opens with a header that states its complexit
     failures+=("${bad[@]/%/ (no complexity in header)}")
 }
 
+check_complexity_notation(){  # products inside O(...) are written with a space, O(n m), never O(n * m)
+    local bad=()
+    mapfile -t bad < <(git grep -nE '\bO\([^)]*\*' -- 'code_library/*.cpp' 'code_library/*.py' 'code_library/*.md' README.md)
+
+    echo "complexity notation: ${#bad[@]} O(...) products written with *"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (product with *)}")
+}
+
 check_copies(){  # a "/// BEGIN COPY <name> from <file>" region must match "/// BEGIN SHARED <name>" in <file> byte for byte
     local file name src copy orig total=0 bad=()
     while IFS= read -r file; do
@@ -392,6 +403,7 @@ check_practice
 [[ "$MODE" == "self" ]] && check_old_judges
 [[ "$MODE" == "self" ]] && check_cpp20
 check_headers
+check_complexity_notation
 check_copies
 check_whitespace
 check_style

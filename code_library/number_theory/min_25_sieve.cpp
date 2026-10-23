@@ -3,7 +3,7 @@
  * Min_25 Sieve
  * Prefix sum of a multiplicative function f(1) + f(2) + ... + f(n) modulo m, from f(p) as a polynomial in p and f on prime powers
  *
- * Complexity: O(deg * n^(3/4) / log n) time, O(sqrt(n) * deg) memory, where deg = poly.size()
+ * Complexity: O(deg n^(3/4) / log n) time, O(sqrt(n) deg) memory, where deg = poly.size()
  * The prime sum phase meets this bound, the recursive phase is O(n^(1 - eps)) in theory and runs at the same order for n <= 1e11
  * Measured at -O2: about 0.9 s at n = 1e10 (1.2 s with a cubic f(p)), 4.7 s at n = 1e11
  *

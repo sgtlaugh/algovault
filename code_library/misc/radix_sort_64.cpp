@@ -3,7 +3,7 @@
  * Radix Sort (64-bit)
  * LSD radix sort with 8-bit digits, 8 counting-sort passes over 64-bit integers, loop unrolled
  *
- * Complexity: O(8 n + 8 * 256) ~ O(n), memory is a scratch vector of n unsigned long longs (80 MB at n = 1e7)
+ * Complexity: O(8 n + 2048) ~ O(n), memory is a scratch vector of n unsigned long longs (80 MB at n = 1e7)
  *
  * radix_sort(ar, n) sorts unsigned long longs ar[0, n) with a scratch vector allocated per call
  * radix_sort(v) sorts a vector<long long>, negatives first

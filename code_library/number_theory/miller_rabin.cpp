@@ -6,8 +6,8 @@
  * prm::is_prime(n): deterministic for every long long n, false for n < 2
  * Uses the 7 bases from https://miller-rabin.appspot.com/, valid for n < 2^64
  *
- * Complexity: O(24) + O(7 * log n)
- * Or, O(24) + O(4 * log n) when n ≤ INT_MAX
+ * Complexity: O(24) + O(7 log n)
+ * Or, O(24) + O(4 log n) when n ≤ INT_MAX
  *
  * For large random numbers not exceeding 2^63, it can process 4*10^6 numbers in one second
  * For large primes not exceeding 2^63, it can process around 5*10^5 numbers in one second

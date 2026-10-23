@@ -3,7 +3,7 @@
  * Matrix Permanent
  * Permanent of an integer matrix modulo any m by Ryser's formula, and the exact permanent when it is not too large
  *
- * Complexity: O(2^n * n), O(n^2) extra space
+ * Complexity: O(2^n n), O(n^2) extra space
  *
  * perm(a) = sum over permutations p of a[0][p[0]] * a[1][p[1]] * ... * a[n - 1][p[n - 1]]
  * Ryser: perm(a) = sum over column subsets S of (-1)^(n - |S|) * prod over rows i of (sum of a[i][j] for j in S)

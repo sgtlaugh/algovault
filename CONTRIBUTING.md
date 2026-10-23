@@ -168,7 +168,7 @@ Judge tests compile with `-O2` and run on the judge's own data; new judge test f
 ## Complexity notation
 
 - Inline code: `O(n log n)`, `O(n^(2/3))`, `O(m sqrt(n))`
-- A space for products, not `*`
+- A space for products, not `*`: `O(n m)`, and a quantity with no short name gets a letter defined beside it, `O(n C) for capacity C`
 - `^` for powers, `sqrt(x)` for roots
 - Lowercase `n`, `m` for input sizes, naming any other variable
 - In the README index, only where it helps choose a template

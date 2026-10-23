@@ -7,7 +7,7 @@
  *     maxv must exceed the MAXN-th prime, the defaults are tuned for n around 1e12
  * pc.lehmer(n): the number of primes not exceeding n, for 0 <= n < maxv^2
  *
- * Complexity: Roughly ~O(n^(2/3)) per query, O(maxv + MAXN * MAXM) to build
+ * Complexity: Roughly ~O(n^(2/3)) per query, O(maxv + MAXN MAXM) to build
  * Memory: 4 * (maxv + MAXN * MAXM) bytes, about 190 MB with the defaults
  *
 ***/

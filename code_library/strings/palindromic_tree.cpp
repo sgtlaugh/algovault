@@ -3,7 +3,7 @@
  * Palindromic Tree (Eertree)
  * One node per distinct palindromic substring, built online one character at a time
  *
- * Complexity: O(n * SIGMA) memory, amortized O(1) per add, O(n log n) for min_palindromic_factorization
+ * Complexity: O(n SIGMA) memory, amortized O(1) per add, O(n log n) for min_palindromic_factorization
  *
  * PalindromicTree<SIGMA, BASE> tree; characters must lie in [BASE, BASE + SIGMA), defaults to 'a'..'z'
  * tree.add(c): appends c, returns true if a new distinct palindrome appeared

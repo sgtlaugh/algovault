@@ -14,7 +14,7 @@
  * Prefix-function automaton: aut[i][c] = KMP state after reading symbol c in state i
  * State i = length of the longest pattern prefix that is a suffix of the text read so far, 0 <= i <= m
  * State m is a full match, and its transitions continue through the border so overlapping matches count
- * Symbols are pattern[i] - first and must lie in [0, alphabet), build is O(m * alphabet) time and space
+ * Symbols are pattern[i] - first and must lie in [0, alphabet), build is O(m alphabet) time and space
  * Use it for string DP: dp over (text position, KMP state) with one table lookup per transition
  *
  *     auto aut = kmp_automaton("aba", 2);

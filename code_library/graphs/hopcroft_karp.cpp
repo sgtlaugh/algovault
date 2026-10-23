@@ -3,7 +3,7 @@
  * Hopcroft Karp
  * Maximum matching in a bipartite graph
  *
- * Complexity: O(m * sqrt(n)), O(n + m) memory
+ * Complexity: O(m sqrt(n)), O(n + m) memory
  *
  * HopcroftKarp hk(n_left, n_right): left vertices 0..n_left - 1, right vertices 0..n_right - 1
  * hk.add_edge(u, v): edge from left u to right v

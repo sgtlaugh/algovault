@@ -3,7 +3,7 @@
  * Bounded Knapsack
  * Maximum total value of items with total weight at most capacity, item i usable up to counts[i] times
  *
- * Complexity: O(n * capacity), O(capacity) memory, independent of the counts
+ * Complexity: O(n C) for capacity C, O(C) memory, independent of the counts
  *
  * bounded_knapsack(values, weights, counts, capacity) returns the best total value, 0 for no items
  * values, weights and counts share one integer type: vector<int> or vector<long long> for all three

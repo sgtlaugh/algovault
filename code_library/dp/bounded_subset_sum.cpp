@@ -14,7 +14,7 @@
  *
  * Values and counts must be non-negative, W >= 0; values 0 and values > W are never used
  *
- * Complexity: bounded_subset_sums O(W * K / 64 + W), SubsetSum O(W * (D + 1) + n log n), both O(n + W) memory
+ * Complexity: bounded_subset_sums O(W K / 64 + W), SubsetSum O(W (D + 1) + n log n), both O(n + W) memory
  * D is the number of distinct values in [1, W], S the sum of all values with their counts
  * K <= 2 * min(W, D * (1 + log2 W), sqrt(2 * S)) is the number of copies bounded_subset_sums keeps after carrying
  * D distinct positive values sum to at least D^2 / 2, so D <= sqrt(2 * S), which makes both O(W sqrt W),

@@ -3,7 +3,7 @@
  * Radix Sort
  * LSD radix sort with 8-bit digits, 4 counting-sort passes over 32-bit integers, loop unrolled
  *
- * Complexity: O(n + 4 * 256), one counting pass and 4 scatter passes over the array
+ * Complexity: O(n + 1024), one counting pass and 4 scatter passes of 256 buckets over the array
  * Memory: a scratch vector of n unsigned ints, about 40 MB for n = 1e7
  *
  * radix_sort(ar, n) sorts unsigned ints ar[0, n) with a scratch vector allocated per call

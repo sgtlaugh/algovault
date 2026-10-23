@@ -4,7 +4,7 @@
  * Two structs with the same API: Blossom (Edmonds, the pairs too) and TutteMatching (randomized Tutte matrix rank, size only)
  * Use Blossom: exact, gives the pairs, faster in practice, TutteMatching is a randomized size-only cross-check
  *
- * Complexity: O(n * (n ^ 2 + m)) for Blossom, so O(n ^ 3) without repeated edges, O(n + m) memory
+ * Complexity: O(n (n^2 + m)) for Blossom, so O(n^3) without repeated edges, O(n + m) memory
  *             O(n ^ 3) for TutteMatching even on sparse graphs, O(n ^ 2) memory
  *
  * Blossom b(n), b.add_edge(u, v), b.maximum_matching(): size of a maximum matching, always exact

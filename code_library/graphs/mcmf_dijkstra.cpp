@@ -3,7 +3,7 @@
  * Min Cost Max Flow with Dijkstra and potentials
  * Successive shortest paths where Johnson potentials keep reduced costs non-negative
  *
- * Complexity: O(F * m log n) for total flow F, plus O(m) per solve or slope call for starting potentials, O(n * m) when a residual edge has negative cost
+ * Complexity: O(F m log n) for total flow F, plus O(m) per solve or slope call for starting potentials, O(n m) when a residual edge has negative cost
  *
  * MCMF g(n): empty graph on nodes 0 to n - 1
  * g.add_edge(u, v, cap, cost): adds a directed edge and returns its index, add both directions for undirected edges

@@ -4,7 +4,7 @@
  * Random walk over states that accepts worse moves with a probability that cools over time, as a loop driver
  * for in-place moves with an energy delta, and as a generic minimizer over whole states
  *
- * Complexity: O(steps * cost of one move), plus one steady_clock read per step in time mode
+ * Complexity: O(s c) for s steps and c the cost of one move, plus one steady_clock read per step in time mode
  *
  * Annealer::by_steps(t_start, t_end, steps, seed = 17): exactly `steps` moves, same seed gives the same result
  * Annealer::by_time(t_start, t_end, seconds, seed = 17): moves until the time is up, the clock starts at the first running()

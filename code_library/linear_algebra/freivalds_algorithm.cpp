@@ -4,7 +4,7 @@
  * A randomized algorithm that verifies matrix multiplication
  * Checks and returns if A * B = C with probability of failure less than 1 / (2^ntrials)
  * The check runs modulo 2^64, which is exact whenever C and the true product A * B fit in long long
- * Complexity: O(n^2) * ntrials, where n is the size of the matrix, O(row * col) memory per FreivaldsMatrix
+ * Complexity: O(n^2 t) for an n x n matrix and t = ntrials, O(row col) memory per FreivaldsMatrix
  *
  * FreivaldsMatrix M(row, col, diagonal = 0) is a row x col matrix of long long, M[i][j] for 0 <= i < row, 0 <= j < col
  * freivalds_verify(A, B, C, ntrials = 30) returns false on mismatched shapes

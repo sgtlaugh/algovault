@@ -3,8 +3,8 @@
  * Matroid Intersection (unweighted)
  * Largest set of ground elements that is independent in two matroids at once
  *
- * Complexity: O(n * r^2 + n) oracle queries plus r + 1 oracle builds, n = ground set size, r = answer size
- *     with the oracles below every query is O(1), so O(n * r^2 + n + (r + 1) * build) overall
+ * Complexity: O(n r^2 + n) oracle queries plus r + 1 oracle builds, n = ground set size, r = answer size
+ *     with the oracles below every query is O(1), so O(n r^2 + n + (r + 1) B) overall, B the cost of one build
  *
  * matroid_intersection(n, m1, m2): ground elements 0..n - 1, returns the chosen elements sorted ascending
  * The oracles are template parameters, any struct with these three methods works:
@@ -17,7 +17,7 @@
  * PartitionMatroid p(color, cap): element x has color[x], at most cap[c] elements of color c, build is O(colors + r)
  *     colorful matroid: every cap is 1
  * XorMatroid x(vec): independent sets are linearly independent over GF(2), vectors are 64-bit, 0 is never
- *     independent, build is O(64 * n)
+ *     independent, build is O(64 n)
  *
  * Each round augments along a shortest path of the exchange graph, which keeps chosen independent in both
  * Bipartite matching is the intersection of two partition matroids, a rainbow spanning tree is graphic x colorful

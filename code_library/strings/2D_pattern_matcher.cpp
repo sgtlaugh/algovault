@@ -3,7 +3,7 @@
  * 2D Pattern Matcher
  * Finds every occurrence of an r x c pattern in an n x m text by rolling 2D polynomial hashes
  *
- * Complexity: O(r * c) to build, O(n * m) per find
+ * Complexity: O(r c) to build, O(n m) per find
  *
  * PatternMatcher2D matcher(pattern) hashes the pattern once, find(text) can then be called on any number of texts
  * find returns the top-left corners (i, j) of all matches in column-major order (by j, then by i):

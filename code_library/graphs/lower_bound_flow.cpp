@@ -3,7 +3,7 @@
  * Flow with lower bounds (demands) on Dinic's algorithm
  * Every edge carries a flow f with low <= f <= high: feasible circulation, feasible s-t flow, max and min s-t flow
  *
- * Complexity: one Dinic run per call on n + 2 nodes and m + n + 2 edges, O(n^2 * m)
+ * Complexity: one Dinic run per call on n + 2 nodes and m + n + 2 edges, O(n^2 m)
  *
  * LowerBoundFlow g(n); g.add_edge(u, v, low, high): directed edge u -> v, 0 <= low <= high, returns its index
  * g.circulation(): true if some flow satisfies every bound with conservation at every node

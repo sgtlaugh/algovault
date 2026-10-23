@@ -4,8 +4,8 @@
  * Prefix tree that counts inserted words by prefix, and a binary trie answering xor queries over a multiset of integers
  *
  * Complexity:
- *   - Trie: O(|s|) per operation, O(total length * SIGMA) memory
- *   - BinaryTrie: O(BITS) per operation, O(distinct inserted values * BITS) memory
+ *   - Trie: O(|s|) per operation, O(L SIGMA) memory for L inserted characters in total
+ *   - BinaryTrie: O(BITS) per operation, O(v BITS) memory for v distinct inserted values
  *
  * Trie<SIGMA = 26, BASE = 'a'> trie: no words yet, characters must lie in [BASE, BASE + SIGMA)
  * Trie<> trie(max_nodes): the same with memory for max_nodes >= 1 nodes reserved up front, more nodes still fit

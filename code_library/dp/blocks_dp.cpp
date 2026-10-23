@@ -3,7 +3,7 @@
  * UVA 10559 Blocks - https://onlinejudge.org/external/105/10559.pdf
  * Maximum score for clearing a row of colored blocks, where one click removes a maximal run of k equal blocks for k * k points
  *
- * Complexity: O(m^3 * n) time, O(m^2 * n) memory, n = blocks, m = maximal runs of equal colors (n = 200 needs 32 MB)
+ * Complexity: O(m^3 n) time, O(m^2 n) memory, n = blocks, m = maximal runs of equal colors (n = 200 needs 32 MB)
  *
  * blocks_max_score(blocks): works for any random-access container (vector, string, ...) whose elements compare with ==, 0 for an empty row
  * Example: 1, 2, 2, 2, 2, 2, 3, 2 - clicking the 3 first merges the 2s into a run of 6, total 1 + 36 + 1 = 38

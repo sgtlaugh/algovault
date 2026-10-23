@@ -3,7 +3,7 @@
  * Maximum Square and Diamond
  * Largest all-filled square and diamond ending at every cell of a 0/1 grid
  *
- * Complexity: O(rows * cols)
+ * Complexity: O(r c) for an r x c grid
  *
  * square_sizes(g)[i][j]: side of the largest filled square whose bottom-right cell is (i, j)
  * diamond_sizes(g)[i][j]: size of the largest filled diamond whose bottom tip is (i, j)

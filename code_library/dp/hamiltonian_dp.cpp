@@ -3,7 +3,7 @@
  * Shortest Hamiltonian Path and Cycle with Bitmask DP
  * Minimum weight path or cycle visiting every vertex exactly once, with the vertex order
  *
- * Complexity: O(2^n * n^2) time, O(2^n * n) memory (2^n * n long longs, 160 MiB at n = 20)
+ * Complexity: O(2^n n^2) time, O(2^n n) memory (2^n * n long longs, 160 MiB at n = 20)
  *
  * HamiltonianGraph g(n): vertices 0 to n - 1, n >= 1
  * g.add_directed_edge(u, v, w): edge u -> v, parallel edges keep the minimum weight

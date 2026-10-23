@@ -6,7 +6,7 @@
  *
  * lcs(A, B): the LCS length of the null-terminated strings A and B (const char*), any byte values except 0
  *
- * Complexity: O(N * M / 64)
+ * Complexity: O(N M / 64)
  *
 ***/
 

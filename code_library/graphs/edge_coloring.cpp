@@ -3,8 +3,8 @@
  * Edge Coloring
  * Colors the edges so that edges sharing a vertex get different colors
  *
- * Complexity: BipartiteEdgeColoring O(n + m * n) expected time, O(n + m) memory
- * VizingEdgeColoring O(n * m) time, O(n * D) memory
+ * Complexity: BipartiteEdgeColoring O(n + m n) expected time, O(n + m) memory
+ * VizingEdgeColoring O(n m) time, O(n D) memory
  * where n is the number of vertices, m the number of edges and D the maximum degree
  *
  * BipartiteEdgeColoring g(n_left, n_right): left vertices 0..n_left - 1, right vertices 0..n_right - 1
@@ -55,7 +55,7 @@ struct BipartiteEdgeColoring{
             }
         }
 
-        /// Hash map of (side, vertex, color) to the edge colored so there, -1 if none, instead of an O(n * D) table
+        /// Hash map of (side, vertex, color) to the edge colored so there, -1 if none, instead of an O(n D) table
         /// At most 4m keys ever appear (colors below the degree, plus two per edge), so 8m slots keep probing short
         int bits = 1;
         while ((1LL << bits) < 8LL * m) bits++;

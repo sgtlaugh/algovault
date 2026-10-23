@@ -3,7 +3,7 @@
  * Divide and Conquer DP Optimization
  * Splits the prefix [0, i) into exactly k non-empty consecutive segments of minimum total cost
  *
- * Complexity: O(k * n log n) calls to cost, O(n) memory
+ * Complexity: O(k n log n) calls to cost, O(n) memory
  *
  * divide_conquer_dp<T>(n, k, cost) returns dp of size n + 1 for 0 <= k, where
  *   dp[i] = min over j < i of (layer k - 1 at j) + cost(j, i), layer 0 being 0 at i = 0

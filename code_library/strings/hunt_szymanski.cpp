@@ -5,7 +5,7 @@
  *
  * Complexity: O(R + N) log N
  * R = number of ordered pairs of positions where the two strings match (worst case, R = N^2)
- * For dense inputs (small alphabet, large R) bit_string_lcs.cpp is faster at O(N * M / 64)
+ * For dense inputs (small alphabet, large R) bit_string_lcs.cpp is faster at O(N M / 64)
  *
 ***/
 

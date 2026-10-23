@@ -3,7 +3,7 @@
  * Longest Common Increasing Subsequence
  * One longest strictly increasing sequence that is a subsequence of both A and B
  *
- * Complexity: O(n * m) time, O(m + r) memory, r = number of dp improvements <= m * answer
+ * Complexity: O(n m) time, O(m + r) memory, r = number of dp improvements <= m * answer
  *
  * lcis(A, B): works for any sequences whose elements compare with < and ==, returns the subsequence
  * as the same Sequence type (a string for strings), so its size() is the length; empty if either is empty
