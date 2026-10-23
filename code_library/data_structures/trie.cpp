@@ -10,10 +10,10 @@
  * Trie<SIGMA = 26, BASE = 'a'> trie: no words yet, characters must lie in [BASE, BASE + SIGMA)
  * Trie<> trie(max_nodes): the same with memory for max_nodes >= 1 nodes reserved up front, more nodes still fit
  * trie.insert(s): adds one copy of s, duplicates count separately
+ * trie.child(v, ch): node one character ch below node v, -1 if there is none or ch is outside the alphabet, v != -1
  * trie.count_prefix(p): inserted words that start with p, every word for the empty prefix
  * trie.count_word(s): copies of exactly s
  * trie.find(s): node of the prefix s, -1 if no inserted word starts with s, the root 0 for the empty prefix
- * trie.child(v, ch): node one character ch below node v, -1 if there is none or ch is outside the alphabet, v != -1
  * trie.pass[v]: inserted words that start with node v's prefix
  * trie.ends[v]: copies of exactly node v's prefix
  *
@@ -22,13 +22,13 @@
  * Without max_nodes the vector doubling briefly holds up to twice the memory of the nodes in use
  *
  * BinaryTrie<BITS = 30> bt: an empty multiset of unsigned long long values in [0, 2^BITS), 1 <= BITS <= 64
- * bt.insert(x, c = 1): adds c >= 1 copies of x
  * bt.erase(x, c = 1): removes c >= 1 copies of x, count(x) >= c
+ * bt.insert(x, c = 1): adds c >= 1 copies of x
  * bt.count(x): copies of x
- * bt.size(): copies of all values
- * bt.min_xor(x): min of x ^ y over the y in the multiset, size() > 0
- * bt.max_xor(x): max of x ^ y over the y in the multiset, size() > 0
  * bt.kth_xor(x, k): k-th smallest x ^ y counting copies, 0-based, 0 <= k < size()
+ * bt.max_xor(x): max of x ^ y over the y in the multiset, size() > 0
+ * bt.min_xor(x): min of x ^ y over the y in the multiset, size() > 0
+ * bt.size(): copies of all values
  *
  * Erased nodes stay allocated, so memory grows with insertions of new values, not with live size
  *
@@ -54,21 +54,6 @@ struct Trie{
         new_node();
     }
 
-    int child(int v, char ch) const{
-        int c = ch - BASE;
-        return c < 0 || c >= SIGMA ? -1 : next[v][c];
-    }
-
-    /// Deleted so that child(v, s[i] - 'a') fails to compile instead of reading the int as a character
-    int child(int v, int c) const = delete;
-
-    int new_node(){
-        next.push_back({});
-        next.back().fill(-1);
-        pass.push_back(0), ends.push_back(0);
-        return next.size() - 1;
-    }
-
     void insert(const string& s){
         int v = 0;
         pass[0]++;
@@ -85,11 +70,13 @@ struct Trie{
         ends[v]++;
     }
 
-    int find(const string& s) const{
-        int v = 0;
-        for (int i = 0; i < (int)s.size() && v != -1; i++) v = child(v, s[i]);
-        return v;
+    int child(int v, char ch) const{
+        int c = ch - BASE;
+        return c < 0 || c >= SIGMA ? -1 : next[v][c];
     }
+
+    /// Deleted so that child(v, s[i] - 'a') fails to compile instead of reading the int as a character
+    int child(int v, int c) const = delete;
 
     int count_prefix(const string& p) const{
         int v = find(p);
@@ -99,6 +86,19 @@ struct Trie{
     int count_word(const string& s) const{
         int v = find(s);
         return v == -1 ? 0 : ends[v];
+    }
+
+    int find(const string& s) const{
+        int v = 0;
+        for (int i = 0; i < (int)s.size() && v != -1; i++) v = child(v, s[i]);
+        return v;
+    }
+
+    int new_node(){
+        next.push_back({});
+        next.back().fill(-1);
+        pass.push_back(0), ends.push_back(0);
+        return next.size() - 1;
     }
 };
 
@@ -113,10 +113,14 @@ struct BinaryTrie{
         new_node();
     }
 
-    int new_node(){
-        next.push_back({-1, -1});
-        cnt.push_back(0);
-        return next.size() - 1;
+    void erase(unsigned long long x, long long c = 1){
+        assert(c >= 1 && count(x) >= c);
+        int v = 0;
+        cnt[0] -= c;
+        for (int b = BITS - 1; b >= 0; b--){
+            v = next[v][x >> b & 1];
+            cnt[v] -= c;
+        }
     }
 
     void insert(unsigned long long x, long long c = 1){
@@ -135,33 +139,11 @@ struct BinaryTrie{
         }
     }
 
-    void erase(unsigned long long x, long long c = 1){
-        assert(c >= 1 && count(x) >= c);
-        int v = 0;
-        cnt[0] -= c;
-        for (int b = BITS - 1; b >= 0; b--){
-            v = next[v][x >> b & 1];
-            cnt[v] -= c;
-        }
-    }
-
     long long count(unsigned long long x) const{
         check_range(x);
         int v = 0;
         for (int b = BITS - 1; b >= 0 && v != -1; b--) v = next[v][x >> b & 1];
         return weight(v);
-    }
-
-    long long size() const{
-        return cnt[0];
-    }
-
-    unsigned long long min_xor(unsigned long long x) const{
-        return kth_xor(x, 0);
-    }
-
-    unsigned long long max_xor(unsigned long long x) const{
-        return kth_xor(x, size() - 1);
     }
 
     unsigned long long kth_xor(unsigned long long x, long long k) const{
@@ -185,13 +167,31 @@ struct BinaryTrie{
         return res;
     }
 
-    long long weight(int v) const{
-        return v == -1 ? 0 : cnt[v];
+    unsigned long long max_xor(unsigned long long x) const{
+        return kth_xor(x, size() - 1);
+    }
+
+    unsigned long long min_xor(unsigned long long x) const{
+        return kth_xor(x, 0);
+    }
+
+    long long size() const{
+        return cnt[0];
+    }
+
+    int new_node(){
+        next.push_back({-1, -1});
+        cnt.push_back(0);
+        return next.size() - 1;
     }
 
     static void check_range(unsigned long long x){
         /// BITS % 64 keeps the shift count legal in the BITS == 64 instantiation, where the left side short-circuits
         assert(BITS == 64 || x >> (BITS % 64) == 0);
+    }
+
+    long long weight(int v) const{
+        return v == -1 ? 0 : cnt[v];
     }
 };
 

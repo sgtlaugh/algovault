@@ -9,8 +9,8 @@
  * s.add(l, r): cover [l, r), merging with every stored interval it overlaps or touches
  * s.remove(l, r): uncover [l, r), cutting stored intervals that stick out of it
  * s.contains(x): true if the point x is covered
- * s.covers(l, r): true if all of [l, r) is covered, always true for an empty range
  * s.covered_length(): total covered length, kept as a running sum
+ * s.covers(l, r): true if all of [l, r) is covered, always true for an empty range
  * s.seg: map l -> r of the stored intervals in increasing order, never two that touch
  *
  * Empty ranges, l >= r, are ignored by add and remove
@@ -46,21 +46,6 @@ struct IntervalSet{
         total += r - l;
     }
 
-    bool contains(T x) const{
-        auto it = seg.upper_bound(x);
-        return it != seg.begin() && x < prev(it)->second;
-    }
-
-    bool covers(T l, T r) const{
-        if (!(l < r)) return true;
-        auto it = seg.upper_bound(l);
-        return it != seg.begin() && !(prev(it)->second < r);
-    }
-
-    T covered_length() const{
-        return total;
-    }
-
     void remove(T l, T r){
         if (!(l < r)) return;
 
@@ -75,6 +60,21 @@ struct IntervalSet{
             if (a < l) seg.emplace(a, l), total += l - a;
             if (r < b) seg.emplace(r, b), total += b - r;
         }
+    }
+
+    bool contains(T x) const{
+        auto it = seg.upper_bound(x);
+        return it != seg.begin() && x < prev(it)->second;
+    }
+
+    T covered_length() const{
+        return total;
+    }
+
+    bool covers(T l, T r) const{
+        if (!(l < r)) return true;
+        auto it = seg.upper_bound(l);
+        return it != seg.begin() && !(prev(it)->second < r);
     }
 };
 

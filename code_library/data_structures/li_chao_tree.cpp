@@ -82,15 +82,6 @@ struct LiChaoTree{
         return res;
     }
 
-    static bool better(T a, T b){
-        return MAXIMIZE ? a > b : a < b;
-    }
-
-    int new_node(const Line& line){
-        nodes.push_back({line, -1, -1});
-        return (int)nodes.size() - 1;
-    }
-
     /// Walks a single root to leaf path, each node keeps the line that wins at its midpoint
     /// Two lines cross at most once, so when one wins at both ends of a node's range it wins on all of it and the walk stops
     int insert(int node, long long l, long long r, Line line){
@@ -134,6 +125,15 @@ struct LiChaoTree{
         int right = insert_segment(nodes[node].right, m + 1, r, ql, qr, line);
         nodes[node].right = right;
         return node;
+    }
+
+    static bool better(T a, T b){
+        return MAXIMIZE ? a > b : a < b;
+    }
+
+    int new_node(const Line& line){
+        nodes.push_back({line, -1, -1});
+        return (int)nodes.size() - 1;
     }
 };
 

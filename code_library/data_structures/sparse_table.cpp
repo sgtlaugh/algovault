@@ -91,14 +91,14 @@ struct LinearSparseTable{
         return val[res];
     }
 
-    int better(int i, int j) const{
-        return compare(val[j], val[i]) ? j : i;
-    }
-
     /// Index of the best value in [r - len + 1, r], len <= 64: the oldest stack entry inside the window
     int best_ending_at(int r, int len = B) const{
         unsigned long long m = len == B ? mask[r] : mask[r] & ((1ULL << len) - 1);
         return r - __lg(m);
+    }
+
+    int better(int i, int j) const{
+        return compare(val[j], val[i]) ? j : i;
     }
 };
 

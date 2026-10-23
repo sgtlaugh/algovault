@@ -79,6 +79,13 @@ struct FenwickSparse2D{
         return keys[k] ? vals[k] : 0;
     }
 
+    /// Key 0 marks an empty slot, Fenwick node indices start at 1 so every key is non-zero
+    int slot(long long key){
+        int k = hash_func(key) & mask;
+        while (keys[k] && keys[k] != key) k = (k + 1) & mask;
+        return k;
+    }
+
     /// MurmurHash3 fmix64 finalizer
     unsigned long long hash_func(unsigned long long h){
         h ^= h >> 33;
@@ -87,13 +94,6 @@ struct FenwickSparse2D{
         h *= 0xc4ceb9fe1a85ec53ULL;
         h ^= h >> 33;
         return h;
-    }
-
-    /// Key 0 marks an empty slot, Fenwick node indices start at 1 so every key is non-zero
-    int slot(long long key){
-        int k = hash_func(key) & mask;
-        while (keys[k] && keys[k] != key) k = (k + 1) & mask;
-        return k;
     }
 };
 

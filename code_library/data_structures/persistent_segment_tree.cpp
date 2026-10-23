@@ -14,9 +14,9 @@
  * tree.add(v, i, x): id of a new version equal to version v with x added at position i
  * tree.set(v, i, x): id of a new version equal to version v with position i replaced by x
  * tree.get(v, i): the value at position i in version v
+ * tree.kth(lo, hi, k): smallest position p whose prefix sum [0, p] of version hi minus version lo exceeds k, Combine = plus only
  * tree.query(v, l, r): combine over positions l..r in version v, 0 <= l <= r < n
  * tree.versions(): number of versions, the ids are 0..versions() - 1
- * tree.kth(lo, hi, k): smallest position p whose prefix sum [0, p] of version hi minus version lo exceeds k, Combine = plus only
  * RangeKth<T> rk(values): k-th smallest queries over values
  * rk.kth(l, r, k): the k-th smallest of values[l..r], 0-based, 0 <= k <= r - l
  *
@@ -39,10 +39,6 @@ struct PersistentSegmentTree{
     PersistentSegmentTree(const vector<T>& values, Combine combine = Combine()) : n(values.size()), combine(combine){
         lc.reserve(2 * n), rc.reserve(2 * n), val.reserve(2 * n);
         roots.push_back(n ? build(values, 0, n - 1) : -1);
-    }
-
-    int versions() const{
-        return roots.size();
     }
 
     int add(int version, int i, T x){
@@ -68,11 +64,6 @@ struct PersistentSegmentTree{
         return val[node];
     }
 
-    T query(int version, int l, int r) const{
-        assert(0 <= version && version < versions() && 0 <= l && l <= r && r < n);
-        return query(roots[version], 0, n - 1, l, r);
-    }
-
     int kth(int lo_version, int hi_version, T k) const{
         static_assert(is_same_v<Combine, plus<T>>, "kth descends by subtracting subtree sums, only valid for Combine = plus");
         assert(0 <= lo_version && lo_version < versions() && 0 <= hi_version && hi_version < versions());
@@ -88,9 +79,22 @@ struct PersistentSegmentTree{
         return a;
     }
 
-    int new_node(int l, int r, T x){
-        lc.push_back(l), rc.push_back(r), val.push_back(x);
-        return val.size() - 1;
+    T query(int version, int l, int r) const{
+        assert(0 <= version && version < versions() && 0 <= l && l <= r && r < n);
+        return query(roots[version], 0, n - 1, l, r);
+    }
+
+    T query(int node, int a, int b, int l, int r) const{
+        if (l <= a && b <= r) return val[node];
+
+        int m = (a + b) / 2;
+        if (r <= m) return query(lc[node], a, m, l, r);
+        if (l > m) return query(rc[node], m + 1, b, l, r);
+        return combine(query(lc[node], a, m, l, r), query(rc[node], m + 1, b, l, r));
+    }
+
+    int versions() const{
+        return roots.size();
     }
 
     int build(const vector<T>& values, int a, int b){
@@ -111,13 +115,9 @@ struct PersistentSegmentTree{
         return new_node(l, r, combine(val[l], val[r]));
     }
 
-    T query(int node, int a, int b, int l, int r) const{
-        if (l <= a && b <= r) return val[node];
-
-        int m = (a + b) / 2;
-        if (r <= m) return query(lc[node], a, m, l, r);
-        if (l > m) return query(rc[node], m + 1, b, l, r);
-        return combine(query(lc[node], a, m, l, r), query(rc[node], m + 1, b, l, r));
+    int new_node(int l, int r, T x){
+        lc.push_back(l), rc.push_back(r), val.push_back(x);
+        return val.size() - 1;
     }
 };
 

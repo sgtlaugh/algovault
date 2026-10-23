@@ -8,9 +8,9 @@
  * SegmentTree<T, Ops = AddSum<T>, L = T> st(n): n copies of T(), range add and range sum by default
  * SegmentTree<T, Ops, L> st(ar): built from ar
  * st.update(l, r, lz): apply lz to a[l..r], 0 <= l <= r < n
- * st.query(l, r): combine over a[l..r], 0 <= l <= r < n
  * st.max_right(l, pred): largest r with pred(query(l, r)) true, l - 1 if none, 0 <= l <= n
  * st.min_left(r, pred): smallest l with pred(query(l, r)) true, r + 1 if none, -1 <= r < n
+ * st.query(l, r): combine over a[l..r], 0 <= l <= r < n
  *
  * pred must be monotone: once false it stays false as the range grows
  * pred is never called on an empty range, so combine needs no identity anywhere
@@ -57,9 +57,29 @@ struct SegmentTree : Ops{
         update(1, 0, n - 1, l, r, val);
     }
 
-    T query(int l, int r){
-        assert(0 <= l && l <= r && r < n);
-        return query(1, 0, n - 1, l, r);
+    void update(int idx, int a, int b, int l, int r, const L& val){
+        if (a == l && b == r){
+            push_lazy(idx, val);
+            propagate(idx, a, b);
+            return;
+        }
+        propagate(idx, a, b);
+
+        /// the untouched child gets propagated too, so the combine below reads its true value
+        int p = idx << 1, q = p | 1, c = (a + b) >> 1;
+        if (r <= c){
+            propagate(q, c + 1, b);
+            update(p, a, c, l, r, val);
+        }
+        else if (l > c){
+            propagate(p, a, c);
+            update(q, c + 1, b, l, r, val);
+        }
+        else{
+            update(p, a, c, l, c, val);
+            update(q, c + 1, b, c + 1, r, val);
+        }
+        tree[idx] = Ops::combine(tree[p], tree[q]);
     }
 
     template<typename Pred>
@@ -78,6 +98,21 @@ struct SegmentTree : Ops{
         bool empty = true;
         int pos = r >= 0 ? last_fail(1, 0, n - 1, r, pred, acc, empty) : -1;
         return pos == -1 ? 0 : pos + 1;
+    }
+
+    T query(int l, int r){
+        assert(0 <= l && l <= r && r < n);
+        return query(1, 0, n - 1, l, r);
+    }
+
+    T query(int idx, int a, int b, int l, int r){
+        propagate(idx, a, b);
+        if (a == l && b == r) return tree[idx];
+
+        int p = idx << 1, q = p | 1, c = (a + b) >> 1;
+        if (r <= c) return query(p, a, c, l, r);
+        if (l > c) return query(q, c + 1, b, l, r);
+        return Ops::combine(query(p, a, c, l, c), query(q, c + 1, b, c + 1, r));
     }
 
     void build(const vector<T>& ar, int idx, int a, int b){
@@ -105,41 +140,6 @@ struct SegmentTree : Ops{
             push_lazy(idx << 1 | 1, lazy[idx]);
         }
         has_lazy[idx] = 0;
-    }
-
-    void update(int idx, int a, int b, int l, int r, const L& val){
-        if (a == l && b == r){
-            push_lazy(idx, val);
-            propagate(idx, a, b);
-            return;
-        }
-        propagate(idx, a, b);
-
-        /// the untouched child gets propagated too, so the combine below reads its true value
-        int p = idx << 1, q = p | 1, c = (a + b) >> 1;
-        if (r <= c){
-            propagate(q, c + 1, b);
-            update(p, a, c, l, r, val);
-        }
-        else if (l > c){
-            propagate(p, a, c);
-            update(q, c + 1, b, l, r, val);
-        }
-        else{
-            update(p, a, c, l, c, val);
-            update(q, c + 1, b, c + 1, r, val);
-        }
-        tree[idx] = Ops::combine(tree[p], tree[q]);
-    }
-
-    T query(int idx, int a, int b, int l, int r){
-        propagate(idx, a, b);
-        if (a == l && b == r) return tree[idx];
-
-        int p = idx << 1, q = p | 1, c = (a + b) >> 1;
-        if (r <= c) return query(p, a, c, l, r);
-        if (l > c) return query(q, c + 1, b, l, r);
-        return Ops::combine(query(p, a, c, l, c), query(q, c + 1, b, c + 1, r));
     }
 
     /// first position in [max(a, l), b] where pred(acc merged with values l..pos) fails, or -1, acc absorbs every passing node

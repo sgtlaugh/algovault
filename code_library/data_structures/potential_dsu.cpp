@@ -31,13 +31,6 @@ struct PotentialDSU{
         iota(parent.begin(), parent.end(), 0);
     }
 
-    int find(int i){
-        if (parent[i] == i) return i;
-        int root = find(parent[i]);
-        up[i] = norm(up[i] + up[parent[i]]);
-        return parent[i] = root;
-    }
-
     bool relate(int a, int b, long long d){
         int ra = find(a), rb = find(b);
         d = norm(d);
@@ -61,6 +54,13 @@ struct PotentialDSU{
 
     int size(int a){
         return sz[find(a)];
+    }
+
+    int find(int i){
+        if (parent[i] == i) return i;
+        int root = find(parent[i]);
+        up[i] = norm(up[i] + up[parent[i]]);
+        return parent[i] = root;
     }
 
     long long norm(long long x) const{

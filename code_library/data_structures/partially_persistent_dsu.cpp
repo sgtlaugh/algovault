@@ -7,9 +7,9 @@
  *
  * PartiallyPersistentDSU dsu(n): nodes 0..n, each in its own set
  * dsu.connect(a, b): merge the sets of a and b, false if they already were one set
+ * dsu.find(a, t): representative of a's set after the first t connect calls
  * dsu.same(a, b, t): true if a and b were in the same set after the first t connect calls
  * dsu.size(a, t): number of nodes in a's set after the first t connect calls
- * dsu.find(a, t): representative of a's set after the first t connect calls
  * dsu.now: number of connect calls so far, failed ones included
  *
  * t = 0 is the state before any call, any t >= now is the current state
@@ -30,12 +30,6 @@ struct PartiallyPersistentDSU{
         iota(parent.begin(), parent.end(), 0);
     }
 
-    int find(int a, int t){
-        assert(t >= 0);
-        while (a != parent[a] && merged_at[a] <= t) a = parent[a];
-        return a;
-    }
-
     bool connect(int a, int b){
         now++;
         a = find(a, now), b = find(b, now);
@@ -46,6 +40,12 @@ struct PartiallyPersistentDSU{
         parent[a] = b, merged_at[a] = now;
         size_history[b].push_back({now, size_a + size_b});
         return true;
+    }
+
+    int find(int a, int t){
+        assert(t >= 0);
+        while (a != parent[a] && merged_at[a] <= t) a = parent[a];
+        return a;
     }
 
     bool same(int a, int b, int t){

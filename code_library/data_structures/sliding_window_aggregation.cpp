@@ -6,11 +6,11 @@
  * Complexity: O(1) amortized per operation, a pop that refills the front stack takes O(n)
  *
  * SlidingWindowAggregation q(identity, op): an empty queue
- * q.push(x): appends x
  * q.pop(): removes the oldest element, the queue must not be empty
+ * q.push(x): appends x
+ * q.empty(): true if the queue has no elements
  * q.fold(): op(...op(op(a_0, a_1), a_2)..., a_k) over the elements oldest first, identity when empty
  * q.size(): the number of elements
- * q.empty(): true if the queue has no elements
  * MonotonicQueue<T, Compare = less<T>> q: an empty queue with the same push, pop, size and empty
  * q.best(): the minimum under Compare of the elements, the queue must not be empty
  *
@@ -32,15 +32,6 @@ struct SlidingWindowAggregation{
 
     SlidingWindowAggregation(T identity, Op combine) : identity(identity), combine(combine), back_fold(identity) {}
 
-    bool empty() const{
-        return front.empty() && back.empty();
-    }
-
-    T fold() const{
-        if (front.empty()) return back_fold;
-        return back.empty() ? front.back() : combine(front.back(), back_fold);
-    }
-
     void pop(){
         if (front.empty()){
             for (int i = (int)back.size() - 1; i >= 0; i--){
@@ -57,6 +48,15 @@ struct SlidingWindowAggregation{
         back_fold = combine(back_fold, x);
     }
 
+    bool empty() const{
+        return front.empty() && back.empty();
+    }
+
+    T fold() const{
+        if (front.empty()) return back_fold;
+        return back.empty() ? front.back() : combine(front.back(), back_fold);
+    }
+
     int size() const{
         return front.size() + back.size();
     }
@@ -68,14 +68,6 @@ struct MonotonicQueue{
     deque<pair<T, long long>> candidates;  /// increasing push index, best value at the front
     long long pushed = 0, popped = 0;
 
-    T best() const{
-        return candidates.front().first;
-    }
-
-    bool empty() const{
-        return pushed == popped;
-    }
-
     void pop(){
         if (candidates.front().second == popped) candidates.pop_front();
         popped++;
@@ -84,6 +76,14 @@ struct MonotonicQueue{
     void push(const T& x){
         while (!candidates.empty() && !cmp(candidates.back().first, x)) candidates.pop_back();
         candidates.emplace_back(x, pushed++);
+    }
+
+    T best() const{
+        return candidates.front().first;
+    }
+
+    bool empty() const{
+        return pushed == popped;
     }
 
     int size() const{

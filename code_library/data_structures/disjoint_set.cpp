@@ -7,9 +7,9 @@
  *
  * DSU dsu(n): nodes 0..n, each in its own set
  * dsu.connect(a, b): merge the sets of a and b, false if they are already one set
+ * dsu.find(a): the root of a's set, the same node for every member
  * dsu.same(a, b): true if a and b are in the same set
  * dsu.size(a): number of nodes in a's set
- * dsu.find(a): the root of a's set, the same node for every member
  *
  * Variants: rollback_dsu.cpp (undoable unions), potential_dsu.cpp (relations x[b] = x[a] + d), partially_persistent_dsu.cpp (queries at past times)
  *
@@ -26,14 +26,6 @@ struct DSU{
         iota(parent.begin(), parent.end(), 0);
     }
 
-    int find(int i){
-        while (i != parent[i]){
-            parent[i] = parent[parent[i]];
-            i = parent[i];
-        }
-        return parent[i];
-    }
-
     bool connect(int a, int b){
         a = find(a), b = find(b);
         if (a == b) return false;
@@ -41,6 +33,14 @@ struct DSU{
         if (sz[a] > sz[b]) swap(a, b);
         parent[a] = b, sz[b] += sz[a];
         return true;
+    }
+
+    int find(int i){
+        while (i != parent[i]){
+            parent[i] = parent[parent[i]];
+            i = parent[i];
+        }
+        return parent[i];
     }
 
     bool same(int a, int b){

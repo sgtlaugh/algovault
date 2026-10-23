@@ -5,11 +5,11 @@
  *
  * Complexity: O(n)
  *
- * previous_smaller(a)[i]: largest j < i with a[j] < a[i], or -1
- * next_smaller(a)[i]: smallest j > i with a[j] < a[i], or n
- * previous_smaller(a, compare)[i]: largest j < i with compare(a[j], a[i]), or -1
- * next_smaller(a, compare)[i]: smallest j > i with compare(a[j], a[i]), or n
  * largest_rectangle(h): largest axis aligned rectangle under the histogram h, as long long
+ * next_smaller(a)[i]: smallest j > i with a[j] < a[i], or n
+ * next_smaller(a, compare)[i]: smallest j > i with compare(a[j], a[i]), or n
+ * previous_smaller(a)[i]: largest j < i with a[j] < a[i], or -1
+ * previous_smaller(a, compare)[i]: largest j < i with compare(a[j], a[i]), or -1
  *
  * compare is an ordering, strict like greater<T>() for the nearest greater element or non-strict like less_equal<T>()
  * a[i] is the minimum of every range that contains i and lies inside (previous_smaller(a)[i], next_smaller(a)[i])
@@ -22,24 +22,24 @@
 using namespace std;
 
 template <typename T, typename Compare = less<T>>
-vector<int> previous_smaller(const vector<T>& a, Compare compare = Compare()){
-    int n = a.size();
-    vector<int> res(n), stack;
-    for (int i = 0; i < n; i++){
-        while (!stack.empty() && !compare(a[stack.back()], a[i])) stack.pop_back();
-        res[i] = stack.empty() ? -1 : stack.back();
-        stack.push_back(i);
-    }
-    return res;
-}
-
-template <typename T, typename Compare = less<T>>
 vector<int> next_smaller(const vector<T>& a, Compare compare = Compare()){
     int n = a.size();
     vector<int> res(n), stack;
     for (int i = n - 1; i >= 0; i--){
         while (!stack.empty() && !compare(a[stack.back()], a[i])) stack.pop_back();
         res[i] = stack.empty() ? n : stack.back();
+        stack.push_back(i);
+    }
+    return res;
+}
+
+template <typename T, typename Compare = less<T>>
+vector<int> previous_smaller(const vector<T>& a, Compare compare = Compare()){
+    int n = a.size();
+    vector<int> res(n), stack;
+    for (int i = 0; i < n; i++){
+        while (!stack.empty() && !compare(a[stack.back()], a[i])) stack.pop_back();
+        res[i] = stack.empty() ? -1 : stack.back();
         stack.push_back(i);
     }
     return res;

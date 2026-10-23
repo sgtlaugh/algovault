@@ -7,14 +7,14 @@
  *
  * LinkCutTree<T> lct(n): nodes 0..n - 1 and no edges, values start at T() and paths fold with +
  * LinkCutTree<T, Combine> lct(n, identity, combine): values start at identity and paths fold with combine
- * lct.link(u, v): adds edge u-v with u as a child of v, false and no change if u and v are already connected
  * lct.cut(u, v): removes edge u-v, false if there is no such edge
+ * lct.link(u, v): adds edge u-v with u as a child of v, false and no change if u and v are already connected
+ * lct.make_root(u): re-roots u's tree at u
+ * lct.set(u, value): sets the value of u
  * lct.connected(u, v): whether u and v are in the same tree
  * lct.find_root(u): root of u's tree
- * lct.parent(u): parent of u under the current root, -1 for the root
- * lct.make_root(u): re-roots u's tree at u
  * lct.lca(u, v): lowest common ancestor under the current root, -1 if u and v are not connected
- * lct.set(u, value): sets the value of u
+ * lct.parent(u): parent of u under the current root, -1 for the root
  * lct.query(u, v): combine of the values on the path u..v, both ends included, u and v must be connected
  *
  * combine must be associative and commutative with identity as its neutral element, since re-rooting reverses paths
@@ -45,41 +45,6 @@ struct LinkCutTree{
     LinkCutTree(int n, T identity = T(), Combine combine = Combine())
         : identity(identity), combine(combine), nodes(n, Node{{-1, -1}, -1, false, identity, identity}) {}
 
-    int parent(int u){
-        access(u);
-        int x = nodes[u].ch[0];
-        if (x == -1) return -1;
-
-        for (push(x); nodes[x].ch[1] != -1; push(x)) x = nodes[x].ch[1];
-        splay(x);
-        return x;
-    }
-
-    int find_root(int u){
-        access(u);
-        int x = u;
-        for (push(x); nodes[x].ch[0] != -1; push(x)) x = nodes[x].ch[0];
-
-        splay(x);
-        return x;
-    }
-
-    bool connected(int u, int v){
-        return find_root(u) == find_root(v);
-    }
-
-    void make_root(int u){
-        access(u);
-        nodes[u].flip ^= 1;
-    }
-
-    bool link(int u, int v){
-        if (connected(u, v)) return false;
-        make_root(u);
-        nodes[u].par = v;
-        return true;
-    }
-
     bool cut(int u, int v){
         if (parent(u) != v) swap(u, v);
         if (parent(u) != v) return false;
@@ -91,16 +56,51 @@ struct LinkCutTree{
         return true;
     }
 
-    int lca(int u, int v){
-        if (!connected(u, v)) return -1;
+    bool link(int u, int v){
+        if (connected(u, v)) return false;
+        make_root(u);
+        nodes[u].par = v;
+        return true;
+    }
+
+    void make_root(int u){
         access(u);
-        return access(v);
+        nodes[u].flip ^= 1;
     }
 
     void set(int u, T value){
         splay(u);
         nodes[u].value = value;
         pull(u);
+    }
+
+    bool connected(int u, int v){
+        return find_root(u) == find_root(v);
+    }
+
+    int find_root(int u){
+        access(u);
+        int x = u;
+        for (push(x); nodes[x].ch[0] != -1; push(x)) x = nodes[x].ch[0];
+
+        splay(x);
+        return x;
+    }
+
+    int lca(int u, int v){
+        if (!connected(u, v)) return -1;
+        access(u);
+        return access(v);
+    }
+
+    int parent(int u){
+        access(u);
+        int x = nodes[u].ch[0];
+        if (x == -1) return -1;
+
+        for (push(x); nodes[x].ch[1] != -1; push(x)) x = nodes[x].ch[1];
+        splay(x);
+        return x;
     }
 
     T query(int u, int v){
@@ -115,40 +115,22 @@ struct LinkCutTree{
         return res;
     }
 
-    bool is_root(int x) const{
-        int p = nodes[x].par;
-        return p == -1 || (nodes[p].ch[0] != x && nodes[p].ch[1] != x);
-    }
-
-    T agg_of(int x) const{
-        return x == -1 ? identity : nodes[x].agg;
-    }
-
-    void push(int x){
-        if (!nodes[x].flip) return;
-        swap(nodes[x].ch[0], nodes[x].ch[1]);
-        for (int c : nodes[x].ch){
-            if (c != -1) nodes[c].flip ^= 1;
+    /// Makes root..x the preferred path, x ends as the root of its splay tree; returns the last node joined
+    int access(int x){
+        int last = -1;
+        for (int y = x; y != -1; y = nodes[y].par){
+            splay(y);
+            nodes[y].ch[1] = last;
+            pull(y);
+            last = y;
         }
-        nodes[x].flip = false;
+
+        splay(x);
+        return last;
     }
 
     void pull(int x){
         nodes[x].agg = combine(combine(agg_of(nodes[x].ch[0]), nodes[x].value), agg_of(nodes[x].ch[1]));
-    }
-
-    void rotate(int x){
-        int p = nodes[x].par, g = nodes[p].par, d = nodes[p].ch[1] == x, child = nodes[x].ch[!d];
-
-        if (!is_root(p)) nodes[g].ch[nodes[g].ch[1] == p] = x;
-        nodes[x].par = g;
-        nodes[p].ch[d] = child;
-        if (child != -1) nodes[child].par = p;
-        nodes[x].ch[!d] = p;
-        nodes[p].par = x;
-
-        pull(p);
-        pull(x);
     }
 
     /// Pushing only g, p, x is enough: a flip pending higher up reverses the whole subtree and commutes with rotations below
@@ -164,18 +146,36 @@ struct LinkCutTree{
         }
     }
 
-    /// Makes root..x the preferred path, x ends as the root of its splay tree; returns the last node joined
-    int access(int x){
-        int last = -1;
-        for (int y = x; y != -1; y = nodes[y].par){
-            splay(y);
-            nodes[y].ch[1] = last;
-            pull(y);
-            last = y;
+    void push(int x){
+        if (!nodes[x].flip) return;
+        swap(nodes[x].ch[0], nodes[x].ch[1]);
+        for (int c : nodes[x].ch){
+            if (c != -1) nodes[c].flip ^= 1;
         }
+        nodes[x].flip = false;
+    }
 
-        splay(x);
-        return last;
+    T agg_of(int x) const{
+        return x == -1 ? identity : nodes[x].agg;
+    }
+
+    bool is_root(int x) const{
+        int p = nodes[x].par;
+        return p == -1 || (nodes[p].ch[0] != x && nodes[p].ch[1] != x);
+    }
+
+    void rotate(int x){
+        int p = nodes[x].par, g = nodes[p].par, d = nodes[p].ch[1] == x, child = nodes[x].ch[!d];
+
+        if (!is_root(p)) nodes[g].ch[nodes[g].ch[1] == p] = x;
+        nodes[x].par = g;
+        nodes[p].ch[d] = child;
+        if (child != -1) nodes[child].par = p;
+        nodes[x].ch[!d] = p;
+        nodes[p].par = x;
+
+        pull(p);
+        pull(x);
     }
 };
 

@@ -62,6 +62,22 @@ struct FenwickImplicit2D{
         return res;
     }
 
+    void update_fen(int x, int y, T v){
+        if (y >= m) return;  /// column m from a range update ending at m - 1, otherwise it lands on leaf m - 1
+        for (int i = x + 1; i <= n; i += i & -i){
+            root[i] = update_seg(root[i], 0, m - 1, y, v);
+        }
+    }
+
+    T query_seg(int cur, int a, int b, int r){
+        if (!cur) return 0;
+        if (r >= b) return nodes[cur].sum;
+
+        int mid = a + (b - a) / 2;
+        if (r <= mid) return query_seg(nodes[cur].l, a, mid, r);
+        return nodes[nodes[cur].l].sum + query_seg(nodes[cur].r, mid + 1, b, r);
+    }
+
     int update_seg(int cur, int a, int b, int p, T v){
         if (!cur){
             assert((int)nodes.size() < MAXNODES);  /// out of pool nodes, raise MAXNODES
@@ -76,22 +92,6 @@ struct FenwickImplicit2D{
             else nodes[cur].r = update_seg(nodes[cur].r, mid + 1, b, p, v);
         }
         return cur;
-    }
-
-    T query_seg(int cur, int a, int b, int r){
-        if (!cur) return 0;
-        if (r >= b) return nodes[cur].sum;
-
-        int mid = a + (b - a) / 2;
-        if (r <= mid) return query_seg(nodes[cur].l, a, mid, r);
-        return nodes[nodes[cur].l].sum + query_seg(nodes[cur].r, mid + 1, b, r);
-    }
-
-    void update_fen(int x, int y, T v){
-        if (y >= m) return;  /// column m from a range update ending at m - 1, otherwise it lands on leaf m - 1
-        for (int i = x + 1; i <= n; i += i & -i){
-            root[i] = update_seg(root[i], 0, m - 1, y, v);
-        }
     }
 };
 

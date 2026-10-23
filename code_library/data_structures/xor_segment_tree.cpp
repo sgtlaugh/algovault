@@ -7,8 +7,8 @@
  *
  * XorSegmentTree<T> st(a): sums of a, a.size() a power of two
  * XorSegmentTree<T, Combine> st(a, combine): tree with combine, which must be associative and have a const operator() but need not commute
- * st.query(l, r, x): combine of a[p ^ x] over l <= p <= r in p order, 0 <= l <= r < n, 0 <= x < n
  * st.add(i, v): a[i] += v, only with the default Combine = plus<T>, every other combine builds a static tree
+ * st.query(l, r, x): combine of a[p ^ x] over l <= p <= r in p order, 0 <= l <= r < n, 0 <= x < n
  *
  * Pad a to a power of two by hand, the padding values depend on what a padded a[p ^ x] should mean
  * For sums every stored fold of a node is the same block sum, the n log n layout pays off for order-dependent tree like max subarray sum (CF 1716E)
@@ -37,11 +37,6 @@ struct XorSegmentTree{
         add(1, 0, n, i, v);
     }
 
-    T query(int l, int r, int x) const{
-        assert(0 <= l && l <= r && r < n && 0 <= x && x < n);
-        return query(1, 0, n, l, r, x);
-    }
-
     void add(int node, int b, int len, int i, T v){
         added[node] += v;
         if (len == 1) return;
@@ -51,21 +46,9 @@ struct XorSegmentTree{
         else add(node << 1 | 1, b + half, half, i, v);
     }
 
-    void build(int node, int b, int len, const vector<T>& a){
-        if (len == 1){
-            tree[node] = {a[b]};
-            return;
-        }
-
-        int half = len >> 1, lc = node << 1, rc = lc | 1;
-        build(lc, b, half, a);
-        build(rc, b + half, half, a);
-
-        tree[node].resize(len);
-        for (int y = 0; y < half; y++){
-            tree[node][y] = combine(tree[lc][y], tree[rc][y]);
-            tree[node][y + half] = combine(tree[rc][y], tree[lc][y]);
-        }
+    T query(int l, int r, int x) const{
+        assert(0 <= l && l <= r && r < n && 0 <= x && x < n);
+        return query(1, 0, n, l, r, x);
     }
 
     /// x < len, b <= l <= r < b + len; tree a[p ^ x] over p in [l, r], never visiting an empty range
@@ -83,6 +66,23 @@ struct XorSegmentTree{
         if (l >= mid) return query(right_src, b + half - shift, half, l - shift, r - shift, x);
         return combine(query(left_src, b + shift, half, l + shift, mid - 1 + shift, x),
                        query(right_src, b + half - shift, half, mid - shift, r - shift, x));
+    }
+
+    void build(int node, int b, int len, const vector<T>& a){
+        if (len == 1){
+            tree[node] = {a[b]};
+            return;
+        }
+
+        int half = len >> 1, lc = node << 1, rc = lc | 1;
+        build(lc, b, half, a);
+        build(rc, b + half, half, a);
+
+        tree[node].resize(len);
+        for (int y = 0; y < half; y++){
+            tree[node][y] = combine(tree[lc][y], tree[rc][y]);
+            tree[node][y + half] = combine(tree[rc][y], tree[lc][y]);
+        }
     }
 };
 

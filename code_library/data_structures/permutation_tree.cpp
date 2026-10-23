@@ -108,6 +108,15 @@ struct PermutationTree{
         return total;
     }
 
+    int new_node(Type t, pair<int, int> s, pair<int, int> r){
+        parent.push_back(-1);
+        type.push_back(t);
+        span.push_back(s);
+        range.push_back(r);
+        children.emplace_back();
+        return parent.size() - 1;
+    }
+
     static void add(vector<int>& tree_min, vector<int>& tree_add, int idx, int a, int b, int l, int r, int val){
         if (r < a || b < l) return;
         if (l <= a && b <= r){
@@ -131,15 +140,6 @@ struct PermutationTree{
         children[v].push_back(child);
         span[v] = {min(span[v].first, span[child].first), max(span[v].second, span[child].second)};
         range[v] = {min(range[v].first, range[child].first), max(range[v].second, range[child].second)};
-    }
-
-    int new_node(Type t, pair<int, int> s, pair<int, int> r){
-        parent.push_back(-1);
-        type.push_back(t);
-        span.push_back(s);
-        range.push_back(r);
-        children.emplace_back();
-        return parent.size() - 1;
     }
 
     static int query_min(const vector<int>& tree_min, const vector<int>& tree_add, int idx, int a, int b, int l, int r){

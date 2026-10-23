@@ -7,11 +7,11 @@
  *
  * RollbackDSU dsu(n): nodes 0..n, each in its own set
  * dsu.connect(a, b): merge the sets of a and b, false if they are already one set
+ * dsu.rollback(t): undo every union made after time() returned t, 0 <= t <= time()
+ * dsu.find(a): the root of a's set, the same node for every member
  * dsu.same(a, b): true if a and b are in the same set
  * dsu.size(a): number of nodes in a's set
- * dsu.find(a): the root of a's set, the same node for every member
  * dsu.time(): number of successful connects not yet rolled back, use it as a checkpoint
- * dsu.rollback(t): undo every union made after time() returned t, 0 <= t <= time()
  *
  * Union by size without path compression, so a union changes one parent and undoing it is O(1)
  * offline_dynamic_connectivity.cpp carries a checked copy of this struct
@@ -30,11 +30,6 @@ struct RollbackDSU{
         iota(parent.begin(), parent.end(), 0);
     }
 
-    int find(int i){
-        while (i != parent[i]) i = parent[i];
-        return i;
-    }
-
     bool connect(int a, int b){
         a = find(a), b = find(b);
         if (a == b) return false;
@@ -43,6 +38,20 @@ struct RollbackDSU{
         parent[a] = b, sz[b] += sz[a];
         history.push_back(a);
         return true;
+    }
+
+    void rollback(int t){
+        assert(0 <= t && t <= time());
+        while ((int)history.size() > t){
+            int a = history.back();
+            history.pop_back();
+            sz[parent[a]] -= sz[a], parent[a] = a;
+        }
+    }
+
+    int find(int i){
+        while (i != parent[i]) i = parent[i];
+        return i;
     }
 
     bool same(int a, int b){
@@ -55,15 +64,6 @@ struct RollbackDSU{
 
     int time(){
         return history.size();
-    }
-
-    void rollback(int t){
-        assert(0 <= t && t <= time());
-        while ((int)history.size() > t){
-            int a = history.back();
-            history.pop_back();
-            sz[parent[a]] -= sz[a], parent[a] = a;
-        }
     }
 };
 /// END SHARED rollback_dsu

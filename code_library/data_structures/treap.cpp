@@ -6,21 +6,21 @@
  * Complexity: expected O(log n) per operation, O(n) to build an ImplicitTreap from an array
  *
  * Treap<T> set: an empty multiset of keys
- * set.insert(key): adds one copy of key
  * set.erase(key): removes one copy of key, false if there is none
- * set.size(): number of keys, copies included
- * set.kth(k): the k-th smallest key, 0-based, 0 <= k < size()
- * set.count_less(key): how many keys are < key
+ * set.insert(key): adds one copy of key
  * set.count(key): how many copies of key
+ * set.count_less(key): how many keys are < key
+ * set.kth(k): the k-th smallest key, 0-based, 0 <= k < size()
+ * set.size(): number of keys, copies included
  *
  * ImplicitTreap seq(values): the sequence of long long values, empty when values is omitted
- * seq.insert(pos, value): inserts value before position pos, 0 <= pos <= size(), pos = size() appends
- * seq.erase(pos): removes the value at pos, 0 <= pos < size()
- * seq.size(): length of the sequence
  * seq.add(l, r, delta): adds delta to positions l..r
- * seq.sum(l, r): sum of positions l..r
+ * seq.erase(pos): removes the value at pos, 0 <= pos < size()
+ * seq.insert(pos, value): inserts value before position pos, 0 <= pos <= size(), pos = size() appends
  * seq.reverse(l, r): reverses the order of positions l..r
  * seq.get(pos): the value at pos, 0 <= pos < size()
+ * seq.size(): length of the sequence
+ * seq.sum(l, r): sum of positions l..r
  * seq.to_vector(): the whole sequence in order
  *
  * Positions are 0-based and ranges need 0 <= l <= r < size()
@@ -47,12 +47,74 @@ struct Treap{
     int root = -1;
     mt19937 rng{(unsigned int)chrono::steady_clock::now().time_since_epoch().count()};
 
-    int size(int t) const{
-        return t == -1 ? 0 : nodes[t].size;
+    bool erase(const T& key){
+        return erase(root, key);
+    }
+
+    bool erase(int& t, const T& key){
+        if (t == -1) return false;
+        if (!(nodes[t].key < key) && !(key < nodes[t].key)){
+            t = merge(nodes[t].l, nodes[t].r);
+            return true;
+        }
+        bool found = erase(key < nodes[t].key ? nodes[t].l : nodes[t].r, key);
+        if (found) pull(t);
+        return found;
+    }
+
+    void insert(const T& key){
+        nodes.push_back({key, (unsigned int)rng(), 1, -1, -1});
+        int a, b;
+        split(root, key, a, b);
+        root = merge(merge(a, (int)nodes.size() - 1), b);
+    }
+
+    int count(const T& key) const{
+        int res = 0;
+        for (int t = root; t != -1; ){
+            if (key < nodes[t].key) t = nodes[t].l;
+            else res += size(nodes[t].l) + 1, t = nodes[t].r;
+        }
+        return res - count_less(key);
+    }
+
+    int count_less(const T& key) const{
+        int res = 0;
+        for (int t = root; t != -1; ){
+            if (nodes[t].key < key) res += size(nodes[t].l) + 1, t = nodes[t].r;
+            else t = nodes[t].l;
+        }
+        return res;
+    }
+
+    T kth(int k) const{
+        assert(0 <= k && k < size());
+        for (int t = root; ; ){
+            int left = size(nodes[t].l);
+            if (k < left) t = nodes[t].l;
+            else if (k == left) return nodes[t].key;
+            else k -= left + 1, t = nodes[t].r;
+        }
     }
 
     int size() const{
         return size(root);
+    }
+
+    int size(int t) const{
+        return t == -1 ? 0 : nodes[t].size;
+    }
+
+    int merge(int a, int b){
+        if (a == -1 || b == -1) return a == -1 ? b : a;
+        if (nodes[a].priority > nodes[b].priority){
+            nodes[a].r = merge(nodes[a].r, b);
+            pull(a);
+            return a;
+        }
+        nodes[b].l = merge(a, nodes[b].l);
+        pull(b);
+        return b;
     }
 
     void pull(int t){
@@ -75,68 +137,6 @@ struct Treap{
             b = t;
         }
         pull(t);
-    }
-
-    int merge(int a, int b){
-        if (a == -1 || b == -1) return a == -1 ? b : a;
-        if (nodes[a].priority > nodes[b].priority){
-            nodes[a].r = merge(nodes[a].r, b);
-            pull(a);
-            return a;
-        }
-        nodes[b].l = merge(a, nodes[b].l);
-        pull(b);
-        return b;
-    }
-
-    void insert(const T& key){
-        nodes.push_back({key, (unsigned int)rng(), 1, -1, -1});
-        int a, b;
-        split(root, key, a, b);
-        root = merge(merge(a, (int)nodes.size() - 1), b);
-    }
-
-    bool erase(const T& key){
-        return erase(root, key);
-    }
-
-    bool erase(int& t, const T& key){
-        if (t == -1) return false;
-        if (!(nodes[t].key < key) && !(key < nodes[t].key)){
-            t = merge(nodes[t].l, nodes[t].r);
-            return true;
-        }
-        bool found = erase(key < nodes[t].key ? nodes[t].l : nodes[t].r, key);
-        if (found) pull(t);
-        return found;
-    }
-
-    int count_less(const T& key) const{
-        int res = 0;
-        for (int t = root; t != -1; ){
-            if (nodes[t].key < key) res += size(nodes[t].l) + 1, t = nodes[t].r;
-            else t = nodes[t].l;
-        }
-        return res;
-    }
-
-    int count(const T& key) const{
-        int res = 0;
-        for (int t = root; t != -1; ){
-            if (key < nodes[t].key) t = nodes[t].l;
-            else res += size(nodes[t].l) + 1, t = nodes[t].r;
-        }
-        return res - count_less(key);
-    }
-
-    T kth(int k) const{
-        assert(0 <= k && k < size());
-        for (int t = root; ; ){
-            int left = size(nodes[t].l);
-            if (k < left) t = nodes[t].l;
-            else if (k == left) return nodes[t].key;
-            else k -= left + 1, t = nodes[t].r;
-        }
     }
 };
 
@@ -174,37 +174,86 @@ struct ImplicitTreap{
         }
     }
 
-    int new_node(long long v){
-        nodes.push_back({v, v, 0, (unsigned int)rng(), 1, -1, -1, false});
-        return nodes.size() - 1;
+    void add(int l, int r, long long delta){
+        on_range(l, r, [&](int t){ apply(t, delta, false); });
     }
 
-    int size(int t) const{
-        return t == -1 ? 0 : nodes[t].size;
+    void erase(int pos){
+        assert(0 <= pos && pos < size());
+        int a, b, c;
+        split(root, pos, a, b);
+        split(b, 1, b, c);
+        root = merge(a, c);
+    }
+
+    void insert(int pos, long long value){
+        assert(0 <= pos && pos <= size());
+        int a, b;
+        split(root, pos, a, b);
+        root = merge(merge(a, new_node(value)), b);
+    }
+
+    void reverse(int l, int r){
+        on_range(l, r, [&](int t){ apply(t, 0, true); });
+    }
+
+    long long get(int pos){
+        return sum(pos, pos);
     }
 
     int size() const{
         return size(root);
     }
 
-    void apply(int t, long long delta, bool flip){
-        if (t == -1) return;
-        nodes[t].value += delta, nodes[t].total += delta * nodes[t].size, nodes[t].lazy += delta;
-        if (flip) swap(nodes[t].l, nodes[t].r), nodes[t].flip ^= 1;
+    int size(int t) const{
+        return t == -1 ? 0 : nodes[t].size;
     }
 
-    void push(int t){
-        if (nodes[t].lazy || nodes[t].flip){
-            apply(nodes[t].l, nodes[t].lazy, nodes[t].flip);
-            apply(nodes[t].r, nodes[t].lazy, nodes[t].flip);
-            nodes[t].lazy = 0, nodes[t].flip = false;
+    long long sum(int l, int r){
+        long long res = 0;
+        on_range(l, r, [&](int t){ res = nodes[t].total; });
+        return res;
+    }
+
+    vector<long long> to_vector(){
+        vector<long long> res;
+        vector<int> stack;
+        for (int t = root; t != -1 || !stack.empty(); ){
+            for (; t != -1; t = nodes[t].l) push(t), stack.push_back(t);
+            t = stack.back();
+            stack.pop_back();
+            res.push_back(nodes[t].value);
+            t = nodes[t].r;
         }
+        return res;
+    }
+
+    int new_node(long long v){
+        nodes.push_back({v, v, 0, (unsigned int)rng(), 1, -1, -1, false});
+        return nodes.size() - 1;
     }
 
     void pull(int t){
         int l = nodes[t].l, r = nodes[t].r;
         nodes[t].size = 1 + size(l) + size(r);
         nodes[t].total = nodes[t].value + (l == -1 ? 0 : nodes[l].total) + (r == -1 ? 0 : nodes[r].total);
+    }
+
+    /// Applies f to the treap holding exactly [l, r], then joins everything back
+    template <typename F>
+    void on_range(int l, int r, F f){
+        assert(0 <= l && l <= r && r < size());
+        int a, b, c;
+        split(root, l, a, b);
+        split(b, r - l + 1, b, c);
+        f(b);
+        root = merge(merge(a, b), c);
+    }
+
+    void apply(int t, long long delta, bool flip){
+        if (t == -1) return;
+        nodes[t].value += delta, nodes[t].total += delta * nodes[t].size, nodes[t].lazy += delta;
+        if (flip) swap(nodes[t].l, nodes[t].r), nodes[t].flip ^= 1;
     }
 
     /// Splits t into the first k elements and the rest
@@ -240,61 +289,12 @@ struct ImplicitTreap{
         return b;
     }
 
-    void insert(int pos, long long value){
-        assert(0 <= pos && pos <= size());
-        int a, b;
-        split(root, pos, a, b);
-        root = merge(merge(a, new_node(value)), b);
-    }
-
-    void erase(int pos){
-        assert(0 <= pos && pos < size());
-        int a, b, c;
-        split(root, pos, a, b);
-        split(b, 1, b, c);
-        root = merge(a, c);
-    }
-
-    /// Applies f to the treap holding exactly [l, r], then joins everything back
-    template <typename F>
-    void on_range(int l, int r, F f){
-        assert(0 <= l && l <= r && r < size());
-        int a, b, c;
-        split(root, l, a, b);
-        split(b, r - l + 1, b, c);
-        f(b);
-        root = merge(merge(a, b), c);
-    }
-
-    void add(int l, int r, long long delta){
-        on_range(l, r, [&](int t){ apply(t, delta, false); });
-    }
-
-    void reverse(int l, int r){
-        on_range(l, r, [&](int t){ apply(t, 0, true); });
-    }
-
-    long long sum(int l, int r){
-        long long res = 0;
-        on_range(l, r, [&](int t){ res = nodes[t].total; });
-        return res;
-    }
-
-    long long get(int pos){
-        return sum(pos, pos);
-    }
-
-    vector<long long> to_vector(){
-        vector<long long> res;
-        vector<int> stack;
-        for (int t = root; t != -1 || !stack.empty(); ){
-            for (; t != -1; t = nodes[t].l) push(t), stack.push_back(t);
-            t = stack.back();
-            stack.pop_back();
-            res.push_back(nodes[t].value);
-            t = nodes[t].r;
+    void push(int t){
+        if (nodes[t].lazy || nodes[t].flip){
+            apply(nodes[t].l, nodes[t].lazy, nodes[t].flip);
+            apply(nodes[t].r, nodes[t].lazy, nodes[t].flip);
+            nodes[t].lazy = 0, nodes[t].flip = false;
         }
-        return res;
     }
 };
 

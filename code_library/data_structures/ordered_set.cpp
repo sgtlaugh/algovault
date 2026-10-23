@@ -9,12 +9,12 @@
  * *s.find_by_order(k): the k-th smallest, 0-based, s.end() if k >= size
  * s.order_of_key(x): how many elements are < x
  * OrderedMultiset<T> m: an empty multiset
- * m.insert(x): adds one copy of x
  * m.erase(x): removes one copy of x, false if there is none
- * m.size(): number of elements, copies included
- * m.kth(k): the k-th smallest, 0-based, 0 <= k < size()
- * m.count_less(x): how many elements are < x
+ * m.insert(x): adds one copy of x
  * m.count(x): how many copies of x
+ * m.count_less(x): how many elements are < x
+ * m.kth(k): the k-th smallest, 0-based, 0 <= k < size()
+ * m.size(): number of elements, copies included
  *
  * Built on the GNU policy-based tree in ext/pb_ds, so it needs libstdc++
  * A pb_ds tree with less_equal as the comparator is not a multiset: equal keys never compare equivalent, so erase and find silently fail
@@ -36,10 +36,6 @@ struct OrderedMultiset{
     OrderedSet<pair<T, int>> t;
     int next_id = 0;
 
-    void insert(const T& x){
-        t.insert({x, next_id++});
-    }
-
     bool erase(const T& x){
         auto it = t.lower_bound({x, INT_MIN});
         if (it == t.end() || it->first != x) return false;
@@ -47,8 +43,16 @@ struct OrderedMultiset{
         return true;
     }
 
-    int size() const{
-        return t.size();
+    void insert(const T& x){
+        t.insert({x, next_id++});
+    }
+
+    int count(const T& x) const{
+        return t.order_of_key({x, INT_MAX}) - count_less(x);
+    }
+
+    int count_less(const T& x) const{
+        return t.order_of_key({x, INT_MIN});
     }
 
     T kth(int k) const{
@@ -56,12 +60,8 @@ struct OrderedMultiset{
         return t.find_by_order(k)->first;
     }
 
-    int count_less(const T& x) const{
-        return t.order_of_key({x, INT_MIN});
-    }
-
-    int count(const T& x) const{
-        return t.order_of_key({x, INT_MAX}) - count_less(x);
+    int size() const{
+        return t.size();
     }
 };
 

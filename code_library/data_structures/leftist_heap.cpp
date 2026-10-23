@@ -7,10 +7,10 @@
  *
  * LeftistHeap<T> heap: a pool of min-heaps, each version is an int and EMPTY (-1) is the empty heap
  * LeftistHeap<T, greater<T>> heap: the same pool of max-heaps
- * heap.push(h, x): a new version holding the values of h plus x
- * heap.pop(h): a new version holding the values of h without its top, h != EMPTY
- * heap.top(h): first value of h under Compare, the smallest for less<T>, h != EMPTY
  * heap.meld(a, b): a new version holding the values of a and b, meld(h, h) holds every value twice
+ * heap.pop(h): a new version holding the values of h without its top, h != EMPTY
+ * heap.push(h, x): a new version holding the values of h plus x
+ * heap.top(h): first value of h under Compare, the smallest for less<T>, h != EMPTY
  *
  * No call changes an existing version, and a version only works with the object that made it
  * Nodes are never freed, so q operations hold O(q log n) nodes
@@ -35,21 +35,6 @@ struct LeftistHeap{
     vector<Node> nodes;
     Compare cmp;
 
-    int push(int h, const T& x){
-        nodes.push_back({x, EMPTY, EMPTY, 1});
-        return meld(h, (int)nodes.size() - 1);
-    }
-
-    int pop(int h){
-        assert(h != EMPTY);
-        return meld(nodes[h].left, nodes[h].right);
-    }
-
-    T top(int h) const{
-        assert(h != EMPTY);
-        return nodes[h].val;
-    }
-
     /// Copies only the nodes on the merged right spines, whose length is bounded by the ranks
     int meld(int a, int b){
         if (a == EMPTY) return b;
@@ -65,6 +50,21 @@ struct LeftistHeap{
         if (rank(nodes[c].left) < rank(right)) swap(nodes[c].left, nodes[c].right);
         nodes[c].rank = rank(nodes[c].right) + 1;
         return c;
+    }
+
+    int pop(int h){
+        assert(h != EMPTY);
+        return meld(nodes[h].left, nodes[h].right);
+    }
+
+    int push(int h, const T& x){
+        nodes.push_back({x, EMPTY, EMPTY, 1});
+        return meld(h, (int)nodes.size() - 1);
+    }
+
+    T top(int h) const{
+        assert(h != EMPTY);
+        return nodes[h].val;
     }
 
     int rank(int h) const{

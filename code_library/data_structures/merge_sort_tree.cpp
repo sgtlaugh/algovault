@@ -9,10 +9,10 @@
  *
  * MergeSortTree<T> tree(values): positions 0..n - 1
  * WaveletMatrix<T> tree(values): positions 0..n - 1, the same queries plus count_equal
+ * tree.count_equal(l, r, x): WaveletMatrix only, how many of values[l..r] equal x
  * tree.count_less(l, r, x): how many of values[l..r] are < x, 0 <= l <= r < n
  * tree.count_less_equal(l, r, x): how many of values[l..r] are <= x, 0 <= l <= r < n
  * tree.kth(l, r, k): the k-th smallest of values[l..r], 0-based, 0 <= k <= r - l
- * tree.count_equal(l, r, x): WaveletMatrix only, how many of values[l..r] equal x
  *
  * WaveletMatrix takes 4 bytes per element per level, about 80 MB for n = 1e6 distinct values
  *
@@ -71,11 +71,6 @@ struct MergeSortTree{
         merge(by_rank[2 * node].begin(), by_rank[2 * node].end(), by_rank[2 * node + 1].begin(), by_rank[2 * node + 1].end(), back_inserter(by_rank[node]));
     }
 
-    int count_in(int node, int l, int r) const{
-        const vector<int>& v = by_rank[node];
-        return upper_bound(v.begin(), v.end(), r) - lower_bound(v.begin(), v.end(), l);
-    }
-
     /// how many of the ranks [0, p) sit at positions in [l, r]
     int count_prefix(int p, int l, int r) const{
         int res = 0, node = 1, a = 0, b = n - 1;
@@ -86,6 +81,11 @@ struct MergeSortTree{
             else node = 2 * node, b = m;
         }
         return res;
+    }
+
+    int count_in(int node, int l, int r) const{
+        const vector<int>& v = by_rank[node];
+        return upper_bound(v.begin(), v.end(), r) - lower_bound(v.begin(), v.end(), l);
     }
 };
 
@@ -116,6 +116,13 @@ struct WaveletMatrix{
         }
     }
 
+    int count_equal(int l, int r, const T& x) const{
+        assert(0 <= l && l <= r && r < n);
+        int c = code_of(x);
+        if (c == (int)distinct.size() || distinct[c] != x) return 0;
+        return count_code_less(l, r + 1, c + 1) - count_code_less(l, r + 1, c);
+    }
+
     int count_less(int l, int r, const T& x) const{
         assert(0 <= l && l <= r && r < n);
         return count_code_less(l, r + 1, code_of(x));
@@ -124,13 +131,6 @@ struct WaveletMatrix{
     int count_less_equal(int l, int r, const T& x) const{
         assert(0 <= l && l <= r && r < n);
         return count_code_less(l, r + 1, upper_bound(distinct.begin(), distinct.end(), x) - distinct.begin());
-    }
-
-    int count_equal(int l, int r, const T& x) const{
-        assert(0 <= l && l <= r && r < n);
-        int c = code_of(x);
-        if (c == (int)distinct.size() || distinct[c] != x) return 0;
-        return count_code_less(l, r + 1, c + 1) - count_code_less(l, r + 1, c);
     }
 
     T kth(int l, int r, int k) const{

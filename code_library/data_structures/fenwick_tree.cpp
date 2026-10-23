@@ -10,9 +10,9 @@
  * FenwickPointUpdate<T> fen(n): point add, range sum, over n zeros
  * FenwickPointUpdate<T> fen(a): the same over a copy of a
  * fen.update(p, v): add v to a[p]
+ * fen.lower_bound(s): smallest p with prefix(p) >= s, n if none, every a[i] must be non-negative
  * fen.prefix(p): sum of a[0..p], 0 for p = -1
  * fen.query(l, r): sum of a[l..r], 0 when l > r
- * fen.lower_bound(s): smallest p with prefix(p) >= s, n if none, every a[i] must be non-negative
  *
  * FenwickRangeUpdate<T> fen(n): range add, point value, over n zeros
  * fen.update(l, r, v): add v to a[l..r], nothing when l > r
@@ -51,19 +51,6 @@ struct FenwickPointUpdate{
         for (p++; p <= n; p += p & -p) tree[p] += v;
     }
 
-    T prefix(int p){
-        assert(-1 <= p && p < n);
-        T res = 0;
-        for (p++; p > 0; p -= p & -p) res += tree[p];
-        return res;
-    }
-
-    T query(int l, int r){
-        if (l > r) return 0;
-        assert(0 <= l && r < n);
-        return prefix(r) - prefix(l - 1);
-    }
-
     /// Binary lifting: p stays a multiple of 2 * step, so tree[p + step] is the sum of a[p .. p + step - 1]
     int lower_bound(T s){
         int p = 0, step = 1;
@@ -77,6 +64,19 @@ struct FenwickPointUpdate{
         }
 
         return p;
+    }
+
+    T prefix(int p){
+        assert(-1 <= p && p < n);
+        T res = 0;
+        for (p++; p > 0; p -= p & -p) res += tree[p];
+        return res;
+    }
+
+    T query(int l, int r){
+        if (l > r) return 0;
+        assert(0 <= l && r < n);
+        return prefix(r) - prefix(l - 1);
     }
 };
 
