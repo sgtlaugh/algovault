@@ -43,7 +43,7 @@ long long brute_first(long long m, long long a, long long l, long long r){
     return -1;
 }
 
-/// a * x = v (mod m) is solvable iff g = gcd(a, m) divides v, and the smallest solution is (v / g) * inverse(a / g) mod (m / g)
+/// a * x = v (mod m) is solvable iff g = gcd(a, m) divides v, the smallest x is (v / g) * inverse(a / g) mod (m / g)
 long long inverse_first(long long m, long long a, long long v){
     __int128 old_r = brute_mod(a, m), r = m, old_s = 1, s = 0;
     while (r){
@@ -145,7 +145,7 @@ int main(){
         check_first(m, a, l, r);
     }
 
-    /// Known answers at full 64-bit moduli: single residues against the modular inverse, a shared factor half the time makes unsolvable targets occur
+    /// Full 64-bit moduli: single residues against the modular inverse, half sharing a factor so some are unsolvable
     for (long long it = 0; it < stress::scaled(4000); it++){
         long long g = it % 2 ? stress::rand_int(2, 1000000) : 1;
         long long m = g * stress::rand_int(1, LLONG_MAX / g), a = g * stress::rand_int(0, m / g - 1);

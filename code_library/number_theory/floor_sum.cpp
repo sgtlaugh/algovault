@@ -4,7 +4,6 @@
  * Sums, minima and range counts over the arithmetic progression (a * i + b) mod m, by Euclid-like recursion
  *
  * Complexity: O(log m) per call
- * Requires __int128 (64-bit GCC or Clang)
  *
  * count_mod_in_range(n, m, a, l, r): number of 0 <= x < n with l <= (a * x) mod m <= r, any n >= 0
  * first_mod_in_range(m, a, l, r): smallest x >= 0 with l <= (a * x) mod m <= r, or -1 if there is none
@@ -13,11 +12,9 @@
  *     Returns __int128, cast to long long when the sum is known to fit
  * min_mod_linear(n, m, a, b): min of (a * i + b) mod m over 0 <= i < n, n >= 1, any signed a, b
  *
- * Arguments are long long; l and r may lie outside [0, m - 1], they are clamped to it
- *
- * Example:
- *   floor_sum(4, 10, 6, 3) = 0 + 0 + 1 + 2 = 3
- *   residues of 6 * x mod 10 are 0, 6, 2, 8, 4, 0, ... so count_mod_in_range(4, 10, 6, 1, 5) = 1 and first_mod_in_range(10, 6, 3, 5) = 4
+ * Notes:
+ *   - Arguments are long long, l and r may lie outside [0, m - 1], they are clamped to it
+ *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
 
@@ -98,8 +95,7 @@ long long first_mod_in_range(long long m, long long a, long long l, long long r)
     return first_mod_in_range_reduced(m, a, l, r);
 }
 
-/// Each round keeps only the candidates that can be minimal: the start and the values right after a wrap when the step is
-/// small (2a <= m), the end and the values right before a wrap when it is large; those form a progression mod a or m - a
+/// Each round keeps only the candidates that can be minimal, a progression mod a when 2a <= m, else mod m - a
 long long min_mod_linear(long long n, long long m, long long a, long long b){
     assert(n >= 1 && m >= 1);
     a = mod_floor(a, m);

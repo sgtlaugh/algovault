@@ -3,25 +3,19 @@
  * Miller Rabin
  * Deterministic primality test for 64-bit integers
  *
+ * Complexity: O(24) + O(7 log n), or O(24) + O(4 log n) when n <= INT_MAX
+ *
  * prm::is_prime(n): deterministic for every long long n, false for n < 2
- * Uses the 7 bases from https://miller-rabin.appspot.com/, valid for n < 2^64
  *
- * Complexity: O(24) + O(7 log n)
- * Or, O(24) + O(4 log n) when n ≤ INT_MAX
- *
- * For large random numbers not exceeding 2^63, it can process 4*10^6 numbers in one second
- * For large primes not exceeding 2^63, it can process around 5*10^5 numbers in one second
- * Requires __int128 (64-bit GCC or Clang)
- * Embeds a checked copy of pollard_rho.cpp's Montgomery to stay standalone
- *
- * To gain more speed, check the following resources
- *     i) https://people.ksp.sk/~misof/primes/
- *    ii) https://github.com/wizykowski/miller-rabin/blob/master/sprp64.h
- *
- * One hack if we need to gain more speed can be to use only the base 921211727, particularly for numbers greater than INT_MAX
- * It's not guaranteed to provide correct answer in all cases, but its highly likely there won't be cases against it
- * Picking random numbers from 1 to 2^31 10^9 times resulted in 600 mismatches with 921211727
- * Picking random numbers from 1 to 2^63 10^9 times resulted in 0 mismatches
+ * Notes:
+ *   - Uses the 7 bases from https://miller-rabin.appspot.com/, valid for n < 2^64
+ *   - About 4*10^6 large random numbers or 5*10^5 large primes below 2^63 per second
+ *   - Requires __int128 (64-bit GCC or Clang)
+ *   - Embeds a checked copy of pollard_rho.cpp's Montgomery to stay standalone
+ *   - Faster tests:
+ *       - https://people.ksp.sk/~misof/primes/
+ *       - https://github.com/wizykowski/miller-rabin/blob/master/sprp64.h
+ *   - The single base 921211727 is faster but unproven: 600 mismatches in 10^9 random n below 2^31, 0 below 2^63
  *
 ***/
 
@@ -42,7 +36,7 @@ struct Montgomery{
     unsigned long long n, inv, r2;
 
     Montgomery(unsigned long long n) : n(n), inv(1){
-        for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// Newton iteration, doubles the correct bits of n^-1 mod 2^64 each step
+        for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// each Newton step doubles the correct bits of n^-1 mod 2^64
         r2 = -n % n;
         r2 = (unsigned __int128)r2 * r2 % n;
     }

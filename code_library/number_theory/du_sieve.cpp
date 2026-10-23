@@ -4,23 +4,18 @@
  * Prefix sums of Euler's phi and Mobius mu up to n = 1e11 in sublinear time
  *
  * Complexity: O(n^(2/3)) time with the default table of about n^(2/3) entries, 12 bytes per table entry
- * n = 1e10: 56 MB, n = 1e11: 260 MB. Requires __int128
- * Measured at -O2 for phi_sum(n) plus mertens(n): n = 1e10 takes 1.0 s, n = 1e11 takes 4.7 s (0.5 s sieve, 4.2 s queries)
  *
  * DuSieve du(n): sieves phi and mu up to limit = n^(2/3) and memoizes the prefix sums above it
- * DuSieve du(n, table): limit = max(1, min(n, table)) instead, queries then cost O(n / sqrt(table)) for table >= sqrt(n),
- *     so a smaller table trades time for memory and a larger one memory for time (n = 1e11, table = 5e7: 600 MB, 3.7 s)
+ * DuSieve du(n, table): limit = max(1, min(n, table)), queries then cost O(n / sqrt(table)) for table >= sqrt(n)
  * du.mertens(x): mu(1) + ... + mu(x) for x >= 0
  * du.phi_sum(x): phi(1) + ... + phi(x) for x >= 0, exact, reduce it modulo a prime with % mod
- * Queries x <= n keep the complexity, larger x work too but cost more than O(n^(2/3))
  *
- * Both come from the Dirichlet convolutions phi * 1 = id and mu * 1 = e:
- *     sum_{d=1..x} phi_sum(x / d) = x (x + 1) / 2 and sum_{d=1..x} mertens(x / d) = 1
- * so each value above the table is its convolution total minus O(sqrt(x)) blocks of equal x / d
- *
- * Library Checker sum_of_totient_function, n <= 1e10:
- *     DuSieve du(n);
- *     long long answer = du.phi_sum(n) % 998244353;
+ * Notes:
+ *   - Memory: 56 MB at n = 1e10, 260 MB at n = 1e11
+ *   - phi_sum(n) plus mertens(n) at -O2: 1.0 s at n = 1e10, 4.7 s at n = 1e11 (0.5 s sieve, 4.2 s queries)
+ *   - A smaller table trades time for memory, a larger one memory for time: n = 1e11, table = 5e7 takes 600 MB, 3.7 s
+ *   - Queries x <= n keep the complexity, larger x work too but cost more than O(n^(2/3))
+ *   - Requires __int128
  *
 ***/
 
@@ -41,7 +36,7 @@ struct DuSieve{
         vector<int> primes;
         phi_prefix[1] = mu_prefix[1] = 1;
 
-        /// Linear sieve writing phi and mu in place before the prefix sums, phi_prefix[i] == 0 means no smaller i reached it, so i is prime
+        /// Linear sieve writing phi and mu in place, phi_prefix[i] == 0 means no smaller i reached it, so i is prime
         for (int i = 2; i <= limit; i++){
             if (!phi_prefix[i]){
                 phi_prefix[i] = i - 1, mu_prefix[i] = -1;

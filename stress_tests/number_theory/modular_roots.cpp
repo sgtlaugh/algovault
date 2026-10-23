@@ -58,7 +58,7 @@ long long random_prime(long long lo, long long hi){
     }
 }
 
-/// Order, primitive root, square root and k-th roots against scans over every residue for small moduli, then defining properties on random 62-bit primes
+/// Every function against a scan of all residues for small moduli, then defining properties on random 62-bit primes
 int main(){
     vector<long long> primes;
     for (long long n = 2; n < 1000; n++){
@@ -142,14 +142,14 @@ int main(){
         }
     }
 
-    /// a = x^(2^40) mod 29 * 2^57 + 1 makes Tonelli-Shanks shift by up to 2^39, random squares need about 2^32 tries to get there
+    /// a = x^(2^40) mod 29 * 2^57 + 1 makes Tonelli-Shanks shift by up to 2^39, random squares take about 2^32 tries
     const long long Q = 29 * (1LL << 57) + 1;
     for (long long it = 0; it < stress::scaled(300); it++){
         long long x = stress::rand_int(1, Q - 1), root = pow_mod(x, 1LL << 39, Q);
         assert(sqrt_mod(pow_mod(x, 1LL << 40, Q), Q) == min(root, Q - root));
     }
 
-    /// gcd(k, p - 1) holds the full power of a huge prime q in p - 1, so each discrete log must be trivial, not a sqrt(q) baby step table
+    /// gcd(k, p - 1) holds all of a huge prime q's power in p - 1, so each discrete log is trivial, not a sqrt(q) table
     const long long safe = 2305843009213699919LL, deep = 1048576000185597953LL;
     const long long safe_q = (safe - 1) / 2, deep_q = (deep - 1) >> 20;
     long long one_root = kth_root(1, safe - 1, safe);

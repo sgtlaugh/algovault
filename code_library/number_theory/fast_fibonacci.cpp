@@ -9,8 +9,8 @@
  * fibonacci(n): exact F(n) for 0 <= n <= 92, F(93) no longer fits in long long
  * fibonacci_pair(n, m): {F(n) mod m, F(n + 1) mod m}
  *
- * F(2k) = F(k) (2 F(k + 1) - F(k)), F(2k + 1) = F(k)^2 + F(k + 1)^2, walking the bits of n from the top
- * Requires __int128 (64-bit GCC or Clang)
+ * Notes:
+ *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
 
@@ -26,7 +26,7 @@ pair<long long, long long> fibonacci_pair(long long n, long long m){
     for (int bit = n ? 63 - __builtin_clzll(n) : -1; bit >= 0; bit--){
         long long c = mul(a, ((__int128)2 * b - a + m) % m);
         long long d = (long long)(((__int128)a * a + (__int128)b * b) % m);
-        if (n >> bit & 1) a = d, b = (long long)(((__int128)c + d) % m);  /// c + d can exceed 2^63 when m is close to it
+        if (n >> bit & 1) a = d, b = (long long)(((__int128)c + d) % m);  /// c + d can exceed 2^63 for m near it
         else a = c, b = d;
     }
 

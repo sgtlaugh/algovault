@@ -47,7 +47,7 @@ long long isqrt(long long n){
     return r;
 }
 
-/// Sums over all x <= n through the divisor side: sum_{x <= n} sum_{d | x} d^k = sum_{d <= n} d^k floor(n / d), in floor(n / d) blocks
+/// Divisor side: sum_{x <= n} sum_{d | x} d^k = sum_{d <= n} d^k floor(n / d), in blocks of equal floor(n / d)
 uint64_t divisor_power_summatory(long long n, int k, uint64_t mod){
     auto power_prefix = [&](__int128 x) -> __int128 {
         if (k == 0) return x;
@@ -124,7 +124,7 @@ uint64_t random_mod(){
     return stress::rand_int(1, 1LL << 32);
 }
 
-/// A multiplicative function with f(p) = poly(p) and pseudo-random values on higher prime powers, poly has min_size to 6 terms
+/// Multiplicative f with f(p) = poly(p) and pseudo-random values on higher prime powers, poly has min_size to 6 terms
 pair<vector<long long>, Func> random_function(uint64_t mod, int min_size = 0){
     vector<long long> poly(stress::rand_int(min_size, 6));
     for (auto& c : poly) c = stress::rand_int(-1000000000000LL, 1000000000000LL);
@@ -164,7 +164,7 @@ int main(){
         }
     }
 
-    /// Linear sieve prefix sums up to 1e6: every n <= 300, around prime squares and random n, named and random f of degree up to 5
+    /// Linear sieve prefix sums up to 1e6: every n <= 300, prime squares and random n, named and random f, degree <= 5
     LinearTable table(limit);
     for (long long it = 0; it < stress::scaled(30); it++){
         uint64_t mod = random_mod();
@@ -177,7 +177,7 @@ int main(){
         for (long long n : ns) assert(Min25Sieve(n, mod, poly).sum(f) == prefix[n]);
     }
 
-    /// Large n against O(sqrt n) formulas: divisor count, sigma, sigma_2 and the squarefree count, plus the n = 1e11 boundary
+    /// Large n against O(sqrt n) formulas: divisor count, sigma, sigma_2 and the squarefree count, plus n = 1e11
     Func sigma = [](long long p, int, long long pe){ return (pe * p - 1) / (p - 1); };
     Func squarefree = [](long long, int e, long long){ return (long long)(e == 1); };
     for (long long it = 0; it < stress::scaled(4); it++){
@@ -207,7 +207,7 @@ int main(){
         }
     }
 
-    /// Random f(p) of degree 3 to 5 with mixed coefficients at large n, the prime sum at every vals[i] against a segmented sieve
+    /// Random f(p) of degree 3 to 5, mixed coefficients, large n: prime sums at every vals[i] against a segmented sieve
     for (long long it = 0; it < stress::scaled(1); it++){
         /// Above 2^31: a tiny modulus such as 1 or 2 would zero out the high coefficients this block tests
         uint64_t mod = stress::rand_int(1LL << 31, 1LL << 32);

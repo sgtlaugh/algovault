@@ -1,5 +1,6 @@
 /***
  *
+ * All Divisors
  * Generates the divisors of every number from 1 to n
  *
  * Complexity:
@@ -9,21 +10,8 @@
  *
  * all_divisors(n, make_sorted = false)[x] = the divisors of x for 1 <= x <= n, index 0 is an empty list
  *
- * The idea is to generate lp[x], the largest prime factor of x using sieve
- * Then generate the divisors iteratively
- * To get divisors of x, use lp[x] and the divisors of [x / lp[x]]
- * This is order of magnitudes faster than the naive approach because of reduced cache miss
- * Takes 0.8 seconds when n = 10^7 locally, where as the naive approach takes 11.5 seconds
- *
- * Naive approach:
- *
- * vector<vector<int>> divisors(n + 1);
- *
- * for (int i = 1; i <= n; i++){
- *     for (int j = i; j <= n; j += i){
- *          divisors[j].push_back(i);
- *     }
- * }
+ * Notes:
+ *   - 0.8 s at n = 10^7, the naive loop over multiples misses the cache far more and takes 11.5 s
  *
 ***/
 

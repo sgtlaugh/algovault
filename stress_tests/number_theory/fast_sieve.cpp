@@ -53,11 +53,12 @@ int main(){
     };
 
     assert(primes.size() == 105097565 && is_sorted(primes.begin(), primes.end()));
-    check(0, 3000000);                                       /// the wheel and pre-sieved masks dominate the first blocks
+    check(0, 3000000);                                       /// the wheel and pre-sieved masks rule the first blocks
     check(2147483647u - 3000000, 2147483647u);               /// the final, partial block
     for (long long it = 0; it < stress::scaled(40); it++){
         uint32_t lo = stress::rand_int(0, 2147483647LL - 300000), len = stress::rand_int(1, 300000);
-        if (it % 4 == 0) lo = max(0LL, (long long)(lo / block_size * block_size) - stress::rand_int(0, 1000));  /// straddle a block boundary
+        /// straddle a block boundary
+        if (it % 4 == 0) lo = max(0LL, (long long)(lo / block_size * block_size) - stress::rand_int(0, 1000));
         check(lo, lo + len);
     }
 

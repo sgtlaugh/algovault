@@ -13,7 +13,7 @@ int main(){
     long long n;
     if (scanf("%lld", &n) != 1) return 0;
 
-    /// sum of mu(d) * floor(n / d^2) over d <= sqrt(n), d <= n^(2/5) one by one, the rest in blocks of equal floor(n / d^2)
+    /// sum of mu(d) floor(n / d^2) over d <= sqrt(n), d <= n^(2/5) one by one, the rest in blocks of equal n / d^2
     long long s = isqrt(n), direct = min(s, max(1LL, (long long)pow((double)n, 0.4)));
     DuSieve du(s, direct);
 

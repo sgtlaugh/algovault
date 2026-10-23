@@ -15,8 +15,9 @@
  * sieve.multiplicative(f): g[x] for 1 <= x <= n where g is multiplicative and g(p^k) = f(p, k, p^k), g[1] = 1, in O(n)
  *     e.g. divisor count: f = [](long long p, int k, long long pk){ return k + 1; }
  *
- * multiplicative() returns a new table of 8 bytes per entry on every call
- * For mu alone, mobius_function.cpp needs 1 byte per entry and runs about 3x faster
+ * Notes:
+ *   - multiplicative() returns a new table of 8 bytes per entry on every call
+ *   - For mu alone, mobius_function.cpp needs 1 byte per entry and runs about 3x faster
  *
 ***/
 
@@ -59,7 +60,7 @@ struct LinearSieve{
         vector<long long> g(n + 1, 0);
         if (n >= 1) g[1] = 1;
         for (int x = 2; x <= n; x++){
-            /// Rebuilding p^k costs about 15% here against a stored power table (90 vs 77 ms at n = 1e7), which would cost 40 MB
+            /// Rebuilding p^k costs 15% against a stored power table (90 vs 77 ms at n = 1e7), which would cost 40 MB
             int p = spf[x], k = spf_exponent[x], pk = p;
             for (int i = 1; i < k; i++) pk *= p;
             g[x] = g[x / pk] * f((long long)p, k, (long long)pk);

@@ -6,10 +6,11 @@
  * Complexity: O(log^2 p) expected
  *
  * sqrt_mod(a, p): the smaller of the two x with x^2 = a mod p (the other is p - x), -1 if there is none
- * p must be prime (not checked) and below 2^62, a is any long long and is reduced mod p
- * Requires __int128 (64-bit GCC or Clang)
  *
- * modular_roots.cpp carries this file for multiplicative order, primitive root and k-th roots
+ * Notes:
+ *   - p must be prime (not checked) and below 2^62, a is any long long and is reduced mod p
+ *   - Requires __int128 (64-bit GCC or Clang)
+ *   - Multiplicative order, primitive root and k-th roots: modular_roots.cpp, which carries this file
  *
 ***/
 

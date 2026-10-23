@@ -6,8 +6,7 @@
 #include "../../code_library/number_theory/continued_fractions.cpp"
 #undef main
 
-/// Run lengths of the path from 1/1, alternating R, L, R, ... starting with R, so runs[0] may be 0
-/// The path to [a0; a1, ..., ak] is R^a0 L^a1 ... with the last term one short
+/// The path from 1/1 to [a0; a1, ..., ak] is R^a0 L^a1 ... with the last run one short, so runs[0] may be 0
 vector<long long> encode(long long a, long long b){
     auto runs = continued_fraction(a, b);
     runs.back()--;

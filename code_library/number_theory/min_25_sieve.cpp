@@ -1,11 +1,9 @@
 /***
  *
  * Min_25 Sieve
- * Prefix sum of a multiplicative function f(1) + f(2) + ... + f(n) modulo m, from f(p) as a polynomial in p and f on prime powers
+ * Prefix sum f(1) + ... + f(n) mod m of a multiplicative f, from f(p) as a polynomial in p and f on prime powers
  *
  * Complexity: O(deg n^(3/4) / log n) time, O(sqrt(n) deg) memory, where deg = poly.size()
- * The prime sum phase meets this bound, the recursive phase is O(n^(1 - eps)) in theory and runs at the same order for n <= 1e11
- * Measured at -O2: about 0.9 s at n = 1e10 (1.2 s with a cubic f(p)), 4.7 s at n = 1e11
  *
  * Min25Sieve sieve(n, mod, poly): 1 <= n <= 1e11, 1 <= mod <= 2^32 (any modulus, prime or not)
  *     poly[k] is the coefficient of p^k in f(p) for primes p, coefficients may be negative
@@ -13,9 +11,13 @@
  *     f must agree with poly at e = 1, its result may be negative, it is reduced mod m
  *     sum can be called with several f sharing the same f(p)
  *
- * Euler phi:      Min25Sieve(n, mod, {-1, 1}).sum([](long long p, int, long long pe){ return pe / p * (p - 1); })
- * Mobius mu:      Min25Sieve(n, mod, {-1}).sum([](long long, int e, long long){ return e == 1 ? -1 : 0; })
- * Divisor count:  Min25Sieve(n, mod, {2}).sum([](long long, int e, long long){ return e + 1; })
+ * Notes:
+ *   - The recursive phase is O(n^(1 - eps)) in theory but runs at the bound above for n <= 1e11
+ *   - About 0.9 s at n = 1e10 (1.2 s with a cubic f(p)) and 4.7 s at n = 1e11, at -O2
+ *   - Euler phi, Mobius mu and the divisor count:
+ *         Min25Sieve(n, mod, {-1, 1}).sum([](long long p, int, long long pe){ return pe / p * (p - 1); })
+ *         Min25Sieve(n, mod, {-1}).sum([](long long, int e, long long){ return e == 1 ? -1 : 0; })
+ *         Min25Sieve(n, mod, {2}).sum([](long long, int e, long long){ return e + 1; })
  *
 ***/
 
@@ -28,7 +30,7 @@ struct Min25Sieve{
     int r, cnt;
     uint64_t mod, inv;
     vector<int> primes;
-    vector<long long> vals;                     /// every distinct n / i, descending: n / 1, n / 2, ... down to r, then r - 1, ..., 1
+    vector<long long> vals;                     /// every distinct n / i, descending: n / 1, ..., r, r - 1, ..., 1
     vector<uint64_t> prime_sum, prime_prefix;   /// sum of f(p) over primes p <= vals[i], over the first j primes
 
     Min25Sieve(long long n, uint64_t mod, const vector<long long>& poly) : n(n), mod(mod){
@@ -68,13 +70,12 @@ struct Min25Sieve{
             }
         }
 
-        /// g[j][k] goes from the sum of x^k over 2 <= x <= vals[j] to the sum over primes only, sifting out multiples of each p
-        /// A large vals[j] is n / (j + 1), so vals[j] / p = n / d for d = (j + 1) p, which is vals[d - 1] while still large
-        /// A small vals[j] is cnt - j and fits in an int, 32-bit division is several times faster than 64-bit on older judges
+        /// Sifts g[j][k] from the sum of x^k over 2 <= x <= vals[j] down to the sum over primes, one p at a time
         for (int i = 0; i < pc; i++){
             int p = primes[i];
             for (int j = 0; j < cnt && (long long)p * p <= vals[j]; j++){
                 long long d = (long long)(j + 1) * p;
+                /// Large vals[j] / p is vals[d - 1], small ones stay int: 64-bit division is slower on older judges
                 int to = j >= large ? cnt - (cnt - j) / p : d <= large ? d - 1 : cnt - n / d;
                 for (int k = 0; k < deg; k++){
                     uint64_t diff = sub(g[to * deg + k], pref[i * deg + k]);
@@ -119,8 +120,7 @@ struct Min25Sieve{
         return a >= b ? a - b : a + mod - b;
     }
 
-    /// out[k] = sum of x^k over 2 <= x <= v, from sum_{x=0}^{v} x^k = sum_j surj[k][j] C(v + 1, j + 1)
-    /// C(v + 1, j + 1) is built exactly by dividing each factor of (j + 1)! out of the numerators, so m need not be prime
+    /// out[k] = sum of x^k over 2 <= x <= v via surj[k][j] C(v + 1, j + 1), each binomial exact so m need not be prime
     void power_sums(long long v, const vector<vector<uint64_t>>& surj, uint64_t* out) const{
         int deg = surj.size();
         vector<long long> num;

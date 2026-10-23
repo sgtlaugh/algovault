@@ -16,7 +16,7 @@ long long exact_digits(const mpz_t f, long long b){
     return d;
 }
 
-/// Beyond n = 20 the library rounds a long double logarithm, so a log within a few ulp of an integer is out of its reach
+/// Beyond n = 20 the library rounds a long double logarithm, so a log within a few ulp of an integer is out of reach
 bool decidable(long long n, long long b){
     __float128 l = lgammaq((__float128)n + 1) / logq(b);
     return n <= 20 || fabsq(l - roundq(l)) > (__float128)1e-17 * l + (__float128)1e-14;
@@ -33,7 +33,7 @@ int main(){
 
         vector<long long> bases = {stress::rand_int(2, 100), stress::rand_int(2, LLONG_MAX)};
         for (int k = 1; k <= 4; k++){
-            mpz_root(r, f, k == 1 ? 1 : stress::rand_int(2, 60));  /// b near a root of n! puts the answer on a knife edge
+            mpz_root(r, f, k == 1 ? 1 : stress::rand_int(2, 60));  /// b near a root of n! sits on a knife edge
             if (mpz_cmp_ui(r, 1) > 0 && mpz_sizeinbase(r, 2) < 63){
                 long long b = mpz_get_si(r);
                 bases.push_back(b);

@@ -6,7 +6,7 @@
  * Complexity: O(log q) for the expansion, convergents and best approximation, O(log N) predicate calls for the search
  *
  * best_approximation(p, q, N): the fraction closest to p / q among all fractions with denominator <= N
- *     Ties go to the smaller denominator, then to the smaller value: (1, 2, 1) gives 0 / 1, (5, 12, 3) gives 1 / 2
+ *     Ties go to the smaller denominator, then to the smaller value
  *     Requires |p| <= 1e18, 1 <= q <= 1e18, 1 <= N <= 1e18 and __int128
  *
  * continued_fraction(p, q): [a0; a1, ..., ak] with p / q = a0 + 1 / (a1 + 1 / (... + 1 / ak))
@@ -20,9 +20,9 @@
  *     f must be monotone over the non-negative rationals: false up to some point, true from there on
  *     Returns {1, 0} if f is false for every such fraction
  *     f is only called with reduced fractions inside the bounds, at most 4 log2(N) + 10 times, N <= 1e18
- *     f(p, q) = p * p >= 2 * q * q with N = 10 gives 10 / 7, the smallest fraction >= sqrt(2) with p, q <= 10
  *
- * Fractions are {numerator, denominator} pairs, the denominator is always positive
+ * Notes:
+ *   - Fractions are {numerator, denominator} pairs, the denominator is always positive
  *
 ***/
 
@@ -131,6 +131,6 @@ int main(){
 
     auto at_least_sqrt2 = [](long long p, long long q){ return (__int128)p * p >= (__int128)2 * q * q; };
     assert((fraction_search(at_least_sqrt2, 10) == Frac{10, 7}));  /// sqrt(2) = 1.414..., 10 / 7 = 1.428...
-    assert((fraction_search([](long long p, long long q){ return p >= 7 * q; }, 6) == Frac{1, 0}));  /// 7 is out of reach
+    assert((fraction_search([](long long p, long long q){ return p >= 7 * q; }, 6) == Frac{1, 0}));  /// 7 exceeds N
     return 0;
 }

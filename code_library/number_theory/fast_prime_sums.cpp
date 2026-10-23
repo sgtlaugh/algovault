@@ -3,13 +3,15 @@
  * Fast Prime Sums
  * Sum of primes not exceeding n in sublinear time with the Meissel-Lehmer algorithm
  *
+ * Complexity: roughly O(n^(2/3)) per query, O(maxv + maxn maxm) to build
+ * Memory: 12 * maxv + 8 * maxn * maxm bytes, about 95 MB with the defaults (n < 2.5e13)
+ *
  * PrimeSum ps(maxv, maxn, maxm): sieves below maxv and tabulates phi for the first maxn primes and m < maxm
  *     maxv must exceed the maxn-th prime
  * ps.prime_sum(n): the sum of primes not exceeding n, for 0 <= n < maxv^2
  *
- * Complexity: Roughly ~O(n^(2/3)) per query, O(maxv + maxn maxm) to build
- * Memory: 12 * maxv + 8 * maxn * maxm bytes, about 95 MB with the defaults (n < 2.5e13)
- * PrimeSum ps(20000010, 50, 2000010): about 1 GB, about 3x faster for n near 1e13
+ * Notes:
+ *   - PrimeSum ps(20000010, 50, 2000010) takes about 1 GB and runs about 3x faster for n near 1e13
  *
 ***/
 

@@ -1,14 +1,15 @@
 /***
  *
+ * Fast Prime Counting
  * Prime counting function in sublinear time with the Meissel-Lehmer algorithm
+ *
+ * Complexity: roughly O(n^(2/3)) per query, O(maxv + MAXN MAXM) to build
+ * Memory: 4 * (maxv + MAXN * MAXM) bytes, about 190 MB with the defaults
  *
  * PrimeCounter<MAXN, MAXP> pc(maxv): sieves below maxv and tabulates phi for the first MAXN primes
  *     MAXM, the phi table width, is the product of the first MAXP primes, 1 <= MAXP <= min(MAXN, 8)
  *     maxv must exceed the MAXN-th prime, the defaults are tuned for n around 1e12
  * pc.lehmer(n): the number of primes not exceeding n, for 0 <= n < maxv^2
- *
- * Complexity: Roughly ~O(n^(2/3)) per query, O(maxv + MAXN MAXM) to build
- * Memory: 4 * (maxv + MAXN * MAXM) bytes, about 190 MB with the defaults
  *
 ***/
 
@@ -16,7 +17,7 @@
 
 using namespace std;
 
-/// MAXN and MAXP are template parameters: as runtime members lehmer(1e13) took 0.508 s vs 0.480 s at -O2 (median of 20 runs)
+/// MAXN and MAXP are template parameters: as runtime members lehmer(1e13) took 0.508 s vs 0.480 s at -O2
 template<int MAXN = 50, int MAXP = 7>
 struct PrimeCounter{
     static_assert(1 <= MAXP && MAXP <= MAXN && MAXP <= 8);

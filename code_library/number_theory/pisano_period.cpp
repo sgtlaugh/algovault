@@ -3,24 +3,17 @@
  * Pisano Period
  * Period of the Fibonacci sequence modulo n, for 1 <= n <= 1.5 * 10^18
  *
- * Complexity: expected O(n^(1/4)) per Pollard rho split, O(log^2 n) Fibonacci doubling steps per prime factor of n,
- *             O(1e6) once to build the sieve
+ * Complexity:
+ *   - constructor: O(1e6) to build the sieve
+ *   - period(n): expected O(n^(1/4)) per Pollard rho split, O(log^2 n) Fibonacci doubling steps per prime factor of n
  *
- * fib(0) = 0, fib(1) = 1, fib(x) = fib(x - 1) + fib(x - 2) for x > 1
- * If each term of the fibonacci sequence is taken modulo m, then the sequence repeats after every k terms
- * The length of this cycle is known as the pisano period
+ * PisanoPeriod pisano: sieves smallest prime factors up to 1e6, keep a single instance around
+ * pisano.period(n): the pisano period of n, at most 6n
  *
- * For example,
- * First few fibonacci numbers:  0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55
- * First few fibonacci modulo 4: 0, 1, 1, 2, 3, 1, 0, 1,  1,  2,  3
- * the pisano period for m = 4 is therefore 6, as the sequence repeats after every 6 terms
- *
- * PisanoPeriod pisano;    sieves smallest prime factors up to 1e6, keep a single instance around
- * pisano.period(n):       the pisano period of n, can be as large as 6n
- * Fibonacci numbers mod m: fast_fibonacci.cpp
- *
- * Requires __int128 (64-bit GCC or Clang)
- * Embeds checked copies of pollard_rho.cpp's Montgomery and PollardRho to stay standalone
+ * Notes:
+ *   - Fibonacci numbers mod m: fast_fibonacci.cpp
+ *   - Requires __int128 (64-bit GCC or Clang)
+ *   - Embeds checked copies of pollard_rho.cpp's Montgomery and PollardRho to stay standalone
  *
 ***/
 
@@ -34,7 +27,7 @@ struct Montgomery{
     unsigned long long n, inv, r2;
 
     Montgomery(unsigned long long n) : n(n), inv(1){
-        for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// Newton iteration, doubles the correct bits of n^-1 mod 2^64 each step
+        for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// each Newton step doubles the correct bits of n^-1 mod 2^64
         r2 = -n % n;
         r2 = (unsigned __int128)r2 * r2 % n;
     }

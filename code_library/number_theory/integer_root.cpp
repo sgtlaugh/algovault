@@ -9,9 +9,8 @@
  * iroot(n, k): largest r with r^k <= n, for k >= 1
  * isqrt(n): largest r with r * r <= n, for any unsigned long long n
  *
- * Floating roots alone can be off by one near the top of the range, e.g. (long long)sqrt(999999999999999999LL) gives 1e9
- * The floating estimate here is only a starting point that is then corrected exactly
- * isqrt and icbrt clamp the estimate to the largest root that fits, so the corrections never overflow
+ * Notes:
+ *   - Plain floating roots are off by one near the top of the range, (long long)sqrt(999999999999999999LL) gives 1e9
  *
 ***/
 

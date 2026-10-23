@@ -86,7 +86,7 @@ int main(){
 
     for (long long n = 1; n <= 3000; n++) assert(pisano.period(n) == brute_pisano(n));
 
-    /// The prime 299210837 divides the Miller-Rabin base 1795265022, a factorization that tests it against that base never ends
+    /// The prime 299210837 divides the Miller-Rabin base 1795265022, factorizing it with that base test never ends
     assert(pisano.rho.is_prime(299210837) && pisano.period(299210837) == 199473892 && pisano.period(2 * 299210837LL) == 598421676);
 
     for (long long it = 0; it < stress::scaled(60); it++) check_minimal_period(pisano, stress::rand_int(2, it % 2 ? 1000000000000LL : 1000000));

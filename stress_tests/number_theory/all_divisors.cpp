@@ -31,7 +31,8 @@ int main(){
 
     for (int x = 1; x <= 100000; x++) check(x);
     for (int x = n - 1000; x <= n; x++) check(x);
-    for (int x : {8648640, 9729720, 1 << 23, 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3, 9999991}) check(x);  /// divisor-rich, prime powers, a prime
+    /// divisor-rich, prime powers, a prime
+    for (int x : {8648640, 9729720, 1 << 23, 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3, 9999991}) check(x);
     for (long long it = 0; it < stress::scaled(20000); it++) check(stress::rand_int(1, n));
 
     /// A small n must stop at n, sorted lists must already be ascending

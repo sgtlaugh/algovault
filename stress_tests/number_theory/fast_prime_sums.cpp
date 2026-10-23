@@ -57,7 +57,7 @@ int main(){
     PrimeSum ps;
     const long long maxv = ps.maxv;
 
-    /// The table boundary, both sides of the uint64 / __int128 switch, and around prime squares where phi changes branch
+    /// The table boundary, both sides of the uint64 / __int128 switch, and prime squares where phi changes branch
     vector<long long> edges = {maxv - 1, maxv, maxv + 1, UINT_MAX - 1LL, UINT_MAX, UINT_MAX + 1LL, 1LL << 33};
     for (long long p : {1409LL, 4481LL, 46337LL, 65521LL}){
         for (long long d = -1; d <= 1; d++) edges.push_back(p * p + d);

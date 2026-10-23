@@ -9,9 +9,8 @@
  * tower.query(a, l, r): the tower over a[l..r] modulo m, 1 <= a[i] <= 1e18
  * power_tower(a, m): the whole array as one tower
  *
- * Uses a^e = a^(e mod phi(m) + phi(m)) (mod m), valid once e >= phi(m) because phi(m) >= every prime exponent of m
- * Exponents below 2^62 are computed exactly instead, so the rule is only applied where it holds
- * Requires __int128 (64-bit GCC or Clang)
+ * Notes:
+ *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
 

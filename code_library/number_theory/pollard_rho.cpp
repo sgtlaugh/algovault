@@ -5,13 +5,12 @@
  *
  * Complexity: expected O(n^(1/4)) per split, O(1e6) once to build the sieve
  *
- * PollardRho f;           sieves smallest prime factors up to 1e6, keep a single instance around
- * f.factorize(n):         prime factors of n in ascending order with multiplicity, empty for n = 1
- * f.is_prime(n):          deterministic Miller Rabin for n < 2^63
+ * PollardRho f: sieves smallest prime factors up to 1e6, keep a single instance around
+ * f.factorize(n): prime factors of n in ascending order with multiplicity, empty for n = 1
+ * f.is_prime(n): deterministic Miller Rabin for n < 2^63
  *
- * Brent's cycle detection with one gcd per batch of 128 steps and Montgomery multiplication
- * Requires __int128 (64-bit GCC or Clang)
- * pisano_period.cpp carries checked copies of Montgomery and PollardRho, miller_rabin.cpp of Montgomery
+ * Notes:
+ *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
 
@@ -25,7 +24,7 @@ struct Montgomery{
     unsigned long long n, inv, r2;
 
     Montgomery(unsigned long long n) : n(n), inv(1){
-        for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// Newton iteration, doubles the correct bits of n^-1 mod 2^64 each step
+        for (int i = 0; i < 6; i++) inv *= 2 - n * inv;  /// each Newton step doubles the correct bits of n^-1 mod 2^64
         r2 = -n % n;
         r2 = (unsigned __int128)r2 * r2 % n;
     }

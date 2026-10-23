@@ -3,34 +3,33 @@
  * Maximum Divisors
  * Smallest number not exceeding a limit with the most divisors, and its divisor count
  *
+ * Complexity: O(H) for H the count of x <= limit with non-increasing exponents over consecutive primes (OEIS A025487)
+ *   32749 calls for limit = 10^18, recursion depth <= 20
+ *
  * max_divisors(limit): {smallest x <= limit with the most divisors, its divisor count}, 1 <= limit <= 1e18
  *
- * Complexity: O(H) where H is the count of numbers <= limit with non-increasing exponents over consecutive primes
- *   (https://oeis.org/A025487), O(1) work per such number, 32749 calls for limit = 10^18, recursion depth <= 20
+ * Notes:
+ *   - The answers for limit = 10^d, from https://oeis.org/A066151 and https://oeis.org/A002182:
  *
- * Table for n=10^d
- *
- *    1 =                      1              1
- *   10 =                      6              4
- *  100 =                     60             12
- *  1e3 =                    840             32
- *  1e4 =                   7560             64
- *  1e5 =                  83160            128
- *  1e6 =                 720720            240
- *  1e7 =                8648640            448
- *  1e8 =               73513440            768
- *  1e9 =              735134400           1344
- * 1e10 =             6983776800           2304
- * 1e11 =            97772875200           4032
- * 1e12 =           963761198400           6720
- * 1e13 =          9316358251200          10752
- * 1e14 =         97821761637600          17280
- * 1e15 =        866421317361600          26880
- * 1e16 =       8086598962041600          41472
- * 1e17 =      74801040398884800          64512
- * 1e18 =     897612484786617600         103680
- *
- * Check https://oeis.org/A066151 and https://oeis.org/A002182 for more info
+ *        1 =                      1              1
+ *       10 =                      6              4
+ *      100 =                     60             12
+ *      1e3 =                    840             32
+ *      1e4 =                   7560             64
+ *      1e5 =                  83160            128
+ *      1e6 =                 720720            240
+ *      1e7 =                8648640            448
+ *      1e8 =               73513440            768
+ *      1e9 =              735134400           1344
+ *     1e10 =             6983776800           2304
+ *     1e11 =            97772875200           4032
+ *     1e12 =           963761198400           6720
+ *     1e13 =          9316358251200          10752
+ *     1e14 =         97821761637600          17280
+ *     1e15 =        866421317361600          26880
+ *     1e16 =       8086598962041600          41472
+ *     1e17 =      74801040398884800          64512
+ *     1e18 =     897612484786617600         103680
  *
 ***/
 

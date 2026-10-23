@@ -17,7 +17,7 @@ long long divisor_count(long long x){
     return res;
 }
 
-/// Record holders have non-increasing exponents over consecutive primes, so enumerating all such products without pruning finds every record
+/// Record holders have non-increasing exponents over consecutive primes, so enumerating such products finds them all
 vector<pair<long long, long long>> highly_composite(long long limit){
     const int ps[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71};
     vector<pair<long long, long long>> all;
@@ -49,7 +49,7 @@ int main(){
         assert(max_divisors(x) == Pair(best[x], d[best[x]]));
     }
 
-    /// Past the sieve: the answer is the last record not exceeding the limit, the header table anchors the records to OEIS A002182
+    /// Past the sieve: the answer is the last record <= limit, the header table anchors the records to OEIS A002182
     auto records = highly_composite(1000000000000000000LL);
     auto expected = [&](long long limit){ return *prev(upper_bound(records.begin(), records.end(), Pair(limit, LLONG_MAX))); };
     assert(expected(1000000) == Pair(720720, 240) && expected(1000000000000LL) == Pair(963761198400LL, 6720));

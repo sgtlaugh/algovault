@@ -1,15 +1,16 @@
 /***
  *
+ * Divisors
  * Divisors of a single number
  *
  * Complexity: O(sqrt(n)) to factorize by trial division, O(d(n) log d(n)) to list and sort the divisors
  *
  * divisors(n): every divisor of 1 <= n <= 1e14 in ascending order
- * divisors_from_factors(f): the same from prime factors with multiplicity, e.g. pollard_rho.cpp's factorize(n)
- *     use this for n up to 2^63, products stay below n so nothing overflows
+ * divisors_from_factors(f): the same from prime factors with multiplicity, like pollard_rho.cpp's factorize, n < 2^63
  *
- * Tables of the divisor count or divisor sum for every n up to a limit: linear_sieve.cpp's multiplicative()
- * Every divisor of every n up to a limit: all_divisors.cpp
+ * Notes:
+ *   - Tables of the divisor count or divisor sum for every n up to a limit: linear_sieve.cpp's multiplicative()
+ *   - Every divisor of every n up to a limit: all_divisors.cpp
  *
 ***/
 

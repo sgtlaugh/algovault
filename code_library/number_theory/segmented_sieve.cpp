@@ -7,10 +7,13 @@
  * O(sqrt(R) + R - L) memory
  *
  * SegmentedSieve sieve(max_r): base primes up to sqrt(max_r), for max_r <= 1e14
- *   sieve.window(L, R): res[i] = 1 if L + i is prime, for 0 <= L <= R <= max_r and R - L <= 1e7
- *   Build it once for many windows, at R around 1e14 the base primes dominate a single window
- * count_primes(L, R), primes_in_range(L, R): convenience wrappers over segmented_sieve
+ * sieve.window(L, R): res[i] = 1 if L + i is prime, for 0 <= L <= R <= max_r and R - L <= 1e7
+ * count_primes(L, R): the number of primes in [L, R]
+ * primes_in_range(L, R): the primes in [L, R] in ascending order
  * segmented_sieve(L, R): one window, builds a fresh SegmentedSieve(R)
+ *
+ * Notes:
+ *   - Build one SegmentedSieve for many windows, at R around 1e14 the base primes dominate a single window
  *
 ***/
 

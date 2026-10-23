@@ -3,25 +3,20 @@
  * Chinese Remainder Theorem
  * Solves the system x % mods[i] = rems[i] for arbitrary positive moduli, co-prime or not
  *
- * Complexity: O(k log M) for CRT, O(k^2 + k log M) for garner and the Garner build, O(k^2) per Garner query
- *   k congruences, M the largest modulus
- * Requires __int128
+ * Complexity, for k congruences and M the largest modulus:
+ *   - CRT: O(k log M)
+ *   - garner and the Garner constructor: O(k^2 + k log M)
+ *   - g(rems): O(k^2)
  *
- * CRT(rems, mods) returns the unique solution x in [0, lcm(mods)), or -1 if the system is inconsistent
- *   The lcm of the mods must be below 2^63, each mod must be positive, rems can be any long long (negative too)
- *   An empty system returns 0
+ * CRT(rems, mods): the unique solution x in [0, lcm(mods)), -1 if the system is inconsistent, 0 if it is empty
+ *     lcm(mods) < 2^63, each mod positive, rems any long long
+ * garner(rems, mods, mod): x % mod for the solution x modulo the product of the pairwise co-prime mods
+ *     Each mod and the target mod in [1, 2^63), rems any long long, the product of the mods may exceed 64 bits
+ * Garner g(mods, mod): garner over fixed mods with the inverses computed once, like one g(rems) per NTT coefficient
+ * g(rems): garner(rems, mods, mod) with no inverse and no allocation
  *
- * garner(rems, mods, mod) returns x % mod for the solution x modulo the product of the mods (Garner's mixed radix)
- *   For pairwise co-prime mods whose product does not fit in 64 bits, e.g. recombining NTT results
- *   Each mod and the target mod must be in [1, 2^63), rems can be any long long
- *
- * Garner g(mods, mod) precomputes the inverses once, then g(rems) = garner(rems, mods, mod) with no inverse and no allocation
- *   Use it when the mods repeat across calls, e.g. one g(rems) per coefficient of an NTT convolution
- *
- * Example:
- *   CRT({2, 4}, {4, 6}) = 10, CRT({1, 2}, {4, 6}) = -1
- *   garner({1, 2, 3}, {1000000007, 998244353, 1000000009}, 1000000007) = 1
- *   Garner g({998244353, 167772161, 469762049}, 1000000007); g({1, 2, 3}) = 330560083
+ * Notes:
+ *   - Requires __int128
  *
 ***/
 

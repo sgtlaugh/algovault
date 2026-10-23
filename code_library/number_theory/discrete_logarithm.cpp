@@ -1,13 +1,15 @@
 /***
- * Generalized discrete logarithm with Shank's Baby step giant step algorithm
  *
- * discrete_log(a, b, mod): any int a and b (negative ones too), 1 <= mod <= INT_MAX
- * Returns the smallest non-negative x such that a^x = b (modulo mod)
- * If no solution exists, returns -1
- * Works even if a, b and mod are not pairwise co-primes
- * a^0 = 1 (including 0^0), so x = 0 whenever b = 1 (modulo mod), which is every b when mod = 1
+ * Discrete Logarithm
+ * Generalized discrete logarithm with Shanks' baby step giant step algorithm
  *
  * Complexity: O(sqrt(mod)) expected
+ *
+ * discrete_log(a, b, mod): the smallest x >= 0 with a^x = b (modulo mod), -1 if no solution exists
+ *
+ * Notes:
+ *   - a and b are any int (negative ones too), 1 <= mod <= INT_MAX, a, b and mod need not be pairwise co-prime
+ *   - a^0 = 1 (including 0^0), so x = 0 whenever b = 1 (modulo mod), which is every b when mod = 1
  *
 ***/
 

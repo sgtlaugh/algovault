@@ -66,7 +66,7 @@ int main(){
         else assert(sqrt_mod((unsigned __int128)n * a % p, p) == -1);
     }
 
-    /// a = x^(2^40) mod 29 * 2^57 + 1 makes Tonelli-Shanks shift by up to 2^39, random squares need about 2^32 tries to get there
+    /// a = x^(2^40) mod 29 * 2^57 + 1 makes Tonelli-Shanks shift by up to 2^39, random squares take about 2^32 tries
     const long long Q = 29 * (1LL << 57) + 1;
     for (long long it = 0; it < stress::scaled(300); it++){
         long long x = stress::rand_int(1, Q - 1), root = x;

@@ -29,7 +29,7 @@ long long floor_div(__int128 a, __int128 b){
     return (long long)r;
 }
 
-/// Scans denominators and numerators upwards keeping only strict improvements, so ties go to the smaller denominator, then the smaller value
+/// Only strict improvements while scanning q then p upwards, so ties go to the smaller denominator, then value
 Frac brute_best(long long p, long long q, long long n){
     Frac best = {0, 0};
     __int128 best_d = 0;
@@ -152,7 +152,7 @@ int main(){
         assert(calls <= call_bound(n));
     }
 
-    /// Partial quotients all 1 (golden ratio), all 2 (1 + sqrt 2) and alternating 1, 2 ((1 + sqrt 3) / 2) cost the most calls per bit of N
+    /// Quotients all 1 (golden ratio), all 2 (1 + sqrt 2), alternating 1, 2 ((1 + sqrt 3) / 2) cost most calls per bit
     auto phi = [](long long p, long long q){ return (__int128)p * p - (__int128)p * q - (__int128)q * q >= 0; };
     auto silver = [](long long p, long long q){ return (__int128)p * p - (__int128)2 * p * q - (__int128)q * q >= 0; };
     auto half_sqrt3 = [](long long p, long long q){ return (__int128)(2 * p - q) * (2 * p - q) >= (__int128)3 * q * q; };

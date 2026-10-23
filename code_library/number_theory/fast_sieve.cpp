@@ -1,20 +1,17 @@
 /***
  *
- * Optimized Sieve of Eratosthenes
- *
- * FastSieve sieve(n) sieves all numbers from 1 to n <= 2^31 - 1 and stores the primes in ascending order in sieve.primes
- * The small primes are generated first using a simpler sieve
- * The numbers are chunked into blocks of fixed sizes
- * Each block is processed separately to make it cache-friendly
- * The is_composite[] array is a compressed bit-vector denoting the numbers crossed out for each block
- * The sieve uses a wheel of size 15015 (3*5*7*11*13) to process each block efficiently
+ * Fast Sieve
+ * Optimized Sieve of Eratosthenes for every prime up to 2^31 - 1
  *
  * Complexity: O(n log log n) time, O(pi(n)) memory
- *   - primes takes 4 bytes per prime, 420 MB at n = 2^31 - 1, and the masks for the primes 17 to 61 take 49 MB for any n
+ *   - primes takes 4 bytes per prime, 420 MB at n = 2^31 - 1, the masks for primes 17 to 61 take 49 MB for any n
  *   - The per block bit vector over odd numbers is 64 KB
  *
- * The algorithm can generate all the prime numbers from 1 to 2^31 in a little under 1 seconds in a 4.00GHz core-i7 PC when compiled with -O2
- * Runtime in CodeForces - 1500 ms with GNU G++ 17
+ * FastSieve sieve(n): sieves all numbers from 1 to n <= 2^31 - 1
+ * sieve.primes: the primes up to n in ascending order
+ *
+ * Notes:
+ *   - Every prime below 2^31 in under 1 s on a 4.00 GHz Core i7 at -O2, 1500 ms on Codeforces with GNU G++ 17
  *
 ***/
 
@@ -27,7 +24,8 @@ struct FastSieve{
 
     uint32_t n, s = 0;
     vector<uint32_t> primes, sq, sp;
-    vector<uint64_t> wheel, is_composite, mask;  /// mask[((t - 6) * 62 + x) * 8192 + k] = word k of the multiples of sp[t] in a block starting at offset x, 6 <= t <= 17
+    /// mask[((t - 6) * 62 + x) * 8192 + k]: word k of the multiples of sp[t] in a block at offset x, 6 <= t <= 17
+    vector<uint64_t> wheel, is_composite, mask;
 
     FastSieve(uint32_t n) : n(n), sq(65536), sp(65536), wheel(15015), is_composite(block_size >> 7), mask(12 * 62 * (block_size >> 7)){
         assert(n <= 2147483647u);
@@ -105,7 +103,7 @@ struct FastSieve{
         }
     }
 
-    /// Stops at the word holding n and trims past it, a per prime p <= n check measured 4% slower overall at n = 2^31 - 1
+    /// Stops at the word holding n and trims past it, a per prime p <= n check measured 4% slower at n = 2^31 - 1
     void populate_primes(uint32_t i){
         const uint64_t* bits = is_composite.data();
         uint32_t words = min<uint64_t>(block_size, (uint64_t)n - i + 128) >> 7;

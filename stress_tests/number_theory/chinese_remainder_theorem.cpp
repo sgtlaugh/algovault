@@ -136,7 +136,7 @@ void tiny_crt_vs_scan(){
 }
 
 void large_crt_vs_planted(){
-    /// Shared factors up to the lcm limit: a planted solution must come back as planted % lcm, random residues follow the pairwise gcd rule
+    /// Shared factors up to the lcm limit: a planted x comes back as x % lcm, random residues follow the gcd rule
     for (long long it = 0; it < stress::scaled(100000); it++){
         auto mods = random_shared_moduli(stress::rand_int(1, 4));
         __int128 lcm = 1;
@@ -210,7 +210,7 @@ void big_garner_vs_bignum(){
 }
 
 void huge_garner_properties(){
-    /// Moduli near 2^63: x % mods[j] must give back rems[j], and the answer cannot depend on the order of the congruences
+    /// Moduli near 2^63: x % mods[j] must give back rems[j], and the answer must not depend on the congruence order
     for (long long it = 0; it < stress::scaled(20000); it++){
         int count = stress::rand_int(1, 5);
         vector<long long> mods, rems;
