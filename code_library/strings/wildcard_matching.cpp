@@ -44,35 +44,66 @@ namespace wildcard_ntt{
         return res;
     }
 
-    /// rt[k + j] = w^j for every power of two k < n, where w is a primitive 2k-th root of unity
+    /// Newton's step y (2 - p y) doubles the correct low bits of 1 / p modulo 2^32, y = p starts with 3 of them
+    constexpr unsigned inverse_mod_2_32(unsigned p, unsigned y, int steps){
+        return steps ? inverse_mod_2_32(p, y * (2 - p * y), steps - 1) : y;
+    }
+
+    /// Values live in [0, BOUND): 2 MOD below 2^30 saves the final reduction, MOD above, so u - v + BOUND stays below 2^32
+    template<unsigned MOD>
+    constexpr unsigned bound(){
+        return MOD < (1u << 30) ? 2 * MOD : MOD;
+    }
+
+    /// Montgomery reduction, x / 2^32 modulo MOD for x < MOD 2^32, in [0, bound<MOD>()), replacing the slower x % MOD
+    template<unsigned MOD>
+    unsigned redc(unsigned long long x){
+        constexpr unsigned NEG_INV = 0u - inverse_mod_2_32(MOD, MOD, 4);
+        unsigned r = (x + (unsigned long long)((unsigned)x * NEG_INV) * MOD) >> 32;
+        return MOD < (1u << 30) || r < MOD ? r : r - MOD;
+    }
+
+    /// rt[k + j] = w^j R modulo MOD for every power of two k < n, where w is a primitive 2k-th root of unity, or its inverse
     template<unsigned MOD, unsigned ROOT>
-    vector<unsigned> roots(int n){
+    vector<unsigned> roots(int n, bool invert){
         vector<unsigned> rt(max(n, 2), 1);
         for (int k = 2; k < n; k <<= 1){
             unsigned long long z = power(ROOT, (MOD - 1) / (2 * k), MOD);
+            if (invert) z = power(z, MOD - 2, MOD);
             for (int i = k; i < 2 * k; i++) rt[i] = i & 1 ? rt[i >> 1] * z % MOD : rt[i >> 1];
         }
+
+        for (auto& w : rt) w = ((unsigned long long)w << 32) % MOD;
         return rt;
     }
 
-    /// Forward transform in place, a.size() must be a power of two no larger than rt.size()
+    /// Decimation in frequency, natural order in, bit-reversed order out, a.size() a power of two no larger than rt.size()
     template<unsigned MOD>
-    void transform(vector<unsigned>& a, const vector<unsigned>& rt){
+    void forward_transform(vector<unsigned>& a, const vector<unsigned>& rt){
+        const unsigned BOUND = bound<MOD>();
         int n = a.size();
-        for (int i = 1, j = 0; i < n; i++){
-            int bit = n >> 1;
-            for (; j & bit; bit >>= 1) j ^= bit;
-            j ^= bit;
-            if (i < j) swap(a[i], a[j]);
+        for (int k = n / 2; k >= 1; k >>= 1){
+            for (int i = 0; i < n; i += 2 * k){
+                for (int j = 0; j < k; j++){
+                    unsigned u = a[i + j], v = a[i + j + k];
+                    a[i + j] = u + v >= BOUND ? u + v - BOUND : u + v;
+                    a[i + j + k] = redc<MOD>((unsigned long long)(u - v + BOUND) * rt[j + k]);
+                }
+            }
         }
+    }
 
-        /// MOD < 2^31 keeps u + v below 2^32
+    /// Decimation in time with the inverse roots, bit-reversed order in, natural order out, scaled by n
+    template<unsigned MOD>
+    void inverse_transform(vector<unsigned>& a, const vector<unsigned>& rt){
+        const unsigned BOUND = bound<MOD>();
+        int n = a.size();
         for (int k = 1; k < n; k <<= 1){
             for (int i = 0; i < n; i += 2 * k){
                 for (int j = 0; j < k; j++){
-                    unsigned u = a[i + j], v = (unsigned long long)rt[j + k] * a[i + j + k] % MOD;
-                    a[i + j] = u + v >= MOD ? u + v - MOD : u + v;
-                    a[i + j + k] = u >= v ? u - v : u + MOD - v;
+                    unsigned u = a[i + j], v = redc<MOD>((unsigned long long)a[i + j + k] * rt[j + k]);
+                    a[i + j] = u + v >= BOUND ? u + v - BOUND : u + v;
+                    a[i + j + k] = u >= v ? u - v : u + BOUND - v;
                 }
             }
         }
@@ -83,7 +114,7 @@ namespace wildcard_ntt{
     vector<unsigned> transformed_powers(const vector<unsigned>& weights, int k, int len, const vector<unsigned>& rt){
         vector<unsigned> a(len);
         for (int i = 0; i < (int)weights.size(); i++) a[i] = power(weights[i], k, MOD);
-        transform<MOD>(a, rt);
+        forward_transform<MOD>(a, rt);
         return a;
     }
 }
@@ -132,7 +163,7 @@ vector<int> wildcard_match(const Container& text, const Container& pattern, type
     /// A cyclic length >= n only wraps the convolution onto indices below m - 1, which are never read
     int len = 1;
     while (len < n) len <<= 1;
-    auto rt = roots<MOD, ROOT>(len);
+    auto rt = roots<MOD, ROOT>(len, false);
     uint64_t len_inv = power(len, MOD - 2, MOD);
 
     vector<unsigned> score(len);
@@ -140,14 +171,13 @@ vector<int> wildcard_match(const Container& text, const Container& pattern, type
         auto a = transformed_powers(wt, k, len, rt), b = transformed_powers(wp, 4 - k, len, rt);
         uint64_t coef = (k == 2 ? MOD - 2 : 1) * len_inv % MOD;
         for (int i = 0; i < len; i++){
-            unsigned& s = score[(len - i) & (len - 1)];
-            s = (s + (uint64_t)a[i] * b[i] % MOD * coef) % MOD;
+            score[i] = (score[i] + (uint64_t)a[i] * b[i] % MOD * coef) % MOD;
         }
     }
-    transform<MOD>(score, rt);
+    inverse_transform<MOD>(score, roots<MOD, ROOT>(len, true));
 
     for (int i = m - 1; i < n; i++){
-        if (score[i] == 0) positions.push_back(i - m + 1);
+        if (score[i] % MOD == 0) positions.push_back(i - m + 1);
     }
 
     return positions;

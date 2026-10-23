@@ -14,7 +14,7 @@
  * MOD must be a prime below 2^31; an explicit ROOT must be a quadratic non-residue modulo MOD, which any primitive root is
  * multiply allows result lengths up to 2^23 modulo 998244353 and 2^20 modulo 7340033 = 7 * 2^20 + 1
  * Inputs may be negative or >= the modulus, multiply and mod_multiply return values in [0, modulus)
- * Requires __int128 (64-bit GCC or Clang) for mod_multiply, exact_multiply and crt_multiply
+ * Requires __int128 (64-bit GCC or Clang) for exact_multiply and crt_multiply
  * Use fft.cpp for exact products of small values like 0..100, about 3x faster there; any other mod runs at a similar speed in both
  *
 ***/
@@ -46,35 +46,66 @@ namespace ntt{
         return res;
     }
 
-    /// rt[k + j] = w^j for every power of two k < n, where w is a primitive 2k-th root of unity
+    /// Newton's step y (2 - p y) doubles the correct low bits of 1 / p modulo 2^32, y = p starts with 3 of them
+    constexpr unsigned inverse_mod_2_32(unsigned p, unsigned y, int steps){
+        return steps ? inverse_mod_2_32(p, y * (2 - p * y), steps - 1) : y;
+    }
+
+    /// Values live in [0, BOUND): 2 MOD below 2^30 saves the final reduction, MOD above, so u - v + BOUND stays below 2^32
+    template<unsigned MOD>
+    constexpr unsigned bound(){
+        return MOD < (1u << 30) ? 2 * MOD : MOD;
+    }
+
+    /// Montgomery reduction, x / 2^32 modulo MOD for x < MOD 2^32, in [0, bound<MOD>()), replacing the slower x % MOD
+    template<unsigned MOD>
+    unsigned redc(unsigned long long x){
+        constexpr unsigned NEG_INV = 0u - inverse_mod_2_32(MOD, MOD, 4);
+        unsigned r = (x + (unsigned long long)((unsigned)x * NEG_INV) * MOD) >> 32;
+        return MOD < (1u << 30) || r < MOD ? r : r - MOD;
+    }
+
+    /// rt[k + j] = w^j R modulo MOD for every power of two k < n, where w is a primitive 2k-th root of unity, or its inverse
     template<unsigned MOD, unsigned ROOT>
-    vector<unsigned> roots(int n){
+    vector<unsigned> roots(int n, bool invert){
         vector<unsigned> rt(max(n, 2), 1);
         for (int k = 2; k < n; k <<= 1){
             unsigned long long z = power(ROOT, (MOD - 1) / (2 * k), MOD);
+            if (invert) z = power(z, MOD - 2, MOD);
             for (int i = k; i < 2 * k; i++) rt[i] = i & 1 ? rt[i >> 1] * z % MOD : rt[i >> 1];
         }
+
+        for (auto& w : rt) w = ((unsigned long long)w << 32) % MOD;
         return rt;
     }
 
-    /// Forward transform in place, a.size() must be a power of two no larger than rt.size()
+    /// Decimation in frequency, natural order in, bit-reversed order out, a.size() a power of two no larger than rt.size()
     template<unsigned MOD>
-    void transform(vector<unsigned>& a, const vector<unsigned>& rt){
+    void forward_transform(vector<unsigned>& a, const vector<unsigned>& rt){
+        const unsigned BOUND = bound<MOD>();
         int n = a.size();
-        for (int i = 1, j = 0; i < n; i++){
-            int bit = n >> 1;
-            for (; j & bit; bit >>= 1) j ^= bit;
-            j ^= bit;
-            if (i < j) swap(a[i], a[j]);
+        for (int k = n / 2; k >= 1; k >>= 1){
+            for (int i = 0; i < n; i += 2 * k){
+                for (int j = 0; j < k; j++){
+                    unsigned u = a[i + j], v = a[i + j + k];
+                    a[i + j] = u + v >= BOUND ? u + v - BOUND : u + v;
+                    a[i + j + k] = redc<MOD>((unsigned long long)(u - v + BOUND) * rt[j + k]);
+                }
+            }
         }
+    }
 
-        /// MOD < 2^31 keeps u + v below 2^32
+    /// Decimation in time with the inverse roots, bit-reversed order in, natural order out, scaled by n
+    template<unsigned MOD>
+    void inverse_transform(vector<unsigned>& a, const vector<unsigned>& rt){
+        const unsigned BOUND = bound<MOD>();
+        int n = a.size();
         for (int k = 1; k < n; k <<= 1){
             for (int i = 0; i < n; i += 2 * k){
                 for (int j = 0; j < k; j++){
-                    unsigned u = a[i + j], v = (unsigned long long)rt[j + k] * a[i + j + k] % MOD;
-                    a[i + j] = u + v >= MOD ? u + v - MOD : u + v;
-                    a[i + j + k] = u >= v ? u - v : u + MOD - v;
+                    unsigned u = a[i + j], v = redc<MOD>((unsigned long long)a[i + j + k] * rt[j + k]);
+                    a[i + j] = u + v >= BOUND ? u + v - BOUND : u + v;
+                    a[i + j + k] = u >= v ? u - v : u + BOUND - v;
                 }
             }
         }
@@ -102,17 +133,17 @@ namespace ntt{
         for (size_t i = 0; i < a.size(); i++) x[i] = (a[i] % (long long)MOD + MOD) % MOD;
         for (size_t i = 0; i < b.size(); i++) y[i] = (b[i] % (long long)MOD + MOD) % MOD;
 
-        auto rt = roots<MOD, ROOT>(n);
-        transform<MOD>(x, rt);
-        transform<MOD>(y, rt);
+        auto rt = roots<MOD, ROOT>(n, false);
+        forward_transform<MOD>(x, rt);
+        forward_transform<MOD>(y, rt);
 
-        /// The forward transform with reversed indices 1..n-1 is the inverse transform scaled by n
         unsigned long long inv = power(n, MOD - 2, MOD);
         for (int i = 0; i < n; i++) x[i] = (unsigned long long)x[i] * y[i] % MOD * inv % MOD;
-        reverse(x.begin() + 1, x.end());
-        transform<MOD>(x, rt);
+        inverse_transform<MOD>(x, roots<MOD, ROOT>(n, true));
 
-        return vector<long long>(x.begin(), x.begin() + s);
+        vector<long long> res(s);
+        for (int i = 0; i < s; i++) res[i] = x[i] >= MOD ? x[i] - MOD : x[i];
+        return res;
     }
 
     vector<unsigned __int128> crt_multiply(const vector<long long>& a, const vector<long long>& b){
@@ -138,10 +169,19 @@ namespace ntt{
         for (auto& x : a) x = (x % m + m) % m;
         for (auto& x : b) x = (x % m + m) % m;
 
-        /// A coefficient sums at most 2^23 products below m^2 < 2^62, under M ~ 5.95e25, so the CRT value is exact
-        auto c = crt_multiply(a, b);
-        vector<long long> res(c.size());
-        for (size_t i = 0; i < c.size(); i++) res[i] = c[i] % m;
+        constexpr unsigned long long INV1 = power(P1, P2 - 2, P2);
+        constexpr unsigned long long INV12 = power((unsigned long long)P1 * P2, P3 - 2, P3);
+        const unsigned long long M1 = P1 % m, M12 = (unsigned long long)P1 * P2 % m;
+        auto c1 = multiply<P1, 3>(a, b), c2 = multiply<P2, 3>(a, b), c3 = multiply<P3, 11>(a, b);
+
+        /// Every true coefficient is below 2^23 m^2 < M ~ 5.95e25, so x1 + x2 P1 + x3 P1 P2 is exact, reduced term by term below 2^62
+        vector<long long> res(c1.size());
+        for (size_t i = 0; i < res.size(); i++){
+            unsigned long long x1 = c1[i];
+            unsigned long long x2 = (c2[i] + P2 - x1) % P2 * INV1 % P2;
+            unsigned long long x3 = (c3[i] + 2ULL * P3 - x1 - x2 * P1 % P3) % P3 * INV12 % P3;
+            res[i] = (x1 + x2 * M1 + x3 * M12) % m;
+        }
         return res;
     }
 

@@ -74,6 +74,7 @@ int main(){
         check_prime<786433>(300, 300);  /// 3 is a quadratic residue here, so the found root must differ from the old default
         check_prime<13>(2, 2);  /// smallest non-residue 2; 4 is the largest power of two dividing 12, so results stay within 3 terms
         check_prime<P3>(300, 300);
+        check_prime<2013265921>(300, 300);  /// above 2^30 the transforms keep values below the modulus instead of twice it
 
         /// mod_multiply over any modulus, inputs anywhere in long long, the top modulus 2^31 - 1 a quarter of the time
         int n = stress::rand_int(0, big ? 2000 : 200), m = stress::rand_int(0, big ? 2000 : 200);
