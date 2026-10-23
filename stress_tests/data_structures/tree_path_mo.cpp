@@ -30,14 +30,14 @@ void check_tree(int n, int q, int shape, int verify = 1 << 30){
     vector<pair<int, int>> paths(q);
     for (auto& [u, v] : paths) u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
 
-    for (bool edge_mode : {false, true}){
+    for (auto mode : {TreePathMo::NODES, TreePathMo::EDGES}){
         vector<int> freq(21, 0);
         int distinct = 0;
         long long sum = 0;
         auto got = tree.run(paths,
             [&](int v){ distinct += freq[value[v]]++ == 0, sum += value[v]; },
             [&](int v){ distinct -= --freq[value[v]] == 0, sum -= value[v]; },
-            [&](int qi){ return make_tuple(distinct, sum, qi); }, edge_mode);
+            [&](int qi){ return make_tuple(distinct, sum, qi); }, mode);
         assert(sum == 0 && distinct == 0 && (int)got.size() == q);
 
         for (int i = 0; i < q && i < verify; i++){
@@ -54,7 +54,7 @@ void check_tree(int n, int q, int shape, int verify = 1 << 30){
             vector<int> nodes;
             for (int x = u; x != l; x = tree.up[0][x]) nodes.push_back(x);
             for (int x = v; x != l; x = tree.up[0][x]) nodes.push_back(x);
-            if (!edge_mode) nodes.push_back(l);
+            if (mode == TreePathMo::NODES) nodes.push_back(l);
 
             long long s = 0;
             set<int> vals;

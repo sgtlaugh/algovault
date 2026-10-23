@@ -12,11 +12,11 @@
  * tree.add_edge(u, v): adds the tree edge between u and v
  * tree.build(root): roots the tree at root once all n - 1 edges are added
  * tree.lca(u, v): the lowest common ancestor of u and v, after build
- * tree.run(paths, add, remove, get, edges = false): the answers, res[i] = get(i) while the window holds the path paths[i] = {u, v}
+ * tree.run(paths, add, remove, get, mode = NODES): the answers, res[i] = get(i) while the window holds the path paths[i] = {u, v}
  *
  * add(node) and remove(node) receive tree nodes, get(i) returns the answer for the current window
- * edges = false: the window holds every node on the path u..v
- * edges = true: the window holds the path without the lca, so store the value of edge (parent[v], v) on v
+ * mode = NODES: the window holds every node on the path u..v
+ * mode = EDGES: the window holds the path without the lca, so store the value of edge (parent[v], v) on v
  * The window starts and ends empty, so the same callbacks and state can serve several runs
  * Embeds a checked copy of mo.cpp's mo to stay standalone
  *
@@ -61,6 +61,8 @@ auto mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, Ge
 /// END COPY mo
 
 struct TreePathMo{
+    enum Mode{NODES, EDGES};
+
     int n, lg;
     vector<vector<int>> adj, up;
     vector<int> depth, first, last, tour;
@@ -86,7 +88,7 @@ struct TreePathMo{
             int u = stack.back();
             if (it[u] < (int)adj[u].size()){
                 int v = adj[u][it[u]++];
-                if (v == up[0][u] && u != root) continue;
+                if (v == up[0][u]) continue;
                 up[0][v] = u, depth[v] = depth[u] + 1;
                 first[v] = tour.size(), tour.push_back(v);
                 stack.push_back(v);
@@ -116,7 +118,7 @@ struct TreePathMo{
     }
 
     template <typename Add, typename Remove, typename Get>
-    auto run(const vector<pair<int, int>>& paths, Add add, Remove remove, Get get, bool edges = false){
+    auto run(const vector<pair<int, int>>& paths, Add add, Remove remove, Get get, Mode mode = NODES){
         /// A node inside the tour range twice is not on the path, so each tour position toggles its node
         /// With first[u] <= first[v] and u an ancestor of v, [first[u], first[v]] holds exactly the path u..v
         /// Otherwise [last[u], first[v]] holds the path minus the lca, whose entry and exit both lie outside it
@@ -126,12 +128,12 @@ struct TreePathMo{
             if (first[u] > first[v]) swap(u, v);
             int w = lca(u, v);
             if (w == u){
-                ranges.push_back({first[u] + (edges ? 1 : 0), first[v]});  /// edge mode drops the lca u, u == v leaves it empty
+                ranges.push_back({first[u] + (mode == EDGES), first[v]});  /// edge mode drops the lca u, u == v leaves it empty
                 lca_to_add.push_back(-1);
             }
             else{
                 ranges.push_back({last[u], first[v]});
-                lca_to_add.push_back(edges ? -1 : w);
+                lca_to_add.push_back(mode == EDGES ? -1 : w);
             }
         }
 
@@ -172,7 +174,7 @@ int main(){
     auto nodes = tree.run(paths, add, remove, [&](int){ return sum; });
     assert((nodes == vector<long long>{40 + 20 + 50, 40 + 20 + 10 + 30 + 60, 30}));
 
-    auto edges = tree.run(paths, add, remove, [&](int){ return sum; }, true);
+    auto edges = tree.run(paths, add, remove, [&](int){ return sum; }, TreePathMo::EDGES);
     assert((edges == vector<long long>{40 + 50, 40 + 20 + 30 + 60, 0}));  /// edge mode leaves out the lca
 
     return 0;
