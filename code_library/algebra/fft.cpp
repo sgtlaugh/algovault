@@ -5,7 +5,8 @@
  *
  * Complexity:
  *   - every call: O((n + m) log(n + m)) for inputs of sizes n and m
- *   - the first call at a new transform length len: O(len) more to extend the roots of unity
+ *   - the first call at a new transform length len, the smallest power of two >= n + m: O(len) more to extend the roots of unity
+ *   - memory: up to 4 complex arrays of len entries per precision, kept between calls, 32 bytes each in long double, so ~270 MB at len = 2^21
  *
  * FFT fft: an instance that keeps its roots of unity and work buffers between calls
  * fft.multiply(a, b): the linear product of a and b, negatives allowed, exact whenever every coefficient fits in a long long
@@ -16,11 +17,9 @@
  * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
  *
  * Products have length n + m - 1, and an empty input gives an empty result
- * Every product runs in double while max(n, m) * max|value|^2 <= DOUBLE_LIMIT (~4.5e13), in long double to EXACT_LIMIT (~9.2e16)
- * mod_multiply bounds the values by mod - 1, so a mod below about 3e5 never needs more than one transform for n up to 10^6
- * Past EXACT_LIMIT values split into 15 bit halves, about 2x slower, need |values| < LL_MULTIPLY_LIMIT, and run in double while n <= 41909
+ * Once max(n, m) * max|value|^2 passes EXACT_LIMIT (~9.2e16), multiply and square need |values| < LL_MULTIPLY_LIMIT and take about 2x longer
+ * mod_multiply takes that slower path unless max(n, m) * (mod - 1)^2 <= EXACT_LIMIT, which holds for mod below about 3e5 at n = 10^6
  * The string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
- * Memory: with len the smallest power of two >= n + m, 4 complex arrays of len / 2 per precision used, 4 of len once a split product ran
  *
  * Circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
  *   auto c = fft.multiply(a, b);
