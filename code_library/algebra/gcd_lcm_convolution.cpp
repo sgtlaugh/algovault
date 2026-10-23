@@ -1,25 +1,23 @@
 /***
  *
  * GCD and LCM Convolution
- * c[k] = sum of a[i] * b[j] over gcd(i, j) = k, or over lcm(i, j) = k, exact or modulo mod
+ * c[k] = sum of a[i] * b[j] over gcd(i, j) = k, or over lcm(i, j) = k
  *
- * Complexity:
- *   - DivisorLattice(n): O(n log log n)
- *   - each convolution or transform: O(s log log s) for vectors of size s
+ * Complexity: O(n log log n) to build, O(s log log s) per call on vectors of size s
  *
- * DivisorLattice lattice(n): serves any number of calls on vectors of size at most n + 1
- * lattice.divisor_mobius(a, mod = 0): replaces a by the f with divisor_zeta(f) = a, the inverse of divisor_zeta
- * lattice.divisor_zeta(a, mod = 0): replaces each a[k] by the sum of a[d] over the divisors d of k
- * lattice.multiple_mobius(a, mod = 0): replaces a by the f with multiple_zeta(f) = a, the inverse of multiple_zeta
- * lattice.multiple_zeta(a, mod = 0): replaces each a[k] by the sum of a[j] over the multiples j of k with j < a.size()
- * lattice.gcd_convolution(a, b, mod = 0): c of size max(a.size(), b.size()) with c[k] = sum of a[i] * b[j] over gcd(i, j) = k
- * lattice.lcm_convolution(a, b, mod = 0): the same over lcm(i, j) = k, pairs with lcm(i, j) >= c.size() dropped
+ * DivisorLattice lattice(n): reusable for any vectors of size at most n + 1
+ * lattice.divisor_mobius(a, mod = 0): a becomes the f with divisor_zeta(f) = a
+ * lattice.divisor_zeta(a, mod = 0): each a[k] becomes the sum of a[d] over the divisors d of k
+ * lattice.multiple_mobius(a, mod = 0): a becomes the f with multiple_zeta(f) = a
+ * lattice.multiple_zeta(a, mod = 0): each a[k] becomes the sum of a[j] over the multiples j < a.size() of k
+ * lattice.gcd_convolution(a, b, mod = 0): c of size max(a.size(), b.size()) by gcd
+ * lattice.lcm_convolution(a, b, mod = 0): the same by lcm, pairs with lcm(i, j) >= c.size() dropped
  *
- * Zeta sums over divisors or multiples, mobius is its inverse, and each convolution is zeta on both inputs, a pointwise product, then mobius
- * Vectors are indexed by value from 1: the transforms ignore a[0] and the convolutions return c[0] = 0
- * mod = 0 is exact over long long, needing (sum |a[i]|) * (sum |b[j]|) < 2^63 for a convolution and sum |a[i]| < 2^63 for a transform
- * 1 <= mod < 2^62 gives results in [0, mod) for any long long input, negatives included, and mod need not be prime
- * Requires __int128
+ * Notes:
+ *   - Index 0 is ignored and c[0] = 0
+ *   - mod = 0 is exact while sum |a[i]| < 2^63 for a transform and (sum |a[i]|) (sum |b[j]|) < 2^63 for a convolution
+ *   - Otherwise any 1 <= mod < 2^62 works, prime or not
+ *   - Requires __int128
  *
 ***/
 
