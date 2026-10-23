@@ -13,7 +13,7 @@ void check(const vector<T>& v){
 
     vector<T> sorted = v, appearance = v;
     assert(compress(sorted) == distinct);
-    assert(compress(appearance, false) == first_seen);
+    assert(compress_by_appearance(appearance) == first_seen);
     for (size_t i = 0; i < v.size(); i++){
         assert(sorted[i] == lower_bound(distinct.begin(), distinct.end(), v[i]) - distinct.begin());
         assert(appearance[i] == find(first_seen.begin(), first_seen.end(), v[i]) - first_seen.begin());
@@ -30,7 +30,7 @@ void check_anti_hash(){
     vector<long long> v(n);
     for (int i = 0; i < n; i++) v[i] = buckets * (i / 2 + 1);
     clock_t start = clock();
-    auto vals = compress(v, false);
+    auto vals = compress_by_appearance(v);
     assert(clock() - start < 2 * CLOCKS_PER_SEC);  /// CPU time, parallel sanitizer jobs inflate wall time
     assert((int)vals.size() == n / 2 && vals[0] == buckets && v[n - 1] == n / 2 - 1);
 }
