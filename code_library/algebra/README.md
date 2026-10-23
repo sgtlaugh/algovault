@@ -52,7 +52,7 @@
 - [Codeforces 954I - Yet Another String Matching Problem](https://codeforces.com/problemset/problem/954/I) [✅](../../practice/algebra/codeforces_954i.cpp "Accepted solution")
 - [Codeforces 958F3 - Lightsabers (hard)](https://codeforces.com/problemset/problem/958/F3) [✅](../../practice/algebra/codeforces_958f3.cpp "Accepted solution")
 - [Codeforces 1398G - Running Competition](https://codeforces.com/problemset/problem/1398/G) [✅](../../practice/algebra/codeforces_1398g.cpp "Accepted solution")
-- [Codeforces Gym 100524D - Dichromatic Trees](https://codeforces.com/gym/100524/problem/D) [✅](../../practice/algebra/codeforces_gym_100524d.cpp "Accepted solution")
+- [Codeforces Gym 100524D - Dichromatic Trees](https://codeforces.com/gym/100524/problem/D) [✅](../../practice/algebra/codeforces_gym_100524d_fft.cpp "Accepted solution")
 - [Codeforces Gym 101002E - K-Inversions](https://codeforces.com/gym/101002/problem/E) [✅](../../practice/algebra/codeforces_gym_101002e.cpp "Accepted solution")
 - [Codeforces Gym 101480F - Frightful Formula](https://codeforces.com/gym/101480/problem/F) [✅](../../practice/algebra/codeforces_gym_101480f.cpp "Accepted solution")
 - [Codeforces Gym 101667H - Rock Paper Scissors](https://codeforces.com/gym/101667/problem/H) [✅](../../practice/algebra/codeforces_gym_101667h.cpp "Accepted solution")
