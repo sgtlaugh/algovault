@@ -5,7 +5,7 @@ description: >
   submission, and once the user reports it accepted, commit it under practice/ with the ✅ link. POJ, UVa and HDU
   solutions get a C++11 copy of the template.
 trigger: /verdict
-allowed-tools: Read, Write, Edit, Glob, Grep, WebFetch, Bash(git grep:*), Bash(git diff:*), Bash(git log:*), Bash(git status:*), Bash(git show:*), Bash(ls:*), Bash(g++:*), Bash(python3:*), Bash(bash .claude/skills/verdict/scripts/check_solution.sh:*), Bash(python3 .claude/skills/verdict/scripts/commit_one.py:*), Bash(env CHANGED_SINCE=:*), Bash(mkdir:*), Bash(cmp:*), Bash(diff:*), Bash(setsid:*), Bash(xclip:*), Bash(/tmp/verdict/:*)
+allowed-tools: Read, Write, Edit, Glob, Grep, WebFetch, Bash(git grep:*), Bash(git diff:*), Bash(git log:*), Bash(git status:*), Bash(git show:*), Bash(ls:*), Bash(g++:*), Bash(python3:*), Bash(bash .claude/skills/verdict/scripts/check_solution.sh:*), Bash(bash .claude/skills/verdict/scripts/run_capped.sh:*), Bash(python3 .claude/skills/verdict/scripts/commit_one.py:*), Bash(env CHANGED_SINCE=:*), Bash(mkdir:*), Bash(cmp:*), Bash(diff:*), Bash(setsid:*), Bash(xclip:*), Bash(/tmp/verdict/:*)
 argument-hint: "<problem URL or statement> [<topic>/<template file>] [--commit]"
 ---
 
@@ -23,7 +23,9 @@ Read the practice bullets of `CONTRIBUTING.md` (`## Adding a template`) and all 
    ```bash
    bash .claude/skills/verdict/scripts/check_solution.sh <solution> <template> [<template> ...] code_library/misc/fast_io.cpp
    ```
-   It must print `OK`. Then run the binary it built, `/tmp/verdict/solution`:
+   It must print `OK`. Then run the binary it built, `/tmp/verdict/solution`, and every brute force or generator through
+   `bash .claude/skills/verdict/scripts/run_capped.sh <command>` (4 GiB, 120 s CPU each), on inputs you wrote, never on
+   files picked up by name: a wrong input once made a solution allocate 26 GB and froze the machine:
    - every sample, compared with `diff` against the expected output, exactly
    - one random input at the maximum limits, timed, at most half the time limit
    - a brute force on small random inputs, compared with `diff`, unless `main` only reads the input, makes the template's calls and prints their results
