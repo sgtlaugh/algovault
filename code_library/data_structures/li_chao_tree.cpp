@@ -82,8 +82,7 @@ struct LiChaoTree{
         return res;
     }
 
-    /// Walks a single root to leaf path, each node keeps the line that wins at its midpoint
-    /// Two lines cross at most once, so when one wins at both ends of a node's range it wins on all of it and the walk stops
+    /// The early stop needs functions that cross at most once
     int insert(int node, long long l, long long r, Line line){
         if (node == -1) return new_node(line);
 
