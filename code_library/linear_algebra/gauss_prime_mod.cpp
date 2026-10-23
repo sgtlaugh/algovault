@@ -6,8 +6,8 @@
  * Complexity: O(min(n, m) n m + m^2) for gauss, O(min(n, m) n m) for matrix_rank, O(n^3) for matrix_inverse
  *
  * gauss(equations, mod): {solvable, x, basis} for n >= 1 equations in m variables, equations[i][m] is the right-hand side
- * matrix_rank(a, mod): rank of any n x m matrix
  * matrix_inverse(a, mod): a^-1 for a square a, nullopt when a is singular
+ * matrix_rank(a, mod): rank of any n x m matrix
  *
  * x is one solution, empty when solvable is false
  * basis spans the kernel {x : Ax = 0}, every solution is x + c_1 basis[0] + ... + c_f basis[f - 1] for exactly one choice of the c_k
@@ -123,12 +123,6 @@ GaussModSolution gauss(vector<vector<int>> equations, int mod){
     return {true, x, basis};
 }
 
-int matrix_rank(vector<vector<int>> a, int mod){
-    int cols = a.empty() ? 0 : a[0].size();
-    vector<int> pos = echelon_mod(a, cols, mod);
-    return cols - count(pos.begin(), pos.end(), -1);
-}
-
 optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int mod){
     int n = a.size();
     vector<vector<int>> aug(n, vector<int>(2 * n, 0));
@@ -147,6 +141,12 @@ optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int m
     }
 
     return inv;
+}
+
+int matrix_rank(vector<vector<int>> a, int mod){
+    int cols = a.empty() ? 0 : a[0].size();
+    vector<int> pos = echelon_mod(a, cols, mod);
+    return cols - count(pos.begin(), pos.end(), -1);
 }
 
 int main(){

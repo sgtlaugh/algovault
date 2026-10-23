@@ -5,10 +5,10 @@
  *
  * Complexity: O(n^3 + n^2 log m)
  *
- * determinant_mod(a, m): det(a) mod m in [0, m) for any modulus 1 <= m < 2^62, prime or composite
- *     row reduction by repeated division, like the Euclidean algorithm, so no modular inverses are needed
  * determinant(a): the exact signed determinant, correct whenever |det(a)| <= 2258704744122758558 (~2.26e18)
  *     computed modulo the prime 4517409488245517117 and mapped back to the nearest signed value
+ * determinant_mod(a, m): det(a) mod m in [0, m) for any modulus 1 <= m < 2^62, prime or composite
+ *     row reduction by repeated division, like the Euclidean algorithm, so no modular inverses are needed
  *
  * Entries may be any long long, negative included, a 0 x 0 matrix has determinant 1
  * Requires __int128 (64-bit GCC or Clang)

@@ -6,8 +6,8 @@
  * Complexity: O(min(n, m) n m) for gauss and matrix_rank, O(n^3) for matrix_inverse
  *
  * gauss(equations, eps = 1e-9): {solvable, x, free_variables} for n >= 1 equations in m variables, equations[i][m] is the right-hand side
- * matrix_rank(a, eps = 1e-9): rank of any n x m matrix
  * matrix_inverse(a, eps = 1e-9): a^-1 for a square a, nullopt when a is singular
+ * matrix_rank(a, eps = 1e-9): rank of any n x m matrix
  *
  * x is one solution, empty when solvable is false, and free_variables is m minus the rank either way
  * eps is relative, scaled by max(1, largest |coefficient| of the input), a pivot within it counts as 0
@@ -93,13 +93,6 @@ GaussSolution<T> gauss(vector<vector<T>> equations, const T eps=1e-9){
 }
 
 template <class T>
-int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
-    int cols = a.empty() ? 0 : a[0].size();
-    vector<int> pos = row_reduce(a, cols, tolerance(a, cols, eps));
-    return cols - count(pos.begin(), pos.end(), -1);
-}
-
-template <class T>
 optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T eps=1e-9){
     int n = a.size();
     vector<vector<T>> aug(n, vector<T>(2 * n, 0));
@@ -127,6 +120,13 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
     }
 
     return inv;
+}
+
+template <class T>
+int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
+    int cols = a.empty() ? 0 : a[0].size();
+    vector<int> pos = row_reduce(a, cols, tolerance(a, cols, eps));
+    return cols - count(pos.begin(), pos.end(), -1);
 }
 
 int main(){

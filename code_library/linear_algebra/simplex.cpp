@@ -122,6 +122,28 @@ struct BasicSimplex : SimplexOptions{
         for (int j = 0; j < n; j++) ar[m][j + 1] = coef[j] * sign / scale;
     }
 
+    void pivot(int x, int y){
+        int len = 0;
+        vector<Float>& row = ar[x];
+        Float v = row[y];
+
+        swap(basic[x], nonbasic[y]);
+        rhs[x] /= v, row[y] = 1;
+        for (int j = 0; j <= n; j++){
+            row[j] /= v;
+            if (abs(row[j]) > DROP) nonzero[len++] = j;
+        }
+        pivot_width = len;
+
+        /// Row 0 is the objective and row m + 1 the phase 1 objective while it exists, each rhs holds minus its value
+        for (int i = 0; i < (int)ar.size(); i++){
+            vector<Float>& cur = ar[i];
+            if (i == x || abs(cur[y]) <= DROP) continue;
+            rhs[i] -= cur[y] * rhs[x], v = cur[y], cur[y] = 0;
+            for (int k = 0; k < len; k++) cur[nonzero[k]] -= v * row[nonzero[k]];
+        }
+    }
+
     bool optimize(int z){
         /// Bland's rule after a degenerate pivot, since only degenerate pivots can cycle
         for (bool bland = false; ; ){
@@ -158,28 +180,6 @@ struct BasicSimplex : SimplexOptions{
             if (x == 0) return false;
             bland = v <= EPS;
             pivot(x, y);
-        }
-    }
-
-    void pivot(int x, int y){
-        int len = 0;
-        vector<Float>& row = ar[x];
-        Float v = row[y];
-
-        swap(basic[x], nonbasic[y]);
-        rhs[x] /= v, row[y] = 1;
-        for (int j = 0; j <= n; j++){
-            row[j] /= v;
-            if (abs(row[j]) > DROP) nonzero[len++] = j;
-        }
-        pivot_width = len;
-
-        /// Row 0 is the objective and row m + 1 the phase 1 objective while it exists, each rhs holds minus its value
-        for (int i = 0; i < (int)ar.size(); i++){
-            vector<Float>& cur = ar[i];
-            if (i == x || abs(cur[y]) <= DROP) continue;
-            rhs[i] -= cur[y] * rhs[x], v = cur[y], cur[y] = 0;
-            for (int k = 0; k < len; k++) cur[nonzero[k]] -= v * row[nonzero[k]];
         }
     }
 };

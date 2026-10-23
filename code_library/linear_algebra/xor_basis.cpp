@@ -11,11 +11,11 @@
  *
  *   insert(x)        adds x, returns false if x was already in the span
  *   contains(x)      whether some subset XORs to x
- *   max_xor(x)       max of x ^ s over the span (max subset XOR for x = 0)
- *   min_xor(x)       min of x ^ s over the span
- *   kth(k)           k-th smallest distinct span value, 0-indexed, requires k < 2^rank (kth(0) = 0)
  *   count_less(x)    number of distinct span values < x
  *   intersect(other) basis of the intersection of both spans (Zassenhaus)
+ *   kth(k)           k-th smallest distinct span value, 0-indexed, requires k < 2^rank (kth(0) = 0)
+ *   max_xor(x)       max of x ^ s over the span (max subset XOR for x = 0)
+ *   min_xor(x)       min of x ^ s over the span
  *
  * The span has 2^rank distinct values, and each one is the XOR of exactly 2^(n - rank)
  * of the 2^n subsets of the n inserted values
@@ -55,27 +55,6 @@ struct XorBasis{
 
     bool contains(ull x) const{
         return min_xor(x) == 0;
-    }
-
-    ull max_xor(ull x = 0) const{
-        for (int i = 63; i >= 0; i--) x = max(x, x ^ basis[i]);
-        return x;
-    }
-
-    ull min_xor(ull x) const{
-        for (int i = 63; i >= 0; i--) x = min(x, x ^ basis[i]);
-        return x;
-    }
-
-    ull kth(ull k) const{
-        assert(rank == 64 || (k >> rank) == 0);
-        ull res = 0;
-        for (int i = 0, j = 0; i < 64; i++){
-            if (!basis[i]) continue;
-            if (k >> j & 1) res ^= basis[i];
-            j++;
-        }
-        return res;
     }
 
     ull count_less(ull x) const{
@@ -119,6 +98,27 @@ struct XorBasis{
             if (v) add_row(v, 0);
         }
         return res;
+    }
+
+    ull kth(ull k) const{
+        assert(rank == 64 || (k >> rank) == 0);
+        ull res = 0;
+        for (int i = 0, j = 0; i < 64; i++){
+            if (!basis[i]) continue;
+            if (k >> j & 1) res ^= basis[i];
+            j++;
+        }
+        return res;
+    }
+
+    ull max_xor(ull x = 0) const{
+        for (int i = 63; i >= 0; i--) x = max(x, x ^ basis[i]);
+        return x;
+    }
+
+    ull min_xor(ull x) const{
+        for (int i = 63; i >= 0; i--) x = min(x, x ^ basis[i]);
+        return x;
     }
 };
 

@@ -5,10 +5,10 @@
  *
  * Complexity: O(min(n, m) n W / 64) for gauss and matrix_rank, O(n^2 W / 64) for matrix_inverse
  *
- * gauss(m, equations): {solvable, x, free_variables} for equations in m < W variables, bit j of a row is the coefficient of x_j and bit m the right-hand side
- * matrix_rank(m, a): rank of the n x m matrix in bits 0 to m - 1 of the rows of a, m <= W
- * matrix_inverse(n, a): a^-1 for the n x n matrix in a, n <= W, nullopt when it is singular
  * eliminate_gf2(a, cols, side = nullptr): pos with pos[j] the pivot row of column j or -1, after reducing the first cols <= W columns of a in place
+ * gauss(m, equations): {solvable, x, free_variables} for equations in m < W variables, bit j of a row is the coefficient of x_j and bit m the right-hand side
+ * matrix_inverse(n, a): a^-1 for the n x n matrix in a, n <= W, nullopt when it is singular
+ * matrix_rank(m, a): rank of the n x m matrix in bits 0 to m - 1 of the rows of a, m <= W
  * rows_of<W>(strings): rows from strings of '0' and '1', character j is bit j
  *
  * x is one solution, all zero when solvable is false, and free_variables is m minus the rank either way
@@ -98,13 +98,6 @@ GaussGF2Solution<W> gauss(int m, vector<bitset<W>> equations){
     return {true, x, m - rank};
 }
 
-/// W is not deduced from an empty braced list, matrix_rank(0, {}), so it falls back to GF2_WIDTH
-template <size_t W = GF2_WIDTH>
-int matrix_rank(int m, vector<bitset<W>> a){
-    vector<int> pos = echelon_gf2(a, m);
-    return m - count(pos.begin(), pos.end(), -1);
-}
-
 template <size_t W = GF2_WIDTH>
 optional<vector<bitset<W>>> matrix_inverse(int n, vector<bitset<W>> a){
     /// Checked before the identity is written, side[i][i] with i >= W is past the end of the row
@@ -115,6 +108,13 @@ optional<vector<bitset<W>>> matrix_inverse(int n, vector<bitset<W>> a){
     vector<int> pos = eliminate_gf2(a, n, &side);
     if (n && pos[n - 1] != n - 1) return nullopt;
     return side;
+}
+
+/// W is not deduced from an empty braced list, matrix_rank(0, {}), so it falls back to GF2_WIDTH
+template <size_t W = GF2_WIDTH>
+int matrix_rank(int m, vector<bitset<W>> a){
+    vector<int> pos = echelon_gf2(a, m);
+    return m - count(pos.begin(), pos.end(), -1);
 }
 
 template <size_t W = GF2_WIDTH>

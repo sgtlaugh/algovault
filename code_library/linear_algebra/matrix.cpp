@@ -11,11 +11,11 @@
  * Matrix::identity(n, mod): the n x n identity modulo mod
  * a[i][j] = value: any long long, reduced modulo mod when multiplying
  * a * b: the product, needs a.m == b.n and the same mod
- * a.pow(e): a^e for a square matrix and e >= 0, a.pow(0) is the identity
- * a.normalized(): a copy with every entry in [0, mod)
  * a.is_normalized(): whether every entry is already in [0, mod)
- * a.transpose(): the m x n transpose
+ * a.normalized(): a copy with every entry in [0, mod)
+ * a.pow(e): a^e for a square matrix and e >= 0, a.pow(0) is the identity
  * a.rotate(): the matrix turned 90 degrees clockwise
+ * a.transpose(): the m x n transpose
  *
  * Linear recurrence f(n) = 2 f(n - 1) + 3 f(n - 2): with M = {{2, 3}, {1, 0}}, (f(n + 1), f(n)) = M^n * (f(1), f(0))
  *
@@ -48,14 +48,12 @@ struct Matrix{
         return a[i];
     }
 
-    Matrix normalized() const{
-        Matrix res = *this;
-        for (auto& row : res.a){
-            for (auto& x : row){
-                x %= mod;
-                if (x < 0) x += mod;
-            }
-        }
+    Matrix operator*(const Matrix& other) const{
+        assert(m == other.n && mod == other.mod);
+
+        Matrix res(n, other.m, mod);
+        if (other.is_normalized()) multiply(*this, other, res);
+        else multiply(*this, other.normalized(), res);
         return res;
     }
 
@@ -68,12 +66,14 @@ struct Matrix{
         return true;
     }
 
-    Matrix operator*(const Matrix& other) const{
-        assert(m == other.n && mod == other.mod);
-
-        Matrix res(n, other.m, mod);
-        if (other.is_normalized()) multiply(*this, other, res);
-        else multiply(*this, other.normalized(), res);
+    Matrix normalized() const{
+        Matrix res = *this;
+        for (auto& row : res.a){
+            for (auto& x : row){
+                x %= mod;
+                if (x < 0) x += mod;
+            }
+        }
         return res;
     }
 
@@ -89,6 +89,20 @@ struct Matrix{
             }
             multiply(base, base, tmp);
             swap(base, tmp);
+        }
+        return res;
+    }
+
+    Matrix rotate() const{
+        Matrix res = transpose();
+        for (auto& row : res.a) reverse(row.begin(), row.end());
+        return res;
+    }
+
+    Matrix transpose() const{
+        Matrix res(m, n, mod);
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < m; j++) res.a[j][i] = a[i][j];
         }
         return res;
     }
@@ -112,20 +126,6 @@ struct Matrix{
             }
             for (long long& value : acc) value %= mod;
         }
-    }
-
-    Matrix transpose() const{
-        Matrix res(m, n, mod);
-        for (int i = 0; i < n; i++){
-            for (int j = 0; j < m; j++) res.a[j][i] = a[i][j];
-        }
-        return res;
-    }
-
-    Matrix rotate() const{
-        Matrix res = transpose();
-        for (auto& row : res.a) reverse(row.begin(), row.end());
-        return res;
     }
 };
 
