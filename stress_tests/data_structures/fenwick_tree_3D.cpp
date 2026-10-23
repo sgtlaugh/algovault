@@ -12,8 +12,29 @@ long long box_sum(const Grid& g, int x1, int y1, int z1, int x2, int y2, int z2)
     return s;
 }
 
+template <typename Call>
+void check_rejects(Call call){
+    stress::expect_assert("data_structures/fenwick_tree_3D.cpp", call);
+}
+
 /// All three variants against a plain 3D grid, boxes touching the borders included
 int main(){
+    /// Without the asserts a coordinate of -1 loops forever at i += i & -i = 0, and one past the edge silently drops the update
+    for (int n : {1, 3}){
+        int m = n + 1, r = n + 2;
+        check_rejects([&]{ FenwickPointUpdate3D<int>(n, m, r).update(n, 0, 0, 1); });
+        check_rejects([&]{ FenwickPointUpdate3D<int>(n, m, r).update(0, 0, r, 1); });
+        check_rejects([&]{ FenwickPointUpdate3D<int>(n, m, r).prefix(0, -2, 0); });
+        check_rejects([&]{ FenwickPointUpdate3D<int>(n, m, r).query(0, 0, 0, 0, m, 0); });
+        check_rejects([&]{ FenwickRangeUpdate3D<int>(n, m, r).update(0, 0, 0, 0, 0, r, 1); });
+        check_rejects([&]{ FenwickRangeUpdate3D<int>(n, m, r).update(-1, 0, 0, 0, 0, 0, 1); });
+        check_rejects([&]{ FenwickRangeUpdate3D<int>(n, m, r).query(0, m, 0); });
+        check_rejects([&]{ FenwickFull3D<long long>(n, m, r).update(0, -1, 0, 0, 0, 0, 1); });
+        check_rejects([&]{ FenwickFull3D<long long>(n, m, r).update(0, 0, 0, n, 0, 0, 1); });
+        check_rejects([&]{ FenwickFull3D<long long>(n, m, r).prefix(0, 0, r); });
+        check_rejects([&]{ FenwickFull3D<long long>(n, m, r).query(0, 0, 0, 0, 0, r); });
+    }
+
     for (long long it = 0; it < stress::scaled(1000); it++){
         int n = stress::rand_int(1, it % 10 ? 5 : 12), m = stress::rand_int(1, it % 10 ? 5 : 12), r = stress::rand_int(1, it % 10 ? 5 : 12);
         FenwickPointUpdate3D<long long> point(n, m, r);

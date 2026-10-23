@@ -10,8 +10,29 @@ long long rect_sum(const vector<vector<long long>>& g, int i, int j, int k, int 
     return s;
 }
 
+template <typename Call>
+void check_rejects(Call call){
+    stress::expect_assert("data_structures/fenwick_tree_2D.cpp", call);
+}
+
 /// All three variants against a plain grid, rectangles touching the borders included
 int main(){
+    /// Without the asserts row or column -1 loops forever at i += i & -i = 0, and n or m silently drops the update
+    for (int n : {1, 4}){
+        int m = n + 1;
+        check_rejects([&]{ FenwickPointUpdate2D<int>(n, m).update(n, 0, 1); });
+        check_rejects([&]{ FenwickPointUpdate2D<int>(n, m).update(0, m, 1); });
+        check_rejects([&]{ FenwickPointUpdate2D<int>(n, m).prefix(-2, 0); });
+        check_rejects([&]{ FenwickPointUpdate2D<int>(n, m).query(0, 0, 0, m); });
+        check_rejects([&]{ FenwickRangeUpdate2D<int>(n, m).update(0, 0, n, 0, 1); });
+        check_rejects([&]{ FenwickRangeUpdate2D<int>(n, m).update(0, -1, 0, 0, 1); });
+        check_rejects([&]{ FenwickRangeUpdate2D<int>(n, m).query(0, m); });
+        check_rejects([&]{ FenwickFull2D<long long>(n, m).update(-1, 0, 0, 0, 1); });
+        check_rejects([&]{ FenwickFull2D<long long>(n, m).update(0, 0, 0, m, 1); });
+        check_rejects([&]{ FenwickFull2D<long long>(n, m).prefix(n, 0); });
+        check_rejects([&]{ FenwickFull2D<long long>(n, m).query(0, 0, n, 0); });
+    }
+
     for (long long it = 0; it < stress::scaled(1500); it++){
         int n = stress::rand_int(1, it % 10 ? 8 : 40), m = stress::rand_int(1, it % 10 ? 8 : 40);
         FenwickPointUpdate2D<long long> point(n, m);

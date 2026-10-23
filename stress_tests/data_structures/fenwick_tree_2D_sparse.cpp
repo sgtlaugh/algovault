@@ -12,9 +12,15 @@ int main(){
     assert(tiny.query(4, 0, 15, 0) == 114);
     stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", [&]{ tiny.update(3, 0, 1); });
 
+    /// Without the asserts a cell past the edge is silently dropped, and column -1 loops forever at y += y & -y = 0
+    stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", [&]{ tiny.update(16, 0, 1); });
+    stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", [&]{ tiny.update(0, -1, 1); });
+    stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", [&]{ tiny.prefix(0, 1); });
+    stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", [&]{ tiny.query(-1, 0, 0, 0); });
+
     const int N = 1000000000, M = 1000000000;
     static FenwickSparse2D<long long> fen(N, M);
-    vector<array<long long, 3>> points;  /// i, j, value
+    vector<array<long long, 3>> points;
 
     auto coordinate = [&](int limit){
         int mode = stress::rand_int(0, 3);
