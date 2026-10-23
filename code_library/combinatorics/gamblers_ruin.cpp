@@ -1,17 +1,15 @@
 /***
  *
- * Gambler's ruin problem (https://en.wikipedia.org/wiki/Gambler%27s_ruin)
- * Probability that the first player goes broke
+ * Gambler's Ruin
+ * Probability that the first player goes broke in a game of one-coin bets
  *
  * Complexity: O(1)
  *
- * First player has n1 coins, second player has n2 coins
- * After each move, first player wins with probability p and second player wins with probability q and (p + q = 1)
- * The loser gives 1 coin to the winner
- * When number of coins reaches 0, a player loses
+ * gamblers_ruin(n1, n2, p): probability that a player with n1 coins loses them all to one with n2, winning each bet with probability p
  *
- * gamblers_ruin(n1, n2, p) returns the probability of the first player losing, for 0 <= n1, n2 <= INT_MAX, n1 + n2 > 0
- * Relative error stays below ~1e-15 for any n1, n2 and p in [0, 1], including p very close to 0.5 (results under ~1e-4900 underflow)
+ * Each bet moves one coin from loser to winner, and the game ends when either player has no coins
+ * Needs 0 <= n1, n2 <= INT_MAX, n1 + n2 > 0 and 0 <= p <= 1
+ * Relative error stays below ~1e-15 for any such input, p very close to 0.5 included; results under ~1e-4900 underflow to 0
  *
 ***/
 
@@ -38,6 +36,7 @@ long double gamblers_ruin(int n1, int n2, long double p){
 }
 
 int main(){
+    /// Against values from the closed form, to a relative 1e-15
     auto close = [](long double got, long double expected){ return fabsl(got - expected) <= 1e-15L * expected; };
 
     assert(close(gamblers_ruin(3, 50, 0.49L), 0.9826119844357831L));
@@ -49,8 +48,10 @@ int main(){
     assert(close(gamblers_ruin(3, 9, 0.5L), 0.75L));
     assert(close(gamblers_ruin(INT_MAX, INT_MAX, 0.5L), 0.5L));
 
-    assert(gamblers_ruin(0, 7, 0.3L) == 1 && gamblers_ruin(5, 0, 0.7L) == 0);
-    assert(gamblers_ruin(5, 7, 0.0L) == 1 && gamblers_ruin(5, 7, 1.0L) == 0);
+    assert(gamblers_ruin(0, 7, 0.3L) == 1);
+    assert(gamblers_ruin(5, 0, 0.7L) == 0);
+    assert(gamblers_ruin(5, 7, 0.0L) == 1);
+    assert(gamblers_ruin(5, 7, 1.0L) == 0);
 
     return 0;
 }

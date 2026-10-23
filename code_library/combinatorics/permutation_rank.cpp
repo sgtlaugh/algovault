@@ -47,8 +47,12 @@ vector<int> kth_permutation(int n, long long k){
 }
 
 int main(){
+    /// All 3! permutations in lexicographic order, ranked and unranked
     vector<vector<int>> order = {{0, 1, 2}, {0, 2, 1}, {1, 0, 2}, {1, 2, 0}, {2, 0, 1}, {2, 1, 0}};
-    for (int r = 0; r < 6; r++) assert(permutation_rank(order[r]) == r && kth_permutation(3, r) == order[r]);
+    for (int r = 0; r < 6; r++){
+        assert(permutation_rank(order[r]) == r);
+        assert(kth_permutation(3, r) == order[r]);
+    }
 
     assert(permutation_rank(vector<int>{3, 1, 2}) == 4);
     assert(permutation_rank(string("bca")) == 3);

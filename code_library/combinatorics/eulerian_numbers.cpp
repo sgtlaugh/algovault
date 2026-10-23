@@ -1,23 +1,15 @@
 /***
  *
- * Eulerian Numbers - https://oeis.org/A008292
- * A(n, k) modulo m, the number of permutations of 1 to n in which exactly k elements are greater than their previous element
+ * Eulerian Numbers
+ * A(n, k) modulo m, the number of permutations of 1..n with exactly k ascents
  *
- * Complexity: O(n^2) time and memory to build the triangle, O(1) per query
+ * Complexity: O(n^2) time and memory to build, O(1) per query
  *
- * EulerianNumbers eul(n, m) builds rows 0..n with the recurrence
- *     A(n, k) = (k + 1) A(n - 1, k) + (n - k) A(n - 1, k - 1), any modulus 1 <= m <= 2^31 - 1
- * eul.get(n, k) returns A(n, k) mod m, 0 when k < 0 or k >= n, and A(0, 0) = 1 by convention
+ * EulerianNumbers eul(n, m): rows 0..n modulo any 1 <= m <= 2^31 - 1, m = 10^9 + 7 by default
+ * eul.get(n, k): A(n, k) mod m, 0 when k < 0 or k >= n, and A(0, 0) = 1 by convention
  *
- * Eulerian triangle for n = 1 to 7 and k = 0 to n - 1 below
- *
- * 1
- * 1 1
- * 1 4 1
- * 1 11 11 1
- * 1 26 66 26 1
- * 1 57 302 302 57 1
- * 1 120 1191 2416 1191 120 1
+ * An ascent is an element greater than the one before it, and A(n, k) = (k + 1) A(n - 1, k) + (n - k) A(n - 1, k - 1)
+ * The triangle is OEIS A008292 (https://oeis.org/A008292)
  *
 ***/
 
@@ -48,23 +40,34 @@ struct EulerianNumbers{
 };
 
 int main(){
+    /// Rows 0, 1, 4 and 7 of the triangle, and k outside [0, n) giving 0
     EulerianNumbers eul(1000);
     assert(eul.get(0, 0) == 1);
-    assert(eul.get(1, 0) == 1 && eul.get(1, 1) == 0);
-    assert(eul.get(4, 0) == 1 && eul.get(4, 1) == 11 && eul.get(4, 2) == 11 && eul.get(4, 3) == 1 && eul.get(4, 4) == 0);
-    assert(eul.get(7, 2) == 1191 && eul.get(7, 3) == 2416 && eul.get(7, 6) == 1);
-    assert(eul.get(5, -1) == 0 && eul.get(5, 9) == 0);
+    assert(eul.get(1, 0) == 1);
+    assert(eul.get(1, 1) == 0);
+    assert(eul.get(4, 0) == 1);
+    assert(eul.get(4, 1) == 11);
+    assert(eul.get(4, 2) == 11);
+    assert(eul.get(4, 3) == 1);
+    assert(eul.get(4, 4) == 0);
+    assert(eul.get(7, 2) == 1191);
+    assert(eul.get(7, 3) == 2416);
+    assert(eul.get(7, 6) == 1);
+    assert(eul.get(5, -1) == 0);
+    assert(eul.get(5, 9) == 0);
     assert(eul.get(1000, 500) == 948656644);
 
     EulerianNumbers big(1000, 2147483647);
-    assert(big.get(1000, 1) == 2147482902 && big.get(1000, 500) == 958447772);
+    assert(big.get(1000, 1) == 2147482902);
+    assert(big.get(1000, 500) == 958447772);
 
     EulerianNumbers small(7, 7);
     for (int k = 0; k < 7; k++) assert(small.get(7, k) == 1);
     assert(small.get(4, 1) == 4);
 
     EulerianNumbers unit(5, 1);
-    assert(unit.get(0, 0) == 0 && unit.get(5, 2) == 0);
+    assert(unit.get(0, 0) == 0);
+    assert(unit.get(5, 2) == 0);
 
     return 0;
 }

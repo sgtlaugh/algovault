@@ -40,6 +40,7 @@ struct PermutationIndex{
 };
 
 int main(){
+    /// All 3! permutations in lexicographic order get the indices 0 to 5
     PermutationIndex three(3);
     vector<vector<int>> order = {{0, 1, 2}, {0, 2, 1}, {1, 0, 2}, {1, 2, 0}, {2, 0, 1}, {2, 1, 0}};
     for (int r = 0; r < 6; r++) assert(three.index(order[r]) == r);
@@ -51,7 +52,8 @@ int main(){
     vector<int> identity(12), reversed(12);
     iota(identity.begin(), identity.end(), 0);
     iota(reversed.rbegin(), reversed.rend(), 0);
-    assert(twelve.index(identity) == 0 && twelve.index(reversed) == 479001599);
+    assert(twelve.index(identity) == 0);
+    assert(twelve.index(reversed) == 479001599);  /// 12! - 1
     int arr[12] = {0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 11, 10};
     assert(twelve.index(arr) == 1);
 

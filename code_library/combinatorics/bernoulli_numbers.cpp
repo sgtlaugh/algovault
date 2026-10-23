@@ -1,16 +1,14 @@
 /***
  *
- * https://en.wikipedia.org/wiki/Bernoulli_number
- *
- * Computes all the bernoulli numbers from 0 to n
- * Bernoulli numbers are sequence of rational numbers of the form p/q
- * Since the numbers can be huge, they are calculated modulo MOD
- * bernoulli_numbers<MOD>(n)[i] = p * inv(q, MOD) % MOD for B_i = p / q, with B_1 = -1/2
- *
- * MOD is a template parameter so the % compiles to a multiplication, a runtime modulus measured 6x slower
- * MOD must be a prime with n + 1 < MOD < 2^31, the default is 10^9 + 7
+ * Bernoulli Numbers
+ * B_0 to B_n modulo a prime, each rational B_i = p / q given as p times the inverse of q
  *
  * Complexity: O(n^2) time, O(n) memory
+ *
+ * bernoulli_numbers<MOD>(n): B_0, ..., B_n modulo MOD, with the convention B_1 = -1/2
+ *
+ * MOD must be a prime with n + 1 < MOD < 2^31, the default is 10^9 + 7
+ * MOD is a template parameter so the % compiles to a multiplication, a runtime modulus measured 6x slower
  *
 ***/
 
@@ -53,6 +51,7 @@ vector<int> bernoulli_numbers(int n){
 }
 
 int main(){
+    /// B_1 = -1/2, B_9 = 0 as every odd index above 1, B_10 = 5 / 66
     auto bernoulli = bernoulli_numbers(3000);
 
     assert(bernoulli[1] == 500000003);
