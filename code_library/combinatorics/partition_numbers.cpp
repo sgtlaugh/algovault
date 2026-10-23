@@ -20,22 +20,21 @@ using namespace std;
 vector<long long> partition_numbers(int n, long long m){
     assert(n >= 0 && 1 <= m && m <= (1LL << 62));
 
-    /// generalized pentagonal numbers k (3k - 1) / 2 and k (3k + 1) / 2 in increasing order, with the sign of their k
-    vector<pair<long long, bool>> pentagonal;
+    /// generalized pentagonal numbers k (3k - 1) / 2 and k (3k + 1) / 2 in increasing order, so their signs run + + - - + + ...
+    vector<long long> pentagonal;
     for (long long k = 1; k * (3 * k - 1) / 2 <= n; k++){
-        pentagonal.push_back({k * (3 * k - 1) / 2, k & 1});
-        pentagonal.push_back({k * (3 * k + 1) / 2, k & 1});
+        pentagonal.push_back(k * (3 * k - 1) / 2);
+        pentagonal.push_back(k * (3 * k + 1) / 2);
     }
 
     vector<long long> p(n + 1, 0);
     p[0] = 1 % m;
     for (int i = 1; i <= n; i++){
         long long sum = 0;
-        for (auto [g, positive] : pentagonal){
-            if (g > i) break;
-            long long x = p[i - g];
-            if (positive) sum = sum + x >= m ? sum + x - m : sum + x;
-            else sum = sum >= x ? sum - x : sum - x + m;
+        for (int j = 0; j < (int)pentagonal.size() && pentagonal[j] <= i; j++){
+            long long x = p[i - pentagonal[j]];
+            if (j & 2) sum = sum >= x ? sum - x : sum - x + m;
+            else sum = sum + x >= m ? sum + x - m : sum + x;
         }
         p[i] = sum;
     }
