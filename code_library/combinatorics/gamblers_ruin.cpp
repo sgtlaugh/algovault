@@ -20,6 +20,7 @@
 using namespace std;
 
 long double gamblers_ruin(int n1, int n2, long double p){
+    assert(0 <= p && p <= 1 && n1 >= 0 && n2 >= 0 && (n1 > 0 || n2 > 0));
     long double q = 1 - p, d = 2 * (p - 0.5L);  /// d = p - q, computed exactly
     if (n1 == 0) return 1;
     if (n2 == 0) return 0;
