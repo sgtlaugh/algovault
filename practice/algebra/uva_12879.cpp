@@ -549,26 +549,42 @@ namespace fio{
 using namespace fio;
 
 int main(){
-    int n, m, i, k, d, res;
+    int n, m, i, j, top, res;
     FFT fft;
 
     while (read(n)){
-        vector<long long> shot(1, 0);
-        for (i = 0; i < n; i++){
-            read(k);
-            if (k >= (int)shot.size()) shot.resize(k + 1, 0);
-            shot[k] = 1;
-        }
+        vector<int> ks(n);
+        read(ks);
+        read(m);
+        vector<int> ds(m);
+        read(ds);
 
-        shot[0] = 1;
-        vector<long long> reach = fft.square(shot);
+        top = 0;
+        for (i = 0; i < m; i++) top = max(top, ds[i]);
+        vector<bool> reach(top + 1, false);
+        reach[0] = true;
+
+        if (n <= 1000){
+            for (i = 0; i < n; i++){
+                if (ks[i] <= top) reach[ks[i]] = true;
+                for (j = i; j < n; j++){
+                    if ((ks[i] + ks[j]) <= top) reach[ks[i] + ks[j]] = true;
+                }
+            }
+        }
+        else{
+            vector<long long> shot(top + 1, 0);
+            shot[0] = 1;
+            for (i = 0; i < n; i++){
+                if (ks[i] <= top) shot[ks[i]] = 1;
+            }
+
+            vector<long long> sums = fft.square(shot);
+            for (i = 0; i <= top; i++) reach[i] = sums[i] > 0;
+        }
 
         res = 0;
-        read(m);
-        for (i = 0; i < m; i++){
-            read(d);
-            if (d < (int)reach.size() && reach[d] > 0) res++;
-        }
+        for (i = 0; i < m; i++) res += reach[ds[i]];
         write(res);
     }
     return 0;
