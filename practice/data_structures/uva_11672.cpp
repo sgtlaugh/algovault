@@ -305,12 +305,25 @@ int main(){
                     long long x = b[k - r] * a + c;
                     b[k] = x % m, c = x / m % m;
                 }
-                for (int k = 0; k < n; k++) seq.insert(i + k, b[k]);
+                ImplicitTreap piece(b);
+                int offset = seq.nodes.size(), x, y;
+                for (auto node : piece.nodes){
+                    if (node.l != -1) node.l += offset;
+                    if (node.r != -1) node.r += offset;
+                    seq.nodes.push_back(node);
+                }
+                seq.split(seq.root, i, x, y);
+                seq.root = seq.merge(seq.merge(x, piece.root + offset), y);
             }
             else{
                 scanf("%d", &j);
                 if (cmd[0] == 's') printf("%lld\n", seq.sum(i, j));
-                else for (int k = i; k <= j; k++) seq.erase(i);
+                else{
+                    int x, y, z;
+                    seq.split(seq.root, i, x, y);
+                    seq.split(y, j - i + 1, y, z);
+                    seq.root = seq.merge(x, z);
+                }
             }
         }
         puts("");
