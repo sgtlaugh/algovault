@@ -23,7 +23,7 @@
  *
  * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
  * FenwickFull2D keeps four values per cell, four times the memory of the other two
- * FenwickFull2D needs a T that holds v * n * m, use long long even when every sum fits in int
+ * FenwickFull2D needs a T that holds 4 n m times the sum of |v| over all updates, use long long even when every answer fits in int
  *
 ***/
 

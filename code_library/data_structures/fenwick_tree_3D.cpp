@@ -23,7 +23,7 @@
  *
  * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] x [0, r - 1] asserts
  * FenwickFull3D keeps eight values per cell, eight times the memory of the other two
- * FenwickFull3D needs a T that holds v * n * m * r, use long long even when every sum fits in int
+ * FenwickFull3D needs a T that holds 8 n m r times the sum of |v| over all updates, use long long even when every answer fits in int
  *
 ***/
 
@@ -81,7 +81,8 @@ struct FenwickRangeUpdate3D{
     FenwickRangeUpdate3D(int n = 0, int m = 0, int r = 0)
         : n(n), m(m), r(r), tree(n + 1, vector<vector<T>>(m + 1, vector<T>(r + 1, 0))) {}
 
-    /// Adds to prefix corners and queries a suffix, the mirror of 1D and 2D: at n = 100 updates 1.7x faster, queries 1.6x to 3x slower
+    /// Adds to prefix corners and queries a suffix, the mirror of 1D and 2D: at n = 100 updates 1.7x faster, queries 1.6x to 3x slower,
+    /// so this side wins unless queries outnumber updates 4 to 9 times
     void update(int x1, int y1, int z1, int x2, int y2, int z2, T v){
         if (x1 > x2 || y1 > y2 || z1 > z2) return;
         assert(0 <= x1 && x2 < n && 0 <= y1 && y2 < m && 0 <= z1 && z2 < r);

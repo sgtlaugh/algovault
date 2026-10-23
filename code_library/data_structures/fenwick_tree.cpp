@@ -24,7 +24,7 @@
  * fen.query(l, r): sum of a[l..r], 0 when l > r
  *
  * Positions are 0-based, a position outside [0, n - 1] asserts
- * FenwickFull needs a T that holds v * n, use long long even when every sum fits in int
+ * FenwickFull needs a T that holds 2 n times the sum of |v| over all updates, use long long even when every answer fits in int
  *
 ***/
 
