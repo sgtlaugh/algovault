@@ -10,25 +10,13 @@
  * MOD is a template parameter so the % compiles to a multiplication, a runtime modulus measured 6x slower
  * MOD must be a prime with n + 1 < MOD < 2^31, the default is 10^9 + 7
  *
- * Complexity: O(n^2), plus O(n log MOD) for the modular inverses, O(n) memory
+ * Complexity: O(n^2) time, O(n) memory
  *
 ***/
 
 #include <bits/stdtr1c++.h>
 
 using namespace std;
-
-template <int MOD>
-int expo(long long x, int n){
-    long long res = 1;
-
-    while (n){
-        if (n & 1) res = res * x % MOD;
-        x = x * x % MOD;
-        n >>= 1;
-    }
-    return res;
-}
 
 template <int MOD = 1000000007>
 vector<int> bernoulli_numbers(int n){
@@ -40,7 +28,7 @@ vector<int> bernoulli_numbers(int n){
     for (i = 1, fact[0] = 1; i <= n; i++){
         fact[i] = ((long long) fact[i - 1] * i) % MOD;
     }
-    for (i = 0; i <= n + 1; i++) inv[i] = expo<MOD>(i, MOD - 2);
+    for (i = 2, inv[1] = 1; i <= n + 1; i++) inv[i] = (long long)(MOD - MOD / i) * inv[MOD % i] % MOD;
 
     /// S holds row i of the Stirling numbers of the second kind, updated in place from the right
     bernoulli[0] = 1;
