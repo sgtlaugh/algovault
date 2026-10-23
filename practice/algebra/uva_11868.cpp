@@ -682,9 +682,11 @@ namespace fio{
     }
 }
 
+using namespace fio;
+
+const int MOD = 100000007;
+
 int main(){
-    using namespace fio;
-    const int MOD = 100000007;
     char buf[64];
     int t, cs, c, i, k;
     long long n;
