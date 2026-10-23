@@ -398,7 +398,7 @@ vector<long long> solve(){
     vector<int> where(cols, -1);
 
     for (j = 0; j < cols && rank < rows; j++){
-        for (i = rank; i < rows && mat[i][j] == 0; i++){}
+        for (i = rank; i < rows && mat[i][j] == 0; i++) {}
         if (i == rows) continue;
         for (k = 0; k < cols; k++) swap(mat[i][k], mat[rank][k]);
 
