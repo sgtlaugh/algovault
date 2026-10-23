@@ -33,7 +33,6 @@
 - [Codeforces 120J - Minimum Sum](https://codeforces.com/problemset/problem/120/J)
 - [CSES 2194 - Minimum Euclidean Distance](https://cses.fi/problemset/task/2194)
 - [Kattis closestpair2 - Closest Pair](https://open.kattis.com/problems/closestpair2)
-- [Library Checker closest_pair - Closest Pair of Points](https://judge.yosupo.jp/problem/closest_pair)
 - [SPOJ CLOPPAIR - Closest Point Pair](https://www.spoj.com/problems/CLOPPAIR/)
 - [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/)
 - [UVa 10245 - The Closest Pair Problem](https://onlinejudge.org/external/102/10245.pdf)
@@ -50,8 +49,6 @@
 - [Kattis fenceortho - Fence Orthogonality](https://open.kattis.com/problems/fenceortho)
 - [Kattis parade - Keep the Parade Safe](https://open.kattis.com/problems/parade)
 - [Kattis roberthood - Robert Hood](https://open.kattis.com/problems/roberthood)
-- [Library Checker furthest_pair - Furthest Pair of Points](https://judge.yosupo.jp/problem/furthest_pair)
-- [Library Checker static_convex_hull - Static Convex Hull](https://judge.yosupo.jp/problem/static_convex_hull)
 - [MatCom 9413 - Onion Layers](https://matcomgrader.com/problem/9413/onion-layers/)
 - [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/)
 - [SPOJ TRAKA - TRAKA](https://www.spoj.com/problems/TRAKA/)
@@ -88,7 +85,6 @@
 - [Kattis polygonarea - Polygon Area](https://open.kattis.com/problems/polygonarea)
 - [Kattis segmentdistance - Line Segment Distance](https://open.kattis.com/problems/segmentdistance)
 - [Kattis segmentintersection - Line Segment Intersection](https://open.kattis.com/problems/segmentintersection)
-- [Library Checker sort_points_by_argument - Sort Points by Argument](https://judge.yosupo.jp/problem/sort_points_by_argument)
 - [SPOJ DICE - Three-sided Dice](https://www.spoj.com/problems/DICE/)
 - [USACO 207 - Crazy Fences](https://usaco.org/index.php?page=viewproblem2&cpid=207)
 - [UVa 191 - Intersection](https://onlinejudge.org/external/1/191.pdf) [✅](../../practice/geometry/uva_191.cpp "Accepted solution")
@@ -134,7 +130,6 @@
 #### [Rectangle Union](rectangle_union.cpp)
 
 - [CSES 1741 - Area of Rectangles](https://cses.fi/problemset/task/1741)
-- [Library Checker area_of_union_of_rectangles - Area of Union of Rectangles](https://judge.yosupo.jp/problem/area_of_union_of_rectangles)
 - [UVa 1492 - Adding New Machine](https://onlinejudge.org/external/14/1492.pdf)
 
 #### [Segment Intersection Sweep](segment_intersection_sweep.cpp)

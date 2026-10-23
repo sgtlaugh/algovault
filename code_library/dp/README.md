@@ -87,7 +87,6 @@
 - [Codeforces Gym 102951C - LCS on Permutations](https://codeforces.com/gym/102951/problem/C)
 - [CSES 1145 - Increasing Subsequence](https://cses.fi/problemset/task/1145) [✅](../../practice/dp/cses_1145.cpp "Accepted solution")
 - [CSES 3404 - Permutation Subsequence](https://cses.fi/problemset/task/3404) [✅](../../practice/dp/cses_3404.cpp "Accepted solution")
-- [Library Checker longest_increasing_subsequence - Longest Increasing Subsequence](https://judge.yosupo.jp/problem/longest_increasing_subsequence) [✅](../../practice/dp/library_checker_longest_increasing_subsequence.cpp "Accepted solution")
 - [oj.uz CEOI18_glo - Global Warming](https://oj.uz/problem/view/CEOI18_glo) [✅](../../practice/dp/oj_uz_ceoi18_glo.cpp "Accepted solution")
 - [SPOJ CARDSHUF - Cards shuffing](https://www.spoj.com/problems/CARDSHUF/)
 - [SPOJ DOSA - Lalith Dosa](https://www.spoj.com/problems/DOSA/)

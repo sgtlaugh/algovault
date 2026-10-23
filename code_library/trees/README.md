@@ -17,8 +17,6 @@
 - [HackerRank a-knapsack-problem - A Knapsack Problem](https://www.hackerrank.com/contests/w15/challenges/a-knapsack-problem)
 - [HackerRank interoffice-travel - Interoffice Travel](https://www.hackerrank.com/contests/world-codesprint-10/challenges/interoffice-travel)
 - [HDU 4812 - D Tree](https://acm.hdu.edu.cn/showproblem.php?pid=4812)
-- [Library Checker frequency_table_of_tree_distance - Frequency Table of Tree Distance](https://judge.yosupo.jp/problem/frequency_table_of_tree_distance)
-- [Library Checker vertex_add_range_contour_sum_on_tree - Vertex Add Range Contour Sum on Tree](https://judge.yosupo.jp/problem/vertex_add_range_contour_sum_on_tree)
 - [oj.uz IOI11_race - Race](https://oj.uz/problem/view/IOI11_race)
 - [oj.uz JOI14_factories - Factories](https://oj.uz/problem/view/JOI14_factories)
 - [POJ 1987 - Distance Statistics](http://poj.org/problem?id=1987)
@@ -53,9 +51,6 @@
 - [CSES 2134 - Path Queries II](https://cses.fi/problemset/task/2134)
 - [HackerRank epic-tree - Epic Tree](https://www.hackerrank.com/contests/epiccode/challenges/epic-tree)
 - [HackerRank white-falcon-and-tree - White Falcon And Tree](https://www.hackerrank.com/contests/w12/challenges/white-falcon-and-tree)
-- [Library Checker vertex_add_path_sum - Vertex Add Path Sum](https://judge.yosupo.jp/problem/vertex_add_path_sum)
-- [Library Checker vertex_add_subtree_sum - Vertex Add Subtree Sum](https://judge.yosupo.jp/problem/vertex_add_subtree_sum)
-- [Library Checker vertex_set_path_composite - Vertex Set Path Composite](https://judge.yosupo.jp/problem/vertex_set_path_composite)
 - [oj.uz BOI18_minmaxtree - Min-max tree](https://oj.uz/problem/view/BOI18_minmaxtree)
 - [SPOJ QTREE3 - Query on a tree again!](https://www.spoj.com/problems/QTREE3/)
 - [SPOJ QTREE - Query on a tree](https://www.spoj.com/problems/QTREE/)
@@ -70,7 +65,6 @@
 #### [Long-Path Decomposition](long_path_decomposition.cpp)
 
 - [CSES 2080 - Fixed-Length Paths I](https://cses.fi/problemset/task/2080)
-- [Library Checker jump_on_tree - Jump on Tree](https://judge.yosupo.jp/problem/jump_on_tree)
 
 #### [Lowest Common Ancestor](lca.cpp)
 
@@ -91,8 +85,6 @@
 - [CSES 1688 - Company Queries II](https://cses.fi/problemset/task/1688)
 - [HackerEarth optimal-connectivity-c6ae79ca - Optimal Connectivity](https://www.hackerearth.com/practice/algorithms/graphs/graph-representation/practice-problems/algorithm/optimal-connectivity-c6ae79ca/)
 - [LeetCode 1483 - Kth Ancestor of a Tree Node](https://leetcode.com/problems/kth-ancestor-of-a-tree-node/)
-- [Library Checker jump_on_tree - Jump on Tree](https://judge.yosupo.jp/problem/jump_on_tree)
-- [Library Checker lca - Lowest Common Ancestor](https://judge.yosupo.jp/problem/lca)
 - [SPOJ ADAORANG - Ada and Orange Tree](https://www.spoj.com/problems/ADAORANG/)
 - [SPOJ COT - Count on a tree](https://www.spoj.com/problems/COT/)
 - [SPOJ DISQUERY - Distance Query](https://www.spoj.com/problems/DISQUERY/)
@@ -127,14 +119,12 @@
 - [CSES 1133 - Tree Distances II](https://cses.fi/problemset/task/1133)
 - [HackerRank relatedquestions - Related questions](https://www.hackerrank.com/contests/quora-haqathon/challenges/relatedquestions)
 - [HDU 4661 - Message Passing](https://acm.hdu.edu.cn/showproblem.php?pid=4661)
-- [Library Checker tree_path_composite_sum - Tree Path Composite Sum](https://judge.yosupo.jp/problem/tree_path_composite_sum)
 - [USACO 814 - Directory Traversal](https://usaco.org/index.php?page=viewproblem2&cpid=814)
 
 #### [Tree Isomorphism](tree_isomorphism.cpp)
 
 - [CSES 1700 - Tree Isomorphism I](https://cses.fi/problemset/task/1700)
 - [CSES 1701 - Tree Isomorphism II](https://cses.fi/problemset/task/1701)
-- [Library Checker rooted_tree_isomorphism_classification - Rooted Tree Isomorphism Classification](https://judge.yosupo.jp/problem/rooted_tree_isomorphism_classification)
 
 #### [Virtual Tree](virtual_tree.cpp)
 

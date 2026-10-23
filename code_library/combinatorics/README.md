@@ -8,7 +8,6 @@
 
 - [CodeChef SANDWICH - Long Sandwich](https://www.codechef.com/problems/SANDWICH) [✅](../../practice/combinatorics/codechef_sandwich.cpp "Accepted solution")
 - [Codeforces 896D - Nephren Runs a Cinema](https://codeforces.com/problemset/problem/896/D) [✅](../../practice/combinatorics/codeforces_896d.cpp "Accepted solution")
-- [Library Checker binomial_coefficient - Binomial Coefficient](https://judge.yosupo.jp/problem/binomial_coefficient) [✅](../../practice/combinatorics/library_checker_binomial_coefficient.cpp "Accepted solution")
 - [SPOJ DCEPC13D - The Ultimate Riddle](https://www.spoj.com/problems/DCEPC13D/)
 - [UVa 1264 - Binary Search Tree](https://onlinejudge.org/external/12/1264.pdf) [✅](../../practice/combinatorics/uva_1264.cpp "Accepted solution")
 - [UVa 10232 - Bit-wise Sequence](https://onlinejudge.org/external/102/10232.pdf) [✅](../../practice/combinatorics/uva_10232.cpp "Accepted solution")
@@ -38,7 +37,6 @@
 - [CSES 2228 - Counting Sequences](https://cses.fi/problemset/task/2228) [✅](../../practice/combinatorics/cses_2228_combinatorics.cpp "Accepted solution")
 - [HackerRank longest-increasing-subsequence-arrays - Longest Increasing Subsequence Arrays](https://www.hackerrank.com/contests/world-codesprint-5/challenges/longest-increasing-subsequence-arrays/problem) [✅](../../practice/combinatorics/hackerrank_longest_increasing_subsequence_arrays.cpp "Accepted solution")
 - [Kattis modulararithmetic - Modular Arithmetic](https://open.kattis.com/problems/modulararithmetic)
-- [Library Checker binomial_coefficient_prime_mod - Binomial Coefficient (Prime Mod)](https://judge.yosupo.jp/problem/binomial_coefficient_prime_mod) [✅](../../practice/combinatorics/library_checker_binomial_coefficient_prime_mod.cpp "Accepted solution")
 - [LightOJ 1306 - Solutions to an Equation](https://lightoj.com/problem/solutions-to-an-equation)
 - [SPOJ ADATEAMS - Ada and Teams](https://www.spoj.com/problems/ADATEAMS/)
 - [SPOJ CEQU - Crucial Equation](https://www.spoj.com/problems/CEQU/)
@@ -72,10 +70,6 @@
 - [UVa 10774 - Repeated Josephus](https://onlinejudge.org/external/107/10774.pdf) [✅](../../practice/combinatorics/uva_10774.cpp "Accepted solution")
 - [UVa 11351 - Last Man Standing](https://onlinejudge.org/external/113/11351.pdf) [✅](../../practice/combinatorics/uva_11351.cpp "Accepted solution")
 
-#### [Partition Numbers](partition_numbers.cpp)
-
-- [Library Checker partition_function - Partition Function](https://judge.yosupo.jp/problem/partition_function) [✅](../../practice/combinatorics/library_checker_partition_function.cpp "Accepted solution")
-
 #### [Permutation Cycles](permutation_cycles.cpp)
 
 - [AOJ ALDS1_6_D - Minimum Cost Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_D) [✅](../../practice/combinatorics/aoj_alds1_6_d.cpp "Accepted solution")
@@ -103,6 +97,4 @@
 - [CSES 2228 - Counting Sequences](https://cses.fi/problemset/task/2228) [✅](../../practice/combinatorics/cses_2228_stirling_numbers.cpp "Accepted solution")
 - [HackerRank sasha-and-swaps-ii - Sasha and the Swaps II](https://www.hackerrank.com/contests/w23/challenges/sasha-and-swaps-ii) [✅](../../practice/combinatorics/hackerrank_sasha_and_swaps_ii.cpp "Accepted solution")
 - [HDU 5197 - DZY Loves Orzing](https://acm.hdu.edu.cn/showproblem.php?pid=5197) [✅](../../practice/combinatorics/hdu_5197.cpp "Accepted solution")
-- [Library Checker stirling_number_of_the_first_kind - Stirling Number of the First Kind](https://judge.yosupo.jp/problem/stirling_number_of_the_first_kind) [✅](../../practice/combinatorics/library_checker_stirling_number_of_the_first_kind.cpp "Accepted solution")
-- [Library Checker stirling_number_of_the_second_kind - Stirling Number of the Second Kind](https://judge.yosupo.jp/problem/stirling_number_of_the_second_kind) [✅](../../practice/combinatorics/library_checker_stirling_number_of_the_second_kind.cpp "Accepted solution")
 - [ZOJ 3899 - State Reversing](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827370003) [✅](../../practice/combinatorics/zoj_3899_stirling_numbers.cpp "Accepted solution")

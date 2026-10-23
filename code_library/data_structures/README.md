@@ -16,7 +16,6 @@
 - [HackerEarth lexicographically-minimal-string-6edc1406 - Lexicographically minimal string](https://www.hackerearth.com/practice/data-structures/disjoint-data-strutures/basics-of-disjoint-data-structures/practice-problems/algorithm/lexicographically-minimal-string-6edc1406/) [✅](../../practice/data_structures/hackerearth_lexicographically_minimal_string_6edc1406.cpp "Accepted solution")
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma) [✅](../../practice/data_structures/hackerrank_xaero_and_breaking_enigma_disjoint_set.cpp "Accepted solution")
 - [Kattis slimcut - Slim Cut](https://open.kattis.com/problems/slimcut) [✅](../../practice/data_structures/kattis_slimcut.cpp "Accepted solution")
-- [Library Checker unionfind - Unionfind](https://judge.yosupo.jp/problem/unionfind) [✅](../../practice/data_structures/library_checker_unionfind.cpp "Accepted solution")
 - [SPOJ CLFLARR - COLORFUL ARRAY](https://www.spoj.com/problems/CLFLARR/)
 - [SPOJ KOICOST - Cost](https://www.spoj.com/problems/KOICOST/)
 - [Timus 1671 - Anansi's Cobweb](https://acm.timus.ru/problem.aspx?num=1671) [✅](../../practice/data_structures/timus_1671.cpp "Accepted solution")
@@ -50,7 +49,6 @@
 #### [Disjoint Set Union, Potential](potential_dsu.cpp)
 
 - [Codeforces Gym 100570D - TROY Query](https://codeforces.com/gym/100570/problem/D) [✅](../../practice/data_structures/codeforces_gym_100570d.cpp "Accepted solution")
-- [Library Checker unionfind_with_potential - Unionfind with Potential](https://judge.yosupo.jp/problem/unionfind_with_potential) [✅](../../practice/data_structures/library_checker_unionfind_with_potential.cpp "Accepted solution")
 - [SPOJ CHAIN - Strange Food Chain](https://www.spoj.com/problems/CHAIN/)
 - [Timus 1003 - Parity](https://acm.timus.ru/problem.aspx?num=1003) [✅](../../practice/data_structures/timus_1003.cpp "Accepted solution")
 - [UVa 10158 - War](https://onlinejudge.org/external/101/10158.pdf) [✅](../../practice/data_structures/uva_10158.cpp "Accepted solution")
@@ -59,13 +57,11 @@
 #### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
 - [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
-- [Library Checker persistent_unionfind - Persistent Unionfind](https://judge.yosupo.jp/problem/persistent_unionfind) [✅](../../practice/data_structures/library_checker_persistent_unionfind.cpp "Accepted solution")
 
 #### [Disjoint Sparse Table](disjoint_sparse_table.cpp)
 
 - [CodeChef SEGPROD - Product on the segment by modulo](https://www.codechef.com/problems/SEGPROD) [✅](../../practice/data_structures/codechef_segprod.cpp "Accepted solution")
 - [CSES 1647 - Static Range Minimum Queries](https://cses.fi/problemset/task/1647) [✅](../../practice/data_structures/cses_1647_disjoint_sparse_table.cpp "Accepted solution")
-- [Library Checker static_range_sum - Static Range Sum](https://judge.yosupo.jp/problem/static_range_sum) [✅](../../practice/data_structures/library_checker_static_range_sum.cpp "Accepted solution")
 - [oj.uz JOI14_secret - Secret](https://oj.uz/problem/view/JOI14_secret) [✅](../../practice/data_structures/oj_uz_joi14_secret.cpp "Accepted solution")
 
 #### [Distinct Subarray Aggregates](distinct_subarray_aggregates.cpp)
@@ -98,13 +94,7 @@
 - [HackerRank almost-equal-advanced - Almost Equal - Advanced](https://www.hackerrank.com/challenges/almost-equal-advanced) [✅](../../practice/data_structures/hackerrank_almost_equal_advanced_fenwick_tree.cpp "Accepted solution")
 - [HackerRank connection-queries - Connection Queries](https://www.hackerrank.com/contests/sears-dots-arrows/challenges/connection-queries) [✅](../../practice/data_structures/hackerrank_connection_queries.cpp "Accepted solution")
 - [Kattis megainversions - Mega Inversions](https://open.kattis.com/problems/megainversions) [✅](../../practice/data_structures/kattis_megainversions.cpp "Accepted solution")
-- [Library Checker point_add_range_sum - Point Add Range Sum](https://judge.yosupo.jp/problem/point_add_range_sum) [✅](../../practice/data_structures/library_checker_point_add_range_sum.cpp "Accepted solution")
-- [Library Checker predecessor_problem - Predecessor Problem](https://judge.yosupo.jp/problem/predecessor_problem) [✅](../../practice/data_structures/library_checker_predecessor_problem.cpp "Accepted solution")
 - [Library Checker rectangle_sum - Rectangle Sum](https://judge.yosupo.jp/problem/rectangle_sum) [✅](../../practice/data_structures/library_checker_rectangle_sum.cpp "Accepted solution")
-- [Library Checker static_range_inversions_query - Static Range Inversions Query](https://judge.yosupo.jp/problem/static_range_inversions_query) [✅](../../practice/data_structures/library_checker_static_range_inversions_query_fenwick_tree.cpp "Accepted solution")
-- [Library Checker vertex_add_path_sum - Vertex Add Path Sum](https://judge.yosupo.jp/problem/vertex_add_path_sum) [✅](../../practice/data_structures/library_checker_vertex_add_path_sum.cpp "Accepted solution")
-- [Library Checker vertex_add_range_contour_sum_on_tree - Vertex Add Range Contour Sum on Tree](https://judge.yosupo.jp/problem/vertex_add_range_contour_sum_on_tree) [✅](../../practice/data_structures/library_checker_vertex_add_range_contour_sum_on_tree.cpp "Accepted solution")
-- [Library Checker vertex_add_subtree_sum - Vertex Add Subtree Sum](https://judge.yosupo.jp/problem/vertex_add_subtree_sum) [✅](../../practice/data_structures/library_checker_vertex_add_subtree_sum.cpp "Accepted solution")
 - [LightOJ 1112 - Curious Robin Hood](https://lightoj.com/problem/curious-robin-hood) [✅](../../practice/data_structures/lightoj_1112.cpp "Accepted solution")
 - [MatCom 9346 - Fundraising](https://matcomgrader.com/problem/9346/fundraising/) [✅](../../practice/data_structures/matcom_9346.cpp "Accepted solution")
 - [SPOJ ADACABAA - Ada and Species](https://www.spoj.com/problems/ADACABAA/)
@@ -154,25 +144,16 @@
 
 #### [Fenwick Tree 2D, Sparse](fenwick_tree_2D_sparse.cpp)
 
-- [Library Checker point_add_rectangle_sum - Point Add Rectangle Sum](https://judge.yosupo.jp/problem/point_add_rectangle_sum) [✅](../../practice/data_structures/library_checker_point_add_rectangle_sum.cpp "Accepted solution")
 - [SPOJ KL11B - Arnook Defensive Line](https://www.spoj.com/problems/KL11B/)
 
 #### [Fenwick Tree 3D](fenwick_tree_3D.cpp)
 
 - [HackerEarth counting-in-byteland - Counting In Byteland](https://www.hackerearth.com/practice/data-structures/advanced-data-structures/fenwick-binary-indexed-trees/practice-problems/algorithm/counting-in-byteland/) [✅](../../practice/data_structures/hackerearth_counting_in_byteland.cpp "Accepted solution")
 
-#### [Hash Map](hashmap.cpp)
-
-- [Library Checker associative_array - Associative Array](https://judge.yosupo.jp/problem/associative_array) [✅](../../practice/data_structures/library_checker_associative_array.cpp "Accepted solution")
-
 #### [Interval Set](interval_set.cpp)
 
 - [AOJ DSL_4_A - Union of Rectangles](https://onlinejudge.u-aizu.ac.jp/problems/DSL_4_A) [✅](../../practice/data_structures/aoj_dsl_4_a.cpp "Accepted solution")
 - [SPOJ MON2012 - Monkey and apples](https://www.spoj.com/problems/MON2012/)
-
-#### [Leftist Heap, Persistent](leftist_heap.cpp)
-
-- [Library Checker k_shortest_walk - K-Shortest Walk](https://judge.yosupo.jp/problem/k_shortest_walk) [✅](../../practice/data_structures/library_checker_k_shortest_walk.cpp "Accepted solution")
 
 #### [Li Chao Tree](li_chao_tree.cpp)
 
@@ -195,8 +176,6 @@
 - [DMOJ apio10p1 - APIO '10 P1 - Commando](https://dmoj.ca/problem/apio10p1)
 - [DMOJ ioi02p4 - IOI '02 P4 - Batch Scheduling](https://dmoj.ca/problem/ioi02p4)
 - [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507) [✅](../../practice/data_structures/hdu_3507.cpp "Accepted solution")
-- [Library Checker line_add_get_min - Line Add Get Min](https://judge.yosupo.jp/problem/line_add_get_min) [✅](../../practice/data_structures/library_checker_line_add_get_min.cpp "Accepted solution")
-- [Library Checker segment_add_get_min - Segment Add Get Min](https://judge.yosupo.jp/problem/segment_add_get_min) [✅](../../practice/data_structures/library_checker_segment_add_get_min.cpp "Accepted solution")
 - [oj.uz APIO14_sequence - Split the sequence](https://oj.uz/problem/view/APIO14_sequence)
 - [oj.uz CEOI09_harbingers - Harbingers](https://oj.uz/problem/view/CEOI09_harbingers)
 - [oj.uz CEOI17_building - Building Bridges](https://oj.uz/problem/view/CEOI17_building) [✅](../../practice/data_structures/oj_uz_ceoi17_building.cpp "Accepted solution")
@@ -210,9 +189,7 @@
 
 - [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6) [✅](../../practice/data_structures/codechef_qtree6.cpp "Accepted solution")
 - [DMOJ ds5easy - Dynamic Tree Test (Easy)](https://dmoj.ca/problem/ds5easy)
-- [Library Checker dynamic_tree_vertex_add_path_sum - Dynamic Tree Vertex Add Path Sum](https://judge.yosupo.jp/problem/dynamic_tree_vertex_add_path_sum) [✅](../../practice/data_structures/library_checker_dynamic_tree_vertex_add_path_sum.cpp "Accepted solution")
 - [Library Checker incremental_minimum_spanning_forest - Incremental Minimum Spanning Forest](https://judge.yosupo.jp/problem/incremental_minimum_spanning_forest) [✅](../../practice/data_structures/library_checker_incremental_minimum_spanning_forest.cpp "Accepted solution")
-- [Library Checker lca - Lowest Common Ancestor](https://judge.yosupo.jp/problem/lca) [✅](../../practice/data_structures/library_checker_lca.cpp "Accepted solution")
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/)
 - [SPOJ DYNALCA - Dynamic LCA](https://www.spoj.com/problems/DYNALCA/)
 - [UVa 11994 - Happy Painting!](https://onlinejudge.org/external/119/11994.pdf)
@@ -220,8 +197,6 @@
 #### [Merge Sort Tree and Wavelet](merge_sort_tree.cpp)
 
 - [CSES 3163 - Range Interval Queries](https://cses.fi/problemset/task/3163) [✅](../../practice/data_structures/cses_3163.cpp "Accepted solution")
-- [Library Checker range_kth_smallest - Range Kth Smallest](https://judge.yosupo.jp/problem/range_kth_smallest) [✅](../../practice/data_structures/library_checker_range_kth_smallest_merge_sort_tree.cpp "Accepted solution")
-- [Library Checker static_range_frequency - Static Range Frequency](https://judge.yosupo.jp/problem/static_range_frequency) [✅](../../practice/data_structures/library_checker_static_range_frequency.cpp "Accepted solution")
 - [POJ 2104 - K-th Number](http://poj.org/problem?id=2104) [✅](../../practice/data_structures/poj_2104_merge_sort_tree.cpp "Accepted solution")
 - [SPOJ KQUERY - K-query](https://www.spoj.com/problems/KQUERY/)
 - [SPOJ MKTHNUM - K-th Number](https://www.spoj.com/problems/MKTHNUM/)
@@ -240,8 +215,6 @@
 - [Codeforces Gym 100965I - Prime](https://codeforces.com/gym/100965/problem/I)
 - [CSES 1734 - Distinct Values Queries](https://cses.fi/problemset/task/1734) [✅](../../practice/data_structures/cses_1734.cpp "Accepted solution")
 - [HackerRank almost-equal-advanced - Almost Equal - Advanced](https://www.hackerrank.com/challenges/almost-equal-advanced) [✅](../../practice/data_structures/hackerrank_almost_equal_advanced_mo.cpp "Accepted solution")
-- [Library Checker static_range_count_distinct - Static Range Count Distinct](https://judge.yosupo.jp/problem/static_range_count_distinct) [✅](../../practice/data_structures/library_checker_static_range_count_distinct.cpp "Accepted solution")
-- [Library Checker static_range_inversions_query - Static Range Inversions Query](https://judge.yosupo.jp/problem/static_range_inversions_query) [✅](../../practice/data_structures/library_checker_static_range_inversions_query_mo.cpp "Accepted solution")
 - [SPOJ CPAIR2 - Counting diff-pairs](https://www.spoj.com/problems/CPAIR2/)
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/)
 - [SPOJ FREQ2 - Most Frequent Value](https://www.spoj.com/problems/FREQ2/)
@@ -259,11 +232,9 @@
 
 - [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
 - [CodeChef QCHEF - Chef and Problems](https://www.codechef.com/problems/QCHEF) [✅](../../practice/data_structures/codechef_qchef.cpp "Accepted solution")
-- [Library Checker static_range_mode_query - Static Range Mode Query](https://judge.yosupo.jp/problem/static_range_mode_query) [✅](../../practice/data_structures/library_checker_static_range_mode_query.cpp "Accepted solution")
 
 #### [Mo's Algorithm With Updates](mo_with_updates.cpp)
 
-- [Library Checker point_set_range_frequency - Point Set Range Frequency](https://judge.yosupo.jp/problem/point_set_range_frequency) [✅](../../practice/data_structures/library_checker_point_set_range_frequency.cpp "Accepted solution")
 - [SPOJ XXXXXXXX - Sum of Distinct Numbers](https://www.spoj.com/problems/XXXXXXXX/)
 - [UVa 12345 - Dynamic len(set(a[L:R]))](https://onlinejudge.org/external/123/12345.pdf) [✅](../../practice/data_structures/uva_12345.cpp "Accepted solution")
 
@@ -279,7 +250,6 @@
 - [CSES 1147 - Maximum Building I](https://cses.fi/problemset/task/1147) [✅](../../practice/data_structures/cses_1147.cpp "Accepted solution")
 - [CSES 1645 - Nearest Smaller Values](https://cses.fi/problemset/task/1645) [✅](../../practice/data_structures/cses_1645.cpp "Accepted solution")
 - [HackerRank poisonous-plants - Poisonous Plants](https://www.hackerrank.com/challenges/poisonous-plants/problem) [✅](../../practice/data_structures/hackerrank_poisonous_plants.cpp "Accepted solution")
-- [Library Checker cartesian_tree - Cartesian Tree](https://judge.yosupo.jp/problem/cartesian_tree) [✅](../../practice/data_structures/library_checker_cartesian_tree.cpp "Accepted solution")
 - [oj.uz CEOI11_bal - Balloons](https://oj.uz/problem/view/CEOI11_bal)
 - [SPOJ CITY2 - A Famous City](https://www.spoj.com/problems/CITY2/)
 - [SPOJ DIFERENC - DIFERENCIJA](https://www.spoj.com/problems/DIFERENC/)
@@ -296,7 +266,6 @@
 - [CSES 1749 - List Removals](https://cses.fi/problemset/task/1749) [✅](../../practice/data_structures/cses_1749.cpp "Accepted solution")
 - [CSES 2163 - Josephus Problem II](https://cses.fi/problemset/task/2163) [✅](../../practice/data_structures/cses_2163.cpp "Accepted solution")
 - [CSES 2169 - Nested Ranges Count](https://cses.fi/problemset/task/2169) [✅](../../practice/data_structures/cses_2169.cpp "Accepted solution")
-- [Library Checker ordered_set - Ordered Set](https://judge.yosupo.jp/problem/ordered_set) [✅](../../practice/data_structures/library_checker_ordered_set.cpp "Accepted solution")
 - [SPOJ ADACROP - Ada and Harvest](https://www.spoj.com/problems/ADACROP/)
 - [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/) [✅](../../practice/data_structures/spoj_meanarr_ordered_set.cpp "Accepted solution")
 - [SPOJ ORDERSET - Order statistic set](https://www.spoj.com/problems/ORDERSET/)
@@ -305,10 +274,6 @@
 - [UVa 10909 - Lucky Number](https://onlinejudge.org/external/109/10909.pdf) [✅](../../practice/data_structures/uva_10909.cpp "Accepted solution")
 - [UVa 12912 - Josephus lottery](https://onlinejudge.org/external/129/12912.pdf) [✅](../../practice/data_structures/uva_12912.cpp "Accepted solution")
 
-#### [Permutation Tree](permutation_tree.cpp)
-
-- [Library Checker common_interval_decomposition_tree - Common Interval Decomposition Tree](https://judge.yosupo.jp/problem/common_interval_decomposition_tree) [✅](../../practice/data_structures/library_checker_common_interval_decomposition_tree.cpp "Accepted solution")
-
 #### [Persistent Segment Tree](persistent_segment_tree.cpp)
 
 - [Codeforces 464E - The Classic Problem](https://codeforces.com/problemset/problem/464/E)
@@ -316,8 +281,6 @@
 - [Codeforces 840D - Destiny](https://codeforces.com/problemset/problem/840/D)
 - [Codeforces Gym 101161E - ACM Tax](https://codeforces.com/gym/101161/problem/E)
 - [CSES 1737 - Range Queries and Copies](https://cses.fi/problemset/task/1737) [✅](../../practice/data_structures/cses_1737.cpp "Accepted solution")
-- [Library Checker persistent_queue - Persistent Queue](https://judge.yosupo.jp/problem/persistent_queue) [✅](../../practice/data_structures/library_checker_persistent_queue.cpp "Accepted solution")
-- [Library Checker range_kth_smallest - Range Kth Smallest](https://judge.yosupo.jp/problem/range_kth_smallest) [✅](../../practice/data_structures/library_checker_range_kth_smallest_persistent_segment_tree.cpp "Accepted solution")
 - [POJ 2104 - K-th Number](http://poj.org/problem?id=2104) [✅](../../practice/data_structures/poj_2104_persistent_segment_tree.cpp "Accepted solution")
 - [SPOJ COT - Count on a tree](https://www.spoj.com/problems/COT/)
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/)
@@ -372,11 +335,7 @@
 - [CSES 3356 - Distinct Values Queries II](https://cses.fi/problemset/task/3356) [✅](../../practice/data_structures/cses_3356.cpp "Accepted solution")
 - [HackerRank white-falcon-and-tree - White Falcon And Tree](https://www.hackerrank.com/contests/w12/challenges/white-falcon-and-tree) [✅](../../practice/data_structures/hackerrank_white_falcon_and_tree.cpp "Accepted solution")
 - [HDU 1754 - I Hate It](https://acm.hdu.edu.cn/showproblem.php?pid=1754) [✅](../../practice/data_structures/hdu_1754.cpp "Accepted solution")
-- [Library Checker point_set_range_composite - Point Set Range Composite](https://judge.yosupo.jp/problem/point_set_range_composite) [✅](../../practice/data_structures/library_checker_point_set_range_composite.cpp "Accepted solution")
-- [Library Checker range_add_range_min - Range Add Range Min](https://judge.yosupo.jp/problem/range_add_range_min) [✅](../../practice/data_structures/library_checker_range_add_range_min.cpp "Accepted solution")
 - [Library Checker range_affine_point_get - Range Affine Point Get](https://judge.yosupo.jp/problem/range_affine_point_get) [✅](../../practice/data_structures/library_checker_range_affine_point_get.cpp "Accepted solution")
-- [Library Checker range_affine_range_sum - Range Affine Range Sum](https://judge.yosupo.jp/problem/range_affine_range_sum) [✅](../../practice/data_structures/library_checker_range_affine_range_sum.cpp "Accepted solution")
-- [Library Checker range_set_range_composite - Range Set Range Composite](https://judge.yosupo.jp/problem/range_set_range_composite) [✅](../../practice/data_structures/library_checker_range_set_range_composite.cpp "Accepted solution")
 - [oj.uz COCI17_deda - Deda](https://oj.uz/problem/view/COCI17_deda) [✅](../../practice/data_structures/oj_uz_coci17_deda.cpp "Accepted solution")
 - [oj.uz IOI14_wall - Wall](https://oj.uz/problem/view/IOI14_wall) [✅](../../practice/data_structures/oj_uz_ioi14_wall.cpp "Accepted solution")
 - [SPOJ GSS3 - Can you answer these queries III](https://www.spoj.com/problems/GSS3/)
@@ -403,7 +362,6 @@
 #### [Segment Tree Beats](segment_tree_beats.cpp)
 
 - [HDU 5306 - Gorgeous Sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5306)
-- [Library Checker range_chmin_chmax_add_range_sum - Range Chmin Chmax Add Range Sum](https://judge.yosupo.jp/problem/range_chmin_chmax_add_range_sum) [✅](../../practice/data_structures/library_checker_range_chmin_chmax_add_range_sum.cpp "Accepted solution")
 
 #### [Segment Tree Merging](segment_tree_merge.cpp)
 
@@ -419,7 +377,6 @@
 - [CSES POI 527 - Little Bird](https://cses.fi/poi/task/527) [✅](../../practice/data_structures/cses_poi_527.cpp "Accepted solution")
 - [HackerRank queries-with-fixed-length - Queries with Fixed Length](https://www.hackerrank.com/challenges/queries-with-fixed-length/problem) [✅](../../practice/data_structures/hackerrank_queries_with_fixed_length.cpp "Accepted solution")
 - [LeetCode 239 - Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) [✅](../../practice/data_structures/leetcode_239.cpp "Accepted solution")
-- [Library Checker queue_operate_all_composite - Queue Operate All Composite](https://judge.yosupo.jp/problem/queue_operate_all_composite) [✅](../../practice/data_structures/library_checker_queue_operate_all_composite.cpp "Accepted solution")
 - [USACO 767 - Haybale Feast](https://usaco.org/index.php?page=viewproblem2&cpid=767) [✅](../../practice/data_structures/usaco_767.cpp "Accepted solution")
 
 #### [Sparse Table](sparse_table.cpp)
@@ -436,7 +393,6 @@
 - [Codeforces 1454F - Array Partition](https://codeforces.com/problemset/problem/1454/F)
 - [Codeforces 1547F - Array Stabilization (GCD version)](https://codeforces.com/problemset/problem/1547/F)
 - [CSES 1647 - Static Range Minimum Queries](https://cses.fi/problemset/task/1647) [✅](../../practice/data_structures/cses_1647_sparse_table.cpp "Accepted solution")
-- [Library Checker staticrmq - Static RMQ](https://judge.yosupo.jp/problem/staticrmq) [✅](../../practice/data_structures/library_checker_staticrmq.cpp "Accepted solution")
 - [SPOJ RMQSQ - Range Minimum Query](https://www.spoj.com/problems/RMQSQ/)
 - [SPOJ RPLN - Negative Score](https://www.spoj.com/problems/RPLN/)
 - [SPOJ THRBL - Catapult that ball](https://www.spoj.com/problems/THRBL/)
@@ -479,8 +435,6 @@
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma) [✅](../../practice/data_structures/hackerrank_xaero_and_breaking_enigma_treap.cpp "Accepted solution")
 - [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436) [✅](../../practice/data_structures/hdu_3436_treap.cpp "Accepted solution")
 - [HDU 3487 - Play with Chain](https://acm.hdu.edu.cn/showproblem.php?pid=3487) [✅](../../practice/data_structures/hdu_3487.cpp "Accepted solution")
-- [Library Checker double_ended_priority_queue - Double-Ended Priority Queue](https://judge.yosupo.jp/problem/double_ended_priority_queue) [✅](../../practice/data_structures/library_checker_double_ended_priority_queue.cpp "Accepted solution")
-- [Library Checker range_reverse_range_sum - Range Reverse Range Sum](https://judge.yosupo.jp/problem/range_reverse_range_sum) [✅](../../practice/data_structures/library_checker_range_reverse_range_sum.cpp "Accepted solution")
 - [POJ 3580 - SuperMemo](http://poj.org/problem?id=3580)
 - [SPOJ ADAAPHID - Ada and Aphids](https://www.spoj.com/problems/ADAAPHID/)
 - [SPOJ ALLIN1 - All in One](https://www.spoj.com/problems/ALLIN1/)
@@ -520,7 +474,6 @@
 - [CSES 1655 - Maximum Xor Subarray](https://cses.fi/problemset/task/1655) [✅](../../practice/data_structures/cses_1655.cpp "Accepted solution")
 - [CSES 1731 - Word Combinations](https://cses.fi/problemset/task/1731) [✅](../../practice/data_structures/cses_1731.cpp "Accepted solution")
 - [HackerRank xor-key - XOR key](https://www.hackerrank.com/challenges/xor-key) [✅](../../practice/data_structures/hackerrank_xor_key.cpp "Accepted solution")
-- [Library Checker set_xor_min - Set Xor-Min](https://judge.yosupo.jp/problem/set_xor_min) [✅](../../practice/data_structures/library_checker_set_xor_min.cpp "Accepted solution")
 - [oj.uz IZhO12_xor - XOR](https://oj.uz/problem/view/IZhO12_xor) [✅](../../practice/data_structures/oj_uz_izho12_xor.cpp "Accepted solution")
 - [UVa 1401 - Remember the Word](https://onlinejudge.org/external/14/1401.pdf) [✅](../../practice/data_structures/uva_1401.cpp "Accepted solution")
 - [UVa 1462 - Fuzzy Google Suggest](https://onlinejudge.org/external/14/1462.pdf) [✅](../../practice/data_structures/uva_1462.cpp "Accepted solution")

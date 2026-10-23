@@ -7,7 +7,6 @@
 - [HackerRank number-of-sequences - Number of Sequences](https://www.hackerrank.com/contests/w22/challenges/number-of-sequences/problem)
 - [Kattis chineseremainder - Chinese Remainder](https://open.kattis.com/problems/chineseremainder)
 - [Kattis generalchineseremainder - Chinese Remainder Theorem (non-relatively prime moduli)](https://open.kattis.com/problems/generalchineseremainder)
-- [Library Checker convolution_mod_1000000007 - Convolution (Mod 1,000,000,007)](https://judge.yosupo.jp/problem/convolution_mod_1000000007)
 - [SPOJ PIBO2 - Fibonacci vs Polynomial (HARD)](https://www.spoj.com/problems/PIBO2/)
 - [SPOJ PIBO - Fibonacci vs Polynomial](https://www.spoj.com/problems/PIBO/)
 - [UVa 11754 - Code Feat](https://onlinejudge.org/external/117/11754.pdf) [✅](../../practice/number_theory/uva_11754.cpp "Accepted solution")
@@ -24,8 +23,6 @@
 - [Codeforces Gym 104656C2 - New Elements, Part 2 C2](https://codeforces.com/gym/104656/problem/C2)
 - [HackerRank euler064 - Project Euler #64: Odd period square roots](https://www.hackerrank.com/contests/projecteuler/challenges/euler064/problem)
 - [HDU 6624 - fraction](http://acm.hdu.edu.cn/showproblem.php?pid=6624)
-- [Library Checker rational_approximation - Rational Approximation](https://judge.yosupo.jp/problem/rational_approximation)
-- [Library Checker stern_brocot_tree - Stern–Brocot Tree](https://judge.yosupo.jp/problem/stern_brocot_tree)
 - [UVa 834 - Continued Fractions](https://onlinejudge.org/external/8/834.pdf) [✅](../../practice/number_theory/uva_834.cpp "Accepted solution")
 
 #### [Digits of Factorial](digits_of_factorial.cpp)
@@ -39,7 +36,6 @@
 - [CodeChef CHEFMOD - Chef and Modular Sequence](https://www.codechef.com/problems/CHEFMOD)
 - [CodeChef INVXOR - Inverse of a Function](https://www.codechef.com/problems/INVXOR)
 - [Codeforces Gym 101853G - Hard Equation](https://codeforces.com/gym/101853/problem/G)
-- [Library Checker discrete_logarithm_mod - Discrete Logarithm](https://judge.yosupo.jp/problem/discrete_logarithm_mod)
 - [SPOJ MOD - Power Modulo Inverted](https://www.spoj.com/problems/MOD/)
 - [UVa 10225 - Discrete Logging](https://onlinejudge.org/external/102/10225.pdf) [✅](../../practice/number_theory/uva_10225.cpp "Accepted solution")
 - [UVa 11916 - Emoogle Grid](https://onlinejudge.org/external/119/11916.pdf) [✅](../../practice/number_theory/uva_11916.cpp "Accepted solution")
@@ -49,11 +45,6 @@
 - [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713)
 - [UVa 12425 - Best Friend](https://onlinejudge.org/external/124/12425.pdf) [✅](../../practice/number_theory/uva_12425.cpp "Accepted solution")
 - [UVa 13131 - Divisors](https://onlinejudge.org/external/131/13131.pdf) [✅](../../practice/number_theory/uva_13131.cpp "Accepted solution")
-
-#### [Du's Sieve](du_sieve.cpp)
-
-- [Library Checker counting_squarefrees - Counting Square-free Integers](https://judge.yosupo.jp/problem/counting_squarefrees)
-- [Library Checker sum_of_totient_function - Sum of Totient Function](https://judge.yosupo.jp/problem/sum_of_totient_function)
 
 #### [Extended GCD](extended_gcd.cpp)
 
@@ -76,13 +67,8 @@
 - [UVa 10518 - How Many Calls?](https://onlinejudge.org/external/105/10518.pdf) [✅](../../practice/number_theory/uva_10518.cpp "Accepted solution")
 - [UVa 10689 - Yet another Number Sequence](https://onlinejudge.org/external/106/10689.pdf) [✅](../../practice/number_theory/uva_10689.cpp "Accepted solution")
 
-#### [Fast Prime Counting](fast_prime_counting.cpp)
-
-- [Library Checker counting_primes - Counting Primes](https://judge.yosupo.jp/problem/counting_primes)
-
 #### [Fast Sieve](fast_sieve.cpp)
 
-- [Library Checker enumerate_primes - Enumerate Primes](https://judge.yosupo.jp/problem/enumerate_primes)
 - [SPOJ PRIMES2 - Printing some primes (Hard)](https://www.spoj.com/problems/PRIMES2/)
 - [SPOJ PTRI - primes triangle (I)](https://www.spoj.com/problems/PTRI/)
 - [SPOJ TDPRIMES - Printing some primes](https://www.spoj.com/problems/TDPRIMES/)
@@ -92,15 +78,11 @@
 #### [Floor Sum](floor_sum.cpp)
 
 - [Kattis itsamodmodmodmodworld - It's a Mod, Mod, Mod, Mod World](https://open.kattis.com/problems/itsamodmodmodmodworld)
-- [Library Checker min_of_mod_of_linear - Min of Mod of Linear](https://judge.yosupo.jp/problem/min_of_mod_of_linear)
-- [Library Checker sum_of_floor_of_linear - Sum of Floor of Linear](https://judge.yosupo.jp/problem/sum_of_floor_of_linear)
 - [POJ 3530 - A Modular Arithmetic Challenge](http://poj.org/problem?id=3530)
 
 #### [Integer Root](integer_root.cpp)
 
 - [HDU 5297 - Y sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5297)
-- [Library Checker counting_squarefrees - Counting Square-free Integers](https://judge.yosupo.jp/problem/counting_squarefrees)
-- [Library Checker kth_root_integer - Kth Root (Integer)](https://judge.yosupo.jp/problem/kth_root_integer)
 
 #### [Linear Sieve](linear_sieve.cpp)
 
@@ -113,7 +95,6 @@
 - [Codeforces 1499D - The Number of Pairs](https://codeforces.com/problemset/problem/1499/D)
 - [Codeforces 1900D - Small GCD](https://codeforces.com/problemset/problem/1900/D)
 - [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713)
-- [Library Checker sum_of_exponential_times_polynomial - $\sum_{i=0}^{n-1} r^i i^d$](https://judge.yosupo.jp/problem/sum_of_exponential_times_polynomial)
 - [LightOJ 1007 - Mathematically Hard](https://lightoj.com/problem/mathematically-hard)
 - [SPOJ BSPRIME - Binary Sequence of Prime Number](https://www.spoj.com/problems/BSPRIME/)
 - [SPOJ COMDIV - Number of common divisors](https://www.spoj.com/problems/COMDIV/)
@@ -156,14 +137,9 @@
 
 - [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396)
 - [HackerRank bear-and-cryptography - Bear And Cryptography](https://www.hackerrank.com/challenges/bear-and-cryptography/problem)
-- [Library Checker primality_test - Primality Test](https://judge.yosupo.jp/problem/primality_test)
 - [Project Euler 146 - Investigating a Prime Pattern](https://projecteuler.net/problem=146)
 - [SPOJ PON - Prime or Not](https://www.spoj.com/problems/PON/)
 - [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf) [✅](../../practice/number_theory/uva_11476_miller_rabin.cpp "Accepted solution")
-
-#### [Min_25 Sieve](min_25_sieve.cpp)
-
-- [Library Checker sum_of_multiplicative_function - Sum of Multiplicative Function](https://judge.yosupo.jp/problem/sum_of_multiplicative_function)
 
 #### [Mobius Function](mobius_function.cpp)
 
@@ -185,12 +161,6 @@
 #### [Modular Roots](modular_roots.cpp)
 
 - [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F)
-- [Library Checker kth_root_mod - Kth Root (Mod)](https://judge.yosupo.jp/problem/kth_root_mod)
-- [Library Checker primitive_root - Primitive Root](https://judge.yosupo.jp/problem/primitive_root)
-
-#### [Modular Square Root](modular_sqrt.cpp)
-
-- [Library Checker sqrt_mod - Sqrt Mod](https://judge.yosupo.jp/problem/sqrt_mod)
 
 #### [Pisano Period](pisano_period.cpp)
 
@@ -202,7 +172,6 @@
 
 - [Codeforces Gym 100753F - Divisions](https://codeforces.com/gym/100753/problem/F)
 - [Codeforces Gym 102141B - Mysterious LCM](https://codeforces.com/gym/102141/problem/B)
-- [Library Checker factorize - Factorize](https://judge.yosupo.jp/problem/factorize)
 - [SPOJ DIVSUM2 - Divisor Summation (Hard)](https://www.spoj.com/problems/DIVSUM2/)
 - [SPOJ FACT0 - Integer Factorization (15 digits)](https://www.spoj.com/problems/FACT0/)
 - [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf) [✅](../../practice/number_theory/uva_11476_pollard_rho.cpp "Accepted solution")
@@ -215,13 +184,11 @@
 - [Codeforces 906D - Power Tower](https://codeforces.com/problemset/problem/906/D)
 - [Codeforces Gym 100975F - Simple Calculations](https://codeforces.com/gym/100975/problem/F)
 - [Kattis exponial - Exponial](https://open.kattis.com/problems/exponial)
-- [Library Checker tetration_mod - Tetration Mod](https://judge.yosupo.jp/problem/tetration_mod)
 - [UVa 10692 - Huge Mods](https://onlinejudge.org/external/106/10692.pdf) [✅](../../practice/number_theory/uva_10692.cpp "Accepted solution")
 
 #### [Segmented Sieve](segmented_sieve.cpp)
 
 - [HackerRank euler134 - Project Euler #134: Prime pair connection](https://www.hackerrank.com/contests/projecteuler/challenges/euler134/problem)
-- [Library Checker enumerate_primes - Enumerate Primes](https://judge.yosupo.jp/problem/enumerate_primes)
 - [SPOJ PRIME1 - Prime Generator](https://www.spoj.com/problems/PRIME1/)
 - [UVa 1404 - Prime k-tuple](https://onlinejudge.org/external/14/1404.pdf) [✅](../../practice/number_theory/uva_1404.cpp "Accepted solution")
 - [UVa 10140 - Prime Distance](https://onlinejudge.org/external/101/10140.pdf) [✅](../../practice/number_theory/uva_10140.cpp "Accepted solution")

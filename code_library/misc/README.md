@@ -35,8 +35,6 @@
 #### [Fast I/O](fast_io.cpp)
 
 - [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A)
-- [Library Checker many_aplusb - Many A + B](https://judge.yosupo.jp/problem/many_aplusb)
-- [Library Checker many_aplusb_128bit - Many A + B (128 bit)](https://judge.yosupo.jp/problem/many_aplusb_128bit)
 
 #### [Gray Codes](gray_codes.cpp)
 

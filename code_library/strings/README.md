@@ -37,7 +37,6 @@
 - [HDU 5384 - Danganronpa](https://acm.hdu.edu.cn/showproblem.php?pid=5384)
 - [Kattis stringmultimatching - String Multimatching](https://open.kattis.com/problems/stringmultimatching)
 - [Kattis taboo - Taboo](https://open.kattis.com/problems/taboo)
-- [Library Checker aho_corasick - Aho Corasick](https://judge.yosupo.jp/problem/aho_corasick)
 - [LightOJ 1427 - Substring Frequency (II)](https://lightoj.com/problem/substring-frequency-ii)
 - [POJ 1625 - Censored!](http://poj.org/problem?id=1625)
 - [POJ 2778 - DNA Sequence](http://poj.org/problem?id=2778)
@@ -98,7 +97,6 @@
 - [HackerRank gift-boxes - Gift Boxes](https://www.hackerrank.com/contests/womens-codesprint-5/challenges/gift-boxes/problem)
 - [Kattis hashing - String Hashing](https://open.kattis.com/problems/hashing)
 - [LeetCode 1044 - Longest Duplicate Substring](https://leetcode.com/problems/longest-duplicate-substring/)
-- [Library Checker enumerate_palindromes - Enumerate Palindromes](https://judge.yosupo.jp/problem/enumerate_palindromes)
 - [SPOJ ADACLEAN - Ada and Spring Cleaning](https://www.spoj.com/problems/ADACLEAN/)
 - [SPOJ CF25E - Test](https://www.spoj.com/problems/CF25E/)
 - [SPOJ NAJPF - Pattern Find](https://www.spoj.com/problems/NAJPF/)
@@ -158,7 +156,6 @@
 #### [Lyndon Factorization](lyndon_factorization.cpp)
 
 - [CSES 1110 - Minimal Rotation](https://cses.fi/problemset/task/1110)
-- [Library Checker lyndon_factorization - Lyndon Factorization](https://judge.yosupo.jp/problem/lyndon_factorization)
 - [UVa 719 - Glass Beads](https://onlinejudge.org/external/7/719.pdf) [✅](../../practice/strings/uva_719_lyndon_factorization.cpp "Accepted solution")
 
 #### [Manacher](manacher.cpp)
@@ -174,7 +171,6 @@
 - [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157)
 - [Kattis castingspells - Casting Spells](https://open.kattis.com/problems/castingspells)
 - [Kattis palindromes - Palindromes](https://open.kattis.com/problems/palindromes)
-- [Library Checker enumerate_palindromes - Enumerate Palindromes](https://judge.yosupo.jp/problem/enumerate_palindromes)
 - [SPOJ NUMOFPAL - Number of Palindromes](https://www.spoj.com/problems/NUMOFPAL/)
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✅](../../practice/strings/uva_11475_manacher.cpp "Accepted solution")
 - [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf) [✅](../../practice/strings/uva_12833_manacher.cpp "Accepted solution")
@@ -195,7 +191,6 @@
 - [Codeforces Gym 101806Q - QueryreuQ](https://codeforces.com/gym/101806/problem/Q)
 - [CSES 3138 - All Palindromes](https://cses.fi/problemset/task/3138)
 - [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157)
-- [Library Checker eertree - Eertree](https://judge.yosupo.jp/problem/eertree)
 - [oj.uz APIO14_palindrome - Palindromes](https://oj.uz/problem/view/APIO14_palindrome)
 - [SPOJ APIO14_A - Palindromes](https://www.spoj.com/problems/APIO14_A/)
 - [Timus 2044 - 31 Palindromes](https://acm.timus.ru/problem.aspx?num=2044)
@@ -225,9 +220,6 @@
 - [CSES 2108 - Substring Order I](https://cses.fi/problemset/task/2108) [✅](../../practice/strings/cses_2108.cpp "Accepted solution")
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110) [✅](../../practice/strings/cses_2110.cpp "Accepted solution")
 - [HackerRank sherlock-and-unique-substrings - Sherlock and Unique Substrings](https://www.hackerrank.com/contests/101hack26/challenges/sherlock-and-unique-substrings) [✅](../../practice/strings/hackerrank_sherlock_and_unique_substrings.cpp "Accepted solution")
-- [Library Checker longest_common_substring - Longest Common Substring](https://judge.yosupo.jp/problem/longest_common_substring) [✅](../../practice/strings/library_checker_longest_common_substring.cpp "Accepted solution")
-- [Library Checker suffixarray - Suffix Array](https://judge.yosupo.jp/problem/suffixarray) [✅](../../practice/strings/library_checker_suffixarray.cpp "Accepted solution")
-- [Library Checker zalgorithm - Z Algorithm](https://judge.yosupo.jp/problem/zalgorithm) [✅](../../practice/strings/library_checker_zalgorithm.cpp "Accepted solution")
 - [SPOJ ADAPHOTO - Ada and Terramorphing](https://www.spoj.com/problems/ADAPHOTO/) [✅](../../practice/strings/spoj_adaphoto.cpp "Accepted solution")
 - [SPOJ ADASTRNG - Ada and Substring](https://www.spoj.com/problems/ADASTRNG/) [✅](../../practice/strings/spoj_adastrng.cpp "Accepted solution")
 - [SPOJ LCS2 - Longest Common Substring II](https://www.spoj.com/problems/LCS2/) [✅](../../practice/strings/spoj_lcs2.cpp "Accepted solution")
@@ -270,7 +262,6 @@
 - [CSES 2109 - Substring Order II](https://cses.fi/problemset/task/2109)
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110)
 - [HDU 5853 - Jong Hyok and String](https://acm.hdu.edu.cn/showproblem.php?pid=5853)
-- [Library Checker number_of_substrings - Number of Substrings](https://judge.yosupo.jp/problem/number_of_substrings)
 - [SPOJ LCS2 - Longest Common Substring II](https://www.spoj.com/problems/LCS2/)
 - [SPOJ LCS - Longest Common Substring](https://www.spoj.com/problems/LCS/)
 - [SPOJ NSUBSTR - Substrings](https://www.spoj.com/problems/NSUBSTR/)
@@ -278,14 +269,9 @@
 - [SPOJ TAP2013E - Escaping from escaping](https://www.spoj.com/problems/TAP2013E/)
 - [UVa 1673 - str2int](https://onlinejudge.org/external/16/1673.pdf)
 
-#### [Tandem Repeats](tandem_repeats.cpp)
-
-- [Library Checker runenumerate - Run Enumerate](https://judge.yosupo.jp/problem/runenumerate)
-
 #### [Wildcard Matching](wildcard_matching.cpp)
 
 - [Codeforces 754E - Dasha and cyclic table](https://codeforces.com/problemset/problem/754/E)
-- [Library Checker wildcard_pattern_matching - Wildcard Pattern Matching](https://judge.yosupo.jp/problem/wildcard_pattern_matching)
 
 #### [Z Algorithm](z_algorithm.cpp)
 
@@ -302,6 +288,5 @@
 - [CSES 1753 - String Matching](https://cses.fi/problemset/task/1753)
 - [CSES 2107 - String Functions](https://cses.fi/problemset/task/2107)
 - [Eolymp 1309 - Blocks of string](https://www.eolymp.com/en/problems/1309)
-- [Library Checker zalgorithm - Z Algorithm](https://judge.yosupo.jp/problem/zalgorithm)
 - [UVa 455 - Periodic Strings](https://onlinejudge.org/external/4/455.pdf) [✅](../../practice/strings/uva_455_z_algorithm.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✅](../../practice/strings/uva_11475_z_algorithm.cpp "Accepted solution")
