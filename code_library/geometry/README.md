@@ -16,7 +16,6 @@
 - [Codeforces 933C - A Colourful Prospect](https://codeforces.com/problemset/problem/933/C)
 - [Codeforces Gym 100199F - Get Out!](https://codeforces.com/gym/100199/problem/F)
 - [HDU 3932 - Groundhog Build Home](https://acm.hdu.edu.cn/showproblem.php?pid=3932)
-- [Library Checker minimum_enclosing_circle - Minimum Enclosing Circle](https://judge.yosupo.jp/problem/minimum_enclosing_circle)
 - [SPOJ ALIENS - Aliens](https://www.spoj.com/problems/ALIENS/)
 - [Timus 1429 - Biscuits](https://acm.timus.ru/problem.aspx?num=1429)
 - [Timus 1520 - Empire Strikes Back](https://acm.timus.ru/problem.aspx?num=1520)

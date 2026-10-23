@@ -94,7 +94,6 @@
 - [HackerRank almost-equal-advanced - Almost Equal - Advanced](https://www.hackerrank.com/challenges/almost-equal-advanced) [✅](../../practice/data_structures/hackerrank_almost_equal_advanced_fenwick_tree.cpp "Accepted solution")
 - [HackerRank connection-queries - Connection Queries](https://www.hackerrank.com/contests/sears-dots-arrows/challenges/connection-queries) [✅](../../practice/data_structures/hackerrank_connection_queries.cpp "Accepted solution")
 - [Kattis megainversions - Mega Inversions](https://open.kattis.com/problems/megainversions) [✅](../../practice/data_structures/kattis_megainversions.cpp "Accepted solution")
-- [Library Checker rectangle_sum - Rectangle Sum](https://judge.yosupo.jp/problem/rectangle_sum) [✅](../../practice/data_structures/library_checker_rectangle_sum.cpp "Accepted solution")
 - [LightOJ 1112 - Curious Robin Hood](https://lightoj.com/problem/curious-robin-hood) [✅](../../practice/data_structures/lightoj_1112.cpp "Accepted solution")
 - [MatCom 9346 - Fundraising](https://matcomgrader.com/problem/9346/fundraising/) [✅](../../practice/data_structures/matcom_9346.cpp "Accepted solution")
 - [SPOJ ADACABAA - Ada and Species](https://www.spoj.com/problems/ADACABAA/)
@@ -189,7 +188,6 @@
 
 - [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6) [✅](../../practice/data_structures/codechef_qtree6.cpp "Accepted solution")
 - [DMOJ ds5easy - Dynamic Tree Test (Easy)](https://dmoj.ca/problem/ds5easy)
-- [Library Checker incremental_minimum_spanning_forest - Incremental Minimum Spanning Forest](https://judge.yosupo.jp/problem/incremental_minimum_spanning_forest) [✅](../../practice/data_structures/library_checker_incremental_minimum_spanning_forest.cpp "Accepted solution")
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/)
 - [SPOJ DYNALCA - Dynamic LCA](https://www.spoj.com/problems/DYNALCA/)
 - [UVa 11994 - Happy Painting!](https://onlinejudge.org/external/119/11994.pdf)
@@ -335,7 +333,6 @@
 - [CSES 3356 - Distinct Values Queries II](https://cses.fi/problemset/task/3356) [✅](../../practice/data_structures/cses_3356.cpp "Accepted solution")
 - [HackerRank white-falcon-and-tree - White Falcon And Tree](https://www.hackerrank.com/contests/w12/challenges/white-falcon-and-tree) [✅](../../practice/data_structures/hackerrank_white_falcon_and_tree.cpp "Accepted solution")
 - [HDU 1754 - I Hate It](https://acm.hdu.edu.cn/showproblem.php?pid=1754) [✅](../../practice/data_structures/hdu_1754.cpp "Accepted solution")
-- [Library Checker range_affine_point_get - Range Affine Point Get](https://judge.yosupo.jp/problem/range_affine_point_get) [✅](../../practice/data_structures/library_checker_range_affine_point_get.cpp "Accepted solution")
 - [oj.uz COCI17_deda - Deda](https://oj.uz/problem/view/COCI17_deda) [✅](../../practice/data_structures/oj_uz_coci17_deda.cpp "Accepted solution")
 - [oj.uz IOI14_wall - Wall](https://oj.uz/problem/view/IOI14_wall) [✅](../../practice/data_structures/oj_uz_ioi14_wall.cpp "Accepted solution")
 - [SPOJ GSS3 - Can you answer these queries III](https://www.spoj.com/problems/GSS3/)

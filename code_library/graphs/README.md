@@ -526,7 +526,6 @@
 - [HDU 3311 - Dig The Wells](https://acm.hdu.edu.cn/showproblem.php?pid=3311)
 - [HDU 4085 - Peach Blossom Spring](https://acm.hdu.edu.cn/showproblem.php?pid=4085)
 - [Kattis shovelling - Shovelling Snow](https://open.kattis.com/problems/shovelling)
-- [Library Checker minimum_steiner_tree - Minimum Steiner Tree](https://judge.yosupo.jp/problem/minimum_steiner_tree)
 - [LightOJ 1362 - Electricity Connection](https://lightoj.com/problem/electricity-connection)
 - [oj.uz BOI16_cities - Cities](https://oj.uz/problem/view/BOI16_cities)
 - [SPOJ TICKET - Ticket to Ride](https://www.spoj.com/problems/TICKET/)

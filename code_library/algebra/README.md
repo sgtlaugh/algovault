@@ -113,7 +113,6 @@
 - [Codeforces 1117D - Magic Gems](https://codeforces.com/problemset/problem/1117/D) [✅](../../practice/algebra/codeforces_1117d.cpp "Accepted solution")
 - [CSES 1096 - Throwing Dice](https://cses.fi/problemset/task/1096) [✅](../../practice/algebra/cses_1096.cpp "Accepted solution")
 - [HDU 4914 - Linear recursive sequence](https://acm.hdu.edu.cn/showproblem.php?pid=4914) [✅](../../practice/algebra/hdu_4914.cpp "Accepted solution")
-- [Library Checker consecutive_terms_of_linear_recurrent_sequence - Consecutive Terms of Linear Recurrent Sequence](https://judge.yosupo.jp/problem/consecutive_terms_of_linear_recurrent_sequence)
 - [SPOJ DYEL - Do You Even Lift](https://www.spoj.com/problems/DYEL/) [✅](../../practice/algebra/spoj_dyel.cpp "Accepted solution")
 - [SPOJ FINDLR - Find Linear Recurrence](https://www.spoj.com/problems/FINDLR/)
 - [SPOJ JZPCIR - Jumping Zippy](https://www.spoj.com/problems/JZPCIR/) [✅](../../practice/algebra/spoj_jzpcir.cpp "Accepted solution")
