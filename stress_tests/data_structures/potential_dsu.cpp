@@ -1,8 +1,16 @@
 #include "../common.h"
 
+/// The library built with NDEBUG, as judges may do, so work done only inside its asserts would vanish
+#define NDEBUG
+#include <assert.h>
+#pragma GCC diagnostic push
+#pragma GCC diagnostic ignored "-Wunused-variable"
 #define main library_main
 #include "../../code_library/data_structures/potential_dsu.cpp"
 #undef main
+#pragma GCC diagnostic pop
+#undef NDEBUG
+#include <assert.h>
 
 /// Union by size keeps every node within log2(component size) parent hops of its root
 template <typename Dsu>
@@ -14,18 +22,9 @@ void check_depths(const Dsu& dsu){
     }
 }
 
-/// Applies one union to a label array in O(n)
 void relabel(vector<int>& label, int a, int b){
     int from = label[a], to = label[b];
     if (from != to) for (auto& x : label) if (x == from) x = to;
-}
-
-/// Component labels recomputed from scratch over the edge list
-vector<int> naive_labels(int n, const vector<pair<int, int>>& edges){
-    vector<int> label(n + 1);
-    iota(label.begin(), label.end(), 0);
-    for (auto [a, b] : edges) relabel(label, a, b);
-    return label;
 }
 
 /// Relations generated from a hidden assignment, some perturbed into contradictions once the pair is connected
@@ -35,6 +34,15 @@ int main(){
         for (int i = 0; i < n; i++) assert(chain.relate(i, i + 1, 1));
         check_depths(chain);
         assert(chain.diff(0, n) == n && chain.diff(n, 0) == -n && !chain.relate(n, 0, n));
+    }
+
+    /// diff must compress paths itself: 3 hangs two hops below the root and no other call finds it
+    {
+        PotentialDSU dsu(3);
+        assert(dsu.relate(0, 1, 1));
+        assert(dsu.relate(2, 3, 1));
+        assert(dsu.relate(0, 2, 10));
+        assert(dsu.diff(0, 3) == 11);
     }
 
     /// Pairwise merges of equal blocks never compress a path, so node i sits popcount(i) hops deep
@@ -68,7 +76,8 @@ int main(){
         };
 
         PotentialDSU dsu(n, mod);
-        vector<int> label = naive_labels(n, {});
+        vector<int> label(n + 1);
+        iota(label.begin(), label.end(), 0);
 
         for (int q = stress::rand_int(0, 4 * n + 5); q; q--){
             int a = stress::rand_int(0, n), b = stress::rand_int(0, n);

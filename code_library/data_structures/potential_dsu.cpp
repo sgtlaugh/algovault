@@ -10,6 +10,7 @@
  * dsu.diff(a, b): x[b] - x[a], a and b must be in the same set
  * dsu.same(a, b): true if a and b are in the same set, so diff(a, b) is known
  * dsu.size(a): number of nodes in a's set
+ * dsu.find(a): the root of a's set, the same node for every member
  *
  * mod = 0 works on plain integers, every implied difference must fit in long long
  * mod > 0 works modulo mod, mod <= 1e18
@@ -44,7 +45,8 @@ struct PotentialDSU{
     }
 
     long long diff(int a, int b){
-        assert(find(a) == find(b));
+        int ra = find(a), rb = find(b);
+        assert(ra == rb);
         return norm(up[b] - up[a]);
     }
 
