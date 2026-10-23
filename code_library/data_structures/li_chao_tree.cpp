@@ -61,7 +61,6 @@ struct LiChaoTree{
     }
 
     void add_segment(T k, T b, long long l, long long r){
-        l = max(l, lo), r = min(r, hi);
         if (l <= r) root = insert_segment(root, lo, hi, l, r, {k, b});
     }
 
