@@ -53,7 +53,8 @@ namespace stress{
     template <typename Call>
     void expect_assert(const string& library, Call call){
         int fd[2];
-        assert(pipe(fd) == 0);
+        [[maybe_unused]] int piped = pipe(fd);
+        assert(piped == 0);
         pid_t pid = fork();
         assert(pid >= 0);
         if (pid == 0){
@@ -72,7 +73,8 @@ namespace stress{
         close(fd[0]);
 
         int status;
-        assert(waitpid(pid, &status, 0) == pid);
+        [[maybe_unused]] pid_t waited = waitpid(pid, &status, 0);
+        assert(waited == pid);
         bool fired = WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT && err.find("Assertion") != string::npos
             && err.find(library + ":") != string::npos;
         if (!fired) fprintf(stderr, "expected an assert in %s, the child printed:\n%s\n", library.c_str(), err.c_str());
