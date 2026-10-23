@@ -6,21 +6,15 @@
  * Complexity: O(n^2) time and memory
  *
  * knuth_dp<T>(n, cost): dp table over the points 0..n, dp[i][j] for 0 <= i < j <= n, the answer is dp[0][n]
- * cost(i, j) is called once per interval with 0 <= i, i + 2 <= j <= n and returns T
  *
- * Valid when for all a <= b <= c <= d:
- *     cost(b, c) <= cost(a, d)                                  (monotone on inclusion)
- *     cost(a, c) + cost(b, d) <= cost(a, d) + cost(b, c)        (quadrangle inequality)
- * Then the smallest optimal split opt[i][j] satisfies opt[i][j - 1] <= opt[i][j] <= opt[i + 1][j],
- * so each diagonal of the table scans O(n) splits in total
- *
- * Any f(sum of a[i..j - 1]) with f convex, nondecreasing and a >= 0 qualifies, interval sums included
- * A leaf cost on every [i, i + 1] adds the sum of the leaf costs over i..j - 1 to dp[i][j] regardless of the split tree,
- * so add it after the DP
- *
- * Merging n adjacent piles with cost = size of the merged pile:
- *     auto dp = knuth_dp<long long>(n, [&](int i, int j){ return pre[j] - pre[i]; });
- * Optimal BST over keys 1..m with frequencies f: points 0..m + 1, cost(i, j) = f[i + 1] + ... + f[j - 1]
+ * Notes:
+ *   - cost(i, j) is called once per interval with 0 <= i, i + 2 <= j <= n and returns T
+ *   - Requires, for all a <= b <= c <= d, cost(b, c) <= cost(a, d) and the quadrangle inequality:
+ *         cost(a, c) + cost(b, d) <= cost(a, d) + cost(b, c)
+ *   - Any f(sum of a[i..j - 1]) with f convex, nondecreasing and a >= 0 qualifies, interval sums included
+ *   - A leaf cost on every [i, i + 1] adds the same sum to dp[i][j] for every split tree, so add it after the DP
+ *   - Merging n adjacent piles at the merged size: cost(i, j) = pre[j] - pre[i]
+ *   - Optimal BST over keys 1..m with frequencies f: points 0..m + 1, cost(i, j) = f[i + 1] + ... + f[j - 1]
  *
 ***/
 

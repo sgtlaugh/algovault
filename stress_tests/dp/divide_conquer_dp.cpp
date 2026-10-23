@@ -60,7 +60,7 @@ vector<vector<long long>> brute(int n, int k, const MongeCost& cost){
     return layers;
 }
 
-/// Asserts the call domain and the O(k * n log n) bound: per layer each of the floor(log2 n) + 1 recursion levels scans at most 2n candidates
+/// Asserts the call domain and O(k n log n): per layer each of floor(log2 n) + 1 levels scans at most 2n candidates
 vector<long long> checked_run(int n, int k, const MongeCost& cost){
     long long calls = 0;
     auto counted = [&](int j, int i){

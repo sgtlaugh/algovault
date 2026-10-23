@@ -39,7 +39,8 @@ void check(const vector<T>& a){
     assert(lds_vector(a, false) == dec && lds_vector(a, true) == non_inc);
     assert(lis_length(a, false) == longest(inc) && lis_length(a, true) == longest(non_dec));
     assert(lds_length(a, false) == longest(dec) && lds_length(a, true) == longest(non_inc));
-    assert(lis_vector(a) == inc && lds_vector(a) == dec && lis_length(a) == longest(inc) && lds_length(a) == longest(dec));  /// defaults are strict
+    /// defaults are strict
+    assert(lis_vector(a) == inc && lds_vector(a) == dec && lis_length(a) == longest(inc) && lds_length(a) == longest(dec));
     assert(lis_vector(a, false, greater<T>()) == dec && lis_vector(a, true, greater<T>()) == non_inc);
 
     check_chain(a, lis_indices(a), [](const T& x, const T& y){ return x < y; }, inc);
@@ -68,7 +69,7 @@ int main(){
         vector<string> s(n);
         for (int i = 0; i < n; i++){
             a[i] = stress::rand_int(-spread, spread);
-            s[i] = string(stress::rand_int(0, 2), 'a' + stress::rand_int(0, 2));  /// prefixes compare below their extensions
+            s[i] = string(stress::rand_int(0, 2), 'a' + stress::rand_int(0, 2));  /// prefixes sort before extensions
         }
 
         check(a);

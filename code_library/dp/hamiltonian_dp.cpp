@@ -3,26 +3,18 @@
  * Shortest Hamiltonian Path and Cycle with Bitmask DP
  * Minimum weight path or cycle visiting every vertex exactly once, with the vertex order
  *
- * Complexity: O(2^n n^2) time, O(2^n n) memory (2^n * n long longs, 160 MiB at n = 20)
+ * Complexity: O(2^n n^2) time, O(2^n n) memory (160 MiB at n = 20)
  *
  * HamiltonianGraph g(n): vertices 0 to n - 1, n >= 1
  * g.add_directed_edge(u, v, w): edge u -> v, parallel edges keep the minimum weight
  * g.add_edge(u, v, w): undirected edge, both directions
  * g.shortest_cycle(): {cost, order} of the cheapest cycle, order starts at 0 and closes back to it
- *     a cycle on n = 1 vertex is the self-loop 0 -> 0, on n = 2 it is 0 -> 1 -> 0
  * g.shortest_path(): {cost, order} of the cheapest path, any start and end
- * Both return {LLONG_MAX, {}} when no such path or cycle exists
  *
- * Weights may be negative; every path sum must fit in a long long, so |w| <= 4e17 is safe up to n = 20
- * Missing edges are skipped instead of stored as a large weight, so no INF + w overflow
- *
- * dp[mask][i] = cheapest path visiting exactly the vertices in mask and ending at i
- * The cycle runs the same DP with only dp[{0}][0] seeded, then closes with the edge back to 0
- *
- * Example:
- *   HamiltonianGraph g(3);
- *   g.add_directed_edge(2, 0, 4), g.add_directed_edge(0, 1, 1);
- *   auto [cost, order] = g.shortest_path();  // cost = 5, order = {2, 0, 1}
+ * Notes:
+ *   - Both return {LLONG_MAX, {}} when no such path or cycle exists
+ *   - A cycle on n = 1 vertex is the self-loop 0 -> 0, on n = 2 it is 0 -> 1 -> 0
+ *   - Weights may be negative and every path sum fits in a long long, so |w| <= 4e17 is safe up to n = 20
  *
 ***/
 

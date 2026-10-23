@@ -89,7 +89,7 @@ void random_ops(){
     }
 }
 
-/// Against SlopeTrick<long long>, which random_ops checks: breakpoints at +-1e9 sit outside INT_MAX / 3, so a hinge added to an empty opposite heap must not read the sentinel
+/// Against SlopeTrick<long long>: +-1e9 breakpoints exceed INT_MAX / 3, so no hinge may read an empty heap's sentinel
 void int_ops(){
     const long long E9 = 1000000000, LL_INF = SlopeTrick<long long>::INF, INT_INF = SlopeTrick<int>::INF;
     SlopeTrick<int> f;
@@ -189,7 +189,7 @@ int main(){
         assert(min_cost_non_decreasing(a) == brute_non_decreasing(a));
     }
 
-    /// shift(0, 1e18) keeps a non-increasing f and shift(-1e18, 0) a non-decreasing one; past 9 rounds the offset overflows unless the min resets it
+    /// shift(0, 1e18) and shift(-1e18, 0) would overflow the offset past 9 rounds unless the min resets it
     for (long long it = 0; it < stress::scaled(500); it++){
         int n = stress::rand_int(1, 30);
         vector<long long> a(n);

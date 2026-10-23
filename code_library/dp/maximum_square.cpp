@@ -6,10 +6,12 @@
  * Complexity: O(r c) for an r x c grid
  *
  * diamond_sizes(g)[i][j]: size of the largest filled diamond whose bottom tip is (i, j)
- *     a diamond of size k is every cell within Manhattan distance k - 1 of (i - k + 1, j)
  * square_sizes(g)[i][j]: side of the largest filled square whose bottom-right cell is (i, j)
- * A value k counts k shapes ending there (sizes 1..k), so the sum is the number of filled squares or diamonds
- * and the maximum is the largest one; g[i][j] != 0 means filled
+ *
+ * Notes:
+ *   - g[i][j] != 0 means filled
+ *   - A diamond of size k is every cell within Manhattan distance k - 1 of (i - k + 1, j)
+ *   - A value k counts k shapes ending there, so the sum is the number of filled squares or diamonds
  *
 ***/
 

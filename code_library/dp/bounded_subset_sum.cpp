@@ -3,29 +3,20 @@
  * Bounded Subset Sum
  * Which sums up to W are reachable by a sub-multiset of the items, with item ids for a chosen sum
  *
- * bounded_subset_sums({{value, count}, ...}, W): can[s] for s in [0, W], counts up to 1e18, equal values merge
- *     items is any range of (value, count) pairs: vector<pair<int, int>>, map<int, int>, ...
- * SubsetSum ss(a, W): ss.reachable(s) for any int s, ss.subset(s) returns distinct ids i with sum a[i] == s
- *     subset(s) requires reachable(s), subset(0) is empty
+ * Complexity:
+ *   - bounded_subset_sums: O(W K / 64 + W) time, O(n + W) memory, K <= 2 min(W, D (1 + log2 W), sqrt(2 S)) copies
+ *   - SubsetSum: O(W (D + 1) + n log n) time, O(n + W) memory
  *
- * Example:
- *   SubsetSum ss({4, 6, 4, 9}, 15);
- *   ss.reachable(14), ss.subset(14)   // true, ids {0, 1, 2} in some order
+ * bounded_subset_sums(items, W): can[s] for s in [0, W], items any range of (value, count) pairs like map<int, int>
+ * SubsetSum ss(a, W): sub-multisets of the values a[i] up to W
+ * ss.reachable(s): whether some sub-multiset sums to s, for any int s
+ * ss.subset(s): distinct ids i with the a[i] summing to s, needs reachable(s), empty for s = 0
  *
- * Values and counts must be non-negative, W >= 0; values 0 and values > W are never used
- *
- * Complexity: bounded_subset_sums O(W K / 64 + W), SubsetSum O(W (D + 1) + n log n), both O(n + W) memory
- * D is the number of distinct values in [1, W], S the sum of all values with their counts
- * K <= 2 * min(W, D * (1 + log2 W), sqrt(2 * S)) is the number of copies bounded_subset_sums keeps after carrying
- * D distinct positive values sum to at least D^2 / 2, so D <= sqrt(2 * S), which makes both O(W sqrt W),
- * bounded_subset_sums with the / 64, when the values sum to O(W) (component sizes summing to n, a partition of n)
- *
- * bounded_subset_sums keeps 1 or 2 copies of each v and carries every further pair to 2v, which reaches the same sums,
- * then ORs the bitset with itself shifted by v once per kept copy
- *
- * SubsetSum makes one pass per distinct value v, residue class r mod v at a time: walking s = r, r + v, r + 2v, ...
- * every already reachable s refills the budget to count(v), and each unreachable s spends one copy.
- * The newly reached s keep the id of the copy they spent, so subset(s) walks back to an older sum
+ * Notes:
+ *   - D is the number of distinct values in [1, W], S the sum of all values with their counts
+ *   - D <= sqrt(2 S), so both are O(W sqrt W) when the values sum to O(W), like component sizes summing to n
+ *   - Values and counts are non-negative, counts up to 1e18, W >= 0, and equal values add their counts
+ *   - Values 0 and values above W are never used
  *
 ***/
 

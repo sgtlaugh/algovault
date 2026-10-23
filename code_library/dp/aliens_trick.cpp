@@ -3,27 +3,18 @@
  * Aliens Trick (WQS Binary Search, Lagrangian Relaxation)
  * Minimum cost of a solution with exactly k items, when that cost f(k) is convex in k
  *
- * Complexity: O(log(hi - lo)) calls to the solver, plus one
+ * Complexity: O(log(hi - lo)) solver calls
  *
- * aliens_trick(k, lo, hi, solver) returns f(k)
- *   solver(lambda) returns {value, count}: value = min over all solutions of cost + lambda * items,
- *   count = the MINIMUM number of items among the solutions reaching that value
- *   (a DP over pairs {cost, items} compared lexicographically gives exactly this)
+ * aliens_trick(k, lo, hi, solver): f(k), in the solver's value type
+ * solver(lambda): {min over all solutions of cost + lambda * items, the fewest items among solutions reaching it}
  *
- * Requirements:
- *   - integer costs, f convex on its domain and k inside the domain
- *   - [lo, hi] contains every marginal -(f(c) - f(c - 1)), so M = max |f(c) - f(c - 1)| gives [-M, M]
- *   - the bounds' type is wide enough for hi - lo, the solver's value type for cost + max(|lo|, |hi|) * (max items)
- *   - f(k) comes back in the solver's value type, so int bounds with an int64 solver still return int64
- *
- * Ties: several counts can be optimal for one lambda, so a lambda with count == k may not exist
- * The driver takes the smallest lambda whose minimum optimal count is <= k; k is then optimal there too,
- * and f(k) = value - lambda * k (never value - lambda * count)
- *
- * Maximizing a concave f: minimize the negated gains and negate the result
- *
- * Example: split a non-negative array into k segments minimizing the sum of squared segment sums
- *   aliens_trick(k, 0LL, S * S, solver), solver(lambda) runs the O(n^2) split DP with + lambda per segment
+ * Notes:
+ *   - Integer costs, f convex on its domain and k inside it
+ *   - [lo, hi] contains every -(f(c) - f(c - 1)), so M = max |f(c) - f(c - 1)| gives [-M, M]
+ *   - The bounds' type fits hi - lo, the solver's value type fits cost + max(|lo|, |hi|) * (max items)
+ *   - The count must be the fewest: several counts can tie for one lambda, so count == k may never come back
+ *   - A DP over pairs {cost, items} compared lexicographically returns exactly that pair
+ *   - Maximizing a concave f: minimize the negated gains and negate the result
  *
 ***/
 

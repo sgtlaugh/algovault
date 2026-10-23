@@ -3,14 +3,17 @@
  * Slope Trick
  * Maintains a convex piecewise linear function f(x) with integer slopes as two heaps of breakpoints
  *
- * Complexity: O(log n) per add, O(1) per shift, prefix_min, suffix_min and min query, O(n) per eval, n = breakpoints added so far
+ * Complexity:
+ *   - add_*: O(log n) for n breakpoints added so far
+ *   - shift, prefix_min, suffix_min, argmin, get_min: O(1)
+ *   - eval: O(n)
  *
  * SlopeTrick<T> f: starts as f(x) = 0, T is a signed integer type
  * add_a_minus_x(a): f(x) += max(0, a - x)
  * add_abs(a): f(x) += |x - a|
  * add_const(c): f(x) += c
  * add_x_minus_a(a): f(x) += max(0, x - a)
- * prefix_min(): f(x) = min of f(y) over y <= x, drops every breakpoint right of the minimum
+ * prefix_min(): f(x) = min of f(y) over y <= x
  * shift(lo, hi): f(x) = min of f(y) over x - hi <= y <= x - lo, needs lo <= hi
  * shift(d): f(x) = f(x - d), moves the graph right by d
  * suffix_min(): f(x) = min of f(y) over y >= x
@@ -18,12 +21,10 @@
  * eval(x): f(x), without changing f
  * get_min(): the minimum of f
  *
- * Keep every breakpoint, each side's accumulated shift and every eval argument within [-1e18, 1e18] for long long
- * or [-1e9, 1e9] for int, and the minimum and any evaluated value within the range of T
- * prefix_min() resets the accumulated shift of the right side, suffix_min() the one of the left side
- *
- * Min cost to make a non-decreasing: for each a[i], f.prefix_min() then f.add_abs(a[i]), answer f.get_min()
- * Strictly increasing: run it on a[i] - i
+ * Notes:
+ *   - Breakpoints, each side's total shift and eval arguments stay in [-1e18, 1e18] for long long, [-1e9, 1e9] for int
+ *   - The minimum and any evaluated value fit in T
+ *   - min_cost_non_decreasing(a) makes a non-decreasing at minimum sum |a[i] - b[i]|, run it on a[i] - i for increasing
  *
 ***/
 
@@ -33,11 +34,11 @@ using namespace std;
 
 template <typename T>
 struct SlopeTrick{
-    /// above every allowed breakpoint, so an empty heap's sentinel adds 0 to min_f in add_*, and INF - (-INF) still fits in T
+    /// above every allowed breakpoint, so an empty heap's sentinel adds 0 to min_f, and INF - (-INF) still fits in T
     static constexpr T INF = numeric_limits<T>::max() / 2;
 
     T min_f = 0, add_left = 0, add_right = 0;
-    vector<T> left, right;  /// max-heap and min-heap, every left breakpoint <= every right one, stored without the lazy add
+    vector<T> left, right;  /// max-heap and min-heap, each left breakpoint <= each right one, stored minus the lazy add
 
     void add_a_minus_x(T a){
         min_f += max(T(0), a - top_right());

@@ -5,15 +5,13 @@
  *
  * Complexity: O(n C) for capacity C, O(C) memory, independent of the counts
  *
- * bounded_knapsack(values, weights, counts, capacity) returns the best total value, 0 for no items
- * values, weights and counts share one integer type: vector<int> or vector<long long> for all three
+ * bounded_knapsack(values, weights, counts, capacity): the best total value, 0 for no items
  *
- * Capacity, weights and counts must be >= 0, values may be negative (such items are never taken)
- * The answer and every positive values[i] * (capacity / weights[i]) must fit in long long,
- * for zero-weight items values[i] * counts[i] must fit
- *
- * Per item, dp positions x = s, s + w, s + 2w, ... of one residue s mod w form a sequence where
- * new[x_k] = max over k - c <= j <= k of old[x_j] + (k - j) * v, a sliding window maximum of old[x_j] - j * v
+ * Notes:
+ *   - values, weights and counts share one type: vector<int> or vector<long long> for all three
+ *   - Capacity, weights and counts are >= 0, values may be negative (such items are never taken)
+ *   - The answer and every positive values[i] * (capacity / weights[i]) fit in long long
+ *   - For a zero-weight item values[i] * counts[i] fits in long long
  *
 ***/
 

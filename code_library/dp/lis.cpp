@@ -5,14 +5,16 @@
  *
  * Complexity: O(n log n)
  *
- * cmp is a strict weak ordering that defines "increasing", allow_equal = true gives the non-decreasing version
- * lis_indices(a) = increasing indices of one longest increasing subsequence, empty for empty input
- * lis_vector(a)[i] = length of the longest increasing subsequence ending at index i
- * lds_* are the decreasing counterparts, lis_indices(a, false, greater<T>()) gives one LDS
+ * lis_vector(a, allow_equal, cmp)[i]: length of the longest increasing subsequence ending at index i
+ * lis_indices(a, allow_equal, cmp): increasing indices of one longest increasing subsequence, empty for empty input
+ * lis_length(a, allow_equal): length of the longest increasing subsequence
+ * lds_vector(a, allow_equal)[i]: length of the longest decreasing subsequence ending at index i
+ * lds_length(a, allow_equal): length of the longest decreasing subsequence
  *
- * Example:
- *   lis_vector(vector<int>{2, 8, 3, 9, 4})   // {1, 2, 2, 3, 3}
- *   lis_indices(vector<int>{2, 8, 3, 9, 4})  // {0, 2, 3}
+ * Notes:
+ *   - cmp is a strict weak ordering that defines "increasing", less<T> by default
+ *   - allow_equal = true gives the non-decreasing and non-increasing versions
+ *   - lis_indices(a, false, greater<T>()) gives one longest decreasing subsequence
  *
 ***/
 
@@ -37,8 +39,7 @@ vector<int> lis_vector(const vector<T>& ar, bool allow_equal=false, Compare cmp=
     return res;
 }
 
-/// The rightmost i before j with len[i] == len[j] - 1 always precedes ar[j]: it was the last value written to
-/// tail slot len[j] - 2 before j, and j landed in the slot after it, so no comparator check is needed
+/// The rightmost i before j with len[i] == len[j] - 1 always precedes ar[j], so no comparator check is needed
 template <typename T, typename Compare = less<T>>
 vector<int> lis_indices(const vector<T>& ar, bool allow_equal=false, Compare cmp=Compare()){
     if (ar.empty()) return {};

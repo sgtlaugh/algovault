@@ -47,7 +47,7 @@ void check(const vector<vector<long long>>& w, const pair<long long, vector<int>
     assert(order_cost(w, order, cycle) == expected);
 }
 
-/// Random permutation gets weight light, every other ordered pair weight heavy, so the cheapest cycle is that permutation
+/// The random permutation's edges weigh light and every other pair heavy, so the cheapest cycle is that permutation
 void planted(int n, long long light, long long heavy){
     vector<int> perm(n);
     iota(perm.begin(), perm.end(), 0);

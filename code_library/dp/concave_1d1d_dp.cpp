@@ -5,20 +5,15 @@
  *
  * Complexity: O(n log n) evaluations of w, O(n) memory
  *
- * concave_1d1d_dp(n, dp0, w, &opt): returns dp[0..n], opt (optional) gets opt[x] = an argmin i for x >= 1
- * w(i, x) is called only with 0 <= i < x <= n, values have the common type of dp0 and w(i, x), any type with +, < and copy
- *   (int64, double, ...), so a literal 0 for dp0 with an int64 cost still computes in int64
+ * concave_1d1d_dp(n, dp0, w, &opt): dp[0..n], and the optional opt[x] gets an argmin i for every x >= 1
  *
- * Requirement, the quadrangle inequality: w(a, c) + w(b, d) <= w(a, d) + w(b, c) for all a <= b <= c <= d
- * It holds for g(x - i) with g convex, for -A[x] * B[i] with A and B nondecreasing, for any term that
- * depends on only i or only x, and for sums of these. Checking a few values by brute force is the practical test
- *
- * Under it the optimal i is nondecreasing in x, and a newer candidate that beats an older one at some x
- * keeps beating it at every larger x. The deque holds (start, candidate) segments covering x+1..n:
- * a new candidate pops the segments it wins entirely, then binary searches where it overtakes the last one
- *
- * Example: split n items into segments, a segment of length L costing L^2 + C
- *   auto dp = concave_1d1d_dp(n, 0LL, [&](int i, int x){ return 1LL * (x - i) * (x - i) + C; });
+ * Notes:
+ *   - w(i, x) is called only with 0 <= i < x <= n
+ *   - Values have the common type of dp0 and w(i, x), so a literal 0 for dp0 with an int64 cost computes in int64
+ *   - Any value type with +, < and copy works: int64, double, ...
+ *   - Requires the quadrangle inequality w(a, c) + w(b, d) <= w(a, d) + w(b, c) for all a <= b <= c <= d
+ *   - It holds for g(x - i) with g convex, -A[x] * B[i] with A and B nondecreasing, terms in only i or only x, and sums
+ *   - Checking the inequality on a few values by brute force is the practical test
  *
 ***/
 

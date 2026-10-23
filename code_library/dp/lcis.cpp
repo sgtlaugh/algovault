@@ -5,11 +5,10 @@
  *
  * Complexity: O(n m) time, O(m + r) memory, r = number of dp improvements <= m * answer
  *
- * lcis(A, B): works for any sequences whose elements compare with < and ==, returns the subsequence
- * as the same Sequence type (a string for strings), so its size() is the length; empty if either is empty
+ * lcis(A, B): the subsequence in the same Sequence type (a string for strings), empty if either is empty
  *
- * dp[j] = longest common increasing subsequence ending exactly at B[j]; while scanning B for a fixed A[i],
- * best holds the longest one ending at some B[j'] < A[i], ready to be extended when B[j] == A[i]
+ * Notes:
+ *   - Elements need only < and ==
  *
 ***/
 

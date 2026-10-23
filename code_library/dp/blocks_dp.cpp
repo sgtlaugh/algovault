@@ -1,19 +1,14 @@
 /***
  *
  * UVA 10559 Blocks - https://onlinejudge.org/external/105/10559.pdf
- * Maximum score for clearing a row of colored blocks, where one click removes a maximal run of k equal blocks for k * k points
+ * Maximum score for clearing a row of colored blocks, one click removing a maximal run of k equal blocks for k^2 points
  *
- * Complexity: O(m^3 n) time, O(m^2 n) memory, n = blocks, m = maximal runs of equal colors (n = 200 needs 32 MB)
+ * Complexity: O(m^3 n) time, O(m^2 n) memory for n blocks in m maximal runs (32 MB at n = 200)
  *
- * blocks_max_score(blocks): works for any random-access container (vector, string, ...) whose elements compare with ==, 0 for an empty row
- * Example: 1, 2, 2, 2, 2, 2, 3, 2 - clicking the 3 first merges the 2s into a run of 6, total 1 + 36 + 1 = 38
+ * blocks_max_score(blocks): the maximum score, 0 for an empty row, blocks any random-access container compared with ==
  *
- * solve(start, end, cnt) = best score for runs start..end when cnt blocks of run_color[start], left over from
- * earlier runs, wait to be cleared together with run start: either clear them now, or clear everything between
- * start and a later run mid of the same color first and carry the merged count on to mid
- *
- * It's a variation of matrix chain multiplication, useful when subsequences need to be chained
- * A similar problem solved the same way - https://www.spoj.com/problems/DINGRP/
+ * Notes:
+ *   - A similar problem solved the same way - https://www.spoj.com/problems/DINGRP/
  *
 ***/
 

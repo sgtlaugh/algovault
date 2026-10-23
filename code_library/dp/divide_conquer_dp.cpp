@@ -5,22 +5,16 @@
  *
  * Complexity: O(k n log n) calls to cost, O(n) memory
  *
- * divide_conquer_dp<T>(n, k, cost) returns dp of size n + 1 for 0 <= k, where
- *   dp[i] = min over j < i of (layer k - 1 at j) + cost(j, i), layer 0 being 0 at i = 0
- *   cost(j, i) is the cost of the segment of elements j..i-1, called only for 0 <= j < i <= n
- *   dp[i] = numeric_limits<T>::max() when i < k (fewer elements than segments)
+ * divide_conquer_dp<T>(n, k, cost): dp[0..n] with dp[i] the cheapest split of the first i elements, k >= 0
  *
- * Correct only when the optimal j is non-decreasing in i, which holds when cost satisfies
- * the quadrangle inequality cost(a, c) + cost(b, d) <= cost(a, d) + cost(b, c) for a <= b <= c <= d
- * Common such costs: (sum of a non-negative segment)^2, sum of non-negative pair weights inside the segment,
- * any convex function of the segment length, plus terms f(j) + g(i) of any sign
- * Pass T explicitly and wide enough for the sum of k costs, e.g. long long
- * For maximization, negate the cost and the answer
- *
- * Example: split {1, 2, 3, 4, 5} into 2 segments minimizing the sum of squared segment sums
- *   vector<long long> pre = {0, 1, 3, 6, 10, 15};
- *   auto dp = divide_conquer_dp<long long>(5, 2, [&](int j, int i){ return (pre[i] - pre[j]) * (pre[i] - pre[j]); });
- *   // dp[5] = 117 from {1, 2, 3} + {4, 5}
+ * Notes:
+ *   - cost(j, i) is the cost of the segment of elements j..i-1, called only for 0 <= j < i <= n
+ *   - dp[i] = numeric_limits<T>::max() when i < k (fewer elements than segments)
+ *   - Requires cost(a, c) + cost(b, d) <= cost(a, d) + cost(b, c) for a <= b <= c <= d, so the optimal j grows with i
+ *   - Such costs: (sum of a non-negative segment)^2, sum of non-negative pair weights inside it, convex in its length
+ *   - Terms f(j) + g(i) of any sign may be added to any such cost
+ *   - T is passed explicitly and fits the sum of k costs, like long long
+ *   - For maximization, negate the cost and the answer
  *
 ***/
 
