@@ -9,8 +9,8 @@
  *
  * SuffixAutomaton<SIGMA, BASE> sa(s); characters must lie in [BASE, BASE + SIGMA), defaults to 'a'..'z'
  * sa.add(c): appends c to the string
- * sa.distinct_substrings(): number of distinct non-empty substrings so far
  * sa.contains(p): true if p is a substring, the empty string included
+ * sa.distinct_substrings(): number of distinct non-empty substrings so far
  * sa.occurrences(p): how many positions p occurs at (overlapping), occurrences("") = n + 1
  * State v: len[v] = longest string in v, link[v] = suffix link, next[v][c] = transition or -1
  * State 0 is the root (empty string), link[0] = -1
@@ -38,13 +38,6 @@ struct SuffixAutomaton{
         for (char c : s) add(c);
     }
 
-    int new_state(int length, int suffix, int prefix){
-        next.push_back({});
-        next.back().fill(-1);
-        len.push_back(length), link.push_back(suffix), is_prefix.push_back(prefix);
-        return len.size() - 1;
-    }
-
     void add(char ch){
         int c = ch - BASE;
         assert(0 <= c && c < SIGMA);
@@ -67,8 +60,28 @@ struct SuffixAutomaton{
         distinct += len[cur] - len[link[cur]];
     }
 
+    bool contains(const string& p) const{
+        return walk(p) != -1;
+    }
+
     long long distinct_substrings() const{
         return distinct;
+    }
+
+    long long occurrences(const string& p){
+        if (p.empty()) return len[last] + 1;
+        int v = walk(p);
+        if (v == -1) return 0;
+
+        if (endpos.size() != len.size()) build_endpos();
+        return endpos[v];
+    }
+
+    int new_state(int length, int suffix, int prefix){
+        next.push_back({});
+        next.back().fill(-1);
+        len.push_back(length), link.push_back(suffix), is_prefix.push_back(prefix);
+        return len.size() - 1;
     }
 
     /// State reached by reading p from the root, -1 if p is not a substring
@@ -81,19 +94,6 @@ struct SuffixAutomaton{
         }
 
         return v;
-    }
-
-    bool contains(const string& p) const{
-        return walk(p) != -1;
-    }
-
-    long long occurrences(const string& p){
-        if (p.empty()) return len[last] + 1;
-        int v = walk(p);
-        if (v == -1) return 0;
-
-        if (endpos.size() != len.size()) build_endpos();
-        return endpos[v];
     }
 
     /// |endpos(v)| = prefixes ending in v's subtree of the suffix link tree, links point to shorter states

@@ -11,17 +11,17 @@
  *   - memory: O(SIGMA) ints per node
  *
  * AhoCorasick<SIGMA = 26, BASE = 'a'> ac: an empty automaton, pattern characters must lie in [BASE, BASE + SIGMA)
- * ac.insert(p): adds pattern p before build() and returns its node, a duplicate pattern counts once per insert
  * ac.build(): finishes the automaton, called once after the last insert
+ * ac.clear(): resets to an empty automaton for a new pattern set, keeping vector capacity
+ * ac.insert(p): adds pattern p before build() and returns its node, a duplicate pattern counts once per insert
  * ac.count(t): occurrences of all patterns in t, overlaps included
+ * ac.ends(v): number of inserted patterns equal to node v
+ * ac.link(v): the node of the longest proper suffix of node v, link(0) = 0, after build()
+ * ac.matches(v): number of inserted patterns that are suffixes of node v, after build()
+ * ac.next(v, c): the node of the longest suffix of node v + c, after build()
+ * ac.nodes(): number of nodes, node 0 is the root and each node spells a prefix of a pattern
  * ac.occurrences(t): a vector whose i-th value is the occurrences of the i-th inserted pattern in t
  * ac.size(): number of inserted patterns
- * ac.clear(): resets to an empty automaton for a new pattern set, keeping vector capacity
- * ac.nodes(): number of nodes, node 0 is the root and each node spells a prefix of a pattern
- * ac.next(v, c): the node of the longest suffix of node v + c, after build()
- * ac.link(v): the node of the longest proper suffix of node v, link(0) = 0, after build()
- * ac.ends(v): number of inserted patterns equal to node v
- * ac.matches(v): number of inserted patterns that are suffixes of node v, after build()
  * ac.terminal[i]: the node of the i-th inserted pattern
  * ac.order: every node in BFS order, so link(v) comes before v, after build()
  *
@@ -45,15 +45,28 @@ struct AhoCorasick{
     /// go[node][char] = trie child before build(), full automaton transition after. 0 doubles as "no child" since the root is never a child
     vector<array<int, SIGMA>> go;
 
-    inline int new_node(){
-        leaf.push_back(0);
-        counter.push_back(0);
-        go.push_back({});
-        return go.size() - 1;
+    AhoCorasick(){
+        clear();
     }
 
-    inline int size(){
-        return dictionary.size();
+    inline void build(){
+        assert(!built);
+        built = true;
+        fail.assign(go.size(), 0);
+        order = {0};
+
+        for (int i = 0; i < (int)order.size(); i++){
+            int u = order[i];
+            if (u) counter[u] = leaf[u] + counter[fail[u]];
+            for (int j = 0; j < SIGMA; j++){
+                int v = go[u][j];
+                if (!v) go[u][j] = u ? go[fail[u]][j] : 0;
+                else{
+                    fail[v] = u ? go[fail[u]][j] : 0;
+                    order.push_back(v);
+                }
+            }
+        }
     }
 
     void clear(){
@@ -62,10 +75,6 @@ struct AhoCorasick{
 
         built = false;
         new_node();
-    }
-
-    AhoCorasick(){
-        clear();
     }
 
     int insert(const char* str){
@@ -92,51 +101,6 @@ struct AhoCorasick{
         return insert(str.c_str());
     }
 
-    inline void build(){
-        assert(!built);
-        built = true;
-        fail.assign(go.size(), 0);
-        order = {0};
-
-        for (int i = 0; i < (int)order.size(); i++){
-            int u = order[i];
-            if (u) counter[u] = leaf[u] + counter[fail[u]];
-            for (int j = 0; j < SIGMA; j++){
-                int v = go[u][j];
-                if (!v) go[u][j] = u ? go[fail[u]][j] : 0;
-                else{
-                    fail[v] = u ? go[fail[u]][j] : 0;
-                    order.push_back(v);
-                }
-            }
-        }
-    }
-
-    inline int next(int cur, char ch){
-        int x = ch - BASE;
-        if (x < 0 || x >= SIGMA) return 0;  /// a letter outside the alphabet ends every match
-        return go[cur][x];
-    }
-
-    inline int nodes(){
-        return go.size();
-    }
-
-    inline int link(int v){
-        assert(built);
-        return fail[v];
-    }
-
-    inline int ends(int v){
-        return leaf[v];
-    }
-
-    /// Before build() counter is still all zeros, so the assert turns a silent wrong count into an abort
-    inline long long matches(int v){
-        assert(built);
-        return counter[v];
-    }
-
     long long count(const char* str){
         assert(built);
         long long res = 0;
@@ -152,6 +116,31 @@ struct AhoCorasick{
         return count(str.c_str());
     }
 
+    inline int ends(int v){
+        return leaf[v];
+    }
+
+    inline int link(int v){
+        assert(built);
+        return fail[v];
+    }
+
+    /// Before build() counter is still all zeros, so the assert turns a silent wrong count into an abort
+    inline long long matches(int v){
+        assert(built);
+        return counter[v];
+    }
+
+    inline int next(int cur, char ch){
+        int x = ch - BASE;
+        if (x < 0 || x >= SIGMA) return 0;  /// a letter outside the alphabet ends every match
+        return go[cur][x];
+    }
+
+    inline int nodes(){
+        return go.size();
+    }
+
     /// Hits of a node also end at every node on its failure chain, so they are pushed up in reverse BFS order
     vector<int> occurrences(const string& text){
         assert(built);
@@ -164,6 +153,17 @@ struct AhoCorasick{
         for (int i = (int)order.size() - 1; i > 0; i--) hits[fail[order[i]]] += hits[order[i]];
         for (int v : terminal) res.push_back(hits[v]);
         return res;
+    }
+
+    inline int size(){
+        return dictionary.size();
+    }
+
+    inline int new_node(){
+        leaf.push_back(0);
+        counter.push_back(0);
+        go.push_back({});
+        return go.size() - 1;
     }
 };
 /// END SHARED aho_corasick

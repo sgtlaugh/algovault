@@ -33,22 +33,6 @@ struct PalindromicTree{
         new_node(-1, 0);
     }
 
-    int new_node(int length, int suffix){
-        next.push_back({});
-        next.back().fill(-1);
-        len.push_back(length), link.push_back(suffix), ends_here.push_back(0);
-        int v = len.size() - 1;
-        diff.push_back(length - (v < 2 ? length : len[suffix]));
-        series_link.push_back(v < 2 || diff[v] != diff[suffix] ? suffix : series_link[suffix]);
-        return v;
-    }
-
-    int extend_from(int v) const{
-        int i = s.size() - 1;
-        while (i - len[v] - 1 < 0 || s[i - len[v] - 1] != s[i]) v = link[v];
-        return v;
-    }
-
     bool add(char ch){
         int c = ch - BASE;
         assert(0 <= c && c < SIGMA);
@@ -76,6 +60,22 @@ struct PalindromicTree{
         vector<long long> res(ends_here.begin(), ends_here.end());
         for (int v = len.size() - 1; v >= 2; v--) res[link[v]] += res[v];
         return res;
+    }
+
+    int new_node(int length, int suffix){
+        next.push_back({});
+        next.back().fill(-1);
+        len.push_back(length), link.push_back(suffix), ends_here.push_back(0);
+        int v = len.size() - 1;
+        diff.push_back(length - (v < 2 ? length : len[suffix]));
+        series_link.push_back(v < 2 || diff[v] != diff[suffix] ? suffix : series_link[suffix]);
+        return v;
+    }
+
+    int extend_from(int v) const{
+        int i = s.size() - 1;
+        while (i - len[v] - 1 < 0 || s[i - len[v] - 1] != s[i]) v = link[v];
+        return v;
     }
 };
 

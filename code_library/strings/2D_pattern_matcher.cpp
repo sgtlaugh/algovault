@@ -90,14 +90,14 @@ struct PatternMatcher2D{
         return res >= mod ? res - mod : res;
     }
 
-    static uint64_t pop(uint64_t h, uint64_t p, uint64_t v){
-        v = mul(p, v);
-        return h >= v ? h - v : h + mod - v;
-    }
-
     static uint64_t push(uint64_t h, uint64_t base, uint64_t v){
         h = mul(h, base) + v;
         return h >= mod ? h - mod : h;
+    }
+
+    static uint64_t pop(uint64_t h, uint64_t p, uint64_t v){
+        v = mul(p, v);
+        return h >= v ? h - v : h + mod - v;
     }
 };
 

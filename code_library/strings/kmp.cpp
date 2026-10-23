@@ -5,10 +5,10 @@
  *
  * Complexity: O(n + m) where n = text length, m = pattern length
  *
- * prefix_function(s)[i] = length of the longest proper prefix of s[0..i] that is also its suffix, 0 if none
+ * kmp_find(text, pattern, from = 0): start of the first occurrence at index >= from, -1 if none or the pattern is empty
  * Smallest period of s: p = n - prefix_function(s)[n - 1], s is a repetition of s[0..p) iff n % p == 0
  * kmp_search(text, pattern): starting indices of every occurrence, overlaps included, none for an empty pattern
- * kmp_find(text, pattern, from = 0): start of the first occurrence at index >= from, -1 if none or the pattern is empty
+ * prefix_function(s)[i] = length of the longest proper prefix of s[0..i] that is also its suffix, 0 if none
  * kmp_find stops at that match, so a match near from costs far less than kmp_search over the whole text
  *
  * Prefix-function automaton: aut[i][c] = KMP state after reading symbol c in state i
@@ -41,6 +41,24 @@ vector<int> prefix_function(const Container& c){
     return pi;
 }
 
+/// Its own loop rather than a limit on kmp_search, so kmp_search's hot loop gains no per-match check
+template<typename Container>
+int kmp_find(const Container& text, const Container& pattern, int from = 0){
+    int m = pattern.size();
+    if (m == 0) return -1;
+
+    auto pi = prefix_function(pattern);
+    int k = 0;
+
+    for (int i = max(from, 0); i < (int)text.size(); i++){
+        while (k > 0 && text[i] != pattern[k]) k = pi[k - 1];
+        if (pattern[k] == text[i]) k++;
+        if (k == m) return i - m + 1;
+    }
+
+    return -1;
+}
+
 template<typename Container>
 vector<int> kmp_search(const Container& text, const Container& pattern){
     vector<int> positions;
@@ -60,24 +78,6 @@ vector<int> kmp_search(const Container& text, const Container& pattern){
     }
 
     return positions;
-}
-
-/// Its own loop rather than a limit on kmp_search, so kmp_search's hot loop gains no per-match check
-template<typename Container>
-int kmp_find(const Container& text, const Container& pattern, int from = 0){
-    int m = pattern.size();
-    if (m == 0) return -1;
-
-    auto pi = prefix_function(pattern);
-    int k = 0;
-
-    for (int i = max(from, 0); i < (int)text.size(); i++){
-        while (k > 0 && text[i] != pattern[k]) k = pi[k - 1];
-        if (pattern[k] == text[i]) k++;
-        if (k == m) return i - m + 1;
-    }
-
-    return -1;
 }
 
 /// aut[i][c] = longest pattern prefix that is a suffix of pattern[0..i) + c, for 0 <= i <= m
@@ -103,6 +103,14 @@ vector<int> prefix_function(const char* s){
     return prefix_function(string(s));
 }
 
+int kmp_find(const string& text, const string& pattern, int from = 0){
+    return kmp_find<string>(text, pattern, from);
+}
+
+int kmp_find(const char* text, const char* pattern, int from = 0){
+    return kmp_find(string(text), string(pattern), from);
+}
+
 /// Lets a std::string be mixed with a literal, kmp_search(s, "ab"), where the template cannot deduce one Container
 vector<int> kmp_search(const string& text, const string& pattern){
     return kmp_search<string>(text, pattern);
@@ -110,14 +118,6 @@ vector<int> kmp_search(const string& text, const string& pattern){
 
 vector<int> kmp_search(const char* text, const char* pattern){
     return kmp_search(string(text), string(pattern));
-}
-
-int kmp_find(const string& text, const string& pattern, int from = 0){
-    return kmp_find<string>(text, pattern, from);
-}
-
-int kmp_find(const char* text, const char* pattern, int from = 0){
-    return kmp_find(string(text), string(pattern), from);
 }
 
 vector<vector<int>> kmp_automaton(const char* pattern, int alphabet = 26, int first = 'a'){

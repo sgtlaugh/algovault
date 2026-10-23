@@ -263,6 +263,11 @@ struct SuffixArrayQueries : SuffixArray{
         return {bound(pattern, false), bound(pattern, true)};
     }
 
+    int lcp_min(int l, int r) const {
+        int k = __lg(r - l);
+        return min(table[k][l], table[k][r - (1 << k)]);
+    }
+
     /// First rank whose suffix cut to |pattern| is >= pattern, or > when strict
     int bound(const Container& pattern, bool strict) const {
         int lo = 0, hi = n;
@@ -282,11 +287,6 @@ struct SuffixArrayQueries : SuffixArray{
             if (text[p + k] != pattern[k]) return text[p + k] < pattern[k] ? -1 : 1;
         }
         return 0;
-    }
-
-    int lcp_min(int l, int r) const {
-        int k = __lg(r - l);
-        return min(table[k][l], table[k][r - (1 << k)]);
     }
 };
 

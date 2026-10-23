@@ -48,6 +48,16 @@ struct PolyHash{
     PolyHash(const char* str) : PolyHash(string(str)) {}
     PolyHash(char* str) : PolyHash((const char*)str) {}
 
+    uint64_t get_hash(int l, int r) const{
+        int64_t h = pref[r + 1] - modmul(base_pow[r - l + 1], pref[l]);
+        return h < 0 ? h + mod : h;
+    }
+
+    uint64_t rev_hash(int l, int r) const{
+        int64_t h = suff[l + 1] - modmul(base_pow[r - l + 1], suff[r + 2]);
+        return h < 0 ? h + mod : h;
+    }
+
     /// a, b < mod
     static int64_t modmul(uint64_t a, uint64_t b){
         __uint128_t c = (__uint128_t)a * b;
@@ -59,16 +69,6 @@ struct PolyHash{
     template <typename T>
     static uint64_t value_of(const T& x){
         return (uint64_t)((((__int128)x % (__int128)mod) + mod + 997) % mod);
-    }
-
-    uint64_t get_hash(int l, int r) const{
-        int64_t h = pref[r + 1] - modmul(base_pow[r - l + 1], pref[l]);
-        return h < 0 ? h + mod : h;
-    }
-
-    uint64_t rev_hash(int l, int r) const{
-        int64_t h = suff[l + 1] - modmul(base_pow[r - l + 1], suff[r + 2]);
-        return h < 0 ? h + mod : h;
     }
 };
 
