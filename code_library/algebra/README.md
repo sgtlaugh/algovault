@@ -101,9 +101,9 @@
 
 #### [GCD and LCM Convolution](gcd_lcm_convolution.cpp)
 
-- [CSES 3161 - GCD Subsets](https://cses.fi/problemset/task/3161)
-- [Library Checker gcd_convolution - Gcd Convolution](https://judge.yosupo.jp/problem/gcd_convolution)
-- [Library Checker lcm_convolution - Lcm Convolution](https://judge.yosupo.jp/problem/lcm_convolution)
+- [CSES 3161 - GCD Subsets](https://cses.fi/problemset/task/3161) [✅](../../practice/algebra/cses_3161.cpp "Accepted solution")
+- [Library Checker gcd_convolution - Gcd Convolution](https://judge.yosupo.jp/problem/gcd_convolution) [✅](../../practice/algebra/library_checker_gcd_convolution.cpp "Accepted solution")
+- [Library Checker lcm_convolution - Lcm Convolution](https://judge.yosupo.jp/problem/lcm_convolution) [✅](../../practice/algebra/library_checker_lcm_convolution.cpp "Accepted solution")
 
 #### [Lagrange Interpolation](lagrange_interpolation.cpp)
 
