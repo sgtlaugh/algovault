@@ -50,12 +50,6 @@ struct MinCostCirculation{
         return pos.size() - 1;
     }
 
-    long long flow(int id) const{
-        auto [u, i] = pos[id];
-        const Arc& a = adj[u][i];
-        return adj[a.to][a.rev].cap;
-    }
-
     long long solve(){
         long long eps = 0;
         for (auto& arcs : adj){
@@ -76,13 +70,10 @@ struct MinCostCirculation{
         return total;
     }
 
-    void push(int u, Arc& a, long long amount){
-        a.cap -= amount, adj[a.to][a.rev].cap += amount;
-        excess[u] -= amount, excess[a.to] += amount;
-    }
-
-    long long reduced_cost(int u, const Arc& a) const{
-        return potential[u] + a.cost - potential[a.to];
+    long long flow(int id) const{
+        auto [u, i] = pos[id];
+        const Arc& a = adj[u][i];
+        return adj[a.to][a.rev].cap;
     }
 
     /// Turns the circulation eps-optimal: saturate every negative reduced cost arc, then discharge the excesses FIFO
@@ -115,6 +106,15 @@ struct MinCostCirculation{
                 if (excess[a.to] > 0 && !queued[a.to]) active.push(a.to), queued[a.to] = true;
             }
         }
+    }
+
+    long long reduced_cost(int u, const Arc& a) const{
+        return potential[u] + a.cost - potential[a.to];
+    }
+
+    void push(int u, Arc& a, long long amount){
+        a.cap -= amount, adj[a.to][a.rev].cap += amount;
+        excess[u] -= amount, excess[a.to] += amount;
     }
 
     /// An excess node always has a residual arc: its excess arrived along arcs whose reverses are residual

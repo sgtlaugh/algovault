@@ -33,6 +33,18 @@ struct HopcroftKarp{
         adj[u].push_back(v);
     }
 
+    int max_matching(){
+        while (true){
+            int limit = bfs();
+            if (limit == INT_MAX) break;
+            it.assign(n_left, 0);
+            for (int u = 0; u < n_left; u++){
+                if (match_left[u] == -1) augment(u, limit);
+            }
+        }
+        return n_left - count(match_left.begin(), match_left.end(), -1);
+    }
+
     /// Layers left vertices by distance from free left vertices, stopping at the first layer that reaches a free right vertex
     int bfs(){
         dist.assign(n_left, -1);
@@ -76,18 +88,6 @@ struct HopcroftKarp{
             }
             if (w != -1 && dist[w] == dist[u] + 1) stack.push_back(w);
         }
-    }
-
-    int max_matching(){
-        while (true){
-            int limit = bfs();
-            if (limit == INT_MAX) break;
-            it.assign(n_left, 0);
-            for (int u = 0; u < n_left; u++){
-                if (match_left[u] == -1) augment(u, limit);
-            }
-        }
-        return n_left - count(match_left.begin(), match_left.end(), -1);
     }
 };
 /// END SHARED hopcroft_karp

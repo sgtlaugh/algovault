@@ -7,8 +7,8 @@
  *
  * RangeEdgeGraph g(n): n >= 1, vertices 0 to n - 1, ranges [l, r] are inclusive and require 0 <= l <= r < n
  *     g.add_edge(u, v, w): u -> v
- *     g.add_edge_to_range(u, l, r, w): u -> every v in [l, r]
  *     g.add_edge_from_range(l, r, v, w): every u in [l, r] -> v
+ *     g.add_edge_to_range(u, l, r, w): u -> every v in [l, r]
  *     g.dijkstra(s) returns the distances of the n vertices from s, RangeEdgeGraph::INF if unreachable
  * Weights must be in [0, INF], INF = 4e18, a vertex whose shortest distance is >= INF is reported as INF
  * Several dijkstra calls can reuse one graph, edges can be added between calls
@@ -70,6 +70,14 @@ struct RangeEdgeGraph{
         return dist;
     }
 
+    int out_node(int i) const{
+        return i >= n ? i - n : n + i;
+    }
+
+    int in_node(int i) const{
+        return i >= n ? i - n : 2 * n + i;
+    }
+
     /// Bottom-up segment tree nodes whose leaves are exactly [l, r], valid for any n, not only powers of two
     vector<int> cover(int l, int r) const{
         vector<int> nodes;
@@ -78,14 +86,6 @@ struct RangeEdgeGraph{
             if (r & 1) nodes.push_back(--r);
         }
         return nodes;
-    }
-
-    int in_node(int i) const{
-        return i >= n ? i - n : 2 * n + i;
-    }
-
-    int out_node(int i) const{
-        return i >= n ? i - n : n + i;
     }
 };
 

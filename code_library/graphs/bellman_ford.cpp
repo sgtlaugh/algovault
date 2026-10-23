@@ -6,12 +6,12 @@
  * Complexity: O(n m) per call, O(n + m) memory
  *
  * BellmanFord g(n); g.add_edge(u, v, w);   0-based, directed, long long weights (negative allowed)
+ * g.negative_cycle(): the vertices of one negative cycle anywhere in the graph, not only one reachable from a source
+ *     in edge order, cycle[i] -> cycle[i + 1] -> ... -> cycle[0], empty if the graph has no negative cycle
  * g.shortest_paths(src)[v]:
  *     BellmanFord::INF if v is unreachable from src
  *     BellmanFord::NEG_INF if a negative cycle reachable from src reaches v (the distance is unbounded below)
  *     otherwise the shortest distance from src to v
- * g.negative_cycle(): the vertices of one negative cycle anywhere in the graph, not only one reachable from a source
- *     in edge order, cycle[i] -> cycle[i + 1] -> ... -> cycle[0], empty if the graph has no negative cycle
  *
  * Requires n * max|w| <= 9e18: a value below -(n - 1) * max|w| is lower than any simple path,
  * so the vertex is marked NEG_INF (or its parent chain holds a cycle) at once instead of being relaxed further
@@ -40,6 +40,26 @@ struct BellmanFord{
         edges.push_back({u, v, w});
     }
 
+    vector<int> negative_cycle() const{
+        long long low = -(n - 1) * max_abs_weight();
+        vector<long long> dist(n, 0);
+        vector<int> parent(n, -1);
+
+        for (int pass = 0; pass < n; pass++){
+            int relaxed = -1;
+            for (auto [u, v, w] : edges){
+                if (dist[u] + w >= dist[v]) continue;
+                dist[v] = dist[u] + w, parent[v] = u, relaxed = v;
+                /// Below every simple path weight, so the parent chain of v cannot end at a root: it holds a cycle
+                if (dist[v] < low) return cycle_through(parent, v);
+            }
+            if (relaxed == -1) return {};
+            /// An acyclic parent chain of at most n - 1 edges would bound dist[relaxed] by its value after n - 1 passes, so the chain holds a cycle
+            if (pass == n - 1) return cycle_through(parent, relaxed);
+        }
+        return {};
+    }
+
     vector<long long> shortest_paths(int src) const{
         long long low = -(n - 1) * max_abs_weight();
         vector<long long> dist(n, INF);
@@ -63,26 +83,6 @@ struct BellmanFord{
             }
         }
         return dist;
-    }
-
-    vector<int> negative_cycle() const{
-        long long low = -(n - 1) * max_abs_weight();
-        vector<long long> dist(n, 0);
-        vector<int> parent(n, -1);
-
-        for (int pass = 0; pass < n; pass++){
-            int relaxed = -1;
-            for (auto [u, v, w] : edges){
-                if (dist[u] + w >= dist[v]) continue;
-                dist[v] = dist[u] + w, parent[v] = u, relaxed = v;
-                /// Below every simple path weight, so the parent chain of v cannot end at a root: it holds a cycle
-                if (dist[v] < low) return cycle_through(parent, v);
-            }
-            if (relaxed == -1) return {};
-            /// An acyclic parent chain of at most n - 1 edges would bound dist[relaxed] by its value after n - 1 passes, so the chain holds a cycle
-            if (pass == n - 1) return cycle_through(parent, relaxed);
-        }
-        return {};
     }
 
     long long max_abs_weight() const{

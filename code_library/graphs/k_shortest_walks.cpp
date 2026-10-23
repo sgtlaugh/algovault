@@ -43,21 +43,6 @@ struct LeftistHeap{
     vector<Node> nodes;
     Compare cmp;
 
-    int push(int h, const T& x){
-        nodes.push_back({x, EMPTY, EMPTY, 1});
-        return meld(h, (int)nodes.size() - 1);
-    }
-
-    int pop(int h){
-        assert(h != EMPTY);
-        return meld(nodes[h].left, nodes[h].right);
-    }
-
-    T top(int h) const{
-        assert(h != EMPTY);
-        return nodes[h].val;
-    }
-
     /// Copies only the nodes on the merged right spines, whose length is bounded by the ranks
     int meld(int a, int b){
         if (a == EMPTY) return b;
@@ -73,6 +58,21 @@ struct LeftistHeap{
         if (rank(nodes[c].left) < rank(right)) swap(nodes[c].left, nodes[c].right);
         nodes[c].rank = rank(nodes[c].right) + 1;
         return c;
+    }
+
+    int pop(int h){
+        assert(h != EMPTY);
+        return meld(nodes[h].left, nodes[h].right);
+    }
+
+    int push(int h, const T& x){
+        nodes.push_back({x, EMPTY, EMPTY, 1});
+        return meld(h, (int)nodes.size() - 1);
+    }
+
+    T top(int h) const{
+        assert(h != EMPTY);
+        return nodes[h].val;
     }
 
     int rank(int h) const{

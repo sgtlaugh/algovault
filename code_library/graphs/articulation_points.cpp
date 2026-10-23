@@ -6,14 +6,14 @@
  * Complexity: O(n + m)
  *
  * Biconnected g(n); int id = g.add_edge(u, v); nodes are 0 to n - 1, edge ids count up from 0 in add_edge order
- * g.get_cuts(): sorted articulation points, the vertices whose removal increases the number of connected components
- * g.get_blocks(): edge ids of each block, two edges share a block iff they lie on a common simple cycle
- *     A bridge is a block of its own, a doubled bridge is a 2-edge block, a self loop belongs to no block
- *     A vertex can lie in several blocks: exactly the articulation points do
  * g.get_block_cut_tree(): adjacency lists over n + blocks nodes, node v < n is vertex v, node n + b is block b
  *     Every block links to each vertex it touches, so cut vertices have degree >= 2 and the rest are leaves or isolated
  *     The result is a forest with one tree per connected component, the vertices separating u from w are
  *     exactly the cut vertices strictly inside the tree path from u to w
+ * g.get_blocks(): edge ids of each block, two edges share a block iff they lie on a common simple cycle
+ *     A bridge is a block of its own, a doubled bridge is a 2-edge block, a self loop belongs to no block
+ *     A vertex can lie in several blocks: exactly the articulation points do
+ * g.get_cuts(): sorted articulation points, the vertices whose removal increases the number of connected components
  * Each getter reruns g.decompose(), which fills g.is_cut and g.blocks, so edges added between calls are seen
  *
  * The DFS is iterative, so long paths cannot overflow the stack
@@ -39,6 +39,39 @@ struct Biconnected{
         adj[u].push_back({v, id});
         adj[v].push_back({u, id});
         return id;
+    }
+
+    vector<vector<int>> get_block_cut_tree(){
+        decompose();
+
+        vector<vector<int>> tree(n + blocks.size());
+        vector<int> last(n, -1);
+        for (int b = 0; b < (int)blocks.size(); b++){
+            for (int id: blocks[b]){
+                for (int u: {edges[id].first, edges[id].second}){
+                    if (last[u] == b) continue;
+                    last[u] = b;
+                    tree[u].push_back(n + b);
+                    tree[n + b].push_back(u);
+                }
+            }
+        }
+        return tree;
+    }
+
+    vector<vector<int>> get_blocks(){
+        decompose();
+        return blocks;
+    }
+
+    vector<int> get_cuts(){
+        decompose();
+
+        vector<int> cuts;
+        for (int u = 0; u < n; u++){
+            if (is_cut[u]) cuts.push_back(u);
+        }
+        return cuts;
     }
 
     void decompose(){
@@ -90,39 +123,6 @@ struct Biconnected{
                 } while (id != parent_edge[u]);
             }
         }
-    }
-
-    vector<vector<int>> get_block_cut_tree(){
-        decompose();
-
-        vector<vector<int>> tree(n + blocks.size());
-        vector<int> last(n, -1);
-        for (int b = 0; b < (int)blocks.size(); b++){
-            for (int id: blocks[b]){
-                for (int u: {edges[id].first, edges[id].second}){
-                    if (last[u] == b) continue;
-                    last[u] = b;
-                    tree[u].push_back(n + b);
-                    tree[n + b].push_back(u);
-                }
-            }
-        }
-        return tree;
-    }
-
-    vector<vector<int>> get_blocks(){
-        decompose();
-        return blocks;
-    }
-
-    vector<int> get_cuts(){
-        decompose();
-
-        vector<int> cuts;
-        for (int u = 0; u < n; u++){
-            if (is_cut[u]) cuts.push_back(u);
-        }
-        return cuts;
     }
 };
 

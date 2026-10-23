@@ -5,11 +5,11 @@
  *
  * Complexity: O(n log n)
  *
+ * manhattan_mst(points): runs Kruskal on the candidates, returns {total weight, chosen edges {i, j}}
+ *     n - 1 edges for n >= 1 points, none for an empty input; duplicate points are joined by zero-weight edges
  * manhattan_mst_candidates(points): at most 4n edges {distance, i, j} that contain a minimum spanning tree
  *     one sweep per octant pair keeps, for every point, only its nearest neighbour in that octant
  *     feed them to any MST algorithm when the points are part of a larger graph
- * manhattan_mst(points): runs Kruskal on the candidates, returns {total weight, chosen edges {i, j}}
- *     n - 1 edges for n >= 1 points, none for an empty input; duplicate points are joined by zero-weight edges
  *
  * points[i] = {x, y} with |x|, |y| <= 1e9, so every distance and the total weight of up to 1e9 edges fit in long long
  *

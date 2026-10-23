@@ -7,12 +7,12 @@
  * Or more precisely, increases the number of connected components
  *
  * BridgeGraph g(n); int id = g.add_edge(u, v); nodes are numbered from 0 to n - 1
- * g.get_bridges(): every bridge with its endpoints, its edge id and the node counts on both sides, so weights or labels can be kept outside
- * g.get_components(): groups of the 2-edge-connected components, the components left after removing every bridge
- *     also sets g.comp[v] in [0, g.count), numbered by smallest vertex, each group ascending
  * g.get_bridge_tree(): adjacency lists over the g.count components, one tree edge per bridge, see
  *     https://www.quora.com/q/threadsiiithyderabad/The-Bridge-Tree-of-a-graph
  *     a forest, one tree per connected component
+ * g.get_bridges(): every bridge with its endpoints, its edge id and the node counts on both sides, so weights or labels can be kept outside
+ * g.get_components(): groups of the 2-edge-connected components, the components left after removing every bridge
+ *     also sets g.comp[v] in [0, g.count), numbered by smallest vertex, each group ascending
  *
  * Both searches are iterative with heap-allocated stacks, so a 2e5-node path needs no extra call stack
  *
@@ -44,6 +44,13 @@ struct BridgeGraph{
         adj[u].push_back({v, m});
         adj[v].push_back({u, m});
         return m++;
+    }
+
+    vector<vector<int>> get_bridge_tree(){
+        get_components();
+        vector<vector<int>> tree(count);
+        for (auto& b : get_bridges()) tree[comp[b.u]].push_back(comp[b.v]), tree[comp[b.v]].push_back(comp[b.u]);
+        return tree;
     }
 
     /// Bridges are listed in the order the DFS finishes their endpoint v
@@ -109,13 +116,6 @@ struct BridgeGraph{
         vector<vector<int>> groups(count);
         for (int v = 0; v < n; v++) groups[comp[v]].push_back(v);
         return groups;
-    }
-
-    vector<vector<int>> get_bridge_tree(){
-        get_components();
-        vector<vector<int>> tree(count);
-        for (auto& b : get_bridges()) tree[comp[b.u]].push_back(comp[b.v]), tree[comp[b.v]].push_back(comp[b.u]);
-        return tree;
     }
 };
 

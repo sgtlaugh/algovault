@@ -56,10 +56,6 @@ struct Dijkstra{
         if (!directed) adj[v].push_back({u, w});
     }
 
-    vector<int> path(int v) const{
-        return trace_path(dist, parent, v);
-    }
-
     void run(int src, int target = -1){
         fill(dist.begin(), dist.end(), DIJKSTRA_INF);
         fill(parent.begin(), parent.end(), -1);
@@ -76,6 +72,10 @@ struct Dijkstra{
             }
         }
     }
+
+    vector<int> path(int v) const{
+        return trace_path(dist, parent, v);
+    }
 };
 
 struct DenseDijkstra{
@@ -91,10 +91,6 @@ struct DenseDijkstra{
         long long& cell = weight[(size_t)u * n + v];
         cell = min(cell, w);
         if (!directed) add_edge(v, u, w, true);
-    }
-
-    vector<int> path(int v) const{
-        return trace_path(dist, parent, v);
     }
 
     void run(int src, int target = -1){
@@ -118,6 +114,10 @@ struct DenseDijkstra{
             }
         }
     }
+
+    vector<int> path(int v) const{
+        return trace_path(dist, parent, v);
+    }
 };
 
 struct ZeroOneBFS{
@@ -132,10 +132,6 @@ struct ZeroOneBFS{
         assert(w == 0 || w == 1);
         adj[u].push_back({v, (int)w});
         if (!directed) adj[v].push_back({u, (int)w});
-    }
-
-    vector<int> path(int v) const{
-        return trace_path(dist, parent, v);
     }
 
     void run(int src, int target = -1){
@@ -156,6 +152,10 @@ struct ZeroOneBFS{
                 else dq.push_back(v);
             }
         }
+    }
+
+    vector<int> path(int v) const{
+        return trace_path(dist, parent, v);
     }
 };
 

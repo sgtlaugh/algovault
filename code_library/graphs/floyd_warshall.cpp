@@ -37,17 +37,6 @@ struct FloydWarshall{
         if (w < dist[u][v]) dist[u][v] = w, nxt[u][v] = v;
     }
 
-    vector<int> path(int u, int v) const{
-        if (dist[u][v] == INF || dist[u][v] == NEG_INF) return {};
-
-        vector<int> res = {u};
-        while (u != v){
-            u = nxt[u][v];
-            res.push_back(u);
-        }
-        return res;
-    }
-
     void solve(){
         for (int k = 0; k < n; k++){
             for (int i = 0; i < n; i++){
@@ -70,6 +59,17 @@ struct FloydWarshall{
                 }
             }
         }
+    }
+
+    vector<int> path(int u, int v) const{
+        if (dist[u][v] == INF || dist[u][v] == NEG_INF) return {};
+
+        vector<int> res = {u};
+        while (u != v){
+            u = nxt[u][v];
+            res.push_back(u);
+        }
+        return res;
     }
 };
 

@@ -13,8 +13,8 @@
  * Nodes are numbered from 0 to n - 1, parallel edges and self loops are allowed
  * remove_edge deletes one live copy of (u, v) in either orientation, the copy must exist
  * Queries return their index, solve() returns the answers in query order:
- *   query_connected(u, v) -> 1 if u and v are connected, else 0
  *   query_components()    -> number of connected components
+ *   query_connected(u, v) -> 1 if u and v are connected, else 0
  * solve() does not consume the operations, more can be added and solve() called again
  *
  * Example:
@@ -39,11 +39,6 @@ struct RollbackDSU{
         iota(parent.begin(), parent.end(), 0);
     }
 
-    int find(int i){
-        while (i != parent[i]) i = parent[i];
-        return i;
-    }
-
     bool connect(int a, int b){
         a = find(a), b = find(b);
         if (a == b) return false;
@@ -52,6 +47,20 @@ struct RollbackDSU{
         parent[a] = b, sz[b] += sz[a];
         history.push_back(a);
         return true;
+    }
+
+    void rollback(int t){
+        assert(0 <= t && t <= time());
+        while ((int)history.size() > t){
+            int a = history.back();
+            history.pop_back();
+            sz[parent[a]] -= sz[a], parent[a] = a;
+        }
+    }
+
+    int find(int i){
+        while (i != parent[i]) i = parent[i];
+        return i;
     }
 
     bool same(int a, int b){
@@ -64,15 +73,6 @@ struct RollbackDSU{
 
     int time(){
         return history.size();
-    }
-
-    void rollback(int t){
-        assert(0 <= t && t <= time());
-        while ((int)history.size() > t){
-            int a = history.back();
-            history.pop_back();
-            sz[parent[a]] -= sz[a], parent[a] = a;
-        }
     }
 };
 /// END COPY rollback_dsu
@@ -132,6 +132,18 @@ struct DynamicConnectivity{
         return res;
     }
 
+    void insert(int node, int lo, int hi, int l, int r, pair<int, int> edge){
+        if (r < lo || hi < l) return;
+        if (l <= lo && hi <= r){
+            tree[node].push_back(edge);
+            return;
+        }
+
+        int mid = (lo + hi) / 2;
+        insert(2 * node, lo, mid, l, r, edge);
+        insert(2 * node + 1, mid + 1, hi, l, r, edge);
+    }
+
     void dfs(int node, int lo, int hi, vector<int>& res){
         int saved = dsu.time();
         for (auto [u, v]: tree[node]) dsu.connect(u, v);
@@ -147,18 +159,6 @@ struct DynamicConnectivity{
         }
 
         dsu.rollback(saved);
-    }
-
-    void insert(int node, int lo, int hi, int l, int r, pair<int, int> edge){
-        if (r < lo || hi < l) return;
-        if (l <= lo && hi <= r){
-            tree[node].push_back(edge);
-            return;
-        }
-
-        int mid = (lo + hi) / 2;
-        insert(2 * node, lo, mid, l, r, edge);
-        insert(2 * node + 1, mid + 1, hi, l, r, edge);
     }
 };
 

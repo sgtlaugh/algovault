@@ -93,48 +93,16 @@ struct CliqueGraph{
         bron_kerbosch(candidates, excluded, clique, callback);
     }
 
-    template<typename F>
-    void bron_kerbosch(Row candidates, Row excluded, vector<int>& clique, F& callback){
-        if (candidates.none()){
-            if (excluded.none()) callback(clique);
-            return;
-        }
-
-        /// Tomita pivot: the vertex covering the most candidates, which is what yields the 3^(n/3) bound
-        Row pool = candidates | excluded;
-        int pivot = pool._Find_first();
-        size_t covered = (candidates & adj[pivot]).count();
-        for (int u = pool._Find_next(pivot); u < CLIQUE_MAXN; u = pool._Find_next(u)){
-            size_t count = (candidates & adj[u]).count();
-            if (count > covered) pivot = u, covered = count;
-        }
-
-        Row branch = candidates & ~adj[pivot];
-        for (int v = branch._Find_first(); v < CLIQUE_MAXN; v = branch._Find_next(v)){
-            clique.push_back(v);
-            bron_kerbosch(candidates & adj[v], excluded & adj[v], clique, callback);
-            clique.pop_back();
-            candidates[v] = 0, excluded[v] = 1;
-        }
-    }
-
-    /// Greedy coloring: a vertex of color k can extend the clique by at most k, so colors below min_color are hopeless
-    void color_sort(vector<Vertex>& r){
-        int kept = 0, max_color = 1, min_color = max((int)best.size() - (int)current.size() + 1, 1);
-        color_class[1].clear(), color_class[2].clear();
+    void sort_by_degree(vector<Vertex>& r){
         for (auto& v : r){
-            int k = 1;
-            while (any_of(color_class[k].begin(), color_class[k].end(), [&](int u){ return adj[v.id][u]; })) k++;
-            if (k > max_color) max_color = k, color_class[max_color + 1].clear();
-            if (k < min_color) r[kept++].id = v.id;
-            color_class[k].push_back(v.id);
+            v.bound = 0;
+            for (auto& u : r) v.bound += adj[v.id][u.id];
         }
 
-        /// The hopeless prefix ends in a zero bound, so expand stops once it pops down to it
-        if (kept > 0) r[kept - 1].bound = 0;
-        for (int k = min_color; k <= max_color; k++){
-            for (int u : color_class[k]) r[kept++] = {u, k};
-        }
+        /// Stable so near-regular graphs keep their labelling: scrambled ties made 256-vertex labelled paths exponential
+        stable_sort(r.begin(), r.end(), [](const Vertex& a, const Vertex& b){ return a.bound > b.bound; });
+        int max_degree = r[0].bound;
+        for (int i = 0; i < (int)r.size(); i++) r[i].bound = min(i, max_degree) + 1;
     }
 
     void expand(vector<Vertex>& r, int level){
@@ -163,16 +131,48 @@ struct CliqueGraph{
         }
     }
 
-    void sort_by_degree(vector<Vertex>& r){
+    /// Greedy coloring: a vertex of color k can extend the clique by at most k, so colors below min_color are hopeless
+    void color_sort(vector<Vertex>& r){
+        int kept = 0, max_color = 1, min_color = max((int)best.size() - (int)current.size() + 1, 1);
+        color_class[1].clear(), color_class[2].clear();
         for (auto& v : r){
-            v.bound = 0;
-            for (auto& u : r) v.bound += adj[v.id][u.id];
+            int k = 1;
+            while (any_of(color_class[k].begin(), color_class[k].end(), [&](int u){ return adj[v.id][u]; })) k++;
+            if (k > max_color) max_color = k, color_class[max_color + 1].clear();
+            if (k < min_color) r[kept++].id = v.id;
+            color_class[k].push_back(v.id);
         }
 
-        /// Stable so near-regular graphs keep their labelling: scrambled ties made 256-vertex labelled paths exponential
-        stable_sort(r.begin(), r.end(), [](const Vertex& a, const Vertex& b){ return a.bound > b.bound; });
-        int max_degree = r[0].bound;
-        for (int i = 0; i < (int)r.size(); i++) r[i].bound = min(i, max_degree) + 1;
+        /// The hopeless prefix ends in a zero bound, so expand stops once it pops down to it
+        if (kept > 0) r[kept - 1].bound = 0;
+        for (int k = min_color; k <= max_color; k++){
+            for (int u : color_class[k]) r[kept++] = {u, k};
+        }
+    }
+
+    template<typename F>
+    void bron_kerbosch(Row candidates, Row excluded, vector<int>& clique, F& callback){
+        if (candidates.none()){
+            if (excluded.none()) callback(clique);
+            return;
+        }
+
+        /// Tomita pivot: the vertex covering the most candidates, which is what yields the 3^(n/3) bound
+        Row pool = candidates | excluded;
+        int pivot = pool._Find_first();
+        size_t covered = (candidates & adj[pivot]).count();
+        for (int u = pool._Find_next(pivot); u < CLIQUE_MAXN; u = pool._Find_next(u)){
+            size_t count = (candidates & adj[u]).count();
+            if (count > covered) pivot = u, covered = count;
+        }
+
+        Row branch = candidates & ~adj[pivot];
+        for (int v = branch._Find_first(); v < CLIQUE_MAXN; v = branch._Find_next(v)){
+            clique.push_back(v);
+            bron_kerbosch(candidates & adj[v], excluded & adj[v], clique, callback);
+            clique.pop_back();
+            candidates[v] = 0, excluded[v] = 1;
+        }
     }
 };
 

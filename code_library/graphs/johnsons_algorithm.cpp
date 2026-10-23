@@ -52,24 +52,6 @@ struct Johnson{
         return true;
     }
 
-    void dijkstra(int s, const vector<vector<pair<int, long long>>>& adj, const vector<long long>& h){
-        vector<long long>& d = dist[s];
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
-        d[s] = 0, heap.push({0, s});
-        while (!heap.empty()){
-            auto [du, u] = heap.top();
-            heap.pop();
-            if (du != d[u]) continue;
-            for (auto [v, w] : adj[u]){
-                if (du + w < d[v]) d[v] = du + w, heap.push({d[v], v});
-            }
-        }
-
-        for (int v = 0; v < n; v++){
-            if (d[v] != INF) d[v] += h[v] - h[s];
-        }
-    }
-
     /// Bellman Ford from a virtual source that reaches every vertex with weight 0
     bool potentials(vector<long long>& h) const{
         h.assign(n, 0);
@@ -86,6 +68,24 @@ struct Johnson{
             if (round == n - 1) return false;  /// shortest paths need at most n - 1 passes, a change in pass n means a negative cycle
         }
         return true;
+    }
+
+    void dijkstra(int s, const vector<vector<pair<int, long long>>>& adj, const vector<long long>& h){
+        vector<long long>& d = dist[s];
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+        d[s] = 0, heap.push({0, s});
+        while (!heap.empty()){
+            auto [du, u] = heap.top();
+            heap.pop();
+            if (du != d[u]) continue;
+            for (auto [v, w] : adj[u]){
+                if (du + w < d[v]) d[v] = du + w, heap.push({d[v], v});
+            }
+        }
+
+        for (int v = 0; v < n; v++){
+            if (d[v] != INF) d[v] += h[v] - h[s];
+        }
     }
 };
 

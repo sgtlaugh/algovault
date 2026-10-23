@@ -67,10 +67,6 @@ struct SmallCycles{
         return res;
     }
 
-    bool above(int a, int b) const{
-        return adj[a].size() != adj[b].size() ? adj[a].size() > adj[b].size() : a > b;
-    }
-
     vector<vector<int>> oriented() const{
         vector<vector<int>> up(n);
         for (int u = 0; u < n; u++){
@@ -79,6 +75,10 @@ struct SmallCycles{
             }
         }
         return up;
+    }
+
+    bool above(int a, int b) const{
+        return adj[a].size() != adj[b].size() ? adj[a].size() > adj[b].size() : a > b;
     }
 };
 

@@ -7,10 +7,10 @@
  *
  * MCMF g(n): empty graph on nodes 0 to n - 1
  * g.add_edge(u, v, cap, cost): adds a directed edge and returns its index, add both directions for undirected edges
- * g.solve(s, t, limit): pushes up to limit units (default: as much as possible), returns {flow, cost}
  * g.slope(s, t, limit): same augmentation as solve, returns the breakpoints {flow, cost} of min cost as a function of flow
  *   starts at {0, 0}, ends at what solve returns, cost is linear between consecutive points
  *   slopes strictly increase (convex), collinear points are merged, so the min cost of any x <= max flow interpolates
+ * g.solve(s, t, limit): pushes up to limit units (default: as much as possible), returns {flow, cost}
  * g.flow(id): flow on edge id after solve or slope
  * Repeated solve or slope calls continue from the residual graph, results count only the newly added flow and cost
  *
@@ -45,6 +45,35 @@ struct MCMF{
         adj[u].push_back(edges.size()), edges.push_back({v, cap, cost});
         adj[v].push_back(edges.size()), edges.push_back({u, 0, -cost});
         return edges.size() - 2;
+    }
+
+    vector<pair<long long, long long>> slope(int s, int t, long long limit = INF){
+        assert(s != t);
+        init_potential(s);
+        vector<pair<long long, long long>> points = {{0, 0}};
+        long long prev_unit_cost = 0;
+
+        while (points.back().first < limit && dijkstra(s, t)){
+            auto [total_flow, total_cost] = points.back();
+            long long push = limit - total_flow, unit_cost = 0;
+            for (int v = t; v != s; v = edges[parent_edge[v] ^ 1].to){
+                push = min(push, edges[parent_edge[v]].cap);
+                unit_cost += edges[parent_edge[v]].cost;
+            }
+            for (int v = t; v != s; v = edges[parent_edge[v] ^ 1].to){
+                edges[parent_edge[v]].cap -= push;
+                edges[parent_edge[v] ^ 1].cap += push;
+            }
+
+            if (points.size() > 1 && unit_cost == prev_unit_cost) points.pop_back();
+            points.push_back({total_flow + push, total_cost + push * unit_cost});
+            prev_unit_cost = unit_cost;
+        }
+        return points;
+    }
+
+    pair<long long, long long> solve(int s, int t, long long limit = INF){
+        return slope(s, t, limit).back();
     }
 
     long long flow(int id) const{
@@ -99,35 +128,6 @@ struct MCMF{
             if (dist[u] < INF) potential[u] += dist[u];
         }
         return dist[t] < INF;
-    }
-
-    pair<long long, long long> solve(int s, int t, long long limit = INF){
-        return slope(s, t, limit).back();
-    }
-
-    vector<pair<long long, long long>> slope(int s, int t, long long limit = INF){
-        assert(s != t);
-        init_potential(s);
-        vector<pair<long long, long long>> points = {{0, 0}};
-        long long prev_unit_cost = 0;
-
-        while (points.back().first < limit && dijkstra(s, t)){
-            auto [total_flow, total_cost] = points.back();
-            long long push = limit - total_flow, unit_cost = 0;
-            for (int v = t; v != s; v = edges[parent_edge[v] ^ 1].to){
-                push = min(push, edges[parent_edge[v]].cap);
-                unit_cost += edges[parent_edge[v]].cost;
-            }
-            for (int v = t; v != s; v = edges[parent_edge[v] ^ 1].to){
-                edges[parent_edge[v]].cap -= push;
-                edges[parent_edge[v] ^ 1].cap += push;
-            }
-
-            if (points.size() > 1 && unit_cost == prev_unit_cost) points.pop_back();
-            points.push_back({total_flow + push, total_cost + push * unit_cost});
-            prev_unit_cost = unit_cost;
-        }
-        return points;
     }
 };
 

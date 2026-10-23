@@ -84,11 +84,6 @@ struct ThreeEdgeConnected{
         return groups;
     }
 
-    void absorb(int v, int w){
-        swap(nxt[v], nxt[w]);
-        deg[v] += deg[w];
-    }
-
     /// Back edge (w, v) seen from its upper end v: every chain vertex whose subtree holds w joins v
     void close_cycle(int v, int w){
         deg[v]--;
@@ -98,6 +93,11 @@ struct ThreeEdgeConnected{
             u = path[u];
         }
         path[v] = u;
+    }
+
+    void absorb(int v, int w){
+        swap(nxt[v], nxt[w]);
+        deg[v] += deg[w];
     }
 
     void merge_child(int v, int w){

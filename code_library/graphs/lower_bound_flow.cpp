@@ -63,12 +63,6 @@ struct LowerBoundFlow{
         return detach_terminals();
     }
 
-    /// Arc 2 * id is edge id's residual arc and arc 2 * id + 1 its reverse, whose capacity is the flow above low
-    long long flow(int id) const{
-        assert(0 <= id && 2 * id + 1 < (int)arcs.size());
-        return bounds[id].low + arcs[2 * id + 1].cap;
-    }
-
     long long max_flow(int s, int t){
         assert(s != t);
         if (!build(s, t)) return INFEASIBLE;
@@ -85,9 +79,49 @@ struct LowerBoundFlow{
         return value - dinic(t, s);
     }
 
+    /// Arc 2 * id is edge id's residual arc and arc 2 * id + 1 its reverse, whose capacity is the flow above low
+    long long flow(int id) const{
+        assert(0 <= id && 2 * id + 1 < (int)arcs.size());
+        return bounds[id].low + arcs[2 * id + 1].cap;
+    }
+
+    /// Feeds lower bounds from S = n to T = n + 1, with the s-t arcs last so detach_terminals finds them at the back
+    bool build(int s = -1, int t = -1){
+        int super_src = n, super_sink = n + 1;
+        arcs.clear();
+        for (auto& list : adj) list.clear();
+
+        vector<long long> excess(n, 0);
+        long long total_high = 0;
+        for (auto& b : bounds){
+            add_arc(b.u, b.v, b.high - b.low);
+            excess[b.v] += b.low, excess[b.u] -= b.low;
+            total_high += b.high;
+        }
+
+        long long demand = 0;
+        for (int x = 0; x < n; x++){
+            if (excess[x] > 0) add_arc(super_src, x, excess[x]), demand += excess[x];
+            if (excess[x] < 0) add_arc(x, super_sink, -excess[x]);
+        }
+        if (s != -1) add_arc(t, s, total_high), add_arc(s, t, total_high);
+
+        return dinic(super_src, super_sink) == demand;
+    }
+
     void add_arc(int u, int v, long long cap){
         adj[u].push_back(arcs.size()), arcs.push_back({v, cap});
         adj[v].push_back(arcs.size()), arcs.push_back({u, 0});
+    }
+
+    long long dinic(int src, int sink){
+        long long flow = 0;
+
+        while (bfs(src, sink)){
+            fill(ptr.begin(), ptr.end(), 0);
+            flow += blocking_flow(src, sink);
+        }
+        return flow;
     }
 
     bool bfs(int src, int sink){
@@ -140,46 +174,12 @@ struct LowerBoundFlow{
         return total;
     }
 
-    /// Feeds lower bounds from S = n to T = n + 1, with the s-t arcs last so detach_terminals finds them at the back
-    bool build(int s = -1, int t = -1){
-        int super_src = n, super_sink = n + 1;
-        arcs.clear();
-        for (auto& list : adj) list.clear();
-
-        vector<long long> excess(n, 0);
-        long long total_high = 0;
-        for (auto& b : bounds){
-            add_arc(b.u, b.v, b.high - b.low);
-            excess[b.v] += b.low, excess[b.u] -= b.low;
-            total_high += b.high;
-        }
-
-        long long demand = 0;
-        for (int x = 0; x < n; x++){
-            if (excess[x] > 0) add_arc(super_src, x, excess[x]), demand += excess[x];
-            if (excess[x] < 0) add_arc(x, super_sink, -excess[x]);
-        }
-        if (s != -1) add_arc(t, s, total_high), add_arc(s, t, total_high);
-
-        return dinic(super_src, super_sink) == demand;
-    }
-
     /// Removes the t -> s and s -> t arcs, returning the value they carried; S and T stay saturated so no path crosses them
     long long detach_terminals(){
         int m = arcs.size();
         long long value = arcs[m - 3].cap - arcs[m - 1].cap;
         for (int id = m - 4; id < m; id++) arcs[id].cap = 0;
         return value;
-    }
-
-    long long dinic(int src, int sink){
-        long long flow = 0;
-
-        while (bfs(src, sink)){
-            fill(ptr.begin(), ptr.end(), 0);
-            flow += blocking_flow(src, sink);
-        }
-        return flow;
     }
 };
 

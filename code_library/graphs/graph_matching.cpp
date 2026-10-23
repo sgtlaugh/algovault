@@ -42,6 +42,11 @@ struct TutteMatching{
         adj[u][v] = adj[v][u] = 1;
     }
 
+    int maximum_matching(){
+        build_matrix();
+        return get_matrix_rank() / 2;
+    }
+
     void build_matrix(){
         for (auto &v : tutte_matrix) fill(v.begin(), v.end(), 0);
         for (int i = 0; i < n; i++){
@@ -52,18 +57,6 @@ struct TutteMatching{
                 }
             }
         }
-    }
-
-    unsigned int expo(unsigned long long x, unsigned int n){
-        unsigned long long res = 1;
-
-        while (n){
-            if (n & 1) res = res * x % mod;
-            x = x * x % mod;
-            n >>= 1;
-        }
-
-        return res;
     }
 
     int get_matrix_rank(){
@@ -98,9 +91,16 @@ struct TutteMatching{
         return r;
     }
 
-    int maximum_matching(){
-        build_matrix();
-        return get_matrix_rank() / 2;
+    unsigned int expo(unsigned long long x, unsigned int n){
+        unsigned long long res = 1;
+
+        while (n){
+            if (n & 1) res = res * x % mod;
+            x = x * x % mod;
+            n >>= 1;
+        }
+
+        return res;
     }
 };
 

@@ -46,6 +46,22 @@ struct MCMFSpfa{
         return edges.size() - 2;
     }
 
+    pair<long long, long long> solve(int s, int t, long long limit = INF){
+        assert(s != t);
+        long long flow = 0, cost = 0;
+
+        while (flow < limit && spfa(s, t)){
+            while (flow < limit){
+                fill(visited.begin(), visited.end(), 0);
+                long long aug = dfs(s, t, limit - flow);
+                if (!aug) break;
+                flow += aug, cost += aug * dis[t];
+            }
+        }
+
+        return {flow, cost};
+    }
+
     long long flow(int id) const{
         return edges[id ^ 1].cap;
     }
@@ -87,22 +103,6 @@ struct MCMFSpfa{
         }
 
         return aug;
-    }
-
-    pair<long long, long long> solve(int s, int t, long long limit = INF){
-        assert(s != t);
-        long long flow = 0, cost = 0;
-
-        while (flow < limit && spfa(s, t)){
-            while (flow < limit){
-                fill(visited.begin(), visited.end(), 0);
-                long long aug = dfs(s, t, limit - flow);
-                if (!aug) break;
-                flow += aug, cost += aug * dis[t];
-            }
-        }
-
-        return {flow, cost};
     }
 };
 

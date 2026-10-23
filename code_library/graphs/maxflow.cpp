@@ -68,6 +68,46 @@ struct FlowGraph{
         add_directed_edge(v, u, cap);
     }
 
+    long long maxflow(){
+        assert(src != sink);
+        long long flow = 0;
+        build_residual();
+
+        while (bfs()){
+            copy(start.begin(), start.end() - 1, ptr.begin());
+            flow += blocking_flow();
+        }
+
+        for (int i = 0; i < (int)res.size(); i++) E[edge_id[i]].flow = E[edge_id[i]].cap - res[i];
+        return flow;
+    }
+
+    /// Reads dis from the final bfs of maxflow(), which failed to reach sink and so visited every residual-reachable node
+    bool in_source_side(int u) const{
+        return dis[u] != -1;
+    }
+
+    vector<int> cut_edges() const{
+        vector<int> ids;
+        for (int id = 0; id < (int)E.size(); id++){
+            if (E[id].cap > 0 && in_source_side(E[id].u) && !in_source_side(E[id].v)) ids.push_back(id);
+        }
+        return ids;
+    }
+
+    /// Arcs of u sit at start[u] .. start[u + 1] - 1 with residual capacity res, reading E through adj ids missed the cache on every arc
+    void build_residual(){
+        int m = E.size();
+        vector<int> pos(m);
+        start.assign(n + 1, m), to.resize(m), rev.resize(m), edge_id.resize(m), res.resize(m);
+
+        for (int u = 0, i = 0; u < n; u++){
+            start[u] = i;
+            for (int id : adj[u]) pos[id] = i, edge_id[i] = id, to[i] = E[id].v, res[i] = E[id].cap - E[id].flow, i++;
+        }
+        for (int i = 0; i < m; i++) rev[i] = pos[edge_id[i] ^ 1];
+    }
+
     bool bfs(){
         int f = 0, l = 0;
         fill(dis.begin(), dis.end(), -1);
@@ -119,46 +159,6 @@ struct FlowGraph{
             }
         }
     }
-
-    /// Arcs of u sit at start[u] .. start[u + 1] - 1 with residual capacity res, reading E through adj ids missed the cache on every arc
-    void build_residual(){
-        int m = E.size();
-        vector<int> pos(m);
-        start.assign(n + 1, m), to.resize(m), rev.resize(m), edge_id.resize(m), res.resize(m);
-
-        for (int u = 0, i = 0; u < n; u++){
-            start[u] = i;
-            for (int id : adj[u]) pos[id] = i, edge_id[i] = id, to[i] = E[id].v, res[i] = E[id].cap - E[id].flow, i++;
-        }
-        for (int i = 0; i < m; i++) rev[i] = pos[edge_id[i] ^ 1];
-    }
-
-    long long maxflow(){
-        assert(src != sink);
-        long long flow = 0;
-        build_residual();
-
-        while (bfs()){
-            copy(start.begin(), start.end() - 1, ptr.begin());
-            flow += blocking_flow();
-        }
-
-        for (int i = 0; i < (int)res.size(); i++) E[edge_id[i]].flow = E[edge_id[i]].cap - res[i];
-        return flow;
-    }
-
-    /// Reads dis from the final bfs of maxflow(), which failed to reach sink and so visited every residual-reachable node
-    bool in_source_side(int u) const{
-        return dis[u] != -1;
-    }
-
-    vector<int> cut_edges() const{
-        vector<int> ids;
-        for (int id = 0; id < (int)E.size(); id++){
-            if (E[id].cap > 0 && in_source_side(E[id].u) && !in_source_side(E[id].v)) ids.push_back(id);
-        }
-        return ids;
-    }
 };
 
 struct FlowGraphWithNodeCap{
@@ -201,6 +201,26 @@ struct DenseFlowGraph{
         add_directed_edge(v, u, c);
     }
 
+    long long maxflow(){
+        assert(src != sink);
+        long long flow = 0;
+
+        while (bfs()){
+            fill(ptr.begin(), ptr.end(), 0);
+            while (long long f = dfs(src, LLONG_MAX)) flow += f;
+        }
+        return flow;
+    }
+
+    bool in_source_side(int u) const{
+        return dis[u] != -1;
+    }
+
+    /// One cell holds u -> v plus the flow on v -> u, so two LLONG_MAX edges would overflow it, LLONG_MAX still acts as infinite
+    static void saturating_add(long long& cell, long long c){
+        cell = cell > LLONG_MAX - c ? LLONG_MAX : cell + c;
+    }
+
     bool bfs(){
         fill(dis.begin(), dis.end(), -1);
         vector<int> queue = {src};
@@ -225,26 +245,6 @@ struct DenseFlowGraph{
             }
         }
         return 0;
-    }
-
-    long long maxflow(){
-        assert(src != sink);
-        long long flow = 0;
-
-        while (bfs()){
-            fill(ptr.begin(), ptr.end(), 0);
-            while (long long f = dfs(src, LLONG_MAX)) flow += f;
-        }
-        return flow;
-    }
-
-    bool in_source_side(int u) const{
-        return dis[u] != -1;
-    }
-
-    /// One cell holds u -> v plus the flow on v -> u, so two LLONG_MAX edges would overflow it, LLONG_MAX still acts as infinite
-    static void saturating_add(long long& cell, long long c){
-        cell = cell > LLONG_MAX - c ? LLONG_MAX : cell + c;
     }
 };
 

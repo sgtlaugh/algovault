@@ -8,8 +8,8 @@
  * OnlineBridges g(n); g.add_edge(u, v);   vertices 0 to n - 1, parallel edges and self loops allowed
  * g.bridges: number of bridges in the current graph
  * g.component(u): representative of the 2-edge-connected component of u, changes as components merge
- * g.two_edge_connected(u, v): u and v are in the same 2-edge-connected component
  * g.connected(u, v): u and v are in the same connected component
+ * g.two_edge_connected(u, v): u and v are in the same 2-edge-connected component
  * An existing edge (u, v) is a bridge exactly when !g.two_edge_connected(u, v)
  *
  * Each connected component is kept as a rooted tree of its 2-edge-connected components (the bridge tree)
@@ -87,16 +87,6 @@ struct OnlineBridges{
         return root;
     }
 
-    void make_root(int u){
-        int child = -1;
-        while (u != -1){
-            int up = par[u] == -1 ? -1 : component(par[u]);
-            par[u] = child;
-            child = u;
-            u = up;
-        }
-    }
-
     /// Walks up from both ends in turns, the first component seen twice is the LCA
     void merge_path(int a, int b){
         vector<int> path_a, path_b;
@@ -127,6 +117,16 @@ struct OnlineBridges{
         if (rnk[x] < rnk[y]) swap(x, y);
         dsu[y] = x;
         if (rnk[x] == rnk[y]) rnk[x]++;
+    }
+
+    void make_root(int u){
+        int child = -1;
+        while (u != -1){
+            int up = par[u] == -1 ? -1 : component(par[u]);
+            par[u] = child;
+            child = u;
+            u = up;
+        }
     }
 };
 

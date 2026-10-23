@@ -12,9 +12,9 @@
  *
  * Usage:
  *   KruskalReconstructionTree<long long> krt(n); krt.add_edge(u, v, w); ... krt.build();   0-based vertices
+ *   krt.node(v, w): the tree node of the component, v itself when it is alone
  *   krt.range(v, w): half-open [l, r) of positions in krt.order holding exactly v's component
  *   krt.size(v, w): r - l, the number of vertices in v's component
- *   krt.node(v, w): the tree node of the component, v itself when it is alone
  *   krt.weight[x] for a merge node x >= n: the weight of the edge that created it, the component's bottleneck
  *   krt.order[i]: the vertex at position i, krt.pos[v]: the position of vertex v
  *   Add every edge before build, disconnected graphs, self-loops, multi-edges and negative weights are fine

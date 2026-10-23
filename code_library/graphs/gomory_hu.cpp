@@ -83,6 +83,18 @@ struct GomoryHu{
         return res;
     }
 
+    /// On return dis[v] != -1 exactly for the source side of a minimum cut, as the last bfs failed
+    long long maxflow(int src, int sink){
+        long long flow = 0;
+
+        while (bfs(src, sink)){
+            fill(ptr.begin(), ptr.end(), 0);
+            while (long long f = dfs(src, sink, LLONG_MAX)) flow += f;
+        }
+
+        return flow;
+    }
+
     bool bfs(int src, int sink){
         int f = 0, l = 0;
         fill(dis.begin(), dis.end(), -1);
@@ -117,18 +129,6 @@ struct GomoryHu{
         }
 
         return 0;
-    }
-
-    /// On return dis[v] != -1 exactly for the source side of a minimum cut, as the last bfs failed
-    long long maxflow(int src, int sink){
-        long long flow = 0;
-
-        while (bfs(src, sink)){
-            fill(ptr.begin(), ptr.end(), 0);
-            while (long long f = dfs(src, sink, LLONG_MAX)) flow += f;
-        }
-
-        return flow;
     }
 };
 
