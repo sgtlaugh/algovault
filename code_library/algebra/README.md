@@ -89,7 +89,7 @@
 
 #### [Fraction](fraction.cpp)
 
-- [POJ 3807 - Chemist’s Math](http://poj.org/problem?id=3807)
+- [POJ 3807 - Chemist’s Math](http://poj.org/problem?id=3807) [✅](../../practice/algebra/poj_3807_fraction.cpp "Accepted solution")
 - [UVa 10288 - Coupons](https://onlinejudge.org/external/102/10288.pdf) [✅](../../practice/algebra/uva_10288.cpp "Accepted solution")
 
 #### [GCD and LCM Convolution](gcd_lcm_convolution.cpp)
