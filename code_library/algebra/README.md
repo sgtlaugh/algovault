@@ -99,8 +99,8 @@
 #### [Lagrange Interpolation](lagrange_interpolation.cpp)
 
 - [Codeforces 622F - The Sum of the k-th Powers](https://codeforces.com/problemset/problem/622/F) [✅](../../practice/algebra/codeforces_622f.cpp "Accepted solution")
-- [HackerRank summing-the-k-n-r-series - Summing the K-N-R Series](https://www.hackerrank.com/contests/infinitum-mar14/challenges/summing-the-k-n-r-series)
-- [SPOJ MOON1 - Moon Safari (medium)](https://www.spoj.com/problems/MOON1/)
+- [HackerRank summing-the-k-n-r-series - Summing the K-N-R Series](https://www.hackerrank.com/contests/infinitum-mar14/challenges/summing-the-k-n-r-series) [✅](../../practice/algebra/hackerrank_summing_the_k_n_r_series.cpp "Accepted solution")
+- [SPOJ MOON1 - Moon Safari (medium)](https://www.spoj.com/problems/MOON1/) [✅](../../practice/algebra/spoj_moon1.cpp "Accepted solution")
 - [UVa 1546 - Complete the sequence!](https://onlinejudge.org/external/15/1546.pdf) [✅](../../practice/algebra/uva_1546.cpp "Accepted solution")
 - [UVa 12143 - Stopping Doom's Day](https://onlinejudge.org/external/121/12143.pdf) [✅](../../practice/algebra/uva_12143.cpp "Accepted solution")
 
