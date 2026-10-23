@@ -8,21 +8,21 @@
  *             circle_union_area and max_circle_cover O(n^2 log n)
  *
  * Circle{center, r} with r >= 0, tangent and touching cases are detected with a relative tolerance EPS
- *   circle_line_intersection(c, a, b): where the line through a != b meets c, 0, 1 (tangent) or 2 points in the a -> b direction
- *       the tolerance scales with r, so r = 0 meets the line only when the center lies exactly on it
+ *   circle_circle_area(a, b): area of the intersection of two circles
  *   circle_circle_intersection(a, b): 0, 1 (tangent) or 2 points, none for concentric circles (identical ones included)
  *       with 2 points the first lies left of the line from a's center to b's
- *   tangents_from_point(c, p): tangency points of the lines through p touching c (r > 0), none if p is inside, p itself if on c
- *       with 2 points the first lies left of the line from c's center to p
+ *   circle_line_intersection(c, a, b): where the line through a != b meets c, 0, 1 (tangent) or 2 points in the a -> b direction
+ *       the tolerance scales with r, so r = 0 meets the line only when the center lies exactly on it
+ *   circle_polygon_area(c, poly): area of c intersected with a simple polygon in either orientation
+ *   circle_union_area(circles): area of the union, Green's theorem over the uncovered boundary arcs
+ *   circumcircle(a, b, c): the circle through three non-collinear points
  *   common_tangents(a, b): every common tangent line as its tangency points {on a, on b}, r > 0 for both, outer ones first
  *       0 nested, 1 internally tangent, 2 overlapping, 3 externally tangent, 4 apart, none for identical circles
  *       when both points coincide the line goes through them perpendicular to the line of centers
- *   circumcircle(a, b, c): the circle through three non-collinear points
- *   minimum_enclosing_circle(points): smallest circle containing every point, points non-empty, shuffled Welzl
- *   circle_polygon_area(c, poly): area of c intersected with a simple polygon in either orientation
- *   circle_circle_area(a, b): area of the intersection of two circles
- *   circle_union_area(circles): area of the union, Green's theorem over the uncovered boundary arcs
  *   max_circle_cover(points, r): {most points one circle of radius r covers, a center achieving it}, boundary points count
+ *   minimum_enclosing_circle(points): smallest circle containing every point, points non-empty, shuffled Welzl
+ *   tangents_from_point(c, p): tangency points of the lines through p touching c (r > 0), none if p is inside, p itself if on c
+ *       with 2 points the first lies left of the line from c's center to p
  *
  * Verified with |coordinates|, radii <= 1e4
  *
@@ -82,17 +82,14 @@ struct Circle{
     Float r;
 };
 
-vector<Point> circle_line_intersection(const Circle& c, const Point& a, const Point& b){
-    Point ab = b - a;
-    Float len2 = ab.norm2(), s = ab.cross(c.center - a);
-    Float h2 = c.r * c.r * len2 - s * s, tol = EPS * c.r * c.r * len2;
-    if (h2 < -tol) return {};
+Float circle_circle_area(const Circle& a, const Circle& b){
+    Float d = (a.center - b.center).norm(), r = min(a.r, b.r);
+    if (d >= a.r + b.r) return 0;
+    if (d <= fabsl(a.r - b.r)) return PI * r * r;
 
-    Point foot = a + ab * (ab.dot(c.center - a) / len2);
-    if (h2 <= tol) return {foot};
-
-    Point h = ab * (sqrtl(h2) / len2);
-    return {foot - h, foot + h};
+    Float alpha = acosl(clamp((d * d + a.r * a.r - b.r * b.r) / (2 * d * a.r), (Float)-1, (Float)1));
+    Float beta = acosl(clamp((d * d + b.r * b.r - a.r * a.r) / (2 * d * b.r), (Float)-1, (Float)1));
+    return a.r * a.r * (alpha - sinl(2 * alpha) / 2) + b.r * b.r * (beta - sinl(2 * beta) / 2);
 }
 
 vector<Point> circle_circle_intersection(const Circle& a, const Circle& b){
@@ -108,67 +105,17 @@ vector<Point> circle_circle_intersection(const Circle& a, const Circle& b){
     return {mid + h, mid - h};
 }
 
-vector<Point> tangents_from_point(const Circle& c, const Point& p){
-    Point d = p - c.center;
-    Float d2 = d.norm2(), r2 = c.r * c.r;
-    if (d2 < r2 * (1 - EPS)) return {};
-    if (d2 <= r2 * (1 + EPS)) return {p};
+vector<Point> circle_line_intersection(const Circle& c, const Point& a, const Point& b){
+    Point ab = b - a;
+    Float len2 = ab.norm2(), s = ab.cross(c.center - a);
+    Float h2 = c.r * c.r * len2 - s * s, tol = EPS * c.r * c.r * len2;
+    if (h2 < -tol) return {};
 
-    Point foot = c.center + d * (r2 / d2), h = d.perp() * (c.r * sqrtl(d2 - r2) / d2);
-    return {foot + h, foot - h};
-}
+    Point foot = a + ab * (ab.dot(c.center - a) / len2);
+    if (h2 <= tol) return {foot};
 
-vector<pair<Point, Point>> common_tangents(const Circle& a, const Circle& b){
-    vector<pair<Point, Point>> res;
-    Point d = b.center - a.center;
-    Float d2 = d.norm2();
-    if (d2 == 0) return res;
-
-    /// A negated radius puts the tangency point on the far side of b, turning outer tangents into inner ones
-    for (Float rb : {b.r, -b.r}){
-        Float dr = a.r - rb, h2 = d2 - dr * dr;
-        if (h2 < -EPS * d2) continue;
-
-        Float h = h2 <= EPS * d2 ? 0 : sqrtl(h2);
-        for (int sign : {1, -1}){
-            Point v = (d * dr + d.perp() * (h * sign)) / d2;
-            res.push_back({a.center + v * a.r, b.center + v * rb});
-            if (h == 0) break;
-        }
-    }
-
-    return res;
-}
-
-Circle circumcircle(const Point& a, const Point& b, const Point& c){
-    Point u = b - a, v = c - a;
-    Point center = a + (v * u.norm2() - u * v.norm2()).perp() / (v.cross(u) * 2);
-    return {center, max({(center - a).norm(), (center - b).norm(), (center - c).norm()})};
-}
-
-Circle minimum_enclosing_circle(vector<Point> points){
-    assert(!points.empty());
-    shuffle(points.begin(), points.end(), mt19937(chrono::steady_clock::now().time_since_epoch().count()));
-
-    int n = points.size();
-    Circle c{points[0], 0};
-    auto outside = [&](const Point& p){ return (p - c.center).norm() > c.r * (1 + EPS); };
-    for (int i = 1; i < n; i++){
-        if (!outside(points[i])) continue;
-        c = {points[i], 0};
-        for (int j = 0; j < i; j++){
-            if (!outside(points[j])) continue;
-            /// The rounded center can sit farther than |pi - pj| / 2 from pi or pj, and with a tiny radius that error beats the
-            /// relative tolerance, so pi itself would test outside and reach circumcircle as a degenerate triple giving NaN
-            Point mid = (points[i] + points[j]) / 2;
-            c = {mid, max((mid - points[i]).norm(), (mid - points[j]).norm())};
-            for (int k = 0; k < j; k++){
-                if (outside(points[k])) c = circumcircle(points[i], points[j], points[k]);
-            }
-        }
-    }
-
-    return c;
+    Point h = ab * (sqrtl(h2) / len2);
+    return {foot - h, foot + h};
 }
 
 Float circle_polygon_area(const Circle& c, const vector<Point>& poly){
@@ -193,16 +140,6 @@ Float circle_polygon_area(const Circle& c, const vector<Point>& poly){
 
     for (int i = 0, n = poly.size(); i < n; i++) res += sector(poly[i] - c.center, poly[(i + 1) % n] - c.center);
     return fabsl(res);
-}
-
-Float circle_circle_area(const Circle& a, const Circle& b){
-    Float d = (a.center - b.center).norm(), r = min(a.r, b.r);
-    if (d >= a.r + b.r) return 0;
-    if (d <= fabsl(a.r - b.r)) return PI * r * r;
-
-    Float alpha = acosl(clamp((d * d + a.r * a.r - b.r * b.r) / (2 * d * a.r), (Float)-1, (Float)1));
-    Float beta = acosl(clamp((d * d + b.r * b.r - a.r * a.r) / (2 * d * b.r), (Float)-1, (Float)1));
-    return a.r * a.r * (alpha - sinl(2 * alpha) / 2) + b.r * b.r * (beta - sinl(2 * beta) / 2);
 }
 
 Float circle_union_area(const vector<Circle>& circles){
@@ -246,6 +183,34 @@ Float circle_union_area(const vector<Circle>& circles){
     return res;
 }
 
+Circle circumcircle(const Point& a, const Point& b, const Point& c){
+    Point u = b - a, v = c - a;
+    Point center = a + (v * u.norm2() - u * v.norm2()).perp() / (v.cross(u) * 2);
+    return {center, max({(center - a).norm(), (center - b).norm(), (center - c).norm()})};
+}
+
+vector<pair<Point, Point>> common_tangents(const Circle& a, const Circle& b){
+    vector<pair<Point, Point>> res;
+    Point d = b.center - a.center;
+    Float d2 = d.norm2();
+    if (d2 == 0) return res;
+
+    /// A negated radius puts the tangency point on the far side of b, turning outer tangents into inner ones
+    for (Float rb : {b.r, -b.r}){
+        Float dr = a.r - rb, h2 = d2 - dr * dr;
+        if (h2 < -EPS * d2) continue;
+
+        Float h = h2 <= EPS * d2 ? 0 : sqrtl(h2);
+        for (int sign : {1, -1}){
+            Point v = (d * dr + d.perp() * (h * sign)) / d2;
+            res.push_back({a.center + v * a.r, b.center + v * rb});
+            if (h == 0) break;
+        }
+    }
+
+    return res;
+}
+
 pair<int, Point> max_circle_cover(const vector<Point>& points, Float r){
     int n = points.size(), best = 0;
     Point center{0, 0};
@@ -282,6 +247,41 @@ pair<int, Point> max_circle_cover(const vector<Point>& points, Float r){
     }
 
     return {best, center};
+}
+
+Circle minimum_enclosing_circle(vector<Point> points){
+    assert(!points.empty());
+    shuffle(points.begin(), points.end(), mt19937(chrono::steady_clock::now().time_since_epoch().count()));
+
+    int n = points.size();
+    Circle c{points[0], 0};
+    auto outside = [&](const Point& p){ return (p - c.center).norm() > c.r * (1 + EPS); };
+    for (int i = 1; i < n; i++){
+        if (!outside(points[i])) continue;
+        c = {points[i], 0};
+        for (int j = 0; j < i; j++){
+            if (!outside(points[j])) continue;
+            /// The rounded center can sit farther than |pi - pj| / 2 from pi or pj, and with a tiny radius that error beats the
+            /// relative tolerance, so pi itself would test outside and reach circumcircle as a degenerate triple giving NaN
+            Point mid = (points[i] + points[j]) / 2;
+            c = {mid, max((mid - points[i]).norm(), (mid - points[j]).norm())};
+            for (int k = 0; k < j; k++){
+                if (outside(points[k])) c = circumcircle(points[i], points[j], points[k]);
+            }
+        }
+    }
+
+    return c;
+}
+
+vector<Point> tangents_from_point(const Circle& c, const Point& p){
+    Point d = p - c.center;
+    Float d2 = d.norm2(), r2 = c.r * c.r;
+    if (d2 < r2 * (1 - EPS)) return {};
+    if (d2 <= r2 * (1 + EPS)) return {p};
+
+    Point foot = c.center + d * (r2 / d2), h = d.perp() * (c.r * sqrtl(d2 - r2) / d2);
+    return {foot + h, foot - h};
 }
 
 int main(){

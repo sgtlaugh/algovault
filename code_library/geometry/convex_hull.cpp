@@ -8,18 +8,18 @@
  * Coordinates satisfy |x|, |y| <= 1e9, so every cross product, dot product and squared distance fits in int64_t
  * A "hull" below is a strictly convex polygon in counter-clockwise order, as returned by get_convex_hull
  *
+ *   extreme_vertex(hull, dir): index of a vertex maximizing dot(vertex, dir), O(log n), n >= 1, |dir.x|, |dir.y| <= 2e9
+ *   farthest_pair(hull): two vertices at maximum distance, dist2 of them is the exact squared diameter, O(n), n >= 1
  *   get_convex_hull(points): the strict hull, O(n log n)
  *   is_convex(polygon): O(n)
- *   farthest_pair(hull): two vertices at maximum distance, dist2 of them is the exact squared diameter, O(n), n >= 1
- *   width(hull): minimum distance between two parallel lines enclosing the hull, O(n), 0 when n <= 2
- *   minkowski_sum(a, b): the strict hull of {p + q}, O(n + m), a and b convex counter-clockwise polygons
- *       with any starting vertex, collinear vertices allowed, result coordinates reach 2e9
- *   extreme_vertex(hull, dir): index of a vertex maximizing dot(vertex, dir), O(log n), n >= 1, |dir.x|, |dir.y| <= 2e9
- *   tangents(hull, q): {i, j}, the hull lies left of the ray q -> hull[i] and right of q -> hull[j], O(log n)
- *       q strictly outside the hull, either endpoint is returned when q is collinear with an edge
  *   line_hull(a, b, hull): the line through a != b against a hull with n >= 3, O(log n)
  *       {-1, -1} no intersection, {i, -1} touches only vertex i, {i, i} contains edge (i, i + 1)
  *       {i, j} crosses edges (i, i + 1) then (j, j + 1) in the direction a -> b, a crossed vertex k counts as edge (k, k + 1)
+ *   minkowski_sum(a, b): the strict hull of {p + q}, O(n + m), a and b convex counter-clockwise polygons
+ *       with any starting vertex, collinear vertices allowed, result coordinates reach 2e9
+ *   tangents(hull, q): {i, j}, the hull lies left of the ray q -> hull[i] and right of q -> hull[j], O(log n)
+ *       q strictly outside the hull, either endpoint is returned when q is collinear with an edge
+ *   width(hull): minimum distance between two parallel lines enclosing the hull, O(n), 0 when n <= 2
  *   DynamicHull: add(p) amortized O(log n), contains(p) O(log n) boundary inclusive, hull() O(h) as get_convex_hull returns it
  *
  * Optimization notes: get_convex_hull can be converted to O(n) using radix sort
@@ -71,6 +71,51 @@ int64_t dot(const Point& a, const Point& b){
 
 int64_t dist2(const Point& a, const Point& b){
     return dot(a - b, a - b);
+}
+
+/// Maximum of a cyclically unimodal order on the n vertices, better(i, j) is the sign of vertex i beating vertex j
+template<typename Better>
+int extreme_search(int n, Better better){
+    auto is_extreme = [&](int i){ return better((i + 1) % n, i) <= 0 && better(i, (i + n - 1) % n) > 0; };
+    if (is_extreme(0)) return 0;
+    int lo = 0, hi = n;
+
+    while (lo + 1 < hi){
+        int m = (lo + hi) / 2;
+        if (is_extreme(m)) return m;
+        int ls = better((lo + 1) % n, lo), ms = better((m + 1) % n, m);
+        if (ls > ms || (ls == ms && ls == better(lo, m))) hi = m;
+        else lo = m;
+    }
+    return lo;
+}
+
+int extreme_vertex(const vector<Point>& hull, const Point& dir){
+    return extreme_search(hull.size(), [&](int i, int j){ return sgn(dot(hull[i] - hull[j], dir)); });
+}
+
+/// Rotating calipers: calls visit(i, j) for every edge i -> i + 1 with j its first farthest vertex
+template<typename Visit>
+void for_each_antipode(const vector<Point>& hull, Visit visit){
+    int n = hull.size();
+
+    for (int i = 0, j = 1 % n; i < n; i++){
+        const Point &a = hull[i], &b = hull[(i + 1) % n];
+        while (cross(a, b, hull[(j + 1) % n]) > cross(a, b, hull[j])) j = (j + 1) % n;
+        visit(i, j);
+    }
+}
+
+array<Point, 2> farthest_pair(const vector<Point>& hull){
+    int n = hull.size();
+    array<Point, 2> best = {hull[0], hull[0]};
+
+    for_each_antipode(hull, [&](int i, int j){
+        for (int k : {i, (i + 1) % n}){
+            if (dist2(hull[k], hull[j]) > dist2(best[0], best[1])) best = {hull[k], hull[j]};
+        }
+    });
+    return best;
 }
 
 /***
@@ -134,40 +179,31 @@ bool is_convex(const vector<Point>& P){
     return sign != 0 && flips[0] == 2 && flips[1] == 2;
 }
 
-/// Rotating calipers: calls visit(i, j) for every edge i -> i + 1 with j its first farthest vertex
-template<typename Visit>
-void for_each_antipode(const vector<Point>& hull, Visit visit){
+array<int, 2> line_hull(const Point& a, const Point& b, const vector<Point>& hull){
     int n = hull.size();
+    auto side = [&](int i){ return sgn(cross(a, hull[i], b)); };
+    int end_a = extreme_vertex(hull, Point(b.y - a.y, a.x - b.x));
+    int end_b = extreme_vertex(hull, Point(a.y - b.y, b.x - a.x));
+    if (side(end_a) < 0 || side(end_b) > 0) return {-1, -1};
 
-    for (int i = 0, j = 1 % n; i < n; i++){
-        const Point &a = hull[i], &b = hull[(i + 1) % n];
-        while (cross(a, b, hull[(j + 1) % n]) > cross(a, b, hull[j])) j = (j + 1) % n;
-        visit(i, j);
-    }
-}
-
-array<Point, 2> farthest_pair(const vector<Point>& hull){
-    int n = hull.size();
-    array<Point, 2> best = {hull[0], hull[0]};
-
-    for_each_antipode(hull, [&](int i, int j){
-        for (int k : {i, (i + 1) % n}){
-            if (dist2(hull[k], hull[j]) > dist2(best[0], best[1])) best = {hull[k], hull[j]};
+    array<int, 2> res;
+    for (int k = 0; k < 2; k++){
+        int lo = end_b, hi = end_a;
+        while ((lo + 1) % n != hi){
+            int m = ((lo + hi + (lo < hi ? 0 : n)) / 2) % n;
+            (side(m) == side(end_b) ? lo : hi) = m;
         }
-    });
-    return best;
-}
+        res[k] = (lo + !side(hi)) % n;
+        swap(end_a, end_b);
+    }
 
-long double width(const vector<Point>& hull){
-    int n = hull.size();
-    if (n <= 2) return 0;
-    long double best = numeric_limits<long double>::infinity();
-
-    for_each_antipode(hull, [&](int i, int j){
-        const Point &a = hull[i], &b = hull[(i + 1) % n];
-        best = min(best, cross(a, b, hull[j]) / sqrtl(dist2(a, b)));
-    });
-    return best;
+    if (res[0] == res[1]) return {res[0], -1};
+    if (!side(res[0]) && !side(res[1])){
+        int gap = (res[0] - res[1] + n + 1) % n;
+        if (gap == 0) return {res[0], res[0]};
+        if (gap == 2) return {res[1], res[1]};
+    }
+    return res;
 }
 
 vector<Point> minkowski_sum(const vector<Point>& a, const vector<Point>& b){
@@ -205,27 +241,6 @@ vector<Point> minkowski_sum(const vector<Point>& a, const vector<Point>& b){
     return res;
 }
 
-/// Maximum of a cyclically unimodal order on the n vertices, better(i, j) is the sign of vertex i beating vertex j
-template<typename Better>
-int extreme_search(int n, Better better){
-    auto is_extreme = [&](int i){ return better((i + 1) % n, i) <= 0 && better(i, (i + n - 1) % n) > 0; };
-    if (is_extreme(0)) return 0;
-    int lo = 0, hi = n;
-
-    while (lo + 1 < hi){
-        int m = (lo + hi) / 2;
-        if (is_extreme(m)) return m;
-        int ls = better((lo + 1) % n, lo), ms = better((m + 1) % n, m);
-        if (ls > ms || (ls == ms && ls == better(lo, m))) hi = m;
-        else lo = m;
-    }
-    return lo;
-}
-
-int extreme_vertex(const vector<Point>& hull, const Point& dir){
-    return extreme_search(hull.size(), [&](int i, int j){ return sgn(dot(hull[i] - hull[j], dir)); });
-}
-
 /// Seen from an outside point the hull spans less than 180 degrees, so the angular order behaves like a projection
 pair<int, int> tangents(const vector<Point>& hull, const Point& q){
     int n = hull.size();
@@ -234,34 +249,51 @@ pair<int, int> tangents(const vector<Point>& hull, const Point& q){
     return {right, left};
 }
 
-array<int, 2> line_hull(const Point& a, const Point& b, const vector<Point>& hull){
+long double width(const vector<Point>& hull){
     int n = hull.size();
-    auto side = [&](int i){ return sgn(cross(a, hull[i], b)); };
-    int end_a = extreme_vertex(hull, Point(b.y - a.y, a.x - b.x));
-    int end_b = extreme_vertex(hull, Point(a.y - b.y, b.x - a.x));
-    if (side(end_a) < 0 || side(end_b) > 0) return {-1, -1};
+    if (n <= 2) return 0;
+    long double best = numeric_limits<long double>::infinity();
 
-    array<int, 2> res;
-    for (int k = 0; k < 2; k++){
-        int lo = end_b, hi = end_a;
-        while ((lo + 1) % n != hi){
-            int m = ((lo + hi + (lo < hi ? 0 : n)) / 2) % n;
-            (side(m) == side(end_b) ? lo : hi) = m;
-        }
-        res[k] = (lo + !side(hi)) % n;
-        swap(end_a, end_b);
-    }
-
-    if (res[0] == res[1]) return {res[0], -1};
-    if (!side(res[0]) && !side(res[1])){
-        int gap = (res[0] - res[1] + n + 1) % n;
-        if (gap == 0) return {res[0], res[0]};
-        if (gap == 2) return {res[1], res[1]};
-    }
-    return res;
+    for_each_antipode(hull, [&](int i, int j){
+        const Point &a = hull[i], &b = hull[(i + 1) % n];
+        best = min(best, cross(a, b, hull[j]) / sqrtl(dist2(a, b)));
+    });
+    return best;
 }
 
 struct DynamicHull{
+    /// An upper hull with one point per x, strictly concave, covers(p) means p lies on or below it
+    struct Chain{
+        map<int64_t, int64_t> pts;
+
+        void add(const Point& p){
+            if (covers(p)) return;
+            pts[p.x] = p.y;
+            auto it = pts.find(p.x);
+
+            while (next(it) != pts.end() && next(next(it)) != pts.end() && cross(p, at(next(it)), at(next(next(it)))) >= 0){
+                pts.erase(next(it));
+            }
+            while (it != pts.begin() && prev(it) != pts.begin() && cross(at(prev(prev(it))), at(prev(it)), p) >= 0){
+                pts.erase(prev(it));
+            }
+        }
+
+        bool covers(const Point& p) const {
+            auto it = pts.lower_bound(p.x);
+            if (it == pts.end()) return false;
+            if (it->first == p.x) return p.y <= it->second;
+            if (it == pts.begin()) return false;
+            return cross(at(prev(it)), at(it), p) <= 0;
+        }
+
+        static Point at(map<int64_t, int64_t>::const_iterator it){
+            return Point(it->first, it->second);
+        }
+    };
+
+    Chain upper, lower;  /// lower holds the points mirrored by y -> -y
+
     void add(const Point& p){
         upper.add(p);
         lower.add(Point(p.x, -p.y));
@@ -281,38 +313,6 @@ struct DynamicHull{
         }
         return res;
     }
-
-    /// An upper hull with one point per x, strictly concave, covers(p) means p lies on or below it
-    struct Chain{
-        map<int64_t, int64_t> pts;
-
-        static Point at(map<int64_t, int64_t>::const_iterator it){
-            return Point(it->first, it->second);
-        }
-
-        bool covers(const Point& p) const {
-            auto it = pts.lower_bound(p.x);
-            if (it == pts.end()) return false;
-            if (it->first == p.x) return p.y <= it->second;
-            if (it == pts.begin()) return false;
-            return cross(at(prev(it)), at(it), p) <= 0;
-        }
-
-        void add(const Point& p){
-            if (covers(p)) return;
-            pts[p.x] = p.y;
-            auto it = pts.find(p.x);
-
-            while (next(it) != pts.end() && next(next(it)) != pts.end() && cross(p, at(next(it)), at(next(next(it)))) >= 0){
-                pts.erase(next(it));
-            }
-            while (it != pts.begin() && prev(it) != pts.begin() && cross(at(prev(prev(it))), at(prev(it)), p) >= 0){
-                pts.erase(prev(it));
-            }
-        }
-    };
-
-    Chain upper, lower;  /// lower holds the points mirrored by y -> -y
 };
 
 int main(){
