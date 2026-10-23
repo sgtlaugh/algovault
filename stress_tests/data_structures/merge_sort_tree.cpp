@@ -36,6 +36,21 @@ vector<long long> random_array(int n, long long lo, long long hi){
     return a;
 }
 
+/// n = 1e6 in 256 MB, so the tree must not keep 4n vector headers
+void run_million(){
+    vector<long long> a = random_array(1000000, -1000000000, 1000000000);
+    MergeSortTree<long long> tree(a);
+    assert(tree.by_rank.size() * sizeof(vector<int>) <= (64u << 20));
+
+    for (int q = 0; q < 20; q++){
+        int l = stress::rand_int(0, 999999), r = stress::rand_int(l, 999999), k = stress::rand_int(0, r - l);
+        vector<long long> part(a.begin() + l, a.begin() + r + 1);
+        nth_element(part.begin(), part.begin() + k, part.end());
+        assert(tree.kth(l, r, k) == part[k]);
+        assert(tree.count_less(l, r, part[k]) == count_if(a.begin() + l, a.begin() + r + 1, [&](long long v){ return v < part[k]; }));
+    }
+}
+
 int main(){
     MergeSortTree<long long> no_values({});
     WaveletMatrix<long long> no_codes({});
@@ -60,6 +75,7 @@ int main(){
     for (int n : {1, 2, 3, 127, 128, 129}) check(random_array(n, -3, 3), 2000);
     check(random_array(100000, -1000000000, 1000000000), 300);
     check(random_array(100000, 0, 0), 300);
+    run_million();
 
     return 0;
 }

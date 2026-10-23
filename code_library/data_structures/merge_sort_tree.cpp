@@ -28,7 +28,7 @@ struct MergeSortTree{
     vector<T> sorted_values;
     vector<vector<int>> by_rank;  /// node covering ranks [a, b] keeps the positions of those values sorted
 
-    MergeSortTree(const vector<T>& values) : n(values.size()), by_rank(4 * max(1, (int)values.size())){
+    MergeSortTree(const vector<T>& values) : n(values.size()), by_rank(2 << __lg(2 * max(1, (int)values.size()) - 1)){
         vector<int> order(n);
         iota(order.begin(), order.end(), 0);
         sort(order.begin(), order.end(), [&](int i, int j){ return values[i] < values[j]; });
@@ -57,8 +57,7 @@ struct MergeSortTree{
         return sorted_values[a];
     }
 
-    /// The tree is over ranks, not positions: a count binary searches x once in sorted_values, then descends over
-    /// that rank prefix, and kth descends the same tree instead of binary searching on the answer
+    /// The tree is over ranks, not positions
     void build(int node, int a, int b, const vector<int>& order){
         if (a == b){
             by_rank[node] = {order[a]};
@@ -96,8 +95,7 @@ struct WaveletMatrix{
     vector<vector<int>> zeros_before;  /// zeros_before[d][i]: elements among the first i of level d whose bit is 0
     vector<int> zeros;
 
-    /// Values become codes [0, sigma) split on one bit per level, high bit first; each level stably moves the 0-bit
-    /// elements before the 1-bit ones, so a range maps to one range per level
+    /// Each level must partition stably, 0 bits first, or a range stops mapping to one range on the next level
     WaveletMatrix(const vector<T>& values) : n(values.size()), distinct(values){
         sort(distinct.begin(), distinct.end());
         distinct.erase(unique(distinct.begin(), distinct.end()), distinct.end());
