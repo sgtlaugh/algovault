@@ -28,8 +28,7 @@ struct SegmentTreeBeats{
     /// Marks a missing second maximum / second minimum, values never reach these under the documented range
     static constexpr long long NO_MAX = LLONG_MIN, NO_MIN = LLONG_MAX;
 
-    /// max1 is the maximum, cnt_max its count, max2 the strictly second largest value, the same for the min side
-    /// A chmin with max2 < x < max1 only rewrites the max1 entries, so it is tagged without recursing
+    /// max2 and min2 are strict: never equal to max1 and min1
     /// sum is unsigned so it wraps instead of overflowing when an intermediate sum does not fit
     struct Node{
         unsigned long long sum = 0;

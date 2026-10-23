@@ -63,7 +63,7 @@ void run_extreme(int n){
     }
 }
 
-/// n = 1e6 in 256 MB is the classic beats size (HDU 5306), so the tree must leave room for the input
+/// n = 1e6 in 256 MB is the classic beats size, so the tree must leave room for the input
 void run_million(){
     const int n = 1000000;
     vector<long long> a(n);
