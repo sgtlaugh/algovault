@@ -4,7 +4,7 @@
 #include "../../code_library/hacking/anti_polyonmial_hash.cpp"
 #undef main
 
-/// The generated pair differs by a +-1 combination of base powers, so it must collide whatever values the two letters hash to
+/// The pair differs by a +-1 combination of base powers, so it collides whatever values the two letters hash to
 long long poly_hash(const string& s, long long base, long long mod, long long zero, long long one){
     unsigned __int128 h = 0;
     for (char c : s) h = (h * base + (c == '0' ? zero : one)) % mod;
@@ -13,7 +13,8 @@ long long poly_hash(const string& s, long long base, long long mod, long long ze
 
 int main(){
     srand(stress::seed());
-    const long long mods[] = {(1LL << 61) - 1, 1000000007, 998244353, 4294967311LL, 6000000007LL, 1000000000000000003LL};  /// 6000000007: far enough past 2^32 that most residue products overflow 64 bits
+    /// 6000000007: far enough past 2^32 that most residue products overflow 64 bits
+    const long long mods[] = {(1LL << 61) - 1, 1000000007, 998244353, 4294967311LL, 6000000007LL, 1000000000000000003LL};
 
     for (long long it = 0; it < stress::scaled(40); it++){
         long long mod = it % 3 ? mods[stress::rand_int(0, 5)] : stress::rand_int(1000000000LL, 1LL << 61);
