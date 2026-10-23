@@ -17,6 +17,7 @@ using namespace std;
 
 /// Runs the circle of size i from n - m + 1 up to n, jumping r sizes at once while no wrap-around happens
 long long josephus(long long n, long long k, long long m){
+    assert(1 <= m && m <= n && k >= 1);
     m = n - m;
     if (k <= 1) return n - m;
 

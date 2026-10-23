@@ -1,4 +1,6 @@
 #include "../common.h"
+#include <sys/wait.h>
+#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/combinatorics/josephus_problem.cpp"
@@ -23,7 +25,31 @@ long long josephus_linear(long long n, long long k, long long m){
     return (long long)x + 1;
 }
 
+/// Out of range arguments must trip the library's own assert, not some later failure
+void expect_assert(long long n, long long k, long long m){
+    string path = "/tmp/algovault_josephus_" + to_string(getpid());
+    pid_t pid = fork();
+    assert(pid >= 0);
+    if (pid == 0){
+        assert(freopen(path.c_str(), "w", stderr));
+        josephus(n, k, m);
+        _exit(0);
+    }
+
+    int status;
+    assert(waitpid(pid, &status, 0) == pid && WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    ifstream f(path);
+    string err((istreambuf_iterator<char>(f)), istreambuf_iterator<char>());
+    remove(path.c_str());
+    assert(err.find("josephus_problem.cpp") != string::npos && err.find("Assertion") != string::npos);
+}
+
 int main(){
+    expect_assert(10, 3, 0);
+    expect_assert(10, 3, 11);
+    expect_assert(10, 0, 5);
+    expect_assert(0, 3, 0);
+
     const long long LIMIT = 4000000000000000000LL;
 
     for (long long it = 0; it < stress::scaled(3000); it++){
