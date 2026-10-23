@@ -6,7 +6,7 @@
  * Complexity: O(log n) per operation
  *
  * OrderedSet<T> s: a std::set with two extra calls
- * *s.find_by_order(k): the k-th smallest, 0-based, s.end() if k >= size
+ * s.find_by_order(k): iterator to the k-th smallest, 0-based, s.end() if k >= size
  * s.order_of_key(x): how many elements are < x
  * OrderedMultiset<T> m: an empty multiset
  * m.erase(x): removes one copy of x, false if there is none

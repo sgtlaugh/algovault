@@ -10,7 +10,7 @@
  *
  * TreePathMo tree(n): nodes 0..n - 1 and no edges yet
  * tree.add_edge(u, v): adds the tree edge between u and v
- * tree.build(root): roots the tree at root once all n - 1 edges are added
+ * tree.build(root = 0): roots the tree at root once all n - 1 edges are added
  * tree.lca(u, v): the lowest common ancestor of u and v, after build
  * tree.run(paths, add, remove, get, mode = NODES): the answers, res[i] = get(i) while the window holds the path paths[i] = {u, v}
  *
