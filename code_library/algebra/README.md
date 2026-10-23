@@ -98,7 +98,6 @@
 
 - [POJ 3807 - Chemist’s Math](http://poj.org/problem?id=3807)
 - [UVa 10288 - Coupons](https://onlinejudge.org/external/102/10288.pdf) [✅](../../practice/algebra/uva_10288.cpp "Accepted solution")
-- [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf)
 
 #### [GCD and LCM Convolution](gcd_lcm_convolution.cpp)
 
