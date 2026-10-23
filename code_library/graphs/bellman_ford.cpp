@@ -3,18 +3,15 @@
  * Bellman Ford
  * Single source shortest paths on a directed graph with negative edges, and negative cycle retrieval
  *
- * Complexity: O(n m) per call, O(n + m) memory
+ * Complexity: O(n m) per call
  *
- * BellmanFord g(n); g.add_edge(u, v, w);   0-based, directed, long long weights (negative allowed)
- * g.negative_cycle(): the vertices of one negative cycle anywhere in the graph, not only one reachable from a source
- *     in edge order, cycle[i] -> cycle[i + 1] -> ... -> cycle[0], empty if the graph has no negative cycle
- * g.shortest_paths(src)[v]:
- *     BellmanFord::INF if v is unreachable from src
- *     BellmanFord::NEG_INF if a negative cycle reachable from src reaches v (the distance is unbounded below)
- *     otherwise the shortest distance from src to v
+ * BellmanFord g(n): nodes are 0 to n - 1
+ * g.add_edge(u, v, w): directed edge u -> v with long long weight w, negative allowed
+ * g.negative_cycle(): one negative cycle anywhere in the graph, cycle[i] -> cycle[i + 1] an edge, empty if none
+ * g.shortest_paths(src)[v]: distance from src, INF if unreachable, NEG_INF if a negative cycle on the way reaches v
  *
- * Requires n * max|w| <= 9e18: a value below -(n - 1) * max|w| is lower than any simple path,
- * so the vertex is marked NEG_INF (or its parent chain holds a cycle) at once instead of being relaxed further
+ * Notes:
+ *   - Requires n max|w| <= 9e18
  *
 ***/
 
@@ -54,7 +51,7 @@ struct BellmanFord{
                 if (dist[v] < low) return cycle_through(parent, v);
             }
             if (relaxed == -1) return {};
-            /// An acyclic parent chain of at most n - 1 edges would bound dist[relaxed] by its value after n - 1 passes, so the chain holds a cycle
+            /// An acyclic parent chain has at most n - 1 edges, so a relaxation in pass n means the chain holds a cycle
             if (pass == n - 1) return cycle_through(parent, relaxed);
         }
         return {};
@@ -65,7 +62,7 @@ struct BellmanFord{
         vector<long long> dist(n, INF);
         dist[src] = 0;
 
-        /// Unaffected vertices are exact after n - 1 passes, any edge still relaxing after that leads into a negative cycle's reach
+        /// Unaffected vertices are exact after n - 1 passes, an edge relaxing after that is in a negative cycle's reach
         for (int pass = 0; pass < n; pass++){
             bool changed = false;
             for (auto [u, v, w] : edges){
@@ -114,7 +111,7 @@ int main(){
 
     BellmanFord g(6);
     g.add_edge(0, 1, 4), g.add_edge(0, 2, 2), g.add_edge(2, 1, -1), g.add_edge(1, 3, 3), g.add_edge(3, 4, -2);
-    assert((g.shortest_paths(0) == vector<long long>{0, 1, 2, 4, 2, INF}));  /// 0 2 1 beats the direct 4, 5 is unreachable
+    assert((g.shortest_paths(0) == vector<long long>{0, 1, 2, 4, 2, INF}));  /// 0 2 1 beats 4, 5 is unreachable
     assert(g.negative_cycle().empty());
 
     /// 1 -> 2 -> 1 weighs -2, so everything it reaches is unbounded below

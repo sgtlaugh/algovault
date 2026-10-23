@@ -4,7 +4,7 @@
  * Single source shortest paths with non-negative edge weights, plus shortest path reconstruction
  *
  * Complexity:
- *   - Dijkstra: O((n + m) log m) per run with a binary heap, O(n + m) memory
+ *   - Dijkstra: O((n + m) log m) per run with a binary heap
  *   - DenseDijkstra: O(n^2) per run, O(n^2) memory for the weight matrix (32 MB at n = 2000)
  *   - ZeroOneBFS: O(n + m) per run with a deque
  *
@@ -16,14 +16,12 @@
  * g.dist[v]: the shortest distance from src to v, or DIJKSTRA_INF if v is unreachable
  * g.path(v): the vertices of one shortest path src, ..., v, empty if v is unreachable
  *
- * Weights are long long in [0, DIJKSTRA_INF), and 0 or 1 for ZeroOneBFS
- * Every shortest distance must stay below DIJKSTRA_INF (~2.3e18)
- * Parallel edges and self loops are allowed, and run can be called again with another source on the same graph
- * A single-target query should pass its target: the search then settles no vertex farther from src than target
- *
- * DenseDijkstra is for dense graphs where the heap version hits its worst case, measured at -O2 with n = 2000:
- *     complete DAG weighted so every edge relaxes (2e6 heap pushes): DenseDijkstra 17 ms, Dijkstra 685 ms
- *     random weights: Dijkstra 12x faster with 2% of all edges present, down to 1.3x with 100%, since few edges relax
+ * Notes:
+ *   - Weights are long long in [0, DIJKSTRA_INF), 0 or 1 for ZeroOneBFS
+ *   - Every shortest distance must stay below DIJKSTRA_INF (~2.3e18)
+ *   - Parallel edges and self loops are allowed, and run can be called again with another source on the same graph
+ *   - Use DenseDijkstra when most edges relax: 17 ms against 685 ms on a complete DAG at n = 2000
+ *   - On random weights Dijkstra wins, 12x faster with 2% of all edges present and still 1.3x with 100%
  *
 ***/
 

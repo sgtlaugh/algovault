@@ -5,26 +5,22 @@
  *
  * Complexity: Kruskal O(m log m), Boruvka O((n + m) log n), dense_prim O(n^2)
  *
- * Kruskal and Boruvka share one API: 0-based vertices, long long weights (negative allowed)
- *     Kruskal mst(n); mst.add_edge(u, v, w); MSTResult r = mst.solve();
- *     the total weight of the forest must fit in long long
- * solve() returns {total weight, indices of the chosen edges in add_edge order, connected}
- *     connected is true when the forest is one tree spanning all n vertices
- *     for a disconnected graph the result is a minimum spanning forest, one tree per component
- *     Kruskal lists chosen edges by increasing weight, Boruvka in the order it picks them
+ * Kruskal mst(n): an empty graph on vertices 0 to n - 1, Boruvka mst(n) has the same API
+ * mst.add_edge(u, v, w): adds an edge of long long weight w, negative allowed
+ * mst.solve(): {total weight, indices of the chosen edges in add_edge order, connected}
+ * dense_prim(w): {total weight, parent, connected} for an n x n symmetric int or long long matrix w
  *
- * Boruvka is the template for implicit graphs (xor MST, Manhattan MST, complete graphs given by a formula)
- *     each round only needs the cheapest edge leaving every component: replace the edge scan in solve()
- *     with a per-component query, any lightest edge per component works since ties are resolved by the union-find
- *     there are at most log2(n) + 1 rounds since every round at least halves the number of components
- *     that still have an outgoing edge, and the last round merges nothing
- *
- * dense_prim(w): w is an n x n symmetric matrix of int or long long, w[u][v] == numeric_limits<T>::max() means no edge
- *     for complete graphs where m ~ n^2 makes Kruskal's sort the bottleneck, n ~ 5000 with an int matrix (100 MB)
- *     returns {total weight, parent, connected}: parent[v] is v's neighbour in the forest, -1 for one root per tree
- *     which node of a tree becomes its root is unspecified
- *     the total weight of the forest must fit in long long
- *     the diagonal is ignored
+ * Notes:
+ *   - connected is true when the forest is one tree spanning all n vertices, else it has one tree per component
+ *   - Kruskal lists chosen edges by increasing weight, Boruvka in the order it picks them
+ *   - The total weight of the forest must fit in long long
+ *   - Boruvka is the template for implicit graphs (xor MST, Manhattan MST, complete graphs given by a formula)
+ *       - Replace the edge scan in solve() with a query for the cheapest edge leaving each component
+ *       - Any lightest edge per component works since ties are resolved by the union-find
+ *       - There are at most log2(n) + 1 rounds, each at least halves the components with an outgoing edge
+ *   - dense_prim: w[u][v] == numeric_limits<T>::max() means no edge, the diagonal is ignored
+ *   - dense_prim: parent[v] is v's neighbour in the forest, -1 at one unspecified root per tree
+ *   - dense_prim is for complete graphs where Kruskal's sort is the bottleneck, n ~ 5000 with an int matrix (100 MB)
  *
 ***/
 
@@ -125,7 +121,7 @@ struct Boruvka{
                 if (best[b] == -1 || edges[i].w < edges[best[b]].w) best[b] = i;
             }
 
-            /// both endpoints of an edge can pick it, and implicit-graph queries may break ties arbitrarily: unite() drops the redundant picks
+            /// both endpoints can pick an edge and implicit queries break ties arbitrarily: unite() drops extra picks
             for (int c = 0; c < n; c++){
                 int i = best[c];
                 if (i == -1 || !dsu.unite(edges[i].u, edges[i].v)) continue;

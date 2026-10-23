@@ -15,17 +15,11 @@
  * GraphicMatroid g(v): g.add_edge(a, b) adds element g.edges.size(), independent sets are forests
  *     on vertices 0..v - 1, self-loops are never independent, build is O(v + n)
  * PartitionMatroid p(color, cap): element x has color[x], at most cap[c] elements of color c, build is O(colors + r)
- *     colorful matroid: every cap is 1
  * XorMatroid x(vec): independent sets are linearly independent over GF(2), vectors are 64-bit, 0 is never
  *     independent, build is O(64 n)
  *
- * Each round augments along a shortest path of the exchange graph, which keeps chosen independent in both
- * Bipartite matching is the intersection of two partition matroids, a rainbow spanning tree is graphic x colorful
- *
- * Example: largest forest with at most one edge per color
- *     GraphicMatroid g(v);  for each edge: g.add_edge(a, b)
- *     PartitionMatroid p(color, vector<int>(colors, 1));
- *     vector<int> chosen = matroid_intersection(m, g, p);
+ * Notes:
+ *   - A rainbow spanning tree is GraphicMatroid intersected with a PartitionMatroid whose caps are all 1
  *
 ***/
 
@@ -150,7 +144,7 @@ struct PartitionMatroid{
     }
 };
 
-/// Writes every element over the basis of chosen, then chosen - y + x is independent iff x is outside span(chosen) or uses y
+/// Writes each element over the basis of chosen: chosen - y + x is independent iff x is outside span(chosen) or uses y
 struct XorMatroid{
     vector<unsigned long long> vec, uses;
     vector<char> spanned;

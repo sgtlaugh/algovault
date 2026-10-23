@@ -5,19 +5,15 @@
  *
  * Complexity: O((n log n + m) α(n)) total for m insertions, O(n) memory
  *
- * OnlineBridges g(n); g.add_edge(u, v);   vertices 0 to n - 1, parallel edges and self loops allowed
- * g.bridges: number of bridges in the current graph
+ * OnlineBridges g(n): an empty graph on vertices 0 to n - 1
+ * g.add_edge(u, v): adds an edge, parallel edges and self loops allowed
  * g.component(u): representative of the 2-edge-connected component of u, changes as components merge
  * g.connected(u, v): u and v are in the same connected component
  * g.two_edge_connected(u, v): u and v are in the same 2-edge-connected component
- * An existing edge (u, v) is a bridge exactly when !g.two_edge_connected(u, v)
+ * g.bridges: number of bridges in the current graph
  *
- * Each connected component is kept as a rooted tree of its 2-edge-connected components (the bridge tree)
- * An edge between two trees re-roots the smaller one and hangs it below the other, O(n log n) total
- * An edge inside one tree closes a cycle, every component on it merges into their LCA and its bridges disappear
- * cp-algorithms merges without union by rank for O(n log n + m log n), the rank here keeps finds at α(n)
- *
- * Everything is iterative, so long paths cannot overflow the stack
+ * Notes:
+ *   - An existing edge (u, v) is a bridge exactly when !g.two_edge_connected(u, v)
  *
 ***/
 
@@ -28,7 +24,7 @@ using namespace std;
 struct OnlineBridges{
     int bridges = 0, iteration = 0;
     vector<int> dsu, rnk;  /// 2-edge-connected components
-    vector<int> par;  /// at a component representative: any vertex of its parent component in the bridge tree, -1 at a root
+    vector<int> par;  /// at a representative: a vertex of its parent component in the bridge tree, -1 at roots
     vector<int> cc, cc_size;  /// connected components
     vector<int> last_visit;
 

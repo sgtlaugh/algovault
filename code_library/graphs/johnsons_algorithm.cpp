@@ -3,17 +3,15 @@
  * Johnson's Algorithm
  * All pairs shortest paths on a sparse directed graph with negative edges
  *
- * Complexity: O(n m) for Bellman Ford once, then O(n^2 + n m log n) for n runs of Dijkstra, O(n^2) memory for dist
+ * Complexity: O(n^2 + n m log n) time, O(n^2) memory
  *
- * Johnson g(n); g.add_edge(u, v, w): directed edge, 0-based, long long weight (negative allowed)
- * g.solve(): returns false if the graph has a negative cycle (g.dist is left empty)
- *     otherwise g.dist[u][v] is the shortest distance, or Johnson::INF if v is unreachable from u
- *     more edges may be added and solve() called again
+ * Johnson g(n): vertices 0 to n - 1, no edges
+ * g.add_edge(u, v, w): directed edge, negative w allowed
+ * g.solve(): false if the graph has a negative cycle, else fills g.dist, callable again after adding edges
+ * g.dist[u][v]: the shortest distance, Johnson::INF if unreachable, empty after a failed solve
  *
- * Every |path weight| must stay below 1e18: reweighted distances reach up to twice that
- *
- * Bellman Ford from a virtual source gives potentials h, every edge is reweighted to w + h[u] - h[v] >= 0,
- * so plain Dijkstra works from each source and the true distance is recovered as d - h[u] + h[v]
+ * Notes:
+ *   - Every |path weight| must stay below 1e18
  *
 ***/
 
@@ -60,12 +58,12 @@ struct Johnson{
             for (auto [u, v, w] : edges){
                 if (h[u] + w < h[v]){
                     h[v] = h[u] + w, changed = true;
-                    /// No simple path goes this low, so it is a negative cycle, stopping now keeps h from overflowing in later rounds
+                    /// No simple path goes this low, so it is a negative cycle: stopping keeps h from overflowing
                     if (h[v] < -INF) return false;
                 }
             }
             if (!changed) break;
-            if (round == n - 1) return false;  /// shortest paths need at most n - 1 passes, a change in pass n means a negative cycle
+            if (round == n - 1) return false;  /// a change in pass n means a negative cycle
         }
         return true;
     }

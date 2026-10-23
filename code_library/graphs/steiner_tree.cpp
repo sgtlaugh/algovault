@@ -5,14 +5,13 @@
  *
  * Complexity: O(3^k n + 2^k m log n) time, O(2^k n) memory for k terminals
  *
- * SteinerTree g(n): 0-based vertices
- * g.add_edge(u, v, w): undirected edge with w >= 0
+ * SteinerTree g(n): an empty graph on vertices 0 to n - 1
+ * g.add_edge(u, v, w): adds an undirected edge with w >= 0
  * g.solve(terminals): the minimum weight, 0 for fewer than two terminals, STEINER_INF if they are not all connected
- *     does not modify the graph, so one graph answers several terminal sets
- *     the total weight of all edges must stay below STEINER_INF (~2.3e18)
  *
- * dp[mask][v] = cheapest tree connecting the terminals in mask plus vertex v:
- * merge two smaller trees at v, then spread outward with a multi-source Dijkstra
+ * Notes:
+ *   - solve does not modify the graph, so one graph answers several terminal sets
+ *   - The total weight of all edges must stay below STEINER_INF (~2.3e18)
  *
 ***/
 

@@ -3,17 +3,12 @@
  * Complement Graph BFS
  * BFS distances and connected components in the complement of a sparse undirected graph
  *
- * Complexity: O(n + m) per bfs() or components() call, O(n + m) memory, m = number of edges added
+ * Complexity: O(n + m) per bfs() or components() call, m = number of edges added
  *
- * ComplementGraph g(n); g.add_edge(u, v) for the edges of the ORIGINAL graph, vertices in [0, n)
- * The complement joins every pair u != v that has no original edge; self loops and duplicate edges are ignored
+ * ComplementGraph g(n): vertices in [0, n)
+ * g.add_edge(u, v): adds an edge of the ORIGINAL graph, self loops and duplicate edges are ignored
  * g.bfs(s): dist[v] = edges on a shortest complement path from s to v, -1 if unreachable
  * g.components(): comp[v] = complement component of v, numbered 0, 1, ... in order of their smallest vertex
- *
- * Every still unvisited vertex sits in one list: popping u scans the list, moves out the vertices
- * not adjacent to u and keeps the rest, which are original neighbours of u - so each scan costs
- * O(deg(u) + removed) and the complement's O(n^2) edges are never built
- * Iterative, so no recursion depth limit
  *
 ***/
 

@@ -5,15 +5,16 @@
  *
  * Complexity: O(n^3) time, O(n^2) memory
  *
- * FloydWarshall fw(n); fw.add_edge(u, v, w); fw.solve();
- *     0-based, directed, add both directions for an undirected edge (a negative undirected edge is a negative cycle)
- *     parallel edges keep the lightest, a negative self loop is a negative cycle, a non-negative one is ignored
- *     after solve(), dist[u][v] is the shortest distance, INF if v is unreachable from u,
- *     or NEG_INF if some u -> v walk passes through a negative cycle (no shortest path exists)
- *     path(u, v) returns the vertices of a shortest path u, ..., v, empty when dist[u][v] is INF or NEG_INF
- *     n * max |w| must stay below 2^61: walks that loop a negative cycle are clamped at NEG_INF, so they never overflow
+ * FloydWarshall fw(n): vertices 0 to n - 1, no edges
+ * fw.add_edge(u, v, w): directed edge, parallel edges keep the lightest
+ * fw.solve(): computes every distance, call it once after all edges are added
+ * fw.path(u, v): the vertices u, ..., v of a shortest path, empty when dist[u][v] is INF or NEG_INF
+ * fw.dist[u][v]: the shortest distance, INF if unreachable, NEG_INF if some u -> v walk passes a negative cycle
  *
- * Call solve() once, after all edges are added
+ * Notes:
+ *   - Add both directions for an undirected edge, so a negative undirected edge is a negative cycle
+ *   - A negative self loop is a negative cycle, a non-negative one is ignored
+ *   - n * max |w| must stay below 2^61
  *
 ***/
 
@@ -49,7 +50,7 @@ struct FloydWarshall{
             }
         }
 
-        /// dist[k][k] < 0 exactly when k lies on a negative closed walk, which can be looped forever, so every walk through k can go arbitrarily low
+        /// dist[k][k] < 0 exactly when k lies on a negative closed walk, so every walk through k goes arbitrarily low
         for (int k = 0; k < n; k++){
             if (dist[k][k] >= 0) continue;
             for (int i = 0; i < n; i++){

@@ -5,15 +5,13 @@
  *
  * Complexity: O(n + m sqrt(m)) time, O(n + m) memory, for each count
  *
- * SmallCycles g(n); g.add_edge(u, v); with 0-based vertices
- *     the graph must be simple: no self loops (asserted) and no parallel edges (not checked, they inflate the counts)
- *     g.triangles() and g.four_cycles() return the counts as long long, both can be called any number of times
+ * SmallCycles g(n): an empty graph on vertices 0 to n - 1
+ * g.add_edge(u, v): adds an edge, u != v
+ * g.four_cycles(): the number of 4-cycles
+ * g.triangles(): the number of triangles
  *
- * Vertices are ranked by (degree, index) and every edge points from the lower rank to the higher one
- * A vertex has at most sqrt(2m) higher ranked neighbors, which bounds both scans
- * triangles: each triangle is found once, from its lowest ranked vertex along its two oriented edges
- * four_cycles: each 4-cycle is found once, from the vertex opposite its highest ranked vertex w,
- * by counting pairs of paths i - u - w with u -> w an oriented edge and w ranked above i
+ * Notes:
+ *   - Parallel edges are not checked and inflate the counts
  *
 ***/
 

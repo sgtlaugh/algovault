@@ -98,7 +98,7 @@ int main(){
     assert(path.solve() == vector<int>(len, 1));
     assert(clock() - start < 2 * CLOCKS_PER_SEC);
 
-    /// Sets of size half + 1 and half joined and rolled back per leaf: a stale root size grows by half each time, past INT_MAX, its only visible symptom
+    /// Sets of size half + 1 and half joined and rolled back per leaf: a stale root size grows past INT_MAX
     int half = 1 << 16;
     DynamicConnectivity sets(2 * half + 1);
     for (int i = 1; i <= half; i++) sets.add_edge(0, i), sets.add_edge(half + 1, half + i);

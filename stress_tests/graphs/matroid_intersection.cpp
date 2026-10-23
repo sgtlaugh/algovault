@@ -230,7 +230,7 @@ int main(){
         check_matching(n_left, n_right, edges);
     }
 
-    /// Staircase: left i -> right i and i + 1 with the greedy-friendly edge listed second, forcing long augmenting paths
+    /// Staircase: left i -> right i and i + 1, the greedy-friendly edge listed second, forcing long augmenting paths
     for (int n : {64, 200}){
         vector<array<int, 2>> stairs;
         for (int i = 0; i < n; i++){

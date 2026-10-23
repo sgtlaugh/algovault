@@ -1,22 +1,19 @@
 /***
  *
- * Bridges, 2-edge-connected components and the bridge tree of an undirected graph, parallel edges and self loops allowed
- * A doubled edge is never a bridge: the search skips only the edge it arrived by, not every edge to the parent
- *
- * A bridge is such an edge which when removed makes the graph disconnected
- * Or more precisely, increases the number of connected components
- *
- * BridgeGraph g(n); int id = g.add_edge(u, v); nodes are numbered from 0 to n - 1
- * g.get_bridge_tree(): adjacency lists over the g.count components, one tree edge per bridge, see
- *     https://www.quora.com/q/threadsiiithyderabad/The-Bridge-Tree-of-a-graph
- *     a forest, one tree per connected component
- * g.get_bridges(): every bridge with its endpoints, its edge id and the node counts on both sides, so weights or labels can be kept outside
- * g.get_components(): groups of the 2-edge-connected components, the components left after removing every bridge
- *     also sets g.comp[v] in [0, g.count), numbered by smallest vertex, each group ascending
- *
- * Both searches are iterative with heap-allocated stacks, so a 2e5-node path needs no extra call stack
+ * Bridges and the Bridge Tree
+ * Finds the bridges and 2-edge-connected components of an undirected graph, parallel edges and self loops allowed
  *
  * Complexity: O(n + m)
+ *
+ * BridgeGraph g(n): nodes are 0 to n - 1
+ * g.add_edge(u, v): adds an edge and returns its id, ids count up from 0 in add_edge order
+ * g.get_bridge_tree(): adjacency lists over the g.count components, one tree edge per bridge, a forest
+ * g.get_bridges(): each edge whose removal adds a component, with endpoints u, v, id and node counts cnt_u, cnt_v
+ * g.get_components(): the 2-edge-connected components, the groups left after removing every bridge, each ascending
+ * g.comp[v]: component of v in [0, g.count), numbered by smallest vertex, set by get_components and get_bridge_tree
+ *
+ * Notes:
+ *   - A doubled edge is never a bridge
  *
 ***/
 
@@ -26,7 +23,7 @@ using namespace std;
 
 struct Bridge{
     int u, v; /// bridge edge from node u to v
-    int cnt_u, cnt_v; /// number of nodes in the connected component of u and v if bridge edge is disconnected
+    int cnt_u, cnt_v; /// node counts on the side of u and of v once the bridge is removed
     int id; /// index of the edge, in the order add_edge was called
 
     Bridge() {}

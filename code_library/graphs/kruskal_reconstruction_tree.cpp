@@ -5,20 +5,20 @@
  *
  * Complexity: O(m log m + n log n) to build, O(log n) per query, O(n log n) memory
  *
- * Kruskal's algorithm creates a new node for every merge, holding the merging edge's weight with the two merged
- * components as children: vertices 0..n-1 are the leaves, merges get ids n, n + 1, ..., 2n - 2, so a connected graph has 2n - 1 nodes
- * Weights never decrease going up, so v's component under threshold w is the subtree of v's highest ancestor with
- * weight <= w (found by binary lifting), and the leaves of every subtree are contiguous in order
+ * KruskalReconstructionTree<T> krt(n): vertices 0 to n - 1, no edges
+ * krt.add_edge(u, v, w): undirected edge of weight w, every edge goes in before build
+ * krt.build(): builds the tree
+ * krt.node(v, w): the tree node of v's component under edges <= w, v itself when it is alone
+ * krt.range(v, w): half-open [l, r) of positions in krt.order holding exactly v's component
+ * krt.size(v, w): the number of vertices in v's component
+ * krt.weight[x]: for a merge node x >= n, the weight of the edge that created it, the component's bottleneck
+ * krt.order[i]: the vertex at position i
+ * krt.pos[v]: the position of vertex v
  *
- * Usage:
- *   KruskalReconstructionTree<long long> krt(n); krt.add_edge(u, v, w); ... krt.build();   0-based vertices
- *   krt.node(v, w): the tree node of the component, v itself when it is alone
- *   krt.range(v, w): half-open [l, r) of positions in krt.order holding exactly v's component
- *   krt.size(v, w): r - l, the number of vertices in v's component
- *   krt.weight[x] for a merge node x >= n: the weight of the edge that created it, the component's bottleneck
- *   krt.order[i]: the vertex at position i, krt.pos[v]: the position of vertex v
- *   Add every edge before build, disconnected graphs, self-loops, multi-edges and negative weights are fine
- *   A segment tree over krt.order then aggregates "everything reachable from v with edges <= w"
+ * Notes:
+ *   - Vertices are leaves 0 to n - 1, merge nodes get ids n, n + 1, ..., up to 2n - 2
+ *   - Disconnected graphs, self loops, multi-edges and negative weights are fine
+ *   - A segment tree over krt.order aggregates everything reachable from v with edges <= w
  *
 ***/
 

@@ -3,9 +3,9 @@
  * Edge Coloring
  * Colors the edges so that edges sharing a vertex get different colors
  *
- * Complexity: BipartiteEdgeColoring O(n + m n) expected time, O(n + m) memory
- * VizingEdgeColoring O(n m) time, O(n D) memory
- * where n is the number of vertices, m the number of edges and D the maximum degree
+ * Complexity:
+ *   - BipartiteEdgeColoring: O(n + m n) expected time
+ *   - VizingEdgeColoring: O(n m) time, O(n D) memory for maximum degree D
  *
  * BipartiteEdgeColoring g(n_left, n_right): left vertices 0..n_left - 1, right vertices 0..n_right - 1
  * g.add_edge(u, v): edge from left u to right v, parallel edges allowed
@@ -13,15 +13,10 @@
  *
  * VizingEdgeColoring g(n): vertices 0..n - 1, the graph must be simple (no loops, no parallel edges)
  * g.add_edge(u, v): undirected edge
- * g.solve(): color of every edge in insertion order, in 0..D (Misra-Gries)
- * Finding a D coloring of a general graph is NP-hard, so D + 1 colors is the guarantee
+ * g.solve(): color of every edge in insertion order, in 0..D (Misra-Gries), as a D coloring is NP-hard in general
  *
- * Both solve() calls can be repeated after adding more edges
- *
- * Example:
- *   BipartiteEdgeColoring g(2, 2);
- *   g.add_edge(0, 0), g.add_edge(0, 1), g.add_edge(1, 0);
- *   vector<int> color = g.solve();  // color[0] != color[1], color[0] != color[2], all in {0, 1}
+ * Notes:
+ *   - Both solve() calls can be repeated after adding more edges
  *
 ***/
 
@@ -46,7 +41,7 @@ struct BipartiteEdgeColoring{
             k = max({k, ++deg[0][e[0]], ++deg[1][e[1]]});
         }
 
-        /// A free color at x always exists below deg(x): candidates[s][x] holds every free one there, stale ones are popped lazily
+        /// A free color at x always exists below deg(x): candidates[s][x] holds every free one, stale ones pop lazily
         vector<vector<int>> candidates[2];
         for (int s = 0; s < 2; s++){
             for (int d : deg[s]){
@@ -55,8 +50,7 @@ struct BipartiteEdgeColoring{
             }
         }
 
-        /// Hash map of (side, vertex, color) to the edge colored so there, -1 if none, instead of an O(n D) table
-        /// At most 4m keys ever appear (colors below the degree, plus two per edge), so 8m slots keep probing short
+        /// (side, vertex, color) -> edge or -1, hashed instead of an O(n D) table, 8m slots for at most 4m keys ever
         int bits = 1;
         while ((1LL << bits) < 8LL * m) bits++;
         vector<pair<long long, int>> table(1LL << bits, {-1, -1});

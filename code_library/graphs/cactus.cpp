@@ -5,19 +5,19 @@
  *
  * Complexity: O(n + m)
  *
- * Edge cactus: every edge lies on at most one simple cycle
- * Vertex cactus: every vertex lies on at most one simple cycle, so every vertex cactus is an edge cactus
- * A disconnected graph qualifies when every component does, check connectivity separately if needed
- * Parallel edges and self loops are allowed: a doubled edge is a cycle of length 2, a self loop one of length 1
- *
- * Cactus g(n); g.add_edge(u, v); bool ok = g.build();
- * build() returns g.edge_cactus and sets g.vertex_cactus, the fields below are valid only when it returns true
+ * Cactus g(n): nodes are 0 to n - 1
+ * g.add_edge(u, v): adds an edge and returns its id, ids count up from 0
+ * g.build(): returns g.edge_cactus and sets g.vertex_cactus, the fields below are valid only when it returns true
  * g.cycles[i]: vertices around cycle i, starting at the one closest to its DFS root
  * g.cycle_edges[i][j]: index of the edge joining cycles[i][j] and cycles[i][(j + 1) % len]
  * g.cycle_of[e]: cycle holding edge e, -1 when e lies on no cycle (a bridge)
  * g.tree: forest on n + cycles.size() nodes, node n + i joined to every vertex of cycle i, each bridge kept as is
  *
- * The DFS is iterative, so long paths and cycles cannot overflow the stack
+ * Notes:
+ *   - Edge cactus: every edge lies on at most one simple cycle
+ *   - Vertex cactus: every vertex lies on at most one simple cycle, so every vertex cactus is an edge cactus
+ *   - A disconnected graph qualifies when every component does, check connectivity separately if needed
+ *   - Parallel edges and self loops are allowed: a doubled edge is a cycle of length 2, a self loop one of length 1
  *
 ***/
 

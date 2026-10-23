@@ -9,12 +9,10 @@
  * g.add_edge(u, v): undirected edge, u != v, duplicates are fine
  * g.solve(): the chromatic number, 0 for the empty graph
  *
- * ind[S] = number of independent subsets of S. By inclusion-exclusion, the number of k-tuples of
- * independent sets whose union is V is sum over S of (-1)^(n - |S|) ind[S]^k, and it is nonzero iff
- * the graph is k-colorable. The sums are taken mod the prime 2^61 - 1: the answer is never too small,
- * and too large only if the true count at the chromatic number is a multiple of that prime
- *
- * Requires __int128
+ * Notes:
+ *   - Counts the k-tuples of independent sets covering every vertex mod the prime 2^61 - 1, so it is never too small
+ *   - It is too large only if that count at the true chromatic number is a multiple of 2^61 - 1
+ *   - Requires __int128
  *
 ***/
 

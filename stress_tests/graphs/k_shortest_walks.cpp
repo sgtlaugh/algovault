@@ -63,7 +63,7 @@ Edges random_edges(int n, int m, long long min_w, long long max_w){
     return edges;
 }
 
-/// Path v -> v + 1 with a loop of weight n - v on v: a walk is the path plus one partition of its extra length into parts <= n
+/// Path v -> v + 1 with a loop of weight n - v on v: a walk is the path plus a partition of its excess into parts <= n
 Edges loop_ladder(int n){
     Edges edges;
     for (int v = 0; v < n; v++){
@@ -122,7 +122,7 @@ int main(){
     Edges edges = random_edges(n, m, 0, 1000000000);
     assert(run_library(n, edges, 0, n - 1, 5) == k_settle_dijkstra(n, edges, 0, n - 1, 5));
 
-    /// A path with a weight 1 loop on each of its n vertices: one walk of length n - 1, n of length n, then C(n + 1, 2) of length n + 1
+    /// A path with a weight 1 loop per vertex: one walk of length n - 1, n of length n, C(n + 1, 2) of length n + 1
     n = 200000;
     edges.clear();
     for (int v = 0; v < n; v++){
@@ -133,12 +133,13 @@ int main(){
     assert((int)walks.size() == 300000 && walks[0] == n - 1);
     assert(count(walks.begin(), walks.end(), n) == n && count(walks.begin(), walks.end(), n + 1) == 300000 - 1 - n);
 
-    /// Loops of growing weight push every new sidetrack to the bottom of its heap, only rank balancing keeps the melds O(log m)
+    /// Loops of growing weight push each new sidetrack to its heap's bottom, only rank balancing keeps melds O(log m)
     n = 3000;
     KShortestWalks ladder(n);
     for (auto [u, v, w] : loop_ladder(n)) ladder.add_edge(u, v, w);
     assert(ladder.solve(0, n - 1, 20000) == loop_ladder_walks(n, 20000));
-    assert(ladder.pool.nodes.size() <= 2 * ladder.edges.size() + 2 * n * (__lg(ladder.edges.size()) + 2));  /// each chain push adds 2 nodes
+    /// each chain push adds 2 nodes
+    assert(ladder.pool.nodes.size() <= 2 * ladder.edges.size() + 2 * n * (__lg(ladder.edges.size()) + 2));
 
     n = 200000;
     assert(run_library(n, loop_ladder(n), 0, n - 1, 300000) == loop_ladder_walks(n, 300000));

@@ -61,7 +61,7 @@ void check(int n, const Edges& edges){
 }
 
 int main(){
-    /// Every graph on up to 3 vertices with each ordered pair (self loops too) absent, -1 or +1, so zero cycles show up as well
+    /// Every graph on up to 3 vertices with each ordered pair (self loops too) absent, -1 or +1, zero cycles included
     for (int n = 1; n <= 3; n++){
         int pairs = n * n, total = 1;
         for (int i = 0; i < pairs; i++) total *= 3;
@@ -75,7 +75,7 @@ int main(){
         }
     }
 
-    /// Random multigraphs: weights at the n * max|w| = 9e18 boundary, potential-shifted weights (negative edges, no negative cycle), small weights
+    /// Random multigraphs: weights at the n max|w| = 9e18 bound, potential-shifted (no negative cycle), or small
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(1, 9), m = stress::rand_int(0, 3 * n);
         long long w_max = 9000000000000000000LL / n;
@@ -93,7 +93,7 @@ int main(){
         check(n, edges);
     }
 
-    /// A chain listed backwards needs all n - 1 passes, then a heavy negative cycle at its end poisons everything after it
+    /// A chain listed backwards needs all n - 1 passes, then a heavy negative cycle at its end poisons all after it
     const int n = 1500;
     const long long w = 9000000000000000000LL / n;
     BellmanFord chain(n);

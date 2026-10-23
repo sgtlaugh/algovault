@@ -5,24 +5,14 @@
  *
  * Complexity: O((n + m) log m + k log k) time, O((n + m) log m + k) memory
  *
- * KShortestWalks g(n); g.add_edge(u, v, w): directed edge, 0-based, w >= 0
- * g.solve(s, t, k): the k smallest walk lengths in non-decreasing order, counted with multiplicity
- *     fewer than k values when fewer walks exist (empty when t is unreachable from s)
- *     when s == t the empty walk counts, so the first value is 0
- *     parallel edges give distinct walks
- *     the largest reported length plus n * max(w) must fit in long long: unreported candidates reach that far
+ * KShortestWalks g(n): vertices 0 to n - 1, no edges
+ * g.add_edge(u, v, w): directed edge, w >= 0
+ * g.solve(s, t, k): the k smallest walk lengths in non-decreasing order, fewer if fewer walks exist
  *
- * Dijkstra from t on the reversed graph gives a shortest path tree, every other edge u -> v is a sidetrack
- * costing w + d[v] - d[u] >= 0, and a walk is the tree path plus a sequence of sidetracks
- * h[u] is a persistent leftist heap of the sidetracks leaving the tree path from u, sharing h[parent]
- * LeftistHeap is a CI-checked copy of data_structures/leftist_heap.cpp
- * The answers are popped best-first from a heap of (length, heap node): from a node, either replace its
- * sidetrack with a child in the same heap, or append the cheapest sidetrack after it
- *
- * Example:
- *   KShortestWalks g(3);
- *   g.add_edge(0, 1, 1), g.add_edge(1, 2, 1), g.add_edge(0, 2, 3), g.add_edge(2, 0, 1);
- *   g.solve(0, 2, 4);  // {2, 3, 5, 6}
+ * Notes:
+ *   - Lengths count with multiplicity and parallel edges give distinct walks
+ *   - When s == t the empty walk counts, so the first value is 0
+ *   - The largest reported length plus n max(w) must fit in long long
  *
 ***/
 
@@ -134,7 +124,7 @@ struct KShortestWalks{
             }
             sort(sidetracks.rbegin(), sidetracks.rend());
 
-            /// Sorted decreasing, each push of a smaller value becomes the root above the old heap and copies O(1) nodes
+            /// Sorted decreasing, each push of a smaller value becomes the root above the old heap, copying O(1) nodes
             int own = pool.EMPTY;
             for (auto sidetrack : sidetracks) own = pool.push(own, sidetrack);
             h[u] = pool.meld(own, tree_edge[u] == -1 ? pool.EMPTY : h[edges[tree_edge[u]].v]);

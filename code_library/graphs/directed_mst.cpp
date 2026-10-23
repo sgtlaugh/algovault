@@ -3,19 +3,16 @@
  * Directed minimum spanning tree (minimum arborescence), Tarjan / Gabow version of Chu–Liu/Edmonds
  * Constructs a rooted tree of minimum total weight from the root node, with the parent of every node
  *
- * Complexity: O(m log m) time, O(n + m) memory
+ * Complexity: O(m log m)
  *
- * DirectedMST g(n); g.add_edge(u, v, w); auto res = g.solve(root);
- *     0-based nodes, long long weights (negative allowed), n * max|w| <= 1e18
- *     res.exists is false when some node is unreachable from root (weight 0, parent empty)
- *     otherwise res.weight is the minimum total and res.parent[v] the tail of v's tree edge, -1 for root
- *     solve is const, so one graph answers several roots
+ * DirectedMST g(n): nodes are 0 to n - 1
+ * g.add_edge(u, v, w): directed edge u -> v with long long weight w, negative allowed
+ * g.solve(root): res.weight the minimum total, res.parent[v] the tail of v's tree edge, -1 for root
  *
- * Each node keeps a skew heap of its incoming edges with a lazy add, cycles are contracted with a DSU
- * by melding their heaps, so no round ever rescans the whole edge list
- * Every contracted cycle gets a fresh id, and the contraction forest gives the parents back in O(n):
- * the edge chosen by a contracted node enters one leaf, every node on the way down to that leaf drops
- * its own choice, every other node keeps it
+ * Notes:
+ *   - Requires n max|w| <= 1e18
+ *   - res.exists is false when some node is unreachable from root, then weight is 0 and parent empty
+ *   - solve is const, so one graph answers several roots
  *
 ***/
 

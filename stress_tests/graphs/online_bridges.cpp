@@ -115,7 +115,7 @@ pair<int, int> random_edge(int n, int it){
 }
 
 int main(){
-    /// Small graphs, parallel edges and self loops included: every pair after every insertion against removing each edge
+    /// Small graphs with parallel edges and self loops: every pair after every insertion against removing each edge
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(1, 9), m = stress::rand_int(0, 3 * n);
         OnlineBridges g(n);
@@ -129,7 +129,7 @@ int main(){
         }
     }
 
-    /// Medium graphs, sparse so bridges keep appearing and vanishing: full partition after every insertion against Tarjan
+    /// Sparse medium graphs, so bridges keep appearing and vanishing: full partition per insertion against Tarjan
     for (long long it = 0; it < stress::scaled(40); it++){
         int n = stress::rand_int(2, 400), m = stress::rand_int(n / 2, 2 * n);
         OnlineBridges g(n);

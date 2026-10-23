@@ -25,7 +25,7 @@ map<pair<int, int>, long long> lightest_arcs(const vector<TestEdge>& edges){
     return lightest;
 }
 
-/// The oracles keep their own sentinel so a library DIJKSTRA_INF that is too small cannot cap the expected distances too
+/// The oracles keep their own sentinel so a library DIJKSTRA_INF that is too small cannot cap the expected distances
 const long long UNREACHED = numeric_limits<long long>::max();
 
 vector<long long> to_library_inf(vector<long long> d){
@@ -108,7 +108,7 @@ Graph build(int n, const vector<TestEdge>& edges){
     return g;
 }
 
-/// Every source on one graph, target runs between full runs, so a full run after an early exit must still reset everything
+/// Every source on one graph, target runs between full runs, so a full run after an early exit must reset everything
 template<typename Graph>
 void check_all_sources(int n, const vector<TestEdge>& edges){
     Graph g = build<Graph>(n, edges);
@@ -139,7 +139,7 @@ void early_exit_case(){
     assert(g.dist[n - 1] != DIJKSTRA_INF);
 }
 
-/// An 11 edge chain near 2e17 per step, forward shortcuts at most 2e17 per skipped step: distances reach, never pass, 2.2e18
+/// An 11 edge chain near 2e17 per step, shortcuts at most 2e17 per skipped step: distances reach, never pass, 2.2e18
 long long heavy_chain_case(){
     int n = 12;
     const long long step = 200000000000000000LL;
@@ -168,7 +168,7 @@ long long heavy_chain_case(){
     return longest;
 }
 
-/// The 1 chain a_0 -> ... -> a_k feeds a_i into the 0 chain at z_{2i}, so a_i's wave reaches z_p before a_{i-1}'s larger one
+/// The 1 chain a_0 -> ... -> a_k feeds a_i into the 0 chain at z_{2i}, so a_i's wave reaches z_p before a_{i-1}'s
 void zero_one_adversarial_case(){
     int k = 20000, n = 3 * k + 1;
     auto a = [&](int i){ return i; };

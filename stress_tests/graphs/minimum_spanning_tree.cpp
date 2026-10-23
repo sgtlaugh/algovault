@@ -163,7 +163,7 @@ int main(){
         check(n, edges, prim(n, edges), true);
     }
 
-    /// Tree edge (parent[i] < i, i) weighs i * K - C, so an extra u-v edge weighing at least max(u, v) * K - C never improves the tree
+    /// Tree edge (parent[i] < i, i) weighs i * K - C, so an extra u-v edge of at least max(u, v) * K - C never helps
     const long long K = 1000, C = 100000000;
     int n = 200000, isolated = 3, core = n - isolated;
     vector<int> label(n);
@@ -185,7 +185,7 @@ int main(){
     shuffle(edges.begin(), edges.end(), stress::rng());
     check(n, edges, {total, 1 + isolated}, false);
 
-    /// A complete graph with int weights in a narrow range, so ties are everywhere: Boruvka and dense_prim against Kruskal
+    /// A complete graph with int weights in a narrow range, ties everywhere: Boruvka and dense_prim against Kruskal
     int dn = 1500;
     vector<vector<int>> w(dn, vector<int>(dn, 0));
     Kruskal complete(dn);

@@ -1,21 +1,19 @@
 /***
  *
  * Minimum Mean Cycle (Karp's algorithm)
- * Finds a directed cycle minimizing (total weight) / (number of edges), exact as a reduced fraction, and the cycle itself
+ * A directed cycle minimizing (total weight) / (number of edges), its mean exact as a reduced fraction
  *
- * Complexity: O(n (n + m)) time, O(n^2) memory for the walk table
+ * Complexity: O(n (n + m)) time, O(n^2) memory
  *
- * MinimumMeanCycle g(n): n vertices, 0-based
- * g.add_edge(u, v, w): directed edge u -> v, long long weight (negative, self loops and parallel edges allowed)
- * g.solve(): returns false if the graph has no cycle, otherwise sets
- *     num / den: the minimum mean, reduced, den > 0
- *     cycle: edge ids (in add_edge order) of a simple cycle with that mean, in traversal order
- * n * max|w| must stay <= 4e18
+ * MinimumMeanCycle g(n): empty graph on vertices 0 to n - 1
+ * g.add_edge(u, v, w): directed edge u -> v, any long long weight, self loops and parallel edges allowed
+ * g.solve(): false if the graph has no cycle, otherwise true and sets num, den and cycle
+ * g.num / g.den: the minimum mean as a reduced fraction, den > 0
+ * g.cycle: edge ids, in add_edge order, of a simple cycle with that mean, in traversal order
  *
- * d[k][v] is the lightest walk of exactly k edges ending at v (starting anywhere), Karp's theorem gives
- * mean = min over v of max over k < n of (d[n][v] - d[k][v]) / (n - k)
- * The n-edge walk to the minimizing v is a shortest walk under weights w - mean, so every cycle on it has mean exactly mean
- * For maximum mean cycle, negate the weights and the resulting num
+ * Notes:
+ *   - n * max |w| must stay <= 4e18
+ *   - For the maximum mean cycle, negate the weights and the resulting num
  *
 ***/
 

@@ -1,18 +1,17 @@
 /***
  *
- * 2SAT with Kosaraju's algorithm (1 based index for variables)
- * Each variable can have two possible values: true or false
- * Variables must satisfy a system of constraints on pairs of variables
- * After is_satisfiable() returns true, value(x) gives a satisfying assignment
+ * 2SAT with Kosaraju's algorithm
+ * Finds a true or false value for every variable that satisfies a system of constraints on pairs of variables
  *
  * Complexity: O(n + m), n = number of variables, m = number of clauses
  *
- * Literals are signed variable indices: x means x is true, -x means x is false
- * at_most_one(literals) allows at most one of k literals to be true (a literal listed twice counts twice)
- * It uses the prefix encoding: for k >= 2, k - 2 auxiliary variables and 3k - 5 clauses instead of k^2 / 2 pairwise clauses
- * Auxiliary variables come from add_var(), numbered after the existing ones, so earlier indices never change
+ * Literals are signed 1-based variable indices: x means x is true, -x means x is false
+ * at_most_one(literals): allows at most one of k literals to be true, a literal listed twice counts twice
+ * value(x): literal x in a satisfying assignment, valid after is_satisfiable() returns true
  *
- * Both DFS passes are iterative, so long implication paths cannot overflow the stack
+ * Notes:
+ *   - at_most_one adds k - 2 auxiliary variables and 3k - 5 clauses for k >= 2, instead of k^2 / 2 pairwise clauses
+ *   - Auxiliary variables come from add_var(), numbered after the existing ones, so earlier indices never change
  *
 ***/
 
@@ -99,7 +98,7 @@ struct TwoSat{
         }
     }
 
-    /// Post-order DFS on the reverse graph, each stack entry keeps the next edge to scan so neighbours go in insertion order
+    /// Post-order DFS on the reverse graph, a stack entry keeps its next edge so neighbours go in insertion order
     void topsort(int s, vector<pair<int, int>>& stack){
         visited[s] = true, stack.push_back({s, rev_start[s]});
         while (!stack.empty()){
@@ -157,7 +156,6 @@ struct TwoSat{
         return true;
     }
 
-    /// Value of literal x in a satisfying assignment, valid only after is_satisfiable() returned true
     /// If x implies !x then comp[!x] is discovered first, so x is false
     inline bool value(int x){
         if (x < 0) return !value(-x);

@@ -8,7 +8,7 @@ struct Edge{
     int u, v;
 };
 
-/// The start the header promises for start = -1: first out - in = 1 or odd degree vertex, else first vertex with an edge
+/// The header's start for start = -1: first out - in = 1 or odd degree vertex, else first vertex with an edge
 template<bool directed>
 int default_start(int n, const vector<Edge>& edges){
     vector<int> out(n, 0), in(n, 0);

@@ -34,7 +34,7 @@ int solve(int n, const vector<pair<int, int>>& edges){
     return g.solve();
 }
 
-/// Random proper c-coloring with every color used, a rainbow c-clique and up to 3n random edges between colors: chromatic number exactly c
+/// A proper c-coloring using every color, a rainbow c-clique and up to 3n edges between colors: chromatic number c
 int planted(int n, int c){
     vector<int> color(n);
     for (int v = 0; v < n; v++) color[v] = v < c ? v : stress::rand_int(0, c - 1);

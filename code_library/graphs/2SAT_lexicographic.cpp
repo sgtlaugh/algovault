@@ -1,31 +1,22 @@
 /***
  *
- * Lexicographically first 2SAT assignment (1 based index for variables)
- * Each variable can have two possible values: true or false
- * Variables must satisfy a system of constraints on pairs of variables
- * Positive variables are identified from 1 to n, while negative variables from -1 to -n
- *
- * Among all satisfying assignments, returns the one that sets x1 true if possible, then x2, and so on
- * After is_satisfiable() returns true, value(x) gives literal x in that assignment (x or -x), get_assignment() the true variables
- * Use 2SAT_kosaraju.cpp when any satisfying assignment will do, it is always linear
- *
- * Fixes variables greedily in index order, a literal can be set iff it does not imply its own negation
+ * Lexicographically first 2SAT assignment
+ * Among all satisfying assignments, finds the one that sets x1 true if possible, then x2, and so on
  *
  * Complexity:
  *   - O(n + m) when no greedy attempt fails
- *   - O(n (n + m)) worst case, satisfiable or not, a failed attempt scans the whole adjacency of every literal it
- *     visits, so n variables implying one literal of out-degree m cost O(n m) (7 s at n = m = 1.6e5 with -O2)
+ *   - O(n (n + m)) worst case, n variables implying one literal of out-degree m cost O(n m), 7 s at n = m = 1.6e5
  *   - The bitset batches alone cost O(n (n + m) / 64), at most 2n / B + 1 batches of O((n + m) B / 64)
  *   - O(n + m) memory, plus B / 8 bytes per component once a batch runs
  *
- * A literal that implies its negation is false in every solution, it is fixed as soon as a batch finds it and that
- * decides its ancestors too, so a chain of n of them takes one batch (Library Checker long_chain, n = 5e5: 0.2 s)
- * The worst case left is many of them with no ancestor relation, each reaching its negation through one shared long
- * path, at least B / 2 = 128 of them answered per batch over the whole graph, with -O2 at n = 5e5:
- * 9 to 12 s for n / 2 sources over a path of n / 2, 12 to 14 s for n / 3 sources with the sinks first share of each
- * batch taken by n / 3 decoys
- * A search (cp-algorithms, Codeforces blogs) found nothing faster than this greedy, the same bitset reachability
- * as https://codeforces.com/blog/entry/63164 is the best known to the author
+ * Literals are signed 1-based variable indices: x means x is true, -x means x is false
+ * value(x): whether literal x holds in that assignment, valid after is_satisfiable() returns true
+ * get_assignment(): the true variables, ascending
+ *
+ * Notes:
+ *   - Use 2SAT_kosaraju.cpp when any satisfying assignment will do, it is always linear
+ *   - n literals that each imply their negation along one chain take one batch, 0.2 s at n = 5e5
+ *   - n / 2 such literals with no ancestor relation, sharing one path of length n / 2, take 9 to 14 s at n = 5e5
  *
 ***/
 
@@ -116,8 +107,7 @@ struct TwoSat{
         long long E = 0;
         for (auto& v : adj) E += v.size();
 
-        /// Wasted (failed or aborted) work allowed before SCC pays for itself, then a per query budget that keeps
-        /// a bitset batch of B queries, which costs O(n + m), amortized to the same O((n + m) / B) per query
+        /// Failed work allowed before SCC pays for itself, then a per query budget of one O(n + m) batch over B queries
         long long allowance = N + E, budget = max((long long)B, (N + E) / B);
 
         vector<int> comp, stk, trail, rep, order;
@@ -157,7 +147,8 @@ struct TwoSat{
                     break;
                 }
                 truth[u] = 1, trail.push_back(u);
-                for (int w : adj[u]) if (!truth[w]) stk.push_back(w);  /// fixed nodes are closed under implication, stop there
+                /// fixed nodes are closed under implication, stop there
+                for (int w : adj[u]) if (!truth[w]) stk.push_back(w);
             }
             if (status != 1){
                 for (int u : trail) truth[u] = 0;
@@ -166,11 +157,7 @@ struct TwoSat{
             return status;
         };
 
-        /// One bitset pass over the condensation answers up to B pending queries at once, among undecided variables
-        /// whose literal comes before its negation: the first B / 2 in index order, the current x among them since all
-        /// before it are decided, so at most 2n / B batches, then the rest sinks first to reach a long chain's forced end
-        /// A path from an undecided literal to its negation never enters a decided component, so those are skipped
-        /// y implying !y makes !y hold in every solution, so it is fixed right away and decides the ancestors of y
+        /// One bitset pass over the condensation answers B / 2 undecided queries by index, then up to B sinks first
         auto answer_batch = [&](){
             if (dag.empty()){
                 dag.resize(C), mask.resize(C), rep.resize(C);
@@ -195,11 +182,13 @@ struct TwoSat{
 
             fill(mask.begin() + lo, mask.begin() + hi + 1, bitset<B>());
             for (int j = 0; j < (int)qs.size(); j++) mask[comp[2 * qs[j]]][j] = 1;
+            /// A path from an undecided literal to its negation never enters a decided component, so those are skipped
             for (int c = hi; c >= lo; c--){
                 if (mask[c].none() || truth[rep[c]] || truth[rep[c] ^ 1]) continue;
                 for (int d : dag[c]) if (d >= lo) mask[d] |= mask[c];
             }
 
+            /// y implying !y makes !y hold in every solution, so it is fixed right away and decides the ancestors of y
             for (int j = 0; j < (int)qs.size(); j++){
                 reach[qs[j]] = mask[comp[2 * qs[j] + 1]][j];
                 if (reach[qs[j]]) mark_closure(2 * qs[j] + 1);
@@ -242,7 +231,6 @@ struct TwoSat{
         return true;
     }
 
-    /// Value of literal x in the lexicographically first assignment, valid only after is_satisfiable() returned true
     bool value(int x){
         return truth[node(x)];
     }

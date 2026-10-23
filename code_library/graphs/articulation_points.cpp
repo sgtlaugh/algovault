@@ -5,18 +5,19 @@
  *
  * Complexity: O(n + m)
  *
- * Biconnected g(n); int id = g.add_edge(u, v); nodes are 0 to n - 1, edge ids count up from 0 in add_edge order
+ * Biconnected g(n): nodes are 0 to n - 1
+ * g.add_edge(u, v): adds an edge and returns its id, ids count up from 0 in add_edge order
  * g.get_block_cut_tree(): adjacency lists over n + blocks nodes, node v < n is vertex v, node n + b is block b
- *     Every block links to each vertex it touches, so cut vertices have degree >= 2 and the rest are leaves or isolated
- *     The result is a forest with one tree per connected component, the vertices separating u from w are
- *     exactly the cut vertices strictly inside the tree path from u to w
  * g.get_blocks(): edge ids of each block, two edges share a block iff they lie on a common simple cycle
- *     A bridge is a block of its own, a doubled bridge is a 2-edge block, a self loop belongs to no block
- *     A vertex can lie in several blocks: exactly the articulation points do
  * g.get_cuts(): sorted articulation points, the vertices whose removal increases the number of connected components
- * Each getter reruns g.decompose(), which fills g.is_cut and g.blocks, so edges added between calls are seen
  *
- * The DFS is iterative, so long paths cannot overflow the stack
+ * Notes:
+ *   - Every block links to each vertex it touches, so cut vertices have degree >= 2 and the rest are leaves or isolated
+ *   - The block-cut tree is a forest with one tree per connected component
+ *   - The vertices separating u from w are exactly the cut vertices strictly inside the tree path from u to w
+ *   - A bridge is a block of its own, a doubled bridge is a 2-edge block, a self loop belongs to no block
+ *   - A vertex lies in several blocks iff it is an articulation point
+ *   - Each getter reruns g.decompose(), which fills g.is_cut and g.blocks, so edges added between calls are seen
  *
 ***/
 

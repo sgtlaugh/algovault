@@ -3,16 +3,16 @@
  * Dominator Tree (Lengauer-Tarjan)
  * Immediate dominator of every vertex of a directed graph, for a fixed root
  *
- * Complexity: O((n + m) log n), path compression without union by rank
+ * Complexity: O((n + m) log n)
  *
- * d dominates v if every path from root to v passes through d, idom[v] is the closest strict dominator
- * The idom array is the dominator tree as a parent array: d dominates v iff d is an ancestor of v in it
+ * DominatorTree g(n): vertices are 0 to n - 1, parallel edges and self loops allowed
+ * g.add_edge(u, v): directed edge u -> v
+ * g.run(root): idom, idom[v] the closest strict dominator of v, idom[root] = root, -1 if v is unreachable from root
  *
- * DominatorTree g(n); g.add_edge(u, v); auto idom = g.run(root);
- * idom[root] = root, idom[v] = -1 if v is unreachable from root
- * Vertices are 0-indexed, parallel edges and self loops allowed, run can be called again with another root
- *
- * The DFS and the path compression are iterative, so long paths cannot overflow the stack
+ * Notes:
+ *   - d dominates v if every path from root to v passes through d
+ *   - idom is the dominator tree as a parent array: d dominates v iff d is an ancestor of v in it
+ *   - run can be called again with another root
  *
 ***/
 

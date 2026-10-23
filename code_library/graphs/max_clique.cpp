@@ -17,13 +17,8 @@
  * g.maximal_cliques(callback): calls callback(const vector<int>& clique) once per maximal clique,
  *     vertices in no particular order, an isolated vertex is a maximal clique, n = 0 reports the empty clique once
  *
- * Every query can be called again, also after adding more edges
- *
- * Example:
- *     CliqueGraph g(4);
- *     g.add_edge(0, 1), g.add_edge(1, 2), g.add_edge(0, 2), g.add_edge(2, 3);
- *     g.max_clique();  // {0, 1, 2} in some order
- *     g.maximal_cliques([](const vector<int>& c){ ... });  // {0, 1, 2} and {2, 3}
+ * Notes:
+ *   - Every query can be called again, also after adding more edges
  *
 ***/
 
@@ -99,7 +94,7 @@ struct CliqueGraph{
             for (auto& u : r) v.bound += adj[v.id][u.id];
         }
 
-        /// Stable so near-regular graphs keep their labelling: scrambled ties made 256-vertex labelled paths exponential
+        /// Stable so near-regular graphs keep their labelling: scrambled ties made 256-vertex paths exponential
         stable_sort(r.begin(), r.end(), [](const Vertex& a, const Vertex& b){ return a.bound > b.bound; });
         int max_degree = r[0].bound;
         for (int i = 0; i < (int)r.size(); i++) r[i].bound = min(i, max_degree) + 1;

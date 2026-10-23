@@ -92,7 +92,7 @@ int find_root(vector<int>& parent, int x){
     return x;
 }
 
-/// Cycles really are closed walks over their listed edges, cycle_of agrees, and the tree is a forest with the graph's components
+/// Cycles are closed walks over their listed edges, cycle_of agrees, and the tree is a forest of the graph's components
 void check_structure(const Cactus& g){
     int n = g.n, k = g.cycles.size(), m = g.edges.size(), bridges = 0;
     vector<int> owner(m, -1);
@@ -111,7 +111,7 @@ void check_structure(const Cactus& g){
     }
     assert(owner == g.cycle_of);
 
-    /// The DFS starts each component at its smallest vertex, and each cycle must begin at its unique vertex nearest to it
+    /// The DFS starts each component at its smallest vertex, and each cycle begins at its unique vertex nearest to it
     vector<vector<int>> adj(n);
     for (auto [u, v] : g.edges) adj[u].push_back(v), adj[v].push_back(u);
     vector<int> dist(n, -1), queue;
@@ -190,7 +190,7 @@ int main(){
         assert(g.build() == edge_after && g.edge_cactus == edge_after && g.vertex_cactus == vertex_after);
     }
 
-    /// One 150000-cycle followed by a chain of triangles: depth ~250000, an 8 MB stack would not survive a recursive DFS
+    /// One 150000-cycle then a chain of triangles: depth ~250000, which overflows a recursive DFS on an 8 MB stack
     int ring = 150000, triangles = 50000, n = ring + 2 * triangles;
     Cactus big(n);
     for (int i = 0; i < ring; i++) big.add_edge(i, (i + 1) % ring);

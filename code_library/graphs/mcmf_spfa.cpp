@@ -5,18 +5,18 @@
  *
  * Complexity: exponential in theory, fast in practice, see https://codeforces.com/blog/entry/70740
  *
- * MCMFSpfa g(n); g.add_edge(u, v, cap, cost): directed edge, returns its index, add both directions for undirected edges
+ * MCMFSpfa g(n): empty graph on nodes 0 to n - 1
+ * g.add_edge(u, v, cap, cost): directed edge, returns its index, add both directions for undirected edges
  * g.solve(s, t, limit): pushes up to limit units (default: as much as possible), returns {flow, cost}
  * g.flow(id): flow on edge id after solve
- * Repeated solve calls continue from the residual graph, results count only the newly added flow and cost
- * Nodes are 0 to n - 1, 1 based graphs use MCMFSpfa(n + 1)
  *
- * Costs may be negative as long as there is no negative cycle
- * flow * |cost| summed over a path must fit in long long
- * The DFS recurses once per edge of a shortest path: 1.5e5 edges overflow an 8 MB stack at -O2, use mcmf_dijkstra.cpp for long paths
- *
- * Same API as mcmf_dijkstra.cpp minus slope(), prefer this one when costs are small integers with many tied shortest paths
- *     300 x 300 assignment with costs 0 to 3: 20x faster than mcmf_dijkstra.cpp, about 2x slower on random sparse graphs
+ * Notes:
+ *   - Repeated solve calls continue from the residual graph, results count only the newly added flow and cost
+ *   - Costs may be negative as long as there is no negative cycle
+ *   - flow * |cost| summed over a path must fit in long long
+ *   - The DFS recurses once per path edge: 1.5e5 edges overflow an 8 MB stack, use mcmf_dijkstra.cpp for long paths
+ *   - Prefer it to mcmf_dijkstra.cpp, same API minus slope(), for small integer costs with many tied shortest paths
+ *       - 300 x 300 assignment with costs 0 to 3: 20x faster than mcmf_dijkstra.cpp, 2x slower on random sparse graphs
  *
 ***/
 

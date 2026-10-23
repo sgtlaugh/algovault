@@ -4,15 +4,14 @@
  * Vertex disjoint path cover, path cover with shared vertices, and maximum antichain (Dilworth)
  *
  * Complexity:
- *   - min_disjoint_path_cover: O(m sqrt(n)) via bipartite matching
- *   - min_path_cover and max_antichain: O(n^3 / 64) transitive closure, then O(n^2.5) matching on up to n^2 edges, O(n^2) memory
+ *   - min_disjoint_path_cover: O(m sqrt(n))
+ *   - min_path_cover and max_antichain: O(n^3 / 64 + n^2.5), O(n^2) memory
  *
- * DAGPathCover g(n); g.add_edge(u, v): directed edge, the graph must be acyclic
- * g.max_antichain(): largest set of pairwise unreachable vertices, its size equals min_path_cover() by Dilworth's theorem
+ * DAGPathCover g(n): vertices 0 to n - 1, no edges
+ * g.add_edge(u, v): directed edge, the graph must stay acyclic
+ * g.max_antichain(): a largest set of pairwise unreachable vertices, its size equals min_path_cover()
  * g.min_disjoint_path_cover(): fewest paths covering every vertex exactly once
  * g.min_path_cover(): fewest paths covering every vertex at least once, paths may share vertices
- *
- * Embeds a checked copy of hopcroft_karp.cpp's HopcroftKarp to stay standalone
  *
 ***/
 
@@ -44,7 +43,7 @@ struct HopcroftKarp{
         return n_left - count(match_left.begin(), match_left.end(), -1);
     }
 
-    /// Layers left vertices by distance from free left vertices, stopping at the first layer that reaches a free right vertex
+    /// Layers left vertices by distance from free left ones, stopping at the first layer reaching a free right vertex
     int bfs(){
         dist.assign(n_left, -1);
         vector<int> queue;

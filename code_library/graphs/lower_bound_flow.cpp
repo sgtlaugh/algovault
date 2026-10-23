@@ -12,13 +12,10 @@
  * The three s-t calls return LowerBoundFlow::INFEASIBLE when no flow satisfies the bounds
  * g.flow(id): flow on edge id after a call that succeeded
  *
- * The value is the net flow out of s and can be negative when edges into s have lower bounds
- * Each call rebuilds the network from the stored edges, so one graph answers any number of queries
- * The sum of all upper bounds must fit in long long
- *
- * Reduction: edge u -> v [low, high] becomes capacity high - low, a super source S feeds each node's
- * incoming lower bounds minus outgoing ones and a super sink T drains the opposite, and a flow exists
- * iff max flow S -> T saturates S; for s-t flows, arcs t -> s and s -> t of unbounded capacity turn it into a circulation
+ * Notes:
+ *   - The value is the net flow out of s and can be negative when edges into s have lower bounds
+ *   - Calls never change the stored edges, so one graph answers any number of queries
+ *   - The sum of all upper bounds must fit in long long
  *
 ***/
 
@@ -174,7 +171,7 @@ struct LowerBoundFlow{
         return total;
     }
 
-    /// Removes the t -> s and s -> t arcs, returning the value they carried; S and T stay saturated so no path crosses them
+    /// Removes the t -> s and s -> t arcs, returning their value; S and T stay saturated so no path crosses them
     long long detach_terminals(){
         int m = arcs.size();
         long long value = arcs[m - 3].cap - arcs[m - 1].cap;

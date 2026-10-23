@@ -3,18 +3,19 @@
  * Minimum Cost Circulation
  * Cheapest flow with zero net flow at every node, negative costs and negative cycles allowed
  *
- * Complexity: O(n^3 log(n C)), C = max |cost|, cost scaling with FIFO push-relabel (Goldberg and Tarjan)
+ * Complexity: O(n^3 log(n C)) for C = max |cost|
  *
- * MinCostCirculation g(n);                  nodes 0 .. n-1
- * int id = g.add_edge(u, v, cap, cost);     cap >= 0, any cost, self loops and parallel edges allowed
- * long long cost = g.solve();               the minimum cost, 0 when no negative cycle exists
- * g.flow(id)                                flow on the edge in that optimal circulation
+ * MinCostCirculation g(n): empty graph on nodes 0 to n - 1
+ * g.add_edge(u, v, cap, cost): adds u -> v with cap >= 0 and any cost, returns its id
+ * g.solve(): the minimum cost, 0 when no negative cycle exists
+ * g.flow(id): flow on edge id in that optimal circulation
  *
- * Needs n <= 1e4 and |cost| <= 1e9: costs are scaled by n + 1 and potentials stay below about 7 n^2 C
- * The total cost sum(flow * cost) and the capacity sum into any node must fit in a long long as well
- *
- * Min cost max flow with negative cycles from s to t: add_edge(t, s, sum of caps out of s, -M), M = 1 + sum |cost|
- *     then max flow = flow on that edge and min cost = solve() + M * max flow, M must respect the cost limit above
+ * Notes:
+ *   - Self loops and parallel edges are allowed
+ *   - n <= 1e4 and |cost| <= 1e9
+ *   - The total cost sum(flow * cost) and the capacity sum into any node must fit in long long
+ *   - Min cost max flow from s to t with negative cycles: add_edge(t, s, sum of caps out of s, -M), M = 1 + sum |cost|
+ *       - Max flow is the flow on that edge, min cost is solve() + M * max flow, M must respect the cost limit above
  *
 ***/
 
@@ -42,7 +43,7 @@ struct MinCostCirculation{
         assert(0 <= u && u < n && 0 <= v && v < n && cap >= 0);
         pos.push_back({u, (int)adj[u].size()});
 
-        /// Scaled by n + 1: a cycle has at most n arcs, so 1-optimality in scaled units leaves no negative integer cycle
+        /// Scaled by n + 1: a cycle has at most n arcs, so 1-optimality in scaled units leaves no negative cycle
         cost *= n + 1;
         adj[u].push_back({v, (int)adj[v].size() + (u == v), cap, cost});
         adj[v].push_back({u, (int)adj[u].size() - 1, 0, -cost});
@@ -129,7 +130,7 @@ struct MinCostCirculation{
 };
 
 int main(){
-    /// Two negative cycles share arc 0 -> 1 of capacity 3: 2 units on 0-1-0 (-3 each) beat 0-1-2-0 (-2 each), 2-3-2 costs +1
+    /// Negative cycles share arc 0 -> 1 of capacity 3: 2 units on 0-1-0 (-3 each) beat 0-1-2-0 (-2 each), 2-3-2 is +1
     MinCostCirculation g(4);
     int e01 = g.add_edge(0, 1, 3, -4), e10 = g.add_edge(1, 0, 2, 1), e12 = g.add_edge(1, 2, 2, 1);
     g.add_edge(2, 0, 2, 1), g.add_edge(2, 3, 5, 2);
@@ -140,7 +141,7 @@ int main(){
     assert(g.flow(e12) == 1);
     assert(g.flow(e32) == 0);
 
-    /// Min cost max flow recipe on the graph of mcmf_spfa.cpp (https://cp-algorithms.com/graph/edmonds_karp.html): cost 71, flow 10
+    /// Min cost max flow recipe on the graph of mcmf_spfa.cpp's example: cost 71, flow 10
     MinCostCirculation network(7);
     vector<array<int, 4>> arcs = {{1, 2, 7, 1}, {2, 3, 5, 2}, {3, 6, 8, 3}, {1, 4, 4, 4}, {4, 2, 3, 5}, {4, 5, 2, 4}, {2, 5, 3, 3}, {5, 3, 3, 2}, {5, 6, 5, 1}};
     long long big = 1;

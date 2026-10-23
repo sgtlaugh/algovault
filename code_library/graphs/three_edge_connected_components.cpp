@@ -2,18 +2,18 @@
  *
  * 3-Edge-Connected Components (Tsin)
  * Groups the vertices of an undirected graph into classes where every pair is joined by 3 edge-disjoint paths
- * Equivalently, u and v share a class exactly when no removal of 2 or fewer edges disconnects them
  *
  * Complexity: O(n + m)
  *
- * ThreeEdgeConnected g(n); g.add_edge(u, v); auto groups = g.run();
- * Parallel edges and self loops are allowed, vertices are numbered from 0 to n - 1
- * g.count: number of components, g.comp[v]: component of v in [0, count)
- * Components are numbered by their smallest vertex, groups[c] lists the vertices of c in ascending order
+ * ThreeEdgeConnected g(n): an empty graph on vertices 0 to n - 1
+ * g.add_edge(u, v): adds an edge, parallel edges and self loops allowed
+ * g.run(): groups, groups[c] lists the vertices of component c in ascending order
+ * g.count: number of components
+ * g.comp[v]: component of v in [0, count)
  *
- * The DFS is iterative, so long paths cannot overflow the stack
- *
- * https://doi.org/10.1016/j.jda.2008.04.003 (Tsin, Yet another optimal algorithm for 3-edge-connectivity)
+ * Notes:
+ *   - Components are numbered by their smallest vertex
+ *   - https://doi.org/10.1016/j.jda.2008.04.003 (Tsin, Yet another optimal algorithm for 3-edge-connectivity)
  *
 ***/
 
@@ -25,8 +25,7 @@ struct ThreeEdgeConnected{
     int n, m = 0, count = 0;
     vector<vector<pair<int, int>>> adj; /// (neighbor, edge index)
     vector<int> comp;
-    /// path[v]: the chain of descendants that will join v's class once a back edge closes over them
-    /// nxt: classes kept as cyclic lists, merged in O(1) by swapping successors
+    /// path[v]: the descendants that join v's class once a back edge closes over them, nxt: cyclic class lists
     vector<int> in, out, low, deg, path, nxt;
 
     ThreeEdgeConnected(int n) : n(n), adj(n), comp(n, -1) {}

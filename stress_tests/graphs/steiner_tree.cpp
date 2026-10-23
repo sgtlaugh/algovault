@@ -33,7 +33,7 @@ long long brute(int n, const vector<array<long long, 3>>& edges, const vector<in
     return best;
 }
 
-/// The library's subset recurrence spread through Floyd-Warshall instead of Dijkstra: it guards only the spreading, brute() is the independent oracle
+/// The library's subset recurrence spread by Floyd-Warshall instead of Dijkstra: it guards only the spreading
 long long floyd_reference(int n, const vector<array<long long, 3>>& edges, const vector<int>& terminals){
     int k = terminals.size();
     if (k <= 1) return 0;
@@ -68,7 +68,8 @@ long long floyd_reference(int n, const vector<array<long long, 3>>& edges, const
 
 /// Tiny weights force ties, 1e15 weights catch any narrowing of the 64-bit weight type
 long long random_weight(long long it){
-    if (it % 3 == 2) return stress::rand_int(0, 1000000000000000LL) & ~(1LL << 31);  /// a narrowed weight stays nonnegative, so an assertion fires instead of Dijkstra looping
+    /// a narrowed weight stays nonnegative, so an assertion fires instead of Dijkstra looping
+    if (it % 3 == 2) return stress::rand_int(0, 1000000000000000LL) & ~(1LL << 31);
     return stress::rand_int(0, it % 3 ? 1000000000 : 5);
 }
 
@@ -114,7 +115,7 @@ int main(){
         assert(g.solve(terminals) == floyd_reference(n, edges, terminals));
     }
 
-    /// Larger graph, many terminals: the answer is positive, at most the spanning tree weight, and independent of terminal order
+    /// Larger graph, many terminals: the answer is positive, at most the spanning tree weight, independent of order
     int n = 3000;
     SteinerTree g(n);
     long long all = 0;

@@ -5,13 +5,14 @@
  *
  * Complexity: O(n^2) time and memory
  *
- * stable_marriage(proposer_pref, receiver_pref) returns match, match[p] = receiver matched to proposer p
- * proposer_pref[p] lists receivers 0..n - 1 from most to least preferred, receiver_pref[r] lists proposers likewise
- * Both must be n lists, each a permutation of 0..n - 1
+ * stable_marriage(proposer_pref, receiver_pref): match, match[p] = receiver matched to proposer p
  *
- * No proposer and receiver both prefer each other to their partners (no blocking pair)
- * The result is proposer optimal: every proposer gets the best partner it has in any stable matching,
- * and every receiver the worst, swap the two arguments for the receiver optimal matching
+ * Notes:
+ *   - proposer_pref[p] lists receivers from most to least preferred, receiver_pref[r] lists proposers likewise
+ *   - Both must be n lists, each a permutation of 0..n - 1
+ *   - Stable means no proposer and receiver both prefer each other to their partners
+ *   - Every proposer gets its best partner in any stable matching and every receiver its worst
+ *   - Swap the two arguments for the receiver optimal matching
  *
 ***/
 

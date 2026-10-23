@@ -4,7 +4,7 @@
 #include "../../code_library/graphs/edge_coloring.cpp"
 #undef main
 
-/// KACTL EdgeColoring.h verbatim but for its macros, only an equivalence check since Vizing rewrites it: check() is the oracle
+/// KACTL EdgeColoring.h verbatim but for its macros: Vizing rewrites it so colors must match, check() is the oracle
 namespace kactl{
     #define rep(i, a, b) for (int i = a; i < (b); ++i)
     #define all(x) begin(x), end(x)

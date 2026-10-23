@@ -1,22 +1,23 @@
 /***
  *
- * Maximum matching in general graphs
- * Two structs with the same API: Blossom (Edmonds, the pairs too) and TutteMatching (randomized Tutte matrix rank, size only)
- * Use Blossom: exact, gives the pairs, faster in practice, TutteMatching is a randomized size-only cross-check
+ * General Graph Matching
+ * Maximum matching in a general graph: Blossom (Edmonds) gives the pairs, TutteMatching (randomized) only the size
  *
- * Complexity: O(n (n^2 + m)) for Blossom, so O(n^3) without repeated edges, O(n + m) memory
- *             O(n ^ 3) for TutteMatching even on sparse graphs, O(n ^ 2) memory
+ * Complexity:
+ *   - Blossom: O(n (n^2 + m)), so O(n^3) without repeated edges, O(n + m) memory
+ *   - TutteMatching: O(n^3) even on sparse graphs, O(n^2) memory
  *
- * Blossom b(n), b.add_edge(u, v), b.maximum_matching(): size of a maximum matching, always exact
- * b.mate[v]: vertex matched to v or -1, valid after maximum_matching(), which can be called again after adding edges
- * Each search grows an alternating tree from one free vertex and contracts odd cycles (blossoms) by relabelling base[],
- * at most n / 2 contractions of O(n) each per search and n searches, which is the O(n ^ 3) bound
- * The search is a BFS, so long augmenting paths cannot overflow the stack
+ * Blossom b(n): vertices 0 to n - 1, no edges
+ * b.add_edge(u, v): undirected edge, u != v, so skip self loops when reading the input
+ * b.maximum_matching(): the size of a maximum matching, callable again after adding edges
+ * b.mate[v]: after maximum_matching(), the vertex matched to v or -1
  *
- * TutteMatching g(n), g.add_edge(u, v), g.maximum_matching(): the rank of the Tutte matrix is twice the size of the
- * maximum matching with probability >= 1 - n / mod (Schwartz-Zippel), a wrong answer is always too small
+ * TutteMatching g(n): vertices 0 to n - 1, no edges
+ * g.add_edge(u, v): undirected edge, u != v
+ * g.maximum_matching(): the maximum matching size with probability >= 1 - n / mod, a wrong answer is too small
  *
- * Both add_edge functions assert u != v: a self loop is never part of a matching, so skip it when reading the input
+ * Notes:
+ *   - Use Blossom: exact and faster in practice, TutteMatching is a size-only cross-check
  *
 ***/
 
@@ -141,12 +142,12 @@ struct Blossom{
         return size;
     }
 
-    /// Returns the free vertex ending an augmenting path from root, parent[] then leads back along it, or -1 if none exists
+    /// Returns the free vertex ending an augmenting path from root, parent[] leads back along it, or -1 if none exists
     int find_augmenting_path(int root){
         fill(parent.begin(), parent.end(), -1);
         fill(in_tree.begin(), in_tree.end(), false);
         iota(base.begin(), base.end(), 0);
-        /// A search contracts at most n / 2 blossoms, so resetting here keeps stamp far from overflow on long-lived instances
+        /// A search contracts at most n / 2 blossoms, so resetting here keeps stamp far from overflow
         stamp = 0;
         fill(seen_stamp.begin(), seen_stamp.end(), 0);
 
@@ -197,7 +198,7 @@ struct Blossom{
         }
     }
 
-    /// Walks from v up to the blossom base lca, flagging the bases it crosses and pointing odd vertices back across the cycle
+    /// Walks from v up to base lca, flagging the bases it crosses and pointing odd vertices back across the cycle
     void mark_path(int v, int lca, int child){
         while (base[v] != lca){
             in_blossom[base[v]] = in_blossom[base[mate[v]]] = true;
@@ -275,8 +276,7 @@ int main(){
     }
     assert(petersen.maximum_matching() == 5 && is_matching(petersen, 5));
 
-    /// Greedy pairs 0-1, 2-3, 4-5, the only augmenting path 6-0-1-5-4-3-2-7 leaves the blossom 1-2-3-4-5 from 2,
-    /// which a search without contraction labels odd and never expands
+    /// The only augmenting path 6-0-1-5-4-3-2-7 leaves blossom 1-2-3-4-5 from 2: a search without contraction misses it
     auto flower = Blossom(8);
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {2, 3}, {4, 5}, {1, 2}, {3, 4}, {5, 1}, {6, 0}, {2, 7}}) flower.add_edge(u, v);
     assert(flower.maximum_matching() == 4 && is_matching(flower, 4));
@@ -304,7 +304,7 @@ int main(){
     assert(b.maximum_matching() == 992 && is_matching(b, 992));
     fprintf(stderr, "Blossom time taken = %0.5f\n", (clock() - start) / (double)CLOCKS_PER_SEC);
 
-    /// A matching never exceeds n / 2 and is_matching certifies the pairs, so 750 is the answer without trusting Blossom
+    /// A matching never exceeds n / 2 and is_matching certifies the pairs, so 750 is right without trusting Blossom
     n = 1500;
     auto dense = Blossom(n);
     for (int u = 0; u < n; u++){

@@ -211,7 +211,7 @@ vector<pair<int, int>> random_graph(int n, bool simple){
     for (int u = 0; u < n && shape != 3; u++){
         for (int v = u + 1; v < n; v++){
             bool take = stress::rand_int(0, 99) < density;
-            if (shape == 1) take = take && v == u + 1;                     /// paths with gaps, every inner node is a cut
+            if (shape == 1) take = take && v == u + 1;  /// paths with gaps, inner nodes are cuts
             if (shape == 2) take = v == u + 1 || (take && density < 15);  /// a path with a few chords
             if (take) add(u, v);
         }
@@ -276,7 +276,7 @@ void check(int n, const vector<pair<int, int>>& edges, bool by_cycles){
     check_tree(n, edges, blocks, g.get_block_cut_tree(), expected, n <= 40);
 }
 
-/// Cuts against vertex removal, blocks against vertex separators and simple cycle enumeration, the block-cut tree against both
+/// Cuts against vertex removal, blocks against separators and simple cycles, the block-cut tree against both
 int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(1, it % 20 ? 12 : 250);

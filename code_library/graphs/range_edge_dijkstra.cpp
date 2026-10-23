@@ -5,18 +5,16 @@
  *
  * Complexity: O(n + m log n) graph nodes and edges, O((n + m log n) log n) per dijkstra call, m = number of add calls
  *
- * RangeEdgeGraph g(n): n >= 1, vertices 0 to n - 1, ranges [l, r] are inclusive and require 0 <= l <= r < n
- *     g.add_edge(u, v, w): u -> v
- *     g.add_edge_from_range(l, r, v, w): every u in [l, r] -> v
- *     g.add_edge_to_range(u, l, r, w): u -> every v in [l, r]
- *     g.dijkstra(s) returns the distances of the n vertices from s, RangeEdgeGraph::INF if unreachable
- * Weights must be in [0, INF], INF = 4e18, a vertex whose shortest distance is >= INF is reported as INF
- * Several dijkstra calls can reuse one graph, edges can be added between calls
+ * RangeEdgeGraph g(n): an empty graph on vertices 0 to n - 1, n >= 1
+ * g.add_edge(u, v, w): u -> v
+ * g.add_edge_from_range(l, r, v, w): every u in [l, r] -> v
+ * g.add_edge_to_range(u, l, r, w): u -> every v in [l, r]
+ * g.dijkstra(s): the distances of the n vertices from s, RangeEdgeGraph::INF if unreachable
  *
- * Two segment trees over the vertices share the vertices as leaves: in the out-tree every node has
- * 0 weight edges down to its children, in the in-tree up to its parent. A range edge splits [l, r] into
- * O(log n) tree nodes and links u to out-tree nodes (or in-tree nodes to v). The trees are separate so
- * a range edge never lets one vertex of the range reach another for free (CF 786B Legacy)
+ * Notes:
+ *   - Ranges [l, r] are inclusive and require 0 <= l <= r < n
+ *   - Weights must be in [0, INF], INF = 4e18, a vertex whose shortest distance is >= INF is reported as INF
+ *   - Edges can be added between dijkstra calls
  *
 ***/
 

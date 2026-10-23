@@ -5,12 +5,15 @@
  *
  * Complexity: O(n + m)
  *
- * SCC g(n); g.add_edge(u, v); g.run();
- * g.count: number of components, g.comp[v]: component of v in [0, count)
- * Components come out in topological order of the condensation: every edge u -> v has comp[u] <= comp[v]
- * g.condensation(): adjacency lists of the component DAG, without duplicate edges or self loops
+ * SCC g(n): an empty directed graph on vertices 0 to n - 1
+ * g.add_edge(u, v): adds the edge u -> v
+ * g.run(): fills count and comp
+ * g.condensation(): adjacency lists of the component DAG, without duplicate edges or self loops, after run()
+ * g.count: number of components
+ * g.comp[v]: component of v in [0, count)
  *
- * Both passes are iterative, so long paths cannot overflow the stack
+ * Notes:
+ *   - Components come out in topological order of the condensation: every edge u -> v has comp[u] <= comp[v]
  *
 ***/
 

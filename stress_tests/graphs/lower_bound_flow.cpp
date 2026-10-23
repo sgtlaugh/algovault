@@ -195,7 +195,7 @@ int main(){
         assert(mn <= 0 && 0 <= mx);
     }
 
-    /// A path of 100000 nodes is a level graph 100000 deep; one shared lower bound keeps the S -> T phase short, random ones make Dinic quadratic here
+    /// A 100000-node path is 100000 levels deep: one shared lower bound keeps S -> T short, random ones are quadratic
     {
         int n = 100000;
         vector<LowerBoundFlow::Bound> edges;

@@ -1,18 +1,23 @@
 /***
  *
- * Gomory-Hu Tree (Gusfield's algorithm)
- * All-pairs minimum cut of an undirected graph from n - 1 max flows, 0-based nodes
+ * Gomory-Hu Tree (Gusfield)
+ * All-pairs minimum cut of an undirected graph from n - 1 max flows
  *
- * Complexity: n - 1 Dinic max flows, each O(n^2 m) worst case, O(n + m) memory
- *             O(n) per min_cut query
+ * Complexity:
+ *   - build: n - 1 Dinic max flows, each O(n^2 m), O(n + m) memory
+ *   - min_cut: O(n)
  *
- * GomoryHu g(n); g.add_edge(u, v, cap); ... g.build();
- * g.min_cut(u, v): minimum cut between u != v, the smallest weight on the tree path between them
- * After build, the tree has edges (v, tree_parent[v]) of weight tree_weight[v] for v = 1..n-1, rooted at node 0
- *     removing edge (v, tree_parent[v]) leaves the subtree of v on one side, a minimum cut between v and
- *     tree_parent[v] in the graph of value tree_weight[v], so subtrees give min cut partitions, not only values
- * Parallel edges and self loops are allowed, a disconnected pair has min cut 0
- * Total capacity must fit in long long, Dinic's dfs recurses up to n deep
+ * GomoryHu g(n): nodes 0 to n - 1, no edges
+ * g.add_edge(u, v, cap): undirected edge of capacity cap
+ * g.build(): builds the tree, call it after all edges are added
+ * g.min_cut(u, v): the minimum cut between u != v
+ * g.tree_parent[v], g.tree_weight[v]: for v >= 1, the tree edge to v's parent and the min cut between them, root 0
+ *
+ * Notes:
+ *   - Removing tree edge (v, tree_parent[v]) leaves the subtree of v as one side of a minimum cut between its endpoints
+ *   - Parallel edges and self loops are allowed, a disconnected pair has min cut 0
+ *   - Total capacity must fit in a long long
+ *   - Dinic's dfs recurses up to n deep
  *
 ***/
 

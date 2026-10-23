@@ -5,25 +5,15 @@
  *
  * Complexity: O(n + (m + q) log(m + q) log n) time, O(n + q + m log q) memory, for m edge operations and q queries
  *
- * Every edge copy is alive for a contiguous range of queries, so it is inserted into the O(log q) segment tree
- * nodes covering that range; a DFS over the tree unites a node's edges on entry and rolls them back on exit,
- * using a DSU with union by size and no path compression so each union is undone in O(1)
- * RollbackDSU is a checked copy of data_structures/rollback_dsu.cpp
+ * DynamicConnectivity dc(n): an empty graph on vertices 0 to n - 1, parallel edges and self loops allowed
+ * dc.add_edge(u, v): adds a copy of the edge (u, v)
+ * dc.query_components(): records a query for the number of connected components, returns its index
+ * dc.query_connected(u, v): records a query for 1 if u and v are connected, else 0, returns its index
+ * dc.remove_edge(u, v): deletes one live copy of (u, v) in either orientation, the copy must exist
+ * dc.solve(): the answers in query order, indexed by what the query calls returned
  *
- * Nodes are numbered from 0 to n - 1, parallel edges and self loops are allowed
- * remove_edge deletes one live copy of (u, v) in either orientation, the copy must exist
- * Queries return their index, solve() returns the answers in query order:
- *   query_components()    -> number of connected components
- *   query_connected(u, v) -> 1 if u and v are connected, else 0
- * solve() does not consume the operations, more can be added and solve() called again
- *
- * Example:
- *   DynamicConnectivity dc(3);
- *   dc.add_edge(0, 1);
- *   int a = dc.query_connected(0, 1), b = dc.query_components();
- *   dc.remove_edge(1, 0);
- *   int c = dc.query_components();
- *   auto res = dc.solve();  // res[a] = 1, res[b] = 2, res[c] = 3
+ * Notes:
+ *   - solve() keeps the operations, so more can be added and solve() called again
  *
 ***/
 

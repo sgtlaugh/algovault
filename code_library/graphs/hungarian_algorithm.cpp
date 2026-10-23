@@ -1,19 +1,18 @@
 /***
  *
- * Hungarian Algorithm (aka Kuhn-Munkres) for weighted bipartite matching or the assignment problem
+ * Hungarian Algorithm (Kuhn-Munkres)
  * Matches rows to distinct columns of a cost matrix so the sum of the chosen cells is minimum or maximum
  *
- * auto [total, pairs] = hungarian(mat, minimize = true): mat is an n x m vector<vector<T>>, rectangular allowed
- *     pairs holds min(n, m) (row, col) pairs, 0-based, sorted by row, each row and column appears at most once
- *     total is the sum of mat[row][col] over pairs, minimize = false maximizes it instead
- *     T must be signed (int, long long or double), 2 * max(n, m) * max|mat[i][j]| must fit in T
- *     (potentials reach about max(n, m) * (max - min) of the entries, 4C on a 3 x 3 matrix of +-C)
- *     An empty mat returns {0, {}}
+ * Complexity: O(min(n, m)^2 max(n, m)) for n rows and m columns
  *
- * Let n = number of rows, m = number of columns
- * Complexity: O(min(n, m)^2 * max(n, m))
- * Tall matrices (n > m) are transposed internally, so the smaller side is always the one iterated
- * With ties, a tall matrix may get a different optimal matching than its transpose would, the cost is the same
+ * hungarian(mat, minimize = true): {total, pairs}, an optimal assignment of the n x m vector<vector<T>> mat
+ *
+ * Notes:
+ *   - pairs has min(n, m) (row, col) pairs sorted by row, no row or column twice, total sums their cells
+ *   - minimize = false maximizes the total instead
+ *   - T is signed (int, long long or double) and 2 max(n, m) max |mat[i][j]| must fit in T
+ *   - An empty mat returns {0, {}}
+ *   - With ties, a tall matrix may get a different optimal matching than its transpose, the total is the same
  *
 ***/
 

@@ -71,7 +71,7 @@ long long tree_weight(int n, int root, const vector<DirectedMST::Edge>& edges, c
     return total;
 }
 
-/// Each contraction of a cheap 2-cycle i <-> i + 1 forms a new one with the next node: round-based Chu-Liu/Edmonds needs n / 2 passes
+/// Each contracted cheap 2-cycle i <-> i + 1 forms a new one with the next node: round-based Edmonds needs n / 2 passes
 void nested_two_cycles(){
     int n = 20000;
     DirectedMST g(n);
@@ -88,7 +88,7 @@ void nested_two_cycles(){
     assert(tree_weight(n, 0, g.edges, res) == res.weight);
 }
 
-/// Larger random graphs have no brute force, but the parents must still form a tree that costs exactly the reported weight
+/// Larger random graphs have no brute force, but the parents must form a tree costing exactly the reported weight
 void large_random(){
     for (long long it = 0; it < stress::scaled(60); it++){
         int n = stress::rand_int(1, 3000), root = stress::rand_int(0, n - 1), m = stress::rand_int(0, 4 * n);

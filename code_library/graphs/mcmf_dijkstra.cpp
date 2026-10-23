@@ -3,21 +3,20 @@
  * Min Cost Max Flow with Dijkstra and potentials
  * Successive shortest paths where Johnson potentials keep reduced costs non-negative
  *
- * Complexity: O(F m log n) for total flow F, plus O(m) per solve or slope call for starting potentials, O(n m) when a residual edge has negative cost
+ * Complexity: O(F m log n) for total flow F, plus O(m) per call, O(n m) if a residual edge has negative cost
  *
  * MCMF g(n): empty graph on nodes 0 to n - 1
  * g.add_edge(u, v, cap, cost): adds a directed edge and returns its index, add both directions for undirected edges
- * g.slope(s, t, limit): same augmentation as solve, returns the breakpoints {flow, cost} of min cost as a function of flow
- *   starts at {0, 0}, ends at what solve returns, cost is linear between consecutive points
- *   slopes strictly increase (convex), collinear points are merged, so the min cost of any x <= max flow interpolates
+ * g.slope(s, t, limit): augments like solve, returns the breakpoints {flow, cost} of min cost as a function of flow
  * g.solve(s, t, limit): pushes up to limit units (default: as much as possible), returns {flow, cost}
  * g.flow(id): flow on edge id after solve or slope
- * Repeated solve or slope calls continue from the residual graph, results count only the newly added flow and cost
  *
- * Costs may be negative, but a negative cycle reachable from s makes solve and slope loop forever
- * flow * |cost| summed over a path must fit in long long
- *
- * The default min cost flow choice; mcmf_spfa.cpp has the same API minus slope() and is faster when costs are small integers
+ * Notes:
+ *   - slope() starts at {0, 0}, ends at what solve returns, linear between breakpoints, slopes strictly increasing
+ *   - Repeated solve or slope calls continue from the residual graph, results count only the newly added flow and cost
+ *   - Costs may be negative, but a negative cycle reachable from s makes solve and slope loop forever
+ *   - flow * |cost| summed over a path must fit in long long
+ *   - The default min cost flow, mcmf_spfa.cpp has the same API minus slope() and is faster for small integer costs
  *
 ***/
 
@@ -80,8 +79,7 @@ struct MCMF{
         return edges[id ^ 1].cap;
     }
 
-    /// Zero potentials are valid without negative residual costs; otherwise SPFA, since index-order Bellman Ford
-    /// needed about n passes on adversarially numbered chains (UVa 12821)
+    /// Zero potentials work without negative residual costs; else SPFA, as index-order Bellman Ford can need n passes
     void init_potential(int s){
         bool negative = false;
         for (const Edge& e : edges) negative |= e.cap > 0 && e.cost < 0;

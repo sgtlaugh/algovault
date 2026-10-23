@@ -22,7 +22,7 @@ int brute(int n, const vector<int>& adj_mask){
     return best(0);
 }
 
-/// The rank test only underestimates, at most n / mod ~ 1e-8 per call, but a nightly run makes ~1e5 calls: short answers retry twice
+/// The rank test underestimates with odds n / mod ~ 1e-8, a nightly run makes ~1e5 calls: short answers retry twice
 int matching(TutteMatching& g, int want){
     int got = g.maximum_matching();
     for (int retry = 0; retry < 2 && got < want; retry++) got = g.maximum_matching();

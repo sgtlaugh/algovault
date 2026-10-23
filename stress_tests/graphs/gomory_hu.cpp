@@ -102,7 +102,7 @@ int main(){
         check_all_pairs(n, random_links(n, m, max_cap), matrix_max_flow);
     }
 
-    /// A path with shuffled labels: the min cut is the lightest link between the endpoints, and Dinic recurses about n deep
+    /// A path with shuffled labels: the min cut is the lightest link between the endpoints, Dinic recurses about n deep
     {
         int n = 5000;
         vector<int> order(n);

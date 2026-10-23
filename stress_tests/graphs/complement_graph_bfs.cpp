@@ -73,7 +73,7 @@ int main(){
         check(n, edges);
     }
 
-    /// Complete graph on 2000 vertices minus a shuffled Hamiltonian path: the complement is that path, about 2e6 original edges
+    /// Complete graph on 2000 vertices minus a shuffled Hamiltonian path: the complement is that path, ~2e6 edges
     int n = 2000;
     vector<int> order(n);
     iota(order.begin(), order.end(), 0);
@@ -91,7 +91,7 @@ int main(){
     for (int v = 0; v < n; v++) assert(dist[v] == position[v]);
     assert((dense.components() == vector<int>(n, 0)));
 
-    /// Sparse original on 3e5 vertices: a star leaves its center isolated in the complement, the rest is one component at distance <= 2
+    /// Sparse original on 3e5 vertices: a star isolates its center in the complement, the rest one component, depth 2
     int big = 300000;
     ComplementGraph star(big);
     for (int v = 1; v < big; v++) star.add_edge(0, v);

@@ -18,7 +18,7 @@ vector<char> reach(const vector<vector<int>>& adj, int root, int removed){
     return seen;
 }
 
-/// d strictly dominates v iff removing d cuts v off, idom is the strict dominator with the most strict dominators of its own
+/// d strictly dominates v iff removing d cuts v off, idom is the strict dominator with the most strict dominators
 vector<int> brute_idom(int n, const vector<pair<int, int>>& edges, int root){
     vector<vector<int>> adj(n);
     for (auto [u, v] : edges) adj[u].push_back(v);
@@ -96,7 +96,7 @@ int main(){
         check(n, edges, {0, (int)stress::rand_int(1, n - 1), 0});
     }
 
-    /// A path deep enough to overflow a recursive DFS or a recursive eval on an 8 MB stack, plus a back edge to every vertex from the end
+    /// A path that overflows a recursive DFS or eval on an 8 MB stack, plus a back edge from the end to every vertex
     int n = 300000;
     DominatorTree path(n), ladder(n);
     for (int i = 0; i + 1 < n; i++) path.add_edge(i, i + 1), ladder.add_edge(i, i + 1);

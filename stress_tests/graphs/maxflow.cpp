@@ -270,7 +270,7 @@ int main(){
         check_closure<DenseFlowGraph>(weight, forces);
     }
 
-    /// DenseFlowGraph merges u -> v and v -> u into one cell, so mutual or repeated LLONG_MAX forcing edges sum past LLONG_MAX there
+    /// DenseFlowGraph merges u -> v and v -> u into one cell, where mutual or repeated LLONG_MAX edges overflow
     check_closure<DenseFlowGraph>({5, -3}, {{0, 1}, {1, 0}});
     check_closure<DenseFlowGraph>({5, -3}, {{0, 1}, {0, 1}});
     check_closure<DenseFlowGraph>({6, 10, -2, 10, 2, -7}, {{0, 2}, {0, 4}, {2, 0}, {3, 2}, {4, 5}});
@@ -305,7 +305,7 @@ int main(){
         assert(g.maxflow() == half);
     }
 
-    /// Library Checker's cycle matching: left i to right i and i + 1 mod n under shuffled labels, ~150 phases with augmenting paths up to 2n long
+    /// Cycle matching: left i to right i and i + 1 mod n, shuffled, ~150 phases with augmenting paths up to 2n long
     {
         int n = 50000, src = 2 * n, sink = 2 * n + 1;
         vector<int> left(n), right(n);

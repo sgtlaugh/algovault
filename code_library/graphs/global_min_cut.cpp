@@ -1,21 +1,18 @@
 /***
  *
- * Global minimum cut with the Stoer-Wagner algorithm
+ * Global Minimum Cut (Stoer-Wagner)
  * Minimum total weight of edges to remove so that an undirected graph splits into two non-empty parts
- * 0 based indexing for nodes, so nodes are numbered from 0 to n-1
  *
- * Complexity: O(n^3) time, O(n^2) memory for the adjacency matrix
+ * Complexity: O(n^3) time, O(n^2) memory
  *
- * add_edge(u, v, w) adds an undirected edge, parallel edges add up and self-loops are ignored
- * Weights must be non-negative and the sum of all weights must fit in a long long
- * min_cut() needs n >= 2 and returns {weight, side}: side holds the nodes of one part in increasing order, the rest form the other
- * A disconnected graph has cut weight 0 and side is a union of components
- * min_cut() works on a copy of the matrix, so edges can be added and the cut queried again
+ * GlobalMinCut g(n): nodes 0 to n - 1, no edges
+ * g.add_edge(u, v, w): undirected edge of weight w >= 0, parallel edges add up and self loops are ignored
+ * g.min_cut(): {weight, side} for n >= 2, side holds the nodes of one part in increasing order
  *
- * Example:
- *   GlobalMinCut g(4);
- *   g.add_edge(0, 1, 5), g.add_edge(1, 2, 1), g.add_edge(2, 3, 5), g.add_edge(3, 0, 1);
- *   auto [weight, side] = g.min_cut();  // weight = 2, side = {0, 1} or {2, 3}
+ * Notes:
+ *   - The sum of all weights must fit in a long long
+ *   - A disconnected graph has cut weight 0 and side is a union of components
+ *   - min_cut() leaves the graph unchanged, so edges can be added and the cut queried again
  *
 ***/
 
@@ -35,7 +32,7 @@ struct GlobalMinCut{
         adj[u][v] += w, adj[v][u] += w;
     }
 
-    /// Each phase orders the live nodes by maximum adjacency, cuts the last one off, then merges it into the one before it
+    /// Each phase orders live nodes by maximum adjacency, cuts the last one off, then merges it into the one before it
     pair<long long, vector<int>> min_cut() const{
         assert(n >= 2);
         auto mat = adj;

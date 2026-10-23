@@ -1,41 +1,37 @@
 /***
  *
  * Maximum flow with Dinic's algorithm
- * Nodes are 0 to n - 1
+ * Max flow and min cut on nodes 0 to n - 1, with optional node capacities or a dense capacity matrix
  *
  * Complexity: O(V^2 E), O(E sqrt(V)) on unit-capacity bipartite matching
- *     Library Checker bipartitematching (1e5 + 1e5 nodes, 2e5 edges) slowest case 1.9 s at -O2 against a 5 s limit, on par with hopcroft_karp.cpp
- *     FlowGraph::maxflow() works on flat per-node copies of the edges, about 20 extra bytes per entry of E, and writes the flows back into E
- *     so maxflow() can be called again after adding edges, continuing from the current flow
- *     maxflow() is the only entry point, bfs() and blocking_flow() read those copies and are UB before maxflow() builds them
  *
- * FlowGraph g(n, src, sink); int id = g.add_directed_edge(u, v, cap); g.add_undirected_edge(u, v, cap); g.maxflow(); g.E[id].flow
+ * FlowGraph g(n, src, sink): empty graph with edge capacities
+ * g.add_directed_edge(u, v, cap): adds u -> v and returns its id into g.E
+ * g.add_undirected_edge(u, v, cap): adds u -> v and v -> u, both with capacity cap
+ * g.maxflow(): pushes as much flow as possible and returns it, again after adding edges it adds to the current flow
+ * g.in_source_side(u): after maxflow(), true if src reaches u in the residual graph, the smallest min cut side
+ * g.cut_edges(): ids into E of the edges leaving the source side, their capacities sum to the max flow
+ * g.E[id].flow: flow on edge id after maxflow()
  *
- * Use FlowGraph for standard flow with edge capacity
- * Use FlowGraphWithNodeCap when nodes can have capacity as well, its add_directed_edge returns an id into .flowgraph.E
- *     node capacities apply to src and sink too, give them a huge capacity to leave them uncapped
- * Use DenseFlowGraph for dense graphs: an n x n capacity matrix, same API, O(n^2) memory (32 MB at n = 2000)
- *     measured 2x to 7x faster than FlowGraph with half or more of all n^2 edges present, n from 600 to 2000
- *     same construction and maxflow() calls, but no per-edge flow values since only residual capacities are kept
+ * FlowGraphWithNodeCap g(n, src, sink, node_capacity): the edge and maxflow() calls of FlowGraph, on g.flowgraph
+ * DenseFlowGraph g(n, src, sink): an n x n capacity matrix, FlowGraph's calls without cut_edges() or per-edge flows
  *
- * Min cut:
- *     after maxflow(), in_source_side(u) is true for the nodes reachable from src in the residual graph
- *     that is the smallest source side over all min cuts (FlowGraph and DenseFlowGraph)
- *     FlowGraph only: cut_edges() gives the ids into E of the edges leaving that side, their capacities sum to the max flow
- *     FlowGraphWithNodeCap: use .flowgraph.in_source_side() and .flowgraph.cut_edges()
- *         node x is 2x (in) and 2x + 1 (out) there, a cut edge 2x -> 2x + 1 is a cut vertex
- *     before maxflow() the source side is empty and cut_edges() returns nothing
- *
- * Max closure / project selection: pick a set of items with weights w[i], where picking i forces picking j
- *     src -> i with capacity w[i] if w[i] > 0, i -> sink with capacity -w[i] if w[i] < 0, i -> j with capacity LLONG_MAX
- *     best total weight = sum of positive w[i] - maxflow(), the picked items are those with in_source_side(i)
- *     the sum of positive w[i] must be below LLONG_MAX, the LLONG_MAX edges themselves never overflow
- *     DenseFlowGraph caps each merged u <-> v cell at LLONG_MAX, exact while the max flow is below LLONG_MAX
- *
- * Max density subgraph, max |E(S)| / |S| over nonempty S: Dinkelbach on the closure above, n + m + 2 nodes
- *     start with the density a / b = m / n of the whole graph
- *     closure items: each edge with weight b, forcing both endpoints, each vertex with weight -a
- *     if the best closure weight is positive, set a / b to |E(S)| / |S| for its picked vertices S and repeat, else a / b is the answer
+ * Notes:
+ *   - Library Checker bipartitematching (2e5 nodes, 2e5 edges) runs in 1.9 s at -O2, on par with hopcroft_karp.cpp
+ *   - maxflow() keeps flat per-node copies of the edges, about 20 extra bytes per edge
+ *   - Before maxflow() the source side is empty and cut_edges() returns nothing
+ *   - Node capacities apply to src and sink too, give them a huge capacity to leave them uncapped
+ *   - FlowGraphWithNodeCap edge ids index g.flowgraph.E, where node x is 2x (in) and 2x + 1 (out)
+ *   - Its min cut comes from g.flowgraph, a cut edge 2x -> 2x + 1 is a cut vertex x
+ *   - Use DenseFlowGraph with half or more of all n^2 edges: 2x to 7x faster for n = 600 to 2000, 32 MB at n = 2000
+ *   - Max closure, items with weights w[i] where picking i forces picking j:
+ *       - src -> i with capacity w[i] if w[i] > 0, i -> sink with capacity -w[i] if w[i] < 0, i -> j with LLONG_MAX
+ *       - The best total weight is the sum of positive w[i] - maxflow(), the picked items are those in_source_side(i)
+ *       - The sum of positive w[i] must be below LLONG_MAX, the LLONG_MAX edges never overflow, in DenseFlowGraph too
+ *   - Max density subgraph, max |E(S)| / |S| over nonempty S: Dinkelbach on the closure above, n + m + 2 nodes
+ *       - Start with the density a / b = m / n of the whole graph
+ *       - Closure items: each edge with weight b, forcing both endpoints, each vertex with weight -a
+ *       - If the best closure is positive, set a / b to |E(S)| / |S| of its vertices S and repeat, else stop
  *
 ***/
 
@@ -82,7 +78,7 @@ struct FlowGraph{
         return flow;
     }
 
-    /// Reads dis from the final bfs of maxflow(), which failed to reach sink and so visited every residual-reachable node
+    /// Reads dis from the final bfs of maxflow(), which failed to reach sink and so visited every node src reaches
     bool in_source_side(int u) const{
         return dis[u] != -1;
     }
@@ -95,7 +91,7 @@ struct FlowGraph{
         return ids;
     }
 
-    /// Arcs of u sit at start[u] .. start[u + 1] - 1 with residual capacity res, reading E through adj ids missed the cache on every arc
+    /// Arcs of u sit at start[u] .. start[u + 1] - 1 with residual res: reading E through adj missed the cache
     void build_residual(){
         int m = E.size();
         vector<int> pos(m);
@@ -122,9 +118,7 @@ struct FlowGraph{
         return dis[sink] != -1;
     }
 
-    /// Walks from sink back to src so it only enters nodes the bfs reached from src, a walk from src spent most of its time in branches
-    /// that never reach sink, 2.5x to 3x slower at -O2 on Library Checker's cycle and unique matching cases. Iterative so that a src to sink distance of n cannot overflow the stack
-    /// path[j] is the arc scanned at the j-th node from sink, flow goes along its reverse rev[path[j]]
+    /// Iterative walk from sink enters only nodes src reaches (2.5x-3x faster), path[j] is the arc taken j nodes back
     long long blocking_flow(){
         long long flow = 0;
         int u = sink;
@@ -216,7 +210,7 @@ struct DenseFlowGraph{
         return dis[u] != -1;
     }
 
-    /// One cell holds u -> v plus the flow on v -> u, so two LLONG_MAX edges would overflow it, LLONG_MAX still acts as infinite
+    /// One cell holds u -> v plus the flow on v -> u, so it saturates at LLONG_MAX, which still means infinite
     static void saturating_add(long long& cell, long long c){
         cell = cell > LLONG_MAX - c ? LLONG_MAX : cell + c;
     }

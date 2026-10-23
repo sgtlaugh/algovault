@@ -81,10 +81,10 @@ void check_greedy(int n, const vector<Clause>& clauses){
     if (sat) assert(g.get_assignment() == expected);
 }
 
-/// x_i = true walks the whole chain p, so attempts blow the budget and SCC, the topological shortcut and bitset batches all run
+/// x_i = true walks the whole chain p, so attempts blow the budget and SCC, the shortcut and bitset batches all run
 vector<Clause> adversarial(int n, int k, bool contradiction){
     vector<Clause> clauses;
-    /// SCC starts once failed attempts (~k + n each) waste ~2 (vars + clauses), a reaching prefix near there starts it on true x too
+    /// SCC starts once failed attempts (~k + n each) waste ~2 (vars + clauses), a reaching prefix also hits true x
     long long size = 2LL * (n + k) + 2LL * (k + 2 * n);
     int reaching = max(1LL, min<long long>(n / 2, size / (k + n) + stress::rand_int(-3, 2)));
     if (stress::rand_int(0, 2) == 0) reaching = stress::rand_int(1, n / 2);
@@ -137,7 +137,7 @@ vector<Clause> chains(int n){
                 clauses.push_back({-decoy, -decoy}), clauses.push_back({-decoy, -lit[end - 1]});
             }
         }
-        else {  /// a hub: s -> p_1 -> ... -> p_k -> !s, no s an ancestor of another, so each s takes its own batch query
+        else {  /// a hub: s -> p_1 -> ... -> p_k -> !s, no s an ancestor of another, so each s is its own query
             int mid = stress::rand_int(start + 1, end - 1);
             for (int i = mid; i < end; i++){
                 hidden[abs(lit[i])] = lit[i] > 0;
@@ -170,7 +170,7 @@ vector<Clause> decoys(int k, int len){
     int g0 = 1, q0 = g0 + a, y0 = q0 + lq, r0 = y0 + k;
 
     vector<Clause> clauses = {{-1, -(r0 + len)}};
-    /// variable 1 fails first, its Tarjan DFS numbers the y_j and path R low, so the y_j lead sinks first order spanning R
+    /// variable 1 fails first and its Tarjan DFS numbers the y_j and R low, so the y_j lead the sinks first order
     for (int j = 1; j <= k; j++) clauses.push_back({-1, y0 + j}), clauses.push_back({-(y0 + j), r0 + 1});
     /// sources g_i over a shared path Q burn the waste allowance, so SCC starts on some g_i
     for (int i = 1; i <= a; i++) clauses.push_back({-(g0 + i), q0 + 1}), clauses.push_back({-(q0 + lq), -(g0 + i)});
@@ -202,7 +202,7 @@ int main(){
         if (mode < 2) clauses = adversarial(n, stress::rand_int(n / 2, 2 * n), mode == 1);
         else if (mode >= 4) clauses = chains(2 * n);
         else {
-            int vars = 4 * n, m = mode == 2 ? 9 * vars / 10 : 3 * vars;  /// below the satisfiability threshold, and dense
+            int vars = 4 * n, m = mode == 2 ? 9 * vars / 10 : 3 * vars;  /// under the 2SAT threshold, and dense
             vector<int> hidden(vars + 1);
             for (auto& h : hidden) h = stress::rand_int(0, 1);
             while ((int)clauses.size() < m){

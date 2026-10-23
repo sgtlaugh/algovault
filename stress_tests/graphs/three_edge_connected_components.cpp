@@ -94,7 +94,7 @@ void check(ThreeEdgeConnected& g, const vector<vector<int>>& groups, const vecto
     }
 }
 
-/// k blocks of K4 in a chain or ring joined by `links` random edges: a ring's two routes merge everything from 2 links, a chain needs 3
+/// k blocks of K4 in a chain or ring joined by `links` random edges: a ring merges everything from 2 links, a chain 3
 void blocks_test(int k, int links, bool ring){
     int n = 4 * k;
     vector<int> label(n);
@@ -124,7 +124,7 @@ void blocks_test(int k, int links, bool ring){
     for (auto& group : groups) assert(is_sorted(group.begin(), group.end()));
 }
 
-/// `copies` parallel edges per path step, so m dominates n and cutting a step takes all its copies: 3 or more keep one class
+/// `copies` parallel edges per path step, so m dominates n and a cut takes all copies: 3 or more keep one class
 void parallel_path_test(int n, int copies){
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);
@@ -187,7 +187,7 @@ int main(){
         }
     }
 
-    /// Deep DFS: 25000 blocks in a chain is a 100000 vertex graph, deeper than a recursive DFS survives under ASan with 8 MB
+    /// Deep DFS: 25000 blocks in a chain is 100000 vertices, deeper than a recursive DFS survives under ASan with 8 MB
     for (int links : {1, 2, 3}){
         blocks_test(25000, links, false);
         blocks_test(25000, links, true);

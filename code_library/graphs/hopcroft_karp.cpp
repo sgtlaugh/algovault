@@ -3,17 +3,13 @@
  * Hopcroft Karp
  * Maximum matching in a bipartite graph
  *
- * Complexity: O(m sqrt(n)), O(n + m) memory
+ * Complexity: O(m sqrt(n))
  *
- * HopcroftKarp hk(n_left, n_right): left vertices 0..n_left - 1, right vertices 0..n_right - 1
+ * HopcroftKarp hk(n_left, n_right): left vertices 0 to n_left - 1, right vertices 0 to n_right - 1
  * hk.add_edge(u, v): edge from left u to right v
- * hk.max_matching(): size of a maximum matching, can be called again after adding more edges
- * hk.match_left[u]: right vertex matched to u or -1, hk.match_right[v]: left vertex matched to v or -1
- *
- * Each phase augments along shortest paths only, which is what bounds the phases by O(sqrt(n))
- * The augmenting search is iterative, so long augmenting paths cannot overflow the stack
- *
- * minimum_path_cover.cpp carries a checked copy of this struct
+ * hk.max_matching(): the size of a maximum matching, callable again after adding edges
+ * hk.match_left[u]: the right vertex matched to u or -1
+ * hk.match_right[v]: the left vertex matched to v or -1
  *
 ***/
 
@@ -45,7 +41,7 @@ struct HopcroftKarp{
         return n_left - count(match_left.begin(), match_left.end(), -1);
     }
 
-    /// Layers left vertices by distance from free left vertices, stopping at the first layer that reaches a free right vertex
+    /// Layers left vertices by distance from free left ones, stopping at the first layer reaching a free right vertex
     int bfs(){
         dist.assign(n_left, -1);
         vector<int> queue;

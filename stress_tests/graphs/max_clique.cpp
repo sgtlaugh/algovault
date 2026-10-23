@@ -9,7 +9,7 @@ struct Brute{
     vector<int> maximal;
 };
 
-/// Every vertex subset as a bitmask, each built from the subset without its lowest vertex, common = intersection of the neighbourhoods
+/// Every vertex subset as a bitmask, built from the subset without its lowest vertex, common = their shared neighbours
 Brute brute(int n, const vector<int>& adj){
     Brute result;
     int full = (1 << n) - 1;
@@ -187,7 +187,7 @@ int main(){
         assert(valid(dense, independent, true) && independent.size() >= 20 && independent.size() == largest_maximal(complement));
     }
 
-    /// Paths and cycles at n = CLIQUE_MAXN: the ~99% dense complements have near-equal degrees, so a degree sort scrambling ties leaves branch and bound exponential
+    /// Paths and cycles at n = CLIQUE_MAXN: near-regular dense complements, a sort scrambling ties goes exponential
     for (int cycle = 0; cycle < 2; cycle++){
         int n = CLIQUE_MAXN;
         CliqueGraph g(n);

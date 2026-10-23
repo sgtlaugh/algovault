@@ -6,7 +6,7 @@
 
 struct Arc{ int u, v; long long cap, cost; };
 
-/// Tries every integer flow vector, returns {max flow from s to t, min cost at that flow}, s = t = -1 asks for a circulation
+/// Tries every integer flow vector, returns {max flow from s to t, min cost at that flow}, s = t = -1 for a circulation
 pair<long long, long long> brute_force(int n, const vector<Arc>& arcs, int s, int t){
     int m = arcs.size();
     vector<long long> f(m, 0);
@@ -61,7 +61,7 @@ vector<long long> check_optimal(int n, const vector<Arc>& arcs, MinCostCirculati
     return flows;
 }
 
-/// Brute force on tiny graphs, the residual negative cycle certificate on larger ones and at the n = 1e4, |cost| = 1e9 limit
+/// Brute force on tiny graphs, the no negative residual cycle certificate on larger ones and at n = 1e4, |cost| = 1e9
 int main(){
     for (long long it = 0; it < stress::scaled(4000); it++){
         int n = stress::rand_int(1, 4), m = stress::rand_int(0, 6);
@@ -111,7 +111,7 @@ int main(){
         check_optimal(n, arcs, g, ids, cost);
     }
 
-    /// A Hamiltonian ring of -1e9 arcs plus shuffled random chords: the longest negative cycle at the n and cost limits, caps <= 1e5 keep the total in range
+    /// A ring of -1e9 arcs plus shuffled chords: the longest negative cycle at the limits, caps <= 1e5 keep it in range
     const int n = 10000, m = 30000;
     const long long max_cost = 1000000000;
 

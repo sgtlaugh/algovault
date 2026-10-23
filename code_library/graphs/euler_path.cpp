@@ -5,18 +5,16 @@
  *
  * Complexity: O(n + m)
  *
- * EulerDirected g(n) or EulerUndirected g(n), vertices numbered from 0 to n-1
- * g.add_edge(u, v) returns the edge id, ids are 0, 1, 2, ... in call order
- * g.solve(start) returns the m + 1 vertices of an Euler path beginning at start, or an empty vector if none exists
- * start must be -1 or a vertex in [0, n - 1]
- * After a successful solve, g.walk_edges holds the m edge ids in order: edge walk_edges[i] joins path[i] to path[i + 1]
- * start = -1 picks a valid start: the vertex with out - in = 1 (directed) or the first odd degree vertex (undirected),
- * otherwise the first vertex with an outgoing edge
- * The path is a cycle iff path.front() == path.back()
- * With no edges the path is the single vertex start (0 for start = -1), and it is empty when n = 0
+ * EulerDirected g(n) or EulerUndirected g(n): vertices 0 to n - 1, no edges
+ * g.add_edge(u, v): adds an edge and returns its id, ids are 0, 1, 2, ... in call order
+ * g.solve(start): the m + 1 vertices of an Euler path from start, empty if none exists, start is -1 or a vertex
+ * g.walk_edges: after a successful solve, the m edge ids in order, edge walk_edges[i] joins path[i] to path[i + 1]
  *
- * Multi-edges, self loops and isolated vertices are allowed: only the vertices that have edges need to be connected
- * Iterative, so long paths cannot overflow the stack
+ * Notes:
+ *   - start = -1 picks the first vertex with out - in = 1 (directed) or odd degree, else the first with an edge
+ *   - The path is a cycle iff path.front() == path.back()
+ *   - With no edges the path is the single vertex start (0 for start = -1), and it is empty when n = 0
+ *   - Multi-edges, self loops and isolated vertices are allowed: only the vertices that have edges need to be connected
  *
 ***/
 
