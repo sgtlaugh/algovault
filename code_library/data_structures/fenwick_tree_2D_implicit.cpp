@@ -7,15 +7,15 @@
  *   - build: O(n) for the row roots
  *   - update, query: O(log n log m)
  *
- * FenwickImplicit2D<T> fen(n, m): n rows, m columns, all zeros
+ * FenwickImplicit2D<T> fen(n, m, max_nodes = 12800000): n rows, m columns, all zeros, at most max_nodes tree nodes
  * fen.update(x1, y1, x2, y2, v): add v to a[x1..x2][y1..y2], nothing when x1 > x2 or y1 > y2
  * fen.query(x, y): a[x][y]
  *
  * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
- * q updates create O(q log n log m) nodes from a pool of MAXNODES, 16 bytes each for long long, about 205 MB by default
- * The default pool fits about 8000 random rectangle updates at n = m = 1e9, which create about 1600 nodes each
+ * q updates create O(q log n log m) nodes from a pool of max_nodes, 16 bytes each for long long, about 205 MB by default
+ * The default pool fits about 13000 random rectangle updates at n = 1e6, m = 1e9, which create about 1000 nodes each
  * The pool is reserved up front, but only the pages of created nodes are touched
- * Running out of nodes asserts, raise MAXNODES then
+ * Running out of nodes asserts, raise max_nodes then
  * The row roots take 4 * (n + 1) bytes, so n is bounded by memory and m only by the pool
  * fenwick_tree_2D_sparse.cpp does point add and rectangle sum on a fixed hash table of 268 MB by default
  * This one pays only for the nodes it creates
@@ -28,20 +28,18 @@ using namespace std;
 
 template <typename T>
 struct FenwickImplicit2D{
-    static const int MAXNODES = 12800000;
-
     struct Node{
         T sum;
         int l, r;
     };
 
-    int n, m;
+    int n, m, max_nodes;
     vector<int> root;
     vector<Node> nodes;
 
     /// reserve without filling, so pool pages are only touched once nodes are used, node 0 is the empty child
-    FenwickImplicit2D(int n, int m) : n(n), m(m), root(n + 1, 0){
-        nodes.reserve(MAXNODES);
+    FenwickImplicit2D(int n, int m, int max_nodes = 12800000) : n(n), m(m), max_nodes(max_nodes), root(n + 1, 0){
+        nodes.reserve(max_nodes);
         nodes.push_back({0, 0, 0});
     }
 
@@ -81,7 +79,7 @@ struct FenwickImplicit2D{
 
     int update_seg(int cur, int a, int b, int p, T v){
         if (!cur){
-            assert((int)nodes.size() < MAXNODES);  /// out of pool nodes, raise MAXNODES
+            assert((int)nodes.size() < max_nodes);  /// out of pool nodes, raise max_nodes
             cur = nodes.size();
             nodes.push_back({0, 0, 0});
         }

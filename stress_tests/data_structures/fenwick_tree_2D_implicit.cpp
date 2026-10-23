@@ -4,8 +4,19 @@
 #include "../../code_library/data_structures/fenwick_tree_2D_implicit.cpp"
 #undef main
 
+template <typename Call>
+void check_rejects(Call call){
+    stress::expect_assert("data_structures/fenwick_tree_2D_implicit.cpp", call);
+}
+
 /// Rectangle updates and point queries
 int main(){
+    /// Without the asserts a cell past the edge lands on a border leaf, and a full pool silently grows past max_nodes
+    check_rejects([]{ FenwickImplicit2D<int>(4, 5).update(0, 0, 4, 0, 1); });
+    check_rejects([]{ FenwickImplicit2D<int>(4, 5).update(0, -1, 0, 0, 1); });
+    check_rejects([]{ FenwickImplicit2D<int>(4, 5).query(0, 5); });
+    check_rejects([]{ FenwickImplicit2D<int>(4, 5, 3).update(0, 0, 0, 0, 1); });
+
     /// Small grids against a full brute force array, square or not, rectangles often touch the last row and column
     for (long long round = 0; round < stress::scaled(40); round++){  /// few rounds, every instance reserves the whole node pool
         const int n = stress::rand_int(1, 30), m = round % 2 ? n : stress::rand_int(1, 30);
