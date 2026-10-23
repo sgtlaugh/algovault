@@ -13,7 +13,7 @@ unsigned long long cell_hash(int i, int v){
 }
 
 /// Distinct values and cell hash of every timed range, empty ones included, against replaying the updates on a fresh copy
-/// check_calls holds the callback count to 2 * the header bound, leaving headroom over random inputs
+/// check_calls holds the callback count to the header bound with constant 1 over non-empty ranges, empty ones would hide a too small block
 void check_updates(int n, int q, int u, int max_v, int verify = 1 << 30, bool check_calls = false){
     vector<int> a(n);
     for (auto& x : a) x = stress::rand_int(0, max_v);
@@ -22,7 +22,7 @@ void check_updates(int n, int q, int u, int max_v, int verify = 1 << 30, bool ch
     vector<array<int, 3>> queries(q);
     for (auto& [l, r, t] : queries){
         l = stress::rand_int(0, n);  /// r = l - 1 is an empty range, l = n included
-        r = l < n && stress::rand_int(0, 4) ? stress::rand_int(l, n - 1) : l - 1;
+        r = l < n && (check_calls || stress::rand_int(0, 4)) ? stress::rand_int(l, n - 1) : l - 1;
         t = stress::rand_int(0, u);
     }
     const vector<int> initial = a;
@@ -39,7 +39,7 @@ void check_updates(int n, int q, int u, int max_v, int verify = 1 << 30, bool ch
             [&](int i){ distinct -= --freq[a[i]] == 0, hash -= cell_hash(i, a[i]), calls++; },
             [&](int qi){ return make_tuple(distinct, hash, qi); });
         assert(distinct == 0 && hash == 0 && a == initial && (int)got.size() == q);
-        assert(!check_calls || calls <= 2 * ((q + u) * block + block * block));
+        assert(!check_calls || calls <= (q + u) * block + block * block);
 
         for (int i = 0; i < q && i < verify; i++){
             auto [l, r, t] = queries[i];
