@@ -20,8 +20,22 @@ void check(const vector<vector<T>>& grid, const SparseTable2D<T>& mn, const Spar
     assert(mn.query(x1, y1, x2, y2) == lo && mx.query(x1, y1, x2, y2) == hi);
 }
 
+/// Without the assert x1 > x2 shifts by -1 and an x2 or y2 past the grid reads outside the table
+void check_rejects(int n, int m, int x1, int y1, int x2, int y2){
+    auto grid = random_grid<int>(n, m, 0, 9);
+    stress::expect_assert("data_structures/sparse_table_2D.cpp", [&]{ SparseTable2D<int>(grid).query(x1, y1, x2, y2); });
+}
+
 /// Rectangle min and max against a direct scan, every rectangle for small grids and random ones for large grids
 int main(){
+    check_rejects(3, 3, 1, 0, 0, 1);
+    check_rejects(3, 3, 0, 2, 1, 1);
+    check_rejects(3, 3, -1, 0, 1, 1);
+    check_rejects(3, 3, 0, -1, 1, 1);
+    check_rejects(3, 4, 0, 0, 3, 1);
+    check_rejects(4, 3, 0, 0, 1, 3);
+    check_rejects(0, 0, 0, 0, 0, 0);
+
     for (long long it = 0; it < stress::scaled(600); it++){
         int n = it < 144 ? it / 12 + 1 : stress::rand_int(1, 120);
         int m = it < 144 ? it % 12 + 1 : stress::rand_int(1, 120);

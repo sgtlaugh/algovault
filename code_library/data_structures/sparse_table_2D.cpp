@@ -49,6 +49,7 @@ struct SparseTable2D{
     }
 
     T query(int x1, int y1, int x2, int y2) const{
+        assert(0 <= x1 && x1 <= x2 && x2 < n && 0 <= y1 && y1 <= y2 && y2 < m);
         int a = __lg(x2 - x1 + 1), b = __lg(y2 - y1 + 1);
         int x3 = x2 - (1 << a) + 1, y3 = y2 - (1 << b) + 1;
         return best(best(block(a, b, x1, y1), block(a, b, x1, y3)), best(block(a, b, x3, y1), block(a, b, x3, y3)));
