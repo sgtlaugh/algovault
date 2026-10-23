@@ -21,9 +21,10 @@ using namespace std;
 
 struct BinomialPrimePow{
     uint32_t p, q, mod, len;
-    vector<uint32_t> dp;
+    /// free_fact[i] = the product of 1..i skipping multiples of p, modulo p^q
+    vector<uint32_t> free_fact;
 
-    uint64_t get_tz(uint64_t x){
+    uint64_t legendre(uint64_t x){
         uint64_t res = 0;
         while (x){
             x /= p;
@@ -51,12 +52,12 @@ struct BinomialPrimePow{
 
         while (x >= p){
             d = x / mod;
-            if (d & 1) res = res * dp[mod - 1] % mod;
-            res = res * dp[x - d * mod] % mod;
+            if (d & 1) res = res * free_fact[mod - 1] % mod;
+            res = res * free_fact[x - d * mod] % mod;
             x /= p;
         }
 
-        return res * dp[x] % mod;
+        return res * free_fact[x] % mod;
     }
 
     BinomialPrimePow(uint64_t p, uint32_t q, int64_t max_n): p(p), q(q){
@@ -65,19 +66,19 @@ struct BinomialPrimePow{
         for (uint32_t i = 0; i < q; i++) pw *= p;
         assert(pw < (1ULL << 32));
         this->mod = pw;
-        /// While n <= max_n < p^q, fact() only ever reads dp[0..max_n], so a longer table would never be touched
+        /// While n <= max_n < p^q, fact() only ever reads free_fact[0..max_n], so a longer table would never be touched
         this->len = min<uint64_t>(pw, (uint64_t)max_n + 1);
     }
 
     int64_t binomial(int64_t n, int64_t k){
-        uint64_t t = get_tz(n) - get_tz(k) - get_tz(n - k);
+        uint64_t t = legendre(n) - legendre(k) - legendre(n - k);
         if (t >= q) return 0;
 
-        if (!dp.size()){
-            dp.resize(len, 1);
+        if (!free_fact.size()){
+            free_fact.resize(len, 1);
             for (uint32_t i = 1, r = 1; i < len; i++, r++){
                 if (r == p) r = 0;
-                dp[i] = (uint64_t)dp[i - 1] * (r ? i : 1) % mod;
+                free_fact[i] = (uint64_t)free_fact[i - 1] * (r ? i : 1) % mod;
             }
         }
 
@@ -90,7 +91,7 @@ struct BinomialPrimePow{
 struct Binomial{
     uint64_t mod;
     int64_t max_n;
-    vector<BinomialPrimePow> dp;
+    vector<BinomialPrimePow> prime_powers;
     vector<uint64_t> mods;
     vector<uint32_t> invs;
 
@@ -115,7 +116,7 @@ struct Binomial{
     uint64_t chinese_remainder(const vector<uint32_t>& rem){
         uint64_t res = 0;
         for (uint32_t i = 0; i < rem.size(); i++){
-            uint64_t x = (uint64_t)rem[i] * invs[i] % dp[i].mod * mods[i];
+            uint64_t x = (uint64_t)rem[i] * invs[i] % prime_powers[i].mod * mods[i];
             res = res >= mod - x ? res - (mod - x) : res + x;
         }
 
@@ -132,47 +133,46 @@ struct Binomial{
                 c++;
                 m /= i;
             }
-            if (c) dp.push_back(BinomialPrimePow(i, c, max_n));
+            if (c) prime_powers.push_back(BinomialPrimePow(i, c, max_n));
         }
-        if (m > 1) dp.push_back(BinomialPrimePow(m, 1, max_n));
+        if (m > 1) prime_powers.push_back(BinomialPrimePow(m, 1, max_n));
 
-        for (auto d: dp){
-            mods.push_back(mod / d.mod);
-            invs.push_back(mod_inverse(mod / d.mod % d.mod, d.mod));
+        for (const auto& pp: prime_powers){
+            mods.push_back(mod / pp.mod);
+            invs.push_back(mod_inverse(mod / pp.mod % pp.mod, pp.mod));
         }
     }
 
     int64_t binomial(int64_t n, int64_t k){
-        if (k > n || n < 0 || k < 0 || !dp.size()) return 0;
+        if (k > n || n < 0 || k < 0 || !prime_powers.size()) return 0;
         assert(n <= max_n);
         if (n == k || k == 0) return 1;
 
         vector<uint32_t> rem;
-        for (uint32_t i = 0; i < dp.size(); i++){
-            rem.push_back(dp[i].binomial(n, k));
+        for (uint32_t i = 0; i < prime_powers.size(); i++){
+            rem.push_back(prime_powers[i].binomial(n, k));
         }
         return chinese_remainder(rem);
     }
 };
 
 int main(){
-    auto start = clock();
-
-    int64_t dp[30][30];
+    /// Every C(n, k) with n, k < 30 against Pascal's triangle, for each modulus below 30, prime or not
+    int64_t pascal[30][30];
     for (int mod = 1; mod < 30; mod++){
-        memset(dp, 0, sizeof(dp));
-        auto bin = Binomial(mod);
+        memset(pascal, 0, sizeof(pascal));
+        Binomial bin(mod);
 
         for (int n = 0; n < 30; n++){
             for (int k = 0; k <= n; k++){
-                if (k == 0 || n == k) dp[n][k] = 1 % mod;
-                else dp[n][k] = (dp[n - 1][k - 1] + dp[n - 1][k]) % mod;
+                if (k == 0 || n == k) pascal[n][k] = 1 % mod;
+                else pascal[n][k] = (pascal[n - 1][k - 1] + pascal[n - 1][k]) % mod;
             }
         }
 
         for (int n = 0; n < 30; n++){
             for (int k = 0; k < 30; k++){
-                assert(dp[n][k] == bin.binomial(n, k));
+                assert(pascal[n][k] == bin.binomial(n, k));
             }
         }
     }
@@ -187,8 +187,10 @@ int main(){
 
     /// 4294967291 is the largest prime below 2^32, C(p, 1) = p and p < 3p
     assert(Binomial(3 * 4294967291ULL).binomial(4294967291LL, 1) == 4294967291LL);
+
     Binomial wide(3 * 4294967291ULL);
-    for (size_t i = 0; i < wide.dp.size(); i++) assert(wide.mods[i] % wide.dp[i].mod * wide.invs[i] % wide.dp[i].mod == 1);
+    for (size_t i = 0; i < wide.prime_powers.size(); i++) assert(wide.mods[i] % wide.prime_powers[i].mod * wide.invs[i] % wide.prime_powers[i].mod == 1);
+
     /// 2^63 - 1 is all ones in binary, so by Lucas every C(2^63 - 1, k) is odd
     assert(Binomial(2).binomial(INT64_MAX, 123456789) == 1);
 
@@ -197,6 +199,5 @@ int main(){
     assert(Binomial(1162261467, 100000).binomial(100000, 33333) == 641856042);  /// 3^19
     assert(Binomial(2 * 999999937, 100000).binomial(100000, 33333) == 166212410);
 
-    fprintf(stderr, "\nTime taken = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC); /// 0.010 s
     return 0;
 }
