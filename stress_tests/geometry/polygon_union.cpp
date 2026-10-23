@@ -95,7 +95,7 @@ Polygons random_polygons(int range, int count){
     return polys;
 }
 
-/// Vertical strips cut at every vertex and edge crossing: inside a strip no edges cross, the covered length is linear in x and its midpoint value is exact
+/// Strips cut at every vertex and edge crossing: inside one the covered length is linear in x, so its midpoint is exact
 Float strip_union(const Polygons& polys){
     vector<pair<Point, Point>> edges;
     for (auto& poly: polys){
@@ -210,7 +210,7 @@ int main(){
         shuffle(shuffled.begin(), shuffled.end(), stress::rng());
         assert(fabsl(polygon_union(shuffled) - expected) <= 1e-9L * max((Float)1, expected));
 
-        /// Header boundary: integer coordinates reaching |x|, |y| = 1e9, translated to the corner and scaled across the whole range
+        /// Header bound: integer coordinates reaching |x|, |y| = 1e9, moved to the corner and scaled across the range
         Polygons cornered = transform(polys, 1, 1e9 - range, -1e9);
         assert(fabsl(polygon_union(cornered) - expected) <= 1e-6L * max((Float)1, expected));
         Float scale = floorl(2e9L / range);

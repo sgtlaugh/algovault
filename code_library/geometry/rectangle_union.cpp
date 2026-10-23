@@ -3,22 +3,16 @@
  * Rectangle Union
  * Area and perimeter of the union of axis-aligned rectangles
  *
- * Complexity: O(n log n), O(n) memory
+ * Complexity: O(n log n)
  *
- * Sweeps a vertical line over x, a segment tree over the compressed y coordinates keeps
- * the minimum cover count and the length covered by that minimum, so the covered length is
- * the total minus that length whenever the minimum is 0
+ * rectangle_union_area(rects): area of the union
+ * rectangle_union_perimeter(rects): perimeter of the union, hole boundaries included, edges between touching ones not
+ * rectangle_union_sweep(rects): {area, length of the vertical boundary} of the union
  *
- * A rectangle is (x1, y1, x2, y2) with x1 < x2 and y1 < y2, empty ones (x1 >= x2 or y1 >= y2) are ignored
- * Coordinates within [-1e9, 1e9] keep every result inside long long (the area is at most 4e18)
- * The perimeter counts hole boundaries too and never counts edges shared by touching rectangles
- * rectangle_union_perimeter sweeps twice (original and transposed), call rectangle_union_sweep
- * directly to get {area, vertical boundary length} in one pass
- *
- * Example:
- *   vector<Rectangle> rects = {{0, 0, 2, 2}, {1, 1, 3, 3}};
- *   rectangle_union_area(rects);       // 7
- *   rectangle_union_perimeter(rects);  // 12
+ * Notes:
+ *   - A rectangle is (x1, y1, x2, y2), empty ones (x1 >= x2 or y1 >= y2) are ignored
+ *   - Coordinates within [-1e9, 1e9] keep every result inside long long (the area is at most 4e18)
+ *   - rectangle_union_perimeter sweeps twice, rectangle_union_sweep gets the area and vertical boundary in one pass
  *
 ***/
 

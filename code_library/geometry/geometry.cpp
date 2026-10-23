@@ -4,50 +4,49 @@
  * Exact integer predicates on lattice points, polygon queries, and floating point line and polygon helpers
  *
  * Complexity, n = number of polygon vertices or points:
- *   - O(n log n) for simple_polygon
- *   - O(log n) for point_in_convex_polygon
- *   - O(n) for area2, point_in_polygon, cut_polygon, polygon_centroid
- *   - O(1) for every other function
+ *   - simple_polygon: O(n log n)
+ *   - point_in_convex_polygon: O(log n)
+ *   - area2, point_in_polygon, cut_polygon, polygon_centroid: O(n)
+ *   - every other function: O(1)
  *
- * Integer part, Point of long long, |x|, |y| <= 1e9 so every cross / dot product fits in long long:
- *   Point has +, -, == and < (x, then y), so points sort, deduplicate and key a map
+ * Integer part, Point of long long with +, -, == and < (x, then y), so points sort, deduplicate and key a map:
  *   angle_less(a, b): polar angle order of vectors, counter-clockwise from the positive x axis over [0, 2 pi)
- *       vectors with the same direction compare equal, (0, 0) comes first
- *       components up to 2e9 are allowed, so sort around a center o by sorting the vectors p - o
  *   area2(poly): twice the signed area, positive for counter-clockwise order
  *   cross(o, a, b): > 0 if o -> a -> b turns left (counter-clockwise), < 0 right, 0 collinear
  *   dist_point_segment(p, a, b): Euclidean distance as a double
- *   on_segment(p, a, b), segments_intersect(a, b, c, d): endpoints inclusive, degenerate segments allowed
- *   point_in_convex_polygon(poly, p): convex polygon in counter-clockwise order with n >= 3, same return values
- *       collinear vertices allowed, as long as not all vertices are collinear
- *   point_in_polygon(poly, p): any simple polygon, returns 1 inside, 0 on the boundary, -1 outside
- *   simple_polygon(points): an order of the indices forming a simple polygon
- *       points must be distinct and not all collinear
+ *   on_segment(p, a, b): whether p lies on segment ab, endpoints inclusive
+ *   point_in_convex_polygon(poly, p): 1 inside, 0 on the boundary, -1 outside, poly convex counter-clockwise, n >= 3
+ *   point_in_polygon(poly, p): 1 inside, 0 on the boundary, -1 outside, for any simple polygon
+ *   segments_intersect(a, b, c, d): whether segments ab and cd share a point, endpoints inclusive
+ *   simple_polygon(points): an order of the indices forming a simple polygon, points distinct and not all collinear
  *
  * Floating point part, PointF of doubles:
- *   Tolerance is relative to the size of the configuration: o, a, b count as collinear when the height of the
- *   triangle is below EPS = 1e-9 times its longest side, two lines are parallel when the sine of their angle is below EPS
- *   With integer coordinates |x|, |y| <= 1e4 every decision below is exact, only the returned points are rounded
  *   area2(poly): twice the signed area, positive for counter-clockwise order, 0 for fewer than 3 vertices
  *   clockwise_angle(a, b): clockwise angle in degrees in [0, 360) from vector a to vector b
- *   cut_polygon(poly, a, b): the part of poly left of a -> b, the half-plane cross(a, b, p) >= 0
- *       a != b, decided by the exact sign of cross(a, b, p) without the EPS tolerance
- *       empty when no vertex lies strictly left of the line
- *       convex poly: a convex polygon with the same orientation, no repeated vertex for exact input
- *       (a vertex within rounding of the line may appear twice)
- *       simple poly: the kept pieces joined by zero-width bridges along the line, the signed area is exact
+ *   cut_polygon(poly, a, b): the part of poly left of a -> b, the half-plane cross(a, b, p) >= 0, a != b
  *   dist_point_line(p, a, b): signed distance, positive when p is left of a -> b, a != b
  *   great_circle_distance(lat1, lon1, lat2, lon2, radius): haversine formula, angles in degrees
- *   line_intersection(a, b, c, d): lines through a, b and c, d with a != b, c != d
- *       returns {1, point} for a unique point, {0, (0, 0)} for parallel lines, {-1, (0, 0)} for the same line
- *   orientation(o, a, b): sign of cross(o, a, b) under that tolerance
+ *   line_intersection(a, b, c, d): {1, point} for a unique point, {0, (0, 0)} parallel, {-1, (0, 0)} the same line
+ *   orientation(o, a, b): sign of cross(o, a, b) under the EPS tolerance
  *   polygon_centroid(poly): center of mass of a simple polygon with nonzero area, either orientation
- *   project(p, a, b), reflect(p, a, b): projection of p onto, reflection of p across the line through a, b, a != b
+ *   project(p, a, b): projection of p onto the line through a != b
+ *   reflect(p, a, b): reflection of p across the line through a != b
  *   rotate(center, p, degrees): rotates p counter-clockwise around center
- *   segment_intersection(a, b, c, d): no point, the single common point, or the two ends of the overlap of collinear
- *       segments, degenerate segments allowed
+ *   segment_intersection(a, b, c, d): no point, the single common point, or the two ends of a collinear overlap
  *
- * Defines its own Point, cross and area2: pasted next to another geometry file, merge the Point blocks first
+ * Notes:
+ *   - Point needs |x|, |y| <= 1e9 so every cross and dot product fits in long long
+ *   - angle_less ranks vectors of the same direction equal and (0, 0) first, components up to 2e9 are allowed
+ *   - To sort points around a center o, sort the vectors p - o with angle_less
+ *   - Degenerate segments are allowed in on_segment, segments_intersect and segment_intersection
+ *   - point_in_convex_polygon allows collinear vertices, as long as not all vertices are collinear
+ *   - PointF counts o, a, b as collinear when the triangle's height is below EPS = 1e-9 times its longest side
+ *   - Two PointF lines are parallel when the sine of their angle is below EPS
+ *   - With integer coordinates |x|, |y| <= 1e4 every PointF decision is exact, only the returned points are rounded
+ *   - cut_polygon uses the exact sign of cross(a, b, p) without EPS and is empty when no vertex lies strictly left
+ *   - cut_polygon of a convex poly is convex with the same orientation, a vertex within rounding of the line may repeat
+ *   - cut_polygon of a simple poly joins the kept pieces by zero-width bridges along the line, the signed area is exact
+ *   - Defines its own Point, cross and area2: pasted next to another geometry file, merge the Point blocks first
  *
 ***/
 
@@ -236,7 +235,7 @@ vector<PointF> cut_polygon(const vector<PointF>& poly, const PointF& a, const Po
         const PointF& cur = poly[i];
         const PointF& prev = poly[(i + n - 1) % n];
         double sc = cross(a, b, cur), sp = cross(a, b, prev);
-        /// Only strict sign changes are interpolated: a vertex on the line is kept once as itself, never again as a crossing
+        /// Only strict sign changes are interpolated, so a vertex on the line is kept once, never again as a crossing
         if ((sc > 0 && sp < 0) || (sc < 0 && sp > 0)) res.push_back(cur + (prev - cur) * (sc / (sc - sp)));
         if (sc >= 0) res.push_back(cur);
         any_left |= sc > 0;

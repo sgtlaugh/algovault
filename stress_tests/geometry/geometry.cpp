@@ -145,7 +145,7 @@ bool exact_on(Point p, Point s, Point e){
 
 using Points = vector<pair<long double, long double>>;
 
-/// The common points of two segments from the exact line equations: a fraction for a crossing, the overlap interval otherwise
+/// Common points of two segments from the exact line equations: a fraction for a crossing, else the overlap interval
 Points brute_segment_points(Point a, Point b, Point c, Point d){
     auto at = [&](__int128 num, __int128 den){ return make_pair(a.x + (long double)((b.x - a.x) * num) / den, a.y + (long double)((b.y - a.y) * num) / den); };
     if (a == b && c == d) return a == c ? Points{{a.x, a.y}} : Points{};
@@ -210,7 +210,7 @@ void check_lines(Point a, Point b, Point c, Point d, Point p){
     assert(close_to(dist_point_line(fp, fa, fb), side * dist) && (side == 0 || (dist_point_line(fp, fa, fb) > 0) == (side > 0)));
 }
 
-/// Same direction by reduced vectors, otherwise atan2l in [0, 2 pi), with the exact __int128 cross only for angles closer than 1e-12
+/// Same direction by reduced vectors, else atan2l in [0, 2 pi), the exact __int128 cross only for angles within 1e-12
 bool brute_angle_less(Point a, Point b){
     bool za = a.x == 0 && a.y == 0, zb = b.x == 0 && b.y == 0;
     if (za || zb) return za && !zb;
@@ -241,7 +241,7 @@ long double area_f(const vector<PointF>& poly){
     return s / 2;
 }
 
-/// Exact area of poly cut by the half-plane, the complementary cut, and for convex polygons point membership of random samples
+/// Exact area of poly cut by the half-plane, the complementary cut, and for convex polygons membership of random points
 void check_cut(const vector<Point>& poly, Point a, Point b, bool convex){
     vector<PointF> fpoly;
     for (Point p : poly) fpoly.push_back(to_f(p));
@@ -254,7 +254,7 @@ void check_cut(const vector<Point>& poly, Point a, Point b, bool convex){
     assert(fabsl(area_f(kept) + area_f(rest) - total) < 1e-9 * scale);
     assert(fabsl(area2(kept) / 2 - area_f(kept)) < 1e-9 * scale && fabsl(area2(rest) / 2 - area_f(rest)) < 1e-9 * scale);
 
-    /// a lies on the line, so triangle a, p, q cut by the half-plane is the triangle over the share of p -> q left of it
+    /// a lies on the line, so triangle a, p, q cut by the half-plane is the triangle over the part of p -> q left of it
     long double exact = 0;
     for (int i = 0, n = poly.size(); i < n; i++){
         Point p = poly[i], q = poly[(i + 1) % n];
@@ -498,7 +498,7 @@ int main(){
         assert(fabsl(got - 6371 * acosl(-1.0L)) < 1e-9 * 6371);
     }
 
-    /// Near-collinear floating inputs, which the integer-derived cases never produce, must fall inside the EPS tolerance
+    /// Near-collinear floating inputs, which integer-derived cases never produce, must fall inside the EPS tolerance
     assert(orientation({0, 0}, {1, 0}, {2, 1e-12}) == 0 && orientation({0, 0}, {1e6, 0}, {2e6, 1e-4}) == 0);
     assert(orientation({0, 0}, {1, 0}, {2, 1e-6}) == 1 && orientation({0, 0}, {1, 0}, {2, -1e-6}) == -1);
     assert(line_intersection({0, 0}, {1, 0}, {0, 1}, {1, 1 + 1e-12}).first == 0);
@@ -512,7 +512,7 @@ int main(){
         check_lines(a, b, c, d, p);
     }
 
-    /// The 1e4 boundary where integer input must still be decided exactly: long segments, points on or one unit off the line a b
+    /// At the 1e4 bound integer input is still decided exactly: long segments, points on or one unit off the line a b
     const long long E4 = 10000;
     auto edge_value = [&](){
         switch (stress::rand_int(0, 2)){
@@ -588,7 +588,7 @@ int main(){
 
     assert(near_limit > 0);
 
-    /// Combs with three or more teeth tips on the line and the rest strictly on one side, the kept part on that side is empty
+    /// Combs with three or more tooth tips on the line and the rest strictly on one side: the kept part is empty
     for (long long it = 0; it < stress::scaled(2000); it++){
         int teeth = stress::rand_int(2, 6);
         long long ox = stress::rand_int(-20, 20), oy = stress::rand_int(-20, 20);

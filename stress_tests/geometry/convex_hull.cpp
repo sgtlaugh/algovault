@@ -11,8 +11,8 @@ bool same(const Point& a, const Point& b){
 vector<Point> random_points(int n, int range){
     vector<Point> points;
     for (int i = 0; i < n; i++){
-        if (stress::rand_int(0, 4) == 0 && i) points.push_back(points[stress::rand_int(0, i - 1)]);              /// duplicates
-        else if (stress::rand_int(0, 5) == 0) points.push_back(Point(stress::rand_int(-range, range), 7));    /// collinear row
+        if (stress::rand_int(0, 4) == 0 && i) points.push_back(points[stress::rand_int(0, i - 1)]);  /// duplicates
+        else if (stress::rand_int(0, 5) == 0) points.push_back(Point(stress::rand_int(-range, range), 7));  /// a line
         else points.push_back(Point(stress::rand_int(-range, range), stress::rand_int(-range, range)));
     }
     return points;
@@ -95,7 +95,7 @@ array<int, 2> brute_line_hull(const Point& a, const Point& b, const vector<Point
     return res;
 }
 
-/// A strict hull is the unique strictly convex counter-clockwise polygon over input points that contains every input point
+/// A strict hull is the unique strictly convex counter-clockwise polygon over input points containing every input point
 void check_hull(const vector<Point>& points, const vector<Point>& hull){
     vector<Point> distinct = points;
     sort(distinct.begin(), distinct.end());
@@ -148,7 +148,7 @@ bool brute_is_convex(const vector<Point>& polygon){
     return up == 1 || down == 1;
 }
 
-/// Boundary lattice points of a small hull in boundary order, then a swap, a moved vertex, a reversal and a rotation at random
+/// Boundary lattice points of a small hull in order, then a swap, a moved vertex, a reversal and a rotation at random
 void stress_convexity_orders(){
     for (long long it = 0; it < stress::scaled(100000); it++){
         int range = stress::rand_int(1, 4);
@@ -222,7 +222,8 @@ void stress_hull_and_convexity(){
             assert(is_convex(with_mid));
         }
 
-        if (range == 4){  /// an edge doubling back on itself, a -> 2/3 -> 1/3 -> b, turns one way but is not a simple polygon
+        /// An edge doubling back on itself, a -> 2/3 -> 1/3 -> b, turns one way but is not a simple polygon
+        if (range == 4){
             vector<Point> folded;
             for (auto& p : hull) folded.push_back(Point(3 * p.x, 3 * p.y));
             Point s = folded[0], t = folded[1], d((t.x - s.x) / 3, (t.y - s.y) / 3);

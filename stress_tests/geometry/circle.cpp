@@ -148,7 +148,7 @@ vector<Point> random_polygon(int n, int range){
     }
 }
 
-/// Lens area from the segment formula with the kite area taken by Heron's formula, a different route than the library's sines
+/// Lens area from the segment formula with the kite area by Heron's formula, a different route than the library's sines
 __float128 lens_area(__float128 x0, __float128 y0, __float128 r0, __float128 x1, __float128 y1, __float128 r1){
     __float128 d = sqrtq((x0 - x1) * (x0 - x1) + (y0 - y1) * (y0 - y1)), pi = acosq(-1);
     if (d >= r0 + r1) return 0;
@@ -234,7 +234,7 @@ int brute_cover(const vector<Point>& points, long double r){
 
 const int TRIPLES[][3] = {{1, 0, 1}, {0, 1, 1}, {3, 4, 5}, {4, 3, 5}, {5, 12, 13}, {8, 15, 17}, {7, 24, 25}};
 
-/// Rational unit direction dx / len, dy / len: tangencies stay exact on integers, after a 0.1 scaling the tolerances decide them
+/// Rational unit direction dx / len, dy / len: tangencies are exact on integers, after 0.1 scaling tolerances decide
 array<long long, 3> rational_direction(){
     auto t = TRIPLES[stress::rand_int(0, 6)];
     long long sx = stress::rand_int(0, 1) ? 1 : -1, sy = stress::rand_int(0, 1) ? 1 : -1;
@@ -322,7 +322,8 @@ void check_circle_intersections(){
             assert(close(dist(p, ca), sa, max(sa, sb)));
             assert(close(dist(p, cb), sb, max(sa, sb)));
         }
-        if (expected == 2) assert(dist(res[0], res[1]) > 0 && (cb - ca).cross(res[0] - ca) > 0);  /// left of a -> b first
+        /// left of a -> b first
+        if (expected == 2) assert(dist(res[0], res[1]) > 0 && (cb - ca).cross(res[0] - ca) > 0);
     }
 }
 
@@ -351,7 +352,8 @@ void check_point_tangents(){
             assert(close((t - c).dot(t - p), 0, sr * sqrtl(d2) * unit));
         }
         if (expected == 1) assert(dist(res[0], p) == 0);
-        if (expected == 2) assert(dist(res[0], res[1]) > 1e-9L * sr && (p - c).cross(res[0] - c) > 0);  /// left of center -> p first
+        /// left of center -> p first
+        if (expected == 2) assert(dist(res[0], res[1]) > 1e-9L * sr && (p - c).cross(res[0] - c) > 0);
     }
 }
 
@@ -424,7 +426,7 @@ void check_minimum_enclosing_circle(){
         assert(close(res.r, brute_mec_radius(points), range));
     }
 
-    /// Clusters 1e-6 wide near coordinates up to 1e4, where rounding the center exceeds a tiny radius's relative tolerance
+    /// Clusters 1e-6 wide near coordinates up to 1e4, where center rounding beats a tiny radius's relative tolerance
     for (long long it = 0; it < stress::scaled(20000); it++){
         Point base = rand_point(10000);
         /// Farther points make the cluster decide only an intermediate circle
@@ -441,14 +443,14 @@ void check_minimum_enclosing_circle(){
         assert(close(res.r, brute_mec_radius(points), 10000));
     }
 
-    /// Points ulps apart plus a far one: the rounded diameter center misses one of the pair, the circumcircle comes out too large
+    /// Points ulps apart plus a far one: the rounded diameter center misses one, the circumcircle comes out too large
     {
         vector<Point> points = {{nextafterl(nextafterl(10, 0), 0), -30}, {10, nextafterl(-30, -31)}, {nextafterl(30, 0), 20}};
         Circle res = minimum_enclosing_circle(points);
         assert(encloses(points, res.center, res.r) && close(res.r, brute_mec_radius(points), 30));
     }
 
-    /// Large inputs for the expected O(n) bound: random squares, and lattice points on one circle where every point is on the boundary
+    /// Large inputs for the expected O(n) bound: random squares, and lattice points all on one circle's boundary
     for (int round = 0; round < 6; round++){
         int n = stress::rand_int(50000, 100000);
         vector<Point> points;
@@ -618,7 +620,7 @@ void check_max_cover(){
     assert(count >= single && count <= 2000 && covered_by(points, center, r) == count);
 }
 
-/// Intersections, tangents and the circumcircle against exact integer classification, the rest against the brute forces above
+/// Intersections, tangents and the circumcircle against exact integer classification, the rest against brute force
 int main(){
     check_line_intersections();
     check_circle_intersections();

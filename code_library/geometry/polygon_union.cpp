@@ -5,17 +5,13 @@
  *
  * Complexity: O(N^2 log N), N = total number of vertices over all polygons
  *
- * polygon_union(polys): each polygon is a list of distinct vertices in boundary order, clockwise or counter-clockwise
- *     polygons may overlap, nest, touch and share edges; polygons with fewer than 3 vertices or all vertices collinear add 0
+ * polygon_union(polys): area of the union, each polygon a list of distinct vertices in boundary order
  *
- * For every edge, the parts covered by other polygons are cut out and the area is the shoelace sum over the visible parts
- * Collinear edges going the same way are covered only by the polygon with the lower index, so duplicates count once
- *
- * Sign tests are exact for integer coordinates with |x|, |y| <= 1e9 in 80-bit long double (g++ on x86)
- * Fractional coordinates work, but a shared edge may then be missed or double counted by rounding
- *
- * Example:
- *   polygon_union({{{0, 0}, {2, 0}, {2, 2}, {0, 2}}, {{1, 1}, {3, 1}, {3, 3}, {1, 3}}})  // 7
+ * Notes:
+ *   - Polygons may overlap, nest, touch and share edges, and either orientation works, duplicates count once
+ *   - A polygon with fewer than 3 vertices or all vertices collinear adds 0
+ *   - Sign tests are exact for integer coordinates with |x|, |y| <= 1e9 in 80-bit long double (g++ on x86)
+ *   - Fractional coordinates work, but a shared edge may then be missed or double counted by rounding
  *
 ***/
 
@@ -45,7 +41,7 @@ int sign(Float v){
     return (v > 0) - (v < 0);
 }
 
-/// Turn at the lowest-leftmost vertex: both neighbours lie on one side of it, so the sign is exact and 0 only for degenerate polygons
+/// At the lowest-leftmost vertex both neighbours lie on one side, so the sign is exact and 0 only when degenerate
 int orientation(const vector<Point>& poly){
     int n = poly.size(), k = 0;
     if (n < 3) return 0;

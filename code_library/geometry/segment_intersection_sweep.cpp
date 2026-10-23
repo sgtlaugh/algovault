@@ -3,14 +3,14 @@
  * Segment Intersection Sweep (Shamos-Hoey)
  * Decides whether any two of n closed segments intersect and returns one intersecting pair
  *
- * Complexity: O(n log n), O(n) memory
+ * Complexity: O(n log n)
  *
- * find_intersecting_pair(segs) returns {i, j} with i < j such that segs[i] and segs[j] share a point, or {-1, -1}
- *   Endpoints are inclusive: touching, collinear overlapping, duplicate and single-point segments all intersect
- *   Exact integer predicates in __int128, |x|, |y| <= 1e18
- *   Which pair is returned when several intersect is unspecified
+ * find_intersecting_pair(segs): {i, j} with i < j such that segs[i] and segs[j] share a point, or {-1, -1}
  *
- * Requires __int128
+ * Notes:
+ *   - Endpoints are inclusive: touching, collinear overlapping, duplicate and single-point segments all intersect
+ *   - Exact integer predicates in __int128, |x|, |y| <= 1e18
+ *   - Which pair is returned when several intersect is unspecified
  *
 ***/
 
@@ -51,17 +51,16 @@ pair<int, int> find_intersecting_pair(const vector<Segment>& segs){
     vector<tuple<long long, long long, int, int>> events;
     events.reserve(2 * n);
 
-    /// Sweeping points in (x, y) order tilts the sweep line infinitesimally, so vertical segments need no special case
     /// Insertions (type 0) precede removals at the same point, or segments touching only there would be missed
     for (int i = 0; i < n; i++){
         if (s[i].b < s[i].a) swap(s[i].a, s[i].b);
         events.emplace_back(s[i].a.x, s[i].a.y, 0, i);
         events.emplace_back(s[i].b.x, s[i].b.y, 1, i);
     }
+    /// Sorting events by (x, y) tilts the sweep line infinitesimally, so vertical segments need no special case
     sort(events.begin(), events.end());
 
-    /// Bottom to top along the sweep line through the later left endpoint, it is active in both
-    /// Neither is below the other only when they share a point, and lower_bound then hands that segment to the check
+    /// Neither segment is below the other only when they share a point, and lower_bound then hands it to the check
     auto below = [&](int i, int j){
         if (s[i].a < s[j].a) return orientation(s[i].a, s[i].b, s[j].a) > 0;
         return orientation(s[j].a, s[j].b, s[i].a) < 0;

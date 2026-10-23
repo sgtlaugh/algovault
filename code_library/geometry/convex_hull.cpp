@@ -3,26 +3,34 @@
  * Convex Hull
  * Monotone chain hull, rotating calipers, Minkowski sum, O(log n) queries on a hull and an online insertion hull
  *
- * Complexity: O(n log n) for get_convex_hull, the rest as listed below
+ * Complexity:
+ *   - get_convex_hull: O(n log n)
+ *   - farthest_pair, is_convex, width: O(n)
+ *   - minkowski_sum: O(n + m)
+ *   - extreme_vertex, line_hull, tangents: O(log n)
+ *   - DynamicHull: add amortized O(log n), contains O(log n), hull O(h)
  *
- * Coordinates satisfy |x|, |y| <= 1e9, so every cross product, dot product and squared distance fits in int64_t
- * A "hull" below is a strictly convex polygon in counter-clockwise order, as returned by get_convex_hull
+ * extreme_vertex(hull, dir): index of a vertex maximizing dot(vertex, dir), n >= 1, |dir.x|, |dir.y| <= 2e9
+ * farthest_pair(hull): two vertices at maximum distance, dist2 of them is the exact squared diameter, n >= 1
+ * get_convex_hull(points): the strict hull
+ * is_convex(polygon): whether polygon is convex
+ * line_hull(a, b, hull): how the line through a != b meets a hull with n >= 3
+ * minkowski_sum(a, b): the strict hull of {p + q}, a and b convex counter-clockwise polygons
+ * tangents(hull, q): {i, j}, the hull lies left of the ray q -> hull[i] and right of q -> hull[j], q strictly outside
+ * width(hull): minimum distance between two parallel lines enclosing the hull, 0 when n <= 2
+ * DynamicHull dh: an empty hull taking points online
+ * dh.add(p): inserts p
+ * dh.contains(p): whether p lies inside the hull or on its boundary
+ * dh.hull(): the current hull as get_convex_hull returns it
  *
- *   extreme_vertex(hull, dir): index of a vertex maximizing dot(vertex, dir), O(log n), n >= 1, |dir.x|, |dir.y| <= 2e9
- *   farthest_pair(hull): two vertices at maximum distance, dist2 of them is the exact squared diameter, O(n), n >= 1
- *   get_convex_hull(points): the strict hull, O(n log n)
- *   is_convex(polygon): O(n)
- *   line_hull(a, b, hull): the line through a != b against a hull with n >= 3, O(log n)
- *       {-1, -1} no intersection, {i, -1} touches only vertex i, {i, i} contains edge (i, i + 1)
- *       {i, j} crosses edges (i, i + 1) then (j, j + 1) in the direction a -> b, a crossed vertex k counts as edge (k, k + 1)
- *   minkowski_sum(a, b): the strict hull of {p + q}, O(n + m), a and b convex counter-clockwise polygons
- *       with any starting vertex, collinear vertices allowed, result coordinates reach 2e9
- *   tangents(hull, q): {i, j}, the hull lies left of the ray q -> hull[i] and right of q -> hull[j], O(log n)
- *       q strictly outside the hull, either endpoint is returned when q is collinear with an edge
- *   width(hull): minimum distance between two parallel lines enclosing the hull, O(n), 0 when n <= 2
- *   DynamicHull: add(p) amortized O(log n), contains(p) O(log n) boundary inclusive, hull() O(h) as get_convex_hull returns it
- *
- * Optimization notes: get_convex_hull can be converted to O(n) using radix sort
+ * Notes:
+ *   - |x|, |y| <= 1e9, so every cross product, dot product and squared distance fits in int64_t
+ *   - A hull argument is a strictly convex polygon in counter-clockwise order, as get_convex_hull returns
+ *   - line_hull gives {-1, -1} for no intersection, {i, -1} touching only vertex i, {i, i} containing edge (i, i + 1)
+ *   - Else line_hull gives {i, j}, crossing edge (i, i + 1) then (j, j + 1) going a -> b, a vertex k as edge (k, k + 1)
+ *   - minkowski_sum takes any starting vertex and collinear vertices, its coordinates reach 2e9
+ *   - tangents returns either endpoint when q is collinear with an edge
+ *   - get_convex_hull becomes O(n) with a radix sort
  *
 ***/
 
@@ -175,7 +183,7 @@ bool is_convex(const vector<Point>& P){
     }
     for (int k = 0; k < 2; k++) flips[k] += first[k] != last[k];
 
-    /// Same-sign turns without back-tracking still allow stars, a simple convex polygon reverses x and y exactly twice each
+    /// Same-sign turns still allow stars, a convex polygon reverses its x and its y direction exactly twice each
     return sign != 0 && flips[0] == 2 && flips[1] == 2;
 }
 

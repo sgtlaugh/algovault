@@ -14,8 +14,7 @@ int main(){
         if (scanf("%" SCNd64 " %" SCNd64, &p.x, &p.y) != 2) return 0;
     }
 
-    /// The judge data has an all-collinear "polygon" (outside its simple polygon constraint) and expects 1,
-    /// while is_convex rejects degenerate input by contract
+    /// The judge data has an all-collinear "polygon" and expects 1, but is_convex rejects degenerate input by contract
     bool collinear = true;
     for (const Point& p : polygon) collinear &= cross(polygon[0], polygon[1], p) == 0;
     puts(collinear || is_convex(polygon) ? "1" : "0");

@@ -3,28 +3,30 @@
  * Circle Geometry
  * Intersections, tangents, enclosing circles, covering and areas of circles in long double
  *
- * Complexity: O(1) for intersections, tangents, circumcircle and circle_circle_area
- *             minimum_enclosing_circle expected O(n), circle_polygon_area O(n)
- *             circle_union_area and max_circle_cover O(n^2 log n)
+ * Complexity:
+ *   - intersections, tangents, circumcircle, circle_circle_area: O(1)
+ *   - circle_polygon_area: O(n)
+ *   - minimum_enclosing_circle: expected O(n)
+ *   - circle_union_area, max_circle_cover: O(n^2 log n)
  *
- * Circle{center, r} with r >= 0, tangent and touching cases are detected with a relative tolerance EPS
- *   circle_circle_area(a, b): area of the intersection of two circles
- *   circle_circle_intersection(a, b): 0, 1 (tangent) or 2 points, none for concentric circles (identical ones included)
- *       with 2 points the first lies left of the line from a's center to b's
- *   circle_line_intersection(c, a, b): where the line through a != b meets c, 0, 1 (tangent) or 2 points in the a -> b direction
- *       the tolerance scales with r, so r = 0 meets the line only when the center lies exactly on it
- *   circle_polygon_area(c, poly): area of c intersected with a simple polygon in either orientation
- *   circle_union_area(circles): area of the union, Green's theorem over the uncovered boundary arcs
- *   circumcircle(a, b, c): the circle through three non-collinear points
- *   common_tangents(a, b): every common tangent line as its tangency points {on a, on b}, r > 0 for both, outer ones first
- *       0 nested, 1 internally tangent, 2 overlapping, 3 externally tangent, 4 apart, none for identical circles
- *       when both points coincide the line goes through them perpendicular to the line of centers
- *   max_circle_cover(points, r): {most points one circle of radius r covers, a center achieving it}, boundary points count
- *   minimum_enclosing_circle(points): smallest circle containing every point, points non-empty, shuffled Welzl
- *   tangents_from_point(c, p): tangency points of the lines through p touching c (r > 0), none if p is inside, p itself if on c
- *       with 2 points the first lies left of the line from c's center to p
+ * Circle{center, r}: a circle with r >= 0
+ * circle_circle_area(a, b): area of the intersection of two circles
+ * circle_circle_intersection(a, b): 0, 1 (tangent) or 2 points, none for concentric circles (identical ones included)
+ * circle_line_intersection(c, a, b): where the line through a != b meets c, 0, 1 or 2 points in the a -> b direction
+ * circle_polygon_area(c, poly): area of c intersected with a simple polygon in either orientation
+ * circle_union_area(circles): area of the union
+ * circumcircle(a, b, c): the circle through three non-collinear points
+ * common_tangents(a, b): every common tangent as its tangency points {on a, on b}, r > 0 for both, outer ones first
+ * max_circle_cover(points, r): {most points a radius r circle covers, a center achieving it}, boundary points count
+ * minimum_enclosing_circle(points): smallest circle containing every point, points non-empty
+ * tangents_from_point(c, p): tangency points of the lines through p touching c (r > 0), none if p is inside, p if on c
  *
- * Verified with |coordinates|, radii <= 1e4
+ * Notes:
+ *   - Tangency uses a tolerance EPS relative to r, so a circle with r = 0 meets a line only through its center exactly
+ *   - Of 2 intersection or tangency points, the first lies left of the line from the first center to the second or p
+ *   - common_tangents gives 0 lines nested, 1 internally tangent, 2 overlapping, 3 externally tangent, 4 apart
+ *   - common_tangents gives none for identical circles, a line whose points coincide is perpendicular to the centers
+ *   - Verified with |coordinates|, radii <= 1e4
  *
 ***/
 
@@ -226,7 +228,7 @@ pair<int, Point> max_circle_cover(const vector<Point>& points, Float r){
             }
             if (d2 > 4 * r * r * (1 + EPS)) continue;
 
-            /// Centers on the circle of radius r around points[i] that also cover points[j], widened by EPS for boundary ties
+            /// Centers at distance r from points[i] that also cover points[j], widened by EPS for boundary ties
             Float mid = atan2l(v.y, v.x), half = atan2l(sqrtl(max((Float)0, 4 * r * r - d2)), sqrtl(d2));
             Float lo = mid - half - EPS, hi = mid + half + EPS;
             if (lo < 0) lo += 2 * PI, hi += 2 * PI;
@@ -261,8 +263,7 @@ Circle minimum_enclosing_circle(vector<Point> points){
         c = {points[i], 0};
         for (int j = 0; j < i; j++){
             if (!outside(points[j])) continue;
-            /// The rounded center can sit farther than |pi - pj| / 2 from pi or pj, and with a tiny radius that error beats the
-            /// relative tolerance, so pi itself would test outside and reach circumcircle as a degenerate triple giving NaN
+            /// A rounded midpoint radius could leave pi outside and pass a degenerate triple to circumcircle (NaN)
             Point mid = (points[i] + points[j]) / 2;
             c = {mid, max((mid - points[i]).norm(), (mid - points[j]).norm())};
             for (int k = 0; k < j; k++){

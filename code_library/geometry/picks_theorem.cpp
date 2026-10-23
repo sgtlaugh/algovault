@@ -7,10 +7,12 @@
  *   - area2: O(n)
  *   - on_border, on_interior: O(n log C), one gcd per edge, C the largest coordinate difference along an edge
  *
- * poly is a simple polygon with lattice vertices in either orientation, |x|, |y| <= 1e9
- *   area2(poly): twice the area, exact
- *   on_border(poly): the count of lattice points on the border, vertices included
- *   on_interior(poly): the count of lattice points strictly inside, from Pick's theorem A = I + B / 2 - 1
+ * area2(poly): twice the area, exact
+ * on_border(poly): the count of lattice points on the border, vertices included
+ * on_interior(poly): the count of lattice points strictly inside, from Pick's theorem A = I + B / 2 - 1
+ *
+ * Notes:
+ *   - poly is a simple polygon with lattice vertices in either orientation, |x|, |y| <= 1e9
  *
 ***/
 
@@ -25,7 +27,6 @@ struct Point{
     Point(long long x, long long y) : x(x), y(y) {}
 };
 
-/// area of the polygon multiplied by 2
 /// Partial sums overflow long long near 1e9 coordinates even when the area fits
 long long area2(const vector<Point>& poly){
     __int128 res = 0;
@@ -36,7 +37,6 @@ long long area2(const vector<Point>& poly){
     return res < 0 ? -res : res;
 }
 
-/// number of lattice points on the polygon border, vertices included
 long long on_border(const vector<Point>& poly){
     long long res = 0;
     int i, j, n = poly.size();
@@ -46,7 +46,6 @@ long long on_border(const vector<Point>& poly){
     return res;
 }
 
-/// number of lattice points strictly inside the polygon
 long long on_interior(const vector<Point>& poly){
     long long res = 2 + area2(poly) - on_border(poly);
     return res >> 1;

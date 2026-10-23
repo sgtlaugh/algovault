@@ -4,7 +4,7 @@
 #include "../../code_library/geometry/rectangle_union.cpp"
 #undef main
 
-/// Paints every rectangle onto the grid of compressed cells, then sums painted cell areas and painted/unpainted cell borders
+/// Paints every rectangle onto the compressed cell grid, then sums painted cell areas and painted/unpainted borders
 pair<__int128, __int128> paint(const vector<Rectangle>& rects){
     vector<long long> xs, ys;
     for (const auto& r: rects){

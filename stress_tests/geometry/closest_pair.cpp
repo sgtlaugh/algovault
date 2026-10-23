@@ -42,7 +42,7 @@ void check_collinear(int n, bool vertical){
     check(points, gap * gap);
 }
 
-/// A full lattice with spacing 1000 (keeps the sweep box full) plus one point planted at offset (dx, dy) from a lattice point
+/// A full lattice with spacing 1000 (keeps the sweep box full) plus one point at offset (dx, dy) from a lattice point
 void check_lattice(int side){
     long long dx = stress::rand_int(-20, 20), dy = stress::rand_int(1, 20);
     vector<Point> points;

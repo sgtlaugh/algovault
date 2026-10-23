@@ -5,21 +5,17 @@
  *
  * Complexity: O(n log n)
  *
- * Halfplane(a, b) keeps the points p with cross(b - a, p - a) >= 0, boundary included, a != b
- * halfplane_intersection(h, box) returns the vertices of the intersection clipped to the box, counter-clockwise,
- *     starting vertex unspecified, strictly convex and without repeated vertices
- *     Empty if the intersection is empty or has zero area (a segment or a single point)
- *     A bounded intersection comes out exact when box exceeds all its vertex coordinates
+ * Halfplane(a, b): the points p with cross(b - a, p - a) >= 0, boundary included, a != b
+ * halfplane_intersection(h, box): vertices of the intersection inside the box, counter-clockwise, strictly convex
  *
- * Precision: long double, EPS = 1e-9 is a distance tolerance, a vertex within EPS of a boundary counts as on it
- *     Directions are sorted exactly, and two count as one when they differ by no more than the double rounding of the points,
- *     so a line given twice through different decimal points is merged, while distinct integer directions with |x|, |y| <= 1e6 never are
- *     Verified against brute force clipping for integer coordinates |x|, |y| <= 1e4 with box up to 1e9, and for 0.1-step decimals
- *     EPS is absolute, about 9 long double ulps at box 1e9, so a box much beyond 1e9 is not supported
- *
- * Example, x >= 0, y >= 0, x + y <= 4:
- *     vector<Halfplane> h = {Halfplane(Point(0, 0), Point(1, 0)), Halfplane(Point(0, 1), Point(0, 0)), Halfplane(Point(4, 0), Point(0, 4))};
- *     auto poly = halfplane_intersection(h, 1e9);  /// (0, 0), (4, 0), (0, 4)
+ * Notes:
+ *   - The starting vertex is unspecified and no vertex repeats
+ *   - Empty if the intersection is empty or has zero area (a segment or a single point)
+ *   - A bounded intersection comes out exact when box exceeds all its vertex coordinates
+ *   - long double with an absolute EPS = 1e-9: a vertex within EPS of a boundary counts as on it, so box is at most 1e9
+ *   - Directions within the double rounding of the points count as one, so a line given twice by decimal points merges
+ *   - Distinct integer directions with |x|, |y| <= 1e6 never merge
+ *   - Verified against brute force for integer |x|, |y| <= 1e4 with box up to 1e9, and for 0.1-step decimals
  *
 ***/
 
@@ -81,11 +77,9 @@ vector<Point> halfplane_intersection(vector<Halfplane> h, long double box){
         return cross(a.pq, b.pq) > 0;
     });
 
-    /// Of each group of same-direction lines only the innermost constrains anything
-    /// One line given by two different decimal point pairs gets directions that differ by the double rounding of its points,
-    /// a few DBL_EPSILON times the coordinate sizes, while distinct integer directions have cross >= 1, well above that up to 1e6
-    /// The dot product, not upper(), separates antiparallel lines, so twins rounded to either side of angle pi still merge
+    /// Of lines with directions equal up to double rounding of their points, only the innermost constrains anything
     auto size = [](const Halfplane& a){ return fabsl(a.p.x) + fabsl(a.p.y) + fabsl(a.pq.x) + fabsl(a.pq.y); };
+    /// The dot product, not upper(), splits antiparallel lines, so twins rounded across angle pi still merge
     auto same_direction = [&](const Halfplane& a, const Halfplane& b){
         return a.pq.x * b.pq.x + a.pq.y * b.pq.y > 0 && fabsl(cross(a.pq, b.pq)) <= 8 * DBL_EPSILON * (size(a) * b.len + size(b) * a.len);
     };
@@ -135,7 +129,8 @@ int main(){
     auto near = [](const Point& p, long double x, long double y){ return fabsl(p.x - x) < 1e-9 && fabsl(p.y - y) < 1e-9; };
     Halfplane x_min(Point(0, 1), Point(0, 0)), y_min(Point(0, 0), Point(1, 0));  /// x >= 0 and y >= 0, left of a -> b
 
-    vector<Point> poly = halfplane_intersection({x_min, y_min, Halfplane(Point(4, 0), Point(0, 4))}, 1e9);  /// and x + y <= 4
+    /// Adding x + y <= 4
+    vector<Point> poly = halfplane_intersection({x_min, y_min, Halfplane(Point(4, 0), Point(0, 4))}, 1e9);
     assert(poly.size() == 3);
     for (const Point& p : poly) assert(near(p, 0, 0) || near(p, 4, 0) || near(p, 0, 4));
     assert(cross(poly[1] - poly[0], poly[2] - poly[0]) > 0);  /// counter-clockwise

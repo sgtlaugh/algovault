@@ -38,7 +38,7 @@ void check(const vector<Halfplane>& h, long double box){
     for (int i = 0, n = slow.size(); i < n; i++) perimeter += hypotl(slow[i].x - slow[(i + 1) % n].x, slow[i].y - slow[(i + 1) % n].y);
     int k = fast.size();
 
-    /// A zero-area region has rounding noise of about tol times its perimeter, plus an absolute floor for a single point inside a huge box
+    /// Zero-area rounding noise is about tol times the perimeter, plus a floor for a single point inside a huge box
     if (k == 0){
         assert(area_slow <= tol * perimeter + 1e-9L);
         return;
@@ -91,7 +91,7 @@ int main(){
         check(h, box);
     }
 
-    /// Lines through one far point: either an unbounded cone cut by a huge box, or only that point, which must come out empty
+    /// Lines through one far point: an unbounded cone cut by a huge box, or only that point, which must come out empty
     for (long long it = 0; it < stress::scaled(5000); it++){
         Point center = random_point(10000);
         vector<Halfplane> h;
@@ -112,7 +112,7 @@ int main(){
         check({Halfplane(Point(1, y), Point(0, above))}, 10);
     }
 
-    /// Exactly antiparallel twins, both tilted by one ulp, around an empty strip: pushing the second next to the first meets parallel lines
+    /// Antiparallel twins tilted by one ulp around an empty strip: pushing the second next to the first meets parallels
     check({Halfplane(Point(0, nextafterl(-0.6L, -1)), Point(1, -0.6L)),
            Halfplane(Point(1, -0.9L), Point(0, nextafterl(-0.9L, -1))),
            Halfplane(Point(-3, -2), Point(-2, -3))}, 3);
@@ -123,7 +123,7 @@ int main(){
         check({Halfplane(Point(k, k + 1), Point(0, 0)), Halfplane(Point(k - 1, k), Point(0, 0))}, 1e9);
     }
 
-    /// Decimal 0.1-step inputs where some lines repeat through other lattice points, so their rounded directions are not exactly parallel
+    /// Decimal 0.1-step inputs repeating lines through other points, so rounded directions are not exactly parallel
     for (long long it = 0; it < stress::scaled(20000); it++){
         int n = stress::rand_int(1, 8), range = it % 2 ? 10 : 100;
         Point anchor = random_point(range);

@@ -3,18 +3,13 @@
  * Closest Pair of Points
  * Finds two points with the minimum Euclidean distance, using exact integer squared distances
  *
- * Complexity: O(n log n) time, O(n) space
+ * Complexity: O(n log n)
  *
- * closest_pair(points) returns {dist2, i, j}: the squared distance and the indices i < j of one closest pair
- * Requires n >= 2 and |x|, |y| <= 1e9, so a squared distance (at most 8e18) fits in a long long
- * Duplicate points are allowed and give dist2 = 0
+ * closest_pair(points): {dist2, i, j}, the squared distance and the indices i < j of one closest pair, n >= 2
  *
- * Sweeps the points by y, keeping the ones within the current best distance in a set ordered by x
- * Each new point only checks the set entries inside a d x 2d box, which holds O(1) points
- *
- * Example:
- *   ClosestPairResult res = closest_pair({{0, 0}, {5, 5}, {1, 2}});
- *   // res.dist2 = 5, res.i = 0, res.j = 2
+ * Notes:
+ *   - |x|, |y| <= 1e9, so a squared distance (at most 8e18) fits in a long long
+ *   - Duplicate points are allowed and give dist2 = 0
  *
 ***/
 
