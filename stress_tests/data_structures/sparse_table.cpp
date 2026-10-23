@@ -4,8 +4,20 @@
 #include "../../code_library/data_structures/sparse_table.cpp"
 #undef main
 
+void check_rejects(int n, int l, int r){
+    vector<int> a(n, 7);
+    stress::expect_assert("data_structures/sparse_table.cpp", [&]{ SparseTable<int>(a).query(l, r); });
+    stress::expect_assert("data_structures/sparse_table.cpp", [&]{ LinearSparseTable<int>(a).query(l, r); });
+}
+
 /// Range min, max and gcd queries against a direct scan, every (l, r) for small arrays and random ranges for large ones
 int main(){
+    check_rejects(9, 3, 1);
+    check_rejects(9, -1, 2);
+    check_rejects(9, 0, 9);
+    check_rejects(200, 150, 200);  /// past the 64-wide blocks of LinearSparseTable
+    check_rejects(0, 0, 0);
+
     auto max_op = [](int x, int y){ return max(x, y); };
     auto gcd_op = [](int x, int y){ return __gcd(x, y); };
 
