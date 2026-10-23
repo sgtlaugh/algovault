@@ -40,7 +40,7 @@ int bfs_distance(const Board& start){
     }
 }
 
-/// Solvable exactly when the permutation parity (blank counted as 16) matches the parity of the blank's distance from its home
+/// Solvable iff the permutation parity (blank as 16) matches the parity of the blank's distance from its home
 bool solvable_oracle(const Board& b){
     int perm[16], parity = 0;
     for (int i = 0; i < 16; i++) perm[i] = b[i] ? b[i] - 1 : 15;

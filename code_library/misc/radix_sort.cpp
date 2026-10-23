@@ -3,15 +3,15 @@
  * Radix Sort
  * LSD radix sort with 8-bit digits, 4 counting-sort passes over 32-bit integers, loop unrolled
  *
- * Complexity: O(n + 1024), one counting pass and 4 scatter passes of 256 buckets over the array
- * Memory: a scratch vector of n unsigned ints, about 40 MB for n = 1e7
+ * Complexity: O(n + 1024), a scratch vector of n unsigned ints (40 MB at n = 1e7)
  *
- * radix_sort(ar, n) sorts unsigned ints ar[0, n) with a scratch vector allocated per call
- * radix_sort(v) sorts a vector<int>, negatives first
- * radix_sort(ar, n, tmp) uses the caller's tmp (grown to n if smaller), pass the same tmp to repeated sorts:
- * at -O2 on n = 1e7 a fresh scratch per call measured 98 ms per sort vs 78 ms reused, its pages fault in on every call
+ * radix_sort(ar, n): sorts unsigned ints ar[0, n) with a scratch vector allocated per call
+ * radix_sort(v): sorts a vector<int>, negatives first
+ * radix_sort(ar, n, tmp): sorts with the caller's tmp as scratch, grown to n if smaller
  *
- * Not templated over the key type: templating made it 2-3x slower
+ * Notes:
+ *   - Pass the same tmp to repeated sorts: at n = 1e7 a fresh scratch measured 98 ms per sort, a reused one 78 ms
+ *   - Use radix_sort_64.cpp for 64-bit keys, a template over the key type made it 2-3x slower
  *
 ***/
 
@@ -65,7 +65,8 @@ int main(){
 
     clock_t start = clock();
     radix_sort(ar.data(), n);
-    printf("Time taken to sort = %0.6f s\n", (clock() - start) / (double)CLOCKS_PER_SEC);  /// Time taken = 0.107421 at -O2
+    /// Time taken = 0.107421 at -O2
+    printf("Time taken to sort = %0.6f s\n", (clock() - start) / (double)CLOCKS_PER_SEC);
 
     for (i = 0; (i + 1) < n; i++){
         assert(ar[i] <= ar[i + 1]);

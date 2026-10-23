@@ -3,33 +3,27 @@
  * Numerical Integration
  * Definite integral of f over [a, b] with composite Simpson, adaptive Simpson or Romberg
  *
- * Complexity: simpson O(n) evaluations, adaptive_simpson O(panels it needs) with recursion depth <= 44,
- *             romberg O(2^k) evaluations for k <= max_levels levels
+ * Complexity:
+ *   - adaptive_simpson: O(panels it needs) evaluations, recursion depth <= 44
+ *   - romberg: 2^k + 1 evaluations for k levels, 8 <= k <= max_levels
+ *   - simpson: 2n + 1 evaluations
  *
- * adaptive_simpson(a, b, f, eps = 1e-9): starts from 64 equal panels and splits a panel until its halves agree
- *     with it; the start grid keeps periodic f that vanishes on a coarse grid (sin^2 over [0, 8pi]) from
- *     reading as 0, but a spike, or two jumps, within one start panel ((b - a) / 64) can still be missed
- *     Also stops a panel once the disagreement is below 1e-14 of the integral of |f| (estimated on the start grid,
- *     raised by each panel's own), so an absolute eps below the rounding noise of a huge integral still terminates,
- *     even when f vanishes on the start grid and is huge between its points (relative error then ~1e-13)
- *     Handles kinks, jumps and infinite-slope endpoints (sqrt at 0) by refining only around them
- *
+ * adaptive_simpson(a, b, f, eps = 1e-9): splits each of 64 equal start panels until its halves agree with it
  * romberg(a, b, f, eps = 1e-9, max_levels = 20): Richardson extrapolation of trapezoid sums on 2^k subintervals
- *     Stops when two diagonal entries differ by <= max(eps, 1e-14 * integral of |f|), at least 8 levels (257
- *     evaluations, so like adaptive_simpson it reads periodic f as constant only when (b - a) / 256 is a whole
- *     number of periods), else returns the last estimate (2^max_levels + 1 evaluations); fast only on smooth f,
- *     use adaptive_simpson for kinks and jumps
+ * simpson(a, b, f, n = 1000): composite Simpson on 2n equal subintervals for n >= 1, exact for cubics
  *
- * simpson(a, b, f, n = 1000): 2n equal subintervals for n >= 1, 2n + 1 evaluations
- *     Exact for cubics, error (b - a) h^4 max|f''''| / 180 with h = (b - a) / 2n
- *
- * eps is an absolute error target judged by the method's own estimate, not a guarantee: a coincidental
- * cancellation in the estimate stops early; on the stress test's random integrands the error exceeded
- * eps + 1e-13 relative for about 1 in 10^5 adaptive calls (worst 6x) and 1 in 2 * 10^5 Romberg calls (worst 1.4x)
- *
- * f must be finite at every point of [a, b] (endpoints included); a > b gives the negated integral
- * Nest calls for multiple integrals:
- *     adaptive_simpson(0, 1, [](double x){ return adaptive_simpson(0, x, [&](double y){ return x * y; }); });
+ * Notes:
+ *   - f must be finite at every point of [a, b], endpoints included, and a > b gives the negated integral
+ *   - eps is absolute and judged by the method's own error estimate, so a coincidental cancellation stops early
+ *   - On random integrands the error exceeded eps + 1e-13 relative in about 1 in 10^5 calls, by at most 6x
+ *   - adaptive_simpson and romberg also stop at 1e-14 of the integral of |f|, so an eps below rounding still terminates
+ *   - adaptive_simpson refines only around kinks, jumps and infinite-slope endpoints like sqrt at 0
+ *   - adaptive_simpson can miss a spike, or two jumps, within one start panel of width (b - a) / 64
+ *   - romberg reads periodic f as constant when (b - a) / 256 is a whole number of periods
+ *   - romberg returns its last estimate after max_levels, it is fast only on smooth f: use adaptive_simpson for kinks
+ *   - simpson errs by (b - a) h^4 max|f''''| / 180 with h = (b - a) / 2n
+ *   - Nest calls for multiple integrals:
+ *         adaptive_simpson(0, 1, [](double x){ return adaptive_simpson(0, x, [&](double y){ return x * y; }); });
  *
 ***/
 
@@ -44,8 +38,7 @@ double adaptive_simpson_panel(F& f, double a, double b, double fa, double fm, do
     double left = (m - a) / 6 * (fa + 4 * flm + fm), right = (b - m) / 6 * (fm + 4 * frm + fb);
     double delta = left + right - whole;
 
-    /// The start grid can miss where |f| is large (zero on the grid, huge between), so every panel's integral of |f|
-    /// raises the floor: it then always covers this panel's own rounding noise, which ends the recursion
+    /// The start grid can miss where |f| is large, so each panel's integral of |f| lifts the floor over its rounding
     noise = max(noise, 1e-14 * abs(b - a) / 12 * (abs(fa) + 4 * abs(flm) + 2 * abs(fm) + 4 * abs(frm) + abs(fb)));
     if (depth >= MAX_DEPTH || abs(delta) <= max(15 * eps, noise)) return left + right + delta / 15;
 

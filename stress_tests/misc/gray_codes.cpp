@@ -32,7 +32,8 @@ int main(){
         assert(gray_code(x) == brute_gray(x));
         assert(inverse_gray_code(x) == brute_inverse(x));
         assert(inverse_gray_code(gray_code(x)) == x && gray_code(inverse_gray_code(x)) == x);
-        if (x != ~0ULL) assert(__builtin_popcountll(gray_code(x) ^ gray_code(x + 1)) == 1);  /// successive codes differ in one bit
+        /// Successive codes differ in one bit
+        if (x != ~0ULL) assert(__builtin_popcountll(gray_code(x) ^ gray_code(x + 1)) == 1);
     }
 
     return 0;

@@ -5,13 +5,10 @@
  *
  * Complexity: O(n!) worst case, bitmask backtracking over rows
  *
- * count_n_queens(n): number of solutions, 0 <= n <= 31 (asserted) because the column and diagonal masks are 32 bits
- * Tests check A000170 up to n = 15, a one-off run matched it up to n = 18
- * The running time grows about 7x per extra row, n = 17 takes about 30 seconds and n = 18 several minutes
- * The result is a long long because A000170 exceeds int from n = 19 on, that range is too slow to test
+ * count_n_queens(n): number of solutions, 0 <= n <= 31
  *
- * Mirror symmetry: only first row columns in the left half are searched and doubled,
- * the middle column of an odd board is its own mirror and is counted once
+ * Notes:
+ *   - The running time grows about 7x per extra row, n = 17 takes about 30 seconds and n = 18 several minutes
  *
 ***/
 

@@ -6,19 +6,20 @@
  * Complexity: O(1) amortized per character, one fread or fwrite call per 8192 bytes
  *
  * fio::flush(): writes the pending output now, which also happens at normal exit
- * fio::read(a, b, ...): reads whitespace separated values into a, b, ... and returns how many it read before the input ended
- * read accepts integers of any width including __int128, float, double, long double, strings, chars and vectors of these
+ * fio::read(a, b, ...): reads whitespace separated values into a, b, ..., returns the count read before the input ended
  * fio::read_line(s): reads one line into s without its newline or a trailing \r, false only at the end of input
- * fio::write(a, b, ...): writes a, b, ... separated by single spaces and ends the line, a vector argument on its own line
- * write accepts integers, strings, chars, vectors of these and fio::fixed values
+ * fio::write(a, b, ...): writes a, b, ... space separated and ends the line, a vector argument on its own line
  * fio::fixed(x, digits): a floating x printed with exactly digits digits after the point, rounded like printf("%.*f")
  *
- * Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
- * A char reads one non-space character
- * A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
- * Writing a float without fixed() does not compile, so its precision is always chosen
- * Floats print at printf's speed, since the formatting itself dominates; a floating token keeps its first 127 characters
- * Output is lost on abnormal termination such as abort() or _exit()
+ * Notes:
+ *   - read takes any integer including __int128, float, double, long double, strings, chars and vectors of these
+ *   - write takes integers, strings, chars, vectors of these and fio::fixed values
+ *   - Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
+ *   - A char reads one non-space character
+ *   - A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
+ *   - Writing a float without fixed() does not compile, so its precision is always chosen
+ *   - Floats print at printf's speed, a floating token read keeps its first 127 characters
+ *   - Output is lost on abnormal termination such as abort() or _exit()
  *
 ***/
 
@@ -26,8 +27,7 @@
 
 using namespace std;
 
-/// Global buffers on purpose: stdin and stdout are one stream each per process, so a second reader instance
-/// would split the input between two buffers and a second writer would reorder the output
+/// Global buffers on purpose: a second reader would split stdin between two buffers, a second writer reorder stdout
 namespace fio{
     const int BUF_SIZE = 8192;
 
@@ -44,7 +44,7 @@ namespace fio{
         return (unsigned char)inbuf[inptr++];
     }
 
-    /// Integers: takes every type the plain overloads below miss, so __int128 needs no is_integral specialization, which breaks C++20
+    /// Catches every integer the overloads below miss, so __int128 needs no is_integral specialization (breaks C++20)
     template <typename T>
     bool read_one(T &x){
         int c = ' ', neg = 0;

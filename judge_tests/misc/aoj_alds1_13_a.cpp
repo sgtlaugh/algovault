@@ -17,8 +17,7 @@ int main(){
         fixed_column[r] = c;
     }
 
-    /// Columns 0-7 rows, 8-15 columns, 16-30 diagonals, 31-45 anti-diagonals
-    /// A slack row per diagonal turns "at most one queen" into exact cover
+    /// Columns 0-7 rows, 8-15 columns, 16-30 diagonals, 31-45 anti-diagonals, each diagonal with a slack row
     DancingLinks dlx(46);
     for (int r = 0; r < 8; r++){
         for (int c = 0; c < 8; c++){

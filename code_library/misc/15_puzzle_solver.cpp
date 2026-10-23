@@ -3,17 +3,14 @@
  * 15 Puzzle Solver
  * IDA* with the Manhattan distance heuristic, finds an optimal move sequence for a 4x4 board
  *
- * Complexity: O(3^d) for an optimal solution of d moves, the threshold strictly increases up to d
- *   and an iteration with threshold t visits O(3^t) states since the blank never steps straight back, O(d) memory
+ * Complexity: O(3^d) time and O(d) memory for an optimal solution of d moves
  *
  * FifteenPuzzle p(tiles): tiles holds the 16 cells row by row, 0 is the blank
  * p.is_solvable(): true if the board can reach the solved state 1 2 ... 15 0
  * p.solve(): {move count, moves} of an optimal solution, {-1, ""} if the board is not solvable
- *   each move is the direction the blank slides: L, R, U or D
  *
- * Example:
- *   FifteenPuzzle p({2, 3, 4, 0, 1, 5, 7, 8, 9, 6, 10, 12, 13, 14, 11, 15});
- *   auto [moves, path] = p.solve();  // moves = 9, path = "LLLDRDRDR"
+ * Notes:
+ *   - Each move is the direction the blank slides: L, R, U or D
  *
 ***/
 

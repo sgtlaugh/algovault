@@ -1,34 +1,31 @@
 /***
  *
  * Simulated Annealing
- * Random walk over states that accepts worse moves with a probability that cools over time, as a loop driver
- * for in-place moves with an energy delta, and as a generic minimizer over whole states
+ * Minimizes by a random walk that accepts worse moves with a cooling probability, as a loop driver or over whole states
  *
  * Complexity: O(s c) for s steps and c the cost of one move, plus one steady_clock read per step in time mode
  *
- * Annealer::by_steps(t_start, t_end, steps, seed = 17): exactly `steps` moves, same seed gives the same result
- * Annealer::by_time(t_start, t_end, seconds, seed = 17): moves until the time is up, the clock starts at the first running()
- *     T = t_start * (t_end / t_start)^progress, progress = step / steps or elapsed / seconds
- *     requires t_start >= t_end > 0. A good t_start makes a typical uphill step pass about a third of the time,
- *     a good t_end makes the smallest uphill step almost never pass
- * sa.running() cools to the next step and returns false once the steps or the time are used up
- * sa.accept(delta) is true when delta <= 0, otherwise with probability exp(-delta / T); sa.rng is for the caller's moves
+ * Annealer::by_steps(t_start, t_end, steps, seed = 17): exactly `steps` moves, the same seed gives the same result
+ * Annealer::by_time(t_start, t_end, seconds, seed = 17): moves until the time is up, timed from the first running()
+ * sa.running(): cools to the next step, false once the steps or the time are used up
+ * sa.accept(delta): true when delta <= 0, otherwise with probability exp(-delta / T)
+ * simulated_annealing(initial, energy, neighbour, annealer): the lowest energy state it visited
+ * sa.rng: the mt19937_64 for the caller's moves
  *
- * simulated_annealing(initial, energy, neighbour, annealer) returns the lowest energy state it visited
- *     energy(const State&): signed integer or floating point value to minimize, negate it to maximize, any range of the type is safe
- *     neighbour(const State&, mt19937_64&): a random nearby state, draw all randomness from the given rng
- *     each step copies the state and evaluates it from scratch, use the loop driver when a move has a cheap delta
- *
- * A heuristic: nothing guarantees the optimum, more steps and a move that changes little help
- *
- * Example, TSP with in-place 2-opt moves on a tour `p` of length `cur`:
- *     auto sa = Annealer::by_time(2, 0.01, 1.9);
- *     while (sa.running()){
- *         int i = sa.rng() % n, j = sa.rng() % n;
- *         long long d = two_opt_delta(i, j);
- *         if (sa.accept(d)) apply_two_opt(i, j), cur += d, best = min(best, cur);
- *     }
- *     small states keep the one-liner: simulated_annealing(p, tour_len, two_opt, Annealer::by_steps(100, 0.1, 200000))
+ * Notes:
+ *   - T = t_start * (t_end / t_start)^progress, progress = step / steps or elapsed / seconds, t_start >= t_end > 0
+ *   - A good t_start passes a typical uphill step about a third of the time, a good t_end the smallest one almost never
+ *   - energy(const State&): signed integer or floating value to minimize (negate to maximize), any range is safe
+ *   - neighbour(const State&, mt19937_64&): a random nearby state, all randomness drawn from the given rng
+ *   - simulated_annealing copies and rescores each state from scratch, use the loop driver for moves with a cheap delta
+ *   - Nothing guarantees the optimum, more steps and a move that changes little help
+ *   - The loop driver, for TSP with in-place 2-opt moves on a tour p of length cur:
+ *         auto sa = Annealer::by_time(2, 0.01, 1.9);
+ *         while (sa.running()){
+ *             int i = sa.rng() % n, j = sa.rng() % n;
+ *             long long d = two_opt_delta(i, j);
+ *             if (sa.accept(d)) apply_two_opt(i, j), cur += d, best = min(best, cur);
+ *         }
  *
 ***/
 
@@ -66,8 +63,7 @@ struct Annealer{
     }
 };
 
-/// Integers subtract in unsigned, exact and overflow free since hi > lo: casting each energy to double
-/// first would round values past 2^53 together and turn small uphill gaps into free moves
+/// Unsigned subtraction is exact as hi > lo, a double cast first merges values past 2^53, freeing small uphill moves
 template<typename E>
 double uphill_gap(E lo, E hi){
     if constexpr (is_integral_v<E>) return (double)((make_unsigned_t<E>)hi - (make_unsigned_t<E>)lo);

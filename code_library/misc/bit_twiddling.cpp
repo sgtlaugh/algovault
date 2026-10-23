@@ -5,18 +5,16 @@
  *
  * Complexity: O(1) per operation, O(popcount) for set_bit_indices
  *
- * next_same_popcount(x)      smallest y > x with popcount(y) == popcount(x)
- *                            requires a successor: x != 0 and the set bits of x not all packed at the top
- * prev_same_popcount(x)      largest y < x with popcount(y) == popcount(x)
- *                            requires a predecessor: x != 0 and the set bits of x not all packed at the bottom
- * reverse_bits(x)            bit i of x moves to bit 31 - i
- * set_bit_indices(mask)      indices of the set bits of a 64-bit mask, ascending
+ * next_same_popcount(x): smallest y > x with popcount(y) == popcount(x), x != 0 and its set bits not all at the top
+ * prev_same_popcount(x): largest y < x with popcount(y) == popcount(x), x != 0 and its set bits not all at the bottom
+ * reverse_bits(x): bit i of x moves to bit 31 - i
+ * set_bit_indices(mask): indices of the set bits of a 64-bit mask, ascending
  *
- * The index of the lowest set bit is __builtin_ctz(x) (undefined for x = 0)
- * More tricks: https://graphics.stanford.edu/~seander/bithacks.html
- *
- * Example:
- *   for (unsigned x = (1u << k) - 1; x < (1u << n); x = next_same_popcount(x))  // k-subsets, 1 <= k <= n < 32
+ * Notes:
+ *   - The index of the lowest set bit is __builtin_ctz(x), undefined for x = 0
+ *   - More tricks: https://graphics.stanford.edu/~seander/bithacks.html
+ *   - Every k-subset of n bits, 1 <= k <= n < 32:
+ *         for (unsigned x = (1u << k) - 1; x < (1u << n); x = next_same_popcount(x))
  *
 ***/
 

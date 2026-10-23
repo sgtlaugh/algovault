@@ -144,7 +144,8 @@ int main(){
     for (long long it = 0; it < stress::scaled(150); it++){
         int m = it % 10 ? stress::rand_int(1, 3) : 4, n = m * m;
         auto givens = random_solved(m);
-        int blank = m < 4 ? stress::rand_int(0, 100) : stress::rand_int(0, 1) ? stress::rand_int(0, 40) : 100;  /// sparse 16 x 16 givens can make search exponential
+        /// Sparse 16 x 16 givens can make the search exponential
+        int blank = m < 4 ? stress::rand_int(0, 100) : stress::rand_int(0, 1) ? stress::rand_int(0, 40) : 100;
         for (auto& row : givens) for (auto& x : row) if (stress::rand_int(0, 99) < blank) x = 0;
         bool unsolvable = n > 1 && stress::rand_int(0, 3) == 0;
         if (unsolvable){

@@ -59,7 +59,8 @@ int main(){
             strs[i] = string(stress::rand_int(1, 12), 'a');
             for (auto& ch : strs[i]) ch = (char)stress::rand_int(33, 255);  /// printable ASCII and bytes 0x80 - 0xFF
             input += to_string(ints[i]) + separator() + to_string(lls[i]) + separator() + to_string(ulls[i]) + separator() + strs[i];
-            if (i + 1 < count || stress::rand_int(0, 1)) input += separator();  /// often no whitespace after the last token
+            /// Often no whitespace after the last token
+            if (i + 1 < count || stress::rand_int(0, 1)) input += separator();
         }
 
         set_input(input);
@@ -176,7 +177,7 @@ int main(){
         assert(read_file(OUT) == expected.str());
     }
 
-    /// Just above the midpoint of two doubles: strtold then a cast rounds to the even neighbor below, the correct double is above
+    /// Just above a midpoint of two doubles: strtold then a cast rounds to the even double below, the right one is up
     for (long long it = 0; it < stress::scaled(200); it++){
         double lo = ldexp((double)(((stress::rng()() >> 11) | (1ULL << 52)) & ~1ULL), -52), hi = nextafter(lo, 2.0);
         char buf[128];
@@ -190,8 +191,7 @@ int main(){
         assert(d == hi);
     }
 
-    /// __int128 at both extremes goes through the integer reader and writer, though strict -std=c++NN denies it is_integral;
-    /// float parses at its own width and short through the integer reader
+    /// __int128 extremes use the integer reader and writer, float parses at its own width, short as an integer
     for (long long it = 0; it < stress::scaled(300); it++){
         int count = stress::rand_int(1, 200);
         vector<__int128> bigs(count);

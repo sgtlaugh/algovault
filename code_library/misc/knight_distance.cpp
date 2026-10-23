@@ -6,10 +6,9 @@
  * Complexity: O(1)
  *
  * knight_distance(x, y): moves from (0, 0) to (x, y), any long long coordinates with |x|, |y| <= 1e18
- * For two squares use knight_distance(x2 - x1, y2 - y1)
  *
- * By symmetry only x >= y >= 0 matters. Far from the diagonal (2y < x) the knight walks along x with
- * (2, +-1) steps, near the diagonal it mixes (2, 1) and (1, 2) steps. (1, 0) and (2, 2) are the two exceptions
+ * Notes:
+ *   - For two squares use knight_distance(x2 - x1, y2 - y1)
  *
 ***/
 

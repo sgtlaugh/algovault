@@ -60,7 +60,7 @@ void check_golden_v(double lo, double hi, double c){
     /// Every interval the loop shrinks contains x, so its stop threshold is >= eps * max(1, |x|) and width shrinks by r
     double r = (sqrt(5.0) - 1) / 2, floor_tol = eps * max(1.0, abs(x));
     double steps = hi - lo > floor_tol ? log((hi - lo) / floor_tol) / log(1 / r) : 0;
-    /// Re-placing a drifted point costs 1 call; drift starts at rounding and grows by 1/r per step, so re-placements are over 64 steps apart
+    /// Re-placing a drifted point costs 1 call; drift grows by 1/r per step, so re-placements are over 64 steps apart
     assert(calls <= 2 + 1 + ceil(steps) + 2 + ceil(steps / 64));
 }
 

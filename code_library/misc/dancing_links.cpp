@@ -5,23 +5,16 @@
  *
  * Complexity: exponential worst case (exact cover is NP-complete), O(columns + total row length) memory
  *
- * DancingLinks(ncolumns, max_nodes): columns are 0 based, numbered 0 to ncolumns - 1
- * max_nodes = total length of all rows presizes the node arrays, more rows still fit after a reallocation
- * add_row(r, columns): r is any int id chosen by the caller, columns must be distinct, an empty row is ignored
- * The search branches on the first column with the fewest remaining rows, stopping early at a count <= 1
- * The search is deterministic: the same rows added in the same order give the same solution
- * exact_cover() returns the selected row ids, nullopt if no cover exists (0 columns give an empty cover)
- * exact_cover restores the links before returning, so it can be called again or rows can still be added
- * Recursion depth is at most the number of selected rows, at most ncolumns
- * An 8 MB stack overflows near depth 5e4 with -O2 and as early as 4e4 under sanitizers, deeper covers need a larger stack
+ * DancingLinks dlx(ncolumns, max_nodes = 0): columns 0 to ncolumns - 1, max_nodes = total row length presizes arrays
+ * dlx.add_row(r, columns): adds a row with any int id r over distinct columns, an empty row is ignored
+ * dlx.exact_cover(): the selected row ids, nullopt if no cover exists, an empty cover for 0 columns
  *
- * Example:
- *   DancingLinks dlx(3);
- *   dlx.add_row(1, {0, 1});
- *   dlx.add_row(2, {2});
- *   auto rows = dlx.exact_cover();  // {1, 2}
- *
- * The sudoku namespace below reduces an n x n sudoku (n a perfect square) to exact cover with 4 n^2 columns
+ * Notes:
+ *   - Rows beyond max_nodes still fit after a reallocation
+ *   - Deterministic: the same rows added in the same order give the same cover
+ *   - exact_cover restores the links, so it can be called again or rows can still be added
+ *   - Recursion depth is at most ncolumns, an 8 MB stack overflows near 5e4 (4e4 under sanitizers)
+ *   - The sudoku namespace below reduces an n x n sudoku (n a perfect square) to exact cover with 4 n^2 columns
  *
 ***/
 
@@ -142,7 +135,7 @@ namespace sudoku{
         int nrows = 0;
         for (auto& r : grid) for (int x : r) nrows += x ? 1 : n;
 
-        DancingLinks dlx(4 * n * n, 4 * nrows);  /// n * n for cells, n * n for rows, n * n for columns and n * n for boxes
+        DancingLinks dlx(4 * n * n, 4 * nrows);  /// n * n columns each for cells, rows, columns and boxes
         for (i = 0; i < n; i++){
             for (j = 0; j < n; j++){
                 for (k = 0; k < n; k++){

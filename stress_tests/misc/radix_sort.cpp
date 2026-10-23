@@ -11,7 +11,8 @@ int main(){
         vector<unsigned int> v(n);
         for (auto& x : v){
             unsigned int r = stress::rng()();
-            if (mode == 1) x = r & ((unsigned int)255 << (8 * byte));  /// only one byte differs, every other pass must keep the order
+            /// Only one byte differs, every other pass must keep the order
+            if (mode == 1) x = r & ((unsigned int)255 << (8 * byte));
             else if (mode == 2) x = r % 4 ? 0 : ~(unsigned int)0;      /// extremes with heavy duplication
             else if (mode == 3) x = r % 300;
             else x = r;

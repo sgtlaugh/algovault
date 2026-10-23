@@ -5,12 +5,12 @@
  *
  * Complexity: O(1) per call, O(log min(|a|, |b|)) for asm_gcd
  *
- * Requires x86-64 and GCC or Clang (AT&T syntax)
- * POPCNT and LZCNT need CPU support, without LZCNT the instruction silently runs as BSR and returns a wrong count
- * For real use prefer __builtin_popcount, __builtin_clz, __builtin_ctz and std::gcd: portable, and std::gcd is ~1.6x faster
- *
- * asm_gcd works on magnitudes and returns unsigned, so asm_gcd(INT_MIN, 0) = 2^31
- * asm_bsf(0) returns 0, asm_lzcnt(0) returns 32
+ * Notes:
+ *   - Requires x86-64 and GCC or Clang (AT&T syntax)
+ *   - POPCNT and LZCNT need CPU support, without LZCNT the instruction silently runs as BSR and returns a wrong count
+ *   - Prefer the portable __builtin_popcount, __builtin_clz, __builtin_ctz and std::gcd, 1.6x faster than asm_gcd
+ *   - asm_gcd works on magnitudes and returns unsigned, so asm_gcd(INT_MIN, 0) = 2^31
+ *   - asm_bsf(0) returns 0, asm_lzcnt(0) returns 32
  *
 ***/
 

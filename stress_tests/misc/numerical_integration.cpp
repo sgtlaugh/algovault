@@ -75,7 +75,7 @@ Family random_family(){
                 [=](double x){ return scale * (x < c ? left * (x - c) : right * (x - c)); }, -3, 3, scale * 5, false};
     }
 
-    /// floor(k x) has up to 6k jumps, each refined deep; k <= 10 keeps them a start panel apart, two in one panel can cancel
+    /// floor(k x) has up to 6k jumps refined deep; k <= 10 keeps them a start panel apart, two in one panel can cancel
     double k = rand_real(1, 10);
     return {[=](double x){ return scale * floor(k * x); },
             [=](double x){ double n = floor(k * x); return scale * (n * k * x - n * (n + 1) / 2) / k; }, -3, 3, scale * 3 * k + scale, false};
@@ -104,7 +104,7 @@ int main(){
         }
     }
 
-    /// R(k, k) is exact up to degree 2k + 1, so on degree <= 9 Romberg stops at its first check (k = 8, 257 evaluations)
+    /// R(k, k) is exact to degree 2k + 1, so on degree <= 9 Romberg stops at its first check (k = 8, 257 evaluations)
     for (long long it = 0; it < stress::scaled(3000); it++){
         auto c = random_poly(stress::rand_int(0, 9), 5);
         double a = rand_real(-2, 2), b = rand_real(-2, 2);
@@ -161,9 +161,10 @@ int main(){
         assert(err <= 1000 * tol);
         misses += err > tol;
     }
-    assert(misses <= 2 + iterations / 1000);  /// error estimates can be fooled, so a rare miss is allowed, a frequent one is not
+    /// Error estimates can be fooled, so a rare miss is allowed, a frequent one is not
+    assert(misses <= 2 + iterations / 1000);
 
-    /// The delta / 15 Richardson term keeps the adaptive error far below eps on smooth f, plain Simpson on the halves fails eps / 50
+    /// The delta / 15 Richardson term keeps adaptive error far below eps on smooth f, plain Simpson fails eps / 50
     for (long long it = 0; it < stress::scaled(4000); it++){
         Family fam = random_family();
         if (!fam.smooth) continue;
@@ -172,7 +173,7 @@ int main(){
         assert(abs(adaptive_simpson(a, b, fam.f, eps) - exact) <= eps / 50);
     }
 
-    /// p < 256 whole periods of cos read as constant to the 257 samples of Romberg's and adaptive Simpson's first checks
+    /// p < 256 whole periods of cos read as constant to the 257 samples of Romberg's and adaptive Simpson's first check
     for (int p = 1; p < 256; p++){
         double a = rand_real(-3, 3), b = a + rand_real(0.5, 6), c = rand_real(-2, 2), phase = rand_real(0, 7);
         auto f = [&](double x){ return c + cos(2 * acos(-1.0) * p * (x - a) / (b - a) + phase); };
@@ -180,7 +181,7 @@ int main(){
         assert(abs(adaptive_simpson(a, b, f) - c * (b - a)) <= 1e-8);
     }
 
-    /// sqrt|sin(m pi x)| has m + 1 infinite-slope points refined deep, their errors sum below eps only if eps halves per level
+    /// sqrt|sin(m pi x)| has m + 1 infinite-slope points refined deep, errors sum below eps only if eps halves per step
     double sqrt_sin_exact = tgamma(0.75) / (sqrt(acos(-1.0)) * tgamma(1.25));
     for (int m = 1; m <= 128; m++){
         for (double eps : {1e-8, 1e-9, 1e-10}){
@@ -189,7 +190,7 @@ int main(){
         }
     }
 
-    /// Zero on the whole start grid but huge between its points: a rounding floor from that grid alone is 0 and recursion runs away
+    /// Zero on the start grid, huge between its points: a rounding floor from that grid alone is 0, recursion runs away
     for (long long it = 0; it < stress::scaled(300); it++){
         double scale = pow(10.0, stress::rand_int(0, 14)), exact;
         long long calls = 0;

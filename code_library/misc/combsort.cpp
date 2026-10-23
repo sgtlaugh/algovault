@@ -1,14 +1,14 @@
 /***
  *
  * Comb Sort
- * In-place, unstable sort that shrinks the comparison gap by a factor of 1.29 per pass, https://en.wikipedia.org/wiki/Comb_sort
+ * In-place, unstable sort that shrinks the comparison gap by a factor of 1.29 per pass
  *
- * Complexity: O(n^2) worst case, O(1) extra space
- * No proven average-case bound, but fast in practice on random input (1e6 ints in ~0.4 s)
+ * Complexity: O(n^2) worst case, no proven average bound, O(1) extra space
  *
- * combsort(first, last) sorts any random access range ascending with operator<
- * Works on raw arrays and vectors: combsort(ar, ar + n) or combsort(v.begin(), v.end())
- * Equal elements may be reordered
+ * combsort(first, last): sorts any random access range ascending with operator<, like combsort(ar, ar + n)
+ *
+ * Notes:
+ *   - Fast in practice on random input: 1e6 ints in about 0.4 s
  *
 ***/
 

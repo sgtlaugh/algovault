@@ -5,9 +5,10 @@
  *
  * Complexity: O(1) for gray_code, O(log w) = 6 shifts for inverse_gray_code
  *
- * Successive codes differ in exactly one bit: the 3-bit sequence is 000, 001, 011, 010, 110, 111, 101, 100
- * inverse_gray_code(gray_code(x)) == x for every 64-bit x
- * https://en.wikipedia.org/wiki/Gray_code
+ * Notes:
+ *   - Successive codes differ in exactly one bit: the 3-bit sequence is 000, 001, 011, 010, 110, 111, 101, 100
+ *   - inverse_gray_code(gray_code(x)) == x for every 64-bit x
+ *   - https://en.wikipedia.org/wiki/Gray_code
  *
 ***/
 

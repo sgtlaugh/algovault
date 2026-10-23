@@ -67,7 +67,7 @@ int main(){
         assert(simulated_annealing(start, energy, two_opt, Annealer::by_steps(max_w * 0.5, max_w * 0.001, 20000, seed)) == best);
     }
 
-    /// Two states 0 and 1 with energies 0 and d at a fixed T: Metropolis visits state 1 a fraction e^(-d/T) / (1 + e^(-d/T))
+    /// States 0 and 1 with energies 0 and d at fixed T: the walk is in state 1 for e^(-d/T) / (1 + e^(-d/T)) of steps
     for (double ratio : {0.5, 1.0, 2.0}){
         long long d = 10, steps = stress::scaled(200000), visits_up = 0, calls = 0;
         double t = d / ratio;
@@ -113,7 +113,7 @@ int main(){
         assert(abs((double)visits_up / steps - exp(-1) / (1 + exp(-1))) < 0.01);
     }
 
-    /// Cooling from T = 100d to T = d / 1000: the walk sits in state 1 nearly half the time early on and never at the end
+    /// Cooling from T = 100d to T = d / 1000: the walk sits in state 1 nearly half the time early and never at the end
     for (int it = 0; it < 3; it++){
         long long d = 10, steps = 100000, early_up = 0, late_up = 0, calls = 0;
         auto level = [&](int s){ return s * d; };
@@ -172,7 +172,8 @@ int main(){
         auto t0 = chrono::steady_clock::now();
         auto best = simulated_annealing(start, [&](const vector<int>& p){ return tour_cost(w, p); }, two_opt, Annealer::by_time(50, 0.1, 0.2, stress::rng()()));
         double secs = chrono::duration<double>(chrono::steady_clock::now() - t0).count();
-        assert(secs >= 0.2 && secs < 1);  /// wall clock, so the upper bound leaves room for descheduling among parallel sanitizer jobs
+        /// Wall clock, so the upper bound leaves room for descheduling among parallel sanitizer jobs
+        assert(secs >= 0.2 && secs < 1);
         assert(tour_cost(w, best) == brute_tsp(w));
     }
 

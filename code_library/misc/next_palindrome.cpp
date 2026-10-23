@@ -7,9 +7,6 @@
  *
  * next_palindrome(s): s is a non-negative integer without leading zeros ("0" allowed)
  *
- * Mirror the left half onto the right; if that is not larger than s, add one to the left half (middle digit
- * included) and mirror again; when the left half is all nines the answer is 1 0...0 1 with one more digit
- *
 ***/
 
 #include <bits/stdtr1c++.h>

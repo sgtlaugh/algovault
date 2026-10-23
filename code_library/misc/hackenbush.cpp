@@ -3,29 +3,31 @@
  * Hackenbush
  * Green Hackenbush Grundy value of a rooted graph and red-blue Hackenbush value of a rooted tree
  *
- * Both games: a move deletes one edge, then every edge no longer connected to the ground (root) disappears
- * The player who cannot move loses. Several ground vertices: map them all to one root vertex before add_edge
- * Edges outside the root's component take no part in the game. Nodes are numbered from 0 to n - 1
- * Traversals are iterative, so deep graphs are safe
- *
  * Complexity:
  *   - GreenHackenbush grundy: O(n + m) per call
- *   - RedBlueHackenbush value: O(n log^2 n) per call, small-to-large merging of fraction bits into the heavy child
+ *   - RedBlueHackenbush value: O(n log^2 n) per call
  *
- * GreenHackenbush (impartial, either player deletes any edge):
- *   - GreenHackenbush g(n); g.add_edge(u, v); g.grundy(root): first player wins iff the result is nonzero
- *   - Parallel edges and self loops (u == v) allowed
+ * GreenHackenbush g(n): impartial game on nodes 0 to n - 1, either player deletes any edge
+ * g.add_edge(u, v): parallel edges and self loops (u == v) allowed
+ * g.grundy(root): the Grundy value, the first player wins iff it is nonzero
+ *
+ * RedBlueHackenbush t(n): partizan game on nodes 0 to n - 1, Left deletes only blue edges, Right only red
+ * t.add_edge(u, v, blue): adds a blue edge if blue, else a red one
+ * t.value(root): the exact value as a Dyadic, the root's component must be a tree
+ *
+ * Dyadic: whole + sum of 2^-b over b in bits, whole = floor, bits strictly increasing, all >= 1
+ * d.sign(): > 0 if Left wins whoever starts, < 0 if Right wins whoever starts, 0 if the second player wins
+ *
+ * Notes:
+ *   - A move deletes one edge and every edge it cuts off from the root, a player who cannot move loses
+ *   - Several ground vertices: map them all to one root vertex before add_edge
+ *   - Edges outside the root's component take no part in the game
+ *   - In RedBlueHackenbush parallel edges and self loops are cycles
+ *   - Denominators reach 2^(n - 2) on a long stalk, so the value is kept as bits, not as a double
  *   - Fusion principle: the vertices of a 2-edge-connected part fuse into one, its edges become loops (1 each)
  *   - Colon principle: a subtree of value x on top of a bridge is worth x + 1, siblings combine by xor
- *
- * RedBlueHackenbush (partizan, Left deletes only blue edges, Right only red):
- *   - RedBlueHackenbush t(n); t.add_edge(u, v, blue); t.value(root): the exact value as a Dyadic
- *   - The root's component must be a tree (asserted), parallel edges and self loops are cycles
- *   - Dyadic: whole + sum of 2^-b over b in bits, whole = floor, bits strictly increasing, all >= 1
- *     Denominators reach 2^(n - 2) (a long stalk), so the value is kept as bits, not as a double
- *   - sign() > 0: Left wins whoever starts, < 0: Right wins whoever starts, 0: the second player wins
- *   - An edge over a subtree of value x is worth, if blue: x + 1 for x >= 0, else (1 + frac(x)) / 2^(-floor(x))
- *     If red: the negation of the blue value of -x. Siblings add
+ *   - A blue edge over a subtree of value x is worth x + 1 for x >= 0, else (1 + frac(x)) / 2^(-floor(x))
+ *   - A red edge over x is worth the negation of the blue value of -x, and sibling values add
  *
 ***/
 
@@ -128,8 +130,7 @@ struct RedBlueHackenbush{
             bits.insert(k - shift);
         }
 
-        /// (frac - 2) / 2^(w + 1) = -1 + (1 - 2^-w) + frac / 2^(w + 1): the w new bits are paid for by the
-        /// w edges that built the integer part, so all calls together insert O(n) bits
+        /// (frac - 2) / 2^(w + 1) = -1 + (1 - 2^-w) + frac / 2^(w + 1): w new bits, paid by the w integer part edges
         void below_red(){
             if (whole < 0 || (whole == 0 && bits.empty())){
                 whole--;
