@@ -76,7 +76,6 @@ struct SqrtDecomposition{
         return raw[i] + pending[i / block_size];
     }
 
-    /// Adds v to [l, r] inside block b in O(block_size)
     void add_partial(int b, int l, int r, T v){
         int lo = b * block_size, hi = min(n, lo + block_size);
         vector<T>& value = sorted_block[b];

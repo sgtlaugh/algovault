@@ -153,7 +153,6 @@ struct ImplicitTreap{
     mt19937 rng{(unsigned int)chrono::steady_clock::now().time_since_epoch().count()};
 
     ImplicitTreap(const vector<long long>& values = {}){
-        /// Cartesian tree on random priorities with a stack, O(n)
         vector<int> stack;
         for (long long v : values){
             int t = new_node(v), last = -1;

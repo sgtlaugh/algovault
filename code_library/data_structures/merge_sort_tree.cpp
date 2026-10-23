@@ -57,7 +57,6 @@ struct MergeSortTree{
         return sorted_values[a];
     }
 
-    /// The tree is over ranks, not positions
     void build(int node, int a, int b, const vector<int>& order){
         if (a == b){
             by_rank[node] = {order[a]};

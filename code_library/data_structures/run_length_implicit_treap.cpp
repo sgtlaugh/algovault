@@ -19,7 +19,7 @@
  * seq.query(l, r): the Agg of positions l..r
  * seq.size(): the length of the sequence
  *
- * Positions are 0-indexed and ranges need 0 <= l <= r < size()
+ * Positions are 0-based and ranges need 0 <= l <= r < size()
  * ok must stay false once false as the range grows, it is never called on an empty range
  * For fixed positions known in advance, a segment tree over compressed coordinates is simpler
  *
@@ -221,7 +221,7 @@ struct RunLengthImplicitTreap{
         u.agg = a;
     }
 
-    /// Applies f to the treap holding exactly [l, r], f may replace it, then joins everything back
+    /// f may replace the treap of [l, r], with -1 or a new node
     template<typename F>
     void on_range(long long l, long long r, F f){
         assert(0 <= l && l <= r && r < size());
@@ -255,7 +255,6 @@ struct RunLengthImplicitTreap{
             a = t, b = q;
         }
         else{
-            /// t keeps the first part of its run, the rest becomes a new node merged in front of t's right subtree
             /// The new node draws a fresh priority: pieces of one run sharing a priority would chain into a path
             auto [first, rest] = Runs::cut(nodes[t].x, k - left);
             int u = new_node(rest, count - (k - left)), right = nodes[t].r;
