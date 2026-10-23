@@ -55,7 +55,7 @@ auto mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, Ge
         res[qi] = get(qi);
     }
 
-    while (cur_r >= cur_l) remove(cur_r--);  /// leave the window empty so the caller's state can be reused
+    while (cur_r >= cur_l) remove(cur_r--);
     return res;
 }
 /// END COPY mo
