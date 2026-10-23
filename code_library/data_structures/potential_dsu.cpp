@@ -8,9 +8,9 @@
  * PotentialDSU dsu(n, mod = 0): nodes 0..n, all values unknown
  * dsu.relate(a, b, d): record x[b] = x[a] + d, false if that contradicts what is known, which leaves the state unchanged
  * dsu.diff(a, b): x[b] - x[a], a and b must be in the same set
+ * dsu.find(a): the root of a's set, the same node for every member
  * dsu.same(a, b): true if a and b are in the same set, so diff(a, b) is known
  * dsu.size(a): number of nodes in a's set
- * dsu.find(a): the root of a's set, the same node for every member
  *
  * mod = 0 works on plain integers, every implied difference must fit in long long
  * mod > 0 works modulo mod, mod <= 1e18
@@ -50,19 +50,19 @@ struct PotentialDSU{
         return norm(up[b] - up[a]);
     }
 
+    int find(int i){
+        if (parent[i] == i) return i;
+        int root = find(parent[i]);
+        up[i] = norm(up[i] + up[parent[i]]);
+        return parent[i] = root;
+    }
+
     bool same(int a, int b){
         return find(a) == find(b);
     }
 
     int size(int a){
         return sz[find(a)];
-    }
-
-    int find(int i){
-        if (parent[i] == i) return i;
-        int root = find(parent[i]);
-        up[i] = norm(up[i] + up[parent[i]]);
-        return parent[i] = root;
     }
 
     long long norm(long long x) const{
