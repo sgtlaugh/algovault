@@ -488,13 +488,6 @@ struct LinearRecurrence{
 
 using namespace std;
 
-/// Because is_integral is not always true for __int128
-#ifdef __SIZEOF_INT128__
-    namespace std{
-        template<> struct is_integral<__int128_t>: true_type {};
-    }
-#endif
-
 /// Global buffers on purpose: stdin and stdout are one stream each per process, so a second reader instance
 /// would split the input between two buffers and a second writer would reorder the output
 namespace fio{
@@ -513,7 +506,8 @@ namespace fio{
         return (unsigned char)inbuf[inptr++];
     }
 
-    template <typename T, typename=typename enable_if<is_integral<T>::value, T>::type>
+    /// Integers: takes every type the plain overloads below miss, so __int128 needs no is_integral specialization, which breaks C++20
+    template <typename T>
     bool read_one(T &x){
         int c = ' ', neg = 0;
         while (c != '-' && !isdigit(c) && c != EOF) c = read_char();
@@ -529,9 +523,7 @@ namespace fio{
         return true;
     }
 
-    /// enable_if in the return type, since a second default template argument would redeclare the integral overload
-    template <typename T>
-    typename enable_if<is_floating_point<T>::value, bool>::type read_one(T& x){
+    bool read_token(){
         int c = ' ', len = 0;
         while (isspace(c) && c != EOF) c = read_char();
         if (c == EOF) return false;
@@ -540,11 +532,25 @@ namespace fio{
             if (len + 1 < (int)sizeof(tmpbuf)) tmpbuf[len++] = c;
         }
         tmpbuf[len] = 0;
+        return true;
+    }
 
-        /// Parsing at the target's own width, since strtold then a cast to double rounds twice and can miss by one ulp
-        if (is_same<T, float>::value) x = strtof(tmpbuf, nullptr);
-        else if (is_same<T, double>::value) x = strtod(tmpbuf, nullptr);
-        else x = strtold(tmpbuf, nullptr);
+    /// Each float parses at its own width, since strtold then a cast to double rounds twice and can miss by one ulp
+    bool read_one(float &x){
+        if (!read_token()) return false;
+        x = strtof(tmpbuf, nullptr);
+        return true;
+    }
+
+    bool read_one(double &x){
+        if (!read_token()) return false;
+        x = strtod(tmpbuf, nullptr);
+        return true;
+    }
+
+    bool read_one(long double &x){
+        if (!read_token()) return false;
+        x = strtold(tmpbuf, nullptr);
         return true;
     }
 
@@ -559,7 +565,7 @@ namespace fio{
         return true;
     }
 
-    bool read_one(char& ch){
+    bool read_one(char &ch){
         int c;
         do c = read_char(); while (isspace(c));
         if (c == EOF) return false;
@@ -569,7 +575,7 @@ namespace fio{
     }
 
     template <typename T>
-    bool read_one(vector<T>& v){
+    bool read_one(vector<T> &v){
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
@@ -587,12 +593,13 @@ namespace fio{
         return true;
     }
 
-    int read(){
-        return 0;
+    template <typename T>
+    int read(T &x){
+        return read_one(x);
     }
 
     template <typename T, typename ...Args>
-    int read(T &x, Args& ...args){
+    int read(T &x, Args &...args){
         if (!read_one(x)) return 0;
         return read(args...) + 1;
     }
@@ -604,24 +611,13 @@ namespace fio{
 
     struct AutoFlush{ ~AutoFlush(){ flush(); } } auto_flush;
 
-    inline void write_char(const char& c){
+    inline void write_char(char c){
         if (outptr == BUF_SIZE) flush();
         outbuf[outptr++] = c;
     }
 
-    void write_one(char c){
-        write_char(c);
-    }
-
-    void write_one(const char* s){
-        for (int j = 0; s[j]; j++) write_char(s[j]);
-    }
-
-    void write_one(const string& s){
-        for (auto &&c: s) write_char(c);
-    }
-
-    template <typename T, typename=typename enable_if<is_integral<T>::value, T>::type>
+    /// Integers, like read_one: the plain overloads below win for every other type
+    template <typename T>
     void write_one(T x){
         int l = 0;
         if (x < 0){
@@ -638,6 +634,18 @@ namespace fio{
         while (l) write_char(tmpbuf[--l]);
     }
 
+    void write_one(char c){
+        write_char(c);
+    }
+
+    void write_one(const char *s){
+        for (int j = 0; s[j]; j++) write_char(s[j]);
+    }
+
+    void write_one(const string &s){
+        for (auto &&c: s) write_char(c);
+    }
+
     /// write(x) for a floating x does not compile on purpose: the digits after the point must be chosen
     struct Fixed{
         long double value;
@@ -648,7 +656,7 @@ namespace fio{
         return {value, digits};
     }
 
-    void write_one(const Fixed& f){
+    void write_one(const Fixed &f){
         int len = snprintf(tmpbuf, sizeof(tmpbuf), "%.*Lf", f.digits, f.value);
         if (len < (int)sizeof(tmpbuf)){
             for (int j = 0; j < len; j++) write_char(tmpbuf[j]);
@@ -662,22 +670,33 @@ namespace fio{
     }
 
     template <typename T>
-    void write_one(const vector<T>& v){
+    void write_one(const vector<T> &v){
         for (int i = 0; i < (int)v.size(); i++){
             if (i) write_char(' ');
             write_one(v[i]);
         }
     }
 
-    void write() {}
+    template <typename T>
+    char separator_after(const T &){
+        return ' ';
+    }
 
-    template <typename T> struct is_vector : false_type {};
-    template <typename T, typename A> struct is_vector<vector<T, A>> : true_type {};
+    template <typename T>
+    char separator_after(const vector<T> &){
+        return '\n';
+    }
+
+    template <typename T>
+    void write(const T &x){
+        write_one(x);
+        write_char('\n');
+    }
 
     template <typename T, typename ...Args>
-    void write(const T& x, const Args& ...args){
+    void write(const T &x, const Args &...args){
         write_one(x);
-        write_char(sizeof...(args) && !is_vector<T>::value ? ' ' : '\n');
+        write_char(separator_after(x));
         write(args...);
     }
 }
