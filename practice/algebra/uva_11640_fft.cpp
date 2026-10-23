@@ -5,7 +5,8 @@
  *
  * Complexity:
  *   - every call: O((n + m) log(n + m)) for inputs of sizes n and m
- *   - the first call at a new transform length len: O(len) more to extend the roots of unity
+ *   - the first call at a new transform length len, the smallest power of two >= n + m: O(len) more to extend the roots of unity
+ *   - memory: up to 4 complex arrays of len entries per precision, kept between calls, 32 bytes each in long double, so ~270 MB at len = 2^21
  *
  * FFT fft: an instance that keeps its roots of unity and work buffers between calls
  * fft.multiply(a, b): the linear product of a and b, negatives allowed, exact whenever every coefficient fits in a long long
@@ -16,11 +17,10 @@
  * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
  *
  * Products have length n + m - 1, and an empty input gives an empty result
- * Every product runs in double while max(n, m) * max|value|^2 <= DOUBLE_LIMIT (~4.5e13), in long double to EXACT_LIMIT (~9.2e16)
- * mod_multiply bounds the values by mod - 1, so a mod below about 3e5 never needs more than one transform for n up to 10^6
- * Past EXACT_LIMIT values split into 15 bit halves, about 2x slower, need |values| < LL_MULTIPLY_LIMIT, and run in double while n <= 41909
+ * Once max(n, m) * max|value|^2 passes EXACT_LIMIT (~9.2e16), multiply and square need |values| < LL_MULTIPLY_LIMIT and take about 2x longer
+ * mod_multiply takes that slower path unless max(n, m) * (mod - 1)^2 <= EXACT_LIMIT, which holds for mod below about 3e5 at n = 10^6
  * The string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
- * Memory: with len the smallest power of two >= n + m, 4 complex arrays of len / 2 per precision used, 4 of len once a split product ran
+ * Use ntt.cpp modulo an NTT-friendly prime like 998244353 (about 4x faster) or for values near 10^9 (about 2x), fft for small values
  *
  * Circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
  *   auto c = fft.multiply(a, b);
@@ -108,8 +108,7 @@ struct FFT{
     static constexpr int SPLIT_BITS = 15;
     static constexpr int LL_MULTIPLY_LIMIT = 1500000000;
 
-    /// Largest n_max * max|value|^2 that multiply and square keep exact in one double or long double transform; all-equal
-    /// inputs first err near 2.7e14 and 3.8e17 up to n = 10^6, leaving 6x and 4x margins
+    /// Largest n_max * max|value|^2 one double or long double transform keeps exact, at least 4x below the first error up to n = 10^6
     static constexpr double DOUBLE_LIMIT = 0.01 / numeric_limits<double>::epsilon();
     static constexpr long double EXACT_LIMIT = 0.01L / numeric_limits<long double>::epsilon();
 
@@ -140,8 +139,11 @@ struct FFT{
             return res;
         }
 
-        if (split_fits_double(v1, v2)) return split_mod(fast, v1, v2, mod);
-        return split_mod(wide, v1, v2, mod);
+        /// Parts below ceil(sqrt(mod)) keep the products below mod, half of what fixed 2^15 halves reach for a mod near 2^31
+        long long base = sqrtl(mod);
+        while (base * base < mod) base++;
+        if (split_fits_double(v1, v2, base)) return split_mod(fast, v1, v2, mod, base);
+        return split_mod(wide, v1, v2, mod, base);
     }
 
     vector<long long> ll_multiply(vector<long long> v1, vector<long long> v2){
@@ -182,8 +184,7 @@ struct FFT{
         return res;
     }
 
-    /// The error of one transform follows n_max * max|value|^2: the output bound n_min * max|v1| * max|v2| misses
-    /// n = 10^5 with v1 in {0, 1} and v2 < 1.3 * 10^7, which already errs
+    /// The error follows n_max * max|value|^2, which the output bound n_min * max|v1| * max|v2| underestimates
     vector<long long> product(vector<long long>& v1, vector<long long>& v2, bool same){
         long long max_value = 0;
         for (auto x: v1) max_value = max(max_value, abs(x));
@@ -193,13 +194,12 @@ struct FFT{
         if (bound <= DOUBLE_LIMIT) return real_product(fast, v1, v2, same);
         if (bound <= EXACT_LIMIT) return real_product(wide, v1, v2, same);
         assert(max_value < LL_MULTIPLY_LIMIT);
-        if (split_fits_double(v1, v2)) return split_product(fast, v1, v2);
+        long long max_part = max(1LL << SPLIT_BITS, (max_value >> SPLIT_BITS) + 1);
+        if (split_fits_double(v1, v2, max_part)) return split_product(fast, v1, v2);
         return split_product(wide, v1, v2);
     }
 
-    /// Real inputs of length len transform as complex ones of length len / 2, even positions real and odd imaginary:
-    /// with Z = FFT(z), the halves are E = (Z[k] + conj Z[-k]) / 2 and O = (Z[k] - conj Z[-k]) / 2i, and
-    /// X[k] = E + w^k O, X[k + len / 2] = E - w^k O for w = e^(2 pi i / len); the inverse runs the same steps backwards
+    /// Real data packs into half-length complex z: E = (Z[k] + conj Z[-k]) / 2, O = (Z[k] - conj Z[-k]) / 2i, X[k] = E + w^k O, X[k + len / 2] = E - w^k O
     template <typename T>
     vector<long long> real_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, bool same){
         int p_len = v1.size() + v2.size() - 1, len = pad(v1, v2), half = len / 2;
@@ -234,16 +234,15 @@ struct FFT{
         return res;
     }
 
-    /// The split halves stay below 2^15, so their products need max(n, m) * 2^30 <= DOUBLE_LIMIT to run in double
-    static bool split_fits_double(const vector<long long>& v1, const vector<long long>& v2){
-        return (long double)max(v1.size(), v2.size()) * (1LL << (2 * SPLIT_BITS)) <= DOUBLE_LIMIT;
+    /// Parts of magnitude below max_part keep each transform within max(n, m) * max_part^2, so double suffices up to DOUBLE_LIMIT
+    static bool split_fits_double(const vector<long long>& v1, const vector<long long>& v2, long long max_part){
+        return (long double)max(v1.size(), v2.size()) * max_part * max_part <= DOUBLE_LIMIT;
     }
 
-    /// A negative value splits into floor(v / 2^15) and v mod 2^15, so the parts stay as small as for |v|
-    /// The parts are recombined modulo 2^64, exact whenever the true coefficient fits in a long long
+    /// Negative values split into floor(v / 2^15) and v mod 2^15, and recombining modulo 2^64 is exact when the coefficient fits a long long
     template <typename T>
     vector<long long> split_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2){
-        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2);
+        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2, 1LL << SPLIT_BITS);
 
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
@@ -256,28 +255,26 @@ struct FFT{
     }
 
     template <typename T>
-    vector<long long> split_mod(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, int mod){
-        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2);
+    vector<long long> split_mod(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, int mod, long long base){
+        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2, base);
+        long long base_sq = base * base % mod;
 
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
             long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real), high = round_to_nearest(e.f[i].img);
-            res[i] = (low + ((mid % mod) << SPLIT_BITS) + ((high % mod) << (2 * SPLIT_BITS))) % mod;
+            res[i] = (low + mid % mod * base + high % mod * base_sq) % mod;  /// stays below 4.7e18: high % mod * base_sq < 2^62
         }
 
         return res;
     }
 
-    /// Splits values into low and high bits, leaving low * low, the cross terms and high * high
-    /// in f.real, g.real and f.img respectively, 4 transforms in total (3 for equal inputs)
+    /// Leaves low * low, the cross terms and high * high in f.real, g.real and f.img, in 4 transforms or 3 for equal inputs
     template <typename T>
-    int split_multiply(Engine<T>& e, vector<long long>& v1, vector<long long>& v2){
-        const int mask = (1 << SPLIT_BITS) - 1;
-
+    int split_multiply(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, long long base){
         int len = pad(v1, v2);
         e.prepare(len, len);
-        for (int i = 0; i < len; i++) e.u[i] = Complex<T>(v1[i] & mask, v1[i] >> SPLIT_BITS);
-        for (int i = 0; i < len; i++) e.w[i] = Complex<T>(v2[i] & mask, v2[i] >> SPLIT_BITS);
+        for (int i = 0; i < len; i++) e.u[i] = split<T>(v1[i], base);
+        for (int i = 0; i < len; i++) e.w[i] = split<T>(v2[i], base);
 
         e.transform(e.u, e.f, len);
         if (v1 == v2){
@@ -312,6 +309,12 @@ struct FFT{
         while (len < n + m) len <<= 1;
         v1.resize(len, 0), v2.resize(len, 0);
         return len;
+    }
+
+    /// v = high * base + low with |low| < base, which the recombination undoes exactly for either sign of v
+    template <typename T>
+    static Complex<T> split(long long v, long long base){
+        return Complex<T>(v % base, v / base);
     }
 
     static long long round_to_nearest(long double x){
