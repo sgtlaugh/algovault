@@ -13,6 +13,7 @@
  *
  * Cells are 0-based, a cell outside [0, n - 1] x [0, m - 1] asserts
  * q updates create O(q log n log m) nodes from a pool of MAXNODES, 16 bytes each for long long, about 205 MB by default
+ * The default pool fits about 8000 random rectangle updates at n = m = 1e9, which create about 1600 nodes each
  * The pool is reserved up front, but only the pages of created nodes are touched
  * Running out of nodes asserts, raise MAXNODES then
  * The row roots take 4 * (n + 1) bytes, so n is bounded by memory and m only by the pool
