@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/data_structures/sliding_window_aggregation.cpp"
@@ -103,42 +101,17 @@ void long_runs(){
     }
 }
 
-/// An empty deque or vector access also aborts under _GLIBCXX_ASSERTIONS but is undefined behaviour in a judge build, hence the message check
-void check_rejects(const function<void()>& misuse){
-    int fd[2];
-    assert(pipe(fd) == 0);
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        dup2(fd[1], STDERR_FILENO);
-        close(fd[0]), close(fd[1]);
-        misuse();
-        _exit(0);
-    }
-
-    close(fd[1]);
-    string err;
-    char buf[4096];
-    for (ssize_t got; (got = read(fd[0], buf, sizeof buf)) > 0;) err.append(buf, got);
-    close(fd[0]);
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
-    assert(err.find("code_library/data_structures/sliding_window_aggregation.cpp:") != string::npos && err.find("Assertion") != string::npos);
-}
-
 /// pop and best on an empty queue, fresh and after the last element left
 void empty_queue_misuse(){
-    check_rejects([]{ SlidingWindowAggregation(string(), concat).pop(); });
-    check_rejects([]{
+    stress::expect_assert("data_structures/sliding_window_aggregation.cpp", []{ SlidingWindowAggregation(string(), concat).pop(); });
+    stress::expect_assert("data_structures/sliding_window_aggregation.cpp", []{
         SlidingWindowAggregation window(string(), concat);
         window.push("ok"), window.pop();
         window.pop();
     });
-    check_rejects([]{ MonotonicQueue<int>().pop(); });
-    check_rejects([]{ MonotonicQueue<int>().best(); });
-    check_rejects([]{
+    stress::expect_assert("data_structures/sliding_window_aggregation.cpp", []{ MonotonicQueue<int>().pop(); });
+    stress::expect_assert("data_structures/sliding_window_aggregation.cpp", []{ MonotonicQueue<int>().best(); });
+    stress::expect_assert("data_structures/sliding_window_aggregation.cpp", []{
         MonotonicQueue<int> low;
         low.push(7), low.pop();
         low.best();
