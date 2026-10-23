@@ -1,31 +1,30 @@
 /***
  *
  * Fast Fourier Transform
- * Polynomial multiplication, exact over integers or modulo any mod, and binary string matching
+ * Polynomial multiplication - exact over integers or modulo any mod
+ * Also covers binary string matching
  *
  * Complexity:
  *   - every call: O((n + m) log(n + m)) for inputs of sizes n and m
- *   - the first call at a new transform length len, the smallest power of two >= n + m: O(len) more to extend the roots of unity
- *   - memory: up to 4 complex arrays of len entries per precision, kept between calls, 32 bytes each in long double, so ~270 MB at len = 2^21
+ *   - memory: work buffers and roots of unity stay allocated between calls, sized by the largest n + m so far
  *
  * FFT fft: an instance that keeps its roots of unity and work buffers between calls
- * fft.multiply(a, b): the linear product of a and b, negatives allowed, exact whenever every coefficient fits in a long long
+ * fft.multiply(a, b): the linear product of a and b, |values| < LL_MULTIPLY_LIMIT, exact whenever every coefficient fits in a long long
  * fft.square(a): the same as multiply(a, a)
  * fft.mod_multiply(a, b, mod): the product modulo mod, 1 <= mod < 2^31, any input values, results in [0, mod)
  * fft.ll_multiply(a, b): the exact product of values in [0, LL_MULTIPLY_LIMIT), every coefficient below 2^63
  * fft.hamming_distance(str, pat): mismatches of binary pat against each window of str, |str| - |pat| + 1 values
  * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
  *
- * Products have length n + m - 1, and an empty input gives an empty result
- * Once max(n, m) * max|value|^2 passes EXACT_LIMIT (~9.2e16), multiply and square need |values| < LL_MULTIPLY_LIMIT and take about 2x longer
- * mod_multiply takes that slower path unless max(n, m) * (mod - 1)^2 <= EXACT_LIMIT, which holds for mod below about 3e5 at n = 10^6
- * The string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
- * Use ntt.cpp modulo an NTT-friendly prime like 998244353 (about 4x faster) or for values near 10^9 (about 2x), fft for small values
+ * Notes:
+ *   - products have length n + m - 1, and an empty input gives an empty result
+ *   - the string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
+ *   - use ntt.cpp modulo an NTT-friendly prime like 998244353 for improved speed
  *
- * Circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
- *   auto c = fft.multiply(a, b);
- *   for (int i = n; i < (int)c.size(); i++) c[i - n] += c[i];
- *   c.resize(n);
+ *   - for circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
+ *         auto c = fft.multiply(a, b);
+ *         for (int i = n; i < (int)c.size(); i++) c[i - n] += c[i];
+ *         c.resize(n);
  *
 ***/
 
