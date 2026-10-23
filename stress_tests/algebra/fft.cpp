@@ -120,8 +120,10 @@ int main(){
     assert(equal_product_is_exact(fft, 1, 100000, 1, 100000000));
     assert(equal_product_is_exact(fft, 100000, 1, -100000000, 1));
 
-    /// Both sides of the double, long double and split switches: the largest value on the cheaper side and one more
-    for (int n : {100000, 1000000}){
+    /// Both sides of the double, long double and split switches, n = 10^6 nightly only since it is slow under sanitizers
+    vector<int> sizes = {100000};
+    if (stress::scaled(1) > 1) sizes.push_back(1000000);
+    for (int n : sizes){
         for (long double limit : {(long double)FFT::DOUBLE_LIMIT, FFT::EXACT_LIMIT}){
             ll v = sqrtl(limit / n);
             while ((long double)n * (v + 1) * (v + 1) <= limit) v++;
