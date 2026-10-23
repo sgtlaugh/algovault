@@ -139,8 +139,11 @@ struct FFT{
             return res;
         }
 
-        if (split_fits_double(v1, v2)) return split_mod(fast, v1, v2, mod);
-        return split_mod(wide, v1, v2, mod);
+        /// Parts below ceil(sqrt(mod)) keep the products below mod, half of what fixed 2^15 halves reach for a mod near 2^31
+        long long base = sqrtl(mod);
+        while (base * base < mod) base++;
+        if (split_fits_double(v1, v2, base)) return split_mod(fast, v1, v2, mod, base);
+        return split_mod(wide, v1, v2, mod, base);
     }
 
     vector<long long> ll_multiply(vector<long long> v1, vector<long long> v2){
@@ -191,7 +194,8 @@ struct FFT{
         if (bound <= DOUBLE_LIMIT) return real_product(fast, v1, v2, same);
         if (bound <= EXACT_LIMIT) return real_product(wide, v1, v2, same);
         assert(max_value < LL_MULTIPLY_LIMIT);
-        if (split_fits_double(v1, v2)) return split_product(fast, v1, v2);
+        long long max_part = max(1LL << SPLIT_BITS, (max_value >> SPLIT_BITS) + 1);
+        if (split_fits_double(v1, v2, max_part)) return split_product(fast, v1, v2);
         return split_product(wide, v1, v2);
     }
 
@@ -230,15 +234,15 @@ struct FFT{
         return res;
     }
 
-    /// The split halves stay below 2^15, so their products need max(n, m) * 2^30 <= DOUBLE_LIMIT to run in double
-    static bool split_fits_double(const vector<long long>& v1, const vector<long long>& v2){
-        return (long double)max(v1.size(), v2.size()) * (1LL << (2 * SPLIT_BITS)) <= DOUBLE_LIMIT;
+    /// Parts of magnitude below max_part keep each transform within max(n, m) * max_part^2, so double suffices up to DOUBLE_LIMIT
+    static bool split_fits_double(const vector<long long>& v1, const vector<long long>& v2, long long max_part){
+        return (long double)max(v1.size(), v2.size()) * max_part * max_part <= DOUBLE_LIMIT;
     }
 
     /// Negative values split into floor(v / 2^15) and v mod 2^15, and recombining modulo 2^64 is exact when the coefficient fits a long long
     template <typename T>
     vector<long long> split_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2){
-        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2);
+        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2, 1LL << SPLIT_BITS);
 
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
@@ -251,13 +255,14 @@ struct FFT{
     }
 
     template <typename T>
-    vector<long long> split_mod(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, int mod){
-        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2);
+    vector<long long> split_mod(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, int mod, long long base){
+        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2, base);
+        long long base_sq = base * base % mod;
 
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
             long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real), high = round_to_nearest(e.f[i].img);
-            res[i] = (low + ((mid % mod) << SPLIT_BITS) + ((high % mod) << (2 * SPLIT_BITS))) % mod;
+            res[i] = (low + mid % mod * base + high % mod * base_sq) % mod;  /// stays below 4.7e18: high % mod * base_sq < 2^62
         }
 
         return res;
@@ -265,13 +270,11 @@ struct FFT{
 
     /// Leaves low * low, the cross terms and high * high in f.real, g.real and f.img, in 4 transforms or 3 for equal inputs
     template <typename T>
-    int split_multiply(Engine<T>& e, vector<long long>& v1, vector<long long>& v2){
-        const int mask = (1 << SPLIT_BITS) - 1;
-
+    int split_multiply(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, long long base){
         int len = pad(v1, v2);
         e.prepare(len, len);
-        for (int i = 0; i < len; i++) e.u[i] = Complex<T>(v1[i] & mask, v1[i] >> SPLIT_BITS);
-        for (int i = 0; i < len; i++) e.w[i] = Complex<T>(v2[i] & mask, v2[i] >> SPLIT_BITS);
+        for (int i = 0; i < len; i++) e.u[i] = split<T>(v1[i], base);
+        for (int i = 0; i < len; i++) e.w[i] = split<T>(v2[i], base);
 
         e.transform(e.u, e.f, len);
         if (v1 == v2){
@@ -306,6 +309,12 @@ struct FFT{
         while (len < n + m) len <<= 1;
         v1.resize(len, 0), v2.resize(len, 0);
         return len;
+    }
+
+    /// v = high * base + low with |low| < base, which the recombination undoes exactly for either sign of v
+    template <typename T>
+    static Complex<T> split(long long v, long long base){
+        return Complex<T>(v % base, v / base);
     }
 
     static long long round_to_nearest(long double x){

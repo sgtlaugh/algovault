@@ -164,6 +164,19 @@ int main(){
         }
     }
 
+    /// Parts below ceil(sqrt(mod)) put 1000003 and 7340033 in double at n = 5 * 10^4 and 2^31 - 1 in long double
+    for (ll mod : {1000003LL, 7340033LL, 2147483647LL}){
+        int n = 50000;
+        auto a = random_vector(n, 0, mod - 1), b = random_vector(n, 0, mod - 1);
+        auto c = fft.mod_multiply(a, b, mod);
+        for (int t = 0; t < 100; t++){
+            int k = stress::rand_int(0, 2 * n - 2);
+            __int128 expected = 0;
+            for (int i = max(0, k - n + 1); i <= min(k, n - 1); i++) expected += (__int128)a[i] * b[k - i];
+            assert(c[k] == (ll)(expected % mod));
+        }
+    }
+
     assert(fft.multiply({7}, {-6}) == vector<ll>({-42}));  /// a length 2 transform with a half of 1
     assert(fft.square({-9}) == vector<ll>({81}));
 
