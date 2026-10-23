@@ -55,7 +55,7 @@
 - [Kattis modulararithmetic - Modular Arithmetic](https://open.kattis.com/problems/modulararithmetic)
 - [LightOJ 1306 - Solutions to an Equation](https://lightoj.com/problem/solutions-to-an-equation)
 - [SPOJ CEQU - Crucial Equation](https://www.spoj.com/problems/CEQU/)
-- [UVa 10104 - Euclid Problem](https://onlinejudge.org/external/101/10104.pdf)
+- [UVa 10104 - Euclid Problem](https://onlinejudge.org/external/101/10104.pdf) [✅](../../practice/number_theory/uva_10104.cpp "Accepted solution")
 - [UVa 12775 - Gift Dilemma](https://onlinejudge.org/external/127/12775.pdf)
 
 #### [Fast Fibonacci](fast_fibonacci.cpp)
