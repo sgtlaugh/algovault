@@ -9,7 +9,7 @@
  * compress_by_appearance(v): ids follow first appearance, returns the distinct values in that order
  *
  * Ids run from 0 to the number of distinct values minus 1
- * The element type must hold ids up to n - 1, 65536 distinct values overflow a vector<short>
+ * The element type must be a number that holds every id, 32769 distinct values overflow a vector<short>
  *
 ***/
 
@@ -19,6 +19,8 @@ using namespace std;
 
 template <class T>
 vector<T> compress(vector<T>& v){
+    /// A vector<string> would compile and store each id as one char
+    static_assert(is_arithmetic<T>::value, "compress stores ids in place, so T must be a number");
     int n = v.size();
     vector<pair<T, int>> order(n);
     for (int i = 0; i < n; i++) order[i] = {v[i], i};
