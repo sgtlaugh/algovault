@@ -6,12 +6,12 @@
  * Complexity: O(n log n) time and memory to build, O(log n) per query and per add
  *
  * XorSegmentTree<T> st(a): sums of a, a.size() a power of two
- * XorSegmentTree<T, Combine> st(a, combine): tree with combine, which must be associative and have a const operator() but need not commute
+ * XorSegmentTree<T, Combine> st(a, combine): folds with combine, which must be associative and have a const operator() but need not commute
  * st.add(i, v): a[i] += v, only with the default Combine = plus<T>, every other combine builds a static tree
  * st.query(l, r, x): combine of a[p ^ x] over l <= p <= r in p order, 0 <= l <= r < n, 0 <= x < n
  *
  * Pad a to a power of two by hand, the padding values depend on what a padded a[p ^ x] should mean
- * For sums every stored fold of a node is the same block sum, the n log n layout pays off for order-dependent tree like max subarray sum (CF 1716E)
+ * For sums every stored fold of a node is the same block sum, the n log n layout pays off for order-dependent folds like max subarray sum (CF 1716E)
  *
 ***/
 
@@ -51,16 +51,15 @@ struct XorSegmentTree{
         return query(1, 0, n, l, r, x);
     }
 
-    /// x < len, b <= l <= r < b + len; tree a[p ^ x] over p in [l, r], never visiting an empty range
+    /// x < len, b <= l <= r < b + len; folds a[p ^ x] over p in [l, r], never visiting an empty range
     T query(int node, int b, int len, int l, int r, int x) const{
         if (l == b && r == b + len - 1){
             if constexpr (is_same_v<Combine, plus<T>>) return added[node] + tree[node][x];
             else return tree[node][x];
         }
 
-        /// a set bit half of x sends positions [b, mid) to the right child and [mid, b + len) to the left one
         int half = len >> 1, mid = b + half, shift = x & half ? half : 0;
-        int left_src = (node << 1) | (shift > 0), right_src = left_src ^ 1;  /// the children read by [b, mid) and by [mid, b + len)
+        int left_src = (node << 1) | (shift > 0), right_src = left_src ^ 1;
         x &= half - 1;
         if (r < mid) return query(left_src, b + shift, half, l + shift, r + shift, x);
         if (l >= mid) return query(right_src, b + half - shift, half, l - shift, r - shift, x);
