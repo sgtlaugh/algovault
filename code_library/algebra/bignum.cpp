@@ -10,6 +10,7 @@
  *
  * Bignum x(v): the long long v, 0 by default
  * Bignum x(s): the decimal string s, optional sign and leading zeros allowed, asserts at least one digit and nothing else
+ * 
  * x + y: the sum, either side may be a long long
  * x - y: the difference
  * x * y: the product
@@ -18,14 +19,17 @@
  * -x: the negation
  * x += y: x + y stored in x, likewise -=, *=, /= and %=
  * x < y: the comparison, likewise <=, >, >=, == and !=
+ * 
  * x.to_string(): the decimal digits, with a leading - when x is negative
  * cin >> x: reads one whitespace separated decimal token
  * cout << x: writes x.to_string()
  *
  * In loops prefer the compound operators: x += y reuses x's storage, and *=, /= and %= by a long long below 10^9 never allocate
  * x / y and x % y each run the full division, so needing both costs two
+ * 
  * At -O2, multiplying two 2 * 10^6 digit numbers takes ~0.15 s and dividing 2 * 10^6 digits by 10^6 digits ~0.5 s
- * Requires __int128 (64-bit GCC or Clang)
+ * 
+ * Note: Requires __int128 (64-bit GCC or Clang)
  *
 ***/
 
@@ -35,13 +39,15 @@ using namespace std;
 
 struct Bignum{
     static const uint32_t BASE = 1000000000;
+    static const size_t NTT_MAX = 1 << 23;
+    
     static const int KARATSUBA_CUTOFF = 96;
     static const int NTT_CUTOFF = 700;
-    static const size_t NTT_MAX = 1 << 23;
     static const int NEWTON_CUTOFF = 400;
+
     typedef vector<uint32_t> Limbs;
 
-    bool neg = false;      /// false for zero, so 0 has one representation
+    bool neg = false;
     Limbs limbs;           /// 9 decimal digits each, value = sum limbs[i] * 10^(9i), no zero limbs at the top
 
     Bignum(long long v = 0){
@@ -104,7 +110,6 @@ struct Bignum{
     Bignum& operator /= (const Bignum& y){ return *this = *this / y; }
     Bignum& operator %= (const Bignum& y){ return *this = *this % y; }
 
-    /// A factor or divisor below BASE works on these limbs without allocating, larger ones take the general path
     Bignum& operator *= (long long y){
         if (y <= -(long long)BASE || y >= (long long)BASE) return *this *= Bignum(y);
         if (y < 0) neg = !neg, y = -y;
@@ -216,7 +221,6 @@ struct Bignum{
         return x;
     }
 
-    /// res += y * BASE^offset, res must be large enough to hold the result
     static void add_to(Limbs& res, const Limbs& y, size_t offset){
         uint32_t carry = 0;
         size_t i = offset;
@@ -264,7 +268,6 @@ struct Bignum{
         /// Beyond NTT_MAX the split below keeps recursing until the pieces fit the transform
         Limbs res(n + m + 1);
         if (n >= 2 * m){
-            /// Unbalanced, multiply y by each m limb chunk of x
             for (size_t i = 0; i < n; i += m){
                 Limbs chunk(x.begin() + i, x.begin() + min(n, i + m));
                 trim(chunk);
@@ -392,8 +395,6 @@ struct Bignum{
         return res;
     }
 
-    /// The forward pass (decimation in frequency) leaves f in bit reversed order and the inverse pass (decimation in time)
-    /// takes it in that order, so pointwise products between them need no bit reversal permutation
     template<uint32_t MOD>
     static void ntt(vector<uint32_t>& f, const vector<uint32_t>& rt, bool inverse){
         size_t n = f.size();
@@ -439,6 +440,7 @@ struct Bignum{
     static uint32_t divmod_small(Limbs& x, uint32_t d){
         /// One reciprocal turns each 64-bit division into a multiply: inv underestimates 2^64 / d, so q is low by at most 1
         unsigned long long inv = ~0ULL / d, rem = 0;
+
         for (int i = (int)x.size() - 1; i >= 0; i--){
             unsigned long long cur = rem * BASE + x[i], q = (unsigned __int128)cur * inv >> 64;
             rem = cur - q * d;
@@ -453,13 +455,10 @@ struct Bignum{
     static pair<Limbs, Limbs> divmod_newton(const Limbs& x, const Limbs& y){
         size_t n = x.size(), m = y.size(), L = n - m + 2;
         if (m >= L){
-            /// Dropping the low m - L limbs of both moves the quotient by at most 1, since it is below BASE^(L - 1)
-            /// and the shortened divisor is at least BASE^(L - 1)
             Limbs ys = shift_right(y, m - L);
             return fix_quotient(x, y, shift_right(mul(shift_right(x, m - L), reciprocal(ys)), 2 * L));
         }
 
-        /// Long division in base BASE^m: each window is below y * BASE^m, so its quotient fits in one m limb digit
         Limbs inv = reciprocal(y), q(n), r;
         for (size_t b = (n - 1) / m + 1; b-- > 0;){
             Limbs cur = shift_left(r, m);
@@ -475,10 +474,6 @@ struct Bignum{
         return {q, r};
     }
 
-    /// floor(BASE^(2L) / y) for y with L limbs, give or take a few units
-    /// R0 = r * BASE^(L - h), with r the reciprocal of the top h limbs, has relative error ~BASE^(1 - h) when the top limb
-    /// is 1. The Newton step R = R0 + R0 * (BASE^(2L) - y * R0) / BASE^(2L) squares it, and since R <= BASE^(L + 1),
-    /// 2h >= L + 3 leaves about one unit of error, plus one each from truncating e and the floor below
     static Limbs reciprocal(const Limbs& y){
         size_t L = y.size();
         if (L <= NEWTON_CUTOFF){
@@ -490,10 +485,9 @@ struct Bignum{
         size_t h = L / 2 + 2;
         Limbs r = reciprocal(shift_right(y, L - h));
 
-        /// With R0 = r * BASE^(L - h): R = R0 + r * e / BASE^(2h) where e = BASE^(L + h) - y * r, |e| < ~BASE^(L + 1)
-        /// Dropping the low h - 1 limbs of e costs at most 1 unit since r < BASE^(h + 1)
         Limbs power(L + h + 1), t = mul(y, r);
         power[L + h] = 1;
+
         bool below = cmp(t, power) > 0;
         Limbs e = shift_right(below ? sub(t, power) : sub(power, t), h - 1);
         Limbs correction = shift_right(mul(r, e), h + 1);
@@ -512,7 +506,6 @@ struct Bignum{
         return res;
     }
 
-    /// Steps an estimate q, off by a few units, to the exact quotient using the remainder x - q * y
     static pair<Limbs, Limbs> fix_quotient(const Limbs& x, const Limbs& y, Limbs q){
         Limbs p = mul(q, y);
         while (cmp(p, x) > 0){
@@ -531,7 +524,6 @@ struct Bignum{
 
     /// Knuth's algorithm D, requires |x| >= |y| and y with at least 2 limbs
     static pair<Limbs, Limbs> divmod_knuth(const Limbs& x, const Limbs& y){
-        /// Scaling so the top divisor limb is at least BASE / 2 keeps each estimated quotient limb off by at most 2
         uint32_t norm = BASE / (y.back() + 1ULL);
         Limbs u = x, v = y;
         mul_small(u, norm), mul_small(v, norm);
@@ -559,7 +551,6 @@ struct Bignum{
             long long top = (long long)u[j + n] - (long long)carry - borrow;
 
             if (top < 0){
-                /// qhat was one too large, add the divisor back
                 qhat--;
                 uint32_t c = 0;
                 for (size_t i = 0; i < n; i++){
@@ -581,13 +572,12 @@ struct Bignum{
 };
 
 int main(){
-    /// 2^100 by repeated doubling in place, then one sum
     Bignum x = 1;
     for (int i = 0; i < 100; i++) x *= 2;
     assert(x.to_string() == "1267650600228229401496703205376");
     assert((x + x).to_string() == "2535301200456458802993406410752");
 
-    /// Division truncates toward zero and the remainder keeps the dividend's sign, like C++
+    /// Division truncates toward zero and the remainder keeps the dividend's sign
     Bignum seven = -7;
     assert(seven / 2 == -3);
     assert(seven % 2 == -1);
@@ -596,11 +586,9 @@ int main(){
     assert(parsed == -123);
     assert(parsed.to_string() == "-123");
 
-    /// (10^12 - 1)^2 = 10^24 - 2 * 10^12 + 1
     Bignum nines("999999999999");
     assert((nines * nines).to_string() == "999999999998000000000001");
 
-    /// 25! built and undone in place
     Bignum fact = 1;
     for (int i = 1; i <= 25; i++) fact *= i;
     assert(fact.to_string() == "15511210043330985984000000");
