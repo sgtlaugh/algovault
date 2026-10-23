@@ -7,16 +7,17 @@
  *
  * WalshHadamard fwht: a convolver for any number of calls of any length
  * WalshHadamard::inverse_walsh_transform(ar, n, conv_type, mod = 0): undoes walsh_transform
- * WalshHadamard::walsh_transform(ar, n, conv_type, mod = 0): transforms ar[0..n) in place, conv_type WalshHadamard::OR, AND or XOR
+ * WalshHadamard::walsh_transform(ar, n, conv_type, mod = 0): transforms ar[0..n) in place, conv_type OR, AND or XOR
  * fwht.and_convolution(A, B, mod = 0): the same with i & j = k
  * fwht.or_convolution(A, B, mod = 0): the same with i | j = k
- * fwht.xor_convolution(A, B, mod = 0): C where C[k] is the sum of A[i] * B[j] over all i ^ j = k, reduced modulo mod when mod > 0
+ * fwht.xor_convolution(A, B, mod = 0): C[k] = sum of A[i] * B[j] over all i ^ j = k, modulo mod when mod > 0
  *
- * A and B must have the same length n, and n must be a power of 2
- * With a mod, the two transforms need every ar[i] already in [0, mod)
- * Exact mode (mod = 0): no overflow while n^2 * max|A[i]| * max|B[j]| < 2^62
- * Modular mode: 1 <= mod < 2^31, any input values (negative or >= mod are reduced), results in [0, mod)
- * xor needs an odd mod, or and and take any mod
+ * Notes:
+ *   - A and B must have the same length n, and n must be a power of 2
+ *   - With a mod, the two transforms need every ar[i] already in [0, mod)
+ *   - Exact mode (mod = 0): no overflow while n^2 * max|A[i]| * max|B[j]| < 2^62
+ *   - Modular mode: 1 <= mod < 2^31, any input values (negative or >= mod are reduced), results in [0, mod)
+ *   - xor needs an odd mod, or and and take any mod
  *
 ***/
 
@@ -27,7 +28,7 @@ using namespace std;
 struct WalshHadamard{
     enum ConvType{OR, AND, XOR};
 
-    vector<long long> buffer;  /// reused across calls: allocating a fresh 8 MB vector per call at n = 2^20 costs ~10% in page faults
+    vector<long long> buffer;  /// reused: a fresh 8 MB vector per call at n = 2^20 costs ~10% in page faults
 
     static void inverse_walsh_transform(long long* ar, int n, ConvType conv_type, long long mod = 0){
         dispatch<true>(ar, n, conv_type, mod);

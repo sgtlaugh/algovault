@@ -5,17 +5,19 @@
  *
  * Complexity: O(n log n) for a product of total length n
  *
- * ntt::crt_multiply(a, b): every true coefficient of a * b modulo M = 167772161 * 469762049 * 754974721 ~ 5.95e25 as an unsigned __int128 in [0, M), result length at most 2^24
- * ntt::exact_multiply(a, b): the exact a * b of any long long inputs, correct whenever every true coefficient lies in [-2^63, 2^63), result length at most 2^24
- * ntt::mod_multiply(a, b, m): a * b modulo any 1 <= m < 2^31, prime or not, result length at most 2^24
- * ntt::multiply<MOD, ROOT>(a, b): a * b modulo MOD, default MOD = 998244353, ROOT found from MOD, the result length rounded up to a power of two must divide MOD - 1
+ * ntt::crt_multiply(a, b): a * b modulo M = 167772161 * 469762049 * 754974721 ~ 5.95e25, unsigned __int128 in [0, M)
+ * ntt::exact_multiply(a, b): the exact a * b of any long long inputs while every true coefficient is in [-2^63, 2^63)
+ * ntt::mod_multiply(a, b, m): a * b modulo any 1 <= m < 2^31, prime or not
+ * ntt::multiply<MOD, ROOT>(a, b): a * b modulo MOD, default MOD = 998244353, ROOT found from MOD
  *
- * The result length is |a| + |b| - 1, and an empty input gives an empty result
- * MOD must be a prime below 2^31; an explicit ROOT must be a quadratic non-residue modulo MOD, which any primitive root is
- * multiply allows result lengths up to 2^23 modulo 998244353 and 2^20 modulo 7340033 = 7 * 2^20 + 1
- * Inputs may be negative or >= the modulus, multiply and mod_multiply return values in [0, modulus)
- * Requires __int128 (64-bit GCC or Clang) for exact_multiply and crt_multiply
- * Use fft.cpp for exact products with max(n, m) * max|value|^2 below ~4.5e13, one transform there against three in exact_multiply
+ * Notes:
+ *   - The result length is |a| + |b| - 1, at most 2^24 for the other three, and an empty input gives an empty result
+ *   - multiply needs the result length rounded up to a power of two to divide MOD - 1
+ *   - multiply allows result lengths up to 2^23 modulo 998244353 and 2^20 modulo 7340033 = 7 * 2^20 + 1
+ *   - MOD must be a prime below 2^31, an explicit ROOT a quadratic non-residue modulo MOD, which any primitive root is
+ *   - Inputs may be negative or >= the modulus, multiply and mod_multiply return values in [0, modulus)
+ *   - Requires __int128 (64-bit GCC or Clang) for exact_multiply and crt_multiply
+ *   - Use fft.cpp for exact products with max(n, m) * max|value|^2 below ~4.5e13: one transform there, three here
  *
 ***/
 
@@ -51,7 +53,7 @@ namespace ntt{
         return steps ? inverse_mod_2_32(p, y * (2 - p * y), steps - 1) : y;
     }
 
-    /// Values live in [0, BOUND): 2 MOD below 2^30 saves the final reduction, MOD above, so u - v + BOUND stays below 2^32
+    /// Values live in [0, BOUND), 2 MOD below 2^30 to skip the final reduction, else MOD, so u - v + BOUND < 2^32
     template<unsigned MOD>
     constexpr unsigned bound(){
         return MOD < (1u << 30) ? 2 * MOD : MOD;
@@ -65,7 +67,7 @@ namespace ntt{
         return MOD < (1u << 30) || r < MOD ? r : r - MOD;
     }
 
-    /// rt[k + j] = w^j R modulo MOD for every power of two k < n, where w is a primitive 2k-th root of unity, or its inverse
+    /// rt[k + j] = w^j R modulo MOD for each power of two k < n, w a primitive 2k-th root of unity or its inverse
     template<unsigned MOD, unsigned ROOT>
     vector<unsigned> roots(int n, bool invert){
         vector<unsigned> rt(max(n, 2), 1);
@@ -79,7 +81,7 @@ namespace ntt{
         return rt;
     }
 
-    /// Decimation in frequency, natural order in, bit-reversed order out, a.size() a power of two no larger than rt.size()
+    /// Decimation in frequency, natural order in, bit-reversed order out, a.size() a power of two at most rt.size()
     template<unsigned MOD>
     void forward_transform(vector<unsigned>& a, const vector<unsigned>& rt){
         const unsigned BOUND = bound<MOD>();
@@ -112,7 +114,7 @@ namespace ntt{
     }
     /// END SHARED ntt_core
 
-    /// Any quadratic non-residue g works as ROOT: g^((MOD - 1) / n) then has order exactly n for every power of two n dividing MOD - 1
+    /// Any quadratic non-residue g works as ROOT: g^((MOD - 1) / n) has order n for each power of two n | MOD - 1
     constexpr unsigned non_residue(unsigned mod){
         unsigned g = 2;
         while (power(g, (mod - 1) / 2, mod) != mod - 1) g++;
@@ -185,7 +187,7 @@ namespace ntt{
         const unsigned long long M1 = P1 % m, M12 = (unsigned long long)P1 * P2 % m;
         auto c1 = multiply<P1, 3>(a, b), c2 = multiply<P2, 3>(a, b), c3 = multiply<P3, 11>(a, b);
 
-        /// Every true coefficient is below 2^23 m^2 < M ~ 5.95e25, so x1 + x2 P1 + x3 P1 P2 is exact, reduced term by term below 2^62
+        /// True coefficients < 2^23 m^2 < M ~ 5.95e25 make x1 + x2 P1 + x3 P1 P2 exact, reduced below 2^62 per term
         vector<long long> res(c1.size());
         for (size_t i = 0; i < res.size(); i++){
             unsigned long long x1 = c1[i];

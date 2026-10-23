@@ -8,8 +8,7 @@
  *   - O(n log^2 n) for evaluate at many points and interpolate
  *   - O(n) for +, -, derivative, integral and evaluate at one point
  *
- * Polynomial<MOD> p(v): the polynomial v[0] + v[1] x + v[2] x^2 + ... from a vector or braced list of integers, default MOD = 998244353
- * p.a: the coefficients in [0, MOD), lowest degree first
+ * Polynomial<MOD> p(v): v[0] + v[1] x + v[2] x^2 + ... from a vector or braced list, default MOD = 998244353
  * p + q, p - q, p * q: the sum, difference and product
  * p / q, p % q: the quotient and remainder, q must be nonzero
  * p.coef(i): the coefficient of x^i, 0 when i is out of range
@@ -19,20 +18,22 @@
  * p.evaluate(xs): the value p(x) for every point x of xs
  * p.exp(n): e^p mod x^n, requires p.coef(0) = 0
  * p.integral(): the integral with constant term 0, size() + 1 coefficients
- * Polynomial<MOD>::interpolate(xs, ys): the polynomial of degree < n through the n points (xs[i], ys[i]), the xs distinct modulo MOD
+ * Polynomial<MOD>::interpolate(xs, ys): the degree < n polynomial through (xs[i], ys[i]), the n xs distinct mod MOD
  * p.inverse(n): 1 / p mod x^n, requires p.coef(0) != 0
  * p.log(n): ln p mod x^n, requires p.coef(0) = 1
  * p.pow(k, n): p^k mod x^n for any k >= 0, p may start with zeros, and 0^0 = 1
  * p.size(): the number of coefficients, trailing zeros included
- * p.sqrt(n): a square root of p mod x^n whose lowest nonzero coefficient is the smaller modular root, nullopt when none exists
+ * p.sqrt(n): a square root of p mod x^n, lowest nonzero coefficient the smaller modular root, nullopt when none exists
  * p.taylor_shift(c): p(x + c), size() coefficients
  * p.trimmed(): p without trailing zeros
+ * p.a: the coefficients in [0, MOD), lowest degree first
  *
- * MOD is a prime below 2^30 of the form c * 2^v + 1, the default 998244353 = 119 * 2^23 + 1
- * Every size involved, the series length n, the polynomial lengths and the number of points, must be at most 2^(v - 1), 2^22 for 998244353
- * Results of +, -, *, /, %, divmod and interpolate have trailing zeros trimmed, and the zero polynomial is empty
- * inverse, log, exp, sqrt and pow return exactly n coefficients and read only the first n of p
- * Coefficients, points and c may be any integers, they are reduced into [0, MOD)
+ * Notes:
+ *   - MOD is a prime below 2^30 of the form c * 2^v + 1, the default 998244353 = 119 * 2^23 + 1
+ *   - Every series length n, polynomial length and number of points is at most 2^(v - 1), 2^22 for 998244353
+ *   - Results of +, -, *, /, %, divmod and interpolate have trailing zeros trimmed, and the zero polynomial is empty
+ *   - inverse, log, exp, sqrt and pow return exactly n coefficients and read only the first n of p
+ *   - Coefficients, points and c may be any integers, they are reduced into [0, MOD)
  *
 ***/
 

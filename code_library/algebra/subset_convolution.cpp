@@ -11,12 +11,13 @@
  * subset_zeta(f, mod = 0): replaces f[S] with the sum of f[T] over every T subset of S, the SOS DP
  * superset_mobius(f, mod = 0): undoes superset_zeta
  * superset_zeta(f, mod = 0): replaces f[S] with the sum of f[T] over every T superset of S
- * subset_convolution(a, b, mod): returns c with c[S] the sum of a[T] * b[S \ T] over every T subset of S, a and b the same size, 1 <= mod < 2^31
+ * subset_convolution(a, b, mod): c[S] = sum of a[T] b[S \ T] over T subset of S, |a| = |b|, 1 <= mod < 2^31
  *
- * Every array has a size 2^n with n >= 0, index S is the set of bits on in S, values are vector<int> or vector<long long>
- * mod = 0 is exact and needs the sum of |f[S]| to fit the element type
- * mod >= 1 reduces any input, negatives included, gives results in [0, mod) and must fit the element type
- * Nothing is divided, so mod need not be prime
+ * Notes:
+ *   - Every array has size 2^n, n >= 0, index S is the set of bits on in S, values are vector<int> or vector<long long>
+ *   - mod = 0 is exact and needs the sum of |f[S]| to fit the element type
+ *   - mod >= 1 reduces any input, negatives included, gives results in [0, mod) and must fit the element type
+ *   - Nothing is divided, so mod need not be prime
  *
 ***/
 
@@ -37,7 +38,7 @@ void sos_transform(vector<T>& f, int width, long long mod, bool superset, bool i
     int size = f.size() / width;
     assert(size > 0 && (size & (size - 1)) == 0 && mod >= 0);
 
-    /// Masks start..start + bit - 1 lack bit and are contiguous, so their entries pair with the next bit * width entries
+    /// Masks start..start + bit - 1 lack bit and are contiguous, their entries pair with the next bit * width entries
     for (int bit = 1; bit < size; bit <<= 1){
         int len = bit * width;
         for (int start = 0; start < size; start += 2 * bit){
@@ -106,8 +107,7 @@ vector<T> subset_convolution(const vector<T>& a, const vector<T>& b, long long m
     sos_transform(fa, width, mod, false, false);
     sos_transform(fb, width, mod, false, false);
 
-    /// Rank k only reads ranks <= k, so going down from n lets the product overwrite fa in place
-    /// Ranks above popcount(mask) are still zero after the zeta transform, so the terms using them are skipped
+    /// Rank k reads ranks <= k only, so going down from n can overwrite fa, and ranks above popcount(mask) are zero
     const unsigned long long square = (unsigned long long)mod * mod;
     for (int mask = 0; mask < size; mask++){
         int* x = &fa[mask * width];

@@ -6,16 +6,16 @@
  * Complexity, for numbers of n and m digits:
  *   - +, -, comparisons, to_string and stream I/O: O(n + m)
  *   - *: O(n m) below about 860 digits, O(n^1.58) above, O((n + m) log(n + m)) once both have about 6300 digits
- *   - / and %: O(n) for a divisor below 10^9, O((n - m) m) unless divisor and quotient both pass 3600 digits, O(n log n) then
+ *   - / and %: O(n) for a divisor below 10^9, else O((n - m) m), O(n log n) once divisor and quotient pass 3600 digits
  *
  * Bignum x(v): the long long v, 0 by default
- * Bignum x(s): the decimal string s, optional sign and leading zeros allowed, asserts at least one digit and nothing else
+ * Bignum x(s): the decimal string s, an optional sign then at least one digit, leading zeros allowed
  *
  * x + y: the sum, either side may be a long long
  * x - y: the difference
  * x * y: the product
- * x / y: the quotient truncated toward zero, asserts y != 0
- * x % y: the remainder with the sign of x, asserts y != 0
+ * x / y: the quotient truncated toward zero, y != 0
+ * x % y: the remainder with the sign of x, y != 0
  * -x: the negation
  * x += y: x + y stored in x, likewise -=, *=, /= and %=
  * x < y: the comparison, likewise <=, >, >=, == and !=
@@ -24,12 +24,11 @@
  * cin >> x: reads one whitespace separated decimal token
  * cout << x: writes x.to_string()
  *
- * In loops prefer the compound operators: x += y reuses x's storage, and *=, /= and %= by a long long below 10^9 never allocate
- * x / y and x % y each run the full division, so needing both costs two
- *
- * At -O2, multiplying two 2 * 10^6 digit numbers takes ~0.15 s and dividing 2 * 10^6 digits by 10^6 digits ~0.5 s
- *
- * Note: Requires __int128 (64-bit GCC or Clang)
+ * Notes:
+ *   - Prefer compound operators in loops: x += y reuses storage, *=, /= and %= by a long long below 10^9 never allocate
+ *   - x / y and x % y each run the full division, so needing both costs two
+ *   - At -O2, multiplying two 2 * 10^6 digit numbers takes ~0.15 s and dividing 2 * 10^6 digits by 10^6 digits ~0.5 s
+ *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
 
@@ -303,8 +302,7 @@ struct Bignum{
         x.push_back(carry);
     }
 
-    /// Rows accumulate in 64 bits and fold carries every 18 rows, since 18 * (BASE - 1)^2 < 2^64
-    /// Only the window touched since the last fold is normalized, ~1.5x faster than summing whole columns in 128 bits
+    /// 64-bit rows fold carries every 18 rows as 18 * (BASE - 1)^2 < 2^64, ~1.5x faster than 128-bit column sums
     static Limbs mul_schoolbook(const Limbs& x, const Limbs& y){
         if (x.empty() || y.empty()) return {};
         size_t n = x.size(), m = y.size();
@@ -328,8 +326,7 @@ struct Bignum{
         return res;
     }
 
-    /// Three prime NTT, each with primitive root 3 and 2^23 | p - 1
-    /// Every coefficient is below min(n, m) * BASE^2 <= 2^22 * 10^18 < P1 * P2 * P3 ~ 7.9 * 10^25, so the CRT is exact
+    /// Primes with root 3 and 2^23 | p - 1, CRT exact as coefficients < 2^22 * 10^18 < P1 * P2 * P3 ~ 7.9 * 10^25
     static Limbs mul_ntt(const Limbs& x, const Limbs& y){
         const uint32_t P1 = 998244353, P2 = 167772161, P3 = 469762049;
         size_t len = x.size() + y.size() - 1, n = 1;
@@ -438,7 +435,7 @@ struct Bignum{
     }
 
     static uint32_t divmod_small(Limbs& x, uint32_t d){
-        /// One reciprocal turns each 64-bit division into a multiply: inv underestimates 2^64 / d, so q is low by at most 1
+        /// A multiply by inv replaces each division: inv underestimates 2^64 / d, so q is low by at most 1
         unsigned long long inv = ~0ULL / d, rem = 0;
 
         for (int i = (int)x.size() - 1; i >= 0; i--){

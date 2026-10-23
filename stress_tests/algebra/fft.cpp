@@ -71,7 +71,7 @@ int main(){
         assert(fft.multiply(a, b) == naive(a, b));
         assert(fft.square(a) == naive(a, a));
 
-        /// Signed values up to LL_MULTIPLY_LIMIT push multiply and square onto the split product, hi keeps sums below 2^63
+        /// Signed values up to LL_MULTIPLY_LIMIT force the split product in multiply and square, sums stay below 2^63
         ll big_hi = FFT::LL_MULTIPLY_LIMIT - 1, small_hi = 9e18L / max(n, m) / big_hi;
         auto sa = random_vector(n, -big_hi, big_hi), sb = random_vector(m, -small_hi, small_hi);
         assert(fft.multiply(sa, sb) == naive(sa, sb));
@@ -86,7 +86,7 @@ int main(){
         assert(fft.mod_multiply(p, q, mod) == naive(p, q, mod));
         assert(fft.mod_multiply(p, p, mod) == naive(p, p, mod));  /// equal inputs skip the second transform
 
-        /// ll_multiply is exact while every output coefficient stays below 2^63, hi is pushed to that edge half the time
+        /// ll_multiply is exact while every coefficient stays below 2^63, hi is pushed to that edge half the time
         int xn = min(n, 1000), yn = min(m, 1000);
         ll hi = stress::rand_int(0, 1) ? 30000000 : min<ll>(FFT::LL_MULTIPLY_LIMIT - 1, sqrtl(9.2e18L / max(xn, yn)));
         auto x = random_vector(xn, 0, hi), y = random_vector(yn, 0, hi);
@@ -120,7 +120,7 @@ int main(){
     assert(equal_product_is_exact(fft, 1, 100000, 1, 100000000));
     assert(equal_product_is_exact(fft, 100000, 1, -100000000, 1));
 
-    /// Both sides of the double, long double and split switches, n = 10^6 nightly only since it is slow under sanitizers
+    /// Both sides of the double, long double and split switches, n = 10^6 nightly only as it is slow under sanitizers
     vector<int> sizes = {100000};
     if (stress::scaled(1) > 1) sizes.push_back(1000000);
     for (int n : sizes){

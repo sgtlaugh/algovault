@@ -51,8 +51,7 @@ int main(){
         return 0;
     }
 
-    /// s[k] = r^k F(k) + c with deg F <= d, the (d+1)-th finite difference of F(k) = (s[k] - c) r^-k vanishes,
-    /// so c * (1/r - 1)^(d+1) = sum over k of C(d+1, k) (-1)^(d+1-k) r^-k s[k]
+    /// (d+1)-th differences of (s[k] - c) r^-k vanish, so c (1/r - 1)^(d+1) = sum C(d+1, k) (-1)^(d+1-k) r^-k s[k]
     long long r_inv = power(r, MOD - 2), num = 0, binom = 1, rk = 1;
     vector<int> inv(m + 1, 1);
     for (int k = 2; k <= m; k++) inv[k] = (MOD - (long long)(MOD / k) * inv[MOD % k] % MOD) % MOD;

@@ -1,26 +1,24 @@
 /***
  *
  * Fast Fourier Transform
- * Polynomial multiplication - exact over integers or modulo any mod
- * Also covers binary string matching
+ * Polynomial multiplication, exact over integers or modulo any mod, and binary string matching
  *
  * Complexity:
  *   - every call: O((n + m) log(n + m)) for inputs of sizes n and m
- *   - memory: work buffers and roots of unity stay allocated between calls, sized by the largest n + m so far
+ *   - memory: O(largest n + m so far), kept between calls
  *
- * FFT fft: an instance that keeps its roots of unity and work buffers between calls
+ * FFT fft: one instance for any number of calls
  * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
  * fft.hamming_distance(str, pat): mismatches of binary pat against each window of str, |str| - |pat| + 1 values
  * fft.ll_multiply(a, b): the exact product of values in [0, LL_MULTIPLY_LIMIT), every coefficient below 2^63
  * fft.mod_multiply(a, b, mod): the product modulo mod, 1 <= mod < 2^31, any input values, results in [0, mod)
- * fft.multiply(a, b): the linear product of a and b, |values| < LL_MULTIPLY_LIMIT, exact whenever every coefficient fits in a long long
+ * fft.multiply(a, b): the product, |values| < LL_MULTIPLY_LIMIT, exact while every coefficient fits in a long long
  * fft.square(a): the same as multiply(a, a)
  *
  * Notes:
  *   - products have length n + m - 1, and an empty input gives an empty result
  *   - the string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
  *   - use ntt.cpp modulo an NTT-friendly prime like 998244353 for improved speed
- *
  *   - for circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
  *         auto c = fft.multiply(a, b);
  *         for (int i = n; i < (int)c.size(); i++) c[i - n] += c[i];
@@ -104,7 +102,7 @@ struct FFT{
     static constexpr int SPLIT_BITS = 15;
     static constexpr int LL_MULTIPLY_LIMIT = 1500000000;
 
-    /// Largest n_max * max|value|^2 one double or long double transform keeps exact, at least 4x below the first error up to n = 10^6
+    /// Largest n_max * max|value|^2 one transform keeps exact, at least 4x below the first error up to n = 10^6
     static constexpr double DOUBLE_LIMIT = 0.01 / numeric_limits<double>::epsilon();
     static constexpr long double EXACT_LIMIT = 0.01L / numeric_limits<long double>::epsilon();
 
@@ -208,7 +206,8 @@ struct FFT{
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
             long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real), high = round_to_nearest(e.f[i].img);
-            res[i] = (low + mid % mod * base + high % mod * base_sq) % mod;  /// stays below 4.7e18: high % mod * base_sq < 2^62
+            /// below 4.7e18 as high % mod * base_sq < 2^62
+            res[i] = (low + mid % mod * base + high % mod * base_sq) % mod;
         }
 
         return res;

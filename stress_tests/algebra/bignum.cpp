@@ -55,7 +55,7 @@ int main(){
 
         check(a, x);
         check(-a, -x);
-        assert(-(a - a) == 0 && !(-(a - a) < 0));  /// to_string prints "0" even for a negative zero, comparisons expose it
+        assert(-(a - a) == 0 && !(-(a - a) < 0));  /// to_string hides a negative zero, comparisons expose it
         check(a + b, x + y);
         check(a - b, x - y);
         check(a * b, x * y);

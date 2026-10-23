@@ -27,7 +27,7 @@ int main(){
         vector<int> c(k), start(k);
         for (auto& x : c) x = stress::rand_int(0, mod - 1);
         for (auto& x : start) x = stress::rand_int(0, mod - 1);
-        if (stress::rand_int(0, 2) == 0){  /// zero f(x - k), f(x - k + 1), ... coefficients lower the true order below k
+        if (stress::rand_int(0, 2) == 0){  /// zero f(x - k), f(x - k + 1), ... coefficients lower the true order
             int zeros = stress::rand_int(1, k);
             fill(c.end() - zeros, c.end(), 0);
         }
@@ -47,7 +47,8 @@ int main(){
         for (int i = 0; i < k; i++) predicted = (predicted + (long long)c[i] * window[k - 1 - i]) % mod;
         assert(next[k - 1] == predicted);
         for (int i = 0; i + 1 < k; i++) assert(next[i] == window[i + 1]);
-        assert(given.nth_term(n) == window[0] && given.nth_term(n + k) == next[k - 1]);  /// Bostan-Mori against the polynomial power
+        /// Bostan-Mori against the polynomial power
+        assert(given.nth_term(n) == window[0] && given.nth_term(n + k) == next[k - 1]);
 
         /// Recurrence given with only its first k terms, nth_terms extends them to the window it reads
         LinearRecurrence minimal(vector<int>(terms.begin(), terms.begin() + k), mod, c);
@@ -56,7 +57,7 @@ int main(){
             int count = stress::rand_int(1, k);
             assert(minimal.nth_terms(m, count) == vector<int>(terms.begin() + m, terms.begin() + m + count));
         }
-        assert(minimal.sequence == vector<int>(terms.begin(), terms.begin() + k));  /// the extension stays local to the query
+        assert(minimal.sequence == vector<int>(terms.begin(), terms.begin() + k));  /// the extension stays local
 
         /// Recurrence derived from 2k terms (Berlekamp-Massey for primes, Reeds-Sloane otherwise)
         LinearRecurrence derived(vector<int>(terms.begin(), terms.begin() + 2 * k), mod);

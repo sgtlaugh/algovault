@@ -8,17 +8,18 @@
  *   - nth_term: O(k log k log n)
  *   - nth_terms(n, c): O(k log k log n + k c)
  *
- * LinearRecurrence lr(sequence, mod, recurrence): f(i) = recurrence[0] f(i - 1) + ... + recurrence[k - 1] f(i - k), sequence holds f(0), f(1), ..., at least k terms
- * LinearRecurrence lr(sequence, mod): finds a recurrence generating sequence and stores it in lr.recurrence, in the same order
+ * LinearRecurrence lr(sequence, mod, recurrence): f(i) = recurrence[0] f(i - 1) + ... + recurrence[k - 1] f(i - k)
+ * LinearRecurrence lr(sequence, mod): finds a recurrence generating sequence, stored in lr.recurrence in the same order
  * lr.nth_term(n): f(n), 0 <= n <= 1e18
  * lr.nth_terms(n, c): f(n), ..., f(n + c - 1), 1 <= c <= k
  *
- * 1 <= mod and 2 * mod < INT_MAX, values of any sign are reduced modulo mod
- * 2k terms are enough to find a recurrence of degree k
- * With a prime mod the found recurrence is the shortest one generating every given term, from any number of terms
- * With a composite mod fewer than 2k terms may give a recurrence missing given terms, and it may end in zero coefficients
- *
- * Thanks to anta(https://codeforces.com/profile/anta) for first showing me this cool trick and recommending the Black Box Linear Algebra book
+ * Notes:
+ *   - sequence holds f(0), f(1), ..., at least k terms when the recurrence is given
+ *   - 1 <= mod and 2 * mod < INT_MAX, values of any sign are reduced modulo mod
+ *   - 2k terms are enough to find a recurrence of degree k
+ *   - With a prime mod the found recurrence is the shortest one generating every given term, from any number of terms
+ *   - With a composite mod the recurrence may end in zero coefficients, and may miss given terms when fewer than 2k
+ *   - Thanks to anta (codeforces.com/profile/anta) for showing me this trick and the Black Box Linear Algebra book
  *
 ***/
 
@@ -115,7 +116,7 @@ namespace fft{
         for (int k = roots.size(); k < len; k <<= 1){
             roots.resize(2 * k);
             for (int j = 0; j < k; j++){
-                long double theta = acosl(-1.0L) * j / k;  /// computed directly, a chain of products would accumulate rounding error
+                long double theta = acosl(-1.0L) * j / k;  /// direct, a chain of products accumulates rounding error
                 roots[k + j] = ComplexNum(cosl(theta), sinl(theta));
             }
         }
@@ -140,7 +141,7 @@ namespace fft{
         }
     }
 
-    /// Splits the transforms at i and j (= -i) into the low and high 15 bit halves and writes the products of the halves to u and v
+    /// Splits the transforms at i and j (= -i) into low and high 15 bit halves, products of the halves go to u and v
     inline void combine(ComplexNum fi, ComplexNum fj, ComplexNum gi, ComplexNum gj, int len, ComplexNum& u, ComplexNum& v){
         auto a1 = (fi + fj.conjugate()) * ComplexNum(0.5, 0);
         auto a2 = (fi - fj.conjugate()) * ComplexNum(0, -0.5);
@@ -281,7 +282,7 @@ struct LinearRecurrence{
         return res;
     }
 
-    /// Bostan-Mori: f(n) = [x^n] P(x) / Q(x), each step multiplies both by Q(-x) and keeps every second coefficient to halve n
+    /// Bostan-Mori: f(n) = [x^n] P(x) / Q(x), each step multiplies both by Q(-x) and keeps every second coefficient
     int bostan_mori(long long n){
         int k = recurrence.size();
         vector<int> q(k + 1), v(k + 1);
@@ -300,14 +301,14 @@ struct LinearRecurrence{
         return p[0];
     }
 
-    /// x^n modulo the characteristic polynomial x^k - c_1 x^(k - 1) - ... - c_k, lowest coefficient first, for n >= 1 and k >= 2
+    /// x^n modulo x^k - c_1 x^(k - 1) - ... - c_k, lowest coefficient first, for n >= 1 and k >= 2
     vector<int> power_of_x(long long n){
         int k = recurrence.size();
         vector<int> charpoly(k + 1, 1);
         for (int j = 0; j < k; j++) charpoly[j] = (mod - recurrence[k - 1 - j]) % mod;
         vector<int> reversed(charpoly.rbegin(), charpoly.rend());
 
-        /// Newton's step inv = inv (2 - reversed inv) doubles the correct prefix of 1 / reversed, k - 1 terms cover every quotient
+        /// Newton step inv = inv (2 - reversed inv) doubles the correct prefix, k - 1 terms cover every quotient
         vector<int> inv = {1};
         while ((int)inv.size() < k - 1){
             int len = min(2 * (int)inv.size(), k - 1);
@@ -323,7 +324,7 @@ struct LinearRecurrence{
         for (int bit = __lg(n); bit >= 0; bit--){
             res = fft::mod_multiply(res, res, mod);
 
-            if ((int)res.size() > k){  /// the top m coefficients reversed, times 1 / reversed charpoly, give the quotient reversed
+            if ((int)res.size() > k){  /// reversed quotient = reversed top m coefficients * (1 / reversed charpoly)
                 int m = res.size() - k;
                 auto quot = fft::mod_multiply(vector<int>(res.rbegin(), res.rbegin() + m), vector<int>(inv.begin(), inv.begin() + m), mod);
                 quot.resize(m);

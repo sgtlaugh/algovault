@@ -11,11 +11,12 @@
  * min_plus_convex_arbitrary(a, b): c of size n + m - 1, a convex and b arbitrary
  * min_plus_convex_convex(a, b): c of size n + m - 1 for a of size n and b of size m, both convex
  *
- * Convex means a[i + 1] - a[i] >= a[i] - a[i - 1] for every inner i, so sizes 1 and 2 are always convex
- * Convexity is not checked, and a non-convex input gives wrong results
- * An empty input gives an empty result
- * Max-plus with a concave and b arbitrary: negate both, call min_plus_convex_arbitrary and negate the result
- * With T = long long every |a[i]| and |b[j]| must be below 2^62, so sums and adjacent differences fit
+ * Notes:
+ *   - Convex means a[i + 1] - a[i] >= a[i] - a[i - 1] for every inner i, so sizes 1 and 2 are always convex
+ *   - Convexity is not checked: a non-convex input gives wrong results
+ *   - An empty input gives an empty result
+ *   - Max-plus with a concave and b arbitrary: negate both, call min_plus_convex_arbitrary and negate the result
+ *   - With T = long long every |a[i]| and |b[j]| must be below 2^62, so sums and adjacent differences fit
  *
 ***/
 
@@ -56,7 +57,7 @@ vector<T> min_plus_convex_arbitrary(const vector<T>& a, const vector<T>& b){
     if (!n || !m) return {};
 
     vector<T> c(n + m - 1);
-    /// a convex keeps the leftmost optimal j for c[k] from decreasing as k grows, so each half searches one side of best
+    /// a convex keeps the leftmost optimal j for c[k] nondecreasing in k, so each half searches one side of best
     auto solve = [&](auto&& self, int lo, int hi, int jlo, int jhi) -> void {
         if (lo > hi) return;
 

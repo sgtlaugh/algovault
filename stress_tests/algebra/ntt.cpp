@@ -71,10 +71,10 @@ int main(){
         check_prime<P3, 11>(300, 300);
         check_prime<257, 3>(128, 128);
         check_prime<17, 3>(8, 8);
-        check_prime<786433>(300, 300);  /// 3 is a quadratic residue here, so the found root must differ from the old default
-        check_prime<13>(2, 2);  /// smallest non-residue 2; 4 is the largest power of two dividing 12, so results stay within 3 terms
+        check_prime<786433>(300, 300);  /// 3 is a quadratic residue here, so the found root must not be 3
+        check_prime<13>(2, 2);  /// smallest non-residue 2, and 4 | 12 caps results at 3 terms
         check_prime<P3>(300, 300);
-        check_prime<2013265921>(300, 300);  /// above 2^30 the transforms keep values below the modulus instead of twice it
+        check_prime<2013265921>(300, 300);  /// above 2^30 the transforms keep values below the modulus, not twice it
 
         /// mod_multiply over any modulus, inputs anywhere in long long, the top modulus 2^31 - 1 a quarter of the time
         int n = stress::rand_int(0, big ? 2000 : 200), m = stress::rand_int(0, big ? 2000 : 200);
@@ -101,7 +101,7 @@ int main(){
         auto c = ones_product((1 << 22) + 1, 1 << 22);
         assert((multiply(vector<ll>((1 << 22) + 1, 1), vector<ll>(1 << 22, 1)) == c));
 
-        /// (m - 1)^2 = 1 modulo m, so all-(m - 1) inputs reduce to the all-ones closed form while every true coefficient nears M
+        /// (m - 1)^2 = 1 modulo m, so all-(m - 1) inputs give the all-ones closed form while true coefficients near M
         const ll top = (1LL << 31) - 1;
         auto d = ones_product((1 << 23) + 1, 1 << 23);
         auto e = mod_multiply(vector<ll>((1 << 23) + 1, top - 1), vector<ll>(1 << 23, top - 1), top);
@@ -109,7 +109,7 @@ int main(){
         assert(e == d);
     }
 
-    /// Garner reconstruction up to M ~ 5.95e25, single products x * y < M checked exactly, x >= 6.5e6 keeps y in long long
+    /// Garner up to M ~ 5.95e25, single products x * y < M checked exactly, x >= 6.5e6 keeps y in long long
     const unsigned __int128 M = (unsigned __int128)P1 * P2 * P3;
     for (long long it = 0; it < stress::scaled(2000); it++){
         ll x = stress::rand_int(6500000, 7713742000000LL), top = (ll)((M - 1) / x), y = stress::rand_int(top / 2, top);

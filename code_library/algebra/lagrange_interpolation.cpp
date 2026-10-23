@@ -10,7 +10,7 @@
  *
  * Lagrange f(terms, mod): the polynomial of degree below n with f(x) = terms[x]
  * f(x): the value at any long long x
- * find_degree(terms, mod): the lowest degree d that fits the terms, -1 when there are too few terms to be sure, it needs d + 2
+ * find_degree(terms, mod): the lowest degree d that fits, -1 if fewer than d + 2 terms
  *
  * Notes:
  *   - mod is a prime below 2^31 and n <= mod
@@ -85,6 +85,7 @@ struct Lagrange{
     }
 };
 
+/// Exact finite differences: prefix fits checked at a few points are 5x faster but roots at those points fool them
 int find_degree(const vector<int>& terms, int mod){
     int n = terms.size();
     assert(n <= mod);
@@ -94,8 +95,7 @@ int find_degree(const vector<int>& terms, int mod){
         if ((x %= mod) < 0) x += mod;
     }
 
-    /// The k-th differences all vanish exactly when k > d, as the d-th ones equal d! times the leading coefficient and d < n <= mod
-    /// Exact but slower than matching prefix fits at a few points, which roots at those points fool: 509 ms against 107 ms at n = 30000, d = n - 1
+    /// k-th differences all vanish exactly when k > d: the d-th are d! times the leading coefficient and d < n <= mod
     for (int k = 0; k < n; k++){
         if (all_of(diff.begin(), diff.end() - k, [](int x){ return x == 0; })){
             int d = max(k - 1, 0);
