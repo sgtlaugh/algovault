@@ -138,7 +138,7 @@
 
 #### [Polynomial](polynomial.cpp)
 
-- [CodeChef RNG - Random Number Generator](https://www.codechef.com/problems/RNG) [✅](../../practice/algebra/codechef_rng.cpp "Accepted solution")
+- [CodeChef RNG - Random Number Generator](https://www.codechef.com/problems/RNG) [✅](../../practice/algebra/codechef_rng_polynomial.cpp "Accepted solution")
 - [Codeforces 438E - The Child and Binary Tree](https://codeforces.com/problemset/problem/438/E) [✅](../../practice/algebra/codeforces_438e.cpp "Accepted solution")
 - [Codeforces 755G - PolandBall and Many Other Balls](https://codeforces.com/problemset/problem/755/G) [✅](../../practice/algebra/codeforces_755g.cpp "Accepted solution")
 - [HDU 5279 - YJC plays Minecraft](https://acm.hdu.edu.cn/showproblem.php?pid=5279) [✅](../../practice/algebra/hdu_5279.cpp "Accepted solution")
