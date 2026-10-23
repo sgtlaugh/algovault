@@ -34,8 +34,7 @@ int main(){
     for (int j = 0; j < m; j++) line[j] = '0' + x[j];
     cout << free_variables << '\n' << line << '\n';
 
-    /// gauss does not return its reduced rows, so they are rebuilt with eliminate_gf2
-    /// Each free column f gives a kernel vector: x_f = 1, and x_j = bit f of the pivot row of each pivot column j
+    /// gauss hides its reduced rows, eliminate_gf2 redoes them: free column f gives x_f = 1, x_j = bit f of row pos[j]
     vector<int> pos = eliminate_gf2(equations, m);
     for (int f = 0; f < m; f++){
         if (pos[f] != -1) continue;

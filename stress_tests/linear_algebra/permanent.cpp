@@ -45,7 +45,7 @@ long long brute_mod(const vector<vector<long long>>& a, long long m){
     return (long long)res;
 }
 
-/// Exact permanent by the row-by-row subset DP of the original source, dp[mask] = ways to finish rows popcount(mask)..n-1
+/// Exact permanent by the row-by-row subset DP, dp[mask] = ways to finish rows popcount(mask)..n-1
 __int128 subset_dp(const vector<vector<long long>>& a){
     int n = a.size();
     vector<__int128> dp(1 << n, 0);

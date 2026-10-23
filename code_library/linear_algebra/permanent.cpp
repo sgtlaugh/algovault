@@ -3,19 +3,16 @@
  * Matrix Permanent
  * Permanent of an integer matrix modulo any m by Ryser's formula, and the exact permanent when it is not too large
  *
- * Complexity: O(2^n n), O(n^2) extra space
- *
- * perm(a) = sum over permutations p of a[0][p[0]] * a[1][p[1]] * ... * a[n - 1][p[n - 1]]
- * Ryser: perm(a) = sum over column subsets S of (-1)^(n - |S|) * prod over rows i of (sum of a[i][j] for j in S)
- * Subsets are visited in Gray code order, so each step adds or removes one column from the row sums in O(n)
+ * Complexity: O(2^n n)
  *
  * permanent(a): the exact signed permanent, correct whenever |perm(a)| <= 2258704744122758558 (~2.26e18)
- *     computed modulo 4517409488245517117 and mapped back to the nearest signed value
  * permanent_mod(a, m): perm(a) mod m in [0, m) for any modulus 1 <= m < 2^62, prime or composite
  *
- * Entries may be any long long, negative included, a 0 x 0 matrix has permanent 1
- * n = 20 takes about 2 * 10^7 modular multiplications
- * Requires __int128 (64-bit GCC or Clang)
+ * Notes:
+ *   - perm(a) is the sum over permutations p of a[0][p[0]] * a[1][p[1]] * ... * a[n - 1][p[n - 1]]
+ *   - Entries may be any long long, negative included, a 0 x 0 matrix has permanent 1
+ *   - n = 20 takes about 2 * 10^7 modular multiplications
+ *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
 

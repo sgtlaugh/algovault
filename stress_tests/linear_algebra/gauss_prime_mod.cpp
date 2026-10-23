@@ -107,7 +107,8 @@ int main(){
         for (auto& e : equations) for (auto& x : e) x = stress::rand_int(0, density) ? stress::rand_int(0, mod - 1) : 0;
         if (n >= 2 && stress::rand_int(0, 1)){
             int r = stress::rand_int(1, n - 1), c = stress::rand_int(1, mod - 1);
-            for (int j = 0; j <= m; j++) equations[r][j] = (equations[r][j] + c * equations[0][j]) % mod;  /// a dependent row
+            /// A dependent row
+            for (int j = 0; j <= m; j++) equations[r][j] = (equations[r][j] + c * equations[0][j]) % mod;
         }
 
         long long solutions = 0, kernel = 0, total = 1;
@@ -199,7 +200,7 @@ int main(){
         }
 
         if (r < n){
-            /// The other n - 1 >= r rows span the row space almost surely, so shifting any RHS makes the system inconsistent
+            /// The other n - 1 >= r rows span the row space almost surely, so shifting any RHS makes it inconsistent
             vector<vector<int>> probe = equations;
             int row = stress::rand_int(0, n - 1);
             probe[row][m] = (probe[row][m] + stress::rand_int(1, mod - 1)) % mod;
@@ -224,7 +225,7 @@ int main(){
         int rank = matrix_rank(coefficients, mod);
         assert(rank == rank_ref(widen(coefficients), m, mod) && rank == r);
 
-        /// Square matrices: random ones are invertible almost surely, the n x r times r x n products with r < n never are
+        /// Square matrices: random ones are invertible almost surely, n x r times r x n products with r < n never are
         vector<vector<int>> square(n, vector<int>(n));
         for (auto& row : square) for (auto& v : row) v = stress::rand_int(INT_MIN, INT_MAX);
         if (r < n){

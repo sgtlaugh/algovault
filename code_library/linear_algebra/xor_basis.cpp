@@ -5,25 +5,20 @@
  *
  * Complexity: O(64) per insert and query, O(64^2) for intersect, 520 bytes per instance
  *
- * Values are any unsigned 64-bit integers, including 2^64 - 1
- * The basis is kept in reduced row echelon form: basis[i] is 0 or has leading bit i,
- * and no other basis vector has bit i set
+ * XorBasis b: an empty basis, its span is {0}
+ * b.insert(x): adds x, false if x was already in the span
+ * b.contains(x): whether some subset XORs to x
+ * b.count_less(x): the number of distinct span values below x
+ * b.intersect(other): the basis of the intersection of both spans
+ * b.kth(k): the k-th smallest distinct span value, 0-indexed, k < 2^rank, kth(0) = 0
+ * b.max_xor(x = 0): the max of x ^ s over the span, the max subset XOR for x = 0
+ * b.min_xor(x): the min of x ^ s over the span
+ * b.rank: the number of nonzero basis vectors
  *
- *   insert(x)        adds x, returns false if x was already in the span
- *   contains(x)      whether some subset XORs to x
- *   count_less(x)    number of distinct span values < x
- *   intersect(other) basis of the intersection of both spans (Zassenhaus)
- *   kth(k)           k-th smallest distinct span value, 0-indexed, requires k < 2^rank (kth(0) = 0)
- *   max_xor(x)       max of x ^ s over the span (max subset XOR for x = 0)
- *   min_xor(x)       min of x ^ s over the span
- *
- * The span has 2^rank distinct values, and each one is the XOR of exactly 2^(n - rank)
- * of the 2^n subsets of the n inserted values
- *
- * Example:
- *   XorBasis b;
- *   b.insert(6), b.insert(10), b.insert(12);  // span {0, 6, 10, 12}, the last insert returns false
- *   b.kth(2) == 10, b.count_less(11) == 3, b.max_xor(1) == 13
+ * Notes:
+ *   - Values are any unsigned 64-bit integers, including 2^64 - 1
+ *   - basis[i] is 0 or has leading bit i, and no other basis vector has bit i set
+ *   - The span has 2^rank values, each the XOR of exactly 2^(n - rank) of the 2^n subsets of the n inserted values
  *
 ***/
 

@@ -5,27 +5,27 @@
  *
  * Complexity: O(n m) time per pivot and O(n m) memory, the pivot count is exponential in the worst case
  *
- * Simplex lp(objective, sense): an LP in n = objective.size() variables, sense is Simplex::MAXIMIZE or Simplex::MINIMIZE
+ * Simplex lp(objective, sense): an LP in n = objective.size() variables, sense Simplex::MAXIMIZE or Simplex::MINIMIZE
  * BasicSimplex<long double> lp(objective, sense): the same in long double, 2-3x slower, resolving 1e-13 instead of 1e-9
- * lp.add_constraint(coef, lim, cmp): adds coef . x <= lim, >= lim or == lim for cmp Simplex::LESSEQ, GREATEQ or EQUAL, coef has n entries
- * lp.solve(): Simplex::FEASIBLE, INFEASIBLE or UNBOUNDED, asserts it is called once per instance
+ * lp.add_constraint(coef, lim, cmp): adds coef . x <= lim, >= lim or == lim for cmp Simplex::LESSEQ, GREATEQ or EQUAL
+ * lp.solve(): Simplex::FEASIBLE, INFEASIBLE or UNBOUNDED, once per instance
  * lp.value: the optimum after FEASIBLE
  * lp.val[j]: the value of x_j at the optimum
  *
- * A free variable x becomes x1 - x2 with x1, x2 >= 0
- * |x| <= M becomes the two rows x <= M and -x <= M
- * A ratio objective with a denominator positive on every feasible x becomes linear with t = 1 / denominator and y = t x:
+ * Notes:
+ *   - A free variable x becomes x1 - x2 with x1, x2 >= 0
+ *   - |x| <= M becomes the two rows x <= M and -x <= M
+ *   - A ratio objective with a denominator positive on every feasible x is linear in t = 1 / denominator and y = t x:
  *
- *     max (3x1 + 2x2 + 4x3 + 6) / (3x1 + 3x2 + 2x3 + 5)    ->    max 3y1 + 2y2 + 4y3 + 6t
- *     2x1 + 3x2 + 5x3 >= 23                                      3y1 + 3y2 + 2y3 + 5t == 1
- *     3x1 + 5x2 + 4x3 <= 30                                      2y1 + 3y2 + 5y3 - 23t >= 0
- *                                                                3y1 + 5y2 + 4y3 - 30t <= 0
+ *         max (3x1 + 2x2 + 4x3 + 6) / (3x1 + 3x2 + 2x3 + 5)    ->    max 3y1 + 2y2 + 4y3 + 6t
+ *         2x1 + 3x2 + 5x3 >= 23                                      3y1 + 3y2 + 2y3 + 5t == 1
+ *         3x1 + 5x2 + 4x3 <= 30                                      2y1 + 3y2 + 5y3 - 23t >= 0
+ *                                                                    3y1 + 5y2 + 4y3 - 30t <= 0
  *
- *   then x = y / t
+ *     then x = y / t
  *
- * Each pivot picks steepest edge while pricing it costs less than the pivot itself, otherwise the largest reduced cost
- * Rows are scaled internally, so mixing very large and very small coefficients is fine
- * The answer is unreliable only when moving a limit by about 1e-7 of its row changes it, as with nearly parallel rows
+ *   - Rows are scaled internally, so mixing very large and very small coefficients is fine
+ *   - The answer is unreliable only when moving a limit by about 1e-7 of its row changes it, like nearly parallel rows
  *
 ***/
 
@@ -43,7 +43,7 @@ struct SimplexOptions{
 template <typename Float>
 struct BasicSimplex : SimplexOptions{
     static constexpr bool WIDE = is_same<Float, long double>::value;
-    /// EPS decides pivots and feasibility, DROP only prunes elimination: pruning at EPS broke rows once variables grew large
+    /// EPS decides pivots and feasibility, DROP only prunes elimination: pruning at EPS broke rows for large variables
     static constexpr Float EPS = WIDE ? 1e-13L : 1e-9, DROP = WIDE ? 1e-16L : 1e-12;
 
     Float value = 0;
@@ -155,7 +155,7 @@ struct BasicSimplex : SimplexOptions{
                 }
             }
             else{
-                /// Steepest edge costs O(m) per candidate, so it runs only while that is cheaper than the last pivot, else Dantzig
+                /// Steepest edge costs O(m) per candidate, so only while cheaper than the last pivot, else Dantzig
                 int candidates = 0;
                 for (int j = 0; j <= n; j++) candidates += ar[z][j] > EPS;
                 bool steepest = candidates <= pivot_width;
@@ -171,7 +171,7 @@ struct BasicSimplex : SimplexOptions{
 
             for (int i = 1; i <= m; i++){
                 if (ar[i][y] <= EPS) continue;
-                /// A ratio is the entering value and can be tiny, so ties are relative; a limit at roundoff is exactly degenerate
+                /// A ratio is the entering value and can be tiny, so ties are relative; a roundoff limit is degenerate
                 Float u = rhs[i] <= DROP ? 0 : rhs[i] / ar[i][y], tol = EPS * max(u, v);
                 /// Near ties take the largest pivot to limit rounding, or the lowest id under Bland's rule
                 bool better = bland ? basic[i] < basic[x] : ar[i][y] > ar[x][y];
@@ -196,7 +196,7 @@ int main(){
     assert(abs(lp.val[0] - 1) < 1e-9);
     assert(abs(lp.val[1] - 3) < 1e-9);
 
-    /// Minimize x0 + 2x1 subject to x0 + x1 >= 3 and x0 - x1 == 1, so x0 = x1 + 1 and the cost 3x1 + 1 is least at x1 = 1
+    /// Minimize x0 + 2x1 with x0 + x1 >= 3 and x0 - x1 == 1: x0 = x1 + 1, so the cost 3x1 + 1 is least at x1 = 1
     Simplex diet({1, 2}, Simplex::MINIMIZE);
     diet.add_constraint({1, 1}, 3, Simplex::GREATEQ);
     diet.add_constraint({1, -1}, 1, Simplex::EQUAL);

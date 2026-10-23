@@ -84,7 +84,7 @@ void check_invertible(int n){
     }
 }
 
-/// An invertible system in m = W - 1 variables, the right-hand side in the last bit, recovers its planted solution exactly
+/// An invertible system in m = W - 1 variables, right-hand side in the last bit, recovers its planted solution exactly
 template <size_t W>
 void check_full_width_system(){
     int m = W - 1;
@@ -97,7 +97,7 @@ void check_full_width_system(){
     assert(solution.solvable && solution.free_variables == 0 && solution.x == planted);
 }
 
-/// Reduced row echelon form: pivots at rows 0..rank - 1 in column order, unit pivot columns, zero rows below, the same row space as a
+/// RREF: pivots at rows 0..rank - 1 in column order, unit pivot columns, zero rows below, the same row space as a
 template <size_t W>
 void check_reduced(const vector<bitset<W>>& a, int m, int rank){
     vector<bitset<W>> r = a;
@@ -139,7 +139,7 @@ void check_inverse_rejects_too_wide(){
 int main(){
     check_inverse_rejects_too_wide();
 
-    /// Small matrices at width W = 10, so m = W and n = W are reached: rank from the kernel size 2^(m - rank), invertible exactly when the kernel is trivial
+    /// Small matrices at W = 10 reach m = n = W: rank from kernel size 2^(m - rank), invertible iff kernel is trivial
     const size_t SMALL = 10;
     for (long long it = 0; it < stress::scaled(3000); it++){
         int m = stress::rand_int(0, SMALL), n = stress::rand_int(0, SMALL), density = stress::rand_int(1, 3);
@@ -199,7 +199,7 @@ int main(){
         }
     }
 
-    /// Large systems at W = 2000: a planted solution must be recovered as a valid one with exactly m - rank free variables
+    /// Large systems at W = 2000: a planted solution comes back as a valid one with exactly m - rank free variables
     const size_t WIDE = 2000;
     for (long long it = 0; it < stress::scaled(30); it++){
         int m = stress::rand_int(1, WIDE - 1), n = stress::rand_int(1, 300), rank = stress::rand_int(0, min(n, m));

@@ -18,7 +18,8 @@ int main(){
     for (long long it = 0; it < stress::scaled(1500); it++){
         int lim = it % 100 == 0 ? 150 : it % 10 ? 8 : 30;  /// 150 is past any fixed 101 x 101 storage
         int n = stress::rand_int(1, lim), k = stress::rand_int(1, lim), m = stress::rand_int(1, lim);
-        int range = vector<int>{1, 1000, lim > 30 ? 200000000 : 500000000}[stress::rand_int(0, 2)];  /// the largest keeps every product entry within long long
+        /// The largest range keeps every product entry within long long
+        int range = vector<int>{1, 1000, lim > 30 ? 200000000 : 500000000}[stress::rand_int(0, 2)];
         A = random_matrix(n, k, range), B = random_matrix(k, m, range);
 
         product = FreivaldsMatrix(n, m);

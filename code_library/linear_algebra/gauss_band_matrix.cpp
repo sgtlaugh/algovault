@@ -1,19 +1,20 @@
 /***
  *
  * Gaussian Elimination on a Band Matrix
- * Solves linear equations on a grid where each cell's equation only uses nearby cells, like expected values of a random walk
+ * Solves grid equations where each cell's equation only uses nearby cells, like expected values of a random walk
  *
- * Complexity: O(n m r^2) time and O(n m r + t) memory for t terms, r is how far apart a cell and its farthest term are in the cell order
- * Moves to the 8 neighbouring cells give r <= min(n, m) + 1, against O(n^3 m^3) for dense gauss on the grid
+ * Complexity: O(n m r^2) time and O(n m r + t) memory for t terms, against O(n^3 m^3) for dense gauss on the grid
  *
  * GaussBand<T> grid(n, m): one unknown x(i, j) per cell of an n x m grid, every equation starts as x(i, j) = 0
  * grid.add_constant(i, j, c): adds c to the right side of the equation of x(i, j)
  * grid.add_term(i, j, k, l, w): adds w * x(k, l) to the right side of the equation of x(i, j), (k, l) may be (i, j)
  * grid.solve(): the n x m grid of x(i, j), once per instance and after every add call
  *
- * Every equation reads x(i, j) = constant + sum of w * x(k, l), so a cell without calls solves to 0
- * Pivots without row swaps: safe when weights are probabilities and every cell can reach a cell that stops the walk
- * A cell that cannot reach one makes the system singular and the answer inf or nan
+ * Notes:
+ *   - Every equation reads x(i, j) = constant + sum of w * x(k, l), so a cell without calls solves to 0
+ *   - r is how far apart a cell and its farthest term are in the cell order, r <= min(n, m) + 1 for 8-neighbour moves
+ *   - No row swaps: safe when weights are probabilities and every cell can reach a cell that stops the walk
+ *   - A cell that cannot reach one makes the system singular and the answer inf or nan
  *
 ***/
 
@@ -132,8 +133,7 @@ struct GaussBand{
 };
 
 int main(){
-    /// Random walk on a 2 x 2 grid that stops at (1, 1), every step goes to one of the 2 neighbours
-    /// e(0, 0) = 1 + e(0, 1) / 2 + e(1, 0) / 2, the same shape for (0, 1) and (1, 0), and e(1, 1) = 0
+    /// Random walk on a 2 x 2 grid stopping at (1, 1): e(0, 0) = 1 + e(0, 1) / 2 + e(1, 0) / 2, and alike for the rest
     GaussBand<double> walk(2, 2);
     walk.add_constant(0, 0, 1);
     walk.add_term(0, 0, 0, 1, 0.5);
@@ -153,8 +153,7 @@ int main(){
     assert(abs(e[1][0] - 3) < 1e-9);
     assert(abs(e[1][1]) < 1e-9);
 
-    /// Corridor of 3 cells that stops at (0, 2), a step off either end stays put, which is a term on the cell itself
-    /// e(0, 0) = 1 + e(0, 0) / 2 + e(0, 1) / 2 and e(0, 1) = 1 + e(0, 0) / 2 + e(0, 2) / 2 give e = {6, 4, 0}
+    /// Corridor of 3 cells stopping at (0, 2), a step off either end stays put, which is a term on the cell itself
     GaussBand<double> corridor(1, 3);
     corridor.add_constant(0, 0, 1);
     corridor.add_term(0, 0, 0, 0, 0.5);

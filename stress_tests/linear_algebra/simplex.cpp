@@ -142,14 +142,14 @@ void degenerate_cycling(){
     alarm(0);
 }
 
-/// Primal max c.x, Ax <= b and dual min b.y, A^T y >= c solved as two live instances, strong duality pins their statuses and optima
+/// Primal max c.x, Ax <= b and dual min b.y, A^T y >= c as two live instances, strong duality pins statuses and optima
 void duality(long long iterations, int lo, int hi, bool planted){
     for (long long it = 0; it < iterations; it++){
         int n = stress::rand_int(lo, hi), m = stress::rand_int(lo, hi);
         vector<vector<long long>> a(m, vector<long long>(n));
         vector<long long> b(m), c(n), x0(n, 0), y0(m, 0);
         for (auto& r : a) for (auto& x : r) x = stress::rand_int(0, 3) ? stress::rand_int(-4, 6) : 0;
-        /// b and c built from x0, y0 >= 0 make both sides feasible and bounded, arbitrary LPs mix in infeasible and unbounded pairs
+        /// b, c from x0, y0 >= 0 keep both sides feasible and bounded; arbitrary LPs add infeasible and unbounded pairs
         if (planted){
             for (auto& x : x0) x = stress::rand_int(0, 1) ? stress::rand_int(0, 5) : 0;
             for (auto& y : y0) y = stress::rand_int(0, 1) ? stress::rand_int(0, 5) : 0;
@@ -213,7 +213,7 @@ void duality(long long iterations, int lo, int hi, bool planted){
     }
 }
 
-/// UVa 1298: nearly parallel rows of 1e5-sized coefficients, infeasible, which a lowest-id rule among near ties answers FEASIBLE
+/// UVa 1298: nearly parallel rows of 1e5 coefficients, infeasible, but FEASIBLE to a lowest-id rule among near ties
 void uva_1298_rows(){
     int s[7][3] = {{2470, 6466, 793}, {2472, 6468, 794}, {2470, 6472, 791}, {2472, 6469, 789}, {9991, 9998, 9999}, {10000, 9999, 10000},
                    {9994, 9996, 10000}};
@@ -239,7 +239,7 @@ void mixed_magnitude_rows(){
     assert(abs(lp.val[1] - 11.0 / 6) < 1e-9);
 }
 
-/// Nearly parallel rows, infeasible by exact rational simplex even with every limit moved by 1e-7 of its row, still FEASIBLE to a lowest-id rule among near ties
+/// Nearly parallel rows, infeasible even with limits moved by 1e-7 of their row, FEASIBLE to a lowest-id near-tie rule
 void nearly_parallel_rows(){
     Simplex lp({-4, 4, -2}, Simplex::MINIMIZE);
     lp.add_constraint({0, -1, -2}, 3, Simplex::LESSEQ);
@@ -249,7 +249,7 @@ void nearly_parallel_rows(){
     assert(lp.solve() == Simplex::INFEASIBLE);
 }
 
-/// Degenerate limits that come out as roundoff: unless they count as exactly 0, ties break by noise instead of Bland's lowest id and cycle
+/// Roundoff degenerate limits must count as exactly 0, or ties break by noise instead of Bland's lowest id and cycle
 void roundoff_degenerate_rows(){
     alarm(2);
     vector<Float> objective = {57, 36, 4, -18, -16, 45, 96, -1, 35, 59, 63, 100, 57};
@@ -275,7 +275,7 @@ void roundoff_degenerate_rows(){
     alarm(0);
 }
 
-/// Codeforces 605C in dual form puts corners near x ~ 1e-6, where an absolute 1e-9 ratio tolerance ties rows whose ratios differ by 1e-12
+/// Codeforces 605C in dual form has corners near 1e-6, where an absolute 1e-9 ratio tolerance ties ratios 1e-12 apart
 void tiny_ratio_rows(long long iterations){
     for (long long it = 0; it < iterations; it++){
         int n = stress::rand_int(2, 60);
@@ -283,7 +283,7 @@ void tiny_ratio_rows(long long iterations){
         vector<long long> a(n), b(n);
         for (int i = 0; i < n; i++) a[i] = stress::rand_int(lo, 1000000), b[i] = stress::rand_int(lo, 1000000);
 
-        /// The primal, min sum t_i with sum a_i t_i >= p and sum b_i t_i >= q, is optimal on one project or a pair, solved exactly
+        /// The primal, min sum t_i with sum a_i t_i >= p and sum b_i t_i >= q, is optimal on one project or a pair
         long double best = 1e30L;
         for (int i = 0; i < n; i++){
             best = min(best, max((long double)p / a[i], (long double)q / b[i]));
@@ -328,7 +328,7 @@ void solve_twice_aborts(){
     assert(err.find("simplex.cpp") != string::npos && err.find("Assertion") != string::npos);
 }
 
-/// Rows scaled by 2^-13..2^13 and columns by 2^-10..2^10 reach variables of 1e5, where dropping elimination entries at EPS breaks rows in double past n = 100
+/// Row scales 2^-13..2^13 and column scales 2^-10..2^10 give variables of 1e5: pruning at EPS broke double past n = 100
 template <typename Float>
 void scaled_rows_and_columns(long long iterations, int lo, int hi){
     for (long long it = 0; it < iterations; it++){
@@ -345,7 +345,7 @@ void scaled_rows_and_columns(long long iterations, int lo, int hi){
         }
         for (int j = 0; j < n; j++) a[n + j][j] = col[j], b[n + j] = 100;
 
-        /// Power of two scales keep every coefficient exact in both types, so the long double and dual optima check the same LP
+        /// Power of two scales keep coefficients exact in both types, so long double and dual optima check the same LP
         BasicSimplex<Float> primal(vector<Float>(c.begin(), c.end()), Simplex::MAXIMIZE);
         BasicSimplex<long double> wide(c, Simplex::MAXIMIZE), dual(b, Simplex::MINIMIZE);
         for (int i = 0; i < m; i++){

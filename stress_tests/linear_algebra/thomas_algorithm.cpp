@@ -33,7 +33,8 @@ vector<__float128> dense_solve(vector<vector<__float128>> a, vector<__float128> 
 int main(){
     for (long long it = 0; it < stress::scaled(8000); it++){
         int n = stress::rand_int(0, it % 10 ? 12 : 3000);
-        bool weak = it % 3 == 0;  /// the header's weak dominance case: rows with equality, a strict first row, every lower[i] nonzero past the first
+        /// The header's weak dominance case: equality rows, a strict first row, every lower[i] past the first nonzero
+        bool weak = it % 3 == 0;
         vector<long double> lower(n), diagonal(n), upper(n), rhs(n);
         for (int i = 0; i < n; i++){
             /// Coefficients outside the matrix must be ignored, so they get junk
@@ -71,7 +72,7 @@ int main(){
         }
     }
 
-    /// M-matrix version on well-conditioned random systems: an excess of at least 1/2 in every row, checked per component against quad
+    /// M-matrix version, well-conditioned: excess >= 1/2 in every row, checked per component against quad
     for (long long it = 0; it < stress::scaled(8000); it++){
         int n = stress::rand_int(0, it % 10 ? 12 : 60);
         vector<long double> lower(n), upper(n), excess(n), rhs(n);
@@ -101,7 +102,7 @@ int main(){
         for (int i = 0; i < n; i++) assert(fabsq(expected[i] - x[i]) <= (__float128)1e-16L * fabsq(expected[i]) + (__float128)1e-30L * largest);
     }
 
-    /// Walks with strong drift, where elimination with subtraction loses every digit: cell i steps right with chance p[i]
+    /// Walks with strong drift, where subtracting elimination loses every digit: cell i steps right with chance p[i]
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(1, it % 10 ? 50 : 400);
         vector<long double> p(n);
@@ -117,7 +118,7 @@ int main(){
         rhs[n - 1] = p[n - 1];
         auto h = solve_tridiagonal_m_matrix(lower, upper, excess, rhs);
 
-        /// The chance to leave on the right first is a ratio of sums of positive products, d_0 = 1 and d_j = d_(j - 1) (1 - p[j]) / p[j]
+        /// Leaving right first is a ratio of sums of positive products, d_0 = 1 and d_j = d_(j - 1) (1 - p[j]) / p[j]
         vector<long double> prefix(n + 1, 0);
         long double d = 1;
         for (int j = 0; j <= n; j++){

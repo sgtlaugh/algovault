@@ -3,26 +3,24 @@
  * Integer Determinant
  * Determinant of an integer matrix modulo any m, and the exact determinant when it is not too large
  *
- * Complexity: O(n^3 + n^2 log m)
+ * Complexity: O(n^3 + n^2 log m) per determinant or count
  *
  * determinant(a): the exact signed determinant, correct whenever |det(a)| <= 2258704744122758558 (~2.26e18)
- *     computed modulo the prime 4517409488245517117 and mapped back to the nearest signed value
  * determinant_mod(a, m): det(a) mod m in [0, m) for any modulus 1 <= m < 2^62, prime or composite
- *     row reduction by repeated division, like the Euclidean algorithm, so no modular inverses are needed
  *
- * Entries may be any long long, negative included, a 0 x 0 matrix has determinant 1
- * Requires __int128 (64-bit GCC or Clang)
+ * SpanningTrees g(n): undirected multigraph on nodes 0 to n - 1, counted by Kirchhoff's matrix tree theorem
+ * g.add_edge(u, v): adds the edge u - v, parallel edges count separately and self loops are ignored
+ * g.count(m): the number of spanning trees mod m, 0 when disconnected and 1 for a single node
  *
- * Matrix tree theorem on top of determinant_mod, 0 based nodes, O(n^2) memory, count() is O(n^3 + n^2 log m)
- * SpanningTrees (Kirchhoff): number of spanning trees of an undirected multigraph mod m
- *     0 when disconnected, 1 for a single node, parallel edges count separately, self loops are ignored
- * Arborescences (Tutte): number of spanning trees of a directed multigraph rooted at root mod m,
- *     with every edge pointing away from root, so every other node has exactly one incoming edge
- *     for trees pointing towards root, add every edge reversed
- * Counts are exact when below the modulus, pass m = (1LL << 62) - 1 for counts up to ~4.6e18
+ * Arborescences d(n): directed multigraph on nodes 0 to n - 1, counted by Tutte's matrix tree theorem
+ * d.add_edge(u, v): adds the edge u -> v, parallel edges count separately and self loops are ignored
+ * d.count(root, m): the number of spanning trees mod m with every edge pointing away from root
  *
- *     SpanningTrees g(n);  g.add_edge(u, v);  g.count(MOD);
- *     Arborescences d(n);  d.add_edge(u, v);  d.count(root, MOD);
+ * Notes:
+ *   - Entries may be any long long, a 0 x 0 matrix has determinant 1
+ *   - Counts are exact when below m, pass m = (1LL << 62) - 1 for counts up to ~4.6e18
+ *   - For trees pointing towards root, add every edge reversed
+ *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
 

@@ -5,7 +5,7 @@
  *
  * Complexity:
  *   - multiplication: O(n m p) for an n x m times an m x p matrix
- *   - pow(e): O(n^3 log e), with no allocation inside the loop
+ *   - pow(e): O(n^3 log e)
  *
  * Matrix a(n, m, mod): n x m zero matrix modulo mod, 1 <= mod < 2^31
  * Matrix::identity(n, mod): the n x n identity modulo mod
@@ -17,7 +17,8 @@
  * a.rotate(): the matrix turned 90 degrees clockwise
  * a.transpose(): the m x n transpose
  *
- * Linear recurrence f(n) = 2 f(n - 1) + 3 f(n - 2): with M = {{2, 3}, {1, 0}}, (f(n + 1), f(n)) = M^n * (f(1), f(0))
+ * Notes:
+ *   - Recurrence f(n) = 2 f(n - 1) + 3 f(n - 2): with M = {{2, 3}, {1, 0}}, (f(n + 1), f(n)) = M^n * (f(1), f(0))
  *
 ***/
 

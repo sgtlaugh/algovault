@@ -5,14 +5,15 @@
  *
  * Complexity: O(min(n, m) n m + m^2) for gauss, O(min(n, m) n m) for matrix_rank, O(n^3) for matrix_inverse
  *
- * gauss(equations, mod): {solvable, x, basis} for n >= 1 equations in m variables, equations[i][m] is the right-hand side
+ * gauss(equations, mod): {solvable, x, basis} for n >= 1 equations in m variables, the right side last
  * matrix_inverse(a, mod): a^-1 for a square a, nullopt when a is singular
  * matrix_rank(a, mod): rank of any n x m matrix
  *
- * x is one solution, empty when solvable is false
- * basis spans the kernel {x : Ax = 0}, every solution is x + c_1 basis[0] + ... + c_f basis[f - 1] for exactly one choice of the c_k
- * basis is filled even when there is no solution, it depends only on the coefficients
- * mod must be a prime below 2^31, entries may be any int and are reduced into [0, mod)
+ * Notes:
+ *   - x is one solution, empty when solvable is false
+ *   - basis spans {x : Ax = 0}, every solution is x plus exactly one combination of the basis vectors
+ *   - basis is filled even when there is no solution, it depends only on the coefficients
+ *   - mod must be a prime below 2^31, entries may be any int and results are in [0, mod)
  *
 ***/
 
@@ -38,16 +39,14 @@ int expo(int a, int b, int mod){
     return res;
 }
 
-/// target -= factor * source over the columns from first on
-/// (mod - factor) * source[l] + target[l] stays below 2^62 for mod < 2^31, so one % and no sign fix
+/// target -= factor * source from column first on, (mod - factor) * source[l] + target[l] < 2^62 needs one % only
 void subtract_row(vector<int>& target, const vector<int>& source, int factor, int first, int mod){
     long long negated = mod - factor;
     int width = target.size();
     for (int l = first; l < width; l++) target[l] = (target[l] + negated * source[l]) % mod;
 }
 
-/// Brings a into row echelon form over its first cols columns, pivots become 1
-/// Returns pos, pos[j] = row of the pivot in column j or -1, pivot rows are 0, 1, ..., rank - 1 in column order
+/// Row echelon form of the first cols columns, pivots 1 in rows 0 to rank - 1, pos[j] = pivot row of column j or -1
 vector<int> echelon_mod(vector<vector<int>>& a, int cols, int mod){
     int n = a.size(), i = 0;
     for (auto& row : a){

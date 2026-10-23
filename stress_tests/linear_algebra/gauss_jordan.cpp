@@ -76,7 +76,7 @@ int main(){
     assert(gauss(regression).free_variables == 0);
     assert(gauss(regression).solvable);
 
-    /// Unique solutions near 1e9 with small coefficients, which a pivot tolerance scaled by the right-hand side rejects as -1
+    /// Unique solutions near 1e9 with small coefficients, which a tolerance scaled by the right-hand side rejects as -1
     auto lone = gauss(vector<vector<double>>{{1, 1e9}});
     assert(lone.solvable && lone.free_variables == 0 && lone.x[0] == 1e9);
     assert(gauss(vector<vector<double>>{{1, 1, 2e9}, {1, -1, 0}}).solvable);
@@ -148,7 +148,7 @@ int main(){
         if (inv) assert((int)inv->size() == n && near_identity_product(d, *inv) && near_identity_product(*inv, d));
     }
 
-    /// Large random real matrices are invertible almost surely, and lose exactly one rank when a row becomes a combination
+    /// Large random real matrices are invertible almost surely, and lose exactly one rank when a row is a combination
     for (long long it = 0; it < stress::scaled(40); it++){
         int n = stress::rand_int(1, 80);
         vector<vector<double>> a(n, vector<double>(n));

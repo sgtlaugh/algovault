@@ -3,17 +3,14 @@
  * Characteristic Polynomial modulo a prime
  * Coefficients of det(xI - A) for a square matrix A over Z/pZ
  *
- * Complexity: O(n^3) time, O(n^2) memory
+ * Complexity: O(n^3)
  *
- * characteristic_polynomial(a, p) returns c[0..n] with det(xI - a) = c[0] + c[1] x + ... + c[n] x^n, c[n] = 1
- *     p must be a prime, 2 <= p < 2^31, entries may be any long long and are reduced into [0, p)
- *     a 0 x 0 matrix gives {1}
+ * characteristic_polynomial(a, p): c[0..n] in [0, p) with det(xI - a) = c[0] + c[1] x + ... + c[n] x^n, c[n] = 1
  *
- * A similarity transform first reduces a to upper Hessenberg form (zero below the subdiagonal),
- * then the polynomials of its leading principal submatrices follow by expanding along the last column
- * No evaluation points or interpolation are used, so any p works, including p <= n
- *
- * det(a) = (-1)^n c[0] and trace(a) = -c[n - 1]
+ * Notes:
+ *   - p is any prime with 2 <= p < 2^31, even p <= n, and entries may be any long long
+ *   - A 0 x 0 matrix gives {1}
+ *   - det(a) = (-1)^n c[0] and trace(a) = -c[n - 1]
  *
 ***/
 

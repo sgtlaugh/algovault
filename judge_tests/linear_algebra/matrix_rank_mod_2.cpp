@@ -6,8 +6,7 @@
 #include "../../code_library/linear_algebra/gauss_bitset.cpp"
 #undef main
 
-/// n * m <= 2^24, so the rows go along the longer side to make the width min(n, m) <= 4096
-/// The width is the smallest power of two that fits: 2^24 rows of the default 4096 bits would take 8 GB
+/// Rows go along the longer side, width = smallest power of two >= min(n, m): 2^24 rows of 4096 bits would take 8 GB
 template <size_t W>
 int read_rank(int n, int m){
     if constexpr (W < GF2_WIDTH){

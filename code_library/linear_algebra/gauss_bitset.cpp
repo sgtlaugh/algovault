@@ -5,16 +5,18 @@
  *
  * Complexity: O(min(n, m) n W / 64) for gauss and matrix_rank, O(n^2 W / 64) for matrix_inverse
  *
- * eliminate_gf2(a, cols, side = nullptr): pos with pos[j] the pivot row of column j or -1, after reducing the first cols <= W columns of a in place
- * gauss(m, equations): {solvable, x, free_variables} for equations in m < W variables, bit j of a row is the coefficient of x_j and bit m the right-hand side
+ * eliminate_gf2(a, cols, side = nullptr): pos[j] the pivot row of column j or -1, reducing the first cols <= W columns
+ * gauss(m, equations): {solvable, x, free_variables} for equations in m < W variables, bit m of a row is its right side
  * matrix_inverse(n, a): a^-1 for the n x n matrix in a, n <= W, nullopt when it is singular
  * matrix_rank(m, a): rank of the n x m matrix in bits 0 to m - 1 of the rows of a, m <= W
  * rows_of<W>(strings): rows from strings of '0' and '1', character j is bit j
  *
- * x is one solution, all zero when solvable is false, and free_variables is m minus the rank either way
- * eliminate_gf2 leaves reduced row echelon form with pivot rows 0, 1, ..., rank - 1 in column order, and repeats every row operation on *side
- * Rows are bitset<W>, W is deduced from the arguments and defaults to GF2_WIDTH = 4096, several widths can be used in one program
- * Every row operation costs W / 64 whatever m is, so pick the smallest W that fits: bitset<128> rows for 100 columns XOR 2 words per row operation instead of 64
+ * Notes:
+ *   - x is one solution, all zero when solvable is false, and free_variables is m minus the rank either way
+ *   - eliminate_gf2 leaves reduced row echelon form with pivot rows 0, 1, ..., rank - 1 in column order
+ *   - eliminate_gf2 repeats every row operation on *side
+ *   - Rows are bitset<W>, W is deduced from the arguments, default GF2_WIDTH = 4096, widths may mix in one program
+ *   - A row operation costs W / 64 words whatever m is: pick the smallest W that fits, like bitset<128> for 100 columns
  *
 ***/
 
@@ -86,7 +88,7 @@ GaussGF2Solution<W> gauss(int m, vector<bitset<W>> equations){
         if (equations[k][m]) return {false, {}, m - rank};
     }
 
-    /// Back substitution from the last pivot up, x holds only the variables after j, so the AND is their parity in the row
+    /// Back substitution from the last pivot up: x holds only variables after j, so the AND is their parity in the row
     bitset<W> x;
     for (int j = m - 1; j >= 0; j--){
         if (pos[j] == -1) continue;
@@ -129,7 +131,7 @@ vector<bitset<W>> rows_of(const vector<string>& bits){
 }
 
 int main(){
-    /// Modulo 2, 2x + y - z = 0, -3x - y + 2z = 1 and -2x + y + 2z = 1 become y + z = 0, x + y = 1 and y = 1, so x = 0, y = 1, z = 1
+    /// 2x + y - z = 0, -3x - y + 2z = 1, -2x + y + 2z = 1 are y + z = 0, x + y = 1, y = 1 mod 2: x = 0, y = 1, z = 1
     auto [solvable, x, free_variables] = gauss(3, rows_of({"0110", "1101", "0101"}));
     assert(solvable);
     assert(free_variables == 0);

@@ -2,12 +2,15 @@
  *
  * Freivalds' Algorithm
  * A randomized algorithm that verifies matrix multiplication
- * Checks and returns if A * B = C with probability of failure less than 1 / (2^ntrials)
- * The check runs modulo 2^64, which is exact whenever C and the true product A * B fit in long long
- * Complexity: O(n^2 t) for an n x n matrix and t = ntrials, O(row col) memory per FreivaldsMatrix
  *
- * FreivaldsMatrix M(row, col, diagonal = 0) is a row x col matrix of long long, M[i][j] for 0 <= i < row, 0 <= j < col
- * freivalds_verify(A, B, C, ntrials = 30) returns false on mismatched shapes
+ * Complexity: O(n^2 t) for an n x n matrix and t = ntrials
+ *
+ * FreivaldsMatrix M(row, col, diagonal = 0): row x col long long matrix with diagonal on its diagonal, read as M[i][j]
+ * freivalds_verify(A, B, C, ntrials = 30): whether A * B = C, false on mismatched shapes
+ *
+ * Notes:
+ *   - A wrong true has probability below 1 / 2^ntrials, false is always right
+ *   - The check runs modulo 2^64, which is exact whenever C and the true product A * B fit in long long
  *
 ***/
 
@@ -65,7 +68,7 @@ bool freivalds_verify(const FreivaldsMatrix& A, const FreivaldsMatrix& B, const 
     };
 
     static mt19937_64 rng(chrono::steady_clock::now().time_since_epoch().count());
-    vector<unsigned long long> r(C.col), br(B.row), x(A.row), y(C.row);  /// unsigned: wraps mod 2^64 instead of overflowing
+    vector<unsigned long long> r(C.col), br(B.row), x(A.row), y(C.row);  /// wraps mod 2^64 instead of overflowing
 
     for (int l = 0; l < ntrials; l++){
         for (auto& v : r) v = rng();

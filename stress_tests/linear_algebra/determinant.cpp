@@ -115,7 +115,7 @@ long long pick_modulus(long long it){
     return stress::rand_int(1, (1LL << 62) - 1);
 }
 
-/// Every multiset of at most max_edges ordered pairs on n <= 3 nodes, every root, so the tiny corner cases are covered deterministically
+/// Every multiset of at most max_edges ordered pairs on n <= 3 nodes, every root: tiny corner cases, deterministically
 void exhaustive_matrix_tree(int max_edges){
     for (int n = 1; n <= 3; n++){
         vector<pair<int, int>> edges;

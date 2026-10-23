@@ -5,15 +5,16 @@
  *
  * Complexity: O(min(n, m) n m) for gauss and matrix_rank, O(n^3) for matrix_inverse
  *
- * gauss(equations, eps = 1e-9): {solvable, x, free_variables} for n >= 1 equations in m variables, equations[i][m] is the right-hand side
+ * gauss(equations, eps = 1e-9): {solvable, x, free_variables} for n >= 1 equations in m variables, the right side last
  * matrix_inverse(a, eps = 1e-9): a^-1 for a square a, nullopt when a is singular
  * matrix_rank(a, eps = 1e-9): rank of any n x m matrix
  *
- * x is one solution, empty when solvable is false, and free_variables is m minus the rank either way
- * eps is relative, scaled by max(1, largest |coefficient| of the input), a pivot within it counts as 0
- * The right-hand side of gauss is left out of that scale, so x = 1e9 with coefficients of 1 still solves
- * A row of gauss that reduces to 0 = r is consistent when |r| is within eps scaled by the largest |entry| including it
- * T may be an exact type such as a fraction with eps = 0, and long double or __float128 give more precision
+ * Notes:
+ *   - x is one solution, empty when solvable is false, and free_variables is m minus the rank either way
+ *   - eps is relative, scaled by max(1, largest |coefficient| of the input), a pivot within it counts as 0
+ *   - The right-hand side of gauss is left out of that scale, so x = 1e9 with coefficients of 1 still solves
+ *   - A gauss row reducing to 0 = r is consistent when |r| is within eps scaled by the largest |entry| including it
+ *   - T may be an exact type such as a fraction with eps = 0, and long double or __float128 give more precision
  *
 ***/
 
@@ -28,8 +29,7 @@ struct GaussSolution{
     int free_variables;
 };
 
-/// Relative, an absolute eps rejects solvable systems with large coefficients
-/// Over the first cols columns, a large right-hand side in the scale would push ordinary pivots under it
+/// Relative, as an absolute eps rejects large coefficients, and over cols columns, as a large right side hides pivots
 template <class T>
 T tolerance(const vector<vector<T>>& a, int cols, T eps){
     T tol = 1;
@@ -37,9 +37,7 @@ T tolerance(const vector<vector<T>>& a, int cols, T eps){
     return tol * eps;
 }
 
-/// Brings the first cols columns of a to row echelon form with partial pivoting, pivots are not scaled to 1
-/// Returns pos, pos[j] = row of the pivot in column j or -1, pivot rows are 0, 1, ..., rank - 1 in column order
-/// Only rows below a pivot are cleared, about 2/3 of the work of clearing above too
+/// Row echelon form of the first cols columns, unscaled pivots in rows 0 to rank - 1, pos[j] = pivot row of j or -1
 template <class T>
 vector<int> row_reduce(vector<vector<T>>& a, int cols, T tol){
     int n = a.size(), i = 0;

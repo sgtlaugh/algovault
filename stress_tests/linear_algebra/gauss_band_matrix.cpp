@@ -36,10 +36,10 @@ vector<__float128> dense_solve(vector<vector<__float128>> a, vector<__float128> 
 int main(){
     for (long long it = 0; it < stress::scaled(400); it++){
         int n = stress::rand_int(1, it % 10 ? 12 : 400), m = stress::rand_int(1, it % 10 ? 8 : 6);
-        if (it % 50 == 0) m = stress::rand_int(31, 60), n = min(n, 30);  /// the widest band, kept small: cells and band size multiply
+        if (it % 50 == 0) m = stress::rand_int(31, 60), n = min(n, 30);  /// widest band, kept small: cells times band
         if (stress::rand_int(0, 1)) swap(n, m);  /// so that numbering by column is the narrower band as often as by row
 
-        /// The system is generated as a band of half width h in an order of its own, the library must find an order at least as narrow
+        /// Generated as a band of half width h in its own order, the library must find an order at least as narrow
         bool by_column = stress::rand_int(0, 1);
         int cells = n * m, h = stress::rand_int(0, min(34, cells - 1));
         auto cell = [&](int u){ return by_column ? make_pair(u % n, u / n) : make_pair(u / m, u % m); };
@@ -83,7 +83,8 @@ int main(){
                 if (weight == 0 && stress::rand_int(0, 1)) continue;
 
                 auto [k, l] = cell(v);
-                long double part = stress::rand_int(0, 1) ? stress::rand_int(-1000, 1000) / 64.0L : 0;  /// two calls must accumulate
+                /// Two calls must accumulate
+                long double part = stress::rand_int(0, 1) ? stress::rand_int(-1000, 1000) / 64.0L : 0;
                 add_term(i, j, k, l, part);
                 add_term(i, j, k, l, weight - part);
             }
