@@ -45,7 +45,7 @@
 #### [Articulation Points and Blocks](articulation_points.cpp)
 
 - [AOJ GRL_3_A - Articulation Points](https://onlinejudge.u-aizu.ac.jp/problems/GRL_3_A)
-- [Codeforces 193A - Cutting Figure](https://codeforces.com/problemset/problem/193/A)
+- [Codeforces 193A - Cutting Figure](https://codeforces.com/problemset/problem/193/A) [✅](../../practice/graphs/codeforces_193a.cpp "Accepted solution")
 - [CSES 1705 - Forbidden Cities](https://cses.fi/problemset/task/1705)
 - [CSES 2077 - Necessary Cities](https://cses.fi/problemset/task/2077)
 - [SPOJ SUBMERGE - Submerging Islands](https://www.spoj.com/problems/SUBMERGE/)
