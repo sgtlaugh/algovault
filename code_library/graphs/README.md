@@ -479,7 +479,7 @@
 - [SPOJ MARYBMW - BMW](https://www.spoj.com/problems/MARYBMW/)
 - [USACO 531 - Superbull](https://usaco.org/index.php?page=viewproblem2&cpid=531) [✅](../../practice/graphs/usaco_531.cpp "Accepted solution")
 - [USACO 623 - Fenced In](https://usaco.org/index.php?page=viewproblem2&cpid=623)
-- [USACO 1211 - Moo Network](https://usaco.org/index.php?page=viewproblem2&cpid=1211)
+- [USACO 1211 - Moo Network](https://usaco.org/index.php?page=viewproblem2&cpid=1211) [✅](../../practice/graphs/usaco_1211.cpp "Accepted solution")
 - [UVa 908 - Re-connecting Computer Sites](https://onlinejudge.org/external/9/908.pdf) [✅](../../practice/graphs/uva_908.cpp "Accepted solution")
 - [UVa 1174 - IP-TV](https://onlinejudge.org/external/11/1174.pdf) [✅](../../practice/graphs/uva_1174.cpp "Accepted solution")
 - [UVa 1208 - Oreon](https://onlinejudge.org/external/12/1208.pdf) [✅](../../practice/graphs/uva_1208.cpp "Accepted solution")
