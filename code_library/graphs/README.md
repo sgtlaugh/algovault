@@ -99,7 +99,7 @@
 
 #### [Cactus Graph](cactus.cpp)
 
-- [Codeforces 720B - Cactusophobia](https://codeforces.com/problemset/problem/720/B)
+- [Codeforces 720B - Cactusophobia](https://codeforces.com/problemset/problem/720/B) [✅](../../practice/graphs/codeforces_720b.cpp "Accepted solution")
 
 #### [Chromatic Number](chromatic_number.cpp)
 
