@@ -9,8 +9,8 @@
  * tree.add_edge(u, v): adds the unweighted edge u - v
  * tree.build(root): roots the tree at root, 0 by default, asserts n - 1 edges and every node reached exactly once
  * tree.depth(v): the number of edges from the root to v
- * tree.height(v): the number of edges on the longest downward path from v
  * tree.depth_counts(visit): calls visit(v, cnt, len) once per node, children before parents
+ * tree.height(v): the number of edges on the longest downward path from v
  * tree.kth_ancestor(v, k): the k-th ancestor of v, v itself for k = 0, -1 if k < 0 or k > depth(v)
  *
  * Notes:
@@ -90,10 +90,6 @@ struct LongPathDecomposition{
         return level[v];
     }
 
-    int height(int v) const{
-        return heights[v];
-    }
-
     /// Path nodes have consecutive positions, so a node's array is its long child's array shifted down by one slot
     template <typename Visit>
     void depth_counts(Visit visit) const{
@@ -107,6 +103,10 @@ struct LongPathDecomposition{
             }
             visit(v, (const int*)cnt.data() + pos[v], heights[v] + 1);
         }
+    }
+
+    int height(int v) const{
+        return heights[v];
     }
 
     /// The jump lands on u with height(u) >= 2^h > the remaining distance, so the ladder of u's path covers it
