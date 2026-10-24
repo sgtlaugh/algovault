@@ -24,7 +24,7 @@
 - [POJ 3905 - Perfect Election](http://poj.org/problem?id=3905) [✅](../../practice/graphs/poj_3905.cpp "Accepted solution")
 - [SPOJ SUPSUP - Supplying the Suppliers](https://www.spoj.com/problems/SUPSUP/)
 - [SPOJ TORNJEVI - TORNJEVI](https://www.spoj.com/problems/TORNJEVI/)
-- [Szkopul rem - Remont](https://szkopul.edu.pl/problemset/problem/xNjwUvwdHQoQTFBrmyG8vD1O/site/)
+- [Szkopul rem - Remont](https://szkopul.edu.pl/problemset/problem/xNjwUvwdHQoQTFBrmyG8vD1O/site/) [✅](../../practice/graphs/szkopul_rem.cpp "Accepted solution")
 - [UVa 1086 - The Ministers' Major Mess](https://onlinejudge.org/external/10/1086.pdf) [✅](../../practice/graphs/uva_1086.cpp "Accepted solution")
 - [UVa 1146 - Now or later](https://onlinejudge.org/external/11/1146.pdf) [✅](../../practice/graphs/uva_1146.cpp "Accepted solution")
 - [UVa 1391 - Astronauts](https://onlinejudge.org/external/13/1391.pdf) [✅](../../practice/graphs/uva_1391.cpp "Accepted solution")
