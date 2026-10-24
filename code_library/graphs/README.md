@@ -543,7 +543,7 @@
 - [CSES 1683 - Planets and Kingdoms](https://cses.fi/problemset/task/1683) [✅](../../practice/graphs/cses_1683.cpp "Accepted solution")
 - [CSES 1685 - New Flight Routes](https://cses.fi/problemset/task/1685) [✅](../../practice/graphs/cses_1685.cpp "Accepted solution")
 - [CSES 1686 - Coin Collector](https://cses.fi/problemset/task/1686) [✅](../../practice/graphs/cses_1686.cpp "Accepted solution")
-- [CSES 2143 - Reachability Queries](https://cses.fi/problemset/task/2143)
+- [CSES 2143 - Reachability Queries](https://cses.fi/problemset/task/2143) [✅](../../practice/graphs/cses_2143.cpp "Accepted solution")
 - [Kattis equivalences - Proving Equivalences](https://open.kattis.com/problems/equivalences)
 - [SPOJ ADAPANEL - Ada and Panels](https://www.spoj.com/problems/ADAPANEL/)
 - [SPOJ CAPCITY - Capital City](https://www.spoj.com/problems/CAPCITY/)
