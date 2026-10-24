@@ -58,7 +58,7 @@
 
 #### [Bellman Ford](bellman_ford.cpp)
 
-- [AOJ GRL_1_B - Single Source Shortest Path (Negative Edges)](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B)
+- [AOJ GRL_1_B - Single Source Shortest Path (Negative Edges)](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B) [✅](../../practice/graphs/aoj_grl_1_b.cpp "Accepted solution")
 - [CSES 1197 - Cycle Finding](https://cses.fi/problemset/task/1197)
 - [CSES 1673 - High Score](https://cses.fi/problemset/task/1673)
 - [Eolymp 1453 - Ford-Bellman](https://www.eolymp.com/en/problems/1453)
