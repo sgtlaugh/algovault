@@ -113,7 +113,7 @@
 - [Codeforces 449B - Jzzhu and Cities](https://codeforces.com/problemset/problem/449/B) [✅](../../practice/graphs/codeforces_449b.cpp "Accepted solution")
 - [Codeforces 464E - The Classic Problem](https://codeforces.com/problemset/problem/464/E)
 - [Codeforces 567E - President and Roads](https://codeforces.com/problemset/problem/567/E) [✅](../../practice/graphs/codeforces_567e.cpp "Accepted solution")
-- [Codeforces 715B - Complete The Graph](https://codeforces.com/problemset/problem/715/B)
+- [Codeforces 715B - Complete The Graph](https://codeforces.com/problemset/problem/715/B) [✅](../../practice/graphs/codeforces_715b.cpp "Accepted solution")
 - [Codeforces 757F - Team Rocket Rises Again](https://codeforces.com/problemset/problem/757/F)
 - [Codeforces 827F - Dirty Arkady's Kitchen](https://codeforces.com/problemset/problem/827/F)
 - [Codeforces 843D - Dynamic Shortest Path](https://codeforces.com/problemset/problem/843/D)
