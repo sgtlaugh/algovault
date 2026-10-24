@@ -472,7 +472,7 @@
 - [CSES 1675 - Road Reparation](https://cses.fi/problemset/task/1675) [✅](../../practice/graphs/cses_1675.cpp "Accepted solution")
 - [CSES 3409 - MST Edge Cost](https://cses.fi/problemset/task/3409) [✅](../../practice/graphs/cses_3409.cpp "Accepted solution")
 - [HackerRank johnland - Roads in HackerLand](https://www.hackerrank.com/contests/june-world-codesprint/challenges/johnland/problem) [✅](../../practice/graphs/hackerrank_johnland.cpp "Accepted solution")
-- [oj.uz COCI17_sirni - Sirni](https://oj.uz/problem/view/COCI17_sirni)
+- [oj.uz COCI17_sirni - Sirni](https://oj.uz/problem/view/COCI17_sirni) [✅](../../practice/graphs/oj_uz_coci17_sirni.cpp "Accepted solution")
 - [SPOJ BLINNET - Bytelandian Blingors Network](https://www.spoj.com/problems/BLINNET/)
 - [SPOJ EC_MODE - Modems](https://www.spoj.com/problems/EC_MODE/)
 - [SPOJ IITKWPCG - Help the old King](https://www.spoj.com/problems/IITKWPCG/)
