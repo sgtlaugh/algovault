@@ -225,7 +225,7 @@
 - [SPOJ INGRED - Ingredients](https://www.spoj.com/problems/INGRED/)
 - [SPOJ ROHAAN - Defend The Rohan](https://www.spoj.com/problems/ROHAAN/)
 - [SPOJ UCV2013B - Alice in Amsterdam, I mean Wonderland](https://www.spoj.com/problems/UCV2013B/)
-- [USACO 971 - Moortal Cowmbat](https://usaco.org/index.php?page=viewproblem2&cpid=971)
+- [USACO 971 - Moortal Cowmbat](https://usaco.org/index.php?page=viewproblem2&cpid=971) [✅](../../practice/graphs/usaco_971.cpp "Accepted solution")
 - [UVa 117 - The Postal Worker Rings Once](https://onlinejudge.org/external/1/117.pdf) [✅](../../practice/graphs/uva_117.cpp "Accepted solution")
 - [UVa 423 - MPI Maelstrom](https://onlinejudge.org/external/4/423.pdf) [✅](../../practice/graphs/uva_423.cpp "Accepted solution")
 - [UVa 436 - Arbitrage (II)](https://onlinejudge.org/external/4/436.pdf) [✅](../../practice/graphs/uva_436.cpp "Accepted solution")
