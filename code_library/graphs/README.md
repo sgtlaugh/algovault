@@ -103,7 +103,7 @@
 
 #### [Chromatic Number](chromatic_number.cpp)
 
-- [CSES 3308 - Graph Coloring](https://cses.fi/problemset/task/3308)
+- [CSES 3308 - Graph Coloring](https://cses.fi/problemset/task/3308) [✅](../../practice/graphs/cses_3308.cpp "Accepted solution")
 
 #### [Dijkstra](dijkstra.cpp)
 
