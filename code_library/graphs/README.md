@@ -460,7 +460,7 @@
 
 #### [Minimum Spanning Tree](minimum_spanning_tree.cpp)
 
-- [AOJ ALDS1_12_A - Minimum Spanning Tree](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_12_A)
+- [AOJ ALDS1_12_A - Minimum Spanning Tree](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_12_A) [✅](../../practice/graphs/aoj_alds1_12_a.cpp "Accepted solution")
 - [AtCoder ABC282 E - Choose Two and Eat One](https://atcoder.jp/contests/abc282/tasks/abc282_e)
 - [CodeChef ICL16A - Fullmetal Alchemist](https://www.codechef.com/problems/ICL16A)
 - [Codeforces 160D - Edges in MST](https://codeforces.com/problemset/problem/160/D) [✅](../../practice/graphs/codeforces_160d.cpp "Accepted solution")
