@@ -182,7 +182,7 @@
 #### [Dominator Tree](dominator_tree.cpp)
 
 - [Codeforces 757F - Team Rocket Rises Again](https://codeforces.com/problemset/problem/757/F) [✅](../../practice/graphs/codeforces_757f.cpp "Accepted solution")
-- [Codeforces Gym 100513L - Useful Roads](https://codeforces.com/gym/100513/problem/L)
+- [Codeforces Gym 100513L - Useful Roads](https://codeforces.com/gym/100513/problem/L) [✅](../../practice/graphs/codeforces_gym_100513l.cpp "Accepted solution")
 - [CSES 1203 - Visiting Cities](https://cses.fi/problemset/task/1203)
 - [CSES 1703 - Critical Cities](https://cses.fi/problemset/task/1703)
 - [Kattis skiresort - Ski Resort](https://open.kattis.com/problems/skiresort)
