@@ -463,7 +463,7 @@
 - [AOJ ALDS1_12_A - Minimum Spanning Tree](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_12_A)
 - [AtCoder ABC282 E - Choose Two and Eat One](https://atcoder.jp/contests/abc282/tasks/abc282_e)
 - [CodeChef ICL16A - Fullmetal Alchemist](https://www.codechef.com/problems/ICL16A)
-- [Codeforces 160D - Edges in MST](https://codeforces.com/problemset/problem/160/D)
+- [Codeforces 160D - Edges in MST](https://codeforces.com/problemset/problem/160/D) [✅](../../practice/graphs/codeforces_160d.cpp "Accepted solution")
 - [Codeforces 472D - Design Tutorial: Inverse the Problem](https://codeforces.com/problemset/problem/472/D) [✅](../../practice/graphs/codeforces_472d.cpp "Accepted solution")
 - [Codeforces 609E - Minimum spanning tree for each edge](https://codeforces.com/problemset/problem/609/E) [✅](../../practice/graphs/codeforces_609e.cpp "Accepted solution")
 - [Codeforces 632F - Magic Matrix](https://codeforces.com/problemset/problem/632/F) [✅](../../practice/graphs/codeforces_632f.cpp "Accepted solution")
