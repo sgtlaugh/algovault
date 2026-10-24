@@ -363,7 +363,7 @@
 - [CSES 1696 - School Dance](https://cses.fi/problemset/task/1696) [✅](../../practice/graphs/cses_1696_maxflow.cpp "Accepted solution")
 - [CSES 1711 - Distinct Routes](https://cses.fi/problemset/task/1711) [✅](../../practice/graphs/cses_1711.cpp "Accepted solution")
 - [CSES 2432 - Grid Puzzle I](https://cses.fi/problemset/task/2432) [✅](../../practice/graphs/cses_2432.cpp "Accepted solution")
-- [LightOJ 1286 - Space Shuttle Experiments](https://lightoj.com/problem/space-shuttle-experiments)
+- [LightOJ 1286 - Space Shuttle Experiments](https://lightoj.com/problem/space-shuttle-experiments) [✅](../../practice/graphs/lightoj_1286.cpp "Accepted solution")
 - [SPOJ BANKROB - Bank robbery](https://www.spoj.com/problems/BANKROB/)
 - [SPOJ DISJPATH - Disjoint Paths](https://www.spoj.com/problems/DISJPATH/)
 - [SPOJ FASTFLOW - Fast Maximum Flow](https://www.spoj.com/problems/FASTFLOW/)
