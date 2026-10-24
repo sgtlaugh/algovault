@@ -265,7 +265,7 @@
 
 - [Codeforces Gym 100741C - Reordering Ones](https://codeforces.com/gym/100741/problem/C) [✅](../../practice/graphs/codeforces_gym_100741c.cpp "Accepted solution")
 - [CSES 1696 - School Dance](https://cses.fi/problemset/task/1696) [✅](../../practice/graphs/cses_1696_hopcroft_karp.cpp "Accepted solution")
-- [CSES 1709 - Coin Grid](https://cses.fi/problemset/task/1709)
+- [CSES 1709 - Coin Grid](https://cses.fi/problemset/task/1709) [✅](../../practice/graphs/cses_1709.cpp "Accepted solution")
 - [Kattis borders - Borders](https://open.kattis.com/problems/borders)
 - [Kattis gopher2 - Gopher II](https://open.kattis.com/problems/gopher2)
 - [Kattis thewrathofkahn - The Wrath of Kahn](https://open.kattis.com/problems/thewrathofkahn)
