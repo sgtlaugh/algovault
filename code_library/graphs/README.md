@@ -549,7 +549,7 @@
 - [SPOJ CAPCITY - Capital City](https://www.spoj.com/problems/CAPCITY/)
 - [SPOJ GOODA - Good Travels](https://www.spoj.com/problems/GOODA/)
 - [SPOJ TFRIENDS - True Friends](https://www.spoj.com/problems/TFRIENDS/)
-- [USACO 516 - Grass Cownoisseur](https://usaco.org/index.php?page=viewproblem2&cpid=516)
+- [USACO 516 - Grass Cownoisseur](https://usaco.org/index.php?page=viewproblem2&cpid=516) [✅](../../practice/graphs/usaco_516.cpp "Accepted solution")
 - [UVa 247 - Calling Circles](https://onlinejudge.org/external/2/247.pdf) [✅](../../practice/graphs/uva_247.cpp "Accepted solution")
 - [UVa 1229 - Sub-dictionary](https://onlinejudge.org/external/12/1229.pdf) [✅](../../practice/graphs/uva_1229.cpp "Accepted solution")
 - [UVa 1263 - Mines](https://onlinejudge.org/external/12/1263.pdf) [✅](../../practice/graphs/uva_1263.cpp "Accepted solution")
