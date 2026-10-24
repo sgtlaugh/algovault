@@ -362,7 +362,7 @@
 - [CSES 1695 - Police Chase](https://cses.fi/problemset/task/1695) [✅](../../practice/graphs/cses_1695.cpp "Accepted solution")
 - [CSES 1696 - School Dance](https://cses.fi/problemset/task/1696) [✅](../../practice/graphs/cses_1696_maxflow.cpp "Accepted solution")
 - [CSES 1711 - Distinct Routes](https://cses.fi/problemset/task/1711) [✅](../../practice/graphs/cses_1711.cpp "Accepted solution")
-- [CSES 2432 - Grid Puzzle I](https://cses.fi/problemset/task/2432)
+- [CSES 2432 - Grid Puzzle I](https://cses.fi/problemset/task/2432) [✅](../../practice/graphs/cses_2432.cpp "Accepted solution")
 - [LightOJ 1286 - Space Shuttle Experiments](https://lightoj.com/problem/space-shuttle-experiments)
 - [SPOJ BANKROB - Bank robbery](https://www.spoj.com/problems/BANKROB/)
 - [SPOJ DISJPATH - Disjoint Paths](https://www.spoj.com/problems/DISJPATH/)
