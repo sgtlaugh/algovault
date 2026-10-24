@@ -433,7 +433,7 @@
 - [Codeforces 802M2 - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/M2) [✅](../../practice/graphs/codeforces_802m2_mcmf_spfa.cpp "Accepted solution")
 - [Codeforces 1288F - Red-Blue Graph](https://codeforces.com/problemset/problem/1288/F) [✅](../../practice/graphs/codeforces_1288f.cpp "Accepted solution")
 - [CSES 2121 - Parcel Delivery](https://cses.fi/problemset/task/2121) [✅](../../practice/graphs/cses_2121.cpp "Accepted solution")
-- [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129)
+- [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129) [✅](../../practice/graphs/cses_2129_mcmf_spfa.cpp "Accepted solution")
 - [CSES 2131 - Grid Puzzle II](https://cses.fi/problemset/task/2131)
 - [Kattis cordonbleu - Cordon Bleu](https://open.kattis.com/problems/cordonbleu)
 - [UVa 1049 - Remember the A La Mode!](https://onlinejudge.org/external/10/1049.pdf) [✅](../../practice/graphs/uva_1049.cpp "Accepted solution")
