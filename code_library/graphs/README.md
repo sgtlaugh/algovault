@@ -177,7 +177,7 @@
 
 #### [Directed MST](directed_mst.cpp)
 
-- [Codeforces 17B - Hierarchy](https://codeforces.com/problemset/problem/17/B)
+- [Codeforces 17B - Hierarchy](https://codeforces.com/problemset/problem/17/B) [✅](../../practice/graphs/codeforces_17b.cpp "Accepted solution")
 
 #### [Dominator Tree](dominator_tree.cpp)
 
