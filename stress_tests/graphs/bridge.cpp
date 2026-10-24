@@ -85,7 +85,8 @@ int main(){
         auto split = labels(n, edges, expected);
         for (auto& b : bridges){
             assert(found.insert(b.id).second);
-            assert(make_pair(min(b.u, b.v), max(b.u, b.v)) == make_pair(min(edges[b.id].first, edges[b.id].second), max(edges[b.id].first, edges[b.id].second)));
+            auto [eu, ev] = edges[b.id];
+            assert(minmax(b.u, b.v) == minmax(eu, ev));
             auto cut = labels(n, edges, {b.id});
             assert(b.cnt_u == count(cut.begin(), cut.end(), cut[b.u]));
             assert(b.cnt_v == count(cut.begin(), cut.end(), cut[b.v]));
@@ -108,7 +109,8 @@ int main(){
         /// No two bridges join the same component pair, so both directions per bridge plus the degree sum pin the lists
         for (auto& b : bridges){
             auto &a = tree[g.comp[b.u]], &c = tree[g.comp[b.v]];
-            assert(find(a.begin(), a.end(), g.comp[b.v]) != a.end() && find(c.begin(), c.end(), g.comp[b.u]) != c.end());
+            assert(find(a.begin(), a.end(), g.comp[b.v]) != a.end());
+            assert(find(c.begin(), c.end(), g.comp[b.u]) != c.end());
         }
 
         /// Groups list every node once, ascending, components numbered by their smallest node

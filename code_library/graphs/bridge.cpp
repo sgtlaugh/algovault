@@ -22,12 +22,9 @@
 using namespace std;
 
 struct Bridge{
-    int u, v; /// bridge edge from node u to v
+    int u, v;
     int cnt_u, cnt_v; /// node counts on the side of u and of v once the bridge is removed
-    int id; /// index of the edge, in the order add_edge was called
-
-    Bridge() {}
-    Bridge(int u, int v, int cnt_u, int cnt_v, int id = -1) : u(u), v(v), cnt_u(cnt_u), cnt_v(cnt_v), id(id) {}
+    int id;
 };
 
 struct BridgeGraph{
@@ -45,8 +42,13 @@ struct BridgeGraph{
 
     vector<vector<int>> get_bridge_tree(){
         get_components();
+
         vector<vector<int>> tree(count);
-        for (auto& b : get_bridges()) tree[comp[b.u]].push_back(comp[b.v]), tree[comp[b.v]].push_back(comp[b.u]);
+        for (int u = 0; u < n; u++){
+            for (auto [v, id] : adj[u]){
+                if (comp[u] != comp[v]) tree[comp[u]].push_back(comp[v]);
+            }
+        }
         return tree;
     }
 
@@ -79,7 +81,7 @@ struct BridgeGraph{
 
                 int p = dfs_stack.back();
                 low[p] = min(low[p], low[u]);
-                if (low[u] > discover[p]) bridges.emplace_back(p, u, 0, dt - discover[u] + 1, parent_edge[u]);
+                if (low[u] > discover[p]) bridges.push_back({p, u, 0, dt - discover[u] + 1, parent_edge[u]});
             }
 
             /// The component size is known only once its DFS ends
@@ -117,37 +119,41 @@ struct BridgeGraph{
 };
 
 int main(){
-    BridgeGraph graph(10);
+    /// Triangles 0-1-2, 2-3-4 and 5-6-7, the bridge 4-5 between them, and the separate edge 8-9
+    BridgeGraph g(10);
+    g.add_edge(0, 1);
+    g.add_edge(1, 2);
+    g.add_edge(2, 0);
+    g.add_edge(5, 6);
+    g.add_edge(6, 7);
+    g.add_edge(7, 5);
+    g.add_edge(2, 3);
+    g.add_edge(3, 4);
+    g.add_edge(2, 4);
+    g.add_edge(4, 5);
+    g.add_edge(8, 9);
 
-    graph.add_edge(0, 1);
-    graph.add_edge(1, 2);
-    graph.add_edge(2, 0);
-    graph.add_edge(5, 6);
-    graph.add_edge(6, 7);
-    graph.add_edge(7, 5);
-    graph.add_edge(2, 3);
-    graph.add_edge(3, 4);
-    graph.add_edge(2, 4);
-    graph.add_edge(4, 5);
-    graph.add_edge(8, 9);
+    auto bridges = g.get_bridges();
+    assert(bridges.size() == 2u);
+    assert(bridges[0].id == 9);
+    assert(bridges[0].cnt_u == 5);
+    assert(bridges[0].cnt_v == 3);
+    assert(bridges[1].id == 10);
 
-    auto bridges = graph.get_bridges();
-    assert((int)bridges.size() == 2);
-    assert(bridges[0].u == 4 && bridges[0].v == 5 && bridges[0].cnt_u == 5 && bridges[0].cnt_v == 3);
-    assert(bridges[1].u == 8 && bridges[1].v == 9 && bridges[1].cnt_u == 1 && bridges[1].cnt_v == 1);
+    assert((g.get_components() == vector<vector<int>>{{0, 1, 2, 3, 4}, {5, 6, 7}, {8}, {9}}));
+    assert((g.comp == vector<int>{0, 0, 0, 0, 0, 1, 1, 1, 2, 3}));
 
-    auto bridge_tree = graph.get_bridge_tree();
-    assert(graph.count == 4 && (bridge_tree == vector<vector<int>>{{1}, {0}, {3}, {2}}));
-    assert((graph.get_components() == vector<vector<int>>{{0, 1, 2, 3, 4}, {5, 6, 7}, {8}, {9}}));
-    assert(bridges[0].id == 9 && bridges[1].id == 10);
-    assert(graph.comp == vector<int>({0, 0, 0, 0, 0, 1, 1, 1, 2, 3}));
+    auto tree = g.get_bridge_tree();
+    assert(g.count == 4);
+    assert((tree == vector<vector<int>>{{1}, {0}, {3}, {2}}));
 
-    /// Closing the outer cycle 0-8-9-7 leaves no bridge, a second call relabels every node
-    graph.add_edge(8, 0);
-    graph.add_edge(9, 7);
-    assert((graph.get_bridge_tree() == vector<vector<int>>{{}}));
-    assert(graph.comp == vector<int>(10, 0));
+    /// Closing the outer cycle 0-8-9-7 leaves no bridge, so every node joins component 0
+    g.add_edge(8, 0);
+    g.add_edge(9, 7);
+    assert((g.get_bridge_tree() == vector<vector<int>>{{}}));
+    assert(g.comp == vector<int>(10, 0));
 
+    /// The doubled edge 0-1 is no bridge and the self loop on 2 changes nothing
     BridgeGraph multi(4);
     multi.add_edge(0, 1);
     multi.add_edge(0, 1);
@@ -156,13 +162,9 @@ int main(){
     multi.add_edge(2, 3);
 
     auto multi_bridges = multi.get_bridges();
-    assert((int)multi_bridges.size() == 2);
-    assert(multi_bridges[0].id == 4 && multi_bridges[1].id == 2);
-    assert(multi_bridges[0].cnt_u == 3 && multi_bridges[0].cnt_v == 1);
-
-    BridgeGraph lonely(4);
-    lonely.add_edge(0, 1), lonely.add_edge(1, 2), lonely.add_edge(2, 0);
-    assert(lonely.get_bridge_tree().size() == 2 && lonely.count == 2);
+    assert(multi_bridges.size() == 2u);
+    assert(multi_bridges[0].id == 4);
+    assert(multi_bridges[1].id == 2);
 
     return 0;
 }
