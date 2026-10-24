@@ -89,7 +89,7 @@
 - [SPOJ EC_P - Critical Edges](https://www.spoj.com/problems/EC_P/)
 - [SPOJ GRAFFDEF - King Graffs Defense](https://www.spoj.com/problems/GRAFFDEF/)
 - [Szkopul osi - Zones](https://szkopul.edu.pl/problemset/problem/nldsb4EW1YuZykBlf4lcZL1Y/site/)
-- [UVa 610 - Street Directions](https://onlinejudge.org/external/6/610.pdf)
+- [UVa 610 - Street Directions](https://onlinejudge.org/external/6/610.pdf) [✅](../../practice/graphs/uva_610.cpp "Accepted solution")
 - [UVa 796 - Critical Links](https://onlinejudge.org/external/7/796.pdf) [✅](../../practice/graphs/uva_796.cpp "Accepted solution")
 - [UVa 1310 - One-way traffic](https://onlinejudge.org/external/13/1310.pdf)
 - [UVa 11972 - Round Trip](https://onlinejudge.org/external/119/11972.pdf) [✅](../../practice/graphs/uva_11972.cpp "Accepted solution")
