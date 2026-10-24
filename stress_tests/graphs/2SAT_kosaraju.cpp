@@ -62,7 +62,12 @@ void random_systems(){
 
         assert(g.is_satisfiable() == satisfiable);
         if (satisfiable){
-            for (int x = 1; x <= g.n; x++) assert(g.value(-x) == !g.value(x));
+            vector<int> assignment;
+            for (int x = 1; x <= g.n; x++){
+                assert(g.value(-x) == !g.value(x));
+                if (g.value(x)) assignment.push_back(x);
+            }
+            assert(g.get_assignment() == assignment);
             assert(satisfies([&](int x){ return g.value(x); }));
         }
     }
