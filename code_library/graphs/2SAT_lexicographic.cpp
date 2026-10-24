@@ -6,15 +6,25 @@
  * Complexity:
  *   - O(n + m) when no greedy attempt fails
  *   - O(n (n + m)) worst case, n variables implying one literal of out-degree m cost O(n m), 7 s at n = m = 1.6e5
- *   - The bitset batches alone cost O(n (n + m) / 64), at most 2n / B + 1 batches of O((n + m) B / 64)
- *   - O(n + m) memory, plus B / 8 bytes per component once a batch runs
+ *   - O(n + m) memory, plus 32 bytes per component once a batch runs
  *
- * Literals are signed 1-based variable indices: x means x is true, -x means x is false
- * value(x): whether literal x holds in that assignment, valid after is_satisfiable() returns true
- * get_assignment(): the true variables, ascending
+ * TwoSat g(n): no constraints on variables 1 to n, literal x means x is true and -x means x is false
+ * g.add_and(a, b): requires both literals a and b
+ * g.add_implication(a, b): requires b whenever a holds
+ * g.add_or(a, b): requires at least one of a and b
+ * g.add_var(): adds variable n + 1 and returns its index
+ * g.add_xor(a, b): requires exactly one of a and b
+ * g.at_most_one(literals): allows at most one of the literals to hold, a literal listed twice counts twice
+ * g.force_false(x): requires literal x to be false
+ * g.force_true(x): requires literal x to be true
+ * g.get_assignment(): the true variables, ascending, valid after is_satisfiable() returns true
+ * g.is_satisfiable(): whether the constraints can all hold, finding the first assignment when they can
+ * g.value(x): whether literal x holds in that assignment, valid after is_satisfiable() returns true
  *
  * Notes:
  *   - Use 2SAT_kosaraju.cpp when any satisfying assignment will do, it is always linear
+ *   - at_most_one adds k - 2 variables through add_var() and 3k - 5 clauses for k >= 2 literals
+ *   - The other variables still get the first assignment, as if at_most_one added no variables
  *   - n literals that each imply their negation along one chain take one batch, 0.2 s at n = 5e5
  *   - n / 2 such literals with no ancestor relation, sharing one path of length n / 2, take 9 to 14 s at n = 5e5
  *
@@ -34,12 +44,11 @@ struct TwoSat{
 
     TwoSat(int n) : n(n), adj(2 * n + 2) {}
 
-    inline int node(int x){
-        assert(x != 0 && abs(x) <= n);
-        return x > 0 ? 2 * x : -2 * x + 1;
+    inline void add_and(int a, int b){
+        force_true(a);
+        force_true(b);
     }
 
-    /// Add implication, if a then b
     inline void add_implication(int a, int b){
         int u = node(a), v = node(b);
         adj[u].push_back(v), adj[v ^ 1].push_back(u ^ 1);
@@ -49,66 +58,58 @@ struct TwoSat{
         add_implication(-a, b);
     }
 
+    int add_var(){
+        n++;
+        adj.resize(2 * n + 2);
+        return n;
+    }
+
     inline void add_xor(int a, int b){
         add_or(a, b);
         add_or(-a, -b);
     }
 
-    inline void add_and(int a, int b){
-        add_or(a, b);
-        add_or(a, -b);
-        add_or(-a, b);
+    /// prev is a literal meaning "one of lits[0..i-1] is true", it forbids lits[i] and carries over to the next prefix
+    void at_most_one(const vector<int>& lits){
+        int k = lits.size();
+        if (k <= 1) return;
+
+        int prev = lits[0];
+        for (int i = 1; i + 1 < k; i++){
+            int cur = add_var();
+            add_implication(prev, -lits[i]);
+            add_implication(prev, cur);
+            add_implication(lits[i], cur);
+            prev = cur;
+        }
+
+        add_implication(prev, -lits[k - 1]);
     }
 
-    /// Force variable x to be true (if x is negative, force !x to be true)
-    inline void force_true(int x){
-        adj[node(x) ^ 1].push_back(node(x));  /// !x -> x is its own contrapositive, add it once
-    }
-
-    /// Force variable x to be false (if x is negative, force !x to be false)
     inline void force_false(int x){
         force_true(-x);
     }
 
-    /// Iterative Tarjan, components are numbered in reverse topological order (sinks first)
-    int scc(vector<int>& comp){
-        int N = adj.size(), timer = 0, C = 0;
-        vector<int> low(N), num(N, -1), it(N, 0), st, call;
-        vector<char> on(N, 0);
-        comp.assign(N, -1);
-
-        for (int s = 2; s < N; s++){
-            if (num[s] != -1) continue;
-            call.assign(1, s), num[s] = low[s] = timer++, st.push_back(s), on[s] = 1;
-            while (!call.empty()){
-                int u = call.back();
-                if (it[u] < (int)adj[u].size()){
-                    int v = adj[u][it[u]++];
-                    if (num[v] == -1) num[v] = low[v] = timer++, st.push_back(v), on[v] = 1, call.push_back(v);
-                    else if (on[v]) low[u] = min(low[u], num[v]);
-                    continue;
-                }
-                call.pop_back();
-                if (!call.empty()) low[call.back()] = min(low[call.back()], low[u]);
-                if (low[u] == num[u]){
-                    int w;
-                    do { w = st.back(), st.pop_back(), on[w] = 0, comp[w] = C; } while (w != u);
-                    C++;
-                }
-            }
-        }
-
-        return C;
+    inline void force_true(int x){
+        adj[node(x) ^ 1].push_back(node(x));  /// !x -> x is its own contrapositive, add it once
     }
 
-    /// Returns true if the system is 2-satisfiable, the assignment is then available with get_assignment()
+    vector<int> get_assignment(){
+        vector<int> set_nodes;
+        for (int x = 1; x <= n; x++){
+            if (truth[2 * x]) set_nodes.push_back(x);
+        }
+
+        return set_nodes;
+    }
+
     bool is_satisfiable(){
-        int N = adj.size(), C = 0;
-        long long E = 0;
-        for (auto& v : adj) E += v.size();
+        int nodes = adj.size(), components = 0;
+        long long edges = 0;
+        for (auto& v : adj) edges += v.size();
 
         /// Failed work allowed before SCC pays for itself, then a per query budget of one O(n + m) batch over B queries
-        long long allowance = N + E, budget = max((long long)B, (N + E) / B);
+        long long allowance = nodes + edges, budget = max((long long)B, (nodes + edges) / B);
 
         vector<int> comp, stk, trail, rep, order;
         size_t next = 0;
@@ -116,7 +117,7 @@ struct TwoSat{
         vector<vector<int>> dag;
         vector<bitset<B>> mask;
         vector<signed char> reach(n + 1, -1);  /// reach[x]: whether node 2x reaches 2x + 1, -1 while unknown
-        truth.assign(N, 0);
+        truth.assign(nodes, 0);
 
         auto mark_closure = [&](int l){
             stk.assign(1, l);
@@ -160,8 +161,8 @@ struct TwoSat{
         /// One bitset pass answers the first B / 2 undecided queries, the current x always among them, then B sinks
         auto answer_batch = [&](){
             if (dag.empty()){
-                dag.resize(C), mask.resize(C), rep.resize(C);
-                for (int u = 2; u < N; u++){
+                dag.resize(components), mask.resize(components), rep.resize(components);
+                for (int u = 2; u < nodes; u++){
                     rep[comp[u]] = u;
                     for (int v : adj[u]) if (comp[u] != comp[v]) dag[comp[u]].push_back(comp[v]);
                 }
@@ -171,7 +172,7 @@ struct TwoSat{
 
             /// A skipped variable stays skipped, so both scans resume where the last batch stopped
             vector<int> qs;
-            int lo = C, hi = -1;
+            int lo = components, hi = -1;
             auto take = [&](int y){
                 if (reach[y] != -1 || truth[2 * y] || truth[2 * y + 1] || comp[2 * y] < comp[2 * y + 1]) return;
                 reach[y] = 0;  /// queued, the pass below overwrites it
@@ -216,7 +217,7 @@ struct TwoSat{
                 }
 
                 if (comp.empty()){  /// the waste has paid for SCC, redo x with the shortcut and batches available
-                    C = scc(comp);
+                    components = scc(comp);
                     for (int y = 1; y <= n; y++) if (comp[2 * y] == comp[2 * y + 1]) return false;
                     x--;
                     continue;
@@ -235,44 +236,74 @@ struct TwoSat{
         return truth[node(x)];
     }
 
-    vector<int> get_assignment(){
-        vector<int> set_nodes;
-        for (int x = 1; x <= n; x++){
-            if (truth[2 * x]) set_nodes.push_back(x);
+    inline int node(int x){
+        assert(x != 0 && abs(x) <= n);
+        return x > 0 ? 2 * x : -2 * x + 1;
+    }
+
+    /// Iterative Tarjan, components are numbered in reverse topological order (sinks first)
+    int scc(vector<int>& comp){
+        int nodes = adj.size(), timer = 0, components = 0;
+        vector<int> low(nodes), num(nodes, -1), it(nodes, 0), st, call;
+        vector<char> on(nodes, 0);
+        comp.assign(nodes, -1);
+
+        for (int s = 2; s < nodes; s++){
+            if (num[s] != -1) continue;
+            call.assign(1, s), num[s] = low[s] = timer++, st.push_back(s), on[s] = 1;
+            while (!call.empty()){
+                int u = call.back();
+                if (it[u] < (int)adj[u].size()){
+                    int v = adj[u][it[u]++];
+                    if (num[v] == -1) num[v] = low[v] = timer++, st.push_back(v), on[v] = 1, call.push_back(v);
+                    else if (on[v]) low[u] = min(low[u], num[v]);
+                    continue;
+                }
+                call.pop_back();
+                if (!call.empty()) low[call.back()] = min(low[call.back()], low[u]);
+                if (low[u] == num[u]){
+                    int w;
+                    do { w = st.back(), st.pop_back(), on[w] = 0, comp[w] = components; } while (w != u);
+                    components++;
+                }
+            }
         }
 
-        return set_nodes;
+        return components;
     }
 };
 
 int main(){
-    auto g = TwoSat(5);
-    assert(g.is_satisfiable());
-    assert((g.get_assignment() == vector<int>{1, 2, 3, 4, 5}));
-
-    g.add_implication(-1, -2);  /// if 1 is false then 2 is false
-    g.add_implication(-2, -3);  /// if 2 is false then 3 is false
-    g.add_implication(-3, 4);   /// if 3 is false then 4 is true
-    g.add_implication(-3, -5);  /// if 3 is false then 5 is false
-    g.add_xor(1, 4);            /// exactly one of 1 or 4 must be true
-    g.add_or(4, 5);             /// either of 4 or 5 must be true
-
+    /// x1 true makes x4 false through the xor, and x4 false forces x3, x5 and then x2
+    TwoSat g(5);
+    g.add_implication(-1, -2);
+    g.add_implication(-2, -3);
+    g.add_implication(-3, 4);
+    g.add_implication(-3, -5);
+    g.add_xor(1, 4);
+    g.add_or(4, 5);
     assert(g.is_satisfiable());
     assert((g.get_assignment() == vector<int>{1, 2, 3, 5}));
 
-    g.force_false(1);           /// 1 false forces 2 and 3 false, so 4 true and 5 false
+    /// x1 false forces x2 and x3 false, so x4 true and x5 false
+    g.force_false(1);
     assert(g.is_satisfiable());
     assert((g.get_assignment() == vector<int>{4}));
-    assert(!g.value(1) && g.value(-1) && g.value(4) && !g.value(5) && g.value(-5));
+    assert(!g.value(1));
+    assert(g.value(-1));
+    assert(!g.value(5));
 
     g.add_xor(1, 5);
     assert(!g.is_satisfiable());
 
-    auto chain = TwoSat(2001);
-    for (int x = 1; x < 2000; x++) chain.add_implication(x, x + 1);
-    chain.force_false(2000);    /// every x up to 2000 implies 2000, so all are false
-    chain.add_or(2000, 2001);
-    assert(chain.is_satisfiable());
-    assert((chain.get_assignment() == vector<int>{2001}));
+    /// at_most_one takes variable 4 for itself, and the new variable 5 needs x2, which loses to x1
+    TwoSat h(3);
+    h.at_most_one({1, 2, 3});
+    int y = h.add_var();
+    assert(y == 5);
+    h.add_implication(y, 2);
+    assert(h.is_satisfiable());
+    assert((h.get_assignment() == vector<int>{1, 4}));
+
     return 0;
 }

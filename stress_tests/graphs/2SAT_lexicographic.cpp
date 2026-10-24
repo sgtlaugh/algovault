@@ -52,25 +52,32 @@ int random_literal(int n){
     return stress::rand_int(0, 1) ? x : -x;
 }
 
-/// Exhaustive: satisfiable iff some assignment works, and the answer is the lexicographically first one preferring true
-void check_brute(TwoSat& g, int n, const vector<Clause>& clauses){
-    int best = -1;
-    auto key = [&](int mask){ int r = 0; for (int i = 0; i < n; i++) r = r * 2 + (mask >> i & 1); return r; };
-    for (int mask = 0; mask < (1 << n); mask++){
+/// Exhaustive over the caller's variables, at_most_one helpers excluded: the first assignment preferring true
+void check_brute(TwoSat& g, const vector<int>& vars, const vector<Clause>& clauses, const vector<vector<int>>& groups){
+    int k = vars.size(), best = -1;
+    vector<int> bit(g.n + 1, -1);
+    for (int i = 0; i < k; i++) bit[vars[i]] = i;
+    auto holds = [&](int mask, int x){ return (mask >> bit[abs(x)] & 1) == (x > 0); };
+    auto key = [&](int mask){ int r = 0; for (int i = 0; i < k; i++) r = r * 2 + (mask >> i & 1); return r; };
+    for (int mask = 0; mask < (1 << k); mask++){
         bool ok = true;
-        for (auto [a, b] : clauses){
-            bool va = (mask >> (abs(a) - 1) & 1) == (a > 0), vb = (mask >> (abs(b) - 1) & 1) == (b > 0);
-            ok &= va || vb;
+        for (auto [a, b] : clauses) ok &= holds(mask, a) || holds(mask, b);
+        for (auto& lits : groups){
+            int count = 0;
+            for (int x : lits) count += holds(mask, x);
+            ok &= count <= 1;
         }
         if (ok && (best == -1 || key(mask) > key(best))) best = mask;
     }
 
     assert(g.is_satisfiable() == (best != -1));
     if (best == -1) return;
-    vector<int> expected;
-    for (int x = 1; x <= n; x++) if (best >> (x - 1) & 1) expected.push_back(x);
-    assert(g.get_assignment() == expected);
-    for (int x = 1; x <= n; x++) assert(g.value(x) == (best >> (x - 1) & 1) && g.value(-x) != g.value(x));
+    vector<int> expected, got;
+    for (int i = 0; i < k; i++) if (best >> i & 1) expected.push_back(vars[i]);
+    for (int x : g.get_assignment()) if (bit[x] != -1) got.push_back(x);
+    assert(got == expected);
+    for (int x : vars) assert(g.value(x) == holds(best, x));
+    for (int x = 1; x <= g.n; x++) assert(g.value(-x) != g.value(x));
 }
 
 void check_greedy(int n, const vector<Clause>& clauses){
@@ -99,7 +106,9 @@ vector<Clause> adversarial(int n, int k, bool contradiction){
         if (i > reaching && stress::rand_int(0, 9) == 0) clauses.push_back({-i, -i});
     }
     /// noise only adds !x_a or !x_b, which never forces an x true
-    for (int extra = stress::rand_int(0, n / 4); extra; extra--) clauses.push_back({-stress::rand_int(1, n), -stress::rand_int(1, n)});
+    for (int extra = stress::rand_int(0, n / 4); extra; extra--){
+        clauses.push_back({-stress::rand_int(1, n), -stress::rand_int(1, n)});
+    }
     if (contradiction) clauses.push_back({n, n});  /// the last x, reached only after the waste has paid for SCC
     return clauses;
 }
@@ -156,7 +165,8 @@ vector<Clause> chains(int n){
     for (int x = 1; x <= vars; x++) if (plain[x]) plain_vars.push_back(x);
     /// drawing from plain_vars instead of rejecting other picks ends the loop when no variable is plain
     for (int extra = plain_vars.empty() ? 0 : stress::rand_int(0, n / 4); extra;){
-        int a = plain_vars[stress::rand_int(0, plain_vars.size() - 1)], b = plain_vars[stress::rand_int(0, plain_vars.size() - 1)];
+        int a = plain_vars[stress::rand_int(0, plain_vars.size() - 1)];
+        int b = plain_vars[stress::rand_int(0, plain_vars.size() - 1)];
         if (stress::rand_int(0, 1)) a = -a;
         if (stress::rand_int(0, 1)) b = -b;
         if ((a > 0) == hidden[abs(a)] || (b > 0) == hidden[abs(b)]) clauses.push_back({a, b}), extra--;
@@ -182,18 +192,32 @@ vector<Clause> decoys(int k, int len){
 int main(){
     for (long long it = 0; it < stress::scaled(4000); it++){
         int n = stress::rand_int(1, 10), m = stress::rand_int(0, 3 * n);
-        vector<Clause> clauses;
         TwoSat g(n);
+        vector<int> vars(n);
+        iota(vars.begin(), vars.end(), 1);
+        vector<Clause> clauses;
+        vector<vector<int>> groups;
+        auto literal = [&](){
+            int x = vars[stress::rand_int(0, vars.size() - 1)];
+            return stress::rand_int(0, 1) ? x : -x;
+        };
         for (int c = 0; c < m; c++){
-            int a = random_literal(n), b = random_literal(n), kind = stress::rand_int(0, 5);
+            int a = literal(), b = literal(), kind = stress::rand_int(0, 7);
             if (kind == 0) g.add_or(a, b), clauses.push_back({a, b});
             else if (kind == 1) g.add_implication(a, b), clauses.push_back({-a, b});
             else if (kind == 2) g.add_xor(a, b), clauses.push_back({a, b}), clauses.push_back({-a, -b});
-            else if (kind == 3) g.add_and(a, b), clauses.push_back({a, b}), clauses.push_back({a, -b}), clauses.push_back({-a, b});
+            else if (kind == 3) g.add_and(a, b), clauses.push_back({a, a}), clauses.push_back({b, b});
             else if (kind == 4) g.force_true(a), clauses.push_back({a, a});
-            else g.force_false(a), clauses.push_back({-a, -a});
+            else if (kind == 5) g.force_false(a), clauses.push_back({-a, -a});
+            else if (kind == 6){
+                vector<int> lits(stress::rand_int(0, 5));
+                for (auto& x : lits) x = literal();
+                g.at_most_one(lits), groups.push_back(lits);
+            }
+            /// a variable added after at_most_one helpers must still lose only to the variables before it
+            else if (vars.size() < 10) vars.push_back(g.add_var());
         }
-        check_brute(g, n, clauses);
+        check_brute(g, vars, clauses, groups);
     }
 
     for (long long it = 0; it < stress::scaled(60); it++){
@@ -222,6 +246,18 @@ int main(){
         for (auto [a, b] : clauses) vars = max({vars, abs(a), abs(b)});
         check_greedy(vars, clauses);
     }
+
+    /// x_i -> p_1 -> ... -> p_k -> !x_i: every x_i fails at full cost, so only the waste allowance keeps this linear
+    int n = 30000;
+    TwoSat chain(2 * n);
+    for (int j = 1; j < n; j++) chain.add_implication(n + j, n + j + 1);
+    for (int i = 1; i <= n; i++) chain.add_implication(i, n + 1), chain.add_implication(2 * n, -i);
+    clock_t start = clock();  /// CPU time, parallel sanitizer jobs inflate wall time
+    assert(chain.is_satisfiable());
+    assert(clock() - start < 2 * CLOCKS_PER_SEC);
+    vector<int> path(n);
+    iota(path.begin(), path.end(), n + 1);
+    assert(chain.get_assignment() == path);
 
     /// Solving again after more constraints must start from scratch
     TwoSat g(3);
