@@ -90,6 +90,11 @@ void check_all_pairs(int n, const vector<Link>& links, Reference reference){
 }
 
 int main(){
+    /// An empty graph must build, with no node 0 for the tree walk to start from
+    GomoryHu empty(0);
+    empty.build();
+    assert(empty.tree_parent.empty());
+
     for (long long it = 0; it < stress::scaled(2000); it++){
         int n = stress::rand_int(1, 8), m = stress::rand_int(0, 16);
         long long max_cap = it % 4 == 0 ? 1000000000000000LL : it % 4 == 1 ? LLONG_MAX / 16 : 10;

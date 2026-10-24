@@ -72,7 +72,8 @@ struct GomoryHu{
         vector<vector<int>> children(n);
         for (int v = 1; v < n; v++) children[tree_parent[v]].push_back(v);
         depth.assign(n, 0);
-        vector<int> order = {0};
+        vector<int> order;
+        if (n > 0) order.push_back(0);
         for (int i = 0; i < (int)order.size(); i++){
             for (int c : children[order[i]]) depth[c] = depth[order[i]] + 1, order.push_back(c);
         }
