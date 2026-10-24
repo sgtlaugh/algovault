@@ -541,7 +541,7 @@
 - [Codeforces 1239D - Catowice City](https://codeforces.com/problemset/problem/1239/D) [✅](../../practice/graphs/codeforces_1239d.cpp "Accepted solution")
 - [CSES 1682 - Flight Routes Check](https://cses.fi/problemset/task/1682) [✅](../../practice/graphs/cses_1682.cpp "Accepted solution")
 - [CSES 1683 - Planets and Kingdoms](https://cses.fi/problemset/task/1683) [✅](../../practice/graphs/cses_1683.cpp "Accepted solution")
-- [CSES 1685 - New Flight Routes](https://cses.fi/problemset/task/1685)
+- [CSES 1685 - New Flight Routes](https://cses.fi/problemset/task/1685) [✅](../../practice/graphs/cses_1685.cpp "Accepted solution")
 - [CSES 1686 - Coin Collector](https://cses.fi/problemset/task/1686)
 - [CSES 2143 - Reachability Queries](https://cses.fi/problemset/task/2143)
 - [Kattis equivalences - Proving Equivalences](https://open.kattis.com/problems/equivalences)
