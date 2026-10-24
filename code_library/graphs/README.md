@@ -190,7 +190,7 @@
 
 #### [Edge Coloring](edge_coloring.cpp)
 
-- [UVa 10615 - Rooks](https://onlinejudge.org/external/106/10615.pdf)
+- [UVa 10615 - Rooks](https://onlinejudge.org/external/106/10615.pdf) [✅](../../practice/graphs/uva_10615.cpp "Accepted solution")
 
 #### [Euler Path](euler_path.cpp)
 
