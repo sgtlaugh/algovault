@@ -17,7 +17,7 @@
 - [HDU 4421 - Bit Magic](https://acm.hdu.edu.cn/showproblem.php?pid=4421) [✅](../../practice/graphs/hdu_4421.cpp "Accepted solution")
 - [Kattis ghostbusters - Ghostbusters 2](https://open.kattis.com/problems/ghostbusters)
 - [Kattis illumination - Illumination](https://open.kattis.com/problems/illumination)
-- [POJ 2296 - Map Labeler](http://poj.org/problem?id=2296)
+- [POJ 2296 - Map Labeler](http://poj.org/problem?id=2296) [✅](../../practice/graphs/poj_2296.cpp "Accepted solution")
 - [POJ 2723 - Get Luffy Out](http://poj.org/problem?id=2723)
 - [POJ 2749 - Building roads](http://poj.org/problem?id=2749)
 - [POJ 3207 - Ikki's Story IV - Panda's Trick](http://poj.org/problem?id=3207)
