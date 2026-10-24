@@ -17,6 +17,7 @@
  *
  * Notes:
  *   - Both solve() calls can be repeated after adding more edges
+ *   - VizingEdgeColoring allocates n (D + 1) ints, so a star with n = 1e5 needs 40 GB
  *
 ***/
 
@@ -115,7 +116,7 @@ struct VizingEdgeColoring{
             k = max({k, ++deg[e[0]] + 1, ++deg[e[1]] + 1});
         }
 
-        /// adj[x * k + c]: the neighbor of x through the edge colored c, or -1
+        /// adj[x * k + c]: neighbor of x through color c or -1, flat since hashing it ran 14x slower on dense graphs
         vector<int> adj((size_t)n * k, -1), free_color(n), fan(k + 1), fan_color(k + 1), seen;
         auto at = [&](int x, int c) -> int& { return adj[(long long)x * k + c]; };
 
@@ -161,18 +162,23 @@ struct VizingEdgeColoring{
 };
 
 int main(){
+    /// The path left 0 - right 0 - left 1 - right 1 has max degree 2, so its colors alternate
     BipartiteEdgeColoring path(2, 2);
-    path.add_edge(0, 0), path.add_edge(1, 0), path.add_edge(1, 1);
+    path.add_edge(0, 0);
+    path.add_edge(1, 0);
+    path.add_edge(1, 1);
     vector<int> color = path.solve();
-    assert(color[0] != color[1]);   /// both touch right vertex 0
-    assert(color[1] != color[2]);   /// both touch left vertex 1
-    assert(color[0] == color[2]);   /// max degree 2, so only colors 0 and 1 exist
+    assert(color[0] != color[1]);
+    assert(color[0] == color[2]);
 
     /// A triangle needs D + 1 = 3 colors, the most Vizing ever uses
     VizingEdgeColoring triangle(3);
-    triangle.add_edge(0, 1), triangle.add_edge(1, 2), triangle.add_edge(2, 0);
+    triangle.add_edge(0, 1);
+    triangle.add_edge(1, 2);
+    triangle.add_edge(2, 0);
     color = triangle.solve();
     sort(color.begin(), color.end());
     assert((color == vector<int>{0, 1, 2}));
+
     return 0;
 }

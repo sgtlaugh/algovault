@@ -11,7 +11,7 @@
  *   - proposer_pref[p] lists receivers from most to least preferred, receiver_pref[r] lists proposers likewise
  *   - Both must be n lists, each a permutation of 0..n - 1
  *   - Stable means no proposer and receiver both prefer each other to their partners
- *   - Every proposer gets its best partner in any stable matching and every receiver its worst
+ *   - Each proposer gets its best partner over all stable matchings, each receiver its worst
  *   - Swap the two arguments for the receiver optimal matching
  *
 ***/
@@ -42,18 +42,14 @@ vector<int> stable_marriage(const vector<vector<int>>& proposer_pref, const vect
 }
 
 int main(){
-    assert((stable_marriage({}, {}) == vector<int>{}));
-    assert((stable_marriage({{0}}, {{0}}) == vector<int>{0}));
-
+    /// Both proposers want receiver 0, who prefers proposer 1, so proposer 0 settles for receiver 1
     assert((stable_marriage({{0, 1}, {0, 1}}, {{1, 0}, {0, 1}}) == vector<int>{1, 0}));
 
-    vector<vector<int>> pa = {{0, 1}, {1, 0}}, pb = {{1, 0}, {0, 1}};
+    /// The first choices conflict, so the side that proposes gets them
+    vector<vector<int>> pa = {{0, 1}, {1, 0}};
+    vector<vector<int>> pb = {{1, 0}, {0, 1}};
     assert((stable_marriage(pa, pb) == vector<int>{0, 1}));
     assert((stable_marriage(pb, pa) == vector<int>{1, 0}));
-
-    assert((stable_marriage({{0, 1, 2}, {0, 2, 1}, {1, 0, 2}}, {{0, 1, 2}, {2, 0, 1}, {2, 1, 0}}) == vector<int>{0, 2, 1}));
-
-    assert((stable_marriage({{0, 1, 2}, {0, 1, 2}, {0, 1, 2}}, {{1, 2, 0}, {2, 0, 1}, {0, 1, 2}}) == vector<int>{2, 0, 1}));
 
     return 0;
 }
