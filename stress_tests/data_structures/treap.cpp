@@ -41,7 +41,7 @@ void check_sequence(int n, int ops){
     assert(treap.to_vector() == ref);
 
     for (int op = 0; op < ops; op++){
-        int kind = stress::rand_int(0, 6), sz = ref.size();
+        int kind = stress::rand_int(0, 8), sz = ref.size();
         if (kind == 0 || sz == 0){
             int pos = stress::rand_int(0, sz);
             long long v = stress::rand_int(-1000000000, 1000000000);
@@ -52,6 +52,19 @@ void check_sequence(int n, int ops){
             int pos = stress::rand_int(0, sz - 1);
             treap.erase(pos);
             ref.erase(ref.begin() + pos);
+        }
+        else if (kind == 7){
+            /// Empty vectors included: inserting nothing must leave the sequence unchanged
+            int pos = stress::rand_int(0, sz);
+            vector<long long> values(stress::rand_int(0, 20));
+            for (auto& x : values) x = stress::rand_int(-1000000000, 1000000000);
+            treap.insert(pos, values);
+            ref.insert(ref.begin() + pos, values.begin(), values.end());
+        }
+        else if (kind == 8){
+            int l = stress::rand_int(0, sz - 1), r = stress::rand_int(l, sz - 1);
+            treap.erase(l, r);
+            ref.erase(ref.begin() + l, ref.begin() + r + 1);
         }
         else{
             int l = stress::rand_int(0, sz - 1), r = stress::rand_int(l, sz - 1);

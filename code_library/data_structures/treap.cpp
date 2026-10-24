@@ -3,7 +3,7 @@
  * Treap
  * Randomized balanced binary search tree, as an ordered multiset and as an implicit-key sequence
  *
- * Complexity: expected O(log n) per operation, O(n) to build an ImplicitTreap from an array
+ * Complexity: expected O(log n) per operation, plus O(k) to build from or insert k values at once
  *
  * Treap<T> set: an empty multiset of keys
  * set.erase(key): removes one copy of key, false if there is none
@@ -16,7 +16,9 @@
  * ImplicitTreap seq(values): the sequence of long long values, empty when values is omitted
  * seq.add(l, r, delta): adds delta to positions l..r
  * seq.erase(pos): removes the value at pos, 0 <= pos < size()
+ * seq.erase(l, r): removes positions l..r
  * seq.insert(pos, value): inserts value before position pos, 0 <= pos <= size(), pos = size() appends
+ * seq.insert(pos, values): inserts the whole vector values before position pos, in order
  * seq.reverse(l, r): reverses the order of positions l..r
  * seq.get(pos): the value at pos, 0 <= pos < size()
  * seq.size(): length of the sequence
@@ -153,24 +155,7 @@ struct ImplicitTreap{
     mt19937 rng{(unsigned int)chrono::steady_clock::now().time_since_epoch().count()};
 
     ImplicitTreap(const vector<long long>& values = {}){
-        vector<int> stack;
-        for (long long v : values){
-            int t = new_node(v), last = -1;
-            while (!stack.empty() && nodes[stack.back()].priority < nodes[t].priority){
-                last = stack.back();
-                stack.pop_back();
-                pull(last);
-            }
-            nodes[t].l = last;
-            if (!stack.empty()) nodes[stack.back()].r = t;
-            stack.push_back(t);
-        }
-
-        if (!stack.empty()) root = stack[0];
-        while (!stack.empty()){
-            pull(stack.back());
-            stack.pop_back();
-        }
+        root = build(values);
     }
 
     void add(int l, int r, long long delta){
@@ -178,10 +163,14 @@ struct ImplicitTreap{
     }
 
     void erase(int pos){
-        assert(0 <= pos && pos < size());
+        erase(pos, pos);
+    }
+
+    void erase(int l, int r){
+        assert(0 <= l && l <= r && r < size());
         int a, b, c;
-        split(root, pos, a, b);
-        split(b, 1, b, c);
+        split(root, l, a, b);
+        split(b, r - l + 1, b, c);
         root = merge(a, c);
     }
 
@@ -190,6 +179,13 @@ struct ImplicitTreap{
         int a, b;
         split(root, pos, a, b);
         root = merge(merge(a, new_node(value)), b);
+    }
+
+    void insert(int pos, const vector<long long>& values){
+        assert(0 <= pos && pos <= size());
+        int a, b;
+        split(root, pos, a, b);
+        root = merge(merge(a, build(values)), b);
     }
 
     void reverse(int l, int r){
@@ -223,6 +219,29 @@ struct ImplicitTreap{
             stack.pop_back();
             res.push_back(nodes[t].value);
             t = nodes[t].r;
+        }
+        return res;
+    }
+
+    /// Cartesian tree of values on fresh random priorities, built left to right with a stack of the right spine
+    int build(const vector<long long>& values){
+        vector<int> stack;
+        for (long long v : values){
+            int t = new_node(v), last = -1;
+            while (!stack.empty() && nodes[stack.back()].priority < nodes[t].priority){
+                last = stack.back();
+                stack.pop_back();
+                pull(last);
+            }
+            nodes[t].l = last;
+            if (!stack.empty()) nodes[stack.back()].r = t;
+            stack.push_back(t);
+        }
+
+        int res = stack.empty() ? -1 : stack[0];
+        while (!stack.empty()){
+            pull(stack.back());
+            stack.pop_back();
         }
         return res;
     }
@@ -318,6 +337,12 @@ int main(){
     assert((seq.to_vector() == vector<long long>{13, 100, 12, 1, 5}));
     assert(seq.sum(1, 3) == 113);
     assert(seq.get(1) == 100);
+
+    /// Whole ranges at once: {7, 8} before position 1, then positions 3..5 (100, 12, 1) removed
+    seq.insert(1, vector<long long>{7, 8});
+    assert((seq.to_vector() == vector<long long>{13, 7, 8, 100, 12, 1, 5}));
+    seq.erase(3, 5);
+    assert((seq.to_vector() == vector<long long>{13, 7, 8, 5}));
 
     return 0;
 }
