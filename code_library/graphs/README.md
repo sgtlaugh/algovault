@@ -390,7 +390,7 @@
 - [UVa 11248 - Frequency Hopping](https://onlinejudge.org/external/112/11248.pdf) [✅](../../practice/graphs/uva_11248.cpp "Accepted solution")
 - [UVa 11358 - Faster Processing Feasibility](https://onlinejudge.org/external/113/11358.pdf) [✅](../../practice/graphs/uva_11358.cpp "Accepted solution")
 - [UVa 11506 - Angry Programmer](https://onlinejudge.org/external/115/11506.pdf) [✅](../../practice/graphs/uva_11506.cpp "Accepted solution")
-- [UVa 11765 - Component Placement](https://onlinejudge.org/external/117/11765.pdf)
+- [UVa 11765 - Component Placement](https://onlinejudge.org/external/117/11765.pdf) [✅](../../practice/graphs/uva_11765.cpp "Accepted solution")
 - [UVa 12125 - March of the Penguins](https://onlinejudge.org/external/121/12125.pdf) [✅](../../practice/graphs/uva_12125.cpp "Accepted solution")
 - [UVa 12193 - Hooligan](https://onlinejudge.org/external/121/12193.pdf)
 - [UVa 12264 - Risk](https://onlinejudge.org/external/122/12264.pdf)
