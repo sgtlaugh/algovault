@@ -12,7 +12,7 @@
 - [Codeforces Gym 104772C - Colorful Village](https://codeforces.com/gym/104772/problem/C)
 - [CSES 1684 - Giant Pizza](https://cses.fi/problemset/task/1684)
 - [HDU 3622 - Bomb Game](https://acm.hdu.edu.cn/showproblem.php?pid=3622) [✅](../../practice/graphs/hdu_3622.cpp "Accepted solution")
-- [HDU 3715 - Go Deeper](https://acm.hdu.edu.cn/showproblem.php?pid=3715)
+- [HDU 3715 - Go Deeper](https://acm.hdu.edu.cn/showproblem.php?pid=3715) [✅](../../practice/graphs/hdu_3715.cpp "Accepted solution")
 - [HDU 4115 - Eliminate the Conflict](https://acm.hdu.edu.cn/showproblem.php?pid=4115)
 - [HDU 4421 - Bit Magic](https://acm.hdu.edu.cn/showproblem.php?pid=4421)
 - [Kattis ghostbusters - Ghostbusters 2](https://open.kattis.com/problems/ghostbusters)
