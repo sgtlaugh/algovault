@@ -130,6 +130,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Kruskal Reconstruction Tree](code_library/graphs/kruskal_reconstruction_tree.cpp) - vertices reachable from v using edges <= w
 - [Manhattan MST](code_library/graphs/manhattan_mst.cpp) - minimum spanning tree under L1 distance [✔](judge_tests/graphs/manhattanmst.cpp)
 - [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set of two matroids [✔](judge_tests/graphs/aoj_grl_7_a.cpp)
+  - [Weighted](code_library/graphs/weighted_matroid_intersection.cpp) - the max weight common independent set
 - [Maximum Clique](code_library/graphs/max_clique.cpp) - plus independent set and all maximal cliques [✔](judge_tests/graphs/maximum_independent_set.cpp)
 - [Maximum Flow](code_library/graphs/maxflow.cpp) - max flow and min cut, with node capacities [✔](judge_tests/graphs/aoj_grl_6_a.cpp)
 - [Min Cost Circulation](code_library/graphs/min_cost_circulation.cpp) - cheapest circulation with negative cycles [✔](judge_tests/graphs/aoj_grl_6_b_circulation.cpp)

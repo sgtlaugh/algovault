@@ -3,20 +3,22 @@
  * Matroid Intersection (unweighted)
  * Largest set of ground elements that is independent in two matroids at once
  *
- * Complexity: O(n r^2 + n) oracle queries plus r + 1 oracle builds, n = ground set size, r = answer size
- *     with the oracles below every query is O(1), so O(n r^2 + n + (r + 1) B) overall, B the cost of one build
+ * Complexity:
+ *   - matroid_intersection: O(n r^2 + n) oracle queries and r + 1 builds, for n elements and an answer of size r
+ *   - GraphicMatroid: build O(v + n), queries O(1)
+ *   - PartitionMatroid: build O(colors + r), queries O(1)
+ *   - XorMatroid: build O(64 n), queries O(1)
  *
- * matroid_intersection(n, m1, m2): ground elements 0..n - 1, returns the chosen elements sorted ascending
- * The oracles are template parameters, any struct with these three methods works:
- *     void build(const vector<int>& chosen)     chosen is the current common independent set, called before each round
- *     bool can_add(int x)                       is chosen + x independent, x not in chosen
- *     bool can_exchange(int y, int x)           is chosen - y + x independent, y in chosen, x not in chosen
+ * matroid_intersection(n, m1, m2): the largest set of elements 0 to n - 1 independent in both, sorted ascending
+ * m1 and m2 are oracles, any structs with these three calls:
+ *     void build(const vector<int>& chosen): chosen is the current common independent set, called before each round
+ *     bool can_add(int x): true if chosen + x is independent, x not in chosen
+ *     bool can_exchange(int y, int x): true if chosen - y + x is independent, y in chosen, x not in chosen
  *
- * GraphicMatroid g(v): g.add_edge(a, b) adds element g.edges.size(), independent sets are forests
- *     on vertices 0..v - 1, self-loops are never independent, build is O(v + n)
- * PartitionMatroid p(color, cap): element x has color[x], at most cap[c] elements of color c, build is O(colors + r)
- * XorMatroid x(vec): independent sets are linearly independent over GF(2), vectors are 64-bit, 0 is never
- *     independent, build is O(64 n)
+ * GraphicMatroid g(v): independent sets are forests on vertices 0 to v - 1, self-loops are never independent
+ * g.add_edge(a, b): adds the edge a - b as element g.edges.size()
+ * PartitionMatroid p(color, cap): element x has color[x], an independent set has at most cap[c] elements of color c
+ * XorMatroid x(vec): independent sets of 64-bit vectors are linearly independent over GF(2), 0 never is
  *
  * Notes:
  *   - A rainbow spanning tree is GraphicMatroid intersected with a PartitionMatroid whose caps are all 1
@@ -67,6 +69,7 @@ vector<int> matroid_intersection(int n, M1& m1, M2& m2){
     return chosen;
 }
 
+/// BEGIN SHARED matroid_oracles
 /// chosen - y + x is a forest iff x joins two trees of chosen, or y lies on the tree path between x's endpoints
 struct GraphicMatroid{
     int v;
@@ -187,21 +190,24 @@ struct XorMatroid{
         return !spanned[x] || (uses[x] >> pos[y] & 1);
     }
 };
+/// END SHARED matroid_oracles
 
 int main(){
-    /***
-     * Rainbow spanning tree: edges 0-1, 1-2 colored 0, edges 2-3, 0-2 colored 1, edge 1-3 colored 2
-     * A spanning tree of 4 vertices has 3 edges, so it needs one edge of each color
-    ***/
+    /// Rainbow spanning tree: 3 edges on 4 vertices with 3 colors, so one edge of each color
     GraphicMatroid tree(4);
-    tree.add_edge(0, 1), tree.add_edge(1, 2), tree.add_edge(2, 3), tree.add_edge(0, 2), tree.add_edge(1, 3);
+    tree.add_edge(0, 1);
+    tree.add_edge(1, 2);
+    tree.add_edge(2, 3);
+    tree.add_edge(0, 2);
+    tree.add_edge(1, 3);
     PartitionMatroid one_per_color({0, 0, 1, 1, 2}, {1, 1, 1});
     vector<int> rainbow = matroid_intersection(5, tree, one_per_color);
     assert(rainbow.size() == 3);
     assert(rainbow.back() == 4);  /// 1-3 is the only edge of color 2
 
     /// Bipartite matching: element x is an edge from left[x] to right[x], each side may use a vertex once
-    PartitionMatroid left({0, 0, 1, 2}, {1, 1, 1}), right({0, 1, 0, 0}, {1, 1});
+    PartitionMatroid left({0, 0, 1, 2}, {1, 1, 1});
+    PartitionMatroid right({0, 1, 0, 0}, {1, 1});
     assert(matroid_intersection(4, left, right).size() == 2);  /// right has only 2 vertices
 
     /// Vectors 1, 1, 2 over GF(2), elements 0 and 2 share a color: only {1, 2} is independent in both
