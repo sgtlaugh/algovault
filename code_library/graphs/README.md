@@ -121,7 +121,7 @@
 - [Codeforces Gym 100625D - Destination Unknown](https://codeforces.com/gym/100625/problem/D) [✅](../../practice/graphs/codeforces_gym_100625d.cpp "Accepted solution")
 - [CSES 1195 - Flight Discount](https://cses.fi/problemset/task/1195) [✅](../../practice/graphs/cses_1195.cpp "Accepted solution")
 - [CSES 1203 - Visiting Cities](https://cses.fi/problemset/task/1203) [✅](../../practice/graphs/cses_1203_dijkstra.cpp "Accepted solution")
-- [CSES 1671 - Shortest Routes I](https://cses.fi/problemset/task/1671)
+- [CSES 1671 - Shortest Routes I](https://cses.fi/problemset/task/1671) [✅](../../practice/graphs/cses_1671.cpp "Accepted solution")
 - [CSES 3158 - Bus Companies](https://cses.fi/problemset/task/3158)
 - [oj.uz IOI11_crocodile - Crocodile's Underground City](https://oj.uz/problem/view/IOI11_crocodile)
 - [oj.uz JOI18_commuter_pass - Commuter Pass](https://oj.uz/problem/view/JOI18_commuter_pass)
