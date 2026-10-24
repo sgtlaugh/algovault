@@ -534,7 +534,7 @@
 
 #### [Strongly Connected Components](scc.cpp)
 
-- [CodeChef CHEFRRUN - Chef and Round Run](https://www.codechef.com/problems/CHEFRRUN)
+- [CodeChef CHEFRRUN - Chef and Round Run](https://www.codechef.com/problems/CHEFRRUN) [✅](../../practice/graphs/codechef_chefrrun.cpp "Accepted solution")
 - [Codeforces 22E - Scheme](https://codeforces.com/problemset/problem/22/E) [✅](../../practice/graphs/codeforces_22e.cpp "Accepted solution")
 - [Codeforces 427C - Checkposts](https://codeforces.com/problemset/problem/427/C) [✅](../../practice/graphs/codeforces_427c.cpp "Accepted solution")
 - [Codeforces 894E - Ralph and Mushrooms](https://codeforces.com/problemset/problem/894/E) [✅](../../practice/graphs/codeforces_894e.cpp "Accepted solution")
