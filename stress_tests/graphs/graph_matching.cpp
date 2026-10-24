@@ -133,6 +133,41 @@ void random_large(){
     }
 }
 
+/// Tutte at n = 2000 against Blossom, then a dense n = 1500 graph: a perfect matching is certified by check_mates alone
+void at_scale(){
+    {
+        int n = 2000, m = 5000;
+        vector<pair<int, int>> edges;
+        for (int i = 0; i < m; i++){
+            int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
+            if (u != v) edges.push_back({min(u, v), max(u, v)});
+        }
+        sort(edges.begin(), edges.end());
+        edges.erase(unique(edges.begin(), edges.end()), edges.end());
+
+        TutteMatching g(n);
+        g.rng.seed(stress::rng()());
+        Blossom b(n);
+        for (auto [u, v] : edges) g.add_edge(u, v), b.add_edge(u, v);
+
+        int got = b.maximum_matching();
+        assert(matching(g, got) == got);
+        check_mates(b, edges, got);
+    }
+    {
+        int n = 1500;
+        vector<pair<int, int>> edges;
+        for (int u = 0; u < n; u++){
+            for (int v = u + 1; v < n; v++) if (stress::rand_int(0, 1)) edges.push_back({u, v});
+        }
+
+        Blossom b(n);
+        for (auto [u, v] : edges) b.add_edge(u, v);
+        assert(b.maximum_matching() == n / 2);
+        check_mates(b, edges, n / 2);
+    }
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(1200); it++){
         int n = stress::rand_int(1, 14), density = stress::rand_int(0, 100);
@@ -165,5 +200,12 @@ int main(){
 
     exhaustive_small();
     random_large();
+    at_scale();
+
+    /// The only augmenting path 6-0-1-5-4-3-2-7 leaves blossom 1-2-3-4-5 from 2: a search without contraction misses it
+    Blossom flower(8);
+    for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {2, 3}, {4, 5}, {1, 2}, {3, 4}, {5, 1}, {6, 0}, {2, 7}}) flower.add_edge(u, v);
+    assert(flower.maximum_matching() == 4);
+    assert((flower.mate == vector<int>{6, 5, 7, 4, 3, 1, 0, 2}));
     return 0;
 }

@@ -61,11 +61,12 @@ struct TutteMatching{
     }
 
     int get_matrix_rank(){
-        int j, k, u, r = 0;
+        int r = 0;
         vector<int> nonzero;
 
-        for (j = 0; j < n; j++){
-            for (k = r; k < n && !tutte_matrix[k][j]; k++) {}
+        for (int j = 0; j < n; j++){
+            int k = r;
+            while (k < n && !tutte_matrix[k][j]) k++;
             if (k == n) continue;
 
             swap(tutte_matrix[k], tutte_matrix[r]);
@@ -80,7 +81,7 @@ struct TutteMatching{
                 }
             }
 
-            for (u = r + 1; u < n; u++){
+            for (int u = r + 1; u < n; u++){
                 auto& row = tutte_matrix[u];
                 if (!row[j]) continue;
                 unsigned long long f = mod - row[j];
@@ -210,112 +211,25 @@ struct Blossom{
 };
 
 int main(){
-    auto is_matching = [](const Blossom& b, int size){
-        int pairs = 0;
-        for (int v = 0; v < b.n; v++){
-            int u = b.mate[v];
-            if (u == -1) continue;
-            if (u < 0 || u >= b.n || b.mate[u] != v || find(b.adj[v].begin(), b.adj[v].end(), u) == b.adj[v].end()) return false;
-            pairs += u > v;
-        }
-        return pairs == size;
-    };
+    /// A triangle 0-1-2 with the path 2-3-4-5: only 0-1, 2-3, 4-5 match every vertex
+    Blossom b(6);
+    b.add_edge(0, 1);
+    b.add_edge(1, 2);
+    b.add_edge(2, 0);
+    b.add_edge(2, 3);
+    b.add_edge(3, 4);
+    b.add_edge(4, 5);
+    assert(b.maximum_matching() == 3);
+    assert((b.mate == vector<int>{1, 0, 3, 2, 5, 4}));
 
-    auto g = TutteMatching(12);
-    auto b = Blossom(12);
-    auto add_edge = [&](int u, int v){
-        g.add_edge(u, v);
-        b.add_edge(u, v);
-    };
-    auto matches = [&](int want){
-        return g.maximum_matching() == want && b.maximum_matching() == want && is_matching(b, want);
-    };
-    assert(matches(0));
-
-    add_edge(0, 1);
-    assert(matches(1));
-    add_edge(1, 2);
-    assert(matches(1));
-    add_edge(2, 0);
-    assert(matches(1));
-
-    add_edge(2, 3);
-    assert(matches(2));
-    add_edge(3, 4);
-    assert(matches(2));
-
-    add_edge(4, 5);
-    assert(matches(3));
-    add_edge(5, 6);
-    assert(matches(3));
-
-    add_edge(7, 8);
-    assert(matches(4));
-    add_edge(7, 9);
-    assert(matches(4));
-    add_edge(7, 10);
-    assert(matches(4));
-
-    add_edge(4, 10);
-    assert(matches(5));
-
-    add_edge(9, 11);
-    assert(matches(6));
-    add_edge(8, 11);
-    assert(matches(6));
-
-    auto cycle = Blossom(5);
-    for (int i = 0; i < 5; i++) cycle.add_edge(i, (i + 1) % 5);
-    assert(cycle.maximum_matching() == 2 && is_matching(cycle, 2));
-
-    auto petersen = Blossom(10);
-    for (int i = 0; i < 5; i++){
-        petersen.add_edge(i, (i + 1) % 5);
-        petersen.add_edge(i, i + 5);
-        petersen.add_edge(i + 5, (i + 2) % 5 + 5);
-    }
-    assert(petersen.maximum_matching() == 5 && is_matching(petersen, 5));
-
-    /// The only augmenting path 6-0-1-5-4-3-2-7 leaves blossom 1-2-3-4-5 from 2: a search without contraction misses it
-    auto flower = Blossom(8);
-    for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {2, 3}, {4, 5}, {1, 2}, {3, 4}, {5, 1}, {6, 0}, {2, 7}}) flower.add_edge(u, v);
-    assert(flower.maximum_matching() == 4 && is_matching(flower, 4));
-    assert((flower.mate == vector<int>{6, 5, 7, 4, 3, 1, 0, 2}));
-
-    auto lonely = Blossom(1);
-    assert(lonely.maximum_matching() == 0 && lonely.mate[0] == -1);
-
-    srand(666);
-    clock_t start = clock();
-    int n = 2000, m = 5000;
-    g = TutteMatching(n);
-    b = Blossom(n);
-
-    for (int i = 0; i < m; i++){
-        int u = 0, v = 0;
-        while (u == v) u = rand() % n, v = rand() % n;
-        add_edge(u, v);
-    }
-
-    assert(g.maximum_matching() == 992);
-    fprintf(stderr, "Time taken = %0.5f\n", (clock() - start) / (double)CLOCKS_PER_SEC);
-
-    start = clock();
-    assert(b.maximum_matching() == 992 && is_matching(b, 992));
-    fprintf(stderr, "Blossom time taken = %0.5f\n", (clock() - start) / (double)CLOCKS_PER_SEC);
-
-    /// A matching never exceeds n / 2 and is_matching certifies the pairs, so 750 is right without trusting Blossom
-    n = 1500;
-    auto dense = Blossom(n);
-    for (int u = 0; u < n; u++){
-        for (int v = u + 1; v < n; v++){
-            if (rand() % 2) dense.add_edge(u, v);
-        }
-    }
-
-    start = clock();
-    assert(dense.maximum_matching() == n / 2 && is_matching(dense, n / 2));
-    fprintf(stderr, "Dense Blossom time taken = %0.5f\n", (clock() - start) / (double)CLOCKS_PER_SEC);
+    TutteMatching g(6);
+    g.add_edge(0, 1);
+    g.add_edge(1, 2);
+    g.add_edge(2, 0);
+    g.add_edge(2, 3);
+    g.add_edge(3, 4);
+    g.add_edge(4, 5);
+    assert(g.maximum_matching() == 3);
 
     return 0;
 }
