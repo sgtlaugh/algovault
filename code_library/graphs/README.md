@@ -118,7 +118,7 @@
 - [Codeforces 827F - Dirty Arkady's Kitchen](https://codeforces.com/problemset/problem/827/F)
 - [Codeforces 843D - Dynamic Shortest Path](https://codeforces.com/problemset/problem/843/D)
 - [Codeforces 1051F - The Shortest Statement](https://codeforces.com/problemset/problem/1051/F) [✅](../../practice/graphs/codeforces_1051f.cpp "Accepted solution")
-- [Codeforces Gym 100625D - Destination Unknown](https://codeforces.com/gym/100625/problem/D)
+- [Codeforces Gym 100625D - Destination Unknown](https://codeforces.com/gym/100625/problem/D) [✅](../../practice/graphs/codeforces_gym_100625d.cpp "Accepted solution")
 - [CSES 1195 - Flight Discount](https://cses.fi/problemset/task/1195)
 - [CSES 1203 - Visiting Cities](https://cses.fi/problemset/task/1203)
 - [CSES 1671 - Shortest Routes I](https://cses.fi/problemset/task/1671)
