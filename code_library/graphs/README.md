@@ -205,7 +205,7 @@
 #### [Flow with Lower Bounds](lower_bound_flow.cpp)
 
 - [AOJ GRL_6_A - Maximum Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A)
-- [Codeforces 704D - Captain America](https://codeforces.com/problemset/problem/704/D)
+- [Codeforces 704D - Captain America](https://codeforces.com/problemset/problem/704/D) [✅](../../practice/graphs/codeforces_704d.cpp "Accepted solution")
 - [Codeforces 1416F - Showing Off](https://codeforces.com/problemset/problem/1416/F)
 - [Codeforces Gym 102156C - Diverse Singing](https://codeforces.com/gym/102156/problem/C)
 - [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf) [✅](../../practice/graphs/uva_1440.cpp "Accepted solution")
