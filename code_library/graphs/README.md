@@ -185,7 +185,7 @@
 - [Codeforces Gym 100513L - Useful Roads](https://codeforces.com/gym/100513/problem/L) [✅](../../practice/graphs/codeforces_gym_100513l.cpp "Accepted solution")
 - [CSES 1203 - Visiting Cities](https://cses.fi/problemset/task/1203) [✅](../../practice/graphs/cses_1203_dominator_tree.cpp "Accepted solution")
 - [CSES 1703 - Critical Cities](https://cses.fi/problemset/task/1703) [✅](../../practice/graphs/cses_1703.cpp "Accepted solution")
-- [Kattis skiresort - Ski Resort](https://open.kattis.com/problems/skiresort)
+- [Kattis skiresort - Ski Resort](https://open.kattis.com/problems/skiresort) [✅](../../practice/graphs/kattis_skiresort.cpp "Accepted solution")
 - [UVa 11902 - Dominator](https://onlinejudge.org/external/119/11902.pdf) [✅](../../practice/graphs/uva_11902.cpp "Accepted solution")
 
 #### [Edge Coloring](edge_coloring.cpp)
