@@ -51,7 +51,7 @@
 - [SPOJ SUBMERGE - Submerging Islands](https://www.spoj.com/problems/SUBMERGE/)
 - [USACO 769 - Push a Box](https://usaco.org/index.php?page=viewproblem2&cpid=769)
 - [UVa 315 - Network](https://onlinejudge.org/external/3/315.pdf) [✅](../../practice/graphs/uva_315.cpp "Accepted solution")
-- [UVa 1108 - Mining Your Own Business](https://onlinejudge.org/external/11/1108.pdf)
+- [UVa 1108 - Mining Your Own Business](https://onlinejudge.org/external/11/1108.pdf) [✅](../../practice/graphs/uva_1108.cpp "Accepted solution")
 - [UVa 10199 - Tourist Guide](https://onlinejudge.org/external/101/10199.pdf) [✅](../../practice/graphs/uva_10199.cpp "Accepted solution")
 - [UVa 10765 - Doves and bombs](https://onlinejudge.org/external/107/10765.pdf) [✅](../../practice/graphs/uva_10765.cpp "Accepted solution")
 - [UVa 12616 - Gymman vs Fila](https://onlinejudge.org/external/126/12616.pdf) [✅](../../practice/graphs/uva_12616.cpp "Accepted solution")
