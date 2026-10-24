@@ -199,7 +199,7 @@
 - [Codeforces 1361C - Johnny and Megan's Necklace](https://codeforces.com/problemset/problem/1361/C) [✅](../../practice/graphs/codeforces_1361c.cpp "Accepted solution")
 - [Codeforces 2110E - Melody](https://codeforces.com/problemset/problem/2110/E) [✅](../../practice/graphs/codeforces_2110e.cpp "Accepted solution")
 - [CSES 1691 - Mail Delivery](https://cses.fi/problemset/task/1691) [✅](../../practice/graphs/cses_1691.cpp "Accepted solution")
-- [CSES 1693 - Teleporters Path](https://cses.fi/problemset/task/1693)
+- [CSES 1693 - Teleporters Path](https://cses.fi/problemset/task/1693) [✅](../../practice/graphs/cses_1693.cpp "Accepted solution")
 - [oj.uz BOI14_postmen - Senior Postmen](https://oj.uz/problem/view/BOI14_postmen)
 
 #### [Flow with Lower Bounds](lower_bound_flow.cpp)
