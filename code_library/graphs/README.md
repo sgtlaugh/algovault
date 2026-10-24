@@ -450,7 +450,7 @@
 
 #### [Minimum Path Cover](minimum_path_cover.cpp)
 
-- [AOJ 2251 - Merry Christmas](https://onlinejudge.u-aizu.ac.jp/problems/2251)
+- [AOJ 2251 - Merry Christmas](https://onlinejudge.u-aizu.ac.jp/problems/2251) [✅](../../practice/graphs/aoj_2251.cpp "Accepted solution")
 - [Code Jam 2009 Round 2 C - Stock Charts](https://github.com/google/coding-competitions-archive/tree/main/codejam/2009/round_2/stock_charts)
 - [SPOJ DIVREL - Divisibility Relation](https://www.spoj.com/problems/DIVREL/)
 - [UVa 1184 - Air Raid](https://onlinejudge.org/external/11/1184.pdf) [✅](../../practice/graphs/uva_1184.cpp "Accepted solution")
