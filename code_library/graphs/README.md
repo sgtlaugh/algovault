@@ -10,7 +10,7 @@
 - [Codeforces 1903F - Babysitting](https://codeforces.com/problemset/problem/1903/F) [✅](../../practice/graphs/codeforces_1903f.cpp "Accepted solution")
 - [Codeforces 1971H - ±1](https://codeforces.com/problemset/problem/1971/H) [✅](../../practice/graphs/codeforces_1971h.cpp "Accepted solution")
 - [Codeforces Gym 104772C - Colorful Village](https://codeforces.com/gym/104772/problem/C) [✅](../../practice/graphs/codeforces_gym_104772c.cpp "Accepted solution")
-- [CSES 1684 - Giant Pizza](https://cses.fi/problemset/task/1684)
+- [CSES 1684 - Giant Pizza](https://cses.fi/problemset/task/1684) [✅](../../practice/graphs/cses_1684.cpp "Accepted solution")
 - [HDU 3622 - Bomb Game](https://acm.hdu.edu.cn/showproblem.php?pid=3622) [✅](../../practice/graphs/hdu_3622.cpp "Accepted solution")
 - [HDU 3715 - Go Deeper](https://acm.hdu.edu.cn/showproblem.php?pid=3715) [✅](../../practice/graphs/hdu_3715.cpp "Accepted solution")
 - [HDU 4115 - Eliminate the Conflict](https://acm.hdu.edu.cn/showproblem.php?pid=4115) [✅](../../practice/graphs/hdu_4115.cpp "Accepted solution")
