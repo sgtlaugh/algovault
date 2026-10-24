@@ -29,7 +29,7 @@
 - [UVa 1146 - Now or later](https://onlinejudge.org/external/11/1146.pdf) [✅](../../practice/graphs/uva_1146.cpp "Accepted solution")
 - [UVa 1391 - Astronauts](https://onlinejudge.org/external/13/1391.pdf) [✅](../../practice/graphs/uva_1391.cpp "Accepted solution")
 - [UVa 1514 - Piece it together](https://onlinejudge.org/external/15/1514.pdf) [✅](../../practice/graphs/uva_1514_2SAT_kosaraju.cpp "Accepted solution")
-- [UVa 1703 - Metal Processing Plant](https://onlinejudge.org/external/17/1703.pdf)
+- [UVa 1703 - Metal Processing Plant](https://onlinejudge.org/external/17/1703.pdf) [✅](../../practice/graphs/uva_1703.cpp "Accepted solution")
 - [UVa 10319 - Manhattan](https://onlinejudge.org/external/103/10319.pdf) [✅](../../practice/graphs/uva_10319.cpp "Accepted solution")
 - [UVa 11294 - Wedding](https://onlinejudge.org/external/112/11294.pdf) [✅](../../practice/graphs/uva_11294.cpp "Accepted solution")
 - [UVa 11861 - Explosion](https://onlinejudge.org/external/118/11861.pdf) [✅](../../practice/graphs/uva_11861.cpp "Accepted solution")
