@@ -134,7 +134,7 @@
 - [USACO 717 - Why Did the Cow Cross the Road](https://usaco.org/index.php?page=viewproblem2&cpid=717) [✅](../../practice/graphs/usaco_717.cpp "Accepted solution")
 - [USACO 861 - Fine Dining](https://usaco.org/index.php?page=viewproblem2&cpid=861) [✅](../../practice/graphs/usaco_861.cpp "Accepted solution")
 - [USACO 899 - Shortcut](https://usaco.org/index.php?page=viewproblem2&cpid=899) [✅](../../practice/graphs/usaco_899.cpp "Accepted solution")
-- [USACO 969 - Milk Pumping](https://usaco.org/index.php?page=viewproblem2&cpid=969)
+- [USACO 969 - Milk Pumping](https://usaco.org/index.php?page=viewproblem2&cpid=969) [✅](../../practice/graphs/usaco_969.cpp "Accepted solution")
 - [USACO 1090 - Telephone](https://usaco.org/index.php?page=viewproblem2&cpid=1090)
 - [UVa 341 - Non-Stop Travel](https://onlinejudge.org/external/3/341.pdf) [✅](../../practice/graphs/uva_341.cpp "Accepted solution")
 - [UVa 658 - It's not a Bug, it's a Feature!](https://onlinejudge.org/external/6/658.pdf)
