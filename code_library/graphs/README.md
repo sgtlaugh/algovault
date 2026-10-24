@@ -196,7 +196,7 @@
 
 - [Codeforces 508D - Tanya and Password](https://codeforces.com/problemset/problem/508/D) [✅](../../practice/graphs/codeforces_508d.cpp "Accepted solution")
 - [Codeforces 527E - Data Center Drama](https://codeforces.com/problemset/problem/527/E) [✅](../../practice/graphs/codeforces_527e.cpp "Accepted solution")
-- [Codeforces 1361C - Johnny and Megan's Necklace](https://codeforces.com/problemset/problem/1361/C)
+- [Codeforces 1361C - Johnny and Megan's Necklace](https://codeforces.com/problemset/problem/1361/C) [✅](../../practice/graphs/codeforces_1361c.cpp "Accepted solution")
 - [Codeforces 2110E - Melody](https://codeforces.com/problemset/problem/2110/E)
 - [CSES 1691 - Mail Delivery](https://cses.fi/problemset/task/1691)
 - [CSES 1693 - Teleporters Path](https://cses.fi/problemset/task/1693)
