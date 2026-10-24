@@ -429,7 +429,7 @@
 
 - [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B)
 - [AtCoder ABC247 G - Dream Team](https://atcoder.jp/contests/abc247/tasks/abc247_g)
-- [Codeforces 237E - Build String](https://codeforces.com/problemset/problem/237/E)
+- [Codeforces 237E - Build String](https://codeforces.com/problemset/problem/237/E) [✅](../../practice/graphs/codeforces_237e.cpp "Accepted solution")
 - [Codeforces 802M2 - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/M2) [✅](../../practice/graphs/codeforces_802m2_mcmf_spfa.cpp "Accepted solution")
 - [Codeforces 1288F - Red-Blue Graph](https://codeforces.com/problemset/problem/1288/F)
 - [CSES 2121 - Parcel Delivery](https://cses.fi/problemset/task/2121)
