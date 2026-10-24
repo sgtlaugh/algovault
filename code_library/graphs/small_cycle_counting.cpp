@@ -81,6 +81,7 @@ struct SmallCycles{
 };
 
 int main(){
+    /// The square 0-1-2-3 is one 4-cycle with no triangle
     SmallCycles square(4);
     for (int i = 0; i < 4; i++) square.add_edge(i, (i + 1) % 4);
     assert(square.triangles() == 0);

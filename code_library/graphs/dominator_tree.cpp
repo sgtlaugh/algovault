@@ -98,20 +98,20 @@ struct DominatorTree{
 };
 
 int main(){
-    /***
-     * Figure 1 of Lengauer and Tarjan, "A Fast Algorithm for Finding Dominators in a Flowgraph" (1979)
-     * R A B C D E F G H I J K L are vertices 0 to 12
-    ***/
+    /// Figure 1 of Lengauer and Tarjan, "A Fast Algorithm for Finding Dominators in a Flowgraph", R to L are 0 to 12
+    vector<vector<int>> out = {
+        {1, 2, 3}, {4}, {1, 4, 5}, {6, 7}, {12}, {8}, {9}, {9, 10}, {5, 11}, {11}, {9}, {9, 0}, {8}
+    };
     DominatorTree paper(13);
-    vector<vector<int>> out = {{1, 2, 3}, {4}, {1, 4, 5}, {6, 7}, {12}, {8}, {9}, {9, 10}, {5, 11}, {11}, {9}, {9, 0}, {8}};
     for (int u = 0; u < 13; u++){
         for (int v : out[u]) paper.add_edge(u, v);
     }
     assert((paper.run(0) == vector<int>{0, 0, 0, 0, 0, 0, 3, 3, 0, 0, 7, 0, 4}));
 
     /// 0 reaches 3 through 1 or 2, so only 0 dominates 3, and 5 never gets reached from 0
+    vector<pair<int, int>> edges = {{0, 1}, {0, 2}, {1, 3}, {2, 3}, {3, 4}, {4, 4}, {5, 0}};
     DominatorTree diamond(6);
-    for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {0, 2}, {1, 3}, {2, 3}, {3, 4}, {4, 4}, {5, 0}}) diamond.add_edge(u, v);
+    for (auto [u, v] : edges) diamond.add_edge(u, v);
     assert((diamond.run(0) == vector<int>{0, 0, 0, 0, 3, -1}));
     assert((diamond.run(5) == vector<int>{5, 0, 0, 0, 3, 5}));  /// the same graph from another root
 

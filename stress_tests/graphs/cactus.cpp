@@ -74,7 +74,9 @@ vector<pair<int, int>> random_graph(int n, int extra, bool multi){
     }
 
     /// Several components: drop some edges, cutting a cactus never makes it a non-cactus
-    for (int drop = stress::rand_int(0, 2); drop && !edges.empty(); drop--) edges.erase(edges.begin() + stress::rand_int(0, edges.size() - 1));
+    for (int drop = stress::rand_int(0, 2); drop && !edges.empty(); drop--){
+        edges.erase(edges.begin() + stress::rand_int(0, edges.size() - 1));
+    }
 
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);

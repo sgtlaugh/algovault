@@ -119,11 +119,10 @@ struct Cactus{
 };
 
 int main(){
-    /***
-     * Triangle 0-1-2, bridge 2-3, square 3-4-5-6
-    ***/
+    /// Triangle 0-1-2, bridge 2-3, square 3-4-5-6
+    vector<pair<int, int>> edges = {{0, 1}, {1, 2}, {2, 0}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {6, 3}};
     Cactus g(7);
-    for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {1, 2}, {2, 0}, {2, 3}, {3, 4}, {4, 5}, {5, 6}, {6, 3}}) g.add_edge(u, v);
+    for (auto [u, v] : edges) g.add_edge(u, v);
     assert(g.build());
     assert(g.vertex_cactus);
     assert((g.cycles == vector<vector<int>>{{0, 1, 2}, {3, 4, 5, 6}}));
