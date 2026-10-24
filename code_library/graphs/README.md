@@ -270,7 +270,7 @@
 - [Kattis gopher2 - Gopher II](https://open.kattis.com/problems/gopher2) [✅](../../practice/graphs/kattis_gopher2.cpp "Accepted solution")
 - [Kattis thewrathofkahn - The Wrath of Kahn](https://open.kattis.com/problems/thewrathofkahn) [✅](../../practice/graphs/kattis_thewrathofkahn.cpp "Accepted solution")
 - [SPOJ GRIMM - A Terribly Grimm Problem](https://www.spoj.com/problems/GRIMM/)
-- [USACO 93 - Cow Steeplechase](https://usaco.org/index.php?page=viewproblem2&cpid=93)
+- [USACO 93 - Cow Steeplechase](https://usaco.org/index.php?page=viewproblem2&cpid=93) [✅](../../practice/graphs/usaco_93.cpp "Accepted solution")
 - [UVa 670 - The dog task](https://onlinejudge.org/external/6/670.pdf) [✅](../../practice/graphs/uva_670.cpp "Accepted solution")
 - [UVa 1194 - Machine Schedule](https://onlinejudge.org/external/11/1194.pdf) [✅](../../practice/graphs/uva_1194.cpp "Accepted solution")
 - [UVa 1221 - Against Mammoths](https://onlinejudge.org/external/12/1221.pdf) [✅](../../practice/graphs/uva_1221.cpp "Accepted solution")
