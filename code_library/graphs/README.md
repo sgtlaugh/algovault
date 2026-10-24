@@ -397,7 +397,7 @@
 - [UVa 12272 - Fake scoreboard](https://onlinejudge.org/external/122/12272.pdf) [✅](../../practice/graphs/uva_12272.cpp "Accepted solution")
 - [UVa 12288 - Hyper Knights](https://onlinejudge.org/external/122/12288.pdf) [✅](../../practice/graphs/uva_12288.cpp "Accepted solution")
 - [UVa 13000 - VIP Treatment](https://onlinejudge.org/external/130/13000.pdf) [✅](../../practice/graphs/uva_13000.cpp "Accepted solution")
-- [UVa 13020 - Landscaping](https://onlinejudge.org/external/130/13020.pdf)
+- [UVa 13020 - Landscaping](https://onlinejudge.org/external/130/13020.pdf) [✅](../../practice/graphs/uva_13020.cpp "Accepted solution")
 
 #### [Min Cost Circulation](min_cost_circulation.cpp)
 
