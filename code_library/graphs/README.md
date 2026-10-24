@@ -411,7 +411,7 @@
 
 - [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B) [✅](../../practice/graphs/aoj_grl_6_b_mcmf_dijkstra.cpp "Accepted solution")
 - [Codeforces 717G - Underfail](https://codeforces.com/problemset/problem/717/G) [✅](../../practice/graphs/codeforces_717g.cpp "Accepted solution")
-- [Codeforces 802M2 - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/M2) [✅](../../practice/graphs/codeforces_802m2_mcmf_dijkstra.cpp "Accepted solution")
+- [Codeforces 802N - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/N) [✅](../../practice/graphs/codeforces_802n_mcmf_dijkstra.cpp "Accepted solution")
 - [Codeforces 818G - Four Melodies](https://codeforces.com/problemset/problem/818/G) [✅](../../practice/graphs/codeforces_818g.cpp "Accepted solution")
 - [CSES 2130 - Distinct Routes II](https://cses.fi/problemset/task/2130) [✅](../../practice/graphs/cses_2130.cpp "Accepted solution")
 - [HackerRank bus-company - Bus Company](https://www.hackerrank.com/contests/101hack28/challenges/bus-company) [✅](../../practice/graphs/hackerrank_bus_company.cpp "Accepted solution")
@@ -430,7 +430,7 @@
 - [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B) [✅](../../practice/graphs/aoj_grl_6_b_mcmf_spfa.cpp "Accepted solution")
 - [AtCoder ABC247 G - Dream Team](https://atcoder.jp/contests/abc247/tasks/abc247_g) [✅](../../practice/graphs/atcoder_abc247_g.cpp "Accepted solution")
 - [Codeforces 237E - Build String](https://codeforces.com/problemset/problem/237/E) [✅](../../practice/graphs/codeforces_237e.cpp "Accepted solution")
-- [Codeforces 802M2 - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/M2) [✅](../../practice/graphs/codeforces_802m2_mcmf_spfa.cpp "Accepted solution")
+- [Codeforces 802N - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/N) [✅](../../practice/graphs/codeforces_802n_mcmf_spfa.cpp "Accepted solution")
 - [Codeforces 1288F - Red-Blue Graph](https://codeforces.com/problemset/problem/1288/F) [✅](../../practice/graphs/codeforces_1288f.cpp "Accepted solution")
 - [CSES 2121 - Parcel Delivery](https://cses.fi/problemset/task/2121) [✅](../../practice/graphs/cses_2121.cpp "Accepted solution")
 - [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129) [✅](../../practice/graphs/cses_2129_mcmf_spfa.cpp "Accepted solution")
