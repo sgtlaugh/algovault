@@ -346,7 +346,7 @@
 #### [Maximum Flow](maxflow.cpp)
 
 - [AOJ GRL_6_A - Maximum Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A) [✅](../../practice/graphs/aoj_grl_6_a_maxflow.cpp "Accepted solution")
-- [AtCoder ARC085 E - MUL](https://atcoder.jp/contests/arc085/tasks/arc085_c)
+- [AtCoder ARC085 E - MUL](https://atcoder.jp/contests/arc085/tasks/arc085_c) [✅](../../practice/graphs/atcoder_arc085_e.cpp "Accepted solution")
 - [Code Jam 2015 World Finals D - Taking Over The World](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/world_finals/taking_over_the_world)
 - [Codeforces 498C - Array and Operations](https://codeforces.com/problemset/problem/498/C) [✅](../../practice/graphs/codeforces_498c.cpp "Accepted solution")
 - [Codeforces 546E - Soldier and Traveling](https://codeforces.com/problemset/problem/546/E) [✅](../../practice/graphs/codeforces_546e.cpp "Accepted solution")
