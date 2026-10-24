@@ -122,7 +122,7 @@
 - [CSES 1195 - Flight Discount](https://cses.fi/problemset/task/1195) [✅](../../practice/graphs/cses_1195.cpp "Accepted solution")
 - [CSES 1203 - Visiting Cities](https://cses.fi/problemset/task/1203) [✅](../../practice/graphs/cses_1203_dijkstra.cpp "Accepted solution")
 - [CSES 1671 - Shortest Routes I](https://cses.fi/problemset/task/1671) [✅](../../practice/graphs/cses_1671.cpp "Accepted solution")
-- [CSES 3158 - Bus Companies](https://cses.fi/problemset/task/3158)
+- [CSES 3158 - Bus Companies](https://cses.fi/problemset/task/3158) [✅](../../practice/graphs/cses_3158.cpp "Accepted solution")
 - [oj.uz IOI11_crocodile - Crocodile's Underground City](https://oj.uz/problem/view/IOI11_crocodile)
 - [oj.uz JOI18_commuter_pass - Commuter Pass](https://oj.uz/problem/view/JOI18_commuter_pass)
 - [SPOJ ADATRIP - Ada and Trip](https://www.spoj.com/problems/ADATRIP/)
