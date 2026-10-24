@@ -297,7 +297,7 @@
 #### [Hungarian Algorithm](hungarian_algorithm.cpp)
 
 - [Codeforces acmsguru 210 - Beloved Sons](https://codeforces.com/problemsets/acmsguru/problem/99999/210) [✅](../../practice/graphs/codeforces_acmsguru_210.cpp "Accepted solution")
-- [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129)
+- [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129) [✅](../../practice/graphs/cses_2129_hungarian_algorithm.cpp "Accepted solution")
 - [UVa 1006 - Fixed Partition Memory Management](https://onlinejudge.org/external/10/1006.pdf) [✅](../../practice/graphs/uva_1006.cpp "Accepted solution")
 - [UVa 1045 - The Great Wall Game](https://onlinejudge.org/external/10/1045.pdf) [✅](../../practice/graphs/uva_1045.cpp "Accepted solution")
 - [UVa 1349 - Optimal Bus Route Design](https://onlinejudge.org/external/13/1349.pdf) [✅](../../practice/graphs/uva_1349.cpp "Accepted solution")
