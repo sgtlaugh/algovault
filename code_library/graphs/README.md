@@ -412,7 +412,7 @@
 - [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B)
 - [Codeforces 717G - Underfail](https://codeforces.com/problemset/problem/717/G) [✅](../../practice/graphs/codeforces_717g.cpp "Accepted solution")
 - [Codeforces 802M2 - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/M2)
-- [Codeforces 818G - Four Melodies](https://codeforces.com/problemset/problem/818/G)
+- [Codeforces 818G - Four Melodies](https://codeforces.com/problemset/problem/818/G) [✅](../../practice/graphs/codeforces_818g.cpp "Accepted solution")
 - [CSES 2130 - Distinct Routes II](https://cses.fi/problemset/task/2130)
 - [HackerRank bus-company - Bus Company](https://www.hackerrank.com/contests/101hack28/challenges/bus-company)
 - [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf) [✅](../../practice/graphs/uva_1104_mcmf_dijkstra.cpp "Accepted solution")
