@@ -15,6 +15,7 @@
  *   - read takes any integer including __int128, float, double, long double, strings, chars and vectors of these
  *   - write takes integers, strings, chars, vectors of these and fio::fixed values
  *   - Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
+ *   - An integer read skips everything up to the next digit or -, words included, where scanf fails and reads nothing
  *   - A char reads one non-space character
  *   - A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
  *   - Writing a float without fixed() does not compile, so its precision is always chosen
