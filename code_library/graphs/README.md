@@ -213,7 +213,7 @@
 
 #### [Floyd Warshall](floyd_warshall.cpp)
 
-- [AOJ GRL_1_C - All Pairs Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_C)
+- [AOJ GRL_1_C - All Pairs Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_C) [✅](../../practice/graphs/aoj_grl_1_c_floyd_warshall.cpp "Accepted solution")
 - [Codeforces 21D - Traveling Graph](https://codeforces.com/problemset/problem/21/D) [✅](../../practice/graphs/codeforces_21d.cpp "Accepted solution")
 - [Codeforces 25C - Roads in Berland](https://codeforces.com/problemset/problem/25/C)
 - [Codeforces 33B - String Problem](https://codeforces.com/problemset/problem/33/B) [✅](../../practice/graphs/codeforces_33b.cpp "Accepted solution")
