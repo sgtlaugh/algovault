@@ -21,7 +21,7 @@
 - [POJ 2723 - Get Luffy Out](http://poj.org/problem?id=2723) [✅](../../practice/graphs/poj_2723.cpp "Accepted solution")
 - [POJ 2749 - Building roads](http://poj.org/problem?id=2749) [✅](../../practice/graphs/poj_2749.cpp "Accepted solution")
 - [POJ 3207 - Ikki's Story IV - Panda's Trick](http://poj.org/problem?id=3207) [✅](../../practice/graphs/poj_3207.cpp "Accepted solution")
-- [POJ 3905 - Perfect Election](http://poj.org/problem?id=3905)
+- [POJ 3905 - Perfect Election](http://poj.org/problem?id=3905) [✅](../../practice/graphs/poj_3905.cpp "Accepted solution")
 - [SPOJ SUPSUP - Supplying the Suppliers](https://www.spoj.com/problems/SUPSUP/)
 - [SPOJ TORNJEVI - TORNJEVI](https://www.spoj.com/problems/TORNJEVI/)
 - [Szkopul rem - Remont](https://szkopul.edu.pl/problemset/problem/xNjwUvwdHQoQTFBrmyG8vD1O/site/)
