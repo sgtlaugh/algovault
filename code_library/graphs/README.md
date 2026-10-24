@@ -84,7 +84,7 @@
 - [Codeforces 1986F - Non-academic Problem](https://codeforces.com/problemset/problem/1986/F) [✅](../../practice/graphs/codeforces_1986f.cpp "Accepted solution")
 - [Codeforces Gym 100114J - Computer Network](https://codeforces.com/gym/100114/problem/J) [✅](../../practice/graphs/codeforces_gym_100114j.cpp "Accepted solution")
 - [CSES 2076 - Necessary Roads](https://cses.fi/problemset/task/2076) [✅](../../practice/graphs/cses_2076.cpp "Accepted solution")
-- [CSES 2177 - Strongly Connected Edges](https://cses.fi/problemset/task/2177)
+- [CSES 2177 - Strongly Connected Edges](https://cses.fi/problemset/task/2177) [✅](../../practice/graphs/cses_2177.cpp "Accepted solution")
 - [HDU 3849 - By Recognizing These Guys, We Find Social Networks Useful](https://acm.hdu.edu.cn/showproblem.php?pid=3849) [✅](../../practice/graphs/hdu_3849.cpp "Accepted solution")
 - [SPOJ EC_P - Critical Edges](https://www.spoj.com/problems/EC_P/)
 - [SPOJ GRAFFDEF - King Graffs Defense](https://www.spoj.com/problems/GRAFFDEF/)
