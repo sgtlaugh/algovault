@@ -60,7 +60,7 @@
 
 - [AOJ GRL_1_B - Single Source Shortest Path (Negative Edges)](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B) [✅](../../practice/graphs/aoj_grl_1_b.cpp "Accepted solution")
 - [CSES 1197 - Cycle Finding](https://cses.fi/problemset/task/1197) [✅](../../practice/graphs/cses_1197.cpp "Accepted solution")
-- [CSES 1673 - High Score](https://cses.fi/problemset/task/1673)
+- [CSES 1673 - High Score](https://cses.fi/problemset/task/1673) [✅](../../practice/graphs/cses_1673.cpp "Accepted solution")
 - [Eolymp 1453 - Ford-Bellman](https://www.eolymp.com/en/problems/1453)
 - [Kattis shortestpath3 - Single source shortest path, negative weights](https://open.kattis.com/problems/shortestpath3)
 - [LightOJ 1221 - Travel Company](https://lightoj.com/problem/travel-company)
