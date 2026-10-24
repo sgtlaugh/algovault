@@ -39,7 +39,6 @@ struct Lagrange{
         vector<int> inv_fact(n, expo(fact, mod - 2));
         for (int i = n - 1; i > 0; i--) inv_fact[i - 1] = (long long)inv_fact[i] * i % mod;
 
-        /// The basis denominator, the product of (i - j) over j != i, is (-1)^(n - 1 - i) i! (n - 1 - i)!
         weight.resize(n);
         for (int i = 0; i < n; i++){
             weight[i] = (long long)inv_fact[i] * inv_fact[n - i - 1] % mod * this->terms[i] % mod;
@@ -50,7 +49,6 @@ struct Lagrange{
         if (0 <= x && x < n) return terms[x];
         x %= mod;
 
-        /// prefix[i] * suffix[i] is the product of (x - j) over j != i
         vector<int> prefix(n, 1), suffix(n, 1);
         for (int i = 1; i < n; i++){
             prefix[i] = (long long)prefix[i - 1] * (x - i + 1) % mod;
@@ -85,7 +83,6 @@ struct Lagrange{
     }
 };
 
-/// Exact finite differences: prefix fits checked at a few points are 5x faster but roots at those points fool them
 int find_degree(const vector<int>& terms, int mod){
     int n = terms.size();
     assert(n <= mod);
