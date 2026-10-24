@@ -409,7 +409,7 @@
 
 #### [Min Cost Max Flow, Dijkstra](mcmf_dijkstra.cpp)
 
-- [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B)
+- [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B) [✅](../../practice/graphs/aoj_grl_6_b_mcmf_dijkstra.cpp "Accepted solution")
 - [Codeforces 717G - Underfail](https://codeforces.com/problemset/problem/717/G) [✅](../../practice/graphs/codeforces_717g.cpp "Accepted solution")
 - [Codeforces 802M2 - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/M2) [✅](../../practice/graphs/codeforces_802m2_mcmf_dijkstra.cpp "Accepted solution")
 - [Codeforces 818G - Four Melodies](https://codeforces.com/problemset/problem/818/G) [✅](../../practice/graphs/codeforces_818g.cpp "Accepted solution")
