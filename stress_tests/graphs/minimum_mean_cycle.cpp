@@ -37,21 +37,21 @@ pair<__int128, long long> brute_min_mean(int n, const Edges& edges){
 }
 
 /// The reported cycle must be a simple closed walk over real edges whose mean is exactly num / den
-void check_cycle(int n, const Edges& edges, const MinimumMeanCycle& g){
-    int len = g.cycle.size();
+void check_cycle(int n, const Edges& edges, const MeanCycle& res){
+    int len = res.cycle.size();
     assert(len >= 1 && len <= n);
 
     __int128 sum = 0;
     set<int> vertices;
     for (int i = 0; i < len; i++){
-        int e = g.cycle[i], next = g.cycle[(i + 1) % len];
+        int e = res.cycle[i], next = res.cycle[(i + 1) % len];
         assert(e >= 0 && e < (int)edges.size());
         assert(edges[e][1] == edges[next][0]);
         sum += edges[e][2];
         vertices.insert(edges[e][0]);
     }
     assert((int)vertices.size() == len);
-    assert(sum * g.den == (__int128)g.num * len);
+    assert(sum * res.den == (__int128)res.num * len);
 }
 
 /// Bellman Ford under weights w * den - num: no negative cycle means no cycle has mean below num / den
@@ -97,18 +97,18 @@ Edges random_edges(int n, int m, long long lo, long long hi){
     return edges;
 }
 
-void compare_brute(int n, const Edges& edges, MinimumMeanCycle& g){
-    bool ok = g.solve();
+void compare_brute(int n, const Edges& edges, const MinimumMeanCycle& graph){
+    MeanCycle res = graph.solve();
     auto [sum, len] = brute_min_mean(n, edges);
-    assert(ok == (len != 0));
-    if (!ok){
-        assert(g.cycle.empty());
+    assert(res.exists == (len != 0));
+    if (!res.exists){
+        assert(res.num == 0 && res.den == 1 && res.cycle.empty());
         return;
     }
 
-    assert(g.den > 0 && gcd(g.num, g.den) == 1);
-    assert(sum * g.den == (__int128)g.num * len);
-    check_cycle(n, edges, g);
+    assert(res.den > 0 && gcd(res.num, res.den) == 1);
+    assert(sum * res.den == (__int128)res.num * len);
+    check_cycle(n, edges, res);
 }
 
 void compare_brute(int n, const Edges& edges){
@@ -117,7 +117,7 @@ void compare_brute(int n, const Edges& edges){
 }
 
 int main(){
-    assert(!MinimumMeanCycle(0).solve());
+    assert(!MinimumMeanCycle(0).solve().exists);
 
     for (long long it = 0; it < stress::scaled(6000); it++){
         int n = stress::rand_int(1, 7), m = stress::rand_int(0, 2 * n + 2);
@@ -152,13 +152,13 @@ int main(){
         int n = stress::rand_int(2, 150), m = stress::rand_int(n, 6 * n);
         long long range = stress::rand_int(1, 1000000);
         Edges edges = random_edges(n, m, -range, range);
-        MinimumMeanCycle g = build(n, edges);
-        if (!g.solve()){
+        MeanCycle res = build(n, edges).solve();
+        if (!res.exists){
             assert(is_acyclic(n, edges));
             continue;
         }
-        check_cycle(n, edges, g);
-        assert(no_cycle_below(n, edges, g.num, g.den));
+        check_cycle(n, edges, res);
+        assert(no_cycle_below(n, edges, res.num, res.den));
     }
 
     /// One long cycle plus heavy chords: the optimum uses all n edges, so the walk table is fully exercised
@@ -166,10 +166,10 @@ int main(){
     Edges edges;
     for (int v = 0; v < n; v++) edges.push_back({v, (v + 1) % n, v == 0 ? 1 : 0});
     for (int i = 0; i < 3 * n; i++) edges.push_back({stress::rand_int(0, n - 1), stress::rand_int(0, n - 1), 1000000});
-    MinimumMeanCycle g = build(n, edges);
-    assert(g.solve() && g.num == 1 && g.den == n);
-    check_cycle(n, edges, g);
-    assert(no_cycle_below(n, edges, g.num, g.den));
+    MeanCycle res = build(n, edges).solve();
+    assert(res.exists && res.num == 1 && res.den == n);
+    check_cycle(n, edges, res);
+    assert(no_cycle_below(n, edges, res.num, res.den));
 
     return 0;
 }
