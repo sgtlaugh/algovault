@@ -394,7 +394,7 @@
 - [UVa 12125 - March of the Penguins](https://onlinejudge.org/external/121/12125.pdf) [✅](../../practice/graphs/uva_12125.cpp "Accepted solution")
 - [UVa 12193 - Hooligan](https://onlinejudge.org/external/121/12193.pdf) [✅](../../practice/graphs/uva_12193.cpp "Accepted solution")
 - [UVa 12264 - Risk](https://onlinejudge.org/external/122/12264.pdf) [✅](../../practice/graphs/uva_12264.cpp "Accepted solution")
-- [UVa 12272 - Fake scoreboard](https://onlinejudge.org/external/122/12272.pdf)
+- [UVa 12272 - Fake scoreboard](https://onlinejudge.org/external/122/12272.pdf) [✅](../../practice/graphs/uva_12272.cpp "Accepted solution")
 - [UVa 12288 - Hyper Knights](https://onlinejudge.org/external/122/12288.pdf)
 - [UVa 13000 - VIP Treatment](https://onlinejudge.org/external/130/13000.pdf) [✅](../../practice/graphs/uva_13000.cpp "Accepted solution")
 - [UVa 13020 - Landscaping](https://onlinejudge.org/external/130/13020.pdf)
