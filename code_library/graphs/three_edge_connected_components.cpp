@@ -7,7 +7,7 @@
  *
  * ThreeEdgeConnected g(n): an empty graph on vertices 0 to n - 1
  * g.add_edge(u, v): adds an edge, parallel edges and self loops allowed
- * g.run(): groups, groups[c] lists the vertices of component c in ascending order
+ * g.run(): returns the components, each ascending, and fills count and comp
  * g.count: number of components
  * g.comp[v]: component of v in [0, count)
  *

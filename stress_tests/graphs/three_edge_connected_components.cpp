@@ -63,7 +63,9 @@ vector<pair<int, int>> random_graph(int n){
         }
     }
     else if (shape == 1){
-        for (int c = stress::rand_int(0, 2 * n); c; c--) edges.push_back({(int)stress::rand_int(0, n - 1), (int)stress::rand_int(0, n - 1)});
+        for (int c = stress::rand_int(0, 2 * n); c; c--){
+            edges.push_back({(int)stress::rand_int(0, n - 1), (int)stress::rand_int(0, n - 1)});
+        }
     }
     else{
         for (int c = stress::rand_int(1, n); c; c--){
@@ -73,7 +75,9 @@ vector<pair<int, int>> random_graph(int n){
         }
     }
 
-    for (int extra = stress::rand_int(0, 3); extra && !edges.empty(); extra--) edges.push_back(edges[stress::rand_int(0, edges.size() - 1)]);
+    for (int extra = stress::rand_int(0, 3); extra && !edges.empty(); extra--){
+        edges.push_back(edges[stress::rand_int(0, edges.size() - 1)]);
+    }
     if (stress::rand_int(0, 1)){
         int x = stress::rand_int(0, n - 1);
         edges.push_back({x, x});
@@ -109,7 +113,10 @@ void blocks_test(int k, int links, bool ring){
     }
     for (int b = 0; b + 1 < k || (ring && k > 2 && b < k); b++){
         int c = (b + 1) % k;
-        for (int l = 0; l < links; l++) g.add_edge(label[4 * b + stress::rand_int(0, 3)], label[4 * c + stress::rand_int(0, 3)]);
+        for (int l = 0; l < links; l++){
+            int u = label[4 * b + stress::rand_int(0, 3)];
+            g.add_edge(u, label[4 * c + stress::rand_int(0, 3)]);
+        }
     }
 
     clock_t start = clock();
