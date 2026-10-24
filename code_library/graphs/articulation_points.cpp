@@ -5,11 +5,13 @@
  *
  * Complexity: O(n + m)
  *
- * Biconnected g(n): nodes are 0 to n - 1
+ * Biconnected g(n): an empty graph on vertices 0 to n - 1
  * g.add_edge(u, v): adds an edge and returns its id, ids count up from 0 in add_edge order
- * g.get_block_cut_tree(): adjacency lists over n + blocks nodes, node v < n is vertex v, node n + b is block b
- * g.get_blocks(): edge ids of each block, two edges share a block iff they lie on a common simple cycle
- * g.get_cuts(): sorted articulation points, the vertices whose removal increases the number of connected components
+ * g.run(): fills blocks, cuts and is_cut, rerun it after more add_edge calls
+ * g.block_cut_tree(): adjacency lists over n + blocks nodes, node v < n is vertex v, node n + b is block b, after run()
+ * g.blocks: edge ids of each block, two edges share a block iff they lie on a common simple cycle
+ * g.cuts: sorted articulation points, the vertices whose removal increases the number of connected components
+ * g.is_cut[v]: whether v is an articulation point
  *
  * Notes:
  *   - Every block links to each vertex it touches, so cut vertices have degree >= 2 and the rest are leaves or isolated
@@ -17,7 +19,6 @@
  *   - The vertices separating u from w are exactly the cut vertices strictly inside the tree path from u to w
  *   - A bridge is a block of its own, a doubled bridge is a 2-edge block, a self loop belongs to no block
  *   - A vertex lies in several blocks iff it is an articulation point
- *   - Each getter reruns g.decompose(), which fills g.is_cut and g.blocks, so edges added between calls are seen
  *
 ***/
 
@@ -29,8 +30,9 @@ struct Biconnected{
     int n;
     vector<vector<pair<int, int>>> adj; /// (neighbor, edge id)
     vector<pair<int, int>> edges;
-    vector<bool> is_cut;
     vector<vector<int>> blocks;
+    vector<int> cuts;
+    vector<bool> is_cut;
 
     Biconnected(int n) : n(n), adj(n) {}
 
@@ -42,43 +44,10 @@ struct Biconnected{
         return id;
     }
 
-    vector<vector<int>> get_block_cut_tree(){
-        decompose();
-
-        vector<vector<int>> tree(n + blocks.size());
-        vector<int> last(n, -1);
-        for (int b = 0; b < (int)blocks.size(); b++){
-            for (int id: blocks[b]){
-                for (int u: {edges[id].first, edges[id].second}){
-                    if (last[u] == b) continue;
-                    last[u] = b;
-                    tree[u].push_back(n + b);
-                    tree[n + b].push_back(u);
-                }
-            }
-        }
-        return tree;
-    }
-
-    vector<vector<int>> get_blocks(){
-        decompose();
-        return blocks;
-    }
-
-    vector<int> get_cuts(){
-        decompose();
-
-        vector<int> cuts;
-        for (int u = 0; u < n; u++){
-            if (is_cut[u]) cuts.push_back(u);
-        }
-        return cuts;
-    }
-
-    void decompose(){
+    void run(){
         vector<int> discover(n, 0), low(n), parent_edge(n, -1), next_edge(n, 0), path, edge_stack;
         is_cut.assign(n, false);
-        blocks.clear();
+        blocks.clear(), cuts.clear();
 
         int disc_t = 0;
         for (int root = 0; root < n; root++){
@@ -124,42 +93,61 @@ struct Biconnected{
                 } while (id != parent_edge[u]);
             }
         }
+
+        for (int u = 0; u < n; u++){
+            if (is_cut[u]) cuts.push_back(u);
+        }
+    }
+
+    vector<vector<int>> block_cut_tree(){
+        vector<vector<int>> tree(n + blocks.size());
+        vector<int> last(n, -1);
+        for (int b = 0; b < (int)blocks.size(); b++){
+            for (int id: blocks[b]){
+                for (int u: {edges[id].first, edges[id].second}){
+                    if (last[u] == b) continue;
+                    last[u] = b;
+                    tree[u].push_back(n + b);
+                    tree[n + b].push_back(u);
+                }
+            }
+        }
+        return tree;
     }
 };
 
 int main(){
-    auto graph = Biconnected(10);
-
-    graph.add_edge(0, 1);
-    graph.add_edge(1, 2);
-    graph.add_edge(2, 0);
-    graph.add_edge(5, 6);
-    graph.add_edge(6, 7);
-    graph.add_edge(7, 6);
-    graph.add_edge(2, 3);
-    graph.add_edge(3, 4);
-    graph.add_edge(2, 4);
-    graph.add_edge(4, 5);
-    graph.add_edge(8, 9);
-
-    auto cuts = graph.get_cuts();
-    assert((int)cuts.size() == 4);
-    assert(cuts == vector<int>({2, 4, 5, 6}));
+    /// Triangles 0-1-2 and 2-3-4, bridges 4-5 and 5-6, the doubled edge 6-7 and the separate edge 8-9
+    Biconnected g(10);
+    g.add_edge(0, 1);
+    g.add_edge(1, 2);
+    g.add_edge(2, 0);
+    g.add_edge(5, 6);
+    g.add_edge(6, 7);
+    g.add_edge(7, 6);
+    g.add_edge(2, 3);
+    g.add_edge(3, 4);
+    g.add_edge(2, 4);
+    g.add_edge(4, 5);
+    g.add_edge(8, 9);
+    g.run();
+    assert((g.cuts == vector<int>{2, 4, 5, 6}));
+    assert(g.is_cut[4]);
+    assert(!g.is_cut[3]);
 
     auto sorted_blocks = [](vector<vector<int>> blocks){
         for (auto& block: blocks) sort(block.begin(), block.end());
         sort(blocks.begin(), blocks.end());
         return blocks;
     };
+    assert((sorted_blocks(g.blocks) == vector<vector<int>>{{0, 1, 2}, {3}, {4, 5}, {6, 7, 8}, {9}, {10}}));
 
-    auto blocks = graph.get_blocks();
-    assert((sorted_blocks(blocks) == vector<vector<int>>{{0, 1, 2}, {3}, {4, 5}, {6, 7, 8}, {9}, {10}}));
-
-    auto tree = graph.get_block_cut_tree();
+    /// Block node 10 + b links to the vertices of block b, cut vertices sit in two blocks
+    auto tree = g.block_cut_tree();
     assert(tree.size() == 16u);
     map<vector<int>, vector<int>> block_vertices;
     for (int b = 0; b < 6; b++){
-        auto block = sorted_blocks({blocks[b]})[0];
+        auto block = sorted_blocks({g.blocks[b]})[0];
         auto vertices = tree[10 + b];
         sort(vertices.begin(), vertices.end());
         block_vertices[block] = vertices;
@@ -171,32 +159,22 @@ int main(){
     for (int v = 0; v < 10; v++) degrees.push_back(tree[v].size());
     assert((degrees == vector<int>{1, 1, 2, 1, 2, 2, 2, 1, 1, 1}));
 
-    auto star = Biconnected(4);
-    star.add_edge(0, 1);
-    star.add_edge(0, 2);
-    star.add_edge(0, 3);
-    assert((star.get_cuts() == vector<int>{0}));
-    assert((sorted_blocks(star.get_blocks()) == vector<vector<int>>{{0}, {1}, {2}}));
-
-    auto cycle = Biconnected(4);
-    for (int v = 0; v < 4; v++) cycle.add_edge(v, (v + 1) % 4);
-    assert(cycle.get_cuts().empty());
-    assert((sorted_blocks(cycle.get_blocks()) == vector<vector<int>>{{0, 1, 2, 3}}));
-
-    auto multi = Biconnected(5);
+    /// A doubled bridge is a 2-edge block, self loops join no block, so 3 and 4 stay isolated in the tree
+    Biconnected multi(5);
     multi.add_edge(0, 1);
     multi.add_edge(1, 0);
     multi.add_edge(1, 1);
     multi.add_edge(1, 2);
     multi.add_edge(3, 3);
-    assert((multi.get_cuts() == vector<int>{1}));
-    assert((sorted_blocks(multi.get_blocks()) == vector<vector<int>>{{0, 1}, {3}}));
-    auto multi_tree = multi.get_block_cut_tree();
-    assert(multi_tree.size() == 7u);
-    assert(multi_tree[3].empty() && multi_tree[4].empty() && multi_tree[1].size() == 2u);
+    multi.run();
+    assert((multi.cuts == vector<int>{1}));
+    assert((sorted_blocks(multi.blocks) == vector<vector<int>>{{0, 1}, {3}}));
 
-    auto empty = Biconnected(0);
-    assert(empty.get_cuts().empty() && empty.get_blocks().empty() && empty.get_block_cut_tree().empty());
+    auto multi_tree = multi.block_cut_tree();
+    assert(multi_tree.size() == 7u);
+    assert(multi_tree[1].size() == 2u);
+    assert(multi_tree[3].empty());
+    assert(multi_tree[4].empty());
 
     return 0;
 }

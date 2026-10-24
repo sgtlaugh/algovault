@@ -257,7 +257,7 @@ void check(int n, const vector<pair<int, int>>& edges, bool by_cycles){
     /// Query halfway through the edges too, a second call must not keep results from the first
     int half = stress::rand_int(0, m);
     for (int i = 0; i < m; i++){
-        if (i == half) g.get_cuts(), g.get_blocks();
+        if (i == half) g.run();
         assert(g.add_edge(edges[i].first, edges[i].second) == i);
     }
 
@@ -266,14 +266,16 @@ void check(int n, const vector<pair<int, int>>& edges, bool by_cycles){
     for (int v = 0; v < n; v++){
         if (components(n, edges, v) > base) expected.push_back(v);
     }
-    assert(g.get_cuts() == expected);
+    g.run();
+    assert(g.cuts == expected);
+    for (int v = 0; v < n; v++) assert(g.is_cut[v] == binary_search(expected.begin(), expected.end(), v));
 
-    auto blocks = g.get_blocks();
+    auto blocks = g.blocks;
     auto got = block_of(m, edges, blocks);
     assert(got == separator_blocks(n, edges));
     if (by_cycles) assert(got == cycle_blocks(n, edges));
 
-    check_tree(n, edges, blocks, g.get_block_cut_tree(), expected, n <= 40);
+    check_tree(n, edges, blocks, g.block_cut_tree(), expected, n <= 40);
 }
 
 /// Cuts against vertex removal, blocks against separators and simple cycles, the block-cut tree against both
@@ -293,7 +295,8 @@ int main(){
         int n = 150000;
         Biconnected g(n);
         for (int v = 1; v < n; v++) g.add_edge(0, v);
-        assert(g.get_cuts() == vector<int>({0}));
+        g.run();
+        assert(g.cuts == vector<int>({0}));
     }
 
     /// DFS depth n, a recursive search overflows the 8 MB stack here
@@ -303,14 +306,16 @@ int main(){
         for (int v = 0; v + 1 < n; v++) path.add_edge(v, v + 1), cycle.add_edge(v, v + 1);
         cycle.add_edge(n - 1, 0);
 
-        auto cuts = path.get_cuts();
+        path.run();
+        auto& cuts = path.cuts;
         assert((int)cuts.size() == n - 2 && cuts.front() == 1 && cuts.back() == n - 2);
-        assert((int)path.get_blocks().size() == n - 1);
-        auto tree = path.get_block_cut_tree();
+        assert((int)path.blocks.size() == n - 1);
+        auto tree = path.block_cut_tree();
         assert((int)tree.size() == 2 * n - 1 && tree[0].size() == 1u && tree[n / 2].size() == 2u);
 
-        assert(cycle.get_cuts().empty());
-        auto blocks = cycle.get_blocks();
+        cycle.run();
+        assert(cycle.cuts.empty());
+        auto& blocks = cycle.blocks;
         assert(blocks.size() == 1u && (int)blocks[0].size() == n);
     }
     return 0;

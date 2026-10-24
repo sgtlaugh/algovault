@@ -43,7 +43,8 @@ int main(){
         g.add_edge(a, b);
     }
 
-    auto blocks = g.get_blocks();
+    g.run();
+    auto& blocks = g.blocks;
 
     /// A vertex outside every block (isolated, or touching only self loops) is a component of its own
     vector<vector<int>> comps;

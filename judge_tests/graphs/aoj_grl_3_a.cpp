@@ -17,6 +17,7 @@ int main(){
         g.add_edge(u, v);
     }
 
-    for (int u : g.get_cuts()) printf("%d\n", u);
+    g.run();
+    for (int u : g.cuts) printf("%d\n", u);
     return 0;
 }
