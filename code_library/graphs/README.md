@@ -413,7 +413,7 @@
 - [Codeforces 717G - Underfail](https://codeforces.com/problemset/problem/717/G) [✅](../../practice/graphs/codeforces_717g.cpp "Accepted solution")
 - [Codeforces 802M2 - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/M2) [✅](../../practice/graphs/codeforces_802m2_mcmf_dijkstra.cpp "Accepted solution")
 - [Codeforces 818G - Four Melodies](https://codeforces.com/problemset/problem/818/G) [✅](../../practice/graphs/codeforces_818g.cpp "Accepted solution")
-- [CSES 2130 - Distinct Routes II](https://cses.fi/problemset/task/2130)
+- [CSES 2130 - Distinct Routes II](https://cses.fi/problemset/task/2130) [✅](../../practice/graphs/cses_2130.cpp "Accepted solution")
 - [HackerRank bus-company - Bus Company](https://www.hackerrank.com/contests/101hack28/challenges/bus-company)
 - [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf) [✅](../../practice/graphs/uva_1104_mcmf_dijkstra.cpp "Accepted solution")
 - [UVa 1658 - Admiral](https://onlinejudge.org/external/16/1658.pdf) [✅](../../practice/graphs/uva_1658_mcmf_dijkstra.cpp "Accepted solution")
