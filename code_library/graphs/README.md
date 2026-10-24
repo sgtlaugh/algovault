@@ -322,7 +322,7 @@
 - [CodeChef TULIPS - Tiptoe through the tulips](https://www.codechef.com/problems/TULIPS)
 - [Codeforces 1416D - Graph and Queries](https://codeforces.com/problemset/problem/1416/D) [✅](../../practice/graphs/codeforces_1416d.cpp "Accepted solution")
 - [Codeforces 1628E - Groceries in Meteor Town](https://codeforces.com/problemset/problem/1628/E)
-- [Codeforces 1706E - Qpwoeirut and Vertices](https://codeforces.com/problemset/problem/1706/E)
+- [Codeforces 1706E - Qpwoeirut and Vertices](https://codeforces.com/problemset/problem/1706/E) [✅](../../practice/graphs/codeforces_1706e.cpp "Accepted solution")
 - [CSES 2101 - New Roads Queries](https://cses.fi/problemset/task/2101)
 - [QOJ 436 - Swapping Cities](https://qoj.ac/problem/436)
 - [QOJ 2744 - Werewolf](https://qoj.ac/problem/2744)
