@@ -85,7 +85,7 @@
 - [Codeforces Gym 100114J - Computer Network](https://codeforces.com/gym/100114/problem/J)
 - [CSES 2076 - Necessary Roads](https://cses.fi/problemset/task/2076)
 - [CSES 2177 - Strongly Connected Edges](https://cses.fi/problemset/task/2177)
-- [HDU 3849 - By Recognizing These Guys, We Find Social Networks Useful](https://acm.hdu.edu.cn/showproblem.php?pid=3849)
+- [HDU 3849 - By Recognizing These Guys, We Find Social Networks Useful](https://acm.hdu.edu.cn/showproblem.php?pid=3849) [✅](../../practice/graphs/hdu_3849.cpp "Accepted solution")
 - [SPOJ EC_P - Critical Edges](https://www.spoj.com/problems/EC_P/)
 - [SPOJ GRAFFDEF - King Graffs Defense](https://www.spoj.com/problems/GRAFFDEF/)
 - [Szkopul osi - Zones](https://szkopul.edu.pl/problemset/problem/nldsb4EW1YuZykBlf4lcZL1Y/site/)
