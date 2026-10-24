@@ -252,7 +252,7 @@
 #### [General Graph Matching](graph_matching.cpp)
 
 - [Code Jam 2008 AMER Semifinal D - King](https://github.com/google/coding-competitions-archive/tree/main/codejam/2008/amer_semifinal/king) [✅](../../practice/graphs/code_jam_2008_amer_semifinal_d.cpp "Accepted solution")
-- [Timus 1099 - Work Scheduling](https://acm.timus.ru/problem.aspx?num=1099)
+- [Timus 1099 - Work Scheduling](https://acm.timus.ru/problem.aspx?num=1099) [✅](../../practice/graphs/timus_1099.cpp "Accepted solution")
 - [UVa 11439 - Maximizing the ICPC](https://onlinejudge.org/external/114/11439.pdf) [✅](../../practice/graphs/uva_11439.cpp "Accepted solution")
 
 #### [Gomory-Hu Tree](gomory_hu.cpp)
