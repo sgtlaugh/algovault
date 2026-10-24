@@ -39,33 +39,33 @@ struct Johnson{
 
     bool solve(){
         dist.clear();
-        vector<long long> h;
-        if (!potentials(h)) return false;
+        optional<vector<long long>> h = potentials();
+        if (!h) return false;
 
         vector<vector<pair<int, long long>>> adj(n);
-        for (auto [u, v, w] : edges) adj[u].push_back({v, w + h[u] - h[v]});
+        for (auto [u, v, w] : edges) adj[u].push_back({v, w + (*h)[u] - (*h)[v]});
 
         dist.assign(n, vector<long long>(n, INF));
-        for (int s = 0; s < n; s++) dijkstra(s, adj, h);
+        for (int s = 0; s < n; s++) dijkstra(s, adj, *h);
         return true;
     }
 
     /// Bellman Ford from a virtual source that reaches every vertex with weight 0
-    bool potentials(vector<long long>& h) const{
-        h.assign(n, 0);
+    optional<vector<long long>> potentials() const{
+        vector<long long> h(n, 0);
         for (int round = 0; round < n; round++){
             bool changed = false;
             for (auto [u, v, w] : edges){
                 if (h[u] + w < h[v]){
                     h[v] = h[u] + w, changed = true;
                     /// No simple path goes this low, so it is a negative cycle: stopping keeps h from overflowing
-                    if (h[v] < -INF) return false;
+                    if (h[v] < -INF) return nullopt;
                 }
             }
             if (!changed) break;
-            if (round == n - 1) return false;  /// a change in pass n means a negative cycle
+            if (round == n - 1) return nullopt;  /// a change in pass n means a negative cycle
         }
-        return true;
+        return h;
     }
 
     void dijkstra(int s, const vector<vector<pair<int, long long>>>& adj, const vector<long long>& h){
@@ -88,12 +88,13 @@ struct Johnson{
 };
 
 int main(){
+    /// 0 -> 1 -> 2 beats the direct -10, and nothing leaves 2
     Johnson g(3);
     g.add_edge(0, 1, 2), g.add_edge(1, 2, -15), g.add_edge(0, 2, -10);
     assert(g.solve());
-    assert(g.dist[0][2] == -13);                /// 0 -> 1 -> 2 beats the direct -10
+    assert(g.dist[0][2] == -13);
     assert(g.dist[1][2] == -15);
-    assert(g.dist[2][0] == Johnson::INF);       /// unreachable
+    assert(g.dist[2][0] == Johnson::INF);
 
     /// Edges can be added after a solve
     g.add_edge(2, 0, 20);
