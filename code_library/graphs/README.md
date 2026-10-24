@@ -65,7 +65,7 @@
 - [Kattis shortestpath3 - Single source shortest path, negative weights](https://open.kattis.com/problems/shortestpath3)
 - [LightOJ 1221 - Travel Company](https://lightoj.com/problem/travel-company)
 - [POJ 1275 - Cashier Employment](http://poj.org/problem?id=1275) [✅](../../practice/graphs/poj_1275.cpp "Accepted solution")
-- [UVa 515 - King](https://onlinejudge.org/external/5/515.pdf)
+- [UVa 515 - King](https://onlinejudge.org/external/5/515.pdf) [✅](../../practice/graphs/uva_515.cpp "Accepted solution")
 - [UVa 558 - Wormholes](https://onlinejudge.org/external/5/558.pdf) [✅](../../practice/graphs/uva_558.cpp "Accepted solution")
 - [UVa 1171 - Board Games](https://onlinejudge.org/external/11/1171.pdf) [✅](../../practice/graphs/uva_1171.cpp "Accepted solution")
 - [UVa 10449 - Traffic](https://onlinejudge.org/external/104/10449.pdf) [✅](../../practice/graphs/uva_10449.cpp "Accepted solution")
