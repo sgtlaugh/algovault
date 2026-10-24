@@ -308,7 +308,7 @@
 
 #### [Johnson's Algorithm](johnsons_algorithm.cpp)
 
-- [AOJ GRL_1_C - All Pairs Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_C)
+- [AOJ GRL_1_C - All Pairs Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_C) [✅](../../practice/graphs/aoj_grl_1_c_johnsons_algorithm.cpp "Accepted solution")
 - [SPOJ JHNSN - Johnsons Algorithm](https://www.spoj.com/problems/JHNSN/)
 
 #### [K Shortest Walks](k_shortest_walks.cpp)
