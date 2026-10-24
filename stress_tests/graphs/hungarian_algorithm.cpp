@@ -97,6 +97,38 @@ int main(){
         assert(res.first == hungarian(wide, minimize).first);
     }
 
+    /// At the documented limit, 2 max(n, m) max |mat| fits in T, int cells must agree with the same cells in long long
+    for (long long it = 0; it < stress::scaled(20000); it++){
+        int row = stress::rand_int(1, 8), col = stress::rand_int(1, 8), limit = INT_MAX / (2 * max(row, col));
+        vector<vector<int>> mat(row, vector<int>(col));
+        vector<vector<long long>> wide(row, vector<long long>(col));
+        for (int i = 0; i < row; i++){
+            for (int j = 0; j < col; j++){
+                int pick = stress::rand_int(0, 2);
+                mat[i][j] = wide[i][j] = pick == 0 ? limit : pick == 1 ? -limit : stress::rand_int(-limit, limit);
+            }
+        }
+
+        bool minimize = stress::rand_int(0, 1);
+        auto res = hungarian(mat, minimize);
+        check_matching(mat, res);
+        assert(res.first == hungarian(wide, minimize).first);
+    }
+
+    /// 1000 x 1000 with a planted zero-cost permutation and every other cell positive: it is the unique optimum
+    {
+        int n = 1000;
+        vector<int> planted(n);
+        iota(planted.begin(), planted.end(), 0);
+        shuffle(planted.begin(), planted.end(), stress::rng());
+        auto mat = random_matrix<int>(n, n, 1, 1000000);
+        for (int i = 0; i < n; i++) mat[i][planted[i]] = 0;
+
+        auto [total, pairs] = hungarian(mat);
+        assert(total == 0);
+        for (int i = 0; i < n; i++) assert((pairs[i] == make_pair(i, planted[i])));
+    }
+
     assert(hungarian(vector<vector<int>>{}).first == 0);
     return 0;
 }

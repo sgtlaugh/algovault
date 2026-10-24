@@ -23,17 +23,16 @@ using namespace std;
 template <class T>
 pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=true){
     if (!mat.size()) return {(T)0, {}};
-    int i, j, a, b, d, n, m;
 
-    n = mat.size(), m = mat[0].size();
-    for (i = 0; i < n; i++){
+    int n = mat.size(), m = mat[0].size();
+    for (int i = 0; i < n; i++){
         assert((int)mat[i].size() == m);
     }
 
     if (n > m){
         vector<vector<T>> t(m, vector<T>(n));
-        for (i = 0; i < n; i++){
-            for (j = 0; j < m; j++) t[j][i] = mat[i][j];
+        for (int i = 0; i < n; i++){
+            for (int j = 0; j < m; j++) t[j][i] = mat[i][j];
         }
         auto res = hungarian(t, minimize);
         for (auto& [x, y]: res.second) swap(x, y);
@@ -47,144 +46,74 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
         }
     }
 
-    vector<int> way(m + 1, 0), match(n + 1, 0), visited(m + 1, 0), P(m + 1, 0);
-    vector<T> U(n + 1, 0), V(m + 1, 0), minv(m + 1, 0);
+    vector<int> way(m + 1, 0), match(n + 1, 0), visited(m + 1, 0), row_of_col(m + 1, 0);
+    vector<T> row_potential(n + 1, 0), col_potential(m + 1, 0), minv(m + 1, 0);
 
-    for (i = 1; i <= n; i++){
-        b = 0, P[0] = i;
-        for (j = 0; j <= m; j++){
+    for (int i = 1; i <= n; i++){
+        int col = 0;
+        row_of_col[0] = i;
+        for (int j = 0; j <= m; j++){
             minv[j] = numeric_limits<T>::max(), visited[j] = 0;
         }
         do{
             T w = numeric_limits<T>::max();
-            a = P[b], d = 0, visited[b] = 1;
+            int row = row_of_col[col], next = 0;
+            visited[col] = 1;
 
-            for (j = 1; j <= m; j++){
+            for (int j = 1; j <= m; j++){
                 if (!visited[j]){
-                    T r = mat[a - 1][j - 1] - U[a] - V[j];
+                    T r = mat[row - 1][j - 1] - row_potential[row] - col_potential[j];
 
-                    if (r < minv[j]) minv[j] = r, way[j] = b;
-                    if (minv[j] < w) w = minv[j], d = j;
+                    if (r < minv[j]) minv[j] = r, way[j] = col;
+                    if (minv[j] < w) w = minv[j], next = j;
                 }
             }
 
-            for (j = 0, b = d; j <= m; j++){
-                if (visited[j]) U[P[j]] += w, V[j] -= w;
+            for (int j = 0; j <= m; j++){
+                if (visited[j]) row_potential[row_of_col[j]] += w, col_potential[j] -= w;
                 else minv[j] -= w;
             }
-        } while (P[b]);
+            col = next;
+        } while (row_of_col[col]);
 
         do{
-            d = way[b];
-            P[b] = P[d], b = d;
-        } while (b);
+            int prev = way[col];
+            row_of_col[col] = row_of_col[prev], col = prev;
+        } while (col);
     }
 
     vector<pair<int, int>> matches;
 
-    for (j = 1; j <= m; j++) match[P[j]] = j;
-    for (i = 1; i <= n; i++) matches.push_back({i - 1, match[i] - 1});
+    for (int j = 1; j <= m; j++) match[row_of_col[j]] = j;
+    for (int i = 1; i <= n; i++) matches.push_back({i - 1, match[i] - 1});
 
-    return {minimize ? -V[0] : V[0], matches};
+    return {minimize ? -col_potential[0] : col_potential[0], matches};
 }
 
 int main(){
-    int res;
-    vector<vector<int>> mat;
-    vector<pair<int, int>> matches, exp_matches;
-
-    mat = {
-        {1},
-    };
-    exp_matches = {
-        {0, 0},
-    };
-    tie(res, matches) = hungarian(mat, false);
-    assert(res == 1 && matches == exp_matches);
-
-    const int C = INT_MAX / 6;
-    mat = {
-        {-C, C, -C},
-        {-C, C, -C},
-        {C, -C, C},
-    };
-    tie(res, matches) = hungarian(mat, false);
-    assert(res == C);  /// C + C - C, and 2 * 3 * C fits in int
-
-    mat = {
+    /// Cheapest is 2 + 4 = 6 on the anti-diagonal, dearest 1 + 8 = 9 on the diagonal
+    vector<vector<int>> mat = {
         {1, 2},
         {4, 8},
     };
-    exp_matches = {
-        {0, 1},
-        {1, 0},
-    };
-    tie(res, matches) = hungarian(mat, true);
-    assert(res == 6 && matches == exp_matches);
+    auto [cheapest, cheap_pairs] = hungarian(mat);
+    assert(cheapest == 6);
+    assert((cheap_pairs == vector<pair<int, int>>{{0, 1}, {1, 0}}));
 
-    mat = {
-        {1, 2},
-        {4, 8},
-    };
-    exp_matches = {
-        {0, 0},
-        {1, 1},
-    };
-    tie(res, matches) = hungarian(mat, false);
-    assert(res == 9 && matches == exp_matches);
+    auto [dearest, dear_pairs] = hungarian(mat, false);
+    assert(dearest == 9);
+    assert((dear_pairs == vector<pair<int, int>>{{0, 0}, {1, 1}}));
 
-    mat = {
+    /// A tall matrix matches only 2 of its 4 rows: 16 + 128 beats every other pair of distinct columns
+    vector<vector<long long>> tall = {
         {1, 2},
         {4, 8},
         {16, 32},
         {64, 128},
     };
-    exp_matches = {
-        {2, 0},
-        {3, 1},
-    };
-    tie(res, matches) = hungarian(mat, false);
-    assert(res == 144 && matches == exp_matches);
+    auto [best, pairs] = hungarian(tall, false);
+    assert(best == 144);
+    assert((pairs == vector<pair<int, int>>{{2, 0}, {3, 1}}));
 
-    mat = {
-        {1, 2, 4, 8},
-        {16, 32, 48, 64},
-    };
-    exp_matches = {
-        {0, 1}, /// match row 0 with col 1 (2 cost)
-        {1, 0}, /// match row 1 with col 0 (16 cost)
-    };
-    tie(res, matches) = hungarian(mat, true);
-    assert(res == 18 && matches == exp_matches);
-
-    mat = {
-        {1, 2, 3},
-        {4, 5, 6},
-        {7, 8, 9},
-    };
-    exp_matches = {
-        {0, 0},
-        {1, 1},
-        {2, 2},
-    };
-    tie(res, matches) = hungarian(mat, true);
-    assert(res == 15 && matches == exp_matches);
-
-    /// Test with a big matrix to check performance
-
-    int n = 1000;
-    mat = vector<vector<int>>(n, vector<int>(n, 0));
-    for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++){
-            if ((i + j) % 3 == 0) mat[i][j] = __gcd(i, j);
-            else mat[i][j] = i * j;
-        }
-    }
-
-    clock_t start = clock();
-    tie(res, matches) = hungarian(mat, false);
-    assert(res == 332833167);
-
-    fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));  /// 1.122106 locally
     return 0;
 }
