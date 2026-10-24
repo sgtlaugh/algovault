@@ -12,6 +12,7 @@ export LD_LIBRARY_PATH="$(dirname "$(g++ -print-file-name=libstdc++.so)")"
 ulimit -s 8192
 
 M=$(mktemp -d /tmp/crucible_mutant.XXXX)
+trap 'rm -rf "$M"' EXIT
 cp -r stress_tests "$M/" && mkdir -p "$M/code_library" && cp -r code_library/. "$M/code_library/"
 sed "$EXPR" "code_library/$REL" > "$M/code_library/$REL"
 if cmp -s "code_library/$REL" "$M/code_library/$REL"; then
