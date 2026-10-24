@@ -30,7 +30,7 @@
  *   - A trie holds at most 1 + total inserted length nodes, the natural max_nodes, of 4 * SIGMA + 8 bytes each
  *   - Without max_nodes the vector doubling briefly holds up to twice the memory of the nodes in use
  *   - BinaryTrie keeps erased nodes allocated, so memory grows with insertions of new values, not with live size
- *   - A one-off total over all words' shared prefixes needs no trie: sort the words and sum their adjacent common prefixes
+ *   - A one-off total over all words' shared prefixes needs no trie: sort them and sum adjacent common prefixes
  *
 ***/
 
