@@ -267,7 +267,7 @@
 - [CSES 1696 - School Dance](https://cses.fi/problemset/task/1696) [✅](../../practice/graphs/cses_1696_hopcroft_karp.cpp "Accepted solution")
 - [CSES 1709 - Coin Grid](https://cses.fi/problemset/task/1709) [✅](../../practice/graphs/cses_1709.cpp "Accepted solution")
 - [Kattis borders - Borders](https://open.kattis.com/problems/borders) [✅](../../practice/graphs/kattis_borders.cpp "Accepted solution")
-- [Kattis gopher2 - Gopher II](https://open.kattis.com/problems/gopher2)
+- [Kattis gopher2 - Gopher II](https://open.kattis.com/problems/gopher2) [✅](../../practice/graphs/kattis_gopher2.cpp "Accepted solution")
 - [Kattis thewrathofkahn - The Wrath of Kahn](https://open.kattis.com/problems/thewrathofkahn)
 - [SPOJ GRIMM - A Terribly Grimm Problem](https://www.spoj.com/problems/GRIMM/)
 - [USACO 93 - Cow Steeplechase](https://usaco.org/index.php?page=viewproblem2&cpid=93)
