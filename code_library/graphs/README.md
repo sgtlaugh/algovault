@@ -356,7 +356,7 @@
 - [Codeforces Gym 100491H - Highways](https://codeforces.com/gym/100491/problem/H) [✅](../../practice/graphs/codeforces_gym_100491h.cpp "Accepted solution")
 - [Codeforces Gym 100512H - Hats and Wizards](https://codeforces.com/gym/100512/problem/H)
 - [Codeforces Gym 100517H - Hentium Scheduling](https://codeforces.com/gym/100517/problem/H)
-- [Codeforces Gym 100548C - The Problem Needs 3D Arrays](https://codeforces.com/gym/100548/problem/C)
+- [Codeforces Gym 100548C - The Problem Needs 3D Arrays](https://codeforces.com/gym/100548/problem/C) [✅](../../practice/graphs/codeforces_gym_100548c.cpp "Accepted solution")
 - [Codeforces Gym 100825F - Transportation Delegation](https://codeforces.com/gym/100825/problem/F)
 - [CSES 1694 - Download Speed](https://cses.fi/problemset/task/1694)
 - [CSES 1695 - Police Chase](https://cses.fi/problemset/task/1695)
