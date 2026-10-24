@@ -81,7 +81,7 @@
 - [Codeforces 555E - Case of Computer Network](https://codeforces.com/problemset/problem/555/E)
 - [Codeforces 700C - Break Up](https://codeforces.com/problemset/problem/700/C)
 - [Codeforces 732F - Tourist Reform](https://codeforces.com/problemset/problem/732/F)
-- [Codeforces 1986F - Non-academic Problem](https://codeforces.com/problemset/problem/1986/F)
+- [Codeforces 1986F - Non-academic Problem](https://codeforces.com/problemset/problem/1986/F) [✅](../../practice/graphs/codeforces_1986f.cpp "Accepted solution")
 - [Codeforces Gym 100114J - Computer Network](https://codeforces.com/gym/100114/problem/J)
 - [CSES 2076 - Necessary Roads](https://cses.fi/problemset/task/2076)
 - [CSES 2177 - Strongly Connected Edges](https://cses.fi/problemset/task/2177)
