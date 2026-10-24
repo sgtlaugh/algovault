@@ -82,7 +82,7 @@
 - [Codeforces 700C - Break Up](https://codeforces.com/problemset/problem/700/C) [✅](../../practice/graphs/codeforces_700c.cpp "Accepted solution")
 - [Codeforces 732F - Tourist Reform](https://codeforces.com/problemset/problem/732/F) [✅](../../practice/graphs/codeforces_732f.cpp "Accepted solution")
 - [Codeforces 1986F - Non-academic Problem](https://codeforces.com/problemset/problem/1986/F) [✅](../../practice/graphs/codeforces_1986f.cpp "Accepted solution")
-- [Codeforces Gym 100114J - Computer Network](https://codeforces.com/gym/100114/problem/J)
+- [Codeforces Gym 100114J - Computer Network](https://codeforces.com/gym/100114/problem/J) [✅](../../practice/graphs/codeforces_gym_100114j.cpp "Accepted solution")
 - [CSES 2076 - Necessary Roads](https://cses.fi/problemset/task/2076)
 - [CSES 2177 - Strongly Connected Edges](https://cses.fi/problemset/task/2177)
 - [HDU 3849 - By Recognizing These Guys, We Find Social Networks Useful](https://acm.hdu.edu.cn/showproblem.php?pid=3849) [✅](../../practice/graphs/hdu_3849.cpp "Accepted solution")
