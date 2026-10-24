@@ -512,7 +512,7 @@
 - [Codeforces 1140F - Extending Set of Points](https://codeforces.com/problemset/problem/1140/F)
 - [Codeforces Gym 100551A - Connect and Disconnect](https://codeforces.com/gym/100551/problem/A) [✅](../../practice/graphs/codeforces_gym_100551a.cpp "Accepted solution")
 - [Codeforces Gym 100551E - Disconnected Graph](https://codeforces.com/gym/100551/problem/E) [✅](../../practice/graphs/codeforces_gym_100551e.cpp "Accepted solution")
-- [CSES 2133 - Dynamic Connectivity](https://cses.fi/problemset/task/2133)
+- [CSES 2133 - Dynamic Connectivity](https://cses.fi/problemset/task/2133) [✅](../../practice/graphs/cses_2133.cpp "Accepted solution")
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/)
 
 #### [Small Cycle Counting](small_cycle_counting.cpp)
