@@ -537,7 +537,7 @@
 - [CodeChef CHEFRRUN - Chef and Round Run](https://www.codechef.com/problems/CHEFRRUN)
 - [Codeforces 22E - Scheme](https://codeforces.com/problemset/problem/22/E) [✅](../../practice/graphs/codeforces_22e.cpp "Accepted solution")
 - [Codeforces 427C - Checkposts](https://codeforces.com/problemset/problem/427/C) [✅](../../practice/graphs/codeforces_427c.cpp "Accepted solution")
-- [Codeforces 894E - Ralph and Mushrooms](https://codeforces.com/problemset/problem/894/E)
+- [Codeforces 894E - Ralph and Mushrooms](https://codeforces.com/problemset/problem/894/E) [✅](../../practice/graphs/codeforces_894e.cpp "Accepted solution")
 - [Codeforces 1239D - Catowice City](https://codeforces.com/problemset/problem/1239/D)
 - [CSES 1682 - Flight Routes Check](https://cses.fi/problemset/task/1682)
 - [CSES 1683 - Planets and Kingdoms](https://cses.fi/problemset/task/1683)
