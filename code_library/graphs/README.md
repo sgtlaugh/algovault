@@ -314,7 +314,7 @@
 #### [K Shortest Walks](k_shortest_walks.cpp)
 
 - [CSES 1196 - Flight Routes](https://cses.fi/problemset/task/1196)
-- [POJ 2449 - Remmarguts' Date](http://poj.org/problem?id=2449)
+- [POJ 2449 - Remmarguts' Date](http://poj.org/problem?id=2449) [✅](../../practice/graphs/poj_2449.cpp "Accepted solution")
 
 #### [Kruskal Reconstruction Tree](kruskal_reconstruction_tree.cpp)
 
