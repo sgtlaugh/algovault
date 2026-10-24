@@ -6,7 +6,7 @@
  * Complexity: O(n^3 log(n C)) for C = max |cost|
  *
  * MinCostCirculation g(n): empty graph on nodes 0 to n - 1
- * g.add_edge(u, v, cap, cost): adds u -> v with cap >= 0 and any cost, returns its id
+ * g.add_edge(u, v, cap, cost): adds u -> v with cap >= 0 and a cost of either sign, returns its id
  * g.solve(): the minimum cost, 0 when no negative cycle exists
  * g.flow(id): flow on edge id in that optimal circulation
  *

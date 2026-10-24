@@ -5,14 +5,16 @@
  *
  * Complexity: one Dinic run per call on n + 2 nodes and m + n + 2 edges, O(n^2 m)
  *
- * LowerBoundFlow g(n); g.add_edge(u, v, low, high): directed edge u -> v, 0 <= low <= high, returns its index
+ * LowerBoundFlow g(n): empty graph on nodes 0 to n - 1
+ * g.add_edge(u, v, low, high): directed edge u -> v, 0 <= low <= high, returns its index
  * g.circulation(): true if some flow satisfies every bound with conservation at every node
- * g.feasible_flow(s, t): value of some flow satisfying every bound, conservation everywhere but s and t
- * g.max_flow(s, t), g.min_flow(s, t): the largest / smallest such value
- * The three s-t calls return LowerBoundFlow::INFEASIBLE when no flow satisfies the bounds
+ * g.feasible_flow(s, t): value of some s-t flow satisfying every bound, conservation everywhere but s and t
+ * g.max_flow(s, t): the largest value of an s-t flow satisfying every bound
+ * g.min_flow(s, t): the smallest value of an s-t flow satisfying every bound
  * g.flow(id): flow on edge id after a call that succeeded
  *
  * Notes:
+ *   - The three s-t calls return LowerBoundFlow::INFEASIBLE when no flow satisfies the bounds
  *   - The value is the net flow out of s and can be negative when edges into s have lower bounds
  *   - Calls never change the stored edges, so one graph answers any number of queries
  *   - The sum of all upper bounds must fit in long long
@@ -184,17 +186,17 @@ int main(){
     /// A cycle needs one flow value that fits all three bounds: [1, 3], [2, 4], [0, 5] give 2 or 3
     LowerBoundFlow cycle(3);
     int a = cycle.add_edge(0, 1, 1, 3);
-    cycle.add_edge(1, 2, 2, 4), cycle.add_edge(2, 0, 0, 5);
+    cycle.add_edge(1, 2, 2, 4);
+    cycle.add_edge(2, 0, 0, 5);
     assert(cycle.circulation());
-    assert(2 <= cycle.flow(a) && cycle.flow(a) <= 3);
+    long long around = cycle.flow(a);
+    assert(2 <= around && around <= 3);
 
-    /***
-     * s = 0, t = 3: 0 -> 1 [0, 4], 0 -> 2 [0, 2], 1 -> 3 [3, 3], 2 -> 3 [1, 5], 1 -> 2 [0, 1]
-     * Max 6: 0 -> 1 = 4 splits into 1 -> 3 = 3 and 1 -> 2 = 1, which joins 0 -> 2 = 2 so 2 -> 3 = 3
-     * Min 4: 1 -> 3 is pinned at 3 and 2 -> 3 needs at least 1
-    ***/
+    /// Max 6 fills both edges out of 0, min 4 keeps 1 -> 3 pinned at 3 and 2 -> 3 at its lower bound 1
     LowerBoundFlow g(4);
-    g.add_edge(0, 1, 0, 4), g.add_edge(0, 2, 0, 2), g.add_edge(1, 3, 3, 3);
+    g.add_edge(0, 1, 0, 4);
+    g.add_edge(0, 2, 0, 2);
+    g.add_edge(1, 3, 3, 3);
     int e23 = g.add_edge(2, 3, 1, 5);
     g.add_edge(1, 2, 0, 1);
     assert(g.max_flow(0, 3) == 6);
@@ -206,7 +208,8 @@ int main(){
 
     /// 1 -> 2 must carry 2 but only 1 can reach node 1
     LowerBoundFlow bottleneck(3);
-    bottleneck.add_edge(0, 1, 0, 1), bottleneck.add_edge(1, 2, 2, 3);
+    bottleneck.add_edge(0, 1, 0, 1);
+    bottleneck.add_edge(1, 2, 2, 3);
     assert(bottleneck.max_flow(0, 2) == LowerBoundFlow::INFEASIBLE);
     return 0;
 }

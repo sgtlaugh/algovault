@@ -16,7 +16,7 @@
  *   - Repeated solve or slope calls continue from the residual graph, results count only the newly added flow and cost
  *   - Costs may be negative, but a negative cycle reachable from s makes solve and slope loop forever
  *   - flow * |cost| summed over a path must fit in long long
- *   - The default min cost flow, mcmf_spfa.cpp has the same API minus slope() and is faster for small integer costs
+ *   - The default min cost flow; mcmf_spfa.cpp has the same API minus slope() and is faster for small integer costs
  *
 ***/
 
@@ -130,12 +130,12 @@ struct MCMF{
 };
 
 int main(){
-    /***
-     * 0 -> 1 (cap 2, cost 1), 0 -> 2 (cap 1, cost 2), 1 -> 2 (cap 1, cost 1), 1 -> 3 (cap 1, cost 3), 2 -> 3 (cap 2, cost 1)
-     * Max flow 3: paths 0-1-2-3 (cost 3), 0-2-3 (cost 3), 0-1-3 (cost 4), total cost 10
-    ***/
+    /// Max flow 3 along 0-1-2-3 and 0-2-3 at cost 3 each, then 0-1-3 at cost 4, total cost 10
     MCMF g(4);
-    g.add_edge(0, 1, 2, 1), g.add_edge(0, 2, 1, 2), g.add_edge(1, 2, 1, 1), g.add_edge(1, 3, 1, 3);
+    g.add_edge(0, 1, 2, 1);
+    g.add_edge(0, 2, 1, 2);
+    g.add_edge(1, 2, 1, 1);
+    g.add_edge(1, 3, 1, 3);
     int e23 = g.add_edge(2, 3, 2, 1);
 
     MCMF limited = g, curve = g;
@@ -150,7 +150,9 @@ int main(){
     assert((curve.slope(0, 3) == Points{{0, 0}, {2, 6}, {3, 10}}));  /// both units at cost 3 share a segment
 
     MCMF negative(3);
-    negative.add_edge(0, 1, 5, -4), negative.add_edge(1, 2, 3, 2), negative.add_edge(0, 2, 4, 1);
+    negative.add_edge(0, 1, 5, -4);
+    negative.add_edge(1, 2, 3, 2);
+    negative.add_edge(0, 2, 4, 1);
     assert((negative.solve(0, 2) == make_pair(7LL, -2LL)));  /// 3 units at -2 each, then 4 at 1
     return 0;
 }

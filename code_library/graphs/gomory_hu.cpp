@@ -11,7 +11,8 @@
  * g.add_edge(u, v, cap): undirected edge of capacity cap
  * g.build(): builds the tree, call it after all edges are added
  * g.min_cut(u, v): the minimum cut between u != v
- * g.tree_parent[v], g.tree_weight[v]: for v >= 1, the tree edge to v's parent and the min cut between them, root 0
+ * g.tree_parent[v]: for v >= 1, v's parent in the tree rooted at 0
+ * g.tree_weight[v]: for v >= 1, the min cut between v and tree_parent[v]
  *
  * Notes:
  *   - Removing tree edge (v, tree_parent[v]) leaves the subtree of v as one side of a minimum cut between its endpoints

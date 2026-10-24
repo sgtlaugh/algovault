@@ -1,9 +1,9 @@
 /***
  *
  * Min Cost Max Flow with SPFA
- * Successive shortest paths where each SPFA phase pushes flow along every tied shortest path with one DFS
+ * Successive shortest paths where each SPFA phase pushes flow along tied shortest paths with repeated DFS
  *
- * Complexity: exponential in theory, fast in practice, see https://codeforces.com/blog/entry/70740
+ * Complexity: O(F n m) for total flow F, fast in practice
  *
  * MCMFSpfa g(n): empty graph on nodes 0 to n - 1
  * g.add_edge(u, v, cap, cost): directed edge, returns its index, add both directions for undirected edges
@@ -107,9 +107,8 @@ struct MCMFSpfa{
 };
 
 int main(){
+    /// Max flow 10 at cost 71 on https://cp-algorithms.com/graph/edmonds_karp.html, nodes shifted to 0 based
     MCMFSpfa g(6);
-
-    /// Graph taken from https://cp-algorithms.com/graph/edmonds_karp.html, nodes shifted to 0 based
     g.add_edge(0, 1, 7, 1);
     g.add_edge(1, 2, 5, 2);
     g.add_edge(2, 5, 8, 3);
@@ -121,23 +120,26 @@ int main(){
     g.add_edge(4, 5, 5, 1);
     assert((g.solve(0, 5) == make_pair(10LL, 71LL)));
 
-    /***
-     * 0 -> 1 (cap 2, cost 1), 0 -> 2 (cap 1, cost 2), 1 -> 2 (cap 1, cost 1), 1 -> 3 (cap 1, cost 3), 2 -> 3 (cap 2, cost 1)
-     * Max flow 3: paths 0-1-2-3 (cost 3), 0-2-3 (cost 3), 0-1-3 (cost 4), total cost 10
-    ***/
+    /// Max flow 3 along 0-1-2-3 and 0-2-3 at cost 3 each, then 0-1-3 at cost 4, total cost 10
     MCMFSpfa small(4);
-    small.add_edge(0, 1, 2, 1), small.add_edge(0, 2, 1, 2), small.add_edge(1, 2, 1, 1), small.add_edge(1, 3, 1, 3);
+    small.add_edge(0, 1, 2, 1);
+    small.add_edge(0, 2, 1, 2);
+    small.add_edge(1, 2, 1, 1);
+    small.add_edge(1, 3, 1, 3);
     int e23 = small.add_edge(2, 3, 2, 1);
     MCMFSpfa limited = small;
 
-    assert(e23 == 8 && (small.solve(0, 3) == make_pair(3LL, 10LL)));
+    assert(e23 == 8);
+    assert((small.solve(0, 3) == make_pair(3LL, 10LL)));
     assert(small.flow(e23) == 2);
 
     assert((limited.solve(0, 3, 1) == make_pair(1LL, 3LL)));
     assert((limited.solve(0, 3) == make_pair(2LL, 7LL)));
 
     MCMFSpfa negative(3);
-    negative.add_edge(0, 1, 5, -4), negative.add_edge(1, 2, 3, 2), negative.add_edge(0, 2, 4, 1);
+    negative.add_edge(0, 1, 5, -4);
+    negative.add_edge(1, 2, 3, 2);
+    negative.add_edge(0, 2, 4, 1);
     assert((negative.solve(0, 2) == make_pair(7LL, -2LL)));
 
     return 0;
