@@ -208,7 +208,7 @@
 - [Codeforces 704D - Captain America](https://codeforces.com/problemset/problem/704/D)
 - [Codeforces 1416F - Showing Off](https://codeforces.com/problemset/problem/1416/F)
 - [Codeforces Gym 102156C - Diverse Singing](https://codeforces.com/gym/102156/problem/C)
-- [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf)
+- [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf) [✅](../../practice/graphs/uva_1440.cpp "Accepted solution")
 - [UVa 11082 - Matrix Decompressing](https://onlinejudge.org/external/110/11082.pdf) [✅](../../practice/graphs/uva_11082_lower_bound_flow.cpp "Accepted solution")
 
 #### [Floyd Warshall](floyd_warshall.cpp)
