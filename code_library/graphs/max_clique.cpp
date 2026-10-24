@@ -1,24 +1,23 @@
 /***
  *
  * Maximum Clique, Maximum Independent Set and Maximal Clique Enumeration
- * Branch and bound over bitset adjacency (MaxCliqueDyn) and Bron-Kerbosch with Tomita pivoting
+ * Finds a largest clique or independent set, or lists every maximal clique, of a graph with a few hundred vertices
  *
- * Complexity: exponential worst case for all three
- *     max_clique: measured at n = 150 with -O2 on random graphs: 0.7-2 s at edge density 0.9 (the hard case),
- *         0.2-0.4 s at 0.8, under 0.01 s at 0.5
- *     max_independent_set: a sparse graph has a 90-99% dense complement, so keep sparse inputs near n <= 120
- *         measured with -O2: n = 120 shuffled paths and G(n, p <= 0.1) under 0.15 s, n = 160 shuffled paths 4-16 s
- *     maximal_cliques: O(3^(n/3) * n^2 / 64), a graph has at most 3^(n/3) maximal cliques (Moon-Moser)
+ * Complexity:
+ *   - max_clique: exponential, at n = 150 on random graphs up to 2 s at edge density 0.9, 0.4 s at 0.8, 0.01 s at 0.5
+ *   - max_independent_set: exponential, up to 0.15 s at n = 120 on paths and edge density 0.1, 16 s on paths at 160
+ *   - maximal_cliques: O(3^(n/3) n^2 / 64), as a graph has at most 3^(n/3) maximal cliques
  *
- * CliqueGraph g(n): vertices 0..n - 1, n <= CLIQUE_MAXN (raise the constant for bigger graphs)
+ * CliqueGraph g(n): vertices 0..n - 1 for n <= 256, CliqueGraph<MAXN> g(n) takes n <= MAXN
  * g.add_edge(u, v): undirected edge, self-loops are ignored and duplicates are harmless
  * g.max_clique(): the vertices of one maximum clique, empty only for n = 0
  * g.max_independent_set(): the vertices of one maximum independent set, a maximum clique of the complement
- * g.maximal_cliques(callback): calls callback(const vector<int>& clique) once per maximal clique,
- *     vertices in no particular order, an isolated vertex is a maximal clique, n = 0 reports the empty clique once
+ * g.maximal_cliques(callback): calls callback(const vector<int>& clique) once per maximal clique, in any vertex order
  *
  * Notes:
  *   - Every query can be called again, also after adding more edges
+ *   - maximal_cliques reports an isolated vertex as a maximal clique, and the empty clique once for n = 0
+ *   - Timings are measured with -O2
  *
 ***/
 
@@ -26,10 +25,9 @@
 
 using namespace std;
 
-const int CLIQUE_MAXN = 256;
-
+template<int MAXN = 256>
 struct CliqueGraph{
-    using Row = bitset<CLIQUE_MAXN>;
+    using Row = bitset<MAXN>;
 
     struct Vertex{
         int id, bound;
@@ -46,7 +44,7 @@ struct CliqueGraph{
     double total_steps;
 
     CliqueGraph(int n) : n(n), adj(n){
-        assert(0 <= n && n <= CLIQUE_MAXN);
+        assert(0 <= n && n <= MAXN);
     }
 
     void add_edge(int u, int v){
@@ -94,7 +92,7 @@ struct CliqueGraph{
             for (auto& u : r) v.bound += adj[v.id][u.id];
         }
 
-        /// Stable so near-regular graphs keep their labelling: scrambled ties made 256-vertex paths exponential
+        /// Stable: scrambled ties of near-regular graphs make the search exponential
         stable_sort(r.begin(), r.end(), [](const Vertex& a, const Vertex& b){ return a.bound > b.bound; });
         int max_degree = r[0].bound;
         for (int i = 0; i < (int)r.size(); i++) r[i].bound = min(i, max_degree) + 1;
@@ -156,13 +154,13 @@ struct CliqueGraph{
         Row pool = candidates | excluded;
         int pivot = pool._Find_first();
         size_t covered = (candidates & adj[pivot]).count();
-        for (int u = pool._Find_next(pivot); u < CLIQUE_MAXN; u = pool._Find_next(u)){
+        for (int u = pool._Find_next(pivot); u < MAXN; u = pool._Find_next(u)){
             size_t count = (candidates & adj[u]).count();
             if (count > covered) pivot = u, covered = count;
         }
 
         Row branch = candidates & ~adj[pivot];
-        for (int v = branch._Find_first(); v < CLIQUE_MAXN; v = branch._Find_next(v)){
+        for (int v = branch._Find_first(); v < MAXN; v = branch._Find_next(v)){
             clique.push_back(v);
             bron_kerbosch(candidates & adj[v], excluded & adj[v], clique, callback);
             clique.pop_back();
@@ -172,10 +170,7 @@ struct CliqueGraph{
 };
 
 int main(){
-    /***
-     * House: square 0-1-2-3 with roof vertex 4 on top of edge 0-1
-     * The roof triangle is the only triangle, every square edge but 0-1 is a maximal clique on its own
-    ***/
+    /// A house: square 0-1-2-3 with roof vertex 4 over edge 0-1, the roof the only triangle
     CliqueGraph house(5);
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {1, 2}, {2, 3}, {3, 0}, {0, 4}, {1, 4}}) house.add_edge(u, v);
 
@@ -189,7 +184,7 @@ int main(){
         cliques.push_back(c);
         sort(cliques.back().begin(), cliques.back().end());
     });
-    sort(cliques.begin(), cliques.end());
+    sort(cliques.begin(), cliques.end());  /// every square edge but 0-1 is a maximal clique on its own
     assert((cliques == vector<vector<int>>{{0, 1, 4}, {0, 3}, {1, 2}, {2, 3}}));
 
     house.add_edge(0, 2);

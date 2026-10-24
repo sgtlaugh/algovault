@@ -34,7 +34,8 @@ Brute brute(int n, const vector<int>& adj){
     return result;
 }
 
-bool valid(CliqueGraph& g, const vector<int>& vertices, bool independent){
+template<int MAXN>
+bool valid(CliqueGraph<MAXN>& g, const vector<int>& vertices, bool independent){
     for (size_t i = 0; i < vertices.size(); i++){
         assert(0 <= vertices[i] && vertices[i] < g.n);
         for (size_t j = 0; j < i; j++){
@@ -45,7 +46,7 @@ bool valid(CliqueGraph& g, const vector<int>& vertices, bool independent){
 }
 
 /// Library answers checked against the brute force: sizes, validity, and the exact set of maximal cliques
-void check(CliqueGraph& g, const vector<int>& adj){
+void check(CliqueGraph<>& g, const vector<int>& adj){
     Brute expected = brute(g.n, adj);
 
     vector<int> clique = g.max_clique(), independent = g.max_independent_set();
@@ -64,12 +65,13 @@ void check(CliqueGraph& g, const vector<int>& adj){
 }
 
 /// Larger graphs: every reported clique is maximal and distinct, and the largest equals max_clique
-size_t largest_maximal(CliqueGraph& g){
+template<int MAXN>
+size_t largest_maximal(CliqueGraph<MAXN>& g){
     set<vector<int>> seen;
     size_t largest = 0;
     g.maximal_cliques([&](const vector<int>& c){
         assert(valid(g, c, false));
-        CliqueGraph::Row common;
+        typename CliqueGraph<MAXN>::Row common;
         for (int v = 0; v < g.n; v++) common[v] = 1;
         for (int v : c) common &= g.adj[v];
         assert(common.none());
@@ -82,8 +84,9 @@ size_t largest_maximal(CliqueGraph& g){
     return largest;
 }
 
-CliqueGraph random_graph(int n, int density, vector<int>& adj){
-    CliqueGraph g(n);
+template<int MAXN = 256>
+CliqueGraph<MAXN> random_graph(int n, int density, vector<int>& adj){
+    CliqueGraph<MAXN> g(n);
     adj.assign(n, 0);
     for (int u = 0; u < n; u++){
         for (int v = u + 1; v < n; v++){
@@ -159,9 +162,9 @@ int main(){
         assert(valid(g, clique, false) && clique.size() == relabelled.max_clique().size());
     }
 
-    /// n = CLIQUE_MAXN: a planted clique in a sparse graph, and a planted independent set in a dense one
+    /// n = 256, the default limit: a planted clique in a sparse graph, and a planted independent set in a dense one
     {
-        int n = CLIQUE_MAXN;
+        int n = 256;
         vector<int> unused, perm(n);
         iota(perm.begin(), perm.end(), 0);
         shuffle(perm.begin(), perm.end(), stress::rng());
@@ -187,14 +190,26 @@ int main(){
         assert(valid(dense, independent, true) && independent.size() >= 20 && independent.size() == largest_maximal(complement));
     }
 
-    /// Paths and cycles at n = CLIQUE_MAXN: near-regular dense complements, a sort scrambling ties goes exponential
+    /// Paths and cycles at n = 256: near-regular dense complements, a sort scrambling ties goes exponential
     for (int cycle = 0; cycle < 2; cycle++){
-        int n = CLIQUE_MAXN;
+        int n = 256;
         CliqueGraph g(n);
         for (int v = 0; v + 1 < n; v++) g.add_edge(v, v + 1);
         if (cycle) g.add_edge(n - 1, 0);
         vector<int> independent = g.max_independent_set();
         assert(valid(g, independent, true) && (int)independent.size() == (cycle ? n / 2 : (n + 1) / 2));
+    }
+
+    /// A raised MAXN: vertices past the default 256 must take part, so a bound left at 256 loses the planted clique
+    {
+        int n = 300;
+        vector<int> unused;
+        auto g = random_graph<320>(n, 5, unused);
+        for (int u = n - 20; u < n; u++){
+            for (int v = n - 20; v < u; v++) g.add_edge(u, v);
+        }
+        vector<int> clique = g.max_clique();
+        assert(valid(g, clique, false) && clique.size() >= 20 && clique.size() == largest_maximal(g));
     }
     return 0;
 }
