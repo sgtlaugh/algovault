@@ -257,7 +257,7 @@
 
 #### [Gomory-Hu Tree](gomory_hu.cpp)
 
-- [Codeforces Gym 101480J - Juice Junctions](https://codeforces.com/gym/101480/problem/J)
+- [Codeforces Gym 101480J - Juice Junctions](https://codeforces.com/gym/101480/problem/J) [✅](../../practice/graphs/codeforces_gym_101480j.cpp "Accepted solution")
 - [SPOJ MCQUERY - MinCut Query](https://www.spoj.com/problems/MCQUERY/)
 - [UVa 11594 - All Pairs Maximum Flow](https://onlinejudge.org/external/115/11594.pdf) [✅](../../practice/graphs/uva_11594.cpp "Accepted solution")
 
