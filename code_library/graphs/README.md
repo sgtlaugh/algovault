@@ -402,7 +402,7 @@
 #### [Min Cost Circulation](min_cost_circulation.cpp)
 
 - [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B)
-- [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D)
+- [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D) [✅](../../practice/graphs/codeforces_708d.cpp "Accepted solution")
 - [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A) [✅](../../practice/graphs/codeforces_gym_100491a.cpp "Accepted solution")
 - [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D)
 - [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf) [✅](../../practice/graphs/uva_1659.cpp "Accepted solution")
