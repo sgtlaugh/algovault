@@ -335,7 +335,7 @@
 
 - [AOJ GRL_7_A - Bipartite Matching](https://onlinejudge.u-aizu.ac.jp/problems/GRL_7_A)
 - [CodeChef CNNCT2 - Faulty System](https://www.codechef.com/problems/CNNCT2)
-- [Codeforces 1284G - Seollal](https://codeforces.com/problemset/problem/1284/G)
+- [Codeforces 1284G - Seollal](https://codeforces.com/problemset/problem/1284/G) [✅](../../practice/graphs/codeforces_1284g.cpp "Accepted solution")
 - [Codeforces 1556H - DIY Tree](https://codeforces.com/problemset/problem/1556/H)
 - [Codeforces Gym 102156D - Pick Your Own Nim](https://codeforces.com/gym/102156/problem/D) [✅](../../practice/graphs/codeforces_gym_102156d.cpp "Accepted solution")
 
