@@ -131,7 +131,7 @@
 - [SPOJ GORELIAN - Here We Go(relians) Again](https://www.spoj.com/problems/GORELIAN/)
 - [SPOJ SHPATH - The Shortest Path](https://www.spoj.com/problems/SHPATH/)
 - [Timus 1930 - Ivan's Car](https://acm.timus.ru/problem.aspx?num=1930) [✅](../../practice/graphs/timus_1930.cpp "Accepted solution")
-- [USACO 717 - Why Did the Cow Cross the Road](https://usaco.org/index.php?page=viewproblem2&cpid=717)
+- [USACO 717 - Why Did the Cow Cross the Road](https://usaco.org/index.php?page=viewproblem2&cpid=717) [✅](../../practice/graphs/usaco_717.cpp "Accepted solution")
 - [USACO 861 - Fine Dining](https://usaco.org/index.php?page=viewproblem2&cpid=861)
 - [USACO 899 - Shortcut](https://usaco.org/index.php?page=viewproblem2&cpid=899)
 - [USACO 969 - Milk Pumping](https://usaco.org/index.php?page=viewproblem2&cpid=969)
