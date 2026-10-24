@@ -468,7 +468,7 @@
 - [Codeforces 609E - Minimum spanning tree for each edge](https://codeforces.com/problemset/problem/609/E)
 - [Codeforces 632F - Magic Matrix](https://codeforces.com/problemset/problem/632/F)
 - [Codeforces 891C - Envy](https://codeforces.com/problemset/problem/891/C)
-- [Codeforces 1513D - GCD and MST](https://codeforces.com/problemset/problem/1513/D)
+- [Codeforces 1513D - GCD and MST](https://codeforces.com/problemset/problem/1513/D) [✅](../../practice/graphs/codeforces_1513d.cpp "Accepted solution")
 - [CSES 1675 - Road Reparation](https://cses.fi/problemset/task/1675)
 - [CSES 3409 - MST Edge Cost](https://cses.fi/problemset/task/3409)
 - [HackerRank johnland - Roads in HackerLand](https://www.hackerrank.com/contests/june-world-codesprint/challenges/johnland/problem)
