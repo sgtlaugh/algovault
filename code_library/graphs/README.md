@@ -398,7 +398,7 @@
 - [UVa 12264 - Risk](https://onlinejudge.org/external/122/12264.pdf) [✅](../../practice/graphs/uva_12264.cpp "Accepted solution")
 - [UVa 12272 - Fake scoreboard](https://onlinejudge.org/external/122/12272.pdf) [✅](../../practice/graphs/uva_12272.cpp "Accepted solution")
 - [UVa 12288 - Hyper Knights](https://onlinejudge.org/external/122/12288.pdf) [✅](../../practice/graphs/uva_12288.cpp "Accepted solution")
-- [UVa 12534 - Binary Matrix 2](https://onlinejudge.org/external/125/12534.pdf)
+- [UVa 12534 - Binary Matrix 2](https://onlinejudge.org/external/125/12534.pdf) [✅](../../practice/graphs/uva_12534.cpp "Accepted solution")
 - [UVa 13000 - VIP Treatment](https://onlinejudge.org/external/130/13000.pdf) [✅](../../practice/graphs/uva_13000.cpp "Accepted solution")
 - [UVa 13020 - Landscaping](https://onlinejudge.org/external/130/13020.pdf) [✅](../../practice/graphs/uva_13020.cpp "Accepted solution")
 
