@@ -374,7 +374,7 @@
 - [SPOJ POTHOLE - Potholers](https://www.spoj.com/problems/POTHOLE/)
 - [SPOJ PROFIT - Maximum Profit](https://www.spoj.com/problems/PROFIT/)
 - [SPOJ SELLPHN2 - Mobile Company 2](https://www.spoj.com/problems/SELLPHN2/)
-- [UVa 563 - Crimewave](https://onlinejudge.org/external/5/563.pdf)
+- [UVa 563 - Crimewave](https://onlinejudge.org/external/5/563.pdf) [✅](../../practice/graphs/uva_563.cpp "Accepted solution")
 - [UVa 820 - Internet Bandwidth](https://onlinejudge.org/external/8/820.pdf) [✅](../../practice/graphs/uva_820.cpp "Accepted solution")
 - [UVa 1067 - Tunnels](https://onlinejudge.org/external/10/1067.pdf) [✅](../../practice/graphs/uva_1067.cpp "Accepted solution")
 - [UVa 1212 - Duopoly](https://onlinejudge.org/external/12/1212.pdf) [✅](../../practice/graphs/uva_1212.cpp "Accepted solution")
