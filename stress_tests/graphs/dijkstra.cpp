@@ -65,7 +65,8 @@ vector<long long> bellman_ford(int n, const map<pair<int, int>, long long>& ligh
 
 /// One vertex at a time, since after run(src, target) only v = target is promised
 template<typename Graph>
-void check_vertex(const Graph& g, const map<pair<int, int>, long long>& lightest, int src, int v, long long expected){
+void check_vertex(const Graph& g, const map<pair<int, int>, long long>& lightest, const vector<int>& sources, int v,
+                  long long expected){
     assert(g.dist[v] == expected);
     vector<int> path = g.path(v);
     if (expected == DIJKSTRA_INF){
@@ -73,7 +74,7 @@ void check_vertex(const Graph& g, const map<pair<int, int>, long long>& lightest
         return;
     }
 
-    assert(!path.empty() && path.front() == src && path.back() == v);
+    assert(!path.empty() && count(sources.begin(), sources.end(), path.front()) && path.back() == v);
     long long total = 0;
     for (size_t i = 0; i + 1 < path.size(); i++){
         auto it = lightest.find({path[i], path[i + 1]});
@@ -84,9 +85,10 @@ void check_vertex(const Graph& g, const map<pair<int, int>, long long>& lightest
 }
 
 template<typename Graph>
-void check_run(const Graph& g, const map<pair<int, int>, long long>& lightest, int src, const vector<long long>& expected){
+void check_run(const Graph& g, const map<pair<int, int>, long long>& lightest, const vector<int>& sources,
+               const vector<long long>& expected){
     assert(g.dist == expected);
-    for (int v = 0; v < g.n; v++) check_vertex(g, lightest, src, v, expected[v]);
+    for (int v = 0; v < g.n; v++) check_vertex(g, lightest, sources, v, expected[v]);
 }
 
 /// A few target runs first, then a full run that must not see their leftovers
@@ -95,10 +97,10 @@ void check_targets_then_full(Graph& g, const map<pair<int, int>, long long>& lig
     for (int i = 0; i < 5; i++){
         int target = stress::rand_int(0, g.n - 1);
         g.run(src, target);
-        check_vertex(g, lightest, src, target, expected[target]);
+        check_vertex(g, lightest, {src}, target, expected[target]);
     }
     g.run(src);
-    check_run(g, lightest, src, expected);
+    check_run(g, lightest, {src}, expected);
 }
 
 template<typename Graph>
@@ -117,10 +119,43 @@ void check_all_sources(int n, const vector<TestEdge>& edges){
     for (int src = 0; src < n; src++){
         for (int target = 0; target < n; target++){
             g.run(src, target);
-            check_vertex(g, lightest, src, target, expected[src][target]);
+            check_vertex(g, lightest, {src}, target, expected[src][target]);
         }
         g.run(src);
-        check_run(g, lightest, src, expected[src]);
+        check_run(g, lightest, {src}, expected[src]);
+    }
+
+    /// Repeated sources included, the distance to v is the minimum over the sources
+    for (int i = 0; i < 3; i++){
+        vector<int> sources(stress::rand_int(1, n));
+        for (int& src : sources) src = stress::rand_int(0, n - 1);
+        vector<long long> nearest(n, DIJKSTRA_INF);
+        for (int src : sources){
+            for (int v = 0; v < n; v++) nearest[v] = min(nearest[v], expected[src][v]);
+        }
+
+        int target = stress::rand_int(0, n - 1);
+        g.run(sources, target);
+        check_vertex(g, lightest, sources, target, nearest[target]);
+        g.run(sources);
+        check_run(g, lightest, sources, nearest);
+    }
+}
+
+/// A run after more add_edge calls must see the new edges, which Dijkstra's cached adjacency could miss
+template<typename Graph>
+void incremental_case(int n, const vector<TestEdge>& edges){
+    Graph g(n);
+    vector<TestEdge> added;
+    for (auto e : edges){
+        g.add_edge(e.u, e.v, e.w, e.directed);
+        added.push_back(e);
+        if (stress::rand_int(0, 2) > 0) continue;
+
+        auto lightest = lightest_arcs(added);
+        int src = stress::rand_int(0, n - 1);
+        g.run(src);
+        check_run(g, lightest, {src}, floyd(n, lightest)[src]);
     }
 }
 
@@ -137,6 +172,22 @@ void early_exit_case(){
 
     g.run(0);
     assert(g.dist[n - 1] != DIJKSTRA_INF);
+}
+
+/// 0 fans out to k vertices before its 0 edge to target, so the search stops with the fan still queued, unexpanded
+template<typename Graph>
+void wide_early_exit_case(){
+    int k = stress::rand_int(1, 30), target = k + 1;
+    Graph g(2 * k + 2);
+    for (int i = 1; i <= k; i++){
+        g.add_edge(0, i, 1);
+        g.add_edge(i, target + i, 0);
+    }
+    g.add_edge(0, target, 0);
+
+    g.run(0, target);
+    assert(g.dist[target] == 0);
+    for (int i = 1; i <= k; i++) assert(g.dist[target + i] == DIJKSTRA_INF);
 }
 
 /// An 11 edge chain near 2e17 per step, shortcuts at most 2e17 per skipped step: distances reach, never pass, 2.2e18
@@ -210,7 +261,11 @@ int main(){
 
         check_all_sources<Dijkstra>(n, edges);
         check_all_sources<DenseDijkstra>(n, edges);
-        if (max_w == 1) check_all_sources<ZeroOneBFS>(n, edges);
+        incremental_case<Dijkstra>(n, edges);
+        incremental_case<DenseDijkstra>(n, edges);
+        if (max_w > 1) continue;
+        check_all_sources<ZeroOneBFS>(n, edges);
+        incremental_case<ZeroOneBFS>(n, edges);
     }
 
     for (long long it = 0; it < stress::scaled(12); it++){
@@ -257,6 +312,9 @@ int main(){
         early_exit_case<Dijkstra>();
         early_exit_case<DenseDijkstra>();
         early_exit_case<ZeroOneBFS>();
+        wide_early_exit_case<Dijkstra>();
+        wide_early_exit_case<DenseDijkstra>();
+        wide_early_exit_case<ZeroOneBFS>();
     }
     return 0;
 }
