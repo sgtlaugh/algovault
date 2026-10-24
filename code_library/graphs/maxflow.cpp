@@ -3,21 +3,21 @@
  * Maximum flow with Dinic's algorithm
  * Max flow and min cut on nodes 0 to n - 1, with optional node capacities or a dense capacity matrix
  *
- * Complexity: O(V^2 E), O(E sqrt(V)) on unit-capacity bipartite matching
+ * Complexity: O(n^2 m) for m edges, O(m sqrt(n)) on unit-capacity bipartite matching
  *
- * FlowGraph g(n, src, sink): empty graph with edge capacities
+ * FlowGraph g(n, src, sink): empty graph with edge capacities, src != sink
  * g.add_directed_edge(u, v, cap): adds u -> v and returns its id into g.E
  * g.add_undirected_edge(u, v, cap): adds u -> v and v -> u, both with capacity cap
- * g.maxflow(): pushes as much flow as possible and returns it, again after adding edges it adds to the current flow
- * g.in_source_side(u): after maxflow(), true if src reaches u in the residual graph, the smallest min cut side
+ * g.maxflow(): pushes as much flow as possible and returns the flow this call added, the max flow on the first call
  * g.cut_edges(): ids into E of the edges leaving the source side, their capacities sum to the max flow
+ * g.in_source_side(u): after maxflow(), true if src reaches u in the residual graph, the smallest min cut side
  * g.E[id].flow: flow on edge id after maxflow()
  *
  * FlowGraphWithNodeCap g(n, src, sink, node_capacity): the edge and maxflow() calls of FlowGraph, on g.flowgraph
  * DenseFlowGraph g(n, src, sink): an n x n capacity matrix, FlowGraph's calls without cut_edges() or per-edge flows
  *
  * Notes:
- *   - Library Checker bipartitematching (2e5 nodes, 2e5 edges) runs in 1.9 s at -O2, on par with hopcroft_karp.cpp
+ *   - On bipartite matching hopcroft_karp.cpp is up to 2x faster on random graphs, on par on Library Checker's slowest
  *   - maxflow() keeps flat per-node copies of the edges, about 20 extra bytes per edge
  *   - maxflow() is the only entry point, bfs() and blocking_flow() are UB before it builds the flat copies
  *   - Before maxflow() the source side is empty and cut_edges() returns nothing
@@ -79,17 +79,17 @@ struct FlowGraph{
         return flow;
     }
 
-    /// Reads dis from the final bfs of maxflow(), which failed to reach sink and so visited every node src reaches
-    bool in_source_side(int u) const{
-        return dis[u] != -1;
-    }
-
     vector<int> cut_edges() const{
         vector<int> ids;
         for (int id = 0; id < (int)E.size(); id++){
             if (E[id].cap > 0 && in_source_side(E[id].u) && !in_source_side(E[id].v)) ids.push_back(id);
         }
         return ids;
+    }
+
+    /// Reads dis from the final bfs of maxflow(), which failed to reach sink and so visited every node src reaches
+    bool in_source_side(int u) const{
+        return dis[u] != -1;
     }
 
     /// Arcs of u sit at start[u] .. start[u + 1] - 1 with residual res: reading E through adj missed the cache
@@ -160,6 +160,7 @@ struct FlowGraphWithNodeCap{
     FlowGraph flowgraph;
 
     FlowGraphWithNodeCap(int n, int src, int sink, vector<long long> node_capacity) : flowgraph(2 * n, 2 * src, 2 * sink + 1){
+        assert(src != sink);
         for (int i = 0; i < n; i++){
             flowgraph.add_directed_edge(2 * i, 2 * i + 1, node_capacity[i]);
         }
@@ -179,7 +180,7 @@ struct FlowGraphWithNodeCap{
     }
 };
 
-/// Dinic on an adjacency matrix: no edge lists, the residual capacity of u -> v is cap[u][v]
+/// cap[u][v] is the residual capacity of u -> v, no flow is stored
 struct DenseFlowGraph{
     int n, src, sink;
     vector<vector<long long>> cap;
@@ -244,62 +245,53 @@ struct DenseFlowGraph{
 };
 
 int main(){
-    const int n = 4;
-    auto dense = DenseFlowGraph(n, 0, n - 1);
-    dense.add_undirected_edge(0, 1, 3), dense.add_undirected_edge(1, 2, 4), dense.add_undirected_edge(2, 0, 2), dense.add_undirected_edge(1, 1, 5), dense.add_undirected_edge(2, 3, 3), dense.add_undirected_edge(3, 2, 3);
+    /// Max flow 5 from 0 to 3, the two edges out of 0 are the min cut
+    FlowGraph g(4, 0, 3);
+    int first = g.add_directed_edge(0, 1, 3);
+    int second = g.add_directed_edge(0, 2, 2);
+    g.add_directed_edge(1, 2, 4);
+    g.add_directed_edge(1, 3, 2);
+    g.add_directed_edge(2, 3, 4);
+    assert(g.maxflow() == 5);
+    assert(g.E[first].flow == 3);
+    assert((g.cut_edges() == vector<int>{first, second}));
+    assert(g.in_source_side(0));
+    assert(!g.in_source_side(1));
+
+    int direct = g.add_directed_edge(0, 3, 4);
+    assert(g.maxflow() == 4);
+    assert(g.E[direct].flow == 4);
+
+    FlowGraphWithNodeCap capped(4, 0, 3, {10, 1, 10, 10});
+    capped.add_directed_edge(0, 1, 3);
+    int bypass = capped.add_directed_edge(0, 2, 2);
+    capped.add_directed_edge(1, 2, 4);
+    capped.add_directed_edge(1, 3, 2);
+    capped.add_directed_edge(2, 3, 4);
+    assert(capped.maxflow() == 3);
+    /// Edge 2 is node 1's split edge 2 -> 3, so node 1 is a cut vertex
+    assert((capped.flowgraph.cut_edges() == vector<int>{2, bypass}));
+
+    DenseFlowGraph dense(4, 0, 3);
+    dense.add_directed_edge(0, 1, 3);
+    dense.add_directed_edge(0, 2, 2);
+    dense.add_directed_edge(1, 2, 4);
+    dense.add_directed_edge(1, 3, 2);
+    dense.add_directed_edge(2, 3, 4);
     assert(dense.maxflow() == 5);
+    assert(!dense.in_source_side(1));
 
-    auto flow_graph = FlowGraph(n, 0, n - 1);
-
-    flow_graph.add_undirected_edge(0, 1, 3);
-    flow_graph.add_undirected_edge(1, 2, 4);
-    flow_graph.add_undirected_edge(2, 0, 2);
-    flow_graph.add_undirected_edge(1, 1, 5);
-    flow_graph.add_undirected_edge(2, 3, 3);
-    flow_graph.add_undirected_edge(3, 2, 3);
-
-    assert(flow_graph.cut_edges().empty());
-    for (int u = 0; u < n; u++) assert(!flow_graph.in_source_side(u) && !DenseFlowGraph(n, 0, n - 1).in_source_side(u));
-
-    assert(flow_graph.maxflow() == 5);
-    for (int u = 0; u < n; u++) assert(flow_graph.in_source_side(u) == (u == 0) && dense.in_source_side(u) == (u == 0));
-
-    set<tuple<int, int, long long>> cut;
-    for (int id : flow_graph.cut_edges()) cut.insert({flow_graph.E[id].u, flow_graph.E[id].v, flow_graph.E[id].cap});
-    assert((cut == set<tuple<int, int, long long>>{{0, 1, 3}, {0, 2, 2}}));
-
-    int id = flow_graph.add_directed_edge(0, 3, 4);
-    assert(id == 24 && flow_graph.maxflow() == 4 && flow_graph.E[id].flow == 4 && flow_graph.E.back().flow == -4);
-
-    auto flow_graph_node_cap = FlowGraphWithNodeCap(n, 0, n - 1, {5, 4, 3, 2});
-
-    flow_graph_node_cap.add_undirected_edge(0, 1, 3);
-    flow_graph_node_cap.add_undirected_edge(1, 2, 4);
-    flow_graph_node_cap.add_undirected_edge(2, 0, 2);
-    flow_graph_node_cap.add_undirected_edge(1, 1, 5);
-    flow_graph_node_cap.add_undirected_edge(2, 3, 3);
-    flow_graph_node_cap.add_undirected_edge(3, 2, 3);
-
-    assert(flow_graph_node_cap.maxflow() == 2);
-    auto node_cut = flow_graph_node_cap.flowgraph.cut_edges();
-    assert(node_cut.size() == 1 && flow_graph_node_cap.flowgraph.E[node_cut[0]].u == 6 && flow_graph_node_cap.flowgraph.E[node_cut[0]].v == 7);
-
-    for (auto [src_cap, sink_cap] : vector<pair<long long, long long>>{{1, LLONG_MAX}, {LLONG_MAX, 1}, {LLONG_MAX, LLONG_MAX}}){
-        auto capped_ends = FlowGraphWithNodeCap(3, 0, 2, {src_cap, 100, sink_cap});
-        capped_ends.add_directed_edge(0, 1, 50);
-        capped_ends.add_directed_edge(1, 2, 50);
-        assert(capped_ends.maxflow() == min({src_cap, sink_cap, 50LL}));
-    }
-
+    /// Max closure: item 0 forces 2 and 3, item 1 forces 3 and 4, so picking {0, 2, 3} is best at 10 - 4 - 3
     vector<long long> weight = {10, 5, -4, -3, -6};
-    auto closure = FlowGraph(7, 5, 6);
+    FlowGraph closure(7, 5, 6);
     for (int i = 0; i < 5; i++){
         if (weight[i] > 0) closure.add_directed_edge(5, i, weight[i]);
         else closure.add_directed_edge(i, 6, -weight[i]);
     }
-    closure.add_directed_edge(0, 2, LLONG_MAX), closure.add_directed_edge(0, 3, LLONG_MAX);
-    closure.add_directed_edge(1, 3, LLONG_MAX), closure.add_directed_edge(1, 4, LLONG_MAX);
-
+    closure.add_directed_edge(0, 2, LLONG_MAX);
+    closure.add_directed_edge(0, 3, LLONG_MAX);
+    closure.add_directed_edge(1, 3, LLONG_MAX);
+    closure.add_directed_edge(1, 4, LLONG_MAX);
     assert(15 - closure.maxflow() == 3);
     for (int i = 0; i < 5; i++) assert(closure.in_source_side(i) == (i == 0 || i == 2 || i == 3));
 

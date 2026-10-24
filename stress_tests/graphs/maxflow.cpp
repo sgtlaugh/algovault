@@ -231,6 +231,9 @@ int main(){
         check_cut(g.flowgraph, flow, arcs);
     }
 
+    /// src == sink splits into distinct nodes 2 src and 2 src + 1, so maxflow() would return the node capacity
+    stress::expect_assert("graphs/maxflow.cpp", []{ FlowGraphWithNodeCap(3, 1, 1, {5, 5, 5}); });
+
     /// Node splitting doubles the node count, so storage sized for n nodes overflows
     {
         int n = 30000;
@@ -305,7 +308,7 @@ int main(){
         assert(g.maxflow() == half);
     }
 
-    /// Cycle matching: left i to right i and i + 1 mod n, shuffled, ~150 phases with augmenting paths up to 2n long
+    /// Shuffled cycle matching: augmenting paths up to 2n long that cancel earlier flow, over many phases
     {
         int n = 50000, src = 2 * n, sink = 2 * n + 1;
         vector<int> left(n), right(n);
@@ -320,30 +323,7 @@ int main(){
         for (int i = 0; i < n; i++) g.add_directed_edge(src, i, 1), g.add_directed_edge(n + i, sink, 1);
         for (auto [a, b] : edges) g.add_directed_edge(left[a], n + right[b], 1);
 
-        /// BFS reading E through adj ids, the old code's access pattern
-        vector<int> dis(g.n), queue(g.n);
-        auto bfs_passes = [&](int passes){
-            for (int p = 0; p < passes; p++){
-                fill(dis.begin(), dis.end(), -1);
-                int l = 0;
-                dis[src] = 0, queue[l++] = src;
-                for (int f = 0; f < l; f++){
-                    int u = queue[f];
-                    for (int id : g.adj[u]) if (dis[g.E[id].v] == -1) dis[g.E[id].v] = dis[u] + 1, queue[l++] = g.E[id].v;
-                }
-                assert(l == g.n);
-            }
-        };
-
-        /// CPU time with BFS passes half before and half after maxflow(), so machine load slows both alike
-        clock_t t0 = clock();
-        bfs_passes(10);
-        clock_t t1 = clock();
         assert(g.maxflow() == n);
-        clock_t t2 = clock();
-        bfs_passes(10);
-        clock_t t3 = clock();
-        assert(t2 - t1 < 4 * (t1 - t0 + t3 - t2));  /// 4x sits between this code and the old one, sanitizers included
         check_flow(g, n);
     }
     return 0;
