@@ -108,7 +108,7 @@
 #### [Dijkstra](dijkstra.cpp)
 
 - [AOJ ALDS1_11_C - Breadth First Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_11_C) [✅](../../practice/graphs/aoj_alds1_11_c.cpp "Accepted solution")
-- [AOJ ALDS1_12_B - Single Source Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_12_B)
+- [AOJ ALDS1_12_B - Single Source Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_12_B) [✅](../../practice/graphs/aoj_alds1_12_b.cpp "Accepted solution")
 - [Codeforces 20C - Dijkstra?](https://codeforces.com/problemset/problem/20/C) [✅](../../practice/graphs/codeforces_20c.cpp "Accepted solution")
 - [Codeforces 449B - Jzzhu and Cities](https://codeforces.com/problemset/problem/449/B) [✅](../../practice/graphs/codeforces_449b.cpp "Accepted solution")
 - [Codeforces 464E - The Classic Problem](https://codeforces.com/problemset/problem/464/E)
