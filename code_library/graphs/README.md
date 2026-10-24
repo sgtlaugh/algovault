@@ -471,7 +471,7 @@
 - [Codeforces 1513D - GCD and MST](https://codeforces.com/problemset/problem/1513/D) [✅](../../practice/graphs/codeforces_1513d.cpp "Accepted solution")
 - [CSES 1675 - Road Reparation](https://cses.fi/problemset/task/1675) [✅](../../practice/graphs/cses_1675.cpp "Accepted solution")
 - [CSES 3409 - MST Edge Cost](https://cses.fi/problemset/task/3409) [✅](../../practice/graphs/cses_3409.cpp "Accepted solution")
-- [HackerRank johnland - Roads in HackerLand](https://www.hackerrank.com/contests/june-world-codesprint/challenges/johnland/problem)
+- [HackerRank johnland - Roads in HackerLand](https://www.hackerrank.com/contests/june-world-codesprint/challenges/johnland/problem) [✅](../../practice/graphs/hackerrank_johnland.cpp "Accepted solution")
 - [oj.uz COCI17_sirni - Sirni](https://oj.uz/problem/view/COCI17_sirni)
 - [SPOJ BLINNET - Bytelandian Blingors Network](https://www.spoj.com/problems/BLINNET/)
 - [SPOJ EC_MODE - Modems](https://www.spoj.com/problems/EC_MODE/)
