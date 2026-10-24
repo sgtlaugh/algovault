@@ -23,61 +23,53 @@ using namespace std;
 
 struct OnlineBridges{
     int bridges = 0, iteration = 0;
-    vector<int> dsu, rnk;  /// 2-edge-connected components
+    vector<int> two_edge_link, rnk;
     vector<int> par;  /// at a representative: a vertex of its parent component in the bridge tree, -1 at roots
-    vector<int> cc, cc_size;  /// connected components
+    vector<int> conn_link, conn_size;
     vector<int> last_visit;
 
-    OnlineBridges(int n) : dsu(n), rnk(n, 0), par(n, -1), cc(n), cc_size(n, 1), last_visit(n, 0){
-        iota(dsu.begin(), dsu.end(), 0);
-        iota(cc.begin(), cc.end(), 0);
+    OnlineBridges(int n) : two_edge_link(n), rnk(n, 0), par(n, -1), conn_link(n), conn_size(n, 1), last_visit(n, 0){
+        iota(two_edge_link.begin(), two_edge_link.end(), 0);
+        iota(conn_link.begin(), conn_link.end(), 0);
     }
 
     void add_edge(int u, int v){
         int a = component(u), b = component(v);
         if (a == b) return;
 
-        int ca = find_cc(a), cb = find_cc(b);
+        int ca = find(conn_link, a), cb = find(conn_link, b);
         if (ca == cb){
             merge_path(a, b);
             return;
         }
 
         bridges++;
-        if (cc_size[ca] > cc_size[cb]) swap(a, b), swap(ca, cb);
+        if (conn_size[ca] > conn_size[cb]) swap(a, b), swap(ca, cb);
         make_root(a);
         par[a] = b;
-        cc[ca] = cb;
-        cc_size[cb] += cc_size[ca];
+        conn_link[ca] = cb;
+        conn_size[cb] += conn_size[ca];
     }
 
     int component(int u){
-        int root = u;
-        while (dsu[root] != root) root = dsu[root];
-
-        while (dsu[u] != root){
-            int next = dsu[u];
-            dsu[u] = root;
-            u = next;
-        }
-        return root;
+        return find(two_edge_link, u);
     }
 
     bool connected(int u, int v){
-        return find_cc(u) == find_cc(v);
+        return find(conn_link, u) == find(conn_link, v);
     }
 
     bool two_edge_connected(int u, int v){
         return component(u) == component(v);
     }
 
-    int find_cc(int u){
+    int find(vector<int>& link, int u){
         int root = u;
-        while (cc[root] != root) root = cc[root];
+        while (link[root] != root) root = link[root];
 
-        while (cc[u] != root){
-            int next = cc[u];
-            cc[u] = root;
+        while (link[u] != root){
+            int next = link[u];
+            link[u] = root;
             u = next;
         }
         return root;
@@ -111,7 +103,7 @@ struct OnlineBridges{
     void unite(int x, int y){
         x = component(x), y = component(y);
         if (rnk[x] < rnk[y]) swap(x, y);
-        dsu[y] = x;
+        two_edge_link[y] = x;
         if (rnk[x] == rnk[y]) rnk[x]++;
     }
 
@@ -127,17 +119,17 @@ struct OnlineBridges{
 };
 
 int main(){
-    /***
-     * 0 - 1 - 2 - 0 is a triangle, 3 - 4 - 5 a path that 2 - 3 attaches and 5 - 3 closes into a second triangle
-    ***/
+    /// 0 - 1 - 2 - 0 is a triangle, 3 - 4 - 5 a path that 2 - 3 attaches and 5 - 3 closes into a second triangle
     OnlineBridges g(6);
-    g.add_edge(0, 1), g.add_edge(1, 2);
+    g.add_edge(0, 1);
+    g.add_edge(1, 2);
     assert(g.bridges == 2);
     g.add_edge(2, 0);  /// closes the triangle, both bridges disappear
     assert(g.bridges == 0);
     assert(g.two_edge_connected(0, 2));
 
-    g.add_edge(3, 4), g.add_edge(4, 5);
+    g.add_edge(3, 4);
+    g.add_edge(4, 5);
     assert(!g.connected(0, 3));
     g.add_edge(2, 3);
     assert(g.connected(0, 3));

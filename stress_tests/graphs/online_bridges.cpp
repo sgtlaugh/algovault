@@ -95,7 +95,7 @@ void check_partition(OnlineBridges& g, int n, const vector<pair<int, int>>& edge
     auto two = labels(n, edges, is_bridge);
     vector<int> rep_of_two(n, -1), rep_of_conn(n, -1), two_of_rep(n, -1), conn_of_cc(n, -1);
     for (int u = 0; u < n; u++){
-        int c = g.component(u), cc = g.find_cc(u);
+        int c = g.component(u), cc = g.find(g.conn_link, u);
         assert(two[c] == two[u]);
         if (rep_of_two[two[u]] == -1) rep_of_two[two[u]] = c;
         assert(rep_of_two[two[u]] == c);
