@@ -30,6 +30,7 @@
  *   - Treap is a portable, augmentable alternative to ordered_set.cpp's OrderedMultiset for judges without pb_ds
  *   - For other values, aggregates or lazy updates use run_length_implicit_treap.cpp and its Runs struct
  *   - Priorities are seeded from the clock: a fixed seed lets an adversary force an O(n) deep chain
+ *   - Erased nodes stay in nodes, so memory grows with every insert: reserve nodes ahead for millions of them
  *
 ***/
 
