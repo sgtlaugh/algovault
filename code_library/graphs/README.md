@@ -392,7 +392,7 @@
 - [UVa 11506 - Angry Programmer](https://onlinejudge.org/external/115/11506.pdf) [✅](../../practice/graphs/uva_11506.cpp "Accepted solution")
 - [UVa 11765 - Component Placement](https://onlinejudge.org/external/117/11765.pdf) [✅](../../practice/graphs/uva_11765.cpp "Accepted solution")
 - [UVa 12125 - March of the Penguins](https://onlinejudge.org/external/121/12125.pdf) [✅](../../practice/graphs/uva_12125.cpp "Accepted solution")
-- [UVa 12193 - Hooligan](https://onlinejudge.org/external/121/12193.pdf)
+- [UVa 12193 - Hooligan](https://onlinejudge.org/external/121/12193.pdf) [✅](../../practice/graphs/uva_12193.cpp "Accepted solution")
 - [UVa 12264 - Risk](https://onlinejudge.org/external/122/12264.pdf)
 - [UVa 12272 - Fake scoreboard](https://onlinejudge.org/external/122/12272.pdf)
 - [UVa 12288 - Hyper Knights](https://onlinejudge.org/external/122/12288.pdf)
