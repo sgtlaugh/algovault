@@ -530,7 +530,7 @@
 - [oj.uz BOI16_cities - Cities](https://oj.uz/problem/view/BOI16_cities)
 - [SPOJ TICKET - Ticket to Ride](https://www.spoj.com/problems/TICKET/)
 - [UVa 12254 - Electricity Connection](https://onlinejudge.org/external/122/12254.pdf)
-- [ZOJ 3613 - Wormhole Transport](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369236)
+- [ZOJ 3613 - Wormhole Transport](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369236) [✅](../../practice/graphs/zoj_3613.cpp "Accepted solution")
 
 #### [Strongly Connected Components](scc.cpp)
 
