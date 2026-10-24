@@ -157,7 +157,7 @@ struct TwoSat{
             return status;
         };
 
-        /// One bitset pass over the condensation answers B / 2 undecided queries by index, then up to B sinks first
+        /// One bitset pass answers the first B / 2 undecided queries, the current x always among them, then B sinks
         auto answer_batch = [&](){
             if (dag.empty()){
                 dag.resize(C), mask.resize(C), rep.resize(C);

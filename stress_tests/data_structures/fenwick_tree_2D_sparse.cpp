@@ -58,6 +58,7 @@ int main(){
 
     /// Small tables filled to about 60% load, so probe chains often run past the last slot and wrap to the first
     for (long long round = 0; round < stress::scaled(100); round++){
+        /// n, m >= 100 leave enough distinct nodes to reach the 60% load, fewer would never end the loop below
         const int n = stress::rand_int(100, 1000), m = stress::rand_int(100, 1000), lg = 10;
         FenwickSparse2D<long long> small(n, m, lg);
         vector<array<long long, 3>> pts;

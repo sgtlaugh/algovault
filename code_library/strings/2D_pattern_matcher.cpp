@@ -19,6 +19,7 @@
 using namespace std;
 
 struct PatternMatcher2D{
+    /// Not 2^64: Thue-Morse patterns collide there for every odd base
     static constexpr uint64_t mod = (1ULL << 61) - 1;
 
     int r, c;

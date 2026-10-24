@@ -12,6 +12,7 @@
  *
  * Notes:
  *   - solve never terminates if its fixed start value lies on the cycle of the rho
+ *   - solve took about 50 s locally on the two mods near 1e9 in main()
  *
 ***/
 

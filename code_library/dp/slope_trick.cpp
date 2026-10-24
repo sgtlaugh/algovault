@@ -24,6 +24,7 @@
  * Notes:
  *   - Breakpoints, each side's total shift and eval arguments stay in [-1e18, 1e18] for long long, [-1e9, 1e9] for int
  *   - The minimum and any evaluated value fit in T
+ *   - prefix_min() resets the right side's total shift to 0, suffix_min() the left side's
  *   - min_cost_non_decreasing(a) makes a non-decreasing at minimum sum |a[i] - b[i]|, run it on a[i] - i for increasing
  *
 ***/

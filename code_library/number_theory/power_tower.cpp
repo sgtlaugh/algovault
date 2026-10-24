@@ -42,6 +42,7 @@ struct PowerTower{
         return n > 1 ? res / n * (n - 1) : res;
     }
 
+    /// a^e = a^(e mod phi(m) + phi(m)) needs e >= phi(m), so exponents below LIMIT > phi(m) are used exactly
     long long solve(const vector<long long>& a, int i, int r, int depth) const{
         long long m = chain[depth];
         if (m == 1) return 0;

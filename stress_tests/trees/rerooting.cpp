@@ -208,7 +208,8 @@ int main(){
     check_rejects(2, {{0, 0}});                          /// self-loop at the root plus an isolated node, n - 1 edges
     check_rejects(0, {});
 
-    for (int n = 1; n <= 6; n++) check_all_trees(n, n % 2 ? 1000000000LL : 3);  /// 1296 trees at n = 6
+    /// 1296 trees at n = 6, n = 7 adds 16807 for little new structure
+    for (int n = 1; n <= 6; n++) check_all_trees(n, n % 2 ? 1000000000LL : 3);
 
     for (long long it = 0; it < stress::scaled(2000); it++){
         int n = it < 200 ? it % 40 + 1 : stress::rand_int(1, 80);

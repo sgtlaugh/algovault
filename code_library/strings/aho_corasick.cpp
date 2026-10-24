@@ -8,7 +8,7 @@
  *   - build: O(SIGMA L), L = sum of pattern lengths
  *   - count: O(|t|)
  *   - occurrences: O(|t| + L)
- *   - memory: O(SIGMA) ints per node
+ *   - memory: O(SIGMA) ints per node, at most L + 1 nodes
  *
  * AhoCorasick<SIGMA = 26, BASE = 'a'> ac: an empty automaton, pattern characters must lie in [BASE, BASE + SIGMA)
  * ac.build(): finishes the automaton, called once after the last insert

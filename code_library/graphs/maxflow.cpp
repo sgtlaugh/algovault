@@ -19,6 +19,7 @@
  * Notes:
  *   - Library Checker bipartitematching (2e5 nodes, 2e5 edges) runs in 1.9 s at -O2, on par with hopcroft_karp.cpp
  *   - maxflow() keeps flat per-node copies of the edges, about 20 extra bytes per edge
+ *   - maxflow() is the only entry point, bfs() and blocking_flow() are UB before it builds the flat copies
  *   - Before maxflow() the source side is empty and cut_edges() returns nothing
  *   - Node capacities apply to src and sink too, give them a huge capacity to leave them uncapped
  *   - FlowGraphWithNodeCap edge ids index g.flowgraph.E, where node x is 2x (in) and 2x + 1 (out)

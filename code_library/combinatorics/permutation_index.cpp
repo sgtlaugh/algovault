@@ -25,6 +25,7 @@ struct PermutationIndex{
         assert(1 <= n && n <= 20);
     }
 
+    /// Without target popcnt GCC calls a software popcount and a 12 MB table wins at n <= 10, with it 1.5x-6x faster
     template <typename Permutation>
     __attribute__((target("popcnt"))) long long index(const Permutation& p) const{
         long long res = 0;
