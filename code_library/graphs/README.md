@@ -49,7 +49,7 @@
 - [CSES 1705 - Forbidden Cities](https://cses.fi/problemset/task/1705) [✅](../../practice/graphs/cses_1705.cpp "Accepted solution")
 - [CSES 2077 - Necessary Cities](https://cses.fi/problemset/task/2077) [✅](../../practice/graphs/cses_2077.cpp "Accepted solution")
 - [SPOJ SUBMERGE - Submerging Islands](https://www.spoj.com/problems/SUBMERGE/)
-- [USACO 769 - Push a Box](https://usaco.org/index.php?page=viewproblem2&cpid=769)
+- [USACO 769 - Push a Box](https://usaco.org/index.php?page=viewproblem2&cpid=769) [✅](../../practice/graphs/usaco_769.cpp "Accepted solution")
 - [UVa 315 - Network](https://onlinejudge.org/external/3/315.pdf) [✅](../../practice/graphs/uva_315.cpp "Accepted solution")
 - [UVa 1108 - Mining Your Own Business](https://onlinejudge.org/external/11/1108.pdf) [✅](../../practice/graphs/uva_1108.cpp "Accepted solution")
 - [UVa 10199 - Tourist Guide](https://onlinejudge.org/external/101/10199.pdf) [✅](../../practice/graphs/uva_10199.cpp "Accepted solution")
