@@ -477,7 +477,7 @@
 - [SPOJ EC_MODE - Modems](https://www.spoj.com/problems/EC_MODE/)
 - [SPOJ IITKWPCG - Help the old King](https://www.spoj.com/problems/IITKWPCG/)
 - [SPOJ MARYBMW - BMW](https://www.spoj.com/problems/MARYBMW/)
-- [USACO 531 - Superbull](https://usaco.org/index.php?page=viewproblem2&cpid=531)
+- [USACO 531 - Superbull](https://usaco.org/index.php?page=viewproblem2&cpid=531) [✅](../../practice/graphs/usaco_531.cpp "Accepted solution")
 - [USACO 623 - Fenced In](https://usaco.org/index.php?page=viewproblem2&cpid=623)
 - [USACO 1211 - Moo Network](https://usaco.org/index.php?page=viewproblem2&cpid=1211)
 - [UVa 908 - Re-connecting Computer Sites](https://onlinejudge.org/external/9/908.pdf) [✅](../../practice/graphs/uva_908.cpp "Accepted solution")
