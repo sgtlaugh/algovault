@@ -329,7 +329,7 @@
 
 #### [Manhattan MST](manhattan_mst.cpp)
 
-- [Kattis gridmst - Grid MST](https://open.kattis.com/problems/gridmst)
+- [Kattis gridmst - Grid MST](https://open.kattis.com/problems/gridmst) [✅](../../practice/graphs/kattis_gridmst.cpp "Accepted solution")
 
 #### [Matroid Intersection](matroid_intersection.cpp)
 
