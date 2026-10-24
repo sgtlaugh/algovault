@@ -6,7 +6,7 @@
 - [Codeforces 568C - New Language](https://codeforces.com/problemset/problem/568/C) [✅](../../practice/graphs/codeforces_568c.cpp "Accepted solution")
 - [Codeforces 587D - Duff in Mafia](https://codeforces.com/problemset/problem/587/D) [✅](../../practice/graphs/codeforces_587d.cpp "Accepted solution")
 - [Codeforces 776D - The Door Problem](https://codeforces.com/problemset/problem/776/D) [✅](../../practice/graphs/codeforces_776d.cpp "Accepted solution")
-- [Codeforces 1215F - Radio Stations](https://codeforces.com/problemset/problem/1215/F)
+- [Codeforces 1215F - Radio Stations](https://codeforces.com/problemset/problem/1215/F) [✅](../../practice/graphs/codeforces_1215f.cpp "Accepted solution")
 - [Codeforces 1903F - Babysitting](https://codeforces.com/problemset/problem/1903/F)
 - [Codeforces 1971H - ±1](https://codeforces.com/problemset/problem/1971/H)
 - [Codeforces Gym 104772C - Colorful Village](https://codeforces.com/gym/104772/problem/C)
