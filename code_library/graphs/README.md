@@ -235,7 +235,7 @@
 - [UVa 869 - Airline Comparison](https://onlinejudge.org/external/8/869.pdf) [✅](../../practice/graphs/uva_869.cpp "Accepted solution")
 - [UVa 1056 - Degrees of Separation](https://onlinejudge.org/external/10/1056.pdf) [✅](../../practice/graphs/uva_1056.cpp "Accepted solution")
 - [UVa 1057 - Routing](https://onlinejudge.org/external/10/1057.pdf) [✅](../../practice/graphs/uva_1057.cpp "Accepted solution")
-- [UVa 1198 - The Geodetic Set Problem](https://onlinejudge.org/external/11/1198.pdf)
+- [UVa 1198 - The Geodetic Set Problem](https://onlinejudge.org/external/11/1198.pdf) [✅](../../practice/graphs/uva_1198.cpp "Accepted solution")
 - [UVa 10075 - Airlines](https://onlinejudge.org/external/100/10075.pdf) [✅](../../practice/graphs/uva_10075.cpp "Accepted solution")
 - [UVa 10171 - Meeting Prof. Miguel...](https://onlinejudge.org/external/101/10171.pdf) [✅](../../practice/graphs/uva_10171.cpp "Accepted solution")
 - [UVa 10246 - Asterix and Obelix](https://onlinejudge.org/external/102/10246.pdf) [✅](../../practice/graphs/uva_10246.cpp "Accepted solution")
