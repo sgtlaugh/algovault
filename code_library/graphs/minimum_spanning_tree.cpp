@@ -14,10 +14,7 @@
  *   - connected is true when the forest is one tree spanning all n vertices, else it has one tree per component
  *   - Kruskal lists chosen edges by increasing weight, Boruvka in the order it picks them
  *   - The total weight of the forest must fit in long long
- *   - Boruvka is the template for implicit graphs (xor MST, Manhattan MST, complete graphs given by a formula)
- *       - Replace the edge scan in solve() with a query for the cheapest edge leaving each component
- *       - Any lightest edge per component works since ties are resolved by the union-find
- *       - There are at most log2(n) + 1 rounds, each at least halves the components with an outgoing edge
+ *   - For implicit graphs like xor MST, swap Boruvka's edge scan for a query of a lightest edge leaving each component
  *   - dense_prim: w[u][v] == numeric_limits<T>::max() means no edge, the diagonal is ignored
  *   - dense_prim: parent[v] is v's neighbour in the forest, -1 at one unspecified root per tree
  *   - dense_prim is for complete graphs where Kruskal's sort is the bottleneck, n ~ 5000 with an int matrix (100 MB)
@@ -57,7 +54,7 @@ struct MSTForest{
         return x;
     }
 
-    bool unite(int a, int b){
+    bool connect(int a, int b){
         a = find(a), b = find(b);
         if (a == b) return false;
 
@@ -86,7 +83,7 @@ struct Kruskal{
         MSTForest dsu(n);
         MSTResult res{0, {}, false};
         for (int i : order){
-            if (!dsu.unite(edges[i].u, edges[i].v)) continue;
+            if (!dsu.connect(edges[i].u, edges[i].v)) continue;
             res.weight += edges[i].w;
             res.chosen.push_back(i);
         }
@@ -121,10 +118,10 @@ struct Boruvka{
                 if (best[b] == -1 || edges[i].w < edges[best[b]].w) best[b] = i;
             }
 
-            /// both endpoints can pick an edge and implicit queries break ties arbitrarily: unite() drops extra picks
+            /// both endpoints can pick an edge and implicit queries break ties arbitrarily: connect() drops extra picks
             for (int c = 0; c < n; c++){
                 int i = best[c];
-                if (i == -1 || !dsu.unite(edges[i].u, edges[i].v)) continue;
+                if (i == -1 || !dsu.connect(edges[i].u, edges[i].v)) continue;
                 res.weight += edges[i].w;
                 res.chosen.push_back(i);
                 merged = true;
