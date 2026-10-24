@@ -78,7 +78,7 @@
 #### [Bridges](bridge.cpp)
 
 - [AOJ GRL_3_B - Bridges](https://onlinejudge.u-aizu.ac.jp/problems/GRL_3_B)
-- [Codeforces 555E - Case of Computer Network](https://codeforces.com/problemset/problem/555/E)
+- [Codeforces 555E - Case of Computer Network](https://codeforces.com/problemset/problem/555/E) [✅](../../practice/graphs/codeforces_555e.cpp "Accepted solution")
 - [Codeforces 700C - Break Up](https://codeforces.com/problemset/problem/700/C)
 - [Codeforces 732F - Tourist Reform](https://codeforces.com/problemset/problem/732/F)
 - [Codeforces 1986F - Non-academic Problem](https://codeforces.com/problemset/problem/1986/F) [✅](../../practice/graphs/codeforces_1986f.cpp "Accepted solution")
