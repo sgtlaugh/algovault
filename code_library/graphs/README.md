@@ -405,7 +405,7 @@
 - [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D)
 - [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A)
 - [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D)
-- [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf)
+- [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf) [✅](../../practice/graphs/uva_1659.cpp "Accepted solution")
 
 #### [Min Cost Max Flow, Dijkstra](mcmf_dijkstra.cpp)
 
