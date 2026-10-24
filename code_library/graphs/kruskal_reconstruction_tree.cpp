@@ -9,7 +9,7 @@
  * krt.add_edge(u, v, w): undirected edge of weight w, every edge goes in before build
  * krt.build(): builds the tree
  * krt.node(v, w): the tree node of v's component under edges <= w, v itself when it is alone
- * krt.range(v, w): half-open [l, r) of positions in krt.order holding exactly v's component
+ * krt.positions(v, w): the range [l, r] of positions in krt.order holding exactly v's component
  * krt.size(v, w): the number of vertices in v's component
  * krt.weight[x]: for a merge node x >= n, the weight of the edge that created it, the component's bottleneck
  * krt.order[i]: the vertex at position i
@@ -81,7 +81,7 @@ struct KruskalReconstructionTree{
         order.assign(n, 0), pos.assign(n, 0);
         for (int v = 0; v < n; v++) pos[v] = first[v], order[first[v]] = v;
 
-        while ((1 << lg) < m) lg++;
+        while ((1 << lg) < n) lg++;
         up.assign(lg, parent);
         for (int k = 1; k < lg; k++){
             for (int x = 0; x < m; x++) up[k][x] = up[k - 1][up[k - 1][x]];
@@ -96,9 +96,9 @@ struct KruskalReconstructionTree{
         return v;
     }
 
-    pair<int, int> range(int v, T w) const{
+    pair<int, int> positions(int v, T w) const{
         int x = node(v, w);
-        return {first[x], first[x] + leaf_count[x]};
+        return {first[x], first[x] + leaf_count[x] - 1};
     }
 
     int size(int v, T w) const{
@@ -107,20 +107,20 @@ struct KruskalReconstructionTree{
 };
 
 int main(){
-    /***
-     *   0 ==4,3== 1         3 --5-- 4 --1-- 5 (self-loop 0)
-     *    \       /          |
-     *     7     2           9
-     *      \   /            |
-     *        2 -------------+         6 isolated
-    ***/
+    /// Triangle 0 1 2 with a second 0 - 1 edge, path 3 - 4 - 5 hanging off 2 by weight 9, and 6 alone
     KruskalReconstructionTree<int> krt(7);
-    vector<array<int, 3>> edges = {{0, 1, 4}, {1, 2, 2}, {2, 0, 7}, {3, 4, 5}, {4, 5, 1}, {2, 3, 9}, {5, 5, 0}, {0, 1, 3}};
-    for (auto [u, v, w] : edges) krt.add_edge(u, v, w);
+    krt.add_edge(0, 1, 4);
+    krt.add_edge(1, 2, 2);
+    krt.add_edge(2, 0, 7);
+    krt.add_edge(3, 4, 5);
+    krt.add_edge(4, 5, 1);
+    krt.add_edge(2, 3, 9);
+    krt.add_edge(5, 5, 0);
+    krt.add_edge(0, 1, 3);
     krt.build();
 
-    auto [l, r] = krt.range(0, 3);  /// edges <= 3 join 0 - 1 - 2
-    vector<int> component(krt.order.begin() + l, krt.order.begin() + r);
+    auto [l, r] = krt.positions(0, 3);  /// edges <= 3 join 0 - 1 - 2
+    vector<int> component(krt.order.begin() + l, krt.order.begin() + r + 1);
     sort(component.begin(), component.end());
     assert((component == vector<int>{0, 1, 2}));
 

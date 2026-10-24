@@ -12,7 +12,7 @@ vector<vector<int>> light_adjacency(int n, const vector<array<long long, 3>>& ed
     return adj;
 }
 
-/// Sorted so it compares directly against the krt range
+/// Sorted so it compares directly against the krt positions
 vector<int> reachable(const vector<vector<int>>& adj, int v){
     vector<int> queue = {v};
     vector<bool> seen(adj.size(), false);
@@ -28,10 +28,10 @@ vector<int> reachable(const vector<vector<int>>& adj, int v){
 }
 
 vector<int> component(const KruskalReconstructionTree<long long>& krt, int v, long long w){
-    auto [l, r] = krt.range(v, w);
-    assert(0 <= l && l < r && r <= krt.n);
-    assert(krt.size(v, w) == r - l);
-    vector<int> res(krt.order.begin() + l, krt.order.begin() + r);
+    auto [l, r] = krt.positions(v, w);
+    assert(0 <= l && l <= r && r < krt.n);
+    assert(krt.size(v, w) == r - l + 1);
+    vector<int> res(krt.order.begin() + l, krt.order.begin() + r + 1);
     sort(res.begin(), res.end());
     return res;
 }
