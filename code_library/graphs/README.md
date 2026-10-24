@@ -232,7 +232,7 @@
 - [UVa 523 - Minimum Transport Cost](https://onlinejudge.org/external/5/523.pdf) [✅](../../practice/graphs/uva_523.cpp "Accepted solution")
 - [UVa 567 - Risk](https://onlinejudge.org/external/5/567.pdf) [✅](../../practice/graphs/uva_567.cpp "Accepted solution")
 - [UVa 821 - Page Hopping](https://onlinejudge.org/external/8/821.pdf) [✅](../../practice/graphs/uva_821.cpp "Accepted solution")
-- [UVa 869 - Airline Comparison](https://onlinejudge.org/external/8/869.pdf)
+- [UVa 869 - Airline Comparison](https://onlinejudge.org/external/8/869.pdf) [✅](../../practice/graphs/uva_869.cpp "Accepted solution")
 - [UVa 1056 - Degrees of Separation](https://onlinejudge.org/external/10/1056.pdf) [✅](../../practice/graphs/uva_1056.cpp "Accepted solution")
 - [UVa 1057 - Routing](https://onlinejudge.org/external/10/1057.pdf) [✅](../../practice/graphs/uva_1057.cpp "Accepted solution")
 - [UVa 1198 - The Geodetic Set Problem](https://onlinejudge.org/external/11/1198.pdf)
