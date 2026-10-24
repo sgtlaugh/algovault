@@ -210,6 +210,7 @@
 - [Codeforces Gym 102156C - Diverse Singing](https://codeforces.com/gym/102156/problem/C) [✅](../../practice/graphs/codeforces_gym_102156c.cpp "Accepted solution")
 - [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf) [✅](../../practice/graphs/uva_1440.cpp "Accepted solution")
 - [UVa 11082 - Matrix Decompressing](https://onlinejudge.org/external/110/11082.pdf) [✅](../../practice/graphs/uva_11082_lower_bound_flow.cpp "Accepted solution")
+- [UVa 12679 - It Can Be Arranged](https://onlinejudge.org/external/126/12679.pdf)
 
 #### [Floyd Warshall](floyd_warshall.cpp)
 
@@ -298,6 +299,7 @@
 
 - [Codeforces acmsguru 210 - Beloved Sons](https://codeforces.com/problemsets/acmsguru/problem/99999/210) [✅](../../practice/graphs/codeforces_acmsguru_210.cpp "Accepted solution")
 - [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129) [✅](../../practice/graphs/cses_2129_hungarian_algorithm.cpp "Accepted solution")
+- [Kattis cordonbleu - Cordon Bleu](https://open.kattis.com/problems/cordonbleu)
 - [UVa 1006 - Fixed Partition Memory Management](https://onlinejudge.org/external/10/1006.pdf) [✅](../../practice/graphs/uva_1006.cpp "Accepted solution")
 - [UVa 1045 - The Great Wall Game](https://onlinejudge.org/external/10/1045.pdf) [✅](../../practice/graphs/uva_1045.cpp "Accepted solution")
 - [UVa 1349 - Optimal Bus Route Design](https://onlinejudge.org/external/13/1349.pdf) [✅](../../practice/graphs/uva_1349.cpp "Accepted solution")
@@ -396,6 +398,7 @@
 - [UVa 12264 - Risk](https://onlinejudge.org/external/122/12264.pdf) [✅](../../practice/graphs/uva_12264.cpp "Accepted solution")
 - [UVa 12272 - Fake scoreboard](https://onlinejudge.org/external/122/12272.pdf) [✅](../../practice/graphs/uva_12272.cpp "Accepted solution")
 - [UVa 12288 - Hyper Knights](https://onlinejudge.org/external/122/12288.pdf) [✅](../../practice/graphs/uva_12288.cpp "Accepted solution")
+- [UVa 12534 - Binary Matrix 2](https://onlinejudge.org/external/125/12534.pdf)
 - [UVa 13000 - VIP Treatment](https://onlinejudge.org/external/130/13000.pdf) [✅](../../practice/graphs/uva_13000.cpp "Accepted solution")
 - [UVa 13020 - Landscaping](https://onlinejudge.org/external/130/13020.pdf) [✅](../../practice/graphs/uva_13020.cpp "Accepted solution")
 
@@ -421,7 +424,6 @@
 - [UVa 11301 - Great Wall of China](https://onlinejudge.org/external/113/11301.pdf) [✅](../../practice/graphs/uva_11301_mcmf_dijkstra.cpp "Accepted solution")
 - [UVa 11613 - Acme Corporation](https://onlinejudge.org/external/116/11613.pdf) [✅](../../practice/graphs/uva_11613.cpp "Accepted solution")
 - [UVa 12433 - Rent a Car](https://onlinejudge.org/external/124/12433.pdf) [✅](../../practice/graphs/uva_12433.cpp "Accepted solution")
-- [UVa 12534 - Binary Matrix 2](https://onlinejudge.org/external/125/12534.pdf)
 - [UVa 12623 - Choosing Presents](https://onlinejudge.org/external/126/12623.pdf) [✅](../../practice/graphs/uva_12623.cpp "Accepted solution")
 - [UVa 12821 - Double Shortest Paths](https://onlinejudge.org/external/128/12821.pdf) [✅](../../practice/graphs/uva_12821.cpp "Accepted solution")
 
@@ -435,7 +437,6 @@
 - [CSES 2121 - Parcel Delivery](https://cses.fi/problemset/task/2121) [✅](../../practice/graphs/cses_2121.cpp "Accepted solution")
 - [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129) [✅](../../practice/graphs/cses_2129_mcmf_spfa.cpp "Accepted solution")
 - [CSES 2131 - Grid Puzzle II](https://cses.fi/problemset/task/2131) [✅](../../practice/graphs/cses_2131.cpp "Accepted solution")
-- [Kattis cordonbleu - Cordon Bleu](https://open.kattis.com/problems/cordonbleu)
 - [UVa 1049 - Remember the A La Mode!](https://onlinejudge.org/external/10/1049.pdf) [✅](../../practice/graphs/uva_1049.cpp "Accepted solution")
 - [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf) [✅](../../practice/graphs/uva_1104_mcmf_spfa.cpp "Accepted solution")
 - [UVa 1658 - Admiral](https://onlinejudge.org/external/16/1658.pdf) [✅](../../practice/graphs/uva_1658_mcmf_spfa.cpp "Accepted solution")
@@ -455,7 +456,6 @@
 - [SPOJ DIVREL - Divisibility Relation](https://www.spoj.com/problems/DIVREL/)
 - [UVa 1184 - Air Raid](https://onlinejudge.org/external/11/1184.pdf) [✅](../../practice/graphs/uva_1184.cpp "Accepted solution")
 - [UVa 1201 - Taxi Cab Scheme](https://onlinejudge.org/external/12/1201.pdf) [✅](../../practice/graphs/uva_1201.cpp "Accepted solution")
-- [UVa 12679 - It Can Be Arranged](https://onlinejudge.org/external/126/12679.pdf)
 - [UVa 12831 - Bob the Builder](https://onlinejudge.org/external/128/12831.pdf) [✅](../../practice/graphs/uva_12831.cpp "Accepted solution")
 
 #### [Minimum Spanning Tree](minimum_spanning_tree.cpp)
@@ -509,7 +509,6 @@
 
 #### [Offline Dynamic Connectivity](offline_dynamic_connectivity.cpp)
 
-- [Codeforces 1140F - Extending Set of Points](https://codeforces.com/problemset/problem/1140/F)
 - [Codeforces Gym 100551A - Connect and Disconnect](https://codeforces.com/gym/100551/problem/A) [✅](../../practice/graphs/codeforces_gym_100551a.cpp "Accepted solution")
 - [Codeforces Gym 100551E - Disconnected Graph](https://codeforces.com/gym/100551/problem/E) [✅](../../practice/graphs/codeforces_gym_100551e.cpp "Accepted solution")
 - [CSES 2133 - Dynamic Connectivity](https://cses.fi/problemset/task/2133) [✅](../../practice/graphs/cses_2133.cpp "Accepted solution")

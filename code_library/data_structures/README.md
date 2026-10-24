@@ -57,6 +57,7 @@
 #### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
 - [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
+- [Codeforces 1140F - Extending Set of Points](https://codeforces.com/problemset/problem/1140/F)
 
 #### [Disjoint Sparse Table](disjoint_sparse_table.cpp)
 
