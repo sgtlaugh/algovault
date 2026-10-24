@@ -3,7 +3,7 @@
 #### [2-SAT](2SAT_kosaraju.cpp)
 
 - [AtCoder ABC210 F - Coprime Solitaire](https://atcoder.jp/contests/abc210/tasks/abc210_f)
-- [Codeforces 568C - New Language](https://codeforces.com/problemset/problem/568/C)
+- [Codeforces 568C - New Language](https://codeforces.com/problemset/problem/568/C) [✅](../../practice/graphs/codeforces_568c.cpp "Accepted solution")
 - [Codeforces 587D - Duff in Mafia](https://codeforces.com/problemset/problem/587/D)
 - [Codeforces 776D - The Door Problem](https://codeforces.com/problemset/problem/776/D)
 - [Codeforces 1215F - Radio Stations](https://codeforces.com/problemset/problem/1215/F)
