@@ -3,10 +3,14 @@
  * Floyd Warshall
  * All pairs shortest paths on a dense directed graph, negative edges and negative cycles allowed
  *
- * Complexity: O(n^3) time, O(n^2) memory
+ * Complexity:
+ *   - constructor: O(n^2) time and memory
+ *   - relax_through: O(n^2)
+ *   - solve: O(n^3)
  *
  * FloydWarshall fw(n): vertices 0 to n - 1, no edges
  * fw.add_edge(u, v, w): directed edge, parallel edges keep the lightest
+ * fw.relax_through(k): every dist[u][v] may now use k as an inner vertex, assumes no negative cycle
  * fw.solve(): computes every distance, call it once after all edges are added
  * fw.path(u, v): the vertices u, ..., v of a shortest path, empty when dist[u][v] is INF or NEG_INF
  * fw.dist[u][v]: the shortest distance, INF if unreachable, NEG_INF if some u -> v walk passes a negative cycle
@@ -15,6 +19,10 @@
  *   - Add both directions for an undirected edge, so a negative undirected edge is a negative cycle
  *   - A negative self loop is a negative cycle, a non-negative one is ignored
  *   - n * max |w| must stay below 2^61
+ *   - After relax_through(k) for each k in a set S, dist[u][v] is the shortest u -> v path with all inner vertices in S
+ *   - So adding vertices one at a time in any order gives the distances among the vertices added so far
+ *   - After solve(), add_edge(u, v, w) then relax_through(u) and relax_through(v) updates every dist in O(n^2)
+ *   - path stays correct after relax_through
  *
 ***/
 
@@ -38,17 +46,19 @@ struct FloydWarshall{
         if (w < dist[u][v]) dist[u][v] = w, nxt[u][v] = v;
     }
 
-    void solve(){
-        for (int k = 0; k < n; k++){
-            for (int i = 0; i < n; i++){
-                if (dist[i][k] == INF) continue;
-                for (int j = 0; j < n; j++){
-                    if (dist[k][j] == INF) continue;
-                    long long d = max(dist[i][k] + dist[k][j], NEG_INF);
-                    if (d < dist[i][j]) dist[i][j] = d, nxt[i][j] = nxt[i][k];
-                }
+    void relax_through(int k){
+        for (int i = 0; i < n; i++){
+            if (dist[i][k] == INF) continue;
+            for (int j = 0; j < n; j++){
+                if (dist[k][j] == INF) continue;
+                long long d = max(dist[i][k] + dist[k][j], NEG_INF);
+                if (d < dist[i][j]) dist[i][j] = d, nxt[i][j] = nxt[i][k];
             }
         }
+    }
+
+    void solve(){
+        for (int k = 0; k < n; k++) relax_through(k);
 
         /// dist[k][k] < 0 exactly when k lies on a negative closed walk, so every walk through k goes arbitrarily low
         for (int k = 0; k < n; k++){
@@ -92,5 +102,23 @@ int main(){
     assert(b.dist[0][3] == NEG_INF);
     assert(b.dist[3][3] == 0);  /// 3 is past the cycle, its own distance is unaffected
     assert(b.path(0, 3).empty());
+
+    /// Vertices join in the order 2, 0, 1, and each relax_through lets paths pass through one more of them
+    FloydWarshall c(3);
+    c.add_edge(0, 1, 5), c.add_edge(0, 2, 1), c.add_edge(2, 1, 2), c.add_edge(1, 0, 1);
+    c.relax_through(2);
+    assert(c.dist[0][1] == 3);
+    assert(c.dist[1][2] == INF);
+    c.relax_through(0);
+    assert(c.dist[1][2] == 2);
+    c.relax_through(1);
+    assert(c.dist[2][0] == 3);
+
+    /// A new edge 3 -> 0 of weight 1 after solve: 3 now reaches everything through 0
+    a.add_edge(3, 0, 1);
+    a.relax_through(3), a.relax_through(0);
+    assert(a.dist[3][1] == 4);
+    assert((a.path(3, 1) == vector<int>{3, 0, 2, 1}));
+    assert(a.dist[2][0] == 4);
     return 0;
 }
