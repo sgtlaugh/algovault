@@ -349,7 +349,7 @@
 - [AtCoder ARC085 E - MUL](https://atcoder.jp/contests/arc085/tasks/arc085_c)
 - [Code Jam 2015 World Finals D - Taking Over The World](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/world_finals/taking_over_the_world)
 - [Codeforces 498C - Array and Operations](https://codeforces.com/problemset/problem/498/C) [✅](../../practice/graphs/codeforces_498c.cpp "Accepted solution")
-- [Codeforces 546E - Soldier and Traveling](https://codeforces.com/problemset/problem/546/E)
+- [Codeforces 546E - Soldier and Traveling](https://codeforces.com/problemset/problem/546/E) [✅](../../practice/graphs/codeforces_546e.cpp "Accepted solution")
 - [Codeforces 720B - Cactusophobia](https://codeforces.com/problemset/problem/720/B)
 - [Codeforces 808F - Card Game](https://codeforces.com/problemset/problem/808/F)
 - [Codeforces Gym 100274I - Suiting Weavers](https://codeforces.com/gym/100274/problem/I)
