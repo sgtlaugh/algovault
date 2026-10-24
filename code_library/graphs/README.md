@@ -300,7 +300,7 @@
 - [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129)
 - [UVa 1006 - Fixed Partition Memory Management](https://onlinejudge.org/external/10/1006.pdf) [✅](../../practice/graphs/uva_1006.cpp "Accepted solution")
 - [UVa 1045 - The Great Wall Game](https://onlinejudge.org/external/10/1045.pdf) [✅](../../practice/graphs/uva_1045.cpp "Accepted solution")
-- [UVa 1349 - Optimal Bus Route Design](https://onlinejudge.org/external/13/1349.pdf)
+- [UVa 1349 - Optimal Bus Route Design](https://onlinejudge.org/external/13/1349.pdf) [✅](../../practice/graphs/uva_1349.cpp "Accepted solution")
 - [UVa 10746 - Crime Wave - The Sequel](https://onlinejudge.org/external/107/10746.pdf) [✅](../../practice/graphs/uva_10746.cpp "Accepted solution")
 - [UVa 10888 - Warehouse](https://onlinejudge.org/external/108/10888.pdf) [✅](../../practice/graphs/uva_10888.cpp "Accepted solution")
 - [UVa 12637 - 30 Minutes or Less](https://onlinejudge.org/external/126/12637.pdf) [✅](../../practice/graphs/uva_12637.cpp "Accepted solution")
