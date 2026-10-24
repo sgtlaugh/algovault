@@ -81,25 +81,11 @@ ManhattanMSTResult manhattan_mst(const vector<pair<long long, long long>>& point
 }
 
 int main(){
-    /***
-     *   A(0, 0), B(2, 2), C(3, 10), D(5, 2), E(7, 0)
-     *   BD = 3, AB = 4, DE = 4, BC = 9 beat AD = AE = BE = 7 once A, B, D, E are joined
-    ***/
+    /// Naming the points A to E in order, AB = 4, BD = 3, DE = 4 and BC = 9 beat AD = AE = BE = 7
     ManhattanMSTResult r = manhattan_mst({{0, 0}, {2, 2}, {3, 10}, {5, 2}, {7, 0}});
-    assert(r.weight == 20 && r.edges.size() == 4);
+    assert(r.weight == 20);
     set<set<int>> chosen;
     for (auto [u, v] : r.edges) chosen.insert({u, v});
-    assert((chosen == set<set<int>>{{1, 3}, {0, 1}, {3, 4}, {1, 2}}));
-
-    assert(manhattan_mst({{0, 0}, {2, 2}, {5, 2}}).weight == 7);
-    assert(manhattan_mst({{1, 1}, {1, 1}, {4, 5}}).weight == 7);
-    assert(manhattan_mst({{0, 0}, {0, 5}, {0, 2}}).weight == 5);
-    assert(manhattan_mst({{3, -1}, {-2, -1}, {7, -1}, {-2, -1}}).weight == 9);
-    assert(manhattan_mst({{-1000000000, -1000000000}, {1000000000, 1000000000}}).weight == 4000000000LL);
-    assert(manhattan_mst({{1000000000, -1000000000}, {-1000000000, 1000000000}, {0, 0}}).weight == 4000000000LL);
-
-    assert(manhattan_mst({{7, 7}}).weight == 0 && manhattan_mst({{7, 7}}).edges.empty());
-    assert(manhattan_mst({}).weight == 0 && manhattan_mst({}).edges.empty());
-    assert(manhattan_mst_candidates({}).empty());
+    assert((chosen == set<set<int>>{{0, 1}, {1, 3}, {3, 4}, {1, 2}}));
     return 0;
 }

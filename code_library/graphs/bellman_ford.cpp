@@ -109,9 +109,10 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
 int main(){
     const long long INF = BellmanFord::INF, NEG_INF = BellmanFord::NEG_INF;
 
+    /// 0 -> 2 -> 1 beats the direct 4, and 5 is unreachable
     BellmanFord g(6);
     g.add_edge(0, 1, 4), g.add_edge(0, 2, 2), g.add_edge(2, 1, -1), g.add_edge(1, 3, 3), g.add_edge(3, 4, -2);
-    assert((g.shortest_paths(0) == vector<long long>{0, 1, 2, 4, 2, INF}));  /// 0 2 1 beats 4, 5 is unreachable
+    assert((g.shortest_paths(0) == vector<long long>{0, 1, 2, 4, 2, INF}));
     assert(g.negative_cycle().empty());
 
     /// 1 -> 2 -> 1 weighs -2, so everything it reaches is unbounded below

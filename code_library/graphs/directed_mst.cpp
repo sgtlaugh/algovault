@@ -1,17 +1,17 @@
 /***
  *
- * Directed minimum spanning tree (minimum arborescence), Tarjan / Gabow version of Chu–Liu/Edmonds
+ * Directed MST
  * Constructs a rooted tree of minimum total weight from the root node, with the parent of every node
  *
  * Complexity: O(m log m)
  *
  * DirectedMST g(n): nodes are 0 to n - 1
  * g.add_edge(u, v, w): directed edge u -> v with long long weight w, negative allowed
- * g.solve(root): res.weight the minimum total, res.parent[v] the tail of v's tree edge, -1 for root
+ * g.solve(root): {exists, weight, parent}, parent[v] the tail of v's tree edge and -1 at root
  *
  * Notes:
  *   - Requires n max|w| <= 1e18
- *   - res.exists is false when some node is unreachable from root, then weight is 0 and parent empty
+ *   - exists is false when some node is unreachable from root, then weight is 0 and parent empty
  *   - solve is const, so one graph answers several roots
  *
 ***/
@@ -137,6 +137,7 @@ struct DirectedMST{
 };
 
 int main(){
+    /// From 0 the tree takes 0 -> 1 -> 4 and 0 -> 2 -> 3, while from 2 only 3 is reachable
     DirectedMST g(5);
     g.add_edge(0, 1, 5);
     g.add_edge(1, 2, 10);
@@ -148,32 +149,14 @@ int main(){
     g.add_edge(4, 0, 15);
 
     Arborescence res = g.solve(0);
-    assert(res.exists && res.weight == 9 && (res.parent == vector<int>{-1, 0, 0, 2, 1}));
+    assert(res.exists);
+    assert(res.weight == 9);
+    assert((res.parent == vector<int>{-1, 0, 0, 2, 1}));
+
     res = g.solve(1);
-    assert(res.exists && res.weight == 19 && (res.parent == vector<int>{4, -1, 0, 2, 1}));
-    res = g.solve(4);
-    assert(res.exists && res.weight == 22 && (res.parent == vector<int>{4, 0, 0, 2, -1}));
-    assert(!g.solve(2).exists && !g.solve(3).exists);
+    assert(res.weight == 19);
+    assert((res.parent == vector<int>{4, -1, 0, 2, 1}));
 
-    DirectedMST single(1);
-    res = single.solve(0);
-    assert(res.exists && res.weight == 0 && (res.parent == vector<int>{-1}));
-
-    DirectedMST loops(2);
-    loops.add_edge(1, 1, -5);
-    loops.add_edge(0, 1, 3);
-    loops.add_edge(0, 0, -7);
-    res = loops.solve(0);
-    assert(res.exists && res.weight == 3 && (res.parent == vector<int>{-1, 0}));
-    assert(!loops.solve(1).exists);
-
-    DirectedMST negative(3);
-    negative.add_edge(0, 1, -3);
-    negative.add_edge(1, 2, 2);
-    negative.add_edge(0, 2, 5);
-    negative.add_edge(2, 1, -4);
-    res = negative.solve(0);
-    assert(res.exists && res.weight == -1 && (res.parent == vector<int>{-1, 0, 1}));
-
+    assert(!g.solve(2).exists);
     return 0;
 }

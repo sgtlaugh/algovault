@@ -149,9 +149,7 @@ struct KShortestWalks{
 };
 
 int main(){
-    /***
-     * 0 -> 1 -> 2 with weights 1, 0 -> 2 with weight 3, 2 -> 0 with weight 1
-    ***/
+    /// 0 -> 1 -> 2 weighs 2, the direct 0 -> 2 weighs 3, and 2 -> 0 of weight 1 lets walks loop
     KShortestWalks g(3);
     g.add_edge(0, 1, 1), g.add_edge(1, 2, 1), g.add_edge(0, 2, 3), g.add_edge(2, 0, 1);
     assert((g.solve(0, 2, 4) == vector<long long>{2, 3, 5, 6}));  /// 0 1 2, 0 2, 0 1 2 0 1 2, then 2 walks of length 6

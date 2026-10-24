@@ -77,10 +77,11 @@ struct FloydWarshall{
 int main(){
     const long long INF = FloydWarshall::INF, NEG_INF = FloydWarshall::NEG_INF;
 
+    /// 0 -> 2 -> 1 beats the direct 4, and nothing leaves 3
     FloydWarshall a(4);
     a.add_edge(0, 1, 4), a.add_edge(0, 2, 1), a.add_edge(2, 1, 2), a.add_edge(1, 3, 1), a.add_edge(2, 3, 5);
     a.solve();
-    assert(a.dist[0][1] == 3);  /// 0 -> 2 -> 1 beats the direct 4
+    assert(a.dist[0][1] == 3);
     assert(a.dist[3][0] == INF);
     assert((a.path(0, 3) == vector<int>{0, 2, 1, 3}));
 
