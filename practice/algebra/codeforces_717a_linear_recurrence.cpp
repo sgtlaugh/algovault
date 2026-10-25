@@ -590,17 +590,16 @@ private:
 int main(){
     const int mod = 1000000007;
     long long k, l, r;
+
     scanf("%lld %lld %lld", &k, &l, &r);
 
     long long inv_fact = 1;
     for (int i = 1; i <= k; i++) inv_fact = inv_fact * i % mod;
     inv_fact = nt::mod_inverse(inv_fact, mod);
 
-    /// C(F, k) is a degree k polynomial in F, so by Binet every term is a sum of +-phi^e for |e| <= k
-    /// That keeps the recurrence order of the prefix sums under 4k, and Berlekamp-Massey needs twice as many terms
     int terms = 8 * k + 20;
     vector<int> prefix(terms, 0);
-    long long a = 2, b = 3;  /// tours of length n number F(n + 2), starting 2, 3 for n = 1, 2
+    long long a = 2, b = 3;
     for (int n = 1; n < terms; n++, a = (a + b) % mod, swap(a, b)){
         long long ways = inv_fact;
         for (int i = 0; i < k; i++) ways = ways * ((a - i + mod) % mod) % mod;

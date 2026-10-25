@@ -372,6 +372,7 @@ vector<long long> total;
 vector<long long> dfs(int u, int parent){
     int i;
     vector<long long> dp(m, 0);
+
     dp[val[u]] = 1;
     WalshHadamard::walsh_transform(dp.data(), m, WalshHadamard::XOR, MOD);
 

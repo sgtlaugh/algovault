@@ -371,12 +371,14 @@ using namespace fio;
 
 long long expo(long long a, long long b){
     long long res = 1;
+
     a %= MOD;
     while (b){
         if (b & 1) res = res * a % MOD;
         a = a * a % MOD;
         b >>= 1;
     }
+
     return res;
 }
 
@@ -394,11 +396,13 @@ vector<int> powers(int d){
             if (i % primes[j] == 0) break;
         }
     }
+
     return pw;
 }
 
 long long solve(long long r, int d, long long n){
     int i;
+
     if (!r) return (n >= 1 && d == 0);
 
     vector<int> s = powers(d);

@@ -711,6 +711,7 @@ bool visited[MAXN + 1];
 
 void dfs(int x, int d){
     int i, y;
+
     if (d == n){
         for (i = 0; i < 4; i++) cnt += ((x + dx[i] + n) % n == 0);
         return;

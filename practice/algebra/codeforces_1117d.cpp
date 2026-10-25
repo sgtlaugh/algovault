@@ -590,9 +590,9 @@ private:
 int main(){
     long long n;
     int m;
+
     scanf("%lld %d", &n, &m);
 
-    /// f(n) = f(n - 1) + f(n - m): the first gem is either kept whole or split into m units
     vector<int> recurrence(m, 0);
     recurrence[0] = 1, recurrence[m - 1] = 1;
 

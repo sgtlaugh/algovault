@@ -732,6 +732,7 @@ long long special_case(long long n){
 
 long long brute(int n){
     long long res = 1;
+
     if (n <= 5){
         for (int j = 0; j < n; j++) res = res * (k - j) % MOD;
         return res;
@@ -744,7 +745,6 @@ long long brute(int n){
     for (int j = 0; j < 4; j++) x = x * (k - j) % MOD;
     return (x * F(4, 2, 2) + y * F(4, 2, 0)) % MOD;
 }
-
 
 int main(){
     int t, tc, j;

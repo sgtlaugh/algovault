@@ -147,9 +147,9 @@ int power(int a, int b, int mod){
 int main(){
     const int mod = 1000000007;
     int n, k;
+
     scanf("%d %d", &n, &k);
 
-    /// 1^k + ... + x^k is a polynomial of degree k + 1 in x, so its first k + 2 values pin it down
     vector<int> terms(k + 2, 0);
     for (int x = 1; x <= k + 1; x++) terms[x] = (terms[x - 1] + power(x, k, mod)) % mod;
 

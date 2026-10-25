@@ -383,6 +383,7 @@ vector<int> parts;
 
 void dfs(int rem, int low, int depth){
     int i, len;
+
     if (!rem){
         unsigned long long res = 0;
         for (i = 0; i < (1 << n); i++){

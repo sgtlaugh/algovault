@@ -383,6 +383,7 @@ int number(const string& m, int& p){
 
 void parse(const string& m, int sign){
     int p = 0;
+
     while (p < (int)m.size()){
         if (m[p] != '('){
             int e = element(m, p);

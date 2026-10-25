@@ -596,6 +596,7 @@ long long solve(){
 
         for (i = s; i < e; i++) cnt[ar[i]]++;
     }
+
     return res;
 }
 

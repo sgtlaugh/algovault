@@ -709,6 +709,7 @@ int dp[MAX];
 void gen(){
     int i;
     vector<int> A(MAX);
+
     for (i = 1; i < MAX; i++) A[i] = i;
 
     Polynomial<> E = Polynomial<>(A).exp(MAX);

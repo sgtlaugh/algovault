@@ -136,6 +136,7 @@ vector<T> subset_convolution(const vector<T>& a, const vector<T>& b, int mod){
 int main(){
     const int bits = 20, mod = 1000000007;
     int n, x;
+
     scanf("%d", &n);
 
     vector<int> f(1 << bits, 0);
@@ -147,11 +148,9 @@ int main(){
     vector<int> pow2(n + 1, 1);
     for (int i = 1; i <= n; i++) pow2[i] = pow2[i - 1] * 2 % mod;
 
-    /// f[S] = how many numbers contain S, so 2^f[S] - 1 non-empty groups have an AND containing S
     superset_zeta(f);
     for (auto& v : f) v = (pow2[v] - 1 + mod) % mod;
 
-    /// Mobius peels off the strict supersets, leaving groups whose AND is exactly S
     superset_mobius(f, mod);
     printf("%d\n", f[0]);
     return 0;

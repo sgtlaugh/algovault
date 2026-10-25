@@ -586,6 +586,7 @@ vector<long long> squares(long long x, int len){
         res[i] = res[i - 1] * step % MOD;
         step = step * x2 % MOD;
     }
+
     return res;
 }
 
@@ -601,6 +602,7 @@ vector<long long> convolve(FFT& fft, vector<long long>& a, vector<long long>& b)
             for (k = 0; k < (int)z.size(); k++) res[i + j + k] = (res[i + j + k] + z[k]) % MOD;
         }
     }
+
     return res;
 }
 

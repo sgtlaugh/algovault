@@ -708,6 +708,7 @@ int fact[MAX], inv_fact[MAX], f[MAX], g[MAX];
 
 void gen(){
     int i;
+
     fact[0] = 1;
     for (i = 1; i < MAX; i++) fact[i] = (long long)fact[i - 1] * i % MOD;
     inv_fact[MAX - 1] = Polynomial<>::power(fact[MAX - 1], MOD - 2);

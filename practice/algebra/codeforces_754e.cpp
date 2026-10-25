@@ -568,6 +568,7 @@ string table[MAX], cells[MAX];
 
 bool fold(){
     int x, y, v;
+
     for (x = 0; x < r; x++){
         for (y = 0; y < c; y++){
             if (cells[x][y] == '?') continue;
@@ -577,6 +578,7 @@ bool fold(){
             cur = v;
         }
     }
+
     return true;
 }
 

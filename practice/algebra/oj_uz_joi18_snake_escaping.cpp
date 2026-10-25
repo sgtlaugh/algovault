@@ -379,6 +379,7 @@ vector<int> sub, sup;
 
 int solve(){
     int i, j, zero = 0, one = 0, any = 0, res = 0;
+
     for (i = 0; i < l; i++){
         int bit = 1 << (l - 1 - i);
         if (t[i] == '0') zero |= bit;
@@ -406,6 +407,7 @@ int solve(){
             if (!i) break;
         }
     }
+
     return res;
 }
 

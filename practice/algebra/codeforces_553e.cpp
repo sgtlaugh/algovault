@@ -575,6 +575,7 @@ __int128 acc[MAXM][MAXT];
 
 void leaf(int tau){
     int v, e;
+
     for (v = 1; v <= n; v++) best[v][tau] = (v == n) ? 0 : 1e18;
     for (e = 0; e < m; e++){
         if (from[e] == n) continue;

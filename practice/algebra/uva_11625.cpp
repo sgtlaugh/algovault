@@ -728,6 +728,7 @@ vector<int> nice_counts(int k){
         }
         seq.push_back(dp[u][k][0]);
     }
+
     return seq;
 }
 

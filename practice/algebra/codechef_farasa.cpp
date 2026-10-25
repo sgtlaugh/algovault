@@ -580,6 +580,7 @@ long long brute_mark(){
     int i, j;
     long long res = 0;
     vector<bool> seen(pre[n] + 1, false);
+
     for (i = 0; i < n; i++){
         for (j = i + 1; j <= n; j++) seen[pre[j] - pre[i]] = true;
     }

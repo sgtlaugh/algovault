@@ -841,6 +841,7 @@ void insert(const string& w){
 
 void build(){
     queue<int> Q;
+
     for (int c = 0; c < n; c++){
         if (nxt[0][c]) fail[nxt[0][c]] = 0, Q.push(nxt[0][c]);
     }

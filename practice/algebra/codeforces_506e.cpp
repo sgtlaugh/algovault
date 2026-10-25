@@ -745,6 +745,7 @@ vector<int> gen(int terms, int odd){
             }
         }
     }
+
     return seq;
 }
 

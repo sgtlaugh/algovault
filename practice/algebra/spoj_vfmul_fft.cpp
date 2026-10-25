@@ -595,6 +595,7 @@ string mul(string a, string b){
         for (j = DIGITS - 1; j >= 0; j--) buf[j] = '0' + (x % 10), x /= 10;
         res.append(buf, DIGITS);
     }
+
     return res;
 }
 

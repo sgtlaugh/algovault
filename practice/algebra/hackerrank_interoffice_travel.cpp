@@ -571,6 +571,7 @@ long long w[2 * MAX], res[MAX];
 
 vector<int> bfs(int root, int from, int start){
     vector<int> order = {root};
+
     par[root] = from, dis[root] = start;
 
     for (int i = 0; i < (int)order.size(); i++){
@@ -582,11 +583,13 @@ vector<int> bfs(int root, int from, int start){
             }
         }
     }
+
     return order;
 }
 
 void add(vector<int>& order, int sign){
     int i, depth = 0;
+
     for (int u: order) depth = max(depth, dis[u]);
 
     vector<long long> cnt(depth + 1, 0), rev(2 * depth + 1);
@@ -609,6 +612,7 @@ int centroid(int root){
         }
         if (max(big, m - sz[u]) <= (m >> 1)) return u;
     }
+
     return root;
 }
 

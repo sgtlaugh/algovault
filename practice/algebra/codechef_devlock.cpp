@@ -447,6 +447,7 @@ long long cnt[55], inv[15010];
 
 vector<long long> dial_power(long long c, int r){
     vector<long long> a(mm + 1, 0), res((mm + 1) * w, 0);
+
     a[0] = 1, c %= MOD;
     for (int k = 1; k <= mm; k++){
         long long s = 0;
@@ -461,6 +462,7 @@ vector<long long> dial_power(long long c, int r){
 void count_weights(){
     int i, j, x = 1 % p;
     vector<int> first(p, -1), seq;
+
     for (i = 0; i < n && first[x] == -1; i++){
         first[x] = i, cnt[x]++;
         seq.push_back(x);
