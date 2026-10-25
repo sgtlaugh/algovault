@@ -48,6 +48,11 @@ else
 fi
 mkdir -p /tmp/verdict
 out=$("$cxx" "${flags[@]}" "$solution" -o /tmp/verdict/solution 2>&1) || { echo "FAIL: does not build with ${flags[*]}:"; grep -m5 -E 'error|undefined' <<< "$out"; bad=1; }
+# The -O0 build only proves linking: the binary that gets timed is rebuilt at -O2, an -O0 one runs about 10x slower
+if [[ $old_judge -eq 1 && $bad -eq 0 ]]; then
+    flags=(-std=c++11 -O2)
+    out=$("$cxx" "${flags[@]}" "$solution" -o /tmp/verdict/solution 2>&1) || { echo "FAIL: does not build with ${flags[*]}:"; grep -m5 -E 'error|undefined' <<< "$out"; bad=1; }
+fi
 
 # GCC 14 flags miss GCC 5 library differences, like tuple's explicit constructor or glibc's minor() macro
 if [[ $old_judge -eq 1 ]] && docker image inspect gcc:5 > /dev/null 2>&1; then
