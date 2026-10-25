@@ -18,6 +18,6 @@ int main(){
         }
     }
 
-    printf("%lld\n", dense_prim(w).weight);
+    printf("%lld\n", dense_prim(n, [&](int u, int v){ return w[u][v]; }).weight);
     return 0;
 }

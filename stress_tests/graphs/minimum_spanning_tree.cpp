@@ -101,7 +101,10 @@ void check_edges(int n, const vector<MSTEdge>& edges, const MSTResult& r, pair<l
 template<typename T>
 void check_dense(const vector<vector<T>>& w, pair<long long, int> expected){
     int n = w.size();
-    DenseMSTResult r = dense_prim(w);
+    DenseMSTResult r = dense_prim(n, [&](int u, int v){
+        assert(u != v);
+        return w[u][v];
+    });
     auto [total, components] = expected;
     assert(r.weight == total);
     assert(r.connected == (components <= 1));
@@ -199,5 +202,28 @@ int main(){
     long long expected = complete.solve().weight;
     assert(complete_boruvka.solve().weight == expected);
     check_dense(w, {expected, 1});
+
+    /// Squared distances near 2e18 computed on the fly: a weight truncated to int or an overflowing total shows up
+    for (long long it = 0; it < stress::scaled(30); it++){
+        int pn = stress::rand_int(1, 60);
+        long long range = it % 2 ? 500000000 : 3;
+        vector<pair<long long, long long>> points(pn);
+        for (auto& [x, y] : points) x = stress::rand_int(-range, range), y = stress::rand_int(-range, range);
+        auto dist = [&](int u, int v){
+            long long dx = points[u].first - points[v].first, dy = points[u].second - points[v].second;
+            return dx * dx + dy * dy;
+        };
+
+        Kruskal on_points(pn);
+        vector<vector<long long>> pw(pn, vector<long long>(pn));
+        for (int u = 0; u < pn; u++){
+            for (int v = 0; v < pn; v++) pw[u][v] = dist(u, v);
+            for (int v = u + 1; v < pn; v++) on_points.add_edge(u, v, dist(u, v));
+        }
+
+        long long weight = on_points.solve().weight;
+        assert(dense_prim(pn, dist).weight == weight);
+        check_dense(pw, {weight, 1});
+    }
     return 0;
 }
