@@ -8,9 +8,11 @@
  * SteinerTree g(n): an empty graph on vertices 0 to n - 1
  * g.add_edge(u, v, w): adds an undirected edge with w >= 0
  * g.solve(terminals): the minimum weight, 0 for fewer than two terminals, STEINER_INF if they are not all connected
+ * g.solve_subsets(terminals): best, where best[mask] is solve of the terminals[i] with bit i set in mask
  *
  * Notes:
  *   - solve does not modify the graph, so one graph answers several terminal sets
+ *   - Steiner forest, each group connected: forest[s] = min over t of forest[s ^ t] + best[t], t a union of groups in s
  *   - The total weight of all edges must stay below STEINER_INF (~2.3e18)
  *
 ***/
@@ -34,8 +36,12 @@ struct SteinerTree{
     }
 
     long long solve(const vector<int>& terminals) const{
+        return solve_subsets(terminals).back();
+    }
+
+    vector<long long> solve_subsets(const vector<int>& terminals) const{
         int k = terminals.size();
-        if (k <= 1) return 0;
+        if (k <= 1) return vector<long long>(1 << k, 0);
 
         vector<vector<long long>> dp(1 << k, vector<long long>(n, STEINER_INF));
         for (int i = 0; i < k; i++) dp[1 << i][terminals[i]] = 0;
@@ -61,7 +67,9 @@ struct SteinerTree{
             }
         }
 
-        return *min_element(dp[(1 << k) - 1].begin(), dp[(1 << k) - 1].end());
+        vector<long long> best(1 << k, 0);
+        for (int mask = 1; mask < (1 << k); mask++) best[mask] = *min_element(dp[mask].begin(), dp[mask].end());
+        return best;
     }
 };
 
@@ -80,5 +88,9 @@ int main(){
     path.add_edge(0, 1, 4), path.add_edge(1, 2, 6), path.add_edge(2, 3, 1);
     assert(path.solve({0, 3}) == 11);
     assert(path.solve({0, 4}) == STEINER_INF);  /// 4 is isolated
+
+    /// Bit i of the mask picks terminals[i], so mask 6 is {1, 3} at cost 6 + 1
+    vector<long long> best = path.solve_subsets({0, 1, 3});
+    assert(best == vector<long long>({0, 0, 0, 4, 0, 11, 7, 11}));
     return 0;
 }

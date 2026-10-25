@@ -66,6 +66,25 @@ long long floyd_reference(int n, const vector<array<long long, 3>>& edges, const
     return *min_element(dp[(1 << k) - 1].begin(), dp[(1 << k) - 1].end());
 }
 
+/// Minimum weight edge subset joining each pair, over all 2^m subsets: independent of the vertex subset brute force
+long long brute_forest(int n, const vector<array<long long, 3>>& edges, const vector<int>& terminals){
+    long long best = STEINER_INF;
+    for (int mask = 0; mask < (1 << edges.size()); mask++){
+        vector<int> parent(n);
+        iota(parent.begin(), parent.end(), 0);
+        function<int(int)> find = [&](int x){ return parent[x] == x ? x : parent[x] = find(parent[x]); };
+        long long total = 0;
+        for (int i = 0; i < (int)edges.size(); i++){
+            if (mask >> i & 1) parent[find(edges[i][0])] = find(edges[i][1]), total += edges[i][2];
+        }
+
+        bool joined = true;
+        for (int i = 0; i + 1 < (int)terminals.size(); i += 2) joined &= find(terminals[i]) == find(terminals[i + 1]);
+        if (joined) best = min(best, total);
+    }
+    return best;
+}
+
 /// Tiny weights force ties, 1e15 weights catch any narrowing of the 64-bit weight type
 long long random_weight(long long it){
     /// a narrowed weight stays nonnegative, so an assertion fires instead of Dijkstra looping
@@ -96,7 +115,17 @@ int main(){
 
         for (int q = 0; q < 3; q++){
             vector<int> terminals = random_terminals(n, 5);
-            assert(g.solve(terminals) == brute(n, edges, terminals));
+            int k = terminals.size();
+            vector<long long> best = g.solve_subsets(terminals);
+            assert((int)best.size() == 1 << k);
+            for (int mask = 0; mask < (1 << k); mask++){
+                vector<int> subset;
+                for (int i = 0; i < k; i++){
+                    if (mask >> i & 1) subset.push_back(terminals[i]);
+                }
+                assert(best[mask] == brute(n, edges, subset));
+            }
+            assert(g.solve(terminals) == best.back());
         }
     }
 
@@ -113,6 +142,36 @@ int main(){
 
         vector<int> terminals = random_terminals(n, 6);
         assert(g.solve(terminals) == floyd_reference(n, edges, terminals));
+    }
+
+    /// Steiner forest by the header's recipe, terminals paired as (0, 1), (2, 3), (4, 5)
+    for (long long it = 0; it < stress::scaled(1000); it++){
+        int n = stress::rand_int(2, 7), m = stress::rand_int(0, 11);
+        vector<array<long long, 3>> edges;
+        SteinerTree g(n);
+        for (int i = 0; i < m; i++){
+            int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
+            long long w = random_weight(it);
+            edges.push_back({u, v, w});
+            g.add_edge(u, v, w);
+        }
+
+        vector<int> terminals = random_terminals(n, 6);
+        terminals.resize(terminals.size() / 2 * 2);
+        int pairs = terminals.size() / 2;
+        vector<long long> best = g.solve_subsets(terminals);
+        vector<long long> forest(1 << pairs, STEINER_INF);
+        forest[0] = 0;
+        for (int s = 1; s < (1 << pairs); s++){
+            for (int t = s; t > 0; t = (t - 1) & s){
+                int covered = 0;
+                for (int i = 0; i < pairs; i++){
+                    if (t >> i & 1) covered |= 3 << (2 * i);
+                }
+                forest[s] = min(forest[s], forest[s ^ t] + best[covered]);
+            }
+        }
+        assert(forest.back() == brute_forest(n, edges, terminals));
     }
 
     /// Larger graph, many terminals: the answer is positive, at most the spanning tree weight, independent of order
