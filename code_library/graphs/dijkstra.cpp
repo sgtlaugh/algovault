@@ -7,6 +7,7 @@
  *   - Dijkstra: O((n + m) log m) per run with a binary heap
  *   - DenseDijkstra: O(n^2) per run, O(n^2) memory for the weight matrix (32 MB at n = 2000)
  *   - ZeroOneBFS: O(n + m) per run with a deque
+ *   - dijkstra_implicit: O((n + m) log m) for m relax calls, plus the cost of neighbors
  *
  * Dijkstra, DenseDijkstra and ZeroOneBFS share one API on 0-based vertices, shown for Dijkstra:
  * Dijkstra g(n): an empty graph on n vertices
@@ -17,11 +18,18 @@
  * g.path(v): the vertices of one shortest path from a source to v, empty if v is unreachable
  * g.dist[v]: the shortest distance from a source to v, or DIJKSTRA_INF if v is unreachable
  *
+ * dijkstra_implicit(n, sources, neighbors): the distances over states 0 .. n - 1, DIJKSTRA_INF where unreached
+ * dijkstra_implicit(n, sources, neighbors, target): stops once target is settled, so only its distance is final
+ * neighbors(u, du, DijkstraRelax& relax): calls relax(v, dv) for each successor v of u, with any dv >= du
+ *
  * Notes:
  *   - Weights are long long in [0, DIJKSTRA_INF), 0 or 1 for ZeroOneBFS
  *   - Every shortest distance must stay below DIJKSTRA_INF (~2.3e18)
  *   - Parallel edges and self loops are allowed, and add_edge and run can be called in any order
  *   - DenseDijkstra beats Dijkstra once m passes about n^2 / 2, or when most edges relax, like on a complete DAG
+ *   - dijkstra_implicit's dv may depend on du, like a toll on the load carried, but must never drop as du grows
+ *   - dijkstra_implicit calls neighbors at most once per state, with its final du
+ *   - A start distance other than 0 comes from an extra source state whose neighbors relax the real start to it
  *
 ***/
 
@@ -183,6 +191,37 @@ struct ZeroOneBFS{
     }
 };
 
+struct DijkstraRelax{
+    vector<long long>& dist;
+    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>>& heap;
+    long long du;
+
+    void operator()(int v, long long dv){
+        assert(dv >= du);
+        if (dv < dist[v]) dist[v] = dv, heap.push({dv, v});
+    }
+};
+
+template<typename Neighbors>
+vector<long long> dijkstra_implicit(int n, const vector<int>& sources, Neighbors neighbors, int target = -1){
+    vector<long long> dist(n, DIJKSTRA_INF);
+    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+    DijkstraRelax relax{dist, heap, 0};
+
+    /// A repeated source is pushed once, or neighbors would run twice for it
+    for (int src : sources) if (dist[src] != 0) dist[src] = 0, heap.push({0, src});
+    while (!heap.empty()){
+        auto [du, u] = heap.top();
+        heap.pop();
+        if (du != dist[u]) continue;
+        if (u == target) break;
+        relax.du = du;
+        neighbors(u, du, relax);
+    }
+    return dist;
+}
+
+
 int main(){
     /// 0 -> 2 -> 1 costs 3 and beats the direct edge of 4, and nothing reaches 4
     Dijkstra g(5);
@@ -220,6 +259,23 @@ int main(){
     bfs.run(0);
     assert((bfs.dist == vector<long long>{0, 1, 1, 1}));
     assert((bfs.path(3) == vector<int>{0, 2, 3}));
+
+    /// From 1, add one or double in one step: 1 -> 2 -> 4 -> 5 -> 10, and nothing goes down to 0
+    auto step = [](int u, long long du, DijkstraRelax& relax){
+        if (u + 1 <= 20) relax(u + 1, du + 1);
+        if (2 * u <= 20) relax(2 * u, du + 1);
+    };
+    vector<long long> steps = dijkstra_implicit(21, {1}, step);
+    assert(steps[10] == 4);
+    assert(steps[0] == DIJKSTRA_INF);
+    assert(dijkstra_implicit(21, {1}, step, 10)[10] == 4);
+
+    /// Extra state 0 starts the backward run at 100 items in town 3, a 10% toll rounded up: 110 in town 2, 121 in 1
+    auto toll = [](int u, long long du, DijkstraRelax& relax){
+        if (u == 0) relax(3, 100);
+        else if (u > 1) relax(u - 1, du + (du + 9) / 10);
+    };
+    assert((dijkstra_implicit(4, {0}, toll) == vector<long long>{0, 121, 110, 100}));
 
     return 0;
 }

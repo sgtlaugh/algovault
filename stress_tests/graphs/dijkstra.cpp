@@ -142,6 +142,41 @@ void check_all_sources(int n, const vector<TestEdge>& edges){
     }
 }
 
+/// Every arc as a callback, checked against the explicit oracle, with neighbors called at most once per state
+vector<long long> run_implicit(int n, const vector<TestEdge>& edges, const vector<int>& sources, int target = -1){
+    vector<vector<pair<int, long long>>> adj(n);
+    for (auto e : edges){
+        adj[e.u].push_back({e.v, e.w});
+        if (!e.directed) adj[e.v].push_back({e.u, e.w});
+    }
+
+    vector<long long> seen(n, -1);
+    auto dist = dijkstra_implicit(n, sources, [&](int u, long long du, DijkstraRelax& relax){
+        assert(seen[u] == -1);
+        seen[u] = du;
+        for (auto [v, w] : adj[u]) relax(v, du + w);
+    }, target);
+    for (int v = 0; v < n; v++) assert(seen[v] == -1 || seen[v] == dist[v]);
+    return dist;
+}
+
+void check_implicit_all_sources(int n, const vector<TestEdge>& edges){
+    auto expected = floyd(n, lightest_arcs(edges));
+    for (int src = 0; src < n; src++){
+        assert(run_implicit(n, edges, {src}) == expected[src]);
+        int target = stress::rand_int(0, n - 1);
+        assert(run_implicit(n, edges, {src}, target)[target] == expected[src][target]);
+    }
+
+    vector<int> sources(stress::rand_int(1, n));
+    for (int& src : sources) src = stress::rand_int(0, n - 1);
+    vector<long long> nearest(n, DIJKSTRA_INF);
+    for (int src : sources){
+        for (int v = 0; v < n; v++) nearest[v] = min(nearest[v], expected[src][v]);
+    }
+    assert(run_implicit(n, edges, sources) == nearest);
+}
+
 /// A run after more add_edge calls must see the new edges, which Dijkstra's cached adjacency could miss
 template<typename Graph>
 void incremental_case(int n, const vector<TestEdge>& edges){
@@ -211,6 +246,7 @@ long long heavy_chain_case(){
 
     check_all_sources<Dijkstra>(n, edges);
     check_all_sources<DenseDijkstra>(n, edges);
+    check_implicit_all_sources(n, edges);
 
     long long longest = 0;
     for (auto& row : floyd(n, lightest_arcs(edges))){
@@ -239,6 +275,58 @@ void zero_one_adversarial_case(){
     zero_one.run(0);
     assert(chrono::steady_clock::now() - start < chrono::seconds(2));
     assert(zero_one.dist == heap.dist);
+}
+
+/// The implicit twin of early_exit_case: settling target must stop before expanding it
+void implicit_early_exit_case(){
+    for (int n = 2; n <= 50; n++){
+        vector<TestEdge> chain;
+        for (int v = 0; v + 1 < n; v++) chain.push_back({v, v + 1, stress::rand_int(0, 1), true});
+
+        int target = stress::rand_int(0, n - 2);
+        assert(run_implicit(n, chain, {0}, target)[target + 1] == DIJKSTRA_INF);
+        assert(run_implicit(n, chain, {0})[n - 1] != DIJKSTRA_INF);
+    }
+}
+
+/// Arc u -> v turns du into du + add + du * pct / 100, growing with du, so the best route depends on the load so far
+struct TollArc{
+    int u, v;
+    long long add, pct;
+
+    long long apply(long long du) const{
+        return du + add + du * pct / 100;
+    }
+};
+
+/// Since every arc only adds, a best walk is a simple path, so trying every simple path from every source is exact
+void simple_paths(int u, long long du, int on_path, const vector<TollArc>& arcs, vector<long long>& best){
+    best[u] = min(best[u], du);
+    for (auto& a : arcs){
+        if (a.u == u && !(on_path >> a.v & 1)) simple_paths(a.v, a.apply(du), on_path | 1 << a.v, arcs, best);
+    }
+}
+
+void toll_case(){
+    int n = stress::rand_int(1, 7), m = stress::rand_int(0, 4 * n);
+    vector<TollArc> arcs(m);
+    for (auto& a : arcs){
+        a.u = stress::rand_int(0, n - 1), a.v = stress::rand_int(0, n - 1);
+        a.add = stress::rand_int(0, 3) == 0 ? 0 : stress::rand_int(0, 30);
+        a.pct = stress::rand_int(0, 2) == 0 ? 0 : stress::rand_int(0, 150);
+    }
+    vector<int> sources(stress::rand_int(1, 2));
+    for (int& src : sources) src = stress::rand_int(0, n - 1);
+
+    vector<long long> best(n, DIJKSTRA_INF);
+    for (int src : sources) simple_paths(src, 0, 1 << src, arcs, best);
+
+    auto toll = [&](int u, long long du, DijkstraRelax& relax){
+        for (auto& a : arcs) if (a.u == u) relax(a.v, a.apply(du));
+    };
+    assert(dijkstra_implicit(n, sources, toll) == best);
+    int target = stress::rand_int(0, n - 1);
+    assert(dijkstra_implicit(n, sources, toll, target)[target] == best[target]);
 }
 
 vector<TestEdge> random_edges(int n, int m, long long max_w){
@@ -282,6 +370,10 @@ int main(){
         auto dense = build<DenseDijkstra>(n, edges);
         check_targets_then_full(dense, lightest, src, expected);
 
+        int target = (src + n / 2) % n;
+        assert(run_implicit(n, edges, {src}, target)[target] == expected[target]);
+        assert(run_implicit(n, edges, {src}) == sparse.dist);
+
         if (max_w > 1) continue;
         auto zero_one = build<ZeroOneBFS>(n, edges);
         check_targets_then_full(zero_one, lightest, src, expected);
@@ -302,6 +394,7 @@ int main(){
     auto deque_grid = build<ZeroOneBFS>(side * side, grid);
     heap_grid.run(0), deque_grid.run(0);
     assert(heap_grid.dist == deque_grid.dist);
+    assert(run_implicit(side * side, grid, {0}) == heap_grid.dist);
 
     long long longest = 0;
     for (long long it = 0; it < stress::scaled(300); it++) longest = max(longest, heavy_chain_case());
@@ -316,5 +409,19 @@ int main(){
         wide_early_exit_case<DenseDijkstra>();
         wide_early_exit_case<ZeroOneBFS>();
     }
+
+    for (long long it = 0; it < stress::scaled(3000); it++){
+        int n = stress::rand_int(1, 12);
+        check_implicit_all_sources(n, random_edges(n, stress::rand_int(0, 3 * n), weight_limits[it % 4]));
+    }
+    for (long long it = 0; it < stress::scaled(5000); it++) toll_case();
+    implicit_early_exit_case();
+    /// A dv below du is a negative arc, here at du = 5 so an assert against a stale du of 0 would miss it
+    stress::expect_assert("graphs/dijkstra.cpp", []{
+        dijkstra_implicit(3, {0}, [](int u, long long du, DijkstraRelax& relax){
+            if (u == 0) relax(1, 5);
+            if (u == 1) relax(2, du - 1);
+        });
+    });
     return 0;
 }
