@@ -325,12 +325,12 @@ long double great_circle_distance(long double lat1, long double lon1, long doubl
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         Point a, b, c, d;
         scanf("%lld %lld %lld %lld %lld %lld %lld %lld", &a.x, &a.y, &b.x, &b.y, &c.x, &c.y, &d.x, &d.y);
 
-        /// The corners come in any order, so normalise to the low and high corner first
         Point lo = {min(c.x, d.x), min(c.y, d.y)}, hi = {max(c.x, d.x), max(c.y, d.y)};
         auto inside = [&](const Point& p){ return lo.x <= p.x && p.x <= hi.x && lo.y <= p.y && p.y <= hi.y; };
         vector<Point> rect = {lo, {hi.x, lo.y}, hi, {lo.x, hi.y}};

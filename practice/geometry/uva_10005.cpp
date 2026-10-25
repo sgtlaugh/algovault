@@ -286,6 +286,7 @@ pair<int, Point> max_circle_cover(const vector<Point>& points, Float r){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<Point> points(n);
         for (auto& p : points){
@@ -296,7 +297,6 @@ int main(){
 
         double r;
         scanf("%lf", &r);
-        /// The polygon fits iff all its vertices do, so only the smallest circle around the vertices matters
         if (minimum_enclosing_circle(points).r <= r * (1 + EPS)) puts("The polygon can be packed in the circle.");
         else puts("There is no way of packing that polygon.");
     }

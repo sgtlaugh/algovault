@@ -54,11 +54,11 @@ long long on_interior(const vector<Point>& poly){
 
 int main(){
     int n, m, cs = 0;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         vector<Point> pts(n), poly;
         for (auto& p: pts) scanf("%lld %lld", &p.x, &p.y);
 
-        /// A point in the middle of a straight run is no vertex, and keeping it would block shrinking to the origin
         for (int i = 0; i < n; i++){
             if (area2({pts[(i + n - 1) % n], pts[i], pts[(i + 1) % n]})) poly.push_back(pts[i]);
         }
@@ -68,7 +68,6 @@ int main(){
         for (auto& p: poly) g = __gcd(g, __gcd(abs(p.x - o.x), abs(p.y - o.y)));
         for (auto& p: poly) p = Point((p.x - o.x) / g, (p.y - o.y) / g);
 
-        /// Scaling by i multiplies the area by i^2 and the border points by i, Pick's theorem gives the rest
         long long a = area2(poly), b = on_border(poly), res = on_interior(poly);
         for (long long i = 2; i <= m; i++) res += (a * i * i - b * i + 2) / 2;
         printf("Case %d: %lld\n", ++cs, res);

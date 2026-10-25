@@ -325,6 +325,7 @@ long double great_circle_distance(long double lat1, long double lon1, long doubl
 
 int main(){
     PointF m;
+
     while (scanf("%lf %lf", &m.x, &m.y) == 2){
         int n;
         scanf("%d", &n);
@@ -337,7 +338,6 @@ int main(){
             PointF a = line[i], b = line[i + 1], c = a;
             if (dot(a, b, b) > 0 && dot(a, b, m) > 0) c = dot(b, a, m) > 0 ? project(m, a, b) : b;
 
-            /// Equidistant candidates keep the earliest segment's point
             double d = dot(m, c, c);
             if (d < best_dist - 1e-9 * max(1.0, best_dist)) best = c, best_dist = d;
         }

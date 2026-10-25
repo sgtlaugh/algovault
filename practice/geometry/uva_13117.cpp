@@ -326,6 +326,7 @@ long double great_circle_distance(long double lat1, long double lon1, long doubl
 int main(){
     int n;
     Point r;
+
     while (scanf("%d %lld %lld", &n, &r.x, &r.y) == 3){
         vector<Point> poly(n);
         for (auto& p: poly) scanf("%lld %lld", &p.x, &p.y);
@@ -333,7 +334,6 @@ int main(){
         double res = 1e18;
         for (int i = 0; i < n; i++) res = min(res, dist_point_segment(r, poly[i], poly[(i + 1) % n]));
 
-        /// Ties like 0.0625 must round up, printf rounds exact halves to even
         printf("%.3f\n", res + 1e-9);
     }
     return 0;

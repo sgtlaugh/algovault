@@ -325,12 +325,12 @@ long double great_circle_distance(long double lat1, long double lon1, long doubl
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<Point> poly(n);
         for (auto& p: poly) scanf("%lld %lld", &p.x, &p.y);
         Point p;
         scanf("%lld %lld", &p.x, &p.y);
-        /// Every vertex has odd coordinates and P even ones, so P never lies on the boundary
         puts(point_in_polygon(poly, p) == 1 ? "T" : "F");
     }
     return 0;

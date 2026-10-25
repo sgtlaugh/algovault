@@ -325,6 +325,7 @@ long double great_circle_distance(long double lat1, long double lon1, long doubl
 
 int main(){
     int t, m;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d", &m);
@@ -337,6 +338,7 @@ int main(){
             for (int j = 0; j < m && !hit; j++) hit = j != i && segments_intersect(a[i], b[i], a[j], b[j]);
             isolated += !hit;
         }
+
         printf("%d\n", isolated);
     }
     return 0;

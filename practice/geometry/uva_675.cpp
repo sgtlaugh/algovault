@@ -316,7 +316,6 @@ struct DynamicHull{
 };
 
 void solve(vector<Point> polygon, bool first){
-    /// The polygon repeats its first vertex at the end
     polygon.pop_back();
     vector<Point> hull = get_convex_hull(polygon);
     vector<Point> sorted_hull = hull;
@@ -337,6 +336,7 @@ int main(){
     char line[256];
     bool first = true;
     vector<Point> polygon;
+
     while (fgets(line, sizeof(line), stdin)){
         long long x, y;
         if (sscanf(line, "%lld , %lld", &x, &y) == 2) polygon.push_back(Point(x, y));

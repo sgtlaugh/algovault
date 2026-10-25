@@ -135,7 +135,6 @@ const long double SIDE = 1e4;
 
 int n, V[105], U[105], W[105];
 
-/// Sections of lengths x, y and SIDE - x - y, with a x + b y + c SIDE > 0 for beating each rival
 bool can_win(int i){
     vector<Halfplane> h = {Halfplane(Point(0, 1), Point(0, 0)), Halfplane(Point(0, 0), Point(1, 0)),
                            Halfplane(Point(SIDE, 0), Point(0, SIDE))};
@@ -144,7 +143,6 @@ bool can_win(int i){
         if (j == i) continue;
         if (V[i] <= V[j] && U[i] <= U[j] && W[i] <= W[j]) return false;
 
-        /// The x and y coefficients vanish exactly when the rival is uniformly slower, then the constraint always holds
         long long ka = (long long)(W[j] - V[j]) * V[i] * W[i] - (long long)(W[i] - V[i]) * V[j] * W[j];
         long long kb = (long long)(W[j] - U[j]) * U[i] * W[i] - (long long)(W[i] - U[i]) * U[j] * W[j];
         if (!ka && !kb) continue;

@@ -317,6 +317,7 @@ struct DynamicHull{
 
 int main(){
     int t, n;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d", &n);
@@ -329,9 +330,6 @@ int main(){
         }
         sort(pts.begin(), pts.end());
 
-        /// get_convex_hull drops collinear points, but every listed point must be printed: split them into the
-        /// lower chain (right of A -> B) walked forward and the upper chain walked back, A and B the extreme points
-        /// Points on segment AB itself make it a hull edge, the lower one exactly when the strict hull goes A -> B first
         Point a = pts.front(), b = pts.back();
         bool ab_lower = get_convex_hull(pts)[1] == b;
         vector<Point> lower, upper;

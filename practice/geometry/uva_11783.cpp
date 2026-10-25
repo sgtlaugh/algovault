@@ -325,11 +325,11 @@ long double great_circle_distance(long double lat1, long double lon1, long doubl
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<Point> a(n), b(n);
         for (int i = 0; i < n; i++) scanf("%lld %lld %lld %lld", &a[i].x, &a[i].y, &b[i].x, &b[i].y);
 
-        /// One nail per crossing pair, two more for each stick that crosses nothing
         int nails = 0;
         vector<bool> crossed(n, false);
         for (int i = 0; i < n; i++){

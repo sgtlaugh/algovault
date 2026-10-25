@@ -325,6 +325,7 @@ long double great_circle_distance(long double lat1, long double lon1, long doubl
 
 int main(){
     int n;
+
     scanf("%d", &n);
     puts("INTERSECTING LINES OUTPUT");
     while (n--){

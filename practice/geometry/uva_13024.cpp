@@ -317,8 +317,8 @@ struct DynamicHull{
 
 int main(){
     int l, s;
+
     while (scanf("%d", &l) == 1){
-        /// A point lies in some triangle of the large lanterns exactly when it lies in their convex hull
         DynamicHull hull;
         long long x, y;
         while (l--) scanf("%lld %lld", &x, &y), hull.add(Point(x, y));

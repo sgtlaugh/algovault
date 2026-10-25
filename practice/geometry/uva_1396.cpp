@@ -133,6 +133,7 @@ vector<Point> halfplane_intersection(vector<Halfplane> h, long double box){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<Point> poly(n);
         for (auto& p : poly){
@@ -141,7 +142,6 @@ int main(){
             p = Point(x, y);
         }
 
-        /// A point at distance r from the sea exists iff the edges pushed inward by r still enclose some area
         auto fits = [&](long double r){
             vector<Halfplane> h;
             for (int i = 0; i < n; i++){

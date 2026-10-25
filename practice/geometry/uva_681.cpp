@@ -317,6 +317,7 @@ struct DynamicHull{
 
 int main(){
     int k;
+
     scanf("%d", &k);
     printf("%d\n", k);
     for (int t = 0; t < k; t++){
@@ -330,7 +331,6 @@ int main(){
             p = Point(x, y);
         }
 
-        /// The hull starts at the lowest x, the output starts at the lowest y and closes back on it
         vector<Point> hull = get_convex_hull(shape);
         rotate(hull.begin(), min_element(hull.begin(), hull.end(), [](const Point& a, const Point& b){
             return make_pair(a.y, a.x) < make_pair(b.y, b.x);

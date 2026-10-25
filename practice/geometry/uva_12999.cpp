@@ -317,6 +317,7 @@ struct DynamicHull{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int p, k;
@@ -328,12 +329,10 @@ int main(){
             mounts.push_back(Point(x, y));
         }
 
-        /// The best k-gon uses hull vertices, and extra towers can always stand on unused mounts
         vector<Point> hull = get_convex_hull(mounts);
         int n = hull.size();
         k = min(k, n);
 
-        /// dp[c][j]: twice the largest area of a c-gon over hull[s..j] using hull[s] and ending at hull[j]
         int64_t best = 0;
         vector<vector<int64_t>> dp(k + 1, vector<int64_t>(n, -1));
         for (int s = 0; s < n; s++){
@@ -348,6 +347,7 @@ int main(){
                 }
             }
         }
+
         printf("Case %d: %.3f\n", tc, best / 2.0);
     }
     return 0;

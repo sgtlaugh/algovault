@@ -54,6 +54,7 @@ long long on_interior(const vector<Point>& poly){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<Point> poly(n);
         for (auto& p: poly) scanf("%lld %lld", &p.x, &p.y);

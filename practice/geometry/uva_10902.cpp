@@ -325,6 +325,7 @@ long double great_circle_distance(long double lat1, long double lon1, long doubl
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<array<PointF, 2>> sticks(n);
         vector<array<double, 5>> box(n);
@@ -335,8 +336,6 @@ int main(){
             box[i] = {min(a.x, b.x), max(a.x, b.x), min(a.y, b.y), max(a.y, b.y), hypot(b.x - a.x, b.y - a.y)};
         }
 
-        /// At most 1000 sticks are on top at any time, so each new stick only checks the current top ones
-        /// Disjoint bounding boxes skip the exact test, the margin covers its EPS * length collinearity tolerance
         vector<int> top;
         for (int i = 0; i < n; i++){
             int k = 0;

@@ -317,6 +317,7 @@ struct DynamicHull{
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<Point> polygon;
         for (int i = 0; i < n; i++){
@@ -325,7 +326,6 @@ int main(){
             polygon.push_back(Point(x, y));
         }
 
-        /// Every point of a convex polygon sees all of it, a reflex corner hides something from a point near it
         puts(is_convex(polygon) ? "No" : "Yes");
     }
     return 0;
