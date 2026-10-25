@@ -35,11 +35,13 @@ struct CKY{
         int n = s.size();
 
         if (n == 0) return false;
-        vector<vector<vector<char>>> can(n + 1, vector<vector<char>>(n, vector<char>(r, 0)));
+        /// One flat table: nested vectors cost n^2 allocations and a pointer chase per rule test
+        vector<char> can((size_t)(n + 1) * n * r, 0);
+        auto at = [&](int len, int i, int a) -> char&{ return can[((size_t)len * n + i) * r + a]; };
 
         for (int i = 0; i < n; i++){
             for (auto [a, c] : terminals){
-                if (c == s[i]) can[1][i][a] = 1;
+                if (c == s[i]) at(1, i, a) = 1;
             }
         }
 
@@ -47,13 +49,13 @@ struct CKY{
             for (int i = 0; i + len <= n; i++){
                 for (int k = 1; k < len; k++){
                     for (auto [a, b, c] : binaries){
-                        if (can[k][i][b] && can[len - k][i + k][c]) can[len][i][a] = 1;
+                        if (at(k, i, b) && at(len - k, i + k, c)) at(len, i, a) = 1;
                     }
                 }
             }
         }
 
-        return can[n][0][start];
+        return at(n, 0, start);
     }
 };
 
