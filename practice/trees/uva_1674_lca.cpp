@@ -235,6 +235,7 @@ pair<int, int> path_intersection(const Tree& tree, int a, int b, int c, int d){
 
 int main(){
     int t, n, q;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d", &n);
@@ -246,7 +247,6 @@ int main(){
         }
         tree.build(0);
 
-        /// +c at both ends and -c at the lca and its parent, then a node's energy is the sum over its subtree
         vector<long long> energy(n, 0);
         scanf("%d", &q);
         while (q--){

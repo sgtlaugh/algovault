@@ -236,13 +236,12 @@ pair<int, int> path_intersection(const Tree& tree, int a, int b, int c, int d){
 
 int main(){
     int n, m, s;
+
     while (scanf("%d %d %d", &n, &m, &s) == 3){
         vector<array<int, 3>> bridges(m);
         for (auto& e: bridges) scanf("%d %d %d", &e[1], &e[2], &e[0]), e[1]--, e[2]--;
         sort(bridges.rbegin(), bridges.rend());
 
-        /// Kruskal reconstruction tree: taking bridges heaviest first, each merge of two islands groups gets a new
-        /// node holding that bridge's limit, so the best route between u and v is limited by the limit at lca(u, v)
         vector<int> group(2 * n - 1), limit(2 * n - 1, 0);
         iota(group.begin(), group.end(), 0);
         auto find = [&](int x){

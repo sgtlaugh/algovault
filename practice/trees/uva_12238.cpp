@@ -236,6 +236,7 @@ pair<int, int> path_intersection(const Tree& tree, int a, int b, int c, int d){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         LinearLCA tree(n);
         for (int i = 1; i < n; i++){

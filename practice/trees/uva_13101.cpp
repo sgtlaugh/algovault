@@ -159,7 +159,6 @@ struct HLD{
     }
 };
 
-/// The subtraction game is Euclid's algorithm, it ends on the gcd of the path
 struct GcdTree{
     int n;
     vector<int> t;
@@ -186,9 +185,11 @@ struct GcdTree{
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         vector<int> value(n);
         for (auto& x : value) scanf("%d", &x);
+
         HLD hld(n);
         for (int i = 1; i < n; i++){
             int u, v;

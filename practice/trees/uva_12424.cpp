@@ -161,7 +161,6 @@ struct HLD{
 
 typedef array<int, 10> Counts;
 
-/// One Fenwick tree per color over the HLD positions, folded by query_path into per-color path counts
 struct ColorTree{
     int n;
     vector<Counts> bit;
@@ -195,6 +194,7 @@ struct ColorTree{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;

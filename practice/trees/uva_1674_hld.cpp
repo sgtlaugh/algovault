@@ -159,7 +159,6 @@ struct HLD{
     }
 };
 
-/// Every strike lands before the report, so a difference array is the whole range structure update_path needs
 struct DifferenceArray{
     vector<long long> d;
 
@@ -172,6 +171,7 @@ struct DifferenceArray{
 
 int main(){
     int t, n, q;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d", &n);

@@ -240,6 +240,7 @@ int find(vector<int>& root, int x){
 
 int main(){
     int t, n, r, q;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d", &n, &r);
@@ -247,7 +248,6 @@ int main(){
         for (auto& e : roads) scanf("%d %d %d", &e[1], &e[2], &e[0]);
         sort(roads.begin(), roads.end());
 
-        /// Kruskal: the longest day trip on the minimum spanning tree path is the best any itinerary can do
         LCA tree(n);
         vector<int> root(n);
         iota(root.begin(), root.end(), 0);
@@ -258,7 +258,6 @@ int main(){
         }
         tree.build();
 
-        /// A node's parent edge weighs its weight_sum minus its parent's
         auto longest_up = [&](int v, int top){
             long long res = 0;
             for (; v != top; v = tree.up[0][v]) res = max(res, tree.weight_sum[v] - tree.weight_sum[tree.up[0][v]]);

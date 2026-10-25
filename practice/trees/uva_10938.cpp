@@ -235,6 +235,7 @@ pair<int, int> path_intersection(const Tree& tree, int a, int b, int c, int d){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         LCA tree(n);
         for (int i = 1; i < n; i++){
@@ -251,7 +252,6 @@ int main(){
             scanf("%d %d", &a, &b);
             a--, b--;
 
-            /// Both fleas cover half of the path, they meet in its middle vertex or straddle its middle edge
             int d = tree.dist(a, b), p = tree.jump(a, b, d / 2);
             if (d % 2 == 0) printf("The fleas meet at %d.\n", p + 1);
             else{

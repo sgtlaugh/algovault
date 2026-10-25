@@ -236,14 +236,12 @@ pair<int, int> path_intersection(const Tree& tree, int a, int b, int c, int d){
 
 int main(){
     int n, m;
+
     for (int tc = 0; scanf("%d %d", &n, &m) == 2; tc++){
         vector<array<int, 3>> roads(m);
         for (auto& e: roads) scanf("%d %d %d", &e[1], &e[2], &e[0]), e[1]--, e[2]--;
         sort(roads.begin(), roads.end());
 
-        /// Kruskal reconstruction tree: each union hangs both components under a new node holding the road's danger,
-        /// so the least dangerous s - t path is the danger at lca(s, t). Leftover components get joined under dummy
-        /// nodes to make one tree, no query crosses them
         int nodes = n;
         vector<int> parent(2 * n - 1), danger(2 * n - 1, 0);
         iota(parent.begin(), parent.end(), 0);
