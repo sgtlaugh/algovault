@@ -19,6 +19,7 @@ using namespace std;
 template <typename Container>
 int minimum_rotation(const Container& s){
     int n = s.size(), i = 0, j = 1, k = 0;
+
     /// The start losing a comparison skips all it matched, the smallest least start never is, so i ends on it
     while (i < n && j < n && k < n){
         auto a = s[(i + k) % n], b = s[(j + k) % n];

@@ -41,6 +41,7 @@ struct SuffixAutomaton{
 
     void add(char ch){
         int c = ch - BASE;
+
         assert(0 <= c && c < SIGMA);
         int cur = new_state(len[last] + 1, 0, 1), p = last;
         last = cur;
@@ -88,6 +89,7 @@ struct SuffixAutomaton{
     /// State reached by reading p from the root, -1 if p is not a substring
     int walk(const string& p) const{
         int v = 0;
+
         for (char ch : p){
             int c = ch - BASE;
             if (c < 0 || c >= SIGMA || next[v][c] == -1) return -1;
@@ -101,6 +103,7 @@ struct SuffixAutomaton{
     void build_endpos(){
         int states = len.size(), n = len[last];
         vector<int> bucket(n + 2, 0), order(states);
+
         for (int v = 0; v < states; v++) bucket[len[v] + 1]++;
         for (int i = 1; i <= n + 1; i++) bucket[i] += bucket[i - 1];
         for (int v = 0; v < states; v++) order[bucket[len[v]]++] = v;

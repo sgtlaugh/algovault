@@ -35,6 +35,7 @@ struct PalindromicTree{
 
     bool add(char ch){
         int c = ch - BASE;
+
         assert(0 <= c && c < SIGMA);
         s.push_back(ch);
 
@@ -84,6 +85,7 @@ vector<int> min_palindromic_factorization(const string& s){
     int n = s.size();
     PalindromicTree<SIGMA, BASE> tree;
     vector<int> best(n + 1, INT_MAX), series(2, 0), res(n);
+
     best[0] = 0;
 
     for (int i = 1; i <= n; i++){

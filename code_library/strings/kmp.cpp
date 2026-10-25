@@ -41,6 +41,7 @@ vector<int> prefix_function(const Container& c){
 template<typename Container>
 int kmp_find(const Container& text, const Container& pattern, int from = 0){
     int m = pattern.size();
+
     if (m == 0) return -1;
 
     auto pi = prefix_function(pattern);
@@ -58,6 +59,7 @@ int kmp_find(const Container& text, const Container& pattern, int from = 0){
 template<typename Container>
 vector<int> kmp_search(const Container& text, const Container& pattern){
     vector<int> positions;
+
     if (pattern.size() == 0) return positions;
 
     auto pi = prefix_function(pattern);

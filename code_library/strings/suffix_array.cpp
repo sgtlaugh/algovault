@@ -146,6 +146,7 @@ namespace SuffixArraySAIS{
     vector<int> build_lcp(const Container& c, const vector<int>& sa, const vector<int>& rank){
         int n = sa.size(), k = 0;
         vector<int> lcp(n);
+
         for (int i = 0; i < n; i++){
             if (rank[i] == n - 1){
                 k = 0;
@@ -157,6 +158,7 @@ namespace SuffixArraySAIS{
             lcp[rank[i]] = k;
             if (k > 0) k--;  /// Kasai: dropping the first character loses at most 1 of the match, so O(n) total
         }
+
         return lcp;
     }
 }
@@ -176,6 +178,7 @@ template<typename Container>
 SuffixArray suffix_array(const Container& c){
     int n = c.size();
     SuffixArray result;
+
     result.n = n;
 
     if (n == 0) return result;

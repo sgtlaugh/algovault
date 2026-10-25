@@ -163,6 +163,7 @@ struct DynamicAhoCorasick{
 
     inline void insert(const char* str){
         int i, k;
+
         for (k = 0; k < (int)ar.size() && ar[k].size(); k++) {}
         if (k == (int)ar.size()) ar.emplace_back();
 

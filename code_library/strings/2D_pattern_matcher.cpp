@@ -50,6 +50,7 @@ struct PatternMatcher2D{
     vector<pair<int, int>> find(const vector<string>& text) const{
         int n = text.size();
         int m = n > 0 ? text[0].size() : 0;
+
         for (int i = 0; i < n; i++) assert((int)text[i].size() == m);
         if (r > n || c > m) return {};
 

@@ -32,6 +32,7 @@ struct PolyHash{
     template <typename Container>
     PolyHash(const Container& ar){
         int n = ar.size();
+
         pref.resize(n + 3, 0), suff.resize(n + 3, 0), base_pow.resize(n + 1, 1);
 
         for (int i = 1; i <= n; i++){
