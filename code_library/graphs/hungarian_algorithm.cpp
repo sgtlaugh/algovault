@@ -46,48 +46,53 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
         }
     }
 
-    vector<int> way(m + 1, 0), match(n + 1, 0), visited(m + 1, 0), row_of_col(m + 1, 0);
-    vector<T> row_potential(n + 1, 0), col_potential(m + 1, 0), minv(m + 1, 0);
+    /// Column potentials start at 0 and only fall, so an unmatched column stays optimal when n < m
+    vector<int> col_of_row(n, -1), row_of_col(m, -1), order(m), prev_row(m);
+    vector<T> col_potential(m, 0), dist(m);
 
-    for (int i = 1; i <= n; i++){
-        int col = 0;
-        row_of_col[0] = i;
-        for (int j = 0; j <= m; j++){
-            minv[j] = numeric_limits<T>::max(), visited[j] = 0;
+    for (int start = 0; start < n; start++){
+        int best = 0;
+        for (int j = 0; j < m; j++){
+            dist[j] = mat[start][j] - col_potential[j], prev_row[j] = start, order[j] = j;
+            if (dist[j] < dist[best]) best = j;
         }
-        do{
-            T w = numeric_limits<T>::max();
-            int row = row_of_col[col], next = 0;
-            visited[col] = 1;
 
-            for (int j = 1; j <= m; j++){
-                if (!visited[j]){
-                    T r = mat[row - 1][j - 1] - row_potential[row] - col_potential[j];
+        /// order[0, done) holds the settled columns, best is the position of the closest unsettled one
+        int done = 0, col;
+        while (true){
+            swap(order[done], order[best]);
+            col = order[done++];
+            if (row_of_col[col] == -1) break;
 
-                    if (r < minv[j]) minv[j] = r, way[j] = col;
-                    if (minv[j] < w) w = minv[j], next = j;
-                }
+            int row = row_of_col[col];
+            T base = dist[col] - (mat[row][col] - col_potential[col]), low = numeric_limits<T>::max();
+            for (int k = done; k < m; k++){
+                int j = order[k];
+                T r = mat[row][j] - col_potential[j] + base;
+                if (r < dist[j]) dist[j] = r, prev_row[j] = row;
+
+                /// A free column wins a tie, many-tie inputs would otherwise settle long runs of equal columns first
+                if (dist[j] < low) low = dist[j], best = k;
+                else if (dist[j] == low && row_of_col[j] == -1) best = k;
             }
+        }
 
-            for (int j = 0; j <= m; j++){
-                if (visited[j]) row_potential[row_of_col[j]] += w, col_potential[j] -= w;
-                else minv[j] -= w;
-            }
-            col = next;
-        } while (row_of_col[col]);
-
-        do{
-            int prev = way[col];
-            row_of_col[col] = row_of_col[prev], col = prev;
-        } while (col);
+        for (int k = 0; k < done; k++) col_potential[order[k]] += dist[order[k]] - dist[col];
+        for (int row = -1; row != start;){
+            row = prev_row[col];
+            row_of_col[col] = row;
+            swap(col_of_row[row], col);
+        }
     }
 
+    T total = 0;
     vector<pair<int, int>> matches;
+    for (int i = 0; i < n; i++){
+        matches.push_back({i, col_of_row[i]});
+        total += mat[i][col_of_row[i]];
+    }
 
-    for (int j = 1; j <= m; j++) match[row_of_col[j]] = j;
-    for (int i = 1; i <= n; i++) matches.push_back({i - 1, match[i] - 1});
-
-    return {minimize ? -col_potential[0] : col_potential[0], matches};
+    return {minimize ? total : -total, matches};
 }
 
 int main(){

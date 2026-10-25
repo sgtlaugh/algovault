@@ -75,7 +75,8 @@ int main(){
     /// Too large to enumerate: transposing must not change the optimum, and the two take different paths
     for (long long it = 0; it < stress::scaled(40); it++){
         int row = stress::rand_int(1, 60), col = stress::rand_int(1, 60);
-        auto mat = random_matrix<long long>(row, col, -1000, 1000);
+        /// Costs in [0, 2] tie everywhere, so free columns often tie with matched ones at the closest distance
+        auto mat = random_matrix<long long>(row, col, it % 2 ? -1000 : 0, it % 2 ? 1000 : 2);
         vector<vector<long long>> t(col, vector<long long>(row));
         for (int i = 0; i < row; i++) for (int j = 0; j < col; j++) t[j][i] = mat[i][j];
 
@@ -116,12 +117,12 @@ int main(){
     }
 
     /// 1000 x 1000 with a planted zero-cost permutation and every other cell positive: it is the unique optimum
-    {
+    for (int top : {1000000, 2}){
         int n = 1000;
         vector<int> planted(n);
         iota(planted.begin(), planted.end(), 0);
         shuffle(planted.begin(), planted.end(), stress::rng());
-        auto mat = random_matrix<int>(n, n, 1, 1000000);
+        auto mat = random_matrix<int>(n, n, 1, top);
         for (int i = 0; i < n; i++) mat[i][planted[i]] = 0;
 
         auto [total, pairs] = hungarian(mat);
