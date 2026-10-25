@@ -87,13 +87,16 @@ struct HamiltonianGraph{
             for (int i = 0; i < n; i++) dp[(size_t(1) << i) * n + i] = 0;
         }
 
+        /// A cycle starts at vertex 0, so every finite cycle state contains it and the other masks are skipped
         for (size_t mask = 1; mask < (size_t(1) << n); mask++){
+            if (cycle && !(mask & 1)) continue;
             for (int i = 0; i < n; i++){
                 if (!(mask >> i & 1) || mask == (size_t(1) << i)) continue;
 
                 size_t prev = mask ^ (size_t(1) << i);
                 long long best = INF;
-                for (int j = 0; j < n; j++){
+                for (size_t rest = prev; rest; rest &= rest - 1){
+                    int j = __builtin_ctzll(rest);
                     long long d = dp[prev * n + j];
                     if (d != INF && w[j][i] != INF) best = min(best, d + w[j][i]);
                 }
