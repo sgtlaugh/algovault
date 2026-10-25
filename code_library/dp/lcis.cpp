@@ -21,6 +21,7 @@ Sequence lcis(const Sequence& A, const Sequence& B){
     int m = B.size();
     vector<int> dp(m, 0), last(m, -1);
     vector<pair<int, int>> node;  /// (index in B, parent node), never modified once pushed
+
     for (const auto& a : A){
         int best = 0, from = -1;
         for (int j = 0; j < m; j++){

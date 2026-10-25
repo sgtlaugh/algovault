@@ -20,6 +20,7 @@ template <typename Sequence>
 int blocks_max_score(const Sequence& blocks){
     int n = blocks.size();
     vector<int> run_start, run_len;
+
     for (int i = 0; i < n; i++){
         if (!run_len.empty() && blocks[run_start.back()] == blocks[i]) run_len.back()++;
         else run_start.push_back(i), run_len.push_back(1);

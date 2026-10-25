@@ -33,6 +33,7 @@ struct CKY{
 
     bool accepts(const string& s, int start) const{
         int n = s.size();
+
         if (n == 0) return false;
         vector<vector<vector<char>>> can(n + 1, vector<vector<char>>(n, vector<char>(r, 0)));
 

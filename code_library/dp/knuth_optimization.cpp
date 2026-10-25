@@ -26,6 +26,7 @@ template <typename T, typename Cost>
 vector<vector<T>> knuth_dp(int n, Cost cost){
     vector<vector<T>> dp(n + 1, vector<T>(n + 1, 0));
     vector<vector<int>> opt(n + 1, vector<int>(n + 1, 0));
+
     for (int i = 0; i < n; i++) opt[i][i + 1] = i;
 
     for (int len = 2; len <= n; len++){

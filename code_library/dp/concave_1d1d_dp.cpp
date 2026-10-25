@@ -24,6 +24,7 @@ using namespace std;
 template <typename D, typename Cost, typename T = common_type_t<D, invoke_result_t<Cost, int, int>>>
 vector<T> concave_1d1d_dp(int n, D dp0, Cost w, vector<int>* opt = nullptr){
     vector<T> dp(n + 1, dp0);
+
     if (opt) opt->assign(n + 1, -1);
     auto value = [&](int i, int x){ return dp[i] + w(i, x); };
 
