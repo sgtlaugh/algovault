@@ -143,6 +143,7 @@ struct VirtualTree : LinearLCA{
     /// The parent of each vertex is the lca of it and its predecessor in DFS order, so no stack is needed
     vector<Node> compress(vector<int> nodes) const{
         auto by_tour = [&](int u, int v){ return first[u] < first[v]; };
+
         sort(nodes.begin(), nodes.end(), by_tour);
         int k = nodes.size();
         for (int i = 0; i + 1 < k; i++) nodes.push_back(lca(nodes[i], nodes[i + 1]));
@@ -156,6 +157,7 @@ struct VirtualTree : LinearLCA{
             int p_idx = lower_bound(nodes.begin(), nodes.end(), p, by_tour) - nodes.begin();
             res.push_back({nodes[i], p_idx, dist(nodes[i], p)});
         }
+
         return res;
     }
 };

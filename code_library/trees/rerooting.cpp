@@ -80,6 +80,7 @@ struct Rerooting{
                 prefix = combine(prefix, down[l + j]);
             }
         }
+
         return res;
     }
 };

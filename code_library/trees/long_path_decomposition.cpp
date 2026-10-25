@@ -94,6 +94,7 @@ struct LongPathDecomposition{
     template <typename Visit>
     void depth_counts(Visit visit) const{
         vector<int> cnt(n, 0);
+
         for (int i = n - 1; i >= 0; i--){
             int v = order[i];
             cnt[pos[v]] = 1;

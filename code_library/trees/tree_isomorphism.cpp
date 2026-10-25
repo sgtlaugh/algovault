@@ -106,6 +106,7 @@ struct TreeCanonizer{
             id[v] = ids.try_emplace(move(children[v]), next_id).first->second;
             if (v != root) children[parent[v]].push_back(id[v]);
         }
+
         return id;
     }
 

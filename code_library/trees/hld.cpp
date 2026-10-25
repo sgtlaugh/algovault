@@ -100,6 +100,7 @@ struct HLD{
 
     vector<pair<int, int>> ordered_path(int u, int v, bool edges = false) const{
         vector<pair<int, int>> up, down;
+
         while (head[u] != head[v]){
             if (depth[head[u]] >= depth[head[v]]){
                 up.push_back({pos[u], pos[head[u]]});

@@ -91,6 +91,7 @@ struct LCA{
         for (int k = lg - 1; k >= 0; k--){
             if (up[k][u] != up[k][v]) u = up[k][u], v = up[k][v];
         }
+
         return up[0][u];
     }
 
@@ -135,12 +136,14 @@ struct PathFold{
     long long climb(int v, int k) const{
         int i = __builtin_ctz(k);
         long long res = table[i][v];
+
         v = tree.up[i][v];
         for (k &= k - 1; k; k &= k - 1){
             i = __builtin_ctz(k);
             res = op(res, table[i][v]);
             v = tree.up[i][v];
         }
+
         return res;
     }
 };

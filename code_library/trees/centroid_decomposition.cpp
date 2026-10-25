@@ -75,6 +75,7 @@ struct CentroidDecomposition{
 
     Branches collect_branches(int c){
         Branches branches;
+
         for (auto [v, w] : adj[c]){
             if (removed[v]) continue;
             vector<pair<int, long long>> branch = {{v, w}};
@@ -87,6 +88,7 @@ struct CentroidDecomposition{
             }
             branches.push_back(move(branch));
         }
+
         return branches;
     }
 
@@ -130,11 +132,13 @@ long long count_pairs_at_most(vector<long long> d, long long k){
         while (i < j && d[i] + d[j] > k) j--;
         pairs += j - i;
     }
+
     return pairs;
 }
 
 long long count_paths_at_most(CentroidDecomposition& cd, long long k){
     long long pairs = 0;
+
     cd.build([&](int, const CentroidDecomposition::Branches& branches){
         vector<long long> all = {0};
         for (auto& branch : branches){

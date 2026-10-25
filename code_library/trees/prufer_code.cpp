@@ -58,6 +58,7 @@ struct PruferCode{
             assert(ptr < n);
             leaf = ptr;
         }
+
         return code;
     }
 };
@@ -66,6 +67,7 @@ struct PruferCode{
 vector<pair<int, int>> prufer_decode(const vector<int>& code){
     int n = code.size() + 2;
     vector<int> degree(n, 1);
+
     for (int v : code){
         assert(0 <= v && v < n);
         degree[v]++;
