@@ -94,6 +94,7 @@ State simulated_annealing(State cur, Energy energy, Neighbour neighbour, Anneale
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 0; tc < t; tc++){
         int n;
@@ -110,15 +111,11 @@ int main(){
             return res;
         };
 
-        /// The optimum often sits on a computer, at the tip of a cone whose slope can be nearly flat in one direction,
-        /// where random steps barely find the way down, so the walk starts from the best computer or the centroid
         pair<double, double> start = {accumulate(x.begin(), x.end(), 0.0) / n, accumulate(y.begin(), y.end(), 0.0) / n};
         for (int i = 0; i < n; i++){
             if (total({x[i], y[i]}) < total(start)) start = {x[i], y[i]};
         }
 
-        /// Step lengths are log-uniform from the room size down to 1e-7 mm: a step length tied to the temperature
-        /// freezes the walk wherever the cooling leaves it, while some step of every scale is always tried
         auto neighbour = [](const pair<double, double>& p, mt19937_64& rng){
             double len = pow(10.0, uniform_real_distribution<double>(-7, 4)(rng));
             double a = uniform_real_distribution<double>(0, 2 * acos(-1.0))(rng);

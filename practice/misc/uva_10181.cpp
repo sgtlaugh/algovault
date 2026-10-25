@@ -117,6 +117,7 @@ constexpr int FifteenPuzzle::dy[];
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         vector<int> tiles(16);

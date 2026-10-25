@@ -74,11 +74,11 @@ double golden_section_min(double lo, double hi, F f, double eps = 1e-9){
 int main(){
     double t;
     int n;
+
     while (scanf("%lf %d", &t, &n) == 2){
         vector<double> run(n), cycle(n);
         for (int i = 0; i < n; i++) scanf("%lf %lf", &run[i], &cycle[i]);
 
-        /// Cheater's time minus the best rival time, in seconds: linear minus concave, so convex in r
         auto margin = [&](double r){
             double best = HUGE_VAL;
             for (int i = 0; i + 1 < n; i++) best = min(best, 3600 * (r / run[i] + (t - r) / cycle[i]));
@@ -86,7 +86,6 @@ int main(){
         };
 
         double r = golden_section_min(0, t, margin, 1e-12);
-        /// r is only within ~1e-10 of the optimum, so a tie at an end of the race shows up as a tiny positive margin
         if (margin(r) <= 1e-6) printf("The cheater can win by %.0f seconds with r = %.2fkm and k = %.2fkm.\n", fabs(margin(r)), r, t - r);
         else puts("The cheater cannot win.");
     }

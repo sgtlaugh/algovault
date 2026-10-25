@@ -33,6 +33,7 @@ unsigned long long inverse_gray_code(unsigned long long x){
 int main(){
     int t, n;
     unsigned long long k;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %llu", &n, &k);

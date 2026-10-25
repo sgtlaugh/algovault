@@ -73,6 +73,7 @@ double golden_section_min(double lo, double hi, F f, double eps = 1e-9){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 0; tc < t; tc++){
         int n;
@@ -89,8 +90,6 @@ int main(){
             return res;
         };
 
-        /// The sum of distances is convex, so is its minimum over y for a fixed x, which makes both nested searches unimodal
-        /// A tight eps since a kink at a computer would turn the position error into a length error n times larger
         const double EPS = 1e-11;
         auto best_for = [&](double px){
             return total(px, golden_section_min(0, 10000, [&](double py){ return total(px, py); }, EPS));

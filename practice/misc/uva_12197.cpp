@@ -73,11 +73,11 @@ double golden_section_min(double lo, double hi, F f, double eps = 1e-9){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<double> x(n), y(n);
         for (int i = 0; i < n; i++) scanf("%lf %lf", &x[i], &y[i]);
 
-        /// The latest arrival is a maximum of convex distances, so it is convex in the meeting point
         auto latest = [&](double p){
             double res = 0;
             for (int i = 0; i < n; i++) res = max(res, (p - x[i]) * (p - x[i]) + y[i] * y[i]);
@@ -85,7 +85,7 @@ int main(){
         };
 
         double p = golden_section_min(*min_element(x.begin(), x.end()), *max_element(x.begin(), x.end()), latest, 1e-12);
-        if (abs(p) < 5e-10) p = 0;  /// keeps -0.000000000 out of the output
+        if (abs(p) < 5e-10) p = 0;
         printf("%.9f %.9f\n", p, latest(p));
     }
     return 0;

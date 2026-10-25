@@ -166,6 +166,7 @@ namespace sudoku{
 
 int main(){
     char line[32];
+
     for (int tc = 0; scanf("%31s", line) == 1; tc++){
         vector<vector<int>> grid(16, vector<int>(16, 0));
         for (int i = 0; i < 16; i++){

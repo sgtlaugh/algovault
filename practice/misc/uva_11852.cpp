@@ -34,6 +34,7 @@ long long knight_distance(long long x, long long y){
 
 int main(){
     long long x, y;
+
     while (scanf("%lld %lld", &x, &y) == 2) printf("%lld\n", knight_distance(x, y));
     return 0;
 }

@@ -34,6 +34,7 @@ long long knight_distance(long long x, long long y){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, k;
@@ -41,8 +42,6 @@ int main(){
         vector<int> r(k), c(k);
         for (int i = 0; i < k; i++) scanf("%d %d", &r[i], &c[i]);
 
-        /// The board edge only changes the infinite board distance for diagonal neighbours when one is a corner, and on
-        /// 4 x 4 for two corners on one side (5, not 3), checked against BFS on every board up to 12 x 12
         auto corner = [&](int i){ return (r[i] == 1 || r[i] == n) && (c[i] == 1 || c[i] == n); };
         vector<vector<int>> dist(k, vector<int>(k));
         for (int i = 0; i < k; i++){
@@ -53,7 +52,6 @@ int main(){
             }
         }
 
-        /// Held-Karp from cell 0: dp[mask * k + j] = shortest walk from 0 through the cells of mask ending at j
         int full = 1 << k;
         vector<int> dp(full * k, INT_MAX / 2);
         dp[k] = 0;

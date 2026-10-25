@@ -164,7 +164,6 @@ namespace sudoku{
     }
 }
 
-/// Counts every exact cover with the template's links: algorithm_x stops at the first cover, the problem wants all of them
 int count_covers(DancingLinks& dlx){
     if (dlx.R[0] == 0) return 1;
 
@@ -186,6 +185,7 @@ int count_covers(DancingLinks& dlx){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         char grid[9][16];
@@ -217,7 +217,6 @@ int main(){
             }
         }
 
-        /// One row fills every cell of a variable with the same digit, so the cover keeps them equal
         for (auto& cells : cells_of){
             if (cells.empty()) continue;
             for (int k = 0; k < 9; k++){
@@ -225,7 +224,6 @@ int main(){
                 for (auto e : cells) place(columns, e.first, e.second, k);
                 vector<int> sorted = columns;
                 sort(sorted.begin(), sorted.end());
-                /// Two cells of the variable share a row, column or box, so the same digit twice is impossible
                 if (adjacent_find(sorted.begin(), sorted.end()) == sorted.end()) dlx.add_row(0, columns);
             }
         }
