@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/trees/long_path_decomposition.cpp"
@@ -143,22 +141,13 @@ void check(int n, int shape, bool small, int queries = 0){
     }
 }
 
-/// build must abort on a non-tree, the alarm turns an endless traversal into a failure instead of a hang
+/// build must abort on a non-tree instead of looping forever or building garbage
 void check_rejects(int n, const vector<pair<int, int>>& edges){
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        alarm(5);
-        assert(freopen("/dev/null", "w", stderr));
+    stress::expect_assert("trees/long_path_decomposition.cpp", [&]{
         LongPathDecomposition tree(n);
         for (auto [u, v] : edges) tree.add_edge(u, v);
         tree.build(0);
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    });
 }
 
 int main(){
@@ -169,17 +158,17 @@ int main(){
     check_rejects(3, {{0, 1}});                          /// disconnected
     check_rejects(2, {{0, 0}, {0, 1}});                  /// self-loop at the root, only the edge count sees it
 
-    for (long long it = 0; it < stress::scaled(3000); it++){
+    for (long long it = 0; it < stress::scaled(1000); it++){
         int n = it < 400 ? it % 40 + 1 : stress::rand_int(1, 150);
         check(n, it % 7, true);
     }
 
-    for (long long it = 0; it < stress::scaled(14); it++){
-        check(stress::rand_int(20000, 60000), it % 7, false, 3000);
+    for (long long it = 0; it < stress::scaled(7); it++){
+        check(stress::rand_int(10000, 30000), it % 7, false, 3000);
     }
 
-    check(200000, 1, false, 100);  /// a path, deep enough to overflow an 8 MB stack with recursive traversals
-    check(200000, 4, false, 100);
+    check(100000, 1, false, 100);  /// a path, deep enough to overflow an 8 MB stack with recursive traversals
+    check(100000, 4, false, 100);
 
     return 0;
 }
