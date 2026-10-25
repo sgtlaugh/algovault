@@ -81,6 +81,14 @@ struct HamiltonianGraph{
 
     vector<long long> build_dp(bool cycle) const{
         vector<long long> dp((size_t(1) << n) * n, INF);
+        vector<size_t> into(n, 0);
+        vector<vector<long long>> w_into(n, vector<long long>(n));
+        for (int j = 0; j < n; j++){
+            for (int i = 0; i < n; i++){
+                w_into[i][j] = w[j][i];
+                if (w[j][i] != INF) into[i] |= size_t(1) << j;
+            }
+        }
 
         if (cycle) dp[n] = 0;  // flat index mask * n + i with mask = {0}, i = 0
         else{
@@ -94,11 +102,12 @@ struct HamiltonianGraph{
                 if (!(mask >> i & 1) || mask == (size_t(1) << i)) continue;
 
                 size_t prev = mask ^ (size_t(1) << i);
+                const vector<long long>& row = w_into[i];
                 long long best = INF;
-                for (size_t rest = prev; rest; rest &= rest - 1){
+                for (size_t rest = prev & into[i]; rest; rest &= rest - 1){
                     int j = __builtin_ctzll(rest);
                     long long d = dp[prev * n + j];
-                    if (d != INF && w[j][i] != INF) best = min(best, d + w[j][i]);
+                    if (d != INF) best = min(best, d + row[j]);
                 }
                 dp[mask * n + i] = best;
             }
