@@ -143,8 +143,8 @@ int main(){
         int n = stress::rand_int(2, 8), src = stress::rand_int(0, n - 1), sink = (src + stress::rand_int(1, n - 1)) % n;
         long long max_cap = it % 3 ? 10 : 1000000000000000LL;
 
-        FlowGraph g(n, src, sink);
-        DenseFlowGraph dense(n, src, sink);
+        FlowGraph g(n, src, sink), limited(n, src, sink);
+        DenseFlowGraph dense(n, src, sink), dense_limited(n, src, sink);
         vector<Arc> arcs;
         for (int m = stress::rand_int(0, 20); m; m--){
             int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
@@ -152,11 +152,13 @@ int main(){
             if (stress::rand_int(0, 1)){
                 int id = g.add_directed_edge(u, v, cap);
                 dense.add_directed_edge(u, v, cap);
+                limited.add_directed_edge(u, v, cap), dense_limited.add_directed_edge(u, v, cap);
                 assert(g.E[id].u == u && g.E[id].v == v && g.E[id].cap == cap);
                 arcs.push_back({u, v, cap});
             }
             else{
                 g.add_undirected_edge(u, v, cap), dense.add_undirected_edge(u, v, cap);
+                limited.add_undirected_edge(u, v, cap), dense_limited.add_undirected_edge(u, v, cap);
                 arcs.push_back({u, v, cap}), arcs.push_back({v, u, cap});
             }
         }
@@ -175,6 +177,22 @@ int main(){
         g.add_directed_edge(src, sink, extra);
         assert(g.maxflow() == extra);
         check_flow(g, flow + extra);
+
+        /// Limits below, at and above the flow still missing: a call at exactly the max flow must still leave a cut
+        long long pushed = 0;
+        for (int calls = stress::rand_int(1, 3); calls; calls--){
+            long long missing = flow - pushed, kind = stress::rand_int(0, 2);
+            long long limit = kind == 0 ? stress::rand_int(0, missing) : kind == 1 ? missing : missing + stress::rand_int(1, 5);
+            long long got = limited.maxflow(limit);
+            assert(got == min(limit, missing) && dense_limited.maxflow(limit) == got);
+            pushed += got;
+            check_flow(limited, pushed);
+            assert(limited.in_source_side(sink) == (pushed < flow) && dense_limited.in_source_side(sink) == (pushed < flow));
+        }
+        assert(limited.maxflow() == flow - pushed && dense_limited.maxflow() == flow - pushed);
+        check_flow(limited, flow);
+        check_cut(limited, flow, arcs);
+        assert(!dense_limited.in_source_side(sink));
     }
 
     /// Reaching flow 3 here needs a reverse edge to cancel earlier flow, without one both get 2
@@ -225,8 +243,11 @@ int main(){
             }
         }
 
-        long long flow = g.maxflow();
-        assert(flow == min_cut(2 * n, 2 * src, 2 * sink + 1, arcs));
+        long long expected = min_cut(2 * n, 2 * src, 2 * sink + 1, arcs), limit = stress::rand_int(0, expected + 2);
+        long long first = it % 2 ? g.maxflow(limit) : 0;
+        assert(it % 2 == 0 || first == min(limit, expected));
+        long long flow = first + g.maxflow();
+        assert(flow == expected);
         check_flow(g.flowgraph, flow);
         check_cut(g.flowgraph, flow, arcs);
     }
@@ -323,7 +344,10 @@ int main(){
         for (int i = 0; i < n; i++) g.add_directed_edge(src, i, 1), g.add_directed_edge(n + i, sink, 1);
         for (auto [a, b] : edges) g.add_directed_edge(left[a], n + right[b], 1);
 
-        assert(g.maxflow() == n);
+        /// A limit reached partway through the augmenting paths, then the rest from the residual graph
+        assert(g.maxflow(n / 3) == n / 3);
+        check_flow(g, n / 3);
+        assert(g.maxflow() == n - n / 3);
         check_flow(g, n);
     }
     return 0;

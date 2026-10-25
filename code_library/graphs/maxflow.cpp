@@ -8,7 +8,7 @@
  * FlowGraph g(n, src, sink): empty graph with edge capacities, src != sink
  * g.add_directed_edge(u, v, cap): adds u -> v and returns its id into g.E
  * g.add_undirected_edge(u, v, cap): adds u -> v and v -> u, both with capacity cap
- * g.maxflow(): pushes as much flow as possible and returns the flow this call added, the max flow on the first call
+ * g.maxflow(limit = LLONG_MAX): pushes as much flow as possible up to limit and returns the flow this call added
  * g.cut_edges(): ids into E of the edges leaving the source side, their capacities sum to the max flow
  * g.in_source_side(u): after maxflow(), true if src reaches u in the residual graph, the smallest min cut side
  * g.E[id].flow: flow on edge id after maxflow()
@@ -21,6 +21,8 @@
  *   - maxflow() keeps flat per-node copies of the edges, about 20 extra bytes per edge
  *   - maxflow() is the only entry point, bfs() and blocking_flow() are UB before it builds the flat copies
  *   - Before maxflow() the source side is empty and cut_edges() returns nothing
+ *   - A call stopped by its limit below the max flow leaves in_source_side(sink) true and cut_edges() no min cut
+ *   - Each maxflow() call continues from the flow already pushed, so an unlimited call after a limited one completes it
  *   - Node capacities apply to src and sink too, give them a huge capacity to leave them uncapped
  *   - FlowGraphWithNodeCap edge ids index g.flowgraph.E, where node x is 2x (in) and 2x + 1 (out)
  *   - Its min cut comes from g.flowgraph, a cut edge 2x -> 2x + 1 is a cut vertex x
@@ -65,14 +67,15 @@ struct FlowGraph{
         add_directed_edge(v, u, cap);
     }
 
-    long long maxflow(){
+    long long maxflow(long long limit = LLONG_MAX){
         assert(src != sink);
         long long flow = 0;
         build_residual();
 
-        while (bfs()){
+        /// bfs() runs before the limit check, so in_source_side(sink) tells whether the flow is maximum
+        while (bfs() && flow < limit){
             copy(start.begin(), start.end() - 1, ptr.begin());
-            flow += blocking_flow();
+            flow += blocking_flow(limit - flow);
         }
 
         for (int i = 0; i < (int)res.size(); i++) E[edge_id[i]].flow = E[edge_id[i]].cap - res[i];
@@ -123,7 +126,7 @@ struct FlowGraph{
     }
 
     /// Iterative walk from sink enters only nodes src reaches (2.5x-3x faster), path[j] is the arc taken j nodes back
-    long long blocking_flow(){
+    long long blocking_flow(long long limit){
         long long flow = 0;
         int u = sink;
 
@@ -131,7 +134,7 @@ struct FlowGraph{
 
         while (true){
             if (u == src){
-                long long f = LLONG_MAX;
+                long long f = limit - flow;
                 for (int i : path) f = min(f, res[rev[i]]);
 
                 int k = path.size();
@@ -139,7 +142,10 @@ struct FlowGraph{
                     res[rev[path[j]]] -= f, res[path[j]] += f;
                     if (res[rev[path[j]]] == 0) k = j;
                 }
-                flow += f, u = to[rev[path[k]]];
+                flow += f;
+                if (flow == limit) return flow;
+
+                u = to[rev[path[k]]];
                 path.resize(k);
                 continue;
             }
@@ -179,8 +185,8 @@ struct FlowGraphWithNodeCap{
         add_directed_edge(v, u, cap);
     }
 
-    long long maxflow(){
-        return flowgraph.maxflow();
+    long long maxflow(long long limit = LLONG_MAX){
+        return flowgraph.maxflow(limit);
     }
 };
 
@@ -201,13 +207,13 @@ struct DenseFlowGraph{
         add_directed_edge(v, u, c);
     }
 
-    long long maxflow(){
+    long long maxflow(long long limit = LLONG_MAX){
         assert(src != sink);
         long long flow = 0;
 
-        while (bfs()){
+        while (bfs() && flow < limit){
             fill(ptr.begin(), ptr.end(), 0);
-            while (long long f = dfs(src, LLONG_MAX)) flow += f;
+            while (long long f = dfs(src, limit - flow)) flow += f;
         }
 
         return flow;
@@ -278,6 +284,15 @@ int main(){
     assert(capped.maxflow() == 3);
     /// Edge 2 is node 1's split edge 2 -> 3, so node 1 is a cut vertex
     assert((capped.flowgraph.cut_edges() == vector<int>{2, bypass}));
+
+    /// The first call stops at its limit of 2, below the max flow 3, so it leaves no cut and the next call adds 1
+    FlowGraph limited(3, 0, 2);
+    limited.add_directed_edge(0, 1, 5);
+    limited.add_directed_edge(1, 2, 3);
+    assert(limited.maxflow(2) == 2);
+    assert(limited.in_source_side(2));
+    assert(limited.maxflow() == 1);
+    assert(!limited.in_source_side(2));
 
     DenseFlowGraph dense(4, 0, 3);
     dense.add_directed_edge(0, 1, 3);
