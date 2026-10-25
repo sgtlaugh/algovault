@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/linear_algebra/gauss_bitset.cpp"
@@ -121,19 +119,11 @@ void check_reduced(const vector<bitset<W>>& a, int m, int rank){
 
 /// matrix_inverse must abort on n > W before it writes the identity past the end of the rows
 void check_inverse_rejects_too_wide(){
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        assert(freopen("/dev/null", "w", stderr));
+    stress::expect_assert("linear_algebra/gauss_bitset.cpp", []{
         /// A single-word bitset maps every index to its one word, so only W > 64 lets a late check show as an overflow
         vector<bitset<128>> a(400);
         matrix_inverse(400, a);
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    });
 }
 
 int main(){
