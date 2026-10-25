@@ -28,6 +28,23 @@
 - [SPOJ ADACOINS - Ada and Coins](https://www.spoj.com/problems/ADACOINS/)
 - [SPOJ FCANDY - Candy (Again)](https://www.spoj.com/problems/FCANDY/)
 
+#### [Convex Hull Trick](convex_hull_trick.cpp)
+
+- [AtCoder ARC066 F - Contest with Drinks Hard](https://atcoder.jp/contests/arc066/tasks/arc066_d)
+- [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B)
+- [Codeforces 319C - Kalila and Dimna in the Logging Industry](https://codeforces.com/problemset/problem/319/C)
+- [Codeforces 631E - Product Sum](https://codeforces.com/problemset/problem/631/E)
+- [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C)
+- [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F)
+- [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E)
+- [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084)
+- [DMOJ apio10p1 - APIO '10 P1 - Commando](https://dmoj.ca/problem/apio10p1)
+- [DMOJ ioi02p4 - IOI '02 P4 - Batch Scheduling](https://dmoj.ca/problem/ioi02p4)
+- [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507)
+- [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180)
+- [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/)
+- [SPOJ APIO10A - Commando](https://www.spoj.com/problems/APIO10A/)
+
 #### [Divide and Conquer DP](divide_conquer_dp.cpp)
 
 - [AtCoder ARC067 D - Yakiniku Restaurants](https://atcoder.jp/contests/arc067/tasks/arc067_d) [✅](../../practice/dp/atcoder_arc067_d.cpp "Accepted solution")
@@ -63,6 +80,15 @@
 - [UVa 11284 - Shopping Trip](https://onlinejudge.org/external/112/11284.pdf) [✅](../../practice/dp/uva_11284.cpp "Accepted solution")
 - [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf) [✅](../../practice/dp/uva_11643_hamiltonian_dp.cpp "Accepted solution")
 - [UVa 11813 - Shopping](https://onlinejudge.org/external/118/11813.pdf) [✅](../../practice/dp/uva_11813.cpp "Accepted solution")
+
+#### [Hirschberg LCS](hirschberg_lcs.cpp)
+
+- [AtCoder DP F - LCS](https://atcoder.jp/contests/dp/tasks/dp_f)
+- [CSES 3403 - Longest Common Subsequence](https://cses.fi/problemset/task/3403)
+- [UVa 531 - Compromise](https://onlinejudge.org/external/5/531.pdf)
+- [UVa 10066 - The Twin Towers](https://onlinejudge.org/external/100/10066.pdf)
+- [UVa 10100 - Longest Match](https://onlinejudge.org/external/101/10100.pdf)
+- [UVa 10405 - Longest Common Subsequence](https://onlinejudge.org/external/104/10405.pdf)
 
 #### [Knuth Optimization](knuth_optimization.cpp)
 
