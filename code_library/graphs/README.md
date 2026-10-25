@@ -210,7 +210,7 @@
 - [Codeforces Gym 102156C - Diverse Singing](https://codeforces.com/gym/102156/problem/C) [✅](../../practice/graphs/codeforces_gym_102156c.cpp "Accepted solution")
 - [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf) [✅](../../practice/graphs/uva_1440.cpp "Accepted solution")
 - [UVa 11082 - Matrix Decompressing](https://onlinejudge.org/external/110/11082.pdf) [✅](../../practice/graphs/uva_11082_lower_bound_flow.cpp "Accepted solution")
-- [UVa 12679 - It Can Be Arranged](https://onlinejudge.org/external/126/12679.pdf)
+- [UVa 12679 - It Can Be Arranged](https://onlinejudge.org/external/126/12679.pdf) [✅](../../practice/graphs/uva_12679.cpp "Accepted solution")
 
 #### [Floyd Warshall](floyd_warshall.cpp)
 
