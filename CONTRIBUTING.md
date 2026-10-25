@@ -163,7 +163,7 @@ int main(){
 
 ## Checks
 
-CI fails on a failing test, a compiler warning, a missing stress test or index entry, an index description over 50 characters, a ✔ that disagrees with `judge_tests/`, a ✅ that disagrees with `practice/`, a header without a complexity, a copied region that drifted, a struct member declared after a method, a header or `///` line over 120 characters, two `///` lines in a row, or a whitespace or style error.
+CI fails on a failing test, a compiler warning, a missing stress test or index entry, an index description over 50 characters, a ✔ that disagrees with `judge_tests/`, a ✅ that disagrees with `practice/`, a practice problem whose copies differ in title or URL, a header without a complexity, a copied region that drifted, a struct member declared after a method, a header or `///` line over 120 characters, two `///` lines in a row, or a whitespace or style error.
 
 ```bash
 bash .github/scripts/run_tests.sh self      # every self-test

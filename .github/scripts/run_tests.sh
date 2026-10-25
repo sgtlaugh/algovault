@@ -4,7 +4,7 @@
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
 # both modes also report library files missing from the README index, index descriptions over 50 characters, README ✔ marks that disagree with judge_tests,
-# practice solutions and practice section links that disagree, POJ, UVa and HDU solutions that do not build as C++11, a fast_io.cpp that does not build as C++20, templates whose header does not state their complexity, O(...) products written with *, copied regions that drifted from their original,
+# practice solutions and practice section links that disagree, a practice problem whose copies differ in title or URL, POJ, UVa and HDU solutions that do not build as C++11, a fast_io.cpp that does not build as C++20, templates whose header does not state their complexity, O(...) products written with *, copied regions that drifted from their original,
 # and whitespace, style or member order errors in tracked files
 #
 # Reports all failures instead of stopping at the first one.
@@ -224,6 +224,30 @@ check_practice(){  # practice/ holds exactly the solutions linked from the pract
     failures+=("${bad[@]}")
 }
 
+check_practice_copies(){  # a problem listed under several templates keeps one title and URL, so its copies cannot drift apart
+    local drift
+    drift="$(python3 - <<'PY'
+import collections, glob, re
+seen = collections.defaultdict(set)
+for path in glob.glob('code_library/*/README.md'):
+    for line in open(path, encoding='utf-8'):
+        m = re.match(r'- \[(.+?) - (.*)\]\((\S+)\)', line)
+        if m:
+            seen[m.group(1)].add((m.group(2), m.group(3)))
+for problem, copies in sorted(seen.items()):
+    if len(copies) > 1:
+        print(problem)
+PY
+)"
+    local count=0
+    [[ -n "$drift" ]] && count=$(grep -c . <<< "$drift")
+    echo "practice copies: $count problems listed with different titles or URLs"
+    [[ $count -eq 0 ]] && return
+    sed 's/^/  drift: /' <<< "$drift"
+    failed=$((failed + count))
+    while IFS= read -r line; do failures+=("$line (practice copies)"); done <<< "$drift"
+}
+
 check_old_judges(){  # POJ, UVa and HDU judge C++11, so their solutions must build as C++11; linking at -O0 catches static constexpr members that lack a definition
     local files bad=()
     files="$(git ls-files 'practice/*/poj_*.cpp' 'practice/*/uva_*.cpp' 'practice/*/hdu_*.cpp')"
@@ -441,6 +465,7 @@ check_readme
 check_index_descriptions
 check_judge_marks
 check_practice
+check_practice_copies
 [[ "$MODE" == "self" ]] && check_old_judges
 [[ "$MODE" == "self" ]] && check_cpp20
 check_headers
