@@ -277,6 +277,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Convex Hull Trick](code_library/dp/convex_hull_trick.cpp) - min or max of lines added in slope order
 - [Divide and Conquer DP](code_library/dp/divide_conquer_dp.cpp) - split into k segments of minimum total cost
 - [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle [✔](judge_tests/dp/aoj_dpl_2_a.cpp)
+- [Hirschberg LCS](code_library/dp/hirschberg_lcs.cpp) - one longest common subsequence in linear memory [✔](judge_tests/dp/aoj_alds1_10_c.cpp)
 - [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - interval DP over split points in `O(n^2)` [✔](judge_tests/dp/aoj_alds1_10_d.cpp)
 - [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS and one witness in `O(n m)`
 - [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS with one optimal subsequence [✔](judge_tests/dp/longest_increasing_subsequence.cpp)
