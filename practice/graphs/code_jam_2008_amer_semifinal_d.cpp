@@ -459,8 +459,8 @@ string grid[16];
 
 int matching(bool with_king){
     int i, j, d, e, x, y;
-
     Blossom b(r * c);
+
     for (i = 0; i < r; i++){
         for (j = 0; j < c; j++){
             if (grid[i][j] == '#' || (!with_king && grid[i][j] == 'K')) continue;

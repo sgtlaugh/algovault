@@ -149,8 +149,8 @@ const int MOD = 1000000007;
 
 int main(){
     const int MAXN = 100001;
-
     vector<long long> pw(MAXN + 1, 1), inv(MAXN + 1, 1);
+
     for (int i = 1; i <= MAXN; i++){
         pw[i] = pw[i - 1] * 2 % MOD;
         inv[i] = inv[i - 1] * ((MOD + 1) / 2) % MOD;

@@ -76,7 +76,6 @@ const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_sinc
 
 int main(){
     const int SIZE = 1 << 17;
-
     vector<uint64_t> key(SIZE);
     vector<int> cnt(SIZE), stamp(SIZE, 0);
     int checks = 0;

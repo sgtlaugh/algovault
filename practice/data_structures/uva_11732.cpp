@@ -175,8 +175,8 @@ struct BinaryTrie{
 int main(){
     int n, t = 0;
     char buf[1010];
-
     Trie<'z' - '0' + 1, '0'> trie;
+
     while (scanf("%d", &n) == 1 && n){
         vector<string> words(n);
         size_t total = 0;

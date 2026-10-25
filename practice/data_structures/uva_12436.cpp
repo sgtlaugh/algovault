@@ -205,8 +205,8 @@ struct SetAddAP{
 
 int main(){
     const int n = 250000;
-
     vector<Block> leaves(n + 1);
+
     for (int i = 0; i <= n; i++) leaves[i] = {0, 1, i};
     SegmentTree<Block, SetAddAP, Lazy> st(leaves);
 

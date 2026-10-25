@@ -107,8 +107,8 @@ const long long MOD = 1000000007;
 
 const vector<Matrix>& day_powers(int n){
     static map<int, vector<Matrix>> cache;
-
     auto it = cache.find(n);
+
     if (it != cache.end()) return it->second;
 
     Matrix day(n, n, MOD);

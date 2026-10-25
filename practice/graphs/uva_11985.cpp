@@ -94,8 +94,8 @@ struct HopcroftKarp{
 
 int main(){
     const int MAXV = 500000;
-
     vector<int> primes, omega(MAXV + 1, 0);
+
     for (int i = 2; i <= MAXV; i++){
         if (!omega[i]){
             primes.push_back(i);

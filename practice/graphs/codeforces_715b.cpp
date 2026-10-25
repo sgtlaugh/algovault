@@ -434,8 +434,8 @@ long long L, W[MAX], res[MAX];
 
 long long dist(long long x, bool erased){
     int i, j = 0;
-
     Dijkstra g(n);
+
     for (i = 0; i < m; i++){
         res[i] = W[i];
         if (!W[i]){

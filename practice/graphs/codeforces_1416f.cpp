@@ -447,7 +447,6 @@ bool critical(int x, int y){
 
 bool solve(){
     int i, j, d, a, b, s = n * m, t = s + 1;
-
     LowerBoundFlow g(n * m + 2);
     vector<pair<int, int>> ids;
     vector<int> eid;

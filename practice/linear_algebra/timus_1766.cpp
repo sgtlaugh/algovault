@@ -131,8 +131,8 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
 
 int main(){
     const int n = 8, cells = n * n;
-
     vector<vector<int>> borogoves(n, vector<int>(n));
+
     for (auto& row: borogoves){
         for (auto& x: row) scanf("%d", &x);
     }

@@ -432,8 +432,8 @@ bool cmp(int a, int b){
 
 bool solve(int lim, vector<int>& res){
     int i, j;
-
     TwoSat g(m);
+
     for (i = 1; i <= n; i++){
         vector<int> lits;
         for (j = 0; j < (int)adj[i].size(); j++){

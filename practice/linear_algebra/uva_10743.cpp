@@ -105,8 +105,8 @@ struct Matrix{
 
 int main(){
     const int first[] = {1, 2, 6, 19};
-
     Matrix step(3, 3, 10000);
+
     step.a = {{5, -7, 4}, {1, 0, 0}, {0, 1, 0}};
 
     int t, n;

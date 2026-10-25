@@ -198,8 +198,8 @@ int border(int len){
 int count_crossing(const Node& a, const Node& b){
     static char w[2 * MAXK];
     static int d1[2 * MAXK], d2[2 * MAXK];
-
     int sa = border(a.len), sb = border(b.len), m = sa + sb;
+
     memcpy(w, a.suf + (K - 1 - sa), sa);
     memcpy(w + sa, b.pre, sb);
 

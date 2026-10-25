@@ -101,9 +101,9 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
 
 int main(){
     const int goal = 20;
-
     vector<vector<int>> id(goal, vector<int>(goal, -1));
     int states = 0;
+
     for (int high = 0; high < goal; high++){
         for (int low = 0; low <= high; low++) id[low][high] = states++;
     }

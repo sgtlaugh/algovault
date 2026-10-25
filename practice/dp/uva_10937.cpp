@@ -133,9 +133,9 @@ bool blocked(int i, int j){
 
 vector<vector<int>> bfs(int si, int sj, const vector<vector<bool>>& bad){
     const int dx[] = {0, 0, -1, 1}, dy[] = {1, -1, 0, 0};
-
     vector<vector<int>> dis(h, vector<int>(w, -1));
     queue<pair<int, int>> q;
+
     dis[si][sj] = 0, q.push({si, sj});
     while (!q.empty()){
         int x = q.front().first, y = q.front().second;

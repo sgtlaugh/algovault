@@ -143,9 +143,9 @@ struct AhoCorasick{
 
 int main(){
     int n;
-
     AhoCorasick<> ac;
     static char buf[1010];
+
     while (scanf("%d", &n) == 1 && n){
         vector<string> words(n);
         for (auto& w: words) scanf("%s", buf), w = buf;

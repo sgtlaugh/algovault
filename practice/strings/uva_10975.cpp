@@ -145,7 +145,6 @@ char word[1010], grid[105][105];
 
 int main(){
     const int dx[] = {0, 0, -1, -1, -1, 1, 1, 1}, dy[] = {-1, 1, -1, 0, 1, -1, 0, 1};
-
     AhoCorasick<> ac;
 
     int t;

@@ -413,8 +413,8 @@ vector<pair<int, long long>> adj[MAX];
 
 void build(){
     vector<int> st = {0};
-
     vector<bool> seen(n, false);
+
     seen[0] = true;
     while (!st.empty()){
         int u = st.back();

@@ -187,8 +187,8 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     const vector<string> names = {"S", "M", "L", "XL", "XXL", "XXXL"};
-
     vector<int> stock(6), single(6, 0), pair(5, 0);
+
     for (int i = 0; i < 6; i++) cin >> stock[i];
 
     int n;
