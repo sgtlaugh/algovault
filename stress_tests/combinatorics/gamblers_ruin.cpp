@@ -1,8 +1,6 @@
 // LINK: -lquadmath
 #include "../common.h"
 #include <quadmath.h>
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/combinatorics/gamblers_ruin.cpp"
@@ -41,31 +39,17 @@ __float128 quad_reference(int n1, int n2, long double p_in){
     return expq(n1 * L) * expm1q(n2 * L) / expm1q(n * L);
 }
 
-/// Invalid arguments must trip the library's own assert, not return a meaningless probability
-void expect_assert(int n1, int n2, long double p){
-    string path = "/tmp/algovault_gamblers_ruin_" + to_string(getpid());
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        assert(freopen(path.c_str(), "w", stderr));
-        gamblers_ruin(n1, n2, p);
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid && WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
-    ifstream f(path);
-    string err((istreambuf_iterator<char>(f)), istreambuf_iterator<char>());
-    remove(path.c_str());
-    assert(err.find("gamblers_ruin.cpp") != string::npos && err.find("Assertion") != string::npos);
-}
-
 int main(){
-    expect_assert(3, 4, 1.5L);
-    expect_assert(3, 4, -0.25L);
-    expect_assert(3, 4, nanl(""));
-    expect_assert(0, 0, 0.5L);
-    expect_assert(-1, 4, 0.5L);
+    /// Invalid arguments must trip the library's own assert, not return a meaningless probability
+    auto rejects = [](int n1, int n2, long double p){
+        stress::expect_assert("combinatorics/gamblers_ruin.cpp", [&]{ gamblers_ruin(n1, n2, p); });
+    };
+    rejects(3, 4, 1.5L);
+    rejects(3, 4, -0.25L);
+    rejects(3, 4, nanl(""));
+    rejects(0, 0, 0.5L);
+    rejects(-1, 4, 0.5L);
+    rejects(4, -1, 0.5L);
 
     auto close = [](long double a, long double b){ return fabsl(a - b) <= 1e-12L * max((long double)1, fabsl(b)); };
     auto quad_close = [](long double got, __float128 expected){ return fabsq(got - expected) <= (__float128)1e-14L * expected + (__float128)1e-4900L; };
