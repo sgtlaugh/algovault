@@ -187,6 +187,7 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         const int INF = 1 << 29;
         vector<vector<int>> len(n, vector<int>(n)), dist(n, vector<int>(n)), nxt(n, vector<int>(n, -1));
@@ -197,6 +198,7 @@ int main(){
                 if (dist[i][j] < INF) nxt[i][j] = j;
             }
         }
+
         for (int k = 0; k < n; k++){
             for (int i = 0; i < n; i++){
                 for (int j = 0; j < n; j++){
@@ -205,7 +207,6 @@ int main(){
             }
         }
 
-        /// Roads get LP ids the first time a route uses them, unused roads never constrain anything
         map<pair<int, int>, int> id;
         vector<int> road_len;
         auto path = [&](int s, int t){
@@ -236,7 +237,6 @@ int main(){
             query_roads[i] = path(queries[i].first, queries[i].second);
         }
 
-        /// A road of length d takes d to 2d minutes, so y = time - d lies in [0, d] and the LP keeps y >= 0 for free
         int m = road_len.size();
         auto bound = [&](int i, Simplex::Sense sense){
             vector<double> objective(m, 0);

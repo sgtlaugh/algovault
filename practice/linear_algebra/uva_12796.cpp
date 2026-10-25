@@ -106,6 +106,7 @@ struct Matrix{
 int main(){
     int n, s, t, x;
     long long l;
+
     while (scanf("%d %lld %d %d", &n, &l, &s, &t) == 4){
         Matrix buttons(n, n, 10000);
         for (int i = 0; i < n; i++){
@@ -114,6 +115,7 @@ int main(){
                 buttons[i][x - 1]++;
             }
         }
+
         printf("%lld\n", buttons.pow(l)[s - 1][t - 1]);
     }
     return 0;

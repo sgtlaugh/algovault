@@ -120,9 +120,9 @@ const int R = 5, C = 6;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
-        /// One equation per light: the presses of itself and its neighbours must add up to its initial state
         vector<bitset<64>> equations(R * C);
         for (int i = 0; i < R; i++){
             for (int j = 0; j < C; j++){

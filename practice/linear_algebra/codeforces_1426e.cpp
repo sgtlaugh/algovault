@@ -185,12 +185,10 @@ struct BasicSimplex : SimplexOptions{
 
 using Simplex = BasicSimplex<double>;
 
-/// Alice's hand i beats Bob's hand j: rock beats scissors, scissors beats paper, paper beats rock
 bool beats(int i, int j){
     return (i == 0 && j == 1) || (i == 1 && j == 2) || (i == 2 && j == 0);
 }
 
-/// x_ij rounds of Alice's i against Bob's j; caps instead of exact sums are enough since any partial plan extends to all n rounds
 long long most_rounds(const long long a[], const long long b[], bool winning){
     vector<double> objective(9);
     for (int k = 0; k < 9; k++) objective[k] = beats(k / 3, k % 3) == winning;
@@ -208,6 +206,7 @@ long long most_rounds(const long long a[], const long long b[], bool winning){
 
 int main(){
     long long n, a[3], b[3];
+
     scanf("%lld", &n);
     for (int i = 0; i < 3; i++) scanf("%lld", &a[i]);
     for (int i = 0; i < 3; i++) scanf("%lld", &b[i]);

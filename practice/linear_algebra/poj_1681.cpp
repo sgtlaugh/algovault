@@ -116,7 +116,6 @@ vector<bitset<W>> rows_of(const vector<string>& bits){
     return res;
 }
 
-/// Fewest variables set to 1 over every solution, -1 when there is none, enumerating all 2^free_variables solutions
 template <size_t W>
 int min_presses(int m, vector<bitset<W>> equations){
     vector<int> pos = eliminate_gf2(equations, m);
@@ -137,16 +136,17 @@ int min_presses(int m, vector<bitset<W>> equations){
             if (mask >> b & 1) free_values[free_columns[b]] = 1;
         }
 
-        /// In reduced form pivot row i holds one pivot variable, equal to the right-hand side plus the free variables in the row
         int presses = __builtin_popcount(mask);
         for (int i = 0; i < rank; i++) presses += equations[i][m] ^ ((equations[i] & free_values).count() & 1);
         best = min(best, presses);
     }
+
     return best;
 }
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;
@@ -158,7 +158,6 @@ int main(){
             wall[i] = row;
         }
 
-        /// One equation per brick: the paints of itself and its neighbours must flip every white brick once
         vector<bitset<256>> equations(n * n);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++){

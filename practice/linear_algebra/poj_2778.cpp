@@ -136,6 +136,7 @@ int letter(char c){
 int main(){
     int m;
     long long len;
+
     cin >> m >> len;
 
     vector<vector<int>> go(1, vector<int>(4, -1));
@@ -158,7 +159,6 @@ int main(){
         bad[u] = true;
     }
 
-    /// BFS turns the trie into a full automaton; a state is bad if any suffix of it is a segment
     queue<int> q;
     for (int c = 0; c < 4; c++){
         if (go[0][c] == -1) go[0][c] = 0;

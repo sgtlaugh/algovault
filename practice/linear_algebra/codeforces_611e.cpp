@@ -199,14 +199,12 @@ void branch_and_bound(){
     objective[GROUPS] = 1;
     Simplex lp(objective, Simplex::MINIMIZE);
 
-    /// Musketeer k fights at most once per hour, and pairs or the trio exclude each other within an hour
     for (int k = 0; k < 4; k++){
         vector<double> coef(USES[k], USES[k] + GROUPS);
         coef.push_back(-1);
         lp.add_constraint(coef, 0, Simplex::LESSEQ);
     }
 
-    /// Hall's condition on strengths: the criminals needing at least order[i] get enough fights from that group or stronger
     for (int i = 0; i < GROUPS; i++){
         vector<double> coef(VARS, 0);
         long long criminals = 0;
@@ -240,6 +238,7 @@ void branch_and_bound(){
 int main(){
     int n;
     long long a, b, c;
+
     scanf("%d %lld %lld %lld", &n, &a, &b, &c);
     long long strength[GROUPS], values[GROUPS] = {a, b, c, a + b, a + c, b + c, a + b + c};
     for (int i = 0; i < GROUPS; i++) order.push_back(i);

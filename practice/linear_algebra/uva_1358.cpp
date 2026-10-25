@@ -102,15 +102,13 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
 int main(){
     int t, n;
     char s[16];
+
     scanf("%d", &t);
     for (int cs = 1; cs <= t; cs++){
         scanf("%d %s", &n, s);
         string pat = s;
         int len = pat.size();
 
-        /// d[i] = expected letters to go from i matched pattern letters to i + 1. A wrong letter c falls back to k[c]
-        /// matched letters and must climb back, so d[i] = n + sum over c != pat[i] of d[k[c]] + ... + d[i - 1]
-        /// Solving for the raw expectations instead cancels catastrophically, since they all sit near the answer
         vector<vector<long double>> eq(len, vector<long double>(len + 1, 0));
         for (int i = 0; i < len; i++){
             eq[i][i] = 1, eq[i][len] = n;
@@ -122,8 +120,6 @@ int main(){
                 for (int j = k; j < i; j++) eq[i][j] -= 1;
             }
 
-            /// Row i scaled by 32^-i keeps every pivot the largest in its column, so no rows swap and with integer
-            /// coefficients and power of 2 factors the elimination stays exact; the answer stays below 26^12 < 2^64
             for (auto& x : eq[i]) x = ldexpl(x, -5 * i);
         }
 

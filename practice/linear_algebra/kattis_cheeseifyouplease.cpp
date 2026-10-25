@@ -187,6 +187,7 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<double> w(n), profit(m);
     vector<vector<double>> share(n, vector<double>(m));
@@ -199,11 +200,9 @@ int main(){
         scanf("%lf", &profit[j]);
     }
 
-    /// x_j is the pounds of blend j made, each cheese caps the pounds of it the blends use
     Simplex lp(profit, Simplex::MAXIMIZE);
     for (int i = 0; i < n; i++) lp.add_constraint(share[i], w[i], Simplex::LESSEQ);
     lp.solve();
-    /// The nudge keeps an exact half penny from rounding down and a zero optimum from printing -0.00
     printf("%.2f\n", lp.value + 1e-7);
     return 0;
 }

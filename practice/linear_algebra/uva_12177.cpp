@@ -134,8 +134,8 @@ struct GaussBand{
 int main(){
     const int dx[] = {1, 0, -1, 0}, dy[] = {0, 1, 0, -1};
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
-        /// e(i, j) = 1 + sum p * e(next), and e = 0 at the tavern
         GaussBand<double> g(n, m);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
@@ -153,6 +153,7 @@ int main(){
                 }
             }
         }
+
         printf("%.6f\n", g.solve()[0][0] + 1e-9);
     }
     return 0;

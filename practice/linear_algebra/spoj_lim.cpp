@@ -133,6 +133,7 @@ const int HOTEL = 300, FIRST_BOOTH = 291;
 
 int main(){
     int streets;
+
     while (scanf("%d", &streets) == 1 && streets){
         vector<vector<int>> adj(HOTEL + 1);
         while (streets--){
@@ -142,7 +143,6 @@ int main(){
             adj[b].push_back(a);
         }
 
-        /// P[u] is the average of P over the neighbours of u, fixed to 1 at the hotel and 0 at a booth
         vector<vector<double>> equations(HOTEL + 1, vector<double>(HOTEL + 2, 0));
         for (int u = 0; u <= HOTEL; u++){
             equations[u][u] = 1;
@@ -153,7 +153,6 @@ int main(){
             for (int v: adj[u]) equations[u][v] -= 1.0 / adj[u].size();
         }
 
-        /// Places with no path to the hotel or a booth are free variables, their blocks do not touch the one of 0
         vector<double> probability = gauss(equations).x;
         printf("%.3f\n", max(0.0, probability[0]) + 1e-9);
     }

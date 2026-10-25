@@ -104,8 +104,8 @@ struct Matrix{
 };
 
 int main(){
-    /// a(n) = 5 a(n - 1) - 7 a(n - 2) + 4 a(n - 3) from n = 5 on, a(1..4) = 1, 2, 6, 19
     const int first[] = {1, 2, 6, 19};
+
     Matrix step(3, 3, 10000);
     step.a = {{5, -7, 4}, {1, 0, 0}, {0, 1, 0}};
 
@@ -119,7 +119,6 @@ int main(){
             res = (p[0][0] * 19 + p[0][1] * 6 + p[0][2] * 2) % 10000;
         }
 
-        /// The accepted output zero pads only from n = 13 on, so n = 10 (20727) prints 727
         if (n < 13) printf("Case %d: %d\n", tc, res);
         else printf("Case %d: %04d\n", tc, res);
     }

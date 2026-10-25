@@ -101,6 +101,7 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
 
 int main(){
     int w, h, s;
+
     while (scanf("%d %d %d", &w, &h, &s) == 3){
         int n = w * h;
         vector<int> jump(n + 1);
@@ -111,7 +112,6 @@ int main(){
             jump[u] = v;
         }
 
-        /// E[i] = 1 + average of E over the six landing cells, a roll past the goal bounces back from it
         vector<vector<double>> eq(n, vector<double>(n + 1, 0));
         for (int i = 1; i <= n; i++){
             eq[i - 1][i - 1] = 1;

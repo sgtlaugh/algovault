@@ -105,6 +105,7 @@ struct Matrix{
 
 int main(){
     long long d, n, m;
+
     while (scanf("%lld %lld %lld", &d, &n, &m) == 3 && (d || n || m)){
         vector<long long> coef(d), f(d);
         for (auto& x : coef) scanf("%lld", &x);
@@ -115,7 +116,6 @@ int main(){
             continue;
         }
 
-        /// (f(k + 1), ..., f(k - d + 2)) = T * (f(k), ..., f(k - d + 1)), starting from k = d
         Matrix step(d, d, m), state(d, 1, m);
         for (int i = 0; i < d; i++) step[0][i] = coef[i], state[i][0] = f[d - 1 - i];
         for (int i = 1; i < d; i++) step[i][i - 1] = 1;

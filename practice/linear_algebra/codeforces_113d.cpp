@@ -131,6 +131,7 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
 
 int main(){
     int n, m, a, b;
+
     scanf("%d %d %d %d", &n, &m, &a, &b);
     vector<vector<int>> adj(n);
     for (int i = 0; i < m; i++){
@@ -143,14 +144,12 @@ int main(){
     vector<double> stay(n);
     for (auto& p : stay) scanf("%lf", &p);
 
-    /// moves[i] lists every room reachable from i in one minute with its probability
     vector<vector<pair<int, double>>> moves(n);
     for (int i = 0; i < n; i++){
         moves[i].push_back({i, stay[i]});
         for (int j : adj[i]) moves[i].push_back({j, (1 - stay[i]) / adj[i].size()});
     }
 
-    /// visits[(i, j)] = expected visits to the pair, which for i == j is the chance they meet in room i
     int states = n * n, start = (a - 1) * n + (b - 1);
     vector<vector<double>> equations(states, vector<double>(states + 1, 0));
     for (int s = 0; s < states; s++) equations[s][s] = 1;

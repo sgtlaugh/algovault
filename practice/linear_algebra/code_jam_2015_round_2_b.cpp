@@ -193,6 +193,7 @@ long long read_scaled(){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;
@@ -204,7 +205,6 @@ int main(){
             heat[i] = rate[i] * (read_scaled() - x);
         }
 
-        /// f_i is the fraction of the time source i is open: max flow rate with zero net heat, time is V / flow
         Simplex lp(rate, Simplex::MAXIMIZE);
         lp.add_constraint(heat, 0, Simplex::EQUAL);
         for (int i = 0; i < n; i++){
@@ -214,7 +214,6 @@ int main(){
         }
         lp.solve();
 
-        /// Rates are integers in units of 1e-4, so any feasible positive flow is at least 1
         if (lp.value < 0.5) printf("Case #%d: IMPOSSIBLE\n", tc);
         else printf("Case #%d: %.9f\n", tc, v / lp.value);
     }

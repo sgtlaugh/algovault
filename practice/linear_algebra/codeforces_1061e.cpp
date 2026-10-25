@@ -187,6 +187,7 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n, root[2];
+
     scanf("%d %d %d", &n, &root[0], &root[1]);
     vector<double> revenue(n);
     for (auto& a : revenue) scanf("%lf", &a);
@@ -207,7 +208,6 @@ int main(){
         }
     }
 
-    /// A demanded city's region is its subtree minus the subtrees of demanded descendants, so the demands fix each region's count
     vector<int> demand[2], region[2], need[2];
     for (int t = 0; t < 2; t++){
         int q;
@@ -229,8 +229,6 @@ int main(){
         return 0;
     }
 
-    /// x_i says city i gets a port and lies in one region per tree, a bipartite incidence matrix, so the optimum is 0/1
-    /// Both trees' region counts sum to the same total, so <= on one side and >= on the other already forces equality
     Simplex lp(revenue, Simplex::MAXIMIZE);
     for (int t = 0; t < 2; t++){
         for (int k = 0; k < n; k++){

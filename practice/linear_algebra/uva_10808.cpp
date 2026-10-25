@@ -975,6 +975,7 @@ long long reduce(const Bignum& x, long long p){
 
 Bignum exact_det(const vector<vector<long long>>& a){
     double digits = 1;
+
     for (auto& row : a){
         double norm = 0;
         for (long long x : row) norm += (double)x * x;
@@ -988,6 +989,7 @@ Bignum exact_det(const vector<vector<long long>>& a){
         res += prod * t;
         prod *= p;
     }
+
     return res;
 }
 
@@ -1008,6 +1010,7 @@ vector<vector<long long>> minor_of(const vector<int>& nodes){
             if (i != j) a[i][j] = -cond[nodes[i]][nodes[j]];
         }
     }
+
     return a;
 }
 

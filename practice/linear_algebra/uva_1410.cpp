@@ -187,6 +187,7 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n, tc = 0;
+
     while (scanf("%d", &n) == 1 && n){
         int l, r;
         scanf("%d %d", &l, &r);
@@ -195,8 +196,6 @@ int main(){
         int a1, a2, a3;
         scanf("%d %d %d", &a1, &a2, &a3);
 
-        /// Unknowns c1, c2, c3: the sugar of a known drink is p - a.c and must lie in [L, R],
-        /// the special drink takes the most sugar allowed, R
         Simplex lp({(double)a1, (double)a2, (double)a3}, Simplex::MAXIMIZE);
         for (auto& d: drinks){
             vector<double> coef = {(double)d[0], (double)d[1], (double)d[2]};

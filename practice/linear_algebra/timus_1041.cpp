@@ -131,7 +131,6 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
 
 const unsigned long long MOD = 2147483647;
 
-/// Rank over a large prime field equals the rank over the rationals unless MOD divides every maximal minor, doubles lose it
 struct Mod{
     unsigned long long value;
 
@@ -183,6 +182,7 @@ Mod abs(const Mod& x){
 
 int main(){
     int m, n;
+
     scanf("%d %d", &m, &n);
     vector<vector<Mod>> vectors(m, vector<Mod>(n));
     for (auto& v: vectors){
@@ -195,7 +195,6 @@ int main(){
     vector<int> cost(m), order(m);
     for (auto& c: cost) scanf("%d", &c);
 
-    /// Matroid greedy, cheapest first with ties to the lower index, which also gives the lexicographically smallest optimum
     iota(order.begin(), order.end(), 0);
     stable_sort(order.begin(), order.end(), [&](int a, int b){ return cost[a] < cost[b]; });
 

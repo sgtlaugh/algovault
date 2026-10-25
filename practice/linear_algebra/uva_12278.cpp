@@ -188,11 +188,11 @@ using Simplex = BasicSimplex<double>;
 int main(){
     typedef long double ld;
     int d[4][3];
+
     while (scanf("%d %d %d", &d[0][0], &d[0][1], &d[0][2]) == 3){
         if (!d[0][0] && !d[0][1] && !d[0][2]) break;
         for (int i = 1; i < 4; i++) scanf("%d %d %d", &d[i][0], &d[i][1], &d[i][2]);
 
-        /// Variables p1, p2, p3, t: mix the dice with weights p and maximize the smallest weight t, so "every p > 0" is t > 0
         BasicSimplex<ld> lp({0, 0, 0, 1}, Simplex::MAXIMIZE);
         for (int k = 0; k < 3; k++) lp.add_constraint({(ld)d[0][k], (ld)d[1][k], (ld)d[2][k], 0}, d[3][k], Simplex::EQUAL);
         for (int i = 0; i < 3; i++){
@@ -201,7 +201,6 @@ int main(){
             lp.add_constraint(row, 0, Simplex::GREATEQ);
         }
 
-        /// Each die sums to 10000, so a positive weight has a denominator of at most twice the dice triangle's area, under 1e9
         puts(lp.solve() == Simplex::FEASIBLE && lp.value > 1e-11 ? "YES" : "NO");
     }
     return 0;

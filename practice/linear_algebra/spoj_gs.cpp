@@ -131,6 +131,7 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, st, en;
@@ -145,7 +146,6 @@ int main(){
             total[u] += c, total[v] += c;
         }
 
-        /// E[en] = 0, elsewhere E[u] = 1 + sum of E[v] weighted by the chance of taking road u - v
         vector<vector<double>> equations(n, vector<double>(n + 1, 0));
         for (int u = 0; u < n; u++){
             equations[u][u] = 1;

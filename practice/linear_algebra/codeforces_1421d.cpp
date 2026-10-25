@@ -187,21 +187,19 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     const int dx[] = {1, 0, -1, -1, 0, 1}, dy[] = {1, 1, 0, -1, -1, 0};
-
     int t;
+
     scanf("%d", &t);
     while (t--){
         long long x, y, c[6];
         scanf("%lld %lld", &x, &y);
         for (int i = 0; i < 6; i++) scanf("%lld", &c[i]);
 
-        /// Any two non-parallel steps have determinant 1, so every basis is unimodular and the optimal step counts are integers
         BasicSimplex<long double> lp(vector<long double>(c, c + 6), Simplex::MINIMIZE);
         lp.add_constraint(vector<long double>(dx, dx + 6), x, Simplex::EQUAL);
         lp.add_constraint(vector<long double>(dy, dy + 6), y, Simplex::EQUAL);
         lp.solve();
 
-        /// The cost reaches 4e18, past what long double holds exactly once rounding creeps in, so it is summed in integers
         long long cost = 0;
         for (int i = 0; i < 6; i++) cost += c[i] * llroundl(lp.val[i]);
         printf("%lld\n", cost);

@@ -70,9 +70,9 @@ vector<T> solve_tridiagonal_m_matrix(const vector<T>& lower, const vector<T>& up
 
 int main(){
     int rows, cols, start_row, start_col;
+
     scanf("%d %d %d %d", &rows, &cols, &start_row, &start_col);
 
-    /// The robot never moves up, so each row only needs the expectations of the row below, solved bottom up
     vector<double> below(cols, 0);
     for (int r = rows - 1; r >= start_row; r--){
         vector<double> lower(cols), diagonal(cols), upper(cols), rhs(cols);

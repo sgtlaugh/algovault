@@ -131,6 +131,7 @@ struct Matrix{
 
 int main(){
     long long n;
+
     cin >> n;
 
     const long long MOD = 1000000007;
@@ -138,7 +139,6 @@ int main(){
     for (int j = 0; j < 6; j++) step[0][j] = 1;
     for (int i = 1; i < 6; i++) step[i][i - 1] = 1;
 
-    /// state (f(k), ..., f(k - 5)) starts at (1, 0, ..., 0), so f(n) is the top-left of step^n
     cout << step.pow(n)[0][0] << endl;
     return 0;
 }

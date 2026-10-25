@@ -187,8 +187,8 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2){
-        /// Every contestant gets the same amounts x, so the bill is m times the price of one share
         vector<double> price(n), happiness(n);
         for (auto& p : price) scanf("%lf", &p), p *= m;
         Simplex lp(price, Simplex::MAXIMIZE);
@@ -199,6 +199,7 @@ int main(){
             scanf("%lf", &total);
             lp.add_constraint(happiness, total, Simplex::LESSEQ);
         }
+
         lp.solve();
         printf("Nasa can spend %d taka.\n", (int)ceil(lp.value));
     }

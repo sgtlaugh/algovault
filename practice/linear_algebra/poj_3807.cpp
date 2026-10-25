@@ -99,7 +99,6 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
     return cols - count(pos.begin(), pos.end(), -1);
 }
 
-/// Exact rationals so gauss runs with eps = 0, 128-bit parts leave headroom for the products before reducing
 struct Fraction{
     __int128 num, den;
 
@@ -155,7 +154,6 @@ Fraction abs(const Fraction& f){
     return Fraction(f.num < 0 ? -f.num : f.num, f.den);
 }
 
-/// Adds mult times the atoms of molecule s to counts, parentheses are never nested
 void add_atoms(const string& s, int mult, map<string, int>& counts){
     for (size_t i = 0; i < s.size();){
         size_t end = i + 1;
@@ -184,6 +182,7 @@ vector<string> split(const string& s, char separator){
 
 int main(){
     string line;
+
     while (cin >> line && line != "."){
         line.pop_back();
         size_t arrow = line.find("->");
@@ -192,7 +191,6 @@ int main(){
         for (auto& s: split(line.substr(arrow + 2), '+')) molecules.push_back(s);
         int m = molecules.size();
 
-        /// Products count negative so every element balances to 0
         map<string, vector<long long>> element_rows;
         for (int j = 0; j < m; j++){
             map<string, int> counts;
@@ -204,7 +202,6 @@ int main(){
             }
         }
 
-        /// The balanced coefficients are one ray, so pinning the first to 1 leaves a unique rational solution
         vector<vector<Fraction>> equations;
         for (auto& entry: element_rows) equations.emplace_back(entry.second.begin(), entry.second.end());
         equations.emplace_back(m + 1, Fraction(0));

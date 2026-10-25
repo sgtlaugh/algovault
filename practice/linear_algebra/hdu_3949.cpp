@@ -138,7 +138,6 @@ int main(){
             b.insert(x);
         }
 
-        /// Only nonempty subsets count, and they reach 0 iff some inserted value was dependent
         bool zero = b.rank < n;
         cout << "Case #" << tc << ":\n";
         cin >> q;

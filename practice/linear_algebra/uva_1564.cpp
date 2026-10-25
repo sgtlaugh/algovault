@@ -140,8 +140,8 @@ int day_of(const char* s){
 int main(){
     int n, m;
     char start[4], fired[4];
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
-        /// Record r says the build times of its widgets sum to its working days, both known only modulo 7
         vector<vector<int>> equations(m, vector<int>(n + 1, 0));
         for (int r = 0; r < m; r++){
             int k, type;
@@ -157,7 +157,6 @@ int main(){
         if (!solution.solvable) puts("Inconsistent data.");
         else if (!solution.basis.empty()) puts("Multiple solutions.");
         else{
-            /// Build times lie in 3..9, one per residue modulo 7
             for (int i = 0; i < n; i++){
                 int days = solution.x[i] < 3 ? solution.x[i] + 7 : solution.x[i];
                 printf("%d%c", days, i + 1 < n ? ' ' : '\n');

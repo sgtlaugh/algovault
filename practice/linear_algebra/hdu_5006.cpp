@@ -106,6 +106,7 @@ int find(vector<int>& parent, int u){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m, s, target;
@@ -126,7 +127,6 @@ int main(){
             continue;
         }
 
-        /// Zero ohm wires merge points, and only the merged points reachable from s through 1 ohm wires matter
         vector<vector<int>> adj(n);
         for (auto& wire : wires){
             int &u = wire[0], &v = wire[1], &c = wire[2];
@@ -150,7 +150,6 @@ int main(){
             continue;
         }
 
-        /// Kirchhoff's current law with target grounded and 1 ampere entering at s
         int k = order.size();
         vector<vector<double>> equations(k, vector<double>(k + 1, 0));
         for (int u : order){

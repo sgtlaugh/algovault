@@ -131,7 +131,6 @@ struct Matrix{
 
 const long long MOD = 1000000007;
 
-/// state is the column (variables..., 1), so every statement is a matrix and a block is their product
 vector<string> tokens;
 map<string, int> var;
 size_t pos = 0;
@@ -142,7 +141,7 @@ vector<long long> expression(){
     string t = tokens[pos++];
     if (t == "("){
         vector<long long> left = expression();
-        pos += 3;  /// ") + ("
+        pos += 3;
         vector<long long> right = expression();
         pos++;
         for (int i = 0; i < dim; i++) row[i] = (left[i] + right[i]) % MOD;
@@ -157,7 +156,7 @@ Matrix block(){
     while (pos < tokens.size() && tokens[pos] != "}" && tokens[pos] != "RETURN"){
         if (isdigit(tokens[pos][0])){
             long long times = stoll(tokens[pos]);
-            pos += 3;  /// "<literal> MOO {"
+            pos += 3;
             Matrix body = block();
             pos++;
             res = body.pow(times) * res;
@@ -170,6 +169,7 @@ Matrix block(){
             res = assign * res;
         }
     }
+
     return res;
 }
 

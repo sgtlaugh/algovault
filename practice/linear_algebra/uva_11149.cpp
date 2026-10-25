@@ -105,8 +105,8 @@ struct Matrix{
 
 int main(){
     int n, k;
+
     while (scanf("%d %d", &n, &k) == 2 && n){
-        /// B = [[A, A], [0, I]] has B^k = [[A^k, A + A^2 + ... + A^k], [0, I]]
         Matrix b(2 * n, 2 * n, 10);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++) scanf("%lld", &b[i][j]), b[i][j + n] = b[i][j];

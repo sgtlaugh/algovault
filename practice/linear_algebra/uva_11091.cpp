@@ -106,14 +106,13 @@ struct Matrix{
 int main(){
     const long long MOD = 10007;
     vector<int> cols;
+
     for (int mask = 0; mask < 64; mask++){
         if (__builtin_popcount(mask) == 2) cols.push_back(mask);
     }
 
-    /// Knights one column apart attack across 2 rows, two columns apart across 1 row
     auto apart = [](int a, int b, int d){ return !((a << d) & b) && !((b << d) & a); };
 
-    /// A state is the pair of the last two columns, the next column must suit both
     vector<pair<int, int>> states;
     for (int a : cols){
         for (int b : cols){
@@ -132,7 +131,6 @@ int main(){
         }
     }
 
-    /// Squarings shared by all test cases, each query only multiplies the row vector through
     vector<Matrix> powers = {step};
     for (int k = 1; k < 30; k++) powers.push_back(powers.back() * powers.back());
 
@@ -150,6 +148,7 @@ int main(){
         for (int k = 0; k < 30; k++){
             if ((n - 2) >> k & 1) v = v * powers[k];
         }
+
         long long res = 0;
         for (int i = 0; i < s; i++) res += v[0][i];
         printf("%lld\n", res % MOD);

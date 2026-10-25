@@ -187,12 +187,12 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
         scanf("%d %d", &n, &m);
 
-        /// Variables: the speed of each pipe, then lo and hi, minimize hi - lo with lo <= speed <= hi on every pipe
         vector<double> objective(m + 2, 0);
         objective[m] = -1, objective[m + 1] = 1;
         Simplex lp(objective, Simplex::MINIMIZE);

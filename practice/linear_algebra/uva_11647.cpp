@@ -187,6 +187,7 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int judges, competitors;
@@ -196,7 +197,6 @@ int main(){
         for (int& s : score) scanf("%d", &s);
         for (int j = 0; j < judges; j++) scanf("%d %d %lf", &from[j], &to[j], &generosity[j]);
 
-        /// Every judge covers an interval of competitors, so the rows are totally unimodular and the optimal vertex is integral
         Simplex lp(generosity, Simplex::MINIMIZE);
         for (int i = 1; i <= competitors; i++){
             vector<double> coef(judges, 0);

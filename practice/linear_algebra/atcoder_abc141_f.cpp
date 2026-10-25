@@ -124,12 +124,12 @@ struct XorBasis{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<ull> a(n);
     ull total = 0;
     for (auto& x : a) scanf("%llu", &x), total ^= x;
 
-    /// red ^ blue is always total, so its set bits count once either way; the rest count twice when red has them
     XorBasis b;
     for (ull x : a) b.insert(x & ~total);
     printf("%llu\n", total + 2 * b.max_xor());

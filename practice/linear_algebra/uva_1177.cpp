@@ -104,7 +104,6 @@ struct Matrix{
 };
 
 int main(){
-    /// |F(n)| <= 10^9 < MOD / 2, so the residue modulo this prime pins down the signed value
     const long long MOD = 2147483647;
 
     int t;

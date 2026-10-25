@@ -105,8 +105,8 @@ struct Matrix{
 
 int main(){
     long long n, k, l;
+
     while (scanf("%lld %lld %lld", &n, &k, &l) == 3){
-        /// ways(m) = k ways(m - 1) + l ways(m - 2) over 5 meter slots, ways(0) = 1 and ways(-1) = 0
         Matrix step(2, 2, 1000000);
         step[0][0] = k, step[0][1] = l, step[1][0] = 1;
         printf("%06lld\n", step.pow(n / 5)[0][0]);

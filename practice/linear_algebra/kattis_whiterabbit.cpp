@@ -152,6 +152,7 @@ optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int m
 int main(){
     const int MOD = 13;
     int n, start, target, t;
+
     scanf("%d %d %d %d", &n, &start, &target, &t);
 
     vector<int> duration(t);
@@ -169,7 +170,6 @@ int main(){
         }
     }
 
-    /// Each trip sums its tracks' times, and a time in [1, 12] is its own residue mod 13
     int tracks = track_id.size();
     vector<vector<int>> equations(t, vector<int>(tracks + 1, 0));
     for (int i = 0; i < t; i++){

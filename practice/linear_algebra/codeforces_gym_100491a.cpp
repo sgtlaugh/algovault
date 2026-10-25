@@ -199,7 +199,6 @@ int main(){
         profit[e] = a;
     }
 
-    /// A circulation: every currency nets to zero; the incidence matrix is totally unimodular, so the optimum is integral
     Simplex lp(profit, Simplex::MAXIMIZE);
     for (int v = 1; v <= n; v++){
         vector<double> net(m, 0);

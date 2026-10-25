@@ -100,8 +100,8 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
 }
 
 int main(){
-    /// Ratings in steps of 50, a pair of accounts is (low, high) with low <= high < 20
     const int goal = 20;
+
     vector<vector<int>> id(goal, vector<int>(goal, -1));
     int states = 0;
     for (int high = 0; high < goal; high++){
@@ -110,7 +110,6 @@ int main(){
 
     double p;
     while (scanf("%lf", &p) == 1){
-        /// E(low, high) = 1 + p E(after a win) + (1 - p) E(after a loss), and E = 0 once an account hits 1000
         vector<vector<double>> equations(states, vector<double>(states + 1, 0));
         for (int high = 0; high < goal; high++){
             for (int low = 0; low <= high; low++){
@@ -124,7 +123,6 @@ int main(){
             }
         }
 
-        /// At p = 0.3 the answer is about 1.6e10 and pivots shrink toward its inverse, under the default eps
         printf("%.6f\n", gauss(equations, 1e-15).x[id[0][0]]);
     }
     return 0;

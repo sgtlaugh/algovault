@@ -187,19 +187,17 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         vector<array<double, 3>> pace(n);
         for (auto& p: pace){
             for (auto& x: p){
                 int v;
                 scanf("%d", &v);
-                x = 1e4 / v;  /// time per unit length, scaled so paces and their smallest differences sit around 1e4 and 1e-4
+                x = 1e4 / v;
             }
         }
 
-        /// i wins when some lengths x >= 0 finish strictly ahead of everyone; the times scale with x, so ask for a lead >= 1
-        /// Near-identical rivals make a full tableau ill-conditioned, so rows are added lazily: solve with the rivals
-        /// collected so far, then add the one the solution beats by the least until no rival is ahead
         for (int i = 0; i < n; i++){
             vector<vector<double>> lead(n, vector<double>(3));
             for (int j = 0; j < n; j++){
@@ -223,12 +221,13 @@ int main(){
                     if (j != i && d < low) worst = j, low = d;
                 }
                 if (worst == -1) break;
-                if (count(rivals.begin(), rivals.end(), worst)){  /// the LP broke one of its own rows, numerical noise at a zero lead
+                if (count(rivals.begin(), rivals.end(), worst)){
                     wins = false;
                     break;
                 }
                 rivals.push_back(worst);
             }
+
             puts(wins ? "Yes" : "No");
         }
     }

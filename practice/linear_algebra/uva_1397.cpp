@@ -101,10 +101,10 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
 
 int main(){
     int a, m, b, n;
+
     while (scanf("%d %d %d %d", &a, &m, &b, &n) == 4 && a){
         int d = m * n;
 
-        /// t^k in the basis alpha^i beta^j, i < m and j < n, at index i * n + j, alpha^m = a and beta^n = b
         vector<vector<long long>> powers(d + 1, vector<long long>(d, 0));
         powers[0][0] = 1;
         for (int k = 1; k <= d; k++){
@@ -120,14 +120,12 @@ int main(){
             }
         }
 
-        /// The polynomial is monic of degree mn, so sum c_k t^k = -t^d gives one equation per basis element
         vector<vector<long double>> equations(d, vector<long double>(d + 1));
         for (int row = 0; row < d; row++){
             for (int k = 0; k < d; k++) equations[row][k] = powers[k][row];
             equations[row][d] = -powers[d][row];
         }
 
-        /// The system is never singular, and entries up to 4^20 would push real pivots under a relative eps
         vector<long double> coefs = gauss(equations, (long double)0).x;
         printf("1");
         for (int k = d - 1; k >= 0; k--) printf(" %lld", llroundl(coefs[k]));

@@ -124,6 +124,7 @@ struct XorBasis{
 
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
     XorBasis b;
     for (int i = 0; i < n; i++){
@@ -132,7 +133,6 @@ int main(){
         b.insert(x);
     }
 
-    /// Each distinct value appears 2^(n - rank) times; k < 2^18, so capping the shift keeps it defined without changing i >> shift
     int shift = min(n - b.rank, 20);
     string out;
     for (int i = 0; i < k; i++){

@@ -187,9 +187,9 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
 
-    /// Sum of w * (a_x - a_y) over edges is linear in a, and the edge rows form an incidence matrix, so every vertex is integral
     vector<double> objective(n, 0);
     vector<vector<double>> rows;
     for (int i = 0; i < m; i++){

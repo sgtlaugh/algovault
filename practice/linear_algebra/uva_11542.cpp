@@ -118,6 +118,7 @@ vector<bitset<W>> rows_of(const vector<string>& bits){
 
 int main(){
     vector<int> primes;
+
     for (int p = 2; p < 500; p++){
         bool prime = true;
         for (int q = 2; q * q <= p; q++) prime &= p % q != 0;
@@ -128,7 +129,7 @@ int main(){
     scanf("%d", &t);
     while (t--){
         scanf("%d", &n);
-        /// One equation per prime: the chosen numbers must hold it an even number of times, x_i = number i is chosen
+
         vector<bitset<128>> eq(primes.size());
         for (int i = 0; i < n; i++){
             long long x;

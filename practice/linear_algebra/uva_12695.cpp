@@ -101,6 +101,7 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
@@ -115,9 +116,6 @@ int main(){
             cnt[w[0] - 'A'][u][v]++, out_deg[u]++, road[u][v] = true;
         }
 
-        /// p(a, b): total chance of the walks from a to b that read a palindrome, pairing the first road out of a
-        /// with the last road into b. step[a][b][x][y] weighs pairing a -> x with y -> b, direct[a][b] is a single
-        /// middle road a -> b
         auto prob = [&](int u, int v, int c){ return (double)cnt[c][u][v] / out_deg[u]; };
         vector<vector<double>> direct(n, vector<double>(n, 0));
         vector<vector<vector<vector<double>>>> step(n, vector<vector<vector<double>>>(n, vector<vector<double>>(n, vector<double>(n, 0))));
@@ -135,8 +133,6 @@ int main(){
             }
         }
 
-        /// The walk stops at t and in cities that cannot reach t, so only the other cities that reach t may sit
-        /// strictly inside a path; keeping the rest out also keeps the system nonsingular
         vector<vector<double>> answer(n, vector<double>(n, 0));
         for (int e = 0; e < n; e++){
             vector<bool> inside(n, false);
@@ -154,8 +150,6 @@ int main(){
             int k = cities.size(), vars = k * k;
             if (!k) continue;
 
-            /// p(a, a) also counts the empty walk: meeting in a city may close an even palindrome or go on
-            /// with a palindromic loop back to it
             auto expand = [&](int a, int b, vector<double>& row){
                 for (int x : cities){
                     for (int y : cities) row[pos[x] * k + pos[y]] -= step[a][b][x][y];

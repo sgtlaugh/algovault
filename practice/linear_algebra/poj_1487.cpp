@@ -113,7 +113,6 @@ int next_char(){
     return c;
 }
 
-/// The tree whose first character is c, as a linear expression of the identifiers' expected scores
 Expression parse(int c){
     Expression res{vector<double>(n, 0), 0, false};
     if (islower(c)){
@@ -146,6 +145,7 @@ Expression parse(int c){
 
 int main(){
     int game = 0;
+
     while (scanf("%d", &n) == 1 && n){
         vector<Expression> definitions(n);
         for (int i = 0; i < n; i++){
@@ -165,7 +165,6 @@ int main(){
             }
         }
 
-        /// A finite chain ends with probability 1 from x iff every identifier x can reach can still reach a leaf
         vector<bool> can_end(n, false), defined(n, true);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++) if (reach[i][j] && definitions[j].has_leaf) can_end[i] = true;
@@ -174,7 +173,6 @@ int main(){
             for (int j = 0; j < n; j++) if (reach[i][j] && !can_end[j]) defined[i] = false;
         }
 
-        /// Undefined identifiers get x = 0 so the system stays square, defined ones never refer to them
         vector<vector<double>> equations(n, vector<double>(n + 1, 0));
         for (int i = 0; i < n; i++){
             equations[i][i] = 1;

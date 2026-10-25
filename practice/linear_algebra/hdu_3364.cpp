@@ -118,11 +118,11 @@ vector<bitset<W>> rows_of(const vector<string>& bits){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
         scanf("%d %d", &n, &m);
-        /// One equation per lantern, x_j = switch j is pushed
         vector<bitset<64>> equations(n);
         for (int j = 0; j < m; j++){
             int k;

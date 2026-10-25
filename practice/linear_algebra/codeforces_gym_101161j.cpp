@@ -187,6 +187,7 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;
@@ -215,7 +216,6 @@ int main(){
         }
         for (int k = 0; k < n; k++) pos[order[k]] = k;
 
-        /// u -> w -> v already forces u before v since every book takes at least one day, so only the reduction matters
         vector<bitset<200>> reach(n);
         vector<pair<int, int>> edges;
         for (int k = n - 1; k >= 0; k--){
@@ -229,7 +229,6 @@ int main(){
             }
         }
 
-        /// Variables: r_i = days cut from book i, then s_i = its start day
         vector<double> objective(2 * n, 0);
         for (int i = 0; i < n; i++) objective[i] = d[i];
         Simplex lp(objective, Simplex::MINIMIZE);
@@ -251,7 +250,6 @@ int main(){
             continue;
         }
 
-        /// Earliest starts for the chosen cuts are never later than the LP's, so they still finish by x and stay small
         vector<long long> r(n), s(n, 0);
         long long cost = 0;
         for (int i = 0; i < n; i++) r[i] = llround(lp.val[i]), cost += c[i] + d[i] * r[i];

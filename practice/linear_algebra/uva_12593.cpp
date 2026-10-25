@@ -106,8 +106,6 @@ struct Matrix{
 int main(){
     const int MOD = 10007;
 
-    /// f(n) pairs: Fibonacci up to n = k, the first pair dies in year k + 1, then f(n) = f(n - 1) + f(n - 2) - f(n - k - 1)
-    /// powers[k][i] = step^(2^i), shared by every case with the same lifetime
     map<int, vector<Matrix>> powers;
 
     int t, n, k;
@@ -129,7 +127,6 @@ int main(){
                 for (int i = 0; i < 31; i++) powers[k].push_back(step), step = step * step;
             }
 
-            /// (f(i), f(i - 1), ..., f(i - k)) advances one year per step, from i = k + 1 to i = n
             Matrix state(m, 1, MOD);
             for (int i = 0; i < m; i++) state[i][0] = f[m - i];
             for (int i = 0, e = n - m; e; i++, e >>= 1){

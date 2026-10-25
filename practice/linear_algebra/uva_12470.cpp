@@ -105,8 +105,8 @@ struct Matrix{
 
 int main(){
     long long n;
+
     while (scanf("%lld", &n) == 1 && n){
-        /// (t(n + 2), t(n + 1), t(n)) = M^(n - 1) * (2, 1, 0)
         Matrix m(3, 3, 1000000009);
         m[0] = {1, 1, 1}, m[1] = {1, 0, 0}, m[2] = {0, 1, 0};
         Matrix p = m.pow(n - 1);

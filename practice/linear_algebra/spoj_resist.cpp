@@ -131,6 +131,7 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2){
         vector<vector<long double>> equations(n, vector<long double>(n + 1, 0));
         vector<long double> conductance_to_source(n, 0);
@@ -147,7 +148,6 @@ int main(){
             if (b == 0) conductance_to_source[a] += g;
         }
 
-        /// Kirchhoff's current law at every inner node, with the potential fixed to 1 at node 1 and 0 at node n
         for (int u: {0, n - 1}){
             fill(equations[u].begin(), equations[u].end(), 0);
             equations[u][u] = 1;

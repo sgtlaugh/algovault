@@ -187,13 +187,12 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
     vector<int> a(n), cost(n);
     for (auto& x : a) scanf("%d", &x);
     for (auto& x : cost) scanf("%d", &x);
 
-    /// Start from buying at every request; keeping a_i until its next request saves buying it there
-    /// A kept book takes one of the k - 1 slots beside the requested book on each day strictly between, an interval matrix so 0/1
     long long total = 0;
     vector<int> from, to;
     vector<double> saving;

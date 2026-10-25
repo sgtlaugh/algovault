@@ -107,7 +107,6 @@ const long long MOD = 10000007;
 
 int R;
 
-/// State = rows of the column already covered by horizontal dominoes coming from the left
 void fill_column(Matrix& t, int in, int row, int filled, int out){
     if (row == R){
         t[in][out]++;
@@ -129,6 +128,7 @@ Matrix transfer(int blocked){
 
 int main(){
     int C, n, tc = 0;
+
     while (scanf("%d %d %d", &R, &C, &n) == 3 && R){
         map<int, int> blocked;
         for (int i = 0; i < n; i++){
@@ -137,7 +137,6 @@ int main(){
             blocked[c] |= 1 << r;
         }
 
-        /// Squares of the free column matrix, so each gap of free columns costs a few vector products
         vector<Matrix> free_pow = {transfer(0)};
         while ((1 << free_pow.size()) <= C) free_pow.push_back(free_pow.back() * free_pow.back());
 

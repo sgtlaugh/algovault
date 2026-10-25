@@ -187,6 +187,7 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     const vector<string> names = {"S", "M", "L", "XL", "XXL", "XXXL"};
+
     vector<int> stock(6), single(6, 0), pair(5, 0);
     for (int i = 0; i < 6; i++) cin >> stock[i];
 
@@ -202,7 +203,6 @@ int main(){
         else kind[i] = 6 + size, pair[size]++;
     }
 
-    /// x_k counts the participants asking for sizes k and k + 1 who get size k
     Simplex lp(vector<double>(5, 0), Simplex::MAXIMIZE);
     for (int k = 0; k < 5; k++){
         vector<double> coef(5, 0);
@@ -221,7 +221,6 @@ int main(){
         return 0;
     }
 
-    /// Each column has a +1 and a -1 among the size rows plus one bound row, so the matrix is totally unimodular and the vertex integral
     vector<long long> lower(5);
     for (int k = 0; k < 5; k++) lower[k] = llround(lp.val[k]);
 

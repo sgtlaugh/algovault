@@ -130,8 +130,9 @@ vector<bitset<W>> rows_of(const vector<string>& bits){
 
 int main(){
     int n;
+
     scanf("%d", &n);
-    /// One equation per valve: an odd number of its technicians must turn it, x_i = technician i is instructed
+
     vector<bitset<256>> equations(n);
     for (int i = 0; i < n; i++){
         int valve;
@@ -139,7 +140,6 @@ int main(){
     }
     for (auto& eq : equations) eq[n] = 1;
 
-    /// No technician is a combination of the others, so the solution is unique and the shortest list
     auto [solvable, x, free_variables] = gauss(n, equations);
     if (!solvable){
         puts("No solution");

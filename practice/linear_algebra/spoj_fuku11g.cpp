@@ -191,7 +191,6 @@ int best;
 vector<int> clue, lo, hi;
 vector<long long> mask;
 
-/// Branch and bound on the LP relaxation, the clue rows alone do not force an integral corner
 void search(){
     int n = mask.size();
     Simplex lp(vector<double>(n, 1), Simplex::MINIMIZE);
@@ -224,6 +223,7 @@ void search(){
 
 int main(){
     int h, w;
+
     while (scanf("%d %d", &h, &w) == 2 && h){
         vector<string> grid(h);
         vector<vector<int>> id(h, vector<int>(w, -1));
@@ -237,7 +237,6 @@ int main(){
             }
         }
 
-        /// Cells seeing the same set of clues are interchangeable, so one integer per set counts its chests
         map<long long, int> size;
         for (int i = 0; i < h; i++){
             for (int j = 0; j < w; j++){

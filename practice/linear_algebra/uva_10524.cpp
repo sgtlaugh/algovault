@@ -131,13 +131,13 @@ pair<bool, vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<vector<double>> a(n, vector<double>(n));
         for (auto& row: a){
             for (auto& x: row) scanf("%lf", &x);
         }
 
-        /// Without pivoting, elimination only gets through when every leading principal minor is nonsingular
         bool possible = true;
         for (int k = 1; k <= n && possible; k++){
             vector<vector<double>> leading(k, vector<double>(k));
@@ -150,7 +150,6 @@ int main(){
         if (!inv.first) puts("Not possible");
         else{
             for (auto& row: inv.second){
-                /// The nudge keeps a tiny negative from printing as -0.000000
                 for (int j = 0; j < n; j++) printf("%s%.6f", j ? " " : "", row[j] + 1e-10);
                 puts("");
             }

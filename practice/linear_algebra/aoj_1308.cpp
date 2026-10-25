@@ -130,8 +130,8 @@ vector<bitset<W>> rows_of(const vector<string>& bits){
 
 int main(){
     int m, n, d;
+
     while (scanf("%d %d %d", &m, &n, &d) == 3 && m){
-        /// One equation per room: the toggles at distance 0 or d from it must add up to its initial state
         int cells = n * m;
         vector<bitset<640>> equations(cells);
         for (int i = 0; i < n; i++){

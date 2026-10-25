@@ -131,6 +131,7 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
 
 int main(){
     const int n = 8, cells = n * n;
+
     vector<vector<int>> borogoves(n, vector<int>(n));
     for (auto& row: borogoves){
         for (auto& x: row) scanf("%d", &x);
@@ -148,7 +149,6 @@ int main(){
         return res;
     };
 
-    /// After 100100100 days the walk has long settled into its stationary distribution pi = pi P, normalized to sum 1
     vector<vector<long double>> equations(cells + 1, vector<long double>(cells + 1, 0));
     for (int u = 0; u < cells; u++){
         long double total = 0;

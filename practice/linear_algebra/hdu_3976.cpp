@@ -101,12 +101,12 @@ int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
         scanf("%d %d", &n, &m);
 
-        /// Kirchhoff's current law at nodes 1 to n - 1 with node n grounded and 1 ampere entering at node 1
         vector<vector<double>> equations(n - 1, vector<double>(n, 0));
         while (m--){
             int a, b, c;

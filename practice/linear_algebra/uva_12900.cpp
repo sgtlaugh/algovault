@@ -188,12 +188,12 @@ using Simplex = BasicSimplex<double>;
 int main(){
     mt19937 rng(20250820);
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m, lo, hi;
         scanf("%d %d %d %d", &n, &m, &lo, &hi);
 
-        /// x_i = row i raises, x_{n + j} = column j lowerings, each land cell (i, j) gains x_i - x_{n + j}
         vector<double> objective(n + m, 0);
         vector<array<int, 3>> lands;
         long long base = 0;
@@ -209,9 +209,7 @@ int main(){
         }
 
         Simplex lp(objective, Simplex::MAXIMIZE);
-        /// The integer bounds make the tableau massively degenerate: unperturbed, the double simplex stalls or returns a
-        /// vertex breaking the bounds on some 75 x 75 grids. Loosening each bound by a distinct ~1e-7 breaks the ties,
-        /// while an infeasible system, a negative cycle of integer weight <= -1, stays infeasible
+
         uniform_real_distribution<double> slack(1e-7, 2e-7);
         vector<double> coef(n + m, 0);
         for (auto land: lands){
@@ -227,7 +225,6 @@ int main(){
             continue;
         }
 
-        /// Difference constraints are totally unimodular, so the optimal vertex is integral up to rounding
         vector<long long> x(n + m);
         for (int k = 0; k < n + m; k++) x[k] = llround(lp.val[k]);
         printf("Case %d: %lld\n", tc, base + llround(lp.value));

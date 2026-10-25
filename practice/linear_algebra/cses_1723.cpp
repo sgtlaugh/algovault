@@ -132,6 +132,7 @@ struct Matrix{
 int main(){
     int n, m;
     long long k;
+
     scanf("%d %d %lld", &n, &m, &k);
 
     const long long MOD = 1000000007;

@@ -152,6 +152,7 @@ optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int m
 int main(){
     const int MOD = 1000000007;
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<vector<int>> equations(n, vector<int>(m + 1));
     for (auto& row : equations){

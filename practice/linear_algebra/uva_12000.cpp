@@ -131,14 +131,13 @@ struct Matrix{
 
 int main(){
     int tests;
+
     scanf("%d", &tests);
     for (int tc = 1; tc <= tests; tc++){
         long long n;
         int k;
         scanf("%lld %d", &n, &k);
 
-        /// mask = used values among i-K..i+K before filling position i; exactly K of them are always used,
-        /// and treating values outside 1..n as used at the start and unused at the end makes start == end
         int width = 2 * k + 1;
         vector<int> id(1 << width, -1), masks;
         for (int mask = 0; mask < (1 << width); mask++){

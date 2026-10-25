@@ -187,11 +187,11 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<int> a(m), b(m), d(m);
     for (int e = 0; e < m; e++) scanf("%d %d %d", &a[e], &b[e], &d[e]);
 
-    /// A metric on all pairs that agrees with the new flight lengths is exactly a valid fix, its non-flight pairs bounded by paths
     vector<vector<int>> id(n, vector<int>(n));
     int vars = 0;
     for (int u = 0; u < n; u++){
@@ -222,7 +222,6 @@ int main(){
     }
     assert(lp.solve() == Simplex::FEASIBLE);
 
-    /// The optimum is a vertex with small denominators, so take the first continued fraction convergent close enough
     double target = lp.value, rest = target;
     long long p0 = 1, q0 = 0, p1 = 0, q1 = 1;
     for (int it = 0; it < 40; it++){

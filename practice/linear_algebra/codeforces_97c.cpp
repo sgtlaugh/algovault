@@ -187,11 +187,11 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<double> p(n + 1);
     for (auto& x : p) scanf("%lf", &x);
 
-    /// x_i is the long run share of years sending i veterans; veterans sent cannot exceed newcomers sent on average
     Simplex lp(p, Simplex::MAXIMIZE);
     vector<double> share(n + 1, 1), balance(n + 1);
     for (int i = 0; i <= n; i++) balance[i] = 2 * i - n;

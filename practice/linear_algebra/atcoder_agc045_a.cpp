@@ -124,6 +124,7 @@ struct XorBasis{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;
@@ -133,7 +134,6 @@ int main(){
         static char s[205];
         scanf("%s", s);
 
-        /// Person 0 can cancel any suffix value in the span of their later numbers, so person 1 wins iff some move escapes it
         XorBasis later;
         int res = 0;
         for (int i = n - 1; i >= 0 && !res; i--){

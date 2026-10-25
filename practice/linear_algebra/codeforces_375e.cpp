@@ -198,6 +198,7 @@ void dfs(int s, int u, int parent, long long d){
 int main(){
     int n;
     long long x;
+
     scanf("%d %lld", &n, &x);
     vector<int> color(n);
     for (auto& c : color) scanf("%d", &c);
@@ -213,12 +214,10 @@ int main(){
     dist.assign(n, vector<long long>(n));
     for (int s = 0; s < n; s++) dfs(s, s, -1, 0);
 
-    /// x_j = 1 if vertex j ends black; every swap turns one red vertex black, so the reds turned black count the swaps
     vector<double> objective(n);
     for (int j = 0; j < n; j++) objective[j] = color[j] == 0;
     Simplex lp(objective, Simplex::MINIMIZE);
 
-    /// No x_j <= 1 rows: the optimum is integral without them, and with them the double simplex stalls on degenerate trees
     lp.add_constraint(vector<double>(n, 1), black, Simplex::EQUAL);
     for (int i = 0; i < n; i++){
         vector<double> covers(n);

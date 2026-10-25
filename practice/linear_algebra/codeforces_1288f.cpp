@@ -188,9 +188,9 @@ using Simplex = BasicSimplex<double>;
 int main(){
     int n1, n2, m, r, b;
     char s1[205], s2[205];
+
     scanf("%d %d %d %d %d %s %s", &n1, &n2, &m, &r, &b, s1, s2);
 
-    /// Variable e is edge e painted red, m + e painted blue; the vertex rows form a bipartite incidence matrix, so the optimum is integral
     vector<double> objective(2 * m);
     for (int e = 0; e < m; e++) objective[e] = r, objective[m + e] = b;
     vector<vector<double>> balance(n1 + n2, vector<double>(2 * m, 0));

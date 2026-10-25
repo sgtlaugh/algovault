@@ -187,6 +187,7 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int a, b, m, sigma;
+
     scanf("%d %d %d %d", &a, &b, &m, &sigma);
 
     Simplex lp({(double)a, (double)b}, Simplex::MAXIMIZE);
@@ -195,7 +196,6 @@ int main(){
     lp.add_constraint({1, 1}, m, Simplex::LESSEQ);
     lp.add_constraint({2, 1}, sigma, Simplex::GREATEQ);
     lp.solve();
-    /// With a, b >= 0 an optimal vertex lies on x + y = m, where every vertex is integral since m and sigma are integers
     printf("%lld\n", llround(lp.value));
     return 0;
 }

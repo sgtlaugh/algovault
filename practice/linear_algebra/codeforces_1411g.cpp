@@ -152,6 +152,7 @@ optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int m
 int main(){
     const int MOD = 998244353;
     int n, m;
+
     scanf("%d %d", &n, &m);
 
     vector<vector<int>> adj(n);
@@ -181,14 +182,12 @@ int main(){
         max_grundy = max(max_grundy, grundy[v]);
     }
 
-    /// Grundy value g needs one of every smaller value below it, so g (g + 1) / 2 <= m keeps g < 447 and the xor below size = 512
     int size = 1;
     while (size <= max_grundy) size <<= 1;
 
     vector<int> cnt(size, 0);
     for (int v = 0; v < n; v++) cnt[grundy[v]]++;
 
-    /// p[s] = chance of stopping at xor 0 from xor s, (n + 1) p[s] = [s == 0] + sum over g of cnt[g] p[s ^ g]
     vector<vector<int>> equations(size, vector<int>(size + 1, 0));
     for (int s = 0; s < size; s++){
         equations[s][s] = n + 1;

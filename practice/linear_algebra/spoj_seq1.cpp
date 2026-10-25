@@ -187,13 +187,14 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n, lim[2][3];
+
     while (scanf("%d %d %d %d %d %d %d", &n, &lim[0][0], &lim[0][1], &lim[0][2], &lim[1][0], &lim[1][1], &lim[1][2]) == 7){
         int low[2], high[2], len[2];
         for (int c = 0; c < 2; c++){
             int a = lim[c][0], b = lim[c][1];
             len[c] = lim[c][2], low[c] = c ? a : len[c] - b, high[c] = c ? b : len[c] - a;
         }
-        /// Warm start: a balanced sequence of density r, the middle of the densities both window bounds allow
+
         double rl = max((double)low[0] / len[0], (double)low[1] / len[1]), rh = min((double)high[0] / len[0], (double)high[1] / len[1]);
         double r = (rl + rh) / 2;
         vector<int> x0(n), sgn(n);
@@ -214,10 +215,12 @@ int main(){
                 if (high[c] < len[c]) lp.add_constraint(coef, high[c] - base, Simplex::LESSEQ);
             }
         }
+
         if (lp.solve() != Simplex::FEASIBLE){
             puts("-1");
             continue;
         }
+
         string s(n, '0');
         for (int i = 0; i < n; i++) s[i] += x0[i] + sgn[i] * llround(lp.val[i]);
         puts(s.c_str());

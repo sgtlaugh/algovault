@@ -132,11 +132,9 @@ long long power(long long b, long long e){
     return r;
 }
 
-/// The complement of a graph G on V nodes has tau = det(V*I - L(G)) / V^2, and K disjoint copies
-/// raise det(V*I - L) to the K-th power, so only the N x N matrix of the small graph is needed
-/// V = N*K is never a multiple of MOD since N <= 30 and K <= 1e8, so the division is safe
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;

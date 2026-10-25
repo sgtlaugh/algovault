@@ -138,6 +138,7 @@ bool live(int x, int y){
 
 int main(){
     int u, d, l, r;
+
     for (int tc = 0; scanf("%d %d", &w, &h) == 2 && (w || h); tc++){
         scanf("%d %d %d %d", &u, &d, &l, &r);
         double p[4] = {u / 100.0, d / 100.0, l / 100.0, r / 100.0};
@@ -148,7 +149,6 @@ int main(){
             grid[i] = buf;
         }
 
-        /// Cells the ball never reaches may form closed pockets, which would make the system singular
         reach.assign(h, vector<bool>(w, false));
         vector<pair<int, int>> stk;
         int tops = 0;
@@ -167,8 +167,6 @@ int main(){
             }
         }
 
-        /// Expected visits per cell, row x reads A v_x - B v_(x-1) - C v_(x+1) = s with diagonal B and C
-        /// Block tridiagonal elimination keeps it at h inverses of w x w instead of one (hw)^3 system
         vector<vector<vector<double>>> sinv(h);
         vector<vector<double>> g(h, vector<double>(w, 0)), up(h, vector<double>(w, 0));
         for (int x = 0; x < h; x++){
@@ -197,7 +195,6 @@ int main(){
                 }
             }
 
-            /// Pivots shrink to about 1 / (expected visits), up to 1e-9, below the default eps
             matrix_inverse(a, sinv[x], 1e-14);
         }
 

@@ -139,13 +139,13 @@ int index_of(map<string, int>& id, const string& name){
 
 int main(){
     int tests;
+
     cin >> tests;
     while (tests--){
         int n;
         long long t;
         cin >> n >> t;
 
-        /// marks only ever accumulate, so parity evolves as v' = (I + A^T) v over GF(2)
         map<string, int> id;
         Matrix step = Matrix::identity(n, 2), marks(n, 1, 2);
         for (int i = 0; i < n; i++){

@@ -108,8 +108,6 @@ const long long MOD = 34830;
 int len;
 long long k, dp[12][3][3];
 
-/// Counts the ways to color chairs i..len - 1 when u and v are the colors of the two chairs before: 0 or 1 for the color
-/// of chair 0 or chair 1, 2 for any other, since only those two matter when the circle closes
 long long ways(int i, int u, int v){
     if (i == len) return (u == 0 || v == 0 || v == 1) ? 0 : 1;
     if (dp[i][u][v] != -1) return dp[i][u][v];
@@ -135,7 +133,6 @@ long long special_case(long long n){
 long long small_case(int n){
     if (special_case(n) != -1) return special_case(n);
 
-    /// Up to 5 chairs every pair lies within some three consecutive ones, so all colors differ
     if (n <= 5){
         long long res = 1;
         for (int j = 0; j < n; j++) res = res * ((k - j) % MOD) % MOD;
@@ -152,6 +149,7 @@ long long small_case(int n){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         long long n;
@@ -160,7 +158,6 @@ int main(){
         long long res = special_case(n);
         if (res == -1 && n <= 7) res = small_case(n);
         else if (res == -1){
-            /// f(n) = (k - 3) f(n - 1) + f(n - 2) + ((k - 2)^2 - (k - 3)) f(n - 3) - (k - 2)^2 f(n - 5) for n > 7
             long long c = (k - 2) % MOD * ((k - 2) % MOD) % MOD;
             Matrix step(5, 5, MOD);
             step[0][0] = k - 3, step[0][1] = 1, step[0][2] = c - (k - 3), step[0][4] = -c;

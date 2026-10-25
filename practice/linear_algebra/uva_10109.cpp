@@ -157,6 +157,7 @@ Fraction abs(const Fraction& f){
 
 int main(){
     int id, tc = 0;
+
     while (scanf("%d", &id) == 1 && id){
         int unknowns, rows;
         scanf("%d %d", &unknowns, &rows);

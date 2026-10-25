@@ -132,17 +132,18 @@ int matrix_rank(vector<vector<int>> a, int mod){
 int main(){
     const int MOD = 1000000007;
     int t, n, m, p;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d %d", &n, &m, &p);
 
-        /// Colour c_v = sum of the neighbours' colours mod p, so the colourings are the kernel of A - I over GF(p)
         vector<vector<int>> a(n, vector<int>(n, 0));
         for (int i = 0; i < n; i++) a[i][i] = p - 1;
         for (int u, v; m--;){
             scanf("%d %d", &u, &v);
             a[u - 1][v - 1] = a[v - 1][u - 1] = 1;
         }
+
         printf("Case %d: %d\n", tc, expo(p % MOD, n - matrix_rank(a, p), MOD));
     }
     return 0;

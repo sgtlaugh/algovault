@@ -187,6 +187,7 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<double> d12(n), d23(n);
         for (int i = 0; i < n; i++){
@@ -195,8 +196,6 @@ int main(){
             d12[i] = s1 - s2, d23[i] = s2 - s3;
         }
 
-        /// Unpacking x_i packages of each type balances the sizes when both differences sum to zero, the third one follows
-        /// The solutions form a cone, so any nonzero one scales up and maximizing the package count is unbounded
         Simplex lp(vector<double>(n, 1), Simplex::MAXIMIZE);
         lp.add_constraint(d12, 0, Simplex::EQUAL);
         lp.add_constraint(d23, 0, Simplex::EQUAL);

@@ -105,6 +105,7 @@ struct Matrix{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, k, d;
@@ -112,7 +113,6 @@ int main(){
         Matrix chips(n, 1, n), step(n, n, n);
         for (int i = 0; i < n; i++) scanf("%lld", &chips[i][0]);
 
-        /// Each round every player takes the sum over the others within circular distance d
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++){
                 int dist = min(abs(i - j), n - abs(i - j));

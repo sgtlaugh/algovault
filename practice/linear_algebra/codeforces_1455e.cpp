@@ -187,12 +187,12 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         long long x[4], y[4];
         for (int i = 0; i < 4; i++) scanf("%lld %lld", &x[i], &y[i]);
 
-        /// Variables x0, y0, a, then |dx_i| and |dy_i|: x0, y0 >= 0 loses nothing as every coordinate is >= 0
         long long res = LLONG_MAX;
         int corner[4] = {0, 1, 2, 3};
         do{
@@ -210,7 +210,6 @@ int main(){
                 }
             }
             lp.solve();
-            /// Every basis of the rows x0, x0 + a, y0, y0 + a has determinant +-1, so the optimum is integral
             res = min(res, llround(lp.value));
         } while (next_permutation(corner, corner + 4));
         printf("%lld\n", res);

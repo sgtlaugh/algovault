@@ -116,7 +116,6 @@ int main(){
             p[i] = x;
         }
 
-        /// Square reached from s by rolling f, a move past 100 is ignored
         auto step = [&](int s, int f){ return s + f > 100 ? s : jump[s + f]; };
         auto reach = [&](int src){
             vector<int> dist(101, -1), queue = {src};
@@ -140,11 +139,11 @@ int main(){
             continue;
         }
 
-        /// Only squares reachable from 0 get an equation E[s] = 1 + sum p[f] * E[step(s, f)], every one of them can finish
         vector<int> id(101, -1), squares;
         for (int s = 0; s < 100; s++){
             if (dist[s] != -1) id[s] = squares.size(), squares.push_back(s);
         }
+
         int n = squares.size();
         vector<vector<long double>> equations(n, vector<long double>(n + 1, 0));
         for (int i = 0; i < n; i++){

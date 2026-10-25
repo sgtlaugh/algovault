@@ -71,35 +71,34 @@ vector<T> solve_tridiagonal_m_matrix(const vector<T>& lower, const vector<T>& up
 /// Chance to reach hi before lo from each cell lo + 1..hi - 1 of the line, p[i] = chance to pass from i to i + 1
 vector<double> reach_high_first(const vector<double>& p, int lo, int hi){
     vector<double> lower, upper, excess, rhs;
+
     for (int i = lo + 1; i < hi; i++){
         lower.push_back(1 - p[i]);
         upper.push_back(p[i]);
         excess.push_back(0);
         rhs.push_back(0);
     }
-    rhs.back() = upper.back();  /// the step into hi carries the value 1
+
+    rhs.back() = upper.back();
     return solve_tridiagonal_m_matrix(lower, upper, excess, rhs);
 }
 
 int main(){
     int n, k;
+
     while (scanf("%d %d", &n, &k) == 2){
         vector<double> p(n, 0);
         for (int i = 1; i < n; i++) scanf("%lf", &p[i]);
 
-        /// Person n wins when the token covers 1 and n - 1 before stepping onto n, cutting the circle at n leaves a line 0..n
         if (n == 2){
             puts("1.0000000000");
             continue;
         }
 
-        /// first_left: from k, the token meets 1 before n - 1
         double first_left = k == 1 ? 1 : k == n - 1 ? 0 : 1 - reach_high_first(p, 1, n - 1)[k - 2];
 
-        /// From 1 it must then reach n - 1 before stepping left onto n, which sits at 0 on the line
         double left_then_right = reach_high_first(p, 0, n - 1)[0];
 
-        /// From n - 1 it must reach 1 before stepping right onto n, the same walk seen in a mirror
         vector<double> mirrored(n, 0);
         for (int i = 1; i < n; i++) mirrored[n - i] = 1 - p[i];
         double right_then_left = reach_high_first(mirrored, 0, n - 1)[0];

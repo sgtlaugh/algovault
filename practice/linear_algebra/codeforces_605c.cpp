@@ -187,11 +187,11 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n, p, q;
+
     scanf("%d %d %d", &n, &p, &q);
     vector<double> a(n), b(n);
     for (int i = 0; i < n; i++) scanf("%lf %lf", &a[i], &b[i]);
 
-    /// t_i days on project i; the two-variable dual walks the hull for thousands of pivots on convex inputs, this takes ~15
     Simplex lp(vector<double>(n, 1), Simplex::MINIMIZE);
     lp.add_constraint(a, p, Simplex::GREATEQ);
     lp.add_constraint(b, q, Simplex::GREATEQ);

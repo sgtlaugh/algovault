@@ -132,12 +132,12 @@ int matrix_rank(vector<vector<int>> a, int mod){
 int main(){
     int t, p;
     char s[128];
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %127s", &p, s);
         int n = strlen(s);
 
-        /// Row k - 1 is f(k) = a_0 + a_1 k + ... + a_{n-1} k^{n-1}, a Vandermonde system with distinct k < p, so one solution
         vector<vector<int>> equations(n, vector<int>(n + 1));
         for (int k = 1; k <= n; k++){
             for (int j = 0, x = 1; j < n; j++, x = x * k % p) equations[k - 1][j] = x;

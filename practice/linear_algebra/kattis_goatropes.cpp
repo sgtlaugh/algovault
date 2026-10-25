@@ -187,11 +187,11 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<double> x(n), y(n);
     for (int i = 0; i < n; i++) scanf("%lf %lf", &x[i], &y[i]);
 
-    /// Two ropes stay apart exactly when their lengths sum to at most the distance between the posts
     Simplex lp(vector<double>(n, 1), Simplex::MAXIMIZE);
     for (int i = 0; i < n; i++){
         for (int j = i + 1; j < n; j++){

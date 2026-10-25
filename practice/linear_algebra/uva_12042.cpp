@@ -105,13 +105,12 @@ struct Matrix{
 
 const long long MOD = 1000000007;
 
-/// The daily step depends only on n, so its 2^k powers are built once per n and each test needs only vector products
 const vector<Matrix>& day_powers(int n){
     static map<int, vector<Matrix>> cache;
+
     auto it = cache.find(n);
     if (it != cache.end()) return it->second;
 
-    /// The last basket's old eggs travel all the way down, so basket i ends with them plus baskets 1..i - 1
     Matrix day(n, n, MOD);
     for (int i = 0; i < n; i++){
         for (int j = 0; j < i; j++) day[i][j] = 1;
@@ -125,6 +124,7 @@ const vector<Matrix>& day_powers(int n){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, d;
@@ -132,7 +132,6 @@ int main(){
         Matrix eggs(n, 1, MOD);
         for (int i = 0; i < n; i++) scanf("%lld", &eggs[i][0]);
 
-        /// Day 1 is the initial state
         const vector<Matrix>& powers = day_powers(n);
         for (int k = 0; k < 30; k++){
             if ((d - 1) >> k & 1) eggs = powers[k] * eggs;

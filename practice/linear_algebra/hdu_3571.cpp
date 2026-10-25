@@ -129,7 +129,6 @@ int matrix_rank(vector<vector<int>> a, int mod){
     return cols - count(pos.begin(), pos.end(), -1);
 }
 
-/// Center coordinates reach 10^17, two primes near 2^31 give a CRT range above 4 * 10^18
 const int PRIMES[] = {2147483647, 2147483629, 2147483587, 2147483579, 2147483563, 2147483549};
 
 int reduce(long long v, int mod){
@@ -139,6 +138,7 @@ int reduce(long long v, int mod){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;
@@ -148,7 +148,6 @@ int main(){
             for (auto& v : point) scanf("%lld", &v);
         }
 
-        /// |P_i - X|^2 = |P_0 - X|^2 gives 2 (P_i - P_0) . X = |P_i|^2 - |P_0|^2, an integer system with one solution
         vector<long long> moduli;
         vector<vector<int>> residues;
         for (int mod : PRIMES){
@@ -168,7 +167,6 @@ int main(){
                 equations[i - 1][n] = reduce((long long)norm[i] - norm[0], mod);
             }
 
-            /// The determinant may vanish modulo an unlucky prime, then the next one is tried
             auto sol = gauss(equations, mod);
             if (!sol.basis.empty()) continue;
 

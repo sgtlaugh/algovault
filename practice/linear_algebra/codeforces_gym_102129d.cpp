@@ -151,7 +151,6 @@ optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int m
 
 const int MOD = 1000000007;
 
-/// p * q mod x^k - a_1 x^{k - 1} - ... - a_k for p, q of degree below k
 vector<int> multiply_mod(const vector<int>& p, const vector<int>& q, const vector<int>& a){
     int k = a.size();
     vector<long long> product(2 * k - 1, 0);
@@ -162,6 +161,7 @@ vector<int> multiply_mod(const vector<int>& p, const vector<int>& q, const vecto
     for (int d = 2 * k - 2; d >= k; d--){
         for (int i = 1; i <= k; i++) product[d - i] = (product[d - i] + product[d] * a[i - 1]) % MOD;
     }
+
     return vector<int>(product.begin(), product.begin() + k);
 }
 
@@ -173,24 +173,24 @@ vector<int> power_of_x(int e, const vector<int>& a){
     for (int bit = 30; bit >= 0; bit--){
         res = multiply_mod(res, res, a);
         if (e >> bit & 1){
-            /// Multiplying by x shifts up, and the x^k that falls out folds back as a_1 x^{k - 1} + ... + a_k
             int top = res[k - 1];
             for (int i = k - 1; i > 0; i--) res[i] = res[i - 1];
             res[0] = 0;
             for (int i = 1; i <= k; i++) res[k - i] = (res[k - i] + (long long)top * a[i - 1]) % MOD;
         }
     }
+
     return res;
 }
 
 int main(){
     int k;
+
     scanf("%d", &k);
     vector<int> a(k), b(k);
     for (auto& v : a) scanf("%d", &v);
     for (auto& v : b) scanf("%d", &v);
 
-    /// Every such F satisfies F_n = sum c_i F_{n - b_i} iff x^{b_k} = sum c_i x^{b_k - b_i} modulo the characteristic polynomial
     vector<vector<int>> equations(k, vector<int>(k + 1));
     for (int i = 0; i < k; i++){
         vector<int> column = power_of_x(b[k - 1] - b[i], a);

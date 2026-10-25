@@ -124,6 +124,7 @@ struct Arborescences{
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<vector<long long>> a(n, vector<long long>(n));
         for (auto& row : a){
@@ -131,6 +132,7 @@ int main(){
         }
         printf("%lld\n", determinant(a));
     }
+
     puts("*");
     return 0;
 }

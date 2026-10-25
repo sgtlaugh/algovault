@@ -187,10 +187,9 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
 
-    /// New flow g costs |g - f| + max(0, g - c), convex with slope -1 up to min(c, f), then c > f up to max(c, f), then 2
-    /// One parallel arc per slope makes a min cost circulation, whose optimum is integral
     long long base = 0;
     vector<int> from(m), to(m);
     vector<double> objective(3 * m), cap(3 * m, -1);

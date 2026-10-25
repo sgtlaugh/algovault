@@ -141,7 +141,6 @@ matrix add(const matrix& a, const matrix& b){
     return r;
 }
 
-/// entries are below X < 2^23, so a row of 100 products fits in 64 bits before the single modulo
 matrix mul(const matrix& a, const matrix& b){
     int n = a.size();
     matrix r(n, vector<long long>(n, 0));
@@ -152,10 +151,10 @@ matrix mul(const matrix& a, const matrix& b){
         }
         for (int j = 0; j < n; j++) r[i][j] %= X;
     }
+
     return r;
 }
 
-/// sets sum = G^0 + ... + G^(k-1) and pw = G^k, all mod X
 void geometric(const matrix& g, long long k, matrix& sum, matrix& pw){
     int n = g.size();
     if (k == 0){
@@ -189,11 +188,10 @@ long long power(long long b, long long e, long long m){
     return r;
 }
 
-/// The count is exact and huge, up to (X - 1)^(N - 1) * N^(N - 2) < 2^2930, so it is computed
-/// modulo 100 primes just below 1e9 (product > 2^2989) and rebuilt with Garner's algorithm
 int main(){
     int n, m;
     long long k;
+
     scanf("%d %d %lld %lld", &n, &m, &X, &k);
     matrix g(n, vector<long long>(n, 0));
     while (m--){
@@ -206,7 +204,6 @@ int main(){
     matrix walks, pw;
     geometric(g, k + 1, walks, pw);
 
-    /// Walk counts are edge multiplicities of up to ~7.7e6, too many for add_edge, so build the matrix tree minor directly
     vector<vector<long long>> minor(n - 1, vector<long long>(n - 1, 0));
     for (int i = 1; i < n; i++){
         for (int j = 0; j < n; j++){

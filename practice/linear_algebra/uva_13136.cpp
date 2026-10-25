@@ -104,11 +104,9 @@ struct Matrix{
 };
 
 int main(){
-    /// State (A, B, C, S), the last row folds A_n + B_n + C_n into the running sum
     Matrix step(4, 4, 10);
     step.a = {{4, -3, -3, 0}, {5, -4, -4, 0}, {-1, 1, 0, 0}, {8, -6, -7, 1}};
 
-    /// Up to 5e5 queries with n up to 9e18: the powers of step modulo 10 cycle back to the identity, so keep one period
     vector<Matrix> powers = {Matrix::identity(4, 10)};
     while (true){
         Matrix next = powers.back() * step;

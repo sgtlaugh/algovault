@@ -132,6 +132,7 @@ const int MOD = 1e9 + 7;
 
 int main(){
     vector<int> primes;
+
     for (int p = 2; p <= 5000; p++){
         bool prime = true;
         for (int q = 2; q * q <= p; q++) prime &= p % q != 0;
@@ -140,7 +141,6 @@ int main(){
 
     int n;
     scanf("%d", &n);
-    /// Row i is the parity of every prime exponent in x_i, a subset is a square exactly when its rows XOR to zero
     vector<bitset<704>> rows(n);
     for (int i = 0; i < n; i++){
         int x;

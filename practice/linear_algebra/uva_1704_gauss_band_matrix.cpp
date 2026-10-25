@@ -134,16 +134,16 @@ struct GaussBand{
 int main(){
     const int dx[] = {1, 0, -1, 0}, dy[] = {0, 1, 0, -1};
     int w, h, tc = 0;
+
     while (scanf("%d %d", &w, &h) == 2){
         int u, d, l, r;
         scanf("%d %d %d %d", &u, &d, &l, &r);
-        double prob[4] = {d / 100.0, r / 100.0, u / 100.0, l / 100.0};  /// indexed like dx, dy
+        double prob[4] = {d / 100.0, r / 100.0, u / 100.0, l / 100.0};
         vector<string> grid(h);
         static char row[64];
         for (auto& s : grid) scanf("%s", row), s = row;
         auto open = [&](int i, int j){ return i >= 0 && i < h && j >= 0 && j < w && grid[i][j] != 'X'; };
 
-        /// Cells the ball can never reach would form closed pockets with a singular system, they keep x = 0
         vector<vector<bool>> seen(h, vector<bool>(w, false));
         vector<pair<int, int>> stack;
         int starts = 0;
@@ -160,7 +160,6 @@ int main(){
             }
         }
 
-        /// x(open cell) = expected visits, x(target) = probability of hitting it, both sums of the inflow from open neighbours
         GaussBand<double> g(h, w);
         for (int i = 0; i < h; i++){
             for (int j = 0; j < w; j++){

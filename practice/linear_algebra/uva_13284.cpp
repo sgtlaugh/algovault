@@ -131,7 +131,6 @@ struct Matrix{
 
 const long long MOD = 1000000000;
 
-/// mask bit r = row r of the column is covered by a horizontal macaron sticking in from the left
 Matrix transfer(int n){
     vector<long long> fib(n + 1, 1);
     for (int i = 2; i <= n; i++) fib[i] = fib[i - 1] + fib[i - 2];
@@ -140,7 +139,7 @@ Matrix transfer(int n){
     for (int in = 0; in < (1 << n); in++){
         for (int out = 0; out < (1 << n); out++){
             if (in & out) continue;
-            /// rows not taken by either side form runs filled by 1x1 and vertical 1x2 boxes
+
             long long ways = 1;
             for (int r = 0, run = 0; r <= n; r++){
                 if (r < n && !((in | out) >> r & 1)) run++;
@@ -152,14 +151,15 @@ Matrix transfer(int n){
             res[in][out] = ways;
         }
     }
+
     return res;
 }
 
 int main(){
-    /// squarings dominate (256^3 per bit at N = 8), so they are cached per N across test cases
     vector<vector<Matrix>> squares(9);
     int n;
     long long m;
+
     while (scanf("%d %lld", &n, &m) == 2){
         vector<Matrix>& sq = squares[n];
         if (sq.empty()) sq.push_back(transfer(n));
@@ -170,6 +170,7 @@ int main(){
         for (int b = 0; m >> b; b++){
             if (m >> b & 1) row = row * sq[b];
         }
+
         printf("%lld\n", row[0][0]);
     }
     return 0;

@@ -193,7 +193,6 @@ int target_var, found;
 vector<int> need, lo, hi, sol;
 vector<vector<int>> power;
 
-/// Branch and bound maximizing count[target_var], the prime rows alone do not force an integral corner
 void search(){
     vector<double> objective(LETTERS, 0);
     objective[target_var] = 1;
@@ -224,7 +223,6 @@ void search(){
     for (int k = 0; k < LETTERS; k++) sol[k] = llround(lp.val[k]);
 }
 
-/// Sorted strings of equal hash compare like their letter counts in reverse lexicographic order, a strict prefix would hash lower
 string smallest(){
     for (int k = 0; k < LETTERS; k++){
         target_var = k, found = -1;
@@ -256,7 +254,6 @@ int main(){
             for (int p = 0; p < (int)PRIMES.size(); p++) need[p] += power[p][ch - 'a'];
         }
 
-        /// Every letter carries a factor 2, so no count exceeds the exponent of 2
         sol.assign(LETTERS, 0);
         lo.assign(LETTERS, 0), hi.assign(LETTERS, need[0]);
         string best = smallest();
@@ -268,7 +265,6 @@ int main(){
             res = "";
             if (next_permutation(s.begin(), s.end())) res = s;
 
-            /// The next multiset keeps the counts of a..k-1 and lowers k, the latest feasible k gives the largest
             for (int k = LETTERS - 1; k >= 0; k--){
                 if (count[k] == 0) continue;
                 lo.assign(LETTERS, 0), hi.assign(LETTERS, need[0]);

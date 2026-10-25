@@ -187,13 +187,13 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n;
+
     for (int tc = 1; scanf("%d", &n) == 1 && n; tc++){
         vector<array<double, 3>> mixture(n);
         for (auto& m : mixture) scanf("%lf %lf %lf", &m[0], &m[1], &m[2]);
         array<double, 3> target;
         scanf("%lf %lf %lf", &target[0], &target[1], &target[2]);
 
-        /// Parts are free to scale, so the ratio is reachable iff target = sum x_i * mixture_i has a solution x >= 0
         Simplex lp(vector<double>(n, 0), Simplex::MAXIMIZE);
         for (int c = 0; c < 3; c++){
             vector<double> coef(n);

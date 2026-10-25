@@ -187,18 +187,17 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;
         scanf("%d", &n);
 
-        /// Clamping the cruiser into the box [0, 1e6]^3 shortens every distance, so x, y, z >= 0 loses nothing
         Simplex lp({0, 0, 0, 1}, Simplex::MINIMIZE);
         for (int i = 0; i < n; i++){
             double x, y, z, p;
             scanf("%lf %lf %lf %lf", &x, &y, &z, &p);
 
-            /// |dx| + |dy| + |dz| <= p * power is the 8 rows s . (cruiser - ship) <= p * power over all signs s
             for (int mask = 0; mask < 8; mask++){
                 double sx = mask & 1 ? -1 : 1, sy = mask & 2 ? -1 : 1, sz = mask & 4 ? -1 : 1;
                 lp.add_constraint({sx, sy, sz, -p}, sx * x + sy * y + sz * z, Simplex::LESSEQ);

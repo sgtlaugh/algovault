@@ -152,11 +152,11 @@ optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int m
 int main(){
     const int MOD = 1000000007;
     int t, n, m, k;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d %d", &n, &m, &k);
 
-        /// color(v) = sum of the neighbours' colors mod k, so the colorings are the kernel of A - I over GF(k)
         vector<vector<int>> a(n, vector<int>(n, 0));
         for (int i = 0; i < n; i++) a[i][i] = -1;
         for (int u, v; m--;){

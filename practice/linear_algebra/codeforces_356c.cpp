@@ -187,6 +187,7 @@ using Simplex = BasicSimplex<double>;
 
 int main(){
     int n;
+
     scanf("%d", &n);
     long long tot = 0;
     vector<long long> cnt(5, 0);
@@ -196,7 +197,6 @@ int main(){
         cnt[a]++, tot += a;
     }
 
-    /// Each column moves one student between two compartments, row t is how many compartments of t students it removes
     const vector<vector<double>> moves = {
         {2, 1, 1, -1, -1, 1, 0, 1, 0},
         {-1, 1, 0, 2, 1, -2, -1, -1, 1},
@@ -204,7 +204,6 @@ int main(){
         {0, 0, -1, 0, -1, 0, -1, 1, 1},
     };
 
-    /// Compartments never gain students from empty ones, so at most n - cnt[0] stay occupied: fours >= tot - 3 (n - cnt[0])
     long long best = -1;
     for (long long fours = max(0LL, tot - 3 * (n - cnt[0])); 4 * fours <= tot; fours++){
         if ((tot - 4 * fours) % 3) continue;
