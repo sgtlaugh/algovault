@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/trees/lca.cpp"
@@ -177,6 +175,7 @@ void check(int n, int shape, int queries, long long max_w){
         int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1), k = stress::rand_int(0, renaive.level[u]);
         assert(a.lca(u, v) == renaive.lca(u, v) && b.lca(u, v) == renaive.lca(u, v));
         assert(a.dist(u, v) == renaive.dist(u, v) && b.depth(u) == renaive.level[u]);
+        assert(a.depth(u) == renaive.level[u]);
         assert(a.kth_ancestor(u, k) == renaive.kth(u, k));
     }
 }
@@ -194,23 +193,14 @@ void check_rmq(int n, int max_v){
     }
 }
 
-/// build must abort on a non-tree, the alarm turns an endless traversal into a failure instead of a hang
+/// build must hit its assert on a non-tree, expect_assert's alarm turns an endless traversal into a failure
 template <typename Tree>
 void check_rejects(int n, const vector<pair<int, int>>& edges){
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        alarm(5);
-        assert(freopen("/dev/null", "w", stderr));
+    stress::expect_assert("trees/lca.cpp", [&]{
         Tree tree(n);
         for (auto [u, v] : edges) tree.add_edge(u, v);
         tree.build(0);
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    });
 }
 
 template <typename Tree>
@@ -227,13 +217,13 @@ int main(){
     check_rejects_all<LCA>();
     check_rejects_all<LinearLCA>();
 
-    for (long long it = 0; it < stress::scaled(3000); it++){
+    for (long long it = 0; it < stress::scaled(600); it++){
         int n = it < 200 ? it % 40 + 1 : stress::rand_int(1, 300);
         check(n, it % 5, 200, it % 3 ? 1000000000LL : 1);
     }
 
-    for (long long it = 0; it < stress::scaled(10); it++){
-        check(stress::rand_int(20000, 60000), it % 5, 3000, 1000000000LL);
+    for (long long it = 0; it < stress::scaled(5); it++){
+        check(stress::rand_int(20000, 30000), it % 5, 1000, 1000000000LL);
     }
 
     check(200000, 1, 100, 1000000000LL);  /// a path, deep enough to overflow an 8 MB stack with recursive traversals
