@@ -225,6 +225,20 @@ int main(){
         assert(read_file(OUT) == expected_out);
     }
 
+    /// Every split of a number across a buffer refill, at the end of input too, with and without a trailing newline
+    for (int pad = BUF_SIZE - 25; pad <= BUF_SIZE + 5; pad++){
+        int small = random_value<int>();
+        long long big = random_value<long long>();
+        string tail = stress::rand_int(0, 1) ? "\n" : "";
+        set_input(string(pad, ' ') + to_string(small) + " " + to_string(big) + tail);
+
+        int a = 0;
+        long long b = 0;
+        assert(read(a, b) == 2);
+        assert(a == small && b == big);
+        assert(read(a) == 0);
+    }
+
     /// A forgotten flush() must not lose output, the child writes the pending buffer when it exits
     assert(freopen(OUT.c_str(), "wb", stdout));
     write("forgotten", 42);

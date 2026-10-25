@@ -54,11 +54,14 @@ namespace fio{
         if (c == '-') neg = 1, c = read_char();
         if (c == EOF) return false;
 
+        /// A local, since an int x may alias inptr or buf_len and writing it per digit forces their reload from memory
+        T v = 0;
+
         /// Accumulate as negative so that the minimum value (e.g. INT_MIN) does not overflow
-        for (x = 0; isdigit(c); c = read_char()){
-            x = x * 10 - (c - '0');
+        for (; isdigit(c); c = read_char()){
+            v = v * 10 - (c - '0');
         }
-        if (!neg) x = -x;
+        x = neg ? v : -v;
 
         return true;
     }
