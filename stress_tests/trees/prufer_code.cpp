@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/trees/prufer_code.cpp"
@@ -119,24 +117,10 @@ void check_random(int n, bool with_naive){
     assert(normalized(decoded) == normalized(edges));
 }
 
-const int ABORT_EXIT_CODE = 77;
-
 /// encode must abort on a non-tree or n < 2, decode on a value outside [0, n)
 template <typename Run>
 void check_aborts(Run run){
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        alarm(5);
-        signal(SIGABRT, [](int){ _exit(ABORT_EXIT_CODE); });  /// a core dump per fork makes the enumeration crawl
-        assert(freopen("/dev/null", "w", stderr));
-        run();
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFEXITED(status) && WEXITSTATUS(status) == ABORT_EXIT_CODE);
+    stress::expect_assert("trees/prufer_code.cpp", run);
 }
 
 /// Every multiset of n - 1 edges over [0, n), self-loops and repeats included: trees encode, the rest abort
