@@ -41,9 +41,19 @@ layout=$(python3 -I - "$solution" "$copy_lines" "$old_judge" <<'PY'
 import re, sys
 path, start, old_judge = sys.argv[1], int(sys.argv[2]), sys.argv[3] == '1'
 lines = open(path).read().split('\n')
-types = r'(const |static |unsigned |signed )*(int|long|short|double|float|char|bool|string|vector|array|pair|map|set|' \
-        r'unordered_map|unordered_set|queue|deque|stack|priority_queue|bitset|uint32_t|uint64_t|size_t)\b'
-decl = re.compile(r'^    ' + types + r'[^(]*;$')
+# A declaration is "type name ..." ending in ';': class and template types and constructor arguments included, while
+# assignments, calls and keyword statements like "return x;" are statements
+decl_re = re.compile(r'^    (?:(?:const|static|unsigned|signed|long|short)\s+)*[A-Za-z_][\w:]*(?:<.*>)?[*&]*\s+[*&]*[A-Za-z_]\w*\s*(?:[=({\[,].*)?;$')
+keywords = ('return', 'delete', 'throw', 'goto', 'else', 'case', 'using', 'typedef', 'break', 'continue', 'do')
+
+
+class Decl:
+    @staticmethod
+    def match(line):
+        return decl_re.match(line) and line.split()[0] not in keywords
+
+
+decl = Decl()
 fail, note = [], []
 
 for i in range(start, len(lines)):
