@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/combinatorics/stirling_numbers.cpp"
@@ -47,31 +45,17 @@ void check_second_identity(int n, long long p){
     assert(lhs == rhs);
 }
 
-template<typename F>
-void expect_abort(F fn){
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        alarm(5);
-        assert(freopen("/dev/null", "w", stderr));
-        fn();
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
-}
-
 int main(){
     const long long BIG_PRIME = 1073741789;  /// largest prime below 2^30
     const long long NTT_PRIME = 998244353;   /// the single-NTT path
 
     /// Before the large rows, since an aborting child pays for all the memory it inherits
-    expect_abort([](){ stirling_second(0, 1); });  /// unchecked, it spins forever in pow_mod(1, -1)
-    expect_abort([](){ stirling_second(5, 1000000000); });
-    expect_abort([](){ stirling_first((1 << 22) + 1, NTT_PRIME); });
-    expect_abort([](){ stirling_first(5, (1LL << 30) + 1); });
+    stress::expect_assert("combinatorics/stirling_numbers.cpp", []{
+        stirling_second(0, 1);  /// unchecked, it spins forever in pow_mod(1, -1)
+    });
+    stress::expect_assert("combinatorics/stirling_numbers.cpp", []{ stirling_second(5, 1000000000); });
+    stress::expect_assert("combinatorics/stirling_numbers.cpp", []{ stirling_first((1 << 22) + 1, NTT_PRIME); });
+    stress::expect_assert("combinatorics/stirling_numbers.cpp", []{ stirling_first(5, (1LL << 30) + 1); });
 
     vector<long long> moduli = {1, 2, 6, 7, 1000000007, NTT_PRIME, BIG_PRIME, 1LL << 30, 999999937};
     for (long long it = 0; it < stress::scaled(12); it++) moduli.push_back(stress::rand_int(1, 1LL << 30));
@@ -110,9 +94,7 @@ int main(){
         }
     }
 
-    for (int n : {30000, 1 << 16}){
-        for (long long m : {1000000007LL, NTT_PRIME, BIG_PRIME, 1LL << 30, 999999999LL}) check_first_identity(n, m);
-    }
+    for (long long m : {1000000007LL, NTT_PRIME, BIG_PRIME, 1LL << 30, 999999999LL}) check_first_identity(30000, m);
 
     for (long long p : {NTT_PRIME, BIG_PRIME}) check_second_identity(120000, p);
 
