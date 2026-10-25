@@ -17,17 +17,27 @@ For that code these rules replace CONTRIBUTING's `## API and code`, `## Style` a
 - Test cases run as `read(t); while (t--){` or `while (read(n)){`, with a `Case %d: ` prefix only when the problem asks for it
 - On UVa, POJ and HDU a test count is read until EOF, `while (read(t)){ while (t--){`, since their input files often repeat the block (UVa 1718 failed reading one)
 - A WA a brute force cannot explain may be a judge file that breaks its own format: fio skips a misplaced word where `scanf` fails and leaves the variable unchanged, and the expected output can depend on that (UVa 1502)
-- One-statement bodies go on the same line without braces: `for (i = 0; i < n; i++) read(ar[i]);`, `if (x > n) return false;`
 - Related assignments share a line with commas: `low = 0, high = n - 1;`
 - Parentheses make the order obvious: `if ((i + 1) < n)`, `res += (x * y)`; halving and parity use `>> 1` and `& 1`
-- Binary search is `while ((low + 1) < high)`, then check `low` and `high`
-- Blank lines separate the steps: input, setup, the main loop, output
+- Blank lines separate the steps: input, setup, the main loop, output; in `main` and in any function of 8 or more lines,
+  a blank line follows the declarations at the top and precedes a final `return res;` that comes after a loop, never two blank lines in a row
 - Braces as the repo: `){`, `else{`, an `else` goes on the line after the `}`
-- `clr(ar)` and `dbg(x)` may be defined and used, other macros only when they shorten something used several times; macros go right after the template copies:
+- `clr(ar)` and `dbg(x)` are the only macros with arguments, an expression macro like `valid(i, j)` is a function instead, since a macro evaluates its arguments twice; other macros are constants like `MAX`, and all go right after the template copies:
   ```cpp
   #define clr(ar) memset(ar, 0, sizeof(ar))
   #define dbg(x) cerr << #x << " = " << x << endl
   ```
+- Locals take short conventional names: `res` for the answer, `cur`, `x`, `y` for temporaries, `low`, `high`, `mid`, `u`, `v` for nodes; arrays and functions say what they hold or do: `adj`, `dp`, `visited`, `cnt`, `parent`, `sieve()`, `phi(m)`
+- Related globals share a line, unrelated ones do not: `int n, parent[MAX], depth[MAX];`, then `long long dp[MAX][LOG];`; direction tables are globals, `const int dx[] = {0, 0, -1, 1};`
+- Tables every test case reads, like primes or factorials, are built once in `gen()` before the test loop, never per test
+- A recursive or memoized function opens with its base cases and memo check, one line each, then a blank line, and stores and returns in one statement: `return (dp[i][j] = res);`
+- A special case leaves early, `if (is_equal()){ write(0); continue; }`, before the general case
+- A component written inline is a `namespace` whose calls run in the order they are used: `init(n)`, `add_edge(u, v)`, `build()`, `query(u, v)`
+- Characters are literals, `c - '0'`, `str[i] == '-'`, never ASCII codes like 48 or 45
+- At most three levels of nesting inside a function: a deeper body becomes a helper or an early `continue`
+- No dead code: no commented-out lines, no unused helpers, no sample input pasted in a comment
+- The obvious version first: no xor swaps, hand-unrolled copies or bit tricks unless a measurement shows the plain code is too slow
+- Clear only what a test case used, `memset` over the first n entries or a vector sized per test, never the whole `MAX` array every test
 - Nothing the excerpts never use: `auto [a, b]`, lambdas for code that runs once, `const auto&` everywhere, `std::` prefixes, `#define int long long`
 
 ## Excerpts
