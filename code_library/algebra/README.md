@@ -66,7 +66,6 @@
 - [HDU 4656 - Evaluation](https://acm.hdu.edu.cn/showproblem.php?pid=4656) [✅](../../practice/algebra/hdu_4656.cpp "Accepted solution")
 - [HDU 5307 - He is Flying](https://acm.hdu.edu.cn/showproblem.php?pid=5307) [✅](../../practice/algebra/hdu_5307.cpp "Accepted solution")
 - [Kattis aplusb - A+B Problem](https://open.kattis.com/problems/aplusb) [✅](../../practice/algebra/kattis_aplusb.cpp "Accepted solution")
-- [Kattis kinversions - K-Inversions](https://open.kattis.com/problems/kinversions) [✅](../../practice/algebra/kattis_kinversions.cpp "Accepted solution")
 - [Kattis matchings - Matchings](https://open.kattis.com/problems/matchings) [✅](../../practice/algebra/kattis_matchings.cpp "Accepted solution")
 - [SPOJ ADAMATCH - Ada and Nucleobase](https://www.spoj.com/problems/ADAMATCH/) [✅](../../practice/algebra/spoj_adamatch.cpp "Accepted solution")
 - [SPOJ MAXMATCH - Maximum Self-Matching](https://www.spoj.com/problems/MAXMATCH/) [✅](../../practice/algebra/spoj_maxmatch.cpp "Accepted solution")

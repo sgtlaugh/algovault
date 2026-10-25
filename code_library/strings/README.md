@@ -191,7 +191,6 @@
 - [Codeforces Gym 101806Q - QueryreuQ](https://codeforces.com/gym/101806/problem/Q)
 - [CSES 3138 - All Palindromes](https://cses.fi/problemset/task/3138)
 - [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157)
-- [oj.uz APIO14_palindrome - Palindromes](https://oj.uz/problem/view/APIO14_palindrome)
 - [SPOJ APIO14_A - Palindromes](https://www.spoj.com/problems/APIO14_A/)
 - [Timus 2044 - 31 Palindromes](https://acm.timus.ru/problem.aspx?num=2044)
 - [Timus 2059 - Not common palindromes](https://acm.timus.ru/problem.aspx?num=2059)

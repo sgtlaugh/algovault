@@ -57,7 +57,6 @@
 - [HDU 3571 - N-dimensional Sphere](https://acm.hdu.edu.cn/showproblem.php?pid=3571) [✅](../../practice/linear_algebra/hdu_3571.cpp "Accepted solution")
 - [Kattis whiterabbit - The White Rabbit Pocket Watch](https://open.kattis.com/problems/whiterabbit) [✅](../../practice/linear_algebra/kattis_whiterabbit.cpp "Accepted solution")
 - [LightOJ 1279 - Graph Coloring](https://lightoj.com/problem/graph-coloring) [✅](../../practice/linear_algebra/lightoj_1279.cpp "Accepted solution")
-- [SPOJ NWERC04H - SETI](https://www.spoj.com/problems/NWERC04H/) [✅](../../practice/linear_algebra/spoj_nwerc04h.cpp "Accepted solution")
 - [UVa 1563 - SETI](https://onlinejudge.org/external/15/1563.pdf) [✅](../../practice/linear_algebra/uva_1563.cpp "Accepted solution")
 - [UVa 1564 - Widget Factory](https://onlinejudge.org/external/15/1564.pdf) [✅](../../practice/linear_algebra/uva_1564.cpp "Accepted solution")
 - [UVa 11778 - Graph Coloring in HSL](https://onlinejudge.org/external/117/11778.pdf) [✅](../../practice/linear_algebra/uva_11778.cpp "Accepted solution")

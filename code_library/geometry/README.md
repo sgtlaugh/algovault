@@ -103,12 +103,9 @@
 
 #### [Half-plane Intersection](halfplane_intersection.cpp)
 
-- [AOJ 1283 - Most Distant Point from the Sea](https://onlinejudge.u-aizu.ac.jp/problems/1283)
 - [CodeChef CHN02 - Animesh decides to settle down](https://www.codechef.com/problems/CHN02)
 - [Codeforces 790E - Bear and Isomorphic Points](https://codeforces.com/contest/790/problem/E)
-- [Codeforces Gym 101309J - Jungle Outpost](https://codeforces.com/gym/101309/problem/J)
 - [DMOJ ccoprep3p3 - CCO Preparation Test 3 P3 - Arrow](https://dmoj.ca/problem/ccoprep3p3)
-- [POJ 3130 - How I Mathematician Wonder What You Are!](http://poj.org/problem?id=3130)
 - [Timus 1681 - Brother Bear's Garden](https://acm.timus.ru/problem.aspx?num=1681)
 - [UVa 1298 - Triathlon](https://onlinejudge.org/external/12/1298.pdf) [✅](../../practice/geometry/uva_1298.cpp "Accepted solution")
 - [UVa 1396 - Most Distant Point from the Sea](https://onlinejudge.org/external/13/1396.pdf) [✅](../../practice/geometry/uva_1396.cpp "Accepted solution")

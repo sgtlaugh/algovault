@@ -38,8 +38,6 @@
 - [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F)
 - [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E)
 - [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084)
-- [DMOJ apio10p1 - APIO '10 P1 - Commando](https://dmoj.ca/problem/apio10p1)
-- [DMOJ ioi02p4 - IOI '02 P4 - Batch Scheduling](https://dmoj.ca/problem/ioi02p4)
 - [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507)
 - [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180)
 - [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/)

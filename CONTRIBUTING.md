@@ -15,6 +15,7 @@ The `/crucible` skill in `.claude/skills/crucible/` walks through all of this, f
 - Verified practice problems in `code_library/<topic>/README.md`, as `[<Judge> <code> - <title>](<url>)` in natural order,
   each on a live judge or with official data and a judge, like the Code Jam archive
 - A problem goes under the template at the core of its solution, not under setup steps like compression or sorting
+- A problem mirrored on several judges is listed once, preferring UVa, then SPOJ, then Codeforces
 - Library Checker problems are never practice problems: one the template solves becomes a judge test under the ✔
 - An accepted solution built on the template goes in `practice/<topic>/<judge>_<code>.cpp` (`.py` for Python templates) as submitted, linked from its
   practice problem as ` [✅](../../practice/<topic>/<file> "Accepted solution")`; templates are copied from `code_library/`, never from `practice/`
