@@ -274,6 +274,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [Bounded Subset Sum](code_library/dp/bounded_subset_sum.cpp) - reachable sums of a multiset, with a witness
 - [CKY](code_library/dp/cky.cpp) - context-free grammar membership
 - [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - `dp[x] = min dp[i] + w(i, x)` for Monge w
+- [Convex Hull Trick](code_library/dp/convex_hull_trick.cpp) - min or max of lines added in slope order
 - [Divide and Conquer DP](code_library/dp/divide_conquer_dp.cpp) - split into k segments of minimum total cost
 - [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle [✔](judge_tests/dp/aoj_dpl_2_a.cpp)
 - [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - interval DP over split points in `O(n^2)` [✔](judge_tests/dp/aoj_alds1_10_d.cpp)
