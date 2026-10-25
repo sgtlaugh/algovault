@@ -211,8 +211,8 @@ void weighted_test(){
 
 int main(){
     int s, p, q;
+
     while (scanf("%d %d", &s, &p) == 2){
-        /// Ties on cost go to fewer planets: each transport also adds 1 to a low part that cannot reach one Galaro
         Dijkstra g(26);
         for (int i = 0; i < p; i++){
             char a[4], b[4];

@@ -211,11 +211,11 @@ void weighted_test(){
 
 int main(){
     int n, k;
+
     while (scanf("%d %d", &n, &k) == 2){
         vector<int> t(n);
         for (auto& x: t) scanf("%d", &x);
 
-        /// Node e * 100 + f is "inside elevator e at floor f", plus a start node below floor 0 and a goal node at floor k
         int start = 5 * 100, goal = start + 1;
         Dijkstra g(goal + 1);
         vector<vector<int>> stops(100);

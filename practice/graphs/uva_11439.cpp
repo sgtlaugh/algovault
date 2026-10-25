@@ -210,6 +210,7 @@ struct Blossom{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int k;
@@ -223,7 +224,6 @@ int main(){
         sort(values.begin(), values.end());
         values.erase(unique(values.begin(), values.end()), values.end());
 
-        /// Largest threshold whose matches of ICPC >= threshold still pair everyone up
         auto perfect = [&](int threshold){
             Blossom b(n);
             for (int i = 0; i < n; i++){

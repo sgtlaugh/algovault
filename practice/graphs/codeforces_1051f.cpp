@@ -441,6 +441,7 @@ int find(int x){
 
 int lca(int a, int b){
     int i;
+
     if (depth[a] < depth[b]) swap(a, b);
     for (i = LOG - 1; i >= 0; i--){
         if ((depth[a] - (1 << i)) >= depth[b]) a = up[i][a];
@@ -450,6 +451,7 @@ int lca(int a, int b){
     for (i = LOG - 1; i >= 0; i--){
         if (up[i][a] != up[i][b]) a = up[i][a], b = up[i][b];
     }
+
     return up[0][a];
 }
 

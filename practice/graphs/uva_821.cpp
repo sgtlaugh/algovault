@@ -78,6 +78,7 @@ constexpr long long FloydWarshall::NEG_INF;
 
 int main(){
     int a, b, cs = 0;
+
     while (scanf("%d %d", &a, &b) == 2 && (a || b)){
         FloydWarshall fw(100);
         vector<int> pages;

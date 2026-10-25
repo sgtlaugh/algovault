@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int s, p;
@@ -181,7 +182,6 @@ int main(){
             for (int j = i + 1; j < p; j++) mst.add_edge(i, j, (x[i] - x[j]) * (x[i] - x[j]) + (y[i] - y[j]) * (y[i] - y[j]));
         }
 
-        /// Satellites join s groups for free, so the s - 1 longest tree edges are dropped
         MSTResult res = mst.solve();
         printf("%.2f\n", sqrt((double)mst.edges[res.chosen[p - s - 1]].w));
     }

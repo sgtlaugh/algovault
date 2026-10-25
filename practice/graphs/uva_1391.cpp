@@ -168,12 +168,12 @@ struct TwoSat{
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         vector<int> age(n + 1);
         long long sum = 0;
         for (int i = 1; i <= n; i++) scanf("%d", &age[i]), sum += age[i];
 
-        /// Seniors choose between A and C, the young between B and C, so variable i true means mission C
         vector<bool> senior(n + 1);
         for (int i = 1; i <= n; i++) senior[i] = (long long)age[i] * n >= sum;
 

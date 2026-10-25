@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int cases;
+
     scanf("%d", &cases);
     for (int tc = 1; tc <= cases; tc++){
         int n, m, s, t;

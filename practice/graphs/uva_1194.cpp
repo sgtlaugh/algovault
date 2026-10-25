@@ -94,11 +94,10 @@ struct HopcroftKarp{
 
 int main(){
     int n, m, k;
+
     while (scanf("%d", &n) == 1 && n){
         scanf("%d %d", &m, &k);
 
-        /// Each job is an edge between its two modes; a minimum vertex cover of the modes, the maximum matching by
-        /// Konig's theorem, is the fewest restarts. Jobs runnable in mode 0 need no restart at all
         HopcroftKarp hk(n, m);
         while (k--){
             int i, x, y;

@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int n;
+
     for (int tc = 0; scanf("%d", &n) == 1; tc++){
         int u, v, k, m;
         long long w, original = 0;

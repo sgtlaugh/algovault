@@ -77,12 +77,10 @@ constexpr long long FloydWarshall::INF;
 constexpr long long FloydWarshall::NEG_INF;
 
 int main(){
-    /// Distances in units of 1e-9 so the integer template carries the Euclidean costs, sums of the same rounded
-    /// lengths stay exactly equal, so symmetric candidates still tie
     const double SCALE = 1e9;
     const long long EPS = 1000;
-
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         vector<int> x(n), y(n);
         for (int i = 0; i < n; i++) scanf("%d %d", &x[i], &y[i]);
@@ -101,7 +99,6 @@ int main(){
         fw.solve();
         const vector<vector<long long>>& d = fw.dist;
 
-        /// Only paths through the new road u - v can get shorter, so each candidate costs O(n^2) on top of one Floyd Warshall
         int bu = -1, bv = -1;
         long long best = SCALE;
         for (int u = 0; u < n; u++){

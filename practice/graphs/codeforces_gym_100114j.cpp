@@ -366,6 +366,7 @@ vector<vector<int>> tree;
 
 int farthest(int s){
     int i, u = s;
+
     vector<int> dist(tree.size(), -1), q = {s};
     dist[s] = 0;
     for (i = 0; i < (int)q.size(); i++){
@@ -374,6 +375,7 @@ int farthest(int s){
             if (dist[v] == -1) dist[v] = dist[u] + 1, q.push_back(v);
         }
     }
+
     return u;
 }
 

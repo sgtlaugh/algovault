@@ -127,8 +127,8 @@ constexpr long long MCMF::INF;
 
 int main(){
     int v, e, a, b, c;
+
     while (scanf("%d %d", &v, &e) == 2){
-        /// Waypoint i splits into 2i -> 2i + 1 with capacity 1 so the routes share no waypoint, the ends take both ships
         MCMF g(2 * v);
         for (int i = 0; i < v; i++) g.add_edge(2 * i, 2 * i + 1, i == 0 || i == v - 1 ? 2 : 1, 0);
         while (e--) scanf("%d %d %d", &a, &b, &c), g.add_edge(2 * a - 1, 2 * b - 2, 1, c);

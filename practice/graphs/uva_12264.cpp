@@ -511,6 +511,7 @@ bool check(int x){
         g.add_directed_edge(n + i, 2 * n + 1, border[i] ? x : 1);
         need += border[i] ? x : 1;
     }
+
     return g.maxflow() == need;
 }
 

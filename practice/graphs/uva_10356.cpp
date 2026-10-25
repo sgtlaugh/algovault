@@ -211,8 +211,8 @@ void weighted_test(){
 
 int main(){
     int n, r;
+
     for (int tc = 1; scanf("%d %d", &n, &r) == 2; tc++){
-        /// Vertex 2v + k is junction v after k mod 2 roads, an even count means arriving on the cycle
         Dijkstra g(2 * n);
         for (int i = 0; i < r; i++){
             int a, b, c;

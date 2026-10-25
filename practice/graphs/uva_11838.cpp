@@ -85,6 +85,7 @@ struct SCC{
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         SCC g(n);
         while (m--){

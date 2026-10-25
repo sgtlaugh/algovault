@@ -250,7 +250,6 @@ struct DenseFlowGraph{
 
 const int MAX_CHANNEL = 300000;
 
-/// Reads the next non-blank line as integers, the bid price first and then its channels
 vector<int> read_bid(){
     static char line[1 << 12];
     vector<int> res;
@@ -271,7 +270,6 @@ int main(){
         vector<vector<int>> mobile(m);
         for (auto& bid : mobile) bid = read_bid();
 
-        /// Bids clash only across companies, so the rejected bids form a minimum vertex cover of the clash graph, a min cut
         FlowGraph g(n + m + 2, 0, n + m + 1);
         long long total = 0;
         for (int i = 0; i < n; i++){

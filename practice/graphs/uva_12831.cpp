@@ -182,6 +182,7 @@ struct DAGPathCover{
 
 int main(){
     int t, n, l;
+
     scanf("%d", &t);
     for (int cs = 1; cs <= t; cs++){
         scanf("%d %d", &n, &l);
@@ -191,7 +192,6 @@ int main(){
             if (id[x] == -1) id[x] = order.size(), order.push_back(x);
         }
 
-        /// Every integer that can be built is a vertex, x -> x + bit for each set bit; one IBM run is one path
         vector<pair<int, int>> edges;
         for (int i = 0; i < (int)order.size(); i++){
             int x = order[i];

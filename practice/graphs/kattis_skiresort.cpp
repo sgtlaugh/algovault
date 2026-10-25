@@ -357,6 +357,7 @@ int lca(int u, int v){
     for (int j = LOG - 1; j >= 0; j--){
         if (up[j][u] != up[j][v]) u = up[j][u], v = up[j][v];
     }
+
     return up[0][u];
 }
 
@@ -371,6 +372,7 @@ int deepest(int c, int b){
 
 long long free_nodes(int p, int c, unsigned long long r){
     int lo = depth[p], hi = depth[c];
+
     if ((hi - lo) <= 1) return 0;
 
     vector<pair<int, int>> seg;
@@ -387,6 +389,7 @@ long long free_nodes(int p, int c, unsigned long long r){
         res -= s.second - max((long long)s.first, cur);
         cur = s.second;
     }
+
     return res;
 }
 

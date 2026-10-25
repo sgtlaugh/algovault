@@ -446,6 +446,7 @@ bool check(int k){
             }
         }
     }
+
     return g.is_satisfiable();
 }
 
@@ -462,6 +463,7 @@ bool solve(){
     for (k = 0; k < 31; k++){
         if (!check(k)) return false;
     }
+
     return true;
 }
 

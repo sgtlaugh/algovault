@@ -91,8 +91,9 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
 
 int main(){
     const int dx[] = {0, 0, -1, 1}, dy[] = {-1, 1, 0, 0};
-    const int UNREACHABLE = 1000000;  /// above any real total (15 boxes x 1600 cells), and a solution is guaranteed to exist
+    const int UNREACHABLE = 1000000;
     int t;
+
     scanf("%d", &t);
     while (t--){
         int h, w;
@@ -109,7 +110,6 @@ int main(){
             }
         }
 
-        /// A box standing in the way can take over the blocked route instead, so the answer is the cheapest assignment of BFS distances
         vector<vector<int>> cost;
         for (int si = 0; si < h; si++){
             for (int sj = 0; sj < w; sj++){

@@ -118,6 +118,7 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
 
 int main(){
     int n, tc = 0;
+
     while (scanf("%d", &n) == 1){
         vector<long long> busy(n + 1);
         for (int i = 1; i <= n; i++) scanf("%lld", &busy[i]);
@@ -139,7 +140,6 @@ int main(){
         while (q--){
             int x;
             scanf("%d", &x);
-            /// NEG_INF is below 3 as well, so junctions behind a negative cycle print '?'
             if (x < 1 || x > n || dist[x - 1] == BellmanFord::INF || dist[x - 1] < 3) puts("?");
             else printf("%lld\n", dist[x - 1]);
         }

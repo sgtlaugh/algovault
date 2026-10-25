@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t, n, r, q;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d", &n, &r);
@@ -179,7 +180,6 @@ int main(){
             mst.add_edge(a - 1, b - 1, l);
         }
 
-        /// The longest day trip on the minimum spanning tree path is the best any itinerary can do
         vector<vector<pair<int, int>>> adj(n);
         for (int i : mst.solve().chosen){
             auto& e = mst.edges[i];

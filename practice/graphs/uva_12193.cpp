@@ -512,6 +512,7 @@ bool solve(){
             f.add_directed_edge(node, j, left);
         }
     }
+
     return f.maxflow() == total;
 }
 

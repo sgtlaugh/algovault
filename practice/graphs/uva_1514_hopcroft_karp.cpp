@@ -94,6 +94,7 @@ struct HopcroftKarp{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -115,7 +116,6 @@ int main(){
             continue;
         }
 
-        /// Each black square splits into a horizontal arm (left side b) and a vertical arm (left side blacks + b)
         HopcroftKarp hk(2 * blacks, whites);
         const int dx[] = {0, 0, -1, 1}, dy[] = {-1, 1, 0, 0};
         for (int i = 0; i < n; i++){

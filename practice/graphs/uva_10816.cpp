@@ -233,7 +233,6 @@ int main(){
         for (auto& p : paths){
             double r, d;
             scanf("%d %d %lf %lf", &p.u, &p.v, &r, &d);
-            /// Both reals have exactly one decimal, so tenths keep every comparison exact
             p.u--, p.v--, p.temp = (int)lround(r * 10), p.len = (int)lround(d * 10);
             temps.push_back(p.temp);
         }

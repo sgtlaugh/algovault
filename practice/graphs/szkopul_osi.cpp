@@ -369,6 +369,7 @@ bool used[MAX], visited[MAX];
 
 void orient(BridgeGraph& g, int s){
     vector<pair<int, int>> st;
+
     visited[s] = true, st.push_back({s, 0});
     while (!st.empty()){
         int u = st.back().first, &i = st.back().second;

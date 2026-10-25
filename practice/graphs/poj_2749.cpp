@@ -440,6 +440,7 @@ bool check(int L){
             if ((d2[i] + D + d1[j]) > L) g.add_or(i, -j);
         }
     }
+
     return g.is_satisfiable();
 }
 

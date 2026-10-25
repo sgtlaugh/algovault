@@ -123,6 +123,7 @@ struct BridgeGraph{
 
 int main(){
     int t, n, m, c;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d %d", &n, &m, &c);
@@ -132,7 +133,6 @@ int main(){
             g.add_edge(x - 1, y - 1);
         }
 
-        /// A round trip through v uses every ticket once, so it needs two edge-disjoint paths: v shares c's 2-edge-connected component
         g.get_components();
         printf("Case %d:", tc);
         bool any = false;

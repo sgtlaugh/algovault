@@ -211,12 +211,12 @@ void weighted_test(){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, exit_cell, limit, m;
         scanf("%d %d %d %d", &n, &exit_cell, &limit, &m);
 
-        /// Edges reversed, so one run from the exit gives every cell's time to reach it
         Dijkstra g(n);
         for (int i = 0; i < m; i++){
             int a, b, c;

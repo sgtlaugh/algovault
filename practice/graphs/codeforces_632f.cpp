@@ -411,6 +411,7 @@ vector<int> adj[MAX];
 
 bool check(vector<vector<int>>& a){
     int i, j;
+
     for (i = 0; i < n; i++){
         if (a[i][i]) return false;
         for (j = 0; j < i; j++){
@@ -436,6 +437,7 @@ bool check(vector<vector<int>>& a){
             }
         }
     }
+
     return true;
 }
 

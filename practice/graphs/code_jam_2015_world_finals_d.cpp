@@ -500,8 +500,8 @@ int id(int v, int x, int b){
 
 bool stoppable(int t){
     int v, x, i;
-    FlowGraph g(2 * n * (t + 1), id(0, 0, 0), id(n - 1, t, 0));
 
+    FlowGraph g(2 * n * (t + 1), id(0, 0, 0), id(n - 1, t, 0));
     for (x = 0; x <= t; x++){
         for (v = 0; v < n; v++){
             g.add_directed_edge(id(v, x, 0), id(v, x, 1), 1);
@@ -516,6 +516,7 @@ bool stoppable(int t){
             g.add_directed_edge(id(eb[i], x, 1), id(ea[i], x + 1, 0), INF);
         }
     }
+
     return g.maxflow() <= k;
 }
 

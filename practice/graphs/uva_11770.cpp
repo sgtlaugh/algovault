@@ -85,6 +85,7 @@ struct SCC{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
@@ -97,7 +98,6 @@ int main(){
         }
         g.run();
 
-        /// One manual switch per component that no other component can light
         vector<char> lit(g.count, 0);
         for (int u = 0; u < n; u++){
             for (int v: g.adj[u]){

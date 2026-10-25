@@ -78,6 +78,7 @@ constexpr long long FloydWarshall::NEG_INF;
 
 int main(){
     int n, m;
+
     while (scanf("%d", &n) == 1 && n){
         scanf("%d", &m);
         FloydWarshall fw(n);
@@ -97,7 +98,6 @@ int main(){
             if (degree[i] & 1) odd.push_back(i);
         }
 
-        /// Chinese postman: the odd stations are paired up by repeated shortest paths, dp[mask] pairs off the stations not in mask
         int d = odd.size(), full = (1 << d) - 1;
         vector<long long> dp(1 << d, FloydWarshall::INF);
         dp[full] = 0;

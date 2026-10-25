@@ -91,11 +91,11 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
 
 int main(){
     int n, t = 0;
+
     while (scanf("%d", &n) == 1 && n){
         vector<pair<int, int>> stones(n);
         for (auto& e : stones) scanf("%d %d", &e.first, &e.second);
 
-        /// Every row, column and both diagonals, each a list of n target cells
         vector<vector<pair<int, int>>> walls;
         for (int i = 1; i <= n; i++){
             vector<pair<int, int>> row, col;
@@ -106,7 +106,6 @@ int main(){
         for (int i = 1; i <= n; i++) diag.push_back({i, i}), anti.push_back({i, n + 1 - i});
         walls.push_back(diag), walls.push_back(anti);
 
-        /// Stones can slide past each other in effect, so a wall costs its cheapest Manhattan assignment
         int res = INT_MAX;
         for (auto& wall : walls){
             vector<vector<int>> cost(n, vector<int>(n));

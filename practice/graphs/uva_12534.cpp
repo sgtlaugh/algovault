@@ -520,6 +520,7 @@ bool spfa(){
             }
         }
     }
+
     return dis[sink] < INF;
 }
 
@@ -572,6 +573,7 @@ int solve(int a, int b){
     for (i = 0; i < (int)E.size(); i += 2){
         if (E[i].cost == 1) res += E[i ^ 1].cap;
     }
+
     return res;
 }
 

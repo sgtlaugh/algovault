@@ -250,8 +250,8 @@ struct DenseFlowGraph{
 
 int main(){
     int m, w;
+
     while (scanf("%d %d", &m, &w) == 2 && (m || w)){
-        /// The boss and the server cannot be destroyed, every wire costs at most 1000 * 100000 in total
         vector<long long> cost(m, 1LL << 40);
         for (int i = 2; i < m; i++){
             int id, c;

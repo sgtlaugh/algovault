@@ -366,6 +366,7 @@ vector<vector<int>> tree, child;
 
 void dfs(int s){
     vector<pair<int, int>> st;
+
     tin[s] = ++t, st.push_back({s, -1});
     while (!st.empty()){
         int u = st.back().first, p = st.back().second, f = 0;
@@ -389,6 +390,7 @@ int side(int c, int x){
         if (tin[child[c][mid]] <= tin[x]) low = mid;
         else high = mid;
     }
+
     return (tin[child[c][high]] <= tin[x]) ? high : low;
 }
 

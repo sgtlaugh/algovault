@@ -250,6 +250,7 @@ struct DenseFlowGraph{
 
 int main(){
     int n, s, t, c, a, b, w;
+
     for (int network = 1; scanf("%d", &n) == 1 && n; network++){
         scanf("%d %d %d", &s, &t, &c);
         FlowGraph g(n, s - 1, t - 1);

@@ -341,6 +341,7 @@ vector<char> kinds;
 
 void gather(bool chosen[], int len, int k, char kind){
     int i = 0, j = k;
+
     while (true){
         while (i < k && chosen[i]) i++;
         while (j < len && !chosen[j]) j++;

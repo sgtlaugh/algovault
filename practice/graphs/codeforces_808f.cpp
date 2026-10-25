@@ -497,6 +497,7 @@ bool composite[MAXV];
 bool check(int level){
     int i, j, one = -1;
     vector<int> cards;
+
     for (i = 0; i < n; i++){
         if (L[i] > level) continue;
         if (C[i] != 1) cards.push_back(i);

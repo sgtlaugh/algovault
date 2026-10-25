@@ -79,6 +79,7 @@ constexpr long long FloydWarshall::NEG_INF;
 int main(){
     int n, m;
     char a[64], b[64];
+
     for (int cs = 1; scanf("%d %d", &n, &m) == 2 && (n || m); cs++){
         FloydWarshall fw(n);
         map<string, int> id;

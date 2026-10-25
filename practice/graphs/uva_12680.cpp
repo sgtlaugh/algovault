@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int n, m, q;
+
     for (int tc = 0; scanf("%d %d", &n, &m) == 2; tc++){
         vector<array<double, 3>> place(n);
         for (auto& p : place) scanf("%lf %lf %lf", &p[0], &p[1], &p[2]);
@@ -220,7 +221,6 @@ int main(){
             return sqrt(dx * dx + dy * dy + dz * dz);
         };
 
-        /// Meters are real, so weights are kept in nanometers to fit the template's integer distances
         auto nano = [](double meters){ return llround(meters * 1e9); };
         Dijkstra g(n);
         while (m--){

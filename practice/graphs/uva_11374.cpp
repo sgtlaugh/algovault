@@ -211,8 +211,8 @@ void weighted_test(){
 
 int main(){
     int n, s, e, m, x, y, z;
+
     for (int t = 0; scanf("%d %d %d", &n, &s, &e) == 3; t++){
-        /// Station v is node v - 1 while the ticket is unused and v - 1 + n after, the Commercial-Xpress only crosses layers
         Dijkstra g(2 * n);
         scanf("%d", &m);
         while (m--){

@@ -77,10 +77,9 @@ constexpr long long FloydWarshall::INF;
 constexpr long long FloydWarshall::NEG_INF;
 
 int main(){
-    /// Road lengths are square roots: fixed point in units of 1e-9 km keeps the error of a path of up to 99 roads near
-    /// 1e-7, far inside the 1e-6 margin the statement guarantees around every rounding boundary
     const double SCALE = 1e9;
     int t, n;
+
     scanf("%d", &t);
     for (int cs = 1; cs <= t; cs++){
         scanf("%d", &n);

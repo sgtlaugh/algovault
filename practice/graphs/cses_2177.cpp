@@ -370,6 +370,7 @@ vector<pair<int, int>> adj[MAX];
 
 void orient(){
     vector<pair<int, int>> st;
+
     visited[0] = true, st.push_back({0, 0});
     while (!st.empty()){
         int u = st.back().first, &i = st.back().second;

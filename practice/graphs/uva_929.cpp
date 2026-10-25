@@ -211,13 +211,13 @@ void weighted_test(){
 
 int main(){
     int t, n, m;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %d", &n, &m);
         vector<int> cost(n * m);
         for (auto& c : cost) scanf("%d", &c);
 
-        /// Entering a cell pays its cost, the start cell is paid up front
         Dijkstra g(n * m);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){

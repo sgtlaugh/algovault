@@ -168,13 +168,13 @@ struct TwoSat{
 
 int main(){
     int n, t;
+
     while (scanf("%d %d", &n, &t) == 2 && (n || t)){
         static char s[10005];
         scanf("%s", s);
         vector<int> base(n + 1);
         for (int i = 1; i <= n; i++) base[i] = strchr("AGTC", s[i - 1]) - "AGTC";
 
-        /// Variable i: base i is modified, variable n + i: the modification is an increase
         TwoSat sat(2 * n);
         for (int i = 1; i < n; i++) sat.add_or(-i, -(i + 1));
 
@@ -187,20 +187,16 @@ int main(){
             for (int i = 0, j = len - 1; i < j; i++, j--){
                 int a = p[i], b = p[j], d = (base[b] - base[a] + 4) % 4;
                 if (d == 2){
-                    /// Both move towards each other, a up and b down or the reverse
                     sat.force_true(a), sat.force_true(b);
                     sat.add_xor(n + a, n + b);
                     continue;
                 }
                 if (d == 3) swap(a, b);
                 if (d == 0){
-                    /// Equal bases change together and in the same direction; tying the directions of unchanged bases is
-                    /// harmless since every other constraint on a direction only applies when its base changes
                     sat.add_implication(a, b), sat.add_implication(b, a);
                     sat.add_implication(n + a, n + b), sat.add_implication(n + b, n + a);
                 }
                 else{
-                    /// base[b] = base[a] + 1: exactly one changes, a by going up or b by going down
                     sat.add_xor(a, b);
                     sat.add_implication(a, n + a);
                     sat.add_implication(b, -(n + b));

@@ -121,7 +121,6 @@ struct BridgeGraph{
     }
 };
 
-/// The dataset is huge and every number is non-negative, scanf alone took most of the running time
 int read_int(){
     int c = getchar_unlocked(), x = 0;
     while (c < '0') c = getchar_unlocked();
@@ -144,14 +143,11 @@ int main(){
             g.add_edge(u - 1, v - 1);
         }
 
-        /// Only a bridge cuts any town pair, its cost is length * (towns on one side) * (towns on the other)
         vector<Bridge> bridges = g.get_bridges();
         vector<long long> cost;
         long long lo = *max_element(base.begin(), base.end()), hi = lo;
         for (auto& b : bridges) cost.push_back(length[b.id] * b.cnt_u * b.cnt_v), hi += cost.back();
 
-        /// Bridges come in DFS finishing order of their child side v, so every bridge below v is settled before v's own
-        /// bridge: v never gets another road afterwards and should take this one whenever it fits
         auto feasible = [&](long long limit){
             vector<long long> load = base;
             for (int i = 0; i < (int)bridges.size(); i++){

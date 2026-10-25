@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
@@ -187,7 +188,6 @@ int main(){
             continue;
         }
 
-        /// The second best spanning tree misses at least one edge of the best one: try dropping each in turn
         long long res = LLONG_MAX;
         for (int skip : best.chosen){
             Kruskal other(n);

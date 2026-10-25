@@ -99,6 +99,7 @@ struct Pupil{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;
@@ -111,8 +112,6 @@ int main(){
             (gender[0] == 'M' ? boys : girls).push_back({h, music, sport});
         }
 
-        /// A boy and a girl who might become a couple cannot both go, so the answer is a maximum independent set,
-        /// n minus a maximum matching on the bipartite graph of risky pairs
         HopcroftKarp hk(boys.size(), girls.size());
         for (int i = 0; i < (int)boys.size(); i++){
             for (int j = 0; j < (int)girls.size(); j++){

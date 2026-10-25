@@ -91,12 +91,11 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;
         scanf("%d", &n);
-        /// Minimizing the risk maximizes the product of the safe probabilities (b - a) / b, a sum of -log of them
-        /// A certain attack gets a cost above any sum of n finite terms (each at most log 40)
         vector<vector<long long>> safe(n, vector<long long>(n)), total(n, vector<long long>(n));
         vector<vector<double>> cost(n, vector<double>(n));
         for (int i = 0; i < n; i++){

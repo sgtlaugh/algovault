@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 0; tc < t; tc++){
         int n, m;
@@ -176,7 +177,6 @@ int main(){
         vector<int> x(n), y(n);
         for (int i = 0; i < n; i++) scanf("%d %d", &x[i], &y[i]);
 
-        /// Existing highways cost nothing, Kruskal takes them before any new one; squared lengths order the same
         Kruskal mst(n);
         scanf("%d", &m);
         for (int i = 0, a, b; i < m; i++) scanf("%d %d", &a, &b), mst.add_edge(a - 1, b - 1, 0);

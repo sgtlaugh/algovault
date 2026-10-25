@@ -77,9 +77,9 @@ constexpr long long FloydWarshall::INF;
 constexpr long long FloydWarshall::NEG_INF;
 
 int main(){
-    /// Edge weights are metres of subway travel in micrometres: walking is 4 times slower, so it costs 4 * distance
     const double SCALE = 1e6;
     string line;
+
     getline(cin, line);
     int t = stoi(line);
     getline(cin, line);
@@ -111,7 +111,6 @@ int main(){
         }
         fw.solve();
 
-        /// 40 km/h covers 2000 / 3 metres a minute
         if (tc) puts("");
         printf("%lld\n", (long long)floor(fw.dist[0][1] * 3 / (2000 * SCALE) + 0.5));
     }

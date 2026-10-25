@@ -426,6 +426,7 @@ bool check(){
             if (v != s && low[v] != T[s][v]) return false;
         }
     }
+
     return true;
 }
 

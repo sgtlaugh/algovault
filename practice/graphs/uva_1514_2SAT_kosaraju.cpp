@@ -168,6 +168,7 @@ struct TwoSat{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -196,7 +197,6 @@ int main(){
             return i >= 0 && i < n && j >= 0 && j < m && grid[i][j] == 'B';
         };
 
-        /// Black b: variable b picks the left white (else the right one), variable blacks + b the upper one (else the lower)
         TwoSat sat(2 * blacks);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){
@@ -208,7 +208,6 @@ int main(){
                     if (!white(i + 1, j)) sat.force_true(v);
                 }
                 if (grid[i][j] == 'W'){
-                    /// With 2 * blacks == whites, no white covered twice means every white covered exactly once
                     vector<int> covers;
                     if (black(i, j - 1)) covers.push_back(-id[i][j - 1]);
                     if (black(i, j + 1)) covers.push_back(id[i][j + 1]);

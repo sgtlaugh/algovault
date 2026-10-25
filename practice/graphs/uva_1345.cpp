@@ -251,6 +251,7 @@ struct DenseFlowGraph{
 int main(){
     int n, m;
     static char line[1 << 16];
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         fgets(line, sizeof(line), stdin);
         vector<vector<int>> groups(n);
@@ -260,7 +261,6 @@ int main(){
             while ((tok = strtok(nullptr, " \r\n"))) groups[i].push_back(atoi(tok));
         }
 
-        /// Friends 0..n - 1, groups n..n + m - 1, every group may take at most limit friends
         auto fits = [&](int limit){
             int src = n + m, sink = n + m + 1;
             FlowGraph g(n + m + 2, src, sink);

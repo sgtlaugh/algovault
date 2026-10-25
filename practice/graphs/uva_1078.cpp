@@ -226,6 +226,7 @@ int street(int r, int c, int d){
 
 int main(){
     int r1, c1, r2, c2, t = 0;
+
     while (scanf("%d %d %d %d %d %d", &R, &C, &r1, &c1, &r2, &c2) == 6 && R){
         horizontal.assign(R, vector<int>(C, 0));
         vertical.assign(R, vector<int>(C, 0));
@@ -235,8 +236,6 @@ int main(){
             for (int j = 0; j < C; j++) scanf("%d", &vertical[i][j]);
         }
 
-        /// State (cell, direction of the street just driven, whether that street was already doubled):
-        /// a turn doubles the next street and, if the last one was driven at full speed, retroactively doubles it too
         auto id = [&](int r, int c, int d, int doubled){
             return ((r * C + c) * 4 + d) * 2 + doubled;
         };

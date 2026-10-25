@@ -85,6 +85,7 @@ struct SCC{
 
 int main(){
     int n, m;
+
     for (int tc = 1; scanf("%d %d", &n, &m) == 2 && (n || m); tc++){
         map<string, int> id;
         vector<string> names;
@@ -107,7 +108,6 @@ int main(){
         for (auto call : calls) g.add_edge(call.first, call.second);
         g.run();
 
-        /// Circles listed by their first named member, members in order of appearance, as in the sample
         vector<vector<int>> circles(g.count);
         vector<int> order;
         for (int v = 0; v < (int)names.size(); v++){

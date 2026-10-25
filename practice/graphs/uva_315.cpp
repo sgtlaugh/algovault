@@ -129,6 +129,7 @@ struct Biconnected{
 
 int main(){
     string line;
+
     while (getline(cin, line)){
         int n = stoi(line);
         if (n == 0) break;

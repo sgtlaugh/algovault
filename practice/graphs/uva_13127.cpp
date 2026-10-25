@@ -211,8 +211,8 @@ void weighted_test(){
 
 int main(){
     int n, m, b, p;
+
     while (scanf("%d %d %d %d", &n, &m, &b, &p) == 4){
-        /// Vertex n is a super source tied to every police station
         Dijkstra g(n + 1);
         while (m--){
             int u, v, t;

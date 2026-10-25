@@ -182,6 +182,7 @@ struct DAGPathCover{
 
 int main(){
     int t, m;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d", &m);
@@ -192,7 +193,6 @@ int main(){
             start[i] = h * 60 + mm;
         }
 
-        /// The rides are sorted by departure, so a cab can only go from an earlier ride to a later one
         DAGPathCover g(m);
         for (int i = 0; i < m; i++){
             int finish = start[i] + abs(sx[i] - dx[i]) + abs(sy[i] - dy[i]);

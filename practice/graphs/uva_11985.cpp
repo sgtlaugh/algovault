@@ -94,6 +94,7 @@ struct HopcroftKarp{
 
 int main(){
     const int MAXV = 500000;
+
     vector<int> primes, omega(MAXV + 1, 0);
     for (int i = 2; i <= MAXV; i++){
         if (!omega[i]){
@@ -114,7 +115,6 @@ int main(){
         int hi = 0;
         for (int i = 0; i < n; i++) scanf("%d", &a[i]), pos[a[i]] = i, hi = max(hi, a[i]);
 
-        /// a and a * p differ by one prime factor counted with multiplicity, so the parity of that count splits the graph in two
         vector<int> side(n, -1);
         int left = 0, right = 0;
         for (int i = 0; i < n; i++) side[i] = omega[a[i]] & 1 ? left++ : right++;
@@ -130,7 +130,6 @@ int main(){
             }
         }
 
-        /// Largest independent set in a bipartite graph is n minus the maximum matching (Konig)
         printf("Case %d: %d\n", tc, n - hk.max_matching());
         for (int x : a) pos[x] = -1;
     }

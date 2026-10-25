@@ -123,6 +123,7 @@ struct BridgeGraph{
 
 int main(){
     int n, m, q, a, b;
+
     while (scanf("%d %d %d", &n, &m, &q) == 3 && (n || m || q)){
         BridgeGraph g(n);
         while (m--){
@@ -130,7 +131,6 @@ int main(){
             g.add_edge(a - 1, b - 1);
         }
 
-        /// Exactly one simple path joins s and t when every edge between them is a bridge
         vector<int> parent(n);
         iota(parent.begin(), parent.end(), 0);
         auto find = [&](int v){

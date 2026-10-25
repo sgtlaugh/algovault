@@ -100,6 +100,7 @@ struct DominatorTree{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;

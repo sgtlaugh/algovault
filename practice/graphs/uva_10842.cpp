@@ -169,10 +169,10 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t, n, m;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d", &n, &m);
-        /// Negated capacities turn the minimum spanning tree into a maximum one, whose weakest road is the answer
         Kruskal mst(n);
         for (int u, v, c; m--;){
             scanf("%d %d %d", &u, &v, &c);

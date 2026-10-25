@@ -94,11 +94,11 @@ struct HopcroftKarp{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int c, d, v;
         scanf("%d %d %d", &c, &d, &v);
-        /// Pets as numbers: cat k is k, dog k is -k
         vector<int> cat_keep, cat_out, dog_keep, dog_out;
         for (int i = 0; i < v; i++){
             char a, b;
@@ -108,8 +108,6 @@ int main(){
             else dog_keep.push_back(-x), dog_out.push_back(y);
         }
 
-        /// A cat lover and a dog lover clash when one keeps the pet the other throws out, so the most satisfied voters
-        /// is v minus a minimum vertex cover of the clashes, which is a maximum matching by Konig
         HopcroftKarp hk(cat_keep.size(), dog_keep.size());
         for (int i = 0; i < (int)cat_keep.size(); i++){
             for (int j = 0; j < (int)dog_keep.size(); j++){

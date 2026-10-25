@@ -250,6 +250,7 @@ struct DenseFlowGraph{
 
 int main(){
     int n, m, tc = 0;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         vector<pair<int, int>> tunnels;
         for (int i = 0; i < m; i++){
@@ -268,8 +269,6 @@ int main(){
             return (int)g.maxflow();
         };
 
-        /// Dijkstra-like: rooms with the smallest worst case are settled first, then the spy entering a settled room
-        /// costs its value, so every other room pays that plus a fresh min cut that avoids the settled rooms
         const int INF = INT_MAX;
         vector<int> dp(n + 1, INF);
         for (int i = 1; i <= n; i++) dp[i] = cut(i);

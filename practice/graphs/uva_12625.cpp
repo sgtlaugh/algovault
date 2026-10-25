@@ -213,6 +213,7 @@ const int TANK = 100;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, r, q;
@@ -224,8 +225,6 @@ int main(){
             gas[i] = s[0] == 'G';
         }
 
-        /// Between two refills the fuel spent is the distance driven, so the best stretch is a plain shortest path
-        /// A stretch ends at a station: station v is entered at node v and left from its own node n + v
         Dijkstra stretch(2 * n);
         auto depart = [&](int v){ return gas[v] ? n + v : v; };
         while (r--){
@@ -241,10 +240,9 @@ int main(){
         for (int u = 0; u < n; u++){
             stretch.run(depart(u));
             reach[u].assign(stretch.dist.begin(), stretch.dist.begin() + n);
-            reach[u][u] = 0;  /// a station leaves from its departure node, so its arrival node is not the source
+            reach[u][u] = 0;
         }
 
-        /// Shortest paths that refill at stations only, from every station to every location
         Dijkstra refill(n);
         for (int u = 0; u < n; u++){
             for (int v = 0; v < n && gas[u]; v++){

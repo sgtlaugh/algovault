@@ -443,6 +443,7 @@ bool check(long long d){
             }
         }
     }
+
     return g.is_satisfiable();
 }
 

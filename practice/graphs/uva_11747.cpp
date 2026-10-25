@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         Kruskal mst(n);
         for (int i = 0; i < m; i++){
@@ -178,7 +179,6 @@ int main(){
             mst.add_edge(u, v, w);
         }
 
-        /// With distinct weights an edge is the heaviest on some cycle exactly when the MST leaves it out
         vector<bool> chosen(m, false);
         for (int i : mst.solve().chosen) chosen[i] = true;
         vector<long long> heavy;

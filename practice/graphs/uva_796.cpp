@@ -123,6 +123,7 @@ struct BridgeGraph{
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         BridgeGraph g(n);
         for (int i = 0; i < n; i++){
@@ -131,7 +132,6 @@ int main(){
             for (int j = 0; j < k; j++){
                 int v;
                 scanf("%d", &v);
-                /// Every link is listed by both of its servers
                 if (u < v) g.add_edge(u, v);
             }
         }

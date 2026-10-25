@@ -250,12 +250,12 @@ struct DenseFlowGraph{
 
 int main(){
     int teams, tables;
+
     while (scanf("%d %d", &teams, &tables) == 2 && (teams || tables)){
         vector<int> members(teams), seats(tables);
         for (auto& x : members) scanf("%d", &x);
         for (auto& x : seats) scanf("%d", &x);
 
-        /// Each team sends at most one member to each table
         int src = teams + tables, sink = src + 1;
         FlowGraph g(teams + tables + 2, src, sink);
         for (int i = 0; i < teams; i++) g.add_directed_edge(src, i, members[i]);

@@ -116,12 +116,12 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, r, p;
         scanf("%d %d %d", &n, &r, &p);
 
-        /// income / expense > P on a cycle exactly when the cycle sum of P * expense - income is negative
         BellmanFord g(n);
         while (r--){
             int a, b, income, expense;

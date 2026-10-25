@@ -78,6 +78,7 @@ constexpr long long FloydWarshall::NEG_INF;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, r;
@@ -92,7 +93,6 @@ int main(){
         scanf("%d %d", &s, &d);
         fw.solve();
 
-        /// Each building gets its own commando, the last to arrive at the meeting point decides
         long long res = 0;
         for (int i = 0; i < n; i++) res = max(res, fw.dist[s][i] + fw.dist[i][d]);
         printf("Case %d: %lld\n", tc, res);

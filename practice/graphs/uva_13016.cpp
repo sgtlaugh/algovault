@@ -170,7 +170,6 @@ struct Reply{
     int a, b, player, count;
 };
 
-/// Variable x is true when suspect x is in the hand of player 2, the three circle suspects are in neither hand
 bool admissible(const vector<Reply>& replies, const array<bool, 27>& circle){
     TwoSat sat(26);
     for (auto r: replies){
@@ -189,11 +188,13 @@ bool admissible(const vector<Reply>& replies, const array<bool, 27>& circle){
             }
         }
     }
+
     return sat.is_satisfiable();
 }
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         vector<Reply> replies(n);
         for (auto& r: replies){

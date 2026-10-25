@@ -95,11 +95,11 @@ struct HopcroftKarp{
 int main(){
     int n, m, tc = 0;
     static char buf[1024];
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         vector<string> board(n);
         for (auto& row : board) scanf("%1023s", buf), row = buf;
 
-        /// Dark squares on the left, light ones on the right, a whole domino covers one of each
         HopcroftKarp hk(n * m, n * m);
         int open = 0;
         const int dr[] = {0, 0, -1, 1}, dc[] = {-1, 1, 0, 0};
@@ -115,7 +115,6 @@ int main(){
             }
         }
 
-        /// Every cut domino fills two leftover squares
         int left = open - 2 * hk.max_matching();
         printf("Case #%d: %d\n", ++tc, (left + 1) / 2);
     }

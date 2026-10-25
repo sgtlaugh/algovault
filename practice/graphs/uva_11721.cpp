@@ -118,13 +118,12 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
         scanf("%d %d", &n, &m);
 
-        /// On reversed wormholes the systems that reach a negative cycle become the ones reachable from it,
-        /// and a zero weight edge from an extra source n to every system lets one run find all of them
         BellmanFord g(n + 1);
         for (int i = 0; i < m; i++){
             int x, y, w;

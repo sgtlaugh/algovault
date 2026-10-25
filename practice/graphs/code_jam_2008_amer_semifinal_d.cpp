@@ -459,6 +459,7 @@ string grid[16];
 
 int matching(bool with_king){
     int i, j, d, e, x, y;
+
     Blossom b(r * c);
     for (i = 0; i < r; i++){
         for (j = 0; j < c; j++){
@@ -473,6 +474,7 @@ int matching(bool with_king){
             }
         }
     }
+
     return b.maximum_matching();
 }
 

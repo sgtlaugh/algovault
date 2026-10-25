@@ -85,6 +85,7 @@ struct SCC{
 
 int main(){
     int n, cs = 0;
+
     while (scanf("%d", &n) == 1 && n){
         SCC g(26);
         vector<bool> seen(26, false);
@@ -98,7 +99,6 @@ int main(){
         }
         g.run();
 
-        /// Scanning letters in order lists each set in order and meets the sets by their least element
         if (cs++) puts("");
         vector<bool> done(26, false);
         for (int i = 0; i < 26; i++){

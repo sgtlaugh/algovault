@@ -94,6 +94,7 @@ struct HopcroftKarp{
 
 int main(){
     int t, bolts, nuts, fits;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d", &bolts, &nuts);

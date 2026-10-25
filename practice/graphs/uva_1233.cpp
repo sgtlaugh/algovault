@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int box, p, q;
@@ -235,7 +236,6 @@ int main(){
         }
         g.run(0);
 
-        /// Every lap adds the cheapest cycle through the usher, who then pockets one coin
         long long lap = DIJKSTRA_INF;
         for (auto e : back) lap = min(lap, g.dist[e.first] + e.second);
 

@@ -317,6 +317,7 @@ vector<int> cls;
 
 int chromatic(int from){
     vector<int> nodes = cls;
+
     for (int i = from; i < n; i++) nodes.push_back(1 << i);
 
     int i, j, k = nodes.size();
@@ -330,6 +331,7 @@ int chromatic(int from){
             if ((nb & nodes[j]) || j < (int)cls.size()) g.add_edge(i, j);
         }
     }
+
     return g.solve();
 }
 

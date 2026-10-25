@@ -413,6 +413,7 @@ vector<pair<int, long long>> adj[MAX];
 
 void build(){
     vector<int> st = {0};
+
     vector<bool> seen(n, false);
     seen[0] = true;
     while (!st.empty()){
@@ -435,6 +436,7 @@ void build(){
 
 long long path_max(int u, int v){
     long long res = 0;
+
     if (depth[u] < depth[v]) swap(u, v);
     for (int j = LOG - 1; j >= 0; j--){
         if ((depth[u] - (1 << j)) >= depth[v]) res = max(res, mx[j][u]), u = up[j][u];
@@ -443,6 +445,7 @@ long long path_max(int u, int v){
     for (int j = LOG - 1; j >= 0; j--){
         if (up[j][u] != up[j][v]) res = max({res, mx[j][u], mx[j][v]}), u = up[j][u], v = up[j][v];
     }
+
     return max({res, mx[0][u], mx[0][v]});
 }
 

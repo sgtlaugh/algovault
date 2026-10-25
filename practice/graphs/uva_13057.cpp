@@ -85,6 +85,7 @@ struct SCC{
 
 int main(){
     int t, m, n, a, b;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d", &m, &n);
@@ -92,7 +93,6 @@ int main(){
         while (n--) scanf("%d %d", &a, &b), g.add_edge(a - 1, b - 1);
         g.run();
 
-        /// Proving one formula of each source component proves everything, and no source component can be skipped
         vector<bool> implied(g.count, false);
         for (auto& out : g.condensation()){
             for (int c : out) implied[c] = true;

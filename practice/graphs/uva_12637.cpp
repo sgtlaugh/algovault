@@ -91,11 +91,11 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
 
 int main(){
     int r, n;
+
     while (scanf("%d %d", &r, &n) == 2){
         vector<int> x(r + n), y(r + n);
         for (int i = 0; i < r + n; i++) scanf("%d %d", &x[i], &y[i]);
 
-        /// Each delivery guy makes one round from his own restaurant, so orders go to distinct restaurants
         vector<vector<int>> dist(r, vector<int>(n));
         for (int i = 0; i < r; i++){
             for (int j = 0; j < n; j++) dist[i][j] = abs(x[i] - x[r + j]) + abs(y[i] - y[r + j]);

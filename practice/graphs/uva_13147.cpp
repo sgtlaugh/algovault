@@ -211,12 +211,12 @@ void weighted_test(){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, src, dest, planes, k;
         scanf("%d %d %d %d", &n, &src, &dest, &planes);
 
-        /// Layer c holds the cities reached after c planes, a plane moves one layer up
         Dijkstra g(n * (planes + 1));
         scanf("%d", &k);
         while (k--){

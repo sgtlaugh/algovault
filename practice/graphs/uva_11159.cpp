@@ -94,6 +94,7 @@ struct HopcroftKarp{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
@@ -104,7 +105,6 @@ int main(){
         vector<long long> b(m);
         for (auto& x : b) scanf("%lld", &x);
 
-        /// Removing one endpoint of every (factor, multiple) pair is a minimum vertex cover, equal to the maximum matching
         HopcroftKarp hk(n, m);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++){

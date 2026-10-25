@@ -250,6 +250,7 @@ struct DenseFlowGraph{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;
@@ -269,7 +270,6 @@ int main(){
 
         vector<int> meet;
         for (int target = 0; target < n; target++){
-            /// Node n is the source; a floe caps the penguins jumping off it, the target floe is never left
             const long long BIG = 1 << 25;
             vector<long long> capacity(n + 1, BIG);
             for (int i = 0; i < n; i++){

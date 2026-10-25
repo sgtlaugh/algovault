@@ -94,6 +94,7 @@ struct HopcroftKarp{
 
 int main(){
     int v, c;
+
     while (scanf("%d %d", &v, &c) == 2){
         auto read_counts = [](int k){
             vector<array<int, 26>> counts(k);

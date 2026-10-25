@@ -85,12 +85,12 @@ struct SCC{
 
 int main(){
     int n, m, a, b;
+
     while (scanf("%d %d", &n, &m) == 2){
         SCC g(n + 1);
         while (m--) scanf("%d %d", &a, &b), g.add_edge(a, b);
         g.run();
 
-        /// Every source component of the condensation other than the dam's needs one new pipeline, and one each suffices
         vector<bool> has_inflow(g.count, false);
         for (auto& out : g.condensation()){
             for (int c : out) has_inflow[c] = true;

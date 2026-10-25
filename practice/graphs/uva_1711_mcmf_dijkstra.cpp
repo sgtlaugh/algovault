@@ -127,9 +127,8 @@ constexpr long long MCMF::INF;
 
 int main(){
     int n, k;
+
     while (scanf("%d %d", &n, &k) == 2){
-        /// Location i hands its equipment on through node i, location j receives it at node n + 1 + j
-        /// Every request must receive a set exactly once, the company (location 0) can send out up to k
         int s = 2 * n + 2, t = s + 1;
         MCMF g(t + 1);
         g.add_edge(s, 0, k, 0);

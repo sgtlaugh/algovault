@@ -170,6 +170,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 int main(){
     int n, m;
     char a[16], b[16];
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         map<string, int> id;
         for (int i = 0; i < n; i++){
@@ -185,7 +186,6 @@ int main(){
         }
         scanf("%15s", a);
 
-        /// Reaching every station from home is the same as the whole network being connected
         MSTResult res = mst.solve();
         if (res.connected) printf("%lld\n", res.weight);
         else puts("Impossible");

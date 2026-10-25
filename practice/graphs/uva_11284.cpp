@@ -84,6 +84,7 @@ int cents(){
 
 int main(){
     int t, n, m, p;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %d", &n, &m);
@@ -96,7 +97,6 @@ int main(){
         }
         fw.solve();
 
-        /// Operas at the same store are bought together, so only the distinct stores enter the bitmask
         map<int, long long> saving;
         scanf("%d", &p);
         for (int i = 0; i < p; i++){

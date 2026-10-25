@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -187,7 +188,6 @@ int main(){
             return mst.solve();
         };
 
-        /// The second cheapest plan differs from a cheapest one in a single edge, so dropping each tree edge in turn finds it
         MSTResult best = mst_without(-1);
         long long second = LLONG_MAX;
         for (int i: best.chosen){

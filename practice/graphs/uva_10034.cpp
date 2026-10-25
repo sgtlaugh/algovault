@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t, n;
+
     scanf("%d", &t);
     for (int tc = 0; tc < t; tc++){
         scanf("%d", &n);
@@ -180,7 +181,6 @@ int main(){
             for (int j = i + 1; j < n; j++) lines.push_back({hypot(x[i] - x[j], y[i] - y[j]), {i, j}});
         }
 
-        /// Kruskal takes integer weights, the rank of each length orders the lines the same way
         sort(lines.begin(), lines.end());
         Kruskal mst(n);
         for (int i = 0; i < (int)lines.size(); i++) mst.add_edge(lines[i].second.first, lines[i].second.second, i);

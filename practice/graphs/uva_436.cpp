@@ -78,8 +78,8 @@ constexpr long long FloydWarshall::NEG_INF;
 
 int main(){
     const double SCALE = 1e9;
-
     int n, tc = 0;
+
     while (scanf("%d", &n) == 1 && n){
         map<string, int> id;
         for (int i = 0; i < n; i++){
@@ -97,8 +97,6 @@ int main(){
             scanf("%s %lf %s", a, &rate, b);
             if (rate <= 0) continue;
 
-            /// A profitable cycle is a negative cycle of -log(rate), scaled to integers, the +1 per edge absorbs
-            /// rounding so a cycle multiplying to exactly 1 stays non-negative
             fw.add_edge(id[a], id[b], llround(-log(rate) * SCALE) + 1);
         }
         fw.solve();

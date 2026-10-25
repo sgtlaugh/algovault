@@ -86,6 +86,7 @@ struct MinimumMeanCycle{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
@@ -103,7 +104,6 @@ int main(){
             continue;
         }
 
-        /// Weights are positive, so rounding the exact mean half up is floor((200 num + den) / (2 den)) hundredths
         long long hundredths = (200 * g.num + g.den) / (2 * g.den);
         printf("Case #%d: %lld.%02lld\n", tc, hundredths / 100, hundredths % 100);
     }

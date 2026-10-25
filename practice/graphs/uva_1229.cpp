@@ -86,6 +86,7 @@ struct SCC{
 int main(){
     int n;
     static char line[1 << 12];
+
     while (scanf("%d", &n) == 1 && n){
         fgets(line, sizeof(line), stdin);
         map<string, int> id;
@@ -106,8 +107,6 @@ int main(){
         g.run();
         for (int v = 0; v < n; v++) size[g.comp[v]]++;
 
-        /// A word on a cycle can never be learned, so the sub-dictionary must hold every cycle and, being a dictionary
-        /// itself, everything their definitions reach
         vector<char> chosen(n, 0);
         vector<int> stack;
         for (int v = 0; v < n; v++){

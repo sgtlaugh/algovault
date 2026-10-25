@@ -98,6 +98,7 @@ double dist(const pair<int, int>& a, const pair<int, int>& b){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 0; tc < t; tc++){
         int n, m;
@@ -106,7 +107,6 @@ int main(){
         for (auto& e : bob) scanf("%d %d", &e.first, &e.second);
         for (auto& e : places) scanf("%d %d", &e.first, &e.second);
 
-        /// Leg i can take place j when the detour fits in twice the leg's length
         HopcroftKarp hk(n - 1, m);
         for (int i = 0; i + 1 < n; i++){
             double limit = 2.0 * dist(bob[i], bob[i + 1]);

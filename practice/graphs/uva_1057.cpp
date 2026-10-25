@@ -78,8 +78,8 @@ constexpr long long FloydWarshall::NEG_INF;
 
 int main(){
     const int INF = 1 << 20;
-
     int n, m, tc = 0;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         FloydWarshall fw(n);
         for (int i = 0; i < m; i++){
@@ -101,8 +101,6 @@ int main(){
             continue;
         }
 
-        /// Dijkstra over pairs (i, j): moving to (k, l) pays the shortest walks j -> k -> l -> i,
-        /// minus the node shared with the previous loop
         vector<vector<int>> dp(n, vector<int>(n));
         vector<vector<bool>> visited(n, vector<bool>(n, false));
         for (int i = 0; i < n; i++){

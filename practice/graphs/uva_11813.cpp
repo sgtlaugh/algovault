@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int t, n, m, s;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %d", &n, &m);
@@ -225,7 +226,6 @@ int main(){
         vector<int> spot(s + 1, 0);
         for (int i = 1; i <= s; i++) scanf("%d", &spot[i]);
 
-        /// Shortest distances between the house (spot 0) and the stores, then a bitmask TSP over the stores
         int k = s + 1;
         vector<vector<long long>> dist(k, vector<long long>(k));
         for (int i = 0; i < k; i++){
@@ -233,7 +233,6 @@ int main(){
             for (int j = 0; j < k; j++) dist[i][j] = g.dist[spot[j]];
         }
 
-        /// dp[mask][i]: shortest route from the house through the stores in mask, ending at store i in mask
         vector<vector<long long>> dp(1 << s, vector<long long>(s, DIJKSTRA_INF));
         for (int i = 0; i < s; i++) dp[1 << i][i] = dist[0][i + 1];
         for (int mask = 1; mask < (1 << s); mask++){

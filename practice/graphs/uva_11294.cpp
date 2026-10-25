@@ -169,15 +169,14 @@ struct TwoSat{
 int main(){
     int n, m;
     char a[16], b[16];
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
-        /// Variable c + 1 is true when the wife of couple c sits on the bride's side, so her husband sits across
         TwoSat sat(n);
         auto side = [](const char* s){
             int c = atoi(s) + 1;
             return s[strlen(s) - 1] == 'w' ? c : -c;
         };
 
-        /// The bride only sees the far side, so every adulterous pair keeps at least one member next to her
         sat.force_true(1);
         while (m--){
             scanf("%15s %15s", a, b);

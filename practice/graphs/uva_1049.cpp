@@ -109,12 +109,12 @@ constexpr long long MCMFSpfa::INF;
 
 int main(){
     int p, q;
+
     for (int tc = 1; scanf("%d %d", &p, &q) == 2 && (p || q); tc++){
         vector<int> slices(p), scoops(q);
         for (auto& x: slices) scanf("%d", &x);
         for (auto& x: scoops) scanf("%d", &x);
 
-        /// Profits have at most two decimals, so integer cents keep the costs exact
         vector<vector<long long>> cents(p, vector<long long>(q));
         for (auto& row: cents){
             for (auto& c: row){

@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m, k, q;
@@ -222,7 +223,6 @@ int main(){
             airport[x - 1] = 1;
         }
 
-        /// Entering a city costs one new airport if it has none
         Dijkstra g(n);
         for (int i = 0; i < m; i++){
             int a, b;

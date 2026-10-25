@@ -85,6 +85,7 @@ struct SCC{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -97,7 +98,6 @@ int main(){
         }
         g.run();
 
-        /// A clique of the closure is a chain of components, so take the heaviest path in the condensation
         vector<int> best(g.count, 0);
         for (int v = 0; v < n; v++) best[g.comp[v]]++;
         auto dag = g.condensation();

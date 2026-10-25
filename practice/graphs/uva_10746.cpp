@@ -91,8 +91,8 @@ pair<T, vector<pair<int, int>>> hungarian(vector<vector<T>> mat, bool minimize=t
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
-        /// Times in millionths keep the costs integral, so the sum is exact
         vector<vector<long long>> mat(n, vector<long long>(m));
         for (auto& row: mat){
             for (auto& x: row){

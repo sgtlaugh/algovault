@@ -109,9 +109,9 @@ constexpr long long MCMFSpfa::INF;
 
 int main(){
     int n, m;
+
     while (scanf("%d", &n) == 1 && n){
         scanf("%d", &m);
-        /// Two edge-disjoint routes are a flow of 2 with unit capacities, each street usable once per direction
         MCMFSpfa g(n);
         while (m--){
             int u, v, w;

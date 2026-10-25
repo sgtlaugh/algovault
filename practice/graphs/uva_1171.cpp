@@ -118,6 +118,7 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 0; tc < t; tc++){
         int n, src, dst, m;
@@ -130,8 +131,6 @@ int main(){
             g.add_edge(u, v, w);
         }
 
-        /// The accepted solution answers infinity for a negative cycle anywhere in the game, even one off the I to F
-        /// routes, so the judge data either has none of those or expects infinity for them
         vector<long long> dist = g.shortest_paths(src);
         bool unbounded = !g.negative_cycle().empty();
 

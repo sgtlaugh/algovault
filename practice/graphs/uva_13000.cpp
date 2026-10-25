@@ -250,6 +250,7 @@ struct DenseFlowGraph{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int m, n;
@@ -268,8 +269,6 @@ int main(){
             vip_total += vip[j];
         }
 
-        /// Jobs 0..m-1, workers m..m+n-1, then the source, a gate letting exactly k regular requests through, and the sink
-        /// Within time lim worker i finishes lim / w[i] requests, so lim is enough when every VIP and k regular requests flow
         auto enough = [&](long long lim){
             int src = m + n, gate = src + 1, sink = src + 2;
             FlowGraph g(m + n + 3, src, sink);

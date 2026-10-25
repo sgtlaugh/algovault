@@ -251,11 +251,11 @@ struct DenseFlowGraph{
 int main(){
     const vector<string> sizes = {"XXL", "XL", "L", "M", "S", "XS"};
     int t, n, m;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %d", &n, &m);
 
-        /// Source 0, sizes 1..6 with n / 6 shirts each, volunteers 7..m + 6, sink m + 7
         FlowGraph g(m + 8, 0, m + 7);
         for (int i = 1; i <= 6; i++) g.add_directed_edge(0, i, n / 6);
         for (int i = 0; i < m; i++){

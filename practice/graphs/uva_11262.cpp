@@ -95,6 +95,7 @@ struct HopcroftKarp{
 int main(){
     int t, p, k, x, y;
     char color[8];
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %d", &p, &k);
@@ -115,7 +116,6 @@ int main(){
             return hk.max_matching();
         };
 
-        /// No two poles are farther apart than 2000 * sqrt(2) < 2829
         int lo = 0, hi = 2829;
         if (fences(hi) < k){
             puts("Impossible");

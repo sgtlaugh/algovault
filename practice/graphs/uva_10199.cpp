@@ -129,12 +129,12 @@ struct Biconnected{
 
 int main(){
     int n, tc = 0;
+
     while (scanf("%d", &n) == 1 && n){
         vector<string> names(n);
         char buf[64];
         for (auto& s: names) scanf("%s", buf), s = buf;
 
-        /// Sorted names as vertex ids make the sorted cut list alphabetical
         sort(names.begin(), names.end());
         auto id = [&](const string& s){ return lower_bound(names.begin(), names.end(), s) - names.begin(); };
 

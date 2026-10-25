@@ -79,6 +79,7 @@ constexpr long long FloydWarshall::NEG_INF;
 int main(){
     int n;
     char s[16];
+
     scanf("%d", &n);
     FloydWarshall fw(n);
     for (int i = 1; i < n; i++){

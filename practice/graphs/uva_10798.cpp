@@ -476,6 +476,7 @@ const int dr[] = {-1, 0, 1, 0}, dc[] = {0, 1, 0, -1};
 
 void neighbors(int s, long long ds, DijkstraRelax& relax){
     int i, j, cnt[4];
+
     for (i = 3; i >= 0; i--) cnt[i] = s % K, s /= K;
     int c = s % n, r = s / n;
 

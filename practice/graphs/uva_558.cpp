@@ -116,6 +116,7 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
 
 int main(){
     int t, n, m;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %d", &n, &m);
@@ -125,7 +126,6 @@ int main(){
             scanf("%d %d %d", &x, &y, &w);
             g.add_edge(x, y, w);
         }
-        /// Every system is reachable from ours, so any negative cycle in the graph counts
         puts(g.negative_cycle().empty() ? "not possible" : "possible");
     }
     return 0;

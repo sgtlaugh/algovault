@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int t, f, n;
+
     scanf("%d", &t);
     for (int tc = 0; tc < t; tc++){
         scanf("%d %d", &f, &n);
@@ -220,7 +221,6 @@ int main(){
             station[x - 1] = true;
         }
 
-        /// Roads run until a blank line or the end of input, so read line by line
         Dijkstra g(n);
         char line[128];
         fgets(line, sizeof(line), stdin);

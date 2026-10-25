@@ -128,12 +128,12 @@ constexpr long long MCMF::INF;
 int main(){
     const int dx[] = {0, 0, -1, 1}, dy[] = {-1, 1, 0, 0};
     int len;
+
     while (scanf("%d", &len) == 1 && len){
         vector<string> wall(5);
         static char row[1024];
         for (auto& s : wall) scanf("%s", row), s = row;
 
-        /// Cell c splits into in(c) -> out(c) with capacity 1 and its toll as cost, so no two alfalfas share a site
         auto in = [&](int i, int j){ return 1 + 2 * (j * 5 + i); };
         int src = 0, sink = 10 * len + 1;
         MCMF g(10 * len + 2);

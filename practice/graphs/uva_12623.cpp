@@ -127,6 +127,7 @@ constexpr long long MCMF::INF;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -143,7 +144,6 @@ int main(){
             }
         }
 
-        /// Cheapest way to give presents to friends from..n - 1 without touching the used presents, or -1 if some friend gets nothing
         vector<bool> used(m, false);
         auto cheapest = [&](int from){
             int src = n + m, sink = src + 1;
@@ -166,7 +166,6 @@ int main(){
             continue;
         }
 
-        /// Lexicographically first among the cheapest: each friend takes the smallest present that keeps the optimum reachable
         printf("%lld", best);
         long long left = best;
         for (int i = 0; i < n; i++){

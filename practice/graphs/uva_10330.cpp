@@ -250,8 +250,8 @@ struct DenseFlowGraph{
 
 int main(){
     int n, m, b, d;
+
     while (scanf("%d", &n) == 1){
-        /// Barisal is node n and Dhaka node n + 1, both uncapped
         vector<long long> capacity(n + 2, LLONG_MAX);
         for (int i = 0; i < n; i++) scanf("%lld", &capacity[i]);
 

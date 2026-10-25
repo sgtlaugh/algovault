@@ -86,6 +86,7 @@ struct SCC{
 int main(){
     int n, m;
     char a[64], b[64];
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         unordered_map<string, int> id;
         for (int i = 0; i < n; i++){

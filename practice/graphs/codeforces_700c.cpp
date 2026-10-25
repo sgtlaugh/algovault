@@ -369,8 +369,8 @@ vector<pair<int, int>> adj[1010];
 
 vector<int> path(int skip){
     int i, u;
-    vector<int> par(n + 1, -2), res;
 
+    vector<int> par(n + 1, -2), res;
     vector<int> q = {s};
     par[s] = -1;
     for (i = 0; i < (int)q.size(); i++){

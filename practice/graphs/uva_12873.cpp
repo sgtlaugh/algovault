@@ -94,12 +94,12 @@ struct HopcroftKarp{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int p, s, c, m;
         scanf("%d %d %d %d", &p, &s, &c, &m);
 
-        /// Site j becomes C seats j, j + S, j + 2S, ..., one contestant each
         HopcroftKarp hk(p, s * c);
         while (m--){
             int a, b;

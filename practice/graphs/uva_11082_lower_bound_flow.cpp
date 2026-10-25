@@ -185,6 +185,7 @@ struct LowerBoundFlow{
 
 int main(){
     int tc;
+
     scanf("%d", &tc);
     for (int cs = 1; cs <= tc; cs++){
         int r, c;
@@ -193,7 +194,6 @@ int main(){
         for (int i = 1; i <= r; i++) scanf("%d", &row[i]);
         for (int j = 1; j <= c; j++) scanf("%d", &col[j]);
 
-        /// Row i sends exactly its sum through cell edges bounded to [1, 20], column j drains exactly its sum
         int s = 0, t = r + c + 1;
         LowerBoundFlow g(r + c + 2);
         vector<vector<int>> id(r + 1, vector<int>(c + 1));

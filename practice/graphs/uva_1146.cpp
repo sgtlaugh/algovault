@@ -169,7 +169,6 @@ struct TwoSat{
 int n;
 vector<int> early, late;
 
-/// Variable i true means aircraft i lands early, every pair of landings closer than gap may not both happen
 bool feasible(int gap){
     TwoSat sat(n);
     for (int i = 1; i <= n; i++){
@@ -180,6 +179,7 @@ bool feasible(int gap){
             if (abs(late[i] - late[j]) < gap) sat.add_or(i, j);
         }
     }
+
     return sat.is_satisfiable();
 }
 

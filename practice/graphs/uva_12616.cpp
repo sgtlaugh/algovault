@@ -129,6 +129,7 @@ struct Biconnected{
 
 int main(){
     int t, n, m;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d", &n, &m);
@@ -138,7 +139,6 @@ int main(){
             g.add_edge(u - 1, v - 1);
         }
 
-        /// Fila at c separates the king and queen iff they sit in different parts of c's block-cut subtrees
         auto tree = g.get_block_cut_tree();
         int nodes = tree.size();
         vector<int> parent(nodes, -2), order, sub(nodes, 0), root(nodes);

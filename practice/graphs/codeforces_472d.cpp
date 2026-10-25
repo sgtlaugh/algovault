@@ -412,6 +412,7 @@ vector<pair<int, int>> adj[MAX];
 
 bool check(vector<vector<int>>& d){
     int i, j;
+
     for (i = 0; i < n; i++){
         if (d[i][i]) return false;
         for (j = 0; j < n; j++){
@@ -438,6 +439,7 @@ bool check(vector<vector<int>>& d){
             }
         }
     }
+
     return true;
 }
 

@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int n, m, q;
+
     for (int tc = 1; scanf("%d %d %d", &n, &m, &q) == 3 && (n || m || q); tc++){
         Kruskal mst(n);
         for (int i = 0; i < m; i++){
@@ -177,7 +178,6 @@ int main(){
             mst.add_edge(u - 1, v - 1, d);
         }
 
-        /// The loudest street on the spanning forest path is the least loudness any route between two crossings needs
         vector<vector<pair<int, int>>> adj(n);
         for (int i : mst.solve().chosen){
             auto& e = mst.edges[i];

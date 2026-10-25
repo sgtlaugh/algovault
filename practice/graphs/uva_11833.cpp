@@ -211,14 +211,14 @@ void weighted_test(){
 
 int main(){
     int n, m, c, k;
+
     while (scanf("%d %d %d %d", &n, &m, &c, &k) == 4 && (n || m || c || k)){
-        /// Once on the route the vehicle can only follow it, so route cities keep just their edge to the next one
         Dijkstra g(n);
         for (int i = 0; i < m; i++){
             int u, v, p;
             scanf("%d %d %d", &u, &v, &p);
             for (int rep = 0; rep < 2; rep++, swap(u, v)){
-                if (u >= c || (v == u + 1 && v < c))g.add_edge(u, v, p);
+                if (u >= c || (v == u + 1 && v < c)) g.add_edge(u, v, p);
             }
         }
 

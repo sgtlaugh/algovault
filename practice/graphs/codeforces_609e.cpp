@@ -412,6 +412,7 @@ vector<pair<int, int>> adj[MAX];
 
 int path_max(int a, int b){
     int i, res = 0;
+
     if (depth[a] < depth[b]) swap(a, b);
     for (i = LOG - 1; i >= 0; i--){
         if ((depth[a] - (1 << i)) >= depth[b]) res = max(res, best[i][a]), a = up[i][a];
@@ -424,6 +425,7 @@ int path_max(int a, int b){
             a = up[i][a], b = up[i][b];
         }
     }
+
     return max(res, max(best[0][a], best[0][b]));
 }
 

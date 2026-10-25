@@ -127,12 +127,12 @@ constexpr long long MCMF::INF;
 
 int main(){
     int n, m;
+
     for (int tc = 1; scanf("%d %d", &n, &m) == 2; tc++){
         MCMF g(n);
         while (m--){
             int u, v, d, a;
             scanf("%d %d %d %d", &u, &v, &d, &a);
-            /// The second crossing costs d + a >= d, so the cheaper unit is always used first
             g.add_edge(u - 1, v - 1, 1, d);
             g.add_edge(u - 1, v - 1, 1, d + a);
         }

@@ -85,6 +85,7 @@ struct SCC{
 
 int main(){
     int t, n;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d", &n);
@@ -99,7 +100,6 @@ int main(){
         }
         g.run();
 
-        /// One mine per source component of the condensation sets off everything
         vector<bool> reached(g.count, false);
         for (auto& out : g.condensation()){
             for (int c : out) reached[c] = true;

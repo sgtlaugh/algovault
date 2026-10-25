@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m, airport;
@@ -177,7 +178,6 @@ int main(){
         for (int i = 0; i < m; i++){
             int x, y, c;
             scanf("%d %d %d", &x, &y, &c);
-            /// A road costing as much as an airport loses the tie, more airports are preferred
             if (c < airport) mst.add_edge(x - 1, y - 1, c);
         }
 

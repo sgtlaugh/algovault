@@ -447,6 +447,7 @@ bool insert(unsigned long long x){
         }
         x ^= basis[b];
     }
+
     return false;
 }
 

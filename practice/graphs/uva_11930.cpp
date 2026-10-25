@@ -193,15 +193,14 @@ bool intersects(Point p1, Point q1, Point p2, Point q2){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
-        /// Sorted corners: the lexicographic min and max are opposite, so diagonals are v[0]-v[3] and v[1]-v[2]
         vector<array<Point, 4>> rect(n + 1);
         for (int i = 1; i <= n; i++){
             for (auto& p : rect[i]) scanf("%lld %lld", &p.x, &p.y);
             sort(rect[i].begin(), rect[i].end());
         }
 
-        /// Variable i true picks the diagonal v[1]-v[2] of rectangle i
         TwoSat sat(n);
         for (int i = 1; i <= n; i++){
             for (int j = i + 1; j <= n; j++){

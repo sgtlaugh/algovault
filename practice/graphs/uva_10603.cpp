@@ -211,14 +211,13 @@ void weighted_test(){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int cap[3], d;
         scanf("%d %d %d %d", &cap[0], &cap[1], &cap[2], &d);
-        /// The third jug holds whatever the first two do not, so (first, second) is the whole state
         int side = cap[2] + 1;
         Dijkstra g(side * side);
-        /// Only states reachable from the start get edges, after the first pour some jug is always empty or full
         vector<char> seen(side * side, 0);
         vector<int> stack = {0};
         seen[0] = 1;

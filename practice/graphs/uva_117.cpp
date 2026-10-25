@@ -78,6 +78,7 @@ constexpr long long FloydWarshall::NEG_INF;
 
 int main(){
     char street[10010];
+
     while (scanf("%10009s", street) == 1){
         FloydWarshall fw(26);
         vector<int> degree(26);
@@ -89,7 +90,6 @@ int main(){
             total += len;
         }
 
-        /// Every street once, plus a shortest walk between the two odd intersections, if any, to close the tour
         vector<int> odd;
         for (int i = 0; i < 26; i++){
             if (degree[i] & 1) odd.push_back(i);

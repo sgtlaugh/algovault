@@ -432,6 +432,7 @@ bool cmp(int a, int b){
 
 bool solve(int lim, vector<int>& res){
     int i, j;
+
     TwoSat g(m);
     for (i = 1; i <= n; i++){
         vector<int> lits;
@@ -450,6 +451,7 @@ bool solve(int lim, vector<int>& res){
     for (i = 1; i <= m; i++){
         if (g.value(i)) res.push_back(i);
     }
+
     return true;
 }
 

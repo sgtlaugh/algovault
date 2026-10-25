@@ -94,6 +94,7 @@ struct HopcroftKarp{
 
 int main(){
     int n, m, s, v;
+
     while (scanf("%d %d %d %d", &n, &m, &s, &v) == 4){
         vector<double> gx(n), gy(n), hx(m), hy(m);
         for (int i = 0; i < n; i++) scanf("%lf %lf", &gx[i], &gy[i]);

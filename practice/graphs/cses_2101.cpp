@@ -362,6 +362,7 @@ int lca(int a, int b){
     for (int k = krt.lg - 1; k >= 0; k--){
         if (krt.up[k][a] != krt.up[k][b]) a = krt.up[k][a], b = krt.up[k][b];
     }
+
     return (krt.up[0][a] == krt.up[0][b]) ? krt.up[0][a] : -1;
 }
 

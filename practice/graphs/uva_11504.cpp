@@ -85,6 +85,7 @@ struct SCC{
 
 int main(){
     int t, n, m, x, y;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %d", &n, &m);
@@ -95,7 +96,6 @@ int main(){
         }
         g.run();
 
-        /// Knocking one domino of every component nothing else falls into is necessary and enough
         vector<char> has_in(g.count, 0);
         for (int u = 0; u < n; u++){
             for (int v : g.adj[u]){

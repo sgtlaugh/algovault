@@ -79,6 +79,7 @@ constexpr long long FloydWarshall::NEG_INF;
 int main(){
     int t;
     string line;
+
     getline(cin, line), t = stoi(line);
     getline(cin, line);
 
@@ -99,7 +100,6 @@ int main(){
         for (auto& x: tax) cin >> x;
         getline(cin, line);
 
-        /// Charging the tax of v on every edge into v bills every city except the source, the destination is refunded below
         FloydWarshall fw(n);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++){

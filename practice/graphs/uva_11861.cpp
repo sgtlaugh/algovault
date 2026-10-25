@@ -169,8 +169,6 @@ struct TwoSat{
 int n, k;
 int type[5], council[5][3];
 
-/// Each council member needs one of their three people forced present (type 1) or absent (type 2): try every choice,
-/// pruning as soon as the forced prefix is unsatisfiable. force_true adds exactly one edge, so popping it undoes the choice
 bool backtrack(TwoSat& g, int i){
     if (!g.is_satisfiable()) return false;
     if (i == k) return true;
@@ -180,11 +178,13 @@ bool backtrack(TwoSat& g, int i){
         if (backtrack(g, i + 1)) return true;
         g.edges.pop_back();
     }
+
     return false;
 }
 
 int main(){
     int t, m, c, x, y;
+
     scanf("%d", &t);
     for (int cs = 1; cs <= t; cs++){
         scanf("%d %d %d", &n, &m, &k);

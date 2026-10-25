@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int n, m, s, d;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         scanf("%d %d", &s, &d);
         vector<array<int, 3>> routes(m);
@@ -222,7 +223,6 @@ int main(){
         }
         from_s.run(s), to_d.run(d);
 
-        /// A route lies on some shortest path exactly when the best way through it costs the shortest distance
         long long best = from_s.dist[d];
         Dijkstra almost(n);
         for (auto route : routes){

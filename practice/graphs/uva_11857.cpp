@@ -169,11 +169,11 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         Kruskal mst(n);
         for (int i = 0, u, v, w; i < m; i++) scanf("%d %d %d", &u, &v, &w), mst.add_edge(u, v, w);
 
-        /// The MST minimises its longest edge, so that edge is the smallest range that connects every city
         auto res = mst.solve();
         if (!res.connected) puts("IMPOSSIBLE");
         else printf("%lld\n", res.chosen.empty() ? 0 : mst.edges[res.chosen.back()].w);

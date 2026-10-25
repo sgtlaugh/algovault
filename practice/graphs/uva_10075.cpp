@@ -78,7 +78,6 @@ constexpr long long FloydWarshall::NEG_INF;
 
 const double PI = 3.141592653589793, RADIUS = 6378;
 
-/// Haversine great circle distance, coordinates in degrees
 double geodetic(double lat1, double lon1, double lat2, double lon2){
     lat1 *= PI / 180, lat2 *= PI / 180, lon1 *= PI / 180, lon2 *= PI / 180;
     double a = pow(sin((lat2 - lat1) / 2), 2) + cos(lat1) * cos(lat2) * pow(sin((lon2 - lon1) / 2), 2);
@@ -87,6 +86,7 @@ double geodetic(double lat1, double lon1, double lat2, double lon2){
 
 int main(){
     int n, m, q;
+
     for (int tc = 1; scanf("%d %d %d", &n, &m, &q) == 3 && (n || m || q); tc++){
         map<string, int> id;
         vector<double> lat(n), lon(n);

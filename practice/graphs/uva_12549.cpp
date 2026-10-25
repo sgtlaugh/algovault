@@ -94,6 +94,7 @@ struct HopcroftKarp{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int r, c, p, w;
@@ -112,7 +113,6 @@ int main(){
             grid[y - 1][x - 1] = '#';
         }
 
-        /// A robot covers one obstacle-free row or column segment, so this is a minimum vertex cover of points as segment pairs
         int rows = 0, cols = 0;
         vector<vector<int>> row(r, vector<int>(c)), col(r, vector<int>(c));
         for (int i = 0; i < r; i++){

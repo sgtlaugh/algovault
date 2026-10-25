@@ -94,6 +94,7 @@ struct HopcroftKarp{
 
 int main(){
     int rows, cols, n;
+
     while (scanf("%d %d %d", &rows, &cols, &n) == 3 && (rows || cols || n)){
         HopcroftKarp hk(rows, cols);
         for (int i = 0; i < n; i++){
@@ -103,7 +104,6 @@ int main(){
         }
         int res = hk.max_matching();
 
-        /// Konig: walk alternating paths from the unmatched rows, the cover is every row not reached plus every column reached
         vector<bool> row_seen(rows, false), col_seen(cols, false);
         vector<int> stack;
         for (int u = 0; u < rows; u++){

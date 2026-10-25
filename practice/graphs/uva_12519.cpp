@@ -118,6 +118,7 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
 
 int main(){
     int n, b;
+
     while (scanf("%d %d", &n, &b) == 2 && (n || b)){
         BellmanFord g(n);
         while (b--){
@@ -127,7 +128,6 @@ int main(){
             g.add_edge(j - 1, i - 1, -t);
         }
 
-        /// Every box works both ways, so a negative cycle reachable from the original universe also leads back to it
         puts(g.shortest_paths(0)[0] == BellmanFord::NEG_INF ? "Y" : "N");
     }
     return 0;

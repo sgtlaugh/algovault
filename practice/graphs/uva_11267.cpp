@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         int e;
         scanf("%d", &e);
@@ -182,7 +183,6 @@ int main(){
             adj[a - 1].push_back(b - 1), adj[b - 1].push_back(a - 1);
         }
 
-        /// Every pair is a buyer and a coder, so the network must be two-colourable
         vector<int> side(n, -1), queue = {0};
         side[0] = 0;
         bool bipartite = true;
@@ -198,7 +198,6 @@ int main(){
             continue;
         }
 
-        /// The tree keeps everyone connected, every other profitable pairing only lowers the loss
         MSTResult r = mst.solve();
         vector<bool> in_tree(e, false);
         for (int i: r.chosen) in_tree[i] = true;

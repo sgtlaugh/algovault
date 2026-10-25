@@ -386,6 +386,7 @@ void bfs(int s){
 
 int lca(int a, int b){
     int i;
+
     if (depth[a] < depth[b]) swap(a, b);
     for (i = LOG - 1; i >= 0; i--){
         if ((depth[a] - (1 << i)) >= depth[b]) a = par[i][a];
@@ -395,6 +396,7 @@ int lca(int a, int b){
     for (i = LOG - 1; i >= 0; i--){
         if (par[i][a] != par[i][b]) a = par[i][a], b = par[i][b];
     }
+
     return par[0][a];
 }
 

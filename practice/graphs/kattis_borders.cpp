@@ -334,8 +334,7 @@ using namespace fio;
 
 #define MAX 105
 
-const int dx[] = {-1, 0, 1, 0};
-const int dy[] = {0, 1, 0, -1};
+const int dx[] = {-1, 0, 1, 0}, dy[] = {0, 1, 0, -1};
 
 int n, m, comp[MAX][MAX], side[MAX * MAX], idx[MAX * MAX];
 bool forced[MAX * MAX];

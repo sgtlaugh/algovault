@@ -362,8 +362,7 @@ using namespace fio;
 
 #define MAX 1510
 
-const int dx[] = {-1, 0, 1, 0};
-const int dy[] = {0, 1, 0, -1};
+const int dx[] = {-1, 0, 1, 0}, dy[] = {0, 1, 0, -1};
 
 int n, m;
 string grid[MAX];
@@ -376,6 +375,7 @@ bool valid(int x, int y){
 
 void walk(int sx, int sy, int bx, int by){
     vector<int> q;
+
     cow.assign(n * m, 0);
     cow[sx * m + sy] = 1, q.push_back(sx * m + sy);
     for (int i = 0; i < (int)q.size(); i++){

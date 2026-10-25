@@ -428,8 +428,8 @@ vector<int> adj[MAX];
 
 bool solve(int root, vector<int>& res){
     int i, u;
-    TwoSat g(2 * n);
 
+    TwoSat g(2 * n);
     for (i = 1; i <= 2 * n; i++) par[i] = 0;
     vector<int> order = {root};
     par[root] = -1;

@@ -169,8 +169,8 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int n, m, s;
+
     while (scanf("%d %d %d", &n, &m, &s) == 3){
-        /// The best route between two islands runs along the maximum spanning tree, so negate the weights
         Kruskal mst(n);
         for (int i = 0; i < m; i++){
             int a, b, w;
@@ -184,7 +184,6 @@ int main(){
             adj[e.u].push_back({e.v, (int)-e.w}), adj[e.v].push_back({e.u, (int)-e.w});
         }
 
-        /// Binary lifting over the tree: up[k][v] is the 2^k-th ancestor, low[k][v] the lightest bridge on the way
         int lg = 1;
         while ((1 << lg) < n) lg++;
         vector<vector<int>> up(lg + 1, vector<int>(n, 0)), low(lg + 1, vector<int>(n, INT_MAX));

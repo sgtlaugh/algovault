@@ -324,11 +324,13 @@ using namespace fio;
 vector<int> next_line(){
     string s;
     vector<int> res;
+
     while (res.empty() && read_line(s)){
         istringstream in(s);
         int x;
         while (in >> x) res.push_back(x);
     }
+
     return res;
 }
 

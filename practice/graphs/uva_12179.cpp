@@ -80,6 +80,7 @@ const int MAX_BUDGET = 10000;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, r;
@@ -94,8 +95,6 @@ int main(){
         }
         fw.solve();
 
-        /// Every route has the same expected price per ride, so the cheapest one in expectation uses the fewest rides
-        /// afford[k][m]: probability that k rides cost at most m, a sliding window over the last r budgets
         vector<vector<double>> afford(n, vector<double>(MAX_BUDGET + 1, 1.0));
         for (int k = 1; k < n; k++){
             double window = 0;

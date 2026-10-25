@@ -168,12 +168,12 @@ struct TwoSat{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int streets, avenues, m;
         scanf("%d %d %d", &streets, &avenues, &m);
 
-        /// Variable s is true when street s runs toward higher avenues, streets + a when avenue a runs toward higher streets
         TwoSat sat(streets + avenues);
         while (m--){
             int s1, a1, s2, a2;
@@ -185,7 +185,6 @@ int main(){
             if (s1 == s2) sat.force_true(street1);
             else if (a1 == a2) sat.force_true(avenue1);
             else{
-                /// A simple path turns once: along street s1 then avenue a2, or along avenue a1 then street s2
                 sat.add_or(street1, avenue1), sat.add_or(street1, street2);
                 sat.add_or(avenue2, avenue1), sat.add_or(avenue2, street2);
             }

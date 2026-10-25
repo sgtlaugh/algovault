@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int n;
+
     for (int tc = 1; scanf("%d", &n) == 1 && n; tc++){
         Dijkstra g(n);
         for (int u = 0; u < n; u++){

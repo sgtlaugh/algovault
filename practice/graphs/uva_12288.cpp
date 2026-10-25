@@ -523,6 +523,7 @@ bool exclude_rest(int from){
             if (sv != 1) return false;
         }
     }
+
     return true;
 }
 

@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         vector<MSTEdge> edges(m);
         for (auto& e: edges){
@@ -177,9 +178,6 @@ int main(){
         }
         sort(edges.begin(), edges.end(), [](const MSTEdge& a, const MSTEdge& b){ return a.w < b.w; });
 
-        /// The slimmest tree with lightest edge e[i] is the MST of the edges from i on, every MST of a graph has the same
-        /// heaviest edge. That MST only needs e[i] and the MST of the edges from i + 1 on, so the forest kept from the
-        /// previous step plus one edge is enough, n log n per step instead of m log m
         long long best = -1;
         vector<MSTEdge> forest;
         for (int i = m - 1; i >= 0; i--){

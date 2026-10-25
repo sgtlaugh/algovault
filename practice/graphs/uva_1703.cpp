@@ -443,6 +443,7 @@ bool check(int a, int b){
             else if (d[i][j] > b) g.add_or(i + 1, j + 1);
         }
     }
+
     return g.is_satisfiable();
 }
 
@@ -500,6 +501,7 @@ long long solve(){
         }
         lo = high, res = a + vals[high];
     }
+
     return res;
 }
 

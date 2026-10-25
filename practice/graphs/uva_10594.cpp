@@ -109,6 +109,7 @@ constexpr long long MCMFSpfa::INF;
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2){
         vector<array<long long, 3>> links(m);
         for (auto& e : links) scanf("%lld %lld %lld", &e[0], &e[1], &e[2]);

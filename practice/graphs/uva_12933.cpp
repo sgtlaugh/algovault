@@ -214,6 +214,7 @@ const int dc[] = {-1, 1, 0, 0};
 
 int main(){
     int n, m, r1, c1, r2, c2, t = 0;
+
     while (scanf("%d %d %d %d %d %d", &n, &m, &r1, &c1, &r2, &c2) == 6){
         vector<int> cost(n * m);
         for (auto& c : cost){
@@ -223,7 +224,6 @@ int main(){
         }
         int src = (r1 - 1) * m + c1 - 1, dst = (r2 - 1) * m + c2 - 1;
 
-        /// Cell u entered in direction d is node u * 4 + d, the turning walk may never repeat its last direction
         Dijkstra plain(n * m), turning(n * m * 4 + 2);
         int start = n * m * 4, sink = start + 1;
         for (int r = 0; r < n; r++){

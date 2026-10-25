@@ -94,6 +94,7 @@ struct HopcroftKarp{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int m, n, k;
@@ -119,7 +120,6 @@ int main(){
             return hk.max_matching() >= m - k;
         };
 
-        /// The answer is one of the gopher to hole distances (or 0), so binary search over them exactly
         printf("Case #%d:\n", tc);
         if (!enough(times.back())) puts("Too bad.\n");
         else printf("%.3f\n\n", *partition_point(times.begin(), times.end(), [&](double x){ return !enough(x); }));

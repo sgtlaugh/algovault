@@ -94,6 +94,7 @@ struct HopcroftKarp{
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         vector<string> board(n);
         char line[128];
@@ -102,7 +103,6 @@ int main(){
             row = line;
         }
 
-        /// Pawns cut rows and columns into segments, a rook takes one row segment and one column segment
         vector<vector<int>> row_seg(n, vector<int>(n, -1)), col_seg(n, vector<int>(n, -1));
         int rows = 0, cols = 0;
         for (int i = 0; i < n; i++){

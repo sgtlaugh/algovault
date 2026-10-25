@@ -444,6 +444,7 @@ bool check(int s){
             }
         }
     }
+
     return g.is_satisfiable();
 }
 

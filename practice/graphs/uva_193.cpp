@@ -178,6 +178,7 @@ struct CliqueGraph{
 
 int main(){
     int t, n, k, u, v;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %d", &n, &k);
@@ -187,7 +188,6 @@ int main(){
             g.add_edge(u - 1, v - 1);
         }
 
-        /// Black nodes are pairwise non-adjacent, so the most black nodes form a maximum independent set
         vector<int> black = g.max_independent_set();
         sort(black.begin(), black.end());
         printf("%d\n", (int)black.size());

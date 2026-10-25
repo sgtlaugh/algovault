@@ -171,6 +171,7 @@ const int LOG = 17;
 
 int main(){
     int n, m, tc = 0;
+
     while (scanf("%d %d", &n, &m) == 2){
         Kruskal mst(n);
         for (int i = 0; i < m; i++){
@@ -180,7 +181,6 @@ int main(){
             mst.add_edge(x - 1, y - 1, d);
         }
 
-        /// The minimax path between two cities runs along the minimum spanning tree, its answer is the heaviest tree edge on it
         vector<vector<pair<int, long long>>> adj(n);
         for (int i: mst.solve().chosen){
             int u = mst.edges[i].u, v = mst.edges[i].v;
@@ -188,7 +188,6 @@ int main(){
             adj[u].push_back({v, w}), adj[v].push_back({u, w});
         }
 
-        /// up[k][v] is the 2^k-th ancestor of v and heaviest[k][v] the heaviest edge on the way there
         vector<vector<int>> up(LOG, vector<int>(n));
         vector<vector<long long>> heaviest(LOG, vector<long long>(n, 0));
         vector<int> depth(n, -1), order;

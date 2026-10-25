@@ -212,8 +212,8 @@ void weighted_test(){
 int main(){
     const int dx[] = {-1, 0, 1, 0}, dy[] = {0, 1, 0, -1};
     const string sides = "NESW";
-
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -232,8 +232,6 @@ int main(){
             }
         }
 
-        /// State 4 is a plain room, 0..3 the side a door room's open slice faces right now, N E S W
-        /// A door is only entered through its slice in its initial position
         auto id = [&](int i, int j, int side){ return (i * m + j) * 5 + side; };
         auto slice = [&](int i, int j){ return grid[i][j] == '.' ? 4 : (int)sides.find(grid[i][j]); };
 

@@ -168,6 +168,7 @@ struct TwoSat{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
@@ -176,7 +177,6 @@ int main(){
         for (int i = 0; i < m; i++){
             int a, b;
             scanf("%d %d", &a, &b);
-            /// Literal x: route |x| gets a flyover if x > 0, at least one of the two wishes must fail
             sat.add_or(-a, -b);
         }
         printf("Case %d: %s\n", tc, sat.is_satisfiable() ? "Yes" : "No");

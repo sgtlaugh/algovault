@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int n, r, q, tc = 0;
+
     while (scanf("%d %d", &n, &r) == 2){
         Dijkstra g(n);
         vector<array<int, 3>> roads(r);
@@ -223,7 +224,6 @@ int main(){
         vector<vector<long long>> dist(n);
         for (int s = 0; s < n; s++) g.run(s), dist[s] = g.dist;
 
-        /// The second shortest walk leaves the shortest path tree through exactly one road, taken in either direction
         printf("Set #%d\n", ++tc);
         scanf("%d", &q);
         while (q--){

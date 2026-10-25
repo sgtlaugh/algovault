@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m, s, e;
@@ -227,7 +228,6 @@ int main(){
         }
         from_s.run(s), to_e.run(e);
 
-        /// The cheapest path through road u -> v costs dist(s, u) + c + dist(v, t)
         int res = -1;
         for (auto road : roads){
             int u = road[0], v = road[1], c = road[2];

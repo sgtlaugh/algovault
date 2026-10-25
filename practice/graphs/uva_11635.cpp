@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int n, h, m;
+
     while (scanf("%d", &n) == 1 && n){
         scanf("%d", &h);
         vector<int> stops = {0};
@@ -229,7 +230,6 @@ int main(){
             roads.add_edge(a - 1, b - 1, t, false);
         }
 
-        /// Days form a second shortest path problem over the start, the hotels and the destination
         int k = stops.size();
         Dijkstra days(k);
         for (int i = 0; i + 1 < k; i++){

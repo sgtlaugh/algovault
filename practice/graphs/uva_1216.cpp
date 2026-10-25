@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int k, x;
@@ -193,7 +194,6 @@ int main(){
         }
         sort(tree.begin(), tree.end());
 
-        /// Each transmitter serves one group, so the k - 1 longest tree edges can be cut
         long long need = n - k - 1 >= 0 ? tree[n - k - 1] : 0;
         long long res = sqrtl(need);
         while (res * res < need) res++;

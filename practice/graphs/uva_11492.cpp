@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int m;
+
     while (scanf("%d", &m) == 1 && m){
         map<string, int> id;
         auto lang = [&](const char* s){ return id.emplace(s, id.size()).first->second; };
@@ -225,7 +226,6 @@ int main(){
             len[i] = strlen(w);
         }
 
-        /// Node l * 27 + c: standing in language l after a word starting with letter c, c = 0 before the first word
         int n = id.size(), goal = n * 27;
         Dijkstra g(goal + 1);
         for (int i = 0; i < m; i++){

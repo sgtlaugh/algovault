@@ -85,6 +85,7 @@ struct SCC{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -97,7 +98,6 @@ int main(){
         }
         g.run();
 
-        /// Every source component needs a new edge in and every sink one out, one edge can serve a sink and a source
         vector<int> in(g.count, 0), out(g.count, 0);
         auto dag = g.condensation();
         for (int c = 0; c < g.count; c++){

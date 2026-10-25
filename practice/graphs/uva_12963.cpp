@@ -95,6 +95,7 @@ struct HopcroftKarp{
 int main(){
     const string down = "ASTRAGALUS", across = "GARBANCILLOS";
     int t;
+
     scanf("%d", &t);
     while (t--){
         int r, c;
@@ -103,7 +104,6 @@ int main(){
         static char row[256];
         for (auto& s : grid) scanf("%s", row), s = row;
 
-        /// Words are keyed by their first cell; both words sit on the grid, so a shared cell always holds the same letter
         auto is_down = [&](int i, int j){
             if (i + 10 > r) return false;
             for (int d = 0; d < 10; d++){

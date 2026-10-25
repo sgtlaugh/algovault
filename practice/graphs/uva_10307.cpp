@@ -180,7 +180,6 @@ int main(){
     while (t--){
         int w, h;
         sscanf(read_line().c_str(), "%d %d", &w, &h);
-        /// Rows may lose their trailing spaces, so anything past a row's end counts as wall
         vector<string> grid(h);
         for (auto& row : grid) row = read_line();
         auto open = [&](int r, int c){
@@ -196,7 +195,6 @@ int main(){
             }
         }
 
-        /// Groups only split at the start or an alien, so the cost is the MST over BFS distances between them
         Kruskal mst(nodes.size());
         const int dr[] = {-1, 1, 0, 0}, dc[] = {0, 0, -1, 1};
         for (int s = 0; s < (int)nodes.size(); s++){

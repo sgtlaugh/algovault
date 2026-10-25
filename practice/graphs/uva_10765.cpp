@@ -129,11 +129,11 @@ struct Biconnected{
 
 int main(){
     int n, m, x, y;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         Biconnected g(n);
         while (scanf("%d %d", &x, &y) == 2 && x != -1) g.add_edge(x, y);
 
-        /// The network is connected, so bombing a station leaves one piece per block through it: its block-cut tree degree
         auto tree = g.get_block_cut_tree();
         vector<pair<int, int>> order(n);
         for (int v = 0; v < n; v++) order[v] = {-(int)tree[v].size(), v};

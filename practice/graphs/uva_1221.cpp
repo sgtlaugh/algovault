@@ -94,12 +94,12 @@ struct HopcroftKarp{
 
 int main(){
     int h, a;
+
     while (scanf("%d %d", &h, &a) == 2 && (h || a)){
         vector<long long> hn(h), hp(h), an(a), ap(a);
         for (int i = 0; i < h; i++) scanf("%lld %lld", &hn[i], &hp[i]);
         for (int j = 0; j < a; j++) scanf("%lld %lld", &an[j], &ap[j]);
 
-        /// win[i][j]: earliest arrival year at which planet i's fleet beats alien j, leaving at year arrival - travel >= 0
         const long long NEVER = LLONG_MAX;
         vector<vector<long long>> win(h, vector<long long>(a));
         vector<long long> years;
@@ -117,7 +117,6 @@ int main(){
         sort(years.begin(), years.end());
         years.erase(unique(years.begin(), years.end()), years.end());
 
-        /// Smallest year by which every alien planet can get its own human planet
         auto feasible = [&](long long year){
             HopcroftKarp hk(a, h);
             for (int i = 0; i < h; i++){

@@ -178,6 +178,7 @@ int rolls(const string& a, const string& b){
 
 int main(){
     int t;
+
     cin >> t;
     while (t--){
         int n;
@@ -185,7 +186,6 @@ int main(){
         vector<string> keys(n);
         for (auto& s : keys) cin >> s;
 
-        /// 0000 is never reachable again after the first unlock, so it only pays for the cheapest first key
         int first = INT_MAX;
         Kruskal mst(n);
         for (int i = 0; i < n; i++){

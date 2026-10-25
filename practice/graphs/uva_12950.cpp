@@ -211,8 +211,8 @@ void weighted_test(){
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2){
-        /// Node v + n * p is city v after an odd (p = 1) or even (p = 0) number of tolls, every road flips the parity
         Dijkstra g(2 * n);
         for (int a, b, c; m--;){
             scanf("%d %d %d", &a, &b, &c);

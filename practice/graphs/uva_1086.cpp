@@ -168,6 +168,7 @@ struct TwoSat{
 
 int main(){
     int n, m, tc = 0;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         vector<vector<int>> votes(m);
         for (auto& v : votes){
@@ -181,7 +182,6 @@ int main(){
             }
         }
 
-        /// More than half of k <= 4 votes: k <= 2 needs every vote, k = 3 or 4 fails only when two votes lose together
         auto satisfiable = [&](int forced){
             TwoSat sat(n);
             for (auto& v : votes){

@@ -79,6 +79,7 @@ constexpr long long FloydWarshall::NEG_INF;
 int main(){
     int m, c;
     char age[4], dir[4], x[4], y[4];
+
     while (scanf("%d", &m) == 1 && m){
         FloydWarshall young(26), old(26);
         while (m--){

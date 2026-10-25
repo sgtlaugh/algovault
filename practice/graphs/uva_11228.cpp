@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;
@@ -177,13 +178,11 @@ int main(){
         vector<long long> x(n), y(n);
         for (int i = 0; i < n; i++) scanf("%lld %lld", &x[i], &y[i]);
 
-        /// Squared lengths order edges like the real ones and keep the weights integral
         vector<vector<long long>> w(n, vector<long long>(n));
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++) w[i][j] = (x[i] - x[j]) * (x[i] - x[j]) + (y[i] - y[j]) * (y[i] - y[j]);
         }
 
-        /// Every MST has the same multiset of edge lengths: those within r join cities of one state, each longer one joins two states
         int states = 1;
         double roads = 0, rails = 0;
         auto parent = dense_prim(w).parent;

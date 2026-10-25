@@ -250,6 +250,7 @@ struct DenseFlowGraph{
 
 int main(){
     int n, m, t = 0;
+
     while (scanf("%d", &n) == 1 && n){
         scanf("%d", &m);
         vector<int> v(n), a(n), b(n), times;
@@ -260,8 +261,6 @@ int main(){
         sort(times.begin(), times.end());
         times.erase(unique(times.begin(), times.end()), times.end());
 
-        /// Between consecutive endpoints the thirsty monkeys never change, so each such segment is one node:
-        /// a monkey gets at most its length and the place serves at most m times its length
         int segs = times.size() - 1, src = n + segs, sink = src + 1;
         FlowGraph g(sink + 1, src, sink);
         long long need = 0;
@@ -283,8 +282,6 @@ int main(){
         }
         printf("Case %d: Yes\n", ++t);
 
-        /// McNaughton's wrap-around rule packs a segment's shares into m lanes; a share never exceeds the segment
-        /// length, so a share split across two lanes never overlaps itself
         vector<vector<pair<int, int>>> drink(n);
         vector<int> pos(segs, 0);
         for (int i = 0; i < n; i++){

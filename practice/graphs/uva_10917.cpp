@@ -211,6 +211,7 @@ void weighted_test(){
 
 int main(){
     int n, m;
+
     while (scanf("%d", &n) == 1 && n){
         scanf("%d", &m);
         Dijkstra g(n + 1);
@@ -221,12 +222,10 @@ int main(){
         }
         g.run(2);
 
-        /// A step is progress only towards a strictly closer node, so counting in order of distance from home is a DAG DP
         vector<int> order(n);
         iota(order.begin(), order.end(), 1);
         sort(order.begin(), order.end(), [&](int a, int b){ return g.dist[a] < g.dist[b]; });
 
-        /// Nodes off Jimmy's routes may count past 2^64, wrapping keeps the answer exact since it fits in 31 bits
         vector<unsigned long long> ways(n + 1, 0);
         ways[2] = 1;
         for (int u : order){

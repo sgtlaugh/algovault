@@ -259,9 +259,8 @@ struct TwoSat{
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
-        /// Variable n - i says machine i is skipped: machine i costs more than all cheaper ones together, so skipping
-        /// the most expensive machines first is the lexicographically first assignment
         TwoSat sat(n);
         while (m--){
             int a, b;

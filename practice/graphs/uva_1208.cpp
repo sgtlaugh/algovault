@@ -169,6 +169,7 @@ DenseMSTResult dense_prim(const vector<vector<T>>& w){
 
 int main(){
     int t, n;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d", &n);
@@ -177,7 +178,6 @@ int main(){
             for (auto& x : row) scanf("%d,", &x);
         }
 
-        /// Added in name order, so the stable sort lists equal-cost tunnels alphabetically
         Kruskal mst(n);
         for (int i = 0; i < n; i++){
             for (int j = i + 1; j < n; j++){

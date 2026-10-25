@@ -250,6 +250,7 @@ struct DenseFlowGraph{
 
 int main(){
     int tc;
+
     scanf("%d", &tc);
     for (int cs = 1; cs <= tc; cs++){
         int r, c;
@@ -258,7 +259,6 @@ int main(){
         for (int i = 1; i <= r; i++) scanf("%d", &row[i]);
         for (int j = 1; j <= c; j++) scanf("%d", &col[j]);
 
-        /// Every cell starts at 1, the flow on its edge is the extra 0 to 19, so all row and column edges must saturate
         int s = 0, t = r + c + 1;
         FlowGraph g(r + c + 2, s, t);
         vector<vector<int>> id(r + 1, vector<int>(c + 1));

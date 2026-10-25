@@ -118,6 +118,7 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
@@ -126,7 +127,6 @@ int main(){
         map<string, int> id;
         for (int i = 0; i < n; i++) scanf("%s", a), id[a] = i;
 
-        /// Layer h holds the cities reached with exactly h flights, a simple route never needs more than n - 1 of them
         BellmanFord g(n * n);
         scanf("%d", &m);
         while (m--){
