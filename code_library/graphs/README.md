@@ -137,7 +137,7 @@
 - [USACO 969 - Milk Pumping](https://usaco.org/index.php?page=viewproblem2&cpid=969) [✅](../../practice/graphs/usaco_969.cpp "Accepted solution")
 - [USACO 1090 - Telephone](https://usaco.org/index.php?page=viewproblem2&cpid=1090) [✅](../../practice/graphs/usaco_1090.cpp "Accepted solution")
 - [UVa 341 - Non-Stop Travel](https://onlinejudge.org/external/3/341.pdf) [✅](../../practice/graphs/uva_341.cpp "Accepted solution")
-- [UVa 658 - It's not a Bug, it's a Feature!](https://onlinejudge.org/external/6/658.pdf)
+- [UVa 658 - It's not a Bug, it's a Feature!](https://onlinejudge.org/external/6/658.pdf) [✅](../../practice/graphs/uva_658.cpp "Accepted solution")
 - [UVa 721 - Invitation Cards](https://onlinejudge.org/external/7/721.pdf) [✅](../../practice/graphs/uva_721.cpp "Accepted solution")
 - [UVa 929 - Number Maze](https://onlinejudge.org/external/9/929.pdf) [✅](../../practice/graphs/uva_929.cpp "Accepted solution")
 - [UVa 1027 - Toll](https://onlinejudge.org/external/10/1027.pdf)
