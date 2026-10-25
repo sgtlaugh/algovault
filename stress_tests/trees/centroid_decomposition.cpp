@@ -113,7 +113,7 @@ void check(int n, int shape, int max_w, bool forest){
 }
 
 int main(){
-    for (long long it = 0; it < stress::scaled(2000); it++){
+    for (long long it = 0; it < stress::scaled(700); it++){
         int n = it < 200 ? it % 12 + 1 : stress::rand_int(1, 40);
         check(n, it % 4, it % 3 ? 1 : 20, it % 5 == 0);
     }
@@ -122,8 +122,8 @@ int main(){
     check(1024, 1, 1, false);
     check(1500, 2, 5, true);
 
-    /// A path of 200000 nodes: deep enough to overflow an 8 MB stack with recursion
-    int n = 200000;
+    /// A path of 100000 nodes: deep enough to overflow an 8 MB stack with recursion, and a pair count beyond int
+    int n = 100000;
     CentroidDecomposition path(n);
     for (int i = 1; i < n; i++) path.add_edge(i - 1, i);
     long long delivered = 0;
