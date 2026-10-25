@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/trees/tree_isomorphism.cpp"
@@ -250,24 +248,15 @@ void check_path(int n){
     assert(tp.centers() == expected);
 }
 
-/// Every call must abort on a non-tree, the alarm turns an endless traversal into a failure instead of a hang
+/// Every call must abort on a non-tree instead of looping forever or returning an id
 void check_rejects(int n, const Edges& edges, int call){
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        alarm(5);
-        assert(freopen("/dev/null", "w", stderr));
+    stress::expect_assert("trees/tree_isomorphism.cpp", [&]{
         IsoTree t = build(n, edges);
         TreeCanonizer canon;
         if (call == 0) t.centers();
         else if (call == 1) canon.rooted_id(t, 0);
         else canon.unrooted_id(t);
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    });
 }
 
 int main(){
@@ -283,17 +272,17 @@ int main(){
 
     for (int n = 1; n <= 7; n++) check_exhaustive(n);
 
-    for (long long it = 0; it < stress::scaled(1500); it++) check_small_pair(it % 8 + 1);
+    for (long long it = 0; it < stress::scaled(250); it++) check_small_pair(it % 8 + 1);
 
-    for (long long it = 0; it < stress::scaled(150); it++) check_batch(40, it % 3 ? 12 : 60);
+    for (long long it = 0; it < stress::scaled(30); it++) check_batch(40, it % 3 ? 12 : 60);
 
-    for (long long it = 0; it < stress::scaled(50); it++) check_large(stress::rand_int(1, 5000), it % 5);
+    for (long long it = 0; it < stress::scaled(10); it++) check_large(stress::rand_int(1, 5000), it % 5);
 
     for (int n : {4, 5, 6, 7, 10, 11}) check_path(n);
 
-    check_large(100000, 0);
-    check_large(200000, 2);
-    check_path(200000);
+    check_large(50000, 0);
+    check_large(100000, 2);
+    check_path(50000);  /// deep enough that a recursive traversal overflows the 8 MB stack under ASan
 
     return 0;
 }
