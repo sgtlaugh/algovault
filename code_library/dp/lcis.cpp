@@ -47,6 +47,6 @@ int main(){
     assert(lcis(vector<int>{1, 2}, vector<int>{3, 4}).empty());
 
     string s = lcis(string("acbdf"), string("abcdf"));
-    assert(s.size() == 4 && (s == "abdf" || s == "acdf"));
+    assert(s == "abdf" || s == "acdf");
     return 0;
 }
