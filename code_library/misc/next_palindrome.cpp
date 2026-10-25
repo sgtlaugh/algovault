@@ -15,6 +15,7 @@ using namespace std;
 
 string next_palindrome(const string& s){
     int n = s.size();
+
     assert(n > 0 && (s[0] != '0' || n == 1));
 
     string res = s;

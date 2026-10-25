@@ -49,6 +49,7 @@ namespace fio{
     template <typename T>
     bool read_one(T &x){
         int c = ' ', neg = 0;
+
         while (c != '-' && !isdigit(c) && c != EOF) c = read_char();
         if (c == '-') neg = 1, c = read_char();
         if (c == EOF) return false;
@@ -64,6 +65,7 @@ namespace fio{
 
     bool read_token(){
         int c = ' ', len = 0;
+
         while (isspace(c) && c != EOF) c = read_char();
         if (c == EOF) return false;
 
@@ -95,12 +97,14 @@ namespace fio{
 
     bool read_one(string &s){
         int c = ' ';
+
         while (isspace(c) && c != EOF) c = read_char();
         if (c == EOF) return false;
 
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -159,6 +163,7 @@ namespace fio{
     template <typename T>
     void write_one(T x){
         int l = 0;
+
         if (x < 0){
             /// Peel one digit while still negative so that -x cannot overflow for the minimum value
             write_char('-');
@@ -193,6 +198,7 @@ namespace fio{
 
     void write_one(const Fixed &f){
         int len = snprintf(tmpbuf, sizeof(tmpbuf), "%.*Lf", f.digits, f.value);
+
         if (len < (int)sizeof(tmpbuf)){
             for (int j = 0; j < len; j++) write_char(tmpbuf[j]);
             return;

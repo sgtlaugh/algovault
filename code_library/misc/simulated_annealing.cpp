@@ -74,6 +74,7 @@ template<typename State, typename Energy, typename Neighbour>
 State simulated_annealing(State cur, Energy energy, Neighbour neighbour, Annealer sa){
     auto cur_e = energy(cur), best_e = cur_e;
     State best = cur;
+
     while (sa.running()){
         State next = neighbour(cur, sa.rng);
         auto next_e = energy(next);

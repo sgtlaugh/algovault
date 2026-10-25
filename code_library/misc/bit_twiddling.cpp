@@ -24,6 +24,7 @@ using namespace std;
 
 unsigned int next_same_popcount(unsigned int x){
     unsigned int y = x & -x;
+
     assert(x + y != 0);  /// x == 0 or bits packed at the top: no successor, x + y wraps to 0
 
     x += y;

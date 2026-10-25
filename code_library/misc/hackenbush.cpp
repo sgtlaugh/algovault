@@ -56,6 +56,7 @@ struct GreenHackenbush{
     int grundy(int root){
         int timer = 0;
         vector<int> dis(n, -1), low(n), parent_edge(n, -1), next(n, 0), value(n, 0), stack = {root};
+
         dis[root] = low[root] = timer++;
         value[root] = loops[root] & 1;
 
@@ -157,6 +158,7 @@ struct RedBlueHackenbush{
     Dyadic value(int root){
         vector<int> order = {root}, parent(n, -1), parent_edge(n, -1), size(n, 0);
         vector<char> visited(n, 0), blue(n, 0);
+
         visited[root] = 1;
         for (int i = 0; i < (int)order.size(); i++){
             int u = order[i];

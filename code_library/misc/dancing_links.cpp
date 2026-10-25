@@ -35,6 +35,7 @@ struct DancingLinks{
 
     void add_row(int r, const vector<int>& columns){
         int first = idx, l = columns.size();
+
         if (!l) return;  /// an empty row covers nothing, and linking it would corrupt the previous row
         if (idx + l > (int)row.size()){
             for (auto* v : {&row, &col, &L, &R, &U, &D}) v->resize(2 * (idx + l));
@@ -81,6 +82,7 @@ struct DancingLinks{
 
     void remove(int c){
         int l = L[c], r = R[c];
+
         L[r] = l, R[l] = r;
 
         for (int i = D[c]; i != c; i = D[i]){
@@ -153,6 +155,7 @@ namespace sudoku{
             decode(n, v, i, j, k);
             grid[i][j] = k + 1;
         }
+
         return true;
     }
 }

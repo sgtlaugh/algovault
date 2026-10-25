@@ -51,6 +51,7 @@ double adaptive_simpson(double a, double b, F f, double eps = 1e-9){
     const int PANELS = 64;
     double h = (b - a) / (2 * PANELS), abs_integral = 0;
     vector<double> y(2 * PANELS + 1);
+
     for (int i = 0; i <= 2 * PANELS; i++){
         y[i] = f(i == 2 * PANELS ? b : a + i * h);
         abs_integral += abs(h / 3 * y[i]) * (i == 0 || i == 2 * PANELS ? 1 : i % 2 ? 4 : 2);
@@ -62,6 +63,7 @@ double adaptive_simpson(double a, double b, F f, double eps = 1e-9){
         double whole = h / 3 * (y[i] + 4 * y[i + 1] + y[i + 2]), r = i + 2 == 2 * PANELS ? b : a + (i + 2) * h;
         res += adaptive_simpson_panel(f, a + i * h, r, y[i], y[i + 1], y[i + 2], whole, eps / PANELS, noise, 0);
     }
+
     return res;
 }
 
@@ -89,6 +91,7 @@ double romberg(double a, double b, F f, double eps = 1e-9, int max_levels = 20){
         if (k >= MIN_LEVELS && abs(cur[k] - prev[k - 1]) <= max(eps, 1e-14 * abs_trapezoid)) return cur[k];
         swap(prev, cur);
     }
+
     return prev.back();
 }
 

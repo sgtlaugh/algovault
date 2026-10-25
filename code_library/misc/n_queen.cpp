@@ -27,6 +27,7 @@ long long n_queen_backtrack(int rows, unsigned int full, unsigned int cols, unsi
         free_cols ^= x;
         ways += n_queen_backtrack(rows - 1, full, cols | x, (left | x) << 1, (right | x) >> 1);
     }
+
     return ways;
 }
 
