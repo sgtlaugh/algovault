@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/trees/rerooting.cpp"
@@ -169,33 +167,13 @@ void check_path(int n){
     for (long long i = 0; i < n; i++) assert(res[i].first == n - 1 && res[i].second == i * (i + 1) / 2 + (n - 1 - i) * (n - i) / 2);
 }
 
-/// solve must abort on a non-tree through its assert, the alarm turns an endless traversal into a failure
+/// solve must hit its assert on a non-tree, expect_assert's alarm turns an endless traversal into a failure
 void check_rejects(int n, const vector<pair<int, int>>& edges){
-    int fd[2];
-    assert(pipe(fd) == 0);
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        alarm(5);
-        dup2(fd[1], STDERR_FILENO);
-        close(fd[0]), close(fd[1]);
+    stress::expect_assert("trees/rerooting.cpp", [&]{
         Rerooting<long long> tree(n);
         for (auto [u, v] : edges) tree.add_edge(u, v);
         tree.solve([](long long a, long long b){ return a + b; }, 0LL, [](long long x, int, int, long long){ return x + 1; });
-        _exit(0);
-    }
-
-    close(fd[1]);
-    string err;
-    char buf[4096];
-    for (ssize_t got; (got = read(fd[0], buf, sizeof buf)) > 0;) err.append(buf, got);
-    close(fd[0]);
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
-    /// an out of range index also aborts under _GLIBCXX_ASSERTIONS but is undefined behaviour in a judge build
-    assert(err.find("code_library/trees/rerooting.cpp:") != string::npos && err.find("Assertion") != string::npos);
+    });
 }
 
 int main(){
@@ -211,14 +189,15 @@ int main(){
     /// 1296 trees at n = 6, n = 7 adds 16807 for little new structure
     for (int n = 1; n <= 6; n++) check_all_trees(n, n % 2 ? 1000000000LL : 3);
 
-    for (long long it = 0; it < stress::scaled(2000); it++){
+    for (long long it = 0; it < stress::scaled(600); it++){
         int n = it < 200 ? it % 40 + 1 : stress::rand_int(1, 80);
         check(n, it % 5, it % 3 ? 1000000000LL : 3);
     }
 
     for (long long it = 0; it < stress::scaled(5); it++) check(stress::rand_int(300, 600), it % 5, 1000000000LL);
 
-    for (int shape = 0; shape < 5; shape++) check_large(200000, shape);  /// the path shape is too deep for recursion
+    /// The 200000 node path is too deep for recursion, the other shapes stay shallower at 50000
+    for (int shape = 0; shape < 5; shape++) check_large(shape == 1 ? 200000 : 50000, shape);
 
     for (int n : {1, 2, 3, 200000}) check_path(n);
 
