@@ -66,6 +66,7 @@ const long long MOD = 1000000007;
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     Combinatorics comb(n + m, MOD);
     printf("%lld\n", comb.nCr(n + m - 1, m));

@@ -245,10 +245,9 @@ const long long MOD = 1000000007;
 
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
 
-    /// x^k = sum over j of S(k, j) x (x - 1) ... (x - j + 1), and summing C(n, x) x (x - 1) ... (x - j + 1)
-    /// over x picks j ordered people first then any subset of the rest, n (n - 1) ... (n - j + 1) 2^(n - j)
     vector<long long> s = stirling_second(k, MOD);
     long long res = 0, falling = 1;
     for (int j = 1; j <= min(n, k); j++){

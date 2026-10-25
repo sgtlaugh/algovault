@@ -99,12 +99,11 @@ vector<pair<int, int>> sorting_swaps(vector<int> p){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> p(n);
     for (auto& x: p) scanf("%d", &x), x--;
 
-    /// A cycle c_0 -> c_1 -> ... is two reflections: swapping c_j with c_(m-1-j) leaves c_(m-k) at c_k,
-    /// then swapping c_k with c_(m-k) puts every value home, and a 2-cycle is done after the first
     vector<vector<pair<int, int>>> rounds(2);
     for (const auto& c: permutation_cycles(p)){
         int m = c.size();

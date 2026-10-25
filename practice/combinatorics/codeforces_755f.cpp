@@ -102,12 +102,9 @@ const int MAX = 1000010;
 bitset<MAX> dp;
 int counter[MAX];
 
-/// i < len consecutive forgetful balls of a cycle ruin i + 1 gifts and a whole cycle ruins exactly len,
-/// so the minimum is k when some cycle lengths sum to k, else k + 1
 int solve_min(const vector<int>& lens, int k){
     for (int len: lens) counter[len]++;
 
-    /// Binary splitting of equal lengths keeps the knapsack items at O(sqrt(n) log n)
     vector<int> items;
     for (int len = 1; len < MAX; len++){
         while (counter[len]){
@@ -122,9 +119,9 @@ int solve_min(const vector<int>& lens, int k){
     return dp[k] ? k : k + 1;
 }
 
-/// Every second ball of a cycle ruins two gifts, odd cycles leave one ball that ruins one more
 int solve_max(vector<int> lens, int k){
     int res = 0;
+
     for (auto& len: lens){
         int take = min(k, len >> 1);
         k -= take, res += take << 1, len -= take << 1;
@@ -132,11 +129,13 @@ int solve_max(vector<int> lens, int k){
     for (int len: lens){
         if (k && len) k--, res++;
     }
+
     return res;
 }
 
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
     vector<int> p(n);
     for (auto& x: p){

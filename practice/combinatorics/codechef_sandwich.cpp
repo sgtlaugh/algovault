@@ -157,13 +157,13 @@ struct Binomial{
 
 int main(){
     int t;
+
     scanf("%d", &t);
 
     while (t--){
         long long n, k, m;
         scanf("%lld %lld %lld", &n, &k, &m);
 
-        /// The p parts fall short of p * k by d < k in total, so no part can be cut to zero and the shortfall splits freely
         long long p = (n + k - 1) / k, d = p * k - n;
         printf("%lld %lld\n", p, (long long)Binomial(m).binomial(d + p - 1, p - 1));
     }

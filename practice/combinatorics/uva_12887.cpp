@@ -63,9 +63,9 @@ struct Combinatorics{
 };
 
 int main(){
-    /// Lines avoiding short, tall, medium are the 132-avoiding permutations, counted by the Catalan numbers
     Combinatorics comb(10001, 1000000007);
     int t, n;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d", &n);

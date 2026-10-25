@@ -76,7 +76,6 @@ int main(){
     for (int i = 0, prefix = 0; i < n; i++){
         if (str[i] == '('){
             prefix++;
-            /// fixing str[i] as the last '(' and applying Vandermonde collapses the sum over lengths to one binomial
             res = (res + comb.nCr(prefix + suffix[i] - 1, prefix)) % comb.mod;
         }
     }

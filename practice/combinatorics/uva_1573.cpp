@@ -38,7 +38,6 @@ long double gamblers_ruin(int n1, int n2, long double p){
 
 long double p, keep;
 
-/// Expected profit when quitting at +w or at -l, keeping only keep * l of a loss after the refund
 long double profit(int w, int l){
     long double win = gamblers_ruin(w, l, 1 - p);
     return win * w - (1 - win) * l * keep;
@@ -46,13 +45,12 @@ long double profit(int w, int l){
 
 int main(){
     double x, pct;
+
     while (scanf("%lf %lf", &x, &pct) == 2){
         p = pct / 100, keep = 1 - x / 100;
 
         long double res = 0;
         if (p > 0){
-            /// Both the profit for a fixed win target (in the loss limit) and the best profit per win target
-            /// are unimodal, so nested ternary searches replace a scan over every win target
             auto best = [](int w){
                 int lo = 0, hi = 20540;
                 while (hi - lo > 3){

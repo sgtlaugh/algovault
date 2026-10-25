@@ -86,7 +86,6 @@ int main(){
             for (int c: children[order[i]]) order.push_back(c);
         }
 
-        /// A valid line is a topological order of the forest: n! / prod(subtree sizes)
         vector<int> sz(n + 1, 1);
         long long res = comb.factorial(n);
         for (int i = n; i >= 1; i--){

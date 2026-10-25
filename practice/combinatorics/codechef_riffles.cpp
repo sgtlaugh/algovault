@@ -99,13 +99,13 @@ vector<pair<int, int>> sorting_swaps(vector<int> p){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;
         long long k;
         scanf("%d %lld", &n, &k);
 
-        /// One riffle composes the arrangement with r, so K riffles of the identity give r^K
         vector<int> r(n);
         for (int i = 0; i < n / 2; i++) r[i] = 2 * i, r[n / 2 + i] = 2 * i + 1;
 

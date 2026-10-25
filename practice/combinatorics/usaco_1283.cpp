@@ -66,6 +66,7 @@ const long long MOD = 1000000007;
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> h(n);
     for (int i = 0; i < n; i++){
@@ -73,8 +74,6 @@ int main(){
         h[i] /= 2;
     }
 
-    /// each arrival at x = i from the left spawns the right-excursions: with more excursions than
-    /// arrivals every arrival takes at least one (stars and bars), otherwise each takes at most one
     Combinatorics comb(500000, MOD);
     long long ans = 1;
     for (int i = 1; i < n; i++){

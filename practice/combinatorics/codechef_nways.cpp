@@ -68,12 +68,11 @@ const int MAXN = 1000000;
 int main(){
     Combinatorics comb(2 * MAXN + 1, MOD);
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, k;
         scanf("%d %d", &n, &k);
-        /// a pair at vertical distance d has C(k + d, k) paths and occurs 2(n - d) times (n times for d = 0);
-        /// hockey stick twice collapses sum (n - d) C(k + d, k) over d < n into C(n + k + 1, k + 2)
         long long res = (2 * comb.nCr(n + k + 1, k + 2) - n) % MOD;
         if (res < 0) res += MOD;
         printf("%lld\n", res);

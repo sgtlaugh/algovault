@@ -99,11 +99,11 @@ vector<pair<int, int>> sorting_swaps(vector<int> p){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<int> p(n);
         for (int& x : p) scanf("%d", &x), x--;
 
-        /// Every move swaps two adjacent values, so the moves made equal the inversions, whose parity is the permutation's
         puts(permutation_parity(p) ? "Marcelo" : "Carlos");
     }
     return 0;

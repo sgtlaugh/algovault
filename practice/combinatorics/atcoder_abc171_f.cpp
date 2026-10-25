@@ -67,12 +67,11 @@ const long long MOD = 1000000007;
 int main(){
     int k;
     string s;
+
     cin >> k >> s;
     int n = s.size();
     Combinatorics comb(n + k, MOD);
 
-    /// fix where the greedy leftmost match of S ends: j free letters before it avoid the next needed letter (25 choices),
-    /// the k - j letters after the match are arbitrary (26 choices)
     vector<long long> p25(k + 1), p26(k + 1);
     p25[0] = p26[0] = 1;
     for (int i = 1; i <= k; i++){

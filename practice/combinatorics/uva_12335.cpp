@@ -48,13 +48,13 @@ vector<int> kth_permutation(int n, long long k){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         char s[32];
         long long k;
         scanf("%s %lld", s, &k);
         int n = strlen(s);
-        /// s[i] is the p[i]-th letter of the alphabet for the (k - 1)-th permutation p
         vector<int> p = kth_permutation(n, k - 1);
         string alphabet(n, ' ');
         for (int i = 0; i < n; i++) alphabet[p[i]] = s[i];

@@ -67,12 +67,12 @@ const long long MOD = 1000000007;
 
 int main(){
     vector<int> divs(MAXN + 1, 0);
+
     for (int i = 1; i <= MAXN; i++){
         for (int j = 2 * i; j <= MAXN; j += i) divs[j]++;
     }
     int max_divs = *max_element(divs.begin(), divs.end());
 
-    /// K beyond the largest proper divisor count changes nothing, so only K <= max_divs gets a table
     Combinatorics comb(max_divs, MOD);
     vector<vector<long long>> edges(max_divs + 1, vector<long long>(MAXN + 1, 0));
     vector<vector<long long>> ways(max_divs + 1, vector<long long>(MAXN + 1, 1));

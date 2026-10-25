@@ -244,9 +244,9 @@ vector<long long> stirling_second(int n, long long p){
 int main(){
     const long long MOD = 1000000007;
     int n, k;
+
     scanf("%d %d", &n, &k);
 
-    /// Split the n positions into k groups, then hand the k distinct values to the groups
     long long res = stirling_second(n, MOD)[k];
     for (int i = 2; i <= k; i++) res = res * i % MOD;
     printf("%lld\n", res);

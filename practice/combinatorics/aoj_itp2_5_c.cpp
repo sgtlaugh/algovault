@@ -52,6 +52,7 @@ void print(const vector<int>& p){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> a(n);
     for (auto& x: a) scanf("%d", &x), x--;

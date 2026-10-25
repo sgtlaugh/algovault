@@ -67,6 +67,7 @@ const long long MOD = 1000000007;
 int main(){
     Combinatorics comb(1000000, MOD);
     int n;
+
     scanf("%d", &n);
     while (n--){
         int a, b;

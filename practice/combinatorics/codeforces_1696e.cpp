@@ -65,9 +65,9 @@ struct Combinatorics{
 int main(){
     const long long MOD = 1000000007;
     int n;
+
     scanf("%d", &n);
 
-    /// row x sends C(x + y, x) dolls through (x, y), summing over y < a_x gives C(x + a_x, x + 1)
     Combinatorics comb(400005, MOD);
     long long res = 0;
     for (int i = 0; i <= n; i++){

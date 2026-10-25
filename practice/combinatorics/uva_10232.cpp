@@ -156,16 +156,15 @@ struct Binomial{
 };
 
 int main(){
-    /// C(31, k) < 10^9 + 7, so the binomials modulo this prime are the exact values
     Binomial bin(1000000007, 31);
     long long C[32][32];
+
     for (int i = 0; i < 32; i++){
         for (int k = 0; k < 32; k++) C[i][k] = bin.binomial(i, k);
     }
 
     long long n;
     while (scanf("%lld", &n) == 1){
-        /// Skip whole groups of numbers with fewer ones, then pick bits from the top within the group of k ones
         int k = 0;
         while (n >= C[31][k]) n -= C[31][k++];
 

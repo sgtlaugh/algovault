@@ -38,11 +38,10 @@ long double gamblers_ruin(int n1, int n2, long double p){
 
 int main(){
     int ev1, ev2, at, d;
+
     while (scanf("%d %d %d %d", &ev1, &ev2, &at, &d) == 4 && (ev1 || ev2 || at || d)){
-        /// A vampire survives exactly ceil(EV / D) lost turns, so each one holds that many coins of size D
         int n1 = (ev1 + d - 1) / d, n2 = (ev2 + d - 1) / d;
         double win = 1 - (double)gamblers_ruin(n1, n2, at / 6.0L);
-        /// Exact ties (7 9 3 1 is 43.75) round down like the accepted solution, whose capped game tree lands just below them
         printf("%.1f\n", win * 100 - 1e-9);
     }
     return 0;

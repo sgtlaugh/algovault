@@ -244,7 +244,6 @@ vector<long long> stirling_second(int n, long long p){
 const long long MOD = 999948289;
 const long long BLOCK = 10000000;
 
-/// i * BLOCK factorial modulo MOD for i = 0..99, precomputed offline since n^2 reaches 1e9
 const long long BLOCK_FACT[] = {
     1, 886298213, 872660379, 331020507, 404930321, 562325427, 668613051, 970297033, 305223031, 873585932,
     848366675, 729876393, 622131681, 297286611, 63177221, 324440645, 772587162, 871676563, 942263908, 211887878,
@@ -274,12 +273,11 @@ long long factorial(long long x){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         vector<int> a(n);
         for (auto& x: a) scanf("%d", &x);
 
-        /// Choose the n people of every column, (n^2)! / (n!)^n ways, then each column of n people shows a
-        /// left-to-right maxima from the front, c(n, a) arrangements; MOD | (n^2)! when n^2 >= MOD since n! < MOD
         if ((long long)n * n >= MOD){
             puts("0");
             continue;

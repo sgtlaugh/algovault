@@ -64,6 +64,7 @@ struct Combinatorics{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
 
     const int K = 100;
@@ -73,13 +74,11 @@ int main(){
     vector<long long> a(n + 1);
     for (int i = 1; i <= n; i++) scanf("%lld", &a[i]);
 
-    /// level t is prefix-summed t more times than level 0, so a 1 at add[k][l] grows into C(k + j - l, k) at level 0
     vector<vector<int>> add(K + 1, vector<int>(n + 2, 0));
     while (m--){
         int l, r, k;
         scanf("%d %d %d", &l, &r, &k);
         add[k][l] = (add[k][l] + 1) % MOD;
-        /// cancels what level k - j accumulated up to r, so nothing leaks past r into lower levels
         for (int j = 0; j <= k; j++){
             add[k - j][r + 1] = (add[k - j][r + 1] - comb.nCr(r - l + j, j) + MOD) % MOD;
         }

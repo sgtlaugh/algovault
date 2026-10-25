@@ -72,12 +72,12 @@ long long power(long long b, long long e, long long mod){
 
 int main(){
     int n, m, k;
+
     scanf("%d %d %d", &n, &m, &k);
 
     const long long MOD = 998244353;
     Combinatorics comb(n, MOD);
 
-    /// choose which k of the n - 1 boundaries change color, first brick has m choices, each change has m - 1
     printf("%lld\n", m * power(m - 1, k, MOD) % MOD * comb.nCr(n - 1, k) % MOD);
     return 0;
 }

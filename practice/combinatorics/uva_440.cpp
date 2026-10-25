@@ -31,9 +31,8 @@ long long josephus(long long n, long long k, long long m){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
-        /// City 1 goes first, then counting restarts at city 2, a plain circle of the remaining n - 1 cities
-        /// where Ulm is the first person and must survive
         int m = 1;
         while (josephus(n - 1, m, n - 1) != 1) m++;
         printf("%d\n", m);

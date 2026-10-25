@@ -161,12 +161,11 @@ long long floor_half(long long x){
 
 int main(){
     long long n, p, l, r;
+
     scanf("%lld %lld %lld %lld", &n, &p, &l, &r);
 
-    /// Every binomial below has n <= 1e5, so the cap keeps a prime p near 2e9 from building an 8 GB table
     Binomial bin(p, n);
 
-    /// m paying customers end with k notes in C(m, (m - k) / 2) - C(m, (m - k) / 2 - 1) ways, which telescopes over k
     long long res = 0;
     for (long long m = l; m <= n; m++){
         long long ways = bin.binomial(m, floor_half(m - l)) - bin.binomial(m, floor_half(m - r - 1));

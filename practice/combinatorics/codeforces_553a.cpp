@@ -71,7 +71,6 @@ int main(){
     while (k--){
         scanf("%d", &x);
         s += x;
-        /// the last ball of this color is pinned to the end, the other x - 1 interleave freely with earlier balls
         res = res * comb.nCr(s - 1, x - 1) % comb.mod;
     }
 

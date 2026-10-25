@@ -31,15 +31,13 @@ long long josephus(long long n, long long k, long long m){
 
 int main(){
     int lo, hi;
+
     while (scanf("%d %d", &lo, &hi) == 2 && (lo || hi)){
         vector<bool> chosen(hi + 1, false);
 
-        /// 0-based seat of the survivor counted from Mxgobgwq, who is the first 'E'
-        /// One josephus call per n is O(k log n), so only the first n uses it and the rest grow the circle by one
         int x = josephus(lo, 15, lo) - 1;
         for (int n = lo; n <= hi; n++){
             if (n > lo) x = (x + 15) % n;
-            /// The anti-clockwise count makes the mirrored seat n - x the chief
             chosen[x] = chosen[n - x] = true;
         }
 

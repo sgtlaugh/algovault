@@ -66,16 +66,17 @@ vector<int> bernoulli_numbers(int n){
 
 const int MOD = 1000000007;
 
-/// von Staudt-Clausen: the denominator of B_j for even j > 0 is the product of the primes p with (p - 1) | j
 long long bernoulli_denominator(int j){
     if (j == 0) return 1;
     if (j == 1) return 2;
+
     long long den = 1;
     for (int p = 2; p <= j + 1; p++){
         bool prime = true;
         for (int d = 2; d * d <= p; d++) prime &= p % d != 0;
         if (prime && j % (p - 1) == 0) den *= p;
     }
+
     return den;
 }
 
@@ -83,12 +84,12 @@ int main(){
     const int K = 20;
     vector<int> bernoulli = bernoulli_numbers<MOD>(K);
     vector<long long> num(K + 1), den(K + 1);
+
     for (int j = 0; j <= K; j++){
         den[j] = bernoulli_denominator(j);
         long long x = (long long)bernoulli[j] * den[j] % MOD;
         num[j] = x > MOD / 2 ? x - MOD : x;
     }
-    /// The sum starts at i = 1, so it needs B_1 = +1/2
     num[1] = 1;
 
     long long binom[K + 2][K + 2] = {};
@@ -102,7 +103,6 @@ int main(){
     for (int tc = 0; tc < t; tc++){
         int k;
         scanf("%d", &k);
-        /// Faulhaber: S_k(n) = sum C(k + 1, j) * B_j * n^(k + 1 - j) / (k + 1) for j <= k
         vector<long long> a(k + 2, 0), b(k + 2, 1);
         long long m = 1;
         for (int j = 0; j <= k; j++){

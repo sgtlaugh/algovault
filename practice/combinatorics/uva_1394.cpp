@@ -31,8 +31,8 @@ long long josephus(long long n, long long k, long long m){
 
 int main(){
     int n, k, m;
+
     while (scanf("%d %d %d", &n, &k, &m) == 3 && n){
-        /// The classic game starting at stone 1 removes stone k first, so shift its survivor by m - k
         long long res = josephus(n, k, n);
         printf("%lld\n", ((res - (k - m + 1)) % n + n) % n + 1);
     }

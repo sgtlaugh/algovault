@@ -99,11 +99,11 @@ vector<pair<int, int>> sorting_swaps(vector<int> p){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<int> a(n), q(n);
         for (auto& x: a) scanf("%d", &x), x--;
 
-        /// Try every rotation and reflection as the target; reaching it takes n - cycles swaps
         int res = n;
         for (int s = 0; s < n; s++){
             for (int dir = -1; dir <= 1; dir += 2){

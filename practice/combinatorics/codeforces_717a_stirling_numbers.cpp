@@ -241,10 +241,8 @@ vector<long long> stirling_second(int n, long long p){
     return res;
 }
 
-
 const long long MOD = 1000000007;
 
-/// a + b sqrt5 modulo MOD, 5 is not a quadratic residue modulo MOD so Binet needs the extension
 struct root5{
     long long a, b;
 
@@ -281,17 +279,14 @@ struct root5{
     }
 };
 
-/// q^lo + ... + q^hi
 root5 geometric(const root5& q, long long lo, long long hi){
     if (q == root5(1)) return root5((hi - lo + 1) % MOD);
     return (q.pow(hi + 1) - q.pow(lo)) * (q - root5(1)).inverse();
 }
 
-/// Tours of length 1..n, a tour of length len is one of F(len + 2) strings without two consecutive days off
 long long solve(int k, long long n){
     if (n == 0) return 0;
 
-    /// x (x - 1) ... (x - k + 1) = sum of (-1)^(k - j) c(k, j) x^j, so C(F, k) is a polynomial in F
     vector<long long> c = stirling_first(k, MOD);
 
     long long inv2 = (MOD + 1) / 2, inv_fact = 1;
@@ -307,7 +302,6 @@ long long solve(int k, long long n){
         for (int j = 1; j <= i; j++) binom[i][j] = (binom[i - 1][j - 1] + binom[i - 1][j]) % MOD;
     }
 
-    /// F^j = (phi^len - psi^len)^j / sqrt5^j, expanded binomially each term sums as a geometric series over len
     root5 res, scale(1);
     for (int j = 0; j <= k; j++, scale = scale * inv_sqrt5){
         if (!c[j]) continue;
@@ -321,12 +315,14 @@ long long solve(int k, long long n){
         long long coef = (k - j) & 1 ? (MOD - c[j]) % MOD : c[j];
         res = res + power_sum * scale * root5(coef);
     }
+
     return res.a * inv_fact % MOD;
 }
 
 int main(){
     int k;
     long long l, r;
+
     cin >> k >> l >> r;
     cout << (solve(k, r) - solve(k, l - 1) + MOD) % MOD << endl;
     return 0;

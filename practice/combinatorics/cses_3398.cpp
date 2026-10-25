@@ -100,6 +100,7 @@ vector<pair<int, int>> sorting_swaps(vector<int> p){
 int main(){
     const long long MOD = 1000000007;
     int n;
+
     scanf("%d", &n);
     vector<int> p(n);
     for (auto& x: p) scanf("%d", &x), x--;
@@ -112,7 +113,6 @@ int main(){
         }
     }
 
-    /// The order is the lcm of the cycle lengths, far too big to hold, so keep the top power of each prime
     vector<int> best(n + 1, 0);
     for (const auto& cycle: permutation_cycles(p)){
         int len = cycle.size();

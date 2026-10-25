@@ -75,7 +75,6 @@ int main(){
         for (auto& x: a) scanf("%d", &x);
         sort(a.begin(), a.end());
 
-        /// fix the smallest chosen index i in sorted order, the other m - 1 come from later values within a[i] + k
         long long res = 0;
         for (int i = 0; i < n; i++){
             int j = upper_bound(a.begin(), a.end(), a[i] + k) - a.begin();

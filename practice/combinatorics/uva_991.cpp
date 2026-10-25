@@ -63,9 +63,9 @@ struct Combinatorics{
 };
 
 int main(){
-    /// Catalan numbers up to n = 10 stay far below the prime, so the modular value is exact
     Combinatorics comb(21, 1000000007);
     int n;
+
     for (int t = 0; scanf("%d", &n) == 1; t++){
         if (t) puts("");
         printf("%lld\n", comb.nCr(2 * n, n) * comb.inverse(n + 1) % comb.mod);

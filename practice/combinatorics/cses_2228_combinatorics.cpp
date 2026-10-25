@@ -74,10 +74,10 @@ long long power(long long b, long long e){
 
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
     Combinatorics comb(k, MOD);
 
-    /// inclusion-exclusion over the i values forced to be missing
     long long res = 0;
     for (int i = 0; i <= k; i++){
         long long term = comb.nCr(k, i) * power(k - i, n) % MOD;

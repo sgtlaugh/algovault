@@ -66,11 +66,13 @@ const long long MOD = 1000000007;
 
 int main(){
     int n;
+
     scanf("%d", &n);
     if (n & 1){
         puts("0");
         return 0;
     }
+
     int h = n / 2;
     Combinatorics comb(n + 1, MOD);
     printf("%lld\n", comb.nCr(n, h) * comb.inverse(h + 1) % MOD);

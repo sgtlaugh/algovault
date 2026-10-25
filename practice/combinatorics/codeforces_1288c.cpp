@@ -64,9 +64,9 @@ struct Combinatorics{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
 
-    /// a followed by reversed b is one non-decreasing sequence of length 2m over 1..n, stars and bars
     Combinatorics comb(n + 2 * m, 1000000007);
     printf("%lld\n", comb.nCr(n + 2 * m - 1, 2 * m));
     return 0;

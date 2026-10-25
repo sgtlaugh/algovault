@@ -68,9 +68,9 @@ Combinatorics comb(1000, MOD);
 vector<int> adj[1001];
 int subtree[1001];
 
-/// A supervisor stands first in his subtree's block, the children's blocks interleave freely in the remaining places
 long long ways(int u){
     long long res = 1;
+
     subtree[u] = 1;
     for (int v: adj[u]){
         res = res * ways(v) % MOD;
@@ -82,11 +82,13 @@ long long ways(int u){
         res = res * comb.nCr(free_places, subtree[v]) % MOD;
         free_places -= subtree[v];
     }
+
     return res;
 }
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;

@@ -99,6 +99,7 @@ vector<pair<int, int>> sorting_swaps(vector<int> p){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> w(n);
     for (auto& x: w) scanf("%d", &x);
@@ -107,7 +108,6 @@ int main(){
     sort(sorted_w.begin(), sorted_w.end());
     for (int i = 0; i < n; i++) p[i] = lower_bound(sorted_w.begin(), sorted_w.end(), w[i]) - sorted_w.begin();
 
-    /// Each cycle is sorted either with its own minimum, or by borrowing the global minimum for two extra swaps
     long long res = 0, global_min = sorted_w[0];
     for (const auto& cycle: permutation_cycles(p)){
         int len = cycle.size();

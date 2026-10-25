@@ -31,6 +31,7 @@ long long josephus(long long n, long long k, long long m){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     for (int m = 1; m <= n; m++) printf("%lld%c", josephus(n, 2, m), m == n ? '\n' : ' ');
     return 0;

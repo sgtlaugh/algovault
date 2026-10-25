@@ -66,6 +66,7 @@ const long long MOD = 1000000007;
 
 int main(){
     string s;
+
     cin >> s;
     int n = s.size();
     Combinatorics comb(n, MOD);

@@ -75,7 +75,6 @@ int main(){
             int k;
             scanf("%d", &k);
             total += k;
-            /// The last unit of job i takes the last slot so far, its other k - 1 units go among the earlier slots
             res = res * comb.nCr(total - 1, k - 1) % comb.mod;
         }
         printf("Case %d: %lld\n", tc, res);

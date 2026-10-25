@@ -159,9 +159,9 @@ const int MOD = 9999991;
 
 Binomial bin(MOD, 20);
 
-/// Returns {size, ways}: the two subtrees interleave freely, C(l + r, l) ways, keeping each one's own order
 pair<int, long long> count(const vector<int>& keys){
     if (keys.empty()) return {0, 1};
+
     vector<int> left, right;
     for (int x: keys){
         if (x < keys[0]) left.push_back(x);
@@ -174,6 +174,7 @@ pair<int, long long> count(const vector<int>& keys){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;

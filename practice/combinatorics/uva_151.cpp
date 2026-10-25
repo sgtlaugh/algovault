@@ -31,8 +31,8 @@ long long josephus(long long n, long long k, long long m){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
-        /// Region 1 goes dark first, so the rest is a plain circle of regions 2..n counted from region 2
         int m = 1;
         while (josephus(n - 1, m, n - 1) != 12) m++;
         printf("%d\n", m);

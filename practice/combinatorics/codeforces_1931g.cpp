@@ -75,7 +75,6 @@ int main(){
         long long res = 0;
         if (c1 == 0 && c2 == 0) res = (c3 == 0 || c4 == 0);
         else if (c1 == c2){
-            /// 1 and 2 alternate, each 3 sits in a gap after a 1 and each 4 after a 2, stars and bars per side
             int k = c1;
             res = (comb.nCr(k + c3 - 1, c3) * comb.nCr(k + c4, c4) + comb.nCr(k + c3, c3) * comb.nCr(k + c4 - 1, c4)) % MOD;
         }

@@ -71,6 +71,7 @@ bool good(int x, int a, int b){
 
 int main(){
     int a, b, n;
+
     scanf("%d %d %d", &a, &b, &n);
     Combinatorics comb(n, 1000000007);
 

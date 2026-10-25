@@ -244,10 +244,9 @@ vector<long long> stirling_second(int n, long long p){
 int main(){
     const long long MOD = 1000000007;
     int n;
+
     scanf("%d", &n);
 
-    /// Composing with the final permutation is a bijection, so the answer ignores it: a permutation is a product
-    /// of exactly k transpositions iff it needs j = n - cycles <= k of them and j has the parity of k
     vector<long long> c = stirling_first(n, MOD);
     vector<long long> res(n, 0);
     for (int k = 0; k < n; k++) res[k] = ((k >= 2 ? res[k - 2] : 0) + c[n - k]) % MOD;

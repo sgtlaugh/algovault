@@ -158,9 +158,8 @@ struct Binomial{
 const long long MOD = 1000000007;
 
 int main(){
-    /// avoid[n][m]: arrangements of n numbers with none of the first m in place, dropping the m-th condition
-    /// overcounts by the arrangements with m fixed, which are avoid[n - 1][m - 1]
     vector<vector<long long>> avoid(1001, vector<long long>(1001, 0));
+
     avoid[0][0] = 1;
     for (int n = 1; n <= 1000; n++){
         avoid[n][0] = avoid[n - 1][0] * n % MOD;

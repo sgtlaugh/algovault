@@ -31,6 +31,7 @@ long long josephus(long long n, long long k, long long m){
 
 int main(){
     int q;
+
     scanf("%d", &q);
     while (q--){
         long long n, k;

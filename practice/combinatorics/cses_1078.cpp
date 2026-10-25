@@ -66,6 +66,7 @@ const long long MOD = 1000000007;
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<pair<int, int>> cells(m);
     for (auto& c: cells) scanf("%d %d", &c.first, &c.second);
@@ -77,7 +78,6 @@ int main(){
         return comb.nCr(r2 - r1 + c2 - c1, r2 - r1);
     };
 
-    /// dp[i] counts paths to cell i that touch no trap before it; sorted order puts every possible predecessor first
     vector<long long> dp(m + 1);
     for (int i = 0; i <= m; i++){
         dp[i] = paths(1, 1, cells[i].first, cells[i].second);

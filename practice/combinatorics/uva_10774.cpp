@@ -31,6 +31,7 @@ long long josephus(long long n, long long k, long long m){
 
 int main(){
     int t, n;
+
     scanf("%d", &t);
     for (int cs = 1; cs <= t; cs++){
         scanf("%d", &n);

@@ -67,6 +67,7 @@ const long long MOD = 1000000007;
 int main(){
     int n;
     string s;
+
     cin >> n >> s;
     int k = s.size(), bal = 0;
     for (char c: s){
@@ -83,7 +84,6 @@ int main(){
         return 0;
     }
 
-    /// reflection principle: walks of r steps from height bal to 0, minus those touching -1 (reflected to end at -2)
     int ups = (r - bal) / 2;
     Combinatorics comb(r, MOD);
     long long res = (comb.nCr(r, ups) - comb.nCr(r, ups - 1) + MOD) % MOD;

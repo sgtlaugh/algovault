@@ -68,6 +68,7 @@ const int MAXM = 500000;
 int main(){
     Combinatorics comb(MAXM, MOD);
     int p;
+
     scanf("%d", &p);
     vector<long long> pa(MAXM + 1), pb(MAXM + 1);
     while (p--){
@@ -79,8 +80,6 @@ int main(){
             pb[i] = pb[i - 1] * n % MOD;
         }
 
-        /// the LIS is n exactly when 1..n appears as a subsequence; fix where the greedy match of 1..n ends at i:
-        /// the i - n unmatched slots before it dodge the next needed value (n - 1 choices), the rest are free
         long long res = 0;
         for (int i = n; i <= m; i++){
             res = (res + comb.nCr(i - 1, n - 1) * pa[i - n] % MOD * pb[m - i]) % MOD;

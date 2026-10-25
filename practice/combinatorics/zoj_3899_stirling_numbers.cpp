@@ -269,7 +269,6 @@ void update(int node, int l, int r, int ql, int qr){
     on[node] = on[2 * node] + on[2 * node + 1];
 }
 
-/// Up to 10^6 updates per file, scanf alone takes a third of the time limit
 int read_int(){
     int c = getchar(), x = 0;
     while (c < '0' || c > '9') c = getchar();
@@ -281,10 +280,10 @@ int main(){
     const long long MOD = 880803841;
     int t = read_int();
     string out;
+
     while (t--){
         int n = read_int(), m = read_int(), d = read_int();
 
-        /// Rooms are indistinguishable, so the ways are S(N, available rooms)
         vector<long long> s = stirling_second(n, MOD);
         build(1, 1, m);
         while (d--){

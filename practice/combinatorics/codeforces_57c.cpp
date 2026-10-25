@@ -64,10 +64,10 @@ struct Combinatorics{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     Combinatorics comb(2 * n, 1000000007);
 
-    /// non-decreasing arrays are multisets of size n from n values, constant arrays are counted in both directions
     long long res = (2 * comb.nCr(2 * n - 1, n) - n + comb.mod) % comb.mod;
     printf("%lld\n", res);
     return 0;

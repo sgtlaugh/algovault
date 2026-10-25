@@ -48,6 +48,7 @@ vector<int> kth_permutation(int n, long long k){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int type, n;
