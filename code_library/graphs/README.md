@@ -151,7 +151,7 @@
 - [UVa 10356 - Rough Roads](https://onlinejudge.org/external/103/10356.pdf) [✅](../../practice/graphs/uva_10356.cpp "Accepted solution")
 - [UVa 10537 - The Toll! Revisited](https://onlinejudge.org/external/105/10537.pdf) [✅](../../practice/graphs/uva_10537.cpp "Accepted solution")
 - [UVa 10603 - Fill](https://onlinejudge.org/external/106/10603.pdf) [✅](../../practice/graphs/uva_10603.cpp "Accepted solution")
-- [UVa 10798 - Be wary of Roses](https://onlinejudge.org/external/107/10798.pdf)
+- [UVa 10798 - Be wary of Roses](https://onlinejudge.org/external/107/10798.pdf) [✅](../../practice/graphs/uva_10798.cpp "Accepted solution")
 - [UVa 10801 - Lift Hopping](https://onlinejudge.org/external/108/10801.pdf) [✅](../../practice/graphs/uva_10801.cpp "Accepted solution")
 - [UVa 10816 - Travel in Desert](https://onlinejudge.org/external/108/10816.pdf) [✅](../../practice/graphs/uva_10816.cpp "Accepted solution")
 - [UVa 10917 - Walk Through the Forest](https://onlinejudge.org/external/109/10917.pdf) [✅](../../practice/graphs/uva_10917.cpp "Accepted solution")
