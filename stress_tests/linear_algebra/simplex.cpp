@@ -4,9 +4,6 @@
 #include "../../code_library/linear_algebra/simplex.cpp"
 #undef main
 
-#include <sys/wait.h>
-#include <unistd.h>
-
 typedef __int128 i128;
 using Float = double;
 
@@ -304,28 +301,12 @@ void tiny_ratio_rows(long long iterations){
 
 /// The tableau is pivoted in place, so a second solve() on the same instance must abort instead of answering
 void solve_twice_aborts(){
-    int fd[2];
-    assert(pipe(fd) == 0);
-    pid_t pid = fork();
-    if (pid == 0){
-        dup2(fd[1], STDERR_FILENO);
+    stress::expect_assert("linear_algebra/simplex.cpp", []{
         Simplex encore({3, 2}, Simplex::MAXIMIZE);
         encore.add_constraint({1, 1}, 4, Simplex::LESSEQ);
         encore.solve();
         encore.solve();
-        _exit(0);
-    }
-    close(fd[1]);
-    string err;
-    char buf[512];
-    for (ssize_t k; (k = read(fd[0], buf, sizeof(buf))) > 0; ) err.append(buf, k);
-    close(fd[0]);
-
-    int status;
-    waitpid(pid, &status, 0);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
-    /// _GLIBCXX_ASSERTIONS also aborts on a bad index with the assert deleted, so stderr must name simplex.cpp
-    assert(err.find("simplex.cpp") != string::npos && err.find("Assertion") != string::npos);
+    });
 }
 
 /// Row scales 2^-13..2^13 and column scales 2^-10..2^10 give variables of 1e5: pruning at EPS broke double past n = 100
