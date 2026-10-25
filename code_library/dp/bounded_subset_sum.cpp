@@ -33,7 +33,7 @@ vector<char> bounded_subset_sums(const Items& items, int W){
         if (v > 0 && v <= W) cnt[v] = min<long long>(W, cnt[v] + min<long long>(c, W));
     }
 
-    int words = W / 64 + 1;
+    int words = W / 64 + 1, top = 0;  /// words above top are still all zero
     vector<unsigned long long> bits(words, 0);
     bits[0] = 1;
     for (int v = 1; v <= W; v++){
@@ -45,12 +45,14 @@ vector<char> bounded_subset_sums(const Items& items, int W){
 
         int q = v / 64, r = v % 64;
         for (int k = 0; k < cnt[v]; k++){
+            int hi = min(words - 1, top + q + 1);
             if (r == 0){
-                for (int i = words - 1; i >= q; i--) bits[i] |= bits[i - q];
+                for (int i = hi; i >= q; i--) bits[i] |= bits[i - q];
             } else{
-                for (int i = words - 1; i > q; i--) bits[i] |= bits[i - q] << r | bits[i - q - 1] >> (64 - r);
+                for (int i = hi; i > q; i--) bits[i] |= bits[i - q] << r | bits[i - q - 1] >> (64 - r);
                 bits[q] |= bits[0] << r;
             }
+            top = hi;
         }
     }
 
