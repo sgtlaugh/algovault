@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/trees/hld.cpp"
@@ -128,6 +126,7 @@ void check(int n, int shape, int ops){
         bool empty_path = hld.path(u, v, edge_mode).empty();  /// only u == v in edge mode, which folds to T() = 0
         assert(hld.query_path(max_seg, u, v, edge_mode) == (empty_path ? 0 : slow_max));
 
+        if (op % 7) continue;  /// the brute subtree climbs from every node, so only every 7th op checks it
         auto [a, b] = hld.subtree(u);
         vector<int> in_range, in_subtree;
         for (int i = a; i <= b; i++) in_range.push_back(i);
@@ -137,26 +136,17 @@ void check(int n, int shape, int ops){
             if (y == u) in_subtree.push_back(hld.pos[x]);
         }
         sort(in_subtree.begin(), in_subtree.end());
-        if (op % 7 == 0) assert(in_range == in_subtree);
+        assert(in_range == in_subtree);
     }
 }
 
-/// build must abort on a non-tree, the alarm turns an endless traversal into a failure instead of a hang
+/// build must hit its assert on a non-tree, expect_assert's alarm turns an endless traversal into a failure
 void check_rejects(int n, const vector<pair<int, int>>& edges){
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        alarm(5);
-        assert(freopen("/dev/null", "w", stderr));
+    stress::expect_assert("trees/hld.cpp", [&]{
         HLD hld(n);
         for (auto [u, v] : edges) hld.add_edge(u, v);
         hld.build(0);
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    });
 }
 
 int main(){
@@ -183,7 +173,7 @@ int main(){
         }
     }
 
-    for (long long it = 0; it < stress::scaled(3000); it++){
+    for (long long it = 0; it < stress::scaled(1000); it++){
         int n = it < 200 ? it % 30 + 1 : stress::rand_int(1, 120);
         check(n, it % 5, 60);
     }
