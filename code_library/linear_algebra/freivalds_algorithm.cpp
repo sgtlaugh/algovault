@@ -38,6 +38,7 @@ struct FreivaldsMatrix{
 
     FreivaldsMatrix operator* (const FreivaldsMatrix& other) const{
         FreivaldsMatrix res(row, other.col);
+
         for (int i = 0; i < row; i++){
             for (int j = 0; j < other.col; j++){
                 long long sum = 0;
@@ -53,7 +54,7 @@ struct FreivaldsMatrix{
         return row == m.row && col == m.col && mat == m.mat;
     }
 
-    bool operator != (const FreivaldsMatrix & m) const {
+    bool operator != (const FreivaldsMatrix & m) const{
         return !(*this == m);
     }
 };

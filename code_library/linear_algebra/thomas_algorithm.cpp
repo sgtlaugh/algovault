@@ -28,6 +28,7 @@ using namespace std;
 template <class T>
 vector<T> solve_tridiagonal(vector<T> lower, vector<T> diagonal, vector<T> upper, vector<T> rhs){
     int n = diagonal.size();
+
     assert((int)lower.size() == n && (int)upper.size() == n && (int)rhs.size() == n);
     if (n == 0) return {};
 
@@ -49,6 +50,7 @@ vector<T> solve_tridiagonal(vector<T> lower, vector<T> diagonal, vector<T> upper
 template <class T>
 vector<T> solve_tridiagonal_m_matrix(const vector<T>& lower, const vector<T>& upper, const vector<T>& excess, vector<T> rhs){
     int n = rhs.size();
+
     assert((int)lower.size() == n && (int)upper.size() == n && (int)excess.size() == n);
     vector<T> ratio(n);
 

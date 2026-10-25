@@ -32,6 +32,7 @@ long long expo_mod(long long a, long long e, long long p){
 
 vector<long long> characteristic_polynomial(vector<vector<long long>> a, long long p){
     int n = a.size();
+
     assert(2 <= p && p < (1LL << 31));
     for (auto& row : a){
         assert((int)row.size() == n);

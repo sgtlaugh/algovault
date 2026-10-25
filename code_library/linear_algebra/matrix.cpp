@@ -69,12 +69,14 @@ struct Matrix{
 
     Matrix normalized() const{
         Matrix res = *this;
+
         for (auto& row : res.a){
             for (auto& x : row){
                 x %= mod;
                 if (x < 0) x += mod;
             }
         }
+
         return res;
     }
 
@@ -91,6 +93,7 @@ struct Matrix{
             multiply(base, base, tmp);
             swap(base, tmp);
         }
+
         return res;
     }
 

@@ -22,6 +22,7 @@ using namespace std;
 
 long long permanent_mod(const vector<vector<long long>>& a, long long m){
     int n = a.size();
+
     assert(1 <= m && m < (1LL << 62) && n < 63);
     vector<vector<long long>> b(n, vector<long long>(n));
     for (int i = 0; i < n; i++){

@@ -49,6 +49,7 @@ void subtract_row(vector<int>& target, const vector<int>& source, int factor, in
 /// Row echelon form of the first cols columns, pivots 1 in rows 0 to rank - 1, pos[j] = pivot row of column j or -1
 vector<int> echelon_mod(vector<vector<int>>& a, int cols, int mod){
     int n = a.size(), i = 0;
+
     for (auto& row : a){
         for (auto& v : row){
             v %= mod;
@@ -79,6 +80,7 @@ vector<int> echelon_mod(vector<vector<int>>& a, int cols, int mod){
 /// Reduced row echelon form: echelon form, then every pivot clears its column above it
 vector<int> rref_mod(vector<vector<int>>& a, int cols, int mod){
     vector<int> pos = echelon_mod(a, cols, mod);
+
     for (int j = cols - 1; j >= 0; j--){
         if (pos[j] == -1) continue;
 
@@ -125,6 +127,7 @@ GaussModSolution gauss(vector<vector<int>> equations, int mod){
 optional<vector<vector<int>>> matrix_inverse(const vector<vector<int>>& a, int mod){
     int n = a.size();
     vector<vector<int>> aug(n, vector<int>(2 * n, 0));
+
     for (int i = 0; i < n; i++){
         assert((int)a[i].size() == n);
         for (int j = 0; j < n; j++) aug[i][j] = a[i][j];

@@ -30,6 +30,7 @@ using namespace std;
 
 long long determinant_mod(vector<vector<long long>> a, long long m){
     int n = a.size();
+
     assert(1 <= m && m < (1LL << 62));
     for (auto& row : a){
         assert((int)row.size() == n);
@@ -66,6 +67,7 @@ long long determinant(const vector<vector<long long>>& a){
 long long laplacian_minor_det(const vector<vector<long long>>& lap, int skip, long long m){
     int n = lap.size();
     vector<vector<long long>> minor;
+
     minor.reserve(n - 1);
 
     for (int i = 0; i < n; i++){

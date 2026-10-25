@@ -62,6 +62,7 @@ vector<int> echelon_gf2(vector<bitset<W>>& a, int cols, vector<bitset<W>>* side 
 template <size_t W>
 vector<int> eliminate_gf2(vector<bitset<W>>& a, int cols, vector<bitset<W>>* side = nullptr){
     vector<int> pos = echelon_gf2(a, cols, side);
+
     for (int j = 0; j < cols; j++){
         if (pos[j] == -1) continue;
 

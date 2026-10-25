@@ -94,6 +94,7 @@ template <class T>
 optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T eps=1e-9){
     int n = a.size();
     vector<vector<T>> aug(n, vector<T>(2 * n, 0));
+
     for (int i = 0; i < n; i++){
         assert((int)a[i].size() == n);
         for (int j = 0; j < n; j++) aug[i][j] = a[i][j];
