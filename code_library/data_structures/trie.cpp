@@ -55,6 +55,7 @@ struct Trie{
 
     void insert(const string& s){
         int v = 0;
+
         pass[0]++;
         for (char ch : s){
             int c = ch - BASE;

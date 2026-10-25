@@ -53,6 +53,7 @@ struct FenwickSparse2D{
                 res += find(x, y);
             }
         }
+
         return res;
     }
 
@@ -65,6 +66,7 @@ struct FenwickSparse2D{
     void add(int x, int y, T v){
         long long key = ((long long)x << 32) | y;
         int k = slot(key);
+
         if (!keys[k]){
             used++;
             assert(used <= (mask + 1) / 4 * 3);  /// table over 3/4 full, raise lg_capacity

@@ -35,6 +35,7 @@ struct PotentialDSU{
 
     bool relate(int a, int b, long long d){
         int ra = find(a), rb = find(b);
+
         d = norm(d);
         if (ra == rb) return norm(up[b] - up[a]) == d;
 

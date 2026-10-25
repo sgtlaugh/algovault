@@ -62,6 +62,7 @@ struct PersistentSegmentTree{
             if (i <= m) node = lc[node], b = m;
             else node = rc[node], a = m + 1;
         }
+
         return val[node];
     }
 
@@ -77,6 +78,7 @@ struct PersistentSegmentTree{
             if (k < inside) lo = lc[lo], hi = lc[hi], b = m;
             else k -= inside, lo = rc[lo], hi = rc[hi], a = m + 1;
         }
+
         return a;
     }
 

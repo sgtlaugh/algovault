@@ -27,6 +27,7 @@ auto mo_with_rollback(int n, const vector<pair<int, int>>& queries, Add add, Sna
     int q = queries.size();
     vector<decay_t<decltype(get(0))>> res(q);
     vector<int> order;
+
     for (int qi = 0; qi < q; qi++){
         auto [l, r] = queries[qi];
         assert(0 <= l && l <= r + 1 && r < n);

@@ -52,6 +52,7 @@ vector<T> compress_by_appearance(vector<T>& v){
         }
         x = relabel[id];
     }
+
     return vals;
 }
 

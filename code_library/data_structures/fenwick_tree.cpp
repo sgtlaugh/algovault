@@ -56,6 +56,7 @@ struct FenwickPointUpdate{
     /// Binary lifting: p stays a multiple of 2 * step, so tree[p + step] is the sum of a[p .. p + step - 1]
     int lower_bound(T s){
         int p = 0, step = 1;
+
         while (step <= n / 2) step *= 2;
 
         for (; step > 0; step >>= 1){
@@ -132,6 +133,7 @@ struct FenwickFull{
             v += tree[i][0];
             va += tree[i][1];
         }
+
         return v * p - va;
     }
 

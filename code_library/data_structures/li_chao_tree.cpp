@@ -79,6 +79,7 @@ struct LiChaoTree{
             if (x <= m) node = cur.left, r = m;
             else node = cur.right, l = m + 1;
         }
+
         return res;
     }
 
@@ -199,6 +200,7 @@ struct PersistentLiChaoTree{
             if (x <= m) node = cur.left, r = m;
             else node = cur.right, l = m + 1;
         }
+
         return res;
     }
 };

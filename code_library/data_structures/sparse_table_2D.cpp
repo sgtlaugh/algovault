@@ -29,6 +29,7 @@ struct SparseTable2D{
 
     SparseTable2D(const vector<vector<T>>& grid) : n(grid.size()), m(grid.empty() ? 0 : grid[0].size()){
         int lgn = n ? __lg(n) + 1 : 0;
+
         lgm = m ? __lg(m) + 1 : 0;
         table.resize(lgn * lgm);
 

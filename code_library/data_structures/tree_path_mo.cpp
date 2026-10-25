@@ -114,6 +114,7 @@ struct TreePathMo{
         for (int k = lg; k >= 0; k--){
             if (up[k][u] != up[k][v]) u = up[k][u], v = up[k][v];
         }
+
         return up[0][u];
     }
 

@@ -26,6 +26,7 @@ template <typename T, typename Add, typename Remove, typename Get>
 auto mo_with_updates(vector<T>& a, const vector<array<int, 3>>& queries, const vector<pair<int, T>>& updates, Add add, Remove remove, Get get){
     int n = a.size(), q = queries.size(), u = updates.size();
     vector<decay_t<decltype(get(0))>> res(q);
+
     if (q == 0) return res;
     int block = max(1, (int)cbrt((double)n * n));
 

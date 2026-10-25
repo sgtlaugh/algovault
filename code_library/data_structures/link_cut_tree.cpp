@@ -119,6 +119,7 @@ struct LinkCutTree{
     /// Makes root..x the preferred path, x ends as the root of its splay tree; returns the last node joined
     int access(int x){
         int last = -1;
+
         for (int y = x; y != -1; y = nodes[y].par){
             splay(y);
             nodes[y].ch[1] = last;

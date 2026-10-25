@@ -55,6 +55,7 @@ struct MergeSortTree{
             if (k < inside) node = 2 * node, b = m;
             else k -= inside, node = 2 * node + 1, a = m + 1;
         }
+
         return sorted_values[a];
     }
 
@@ -73,12 +74,14 @@ struct MergeSortTree{
     /// how many of the ranks [0, p) sit at positions in [l, r]
     int count_prefix(int p, int l, int r) const{
         int res = 0, node = 1, a = 0, b = n - 1;
+
         while (a < p){
             if (b < p) return res + count_in(node, l, r);
             int m = (a + b) / 2;
             if (m < p) res += count_in(2 * node, l, r), node = 2 * node + 1, a = m + 1;
             else node = 2 * node, b = m;
         }
+
         return res;
     }
 
@@ -143,6 +146,7 @@ struct WaveletMatrix{
             k -= zr - zl, code |= 1 << (levels - 1 - d);
             lo = zeros[d] + lo - zl, hi = zeros[d] + hi - zr;
         }
+
         return distinct[code];
     }
 
@@ -160,6 +164,7 @@ struct WaveletMatrix{
             if (p >> (levels - 1 - d) & 1) res += zr - zl, l = zeros[d] + l - zl, r = zeros[d] + r - zr;
             else l = zl, r = zr;
         }
+
         return res;
     }
 };

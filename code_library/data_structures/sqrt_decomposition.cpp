@@ -82,6 +82,7 @@ struct SqrtDecomposition{
         int lo = b * block_size, hi = min(n, lo + block_size);
         vector<T>& value = sorted_block[b];
         vector<int>& index = sorted_index[b];
+
         if (pending[b] != 0){
             for (int i = lo; i < hi; i++) raw[i] += pending[b];
             for (auto& x : value) x += pending[b];

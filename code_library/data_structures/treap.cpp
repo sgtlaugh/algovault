@@ -214,6 +214,7 @@ struct ImplicitTreap{
     vector<long long> to_vector(){
         vector<long long> res;
         vector<int> stack;
+
         for (int t = root; t != -1 || !stack.empty(); ){
             for (; t != -1; t = nodes[t].l) push(t), stack.push_back(t);
             t = stack.back();
@@ -221,12 +222,14 @@ struct ImplicitTreap{
             res.push_back(nodes[t].value);
             t = nodes[t].r;
         }
+
         return res;
     }
 
     /// Cartesian tree of values on fresh random priorities, built left to right with a stack of the right spine
     int build(const vector<long long>& values){
         vector<int> stack;
+
         for (long long v : values){
             int t = new_node(v), last = -1;
             while (!stack.empty() && nodes[stack.back()].priority < nodes[t].priority){
@@ -244,6 +247,7 @@ struct ImplicitTreap{
             pull(stack.back());
             stack.pop_back();
         }
+
         return res;
     }
 

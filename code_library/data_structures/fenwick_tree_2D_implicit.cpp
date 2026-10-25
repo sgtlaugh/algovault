@@ -90,6 +90,7 @@ struct FenwickImplicit2D{
             if (p <= mid) nodes[cur].l = update_seg(nodes[cur].l, a, mid, p, v);
             else nodes[cur].r = update_seg(nodes[cur].r, mid + 1, b, p, v);
         }
+
         return cur;
     }
 };

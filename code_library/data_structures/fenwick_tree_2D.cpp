@@ -56,6 +56,7 @@ struct FenwickPointUpdate2D{
                 res += tree[x][y];
             }
         }
+
         return res;
     }
 
@@ -90,6 +91,7 @@ struct FenwickRangeUpdate2D{
                 res += tree[x][y];
             }
         }
+
         return res;
     }
 
@@ -133,6 +135,7 @@ struct FenwickFull2D{
                 vab += t[3];
             }
         }
+
         return v * p * q - vb * p - va * q + vab;
     }
 

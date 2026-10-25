@@ -29,6 +29,7 @@ struct DisjointSparseTable{
 
     DisjointSparseTable(const vector<T>& a, Op combine = Op()) : a(a), combine(combine){
         int n = a.size();
+
         for (int h = 0; (1 << h) < n; h++){
             dp.push_back(a);
             for (int c = 1 << h; c < n; c += 2 << h){

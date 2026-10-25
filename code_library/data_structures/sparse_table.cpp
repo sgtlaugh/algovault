@@ -62,6 +62,7 @@ struct LinearSparseTable{
     LinearSparseTable(const vector<T>& a) : val(a), mask(a.size()){
         int n = val.size();
         unsigned long long stack = 0;  /// the monotonic stack of the last 64 positions, as a bitmask
+
         for (int i = 0; i < n; i++){
             stack <<= 1;
             /// the lowest set bit is the newest entry, pop while val[i] is at least as good
@@ -89,6 +90,7 @@ struct LinearSparseTable{
             int k = __lg(y - x + 1);
             res = better(res, better(table[k][x], table[k][y - (1 << k) + 1]));
         }
+
         return val[res];
     }
 

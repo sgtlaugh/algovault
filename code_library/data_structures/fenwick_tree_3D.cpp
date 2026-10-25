@@ -61,6 +61,7 @@ struct FenwickPointUpdate3D{
                 }
             }
         }
+
         return res;
     }
 
@@ -106,6 +107,7 @@ struct FenwickRangeUpdate3D{
                 }
             }
         }
+
         return res;
     }
 
@@ -163,6 +165,7 @@ struct FenwickFull3D{
                 }
             }
         }
+
         return v * p * q * s - va * q * s - vb * p * s - vc * p * q + vab * s + vac * q + vbc * p - vabc;
     }
 

@@ -301,6 +301,7 @@ struct RunLengthImplicitTreap{
 
     void push(int t){
         Node& u = nodes[t];
+
         if (u.has_lz){
             apply_lazy(u.l, u.lz);
             apply_lazy(u.r, u.lz);
@@ -320,6 +321,7 @@ struct RunLengthImplicitTreap{
         bool empty = true;
         Agg acc{};
         auto extend = [&](const Agg& a){ return empty ? a : backwards ? Runs::combine(a, acc) : Runs::combine(acc, a); };
+
         while (t != -1){
             push(t);
             int near = backwards ? nodes[t].r : nodes[t].l, far = backwards ? nodes[t].l : nodes[t].r;
@@ -351,6 +353,7 @@ struct RunLengthImplicitTreap{
             }
             return taken + lo;
         }
+
         return taken;
     }
 };

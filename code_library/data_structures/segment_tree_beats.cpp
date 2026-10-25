@@ -109,6 +109,7 @@ struct SegmentTreeBeats{
     void pull(int idx){
         const Node &p = tree[idx << 1], &q = tree[idx << 1 | 1];
         Node& v = tree[idx];
+
         v.sum = p.sum + q.sum;
 
         if (p.max1 == q.max1) v.max1 = p.max1, v.cnt_max = p.cnt_max + q.cnt_max, v.max2 = max(p.max2, q.max2);
@@ -140,6 +141,7 @@ struct SegmentTreeBeats{
     /// A node's pending chmin / chmax is implicit: a child whose max exceeds the node's max is clamped down to it
     void push(int idx){
         Node& v = tree[idx];
+
         for (int child : {idx << 1, idx << 1 | 1}){
             if (v.has_assign){
                 apply_assign(child, v.assign);
@@ -169,6 +171,7 @@ struct SegmentTreeBeats{
 
     void apply_add(int idx, long long x){
         Node& v = tree[idx];
+
         v.sum += (unsigned long long)x * v.len;
         v.max1 += x, v.min1 += x;
         if (v.max2 != NO_MAX) v.max2 += x;

@@ -67,6 +67,7 @@ struct HashMap{
 
     void erase(TKey x){
         int i = get_pos(x, home(x));
+
         if (slots[i].id != cur_id) return;
         _size--;
 

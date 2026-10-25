@@ -26,11 +26,13 @@ template <typename T, typename Compare = less<T>>
 vector<int> next_smaller(const vector<T>& a, Compare compare = Compare()){
     int n = a.size();
     vector<int> res(n), stack;
+
     for (int i = n - 1; i >= 0; i--){
         while (!stack.empty() && !compare(a[stack.back()], a[i])) stack.pop_back();
         res[i] = stack.empty() ? n : stack.back();
         stack.push_back(i);
     }
+
     return res;
 }
 
@@ -38,11 +40,13 @@ template <typename T, typename Compare = less<T>>
 vector<int> previous_smaller(const vector<T>& a, Compare compare = Compare()){
     int n = a.size();
     vector<int> res(n), stack;
+
     for (int i = 0; i < n; i++){
         while (!stack.empty() && !compare(a[stack.back()], a[i])) stack.pop_back();
         res[i] = stack.empty() ? -1 : stack.back();
         stack.push_back(i);
     }
+
     return res;
 }
 
