@@ -60,6 +60,7 @@ int discrete_log(int a, int b, int mod){
 
 int main(){
     int p, b, n;
+
     while (scanf("%d %d %d", &p, &b, &n) == 3){
         int x = discrete_log(b, n, p);
         if (x == -1) puts("no solution");

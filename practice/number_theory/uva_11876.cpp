@@ -71,7 +71,6 @@ int main(){
     LinearSieve sieve(N);
     auto nod = sieve.multiplicative([](long long, int k, long long){ return k + 1; });
 
-    /// upto[x] = number of sequence terms <= x
     vector<int> upto(N + 1, 0);
     for (long long x = 1; x <= N; x += nod[x]) upto[x] = 1;
     for (int x = 1; x <= N; x++) upto[x] += upto[x - 1];

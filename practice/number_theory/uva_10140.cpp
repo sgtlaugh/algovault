@@ -69,6 +69,7 @@ vector<long long> primes_in_range(long long L, long long R){
 int main(){
     SegmentedSieve sieve(INT_MAX);
     long long lo, hi;
+
     while (scanf("%lld %lld", &lo, &hi) == 2){
         vector<char> is_prime = sieve.window(lo, hi);
         vector<long long> primes;

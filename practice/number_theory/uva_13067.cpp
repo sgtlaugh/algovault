@@ -168,6 +168,7 @@ struct PollardRho{
 int main(){
     PollardRho f;
     long long n;
+
     while (scanf("%lld", &n) == 1 && n != 1) printf("%d\n", (int)f.factorize(n).size());
     return 0;
 }

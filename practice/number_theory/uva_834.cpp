@@ -117,6 +117,7 @@ pair<long long, long long> fraction_search(F f, long long n){
 
 int main(){
     long long p, q;
+
     while (scanf("%lld %lld", &p, &q) == 2){
         auto a = continued_fraction(p, q);
         printf("[%lld", a[0]);

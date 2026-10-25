@@ -32,6 +32,7 @@ long long digits_of_factorial(long long n, long long b=10){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;

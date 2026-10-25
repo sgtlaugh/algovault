@@ -70,8 +70,8 @@ const int MAX = 5000000;
 
 int main(){
     LinearSieve sieve(MAX);
-    /// Sum of the distinct prime factors, peeling off the full power of the smallest one; it never exceeds x
     vector<int> sopf(MAX + 1, 0), count(MAX + 1, 0);
+
     for (int x = 2; x <= MAX; x++){
         sopf[x] = sopf[x / sieve.power[x]] + sieve.spf[x];
         count[x] = count[x - 1] + (sieve.spf[sopf[x]] == sopf[x]);

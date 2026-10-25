@@ -47,8 +47,8 @@ long long fibonacci(long long n){
 
 int main(){
     long long n, b;
+
     for (int tc = 1; scanf("%lld %lld", &n, &b) == 2 && (n || b); tc++){
-        /// calls(n) = 1 + calls(n - 1) + calls(n - 2) with calls(0) = calls(1) = 1, which solves to 2 F(n + 1) - 1
         long long calls = (2 * fibonacci(n + 1, b) - 1 + b) % b;
         printf("Case %d: %lld %lld %lld\n", tc, n, b, calls);
     }

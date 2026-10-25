@@ -70,7 +70,6 @@ int main(){
     const int N = 2000000;
     LinearSieve sieve(N);
 
-    /// Prime factors counted with multiplicity, then a counting sort by that count keeps equal counts in increasing order
     vector<int> factors(N + 1, 0), start(23, 0), order(N);
     for (int x = 2; x <= N; x++) factors[x] = factors[x / sieve.spf[x]] + 1;
     for (int x = 1; x <= N; x++) start[factors[x] + 1]++;

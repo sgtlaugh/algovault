@@ -54,6 +54,7 @@ int main(){
     const int N = 1000000;
     MobiusSieve sieve(N);
     vector<int> prefix(N + 1, 0);
+
     for (int d = 1; d <= N; d++) prefix[d] = prefix[d - 1] + sieve.mu[d];
 
     int t;
@@ -63,8 +64,6 @@ int main(){
         scanf("%lld %lld", &n, &m);
         if (n > m) swap(n, m);
 
-        /// lcm(i, j) = i * j exactly for coprime pairs, counted as the sum of mu(d) * (n / d) * (m / d),
-        /// grouped over runs of d where both quotients stay the same
         long long res = 0;
         for (long long d = 1, next; d <= n; d = next + 1){
             next = min(n / (n / d), m / (m / d));

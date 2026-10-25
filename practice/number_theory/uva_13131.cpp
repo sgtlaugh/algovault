@@ -51,6 +51,7 @@ vector<long long> divisors(long long n){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         long long n, k, res = 0;

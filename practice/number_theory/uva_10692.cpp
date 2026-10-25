@@ -97,6 +97,7 @@ long long power_tower(const vector<long long>& a, long long m){
 int main(){
     long long m;
     int n;
+
     for (int tc = 1; scanf("%lld %d", &m, &n) == 2; tc++){
         vector<long long> a(n);
         for (auto& x: a) scanf("%lld", &x);

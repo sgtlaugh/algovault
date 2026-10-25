@@ -70,9 +70,8 @@ const int MAX = 1000000;
 
 int main(){
     LinearSieve sieve(MAX);
-    /// A pair with m2 n1 - m1 n2 = 1 is a fraction with one of its two Stern-Brocot parents, or 0/1 with 1/1:
-    /// 2 (|F_n| - 2) + 1 pairs, |F_n| - 1 of them consecutive, and |F_n| = 1 + phi(1) + ... + phi(n)
     vector<long long> sum(MAX + 1, 0);
+
     for (int i = 1; i <= MAX; i++) sum[i] = sum[i - 1] + sieve.phi[i];
 
     int n;

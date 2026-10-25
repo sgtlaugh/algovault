@@ -67,7 +67,6 @@ struct LinearSieve{
 };
 
 int main(){
-    /// Reversing a number below 10^6 stays below 10^6
     LinearSieve sieve(1000000);
     auto is_prime = [&](int x){ return x >= 2 && sieve.spf[x] == x; };
 

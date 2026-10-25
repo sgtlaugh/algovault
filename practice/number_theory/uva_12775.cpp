@@ -350,6 +350,7 @@ long long count_ways(long long a, long long b, long long c, long long p){
         hi = floor_div(y * t, a / g);
         if (lo <= hi) res += hi - lo + 1;
     }
+
     return res;
 }
 

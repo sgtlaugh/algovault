@@ -70,6 +70,7 @@ long long pow_mod(long long x, long long e){
 
 int main(){
     int t, n, k, b, r;
+
     scanf("%d", &t);
     for (int cs = 1; cs <= t; cs++){
         scanf("%d %d %d %d", &n, &k, &b, &r);
@@ -81,7 +82,6 @@ int main(){
             max_row = max(max_row, x);
         }
 
-        /// Colorings of m rows: k choices for a free cell with no free cell above it, k - 1 for the rest
         auto ways = [&](long long m){
             long long below = (m - 1) * n, top = n;
             for (auto e : blocked){
@@ -94,7 +94,6 @@ int main(){
 
         int res = max_row;
         if (ways(max_row) != r){
-            /// Past the last blocked row, every extra row multiplies the count by (k - 1)^n
             long long base = ways(max_row + 1), rest = r * pow_mod(base, MOD - 2) % MOD;
             res = max_row + 1 + discrete_log(pow_mod(k - 1, n), rest, MOD);
         }

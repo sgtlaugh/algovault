@@ -71,13 +71,13 @@ const long long CHUNK = 10000000;
 int main(){
     SegmentedSieve sieve(2000000000);
     int t;
+
     scanf("%d", &t);
     while (t--){
         long long a, b;
         int k, s, res = 0;
         scanf("%lld %lld %d %d", &a, &b, &k, &s);
 
-        /// The interval can be far wider than one window, so sieve it in chunks and carry the last k primes across them
         deque<long long> last;
         for (long long L = max(a, 0LL); L <= b; L += CHUNK){
             long long R = min(b, L + CHUNK - 1);

@@ -168,6 +168,7 @@ struct PollardRho{
 int main(){
     PollardRho rho;
     int t;
+
     scanf("%d", &t);
     while (t--){
         long long n;

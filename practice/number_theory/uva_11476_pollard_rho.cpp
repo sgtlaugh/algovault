@@ -169,6 +169,7 @@ int main(){
     PollardRho rho;
     int t;
     long long n;
+
     scanf("%d", &t);
     while (t--){
         scanf("%lld", &n);

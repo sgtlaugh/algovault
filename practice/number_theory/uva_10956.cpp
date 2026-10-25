@@ -69,6 +69,7 @@ vector<long long> primes_in_range(long long L, long long R){
 bool suspect(unsigned long long b, unsigned long long n){
     unsigned long long u = n - 1, x = 1;
     int t = 0;
+
     while (!(u & 1)) u >>= 1, t++;
     for (b %= n; u; u >>= 1, b = b * b % n){
         if (u & 1) x = x * b % n;
@@ -78,12 +79,14 @@ bool suspect(unsigned long long b, unsigned long long n){
         if (y == 1 && x != 1 && x != n - 1) return false;
         x = y;
     }
+
     return x == 1;
 }
 
 int main(){
     SegmentedSieve sieve(4294967295LL);
     long long base, lo, hi;
+
     for (int tc = 0; scanf("%lld %lld %lld", &base, &lo, &hi) == 3 && base; tc++){
         vector<char> prime = sieve.window(lo, hi);
         vector<long long> fails;

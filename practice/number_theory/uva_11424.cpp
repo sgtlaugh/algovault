@@ -67,10 +67,10 @@ struct LinearSieve{
 };
 
 int main(){
-    /// gcd(i, n) = d for exactly phi(n / d) values i < n, so n adds the sum of d * phi(n / d) over its divisors d < n
     const int N = 200000;
     LinearSieve sieve(N);
     vector<long long> g(N + 1, 0);
+
     for (int d = 1; d <= N; d++){
         for (int k = 2; k * d <= N; k++) g[k * d] += (long long)d * sieve.phi[k];
     }

@@ -70,7 +70,6 @@ int main(){
     const int MAXN = 1000000;
     LinearSieve sieve(MAXN);
 
-    /// The most terms come from splitting n! into primes: the sum of Omega(x), the prime factor count, over x <= n
     vector<int> terms(MAXN + 1, 0);
     for (int x = 2; x <= MAXN; x++) terms[x] = terms[x / sieve.spf[x]] + 1;
     for (int x = 2; x <= MAXN; x++) terms[x] += terms[x - 1];

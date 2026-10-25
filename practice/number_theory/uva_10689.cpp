@@ -47,6 +47,7 @@ long long fibonacci(long long n){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int a, b, n, m;
@@ -54,7 +55,6 @@ int main(){
         long long mod = 1;
         while (m--) mod *= 10;
 
-        /// f(n) = a F(n - 1) + b F(n) for n >= 1
         long long res = a % mod;
         if (n > 0){
             auto f = fibonacci_pair(n - 1, mod);

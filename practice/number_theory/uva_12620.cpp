@@ -239,7 +239,6 @@ int main(){
     PisanoPeriod pisano;
     int period = pisano.period(100);
 
-    /// prefix[i] = f(1) + ... + f(i) mod 100 for one period, the sum then repeats every period terms
     vector<long long> prefix(period + 1, 0);
     for (int i = 1, a = 1, b = 1; i <= period; i++){
         prefix[i] = prefix[i - 1] + a;

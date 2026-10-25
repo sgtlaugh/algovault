@@ -67,10 +67,10 @@ struct LinearSieve{
 };
 
 int main(){
-    /// count(i!) = sum of Omega(k) for k <= i, which passes 10^7 before i = 3 * 10^6
     const int LIMIT = 3000000;
     LinearSieve sieve(LIMIT);
     vector<int> omega(LIMIT + 1, 0), total(LIMIT + 1, 0);
+
     for (int x = 2; x <= LIMIT; x++){
         omega[x] = omega[x / sieve.spf[x]] + 1;
         total[x] = total[x - 1] + omega[x];

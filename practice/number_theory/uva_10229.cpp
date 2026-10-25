@@ -48,6 +48,7 @@ long long fibonacci(long long n){
 int main(){
     long long n;
     int m;
+
     while (scanf("%lld %d", &n, &m) == 2) printf("%lld\n", fibonacci(n, 1LL << m));
     return 0;
 }

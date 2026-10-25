@@ -70,7 +70,6 @@ int main(){
     const int MAXN = 50000;
     LinearSieve sieve(MAXN);
 
-    /// Pairs (x, y) with gcd 1: (1, 1) plus both orders of every y < x coprime to x
     vector<long long> pairs(MAXN + 1, 0);
     pairs[1] = 1;
     for (int x = 2; x <= MAXN; x++) pairs[x] = pairs[x - 1] + 2 * sieve.phi[x];

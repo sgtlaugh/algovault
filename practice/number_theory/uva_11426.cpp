@@ -69,11 +69,8 @@ struct LinearSieve{
 int main(){
     const int N = 4000000;
 
-    /// Pillai's function sum_{i <= n} gcd(i, n) = sum_{d | n} d phi(n / d) is multiplicative, (k + 1) p^k - k p^(k - 1) on p^k
-    /// The sieve lives only in this expression, so its 80 MB of tables are gone before the prefix sums
     vector<long long> g = LinearSieve(N).multiplicative([](long long p, int k, long long pk){ return (k + 1) * pk - k * (pk / p); });
 
-    /// G(n) - G(n - 1) = sum_{i < n} gcd(i, n), Pillai without the i = n term
     g[0] = g[1] = 0;
     for (int n = 2; n <= N; n++) g[n] += g[n - 1] - n;
 

@@ -64,6 +64,7 @@ long long expo(long long b, long long e){
 int main(){
     MobiusSieve sieve(MAXP);
     vector<long long> pow2(MAXP + 1, 1), fact(MAXP + 1, 1), inv_fact(MAXP + 1, 1);
+
     for (int i = 1; i <= MAXP; i++) pow2[i] = pow2[i - 1] * 2 % MOD, fact[i] = fact[i - 1] * i % MOD;
     inv_fact[MAXP] = expo(fact[MAXP], MOD - 2);
     for (int i = MAXP; i > 0; i--) inv_fact[i - 1] = inv_fact[i] * i % MOD;
@@ -87,8 +88,6 @@ int main(){
 
         auto choose = [&](int m){ return m < k ? 0 : fact[m] * inv_fact[k] % MOD * inv_fact[m - k] % MOD; };
 
-        /// A subset can pay x exactly when its gcd g divides x, so it adds C / g to the sum
-        /// Subsets with gcd exactly g come from Mobius inversion over the subsets of multiples of g
         long long any = 0, sized = 0;
         for (int g = 1; g <= MAXP; g++){
             if (!multiples[g]) continue;

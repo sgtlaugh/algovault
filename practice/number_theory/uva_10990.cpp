@@ -70,7 +70,6 @@ int main(){
     const int MAXN = 2000000;
     LinearSieve sieve(MAXN);
 
-    /// phi(i) < i, so depth[phi(i)] is ready when i is reached
     vector<long long> prefix(MAXN + 1, 0);
     vector<int> depth(MAXN + 1, 0);
     for (int i = 2; i <= MAXN; i++){

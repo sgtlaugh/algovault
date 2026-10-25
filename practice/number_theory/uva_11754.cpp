@@ -123,6 +123,7 @@ long long garner(const vector<long long>& rems, const vector<long long>& mods, l
 int main(){
     const long long LIMIT = 10000;
     int c, s;
+
     while (scanf("%d %d", &c, &s) == 2 && (c || s)){
         vector<long long> x(c);
         vector<vector<long long>> ys(c);
@@ -141,7 +142,6 @@ int main(){
         }
 
         if (combos <= LIMIT){
-            /// Few remainder choices: every combination is one residue modulo the product, by CRT
             vector<long long> base, rems(c);
             function<void(int)> pick = [&](int i) -> void{
                 if (i == c){
@@ -164,7 +164,6 @@ int main(){
             }
         }
         else{
-            /// Many choices: walk the candidates of the sparsest clue and test the others directly
             vector<set<long long>> allowed(c);
             for (int i = 0; i < c; i++) allowed[i] = set<long long>(ys[i].begin(), ys[i].end());
             for (long long d = 0; s; d++){

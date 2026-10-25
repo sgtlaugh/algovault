@@ -73,7 +73,6 @@ int main(){
     int n;
     while (scanf("%d", &n) == 1 && n){
         printf("%d:\n", n);
-        /// An odd sum needs the even prime 2, otherwise the smallest p with n - p prime maximizes the difference
         int found = -1;
         if (n % 2) found = is_prime(n - 2) ? 2 : -1;
         else{

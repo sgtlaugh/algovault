@@ -122,7 +122,6 @@ struct FastSieve{
 };
 
 int main(){
-    /// The 100000th pair lies below 2 * 10^7
     FastSieve sieve(20000000);
     const vector<uint32_t>& primes = sieve.primes;
 

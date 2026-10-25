@@ -32,9 +32,9 @@ long long digits_of_factorial(long long n, long long b=10){
 
 int main(){
     int y;
+
     while (scanf("%d", &y) == 1 && y){
         long long bits = 4LL << ((y - 1960) / 10);
-        /// Largest n whose factorial has at most bits binary digits, the digit count grows with n
         long long lo = 1, hi = 1;
         while (digits_of_factorial(hi * 2, 2) <= bits) hi *= 2;
         hi *= 2;

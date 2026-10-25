@@ -125,17 +125,16 @@ int main(){
     const int N = 100000000;
     FastSieve sieve(N);
     vector<bool> is_prime(N + 1, false);
+
     for (uint32_t p: sieve.primes) is_prime[p] = true;
 
     int n;
     while (scanf("%d", &n) == 1){
         int p1 = 0;
         if (n & 1){
-            /// An odd sum needs the even prime 2
             if (n > 4 && is_prime[n - 2]) p1 = 2;
         }
         else{
-            /// p1 < p2 forces p1 < n / 2, the closest pair has the largest such p1, so walk the primes down from n / 2
             int i = lower_bound(sieve.primes.begin(), sieve.primes.end(), (uint32_t)n / 2) - sieve.primes.begin() - 1;
             for (; i >= 0 && !p1; i--){
                 if (is_prime[n - sieve.primes[i]]) p1 = sieve.primes[i];

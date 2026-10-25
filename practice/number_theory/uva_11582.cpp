@@ -238,13 +238,13 @@ struct PisanoPeriod{
 int main(){
     PisanoPeriod pisano;
     int t;
+
     scanf("%d", &t);
     while (t--){
         unsigned long long a, b;
         int n;
         scanf("%llu %llu %d", &a, &b, &n);
 
-        /// f(i) mod n repeats every pisano(n) terms, so only a^b mod pisano(n) matters
         unsigned long long p = pisano.period(n), e = 1 % p;
         for (unsigned long long x = a % p; b; b >>= 1, x = x * x % p){
             if (b & 1) e = e * x % p;

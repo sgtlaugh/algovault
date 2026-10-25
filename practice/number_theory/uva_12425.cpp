@@ -52,6 +52,7 @@ vector<long long> divisors(long long n){
 int main(){
     int t, q;
     long long n, x;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%lld %d", &n, &q);
@@ -60,7 +61,6 @@ int main(){
             if (d > 1 && all_of(primes.begin(), primes.end(), [&](long long p){ return d % p; })) primes.push_back(d);
         }
 
-        /// Exactly phi(n / d) numbers I <= n have gcd(I, n) = d, so prefix[i] counts the gcds up to div[i]
         int k = div.size();
         vector<long long> prefix(k + 1, 0);
         for (int i = 0; i < k; i++){

@@ -70,8 +70,8 @@ const int MAXD = 200000;
 
 int main(){
     LinearSieve sieve(MAXD);
-    /// count[d] = fractions printed for denominators up to d, 0/1 included
     vector<long long> count(MAXD + 1, 1);
+
     for (int d = 1; d <= MAXD; d++) count[d] = count[d - 1] + sieve.phi[d];
 
     long long k;
@@ -84,7 +84,6 @@ int main(){
         int d = lower_bound(count.begin(), count.end(), k) - count.begin();
         long long rank = k - count[d - 1];
 
-        /// Numerators up to x coprime to d: sum of mu(q) * (x / q) over the squarefree divisors q of d
         vector<int> divisors = {1}, factors = sieve.factorize(d);
         factors.erase(unique(factors.begin(), factors.end()), factors.end());
         for (int p : factors){

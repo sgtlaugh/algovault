@@ -115,10 +115,9 @@ namespace prm{
     }
 }
 
-/// Shanks' square forms factorization with multiplier k: a factor of n, or 1 when this k fails
-/// n must be odd, composite and not a perfect square
 unsigned long long squfof(unsigned long long n, int k){
     unsigned long long m = n * k, s = sqrtl((long double)m), b, x, P[2], Q[2];
+
     while (s * s > m) s--;
     while ((s + 1) * (s + 1) <= m) s++;
 
@@ -155,9 +154,10 @@ unsigned long long squfof(unsigned long long n, int k){
 }
 
 int main(){
-    const int LIMIT = 215444;  /// above the cube root of 10^16
+    const int LIMIT = 215444;
     vector<int> primes;
     vector<bool> composite(LIMIT, false);
+
     for (int i = 2; i < LIMIT; i++){
         if (composite[i]) continue;
         primes.push_back(i);
@@ -170,11 +170,10 @@ int main(){
     while (t--){
         scanf("%lld", &n);
 
-        /// Past the cube root at most two primes remain: a prime, a prime square or a product split by SQUFOF
         vector<long long> f;
         long long r = n;
         for (int p : primes){
-            if ((long long)p * p * p > r && p > 2) break;  /// dividing out every 2 keeps r odd for SQUFOF
+            if ((long long)p * p * p > r && p > 2) break;
             for (; r % p == 0; r /= p) f.push_back(p);
         }
         if (prm::is_prime(r)) f.push_back(r);

@@ -32,8 +32,8 @@ long long digits_of_factorial(long long n, long long b=10){
 
 int main(){
     long long n, b;
+
     while (scanf("%lld %lld", &n, &b) == 2){
-        /// Each prime power p^e of b caps the zeros at (exponent of p in n!) / e
         long long zeros = -1, rest = b;
         for (long long p = 2; p <= rest; p++){
             if (rest % p) continue;

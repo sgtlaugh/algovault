@@ -54,6 +54,7 @@ int main(){
     const int MAXN = 1000000;
     MobiusSieve sieve(MAXN);
     vector<int> mertens(MAXN + 1, 0);
+
     for (int x = 1; x <= MAXN; x++) mertens[x] = mertens[x - 1] + sieve.mu[x];
 
     int n;

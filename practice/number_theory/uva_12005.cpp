@@ -168,8 +168,8 @@ struct PollardRho{
 int main(){
     PollardRho f;
     long long c;
+
     while (scanf("%lld", &c) == 1 && c){
-        /// c = ab - (a + b) / 2 + 1 rearranges to (2a - 1)(2b - 1) = 4c - 3, an odd number, so every divisor gives one pair
         vector<long long> primes = f.factorize(4 * c - 3);
         long long divisors = 1;
         for (int i = 0, j; i < (int)primes.size(); i = j){

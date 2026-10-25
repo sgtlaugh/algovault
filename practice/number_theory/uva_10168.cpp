@@ -68,16 +68,15 @@ struct LinearSieve{
 
 int main(){
     vector<int> queries;
+
     for (int n; scanf("%d", &n) == 1; ) queries.push_back(n);
 
-    /// The tables cost about 20 bytes per entry, so sieve only as far as the largest query needs
     int limit = 2;
     for (int n : queries) limit = max(limit, n);
     LinearSieve sieve(limit);
     auto is_prime = [&](int x){ return x >= 2 && sieve.spf[x] == x; };
 
     for (int n : queries){
-        /// 2 + 2 or 2 + 3 fixes the parity, the even rest is a Goldbach pair, verified far beyond 10^7
         int head = n % 2 ? 3 : 2, rest = n - 2 - head, found = -1;
         for (int p : sieve.primes){
             if (2 * p > rest) break;
