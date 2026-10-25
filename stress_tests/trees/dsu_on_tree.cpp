@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/trees/dsu_on_tree.cpp"
@@ -64,22 +62,13 @@ void check(int n, int shape, int colors){
     }
 }
 
-/// run must abort on a non-tree, the alarm turns an endless traversal into a failure instead of a hang
+/// run must abort on a non-tree
 void check_rejects(int n, const vector<pair<int, int>>& edges){
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        alarm(5);
-        assert(freopen("/dev/null", "w", stderr));
+    stress::expect_assert("trees/dsu_on_tree.cpp", [&]{
         DsuOnTree tree(n);
         for (auto [u, v] : edges) tree.add_edge(u, v);
         tree.run(0, [](int) {}, [](int) {}, [](int) {});
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
+    });
 }
 
 int main(){
