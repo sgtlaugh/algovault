@@ -60,7 +60,9 @@ int main(){
 
     vector<int> opt;
     assert((concave_1d1d_dp(6, 0LL, squares(5), &opt) == vector<long long>{0, 6, 9, 14, 18, 23, 27}));
-    assert(opt[6] == 4 && opt[4] == 2 && opt[2] == 0);
+    assert(opt[6] == 4);
+    assert(opt[4] == 2);
+    assert(opt[2] == 0);
 
     assert((concave_1d1d_dp(4, 0LL, squares(100)) == vector<long long>{0, 101, 104, 109, 116}));
     assert((concave_1d1d_dp(0, 7LL, squares(1)) == vector<long long>{7}));
