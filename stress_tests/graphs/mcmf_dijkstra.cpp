@@ -72,9 +72,8 @@ vector<array<long long, 4>> reversed_chain(int n, int extra, long long min_cost,
     return edges;
 }
 
-/// Lazy Dijkstra only slows down under bad potentials, so each residual edge reachable from s needs reduced cost >= 0
-void check_potentials(MCMF& g, int s){
-    g.init_potential(s);
+/// A negative reduced cost lets Dijkstra settle the sink too early, so each residual edge reachable from s needs >= 0
+void check_reduced_costs(const MCMF& g, int s){
     vector<char> seen(g.n, 0);
     vector<int> stack = {s};
     seen[s] = 1;
@@ -96,10 +95,12 @@ void check(int n, const vector<array<long long, 4>>& edges, long long limit){
     MCMF g(n);
     vector<int> ids;
     for (auto [u, v, cap, cost] : edges) ids.push_back(g.add_edge(u, v, cap, cost));
-    check_potentials(g, s);
+    g.init_potential(s);
+    check_reduced_costs(g, s);
     auto got = g.solve(s, t, limit);
     MCMF residual = g;
-    check_potentials(residual, s);
+    residual.init_potential(s);
+    check_reduced_costs(residual, s);
     assert(got == brute(n, edges, s, t, limit));
 
     vector<long long> balance(n, 0);
@@ -111,6 +112,33 @@ void check(int n, const vector<array<long long, 4>>& edges, long long limit){
     }
     for (int v = 0; v < n; v++) assert(balance[v] == (v == t ? got.first : v == s ? -got.first : 0));
     assert(cost == got.second);
+}
+
+/// Each round stops at the sink, so its potential update must still leave reduced costs >= 0 and the found path tight
+void check_rounds(int n, const vector<array<long long, 4>>& edges){
+    int s = 0, t = n - 1;
+    MCMF g(n);
+    for (auto [u, v, cap, cost] : edges) g.add_edge(u, v, cap, cost);
+    g.init_potential(s);
+
+    long long flow = 0, cost = 0;
+    while (g.dijkstra(s, t)){
+        check_reduced_costs(g, s);
+        long long push = MCMF::INF;
+        for (int v = t; v != s; v = g.edges[g.parent_edge[v] ^ 1].to){
+            int id = g.parent_edge[v], u = g.edges[id ^ 1].to;
+            assert(g.potential[u] + g.edges[id].cost - g.potential[v] == 0);
+            push = min(push, g.edges[id].cap);
+        }
+        for (int v = t; v != s; v = g.edges[g.parent_edge[v] ^ 1].to){
+            int id = g.parent_edge[v];
+            g.edges[id].cap -= push, g.edges[id ^ 1].cap += push, cost += push * g.edges[id].cost;
+        }
+        flow += push;
+        check_reduced_costs(g, s);
+    }
+
+    assert((make_pair(flow, cost) == brute(n, edges, s, t, MCMF::INF)));
 }
 
 /// Breakpoints against a fresh brute force solve at every flow limit from 0 to past the max flow
@@ -158,6 +186,8 @@ int main(){
         check(n, random_graph(n, m, 5, -10, 10, true), MCMF::INF);
         check(n, random_graph(n, m, 5, 0, 10, false), stress::rand_int(0, 6));
         check(n, random_graph(n, m, 5, -1, 3, true), stress::rand_int(0, 6));
+        check_rounds(n, random_graph(n, m, 5, 0, 10, false));
+        check_rounds(n, random_graph(n, m, 5, -10, 10, true));
     }
 
     for (long long it = 0; it < stress::scaled(1500); it++){
@@ -172,12 +202,15 @@ int main(){
         int n = stress::rand_int(2, 40), extra = stress::rand_int(0, 2 * n);
         check(n, reversed_chain(n, extra, 0, 10), stress::rand_int(1, 3));
         check(n, reversed_chain(n, extra, -10, 10), MCMF::INF);
+        check_rounds(n, reversed_chain(n, extra, -10, 10));
     }
 
     for (long long it = 0; it < stress::scaled(150); it++){
         int n = stress::rand_int(20, 60), m = stress::rand_int(n, 6 * n);
         check(n, random_graph(n, m, 1000000, 0, 1000000, false), MCMF::INF);
         check(n, random_graph(n, m, 1000000, -1000000, 1000000, true), MCMF::INF);
+        check_rounds(n, random_graph(n, m, 1000000, 0, 1000000, false));
+        check_rounds(n, random_graph(n, m, 1000000, -1000000, 1000000, true));
     }
 
     /// Large negative-cost DAG: valid starting potentials keep this fast, no brute force at this size

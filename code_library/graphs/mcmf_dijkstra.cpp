@@ -112,6 +112,7 @@ struct MCMF{
             auto [d, u] = heap.top();
             heap.pop();
             if (d != dist[u]) continue;
+            if (u == t) break;
             for (int id : adj[u]){
                 const Edge& e = edges[id];
                 if (e.cap <= 0) continue;
@@ -123,12 +124,10 @@ struct MCMF{
             }
         }
 
-        /// Only reachable nodes get new potentials, unreachable ones can never become reachable again
-        for (int u = 0; u < n; u++){
-            if (dist[u] < INF) potential[u] += dist[u];
-        }
-
-        return dist[t] < INF;
+        if (dist[t] == INF) return false;
+        /// Unsettled nodes have dist >= dist[t], so capping at dist[t] keeps every reduced cost non-negative
+        for (int u = 0; u < n; u++) potential[u] += min(dist[u], dist[t]);
+        return true;
     }
 };
 
