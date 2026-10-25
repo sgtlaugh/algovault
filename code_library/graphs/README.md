@@ -523,7 +523,7 @@
 
 - [Codeforces 152E - Garden](https://codeforces.com/problemset/problem/152/E)
 - [HDU 3311 - Dig The Wells](https://acm.hdu.edu.cn/showproblem.php?pid=3311) [✅](../../practice/graphs/hdu_3311.cpp "Accepted solution")
-- [HDU 4085 - Peach Blossom Spring](https://acm.hdu.edu.cn/showproblem.php?pid=4085)
+- [HDU 4085 - Peach Blossom Spring](https://acm.hdu.edu.cn/showproblem.php?pid=4085) [✅](../../practice/graphs/hdu_4085.cpp "Accepted solution")
 - [Kattis shovelling - Shovelling Snow](https://open.kattis.com/problems/shovelling)
 - [LightOJ 1362 - Electricity Connection](https://lightoj.com/problem/electricity-connection)
 - [oj.uz BOI16_cities - Cities](https://oj.uz/problem/view/BOI16_cities) [✅](../../practice/graphs/oj_uz_boi16_cities.cpp "Accepted solution")
