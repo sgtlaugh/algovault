@@ -28,6 +28,7 @@ struct ClosestPairResult{
 
 ClosestPairResult closest_pair(const vector<Point>& points){
     int n = points.size();
+
     assert(n >= 2);
 
     vector<int> order(n);

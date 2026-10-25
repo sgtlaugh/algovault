@@ -49,6 +49,7 @@ pair<int, int> find_intersecting_pair(const vector<Segment>& segs){
     int n = segs.size();
     vector<Segment> s = segs;
     vector<tuple<long long, long long, int, int>> events;
+
     events.reserve(2 * n);
 
     /// Insertions (type 0) precede removals at the same point, or segments touching only there would be missed

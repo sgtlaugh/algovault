@@ -88,6 +88,7 @@ struct CoverTree{
 pair<long long, long long> rectangle_union_sweep(const vector<Rectangle>& rects){
     vector<long long> ys;
     vector<tuple<long long, int, long long, long long>> events;
+
     for (const auto& r: rects){
         if (r.x1 >= r.x2 || r.y1 >= r.y2) continue;
         ys.push_back(r.y1), ys.push_back(r.y2);

@@ -97,6 +97,7 @@ Float circle_circle_area(const Circle& a, const Circle& b){
 vector<Point> circle_circle_intersection(const Circle& a, const Circle& b){
     Point d = b.center - a.center;
     Float d2 = d.norm2(), sum = a.r + b.r, dif = a.r - b.r, tol = EPS * sum * sum;
+
     if (d2 == 0 || d2 > sum * sum + tol || d2 < dif * dif - tol) return {};
 
     Float p = (d2 + a.r * a.r - b.r * b.r) / (2 * d2);
@@ -111,6 +112,7 @@ vector<Point> circle_line_intersection(const Circle& c, const Point& a, const Po
     Point ab = b - a;
     Float len2 = ab.norm2(), s = ab.cross(c.center - a);
     Float h2 = c.r * c.r * len2 - s * s, tol = EPS * c.r * c.r * len2;
+
     if (h2 < -tol) return {};
 
     Point foot = a + ab * (ab.dot(c.center - a) / len2);
@@ -147,6 +149,7 @@ Float circle_polygon_area(const Circle& c, const vector<Point>& poly){
 Float circle_union_area(const vector<Circle>& circles){
     int n = circles.size();
     Float res = 0;
+
     for (int i = 0; i < n; i++){
         const Circle& c = circles[i];
         bool hidden = c.r <= 0;
@@ -195,6 +198,7 @@ vector<pair<Point, Point>> common_tangents(const Circle& a, const Circle& b){
     vector<pair<Point, Point>> res;
     Point d = b.center - a.center;
     Float d2 = d.norm2();
+
     if (d2 == 0) return res;
 
     /// A negated radius puts the tangency point on the far side of b, turning outer tangents into inner ones
@@ -216,6 +220,7 @@ vector<pair<Point, Point>> common_tangents(const Circle& a, const Circle& b){
 pair<int, Point> max_circle_cover(const vector<Point>& points, Float r){
     int n = points.size(), best = 0;
     Point center{0, 0};
+
     for (int i = 0; i < n; i++){
         int count = 0;
         vector<pair<Float, int>> events;

@@ -44,19 +44,19 @@ struct Point{
     Point() {}
     Point(int64_t x, int64_t y) : x(x), y(y) {}
 
-    inline bool operator < (const Point &p) const {
+    inline bool operator < (const Point &p) const{
         return ((x < p.x) || (x == p.x && y < p.y));
     }
 
-    bool operator == (const Point& p) const {
+    bool operator == (const Point& p) const{
         return x == p.x && y == p.y;
     }
 
-    Point operator + (const Point& p) const {
+    Point operator + (const Point& p) const{
         return Point(x + p.x, y + p.y);
     }
 
-    Point operator - (const Point& p) const {
+    Point operator - (const Point& p) const{
         return Point(x - p.x, y - p.y);
     }
 };
@@ -85,6 +85,7 @@ int64_t dist2(const Point& a, const Point& b){
 template<typename Better>
 int extreme_search(int n, Better better){
     auto is_extreme = [&](int i){ return better((i + 1) % n, i) <= 0 && better(i, (i + n - 1) % n) > 0; };
+
     if (is_extreme(0)) return 0;
     int lo = 0, hi = n;
 
@@ -95,6 +96,7 @@ int extreme_search(int n, Better better){
         if (ls > ms || (ls == ms && ls == better(lo, m))) hi = m;
         else lo = m;
     }
+
     return lo;
 }
 
@@ -162,6 +164,7 @@ vector<Point> get_convex_hull(vector<Point> P){
 
 bool is_convex(const vector<Point>& P){
     int n = P.size(), sign = 0, first[2] = {0, 0}, last[2] = {0, 0}, flips[2] = {0, 0};
+
     if (n <= 2) return false; /// Line or point is not convex
 
     for (int i = 0; i < n; i++){
@@ -192,6 +195,7 @@ array<int, 2> line_hull(const Point& a, const Point& b, const vector<Point>& hul
     auto side = [&](int i){ return sgn(cross(a, hull[i], b)); };
     int end_a = extreme_vertex(hull, Point(b.y - a.y, a.x - b.x));
     int end_b = extreme_vertex(hull, Point(a.y - b.y, b.x - a.x));
+
     if (side(end_a) < 0 || side(end_b) > 0) return {-1, -1};
 
     array<int, 2> res;
@@ -211,6 +215,7 @@ array<int, 2> line_hull(const Point& a, const Point& b, const vector<Point>& hul
         if (gap == 0) return {res[0], res[0]};
         if (gap == 2) return {res[1], res[1]};
     }
+
     return res;
 }
 
@@ -259,6 +264,7 @@ pair<int, int> tangents(const vector<Point>& hull, const Point& q){
 
 long double width(const vector<Point>& hull){
     int n = hull.size();
+
     if (n <= 2) return 0;
     long double best = numeric_limits<long double>::infinity();
 
@@ -287,7 +293,7 @@ struct DynamicHull{
             }
         }
 
-        bool covers(const Point& p) const {
+        bool covers(const Point& p) const{
             auto it = pts.lower_bound(p.x);
             if (it == pts.end()) return false;
             if (it->first == p.x) return p.y <= it->second;
@@ -307,18 +313,20 @@ struct DynamicHull{
         lower.add(Point(p.x, -p.y));
     }
 
-    bool contains(const Point& p) const {
+    bool contains(const Point& p) const{
         return upper.covers(p) && lower.covers(Point(p.x, -p.y));
     }
 
-    vector<Point> hull() const {
+    vector<Point> hull() const{
         vector<Point> res;
+
         for (auto& [x, y] : lower.pts) res.push_back(Point(x, -y));
 
         for (auto it = upper.pts.rbegin(); it != upper.pts.rend(); it++){
             Point p(it->first, it->second);
             if (!(p == res.back()) && !(p == res[0])) res.push_back(p);
         }
+
         return res;
     }
 };

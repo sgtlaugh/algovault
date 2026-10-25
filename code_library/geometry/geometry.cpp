@@ -115,6 +115,7 @@ bool segments_intersect(const Point& a, const Point& b, const Point& c, const Po
 
 int point_in_convex_polygon(const vector<Point>& poly, const Point& p){
     int n = poly.size();
+
     assert(n >= 3);
     const Point& o = poly[0];
     long long first = cross(o, poly[1], p), last = cross(o, poly[n - 1], p);
@@ -151,6 +152,7 @@ int point_in_convex_polygon(const vector<Point>& poly, const Point& p){
 
 int point_in_polygon(const vector<Point>& poly, const Point& p){
     bool inside = false;
+
     for (int i = 0, n = poly.size(); i < n; i++){
         const Point& a = poly[i];
         const Point& b = poly[(i + 1) % n];
@@ -160,12 +162,14 @@ int point_in_polygon(const vector<Point>& poly, const Point& p){
             if ((b.y > a.y) ? c > 0 : c < 0) inside = !inside;
         }
     }
+
     return inside ? 1 : -1;
 }
 
 vector<int> simple_polygon(const vector<Point>& points){
     int n = points.size();
     vector<int> order(n);
+
     iota(order.begin(), order.end(), 0);
     int pivot = *min_element(order.begin(), order.end(), [&](int i, int j){
         return make_pair(points[i].y, points[i].x) < make_pair(points[j].y, points[j].x);
@@ -231,6 +235,7 @@ double clockwise_angle(const PointF& a, const PointF& b){
 vector<PointF> cut_polygon(const vector<PointF>& poly, const PointF& a, const PointF& b){
     vector<PointF> res;
     bool any_left = false;
+
     for (int i = 0, n = poly.size(); i < n; i++){
         const PointF& cur = poly[i];
         const PointF& prev = poly[(i + n - 1) % n];
@@ -277,6 +282,7 @@ PointF polygon_centroid(const vector<PointF>& poly){
         sum = sum + (poly[i] + poly[i + 1] - o * 2) * c;
         area += c;
     }
+
     return o + sum / (3 * area);
 }
 
@@ -296,6 +302,7 @@ PointF rotate(const PointF& center, const PointF& p, double degrees){
 
 vector<PointF> segment_intersection(const PointF& a, const PointF& b, const PointF& c, const PointF& d){
     int oa = orientation(c, d, a), ob = orientation(c, d, b), oc = orientation(a, b, c), od = orientation(a, b, d);
+
     if (oa * ob < 0 && oc * od < 0){
         double ca = cross(c, d, a), cb = cross(c, d, b);
         return {(a * cb - b * ca) / (cb - ca)};

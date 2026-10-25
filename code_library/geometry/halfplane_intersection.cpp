@@ -70,6 +70,7 @@ Point line_intersection(const Halfplane& s, const Halfplane& t){
 
 vector<Point> halfplane_intersection(vector<Halfplane> h, long double box){
     Point corners[4] = {Point(box, -box), Point(box, box), Point(-box, box), Point(-box, -box)};
+
     for (int i = 0; i < 4; i++) h.emplace_back(corners[i], corners[(i + 1) % 4]);
 
     sort(h.begin(), h.end(), [](const Halfplane& a, const Halfplane& b){

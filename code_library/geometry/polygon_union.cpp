@@ -96,6 +96,7 @@ Float polygon_union(vector<vector<Point>> polys){
             res += a.cross(b) * visible;
         }
     }
+
     return res / 2;
 }
 
