@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/number_theory/power_tower.cpp"
@@ -41,21 +39,6 @@ long long brute(const vector<long long>& a, int i, long long m){
     long long r = brute(a, i + 1, lambda);
     long long idx = mu + ((r - mu) % lambda + lambda) % lambda;
     return powers[idx];
-}
-
-bool aborts(const vector<long long>& a, long long m){
-    pid_t pid = fork();
-    assert(pid >= 0);
-
-    if (pid == 0){
-        assert(freopen("/dev/null", "w", stderr));
-        power_tower(a, m);
-        _exit(0);
-    }
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    return WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT;
 }
 
 int main(){
@@ -135,7 +118,9 @@ int main(){
     assert(power_tower(twos, 1000000000000LL) == power_tower(vector<long long>(twos.begin(), twos.begin() + 60), 1000000000000LL));
 
     /// A zero the evaluation reads must abort, one it never reaches is not validated
-    for (auto bad : vector<vector<long long>>{{0}, {2, 0}, {2, 0, 3}, {3, 3, 3, 0, 5}}) assert(aborts(bad, 1000));
+    for (auto bad : vector<vector<long long>>{{0}, {2, 0}, {2, 0, 3}, {3, 3, 3, 0, 5}}){
+        stress::expect_assert("number_theory/power_tower.cpp", [&]{ power_tower(bad, 1000); });
+    }
 
     PowerTower tower(1000);
     assert(tower.query({2, 3, 0}, 0, 1) == 8);
