@@ -61,7 +61,12 @@ int main(){
         {0, 1, 1, 1},
     };
     auto sq = square_sizes(g);
-    assert(sq[2][2] == 3 && sq[3][3] == 3 && sq[3][0] == 0 && sq[0][0] == 1 && sq[1][1] == 2 && sq[1][3] == 1);
+    assert(sq[2][2] == 3);
+    assert(sq[3][3] == 3);
+    assert(sq[3][0] == 0);
+    assert(sq[0][0] == 1);
+    assert(sq[1][1] == 2);
+    assert(sq[1][3] == 1);
 
     vector<vector<int>> d = {
         {0, 0, 1, 0, 0},
@@ -71,9 +76,14 @@ int main(){
         {0, 0, 1, 0, 0},
     };
     auto dm = diamond_sizes(d);
-    assert(dm[4][2] == 3 && dm[3][2] == 2 && dm[2][2] == 2 && dm[0][2] == 1 && dm[2][0] == 1);
+    assert(dm[4][2] == 3);
+    assert(dm[3][2] == 2);
+    assert(dm[2][2] == 2);
+    assert(dm[0][2] == 1);
+    assert(dm[2][0] == 1);
 
-    assert(square_sizes({}).empty() && diamond_sizes({}).empty());
+    assert(square_sizes({}).empty());
+    assert(diamond_sizes({}).empty());
 
     return 0;
 }
