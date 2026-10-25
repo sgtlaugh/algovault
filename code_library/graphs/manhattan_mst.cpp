@@ -27,6 +27,7 @@ struct ManhattanMSTResult{
 vector<array<long long, 3>> manhattan_mst_candidates(vector<pair<long long, long long>> points){
     int n = points.size();
     vector<int> order(n);
+
     iota(order.begin(), order.end(), 0);
     vector<array<long long, 3>> edges;
     edges.reserve(4 * n);
@@ -54,12 +55,14 @@ vector<array<long long, 3>> manhattan_mst_candidates(vector<pair<long long, long
             else swap(p.first, p.second);
         }
     }
+
     return edges;
 }
 
 ManhattanMSTResult manhattan_mst(const vector<pair<long long, long long>>& points){
     int n = points.size();
     vector<array<long long, 3>> edges = manhattan_mst_candidates(points);
+
     sort(edges.begin(), edges.end());
 
     vector<int> parent(n);
@@ -77,6 +80,7 @@ ManhattanMSTResult manhattan_mst(const vector<pair<long long, long long>>& point
         res.weight += w;
         res.edges.push_back({(int)u, (int)v});
     }
+
     return res;
 }
 

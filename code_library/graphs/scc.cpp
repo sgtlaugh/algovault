@@ -36,6 +36,7 @@ struct SCC{
     void run(){
         vector<int> order, it(n, 0), stack;
         vector<char> visited(n, 0);
+
         for (int s = 0; s < n; s++){
             if (visited[s]) continue;
             stack.push_back(s);
@@ -73,6 +74,7 @@ struct SCC{
 
     vector<vector<int>> condensation() const{
         vector<vector<int>> dag(count);
+
         for (int u = 0; u < n; u++){
             for (int v : adj[u]){
                 if (comp[u] != comp[v]) dag[comp[u]].push_back(comp[v]);
@@ -82,6 +84,7 @@ struct SCC{
             sort(out.begin(), out.end());
             out.erase(unique(out.begin(), out.end()), out.end());
         }
+
         return dag;
     }
 };

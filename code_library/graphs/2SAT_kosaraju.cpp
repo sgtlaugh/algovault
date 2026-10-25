@@ -62,6 +62,7 @@ struct TwoSat{
     /// prev is a literal meaning "one of lits[0..i-1] is true", it forbids lits[i] and carries over to the next prefix
     void at_most_one(const vector<int>& lits){
         int k = lits.size();
+
         if (k <= 1) return;
 
         int prev = lits[0];
@@ -112,6 +113,7 @@ struct TwoSat{
     /// Components are numbered in discovery order, which is a reverse topological order of the implication graph
     void build(){
         int m = 2 * n + 2, c = 0;
+
         flatten(adj_start, adj_to, false);
         flatten(rev_start, rev_to, true);
         dfs_t.assign(m, 0), order.assign(m, 0), comp.assign(m, 0);

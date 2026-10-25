@@ -58,6 +58,7 @@ struct ChromaticNumber{
             }
             if (by_parity[0] != by_parity[1]) return k;
         }
+
         return n;
     }
 

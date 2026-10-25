@@ -62,6 +62,7 @@ struct Cactus{
             auto [u, v] = edges[e];
             if (cycle_of[e] == -1) tree[u].push_back(v), tree[v].push_back(u);
         }
+
         return true;
     }
 
@@ -93,12 +94,14 @@ struct Cactus{
                 else if (!close_cycle(u, v, id, parent_edge)) return false;
             }
         }
+
         return true;
     }
 
     bool close_cycle(int u, int v, int id, const vector<int>& parent_edge){
         int c = cycles.size();
         vector<int> cycle = {u}, path;
+
         for (int x = u; x != v; ){
             int e = parent_edge[x];
             if (cycle_of[e] != -1) return false;

@@ -96,6 +96,7 @@ struct FlowGraph{
     void build_residual(){
         int m = E.size();
         vector<int> pos(m);
+
         start.assign(n + 1, m), to.resize(m), rev.resize(m), edge_id.resize(m), res.resize(m);
 
         for (int u = 0, i = 0; u < n; u++){
@@ -107,6 +108,7 @@ struct FlowGraph{
 
     bool bfs(){
         int f = 0, l = 0;
+
         fill(dis.begin(), dis.end(), -1);
 
         dis[src] = 0, Q[l++] = src;
@@ -116,6 +118,7 @@ struct FlowGraph{
                 if (res[i] > 0 && dis[to[i]] == -1) dis[to[i]] = dis[u] + 1, Q[l++] = to[i];
             }
         }
+
         return dis[sink] != -1;
     }
 
@@ -123,6 +126,7 @@ struct FlowGraph{
     long long blocking_flow(){
         long long flow = 0;
         int u = sink;
+
         path.clear();
 
         while (true){
@@ -205,6 +209,7 @@ struct DenseFlowGraph{
             fill(ptr.begin(), ptr.end(), 0);
             while (long long f = dfs(src, LLONG_MAX)) flow += f;
         }
+
         return flow;
     }
 
@@ -227,6 +232,7 @@ struct DenseFlowGraph{
                 if (dis[v] == -1 && cap[u][v] > 0) dis[v] = dis[u] + 1, queue.push_back(v);
             }
         }
+
         return dis[sink] != -1;
     }
 
@@ -240,6 +246,7 @@ struct DenseFlowGraph{
                 return f;
             }
         }
+
         return 0;
     }
 };

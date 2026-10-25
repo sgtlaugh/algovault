@@ -49,6 +49,7 @@ struct BridgeGraph{
                 if (comp[u] != comp[v]) tree[comp[u]].push_back(comp[v]);
             }
         }
+
         return tree;
     }
 
@@ -93,6 +94,7 @@ struct BridgeGraph{
 
     vector<vector<int>> get_components(){
         vector<char> is_bridge(m, 0);
+
         for (auto& b : get_bridges()) is_bridge[b.id] = 1;
 
         count = 0;

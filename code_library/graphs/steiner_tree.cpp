@@ -41,6 +41,7 @@ struct SteinerTree{
 
     vector<long long> solve_subsets(const vector<int>& terminals) const{
         int k = terminals.size();
+
         if (k <= 1) return vector<long long>(1 << k, 0);
 
         vector<vector<long long>> dp(1 << k, vector<long long>(n, STEINER_INF));

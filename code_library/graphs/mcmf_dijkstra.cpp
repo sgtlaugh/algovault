@@ -68,6 +68,7 @@ struct MCMF{
             points.push_back({total_flow + push, total_cost + push * unit_cost});
             prev_unit_cost = unit_cost;
         }
+
         return points;
     }
 
@@ -82,6 +83,7 @@ struct MCMF{
     /// Zero potentials work without negative residual costs; else SPFA, as index-order Bellman Ford can need n passes
     void init_potential(int s){
         bool negative = false;
+
         for (const Edge& e : edges) negative |= e.cap > 0 && e.cost < 0;
         fill(potential.begin(), potential.end(), negative ? INF : 0);
         if (!negative) return;
@@ -125,6 +127,7 @@ struct MCMF{
         for (int u = 0; u < n; u++){
             if (dist[u] < INF) potential[u] += dist[u];
         }
+
         return dist[t] < INF;
     }
 };

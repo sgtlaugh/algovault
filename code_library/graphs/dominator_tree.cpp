@@ -58,6 +58,7 @@ struct DominatorTree{
             if (dom[i] != sdom[i]) dom[i] = dom[dom[i]];
             idom[order[i]] = order[dom[i]];
         }
+
         return idom;
     }
 
@@ -93,6 +94,7 @@ struct DominatorTree{
             if (sdom[label[a]] < sdom[label[w]]) label[w] = label[a];
             anc[w] = anc[a];
         }
+
         return label[v];
     }
 };

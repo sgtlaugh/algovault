@@ -47,6 +47,7 @@ struct MinimumMeanCycle{
         int m = edges.size();
         vector<vector<long long>> d(n + 1, vector<long long>(n, INF));
         vector<vector<int>> par(n + 1, vector<int>(n, -1));
+
         fill(d[0].begin(), d[0].end(), 0);
         for (int k = 1; k <= n; k++){
             for (int i = 0; i < m; i++){

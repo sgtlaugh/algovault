@@ -38,6 +38,7 @@ struct BipartiteEdgeColoring{
     vector<int> solve(){
         int m = edges.size(), k = 0;
         vector<int> deg[2] = {vector<int>(n_left), vector<int>(n_right)};
+
         for (auto& e : edges){
             k = max({k, ++deg[0][e[0]], ++deg[1][e[1]]});
         }
@@ -94,6 +95,7 @@ struct BipartiteEdgeColoring{
             color[e] = a;
             slot(0, u, a) = slot(1, v, a) = e;
         }
+
         return color;
     }
 };
@@ -112,6 +114,7 @@ struct VizingEdgeColoring{
     vector<int> solve(){
         int m = edges.size(), k = 1;
         vector<int> deg(n);
+
         for (auto& e : edges){
             k = max({k, ++deg[e[0]] + 1, ++deg[e[1]] + 1});
         }
@@ -157,6 +160,7 @@ struct VizingEdgeColoring{
         for (int i = 0; i < m; i++){
             while (at(edges[i][0], color[i]) != edges[i][1]) color[i]++;
         }
+
         return color;
     }
 };

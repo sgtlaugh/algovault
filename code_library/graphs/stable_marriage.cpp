@@ -23,6 +23,7 @@ using namespace std;
 vector<int> stable_marriage(const vector<vector<int>>& proposer_pref, const vector<vector<int>>& receiver_pref){
     int n = proposer_pref.size();
     vector<vector<int>> rank(n, vector<int>(n));
+
     for (int r = 0; r < n; r++){
         for (int i = 0; i < n; i++) rank[r][receiver_pref[r][i]] = i;
     }
@@ -38,6 +39,7 @@ vector<int> stable_marriage(const vector<vector<int>>& proposer_pref, const vect
         if (q != -1) match[q] = -1, free_proposers.push_back(q);
         match[p] = r, partner[r] = p;
     }
+
     return match;
 }
 

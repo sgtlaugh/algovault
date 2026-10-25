@@ -127,6 +127,7 @@ struct CliqueGraph{
     /// Greedy coloring: a vertex of color k can extend the clique by at most k, so colors below min_color are hopeless
     void color_sort(vector<Vertex>& r){
         int kept = 0, max_color = 1, min_color = max((int)best.size() - (int)current.size() + 1, 1);
+
         color_class[1].clear(), color_class[2].clear();
         for (auto& v : r){
             int k = 1;

@@ -77,6 +77,7 @@ struct Kruskal{
 
     MSTResult solve() const{
         vector<int> order(edges.size());
+
         iota(order.begin(), order.end(), 0);
         stable_sort(order.begin(), order.end(), [&](int a, int b){ return edges[a].w < edges[b].w; });
 

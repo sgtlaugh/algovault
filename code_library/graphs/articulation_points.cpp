@@ -46,6 +46,7 @@ struct Biconnected{
 
     void run(){
         vector<int> discover(n, 0), low(n), parent_edge(n, -1), next_edge(n, 0), path, edge_stack;
+
         is_cut.assign(n, false);
         blocks.clear(), cuts.clear();
 
@@ -102,6 +103,7 @@ struct Biconnected{
     vector<vector<int>> block_cut_tree(){
         vector<vector<int>> tree(n + blocks.size());
         vector<int> last(n, -1);
+
         for (int b = 0; b < (int)blocks.size(); b++){
             for (int id: blocks[b]){
                 for (int u: {edges[id].first, edges[id].second}){
@@ -112,6 +114,7 @@ struct Biconnected{
                 }
             }
         }
+
         return tree;
     }
 };

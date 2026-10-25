@@ -106,6 +106,7 @@ struct DynamicConnectivity{
     vector<int> solve(){
         int q = queries.size();
         vector<int> res(q);
+
         if (q == 0) return res;
 
         tree.assign(4 * q, {});
@@ -136,6 +137,7 @@ struct DynamicConnectivity{
 
     void dfs(int node, int lo, int hi, vector<int>& res){
         int saved = dsu.time();
+
         for (auto [u, v]: tree[node]) dsu.connect(u, v);
 
         if (lo == hi){

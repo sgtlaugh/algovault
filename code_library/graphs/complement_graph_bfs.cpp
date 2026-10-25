@@ -29,6 +29,7 @@ struct ComplementGraph{
 
     vector<int> bfs(int s) const{
         vector<int> dist(n, -1), unvisited, mark(n, -1), frontier;
+
         for (int v = 0; v < n; v++){
             if (v != s) unvisited.push_back(v);
         }
@@ -40,6 +41,7 @@ struct ComplementGraph{
 
     vector<int> components() const{
         vector<int> comp(n, -1), unvisited(n), mark(n, -1), frontier;
+
         iota(unvisited.rbegin(), unvisited.rend(), 0);
 
         /// unvisited stays in decreasing order, so back() is the smallest unvisited vertex
@@ -49,6 +51,7 @@ struct ComplementGraph{
             comp[s] = count;
             sweep(s, unvisited, mark, frontier, [&](int, int v){ comp[v] = count; });
         }
+
         return comp;
     }
 

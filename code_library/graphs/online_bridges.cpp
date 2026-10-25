@@ -35,6 +35,7 @@ struct OnlineBridges{
 
     void add_edge(int u, int v){
         int a = component(u), b = component(v);
+
         if (a == b) return;
 
         int ca = find(conn_link, a), cb = find(conn_link, b);
@@ -65,6 +66,7 @@ struct OnlineBridges{
 
     int find(vector<int>& link, int u){
         int root = u;
+
         while (link[root] != root) root = link[root];
 
         while (link[u] != root){
@@ -72,6 +74,7 @@ struct OnlineBridges{
             link[u] = root;
             u = next;
         }
+
         return root;
     }
 
@@ -79,6 +82,7 @@ struct OnlineBridges{
     void merge_path(int a, int b){
         vector<int> path_a, path_b;
         int lca = -1;
+
         iteration++;
         auto step = [&](int& x, vector<int>& path){
             if (x == -1 || lca != -1) return;

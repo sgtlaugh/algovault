@@ -53,6 +53,7 @@ struct MinCostCirculation{
 
     long long solve(){
         long long eps = 0;
+
         for (auto& arcs : adj){
             for (auto& a : arcs) eps = max(eps, abs(a.cost));
         }
@@ -68,6 +69,7 @@ struct MinCostCirculation{
             auto [u, i] = pos[id];
             total += flow(id) * (adj[u][i].cost / (n + 1));
         }
+
         return total;
     }
 

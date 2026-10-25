@@ -54,12 +54,14 @@ struct BellmanFord{
             /// An acyclic parent chain has at most n - 1 edges, so a relaxation in pass n means the chain holds a cycle
             if (pass == n - 1) return cycle_through(parent, relaxed);
         }
+
         return {};
     }
 
     vector<long long> shortest_paths(int src) const{
         long long low = -(n - 1) * max_abs_weight();
         vector<long long> dist(n, INF);
+
         dist[src] = 0;
 
         /// Unaffected vertices are exact after n - 1 passes, an edge relaxing after that is in a negative cycle's reach
@@ -79,6 +81,7 @@ struct BellmanFord{
                 if (dist[u] == NEG_INF && dist[v] != NEG_INF) dist[v] = NEG_INF, changed = true;
             }
         }
+
         return dist;
     }
 

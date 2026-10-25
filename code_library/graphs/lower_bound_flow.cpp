@@ -87,6 +87,7 @@ struct LowerBoundFlow{
     /// Feeds lower bounds from S = n to T = n + 1, with the s-t arcs last so detach_terminals finds them at the back
     bool build(int s = -1, int t = -1){
         int super_src = n, super_sink = n + 1;
+
         arcs.clear();
         for (auto& list : adj) list.clear();
 
@@ -134,6 +135,7 @@ struct LowerBoundFlow{
                 if (dis[arcs[id].to] == -1 && arcs[id].cap > 0) dis[arcs[id].to] = dis[u] + 1, queue.push_back(arcs[id].to);
             }
         }
+
         return dis[sink] != -1;
     }
 
@@ -170,6 +172,7 @@ struct LowerBoundFlow{
             path.pop_back();
             ptr[u]++;
         }
+
         return total;
     }
 

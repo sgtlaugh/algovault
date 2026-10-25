@@ -87,6 +87,7 @@ struct GomoryHu{
             res = min(res, tree_weight[u]);
             u = tree_parent[u];
         }
+
         return res;
     }
 
@@ -104,6 +105,7 @@ struct GomoryHu{
 
     bool bfs(int src, int sink){
         int f = 0, l = 0;
+
         fill(dis.begin(), dis.end(), -1);
 
         dis[src] = 0, Q[l++] = src;
@@ -116,6 +118,7 @@ struct GomoryHu{
                 }
             }
         }
+
         return dis[sink] != -1;
     }
 

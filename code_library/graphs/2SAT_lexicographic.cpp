@@ -72,6 +72,7 @@ struct TwoSat{
     /// prev is a literal meaning "one of lits[0..i-1] is true", it forbids lits[i] and carries over to the next prefix
     void at_most_one(const vector<int>& lits){
         int k = lits.size();
+
         if (k <= 1) return;
 
         int prev = lits[0];
@@ -106,6 +107,7 @@ struct TwoSat{
     bool is_satisfiable(){
         int nodes = adj.size(), components = 0;
         long long edges = 0;
+
         for (auto& v : adj) edges += v.size();
 
         /// Failed work allowed before SCC pays for itself, then a per query budget of one O(n + m) batch over B queries
@@ -246,6 +248,7 @@ struct TwoSat{
         int nodes = adj.size(), timer = 0, components = 0;
         vector<int> low(nodes), num(nodes, -1), it(nodes, 0), st, call;
         vector<char> on(nodes, 0);
+
         comp.assign(nodes, -1);
 
         for (int s = 2; s < nodes; s++){

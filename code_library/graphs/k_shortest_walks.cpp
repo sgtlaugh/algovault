@@ -91,6 +91,7 @@ struct KShortestWalks{
 
     vector<long long> solve(int s, int t, int k){
         vector<vector<int>> rev(n), out(n);
+
         for (int id = 0; id < (int)edges.size(); id++){
             rev[edges[id].v].push_back(id);
             out[edges[id].u].push_back(id);
@@ -144,6 +145,7 @@ struct KShortestWalks{
             if (node.right != pool.EMPTY) best.push({len - key + pool.top(node.right).first, node.right});
             if (h[to] != pool.EMPTY) best.push({len + pool.top(h[to]).first, h[to]});
         }
+
         return result;
     }
 };

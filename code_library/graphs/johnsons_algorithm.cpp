@@ -53,6 +53,7 @@ struct Johnson{
     /// Bellman Ford from a virtual source that reaches every vertex with weight 0
     optional<vector<long long>> potentials() const{
         vector<long long> h(n, 0);
+
         for (int round = 0; round < n; round++){
             bool changed = false;
             for (auto [u, v, w] : edges){
@@ -65,12 +66,14 @@ struct Johnson{
             if (!changed) break;
             if (round == n - 1) return nullopt;  /// a change in pass n means a negative cycle
         }
+
         return h;
     }
 
     void dijkstra(int s, const vector<vector<pair<int, long long>>>& adj, const vector<long long>& h){
         vector<long long>& d = dist[s];
         priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+
         d[s] = 0, heap.push({0, s});
         while (!heap.empty()){
             auto [du, u] = heap.top();

@@ -123,6 +123,7 @@ struct DAGPathCover{
         for (int v = 0; v < n; v++){
             if (seen_left[v] && !seen_right[v]) res.push_back(v);
         }
+
         return res;
     }
 
@@ -175,6 +176,7 @@ struct DAGPathCover{
                 if (reach[u][v >> 6] >> (v & 63) & 1) res[u].push_back(v);
             }
         }
+
         return res;
     }
 };

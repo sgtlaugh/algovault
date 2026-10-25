@@ -218,9 +218,9 @@ vector<long long> dijkstra_implicit(int n, const vector<int>& sources, Neighbors
         relax.du = du;
         neighbors(u, du, relax);
     }
+
     return dist;
 }
-
 
 int main(){
     /// 0 -> 2 -> 1 costs 3 and beats the direct edge of 4, and nothing reaches 4
