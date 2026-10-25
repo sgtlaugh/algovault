@@ -26,6 +26,7 @@ struct AntiHash{
 
     AntiHash(long long base1, long long mod1, long long base2, long long mod2){
         int l, i, j, k;
+
         b[0] = base1, m[0] = mod1, b[1] = base2, m[1] = mod2;
 
         for (l = 0; l < 2; l++){
@@ -66,6 +67,7 @@ struct AntiHash{
 
     inline unsigned long long get_hash(unsigned long long x){
         unsigned long long i = 0, h1 = 0, h2 = 0;
+
         while (x){
             h1 += dp[x & 65535][i][0];
             h2 += dp[x & 65535][i][1];
@@ -89,6 +91,7 @@ struct AntiHash{
 
     inline pair<string, string> solve(){
         unsigned long long u, v, x, y, s;
+
         x = y = s = 6666666666666666677LL;
 
         /// Floyd's cycle finding
