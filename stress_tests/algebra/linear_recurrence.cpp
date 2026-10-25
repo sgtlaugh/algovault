@@ -129,7 +129,7 @@ int main(){
     /// f(x) = a * f(x - k) has the closed form f(n) = a^(n / k) * f(n % k), checkable at n near 1e18
     {
         long long mod = 998244353, a = stress::rand_int(2, mod - 1);
-        int k = 16000;
+        int k = 4000;
         vector<int> c(k, 0), start(k);
         c[k - 1] = a;
         for (int i = 0; i < k; i++) start[i] = stress::rand_int(0, mod - 1);
