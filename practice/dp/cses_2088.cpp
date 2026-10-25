@@ -53,6 +53,7 @@ vector<vector<T>> knuth_dp(int n, Cost cost){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<long long> pre(n + 1, 0);
     for (int i = 0; i < n; i++){
@@ -61,7 +62,6 @@ int main(){
         pre[i + 1] = pre[i] + x;
     }
 
-    /// Splitting is merging run backwards, so the cost of a piece is its sum once it holds two or more elements
     auto dp = knuth_dp<long long>(n, [&](int i, int j){ return pre[j] - pre[i]; });
     printf("%lld\n", dp[0][n]);
     return 0;

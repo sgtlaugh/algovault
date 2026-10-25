@@ -121,7 +121,6 @@ bool inside(int i, int j){
     return i >= 0 && j >= 0 && i < h && j < w;
 }
 
-/// Water, trees and every square touching a native camp, diagonals included, are off limits
 bool blocked(int i, int j){
     if (grid[i][j] == '#' || grid[i][j] == '~' || grid[i][j] == '*') return true;
     for (int di = -1; di <= 1; di++){
@@ -134,6 +133,7 @@ bool blocked(int i, int j){
 
 vector<vector<int>> bfs(int si, int sj, const vector<vector<bool>>& bad){
     const int dx[] = {0, 0, -1, 1}, dy[] = {1, -1, 0, 0};
+
     vector<vector<int>> dis(h, vector<int>(w, -1));
     queue<pair<int, int>> q;
     dis[si][sj] = 0, q.push({si, sj});
@@ -148,6 +148,7 @@ vector<vector<int>> bfs(int si, int sj, const vector<vector<bool>>& bad){
             }
         }
     }
+
     return dis;
 }
 
@@ -175,6 +176,7 @@ int solve(){
             g.add_directed_edge(u, v, d);
         }
     }
+
     return g.shortest_cycle().first;
 }
 

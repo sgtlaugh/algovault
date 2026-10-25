@@ -116,6 +116,7 @@ constexpr long long HamiltonianGraph::INF;
 
 int main(){
     int x, y;
+
     while (scanf("%d %d", &x, &y) == 2){
         vector<pair<int, int>> spots(1);
         for (int i = 0; i < x; i++){
@@ -131,7 +132,6 @@ int main(){
         HamiltonianGraph g(n);
         for (int i = 0; i < n; i++){
             for (int j = 0; j < n; j++){
-                /// King moves: the distance is the larger coordinate difference
                 int d = max(abs(spots[i].first - spots[j].first), abs(spots[i].second - spots[j].second));
                 g.add_directed_edge(i, j, d);
             }

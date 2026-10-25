@@ -69,12 +69,12 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
 
 int main(){
     int m, n;
+
     scanf("%d %d", &m, &n);
     vector<pair<long long, long long>> prod(m), cons(n);
     for (auto& x: prod) scanf("%lld %lld", &x.second, &x.first);
     for (auto& x: cons) scanf("%lld %lld", &x.second, &x.first);
 
-    /// keep only undominated companies: producers by day ascending with falling price, consumers by end ascending with falling price
     sort(prod.begin(), prod.end());
     vector<long long> pd, pp;
     for (auto& x: prod){
@@ -84,7 +84,7 @@ int main(){
     vector<long long> ce, cq;
     for (auto& x: cons){
         if (!cq.empty() && x.second <= cq.back()) continue;
-        /// a consumer without any producer starting earlier and selling cheaper would make the raw product lie
+
         int idx = lower_bound(pd.begin(), pd.end(), x.first) - pd.begin() - 1;
         if (idx >= 0 && pp[idx] < x.second) ce.push_back(x.first), cq.push_back(x.second);
     }
@@ -95,8 +95,6 @@ int main(){
         return 0;
     }
 
-    /// indices 1..P are producers and P+1..P+C consumers; every index gets both roles with monotone sentinel attributes,
-    /// so (q - p)(e - d) stays inverse Monge on the whole range and a consumer index used as a producer is hopeless
     const long long far = 2000000000LL;
     int np = pd.size(), nc = ce.size();
     auto cost = [&](int j, int i) -> long long{

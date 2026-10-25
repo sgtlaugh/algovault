@@ -73,6 +73,7 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, p, q;
@@ -85,7 +86,6 @@ int main(){
             pos[x] = i;
         }
 
-        /// Both routes visit distinct squares, so the LCS is the LIS of the Princess's route in Prince order
         vector<int> ar;
         for (int i = 0; i <= q; i++){
             int x;

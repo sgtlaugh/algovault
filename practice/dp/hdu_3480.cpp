@@ -69,6 +69,7 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
@@ -77,7 +78,6 @@ int main(){
         for (int i = 0; i < n; i++) scanf("%lld", &a[i]);
         sort(a.begin(), a.end());
 
-        /// after sorting, some optimal cover uses disjoint runs, and more subsets than elements cannot help
         auto cost = [&](int j, int i){ return (a[i - 1] - a[j]) * (a[i - 1] - a[j]); };
         printf("Case %d: %lld\n", tc, divide_conquer_dp<long long>(n, min(m, n), cost)[n]);
     }

@@ -139,9 +139,11 @@ long long min_cost_non_decreasing(const vector<long long>& a){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<long long> a(n);
     for (auto& x : a) scanf("%lld", &x);
+
     printf("%lld\n", min_cost_non_decreasing(a));
     return 0;
 }

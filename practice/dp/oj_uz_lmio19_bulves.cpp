@@ -139,6 +139,7 @@ long long min_cost_non_decreasing(const vector<long long>& a){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<long long> d(n);
     for (int i = 0; i < n; i++){
@@ -147,8 +148,6 @@ int main(){
         d[i] = (i ? d[i - 1] : 0) + a - b;
     }
 
-    /// p[i] = fertiliser left unused in segments 1..i, non-decreasing in [0, D] with p[n] = D,
-    /// and |d[i] - p[i]| units cross the border right of segment i
     long long total = d[n - 1], extra = 0;
     SlopeTrick<long long> f;
     for (long long x : d){

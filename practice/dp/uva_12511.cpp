@@ -39,6 +39,7 @@ Sequence lcis(const Sequence& A, const Sequence& B){
 
 int main(){
     int t, n;
+
     scanf("%d", &t);
     while (t--){
         vector<int> log[2];

@@ -69,6 +69,7 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
 
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
 
     vector<int> black(n + 1, 0);

@@ -73,14 +73,13 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int t, m;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d", &m);
         vector<pair<int, int>> dolls(m);
         for (auto& doll: dolls) scanf("%d %d", &doll.first, &doll.second);
 
-        /// Dilworth: fewest chains = largest antichain, a non-increasing run of heights once sorted by width ascending,
-        /// equal widths by height descending so they never chain with each other
         sort(dolls.begin(), dolls.end(), [](const pair<int, int>& a, const pair<int, int>& b){
             return a.first != b.first ? a.first < b.first : a.second > b.second;
         });

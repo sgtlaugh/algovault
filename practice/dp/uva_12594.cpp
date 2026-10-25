@@ -69,6 +69,7 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         static char perfect[32], name[20010];
@@ -87,7 +88,6 @@ int main(){
             pos_sq[x + 1] = pos_sq[x] + p * p;
         }
 
-        /// a part starting at j reindexes its characters from 0, which shifts the tax by -j * POS per character
         auto cost = [&](int j, int i){
             return (index_pos[i] - index_pos[j]) - j * (pos_sum[i] - pos_sum[j]) - (pos_sq[i] - pos_sq[j]);
         };

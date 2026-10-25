@@ -116,6 +116,7 @@ constexpr long long HamiltonianGraph::INF;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -133,7 +134,6 @@ int main(){
         vector<int> places(s + 1, 0);
         for (int i = 1; i <= s; i++) scanf("%d", &places[i]);
 
-        /// The tour only sees the house and the stores, joined by their shortest road distances
         HamiltonianGraph g(s + 1);
         for (int i = 0; i <= s; i++){
             vector<long long> dist(n, LLONG_MAX);

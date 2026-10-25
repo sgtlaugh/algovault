@@ -74,9 +74,8 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 int main(){
     char buf[1010];
     int t = 0;
+
     while (scanf("%s", buf) == 1 && strcmp(buf, "end")){
-        /// A container can sit on one for the same or a later ship, so stacks are non-increasing runs and by
-        /// Dilworth their minimum count is the longest strictly increasing subsequence
         string s = buf;
         printf("Case %d: %d\n", ++t, lis_length(vector<char>(s.begin(), s.end())));
     }

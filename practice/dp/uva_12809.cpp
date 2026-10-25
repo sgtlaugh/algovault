@@ -53,6 +53,7 @@ vector<vector<T>> knuth_dp(int n, Cost cost){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         vector<double> pre(n + 1, 0);
         for (int i = 1; i <= n; i++){
@@ -60,7 +61,6 @@ int main(){
             pre[i] += pre[i - 1];
         }
 
-        /// Keys sit between the points 0..n + 1, every key below a root costs one more visit, so each level adds its subtree's probability
         auto dp = knuth_dp<double>(n + 1, [&](int i, int j){ return pre[j - 1] - pre[i]; });
         printf("%.4f\n", dp[0][n + 1]);
     }

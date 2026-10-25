@@ -74,9 +74,9 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 int main(){
     vector<array<int, 3>> elephants;
     int w, s;
+
     while (scanf("%d %d", &w, &s) == 2) elephants.push_back({w, s, (int)elephants.size() + 1});
 
-    /// Equal weights sorted by rising IQ can never both sit in a strictly decreasing IQ run
     sort(elephants.begin(), elephants.end(), [](const array<int, 3>& a, const array<int, 3>& b){
         return a[0] != b[0] ? a[0] < b[0] : a[1] < b[1];
     });

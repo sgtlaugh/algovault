@@ -114,6 +114,7 @@ struct HamiltonianGraph{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
 
     HamiltonianGraph g(n);

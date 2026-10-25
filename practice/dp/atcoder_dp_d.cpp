@@ -54,9 +54,11 @@ long long bounded_knapsack(const vector<T>& values, const vector<T>& weights, co
 
 int main(){
     int n, W;
+
     scanf("%d %d", &n, &W);
     vector<long long> values(n), weights(n), counts(n, 1);
     for (int i = 0; i < n; i++) scanf("%lld %lld", &weights[i], &values[i]);
+
     printf("%lld\n", bounded_knapsack(values, weights, counts, W));
     return 0;
 }

@@ -75,19 +75,18 @@ int main(){
     int n = 0;
     vector<int> rank;
     char line[1024];
+
     while (fgets(line, sizeof line, stdin)){
         vector<int> v;
         for (char* tok = strtok(line, " \t\r\n"); tok; tok = strtok(NULL, " \t\r\n")) v.push_back(atoi(tok));
         if (v.empty()) continue;
 
-        /// A line with a single number starts a new test case, the correct ranking follows on the next line
         if (v.size() == 1){
             n = v[0];
             rank.clear();
         }
         else if (rank.empty()) rank = v;
         else{
-            /// Listing the correct ranks in the student's chronological order, agreeing events form an increasing run
             vector<int> order(n);
             for (int i = 0; i < n; i++) order[v[i] - 1] = rank[i];
             printf("%d\n", lis_length(order));

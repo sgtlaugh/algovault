@@ -53,13 +53,12 @@ vector<vector<T>> knuth_dp(int n, Cost cost){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<double> p(n + 1), q(n + 1);
     for (int i = 1; i <= n; i++) scanf("%lf", &p[i]);
     for (int i = 0; i <= n; i++) scanf("%lf", &q[i]);
 
-    /// Points 0..n + 1 make the dummy keys the leaves [i, i + 1]; splitting [i, j] at k roots key k,
-    /// and every node in [i, j] pays one level for that root
     vector<double> pre(2 * n + 2, 0);
     for (int i = 0; i <= n; i++){
         pre[2 * i + 1] = pre[2 * i] + q[i];
@@ -67,7 +66,6 @@ int main(){
     }
     auto dp = knuth_dp<double>(n + 1, [&](int i, int j){ return pre[2 * j - 1] - pre[2 * i]; });
 
-    /// Leaves pay their own level too, which the split tree never charges
     printf("%.8f\n", dp[0][n + 1] + accumulate(q.begin(), q.end(), 0.0));
     return 0;
 }

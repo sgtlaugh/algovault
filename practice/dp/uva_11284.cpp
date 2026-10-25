@@ -123,6 +123,7 @@ long long cents(){
 int main(){
     const long long INF = LLONG_MAX / 4;
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -141,7 +142,6 @@ int main(){
             }
         }
 
-        /// Vertex 0 is the house, operas sold at the same store merge into one vertex
         int p;
         scanf("%d", &p);
         vector<int> stores = {0}, id(n + 1, -1);
@@ -163,7 +163,6 @@ int main(){
             }
         }
 
-        /// The cycle DP holds the cheapest tour from the house through every subset, not just the full one
         vector<long long> dp = g.build_dp(true);
         long long best = 0;
         for (int mask = 3; mask < (1 << k); mask += 2){

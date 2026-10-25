@@ -73,11 +73,11 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         vector<int> a(n);
         for (int& x : a) scanf("%d", &x);
 
-        /// The decreasing half starting at i is the LIS ending at i of the reversed sequence
         vector<int> up = lis_vector(a);
         reverse(a.begin(), a.end());
         vector<int> down = lis_vector(a);

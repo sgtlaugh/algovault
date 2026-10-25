@@ -73,9 +73,11 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> a(n);
     for (int i = 0; i < n; i++) scanf("%d", &a[i]);
+
     printf("%d\n", lis_length(a));
     return 0;
 }

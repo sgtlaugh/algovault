@@ -119,6 +119,7 @@ int dist_inf[SZ][SZ];
 
 void knight_bfs(){
     const int dx[] = {1, 1, -1, -1, 2, 2, -2, -2}, dy[] = {2, -2, 2, -2, 1, -1, 1, -1};
+
     memset(dist_inf, -1, sizeof(dist_inf));
     queue<pair<int, int>> q;
     dist_inf[OFF][OFF] = 0, q.push(make_pair(OFF, OFF));
@@ -134,8 +135,6 @@ void knight_bfs(){
     }
 }
 
-/// Exhaustive BFS over every board from 4 to 30 shows the infinite board distance is exact on N x N except
-/// a corner and its diagonal neighbour (4 moves), and on N = 4 two corners sharing an edge (5 moves)
 int knight_dist(int n, int r1, int c1, int r2, int c2){
     auto corner = [n](int r, int c){ return (r == 1 || r == n) && (c == 1 || c == n); };
     int dr = abs(r1 - r2), dc = abs(c1 - c2);

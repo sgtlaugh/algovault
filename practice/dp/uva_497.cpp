@@ -74,6 +74,7 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 int main(){
     int t;
     char line[100];
+
     if (!fgets(line, sizeof(line), stdin)) return 0;
     sscanf(line, "%d", &t);
 

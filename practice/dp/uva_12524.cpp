@@ -69,6 +69,7 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
 
 int main(){
     int n, k;
+
     while (scanf("%d %d", &n, &k) == 2){
         vector<long long> x(n), weight(n + 1, 0), moment(n + 1, 0);
         for (int i = 0; i < n; i++){
@@ -78,7 +79,6 @@ int main(){
             moment[i + 1] = moment[i] + w * x[i];
         }
 
-        /// the barge only goes downriver, so each final heap collects a run of heaps ending at its own point
         auto cost = [&](int j, int i){ return x[i - 1] * (weight[i] - weight[j]) - (moment[i] - moment[j]); };
         printf("%lld\n", divide_conquer_dp<long long>(n, k, cost)[n]);
     }

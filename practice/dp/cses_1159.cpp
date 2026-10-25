@@ -54,11 +54,13 @@ long long bounded_knapsack(const vector<T>& values, const vector<T>& weights, co
 
 int main(){
     int n, x;
+
     scanf("%d %d", &n, &x);
     vector<int> prices(n), pages(n), copies(n);
     for (auto& h : prices) scanf("%d", &h);
     for (auto& s : pages) scanf("%d", &s);
     for (auto& k : copies) scanf("%d", &k);
+
     printf("%lld\n", bounded_knapsack(pages, prices, copies, x));
     return 0;
 }

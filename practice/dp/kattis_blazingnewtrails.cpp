@@ -90,8 +90,6 @@ int main(){
     sort(cross.begin(), cross.end(), by_cost);
     sort(plain.begin(), plain.end(), by_cost);
 
-    /// Kruskal with lambda added to every cross edge; both lists stay sorted under the shift, so a merge
-    /// replaces the sort, and taking plain edges first on ties yields the fewest cross edges among the MSTs
     int merged = 0;
     auto solver = [&](long long lambda){
         DSU dsu(n + 1);
@@ -109,7 +107,6 @@ int main(){
         return res;
     };
 
-    /// Swapping one tree edge moves the cost by under 10^5, so these lambdas force the fewest and the most cross edges
     const long long BOUND = 100000;
     int fewest = solver(BOUND).second;
     if (merged != n - 1){

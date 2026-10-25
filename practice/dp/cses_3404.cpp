@@ -73,6 +73,7 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<int> pos_a(n + 1), b(m);
     for (int i = 0; i < n; i++){
@@ -82,8 +83,6 @@ int main(){
     }
     for (int i = 0; i < m; i++) scanf("%d", &b[i]);
 
-    /// Both arrays are permutations, so a common subsequence is exactly the shared values of b whose positions
-    /// in a increase
     vector<int> shared, pos;
     for (int x : b){
         if (x <= n) shared.push_back(x), pos.push_back(pos_a[x]);

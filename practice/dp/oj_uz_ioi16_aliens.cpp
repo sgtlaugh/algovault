@@ -52,19 +52,15 @@ struct Line{
     }
 };
 
-/// With slopes strictly decreasing, b can go only if it is strictly worse than a or c everywhere; a tie at the
-/// common crossing keeps b, since it may carry the smaller count there
 bool useless(const Line& a, const Line& b, const Line& c){
     return (__int128)(c.intercept - a.intercept) * (a.slope - b.slope) < (__int128)(b.intercept - a.intercept) * (a.slope - c.slope);
 }
 
 long long take_photos(int n, int m, int k, vector<int> r, vector<int> c){
-    /// A point (r, c) needs a square spanning rows and columns min(r, c)..max(r, c) on the diagonal
     vector<pair<int, int>> segs(n);
     for (int i = 0; i < n; i++) segs[i] = {min(r[i], c[i]), -max(r[i], c[i])};
     sort(segs.begin(), segs.end());
 
-    /// Drop the segments nested in others; the rest grow strictly in both ends
     vector<long long> lo = {0}, hi = {-1};
     for (auto& s : segs){
         if (-s.second > hi.back()) lo.push_back(s.first), hi.push_back(-s.second);
@@ -77,7 +73,6 @@ long long take_photos(int n, int m, int k, vector<int> r, vector<int> c){
         size_t head = 0;
         pair<long long, int> dp = {0, 0};
         for (int i = 1; i <= cnt; i++){
-            /// The group starting at segment i covers from row lo[i]; the square of group i - 1 may overlap it
             long long a = lo[i] - 1, overlap = i > 1 ? sq(max(0LL, hi[i - 1] - a)) : 0;
             Line line = {-2 * a, dp.first - overlap + a * a, dp.second};
             while (hull.size() - head >= 2 && useless(hull[hull.size() - 2], hull.back(), line)) hull.pop_back();
@@ -96,6 +91,7 @@ long long take_photos(int n, int m, int k, vector<int> r, vector<int> c){
 #ifndef EVAL
 int main(){
     int n, m, k;
+
     scanf("%d %d %d", &n, &m, &k);
     vector<int> r(n), c(n);
     for (int i = 0; i < n; i++) scanf("%d %d", &r[i], &c[i]);

@@ -73,6 +73,7 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;
@@ -83,7 +84,7 @@ int main(){
             scanf("%d", &x);
             pos[x] = i;
         }
-        /// The LCS of two permutations is the LIS of the second one relabelled by positions in the first
+
         for (int i = 0; i < n; i++){
             int x;
             scanf("%d", &x);

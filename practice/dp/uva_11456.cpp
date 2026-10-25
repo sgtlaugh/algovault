@@ -73,13 +73,13 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int t, n;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d", &n);
         vector<int> ar(n);
         for (auto& x : ar) scanf("%d", &x);
 
-        /// Read backwards, car i starts the longest increasing run behind it and the longest decreasing one in front
         reverse(ar.begin(), ar.end());
         vector<int> up = lis_vector(ar), down = lds_vector(ar);
 

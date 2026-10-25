@@ -74,12 +74,11 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 int main(){
     int n;
     long long x;
+
     scanf("%d %lld", &n, &x);
     vector<long long> t(n);
     for (int i = 0; i < n; i++) scanf("%lld", &t[i]);
 
-    /// Lowering a prefix by x is never worse than any other change, so the answer joins an LIS ending at i
-    /// in the original array with an LIS starting at j > i, where t[i] - x < t[j]
     vector<int> ending = lis_vector(t);
     vector<int> starting = lis_vector(vector<long long>(t.rbegin(), t.rend()), false, greater<long long>());
     reverse(starting.begin(), starting.end());

@@ -53,6 +53,7 @@ vector<vector<T>> knuth_dp(int n, Cost cost){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         vector<int> pre(n + 1, 0);
         for (int i = 1; i <= n; i++){
@@ -61,9 +62,8 @@ int main(){
             pre[i] = pre[i - 1] + f;
         }
 
-        /// Points 0..n + 1 around the keys, every key of [i, j] pays one per level of its subtree, the root's level included
         auto dp = knuth_dp<int>(n + 1, [&](int i, int j){ return pre[j - 1] - pre[i]; });
-        /// The root sits at depth 0, so take one level off every key
+
         printf("%d\n", dp[0][n + 1] - pre[n]);
     }
     return 0;

@@ -73,11 +73,11 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<pair<int, int>> blocks(n);
         for (auto& block: blocks) scanf("%d %d", &block.first, &block.second);
 
-        /// Sorted by l, a tower is a non-decreasing subsequence of m
         sort(blocks.begin(), blocks.end());
         vector<int> m(n);
         for (int i = 0; i < n; i++) m[i] = blocks[i].second;

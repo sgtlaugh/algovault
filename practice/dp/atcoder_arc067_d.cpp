@@ -69,6 +69,7 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
 
     vector<long long> pos(n, 0);
@@ -91,8 +92,6 @@ int main(){
     vector<int> log_of(n + 1, 0);
     for (int i = 2; i <= n; i++) log_of[i] = log_of[i / 2] + 1;
 
-    /// a dummy element 0 makes layer 1 free, so layer 2 picks the best left end l = j - 1 for every right end r = i - 2
-    /// interval max sums are inverse Monge, so the negated happiness satisfies the quadrangle inequality
     auto cost = [&](int j, int i) -> long long{
         if (j == 0) return 0;
         int l = j - 1, r = i - 2, h = log_of[r - l + 1];

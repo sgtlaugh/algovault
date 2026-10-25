@@ -118,6 +118,7 @@ int find_root(vector<int>& parent, int x){
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<int> parent(n), size(n, 1);
     iota(parent.begin(), parent.end(), 0);
@@ -130,7 +131,6 @@ int main(){
         parent[b] = a, size[a] += size[b];
     }
 
-    /// each component goes wholly to one attraction, so the answers are the subset sums of component sizes
     map<int, int> freq;
     for (int i = 0; i < n; i++){
         if (parent[i] == i) freq[size[i]]++;

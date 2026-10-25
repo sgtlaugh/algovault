@@ -73,12 +73,11 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<int> dish(n);
         for (auto& x: dish) scanf("%d", &x);
 
-        /// With dish i in the stack, the bottom grows by a non-decreasing run of dishes >= dish[i] after i and the top
-        /// by a non-increasing run of dishes < dish[i]; that run may start before i, then it is the start of the stack
         int res = 0;
         for (int i = 0; i < n; i++){
             vector<int> bottom, top;

@@ -145,16 +145,11 @@ int main(){
     long long x, y, z;
     scanf("%d %lld %lld %lld", &n, &x, &y, &z);
 
-    /// f(d) = min cost with d units carried to the next bed has huge slopes, so track its convex conjugate
-    /// h(s) = max over d of s * d - f(d) instead: buying at x and removing at y restrict s to [-y, x],
-    /// carrying at z per step becomes a window minimum over [s - z, s + z], and the answer f(0) = -min h.
-    /// Outside [-y, x] h only has to be non-increasing to the left and non-decreasing to the right,
-    /// then the window minimum never profits from leaving the range and no explicit clipping is needed
     SlopeTrick<long long> h;
     for (int i = 0; i < n; i++){
         int a, b;
         scanf("%d %d", &a, &b);
-        /// h(s) += (a - b) * s, written with breakpoints on the range ends to keep the outside monotone
+
         for (int k = a - b; k > 0; k--) h.add_x_minus_a(-y), h.add_const(-y);
         for (int k = a - b; k < 0; k++) h.add_a_minus_x(x), h.add_const(-x);
         if (i + 1 < n) h.shift(-z, z);

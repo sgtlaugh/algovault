@@ -116,6 +116,7 @@ constexpr long long HamiltonianGraph::INF;
 
 int main(){
     int t, sx, sy, k;
+
     scanf("%d", &t);
     while (t--){
         scanf("%*d %*d %d %d %d", &sx, &sy, &k);
@@ -126,7 +127,6 @@ int main(){
             x.push_back(a), y.push_back(b);
         }
 
-        /// Karel's start is vertex 0, the self loop covers a world without beepers
         HamiltonianGraph g(k + 1);
         g.add_directed_edge(0, 0, 0);
         for (int i = 0; i <= k; i++){

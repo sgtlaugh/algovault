@@ -53,17 +53,20 @@ vector<vector<T>> knuth_dp(int n, Cost cost){
 
 vector<int> lis_ending_at(const vector<int>& a){
     vector<int> tail, len;
+
     for (size_t i = 0; i < a.size(); i++){
         int pos = lower_bound(tail.begin(), tail.end(), a[i]) - tail.begin();
         if (pos == (int)tail.size()) tail.push_back(a[i]);
         else tail[pos] = a[i];
         len.push_back(pos + 1);
     }
+
     return len;
 }
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;

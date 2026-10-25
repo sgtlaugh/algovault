@@ -73,11 +73,11 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int n, q;
+
     for (int t = 1; scanf("%d %d", &n, &q) == 2 && (n || q); t++){
         vector<int> ar(n);
         for (int& x : ar) scanf("%d", &x);
 
-        /// The longest decreasing run ending at i in the reversed array is the longest increasing one starting at i
         vector<int> start(ar.rbegin(), ar.rend());
         start = lis_vector(start, false, greater<int>());
         reverse(start.begin(), start.end());
@@ -93,7 +93,6 @@ int main(){
                 continue;
             }
 
-            /// Greedy from the left: take the first index that can still start an increasing run of the needed length
             printf("   ");
             long long cur = LLONG_MIN;
             for (int j = 0; m; j++){

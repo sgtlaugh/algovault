@@ -137,7 +137,6 @@ long long min_cost_non_decreasing(const vector<long long>& a){
     return f.get_min();
 }
 
-/// small to large: the function of a subtree is the sum of its children's functions
 void merge_into(SlopeTrick<long long>& to, SlopeTrick<long long>& from){
     if (to.left.size() + to.right.size() < from.left.size() + from.right.size()) swap(to, from);
     to.add_const(from.get_min());
@@ -148,17 +147,16 @@ void merge_into(SlopeTrick<long long>& to, SlopeTrick<long long>& from){
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<int> parent(n + m + 1);
     vector<long long> len(n + m + 1);
     for (int i = 2; i <= n + m; i++) scanf("%d %lld", &parent[i], &len[i]);
 
-    /// f[v](x) = min cost so that every explosive below v explodes x after v ignites
     vector<SlopeTrick<long long>> f(n + m + 1);
     for (int i = n + m; i >= 2; i--){
         if (i > n) f[i].add_abs(0);
 
-        /// a fuse of length c: the slope 0 and -1 pieces move right by c, every slope above 1 flattens to 1
         long long c = len[i], l = f[i].pop_left(), r = f[i].top_right();
         f[i].push_left(l + c);
         f[i].prefix_min();

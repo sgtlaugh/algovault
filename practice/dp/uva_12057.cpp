@@ -60,8 +60,6 @@ long long weight(int i, int j){
     return pre[j] - pre[i];
 }
 
-/// The DP only returns values, so the split is recovered by finding a k that reproduces dp[i][j]; weights are
-/// scaled to integers to keep that equality exact
 void build(int i, int j, const string& prefix){
     if (j == i + 1){
         code[i] = prefix;
@@ -75,6 +73,7 @@ void build(int i, int j, const string& prefix){
 
 int main(){
     bool first = true;
+
     while (scanf("%d", &n) == 1 && n){
         pre.assign(n + 1, 0);
         for (int i = 0; i < n; i++){
@@ -83,7 +82,6 @@ int main(){
             pre[i + 1] = pre[i] + llround(x * 10000);
         }
 
-        /// Each internal node of the code tree adds one bit to every leaf below it
         dp = knuth_dp<long long>(n, weight);
         code.assign(n, "");
         build(0, n, "");

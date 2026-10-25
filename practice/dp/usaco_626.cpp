@@ -82,7 +82,6 @@ int main(){
         moment[i + 1] = moment[i] + r[i % n] * i;
     }
 
-    /// the first door of the rotation starting at room s is room s itself, cutting the circle into a line
     long long best = numeric_limits<long long>::max();
     for (int s = 0; s < n; s++){
         auto cost = [&](int j, int i){

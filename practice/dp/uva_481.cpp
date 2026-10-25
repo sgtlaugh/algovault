@@ -74,10 +74,9 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 int main(){
     vector<int> ar;
     int x;
+
     while (scanf("%d", &x) == 1) ar.push_back(x);
 
-    /// Of all longest subsequences, the one occurring last ends at the last index of maximum length and
-    /// steps back to the rightmost index one shorter each time
     vector<int> len = lis_vector(ar);
     int best = *max_element(len.begin(), len.end());
     vector<int> res;

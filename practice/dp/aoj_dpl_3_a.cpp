@@ -53,6 +53,7 @@ vector<vector<int>> diamond_sizes(const vector<vector<int>>& g){
 
 int main(){
     int h, w;
+
     scanf("%d %d", &h, &w);
     vector<vector<int>> clean(h, vector<int>(w));
     for (auto& row : clean){

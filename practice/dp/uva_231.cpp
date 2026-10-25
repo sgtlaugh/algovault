@@ -73,6 +73,7 @@ int lds_length(const vector<T>& ar, bool allow_equal=false){
 
 int main(){
     int x;
+
     for (int tc = 1; scanf("%d", &x) == 1 && x != -1; tc++){
         vector<int> heights;
         for (; x != -1; scanf("%d", &x)) heights.push_back(x);

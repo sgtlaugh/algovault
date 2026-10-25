@@ -69,6 +69,7 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
 
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
 
     vector<long long> sum(n + 1, 0), moment(n + 1, 0);
@@ -79,7 +80,6 @@ int main(){
         moment[i + 1] = moment[i] + c * i;
     }
 
-    /// the school of a segment sits at its weighted median, which only moves right as the segment grows
     vector<long long> table((size_t)n * (n + 1));
     for (int l = 0; l < n; l++){
         int m = l;

@@ -69,6 +69,7 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, k;
@@ -84,7 +85,6 @@ int main(){
         vector<int> log_of(n + 1, 0);
         for (int i = 2; i <= n; i++) log_of[i] = log_of[i / 2] + 1;
 
-        /// per bit, a bit set in [a, d] is set in [a, c] or [b, d], and one set in [b, c] is set in both, so -OR is Monge
         auto cost = [&](int j, int i) -> long long{
             int h = log_of[i - j];
             return -(long long)(st[h][j] | st[h][i - (1 << h)]);

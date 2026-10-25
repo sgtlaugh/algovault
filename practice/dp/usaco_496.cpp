@@ -85,8 +85,6 @@ int main(){
         fin[i] = p + s * t;
     }
 
-    /// A lane needs strictly increasing final positions in start order, so by Dilworth the lane count is the
-    /// longest run of cows that pairwise collide: a non-increasing subsequence of final positions
     printf("%d\n", lds_length(fin, true));
     return 0;
 }

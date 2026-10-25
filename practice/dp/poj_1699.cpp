@@ -123,6 +123,7 @@ int overlap(const string& a, const string& b){
 
 int main(){
     int t;
+
     cin >> t;
     while (t--){
         int n;
@@ -130,7 +131,6 @@ int main(){
         vector<string> all(n), seg;
         for (int i = 0; i < n; i++) cin >> all[i];
 
-        /// A segment inside another one is free, and overlaps only see suffix/prefix contact
         for (int i = 0; i < n; i++){
             bool covered = false;
             for (int j = 0; j < n && !covered; j++){
@@ -140,7 +140,6 @@ int main(){
             if (!covered) seg.push_back(all[i]);
         }
 
-        /// Vertex 0 is a virtual start: entering a segment from it costs its full length
         int m = seg.size();
         HamiltonianGraph g(m + 1);
         for (int v = 1; v <= m; v++){

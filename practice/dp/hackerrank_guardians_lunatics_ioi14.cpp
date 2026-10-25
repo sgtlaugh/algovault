@@ -69,6 +69,7 @@ vector<T> divide_conquer_dp(int n, int k, const Cost& cost){
 
 int main(){
     int n, g;
+
     scanf("%d %d", &n, &g);
 
     vector<long long> pre(n + 1, 0);
@@ -77,7 +78,6 @@ int main(){
         pre[i] += pre[i - 1];
     }
 
-    /// splitting a group never raises the risk, so spare guards beyond one per lunatic are simply idle
     auto cost = [&](int j, int i){ return (pre[i] - pre[j]) * (i - j); };
     printf("%lld\n", divide_conquer_dp<long long>(n, min(g, n), cost)[n]);
     return 0;

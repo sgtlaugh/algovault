@@ -53,13 +53,13 @@ vector<vector<T>> knuth_dp(int n, Cost cost){
 
 int main(){
     int l, n;
+
     while (scanf("%d", &l) == 1 && l){
         scanf("%d", &n);
         vector<int> p(n + 2, 0);
         for (int i = 1; i <= n; i++) scanf("%d", &p[i]);
         p[n + 1] = l;
 
-        /// Points 0, c1..cn, l: a cut splitting the stick between p[i] and p[j] costs its length
         auto dp = knuth_dp<int>(n + 1, [&](int i, int j){ return p[j] - p[i]; });
         printf("The minimum cutting is %d.\n", dp[0][n + 1]);
     }
