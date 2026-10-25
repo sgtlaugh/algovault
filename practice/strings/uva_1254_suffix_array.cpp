@@ -308,7 +308,6 @@ struct Word{
     }
 };
 
-/// Up to 10 smallest distinct word ranks, ascending
 typedef vector<int> Best;
 
 Best merge(const Best& a, const Best& b){
@@ -324,12 +323,12 @@ Best merge(const Best& a, const Best& b){
 int main(){
     int n;
     static char buf[100010];
+
     while (scanf("%d", &n) == 1){
         vector<Word> words(n);
         for (int i = 0; i < n; i++) scanf("%s", buf), words[i] = {buf, i + 1};
         sort(words.begin(), words.end());
 
-        /// A separator outside a..z keeps every match inside one word
         string text;
         vector<int> owner;
         for (int i = 0; i < n; i++){
@@ -338,7 +337,6 @@ int main(){
         }
         SuffixArrayQueries<string> sa(text);
 
-        /// Segment tree over suffix ranks holding the best words whose suffixes fall in each range
         int m = sa.n;
         vector<Best> tree(2 * m);
         for (int i = 0; i < m; i++) tree[m + i] = {owner[sa.sa[i]]};

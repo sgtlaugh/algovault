@@ -76,12 +76,12 @@ const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_sinc
 
 int main(){
     static char buf[100010];
+
     while (scanf("%s", buf) == 1){
         string s = buf;
         int n = s.size(), i = 0;
         PolyHash h(s);
 
-        /// Mirror the part before the longest palindromic suffix
         while (h.get_hash(i, n - 1) != h.rev_hash(i, n - 1)) i++;
         puts((s + string(s.rend() - i, s.rend())).c_str());
     }

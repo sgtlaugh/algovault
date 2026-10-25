@@ -77,6 +77,7 @@ const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_sinc
 int main(){
     const int K = 10;
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         static char buf[1010];
@@ -85,7 +86,6 @@ int main(){
         int n = s.size();
         PolyHash h(s);
 
-        /// Ids for the substrings of length at most K, the only ones a query can name
         vector<uint64_t> shorts;
         for (int i = 0; i < n; i++){
             for (int len = 1; len <= K && i + len <= n; len++) shorts.push_back(h.get_hash(i, i + len - 1));
@@ -113,7 +113,6 @@ int main(){
             if (qx[i] != -1 && qy[i] != -1) asked[qx[i]].push_back(i);
         }
 
-        /// Every distinct substring counted once, at its leftmost occurrence, and filed under each of its asked prefixes
         vector<vector<pair<int, int>>> by_prefix(shorts.size());
         vector<pair<uint64_t, int>> windows;
         for (int len = 1; len <= n; len++){

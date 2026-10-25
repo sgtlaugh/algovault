@@ -296,6 +296,7 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 int main(){
     string s;
+
     cin >> s;
 
     SuffixArray res = suffix_array(s);

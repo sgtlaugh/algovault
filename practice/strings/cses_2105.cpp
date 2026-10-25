@@ -296,6 +296,7 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 int main(){
     string s;
+
     cin >> s;
     printf("%lld\n", suffix_array(s).distinct_substrings());
     return 0;

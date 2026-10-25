@@ -99,12 +99,12 @@ vector<vector<int>> kmp_automaton(const char* pattern, int alphabet = 26, int fi
 int main(){
     static char buffer[1000005];
     int t;
+
     scanf("%d", &t);
     while (t--){
         scanf("%1000004s", buffer);
         string s = buffer, rev(s.rbegin(), s.rend());
 
-        /// The secret word reversed is the longest prefix of s that occurs in reverse(s)
         vector<int> pi = prefix_function(s + '#' + rev);
         int best = *max_element(pi.begin() + s.size() + 1, pi.end());
         puts(string(rev.end() - best, rev.end()).c_str());

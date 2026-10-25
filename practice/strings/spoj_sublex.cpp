@@ -307,7 +307,6 @@ int main(){
 
     SuffixArray res = suffix_array(s);
     int n = res.n;
-    /// The suffix at rank i adds the prefixes longer than its lcp with rank i - 1
     vector<long long> total(n + 1, 0);
     for (int i = 0; i < n; i++) total[i + 1] = total[i] + (n - res.sa[i]) - (i > 0 ? res.lcp[i - 1] : 0);
 

@@ -98,14 +98,13 @@ vector<vector<int>> kmp_automaton(const char* pattern, int alphabet = 26, int fi
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         static char buf[2010];
         scanf("%s", buf);
         string s = buf;
 
-        /// The basic sequence k is a period with 2k <= n, so the smallest period p also satisfies p + k <= n
-        /// and by Fine and Wilf both continue the steps the same way
         int n = s.size(), p = n - prefix_function(s)[n - 1];
         for (int i = 0; i < 8; i++) s.push_back(s[s.size() - p]);
         printf("%s...\n", s.substr(n).c_str());

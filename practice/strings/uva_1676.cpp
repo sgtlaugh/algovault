@@ -174,6 +174,7 @@ struct DynamicAhoCorasick{
 int main(){
     static char buf[5000010];
     int t, n;
+
     scanf("%d", &t);
     for (int cs = 1; cs <= t; cs++){
         scanf("%d", &n);
@@ -187,7 +188,6 @@ int main(){
             string s = buf + 1;
             rotate(s.begin(), s.begin() + last % s.size(), s.end());
 
-            /// A word learnt twice still counts once per occurrence
             if (buf[0] == '+'){
                 if (learnt.insert(s).second) ac.insert(s);
             }

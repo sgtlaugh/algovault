@@ -301,6 +301,7 @@ int main(){
     const long long MOD = 1000000007;
     static char buf[100005];
     int t, k;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%100004s %d", buf, &k);
@@ -308,8 +309,6 @@ int main(){
         int n = s.size();
         SuffixArray sa = suffix_array(s);
 
-        /// len[i]: substrings of length >= k starting at sa[i], pairs across suffixes need a common prefix >= k
-        /// start[i]: first rank of the run of suffixes all sharing >= k characters with sa[i], or -1 if i starts it
         vector<long long> len(n), sum(n + 1, 0);
         vector<int> start(n, -1);
         for (int i = 0; i < n; i++){

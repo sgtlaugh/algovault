@@ -76,6 +76,7 @@ const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_sinc
 
 int main(){
     int n;
+
     for (int tc = 0; scanf("%d", &n) == 1 && n; tc++){
         vector<string> dna(n);
         vector<PolyHash> hash(n);
@@ -87,7 +88,6 @@ int main(){
             longest = max(longest, (int)dna[i].size());
         }
 
-        /// Substrings of length len shared by more than half the life forms, each as (string, position) of one occurrence
         auto shared = [&](int len){
             vector<tuple<uint64_t, int, int>> all;
             for (int i = 0; i < n; i++){
@@ -106,7 +106,6 @@ int main(){
             return res;
         };
 
-        /// A substring shared by enough life forms keeps its prefixes shared, so the best length is binary searched
         int lo = 0, hi = longest;
         while (lo < hi){
             int mid = (lo + hi + 1) / 2;

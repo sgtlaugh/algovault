@@ -149,12 +149,11 @@ string read_line(){
     return s;
 }
 
-/// A batch of patterns at most this long keeps the SIGMA-wide transition table near 25 MB
 const int BATCH_CHARS = 100000;
 
 int main(){
     int k = stoi(read_line());
-    AhoCorasick<58, 'A'> ac;  /// 'A'..'z', the six symbols between 'Z' and 'a' never occur
+    AhoCorasick<58, 'A'> ac;
     while (k--){
         string text = read_line();
         int q = stoi(read_line());
@@ -172,7 +171,6 @@ int main(){
             ac.build();
 
             vector<int> hits = ac.occurrences(text);
-            /// An empty pattern ends at the root, which counts no hits, yet it is a substring of every text
             for (int i = lo; i < hi; i++) found[i] = hits[i - lo] > 0 || patterns[i].empty();
         }
 

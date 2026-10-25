@@ -296,6 +296,7 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 int main(){
     static char buf[200005];
+
     scanf("%s", buf);
     string s(buf), r(s.rbegin(), s.rend());
     int n = s.size();
@@ -304,15 +305,12 @@ int main(){
     long long interesting = 0, boring = 0;
     for (int len = 1; 3 * len <= n; len++){
         for (int j = 0; j + len < n; j += len){
-            /// s[t] == s[t + len] exactly for t in [j - back, j + ahead)
             int ahead = fwd.common_prefix(j, j + len);
             int back = j > 0 ? bwd.common_prefix(n - j, n - j - len) : 0;
 
-            /// A cube starting at p needs [p, p + 2 len) inside that run, it is counted at the first multiple j >= p
             long long lo = max(j - back, j - len + 1), hi = min(j, j + ahead - 2 * len);
             if (lo > hi) continue;
 
-            /// The next character repeats the first one when the run also covers p + 2 len
             long long boring_hi = min(hi, (long long)j + ahead - 2 * len - 1);
             long long b = max(0LL, boring_hi - lo + 1);
             boring += b;

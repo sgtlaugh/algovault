@@ -297,9 +297,9 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 int main(){
     int n;
     string s, t;
+
     cin >> n >> s >> t;
 
-    /// Reversed, an occurrence ending at an allowed index starts at an allowed one
     reverse(s.begin(), s.end());
     reverse(t.begin(), t.end());
 
@@ -314,7 +314,6 @@ int main(){
         if (allowed) best = max(best, (long long)(n - p));
     }
 
-    /// lcp[j] as the minimum spans lcp indices (left, right), i.e. ranks left + 1 .. right
     vector<int> left(n), right(n), st;
     for (int j = 0; j < n; j++){
         while (!st.empty() && lcp[st.back()] >= lcp[j]) st.pop_back();

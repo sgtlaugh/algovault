@@ -296,6 +296,7 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 int main(){
     int n;
+
     scanf("%d", &n);
     static char buf[100005];
     vector<int> text, start(n), len(n);
@@ -304,7 +305,7 @@ int main(){
         start[i] = text.size();
         len[i] = strlen(buf);
         for (int k = 0; k < len[i]; k++) text.push_back(buf[k] - 'a');
-        text.push_back(26 + i);  /// a distinct separator per string keeps every common prefix inside one string
+        text.push_back(26 + i);
     }
 
     SuffixArrayQueries<vector<int>> q(text);

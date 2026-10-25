@@ -43,13 +43,13 @@ vector<int> z_function(const char* s){
 
 int main(){
     int t;
+
     cin >> t;
     for (int tc = 0; tc < t; tc++){
         string s;
         cin >> s;
         int n = s.size(), p = 1;
         vector<int> z = z_function(s);
-        /// s repeats its first p characters iff p divides n and s[p..] matches a prefix all the way to the end
         while (p < n && (n % p || z[p] != n - p)) p++;
         if (tc) puts("");
         printf("%d\n", p);

@@ -98,6 +98,7 @@ vector<vector<int>> kmp_automaton(const char* pattern, int alphabet = 26, int fi
 
 int main(){
     int t;
+
     cin >> t;
     for (int tc = 0; tc < t; tc++){
         string s;

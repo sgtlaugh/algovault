@@ -299,6 +299,7 @@ struct SuffixArrayQueries : SuffixArray{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         static char buf[1010];
@@ -306,8 +307,6 @@ int main(){
         string s = buf;
         SuffixArray sa = suffix_array(s);
 
-        /// The first adjacent pair reaching the longest LCP is the lexicographically smallest longest repeat,
-        /// and every suffix sharing it follows in one run
         int best = max_element(sa.lcp.begin(), sa.lcp.end()) - sa.lcp.begin(), len = sa.lcp[best];
         if (len == 0){
             puts("No repetitions found!");

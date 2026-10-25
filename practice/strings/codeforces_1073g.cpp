@@ -297,13 +297,13 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 int main(){
     int n, queries;
     static char s[200005];
+
     scanf("%d %d %200004s", &n, &queries, s);
     SuffixArrayQueries<string> q(s);
 
     vector<pair<int, int>> items;
     vector<long long> gap;
     vector<pair<long long, long long>> st;
-    /// Sum over i < j with type src at i and dst at j of min(gap[i .. j - 1])
     auto count = [&](int src, int dst){
         long long cur = 0, total = 0;
         st.clear();

@@ -296,12 +296,12 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 int main(){
     static char buf[100005];
+
     scanf("%s", buf);
     string s(buf);
     int n = s.size();
     SuffixArray res = suffix_array(s);
 
-    /// end[p]: last index of the shortest substring starting at p that occurs once, non-decreasing in p
     vector<long long> end(n), prefix(n + 1, 0);
     for (int p = 0; p < n; p++){
         int r = res.rank[p], shared = max(r > 0 ? res.lcp[r - 1] : 0, res.lcp[r]);

@@ -305,7 +305,6 @@ int main(){
     cin >> s >> t;
     int n = s.size();
 
-    /// -1 is a unique separator, so no common prefix runs from s into t
     vector<int> joined(s.begin(), s.end());
     joined.push_back(-1);
     joined.insert(joined.end(), t.begin(), t.end());

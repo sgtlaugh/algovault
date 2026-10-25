@@ -99,6 +99,7 @@ vector<vector<int>> kmp_automaton(const char* pattern, int alphabet = 26, int fi
 int main(){
     static char buf[100005];
     int q;
+
     while (scanf("%d", &q) == 1){
         scanf("%s", buf);
         string text = buf;
@@ -109,12 +110,10 @@ int main(){
             string pattern = buf, piece;
             stringstream pieces(pattern);
 
-            /// Greedy: each piece between stars takes its earliest occurrence after the previous one
             bool ok = true;
             int pos = 0;
             while (ok && getline(pieces, piece, '*')){
                 if (piece.empty()) continue;
-                /// kmp_search would scan the whole text, so walk it with the prefix function and stop at the first match
                 auto pi = prefix_function(piece);
                 int k = 0, m = piece.size();
                 for (; pos < n && k < m; pos++){

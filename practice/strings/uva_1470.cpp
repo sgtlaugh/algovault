@@ -180,8 +180,6 @@ vector<int> min_palindromic_factorization(const string& s){
 #include <malloc.h>
 
 int main(){
-    /// Each case allocates and frees ~60 MB of tree nodes; keeping freed memory in the heap reuses those pages instead of
-    /// returning them to the kernel and faulting fresh zeroed ones in for the next case (halves the run time on 40 max cases)
     mallopt(M_MMAP_MAX, 0), mallopt(M_TRIM_THRESHOLD, -1);
 
     int t;
@@ -192,7 +190,6 @@ int main(){
         int n = strlen(word);
         PolyHash hash(word);
 
-        /// Letters packed into 0..51 keep the tree at 52 children per node instead of the 58 from 'A' to 'z'
         PalindromicTree<52, 0> tree;
         tree.next.reserve(n + 2);
 
@@ -201,7 +198,6 @@ int main(){
             char c = islower(word[i]) ? word[i] - 'a' : word[i] - 'A' + 26;
             if (!tree.add(c)) continue;
 
-            /// A palindrome of the form XX is w wR w wR, as X = reverse(X) follows from XX being a palindrome
             int len = tree.len[tree.last], half = len / 2, l = i - len + 1;
             if (len % 4 == 0 && hash.get_hash(l, l + half - 1) == hash.get_hash(l + half, i)) res = max(res, len);
         }

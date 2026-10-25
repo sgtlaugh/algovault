@@ -75,8 +75,8 @@ struct PolyHash{
 const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_since_epoch().count())() % (mod / 3) + (mod / 3);
 
 int main(){
-    /// Open addressing table of window hashes with their counts, slots from earlier checks are told apart by stamp
     const int SIZE = 1 << 17;
+
     vector<uint64_t> key(SIZE);
     vector<int> cnt(SIZE), stamp(SIZE, 0);
     int checks = 0;
@@ -89,7 +89,6 @@ int main(){
         int n = s.size();
         PolyHash h(s);
 
-        /// Rightmost start of a length len substring seen at least m times, or -1
         auto rightmost = [&](int len){
             checks++;
             int res = -1;
@@ -103,7 +102,6 @@ int main(){
             return res;
         };
 
-        /// A substring repeated m times keeps its prefixes repeated, so the best length is binary searchable
         int lo = 0, hi = n;
         while (lo < hi){
             int mid = (lo + hi + 1) / 2;

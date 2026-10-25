@@ -296,6 +296,7 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     static char a[200005], b[200005];
     while (t--){
@@ -305,7 +306,6 @@ int main(){
         int n1 = strlen(a), n = s.size();
         SuffixArray res = suffix_array(s);
 
-        /// An lcp interval with c1 suffixes of S1 and c2 of S2 adds c1 * c2 pairs to every length in (parent height, height]
         vector<long long> diff(limit + 2, 0);
         auto add = [&](int from, int to, long long v){
             to = min(to, limit);

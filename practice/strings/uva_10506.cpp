@@ -44,6 +44,7 @@ vector<int> de_bruijn(int k, int n){
 
 int main(){
     int m, n;
+
     while (scanf("%d %d", &m, &n) == 2){
         string ring;
         for (int x : de_bruijn(n, m)) ring += char('0' + x);

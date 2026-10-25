@@ -299,6 +299,7 @@ struct SuffixArrayQueries : SuffixArray{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int g;
@@ -308,7 +309,6 @@ int main(){
         int n = s.size();
         SuffixArrayQueries<string> fwd(s), bwd(r);
 
-        /// Each U of length len contains exactly one multiple of len, so anchor at i and extend both ways to its copy at j
         long long total = 0;
         for (int len = 1; 2 * len + g <= n; len++){
             for (int i = 0; i + len + g < n; i += len){

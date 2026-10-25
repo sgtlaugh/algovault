@@ -297,13 +297,14 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 int main(){
     string s;
     long long k;
+
     cin >> s >> k;
 
     SuffixArray res = suffix_array(s);
     int n = s.size();
     for (int i = 0; i < n; i++){
         int shared = i ? res.lcp[i - 1] : 0;
-        long long fresh = n - res.sa[i] - shared;  /// prefixes longer than the lcp with the previous suffix are new
+        long long fresh = n - res.sa[i] - shared;
         if (k <= fresh){
             printf("%s\n", s.substr(res.sa[i], shared + k).c_str());
             return 0;

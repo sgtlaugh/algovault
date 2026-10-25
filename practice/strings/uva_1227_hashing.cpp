@@ -74,7 +74,6 @@ struct PolyHash{
 
 const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_since_epoch().count())() % (mod / 3) + (mod / 3);
 
-/// Open addressing set of window hashes, mask[k] has bit i once genome i contains the window
 struct HashSet{
     vector<uint64_t> key;
     vector<unsigned char> mask;
@@ -87,8 +86,6 @@ struct HashSet{
         used.clear();
     }
 
-    /// Genome 0 inserts, every later genome only marks windows that all earlier genomes share
-    /// Returns true when the window just became shared by genomes 0..i
     bool mark(uint64_t h, int i){
         int k = h & (key.size() - 1);
         while (mask[k] && key[k] != h) k = (k + 1) & (key.size() - 1);
@@ -104,6 +101,7 @@ struct HashSet{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     static char buf[1000010];
     HashSet table(21);
@@ -120,7 +118,6 @@ int main(){
         vector<PolyHash> hashes;
         for (auto& s: genome) hashes.emplace_back(s);
 
-        /// A window shared by all genomes has every shorter prefix shared too, so the answer is binary searchable
         auto shared = [&](int len){
             table.clear();
             for (int i = 0; i < n; i++){

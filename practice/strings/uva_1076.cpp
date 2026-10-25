@@ -143,6 +143,7 @@ struct AhoCorasick{
 
 int main(){
     int n, m, tc = 0;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         AhoCorasick<> ac;
         for (int i = 0; i < m; i++){
@@ -152,7 +153,6 @@ int main(){
         }
         ac.build();
 
-        /// mask[v] = the patterns ending at node v, own terminal plus everything on its failure chain
         int nodes = ac.go.size(), full = (1 << m) - 1;
         vector<int> mask(nodes, 0);
         for (int i = 0; i < m; i++) mask[ac.terminal[i]] |= 1 << i;
@@ -160,7 +160,6 @@ int main(){
             if (v) mask[v] |= mask[ac.fail[v]];
         }
 
-        /// Most letters lead to the same few nodes, so each node keeps its distinct successors with their letter counts
         vector<vector<pair<int, int>>> moves(nodes);
         for (int v = 0; v < nodes; v++){
             map<int, int> cnt;
@@ -169,10 +168,8 @@ int main(){
         }
 
         vector<long long> pw(n + 1, 1);
-        /// The answer is at most 1e15, so a capped power never reaches a valid total and only keeps 26^25 from overflowing
         for (int i = 1; i <= n; i++) pw[i] = min(pw[i - 1], (long long)1e17) * 26;
 
-        /// ways(i, v, seen): passwords completing the first i letters that end in node v having matched the patterns in seen
         vector<long long> memo((size_t)(n + 1) * nodes << m, -1);
         function<long long(int, int, int)> ways = [&](int i, int v, int seen) -> long long{
             seen |= mask[v];

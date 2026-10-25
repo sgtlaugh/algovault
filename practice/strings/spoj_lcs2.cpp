@@ -308,7 +308,6 @@ int main(){
         if (!line.empty() && line.back() == '\r') line.pop_back();
         if (line.empty()) continue;
 
-        /// The data holds bytes beyond lowercase, so separators sit below every char value
         if (k > 0){
             text.push_back(-129 - k);
             color.push_back(-1);
@@ -328,7 +327,7 @@ int main(){
     SuffixArray res = suffix_array(text);
     int n = res.n, best = 0, covered = 0;
     vector<int> seen(k, 0);
-    deque<int> window;  /// lcp indices in [l, r) with increasing lcp values
+    deque<int> window;
     for (int l = 0, r = 0; r < n; r++){
         if (r > 0){
             while (!window.empty() && res.lcp[window.back()] >= res.lcp[r - 1]) window.pop_back();

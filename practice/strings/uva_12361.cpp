@@ -299,6 +299,7 @@ struct SuffixArrayQueries : SuffixArray{
 
 int main(){
     int f;
+
     while (scanf("%d", &f) == 1 && f){
         vector<int> c, owner, end;
         static char buf[10005];
@@ -310,7 +311,7 @@ int main(){
                 owner.push_back(i);
                 end.push_back(stop);
             }
-            c.push_back(i);  /// distinct separators below 'a' keep every lcp inside one file
+            c.push_back(i);
             owner.push_back(-1);
             end.push_back(stop);
         }
@@ -319,7 +320,6 @@ int main(){
         int n = c.size();
         auto bit = [&](int i){ return owner[res.sa[i]] < 0 ? 0ULL : 1ULL << owner[res.sa[i]]; };
 
-        /// Every substring's file set is the union over its lcp interval, a leaf adds a single file when its own lengths go past both neighbours
         vector<unsigned long long> sets;
         vector<pair<int, unsigned long long>> st = {{0, 0}};
         for (int i = 0; i < n; i++){

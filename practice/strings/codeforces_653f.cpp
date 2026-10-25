@@ -297,12 +297,12 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 int main(){
     int n;
     static char s[500005];
+
     scanf("%d %500004s", &n, s);
 
     vector<int> bal(n + 1, 0);
     for (int i = 0; i < n; i++) bal[i + 1] = bal[i] + (s[i] == '(' ? 1 : -1);
 
-    /// first_below[p]: first q > p with bal[q] < bal[p], substrings starting at p must end before it
     vector<int> first_below(n + 1, n + 1), st;
     for (int q = 0; q <= n; q++){
         while (!st.empty() && bal[st.back()] > bal[q]){
@@ -317,7 +317,6 @@ int main(){
 
     SuffixArray res = suffix_array(string(s));
     long long total = 0;
-    /// Suffix sa[i] contributes the ends past its lcp with the previous suffix, so each distinct substring counts once
     for (int i = 0; i < n; i++){
         int p = res.sa[i], lo = p + (i > 0 ? res.lcp[i - 1] : 0) + 1, hi = first_below[p] - 1;
         if (lo > hi) continue;

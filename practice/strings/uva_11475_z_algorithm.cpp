@@ -43,11 +43,11 @@ vector<int> z_function(const char* s){
 
 int main(){
     static char buf[100010];
+
     while (scanf("%s", buf) == 1){
         string s = buf, r(s.rbegin(), s.rend());
         int n = s.size(), i = 0;
 
-        /// s[i..] is a palindrome iff it matches the whole prefix of reverse(s) of its length
         vector<int> z = z_function(r + "#" + s);
         while (z[n + 1 + i] < n - i) i++;
         puts((s + string(s.rend() - i, s.rend())).c_str());

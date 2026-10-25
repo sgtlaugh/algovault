@@ -155,6 +155,7 @@ struct Word{
 int main(){
     int n;
     static char buf[100010];
+
     while (scanf("%d", &n) == 1){
         vector<Word> words(n);
         for (int i = 0; i < n; i++) scanf("%s", buf), words[i] = {buf, i + 1};
@@ -166,7 +167,6 @@ int main(){
         for (int i = 0; i < q; i++) scanf("%s", buf), ac.insert(buf);
         ac.build();
 
-        /// Equal queries share a terminal node, so each node keeps one list; words arrive best first
         int nodes = ac.go.size();
         vector<vector<int>> top(nodes);
         vector<int> visited(nodes, -1);
@@ -174,7 +174,6 @@ int main(){
             int cur = 0;
             for (char c: words[i].s){
                 cur = ac.next(cur, c);
-                /// Every node on the failure chain is a substring of the word, the visited mark counts it once per word
                 for (int k = cur; k > 0 && visited[k] != i; k = ac.fail[k]){
                     visited[k] = i;
                     if (ac.leaf[k] && top[k].size() < 10) top[k].push_back(words[i].id);

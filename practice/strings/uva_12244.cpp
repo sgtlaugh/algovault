@@ -143,6 +143,7 @@ struct AhoCorasick{
 
 int main(){
     int n;
+
     AhoCorasick<> ac;
     static char buf[1010];
     while (scanf("%d", &n) == 1 && n){
@@ -154,14 +155,12 @@ int main(){
         for (auto& w: words) ac.insert(w);
         ac.build();
 
-        /// best[v]: longest sequence ending with the word at node v; shorter words are finished first
         vector<int> best(ac.go.size(), 0), visited(ac.go.size(), -1);
         int res = 0;
         for (int i = 0; i < n; i++){
             int cur = 0, len = 1;
             for (char c: words[i]){
                 cur = ac.next(cur, c);
-                /// The failure chain holds every suffix of this prefix in the trie, the visited mark counts each once per word
                 for (int k = cur; k > 0 && visited[k] != i; k = ac.fail[k]){
                     visited[k] = i;
                     if (ac.leaf[k]) len = max(len, best[k] + 1);

@@ -311,6 +311,7 @@ long long product(int x){
 int main(){
     vector<int> text, color;
     int shortest = INT_MAX;
+
     for (int t = 0; t < 3; t++){
         string s;
         cin >> s;
@@ -341,7 +342,6 @@ int main(){
         total = (total + product(a)) % MOD;
     };
 
-    /// Merging adjacent ranks by decreasing lcp leaves one group per distinct substring of the current length
     for (int i = 0; i + 1 < n; i++){
         if (res.lcp[i] > shortest) unite(i, i + 1);
         else by_lcp[res.lcp[i]].push_back(i);

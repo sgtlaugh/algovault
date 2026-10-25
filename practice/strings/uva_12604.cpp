@@ -98,6 +98,7 @@ vector<vector<int>> kmp_automaton(const char* pattern, int alphabet = 26, int fi
 
 int main(){
     int t;
+
     scanf("%d", &t);
     static char alphabet[70], word[50005], text[500005];
     while (t--){
@@ -106,8 +107,6 @@ int main(){
         vector<int> pos(256);
         for (int i = 0; i < l; i++) pos[(unsigned char)alphabet[i]] = i;
 
-        /// Shifting keeps the difference between neighbouring letters, so one search over the difference sequences finds
-        /// every occurrence under every shift, and the first letter tells which shift it was
         auto deltas = [&](const char* s, int len){
             vector<int> res;
             for (int i = 1; i < len; i++) res.push_back((pos[(unsigned char)s[i]] - pos[(unsigned char)s[i - 1]] + l) % l);

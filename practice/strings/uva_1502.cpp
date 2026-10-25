@@ -143,6 +143,7 @@ struct AhoCorasick{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     static char buf[300010];
     AhoCorasick<> ac;
@@ -150,7 +151,6 @@ int main(){
         int n;
         scanf("%d", &n);
 
-        /// A word of importance <= 0 never helps, and dropping it keeps the chain valid since substrings nest
         vector<string> words;
         vector<int> weight;
         for (int i = 0; i < n; i++){
@@ -163,8 +163,6 @@ int main(){
         for (auto& w : words) ac.insert(w);
         ac.build();
 
-        /// best[v]: best chain ending in an earlier word whose node is v. The earlier words inside word i end
-        /// at the failure chains of its prefixes, marked once per word
         int nodes = ac.go.size(), res = 0;
         vector<int> best(nodes, 0), seen(nodes, -1);
         for (int i = 0; i < (int)words.size(); i++){

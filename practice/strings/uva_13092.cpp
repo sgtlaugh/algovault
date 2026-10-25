@@ -40,6 +40,7 @@ vector<int> manacher(const char* s){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     static char buf[1000010];
     for (int tc = 1; tc <= t; tc++){
@@ -49,8 +50,6 @@ int main(){
         int n = s.size();
         vector<int> pal = manacher(s);
 
-        /// Folding the prefix of length e down to st needs an even palindrome centred between st - 1 and st with radius >= e - st
-        /// first[e] = the smallest such st: centres are scanned in increasing order, so the first one to cover e wins
         vector<int> first(n + 1, -1);
         for (int st = 1, covered = 0; st < n; st++){
             int reach = st + pal[2 * st - 1] / 2;
@@ -58,7 +57,6 @@ int main(){
             covered = max(covered, reach);
         }
 
-        /// best[e] never decreases in e: a fold from e to st < e - 1 also works from e - 1, so the farthest fold is the best one
         vector<long long> best(n + 1, 0);
         for (int e = 1; e <= n; e++){
             best[e] = best[e - 1] + x;

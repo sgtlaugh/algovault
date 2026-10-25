@@ -296,6 +296,7 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 int main(){
     int k;
+
     scanf("%d", &k);
     vector<int> text, color, dist;
     static char buf[500005];
@@ -323,16 +324,13 @@ int main(){
         prefix[i + 1] = prefix[i] + (c >= 0 ? cost[c] : 0);
     }
 
-    /// A string absent from every t gives 0, so the answer is never negative
     long long best = 0;
 
-    /// A substring seen only at rank i keeps that single occurrence for lengths above both neighbouring lcps
     for (int i = 0; i < n; i++){
         int p = res.sa[i], around = max(i > 0 ? lcp[i - 1] : 0, lcp[i]);
         if (dist[p] > around) best = max(best, cost[color[p]] * dist[p]);
     }
 
-    /// lcp[j] as the minimum spans lcp indices (left, right), i.e. ranks left + 1 .. right
     vector<int> left(n), right(n);
     vector<int> st;
     for (int j = 0; j < n; j++){

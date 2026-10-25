@@ -145,12 +145,12 @@ char word[1010], grid[105][105];
 
 int main(){
     const int dx[] = {0, 0, -1, -1, -1, 1, 1, 1}, dy[] = {-1, 1, -1, 0, 1, -1, 0, 1};
+
     AhoCorasick<> ac;
 
     int t;
     scanf("%d", &t);
     for (int cs = 1; cs <= t; cs++){
-        /// No line of a table is longer than 100 letters, so longer words never occur
         int d;
         scanf("%d", &d);
         vector<string> words;
@@ -165,7 +165,6 @@ int main(){
         for (auto& w: words) ac.insert(w);
         ac.build();
 
-        /// out[v]: nearest proper suffix of node v that is a word, walking it lists every word ending at v
         int nodes = ac.go.size();
         vector<int> id(nodes, -1), out(nodes, 0);
         for (int i = 0; i < (int)words.size(); i++) id[ac.terminal[i]] = i;
@@ -182,7 +181,6 @@ int main(){
             for (int i = 0; i < n; i++) scanf("%s", grid[i]);
             auto valid = [&](int x, int y){ return 0 <= x && x < n && 0 <= y && y < m; };
 
-            /// Every line of the table in every direction is one text, a word can never span two lines
             vector<int> cnt(words.size(), 0);
             for (int k = 0; k < 8; k++){
                 for (int i = 0; i < n; i++){

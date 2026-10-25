@@ -299,11 +299,11 @@ struct SuffixArrayQueries : SuffixArray{
 
 int main(){
     string a, b, blank;
+
     for (int tc = 0; getline(cin, a); tc++){
         if (!getline(cin, b)) break;
         getline(cin, blank);
 
-        /// '#' sorts before the bases, and only suffixes from different strands that neighbour in sa share a common sequence
         string s = a + "#" + b;
         SuffixArray sa = suffix_array(s);
         int n = a.size(), best = 0;

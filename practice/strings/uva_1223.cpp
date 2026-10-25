@@ -300,10 +300,10 @@ struct SuffixArrayQueries : SuffixArray{
 int main(){
     int t;
     static char buf[8192];
+
     scanf("%d", &t);
     while (t--){
         scanf("%8191s", buf);
-        /// A repeated substring is a common prefix of two suffixes, and the longest one sits between neighbours in sa
         SuffixArray sa = suffix_array(string(buf));
         printf("%d\n", *max_element(sa.lcp.begin(), sa.lcp.end()));
     }

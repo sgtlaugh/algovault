@@ -76,11 +76,11 @@ const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_sinc
 
 int main(){
     static char text[100005], word[100005];
+
     while (scanf("%100004s %100004s", text, word) == 2){
         int n = strlen(text), m = strlen(word);
         PolyHash ht(text), hw(word);
 
-        /// At most 10^6 / |t| wildcards, so checking every letter run of w at every start is O(10^6 + |t|)
         vector<pair<int, int>> runs;
         for (int i = 0, j; i < m; i = j){
             for (j = i; j < m && word[j] != '?'; j++) {}

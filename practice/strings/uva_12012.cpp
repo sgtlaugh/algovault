@@ -77,13 +77,13 @@ const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_sinc
 int main(){
     int t;
     char s[1024];
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%1023s", s);
         int n = strlen(s);
         PolyHash h(s);
 
-        /// reps[i][j]: copies of s[i..j] that end exactly at j, extended from the block right before it
         vector<vector<int>> reps(n, vector<int>(n, 1));
         vector<int> best(n + 1, 0);
         for (int i = 0; i < n; i++){

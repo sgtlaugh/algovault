@@ -100,6 +100,7 @@ char s[1000010];
 
 int main(){
     int n, cs = 0;
+
     while (scanf("%d", &n) == 1 && n){
         scanf("%s", s);
         vector<int> pi = prefix_function(string(s));

@@ -145,17 +145,15 @@ const int MOD = 1000003;
 
 int main(){
     int a, b, n;
+
     while (scanf("%d %d %d", &a, &b, &n) == 3){
         AhoCorasick<> ac;
         char word[32];
         for (int i = 0; i < n; i++) scanf("%s", word), ac.insert(word);
         ac.build();
 
-        /// Each letter moves the automaton for lower and upper case alike, l33t digits move it like their letter,
-        /// the other five digits match nothing and send it back to the root
         const char* leet = "oiest";
         int nodes = ac.go.size(), res = 0;
-        /// ways[v][mask]: passwords so far ending in node v, mask = seen lowercase | uppercase << 1 | digit << 2
         vector<array<long long, 8>> ways(nodes, array<long long, 8>{});
         ways[0][0] = 1;
         for (int len = 1; len <= b; len++){

@@ -296,6 +296,7 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     static char buf[200005];
     while (t--){
@@ -305,7 +306,6 @@ int main(){
         SuffixArray res = suffix_array(s);
         vector<long long> cnt(n + 2, 0);
 
-        /// Each lcp interval of c suffixes holds the substrings of lengths (parent height, height] that occur exactly c times
         vector<pair<int, int>> st;
         for (int i = 0; i < n; i++){
             int h = i + 1 < n ? res.lcp[i] : 0, start = i;

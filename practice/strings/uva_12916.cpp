@@ -99,6 +99,7 @@ vector<vector<int>> kmp_automaton(const char* pattern, int alphabet = 26, int fi
 int main(){
     int t;
     static char buf[1005];
+
     scanf("%d", &t);
     while (t--){
         scanf("%s", buf);

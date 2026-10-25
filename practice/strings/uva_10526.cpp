@@ -299,6 +299,7 @@ struct SuffixArrayQueries : SuffixArray{
 
 string read_codebase(const string& end){
     string line, base;
+
     getline(cin, line);
     while (getline(cin, line)){
         if (!line.empty() && line.back() == '\r') line.pop_back();
@@ -306,11 +307,13 @@ string read_codebase(const string& end){
         base += line;
         base += '\n';
     }
+
     return base;
 }
 
 int main(){
     string line;
+
     for (int tc = 1; getline(cin, line); tc++){
         int k = atoi(line.c_str());
         if (k == 0) break;
@@ -325,7 +328,6 @@ int main(){
         SuffixArray res = suffix_array(c);
         int n = c.size();
 
-        /// match[p]: longest prefix of jcn[p ..] found in tdp, the max lcp against the nearest tdp suffix on either side
         vector<int> match(m, 0);
         for (int dir = 0; dir < 2; dir++){
             int run = 0;
@@ -338,7 +340,6 @@ int main(){
             }
         }
 
-        /// A segment is maximal unless the one starting just before reaches at least as far
         vector<pair<int, int>> segments;
         for (int p = 0; p < m; p++){
             if (match[p] > 0 && (p == 0 || match[p - 1] <= match[p])) segments.push_back({-match[p], p});

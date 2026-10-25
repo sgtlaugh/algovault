@@ -301,6 +301,7 @@ char word[10010];
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int cs = 1; cs <= t; cs++){
         int n;
@@ -314,7 +315,6 @@ int main(){
             text += '$';
         }
 
-        /// The common prefix of two suffixes may run through a separator into the next word, so cap it by both lengths
         SuffixArrayQueries<string> sa(text);
         int q;
         scanf("%d", &q);

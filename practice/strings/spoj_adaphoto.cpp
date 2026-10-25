@@ -299,9 +299,9 @@ struct SuffixArrayQueries : SuffixArray{
 
 int main(){
     static char a[1000005], b[1000005];
+
     if (scanf("%1000004s %1000004s", a, b) != 2) return 0;
 
-    /// '#' sorts below every formation and appears once, so no common prefix crosses it
     string s = string(a) + '#' + b;
     int m = strlen(a);
     SuffixArray res = suffix_array(s);

@@ -296,6 +296,7 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     static char s[100005];
     while (t--){
@@ -304,7 +305,6 @@ int main(){
         int n = res.n;
         const vector<int>& lcp = res.lcp;
 
-        /// The sum of cnt^2 counts ordered pairs of occurrences of equal substrings, i.e. the sum of lcp over ordered suffix pairs
         long long total = (long long)n * (n + 1) / 2;
         vector<int> left(n), right(n), st;
         for (int j = 0; j + 1 < n; j++){

@@ -300,6 +300,7 @@ struct SuffixArrayQueries : SuffixArray{
 int main(){
     int m;
     static char buf[40010];
+
     while (scanf("%d", &m) == 1 && m){
         scanf("%s", buf);
         string s = buf;
@@ -309,7 +310,6 @@ int main(){
             continue;
         }
 
-        /// m occurrences are m consecutive ranks, sharing the minimum of the m - 1 lcps between them
         SuffixArray sa = suffix_array(s);
         int best = 0;
         deque<int> window_min;
@@ -324,7 +324,6 @@ int main(){
             continue;
         }
 
-        /// Every suffix in a run of at least m ranks joined by lcps >= best starts an occurrence
         int pos = -1;
         for (int i = 0, j; i < n; i = j + 1){
             int far = sa.sa[i];

@@ -313,14 +313,14 @@ int main(){
             string g;
             cin >> g;
             text += g;
-            text += char('0' + i);  /// a distinct separator per genome stops every lcp at its genome's end
+            text += char('0' + i);
             owner.insert(owner.end(), g.size() + 1, i);
         }
 
         SuffixArray res = suffix_array(text);
         int n = text.size(), covered = 0, best = 0;
         vector<int> cnt(k, 0);
-        deque<int> window_min;  /// indices of lcp in [l, r) with increasing values
+        deque<int> window_min;
         for (int l = 0, r = 0; r < n; r++){
             if (cnt[owner[res.sa[r]]]++ == 0) covered++;
             if (r > 0){

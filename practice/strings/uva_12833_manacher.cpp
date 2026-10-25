@@ -40,6 +40,7 @@ vector<int> manacher(const char* s){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, q;
@@ -51,8 +52,6 @@ int main(){
         pre[0].fill(0);
         for (int i = 0; i < n; i++) pre[i + 1] = pre[i], pre[i + 1][s[i] - 'a']++;
 
-        /// Around one center, the palindromes ending on a c are cut at the 1st, 2nd, ..., x-th c of the left half,
-        /// so the center adds one palindrome for each count up to x: 2t - 1 copies of c if the center is a c, else 2t
         vector<vector<int>> odd(26, vector<int>(n + 2, 0)), even(26, vector<int>(n + 2, 0));
         vector<int> pal = manacher(s);
         for (int i = 0; i < 2 * n - 1; i++){

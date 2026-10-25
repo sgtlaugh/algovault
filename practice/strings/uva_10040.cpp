@@ -43,7 +43,6 @@ vector<int> de_bruijn(int k, int n){
 }
 
 int main(){
-    /// The smallest Ouroboros number is the lexicographically smallest binary De Bruijn sequence
     vector<vector<int>> snake(22);
     for (int n = 1; n < 22; n++) snake[n] = de_bruijn(2, n);
 

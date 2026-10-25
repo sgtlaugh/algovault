@@ -40,12 +40,12 @@ vector<int> manacher(const char* s){
 
 int main(){
     static char buf[100010];
+
     while (scanf("%s", buf) == 1){
         string s = buf;
         int n = s.size(), i = 0;
         vector<int> pal = manacher(s);
 
-        /// Mirror the part before the longest palindromic suffix
         while (pal[i + n - 1] < n - i) i++;
         puts((s + string(s.rend() - i, s.rend())).c_str());
     }

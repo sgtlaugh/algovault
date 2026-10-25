@@ -41,6 +41,7 @@ int minimum_rotation(const char* s){
 int main(){
     static char buf[100005];
     int t, len;
+
     scanf("%d", &t);
     while (t--){
         scanf("%d %s", &len, buf);

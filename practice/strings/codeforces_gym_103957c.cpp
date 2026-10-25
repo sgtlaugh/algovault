@@ -304,6 +304,7 @@ struct DSU{
 vector<int> palindrome_lengths(const string& s){
     int n = s.size();
     vector<int> d1(n), d2(n), res(2 * n - 1);
+
     for (int i = 0, l = 0, r = -1; i < n; i++){
         int k = i > r ? 1 : min(d1[l + r - i], r - i + 1);
         while (i - k >= 0 && i + k < n && s[i - k] == s[i + k]) k++;
@@ -318,6 +319,7 @@ vector<int> palindrome_lengths(const string& s){
     }
     for (int i = 0; i < n; i++) res[2 * i] = 2 * d1[i] - 1;
     for (int i = 1; i < n; i++) res[2 * i - 1] = 2 * d2[i];
+
     return res;
 }
 
@@ -346,7 +348,6 @@ int main(){
                 ok = false;
                 break;
             }
-            /// Positions left of reach are already tied to their mirrors through earlier centers, so unions stay O(n)
             for (int j = max(reach + 1, (c + 1) / 2); j <= hi; j++) dsu.unite(j, c - j);
             reach = max(reach, hi);
             if (lo > 0 && hi + 1 < n) differ.push_back({lo - 1, hi + 1});
@@ -354,7 +355,6 @@ int main(){
 
         string s;
         if (ok){
-            /// Characters climb along sa, a cut before rank k raises it, forbidden inside a class of equal positions
             vector<int> first(n, n), last(n, -1), forbid(n + 1, 0);
             for (int i = 0; i < n; i++){
                 int root = dsu.find(sa[i]);
@@ -374,7 +374,6 @@ int main(){
                 if (rank[sa[k - 1] + 1] > rank[sa[k] + 1]) cuts.insert(k);
             }
 
-            /// Each pair that must differ needs a cut in (a, b], placing it as late as allowed keeps every character minimal
             vector<pair<int, int>> need;
             for (auto [x, y] : differ) need.push_back({max(rank[x], rank[y]), min(rank[x], rank[y])});
             sort(need.begin(), need.end());

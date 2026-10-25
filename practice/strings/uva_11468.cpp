@@ -143,9 +143,9 @@ struct AhoCorasick{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
-        /// '0'..'z' covers every alphanumeric character
         AhoCorasick<'z' - '0' + 1, '0'> ac;
         int k, n, len;
         char buf[32];
@@ -159,7 +159,6 @@ int main(){
         for (int i = 0; i < n; i++) scanf("%s %lf", buf, &p[i]), ch[i] = buf[0];
         scanf("%d", &len);
 
-        /// prob[v]: chance the text so far avoids every pattern and leaves the automaton at node v
         int nodes = ac.go.size();
         vector<double> prob(nodes, 0), next(nodes);
         prob[0] = 1;

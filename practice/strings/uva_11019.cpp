@@ -113,6 +113,7 @@ vector<string> read_grid(int rows){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m, x, y;

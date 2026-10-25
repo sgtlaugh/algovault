@@ -310,7 +310,7 @@ int main(){
             owner.push_back(i);
             end.push_back(stop);
         }
-        c.push_back(-1 - i);  /// distinct separators keep every lcp inside one name
+        c.push_back(-1 - i);
         owner.push_back(-1);
         end.push_back(stop);
     }
@@ -318,7 +318,6 @@ int main(){
     SuffixArray res = suffix_array(c);
     int n = c.size();
 
-    /// below[i]: lcp with the nearest later suffix of another cow, an earlier one is bounded by lcp[i - 1] anyway
     vector<int> below(n, 0);
     for (int i = n - 2; i >= 0; i--){
         int a = owner[res.sa[i]], b = owner[res.sa[i + 1]];

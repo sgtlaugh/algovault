@@ -299,9 +299,8 @@ struct SuffixArrayQueries : SuffixArray{
 
 int main(){
     int n;
+
     for (int tc = 0; scanf("%d", &n) == 1 && n; tc++){
-        /// All life forms joined by distinct separators, so no common prefix runs across a separator
-        /// rest[p] = letters from p up to the separator
         vector<int> text, owner, rest;
         char buf[1001];
         for (int i = 0; i < n; i++){
@@ -314,8 +313,6 @@ int main(){
         SuffixArray s = suffix_array(text);
         int m = text.size();
 
-        /// Runs of suffixes sharing their first len letters, kept when more than half the life forms own one
-        /// The runs come in suffix order, so their substrings are already alphabetical
         auto shared = [&](int len){
             vector<int> res;
             vector<int> seen(n, -1);

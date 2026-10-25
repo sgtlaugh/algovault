@@ -103,6 +103,7 @@ vector<int> min_palindromic_factorization(const string& s){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, q;
@@ -116,7 +117,6 @@ int main(){
         }
         vector<long long> occ = tree.occurrences();
 
-        /// Each distinct palindrome adds its occurrence count under its outer letter and how often that letter appears in it
         vector<vector<long long>> ways(26, vector<long long>(n + 1, 0));
         for (int c = 0; c < 26; c++){
             for (int i = 0; i < n; i++) pre[i + 1] = pre[i] + (buf[i] - 'a' == c);

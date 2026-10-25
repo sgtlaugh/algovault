@@ -76,6 +76,7 @@ const uint64_t PolyHash::base = mt19937_64(chrono::system_clock::now().time_sinc
 
 int main(){
     string line;
+
     while (getline(cin, line) && !line.empty()){
         string s;
         for (char c : line){

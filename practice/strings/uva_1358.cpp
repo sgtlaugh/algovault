@@ -99,13 +99,13 @@ vector<vector<int>> kmp_automaton(const char* pattern, int alphabet = 26, int fi
 int main(){
     int t, n;
     char pattern[16];
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %15s", &n, pattern);
         string s = pattern;
         vector<int> pi = prefix_function(s);
 
-        /// Conway's leading numbers: the expected wait is the sum of n^k over every border length k, the whole pattern included
         long long expected = 0;
         for (int k = s.size(); k > 0; k = pi[k - 1]){
             long long power = 1;

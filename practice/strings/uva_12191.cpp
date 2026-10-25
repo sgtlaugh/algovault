@@ -299,10 +299,10 @@ struct SuffixArrayQueries : SuffixArray{
 
 int main(){
     static char line[100010];
+
     while (scanf("%s", line) == 1 && line[0] != '*'){
         SuffixArray s = suffix_array(string(line));
 
-        /// A repeated substring is a common prefix of neighbouring suffixes, each rise of the lcp array brings that many new ones
         long long repeated = 0;
         for (int i = 0; i < s.n; i++) repeated += max(0, s.lcp[i] - (i ? s.lcp[i - 1] : 0));
         printf("%lld\n", repeated);

@@ -145,6 +145,7 @@ char buf[1000001];
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         AhoCorasick<> ac;
         for (int i = 0; i < n; i++){

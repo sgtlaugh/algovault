@@ -307,7 +307,6 @@ int main(){
         int k;
         cin >> k;
 
-        /// Separator -1 - i is unique per string, so no common prefix crosses one
         vector<int> joined, owner;
         for (int i = 0; i < k; i++){
             string s;
@@ -332,7 +331,6 @@ int main(){
                 l++;
             }
 
-            /// With k = 1 the window is one suffix, the whole string minus its separator
             if (covered == k) best = max(best, l < r ? q.lcp_min(l, r) : n - q.sa[l] - 1);
         }
 

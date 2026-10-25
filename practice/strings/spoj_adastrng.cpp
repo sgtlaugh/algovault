@@ -299,6 +299,7 @@ struct SuffixArrayQueries : SuffixArray{
 
 int main(){
     static char buf[300005];
+
     while (scanf("%300004s", buf) == 1){
         string s(buf);
         SuffixArray res = suffix_array(s);

@@ -44,10 +44,10 @@ int lcs(const char* A, const char* B){
 
 char grid[25][25];
 
-/// The walk line can be empty (N = 0), so it is read as a whole line
 string walk(){
     static char line[20010];
     int n, x, y;
+
     scanf("%d %d %d", &n, &x, &y);
     fgets(line, sizeof(line), stdin);
     if (!fgets(line, sizeof(line), stdin)) line[0] = 0;
@@ -60,11 +60,13 @@ string walk(){
         if (line[i] == 'W') y--;
         s += grid[x][y];
     }
+
     return s;
 }
 
 int main(){
     int t, h, w;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         scanf("%d %d", &h, &w);

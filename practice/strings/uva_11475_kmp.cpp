@@ -98,10 +98,10 @@ vector<vector<int>> kmp_automaton(const char* pattern, int alphabet = 26, int fi
 
 int main(){
     static char buf[100010];
+
     while (scanf("%s", buf) == 1){
         string s = buf, r(s.rbegin(), s.rend());
 
-        /// The longest prefix of reverse(s) ending s is the longest palindromic suffix, mirror what precedes it
         int i = s.size() - prefix_function(r + "#" + s).back();
         puts((s + string(s.rend() - i, s.rend())).c_str());
     }

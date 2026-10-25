@@ -296,6 +296,7 @@ SuffixArrayQueries(const char*) -> SuffixArrayQueries<string>;
 
 int main(){
     int n, k;
+
     cin >> n >> k;
     vector<int> text, color, len(n);
     for (int i = 0; i < n; i++){
@@ -306,7 +307,6 @@ int main(){
             text.push_back(ch - 'a');
             color.push_back(i);
         }
-        /// Distinct separators keep every common prefix inside one string
         text.push_back(26 + i);
         color.push_back(-1);
     }
@@ -321,7 +321,6 @@ int main(){
         vector<int> col(m), cnt(n, 0), r(m), w(m, 0);
         for (int i = 0; i < m; i++) col[i] = color[q.sa[i]];
 
-        /// r[l]: smallest r such that ranks [l, r] hold k distinct strings, m if none
         for (int l = 0, e = 0, distinct = 0; l < m; l++){
             while (e < m && distinct < k){
                 if (col[e] >= 0 && cnt[col[e]]++ == 0) distinct++;
@@ -332,7 +331,6 @@ int main(){
             if (col[l] >= 0 && --cnt[col[l]] == 0) distinct--;
         }
 
-        /// The best window around rank i starts at some l with r[l] >= i, or at the last l before them stretched to i
         deque<int> window;
         for (int i = 0, l0 = 0; i < m; i++){
             while (!window.empty() && w[window.back()] <= w[i]) window.pop_back();
