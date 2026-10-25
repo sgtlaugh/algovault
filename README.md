@@ -269,7 +269,7 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 [Practice problems](code_library/dp/README.md)
 
 - [Aliens Trick (WQS)](code_library/dp/aliens_trick.cpp) - optimum with exactly k items for a convex cost
-- [Blocks](code_library/dp/blocks_dp.cpp) - interval DP for UVA 10559 Blocks
+- [Block Removal DP](code_library/dp/blocks_dp.cpp) - max score clearing runs of equal blocks
 - [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - limited copies per item in `O(n capacity)` [✔](judge_tests/dp/aoj_dpl_1_g.cpp)
 - [Bounded Subset Sum](code_library/dp/bounded_subset_sum.cpp) - reachable sums of a multiset, with a witness
 - [CKY](code_library/dp/cky.cpp) - context-free grammar membership

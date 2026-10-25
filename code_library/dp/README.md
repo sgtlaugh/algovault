@@ -9,7 +9,7 @@
 - [oj.uz IOI16_aliens - Aliens](https://oj.uz/problem/view/IOI16_aliens) [✅](../../practice/dp/oj_uz_ioi16_aliens.cpp "Accepted solution")
 - [USACO 697 - Building a Tall Barn](https://usaco.org/index.php?page=viewproblem2&cpid=697)
 
-#### [Blocks](blocks_dp.cpp)
+#### [Block Removal DP](blocks_dp.cpp)
 
 - [UVa 10559 - Blocks](https://onlinejudge.org/external/105/10559.pdf) [✅](../../practice/dp/uva_10559.cpp "Accepted solution")
 

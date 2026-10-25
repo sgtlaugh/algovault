@@ -1,6 +1,6 @@
 /***
  *
- * UVA 10559 Blocks - https://onlinejudge.org/external/105/10559.pdf
+ * Block Removal DP
  * Maximum score for clearing a row of colored blocks, one click removing a maximal run of k equal blocks for k^2 points
  *
  * Complexity: O(m^3 n) time, O(m^2 n) memory for n blocks in m maximal runs (32 MB at n = 200)
@@ -8,7 +8,7 @@
  * blocks_max_score(blocks): the maximum score, 0 for an empty row, blocks any random-access container compared with ==
  *
  * Notes:
- *   - A similar problem solved the same way - https://www.spoj.com/problems/DINGRP/
+ *   - Solves UVa 10559 Blocks (https://onlinejudge.org/external/105/10559.pdf) and SPOJ DINGRP the same way
  *
 ***/
 
