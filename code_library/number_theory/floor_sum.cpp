@@ -27,6 +27,7 @@ typedef unsigned __int128 u128;
 /// Called with 0 <= a, b < m, so every partial sum is at most n * (n - 1) < 2^126 and nothing overflows
 u128 floor_sum_unsigned(u128 n, u128 m, u128 a, u128 b){
     u128 res = 0;
+
     while (true){
         if (a >= m){
             res += n * (n - 1) / 2 * (a / m);

@@ -66,7 +66,6 @@ long long CRT(const vector<long long>& rems, const vector<long long>& mods){
         long long g = gcd(lcm, mods[i]), step = mods[i] / g;
         if ((r - res) % g) return -1;
 
-
         /// res + k * lcm hits r modulo mods[i] exactly when k * (lcm / g) = (r - res) / g modulo step
         long long k = (__int128)normalize((r - res) / g, step) * mod_inverse(lcm / g % step, step) % step;
         res += k * lcm;

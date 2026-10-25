@@ -92,6 +92,7 @@ long long inverse_mod(long long a, long long m){
 namespace rho{
     bool is_prime(long long n){
         static const long long bases[] = {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37};
+
         if (n < 2) return false;
         for (long long q : bases){
             if (n % q == 0) return n == q;
@@ -107,6 +108,7 @@ namespace rho{
             for (int i = 1; i < s && x != n - 1; i++) x = mul_mod(x, x, n);
             if (x != n - 1) return false;
         }
+
         return true;
     }
 
@@ -157,6 +159,7 @@ namespace rho{
     /// Sorted (prime, exponent) pairs
     vector<pair<long long, int>> factorize(long long n){
         vector<long long> primes;
+
         collect_primes(n, primes);
         sort(primes.begin(), primes.end());
 
@@ -165,6 +168,7 @@ namespace rho{
             if (!res.empty() && res.back().first == q) res.back().second++;
             else res.emplace_back(q, 1);
         }
+
         return res;
     }
 }
@@ -173,6 +177,7 @@ namespace rho{
 long long prime_power_root(long long b, long long q, int e, long long p){
     long long t = p - 1, qe = 1;
     int s = 0;
+
     for (; t % q == 0; t /= q) s++;
     for (int i = 0; i < e; i++) qe *= q;
 
@@ -260,6 +265,7 @@ long long multiplicative_order(long long a, long long m){
     for (auto [q, e] : rho::factorize(phi)){
         while (order % q == 0 && pow_mod(a, order / q, m) == 1) order /= q;
     }
+
     return order;
 }
 

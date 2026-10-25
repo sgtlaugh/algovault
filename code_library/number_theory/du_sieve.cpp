@@ -34,6 +34,7 @@ struct DuSieve{
 
     DuSieve(long long n, int table) : limit(max(1, (int)min<long long>(n, table))), phi_prefix(limit + 1, 0), mu_prefix(limit + 1, 0){
         vector<int> primes;
+
         phi_prefix[1] = mu_prefix[1] = 1;
 
         /// Linear sieve writing phi and mu in place, phi_prefix[i] == 0 means no smaller i reached it, so i is prime

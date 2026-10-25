@@ -58,6 +58,7 @@ struct LinearSieve{
     template <typename F>
     vector<long long> multiplicative(F f) const{
         vector<long long> g(n + 1, 0);
+
         if (n >= 1) g[1] = 1;
         for (int x = 2; x <= n; x++){
             /// Rebuilding p^k costs 15% against a stored power table (90 vs 77 ms at n = 1e7), which would cost 40 MB
@@ -65,6 +66,7 @@ struct LinearSieve{
             for (int i = 1; i < k; i++) pk *= p;
             g[x] = g[x / pk] * f((long long)p, k, (long long)pk);
         }
+
         return g;
     }
 };

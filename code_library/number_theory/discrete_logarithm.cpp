@@ -28,6 +28,7 @@ struct mix_hash{
 int discrete_log(int a, int b, int mod){
     __gnu_pbds::gp_hash_table<int, int, mix_hash> mp;
     int i, v, x, e = 1, n = sqrt(mod + 0.5) + 1;
+
     auto expo = [mod](long long base, int k){
         long long res = 1 % mod;
         for (; k; k >>= 1, base = base * base % mod){

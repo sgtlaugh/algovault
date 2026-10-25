@@ -63,6 +63,7 @@ struct PrimeCounter{
 
     void sieve(){
         vector<bool> is_prime(maxv);
+
         is_prime[2] = true;
         for (int i = 3; i < maxv; i += 2) is_prime[i] = true;
 

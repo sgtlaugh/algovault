@@ -125,6 +125,7 @@ struct Min25Sieve{
         int deg = surj.size();
         vector<long long> num;
         vector<uint64_t> binom(deg, 0);
+
         for (int j = 0; j < deg && j <= v; j++){
             num.push_back(v + 1 - j);
             for (int x = j + 1, q = 2; x > 1; q++){
@@ -156,6 +157,7 @@ struct Min25Sieve{
                 res = add(res, add(mul(reduce(f(p, e, pe)), rec(v / pe, i + 1, f)), reduce(f(p, e + 1, pe * p))));
             }
         }
+
         return res;
     }
 

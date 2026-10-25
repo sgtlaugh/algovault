@@ -77,12 +77,14 @@ namespace prm{
     bool is_probable_composite(int a, long long n, int s, const Montgomery& mont){
         unsigned long long one = mont.to_mont(1), minus_one = mont.to_mont(n - 1);
         unsigned long long x = mont.pow(mont.to_mont(a), (n - 1) >> s);
+
         if (x == one) return false;
 
         for (int i = 0; i < s; i++){
             if (x == minus_one) return false;
             x = mont.mul(x, x);
         }
+
         return true;
     }
 

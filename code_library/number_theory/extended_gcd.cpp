@@ -64,6 +64,7 @@ bool diophantine(long long a, long long b, long long c, long long& x, long long&
 
 long long count_diophantine(long long a, long long b, long long c, long long x1, long long x2, long long y1, long long y2){
     long long x, y;
+
     if (!diophantine(a, b, c, x, y)) return 0;
     if (a == 0 && b == 0) return max(0LL, x2 - x1 + 1) * max(0LL, y2 - y1 + 1);
 
