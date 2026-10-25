@@ -3,7 +3,7 @@
  * Knuth Optimization
  * Interval DP dp[i][j] = min over i < k < j of dp[i][k] + dp[k][j] + cost(i, j), dp[i][i + 1] = 0
  *
- * Complexity: O(n^2) time and memory
+ * Complexity: O(n^2) time and memory, (n + 1)^2 values of T plus as many ints, about 300 MB at n = 5000 for long long
  *
  * knuth_dp<T>(n, cost): dp table over the points 0..n, dp[i][j] for 0 <= i < j <= n, the answer is dp[0][n]
  *
@@ -54,7 +54,10 @@ int main(){
     };
 
     auto dp = merge_piles({1, 2, 3});
-    assert(dp[0][3] == 9 && dp[0][2] == 3 && dp[1][3] == 5 && dp[0][1] == 0);
+    assert(dp[0][3] == 9);
+    assert(dp[0][2] == 3);
+    assert(dp[1][3] == 5);
+    assert(dp[0][1] == 0);
     assert(merge_piles({4, 1, 1, 4})[0][4] == 18);
     assert(merge_piles({7})[0][1] == 0);
     assert(merge_piles({})[0][0] == 0);
