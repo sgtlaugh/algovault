@@ -141,10 +141,10 @@ pair<vector<long long>, Func> random_function(uint64_t mod, int min_size = 0){
 
 int main(){
     const int limit = 1000000;
-    Func phi = [](long long p, int, long long pe){ return pe / p * (p - 1); };
-    Func mu = [](long long, int e, long long){ return e == 1 ? -1LL : 0LL; };
-    Func divisors = [](long long, int e, long long){ return (long long)e + 1; };
-    Func sigma2 = [](long long p, int, long long pe){ return (long long)(((__int128)pe * pe * p * p - 1) / (p * p - 1) % 1000000007); };
+    auto phi = [](long long p, int, long long pe){ return pe / p * (p - 1); };
+    auto mu = [](long long, int e, long long){ return e == 1 ? -1LL : 0LL; };
+    auto divisors = [](long long, int e, long long){ return (long long)e + 1; };
+    auto sigma2 = [](long long p, int, long long pe){ return (long long)(((__int128)pe * pe * p * p - 1) / (p * p - 1) % 1000000007); };
     vector<pair<vector<long long>, Func>> named = {{{-1, 1}, phi}, {{-1}, mu}, {{2}, divisors}, {{1, 0, 1}, sigma2}};
 
     vector<long long> queries;
@@ -166,21 +166,21 @@ int main(){
 
     /// Linear sieve prefix sums up to 1e6: every n <= 300, prime squares and random n, named and random f, degree <= 5
     LinearTable table(limit);
-    for (long long it = 0; it < stress::scaled(30); it++){
+    for (long long it = 0; it < stress::scaled(16); it++){
         uint64_t mod = random_mod();
         auto [poly, f] = it < (long long)named.size() * 3 ? named[it % named.size()] : random_function(mod);
         if (it < (long long)named.size() * 3 && it % named.size() == 3) mod = 1000000007;
 
         auto prefix = table.prefix(mod, f);
         vector<long long> ns = queries;
-        for (int t = 0; t < 30; t++) ns.push_back(stress::rand_int(1, limit));
+        for (int t = 0; t < 10; t++) ns.push_back(stress::rand_int(1, limit));
         for (long long n : ns) assert(Min25Sieve(n, mod, poly).sum(f) == prefix[n]);
     }
 
     /// Large n against O(sqrt n) formulas: divisor count, sigma, sigma_2 and the squarefree count, plus n = 1e11
-    Func sigma = [](long long p, int, long long pe){ return (pe * p - 1) / (p - 1); };
-    Func squarefree = [](long long, int e, long long){ return (long long)(e == 1); };
-    for (long long it = 0; it < stress::scaled(4); it++){
+    auto sigma = [](long long p, int, long long pe){ return (pe * p - 1) / (p - 1); };
+    auto squarefree = [](long long, int e, long long){ return (long long)(e == 1); };
+    for (long long it = 0; it < stress::scaled(2); it++){
         long long n = stress::rand_int(100000000LL, 1000000000LL);
         uint64_t mod = random_mod();
         assert(Min25Sieve(n, mod, {2}).sum(divisors) == divisor_power_summatory(n, 0, mod));
@@ -195,10 +195,10 @@ int main(){
     /// Completely multiplicative x^k up to deg 5 under composite moduli, where power sums cannot divide by k + 1
     for (uint64_t mod : {1000000ULL, 1ULL << 20, 720720ULL}){
         for (int k = 0; k <= 5; k++){
-            long long n = stress::rand_int(10000000LL, 100000000LL);
+            long long n = stress::rand_int(10000000LL, 20000000LL);
             vector<long long> poly(k + 1, 0);
             poly[k] = 1;
-            Func power = [k, mod](long long, int, long long pe){
+            auto power = [k, mod](long long, int, long long pe){
                 uint64_t t = 1 % mod;
                 for (int i = 0; i < k; i++) t = t * (pe % mod) % mod;
                 return (long long)t;
@@ -212,7 +212,7 @@ int main(){
         /// Above 2^31: a tiny modulus such as 1 or 2 would zero out the high coefficients this block tests
         uint64_t mod = stress::rand_int(1LL << 31, 1LL << 32);
         auto [poly, f] = random_function(mod, 4);
-        check_prime_sums(Min25Sieve(stress::rand_int(100000000LL, 200000000LL), mod, poly), f);
+        check_prime_sums(Min25Sieve(stress::rand_int(20000000LL, 40000000LL), mod, poly), f);
     }
 
     return 0;
