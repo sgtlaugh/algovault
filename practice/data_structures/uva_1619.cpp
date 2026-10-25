@@ -54,6 +54,7 @@ long long largest_rectangle(const vector<T>& h){
 
 int main(){
     int n, t = 0;
+
     while (scanf("%d", &n) == 1){
         vector<int> a(n);
         vector<long long> sum(n + 1, 0);
@@ -62,8 +63,6 @@ int main(){
             sum[i + 1] = sum[i] + a[i];
         }
 
-        /// a[i] is the minimum of the widest period between its nearest strictly smaller days, and with
-        /// non-negative values the widest period has the largest sum; ties keep the shortest period, an all-zero life prints 1 1
         auto left = previous_smaller(a), right = next_smaller(a);
         long long res = 0;
         int l = 0, r = 0;

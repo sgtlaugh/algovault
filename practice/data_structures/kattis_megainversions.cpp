@@ -148,12 +148,12 @@ struct FenwickFull{
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
     vector<int> a(n);
     for (auto& x: a) scanf("%d", &x);
 
-    /// Each a[j] is the middle of (#larger on its left) * (#smaller on its right) triples
     vector<long long> larger_left(n);
     FenwickPointUpdate<long long> left(n + 1), right(n + 1);
     for (int j = 0; j < n; j++){

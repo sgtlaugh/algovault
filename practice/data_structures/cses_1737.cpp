@@ -160,6 +160,7 @@ struct FirstCombine{
 
 int main(){
     int n, q;
+
     scanf("%d %d", &n, &q);
     vector<long long> t(n);
     for (auto& v : t) scanf("%lld", &v);

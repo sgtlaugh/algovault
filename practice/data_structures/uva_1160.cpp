@@ -57,14 +57,15 @@ struct DSU{
 
 int main(){
     int x, y;
+
     while (scanf("%d", &x) == 1){
         DSU dsu(100000);
         int res = 0;
         for (; x != -1; scanf("%d", &x)){
             scanf("%d", &y);
-            /// A pair closing a cycle gives N pairs on N compounds
             if (!dsu.connect(x, y)) res++;
         }
+
         printf("%d\n", res);
     }
     return 0;

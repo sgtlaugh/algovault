@@ -186,7 +186,6 @@ const int MAXK = 50;
 
 int K;
 
-/// a palindrome of length <= K crossing a node boundary only sees K - 1 chars on each side, so nodes keep just those borders
 struct Node{
     int cnt, len;
     char pre[MAXK], suf[MAXK];
@@ -196,10 +195,10 @@ int border(int len){
     return min(len, K - 1);
 }
 
-/// palindromes of length <= K in a + b that use chars from both sides, Manacher over the joined borders
 int count_crossing(const Node& a, const Node& b){
     static char w[2 * MAXK];
     static int d1[2 * MAXK], d2[2 * MAXK];
+
     int sa = border(a.len), sb = border(b.len), m = sa + sb;
     memcpy(w, a.suf + (K - 1 - sa), sa);
     memcpy(w + sa, b.pre, sb);
@@ -224,10 +223,10 @@ int count_crossing(const Node& a, const Node& b){
         lo = max(1, max(c - sa + 1, sa - c + 1)), hi = min(d2[c], K / 2);
         if (hi >= lo) res += hi - lo + 1;
     }
+
     return res;
 }
 
-/// suf is right-aligned in its buffer so the last K - 1 chars always end at suf[K - 2]
 struct PalindromeOps{
     static Node combine(const Node& a, const Node& b){
         Node res;
@@ -256,6 +255,7 @@ struct PalindromeOps{
 
 int main(){
     static char s[100005];
+
     scanf("%s %d", s, &K);
     int n = strlen(s);
 
@@ -265,7 +265,6 @@ int main(){
         ar[i] = PalindromeOps::apply(ar[i], s[i], 1);
     }
     SegmentTree<Node, PalindromeOps, char> st(ar);
-    /// the tree alone is 43 MB of the 64 MB limit
     vector<Node>().swap(ar);
 
     int m;

@@ -182,7 +182,6 @@ struct SegmentTree : Ops{
     }
 };
 
-/// sums stay below about q * n^2 = 8e15, so long long is enough without a modulus
 struct Node{
     long long sum, cnt, idx_sum;
 };

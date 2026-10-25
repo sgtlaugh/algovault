@@ -47,7 +47,6 @@ struct DisjointSparseTable{
 
 #include "secret.h"
 
-/// Building takes 7986 Secret calls for N = 1000, just under the 8000 allowed in Init, and every query takes at most one
 DisjointSparseTable<int, int (*)(int, int)>* table;
 
 void Init(int N, int A[]){

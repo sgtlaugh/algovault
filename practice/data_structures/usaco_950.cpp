@@ -63,8 +63,6 @@ int main(){
     iota(order.begin(), order.end(), 0);
     sort(order.begin(), order.end(), [&](int a, int b){ return h[a] < h[b]; });
 
-    /// Euler characteristic of cells as vertices, 4-adjacencies as edges and full 2x2 blocks as faces
-    /// equals 1 - holes for a connected region, holes counted with the 8-connected complement
     DSU dsu(n * n);
     vector<char> on(n * n, 0);
     vector<int> chi(n * n, 0);
@@ -90,6 +88,7 @@ int main(){
         chi[root] += faces - edges;
         if (chi[root] == 1) res += dsu.size(root);
     }
+
     printf("%lld\n", res);
     return 0;
 }

@@ -300,6 +300,7 @@ struct ImplicitTreap{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<long long> values(n);
     for (auto& v : values) scanf("%lld", &v);

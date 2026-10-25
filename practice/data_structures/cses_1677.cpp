@@ -54,6 +54,7 @@ struct DSU{
 
 int main(){
     int n, m, k;
+
     scanf("%d %d %d", &n, &m, &k);
 
     vector<long long> keys(m);
@@ -74,7 +75,6 @@ int main(){
         broken[id] = true;
     }
 
-    /// Breakdowns only split components, so replay them backwards as unions
     DSU dsu(n);
     int components = n;
     for (int i = 0; i < m; i++){

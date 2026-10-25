@@ -172,11 +172,10 @@ struct Query{
     int type, l, r, k;
 };
 
-/// Every query only looks at beads inserted before it, so all of them are answered offline on the final chain:
-/// rank and k-th of the whole chain at that time are queries on the prefix of the first L beads
 int main(){
     int ops;
     char cmd[16];
+
     for (int tc = 1; scanf("%d", &ops) == 1; tc++){
         vector<int> beads;
         vector<Query> queries;
@@ -211,6 +210,7 @@ int main(){
             if (q.type == 2) res[2] += tree.count_less(q.l, q.r, q.k) + 1;
             else res[q.type] += tree.kth(q.l, q.r, q.k);
         }
+
         printf("Case %d:\n%lld\n%lld\n%lld\n", tc, res[1], res[2], res[3]);
     }
     return 0;

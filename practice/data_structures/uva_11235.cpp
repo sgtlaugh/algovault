@@ -105,12 +105,12 @@ private:
 
 int main(){
     int n, q;
+
     while (scanf("%d", &n) == 1 && n){
         scanf("%d", &q);
         vector<int> a(n);
         for (auto& x : a) scanf("%d", &x);
 
-        /// The sorted array splits into runs of equal values, run[i] is the run of position i
         vector<int> run(n), first, last, count;
         for (int i = 0; i < n; i++){
             if (i == 0 || a[i] != a[i - 1]){
@@ -135,7 +135,6 @@ int main(){
                 continue;
             }
 
-            /// Only the two end runs are cut by the range, every run strictly between lies fully inside
             int res = max(last[x] - l + 1, r - first[y] + 1);
             if (x + 1 < y) res = max(res, table.query(x + 1, y - 1));
             printf("%d\n", res);

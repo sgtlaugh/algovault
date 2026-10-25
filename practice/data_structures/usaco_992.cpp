@@ -64,7 +64,6 @@ int main(){
     for (auto& e : edges) scanf("%d %d %d", &e[1], &e[2], &e[0]);
     sort(edges.rbegin(), edges.rend());
 
-    /// cows sort themselves iff each location shares a component with its cow's target, and once true it stays true
     DSU dsu(n);
     int ptr = 1;
     auto advance = [&](){ while (ptr <= n && dsu.same(ptr, p[ptr])) ptr++; };

@@ -156,7 +156,6 @@ int main(){
         for (long long j = (long long)i * i; j <= N; j += i) composite[j] = true;
     }
 
-    /// The 7 digit reverse primes are the primes below 10^6 written backwards and padded with zeros to 7 digits
     vector<int> rev;
     for (int p : primes){
         int d = 0, digits = 0;
@@ -177,7 +176,6 @@ int main(){
         factors[i] = d + (x != 1);
     }
 
-    /// alive counts the reverse primes not yet deleted, so the i-th alive one is a lower_bound on it
     FenwickPointUpdate<int> alive(vector<int>(n, 1)), sum(factors);
     char type;
     int x;

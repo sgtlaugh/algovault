@@ -174,6 +174,7 @@ struct BinaryTrie{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;
@@ -186,13 +187,12 @@ int main(){
             string s = buf;
             trie.insert(s);
 
-            /// A node at depth d passed by c words is a subset with goodness d * c,
-            /// and the last word through a node sees its final count
             for (int j = 0, v = 0; j < (int)s.size(); j++){
                 v = trie.next[v][s[j] - '0'];
                 res = max(res, trie.pass[v] * (j + 1));
             }
         }
+
         printf("%d\n", res);
     }
     return 0;

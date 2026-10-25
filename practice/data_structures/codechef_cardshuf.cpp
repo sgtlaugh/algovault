@@ -300,6 +300,7 @@ struct ImplicitTreap{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<long long> deck(n);
     for (int i = 0; i < n; i++) deck[i] = i + 1;
@@ -311,7 +312,6 @@ int main(){
         seq.split(seq.root, a, x, rest);
         seq.split(rest, b, y, rest);
         seq.split(seq.merge(x, rest), c, z, w);
-        /// The B cards go back one at a time, so they land reversed
         seq.apply(y, 0, true);
         seq.root = seq.merge(seq.merge(z, y), w);
     }

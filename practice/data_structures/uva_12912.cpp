@@ -67,11 +67,11 @@ struct OrderedMultiset{
 
 int main(){
     int n, k;
+
     while (scanf("%d %d", &n, &k) == 2 && (n || k)){
         OrderedSet<int> circle;
         for (int i = 1; i <= n; i++) circle.insert(i);
 
-        /// p is the 1-based position the count starts from, odd rounds count clockwise and even rounds counterclockwise
         for (int i = 1, p = 1, len = n; i < n; i++, len--){
             if (i & 1){
                 p = (p + k - 1) % len;
@@ -86,6 +86,7 @@ int main(){
                 if (p == 0) p = len - 1;
             }
         }
+
         printf("%d\n", *circle.begin());
     }
     return 0;

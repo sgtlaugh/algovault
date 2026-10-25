@@ -147,10 +147,9 @@ struct FenwickFull{
 
 const int MOD = 1000000007;
 
-/// Unrolling the subtree sums, a leaf at distance d below u adds X * 2^(d - 1) to u's value. Storing X * 2^depth(leaf)
-/// at the leaf's Euler position, u's value is its subtree's range sum divided by 2^(depth(u) + 1)
 int main(){
     const int MAXN = 100001;
+
     vector<long long> pw(MAXN + 1, 1), inv(MAXN + 1, 1);
     for (int i = 1; i <= MAXN; i++){
         pw[i] = pw[i - 1] * 2 % MOD;

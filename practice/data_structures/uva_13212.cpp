@@ -147,6 +147,7 @@ struct FenwickFull{
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<pair<int, int>> by_value(n);
         for (int i = 0; i < n; i++){
@@ -155,8 +156,6 @@ int main(){
         }
         sort(by_value.begin(), by_value.end());
 
-        /// Values reach 10^8, so the tree is indexed by position: going through the values in increasing order,
-        /// each one is inverted with the smaller values already placed after it
         FenwickPointUpdate<int> placed(n);
         long long res = 0;
         for (int k = 0; k < n; k++){
@@ -164,6 +163,7 @@ int main(){
             res += k - placed.prefix(p);
             placed.update(p, 1);
         }
+
         printf("%lld\n", res);
     }
     return 0;

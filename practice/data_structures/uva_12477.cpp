@@ -186,7 +186,6 @@ struct Stats{
     long long sum, sum_square, mn, mx;
 };
 
-/// x -> mul * x + add with mul 0 (assign add) or 1 (add add), so assignment and addition compose into one lazy
 struct Affine{
     long long mul, add;
 };
@@ -208,6 +207,7 @@ struct AffineStats{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, q;
@@ -227,7 +227,6 @@ int main(){
             l--, r--;
             if (op == 2){
                 Stats s = st.query(l, r);
-                /// V = (m * sum x^2 - (sum x)^2) / m^2
                 long long m = r - l + 1, num = m * s.sum_square - s.sum * s.sum, den = m * m;
                 long long g = __gcd(num, den);
                 printf("%lld/%lld %lld\n", num / g, den / g, s.mx - s.mn);

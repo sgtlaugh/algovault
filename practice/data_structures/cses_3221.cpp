@@ -94,6 +94,7 @@ struct MonotonicQueue{
 int main(){
     int n, k;
     long long x, a, b, c;
+
     scanf("%d %d %lld %lld %lld %lld", &n, &k, &x, &a, &b, &c);
 
     MonotonicQueue<long long> window;
@@ -104,6 +105,7 @@ int main(){
         if (i >= k - 1) res ^= window.best();
         x = (a * x + b) % c;
     }
+
     printf("%lld\n", res);
     return 0;
 }

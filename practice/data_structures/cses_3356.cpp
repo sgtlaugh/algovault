@@ -188,9 +188,9 @@ struct MinSet{
     static int compose(int, int lz){ return lz; }
 };
 
-/// nxt[i] is the next position holding the same value, [a, b] is distinct iff min(nxt[a..b]) > b
 int main(){
     int n, q;
+
     scanf("%d %d", &n, &q);
     vector<int> ar(n), nxt(n, n);
     map<int, set<int>> pos;

@@ -206,6 +206,7 @@ struct PersistentLiChaoTree{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<long long> h(n), pre(n + 1, 0);
     for (auto& x : h) scanf("%lld", &x);
@@ -215,7 +216,6 @@ int main(){
         pre[i + 1] = pre[i] + w;
     }
 
-    /// dp[i] = h[i]^2 + pre[i] + min over j < i of (-2 h[j] * h[i] + dp[j] + h[j]^2 - pre[j + 1])
     LiChaoTree<long long> tree(0, 1000000);
     long long dp = 0;
     tree.add_line(-2 * h[0], h[0] * h[0] - pre[1]);
@@ -223,6 +223,7 @@ int main(){
         dp = tree.query(h[i]) + h[i] * h[i] + pre[i];
         tree.add_line(-2 * h[i], dp + h[i] * h[i] - pre[i + 1]);
     }
+
     printf("%lld\n", dp);
     return 0;
 }

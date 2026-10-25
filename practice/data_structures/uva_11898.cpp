@@ -57,6 +57,7 @@ auto mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, Ge
 int main(){
     const int MAXV = 10000;
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, q;
@@ -71,8 +72,6 @@ int main(){
             e.first--, e.second--;
         }
 
-        /// A repeated value answers 0 at once; otherwise the window holds distinct values and one sweep over the
-        /// 1e4 possible values finds the closest pair
         vector<int> cnt(MAXV + 1, 0);
         int repeated = 0;
         auto res = mo(n, queries, [&](int i){ repeated += ++cnt[a[i]] == 2; },

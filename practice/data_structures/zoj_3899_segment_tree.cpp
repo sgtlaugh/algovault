@@ -182,7 +182,7 @@ struct SegmentTree : Ops{
     }
 };
 
-const int MOD = 880803841, ROOT = 26;  /// MOD = 105 * 2^23 + 1
+const int MOD = 880803841, ROOT = 26;
 
 struct FlipCount{
     static int combine(int a, int b){ return a + b; }
@@ -226,7 +226,6 @@ void ntt(vector<long long>& a, bool invert){
     }
 }
 
-/// S(n, k) = sum_j (-1)^(k - j) j^n / (j! (k - j)!), a convolution over j
 vector<long long> stirling_row(int n, int m){
     vector<long long> inv_fact(m + 1, 1);
     long long fact = 1;
@@ -251,6 +250,7 @@ vector<long long> stirling_row(int n, int m){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m, d;

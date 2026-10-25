@@ -155,7 +155,6 @@ int main(){
     vector<int> a(n);
     for (auto& x: a) fin >> x;
 
-    /// Capping at j keeps inversion (i, k) iff a[k] < j, so a[k] contributes its earlier-greater count to every j > a[k]
     FenwickPointUpdate<int> seen(n + 1);
     vector<long long> add(n + 2, 0);
     for (int i = 0; i < n; i++){

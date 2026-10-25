@@ -70,7 +70,6 @@ int main(){
     vector<int> order(n);
     for (auto& x: order) scanf("%d", &x);
 
-    /// Closing only splits the farm, so reopen barns in reverse and union with open neighbours
     DSU dsu(n);
     vector<bool> open(n + 1, false), res(n);
     int components = 0;

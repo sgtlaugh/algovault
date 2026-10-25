@@ -65,10 +65,10 @@ struct OrderedMultiset{
     }
 };
 
-/// A subarray (i, j] has mean >= k exactly when the prefix sums of a - k satisfy p[i] <= p[j], so count those pairs
 int main(){
     int n;
     long long k;
+
     scanf("%d %lld", &n, &k);
     OrderedMultiset<long long> seen;
     seen.insert(0);
@@ -77,9 +77,10 @@ int main(){
         long long a;
         scanf("%lld", &a);
         p += a - k;
-        res += seen.count_less(p + 1);   /// earlier prefix sums <= p
+        res += seen.count_less(p + 1);
         seen.insert(p);
     }
+
     printf("%lld\n", res);
     return 0;
 }

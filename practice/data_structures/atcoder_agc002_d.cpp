@@ -61,6 +61,7 @@ struct PartiallyPersistentDSU{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     PartiallyPersistentDSU dsu(n);
     for (int i = 0; i < m; i++){

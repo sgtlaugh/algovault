@@ -339,8 +339,6 @@ struct RunLengthImplicitTreap{
     }
 };
 
-/// The queue is always sorted by key: a person topped at time t has key -t, everyone never topped keeps key = id,
-/// so the untouched people stay as long runs of consecutive ids and a position search is a max_right on the largest key
 struct KeyRuns{
     using Value = int;
     using Agg = int;
@@ -352,6 +350,7 @@ struct KeyRuns{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, q;
@@ -359,7 +358,6 @@ int main(){
         printf("Case %d:\n", tc);
 
         RunLengthImplicitTreap<KeyRuns> seq(n, 1);
-        /// 32 MB limit: a Top cuts at most 2 runs and inserts 1, reserving avoids the doubling peak
         seq.nodes.reserve(3 * q + 1);
         unordered_map<int, int> top_time;
         vector<int> owner(q + 1);

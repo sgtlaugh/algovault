@@ -174,6 +174,7 @@ struct BinaryTrie{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, p;
@@ -188,7 +189,6 @@ int main(){
             dict.insert(e.first);
         }
 
-        /// Weight of the word ending at each trie node, the best one if a word repeats
         vector<int> weight(dict.next.size(), 0);
         for (auto& e : words){
             int v = dict.find(e.first);
@@ -199,8 +199,6 @@ int main(){
         string s = buf;
         int len = s.size();
 
-        /// A non-word mark of length l costs l * p, the same as l single-letter marks, so only single
-        /// letters and dictionary words need to be tried
         vector<int> dp(len + 1, 0);
         for (int i = len - 1; i >= 0; i--){
             dp[i] = dp[i + 1] - p;
@@ -210,6 +208,7 @@ int main(){
                 if (dict.ends[v]) dp[i] = max(dp[i], weight[v] + dp[j + 1]);
             }
         }
+
         printf("Case %d: %d\n", tc, dp[0]);
     }
     return 0;

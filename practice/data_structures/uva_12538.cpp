@@ -64,6 +64,7 @@ struct VersionedText{
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
     VersionedText text;

@@ -289,18 +289,19 @@ struct ImplicitTreap{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<long long> perm(n);
     iota(perm.begin(), perm.end(), 1);
     ImplicitTreap seq(perm);
 
-    /// Reversing the suffix from a gives rev(rest) rev(a..b), reversing rev(rest) back leaves rest rev(a..b)
     while (m--){
         int a, b;
         scanf("%d %d", &a, &b);
         seq.reverse(a - 1, n - 1);
         if (b < n) seq.reverse(a - 1, n - 1 - (b - a + 1));
     }
+
     for (long long x : seq.to_vector()) printf("%lld\n", x);
     return 0;
 }

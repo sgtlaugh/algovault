@@ -57,6 +57,7 @@ struct DSU{
 
 int main(){
     int n, m, t = 0;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         DSU dsu(n);
         int res = n;
@@ -65,6 +66,7 @@ int main(){
             scanf("%d %d", &a, &b);
             res -= dsu.connect(a, b);
         }
+
         printf("Case %d: %d\n", ++t, res);
     }
     return 0;

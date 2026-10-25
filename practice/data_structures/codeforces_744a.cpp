@@ -57,6 +57,7 @@ struct DSU{
 
 int main(){
     int n, m, k;
+
     scanf("%d %d %d", &n, &m, &k);
 
     vector<int> gov(k);
@@ -69,7 +70,6 @@ int main(){
         dsu.connect(u, v);
     }
 
-    /// Each government component becomes a clique, and the free nodes all join the largest one, which adds the most edges
     long long free_nodes = n, largest = 0, res = 0;
     for (int c : gov){
         long long s = dsu.size(c);

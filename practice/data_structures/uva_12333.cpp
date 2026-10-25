@@ -174,14 +174,12 @@ struct BinaryTrie{
 
 int main(){
     Trie<10, '0'> trie;
-    vector<int> first;   /// first[v]: smallest index whose number passes node v
+    vector<int> first;
     auto add = [&](const string& s, int index){
         trie.insert(s);
-        /// Indices arrive in increasing order, so a node's first index is the one that created it
         first.resize(trie.next.size(), index);
     };
 
-    /// Digits little endian; only the leading 40 matter, so past 50 digits the lowest one is dropped from both terms
     vector<int> prev = {1}, cur = {1};
     add("1", 0);
     for (int n = 2; n < 100000; n++){

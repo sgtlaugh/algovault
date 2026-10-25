@@ -149,6 +149,7 @@ struct FenwickFull{
 int main(){
     int n;
     long long k;
+
     scanf("%d %lld", &n, &k);
 
     vector<long long> h(n);
@@ -157,7 +158,6 @@ int main(){
     sort(values.begin(), values.end());
     values.erase(unique(values.begin(), values.end()), values.end());
 
-    /// Each element's own cell and its partner window are precomputed so a Mo step costs one query and one update
     vector<int> c(n), lo(n), hi(n);
     for (int i = 0; i < n; i++){
         c[i] = int(lower_bound(values.begin(), values.end(), h[i]) - values.begin());

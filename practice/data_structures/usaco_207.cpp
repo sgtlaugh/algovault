@@ -55,12 +55,10 @@ int main(){
     int n, c;
     scanf("%d %d", &n, &c);
 
-    /// Fence endpoints first, two per fence, then one point per cow
     vector<int> xs(2 * n + c), ys(2 * n + c);
     for (int i = 0; i < n; i++) scanf("%d %d %d %d", &xs[2 * i], &ys[2 * i], &xs[2 * i + 1], &ys[2 * i + 1]);
     for (int i = 2 * n; i < 2 * n + c; i++) scanf("%d %d", &xs[i], &ys[i]);
 
-    /// Id v sits on grid line 2v + 1, the even lines keep the open strip between neighbouring coordinates and the frame around everything
     int w = 2 * compress(xs).size() + 1, h = 2 * compress(ys).size() + 1;
     enum {FREE, FENCE, SEEN, COW};
     vector<char> grid(w * h, FREE);

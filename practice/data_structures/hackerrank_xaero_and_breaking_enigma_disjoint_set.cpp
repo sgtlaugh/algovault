@@ -69,7 +69,6 @@ void pull(int t){
     sub[t] = 1 + sub[lc[t]] + sub[rc[t]];
 }
 
-/// Splits t into its first k nodes and the rest
 void split(int t, int k, int& a, int& b){
     if (!t){
         a = b = 0;
@@ -107,6 +106,7 @@ int main(){
     int n, m;
     long long k;
     static char s[MAXN];
+
     scanf("%d %d %lld %s", &n, &m, &k, s);
 
     mt19937 rng(20020523);
@@ -115,6 +115,7 @@ int main(){
         pri[i] = rng(), sub[i] = 1;
         root = merge(root, i);
     }
+
     while (m--){
         int l, r, a, b, c;
         scanf("%d %d", &l, &r);
@@ -127,7 +128,6 @@ int main(){
     vector<int> pos;
     collect(root, pos);
 
-    /// The string survives iff it is constant on every cycle of the final permutation
     DSU dsu(n);
     for (int i = 0; i < n; i++) dsu.connect(i, pos[i]);
 
@@ -148,7 +148,6 @@ int main(){
         if (letter[r] == '?') free_roots.push_back(r), letter[r] = 0;
     }
 
-    /// The K-th string writes K - 1 in base 26 over the free sets, the earliest set most significant
     k--;
     for (int i = (int)free_roots.size() - 1; i >= 0; i--){
         letter[free_roots[i]] = 'a' + k % 26;

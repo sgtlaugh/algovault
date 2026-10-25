@@ -182,7 +182,6 @@ private:
     }
 };
 
-/// Raising a whole range to at least lz, and the maximum of a range
 struct ChmaxMax{
     static int combine(int a, int b){ return max(a, b); }
     static int apply(int val, int lz, int){ return max(val, lz); }
@@ -191,6 +190,7 @@ struct ChmaxMax{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     static char buf[300010];
     for (int tc = 1; tc <= t; tc++){
@@ -234,7 +234,6 @@ int main(){
             }
         }
 
-        /// A word ending at node u contains the word ending at v exactly when v is a fail-tree ancestor of some prefix node of u's word
         vector<int> tin(m), tout(m), stack = {0};
         for (int timer = 0; !stack.empty(); ){
             int u = stack.back();
@@ -249,11 +248,9 @@ int main(){
             }
         }
 
-        /// Each node holds the best chain ending in a word that is a suffix of the node's string
         SegmentTree<int, ChmaxMax> best(m);
         int res = 0;
         for (int i = 0; i < n; i++){
-            /// A word of non-positive importance never helps a chain, its substrings already chain into its superstrings
             if (w[i] <= 0) continue;
             int cur = 0, prev = 0;
             for (char ch : words[i]){
@@ -264,6 +261,7 @@ int main(){
             res = max(res, dp);
             best.update(tin[cur], tout[cur], dp);
         }
+
         printf("Case #%d: %d\n", tc, res);
     }
     return 0;

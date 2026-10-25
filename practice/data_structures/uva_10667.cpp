@@ -54,6 +54,7 @@ long long largest_rectangle(const vector<T>& h){
 
 int main(){
     int p;
+
     scanf("%d", &p);
     while (p--){
         int s, b;
@@ -67,13 +68,13 @@ int main(){
             }
         }
 
-        /// Row by row, the free run above each square is a histogram whose largest rectangle ends on that row
         vector<int> height(s, 0);
         long long res = 0;
         for (int i = 0; i < s; i++){
             for (int j = 0; j < s; j++) height[j] = occupied[i][j] ? 0 : height[j] + 1;
             res = max(res, largest_rectangle(height));
         }
+
         printf("%lld\n", res);
     }
     return 0;

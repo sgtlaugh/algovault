@@ -55,12 +55,11 @@ long long largest_rectangle(const vector<T>& h){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> p(n);
     for (int& x : p) scanf("%d", &x);
 
-    /// Plant i dies the day after every plant between it and its previous smaller one is gone
-    /// best[i] is the latest death day in (prev[i], i], so hopping j = prev[j] from i - 1 covers (prev[i], i) in amortized O(1)
     auto prev = previous_smaller(p);
     vector<int> day(n, 0), best(n, 0);
     int res = 0;
@@ -71,6 +70,7 @@ int main(){
         best[i] = max(latest, day[i]);
         res = max(res, day[i]);
     }
+
     printf("%d\n", res);
     return 0;
 }

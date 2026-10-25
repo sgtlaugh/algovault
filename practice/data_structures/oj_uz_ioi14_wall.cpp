@@ -182,7 +182,6 @@ struct SegmentTree : Ops{
     }
 };
 
-/// a run of phases folds into one clamp, height -> min(max(height, lo), hi)
 struct Clamp{
     int lo, hi;
 };
@@ -210,10 +209,10 @@ void buildWall(int n, int k, int op[], int left[], int right[], int height[], in
     for (int i = 0; i < n; i++) finalHeight[i] = st.query(i, i).mn;
 }
 
-/// oj.uz links its own grader and compiles with -DEVAL, this main mirrors the sample grader for local runs
 #ifndef EVAL
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
     vector<int> op(k), left(k), right(k), height(k), final_height(n);
     for (int i = 0; i < k; i++) scanf("%d %d %d %d", &op[i], &left[i], &right[i], &height[i]);

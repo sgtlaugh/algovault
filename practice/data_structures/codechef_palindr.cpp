@@ -312,6 +312,7 @@ long long expo(long long b, long long e){
 int main(){
     int n, m;
     static char str[100010];
+
     scanf("%d %d %s", &n, &m, str);
 
     vector<long long> fact(n + 1, 1), inv(n + 1, 1);
@@ -319,7 +320,6 @@ int main(){
     inv[n] = expo(fact[n], MOD - 2);
     for (int i = n; i > 0; i--) inv[i - 1] = inv[i] * i % MOD;
 
-    /// 10 letter counters do not fit one long long, so 3 letters of 21 bits are packed per treap
     vector<vector<long long>> packed(4, vector<long long>(n, 0));
     for (int i = 0; i < n; i++){
         int c = str[i] - 'a';

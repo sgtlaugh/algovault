@@ -156,9 +156,9 @@ struct FenwickFull2D{
 int main(){
     const int MAXC = 1000;
     int n;
+
     scanf("%d", &n);
 
-    /// Seal [x1, x2) x [y1, y2) covers unit cells x1..x2-1 by y1..y2-1
     FenwickRangeUpdate2D<int> cover(MAXC, MAXC);
     for (int i = 0; i < n; i++){
         int x1, y1, x2, y2;

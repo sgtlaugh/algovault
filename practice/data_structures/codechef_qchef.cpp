@@ -68,6 +68,7 @@ auto mo_with_rollback(int n, const vector<pair<int, int>>& queries, Add add, Sna
 
 int main(){
     int n, m, k;
+
     scanf("%d %d %d", &n, &m, &k);
     vector<int> a(n);
     for (int& v : a) scanf("%d", &v);
@@ -77,7 +78,6 @@ int main(){
         l--, r--;
     }
 
-    /// The window only grows, so a value's span in it is its first and last position, with first = -1 when absent
     struct Change{
         int value, first, last, best;
     };

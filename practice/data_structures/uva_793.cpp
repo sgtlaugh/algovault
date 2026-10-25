@@ -58,6 +58,7 @@ struct DSU{
 int main(){
     int t;
     char line[100];
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;
@@ -66,7 +67,6 @@ int main(){
 
         DSU dsu(n);
         int successful = 0, unsuccessful = 0;
-        /// A blank line or the end of input closes the log of a case
         while (fgets(line, sizeof(line), stdin)){
             char type;
             int a, b;
@@ -75,6 +75,7 @@ int main(){
             else if (dsu.same(a, b)) successful++;
             else unsuccessful++;
         }
+
         printf("%d,%d\n", successful, unsuccessful);
         if (tc != t) puts("");
     }

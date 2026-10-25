@@ -146,7 +146,6 @@ struct FenwickFull{
     }
 };
 
-/// Minimum inversion count of pos_b[a[i]] over all rotations of a
 long long min_over_shifts(const vector<int>& a, const vector<int>& b){
     int n = a.size();
     vector<int> pos_b(n + 1), seq(n);
@@ -160,12 +159,12 @@ long long min_over_shifts(const vector<int>& a, const vector<int>& b){
         fen.update(seq[i], 1);
     }
 
-    /// Moving the last value v to the front drops its n - 1 - v inversions with larger values and gains v with smaller ones
     long long best = inv;
     for (int i = n - 1; i > 0; i--){
         inv += seq[i] - (n - 1 - seq[i]);
         best = min(best, inv);
     }
+
     return best;
 }
 

@@ -220,6 +220,7 @@ int main(){
             if (trie.ends[v]) dp[j + 1] = (dp[j + 1] + dp[i]) % MOD;
         }
     }
+
     cout << dp[n] << '\n';
     return 0;
 }

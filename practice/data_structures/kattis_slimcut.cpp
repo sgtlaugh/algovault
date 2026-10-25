@@ -56,6 +56,7 @@ const int MAXH = 7000;
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
 
     vector<array<int, 3>> edges(m);
@@ -70,8 +71,6 @@ int main(){
         if (--cnt[s] == 0) sizes.erase(s);
     };
 
-    /// Before each MST edge joins, the heavier edges have glued the components that must share a side,
-    /// so the cut crosses at weight w at most and the best split is a subset sum of component sizes
     DSU dsu(n - 1);
     double res = 1e18;
     for (auto& e: edges){

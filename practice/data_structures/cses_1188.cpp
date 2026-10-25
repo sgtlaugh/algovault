@@ -187,7 +187,6 @@ struct Node{
     bool lb, rb;
 };
 
-/// flipping every bit of a range keeps its runs intact, only the end bits change
 struct RunFlip{
     static Node combine(Node a, Node b){
         bool join = a.rb == b.lb;

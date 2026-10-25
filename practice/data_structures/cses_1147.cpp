@@ -55,6 +55,7 @@ long long largest_rectangle(const vector<T>& h){
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<int> h(m, 0);
     vector<char> row(m + 1);
@@ -64,6 +65,7 @@ int main(){
         for (int j = 0; j < m; j++) h[j] = row[j] == '.' ? h[j] + 1 : 0;
         best = max(best, largest_rectangle(h));
     }
+
     printf("%lld\n", best);
     return 0;
 }

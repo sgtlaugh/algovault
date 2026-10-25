@@ -72,8 +72,8 @@ struct PotentialDSU{
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
-        /// Parity of the country: friends differ by 0, enemies by 1
         PotentialDSU dsu(n, 2);
         int c, x, y;
         while (scanf("%d %d %d", &c, &x, &y) == 3 && (c || x || y)){

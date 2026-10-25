@@ -107,6 +107,7 @@ constexpr int LinearSparseTable<T, Compare>::B;
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;
@@ -119,11 +120,9 @@ int main(){
             prefix[i] = prefix[i - 1] + v;
         }
 
-        /// 5e5 prefix sums: the linear table takes 12 MB where SparseTable would take about 80 MB
         LinearSparseTable<long long, greater<long long>> mx(prefix);
         int res = n + 1;
         for (int i = 0; i < n; i++){
-            /// Smallest j > i with prefix[j] >= prefix[i] + x, the running max of prefix[i + 1..j] is monotone in j
             long long need = prefix[i] + x;
             if (mx.query(i + 1, n) < need) continue;
             int lo = i + 1, hi = n;
@@ -134,6 +133,7 @@ int main(){
             }
             res = min(res, lo - i);
         }
+
         printf("%d\n", res > n ? -1 : res);
     }
     return 0;

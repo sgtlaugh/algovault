@@ -208,8 +208,6 @@ int main(){
         pre[i] ^= pre[i - 1];
     }
 
-    /// The trie holds the prefixes r >= l + best + 1, so a hit always means a strictly longer interval;
-    /// that window only moves right, giving O(n) inserts and erases in total
     BinaryTrie<30> bt;
     for (int r = 1; r <= n; r++) bt.insert(pre[r]);
     int best = 0, start = 0, s = 1;
@@ -220,6 +218,7 @@ int main(){
             if (s <= n) bt.erase(pre[s++]);
         }
     }
+
     cout << start << ' ' << best << '\n';
     return 0;
 }

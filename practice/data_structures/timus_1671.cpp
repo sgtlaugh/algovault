@@ -54,6 +54,7 @@ struct DSU{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
 
     vector<int> u(m + 1), v(m + 1);
@@ -68,7 +69,6 @@ int main(){
         torn[id] = true;
     }
 
-    /// Tearing only splits pieces, so replay it backwards as unions
     DSU dsu(n);
     int pieces = n;
     for (int i = 1; i <= m; i++){

@@ -64,7 +64,6 @@ int main(){
     sort(edges.rbegin(), edges.rend());
     sort(queries.rbegin(), queries.rend());
 
-    /// strongest edges first: at threshold k the videos relevant to v are exactly v's component
     DSU dsu(n);
     vector<int> res(q);
     size_t j = 0;
@@ -72,6 +71,7 @@ int main(){
         while (j < edges.size() && edges[j][0] >= qr[0]) dsu.connect(edges[j][1], edges[j][2]), j++;
         res[qr[2]] = dsu.size(qr[1]) - 1;
     }
+
     for (int x : res) printf("%d\n", x);
     return 0;
 }

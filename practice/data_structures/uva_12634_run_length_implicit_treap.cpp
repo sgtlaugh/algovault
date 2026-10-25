@@ -339,8 +339,6 @@ struct RunLengthImplicitTreap{
     }
 };
 
-/// A boy pairs with a later girl like '(' with ')': a piece keeps its pairs and its unmatched boys and girls,
-/// and joining two pieces matches the left one's spare boys with the right one's spare girls
 struct PairRuns{
     struct Agg{
         long long pairs, boys, girls;
@@ -359,6 +357,7 @@ struct PairRuns{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;

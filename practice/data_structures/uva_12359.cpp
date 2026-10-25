@@ -195,8 +195,6 @@ struct BinaryTrie{
     }
 };
 
-/// Per letter c, the nodes of depth >= 2 entered by c: prefixes of length >= 2 ending in c,
-/// or in the reversed trie suffixes of length >= 2 starting with c
 vector<long long> deep_edges(const Trie<>& trie){
     vector<long long> cnt(26, 0);
     for (int v = 1; v < (int)trie.next.size(); v++){
@@ -222,11 +220,10 @@ int main(){
             suf.insert(string(w.rbegin(), w.rend()));
         }
 
-        /// Count each word at its split with the shortest prefix: a split prefix + c | suffix is redundant
-        /// exactly when c + suffix is itself a suffix, so subtract those pairs per letter c
         long long res = (long long)(pre.next.size() - 1) * (suf.next.size() - 1);
         vector<long long> a = deep_edges(pre), b = deep_edges(suf);
         for (int c = 0; c < 26; c++) res -= a[c] * b[c];
+
         cout << res << '\n';
     }
     return 0;

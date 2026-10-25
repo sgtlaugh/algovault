@@ -186,7 +186,6 @@ struct Node{
     long long sum, pref, suf, best;
 };
 
-/// pref, suf and best allow the empty subarray, so they never drop below 0, no updates so the lazy is never used
 struct MaxSub{
     static Node combine(Node a, Node b){
         return {a.sum + b.sum, max(a.pref, a.sum + b.pref), max(b.suf, b.sum + a.suf), max(max(a.best, b.best), a.suf + b.pref)};

@@ -93,6 +93,7 @@ struct MonotonicQueue{
 
 int main(){
     int n, l;
+
     scanf("%d %d", &n, &l);
 
     MonotonicQueue<int> window;

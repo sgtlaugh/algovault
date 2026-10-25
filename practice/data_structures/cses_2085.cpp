@@ -215,7 +215,6 @@ int main(){
     for (auto& v: s) cin >> v;
     for (auto& v: f) cin >> v;
 
-    /// dp of the last kill is a line in s with slope the skill factor it leaves behind
     LiChaoTree<long long> tree(1, 1000000);
     tree.add_line(x, 0);
     long long dp = 0;
@@ -223,6 +222,7 @@ int main(){
         dp = tree.query(s[i]);
         tree.add_line(f[i], dp);
     }
+
     cout << dp << '\n';
     return 0;
 }

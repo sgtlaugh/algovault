@@ -55,13 +55,13 @@ auto mo(int n, const vector<pair<int, int>>& queries, Add add, Remove remove, Ge
 int main(){
     int n;
     long long k;
+
     scanf("%d %lld", &n, &k);
     vector<long long> h(n);
     for (auto& v : h) scanf("%lld", &v);
     vector<long long> sorted_h = h;
     sort(sorted_h.begin(), sorted_h.end());
 
-    /// Fenwick indices are 1-based ranks; lo..hi is the rank range of heights within k of h[i]
     vector<int> rank_of(n), lo(n), hi(n);
     for (int i = 0; i < n; i++){
         rank_of[i] = lower_bound(sorted_h.begin(), sorted_h.end(), h[i]) - sorted_h.begin() + 1;

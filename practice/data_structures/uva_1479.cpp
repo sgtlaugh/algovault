@@ -342,12 +342,12 @@ struct ImplicitTreap{
 
 int main(){
     int n, m, t = 0;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         vector<int> w(n + 1), u(m), v(m);
         for (int i = 1; i <= n; i++) scanf("%d", &w[i]);
         for (int i = 0; i < m; i++) scanf("%d %d", &u[i], &v[i]);
 
-        /// Deletions only split components, so the operations run backwards and every D becomes a union
         vector<array<int, 3>> ops;
         vector<char> deleted(m, 0);
         int queries = 0;
@@ -371,14 +371,11 @@ int main(){
             }
         }
 
-        /// One treap of {component root, weight} rather than a treap per component: each Treap owns an mt19937
-        /// of about 5 KB, which costs 100 MB for 2e4 singleton components
         DSU dsu(n);
         Treap<pair<int, int>> weights;
         vector<vector<int>> members(n + 1);
         for (int i = 1; i <= n; i++) weights.insert({i, w[i]}), members[i] = {i};
 
-        /// DSU unions by size, so the members moved are those of the smaller component
         auto join = [&](int a, int b){
             int c = dsu.find(a), d = dsu.find(b);
             if (!dsu.connect(c, d)) return;
@@ -414,6 +411,7 @@ int main(){
                 weights.insert({r, w[x]});
             }
         }
+
         printf("Case %d: %.6f\n", ++t, (double)sum / queries);
     }
     return 0;

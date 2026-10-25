@@ -195,10 +195,9 @@ struct BinaryTrie{
     }
 };
 
-/// Bob's best is the max over the pairs of a min-max matching: split on the top bit, an even split recurses,
-/// an odd split forces one cross pair whose cheapest xor dominates every same-side pair
 int solve(vector<int>& a, int bit){
     if (bit < 0 || a.empty()) return 0;
+
     vector<int> lo, hi;
     for (int x : a) (x >> bit & 1 ? hi : lo).push_back(x);
     if (lo.size() % 2 == 0) return max(solve(lo, bit - 1), solve(hi, bit - 1));

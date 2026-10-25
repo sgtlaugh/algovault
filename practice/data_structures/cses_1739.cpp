@@ -155,6 +155,7 @@ struct FenwickFull2D{
 
 int main(){
     int n, q;
+
     scanf("%d %d", &n, &q);
 
     FenwickPointUpdate2D<int> fen(n, n);

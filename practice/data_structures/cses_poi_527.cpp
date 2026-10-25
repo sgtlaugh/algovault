@@ -93,6 +93,7 @@ struct MonotonicQueue{
 
 int main(){
     int n, q;
+
     scanf("%d", &n);
     vector<int> d(n);
     for (auto& x : d) scanf("%d", &x);
@@ -102,7 +103,6 @@ int main(){
         int k;
         scanf("%d", &k);
 
-        /// Among equal costs the tallest tree is best: dp values in a window differ by at most one
         MonotonicQueue<pair<int, int>> window;
         int cost = 0;
         window.push({0, -d[0]});
@@ -112,6 +112,7 @@ int main(){
             cost = best.first + (-best.second <= d[i]);
             window.push({cost, -d[i]});
         }
+
         printf("%d\n", cost);
     }
     return 0;

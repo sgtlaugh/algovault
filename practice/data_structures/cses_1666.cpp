@@ -54,6 +54,7 @@ struct DSU{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
 
     DSU dsu(n);

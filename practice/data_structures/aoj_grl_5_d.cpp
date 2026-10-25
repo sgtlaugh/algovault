@@ -148,6 +148,7 @@ struct FenwickFull{
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
     vector<vector<int>> children(n);
@@ -158,7 +159,6 @@ int main(){
         for (int& c: children[i]) scanf("%d", &c);
     }
 
-    /// Iterative DFS: a path-shaped tree of 1e5 nodes would overflow a recursive one
     vector<int> tin(n), tout(n), it(n, 0), stk = {0};
     int timer = 0;
     tin[0] = timer++;
@@ -175,7 +175,6 @@ int main(){
         }
     }
 
-    /// The edge above v lies on the root path of exactly the nodes in v's subtree
     FenwickRangeUpdate<long long> fen(n);
     int q;
     scanf("%d", &q);

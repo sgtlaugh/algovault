@@ -156,7 +156,6 @@ int main(){
     FenwickPointUpdate<int> open(2 * n);
     long long pairs = 0;
 
-    /// A pair crosses iff its intervals interleave, counted once when the earlier-closing interval closes
     for (int i = 0; i < 2 * n; i++){
         int id;
         fin >> id;

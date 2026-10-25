@@ -168,6 +168,7 @@ struct WaveletMatrix{
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         vector<int> manager(n), rank_of(n), cost(n), head(n, -1), next_child(n, -1);
         int root = 0;
@@ -180,7 +181,6 @@ int main(){
             }
         }
 
-        /// Iterative DFS: a chain of 1e5 employees would overflow the stack recursively
         vector<int> tin(n), tout(n), euler, stk(1, root);
         while (!stk.empty()){
             int u = stk.back();
@@ -195,8 +195,6 @@ int main(){
             for (int v = head[u]; v != -1; v = next_child[v]) stk.push_back(v);
         }
 
-        /// The tree only counts, so the time sum is split by bits of t: one tree per bit over the subordinates
-        /// having that bit, each built and dropped in turn to bound memory
         vector<long long> res(n, 0);
         for (int bit = 0; (1 << bit) <= 100000; bit++){
             vector<int> ranks, before(n + 1, 0);

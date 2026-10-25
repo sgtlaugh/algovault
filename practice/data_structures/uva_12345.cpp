@@ -72,6 +72,7 @@ auto mo_with_updates(vector<T>& a, const vector<array<int, 3>>& queries, const v
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<int> a(n);
     for (auto& x : a) scanf("%d", &x);
@@ -83,7 +84,6 @@ int main(){
         int x, y;
         scanf("%s %d %d", type, &x, &y);
         if (type[0] == 'M') updates.push_back({x, y});
-        /// a[x:y] is the inclusive range x..y - 1, empty when y <= x
         else queries.push_back({x, max(x, y) - 1, (int)updates.size()});
     }
 

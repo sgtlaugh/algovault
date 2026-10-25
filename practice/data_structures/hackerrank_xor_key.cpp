@@ -199,8 +199,6 @@ int n;
 vector<int> x, a, ql, qr;
 vector<unsigned long long> ans;
 
-/// Divide and conquer on positions: a query crossing mid is the union of a suffix of the left half and a
-/// prefix of the right half, each grown incrementally in a fresh trie, so each level costs O(n * BITS)
 void solve(int L, int R, vector<int>& qs){
     if (qs.empty()) return;
     if (R - L == 1){

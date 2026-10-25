@@ -57,6 +57,7 @@ struct DSU{
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         DSU dsu(n);
         for (int i = 0; i < m; i++){
@@ -69,6 +70,7 @@ int main(){
                 else dsu.connect(first, x);
             }
         }
+
         printf("%d\n", dsu.size(0));
     }
     return 0;

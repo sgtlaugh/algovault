@@ -54,13 +54,13 @@ struct DSU{
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
     vector<array<int, 3>> edges(n - 1);
     for (auto& e: edges) scanf("%d %d %d", &e[1], &e[2], &e[0]);
     sort(edges.rbegin(), edges.rend());
 
-    /// Adding edges fastest first, the new edge is the bottleneck of every pair it joins
     DSU dsu(n);
     long long res = 0;
     for (auto& e: edges){

@@ -182,7 +182,6 @@ private:
     }
 };
 
-/// Signs multiply, so the tree keeps only -1, 0 or 1 and a point change assigns a new sign
 struct SignProduct{
     static int combine(int a, int b){ return a * b; }
     static int apply(int, int lz, int){ return lz; }
@@ -195,6 +194,7 @@ int sign(int x){
 
 int main(){
     int n, k;
+
     while (scanf("%d %d", &n, &k) == 2){
         vector<int> x(n);
         for (auto& v : x){

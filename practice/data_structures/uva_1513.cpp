@@ -147,12 +147,12 @@ struct FenwickFull{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
         scanf("%d %d", &n, &m);
 
-        /// Slot n + m - 1 is the top: movie i starts at slot n - i, and every watched movie takes the next free slot above
         vector<int> slots(n + m), pos(n + 1);
         for (int i = 1; i <= n; i++) pos[i] = n - i, slots[n - i] = 1;
         FenwickPointUpdate<int> fen(slots);

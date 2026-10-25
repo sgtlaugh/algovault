@@ -192,7 +192,6 @@ Func after(Func f, Func g){
     return {f.a * g.a % MOD, (f.b * g.a + g.b) % MOD};
 }
 
-/// HLD walks a chain both up and down, so each node keeps the fold in both directions
 struct Fold{
     Func fwd, bwd;
 };
@@ -211,6 +210,7 @@ struct ComposeAssign{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<Func> fn(n);
     for (auto& f: fn) scanf("%lld %lld", &f.a, &f.b);

@@ -182,7 +182,6 @@ struct SegmentTree : Ops{
     }
 };
 
-/// p is the balance after each prefix, q = p - position goes negative exactly from the first ')'
 struct Node{
     int p, q;
 };
@@ -222,7 +221,6 @@ int main(){
         else{
             s[i] = '(';
             st.update(i, n - 1, 2);
-            /// every balance from j on must survive losing 2, and the leftmost such j is always a '('
             j = st.min_left(n - 1, [](const Node& x){ return x.p >= 2; });
             s[j] = ')';
             st.update(j, n - 1, -2);

@@ -176,6 +176,7 @@ const int MOD = 20071027;
 
 int main(){
     static char buf[300005], word[105];
+
     for (int tc = 1; scanf("%s", buf) == 1; tc++){
         int m;
         scanf("%d", &m);
@@ -185,7 +186,6 @@ int main(){
             trie.insert(word);
         }
 
-        /// dp[i] counts the splits of the suffix from i: walk the trie along it, each word end adds dp of what follows
         string s = buf;
         int n = s.size();
         vector<int> dp(n + 1, 0);
@@ -197,6 +197,7 @@ int main(){
                 if (trie.ends[v]) dp[i] = (dp[i] + dp[j + 1]) % MOD;
             }
         }
+
         printf("Case %d: %d\n", tc, dp[0]);
     }
     return 0;

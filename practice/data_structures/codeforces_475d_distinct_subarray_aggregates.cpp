@@ -58,12 +58,12 @@ struct DistinctSubarrayAggregates{
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
     auto gcd_op = [](int x, int y){ return gcd(x, y); };
     DistinctSubarrayAggregates<int, decltype(gcd_op)> agg(gcd_op);
 
-    /// After pushing a[i], each segment holds the starts l whose gcd(a[l..i]) is s.value, so every subarray is counted once
     unordered_map<int, long long> cnt;
     for (int i = 0; i < n; i++){
         int x;

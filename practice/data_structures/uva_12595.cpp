@@ -147,6 +147,7 @@ struct FenwickFull{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     long long c[2][3];
     for (auto& p : c) scanf("%lld %lld %lld", &p[0], &p[1], &p[2]);
@@ -168,8 +169,6 @@ int main(){
     vector<long long> r1(q), r2(q);
     for (int i = 0; i < q; i++) scanf("%lld %lld", &r1[i], &r2[i]);
 
-    /// Fenwick positions are the planets ranked by squared distance to the second planet, so the planets it reaches
-    /// form a rank prefix
     vector<int> by_d1(n), by_d2(n), rank(n), by_r1(q);
     iota(by_d1.begin(), by_d1.end(), 0);
     iota(by_d2.begin(), by_d2.end(), 0);
@@ -180,7 +179,6 @@ int main(){
     vector<long long> sorted_d2(n);
     for (int i = 0; i < n; i++) rank[by_d2[i]] = i, sorted_d2[i] = d2[by_d2[i]];
 
-    /// Queries by growing r1: planets inside the first radius leave the tree and are counted directly
     FenwickPointUpdate<int> outside(vector<int>(n, 1));
     vector<int> res(q);
     int gone = 0;

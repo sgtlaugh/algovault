@@ -68,12 +68,12 @@ struct OrderedMultiset{
 int main(){
     int n;
     long long k;
+
     scanf("%d %lld", &n, &k);
 
     OrderedSet<int> circle;
     for (int i = 1; i <= n; i++) circle.insert(i);
 
-    /// After a removal the next child slides into the same index, so the index only advances by k
     long long pos = 0;
     for (int i = 0; i < n; i++){
         pos = (pos + k) % circle.size();

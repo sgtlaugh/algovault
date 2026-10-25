@@ -150,9 +150,9 @@ const int OFFSET = 1000000;
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
-    /// Events sorted by x; endpoints never intersect, so the order at equal x does not matter
     vector<array<int, 4>> events;
     for (int i = 0; i < n; i++){
         int x1, y1, x2, y2;

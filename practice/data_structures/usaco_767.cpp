@@ -101,7 +101,6 @@ int main(){
     vector<long long> f(n), s(n);
     for (int i = 0; i < n; i++) scanf("%lld %lld", &f[i], &s[i]);
 
-    /// The shortest window ending at each r that reaches m has the smallest maximum among those ending at r
     MonotonicQueue<long long, greater<long long>> window;
     long long sum = 0, res = LLONG_MAX;
     for (int l = 0, r = 0; r < n; r++){
@@ -113,6 +112,7 @@ int main(){
         }
         if (sum >= m) res = min(res, window.best());
     }
+
     printf("%lld\n", res);
     return 0;
 }

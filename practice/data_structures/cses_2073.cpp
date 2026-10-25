@@ -301,6 +301,7 @@ struct ImplicitTreap{
 int main(){
     int n, m;
     static char str[200010];
+
     scanf("%d %d %s", &n, &m, str);
 
     ImplicitTreap seq(vector<long long>(str, str + n));

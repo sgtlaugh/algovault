@@ -253,12 +253,10 @@ vector<T> compress(vector<T>& v, bool make_sorted=true){
     return vals;
 }
 
-/// Leaf i stands for the integers [xs[i], xs[i + 1]): every query boundary is a coordinate, so each block is all in or all out
 struct Cell{
     int ones, len;
 };
 
-/// Lazy: 0 clear, 1 fill, 2 flip, 3 nothing (two flips cancel)
 struct FillFlip{
     static Cell merge(Cell a, Cell b){ return {a.ones + b.ones, a.len + b.len}; }
     static Cell apply(Cell c, int lz, int){
@@ -276,6 +274,7 @@ struct FillFlip{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> t(n);
     vector<long long> l(n), r(n), pts = {1};
@@ -293,7 +292,7 @@ int main(){
     for (int i = 0; i < n; i++){
         int a = id(l[i]), b = id(r[i] + 1) - 1;
         st.update(a, b, t[i] == 1 ? 1 : t[i] == 2 ? 0 : 2);
-        int full = st.max_right(0, [](Cell c){ return c.ones == c.len; });  /// last leaf of the all-in prefix
+        int full = st.max_right(0, [](Cell c){ return c.ones == c.len; });
         printf("%lld\n", xs[full + 1]);
     }
     return 0;

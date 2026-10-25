@@ -183,6 +183,7 @@ struct SegmentTree : Ops{
 
 int main(){
     int n;
+
     for (int tc = 1; scanf("%d", &n) == 1 && n; tc++){
         vector<int> a(n);
         for (auto& x : a) scanf("%d", &x);

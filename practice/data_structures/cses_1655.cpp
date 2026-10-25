@@ -201,7 +201,6 @@ int main(){
 
     int n;
     cin >> n;
-    /// A subarray xor is the xor of two prefix xors, the empty prefix included
     BinaryTrie<30> bt;
     bt.insert(0);
     unsigned long long pre = 0, best = 0;
@@ -212,6 +211,7 @@ int main(){
         best = max(best, bt.max_xor(pre));
         bt.insert(pre);
     }
+
     cout << best << '\n';
     return 0;
 }

@@ -55,6 +55,7 @@ struct DSU{
 int main(){
     int n, m;
     static char s[200005];
+
     scanf("%d %d %s", &n, &m, s + 1);
     vector<vector<int>> adj(n + 1);
     for (int i = 0; i < m; i++){
@@ -63,8 +64,6 @@ int main(){
         adj[u].push_back(v), adj[v].push_back(u);
     }
 
-    /// removing a node with s = 1 keeps its neighbours connected, so it acts as a permanent relay;
-    /// before timestep t the graph is every s = 1 node plus s = 0 nodes >= t, and only nodes >= t count
     DSU dsu(n);
     vector<char> present(n + 1, 0);
     vector<long long> weight(n + 1, 0);
@@ -94,6 +93,7 @@ int main(){
         pairs += weight[root]++;
         res[t] = pairs;
     }
+
     for (int t = 1; t <= n; t++) printf("%lld\n", res[t]);
     return 0;
 }

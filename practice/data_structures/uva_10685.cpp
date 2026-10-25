@@ -57,6 +57,7 @@ struct DSU{
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         unordered_map<string, int> id;
         char a[32], b[32];
@@ -72,6 +73,7 @@ int main(){
             dsu.connect(id[a], id[b]);
             res = max(res, dsu.size(id[a]));
         }
+
         printf("%d\n", res);
     }
     return 0;

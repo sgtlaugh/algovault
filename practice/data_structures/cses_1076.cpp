@@ -67,6 +67,7 @@ struct OrderedMultiset{
 
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
     vector<int> x(n);
     for (auto& v : x) scanf("%d", &v);

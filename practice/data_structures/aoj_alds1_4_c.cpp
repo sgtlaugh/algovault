@@ -195,7 +195,6 @@ struct BinaryTrie{
     }
 };
 
-/// Remapping ACGT onto a 4-letter alphabet keeps each node at 24 bytes instead of 88 for the span A..T
 string pack(const string& s){
     string t = s;
     for (char& ch : t) ch = "abcd"[ch == 'C' ? 1 : ch == 'G' ? 2 : ch == 'T' ? 3 : 0];
@@ -208,7 +207,6 @@ int main(){
 
     int n;
     cin >> n;
-    /// Distinct prefixes of 10^6 words of length <= 12: sum over depths of min(4^d, 10^6)
     Trie<4> trie(3349526);
     string op, s;
     while (n--){

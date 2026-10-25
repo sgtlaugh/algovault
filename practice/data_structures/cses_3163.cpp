@@ -168,6 +168,7 @@ struct WaveletMatrix{
 
 int main(){
     int n, q;
+
     scanf("%d %d", &n, &q);
     vector<int> x(n);
     for (int& v : x) scanf("%d", &v);

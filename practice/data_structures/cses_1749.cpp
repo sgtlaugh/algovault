@@ -67,11 +67,11 @@ struct OrderedMultiset{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> x(n);
     for (auto& v : x) scanf("%d", &v);
 
-    /// The set holds the original indices still in the list, so the p-th of them is the p-th element
     OrderedSet<int> alive;
     for (int i = 0; i < n; i++) alive.insert(i);
     for (int i = 0; i < n; i++){

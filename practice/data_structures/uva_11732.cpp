@@ -175,7 +175,8 @@ struct BinaryTrie{
 int main(){
     int n, t = 0;
     char buf[1010];
-    Trie<'z' - '0' + 1, '0'> trie;  /// alphanumerals span '0'..'z'
+
+    Trie<'z' - '0' + 1, '0'> trie;
     while (scanf("%d", &n) == 1 && n){
         vector<string> words(n);
         size_t total = 0;
@@ -185,21 +186,18 @@ int main(){
             total += s.size();
         }
 
-        /// One trie emptied per set keeps its node buffer, a fresh trie of ~300-byte nodes per set spent most of its
-        /// time page faulting; reserving the worst-case node count avoids doubling that buffer
         trie.next.clear(), trie.pass.clear(), trie.ends.clear();
         trie.new_node();
         trie.next.reserve(total + 1);
         for (auto& s : words) trie.insert(s);
 
-        /// A pair with common prefix length l costs 2l + 1 comparisons, plus one more when the strings are equal,
-        /// and every node below the root is a common prefix of pass * (pass - 1) / 2 pairs
         long long res = (long long)n * (n - 1) / 2;
         for (size_t v = 0; v < trie.pass.size(); v++){
             long long p = trie.pass[v], e = trie.ends[v];
             if (v) res += p * (p - 1);
             res += e * (e - 1) / 2;
         }
+
         printf("Case %d: %lld\n", ++t, res);
     }
     return 0;

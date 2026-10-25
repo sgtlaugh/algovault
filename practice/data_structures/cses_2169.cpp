@@ -67,11 +67,11 @@ struct OrderedMultiset{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> x(n), y(n), order(n);
     for (int i = 0; i < n; i++) scanf("%d %d", &x[i], &y[i]);
 
-    /// Left end ascending, right end descending: every range that can contain i comes before it
     iota(order.begin(), order.end(), 0);
     sort(order.begin(), order.end(), [&](int a, int b){
         return x[a] != x[b] ? x[a] < x[b] : y[a] > y[b];

@@ -181,18 +181,17 @@ struct SegmentTree : Ops{
     }
 };
 
-/// Node value is the insertion time of the smallest number in the range, 0 when the range holds none
 struct LeftmostSet{
     static int combine(int a, int b){ return a ? a : b; }
     static int apply(int, int lz, int){ return lz; }
     static int compose(int, int lz){ return lz; }
 };
 
-/// Divisors below LIM are answered by scanning every insertion, larger ones by one segment tree query per multiple
 const int LIM = 1408;
 
 int main(){
     int t;
+
     for (int tc = 1; scanf("%d", &t) == 1 && t; tc++){
         vector<pair<char, int>> ops(t);
         int n = 0;
@@ -229,7 +228,6 @@ int main(){
             int res = -1;
             if (x < LIM) res = best_time[x];
             else{
-                /// In each block [i, i + x - 1] the smallest number has the smallest remainder
                 for (int i = 0, rem = INT_MAX; i <= n; i += x){
                     int p = st.query(i, min(n, i + x - 1));
                     if (p && (value[p] % x < rem || (value[p] % x == rem && p > res))) rem = value[p] % x, res = p;

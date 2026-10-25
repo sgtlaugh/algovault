@@ -197,7 +197,6 @@ struct BinaryTrie{
 
 typedef unsigned __int128 u128;
 
-/// 2^64 addresses exist when M = 64, one past what unsigned long long holds
 string u128_str(u128 v){
     string s;
     do s += char('0' + v % 10), v /= 10; while (v);
@@ -217,7 +216,6 @@ int main(){
             trie.insert(p.substr(0, p.size() - 1));
         }
 
-        /// covered[v]: addresses under v whose longest match is v or deeper, filled bottom up since a child's index exceeds its parent's
         int nodes = trie.next.size();
         vector<int> depth(nodes, 0);
         for (int v = 0; v < nodes; v++){

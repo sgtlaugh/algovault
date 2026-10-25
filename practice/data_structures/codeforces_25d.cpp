@@ -57,6 +57,7 @@ struct DSU{
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
     DSU dsu(n);
@@ -64,7 +65,6 @@ int main(){
     for (int i = 1; i < n; i++){
         int a, b;
         scanf("%d %d", &a, &b);
-        /// A road inside an already connected component closes a cycle, so dropping it disconnects nothing
         if (!dsu.connect(a, b)) extra.push_back({a, b});
     }
 
@@ -73,7 +73,6 @@ int main(){
         if (dsu.find(i) == i) roots.push_back(i);
     }
 
-    /// n - 1 roads over c components leave exactly c - 1 cycle roads, one per missing link between components
     printf("%d\n", (int)extra.size());
     for (int i = 0; i < (int)extra.size(); i++){
         printf("%d %d %d %d\n", extra[i].first, extra[i].second, roots[0], roots[i + 1]);

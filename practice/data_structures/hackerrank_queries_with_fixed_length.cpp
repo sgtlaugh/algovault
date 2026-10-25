@@ -93,11 +93,11 @@ struct MonotonicQueue{
 
 int main(){
     int n, q;
+
     scanf("%d %d", &n, &q);
     vector<int> a(n);
     for (auto& x : a) scanf("%d", &x);
 
-    /// HackerRank's function-style checker reads the file named by OUTPUT_PATH, not stdout
     const char* path = getenv("OUTPUT_PATH");
     FILE* out = path ? fopen(path, "w") : stdout;
     while (q--){
@@ -111,6 +111,7 @@ int main(){
             if (i >= d) window.pop();
             if (i >= d - 1) res = min(res, window.best());
         }
+
         fprintf(out, "%d\n", res);
     }
     fclose(out);

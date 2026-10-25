@@ -111,6 +111,7 @@ struct MaxOp{
 
 int main(){
     int n, q, l, r;
+
     scanf("%d", &n);
     vector<int> b(n);
     for (auto& v : b) scanf("%d", &v);
@@ -120,7 +121,6 @@ int main(){
     scanf("%d", &q);
     while (q--){
         scanf("%d %d", &l, &r);
-        /// The fastest lit stick ignites every rear end at time t, lit sticks then burn from both ends and the rest from one
         double t = mn.query(l, r), res = t + (mx.query(l, r) - t) / 2;
         if (l > 0) res = max(res, t + mx.query(0, l - 1));
         if (r < n - 1) res = max(res, t + mx.query(r + 1, n - 1));

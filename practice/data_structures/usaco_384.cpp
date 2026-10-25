@@ -73,7 +73,6 @@ int main(){
     }
     sort(edges.begin(), edges.end());
 
-    /// Growing components by increasing D, a start is rated when its component first reaches T cells
     DSU dsu(r * c);
     long long res = 0;
     for (auto& e: edges){

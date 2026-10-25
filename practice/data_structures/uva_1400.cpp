@@ -182,13 +182,11 @@ private:
     }
 };
 
-/// Best, prefix and suffix runs of a range; a prefix run ends at pr, a suffix run starts at sl
 struct Run{
     long long sum, pre, suf, best;
     int pr, sl, bl, br;
 };
 
-/// Larger sum first, then the smaller beginning, then the smaller end
 bool better(long long s, int l, int r, long long t, int x, int y){
     if (s != t) return s > t;
     return l != x ? l < x : r < y;
@@ -213,6 +211,7 @@ struct MaxRun{
 
 int main(){
     int n, m, t = 0;
+
     while (scanf("%d %d", &n, &m) == 2){
         printf("Case %d:\n", ++t);
         vector<Run> ar(n);

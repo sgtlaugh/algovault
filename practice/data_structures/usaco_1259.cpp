@@ -54,6 +54,7 @@ struct DSU{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<vector<int>> adj(n + 1);
     for (int i = 0; i < m; i++){
@@ -77,8 +78,6 @@ int main(){
         }
     }
 
-    /// v had the minimum degree when peeled, so every cow peeled after it keeps at least that many friends
-    /// among those cows; the best group's first peeled cow sees the whole group in its component
     DSU dsu(n);
     vector<char> added(n + 1, 0);
     long long res = 0;
@@ -90,6 +89,7 @@ int main(){
         }
         res = max(res, (long long)removed_deg[v] * dsu.size(v));
     }
+
     printf("%lld\n", res);
     return 0;
 }

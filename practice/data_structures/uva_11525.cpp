@@ -147,12 +147,12 @@ struct FenwickFull{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int k;
         scanf("%d", &k);
 
-        /// S_i is the factorial-base digit, so the i-th value is the (S_i + 1)-th smallest number not used yet
         FenwickPointUpdate<int> fen(vector<int>(k, 1));
         for (int i = 0; i < k; i++){
             int s;

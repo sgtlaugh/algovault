@@ -207,7 +207,6 @@ struct PersistentLiChaoTree{
 int n;
 vector<long long> t, s, pre, suf, with_p;
 
-/// Solving the problems a + 1..b scores (b - a)(b - a + 1) / 2 - (s[b] - s[a]), and the only cross term is -a * b
 long long left_part(int a){
     return pre[a] + s[a] + (long long)a * (a - 1) / 2;
 }
@@ -216,7 +215,6 @@ long long right_part(int b){
     return suf[b + 1] - s[b] + (long long)b * (b + 1) / 2;
 }
 
-/// Best score of a prefix of length i for every i, the suffix version runs this on the reversed array
 vector<long long> best_prefix(const vector<long long>& c){
     int len = (int)c.size() - 1;
     vector<long long> sum(len + 1, 0), dp(len + 1, 0);
@@ -228,15 +226,16 @@ vector<long long> best_prefix(const vector<long long>& c){
         tree.add_line(-j, dp[j] + sum[j] + (long long)j * (j - 1) / 2);
         dp[i] = max(dp[i - 1], tree.query(i) + (long long)i * (i + 1) / 2 - sum[i]);
     }
+
     return dp;
 }
 
-/// with_p[p] is the best score among choices whose solved block contains p, split by the block crossing mid
 void solve(int l, int r){
     if (l == r){
         with_p[l] = max(with_p[l], pre[l - 1] + suf[l + 1] + 1 - t[l]);
         return;
     }
+
     int mid = (l + r) / 2;
     solve(l, mid);
     solve(mid + 1, r);

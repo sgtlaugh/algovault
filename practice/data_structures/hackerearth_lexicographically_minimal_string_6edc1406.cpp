@@ -54,12 +54,12 @@ struct DSU{
 
 int main(){
     static char a[100010], b[100010], c[100010];
+
     scanf("%s %s %s", a, b, c);
 
     DSU dsu(26);
     for (int i = 0; a[i]; i++) dsu.connect(a[i] - 'a', b[i] - 'a');
 
-    /// Scanning letters in order, the first one seen in a set is its smallest
     vector<char> best(27, 0);
     for (int i = 0; i < 26; i++){
         if (!best[dsu.find(i)]) best[dsu.find(i)] = 'a' + i;

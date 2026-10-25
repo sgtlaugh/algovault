@@ -148,6 +148,7 @@ struct FenwickFull{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int cs = 1; cs <= t; cs++){
         int n, q;

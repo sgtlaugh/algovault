@@ -57,8 +57,8 @@ struct DSU{
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2){
-        /// Euler: faces = E - V + C + 1, which is one plus the number of edges closing a cycle
         DSU dsu(128);
         int faces = 1;
         for (int i = 0; i < m; i++){
@@ -66,6 +66,7 @@ int main(){
             scanf("%s %s", a, b);
             if (!dsu.connect(a[0], b[0])) faces++;
         }
+
         printf("%d\n", faces);
     }
     return 0;

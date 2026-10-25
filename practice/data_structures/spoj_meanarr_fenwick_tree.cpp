@@ -195,10 +195,10 @@ vector<T> compress(vector<T>& v, bool make_sorted=true){
     return vals;
 }
 
-/// A subarray (i, j] has mean >= k exactly when the prefix sums of a - k satisfy p[i] <= p[j], so count those pairs
 int main(){
     int n;
     long long k;
+
     scanf("%d %lld", &n, &k);
     vector<long long> p(n + 1, 0);
     for (int i = 1; i <= n; i++){
@@ -207,13 +207,14 @@ int main(){
         p[i] = p[i - 1] + a - k;
     }
 
-    compress(p);   /// p[i] becomes the rank of the prefix sum, equal sums share a rank
+    compress(p);
     FenwickPointUpdate<int> seen(n + 1);
     long long res = 0;
     for (int j = 0; j <= n; j++){
         res += seen.prefix(p[j]);
         seen.update(p[j], 1);
     }
+
     printf("%lld\n", res);
     return 0;
 }

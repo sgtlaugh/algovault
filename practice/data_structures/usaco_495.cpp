@@ -199,7 +199,6 @@ int step(int i){
     return dist(i, i + 1);
 }
 
-/// distance saved by skipping checkpoint i, defined for 0 < i < n - 1
 int skip_gain(int i){
     return dist(i - 1, i) + dist(i, i + 1) - dist(i - 1, i + 1);
 }
@@ -227,7 +226,6 @@ int main(){
         if (op[0] == 'U'){
             x[a] = b;
             scanf("%d", &y[a]);
-            /// moving one checkpoint touches the two adjacent steps and the three gains around it
             for (int i = max(0, a - 1); i <= min(n - 2, a); i++){
                 sum.update(i, i, step(i) - steps[i]);
                 steps[i] = step(i);

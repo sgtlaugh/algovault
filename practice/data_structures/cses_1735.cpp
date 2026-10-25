@@ -182,7 +182,6 @@ struct SegmentTree : Ops{
     }
 };
 
-/// an assignment to val followed by an addition of add, a pending add survives only until the next assignment
 struct Lazy{
     bool set;
     long long val, add;

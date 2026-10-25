@@ -181,7 +181,6 @@ struct SegmentTree : Ops{
     }
 };
 
-/// Lazy: 0 clear, 1 fill, 2 flip, 3 nothing (two flips cancel)
 struct FillFlip{
     static int combine(int a, int b){ return a + b; }
     static int apply(int ones, int lz, int len){
@@ -199,6 +198,7 @@ struct FillFlip{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int m;

@@ -189,8 +189,8 @@ struct MaxAdd{
 
 int main(){
     int k, n;
+
     for (int tc = 0; scanf("%d %d", &k, &n) == 2; tc++){
-        /// Free space per starship; first fit opens ships in index order, so the used ones are always a prefix
         SegmentTree<int, MaxAdd> st(vector<int>(n, k));
         int used = 0;
         long long loaded = 0;

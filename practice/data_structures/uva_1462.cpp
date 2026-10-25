@@ -174,6 +174,7 @@ struct BinaryTrie{
 
 int main(){
     int n, m;
+
     scanf("%d", &n);
     Trie<> trie;
     char buf[16];
@@ -189,7 +190,6 @@ int main(){
         string q = buf;
         int len = q.size();
 
-        /// row[j] is the edit distance between the node's prefix and q[0..j), once row[len] <= d every word below matches
         int res = 0;
         function<void(int, const vector<int>&)> dfs = [&](int v, const vector<int>& row) -> void{
             if (row[len] <= d){

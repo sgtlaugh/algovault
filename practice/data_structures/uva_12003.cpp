@@ -84,6 +84,7 @@ private:
 int main(){
     int n, m;
     long long u;
+
     while (scanf("%d %d %lld", &n, &m, &u) == 3){
         vector<int> a(n);
         for (auto& x : a) scanf("%d", &x);
@@ -97,6 +98,7 @@ int main(){
             int value = u * k / (r - l + 1);
             s.add(p, p, value - s.get(p));
         }
+
         for (int i = 0; i < n; i++) printf("%d\n", s.get(i));
     }
     return 0;

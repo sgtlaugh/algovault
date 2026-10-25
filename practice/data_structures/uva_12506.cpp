@@ -174,6 +174,7 @@ struct BinaryTrie{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     static char buf[1000010];
     Trie<> trie;
@@ -188,20 +189,18 @@ int main(){
             total += s.size();
         }
 
-        /// One trie emptied per case keeps its node buffer, a fresh trie per case spent half its time page faulting;
-        /// reserving the worst-case node count avoids doubling that buffer
         trie.next.clear(), trie.pass.clear(), trie.ends.clear();
         trie.new_node();
         trie.next.reserve(total + 1);
         for (auto& s : names) trie.insert(s);
 
-        /// A name is called by its shortest prefix that no other name shares, the first node it passes alone
         long long res = 0;
         for (auto& s : names){
             int v = 0, len = 0;
             while (trie.pass[v] > 1) v = trie.next[v][s[len++] - 'a'];
             res += len;
         }
+
         printf("%lld\n", res);
     }
     return 0;

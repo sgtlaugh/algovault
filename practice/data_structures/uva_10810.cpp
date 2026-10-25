@@ -147,6 +147,7 @@ struct FenwickFull{
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         vector<int> a(n);
         for (auto& x : a) scanf("%d", &x);
@@ -154,7 +155,6 @@ int main(){
         vector<int> sorted = a;
         sort(sorted.begin(), sorted.end());
 
-        /// Each adjacent swap fixes exactly one inversion, so the answer counts pairs i < j with a[i] > a[j]
         FenwickPointUpdate<int> seen(n);
         long long res = 0;
         for (int i = 0; i < n; i++){
@@ -162,6 +162,7 @@ int main(){
             res += seen.query(rank + 1, n - 1);
             seen.update(rank, 1);
         }
+
         printf("%lld\n", res);
     }
     return 0;

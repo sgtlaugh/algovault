@@ -57,8 +57,8 @@ struct DSU{
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2){
-        /// A move gives p a fresh DSU node, the old one stays behind as a dead member, hence n + m nodes
         DSU dsu(n + m);
         vector<int> node(n + 1), cnt(n + m + 1, 1);
         vector<long long> sum(n + m + 1);

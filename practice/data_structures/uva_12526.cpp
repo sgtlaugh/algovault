@@ -175,6 +175,7 @@ struct BinaryTrie{
 int main(){
     int n;
     static char buf[85];
+
     while (scanf("%d", &n) == 1){
         Trie<> trie;
         vector<string> words(n);
@@ -184,7 +185,6 @@ int main(){
             trie.insert(s);
         }
 
-        /// A letter after the first is typed by hand exactly when fewer words go on through it than reached it
         long long total = 0;
         for (auto& s : words){
             int v = trie.next[0][s[0] - 'a'];
@@ -195,7 +195,7 @@ int main(){
                 v = u;
             }
         }
-        /// Exact halves such as 201 / 200 are stored just below .005, the nudge makes them round up
+
         printf("%.2f\n", (double)total / n + 1e-8);
     }
     return 0;

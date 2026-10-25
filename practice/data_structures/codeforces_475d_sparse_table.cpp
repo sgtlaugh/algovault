@@ -104,13 +104,13 @@ struct LinearSparseTable{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> a(n);
     for (auto& x : a) scanf("%d", &x);
 
     SparseTable table(a, [](int x, int y){ return gcd(x, y); });
 
-    /// gcd(a[i..r]) only drops as r grows, each drop at least halves it, so at most 31 runs of equal gcd per i
     unordered_map<int, long long> cnt;
     for (int i = 0; i < n; i++){
         for (int l = i; l < n;){

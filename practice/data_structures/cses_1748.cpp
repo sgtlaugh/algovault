@@ -150,6 +150,7 @@ const long long MOD = 1000000007;
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
     vector<int> x(n);
@@ -158,7 +159,6 @@ int main(){
     sort(values.begin(), values.end());
     values.erase(unique(values.begin(), values.end()), values.end());
 
-    /// Every stored dp is below MOD, so all n of them sum below 2e14 and long long never overflows before the final mod
     FenwickPointUpdate<long long> fen(values.size());
     long long res = 0;
     for (int v: x){

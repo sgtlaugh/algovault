@@ -105,9 +105,9 @@ public:
     }
 };
 
-/// LeetCode only takes the class: local driver reading n k and then nums
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
     vector<int> nums(n);
     for (auto& x : nums) scanf("%d", &x);

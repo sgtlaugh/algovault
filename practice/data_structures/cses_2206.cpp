@@ -182,7 +182,6 @@ struct SegmentTree : Ops{
     }
 };
 
-/// from building k, pizzeria a <= k costs (p_a - a) + k and a >= k costs (p_a + a) - k
 struct Node{
     long long left, right;
 };

@@ -300,16 +300,14 @@ struct ImplicitTreap{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
 
-    /// Upper faces followed by the lower faces reversed: flipping [l, r] then just swaps
-    /// the upper block [l, r] with the block holding lower faces r..l, both already in the new order
     vector<long long> faces(2 * n);
     for (int i = 0; i < n; i++) scanf("%lld", &faces[i]);
     for (int i = 0; i < n; i++) scanf("%lld", &faces[2 * n - 1 - i]);
     ImplicitTreap seq(faces);
 
-    /// Since K never decreases, the first deck is +1 past the last K and a few constant runs before it
     long long prefix = 0;
     vector<pair<long long, int>> runs;
 

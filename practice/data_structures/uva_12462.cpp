@@ -52,15 +52,14 @@ long long largest_rectangle(const vector<T>& h){
     return best;
 }
 
-/// The best nice rectangle has the height of some bar i and spans everything around it that is at least as tall,
-/// so it is the full span (previous_smaller[i], next_smaller[i]) when that span holds every color
 int main(){
     int n, c;
+
     while (scanf("%d %d", &n, &c) == 2 && (n || c)){
         vector<int> h(n);
         for (auto& x : h) scanf("%d", &x);
 
-        vector<array<int, 30>> seen(n + 1);   /// seen[i][k]: bars of color k among the first i
+        vector<array<int, 30>> seen(n + 1);
         seen[0].fill(0);
         for (int i = 0; i < n; i++){
             int color;
@@ -76,6 +75,7 @@ int main(){
             for (int k = 0; k < c && nice; k++) nice = seen[right[i]][k] > seen[left[i] + 1][k];
             if (nice) res = max(res, (long long)h[i] * (right[i] - left[i] - 1));
         }
+
         printf("%lld\n", res);
     }
     return 0;

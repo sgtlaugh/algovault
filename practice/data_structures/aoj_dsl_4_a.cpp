@@ -80,6 +80,7 @@ struct IntervalSet{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<array<long long, 4>> rects(n);
     vector<long long> xs;
@@ -91,7 +92,6 @@ int main(){
     sort(xs.begin(), xs.end());
     xs.erase(unique(xs.begin(), xs.end()), xs.end());
 
-    /// Inside one x strip the covered set is a union of y intervals, rebuilt per strip: O(n^2 log n) for n = 2000
     long long area = 0;
     for (int i = 0; i + 1 < (int)xs.size(); i++){
         IntervalSet<long long> strip;

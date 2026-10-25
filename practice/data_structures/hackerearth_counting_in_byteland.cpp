@@ -196,6 +196,7 @@ struct FenwickFull3D{
 
 int main(){
     int n, q;
+
     scanf("%d %d", &n, &q);
 
     FenwickPointUpdate3D<long long> fen(n + 1, n + 1, n + 1);

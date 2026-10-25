@@ -95,7 +95,6 @@ const unsigned MOD = 1000000007;
 
 int n;
 
-/// Path counts from each column of the top row to each column of the bottom row; m stays empty for a single row
 struct Strip{
     int rows, top, bottom;
     vector<unsigned> m;
@@ -121,7 +120,7 @@ Strip join(const Strip& a, const Strip& b){
         }
     }
 
-    vector<unsigned> through(n * n, 0);  /// through[i][k]: paths from a's top column i to b's top column k
+    vector<unsigned> through(n * n, 0);
     if (a.m.empty()){
         for (auto& l : links) through[l.first * n + l.second] = 1;
     }
@@ -129,7 +128,7 @@ Strip join(const Strip& a, const Strip& b){
         for (int i = 0; i < n; i++){
             const unsigned* from = &a.m[i * n];
             unsigned* to = &through[i * n];
-            for (auto& l : links) to[l.second] += from[l.first];  /// at most 3 terms below MOD, fits in 32 bits
+            for (auto& l : links) to[l.second] += from[l.first];
             for (int k = 0; k < n; k++) to[k] %= MOD;
         }
     }
@@ -145,16 +144,18 @@ Strip join(const Strip& a, const Strip& b){
             if (!x) continue;
             for (int d = 0; d < n; d++){
                 s[d] += x * b.m[k * n + d];
-                if (s[d] >> 63) s[d] %= MOD;  /// each term is below 2^60, so this never overflows
+                if (s[d] >> 63) s[d] %= MOD;
             }
         }
         for (int d = 0; d < n; d++) c.m[i * n + d] = s[d] % MOD;
     }
+
     return c;
 }
 
 int main(){
     int q;
+
     scanf("%d %d", &n, &q);
 
     SlidingWindowAggregation<Strip, Strip(*)(const Strip&, const Strip&)> grid(Strip{0, 0, 0, {}}, join);
@@ -175,7 +176,6 @@ int main(){
             scanf("%d %d", &c, &d);
             c--, d--;
 
-            /// fold() would multiply two full matrices, O(n^3); one entry of that product only needs O(n)
             unsigned long long res = 0;
             if (grid.front.empty()) res = grid.back_fold.at(c, d);
             else if (grid.back.empty()) res = grid.front.back().at(c, d);

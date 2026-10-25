@@ -72,12 +72,12 @@ struct PotentialDSU{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, m;
         scanf("%d %d", &n, &m);
 
-        /// Synonyms differ by 0 and antonyms by 1 modulo 2
         PotentialDSU dsu(2 * (n + m), 2);
         unordered_map<string, int> id;
         bool ok = true;
@@ -88,6 +88,7 @@ int main(){
             int y = id.emplace(b, id.size()).first->second;
             ok &= dsu.relate(x, y, i >= n);
         }
+
         printf("Case %d: %s\n", tc, ok ? "YES" : "NO");
     }
     return 0;

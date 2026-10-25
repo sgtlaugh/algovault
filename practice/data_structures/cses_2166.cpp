@@ -186,7 +186,6 @@ struct Node{
     long long sum, pref;
 };
 
-/// pref allows the empty prefix, so it never drops below 0
 struct PrefixSet{
     static Node combine(Node a, Node b){ return {a.sum + b.sum, max(a.pref, a.sum + b.pref)}; }
     static Node apply(Node, long long lz, int len){ return {lz * len, max(0LL, lz * len)}; }

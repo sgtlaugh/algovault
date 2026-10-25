@@ -55,6 +55,7 @@ long long largest_rectangle(const vector<T>& h){
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<int> k(n);
     for (int& x : k) scanf("%d", &x);

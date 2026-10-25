@@ -216,6 +216,7 @@ int main(){
         cin >> y1 >> y2;
         tree.add_line((y2 - y1) / m, y1);
     }
+
     for (int x = 0; x <= m; x++) cout << tree.query(x) << (x == m ? '\n' : ' ');
     return 0;
 }

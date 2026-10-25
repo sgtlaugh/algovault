@@ -69,9 +69,9 @@ const int MAX = 2000000;
 
 int main(){
     vector<int> survivors;
+
     for (int x = 1; x <= MAX; x += 2) survivors.push_back(x);
 
-    /// The early rounds strike a large share of the numbers, a linear pass over an array is cheaper for them
     int round = 1;
     for (; survivors[round] < 256; round++){
         int x = survivors[round], k = 0;
@@ -84,7 +84,6 @@ int main(){
     OrderedSet<int> sieve;
     for (int x : survivors) sieve.insert(x);
 
-    /// Strike every x-th survivor from the back, so the positions still to strike do not shift
     for (; round < (int)sieve.size(); round++){
         int x = *sieve.find_by_order(round);
         if (x > (int)sieve.size()) break;
@@ -97,7 +96,6 @@ int main(){
 
     int n;
     while (scanf("%d", &n) == 1){
-        /// Both luckies are odd, and L2 - L1 is minimised by the largest L1 <= n / 2 whose partner is lucky
         int u = -1;
         if (n % 2 == 0){
             for (int i = upper_bound(luckies.begin(), luckies.end(), n / 2) - luckies.begin() - 1; i >= 0; i--){

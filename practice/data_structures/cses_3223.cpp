@@ -148,6 +148,7 @@ struct FenwickFull{
 
 int main(){
     int n, k;
+
     scanf("%d %d", &n, &k);
 
     vector<int> x(n);

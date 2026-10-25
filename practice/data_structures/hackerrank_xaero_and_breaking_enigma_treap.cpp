@@ -302,6 +302,7 @@ int main(){
     int n, m;
     long long k;
     static char str[100010];
+
     scanf("%d %d %lld %s", &n, &m, &k, str);
 
     vector<long long> ids(n);
@@ -313,7 +314,6 @@ int main(){
         seq.reverse(l - 1, r - 1);
     }
 
-    /// The string survives the reversals iff every cycle of the final permutation holds one letter
     vector<long long> perm = seq.to_vector();
     vector<int> cycle_of(n, -1);
     vector<char> letter;
@@ -332,7 +332,6 @@ int main(){
         letter.push_back(c);
     }
 
-    /// Free cycles are ordered by their first position, so K - 1 in base 26 fills them from the last one
     long long rem = k - 1;
     for (int i = (int)letter.size() - 1; i >= 0; i--){
         if (letter[i] == '?') letter[i] = 'a' + rem % 26, rem /= 26;

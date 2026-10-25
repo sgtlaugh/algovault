@@ -218,6 +218,7 @@ bool read_int(long long& x){
 
 int main(){
     long long n, m;
+
     while (read_int(n) && read_int(m)){
         vector<long long> s(n + 1, 0);
         for (int i = 1; i <= n; i++){
@@ -226,13 +227,13 @@ int main(){
             s[i] = s[i - 1] + c;
         }
 
-        /// (s[i] - s[j])^2 expands to a line in s[i] with slope -2 * s[j]
         LiChaoTree<long long> tree(*min_element(s.begin(), s.end()), *max_element(s.begin(), s.end()));
         long long dp = 0;
         for (int i = 1; i <= n; i++){
             tree.add_line(-2 * s[i - 1], dp + s[i - 1] * s[i - 1]);
             dp = tree.query(s[i]) + s[i] * s[i] + m;
         }
+
         printf("%lld\n", dp);
     }
     return 0;

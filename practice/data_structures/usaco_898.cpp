@@ -155,7 +155,6 @@ int main(){
     vector<int> p(n);
     for (auto& x: p) fin >> x;
 
-    /// The longest increasing suffix never has to move, every cow in front of it moves exactly once
     int k = n - 1;
     while (k > 0 && p[k - 1] < p[k]) k--;
 

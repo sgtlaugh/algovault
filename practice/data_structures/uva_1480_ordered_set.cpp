@@ -109,6 +109,7 @@ struct MergeSortTree{
 int main(){
     int ops, case_id = 0;
     char op[16];
+
     while (scanf("%d", &ops) == 1){
         OrderedSet<int> beads;
         vector<int> chain;
@@ -124,7 +125,6 @@ int main(){
                 chain.push_back(x);
             }
             else if (op[6] == '1'){
-                /// Beads only append, so positions 1..t never change and Query_1 can wait for the full chain
                 int s, t, k;
                 scanf("%d %d %d", &s, &t, &k);
                 range_queries.push_back({s - 1, t - 1, k - 1});

@@ -160,6 +160,7 @@ struct FirstCombine{
 
 int main(){
     int n, m;
+
     scanf("%d %d", &n, &m);
     vector<int> a(n);
     for (int i = 0; i < n; i++) scanf("%d", &a[i]);

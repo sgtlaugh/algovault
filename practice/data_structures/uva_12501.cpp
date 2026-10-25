@@ -181,7 +181,6 @@ struct SegmentTree : Ops{
     }
 };
 
-/// Over miles x in a range: s = sum c[x], w = sum x * c[x], cnt and idx_sum = sum x let an add update both
 struct Miles{
     long long s, w, cnt, idx_sum;
 };
@@ -194,6 +193,7 @@ struct AddWeighted{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, q;
@@ -213,7 +213,6 @@ int main(){
                 st.update(i, j, u);
             }
             else{
-                /// The cyclist count at mile x is x - i + 1
                 Miles m = st.query(i, j);
                 printf("%lld\n", m.w - (i - 1LL) * m.s);
             }

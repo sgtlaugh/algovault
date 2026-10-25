@@ -57,12 +57,12 @@ struct DSU{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n;
         double d;
         scanf("%d %lf", &n, &d);
-        /// Two decimals at most, so hundredths make every distance comparison exact
         long long r = llround(d * 100);
         vector<long long> x(n), y(n);
         for (int i = 0; i < n; i++){
@@ -79,6 +79,7 @@ int main(){
                 if (dx * dx + dy * dy <= r * r && dsu.connect(i, j)) res--;
             }
         }
+
         printf("Case %d: %d\n", tc, res);
     }
     return 0;

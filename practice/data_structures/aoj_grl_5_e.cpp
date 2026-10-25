@@ -150,7 +150,6 @@ int n;
 vector<int> parent, heavy, head, pos;
 FenwickFull<long long> fen;
 
-/// Each edge is stored at its child node, so the root (pos 0) is skipped on the last chain
 void update_path(int v, long long w){
     for (; v != -1; v = parent[head[v]]) fen.update(max(pos[head[v]], 1), pos[v], w);
 }
@@ -176,7 +175,6 @@ int main(){
         }
     }
 
-    /// BFS order lists parents before children, so a reverse sweep gives subtree sizes without recursion
     vector<int> order = {0}, sz(n, 1);
     for (int i = 0; i < (int)order.size(); i++){
         for (int c: children[order[i]]) order.push_back(c);

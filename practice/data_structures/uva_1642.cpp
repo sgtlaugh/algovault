@@ -58,6 +58,7 @@ struct DistinctSubarrayAggregates{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     auto gcd_op = [](long long x, long long y){ return __gcd(x, y); };
     while (t--){
@@ -69,9 +70,9 @@ int main(){
             long long x;
             scanf("%lld", &x);
             agg.push(x);
-            /// The longest subarray with a given gcd starts at the segment's left end
             for (auto& s : agg.segments()) res = max(res, s.value * (i - s.left + 1));
         }
+
         printf("%lld\n", res);
     }
     return 0;

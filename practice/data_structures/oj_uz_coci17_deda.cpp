@@ -190,9 +190,9 @@ struct MinSet{
 
 int main(){
     int n, q;
+
     scanf("%d %d", &n, &q);
 
-    /// a child who never got out rides forever, INT_MAX is above every Y
     SegmentTree<int, MinSet> st(vector<int>(n, INT_MAX));
     while (q--){
         char op[3];

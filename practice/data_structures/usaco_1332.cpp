@@ -185,9 +185,6 @@ struct SegmentTree : Ops{
 const char* BESSIE = "bessie";
 int n;
 
-/// A walker is the greedy matcher of one substring, started in state 0 at the substring's first character
-/// to[j], val[j]: exit state and sum of (n - i) over completions at i, for a walker entering in state j
-/// cnt[k]: walkers started inside the node that exit in state k, inner: their completions inside the node
 struct Node{
     char to[6];
     int cnt[6];
@@ -228,7 +225,6 @@ struct BessieOps{
         return res;
     }
 
-    /// updates are point assignments, so a lazy only ever lands on a leaf
     static Node apply(const Node&, const SetChar& lz, int){ return make_leaf(lz.pos, lz.c); }
     static SetChar compose(const SetChar&, const SetChar& lz){ return lz; }
 };
@@ -236,6 +232,7 @@ struct BessieOps{
 int main(){
     static char s[200005];
     int u;
+
     scanf("%s %d", s, &u);
     n = strlen(s);
 

@@ -56,13 +56,13 @@ const int MAXV = 100000;
 
 int main(){
     int t;
+
     scanf("%d", &t);
 
     for (int tc = 1; tc <= t; tc++){
         int n, q;
         scanf("%d %d", &n, &q);
 
-        /// Positions sharing a value form one set; holder[x] is a node of x's set, value[root] its value
         DSU dsu(n);
         vector<int> holder(MAXV + 1, 0), value(n + 1);
         for (int i = 1; i <= n; i++){

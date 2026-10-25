@@ -76,6 +76,7 @@ int main(){
         if (components == 1) break;
         if (dsu.connect(get<1>(e), get<2>(e))) components--, res = get<0>(e);
     }
+
     printf("%d\n", res);
     return 0;
 }

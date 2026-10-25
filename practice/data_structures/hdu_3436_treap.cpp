@@ -298,8 +298,6 @@ struct ImplicitTreap{
     }
 };
 
-/// The k-th person, 1-based, who never jumped: walks down the jumped ids, where the id at
-/// 1-based rank i has id - i unmoved people before it, a non-decreasing count
 int unmoved_kth(const Treap<int>& jumped, int k){
     int before = 0;
     for (int t = jumped.root; t != -1; ){
@@ -312,14 +310,13 @@ int unmoved_kth(const Treap<int>& jumped, int k){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int n, q, now = 0;
         scanf("%d %d", &n, &q);
         printf("Case %d:\n", tc);
 
-        /// Jumped people sit in front ordered by a decreasing timestamp key, the rest keep their
-        /// original order, so only the jumped ones are stored and the others are counted around them
         Treap<int> keys, jumped;
         map<int, int> key_of;
         vector<int> person(q + 1);

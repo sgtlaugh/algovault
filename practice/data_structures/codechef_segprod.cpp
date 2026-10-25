@@ -63,7 +63,6 @@ int main(){
         for (auto& x: a) x = read_uint() % p;
         for (auto& x: b) x = read_uint();
 
-        /// P is not prime, so prefix products cannot be divided out, the table never needs an inverse
         DisjointSparseTable table(a, [p](unsigned x, unsigned y){
             return (unsigned)((unsigned long long)x * y % p);
         });

@@ -168,7 +168,6 @@ int main(){
     for (auto& c: cows) right.update(lower_bound(ys.begin(), ys.end(), c.second) - ys.begin(), 1);
 
     int left_total = 0, res = n;
-    /// The fence below y-rank k: the lower max only grows and the upper max only shrinks with k, so the best k is at their crossing
     auto cost = [&](int k){
         int lower_left = left.prefix(k - 1), lower_right = right.prefix(k - 1);
         int lower = max(lower_left, lower_right);

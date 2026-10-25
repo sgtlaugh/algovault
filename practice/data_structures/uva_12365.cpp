@@ -203,6 +203,7 @@ vector<long long> PolyHash::pw;
 int main(){
     long long b, p;
     int l, n;
+
     while (scanf("%lld %lld %d %d", &b, &p, &l, &n) == 4 && l){
         PolyHash::P = p;
         PolyHash::pw.assign(l + 1, 1);

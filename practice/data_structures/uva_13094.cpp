@@ -113,7 +113,6 @@ struct SqrtDecomposition{
     }
 };
 
-/// Up to 2e6 log lines per case, scanf is too slow
 int read_int(){
     int c = getchar(), x = 0;
     while (c != EOF && (c < '0' || c > '9')) c = getchar();
@@ -123,8 +122,9 @@ int read_int(){
 }
 
 int main(){
-    const int EMPTY = 600001;  /// above every query size S, so empty slots are never counted
+    const int EMPTY = 600001;
     int n, m;
+
     while ((n = read_int()) != -1){
         m = read_int();
         SqrtDecomposition<int> s(vector<int>(n, EMPTY));

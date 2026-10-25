@@ -57,6 +57,7 @@ struct DSU{
 
 int main(){
     int n, a, b;
+
     scanf("%d %d %d", &n, &a, &b);
 
     vector<int> p(n);
@@ -66,11 +67,9 @@ int main(){
         index[p[i]] = i;
     }
 
-    /// Nodes n and n + 1 stand for sets A and B, every number ends up joined to the set it is forced into
     DSU dsu(n + 1);
     const int A = n, B = n + 1;
     for (int i = 0; i < n; i++){
-        /// x and a - x share a set either way: x in A pulls a - x into A, and a - x in A would pull x back into A
         auto it = index.find(a - p[i]);
         dsu.connect(i, it != index.end() ? it->second : B);
         it = index.find(b - p[i]);

@@ -176,6 +176,7 @@ const int INF = 1 << 27;
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1 && n){
         Trie<26, 'A'> trie;
         for (int i = 0; i < 2 * n; i++){
@@ -192,8 +193,6 @@ int main(){
             }
         }
 
-        /// best(v, j, f, s): least letters for the names below children j.. of v, f of them streets and s avenues
-        /// f + s is fixed by (v, j), so the child kids[v][j] and f identify the state
         vector<vector<int>> memo(nodes, vector<int>(n + 1, -1));
         function<int(int, int, int, int)> best = [&](int v, int j, int f, int s) -> int{
             if (f == 0 && s == 0) return 0;
@@ -207,7 +206,6 @@ int main(){
             res = INF;
             for (int k = max(0, cnt - s); k <= cnt && k <= f; k++){
                 int l = cnt - k;
-                /// a group of one name stops at this letter, larger groups pay it once per name
                 int r = best(x, 0, k, l) + best(v, j + 1, f - k, s - l);
                 if (k != 1) r += k;
                 if (l != 1) r += l;

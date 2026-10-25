@@ -148,6 +148,7 @@ struct FenwickFull{
 
 int main(){
     int n, q;
+
     scanf("%d %d", &n, &q);
 
     vector<int> p(n), qk(q), qx(q);
@@ -159,7 +160,6 @@ int main(){
         if (qt[i] == '!') values.push_back(qx[i]);
     }
 
-    /// Offline compression of every salary that ever exists keeps the tree at n + q cells
     sort(values.begin(), values.end());
     values.erase(unique(values.begin(), values.end()), values.end());
     auto index = [&](int x){

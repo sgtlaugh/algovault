@@ -190,6 +190,7 @@ struct MaxSet{
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2){
         vector<int> ar(n);
         for (int i = 0; i < n; i++) scanf("%d", &ar[i]);
@@ -201,7 +202,6 @@ int main(){
             scanf("%s %d %d", op, &a, &b);
             if (op[0] == 'U') st.update(a - 1, a - 1, b);
             else{
-                /// the statement never promises A <= B
                 if (a > b) swap(a, b);
                 printf("%d\n", st.query(a - 1, b - 1));
             }

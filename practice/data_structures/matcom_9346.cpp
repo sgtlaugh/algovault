@@ -146,7 +146,6 @@ struct FenwickFull{
     }
 };
 
-/// Turns the template's += into max, making prefix() a prefix maximum (update values only grow)
 struct Max{
     long long v;
 
@@ -160,12 +159,12 @@ struct Max{
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
     vector<array<long long, 3>> people(n);
     for (auto& p: people) scanf("%lld %lld %lld", &p[0], &p[1], &p[2]);
 
-    /// Identical guests never argue, so they act as one guest; among the rest a valid list is a chain strictly increasing in both
     sort(people.begin(), people.end());
     vector<array<long long, 3>> guests;
     for (auto& p: people){
@@ -178,7 +177,6 @@ int main(){
     sort(fortunes.begin(), fortunes.end());
     fortunes.erase(unique(fortunes.begin(), fortunes.end()), fortunes.end());
 
-    /// Equal beauty sorted by fortune descending, so a guest never extends a chain with someone equally beautiful
     sort(guests.begin(), guests.end(), [](const array<long long, 3>& a, const array<long long, 3>& b){
         return a[0] != b[0] ? a[0] < b[0] : a[1] > b[1];
     });

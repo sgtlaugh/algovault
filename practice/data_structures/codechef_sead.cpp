@@ -111,11 +111,11 @@ struct MaxOp{
 
 int main(){
     int n, m, t, d;
+
     scanf("%d", &n);
     vector<int> a(n);
     for (auto& v : a) scanf("%d", &v);
 
-    /// gap[j] = a[j + 1] - a[j], the chain from i to k holds iff every gap in [i, k - 1] is at most d
     vector<int> gap(max(1, n - 1), 0);
     for (int j = 0; j + 1 < n; j++) gap[j] = a[j + 1] - a[j];
     SparseTable<int, MaxOp<int>> table(gap);

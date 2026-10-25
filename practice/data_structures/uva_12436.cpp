@@ -185,7 +185,6 @@ struct Block{
     long long sum, cnt, idx_sum;
 };
 
-/// Optional assignment first, then c0 + c1 * i added at index i
 struct Lazy{
     bool assign;
     long long x, c0, c1;
@@ -206,6 +205,7 @@ struct SetAddAP{
 
 int main(){
     const int n = 250000;
+
     vector<Block> leaves(n + 1);
     for (int i = 0; i <= n; i++) leaves[i] = {0, 1, i};
     SegmentTree<Block, SetAddAP, Lazy> st(leaves);
@@ -216,7 +216,6 @@ int main(){
         char op;
         int a, b, x;
         scanf(" %c %d %d", &op, &a, &b);
-        /// A adds i - st + 1 and B adds nd - i + 1 at index i
         if (op == 'A') st.update(a, b, {false, 0, 1 - a, 1});
         else if (op == 'B') st.update(a, b, {false, 0, b + 1, -1});
         else if (op == 'C'){

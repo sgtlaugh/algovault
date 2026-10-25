@@ -148,6 +148,7 @@ struct FenwickFull{
 
 int main(){
     int n, q;
+
     scanf("%d %d", &n, &q);
 
     vector<int> pos(n + 1);
@@ -157,7 +158,6 @@ int main(){
         pos[v] = i;
     }
 
-    /// Components = vertices - tree edges inside; edge (v, v + 1) is inside iff both positions lie in [x, y]
     vector<vector<int>> edges_at(n);
     for (int v = 1; v < n; v++){
         edges_at[max(pos[v], pos[v + 1])].push_back(min(pos[v], pos[v + 1]));

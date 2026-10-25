@@ -148,6 +148,7 @@ struct FenwickFull{
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
     vector<pair<int, int>> a(n);
@@ -157,7 +158,6 @@ int main(){
     }
     sort(a.begin(), a.end());
 
-    /// The smallest remaining value always ends at an end of the pyramid, so it walks past the fewer neighbours
     FenwickPointUpdate<int> fen(vector<int>(n, 1));
     long long res = 0;
     for (int i = 0; i < n; i++){

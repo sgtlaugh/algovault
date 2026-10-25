@@ -197,6 +197,7 @@ struct Fenwick{
 
 int main(){
     int n;
+
     scanf("%d", &n);
     vector<vector<int>> adj(n + 1);
     for (int i = 1; i < n; i++){
@@ -206,7 +207,6 @@ int main(){
         adj[v].push_back(u);
     }
 
-    /// Node 0 is a colourless parent of the root, so every component has a root above it in both forests
     vector<int> par(n + 1, -1), depth(n + 1, 0), order = {1}, tin(n + 1), tout(n + 1), sz(n + 1, 1);
     par[1] = 0;
     for (int i = 0; i < (int)order.size(); i++){
@@ -228,9 +228,6 @@ int main(){
         }
     }
 
-    /// Forest c links v to its parent iff v has colour c, so a component of colour c hangs below the root of its forest tree,
-    /// and the path min over (depth, node) of colour c nodes picks its top. cnt[c][v] is the size of v's subtree in forest c,
-    /// a cut or link changes it on an ancestor path, kept as point updates whose subtree sums give cnt[c][v]
     const long long NONE = LLONG_MAX;
     auto shallowest = [](long long a, long long b){ return min(a, b); };
     vector<LinkCutTree<long long, decltype(shallowest)>> forest(2, LinkCutTree<long long, decltype(shallowest)>(n + 1, NONE, shallowest));
@@ -240,7 +237,7 @@ int main(){
     auto cnt = [&](int c, int v){ return (c == 0 ? sz[v] : 1) + delta[c].sum(tout[v]) - delta[c].sum(tin[v]); };
     auto path_add = [&](int c, int from, int top, long long x){
         delta[c].add(tin[from], x);
-        if (top > 1) delta[c].add(tin[par[top]], -x);  /// node 0 is outside the Euler tour, nothing to cancel above it
+        if (top > 1) delta[c].add(tin[par[top]], -x);
     };
 
     for (int v = 1; v <= n; v++){

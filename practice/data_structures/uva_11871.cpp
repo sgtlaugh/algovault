@@ -54,12 +54,12 @@ long long largest_rectangle(const vector<T>& h){
 
 int main(){
     int t;
+
     scanf("%d", &t);
     for (int tc = 1; tc <= t; tc++){
         int m, n;
         scanf("%d %d", &m, &n);
 
-        /// Row by row, h[j] counts the rock-free cells ending at column j, so each row is a histogram
         vector<int> h(n);
         long long res = 0;
         for (int i = 0; i < m; i++){
@@ -72,6 +72,7 @@ int main(){
             }
             res = max(res, largest_rectangle(h));
         }
+
         printf("Case %d: %lld\n", tc, res);
     }
     return 0;

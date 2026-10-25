@@ -100,6 +100,7 @@ struct BitOr{
 int main(){
     int n, k;
     long long x, a, b, c;
+
     scanf("%d %d %lld %lld %lld %lld", &n, &k, &x, &a, &b, &c);
 
     SlidingWindowAggregation<int, BitOr> window(0, BitOr());
@@ -110,6 +111,7 @@ int main(){
         if (i >= k - 1) res ^= window.fold();
         x = (a * x + b) % c;
     }
+
     printf("%d\n", res);
     return 0;
 }

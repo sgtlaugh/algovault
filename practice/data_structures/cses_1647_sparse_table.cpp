@@ -104,6 +104,7 @@ struct LinearSparseTable{
 
 int main(){
     int n, q, l, r;
+
     scanf("%d %d", &n, &q);
     vector<int> a(n);
     for (auto& v : a) scanf("%d", &v);

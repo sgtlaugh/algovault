@@ -57,6 +57,7 @@ struct DSU{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -71,7 +72,6 @@ int main(){
             dsu.connect(a, b);
         }
 
-        /// Debts settle exactly when every group of friends sums to zero
         vector<long long> total(n);
         for (int i = 0; i < n; i++) total[dsu.find(i)] += money[i];
         bool ok = all_of(total.begin(), total.end(), [](long long s){ return s == 0; });

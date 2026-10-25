@@ -207,13 +207,12 @@ struct PersistentLiChaoTree{
 int main(){
     int n;
     long long s;
+
     scanf("%d %lld", &n, &s);
     vector<long long> t(n + 2, 0), f(n + 2, 0);
     for (int i = 1; i <= n; i++) scanf("%lld %lld", &t[i], &f[i]);
     for (int i = n; i >= 1; i--) t[i] += t[i + 1], f[i] += f[i + 1];
 
-    /// Batches built from the back: a batch starting at i delays every job from i on by its setup and length,
-    /// so dp[i] = (s + t[i]) * f[i] + min over j > i of (dp[j] - t[j] * f[i]) with suffix sums t and f
     LiChaoTree<long long> tree(0, f[1]);
     long long dp = 0;
     tree.add_line(0, 0);
@@ -221,6 +220,7 @@ int main(){
         dp = (s + t[i]) * f[i] + tree.query(f[i]);
         tree.add_line(-t[i], dp);
     }
+
     printf("%lld\n", dp);
     return 0;
 }

@@ -72,9 +72,9 @@ struct PotentialDSU{
 
 int main(){
     int n;
+
     scanf("%d", &n);
 
-    /// Rows and columns get separate ids, at most n of each
     map<long long, int> rows, cols;
     auto id = [&](map<long long, int>& ids, long long key){
         auto it = ids.find(key);
@@ -83,7 +83,6 @@ int main(){
         return ids[key] = next;
     };
 
-    /// flip[x] + flip[y] = (a != b) mod 2, and a contradiction stays one for every later query
     PotentialDSU dsu(2 * n, 2);
     bool ok = true;
     while (n--){

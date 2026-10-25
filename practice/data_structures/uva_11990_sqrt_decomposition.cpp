@@ -131,6 +131,7 @@ struct Fenwick{
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2){
         vector<int> a(n), pos(n + 1);
         for (int i = 0; i < n; i++) scanf("%d", &a[i]), pos[a[i]] = i;
@@ -148,7 +149,6 @@ int main(){
             int v, p;
             scanf("%d", &v);
             p = pos[v];
-            /// A removed value is lifted to n + 1, so it never counts as smaller than anything still present
             int less_before = p > 0 ? s.count_less(0, p - 1, v) : 0;
             int greater_before = alive_pos.prefix(p) - less_before;
             int less_after = alive_val.prefix(v) - less_before;

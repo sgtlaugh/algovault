@@ -72,6 +72,7 @@ struct PotentialDSU{
 
 int main(){
     long long len;
+
     while (scanf("%lld", &len) == 1 && len != -1){
         int q;
         scanf("%d", &q);
@@ -87,7 +88,6 @@ int main(){
         sort(points.begin(), points.end());
         points.erase(unique(points.begin(), points.end()), points.end());
 
-        /// prefix parities: the answer for [l, r] says p[r] - p[l - 1] is odd or even
         PotentialDSU dsu(points.size(), 2);
         int res = q;
         for (int i = 0; i < q; i++){
@@ -98,6 +98,7 @@ int main(){
                 break;
             }
         }
+
         printf("%d\n", res);
     }
     return 0;

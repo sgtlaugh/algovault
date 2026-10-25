@@ -174,6 +174,7 @@ struct BinaryTrie{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n;
@@ -187,7 +188,6 @@ int main(){
             trie.insert(s);
         }
 
-        /// The numbers are unique, so one passing through a number's node means it is a prefix of another
         bool ok = all_of(numbers.begin(), numbers.end(), [&](const string& s){ return trie.count_prefix(s) == 1; });
         puts(ok ? "YES" : "NO");
     }

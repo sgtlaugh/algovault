@@ -111,6 +111,7 @@ struct MaxOp{
 
 int main(){
     int n, m, x, y;
+
     scanf("%d", &n);
     vector<int> a(n);
     for (auto& v : a) scanf("%d", &v);
@@ -118,13 +119,13 @@ int main(){
 
     SparseTable<int, MaxOp<int>> table(a);
     long long res = 0;
-    /// Up to 1e8 queries, repeated subtraction replaces the slow % since each step adds at most 11
     for (int i = 0; i < m; i++){
         res += table.query(min(x, y), max(x, y));
         x += 7, y += 11;
         while (x >= n - 1) x -= n - 1;
         while (y >= n) y -= n;
     }
+
     printf("%lld\n", res);
     return 0;
 }

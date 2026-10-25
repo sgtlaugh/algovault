@@ -65,7 +65,6 @@ int main(){
         admirers[a].push_back(b);
     }
 
-    /// all admirers of one color class share a color, merging them merges their admirer lists, repeat until stable
     DSU dsu(n);
     queue<int> pending;
     for (int i = 1; i <= n; i++){

@@ -147,13 +147,13 @@ struct FenwickFull{
 
 int main(){
     int n;
+
     while (scanf("%d", &n) == 1){
         vector<int> a(n);
         for (auto& x : a) scanf("%d", &x);
         vector<int> sorted_a = a;
         sort(sorted_a.begin(), sorted_a.end());
 
-        /// Adjacent swaps needed = inversions: for each student, the earlier ones with a larger number
         FenwickPointUpdate<int> seen(n);
         long long res = 0;
         for (int i = 0; i < n; i++){
@@ -161,6 +161,7 @@ int main(){
             res += i - seen.prefix(r);
             seen.update(r, 1);
         }
+
         printf("%lld\n", res);
     }
     return 0;

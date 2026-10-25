@@ -162,7 +162,6 @@ int main(){
         children[par - 1].push_back(i);
     }
 
-    /// Iterative DFS: the tree can be a path of 1e5 cows
     vector<int> tin(n), tout(n), it(n, 0), stk = {0};
     int timer = 0;
     tin[0] = timer++;

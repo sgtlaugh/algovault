@@ -57,6 +57,7 @@ struct DSU{
 
 int main(){
     int t;
+
     scanf("%d", &t);
     while (t--){
         int n, m;
@@ -69,6 +70,7 @@ int main(){
             dsu.connect(a, b);
             res = max(res, dsu.size(a));
         }
+
         printf("%d\n", res);
     }
     return 0;

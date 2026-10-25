@@ -95,8 +95,6 @@ struct FenwickImplicit2D{
     }
 };
 
-/// For each element, how many smaller values sit to its left, stored by value: a merge sort that credits each
-/// right-half element with the left-half elements already merged before it
 void count_smaller_left(vector<int>& a, int lo, int hi, vector<int>& buf, vector<int>& smaller){
     if (hi - lo < 2) return;
     int mid = (lo + hi) / 2;
@@ -113,6 +111,7 @@ void count_smaller_left(vector<int>& a, int lo, int hi, vector<int>& buf, vector
 
 int main(){
     int n, m;
+
     while (scanf("%d %d", &n, &m) == 2){
         vector<int> a(n), pos(n + 1), del(m);
         for (int i = 0; i < n; i++){
@@ -126,7 +125,6 @@ int main(){
         long long res = 0;
         for (int i = 0; i < n; i++) res += i - smaller[a[i]];
 
-        /// Removed elements as ranks among the removed positions and values, so the grid is only m x m
         vector<int> rows(m), cols = del, row(m), col(m);
         for (int k = 0; k < m; k++) rows[k] = pos[del[k]];
         sort(rows.begin(), rows.end());
@@ -136,15 +134,11 @@ int main(){
             col[k] = lower_bound(cols.begin(), cols.end(), del[k]) - cols.begin();
         }
 
-        /// Each removal adds 1 to the quadrant after it and above it, so point (r, c) counts earlier removals before
-        /// and below, (r, m) those before and (m, c) those below; the ones in inversion with (r, c) number
-        /// before + below - 2 * both. One corner update per removal: adding the two inversion quadrants directly
-        /// overflowed the default node pool at n = 2e5, m = 1e5
         FenwickImplicit2D<int> gone(m + 1, m + 1);
         for (int k = 0; k < m; k++){
             printf("%lld\n", res);
             int x = del[k], p = pos[x], s = smaller[x], r = row[k], c = col[k];
-            long long with_all = (p - s) + (x - 1 - s);  /// larger values before it, smaller values after it
+            long long with_all = (p - s) + (x - 1 - s);
             res -= with_all - (gone.query(r, m) + gone.query(m, c) - 2 * gone.query(r, c));
             gone.update(r + 1, c + 1, m, m, 1);
         }

@@ -217,7 +217,6 @@ int main(){
     vector<long long> prv(n + 1, INF), cur(n + 1);
     prv[0] = 0;
 
-    /// (a[l] - a[r])^2 expands to a line in a[r] with slope -2 * a[l], one fresh tree per number of parts
     for (int parts = 1; parts <= k; parts++){
         LiChaoTree<long long> tree(1, 1000000);
         cur[0] = INF;
@@ -228,6 +227,7 @@ int main(){
         }
         swap(prv, cur);
     }
+
     cout << prv[n] << '\n';
     return 0;
 }
