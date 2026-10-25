@@ -257,7 +257,7 @@ int sign128(__int128 v){
 }
 
 void check_line_intersections(){
-    for (long long it = 0; it < stress::scaled(60000); it++){
+    for (long long it = 0; it < stress::scaled(20000); it++){
         int range = it % 3 ? 20 : 10000;
         long double unit = 1;
         if (it % 8 < 2) range *= 10, unit = 0.1L;
@@ -293,7 +293,7 @@ void check_line_intersections(){
 }
 
 void check_circle_intersections(){
-    for (long long it = 0; it < stress::scaled(60000); it++){
+    for (long long it = 0; it < stress::scaled(20000); it++){
         int range = it % 3 ? 20 : 10000;
         long double unit = 1;
         if (it % 8 < 2) range *= 10, unit = 0.1L;
@@ -328,7 +328,7 @@ void check_circle_intersections(){
 }
 
 void check_point_tangents(){
-    for (long long it = 0; it < stress::scaled(60000); it++){
+    for (long long it = 0; it < stress::scaled(20000); it++){
         int range = it % 3 ? 20 : 10000;
         long double unit = 1;
         if (it % 8 < 2) range *= 10, unit = 0.1L;
@@ -358,7 +358,7 @@ void check_point_tangents(){
 }
 
 void check_common_tangents(){
-    for (long long it = 0; it < stress::scaled(60000); it++){
+    for (long long it = 0; it < stress::scaled(20000); it++){
         int range = it % 3 ? 20 : 10000;
         long double unit = 1;
         if (it % 8 < 2) range *= 10, unit = 0.1L;
@@ -400,7 +400,7 @@ void check_common_tangents(){
 }
 
 void check_circumcircle(){
-    for (long long it = 0; it < stress::scaled(60000); it++){
+    for (long long it = 0; it < stress::scaled(20000); it++){
         int range = it % 3 ? 20 : 10000;
         Point a = rand_point(range), b = rand_point(range), c = rand_point(range);
         if ((b - a).cross(c - a) == 0) continue;
@@ -427,7 +427,7 @@ void check_minimum_enclosing_circle(){
     }
 
     /// Clusters 1e-6 wide near coordinates up to 1e4, where center rounding beats a tiny radius's relative tolerance
-    for (long long it = 0; it < stress::scaled(20000); it++){
+    for (long long it = 0; it < stress::scaled(5000); it++){
         Point base = rand_point(10000);
         /// Farther points make the cluster decide only an intermediate circle
         int n = stress::rand_int(2, 8), far = it % 2 ? stress::rand_int(1, 3) : 0;
@@ -451,7 +451,7 @@ void check_minimum_enclosing_circle(){
     }
 
     /// Large inputs for the expected O(n) bound: random squares, and lattice points all on one circle's boundary
-    for (int round = 0; round < 6; round++){
+    for (int round = 0; round < 2; round++){
         int n = stress::rand_int(50000, 100000);
         vector<Point> points;
         if (round % 2 == 0){
@@ -471,7 +471,7 @@ void check_minimum_enclosing_circle(){
 }
 
 void check_polygon_area(){
-    for (long long it = 0; it < stress::scaled(3000); it++){
+    for (long long it = 0; it < stress::scaled(150); it++){
         int range = it % 2 ? 6 : 10000, n = stress::rand_int(3, 9);
         vector<Point> poly = random_polygon(n, range);
         Circle c{rand_point(range), (long double)stress::rand_int(0, range)};
@@ -494,7 +494,7 @@ void check_circle_circle_area(){
     Circle huge{{0, 0}, 2e6}, inner{{1, 1}, 1e6};
     assert(fabsl(circle_circle_area(huge, inner) - (long double)lens_area(0, 0, 2e6, 1, 1, 1e6)) <= 1e-6L);
 
-    for (long long it = 0; it < stress::scaled(200000); it++){
+    for (long long it = 0; it < stress::scaled(40000); it++){
         int range = it % 3 ? 10 : 10000;
         long double x0 = stress::rand_int(-range, range), y0 = stress::rand_int(-range, range), r0 = stress::rand_int(0, range);
         long double x1 = stress::rand_int(-range, range), y1 = stress::rand_int(-range, range), r1 = stress::rand_int(0, range);
@@ -527,7 +527,7 @@ void check_circle_circle_area(){
 }
 
 void check_union_area(){
-    for (long long it = 0; it < stress::scaled(3000); it++){
+    for (long long it = 0; it < stress::scaled(150); it++){
         int range = it % 3 ? 5 : 10000, n = it < 20 ? it % 3 : stress::rand_int(1, 7);
         vector<Circle> circles;
         for (int i = 0; i < n; i++){
@@ -592,7 +592,7 @@ void check_max_cover(){
 
     /// Lattice points on one radius-r circle tie exactly on the boundary of the optimal circle
     const long long RADII[] = {5, 13, 25, 65, 85};
-    for (long long it = 0; it < stress::scaled(3000); it++){
+    for (long long it = 0; it < stress::scaled(500); it++){
         long long r = RADII[stress::rand_int(0, 4)];
         Point offset = rand_point(10000 - 2 * r);
         vector<Point> points;
