@@ -1,6 +1,4 @@
 #include "../common.h"
-#include <sys/wait.h>
-#include <unistd.h>
 
 #define main library_main
 #include "../../code_library/algebra/subset_convolution.cpp"
@@ -30,27 +28,7 @@ void brute_all(const vector<int>& a, const vector<int>& b, int mod, vector<int>&
 
 /// A mod above INT_MAX must abort rather than truncate, 2^32 + 7 would silently become 7
 void check_rejects(long long mod){
-    int fd[2];
-    assert(pipe(fd) == 0);
-    pid_t pid = fork();
-    assert(pid >= 0);
-    if (pid == 0){
-        dup2(fd[1], STDERR_FILENO);
-        close(fd[0]), close(fd[1]);
-        subset_convolution({1, 2}, {3, 4}, mod);
-        _exit(0);
-    }
-
-    close(fd[1]);
-    string err;
-    char buf[4096];
-    for (ssize_t got; (got = read(fd[0], buf, sizeof buf)) > 0;) err.append(buf, got);
-    close(fd[0]);
-
-    int status;
-    assert(waitpid(pid, &status, 0) == pid);
-    assert(WIFSIGNALED(status) && WTERMSIG(status) == SIGABRT);
-    assert(err.find("code_library/algebra/subset_convolution.cpp:") != string::npos && err.find("Assertion") != string::npos);
+    stress::expect_assert("algebra/subset_convolution.cpp", [&]{ subset_convolution({1, 2}, {3, 4}, mod); });
 }
 
 int random_value(int mod){
