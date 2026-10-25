@@ -36,6 +36,58 @@ comments=$(awk -v n="$copy_lines" 'NR > n && /\/\/|\/\*/ {print NR": "$0}' "$sol
 stdio=$(grep -nP '\b(scanf|printf|puts|gets|getchar|putchar|cin|cout)\b' "$solution" | awk -F: -v n="$copy_lines" '$1 > n')
 [[ -n "$stdio" ]] && { echo "FAIL: stdio or iostream after the template copy, use fio read and write:"; echo "$stdio"; bad=1; }
 
+# Layout rules from STYLE.md that a script can check without judgment; the solution part starts after the copies
+layout=$(python3 -I - "$solution" "$copy_lines" "$old_judge" <<'PY'
+import re, sys
+path, start, old_judge = sys.argv[1], int(sys.argv[2]), sys.argv[3] == '1'
+lines = open(path).read().split('\n')
+types = r'(const |static |unsigned |signed )*(int|long|short|double|float|char|bool|string|vector|array|pair|map|set|' \
+        r'unordered_map|unordered_set|queue|deque|stack|priority_queue|bitset|uint32_t|uint64_t|size_t)\b'
+decl = re.compile(r'^    ' + types + r'[^(]*;$')
+fail, note = [], []
+
+for i in range(start, len(lines)):
+    no, line = i + 1, lines[i]
+    if line == '' and i > start and lines[i - 1] == '':
+        fail.append(f'{no}: two blank lines in a row')
+    m = re.match(r'#define (\w+)\(', line)
+    if m and m.group(1) not in ('clr', 'dbg'):
+        fail.append(f'{no}: macro {m.group(1)}() takes arguments, write a function')
+    if re.search(r"(\b[a-z_]\w*(\[[^]]*\])?\s*[-+]\s*|[<>]=?\s*)(48|57|65|90|97|122)\b", line):
+        note.append(f'{no}: an ASCII code where a character literal would read better: {line.strip()}')
+
+    if re.match(r'^\S.*\)\{$', line) and not line.startswith(('struct', 'namespace')):
+        end = i + 1
+        while end < len(lines) and lines[end] != '}':
+            end += 1
+        is_main = line.startswith('int main')
+        # Blank lines split steps, so a short helper (one declaration, one loop, the return) needs none
+        if not is_main and end - i - 1 < 8:
+            continue
+        j = i + 1
+        while j < end and decl.match(lines[j]):
+            j += 1
+        if j > i + 1 and lines[j] != '':
+            fail.append(f'{j + 1}: no blank line after the declarations at the top of the function')
+        if not is_main and re.match(r'^    return \S', lines[end - 1]) and lines[end - 2] == '    }':
+            fail.append(f'{end}: no blank line before the final return after a loop')
+
+if old_judge:
+    text = '\n'.join(lines[start:])
+    if re.search(r'\bread\(t\);', text) and not re.search(r'while \(read\(', text):
+        note.append('the test count is read once, UVa, POJ and HDU files often repeat the block: while (read(t)){ while (t--){')
+
+for f in fail:
+    print('FAIL ' + f)
+for n in note:
+    print('note ' + n)
+PY
+)
+if [[ -n "$layout" ]]; then
+    grep '^FAIL' <<< "$layout" | sed 's/^FAIL /FAIL: layout, line /' && bad=1
+    grep '^note' <<< "$layout" | sed 's/^note /note: /'
+fi
+
 warnings=$("$cxx" -std=c++17 -Wall -Wextra -fsyntax-only "$solution" 2>&1 | grep -P "^\Q$solution\E:\d+:\d+: warning" |
     awk -F: -v n="$copy_lines" '$2 > n')
 [[ -n "$warnings" ]] && { echo "FAIL: warnings after the template copy:"; echo "$warnings"; bad=1; }
