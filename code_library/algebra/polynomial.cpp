@@ -95,6 +95,7 @@ struct Polynomial{
 
     pair<Polynomial, Polynomial> divmod(const Polynomial& b) const{
         Polynomial p = trimmed(), q = b.trimmed();
+
         assert(q.size() > 0);
         if (p.size() < q.size()) return {Polynomial(), p};
 
@@ -117,6 +118,7 @@ struct Polynomial{
     vector<int> evaluate(const vector<int>& xs) const{
         int n = xs.size();
         vector<int> pts(n), res(n);
+
         for (int i = 0; i < n; i++) pts[i] = norm(xs[i]);
         if (n == 0) return res;
 
@@ -267,6 +269,7 @@ struct Polynomial{
 
     Polynomial taylor_shift(long long c) const{
         int n = size(), v = norm(c);
+
         if (n == 0) return {};
 
         vector<int> fact(n, 1), inv_fact(n);
@@ -375,12 +378,14 @@ struct Polynomial{
 
     static constexpr int power(long long b, long long e){
         long long res = 1;
+
         b %= MOD;
         while (e > 0){
             if (e & 1) res = res * b % MOD;
             b = b * b % MOD;
             e >>= 1;
         }
+
         return res;
     }
 
@@ -412,6 +417,7 @@ struct Polynomial{
 
     static void ntt(vector<int>& f, const vector<int>& roots){
         int n = f.size();
+
         for (int i = 1, j = 0; i < n; i++){
             int bit = n >> 1;
             for (; j & bit; bit >>= 1) j ^= bit;
@@ -468,6 +474,7 @@ struct Polynomial{
 
     static constexpr int primitive_root(){
         int factors[32] = {}, cnt = 0, x = MOD - 1;
+
         for (int d = 2; d * d <= x; d++){
             if (x % d) continue;
             factors[cnt++] = d;

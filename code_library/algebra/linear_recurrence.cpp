@@ -31,6 +31,7 @@ namespace nt{
     map<int, int> get_factors(int mod){
         long long d, x = mod;
         map<int, int> factors;
+
         for (d = 2; d * d <= x; d += (d & 1) + 1){
             while (x % d == 0){
                 factors[d]++;
@@ -61,6 +62,7 @@ namespace nt{
 
     int chinese_remainder_theorem(vector<int> ar, vector<int> mods){
         int i, res = 0, mod = 1;
+
         for (auto m: mods) mod *= m;
 
         for (i = 0; i < (int)ar.size(); i++){
@@ -124,6 +126,7 @@ namespace fft{
 
     void transform(vector<ComplexNum>& a){
         int i, j, k, len = a.size();
+
         for (i = 1, j = 0; i < len; i++){
             for (k = len >> 1; j & k; k >>= 1) j ^= k;
             j ^= k;
@@ -154,6 +157,7 @@ namespace fft{
     /// parity 0 or 1 returns only the coefficients of p1 * p2 at indices of that parity, -1 returns all of them
     vector<int> mod_multiply(const vector<int>& p1, const vector<int>& p2, int mod, int parity = -1){
         int i, j, a = p1.size(), b = p2.size(), p_len = a + b - 1, step = parity < 0 ? 1 : 2;
+
         while (a > 1 && p1[a - 1] == 0) a--;
         while (b > 1 && p2[b - 1] == 0) b--;
         bool is_equal = (a == b && equal(p1.begin(), p1.begin() + a, p2.begin()));
@@ -207,6 +211,7 @@ struct LinearRecurrence{
 
     LinearRecurrence(vector<int> sequence, int mod, vector<int> recurrence={}) : mod(mod), sequence(sequence), recurrence(recurrence){
         int n = sequence.size(), k = recurrence.size();
+
         assert(n >= k && mod >= 1 && 2LL * mod < INT_MAX);
 
         for (auto& x : this->sequence) x = ((long long)x % mod + mod) % mod;
@@ -223,6 +228,7 @@ struct LinearRecurrence{
 
     vector<int> nth_terms(long long n, int k){
         int len = recurrence.size();
+
         if (n + k <= (long long)sequence.size()) return vector<int>(sequence.begin() + n, sequence.begin() + n + k);
         if (mod == 1 || len == 0) return vector<int>(k, 0);
         assert(1 <= k && k <= len);
@@ -251,6 +257,7 @@ struct LinearRecurrence{
     vector<int> find_recurrence(vector<int> sequence, int mod){
         int i, j, e, n, p, m, k = 0;
         auto factors = nt::get_factors(mod);
+
         n = factors.size();
 
         if (n == 1 && factors.begin()->second == 1){
@@ -286,6 +293,7 @@ struct LinearRecurrence{
     int bostan_mori(long long n){
         int k = recurrence.size();
         vector<int> q(k + 1), v(k + 1);
+
         q[0] = 1;
         for (int i = 1; i <= k; i++) q[i] = (mod - recurrence[i - 1]) % mod;
 
@@ -305,6 +313,7 @@ struct LinearRecurrence{
     vector<int> power_of_x(long long n){
         int k = recurrence.size();
         vector<int> charpoly(k + 1, 1);
+
         for (int j = 0; j < k; j++) charpoly[j] = (mod - recurrence[k - 1 - j]) % mod;
         vector<int> reversed(charpoly.rbegin(), charpoly.rend());
 
@@ -351,6 +360,7 @@ struct LinearRecurrence{
     vector<int> berlekamp_massey(vector<int> sequence, long long mod){
         int n = sequence.size();
         vector<int> T, B(n + 1, 0), C(n + 1, 0);
+
         reverse(sequence.begin(), sequence.end());
 
         C[0] = 1, B[0] = 1;
@@ -445,6 +455,7 @@ struct LinearRecurrence{
 
     void update(vector<int>& u, vector<int>& v, int m, long long c){
         int i, k = v.size();
+
         if (k + m > (int)u.size()) u.resize(k + m, 0);
 
         for (i = 0; i < k; i++){

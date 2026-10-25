@@ -181,6 +181,7 @@ struct FFT{
 
     vector<long long> product(vector<long long>& v1, vector<long long>& v2, bool same){
         long long max_value = 0;
+
         for (auto x: v1) max_value = max(max_value, abs(x));
         for (auto x: v2) max_value = max(max_value, abs(x));
 
@@ -216,6 +217,7 @@ struct FFT{
     template <typename T>
     vector<long long> real_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, bool same){
         int p_len = v1.size() + v2.size() - 1, len = pad(v1, v2), half = len / 2;
+
         e.prepare(half, len);
 
         for (int k = 0; k < half; k++) e.u[k] = Complex<T>(v1[2 * k], v1[2 * k + 1]);
@@ -263,6 +265,7 @@ struct FFT{
     template <typename T>
     int split_multiply(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, long long base){
         int len = pad(v1, v2);
+
         e.prepare(len, len);
         for (int i = 0; i < len; i++) e.u[i] = split<T>(v1[i], base);
         for (int i = 0; i < len; i++) e.w[i] = split<T>(v2[i], base);
@@ -297,6 +300,7 @@ struct FFT{
 
     static int pad(vector<long long>& v1, vector<long long>& v2){
         int n = v1.size(), m = v2.size();
+
         while (n > 1 && v1[n - 1] == 0) n--;
         while (m > 1 && v2[m - 1] == 0) m--;
 

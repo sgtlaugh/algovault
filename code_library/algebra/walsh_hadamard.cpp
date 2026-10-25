@@ -61,6 +61,7 @@ struct WalshHadamard{
 
     vector<long long> convolution(const vector<long long>& A, const vector<long long>& B, ConvType conv_type, long long mod = 0){
         int n = A.size();
+
         assert(A.size() == B.size() && __builtin_popcount(n) == 1);
         vector<long long> res = A;
         buffer.assign(B.begin(), B.end());

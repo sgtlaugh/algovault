@@ -85,6 +85,7 @@ struct Lagrange{
 
 int find_degree(const vector<int>& terms, int mod){
     int n = terms.size();
+
     assert(n <= mod);
 
     vector<int> diff(terms);

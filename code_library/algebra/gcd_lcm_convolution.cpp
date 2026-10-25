@@ -101,6 +101,7 @@ struct DivisorLattice{
 
     vector<long long> convolve(vector<long long>& a, vector<long long>& b, long long mod, bool by_gcd) const{
         size_t size = max(a.size(), b.size());
+
         if (!size) return {};
         a.resize(size, 0), b.resize(size, 0);
 

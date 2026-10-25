@@ -27,6 +27,7 @@ using namespace std;
 template <typename T>
 vector<T> min_plus_convex_convex(const vector<T>& a, const vector<T>& b){
     int n = a.size(), m = b.size();
+
     if (!n || !m) return {};
 
     vector<T> c(n + m - 1);
@@ -54,6 +55,7 @@ vector<T> max_plus_concave_concave(vector<T> a, vector<T> b){
 template <typename T>
 vector<T> min_plus_convex_arbitrary(const vector<T>& a, const vector<T>& b){
     int n = a.size(), m = b.size();
+
     if (!n || !m) return {};
 
     vector<T> c(n + m - 1);

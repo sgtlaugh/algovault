@@ -95,6 +95,7 @@ void superset_zeta(vector<T>& f, long long mod = 0){
 template<typename T = long long>
 vector<T> subset_convolution(const vector<T>& a, const vector<T>& b, long long mod){
     int size = a.size();
+
     assert(size > 0 && (size & (size - 1)) == 0 && b.size() == a.size() && mod >= 1 && mod <= INT_MAX);
 
     int n = __builtin_ctz(size), width = n + 1;

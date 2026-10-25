@@ -195,6 +195,7 @@ namespace ntt{
             unsigned long long x3 = (c3[i] + 2ULL * P3 - x1 - x2 * P1 % P3) % P3 * INV12 % P3;
             res[i] = (x1 + x2 * M1 + x3 * M12) % m;
         }
+
         return res;
     }
 }

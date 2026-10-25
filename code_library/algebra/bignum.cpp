@@ -56,6 +56,7 @@ struct Bignum{
 
     explicit Bignum(const string& s){
         size_t i = 0;
+
         if (i < s.size() && (s[i] == '+' || s[i] == '-')) neg = s[i++] == '-';
         assert(i < s.size());
 
@@ -223,6 +224,7 @@ struct Bignum{
     static void add_to(Limbs& res, const Limbs& y, size_t offset){
         uint32_t carry = 0;
         size_t i = offset;
+
         for (uint32_t v : y){
             uint32_t s = res[i] + v + carry;
             carry = s >= BASE;
@@ -239,6 +241,7 @@ struct Bignum{
     static void sub_from(Limbs& x, const Limbs& y){
         int borrow = 0;
         size_t i = 0;
+
         for (uint32_t v : y){
             long long d = (long long)x[i] - v - borrow;
             borrow = d < 0;
@@ -330,6 +333,7 @@ struct Bignum{
     static Limbs mul_ntt(const Limbs& x, const Limbs& y){
         const uint32_t P1 = 998244353, P2 = 167772161, P3 = 469762049;
         size_t len = x.size() + y.size() - 1, n = 1;
+
         while (n < len) n <<= 1;
 
         vector<uint32_t> r1 = convolve_mod<P1>(x, y, n), r2 = convolve_mod<P2>(x, y, n), r3 = convolve_mod<P3>(x, y, n);
@@ -355,6 +359,7 @@ struct Bignum{
     template<uint32_t MOD>
     static vector<uint32_t> convolve_mod(const Limbs& x, const Limbs& y, size_t n){
         vector<uint32_t> fx(n), fy(n);
+
         for (size_t i = 0; i < x.size(); i++) fx[i] = x[i] % MOD;
         for (size_t i = 0; i < y.size(); i++) fy[i] = y[i] % MOD;
 
@@ -372,6 +377,7 @@ struct Bignum{
     template<uint32_t MOD>
     static vector<uint32_t> ntt_roots(size_t n, bool inverse){
         vector<uint32_t> rt(max<size_t>(n, 2));
+
         for (size_t len = 1; len < n; len <<= 1){
             unsigned long long w = pow_mod<MOD>(3, (MOD - 1) / (2 * len));
             if (inverse) w = pow_mod<MOD>(w, MOD - 2);
@@ -395,6 +401,7 @@ struct Bignum{
     template<uint32_t MOD>
     static void ntt(vector<uint32_t>& f, const vector<uint32_t>& rt, bool inverse){
         size_t n = f.size();
+
         if (!inverse){
             for (size_t len = n >> 1; len; len >>= 1){
                 for (size_t i = 0; i < n; i += 2 * len){
@@ -451,6 +458,7 @@ struct Bignum{
 
     static pair<Limbs, Limbs> divmod_newton(const Limbs& x, const Limbs& y){
         size_t n = x.size(), m = y.size(), L = n - m + 2;
+
         if (m >= L){
             Limbs ys = shift_right(y, m - L);
             return fix_quotient(x, y, shift_right(mul(shift_right(x, m - L), reciprocal(ys)), 2 * L));
@@ -473,6 +481,7 @@ struct Bignum{
 
     static Limbs reciprocal(const Limbs& y){
         size_t L = y.size();
+
         if (L <= NEWTON_CUTOFF){
             Limbs power(2 * L + 1);
             power[2 * L] = 1;
@@ -505,6 +514,7 @@ struct Bignum{
 
     static pair<Limbs, Limbs> fix_quotient(const Limbs& x, const Limbs& y, Limbs q){
         Limbs p = mul(q, y);
+
         while (cmp(p, x) > 0){
             sub_from(q, {1}), trim(q);
             sub_from(p, y), trim(p);
@@ -523,6 +533,7 @@ struct Bignum{
     static pair<Limbs, Limbs> divmod_knuth(const Limbs& x, const Limbs& y){
         uint32_t norm = BASE / (y.back() + 1ULL);
         Limbs u = x, v = y;
+
         mul_small(u, norm), mul_small(v, norm);
         v.pop_back();
 
