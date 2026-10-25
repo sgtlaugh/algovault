@@ -36,6 +36,7 @@ vector<vector<int>> permutation_cycles(const vector<int>& p){
             cycles.back().push_back(j);
         }
     }
+
     return cycles;
 }
 
@@ -81,17 +82,20 @@ vector<int> permutation_root(const vector<int>& p, long long k){
             for (int j = 0; j < m; j++) res[merged[j]] = merged[(j + 1) % m];
         }
     }
+
     return res;
 }
 
 vector<pair<int, int>> sorting_swaps(vector<int> p){
     vector<pair<int, int>> swaps;
+
     for (int i = 0; i < (int)p.size(); i++){
         while (p[i] != i){
             swaps.emplace_back(i, p[i]);
             swap(p[i], p[p[i]]);
         }
     }
+
     return swaps;
 }
 

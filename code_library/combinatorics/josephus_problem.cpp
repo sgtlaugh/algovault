@@ -30,6 +30,7 @@ long long josephus(long long n, long long k, long long m){
         /// 32-bit division when both fit, 1.5x faster for k >= n
         m = (x | i) >> 32 ? x % i : (unsigned)x % (unsigned)i;
     }
+
     return m + 1;
 }
 

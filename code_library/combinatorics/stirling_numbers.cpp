@@ -48,6 +48,7 @@ namespace stirling_ntt{
     template<unsigned P, unsigned ROOT>
     vector<unsigned> roots(int n, bool invert){
         vector<unsigned> rt(max(n, 2), 1);
+
         for (int k = 2; k < n; k <<= 1){
             unsigned long long z = power(ROOT, (P - 1) / (2 * k), P);
             if (invert) z = power(z, P - 2, P);
@@ -62,6 +63,7 @@ namespace stirling_ntt{
     template<unsigned P>
     void forward(vector<unsigned>& a, const vector<unsigned>& rt){
         int n = a.size();
+
         for (int k = n / 2; k >= 1; k >>= 1){
             for (int i = 0; i < n; i += 2 * k){
                 for (int j = 0; j < k; j++){
@@ -77,6 +79,7 @@ namespace stirling_ntt{
     template<unsigned P>
     void inverse(vector<unsigned>& a, const vector<unsigned>& rt){
         int n = a.size();
+
         for (int k = 1; k < n; k <<= 1){
             for (int i = 0; i < n; i += 2 * k){
                 for (int j = 0; j < k; j++){
@@ -92,6 +95,7 @@ namespace stirling_ntt{
     template<unsigned P, unsigned ROOT>
     vector<unsigned> cyclic(const vector<long long>& a, const vector<long long>& b, int n){
         vector<unsigned> x(n, 0), y(n, 0);
+
         for (size_t i = 0; i < a.size(); i++) x[i & (n - 1)] = (x[i & (n - 1)] + a[i]) % P;
         for (size_t i = 0; i < b.size(); i++) y[i & (n - 1)] = (y[i & (n - 1)] + b[i]) % P;
 
@@ -126,6 +130,7 @@ namespace stirling_ntt{
             unsigned long long x3 = (c3[i] + 2ULL * P3 - x1 - x2 * P1 % P3) % P3 * INV12 % P3;
             res[i] = (x1 + x2 * M1 + x3 * M12) % m;
         }
+
         return res;
     }
 
@@ -142,6 +147,7 @@ namespace stirling_ntt{
             long long top = a.back() * b.back() % m;
             res[0] = (res[0] - top + m) % m, res[n] = top;
         }
+
         return res;
     }
 
@@ -167,6 +173,7 @@ vector<long long> taylor_shift(const vector<long long>& g, long long c, long lon
     int d = g.size() - 1;
     vector<long long> a(d + 1), b(d + 1);
     long long c_power = 1;
+
     for (int i = 0; i <= d; i++){
         a[i] = g[i] * fact[i] % p;
         b[d - i] = c_power * inv_fact[i] % p;
@@ -219,6 +226,7 @@ vector<long long> stirling_first(int n, long long m){
             cur++;
         }
     }
+
     return res;
 }
 

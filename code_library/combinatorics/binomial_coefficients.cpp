@@ -73,6 +73,7 @@ struct BinomialPrimePow{
 
     int64_t binomial(int64_t n, int64_t k){
         uint64_t t = legendre(n) - legendre(k) - legendre(n - k);
+
         if (t >= q) return 0;
 
         if (!free_fact.size()){
@@ -153,6 +154,7 @@ struct Binomial{
         for (uint32_t i = 0; i < prime_powers.size(); i++){
             rem.push_back(prime_powers[i].binomial(n, k));
         }
+
         return chinese_remainder(rem);
     }
 };

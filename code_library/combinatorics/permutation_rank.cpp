@@ -17,6 +17,7 @@ using namespace std;
 /// Only the last 21 positions can move for k < 2^63, the prefix stays the identity
 vector<int> kth_permutation(int n, long long k){
     long long fact[21] = {1};
+
     for (int i = 1; i <= 20; i++) fact[i] = fact[i - 1] * i;
     assert(n >= 0 && k >= 0 && (n > 20 || k < fact[n]));
 
@@ -27,12 +28,14 @@ vector<int> kth_permutation(int n, long long k){
         k %= fact[n - 1 - i];
         rotate(res.begin() + i, res.begin() + j, res.begin() + j + 1);
     }
+
     return res;
 }
 
 template <typename Permutation>
 long long permutation_rank(const Permutation& p){
     int n = p.size();
+
     assert(n <= 20);
 
     long long res = 0;
@@ -41,6 +44,7 @@ long long permutation_rank(const Permutation& p){
         for (int j = i + 1; j < n; j++) smaller += p[j] < p[i];
         res = res * (n - i) + smaller;
     }
+
     return res;
 }
 

@@ -46,6 +46,7 @@ struct Faulhaber{
             falling = falling * ((n + 1 - j + MOD) % MOD) % MOD;
             res = (res + stirling[k][j] * falling % MOD * inv[j + 1]) % MOD;
         }
+
         return res;
     }
 };
