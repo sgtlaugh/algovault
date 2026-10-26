@@ -37,7 +37,7 @@
 - [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C) [✅](../../practice/dp/codeforces_643c_convex_hull_trick.cpp "Accepted solution")
 - [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F) [✅](../../practice/dp/codeforces_660f.cpp "Accepted solution")
 - [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E) [✅](../../practice/dp/codeforces_1083e.cpp "Accepted solution")
-- [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084)
+- [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✅](../../practice/dp/cses_2084.cpp "Accepted solution")
 - [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507)
 - [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180)
 - [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/)
