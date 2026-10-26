@@ -5,7 +5,7 @@
 - [Codeforces Gym 104648B2 - Golf Gophers B2](https://codeforces.com/gym/104648/problem/B2)
 - [HackerRank number-of-sequences - Number of Sequences](https://www.hackerrank.com/contests/w22/challenges/number-of-sequences/problem) [✅](../../practice/number_theory/hackerrank_number_of_sequences.cpp "Accepted solution")
 - [Kattis chineseremainder - Chinese Remainder](https://open.kattis.com/problems/chineseremainder) [✅](../../practice/number_theory/kattis_chineseremainder.cpp "Accepted solution")
-- [Kattis generalchineseremainder - Chinese Remainder Theorem (non-relatively prime moduli)](https://open.kattis.com/problems/generalchineseremainder)
+- [Kattis generalchineseremainder - Chinese Remainder Theorem (non-relatively prime moduli)](https://open.kattis.com/problems/generalchineseremainder) [✅](../../practice/number_theory/kattis_generalchineseremainder.cpp "Accepted solution")
 - [SPOJ PIBO2 - Fibonacci vs Polynomial (HARD)](https://www.spoj.com/problems/PIBO2/)
 - [SPOJ PIBO - Fibonacci vs Polynomial](https://www.spoj.com/problems/PIBO/)
 - [UVa 11754 - Code Feat](https://onlinejudge.org/external/117/11754.pdf) [✅](../../practice/number_theory/uva_11754.cpp "Accepted solution")
