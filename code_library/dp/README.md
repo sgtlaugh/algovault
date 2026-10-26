@@ -94,7 +94,7 @@
 
 #### [Knuth Partition DP](knuth_partition_dp.cpp)
 
-- [UVa 12524 - Arranging Heaps](https://onlinejudge.org/external/125/12524.pdf)
+- [UVa 12524 - Arranging Heaps](https://onlinejudge.org/external/125/12524.pdf) [✅](../../practice/dp/uva_12524_knuth_partition_dp.cpp "Accepted solution")
 
 #### [Knuth Optimization](knuth_optimization.cpp)
 
