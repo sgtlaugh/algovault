@@ -121,7 +121,7 @@ Each template's section in `code_library/<topic>/README.md` lists problems it so
 - **Name:** the entry's judge and code in lowercase, spaces as underscores: `codeforces_25d.cpp`, `codeforces_gym_100570d.cpp`
 - **Several templates:** one file per template, `<judge>_<code>_<template>.cpp`, each linked from its own section
 - **Link:** ` [✔](../../practice/<topic>/<file> "Accepted solution")` after the entry
-- **Table of contents:** generated at the top of each README with solved / total counts; after any edit to a practice section run `python3 .github/scripts/practice_toc.py` (`/verdict` does it for you)
+- **Table of contents:** generated at the top of each README, the number solved and a link to each template; after any edit to a practice section run `python3 .github/scripts/practice_toc.py` (`/verdict` does it for you)
 - **Template copy:** taken from `code_library/`, never from another practice file
 - **Fast I/O:** every solution copies `fast_io.cpp` last, unless the judge's source limit leaves no room for it
 - **POJ, UVa and HDU:** these judges compile C++11, and so does CI; change the template copy only where C++11 needs it, as `/verdict` lists

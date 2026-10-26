@@ -1,6 +1,6 @@
 """practice_toc.py [--check]: the table of contents at the top of each code_library/<topic>/README.md
 
-Lists every template section with its solved and total practice problems, between the TOC markers under the title.
+One line of solved over listed problems, then a link to every template section, between the TOC markers under the title.
 Without arguments it rewrites the stale tables; --check only lists them and exits 1 when any is stale.
 """
 import collections
@@ -17,7 +17,7 @@ def slug(title):
 
 
 def toc(text):
-    """The table for a README's text: one line per section, a solved count of entries carrying a ✔ link."""
+    """The table for a README's text: entries carrying a ✔ link count as solved, then the section links in order."""
     seen, sections = collections.Counter(), []
     for line in text.split('\n'):
         m = re.match(r'#### \[(.+?)\]', line)
@@ -30,8 +30,9 @@ def toc(text):
         elif sections and line.startswith('- ['):
             sections[-1][3] += 1
             sections[-1][2] += '[✔](../../practice/' in line
-    rows = [f'- [{title}](#{anchor}) · {solved}/{total}' for title, anchor, solved, total in sections]
-    return '\n'.join([BEGIN, ''] + rows + ['', END])
+    solved, total = sum(s[2] for s in sections), sum(s[3] for s in sections)
+    links = ' · '.join(f'[{title}](#{anchor})' for title, anchor, _, _ in sections)
+    return '\n'.join([BEGIN, '', f'**{solved:,} of {total:,} problem{"s" * (total != 1)} solved**', '', links, '', END])
 
 
 def with_toc(text):
