@@ -34,7 +34,7 @@
 - [CodeChef CHEFMOD - Chef and Modular Sequence](https://www.codechef.com/problems/CHEFMOD) [✅](../../practice/number_theory/codechef_chefmod.cpp "Accepted solution")
 - [CodeChef INVXOR - Inverse of a Function](https://www.codechef.com/problems/INVXOR) [✅](../../practice/number_theory/codechef_invxor.cpp "Accepted solution")
 - [Codeforces Gym 101853G - Hard Equation](https://codeforces.com/gym/101853/problem/G) [✅](../../practice/number_theory/codeforces_gym_101853g.cpp "Accepted solution")
-- [SPOJ MOD - Power Modulo Inverted](https://www.spoj.com/problems/MOD/)
+- [SPOJ MOD - Power Modulo Inverted](https://www.spoj.com/problems/MOD/) [✅](../../practice/number_theory/spoj_mod.cpp "Accepted solution")
 - [UVa 10225 - Discrete Logging](https://onlinejudge.org/external/102/10225.pdf) [✅](../../practice/number_theory/uva_10225.cpp "Accepted solution")
 - [UVa 11916 - Emoogle Grid](https://onlinejudge.org/external/119/11916.pdf) [✅](../../practice/number_theory/uva_11916.cpp "Accepted solution")
 
