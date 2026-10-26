@@ -191,7 +191,7 @@
 
 #### [Segmented Sieve](segmented_sieve.cpp)
 
-- [HackerRank euler134 - Project Euler #134: Prime pair connection](https://www.hackerrank.com/contests/projecteuler/challenges/euler134/problem)
+- [HackerRank euler134 - Project Euler #134: Prime pair connection](https://www.hackerrank.com/contests/projecteuler/challenges/euler134/problem) [✅](../../practice/number_theory/hackerrank_euler134.cpp "Accepted solution")
 - [SPOJ PRIME1 - Prime Generator](https://www.spoj.com/problems/PRIME1/)
 - [UVa 1404 - Prime k-tuple](https://onlinejudge.org/external/14/1404.pdf) [✅](../../practice/number_theory/uva_1404.cpp "Accepted solution")
 - [UVa 10140 - Prime Distance](https://onlinejudge.org/external/101/10140.pdf) [✅](../../practice/number_theory/uva_10140.cpp "Accepted solution")
