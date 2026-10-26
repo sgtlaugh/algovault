@@ -38,7 +38,7 @@ def lagrange(x_values, y_values, nth_term):
 def main():
     """
 
-    Example polyonmial - https://mathworld.wolfram.com/CircleDivisionbyChords.html
+    Example polynomial - https://mathworld.wolfram.com/CircleDivisionbyChords.html
     f(x) = binomial(n, 4) + binomial(n, 2) + 1
     or, f(x) = (n^4 - 6n^3 + 23n^2 -18n + 24) / 24
 

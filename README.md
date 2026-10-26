@@ -282,7 +282,7 @@ A ✔ marks a template that passes a judge test and links to one. A ✅ next to 
 [Practice problems](code_library/hacking/README.md)
 
 - [Anti Double Hash](code_library/hacking/anti_double_hash.cpp) - two strings colliding under a double hash
-- [Anti Polynomial Hash](code_library/hacking/anti_polyonmial_hash.cpp) - two strings colliding under a polynomial hash
+- [Anti Polynomial Hash](code_library/hacking/anti_polynomial_hash.cpp) - two strings colliding under a polynomial hash
 
 ### Miscellaneous
 

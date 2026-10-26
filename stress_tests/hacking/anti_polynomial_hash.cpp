@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/hacking/anti_polyonmial_hash.cpp"
+#include "../../code_library/hacking/anti_polynomial_hash.cpp"
 #undef main
 
 /// The pair differs by a +-1 combination of base powers, so it collides whatever values the two letters hash to
