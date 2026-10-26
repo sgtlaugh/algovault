@@ -239,6 +239,58 @@ int main(){
         assert(read(a) == 0);
     }
 
+    /// Interactive, no flush() calls: a refill by fread or before our query leaves deadlocks, and the alarm fails it
+    int to_judge[2], to_us[2];
+    assert(!pipe(to_judge) && !pipe(to_us));
+    long long rounds = stress::scaled(200);
+    pid_t judge = fork();
+    if (judge == 0){
+        close(to_judge[1]), close(to_us[0]);
+        FILE *in = fdopen(to_judge[0], "r"), *out = fdopen(to_us[1], "w");
+        for (long long r = 0; r < rounds; r++){
+            long long x;
+            int k;
+            if (fscanf(in, " ? %lld %d", &x, &k) != 2) _exit(1);
+
+            string reply = "round " + to_string(r) + "\n";
+            for (int j = 0; j < k; j++) reply += to_string(x + j) + (j + 1 < k ? " " : "\n");
+
+            /// Two writes with a pause between, so a read can return a token cut in half
+            size_t cut = stress::rand_int(0, reply.size());
+            fwrite(reply.data(), 1, cut, out), fflush(out);
+            if (r % 10 == 0) usleep(200);
+            fwrite(reply.data() + cut, 1, reply.size() - cut, out), fflush(out);
+        }
+        _exit(0);
+    }
+
+    close(to_judge[0]), close(to_us[1]);
+    int saved_in = dup(0), saved_out = dup(1);
+    fflush(stdout);
+    dup2(to_us[0], 0), dup2(to_judge[1], 1);
+    close(to_us[0]), close(to_judge[1]);
+    inptr = buf_len = 0;
+    alarm(60);
+    for (long long r = 0; r < rounds; r++){
+        long long x = random_value<long long>() / 4;
+        int k = stress::rand_int(1, r % 10 ? 5 : 3000);
+        write('?', x, k);
+
+        string line;
+        assert(read_line(line) && line == "round " + to_string(r));
+        vector<long long> got(k);
+        assert(read(got) == 1);
+        for (int j = 0; j < k; j++) assert(got[j] == x + j);
+    }
+    alarm(0);
+
+    flush();
+    dup2(saved_in, 0), dup2(saved_out, 1);
+    close(saved_in), close(saved_out);
+    inptr = buf_len = 0;
+    int judge_status;
+    assert(waitpid(judge, &judge_status, 0) == judge && WIFEXITED(judge_status) && WEXITSTATUS(judge_status) == 0);
+
     /// A forgotten flush() must not lose output, the child writes the pending buffer when it exits
     assert(freopen(OUT.c_str(), "wb", stdout));
     write("forgotten", 42);
@@ -248,6 +300,12 @@ int main(){
     int status;
     assert(waitpid(pid, &status, 0) == pid && WIFEXITED(status) && WEXITSTATUS(status) == 0);
     assert(read_file(OUT) == "forgotten 42\n");
+
+    /// A failed read(), here on a closed stdin, is the end of input, never a replay of stale buffer bytes
+    close(0);
+    inptr = buf_len = 0, inbuf[0] = 'z';
+    char stale;
+    assert(read(stale) == 0);
 
     remove(IN.c_str()), remove(OUT.c_str());
     return 0;
