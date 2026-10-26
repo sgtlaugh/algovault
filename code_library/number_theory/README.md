@@ -134,7 +134,7 @@
 
 #### [Maximum Divisors](maximum_divisors.cpp)
 
-- [UVa 11960 - Divisor Game](https://onlinejudge.org/external/119/11960.pdf)
+- [UVa 11960 - Divisor Game](https://onlinejudge.org/external/119/11960.pdf) [✅](../../practice/number_theory/uva_11960.cpp "Accepted solution")
 
 #### [Miller-Rabin](miller_rabin.cpp)
 
