@@ -163,7 +163,7 @@
 
 #### [Modular Roots](modular_roots.cpp)
 
-- [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F)
+- [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F) [✅](../../practice/number_theory/codeforces_1106f.cpp "Accepted solution")
 
 #### [Pisano Period](pisano_period.cpp)
 
