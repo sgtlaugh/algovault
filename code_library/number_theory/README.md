@@ -71,7 +71,7 @@
 
 #### [Fast Sieve](fast_sieve.cpp)
 
-- [SPOJ BSPRIME - Binary Sequence of Prime Number](https://www.spoj.com/problems/BSPRIME/)
+- [SPOJ BSPRIME - Binary Sequence of Prime Number](https://www.spoj.com/problems/BSPRIME/) [✅](../../practice/number_theory/spoj_bsprime.cpp "Accepted solution")
 - [SPOJ PRIMES2 - Printing some primes (Hard)](https://www.spoj.com/problems/PRIMES2/) [✅](../../practice/number_theory/spoj_primes2.cpp "Accepted solution")
 - [SPOJ PTRI - primes triangle (I)](https://www.spoj.com/problems/PTRI/)
 - [SPOJ TDPRIMES - Printing some primes](https://www.spoj.com/problems/TDPRIMES/)
