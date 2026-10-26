@@ -59,7 +59,7 @@
 - [HackerRank guardians-lunatics-ioi14 - [IOI] Guardians of the Lunatics](https://www.hackerrank.com/contests/ioi-2014-practice-contest-2/challenges/guardians-lunatics-ioi14/problem) [✅](../../practice/dp/hackerrank_guardians_lunatics_ioi14.cpp "Accepted solution")
 - [HDU 3480 - Division](https://acm.hdu.edu.cn/showproblem.php?pid=3480) [✅](../../practice/dp/hdu_3480.cpp "Accepted solution")
 - [Kattis money - Money for Nothing](https://open.kattis.com/problems/money) [✅](../../practice/dp/kattis_money.cpp "Accepted solution")
-- [SPOJ ADAMOLD - Ada and Mold](https://www.spoj.com/problems/ADAMOLD/)
+- [SPOJ ADAMOLD - Ada and Mold](https://www.spoj.com/problems/ADAMOLD/) [✅](../../practice/dp/spoj_adamold.cpp "Accepted solution")
 - [SPOJ LARMY - Lannister Army](https://www.spoj.com/problems/LARMY/)
 - [SPOJ NKLEAVES - Leaves](https://www.spoj.com/problems/NKLEAVES/)
 - [Timus 1167 - Bicolored Horses](https://acm.timus.ru/problem.aspx?num=1167) [✅](../../practice/dp/timus_1167.cpp "Accepted solution")
