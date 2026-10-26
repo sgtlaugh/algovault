@@ -10,7 +10,7 @@
 - [Fast I/O](#fast-io) · 0/1
 - [Gray Codes](#gray-codes) · 1/2
 - [Knight Distance](#knight-distance) · 2/3
-- [Local Minimization (Nelder-Mead)](#local-minimization-nelder-mead) · 6/6
+- [Local Minimization (Nelder-Mead)](#local-minimization-nelder-mead) · 7/7
 - [N Queens](#n-queens) · 0/1
 - [Numerical Integration](#numerical-integration) · 0/3
 - [Radix Sort](#radix-sort) · 0/1
@@ -68,6 +68,7 @@
 
 #### [Local Minimization (Nelder-Mead)](local_minimization.cpp)
 
+- [Codeforces 2C - Commentator problem](https://codeforces.com/problemset/problem/2/C) [✔](../../practice/misc/codeforces_2c.cpp "Accepted solution")
 - [HDU 3932 - Groundhog Build Home](https://acm.hdu.edu.cn/showproblem.php?pid=3932) [✔](../../practice/misc/hdu_3932.cpp "Accepted solution")
 - [HDU 5017 - Ellipsoid](https://acm.hdu.edu.cn/showproblem.php?pid=5017) [✔](../../practice/misc/hdu_5017.cpp "Accepted solution")
 - [Kattis europeantrip - European Trip](https://open.kattis.com/problems/europeantrip) [✔](../../practice/misc/kattis_europeantrip.cpp "Accepted solution")
