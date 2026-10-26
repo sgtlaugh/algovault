@@ -160,6 +160,14 @@ int main(){
         assert(first_mod_in_range(m, -1, l, r) == m - r);
     }
 
+    /// n, m around 2^32, where floor_sum switches from 64-bit to 128-bit arithmetic, against the 128-bit path
+    for (long long it = 0; it < stress::scaled(4000); it++){
+        long long near = it % 2 ? 3 : 1LL << 31;
+        long long n = (1LL << 32) + stress::rand_int(-near, near), m = (1LL << 32) + stress::rand_int(-near, near);
+        long long a = it % 4 ? m - stress::rand_int(1, 3) : stress::rand_int(0, m - 1), b = stress::rand_int(0, m - 1);
+        assert(floor_sum(n, m, a, b) == (__int128)floor_sum_unsigned<u128>(n, m, a, b));
+    }
+
     /// The header bounds: any a, b when n <= 2^32 (m = 1 makes the sum a closed form), any n when 0 <= a < m
     for (long long it = 0; it < stress::scaled(2000); it++){
         long long n = (1LL << 32) - stress::rand_int(0, 1000), a = rand_edge(1), b = rand_edge(1);
