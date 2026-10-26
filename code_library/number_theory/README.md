@@ -85,7 +85,7 @@
 
 #### [Integer Root](integer_root.cpp)
 
-- [HDU 5297 - Y sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5297)
+- [HDU 5297 - Y sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5297) [✅](../../practice/number_theory/hdu_5297.cpp "Accepted solution")
 
 #### [Linear Sieve](linear_sieve.cpp)
 
