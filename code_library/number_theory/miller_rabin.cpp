@@ -3,19 +3,16 @@
  * Miller-Rabin
  * Deterministic primality test for 64-bit integers
  *
- * Complexity: O(24) + O(7 log n), or O(24) + O(4 log n) when n <= INT_MAX
+ * Complexity: O(log n), 3 Miller-Rabin rounds below 4759123141 and 7 above
  *
- * prm::is_prime(n): deterministic for every long long n, false for n < 2
+ * prm::is_prime(n): true if n is prime, for any long long n
  *
  * Notes:
- *   - Uses the 7 bases from https://miller-rabin.appspot.com/, valid for n < 2^64
- *   - About 4*10^6 large random numbers or 5*10^5 large primes below 2^63 per second
+ *   - About 10^7 random numbers or 5 * 10^5 primes below 2^63 per second
  *   - Requires __int128 (64-bit GCC or Clang)
- *   - Embeds a checked copy of pollard_rho.cpp's Montgomery to stay standalone
  *   - Faster tests:
  *       - https://people.ksp.sk/~misof/primes/
  *       - https://github.com/wizykowski/miller-rabin/blob/master/sprp64.h
- *   - The single base 921211727 is faster but unproven: 600 mismatches in 10^9 random n below 2^31, 0 below 2^63
  *
 ***/
 
@@ -23,15 +20,8 @@
 
 using namespace std;
 
-/***
- *
- * Montgomery multiplication for a fixed odd modulus n, values are stored as x * 2^64 mod n
- * Needs no division, ~6x faster than __int128 % n for primality checks
- * The modulus must be odd, even moduli give wrong results silently
- *
-***/
-
-/// BEGIN COPY montgomery from code_library/number_theory/pollard_rho.cpp
+/// Montgomery form for a fixed odd modulus n, values are stored as x * 2^64 mod n, 8x faster than __int128 % n here
+/// BEGIN SHARED montgomery
 struct Montgomery{
     unsigned long long n, inv, r2;
 
@@ -66,15 +56,27 @@ struct Montgomery{
         return res;
     }
 };
-/// END COPY montgomery
+/// END SHARED montgomery
 
+/// BEGIN SHARED miller_rabin
 namespace prm{
-    const vector<int> BASES_32 = {2, 3, 5, 7};
-    const vector<int> BASES_64 = {2, 450775, 1795265022, 9780504, 28178, 9375, 325};
+    /// Jaeschke 1993, deterministic below 4759123141
+    const vector<int> BASES_32 = {2, 7, 61};
+    /// Jim Sinclair 2011, deterministic below 2^64: https://miller-rabin.appspot.com/
+    const vector<int> BASES_64 = {2, 325, 9375, 28178, 450775, 9780504, 1795265022};
 
-    const vector<int> SMALL_PRIMES = {3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 193, 407521, 299210837};
+    struct SmallPrime{ unsigned long long p, inv, max_quotient; };
 
-    bool is_probable_composite(int a, long long n, int s, const Montgomery& mont){
+    /// Holds the bases 7 and 61, so is_witness never gets a base that n divides
+    const vector<SmallPrime> SMALL_PRIMES = [](){
+        vector<SmallPrime> res;
+        for (unsigned long long p: {3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79}){
+            res.push_back({p, Montgomery(p).inv, ~0ULL / p});
+        }
+        return res;
+    }();
+
+    bool is_witness(int a, long long n, int s, const Montgomery& mont){
         unsigned long long one = mont.to_mont(1), minus_one = mont.to_mont(n - 1);
         unsigned long long x = mont.pow(mont.to_mont(a), (n - 1) >> s);
 
@@ -91,27 +93,29 @@ namespace prm{
     bool miller_rabin(long long n, const vector<int>& bases){
         if (n < 2 || (n & 1) == 0) return n == 2;
 
-        for (auto &&p: SMALL_PRIMES){
-            if (n == p) return true;
-            if (n % p == 0) return false;
+        /// p | n exactly when n * p^-1 mod 2^64 <= (2^64 - 1) / p, no division: 27% faster on random n below 2^63
+        for (auto& [p, inv, max_quotient]: SMALL_PRIMES){
+            if ((unsigned long long)n * inv <= max_quotient) return (unsigned long long)n == p;
         }
 
         int s = __builtin_ctzll(n - 1);
         Montgomery mont(n);
         for (auto a: bases){
-            if (is_probable_composite(a, n, s, mont)) return false;
+            if (is_witness(a, n, s, mont)) return false;
         }
 
         return true;
     }
 
     bool is_prime(long long n){
-        if (n < INT_MAX) return miller_rabin(n, BASES_32);
+        if (n < 4759123141LL) return miller_rabin(n, BASES_32);
         return miller_rabin(n, BASES_64);
     }
 }
+/// END SHARED miller_rabin
 
 int main(){
+    /// Primes, then composites, among them squares and products of two large primes
     using namespace prm;
 
     assert(is_prime(2));

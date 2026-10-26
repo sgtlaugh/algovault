@@ -35,9 +35,10 @@ int main(){
 
     for (int n = -5; n < N; n++) assert(prm::is_prime(n) == (n >= 0 && sieve[n]));
 
+    /// Strong pseudoprimes to small base sets, 4759123141 to {2, 7, 61} so is_prime must switch to 7 bases there
     const long long special[] = {2047, 1373653, 25326001, 3215031751LL, 2152302898747LL, 3474749660383LL, 341550071728321LL,
                                  3825123056546413051LL, 561, 1105, 1729, 299210837, 407521, 2147483647, 2147483649LL,
-                                 4294967291LL, 4294967295LL, 4294967311LL, 9223372036854775783LL, LLONG_MAX};
+                                 4294967291LL, 4294967295LL, 4294967311LL, 4759123141LL, 9223372036854775783LL, LLONG_MAX};
     for (long long n : special) assert(prm::is_prime(n) == reference_is_prime(n));
 
     for (long long it = 0; it < stress::scaled(1000000); it++){

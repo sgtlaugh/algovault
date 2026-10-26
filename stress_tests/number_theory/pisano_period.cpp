@@ -82,12 +82,14 @@ int main(){
     PisanoPeriod pisano;
 
     /// Strong pseudoprimes a weakened base set would call prime; 107528788110061 passes all bases but 1795265022
-    for (ull n : {3215031751ULL, 2152302898747ULL, 3474749660383ULL, 341550071728321ULL, 3825123056546413051ULL, 107528788110061ULL}) assert(!pisano.rho.is_prime(n));
+    for (ull n : {3215031751ULL, 2152302898747ULL, 3474749660383ULL, 341550071728321ULL, 3825123056546413051ULL, 107528788110061ULL, 4759123141ULL}) assert(!prm::is_prime(n));
 
     for (long long n = 1; n <= 3000; n++) assert(pisano.period(n) == brute_pisano(n));
 
     /// The prime 299210837 divides the Miller-Rabin base 1795265022, factorizing it with that base test never ends
-    assert(pisano.rho.is_prime(299210837) && pisano.period(299210837) == 199473892 && pisano.period(2 * 299210837LL) == 598421676);
+    assert(prm::is_prime(299210837));
+    assert(pisano.period(299210837) == 199473892);
+    assert(pisano.period(2 * 299210837LL) == 598421676);
 
     for (long long it = 0; it < stress::scaled(60); it++) check_minimal_period(pisano, stress::rand_int(2, it % 2 ? 1000000000000LL : 1000000));
 
@@ -114,7 +116,7 @@ int main(){
         if (n > 1500000000000000000LL) continue;
         checked_factors(pisano, n);
 
-        ull m = stress::rand_int(1, 1000000000000000LL) | 1, k = stress::rand_int(0, 1000000000);
+        ull m = stress::rand_int(1, it % 2 ? LLONG_MAX : 1000000000000000LL) | 1, k = stress::rand_int(0, 1000000000);
         auto expected = fib_pair(k, m);
         assert(PisanoPeriod::fib(k, m) == make_pair((long long)expected.first, (long long)expected.second));
     }

@@ -47,6 +47,7 @@ long long random_prime(long long lo, long long hi){
 
 /// Factors must multiply back to n, be prime by the reference test and come sorted
 void check(long long n, PollardRho& rho, const vector<long long>* expected = nullptr){
+    assert(prm::is_prime(n) == reference_prime(n));
     auto f = rho.factorize(n);
     assert(is_sorted(f.begin(), f.end()));
 
@@ -58,12 +59,19 @@ void check(long long n, PollardRho& rho, const vector<long long>* expected = nul
 
     assert(prod == n);
     if (expected) assert(f == *expected);
-    assert(rho.is_prime(n) == reference_prime(n));
 }
 
 int main(){
     PollardRho rho;
     const long long E6 = 1000000, LIM = LLONG_MAX;
+
+    /// A wrong is_prime makes factorize loop forever on a prime cofactor, so it is checked alone first
+    for (long long n = 0; n <= 100000; n++) assert(prm::is_prime(n) == reference_prime(n));
+    for (long long it = 0; it < stress::scaled(200000); it++){
+        long long n = (long long)(stress::rng()() >> stress::rand_int(1, 62));
+        assert(prm::is_prime(n) == reference_prime(n));
+    }
+    for (long long it = 0; it < stress::scaled(2000); it++) assert(prm::is_prime(random_prime(E6 + 1, LIM)));
 
     for (long long n = 1; n <= 5000; n++) check(n, rho);
     for (long long n = E6 - 3000; n <= E6 + 3000; n++) check(n, rho);
@@ -73,14 +81,13 @@ int main(){
         check(n, rho);
     }
 
-    /// 299210837 divides the base 1795265022, so that base must be skipped instead of reporting composite
-    assert(rho.is_prime(299210837));
+    /// 299210837 divides the base 1795265022, a test applying that base to it would call it composite
     vector<long long> prime_only = {299210837}, with_three = {3, 299210837};
     check(299210837, rho, &prime_only);
     check(3 * 299210837LL, rho, &with_three);
 
     /// Strong pseudoprimes to small bases and Carmichael numbers
-    for (long long n : {561LL, 1105LL, 1729LL, 2047LL, 3215031751LL, 3825123056546413051LL}){
+    for (long long n : {561LL, 1105LL, 1729LL, 2047LL, 3215031751LL, 4759123141LL, 3825123056546413051LL}){
         check(n, rho);
     }
 
