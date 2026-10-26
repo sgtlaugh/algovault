@@ -3,7 +3,7 @@
  * Shortest Hamiltonian Path and Cycle with Bitmask DP
  * Minimum weight path or cycle visiting every vertex exactly once, with the vertex order
  *
- * Complexity: O(2^n n^2) time, O(2^n n) memory (160 MiB at n = 20)
+ * Complexity: O(2^n n^2) time, O(2^n n) memory (at n = 20: 160 MiB for a path, 76 MiB for a cycle)
  *
  * HamiltonianGraph g(n): vertices 0 to n - 1, n >= 1
  * g.add_directed_edge(u, v, w): edge u -> v, parallel edges keep the minimum weight
@@ -48,57 +48,56 @@ struct HamiltonianGraph{
     }
 
     pair<long long, vector<int>> solve(bool cycle) const{
-        vector<long long> dp = build_dp(cycle);
-        size_t full = (size_t(1) << n) - 1;
+        /// A cycle starts at 0, so its masks cover only vertices first..n - 1 and local vertex i is vertex i + first
+        int first = cycle, k = n - first;
+        if (k == 0) return w[0][0] == INF ? make_pair(INF, vector<int>{}) : make_pair(w[0][0], vector<int>{0});
+        vector<long long> dp = build_dp(first);
+        size_t full = (size_t(1) << k) - 1;
 
         long long cost = INF;
         int last = -1;
-        for (int i = 0; i < n; i++){
-            long long d = dp[full * n + i];
-            if (d == INF || (cycle && w[i][0] == INF)) continue;
+        for (int i = 0; i < k; i++){
+            long long d = dp[full * k + i];
+            if (d == INF || (cycle && w[i + first][0] == INF)) continue;
 
-            long long total = cycle ? d + w[i][0] : d;
+            long long total = cycle ? d + w[i + first][0] : d;
             if (total < cost) cost = total, last = i;
         }
         if (last == -1) return {INF, {}};
 
-        vector<int> order(n);
+        vector<int> order(n, 0);
         size_t mask = full;
-        for (int pos = n - 1; pos > 0; pos--){
-            order[pos] = last;
+        for (int pos = n - 1; pos > first; pos--){
+            order[pos] = last + first;
             size_t prev = mask ^ (size_t(1) << last);
             int from = -1;
-            for (int j = 0; j < n && from == -1; j++){
-                long long d = dp[prev * n + j];
-                if (d != INF && w[j][last] != INF && d + w[j][last] == dp[mask * n + last]) from = j;
+            for (int j = 0; j < k && from == -1; j++){
+                long long d = dp[prev * k + j], step = w[j + first][last + first];
+                if (d != INF && step != INF && d + step == dp[mask * k + last]) from = j;
             }
             mask = prev, last = from;
         }
-        order[0] = last;
+        order[first] = last + first;
 
         return {cost, order};
     }
 
-    vector<long long> build_dp(bool cycle) const{
-        vector<long long> dp((size_t(1) << n) * n, INF);
-        vector<size_t> into(n, 0);
-        vector<vector<long long>> w_into(n, vector<long long>(n));
-        for (int j = 0; j < n; j++){
-            for (int i = 0; i < n; i++){
-                w_into[i][j] = w[j][i];
-                if (w[j][i] != INF) into[i] |= size_t(1) << j;
+    vector<long long> build_dp(int first) const{
+        int k = n - first;
+        vector<long long> dp((size_t(1) << k) * k, INF);
+        vector<size_t> into(k, 0);
+        vector<vector<long long>> w_into(k, vector<long long>(k));
+        for (int j = 0; j < k; j++){
+            for (int i = 0; i < k; i++){
+                w_into[i][j] = w[j + first][i + first];
+                if (w_into[i][j] != INF) into[i] |= size_t(1) << j;
             }
         }
 
-        if (cycle) dp[n] = 0;  // flat index mask * n + i with mask = {0}, i = 0
-        else{
-            for (int i = 0; i < n; i++) dp[(size_t(1) << i) * n + i] = 0;
-        }
+        for (int i = 0; i < k; i++) dp[(size_t(1) << i) * k + i] = first ? w[0][i + first] : 0;
 
-        /// A cycle starts at vertex 0, so every finite cycle state contains it and the other masks are skipped
-        for (size_t mask = 1; mask < (size_t(1) << n); mask++){
-            if (cycle && !(mask & 1)) continue;
-            for (int i = 0; i < n; i++){
+        for (size_t mask = 1; mask < (size_t(1) << k); mask++){
+            for (int i = 0; i < k; i++){
                 if (!(mask >> i & 1) || mask == (size_t(1) << i)) continue;
 
                 size_t prev = mask ^ (size_t(1) << i);
@@ -106,10 +105,10 @@ struct HamiltonianGraph{
                 long long best = INF;
                 for (size_t rest = prev & into[i]; rest; rest &= rest - 1){
                     int j = __builtin_ctzll(rest);
-                    long long d = dp[prev * n + j];
+                    long long d = dp[prev * k + j];
                     if (d != INF) best = min(best, d + row[j]);
                 }
-                dp[mask * n + i] = best;
+                dp[mask * k + i] = best;
             }
         }
 
