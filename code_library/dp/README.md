@@ -82,7 +82,7 @@
 
 - [AtCoder DP F - LCS](https://atcoder.jp/contests/dp/tasks/dp_f) [✅](../../practice/dp/atcoder_dp_f.cpp "Accepted solution")
 - [CSES 3403 - Longest Common Subsequence](https://cses.fi/problemset/task/3403) [✅](../../practice/dp/cses_3403.cpp "Accepted solution")
-- [UVa 531 - Compromise](https://onlinejudge.org/external/5/531.pdf)
+- [UVa 531 - Compromise](https://onlinejudge.org/external/5/531.pdf) [✅](../../practice/dp/uva_531.cpp "Accepted solution")
 - [UVa 10066 - The Twin Towers](https://onlinejudge.org/external/100/10066.pdf) [✅](../../practice/dp/uva_10066.cpp "Accepted solution")
 - [UVa 10100 - Longest Match](https://onlinejudge.org/external/101/10100.pdf) [✅](../../practice/dp/uva_10100.cpp "Accepted solution")
 - [UVa 10405 - Longest Common Subsequence](https://onlinejudge.org/external/104/10405.pdf) [✅](../../practice/dp/uva_10405.cpp "Accepted solution")
