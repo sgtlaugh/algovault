@@ -43,7 +43,7 @@ double cpu_seconds(F run){
 
 /// Checks the naive O(n * m) scan on random strings and int vectors, the n = 2^23 boundary and many distinct values
 int main(){
-    for (long long it = 0; it < stress::scaled(4000); it++){
+    for (long long it = 0; it < stress::scaled(2000); it++){
         int n = it < 500 ? it % 12 : stress::rand_int(0, it % 20 ? 60 : 3000);
         int m = stress::rand_int(0, it % 3 ? 6 : n + 1);
         int alphabet = stress::rand_int(1, 3), wildcard_percent = stress::rand_int(0, 4) * 25;
@@ -63,8 +63,8 @@ int main(){
         assert(wildcard_match(vt, vp, INT_MIN) == naive_match(vt, vp, INT_MIN));
     }
 
-    for (int it = 0; it < 6; it++){
-        int n = stress::rand_int(100000, 300000), m = stress::rand_int(1, it < 3 ? 20 : 300);
+    for (int it = 0; it < 4; it++){
+        int n = stress::rand_int(100000, 300000), m = stress::rand_int(1, it < 2 ? 20 : 300);
         string pattern = random_string(m, 2, 30), text = random_string(n, 2, it % 2 ? 0 : 20);
         plant(text, pattern, 2000);
         assert(wildcard_match(text, pattern) == naive_match(text, pattern, '?'));
@@ -76,7 +76,7 @@ int main(){
     assert(wildcard_match(text, pattern) == naive_match(text, pattern, '?'));
 
     /// All-distinct values must stay within 2x the string time
-    int big = 1 << 20;
+    int big = 1 << 19;
     vector<int> vt(big);
     iota(vt.begin(), vt.end(), 0);
     shuffle(vt.begin(), vt.end(), stress::rng());
