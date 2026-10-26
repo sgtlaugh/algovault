@@ -81,7 +81,7 @@
 #### [Floor Sum](floor_sum.cpp)
 
 - [Kattis itsamodmodmodmodworld - It's a Mod, Mod, Mod, Mod World](https://open.kattis.com/problems/itsamodmodmodmodworld) [✅](../../practice/number_theory/kattis_itsamodmodmodmodworld.cpp "Accepted solution")
-- [POJ 3530 - A Modular Arithmetic Challenge](http://poj.org/problem?id=3530)
+- [POJ 3530 - A Modular Arithmetic Challenge](http://poj.org/problem?id=3530) [✅](../../practice/number_theory/poj_3530.cpp "Accepted solution")
 
 #### [Integer Root](integer_root.cpp)
 
