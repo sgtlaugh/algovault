@@ -20,7 +20,7 @@
 - [Codeforces Gym 102354I - From Modular to Rational](https://codeforces.com/gym/102354/problem/I)
 - [Codeforces Gym 104656C2 - New Elements, Part 2 C2](https://codeforces.com/gym/104656/problem/C2) [✅](../../practice/number_theory/codeforces_gym_104656c2.cpp "Accepted solution")
 - [HackerRank euler064 - Project Euler #64: Odd period square roots](https://www.hackerrank.com/contests/projecteuler/challenges/euler064/problem)
-- [HDU 6624 - fraction](http://acm.hdu.edu.cn/showproblem.php?pid=6624)
+- [HDU 6624 - fraction](http://acm.hdu.edu.cn/showproblem.php?pid=6624) [✅](../../practice/number_theory/hdu_6624.cpp "Accepted solution")
 - [UVa 834 - Continued Fractions](https://onlinejudge.org/external/8/834.pdf) [✅](../../practice/number_theory/uva_834.cpp "Accepted solution")
 
 #### [Digits of Factorial](digits_of_factorial.cpp)
