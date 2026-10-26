@@ -11,7 +11,7 @@ argument-hint: "<problem URL or statement> [<topic>/<template file>] [--commit]"
 
 # /verdict - an accepted practice solution in the user's style
 
-Read the practice bullets of `CONTRIBUTING.md` (`## Adding a template`) and all of `STYLE.md` next to this file on every run. Scratch files go in `/tmp/verdict/`. Never look up the user's old solutions: solve the problem fresh.
+Read `## Practice problems` in `CONTRIBUTING.md` and all of `STYLE.md` next to this file on every run. Scratch files go in `/tmp/verdict/`. Never look up the user's old solutions: solve the problem fresh.
 
 ## Steps
 

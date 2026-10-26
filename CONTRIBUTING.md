@@ -2,16 +2,32 @@
 
 Bug reports, fixes and new templates are welcome as issues or pull requests.
 
-## Adding a template
-
 The `/crucible` skill in `.claude/skills/crucible/` walks through all of this, for a new template or a refactor of an existing one.
+
+## Templates
 
 - One standalone C++17 file under `code_library/<topic>/` that compiles on its own with GCC
 - A header and a usage example in `main()` as described in [Documentation](#documentation), with edge cases in the stress test
+- An entry in its README index section, alphabetically, variants nested under their base
+- Python templates go in `code_library/python/`, tests in `stress_tests/python/` via `stress.py`
+- Recursion must fit an 8 MB stack, which CI enforces as most judges do
+- A template that needs another one carries a verbatim copy between `/// BEGIN COPY <name> from <file>` and
+  `/// END COPY <name>`, matching `/// BEGIN SHARED <name>` ... `/// END SHARED <name>` in the original, which CI checks
+
+## Stress tests
+
 - A brute-force stress test at the same path under `stress_tests/`, against an independent reference
 - The test includes `../common.h` and the library with `#define main library_main`
 - Randomness through `stress::rand_int`, loops sized by `stress::scaled`, a few seconds by default
-- An entry in its README index section, alphabetically, variants nested under their base
+- A file CI truly cannot stress test goes in `STRESS_SKIP` in `run_tests.sh`, with the reason
+
+## Judge tests
+
+- A judge test under `judge_tests/<topic>/<problem>.cpp` when a Library Checker or Aizu problem fits, starting with
+  `// competitive-verifier: PROBLEM <url>` and `// competitive-verifier: TLE <the problem's time limit>`, plus a ✔ on the index entry
+
+## Practice problems
+
 - Verified practice problems in `code_library/<topic>/README.md`, as `[<Judge> <code> - <title>](<url>)` in natural order,
   each on a live judge or with official data and a judge, like the Code Jam archive
 - A problem goes under the template at the core of its solution, not under setup steps like compression or sorting
@@ -23,10 +39,6 @@ The `/crucible` skill in `.claude/skills/crucible/` walks through all of this, f
   `/verdict` skill lists
 - A problem solved on several templates gets one file per template, `<judge>_<code>_<template>.cpp`, each linked from its section
 - `<judge>` and `<code>` are the practice entry's in lowercase with underscores for spaces, `codeforces_25d.cpp`, `codeforces_gym_100570d.cpp`
-- Python templates go in `code_library/python/`, tests in `stress_tests/python/` via `stress.py`
-- A file CI truly cannot stress test goes in `STRESS_SKIP` in `run_tests.sh`, with the reason
-- A judge test under `judge_tests/<topic>/<problem>.cpp` when a Library Checker or Aizu problem fits, starting with
-  `// competitive-verifier: PROBLEM <url>` and `// competitive-verifier: TLE <the problem's time limit>`, plus a ✔ on the index entry
 
 ## API and code
 
@@ -51,8 +63,6 @@ The priorities, in order: correct, fast, easy to call, easy to read inside; a ru
 - Standard terms over clever ones: `__lg` over `31 - __builtin_clz`, a `while` loop over a comma chain in a `for` header
 - No abstraction for one use, and no language machinery (template template parameters, SFINAE traits, CRTP, macros) unless
   it turns a silent wrong answer into a compile error, with a comment saying so
-- A comment marks only an invariant or contract that a caller or editor could break unknowingly, like a field that must stay
-  false for zero; derivations and proofs go in the commit message, since the stress test keeps the code correct, not prose
 - Blank lines split a function body into its steps, like setup, the main loop and the answer
 - A trick for speed stays only with a measured reason in a comment
 - A struct reads top down: types and constants, every field, constructors, the API in header order, then helpers in the
@@ -151,15 +161,22 @@ int main(){
 
 - Comments explain why, never what: a comment whose deletion loses nothing the code already shows is deleted, and one naming
   what a variable holds becomes a better name
+- A comment marks only an invariant or contract that a caller or editor could break unknowingly, like a field that must stay
+  false for zero; derivations and proofs go in the commit message, since the stress test keeps the code correct, not prose
 - A comment is one line of at most 120 characters at the code it explains, never two `///` lines in a row, with no
   debugging history, measurements, failing inputs or judge anecdotes: those go in the commit message
 - These rules cover tests too: a test comment names the case it covers and why that case matters, the bug it would catch
 - A header note states the condition instead of hedging: `beyond double precision`, not `may get either answer`
 - `){` and `struct X{` open a body, `) {}` is empty, `for (` takes a space, `vector<int>` does not
 - A struct when there is state, a namespace only for stateless helpers like `fft`
-- Recursion must fit an 8 MB stack, which CI enforces as most judges do
-- A template that needs another one carries a verbatim copy between `/// BEGIN COPY <name> from <file>` and
-  `/// END COPY <name>`, matching `/// BEGIN SHARED <name>` ... `/// END SHARED <name>` in the original, which CI checks
+
+## Complexity notation
+
+- Inline code: `O(n log n)`, `O(n^(2/3))`, `O(m sqrt(n))`
+- A space for products, not `*`: `O(n m)`, and a quantity with no short name gets a letter defined beside it, `O(n C) for capacity C`
+- `^` for powers, `sqrt(x)` for roots
+- Lowercase `n`, `m` for input sizes, naming any other variable
+- In the README index, only where it helps choose a template
 
 ## Checks
 
@@ -179,14 +196,6 @@ bash .github/scripts/judge_tests.sh         # every judge test, or name files; n
 - `STRESS_SEED` and `STRESS_SCALE` to reproduce a stress failure, every stress test prints its seed when it starts
 
 Judge tests compile with `-O2` and run on the judge's own data; new judge test files must be `git add`ed first.
-
-## Complexity notation
-
-- Inline code: `O(n log n)`, `O(n^(2/3))`, `O(m sqrt(n))`
-- A space for products, not `*`: `O(n m)`, and a quantity with no short name gets a letter defined beside it, `O(n C) for capacity C`
-- `^` for powers, `sqrt(x)` for roots
-- Lowercase `n`, `m` for input sizes, naming any other variable
-- In the README index, only where it helps choose a template
 
 ## The Zen Of Contributing
 Inspired from [The Zen Of Python](https://www.python.org/dev/peps/pep-0020/#id2)
