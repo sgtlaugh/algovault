@@ -106,7 +106,7 @@
 #### [Longest Increasing Subsequence](lis.cpp)
 
 - [Codeforces 76F - Tourist](https://codeforces.com/problemset/problem/76/F) [✅](../../practice/dp/codeforces_76f.cpp "Accepted solution")
-- [Codeforces acmsguru 521 - "North-East"](https://codeforces.com/problemsets/acmsguru/problem/99999/521)
+- [Codeforces acmsguru 521 - "North-East"](https://codeforces.com/problemsets/acmsguru/problem/99999/521) [✅](../../practice/dp/codeforces_acmsguru_521.cpp "Accepted solution")
 - [Codeforces Gym 102951C - LCS on Permutations](https://codeforces.com/gym/102951/problem/C)
 - [CSES 1145 - Increasing Subsequence](https://cses.fi/problemset/task/1145) [✅](../../practice/dp/cses_1145.cpp "Accepted solution")
 - [CSES 3404 - Permutation Subsequence](https://cses.fi/problemset/task/3404) [✅](../../practice/dp/cses_3404.cpp "Accepted solution")
