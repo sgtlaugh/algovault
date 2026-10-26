@@ -109,7 +109,7 @@
 - [SPOJ GCDEX - GCD Extreme](https://www.spoj.com/problems/GCDEX/) [✅](../../practice/number_theory/spoj_gcdex.cpp "Accepted solution")
 - [SPOJ HS08PAUL - A conjecture of Paul Erdős](https://www.spoj.com/problems/HS08PAUL/)
 - [SPOJ LCMSUM - LCM Sum](https://www.spoj.com/problems/LCMSUM/) [✅](../../practice/number_theory/spoj_lcmsum.cpp "Accepted solution")
-- [SPOJ NAJPWG - Playing with GCD](https://www.spoj.com/problems/NAJPWG/)
+- [SPOJ NAJPWG - Playing with GCD](https://www.spoj.com/problems/NAJPWG/) [✅](../../practice/number_theory/spoj_najpwg.cpp "Accepted solution")
 - [SPOJ NFACTOR - N-Factorful](https://www.spoj.com/problems/NFACTOR/)
 - [SPOJ NGIRL - Namit In Trouble](https://www.spoj.com/problems/NGIRL/)
 - [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/)
