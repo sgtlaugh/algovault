@@ -188,7 +188,8 @@ check_judge_marks(){  # a template carries a README ✔ exactly when a judge tes
     done < <(git ls-files 'judge_tests/*.cpp')
 
     while IFS= read -r lib; do
-        line="$(grep -F "($lib)" README.md | head -1)"
+        # Index entries only: prose, like the How To Use example, may link a template too
+        line="$(grep -F "($lib)" README.md | grep -E '^ *- \[' | head -1)"
         target="$(grep -oP '\[✔\]\(\K[^)]+' <<< "$line")"
         if contains "$lib" "${tested[@]}"; then
             [[ -n "$target" && -f "$target" ]] || bad+=("$lib")
