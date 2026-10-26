@@ -46,6 +46,12 @@
 - [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf) [✅](../../practice/misc/uva_11643_knight_distance.cpp "Accepted solution")
 - [UVa 11852 - Knight's Trip](https://onlinejudge.org/external/118/11852.pdf) [✅](../../practice/misc/uva_11852.cpp "Accepted solution")
 
+#### [Local Minimization (Nelder-Mead)](local_minimization.cpp)
+
+- [POJ 2069 - Super Star](http://poj.org/problem?id=2069)
+- [SPOJ NBLINDESC - Not So Blind Escape](https://www.spoj.com/problems/NBLINDESC/)
+- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf)
+
 #### [N Queens](n_queen.cpp)
 
 - [UVa 11195 - Another n-Queen Problem](https://onlinejudge.org/external/111/11195.pdf)
