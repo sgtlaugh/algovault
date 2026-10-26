@@ -30,6 +30,7 @@ int main(){
         long long a = 0, b = 1 % m;
         for (long long n = 0; n <= 20000; n++){
             assert(fibonacci(n, m) == a);
+            assert((fibonacci_pair(n, m) == make_pair(a, b)));
             tie(a, b) = make_pair(b, (long long)(((__int128)a + b) % m));
         }
     }

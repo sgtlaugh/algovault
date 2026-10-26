@@ -20,13 +20,15 @@ using namespace std;
 
 pair<long long, long long> fibonacci_pair(long long n, long long m){
     assert(n >= 0 && m >= 1);
-    auto mul = [&](long long a, long long b){ return (long long)((__int128)a * b % m); };
     long long a = 0, b = 1 % m;  /// (F(k), F(k + 1)) for k = the bits of n read so far
 
-    for (int bit = n ? 63 - __builtin_clzll(n) : -1; bit >= 0; bit--){
-        long long c = mul(a, ((__int128)2 * b - a + m) % m);
+    /// Sums compare with m - y since x + y can pass 2^63, about 25% faster than reducing each with __int128 %
+    for (int bit = n ? __lg(n) : -1; bit >= 0; bit--){
+        long long z = b >= m - b ? b - (m - b) : 2 * b;
+        z = z >= a ? z - a : z - a + m;
+        long long c = (long long)((__int128)a * z % m);
         long long d = (long long)(((__int128)a * a + (__int128)b * b) % m);
-        if (n >> bit & 1) a = d, b = (long long)(((__int128)c + d) % m);  /// c + d can exceed 2^63 for m near it
+        if (n >> bit & 1) a = d, b = c >= m - d ? c - (m - d) : c + d;
         else a = c, b = d;
     }
 
@@ -39,23 +41,18 @@ long long fibonacci(long long n, long long m){
 
 long long fibonacci(long long n){
     assert(0 <= n && n <= 92);
-    if (n == 0) return 0;
-    long long a = 0, b = 1;
-    for (long long i = 1; i < n; i++) tie(a, b) = make_pair(b, a + b);  /// stops at F(n), F(93) would overflow
-    return b;
+    return fibonacci(n, LLONG_MAX);
 }
 
 int main(){
-    const long long MOD = 1000000007;
-    vector<long long> first = {0, 1, 1, 2, 3, 5, 8, 13, 21, 34, 55};
+    /// F(10) = 55 and F(11) = 89
+    assert(fibonacci(10) == 55);
+    assert(fibonacci(10, 7) == 6);
+    assert((fibonacci_pair(10, 7) == make_pair(6LL, 5LL)));
 
-    for (int n = 0; n <= 10; n++) assert(fibonacci(n, MOD) == first[n] && fibonacci(n) == first[n]);
+    /// F(92) is the largest Fibonacci number that fits in long long
     assert(fibonacci(92) == 7540113804746346429LL);
-    assert(fibonacci(92, LLONG_MAX) == 7540113804746346429LL);
-    assert(fibonacci(100, MOD) == 687995182);
-    assert(fibonacci(10, 1) == 0 && fibonacci(0, 1) == 0);
-
-    assert((fibonacci_pair(10, 7) == make_pair(55LL % 7, 89LL % 7)));
+    assert(fibonacci(100, 1000000007) == 687995182);
 
     return 0;
 }

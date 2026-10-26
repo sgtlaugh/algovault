@@ -11,8 +11,6 @@ int main(){
     long long n;
     if (scanf("%lld", &n) != 1) return 0;
 
-    long long res = fibonacci(n + 1);
-    assert(fibonacci(n + 1, LLONG_MAX) == res);
-    printf("%lld\n", res);
+    printf("%lld\n", fibonacci(n + 1));
     return 0;
 }
