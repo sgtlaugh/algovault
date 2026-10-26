@@ -44,7 +44,7 @@ void check(const SegmentedSieve& sieve, long long L, long long R){
     for (long long x = L; x <= R; x++) assert(res[x - L] == reference_prime(x));
 }
 
-/// Windows wider than block_size against an unblocked sieve, too wide for Miller-Rabin on every number
+/// Wide windows against a byte-per-number sieve, too wide for Miller-Rabin on every number
 void check_wide(const SegmentedSieve& sieve, const vector<long long>& base, long long L, long long R){
     vector<char> expected(R - L + 1, 1);
     for (long long p : base){
@@ -62,7 +62,6 @@ void check_wide(const SegmentedSieve& sieve, const vector<long long>& base, long
 
 int main(){
     const long long MAXR = 100000000000000LL;
-    const long long block = SegmentedSieve::block_size;
     SegmentedSieve big(MAXR), near(1003000);
 
     vector<long long> base;
@@ -73,10 +72,18 @@ int main(){
         for (long long j = p * p; j <= 10000000; j += p) composite[j] = 1;
     }
 
-    for (long long L = 0; L <= 60; L++){
-        for (long long R = L; R <= 60; R++){
+    for (long long L = 0; L <= 100; L++){
+        for (long long R = L; R <= 100; R++){
             check(big, L, R);
             check(near, L, R);
+        }
+    }
+
+    /// Sieves of max_r <= 100 have no base prime past 7, catching the wheel loop reading past the end of primes
+    for (long long max_r : {0, 1, 2, 3, 5, 7, 24, 48, 49, 100}){
+        SegmentedSieve small(max_r);
+        for (long long L = 0; L <= max_r; L++){
+            for (long long R = L; R <= max_r; R++) check(small, L, R);
         }
     }
 
@@ -99,17 +106,23 @@ int main(){
         check(SegmentedSieve(p * p), p * p - 1000, p * p);
     }
 
-    /// R - L within 2 of a multiple of block_size catches a last number left to the wrong block
-    for (long long k = 1; k <= 3; k++){
-        for (long long d = -2; d <= 2; d++){
-            long long L = stress::rand_int(0, MAXR - 200000);
-            check_wide(big, base, L, L + k * block + d);
-            check_wide(near, base, L % 500000, L % 500000 + k * block + d);
+    /// L and R within 2 of a multiple of 30 catch a number dropped from the first or last wheel byte
+    for (long long it = 0; it < stress::scaled(100); it++){
+        long long a = stress::rand_int(1, it % 2 ? 30000 : MAXR / 30 - 200), b = a + stress::rand_int(1, 20);
+        check(big, 30 * a + stress::rand_int(-2, 2), 30 * b + stress::rand_int(-2, 2));
+    }
+
+    /// Widths near 30 p move p between the wheel and direct crossing, and between partial and full wheel turns
+    for (long long p : {7, 11, 13, 31, 97}){
+        for (long long d = -31; d <= 31; d++){
+            long long L = stress::rand_int(0, 500000);
+            check_wide(near, base, L, L + 30 * p + d);
+            if (d % 10 == 0) check_wide(big, base, MAXR - L - 10000, MAXR - L - 10000 + 30 * p + d);
         }
     }
 
     for (long long it = 0; it < stress::scaled(20); it++){
-        long long len = stress::rand_int(block, 300000);
+        long long len = stress::rand_int(1000, 300000);
         const SegmentedSieve& sieve = it % 4 == 0 ? near : big;
         long long L = it % 3 == 0 ? stress::rand_int(0, 100000) : stress::rand_int(0, sieve.max_r - len);
         check_wide(sieve, base, L, L + len);

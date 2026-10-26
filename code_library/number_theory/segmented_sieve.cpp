@@ -11,7 +11,7 @@
  * sieve.window(L, R): res[i] = 1 if L + i is prime, for 0 <= L <= R <= max_r and R - L <= 1e7
  *
  * Notes:
- *   - Build once for many windows: at max_r = 1e14 the build takes about 70 ms, as long as one 1e7 wide window
+ *   - Build once for many windows: at max_r = 1e14 the build takes about 60 ms, as long as two 1e7 wide windows
  *
 ***/
 
@@ -20,7 +20,7 @@
 using namespace std;
 
 struct SegmentedSieve{
-    static constexpr int block_size = 32768;
+    static constexpr int wheel[8] = {1, 7, 11, 13, 17, 19, 23, 29};
 
     long long max_r;
     vector<int> primes;
@@ -38,32 +38,58 @@ struct SegmentedSieve{
         }
     }
 
-    /// Primes up to block_size sieve one L1-sized block at a time, 1.6x faster on 1e7 wide windows to 5e8, 1.5x at 1e14
+    /// One bit per number coprime to 30, 1.7x faster than a blocked byte sieve on 1e7 wide windows to 5e8, 1.4x at 1e14
     vector<char> window(long long L, long long R) const{
         assert(0 <= L && L <= R && R <= max_r && R - L <= 10000000);
-        vector<char> res(R - L + 1, 1);
-        vector<long long> next_multiple;
-        long long first_hi = min(R, L + block_size - 1);
+        long long first = L / 30, n = R / 30 - first + 1;
+        /// Bit k of wheel_bits[y] is 30 (first + y) + wheel[k]; the 8 zero bytes past n let the scan read 64 bits
+        vector<unsigned char> wheel_bits(n + 8, 0xff);
+        fill(wheel_bits.end() - 8, wheel_bits.end(), 0);
+        if (first == 0) wheel_bits[0] &= ~1;
 
-        for (long long p : primes){
-            if (p * p > R) break;
-            long long j = max(p * p, (L + p - 1) / p * p);
-            long long stop = p <= block_size ? first_hi : R;
-            for (; j <= stop; j += p) res[j - L] = 0;
-            /// Skipped for a one-block window, whose pushes measured 12% slower on 3000 wide windows below 1e9
-            if (p <= block_size && first_hi < R) next_multiple.push_back(j);
+        for (size_t i = 3; i < primes.size() && primes[i] <= n && (long long)primes[i] * primes[i] <= R; i++){
+            long long p = primes[i], m = max(p, (L + p - 1) / p), b = p * (m / 30) - first;
+            int w = lower_bound(wheel, wheel + 8, m % 30) - wheel;
+            long long off[8];
+            unsigned char mask[8];
+            for (int k = 0; k < 8; k++){
+                off[k] = p * wheel[k] / 30;
+                mask[k] = ~(1 << (lower_bound(wheel, wheel + 8, p * wheel[k] % 30) - wheel));
+            }
+
+            /// Multiple p (30 q + wheel[k]) sits in byte b + off[k] for b = p q - first
+            for (; w != 0 && b + off[w] < n; w = (w + 1) & 7){
+                wheel_bits[b + off[w]] &= mask[w];
+                if (w == 7) b += p;
+            }
+            for (; b + p <= n; b += p){
+                for (int k = 0; k < 8; k++) wheel_bits[b + off[k]] &= mask[k];
+            }
+            for (; w < 8 && b + off[w] < n; w++) wheel_bits[b + off[w]] &= mask[w];
         }
 
-        for (long long lo = L + block_size; lo <= R; lo += block_size){
-            long long hi = min(R, lo + block_size - 1);
-            for (size_t i = 0; i < next_multiple.size(); i++){
-                long long j = next_multiple[i];
-                for (; j <= hi; j += primes[i]) res[j - L] = 0;
-                next_multiple[i] = j;
+        vector<char> res(R - L + 1, 0);
+        for (long long p : {2, 3, 5}){
+            if (L <= p && p <= R) res[p - L] = 1;
+        }
+        /// 8 bytes per step, 1.2x faster than a byte at a time on 1e7 wide windows to 5e8
+        for (long long y = 0; y < n; y += 8){
+            unsigned long long bits;
+            memcpy(&bits, wheel_bits.data() + y, 8);
+            for (; bits; bits &= bits - 1){
+                int z = __builtin_ctzll(bits);
+                long long x = 30 * (first + y + z / 8) + wheel[z % 8];
+                if (L <= x && x <= R) res[x - L] = 1;
             }
         }
 
-        for (long long x = L; x <= min(R, 1LL); x++) res[x - L] = 0;
+        /// Primes above n skip the wheel's setup and cross res directly, 1.3x faster on 3000 wide windows below 1e9
+        for (long long p : primes){
+            if (p * p > R) break;
+            if (p <= n) continue;
+            for (long long j = max(p * p, (L + p - 1) / p * p); j <= R; j += p) res[j - L] = 0;
+        }
+
         return res;
     }
 };
