@@ -48,7 +48,7 @@
 - [AtCoder ARC067 D - Yakiniku Restaurants](https://atcoder.jp/contests/arc067/tasks/arc067_d) [✅](../../practice/dp/atcoder_arc067_d.cpp "Accepted solution")
 - [CodeChef CHEFAOR - Chef and Bitwise OR Operation](https://www.codechef.com/problems/CHEFAOR) [✅](../../practice/dp/codechef_chefaor.cpp "Accepted solution")
 - [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B) [✅](../../practice/dp/codeforces_311b_divide_conquer_dp.cpp "Accepted solution")
-- [Codeforces 321E - Ciel and Gondolas](https://codeforces.com/problemset/problem/321/E)
+- [Codeforces 321E - Ciel and Gondolas](https://codeforces.com/problemset/problem/321/E) [✅](../../practice/dp/codeforces_321e.cpp "Accepted solution")
 - [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C)
 - [Codeforces 834D - The Bakery](https://codeforces.com/problemset/problem/834/D)
 - [Codeforces 868F - Yet Another Minimization Problem](https://codeforces.com/problemset/problem/868/F)
