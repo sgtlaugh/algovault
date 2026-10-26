@@ -28,50 +28,76 @@ __int128 lucy(long long n){
     return hi[1];
 }
 
+/// root(n, k) at squares and cubes and their neighbours, where a double root is one off above 1.5e15
+void check_roots(){
+    vector<long long> square_bases = {1, 2, 67108864, 67108865, 2000000000};
+    vector<long long> cube_bases = {1, 2, 114501, 114502, 114757, 1500000};
+    for (long long it = 0; it < stress::scaled(100000); it++){
+        square_bases.push_back(stress::rand_int(1, 2000000000));
+        cube_bases.push_back(stress::rand_int(1, 1500000));
+    }
+
+    vector<long long> ns;
+    for (long long d = -1; d <= 1; d++){
+        for (long long b : square_bases) ns.push_back(b * b + d);
+        for (long long b : cube_bases) ns.push_back(b * b * b + d);
+    }
+    for (long long n : ns){
+        __int128 s = PrimeSum::root(n, 2), c = PrimeSum::root(n, 3);
+        assert(s * s <= n && n < (s + 1) * (s + 1));
+        assert(c * c * c <= n && n < (c + 1) * (c + 1) * (c + 1));
+    }
+}
+
 /// Tables far smaller than the queries, up to the maxv^2 - 1 limit
 void check_small_tables(int maxv, int maxn, int maxm){
     PrimeSum ps(maxv, maxn, maxm);
     long long top = (long long)maxv * maxv - 1;
-    assert(ps.prime_sum(0) == 0);
-    for (long long n : {1LL, 2LL, (long long)maxv - 1, (long long)maxv, top - 1, top}) assert(ps.prime_sum(n) == lucy(n));
+    assert(ps.sum(0) == 0);
+    for (long long n : {1LL, 2LL, (long long)maxv - 1, (long long)maxv, top - 1, top}) assert(ps.sum(n) == lucy(n));
     for (long long it = 0; it < stress::scaled(30); it++){
         long long n = stress::rand_int(1, top);
-        assert(ps.prime_sum(n) == lucy(n));
+        assert(ps.sum(n) == lucy(n));
     }
 }
 
 int main(){
+    check_roots();
+
     check_small_tables(100, 1, 1);
     check_small_tables(1000, 5, 100);
     check_small_tables(5000, 20, 2000);
 
     {
         PrimeSum ps(20000010, 50, 2000010);   /// the 1 GB preset from the header
-        for (long long n : {20000009LL, 20000010LL, (long long)UINT_MAX, UINT_MAX + 1LL}) assert(ps.prime_sum(n) == lucy(n));
+        for (long long n : {20000009LL, 20000010LL, (long long)UINT_MAX, UINT_MAX + 1LL}) assert(ps.sum(n) == lucy(n));
         for (long long it = 0; it < stress::scaled(3); it++){
             long long n = stress::rand_int(1, 2000000000LL);
-            assert(ps.prime_sum(n) == lucy(n));
+            assert(ps.sum(n) == lucy(n));
         }
     }
 
     PrimeSum ps;
     const long long maxv = ps.maxv;
 
-    /// The table boundary, both sides of the uint64 / __int128 switch, and prime squares where phi changes branch
-    vector<long long> edges = {maxv - 1, maxv, maxv + 1, UINT_MAX - 1LL, UINT_MAX, UINT_MAX + 1LL, 1LL << 33};
+    /// The table boundary, both sides of the uint64 / __int128 switch, prime squares and cubes where phi changes branch
+    vector<long long> edges = {maxv - 1, maxv, maxv + 1, UINT_MAX - 1LL, UINT_MAX, UINT_MAX + 1LL, 5000000000LL, 1LL << 33};
     for (long long p : {1409LL, 4481LL, 46337LL, 65521LL}){
         for (long long d = -1; d <= 1; d++) edges.push_back(p * p + d);
     }
-    for (long long n : edges) assert(ps.prime_sum(n) == lucy(n));
+    for (long long p : {409LL, 1291LL}){
+        for (long long d = -1; d <= 1; d++) edges.push_back(p * p * p + d);
+    }
+    for (long long n : edges) assert(ps.sum(n) == lucy(n));
 
     for (long long it = 0; it < stress::scaled(10); it++){
         long long n = stress::rand_int(it % 3 ? maxv : 1, it % 3 ? 2000000000LL : maxv);
-        assert(ps.prime_sum(n) == lucy(n));
+        assert(ps.sum(n) == lucy(n));
     }
 
     for (long long it = 0; it < stress::scaled(1); it++){
         long long n = stress::rand_int(10000000000LL, 30000000000LL);  /// the __int128 instantiation
-        assert(ps.prime_sum(n) == lucy(n));
+        assert(ps.sum(n) == lucy(n));
     }
 
     return 0;
