@@ -2,7 +2,7 @@
 
 #### [Aliens Trick (WQS)](aliens_trick.cpp)
 
-- [Codeforces 802M3 - April Fools' Problem (hard)](https://codeforces.com/problemset/problem/802/M3)
+- [Codeforces 802O - April Fools' Problem (hard)](https://codeforces.com/problemset/problem/802/O)
 - [Codeforces 1279F - New Year and Handle Change](https://codeforces.com/problemset/problem/1279/F)
 - [Codeforces 1661F - Teleporters](https://codeforces.com/problemset/problem/1661/F)
 - [Kattis blazingnewtrails - Blazing New Trails](https://open.kattis.com/problems/blazingnewtrails) [✅](../../practice/dp/kattis_blazingnewtrails.cpp "Accepted solution")
@@ -50,7 +50,6 @@
 - [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B)
 - [Codeforces 321E - Ciel and Gondolas](https://codeforces.com/problemset/problem/321/E)
 - [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C)
-- [Codeforces 673E - Levels and Regions](https://codeforces.com/problemset/problem/673/E)
 - [Codeforces 834D - The Bakery](https://codeforces.com/problemset/problem/834/D)
 - [Codeforces 868F - Yet Another Minimization Problem](https://codeforces.com/problemset/problem/868/F)
 - [Codeforces 1527E - Partition Game](https://codeforces.com/problemset/problem/1527/E)
