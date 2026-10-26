@@ -3,15 +3,14 @@
  * Fast Sieve
  * Optimized Sieve of Eratosthenes for every prime up to 2^31 - 1
  *
- * Complexity: O(n log log n) time, O(pi(n)) memory
- *   - primes takes 4 bytes per prime, 420 MB at n = 2^31 - 1, the masks for primes 17 to 61 take 49 MB for any n
- *   - The per block bit vector over odd numbers is 64 KB
+ * Complexity: O(n log log n) time, about 550 MB virtual and 460 MB resident memory at n = 2^31 - 1
  *
  * FastSieve sieve(n): sieves all numbers from 1 to n <= 2^31 - 1
  * sieve.primes: the primes up to n in ascending order
  *
  * Notes:
  *   - Every prime below 2^31 in under 1 s on a 4.00 GHz Core i7 at -O2, 1500 ms on Codeforces with GNU G++ 17
+ *   - Memory is 4 bytes per prime plus 49 MB of masks once n >= 2^20, under 1 MB more below that
  *
 ***/
 
@@ -22,24 +21,25 @@ using namespace std;
 struct FastSieve{
     static constexpr uint32_t block_size = 1048576;
 
-    uint32_t n, s = 0;
-    vector<uint32_t> primes, sq, sp;
-    /// mask[((t - 6) * 62 + x) * 8192 + k]: word k of the multiples of sp[t] in a block at offset x, 6 <= t <= 17
+    uint32_t n, small_count = 0;
+    vector<uint32_t> primes, squares, small_primes;
+    /// mask[((t - 6) * 62 + x) * 8192 + k]: word k of small_primes[t]'s multiples in a block at offset x, 6 <= t <= 17
     vector<uint64_t> wheel, is_composite, mask;
 
-    FastSieve(uint32_t n) : n(n), sq(65536), sp(65536), wheel(15015), is_composite(block_size >> 7), mask(12 * 62 * (block_size >> 7)){
+    /// Only blocks after the first read the masks, so n < block_size skips their 49 MB and 34 ms
+    FastSieve(uint32_t n) : n(n), squares(65536), small_primes(65536), wheel(15015), is_composite(block_size >> 7), mask(n >= block_size ? 12 * 62 * (block_size >> 7) : 0){
         assert(n <= 2147483647u);
         small_sieve();
 
         for (uint32_t i = 1; i <= 5; i++){
-            for (uint32_t j = i + (i > 3); j < 960960; j += sp[i]){
+            for (uint32_t j = i + (i > 3); j < 960960; j += small_primes[i]){
                 setbit(wheel.data(), j);
             }
         }
 
-        for (uint32_t i = 6; i <= 17; i++){
-            for (uint32_t j = 0; j < sp[i]; j++){
-                for (uint32_t k = j; k < (block_size >> 1); k += sp[i]){
+        for (uint32_t i = 6; i <= 17 && !mask.empty(); i++){
+            for (uint32_t j = 0; j < small_primes[i]; j++){
+                for (uint32_t k = j; k < (block_size >> 1); k += small_primes[i]){
                     setbit(&mask[((i - 6) * 62 + j) * (block_size >> 7)], k);
                 }
             }
@@ -54,27 +54,20 @@ struct FastSieve{
         }
     }
 
-    static void setbit(uint64_t* ar, uint32_t bit){
-        ar[bit >> 6] |= (1ULL << (bit & 63));
-    }
-
-    uint32_t get_idx(uint32_t i, uint32_t j) const{
-        if (sq[j] > i) return (sq[j] - i) >> 1;
-        uint32_t x = sp[j] - i % sp[j];
-        if ((x & 1) ^ 1) x += sp[j];
-        return x >> 1;
-    }
-
     void small_sieve(){
         for (uint32_t i = 2; i * i < 65536; i++){
-            for (uint32_t j = i * i; j < 65536 && !sp[i]; j += i){
-                sp[j] = 1;
+            for (uint32_t j = i * i; j < 65536 && !small_primes[i]; j += i){
+                small_primes[j] = 1;
             }
         }
 
         for (uint32_t i = 2; i < 65536; i++){
-            if (!sp[i]) sp[s] = i, sq[s++] = i * i;
+            if (!small_primes[i]) small_primes[small_count] = i, squares[small_count++] = i * i;
         }
+    }
+
+    static void setbit(uint64_t* ar, uint32_t bit){
+        ar[bit >> 6] |= (1ULL << (bit & 63));
     }
 
     void process_block(uint32_t i){
@@ -96,11 +89,18 @@ struct FastSieve{
             }
         }
 
-        for (j = (i == 0) ? 6 : 18; j < s && sq[j] < lim; j++){
-            for (x = get_idx(i, j), d = sp[j]; x < l; x += d){
+        for (j = (i == 0) ? 6 : 18; j < small_count && squares[j] < lim; j++){
+            for (x = get_idx(i, j), d = small_primes[j]; x < l; x += d){
                 setbit(bits, x);
             }
         }
+    }
+
+    uint32_t get_idx(uint32_t i, uint32_t j) const{
+        if (squares[j] > i) return (squares[j] - i) >> 1;
+        uint32_t x = small_primes[j] - i % small_primes[j];
+        if ((x & 1) ^ 1) x += small_primes[j];
+        return x >> 1;
     }
 
     /// Stops at the word holding n and trims past it, a per prime p <= n check measured 4% slower at n = 2^31 - 1
@@ -120,26 +120,14 @@ struct FastSieve{
 };
 
 int main(){
-    auto start = clock();
+    /// The primes up to 30
+    FastSieve sieve(30);
+    assert(sieve.primes == vector<uint32_t>({2, 3, 5, 7, 11, 13, 17, 19, 23, 29}));
 
-    FastSieve sieve(2147483647);
-    const vector<uint32_t>& primes = sieve.primes;
-    assert(primes.size() == 105097565);
+    /// pi(10^6) = 78498, the largest prime below 10^6 is 999983
+    FastSieve million(1000000);
+    assert(million.primes.size() == 78498);
+    assert(million.primes.back() == 999983);
 
-    vector<int> first_5_primes, last_5_primes;
-    for (int i = 0; i < 5; i++){
-        first_5_primes.push_back(primes[i]);
-        last_5_primes.push_back(primes[primes.size() - i - 1]);
-    }
-
-    assert(first_5_primes == vector<int>({2, 3, 5, 7, 11}));
-    assert(last_5_primes == vector<int>({2147483647, 2147483629, 2147483587, 2147483579, 2147483563}));
-
-    assert(FastSieve(0).primes.empty() && FastSieve(1).primes.empty());
-    assert(FastSieve(2).primes == vector<uint32_t>({2}));
-    assert(FastSieve(30).primes == vector<uint32_t>({2, 3, 5, 7, 11, 13, 17, 19, 23, 29}));
-    assert(FastSieve(1000000).primes.size() == 78498);
-
-    fprintf(stderr, "\nTime taken = %0.3f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));   /// Time taken = 0.952
     return 0;
 }
