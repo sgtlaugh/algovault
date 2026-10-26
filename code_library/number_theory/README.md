@@ -101,7 +101,7 @@
 - [LightOJ 1007 - Mathematically Hard](https://lightoj.com/problem/mathematically-hard)
 - [SPOJ BSPRIME - Binary Sequence of Prime Number](https://www.spoj.com/problems/BSPRIME/)
 - [SPOJ COMDIV - Number of common divisors](https://www.spoj.com/problems/COMDIV/) [✅](../../practice/number_theory/spoj_comdiv.cpp "Accepted solution")
-- [SPOJ DCEPC12G - G Force](https://www.spoj.com/problems/DCEPC12G/)
+- [SPOJ DCEPC12G - G Force](https://www.spoj.com/problems/DCEPC12G/) [✅](../../practice/number_theory/spoj_dcepc12g.cpp "Accepted solution")
 - [SPOJ DCEPC505 - Bazinga!](https://www.spoj.com/problems/DCEPC505/)
 - [SPOJ DCEPCA03 - Totient Extreme](https://www.spoj.com/problems/DCEPCA03/)
 - [SPOJ DIVSUM - Divisor Summation](https://www.spoj.com/problems/DIVSUM/)
