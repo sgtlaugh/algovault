@@ -16,6 +16,7 @@
  *     e.g. divisor count: f = [](long long p, int k, long long pk){ return k + 1; }
  *
  * Notes:
+ *   - n up to about 1e8 by memory, 1.3 GB; n = 2^31 - 1 overflows n + 1
  *   - multiplicative() returns a new table of 8 bytes per entry on every call
  *   - For mu alone, mobius_function.cpp needs 1 byte per entry and runs about 3x faster
  *
@@ -94,12 +95,6 @@ int main(){
     auto sigma = sieve.multiplicative([](long long p, int, long long pk){ return (pk * p - 1) / (p - 1); });
     assert(sigma[12] == 28);
     assert(sigma[28] == 56);
-
-    /// n = 1 has no primes, but phi[1] and mu[1] are set
-    LinearSieve tiny(1);
-    assert(tiny.primes.empty());
-    assert(tiny.phi[1] == 1);
-    assert(tiny.mu[1] == 1);
 
     return 0;
 }

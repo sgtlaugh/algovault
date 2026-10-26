@@ -79,9 +79,13 @@ int main(){
     for (long long it = 0; it < stress::scaled(3000); it++) check_value(b, db, sb, ib, stress::rand_int(1, big));
     for (int x : {big, big - 1, 9999991, 1 << 23, 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3}) check_value(b, db, sb, ib, x);
 
+    /// Tiny n, where a guard like n >= 2 would leave phi[1] and mu[1] at 0
     for (int n = 0; n <= 3; n++){
         LinearSieve t(n);
         assert((int)t.phi.size() == n + 1);
+        if (n == 0) continue;
+        assert(t.phi[1] == 1);
+        assert(t.mu[1] == 1);
     }
 
     return 0;
