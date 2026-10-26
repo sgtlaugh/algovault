@@ -111,7 +111,7 @@
 - [CSES 1145 - Increasing Subsequence](https://cses.fi/problemset/task/1145) [✅](../../practice/dp/cses_1145.cpp "Accepted solution")
 - [CSES 3404 - Permutation Subsequence](https://cses.fi/problemset/task/3404) [✅](../../practice/dp/cses_3404.cpp "Accepted solution")
 - [oj.uz CEOI18_glo - Global Warming](https://oj.uz/problem/view/CEOI18_glo) [✅](../../practice/dp/oj_uz_ceoi18_glo.cpp "Accepted solution")
-- [SPOJ CARDSHUF - Cards shuffing](https://www.spoj.com/problems/CARDSHUF/)
+- [SPOJ CARDSHUF - Cards shuffing](https://www.spoj.com/problems/CARDSHUF/) [✅](../../practice/dp/spoj_cardshuf.cpp "Accepted solution")
 - [SPOJ DOSA - Lalith Dosa](https://www.spoj.com/problems/DOSA/)
 - [SPOJ ONEXLIS - One X LIS](https://www.spoj.com/problems/ONEXLIS/)
 - [SPOJ SUPPER - Supernumbers in a permutation](https://www.spoj.com/problems/SUPPER/)
