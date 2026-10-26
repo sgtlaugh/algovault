@@ -55,19 +55,19 @@ sa.contains("nab");         // false
 - [NTT](code_library/algebra/ntt.cpp) - polynomial products, fastest modulo NTT primes [✔](judge_tests/algebra/convolution_mod.cpp)
 - [Polynomial](code_library/algebra/polynomial.cpp) - power series ops and multipoint evaluation [✔](judge_tests/algebra/division_of_polynomials.cpp)
 - [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - zeta and Mobius transforms, subset convolution [✔](judge_tests/algebra/bitwise_and_convolution.cpp)
-- [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - xor, or and and convolutions [✔](judge_tests/algebra/bitwise_and_convolution_fwht.cpp)
+- [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - `xor`, `or` and `and` convolutions [✔](judge_tests/algebra/bitwise_and_convolution_fwht.cpp)
 
 ### Combinatorics
 
 [Practice problems](code_library/combinatorics/README.md)
 
-- [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - Bernoulli numbers modulo a prime
+- [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - `B_0..B_n` modulo a prime
 - [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, prime or not [✔](judge_tests/combinatorics/binomial_coefficient.cpp)
 - [Combinatorics](code_library/combinatorics/combinatorics.cpp) - factorial tables, nCr and nPr modulo a prime [✔](judge_tests/combinatorics/binomial_coefficient_prime_mod.cpp)
 - [Eulerian Numbers](code_library/combinatorics/eulerian_numbers.cpp) - permutations with k ascents, modulo any m
-- [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of 1..n
+- [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of `1..n`
 - [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke
-- [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - survivor of the Josephus elimination [✔](judge_tests/combinatorics/aoj_0085.cpp)
+- [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - the m-th one out when every k-th person leaves [✔](judge_tests/combinatorics/aoj_0085.cpp)
 - [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - `p(0..n)` modulo any m [✔](judge_tests/combinatorics/partition_function.cpp)
 - [Permutation Cycles](code_library/combinatorics/permutation_cycles.cpp) - cycles, k-th power and root, minimum swaps [✔](judge_tests/combinatorics/aoj_alds1_6_d.cpp)
 - [Permutation Index](code_library/combinatorics/permutation_index.cpp) - `O(n)` rank of a permutation, a perfect hash
@@ -83,7 +83,7 @@ sa.contains("nab");         // false
   - [Partially Persistent](code_library/data_structures/partially_persistent_dsu.cpp) - connectivity and component sizes at any past time
   - [Potential](code_library/data_structures/potential_dsu.cpp) - differences `x[b] - x[a]` within each set [✔](judge_tests/data_structures/unionfind_with_potential.cpp)
   - [Rollback](code_library/data_structures/rollback_dsu.cpp) - unions can be undone, for offline connectivity [✔](judge_tests/data_structures/persistent_unionfind.cpp)
-- [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct gcd/or/and of subarrays ending at i
+- [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct `gcd`/`or`/`and` of subarrays ending at i
 - [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point or range add with point or range sums [✔](judge_tests/data_structures/aoj_dsl_2_e.cpp)
   - [2D](code_library/data_structures/fenwick_tree_2D.cpp) - the same on a grid [✔](judge_tests/data_structures/aoj_dsl_5_b.cpp)
   - [2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - rectangle add and cell value on huge grids
@@ -114,7 +114,7 @@ sa.contains("nab");         // false
   - [Disjoint](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` query for any associative operation [✔](judge_tests/data_structures/static_range_sum.cpp)
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
 - [Treap](code_library/data_structures/treap.cpp) - ordered multiset and sequence with reversals [✔](judge_tests/data_structures/double_ended_priority_queue.cpp)
-- [Treap, Run-Length Implicit](code_library/data_structures/run_length_implicit_treap.cpp) - huge sequences stored as runs of equal values
+  - [Run-Length Implicit](code_library/data_structures/run_length_implicit_treap.cpp) - huge sequences stored as runs of equal values
 - [Trie](code_library/data_structures/trie.cpp) - prefix counts and binary trie xor queries [✔](judge_tests/data_structures/aoj_alds1_4_c.cpp)
 
 ### Dynamic Programming
@@ -145,7 +145,7 @@ sa.contains("nab");         // false
 - [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - nearest two points by exact squared distance [✔](judge_tests/geometry/aoj_cgl_5_a.cpp)
 - [Convex Hull](code_library/geometry/convex_hull.cpp) - static and online hull, Minkowski sum [✔](judge_tests/geometry/aoj_cgl_3_b.cpp)
 - [Geometry](code_library/geometry/geometry.cpp) - exact predicates and polygon queries [✔](judge_tests/geometry/aoj_0177.cpp)
-- [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region common to all half-planes [✔](judge_tests/geometry/aoj_1283.cpp)
+- [Half-Plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region common to all half-planes [✔](judge_tests/geometry/aoj_1283.cpp)
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
 - [Polygon Union](code_library/geometry/polygon_union.cpp) - area of a union of simple polygons
 - [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of a union of rectangles [✔](judge_tests/geometry/area_of_union_of_rectangles.cpp)
@@ -156,7 +156,7 @@ sa.contains("nab");         // false
 [Practice problems](code_library/graphs/README.md)
 
 - [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability with an assignment and at-most-one [✔](judge_tests/graphs/two_sat.cpp)
-- [2-SAT, Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - satisfying assignment preferring true from x1 [✔](judge_tests/graphs/two_sat_lexicographic.cpp)
+  - [Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - satisfying assignment preferring true from x1 [✔](judge_tests/graphs/two_sat_lexicographic.cpp)
 - [3-Edge-Connected Components](code_library/graphs/three_edge_connected_components.cpp) - vertices joined by 3 edge-disjoint paths [✔](judge_tests/graphs/three_edge_connected_components.cpp)
 - [Articulation Points and Blocks](code_library/graphs/articulation_points.cpp) - cut vertices, blocks and the block-cut tree [✔](judge_tests/graphs/aoj_grl_3_a.cpp)
 - [Bellman Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges and cycles [✔](judge_tests/graphs/aoj_grl_1_b.cpp)
@@ -178,11 +178,11 @@ sa.contains("nab");         // false
 - [Hungarian Algorithm](code_library/graphs/hungarian_algorithm.cpp) - minimum or maximum cost assignment [✔](judge_tests/graphs/assignment.cpp)
 - [Johnson's Algorithm](code_library/graphs/johnsons_algorithm.cpp) - all-pairs shortest paths with negative edges [✔](judge_tests/graphs/aoj_grl_1_c_johnson.cpp)
 - [K Shortest Walks](code_library/graphs/k_shortest_walks.cpp) - lengths of the k shortest walks from s to t [✔](judge_tests/graphs/k_shortest_walk_k_shortest_walks.cpp)
-- [Kruskal Reconstruction Tree](code_library/graphs/kruskal_reconstruction_tree.cpp) - vertices reachable from v using edges <= w
+- [Kruskal Reconstruction Tree](code_library/graphs/kruskal_reconstruction_tree.cpp) - reachable vertices using edges of weight at most w
 - [Manhattan MST](code_library/graphs/manhattan_mst.cpp) - minimum spanning tree under L1 distance [✔](judge_tests/graphs/manhattanmst.cpp)
 - [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set of two matroids [✔](judge_tests/graphs/aoj_grl_7_a.cpp)
   - [Weighted](code_library/graphs/weighted_matroid_intersection.cpp) - the max weight common independent set
-- [Maximum Clique](code_library/graphs/max_clique.cpp) - plus independent set and all maximal cliques [✔](judge_tests/graphs/maximum_independent_set.cpp)
+- [Maximum Clique](code_library/graphs/max_clique.cpp) - max clique, max independent set, maximal cliques [✔](judge_tests/graphs/maximum_independent_set.cpp)
 - [Maximum Flow](code_library/graphs/maxflow.cpp) - max flow and min cut, with node capacities [✔](judge_tests/graphs/aoj_grl_6_a.cpp)
 - [Min Cost Circulation](code_library/graphs/min_cost_circulation.cpp) - cheapest circulation with negative cycles [✔](judge_tests/graphs/aoj_grl_6_b_circulation.cpp)
 - [Min Cost Max Flow, Dijkstra](code_library/graphs/mcmf_dijkstra.cpp) - default min cost flow, with the cost slope [✔](judge_tests/graphs/aoj_grl_6_b.cpp)
@@ -251,7 +251,7 @@ sa.contains("nab");         // false
 
 - [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text [✔](judge_tests/strings/aoj_alds1_14_c.cpp)
 - [Aho-Corasick](code_library/strings/aho_corasick.cpp) - multi-pattern matching automaton [✔](judge_tests/strings/aho_corasick.cpp)
-- [Aho-Corasick, Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - patterns can be inserted online
+  - [Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - patterns can be inserted online
 - [Bit-String LCS](code_library/strings/bit_string_lcs.cpp) - longest common subsequence in `O(n m / 64)` [✔](judge_tests/strings/aoj_alds1_10_c.cpp)
 - [De Bruijn Sequence](code_library/strings/de_bruijn_sequence.cpp) - cyclic sequence containing every length n word
 - [Dynamic String Hash](code_library/strings/dynamic_string_hash.cpp) - substring hashes under range assignment [✔](judge_tests/strings/aoj_alds1_14_b_dynamic_string_hash.cpp)
@@ -280,7 +280,7 @@ sa.contains("nab");         // false
 - [Lowest Common Ancestor](code_library/trees/lca.cpp) - LCA, distance, jumps and path folds on a tree [✔](judge_tests/trees/jump_on_tree.cpp)
 - [Prufer Code](code_library/trees/prufer_code.cpp) - converts labeled trees to and from sequences
 - [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP with every node as the root [✔](judge_tests/trees/aoj_grl_5_b.cpp)
-- [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - rooted and unrooted tree isomorphism [✔](judge_tests/trees/rooted_tree_isomorphism_classification.cpp)
+- [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - canonical ids for rooted and unrooted trees [✔](judge_tests/trees/rooted_tree_isomorphism_classification.cpp)
 - [Virtual Tree](code_library/trees/virtual_tree.cpp) - compresses a tree to k vertices and their LCAs
 
 ## More
@@ -328,7 +328,7 @@ sa.contains("nab");         // false
 - [Lagrange Interpolation](code_library/python/lagrange_polynomial_interpolation.py) - value of a polynomial from any samples
 - [Miller Rabin](code_library/python/miller_rabin.py) - deterministic primality test for 64-bit integers
 - [N Queens](code_library/python/n_queen.py) - number of N queens solutions
-- [Sieve](code_library/python/sieve.py) - sieve of Eratosthenes
+- [Sieve](code_library/python/sieve.py) - primes up to n by Eratosthenes
 - [String Hash](code_library/python/string_hash.py) - polynomial substring hashes
 - [Z Algorithm](code_library/python/z_algorithm.py) - LCP of every suffix with the string
 

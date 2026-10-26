@@ -33,12 +33,12 @@
 - [UVa 12695 - Traveling Fool](https://onlinejudge.org/external/126/12695.pdf) [✅](../../practice/linear_algebra/uva_12695.cpp "Accepted solution")
 - [UVa 12910 - Snakes and Ladders](https://onlinejudge.org/external/129/12910.pdf) [✅](../../practice/linear_algebra/uva_12910.cpp "Accepted solution")
 
-#### [Gauss, Band Matrix](gauss_band_matrix.cpp)
+#### [Gauss Jordan, Band Matrix](gauss_band_matrix.cpp)
 
 - [UVa 1704 - Pachinko](https://onlinejudge.org/external/17/1704.pdf) [✅](../../practice/linear_algebra/uva_1704_gauss_band_matrix.cpp "Accepted solution")
 - [UVa 12177 - First Knight](https://onlinejudge.org/external/121/12177.pdf) [✅](../../practice/linear_algebra/uva_12177.cpp "Accepted solution")
 
-#### [Gauss, Bitset](gauss_bitset.cpp)
+#### [Gauss Jordan, Bitset](gauss_bitset.cpp)
 
 - [AOJ 1308 - Awkward Lights](https://onlinejudge.u-aizu.ac.jp/problems/1308) [✅](../../practice/linear_algebra/aoj_1308.cpp "Accepted solution")
 - [CSES 3193 - Square Subsets](https://cses.fi/problemset/task/3193) [✅](../../practice/linear_algebra/cses_3193.cpp "Accepted solution")
@@ -49,7 +49,7 @@
 - [UVa 1560 - Extended Lights Out](https://onlinejudge.org/external/15/1560.pdf) [✅](../../practice/linear_algebra/uva_1560.cpp "Accepted solution")
 - [UVa 11542 - Square](https://onlinejudge.org/external/115/11542.pdf) [✅](../../practice/linear_algebra/uva_11542.cpp "Accepted solution")
 
-#### [Gauss, Prime Modulus](gauss_prime_mod.cpp)
+#### [Gauss Jordan, Prime Modulus](gauss_prime_mod.cpp)
 
 - [Codeforces 1411G - No Game No Life](https://codeforces.com/problemset/problem/1411/G) [✅](../../practice/linear_algebra/codeforces_1411g.cpp "Accepted solution")
 - [Codeforces Gym 102129D - Basis Change](https://codeforces.com/gym/102129/problem/D) [✅](../../practice/linear_algebra/codeforces_gym_102129d.cpp "Accepted solution")

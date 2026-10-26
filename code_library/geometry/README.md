@@ -101,7 +101,7 @@
 - [UVa 12123 - Magnetic Train Tracks](https://onlinejudge.org/external/121/12123.pdf)
 - [UVa 13117 - ACIS, A Contagious vIruS](https://onlinejudge.org/external/131/13117.pdf) [✅](../../practice/geometry/uva_13117.cpp "Accepted solution")
 
-#### [Half-plane Intersection](halfplane_intersection.cpp)
+#### [Half-Plane Intersection](halfplane_intersection.cpp)
 
 - [CodeChef CHN02 - Animesh decides to settle down](https://www.codechef.com/problems/CHN02)
 - [Codeforces 790E - Bear and Isomorphic Points](https://codeforces.com/contest/790/problem/E)
