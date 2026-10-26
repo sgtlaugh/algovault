@@ -40,7 +40,7 @@
 - [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✅](../../practice/dp/cses_2084.cpp "Accepted solution")
 - [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507) [✅](../../practice/dp/hdu_3507.cpp "Accepted solution")
 - [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180) [✅](../../practice/dp/poj_1180.cpp "Accepted solution")
-- [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/)
+- [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/) [✅](../../practice/dp/spoj_acquire.cpp "Accepted solution")
 - [SPOJ APIO10A - Commando](https://www.spoj.com/problems/APIO10A/)
 
 #### [Divide and Conquer DP](divide_conquer_dp.cpp)
