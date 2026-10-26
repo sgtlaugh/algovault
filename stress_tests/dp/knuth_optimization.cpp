@@ -34,7 +34,11 @@ void check(const vector<long long>& weights, int shape, long long threshold){
     for (int i = 0; i < n; i++) pre[i + 1] = pre[i] + weights[i];
 
     auto cost = [&](int i, int j){ return shaped_cost(shape, pre, i, j, threshold); };
-    assert((knuth_dp<long long>(n, cost) == naive_dp(n, cost)));
+    auto dp = knuth_dp<long long>(n, cost);
+    auto naive = naive_dp(n, cost);
+    for (int i = 0; i <= n; i++){
+        for (int j = i; j <= n; j++) assert(dp[i][j] == naive[i][j]);
+    }
 }
 
 /// Knuth DP tables against the O(n^3) recurrence over every interval, exhaustive weights for small n, random beyond
