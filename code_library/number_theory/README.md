@@ -32,7 +32,7 @@
 #### [Discrete Logarithm](discrete_logarithm.cpp)
 
 - [CodeChef CHEFMOD - Chef and Modular Sequence](https://www.codechef.com/problems/CHEFMOD) [✅](../../practice/number_theory/codechef_chefmod.cpp "Accepted solution")
-- [CodeChef INVXOR - Inverse of a Function](https://www.codechef.com/problems/INVXOR)
+- [CodeChef INVXOR - Inverse of a Function](https://www.codechef.com/problems/INVXOR) [✅](../../practice/number_theory/codechef_invxor.cpp "Accepted solution")
 - [Codeforces Gym 101853G - Hard Equation](https://codeforces.com/gym/101853/problem/G)
 - [SPOJ MOD - Power Modulo Inverted](https://www.spoj.com/problems/MOD/)
 - [UVa 10225 - Discrete Logging](https://onlinejudge.org/external/102/10225.pdf) [✅](../../practice/number_theory/uva_10225.cpp "Accepted solution")
