@@ -2,6 +2,32 @@
 
 Bug reports, fixes and new templates are welcome as issues or pull requests.
 
+## The Zen Of Contributing
+
+Inspired by [The Zen Of Python](https://www.python.org/dev/peps/pep-0020/#id2)
+
+```python
+Beautiful is better than ugly
+Simple is way better than complex
+Consistency matters
+Flat is preferred over nested
+Typing is better than incomprehensible macros
+Correct is better than fast
+Because readability counts
+But not as much as speed
+Untested is broken, and a brute force is the best reviewer
+Warnings are errors
+Measure, don't guess
+Document the contract, not the code
+A black box needs its limits written down
+Comments say why, the code already says what
+If the implementation is hard to explain, it's a bad idea
+If the implementation is easy to explain, it may be a good idea
+Structs are one honking great idea, let's do more of those!
+```
+
+## Where to start
+
 | Adding | Read | Skill |
 |---|---|---|
 | A template, or reworking one | [Templates](#templates) to [Judge tests](#judge-tests), [API and code](#api-and-code) | `/crucible` |
@@ -23,7 +49,28 @@ Also:
 
 - **Python:** templates go in `code_library/python/`, their tests in `stress_tests/python/` using `stress.py`
 - **Recursion:** must fit an 8 MB stack, as on most judges; CI runs with that limit
-- **Shared code:** a template that needs another one carries a verbatim copy between `/// BEGIN COPY <name> from <file>` and `/// END COPY <name>`; the original marks the same code with `/// BEGIN SHARED <name>` and `/// END SHARED <name>`, and CI checks that the two match
+- **Shared code:** a template built on another carries a copy of it, as in [Shared code](#shared-code)
+
+### Shared code
+
+Every template must compile on its own, so it can be pasted into a solution as one file. A template built on another, like offline dynamic connectivity on the rollback DSU, therefore cannot `#include` it: it carries a copy instead.
+
+1. In the original, wrap the code others need in `/// BEGIN SHARED <name>` and `/// END SHARED <name>`
+2. In the template that needs it, paste that code between `/// BEGIN COPY <name> from <path>` and `/// END COPY <name>`
+3. CI fails when a copy differs from its original, so a fix to shared code goes into every copy:
+   `git grep "BEGIN COPY <name>"` lists them
+
+```cpp
+// rollback_dsu.cpp, the original
+/// BEGIN SHARED rollback_dsu
+struct RollbackDSU{ ... };
+/// END SHARED rollback_dsu
+
+// offline_dynamic_connectivity.cpp, the copy
+/// BEGIN COPY rollback_dsu from code_library/data_structures/rollback_dsu.cpp
+struct RollbackDSU{ ... };
+/// END COPY rollback_dsu
+```
 
 ## Stress tests
 
@@ -42,7 +89,7 @@ Every template has a stress test at the same path under `stress_tests/`. It chec
 
 ## Judge tests
 
-When a Library Checker or Aizu problem fits, add `judge_tests/<topic>/<problem>.cpp` and a ✔ on the template's index entry. The file starts with:
+When a Library Checker or Aizu problem fits, add `judge_tests/<topic>/<problem>.cpp`, starting as below, and a ✔ on the template's index entry:
 
 ```cpp
 // competitive-verifier: PROBLEM <url>
@@ -259,43 +306,3 @@ Both `run_tests.sh` modes build with `-std=c++17 -Wall -Wextra -Werror` under Ad
 | `STRESS_SEED`, `STRESS_SCALE` | reproduce a stress failure from the seed each stress test prints |
 
 Judge tests compile with `-O2` and run on the judge's own data. New judge test files must be `git add`ed first.
-
-## The Zen Of Contributing
-
-Inspired by [The Zen Of Python](https://www.python.org/dev/peps/pep-0020/#id2)
-
-```python
-Beautiful is better than ugly
-
-Simple is way better than complex
-
-Consistency matters
-
-Flat is preferred over nested
-
-Typing is better than incomprehensible macros
-
-Correct is better than fast
-
-Because readability counts
-
-But not as much as speed
-
-Untested is broken, and a brute force is the best reviewer
-
-Warnings are errors
-
-Measure, don't guess
-
-Document the contract, not the code
-
-A black box needs its limits written down
-
-Comments say why, the code already says what
-
-If the implementation is hard to explain, it's a bad idea
-
-If the implementation is easy to explain, it may be a good idea
-
-Structs are one honking great idea, let's do more of those!
-```
