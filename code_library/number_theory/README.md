@@ -40,7 +40,7 @@
 
 #### [Divisors](divisors.cpp)
 
-- [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713)
+- [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713) [✅](../../practice/number_theory/cses_1713_divisors.cpp "Accepted solution")
 - [UVa 12425 - Best Friend](https://onlinejudge.org/external/124/12425.pdf) [✅](../../practice/number_theory/uva_12425.cpp "Accepted solution")
 - [UVa 13131 - Divisors](https://onlinejudge.org/external/131/13131.pdf) [✅](../../practice/number_theory/uva_13131.cpp "Accepted solution")
 
