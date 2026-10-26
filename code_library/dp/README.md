@@ -53,7 +53,7 @@
 - [Codeforces 834D - The Bakery](https://codeforces.com/problemset/problem/834/D) [✅](../../practice/dp/codeforces_834d.cpp "Accepted solution")
 - [Codeforces 868F - Yet Another Minimization Problem](https://codeforces.com/problemset/problem/868/F) [✅](../../practice/dp/codeforces_868f.cpp "Accepted solution")
 - [Codeforces 1527E - Partition Game](https://codeforces.com/problemset/problem/1527/E) [✅](../../practice/dp/codeforces_1527e.cpp "Accepted solution")
-- [Codeforces Gym 103536A - Guards](https://codeforces.com/gym/103536/problem/A)
+- [Codeforces Gym 103536A - Guards](https://codeforces.com/gym/103536/problem/A) [✅](../../practice/dp/codeforces_gym_103536a.cpp "Accepted solution")
 - [CSES 2086 - Subarray Squares](https://cses.fi/problemset/task/2086) [✅](../../practice/dp/cses_2086.cpp "Accepted solution")
 - [CSES 2087 - Houses and Schools](https://cses.fi/problemset/task/2087) [✅](../../practice/dp/cses_2087.cpp "Accepted solution")
 - [HackerRank guardians-lunatics-ioi14 - [IOI] Guardians of the Lunatics](https://www.hackerrank.com/contests/ioi-2014-practice-contest-2/challenges/guardians-lunatics-ioi14/problem) [✅](../../practice/dp/hackerrank_guardians_lunatics_ioi14.cpp "Accepted solution")
