@@ -91,7 +91,7 @@
 
 - [Codeforces 17A - Noldbach problem](https://codeforces.com/problemset/problem/17/A)
 - [Codeforces 26A - Almost Prime](https://codeforces.com/problemset/problem/26/A)
-- [Codeforces 154B - Colliders](https://codeforces.com/problemset/problem/154/B)
+- [Codeforces 154B - Colliders](https://codeforces.com/problemset/problem/154/B) [✅](../../practice/number_theory/codeforces_154b.cpp "Accepted solution")
 - [Codeforces 645F - Cowslip Collections](https://codeforces.com/problemset/problem/645/F)
 - [Codeforces 776B - Sherlock and his girlfriend](https://codeforces.com/problemset/problem/776/B)
 - [Codeforces 1225D - Power Products](https://codeforces.com/problemset/problem/1225/D) [✅](../../practice/number_theory/codeforces_1225d.cpp "Accepted solution")
