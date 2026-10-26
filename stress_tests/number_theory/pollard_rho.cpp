@@ -74,7 +74,22 @@ int main(){
     for (long long it = 0; it < stress::scaled(2000); it++) assert(prm::is_prime(random_prime(E6 + 1, LIM)));
 
     for (long long n = 1; n <= 5000; n++) check(n, rho);
+
+    /// Trial division stops below 1000, so a cofactor below 10^6 is taken as prime unsplit
     for (long long n = E6 - 3000; n <= E6 + 3000; n++) check(n, rho);
+    for (long long p : {991LL, 997LL, 1009LL, 1013LL}){
+        for (long long q : {991LL, 997LL, 1009LL, 1013LL}) check(p * q, rho);
+    }
+
+    /// split skips the conditional subtractions below 2^61 only, products of primes near 2^30.5 straddle that bound
+    for (long long it = 0; it < stress::scaled(300); it++){
+        long long n = (1LL << 61) + stress::rand_int(-100000, 100000);
+        check(n, rho);
+
+        vector<long long> primes = {random_prime(1518000000, 1519000000), random_prime(1518000000, 1519000000)};
+        sort(primes.begin(), primes.end());
+        check(primes[0] * primes[1], rho, &primes);
+    }
 
     for (long long it = 0; it < stress::scaled(5000); it++){
         long long n = it % 2 ? stress::rand_int(1, LIM) : LIM - stress::rand_int(0, 100000);
