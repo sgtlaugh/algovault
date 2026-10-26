@@ -16,7 +16,7 @@
 - [CodeChef ES - Euler Sum](https://www.codechef.com/problems/ES)
 - [Codeforces 305B - Continued Fractions](https://codeforces.com/problemset/problem/305/B) [✅](../../practice/number_theory/codeforces_305b.cpp "Accepted solution")
 - [Codeforces 346E - Doodle Jump](https://codeforces.com/problemset/problem/346/E) [✅](../../practice/number_theory/codeforces_346e.cpp "Accepted solution")
-- [Codeforces 585C - Alice, Bob, Oranges and Apples](https://codeforces.com/problemset/problem/585/C)
+- [Codeforces 585C - Alice, Bob, Oranges and Apples](https://codeforces.com/problemset/problem/585/C) [✅](../../practice/number_theory/codeforces_585c.cpp "Accepted solution")
 - [Codeforces Gym 102354I - From Modular to Rational](https://codeforces.com/gym/102354/problem/I)
 - [Codeforces Gym 104656C2 - New Elements, Part 2 C2](https://codeforces.com/gym/104656/problem/C2)
 - [HackerRank euler064 - Project Euler #64: Odd period square roots](https://www.hackerrank.com/contests/projecteuler/challenges/euler064/problem)
