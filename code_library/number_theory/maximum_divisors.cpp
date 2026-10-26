@@ -4,7 +4,7 @@
  * Smallest number not exceeding a limit with the most divisors, and its divisor count
  *
  * Complexity: O(H) for H the count of x <= limit with non-increasing exponents over consecutive primes (OEIS A025487)
- *   32749 calls for limit = 10^18, recursion depth <= 20
+ *   32749 calls and a recursion depth of 16 at limit = 10^18
  *
  * max_divisors(limit): {smallest x <= limit with the most divisors, its divisor count}, 1 <= limit <= 1e18
  *
@@ -52,8 +52,8 @@ pair<long long, long long> max_divisors(long long limit){
 }
 
 int main(){
+    /// The smallest number with the most divisors up to each limit, with its divisor count
     typedef pair<long long, long long> Pair;
-
     assert(max_divisors(1) == Pair(1, 1));
     assert(max_divisors(2) == Pair(2, 2));
     assert(max_divisors(12) == Pair(12, 6));
