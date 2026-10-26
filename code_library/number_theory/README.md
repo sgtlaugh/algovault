@@ -72,7 +72,7 @@
 
 #### [Fast Sieve](fast_sieve.cpp)
 
-- [SPOJ PRIMES2 - Printing some primes (Hard)](https://www.spoj.com/problems/PRIMES2/)
+- [SPOJ PRIMES2 - Printing some primes (Hard)](https://www.spoj.com/problems/PRIMES2/) [✅](../../practice/number_theory/spoj_primes2.cpp "Accepted solution")
 - [SPOJ PTRI - primes triangle (I)](https://www.spoj.com/problems/PTRI/)
 - [SPOJ TDPRIMES - Printing some primes](https://www.spoj.com/problems/TDPRIMES/)
 - [UVa 10311 - Goldbach and Euler](https://onlinejudge.org/external/103/10311.pdf) [✅](../../practice/number_theory/uva_10311.cpp "Accepted solution")
