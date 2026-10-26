@@ -13,7 +13,7 @@
  *         cost(a, c) + cost(b, d) <= cost(a, d) + cost(b, c)
  *   - Any f(sum of a[i..j - 1]) with f convex, nondecreasing and a >= 0 qualifies, interval sums included
  *   - A leaf cost on every [i, i + 1] adds the same sum to dp[i][j] for every split tree, so add it after the DP
- *   - Merging n adjacent piles at the merged size: cost(i, j) = pre[j] - pre[i]
+ *   - Merging n adjacent piles at the merged size: cost(i, j) = pre[j] - pre[i], or garsia_wachs.cpp in O(n log n)
  *   - Optimal BST over keys 1..m with frequencies f: points 0..m + 1, cost(i, j) = f[i + 1] + ... + f[j - 1]
  *
 ***/

@@ -67,6 +67,11 @@
 - [UVa 12524 - Arranging Heaps](https://onlinejudge.org/external/125/12524.pdf) [✅](../../practice/dp/uva_12524.cpp "Accepted solution")
 - [UVa 12594 - Naming Babies](https://onlinejudge.org/external/125/12594.pdf) [✅](../../practice/dp/uva_12594.cpp "Accepted solution")
 
+#### [Garsia-Wachs](garsia_wachs.cpp)
+
+- [POJ 1738 - An old Stone Game](http://poj.org/problem?id=1738)
+- [UVa 12836 - Gain Battle Power](https://onlinejudge.org/external/128/12836.pdf)
+
 #### [Hamiltonian Path and Cycle](hamiltonian_dp.cpp)
 
 - [AOJ DPL_2_A - Traveling Salesman Problem](https://onlinejudge.u-aizu.ac.jp/problems/DPL_2_A) [✅](../../practice/dp/aoj_dpl_2_a.cpp "Accepted solution")
