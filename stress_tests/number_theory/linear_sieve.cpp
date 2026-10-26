@@ -33,10 +33,10 @@ void check_value(const LinearSieve& sieve, const vector<long long>& divisors, co
         for (int i = 0; i < e; i++) flat.push_back(p);
     }
 
-    assert(sieve.phi[x] == phi && sieve.mu[x] == mu);
+    assert(sieve.phi(x) == phi && sieve.mu(x) == mu);
     assert(divisors[x] == d && sigma[x] == s && identity[x] == x);
     assert(sieve.factorize(x) == flat);
-    if (x >= 2) assert(sieve.spf[x] == flat[0] && sieve.spf_exponent[x] == f[0].second);
+    if (x >= 2) assert(sieve.spf[x] == flat[0]);
 }
 
 /// g(p^k) = p^k gives g[x] = x, and the assert checks that pk really is p^k
@@ -51,7 +51,7 @@ vector<long long> identity_of(const LinearSieve& sieve){
 
 int main(){
     int small = 5000;
-    LinearSieve a(small);
+    LinearSieve a(small, LinearSieve::PHI_MU);
     auto da = a.multiplicative([](long long, int k, long long){ return (long long)k + 1; });
     auto sa = a.multiplicative([](long long p, int, long long pk){ return (pk * p - 1) / (p - 1); });
     auto ia = identity_of(a);
@@ -67,11 +67,11 @@ int main(){
     for (int x = 1; x <= 600; x++){
         int coprime = 0;
         for (int y = 1; y <= x; y++) coprime += __gcd(x, y) == 1;
-        assert(a.phi[x] == coprime);
+        assert(a.phi(x) == coprime);
     }
 
     int big = 10000000;
-    LinearSieve b(big);
+    LinearSieve b(big, LinearSieve::PHI_MU);
     auto db = b.multiplicative([](long long, int k, long long){ return (long long)k + 1; });
     auto sb = b.multiplicative([](long long p, int, long long pk){ return (pk * p - 1) / (p - 1); });
     auto ib = identity_of(b);
@@ -79,13 +79,31 @@ int main(){
     for (long long it = 0; it < stress::scaled(3000); it++) check_value(b, db, sb, ib, stress::rand_int(1, big));
     for (int x : {big, big - 1, 9999991, 1 << 23, 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3 * 3}) check_value(b, db, sb, ib, x);
 
-    /// Tiny n, where a guard like n >= 2 would leave phi[1] and mu[1] at 0
+    /// Every option sieves the same spf and primes, and reading a table that was not asked for fires the library assert
+    LinearSieve lean(small), only_phi(small, LinearSieve::PHI), only_mu(small, LinearSieve::MU);
+    for (const LinearSieve* s : {&lean, &only_phi, &only_mu}){
+        assert(s->spf == a.spf && s->primes == a.primes);
+        assert(s->multiplicative([](long long, int k, long long){ return (long long)k + 1; }) == da);
+        assert(identity_of(*s) == ia);
+    }
+    for (int x = 1; x <= small; x++){
+        assert(only_phi.phi(x) == a.phi(x));
+        assert(only_mu.mu(x) == a.mu(x));
+    }
+    stress::expect_assert("number_theory/linear_sieve.cpp", [&]{ lean.phi(1); });
+    stress::expect_assert("number_theory/linear_sieve.cpp", [&]{ lean.mu(1); });
+    stress::expect_assert("number_theory/linear_sieve.cpp", [&]{ only_phi.mu(6); });
+    stress::expect_assert("number_theory/linear_sieve.cpp", [&]{ only_mu.phi(6); });
+    stress::expect_assert("number_theory/linear_sieve.cpp", [&]{ a.phi(small + 1); });
+
+    /// Tiny n, where a guard like n >= 2 would leave phi(1) and mu(1) at 0
     for (int n = 0; n <= 3; n++){
-        LinearSieve t(n);
-        assert((int)t.phi.size() == n + 1);
+        LinearSieve t(n, LinearSieve::PHI_MU);
+        assert((int)t.spf.size() == n + 1);
         if (n == 0) continue;
-        assert(t.phi[1] == 1);
-        assert(t.mu[1] == 1);
+        assert(t.phi(1) == 1);
+        assert(t.mu(1) == 1);
+        assert(t.multiplicative([](long long, int, long long pk){ return pk; })[1] == 1);
     }
 
     return 0;
