@@ -22,16 +22,17 @@ int main(){
     }
 
     MobiusSieve sieve(big);
-    assert(sieve.mu == expected && sieve.primes == expected_primes);
-
-    int mid = 1000000;
-    assert(mobius_by_divisors(mid) == vector<signed char>(expected.begin(), expected.begin() + mid + 1));
+    assert(sieve.mu == expected);
+    assert(sieve.primes == expected_primes);
 
     /// Small sizes, where the sentinel and the bounds are easiest to get wrong
     for (long long it = 0; it < stress::scaled(300); it++){
         int n = it < 3 ? it : stress::rand_int(0, 3000);
         auto prefix = vector<signed char>(expected.begin(), expected.begin() + n + 1);
-        assert(MobiusSieve(n).mu == prefix && mobius_by_divisors(n) == prefix);
+        assert(MobiusSieve(n).mu == prefix);
     }
+
+    /// A negative n would write mu[0] past an empty vector
+    stress::expect_assert("number_theory/mobius_function.cpp", []{ MobiusSieve(-1); });
     return 0;
 }
