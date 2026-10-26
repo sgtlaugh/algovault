@@ -41,6 +41,9 @@ int main(){
         assert(0 <= x && x <= k && pow_mod(a, x, mod) == b);
     }
 
+    /// INT_MIN for both a and b, whose reduction would overflow if negated first
+    assert(discrete_log(INT_MIN, INT_MIN, INT_MAX) == 1);
+
     /// Baby steps b * 3^i mod 2^30 share their low bits, the worst case for an identity hash with masked buckets
     auto start = chrono::steady_clock::now();
     for (int shift = 11; shift <= 14; shift++){
