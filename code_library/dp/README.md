@@ -61,7 +61,7 @@
 - [Kattis money - Money for Nothing](https://open.kattis.com/problems/money) [✅](../../practice/dp/kattis_money.cpp "Accepted solution")
 - [SPOJ ADAMOLD - Ada and Mold](https://www.spoj.com/problems/ADAMOLD/) [✅](../../practice/dp/spoj_adamold.cpp "Accepted solution")
 - [SPOJ LARMY - Lannister Army](https://www.spoj.com/problems/LARMY/) [✅](../../practice/dp/spoj_larmy.cpp "Accepted solution")
-- [SPOJ NKLEAVES - Leaves](https://www.spoj.com/problems/NKLEAVES/)
+- [SPOJ NKLEAVES - Leaves](https://www.spoj.com/problems/NKLEAVES/) [✅](../../practice/dp/spoj_nkleaves.cpp "Accepted solution")
 - [Timus 1167 - Bicolored Horses](https://acm.timus.ru/problem.aspx?num=1167) [✅](../../practice/dp/timus_1167.cpp "Accepted solution")
 - [USACO 626 - Circular Barn](https://usaco.org/index.php?page=viewproblem2&cpid=626) [✅](../../practice/dp/usaco_626.cpp "Accepted solution")
 - [UVa 12524 - Arranging Heaps](https://onlinejudge.org/external/125/12524.pdf) [✅](../../practice/dp/uva_12524.cpp "Accepted solution")
