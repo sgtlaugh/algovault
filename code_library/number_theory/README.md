@@ -17,7 +17,7 @@
 - [Codeforces 305B - Continued Fractions](https://codeforces.com/problemset/problem/305/B) [✅](../../practice/number_theory/codeforces_305b.cpp "Accepted solution")
 - [Codeforces 346E - Doodle Jump](https://codeforces.com/problemset/problem/346/E) [✅](../../practice/number_theory/codeforces_346e.cpp "Accepted solution")
 - [Codeforces 585C - Alice, Bob, Oranges and Apples](https://codeforces.com/problemset/problem/585/C) [✅](../../practice/number_theory/codeforces_585c.cpp "Accepted solution")
-- [Codeforces Gym 102354I - From Modular to Rational](https://codeforces.com/gym/102354/problem/I)
+- [Codeforces Gym 102354I - From Modular to Rational](https://codeforces.com/gym/102354/problem/I) [✅](../../practice/number_theory/codeforces_gym_102354i.cpp "Accepted solution")
 - [Codeforces Gym 104656C2 - New Elements, Part 2 C2](https://codeforces.com/gym/104656/problem/C2) [✅](../../practice/number_theory/codeforces_gym_104656c2.cpp "Accepted solution")
 - [HDU 6624 - fraction](http://acm.hdu.edu.cn/showproblem.php?pid=6624) [✅](../../practice/number_theory/hdu_6624.cpp "Accepted solution")
 - [UVa 834 - Continued Fractions](https://onlinejudge.org/external/8/834.pdf) [✅](../../practice/number_theory/uva_834.cpp "Accepted solution")
