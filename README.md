@@ -343,14 +343,19 @@ Every template is checked four ways:
 | Repo checks | [`run_tests.sh`](.github/scripts/run_tests.sh) | Every file has a stress test and an index entry, consistent style |
 | Judge tests | [`judge_tests/`](judge_tests) | Official [Library Checker](https://judge.yosupo.jp) and [Aizu](https://onlinejudge.u-aizu.ac.jp) test data at full size |
 
-How tests build:
-- Self and stress tests: GCC 14 with AddressSanitizer and UndefinedBehaviorSanitizer, an 8 MB stack, warnings as errors
-- Judge tests: `-O2`, like a judge
+### How tests build
 
-When they run:
-- Every push runs the self, stress and judge tests of the files it changes, plus the repo checks
-- Every night all self and stress tests run, and the stress tests again at 20x the iterations with a fresh seed
-- Every week all judge tests run from scratch
+- **Self and stress tests:** GCC 14
+  - `-fsanitize=address,undefined`: AddressSanitizer and UndefinedBehaviorSanitizer
+  - an 8 MB stack, as on most judges
+  - `-Werror`: warnings as errors
+- **Judge tests:** `-O2`, like a judge
+
+### When they run
+
+- **Every push:** the self, stress and judge tests of the files it changes, plus the repo checks
+- **Every night:** all self and stress tests, then the stress tests again at 20x the iterations with a fresh seed
+- **Every week:** all judge tests from scratch
 
 The commands to run everything locally are in [CONTRIBUTING.md](CONTRIBUTING.md#checks).
 
