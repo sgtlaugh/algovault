@@ -2,7 +2,7 @@
 
 #### [Chinese Remainder Theorem](chinese_remainder_theorem.cpp)
 
-- [Codeforces Gym 104648B2 - Golf Gophers B2](https://codeforces.com/gym/104648/problem/B2)
+- [Codeforces Gym 104648B2 - Golf Gophers B2](https://codeforces.com/gym/104648/problem/B2) [✅](../../practice/number_theory/codeforces_gym_104648b2.cpp "Accepted solution")
 - [HackerRank number-of-sequences - Number of Sequences](https://www.hackerrank.com/contests/w22/challenges/number-of-sequences/problem) [✅](../../practice/number_theory/hackerrank_number_of_sequences.cpp "Accepted solution")
 - [Kattis chineseremainder - Chinese Remainder](https://open.kattis.com/problems/chineseremainder) [✅](../../practice/number_theory/kattis_chineseremainder.cpp "Accepted solution")
 - [Kattis generalchineseremainder - Chinese Remainder Theorem (non-relatively prime moduli)](https://open.kattis.com/problems/generalchineseremainder) [✅](../../practice/number_theory/kattis_generalchineseremainder.cpp "Accepted solution")
