@@ -102,7 +102,7 @@
 - [SPOJ DCEPC12G - G Force](https://www.spoj.com/problems/DCEPC12G/) [✅](../../practice/number_theory/spoj_dcepc12g.cpp "Accepted solution")
 - [SPOJ DCEPC505 - Bazinga!](https://www.spoj.com/problems/DCEPC505/) [✅](../../practice/number_theory/spoj_dcepc505.cpp "Accepted solution")
 - [SPOJ DCEPCA03 - Totient Extreme](https://www.spoj.com/problems/DCEPCA03/) [✅](../../practice/number_theory/spoj_dcepca03.cpp "Accepted solution")
-- [SPOJ DIVSUM - Divisor Summation](https://www.spoj.com/problems/DIVSUM/)
+- [SPOJ DIVSUM - Divisor Summation](https://www.spoj.com/problems/DIVSUM/) [✅](../../practice/number_theory/spoj_divsum.cpp "Accepted solution")
 - [SPOJ ETF - Euler Totient Function](https://www.spoj.com/problems/ETF/) [✅](../../practice/number_theory/spoj_etf.cpp "Accepted solution")
 - [SPOJ GCDEX - GCD Extreme](https://www.spoj.com/problems/GCDEX/) [✅](../../practice/number_theory/spoj_gcdex.cpp "Accepted solution")
 - [SPOJ HS08PAUL - A conjecture of Paul Erdős](https://www.spoj.com/problems/HS08PAUL/)
