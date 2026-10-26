@@ -247,6 +247,18 @@ PY
     while IFS= read -r line; do failures+=("$line (practice copies)"); done <<< "$drift"
 }
 
+check_practice_toc(){  # each practice README's table of contents matches its sections and solved counts
+    local stale count=0
+    stale="$(python3 .github/scripts/practice_toc.py --check)"
+    [[ -n "$stale" ]] && count=$(grep -c . <<< "$stale")
+    echo "practice toc: $count practice READMEs whose table of contents is stale"
+    [[ $count -eq 0 ]] && return
+    sed 's/^/  stale: /' <<< "$stale"
+    echo "  run: python3 .github/scripts/practice_toc.py"
+    failed=$((failed + count))
+    while IFS= read -r line; do failures+=("$line (practice toc)"); done <<< "$stale"
+}
+
 check_old_judges(){  # POJ, UVa and HDU judge C++11, so their solutions must build as C++11; linking at -O0 catches static constexpr members that lack a definition
     local files bad=()
     files="$(git ls-files 'practice/*/poj_*.cpp' 'practice/*/uva_*.cpp' 'practice/*/hdu_*.cpp')"
@@ -465,6 +477,7 @@ check_index_descriptions
 check_judge_marks
 check_practice
 check_practice_copies
+check_practice_toc
 [[ "$MODE" == "self" ]] && check_old_judges
 [[ "$MODE" == "self" ]] && check_cpp20
 check_headers

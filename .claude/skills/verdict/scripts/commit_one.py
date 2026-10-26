@@ -1,6 +1,10 @@
+import os
 import re
 import subprocess
 import sys
+
+sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../../.github/scripts'))
+from practice_toc import with_toc  # noqa: E402
 
 # commit_one.py <readme> <section header> <entry line> <solution path in repo> <message> [insert]
 # Adds the ✔ link to the entry inside the section (or inserts the entry in natural order with "insert"),
@@ -40,7 +44,7 @@ def apply(text, done_ok=False):
             return text
         assert len(hits) == 1, f"entry found {len(hits)} times without a link"
         lines[hits[0]] = entry + link
-    return "\n".join(lines)
+    return with_toc("\n".join(lines))
 
 
 repo = subprocess.run(["git", "rev-parse", "--show-toplevel"], capture_output=True, text=True, check=True).stdout.strip()
