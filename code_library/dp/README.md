@@ -38,7 +38,7 @@
 - [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F) [✅](../../practice/dp/codeforces_660f.cpp "Accepted solution")
 - [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E) [✅](../../practice/dp/codeforces_1083e.cpp "Accepted solution")
 - [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✅](../../practice/dp/cses_2084.cpp "Accepted solution")
-- [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507)
+- [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507) [✅](../../practice/dp/hdu_3507.cpp "Accepted solution")
 - [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180)
 - [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/)
 - [SPOJ APIO10A - Commando](https://www.spoj.com/problems/APIO10A/)
