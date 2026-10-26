@@ -62,7 +62,7 @@
 - [Codeforces Gym 102644C - Fibonacci](https://codeforces.com/gym/102644/problem/C) [✅](../../practice/number_theory/codeforces_gym_102644c.cpp "Accepted solution")
 - [CSES 1722 - Fibonacci Numbers](https://cses.fi/problemset/task/1722) [✅](../../practice/number_theory/cses_1722.cpp "Accepted solution")
 - [DMOJ fibonacci - Fibonacci Sequence](https://dmoj.ca/problem/fibonacci) [✅](../../practice/number_theory/dmoj_fibonacci.cpp "Accepted solution")
-- [DMOJ UCLV secnum - Secuencia numerada de lápices](https://dmoj.uclv.edu.cu/problem/secnum)
+- [DMOJ UCLV secnum - Secuencia numerada de lápices](https://dmoj.uclv.edu.cu/problem/secnum) [✅](../../practice/number_theory/dmoj_uclv_secnum.cpp "Accepted solution")
 - [LightOJ 1065 - Number Sequence](https://lightoj.com/problem/number-sequence)
 - [SPOJ FIBOSUM - Fibonacci Sum](https://www.spoj.com/problems/FIBOSUM/)
 - [SPOJ MAIN74 - Euclids algorithm revisited](https://www.spoj.com/problems/MAIN74/)
