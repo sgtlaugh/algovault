@@ -6,8 +6,22 @@
 
 const long long INF = LLONG_MAX / 4;
 
+enum Ties{FEWEST, MOST, HASHED, RANDOM};
+
+/// RANDOM may report another count for the same lambda on every call, HASHED always the same one
+template <typename T>
+long long pick_tied(const vector<long long>& tied, Ties ties, T lambda, unsigned long long salt){
+    if (ties == FEWEST) return tied.front();
+    if (ties == MOST) return tied.back();
+    if (ties == RANDOM) return tied[stress::rand_int(0, tied.size() - 1)];
+
+    unsigned long long bits = 0;
+    memcpy(&bits, &lambda, sizeof(lambda));
+    return tied[(bits ^ salt) * 0x9E3779B97F4A7C15ULL % tied.size()];
+}
+
 /// Convex f on [first, n] given directly; the solver scans every count, so ties come from repeated slopes
-void check_synthetic(){
+void check_synthetic(Ties ties){
     int first = stress::rand_int(0, 3), n = first + stress::rand_int(0, 10);
     int range = stress::rand_int(1, 2) == 1 ? 3 : 1000;
 
@@ -19,10 +33,20 @@ void check_synthetic(){
     f[first] = stress::rand_int(-range, range) + (stress::rand_int(0, 1) ? 5000000000LL : 0);
     for (int c = first + 1; c <= n; c++) f[c] = f[c - 1] + slopes[c - first - 1];
 
+    unsigned long long salt = stress::rand_int(0, LLONG_MAX);
+    vector<long long> tied;
     auto solver = [&](long long lambda){
-        pair<long long, int> best = {LLONG_MAX, 0};
-        for (int c = first; c <= n; c++) best = min(best, {f[c] + lambda * c, c});
-        return best;
+        long long best = LLONG_MAX;
+        tied.clear();
+        for (int c = first; c <= n; c++){
+            long long value = f[c] + lambda * c;
+            if (value < best){
+                best = value;
+                tied.clear();
+            }
+            if (value == best) tied.push_back(c);
+        }
+        return pair<long long, long long>{best, pick_tied(tied, ties, lambda, salt)};
     };
 
     long long lo = 0, hi = 0;
@@ -35,10 +59,17 @@ void check_synthetic(){
     if (lo == int(lo) && hi == int(hi) && hi - lo <= INT_MAX){
         for (int k = first; k <= n; k++) assert(aliens_trick(k, int(lo), int(hi), solver) == f[k]);
     }
+
+    /// Shifting lambda by s solves f(c) - s c; bounds from INT_MIN catch a search that evaluates lambda = lo - 1
+    if (hi - lo <= INT_MAX){
+        long long shift = INT_MIN - lo;
+        auto shifted = [&](long long lambda){ return solver(lambda - shift); };
+        for (int k = first; k <= n; k++) assert(aliens_trick(k, INT_MIN, int(INT_MIN + (hi - lo)), shifted) == f[k] - shift * k);
+    }
 }
 
 /// Split into k segments minimizing the sum of squared segment sums, against the O(n^2 k) DP
-void check_squared_split(int n, int value_max){
+void check_squared_split(int n, int value_max, Ties ties){
     vector<long long> a(n), pre(n + 1, 0);
     for (auto& x : a) x = stress::rand_int(0, value_max);
     for (int i = 0; i < n; i++) pre[i + 1] = pre[i] + a[i];
@@ -55,23 +86,25 @@ void check_squared_split(int n, int value_max){
         }
     }
 
+    /// Counting each segment as -1 makes the pair minimum report the most segments among the tied
+    int step = ties == MOST ? -1 : 1;
     auto solver = [&](long long lambda){
         vector<pair<long long, int>> dp(n + 1, {LLONG_MAX, 0});
         dp[0] = {0, 0};
         for (int j = 1; j <= n; j++){
             for (int i = 0; i < j; i++){
                 long long s = pre[j] - pre[i];
-                dp[j] = min(dp[j], {dp[i].first + s * s + lambda, dp[i].second + 1});
+                dp[j] = min(dp[j], {dp[i].first + s * s + lambda, dp[i].second + step});
             }
         }
-        return dp[n];
+        return pair<long long, int>{dp[n].first, dp[n].second * step};
     };
 
     for (int k = 1; k <= n; k++) assert(aliens_trick(k, 0LL, pre[n] * pre[n], solver) == exact[k][n]);
 }
 
 /// Maximum total of exactly k non-overlapping non-empty subarrays, against the O(n^2 k) DP
-void check_max_k_subarrays(int n, int value_max){
+void check_max_k_subarrays(int n, int value_max, Ties ties){
     vector<long long> a(n), pre(n + 1, 0);
     for (auto& x : a) x = stress::rand_int(-value_max, value_max);
     for (int i = 0; i < n; i++) pre[i + 1] = pre[i] + a[i];
@@ -90,14 +123,15 @@ void check_max_k_subarrays(int n, int value_max){
     long long bound = 1;
     for (long long x : a) bound += abs(x);
 
+    int step = ties == MOST ? -1 : 1;
     auto solver = [&](long long lambda){
         pair<long long, int> out = {0, 0}, in = {INF, 0};
         for (long long x : a){
-            in = min(in, {out.first + lambda, out.second + 1});
+            in = min(in, {out.first + lambda, out.second + step});
             in.first -= x;
             out = min(out, in);
         }
-        return out;
+        return pair<long long, int>{out.first, out.second * step};
     };
 
     for (int k = 1; k <= n; k++) assert(-aliens_trick(k, -bound, bound, solver) == exact[k][n]);
@@ -108,7 +142,7 @@ double rand_real(double lo, double hi){
 }
 
 /// Real convex f where each step adds scale items, so k reaches 1e12 and repeated slopes make ties
-void check_synthetic_real(){
+void check_synthetic_real(Ties ties){
     int first = stress::rand_int(0, 3), n = first + stress::rand_int(0, 10);
     long long scale = stress::rand_int(0, 1) ? 1 : stress::rand_int(1, 100000000000LL);
     double range = stress::rand_int(0, 1) ? 1 : 1e6;
@@ -123,10 +157,20 @@ void check_synthetic_real(){
     f[first] = rand_real(-range, range);
     for (int c = first + 1; c <= n; c++) f[c] = f[c - 1] + slopes[c - first - 1];
 
+    unsigned long long salt = stress::rand_int(0, LLONG_MAX);
+    vector<long long> tied;
     auto solver = [&](double lambda){
-        pair<double, long long> best = {1e300, 0};
-        for (int c = first; c <= n; c++) best = min(best, {f[c] + lambda * c * scale, c * scale});
-        return best;
+        double best = 1e300;
+        tied.clear();
+        for (int c = first; c <= n; c++){
+            double value = f[c] + lambda * c * scale;
+            if (value < best){
+                best = value;
+                tied.clear();
+            }
+            if (value == best) tied.push_back(c * scale);
+        }
+        return pair<double, long long>{best, pick_tied(tied, ties, lambda, salt)};
     };
 
     double lo = -range / scale - 1, hi = range / scale + 1;
@@ -167,15 +211,15 @@ void check_split_work(int n, int k, int a_max){
 }
 
 int main(){
-    for (long long it = 0; it < stress::scaled(4000); it++) check_synthetic();
+    for (long long it = 0; it < stress::scaled(4000); it++) check_synthetic(Ties(it % 4));
 
     for (long long it = 0; it < stress::scaled(1500); it++){
         int n = stress::rand_int(1, 12), value_max = it % 3 == 0 ? 2 : (it % 3 == 1 ? 10 : 1000);
-        check_squared_split(n, value_max);
-        check_max_k_subarrays(n, value_max);
+        check_squared_split(n, value_max, it % 2 ? MOST : FEWEST);
+        check_max_k_subarrays(n, value_max, it % 2 ? MOST : FEWEST);
     }
 
-    for (long long it = 0; it < stress::scaled(4000); it++) check_synthetic_real();
+    for (long long it = 0; it < stress::scaled(4000); it++) check_synthetic_real(Ties(it % 4));
 
     for (long long it = 0; it < stress::scaled(1500); it++){
         int n = stress::rand_int(1, 6);
@@ -183,8 +227,8 @@ int main(){
     }
 
     for (int it = 0; it < 3; it++){
-        check_squared_split(70, 1000000);
-        check_max_k_subarrays(70, 1000000000);
+        check_squared_split(70, 1000000, it == 0 ? FEWEST : MOST);
+        check_max_k_subarrays(70, 1000000000, it == 0 ? FEWEST : MOST);
     }
 
     return 0;

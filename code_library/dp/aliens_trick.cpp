@@ -6,15 +6,13 @@
  * Complexity: O(log(hi - lo)) solver calls, 100 for floating-point bounds
  *
  * aliens_trick(k, lo, hi, solver): f(k), in the solver's value type
- * solver(lambda): {min over all solutions of cost + lambda * items, the fewest items among solutions reaching it}
+ * solver(lambda): {min over all solutions of cost + lambda * items, the items of any solution reaching it}
  *
  * Notes:
  *   - f convex on its domain and k inside it, f(k) exact for integer costs and bounds
  *   - Real costs take floating-point bounds, the error is then the rounding of lambda * k, so keep [lo, hi] tight
  *   - [lo, hi] contains every -(f(c) - f(c - 1)), so M = max |f(c) - f(c - 1)| gives [-M, M]
  *   - The bounds' type fits hi - lo, the solver's value type fits cost + max(|lo|, |hi|) * (max items)
- *   - The count must be the fewest: several counts can tie for one lambda, so count == k may never come back
- *   - A DP over pairs {cost, items} compared lexicographically returns exactly that pair
  *   - Maximizing a concave f: minimize the negated gains and negate the result
  *
 ***/
@@ -25,6 +23,9 @@ using namespace std;
 
 template <typename T, typename Solver>
 auto aliens_trick(long long k, T lo, T hi, Solver solver){
+    using V = decltype(solver(lo).first);
+    auto dual = [&](T lambda, V value){ return value - V(lambda) * V(k); };
+
     /// Halving a real interval never makes lo == hi, so floating-point bounds take a fixed count of steps
     if constexpr (is_floating_point_v<T>){
         for (int it = 0; it < 100; it++){
@@ -32,17 +33,24 @@ auto aliens_trick(long long k, T lo, T hi, Solver solver){
             if (solver(mid).second <= k) hi = mid;
             else lo = mid;
         }
-        lo = hi;
+        return dual(hi, solver(hi).first);
     }
 
+    optional<V> below;
     while (lo < hi){
         T mid = lo + (hi - lo) / 2;
-        if (solver(mid).second <= k) hi = mid;
-        else lo = mid + 1;
+        auto [value, items] = solver(mid);
+        if (items <= k) hi = mid;
+        else{
+            lo = mid + 1;
+            below = value;
+        }
     }
 
-    auto value = solver(lo).first;
-    return value - decltype(value)(lo) * decltype(value)(k);
+    /// Tied counts can stop the search one past the lambdas reaching f(k), and below holds the value at lo - 1
+    V res = dual(lo, solver(lo).first);
+    if (below) res = max(res, dual(lo - 1, *below));
+    return res;
 }
 
 int main(){
