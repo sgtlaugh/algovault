@@ -64,7 +64,7 @@
 - [DMOJ fibonacci - Fibonacci Sequence](https://dmoj.ca/problem/fibonacci) [✅](../../practice/number_theory/dmoj_fibonacci.cpp "Accepted solution")
 - [DMOJ UCLV secnum - Secuencia numerada de lápices](https://dmoj.uclv.edu.cu/problem/secnum) [✅](../../practice/number_theory/dmoj_uclv_secnum.cpp "Accepted solution")
 - [LightOJ 1065 - Number Sequence](https://lightoj.com/problem/number-sequence) [✅](../../practice/number_theory/lightoj_1065.cpp "Accepted solution")
-- [SPOJ FIBOSUM - Fibonacci Sum](https://www.spoj.com/problems/FIBOSUM/)
+- [SPOJ FIBOSUM - Fibonacci Sum](https://www.spoj.com/problems/FIBOSUM/) [✅](../../practice/number_theory/spoj_fibosum.cpp "Accepted solution")
 - [SPOJ MAIN74 - Euclids algorithm revisited](https://www.spoj.com/problems/MAIN74/)
 - [UVa 10229 - Modular Fibonacci](https://onlinejudge.org/external/102/10229.pdf) [✅](../../practice/number_theory/uva_10229.cpp "Accepted solution")
 - [UVa 10518 - How Many Calls?](https://onlinejudge.org/external/105/10518.pdf) [✅](../../practice/number_theory/uva_10518.cpp "Accepted solution")
