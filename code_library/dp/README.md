@@ -80,7 +80,7 @@
 
 #### [Hirschberg LCS](hirschberg_lcs.cpp)
 
-- [AtCoder DP F - LCS](https://atcoder.jp/contests/dp/tasks/dp_f)
+- [AtCoder DP F - LCS](https://atcoder.jp/contests/dp/tasks/dp_f) [✅](../../practice/dp/atcoder_dp_f.cpp "Accepted solution")
 - [CSES 3403 - Longest Common Subsequence](https://cses.fi/problemset/task/3403)
 - [UVa 531 - Compromise](https://onlinejudge.org/external/5/531.pdf)
 - [UVa 10066 - The Twin Towers](https://onlinejudge.org/external/100/10066.pdf)
