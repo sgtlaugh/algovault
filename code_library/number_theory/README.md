@@ -167,7 +167,7 @@
 
 #### [Pisano Period](pisano_period.cpp)
 
-- [Codeforces 193E - Fibonacci Number](https://codeforces.com/problemset/problem/193/E)
+- [Codeforces 193E - Fibonacci Number](https://codeforces.com/problemset/problem/193/E) [✅](../../practice/number_theory/codeforces_193e.cpp "Accepted solution")
 - [UVa 11582 - Colossal Fibonacci Numbers!](https://onlinejudge.org/external/115/11582.pdf) [✅](../../practice/number_theory/uva_11582.cpp "Accepted solution")
 - [UVa 12620 - Fibonacci Sum](https://onlinejudge.org/external/126/12620.pdf) [✅](../../practice/number_theory/uva_12620.cpp "Accepted solution")
 
