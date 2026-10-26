@@ -36,9 +36,38 @@ void check(DuSieve& du, const Reference& ref, long long x){
     assert(du.mertens(x) == ref.mertens[x]);
 }
 
+/// isqrt at squares and their neighbours up to 2^53, where sqrt in double rounds k^2 - 1 up to k above 2^52
+void check_isqrt(){
+    vector<long long> bases = {1, 2, 67108864, 67108865, 94906265};
+    for (long long it = 0; it < stress::scaled(100000); it++) bases.push_back(stress::rand_int(1, 94906265));
+    for (long long k : bases){
+        for (long long x : {k * k - 1, k * k, k * k + 1}){
+            long long r = DuSieve::isqrt(x);
+            assert(r * r <= x && x < (r + 1) * (r + 1));
+        }
+    }
+}
+
 int main(){
+    check_isqrt();
+
     const int big = 10000000;
     Reference ref(big);
+
+    /// Queries outside 0 <= x < 2^53, where the double divisions stop being exact
+    DuSieve guard(100);
+    for (long long x : {-1LL, 1LL << 53}){
+        stress::expect_assert("number_theory/du_sieve.cpp", [&]{ guard.mertens(x); });
+        stress::expect_assert("number_theory/du_sieve.cpp", [&]{ guard.phi_sum(x); });
+    }
+
+    /// Both sides of sqrt(x), where the loop over i <= sqrt(x) hands over to the loop over q = x / i
+    for (int table : {1, 5, 40}){
+        DuSieve du(big, table);
+        for (long long k = 2; k <= 400; k++){
+            for (long long x : {k * k - 1, k * k, k * k + k - 1, k * k + k, k * k + 2 * k}) check(du, ref, x);
+        }
+    }
 
     /// Every query on small n, with the smallest tables so nearly everything goes through the recursion
     for (int n = 0; n <= 300; n++){
