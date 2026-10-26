@@ -146,7 +146,7 @@
 
 #### [Mobius Function](mobius_function.cpp)
 
-- [CodeChef COPRIME3 - Coprime Triples](https://www.codechef.com/problems/COPRIME3)
+- [CodeChef COPRIME3 - Coprime Triples](https://www.codechef.com/problems/COPRIME3) [✅](../../practice/number_theory/codechef_coprime3.cpp "Accepted solution")
 - [Codeforces 585E - Present for Vitalik the Philatelist ](https://codeforces.com/problemset/problem/585/E)
 - [Codeforces 915G - Coprime Arrays](https://codeforces.com/problemset/problem/915/G)
 - [CSES 2417 - Counting Coprime Pairs](https://cses.fi/problemset/task/2417)
