@@ -122,6 +122,7 @@ Each template's section in `code_library/<topic>/README.md` lists problems it so
 - **Several templates:** one file per template, `<judge>_<code>_<template>.cpp`, each linked from its own section
 - **Link:** ` [✅](../../practice/<topic>/<file> "Accepted solution")` after the entry
 - **Template copy:** taken from `code_library/`, never from another practice file
+- **Fast I/O:** every solution copies `fast_io.cpp` last, unless the judge's source limit leaves no room for it
 - **POJ, UVa and HDU:** these judges compile C++11, and so does CI; change the template copy only where C++11 needs it, as `/verdict` lists
 
 ## API and code

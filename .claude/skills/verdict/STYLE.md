@@ -6,7 +6,7 @@ For that code these rules replace CONTRIBUTING's `## API and code`, `## Style` a
 ## Rules
 
 - No comments at all after the template copies
-- Input and output only through the `fio` copy, with `using namespace fio;` on its own line right after the copy, never inside a function: `read(n, m)`, `write(res)`, `write(fixed(x, 6))` for a float; never `scanf`, `printf`, `puts`, `cin` or `cout`, which would reorder the stream
+- Input and output only through the `fio` copy (unless the judge's source limit leaves no room for it, see SKILL.md step 2), with `using namespace fio;` on its own line right after the copy, never inside a function: `read(n, m)`, `write(res)`, `write(fixed(x, 6))` for a float; never `scanf`, `printf`, `puts`, `cin` or `cout`, which would reorder the stream
 - A line `write` cannot shape, like a field width or `Case 3: ` before the answer, is built with `snprintf(buf, sizeof(buf), "Case %d: %lld", ++T, res);` and written as `write(string(buf));`
 - Declare the loop and scratch variables at the top of the function, `int t, i, j, res;`, and loop with `for (i = 0; ...)`; a variable used in one small spot may be declared there
 - Never declare a variable that is not used

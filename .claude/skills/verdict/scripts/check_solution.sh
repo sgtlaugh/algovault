@@ -1,9 +1,12 @@
 #!/bin/bash
-# check_solution.sh <solution> <template> [<template> ...]
+# check_solution.sh [--size-limit <bytes>] <solution> <template> [<template> ...]
 # Checks a practice solution before it is submitted: the template copies come first and unchanged (POJ, UVa and HDU may adapt
 # them for C++11), fast_io.cpp is copied last, the code after them has no comments, no stdio or iostream and no warnings,
 # and the file builds for its judge
+# --size-limit: the judge's source limit; fast_io may then be left out, with scanf and printf, only when its copy cannot fit
 set -uo pipefail
+size_limit=0
+[[ "${1:-}" == "--size-limit" ]] && { size_limit=$2; shift 2; }
 solution=$1; shift
 bad=0
 cxx="${CXX:-g++}"
@@ -32,9 +35,20 @@ comments=$(awk -v n="$copy_lines" 'NR > n && /\/\/|\/\*/ {print NR": "$0}' "$sol
 [[ -n "$comments" ]] && { echo "FAIL: comments after the template copy:"; echo "$comments"; bad=1; }
 
 # All input and output go through fio: scanf, printf, cin or cout next to its buffers would reorder the stream
-[[ " $* " == *"misc/fast_io.cpp "* ]] || { echo "FAIL: copy code_library/misc/fast_io.cpp last, after the other templates"; bad=1; }
-stdio=$(grep -nP '\b(scanf|printf|puts|gets|getchar|putchar|cin|cout)\b' "$solution" | awk -F: -v n="$copy_lines" '$1 > n')
-[[ -n "$stdio" ]] && { echo "FAIL: stdio or iostream after the template copy, use fio read and write:"; echo "$stdio"; bad=1; }
+if [[ " $* " == *"misc/fast_io.cpp "* ]]; then
+    stdio=$(grep -nP '\b(scanf|printf|puts|gets|getchar|putchar|cin|cout)\b' "$solution" | awk -F: -v n="$copy_lines" '$1 > n')
+    [[ -n "$stdio" ]] && { echo "FAIL: stdio or iostream after the template copy, use fio read and write:"; echo "$stdio"; bad=1; }
+elif [[ $size_limit -gt 0 ]]; then
+    # Leaving fio out is allowed only when the judge's source limit forces it, and the solution itself must fit
+    fio_bytes=$(awk '/^int main\(\)\{/{exit} {print}' code_library/misc/fast_io.cpp | wc -c)
+    with_fio=$(( $(printf '%s' "$prefix" | wc -c) + fio_bytes ))
+    size=$(wc -c < "$solution")
+    [[ $with_fio -gt $size_limit ]] || { echo "FAIL: the copies with fast_io are $with_fio bytes, within the $size_limit limit, so copy fast_io"; bad=1; }
+    [[ $size -le $size_limit ]] || { echo "FAIL: the solution is $size bytes, over the $size_limit byte limit"; bad=1; }
+    [[ $bad -eq 0 ]] && echo "note: fast_io left out, the copies with it are $with_fio bytes against the $size_limit byte limit"
+else
+    echo "FAIL: copy code_library/misc/fast_io.cpp last, after the other templates"; bad=1
+fi
 
 # Layout rules from STYLE.md that a script can check without judgment; the solution part starts after the copies
 layout=$(python3 -I - "$solution" "$copy_lines" "$old_judge" <<'PY'
