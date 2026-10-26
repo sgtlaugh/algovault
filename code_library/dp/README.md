@@ -113,7 +113,7 @@
 - [oj.uz CEOI18_glo - Global Warming](https://oj.uz/problem/view/CEOI18_glo) [✅](../../practice/dp/oj_uz_ceoi18_glo.cpp "Accepted solution")
 - [SPOJ CARDSHUF - Cards shuffing](https://www.spoj.com/problems/CARDSHUF/) [✅](../../practice/dp/spoj_cardshuf.cpp "Accepted solution")
 - [SPOJ DOSA - Lalith Dosa](https://www.spoj.com/problems/DOSA/) [✅](../../practice/dp/spoj_dosa.cpp "Accepted solution")
-- [SPOJ ONEXLIS - One X LIS](https://www.spoj.com/problems/ONEXLIS/)
+- [SPOJ ONEXLIS - One X LIS](https://www.spoj.com/problems/ONEXLIS/) [✅](../../practice/dp/spoj_onexlis.cpp "Accepted solution")
 - [SPOJ SUPPER - Supernumbers in a permutation](https://www.spoj.com/problems/SUPPER/)
 - [USACO 496 - Cow Jog](https://usaco.org/index.php?page=viewproblem2&cpid=496) [✅](../../practice/dp/usaco_496.cpp "Accepted solution")
 - [UVa 111 - History Grading](https://onlinejudge.org/external/1/111.pdf) [✅](../../practice/dp/uva_111.cpp "Accepted solution")
