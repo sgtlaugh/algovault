@@ -31,7 +31,7 @@
 
 #### [Discrete Logarithm](discrete_logarithm.cpp)
 
-- [CodeChef CHEFMOD - Chef and Modular Sequence](https://www.codechef.com/problems/CHEFMOD)
+- [CodeChef CHEFMOD - Chef and Modular Sequence](https://www.codechef.com/problems/CHEFMOD) [✅](../../practice/number_theory/codechef_chefmod.cpp "Accepted solution")
 - [CodeChef INVXOR - Inverse of a Function](https://www.codechef.com/problems/INVXOR)
 - [Codeforces Gym 101853G - Hard Equation](https://codeforces.com/gym/101853/problem/G)
 - [SPOJ MOD - Power Modulo Inverted](https://www.spoj.com/problems/MOD/)
