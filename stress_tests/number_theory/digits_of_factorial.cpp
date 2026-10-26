@@ -67,6 +67,9 @@ int main(){
         check_large(n, (long long)expq(lf / k) + stress::rand_int(-30000, 30000));
     }
 
+    /// A negative n would return 1 without the assert
+    stress::expect_assert("number_theory/digits_of_factorial.cpp", []{ digits_of_factorial(-1); });
+
     mpz_clears(f, r, NULL);
     fprintf(stderr, "skipped %lld undecidable cases\n", skipped);
     return 0;
