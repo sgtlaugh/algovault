@@ -19,6 +19,7 @@ For example, a [Suffix Automaton](code_library/strings/suffix_automaton.cpp) ans
 
 ```cpp
 SuffixAutomaton<> sa("banana");
+
 sa.distinct_substrings();   // 15
 sa.occurrences("ana");      // 2, overlapping
 sa.contains("nab");         // false
@@ -26,7 +27,8 @@ sa.contains("nab");         // false
 
 ## Index
 
-A ✔ marks a template that passes a judge test and links to one. A ✅ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice).
+- ✔ marks a template that passes a judge test, and links to one
+- ✅ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice)
 
 | | |
 |---|---|
@@ -331,12 +333,15 @@ Every template is checked four ways:
 | Layer | Where | Checks |
 |---|---|---|
 | Self-tests | `main()` in each file | Usage examples with known answers |
-| Stress tests | [`stress_tests/`](stress_tests), same path | Random inputs against an independent brute force |
+| Stress tests | [`stress_tests/`](stress_tests) | Random inputs against an independent brute force |
 | Repo checks | [`run_tests.sh`](.github/scripts/run_tests.sh) | Every file has a stress test and an index entry, consistent style |
-| Judge tests | [`judge_tests/`](judge_tests) | Official [Library Checker](https://judge.yosupo.jp) and [Aizu](https://onlinejudge.u-aizu.ac.jp) test data at full size, within the real time limit |
+| Judge tests | [`judge_tests/`](judge_tests) | Official [Library Checker](https://judge.yosupo.jp) and [Aizu](https://onlinejudge.u-aizu.ac.jp) test data at full size |
 
-Self-tests and stress tests build with GCC 14 under AddressSanitizer and UndefinedBehaviorSanitizer with an 8 MB stack, warnings as errors. Judge tests build with `-O2` like a judge.
+How tests build:
+- Self and stress tests: GCC 14 with AddressSanitizer and UndefinedBehaviorSanitizer, an 8 MB stack, warnings as errors
+- Judge tests: `-O2`, like a judge
 
+When they run:
 - Every push runs the self, stress and judge tests of the files it changes, plus the repo checks
 - Every night all self and stress tests run, and the stress tests again at 20x the iterations with a fresh seed
 - Every week all judge tests run from scratch
@@ -346,7 +351,9 @@ The commands to run everything locally are in [CONTRIBUTING.md](CONTRIBUTING.md#
 ## Contributing
 
 - Bug reports, fixes and new templates are welcome as issues or pull requests, see [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions and the checks CI runs
-- The skills in [`.claude/skills/`](.claude/skills) apply them: `/crucible` adds or refactors a template, `/lucid` keeps the docs consistent
+- The skills in [`.claude/skills/`](.claude/skills) apply them:
+  - `/crucible` adds or refactors a template
+  - `/lucid` keeps the docs consistent
 
 ## License
 
