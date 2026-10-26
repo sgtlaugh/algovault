@@ -49,7 +49,7 @@
 - [AOJ NTL_1_E - Extended Euclid Algorithm](https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E) [✅](../../practice/number_theory/aoj_ntl_1_e.cpp "Accepted solution")
 - [AtCoder ABC340 F - S = 1](https://atcoder.jp/contests/abc340/tasks/abc340_f) [✅](../../practice/number_theory/atcoder_abc340_f.cpp "Accepted solution")
 - [Codeforces 633A - Ebony and Ivory](https://codeforces.com/problemset/problem/633/A) [✅](../../practice/number_theory/codeforces_633a.cpp "Accepted solution")
-- [Codeforces Gym 100963J - Once Upon A Time](https://codeforces.com/gym/100963/problem/J)
+- [Codeforces Gym 100963J - Once Upon A Time](https://codeforces.com/gym/100963/problem/J) [✅](../../practice/number_theory/codeforces_gym_100963j.cpp "Accepted solution")
 - [Kattis modulararithmetic - Modular Arithmetic](https://open.kattis.com/problems/modulararithmetic) [✅](../../practice/number_theory/kattis_modulararithmetic.cpp "Accepted solution")
 - [LightOJ 1306 - Solutions to an Equation](https://lightoj.com/problem/solutions-to-an-equation) [✅](../../practice/number_theory/lightoj_1306.cpp "Accepted solution")
 - [SPOJ CEQU - Crucial Equation](https://www.spoj.com/problems/CEQU/)
