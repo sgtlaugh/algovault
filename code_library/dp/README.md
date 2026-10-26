@@ -70,7 +70,7 @@
 #### [Garsia-Wachs](garsia_wachs.cpp)
 
 - [POJ 1738 - An old Stone Game](http://poj.org/problem?id=1738)
-- [UVa 12836 - Gain Battle Power](https://onlinejudge.org/external/128/12836.pdf)
+- [UVa 12836 - Gain Battle Power](https://onlinejudge.org/external/128/12836.pdf) [✅](../../practice/dp/uva_12836_garsia_wachs.cpp "Accepted solution")
 
 #### [Hamiltonian Path and Cycle](hamiltonian_dp.cpp)
 
