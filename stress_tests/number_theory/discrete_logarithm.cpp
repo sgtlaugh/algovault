@@ -25,7 +25,70 @@ int brute(int a, int b, int mod){
     return -1;
 }
 
+bool slow_is_prime(long long n){
+    if (n < 2) return false;
+    for (long long d = 2; d * d <= n; d++){
+        if (n % d == 0) return false;
+    }
+    return true;
+}
+
+/// A random prime p <= hi, above hi / max_factor, whose p - 1 has only prime factors up to max_factor
+int smooth_prime(long long hi, int max_factor){
+    vector<int> small;
+    for (int q = 2; q <= max_factor; q++){
+        if (slow_is_prime(q)) small.push_back(q);
+    }
+
+    while (true){
+        long long p = 2;
+        while (p * max_factor <= hi) p *= small[stress::rand_int(0, (int)small.size() - 1)];
+        if (p + 1 <= hi && slow_is_prime(p + 1)) return p + 1;
+    }
+}
+
 int main(){
+    /// Strong pseudoprimes to two of the bases 2, 7 and 61 are composite, n < 5000 holds those of one base
+    for (int n : {79381, 314821, 916327}) assert(!dlog::is_prime(n));
+    for (int n = 0; n < 5000; n++) assert(dlog::is_prime(n) == slow_is_prime(n));
+    for (long long it = 0; it < stress::scaled(2000); it++){
+        int n = stress::rand_int(1, INT_MAX);
+        assert(dlog::is_prime(n) == slow_is_prime(n));
+    }
+
+    /// Every a and b for small primes: the Pohlig-Hellman path, with p = 2 and a = 0 among them
+    for (int p = 2; p < 150; p++){
+        if (!slow_is_prime(p)) continue;
+        for (int a = 0; a < p; a++){
+            for (int b = 0; b < p; b++) assert(discrete_log(a, b, p) == brute(a, b, p));
+        }
+    }
+
+    /// Large primes against the baby step giant step path: random, smooth p - 1, and p = 2q + 1 with q prime
+    for (long long it = 0; it < stress::scaled(150); it++){
+        long long p = 0, hi = it % 4 ? INT_MAX : 1000000;
+        if (it % 3 == 0){
+            do p = stress::rand_int(2, hi); while (!slow_is_prime(p));
+        }
+        else if (it % 3 == 1) p = smooth_prime(hi, stress::rand_int(0, 1) ? 50 : 3000);
+        else{
+            do p = 2 * stress::rand_int(1, (hi - 1) / 2) + 1; while (!slow_is_prime(p) || !slow_is_prime(p / 2));
+        }
+
+        int a = stress::rand_int(it % 5 ? 1 : INT_MIN, INT_MAX), k = stress::rand_int(0, p - 2);
+        int b = stress::rand_int(0, 1) ? pow_mod(a, k, p) : stress::rand_int(INT_MIN, INT_MAX);
+        assert(discrete_log(a, b, p) == dlog::baby_step_giant_step(residue(a, p), residue(b, p), p, p));
+    }
+
+    /// The largest primes, 2^31 - 1 has the prime power 3^2 in p - 1
+    for (int p : {INT_MAX, 2147483629, 2147483587}){
+        for (int it = 0; it < 4; it++){
+            int a = stress::rand_int(1, p - 1);
+            int b = it % 2 ? pow_mod(a, stress::rand_int(0, p - 2), p) : stress::rand_int(0, p - 1);
+            assert(discrete_log(a, b, p) == dlog::baby_step_giant_step(a, b, p, p));
+        }
+    }
+
     for (long long it = 0; it < stress::scaled(20000); it++){
         int mod = stress::rand_int(1, it % 10 ? 100 : 5000);
         int a = stress::rand_int(it % 5 ? 0 : -3 * mod, it % 3 ? mod - 1 : 3 * mod);
