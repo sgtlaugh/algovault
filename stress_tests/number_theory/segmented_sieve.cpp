@@ -38,27 +38,46 @@ bool reference_prime(unsigned long long n){
     return true;
 }
 
-/// Fresh builds cost O(sqrt(R)) each, so the wrapper is compared on small R and on a few chosen windows
-void check(const SegmentedSieve& sieve, long long L, long long R, bool fresh = false){
+void check(const SegmentedSieve& sieve, long long L, long long R){
     vector<char> res = sieve.window(L, R);
     assert((long long)res.size() == R - L + 1);
-    long long primes = 0;
+    for (long long x = L; x <= R; x++) assert(res[x - L] == reference_prime(x));
+}
 
-    for (long long x = L; x <= R; x++){
-        assert(res[x - L] == reference_prime(x));
-        primes += res[x - L];
+/// Windows wider than block_size against an unblocked sieve, too wide for Miller-Rabin on every number
+void check_wide(const SegmentedSieve& sieve, const vector<long long>& base, long long L, long long R){
+    vector<char> expected(R - L + 1, 1);
+    for (long long p : base){
+        if (p * p > R) break;
+        for (long long j = max(p * p, (L + p - 1) / p * p); j <= R; j += p) expected[j - L] = 0;
     }
+    for (long long x = L; x <= min(R, 1LL); x++) expected[x - L] = 0;
 
-    if (fresh || R <= 10000000000LL) assert(segmented_sieve(L, R) == res);
-    if (R <= 10000000000LL) assert(count_primes(L, R) == primes);
+    assert(sieve.window(L, R) == expected);
+    for (int k = 0; k < 20; k++){
+        long long x = stress::rand_int(L, R);
+        assert(expected[x - L] == reference_prime(x));
+    }
 }
 
 int main(){
     const long long MAXR = 100000000000000LL;
+    const long long block = SegmentedSieve::block_size;
     SegmentedSieve big(MAXR), near(1003000);
 
+    vector<long long> base;
+    vector<char> composite(10000001, 0);
+    for (long long p = 2; p <= 10000000; p++){
+        if (composite[p]) continue;
+        base.push_back(p);
+        for (long long j = p * p; j <= 10000000; j += p) composite[j] = 1;
+    }
+
     for (long long L = 0; L <= 60; L++){
-        for (long long R = L; R <= 60; R++) check(big, L, R), check(near, L, R);
+        for (long long R = L; R <= 60; R++){
+            check(big, L, R);
+            check(near, L, R);
+        }
     }
 
     for (long long it = 0; it < stress::scaled(150); it++){
@@ -74,13 +93,33 @@ int main(){
     }
 
     /// Windows hugging the upper bound and around perfect squares of primes, R = p * p checks the last base prime
-    check(big, MAXR - 3000, MAXR, true);
+    check(big, MAXR - 3000, MAXR);
     for (long long p : {9999991LL, 9999973LL, 1000003LL}){
-        check(big, p * p - 1000, p * p + 1000, true);
+        check(big, p * p - 1000, p * p + 1000);
         check(SegmentedSieve(p * p), p * p - 1000, p * p);
     }
 
-    assert(count_primes(1, 10000000) == 664579);
+    /// R - L within 2 of a multiple of block_size catches a last number left to the wrong block
+    for (long long k = 1; k <= 3; k++){
+        for (long long d = -2; d <= 2; d++){
+            long long L = stress::rand_int(0, MAXR - 200000);
+            check_wide(big, base, L, L + k * block + d);
+            check_wide(near, base, L % 500000, L % 500000 + k * block + d);
+        }
+    }
+
+    for (long long it = 0; it < stress::scaled(20); it++){
+        long long len = stress::rand_int(block, 300000);
+        const SegmentedSieve& sieve = it % 4 == 0 ? near : big;
+        long long L = it % 3 == 0 ? stress::rand_int(0, 100000) : stress::rand_int(0, sieve.max_r - len);
+        check_wide(sieve, base, L, L + len);
+    }
+
+    /// The widest windows the header allows, at both ends of the range
+    check_wide(big, base, 0, 10000000);
+    check_wide(big, base, MAXR - 10000000, MAXR);
+    vector<char> first = big.window(0, 10000000);
+    assert(count(first.begin(), first.end(), 1) == 664579);
 
     return 0;
 }
