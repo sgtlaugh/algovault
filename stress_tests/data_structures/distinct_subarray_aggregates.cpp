@@ -4,7 +4,22 @@
 #include "../../code_library/data_structures/distinct_subarray_aggregates.cpp"
 #undef main
 
-/// Segments after each push against op(a[l..i]) folded from every l, and the O(n^2) map of all subarray values
+/// Segments after the push of a[i] against f[l] = op(a[l..i]) for every l <= i
+template <typename T, typename Segments>
+void verify(const Segments& segs, const vector<T>& f, int i, size_t max_segments){
+    assert(!segs.empty() && segs.size() <= max_segments);
+    assert(segs[0].left == 0 && segs.back().right == i);
+
+    set<T> seen;
+    for (size_t k = 0; k < segs.size(); k++){
+        auto& s = segs[k];
+        assert(s.left <= s.right && (k == 0 || s.left == segs[k - 1].right + 1));
+        assert(seen.insert(s.value).second);
+        for (int l = s.left; l <= s.right; l++) assert(f[l] == s.value);
+    }
+}
+
+/// Runs verify after every push and compares the O(n^2) map of all subarray values
 template <typename T, typename Op>
 void check(const vector<T>& a, Op op, size_t max_segments){
     int n = a.size();
@@ -19,21 +34,34 @@ void check(const vector<T>& a, Op op, size_t max_segments){
         for (int l = i - 1; l >= 0; l--) f[l] = op(a[l], f[l + 1]);
         for (int l = 0; l <= i; l++) expected_cnt[f[l]]++;
 
-        auto& segs = agg.segments();
-        assert(!segs.empty() && segs.size() <= max_segments);
-        assert(segs[0].left == 0 && segs.back().right == i);
-
-        set<T> seen;
-        for (size_t k = 0; k < segs.size(); k++){
-            auto& s = segs[k];
-            assert(s.left <= s.right && (k == 0 || s.left == segs[k - 1].right + 1));
-            assert(seen.insert(s.value).second);
-            for (int l = s.left; l <= s.right; l++) assert(f[l] == s.value);
-            cnt[s.value] += s.right - s.left + 1;
-        }
+        verify(agg.segments(), f, i, max_segments);
+        for (auto& s : agg.segments()) cnt[s.value] += s.right - s.left + 1;
     }
 
     assert(cnt == expected_cnt);
+}
+
+/// Every array of length at most len over alphabet, each one pushed once onto a copy of its parent prefix
+template <typename T, typename Op, typename Bound>
+void exhaustive(const vector<T>& alphabet, int len, Op op, Bound max_segments){
+    vector<T> a;
+    auto dfs = [&](auto& self, const DistinctSubarrayAggregates<T, Op>& agg) -> void{
+        for (T x : alphabet){
+            auto next = agg;
+            next.push(x);
+            a.push_back(x);
+
+            int i = a.size() - 1;
+            vector<T> f(i + 1);
+            f[i] = x;
+            for (int l = i - 1; l >= 0; l--) f[l] = op(a[l], f[l + 1]);
+            verify(next.segments(), f, i, max_segments(a));
+
+            if (i + 1 < len) self(self, next);
+            a.pop_back();
+        }
+    };
+    dfs(dfs, DistinctSubarrayAggregates<T, Op>(op));
 }
 
 size_t gcd_bound(const vector<long long>& a){
@@ -55,21 +83,13 @@ long long smooth(long long limit){
 int main(){
     auto gcd_op = [](long long x, long long y){ return gcd(x, y); };
 
-    /// Every array of length 6, so every shorter array is checked as a prefix
-    vector<long long> gcd_alphabet = {0, 1, 2, 3, 4, 6};
-    for (int code = 0; code < 46656; code++){
-        vector<long long> g;
-        for (int c = code, k = 0; k < 6; k++, c /= 6) g.push_back(gcd_alphabet[c % 6]);
-        check(g, gcd_op, gcd_bound(g));
-    }
-    for (int code = 0; code < (1 << 18); code++){
-        vector<unsigned long long> u;
-        for (int k = 0; k < 6; k++) u.push_back(code >> (3 * k) & 7);
-        check(u, bit_or<unsigned long long>(), 4);
-        check(u, bit_and<unsigned long long>(), 4);
-    }
+    /// Every array of length at most 6
+    exhaustive(vector<long long>{0, 1, 2, 3, 4, 6}, 6, gcd_op, gcd_bound);
+    vector<unsigned long long> three_bits = {0, 1, 2, 3, 4, 5, 6, 7};
+    exhaustive(three_bits, 6, bit_or<unsigned long long>(), [](auto&){ return size_t(4); });
+    exhaustive(three_bits, 6, bit_and<unsigned long long>(), [](auto&){ return size_t(4); });
 
-    for (long long it = 0; it < stress::scaled(1200); it++){
+    for (long long it = 0; it < stress::scaled(600); it++){
         int n = it < 400 ? it % 40 + 1 : stress::rand_int(1, 300);
         int kind = it % 4;
 
