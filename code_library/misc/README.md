@@ -50,7 +50,7 @@
 
 - [POJ 2069 - Super Star](http://poj.org/problem?id=2069)
 - [SPOJ NBLINDESC - Not So Blind Escape](https://www.spoj.com/problems/NBLINDESC/) [✅](../../practice/misc/spoj_nblindesc.cpp "Accepted solution")
-- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf)
+- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✅](../../practice/misc/uva_10228_local_minimization.cpp "Accepted solution")
 
 #### [N Queens](n_queen.cpp)
 
