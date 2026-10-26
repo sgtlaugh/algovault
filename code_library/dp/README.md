@@ -34,7 +34,7 @@
 - [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B) [✅](../../practice/dp/codeforces_311b_convex_hull_trick.cpp "Accepted solution")
 - [Codeforces 319C - Kalila and Dimna in the Logging Industry](https://codeforces.com/problemset/problem/319/C) [✅](../../practice/dp/codeforces_319c.cpp "Accepted solution")
 - [Codeforces 631E - Product Sum](https://codeforces.com/problemset/problem/631/E) [✅](../../practice/dp/codeforces_631e.cpp "Accepted solution")
-- [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C)
+- [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C) [✅](../../practice/dp/codeforces_643c_convex_hull_trick.cpp "Accepted solution")
 - [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F)
 - [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E) [✅](../../practice/dp/codeforces_1083e.cpp "Accepted solution")
 - [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084)
