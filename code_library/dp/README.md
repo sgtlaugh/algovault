@@ -31,7 +31,7 @@
 #### [Convex Hull Trick](convex_hull_trick.cpp)
 
 - [AtCoder ARC066 F - Contest with Drinks Hard](https://atcoder.jp/contests/arc066/tasks/arc066_d) [✅](../../practice/dp/atcoder_arc066_f.cpp "Accepted solution")
-- [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B)
+- [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B) [✅](../../practice/dp/codeforces_311b_convex_hull_trick.cpp "Accepted solution")
 - [Codeforces 319C - Kalila and Dimna in the Logging Industry](https://codeforces.com/problemset/problem/319/C)
 - [Codeforces 631E - Product Sum](https://codeforces.com/problemset/problem/631/E)
 - [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C)
