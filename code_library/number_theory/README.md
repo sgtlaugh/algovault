@@ -63,7 +63,7 @@
 - [CSES 1722 - Fibonacci Numbers](https://cses.fi/problemset/task/1722) [✅](../../practice/number_theory/cses_1722.cpp "Accepted solution")
 - [DMOJ fibonacci - Fibonacci Sequence](https://dmoj.ca/problem/fibonacci) [✅](../../practice/number_theory/dmoj_fibonacci.cpp "Accepted solution")
 - [DMOJ UCLV secnum - Secuencia numerada de lápices](https://dmoj.uclv.edu.cu/problem/secnum) [✅](../../practice/number_theory/dmoj_uclv_secnum.cpp "Accepted solution")
-- [LightOJ 1065 - Number Sequence](https://lightoj.com/problem/number-sequence)
+- [LightOJ 1065 - Number Sequence](https://lightoj.com/problem/number-sequence) [✅](../../practice/number_theory/lightoj_1065.cpp "Accepted solution")
 - [SPOJ FIBOSUM - Fibonacci Sum](https://www.spoj.com/problems/FIBOSUM/)
 - [SPOJ MAIN74 - Euclids algorithm revisited](https://www.spoj.com/problems/MAIN74/)
 - [UVa 10229 - Modular Fibonacci](https://onlinejudge.org/external/102/10229.pdf) [✅](../../practice/number_theory/uva_10229.cpp "Accepted solution")
