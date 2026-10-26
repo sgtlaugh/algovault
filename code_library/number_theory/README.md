@@ -90,7 +90,7 @@
 #### [Linear Sieve](linear_sieve.cpp)
 
 - [Codeforces 17A - Noldbach problem](https://codeforces.com/problemset/problem/17/A) [✅](../../practice/number_theory/codeforces_17a.cpp "Accepted solution")
-- [Codeforces 26A - Almost Prime](https://codeforces.com/problemset/problem/26/A)
+- [Codeforces 26A - Almost Prime](https://codeforces.com/problemset/problem/26/A) [✅](../../practice/number_theory/codeforces_26a.cpp "Accepted solution")
 - [Codeforces 154B - Colliders](https://codeforces.com/problemset/problem/154/B) [✅](../../practice/number_theory/codeforces_154b.cpp "Accepted solution")
 - [Codeforces 645F - Cowslip Collections](https://codeforces.com/problemset/problem/645/F)
 - [Codeforces 776B - Sherlock and his girlfriend](https://codeforces.com/problemset/problem/776/B)
