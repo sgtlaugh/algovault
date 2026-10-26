@@ -3,15 +3,16 @@
  * Extended GCD
  * Extended gcd, modular inverse, and linear diophantine equations (solve and count solutions in a box)
  *
- * Complexity: O(log m) for extended_gcd, mod_inverse, diophantine and count_diophantine
+ * Complexity: O(log m) for mod_inverse, O(log min(|a|, |b|)) for the others
  *
- * count_diophantine(a, b, c, x1, x2, y1, y2): number of solutions with x1 <= x <= x2 and y1 <= y <= y2
- *     every argument within [-1e9, 1e9], empty ranges give 0
- *     a = b = 0 and c = 0 gives the full box, (2e9 + 1)^2 at most, still within long long
- * diophantine(a, b, c, x, y): solves a * x + b * y = c, returns false if there is no solution
- *     a, b, c may be negative, |a|, |b|, |c| <= 1e9 keeps x and y within long long
- * extended_gcd(a, b, x, y): returns g = gcd(a, b) and sets a * x + b * y = g, for a, b >= 0
- * mod_inverse(a, m): inverse of a modulo m for any 1 <= m < 2^63, -1 if gcd(a, m) != 1, a may be negative or >= m
+ * count_diophantine(a, b, c, x1, x2, y1, y2): number of (x, y) with a * x + b * y = c in [x1, x2] x [y1, y2]
+ * diophantine(a, b, c): some (x, y) with a * x + b * y = c, nullopt if there is none
+ * extended_gcd(a, b): {g, x, y} with g = gcd(a, b) and a * x + b * y = g, for a, b >= 0
+ * mod_inverse(a, m): inverse of a modulo m in [0, m), -1 if gcd(a, m) != 1, for any a and 1 <= m < 2^63
+ *
+ * Notes:
+ *   - count_diophantine: arguments in [-1e9, 1e9], an empty range gives 0, a = b = c = 0 counts the whole box
+ *   - diophantine: a, b, c may be negative, |a|, |b|, |c| <= 1e9 keeps x and y within long long
  *
 ***/
 
@@ -20,18 +21,17 @@
 using namespace std;
 
 /// BEGIN SHARED extended_gcd
-long long extended_gcd(long long a, long long b, long long& x, long long& y){
+array<long long, 3> extended_gcd(long long a, long long b){
     assert(a >= 0 && b >= 0);
 
-    long long x1 = 0, y1 = 1;
-    x = 1, y = 0;
+    long long x = 1, y = 0, x1 = 0, y1 = 1;
     while (b){
         long long q = a / b;
         tie(x, x1) = make_pair(x1, x - q * x1);
         tie(y, y1) = make_pair(y1, y - q * y1);
         tie(a, b) = make_pair(b, a - q * b);
     }
-    return a;
+    return {a, x, y};
 }
 
 long long mod_inverse(long long a, long long m){
@@ -40,32 +40,30 @@ long long mod_inverse(long long a, long long m){
     a %= m;
     if (a < 0) a += m;
 
-    long long x, y;
-    if (extended_gcd(a, m, x, y) != 1) return -1;
-    x %= m;
+    auto [g, x, y] = extended_gcd(a, m);
+    if (g != 1) return -1;
     return x < 0 ? x + m : x;
 }
 /// END SHARED extended_gcd
 
-bool diophantine(long long a, long long b, long long c, long long& x, long long& y){
+optional<pair<long long, long long>> diophantine(long long a, long long b, long long c){
     if (a == 0 && b == 0){
-        x = y = 0;
-        return c == 0;
+        if (c) return nullopt;
+        return pair(0LL, 0LL);
     }
 
-    long long g = extended_gcd(llabs(a), llabs(b), x, y);
-    if (c % g) return false;
+    auto [g, x, y] = extended_gcd(llabs(a), llabs(b));
+    if (c % g) return nullopt;
 
     x *= c / g, y *= c / g;
     if (a < 0) x = -x;
     if (b < 0) y = -y;
-    return true;
+    return pair(x, y);
 }
 
 long long count_diophantine(long long a, long long b, long long c, long long x1, long long x2, long long y1, long long y2){
-    long long x, y;
-
-    if (!diophantine(a, b, c, x, y)) return 0;
+    auto sol = diophantine(a, b, c);
+    if (!sol) return 0;
     if (a == 0 && b == 0) return max(0LL, x2 - x1 + 1) * max(0LL, y2 - y1 + 1);
 
     /// shrinks [lo, hi] to the k with lo_val <= base + k * step <= hi_val
@@ -81,26 +79,27 @@ long long count_diophantine(long long a, long long b, long long c, long long x1,
         lo = max(lo, -floor_div(base - lo_val));
         hi = min(hi, floor_div(hi_val - base));
     };
-    restrict_steps(x, b / g, x1, x2);
-    restrict_steps(y, -a / g, y1, y2);
+    restrict_steps(sol->first, b / g, x1, x2);
+    restrict_steps(sol->second, -a / g, y1, y2);
     return max(0LL, hi - lo + 1);
 }
 
 int main(){
-    long long x, y;
-    assert(extended_gcd(240, 46, x, y) == 2);
+    /// Bezout coefficients of 240 and 46, whose gcd is 2
+    auto [g, x, y] = extended_gcd(240, 46);
+    assert(g == 2);
     assert(240 * x + 46 * y == 2);
-    assert(extended_gcd(7, 0, x, y) == 7 && x == 1 && y == 0);
 
     assert(mod_inverse(3, 7) == 5);   /// 3 * 5 = 15 = 1 mod 7
     assert(mod_inverse(-4, 7) == 5);  /// -4 = 3 mod 7
     assert(mod_inverse(4, 6) == -1);  /// gcd(4, 6) = 2
 
-    assert(diophantine(3, 5, 7, x, y));
-    assert(3 * x + 5 * y == 7);
-    assert(!diophantine(2, 4, 5, x, y));                       /// gcd(2, 4) does not divide 5
-    assert(count_diophantine(2, 3, 12, 0, 10, 0, 10) == 3);    /// (0, 4), (3, 2) and (6, 0)
-    assert(count_diophantine(2, -3, 0, -3, 3, -3, 3) == 3);    /// (-3, -2), (0, 0) and (3, 2)
-    assert(count_diophantine(0, 0, 0, 1, 2, 1, 3) == 6);
+    auto sol = diophantine(3, 5, 7);
+    assert(sol);
+    assert(3 * sol->first + 5 * sol->second == 7);
+    assert(!diophantine(2, 4, 5));  /// gcd(2, 4) does not divide 5
+
+    assert(count_diophantine(2, 3, 12, 0, 10, 0, 10) == 3);  /// (0, 4), (3, 2) and (6, 0)
+    assert(count_diophantine(2, -3, 0, -3, 3, -3, 3) == 3);  /// (-3, -2), (0, 0) and (3, 2)
     return 0;
 }

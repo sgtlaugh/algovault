@@ -16,12 +16,18 @@ void check_inverse(long long a, long long m){
     assert((__int128)r * inv % m == (m == 1 ? 0 : 1));
 }
 
+void check_extended_gcd(long long a, long long b){
+    auto [g, x, y] = extended_gcd(a, b);
+    assert(g == __gcd(a, b));
+    assert((__int128)a * x + (__int128)b * y == g);
+}
+
 void check_diophantine(long long a, long long b, long long c){
-    long long x, y;
     long long g = __gcd(llabs(a), llabs(b));
     bool solvable = g == 0 ? c == 0 : c % g == 0;
-    assert(diophantine(a, b, c, x, y) == solvable);
-    if (solvable) assert((__int128)a * x + (__int128)b * y == c);
+    auto sol = diophantine(a, b, c);
+    assert(sol.has_value() == solvable);
+    if (solvable) assert((__int128)a * sol->first + (__int128)b * sol->second == c);
 }
 
 /// reference for wide boxes: scans x and solves y exactly, so only the x range must be small
@@ -49,6 +55,15 @@ void check_count_box(long long a, long long b, long long c, long long x1, long l
 
 int main(){
     const long long E9 = 1000000000LL;
+
+    for (long long a = 0; a <= 60; a++){
+        for (long long b = 0; b <= 60; b++) check_extended_gcd(a, b);
+    }
+    for (long long it = 0; it < stress::scaled(200000); it++){
+        long long a = stress::rand_int(0, LLONG_MAX), b = stress::rand_int(0, it % 2 ? LLONG_MAX : 1000);
+        check_extended_gcd(a, b);
+        check_extended_gcd(b, a);
+    }
 
     for (long long m = 1; m <= 60; m++){
         for (long long a = -70; a <= 70; a++) check_inverse(a, m);

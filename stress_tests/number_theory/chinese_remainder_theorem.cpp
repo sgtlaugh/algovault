@@ -180,7 +180,7 @@ void tiny_garner_vs_scan(){
         long long x = 0;
         while (!solves(x, rems, mods)) x++;
         long long mod = it % 3 ? stress::rand_int(1, 50) : stress::rand_int(1, INF);
-        assert(garner(rems, mods, mod) == x % mod);
+        assert(Garner(mods, mod)(rems) == x % mod);
     }
 }
 
@@ -205,7 +205,7 @@ void big_garner_vs_bignum(){
         }
 
         long long mod = it % 3 == 0 ? INF : stress::rand_int(1, it % 3 == 1 ? 1000000 : INF);
-        assert(garner(rems, mods, mod) == big_mod(x, mod));
+        assert(Garner(mods, mod)(rems) == big_mod(x, mod));
     }
 }
 
@@ -223,13 +223,13 @@ void huge_garner_properties(){
 
         for (size_t i = 0; i < mods.size(); i++) rems.push_back(random_rem());
 
-        for (size_t j = 0; j < mods.size(); j++) assert(garner(rems, mods, mods[j]) == ((__int128)rems[j] % mods[j] + mods[j]) % mods[j]);
+        for (size_t j = 0; j < mods.size(); j++) assert(Garner(mods, mods[j])(rems) == ((__int128)rems[j] % mods[j] + mods[j]) % mods[j]);
 
         long long mod = stress::rand_int(1, INF);
         auto rev_rems = rems, rev_mods = mods;
         reverse(rev_rems.begin(), rev_rems.end());
         reverse(rev_mods.begin(), rev_mods.end());
-        assert(garner(rems, mods, mod) == garner(rev_rems, rev_mods, mod));
+        assert(Garner(mods, mod)(rems) == Garner(rev_mods, mod)(rev_rems));
     }
 }
 
@@ -264,7 +264,68 @@ void ntt_garner_recombination(){
     }
 }
 
+void edge_cases(){
+    /// Empty systems, mod 1, residues at INT64_MIN and INF, and lcm or target mods right below 2^63
+    assert(CRT({}, {}) == 0);
+    assert(CRT({5}, {1}) == 0);
+    assert(CRT({-1, -1}, {4, 6}) == 11);
+    assert(CRT({7, 2}, {5, 5}) == 2);
+    assert(CRT({1, 2}, {5, 5}) == -1);
+    assert(CRT({1, 2, 3}, {2, 3, 4}) == 11);
+    assert(CRT({0, 2, 3}, {2, 3, 4}) == -1);
+    assert(CRT({5, 3 * (1LL << 60) + 5}, {3 * (1LL << 61), 3 * (1LL << 60)}) == 5);
+    assert(CRT({5, 6}, {3 * (1LL << 61), 3 * (1LL << 60)}) == -1);
+    assert(CRT({-51146671749066063, 9680838726321}, {1099511627776LL * 59049, 1073741824LL * 1701}) == 78703452468023985);
+    assert(CRT({-1}, {INF}) == INF - 1);
+    assert(CRT({INT64_MIN}, {INF}) == INF - 1);
+    assert(CRT({0, 1}, {153092023, 60247241209}) == 2695413193155969174);
+    assert(CRT({INT64_MIN, INF}, {153092023, 60247241209}) == 2695413193155969173);
+
+    assert(Garner({}, 10)({}) == 0);
+    assert(Garner({3, 5, 7}, 1)({2, 3, 2}) == 0);
+    assert(Garner({1, 1, 7}, 10)({5, 6, 3}) == 3);
+    assert(Garner({1000000007, 998244353, 1000000009}, 1000000007)({1, 2, 3}) == 1);
+    assert(Garner({1000000007, 998244353, 1000000009}, (1LL << 61) - 1)({1, 2, 3}) == 1131585747248034387);
+    assert(Garner({1000000007, 998244353, 1000000009}, INF)({1, 2, 3}) == 1131585747206765391);
+
+    vector<long long> big_rems = {-1, 100000000000000000, 1LL << 62, INT64_MIN};
+    vector<long long> big_mods = {1000000000000000003, 1000000000000000009, (1LL << 61) - 1, INF};
+    assert(Garner(big_mods, INF)(big_rems) == INF - 1);
+    assert(Garner(big_mods, 1000000007)(big_rems) == 746669198);
+    assert(Garner(big_mods, 2)(big_rems) == 0);
+}
+
+void rejected_inputs(){
+    /// Garner on moduli sharing a factor and CRT past an lcm of 2^63 must assert, not return a wrong answer
+    const string lib = "number_theory/chinese_remainder_theorem.cpp";
+    stress::expect_assert(lib, []{ Garner({4, 6}, 10); });
+    stress::expect_assert(lib, []{ Garner({7, 3, 21}, 10); });
+    stress::expect_assert(lib, []{ CRT({1, 2}, {4000000007LL, 4000000009LL}); });
+    stress::expect_assert(lib, []{ CRT({0, 0, 0}, {1LL << 62, 3, 2}); });
+}
+
+void garner_wide_sums(){
+    /// Digits and coefficients near 2^63 for 12 moduli, so a prefix sum reduced too lazily overflows 128 bits
+    const long long target = 9223372036854775783;
+    for (long long it = 0; it < stress::scaled(100); it++){
+        vector<long long> mods = {target - stress::rand_int(1, 1LL << 40)};
+        long long coef = mods[0], coef_inv = pow_mod(coef, target - 2, target);
+        while (mods.size() < 12){
+            long long next = target - stress::rand_int(1, 1LL << 40);
+            long long m = (__int128)next * coef_inv % target;
+            bool usable = m > target - target / 16;
+            for (auto x : mods) usable = usable && __gcd(x, m) == 1;
+            if (usable) mods.push_back(m), coef = next, coef_inv = pow_mod(coef, target - 2, target);
+        }
+
+        vector<long long> rems(mods.size(), -1);  /// x = product - 1, every digit at its maximum m - 1
+        assert(Garner(mods, target)(rems) == coef - 1);
+    }
+}
+
 int main(){
+    edge_cases();
+    rejected_inputs();
     tiny_coprime_vs_scan();
     large_coprime_congruences();
     tiny_crt_vs_scan();
@@ -272,6 +333,7 @@ int main(){
     tiny_garner_vs_scan();
     big_garner_vs_bignum();
     huge_garner_properties();
+    garner_wide_sums();
     ntt_garner_recombination();
 
     return 0;

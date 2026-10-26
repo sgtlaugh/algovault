@@ -7,10 +7,10 @@
 #undef main
 
 int main(){
-    long long a, b, x, y;
+    long long a, b;
     if (scanf("%lld %lld", &a, &b) != 2) return 0;
 
-    extended_gcd(a, b, x, y);
+    auto [g, x, y] = extended_gcd(a, b);
     printf("%lld %lld\n", x, y);
     return 0;
 }
