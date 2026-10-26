@@ -154,7 +154,7 @@
 - [LightOJ 1161 - Extreme GCD](https://lightoj.com/problem/extreme-gcd) [✅](../../practice/number_theory/lightoj_1161.cpp "Accepted solution")
 - [SPOJ MSKYCODE - Sky Code](https://www.spoj.com/problems/MSKYCODE/) [✅](../../practice/number_theory/spoj_mskycode.cpp "Accepted solution")
 - [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/) [✅](../../practice/number_theory/spoj_pgcd_mobius_function.cpp "Accepted solution")
-- [SPOJ PSTR - Number of Prime Strings](https://www.spoj.com/problems/PSTR/)
+- [SPOJ PSTR - Number of Prime Strings](https://www.spoj.com/problems/PSTR/) [✅](../../practice/number_theory/spoj_pstr.cpp "Accepted solution")
 - [SPOJ SQFREE - Square-free integers](https://www.spoj.com/problems/SQFREE/)
 - [SPOJ VLATTICE - Visible Lattice Points](https://www.spoj.com/problems/VLATTICE/)
 - [UVa 10738 - Riemann vs Mertens](https://onlinejudge.org/external/107/10738.pdf) [✅](../../practice/number_theory/uva_10738.cpp "Accepted solution")
