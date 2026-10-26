@@ -3,9 +3,7 @@
 # self (default): compiles and runs every C++ self-test in code_library under AddressSanitizer and
 #                 UndefinedBehaviorSanitizer, then runs every Python file
 # stress:         does the same for every test in stress_tests, then reports library files without a stress test
-# both modes also report library files missing from the README index, index descriptions over 50 characters, README ✔ marks that disagree with judge_tests,
-# practice solutions and practice section links that disagree, a practice problem whose copies differ in title or URL, POJ, UVa and HDU solutions that do not build as C++11, a fast_io.cpp that does not build as C++20, templates whose header does not state their complexity, O(...) products written with *, copied regions that drifted from their original,
-# and whitespace, style or member order errors in tracked files
+# both modes also run the repository checks listed under Checks in CONTRIBUTING.md
 #
 # Reports all failures instead of stopping at the first one.
 #
