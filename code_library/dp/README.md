@@ -112,7 +112,7 @@
 - [CSES 3404 - Permutation Subsequence](https://cses.fi/problemset/task/3404) [✅](../../practice/dp/cses_3404.cpp "Accepted solution")
 - [oj.uz CEOI18_glo - Global Warming](https://oj.uz/problem/view/CEOI18_glo) [✅](../../practice/dp/oj_uz_ceoi18_glo.cpp "Accepted solution")
 - [SPOJ CARDSHUF - Cards shuffing](https://www.spoj.com/problems/CARDSHUF/) [✅](../../practice/dp/spoj_cardshuf.cpp "Accepted solution")
-- [SPOJ DOSA - Lalith Dosa](https://www.spoj.com/problems/DOSA/)
+- [SPOJ DOSA - Lalith Dosa](https://www.spoj.com/problems/DOSA/) [✅](../../practice/dp/spoj_dosa.cpp "Accepted solution")
 - [SPOJ ONEXLIS - One X LIS](https://www.spoj.com/problems/ONEXLIS/)
 - [SPOJ SUPPER - Supernumbers in a permutation](https://www.spoj.com/problems/SUPPER/)
 - [USACO 496 - Cow Jog](https://usaco.org/index.php?page=viewproblem2&cpid=496) [✅](../../practice/dp/usaco_496.cpp "Accepted solution")
