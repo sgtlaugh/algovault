@@ -141,7 +141,7 @@
 - [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396) [✅](../../practice/number_theory/cses_3396.cpp "Accepted solution")
 - [HackerRank bear-and-cryptography - Bear And Cryptography](https://www.hackerrank.com/challenges/bear-and-cryptography/problem) [✅](../../practice/number_theory/hackerrank_bear_and_cryptography.cpp "Accepted solution")
 - [Project Euler 146 - Investigating a Prime Pattern](https://projecteuler.net/problem=146) [✅](../../practice/number_theory/project_euler_146.cpp "Accepted solution")
-- [SPOJ PON - Prime or Not](https://www.spoj.com/problems/PON/)
+- [SPOJ PON - Prime or Not](https://www.spoj.com/problems/PON/) [✅](../../practice/number_theory/spoj_pon.cpp "Accepted solution")
 - [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf) [✅](../../practice/number_theory/uva_11476_miller_rabin.cpp "Accepted solution")
 
 #### [Mobius Function](mobius_function.cpp)
