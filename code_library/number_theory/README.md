@@ -152,7 +152,7 @@
 - [CSES 2417 - Counting Coprime Pairs](https://cses.fi/problemset/task/2417) [✅](../../practice/number_theory/cses_2417.cpp "Accepted solution")
 - [HDU 5321 - Beautiful Set](https://acm.hdu.edu.cn/showproblem.php?pid=5321) [✅](../../practice/number_theory/hdu_5321.cpp "Accepted solution")
 - [LightOJ 1161 - Extreme GCD](https://lightoj.com/problem/extreme-gcd) [✅](../../practice/number_theory/lightoj_1161.cpp "Accepted solution")
-- [SPOJ MSKYCODE - Sky Code](https://www.spoj.com/problems/MSKYCODE/)
+- [SPOJ MSKYCODE - Sky Code](https://www.spoj.com/problems/MSKYCODE/) [✅](../../practice/number_theory/spoj_mskycode.cpp "Accepted solution")
 - [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/)
 - [SPOJ PSTR - Number of Prime Strings](https://www.spoj.com/problems/PSTR/)
 - [SPOJ SQFREE - Square-free integers](https://www.spoj.com/problems/SQFREE/)
