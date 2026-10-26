@@ -28,7 +28,43 @@ sa.contains("nab");         // false
 
 A ✔ marks a template that passes a judge test and links to one. A ✅ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice).
 
-[Data Structures](#data-structures) | [Trees](#trees) | [Graphs](#graphs) | [Strings](#strings) | [Number Theory](#number-theory) | [Combinatorics](#combinatorics) | [Algebra](#algebra) | [Linear Algebra](#linear-algebra) | [Geometry](#geometry) | [Dynamic Programming](#dynamic-programming) | [Miscellaneous](#miscellaneous) | [Hacking](#hacking) | [Python](#python)
+| | |
+|---|---|
+| **Topics** | [Algebra](#algebra) · [Combinatorics](#combinatorics) · [Data Structures](#data-structures) · [Dynamic Programming](#dynamic-programming) · [Geometry](#geometry) · [Graphs](#graphs) · [Linear Algebra](#linear-algebra) · [Number Theory](#number-theory) · [Strings](#strings) · [Trees](#trees) |
+| **[More](#more)** | [Hacking](#hacking) · [Miscellaneous](#miscellaneous) · [Python](#python) |
+
+### Algebra
+
+[Practice problems](code_library/algebra/README.md)
+
+- [Big Integer](code_library/algebra/bignum.cpp) - arbitrary precision signed integers [✔](judge_tests/algebra/addition_of_big_integers.cpp)
+- [FFT](code_library/algebra/fft.cpp) - polynomial products, fastest for small values [✔](judge_tests/algebra/convolution_mod_1000000007_fft.cpp)
+- [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
+- [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - convolution over `gcd(i, j)` or `lcm(i, j)` [✔](judge_tests/algebra/gcd_convolution.cpp)
+- [Lagrange Interpolation](code_library/algebra/lagrange_interpolation.cpp) - value of a polynomial from consecutive samples [✔](judge_tests/algebra/sum_of_exponential_times_polynomial.cpp)
+- [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - linear recurrence of a sequence and its n-th term [✔](judge_tests/algebra/find_linear_recurrence.cpp)
+- [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - fast when one or both sides are convex [✔](judge_tests/algebra/min_plus_convolution_convex_arbitrary.cpp)
+- [NTT](code_library/algebra/ntt.cpp) - polynomial products, fastest modulo NTT primes [✔](judge_tests/algebra/convolution_mod.cpp)
+- [Polynomial](code_library/algebra/polynomial.cpp) - power series ops and multipoint evaluation [✔](judge_tests/algebra/division_of_polynomials.cpp)
+- [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - zeta and Mobius transforms, subset convolution [✔](judge_tests/algebra/bitwise_and_convolution.cpp)
+- [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - xor, or and and convolutions [✔](judge_tests/algebra/bitwise_and_convolution_fwht.cpp)
+
+### Combinatorics
+
+[Practice problems](code_library/combinatorics/README.md)
+
+- [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - Bernoulli numbers modulo a prime
+- [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, prime or not [✔](judge_tests/combinatorics/binomial_coefficient.cpp)
+- [Combinatorics](code_library/combinatorics/combinatorics.cpp) - factorial tables, nCr and nPr modulo a prime [✔](judge_tests/combinatorics/binomial_coefficient_prime_mod.cpp)
+- [Eulerian Numbers](code_library/combinatorics/eulerian_numbers.cpp) - permutations with k ascents, modulo any m
+- [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of 1..n
+- [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke
+- [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - survivor of the Josephus elimination [✔](judge_tests/combinatorics/aoj_0085.cpp)
+- [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - `p(0..n)` modulo any m [✔](judge_tests/combinatorics/partition_function.cpp)
+- [Permutation Cycles](code_library/combinatorics/permutation_cycles.cpp) - cycles, k-th power and root, minimum swaps [✔](judge_tests/combinatorics/aoj_alds1_6_d.cpp)
+- [Permutation Index](code_library/combinatorics/permutation_index.cpp) - `O(n)` rank of a permutation, a perfect hash
+- [Permutation Rank](code_library/combinatorics/permutation_rank.cpp) - rank and unrank of permutations [✔](judge_tests/combinatorics/aoj_itp2_5_c.cpp)
+- [Stirling Numbers](code_library/combinatorics/stirling_numbers.cpp) - a whole row of either kind modulo m [✔](judge_tests/combinatorics/stirling_number_of_the_first_kind.cpp)
 
 ### Data Structures
 
@@ -73,20 +109,39 @@ A ✔ marks a template that passes a judge test and links to one. A ✅ next to 
 - [Treap, Run-Length Implicit](code_library/data_structures/run_length_implicit_treap.cpp) - huge sequences stored as runs of equal values
 - [Trie](code_library/data_structures/trie.cpp) - prefix counts and binary trie xor queries [✔](judge_tests/data_structures/aoj_alds1_4_c.cpp)
 
-### Trees
+### Dynamic Programming
 
-[Practice problems](code_library/trees/README.md)
+[Practice problems](code_library/dp/README.md)
 
-- [Centroid Decomposition](code_library/trees/centroid_decomposition.cpp) - centroid tree with distances to each centroid [✔](judge_tests/trees/frequency_table_of_tree_distance.cpp)
-- [DSU on Tree](code_library/trees/dsu_on_tree.cpp) - small-to-large answers for every subtree
-- [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - tree diameter under edge weight updates [✔](judge_tests/trees/aoj_grl_5_a.cpp)
-- [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths and subtrees as array ranges [✔](judge_tests/trees/aoj_grl_5_d.cpp)
-- [Long-Path Decomposition](code_library/trees/long_path_decomposition.cpp) - depth-indexed subtree DP and `O(1)` k-th ancestor [✔](judge_tests/trees/jump_on_tree_long_path_decomposition.cpp)
-- [Lowest Common Ancestor](code_library/trees/lca.cpp) - LCA, distance, jumps and path folds on a tree [✔](judge_tests/trees/jump_on_tree.cpp)
-- [Prufer Code](code_library/trees/prufer_code.cpp) - converts labeled trees to and from sequences
-- [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP with every node as the root [✔](judge_tests/trees/aoj_grl_5_b.cpp)
-- [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - rooted and unrooted tree isomorphism [✔](judge_tests/trees/rooted_tree_isomorphism_classification.cpp)
-- [Virtual Tree](code_library/trees/virtual_tree.cpp) - compresses a tree to k vertices and their LCAs
+- [Aliens Trick (WQS)](code_library/dp/aliens_trick.cpp) - optimum with exactly k items for a convex cost
+- [Block Removal DP](code_library/dp/blocks_dp.cpp) - max score clearing runs of equal blocks
+- [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - limited copies per item in `O(n capacity)` [✔](judge_tests/dp/aoj_dpl_1_g.cpp)
+- [Bounded Subset Sum](code_library/dp/bounded_subset_sum.cpp) - reachable sums of a multiset, with a witness
+- [CKY](code_library/dp/cky.cpp) - context-free grammar membership
+- [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - `dp[x] = min dp[i] + w(i, x)` for Monge w
+- [Convex Hull Trick](code_library/dp/convex_hull_trick.cpp) - min or max of lines added in slope order
+- [Divide and Conquer DP](code_library/dp/divide_conquer_dp.cpp) - split into k segments of minimum total cost
+- [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle [✔](judge_tests/dp/aoj_dpl_2_a.cpp)
+- [Hirschberg LCS](code_library/dp/hirschberg_lcs.cpp) - one longest common subsequence in linear memory [✔](judge_tests/dp/aoj_alds1_10_c.cpp)
+- [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - interval DP over split points in `O(n^2)` [✔](judge_tests/dp/aoj_alds1_10_d.cpp)
+- [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS and one witness in `O(n m)`
+- [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS with one optimal subsequence [✔](judge_tests/dp/longest_increasing_subsequence.cpp)
+- [Maximum Square](code_library/dp/maximum_square.cpp) - largest filled square and diamond at each cell [✔](judge_tests/dp/aoj_dpl_3_a.cpp)
+- [Slope Trick](code_library/dp/slope_trick.cpp) - maintains a convex piecewise linear function
+
+### Geometry
+
+[Practice problems](code_library/geometry/README.md)
+
+- [Circle Geometry](code_library/geometry/circle.cpp) - intersections, tangents, enclosing circle, areas [✔](judge_tests/geometry/aoj_0090.cpp)
+- [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - nearest two points by exact squared distance [✔](judge_tests/geometry/aoj_cgl_5_a.cpp)
+- [Convex Hull](code_library/geometry/convex_hull.cpp) - static and online hull, Minkowski sum [✔](judge_tests/geometry/aoj_cgl_3_b.cpp)
+- [Geometry](code_library/geometry/geometry.cpp) - exact predicates and polygon queries [✔](judge_tests/geometry/aoj_0177.cpp)
+- [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region common to all half-planes [✔](judge_tests/geometry/aoj_1283.cpp)
+- [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
+- [Polygon Union](code_library/geometry/polygon_union.cpp) - area of a union of simple polygons
+- [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of a union of rectangles [✔](judge_tests/geometry/area_of_union_of_rectangles.cpp)
+- [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - whether any two segments intersect
 
 ### Graphs
 
@@ -135,28 +190,22 @@ A ✔ marks a template that passes a judge test and links to one. A ✅ next to 
 - [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals
 - [Strongly Connected Components](code_library/graphs/scc.cpp) - components in topological order [✔](judge_tests/graphs/scc.cpp)
 
-### Strings
+### Linear Algebra
 
-[Practice problems](code_library/strings/README.md)
+[Practice problems](code_library/linear_algebra/README.md)
 
-- [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text [✔](judge_tests/strings/aoj_alds1_14_c.cpp)
-- [Aho-Corasick](code_library/strings/aho_corasick.cpp) - multi-pattern matching automaton [✔](judge_tests/strings/aho_corasick.cpp)
-- [Aho-Corasick, Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - patterns can be inserted online
-- [Bit-String LCS](code_library/strings/bit_string_lcs.cpp) - longest common subsequence in `O(n m / 64)` [✔](judge_tests/strings/aoj_alds1_10_c.cpp)
-- [De Bruijn Sequence](code_library/strings/de_bruijn_sequence.cpp) - cyclic sequence containing every length n word
-- [Dynamic String Hash](code_library/strings/dynamic_string_hash.cpp) - substring hashes under range assignment [✔](judge_tests/strings/aoj_alds1_14_b_dynamic_string_hash.cpp)
-- [Hashing](code_library/strings/hashing.cpp) - forward and reverse polynomial hash of any segment [✔](judge_tests/strings/enumerate_palindromes_hashing.cpp)
-- [Hunt-Szymanski](code_library/strings/hunt_szymanski.cpp) - LCS in `O((r + n) log n)` for r matching pairs [✔](judge_tests/strings/aoj_alds1_10_c_hunt_szymanski.cpp)
-- [KMP](code_library/strings/kmp.cpp) - prefix function and pattern search [✔](judge_tests/strings/aoj_alds1_14_b.cpp)
-- [Lyndon Factorization](code_library/strings/lyndon_factorization.cpp) - splits a sequence into Lyndon words [✔](judge_tests/strings/lyndon_factorization.cpp)
-- [Manacher](code_library/strings/manacher.cpp) - longest palindrome at every center [✔](judge_tests/strings/enumerate_palindromes.cpp)
-- [Minimum Rotation](code_library/strings/minimum_rotation.cpp) - start of the lexicographically smallest rotation
-- [Palindromic Tree](code_library/strings/palindromic_tree.cpp) - eertree, one node per distinct palindrome [✔](judge_tests/strings/eertree.cpp)
-- [Suffix Array](code_library/strings/suffix_array.cpp) - `O(n)` suffix array with LCP and pattern search [✔](judge_tests/strings/aoj_alds1_14_d.cpp)
-- [Suffix Automaton](code_library/strings/suffix_automaton.cpp) - substring counts and longest common substring [✔](judge_tests/strings/number_of_substrings.cpp)
-- [Tandem Repeats](code_library/strings/tandem_repeats.cpp) - every tandem repeat (square) in a string [✔](judge_tests/strings/runenumerate.cpp)
-- [Wildcard Matching](code_library/strings/wildcard_matching.cpp) - matching with wildcards in text or pattern [✔](judge_tests/strings/wildcard_pattern_matching.cpp)
-- [Z Algorithm](code_library/strings/z_algorithm.cpp) - LCP of every suffix with the string [✔](judge_tests/strings/zalgorithm.cpp)
+- [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - `det(xI - A)` modulo a prime [✔](judge_tests/linear_algebra/characteristic_polynomial.cpp)
+- [Determinant](code_library/linear_algebra/determinant.cpp) - determinant modulo any m, spanning tree counts [✔](judge_tests/linear_algebra/counting_spanning_tree_directed.cpp)
+- [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
+- [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and inverse over the reals
+  - [Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - grid equations that only use nearby cells
+  - [Bitset](code_library/linear_algebra/gauss_bitset.cpp) - the same over GF(2) [✔](judge_tests/linear_algebra/inverse_matrix_mod_2.cpp)
+  - [Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - the same modulo a prime, with kernel basis [✔](judge_tests/linear_algebra/inverse_matrix.cpp)
+- [Matrix](code_library/linear_algebra/matrix.cpp) - modular multiplication and exponentiation [✔](judge_tests/linear_algebra/matrix_product.cpp)
+- [Matrix Permanent](code_library/linear_algebra/permanent.cpp) - permanent modulo any m, or exact
+- [Simplex](code_library/linear_algebra/simplex.cpp) - linear programming
+- [Thomas Algorithm](code_library/linear_algebra/thomas_algorithm.cpp) - tridiagonal linear systems in `O(n)`
+- [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - max xor, k-th xor and span intersection [✔](judge_tests/linear_algebra/intersection_of_f2_vector_spaces.cpp)
 
 ### Number Theory
 
@@ -188,89 +237,52 @@ A ✔ marks a template that passes a judge test and links to one. A ✅ next to 
 - [Power Tower](code_library/number_theory/power_tower.cpp) - `a1^(a2^(...^an))` modulo m [✔](judge_tests/number_theory/tetration_mod.cpp)
 - [Segmented Sieve](code_library/number_theory/segmented_sieve.cpp) - primes in a window `[L, R]` far from zero [✔](judge_tests/number_theory/enumerate_primes_segmented_sieve.cpp)
 
-### Combinatorics
+### Strings
 
-[Practice problems](code_library/combinatorics/README.md)
+[Practice problems](code_library/strings/README.md)
 
-- [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - Bernoulli numbers modulo a prime
-- [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, prime or not [✔](judge_tests/combinatorics/binomial_coefficient.cpp)
-- [Combinatorics](code_library/combinatorics/combinatorics.cpp) - factorial tables, nCr and nPr modulo a prime [✔](judge_tests/combinatorics/binomial_coefficient_prime_mod.cpp)
-- [Eulerian Numbers](code_library/combinatorics/eulerian_numbers.cpp) - permutations with k ascents, modulo any m
-- [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of 1..n
-- [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke
-- [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - survivor of the Josephus elimination [✔](judge_tests/combinatorics/aoj_0085.cpp)
-- [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - `p(0..n)` modulo any m [✔](judge_tests/combinatorics/partition_function.cpp)
-- [Permutation Cycles](code_library/combinatorics/permutation_cycles.cpp) - cycles, k-th power and root, minimum swaps [✔](judge_tests/combinatorics/aoj_alds1_6_d.cpp)
-- [Permutation Index](code_library/combinatorics/permutation_index.cpp) - `O(n)` rank of a permutation, a perfect hash
-- [Permutation Rank](code_library/combinatorics/permutation_rank.cpp) - rank and unrank of permutations [✔](judge_tests/combinatorics/aoj_itp2_5_c.cpp)
-- [Stirling Numbers](code_library/combinatorics/stirling_numbers.cpp) - a whole row of either kind modulo m [✔](judge_tests/combinatorics/stirling_number_of_the_first_kind.cpp)
+- [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text [✔](judge_tests/strings/aoj_alds1_14_c.cpp)
+- [Aho-Corasick](code_library/strings/aho_corasick.cpp) - multi-pattern matching automaton [✔](judge_tests/strings/aho_corasick.cpp)
+- [Aho-Corasick, Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - patterns can be inserted online
+- [Bit-String LCS](code_library/strings/bit_string_lcs.cpp) - longest common subsequence in `O(n m / 64)` [✔](judge_tests/strings/aoj_alds1_10_c.cpp)
+- [De Bruijn Sequence](code_library/strings/de_bruijn_sequence.cpp) - cyclic sequence containing every length n word
+- [Dynamic String Hash](code_library/strings/dynamic_string_hash.cpp) - substring hashes under range assignment [✔](judge_tests/strings/aoj_alds1_14_b_dynamic_string_hash.cpp)
+- [Hashing](code_library/strings/hashing.cpp) - forward and reverse polynomial hash of any segment [✔](judge_tests/strings/enumerate_palindromes_hashing.cpp)
+- [Hunt-Szymanski](code_library/strings/hunt_szymanski.cpp) - LCS in `O((r + n) log n)` for r matching pairs [✔](judge_tests/strings/aoj_alds1_10_c_hunt_szymanski.cpp)
+- [KMP](code_library/strings/kmp.cpp) - prefix function and pattern search [✔](judge_tests/strings/aoj_alds1_14_b.cpp)
+- [Lyndon Factorization](code_library/strings/lyndon_factorization.cpp) - splits a sequence into Lyndon words [✔](judge_tests/strings/lyndon_factorization.cpp)
+- [Manacher](code_library/strings/manacher.cpp) - longest palindrome at every center [✔](judge_tests/strings/enumerate_palindromes.cpp)
+- [Minimum Rotation](code_library/strings/minimum_rotation.cpp) - start of the lexicographically smallest rotation
+- [Palindromic Tree](code_library/strings/palindromic_tree.cpp) - eertree, one node per distinct palindrome [✔](judge_tests/strings/eertree.cpp)
+- [Suffix Array](code_library/strings/suffix_array.cpp) - `O(n)` suffix array with LCP and pattern search [✔](judge_tests/strings/aoj_alds1_14_d.cpp)
+- [Suffix Automaton](code_library/strings/suffix_automaton.cpp) - substring counts and longest common substring [✔](judge_tests/strings/number_of_substrings.cpp)
+- [Tandem Repeats](code_library/strings/tandem_repeats.cpp) - every tandem repeat (square) in a string [✔](judge_tests/strings/runenumerate.cpp)
+- [Wildcard Matching](code_library/strings/wildcard_matching.cpp) - matching with wildcards in text or pattern [✔](judge_tests/strings/wildcard_pattern_matching.cpp)
+- [Z Algorithm](code_library/strings/z_algorithm.cpp) - LCP of every suffix with the string [✔](judge_tests/strings/zalgorithm.cpp)
 
-### Algebra
+### Trees
 
-[Practice problems](code_library/algebra/README.md)
+[Practice problems](code_library/trees/README.md)
 
-- [Big Integer](code_library/algebra/bignum.cpp) - arbitrary precision signed integers [✔](judge_tests/algebra/addition_of_big_integers.cpp)
-- [FFT](code_library/algebra/fft.cpp) - polynomial products, fastest for small values [✔](judge_tests/algebra/convolution_mod_1000000007_fft.cpp)
-- [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
-- [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - convolution over `gcd(i, j)` or `lcm(i, j)` [✔](judge_tests/algebra/gcd_convolution.cpp)
-- [Lagrange Interpolation](code_library/algebra/lagrange_interpolation.cpp) - value of a polynomial from consecutive samples [✔](judge_tests/algebra/sum_of_exponential_times_polynomial.cpp)
-- [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - linear recurrence of a sequence and its n-th term [✔](judge_tests/algebra/find_linear_recurrence.cpp)
-- [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - fast when one or both sides are convex [✔](judge_tests/algebra/min_plus_convolution_convex_arbitrary.cpp)
-- [NTT](code_library/algebra/ntt.cpp) - polynomial products, fastest modulo NTT primes [✔](judge_tests/algebra/convolution_mod.cpp)
-- [Polynomial](code_library/algebra/polynomial.cpp) - power series ops and multipoint evaluation [✔](judge_tests/algebra/division_of_polynomials.cpp)
-- [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - zeta and Mobius transforms, subset convolution [✔](judge_tests/algebra/bitwise_and_convolution.cpp)
-- [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - xor, or and and convolutions [✔](judge_tests/algebra/bitwise_and_convolution_fwht.cpp)
+- [Centroid Decomposition](code_library/trees/centroid_decomposition.cpp) - centroid tree with distances to each centroid [✔](judge_tests/trees/frequency_table_of_tree_distance.cpp)
+- [DSU on Tree](code_library/trees/dsu_on_tree.cpp) - small-to-large answers for every subtree
+- [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - tree diameter under edge weight updates [✔](judge_tests/trees/aoj_grl_5_a.cpp)
+- [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths and subtrees as array ranges [✔](judge_tests/trees/aoj_grl_5_d.cpp)
+- [Long-Path Decomposition](code_library/trees/long_path_decomposition.cpp) - depth-indexed subtree DP and `O(1)` k-th ancestor [✔](judge_tests/trees/jump_on_tree_long_path_decomposition.cpp)
+- [Lowest Common Ancestor](code_library/trees/lca.cpp) - LCA, distance, jumps and path folds on a tree [✔](judge_tests/trees/jump_on_tree.cpp)
+- [Prufer Code](code_library/trees/prufer_code.cpp) - converts labeled trees to and from sequences
+- [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP with every node as the root [✔](judge_tests/trees/aoj_grl_5_b.cpp)
+- [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - rooted and unrooted tree isomorphism [✔](judge_tests/trees/rooted_tree_isomorphism_classification.cpp)
+- [Virtual Tree](code_library/trees/virtual_tree.cpp) - compresses a tree to k vertices and their LCAs
 
-### Linear Algebra
+## More
 
-[Practice problems](code_library/linear_algebra/README.md)
+### Hacking
 
-- [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - `det(xI - A)` modulo a prime [✔](judge_tests/linear_algebra/characteristic_polynomial.cpp)
-- [Determinant](code_library/linear_algebra/determinant.cpp) - determinant modulo any m, spanning tree counts [✔](judge_tests/linear_algebra/counting_spanning_tree_directed.cpp)
-- [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
-- [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and inverse over the reals
-  - [Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - grid equations that only use nearby cells
-  - [Bitset](code_library/linear_algebra/gauss_bitset.cpp) - the same over GF(2) [✔](judge_tests/linear_algebra/inverse_matrix_mod_2.cpp)
-  - [Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - the same modulo a prime, with kernel basis [✔](judge_tests/linear_algebra/inverse_matrix.cpp)
-- [Matrix](code_library/linear_algebra/matrix.cpp) - modular multiplication and exponentiation [✔](judge_tests/linear_algebra/matrix_product.cpp)
-- [Matrix Permanent](code_library/linear_algebra/permanent.cpp) - permanent modulo any m, or exact
-- [Simplex](code_library/linear_algebra/simplex.cpp) - linear programming
-- [Thomas Algorithm](code_library/linear_algebra/thomas_algorithm.cpp) - tridiagonal linear systems in `O(n)`
-- [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - max xor, k-th xor and span intersection [✔](judge_tests/linear_algebra/intersection_of_f2_vector_spaces.cpp)
+[Practice problems](code_library/hacking/README.md)
 
-### Geometry
-
-[Practice problems](code_library/geometry/README.md)
-
-- [Circle Geometry](code_library/geometry/circle.cpp) - intersections, tangents, enclosing circle, areas [✔](judge_tests/geometry/aoj_0090.cpp)
-- [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - nearest two points by exact squared distance [✔](judge_tests/geometry/aoj_cgl_5_a.cpp)
-- [Convex Hull](code_library/geometry/convex_hull.cpp) - static and online hull, Minkowski sum [✔](judge_tests/geometry/aoj_cgl_3_b.cpp)
-- [Geometry](code_library/geometry/geometry.cpp) - exact predicates and polygon queries [✔](judge_tests/geometry/aoj_0177.cpp)
-- [Half-plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region common to all half-planes [✔](judge_tests/geometry/aoj_1283.cpp)
-- [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
-- [Polygon Union](code_library/geometry/polygon_union.cpp) - area of a union of simple polygons
-- [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of a union of rectangles [✔](judge_tests/geometry/area_of_union_of_rectangles.cpp)
-- [Segment Intersection Sweep](code_library/geometry/segment_intersection_sweep.cpp) - whether any two segments intersect
-
-### Dynamic Programming
-
-[Practice problems](code_library/dp/README.md)
-
-- [Aliens Trick (WQS)](code_library/dp/aliens_trick.cpp) - optimum with exactly k items for a convex cost
-- [Block Removal DP](code_library/dp/blocks_dp.cpp) - max score clearing runs of equal blocks
-- [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - limited copies per item in `O(n capacity)` [✔](judge_tests/dp/aoj_dpl_1_g.cpp)
-- [Bounded Subset Sum](code_library/dp/bounded_subset_sum.cpp) - reachable sums of a multiset, with a witness
-- [CKY](code_library/dp/cky.cpp) - context-free grammar membership
-- [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - `dp[x] = min dp[i] + w(i, x)` for Monge w
-- [Convex Hull Trick](code_library/dp/convex_hull_trick.cpp) - min or max of lines added in slope order
-- [Divide and Conquer DP](code_library/dp/divide_conquer_dp.cpp) - split into k segments of minimum total cost
-- [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle [✔](judge_tests/dp/aoj_dpl_2_a.cpp)
-- [Hirschberg LCS](code_library/dp/hirschberg_lcs.cpp) - one longest common subsequence in linear memory [✔](judge_tests/dp/aoj_alds1_10_c.cpp)
-- [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - interval DP over split points in `O(n^2)` [✔](judge_tests/dp/aoj_alds1_10_d.cpp)
-- [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS and one witness in `O(n m)`
-- [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS with one optimal subsequence [✔](judge_tests/dp/longest_increasing_subsequence.cpp)
-- [Maximum Square](code_library/dp/maximum_square.cpp) - largest filled square and diamond at each cell [✔](judge_tests/dp/aoj_dpl_3_a.cpp)
-- [Slope Trick](code_library/dp/slope_trick.cpp) - maintains a convex piecewise linear function
+- [Anti Double Hash](code_library/hacking/anti_double_hash.cpp) - two strings colliding under a double hash
+- [Anti Polynomial Hash](code_library/hacking/anti_polyonmial_hash.cpp) - two strings colliding under a polynomial hash
 
 ### Miscellaneous
 
@@ -292,13 +304,6 @@ A ✔ marks a template that passes a judge test and links to one. A ✅ next to 
 - [Radix Sort 64](code_library/misc/radix_sort_64.cpp) - LSD radix sort of 64-bit integers [✔](judge_tests/misc/aoj_alds1_6_a_radix_sort_64.cpp)
 - [Simulated Annealing](code_library/misc/simulated_annealing.cpp) - generic randomized minimizer
 - [Ternary and Golden-Section Search](code_library/misc/ternary_search.cpp) - integer argmax of a unimodal function, real argmin
-
-### Hacking
-
-[Practice problems](code_library/hacking/README.md)
-
-- [Anti Double Hash](code_library/hacking/anti_double_hash.cpp) - two strings colliding under a double hash
-- [Anti Polynomial Hash](code_library/hacking/anti_polyonmial_hash.cpp) - two strings colliding under a polynomial hash
 
 ### Python
 
