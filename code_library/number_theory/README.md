@@ -174,7 +174,7 @@
 #### [Pollard Rho](pollard_rho.cpp)
 
 - [Codeforces Gym 100753F - Divisions](https://codeforces.com/gym/100753/problem/F) [✅](../../practice/number_theory/codeforces_gym_100753f.cpp "Accepted solution")
-- [Codeforces Gym 102141B - Mysterious LCM](https://codeforces.com/gym/102141/problem/B)
+- [Codeforces Gym 102141B - Mysterious LCM](https://codeforces.com/gym/102141/problem/B) [✅](../../practice/number_theory/codeforces_gym_102141b.cpp "Accepted solution")
 - [SPOJ DIVSUM2 - Divisor Summation (Hard)](https://www.spoj.com/problems/DIVSUM2/)
 - [SPOJ FACT0 - Integer Factorization (15 digits)](https://www.spoj.com/problems/FACT0/)
 - [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf) [✅](../../practice/number_theory/uva_11476_pollard_rho.cpp "Accepted solution")
