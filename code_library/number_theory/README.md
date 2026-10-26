@@ -46,7 +46,7 @@
 
 #### [Extended GCD](extended_gcd.cpp)
 
-- [AOJ NTL_1_E - Extended Euclid Algorithm](https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E)
+- [AOJ NTL_1_E - Extended Euclid Algorithm](https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E) [✅](../../practice/number_theory/aoj_ntl_1_e.cpp "Accepted solution")
 - [AtCoder ABC340 F - S = 1](https://atcoder.jp/contests/abc340/tasks/abc340_f)
 - [Codeforces 633A - Ebony and Ivory](https://codeforces.com/problemset/problem/633/A)
 - [Codeforces Gym 100963J - Once Upon A Time](https://codeforces.com/gym/100963/problem/J)
