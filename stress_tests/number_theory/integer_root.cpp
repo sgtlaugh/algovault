@@ -32,6 +32,10 @@ int main(){
         assert(isqrt(n) == brute(n, 2) && icbrt(n) == brute(n, 3));
     }
 
+    for (unsigned long long n = 0; n <= 3000; n++){
+        for (int k = 1; k <= 70; k++) assert(iroot(n, k) == brute(n, k));
+    }
+
     /// Exact powers and their neighbours, where floating estimates go wrong
     for (int k = 1; k <= 64; k++){
         for (unsigned long long r = 1; r <= 3000000; r = r < 100 ? r + 1 : r * 1.37){
