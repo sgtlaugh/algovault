@@ -94,7 +94,7 @@
 - [Codeforces 154B - Colliders](https://codeforces.com/problemset/problem/154/B)
 - [Codeforces 645F - Cowslip Collections](https://codeforces.com/problemset/problem/645/F)
 - [Codeforces 776B - Sherlock and his girlfriend](https://codeforces.com/problemset/problem/776/B)
-- [Codeforces 1225D - Power Products](https://codeforces.com/problemset/problem/1225/D)
+- [Codeforces 1225D - Power Products](https://codeforces.com/problemset/problem/1225/D) [✅](../../practice/number_theory/codeforces_1225d.cpp "Accepted solution")
 - [Codeforces 1499D - The Number of Pairs](https://codeforces.com/problemset/problem/1499/D)
 - [Codeforces 1900D - Small GCD](https://codeforces.com/problemset/problem/1900/D)
 - [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713)
