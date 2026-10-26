@@ -138,7 +138,7 @@
 
 #### [Miller-Rabin](miller_rabin.cpp)
 
-- [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396)
+- [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396) [✅](../../practice/number_theory/cses_3396.cpp "Accepted solution")
 - [HackerRank bear-and-cryptography - Bear And Cryptography](https://www.hackerrank.com/challenges/bear-and-cryptography/problem)
 - [Project Euler 146 - Investigating a Prime Pattern](https://projecteuler.net/problem=146)
 - [SPOJ PON - Prime or Not](https://www.spoj.com/problems/PON/)
