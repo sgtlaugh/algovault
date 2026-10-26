@@ -13,6 +13,7 @@
  *
  * Notes:
  *   - Every k * x + b must fit in T, like |k|, |x| <= 1e9 and |b| <= 1e18 for long long, and needs __int128
+ *   - T may be double or long double, every answer then within rounding of the exact optimum
  *   - Slopes in any order or lines only on part of the range: li_chao_tree.cpp
  *   - dp[i] = min over j < i of dp[j] + a[j] * x[i], a non-increasing: query(x[i]), then add_line(a[i], dp[i])
  *
@@ -65,6 +66,10 @@ struct ConvexHullTrick{
 
     /// Line j between lines i and new is never the minimum once new crosses i no later than j does
     bool useless(int i, int j, T slope, T intercept) const{
+        /// A cast to __int128 would drop the fractions of floating-point lines
+        if constexpr (is_floating_point_v<T>){
+            return (long double)(intercept - b[i]) * (k[i] - k[j]) <= (long double)(b[j] - b[i]) * (k[i] - slope);
+        }
         return (__int128)(intercept - b[i]) * (k[i] - k[j]) <= (__int128)(b[j] - b[i]) * (k[i] - slope);
     }
 };

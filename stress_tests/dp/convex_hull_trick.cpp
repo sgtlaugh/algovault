@@ -61,6 +61,39 @@ void check_increasing(int n, long long k_range, long long b_range, long long x_r
     }
 }
 
+double rand_real(double lo, double hi){
+    return uniform_real_distribution<double>(lo, hi)(stress::rng());
+}
+
+/// Floating-point lines, near-parallel or nearly through one point, must stay within rounding of the exact optimum
+template <typename T, bool MAX>
+void check_floating(int mode){
+    int n = stress::rand_int(1, 200);
+    double range = mode == 2 ? 1e9 : 1e3, x0 = rand_real(-range, range), y0 = rand_real(-range, range);
+    vector<T> k(n), b(n);
+    for (auto& x : k) x = mode == 1 ? 1 + 1e-12 * stress::rand_int(0, 50) : rand_real(-range, range);
+    sort(k.begin(), k.end());
+    if (!MAX) reverse(k.begin(), k.end());
+    for (int i = 0; i < n; i++) b[i] = mode == 3 ? y0 - k[i] * x0 + rand_real(-1e-9, 1e-9) : rand_real(-range, range) * range;
+
+    ConvexHullTrick<T, MAX> hull, walk;
+    for (int i = 0; i < n; i++) hull.add_line(k[i], b[i]), walk.add_line(k[i], b[i]);
+
+    vector<T> xs(30);
+    for (auto& x : xs) x = mode == 3 ? x0 + rand_real(-1e-6, 1e-6) : rand_real(-range, range);
+    sort(xs.begin(), xs.end());
+    for (T x : xs){
+        long double best = (long double)k[0] * x + b[0], scale = 1;
+        for (int i = 0; i < n; i++){
+            long double v = (long double)k[i] * x + b[i];
+            best = MAX ? max(best, v) : min(best, v);
+            scale = max(scale, fabsl((long double)k[i] * x) + fabsl((long double)b[i]));
+        }
+        assert(fabsl(hull.query(x) - best) <= 1e-14 * scale);
+        assert(fabsl(walk.query_increasing(x) - best) <= 1e-14 * scale);
+    }
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = stress::rand_int(1, it % 10 ? 12 : 200);
@@ -78,6 +111,13 @@ int main(){
         check_random<true>(n, 2, K, B, K);
         check_increasing<false>(n, K, B, K);
         check_increasing<true>(n, K, B, K);
+    }
+
+    for (long long it = 0; it < stress::scaled(1000); it++){
+        int mode = it % 4;
+        check_floating<double, false>(mode);
+        check_floating<double, true>(mode);
+        check_floating<long double, false>(mode);
     }
 
     /// A slope out of order would silently break the hull, so it must trip the library's assert
