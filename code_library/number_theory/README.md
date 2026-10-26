@@ -97,7 +97,7 @@
 - [Codeforces 1225D - Power Products](https://codeforces.com/problemset/problem/1225/D) [✅](../../practice/number_theory/codeforces_1225d.cpp "Accepted solution")
 - [Codeforces 1499D - The Number of Pairs](https://codeforces.com/problemset/problem/1499/D) [✅](../../practice/number_theory/codeforces_1499d.cpp "Accepted solution")
 - [Codeforces 1900D - Small GCD](https://codeforces.com/problemset/problem/1900/D) [✅](../../practice/number_theory/codeforces_1900d.cpp "Accepted solution")
-- [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713)
+- [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713) [✅](../../practice/number_theory/cses_1713_linear_sieve.cpp "Accepted solution")
 - [LightOJ 1007 - Mathematically Hard](https://lightoj.com/problem/mathematically-hard)
 - [SPOJ BSPRIME - Binary Sequence of Prime Number](https://www.spoj.com/problems/BSPRIME/)
 - [SPOJ COMDIV - Number of common divisors](https://www.spoj.com/problems/COMDIV/)
