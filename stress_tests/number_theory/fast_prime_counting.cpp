@@ -31,18 +31,41 @@ template<int MAXN, int MAXP>
 void check_small_tables(int maxv){
     PrimeCounter<MAXN, MAXP> pc(maxv);
     long long top = (long long)maxv * maxv - 1;
-    assert(pc.lehmer(0) == 0);
-    for (long long n : {1LL, 2LL, (long long)maxv - 1, (long long)maxv, top - 1, top}) assert((long long)pc.lehmer(n) == lucy(n));
+    assert(pc.count(0) == 0);
+    for (long long n : {1LL, 2LL, (long long)maxv - 1, (long long)maxv, top - 1, top}) assert((long long)pc.count(n) == lucy(n));
     for (long long n : {-1LL, top + 1, 5 * top}){
-        stress::expect_assert("number_theory/fast_prime_counting.cpp", [&]{ pc.lehmer(n); });
+        stress::expect_assert("number_theory/fast_prime_counting.cpp", [&]{ pc.count(n); });
     }
     for (long long it = 0; it < stress::scaled(30); it++){
         long long n = stress::rand_int(1, top);
-        assert((long long)pc.lehmer(n) == lucy(n));
+        assert((long long)pc.count(n) == lucy(n));
+    }
+}
+
+/// root(n, k) at squares and cubes and their neighbours, where a double root is one off above 1.5e15
+void check_roots(){
+    vector<long long> square_bases = {1, 2, 67108864, 67108865, 2000000000};
+    vector<long long> cube_bases = {1, 2, 114501, 114502, 114757, 1500000};
+    for (long long it = 0; it < stress::scaled(100000); it++){
+        square_bases.push_back(stress::rand_int(1, 2000000000));
+        cube_bases.push_back(stress::rand_int(1, 1500000));
+    }
+
+    vector<long long> ns;
+    for (long long d = -1; d <= 1; d++){
+        for (long long b : square_bases) ns.push_back(b * b + d);
+        for (long long b : cube_bases) ns.push_back(b * b * b + d);
+    }
+    for (long long n : ns){
+        __int128 s = PrimeCounter<>::root(n, 2), c = PrimeCounter<>::root(n, 3);
+        assert(s * s <= n && n < (s + 1) * (s + 1));
+        assert(c * c * c <= n && n < (c + 1) * (c + 1) * (c + 1));
     }
 }
 
 int main(){
+    check_roots();
+
     PrimeCounter<> pc;
     const long long maxv = pc.maxv;
 
@@ -51,16 +74,16 @@ int main(){
     for (long long p : {409LL, 1291LL, 2153LL, 4481LL, 31607LL, 46337LL}){
         for (long long d = -1; d <= 1; d++) edges.push_back(p * p + d), edges.push_back(p * p * p + d);
     }
-    for (long long n : edges) if (n <= 5000000000LL) assert((long long)pc.lehmer(n) == lucy(n));
+    for (long long n : edges) if (n <= 5000000000LL) assert((long long)pc.count(n) == lucy(n));
 
     for (long long it = 0; it < stress::scaled(12); it++){
         long long n = stress::rand_int(it % 3 ? maxv : 1, it % 3 ? 2000000000LL : maxv);
-        assert((long long)pc.lehmer(n) == lucy(n));
+        assert((long long)pc.count(n) == lucy(n));
     }
 
     for (long long it = 0; it < stress::scaled(1); it++){
         long long n = stress::rand_int(10000000000LL, 30000000000LL);
-        assert((long long)pc.lehmer(n) == lucy(n));
+        assert((long long)pc.count(n) == lucy(n));
     }
 
     check_small_tables<1, 1>(100);

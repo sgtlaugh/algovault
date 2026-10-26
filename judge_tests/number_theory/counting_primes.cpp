@@ -11,6 +11,6 @@ int main(){
     if (scanf("%lld", &n) != 1) return 0;
 
     PrimeCounter<> pc;
-    printf("%llu\n", (unsigned long long)pc.lehmer(n));
+    printf("%llu\n", (unsigned long long)pc.count(n));
     return 0;
 }

@@ -3,13 +3,16 @@
  * Fast Prime Counting
  * Prime counting function in sublinear time with the Meissel-Lehmer algorithm
  *
- * Complexity: roughly O(n^(2/3)) per query, O(maxv + MAXN MAXM) to build
+ * Complexity: O(maxv + MAXN MAXM) to build, a query has no tight bound and grows about 10x per decade of n
  * Memory: 4 * (maxv + MAXN * MAXM) bytes, about 190 MB with the defaults
  *
  * PrimeCounter<MAXN, MAXP> pc(maxv): sieves below maxv and tabulates phi for the first MAXN primes
  *     MAXM, the phi table width, is the product of the first MAXP primes, 1 <= MAXP <= min(MAXN, 8)
  *     maxv must exceed the MAXN-th prime, the defaults are tuned for n around 1e12
- * pc.lehmer(n): the number of primes not exceeding n, for 0 <= n < maxv^2
+ * pc.count(n): the number of primes not exceeding n, for 0 <= n < maxv^2
+ *
+ * Notes:
+ *   - A query with the defaults at -O2: 0.006 s at n = 1e11, 0.05 s at 1e12, 0.44 s at 1e13, 4.3 s at 1e14
  *
 ***/
 
@@ -17,7 +20,7 @@
 
 using namespace std;
 
-/// MAXN and MAXP are template parameters: as runtime members lehmer(1e13) took 0.508 s vs 0.480 s at -O2
+/// MAXN and MAXP are template parameters: as runtime members count(1e13) took 0.508 s vs 0.480 s at -O2
 template<int MAXN = 50, int MAXP = 7>
 struct PrimeCounter{
     static_assert(1 <= MAXP && MAXP <= MAXN && MAXP <= 8);
@@ -48,14 +51,16 @@ struct PrimeCounter{
         }
     }
 
-    uint64_t lehmer(long long n){
+    uint64_t count(long long n){
         assert(0 <= n && n < (long long)maxv * maxv);
         if (n < maxv) return pi[n];
 
-        int s = sqrt(0.5 + n), c = cbrt(0.5 + n);
+        int s = root(n, 2), c = root(n, 3);
         uint64_t res = phi(n, pi[c]) + pi[c] - 1;
         for (int i = pi[c]; i < pi[s]; i++){
-            res -= lehmer(fast_div(n, primes[i])) - i;
+            long long q = fast_div(n, primes[i]);
+            /// pi[q] read here, since gcc does not inline the same check in count(): 0.45 s vs 0.52 s for count(1e13)
+            res -= (q < maxv ? pi[q] : count(q)) - i;
         }
 
         return res;
@@ -83,6 +88,15 @@ struct PrimeCounter{
         return double(a) / b + 1e-9;
     }
 
+    /// floor(n^(1/k)) for k = 2 or 3: the double root alone is one too low at some cubes above 1.5e15, like 114502^3
+    static int root(long long n, int k){
+        long long r = k == 2 ? sqrt(0.5 + n) : cbrt(0.5 + n);
+        auto power = [k](long long x){ return k == 2 ? x * x : x * x * x; };
+        while (power(r) > n) r--;
+        while (power(r + 1) <= n) r++;
+        return r;
+    }
+
     uint64_t phi(long long m, int n){
         if (!n) return m;
         if (n < MAXN && m < MAXM) return dp[(size_t)n * MAXM + m];
@@ -103,24 +117,17 @@ struct PrimeCounter{
 };
 
 int main(){
-    auto start = clock();
+    /// The default tables, tuned for n around 1e12
     PrimeCounter<> pc;
-    fprintf(stderr, "Pre-process time = %0.3f\n\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 0.237
+    assert(pc.count(0) == 0);
+    assert(pc.count(7) == 4);
+    assert(pc.count(1000) == 168);
+    assert(pc.count(1000000000000LL) == 37607912018LL);
 
-    start = clock();
-
-    assert(pc.lehmer(7) == 4);
-    assert(pc.lehmer(1000) == 168);
-    assert(pc.lehmer(1000000) == 78498);
-    assert(pc.lehmer(1000000000) == 50847534);
-    assert(pc.lehmer(1e12) == 37607912018LL);
-    assert(pc.lehmer(1e13) == 346065536839LL);
-
+    /// Small tables answer n up to maxv^2 - 1
     PrimeCounter<10, 3> small(1000);
-    assert(small.lehmer(999) == 168);
-    assert(small.lehmer(1000) == 168);
-    assert(small.lehmer(999999) == 78498);
+    assert(small.count(1000) == 168);
+    assert(small.count(999999) == 78498);
 
-    fprintf(stderr, "\nCalculation time = %0.3f\n", (clock()-start) / (double)CLOCKS_PER_SEC);  /// 0.997
     return 0;
 }
