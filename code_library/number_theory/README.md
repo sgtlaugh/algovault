@@ -111,7 +111,7 @@
 - [SPOJ NFACTOR - N-Factorful](https://www.spoj.com/problems/NFACTOR/) [✅](../../practice/number_theory/spoj_nfactor.cpp "Accepted solution")
 - [SPOJ NGIRL - Namit In Trouble](https://www.spoj.com/problems/NGIRL/) [✅](../../practice/number_theory/spoj_ngirl.cpp "Accepted solution")
 - [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/) [✅](../../practice/number_theory/spoj_pgcd_linear_sieve.cpp "Accepted solution")
-- [SPOJ TIP1 - Totient in permutation (easy)](https://www.spoj.com/problems/TIP1/)
+- [SPOJ TIP1 - Totient in permutation (easy)](https://www.spoj.com/problems/TIP1/) [✅](../../practice/number_theory/spoj_tip1.cpp "Accepted solution")
 - [SPOJ VECTAR8 - Primal Fear](https://www.spoj.com/problems/VECTAR8/) [✅](../../practice/number_theory/spoj_vectar8.cpp "Accepted solution")
 - [UVa 884 - Factorial Factors](https://onlinejudge.org/external/8/884.pdf) [✅](../../practice/number_theory/uva_884.cpp "Accepted solution")
 - [UVa 1210 - Sum of Consecutive Prime Numbers](https://onlinejudge.org/external/12/1210.pdf) [✅](../../practice/number_theory/uva_1210.cpp "Accepted solution")
