@@ -48,7 +48,7 @@
 
 #### [Local Minimization (Nelder-Mead)](local_minimization.cpp)
 
-- [POJ 2069 - Super Star](http://poj.org/problem?id=2069)
+- [POJ 2069 - Super Star](http://poj.org/problem?id=2069) [✔](../../practice/misc/poj_2069.cpp "Accepted solution")
 - [SPOJ NBLINDESC - Not So Blind Escape](https://www.spoj.com/problems/NBLINDESC/) [✔](../../practice/misc/spoj_nblindesc.cpp "Accepted solution")
 - [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✔](../../practice/misc/uva_10228_local_minimization.cpp "Accepted solution")
 
