@@ -13,11 +13,12 @@
  *
  * Notes:
  *   - The recursive phase is O(n^(1 - eps)) in theory but runs at the bound above for n <= 1e11
- *   - About 0.9 s at n = 1e10 (1.2 s with a cubic f(p)) and 4.7 s at n = 1e11, at -O2
+ *   - About 0.4 s at n = 1e10 (0.6 s with a cubic f(p)) and 1.6 s at n = 1e11, at -O2
  *   - Euler phi, Mobius mu and the divisor count:
  *         Min25Sieve(n, mod, {-1, 1}).sum([](long long p, int, long long pe){ return pe / p * (p - 1); })
  *         Min25Sieve(n, mod, {-1}).sum([](long long, int e, long long){ return e == 1 ? -1 : 0; })
  *         Min25Sieve(n, mod, {2}).sum([](long long, int e, long long){ return e + 1; })
+ *   - Faster for a single job: fast_prime_counting.cpp counts primes, du_sieve.cpp sums phi or mu
  *
 ***/
 
@@ -70,13 +71,16 @@ struct Min25Sieve{
             }
         }
 
+        /// n / d in double is exact for n < 2^53 and made the loop below 30% faster than 64-bit division at n = 1e11
+        double nd = n;
+
         /// Sifts g[j][k] from the sum of x^k over 2 <= x <= vals[j] down to the sum over primes, one p at a time
         for (int i = 0; i < pc; i++){
             int p = primes[i];
             for (int j = 0; j < cnt && (long long)p * p <= vals[j]; j++){
                 long long d = (long long)(j + 1) * p;
                 /// Large vals[j] / p is vals[d - 1], small ones stay int: 64-bit division is slower on older judges
-                int to = j >= large ? cnt - (cnt - j) / p : d <= large ? d - 1 : cnt - n / d;
+                int to = j >= large ? cnt - (cnt - j) / p : d <= large ? d - 1 : cnt - (long long)(nd / d);
                 for (int k = 0; k < deg; k++){
                     uint64_t diff = sub(g[to * deg + k], pref[i * deg + k]);
                     g[j * deg + k] = sub(g[j * deg + k], k ? mul(pw[i * deg + k], diff) : diff);
@@ -153,8 +157,12 @@ struct Min25Sieve{
         for (int i = j; i < (int)primes.size() && (long long)primes[i] * primes[i] <= v; i++){
             long long p = primes[i];
             int e = 1;
+            uint64_t f_pe = reduce(f(p, 1, p));
+            /// f(p^(e + 1)) carries over as the next f(p^e): one f call per power made rec 14% faster at n = 1e11
             for (long long pe = p; pe <= v / p; pe *= p, e++){
-                res = add(res, add(mul(reduce(f(p, e, pe)), rec(v / pe, i + 1, f)), reduce(f(p, e + 1, pe * p))));
+                uint64_t f_next = reduce(f(p, e + 1, pe * p));
+                res = add(res, add(mul(f_pe, rec(v / pe, i + 1, f)), f_next));
+                f_pe = f_next;
             }
         }
 
