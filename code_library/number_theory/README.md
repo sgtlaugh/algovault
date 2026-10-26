@@ -112,7 +112,7 @@
 - [SPOJ NAJPWG - Playing with GCD](https://www.spoj.com/problems/NAJPWG/) [✅](../../practice/number_theory/spoj_najpwg.cpp "Accepted solution")
 - [SPOJ NFACTOR - N-Factorful](https://www.spoj.com/problems/NFACTOR/) [✅](../../practice/number_theory/spoj_nfactor.cpp "Accepted solution")
 - [SPOJ NGIRL - Namit In Trouble](https://www.spoj.com/problems/NGIRL/) [✅](../../practice/number_theory/spoj_ngirl.cpp "Accepted solution")
-- [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/)
+- [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/) [✅](../../practice/number_theory/spoj_pgcd_linear_sieve.cpp "Accepted solution")
 - [SPOJ TIP1 - Totient in permutation (easy)](https://www.spoj.com/problems/TIP1/)
 - [SPOJ VECTAR8 - Primal Fear](https://www.spoj.com/problems/VECTAR8/)
 - [UVa 884 - Factorial Factors](https://onlinejudge.org/external/8/884.pdf) [✅](../../practice/number_theory/uva_884.cpp "Accepted solution")
