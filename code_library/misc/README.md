@@ -48,6 +48,7 @@
 
 #### [Local Minimization (Nelder-Mead)](local_minimization.cpp)
 
+- [HDU 5017 - Ellipsoid](https://acm.hdu.edu.cn/showproblem.php?pid=5017) [✔](../../practice/misc/hdu_5017.cpp "Accepted solution")
 - [Kattis europeantrip - European Trip](https://open.kattis.com/problems/europeantrip) [✔](../../practice/misc/kattis_europeantrip.cpp "Accepted solution")
 - [POJ 2069 - Super Star](http://poj.org/problem?id=2069) [✔](../../practice/misc/poj_2069.cpp "Accepted solution")
 - [SPOJ NBLINDESC - Not So Blind Escape](https://www.spoj.com/problems/NBLINDESC/) [✔](../../practice/misc/spoj_nblindesc.cpp "Accepted solution")
