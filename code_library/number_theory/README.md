@@ -105,7 +105,7 @@
 - [SPOJ DCEPC505 - Bazinga!](https://www.spoj.com/problems/DCEPC505/) [✅](../../practice/number_theory/spoj_dcepc505.cpp "Accepted solution")
 - [SPOJ DCEPCA03 - Totient Extreme](https://www.spoj.com/problems/DCEPCA03/) [✅](../../practice/number_theory/spoj_dcepca03.cpp "Accepted solution")
 - [SPOJ DIVSUM - Divisor Summation](https://www.spoj.com/problems/DIVSUM/)
-- [SPOJ ETF - Euler Totient Function](https://www.spoj.com/problems/ETF/)
+- [SPOJ ETF - Euler Totient Function](https://www.spoj.com/problems/ETF/) [✅](../../practice/number_theory/spoj_etf.cpp "Accepted solution")
 - [SPOJ GCDEX - GCD Extreme](https://www.spoj.com/problems/GCDEX/)
 - [SPOJ HS08PAUL - A conjecture of Paul Erdős](https://www.spoj.com/problems/HS08PAUL/)
 - [SPOJ LCMSUM - LCM Sum](https://www.spoj.com/problems/LCMSUM/)
