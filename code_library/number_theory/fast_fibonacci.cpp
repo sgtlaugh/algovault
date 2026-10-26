@@ -10,6 +10,7 @@
  * fibonacci_pair(n, m): {F(n) mod m, F(n + 1) mod m}
  *
  * Notes:
+ *   - Small fixed m: tabulate F mod m over one Pisano period p <= 6m (pisano_period.cpp), F(n) mod m = table[n % p]
  *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
