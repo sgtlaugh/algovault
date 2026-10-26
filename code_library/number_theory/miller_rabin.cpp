@@ -1,6 +1,6 @@
 /***
  *
- * Miller Rabin
+ * Miller-Rabin
  * Deterministic primality test for 64-bit integers
  *
  * Complexity: O(24) + O(7 log n), or O(24) + O(4 log n) when n <= INT_MAX

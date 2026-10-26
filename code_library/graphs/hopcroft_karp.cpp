@@ -1,6 +1,6 @@
 /***
  *
- * Hopcroft Karp
+ * Hopcroft-Karp
  * Maximum matching in a bipartite graph
  *
  * Complexity: O(m sqrt(n))

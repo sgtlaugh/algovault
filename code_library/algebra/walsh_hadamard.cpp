@@ -1,6 +1,6 @@
 /***
  *
- * Walsh Hadamard Transform
+ * Walsh-Hadamard Transform
  * xor, or and and convolutions of two vectors, exact or modulo mod
  *
  * Complexity: O(n log n)

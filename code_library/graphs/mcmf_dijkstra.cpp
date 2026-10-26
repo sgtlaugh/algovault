@@ -80,7 +80,7 @@ struct MCMF{
         return edges[id ^ 1].cap;
     }
 
-    /// Zero potentials work without negative residual costs; else SPFA, as index-order Bellman Ford can need n passes
+    /// Zero potentials work without negative residual costs; else SPFA, as index-order Bellman-Ford can need n passes
     void init_potential(int s){
         bool negative = false;
 

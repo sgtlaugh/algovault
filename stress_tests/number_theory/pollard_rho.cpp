@@ -4,7 +4,7 @@
 #include "../../code_library/number_theory/pollard_rho.cpp"
 #undef main
 
-/// Independent Miller Rabin with plain __int128 arithmetic, no Montgomery, no sieve
+/// Independent Miller-Rabin with plain __int128 arithmetic, no Montgomery, no sieve
 bool reference_prime(unsigned long long n){
     if (n < 2) return false;
     for (unsigned long long p : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}){

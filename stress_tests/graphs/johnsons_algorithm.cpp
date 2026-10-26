@@ -4,7 +4,7 @@
 #include "../../code_library/graphs/johnsons_algorithm.cpp"
 #undef main
 
-/// Floyd Warshall with explicit unreachable markers, negative cycle iff some vertex reaches itself below zero
+/// Floyd-Warshall with explicit unreachable markers, negative cycle iff some vertex reaches itself below zero
 bool floyd(int n, const vector<array<long long, 3>>& edges, vector<vector<long long>>& d){
     const long long INF = Johnson::INF;
     d.assign(n, vector<long long>(n, INF));
@@ -52,7 +52,7 @@ int main(){
         }
     }
 
-    /// A long chain of negative edges, Bellman Ford needs all n rounds here
+    /// A long chain of negative edges, Bellman-Ford needs all n rounds here
     int n = 400;
     Johnson chain(n);
     for (int i = 0; i + 1 < n; i++) chain.add_edge(i + 1, i, -1000000);

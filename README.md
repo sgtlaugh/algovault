@@ -55,7 +55,7 @@ sa.contains("nab");         // false
 - [NTT](code_library/algebra/ntt.cpp) - polynomial products, fastest modulo NTT primes [✔](judge_tests/algebra/convolution_mod.cpp)
 - [Polynomial](code_library/algebra/polynomial.cpp) - power series ops and multipoint evaluation [✔](judge_tests/algebra/division_of_polynomials.cpp)
 - [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - zeta and Mobius transforms, subset convolution [✔](judge_tests/algebra/bitwise_and_convolution.cpp)
-- [Walsh Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - `xor`, `or` and `and` convolutions [✔](judge_tests/algebra/bitwise_and_convolution_fwht.cpp)
+- [Walsh-Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - `xor`, `or` and `and` convolutions [✔](judge_tests/algebra/bitwise_and_convolution_fwht.cpp)
 
 ### Combinatorics
 
@@ -159,7 +159,7 @@ sa.contains("nab");         // false
   - [Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - satisfying assignment preferring true from x1 [✔](judge_tests/graphs/two_sat_lexicographic.cpp)
 - [3-Edge-Connected Components](code_library/graphs/three_edge_connected_components.cpp) - vertices joined by 3 edge-disjoint paths [✔](judge_tests/graphs/three_edge_connected_components.cpp)
 - [Articulation Points and Blocks](code_library/graphs/articulation_points.cpp) - cut vertices, blocks and the block-cut tree [✔](judge_tests/graphs/aoj_grl_3_a.cpp)
-- [Bellman Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges and cycles [✔](judge_tests/graphs/aoj_grl_1_b.cpp)
+- [Bellman-Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges and cycles [✔](judge_tests/graphs/aoj_grl_1_b.cpp)
 - [Bridges](code_library/graphs/bridge.cpp) - bridges and 2-edge-connected components [✔](judge_tests/graphs/aoj_grl_3_b.cpp)
 - [Cactus Graph](code_library/graphs/cactus.cpp) - cactus recognition, cycles and the cactus tree
 - [Chromatic Number](code_library/graphs/chromatic_number.cpp) - minimum colors in a vertex coloring [✔](judge_tests/graphs/chromatic_number.cpp)
@@ -170,11 +170,11 @@ sa.contains("nab");         // false
 - [Edge Coloring](code_library/graphs/edge_coloring.cpp) - D colors if bipartite, D + 1 for simple graphs [✔](judge_tests/graphs/bipartite_edge_coloring.cpp)
 - [Euler Path](code_library/graphs/euler_path.cpp) - walk using every edge exactly once [✔](judge_tests/graphs/eulerian_trail_directed.cpp)
 - [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - circulation and s-t flow with edge lower bounds [✔](judge_tests/graphs/aoj_grl_6_a_lower_bound.cpp)
-- [Floyd Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with negative cycles [✔](judge_tests/graphs/aoj_grl_1_c.cpp)
+- [Floyd-Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with negative cycles [✔](judge_tests/graphs/aoj_grl_1_c.cpp)
 - [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching in general graphs [✔](judge_tests/graphs/general_matching.cpp)
 - [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - minimum cut weight and one side
 - [Gomory-Hu Tree](code_library/graphs/gomory_hu.cpp) - all-pairs min cuts of an undirected graph
-- [Hopcroft Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, `O(m sqrt(n))` [✔](judge_tests/graphs/bipartitematching.cpp)
+- [Hopcroft-Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, `O(m sqrt(n))` [✔](judge_tests/graphs/bipartitematching.cpp)
 - [Hungarian Algorithm](code_library/graphs/hungarian_algorithm.cpp) - minimum or maximum cost assignment [✔](judge_tests/graphs/assignment.cpp)
 - [Johnson's Algorithm](code_library/graphs/johnsons_algorithm.cpp) - all-pairs shortest paths with negative edges [✔](judge_tests/graphs/aoj_grl_1_c_johnson.cpp)
 - [K Shortest Walks](code_library/graphs/k_shortest_walks.cpp) - lengths of the k shortest walks from s to t [✔](judge_tests/graphs/k_shortest_walk_k_shortest_walks.cpp)
@@ -205,7 +205,7 @@ sa.contains("nab");         // false
 - [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - `det(xI - A)` modulo a prime [✔](judge_tests/linear_algebra/characteristic_polynomial.cpp)
 - [Determinant](code_library/linear_algebra/determinant.cpp) - determinant modulo any m, spanning tree counts [✔](judge_tests/linear_algebra/counting_spanning_tree_directed.cpp)
 - [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
-- [Gauss Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and inverse over the reals
+- [Gauss-Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and inverse over the reals
   - [Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - grid equations that only use nearby cells
   - [Bitset](code_library/linear_algebra/gauss_bitset.cpp) - the same over GF(2) [✔](judge_tests/linear_algebra/inverse_matrix_mod_2.cpp)
   - [Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - the same modulo a prime, with kernel basis [✔](judge_tests/linear_algebra/inverse_matrix.cpp)
@@ -235,7 +235,7 @@ sa.contains("nab");         // false
 - [Integer Root](code_library/number_theory/integer_root.cpp) - exact floor of square, cube and k-th roots [✔](judge_tests/number_theory/kth_root_integer.cpp)
 - [Linear Sieve](code_library/number_theory/linear_sieve.cpp) - smallest prime factors, phi, mu and more
 - [Maximum Divisors](code_library/number_theory/maximum_divisors.cpp) - number with the most divisors up to a limit
-- [Miller Rabin](code_library/number_theory/miller_rabin.cpp) - deterministic primality test for 64-bit integers [✔](judge_tests/number_theory/primality_test.cpp)
+- [Miller-Rabin](code_library/number_theory/miller_rabin.cpp) - deterministic primality test for 64-bit integers [✔](judge_tests/number_theory/primality_test.cpp)
 - [Min_25 Sieve](code_library/number_theory/min_25_sieve.cpp) - prefix sums of a multiplicative function [✔](judge_tests/number_theory/sum_of_multiplicative_function.cpp)
 - [Mobius Function](code_library/number_theory/mobius_function.cpp) - Mobius mu for `1..n` at 1 byte per entry
 - [Modular Roots](code_library/number_theory/modular_roots.cpp) - k-th roots modulo a prime, primitive root [✔](judge_tests/number_theory/kth_root_mod.cpp)
@@ -318,7 +318,7 @@ sa.contains("nab");         // false
 [Practice problems](code_library/python/README.md)
 
 - [Alpha Beta Pruning](code_library/python/alpha_beta_pruning.py) - minimax game search with alpha-beta pruning
-- [Berlekamp Massey](code_library/python/berlekamp_massey.py) - shortest linear recurrence and its n-th term
+- [Berlekamp-Massey](code_library/python/berlekamp_massey.py) - shortest linear recurrence and its n-th term
 - [Derangements](code_library/python/derangements.py) - generalized derangement counts
 - [Dijkstra](code_library/python/dijkstra.py) - single-source shortest paths
 - [Discrete Log](code_library/python/discrete_log.py) - smallest x with `a^x = b mod m`, any m
@@ -326,7 +326,7 @@ sa.contains("nab");         // false
 - [Fast I/O](code_library/python/fast_io.py) - token scanner over stdin
 - [General Graph Matching](code_library/python/graph_matching.py) - maximum matching size in a general graph
 - [Lagrange Interpolation](code_library/python/lagrange_polynomial_interpolation.py) - value of a polynomial from any samples
-- [Miller Rabin](code_library/python/miller_rabin.py) - deterministic primality test for 64-bit integers
+- [Miller-Rabin](code_library/python/miller_rabin.py) - deterministic primality test for 64-bit integers
 - [N Queens](code_library/python/n_queen.py) - number of N queens solutions
 - [Sieve](code_library/python/sieve.py) - primes up to n by Eratosthenes
 - [String Hash](code_library/python/string_hash.py) - polynomial substring hashes

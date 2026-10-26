@@ -1,6 +1,6 @@
 /***
  *
- * Floyd Warshall
+ * Floyd-Warshall
  * All pairs shortest paths on a dense directed graph, negative edges and negative cycles allowed
  *
  * Complexity:

@@ -136,7 +136,7 @@
 
 - [UVa 11960 - Divisor Game](https://onlinejudge.org/external/119/11960.pdf)
 
-#### [Miller Rabin](miller_rabin.cpp)
+#### [Miller-Rabin](miller_rabin.cpp)
 
 - [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396)
 - [HackerRank bear-and-cryptography - Bear And Cryptography](https://www.hackerrank.com/challenges/bear-and-cryptography/problem)

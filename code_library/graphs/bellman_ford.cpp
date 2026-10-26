@@ -1,6 +1,6 @@
 /***
  *
- * Bellman Ford
+ * Bellman-Ford
  * Single source shortest paths on a directed graph with negative edges, and negative cycle retrieval
  *
  * Complexity: O(n m) per call

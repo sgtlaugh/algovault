@@ -7,7 +7,7 @@
  *
  * PollardRho f: sieves smallest prime factors up to 1e6, keep a single instance around
  * f.factorize(n): prime factors of n in ascending order with multiplicity, empty for n = 1
- * f.is_prime(n): deterministic Miller Rabin for n < 2^63
+ * f.is_prime(n): deterministic Miller-Rabin for n < 2^63
  *
  * Notes:
  *   - Requires __int128 (64-bit GCC or Clang)

@@ -1,6 +1,6 @@
 ## Python - Practice Problems
 
-Ported templates share their C++ counterpart's problems, though Python can be too slow for the heaviest: [Berlekamp Massey](../algebra/README.md#linear-recurrence), [Dijkstra](../graphs/README.md#dijkstra), [Discrete Log](../number_theory/README.md#discrete-logarithm), [Fast Fibonacci](../number_theory/README.md#fast-fibonacci), [Fast I/O](../misc/README.md#fast-io), [General Graph Matching](../graphs/README.md#general-graph-matching), [Lagrange Interpolation](../algebra/README.md#lagrange-interpolation), [Miller Rabin](../number_theory/README.md#miller-rabin), [N Queens](../misc/README.md#n-queens), [Sieve](../number_theory/README.md#linear-sieve), [String Hash](../strings/README.md#hashing), [Z Algorithm](../strings/README.md#z-algorithm)
+Ported templates share their C++ counterpart's problems, though Python can be too slow for the heaviest: [Berlekamp-Massey](../algebra/README.md#linear-recurrence), [Dijkstra](../graphs/README.md#dijkstra), [Discrete Log](../number_theory/README.md#discrete-logarithm), [Fast Fibonacci](../number_theory/README.md#fast-fibonacci), [Fast I/O](../misc/README.md#fast-io), [General Graph Matching](../graphs/README.md#general-graph-matching), [Lagrange Interpolation](../algebra/README.md#lagrange-interpolation), [Miller-Rabin](../number_theory/README.md#miller-rabin), [N Queens](../misc/README.md#n-queens), [Sieve](../number_theory/README.md#linear-sieve), [String Hash](../strings/README.md#hashing), [Z Algorithm](../strings/README.md#z-algorithm)
 
 #### [Alpha Beta Pruning](alpha_beta_pruning.py)
 
@@ -30,7 +30,7 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 - [Codeforces Gym 101156G - Non-Attacking Queens](https://codeforces.com/gym/101156/problem/G)
 
-#### [Miller Rabin](miller_rabin.py)
+#### [Miller-Rabin](miller_rabin.py)
 
 - [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396)
 

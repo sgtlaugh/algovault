@@ -1,6 +1,6 @@
 /***
  *
- * Half-plane Intersection
+ * Half-Plane Intersection
  * Intersects half-planes, each the left side of a directed line, inside the square |x|, |y| <= box
  *
  * Complexity: O(n log n)

@@ -157,7 +157,7 @@
 - [oj.uz JOI18_snake_escaping - Snake Escaping](https://oj.uz/problem/view/JOI18_snake_escaping) [✅](../../practice/algebra/oj_uz_joi18_snake_escaping.cpp "Accepted solution")
 - [USACO 1309 - Problem Setting](https://usaco.org/index.php?page=viewproblem2&cpid=1309) [✅](../../practice/algebra/usaco_1309.cpp "Accepted solution")
 
-#### [Walsh Hadamard Transform](walsh_hadamard.cpp)
+#### [Walsh-Hadamard Transform](walsh_hadamard.cpp)
 
 - [Codeforces 453D - Little Pony and Elements of Harmony](https://codeforces.com/problemset/problem/453/D) [✅](../../practice/algebra/codeforces_453d.cpp "Accepted solution")
 - [Codeforces 662C - Binary Table](https://codeforces.com/problemset/problem/662/C) [✅](../../practice/algebra/codeforces_662c.cpp "Accepted solution")

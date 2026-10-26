@@ -4,7 +4,7 @@
 #include "../../code_library/number_theory/segmented_sieve.cpp"
 #undef main
 
-/// Independent deterministic Miller Rabin with __int128 arithmetic
+/// Independent deterministic Miller-Rabin with __int128 arithmetic
 bool reference_prime(unsigned long long n){
     if (n < 2) return false;
     for (unsigned long long p : {2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37}){

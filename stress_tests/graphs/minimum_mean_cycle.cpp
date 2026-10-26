@@ -54,7 +54,7 @@ void check_cycle(int n, const Edges& edges, const MeanCycle& res){
     assert(sum * res.den == (__int128)res.num * len);
 }
 
-/// Bellman Ford under weights w * den - num: no negative cycle means no cycle has mean below num / den
+/// Bellman-Ford under weights w * den - num: no negative cycle means no cycle has mean below num / den
 bool no_cycle_below(int n, const Edges& edges, long long num, long long den){
     vector<__int128> h(n, 0);
     for (int round = 0; round <= n; round++){

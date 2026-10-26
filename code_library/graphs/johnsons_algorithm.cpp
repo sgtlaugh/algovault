@@ -50,7 +50,7 @@ struct Johnson{
         return true;
     }
 
-    /// Bellman Ford from a virtual source that reaches every vertex with weight 0
+    /// Bellman-Ford from a virtual source that reaches every vertex with weight 0
     optional<vector<long long>> potentials() const{
         vector<long long> h(n, 0);
 

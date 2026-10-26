@@ -6,7 +6,7 @@
 
 const long long INF = FloydWarshall::INF, NEG_INF = FloydWarshall::NEG_INF;
 
-/// Bellman Ford from s: everything reachable from an edge that still relaxes after n - 1 rounds is NEG_INF
+/// Bellman-Ford from s: everything reachable from an edge that still relaxes after n - 1 rounds is NEG_INF
 vector<long long> bellman_ford(int n, const vector<array<long long, 3>>& edges, int s){
     vector<long long> d(n, INF);
     d[s] = 0;
@@ -66,7 +66,7 @@ void check(int n, const vector<array<long long, 3>>& edges){
     }
 }
 
-/// Reverse vertex deletion: relax_through in a random order, each prefix against a Bellman Ford limited to that prefix
+/// Reverse vertex deletion: relax_through in a random order, each prefix against a Bellman-Ford limited to that prefix
 void check_vertex_order(int n, const vector<array<long long, 3>>& edges){
     FloydWarshall fw(n);
     for (auto [u, v, w] : edges) fw.add_edge(u, v, w);

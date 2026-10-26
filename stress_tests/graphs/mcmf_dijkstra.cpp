@@ -4,7 +4,7 @@
 #include "../../code_library/graphs/mcmf_dijkstra.cpp"
 #undef main
 
-/// Successive shortest paths with a full Bellman Ford each round, no potentials
+/// Successive shortest paths with a full Bellman-Ford each round, no potentials
 pair<long long, long long> brute(int n, const vector<array<long long, 4>>& input, int s, int t, long long limit){
     struct E{ int to; long long cap, cost; };
     vector<E> e;
@@ -38,7 +38,7 @@ pair<long long, long long> brute(int n, const vector<array<long long, 4>>& input
 }
 
 vector<array<long long, 4>> random_graph(int n, int m, long long max_cap, long long min_cost, long long max_cost, bool dag){
-    /// DAG labels are shuffled (source and sink stay put) so Bellman Ford cannot converge in one index-order pass
+    /// DAG labels are shuffled (source and sink stay put) so Bellman-Ford cannot converge in one index-order pass
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);
     if (n > 2) shuffle(label.begin() + 1, label.end() - 1, stress::rng());

@@ -8,7 +8,7 @@ using Edges = vector<array<long long, 3>>;
 
 const __int128 FLOYD_INF = (__int128)1 << 120;
 
-/// Floyd Warshall in __int128: v is NEG_INF from s iff s reaches some k with d[k][k] < 0 that reaches v
+/// Floyd-Warshall in __int128: v is NEG_INF from s iff s reaches some k with d[k][k] < 0 that reaches v
 vector<vector<__int128>> floyd(int n, const Edges& edges){
     vector<vector<__int128>> d(n, vector<__int128>(n, FLOYD_INF));
     for (int v = 0; v < n; v++) d[v][v] = 0;

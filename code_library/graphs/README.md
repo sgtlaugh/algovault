@@ -56,7 +56,7 @@
 - [UVa 10765 - Doves and bombs](https://onlinejudge.org/external/107/10765.pdf) [✅](../../practice/graphs/uva_10765.cpp "Accepted solution")
 - [UVa 12616 - Gymman vs Fila](https://onlinejudge.org/external/126/12616.pdf) [✅](../../practice/graphs/uva_12616.cpp "Accepted solution")
 
-#### [Bellman Ford](bellman_ford.cpp)
+#### [Bellman-Ford](bellman_ford.cpp)
 
 - [AOJ GRL_1_B - Single Source Shortest Path (Negative Edges)](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B) [✅](../../practice/graphs/aoj_grl_1_b.cpp "Accepted solution")
 - [CSES 1197 - Cycle Finding](https://cses.fi/problemset/task/1197) [✅](../../practice/graphs/cses_1197.cpp "Accepted solution")
@@ -211,7 +211,7 @@
 - [UVa 11082 - Matrix Decompressing](https://onlinejudge.org/external/110/11082.pdf) [✅](../../practice/graphs/uva_11082_lower_bound_flow.cpp "Accepted solution")
 - [UVa 12679 - It Can Be Arranged](https://onlinejudge.org/external/126/12679.pdf) [✅](../../practice/graphs/uva_12679.cpp "Accepted solution")
 
-#### [Floyd Warshall](floyd_warshall.cpp)
+#### [Floyd-Warshall](floyd_warshall.cpp)
 
 - [AOJ GRL_1_C - All Pairs Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_C) [✅](../../practice/graphs/aoj_grl_1_c_floyd_warshall.cpp "Accepted solution")
 - [Codeforces 21D - Traveling Graph](https://codeforces.com/problemset/problem/21/D) [✅](../../practice/graphs/codeforces_21d.cpp "Accepted solution")
@@ -260,7 +260,7 @@
 - [SPOJ MCQUERY - MinCut Query](https://www.spoj.com/problems/MCQUERY/)
 - [UVa 11594 - All Pairs Maximum Flow](https://onlinejudge.org/external/115/11594.pdf) [✅](../../practice/graphs/uva_11594.cpp "Accepted solution")
 
-#### [Hopcroft Karp](hopcroft_karp.cpp)
+#### [Hopcroft-Karp](hopcroft_karp.cpp)
 
 - [Codeforces Gym 100741C - Reordering Ones](https://codeforces.com/gym/100741/problem/C) [✅](../../practice/graphs/codeforces_gym_100741c.cpp "Accepted solution")
 - [CSES 1696 - School Dance](https://cses.fi/problemset/task/1696) [✅](../../practice/graphs/cses_1696_hopcroft_karp.cpp "Accepted solution")
