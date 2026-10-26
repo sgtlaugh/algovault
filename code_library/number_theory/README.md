@@ -3,7 +3,7 @@
 #### [Chinese Remainder Theorem](chinese_remainder_theorem.cpp)
 
 - [Codeforces Gym 104648B2 - Golf Gophers B2](https://codeforces.com/gym/104648/problem/B2)
-- [HackerRank number-of-sequences - Number of Sequences](https://www.hackerrank.com/contests/w22/challenges/number-of-sequences/problem)
+- [HackerRank number-of-sequences - Number of Sequences](https://www.hackerrank.com/contests/w22/challenges/number-of-sequences/problem) [✅](../../practice/number_theory/hackerrank_number_of_sequences.cpp "Accepted solution")
 - [Kattis chineseremainder - Chinese Remainder](https://open.kattis.com/problems/chineseremainder)
 - [Kattis generalchineseremainder - Chinese Remainder Theorem (non-relatively prime moduli)](https://open.kattis.com/problems/generalchineseremainder)
 - [SPOJ PIBO2 - Fibonacci vs Polynomial (HARD)](https://www.spoj.com/problems/PIBO2/)
