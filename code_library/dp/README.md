@@ -2,7 +2,7 @@
 
 #### [Aliens Trick (WQS)](aliens_trick.cpp)
 
-- [Codeforces 802O - April Fools' Problem (hard)](https://codeforces.com/problemset/problem/802/O)
+- [Codeforces 802O - April Fools' Problem (hard)](https://codeforces.com/problemset/problem/802/O) [✅](../../practice/dp/codeforces_802o.cpp "Accepted solution")
 - [Codeforces 1279F - New Year and Handle Change](https://codeforces.com/problemset/problem/1279/F) [✅](../../practice/dp/codeforces_1279f.cpp "Accepted solution")
 - [Codeforces 1661F - Teleporters](https://codeforces.com/problemset/problem/1661/F) [✅](../../practice/dp/codeforces_1661f.cpp "Accepted solution")
 - [Kattis blazingnewtrails - Blazing New Trails](https://open.kattis.com/problems/blazingnewtrails) [✅](../../practice/dp/kattis_blazingnewtrails.cpp "Accepted solution")
