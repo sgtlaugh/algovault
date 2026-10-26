@@ -28,7 +28,7 @@ sa.contains("nab");         // false
 ## Index
 
 - ✔ marks a template that passes a judge test, and links to one
-- ✅ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice)
+- ✔ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice)
 
 | **[Topics](#topics)** | | | | |
 |---|---|---|---|---|

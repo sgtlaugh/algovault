@@ -98,12 +98,12 @@ When a Library Checker or Aizu problem fits, add `judge_tests/<topic>/<problem>.
 
 ## Practice problems
 
-Each template's section in `code_library/<topic>/README.md` lists problems it solves, with a ✅ linking an accepted solution:
+Each template's section in `code_library/<topic>/README.md` lists problems it solves, with a ✔ linking an accepted solution:
 
 ```markdown
 - [Codeforces 932F - Escape Through Leaf](https://codeforces.com/problemset/problem/932/F)
 - [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E)
-- [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✅](../../practice/data_structures/cses_2084.cpp "Accepted solution")
+- [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✔](../../practice/data_structures/cses_2084.cpp "Accepted solution")
 ```
 
 **Problems**
@@ -120,7 +120,7 @@ Each template's section in `code_library/<topic>/README.md` lists problems it so
 - **File:** `practice/<topic>/<judge>_<code>.cpp`, `.py` for Python templates, exactly as submitted
 - **Name:** the entry's judge and code in lowercase, spaces as underscores: `codeforces_25d.cpp`, `codeforces_gym_100570d.cpp`
 - **Several templates:** one file per template, `<judge>_<code>_<template>.cpp`, each linked from its own section
-- **Link:** ` [✅](../../practice/<topic>/<file> "Accepted solution")` after the entry
+- **Link:** ` [✔](../../practice/<topic>/<file> "Accepted solution")` after the entry
 - **Template copy:** taken from `code_library/`, never from another practice file
 - **Fast I/O:** every solution copies `fast_io.cpp` last, unless the judge's source limit leaves no room for it
 - **POJ, UVa and HDU:** these judges compile C++11, and so does CI; change the template copy only where C++11 needs it, as `/verdict` lists
@@ -295,7 +295,7 @@ Both `run_tests.sh` modes build with `-std=c++17 -Wall -Wextra -Werror` under Ad
 
 - **Tests:** a failing test, a compiler warning, a library file without a stress test, a `fast_io.cpp` that does not build as C++20
 - **Index:** a library file missing from the index, a description over 50 characters, a ✔ that disagrees with `judge_tests/`
-- **Practice:** a ✅ that disagrees with `practice/`, copies of a problem that differ in title or URL, a POJ, UVa or HDU solution that does not build as C++11
+- **Practice:** a ✔ that disagrees with `practice/`, copies of a problem that differ in title or URL, a POJ, UVa or HDU solution that does not build as C++11
 - **Headers:** no complexity, a `*` in an `O(...)` product, a line over 120 characters
 - **Code:** a copied region that drifted, a field or type after a method, API calls out of header order, two `///` lines in a row, a whitespace or style error
 

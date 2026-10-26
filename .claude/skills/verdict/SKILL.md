@@ -2,7 +2,7 @@
 name: verdict
 description: >
   Solve an algovault practice problem on its template in the user's own contest style, check it, hand it over for
-  submission, and once the user reports it accepted, commit it under practice/ with the ✅ link. POJ, UVa and HDU
+  submission, and once the user reports it accepted, commit it under practice/ with the ✔ link. POJ, UVa and HDU
   solutions get a C++11 copy of the template.
 trigger: /verdict
 allowed-tools: Read, Write, Edit, Glob, Grep, WebFetch, Bash(git grep:*), Bash(git diff:*), Bash(git log:*), Bash(git status:*), Bash(git show:*), Bash(ls:*), Bash(g++:*), Bash(python3:*), Bash(bash .claude/skills/verdict/scripts/check_solution.sh:*), Bash(bash .claude/skills/verdict/scripts/run_capped.sh:*), Bash(python3 .claude/skills/verdict/scripts/commit_one.py:*), Bash(env CHANGED_SINCE=:*), Bash(mkdir:*), Bash(cmp:*), Bash(diff:*), Bash(setsid:*), Bash(xclip:*), Bash(/tmp/verdict/:*)

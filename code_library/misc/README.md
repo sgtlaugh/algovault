@@ -3,7 +3,7 @@
 #### [15 Puzzle Solver](15_puzzle_solver.cpp)
 
 - [HackerRank n-puzzle - N Puzzle](https://www.hackerrank.com/challenges/n-puzzle/problem)
-- [UVa 10181 - 15-Puzzle Problem](https://onlinejudge.org/external/101/10181.pdf) [✅](../../practice/misc/uva_10181.cpp "Accepted solution")
+- [UVa 10181 - 15-Puzzle Problem](https://onlinejudge.org/external/101/10181.pdf) [✔](../../practice/misc/uva_10181.cpp "Accepted solution")
 
 #### [Assembly](assembly.cpp)
 
@@ -26,8 +26,8 @@
 - [UVa 211 - The Domino Effect](https://onlinejudge.org/external/2/211.pdf)
 - [UVa 387 - A Puzzling Problem](https://onlinejudge.org/external/3/387.pdf)
 - [UVa 745 - Numeric Puzzles Again!](https://onlinejudge.org/external/7/745.pdf)
-- [UVa 1309 - Sudoku](https://onlinejudge.org/external/13/1309.pdf) [✅](../../practice/misc/uva_1309.cpp "Accepted solution")
-- [UVa 1461 - Sudoku Extension](https://onlinejudge.org/external/14/1461.pdf) [✅](../../practice/misc/uva_1461.cpp "Accepted solution")
+- [UVa 1309 - Sudoku](https://onlinejudge.org/external/13/1309.pdf) [✔](../../practice/misc/uva_1309.cpp "Accepted solution")
+- [UVa 1461 - Sudoku Extension](https://onlinejudge.org/external/14/1461.pdf) [✔](../../practice/misc/uva_1461.cpp "Accepted solution")
 - [UVa 11846 - Finding Seats Again](https://onlinejudge.org/external/118/11846.pdf)
 - [UVa 12719 - Fill the Cuboid](https://onlinejudge.org/external/127/12719.pdf)
 
@@ -38,19 +38,19 @@
 #### [Gray Codes](gray_codes.cpp)
 
 - [CSES 2205 - Gray Code](https://cses.fi/problemset/task/2205)
-- [UVa 11173 - Grey Codes](https://onlinejudge.org/external/111/11173.pdf) [✅](../../practice/misc/uva_11173.cpp "Accepted solution")
+- [UVa 11173 - Grey Codes](https://onlinejudge.org/external/111/11173.pdf) [✔](../../practice/misc/uva_11173.cpp "Accepted solution")
 
 #### [Knight Distance](knight_distance.cpp)
 
 - [CSES 3218 - Knight Moves Queries](https://cses.fi/problemset/task/3218)
-- [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf) [✅](../../practice/misc/uva_11643_knight_distance.cpp "Accepted solution")
-- [UVa 11852 - Knight's Trip](https://onlinejudge.org/external/118/11852.pdf) [✅](../../practice/misc/uva_11852.cpp "Accepted solution")
+- [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf) [✔](../../practice/misc/uva_11643_knight_distance.cpp "Accepted solution")
+- [UVa 11852 - Knight's Trip](https://onlinejudge.org/external/118/11852.pdf) [✔](../../practice/misc/uva_11852.cpp "Accepted solution")
 
 #### [Local Minimization (Nelder-Mead)](local_minimization.cpp)
 
 - [POJ 2069 - Super Star](http://poj.org/problem?id=2069)
-- [SPOJ NBLINDESC - Not So Blind Escape](https://www.spoj.com/problems/NBLINDESC/) [✅](../../practice/misc/spoj_nblindesc.cpp "Accepted solution")
-- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✅](../../practice/misc/uva_10228_local_minimization.cpp "Accepted solution")
+- [SPOJ NBLINDESC - Not So Blind Escape](https://www.spoj.com/problems/NBLINDESC/) [✔](../../practice/misc/spoj_nblindesc.cpp "Accepted solution")
+- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✔](../../practice/misc/uva_10228_local_minimization.cpp "Accepted solution")
 
 #### [N Queens](n_queen.cpp)
 
@@ -86,7 +86,7 @@
 - [Kattis europeantrip - European Trip](https://open.kattis.com/problems/europeantrip)
 - [POJ 1379 - Run Away](http://poj.org/problem?id=1379)
 - [POJ 2069 - Super Star](http://poj.org/problem?id=2069)
-- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✅](../../practice/misc/uva_10228_simulated_annealing.cpp "Accepted solution")
+- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✔](../../practice/misc/uva_10228_simulated_annealing.cpp "Accepted solution")
 
 #### [Ternary and Golden-Section Search](ternary_search.cpp)
 
@@ -110,7 +110,7 @@
 - [Timus 1436 - Billboard](https://acm.timus.ru/problem.aspx?num=1436)
 - [Timus 1451 - Beerhouse Tale](https://acm.timus.ru/problem.aspx?num=1451)
 - [USACO 1355 - Haybale Distribution](https://usaco.org/index.php?page=viewproblem2&cpid=1355)
-- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✅](../../practice/misc/uva_10228_ternary_search.cpp "Accepted solution")
-- [UVa 10385 - Duathlon](https://onlinejudge.org/external/103/10385.pdf) [✅](../../practice/misc/uva_10385.cpp "Accepted solution")
-- [UVa 12197 - Trick or Treat](https://onlinejudge.org/external/121/12197.pdf) [✅](../../practice/misc/uva_12197.cpp "Accepted solution")
+- [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✔](../../practice/misc/uva_10228_ternary_search.cpp "Accepted solution")
+- [UVa 10385 - Duathlon](https://onlinejudge.org/external/103/10385.pdf) [✔](../../practice/misc/uva_10385.cpp "Accepted solution")
+- [UVa 12197 - Trick or Treat](https://onlinejudge.org/external/121/12197.pdf) [✔](../../practice/misc/uva_12197.cpp "Accepted solution")
 - [UVa 13010 - Galactic taxes](https://onlinejudge.org/external/130/13010.pdf)

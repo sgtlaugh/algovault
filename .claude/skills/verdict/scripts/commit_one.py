@@ -3,14 +3,14 @@ import subprocess
 import sys
 
 # commit_one.py <readme> <section header> <entry line> <solution path in repo> <message> [insert]
-# Adds the ✅ link to the entry inside the section (or inserts the entry in natural order with "insert"),
+# Adds the ✔ link to the entry inside the section (or inserts the entry in natural order with "insert"),
 # applies that one change to both HEAD's README (staged through the index only) and the working tree README,
 # stages the solution file, and commits only those two paths, so another session's README edits stay out
 # A solution already committed passes its path with "link" as the 6th argument to add only the README link
 readme, header, entry, solution, message = sys.argv[1:6]
 insert = len(sys.argv) > 6 and sys.argv[6] == "insert"
 link_only = len(sys.argv) > 6 and sys.argv[6] == "link"
-link = f' [✅](../../{solution} "Accepted solution")'
+link = f' [✔](../../{solution} "Accepted solution")'
 # Checked first: a commit-msg hook rejecting the subject would otherwise leave both paths staged for the next run
 assert len(message) <= 72, f"subject is {len(message)} characters, at most 72"
 
