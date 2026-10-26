@@ -129,6 +129,7 @@ sa.contains("nab");         // false
 - [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - `dp[x] = min dp[i] + w(i, x)` for Monge w
 - [Convex Hull Trick](code_library/dp/convex_hull_trick.cpp) - min or max of lines added in slope order
 - [Divide and Conquer DP](code_library/dp/divide_conquer_dp.cpp) - split into k segments of minimum total cost
+  - [Knuth Partition DP](code_library/dp/knuth_partition_dp.cpp) - same split in `O(n^2)`, faster for large k
 - [Garsia-Wachs](code_library/dp/garsia_wachs.cpp) - min cost to merge adjacent piles in `O(n log n)`
 - [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle [✔](judge_tests/dp/aoj_dpl_2_a.cpp)
 - [Hirschberg LCS](code_library/dp/hirschberg_lcs.cpp) - one longest common subsequence in linear memory [✔](judge_tests/dp/aoj_alds1_10_c.cpp)

@@ -92,6 +92,10 @@
 - [UVa 10100 - Longest Match](https://onlinejudge.org/external/101/10100.pdf) [✅](../../practice/dp/uva_10100.cpp "Accepted solution")
 - [UVa 10405 - Longest Common Subsequence](https://onlinejudge.org/external/104/10405.pdf) [✅](../../practice/dp/uva_10405.cpp "Accepted solution")
 
+#### [Knuth Partition DP](knuth_partition_dp.cpp)
+
+- [UVa 12524 - Arranging Heaps](https://onlinejudge.org/external/125/12524.pdf)
+
 #### [Knuth Optimization](knuth_optimization.cpp)
 
 - [AOJ ALDS1_10_D - Optimal Binary Search Tree](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_D) [✅](../../practice/dp/aoj_alds1_10_d.cpp "Accepted solution")

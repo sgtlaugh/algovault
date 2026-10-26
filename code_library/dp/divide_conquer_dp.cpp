@@ -15,6 +15,7 @@
  *   - Terms f(j) + g(i) of any sign may be added to any such cost
  *   - T is passed explicitly and fits the sum of k costs, like long long
  *   - For maximization, negate the cost and the answer
+ *   - knuth_partition_dp has the same call and is faster when k log2(n) > n, about 3x at k = n
  *
 ***/
 
