@@ -150,7 +150,7 @@
 - [Codeforces 585E - Present for Vitalik the Philatelist ](https://codeforces.com/problemset/problem/585/E) [✅](../../practice/number_theory/codeforces_585e.cpp "Accepted solution")
 - [Codeforces 915G - Coprime Arrays](https://codeforces.com/problemset/problem/915/G) [✅](../../practice/number_theory/codeforces_915g.cpp "Accepted solution")
 - [CSES 2417 - Counting Coprime Pairs](https://cses.fi/problemset/task/2417) [✅](../../practice/number_theory/cses_2417.cpp "Accepted solution")
-- [HDU 5321 - Beautiful Set](https://acm.hdu.edu.cn/showproblem.php?pid=5321)
+- [HDU 5321 - Beautiful Set](https://acm.hdu.edu.cn/showproblem.php?pid=5321) [✅](../../practice/number_theory/hdu_5321.cpp "Accepted solution")
 - [LightOJ 1161 - Extreme GCD](https://lightoj.com/problem/extreme-gcd)
 - [SPOJ MSKYCODE - Sky Code](https://www.spoj.com/problems/MSKYCODE/)
 - [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/)
