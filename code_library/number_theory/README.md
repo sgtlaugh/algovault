@@ -12,7 +12,7 @@
 
 #### [Continued Fractions](continued_fractions.cpp)
 
-- [CodeChef EBAIT - Election Bait](https://www.codechef.com/problems/EBAIT)
+- [CodeChef EBAIT - Election Bait](https://www.codechef.com/problems/EBAIT) [✅](../../practice/number_theory/codechef_ebait.cpp "Accepted solution")
 - [CodeChef ES - Euler Sum](https://www.codechef.com/problems/ES)
 - [Codeforces 305B - Continued Fractions](https://codeforces.com/problemset/problem/305/B)
 - [Codeforces 346E - Doodle Jump](https://codeforces.com/problemset/problem/346/E)
