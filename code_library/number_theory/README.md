@@ -111,7 +111,7 @@
 - [SPOJ LCMSUM - LCM Sum](https://www.spoj.com/problems/LCMSUM/) [✅](../../practice/number_theory/spoj_lcmsum.cpp "Accepted solution")
 - [SPOJ NAJPWG - Playing with GCD](https://www.spoj.com/problems/NAJPWG/) [✅](../../practice/number_theory/spoj_najpwg.cpp "Accepted solution")
 - [SPOJ NFACTOR - N-Factorful](https://www.spoj.com/problems/NFACTOR/) [✅](../../practice/number_theory/spoj_nfactor.cpp "Accepted solution")
-- [SPOJ NGIRL - Namit In Trouble](https://www.spoj.com/problems/NGIRL/)
+- [SPOJ NGIRL - Namit In Trouble](https://www.spoj.com/problems/NGIRL/) [✅](../../practice/number_theory/spoj_ngirl.cpp "Accepted solution")
 - [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/)
 - [SPOJ TIP1 - Totient in permutation (easy)](https://www.spoj.com/problems/TIP1/)
 - [SPOJ VECTAR8 - Primal Fear](https://www.spoj.com/problems/VECTAR8/)
