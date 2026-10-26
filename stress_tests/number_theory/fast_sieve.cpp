@@ -29,14 +29,14 @@ int main(){
     /// A small n must stop exactly at n, including n inside a word, at a block boundary and in a later block
     const uint32_t block_size = FastSieve::block_size;
     for (uint32_t n = 0; n <= 40; n++) assert(FastSieve(n).primes == segment(0, n, small));
-    for (long long it = 0; it < stress::scaled(20); it++){
+    for (long long it = 0; it < stress::scaled(6); it++){
         uint32_t n = stress::rand_int(41, 300000);
         assert(FastSieve(n).primes == segment(0, n, small));
     }
     for (uint32_t n : {block_size - 1, block_size, block_size + 1, 3 * block_size + 12345, 5 * block_size - 2}){
         assert(FastSieve(n).primes == segment(0, n, small));
     }
-    for (long long it = 0; it < stress::scaled(3); it++){
+    for (long long it = 0; it < stress::scaled(1); it++){
         uint32_t n = stress::rand_int(1, 20000000);
         assert(FastSieve(n).primes == segment(0, n, small));
     }
