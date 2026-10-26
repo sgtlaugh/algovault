@@ -73,7 +73,7 @@
 
 - [SPOJ BSPRIME - Binary Sequence of Prime Number](https://www.spoj.com/problems/BSPRIME/) [✅](../../practice/number_theory/spoj_bsprime.cpp "Accepted solution")
 - [SPOJ PRIMES2 - Printing some primes (Hard)](https://www.spoj.com/problems/PRIMES2/) [✅](../../practice/number_theory/spoj_primes2.cpp "Accepted solution")
-- [SPOJ PTRI - primes triangle (I)](https://www.spoj.com/problems/PTRI/)
+- [SPOJ PTRI - primes triangle (I)](https://www.spoj.com/problems/PTRI/) [✅](../../practice/number_theory/spoj_ptri.cpp "Accepted solution")
 - [SPOJ TDPRIMES - Printing some primes](https://www.spoj.com/problems/TDPRIMES/) [✅](../../practice/number_theory/spoj_tdprimes.cpp "Accepted solution")
 - [UVa 10311 - Goldbach and Euler](https://onlinejudge.org/external/103/10311.pdf) [✅](../../practice/number_theory/uva_10311.cpp "Accepted solution")
 - [UVa 10394 - Twin Primes](https://onlinejudge.org/external/103/10394.pdf) [✅](../../practice/number_theory/uva_10394.cpp "Accepted solution")
