@@ -137,7 +137,7 @@
 
 #### [Slope Trick](slope_trick.cpp)
 
-- [Codeforces 713C - Sonya and Problem Wihtout a Legend](https://codeforces.com/problemset/problem/713/C)
+- [Codeforces 713C - Sonya and Problem Wihtout a Legend](https://codeforces.com/problemset/problem/713/C) [✅](../../practice/dp/codeforces_713c.cpp "Accepted solution")
 - [Codeforces 865D - Buy Low Sell High](https://codeforces.com/problemset/problem/865/D)
 - [CSES 2132 - Increasing Array II](https://cses.fi/problemset/task/2132) [✅](../../practice/dp/cses_2132.cpp "Accepted solution")
 - [oj.uz APIO16_fireworks - Fireworks](https://oj.uz/problem/view/APIO16_fireworks) [✅](../../practice/dp/oj_uz_apio16_fireworks.cpp "Accepted solution")
