@@ -103,6 +103,69 @@ void check_max_k_subarrays(int n, int value_max){
     for (int k = 1; k <= n; k++) assert(-aliens_trick(k, -bound, bound, solver) == exact[k][n]);
 }
 
+double rand_real(double lo, double hi){
+    return uniform_real_distribution<double>(lo, hi)(stress::rng());
+}
+
+/// Real convex f where each step adds scale items, so k reaches 1e12 and repeated slopes make ties
+void check_synthetic_real(){
+    int first = stress::rand_int(0, 3), n = first + stress::rand_int(0, 10);
+    long long scale = stress::rand_int(0, 1) ? 1 : stress::rand_int(1, 100000000000LL);
+    double range = stress::rand_int(0, 1) ? 1 : 1e6;
+
+    vector<double> slopes;
+    for (int c = first + 1; c <= n; c++){
+        slopes.push_back(stress::rand_int(0, 2) ? rand_real(-range, range) : (slopes.empty() ? 0 : slopes.back()));
+    }
+    sort(slopes.begin(), slopes.end());
+
+    vector<double> f(n + 1, 0);
+    f[first] = rand_real(-range, range);
+    for (int c = first + 1; c <= n; c++) f[c] = f[c - 1] + slopes[c - first - 1];
+
+    auto solver = [&](double lambda){
+        pair<double, long long> best = {1e300, 0};
+        for (int c = first; c <= n; c++) best = min(best, {f[c] + lambda * c * scale, c * scale});
+        return best;
+    };
+
+    double lo = -range / scale - 1, hi = range / scale + 1;
+    for (int c = first; c <= n; c++){
+        double err = fabs(aliens_trick(c * scale, lo, hi, solver) - f[c]);
+        assert(err <= 1e-9 * (range * (n + 1) + 1) + 1e-14 * max(-lo, hi) * c * scale);
+    }
+}
+
+/// Split k workers over floors minimizing the sum of a[i] / c[i] with every c[i] >= 1, against an exact DP
+void check_split_work(int n, int k, int a_max){
+    vector<double> a(n);
+    for (auto& x : a) x = stress::rand_int(1, a_max);
+
+    vector<double> exact(k + 1, 1e300);
+    exact[0] = 0;
+    for (int i = 0; i < n; i++){
+        vector<double> next(k + 1, 1e300);
+        for (int used = 0; used <= k; used++){
+            for (int c = 1; used + c <= k; c++) next[used + c] = min(next[used + c], exact[used] + a[i] / c);
+        }
+        exact = next;
+    }
+
+    auto solver = [&](double lambda){
+        pair<double, long long> total = {0, 0};
+        for (double x : a){
+            pair<double, long long> best = {1e300, 0};
+            long long guess = max(1LL, (long long)sqrt(x / max(lambda, 1e-18)));
+            for (long long c = max(1LL, guess - 2); c <= min((long long)k, guess + 2); c++) best = min(best, {x / c + lambda * c, c});
+            if (best.second == 0) best = {x / k + lambda * k, k};
+            total.first += best.first, total.second += best.second;
+        }
+        return total;
+    };
+
+    assert(fabs(aliens_trick(k, 0.0, (double)a_max, solver) - exact[k]) <= 1e-9 * (exact[k] + 1));
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(4000); it++) check_synthetic();
 
@@ -110,6 +173,13 @@ int main(){
         int n = stress::rand_int(1, 12), value_max = it % 3 == 0 ? 2 : (it % 3 == 1 ? 10 : 1000);
         check_squared_split(n, value_max);
         check_max_k_subarrays(n, value_max);
+    }
+
+    for (long long it = 0; it < stress::scaled(4000); it++) check_synthetic_real();
+
+    for (long long it = 0; it < stress::scaled(1500); it++){
+        int n = stress::rand_int(1, 6);
+        check_split_work(n, n + stress::rand_int(0, 30), it % 2 ? 10 : 1000000);
     }
 
     for (int it = 0; it < 3; it++){

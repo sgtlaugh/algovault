@@ -3,13 +3,14 @@
  * Aliens Trick (WQS Binary Search, Lagrangian Relaxation)
  * Minimum cost of a solution with exactly k items, when that cost f(k) is convex in k
  *
- * Complexity: O(log(hi - lo)) solver calls
+ * Complexity: O(log(hi - lo)) solver calls, 100 for floating-point bounds
  *
  * aliens_trick(k, lo, hi, solver): f(k), in the solver's value type
  * solver(lambda): {min over all solutions of cost + lambda * items, the fewest items among solutions reaching it}
  *
  * Notes:
- *   - Integer costs, f convex on its domain and k inside it
+ *   - f convex on its domain and k inside it, f(k) exact for integer costs and bounds
+ *   - Real costs take floating-point bounds, the error is then the rounding of lambda * k, so keep [lo, hi] tight
  *   - [lo, hi] contains every -(f(c) - f(c - 1)), so M = max |f(c) - f(c - 1)| gives [-M, M]
  *   - The bounds' type fits hi - lo, the solver's value type fits cost + max(|lo|, |hi|) * (max items)
  *   - The count must be the fewest: several counts can tie for one lambda, so count == k may never come back
@@ -23,7 +24,17 @@
 using namespace std;
 
 template <typename T, typename Solver>
-auto aliens_trick(int k, T lo, T hi, Solver solver){
+auto aliens_trick(long long k, T lo, T hi, Solver solver){
+    /// Halving a real interval never makes lo == hi, so floating-point bounds take a fixed count of steps
+    if constexpr (is_floating_point_v<T>){
+        for (int it = 0; it < 100; it++){
+            T mid = (lo + hi) / 2;
+            if (solver(mid).second <= k) hi = mid;
+            else lo = mid;
+        }
+        lo = hi;
+    }
+
     while (lo < hi){
         T mid = lo + (hi - lo) / 2;
         if (solver(mid).second <= k) hi = mid;
@@ -31,7 +42,7 @@ auto aliens_trick(int k, T lo, T hi, Solver solver){
     }
 
     auto value = solver(lo).first;
-    return value - decltype(value)(lo) * k;
+    return value - decltype(value)(lo) * decltype(value)(k);
 }
 
 int main(){
@@ -93,6 +104,17 @@ int main(){
         return best;
     };
     assert(aliens_trick(5, 1000000000, 1300000000, steep) == -5999999975LL);  /// lambda * k overflows int
+
+    auto split_work = [](double lambda){              /// c workers finish a job of size a in a / c, c >= 1
+        pair<double, long long> total = {0, 0};
+        for (double a : {8.0, 2.0}){
+            pair<double, long long> best = {1e18, 0};
+            for (long long c = 1; c <= 3; c++) best = min(best, {a / c + lambda * c, c});
+            total.first += best.first, total.second += best.second;
+        }
+        return total;
+    };
+    assert(fabs(aliens_trick(3, 0.0, 8.0, split_work) - 6) < 1e-9);  /// 8 / 2 + 2 / 1
 
     return 0;
 }
