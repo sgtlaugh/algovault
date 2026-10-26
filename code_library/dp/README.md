@@ -85,7 +85,7 @@
 - [UVa 531 - Compromise](https://onlinejudge.org/external/5/531.pdf)
 - [UVa 10066 - The Twin Towers](https://onlinejudge.org/external/100/10066.pdf) [✅](../../practice/dp/uva_10066.cpp "Accepted solution")
 - [UVa 10100 - Longest Match](https://onlinejudge.org/external/101/10100.pdf) [✅](../../practice/dp/uva_10100.cpp "Accepted solution")
-- [UVa 10405 - Longest Common Subsequence](https://onlinejudge.org/external/104/10405.pdf)
+- [UVa 10405 - Longest Common Subsequence](https://onlinejudge.org/external/104/10405.pdf) [✅](../../practice/dp/uva_10405.cpp "Accepted solution")
 
 #### [Knuth Optimization](knuth_optimization.cpp)
 
