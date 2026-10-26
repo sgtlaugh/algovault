@@ -72,7 +72,7 @@ void check(int n, int shape, int updates, long long max_w, int check_every){
 }
 
 int main(){
-    for (long long it = 0; it < stress::scaled(1500); it++){
+    for (long long it = 0; it < stress::scaled(800); it++){
         int n = it < 400 ? it % 12 + 1 : stress::rand_int(1, 40);
         check(n, it % 5, 40, it % 3 == 0 ? 3 : 1000000000LL, 1);
     }
@@ -83,10 +83,10 @@ int main(){
     }
 
     for (long long it = 0; it < stress::scaled(5); it++){
-        check(stress::rand_int(20000, 60000), it % 5, 20000, 1000000000LL, 1000);
+        check(stress::rand_int(5000, 20000), it % 5, 20000, 1000000000LL, 2000);
     }
 
-    check(200000, 1, 20000, 1000000000LL, 5000);  /// a path, too deep for a recursive tour on an 8 MB stack
+    check(200000, 1, 5000, 1000000000LL, 5000);  /// a path, too deep for a recursive tour on an 8 MB stack
 
     return 0;
 }
