@@ -186,7 +186,7 @@
 
 - [Codeforces 906D - Power Tower](https://codeforces.com/problemset/problem/906/D) [✅](../../practice/number_theory/codeforces_906d.cpp "Accepted solution")
 - [Codeforces Gym 100975F - Simple Calculations](https://codeforces.com/gym/100975/problem/F) [✅](../../practice/number_theory/codeforces_gym_100975f.cpp "Accepted solution")
-- [Kattis exponial - Exponial](https://open.kattis.com/problems/exponial)
+- [Kattis exponial - Exponial](https://open.kattis.com/problems/exponial) [✅](../../practice/number_theory/kattis_exponial.cpp "Accepted solution")
 - [UVa 10692 - Huge Mods](https://onlinejudge.org/external/106/10692.pdf) [✅](../../practice/number_theory/uva_10692.cpp "Accepted solution")
 
 #### [Segmented Sieve](segmented_sieve.cpp)
