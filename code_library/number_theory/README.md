@@ -156,7 +156,7 @@
 - [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/) [✅](../../practice/number_theory/spoj_pgcd_mobius_function.cpp "Accepted solution")
 - [SPOJ PSTR - Number of Prime Strings](https://www.spoj.com/problems/PSTR/) [✅](../../practice/number_theory/spoj_pstr.cpp "Accepted solution")
 - [SPOJ SQFREE - Square-free integers](https://www.spoj.com/problems/SQFREE/)
-- [SPOJ VLATTICE - Visible Lattice Points](https://www.spoj.com/problems/VLATTICE/)
+- [SPOJ VLATTICE - Visible Lattice Points](https://www.spoj.com/problems/VLATTICE/) [✅](../../practice/number_theory/spoj_vlattice.cpp "Accepted solution")
 - [UVa 10738 - Riemann vs Mertens](https://onlinejudge.org/external/107/10738.pdf) [✅](../../practice/number_theory/uva_10738.cpp "Accepted solution")
 - [UVa 12631 - Chocolate and Money](https://onlinejudge.org/external/126/12631.pdf) [✅](../../practice/number_theory/uva_12631.cpp "Accepted solution")
 - [UVa 12888 - Count LCM](https://onlinejudge.org/external/128/12888.pdf) [✅](../../practice/number_theory/uva_12888.cpp "Accepted solution")
