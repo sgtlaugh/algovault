@@ -148,7 +148,7 @@
 
 - [CodeChef COPRIME3 - Coprime Triples](https://www.codechef.com/problems/COPRIME3) [✅](../../practice/number_theory/codechef_coprime3.cpp "Accepted solution")
 - [Codeforces 585E - Present for Vitalik the Philatelist ](https://codeforces.com/problemset/problem/585/E) [✅](../../practice/number_theory/codeforces_585e.cpp "Accepted solution")
-- [Codeforces 915G - Coprime Arrays](https://codeforces.com/problemset/problem/915/G)
+- [Codeforces 915G - Coprime Arrays](https://codeforces.com/problemset/problem/915/G) [✅](../../practice/number_theory/codeforces_915g.cpp "Accepted solution")
 - [CSES 2417 - Counting Coprime Pairs](https://cses.fi/problemset/task/2417)
 - [HDU 5321 - Beautiful Set](https://acm.hdu.edu.cn/showproblem.php?pid=5321)
 - [LightOJ 1161 - Extreme GCD](https://lightoj.com/problem/extreme-gcd)
