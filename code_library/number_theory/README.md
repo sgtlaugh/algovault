@@ -105,7 +105,7 @@
 - [SPOJ DIVSUM - Divisor Summation](https://www.spoj.com/problems/DIVSUM/) [✅](../../practice/number_theory/spoj_divsum.cpp "Accepted solution")
 - [SPOJ ETF - Euler Totient Function](https://www.spoj.com/problems/ETF/) [✅](../../practice/number_theory/spoj_etf.cpp "Accepted solution")
 - [SPOJ GCDEX - GCD Extreme](https://www.spoj.com/problems/GCDEX/) [✅](../../practice/number_theory/spoj_gcdex.cpp "Accepted solution")
-- [SPOJ HS08PAUL - A conjecture of Paul Erdős](https://www.spoj.com/problems/HS08PAUL/)
+- [SPOJ HS08PAUL - A conjecture of Paul Erdős](https://www.spoj.com/problems/HS08PAUL/) [✅](../../practice/number_theory/spoj_hs08paul.cpp "Accepted solution")
 - [SPOJ LCMSUM - LCM Sum](https://www.spoj.com/problems/LCMSUM/) [✅](../../practice/number_theory/spoj_lcmsum.cpp "Accepted solution")
 - [SPOJ NAJPWG - Playing with GCD](https://www.spoj.com/problems/NAJPWG/) [✅](../../practice/number_theory/spoj_najpwg.cpp "Accepted solution")
 - [SPOJ NFACTOR - N-Factorful](https://www.spoj.com/problems/NFACTOR/) [✅](../../practice/number_theory/spoj_nfactor.cpp "Accepted solution")
