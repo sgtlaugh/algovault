@@ -77,6 +77,13 @@ Frac right_neighbour(long long tp, long long tq, long long n){
     return conv_above ? c[k] : semi;
 }
 
+/// The closer of the neighbours l < tp / tq < r, ties to the smaller denominator as the header promises
+Frac closer(Frac l, Frac r, long long tp, long long tq){
+    __int128 dl = (__int128)tp * l.second - (__int128)l.first * tq, dr = (__int128)r.first * tq - (__int128)tp * r.second;
+    __int128 lhs = dl * r.second, rhs = dr * l.second;
+    return lhs < rhs || (lhs == rhs && l.second <= r.second) ? l : r;
+}
+
 /// The header's 4 log2(N) + 10, with log2 rounded down
 long long call_bound(long long n){
     return 4 * (63 - __builtin_clzll(n)) + 10;
@@ -189,13 +196,30 @@ int main(){
         auto le_mirror = [&](long long p, long long q){ return (__int128)p * tq >= (__int128)(tq - tp) * q; };
         Frac r = got, mirrored = fraction_search(le_mirror, n), l = {mirrored.second - mirrored.first, mirrored.second};
 
-        __int128 dl = (__int128)tp * l.second - (__int128)l.first * tq, dr = (__int128)r.first * tq - (__int128)tp * r.second;
-        __int128 lhs = dl * r.second, rhs = dr * l.second;
-        Frac expected = lhs < rhs || (lhs == rhs && l.second <= r.second) ? l : r;
+        Frac expected = closer(l, r, tp, tq);
         assert(best_approximation(tp, tq, n) == expected);
 
         long long shift = stress::rand_int(-(E18 - tq) / tq, (E18 - tq) / tq);
         assert(best_approximation(tp + shift * tq, tq, n) == Frac(expected.first + shift * expected.second, expected.second));
+    }
+
+    /// best_approximation over the whole long long range, p down to LLONG_MIN + 1, q and N up to LLONG_MAX
+    for (long long it = 0; it < stress::scaled(20000); it++){
+        long long tq = it % 7 ? stress::rand_int(2, LLONG_MAX) : LLONG_MAX - stress::rand_int(0, 10);
+        if (it % 5 == 0) tq = stress::rand_int(2, 1000);
+        long long tp = stress::rand_int(0, tq - 1), n = tq - stress::rand_int(1, min(tq - 1, 1000LL));
+        if (it % 3) n = it % 3 == 1 ? stress::rand_int(1, LLONG_MAX) : LLONG_MAX - stress::rand_int(0, 10);
+
+        Frac t = reduce(tp, tq), expected = t;
+        if (t.second > n){
+            Frac mirrored = right_neighbour(tq - tp, tq, n);
+            expected = closer({mirrored.second - mirrored.first, mirrored.second}, right_neighbour(tp, tq, n), tp, tq);
+        }
+
+        long long lo = -((tp - (__int128)LLONG_MIN - 1) / tq), hi = (LLONG_MAX - tp) / tq;
+        long long shift = it % 4 == 0 ? lo : it % 4 == 1 ? hi : stress::rand_int(lo, hi);
+        Frac got = best_approximation(tp + (__int128)shift * tq, tq, n);
+        assert(got.second == expected.second && got.first == expected.first + (__int128)shift * expected.second);
     }
 
     return 0;

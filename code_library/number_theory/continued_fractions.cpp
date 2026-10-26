@@ -7,7 +7,7 @@
  *
  * best_approximation(p, q, N): the fraction closest to p / q among all fractions with denominator <= N
  *     Ties go to the smaller denominator, then to the smaller value
- *     Requires |p| <= 1e18, 1 <= q <= 1e18, 1 <= N <= 1e18 and __int128
+ *     Requires p > LLONG_MIN, q >= 1, N >= 1 and __int128
  *
  * continued_fraction(p, q): [a0; a1, ..., ak] with p / q = a0 + 1 / (a1 + 1 / (... + 1 / ak))
  *     a0 = floor(p / q) can be negative, a1..ak >= 1 and ak >= 2 when k >= 1, so the expansion is unique
