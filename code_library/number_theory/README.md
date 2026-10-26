@@ -19,7 +19,6 @@
 - [Codeforces 585C - Alice, Bob, Oranges and Apples](https://codeforces.com/problemset/problem/585/C) [✅](../../practice/number_theory/codeforces_585c.cpp "Accepted solution")
 - [Codeforces Gym 102354I - From Modular to Rational](https://codeforces.com/gym/102354/problem/I)
 - [Codeforces Gym 104656C2 - New Elements, Part 2 C2](https://codeforces.com/gym/104656/problem/C2) [✅](../../practice/number_theory/codeforces_gym_104656c2.cpp "Accepted solution")
-- [HackerRank euler064 - Project Euler #64: Odd period square roots](https://www.hackerrank.com/contests/projecteuler/challenges/euler064/problem)
 - [HDU 6624 - fraction](http://acm.hdu.edu.cn/showproblem.php?pid=6624) [✅](../../practice/number_theory/hdu_6624.cpp "Accepted solution")
 - [UVa 834 - Continued Fractions](https://onlinejudge.org/external/8/834.pdf) [✅](../../practice/number_theory/uva_834.cpp "Accepted solution")
 
@@ -72,6 +71,7 @@
 
 #### [Fast Sieve](fast_sieve.cpp)
 
+- [SPOJ BSPRIME - Binary Sequence of Prime Number](https://www.spoj.com/problems/BSPRIME/)
 - [SPOJ PRIMES2 - Printing some primes (Hard)](https://www.spoj.com/problems/PRIMES2/) [✅](../../practice/number_theory/spoj_primes2.cpp "Accepted solution")
 - [SPOJ PTRI - primes triangle (I)](https://www.spoj.com/problems/PTRI/)
 - [SPOJ TDPRIMES - Printing some primes](https://www.spoj.com/problems/TDPRIMES/)
@@ -98,8 +98,6 @@
 - [Codeforces 1499D - The Number of Pairs](https://codeforces.com/problemset/problem/1499/D) [✅](../../practice/number_theory/codeforces_1499d.cpp "Accepted solution")
 - [Codeforces 1900D - Small GCD](https://codeforces.com/problemset/problem/1900/D) [✅](../../practice/number_theory/codeforces_1900d.cpp "Accepted solution")
 - [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713) [✅](../../practice/number_theory/cses_1713_linear_sieve.cpp "Accepted solution")
-- [LightOJ 1007 - Mathematically Hard](https://lightoj.com/problem/mathematically-hard)
-- [SPOJ BSPRIME - Binary Sequence of Prime Number](https://www.spoj.com/problems/BSPRIME/)
 - [SPOJ COMDIV - Number of common divisors](https://www.spoj.com/problems/COMDIV/) [✅](../../practice/number_theory/spoj_comdiv.cpp "Accepted solution")
 - [SPOJ DCEPC12G - G Force](https://www.spoj.com/problems/DCEPC12G/) [✅](../../practice/number_theory/spoj_dcepc12g.cpp "Accepted solution")
 - [SPOJ DCEPC505 - Bazinga!](https://www.spoj.com/problems/DCEPC505/) [✅](../../practice/number_theory/spoj_dcepc505.cpp "Accepted solution")
