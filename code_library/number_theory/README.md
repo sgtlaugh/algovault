@@ -58,7 +58,7 @@
 
 #### [Fast Fibonacci](fast_fibonacci.cpp)
 
-- [AOJ ALDS1_10_A - Fibonacci Number](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_A)
+- [AOJ ALDS1_10_A - Fibonacci Number](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_A) [✅](../../practice/number_theory/aoj_alds1_10_a.cpp "Accepted solution")
 - [Codeforces Gym 102644C - Fibonacci](https://codeforces.com/gym/102644/problem/C)
 - [CSES 1722 - Fibonacci Numbers](https://cses.fi/problemset/task/1722)
 - [DMOJ fibonacci - Fibonacci Sequence](https://dmoj.ca/problem/fibonacci)
