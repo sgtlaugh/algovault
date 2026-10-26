@@ -15,6 +15,7 @@
  *   - phi_sum(n) plus mertens(n) at -O2: 0.14 s at n = 1e10, 0.66 s at n = 1e11 (0.22 s sieve, 0.44 s queries)
  *   - A smaller table trades time for memory, a larger one memory for time: n = 1e11, table = 2e6 takes 33 MB, 1.1 s
  *   - Queries above n cost more than O(n^(2/3))
+ *   - Summing mu(d) g(n / d) over blocks of equal n / d costs no more than mertens(n), which memoizes each n / d
  *   - Min25Sieve in min_25_sieve.cpp sums other multiplicative functions
  *   - Requires __int128
  *
