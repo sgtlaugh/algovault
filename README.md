@@ -5,40 +5,28 @@
 [![CI](https://github.com/sgtlaugh/algovault/actions/workflows/ci.yml/badge.svg)](https://github.com/sgtlaugh/algovault/actions/workflows/ci.yml)
 [![license](https://img.shields.io/github/license/sgtlaugh/algovault.svg?style=flat)](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
 
-A black box you can copy easily - simple, fast, and well-tested. Templates are C++17 for GCC, with a few in Python 3 that mostly run on PyPy too, for contests like [Codeforces](https://codeforces.com), [AtCoder](https://atcoder.jp) and ICPC.
+- A black box you can copy easily: simple, fast, and well-tested
+- C++17 for GCC, with a few in Python 3 that mostly run on PyPy too
+- Built for contests like [Codeforces](https://codeforces.com), [AtCoder](https://atcoder.jp) and ICPC
 
 ## How To Use
 
-Every C++ file compiles on its own. Copy it into your solution, delete its `main()`, which only holds self-tests, and use the struct:
+1. Copy a file into your solution, every C++ file compiles on its own
+2. Delete its `main()`, which only holds self-tests and a worked example
+3. Read the header at the top for the API, complexity and limits
+
+For example, a [Suffix Automaton](code_library/strings/suffix_automaton.cpp) answers substring questions in three calls:
 
 ```cpp
-DSU dsu(n);
-dsu.connect(a, b);
-bool together = dsu.same(a, b);
+SuffixAutomaton<> sa("banana");
+sa.distinct_substrings();   // 15
+sa.occurrences("ana");      // 2, overlapping
+sa.contains("nab");         // false
 ```
 
-The header at the top of each file lists its API, complexity and limits, and `main()` shows a worked example.
-
-## Testing
-
-Every template is checked four ways:
-
-| Layer | Where | Checks |
-|---|---|---|
-| Self-tests | `main()` in each file | Usage examples with known answers |
-| Stress tests | [`stress_tests/`](stress_tests), same path | Random inputs against an independent brute force |
-| Repo checks | [`run_tests.sh`](.github/scripts/run_tests.sh) | Every file has a stress test and an index entry, consistent style |
-| Judge tests | [`judge_tests/`](judge_tests) | Official [Library Checker](https://judge.yosupo.jp) and [Aizu](https://onlinejudge.u-aizu.ac.jp) test data at full size, within the real time limit |
-
-Self-tests and stress tests build with GCC 14 under AddressSanitizer and UndefinedBehaviorSanitizer with an 8 MB stack, warnings as errors. Judge tests build with `-O2` like a judge.
-
-- Every push runs the self, stress and judge tests of the files it changes, plus the repo checks
-- Every night all self and stress tests run, and the stress tests again at 20x the iterations with a fresh seed
-- Every week all judge tests run from scratch
-
-A ✔ in the index marks a template that passes a judge test; it links to one of them. A ✅ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice). The commands to run everything locally are in [CONTRIBUTING.md](CONTRIBUTING.md#checks).
-
 ## Index
+
+A ✔ marks a template that passes a judge test and links to one. A ✅ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice).
 
 [Data Structures](#data-structures) | [Trees](#trees) | [Graphs](#graphs) | [Strings](#strings) | [Number Theory](#number-theory) | [Combinatorics](#combinatorics) | [Algebra](#algebra) | [Linear Algebra](#linear-algebra) | [Geometry](#geometry) | [Dynamic Programming](#dynamic-programming) | [Miscellaneous](#miscellaneous) | [Hacking](#hacking) | [Python](#python)
 
@@ -331,9 +319,29 @@ A ✔ in the index marks a template that passes a judge test; it links to one of
 - [String Hash](code_library/python/string_hash.py) - polynomial substring hashes
 - [Z Algorithm](code_library/python/z_algorithm.py) - LCP of every suffix with the string
 
+## Testing
+
+Every template is checked four ways:
+
+| Layer | Where | Checks |
+|---|---|---|
+| Self-tests | `main()` in each file | Usage examples with known answers |
+| Stress tests | [`stress_tests/`](stress_tests), same path | Random inputs against an independent brute force |
+| Repo checks | [`run_tests.sh`](.github/scripts/run_tests.sh) | Every file has a stress test and an index entry, consistent style |
+| Judge tests | [`judge_tests/`](judge_tests) | Official [Library Checker](https://judge.yosupo.jp) and [Aizu](https://onlinejudge.u-aizu.ac.jp) test data at full size, within the real time limit |
+
+Self-tests and stress tests build with GCC 14 under AddressSanitizer and UndefinedBehaviorSanitizer with an 8 MB stack, warnings as errors. Judge tests build with `-O2` like a judge.
+
+- Every push runs the self, stress and judge tests of the files it changes, plus the repo checks
+- Every night all self and stress tests run, and the stress tests again at 20x the iterations with a fresh seed
+- Every week all judge tests run from scratch
+
+The commands to run everything locally are in [CONTRIBUTING.md](CONTRIBUTING.md#checks).
+
 ## Contributing
 
-Bug reports, fixes and new templates are welcome as issues or pull requests. See [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions, the checks CI runs and The Zen Of Contributing; the skills in [`.claude/skills/`](.claude/skills) apply them: `/crucible` adds or refactors a template, `/lucid` keeps the docs consistent.
+- Bug reports, fixes and new templates are welcome as issues or pull requests, see [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions and the checks CI runs
+- The skills in [`.claude/skills/`](.claude/skills) apply them: `/crucible` adds or refactors a template, `/lucid` keeps the docs consistent
 
 ## License
 
