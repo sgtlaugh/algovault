@@ -73,14 +73,14 @@ int main(){
         }
     }
 
-    /// Range queries with large bases, towers far above 2^62, against the cycle-detection brute force
+    /// Range queries with bases up to LLONG_MAX, towers far above 2^62, against the cycle-detection brute force
     vector<PowerTower> small_pool;
     for (long long m : {200000LL, 199999LL, 1LL << 17, 177147LL, 166320LL}) small_pool.emplace_back(m);
     for (int i = 0; i < 3; i++) small_pool.emplace_back(stress::rand_int(1, 200000));
     for (long long it = 0; it < stress::scaled(60); it++){
         const PowerTower& tower = small_pool[it % small_pool.size()];
         vector<long long> a(30);
-        for (auto& x : a) x = stress::rand_int(0, 3) ? stress::rand_int(1, 1000000000000000000LL) : stress::rand_int(1, 3);
+        for (auto& x : a) x = stress::rand_int(0, 3) ? stress::rand_int(1, LLONG_MAX) : stress::rand_int(1, 3);
         for (int q = 0; q < 10; q++){
             int l = stress::rand_int(0, 29), r = stress::rand_int(l, 29);
             vector<long long> part(a.begin() + l, a.begin() + r + 1);
