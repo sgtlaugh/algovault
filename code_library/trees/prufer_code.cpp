@@ -3,7 +3,7 @@
  * Prufer Code
  * Bijection between labeled trees on n >= 2 nodes (0-based) and sequences of n - 2 values in [0, n)
  *
- * Complexity: O(n) for both encode and decode, O(n) memory
+ * Complexity: O(n) for both encode and decode
  *
  * PruferCode tree(n): an empty tree on nodes 0..n-1
  * tree.add_edge(u, v): adds the edge u - v, asserts both endpoints are in [0, n)
@@ -11,7 +11,6 @@
  * prufer_decode(code): the tree on n = code.size() + 2 nodes as n - 1 edges {child, parent}, rooted at n - 1
  *
  * Notes:
- *   - prufer_decode asserts every value is in [0, n)
  *   - v appears deg(v) - 1 times in the code
  *   - Every code decodes to a distinct tree, so there are n^(n - 2) labeled trees (Cayley)
  *
