@@ -74,8 +74,6 @@
 
 #### [Long-Path Decomposition](long_path_decomposition.cpp)
 
-- [CSES 2080 - Fixed-Length Paths I](https://cses.fi/problemset/task/2080)
-
 #### [Lowest Common Ancestor](lca.cpp)
 
 - [CodeChef LGSEG - Longest Good Segment](https://www.codechef.com/problems/LGSEG)
