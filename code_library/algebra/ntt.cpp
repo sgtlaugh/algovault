@@ -16,6 +16,7 @@
  *   - multiply allows result lengths up to 2^23 modulo 998244353 and 2^20 modulo 7340033 = 7 * 2^20 + 1
  *   - MOD must be a prime below 2^31, an explicit ROOT a quadratic non-residue modulo MOD, which any primitive root is
  *   - Inputs may be negative or >= the modulus, multiply and mod_multiply return values in [0, modulus)
+ *   - Roots stay cached per modulus, 8 bytes per element of the largest padded length so far, three moduli in the others
  *   - Requires __int128 (64-bit GCC or Clang) for exact_multiply and crt_multiply
  *   - Use fft.cpp for exact products with max(n, m) * max|value|^2 below ~4.5e13: one transform there, three here
  *
