@@ -51,7 +51,9 @@ struct LinearRMQ{
         for (int b = 0; b < blocks; b++) table[0][b] = small_query(min(n - 1, b * B + B - 1), min(B, n - b * B));
         for (int k = 1; (1 << k) <= blocks; k++){
             table.push_back(vector<int>(blocks - (1 << k) + 1));
-            for (int b = 0; b + (1 << k) <= blocks; b++) table[k][b] = better(table[k - 1][b], table[k - 1][b + (1 << (k - 1))]);
+            for (int b = 0; b + (1 << k) <= blocks; b++){
+                table[k][b] = better(table[k - 1][b], table[k - 1][b + (1 << (k - 1))]);
+            }
         }
     }
 
@@ -60,7 +62,7 @@ struct LinearRMQ{
         int res = better(small_query(l + B - 1), small_query(r));
         int x = l / B + 1, y = r / B - 1;
         if (x <= y){
-            int k = 31 - __builtin_clz(y - x + 1);
+            int k = __lg(y - x + 1);
             res = better(res, better(table[k][x], table[k][y - (1 << k) + 1]));
         }
         return res;
@@ -69,6 +71,7 @@ struct LinearRMQ{
     /// Index of the minimum in [r - size + 1, r], size <= 64
     int small_query(int r, int size = B) const{
         unsigned long long m = size == B ? mask[r] : mask[r] & ((1ULL << size) - 1);
+        /// Not __lg: GCC 14's __lg tests for 0, which costs LinearLCA.lca 4-8%
         return r - (63 - __builtin_clzll(m));
     }
 
@@ -155,7 +158,7 @@ struct VirtualTree : LinearLCA{
         for (int i = 1; i < (int)nodes.size(); i++){
             int p = lca(nodes[i - 1], nodes[i]);
             int p_idx = lower_bound(nodes.begin(), nodes.end(), p, by_tour) - nodes.begin();
-            res.push_back({nodes[i], p_idx, dist(nodes[i], p)});
+            res.push_back({nodes[i], p_idx, weight_sum[nodes[i]] - weight_sum[p]});
         }
 
         return res;

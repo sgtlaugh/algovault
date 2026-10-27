@@ -211,6 +211,8 @@ void check_rejects_all(){
     check_rejects<Tree>(3, {{0, 1}, {0, 1}, {1, 2}});          /// multi-edge
     check_rejects<Tree>(3, {{0, 1}});                          /// disconnected
     check_rejects<Tree>(2, {{0, 0}, {0, 1}});                  /// self-loop at the root, only the edge count sees it
+    check_rejects<Tree>(5, {{0, 1}, {2, 3}, {3, 4}, {4, 2}});  /// n - 1 edges, cycle outside the root's component
+    check_rejects<Tree>(3, {{0, 1}, {2, 2}});                  /// self-loop off the root, only the reach count sees it
 }
 
 int main(){
@@ -232,7 +234,9 @@ int main(){
         for (int it = 0; it < 20; it++) check_rmq(n, it % 2 ? 3 : 1000000000);
     }
 
-    for (long long it = 0; it < stress::scaled(200); it++) check_rmq(stress::rand_int(1, 5000), stress::rand_int(0, 1) ? 5 : 1000000000);
+    for (long long it = 0; it < stress::scaled(200); it++){
+        check_rmq(stress::rand_int(1, 5000), stress::rand_int(0, 1) ? 5 : 1000000000);
+    }
 
     return 0;
 }

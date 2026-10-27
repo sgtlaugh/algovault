@@ -60,7 +60,8 @@ vector<array<long long, 3>> make_tree(int n, int shape, long long max_w){
 }
 
 /// Shared checks given the expected vertex set (as a mask) and each member's expected virtual parent
-void check_result(const vector<VirtualTree::Node>& res, const vector<char>& in_set, const vector<int>& expected_parent, int distinct){
+void check_result(const vector<VirtualTree::Node>& res, const vector<char>& in_set, const vector<int>& expected_parent,
+                  int distinct){
     int members = count(in_set.begin(), in_set.end(), 1);
     assert((int)res.size() == members);
     assert(distinct == 0 ? res.empty() : (int)res.size() <= 2 * distinct - 1);
@@ -144,6 +145,15 @@ void check_large(const VirtualTree& tree, const NaiveTree& naive, const vector<i
     check_result(tree.compress(nodes), in_set, expected_parent, distinct);
 }
 
+/// build must hit its assert on a non-tree, expect_assert's alarm turns an endless traversal into a failure
+void check_rejects(int n, const vector<pair<int, int>>& edges){
+    stress::expect_assert("trees/virtual_tree.cpp", [&]{
+        VirtualTree tree(n);
+        for (auto [u, v] : edges) tree.add_edge(u, v);
+        tree.build(0);
+    });
+}
+
 vector<int> random_nodes(int n, int k){
     vector<int> nodes(k);
     for (auto& v : nodes) v = stress::rand_int(0, n - 1);
@@ -151,6 +161,13 @@ vector<int> random_nodes(int n, int k){
 }
 
 int main(){
+    check_rejects(4, {{0, 1}, {1, 2}, {2, 0}});          /// cycle plus an isolated node, n - 1 edges
+    check_rejects(3, {{0, 1}, {1, 2}, {2, 0}});          /// cycle, n edges
+    check_rejects(3, {{0, 1}, {0, 1}, {1, 2}});          /// multi-edge
+    check_rejects(2, {{0, 0}, {0, 1}});                  /// self-loop at the root, only the edge count sees it
+    check_rejects(5, {{0, 1}, {2, 3}, {3, 4}, {4, 2}});  /// n - 1 edges, cycle outside the root's component
+    check_rejects(3, {{0, 1}, {2, 2}});                  /// self-loop off the root, only the reach count sees it
+
     for (int n = 1; n <= 7; n++){
         for (int it = 0; it < 15; it++){
             auto edges = make_tree(n, it % 5, 9);
