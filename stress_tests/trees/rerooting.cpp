@@ -185,6 +185,8 @@ int main(){
     check_rejects(2, {{0, 0}, {0, 1}});                  /// self-loop at the root, only the edge count sees it
     check_rejects(2, {{0, 0}});                          /// self-loop at the root plus an isolated node, n - 1 edges
     check_rejects(0, {});
+    check_rejects(3, {{0, 1}, {1, 3}});                  /// endpoint n, caught by add_edge before it lands anywhere
+    check_rejects(3, {{0, 1}, {-1, 2}});                 /// negative endpoint
 
     /// 1296 trees at n = 6, n = 7 adds 16807 for little new structure
     for (int n = 1; n <= 6; n++) check_all_trees(n, n % 2 ? 1000000000LL : 3);

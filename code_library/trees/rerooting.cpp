@@ -3,7 +3,7 @@
  * Rerooting DP
  * A tree DP evaluated with every node as the root, from three user operations
  *
- * Complexity: O(n) time and memory, 2(n - 1) calls to apply_edge and O(n) calls to combine
+ * Complexity: O(n), 2(n - 1) calls to apply_edge and O(n) calls to combine
  *
  * Rerooting<T, E = long long> tree(n): nodes 0..n-1, T is the DP value of a rooted subtree and E the edge data
  * tree.add_edge(u, v, w = E()): adds the edge (u, v) with data w, 0 <= u, v < n
@@ -25,38 +25,42 @@ using namespace std;
 
 template<typename T, typename E = long long>
 struct Rerooting{
-    struct Edge{
-        int to;
-        E w;
-    };
+    int n;
+    vector<array<int, 2>> ends;
+    vector<E> data;
 
-    int n, added_edges = 0;
-    vector<vector<Edge>> adj;
-
-    Rerooting(int n) : n(n), adj(n) {}
+    Rerooting(int n) : n(n) {}
 
     void add_edge(int u, int v, E w = E()){
-        adj[u].push_back({v, w});
-        adj[v].push_back({u, w});
-        added_edges++;
+        assert(0 <= u && u < n && 0 <= v && v < n);
+        ends.push_back({u, v});
+        data.push_back(w);
     }
 
     template<typename Combine, typename Apply>
     vector<T> solve(Combine combine, const T& identity, Apply apply_edge) const{
-        assert(n >= 1 && added_edges == n - 1);
+        assert(n >= 1 && (int)ends.size() == n - 1);
+
+        /// The edges at v are adj[start[v]..start[v + 1] - 1] in insertion order, as indices into ends and data
+        vector<int> start(n + 1, 0), adj(2 * (n - 1));
+        for (auto [u, v] : ends) start[u + 1]++, start[v + 1]++;
+        for (int v = 0; v < n; v++) start[v + 1] += start[v];
+        vector<int> pos(start.begin(), start.end() - 1);
+        for (int e = 0; e < n - 1; e++) adj[pos[ends[e][0]]++] = e, adj[pos[ends[e][1]]++] = e;
 
         /// Indexed by BFS position from 0, so the children of i are first[i]..first[i + 1] - 1 and passes scan in order
-        vector<int> order = {0}, parent(n, -1), first(n + 1, n);
-        vector<E> w = {E()};
+        vector<int> order = {0}, parent(n, -1), edge = {-1}, first(n + 1, n);
         vector<char> seen(n, false);
         seen[0] = true;
         for (int i = 0; i < (int)order.size(); i++){
+            int u = order[i];
             first[i] = order.size();
-            for (const Edge& e : adj[order[i]]){
-                if (i > 0 && e.to == order[parent[i]]) continue;
-                assert(!seen[e.to]);
-                seen[e.to] = true, parent[order.size()] = i;
-                order.push_back(e.to), w.push_back(e.w);
+            for (int j = start[u]; j < start[u + 1]; j++){
+                int e = adj[j], to = ends[e][0] ^ ends[e][1] ^ u;
+                if (e == edge[i]) continue;
+                assert(!seen[to]);
+                seen[to] = true, parent[order.size()] = i;
+                order.push_back(to), edge.push_back(e);
             }
         }
         assert((int)order.size() == n);
@@ -64,7 +68,7 @@ struct Rerooting{
         /// down[i] combines i's children, then what i's subtree gives its parent, up[i] what the parent side gives i
         vector<T> down(n, identity), up(n, identity), suffix, res(n, identity);
         for (int i = n - 1; i > 0; i--){
-            down[i] = apply_edge(down[i], order[i], order[parent[i]], w[i]);
+            down[i] = apply_edge(down[i], order[i], order[parent[i]], data[edge[i]]);
             down[parent[i]] = combine(down[parent[i]], down[i]);
         }
 
@@ -76,7 +80,7 @@ struct Rerooting{
 
             T prefix = up[i];
             for (int j = 0; j < k; j++){
-                up[l + j] = apply_edge(combine(prefix, suffix[j + 1]), order[i], order[l + j], w[l + j]);
+                up[l + j] = apply_edge(combine(prefix, suffix[j + 1]), order[i], order[l + j], data[edge[l + j]]);
                 prefix = combine(prefix, down[l + j]);
             }
         }
