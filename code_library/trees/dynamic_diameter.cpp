@@ -3,7 +3,7 @@
  * Dynamic Tree Diameter
  * Maintains the diameter of a weighted tree while edge weights change, 0-based nodes
  *
- * Complexity: O(n) to build, O(log n) per weight update, O(1) per diameter query, O(n) memory
+ * Complexity: O(n) to build, O(log n) per weight update, O(1) per diameter query, O(n) memory, about 315 MB at n = 1e6
  *
  * DynamicDiameter tree(n): an empty tree on n >= 1 nodes
  * tree.add_edge(u, v, w): adds the edge u - v of weight w, returns its id, ids are 0, 1, ..., n - 2 in insertion order
@@ -27,7 +27,7 @@ struct DynamicDiameter{
         long long x, y, xy, yz, xyz;
     };
 
-    int n, m = 0;
+    int n, tour_size = 0;
     vector<vector<pair<int, int>>> adj;
     vector<long long> weight, lazy;
     vector<int> child, first, last;
@@ -69,15 +69,16 @@ struct DynamicDiameter{
         }
         assert((int)tour.size() == 2 * n - 1);
 
-        m = tour.size();
-        seg.assign(4 * m, Node{}), lazy.assign(4 * m, 0);
-        build_seg(1, 0, m - 1, tour);
+        /// 4 << __lg slots hold only while ranges split in halves, keeping the height at ceil(log2 tour_size)
+        tour_size = tour.size();
+        seg.assign(4 << __lg(tour_size), Node{}), lazy.assign(4 << __lg(tour_size), 0);
+        build_seg(1, 0, tour_size - 1, tour);
     }
 
     void update(int id, long long w){
         assert(w >= 0);
         int v = child[id];
-        add(1, 0, m - 1, first[v], last[v], w - weight[id]);
+        add(1, 0, tour_size - 1, first[v], last[v], w - weight[id]);
         weight[id] = w;
     }
 
@@ -93,7 +94,7 @@ struct DynamicDiameter{
 
         int mid = (b + e) / 2;
         build_seg(2 * node, b, mid, f), build_seg(2 * node + 1, mid + 1, e, f);
-        seg[node] = merge(seg[2 * node], seg[2 * node + 1]);
+        seg[node] = combine(seg[2 * node], seg[2 * node + 1]);
     }
 
     void add(int node, int b, int e, int l, int r, long long delta){
@@ -110,10 +111,10 @@ struct DynamicDiameter{
 
         int mid = (b + e) / 2;
         add(2 * node, b, mid, l, r, delta), add(2 * node + 1, mid + 1, e, l, r, delta);
-        seg[node] = merge(seg[2 * node], seg[2 * node + 1]);
+        seg[node] = combine(seg[2 * node], seg[2 * node + 1]);
     }
 
-    static Node merge(const Node& l, const Node& r){
+    static Node combine(const Node& l, const Node& r){
         Node res;
         res.x = max(l.x, r.x);
         res.y = max(l.y, r.y);
