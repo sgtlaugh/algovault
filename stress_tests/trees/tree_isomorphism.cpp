@@ -268,6 +268,9 @@ int main(){
         check_rejects(3, {{0, 1}}, call);
         check_rejects(2, {{0, 0}, {0, 1}}, call);
         check_rejects(6, {{0, 1}, {1, 2}, {3, 4}, {4, 5}, {5, 3}}, call);
+        check_rejects(2, {{0, 0}}, call);                   /// self-loop, centers' last layer is short of what remains
+        check_rejects(3, {{0, 1}, {0, 1}}, call);           /// multi-edge plus an isolated node, peeling ends empty
+        check_rejects(4, {{0, 1}, {0, 1}, {2, 3}}, call);   /// multi-edge plus a separate edge
     }
 
     for (int n = 1; n <= 7; n++) check_exhaustive(n);
