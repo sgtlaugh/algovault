@@ -45,6 +45,7 @@
 
 #### [Gauss-Jordan, Band Matrix](gauss_band_matrix.cpp)
 
+- [SPOJ NBLINDESC - Not So Blind Escape](https://www.spoj.com/problems/NBLINDESC/) [✔](../../practice/misc/spoj_nblindesc.cpp "Accepted solution")
 - [UVa 1704 - Pachinko](https://onlinejudge.org/external/17/1704.pdf) [✔](../../practice/linear_algebra/uva_1704_gauss_band_matrix.cpp "Accepted solution")
 - [UVa 12177 - First Knight](https://onlinejudge.org/external/121/12177.pdf) [✔](../../practice/linear_algebra/uva_12177.cpp "Accepted solution")
 
