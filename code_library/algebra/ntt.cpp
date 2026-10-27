@@ -70,14 +70,16 @@ namespace ntt{
     /// rt[k + j] = w^j R modulo MOD for each power of two k < n, w a primitive 2k-th root of unity or its inverse
     template<unsigned MOD, unsigned ROOT>
     vector<unsigned> roots(int n, bool invert){
-        vector<unsigned> rt(max(n, 2), 1);
+        vector<unsigned> rt(max(n, 2), ((unsigned long long)1 << 32) % MOD);
         for (int k = 2; k < n; k <<= 1){
             unsigned long long z = power(ROOT, (MOD - 1) / (2 * k), MOD);
             if (invert) z = power(z, MOD - 2, MOD);
-            for (int i = k; i < 2 * k; i++) rt[i] = i & 1 ? rt[i >> 1] * z % MOD : rt[i >> 1];
+            z = (z << 32) % MOD;
+            for (int i = k; i < 2 * k; i++){
+                unsigned w = redc<MOD>(rt[i >> 1] * z);
+                rt[i] = i & 1 ? (w >= MOD ? w - MOD : w) : rt[i >> 1];
+            }
         }
-
-        for (auto& w : rt) w = ((unsigned long long)w << 32) % MOD;
         return rt;
     }
 
@@ -131,17 +133,24 @@ namespace ntt{
         while (n < s) n <<= 1;
         assert((MOD - 1) % n == 0);
 
-        vector<unsigned> x(n, 0), y(n, 0);
+        /// Each level's roots sit at fixed positions, so one table grown to the largest n serves every smaller call
+        static vector<unsigned> rt, irt;
+        if ((int)rt.size() < n) rt = roots<MOD, ROOT>(n, false), irt = roots<MOD, ROOT>(n, true);
+
+        bool same = a == b;
+        vector<unsigned> x(n, 0), y;
         for (size_t i = 0; i < a.size(); i++) x[i] = (a[i] % (long long)MOD + MOD) % MOD;
-        for (size_t i = 0; i < b.size(); i++) y[i] = (b[i] % (long long)MOD + MOD) % MOD;
-
-        auto rt = roots<MOD, ROOT>(n, false);
         forward_transform<MOD>(x, rt);
-        forward_transform<MOD>(y, rt);
+        if (!same){
+            y.assign(n, 0);
+            for (size_t i = 0; i < b.size(); i++) y[i] = (b[i] % (long long)MOD + MOD) % MOD;
+            forward_transform<MOD>(y, rt);
+        }
 
+        const vector<unsigned>& z = same ? x : y;
         unsigned long long inv = power(n, MOD - 2, MOD);
-        for (int i = 0; i < n; i++) x[i] = (unsigned long long)x[i] * y[i] % MOD * inv % MOD;
-        inverse_transform<MOD>(x, roots<MOD, ROOT>(n, true));
+        for (int i = 0; i < n; i++) x[i] = (unsigned long long)x[i] * z[i] % MOD * inv % MOD;
+        inverse_transform<MOD>(x, irt);
 
         vector<long long> res(s);
         for (int i = 0; i < s; i++) res[i] = x[i] >= MOD ? x[i] - MOD : x[i];

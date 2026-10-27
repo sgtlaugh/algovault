@@ -37,6 +37,10 @@ void check_prime(int max_n, int max_m){
     ll lo = stress::rand_int(0, 3) ? 0 : LLONG_MIN, hi = lo ? LLONG_MAX : MOD - 1;
     auto a = random_vector(n, lo, hi), b = random_vector(m, lo, hi);
     assert((ntt::multiply<MOD, ROOT>(a, b) == naive(a, b, MOD)));
+
+    /// Equal inputs, a separate copy, skip the second forward transform
+    vector<ll> copy = a;
+    assert((ntt::multiply<MOD, ROOT>(a, copy) == naive(a, a, MOD)));
 }
 
 /// Product of all-ones vectors of lengths n and m, c[k] = number of (i, j) with i + j = k
@@ -95,6 +99,15 @@ int main(){
     auto u = random_vector(129, 0, 256), v = random_vector(128, 0, 256);
     assert((multiply<257, 3>(u, v) == naive(u, v, 257)));
     assert((multiply<7340033, 3>(vector<ll>((1 << 19) + 1, 1), vector<ll>(1 << 19, 1)) == ones_product((1 << 19) + 1, 1 << 19)));
+
+    /// The roots table now spans 2^20, smaller lengths of every parity of levels must read only its prefix
+    for (int n : {1, 2, 3, 5, 17, 300, 1025}){
+        auto a = random_vector(n, 0, 7340032), b = random_vector(n / 2 + 1, 0, 7340032);
+        assert((multiply<7340033, 3>(a, b) == naive(a, b, 7340033)));
+        assert((multiply<7340033, 3>(a, a) == naive(a, a, 7340033)));
+        assert(multiply(a, b) == naive(a, b, 998244353));
+    }
+    assert((multiply<7340033, 3>(vector<ll>(70000, 1), vector<ll>(35001, 1)) == ones_product(70000, 35001)));
 
     /// The header's maximum lengths, nightly only since a 2^24 three-prime product is slow under sanitizers
     if (stress::scaled(1) > 1){

@@ -60,14 +60,16 @@ namespace wildcard_ntt{
     /// rt[k + j] = w^j R modulo MOD for each power of two k < n, w a primitive 2k-th root of unity or its inverse
     template<unsigned MOD, unsigned ROOT>
     vector<unsigned> roots(int n, bool invert){
-        vector<unsigned> rt(max(n, 2), 1);
+        vector<unsigned> rt(max(n, 2), ((unsigned long long)1 << 32) % MOD);
         for (int k = 2; k < n; k <<= 1){
             unsigned long long z = power(ROOT, (MOD - 1) / (2 * k), MOD);
             if (invert) z = power(z, MOD - 2, MOD);
-            for (int i = k; i < 2 * k; i++) rt[i] = i & 1 ? rt[i >> 1] * z % MOD : rt[i >> 1];
+            z = (z << 32) % MOD;
+            for (int i = k; i < 2 * k; i++){
+                unsigned w = redc<MOD>(rt[i >> 1] * z);
+                rt[i] = i & 1 ? (w >= MOD ? w - MOD : w) : rt[i >> 1];
+            }
         }
-
-        for (auto& w : rt) w = ((unsigned long long)w << 32) % MOD;
         return rt;
     }
 
