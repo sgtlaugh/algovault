@@ -19,6 +19,7 @@
  *   - products have length n + m - 1, and an empty input gives an empty result
  *   - the string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
  *   - use ntt.cpp modulo an NTT-friendly prime like 998244353 for improved speed
+ *   - mod_multiply with mod near 10^9 and an input longer than about 1.8e5 uses long double, ntt.cpp is about 2x faster
  *   - transforms round n + m - 1 up to a power of two, so one coefficient past it doubles the work: drop unneeded terms
  *   - for circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
  *         auto c = fft.multiply(a, b);
@@ -86,9 +87,14 @@ struct FFT{
         }
 
         void transform(const vector<Complex<T>>& in, vector<Complex<T>>& out, int len){
-            for (int i = 0; i < len; i++) out[i] = in[rev[i]];
+            /// The first stage's twiddle is 1, so it is done while gathering in bit-reversed order
+            if (len == 1) out[0] = in[0];
+            for (int i = 0; i + 1 < len; i += 2){
+                Complex<T> x = in[rev[i]], y = in[rev[i + 1]];
+                out[i] = x + y, out[i + 1] = x - y;
+            }
 
-            for (int k = 1; k < len; k <<= 1){
+            for (int k = 2; k < len; k <<= 1){
                 for (int i = 0; i < len; i += 2 * k){
                     for (int j = 0; j < k; j++){
                         Complex<T> z = out[i + j + k] * roots[k + j];
@@ -149,18 +155,19 @@ struct FFT{
 
     vector<long long> mod_multiply(vector<long long> v1, vector<long long> v2, int mod){
         if (v1.empty() || v2.empty()) return {};
-        for (auto& x: v1) if (x < 0 || x >= mod) x = (x % mod + mod) % mod;
-        for (auto& x: v2) if (x < 0 || x >= mod) x = (x % mod + mod) % mod;
+        /// Residues in (-mod / 2, mod / 2] and balanced digits halve every magnitude, a 4x smaller rounding error
+        for (auto& x: v1) x = centered(x, mod);
+        for (auto& x: v2) x = centered(x, mod);
 
-        if ((long double)max(v1.size(), v2.size()) * (mod - 1) * (mod - 1) <= EXACT_LIMIT){
+        if ((long double)max(v1.size(), v2.size()) * (mod / 2) * (mod / 2) <= EXACT_LIMIT){
             vector<long long> res = product(v1, v2, v1 == v2);
-            for (auto& x: res) x %= mod;
+            for (auto& x: res) x = non_negative(x % mod, mod);
             return res;
         }
 
         long long base = sqrtl(mod);
         while (base * base < mod) base++;
-        if (split_fits_double(v1, v2, base)) return split_mod(fast, v1, v2, mod, base);
+        if (split_fits_double(v1, v2, base / 2 + 1)) return split_mod(fast, v1, v2, mod, base);
         return split_mod(wide, v1, v2, mod, base);
     }
 
@@ -209,7 +216,7 @@ struct FFT{
         for (int i = 0; i < min(len, p_len); i++){
             long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real), high = round_to_nearest(e.f[i].img);
             /// below 4.7e18 as high % mod * base_sq < 2^62
-            res[i] = (low + mid % mod * base + high % mod * base_sq) % mod;
+            res[i] = non_negative((low + mid % mod * base + high % mod * base_sq) % mod, mod);
         }
 
         return res;
@@ -294,6 +301,15 @@ struct FFT{
         return len;
     }
 
+    static long long centered(long long x, int mod){
+        if (x < 0 || x >= mod) x = (x % mod + mod) % mod;
+        return x > mod / 2 ? x - mod : x;
+    }
+
+    static long long non_negative(long long x, int mod){
+        return x < 0 ? x + mod : x;
+    }
+
     template <typename T>
     static long long round_to_nearest(T x){
         long long res = abs(x) + T(0.5);
@@ -315,7 +331,8 @@ struct FFT{
     /// Split values are below LL_MULTIPLY_LIMIT or mod < 2^31 in absolute value, so cheaper 32-bit division is exact
     template <typename T>
     static Complex<T> split(int32_t v, int32_t base){
-        return Complex<T>(v % base, v / base);
+        int32_t low = v % base, high = v / base, carry = (2 * low > base) - (2 * low < -base);
+        return Complex<T>(low - carry * base, high + carry);
     }
 };
 

@@ -5,27 +5,26 @@
  *
  * Complexity:
  *   - every call: O((n + m) log(n + m)) for inputs of sizes n and m
- *   - the first call at a new transform length len: O(len) more to extend the roots of unity
+ *   - memory: O(largest n + m so far), kept between calls
  *
- * FFT fft: an instance that keeps its roots of unity and work buffers between calls
- * fft.multiply(a, b): the linear product of a and b, negatives allowed, exact whenever every coefficient fits in a long long
- * fft.square(a): the same as multiply(a, a)
- * fft.mod_multiply(a, b, mod): the product modulo mod, 1 <= mod < 2^31, any input values, results in [0, mod)
- * fft.ll_multiply(a, b): the exact product of values in [0, LL_MULTIPLY_LIMIT), every coefficient below 2^63
- * fft.hamming_distance(str, pat): mismatches of binary pat against each window of str, |str| - |pat| + 1 values
+ * FFT fft: one instance for any number of calls
  * fft.common_ones(str, pat): common 1 bits of binary pat and each window of str, |str| - |pat| + 1 values
+ * fft.hamming_distance(str, pat): mismatches of binary pat against each window of str, |str| - |pat| + 1 values
+ * fft.ll_multiply(a, b): the exact product of values in [0, LL_MULTIPLY_LIMIT), every coefficient below 2^63
+ * fft.mod_multiply(a, b, mod): the product modulo mod, 1 <= mod < 2^31, any input values, results in [0, mod)
+ * fft.multiply(a, b): the product, |values| < LL_MULTIPLY_LIMIT, exact while every coefficient fits in a long long
+ * fft.square(a): the same as multiply(a, a)
  *
- * Products have length n + m - 1, and an empty input gives an empty result
- * Every product runs in double while max(n, m) * max|value|^2 <= DOUBLE_LIMIT (~4.5e13), in long double to EXACT_LIMIT (~9.2e16)
- * mod_multiply bounds the values by mod - 1, so a mod below about 3e5 never needs more than one transform for n up to 10^6
- * Past EXACT_LIMIT values split into 15 bit halves, about 2x slower, need |values| < LL_MULTIPLY_LIMIT, and run in double while n <= 41909
- * The string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
- * Memory: with len the smallest power of two >= n + m, 4 complex arrays of len / 2 per precision used, 4 of len once a split product ran
- *
- * Circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
- *   auto c = fft.multiply(a, b);
- *   for (int i = n; i < (int)c.size(); i++) c[i - n] += c[i];
- *   c.resize(n);
+ * Notes:
+ *   - products have length n + m - 1, and an empty input gives an empty result
+ *   - the string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
+ *   - use ntt.cpp modulo an NTT-friendly prime like 998244353 for improved speed
+ *   - mod_multiply with mod near 10^9 and an input longer than about 1.8e5 uses long double, ntt.cpp is about 2x faster
+ *   - transforms round n + m - 1 up to a power of two, so one coefficient past it doubles the work: drop unneeded terms
+ *   - for circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
+ *         auto c = fft.multiply(a, b);
+ *         for (int i = n; i < (int)c.size(); i++) c[i - n] += c[i];
+ *         c.resize(n);
  *
 ***/
 
@@ -38,7 +37,7 @@ struct FFT{
     struct Complex{
         T real, img;
 
-        Complex() {}  /// left uninitialised so growing a work buffer does not write it twice, every entry is written before it is read
+        Complex() {}
         Complex(T real, T img=0) : real(real), img(img) {}
 
         Complex conjugate() const{
@@ -64,10 +63,7 @@ struct FFT{
         int last_len = -1;
         vector<int> rev;
 
-        /// Work buffers are reused across calls: allocating them per call measured 10-25% slower at len = 2^20
         vector<Complex<T>> u, w, f, g;
-
-        /// roots[k + j] = e^(i * pi * j / k) for every power of two k < roots.size(), grown on demand
         vector<Complex<T>> roots = {Complex<T>(0), Complex<T>(1)};
 
         void prepare(int len, int roots_len){
@@ -91,9 +87,14 @@ struct FFT{
         }
 
         void transform(const vector<Complex<T>>& in, vector<Complex<T>>& out, int len){
-            for (int i = 0; i < len; i++) out[i] = in[rev[i]];
+            /// The first stage's twiddle is 1, so it is done while gathering in bit-reversed order
+            if (len == 1) out[0] = in[0];
+            for (int i = 0; i + 1 < len; i += 2){
+                Complex<T> x = in[rev[i]], y = in[rev[i + 1]];
+                out[i] = x + y, out[i + 1] = x - y;
+            }
 
-            for (int k = 1; k < len; k <<= 1){
+            for (int k = 2; k < len; k <<= 1){
                 for (int i = 0; i < len; i += 2 * k){
                     for (int j = 0; j < k; j++){
                         Complex<T> z = out[i + j + k] * roots[k + j];
@@ -108,64 +109,12 @@ struct FFT{
     static constexpr int SPLIT_BITS = 15;
     static constexpr int LL_MULTIPLY_LIMIT = 1500000000;
 
-    /// Largest n_max * max|value|^2 that multiply and square keep exact in one double or long double transform; all-equal
-    /// inputs first err near 2.7e14 and 3.8e17 up to n = 10^6, leaving 6x and 4x margins
+    /// Largest n_max * max|value|^2 one transform keeps exact, at least 4x below the first error up to n = 10^6
     static constexpr double DOUBLE_LIMIT = 0.01 / numeric_limits<double>::epsilon();
     static constexpr long double EXACT_LIMIT = 0.01L / numeric_limits<long double>::epsilon();
 
     Engine<double> fast;
     Engine<long double> wide;
-
-    vector<long long> multiply(vector<long long> v1, vector<long long> v2){
-        if (v1.empty() || v2.empty()) return {};
-        if (v1 == v2) return square(v1);
-        return product(v1, v2, false);
-    }
-
-    vector<long long> square(vector<long long> v){
-        if (v.empty()) return {};
-        vector<long long> copy = v;
-        return product(v, copy, true);
-    }
-
-    vector<long long> mod_multiply(vector<long long> v1, vector<long long> v2, int mod){
-        if (v1.empty() || v2.empty()) return {};
-        for (auto& x: v1) x = (x % mod + mod) % mod;
-        for (auto& x: v2) x = (x % mod + mod) % mod;
-
-        /// Reduced values below a small mod keep the whole product exact in one transform, reduced afterwards
-        if ((long double)max(v1.size(), v2.size()) * (mod - 1) * (mod - 1) <= EXACT_LIMIT){
-            vector<long long> res = product(v1, v2, v1 == v2);
-            for (auto& x: res) x %= mod;
-            return res;
-        }
-
-        if (split_fits_double(v1, v2)) return split_mod(fast, v1, v2, mod);
-        return split_mod(wide, v1, v2, mod);
-    }
-
-    vector<long long> ll_multiply(vector<long long> v1, vector<long long> v2){
-        for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
-        for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
-        if (v1.empty() || v2.empty()) return {};
-        return product(v1, v2, v1 == v2);
-    }
-
-    /// Mapping bits to +1 and -1 makes each window's dot product matches - mismatches
-    vector<long long> hamming_distance(const string& str, const string& pat){
-        assert(is_binary_string(str) && is_binary_string(pat));
-        int n = str.size(), m = pat.size();
-        if (m == 0) return vector<long long>(n + 1, 0);
-
-        vector<long long> v1(n), v2(m);
-        for (int i = 0; i < n; i++) v1[i] = str[i] == '1' ? 1 : -1;
-        for (int i = 0; i < m; i++) v2[i] = pat[m - 1 - i] == '1' ? 1 : -1;
-
-        auto dot = multiply(v1, v2);
-        vector<long long> res;
-        for (int i = 0; i + m <= n; i++) res.push_back((m - dot[i + m - 1]) / 2);
-        return res;
-    }
 
     vector<long long> common_ones(const string& str, const string& pat){
         assert(is_binary_string(str) && is_binary_string(pat));
@@ -182,10 +131,65 @@ struct FFT{
         return res;
     }
 
-    /// The error of one transform follows n_max * max|value|^2: the output bound n_min * max|v1| * max|v2| misses
-    /// n = 10^5 with v1 in {0, 1} and v2 < 1.3 * 10^7, which already errs
+    vector<long long> hamming_distance(const string& str, const string& pat){
+        assert(is_binary_string(str) && is_binary_string(pat));
+        int n = str.size(), m = pat.size();
+        if (m == 0) return vector<long long>(n + 1, 0);
+
+        vector<long long> v1(n), v2(m);
+        for (int i = 0; i < n; i++) v1[i] = str[i] == '1' ? 1 : -1;
+        for (int i = 0; i < m; i++) v2[i] = pat[m - 1 - i] == '1' ? 1 : -1;
+
+        auto dot = multiply(v1, v2);
+        vector<long long> res;
+        for (int i = 0; i + m <= n; i++) res.push_back((m - dot[i + m - 1]) / 2);
+        return res;
+    }
+
+    vector<long long> ll_multiply(vector<long long> v1, vector<long long> v2){
+        for (auto x: v1) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
+        for (auto x: v2) assert(x >= 0 && x < LL_MULTIPLY_LIMIT);
+        if (v1.empty() || v2.empty()) return {};
+        return product(v1, v2, v1 == v2);
+    }
+
+    vector<long long> mod_multiply(vector<long long> v1, vector<long long> v2, int mod){
+        if (v1.empty() || v2.empty()) return {};
+        /// Residues in (-mod / 2, mod / 2] and balanced digits halve every magnitude, a 4x smaller rounding error
+        for (auto& x: v1) x = centered(x, mod);
+        for (auto& x: v2) x = centered(x, mod);
+
+        if ((long double)max(v1.size(), v2.size()) * (mod / 2) * (mod / 2) <= EXACT_LIMIT){
+            vector<long long> res = product(v1, v2, v1 == v2);
+            for (auto& x: res) x = non_negative(x % mod, mod);
+            return res;
+        }
+
+        long long base = sqrtl(mod);
+        while (base * base < mod) base++;
+        if (split_fits_double(v1, v2, base / 2 + 1)) return split_mod(fast, v1, v2, mod, base);
+        return split_mod(wide, v1, v2, mod, base);
+    }
+
+    vector<long long> multiply(vector<long long> v1, vector<long long> v2){
+        if (v1.empty() || v2.empty()) return {};
+        if (v1 == v2) return square(v1);
+        return product(v1, v2, false);
+    }
+
+    vector<long long> square(vector<long long> v){
+        if (v.empty()) return {};
+        vector<long long> copy = v;
+        return product(v, copy, true);
+    }
+
+    static bool is_binary_string(const string& str){
+        return all_of(str.begin(), str.end(), [](char c){ return c == '0' || c == '1'; });
+    }
+
     vector<long long> product(vector<long long>& v1, vector<long long>& v2, bool same){
         long long max_value = 0;
+
         for (auto x: v1) max_value = max(max_value, abs(x));
         for (auto x: v2) max_value = max(max_value, abs(x));
 
@@ -193,16 +197,35 @@ struct FFT{
         if (bound <= DOUBLE_LIMIT) return real_product(fast, v1, v2, same);
         if (bound <= EXACT_LIMIT) return real_product(wide, v1, v2, same);
         assert(max_value < LL_MULTIPLY_LIMIT);
-        if (split_fits_double(v1, v2)) return split_product(fast, v1, v2);
+
+        long long max_part = max(1LL << SPLIT_BITS, (max_value >> SPLIT_BITS) + 1);
+        if (split_fits_double(v1, v2, max_part)) return split_product(fast, v1, v2);
         return split_product(wide, v1, v2);
     }
 
-    /// Real inputs of length len transform as complex ones of length len / 2, even positions real and odd imaginary:
-    /// with Z = FFT(z), the halves are E = (Z[k] + conj Z[-k]) / 2 and O = (Z[k] - conj Z[-k]) / 2i, and
-    /// X[k] = E + w^k O, X[k + len / 2] = E - w^k O for w = e^(2 pi i / len); the inverse runs the same steps backwards
+    static bool split_fits_double(const vector<long long>& v1, const vector<long long>& v2, long long max_part){
+        return (long double)max(v1.size(), v2.size()) * max_part * max_part <= DOUBLE_LIMIT;
+    }
+
+    template <typename T>
+    vector<long long> split_mod(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, int mod, long long base){
+        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2, base);
+        long long base_sq = base * base % mod;
+
+        vector<long long> res(p_len, 0);
+        for (int i = 0; i < min(len, p_len); i++){
+            long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real), high = round_to_nearest(e.f[i].img);
+            /// below 4.7e18 as high % mod * base_sq < 2^62
+            res[i] = non_negative((low + mid % mod * base + high % mod * base_sq) % mod, mod);
+        }
+
+        return res;
+    }
+
     template <typename T>
     vector<long long> real_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, bool same){
         int p_len = v1.size() + v2.size() - 1, len = pad(v1, v2), half = len / 2;
+
         e.prepare(half, len);
 
         for (int k = 0; k < half; k++) e.u[k] = Complex<T>(v1[2 * k], v1[2 * k + 1]);
@@ -224,7 +247,6 @@ struct FFT{
         }
         e.transform(e.u, e.f, half);
 
-        /// A forward transform read at index -m is the inverse transform scaled by half
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
             const Complex<T>& c = e.f[(half - (i >> 1)) & (half - 1)];
@@ -234,16 +256,9 @@ struct FFT{
         return res;
     }
 
-    /// The split halves stay below 2^15, so their products need max(n, m) * 2^30 <= DOUBLE_LIMIT to run in double
-    static bool split_fits_double(const vector<long long>& v1, const vector<long long>& v2){
-        return (long double)max(v1.size(), v2.size()) * (1LL << (2 * SPLIT_BITS)) <= DOUBLE_LIMIT;
-    }
-
-    /// A negative value splits into floor(v / 2^15) and v mod 2^15, so the parts stay as small as for |v|
-    /// The parts are recombined modulo 2^64, exact whenever the true coefficient fits in a long long
     template <typename T>
     vector<long long> split_product(Engine<T>& e, vector<long long>& v1, vector<long long>& v2){
-        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2);
+        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2, 1LL << SPLIT_BITS);
 
         vector<long long> res(p_len, 0);
         for (int i = 0; i < min(len, p_len); i++){
@@ -256,28 +271,12 @@ struct FFT{
     }
 
     template <typename T>
-    vector<long long> split_mod(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, int mod){
-        int p_len = v1.size() + v2.size() - 1, len = split_multiply(e, v1, v2);
-
-        vector<long long> res(p_len, 0);
-        for (int i = 0; i < min(len, p_len); i++){
-            long long low = round_to_nearest(e.f[i].real), mid = round_to_nearest(e.g[i].real), high = round_to_nearest(e.f[i].img);
-            res[i] = (low + ((mid % mod) << SPLIT_BITS) + ((high % mod) << (2 * SPLIT_BITS))) % mod;
-        }
-
-        return res;
-    }
-
-    /// Splits values into low and high bits, leaving low * low, the cross terms and high * high
-    /// in f.real, g.real and f.img respectively, 4 transforms in total (3 for equal inputs)
-    template <typename T>
-    int split_multiply(Engine<T>& e, vector<long long>& v1, vector<long long>& v2){
-        const int mask = (1 << SPLIT_BITS) - 1;
-
+    int split_multiply(Engine<T>& e, vector<long long>& v1, vector<long long>& v2, long long base){
         int len = pad(v1, v2);
+
         e.prepare(len, len);
-        for (int i = 0; i < len; i++) e.u[i] = Complex<T>(v1[i] & mask, v1[i] >> SPLIT_BITS);
-        for (int i = 0; i < len; i++) e.w[i] = Complex<T>(v2[i] & mask, v2[i] >> SPLIT_BITS);
+        for (int i = 0; i < len; i++) e.u[i] = split<T>(v1[i], base);
+        for (int i = 0; i < len; i++) e.w[i] = split<T>(v2[i], base);
 
         e.transform(e.u, e.f, len);
         if (v1 == v2){
@@ -302,9 +301,24 @@ struct FFT{
         return len;
     }
 
-    /// Pads v1 and v2 with zeros to the smallest power of two >= n + m, which is at least 2, so a half transform exists
+    static long long centered(long long x, int mod){
+        if (x < 0 || x >= mod) x = (x % mod + mod) % mod;
+        return x > mod / 2 ? x - mod : x;
+    }
+
+    static long long non_negative(long long x, int mod){
+        return x < 0 ? x + mod : x;
+    }
+
+    template <typename T>
+    static long long round_to_nearest(T x){
+        long long res = abs(x) + T(0.5);
+        return x < 0 ? -res : res;
+    }
+
     static int pad(vector<long long>& v1, vector<long long>& v2){
         int n = v1.size(), m = v2.size();
+
         while (n > 1 && v1[n - 1] == 0) n--;
         while (m > 1 && v2[m - 1] == 0) m--;
 
@@ -314,81 +328,102 @@ struct FFT{
         return len;
     }
 
-    static long long round_to_nearest(long double x){
-        long long res = fabsl(x) + 0.5L;
-        return x < 0 ? -res : res;
-    }
-
-    static bool is_binary_string(const string& str){
-        return all_of(str.begin(), str.end(), [](char c){ return c == '0' || c == '1'; });
+    /// Split values are below LL_MULTIPLY_LIMIT or mod < 2^31 in absolute value, so cheaper 32-bit division is exact
+    template <typename T>
+    static Complex<T> split(int32_t v, int32_t base){
+        int32_t low = v % base, high = v / base, carry = (2 * low > base) - (2 * low < -base);
+        return Complex<T>(low - carry * base, high + carry);
     }
 };
 
 /***
  *
  * Fast I/O
- * Buffered stdin and stdout through fread and fwrite, about 8x faster than scanf for integers and strings
+ * Buffered stdin and stdout, about 5x faster than scanf for integers, interactive problems included
  *
- * Complexity: O(1) amortized per character, one fread or fwrite call per 8192 bytes
+ * Complexity: O(1) amortized per character, one system call per buffer of up to 8192 bytes
  *
- * fio::read(a, b, ...): reads whitespace separated values into a, b, ... and returns how many it read before the input ended
- * read accepts integers of any width including __int128, float, double, long double, strings, chars and vectors of these
- * fio::read_line(s): reads one line into s without its newline or a trailing \r, false only at the end of input
- * fio::write(a, b, ...): writes a, b, ... separated by single spaces and ends the line, a vector argument on its own line
- * write accepts integers, strings, chars, vectors of these and fio::fixed values
- * fio::fixed(x, digits): a floating x printed with exactly digits digits after the point, rounded like printf("%.*f")
  * fio::flush(): writes the pending output now, which also happens at normal exit
+ * fio::read(a, b, ...): reads whitespace separated values into a, b, ..., returns the count read before the input ended
+ * fio::read_line(s): reads one line into s without its newline or a trailing \r, false only at the end of input
+ * fio::write(a, b, ...): writes a, b, ... space separated and ends the line, a vector argument on its own line
+ * fio::fixed(x, digits): a floating x printed with exactly digits digits after the point, rounded like printf("%.*f")
  *
- * Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
- * A char reads one non-space character
- * A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
- * Writing a float without fixed() does not compile, so its precision is always chosen
- * Floats print at printf's speed, since the formatting itself dominates; a floating token keeps its first 127 characters
- * Output is lost on abnormal termination such as abort() or _exit()
+ * Notes:
+ *   - read takes any integer including __int128, float, double, long double, strings, chars and vectors of these
+ *   - write takes integers, strings, chars, vectors of these and fio::fixed values
+ *   - Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
+ *   - An integer read skips everything up to the next digit or -, words included, where scanf fails and reads nothing
+ *   - A char reads one non-space character
+ *   - A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
+ *   - Writing a float without fixed() does not compile, so its precision is always chosen
+ *   - Floats print at printf's speed, a floating token read keeps its first 127 characters
+ *   - Interactive problems need no flush(): pending output is written each time the input buffer runs empty
+ *   - Output is lost on abnormal termination such as abort() or _exit()
  *
 ***/
 
 #include <bits/stdtr1c++.h>
+#include <unistd.h>  /// read() and write(), which MinGW's unistd.h also declares, so Windows judges compile them too
 
 using namespace std;
 
-/// Global buffers on purpose: stdin and stdout are one stream each per process, so a second reader instance
-/// would split the input between two buffers and a second writer would reorder the output
+/// Global buffers on purpose: a second reader would split stdin between two buffers, a second writer reorder stdout
 namespace fio{
     const int BUF_SIZE = 8192;
 
     int buf_len = 0, inptr = 0, outptr = 0;
     char inbuf[BUF_SIZE], outbuf[BUF_SIZE], tmpbuf[128];
 
+    /// write, not fwrite: fwrite strands bytes in stdout's buffer, and fflush after it costs a second call, 7% slower
+    void flush(){
+        int done = 0;
+        while (done < outptr){
+            int len = ::write(1, outbuf + done, outptr - done);
+            if (len <= 0) break;
+            done += len;
+        }
+        outptr = 0;
+    }
+
     /// Returns int so that EOF never collides with a 0xFF byte or with an unsigned char platform
     inline int read_char(){
         if (inptr >= buf_len){
-            inptr = 0, buf_len = fread(inbuf, 1, BUF_SIZE, stdin);
-            if (buf_len == 0) return EOF;
+            /// An interactive judge answers only after it has read our query, so the query leaves before we wait
+            flush();
+
+            /// read returns the bytes available, fread waits for all 8192 or EOF: a deadlock on an interactive pipe
+            inptr = 0, buf_len = ::read(0, inbuf, BUF_SIZE);
+            if (buf_len <= 0) return EOF;
         }
 
         return (unsigned char)inbuf[inptr++];
     }
 
-    /// Integers: takes every type the plain overloads below miss, so __int128 needs no is_integral specialization, which breaks C++20
+    /// Catches every integer the overloads below miss, so __int128 needs no is_integral specialization (breaks C++20)
     template <typename T>
     bool read_one(T &x){
         int c = ' ', neg = 0;
+
         while (c != '-' && !isdigit(c) && c != EOF) c = read_char();
         if (c == '-') neg = 1, c = read_char();
         if (c == EOF) return false;
 
+        /// A local, since an int x may alias inptr or buf_len and writing it per digit forces their reload from memory
+        T v = 0;
+
         /// Accumulate as negative so that the minimum value (e.g. INT_MIN) does not overflow
-        for (x = 0; isdigit(c); c = read_char()){
-            x = x * 10 - (c - '0');
+        for (; isdigit(c); c = read_char()){
+            v = v * 10 - (c - '0');
         }
-        if (!neg) x = -x;
+        x = neg ? v : -v;
 
         return true;
     }
 
     bool read_token(){
         int c = ' ', len = 0;
+
         while (isspace(c) && c != EOF) c = read_char();
         if (c == EOF) return false;
 
@@ -420,12 +455,14 @@ namespace fio{
 
     bool read_one(string &s){
         int c = ' ';
+
         while (isspace(c) && c != EOF) c = read_char();
         if (c == EOF) return false;
 
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -446,17 +483,6 @@ namespace fio{
         return true;
     }
 
-    /// Returns false only at the end of input, a last line without a trailing newline is still returned
-    bool read_line(string &s){
-        s.clear();
-        int c = read_char();
-        if (c == EOF) return false;
-
-        for (; c != '\n' && c != EOF; c = read_char()) s.push_back(c);
-        if (!s.empty() && s.back() == '\r') s.pop_back();  /// CRLF line endings
-        return true;
-    }
-
     template <typename T>
     int read(T &x){
         return read_one(x);
@@ -468,9 +494,15 @@ namespace fio{
         return read(args...) + 1;
     }
 
-    void flush(){
-        fwrite(outbuf, 1, outptr, stdout);
-        outptr = 0;
+    /// Returns false only at the end of input, a last line without a trailing newline is still returned
+    bool read_line(string &s){
+        s.clear();
+        int c = read_char();
+        if (c == EOF) return false;
+
+        for (; c != '\n' && c != EOF; c = read_char()) s.push_back(c);
+        if (!s.empty() && s.back() == '\r') s.pop_back();  /// CRLF line endings
+        return true;
     }
 
     struct AutoFlush{ ~AutoFlush(){ flush(); } } auto_flush;
@@ -484,6 +516,7 @@ namespace fio{
     template <typename T>
     void write_one(T x){
         int l = 0;
+
         if (x < 0){
             /// Peel one digit while still negative so that -x cannot overflow for the minimum value
             write_char('-');
@@ -516,12 +549,9 @@ namespace fio{
         int digits;
     };
 
-    Fixed fixed(long double value, int digits){
-        return {value, digits};
-    }
-
     void write_one(const Fixed &f){
         int len = snprintf(tmpbuf, sizeof(tmpbuf), "%.*Lf", f.digits, f.value);
+
         if (len < (int)sizeof(tmpbuf)){
             for (int j = 0; j < len; j++) write_char(tmpbuf[j]);
             return;
@@ -562,6 +592,10 @@ namespace fio{
         write_one(x);
         write_char(separator_after(x));
         write(args...);
+    }
+
+    Fixed fixed(long double value, int digits){
+        return {value, digits};
     }
 }
 
