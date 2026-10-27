@@ -3,7 +3,10 @@
  * Long-Path Decomposition
  * Splits a rooted tree into vertex-disjoint paths that always continue into the child with the deepest subtree
  *
- * Complexity: O(n log n) build and memory, O(1) per kth_ancestor, O(n) per depth_counts pass plus the cost of visit
+ * Complexity:
+ *   - build: O(n log h) time and memory for tree height h, about 160 MB at n = 1e6 on a path, 110 MB on a random tree
+ *   - kth_ancestor: O(1)
+ *   - depth_counts: O(n) per pass plus the cost of visit
  *
  * LongPathDecomposition tree(n): an empty tree on n >= 1 nodes 0..n-1
  * tree.add_edge(u, v): adds the unweighted edge u - v
@@ -17,6 +20,7 @@
  *   - cnt[d] for 0 <= d < len = height(v) + 1 is the number of nodes in v's subtree exactly d edges below v
  *   - cnt points into a shared buffer that later merges overwrite, so read it during the call only
  *   - build may be called again with another root
+ *   - For lca or jump use lca.cpp, this template beats it only on kth_ancestor in deep trees
  *   - Traversals are iterative so deep trees are safe
  *
 ***/
@@ -26,14 +30,11 @@
 using namespace std;
 
 struct LongPathDecomposition{
-    int n, lg, added_edges = 0;
+    int n, added_edges = 0;
     vector<vector<int>> adj, up;
     vector<int> order, parent, level, heights, long_child, pos, ladder, ladder_index;
 
-    LongPathDecomposition(int n) : n(n), adj(n), level(n), pos(n), ladder_index(n){
-        lg = 1;
-        while ((1 << lg) < n) lg++;
-    }
+    LongPathDecomposition(int n) : n(n), adj(n), level(n), pos(n), ladder_index(n) {}
 
     void add_edge(int u, int v){
         adj[u].push_back(v);
@@ -80,6 +81,8 @@ struct LongPathDecomposition{
             }
         }
 
+        /// kth_ancestor jumps at most the deepest level, the last node of the BFS order
+        int lg = __lg(max(1, level[order.back()])) + 1;
         up.assign(lg, parent);
         for (int k = 1; k < lg; k++){
             for (int v = 0; v < n; v++) up[k][v] = up[k - 1][up[k - 1][v]];
