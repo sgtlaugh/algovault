@@ -153,9 +153,9 @@ int main(){
         for (int k = 0; k < 2 * n - 1; k += 997) assert((unsigned long long)c[k] == v * v * (unsigned long long)min({k + 1, n, 2 * n - 1 - k}));
     }
 
-    /// mod_multiply takes one transform while max(n, m) * (mod - 1)^2 <= EXACT_LIMIT, the split past it
+    /// mod_multiply takes one transform while max(n, m) * (mod / 2)^2 <= EXACT_LIMIT, the split past it
     for (ll mod : {786433LL, 7340033LL}){
-        ll edge = FFT::EXACT_LIMIT / ((mod - 1) * (mod - 1));
+        ll edge = FFT::EXACT_LIMIT / ((mod / 2) * (mod / 2));
         for (ll n : {edge, edge + 1}){
             if (n > 400000) continue;
             vector<ll> ones(n, mod - 1);  /// (mod - 1)^2 = 1, so coefficient k is its pair count modulo mod
@@ -164,7 +164,7 @@ int main(){
         }
     }
 
-    /// Parts below ceil(sqrt(mod)) put 1000003 and 7340033 in double at n = 5 * 10^4 and 2^31 - 1 in long double
+    /// Balanced parts of at most ceil(sqrt(mod)) / 2 + 1 keep all three moduli in double at n = 5 * 10^4
     for (ll mod : {1000003LL, 7340033LL, 2147483647LL}){
         int n = 50000;
         auto a = random_vector(n, 0, mod - 1), b = random_vector(n, 0, mod - 1);
@@ -174,6 +174,31 @@ int main(){
             __int128 expected = 0;
             for (int i = max(0, k - n + 1); i <= min(k, n - 1); i++) expected += (__int128)a[i] * b[k - i];
             assert(c[k] == (ll)(expected % mod));
+        }
+    }
+
+    /// The double engine's choice assumes centered residues and digits of at most base / 2 + 1, which no product shows
+    for (long long it = 0; it < stress::scaled(100000); it++){
+        ll mod = stress::rand_int(1, 2147483647), x = stress::rand_int(-5 * mod, 5 * mod), base = sqrtl(mod);
+        while (base * base < mod) base++;
+        ll c = FFT::centered(x, mod);
+        assert(2 * c > -mod && 2 * c <= mod && ((x - c) % mod + mod) % mod == 0);
+        auto d = FFT::split<double>(c, base);
+        assert((ll)d.real + (ll)d.img * base == c && 2 * abs((ll)d.real) <= base && abs((ll)d.img) <= base / 2 + 1);
+    }
+
+    /// Balanced digits both near sqrt(mod) / 2 are the split's worst case, at the edge of the double engine and past it
+    for (ll mod : {1000000007LL, 998244353LL}){
+        ll base = sqrtl(mod), half = 0;
+        while (base * base < mod) base++;
+        half = base / 2 + 1;
+        ll edge = FFT::DOUBLE_LIMIT / (half * half), v = (mod / 2 - base / 2) / base * base + base / 2;
+        for (ll n : {edge, edge + 1}){
+            for (ll x : {v, mod - v}){
+                auto c = fft.mod_multiply(vector<ll>(n, x), vector<ll>(n, x), mod);
+                ll sq = (__int128)x * x % mod;
+                for (ll k = 0; k < 2 * n - 1; k += n / 97) assert(c[k] == (__int128)sq * min({k + 1, n, 2 * n - 1 - k}) % mod);
+            }
         }
     }
 
