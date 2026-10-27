@@ -27,6 +27,7 @@
 using namespace std;
 
 namespace ntt{
+    /// BEGIN SHARED ntt_multiply
     const unsigned P1 = 167772161, P2 = 469762049, P3 = 754974721;
 
     constexpr bool is_prime(unsigned n){
@@ -157,6 +158,7 @@ namespace ntt{
         for (int i = 0; i < s; i++) res[i] = x[i] >= MOD ? x[i] - MOD : x[i];
         return res;
     }
+    /// END SHARED ntt_multiply
 
     vector<unsigned __int128> crt_multiply(const vector<long long>& a, const vector<long long>& b){
         constexpr unsigned long long INV1 = power(P1, P2 - 2, P2);
@@ -187,6 +189,7 @@ namespace ntt{
         return res;
     }
 
+    /// BEGIN SHARED ntt_mod_multiply
     vector<long long> mod_multiply(vector<long long> a, vector<long long> b, long long m){
         assert(1 <= m && m < (1LL << 31));
         for (auto& x : a) x = (x % m + m) % m;
@@ -208,6 +211,7 @@ namespace ntt{
 
         return res;
     }
+    /// END SHARED ntt_mod_multiply
 }
 
 int main(){

@@ -66,6 +66,7 @@ sa.contains("nab");         // false
 - [Combinatorics](code_library/combinatorics/combinatorics.cpp) - factorial tables, nCr and nPr modulo a prime [✔](judge_tests/combinatorics/binomial_coefficient_prime_mod.cpp)
 - [Eulerian Numbers](code_library/combinatorics/eulerian_numbers.cpp) - permutations with k ascents, modulo any m
 - [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of `1..n`
+- [Fast Factorial](code_library/combinatorics/fast_factorial.cpp) - `n!` modulo a prime p in `O(sqrt(p) log p)` [✔](judge_tests/combinatorics/factorial.cpp)
 - [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke
 - [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - the m-th one out when every k-th person leaves [✔](judge_tests/combinatorics/aoj_0085.cpp)
 - [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - `p(0..n)` modulo any m [✔](judge_tests/combinatorics/partition_function.cpp)
