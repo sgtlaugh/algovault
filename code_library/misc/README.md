@@ -5,9 +5,9 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [15 Puzzle Solver](#15-puzzle-solver) | [Assembly](#assembly) | [Bit Twiddling](#bit-twiddling) | [Comb Sort](#comb-sort) |
-| [Dancing Links](#dancing-links) | [Fast I/O](#fast-io) | [Gray Codes](#gray-codes) | [Knight Distance](#knight-distance) |
-| [Local Minimization (Nelder-Mead)](#local-minimization-nelder-mead) | [N Queens](#n-queens) | [Numerical Integration](#numerical-integration) | [Radix Sort](#radix-sort) |
-| [Radix Sort 64](#radix-sort-64) | [Simulated Annealing](#simulated-annealing) | [Ternary and Golden-Section Search](#ternary-and-golden-section-search) |  |
+| [Dancing Links](#dancing-links) | [Fast I/O](#fast-io) | [Gray Codes](#gray-codes) | [Hackenbush](#hackenbush) |
+| [Knight Distance](#knight-distance) | [Local Minimization (Nelder-Mead)](#local-minimization-nelder-mead) | [N Queens](#n-queens) | [Numerical Integration](#numerical-integration) |
+| [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) | [Simulated Annealing](#simulated-annealing) | [Ternary and Golden-Section Search](#ternary-and-golden-section-search) |
 
 <!-- /toc -->
 
@@ -50,6 +50,12 @@
 
 - [CSES 2205 - Gray Code](https://cses.fi/problemset/task/2205)
 - [UVa 11173 - Grey Codes](https://onlinejudge.org/external/111/11173.pdf) [✔](../../practice/misc/uva_11173.cpp "Accepted solution")
+
+#### [Hackenbush](hackenbush.cpp)
+
+- [HDU 3094 - A tree game](https://acm.hdu.edu.cn/showproblem.php?pid=3094)
+- [LightOJ 1355 - Game of CS](https://lightoj.com/problem/game-of-cs)
+- [POJ 3710 - Christmas Game](http://poj.org/problem?id=3710)
 
 #### [Knight Distance](knight_distance.cpp)
 
