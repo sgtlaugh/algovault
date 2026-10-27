@@ -142,7 +142,8 @@ void check_dominant(){
                 gauss.add_constant(i, j, rhs[u] - part);
             }
         }
-        for (int u = 0; u < cells; u++) if (stop[u] < -1e-14L) probabilities = false;
+        long double cutoff = 50 * numeric_limits<long double>::epsilon();
+        for (int u = 0; u < cells; u++) if (stop[u] < -cutoff) probabilities = false;
 
         auto res = gauss.solve();
         assert(gauss.reach == min(row_reach, column_reach));
@@ -342,10 +343,56 @@ void check_vanishing_direction(){
     }
 }
 
+/// The rounding cutoff on chances to stop, about 50 epsilon of the number type
+void check_cutoff(){
+    /// Weights summing to 1 + 1e-12 pass 1 beyond rounding: x = 1 + (1 + 1e-12) y, y = 1 + x / 2 take the plain regime
+    GaussBand<double> over(1, 2);
+    over.add_constant(0, 0, 1);
+    over.add_term(0, 0, 0, 1, 0.5);
+    over.add_term(0, 0, 0, 1, 0.5 + 1e-12);
+    over.add_constant(0, 1, 1);
+    over.add_term(0, 1, 0, 0, 0.5);
+    auto x = over.solve();
+    assert(!over.probabilities);
+    assert(fabs(x[0][0] - 4) < 1e-9);
+    assert(fabs(x[0][1] - 3) < 1e-9);
+
+    /// Ten float weights of 0.1 sum one float epsilon above 1, rounding that must keep the probability regime
+    GaussBand<float> rounded(1, 2);
+    rounded.add_constant(0, 0, 1);
+    for (int t = 0; t < 10; t++) rounded.add_term(0, 0, 0, t % 2, 0.1f);
+    float stop = 1;
+    for (int t = 0; t < 10; t++) stop -= 0.1f;
+    assert(stop < 0);
+    auto r = rounded.solve();
+    assert(rounded.probabilities);
+    assert(fabs(r[0][0] - 2) < 1e-5);
+
+    /// A float weight of 1.001 passes 1 beyond rounding
+    GaussBand<float> heavy(1, 1);
+    heavy.add_constant(0, 0, 1);
+    heavy.add_term(0, 0, 0, 0, 1.001f);
+    heavy.solve();
+    assert(!heavy.probabilities);
+
+    /// A chance to stop of 2^-48, below double's cutoff, stays a chance in long double: x = 1 + y, y = 1 + (1 - s) x
+    long double s = ldexpl(1, -48);
+    GaussBand<long double> slow(1, 2);
+    slow.add_constant(0, 0, 1);
+    slow.add_term(0, 0, 0, 1, 1);
+    slow.add_constant(0, 1, 1);
+    slow.add_term(0, 1, 0, 0, 1 - s);
+    auto e = slow.solve();
+    assert(slow.probabilities);
+    assert(fabsl(e[0][0] - ldexpl(1, 49)) <= 1e-12L * ldexpl(1, 49));
+    assert(fabsl(e[0][1] - (ldexpl(1, 49) - 1)) <= 1e-12L * ldexpl(1, 49));
+}
+
 int main(){
     check_dominant();
     check_walks();
     check_vanishing_direction();
+    check_cutoff();
 
     return 0;
 }

@@ -15,7 +15,7 @@
  *   - Every equation reads x(i, j) = constant + sum of w * x(k, l), so a cell without calls solves to 0
  *   - r is how far apart a cell and its farthest term are in the cell order, r <= min(n, m) + 1 for 8-neighbour moves
  *   - Probabilities: every w passed is >= 0 and each cell's weights sum to at most 1, the rest its chance to stop
- *   - A chance to stop below 1e-14 counts as 0, so a sum that rounding pushed off 1 never stops the walk
+ *   - A chance to stop within 50 numeric_limits<T>::epsilon() of 0 counts as 0, 1.1e-14 in double and 6e-6 in float
  *   - Probabilities solve within 1e-13 relative in double on walks of up to 120 cells with chances down to 1e-15
  *   - A chance s to stop adds about 1e-16 / s relative error in double, as it is read as 1 - (sum of weights)
  *   - Otherwise no row swaps: safe when each cell's |1 - w on itself| exceeds the sum of |w| on the other cells
@@ -29,7 +29,7 @@ using namespace std;
 
 template <class T>  /// If more precision is required, use __float128 from quadmath.h if supported :)
 struct GaussBand{
-    static constexpr double STOP_ROUNDING = 1e-14;
+    static constexpr T STOP_ROUNDING = 50 * numeric_limits<T>::epsilon();
 
     struct Term{
         int i, j, k, l;
