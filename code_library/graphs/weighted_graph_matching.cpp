@@ -1,7 +1,7 @@
 /***
  *
  * Weighted General Graph Matching
- * Maximum weight matching in a general graph, of any size: Edmonds' blossom algorithm with dual variables
+ * Matching of maximum total edge weight in a general graph, not necessarily perfect or of maximum size
  *
  * Complexity: O(n^3), O(n^2) memory
  *
@@ -376,6 +376,22 @@ int main(){
     wb.add_edge(2, 3, 5);
     assert(wb.maximum_matching() == 11);
     assert((wb.mate == vector<int>{1, 0, 3, 2}));
+
+    /// Path 0-1-2-3 weighing 1, 10, 1: the heaviest matching is the middle edge alone
+    WeightedBlossom path(4);
+    path.add_edge(0, 1, 1);
+    path.add_edge(1, 2, 10);
+    path.add_edge(2, 3, 1);
+    assert(path.maximum_matching() == 10);
+    assert((path.mate == vector<int>{-1, 2, 1, -1}));
+
+    /// The same path with B = 4 * 10 / 2 + 1 = 21 added: two outer edges, 2 * 21 + 2 = 44, beat the middle 31
+    WeightedBlossom largest(4);
+    largest.add_edge(0, 1, 1 + 21);
+    largest.add_edge(1, 2, 10 + 21);
+    largest.add_edge(2, 3, 1 + 21);
+    assert(largest.maximum_matching() == 44);
+    assert((largest.mate == vector<int>{1, 0, 3, 2}));
 
     return 0;
 }

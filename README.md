@@ -175,7 +175,7 @@ sa.contains("nab");         // false
 - [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - circulation and s-t flow with edge lower bounds [✔](judge_tests/graphs/aoj_grl_6_a_lower_bound.cpp)
 - [Floyd-Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with negative cycles [✔](judge_tests/graphs/aoj_grl_1_c.cpp)
 - [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching in general graphs [✔](judge_tests/graphs/general_matching.cpp)
-  - [Weighted](code_library/graphs/weighted_graph_matching.cpp) - the max weight matching, `O(n^3)` [✔](judge_tests/graphs/general_weighted_matching.cpp)
+  - [Weighted](code_library/graphs/weighted_graph_matching.cpp) - edge weights, maximizes the total weight [✔](judge_tests/graphs/general_weighted_matching.cpp)
 - [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - minimum cut weight and one side
 - [Gomory-Hu Tree](code_library/graphs/gomory_hu.cpp) - all-pairs min cuts of an undirected graph
 - [Hopcroft-Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, `O(m sqrt(n))` [✔](judge_tests/graphs/bipartitematching.cpp)
