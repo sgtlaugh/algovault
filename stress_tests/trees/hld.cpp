@@ -158,6 +158,14 @@ int main(){
     check_rejects(2, {{0, 0}, {0, 1}});                  /// self-loop at the root
     check_rejects(2, {{0, 0}});                          /// the root enqueued twice fills order with node 1 unreached
 
+    /// edge_pos must assert on non-adjacent nodes instead of returning the deeper one's position
+    HLD hld(4);
+    for (auto [u, v] : vector<pair<int, int>>{{1, 0}, {1, 2}, {2, 3}}) hld.add_edge(u, v);
+    hld.build(1);
+    for (pair<int, int> far : vector<pair<int, int>>{{0, 2}, {1, 3}, {3, 1}, {2, 2}}){  /// siblings, grandparent, self
+        stress::expect_assert("trees/hld.cpp", [&]{ hld.edge_pos(far.first, far.second); });
+    }
+
     /// Rebuilding from another root must match a fresh decomposition
     for (long long it = 0; it < stress::scaled(500); it++){
         int n = stress::rand_int(1, 40);

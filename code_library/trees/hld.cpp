@@ -9,13 +9,15 @@
  * hld.add_edge(u, v): adds the edge u - v
  * hld.build(root): roots the tree at root, 0 by default, asserts that every node is reached exactly once
  * hld.update_path(seg, u, v, x, edges = false): seg.update(l, r, x) on every range of the path u - v
- * hld.edge_pos(u, v): the position holding the value of tree edge (u, v), in either order
+ * hld.edge_pos(u, v): the position holding the value of tree edge (u, v), in either order, asserts u and v are adjacent
  * hld.lca(u, v): the lowest common ancestor of u and v
  * hld.ordered_path(u, v, edges = false): the ranges of the path as {from, to} pairs, in path order from u to v
  * hld.path(u, v, edges = false): ranges [l, r] covering the path u - v, in no particular order
  * hld.query_path(seg, u, v, edges = false): the fold of the path through seg.combine, T() for an empty path
  * hld.subtree(v): the single range covering the subtree of v
  * hld.pos[v]: the position of v in [0, n - 1], where the value of node v goes
+ * hld.parent[v]: the parent of v, -1 for the root
+ * hld.depth[v]: the number of edges from the root to v
  *
  * Notes:
  *   - seg is any size n tree with 0-indexed query(l, r), update(l, r, x) and combine(a, b), like segment_tree.cpp
@@ -31,23 +33,30 @@ using namespace std;
 
 struct HLD{
     int n;
-    vector<vector<int>> adj;
+    vector<pair<int, int>> edge_list;
     vector<int> parent, depth, heavy, head, pos, size;
 
-    HLD(int n) : n(n), adj(n), parent(n, -1), depth(n), heavy(n, -1), head(n), pos(n), size(n, 1) {}
+    HLD(int n) : n(n), parent(n, -1), depth(n), heavy(n, -1), head(n), pos(n), size(n, 1) {}
 
     void add_edge(int u, int v){
-        adj[u].push_back(v);
-        adj[v].push_back(u);
+        edge_list.push_back({u, v});
     }
 
     void build(int root = 0){
         size.assign(n, 1), heavy.assign(n, -1), parent.assign(n, -1);  /// build may run again, e.g. with a new root
+
+        /// One flat array instead of a vector per node: the neighbors of u are adj[start[u]..start[u + 1] - 1]
+        vector<int> start(n + 1, 0), adj(2 * edge_list.size());
+        for (auto [u, v] : edge_list) start[u]++, start[v]++;
+        for (int i = 1; i <= n; i++) start[i] += start[i - 1];
+        for (auto [u, v] : edge_list) adj[--start[u]] = v, adj[--start[v]] = u;
+
         vector<int> order = {root};
         parent[root] = -1, depth[root] = 0;
         for (int i = 0; i < (int)order.size(); i++){
             int u = order[i];
-            for (int v : adj[u]){
+            for (int j = start[u]; j < start[u + 1]; j++){
+                int v = adj[j];
                 if (v == parent[u]) continue;
                 assert(v != root && parent[v] == -1);  /// a revisit means a cycle, which would grow order forever
                 parent[v] = u, depth[v] = depth[u] + 1;
@@ -69,7 +78,8 @@ struct HLD{
             int u = stack.back();
             stack.pop_back();
             pos[u] = cur;
-            for (int v : adj[u]){
+            for (int j = start[u]; j < start[u + 1]; j++){
+                int v = adj[j];
                 if (v == parent[u] || v == heavy[u]) continue;
                 head[v] = v;
                 stack.push_back(v);
@@ -87,6 +97,7 @@ struct HLD{
     }
 
     int edge_pos(int u, int v) const{
+        assert(parent[u] == v || parent[v] == u);
         return pos[depth[u] > depth[v] ? u : v];  /// edge values live on the child
     }
 
