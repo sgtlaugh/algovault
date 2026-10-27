@@ -1,17 +1,21 @@
 /***
  *
  * Fast Factorial
- * n! modulo a prime p for n up to 2^63, in about O(sqrt(p) log p) instead of O(n)
+ * n! modulo a prime p below 2^31 for any n, without a loop up to n
  *
- * Complexity:
- *   - constructor: O(sqrt(p) log p) for one query, O((p / b) log b) for the block size b it picks
- *   - fact(n): O(b), b about sqrt(p) / 2 for one query
+ * Complexity, for the block size b = fact.block:
+ *   - constructor: O((p / b) log b), which is O(sqrt(p) log p) for one query
+ *   - fact(n): O(b)
+ *   - memory: 12 p / b bytes while building, 4 p / b bytes kept
  *
- * FastFactorial fact(p, queries = 1): tables for prime p < 2^31, sized for about that many queries
+ * FastFactorial fact(p, queries = 1): tables for a prime 2 <= p < 2^31, sized for about queries >= 1 calls of fact
  * fact(n): n! modulo p for any n >= 0, 0 when n >= p
+ * fact.block: the largest power of two with b^2 + b / 2 < p, halved towards sqrt(128 p / queries) but not below 256
  *
  * Notes:
- *   - p is any prime, 10^9 + 7 as well as 998244353, convolutions go through three NTT primes
+ *   - p must be prime, which is not checked; any prime works, 10^9 + 7 as well as 998244353
+ *   - queries only trades build time against call time, any number of calls stays correct
+ *   - For n below about 10^7, the O(n) tables of combinatorics.cpp are simpler and answer in O(1)
  *
 ***/
 
@@ -266,9 +270,17 @@ struct FastFactorial{
 };
 
 int main(){
-    FastFactorial fact(998244353);
+    /// 13! = 6227020800 = 6 (10^9 + 7) + 227020758, and Wilson's theorem gives (p - 1)! = -1 and (p - 2)! = 1
+    FastFactorial fact(1000000007);
     assert(fact(0) == 1);
-    assert(fact(5) == 120);
-    assert(fact(998244352) == 998244352);
+    assert(fact(13) == 227020758);
+    assert(fact(1000000006) == 1000000006);
+    assert(fact(1000000005) == 1);
+    assert(fact(1000000007) == 0);
+
+    /// Sized for many calls modulo 998244353, which shrinks the block and so the cost of each call
+    FastFactorial many(998244353, 1000);
+    assert(many(10) == 3628800);
+
     return 0;
 }
