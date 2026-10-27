@@ -16,6 +16,7 @@
  * Notes:
  *   - branches[i] lists (node, distance to c) for the piece behind the i-th uncut neighbor of c, one child's component
  *   - branches has type CentroidDecomposition::Branches
+ *   - build asserts that the edges form a forest, so a cycle, multi-edge or self-loop aborts
  *   - Distances are long long sums of edge weights, keep 2 n max|w| below 9.2e18 so d1 + d2 cannot overflow
  *   - Iterative, so deep trees cannot overflow the stack
  *
@@ -34,7 +35,7 @@ struct CentroidDecomposition{
     vector<char> removed;
     vector<int> from, size, order;
 
-    CentroidDecomposition(int n) : n(n), adj(n), parent(n, -1), depth(n, 0), removed(n, 0), from(n, -1), size(n, 0) {}
+    CentroidDecomposition(int n) : n(n), adj(n), parent(n, -1), depth(n, 0), removed(n, 0), from(n, -1), size(n, 1) {}
 
     void add_edge(int u, int v, long long w = 1){
         adj[u].push_back({v, w});
@@ -92,51 +93,44 @@ struct CentroidDecomposition{
         return branches;
     }
 
-    /// Walks from r toward the child holding more than half the component, the part behind stays below half
+    /// size stays >= 1 between calls, so size[v] = 0 marks v as queued and an edge reaching v twice trips the assert
     int find_centroid(int r){
         order.assign(1, r);
-        from[r] = -1;
+        from[r] = -1, size[r] = 0;
         for (int i = 0; i < (int)order.size(); i++){
             int u = order[i];
             for (auto [v, w] : adj[u]){
-                if (v != from[u] && !removed[v]) from[v] = u, order.push_back(v);
+                if (v == from[u] || removed[v]) continue;
+                assert(size[v] != 0);
+                from[v] = u, size[v] = 0, order.push_back(v);
             }
         }
 
-        int total = order.size();
+        /// Nodes holding over half the component form a path down from r, the centroid is its last node in BFS order
+        int total = order.size(), centroid = -1;
         for (int i = total - 1; i >= 0; i--){
             int u = order[i];
-            size[u] = 1;
-            for (auto [v, w] : adj[u]){
-                if (v != from[u] && !removed[v]) size[u] += size[v];
-            }
+            size[u]++;
+            if (centroid == -1 && 2 * size[u] > total) centroid = u;
+            if (i > 0) size[from[u]] += size[u];
         }
-
-        for (int u = r;;){
-            int next = -1;
-            for (auto [v, w] : adj[u]){
-                if (v != from[u] && !removed[v] && size[v] > total / 2) next = v;
-            }
-            if (next == -1) return u;
-            u = next;
-        }
+        return centroid;
     }
 };
 
-long long count_pairs_at_most(vector<long long> d, long long k){
-    sort(d.begin(), d.end());
-
-    long long pairs = 0;
-    int j = (int)d.size() - 1;
-    for (int i = 0; i < j; i++){
-        while (i < j && d[i] + d[j] > k) j--;
-        pairs += j - i;
-    }
-
-    return pairs;
-}
-
 long long count_paths_at_most(CentroidDecomposition& cd, long long k){
+    auto count_pairs_at_most = [k](vector<long long> d){
+        sort(d.begin(), d.end());
+
+        long long pairs = 0;
+        int j = (int)d.size() - 1;
+        for (int i = 0; i < j; i++){
+            while (i < j && d[i] + d[j] > k) j--;
+            pairs += j - i;
+        }
+        return pairs;
+    };
+
     long long pairs = 0;
 
     cd.build([&](int, const CentroidDecomposition::Branches& branches){
@@ -144,10 +138,10 @@ long long count_paths_at_most(CentroidDecomposition& cd, long long k){
         for (auto& branch : branches){
             vector<long long> d;
             for (auto [v, x] : branch) d.push_back(x);
-            pairs -= count_pairs_at_most(d, k);
+            pairs -= count_pairs_at_most(d);
             all.insert(all.end(), d.begin(), d.end());
         }
-        pairs += count_pairs_at_most(all, k);
+        pairs += count_pairs_at_most(all);
     });
     return pairs;
 }

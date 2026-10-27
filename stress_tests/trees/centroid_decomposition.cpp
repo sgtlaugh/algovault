@@ -4,23 +4,23 @@
 #include "../../code_library/trees/centroid_decomposition.cpp"
 #undef main
 
-vector<array<int, 3>> make_forest(int n, int shape, int max_w, bool forest){
+vector<tuple<int, int, long long>> make_forest(int n, int shape, long long max_w, bool forest){
     vector<int> label(n);
     iota(label.begin(), label.end(), 0);
     shuffle(label.begin(), label.end(), stress::rng());
 
-    vector<array<int, 3>> edges;
+    vector<tuple<int, int, long long>> edges;
     for (int i = 1; i < n; i++){
         if (forest && stress::rand_int(0, 4) == 0) continue;
         int p = shape == 0 ? stress::rand_int(0, i - 1) : shape == 1 ? i - 1 : shape == 2 ? 0 : (i - 1) / 2;
-        edges.push_back({label[i], label[p], (int)stress::rand_int(1, max_w)});
+        edges.push_back({label[i], label[p], stress::rand_int(1, max_w)});
     }
     return edges;
 }
 
 /// All-pairs distances by BFS from every node, -1 between different trees
-vector<vector<long long>> all_distances(int n, const vector<array<int, 3>>& edges){
-    vector<vector<pair<int, int>>> adj(n);
+vector<vector<long long>> all_distances(int n, const vector<tuple<int, int, long long>>& edges){
+    vector<vector<pair<int, long long>>> adj(n);
     for (auto [u, v, w] : edges) adj[u].push_back({v, w}), adj[v].push_back({u, w});
 
     vector<vector<long long>> dist(n, vector<long long>(n, -1));
@@ -38,7 +38,7 @@ vector<vector<long long>> all_distances(int n, const vector<array<int, 3>>& edge
 }
 
 /// Path counts against all-pairs BFS; branches against the centroid tree and true distances; centroid sizes halve
-void check(int n, int shape, int max_w, bool forest){
+void check(int n, int shape, long long max_w, bool forest){
     auto edges = make_forest(n, shape, max_w, forest);
     auto dist = all_distances(n, edges);
     CentroidDecomposition cd(n);
@@ -112,13 +112,29 @@ void check(int n, int shape, int max_w, bool forest){
     assert(cd.parent == parent && cd.depth == depth);
 }
 
+/// build must abort on a non-forest instead of looping forever around a cycle
+void check_rejects(int n, const vector<pair<int, int>>& edges){
+    stress::expect_assert("trees/centroid_decomposition.cpp", [&]{
+        CentroidDecomposition cd(n);
+        for (auto [u, v] : edges) cd.add_edge(u, v);
+        cd.build();
+    });
+}
+
 int main(){
+    check_rejects(4, {{0, 1}, {1, 2}, {2, 0}});                  /// cycle plus an isolated node, n - 1 edges
+    check_rejects(6, {{0, 1}, {2, 3}, {3, 4}, {4, 5}, {5, 3}});  /// cycle in the second tree, below its first node
+    check_rejects(3, {{0, 1}, {0, 1}, {1, 2}});                  /// multi-edge
+    check_rejects(2, {{0, 0}, {0, 1}});                          /// self-loop at the first node
+    check_rejects(4, {{0, 1}, {1, 2}, {2, 2}, {2, 3}});          /// self-loop in the middle of a path
+
     for (long long it = 0; it < stress::scaled(700); it++){
         int n = it < 200 ? it % 12 + 1 : stress::rand_int(1, 40);
         check(n, it % 4, it % 3 ? 1 : 20, it % 5 == 0);
     }
     check(1500, 0, 1, false);
     check(1500, 1, 1000000000, false);
+    check(1500, 0, 4000000000000LL, false);  /// weights beyond int, so a weight narrowed anywhere breaks the distances
     check(1024, 1, 1, false);
     check(1500, 2, 5, true);
 
