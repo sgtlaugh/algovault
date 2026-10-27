@@ -9,16 +9,18 @@
  *
  * Notes:
  *   - T is double, or long double when x is a vector<long double>; a braced x like {0, 0} gives double
- *   - f(const vector<T>&) returns a T, finite at x; x has at least one coordinate and step > 0
+ *   - f(const vector<T>&) returns a T, finite at x; x has at least one coordinate and step > eps * max(1, max |x_i|)
+ *   - f never returns nan: the search sorts points by their values, which needs a strict order
  *   - Ends once 3 passes in a row gain below eps * max(1, |f|), each refining moves to eps * max(1, max |x_i|)
  *   - A larger eps ends sooner, as needed at an infimum f only approaches on a domain edge
  *   - Long double at the default eps ends no closer than double, only slower
- *   - Long double with eps = 1e-16 and f in long double ends about 1e4 times closer, in up to 5000 d^2 calls
+ *   - Long double, eps = 1e-16 and f in long double: about 1e4 times closer, up to 5000 d^2 calls, bar the 3-dim ball
  *   - A domain: f returns a huge value like 1e100 outside it, and x starts inside it
  *   - Probabilities summing to 1 without walls: p_i = x_i^2 / sum x_j^2, starting from x = (1, ..., 1)
  *   - Within 1e-9 relative on quadratics to condition 1e6, Rosenbrock, sums of distances, convex functions on a simplex
- *   - Max of distances, the enclosing ball: within 1e-9 in 2 dims, up to 1e-6 off in 3 dims
+ *   - Max of distances, the enclosing ball: within 1e-9 in 2 dims, up to 1e-6 off in 3 dims, long double too
  *   - Local only: restart from several points when f has several minima
+ *   - A sum of |linear| in 3+ dims, kinked in many directions, can end 1e-3 off past the call bound: use simplex.cpp
  *   - Rounding blurs a slanted wall like x_0 + x_1 <= 1: a minimum on it can end 1e-2 off, change variables instead
  *   - A value f takes only at exact points, like an expected time once a probability is 0, is missed: search each apart
  *   - Tested up to 16 variables
@@ -37,7 +39,7 @@ vector<T> nelder_mead(vector<T> x, F& f, double step, double eps){
     for (int i = 0; i < d; i++) p[i + 1][i] += step;
     for (int i = 0; i <= d; i++) v[i] = f(p[i]);
 
-    /// Capped: wedged in a corner of walls it can shrink for 40000 steps, the next run restarts it fresh
+    /// Capped: wedged in a corner of walls it can shrink for very long, the next run restarts it fresh
     for (int iter = 0; iter < 100 * d * d; iter++){
         vector<int> order(d + 1);
         iota(order.begin(), order.end(), 0);
@@ -53,7 +55,8 @@ vector<T> nelder_mead(vector<T> x, F& f, double step, double eps){
 
         vector<T> centroid(d, 0);
         for (int i = 0; i <= d; i++){
-            for (int j = 0; i != hi && j < d; j++) centroid[j] += p[i][j] / d;
+            if (i == hi) continue;
+            for (int j = 0; j < d; j++) centroid[j] += p[i][j] / d;
         }
         auto along = [&](T t){
             vector<T> y(d);
@@ -93,7 +96,7 @@ vector<T> compass_search(vector<T> x, F& f, double step, double eps){
     int d = x.size();
     T fx = f(x);
 
-    /// Capped: zigzagging down a narrow valley could take millions of rounds, the next Nelder-Mead run follows it
+    /// Capped: zigzagging down a narrow valley can take very many rounds, the next Nelder-Mead run follows it
     for (int round = 0; round < 100; round++){
         T scale = 1;
         for (T xi : x) scale = max(scale, abs(xi));
@@ -119,7 +122,10 @@ vector<T> compass_search(vector<T> x, F& f, double step, double eps){
 
 template<typename T = double, typename F>
 vector<T> local_minimum(vector<T> x, F f, double step, double eps = 1e-12){
-    assert(!x.empty() && step > 0);
+    T scale = 1;
+    for (T xi : x) scale = max(scale, abs(xi));
+    /// A step up to eps * scale is already under the stop tests, so the search would return x unmoved
+    assert(!x.empty() && step > eps * scale);
     T fx = f(x);
 
     /// A simplex stalled on a ridge of a max of functions often moves again when restarted flipped and smaller

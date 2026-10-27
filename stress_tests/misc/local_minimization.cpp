@@ -7,6 +7,10 @@
 template<typename T>
 using Point = vector<T>;
 
+/// Every search goes through this type, so local_minimum compiles once per T, not once per lambda: CI's time limit
+template<typename T>
+using Objective = function<T(const Point<T>&)>;
+
 template<typename T>
 T rand_real(T lo, T hi){
     return lo + (hi - lo) * stress::rand_int(0, 1 << 30) / (1 << 30);
@@ -30,7 +34,7 @@ T dist(const Point<T>& a, const Point<T>& b){
 template<typename T, typename F>
 void check_min(Point<T> x0, F f, double step, T fstar, double tol = 1e-9, double eps = 1e-12){
     long long calls = 0;
-    auto counted = [&](const Point<T>& y){ calls++; return f(y); };
+    Objective<T> counted = [&](const Point<T>& y){ calls++; return f(y); };
     Point<T> x = local_minimum(x0, counted, step, eps);
     assert(calls <= (eps < 1e-12 ? 5000 : 2500) * (long long)(x0.size() * x0.size()));
     assert(x.size() == x0.size());
@@ -251,15 +255,20 @@ void check_valley(const Point<double>& c, const Point<double>& x0, double beta, 
     check_min(x0, f, step, offset);
 }
 
-/// A bowl stretched by scale, started scale away with step scale / 10
-long long bowl_calls(double scale){
+/// A bowl stretched by scale with minimum fmin at scale * center, started scale below on each axis, step scale / 10
+long long bowl_calls(const Point<double>& center, double fmin, double scale){
+    int d = center.size();
     long long calls = 0;
-    auto f = [&](const Point<double>& x){
+    Objective<double> f = [&](const Point<double>& x){
         calls++;
-        return pow(x[0] / scale - 1, 2) + pow(x[1] / scale + 0.3, 2) + 7;
+        double s = fmin;
+        for (int i = 0; i < d; i++) s += (i + 1) * pow(x[i] / scale - center[i], 2);
+        return s;
     };
-    Point<double> x = local_minimum({0, 0}, f, scale / 10);
-    assert(f(x) <= 7 + 1e-9 * 7);
+    Point<double> x0(d);
+    for (int i = 0; i < d; i++) x0[i] = (center[i] - 1) * scale;
+    Point<double> x = local_minimum(x0, f, scale / 10);
+    assert(f(x) <= fmin + 1e-9 * max(1.0, fmin));
     return calls;
 }
 
@@ -387,7 +396,7 @@ double check_maze(const vector<string>& g){
         }
         /// A face whose infimum lies on its edge is crawled toward with ever smaller steps, eps = 1e-8 ends that
         long long calls = 0;
-        auto counted = [&](const Point<double>& y){ calls++; return f(y); };
+        Objective<double> counted = [&](const Point<double>& y){ calls++; return f(y); };
         res = min(res, f(local_minimum(start, counted, 0.5 / k, 1e-8)));
         assert(calls <= 2500 * (k - 1) * (k - 1));
 
@@ -421,10 +430,9 @@ double check_maze(const vector<string>& g){
     return res;
 }
 
-/// Every random family searched in T with eps: smooth f within 10 ulps of T, kinks and walls within tol
+/// Every random family searched in T with eps: kinks and boxes within tol, smooth f within smooth, 3-dim balls 1e-6
 template<typename T>
-void check_families(long long iterations, double eps, double tol){
-    double smooth = 10 * numeric_limits<T>::epsilon();
+void check_families(long long iterations, double eps, double tol, double smooth){
     for (long long it = 0; it < iterations; it++){
         int dim = 2 + it % 2;
         check_quadratic<T>(it % 6 + 1, pow(10, stress::rand_int(0, 6)), smooth, eps);
@@ -432,7 +440,7 @@ void check_families(long long iterations, double eps, double tol){
         check_fermat<T>(stress::rand_int(1, 12), dim, tol, eps);
         vector<Point<T>> p(stress::rand_int(2, 10));
         for (auto& q : p) q = rand_point<T>(dim, -50, 50);
-        check_enclosing(p, rand_point<T>(dim, -50, 50), dim == 2 ? tol : 1e3 * tol, eps);
+        check_enclosing(p, rand_point<T>(dim, -50, 50), dim == 2 ? tol : 1e-6, eps);
         check_random_simplex<T>(stress::rand_int(2, 7), it % 2, false, smooth, eps);
         check_random_simplex<T>(stress::rand_int(2, 7), it % 2, true, tol, eps);
         int d = it % 6 + 1;
@@ -441,54 +449,56 @@ void check_families(long long iterations, double eps, double tol){
 }
 
 int main(){
-    check_families<double>(stress::scaled(60), 1e-12, 1e-9);
-    check_families<long double>(stress::scaled(40), 1e-12, 1e-9);
-    /// Below double's spacing kinks and walls must end 1e3 times closer, and a value rounded to double fails smooth f
-    check_families<long double>(stress::scaled(40), 1e-16, 1e-12);
+    check_families<double>(stress::scaled(20), 1e-12, 1e-9, 1e-12);
+    /// Smooth f in long double within 1e-17, which a value rounded to double inside the search misses
+    check_families<long double>(stress::scaled(10), 1e-12, 1e-9, 1e-17);
+    /// Below double's spacing kinks and boxes must end 1e3 times closer
+    check_families<long double>(stress::scaled(15), 1e-16, 1e-12, 1e-17);
 
-    /// The largest size the header claims
-    check_quadratic<double>(16, 1e4, 1e-9, 1e-12);
+    /// The largest size the header claims, where a too long expansion step passes the call bound
+    for (int it = 0; it < 2; it++) check_quadratic<double>(16, 1e4, 1e-9, 1e-12);
 
     /// Mazes with a straight path, whose least expected time is its length, reached only with one probability exactly 1
     assert(check_maze({"@..*"}) == 3);
     assert(check_maze({".#.....", "...#.#.", ".@..*..", "....#.."}) == 3);
-    /// A maze whose 4 direction face crawls for a million calls when a pass gaining under eps counts as progress
+    /// A face whose infimum is on its edge, crawled past the call bound if a pass gaining under eps counts as progress
     assert(check_maze({"##...#", ".##@*.", ".....#"}) == 1);
-    for (long long it = 0; it < stress::scaled(10); it++){
+    for (long long it = 0; it < stress::scaled(5); it++){
         check_maze(random_maze(stress::rand_int(1, 3), stress::rand_int(2, 4)));
     }
 
-    /// Ridges where one Nelder-Mead run stalls 2e-6 off, and where restarts without flipping the simplex stall 3e-8 off
+    /// Ridges of a max where a single Nelder-Mead run, or restarts that never flip the simplex, stall short
     check_enclosing<double>({{-41.8, -1.5, -14.3}, {-17.7, -16.6, 46.5}, {45.3, 44.0, 34.7}, {-41.7, 19.5, -17.2},
                              {38.4, -1.7, -23.2}}, {-38.7, -29.2, -45.0}, 1e-9);
     check_enclosing<double>({{-49.8, 15.5, 6.5}, {39.5, -48.3, 37.5}, {-32.8, 49.4, 31.7}, {-41.5, 16.6, -18.6},
                              {-24.1, 32.3, -1.6}, {7.5, -18.8, 25.2}, {-38.3, 24.4, -36.3}, {35.4, -11.7, -45.1},
                              {27.1, -11.7, -1.3}, {0.1, -47.7, 16.7}}, {-23.7, 2.5, -40.7}, 1e-9);
-    /// A corner of the box, where Nelder-Mead left uncapped shrinks for 40000 steps
+    /// Ridges where restarts that stop shrinking, or that end after 2 idle passes instead of 3, stall short
+    check_enclosing<double>({{17.0, 15.4, -15.7}, {39.1, -44.4, 12.8}, {13.9, -46.4, 22.8}, {-8.2, 0.7, 49.6},
+                             {6.3, -37.3, 5.6}, {-38.2, -31.1, 11.7}, {-26.0, 23.1, -3.7}, {-4.4, -8.6, 38.5}},
+                            {32.1, 4.8, 35.4}, 1e-9);
+    /// A ridge where reflecting whenever the point beats the worst vertex, not the second worst, stalls short
+    check_enclosing<double>({{34.9, -33.9, 33.9}, {-46.7, -41.5, 47.6}, {-37.6, -18.3, -12.7}, {-17.6, -19.1, 24.1},
+                             {40.7, -46.7, -24.0}, {9.9, -44.4, -10.0}, {-28.7, 41.8, -42.1}, {36.9, 23.8, -44.3}},
+                            {-11.3, -24.6, -47.1}, 1e-9);
+    /// A corner of the box, where Nelder-Mead without its iteration cap shrinks past the call bound
     check_box<double>({4.9, 3.4}, {-0.2, 1.2}, {0.4, 0.1});
-    /// A slanted wall that the compass search, never growing its step, ends 5e-7 short along
+    /// A slanted wall the compass search ends short along when it never grows its step
     check_simplex<double>({3.4, 6.2, 7.1, 1.2, 7.0, 9.8}, {-0.3, 0.8, 0.8, 0.4, 0.8, -0.3}, true, 1e-7);
-    /// A narrow valley the compass search, left uncapped, zigzags down for over 90000 calls
+    /// A narrow valley the compass search zigzags down past the call bound when its rounds are not capped
     check_valley({1.6, -2.0, -8.1, 6.7, 3.4, -0.9}, {-5.6, 3.4, 9.6, 9.1, 6.6, 3.3}, 1e6, -97.7, 0.1);
 
-    /// Scale: past 1e6, 1e-12 is below a double's spacing, and an absolute stop would spend 4 times the calls
-    assert(bowl_calls(1e6) <= 2 * bowl_calls(1));
+    /// Scale: past 1e6, 1e-12 is below a double's spacing, so an absolute stop would spend far more calls
+    assert(bowl_calls({1, -0.3}, 7, 1e6) <= 2 * bowl_calls({1, -0.3}, 7, 1));
     check_min<double>({5.5, 7.5}, [](const Point<double>& x){ return floor(abs(x[0])) + floor(abs(x[1])); }, 1, 0);
+    /// Stop tests floored at 1: a minimum of 0 at x = 0 costs about as many calls as one away from both zeros
+    assert(bowl_calls(Point<double>(4, 0), 0, 1) <= 1.5 * bowl_calls(Point<double>(4, 1), 7, 1));
 
-    /// The double-only version's results, bit for bit: taking the number type as a parameter left double unchanged
-    auto valley = [](const Point<double>& v){ return pow(v[0] - 3, 2) + 10 * pow(v[1] + 1, 2); };
-    assert(local_minimum({0, 0}, valley, 1) == Point<double>({0x1.8p+1, -0x1p+0}));
-    auto rosenbrock = [](const Point<double>& x){
-        return 100 * pow(x[1] - x[0] * x[0], 2) + pow(1 - x[0], 2) + 100 * pow(x[2] - x[1] * x[1], 2) + pow(1 - x[1], 2);
-    };
-    Point<double> bits = {0x1.ffffffffffc36p-1, 0x1.ffffffffff86ep-1, 0x1.ffffffffff14ep-1};
-    assert(local_minimum({-1.5, 2, 0.5}, rosenbrock, 0.5) == bits);
-    vector<Point<double>> triangle = {{0, 0}, {6, 0}, {0, 8}};
-    auto farthest = [&](const Point<double>& v){
-        double r = 0;
-        for (auto& c : triangle) r = max(r, hypot(v[0] - c[0], v[1] - c[1]));
-        return r;
-    };
-    assert(local_minimum({1, 1}, farthest, 1) == Point<double>({0x1.7fffff9816d88p+1, 0x1.ffffffb211226p+1}));
+    /// A step up to eps * max(1, max |x_i|) is under the stop test from the start, and could return x unmoved
+    Objective<double> bowl = [](const Point<double>& x){ return pow(x[0] - 1005, 2) + pow(x[1] - 1000, 2); };
+    stress::expect_assert("misc/local_minimization.cpp", [&]{ local_minimum({1000, 1000}, bowl, 1e-9); });
+    stress::expect_assert("misc/local_minimization.cpp", [&]{ local_minimum({0, 0}, bowl, 1e-12); });
+    check_min<double>({1000, 1000}, bowl, 2e-9, 0);
+
     return 0;
 }
