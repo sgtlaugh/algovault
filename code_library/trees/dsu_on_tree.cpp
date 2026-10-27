@@ -8,10 +8,15 @@
  * DsuOnTree tree(n): an empty tree on nodes 0..n-1
  * tree.add_edge(u, v): adds the edge u - v
  * tree.run(root, add, remove, answer): calls answer(v) for every v while the structure holds exactly v's subtree
- * tree.tin[v], tree.tout[v]: the subtree of v is order[tin[v] .. tout[v]], filled by run
- * tree.order[i]: the node at Euler tour position i
+ * tree.tin[v]: the position of v in order
+ * tree.tout[v]: the last position of v's subtree, so the subtree of v is order[tin[v] .. tout[v]]
+ * tree.order[i]: the node at position i of a preorder that visits each node's heavy child first
+ * tree.parent[v]: the parent of v, -1 for the root
+ * tree.size[v]: the number of nodes in the subtree of v
+ * tree.heavy[v]: a child of v with the largest subtree, -1 for a leaf
  *
  * Notes:
+ *   - The fields describe the tree rooted at the root of the last run call
  *   - add(v) / remove(v) put node v into / take it out of your data structure, empty again when run returns
  *   - The graph must be a tree, run asserts that every node is reached exactly once
  *   - Iterative, so deep trees cannot overflow the stack
@@ -38,35 +43,16 @@ struct DsuOnTree{
     void run(int root, Add add, Remove remove, Answer answer){
         prepare(root);
 
-        /// Frame (v, keep, stage): stage 0 = solve light children, 1 = solve heavy child, 2 = add the rest and answer
-        vector<tuple<int, bool, int>> stack = {{root, true, 0}};
-        while (!stack.empty()){
-            auto [v, keep, stage] = stack.back();  /// a copy: pushing below may reallocate the stack
-            if (stage == 0){
-                get<2>(stack.back()) = 1;
-                for (int c : adj[v]){
-                    if (c != parent[v] && c != heavy[v]) stack.push_back({c, false, 0});
-                }
-            }
-            else if (stage == 1){
-                get<2>(stack.back()) = 2;
-                if (heavy[v] != -1) stack.push_back({heavy[v], true, 0});
-            }
-            else{
-                stack.pop_back();
-                add(v);
-                for (int c : adj[v]){
-                    if (c == parent[v] || c == heavy[v]) continue;
-                    for (int i = tin[c]; i <= tout[c]; i++) add(order[i]);
-                }
-                answer(v);
-                if (!keep){
-                    for (int i = tin[v]; i <= tout[v]; i++) remove(order[i]);
-                }
+        /// Reverse preorder reaches v right after its heavy child, whose subtree the structure still holds
+        for (int i = n - 1; i >= 0; i--){
+            int v = order[i];
+            add(v);
+            for (int j = heavy[v] == -1 ? i + 1 : tout[heavy[v]] + 1; j <= tout[v]; j++) add(order[j]);
+            answer(v);
+            if (v == root || heavy[parent[v]] != v){
+                for (int j = i; j <= tout[v]; j++) remove(order[j]);
             }
         }
-
-        for (int i = 0; i < n; i++) remove(order[i]);
     }
 
     /// Preorder with the heavy child first, so every subtree is one contiguous range
