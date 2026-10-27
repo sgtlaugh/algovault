@@ -19,6 +19,7 @@
  *   - products have length n + m - 1, and an empty input gives an empty result
  *   - the string methods return an empty vector when |pat| > |str| and |str| + 1 zeros for an empty pat
  *   - use ntt.cpp modulo an NTT-friendly prime like 998244353 for improved speed
+ *   - transforms round n + m - 1 up to a power of two, so one coefficient past it doubles the work: drop unneeded terms
  *   - for circular convolution of two size n vectors: fold the linear product, add % mod for mod_multiply
  *         auto c = fft.multiply(a, b);
  *         for (int i = n; i < (int)c.size(); i++) c[i - n] += c[i];
@@ -148,8 +149,8 @@ struct FFT{
 
     vector<long long> mod_multiply(vector<long long> v1, vector<long long> v2, int mod){
         if (v1.empty() || v2.empty()) return {};
-        for (auto& x: v1) x = (x % mod + mod) % mod;
-        for (auto& x: v2) x = (x % mod + mod) % mod;
+        for (auto& x: v1) if (x < 0 || x >= mod) x = (x % mod + mod) % mod;
+        for (auto& x: v2) if (x < 0 || x >= mod) x = (x % mod + mod) % mod;
 
         if ((long double)max(v1.size(), v2.size()) * (mod - 1) * (mod - 1) <= EXACT_LIMIT){
             vector<long long> res = product(v1, v2, v1 == v2);
@@ -293,8 +294,9 @@ struct FFT{
         return len;
     }
 
-    static long long round_to_nearest(long double x){
-        long long res = fabsl(x) + 0.5L;
+    template <typename T>
+    static long long round_to_nearest(T x){
+        long long res = abs(x) + T(0.5);
         return x < 0 ? -res : res;
     }
 
@@ -310,8 +312,9 @@ struct FFT{
         return len;
     }
 
+    /// Split values are below LL_MULTIPLY_LIMIT or mod < 2^31 in absolute value, so cheaper 32-bit division is exact
     template <typename T>
-    static Complex<T> split(long long v, long long base){
+    static Complex<T> split(int32_t v, int32_t base){
         return Complex<T>(v % base, v / base);
     }
 };
