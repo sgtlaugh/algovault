@@ -98,7 +98,7 @@
 - [SPOJ DISQUERY - Distance Query](https://www.spoj.com/problems/DISQUERY/) [✔](../../practice/trees/spoj_disquery.cpp "Accepted solution")
 - [SPOJ LCA - Lowest Common Ancestor](https://www.spoj.com/problems/LCA/) [✔](../../practice/trees/spoj_lca.cpp "Accepted solution")
 - [SPOJ LCASQ - Lowest Common Ancestor](https://www.spoj.com/problems/LCASQ/) [✔](../../practice/trees/spoj_lcasq.cpp "Accepted solution")
-- [SPOJ NTICKETS - Nlogonian Tickets](https://www.spoj.com/problems/NTICKETS/)
+- [SPOJ NTICKETS - Nlogonian Tickets](https://www.spoj.com/problems/NTICKETS/) [✔](../../practice/trees/spoj_ntickets.cpp "Accepted solution")
 - [SPOJ QTREE2 - Query on a tree II](https://www.spoj.com/problems/QTREE2/)
 - [Timus 1471 - Distance in the Tree](https://acm.timus.ru/problem.aspx?num=1471)
 - [USACO 576 - Max Flow](https://usaco.org/index.php?page=viewproblem2&cpid=576)
