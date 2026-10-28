@@ -18,5 +18,6 @@ int main(){
         printf("%d\n", (int)pairs.size());
         for (auto [x, y] : pairs) printf("%lld %lld\n", x, y);
     }
+
     return 0;
 }

@@ -51,6 +51,7 @@ namespace burnside{
             res = res * res;
             if (e >> bit & 1) res = res * b;
         }
+
         return res;
     }
 

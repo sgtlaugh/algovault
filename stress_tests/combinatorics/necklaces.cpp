@@ -47,6 +47,7 @@ ull pow_mod(ull b, ull e, ull m){
     for (b %= m; e; e >>= 1, b = mul_mod(b, b, m)){
         if (e & 1) res = mul_mod(res, b, m);
     }
+
     return res;
 }
 
@@ -88,6 +89,7 @@ bool is_prime(ull x){
     for (ull d = 2; d * d <= x; d++){
         if (x % d == 0) return false;
     }
+
     return true;
 }
 

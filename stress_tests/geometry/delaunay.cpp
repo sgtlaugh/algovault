@@ -132,6 +132,7 @@ void validate(const vector<Point>& points, const Delaunay& dt, bool full_circle_
         for (auto [a, b, c] : dt.triangles){
             for (int i : uniq) assert(circle_side(points[a], points[b], points[c], points[i]) <= 0);
         }
+
         return;
     }
 
@@ -158,6 +159,7 @@ set<array<int, 3>> brute_triangles(const vector<Point>& p){
         for (int q = 0; q < n && empty; q++) empty = circle_side(p[t[0]], p[t[1]], p[t[2]], p[q]) <= 0;
         if (empty) res.insert(t);
     }
+
     return res;
 }
 
@@ -172,6 +174,7 @@ bool general_position(const vector<Point>& p){
             }
         }
     }
+
     return true;
 }
 
@@ -192,6 +195,7 @@ vector<long long> kruskal_weights(const vector<Point>& p, const vector<array<int
         parent[find(u)] = find(v);
         res.push_back(dist2(p[u], p[v]));
     }
+
     return res;
 }
 

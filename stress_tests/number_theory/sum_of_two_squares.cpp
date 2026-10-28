@@ -19,6 +19,7 @@ Pairs brute(long long n){
         long long y = isqrt(n - x * x);
         if (x * x + y * y == n) res.push_back({x, y});
     }
+
     return res;
 }
 

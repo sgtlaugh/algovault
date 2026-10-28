@@ -36,6 +36,7 @@ vector<long long> online_convolution(int n, vector<long long> g, long long mod, 
                 for (int j = l; j < i; j++) s[i] = (s[i] + f[j] * g[i - j]) % mod;
                 f[i] = (next(i, s[i]) % mod + mod) % mod;
             }
+
             return;
         }
 
@@ -63,6 +64,7 @@ int main(){
         for (size_t i = 0; i < a.size(); i++){
             for (size_t j = 0; j < b.size(); j++) res[i + j] = (res[i + j] + a[i] * b[j]) % 7;
         }
+
         return res;
     };
 

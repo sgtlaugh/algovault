@@ -16,6 +16,7 @@ long long power_mod(long long b, long long e, long long m){
     for (b %= m; e; e >>= 1, b = b * b % m){
         if (e & 1) res = res * b % m;
     }
+
     return res;
 }
 
@@ -30,6 +31,7 @@ vector<long long> brute(int n, vector<long long> g, long long mod, const Next& n
         for (int j = 0; j < i; j++) s = (s + f[j] * g[i - j]) % mod;
         f[i] = (next(i, s) % mod + mod) % mod;
     }
+
     return f;
 }
 
@@ -51,6 +53,7 @@ vector<long long> random_g(int n){
         int kind = stress::rand_int(0, 9);
         x = kind == 0 ? LLONG_MIN : kind == 1 ? LLONG_MAX : stress::rand_int(-(1LL << 50), 1LL << 50);
     }
+
     return g;
 }
 
@@ -59,6 +62,7 @@ bool is_prime(long long x){
     for (long long d = 2; d * d <= x; d++){
         if (x % d == 0) return false;
     }
+
     return true;
 }
 
