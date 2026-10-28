@@ -132,7 +132,7 @@
 #### [Tree Isomorphism](tree_isomorphism.cpp)
 
 - [CSES 1700 - Tree Isomorphism I](https://cses.fi/problemset/task/1700) [✔](../../practice/trees/cses_1700.cpp "Accepted solution")
-- [CSES 1701 - Tree Isomorphism II](https://cses.fi/problemset/task/1701)
+- [CSES 1701 - Tree Isomorphism II](https://cses.fi/problemset/task/1701) [✔](../../practice/trees/cses_1701.cpp "Accepted solution")
 
 #### [Virtual Tree](virtual_tree.cpp)
 
