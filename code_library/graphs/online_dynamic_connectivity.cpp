@@ -123,6 +123,7 @@ struct OnlineDynamicConnectivity{
             vertex_of.push_back(v);
             nontree.emplace_back();
         }
+
         return vertex_at[i][v];
     }
 
