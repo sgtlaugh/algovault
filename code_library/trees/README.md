@@ -16,7 +16,7 @@
 - [Codeforces 293E - Close Vertices](https://codeforces.com/problemset/problem/293/E) [✔](../../practice/trees/codeforces_293e.cpp "Accepted solution")
 - [Codeforces 321C - Ciel the Commander](https://codeforces.com/problemset/problem/321/C) [✔](../../practice/trees/codeforces_321c.cpp "Accepted solution")
 - [Codeforces 342E - Xenia and Tree](https://codeforces.com/problemset/problem/342/E) [✔](../../practice/trees/codeforces_342e.cpp "Accepted solution")
-- [Codeforces 715C - Digit Tree](https://codeforces.com/problemset/problem/715/C)
+- [Codeforces 715C - Digit Tree](https://codeforces.com/problemset/problem/715/C) [✔](../../practice/trees/codeforces_715c.cpp "Accepted solution")
 - [Codeforces 716E - Digit Tree](https://codeforces.com/problemset/problem/716/E)
 - [Codeforces 776F - Sherlock's bet to Moriarty](https://codeforces.com/problemset/problem/776/F)
 - [Codeforces 1387B2 - Village (Maximum)](https://codeforces.com/problemset/problem/1387/B2)
