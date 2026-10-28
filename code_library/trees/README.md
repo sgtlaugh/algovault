@@ -127,7 +127,7 @@
 - [CSES 1133 - Tree Distances II](https://cses.fi/problemset/task/1133) [✔](../../practice/trees/cses_1133.cpp "Accepted solution")
 - [HackerRank relatedquestions - Related questions](https://www.hackerrank.com/contests/quora-haqathon/challenges/relatedquestions) [✔](../../practice/trees/hackerrank_relatedquestions.cpp "Accepted solution")
 - [HDU 4661 - Message Passing](https://acm.hdu.edu.cn/showproblem.php?pid=4661) [✔](../../practice/trees/hdu_4661.cpp "Accepted solution")
-- [USACO 814 - Directory Traversal](https://usaco.org/index.php?page=viewproblem2&cpid=814)
+- [USACO 814 - Directory Traversal](https://usaco.org/index.php?page=viewproblem2&cpid=814) [✔](../../practice/trees/usaco_814.cpp "Accepted solution")
 
 #### [Tree Isomorphism](tree_isomorphism.cpp)
 
