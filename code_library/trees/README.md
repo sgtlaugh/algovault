@@ -77,7 +77,7 @@
 #### [Lowest Common Ancestor](lca.cpp)
 
 - [CodeChef LGSEG - Longest Good Segment](https://www.codechef.com/problems/LGSEG) [✔](../../practice/trees/codechef_lgseg.cpp "Accepted solution")
-- [CodeChef PSHTTR - Pishty and tree](https://www.codechef.com/problems/PSHTTR)
+- [CodeChef PSHTTR - Pishty and tree](https://www.codechef.com/problems/PSHTTR) [✔](../../practice/trees/codechef_pshttr.cpp "Accepted solution")
 - [CodeChef TALCA - Lowest Common Ancestor](https://www.codechef.com/problems/TALCA)
 - [Codeforces 733F - Drivers Dissatisfaction](https://codeforces.com/problemset/problem/733/F)
 - [Codeforces 828F - Best Edge Weight](https://codeforces.com/problemset/problem/828/F)
