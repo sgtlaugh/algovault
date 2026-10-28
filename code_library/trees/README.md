@@ -63,7 +63,7 @@
 - [HackerRank white-falcon-and-tree - White Falcon And Tree](https://www.hackerrank.com/contests/w12/challenges/white-falcon-and-tree) [✔](../../practice/trees/hackerrank_white_falcon_and_tree_hld.cpp "Accepted solution")
 - [oj.uz BOI18_minmaxtree - Min-max tree](https://oj.uz/problem/view/BOI18_minmaxtree) [✔](../../practice/trees/oj_uz_boi18_minmaxtree.cpp "Accepted solution")
 - [SPOJ QTREE3 - Query on a tree again!](https://www.spoj.com/problems/QTREE3/) [✔](../../practice/trees/spoj_qtree3.cpp "Accepted solution")
-- [SPOJ QTREE - Query on a tree](https://www.spoj.com/problems/QTREE/)
+- [SPOJ QTREE - Query on a tree](https://www.spoj.com/problems/QTREE/) [✔](../../practice/trees/spoj_qtree.cpp "Accepted solution")
 - [USACO 102 - Grass Planting](https://usaco.org/index.php?page=viewproblem2&cpid=102) [✔](../../practice/trees/usaco_102.cpp "Accepted solution")
 - [USACO 842 - Disruption](https://usaco.org/index.php?page=viewproblem2&cpid=842) [✔](../../practice/trees/usaco_842.cpp "Accepted solution")
 - [USACO 921 - Cow Land](https://usaco.org/index.php?page=viewproblem2&cpid=921) [✔](../../practice/trees/usaco_921.cpp "Accepted solution")
