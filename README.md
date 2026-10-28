@@ -313,6 +313,7 @@ sa.contains("nab");         // false
 - [Local Minimization (Nelder-Mead)](code_library/misc/local_minimization.cpp) - local minimum of a function of real variables
 - [N Queens](code_library/misc/n_queen.cpp) - number of N queens solutions
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one
+- [Nimber Arithmetic](code_library/misc/nimber.cpp) - nim product and inverse over GF(2^64) [✔](judge_tests/misc/nim_product_64.cpp)
 - [Numerical Integration](code_library/misc/numerical_integration.cpp) - definite integrals by Simpson or Romberg
 - [Radix Sort](code_library/misc/radix_sort.cpp) - LSD radix sort of 32-bit integers [✔](judge_tests/misc/aoj_alds1_6_a_radix_sort.cpp)
 - [Radix Sort 64](code_library/misc/radix_sort_64.cpp) - LSD radix sort of 64-bit integers [✔](judge_tests/misc/aoj_alds1_6_a_radix_sort_64.cpp)
