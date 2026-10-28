@@ -13,7 +13,7 @@
 #### [Centroid Decomposition](centroid_decomposition.cpp)
 
 - [CodeChef PRIMEDST - Prime Distance On Tree](https://www.codechef.com/problems/PRIMEDST) [✔](../../practice/trees/codechef_primedst_centroid_decomposition.cpp "Accepted solution")
-- [Codeforces 293E - Close Vertices](https://codeforces.com/problemset/problem/293/E)
+- [Codeforces 293E - Close Vertices](https://codeforces.com/problemset/problem/293/E) [✔](../../practice/trees/codeforces_293e.cpp "Accepted solution")
 - [Codeforces 321C - Ciel the Commander](https://codeforces.com/problemset/problem/321/C)
 - [Codeforces 342E - Xenia and Tree](https://codeforces.com/problemset/problem/342/E)
 - [Codeforces 715C - Digit Tree](https://codeforces.com/problemset/problem/715/C)
