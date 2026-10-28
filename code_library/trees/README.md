@@ -43,7 +43,7 @@
 
 #### [Dynamic Tree Diameter](dynamic_diameter.cpp)
 
-- [AOJ GRL_5_A - Diameter of a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A)
+- [AOJ GRL_5_A - Diameter of a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_A) [✔](../../practice/trees/aoj_grl_5_a.cpp "Accepted solution")
 
 #### [Heavy Light Decomposition](hld.cpp)
 
