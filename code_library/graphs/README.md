@@ -7,12 +7,13 @@
 | [2-SAT](#2-sat) | [2-SAT, Lexicographic](#2-sat-lexicographic) | [Articulation Points and Blocks](#articulation-points-and-blocks) | [Bellman-Ford](#bellman-ford) |
 | [Bridges](#bridges) | [Cactus Graph](#cactus-graph) | [Chromatic Number](#chromatic-number) | [Dijkstra](#dijkstra) |
 | [Directed MST](#directed-mst) | [Dominator Tree](#dominator-tree) | [Edge Coloring](#edge-coloring) | [Euler Path](#euler-path) |
-| [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) | [General Graph Matching](#general-graph-matching) | [Gomory-Hu Tree](#gomory-hu-tree) |
-| [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) | [K Shortest Walks](#k-shortest-walks) |
-| [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) | [Maximum Clique](#maximum-clique) |
-| [Maximum Flow](#maximum-flow) | [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) |
-| [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) |
-| [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |  |
+| [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) | [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) |
+| [Gomory-Hu Tree](#gomory-hu-tree) | [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) |
+| [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) |
+| [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) |
+| [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) |
+| [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) |
+| [Strongly Connected Components](#strongly-connected-components) |  |  |  |
 
 <!-- /toc -->
 
@@ -270,6 +271,13 @@
 - [Timus 1099 - Work Scheduling](https://acm.timus.ru/problem.aspx?num=1099) [✔](../../practice/graphs/timus_1099.cpp "Accepted solution")
 - [UVa 11439 - Maximizing the ICPC](https://onlinejudge.org/external/114/11439.pdf) [✔](../../practice/graphs/uva_11439.cpp "Accepted solution")
 
+#### [General Graph Matching, Weighted](weighted_graph_matching.cpp)
+
+- [AtCoder ABC318 D - General Weighted Max Matching](https://atcoder.jp/contests/abc318/tasks/abc318_d)
+- [UOJ 81 - 一般图最大权匹配](https://uoj.ac/problem/81)
+- [UVa 10296 - Jogging Trails](https://onlinejudge.org/external/102/10296.pdf)
+- [UVa 12711 - Game of Throne](https://onlinejudge.org/external/127/12711.pdf)
+
 #### [Gomory-Hu Tree](gomory_hu.cpp)
 
 - [Codeforces Gym 101480J - Juice Junctions](https://codeforces.com/gym/101480/problem/J) [✔](../../practice/graphs/codeforces_gym_101480j.cpp "Accepted solution")
@@ -519,6 +527,18 @@
 - [UVa 11857 - Driving Range](https://onlinejudge.org/external/118/11857.pdf) [✔](../../practice/graphs/uva_11857.cpp "Accepted solution")
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf) [✔](../../practice/graphs/uva_12176.cpp "Accepted solution")
 - [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf) [✔](../../practice/graphs/uva_12655.cpp "Accepted solution")
+
+#### [Network Simplex](network_simplex.cpp)
+
+- [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B)
+- [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D)
+- [Codeforces 1288F - Red-Blue Graph](https://codeforces.com/problemset/problem/1288/F)
+- [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D)
+- [LibreOJ 102 - 最小费用流](https://loj.ac/p/102)
+- [LibreOJ 115 - 无源汇有上下界可行流](https://loj.ac/p/115)
+- [LibreOJ 116 - 有源汇有上下界最大流](https://loj.ac/p/116)
+- [LibreOJ 117 - 有源汇有上下界最小流](https://loj.ac/p/117)
+- [Luogu P3980 - [NOI2008] 志愿者招募](https://www.luogu.com.cn/problem/P3980)
 
 #### [Offline Dynamic Connectivity](offline_dynamic_connectivity.cpp)
 

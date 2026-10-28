@@ -4,11 +4,18 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [Bernoulli Numbers](#bernoulli-numbers) | [Binomial Coefficients](#binomial-coefficients) | [Combinatorics](#combinatorics) | [Gambler's Ruin](#gamblers-ruin) |
-| [Josephus Problem](#josephus-problem) | [Permutation Cycles](#permutation-cycles) | [Permutation Index](#permutation-index) | [Permutation Rank](#permutation-rank) |
-| [Stirling Numbers](#stirling-numbers) |  |  |  |
+| [Bell Numbers](#bell-numbers) | [Bernoulli Numbers](#bernoulli-numbers) | [Binomial Coefficients](#binomial-coefficients) | [Combinatorics](#combinatorics) |
+| [Fast Factorial](#fast-factorial) | [Gambler's Ruin](#gamblers-ruin) | [Josephus Problem](#josephus-problem) | [Permutation Cycles](#permutation-cycles) |
+| [Permutation Index](#permutation-index) | [Permutation Rank](#permutation-rank) | [Stirling Numbers](#stirling-numbers) |  |
 
 <!-- /toc -->
+
+#### [Bell Numbers](bell_numbers.cpp)
+
+- [Codeforces 568B - Symmetric and Transitive](https://codeforces.com/problemset/problem/568/B)
+- [Codeforces 908E - New Year and Entity Enumeration](https://codeforces.com/problemset/problem/908/E)
+- [HDU 2512 - 一卡通大冒险](https://acm.hdu.edu.cn/showproblem.php?pid=2512)
+- [HDU 4767 - Bell](https://acm.hdu.edu.cn/showproblem.php?pid=4767)
 
 #### [Bernoulli Numbers](bernoulli_numbers.cpp)
 
@@ -57,6 +64,11 @@
 - [UVa 12257 - The Queue](https://onlinejudge.org/external/122/12257.pdf) [✔](../../practice/combinatorics/uva_12257.cpp "Accepted solution")
 - [UVa 12887 - The Soldier's Dilemma](https://onlinejudge.org/external/128/12887.pdf) [✔](../../practice/combinatorics/uva_12887.cpp "Accepted solution")
 - [UVa 13184 - Counting Edges and Graphs](https://onlinejudge.org/external/131/13184.pdf) [✔](../../practice/combinatorics/uva_13184.cpp "Accepted solution")
+
+#### [Fast Factorial](fast_factorial.cpp)
+
+- [Luogu P5282 - 【模板】快速阶乘算法](https://www.luogu.com.cn/problem/P5282)
+- [yukicoder 502 - 階乗を計算するだけ](https://yukicoder.me/problems/no/502)
 
 #### [Gambler's Ruin](gamblers_ruin.cpp)
 

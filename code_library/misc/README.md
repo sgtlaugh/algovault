@@ -6,8 +6,9 @@
 |---|---|---|---|
 | [15 Puzzle Solver](#15-puzzle-solver) | [Assembly](#assembly) | [Bit Twiddling](#bit-twiddling) | [Comb Sort](#comb-sort) |
 | [Dancing Links](#dancing-links) | [Fast I/O](#fast-io) | [Gray Codes](#gray-codes) | [Hackenbush](#hackenbush) |
-| [Knight Distance](#knight-distance) | [Local Minimization (Nelder-Mead)](#local-minimization-nelder-mead) | [N Queens](#n-queens) | [Numerical Integration](#numerical-integration) |
-| [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) | [Simulated Annealing](#simulated-annealing) | [Ternary and Golden-Section Search](#ternary-and-golden-section-search) |
+| [Knight Distance](#knight-distance) | [Local Minimization (Nelder-Mead)](#local-minimization-nelder-mead) | [N Queens](#n-queens) | [Nimber Arithmetic](#nimber-arithmetic) |
+| [Numerical Integration](#numerical-integration) | [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) | [Simulated Annealing](#simulated-annealing) |
+| [Ternary and Golden-Section Search](#ternary-and-golden-section-search) |  |  |  |
 
 <!-- /toc -->
 
@@ -78,6 +79,12 @@
 #### [N Queens](n_queen.cpp)
 
 - [UVa 11195 - Another n-Queen Problem](https://onlinejudge.org/external/111/11195.pdf)
+
+#### [Nimber Arithmetic](nimber.cpp)
+
+- [Codeforces 1310F - Bad Cryptography](https://codeforces.com/problemset/problem/1310/F)
+- [HDU 3404 - Switch lights](https://acm.hdu.edu.cn/showproblem.php?pid=3404)
+- [POJ 3533 - Light Switching Game](http://poj.org/problem?id=3533)
 
 #### [Numerical Integration](numerical_integration.cpp)
 
