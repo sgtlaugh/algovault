@@ -122,7 +122,7 @@
 
 - [AOJ GRL_5_B - Height of a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_B) [✔](../../practice/trees/aoj_grl_5_b.cpp "Accepted solution")
 - [AtCoder DP V - Subtree](https://atcoder.jp/contests/dp/tasks/dp_v) [✔](../../practice/trees/atcoder_dp_v.cpp "Accepted solution")
-- [Codeforces 1187E - Tree Painting](https://codeforces.com/problemset/problem/1187/E)
+- [Codeforces 1187E - Tree Painting](https://codeforces.com/problemset/problem/1187/E) [✔](../../practice/trees/codeforces_1187e.cpp "Accepted solution")
 - [CSES 1132 - Tree Distances I](https://cses.fi/problemset/task/1132) [✔](../../practice/trees/cses_1132.cpp "Accepted solution")
 - [CSES 1133 - Tree Distances II](https://cses.fi/problemset/task/1133) [✔](../../practice/trees/cses_1133.cpp "Accepted solution")
 - [HackerRank relatedquestions - Related questions](https://www.hackerrank.com/contests/quora-haqathon/challenges/relatedquestions) [✔](../../practice/trees/hackerrank_relatedquestions.cpp "Accepted solution")
