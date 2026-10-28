@@ -142,6 +142,13 @@ void check_small(int n, const vector<pair<int, int>>& edges){
 }
 
 int main(){
+    /// A repeated edge inflates the search weights, run() must refuse it rather than answer wrongly
+    stress::expect_assert("graphs/chordal_graph.cpp", []{
+        ChordalGraph g(3);
+        g.add_edge(0, 1), g.add_edge(1, 2), g.add_edge(0, 1);
+        g.run();
+    });
+
     for (int n = 0; n <= 6; n++){
         vector<pair<int, int>> pairs;
         for (int u = 0; u < n; u++){

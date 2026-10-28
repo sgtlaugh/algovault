@@ -14,7 +14,7 @@
  * g.cycle: the vertices of a chordless cycle of length at least 4 in cycle order, empty when chordal
  *
  * Notes:
- *   - The graph must be simple: u != v and no edge added twice
+ *   - The graph must be simple: u != v and no edge added twice, add_edge and run() assert them
  *   - run() can be called again after adding edges
  *   - Chordal graphs are perfect, so the chromatic number is max_clique().size()
  *   - Maximum cardinality search with the certificate of Tarjan and Yannakakis, SIAM J. Comput. 13 (1984)
@@ -53,7 +53,10 @@ struct ChordalGraph{
         /// v's later neighbors form a clique iff those besides parent[v] are adjacent to parent[v]
         vector<int> mark(n, -1);
         for (int p = 0; p < n; p++){
-            for (int x : adj[p]) mark[x] = p;
+            for (int x : adj[p]){
+                assert(mark[x] != p);
+                mark[x] = p;
+            }
             for (int v : adj[p]){
                 if (parent[v] != p) continue;
                 for (int w : adj[v]){
