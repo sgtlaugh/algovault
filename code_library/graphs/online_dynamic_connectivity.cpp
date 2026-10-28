@@ -50,7 +50,7 @@ struct OnlineDynamicConnectivity{
     vector<long long> value;
     vector<Node> t;  /// nodes 0..n - 1 are the vertices of level 0, the only nodes holding values
     vector<int> vertex_of;  /// per vertex slot, its vertex; slot k is the k-th vertex node made, slot v < n is node v
-    vector<vector<int>> nontree;  /// per vertex slot, edges once non-tree at its level; stale when their level moved on
+    vector<vector<int>> nontree;  /// per vertex slot, non-tree edges at its level; stale once raised, linked or deleted
     vector<vector<int>> vertex_at;  /// per level, the node of each vertex, -1 until it gets a tree edge there
     vector<Edge> edges;
     vector<int> spare_arcs;
@@ -171,32 +171,27 @@ struct OnlineDynamicConnectivity{
         spare_arcs.push_back(a);
     }
 
-    /// After cutting a tree edge u-v of level >= i: searches level i for a replacement, raising what it scans to i + 1
+    /// After cutting a tree edge u-v of level >= i: searches level i for a replacement, raising the misses to i + 1
     bool replace(int i, int u, int v){
         int a = node(i, u), b = node(i, v);
         splay(a);
         splay(b);
         if (t[a].size > t[b].size) swap(a, b);
 
-        /// Raising the smaller tree's edges keeps every tree of level i + 1 at most half a tree of level i
-        for (int x; (x = marked(a, TREE)) != -1; a = x){
-            set_mark(x, 0);
-            int e = ~t[x].id;
-            edges[e].level++;
-            link(e);
-        }
-
+        bool raised = false;
         for (int x; (x = marked(a, NONTREE)) != -1; a = x){
             int slot = t[x].id, found = -1;
             while (found == -1 && !nontree[slot].empty()){
                 int e = nontree[slot].back();
                 nontree[slot].pop_back();
-                /// Tree edges of level i rise in the TREE pass first, so a level check alone spots stale entries
-                if (edges[e].level != i) continue;
+                if (edges[e].level != i || !edges[e].arcs.empty()) continue;
 
                 int y = node(i, edges[e].u ^ edges[e].v ^ vertex_of[slot]);
                 if (!same_tree(x, y)) found = e;
                 else{
+                    /// Non-tree edges of level i + 1 need their endpoints joined at level i + 1, so tree edges go first
+                    if (!raised) raise_tree_edges(x);
+                    raised = true;
                     edges[e].level++;
                     add_nontree(e);
                 }
@@ -210,6 +205,16 @@ struct OnlineDynamicConnectivity{
         }
 
         return false;
+    }
+
+    /// Raising only the smaller tree's edges keeps every tree of level i + 1 at most half a tree of level i
+    void raise_tree_edges(int a){
+        for (int x; (x = marked(a, TREE)) != -1; a = x){
+            set_mark(x, 0);
+            int e = ~t[x].id;
+            edges[e].level++;
+            link(e);
+        }
     }
 
     /// A node of x's tree with the mark bit, splayed to the root, or -1

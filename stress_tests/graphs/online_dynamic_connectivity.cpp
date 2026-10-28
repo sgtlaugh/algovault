@@ -53,6 +53,20 @@ void check(OnlineDynamicConnectivity& g, int n, const vector<pair<int, int>>& li
         assert(e.level <= __lg(max(n, 1)));
         max_level_seen = max(max_level_seen, e.level);
     }
+    for (int i = 0; i < (int)g.vertex_at.size(); i++){
+        for (int x: g.vertex_at[i]){
+            if (x == -1) continue;
+            g.splay(x);
+            assert(g.t[x].size <= n >> i);
+        }
+    }
+
+    /// Catches raising a non-tree edge to a level where its endpoints are not yet joined, which answers hide for a while
+    for (auto& e: g.edges){
+        if (e.level == -1 || e.u == e.v) continue;
+        if (!e.arcs.empty()) assert((int)e.arcs.size() == e.level + 1);
+        else assert(g.same_tree(g.vertex_at[e.level][e.u], g.vertex_at[e.level][e.v]));
+    }
 }
 
 /// Random operations, checked against BFS after every one when check_every is 1
