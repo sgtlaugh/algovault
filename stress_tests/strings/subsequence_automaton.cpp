@@ -176,6 +176,7 @@ int main(){
     assert(!wide.is_subsequence(vector<long long>{(1LL << 32) + 1}));
 
     stress::expect_assert("strings/subsequence_automaton.cpp", []{ SubsequenceAutomaton bad("abz", 3); });
+    stress::expect_assert("strings/subsequence_automaton.cpp", []{ distinct_subsequences(string("ab"), 0); });
 
     return 0;
 }

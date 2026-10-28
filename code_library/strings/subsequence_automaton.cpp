@@ -16,7 +16,7 @@
  * sa.is_subsequence(t): true if the vector t is a subsequence of s, the empty t included
  * sa.next(i, c): smallest j >= i with s[j] = c, n if none, for 0 <= i <= n + 1
  *
- * distinct_subsequences(s, mod = 998244353): number of distinct non-empty subsequences of s modulo mod, mod <= 2^62
+ * distinct_subsequences(s, mod = 998244353): distinct non-empty subsequences of s modulo mod, 1 <= mod <= 2^62
  *
  * Notes:
  *   - next(n + 1, c) = n, so a greedy walk i = next(i, c) + 1 never leaves the table and matched t iff i <= n
@@ -101,6 +101,7 @@ struct SparseSubsequenceAutomaton{
 
 template<typename Container>
 long long distinct_subsequences(const Container& s, long long mod = 998244353){
+    assert(1 <= mod && mod <= (1LL << 62));
     int n = s.size();
     vector<int> order(n), prev(n, -1);
 
