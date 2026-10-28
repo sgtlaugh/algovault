@@ -67,16 +67,26 @@ struct AbsoluteCenter{
         /// A point at distance t from u reaches x in min(du[x] + t, dv[x] + w - t), and the farthest x decides
         AbsoluteCenterResult res{0, -1, 0, {}};
         long long best = INF;
+        vector<long long> ecc(n);
+        for (int u = 0; u < n; u++) ecc[u] = *max_element(dist[u].begin(), dist[u].end());
+
         vector<int> order(n);
         for (int u = 0; u < n; u++){
             const vector<long long>& du = dist[u];
-            iota(order.begin(), order.end(), 0);
-            sort(order.begin(), order.end(), [&](int a, int b){ return du[a] > du[b]; });
+            bool sorted = false;
 
             for (auto [v, id] : adj[u]){
                 if (edges[id].u != u) continue;
                 const vector<long long>& dv = dist[v];
                 long long w = edges[id].w;
+
+                /// Every point of the edge has radius >= max(ecc[u] - t, ecc[v] - w + t), so twice it is >= this sum
+                if (ecc[u] + ecc[v] - w >= best) continue;
+                if (!sorted){
+                    iota(order.begin(), order.end(), 0);
+                    sort(order.begin(), order.end(), [&](int a, int b){ return du[a] > du[b]; });
+                    sorted = true;
+                }
 
                 /// p has the largest dv so far, the optimum on the edge is t = 0, t = w or where p's tent meets x's
                 int p = order[0];
