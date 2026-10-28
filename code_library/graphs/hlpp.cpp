@@ -17,7 +17,7 @@
  *   - Capacities of edges touching src must sum to at most the max of T, as maxflow() pushes them at once, asserted
  *   - Unlike FlowGraph, maxflow() takes no limit
  *   - Each maxflow() call continues from the flow already pushed, so it can be called again after adding edges
- *   - Faster than FlowGraph where Dinic needs many phases: 4x on a 300 x 300 grid, 2x on dense graphs with n = 1000
+ *   - Faster than FlowGraph where Dinic needs many phases: 4x on a 300 x 300 grid, up to 2x on dense graphs
  *   - Slower than FlowGraph by 1.2x to 1.5x on unit-capacity bipartite matching and random sparse graphs
  *
 ***/
