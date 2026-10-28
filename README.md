@@ -207,6 +207,7 @@ sa.contains("nab");         // false
 - [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - minimum spanning forest, also implicit graphs [✔](judge_tests/graphs/aoj_alds1_12_a.cpp)
 - [Network Simplex](code_library/graphs/network_simplex.cpp) - min cost flow with supplies and lower bounds [✔](judge_tests/graphs/min_cost_b_flow.cpp)
 - [Offline Dynamic Connectivity](code_library/graphs/offline_dynamic_connectivity.cpp) - connectivity under edge insertions and deletions
+  - [Online](code_library/graphs/online_dynamic_connectivity.cpp) - answers as it goes, with component sums [✔](judge_tests/graphs/dynamic_graph_vertex_add_component_sum.cpp)
 - [Online Bridges](code_library/graphs/online_bridges.cpp) - bridges and 2-edge components under insertions [✔](judge_tests/graphs/two_edge_connected_components.cpp)
 - [Range Edge Dijkstra](code_library/graphs/range_edge_dijkstra.cpp) - shortest paths with edges to and from ranges
 - [Small Cycle Counting](code_library/graphs/small_cycle_counting.cpp) - counts triangles and 4-cycles
