@@ -155,5 +155,15 @@ int main(){
     }
     assert(path.components == 1);
 
+    /// Vertices past 46341, where an int edge key min * n + max overflows
+    int big = 100000;
+    OnlineDynamicConnectivity wide(big);
+    wide.add_edge(big - 1, big - 2);
+    wide.add_edge(big - 3, big - 1);
+    wide.remove_edge(big - 2, big - 1);
+    assert(wide.connected(big - 3, big - 1));
+    assert(!wide.connected(big - 2, big - 1));
+    assert(wide.components == big - 1);
+
     return 0;
 }

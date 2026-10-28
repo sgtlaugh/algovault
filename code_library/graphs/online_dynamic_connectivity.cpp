@@ -54,7 +54,7 @@ struct OnlineDynamicConnectivity{
     vector<vector<int>> vertex_at;  /// per level, the node of each vertex, -1 until it gets a tree edge there
     vector<Edge> edges;
     vector<int> spare_arcs;
-    map<pair<int, int>, vector<int>> live;
+    unordered_map<long long, vector<int>> live;
 
     OnlineDynamicConnectivity(int n) : OnlineDynamicConnectivity(vector<long long>(n)) {}
 
@@ -72,7 +72,7 @@ struct OnlineDynamicConnectivity{
     void add_edge(int u, int v){
         int e = edges.size();
         edges.push_back({u, v, 0, {}});
-        live[minmax(u, v)].push_back(e);
+        live[key(u, v)].push_back(e);
         if (u == v) return;
 
         if (same_tree(u, v)) add_nontree(e);
@@ -83,7 +83,7 @@ struct OnlineDynamicConnectivity{
     }
 
     void remove_edge(int u, int v){
-        auto it = live.find(minmax(u, v));
+        auto it = live.find(key(u, v));
         assert(it != live.end());
         int e = it->second.back();
         it->second.pop_back();
@@ -125,6 +125,10 @@ struct OnlineDynamicConnectivity{
         }
 
         return vertex_at[i][v];
+    }
+
+    long long key(int u, int v) const{
+        return (long long)min(u, v) * n + max(u, v);
     }
 
     bool same_tree(int a, int b){
