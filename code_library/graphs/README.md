@@ -533,7 +533,7 @@
 - [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B) [✔](../../practice/graphs/aoj_grl_6_b_network_simplex.cpp "Accepted solution")
 - [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D) [✔](../../practice/graphs/codeforces_708d_network_simplex.cpp "Accepted solution")
 - [Codeforces 1288F - Red-Blue Graph](https://codeforces.com/problemset/problem/1288/F) [✔](../../practice/graphs/codeforces_1288f_network_simplex.cpp "Accepted solution")
-- [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D)
+- [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D) [✔](../../practice/graphs/codeforces_gym_101190d.cpp "Accepted solution")
 - [LibreOJ 102 - 最小费用流](https://loj.ac/p/102) [✔](../../practice/graphs/libreoj_102.cpp "Accepted solution")
 - [LibreOJ 115 - 无源汇有上下界可行流](https://loj.ac/p/115) [✔](../../practice/graphs/libreoj_115.cpp "Accepted solution")
 - [LibreOJ 116 - 有源汇有上下界最大流](https://loj.ac/p/116) [✔](../../practice/graphs/libreoj_116.cpp "Accepted solution")
