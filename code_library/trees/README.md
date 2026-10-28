@@ -30,7 +30,7 @@
 - [oj.uz IOI11_race - Race](https://oj.uz/problem/view/IOI11_race) [✔](../../practice/trees/oj_uz_ioi11_race.cpp "Accepted solution")
 - [oj.uz JOI14_factories - Factories](https://oj.uz/problem/view/JOI14_factories) [✔](../../practice/trees/oj_uz_joi14_factories.cpp "Accepted solution")
 - [POJ 1987 - Distance Statistics](http://poj.org/problem?id=1987)
-- [SPOJ QTREE5 - Query on a tree V](https://www.spoj.com/problems/QTREE5/)
+- [SPOJ QTREE5 - Query on a tree V](https://www.spoj.com/problems/QTREE5/) [✔](../../practice/trees/spoj_qtree5.cpp "Accepted solution")
 - [USACO 286 - Yin and Yang](https://usaco.org/index.php?page=viewproblem2&cpid=286)
 
 #### [DSU on Tree](dsu_on_tree.cpp)
