@@ -149,6 +149,7 @@ sa.contains("nab");         // false
 - [Circle Geometry](code_library/geometry/circle.cpp) - intersections, tangents, enclosing circle, areas [✔](judge_tests/geometry/aoj_0090.cpp)
 - [Closest Pair of Points](code_library/geometry/closest_pair.cpp) - nearest two points by exact squared distance [✔](judge_tests/geometry/aoj_cgl_5_a.cpp)
 - [Convex Hull](code_library/geometry/convex_hull.cpp) - static and online hull, Minkowski sum [✔](judge_tests/geometry/aoj_cgl_3_b.cpp)
+- [Delaunay Triangulation](code_library/geometry/delaunay.cpp) - triangulation with empty circumcircles [✔](judge_tests/geometry/euclidean_mst.cpp)
 - [Geometry](code_library/geometry/geometry.cpp) - exact predicates and polygon queries [✔](judge_tests/geometry/aoj_0177.cpp)
 - [Half-Plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region common to all half-planes [✔](judge_tests/geometry/aoj_1283.cpp)
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
