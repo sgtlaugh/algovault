@@ -7,7 +7,7 @@
 | [Aliens Trick (WQS)](#aliens-trick-wqs) | [Block Removal DP](#block-removal-dp) | [Bounded Knapsack](#bounded-knapsack) | [Bounded Subset Sum](#bounded-subset-sum) |
 | [Convex Hull Trick](#convex-hull-trick) | [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) |
 | [Hirschberg LCS](#hirschberg-lcs) | [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) |
-| [Longest Increasing Subsequence](#longest-increasing-subsequence) | [Maximum Square](#maximum-square) | [Slope Trick](#slope-trick) |  |
+| [Longest Increasing Subsequence](#longest-increasing-subsequence) | [Maximum Square](#maximum-square) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |
 
 <!-- /toc -->
 
@@ -154,6 +154,13 @@
 #### [Maximum Square](maximum_square.cpp)
 
 - [AOJ DPL_3_A - Largest Square](https://onlinejudge.u-aizu.ac.jp/problems/DPL_3_A) [✔](../../practice/dp/aoj_dpl_3_a.cpp "Accepted solution")
+
+#### [Plug DP](plug_dp.cpp)
+
+- [HDU 1693 - Eat the Trees](https://acm.hdu.edu.cn/showproblem.php?pid=1693)
+- [HDU 3377 - Plan](https://acm.hdu.edu.cn/showproblem.php?pid=3377)
+- [HDU 4285 - circuits](https://acm.hdu.edu.cn/showproblem.php?pid=4285)
+- [Timus 1519 - Formula 1](https://acm.timus.ru/problem.aspx?num=1519)
 
 #### [Slope Trick](slope_trick.cpp)
 
