@@ -19,7 +19,8 @@
  * Notes:
  *   - Before cell (row, col) plug col is its edge from the left and col + 1 from above, after it down and right
  *   - Plugs are edges: add drops states with an edge leaving the grid, so transitions never test the border
- *   - (m + 1) bits <= 64 and bits <= 8: 2 bits fit brackets, 3 or 4 fit component labels after normalize
+ *   - (m + 1) bits <= 64, bits <= 8: 2 bits fit brackets, labels need 2^bits >= components + 2 to leave a fresh one
+ *   - A state holds plugs 0..m only: the row shift moves every bit up by bits, so nothing can be kept above plug m
  *   - main() writes Formula 1 (one cycle, bracket encoding) and HDU 1693 (any cycles, 1 bit) as transitions
  *
 ***/

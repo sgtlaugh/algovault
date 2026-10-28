@@ -58,10 +58,10 @@ long long cycle_covers(const Grid& open){
 
 /// Simple paths from cell a to cell b with component labels, each path piece one label; gain(v, i, j) puts (i, j) on it
 template <typename T, typename Merge, typename Gain>
-T paths(const Grid& open, int a, int b, T start, T missing, Merge merge, Gain gain){
-    int n = open.size(), m = open[0].size();
-    const int fresh = 15;
-    PlugDP<T, Merge> dp(n, m, 4, start, merge);
+T paths(const Grid& open, int a, int b, T start, T missing, Merge merge, Gain gain, int bits = 4){
+    /// The top bit as a fresh label: above any label these grids reach, and lost by code that keeps only 4 bits
+    int n = open.size(), m = open[0].size(), fresh = 1 << (bits - 1);
+    PlugDP<T, Merge> dp(n, m, bits, start, merge);
     dp.run([&](int i, int j, uint64_t s, T v){
         int l = dp.get(s, j), u = dp.get(s, j + 1);
         uint64_t t = dp.set(dp.set(s, j, 0), j + 1, 0);
@@ -171,11 +171,42 @@ pair<long long, long long> brute_paths(const Grid& open, const Grid& weight, int
     return {count, best};
 }
 
+/// Plus counts the paths between two random free cells, max finds the heaviest, both through component labels
+void check_paths(const Grid& open, int bits){
+    int n = open.size(), m = open[0].size();
+    Grid weight(n, vector<int>(m));
+    for (auto& row : weight){
+        for (auto& x : row) x = stress::rand_int(-9, 9);
+    }
+    vector<int> cells;
+    for (int c = 0; c < n * m; c++){
+        if (open[c / m][c % m]) cells.push_back(c);
+    }
+    if (cells.size() < 2) return;
+
+    int a = cells[stress::rand_int(0, cells.size() - 1)], b = a;
+    while (b == a) b = cells[stress::rand_int(0, cells.size() - 1)];
+    auto [count, best] = brute_paths(open, weight, a, b);
+    auto keep = [](long long v, int, int){ return v; };
+    auto add_weight = [&](long long v, int i, int j){ return v + weight[i][j]; };
+    auto larger = [](long long x, long long y){ return max(x, y); };
+    assert(paths(open, a, b, 1LL, 0LL, plus<long long>(), keep, bits) == count);
+    assert(paths(open, a, b, 0LL, LLONG_MIN, larger, add_weight, bits) == best);
+}
+
 Grid random_grid(int n, int m, int blocked_percent){
     Grid open(n, vector<int>(m));
     for (auto& row : open){
         for (auto& x : row) x = stress::rand_int(1, 100) > blocked_percent;
     }
+
+    return open;
+}
+
+/// Free cells only in the last w columns, where plug m sits in the top bits once (m + 1) bits = 64
+Grid right_window(int n, int m, int w, int blocked_percent){
+    Grid open = random_grid(n, m, blocked_percent);
+    for (auto& row : open) fill(row.begin(), row.end() - w, 0);
 
     return open;
 }
@@ -193,28 +224,21 @@ int main(){
         assert(formula1(open) == brute_cycles(open, true));
     }
 
-    /// Paths between two free cells: plus counts them, max finds the heaviest, both through component labels
     for (long long it = 0; it < stress::scaled(1000); it++){
         int n = stress::rand_int(1, 5), m = stress::rand_int(1, it % 3 ? 4 : 6);
         if (n * m > 20) n = 20 / m;
-        Grid open = random_grid(n, m, stress::rand_int(0, 35)), weight(n, vector<int>(m));
-        for (auto& row : weight){
-            for (auto& x : row) x = stress::rand_int(-9, 9);
-        }
-        vector<int> cells;
-        for (int c = 0; c < n * m; c++){
-            if (open[c / m][c % m]) cells.push_back(c);
-        }
-        if (cells.size() < 2) continue;
+        check_paths(random_grid(n, m, stress::rand_int(0, 35)), 4);
+    }
 
-        int a = cells[stress::rand_int(0, cells.size() - 1)], b = a;
-        while (b == a) b = cells[stress::rand_int(0, cells.size() - 1)];
-        auto [count, best] = brute_paths(open, weight, a, b);
-        auto keep = [](long long v, int, int){ return v; };
-        auto add_weight = [&](long long v, int i, int j){ return v + weight[i][j]; };
-        auto larger = [](long long x, long long y){ return max(x, y); };
-        assert(paths(open, a, b, 1LL, 0LL, plus<long long>(), keep) == count);
-        assert(paths(open, a, b, 0LL, LLONG_MIN, larger, add_weight) == best);
+    /// Every bit width at (m + 1) bits = 64: a shift or mask past bit 63, or a get or set cut to 4 bits, breaks these
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(1, 5), w = stress::rand_int(1, 4), blocked = stress::rand_int(0, 35);
+        Grid open = right_window(n, 63, w, blocked);
+        assert(cycle_covers(open) == brute_cycles(open, false));
+        open = right_window(n, 31, w, blocked);
+        assert(formula1(open) == brute_cycles(open, true));
+        check_paths(right_window(n, 15, w, blocked), 4);
+        check_paths(right_window(n, 7, w, blocked), 8);
     }
 
     return 0;
