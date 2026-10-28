@@ -91,7 +91,7 @@
 - [CSES 1136 - Counting Paths](https://cses.fi/problemset/task/1136) [✔](../../practice/trees/cses_1136.cpp "Accepted solution")
 - [CSES 1687 - Company Queries I](https://cses.fi/problemset/task/1687) [✔](../../practice/trees/cses_1687.cpp "Accepted solution")
 - [CSES 1688 - Company Queries II](https://cses.fi/problemset/task/1688) [✔](../../practice/trees/cses_1688.cpp "Accepted solution")
-- [HackerEarth optimal-connectivity-c6ae79ca - Optimal Connectivity](https://www.hackerearth.com/practice/algorithms/graphs/graph-representation/practice-problems/algorithm/optimal-connectivity-c6ae79ca/)
+- [HackerEarth optimal-connectivity-c6ae79ca - Optimal Connectivity](https://www.hackerearth.com/practice/algorithms/graphs/graph-representation/practice-problems/algorithm/optimal-connectivity-c6ae79ca/) [✔](../../practice/trees/hackerearth_optimal_connectivity_c6ae79ca.cpp "Accepted solution")
 - [LeetCode 1483 - Kth Ancestor of a Tree Node](https://leetcode.com/problems/kth-ancestor-of-a-tree-node/) [✔](../../practice/trees/leetcode_1483.cpp "Accepted solution")
 - [SPOJ ADAORANG - Ada and Orange Tree](https://www.spoj.com/problems/ADAORANG/) [✔](../../practice/trees/spoj_adaorang.cpp "Accepted solution")
 - [SPOJ COT - Count on a tree](https://www.spoj.com/problems/COT/)
