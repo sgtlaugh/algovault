@@ -20,7 +20,7 @@
 - [Codeforces 716E - Digit Tree](https://codeforces.com/problemset/problem/716/E) [✔](../../practice/trees/codeforces_716e.cpp "Accepted solution")
 - [Codeforces 776F - Sherlock's bet to Moriarty](https://codeforces.com/problemset/problem/776/F) [✔](../../practice/trees/codeforces_776f.cpp "Accepted solution")
 - [Codeforces 1387B2 - Village (Maximum)](https://codeforces.com/problemset/problem/1387/B2) [✔](../../practice/trees/codeforces_1387b2.cpp "Accepted solution")
-- [Codeforces Gym 100570F - Tree Query](https://codeforces.com/gym/100570/problem/F)
+- [Codeforces Gym 100570F - Tree Query](https://codeforces.com/gym/100570/problem/F) [✔](../../practice/trees/codeforces_gym_100570f.cpp "Accepted solution")
 - [CSES 2079 - Finding a Centroid](https://cses.fi/problemset/task/2079)
 - [CSES 2080 - Fixed-Length Paths I](https://cses.fi/problemset/task/2080)
 - [CSES 2081 - Fixed-Length Paths II](https://cses.fi/problemset/task/2081)
