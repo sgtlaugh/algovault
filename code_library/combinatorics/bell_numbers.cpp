@@ -15,6 +15,7 @@
  * Notes:
  *   - bell_numbers_ntt is about 3x faster modulo 998244353, other primes take three NTTs per product
  *   - bell_number at n = 1e18 takes about 0.4 s for p = 1e4, 4 s for p = 1e5
+ *   - Exact B_n: run the triangle recurrence on bignum.cpp, n = 1000 (about 2000 digits) takes 0.1 s
  *
 ***/
 
