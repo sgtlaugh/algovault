@@ -170,6 +170,7 @@ sa.contains("nab");         // false
 - [Bellman-Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges and cycles [✔](judge_tests/graphs/aoj_grl_1_b.cpp)
 - [Bridges](code_library/graphs/bridge.cpp) - bridges and 2-edge-connected components [✔](judge_tests/graphs/aoj_grl_3_b.cpp)
 - [Cactus Graph](code_library/graphs/cactus.cpp) - cactus recognition, cycles and the cactus tree
+- [Chordal Graph](code_library/graphs/chordal_graph.cpp) - recognition, elimination order or induced cycle [✔](judge_tests/graphs/chordal_graph_recognition.cpp)
 - [Chromatic Number](code_library/graphs/chromatic_number.cpp) - minimum colors in a vertex coloring [✔](judge_tests/graphs/chromatic_number.cpp)
 - [Complement Graph BFS](code_library/graphs/complement_graph_bfs.cpp) - BFS and components of the complement graph [✔](judge_tests/graphs/connected_components_of_complement_graph.cpp)
 - [Dijkstra](code_library/graphs/dijkstra.cpp) - shortest paths with non-negative edges, 0-1 BFS [✔](judge_tests/graphs/aoj_alds1_11_c.cpp)
