@@ -192,6 +192,17 @@ void check_all_pairs(int n, int shape){
     for (int u = 0; u < n; u++){
         for (int v = 0; v < n; v++) assert(tree.lca(u, v) == naive.lca(u, v));
     }
+
+    /// The documented preorder: order inverts tin, and each subtree is the range starting at tin[v]
+    for (int v = 0; v < n; v++){
+        assert(tree.order[tree.tin[v]] == v);
+        int size = 0;
+        for (int x = 0; x < n; x++) size += naive.lca(x, v) == v;
+        for (int i = 0; i < n; i++){
+            bool inside = tree.tin[v] <= i && i < tree.tin[v] + size;
+            assert(inside == (naive.lca(tree.order[i], v) == v));
+        }
+    }
 }
 
 /// build must hit its assert on a non-tree, expect_assert's alarm turns an endless traversal into a failure
