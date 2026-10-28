@@ -201,7 +201,7 @@ sa.contains("nab");         // false
 - [Range Edge Dijkstra](code_library/graphs/range_edge_dijkstra.cpp) - shortest paths with edges to and from ranges
 - [Small Cycle Counting](code_library/graphs/small_cycle_counting.cpp) - counts triangles and 4-cycles
 - [Stable Marriage](code_library/graphs/stable_marriage.cpp) - proposer-optimal stable matching
-- [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals
+- [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum tree connecting k terminals [✔](judge_tests/graphs/minimum_steiner_tree.cpp)
 - [Strongly Connected Components](code_library/graphs/scc.cpp) - components in topological order [✔](judge_tests/graphs/scc.cpp)
 
 ### Linear Algebra

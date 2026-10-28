@@ -85,6 +85,24 @@ long long brute_forest(int n, const vector<array<long long, 3>>& edges, const ve
     return best;
 }
 
+/// Asserts the ids are distinct edges joining every terminal, and returns their total weight
+long long tree_weight(int n, const vector<array<long long, 3>>& edges, const vector<int>& terminals, vector<int> ids){
+    vector<int> parent(n);
+    iota(parent.begin(), parent.end(), 0);
+    function<int(int)> find = [&](int x){ return parent[x] == x ? x : parent[x] = find(parent[x]); };
+    vector<bool> seen(edges.size(), false);
+    long long total = 0;
+    for (int id : ids){
+        assert(0 <= id && id < (int)edges.size() && !seen[id]);
+        seen[id] = true;
+        parent[find(edges[id][0])] = find(edges[id][1]);
+        total += edges[id][2];
+    }
+
+    for (int t : terminals) assert(find(t) == find(terminals[0]));
+    return total;
+}
+
 /// Tiny weights force ties, 1e15 weights catch any narrowing of the 64-bit weight type
 long long random_weight(long long it){
     /// a narrowed weight stays nonnegative, so an assertion fires instead of Dijkstra looping
@@ -141,8 +159,33 @@ int main(){
         }
 
         vector<int> terminals = random_terminals(n, 6);
-        assert(g.solve(terminals) == floyd_reference(n, edges, terminals));
+        long long best = floyd_reference(n, edges, terminals);
+        assert(g.solve(terminals) == best);
+        if (best < STEINER_INF) assert(tree_weight(n, edges, terminals, g.tree(terminals)) == best);
     }
+
+    /// tree against every edge subset, each terminal paired with the first so brute_forest asks for one component
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(1, 7), m = stress::rand_int(0, 10);
+        vector<array<long long, 3>> edges;
+        SteinerTree g(n);
+        for (int i = 0; i < m; i++){
+            int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
+            long long w = random_weight(it);
+            edges.push_back({u, v, w});
+            assert(g.add_edge(u, v, w) == i);
+        }
+
+        vector<int> terminals = random_terminals(n, 5), pairs;
+        for (int t : terminals) pairs.push_back(terminals[0]), pairs.push_back(t);
+        long long best = brute_forest(n, edges, pairs);
+        if (best == STEINER_INF) continue;
+        vector<int> ids = g.tree(terminals);
+        assert(tree_weight(n, edges, terminals, ids) == best);
+        if (terminals.size() <= 1) assert(ids.empty());
+    }
+
+    stress::expect_assert("graphs/steiner_tree.cpp", []{ SteinerTree(3).tree({0, 2}); });
 
     /// Steiner forest by the header's recipe, terminals paired as (0, 1), (2, 3), (4, 5)
     for (long long it = 0; it < stress::scaled(1000); it++){
@@ -174,21 +217,25 @@ int main(){
         assert(forest.back() == brute_forest(n, edges, terminals));
     }
 
-    /// Larger graph, many terminals: the answer is positive, at most the spanning tree weight, independent of order
+    /// Larger graph, many terminals: positive, at most the spanning tree weight, independent of order, tree agrees
     int n = 3000;
+    vector<array<long long, 3>> edges;
     SteinerTree g(n);
     long long all = 0;
-    for (int i = 1; i < n; i++){
+    for (int i = 0; i < n - 1 + 6000; i++){
+        int u = i < n - 1 ? i + 1 : stress::rand_int(0, n - 1);
+        int v = i < n - 1 ? stress::rand_int(0, i) : stress::rand_int(0, n - 1);
         long long w = stress::rand_int(1, 1000);
-        g.add_edge(i, stress::rand_int(0, i - 1), w);
-        all += w;
+        edges.push_back({u, v, w});
+        g.add_edge(u, v, w);
+        if (i < n - 1) all += w;
     }
-    for (int i = 0; i < 6000; i++) g.add_edge(stress::rand_int(0, n - 1), stress::rand_int(0, n - 1), stress::rand_int(1, 1000));
     vector<int> terminals = {0, 7, 100, 999, 1500, 2999, 42, 1234};
 
     long long tree = g.solve(terminals);
     assert(0 < tree && tree <= all);
     assert(tree == g.solve(vector<int>(terminals.rbegin(), terminals.rend())));
+    assert(tree_weight(n, edges, terminals, g.tree(terminals)) == tree);
 
     return 0;
 }
