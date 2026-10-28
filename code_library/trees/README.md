@@ -120,7 +120,7 @@
 
 #### [Rerooting DP](rerooting.cpp)
 
-- [AOJ GRL_5_B - Height of a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_B)
+- [AOJ GRL_5_B - Height of a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_B) [✔](../../practice/trees/aoj_grl_5_b.cpp "Accepted solution")
 - [AtCoder DP V - Subtree](https://atcoder.jp/contests/dp/tasks/dp_v)
 - [Codeforces 1187E - Tree Painting](https://codeforces.com/problemset/problem/1187/E)
 - [CSES 1132 - Tree Distances I](https://cses.fi/problemset/task/1132) [✔](../../practice/trees/cses_1132.cpp "Accepted solution")
