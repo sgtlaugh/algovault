@@ -276,6 +276,7 @@ sa.contains("nab");         // false
 - [Manacher](code_library/strings/manacher.cpp) - longest palindrome at every center [✔](judge_tests/strings/enumerate_palindromes.cpp)
 - [Minimum Rotation](code_library/strings/minimum_rotation.cpp) - start of the lexicographically smallest rotation
 - [Palindromic Tree](code_library/strings/palindromic_tree.cpp) - eertree, one node per distinct palindrome [✔](judge_tests/strings/eertree.cpp)
+- [Subsequence Automaton](code_library/strings/subsequence_automaton.cpp) - next occurrence table, distinct subsequences [✔](judge_tests/strings/number_of_subsequences.cpp)
 - [Suffix Array](code_library/strings/suffix_array.cpp) - `O(n)` suffix array with LCP and pattern search [✔](judge_tests/strings/aoj_alds1_14_d.cpp)
 - [Suffix Automaton](code_library/strings/suffix_automaton.cpp) - substring counts and longest common substring [✔](judge_tests/strings/number_of_substrings.cpp)
 - [Tandem Repeats](code_library/strings/tandem_repeats.cpp) - every tandem repeat (square) in a string [✔](judge_tests/strings/runenumerate.cpp)

@@ -7,8 +7,8 @@
 | [2D Pattern Matcher](#2d-pattern-matcher) | [Aho-Corasick](#aho-corasick) | [Aho-Corasick, Dynamic](#aho-corasick-dynamic) | [Bit-String LCS](#bit-string-lcs) |
 | [De Bruijn Sequence](#de-bruijn-sequence) | [Dynamic String Hash](#dynamic-string-hash) | [Hashing](#hashing) | [Hunt-Szymanski](#hunt-szymanski) |
 | [KMP](#kmp) | [Lyndon Factorization](#lyndon-factorization) | [Manacher](#manacher) | [Minimum Rotation](#minimum-rotation) |
-| [Palindromic Tree](#palindromic-tree) | [Suffix Array](#suffix-array) | [Suffix Automaton](#suffix-automaton) | [Wildcard Matching](#wildcard-matching) |
-| [Z Algorithm](#z-algorithm) |  |  |  |
+| [Palindromic Tree](#palindromic-tree) | [Subsequence Automaton](#subsequence-automaton) | [Suffix Array](#suffix-array) | [Suffix Automaton](#suffix-automaton) |
+| [Wildcard Matching](#wildcard-matching) | [Z Algorithm](#z-algorithm) |  |  |
 
 <!-- /toc -->
 
@@ -208,6 +208,14 @@
 - [Timus 2059 - Not common palindromes](https://acm.timus.ru/problem.aspx?num=2059)
 - [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf) [✔](../../practice/strings/uva_1470.cpp "Accepted solution")
 - [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf) [✔](../../practice/strings/uva_12833_palindromic_tree.cpp "Accepted solution")
+
+#### [Subsequence Automaton](subsequence_automaton.cpp)
+
+- [AtCoder ARC081 E - Don't Be a Subsequence](https://atcoder.jp/contests/arc081/tasks/arc081_c)
+- [Codeforces 91A - Newspaper Headline](https://codeforces.com/problemset/problem/91/A)
+- [Codeforces 1149B - Three Religions](https://codeforces.com/problemset/problem/1149/B)
+- [Codeforces 1183H - Subsequences (hard version)](https://codeforces.com/problemset/problem/1183/H)
+- [SPOJ DSUBSEQ - Distinct Subsequences](https://www.spoj.com/problems/DSUBSEQ/)
 
 #### [Suffix Array](suffix_array.cpp)
 
