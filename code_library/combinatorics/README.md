@@ -67,7 +67,7 @@
 
 #### [Fast Factorial](fast_factorial.cpp)
 
-- [Luogu P5282 - 【模板】快速阶乘算法](https://www.luogu.com.cn/problem/P5282)
+- [Luogu P5282 - 【模板】快速阶乘算法](https://www.luogu.com.cn/problem/P5282) [✔](../../practice/combinatorics/luogu_p5282.cpp "Accepted solution")
 - [yukicoder 502 - 階乗を計算するだけ](https://yukicoder.me/problems/no/502)
 
 #### [Gambler's Ruin](gamblers_ruin.cpp)
