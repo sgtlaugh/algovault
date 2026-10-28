@@ -17,6 +17,8 @@
  * tree.lca(u, v): the lowest common ancestor of u and v
  * tree.jump(u, v, k), LCA only: the k-th vertex on the path u -> v, u for k = 0, v for the last, -1 beyond v
  * tree.kth_ancestor(v, k), LCA only: the k-th ancestor of v, v itself for k = 0, -1 if k > depth(v)
+ * tree.tin[v], FastLCA only: v's position in preorder, so v's subtree is a contiguous range starting at tin[v]
+ * tree.order[i], FastLCA only: the vertex at preorder position i, so a reverse scan visits children before parents
  *
  * PathFold fold(tree, op): on a built LCA, op associative and commutative on long long, like max, min or gcd
  * fold.query(u, v): op over the edge weights on the path u - v, u != v

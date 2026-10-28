@@ -17,6 +17,8 @@
  * tree.lca(u, v): the lowest common ancestor of u and v
  * tree.jump(u, v, k), LCA only: the k-th vertex on the path u -> v, u for k = 0, v for the last, -1 beyond v
  * tree.kth_ancestor(v, k), LCA only: the k-th ancestor of v, v itself for k = 0, -1 if k > depth(v)
+ * tree.tin[v], FastLCA only: v's position in preorder, so v's subtree is a contiguous range starting at tin[v]
+ * tree.order[i], FastLCA only: the vertex at preorder position i, so a reverse scan visits children before parents
  *
  * PathFold fold(tree, op): on a built LCA, op associative and commutative on long long, like max, min or gcd
  * fold.query(u, v): op over the edge weights on the path u - v, u != v
@@ -509,18 +511,23 @@ int main(){
         }
 
         FastLCA tree(n);
-        for (i = 1; i < n; i++){
-            read(u, v);
-            tree.add_edge(u, v);
+        vector<int> a(n - 1), b(n - 1);
+        for (i = 0; i + 1 < n; i++){
+            read(a[i], b[i]);
+            tree.add_edge(a[i], b[i]);
         }
         tree.build(r);
 
+        vector<int> parent(n, -1);
+        for (i = 0; i + 1 < n; i++){
+            if (tree.depth(a[i]) > tree.depth(b[i])) parent[a[i]] = b[i];
+            else parent[b[i]] = a[i];
+        }
+
         for (i = n - 1; i >= 0; i--){
             u = tree.order[i];
-            for (auto e : tree.adj[u]){
-                if (tree.depth(e.first) > tree.depth(u)) shades[u] |= shades[e.first];
-            }
             cnt[u] = shades[u].count();
+            if (i > 0) shades[parent[u]] |= shades[u];
         }
 
         while (q--){
