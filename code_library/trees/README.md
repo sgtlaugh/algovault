@@ -90,7 +90,7 @@
 - [CSES 1135 - Distance Queries](https://cses.fi/problemset/task/1135) [✔](../../practice/trees/cses_1135.cpp "Accepted solution")
 - [CSES 1136 - Counting Paths](https://cses.fi/problemset/task/1136) [✔](../../practice/trees/cses_1136.cpp "Accepted solution")
 - [CSES 1687 - Company Queries I](https://cses.fi/problemset/task/1687) [✔](../../practice/trees/cses_1687.cpp "Accepted solution")
-- [CSES 1688 - Company Queries II](https://cses.fi/problemset/task/1688)
+- [CSES 1688 - Company Queries II](https://cses.fi/problemset/task/1688) [✔](../../practice/trees/cses_1688.cpp "Accepted solution")
 - [HackerEarth optimal-connectivity-c6ae79ca - Optimal Connectivity](https://www.hackerearth.com/practice/algorithms/graphs/graph-representation/practice-problems/algorithm/optimal-connectivity-c6ae79ca/)
 - [LeetCode 1483 - Kth Ancestor of a Tree Node](https://leetcode.com/problems/kth-ancestor-of-a-tree-node/)
 - [SPOJ ADAORANG - Ada and Orange Tree](https://www.spoj.com/problems/ADAORANG/)
