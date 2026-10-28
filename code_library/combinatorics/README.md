@@ -5,8 +5,8 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Bell Numbers](#bell-numbers) | [Bernoulli Numbers](#bernoulli-numbers) | [Binomial Coefficients](#binomial-coefficients) | [Combinatorics](#combinatorics) |
-| [Fast Factorial](#fast-factorial) | [Gambler's Ruin](#gamblers-ruin) | [Josephus Problem](#josephus-problem) | [Permutation Cycles](#permutation-cycles) |
-| [Permutation Index](#permutation-index) | [Permutation Rank](#permutation-rank) | [Stirling Numbers](#stirling-numbers) |  |
+| [Fast Factorial](#fast-factorial) | [Gambler's Ruin](#gamblers-ruin) | [Josephus Problem](#josephus-problem) | [Necklaces](#necklaces) |
+| [Permutation Cycles](#permutation-cycles) | [Permutation Index](#permutation-index) | [Permutation Rank](#permutation-rank) | [Stirling Numbers](#stirling-numbers) |
 
 <!-- /toc -->
 
@@ -86,6 +86,12 @@
 - [UVa 1394 - And Then There Was One](https://onlinejudge.org/external/13/1394.pdf) [✔](../../practice/combinatorics/uva_1394.cpp "Accepted solution")
 - [UVa 10774 - Repeated Josephus](https://onlinejudge.org/external/107/10774.pdf) [✔](../../practice/combinatorics/uva_10774.cpp "Accepted solution")
 - [UVa 11351 - Last Man Standing](https://onlinejudge.org/external/113/11351.pdf) [✔](../../practice/combinatorics/uva_11351.cpp "Accepted solution")
+
+#### [Necklaces](necklaces.cpp)
+
+- [CSES 2209 - Counting Necklaces](https://cses.fi/problemset/task/2209)
+- [HDU 3923 - Invoker](https://acm.hdu.edu.cn/showproblem.php?pid=3923)
+- [UVa 10294 - Arif in Dhaka (First Love Part 2)](https://onlinejudge.org/external/102/10294.pdf)
 
 #### [Permutation Cycles](permutation_cycles.cpp)
 

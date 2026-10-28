@@ -71,6 +71,7 @@ sa.contains("nab");         // false
 - [Fast Factorial](code_library/combinatorics/fast_factorial.cpp) - `n!` modulo a prime p in `O(sqrt(p) log p)` [✔](judge_tests/combinatorics/factorial.cpp)
 - [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke
 - [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - the m-th one out when every k-th person leaves [✔](judge_tests/combinatorics/aoj_0085.cpp)
+- [Necklaces](code_library/combinatorics/necklaces.cpp) - ring colorings up to rotation or reflection
 - [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - `p(0..n)` modulo any m [✔](judge_tests/combinatorics/partition_function.cpp)
 - [Permutation Cycles](code_library/combinatorics/permutation_cycles.cpp) - cycles, k-th power and root, minimum swaps [✔](judge_tests/combinatorics/aoj_alds1_6_d.cpp)
 - [Permutation Index](code_library/combinatorics/permutation_index.cpp) - `O(n)` rank of a permutation, a perfect hash
