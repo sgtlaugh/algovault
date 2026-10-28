@@ -58,7 +58,7 @@
 - [Codeforces Gym 100739G - Old town](https://codeforces.com/gym/100739/problem/G) [✔](../../practice/trees/codeforces_gym_100739g.cpp "Accepted solution")
 - [CSES 1137 - Subtree Queries](https://cses.fi/problemset/task/1137) [✔](../../practice/trees/cses_1137.cpp "Accepted solution")
 - [CSES 1138 - Path Queries](https://cses.fi/problemset/task/1138) [✔](../../practice/trees/cses_1138.cpp "Accepted solution")
-- [CSES 2134 - Path Queries II](https://cses.fi/problemset/task/2134)
+- [CSES 2134 - Path Queries II](https://cses.fi/problemset/task/2134) [✔](../../practice/trees/cses_2134.cpp "Accepted solution")
 - [HackerRank epic-tree - Epic Tree](https://www.hackerrank.com/contests/epiccode/challenges/epic-tree)
 - [HackerRank white-falcon-and-tree - White Falcon And Tree](https://www.hackerrank.com/contests/w12/challenges/white-falcon-and-tree)
 - [oj.uz BOI18_minmaxtree - Min-max tree](https://oj.uz/problem/view/BOI18_minmaxtree)
