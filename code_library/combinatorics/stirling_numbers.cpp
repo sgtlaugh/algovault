@@ -22,6 +22,7 @@
 using namespace std;
 
 namespace stirling_ntt{
+    /// BEGIN SHARED stirling_ntt
     const unsigned MOD = 998244353, P1 = 167772161, P2 = 469762049, P3 = 754974721;
 
     long long power(long long b, long long e, long long mod){
@@ -166,6 +167,7 @@ namespace stirling_ntt{
         inv_fact[n] = power(fact[n], p - 2, p);
         for (int i = n; i > 0; i--) inv_fact[i - 1] = inv_fact[i] * i % p;
     }
+    /// END SHARED stirling_ntt
 }
 
 /// g(x + c) modulo a prime p, fact and inv_fact cover 0..deg g

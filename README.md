@@ -61,6 +61,7 @@ sa.contains("nab");         // false
 
 [Practice problems](code_library/combinatorics/README.md)
 
+- [Bell Numbers](code_library/combinatorics/bell_numbers.cpp) - set partition counts, also one `B_n` for huge n [✔](judge_tests/combinatorics/bell_number.cpp)
 - [Bernoulli Numbers](code_library/combinatorics/bernoulli_numbers.cpp) - `B_0..B_n` modulo a prime
 - [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, prime or not [✔](judge_tests/combinatorics/binomial_coefficient.cpp)
 - [Combinatorics](code_library/combinatorics/combinatorics.cpp) - factorial tables, nCr and nPr modulo a prime [✔](judge_tests/combinatorics/binomial_coefficient_prime_mod.cpp)
