@@ -47,5 +47,6 @@ int main(){
         scanf("%d %s", &len, buf);
         printf("%d\n", minimum_rotation(string(buf)));
     }
+
     return 0;
 }

@@ -64,5 +64,6 @@ int main(){
         auto dp = knuth_dp<double>(n + 1, [&](int i, int j){ return pre[j - 1] - pre[i]; });
         printf("%.4f\n", dp[0][n + 1]);
     }
+
     return 0;
 }

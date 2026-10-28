@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -114,5 +115,6 @@ int main(){
         if (tc) puts("");
         printf("%lld\n", (long long)floor(fw.dist[0][1] * 3 / (2000 * SCALE) + 0.5));
     }
+
     return 0;
 }

@@ -115,5 +115,6 @@ int main(){
 
         printf("%d\n", cost);
     }
+
     return 0;
 }

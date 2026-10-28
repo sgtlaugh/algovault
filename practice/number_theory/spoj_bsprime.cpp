@@ -142,5 +142,6 @@ int main(){
         p = sieve.primes[k];
         printf("%d\n", ones[k] + __builtin_popcount(p >> (bits[k + 1] - n)));
     }
+
     return 0;
 }

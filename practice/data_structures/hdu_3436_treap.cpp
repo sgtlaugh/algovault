@@ -117,6 +117,7 @@ struct Treap{
             if (nodes[t].key < key) res += size(nodes[t].l) + 1, t = nodes[t].r;
             else t = nodes[t].l;
         }
+
         return res;
     }
 
@@ -126,6 +127,7 @@ struct Treap{
             if (key < nodes[t].key) t = nodes[t].l;
             else res += size(nodes[t].l) + 1, t = nodes[t].r;
         }
+
         return res - count_less(key);
     }
 
@@ -294,6 +296,7 @@ struct ImplicitTreap{
             res.push_back(nodes[t].value);
             t = nodes[t].r;
         }
+
         return res;
     }
 };
@@ -305,6 +308,7 @@ int unmoved_kth(const Treap<int>& jumped, int k){
         if (jumped.nodes[t].key - rank < k) before = rank, t = jumped.nodes[t].r;
         else t = jumped.nodes[t].l;
     }
+
     return k + before;
 }
 
@@ -348,5 +352,6 @@ int main(){
             }
         }
     }
+
     return 0;
 }

@@ -231,5 +231,6 @@ int main(){
         for (int i = 0; i < n; i++) printf("%lld%c", x[i], i + 1 < n ? ' ' : '\n');
         for (int j = 0; j < m; j++) printf("%lld%c", x[n + j], j + 1 < m ? ' ' : '\n');
     }
+
     return 0;
 }

@@ -195,5 +195,6 @@ int main(){
         if (tc > 1) puts("");
         printf("%lld\n", mst.solve().weight);
     }
+
     return 0;
 }

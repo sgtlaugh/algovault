@@ -230,5 +230,6 @@ int main(){
         g.run(0);
         printf("%lld\n", g.dist[n * m - 1] + cost[0]);
     }
+
     return 0;
 }

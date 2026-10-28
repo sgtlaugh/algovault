@@ -227,5 +227,6 @@ int main(){
         }
         else puts(st.query(a, b - 1) >= b ? "YES" : "NO");
     }
+
     return 0;
 }

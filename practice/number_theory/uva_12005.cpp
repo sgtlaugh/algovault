@@ -52,6 +52,7 @@ struct Montgomery{
         for (; e; e >>= 1, x = mul(x, x)){
             if (e & 1) res = mul(res, x);
         }
+
         return res;
     }
 };
@@ -96,6 +97,7 @@ struct PollardRho{
 
             if (c != one) return false;
         }
+
         return true;
     }
 
@@ -178,5 +180,6 @@ int main(){
         }
         printf("%lld %lld\n", c, divisors);
     }
+
     return 0;
 }

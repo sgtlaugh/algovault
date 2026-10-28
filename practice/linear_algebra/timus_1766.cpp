@@ -146,6 +146,7 @@ int main(){
                 if ((dr || dc) && nr >= 0 && nr < n && nc >= 0 && nc < n) res.push_back(nr * n + nc);
             }
         }
+
         return res;
     };
 

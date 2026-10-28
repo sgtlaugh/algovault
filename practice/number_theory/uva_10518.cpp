@@ -52,5 +52,6 @@ int main(){
         long long calls = (2 * fibonacci(n + 1, b) - 1 + b) % b;
         printf("Case %d: %lld %lld %lld\n", tc, n, b, calls);
     }
+
     return 0;
 }

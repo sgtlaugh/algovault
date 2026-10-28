@@ -144,5 +144,6 @@ int main(){
         while ((i * (i + 1) / 2) < k) i++;
         printf("%d %d\n", i, k - (i * (i - 1) / 2));
     }
+
     return 0;
 }

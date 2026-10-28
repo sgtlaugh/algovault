@@ -127,5 +127,6 @@ int main(){
         if (res.first == -1) puts("This puzzle is not solvable.");
         else puts(res.second.c_str());
     }
+
     return 0;
 }

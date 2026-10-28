@@ -41,6 +41,7 @@ long long extended_gcd(long long a, long long b, long long& x, long long& y){
         tie(y, y1) = make_pair(y1, y - q * y1);
         tie(a, b) = make_pair(b, a - q * b);
     }
+
     return a;
 }
 
@@ -177,5 +178,6 @@ int main(){
         }
         puts("");
     }
+
     return 0;
 }

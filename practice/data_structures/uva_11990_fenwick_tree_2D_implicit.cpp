@@ -59,6 +59,7 @@ struct FenwickImplicit2D{
         for (int i = x + 1; i > 0; i -= i & -i){
             res += query_seg(root[i], 0, m - 1, y);
         }
+
         return res;
     }
 
@@ -75,6 +76,7 @@ struct FenwickImplicit2D{
             if (p <= mid) nodes[cur].l = update_seg(nodes[cur].l, a, mid, p, v);
             else nodes[cur].r = update_seg(nodes[cur].r, mid + 1, b, p, v);
         }
+
         return cur;
     }
 
@@ -143,5 +145,6 @@ int main(){
             gone.update(r + 1, c + 1, m, m, 1);
         }
     }
+
     return 0;
 }

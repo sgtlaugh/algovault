@@ -105,5 +105,6 @@ int main(){
 
         printf("%.10f\n", first_left * left_then_right + (1 - first_left) * right_then_left);
     }
+
     return 0;
 }

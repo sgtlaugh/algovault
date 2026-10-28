@@ -65,6 +65,7 @@ struct Trie{
             if (c < 0 || c >= SIGMA || next[v][c] == -1) return -1;
             v = next[v][c];
         }
+
         return v;
     }
 
@@ -198,5 +199,6 @@ int main(){
 
         printf("%.2f\n", (double)total / n + 1e-8);
     }
+
     return 0;
 }

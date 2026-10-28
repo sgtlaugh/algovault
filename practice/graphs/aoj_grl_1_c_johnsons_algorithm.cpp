@@ -65,6 +65,7 @@ struct Johnson{
             if (!changed) break;
             if (round == n - 1) return nullopt;  /// a change in pass n means a negative cycle
         }
+
         return h;
     }
 
@@ -190,6 +191,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -207,6 +209,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -351,5 +354,6 @@ int main(){
         for (j = 0; j < n; j++) row.push_back(g.dist[i][j] == Johnson::INF ? "INF" : to_string(g.dist[i][j]));
         write(row);
     }
+
     return 0;
 }

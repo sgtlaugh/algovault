@@ -54,6 +54,7 @@ vector<array<long long, 3>> manhattan_mst_candidates(vector<pair<long long, long
             else swap(p.first, p.second);
         }
     }
+
     return edges;
 }
 
@@ -77,6 +78,7 @@ ManhattanMSTResult manhattan_mst(const vector<pair<long long, long long>>& point
         res.weight += w;
         res.edges.push_back({(int)u, (int)v});
     }
+
     return res;
 }
 
@@ -183,6 +185,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -200,6 +203,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 

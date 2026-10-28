@@ -33,6 +33,7 @@ namespace stirling_ntt{
         for (b %= mod; e; e >>= 1, b = b * b % mod){
             if (e & 1) res = res * b % mod;
         }
+
         return res;
     }
 
@@ -130,6 +131,7 @@ namespace stirling_ntt{
             unsigned long long x3 = (c3[i] + 2ULL * P3 - x1 - x2 * P1 % P3) % P3 * INV12 % P3;
             res[i] = (x1 + x2 * M1 + x3 * M12) % m;
         }
+
         return res;
     }
 
@@ -146,6 +148,7 @@ namespace stirling_ntt{
             long long top = a.back() * b.back() % m;
             res[0] = (res[0] - top + m) % m, res[n] = top;
         }
+
         return res;
     }
 
@@ -154,6 +157,7 @@ namespace stirling_ntt{
         for (long long d = 2; d * d <= x; d++){
             if (x % d == 0) return false;
         }
+
         return true;
     }
 
@@ -193,6 +197,7 @@ vector<long long> rising_product(int l, int r, long long m){
             for (int k = res.size() - 1; k > 0; k--) res[k] = (res[k - 1] + res[k] * (i % m)) % m;
             res[0] = res[0] * (i % m) % m;
         }
+
         return res;
     }
 
@@ -223,6 +228,7 @@ vector<long long> stirling_first(int n, long long m){
             cur++;
         }
     }
+
     return res;
 }
 
@@ -275,6 +281,7 @@ struct root5{
         for (; e; e >>= 1, x = x * x){
             if (e & 1) res = res * x;
         }
+
         return res;
     }
 };

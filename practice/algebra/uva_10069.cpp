@@ -199,6 +199,7 @@ struct Bignum{
         for (int i = (int)x.size() - 1; i >= 0; i--){
             if (x[i] != y[i]) return x[i] < y[i] ? -1 : 1;
         }
+
         return 0;
     }
 
@@ -389,6 +390,7 @@ struct Bignum{
         for (b %= MOD; e; e >>= 1, b = b * b % MOD){
             if (e & 1) res = res * b % MOD;
         }
+
         return res;
     }
 
@@ -407,6 +409,7 @@ struct Bignum{
                     }
                 }
             }
+
             return;
         }
 
@@ -682,6 +685,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -699,6 +703,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -842,5 +847,6 @@ int main(){
             write(ways[m].to_string());
         }
     }
+
     return 0;
 }

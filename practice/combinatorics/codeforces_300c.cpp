@@ -66,6 +66,7 @@ bool good(int x, int a, int b){
     for (; x > 0; x /= 10){
         if (x % 10 != a && x % 10 != b) return false;
     }
+
     return true;
 }
 

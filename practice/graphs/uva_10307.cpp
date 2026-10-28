@@ -217,5 +217,6 @@ int main(){
 
         printf("%lld\n", mst.solve().weight);
     }
+
     return 0;
 }

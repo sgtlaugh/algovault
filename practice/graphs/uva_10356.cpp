@@ -229,5 +229,6 @@ int main(){
         if (res == DIJKSTRA_INF) puts("?");
         else printf("%lld\n", res);
     }
+
     return 0;
 }

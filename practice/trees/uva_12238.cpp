@@ -90,6 +90,7 @@ struct LCA{
         for (int i = 0; k; i++, k >>= 1){
             if (k & 1) v = up[i][v];
         }
+
         return v;
     }
 
@@ -101,6 +102,7 @@ struct LCA{
         for (int k = lg - 1; k >= 0; k--){
             if (up[k][u] != up[k][v]) u = up[k][u], v = up[k][v];
         }
+
         return up[0][u];
     }
 
@@ -157,6 +159,7 @@ struct LinearRMQ{
             int k = 31 - __builtin_clz(y - x + 1);
             res = better(res, better(table[k][x], table[k][y - (1 << k) + 1]));
         }
+
         return res;
     }
 };
@@ -255,5 +258,6 @@ int main(){
             printf("%lld%c", tree.dist(s, t), i + 1 < q ? ' ' : '\n');
         }
     }
+
     return 0;
 }

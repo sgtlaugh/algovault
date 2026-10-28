@@ -93,5 +93,6 @@ int main(){
         };
         printf("Case %d: %lld\n", tc, divide_conquer_dp<long long>(n, k, cost)[n]);
     }
+
     return 0;
 }

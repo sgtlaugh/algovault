@@ -30,6 +30,7 @@ vector<int> previous_smaller(const vector<T>& a, Compare compare = Compare()){
         res[i] = stack.empty() ? -1 : stack.back();
         stack.push_back(i);
     }
+
     return res;
 }
 
@@ -42,6 +43,7 @@ vector<int> next_smaller(const vector<T>& a, Compare compare = Compare()){
         res[i] = stack.empty() ? n : stack.back();
         stack.push_back(i);
     }
+
     return res;
 }
 

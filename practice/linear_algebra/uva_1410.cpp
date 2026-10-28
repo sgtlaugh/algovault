@@ -211,5 +211,6 @@ int main(){
         else if (status == Simplex::UNBOUNDED) puts("Too expensive!");
         else printf("%.4f\n", lp.value + r + 1e-8);
     }
+
     return 0;
 }

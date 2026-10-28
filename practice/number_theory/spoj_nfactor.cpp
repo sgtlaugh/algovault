@@ -199,6 +199,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -350,5 +351,6 @@ int main(){
         read(a, b, n);
         write(cnt[n][b] - cnt[n][a - 1]);
     }
+
     return 0;
 }

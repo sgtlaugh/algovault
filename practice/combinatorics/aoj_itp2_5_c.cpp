@@ -27,6 +27,7 @@ long long permutation_rank(const Permutation& p){
         for (int j = i + 1; j < n; j++) smaller += p[j] < p[i];
         res = res * (n - i) + smaller;
     }
+
     return res;
 }
 
@@ -43,6 +44,7 @@ vector<int> kth_permutation(int n, long long k){
         k %= fact[n - 1 - i];
         rotate(res.begin() + i, res.begin() + j, res.begin() + j + 1);
     }
+
     return res;
 }
 

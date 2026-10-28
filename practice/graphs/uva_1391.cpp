@@ -155,6 +155,7 @@ struct TwoSat{
         for (int i = 1; i <= n; i++){
             if (comp[i] == comp[i + n]) return false;
         }
+
         return true;
     }
 
@@ -191,5 +192,6 @@ int main(){
         }
         for (int i = 1; i <= n; i++) puts(sat.value(i) ? "C" : (senior[i] ? "A" : "B"));
     }
+
     return 0;
 }

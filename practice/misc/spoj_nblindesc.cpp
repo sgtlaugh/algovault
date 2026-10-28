@@ -276,6 +276,7 @@ struct GaussBand{
         for (auto& term : terms){
             farthest = max(farthest, abs(cell_index(term.i, term.j) - cell_index(term.k, term.l)));
         }
+
         return farthest;
     }
 
@@ -434,6 +435,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -671,5 +673,6 @@ int main(){
         for (mask = 1; mask < 16; mask++) res = min(res, solve(mask));
         write(fixed(res, 10));
     }
+
     return 0;
 }

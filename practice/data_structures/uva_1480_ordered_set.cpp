@@ -90,6 +90,7 @@ struct MergeSortTree{
             if (k < inside) idx = idx << 1, b = m;
             else k -= inside, idx = idx << 1 | 1, a = m + 1;
         }
+
         return sorted_values[a];
     }
 
@@ -148,5 +149,6 @@ int main(){
 
         printf("Case %d:\n%lld\n%lld\n%lld\n", ++case_id, sums[0], sums[1], sums[2]);
     }
+
     return 0;
 }

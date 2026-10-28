@@ -92,5 +92,6 @@ int main(){
 
         printf("%lld\n", -divide_conquer_dp<long long>(n, k, cost)[n]);
     }
+
     return 0;
 }

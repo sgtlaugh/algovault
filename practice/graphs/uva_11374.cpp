@@ -238,5 +238,6 @@ int main(){
         else printf("%d\n", ticket);
         printf("%lld\n", g.dist[target]);
     }
+
     return 0;
 }

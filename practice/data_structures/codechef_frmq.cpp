@@ -88,6 +88,7 @@ struct LinearSparseTable{
             int k = __lg(y - x + 1);
             res = better(res, better(table[k][x], table[k][y - (1 << k) + 1]));
         }
+
         return val[res];
     }
 

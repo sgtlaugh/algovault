@@ -146,5 +146,6 @@ int main(){
 
         printf("Case %d: %d\n", tc, expo(p % MOD, n - matrix_rank(a, p), MOD));
     }
+
     return 0;
 }

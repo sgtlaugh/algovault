@@ -227,5 +227,6 @@ int main(){
         st.update(x - 1, x - 1, 1);
         cout << st.query(0, n - 1).best << (k + 1 < m ? ' ' : '\n');
     }
+
     return 0;
 }

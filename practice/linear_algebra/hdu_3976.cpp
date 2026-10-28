@@ -127,5 +127,6 @@ int main(){
         vector<double> potential = gauss(equations).x;
         printf("Case #%d: %.2f\n", tc, potential[0]);
     }
+
     return 0;
 }

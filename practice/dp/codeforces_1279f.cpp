@@ -172,6 +172,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -312,6 +313,7 @@ pair<long long, int> solver(long long lambda){
         pair<long long, int> cur = dp[max(0, i - l)];
         dp[i] = min(dp[i], {cur.first + lambda, cur.second + 1});
     }
+
     return dp[n];
 }
 

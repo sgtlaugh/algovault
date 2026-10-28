@@ -101,6 +101,7 @@ public:
             if (i >= k) window.pop();
             if (i >= k - 1) res.push_back(window.best());
         }
+
         return res;
     }
 };

@@ -65,6 +65,7 @@ struct Trie{
             if (c < 0 || c >= SIGMA || next[v][c] == -1) return -1;
             v = next[v][c];
         }
+
         return v;
     }
 
@@ -209,5 +210,6 @@ int main(){
         int v = trie.find(buf);
         printf("Case #%d: %d\n", tc, v == -1 ? -1 : first[v]);
     }
+
     return 0;
 }

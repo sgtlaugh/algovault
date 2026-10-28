@@ -32,6 +32,7 @@ int discrete_log(int a, int b, int mod){
         for (; k; k >>= 1, base = base * base % mod){
             if (k & 1) res = res * base % mod;
         }
+
         return (int)res;
     };
 
@@ -198,6 +199,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -332,5 +334,6 @@ int main(){
         if (res == -1) write("No Solution");
         else write(res);
     }
+
     return 0;
 }

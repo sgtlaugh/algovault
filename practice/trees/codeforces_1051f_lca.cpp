@@ -107,6 +107,7 @@ struct LCA{
         for (int i = 0; k; i++, k >>= 1){
             if (k & 1) v = up[i][v];
         }
+
         return v;
     }
 };
@@ -370,6 +371,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -558,5 +560,6 @@ int main(){
         for (auto& it: dis) res = min(res, it[u] + it[v]);
         write(res);
     }
+
     return 0;
 }

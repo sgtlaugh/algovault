@@ -157,5 +157,6 @@ int main(){
             alive_pos.add(p, -1), alive_val.add(v, -1);
         }
     }
+
     return 0;
 }

@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -116,5 +117,6 @@ int main(){
         }
         puts("");
     }
+
     return 0;
 }

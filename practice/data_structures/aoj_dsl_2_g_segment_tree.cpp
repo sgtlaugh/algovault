@@ -200,5 +200,6 @@ int main(){
         }
         else cout << st.query(l - 1, r - 1) << '\n';
     }
+
     return 0;
 }

@@ -82,5 +82,6 @@ int main(){
         }
         printf("%lld\n", res % comb.mod);
     }
+
     return 0;
 }

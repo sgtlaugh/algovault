@@ -235,6 +235,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -425,5 +426,6 @@ int main(){
         clear_path();
         write(res);
     }
+
     return 0;
 }

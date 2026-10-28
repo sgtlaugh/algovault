@@ -79,5 +79,6 @@ int main(){
         auto it = cnt.find(x);
         printf("%lld\n", it == cnt.end() ? 0LL : it->second);
     }
+
     return 0;
 }

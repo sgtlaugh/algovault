@@ -87,5 +87,6 @@ int main(){
         for (int i = 0; i < n; i++) res = max(res, up[i] + down[i] - 1);
         printf("%d\n", res);
     }
+
     return 0;
 }

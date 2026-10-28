@@ -295,5 +295,6 @@ int main(){
         int full = st.max_right(0, [](Cell c){ return c.ones == c.len; });
         printf("%lld\n", xs[full + 1]);
     }
+
     return 0;
 }

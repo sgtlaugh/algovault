@@ -63,6 +63,7 @@ vector<long long> primes_in_range(long long L, long long R){
     for (long long i = 0; i <= R - L; i++){
         if (sieve[i]) res.push_back(L + i);
     }
+
     return res;
 }
 
@@ -90,5 +91,6 @@ int main(){
         }
         printf("%lld,%lld are closest, %lld,%lld are most distant.\n", primes[closest], primes[closest + 1], primes[farthest], primes[farthest + 1]);
     }
+
     return 0;
 }

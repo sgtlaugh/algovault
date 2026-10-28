@@ -185,6 +185,7 @@ int main(){
             for (int i = 0; i < m; i++){
                 if (i != skip) mst.add_edge(edges[i].u, edges[i].v, edges[i].w);
             }
+
             return mst.solve();
         };
 
@@ -196,5 +197,6 @@ int main(){
         }
         printf("%lld %lld\n", best.weight, second);
     }
+
     return 0;
 }

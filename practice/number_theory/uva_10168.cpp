@@ -62,6 +62,7 @@ struct LinearSieve{
             int rest = x / power[x];
             g[x] = g[rest] * f((long long)spf[x], exponent[x], (long long)power[x]);
         }
+
         return g;
     }
 };
@@ -89,5 +90,6 @@ int main(){
         if (n < 8 || found == -1) puts("Impossible.");
         else printf("2 %d %d %d\n", head, found, rest - found);
     }
+
     return 0;
 }

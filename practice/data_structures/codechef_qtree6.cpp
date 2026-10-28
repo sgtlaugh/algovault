@@ -270,5 +270,6 @@ int main(){
         forest[c].link(u, p);
         if (p != 0) path_add(c, p, forest[c].find_root(p), moved);
     }
+
     return 0;
 }

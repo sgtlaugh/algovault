@@ -94,6 +94,7 @@ struct BipartiteEdgeColoring{
             color[e] = a;
             slot(0, u, a) = slot(1, v, a) = e;
         }
+
         return color;
     }
 };
@@ -157,6 +158,7 @@ struct VizingEdgeColoring{
         for (int i = 0; i < m; i++){
             while (at(edges[i][0], color[i]) != edges[i][1]) color[i]++;
         }
+
         return color;
     }
 };
@@ -264,6 +266,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -281,6 +284,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -438,5 +442,6 @@ int main(){
             for (i = 0; i < n; i++) write(vector<int>(color[i], color[i] + n));
         }
     }
+
     return 0;
 }

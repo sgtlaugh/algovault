@@ -253,6 +253,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -388,5 +389,6 @@ int main(){
         read(p, q, n);
         write((p * n * (n + 1) / 2) - q * (long long)floor_sum(n, q, p, p));
     }
+
     return 0;
 }

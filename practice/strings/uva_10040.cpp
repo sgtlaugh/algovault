@@ -55,5 +55,6 @@ int main(){
         for (int i = 0; i < n; i++) res = res << 1 | snake[n][(k + i) % len];
         printf("%d\n", res);
     }
+
     return 0;
 }

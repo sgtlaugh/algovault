@@ -26,6 +26,7 @@ long long josephus(long long n, long long k, long long m){
         unsigned long long x = m + r * k;
         m = (x | i) >> 32 ? x % i : (unsigned)x % (unsigned)i;  /// 32-bit division when both fit, 1.5x faster for k >= n
     }
+
     return m + 1;
 }
 
@@ -36,5 +37,6 @@ int main(){
         long long res = josephus(n, k, n);
         printf("%lld\n", ((res - (k - m + 1)) % n + n) % n + 1);
     }
+
     return 0;
 }

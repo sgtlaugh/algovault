@@ -204,5 +204,6 @@ int main(){
         for (int i = 0; i < 6; i++) cost += c[i] * llroundl(lp.val[i]);
         printf("%lld\n", cost);
     }
+
     return 0;
 }

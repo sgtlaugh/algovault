@@ -232,5 +232,6 @@ int main(){
         if (tc) puts("");
         printf("%d %lld\n", used, (long long)used * k - loaded);
     }
+
     return 0;
 }

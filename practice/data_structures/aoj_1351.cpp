@@ -227,5 +227,6 @@ int main(){
         }
         cout << j + 1 << '\n';
     }
+
     return 0;
 }

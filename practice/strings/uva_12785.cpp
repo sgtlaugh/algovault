@@ -125,5 +125,6 @@ int main(){
             puts(ok ? "yes" : "no");
         }
     }
+
     return 0;
 }

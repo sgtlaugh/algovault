@@ -51,6 +51,7 @@ struct Matrix{
                 if (x < 0) x += mod;
             }
         }
+
         return res;
     }
 
@@ -85,6 +86,7 @@ struct Matrix{
             if (e & 1) res = res * base;
             base = base * base;
         }
+
         return res;
     }
 
@@ -93,6 +95,7 @@ struct Matrix{
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++) res.a[j][i] = a[i][j];
         }
+
         return res;
     }
 
@@ -129,5 +132,6 @@ int main(){
         }
         puts("");
     }
+
     return 0;
 }

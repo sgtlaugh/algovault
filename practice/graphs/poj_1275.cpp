@@ -56,6 +56,7 @@ struct BellmanFord{
             /// An acyclic parent chain has at most n - 1 edges, so a relaxation in pass n means the chain holds a cycle
             if (pass == n - 1) return cycle_through(parent, relaxed);
         }
+
         return {};
     }
 
@@ -84,6 +85,7 @@ struct BellmanFord{
                 if (dist[u] == NEG_INF && dist[v] != NEG_INF) dist[v] = NEG_INF, changed = true;
             }
         }
+
         return dist;
     }
 
@@ -108,6 +110,7 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
         if (cycle == expected) return true;
         rotate(cycle.begin(), cycle.begin() + 1, cycle.end());
     }
+
     return false;
 }
 
@@ -214,6 +217,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -231,6 +235,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -388,5 +393,6 @@ int main(){
             else write(res);
         }
     }
+
     return 0;
 }

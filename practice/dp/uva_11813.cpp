@@ -158,5 +158,6 @@ int main(){
 
         printf("%lld\n", g.shortest_cycle().first);
     }
+
     return 0;
 }

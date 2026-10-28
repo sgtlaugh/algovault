@@ -101,6 +101,7 @@ struct LowerBoundFlow{
                 if (dis[arcs[id].to] == -1 && arcs[id].cap > 0) dis[arcs[id].to] = dis[u] + 1, queue.push_back(arcs[id].to);
             }
         }
+
         return dis[sink] != -1;
     }
 
@@ -137,6 +138,7 @@ struct LowerBoundFlow{
             path.pop_back();
             ptr[u]++;
         }
+
         return total;
     }
 
@@ -179,6 +181,7 @@ struct LowerBoundFlow{
             fill(ptr.begin(), ptr.end(), 0);
             flow += blocking_flow(src, sink);
         }
+
         return flow;
     }
 };
@@ -211,5 +214,6 @@ int main(){
         }
         puts("");
     }
+
     return 0;
 }

@@ -264,5 +264,6 @@ int main(){
 
         printf("Case #%d: %d\n", tc, res);
     }
+
     return 0;
 }

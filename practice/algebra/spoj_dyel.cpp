@@ -562,6 +562,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -579,6 +580,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -734,5 +736,6 @@ int main(){
         }
         write(res);
     }
+
     return 0;
 }

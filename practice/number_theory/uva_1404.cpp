@@ -63,6 +63,7 @@ vector<long long> primes_in_range(long long L, long long R){
     for (long long i = 0; i <= R - L; i++){
         if (sieve[i]) res.push_back(L + i);
     }
+
     return res;
 }
 
@@ -91,5 +92,6 @@ int main(){
         }
         printf("%d\n", res);
     }
+
     return 0;
 }

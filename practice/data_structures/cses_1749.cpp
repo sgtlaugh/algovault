@@ -81,5 +81,6 @@ int main(){
         printf("%d%c", x[*it], i == n - 1 ? '\n' : ' ');
         alive.erase(it);
     }
+
     return 0;
 }

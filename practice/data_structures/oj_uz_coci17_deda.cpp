@@ -205,5 +205,6 @@ int main(){
             printf("%d\n", r < n ? r + 1 : -1);
         }
     }
+
     return 0;
 }

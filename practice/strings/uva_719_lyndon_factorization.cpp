@@ -76,5 +76,6 @@ int main(){
         scanf("%s", s);
         printf("%d\n", lyndon_min_rotation(string(s)) + 1);
     }
+
     return 0;
 }

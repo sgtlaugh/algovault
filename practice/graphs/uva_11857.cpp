@@ -178,5 +178,6 @@ int main(){
         if (!res.connected) puts("IMPOSSIBLE");
         else printf("%lld\n", res.chosen.empty() ? 0 : mst.edges[res.chosen.back()].w);
     }
+
     return 0;
 }

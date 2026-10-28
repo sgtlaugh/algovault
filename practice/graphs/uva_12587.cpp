@@ -156,6 +156,7 @@ int main(){
                 else if (load[u] + cost[i] <= limit) load[u] += cost[i];
                 else return false;
             }
+
             return true;
         };
 
@@ -166,5 +167,6 @@ int main(){
         }
         printf("Case %d: %lld\n", tc, lo);
     }
+
     return 0;
 }

@@ -77,5 +77,6 @@ int main(){
             printf("%lld\n", prefix[upper_bound(div.begin(), div.end(), x) - div.begin()]);
         }
     }
+
     return 0;
 }

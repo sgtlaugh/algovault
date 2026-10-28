@@ -52,6 +52,7 @@ struct HopcroftKarp{
                 }
             }
         }
+
         return limit;
     }
 
@@ -71,6 +72,7 @@ struct HopcroftKarp{
                     int y = adj[x][it[x] - 1];
                     match_left[x] = y, match_right[y] = x;
                 }
+
                 return;
             }
             if (w != -1 && dist[w] == dist[u] + 1) stack.push_back(w);
@@ -86,6 +88,7 @@ struct HopcroftKarp{
                 if (match_left[u] == -1) augment(u, limit);
             }
         }
+
         return n_left - count(match_left.begin(), match_left.end(), -1);
     }
 };
@@ -142,6 +145,7 @@ struct DAGPathCover{
                 if (reach[u][v >> 6] >> (v & 63) & 1) res[u].push_back(v);
             }
         }
+
         return res;
     }
 
@@ -176,6 +180,7 @@ struct DAGPathCover{
         for (int v = 0; v < n; v++){
             if (seen_left[v] && !seen_right[v]) res.push_back(v);
         }
+
         return res;
     }
 };
@@ -202,5 +207,6 @@ int main(){
         }
         printf("%d\n", g.min_disjoint_path_cover());
     }
+
     return 0;
 }

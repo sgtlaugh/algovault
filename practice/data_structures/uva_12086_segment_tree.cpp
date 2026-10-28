@@ -202,5 +202,6 @@ int main(){
             else printf("%d\n", st.query(x - 1, y - 1));
         }
     }
+
     return 0;
 }

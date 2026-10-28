@@ -203,5 +203,6 @@ int main(){
 
         puts(lp.solve() == Simplex::FEASIBLE && lp.value > 1e-11 ? "YES" : "NO");
     }
+
     return 0;
 }

@@ -128,6 +128,7 @@ bool blocked(int i, int j){
             if (inside(i + di, j + dj) && grid[i + di][j + dj] == '*') return true;
         }
     }
+
     return false;
 }
 
@@ -190,5 +191,6 @@ int main(){
         }
         printf("%d\n", solve());
     }
+
     return 0;
 }

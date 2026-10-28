@@ -131,5 +131,6 @@ int main(){
         for (int k = d - 1; k >= 0; k--) printf(" %lld", llroundl(coefs[k]));
         puts("");
     }
+
     return 0;
 }

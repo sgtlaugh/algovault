@@ -206,5 +206,6 @@ int main(){
         lp.solve();
         printf("Case #%d: %.10f\n", tc, lp.value);
     }
+
     return 0;
 }

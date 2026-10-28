@@ -217,5 +217,6 @@ int main(){
         if (lp.solve() != Simplex::FEASIBLE) printf("Case %d: -1\n", tc);
         else printf("Case %d: %.5f\n", tc, lp.value + 1e-9);
     }
+
     return 0;
 }

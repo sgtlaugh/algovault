@@ -87,5 +87,6 @@ int main(){
         for (int i = 0; i < n; i++) best = max(best, min(up[i], down[i]));
         printf("%d\n", 2 * best - 1);
     }
+
     return 0;
 }

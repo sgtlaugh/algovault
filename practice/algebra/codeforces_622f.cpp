@@ -141,6 +141,7 @@ int power(int a, int b, int mod){
     for (; b; b >>= 1, a = (long long)a * a % mod){
         if (b & 1) res = (long long)res * a % mod;
     }
+
     return res;
 }
 

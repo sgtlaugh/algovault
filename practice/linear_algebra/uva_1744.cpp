@@ -217,6 +217,7 @@ int main(){
                 if (it == id.end()) it = id.insert({{s, u}, (int)road_len.size()}).first, road_len.push_back(len[s][u]);
                 res.push_back(it->second);
             }
+
             return res;
         };
 
@@ -263,5 +264,6 @@ int main(){
             printf("%d %d %.9f %.9f\n", queries[i].first, queries[i].second, bound(i, Simplex::MINIMIZE), bound(i, Simplex::MAXIMIZE));
         }
     }
+
     return 0;
 }

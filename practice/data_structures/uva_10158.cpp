@@ -83,5 +83,6 @@ int main(){
             else printf("%d\n", dsu.same(x, y) && dsu.diff(x, y) == c - 3);
         }
     }
+
     return 0;
 }

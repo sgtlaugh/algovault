@@ -107,5 +107,6 @@ int main(){
         int n = s.size(), p = n - prefix_function(s).back();
         printf("%d\n", n % p == 0 ? p : n);
     }
+
     return 0;
 }

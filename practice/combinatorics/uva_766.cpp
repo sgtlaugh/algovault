@@ -27,6 +27,7 @@ int expo(long long x, int n){
         x = x * x % MOD;
         n >>= 1;
     }
+
     return res;
 }
 
@@ -116,5 +117,6 @@ int main(){
         for (int i = k + 1; i >= 0; i--) printf(" %lld", a[i] * (m / b[i]));
         puts("");
     }
+
     return 0;
 }

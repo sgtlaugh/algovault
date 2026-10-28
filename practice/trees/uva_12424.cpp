@@ -99,6 +99,7 @@ struct HLD{
         for (auto& e : ranges){
             if (e.first > e.second) swap(e.first, e.second);
         }
+
         return ranges;
     }
 
@@ -155,6 +156,7 @@ struct HLD{
             if (depth[head[u]] < depth[head[v]]) swap(u, v);
             u = parent[head[u]];
         }
+
         return depth[u] < depth[v] ? u : v;
     }
 };
@@ -176,6 +178,7 @@ struct ColorTree{
         for (; i > 0; i -= i & -i){
             for (int c = 0; c < 10; c++) res[c] += bit[i][c];
         }
+
         return res;
     }
 
@@ -228,5 +231,6 @@ int main(){
             }
         }
     }
+
     return 0;
 }

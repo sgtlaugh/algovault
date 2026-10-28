@@ -195,6 +195,7 @@ long long power(long long b, long long e){
     for (b %= MOD; e; e >>= 1, b = b * b % MOD){
         if (e & 1) r = r * b % MOD;
     }
+
     return r;
 }
 
@@ -265,5 +266,6 @@ int main(){
             printf("%lld\n", s[st.query(0, m - 1)]);
         }
     }
+
     return 0;
 }

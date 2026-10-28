@@ -199,6 +199,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -334,6 +335,7 @@ int conflict(int i){
     for (int p: sieve.factorize(i)){
         if (owner[p]) return owner[p];
     }
+
     return 0;
 }
 
@@ -370,5 +372,6 @@ int main(){
             write("Success");
         }
     }
+
     return 0;
 }

@@ -99,6 +99,7 @@ struct HLD{
         for (auto& e : ranges){
             if (e.first > e.second) swap(e.first, e.second);
         }
+
         return ranges;
     }
 
@@ -155,6 +156,7 @@ struct HLD{
             if (depth[head[u]] < depth[head[v]]) swap(u, v);
             u = parent[head[u]];
         }
+
         return depth[u] < depth[v] ? u : v;
     }
 };
@@ -195,5 +197,6 @@ int main(){
         printf("Case #%d:\n", tc);
         for (int v = 0; v < n; v++) printf("%lld\n", energy.d[hld.pos[v]]);
     }
+
     return 0;
 }

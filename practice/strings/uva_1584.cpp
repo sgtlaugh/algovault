@@ -49,5 +49,6 @@ int main(){
         int i = minimum_rotation(s);
         puts((s.substr(i) + s.substr(0, i)).c_str());
     }
+
     return 0;
 }

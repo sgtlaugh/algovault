@@ -34,6 +34,7 @@ array<long long, 3> extended_gcd(long long a, long long b){
         tie(y, y1) = make_pair(y1, y - q * y1);
         tie(a, b) = make_pair(b, a - q * b);
     }
+
     return {a, x, y};
 }
 
@@ -111,6 +112,7 @@ struct Garner{
             res += (unsigned __int128)digit[j] * c[j];
             if (j % 3 == 2) res %= m[i];  /// 3 products below 2^126 plus a residue fit 128 bits, 7-36% faster
         }
+
         return res % m[i];
     }
 };
@@ -242,6 +244,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -379,5 +382,6 @@ int main(){
         if (x == -1) write("no solution");
         else write(x, n / gcd(n, m) * m);
     }
+
     return 0;
 }

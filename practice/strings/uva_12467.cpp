@@ -109,5 +109,6 @@ int main(){
         int best = *max_element(pi.begin() + s.size() + 1, pi.end());
         puts(string(rev.end() - best, rev.end()).c_str());
     }
+
     return 0;
 }

@@ -35,6 +35,7 @@ struct Hirschberg{
                     return;
                 }
             }
+
             return;
         }
 
@@ -62,6 +63,7 @@ struct Hirschberg{
                 diag = up;
             }
         }
+
         return row;
     }
 
@@ -76,6 +78,7 @@ struct Hirschberg{
                 diag = down;
             }
         }
+
         return row;
     }
 };
@@ -214,6 +217,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 

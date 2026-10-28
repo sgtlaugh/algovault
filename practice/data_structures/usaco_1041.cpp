@@ -129,6 +129,7 @@ struct FenwickFull{
             v += tree[i][0];
             va += tree[i][1];
         }
+
         return v * p - va;
     }
 
@@ -167,5 +168,6 @@ int main(){
         badness += add[j];
         fout << badness << "\n";
     }
+
     return 0;
 }

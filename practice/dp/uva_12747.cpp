@@ -92,5 +92,6 @@ int main(){
         }
         printf("Case %d: %d\n", tc, 2 * (n - lis_length(a)));
     }
+
     return 0;
 }

@@ -23,6 +23,7 @@ namespace nt{
             long long y = mod_inverse(x, mods[i]);
             res = (res + (x * ar[i] % mod) * y) % mod;
         }
+
         return res;
     }
 }
@@ -113,6 +114,7 @@ namespace fft{
             long long x = f[i].real + 0.5, y = g[i].real + 0.5, z = f[i].img + 0.5;
             res[i] = (x + ((y % mod) << 15) + ((z % mod) << 30)) % mod;
         }
+
         return res;
     }
 }
@@ -149,6 +151,7 @@ struct LinearRecurrence{
             for (int i = 0; i < (int)p.size(); i++) val = (val + (long long)p[i] * terms[i + j]) % mod;
             res[j] = val;
         }
+
         return res;
     }
     int bostan_mori(long long n){
@@ -163,6 +166,7 @@ struct LinearRecurrence{
             p = fft::mod_multiply(p, v, mod, n & 1);
             q = fft::mod_multiply(q, v, mod, 0);
         }
+
         return p[0];
     }
     vector<int> power_of_x(long long n){
@@ -201,6 +205,7 @@ struct LinearRecurrence{
                 }
             }
         }
+
         return res;
     }
 };

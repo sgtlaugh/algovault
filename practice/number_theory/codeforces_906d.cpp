@@ -40,6 +40,7 @@ struct PowerTower{
             while (n % p == 0) n /= p;
             res = res / p * (p - 1);
         }
+
         return n > 1 ? res / n * (n - 1) : res;
     }
 
@@ -87,6 +88,7 @@ struct PowerTower{
         for (; e; e >>= 1, x = x * x % m){
             if (e & 1) res = res * x % m;
         }
+
         return (long long)res;
     }
 };
@@ -222,6 +224,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -363,5 +366,6 @@ int main(){
         read(l, r);
         write(tower.query(a, l - 1, r - 1));
     }
+
     return 0;
 }

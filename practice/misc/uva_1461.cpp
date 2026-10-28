@@ -160,6 +160,7 @@ namespace sudoku{
             decode(n, v, i, j, k);
             grid[i][j] = k + 1;
         }
+
         return true;
     }
 }
@@ -229,5 +230,6 @@ int main(){
         }
         printf("%d\n", count_covers(dlx));
     }
+
     return 0;
 }

@@ -222,5 +222,6 @@ int main(){
         if (t == 1) st.update(a, b, {false, 0, x});
         else st.update(a, b, {true, x, 0});
     }
+
     return 0;
 }

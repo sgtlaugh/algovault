@@ -74,5 +74,6 @@ int main(){
         scanf("%d %d", &a, &b);
         printf("%lld\n", comb.nCr(a, b));
     }
+
     return 0;
 }

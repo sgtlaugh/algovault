@@ -152,6 +152,7 @@ struct Mod{
             if (e & 1) res = res * base;
             base = base * base;
         }
+
         return *this * res;
     }
 

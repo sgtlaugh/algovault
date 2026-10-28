@@ -79,6 +79,7 @@ struct SCC{
             sort(out.begin(), out.end());
             out.erase(unique(out.begin(), out.end()), out.end());
         }
+
         return dag;
     }
 };
@@ -107,5 +108,6 @@ int main(){
         int sources = count(in.begin(), in.end(), 0), sinks = count(out.begin(), out.end(), 0);
         printf("%d\n", g.count == 1 ? 0 : max(sources, sinks));
     }
+
     return 0;
 }

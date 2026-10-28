@@ -64,5 +64,6 @@ int main(){
         }
         printf("Case %d: %lld\n", tc, best[n]);
     }
+
     return 0;
 }

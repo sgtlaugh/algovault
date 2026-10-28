@@ -155,6 +155,7 @@ struct TwoSat{
         for (int i = 1; i <= n; i++){
             if (comp[i] == comp[i + n]) return false;
         }
+
         return true;
     }
 
@@ -215,5 +216,6 @@ int main(){
         }
         puts(sat.is_satisfiable() ? "YES" : "NO");
     }
+
     return 0;
 }

@@ -68,6 +68,7 @@ struct MinCostCirculation{
             auto [u, i] = pos[id];
             total += flow(id) * (adj[u][i].cost / (n + 1));
         }
+
         return total;
     }
 
@@ -232,6 +233,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -249,6 +251,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 

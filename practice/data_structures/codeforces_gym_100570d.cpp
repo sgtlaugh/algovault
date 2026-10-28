@@ -93,5 +93,6 @@ int main(){
         if (ok) ok = dsu.relate(r, c, a != b);
         puts(ok ? "Yes" : "No");
     }
+
     return 0;
 }

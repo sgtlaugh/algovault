@@ -206,5 +206,6 @@ int main(){
         if (i < n) st.update(i, i, -r);
         cout << (i < n ? i + 1 : 0) << (k + 1 < m ? ' ' : '\n');
     }
+
     return 0;
 }

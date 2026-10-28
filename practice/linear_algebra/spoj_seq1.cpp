@@ -225,5 +225,6 @@ int main(){
         for (int i = 0; i < n; i++) s[i] += x0[i] + sgn[i] * llround(lp.val[i]);
         puts(s.c_str());
     }
+
     return 0;
 }

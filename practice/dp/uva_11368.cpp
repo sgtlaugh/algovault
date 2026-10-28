@@ -88,5 +88,6 @@ int main(){
         for (auto& doll: dolls) heights.push_back(doll.second);
         printf("%d\n", lds_length(heights, true));
     }
+
     return 0;
 }

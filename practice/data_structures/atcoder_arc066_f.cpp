@@ -79,6 +79,7 @@ struct LiChaoTree{
             if (x <= m) node = cur.left, r = m;
             else node = cur.right, l = m + 1;
         }
+
         return res;
     }
 
@@ -200,6 +201,7 @@ struct PersistentLiChaoTree{
             if (x <= m) node = cur.left, r = m;
             else node = cur.right, l = m + 1;
         }
+
         return res;
     }
 };
@@ -287,5 +289,6 @@ int main(){
         cin >> p >> x;
         cout << max(pre[p - 1] + suf[p + 1], with_p[p] + t[p] - x) << '\n';
     }
+
     return 0;
 }

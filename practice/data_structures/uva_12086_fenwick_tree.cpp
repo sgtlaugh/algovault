@@ -166,5 +166,6 @@ int main(){
             else printf("%d\n", fen.query(x - 1, y - 1));
         }
     }
+
     return 0;
 }

@@ -91,5 +91,6 @@ int main(){
         printf("Max hits: %d\n", (int)hits.size());
         for (int i : hits) printf("%d\n", heights[i]);
     }
+
     return 0;
 }

@@ -59,6 +59,7 @@ struct SegmentTreeMerge{
             if (k < left) cur = nodes[cur].l, hi = mid;
             else k -= left, cur = nodes[cur].r, lo = mid + 1;
         }
+
         return lo;
     }
 
@@ -84,6 +85,7 @@ struct SegmentTreeMerge{
             root = 0;
             return rest;
         }
+
         return split_rest(root, k);
     }
 
@@ -114,6 +116,7 @@ struct SegmentTreeMerge{
             int child = insert(nodes[cur].r, mid + 1, hi, x, c);
             nodes[cur].r = child;
         }
+
         return cur;
     }
 
@@ -169,5 +172,6 @@ int main(){
         if (op[0] == 'U') root[++sets] = st.merge(root[a], root[b]);
         else printf("%d\n", st.kth(root[a], b - 1) + 1);
     }
+
     return 0;
 }

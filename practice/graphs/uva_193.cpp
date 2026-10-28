@@ -81,6 +81,7 @@ struct CliqueGraph{
             complement.adj[u] = ~adj[u];
             complement.adj[u][u] = 0;
         }
+
         return complement.max_clique();
     }
 
@@ -194,5 +195,6 @@ int main(){
         for (int i = 0; i < (int)black.size(); i++) printf("%d%c", black[i] + 1, i + 1 < (int)black.size() ? ' ' : '\n');
         if (black.empty()) puts("");
     }
+
     return 0;
 }

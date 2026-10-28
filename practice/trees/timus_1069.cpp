@@ -225,6 +225,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -367,5 +368,6 @@ int main(){
         for (int v : adj[i]) res += " " + to_string(v + 1);
         write(res);
     }
+
     return 0;
 }

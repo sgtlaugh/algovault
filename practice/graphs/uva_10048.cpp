@@ -207,5 +207,6 @@ int main(){
             else printf("%d\n", loud[u - 1][v - 1]);
         }
     }
+
     return 0;
 }

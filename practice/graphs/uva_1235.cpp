@@ -173,6 +173,7 @@ int rolls(const string& a, const string& b){
         int d = abs(a[i] - b[i]);
         res += min(d, 10 - d);
     }
+
     return res;
 }
 
@@ -194,5 +195,6 @@ int main(){
         }
         printf("%lld\n", first + mst.solve().weight);
     }
+
     return 0;
 }

@@ -35,6 +35,7 @@ struct Hirschberg{
                     return;
                 }
             }
+
             return;
         }
 
@@ -62,6 +63,7 @@ struct Hirschberg{
                 diag = up;
             }
         }
+
         return row;
     }
 
@@ -76,6 +78,7 @@ struct Hirschberg{
                 diag = down;
             }
         }
+
         return row;
     }
 };
@@ -214,6 +217,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -363,5 +367,6 @@ int main(){
         else snprintf(buf, sizeof(buf), "%2d. Length of longest match: %d", ++T, (int)lcs_sequence(split_words(a), split_words(b)).size());
         write(string(buf));
     }
+
     return 0;
 }

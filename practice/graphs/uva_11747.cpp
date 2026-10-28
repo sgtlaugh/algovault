@@ -191,5 +191,6 @@ int main(){
         for (int i = 0; i < (int)heavy.size(); i++) printf(i ? " %lld" : "%lld", heavy[i]);
         puts("");
     }
+
     return 0;
 }

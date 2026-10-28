@@ -181,6 +181,7 @@ vector<Point> minkowski_sum(const vector<Point>& a, const vector<Point>& b){
             Point d = p[(s + i + 1) % n] - p[(s + i) % n];
             if (d.x || d.y) res.push_back(d);
         }
+
         return res;
     };
     auto upper_half = [](const Point& d){ return d.x > 0 || (d.x == 0 && d.y > 0); };
@@ -219,6 +220,7 @@ int extreme_search(int n, Better better){
         if (ls > ms || (ls == ms && ls == better(lo, m))) hi = m;
         else lo = m;
     }
+
     return lo;
 }
 
@@ -258,6 +260,7 @@ array<int, 2> line_hull(const Point& a, const Point& b, const vector<Point>& hul
         if (gap == 0) return {res[0], res[0]};
         if (gap == 2) return {res[1], res[1]};
     }
+
     return res;
 }
 
@@ -279,6 +282,7 @@ struct DynamicHull{
             Point p(it->first, it->second);
             if (!(p == res.back()) && !(p == res[0])) res.push_back(p);
         }
+
         return res;
     }
 
@@ -350,5 +354,6 @@ int main(){
 
         printf("Case %d: %.3f\n", tc, best / 2.0);
     }
+
     return 0;
 }

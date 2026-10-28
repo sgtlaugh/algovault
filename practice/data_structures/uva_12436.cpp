@@ -224,5 +224,6 @@ int main(){
         }
         else printf("%lld\n", st.query(a, b).sum);
     }
+
     return 0;
 }

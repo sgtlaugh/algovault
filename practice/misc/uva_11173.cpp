@@ -39,5 +39,6 @@ int main(){
         scanf("%d %llu", &n, &k);
         printf("%llu\n", gray_code(k));
     }
+
     return 0;
 }

@@ -47,6 +47,7 @@ vector<signed char> mobius_by_divisors(int n){
     for (int i = 1; i <= n; i++){
         for (int j = 2 * i; j <= n; j += i) mu[j] -= mu[i];
     }
+
     return mu;
 }
 
@@ -58,6 +59,7 @@ long long expo(long long b, long long e){
     for (b %= MOD; e; e >>= 1, b = b * b % MOD){
         if (e & 1) res = res * b % MOD;
     }
+
     return res;
 }
 
@@ -103,5 +105,6 @@ int main(){
         }
         printf("Case %d: %lld %lld\n", tc, any, sized);
     }
+
     return 0;
 }

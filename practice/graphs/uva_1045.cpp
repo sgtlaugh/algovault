@@ -118,5 +118,6 @@ int main(){
         }
         printf("Board %d: %d moves required.\n\n", ++t, res);
     }
+
     return 0;
 }

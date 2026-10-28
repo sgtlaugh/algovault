@@ -275,6 +275,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -407,6 +408,7 @@ double farthest(const vector<double>& v){
         double dx = v[0] - px[i], dy = v[1] - py[i], dz = v[2] - pz[i];
         res = max(res, (dx * dx) + (dy * dy) + (dz * dz));
     }
+
     return sqrt(res);
 }
 

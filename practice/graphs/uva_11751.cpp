@@ -163,6 +163,7 @@ struct TwoSat{
                 for (int u : trail) truth[u] = 0;
                 allowance -= work;
             }
+
             return status;
         };
 
@@ -273,5 +274,6 @@ int main(){
         for (int i = 0; i < n; i++) res[i] = sat.value(n - i) ? '0' : '1';
         puts(res.c_str());
     }
+
     return 0;
 }

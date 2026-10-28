@@ -116,5 +116,6 @@ int main(){
         }
         printf("%lld/%lld\n", y - x, y);
     }
+
     return 0;
 }

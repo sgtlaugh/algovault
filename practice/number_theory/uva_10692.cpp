@@ -30,6 +30,7 @@ struct PowerTower{
             while (n % p == 0) n /= p;
             res = res / p * (p - 1);
         }
+
         return n > 1 ? res / n * (n - 1) : res;
     }
 
@@ -43,6 +44,7 @@ struct PowerTower{
         for (; e; e >>= 1, x = x * x % m){
             if (e & 1) res = res * x % m;
         }
+
         return (long long)res;
     }
 
@@ -56,6 +58,7 @@ struct PowerTower{
             res *= b;
             if (res >= LIMIT) return LIMIT;
         }
+
         return (long long)res;
     }
 
@@ -103,5 +106,6 @@ int main(){
         for (auto& x: a) scanf("%lld", &x);
         printf("Case #%d: %lld\n", tc, power_tower(a, m));
     }
+
     return 0;
 }

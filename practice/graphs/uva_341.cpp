@@ -227,5 +227,6 @@ int main(){
         for (int v: g.path(dst - 1)) printf(" %d", v + 1);
         printf("; %lld second delay\n", g.dist[dst - 1]);
     }
+
     return 0;
 }

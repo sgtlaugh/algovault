@@ -53,6 +53,7 @@ struct Montgomery{
         for (; e; e >>= 1, x = mul(x, x)){
             if (e & 1) res = mul(res, x);
         }
+
         return res;
     }
 };
@@ -73,6 +74,7 @@ namespace prm{
         for (unsigned long long p: {3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79}){
             res.push_back({p, Montgomery(p).inv, ~0ULL / p});
         }
+
         return res;
     }();
 
@@ -241,6 +243,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -392,6 +395,7 @@ bool is_used(long long p){
     for (int i = 0; i < cnt; i++){
         if (used[i] == p) return true;
     }
+
     return false;
 }
 
@@ -419,6 +423,7 @@ long long power(long long x, int e){
         if (res > n / x) return n + 1;
         res *= x;
     }
+
     return res;
 }
 
@@ -436,6 +441,7 @@ long long rest(int i, long long p){
         if (x > n / res) return n + 1;
         res *= x;
     }
+
     return res;
 }
 
@@ -504,5 +510,6 @@ int main(){
 
         write(best);
     }
+
     return 0;
 }

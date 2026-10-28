@@ -178,6 +178,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -330,5 +331,6 @@ int main(){
             write(*(upper_bound(v.begin(), v.end(), n) - 1));
         }
     }
+
     return 0;
 }

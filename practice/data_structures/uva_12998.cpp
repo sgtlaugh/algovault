@@ -205,5 +205,6 @@ int main(){
             else printf("%lld\n", fen.query(tin[u], tout[u]) % MOD * inv[depth[u] + 1] % MOD);
         }
     }
+
     return 0;
 }

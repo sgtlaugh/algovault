@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -105,5 +106,6 @@ int main(){
         for (int i = 0; i < n; i++) arbitrage |= fw.dist[i][i] < 0;
         printf("Case %d: %s\n", ++tc, arbitrage ? "Yes" : "No");
     }
+
     return 0;
 }

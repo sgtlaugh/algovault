@@ -480,6 +480,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -614,6 +615,7 @@ int dfs_size(int u, int p){
     for (int v: adj[u]){
         if (v != p && !done[v]) subtree[u] += dfs_size(v, u);
     }
+
     return subtree[u];
 }
 
@@ -621,6 +623,7 @@ int centroid(int u, int p, int total){
     for (int v: adj[u]){
         if (v != p && !done[v] && (2 * subtree[v]) > total) return centroid(v, u, total);
     }
+
     return u;
 }
 
@@ -638,6 +641,7 @@ long long prime_pairs(vector<long long> cnt){
     for (int d = 2; d < (int)sq.size(); d++){
         if (!composite[d]) sum += sq[d];
     }
+
     return sum;
 }
 

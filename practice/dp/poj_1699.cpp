@@ -118,6 +118,7 @@ int overlap(const string& a, const string& b){
     for (int k = min(a.size(), b.size()); k > 0; k--){
         if (a.compare(a.size() - k, k, b, 0, k) == 0) return k;
     }
+
     return 0;
 }
 
@@ -151,5 +152,6 @@ int main(){
         }
         cout << g.shortest_cycle().first << "\n";
     }
+
     return 0;
 }

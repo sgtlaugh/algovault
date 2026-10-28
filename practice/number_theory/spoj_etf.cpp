@@ -199,6 +199,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -336,5 +337,6 @@ int main(){
         read(n);
         write(sieve.phi[n]);
     }
+
     return 0;
 }

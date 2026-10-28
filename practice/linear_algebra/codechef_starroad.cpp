@@ -138,6 +138,7 @@ matrix add(const matrix& a, const matrix& b){
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++) r[i][j] = (r[i][j] + b[i][j]) % X;
     }
+
     return r;
 }
 
@@ -177,6 +178,7 @@ bool is_prime(int p){
     for (int d = 2; d * d <= p; d++){
         if (p % d == 0) return false;
     }
+
     return p > 1;
 }
 
@@ -185,6 +187,7 @@ long long power(long long b, long long e, long long m){
     for (b %= m; e; e >>= 1, b = b * b % m){
         if (e & 1) r = r * b % m;
     }
+
     return r;
 }
 

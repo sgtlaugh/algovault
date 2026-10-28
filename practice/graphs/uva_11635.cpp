@@ -242,5 +242,6 @@ int main(){
         days.run(0);
         printf("%lld\n", days.dist[k - 1] == DIJKSTRA_INF ? -1 : days.dist[k - 1] - 1);
     }
+
     return 0;
 }

@@ -73,5 +73,6 @@ int main(){
         }
         printf("%0.9f\n", (double)res + 1e-12);
     }
+
     return 0;
 }

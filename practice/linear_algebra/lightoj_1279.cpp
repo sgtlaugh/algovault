@@ -165,5 +165,6 @@ int main(){
         }
         printf("Case %d: %d\n", tc, expo(k, n - matrix_rank(a, k), MOD));
     }
+
     return 0;
 }

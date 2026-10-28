@@ -79,6 +79,7 @@ struct LiChaoTree{
             if (x <= m) node = cur.left, r = m;
             else node = cur.right, l = m + 1;
         }
+
         return res;
     }
 
@@ -200,6 +201,7 @@ struct PersistentLiChaoTree{
             if (x <= m) node = cur.left, r = m;
             else node = cur.right, l = m + 1;
         }
+
         return res;
     }
 };
@@ -221,5 +223,6 @@ int main(){
         long long y = tree.query(x);
         cout << (y == LiChaoTree<long long, true>::NONE ? -1 : y) << (x == m ? '\n' : ' ');
     }
+
     return 0;
 }

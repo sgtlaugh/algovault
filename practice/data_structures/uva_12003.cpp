@@ -101,5 +101,6 @@ int main(){
 
         for (int i = 0; i < n; i++) printf("%d\n", s.get(i));
     }
+
     return 0;
 }

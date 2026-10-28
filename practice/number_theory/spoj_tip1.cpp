@@ -107,5 +107,6 @@ int main(){
         if (best[m]) printf("%d\n", best[m]);
         else printf("No solution.\n");
     }
+
     return 0;
 }

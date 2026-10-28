@@ -181,5 +181,6 @@ int main(){
         MSTResult r = mst.solve();
         printf("Case #%d: %lld\n", tc, -mst.edges[r.chosen.back()].w);
     }
+
     return 0;
 }

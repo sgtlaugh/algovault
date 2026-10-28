@@ -200,5 +200,6 @@ int main(){
         };
         if (total) list(0, 0, 0);
     }
+
     return 0;
 }

@@ -185,5 +185,6 @@ int main(){
         MSTResult res = mst.solve();
         printf("%.2f\n", sqrt((double)mst.edges[res.chosen[p - s - 1]].w));
     }
+
     return 0;
 }

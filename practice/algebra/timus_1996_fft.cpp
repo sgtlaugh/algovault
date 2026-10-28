@@ -480,6 +480,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -663,5 +664,6 @@ int main(){
         write("Yes");
         write(dist[pos], pos + 1);
     }
+
     return 0;
 }

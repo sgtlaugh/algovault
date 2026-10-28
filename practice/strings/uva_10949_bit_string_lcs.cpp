@@ -76,5 +76,6 @@ int main(){
         int l = lcs(a.c_str(), b.c_str());
         printf("Case %d: %d %d\n", tc, (int)a.size() - l, (int)b.size() - l);
     }
+
     return 0;
 }

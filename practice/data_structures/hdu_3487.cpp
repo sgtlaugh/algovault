@@ -117,6 +117,7 @@ struct Treap{
             if (nodes[t].key < key) res += size(nodes[t].l) + 1, t = nodes[t].r;
             else t = nodes[t].l;
         }
+
         return res;
     }
 
@@ -126,6 +127,7 @@ struct Treap{
             if (key < nodes[t].key) t = nodes[t].l;
             else res += size(nodes[t].l) + 1, t = nodes[t].r;
         }
+
         return res - count_less(key);
     }
 
@@ -294,6 +296,7 @@ struct ImplicitTreap{
             res.push_back(nodes[t].value);
             t = nodes[t].r;
         }
+
         return res;
     }
 };
@@ -325,5 +328,6 @@ int main(){
         vector<long long> res = seq.to_vector();
         for (int i = 0; i < n; i++) printf("%lld%c", res[i], i + 1 == n ? '\n' : ' ');
     }
+
     return 0;
 }

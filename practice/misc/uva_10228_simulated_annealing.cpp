@@ -108,6 +108,7 @@ int main(){
                 double dx = x[i] - p.first, dy = y[i] - p.second;
                 res += sqrt(dx * dx + dy * dy);
             }
+
             return res;
         };
 
@@ -126,5 +127,6 @@ int main(){
         if (tc) puts("");
         printf("%.0f\n", res);
     }
+
     return 0;
 }

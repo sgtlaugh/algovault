@@ -191,5 +191,6 @@ int main(){
         if (tc) puts("");
         printf("%.2f\n", ink);
     }
+
     return 0;
 }

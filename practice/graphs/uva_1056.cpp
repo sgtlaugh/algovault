@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -96,5 +97,6 @@ int main(){
         if (res == FloydWarshall::INF) printf("Network %d: DISCONNECTED\n\n", cs);
         else printf("Network %d: %lld\n\n", cs, res);
     }
+
     return 0;
 }

@@ -98,5 +98,6 @@ int main(){
         for (int x = 1; x <= n; x++) printf(" %d", best[x]);
         puts("");
     }
+
     return 0;
 }

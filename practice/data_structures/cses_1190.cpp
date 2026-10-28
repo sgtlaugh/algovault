@@ -219,5 +219,6 @@ int main(){
         st.update(k - 1, k - 1, x);
         cout << st.query(0, n - 1).best << '\n';
     }
+
     return 0;
 }

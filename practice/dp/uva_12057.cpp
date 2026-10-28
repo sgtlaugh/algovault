@@ -91,5 +91,6 @@ int main(){
         printf("%lld.%04lld\n", dp[0][n] / 10000, dp[0][n] % 10000);
         for (int i = 0; i < n; i++) puts(code[i].c_str());
     }
+
     return 0;
 }

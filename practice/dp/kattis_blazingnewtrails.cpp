@@ -104,6 +104,7 @@ int main(){
             res.first += e.c + (take_cross ? lambda : 0);
             res.second += take_cross;
         }
+
         return res;
     };
 

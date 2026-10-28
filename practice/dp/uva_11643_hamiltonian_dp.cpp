@@ -160,5 +160,6 @@ int main(){
         }
         printf("Case %d: %lld\n", tc, g.shortest_cycle().first);
     }
+
     return 0;
 }

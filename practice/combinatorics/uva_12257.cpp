@@ -107,5 +107,6 @@ int main(){
         while (has_boss[root]) root++;
         printf("Case %d: %lld\n", tc, ways(root));
     }
+
     return 0;
 }

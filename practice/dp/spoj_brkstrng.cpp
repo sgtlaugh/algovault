@@ -173,6 +173,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -311,5 +312,6 @@ int main(){
         dp = knuth_dp<long long>(m + 1, [&](int l, int r){ return pos[r] - pos[l]; });
         write(dp[0][m + 1]);
     }
+
     return 0;
 }

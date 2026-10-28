@@ -31,6 +31,7 @@ struct DSU{
             parent[i] = parent[parent[i]];
             i = parent[i];
         }
+
         return parent[i];
     }
 
@@ -91,5 +92,6 @@ int main(){
             value[dsu.find(holder[y])] = y;
         }
     }
+
     return 0;
 }

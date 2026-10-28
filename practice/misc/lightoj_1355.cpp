@@ -341,6 +341,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -479,5 +480,6 @@ int main(){
         snprintf(buf, sizeof(buf), "Case %d: %s", ++T, g.grundy(0) ? "Emily" : "Jolly");
         write(string(buf));
     }
+
     return 0;
 }

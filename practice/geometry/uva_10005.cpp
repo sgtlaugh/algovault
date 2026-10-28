@@ -300,5 +300,6 @@ int main(){
         if (minimum_enclosing_circle(points).r <= r * (1 + EPS)) puts("The polygon can be packed in the circle.");
         else puts("There is no way of packing that polygon.");
     }
+
     return 0;
 }

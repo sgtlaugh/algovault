@@ -125,5 +125,6 @@ int main(){
 
         printf("%.6f\n", gauss(equations, 1e-15).x[id[0][0]]);
     }
+
     return 0;
 }

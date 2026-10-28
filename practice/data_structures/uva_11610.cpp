@@ -187,5 +187,6 @@ int main(){
         }
         else printf("%d\n", sum.prefix(alive.lower_bound(x + 1)));
     }
+
     return 0;
 }

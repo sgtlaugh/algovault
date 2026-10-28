@@ -157,5 +157,6 @@ int main(){
         vector<double> expected = gauss(equations).x;
         printf("%.5f\n", expected[st - 1] + 1e-12);
     }
+
     return 0;
 }

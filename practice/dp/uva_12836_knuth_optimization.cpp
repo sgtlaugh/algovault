@@ -83,5 +83,6 @@ int main(){
         auto dp = knuth_dp<long long>(n, [&](int i, int j){ return pre[j] - pre[i]; });
         printf("Case %d: %lld\n", tc, dp[0][n]);
     }
+
     return 0;
 }

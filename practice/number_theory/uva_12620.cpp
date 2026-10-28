@@ -61,6 +61,7 @@ struct Montgomery{
         for (; e; e >>= 1, x = mul(x, x)){
             if (e & 1) res = mul(res, x);
         }
+
         return res;
     }
 };
@@ -105,6 +106,7 @@ struct PollardRho{
 
             if (c != one) return false;
         }
+
         return true;
     }
 
@@ -205,6 +207,7 @@ struct PisanoPeriod{
         for (auto q: rho.factorize(n)){
             if (fib(d / q, p) == make_pair(0LL, 1LL)) d /= q;
         }
+
         return d;
     }
 
@@ -254,5 +257,6 @@ int main(){
         scanf("%lld %lld", &n, &m);
         printf("%lld\n", sum_to(m) - sum_to(n - 1));
     }
+
     return 0;
 }

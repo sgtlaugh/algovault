@@ -289,6 +289,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -306,6 +307,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -465,5 +467,6 @@ int main(){
 
         write((g.dist[1] <= llround(d * 1e8) + 10000) ? "I am lucky!" : "Boom!");
     }
+
     return 0;
 }

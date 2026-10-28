@@ -141,5 +141,6 @@ int main(){
         }
         puts(any ? "" : " none");
     }
+
     return 0;
 }

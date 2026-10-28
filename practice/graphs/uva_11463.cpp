@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -97,5 +98,6 @@ int main(){
         for (int i = 0; i < n; i++) res = max(res, fw.dist[s][i] + fw.dist[i][d]);
         printf("Case %d: %lld\n", tc, res);
     }
+
     return 0;
 }

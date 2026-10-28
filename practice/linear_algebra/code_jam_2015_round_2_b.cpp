@@ -217,5 +217,6 @@ int main(){
         if (lp.value < 0.5) printf("Case #%d: IMPOSSIBLE\n", tc);
         else printf("Case #%d: %.9f\n", tc, v / lp.value);
     }
+
     return 0;
 }

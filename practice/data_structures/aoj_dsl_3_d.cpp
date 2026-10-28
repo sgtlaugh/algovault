@@ -104,5 +104,6 @@ int main(){
         if (i >= l) window.pop();
         if (i >= l - 1) printf("%d%c", window.best(), i == n - 1 ? '\n' : ' ');
     }
+
     return 0;
 }

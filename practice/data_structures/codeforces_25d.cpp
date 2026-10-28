@@ -33,6 +33,7 @@ struct DSU{
             parent[i] = parent[parent[i]];
             i = parent[i];
         }
+
         return parent[i];
     }
 
@@ -77,5 +78,6 @@ int main(){
     for (int i = 0; i < (int)extra.size(); i++){
         printf("%d %d %d %d\n", extra[i].first, extra[i].second, roots[0], roots[i + 1]);
     }
+
     return 0;
 }

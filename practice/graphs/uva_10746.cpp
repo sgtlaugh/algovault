@@ -105,5 +105,6 @@ int main(){
         long long total = hungarian(mat).first;
         printf("%.2f\n", total / (1e6 * n) + 1e-5);
     }
+
     return 0;
 }

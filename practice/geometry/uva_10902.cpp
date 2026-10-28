@@ -118,6 +118,7 @@ int point_in_polygon(const vector<Point>& poly, const Point& p){
             if ((b.y > a.y) ? c > 0 : c < 0) inside = !inside;
         }
     }
+
     return inside ? 1 : -1;
 }
 
@@ -301,6 +302,7 @@ PointF polygon_centroid(const vector<PointF>& poly){
         sum = sum + (poly[i] + poly[i + 1] - o * 2) * c;
         area += c;
     }
+
     return o + sum / (3 * area);
 }
 
@@ -354,5 +356,6 @@ int main(){
         for (int i = 0; i < (int)top.size(); i++) printf(" %d%c", top[i] + 1, i + 1 < (int)top.size() ? ',' : '.');
         puts("");
     }
+
     return 0;
 }

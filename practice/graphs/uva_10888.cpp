@@ -134,5 +134,6 @@ int main(){
         }
         printf("%d\n", hungarian(cost).first);
     }
+
     return 0;
 }

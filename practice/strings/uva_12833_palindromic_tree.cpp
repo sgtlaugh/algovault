@@ -135,5 +135,6 @@ int main(){
             printf("%lld\n", x > 0 && x <= n ? ways[qs[i] - 'a'][x] : 0LL);
         }
     }
+
     return 0;
 }

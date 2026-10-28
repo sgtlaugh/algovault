@@ -79,5 +79,6 @@ int main(){
         string s = buf;
         printf("Case %d: %d\n", ++t, lis_length(vector<char>(s.begin(), s.end())));
     }
+
     return 0;
 }

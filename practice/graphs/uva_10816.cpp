@@ -251,5 +251,6 @@ int main(){
         for (int i = 0; i < (int)route.size(); i++) printf("%s%d", i ? " " : "", route[i] + 1);
         printf("\n%lld.%lld %d.%d\n", g.dist[t] / 10, g.dist[t] % 10, temps[lo] / 10, temps[lo] % 10);
     }
+
     return 0;
 }

@@ -232,6 +232,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -249,6 +250,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -383,6 +385,7 @@ int find(int mask, vector<int>& cnt){
     for (int i = 0; i < BITS; i++){
         if ((mask >> i & 1) && cnt[mask ^ (1 << i)]) mask ^= (1 << i);
     }
+
     return mask;
 }
 

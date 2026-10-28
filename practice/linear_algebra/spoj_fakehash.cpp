@@ -278,5 +278,6 @@ int main(){
         }
         printf("Case %d: %s\n", tc, res.empty() ? "Impossible" : res.c_str());
     }
+
     return 0;
 }

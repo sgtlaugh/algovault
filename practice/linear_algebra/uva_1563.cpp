@@ -147,5 +147,6 @@ int main(){
         vector<int> a = gauss(equations, p).x;
         for (int i = 0; i < n; i++) printf("%d%c", a[i], i + 1 < n ? ' ' : '\n');
     }
+
     return 0;
 }

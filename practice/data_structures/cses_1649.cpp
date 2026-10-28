@@ -205,5 +205,6 @@ int main(){
         if (t == 1) st.update(a - 1, a - 1, b);
         else cout << st.query(a - 1, b - 1) << '\n';
     }
+
     return 0;
 }

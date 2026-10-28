@@ -51,6 +51,7 @@ struct Matrix{
                 if (x < 0) x += mod;
             }
         }
+
         return res;
     }
 
@@ -85,6 +86,7 @@ struct Matrix{
             if (e & 1) res = res * base;
             base = base * base;
         }
+
         return res;
     }
 
@@ -93,6 +95,7 @@ struct Matrix{
         for (int i = 0; i < n; i++){
             for (int j = 0; j < m; j++) res.a[j][i] = a[i][j];
         }
+
         return res;
     }
 
@@ -123,6 +126,7 @@ Matrix transfer(int blocked){
     for (int in = 0; in < (1 << R); in++){
         if (!(in & blocked)) fill_column(t, in, 0, in | blocked, 0);
     }
+
     return t;
 }
 
@@ -158,5 +162,6 @@ int main(){
         advance(C - done);
         printf("Case %d: %lld\n", ++tc, v[0][0]);
     }
+
     return 0;
 }

@@ -85,5 +85,6 @@ int main(){
         while (h.get_hash(i, n - 1) != h.rev_hash(i, n - 1)) i++;
         puts((s + string(s.rend() - i, s.rend())).c_str());
     }
+
     return 0;
 }

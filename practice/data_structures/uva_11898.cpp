@@ -84,9 +84,11 @@ int main(){
                               if (last) best = min(best, v - last);
                               last = v;
                           }
+
                           return best;
                       });
         for (int x : res) printf("%d\n", x);
     }
+
     return 0;
 }

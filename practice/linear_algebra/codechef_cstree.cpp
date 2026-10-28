@@ -129,6 +129,7 @@ long long power(long long b, long long e){
     for (b %= MOD; e; e >>= 1, b = b * b % MOD){
         if (e & 1) r = r * b % MOD;
     }
+
     return r;
 }
 
@@ -155,5 +156,6 @@ int main(){
         long long inv = power(v, MOD - 2);
         printf("%lld\n", power(determinant_mod(a, MOD), k) * inv % MOD * inv % MOD);
     }
+
     return 0;
 }

@@ -108,6 +108,7 @@ struct Biconnected{
                 }
             }
         }
+
         return tree;
     }
 
@@ -123,6 +124,7 @@ struct Biconnected{
         for (int u = 0; u < n; u++){
             if (is_cut[u]) cuts.push_back(u);
         }
+
         return cuts;
     }
 };
@@ -171,5 +173,6 @@ int main(){
         }
         printf("Case %d: %lld\n", tc, res);
     }
+
     return 0;
 }

@@ -105,5 +105,6 @@ int main(){
         int i = s.size() - prefix_function(r + "#" + s).back();
         puts((s + string(s.rend() - i, s.rend())).c_str());
     }
+
     return 0;
 }

@@ -117,6 +117,7 @@ struct Treap{
             if (nodes[t].key < key) res += size(nodes[t].l) + 1, t = nodes[t].r;
             else t = nodes[t].l;
         }
+
         return res;
     }
 
@@ -126,6 +127,7 @@ struct Treap{
             if (key < nodes[t].key) t = nodes[t].l;
             else res += size(nodes[t].l) + 1, t = nodes[t].r;
         }
+
         return res - count_less(key);
     }
 
@@ -294,6 +296,7 @@ struct ImplicitTreap{
             res.push_back(nodes[t].value);
             t = nodes[t].r;
         }
+
         return res;
     }
 };
@@ -306,6 +309,7 @@ long long expo(long long b, long long e){
     for (b %= MOD; e; e >>= 1, b = b * b % MOD){
         if (e & 1) res = res * b % MOD;
     }
+
     return res;
 }
 
@@ -346,5 +350,6 @@ int main(){
         }
         printf("%lld\n", odd > 1 ? 0 : res);
     }
+
     return 0;
 }

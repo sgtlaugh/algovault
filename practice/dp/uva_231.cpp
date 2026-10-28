@@ -82,5 +82,6 @@ int main(){
         printf("Test #%d:\n", tc);
         printf("  maximum possible interceptions: %d\n", lds_length(heights, true));
     }
+
     return 0;
 }

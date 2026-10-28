@@ -222,6 +222,7 @@ struct BessieOps{
             res.cnt[(int)b.to[j]] += a.cnt[j];
             res.inner += a.cnt[j] * b.val[j];
         }
+
         return res;
     }
 
@@ -248,5 +249,6 @@ int main(){
         st.update(p - 1, p - 1, SetChar{p - 1, c});
         printf("%lld\n", st.query(0, n - 1).inner);
     }
+
     return 0;
 }

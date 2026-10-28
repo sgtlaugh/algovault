@@ -90,5 +90,6 @@ int main(){
         k = min(k, max_divs);
         printf("%lld %lld\n", edges[k][n], ways[k][n]);
     }
+
     return 0;
 }

@@ -31,6 +31,7 @@ namespace ntt{
         for (unsigned long long d = 2; d * d <= n; d++){
             if (n % d == 0) return false;
         }
+
         return true;
     }
 
@@ -43,6 +44,7 @@ namespace ntt{
             b = b * b % mod;
             e >>= 1;
         }
+
         return res;
     }
 
@@ -180,6 +182,7 @@ namespace ntt{
             unsigned long long x3 = (c3[i] + 2ULL * P3 - x1 - x2 * P1 % P3) % P3 * INV12 % P3;
             res[i] = (x1 + x2 * M1 + x3 * M12) % m;
         }
+
         return res;
     }
 
@@ -297,6 +300,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -314,6 +318,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -487,5 +492,6 @@ int main(){
             write("");
         }
     }
+
     return 0;
 }

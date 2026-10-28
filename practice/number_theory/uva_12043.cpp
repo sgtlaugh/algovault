@@ -62,6 +62,7 @@ struct LinearSieve{
             int rest = x / power[x];
             g[x] = g[rest] * f((long long)spf[x], exponent[x], (long long)power[x]);
         }
+
         return g;
     }
 };
@@ -80,5 +81,6 @@ int main(){
         for (int i = (a + k - 1) / k * k; i <= b; i += k) g += d[i], h += sigma[i];
         printf("%lld %lld\n", g, h);
     }
+
     return 0;
 }

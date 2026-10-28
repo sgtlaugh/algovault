@@ -66,6 +66,7 @@ vector<int> matroid_intersection(int n, M1& m1, M2& m2){
             if (in_set[x]) chosen.push_back(x);
         }
     }
+
     return chosen;
 }
 
@@ -295,6 +296,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -312,6 +314,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -454,5 +457,6 @@ int main(){
 
         write(2 * (n - 1) - (int)matroid_intersection(m, a, b).size());
     }
+
     return 0;
 }

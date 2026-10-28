@@ -251,5 +251,6 @@ int main(){
         }
         printf("%lld %d\n", best_cost, best);
     }
+
     return 0;
 }

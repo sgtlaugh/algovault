@@ -49,5 +49,6 @@ int main(){
         while (pal[i + n - 1] < n - i) i++;
         puts((s + string(s.rend() - i, s.rend())).c_str());
     }
+
     return 0;
 }

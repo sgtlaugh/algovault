@@ -242,6 +242,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -442,5 +443,6 @@ int main(){
         }
         write(string(buf));
     }
+
     return 0;
 }

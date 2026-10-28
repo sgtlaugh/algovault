@@ -151,6 +151,7 @@ struct KShortestWalks{
             if (node.right != pool.EMPTY) best.push({len - key + pool.top(node.right).first, node.right});
             if (h[to] != pool.EMPTY) best.push({len + pool.top(h[to]).first, h[to]});
         }
+
         return result;
     }
 };
@@ -260,6 +261,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -277,6 +279,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -416,5 +419,6 @@ int main(){
         vector<long long> res = g.solve(s - 1, t - 1, k);
         write((int)res.size() < k ? -1 : res[k - 1]);
     }
+
     return 0;
 }

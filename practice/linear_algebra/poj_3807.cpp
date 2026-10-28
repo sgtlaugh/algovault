@@ -177,6 +177,7 @@ vector<string> split(const string& s, char separator){
         if (c == separator) parts.emplace_back();
         else parts.back() += c;
     }
+
     return parts;
 }
 
@@ -217,5 +218,6 @@ int main(){
         }
         for (int j = 0; j < m; j++) printf("%lld%c", coefficients[j] / (long long)g, j + 1 < m ? ' ' : '\n');
     }
+
     return 0;
 }

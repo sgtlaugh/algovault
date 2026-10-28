@@ -123,5 +123,6 @@ int main(){
         if (flow == 2) printf("%lld\n", cost);
         else puts("Back to jail");
     }
+
     return 0;
 }

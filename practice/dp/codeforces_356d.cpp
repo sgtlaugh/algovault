@@ -231,6 +231,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -421,5 +422,6 @@ int main(){
         if (child[i] == -1) write(a[i], 0);
         else write(a[i] - a[child[i]], 1, child[i] + 1);
     }
+
     return 0;
 }

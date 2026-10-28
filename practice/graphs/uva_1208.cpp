@@ -191,5 +191,6 @@ int main(){
             printf("%c-%c %lld\n", 'A' + e.u, 'A' + e.v, e.w);
         }
     }
+
     return 0;
 }

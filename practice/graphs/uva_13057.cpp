@@ -79,6 +79,7 @@ struct SCC{
             sort(out.begin(), out.end());
             out.erase(unique(out.begin(), out.end()), out.end());
         }
+
         return dag;
     }
 };
@@ -99,5 +100,6 @@ int main(){
         }
         printf("Case %d: %d\n", tc, (int)count(implied.begin(), implied.end(), false));
     }
+
     return 0;
 }

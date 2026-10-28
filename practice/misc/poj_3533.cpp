@@ -81,6 +81,7 @@ unsigned long long nim_inverse(unsigned long long a){
         a = nim_product(a, a);
         res = nim_product(res, a);
     }
+
     return res;
 }
 
@@ -228,6 +229,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -363,5 +365,6 @@ int main(){
         if (res) write("No");
         else write("Yes");
     }
+
     return 0;
 }

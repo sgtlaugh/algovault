@@ -193,5 +193,6 @@ int main(){
         if (tc) puts("");
         printf("%lld\n%lld\n", original, mst.solve().weight);
     }
+
     return 0;
 }

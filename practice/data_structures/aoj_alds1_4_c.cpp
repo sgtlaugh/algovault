@@ -214,5 +214,6 @@ int main(){
         if (op[0] == 'i') trie.insert(pack(s));
         else cout << (trie.count_word(pack(s)) ? "yes" : "no") << '\n';
     }
+
     return 0;
 }

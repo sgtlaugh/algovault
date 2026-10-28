@@ -165,6 +165,7 @@ struct WeightedBlossom{
         for (int v = 0; v < n; v++){
             if (mate[v] > v) total += weight[v][mate[v]];
         }
+
         return total;
     }
 
@@ -263,6 +264,7 @@ struct WeightedBlossom{
             if (c < n) res.push_back(c);
             else stack.insert(stack.end(), children[c].begin(), children[c].end());
         }
+
         return res;
     }
 
@@ -605,6 +607,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -763,5 +766,6 @@ int main(){
             write(string(buf));
         }
     }
+
     return 0;
 }

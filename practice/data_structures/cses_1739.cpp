@@ -54,6 +54,7 @@ struct FenwickPointUpdate2D{
                 res += tree[x][y];
             }
         }
+
         return res;
     }
 
@@ -88,6 +89,7 @@ struct FenwickRangeUpdate2D{
                 res += tree[x][y];
             }
         }
+
         return res;
     }
 
@@ -130,6 +132,7 @@ struct FenwickFull2D{
                 vab += t[3];
             }
         }
+
         return v * p * q - vb * p - va * q + vab;
     }
 
@@ -185,5 +188,6 @@ int main(){
             printf("%d\n", fen.query(y1 - 1, x1 - 1, y2 - 1, x2 - 1));
         }
     }
+
     return 0;
 }

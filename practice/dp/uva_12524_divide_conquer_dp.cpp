@@ -82,5 +82,6 @@ int main(){
         auto cost = [&](int j, int i){ return x[i - 1] * (weight[i] - weight[j]) - (moment[i] - moment[j]); };
         printf("%lld\n", divide_conquer_dp<long long>(n, k, cost)[n]);
     }
+
     return 0;
 }

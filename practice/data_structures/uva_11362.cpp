@@ -65,6 +65,7 @@ struct Trie{
             if (c < 0 || c >= SIGMA || next[v][c] == -1) return -1;
             v = next[v][c];
         }
+
         return v;
     }
 
@@ -191,5 +192,6 @@ int main(){
         bool ok = all_of(numbers.begin(), numbers.end(), [&](const string& s){ return trie.count_prefix(s) == 1; });
         puts(ok ? "YES" : "NO");
     }
+
     return 0;
 }

@@ -263,6 +263,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -280,6 +281,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -409,6 +411,7 @@ long long power(long long b, long long e, long long m){
     for (b %= m; e; e >>= 1, b = b * b % m){
         if (e & 1) r = r * b % m;
     }
+
     return r;
 }
 

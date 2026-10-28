@@ -33,6 +33,7 @@ struct DSU{
             parent[i] = parent[parent[i]];
             i = parent[i];
         }
+
         return parent[i];
     }
 
@@ -82,5 +83,6 @@ int main(){
 
         printf("Case %d: %d\n", tc, res);
     }
+
     return 0;
 }

@@ -44,5 +44,6 @@ int main(){
         double win = 1 - (double)gamblers_ruin(n1, n2, at / 6.0L);
         printf("%.1f\n", win * 100 - 1e-9);
     }
+
     return 0;
 }

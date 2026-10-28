@@ -161,6 +161,7 @@ struct CentroidDecomposition{
             if (centroid == -1 && 2 * size[u] > total) centroid = u;
             if (i > 0) size[from[u]] += size[u];
         }
+
         return centroid;
     }
 };
@@ -175,6 +176,7 @@ long long count_paths_at_most(CentroidDecomposition& cd, long long k){
             while (i < j && d[i] + d[j] > k) j--;
             pairs += j - i;
         }
+
         return pairs;
     };
 
@@ -337,6 +339,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -528,5 +531,6 @@ int main(){
         if (res_a == INT_MAX) write("No solution");
         else write(res_a, res_b);
     }
+
     return 0;
 }

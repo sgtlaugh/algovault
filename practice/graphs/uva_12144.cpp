@@ -232,5 +232,6 @@ int main(){
         almost.run(s);
         printf("%lld\n", almost.dist[d] == DIJKSTRA_INF ? -1 : almost.dist[d]);
     }
+
     return 0;
 }

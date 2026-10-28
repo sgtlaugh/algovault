@@ -139,5 +139,6 @@ int main(){
         }
         printf("Problem %d: %lld.%02lld to %lld.%02lld\n", tc, best[0] / 100, best[0] % 100, best[1] / 100, best[1] % 100);
     }
+
     return 0;
 }

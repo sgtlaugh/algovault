@@ -208,5 +208,6 @@ int main(){
         }
         printf("%lld\n", loss);
     }
+
     return 0;
 }

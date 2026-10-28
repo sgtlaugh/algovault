@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -117,5 +118,6 @@ int main(){
         if (bu == -1) puts("No road required");
         else printf("%d %d\n", bu + 1, bv + 1);
     }
+
     return 0;
 }

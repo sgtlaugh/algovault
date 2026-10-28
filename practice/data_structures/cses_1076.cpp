@@ -78,5 +78,6 @@ int main(){
         if (i >= k) window.erase(x[i - k]);
         if (i >= k - 1) printf("%d%c", window.kth((k - 1) / 2), i == n - 1 ? '\n' : ' ');
     }
+
     return 0;
 }

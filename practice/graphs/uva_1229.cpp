@@ -79,6 +79,7 @@ struct SCC{
             sort(out.begin(), out.end());
             out.erase(unique(out.begin(), out.end()), out.end());
         }
+
         return dag;
     }
 };
@@ -128,5 +129,6 @@ int main(){
         for (int i = 0; i < (int)res.size(); i++) printf("%s%s", i ? " " : "", res[i].c_str());
         puts("");
     }
+
     return 0;
 }

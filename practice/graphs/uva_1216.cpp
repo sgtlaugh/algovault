@@ -200,5 +200,6 @@ int main(){
         while (res > 0 && (res - 1) * (res - 1) >= need) res--;
         printf("%lld\n", res);
     }
+
     return 0;
 }

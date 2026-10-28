@@ -243,5 +243,6 @@ int main(){
         for (long long gather = lap; gather < box; gather += lap - 1) usher++;
         printf("%d\n", usher);
     }
+
     return 0;
 }

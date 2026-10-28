@@ -103,6 +103,7 @@ int main(){
                 }
                 if (2 * owners > n) res.push_back({get<1>(all[l]), get<2>(all[l])});
             }
+
             return res;
         };
 
@@ -124,5 +125,6 @@ int main(){
         sort(res.begin(), res.end());
         for (auto& s : res) puts(s.c_str());
     }
+
     return 0;
 }

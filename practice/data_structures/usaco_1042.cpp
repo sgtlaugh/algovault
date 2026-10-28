@@ -31,6 +31,7 @@ struct DSU{
             parent[i] = parent[parent[i]];
             i = parent[i];
         }
+
         return parent[i];
     }
 
@@ -94,5 +95,6 @@ int main(){
         if (!color[root]) color[root] = ++colors;
         printf("%d\n", color[root]);
     }
+
     return 0;
 }

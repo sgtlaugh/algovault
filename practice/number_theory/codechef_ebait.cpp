@@ -242,6 +242,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -454,5 +455,6 @@ int main(){
         if (solve(c1, c2, x, y)) write(x, y);
         else write(-1);
     }
+
     return 0;
 }

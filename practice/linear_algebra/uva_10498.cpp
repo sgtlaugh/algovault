@@ -203,5 +203,6 @@ int main(){
         lp.solve();
         printf("Nasa can spend %d taka.\n", (int)ceil(lp.value));
     }
+
     return 0;
 }

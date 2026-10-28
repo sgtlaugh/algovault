@@ -228,5 +228,6 @@ int main(){
         if (g.dist[t] == DIJKSTRA_INF) puts("unreachable");
         else printf("%lld\n", g.dist[t]);
     }
+
     return 0;
 }

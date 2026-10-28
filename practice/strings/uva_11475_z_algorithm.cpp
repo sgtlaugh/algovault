@@ -52,5 +52,6 @@ int main(){
         while (z[n + 1 + i] < n - i) i++;
         puts((s + string(s.rend() - i, s.rend())).c_str());
     }
+
     return 0;
 }

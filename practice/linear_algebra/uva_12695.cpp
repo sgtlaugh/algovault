@@ -154,6 +154,7 @@ int main(){
                 for (int x : cities){
                     for (int y : cities) row[pos[x] * k + pos[y]] -= step[a][b][x][y];
                 }
+
                 return direct[a][b] + (a == b);
             };
 
@@ -184,5 +185,6 @@ int main(){
             printf("%.6f\n", answer[s][e] + 1e-9);
         }
     }
+
     return 0;
 }

@@ -38,6 +38,7 @@ vector<vector<int>> permutation_cycles(const vector<int>& p){
             cycles.back().push_back(j);
         }
     }
+
     return cycles;
 }
 
@@ -52,6 +53,7 @@ vector<int> permutation_power(const vector<int>& p, long long k){
         int shift = (k % len + len) % len;
         for (int j = 0; j < len; j++) res[cycle[j]] = cycle[(j + shift) % len];
     }
+
     return res;
 }
 
@@ -83,6 +85,7 @@ vector<int> permutation_root(const vector<int>& p, long long k){
             for (int j = 0; j < m; j++) res[merged[j]] = merged[(j + 1) % m];
         }
     }
+
     return res;
 }
 
@@ -94,6 +97,7 @@ vector<pair<int, int>> sorting_swaps(vector<int> p){
             swap(p[i], p[p[i]]);
         }
     }
+
     return swaps;
 }
 
@@ -112,5 +116,6 @@ int main(){
         vector<int> res = permutation_power(r, k);
         for (int i = 0; i < n; i++) printf("%d%c", res[i] + 1, i + 1 == n ? '\n' : ' ');
     }
+
     return 0;
 }

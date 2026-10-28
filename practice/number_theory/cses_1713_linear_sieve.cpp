@@ -199,6 +199,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -338,5 +339,6 @@ int main(){
         read(x);
         write(divisors[x]);
     }
+
     return 0;
 }

@@ -69,6 +69,7 @@ struct Montgomery{
         for (; e; e >>= 1, x = mul(x, x)){
             if (e & 1) res = mul(res, x);
         }
+
         return res;
     }
 };
@@ -89,6 +90,7 @@ namespace prm{
             if (x == minus_one) return false;
             x = mont.mul(x, x);
         }
+
         return true;
     }
 
@@ -198,5 +200,6 @@ int main(){
         }
         puts("");
     }
+
     return 0;
 }

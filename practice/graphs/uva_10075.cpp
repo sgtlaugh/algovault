@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -113,5 +114,6 @@ int main(){
             else printf("%lld km\n", d);
         }
     }
+
     return 0;
 }

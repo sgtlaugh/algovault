@@ -65,6 +65,7 @@ struct BellmanFord{
                 if (dist[u] == NEG_INF && dist[v] != NEG_INF) dist[v] = NEG_INF, changed = true;
             }
         }
+
         return dist;
     }
 
@@ -87,6 +88,7 @@ struct BellmanFord{
             /// An acyclic parent chain of at most n - 1 edges would bound dist[relaxed] by its value after n - 1 passes, so the chain holds a cycle
             if (pass == n - 1) return cycle_through(parent, relaxed);
         }
+
         return {};
     }
 
@@ -113,6 +115,7 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
         if (cycle == expected) return true;
         rotate(cycle.begin(), cycle.begin() + 1, cycle.end());
     }
+
     return false;
 }
 
@@ -140,5 +143,6 @@ int main(){
         }
         puts(any ? "" : " impossible");
     }
+
     return 0;
 }

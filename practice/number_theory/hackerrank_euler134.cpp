@@ -195,6 +195,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -328,6 +329,7 @@ long long expo(long long b, long long e, long long m){
         if (e & 1) res = res * b % m;
         b = b * b % m;
     }
+
     return res;
 }
 
@@ -358,5 +360,6 @@ int main(){
         for (i = 0; (i + 1) < (int)primes.size() && primes[i] <= r; i++) res += connect(primes[i], primes[i + 1]);
         write(res);
     }
+
     return 0;
 }

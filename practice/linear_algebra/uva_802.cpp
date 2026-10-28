@@ -204,5 +204,6 @@ int main(){
         if (tc > 1) puts("");
         printf("Mixture %d\n%s\n", tc, lp.solve() == Simplex::FEASIBLE ? "Possible" : "Impossible");
     }
+
     return 0;
 }

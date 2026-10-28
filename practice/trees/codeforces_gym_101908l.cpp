@@ -107,6 +107,7 @@ struct LCA{
         for (int i = 0; k; i++, k >>= 1){
             if (k & 1) v = up[i][v];
         }
+
         return v;
     }
 };
@@ -370,6 +371,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -508,5 +510,6 @@ int main(){
         if (res.first == -1) write(0);
         else write(tree.dist(res.first, res.second) + 1);
     }
+
     return 0;
 }

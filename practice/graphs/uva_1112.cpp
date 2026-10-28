@@ -230,5 +230,6 @@ int main(){
         printf("%d\n", mice);
         if (tc != t) puts("");
     }
+
     return 0;
 }

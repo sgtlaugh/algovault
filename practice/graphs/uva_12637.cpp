@@ -102,5 +102,6 @@ int main(){
         }
         printf("%d\n", hungarian(dist).first);
     }
+
     return 0;
 }

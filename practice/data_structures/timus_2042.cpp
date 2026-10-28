@@ -279,5 +279,6 @@ int main(){
         }
         else printf("%d\n", st.query(l - 1, r - 1).cnt);
     }
+
     return 0;
 }

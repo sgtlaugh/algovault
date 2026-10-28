@@ -237,5 +237,6 @@ int main(){
         if (g.dist[goal] == DIJKSTRA_INF) puts("IMPOSSIBLE");
         else printf("%lld\n", g.dist[goal]);
     }
+
     return 0;
 }

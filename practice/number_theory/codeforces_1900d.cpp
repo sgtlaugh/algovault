@@ -199,6 +199,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -365,5 +366,6 @@ int main(){
         memset(cnt, 0, sizeof(int) * (ar[n - 1] + 1));
         write(res);
     }
+
     return 0;
 }

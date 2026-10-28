@@ -480,6 +480,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -635,6 +636,7 @@ void solve(int l, int r){
                 for (u = l; u < i; u++) acc[e][u] += (__int128)p[e][i - u] * grid[to[e]][i];
             }
         }
+
         return;
     }
 

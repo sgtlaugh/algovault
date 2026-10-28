@@ -195,5 +195,6 @@ int main(){
         }
         if (!built) puts("No new highways need");
     }
+
     return 0;
 }

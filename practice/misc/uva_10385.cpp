@@ -41,6 +41,7 @@ long long ternary_search_max(long long lo, long long hi, F f){
         if (f(mid) < f(mid + 1)) lo = mid + 1;
         else hi = mid;
     }
+
     return lo;
 }
 
@@ -68,6 +69,7 @@ double golden_section_min(double lo, double hi, F f, double eps = 1e-9){
             if (abs(x1 - ideal) > (hi - lo) / 64) x1 = ideal, f1 = f(x1);
         }
     }
+
     return (lo + hi) / 2;
 }
 
@@ -89,5 +91,6 @@ int main(){
         if (margin(r) <= 1e-6) printf("The cheater can win by %.0f seconds with r = %.2fkm and k = %.2fkm.\n", fabs(margin(r)), r, t - r);
         else puts("The cheater cannot win.");
     }
+
     return 0;
 }

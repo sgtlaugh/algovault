@@ -269,5 +269,6 @@ int main(){
         if (g.dist[sink] == DIJKSTRA_INF) printf("Case %d: Impossible\n", ++t);
         else printf("Case %d: %lld\n", ++t, g.dist[sink]);
     }
+
     return 0;
 }

@@ -145,5 +145,6 @@ int main(){
         printf("Case %d:\n", tc);
         for (int x : res) printf("%d\n", x);
     }
+
     return 0;
 }

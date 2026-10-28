@@ -248,5 +248,6 @@ int main(){
         for (int i = 0; i < s; i++) res = min(res, dp[(1 << s) - 1][i] + dist[i + 1][0]);
         printf("%lld\n", res);
     }
+
     return 0;
 }

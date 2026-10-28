@@ -52,6 +52,7 @@ struct Montgomery{
         for (; e; e >>= 1, x = mul(x, x)){
             if (e & 1) res = mul(res, x);
         }
+
         return res;
     }
 };
@@ -96,6 +97,7 @@ struct PollardRho{
 
             if (c != one) return false;
         }
+
         return true;
     }
 
@@ -177,5 +179,6 @@ int main(){
         for (int i = 0; i < (int)factors.size(); i++) printf("%s%lld", i ? " " : "", factors[i]);
         puts("");
     }
+
     return 0;
 }

@@ -333,8 +333,10 @@ struct RunLengthImplicitTreap{
                 if (ok(extend(Runs::run_agg(backwards ? parts.second : parts.first, mid)))) lo = mid;
                 else hi = mid - 1;
             }
+
             return taken + lo;
         }
+
         return taken;
     }
 };
@@ -371,5 +373,6 @@ int main(){
             printf("%lld\n", line.query(0, line.size() - 1).pairs);
         }
     }
+
     return 0;
 }

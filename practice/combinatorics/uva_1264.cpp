@@ -151,6 +151,7 @@ struct Binomial{
         for (uint32_t i = 0; i < dp.size(); i++){
             rem.push_back(dp[i].binomial(n, k));
         }
+
         return chinese_remainder(rem);
     }
 };
@@ -183,5 +184,6 @@ int main(){
         for (auto& x: p) scanf("%d", &x);
         printf("%lld\n", count(p).second);
     }
+
     return 0;
 }

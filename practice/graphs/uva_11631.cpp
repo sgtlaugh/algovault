@@ -181,5 +181,6 @@ int main(){
         }
         printf("%lld\n", total - mst.solve().weight);
     }
+
     return 0;
 }

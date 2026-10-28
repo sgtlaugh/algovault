@@ -480,6 +480,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -639,5 +640,6 @@ int main(){
             if ((ones[y * W + x] + zeros[y * W + x]) == best) write(x, y);
         }
     }
+
     return 0;
 }

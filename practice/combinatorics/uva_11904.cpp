@@ -79,5 +79,6 @@ int main(){
         }
         printf("Case %d: %lld\n", tc, res);
     }
+
     return 0;
 }

@@ -107,5 +107,6 @@ int main(){
         long long hundredths = (200 * g.num + g.den) / (2 * g.den);
         printf("Case #%d: %lld.%02lld\n", tc, hundredths / 100, hundredths % 100);
     }
+
     return 0;
 }

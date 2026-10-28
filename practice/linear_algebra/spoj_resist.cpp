@@ -159,5 +159,6 @@ int main(){
         for (int v = 0; v < n; v++) current += conductance_to_source[v] * (1 - potential[v]);
         printf("%.2f\n", (double)(1 / current + 1e-9));
     }
+
     return 0;
 }

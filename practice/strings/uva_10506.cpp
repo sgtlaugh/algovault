@@ -50,5 +50,6 @@ int main(){
         for (int x : de_bruijn(n, m)) ring += char('0' + x);
         puts(ring.c_str());
     }
+
     return 0;
 }

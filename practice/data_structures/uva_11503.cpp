@@ -33,6 +33,7 @@ struct DSU{
             parent[i] = parent[parent[i]];
             i = parent[i];
         }
+
         return parent[i];
     }
 
@@ -73,5 +74,6 @@ int main(){
             printf("%d\n", dsu.size(x));
         }
     }
+
     return 0;
 }

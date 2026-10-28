@@ -214,5 +214,6 @@ int main(){
         } while (next_permutation(corner, corner + 4));
         printf("%lld\n", res);
     }
+
     return 0;
 }

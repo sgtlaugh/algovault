@@ -480,6 +480,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -613,6 +614,7 @@ vector<long long> parse(const string& s){
         for (int j = max(0, i - DIGITS); j < i; j++) x = x * 10 + (s[j] - '0');
         v.push_back(x);
     }
+
     return v;
 }
 
@@ -648,5 +650,6 @@ int main(){
         read(a, b);
         write(mul(a, b));
     }
+
     return 0;
 }

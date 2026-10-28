@@ -223,5 +223,6 @@ int main(){
         g.run(0);
         printf("%lld\n", g.dist[n - 1] == DIJKSTRA_INF ? -1 : g.dist[n - 1]);
     }
+
     return 0;
 }

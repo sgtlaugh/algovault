@@ -204,5 +204,6 @@ int main(){
         }
         else cout << st.query(a, b - 1) << '\n';
     }
+
     return 0;
 }

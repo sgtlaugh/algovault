@@ -262,5 +262,6 @@ int main(){
         if (res == DIJKSTRA_INF) puts("Poor Kianoosh");
         else printf("%lld\n", res);
     }
+
     return 0;
 }

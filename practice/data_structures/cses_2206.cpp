@@ -219,5 +219,6 @@ int main(){
         }
         else cout << min(st.query(0, k).left + k, st.query(k, n - 1).right - k) << '\n';
     }
+
     return 0;
 }

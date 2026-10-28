@@ -91,5 +91,6 @@ int main(){
 
         printf("Case %d: %s\n", tc, ok ? "YES" : "NO");
     }
+
     return 0;
 }

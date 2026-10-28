@@ -95,5 +95,6 @@ int main(){
 
         printf("Case %d: %d\n", tc, lis_length(ar));
     }
+
     return 0;
 }

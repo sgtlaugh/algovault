@@ -111,6 +111,7 @@ struct HLD{
             if (chain[u].head_pos < chain[v].head_pos) swap(u, v);
             u = chain[u].head_parent;
         }
+
         return pos[u] < pos[v] ? u : v;
     }
 
@@ -143,6 +144,7 @@ struct HLD{
         for (auto& [a, b] : ranges){
             if (a > b) swap(a, b);
         }
+
         return ranges;
     }
 
@@ -157,6 +159,7 @@ struct HLD{
         for (int i = 1; i < (int)ranges.size(); i++){
             res = seg.combine(res, seg.query(ranges[i].first, ranges[i].second));
         }
+
         return res;
     }
 
@@ -490,6 +493,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -630,6 +634,7 @@ Linear power(Linear f, int k){
     for (; k; k >>= 1, f = then(f, f)){
         if (k & 1) res = then(res, f);
     }
+
     return res;
 }
 
@@ -678,5 +683,6 @@ int main(){
         }
         write((f.a * x + f.b) % MOD);
     }
+
     return 0;
 }

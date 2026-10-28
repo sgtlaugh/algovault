@@ -199,6 +199,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -346,5 +347,6 @@ int main(){
         snprintf(buf, sizeof(buf), "Case %d: %lld", ++T, n * (n + 1) / 2 - sum[n]);
         write(string(buf));
     }
+
     return 0;
 }

@@ -54,5 +54,6 @@ int main(){
         if (tc) puts("");
         printf("%d\n", p);
     }
+
     return 0;
 }

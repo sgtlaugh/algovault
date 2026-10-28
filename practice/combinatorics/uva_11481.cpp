@@ -151,6 +151,7 @@ struct Binomial{
         for (uint32_t i = 0; i < dp.size(); i++){
             rem.push_back(dp[i].binomial(n, k));
         }
+
         return chinese_remainder(rem);
     }
 };
@@ -173,5 +174,6 @@ int main(){
         scanf("%d %d %d", &n, &m, &k);
         printf("Case %d: %lld\n", tc, bin.binomial(m, k) * avoid[n - k][m - k] % MOD);
     }
+
     return 0;
 }

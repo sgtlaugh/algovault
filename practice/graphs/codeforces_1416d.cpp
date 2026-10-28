@@ -55,6 +55,7 @@ struct KruskalReconstructionTree{
                 int next = dsu[x];
                 dsu[x] = root, x = next;
             }
+
             return root;
         };
 
@@ -93,6 +94,7 @@ struct KruskalReconstructionTree{
         for (int k = lg - 1; k >= 0; k--){
             if (weight[up[k][v]] <= w) v = up[k][v];
         }
+
         return v;
     }
 
@@ -209,6 +211,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -226,6 +229,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -365,6 +369,7 @@ pair<int, int> query(int l, int r){
         if (l & 1) res = max(res, tree[l++]);
         if (r & 1) res = max(res, tree[--r]);
     }
+
     return res;
 }
 
@@ -398,5 +403,6 @@ int main(){
         write(best.first);
         if (best.first) update(best.second, {0, best.second});
     }
+
     return 0;
 }

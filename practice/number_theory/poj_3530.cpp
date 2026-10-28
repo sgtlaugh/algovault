@@ -253,6 +253,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -389,5 +390,6 @@ int main(){
             write(first_mod_in_range(m, d, l, r));
         }
     }
+
     return 0;
 }

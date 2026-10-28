@@ -164,5 +164,6 @@ int main(){
 
         printf("%.6f\n", gauss(equations).x[0]);
     }
+
     return 0;
 }

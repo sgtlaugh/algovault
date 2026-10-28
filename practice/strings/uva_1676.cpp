@@ -194,5 +194,6 @@ int main(){
             else printf("%lld\n", last = ac.count(s));
         }
     }
+
     return 0;
 }

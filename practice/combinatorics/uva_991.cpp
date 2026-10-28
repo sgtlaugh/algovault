@@ -70,5 +70,6 @@ int main(){
         if (t) puts("");
         printf("%lld\n", comb.nCr(2 * n, n) * comb.inverse(n + 1) % comb.mod);
     }
+
     return 0;
 }

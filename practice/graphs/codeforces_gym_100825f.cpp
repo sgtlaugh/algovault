@@ -84,6 +84,7 @@ struct FlowGraph{
         for (int id = 0; id < (int)E.size(); id++){
             if (E[id].cap > 0 && in_source_side(E[id].u) && !in_source_side(E[id].v)) ids.push_back(id);
         }
+
         return ids;
     }
 
@@ -116,6 +117,7 @@ struct FlowGraph{
                 if (res[i] > 0 && dis[to[i]] == -1) dis[to[i]] = dis[u] + 1, Q[l++] = to[i];
             }
         }
+
         return dis[sink] != -1;
     }
 
@@ -205,6 +207,7 @@ struct DenseFlowGraph{
             fill(ptr.begin(), ptr.end(), 0);
             while (long long f = dfs(src, LLONG_MAX)) flow += f;
         }
+
         return flow;
     }
 
@@ -227,6 +230,7 @@ struct DenseFlowGraph{
                 if (dis[v] == -1 && cap[u][v] > 0) dis[v] = dis[u] + 1, queue.push_back(v);
             }
         }
+
         return dis[sink] != -1;
     }
 
@@ -240,6 +244,7 @@ struct DenseFlowGraph{
                 return f;
             }
         }
+
         return 0;
     }
 };
@@ -347,6 +352,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -364,6 +370,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -495,6 +502,7 @@ int id(const string& s){
         int k = ids.size();
         ids[s] = k;
     }
+
     return ids[s];
 }
 

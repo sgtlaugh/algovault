@@ -144,5 +144,6 @@ int main(){
         if (p1) printf("%d is the sum of %d and %d.\n", n, p1, n - p1);
         else printf("%d is not the sum of two primes!\n", n);
     }
+
     return 0;
 }

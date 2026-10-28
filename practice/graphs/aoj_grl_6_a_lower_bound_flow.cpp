@@ -120,6 +120,7 @@ struct LowerBoundFlow{
             fill(ptr.begin(), ptr.end(), 0);
             flow += blocking_flow(src, sink);
         }
+
         return flow;
     }
 
@@ -134,6 +135,7 @@ struct LowerBoundFlow{
                 if (dis[arcs[id].to] == -1 && arcs[id].cap > 0) dis[arcs[id].to] = dis[u] + 1, queue.push_back(arcs[id].to);
             }
         }
+
         return dis[sink] != -1;
     }
 
@@ -170,6 +172,7 @@ struct LowerBoundFlow{
             path.pop_back();
             ptr[u]++;
         }
+
         return total;
     }
 
@@ -285,6 +288,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -302,6 +306,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 

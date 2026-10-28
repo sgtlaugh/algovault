@@ -92,5 +92,6 @@ int main(){
             printf("%d\n", lis_length(order));
         }
     }
+
     return 0;
 }

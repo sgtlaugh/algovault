@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -128,5 +129,6 @@ int main(){
         }
         printf("Minimum number of nodes = %d\n\n", dp[t][t]);
     }
+
     return 0;
 }

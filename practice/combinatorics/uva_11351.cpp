@@ -26,6 +26,7 @@ long long josephus(long long n, long long k, long long m){
         unsigned long long x = m + r * k;
         m = (x | i) >> 32 ? x % i : (unsigned)x % (unsigned)i;  /// 32-bit division when both fit, 1.5x faster for k >= n
     }
+
     return m + 1;
 }
 
@@ -38,5 +39,6 @@ int main(){
         scanf("%lld %lld", &n, &k);
         printf("Case %d: %lld\n", tc, josephus(n, k, n));
     }
+
     return 0;
 }

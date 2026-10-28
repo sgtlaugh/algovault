@@ -98,6 +98,7 @@ int main(){
                 if (stamp[k] != checks) stamp[k] = checks, key[k] = x, cnt[k] = 0;
                 if (++cnt[k] >= m) res = l;
             }
+
             return res;
         };
 
@@ -111,5 +112,6 @@ int main(){
         if (!lo) puts("none");
         else printf("%d %d\n", lo, rightmost(lo));
     }
+
     return 0;
 }

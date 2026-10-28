@@ -318,6 +318,7 @@ struct Polynomial{
             b = b * b % MOD;
             e >>= 1;
         }
+
         return res;
     }
 
@@ -332,6 +333,7 @@ struct Polynomial{
             for (int i = 0; i < n; i++){
                 for (int j = 0; j < m; j++) res[i + j] = add(res[i + j], mul(x[i], y[j]));
             }
+
             return res;
         }
 
@@ -584,6 +586,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -601,6 +604,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -761,5 +765,6 @@ int main(){
 
         write(res);
     }
+
     return 0;
 }

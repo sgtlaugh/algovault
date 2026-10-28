@@ -31,6 +31,7 @@ int discrete_log(int a, int b, int mod){
         for (; k; k >>= 1, base = base * base % mod){
             if (k & 1) res = res * base % mod;
         }
+
         return (int)res;
     };
 
@@ -65,6 +66,7 @@ long long pow_mod(long long x, long long e){
     for (x %= MOD; e; e >>= 1, x = x * x % MOD){
         if (e & 1) res = res * x % MOD;
     }
+
     return res;
 }
 
@@ -89,6 +91,7 @@ int main(){
                 else below--;
                 if (e.first + 1 <= m && !blocked.count({e.first + 1, e.second})) below--, top++;
             }
+
             return pow_mod(k - 1, below) * pow_mod(k, top) % MOD;
         };
 
@@ -99,5 +102,6 @@ int main(){
         }
         printf("Case %d: %d\n", cs, res);
     }
+
     return 0;
 }

@@ -79,6 +79,7 @@ struct SCC{
             sort(out.begin(), out.end());
             out.erase(unique(out.begin(), out.end()), out.end());
         }
+
         return dag;
     }
 };
@@ -99,5 +100,6 @@ int main(){
         for (int c = 0; c < g.count; c++) res += !has_inflow[c] && c != g.comp[0];
         printf("%d\n", res);
     }
+
     return 0;
 }

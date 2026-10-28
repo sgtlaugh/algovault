@@ -108,5 +108,6 @@ int main(){
         if (u == -1) printf("%d is not the sum of two luckies!\n", n);
         else printf("%d is the sum of %d and %d.\n", n, u, n - u);
     }
+
     return 0;
 }

@@ -225,5 +225,6 @@ int main(){
         g.run(k);
         printf("%lld\n", g.dist[c - 1]);
     }
+
     return 0;
 }

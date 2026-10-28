@@ -70,6 +70,7 @@ struct ConvexHullTrick{
         if constexpr (is_floating_point_v<T>){
             return (long double)(intercept - b[i]) * (k[i] - k[j]) <= (long double)(b[j] - b[i]) * (k[i] - slope);
         }
+
         return (__int128)(intercept - b[i]) * (k[i] - k[j]) <= (__int128)(b[j] - b[i]) * (k[i] - slope);
     }
 };
@@ -201,6 +202,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 

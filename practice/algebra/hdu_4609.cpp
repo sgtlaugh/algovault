@@ -480,6 +480,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -636,5 +637,6 @@ int main(){
             write(fixed((long double)res / total, 7));
         }
     }
+
     return 0;
 }

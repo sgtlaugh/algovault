@@ -253,5 +253,6 @@ int main(){
         solve(0, n, qs);
         for (unsigned long long v : ans) cout << v << '\n';
     }
+
     return 0;
 }

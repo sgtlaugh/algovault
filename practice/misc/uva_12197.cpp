@@ -41,6 +41,7 @@ long long ternary_search_max(long long lo, long long hi, F f){
         if (f(mid) < f(mid + 1)) lo = mid + 1;
         else hi = mid;
     }
+
     return lo;
 }
 
@@ -68,6 +69,7 @@ double golden_section_min(double lo, double hi, F f, double eps = 1e-9){
             if (abs(x1 - ideal) > (hi - lo) / 64) x1 = ideal, f1 = f(x1);
         }
     }
+
     return (lo + hi) / 2;
 }
 
@@ -88,5 +90,6 @@ int main(){
         if (abs(p) < 5e-10) p = 0;
         printf("%.9f %.9f\n", p, latest(p));
     }
+
     return 0;
 }

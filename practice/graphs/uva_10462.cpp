@@ -200,5 +200,6 @@ int main(){
         if (res == LLONG_MAX) puts("No second way");
         else printf("%lld\n", res);
     }
+
     return 0;
 }

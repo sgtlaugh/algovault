@@ -80,6 +80,7 @@ struct DirectedMST{
                 spine.pop_back();
                 t[x].r = t[x].l, t[x].l = res, res = x;
             }
+
             return res;
         };
 
@@ -239,6 +240,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -256,6 +258,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 

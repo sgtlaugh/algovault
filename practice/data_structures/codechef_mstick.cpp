@@ -88,6 +88,7 @@ struct LinearSparseTable{
             int k = __lg(y - x + 1);
             res = better(res, better(table[k][x], table[k][y - (1 << k) + 1]));
         }
+
         return val[res];
     }
 
@@ -126,5 +127,6 @@ int main(){
         if (r < n - 1) res = max(res, t + mx.query(r + 1, n - 1));
         printf("%.1f\n", res);
     }
+
     return 0;
 }

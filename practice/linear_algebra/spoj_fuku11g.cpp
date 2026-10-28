@@ -257,5 +257,6 @@ int main(){
         search();
         printf("%d\n", best);
     }
+
     return 0;
 }

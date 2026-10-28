@@ -124,5 +124,6 @@ int main(){
         for (size_t i = 1; i < a.size(); i++) printf("%c%lld", i == 1 ? ';' : ',', a[i]);
         puts("]");
     }
+
     return 0;
 }

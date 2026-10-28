@@ -65,6 +65,7 @@ struct Trie{
             if (c < 0 || c >= SIGMA || next[v][c] == -1) return -1;
             v = next[v][c];
         }
+
         return v;
     }
 
@@ -215,5 +216,6 @@ int main(){
         dfs(0, row);
         printf("%d\n", res);
     }
+
     return 0;
 }

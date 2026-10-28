@@ -480,6 +480,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -618,5 +619,6 @@ int main(){
         for (a = 1; a < n; a++) res += squares[2 * a * a % n];
         write(res / 2);
     }
+
     return 0;
 }

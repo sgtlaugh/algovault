@@ -58,6 +58,7 @@ struct DominatorTree{
             if (dom[i] != sdom[i]) dom[i] = dom[dom[i]];
             idom[order[i]] = order[dom[i]];
         }
+
         return idom;
     }
 
@@ -93,6 +94,7 @@ struct DominatorTree{
             if (sdom[label[a]] < sdom[label[w]]) label[w] = label[a];
             anc[w] = anc[a];
         }
+
         return label[v];
     }
 };
@@ -200,6 +202,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -217,6 +220,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -367,6 +371,7 @@ int deepest(int c, int b){
         int x = up[j][c];
         if (!((reach_from[x] >> b) & 1)) c = x;
     }
+
     return depth[c] - 1;
 }
 
@@ -491,5 +496,6 @@ int main(){
 
         write(f[0][k]);
     }
+
     return 0;
 }

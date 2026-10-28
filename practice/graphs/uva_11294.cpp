@@ -155,6 +155,7 @@ struct TwoSat{
         for (int i = 1; i <= n; i++){
             if (comp[i] == comp[i + n]) return false;
         }
+
         return true;
     }
 
@@ -190,5 +191,6 @@ int main(){
         for (int c = 1; c < n; c++) printf("%d%c%c", c, sat.value(c + 1) ? 'w' : 'h', c + 1 < n ? ' ' : '\n');
         if (n == 1) puts("");
     }
+
     return 0;
 }

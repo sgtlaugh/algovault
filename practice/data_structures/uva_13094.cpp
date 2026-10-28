@@ -142,5 +142,6 @@ int main(){
         }
         fputs(out.c_str(), stdout);
     }
+
     return 0;
 }

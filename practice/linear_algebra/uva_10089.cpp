@@ -201,5 +201,6 @@ int main(){
         lp.add_constraint(d23, 0, Simplex::EQUAL);
         puts(lp.solve() == Simplex::UNBOUNDED ? "Yes" : "No");
     }
+
     return 0;
 }

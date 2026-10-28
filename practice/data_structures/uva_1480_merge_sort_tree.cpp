@@ -54,6 +54,7 @@ struct MergeSortTree{
             if (k < inside) node = 2 * node, b = m;
             else k -= inside, node = 2 * node + 1, a = m + 1;
         }
+
         return sorted_values[a];
     }
 
@@ -86,6 +87,7 @@ private:
             if (m < p) res += count_in(2 * node, l, r), node = 2 * node + 1, a = m + 1;
             else node = 2 * node, b = m;
         }
+
         return res;
     }
 };
@@ -146,6 +148,7 @@ struct WaveletMatrix{
             k -= zr - zl, code |= 1 << (levels - 1 - d);
             lo = zeros[d] + lo - zl, hi = zeros[d] + hi - zr;
         }
+
         return distinct[code];
     }
 
@@ -164,6 +167,7 @@ private:
             if (p >> (levels - 1 - d) & 1) res += zr - zl, l = zeros[d] + l - zl, r = zeros[d] + r - zr;
             else l = zl, r = zr;
         }
+
         return res;
     }
 };
@@ -213,5 +217,6 @@ int main(){
 
         printf("Case %d:\n%lld\n%lld\n%lld\n", tc, res[1], res[2], res[3]);
     }
+
     return 0;
 }

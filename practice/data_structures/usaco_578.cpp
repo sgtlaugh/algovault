@@ -218,5 +218,6 @@ int main(){
         else if (op == 'M') printf("%lld\n", st.query(a, b).mn);
         else printf("%lld\n", st.query(a, b).sum);
     }
+
     return 0;
 }

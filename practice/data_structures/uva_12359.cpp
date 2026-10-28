@@ -200,6 +200,7 @@ vector<long long> deep_edges(const Trie<>& trie){
     for (int v = 1; v < (int)trie.next.size(); v++){
         for (int c = 0; c < 26; c++) if (trie.next[v][c] != -1) cnt[c]++;
     }
+
     return cnt;
 }
 
@@ -226,5 +227,6 @@ int main(){
 
         cout << res << '\n';
     }
+
     return 0;
 }

@@ -134,6 +134,7 @@ int day_of(const char* s){
     for (int d = 0; d < 7; d++){
         if (!strcmp(s, days[d])) return d;
     }
+
     return -1;
 }
 
@@ -163,5 +164,6 @@ int main(){
             }
         }
     }
+
     return 0;
 }

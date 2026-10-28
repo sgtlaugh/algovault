@@ -81,5 +81,6 @@ int main(){
         printf("%d%c", *it, i == n - 1 ? '\n' : ' ');
         circle.erase(it);
     }
+
     return 0;
 }

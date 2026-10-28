@@ -32,6 +32,7 @@ int discrete_log(int a, int b, int mod){
         for (; k; k >>= 1, base = base * base % mod){
             if (k & 1) res = res * base % mod;
         }
+
         return (int)res;
     };
 
@@ -104,6 +105,7 @@ array<long long, 3> extended_gcd(long long a, long long b){
         tie(y, y1) = make_pair(y1, y - q * y1);
         tie(a, b) = make_pair(b, a - q * b);
     }
+
     return {a, x, y};
 }
 
@@ -284,6 +286,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -421,6 +424,7 @@ long long expo(long long x, long long k){
     for (; k; k >>= 1, x = x * x % P){
         if (k & 1) res = res * x % P;
     }
+
     return res;
 }
 
@@ -488,5 +492,6 @@ int main(){
         read(A);
         write(solve(A));
     }
+
     return 0;
 }

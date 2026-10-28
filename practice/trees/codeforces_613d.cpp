@@ -262,6 +262,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -432,5 +433,6 @@ int main(){
         write(solve(tree, nodes));
         for (i = 0; i < k; i++) important[nodes[i]] = false;
     }
+
     return 0;
 }

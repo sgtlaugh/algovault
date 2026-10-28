@@ -149,6 +149,7 @@ int main(){
                 Point shift = Point(-d.y, d.x) * (r / hypotl(d.x, d.y));
                 h.emplace_back(a + shift, b + shift);
             }
+
             return !halfplane_intersection(h, 20000).empty();
         };
 
@@ -160,5 +161,6 @@ int main(){
         }
         printf("%.6f\n", (double)lo);
     }
+
     return 0;
 }

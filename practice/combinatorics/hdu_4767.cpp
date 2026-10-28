@@ -31,6 +31,7 @@ namespace bell_ntt{
         for (b %= mod; e; e >>= 1, b = b * b % mod){
             if (e & 1) res = res * b % mod;
         }
+
         return res;
     }
 
@@ -158,6 +159,7 @@ namespace bell_ntt{
         for (long long d = 2; d * d <= x; d++){
             if (x % d == 0) return false;
         }
+
         return true;
     }
 
@@ -294,6 +296,7 @@ array<long long, 3> extended_gcd(long long a, long long b){
         tie(y, y1) = make_pair(y1, y - q * y1);
         tie(a, b) = make_pair(b, a - q * b);
     }
+
     return {a, x, y};
 }
 
@@ -372,6 +375,7 @@ struct Garner{
             res += (unsigned __int128)digit[j] * c[j];
             if (j % 3 == 2) res %= m[i];  /// 3 products below 2^126 plus a residue fit 128 bits, 7-36% faster
         }
+
         return res % m[i];
     }
 };
@@ -520,6 +524,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -655,5 +660,6 @@ int main(){
             write(CRT(rems, mods));
         }
     }
+
     return 0;
 }

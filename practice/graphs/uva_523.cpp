@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -123,5 +124,6 @@ int main(){
             printf("Total cost : %lld\n", c == d ? 0 : fw.dist[c - 1][d - 1] - tax[d - 1]);
         }
     }
+
     return 0;
 }

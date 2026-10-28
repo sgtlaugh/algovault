@@ -63,5 +63,6 @@ int main(){
         for (int& x : blocks) scanf("%d", &x);
         printf("Case %d: %d\n", tc, blocks_max_score(blocks));
     }
+
     return 0;
 }

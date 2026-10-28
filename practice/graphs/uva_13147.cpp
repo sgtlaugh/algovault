@@ -239,5 +239,6 @@ int main(){
         for (int c = 0; c <= planes; c++) best = min(best, g.dist[c * n + dest]);
         printf("%lld\n", best);
     }
+
     return 0;
 }

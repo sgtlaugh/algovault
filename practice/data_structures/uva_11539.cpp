@@ -65,6 +65,7 @@ struct Trie{
             if (c < 0 || c >= SIGMA || next[v][c] == -1) return -1;
             v = next[v][c];
         }
+
         return v;
     }
 
@@ -211,5 +212,6 @@ int main(){
 
         printf("Case %d: %d\n", tc, dp[0]);
     }
+
     return 0;
 }

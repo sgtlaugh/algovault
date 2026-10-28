@@ -248,5 +248,6 @@ int main(){
         long long a = plain.dist[dst], b = turning.dist[sink];
         printf("Case %d: %lld %lld\n", ++t, a == DIJKSTRA_INF ? -1 : a + cost[src], b == DIJKSTRA_INF ? -1 : b + cost[src]);
     }
+
     return 0;
 }

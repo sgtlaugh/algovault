@@ -105,5 +105,6 @@ int main(){
         int n = s.size(), p = n - prefix_function(s)[n - 1];
         cout << (n % p ? 1 : n / p) << '\n';
     }
+
     return 0;
 }

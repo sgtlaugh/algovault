@@ -77,5 +77,6 @@ int main(){
         if (res < 0) res += MOD;
         printf("%lld\n", res);
     }
+
     return 0;
 }

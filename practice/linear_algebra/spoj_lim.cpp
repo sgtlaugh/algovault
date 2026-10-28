@@ -156,5 +156,6 @@ int main(){
         vector<double> probability = gauss(equations).x;
         printf("%.3f\n", max(0.0, probability[0]) + 1e-9);
     }
+
     return 0;
 }

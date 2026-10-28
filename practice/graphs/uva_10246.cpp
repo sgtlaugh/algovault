@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -111,5 +112,6 @@ int main(){
             printf("%lld\n", res[u - 1][v - 1] == INF ? -1 : res[u - 1][v - 1]);
         }
     }
+
     return 0;
 }

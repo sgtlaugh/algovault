@@ -70,5 +70,6 @@ int main(){
         for (int i = 1; i < k; i++) best = min(best, dp[(full - 1) * k + i] + dist[i][0]);
         printf("Case %d: %d\n", tc, best);
     }
+
     return 0;
 }

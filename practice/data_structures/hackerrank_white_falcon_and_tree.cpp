@@ -203,6 +203,7 @@ struct ComposeAssign{
         for (; len; len >>= 1, lz = after(lz, lz)){
             if (len & 1) res = after(res, lz);
         }
+
         return {res, res};
     }
     static Func compose(Func, Func lz){ return lz; }
@@ -284,5 +285,6 @@ int main(){
             printf("%lld\n", (up.a * x + up.b) % MOD);
         }
     }
+
     return 0;
 }

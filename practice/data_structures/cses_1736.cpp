@@ -221,5 +221,6 @@ int main(){
         if (t == 1) st.update(a, b, {1 - a, 1});
         else cout << st.query(a, b).sum << '\n';
     }
+
     return 0;
 }

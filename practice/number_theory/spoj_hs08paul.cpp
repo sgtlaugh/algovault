@@ -92,5 +92,6 @@ int main(){
         scanf("%d", &n);
         printf("%d\n", cnt[n]);
     }
+
     return 0;
 }

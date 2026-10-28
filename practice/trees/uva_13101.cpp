@@ -99,6 +99,7 @@ struct HLD{
         for (auto& e : ranges){
             if (e.first > e.second) swap(e.first, e.second);
         }
+
         return ranges;
     }
 
@@ -155,6 +156,7 @@ struct HLD{
             if (depth[head[u]] < depth[head[v]]) swap(u, v);
             u = parent[head[u]];
         }
+
         return depth[u] < depth[v] ? u : v;
     }
 };
@@ -179,6 +181,7 @@ struct GcdTree{
             if (l & 1) res = __gcd(res, t[l++]);
             if (r & 1) res = __gcd(res, t[--r]);
         }
+
         return res;
     }
 };
@@ -210,5 +213,6 @@ int main(){
             else printf("%d\n", hld.query_path(seg, u, v));
         }
     }
+
     return 0;
 }

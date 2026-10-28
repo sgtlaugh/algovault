@@ -186,5 +186,6 @@ int main(){
             for (int i = 0; i < (int)top[v].size(); i++) printf("%d%c", top[v][i], i + 1 == (int)top[v].size() ? '\n' : ' ');
         }
     }
+
     return 0;
 }

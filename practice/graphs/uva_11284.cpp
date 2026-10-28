@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -131,5 +132,6 @@ int main(){
         if (best > 0) printf("Daniel can save $%lld.%02lld\n", best / 100, best % 100);
         else puts("Don't leave the house");
     }
+
     return 0;
 }

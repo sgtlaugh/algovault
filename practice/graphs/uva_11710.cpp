@@ -190,5 +190,6 @@ int main(){
         if (res.connected) printf("%lld\n", res.weight);
         else puts("Impossible");
     }
+
     return 0;
 }

@@ -275,6 +275,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -408,5 +409,6 @@ int main(){
         vector<double> v = local_minimum({1, 1, 1}, rayleigh, 0.5);
         write(fixed(sqrt(rayleigh(v)), 7));
     }
+
     return 0;
 }

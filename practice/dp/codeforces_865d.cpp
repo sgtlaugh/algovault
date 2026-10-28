@@ -136,6 +136,7 @@ long long min_cost_non_decreasing(const vector<long long>& a){
         f.prefix_min();
         f.add_abs(x);
     }
+
     return f.get_min();
 }
 
@@ -266,6 +267,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 

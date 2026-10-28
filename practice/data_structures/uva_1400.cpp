@@ -203,6 +203,7 @@ struct MaxRun{
         if (better(a.suf + b.pre, a.sl, b.pr, res.best, res.bl, res.br)){
             res.best = a.suf + b.pre, res.bl = a.sl, res.br = b.pr;
         }
+
         return res;
     }
     static Run apply(Run val, int, int){ return val; }
@@ -229,5 +230,6 @@ int main(){
             printf("%d %d\n", res.bl + 1, res.br + 1);
         }
     }
+
     return 0;
 }

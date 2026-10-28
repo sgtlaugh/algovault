@@ -82,6 +82,7 @@ long long take_photos(int n, int m, int k, vector<int> r, vector<int> c){
             dp = hull[head].at(hi[i]);
             dp.first += sq(hi[i]) + lambda, dp.second++;
         }
+
         return dp;
     };
 

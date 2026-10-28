@@ -32,6 +32,7 @@ int discrete_log(int a, int b, int mod){
         for (; k; k >>= 1, base = base * base % mod){
             if (k & 1) res = res * base % mod;
         }
+
         return (int)res;
     };
 
@@ -198,6 +199,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -331,6 +333,7 @@ long long expo(long long x, long long k, long long mod){
     for (; k; k >>= 1, x = x * x % mod){
         if (k & 1) res = res * x % mod;
     }
+
     return res;
 }
 
@@ -357,5 +360,6 @@ int main(){
         else res = power(n, MOD) * ((MOD + 1) / 2) % MOD * (expo(2, c, MOD) - 1 + MOD) % MOD;
         write(res);
     }
+
     return 0;
 }

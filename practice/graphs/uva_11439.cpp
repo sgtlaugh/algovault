@@ -231,6 +231,7 @@ int main(){
                     if (w[i][j] >= threshold) b.add_edge(i, j);
                 }
             }
+
             return 2 * b.maximum_matching() == n;
         };
 
@@ -242,5 +243,6 @@ int main(){
         }
         printf("Case %d: %d\n", tc, values[lo]);
     }
+
     return 0;
 }

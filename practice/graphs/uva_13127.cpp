@@ -242,5 +242,6 @@ int main(){
         for (int i = 0; i < (int)res.size(); i++) printf(i ? " %d" : "%d", res[i]);
         puts("");
     }
+
     return 0;
 }

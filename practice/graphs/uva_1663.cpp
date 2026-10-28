@@ -38,6 +38,7 @@ struct HopcroftKarp{
                 if (match_left[u] == -1) augment(u, limit);
             }
         }
+
         return n_left - count(match_left.begin(), match_left.end(), -1);
     }
 
@@ -61,6 +62,7 @@ struct HopcroftKarp{
                 }
             }
         }
+
         return limit;
     }
 
@@ -80,6 +82,7 @@ struct HopcroftKarp{
                     int y = adj[x][it[x] - 1];
                     match_left[x] = y, match_right[y] = x;
                 }
+
                 return;
             }
             if (w != -1 && dist[w] == dist[u] + 1) stack.push_back(w);
@@ -191,6 +194,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -208,6 +212,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -365,5 +370,6 @@ int main(){
 
         write(cnt - hk.max_matching());
     }
+
     return 0;
 }

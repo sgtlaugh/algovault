@@ -134,5 +134,6 @@ int main(){
         }
         printf("The shortest path has length %lld\n", g.shortest_cycle().first);
     }
+
     return 0;
 }

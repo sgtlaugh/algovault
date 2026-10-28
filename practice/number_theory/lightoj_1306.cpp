@@ -31,6 +31,7 @@ long long extended_gcd(long long a, long long b, long long& x, long long& y){
         tie(y, y1) = make_pair(y1, y - q * y1);
         tie(a, b) = make_pair(b, a - q * b);
     }
+
     return a;
 }
 
@@ -187,6 +188,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -204,6 +206,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -339,5 +342,6 @@ int main(){
         snprintf(buf, sizeof(buf), "Case %d: %lld", cs, count_diophantine(a, b, -c, x1, x2, y1, y2));
         write(string(buf));
     }
+
     return 0;
 }

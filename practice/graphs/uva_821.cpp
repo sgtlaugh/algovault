@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -98,5 +99,6 @@ int main(){
         int k = pages.size();
         printf("Case %d: average length between pages = %.3f clicks\n", ++cs, (double)sum / (k * (k - 1)));
     }
+
     return 0;
 }

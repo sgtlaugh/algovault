@@ -176,5 +176,6 @@ int main(){
 
         for (int i = 0; i < q; i++) puts(found[i] ? "y" : "n");
     }
+
     return 0;
 }

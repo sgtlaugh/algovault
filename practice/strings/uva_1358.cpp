@@ -116,5 +116,6 @@ int main(){
         if (tc > 1) puts("");
         printf("Case %d:\n%lld\n", tc, expected);
     }
+
     return 0;
 }

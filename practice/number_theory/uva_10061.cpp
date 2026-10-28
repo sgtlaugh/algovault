@@ -44,5 +44,6 @@ int main(){
         }
         printf("%lld %lld\n", zeros, digits_of_factorial(n, b));
     }
+
     return 0;
 }

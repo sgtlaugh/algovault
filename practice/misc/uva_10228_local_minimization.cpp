@@ -275,6 +275,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -407,6 +408,7 @@ double total(const vector<double>& v){
         double dx = v[0] - px[i], dy = v[1] - py[i];
         res += sqrt((dx * dx) + (dy * dy));
     }
+
     return res;
 }
 
@@ -426,5 +428,6 @@ int main(){
             write(fixed(total(local_minimum(c, total, 1000)), 0));
         }
     }
+
     return 0;
 }

@@ -313,6 +313,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -330,6 +331,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -467,5 +469,6 @@ int main(){
     for (i = 0; i < n; i++){
         if (b.mate[i] > i) write(i + 1, b.mate[i] + 1);
     }
+
     return 0;
 }

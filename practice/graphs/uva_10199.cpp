@@ -108,6 +108,7 @@ struct Biconnected{
                 }
             }
         }
+
         return tree;
     }
 
@@ -123,6 +124,7 @@ struct Biconnected{
         for (int u = 0; u < n; u++){
             if (is_cut[u]) cuts.push_back(u);
         }
+
         return cuts;
     }
 };
@@ -152,5 +154,6 @@ int main(){
         printf("City map #%d: %d camera(s) found\n", ++tc, (int)cuts.size());
         for (int v: cuts) puts(names[v].c_str());
     }
+
     return 0;
 }

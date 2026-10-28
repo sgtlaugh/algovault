@@ -261,5 +261,6 @@ int main(){
         for (int i = 0; i < n; i++) printf(" %lld %lld", s[i], r[i]);
         puts("");
     }
+
     return 0;
 }

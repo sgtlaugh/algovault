@@ -165,5 +165,6 @@ int main(){
         for (int i = 0; i < n; i++) scanf("%d %d %d", &V[i], &U[i], &W[i]);
         for (int i = 0; i < n; i++) puts(can_win(i) ? "Yes" : "No");
     }
+
     return 0;
 }

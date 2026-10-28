@@ -116,5 +116,6 @@ int main(){
         while (e--) scanf("%d %d %d", &a, &b, &c), g.add_edge(2 * a - 1, 2 * b - 2, 1, c);
         printf("%lld\n", g.solve(0, 2 * v - 1, 2).second);
     }
+
     return 0;
 }

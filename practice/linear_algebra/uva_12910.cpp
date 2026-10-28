@@ -126,5 +126,6 @@ int main(){
         vector<double> res = gauss(eq).x;
         printf("%0.9f\n", res[0] + 1e-12);
     }
+
     return 0;
 }

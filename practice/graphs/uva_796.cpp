@@ -143,5 +143,6 @@ int main(){
         for (auto link: links) printf("%d - %d\n", link.first, link.second);
         puts("");
     }
+
     return 0;
 }

@@ -215,5 +215,6 @@ int main(){
         cin >> a >> b;
         cout << st.query(a - 1, b - 1).best << '\n';
     }
+
     return 0;
 }

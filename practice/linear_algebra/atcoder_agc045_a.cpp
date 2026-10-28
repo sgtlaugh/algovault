@@ -75,6 +75,7 @@ struct XorBasis{
             if (k >> j & 1) res ^= basis[i];
             j++;
         }
+
         return res;
     }
 
@@ -92,6 +93,7 @@ struct XorBasis{
             }
             else if (differ) return want ? res + (1ULL << below) : res;
         }
+
         return res;
     }
 
@@ -118,6 +120,7 @@ struct XorBasis{
         for (ull v : other.basis){
             if (v) add_row(v, 0);
         }
+
         return res;
     }
 };
@@ -142,5 +145,6 @@ int main(){
         }
         printf("%d\n", res);
     }
+
     return 0;
 }

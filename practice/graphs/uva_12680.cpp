@@ -242,5 +242,6 @@ int main(){
             for (int i = 0; i < (int)path.size(); i++) printf("%d%c", path[i], i + 1 < (int)path.size() ? ' ' : '\n');
         }
     }
+
     return 0;
 }

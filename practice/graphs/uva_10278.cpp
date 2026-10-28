@@ -249,5 +249,6 @@ int main(){
         if (tc) puts("");
         printf("%d\n", best + 1);
     }
+
     return 0;
 }

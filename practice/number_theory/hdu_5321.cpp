@@ -171,6 +171,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -356,5 +357,6 @@ int main(){
         else snprintf(buf, sizeof(buf), "Equal %lld", x);
         write(string(buf));
     }
+
     return 0;
 }

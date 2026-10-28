@@ -124,5 +124,6 @@ int main(){
         if (flow == d) printf("%lld\n", cost);
         else puts("Impossible.");
     }
+
     return 0;
 }

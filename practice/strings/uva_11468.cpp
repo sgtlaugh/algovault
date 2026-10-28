@@ -175,5 +175,6 @@ int main(){
         }
         printf("Case #%d: %.6f\n", tc, accumulate(prob.begin(), prob.end(), 0.0) + 1e-9);
     }
+
     return 0;
 }

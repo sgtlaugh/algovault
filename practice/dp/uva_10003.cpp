@@ -63,5 +63,6 @@ int main(){
         auto dp = knuth_dp<int>(n + 1, [&](int i, int j){ return p[j] - p[i]; });
         printf("The minimum cutting is %d.\n", dp[0][n + 1]);
     }
+
     return 0;
 }

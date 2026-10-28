@@ -265,6 +265,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -411,5 +412,6 @@ int main(){
         if (canon.unrooted_id(a) == canon.unrooted_id(b)) write("YES");
         else write("NO");
     }
+
     return 0;
 }

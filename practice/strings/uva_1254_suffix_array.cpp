@@ -158,6 +158,7 @@ namespace SuffixArraySAIS{
             lcp[rank[i]] = k;
             if (k > 0) k--;
         }
+
         return lcp;
     }
 }
@@ -278,6 +279,7 @@ struct SuffixArrayQueries : SuffixArray{
             if (cmp < 0 || (strict && cmp == 0)) lo = mid + 1;
             else hi = mid;
         }
+
         return lo;
     }
 
@@ -288,6 +290,7 @@ struct SuffixArrayQueries : SuffixArray{
             if (p + k == n) return -1;
             if (text[p + k] != pattern[k]) return text[p + k] < pattern[k] ? -1 : 1;
         }
+
         return 0;
     }
 
@@ -317,6 +320,7 @@ Best merge(const Best& a, const Best& b){
         int x = (j == b.size() || (i < a.size() && a[i] < b[j])) ? a[i++] : b[j++];
         if (res.empty() || res.back() != x) res.push_back(x);
     }
+
     return res;
 }
 
@@ -358,5 +362,6 @@ int main(){
             for (int i = 0; i < (int)best.size(); i++) printf("%d%c", words[best[i]].id, i + 1 == (int)best.size() ? '\n' : ' ');
         }
     }
+
     return 0;
 }

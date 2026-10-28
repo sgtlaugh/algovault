@@ -225,5 +225,6 @@ int main(){
             else st.update(a, b, op == 'E' ? 0 : op == 'F' ? 1 : 2);
         }
     }
+
     return 0;
 }

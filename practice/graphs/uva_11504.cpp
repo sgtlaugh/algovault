@@ -79,6 +79,7 @@ struct SCC{
             sort(out.begin(), out.end());
             out.erase(unique(out.begin(), out.end()), out.end());
         }
+
         return dag;
     }
 };
@@ -104,5 +105,6 @@ int main(){
         }
         printf("%d\n", (int)count(has_in.begin(), has_in.end(), 0));
     }
+
     return 0;
 }

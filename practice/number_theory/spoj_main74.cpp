@@ -171,6 +171,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -309,5 +310,6 @@ int main(){
         if (n <= 1) write(2 * n);
         else write(fibonacci(n + 3, MOD));
     }
+
     return 0;
 }

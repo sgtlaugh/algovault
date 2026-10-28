@@ -126,6 +126,7 @@ int main(){
                     if (p[f] > 0 && dist[v] == -1) dist[v] = dist[queue[i]] + 1, queue.push_back(v);
                 }
             }
+
             return dist;
         };
 
@@ -157,5 +158,6 @@ int main(){
         vector<long double> expected = gauss(equations, 1e-12L).x;
         printf("%d %d\n", dist[100], (int)llround(expected[0]));
     }
+
     return 0;
 }

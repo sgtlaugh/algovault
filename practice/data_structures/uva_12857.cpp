@@ -65,6 +65,7 @@ struct Trie{
             if (c < 0 || c >= SIGMA || next[v][c] == -1) return -1;
             v = next[v][c];
         }
+
         return v;
     }
 
@@ -211,9 +212,11 @@ int main(){
                 if (l != 1) r += l;
                 res = min(res, r);
             }
+
             return res;
         };
         printf("%d\n", best(0, 0, n, n) * n);
     }
+
     return 0;
 }

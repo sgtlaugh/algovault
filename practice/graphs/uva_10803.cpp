@@ -45,6 +45,7 @@ struct FloydWarshall{
             u = nxt[u][v];
             res.push_back(u);
         }
+
         return res;
     }
 
@@ -101,5 +102,6 @@ int main(){
         if (res == FloydWarshall::INF) puts("Send Kurdy\n");
         else printf("%.4f\n\n", res / SCALE);
     }
+
     return 0;
 }

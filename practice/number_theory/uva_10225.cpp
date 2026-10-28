@@ -31,6 +31,7 @@ int discrete_log(int a, int b, int mod){
         for (; k; k >>= 1, base = base * base % mod){
             if (k & 1) res = res * base % mod;
         }
+
         return (int)res;
     };
 
@@ -66,5 +67,6 @@ int main(){
         if (x == -1) puts("no solution");
         else printf("%d\n", x);
     }
+
     return 0;
 }

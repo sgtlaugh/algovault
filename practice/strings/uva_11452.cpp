@@ -109,5 +109,6 @@ int main(){
         for (int i = 0; i < 8; i++) s.push_back(s[s.size() - p]);
         printf("%s...\n", s.substr(n).c_str());
     }
+
     return 0;
 }

@@ -242,6 +242,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -393,5 +394,6 @@ int main(){
         if (res <= h) write("YES");
         else write("NO");
     }
+
     return 0;
 }

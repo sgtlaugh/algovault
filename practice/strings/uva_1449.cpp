@@ -162,5 +162,6 @@ int main(){
             if (hits[i] == best) puts(ac.dictionary[i].c_str());
         }
     }
+
     return 0;
 }

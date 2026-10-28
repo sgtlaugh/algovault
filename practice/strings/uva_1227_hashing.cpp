@@ -125,6 +125,7 @@ int main(){
                 for (int l = 0; l + len <= (int)genome[i].size(); l++) alive += table.mark(hashes[i].get_hash(l, l + len - 1), i);
                 if (!alive) return false;
             }
+
             return true;
         };
 
@@ -136,5 +137,6 @@ int main(){
         }
         printf("%d\n", lo);
     }
+
     return 0;
 }

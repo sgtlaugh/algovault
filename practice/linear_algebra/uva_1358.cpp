@@ -127,5 +127,6 @@ int main(){
         if (cs > 1) puts("");
         printf("Case %d:\n%lld\n", cs, llroundl(accumulate(d.begin(), d.end(), 0.0L)));
     }
+
     return 0;
 }

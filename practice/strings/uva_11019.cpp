@@ -108,6 +108,7 @@ vector<string> read_grid(int rows){
         scanf("%1023s", line);
         row = line;
     }
+
     return grid;
 }
 
@@ -123,5 +124,6 @@ int main(){
         vector<string> pattern = read_grid(x);
         printf("%d\n", (int)PatternMatcher2D(pattern).find(text).size());
     }
+
     return 0;
 }

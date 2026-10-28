@@ -29,6 +29,7 @@ vector<int> previous_smaller(const vector<T>& a){
         res[i] = stack.empty() ? -1 : stack.back();
         stack.push_back(i);
     }
+
     return res;
 }
 
@@ -41,6 +42,7 @@ vector<int> next_smaller(const vector<T>& a){
         res[i] = stack.empty() ? n : stack.back();
         stack.push_back(i);
     }
+
     return res;
 }
 
@@ -73,5 +75,6 @@ int main(){
 
         printf("%lld\n", 3 * res);
     }
+
     return 0;
 }

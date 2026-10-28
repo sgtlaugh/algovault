@@ -81,5 +81,6 @@ int main(){
         auto cost = [&](int j, int i){ return (a[i - 1] - a[j]) * (a[i - 1] - a[j]); };
         printf("Case %d: %lld\n", tc, divide_conquer_dp<long long>(n, min(m, n), cost)[n]);
     }
+
     return 0;
 }

@@ -50,5 +50,6 @@ int main(){
         }
         printf("%d\n", (int)lcis(log[0], log[1]).size());
     }
+
     return 0;
 }

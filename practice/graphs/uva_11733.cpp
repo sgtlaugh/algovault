@@ -185,5 +185,6 @@ int main(){
         long long airports = n - r.chosen.size();
         printf("Case #%d: %lld %lld\n", tc, r.weight + airports * airport, airports);
     }
+
     return 0;
 }

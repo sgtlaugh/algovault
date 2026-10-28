@@ -113,6 +113,7 @@ vector<bitset<W>> rows_of(const vector<string>& bits){
         for (int j = 0; j < (int)s.size(); j++) row[j] = s[j] == '1';
         res.push_back(row);
     }
+
     return res;
 }
 
@@ -174,5 +175,6 @@ int main(){
         if (presses == -1) puts("inf");
         else printf("%d\n", presses);
     }
+
     return 0;
 }

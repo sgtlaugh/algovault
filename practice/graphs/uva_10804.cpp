@@ -53,6 +53,7 @@ struct HopcroftKarp{
                 }
             }
         }
+
         return limit;
     }
 
@@ -72,6 +73,7 @@ struct HopcroftKarp{
                     int y = adj[x][it[x] - 1];
                     match_left[x] = y, match_right[y] = x;
                 }
+
                 return;
             }
             if (w != -1 && dist[w] == dist[u] + 1) stack.push_back(w);
@@ -87,6 +89,7 @@ struct HopcroftKarp{
                 if (match_left[u] == -1) augment(u, limit);
             }
         }
+
         return n_left - count(match_left.begin(), match_left.end(), -1);
     }
 };
@@ -117,6 +120,7 @@ int main(){
                     if (d[i][j] <= lim) hk.add_edge(i, j);
                 }
             }
+
             return hk.max_matching() >= m - k;
         };
 
@@ -124,5 +128,6 @@ int main(){
         if (!enough(times.back())) puts("Too bad.\n");
         else printf("%.3f\n\n", *partition_point(times.begin(), times.end(), [&](double x){ return !enough(x); }));
     }
+
     return 0;
 }

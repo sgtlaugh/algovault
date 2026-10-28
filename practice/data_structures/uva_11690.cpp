@@ -33,6 +33,7 @@ struct DSU{
             parent[i] = parent[parent[i]];
             i = parent[i];
         }
+
         return parent[i];
     }
 
@@ -77,5 +78,6 @@ int main(){
         bool ok = all_of(total.begin(), total.end(), [](long long s){ return s == 0; });
         puts(ok ? "POSSIBLE" : "IMPOSSIBLE");
     }
+
     return 0;
 }

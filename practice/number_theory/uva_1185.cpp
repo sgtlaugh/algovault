@@ -39,5 +39,6 @@ int main(){
         scanf("%d", &n);
         printf("%lld\n", digits_of_factorial(n));
     }
+
     return 0;
 }

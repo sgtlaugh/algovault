@@ -225,6 +225,7 @@ int main(){
                     a = up[k][a], b = up[k][b];
                 }
             }
+
             return max({res, heaviest[0][a], heaviest[0][b]});
         };
 
@@ -237,5 +238,6 @@ int main(){
             printf("%lld\n", query(s - 1, t - 1));
         }
     }
+
     return 0;
 }

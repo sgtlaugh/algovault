@@ -85,5 +85,6 @@ int main(){
         scanf("%d", &n);
         printf("%lld\n", sigma[n] - n);
     }
+
     return 0;
 }

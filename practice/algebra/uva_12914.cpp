@@ -480,6 +480,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -609,6 +610,7 @@ long long expo(long long b, long long e){
     for (b %= MOD; e; e >>= 1, b = b * b % MOD){
         if (e & 1) res = res * b % MOD;
     }
+
     return res;
 }
 
@@ -637,5 +639,6 @@ int main(){
         }
         write(out);
     }
+
     return 0;
 }

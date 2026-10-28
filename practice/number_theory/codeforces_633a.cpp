@@ -31,6 +31,7 @@ array<long long, 3> extended_gcd(long long a, long long b){
         tie(y, y1) = make_pair(y1, y - q * y1);
         tie(a, b) = make_pair(b, a - q * b);
     }
+
     return {a, x, y};
 }
 
@@ -211,6 +212,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 

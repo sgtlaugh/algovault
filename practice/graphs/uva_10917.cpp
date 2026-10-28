@@ -236,5 +236,6 @@ int main(){
         }
         printf("%llu\n", ways[1]);
     }
+
     return 0;
 }

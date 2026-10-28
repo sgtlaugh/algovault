@@ -77,6 +77,7 @@ struct Treap{
             if (key < nodes[t].key) t = nodes[t].l;
             else res += size(nodes[t].l) + 1, t = nodes[t].r;
         }
+
         return res - count_less(key);
     }
 
@@ -86,6 +87,7 @@ struct Treap{
             if (nodes[t].key < key) res += size(nodes[t].l) + 1, t = nodes[t].r;
             else t = nodes[t].l;
         }
+
         return res;
     }
 
@@ -220,6 +222,7 @@ struct ImplicitTreap{
             res.push_back(nodes[t].value);
             t = nodes[t].r;
         }
+
         return res;
     }
 
@@ -243,6 +246,7 @@ struct ImplicitTreap{
             pull(stack.back());
             stack.pop_back();
         }
+
         return res;
     }
 
@@ -418,6 +422,7 @@ namespace fio{
         for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
             s.push_back(c);
         }
+
         return true;
     }
 
@@ -435,6 +440,7 @@ namespace fio{
         for (auto &&x: v){
             if (!read_one(x)) return false;
         }
+
         return true;
     }
 
@@ -590,5 +596,6 @@ int main(){
         }
         write(string());
     }
+
     return 0;
 }

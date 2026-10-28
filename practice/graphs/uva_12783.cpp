@@ -140,5 +140,6 @@ int main(){
         for (auto w : weak) printf(" %d %d", w.first, w.second);
         puts("");
     }
+
     return 0;
 }

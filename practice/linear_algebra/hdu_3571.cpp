@@ -184,5 +184,6 @@ int main(){
             printf("%lld%c", center, j + 1 < n ? ' ' : '\n');
         }
     }
+
     return 0;
 }

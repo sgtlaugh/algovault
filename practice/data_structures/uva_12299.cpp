@@ -213,5 +213,6 @@ int main(){
         a[idx.back()] = first;
         for (int i : idx) st.update(i, i, a[i]);
     }
+
     return 0;
 }
