@@ -179,7 +179,7 @@
 
 - [HackerRank euler066 - Project Euler #66: Diophantine equation](https://www.hackerrank.com/contests/projecteuler/challenges/euler066/problem)
 - [HDU 3292 - No more tricks, Mr Nanguo](http://acm.hdu.edu.cn/showproblem.php?pid=3292)
-- [UVa 138 - Street Numbers](https://onlinejudge.org/external/1/138.pdf)
+- [UVa 138 - Street Numbers](https://onlinejudge.org/external/1/138.pdf) [✔](../../practice/number_theory/uva_138.cpp "Accepted solution")
 
 #### [Pisano Period](pisano_period.cpp)
 
