@@ -61,7 +61,7 @@ void check(OnlineDynamicConnectivity& g, int n, const vector<pair<int, int>>& li
         }
     }
 
-    /// Catches raising a non-tree edge to a level where its endpoints are not yet joined, which answers hide for a while
+    /// Catches a non-tree edge raised above the level that joins its endpoints, which answers hide for a while
     for (auto& e: g.edges){
         if (e.level == -1 || e.u == e.v) continue;
         if (!e.arcs.empty()) assert((int)e.arcs.size() == e.level + 1);
