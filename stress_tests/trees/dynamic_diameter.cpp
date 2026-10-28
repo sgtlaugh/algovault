@@ -88,7 +88,7 @@ int main(){
 
     check(200000, 1, 5000, 1000000000LL, 5000);  /// a path, too deep for a recursive tour on an 8 MB stack
 
-    /// Tour sizes 2^k - 1 and 2^k + 1, where 4 << __lg slots are fullest, so a smaller seg fails _GLIBCXX_ASSERTIONS
+    /// Tour sizes 2^k - 1 and 2^k + 1, just under and over a power of two, where a wrong leaf count shows
     for (int k = 1; k <= 14; k++){
         for (int n : {1 << (k - 1), (1 << (k - 1)) + 1}) check(n, k % 5, 200, 1000000000LL, 100);
     }

@@ -22,15 +22,15 @@
 using namespace std;
 
 struct DynamicDiameter{
-    /// x: max f[x], y: max -2 f[y], xy: max f[x] - 2 f[y], yz: max -2 f[y] + f[z], xyz: max f[x] - 2 f[y] + f[z]
+    /// g(i): tour depth at i minus the depth before the range; xyz = max g(i) - 2 g(j) + g(k) over i <= j <= k
     struct Node{
-        long long x, y, xy, yz, xyz;
+        long long sum, x, y, xy, yz, xyz;
     };
 
-    int n, tour_size = 0;
+    int n, leaves = 0;
     vector<vector<pair<int, int>>> adj;
-    vector<long long> weight, lazy;
-    vector<int> child, first, last;
+    vector<long long> weight;
+    vector<int> enter, leave;
     vector<Node> seg;
 
     DynamicDiameter(int n) : n(n), adj(n) {}
@@ -46,89 +46,69 @@ struct DynamicDiameter{
 
     void build(){
         assert((int)weight.size() == n - 1);
-        child.assign(n - 1, -1), first.assign(n, -1), last.assign(n, -1);
+        enter.assign(n - 1, -1), leave.assign(n - 1, -1);
         vector<int> parent_edge(n, -1), next_edge(n, 0), stack = {0};
         vector<long long> dist(n, 0), tour = {0};
-        first[0] = 0;
 
-        /// Tour lists a node on entry and again after each child, so the subtree of v is exactly [first[v], last[v]]
+        /// Tour lists a node on entry and again after each child, so edge id covers [enter[id], leave[id] - 1]
         while (!stack.empty()){
             int u = stack.back();
             if (next_edge[u] < (int)adj[u].size()){
                 auto [v, id] = adj[u][next_edge[u]++];
                 if (id == parent_edge[u]) continue;
-                assert(first[v] == -1);
-                parent_edge[v] = id, child[id] = v, dist[v] = dist[u] + weight[id];
-                first[v] = tour.size(), tour.push_back(dist[v]);
+                assert(enter[id] == -1);
+                parent_edge[v] = id, dist[v] = dist[u] + weight[id];
+                enter[id] = tour.size(), tour.push_back(dist[v]);
                 stack.push_back(v);
                 continue;
             }
-            last[u] = tour.size() - 1;
             stack.pop_back();
-            if (!stack.empty()) tour.push_back(dist[stack.back()]);
+            if (stack.empty()) break;
+            leave[parent_edge[u]] = tour.size(), tour.push_back(dist[stack.back()]);
         }
         assert((int)tour.size() == 2 * n - 1);
 
-        /// 4 << __lg slots hold only while ranges split in halves, keeping the height at ceil(log2 tour_size)
-        tour_size = tour.size();
-        seg.assign(4 << __lg(tour_size), Node{}), lazy.assign(4 << __lg(tour_size), 0);
-        build_seg(1, 0, tour_size - 1, tour);
+        /// A power of two keeps every leaf on one level, so seg[1] combines the whole tour left to right
+        leaves = 1;
+        while (leaves < (int)tour.size()) leaves *= 2;
+        seg.assign(2 * leaves, Node{});
+        for (int i = 1; i < (int)tour.size(); i++) seg[leaves + i] = leaf(tour[i] - tour[i - 1]);
+        for (int i = leaves - 1; i >= 1; i--) seg[i] = combine(seg[2 * i], seg[2 * i + 1]);
     }
 
+    /// Both leaves change before any parent is recombined, so no node ever sees a half-applied update
     void update(int id, long long w){
         assert(w >= 0);
-        int v = child[id];
-        add(1, 0, tour_size - 1, first[v], last[v], w - weight[id]);
+        long long delta = w - weight[id];
         weight[id] = w;
+        int l = leaves + enter[id], r = leaves + leave[id];
+        seg[l] = leaf(seg[l].sum + delta), seg[r] = leaf(seg[r].sum - delta);
+        while (l > 1){
+            l /= 2, r /= 2;
+            seg[l] = combine(seg[2 * l], seg[2 * l + 1]);
+            if (r != l) seg[r] = combine(seg[2 * r], seg[2 * r + 1]);
+        }
     }
 
     long long diameter() const{
         return seg[1].xyz;
     }
 
-    void build_seg(int node, int b, int e, const vector<long long>& f){
-        if (b == e){
-            seg[node] = {f[b], -2 * f[b], -f[b], -f[b], 0};
-            return;
-        }
-
-        int mid = (b + e) / 2;
-        build_seg(2 * node, b, mid, f), build_seg(2 * node + 1, mid + 1, e, f);
-        seg[node] = combine(seg[2 * node], seg[2 * node + 1]);
+    static Node leaf(long long d){
+        return {d, d, -2 * d, -d, -d, 0};
     }
 
-    void add(int node, int b, int e, int l, int r, long long delta){
-        if (r < b || e < l) return;
-        if (l <= b && e <= r){
-            apply(node, delta);
-            return;
-        }
-
-        if (lazy[node]){
-            apply(2 * node, lazy[node]), apply(2 * node + 1, lazy[node]);
-            lazy[node] = 0;
-        }
-
-        int mid = (b + e) / 2;
-        add(2 * node, b, mid, l, r, delta), add(2 * node + 1, mid + 1, e, l, r, delta);
-        seg[node] = combine(seg[2 * node], seg[2 * node + 1]);
-    }
-
+    /// r's values are relative to the end of l, so each term shifts by l.sum once per g it holds
     static Node combine(const Node& l, const Node& r){
+        long long s = l.sum;
         Node res;
-        res.x = max(l.x, r.x);
-        res.y = max(l.y, r.y);
-        res.xy = max({l.xy, r.xy, l.x + r.y});
-        res.yz = max({l.yz, r.yz, l.y + r.x});
-        res.xyz = max({l.xyz, r.xyz, l.xy + r.x, l.x + r.yz});
+        res.sum = s + r.sum;
+        res.x = max(l.x, r.x + s);
+        res.y = max(l.y, r.y - 2 * s);
+        res.xy = max({l.xy, r.xy - s, l.x + (r.y - 2 * s)});
+        res.yz = max({l.yz, r.yz - s, l.y + (r.x + s)});
+        res.xyz = max({l.xyz, r.xyz, l.xy + (r.x + s), l.x + (r.yz - s)});
         return res;
-    }
-
-    /// xyz is unchanged: f[x] - 2 f[y] + f[z] cancels a delta shared by the whole range
-    void apply(int node, long long delta){
-        Node& t = seg[node];
-        t.x += delta, t.y -= 2 * delta, t.xy -= delta, t.yz -= delta;
-        lazy[node] += delta;
     }
 };
 
