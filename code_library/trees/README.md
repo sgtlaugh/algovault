@@ -103,7 +103,7 @@
 - [Timus 1471 - Distance in the Tree](https://acm.timus.ru/problem.aspx?num=1471) [✔](../../practice/trees/timus_1471.cpp "Accepted solution")
 - [USACO 576 - Max Flow](https://usaco.org/index.php?page=viewproblem2&cpid=576) [✔](../../practice/trees/usaco_576.cpp "Accepted solution")
 - [USACO 817 - New Barns](https://usaco.org/index.php?page=viewproblem2&cpid=817) [✔](../../practice/trees/usaco_817.cpp "Accepted solution")
-- [USACO 901 - Exercise Route](https://usaco.org/index.php?page=viewproblem2&cpid=901)
+- [USACO 901 - Exercise Route](https://usaco.org/index.php?page=viewproblem2&cpid=901) [✔](../../practice/trees/usaco_901.cpp "Accepted solution")
 - [USACO 970 - Milk Visits](https://usaco.org/index.php?page=viewproblem2&cpid=970)
 - [UVa 1674 - Lightning Energy Report](https://onlinejudge.org/external/16/1674.pdf) [✔](../../practice/trees/uva_1674_lca.cpp "Accepted solution")
 - [UVa 10938 - Flea circus](https://onlinejudge.org/external/109/10938.pdf) [✔](../../practice/trees/uva_10938.cpp "Accepted solution")
