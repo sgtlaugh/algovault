@@ -4,9 +4,9 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [Circle Geometry](#circle-geometry) | [Closest Pair of Points](#closest-pair-of-points) | [Convex Hull](#convex-hull) | [Delaunay Triangulation](#delaunay-triangulation) |
-| [Geometry](#geometry) | [Half-Plane Intersection](#half-plane-intersection) | [KD-Tree](#kd-tree) | [Pick's Theorem](#picks-theorem) |
-| [Polygon Union](#polygon-union) | [Rectangle Union](#rectangle-union) | [Segment Intersection Sweep](#segment-intersection-sweep) |  |
+| [Circle Geometry](#circle-geometry) | [Closest Pair of Points](#closest-pair-of-points) | [Convex Hull](#convex-hull) | [Convex Hull 3D](#convex-hull-3d) |
+| [Delaunay Triangulation](#delaunay-triangulation) | [Geometry](#geometry) | [Half-Plane Intersection](#half-plane-intersection) | [KD-Tree](#kd-tree) |
+| [Pick's Theorem](#picks-theorem) | [Polygon Union](#polygon-union) | [Rectangle Union](#rectangle-union) | [Segment Intersection Sweep](#segment-intersection-sweep) |
 
 <!-- /toc -->
 
@@ -71,6 +71,11 @@
 - [UVa 11626 - Convex Hull](https://onlinejudge.org/external/116/11626.pdf) [✔](../../practice/geometry/uva_11626.cpp "Accepted solution")
 - [UVa 12999 - Defense Plan](https://onlinejudge.org/external/129/12999.pdf) [✔](../../practice/geometry/uva_12999.cpp "Accepted solution")
 - [UVa 13024 - Saint John Festival](https://onlinejudge.org/external/130/13024.pdf) [✔](../../practice/geometry/uva_13024.cpp "Accepted solution")
+
+#### [Convex Hull 3D](convex_hull_3D.cpp)
+
+- [HDU 4273 - Rescue](https://acm.hdu.edu.cn/showproblem.php?pid=4273)
+- [Kattis starsinacan - Stars in a Can](https://open.kattis.com/problems/starsinacan)
 
 #### [Delaunay Triangulation](delaunay.cpp)
 
