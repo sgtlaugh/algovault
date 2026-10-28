@@ -23,6 +23,7 @@ long long min_cut(int n, int src, int sink, const vector<Arc>& arcs){
         if (!(mask >> src & 1) || (mask >> sink & 1)) continue;
         best = min(best, cut_value(mask, arcs));
     }
+
     return best;
 }
 
@@ -33,6 +34,7 @@ int smallest_min_cut_side(int n, int src, int sink, const vector<Arc>& arcs){
     for (int mask = 0; mask < (1 << n); mask++){
         if ((mask >> src & 1) && !(mask >> sink & 1) && cut_value(mask, arcs) == best) side &= mask;
     }
+
     return side;
 }
 
@@ -80,6 +82,7 @@ vector<Arc> random_graph(HLPP<T>& g, FlowGraph& dinic, int m, long long max_cap)
             arcs.push_back({u, v, cap}), arcs.push_back({v, u, cap});
         }
     }
+
     return arcs;
 }
 
@@ -222,5 +225,6 @@ int main(){
         assert(g.maxflow() == bottleneck);
         check_flow(g, bottleneck);
     }
+
     return 0;
 }
