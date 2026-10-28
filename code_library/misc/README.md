@@ -84,7 +84,7 @@
 
 - [Codeforces 1310F - Bad Cryptography](https://codeforces.com/problemset/problem/1310/F) [✔](../../practice/misc/codeforces_1310f.cpp "Accepted solution")
 - [HDU 3404 - Switch lights](https://acm.hdu.edu.cn/showproblem.php?pid=3404) [✔](../../practice/misc/hdu_3404.cpp "Accepted solution")
-- [POJ 3533 - Light Switching Game](http://poj.org/problem?id=3533)
+- [POJ 3533 - Light Switching Game](http://poj.org/problem?id=3533) [✔](../../practice/misc/poj_3533.cpp "Accepted solution")
 
 #### [Numerical Integration](numerical_integration.cpp)
 
