@@ -54,7 +54,7 @@
 
 #### [Hackenbush](hackenbush.cpp)
 
-- [HDU 3094 - A tree game](https://acm.hdu.edu.cn/showproblem.php?pid=3094)
+- [HDU 3094 - A tree game](https://acm.hdu.edu.cn/showproblem.php?pid=3094) [✔](../../practice/misc/hdu_3094.cpp "Accepted solution")
 - [LightOJ 1355 - Game of CS](https://lightoj.com/problem/game-of-cs) [✔](../../practice/misc/lightoj_1355.cpp "Accepted solution")
 - [POJ 3710 - Christmas Game](http://poj.org/problem?id=3710) [✔](../../practice/misc/poj_3710.cpp "Accepted solution")
 
