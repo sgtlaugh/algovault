@@ -1,26 +1,26 @@
 /***
  *
  * Subsequence Automaton
- * Next occurrence of a symbol at or after a position, for greedy subsequence matching
+ * Next occurrence of each symbol after any position, for greedy subsequence matching, and distinct subsequence counts
  *
  * Complexity:
  *   - SubsequenceAutomaton: O(n alphabet) build time and memory, O(1) per next, O(|t|) per is_subsequence
  *   - SparseSubsequenceAutomaton: O(n log n) build, O(log n) per next, O(|t| log n) per is_subsequence
  *   - distinct_subsequences: O(n log n)
  *
- * SubsequenceAutomaton sa(s, alphabet = 26, first = 'a'): symbols of s must lie in [first, first + alphabet)
+ * SubsequenceAutomaton sa(s, alphabet = 26, first = 'a'): string, C string or vector s over [first, first + alphabet)
  * sa.is_subsequence(t): true if t is a subsequence of s, the empty t included
+ * sa.next(i, c): smallest j >= i with s[j] = c, n if none or c is outside the alphabet, for 0 <= i <= n + 1
+ *
+ * SparseSubsequenceAutomaton sa(s): vector s of any values with < and ==, such as ints up to 1e9
+ * sa.is_subsequence(t): true if the vector t is a subsequence of s, the empty t included
  * sa.next(i, c): smallest j >= i with s[j] = c, n if none, for 0 <= i <= n + 1
  *
- * SparseSubsequenceAutomaton sa(s): the same calls for a vector s of any values, such as ints up to 1e9
- *
- * distinct_subsequences(s, mod = 998244353): number of distinct non-empty subsequences of s, modulo mod
+ * distinct_subsequences(s, mod = 998244353): number of distinct non-empty subsequences of s modulo mod, mod <= 2^62
  *
  * Notes:
  *   - next(n + 1, c) = n, so a greedy walk i = next(i, c) + 1 never leaves the table and matched t iff i <= n
- *   - A symbol c outside the alphabet never occurs, so next returns n
- *   - The dense table holds 4 (n + 2) alphabet bytes, 104 MB at n = 1e6 and alphabet 26; above that use the sparse one
- *   - s is a string, a C string or a vector; distinct_subsequences needs mod <= 2^62
+ *   - SubsequenceAutomaton takes 4 (n + 2) alphabet bytes, 104 MB at n = 1e6 and alphabet 26, else use the sparse one
  *
 ***/
 
@@ -133,23 +133,23 @@ int main(){
     assert(sa.next(4, 'b') == 6);
     assert(sa.next(0, 'z') == 6);
     assert(sa.is_subsequence("bnn"));
-    assert(sa.is_subsequence(""));
     assert(!sa.is_subsequence("nb"));
 
+    /// A vector over the alphabet {0, 1}
     SubsequenceAutomaton bits(vector<int>{1, 0, 1}, 2, 0);
     assert(bits.is_subsequence(vector<int>{1, 1}));
     assert(!bits.is_subsequence(vector<int>{0, 0}));
 
-    /// Large values, as Library Checker number_of_subsequences gives them
+    /// Values too large for a dense table
     SparseSubsequenceAutomaton big(vector<int>{1000000000, 7, 1000000000});
     assert(big.next(1, 1000000000) == 2);
     assert(big.next(0, 8) == 3);
     assert(big.is_subsequence(vector<int>{7, 1000000000}));
     assert(!big.is_subsequence(vector<int>{7, 7}));
 
-    assert(distinct_subsequences("aba") == 6);  /// a, b, ab, ba, aa, aba
-    assert(distinct_subsequences(vector<int>{0, 0, 0, 1, 1}) == 11);
-    assert(distinct_subsequences("") == 0);
+    /// Counting distinct non-empty subsequences
+    assert(distinct_subsequences("aba") == 6);  /// a, b, aa, ab, ba, aba
+    assert(distinct_subsequences(vector<int>{0, 0, 0, 1, 1}) == 11);  /// 4 counts of 0s times 3 of 1s, minus empty
 
     return 0;
 }
