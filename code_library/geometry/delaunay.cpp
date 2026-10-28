@@ -58,7 +58,7 @@ struct Delaunay{
         return (pts[a].x - pts[o].x) * (pts[b].y - pts[o].y) - (pts[a].y - pts[o].y) * (pts[b].x - pts[o].x);
     }
 
-    /// True if d is strictly inside the circle through a, b, c in ccw order
+    /// True if d is strictly inside the circle through ccw a, b, c; partial sums reach 1.3e38 < 2^127 at |x|, |y| = 1e9
     bool in_circle(int a, int b, int c, int d) const{
         auto lift = [&](int u){
             long long dx = pts[u].x - pts[d].x, dy = pts[u].y - pts[d].y;
