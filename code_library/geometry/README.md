@@ -75,7 +75,10 @@
 #### [Delaunay Triangulation](delaunay.cpp)
 
 - [Codeforces acmsguru 383 - Caravans](https://codeforces.com/problemsets/acmsguru/problem/99999/383)
+- [Codeforces Gym 102482G - Panda Preserve](https://codeforces.com/gym/102482/problem/G)
 - [Luogu P6362 - 平面欧几里得最小生成树](https://www.luogu.com.cn/problem/P6362)
+- [Timus 1504 - Good Manners](https://acm.timus.ru/problem.aspx?num=1504)
+- [Timus 1520 - Empire Strikes Back](https://acm.timus.ru/problem.aspx?num=1520)
 
 #### [Geometry](geometry.cpp)
 
