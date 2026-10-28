@@ -29,7 +29,7 @@
 - [HDU 4812 - D Tree](https://acm.hdu.edu.cn/showproblem.php?pid=4812) [✔](../../practice/trees/hdu_4812.cpp "Accepted solution")
 - [oj.uz IOI11_race - Race](https://oj.uz/problem/view/IOI11_race) [✔](../../practice/trees/oj_uz_ioi11_race.cpp "Accepted solution")
 - [oj.uz JOI14_factories - Factories](https://oj.uz/problem/view/JOI14_factories) [✔](../../practice/trees/oj_uz_joi14_factories.cpp "Accepted solution")
-- [POJ 1987 - Distance Statistics](http://poj.org/problem?id=1987)
+- [POJ 1987 - Distance Statistics](http://poj.org/problem?id=1987) [✔](../../practice/trees/poj_1987.cpp "Accepted solution")
 - [SPOJ QTREE5 - Query on a tree V](https://www.spoj.com/problems/QTREE5/) [✔](../../practice/trees/spoj_qtree5.cpp "Accepted solution")
 - [USACO 286 - Yin and Yang](https://usaco.org/index.php?page=viewproblem2&cpid=286) [✔](../../practice/trees/usaco_286.cpp "Accepted solution")
 
