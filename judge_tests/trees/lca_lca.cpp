@@ -15,7 +15,7 @@ int read_int(){
 
 int main(){
     int n = read_int(), q = read_int();
-    LinearLCA tree(n);
+    FastLCA tree(n);
     for (int i = 1; i < n; i++) tree.add_edge(read_int(), i);
     tree.build(0);
 

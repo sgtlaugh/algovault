@@ -3,7 +3,7 @@
  * Virtual Tree (Auxiliary Tree)
  * Compresses a rooted tree to a vertex subset plus the pairwise LCAs needed to keep its shape, 0-based nodes
  *
- * Complexity: O(n) to build, O(k log k) per compress of k vertices
+ * Complexity: O(n log n) to build and memory, O(k log k) per compress of k vertices
  *
  * VirtualTree tree(n): an empty tree on nodes 0..n-1
  * tree.add_edge(u, v, w): adds the edge u - v of weight w, 1 by default
@@ -26,68 +26,15 @@
 
 using namespace std;
 
-/// BEGIN COPY linear_lca from code_library/trees/lca.cpp
-/// Range minimum index in O(n) build and O(1) query, the technique of sparse_table.cpp's LinearSparseTable
-struct LinearRMQ{
-    static constexpr int B = 64;
-    vector<int> val;
-    vector<unsigned long long> mask;
-    vector<vector<int>> table;
-
-    LinearRMQ() {}
-
-    LinearRMQ(const vector<int>& values) : val(values), mask(values.size()){
-        int n = val.size();
-        unsigned long long cur = 0;
-        for (int i = 0; i < n; i++){
-            cur <<= 1;
-            while (cur && val[i - __builtin_ctzll(cur)] >= val[i]) cur &= cur - 1;
-            cur |= 1;
-            mask[i] = cur;
-        }
-
-        int blocks = (n + B - 1) / B;
-        table.assign(1, vector<int>(blocks));
-        for (int b = 0; b < blocks; b++) table[0][b] = small_query(min(n - 1, b * B + B - 1), min(B, n - b * B));
-        for (int k = 1; (1 << k) <= blocks; k++){
-            table.push_back(vector<int>(blocks - (1 << k) + 1));
-            for (int b = 0; b + (1 << k) <= blocks; b++){
-                table[k][b] = better(table[k - 1][b], table[k - 1][b + (1 << (k - 1))]);
-            }
-        }
-    }
-
-    int query(int l, int r) const{
-        if (r - l + 1 <= B) return small_query(r, r - l + 1);
-        int res = better(small_query(l + B - 1), small_query(r));
-        int x = l / B + 1, y = r / B - 1;
-        if (x <= y){
-            int k = __lg(y - x + 1);
-            res = better(res, better(table[k][x], table[k][y - (1 << k) + 1]));
-        }
-        return res;
-    }
-
-    /// Index of the minimum in [r - size + 1, r], size <= 64
-    int small_query(int r, int size = B) const{
-        unsigned long long m = size == B ? mask[r] : mask[r] & ((1ULL << size) - 1);
-        /// Not __lg: GCC 14's __lg tests for 0, which costs LinearLCA.lca 4-8%
-        return r - (63 - __builtin_clzll(m));
-    }
-
-    int better(int i, int j) const{
-        return val[i] <= val[j] ? i : j;
-    }
-};
-
-struct LinearLCA{
+/// BEGIN COPY fast_lca from code_library/trees/lca.cpp
+struct FastLCA{
     int n, added_edges = 0;
     vector<vector<pair<int, long long>>> adj;
-    vector<int> first, tour, level;
+    vector<int> tin, order, level;
     vector<long long> weight_sum;
-    LinearRMQ rmq;
+    vector<vector<int>> table;
 
-    LinearLCA(int n) : n(n), adj(n), first(n), level(n), weight_sum(n) {}
+    FastLCA(int n) : n(n), adj(n), tin(n), order(n), level(n), weight_sum(n) {}
 
     void add_edge(int u, int v, long long w = 1){
         adj[u].push_back({v, w});
@@ -95,31 +42,34 @@ struct LinearLCA{
         added_edges++;
     }
 
+    /// table[k][i] is the min tin over the parents of the vertices at preorder positions i..i+2^k-1
     void build(int root = 0){
         assert(added_edges == n - 1);
-        vector<int> parent(n, -1), next_edge(n, 0), stack = {root}, depths = {0};
-        parent[root] = root;
-        tour = {root};
-        first[root] = 0, level[root] = 0, weight_sum[root] = 0;
-        int visited = 1;
+        vector<int> parent(n, -1);
+        vector<pair<int, int>> stack = {{root, 0}};
+        parent[root] = root, level[root] = 0, weight_sum[root] = 0;
+        table.assign(1, vector<int>(n));
+        int visited = 0;
 
         while (!stack.empty()){
-            int u = stack.back();
-            if (next_edge[u] < (int)adj[u].size()){
-                auto [v, w] = adj[u][next_edge[u]++];
+            auto [u, parent_tin] = stack.back();
+            stack.pop_back();
+            tin[u] = visited, order[visited] = u, table[0][visited++] = parent_tin;
+            for (auto [v, w] : adj[u]){
                 if (v == parent[u]) continue;
                 assert(parent[v] == -1);
                 parent[v] = u, level[v] = level[u] + 1, weight_sum[v] = weight_sum[u] + w;
-                first[v] = tour.size(), tour.push_back(v), depths.push_back(level[v]);
-                stack.push_back(v), visited++;
-                continue;
+                stack.push_back({v, tin[u]});
             }
-            stack.pop_back();
-            if (!stack.empty()) tour.push_back(stack.back()), depths.push_back(level[stack.back()]);
         }
-
         assert(visited == n);
-        rmq = LinearRMQ(depths);
+
+        for (int k = 1; (1 << k) <= n; k++){
+            table.push_back(vector<int>(n - (1 << k) + 1));
+            for (int i = 0; i + (1 << k) <= n; i++){
+                table[k][i] = min(table[k - 1][i], table[k - 1][i + (1 << (k - 1))]);
+            }
+        }
     }
 
     int depth(int v) const{
@@ -130,34 +80,37 @@ struct LinearLCA{
         return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
     }
 
+    /// For tin[u] < tin[v], the shallowest vertex at preorder positions tin[u] + 1..tin[v] is a child of the lca
     int lca(int u, int v) const{
-        int l = first[u], r = first[v];
+        if (u == v) return u;
+        int l = tin[u], r = tin[v];
         if (l > r) swap(l, r);
-        return tour[rmq.query(l, r)];
+        int k = __lg(r - l);
+        return order[min(table[k][l + 1], table[k][r - (1 << k) + 1])];
     }
 };
-/// END COPY linear_lca
+/// END COPY fast_lca
 
-struct VirtualTree : LinearLCA{
-    using LinearLCA::LinearLCA;
+struct VirtualTree : FastLCA{
+    using FastLCA::FastLCA;
 
     struct Node{ int v, parent; long long len; };
 
     /// The parent of each vertex is the lca of it and its predecessor in DFS order, so no stack is needed
     vector<Node> compress(vector<int> nodes) const{
-        auto by_tour = [&](int u, int v){ return first[u] < first[v]; };
+        auto by_tin = [&](int u, int v){ return tin[u] < tin[v]; };
 
-        sort(nodes.begin(), nodes.end(), by_tour);
+        sort(nodes.begin(), nodes.end(), by_tin);
         int k = nodes.size();
         for (int i = 0; i + 1 < k; i++) nodes.push_back(lca(nodes[i], nodes[i + 1]));
-        sort(nodes.begin(), nodes.end(), by_tour);
+        sort(nodes.begin(), nodes.end(), by_tin);
         nodes.erase(unique(nodes.begin(), nodes.end()), nodes.end());
         if (nodes.empty()) return {};
 
         vector<Node> res = {{nodes[0], -1, 0}};
         for (int i = 1; i < (int)nodes.size(); i++){
             int p = lca(nodes[i - 1], nodes[i]);
-            int p_idx = lower_bound(nodes.begin(), nodes.end(), p, by_tour) - nodes.begin();
+            int p_idx = lower_bound(nodes.begin(), nodes.end(), p, by_tin) - nodes.begin();
             res.push_back({nodes[i], p_idx, weight_sum[nodes[i]] - weight_sum[p]});
         }
 
@@ -188,7 +141,7 @@ int main(){
     };
 
     /// 6 and 4 meet at 1, which meets 5 at 0; compressed edge 6 - 1 stands for 6 3 1, 5 + 2
-    assert((fields(tree.compress({6, 4, 5})) == Result{{0, -1, 0}, {1, 0, 3}, {6, 1, 7}, {4, 1, 7}, {5, 0, 5}}));
+    assert((fields(tree.compress({6, 4, 5})) == Result{{0, -1, 0}, {5, 0, 5}, {1, 0, 3}, {4, 2, 7}, {6, 2, 7}}));
     assert((fields(tree.compress({6, 3})) == Result{{3, -1, 0}, {6, 0, 5}}));
     assert(tree.compress({}).empty());
     assert(tree.lca(6, 4) == 1);

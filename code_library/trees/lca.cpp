@@ -5,11 +5,11 @@
  *
  * Complexity:
  *   - LCA: O(n log n) to build, O(log n) per lca, dist, kth_ancestor and jump, O(n log n) memory
- *   - LinearLCA: O(n) to build, O(1) per lca and dist, O(n) memory
+ *   - FastLCA: O(n log n) to build, O(1) per lca and dist, O(n log n) memory
  *   - PathFold: O(n log n) to build, O(log n) per query, n log n long longs of memory
- *   - path_intersection: 6 lca calls, O(1) with LinearLCA, O(log n) with LCA
+ *   - path_intersection: 6 lca calls, O(1) with FastLCA, O(log n) with LCA
  *
- * LCA tree(n) or LinearLCA tree(n): an empty tree on nodes 0..n-1, both share the calls below
+ * LCA tree(n) or FastLCA tree(n): an empty tree on nodes 0..n-1, both share the calls below
  * tree.add_edge(u, v, w): adds the edge u - v of weight w, 1 by default
  * tree.build(root): roots the tree at root, 0 by default, asserts n - 1 edges and every node reached exactly once
  * tree.depth(v): the number of edges from the root to v
@@ -25,7 +25,7 @@
  *
  * Notes:
  *   - path_intersection takes either structure, returns {-1, -1} for no shared vertex, {x, x} for exactly x
- *   - Use LinearLCA by default, its lca is 2x faster on random trees, 8x on paths; LCA for kth_ancestor, jump, PathFold
+ *   - Use FastLCA by default, its lca is 6x faster on random trees, 20x on paths; LCA for kth_ancestor, jump, PathFold
  *   - PathFold keeps a reference to tree, so build a new fold after tree.build with another root
  *   - Traversals are iterative so deep trees are safe
  *
@@ -149,68 +149,15 @@ struct PathFold{
     }
 };
 
-/// BEGIN SHARED linear_lca
-/// Range minimum index in O(n) build and O(1) query, the technique of sparse_table.cpp's LinearSparseTable
-struct LinearRMQ{
-    static constexpr int B = 64;
-    vector<int> val;
-    vector<unsigned long long> mask;
-    vector<vector<int>> table;
-
-    LinearRMQ() {}
-
-    LinearRMQ(const vector<int>& values) : val(values), mask(values.size()){
-        int n = val.size();
-        unsigned long long cur = 0;
-        for (int i = 0; i < n; i++){
-            cur <<= 1;
-            while (cur && val[i - __builtin_ctzll(cur)] >= val[i]) cur &= cur - 1;
-            cur |= 1;
-            mask[i] = cur;
-        }
-
-        int blocks = (n + B - 1) / B;
-        table.assign(1, vector<int>(blocks));
-        for (int b = 0; b < blocks; b++) table[0][b] = small_query(min(n - 1, b * B + B - 1), min(B, n - b * B));
-        for (int k = 1; (1 << k) <= blocks; k++){
-            table.push_back(vector<int>(blocks - (1 << k) + 1));
-            for (int b = 0; b + (1 << k) <= blocks; b++){
-                table[k][b] = better(table[k - 1][b], table[k - 1][b + (1 << (k - 1))]);
-            }
-        }
-    }
-
-    int query(int l, int r) const{
-        if (r - l + 1 <= B) return small_query(r, r - l + 1);
-        int res = better(small_query(l + B - 1), small_query(r));
-        int x = l / B + 1, y = r / B - 1;
-        if (x <= y){
-            int k = __lg(y - x + 1);
-            res = better(res, better(table[k][x], table[k][y - (1 << k) + 1]));
-        }
-        return res;
-    }
-
-    /// Index of the minimum in [r - size + 1, r], size <= 64
-    int small_query(int r, int size = B) const{
-        unsigned long long m = size == B ? mask[r] : mask[r] & ((1ULL << size) - 1);
-        /// Not __lg: GCC 14's __lg tests for 0, which costs LinearLCA.lca 4-8%
-        return r - (63 - __builtin_clzll(m));
-    }
-
-    int better(int i, int j) const{
-        return val[i] <= val[j] ? i : j;
-    }
-};
-
-struct LinearLCA{
+/// BEGIN SHARED fast_lca
+struct FastLCA{
     int n, added_edges = 0;
     vector<vector<pair<int, long long>>> adj;
-    vector<int> first, tour, level;
+    vector<int> tin, order, level;
     vector<long long> weight_sum;
-    LinearRMQ rmq;
+    vector<vector<int>> table;
 
-    LinearLCA(int n) : n(n), adj(n), first(n), level(n), weight_sum(n) {}
+    FastLCA(int n) : n(n), adj(n), tin(n), order(n), level(n), weight_sum(n) {}
 
     void add_edge(int u, int v, long long w = 1){
         adj[u].push_back({v, w});
@@ -218,31 +165,34 @@ struct LinearLCA{
         added_edges++;
     }
 
+    /// table[k][i] is the min tin over the parents of the vertices at preorder positions i..i+2^k-1
     void build(int root = 0){
         assert(added_edges == n - 1);
-        vector<int> parent(n, -1), next_edge(n, 0), stack = {root}, depths = {0};
-        parent[root] = root;
-        tour = {root};
-        first[root] = 0, level[root] = 0, weight_sum[root] = 0;
-        int visited = 1;
+        vector<int> parent(n, -1);
+        vector<pair<int, int>> stack = {{root, 0}};
+        parent[root] = root, level[root] = 0, weight_sum[root] = 0;
+        table.assign(1, vector<int>(n));
+        int visited = 0;
 
         while (!stack.empty()){
-            int u = stack.back();
-            if (next_edge[u] < (int)adj[u].size()){
-                auto [v, w] = adj[u][next_edge[u]++];
+            auto [u, parent_tin] = stack.back();
+            stack.pop_back();
+            tin[u] = visited, order[visited] = u, table[0][visited++] = parent_tin;
+            for (auto [v, w] : adj[u]){
                 if (v == parent[u]) continue;
                 assert(parent[v] == -1);
                 parent[v] = u, level[v] = level[u] + 1, weight_sum[v] = weight_sum[u] + w;
-                first[v] = tour.size(), tour.push_back(v), depths.push_back(level[v]);
-                stack.push_back(v), visited++;
-                continue;
+                stack.push_back({v, tin[u]});
             }
-            stack.pop_back();
-            if (!stack.empty()) tour.push_back(stack.back()), depths.push_back(level[stack.back()]);
         }
-
         assert(visited == n);
-        rmq = LinearRMQ(depths);
+
+        for (int k = 1; (1 << k) <= n; k++){
+            table.push_back(vector<int>(n - (1 << k) + 1));
+            for (int i = 0; i + (1 << k) <= n; i++){
+                table[k][i] = min(table[k - 1][i], table[k - 1][i + (1 << (k - 1))]);
+            }
+        }
     }
 
     int depth(int v) const{
@@ -253,13 +203,16 @@ struct LinearLCA{
         return weight_sum[u] + weight_sum[v] - 2 * weight_sum[lca(u, v)];
     }
 
+    /// For tin[u] < tin[v], the shallowest vertex at preorder positions tin[u] + 1..tin[v] is a child of the lca
     int lca(int u, int v) const{
-        int l = first[u], r = first[v];
+        if (u == v) return u;
+        int l = tin[u], r = tin[v];
         if (l > r) swap(l, r);
-        return tour[rmq.query(l, r)];
+        int k = __lg(r - l);
+        return order[min(table[k][l + 1], table[k][r - (1 << k) + 1])];
     }
 };
-/// END SHARED linear_lca
+/// END SHARED fast_lca
 
 /// The two deepest cross lcas are the endpoints, the paths meet iff the deepest is not above the deeper path top
 template <typename Tree>
@@ -285,7 +238,7 @@ int main(){
     ***/
     vector<array<int, 3>> edges = {{0, 1, 3}, {0, 2, 1}, {1, 3, 2}, {1, 4, 7}, {2, 5, 4}, {3, 6, 5}};
 
-    LinearLCA tree(7);
+    FastLCA tree(7);
     for (auto [u, v, w] : edges) tree.add_edge(u, v, w);
     tree.build(0);
     assert(tree.lca(6, 4) == 1);

@@ -90,7 +90,7 @@ vector<array<long long, 3>> make_tree(int n, int shape, long long min_w, long lo
 }
 
 /// The common vertex set of two explicit path walks must equal the walk between the returned endpoints
-void check_intersection(const LCA& a, const LinearLCA& b, const NaiveTree& naive, int n, vector<int> first){
+void check_intersection(const LCA& a, const FastLCA& b, const NaiveTree& naive, int n, vector<int> first){
     int u = first[0], v = first.back(), x = stress::rand_int(0, n - 1), y = stress::rand_int(0, n - 1);
     int mode = stress::rand_int(0, 3);
     if (mode == 1 || mode == 2) x = first[stress::rand_int(0, first.size() - 1)];
@@ -142,7 +142,7 @@ void check(int n, int shape, int queries, long long max_w){
     int root = stress::rand_int(0, n - 1);
 
     LCA a(n);
-    LinearLCA b(n);
+    FastLCA b(n);
     for (auto [u, v, w] : edges) a.add_edge(u, v, w), b.add_edge(u, v, w);
     a.build(root), b.build(root);
     NaiveTree naive(n, root, edges);
@@ -180,16 +180,17 @@ void check(int n, int shape, int queries, long long max_w){
     }
 }
 
-/// LinearRMQ against a direct scan, sizes straddling the 64 element blocks and many equal values
-void check_rmq(int n, int max_v){
-    vector<int> val(n);
-    for (auto& x : val) x = stress::rand_int(-max_v, max_v);
-    LinearRMQ rmq(val);
+/// Every pair, so every preorder range length and both overlapping sparse table halves are hit
+void check_all_pairs(int n, int shape){
+    auto edges = make_tree(n, shape, 0, 9);
+    int root = stress::rand_int(0, n - 1);
+    FastLCA tree(n);
+    for (auto [u, v, w] : edges) tree.add_edge(u, v, w);
+    tree.build(root);
+    NaiveTree naive(n, root, edges);
 
-    for (int q = 0; q < 300; q++){
-        int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
-        if (q < 64) r = min(n - 1, l + q);
-        assert(val[rmq.query(l, r)] == *min_element(val.begin() + l, val.begin() + r + 1));
+    for (int u = 0; u < n; u++){
+        for (int v = 0; v < n; v++) assert(tree.lca(u, v) == naive.lca(u, v));
     }
 }
 
@@ -217,7 +218,7 @@ void check_rejects_all(){
 
 int main(){
     check_rejects_all<LCA>();
-    check_rejects_all<LinearLCA>();
+    check_rejects_all<FastLCA>();
 
     for (long long it = 0; it < stress::scaled(600); it++){
         int n = it < 200 ? it % 40 + 1 : stress::rand_int(1, 300);
@@ -230,12 +231,8 @@ int main(){
 
     check(200000, 1, 100, 1000000000LL);  /// a path, deep enough to overflow an 8 MB stack with recursive traversals
 
-    for (int n : {1, 2, 63, 64, 65, 127, 128, 129, 1000}){
-        for (int it = 0; it < 20; it++) check_rmq(n, it % 2 ? 3 : 1000000000);
-    }
-
-    for (long long it = 0; it < stress::scaled(200); it++){
-        check_rmq(stress::rand_int(1, 5000), stress::rand_int(0, 1) ? 5 : 1000000000);
+    for (int n : {1, 2, 3, 4, 5, 7, 8, 9, 15, 16, 17, 31, 32, 33, 63, 64, 65, 127, 128, 129}){
+        for (int shape = 0; shape < 5; shape++) check_all_pairs(n, shape);
     }
 
     return 0;
