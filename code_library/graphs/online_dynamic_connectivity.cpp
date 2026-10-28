@@ -6,7 +6,7 @@
  * Complexity:
  *   - add_edge, remove_edge: amortized O(log^2 n)
  *   - every other call: amortized O(log n)
- *   - memory: O((n + m) log n) for m add_edge calls, about 430 MB at n = m = 3e5 for a path cut at random points
+ *   - memory: O((n + m) log n) for m add_edge calls, 430 MB for 3e5 calls on 3e5 vertices cutting a path at random
  *
  * OnlineDynamicConnectivity g(n): an empty graph on vertices 0 to n - 1, every value 0
  * OnlineDynamicConnectivity g(values): an empty graph on vertices 0 to n - 1 with the given values
