@@ -269,7 +269,9 @@ int main(){
     check_box(12);
     check_bound(2000);
 
+    /// Sorted by height, so a hull that inserts in input order instead of shuffling takes minutes, not a second
     vector<Point3D> big = sphere_points(30000, C);
+    sort(big.begin(), big.end(), [](const Point3D& p, const Point3D& q){ return p.z < q.z; });
     ConvexHull3D hull(big);
     check_surface(big, hull, 100);
 
