@@ -5,8 +5,8 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Big Integer](#big-integer) | [FFT](#fft) | [Fraction](#fraction) | [GCD and LCM Convolution](#gcd-and-lcm-convolution) |
-| [Lagrange Interpolation](#lagrange-interpolation) | [Linear Recurrence](#linear-recurrence) | [NTT](#ntt) | [Polynomial](#polynomial) |
-| [Subset Convolution and SOS DP](#subset-convolution-and-sos-dp) | [Walsh-Hadamard Transform](#walsh-hadamard-transform) |  |  |
+| [Lagrange Interpolation](#lagrange-interpolation) | [Linear Recurrence](#linear-recurrence) | [NTT](#ntt) | [Online Convolution](#online-convolution) |
+| [Polynomial](#polynomial) | [Subset Convolution and SOS DP](#subset-convolution-and-sos-dp) | [Walsh-Hadamard Transform](#walsh-hadamard-transform) |  |
 
 <!-- /toc -->
 
@@ -145,6 +145,13 @@
 - [Codeforces Gym 100524D - Dichromatic Trees](https://codeforces.com/gym/100524/problem/D) [✔](../../practice/algebra/codeforces_gym_100524d_ntt.cpp "Accepted solution")
 - [UVa 1733 - Design New Capital](https://onlinejudge.org/external/17/1733.pdf) [✔](../../practice/algebra/uva_1733_ntt.cpp "Accepted solution")
 - [UVa 11640 - Mayor Election](https://onlinejudge.org/external/116/11640.pdf) [✔](../../practice/algebra/uva_11640_ntt.cpp "Accepted solution")
+
+#### [Online Convolution](online_convolution.cpp)
+
+- [HDU 5322 - Hope](https://acm.hdu.edu.cn/showproblem.php?pid=5322)
+- [HDU 5730 - Shell Necklace](https://acm.hdu.edu.cn/showproblem.php?pid=5730)
+- [Luogu P4721 - 【模板】分治 FFT](https://www.luogu.com.cn/problem/P4721)
+- [Luogu P4841 - [集训队作业2013] 城市规划](https://www.luogu.com.cn/problem/P4841)
 
 #### [Polynomial](polynomial.cpp)
 

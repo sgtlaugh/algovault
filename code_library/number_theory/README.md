@@ -9,6 +9,7 @@
 | [Floor Sum](#floor-sum) | [Integer Root](#integer-root) | [Linear Sieve](#linear-sieve) | [Maximum Divisors](#maximum-divisors) |
 | [Miller-Rabin](#miller-rabin) | [Mobius Function](#mobius-function) | [Modular Roots](#modular-roots) | [Pell Equation](#pell-equation) |
 | [Pisano Period](#pisano-period) | [Pollard Rho](#pollard-rho) | [Power Tower](#power-tower) | [Segmented Sieve](#segmented-sieve) |
+| [Sum of Two Squares](#sum-of-two-squares) |  |  |  |
 
 <!-- /toc -->
 
@@ -212,3 +213,8 @@
 - [UVa 1404 - Prime k-tuple](https://onlinejudge.org/external/14/1404.pdf) [✔](../../practice/number_theory/uva_1404.cpp "Accepted solution")
 - [UVa 10140 - Prime Distance](https://onlinejudge.org/external/101/10140.pdf) [✔](../../practice/number_theory/uva_10140.cpp "Accepted solution")
 - [UVa 10956 - Prime Suspect](https://onlinejudge.org/external/109/10956.pdf) [✔](../../practice/number_theory/uva_10956.cpp "Accepted solution")
+
+#### [Sum of Two Squares](sum_of_two_squares.cpp)
+
+- [Luogu P2508 - [HAOI2008] 圆上的整点](https://www.luogu.com.cn/problem/P2508)
+- [SPOJ TWOSQRS - Two squares or not two squares](https://www.spoj.com/problems/TWOSQRS/)

@@ -5,15 +5,15 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [2-SAT](#2-sat) | [2-SAT, Lexicographic](#2-sat-lexicographic) | [Articulation Points and Blocks](#articulation-points-and-blocks) | [Bellman-Ford](#bellman-ford) |
-| [Bridges](#bridges) | [Cactus Graph](#cactus-graph) | [Chromatic Number](#chromatic-number) | [Dijkstra](#dijkstra) |
-| [Directed MST](#directed-mst) | [Dominator Tree](#dominator-tree) | [Edge Coloring](#edge-coloring) | [Euler Path](#euler-path) |
-| [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) | [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) |
-| [Gomory-Hu Tree](#gomory-hu-tree) | [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) |
-| [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) |
-| [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) |
-| [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) |
-| [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) |
-| [Strongly Connected Components](#strongly-connected-components) |  |  |  |
+| [Bridges](#bridges) | [Cactus Graph](#cactus-graph) | [Chordal Graph](#chordal-graph) | [Chromatic Number](#chromatic-number) |
+| [Dijkstra](#dijkstra) | [Directed MST](#directed-mst) | [Dominator Tree](#dominator-tree) | [Edge Coloring](#edge-coloring) |
+| [Euler Path](#euler-path) | [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) | [General Graph Matching](#general-graph-matching) |
+| [General Graph Matching, Weighted](#general-graph-matching-weighted) | [Gomory-Hu Tree](#gomory-hu-tree) | [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) |
+| [Johnson's Algorithm](#johnsons-algorithm) | [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) |
+| [Matroid Intersection](#matroid-intersection) | [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Min Cost Circulation](#min-cost-circulation) |
+| [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) |
+| [Minimum Spanning Tree](#minimum-spanning-tree) | [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Small Cycle Counting](#small-cycle-counting) |
+| [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |  |  |
 
 <!-- /toc -->
 
@@ -116,6 +116,12 @@
 #### [Cactus Graph](cactus.cpp)
 
 - [Codeforces 720B - Cactusophobia](https://codeforces.com/problemset/problem/720/B) [✔](../../practice/graphs/codeforces_720b.cpp "Accepted solution")
+
+#### [Chordal Graph](chordal_graph.cpp)
+
+- [Luogu P3196 - [HNOI2008] 神奇的国度](https://www.luogu.com.cn/problem/P3196)
+- [Luogu P3852 - [TJOI2007] 小朋友](https://www.luogu.com.cn/problem/P3852)
+- [ZOJ 1015 - Fishing Net](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827364514)
 
 #### [Chromatic Number](chromatic_number.cpp)
 

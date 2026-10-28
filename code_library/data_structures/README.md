@@ -5,14 +5,14 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Coordinate Compression](#coordinate-compression) | [Disjoint Set Union](#disjoint-set-union) | [Disjoint Set Union, Partially Persistent](#disjoint-set-union-partially-persistent) | [Disjoint Set Union, Potential](#disjoint-set-union-potential) |
-| [Disjoint Set Union, Rollback](#disjoint-set-union-rollback) | [Disjoint Sparse Table](#disjoint-sparse-table) | [Distinct Subarray Aggregates](#distinct-subarray-aggregates) | [Fenwick Tree](#fenwick-tree) |
-| [Fenwick Tree 2D](#fenwick-tree-2d) | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) | [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) | [Fenwick Tree 3D](#fenwick-tree-3d) |
-| [Interval Set](#interval-set) | [Li Chao Tree](#li-chao-tree) | [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) |
-| [Mo's Algorithm](#mos-algorithm) | [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) | [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) |
-| [Monotonic Stack](#monotonic-stack) | [Ordered Set](#ordered-set) | [Persistent Segment Tree](#persistent-segment-tree) | [Rope](#rope) |
-| [Segment Tree](#segment-tree) | [Segment Tree Beats](#segment-tree-beats) | [Segment Tree Merging](#segment-tree-merging) | [Sliding Window Aggregation](#sliding-window-aggregation) |
-| [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) | [Square Root Decomposition](#square-root-decomposition) | [Treap](#treap) |
-| [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) | [XOR Segment Tree](#xor-segment-tree) |  |
+| [Disjoint Set Union, Rollback](#disjoint-set-union-rollback) | [Disjoint Sparse Table](#disjoint-sparse-table) | [Distinct Subarray Aggregates](#distinct-subarray-aggregates) | [Euler Tour Tree](#euler-tour-tree) |
+| [Fenwick Tree](#fenwick-tree) | [Fenwick Tree 2D](#fenwick-tree-2d) | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) | [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) |
+| [Fenwick Tree 3D](#fenwick-tree-3d) | [Interval Set](#interval-set) | [Li Chao Tree](#li-chao-tree) | [Link-Cut Tree](#link-cut-tree) |
+| [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) | [Mo's Algorithm](#mos-algorithm) | [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) | [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) |
+| [Mo's Algorithm With Updates](#mos-algorithm-with-updates) | [Monotonic Stack](#monotonic-stack) | [Ordered Set](#ordered-set) | [Persistent Segment Tree](#persistent-segment-tree) |
+| [Rope](#rope) | [Segment Tree](#segment-tree) | [Segment Tree Beats](#segment-tree-beats) | [Segment Tree Merging](#segment-tree-merging) |
+| [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) | [Square Root Decomposition](#square-root-decomposition) |
+| [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) | [XOR Segment Tree](#xor-segment-tree) |
 
 <!-- /toc -->
 
@@ -85,6 +85,12 @@
 
 - [Codeforces 475D - CGCDSSQ](https://codeforces.com/problemset/problem/475/D) [✔](../../practice/data_structures/codeforces_475d_distinct_subarray_aggregates.cpp "Accepted solution")
 - [UVa 1642 - Magical GCD](https://onlinejudge.org/external/16/1642.pdf) [✔](../../practice/data_structures/uva_1642.cpp "Accepted solution")
+
+#### [Euler Tour Tree](euler_tour_tree.cpp)
+
+- [Luogu P2147 - [SDOI2008] 洞穴勘测](https://www.luogu.com.cn/problem/P2147)
+- [Luogu P4219 - [BJOI2014] 大融合](https://www.luogu.com.cn/problem/P4219)
+- [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/)
 
 #### [Fenwick Tree](fenwick_tree.cpp)
 
