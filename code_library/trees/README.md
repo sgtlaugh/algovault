@@ -60,7 +60,7 @@
 - [CSES 1138 - Path Queries](https://cses.fi/problemset/task/1138) [✔](../../practice/trees/cses_1138.cpp "Accepted solution")
 - [CSES 2134 - Path Queries II](https://cses.fi/problemset/task/2134) [✔](../../practice/trees/cses_2134.cpp "Accepted solution")
 - [HackerRank epic-tree - Epic Tree](https://www.hackerrank.com/contests/epiccode/challenges/epic-tree) [✔](../../practice/trees/hackerrank_epic_tree.cpp "Accepted solution")
-- [HackerRank white-falcon-and-tree - White Falcon And Tree](https://www.hackerrank.com/contests/w12/challenges/white-falcon-and-tree)
+- [HackerRank white-falcon-and-tree - White Falcon And Tree](https://www.hackerrank.com/contests/w12/challenges/white-falcon-and-tree) [✔](../../practice/trees/hackerrank_white_falcon_and_tree_hld.cpp "Accepted solution")
 - [oj.uz BOI18_minmaxtree - Min-max tree](https://oj.uz/problem/view/BOI18_minmaxtree) [✔](../../practice/trees/oj_uz_boi18_minmaxtree.cpp "Accepted solution")
 - [SPOJ QTREE3 - Query on a tree again!](https://www.spoj.com/problems/QTREE3/) [✔](../../practice/trees/spoj_qtree3.cpp "Accepted solution")
 - [SPOJ QTREE - Query on a tree](https://www.spoj.com/problems/QTREE/)
