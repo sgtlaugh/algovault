@@ -125,7 +125,7 @@
 - [Codeforces 1187E - Tree Painting](https://codeforces.com/problemset/problem/1187/E)
 - [CSES 1132 - Tree Distances I](https://cses.fi/problemset/task/1132) [✔](../../practice/trees/cses_1132.cpp "Accepted solution")
 - [CSES 1133 - Tree Distances II](https://cses.fi/problemset/task/1133) [✔](../../practice/trees/cses_1133.cpp "Accepted solution")
-- [HackerRank relatedquestions - Related questions](https://www.hackerrank.com/contests/quora-haqathon/challenges/relatedquestions)
+- [HackerRank relatedquestions - Related questions](https://www.hackerrank.com/contests/quora-haqathon/challenges/relatedquestions) [✔](../../practice/trees/hackerrank_relatedquestions.cpp "Accepted solution")
 - [HDU 4661 - Message Passing](https://acm.hdu.edu.cn/showproblem.php?pid=4661)
 - [USACO 814 - Directory Traversal](https://usaco.org/index.php?page=viewproblem2&cpid=814)
 
