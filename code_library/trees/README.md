@@ -52,7 +52,7 @@
 - [AtCoder ABC294 G - Distance Queries on a Tree](https://atcoder.jp/contests/abc294/tasks/abc294_g) [✔](../../practice/trees/atcoder_abc294_g.cpp "Accepted solution")
 - [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6) [✔](../../practice/trees/codechef_qtree6_hld.cpp "Accepted solution")
 - [Codeforces 117E - Tree or not Tree](https://codeforces.com/problemset/problem/117/E) [✔](../../practice/trees/codeforces_117e.cpp "Accepted solution")
-- [Codeforces 593D - Happy Tree Party](https://codeforces.com/problemset/problem/593/D)
+- [Codeforces 593D - Happy Tree Party](https://codeforces.com/problemset/problem/593/D) [✔](../../practice/trees/codeforces_593d.cpp "Accepted solution")
 - [Codeforces 1017G - The Tree](https://codeforces.com/problemset/problem/1017/G)
 - [Codeforces 1254D - Tree Queries](https://codeforces.com/problemset/problem/1254/D)
 - [Codeforces Gym 100739G - Old town](https://codeforces.com/gym/100739/problem/G)
