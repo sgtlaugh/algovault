@@ -126,6 +126,15 @@ Each template's section in `code_library/<topic>/README.md` lists problems it so
 - **Fast I/O:** every solution copies `fast_io.cpp` last, unless the judge's source limit leaves no room for it
 - **POJ, UVa and HDU:** these judges compile C++11, and so does CI; change the template copy only where C++11 needs it, as `/verdict` lists
 
+**Judge credentials**
+
+- **Who reads them:** `/verdict`'s `uva_submit.py` reads `~/.config/uva/credentials`, its `vjudge_statement.py` reads `~/.config/vjudge/credentials`
+- **Format:** the username and the password on two lines, mode 600, never inside a git work tree; both scripts refuse one that is
+- **Create** one without echoing the password, here for vjudge:
+  ```bash
+  mkdir -p ~/.config/vjudge && read -r u && read -rs p && printf '%s\n%s\n' "$u" "$p" > ~/.config/vjudge/credentials && chmod 600 ~/.config/vjudge/credentials && unset u p
+  ```
+
 ## API and code
 
 A template is used under contest pressure by someone who did not write it, so the simplest correct design wins.
