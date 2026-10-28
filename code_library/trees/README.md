@@ -86,7 +86,7 @@
 - [Codeforces 1051F - The Shortest Statement](https://codeforces.com/problemset/problem/1051/F) [✔](../../practice/trees/codeforces_1051f_lca.cpp "Accepted solution")
 - [Codeforces Gym 101908L - Subway Lines](https://codeforces.com/gym/101908/problem/L) [✔](../../practice/trees/codeforces_gym_101908l.cpp "Accepted solution")
 - [Codeforces Gym 102040F - Path Intersection](https://codeforces.com/gym/102040/problem/F) [✔](../../practice/trees/codeforces_gym_102040f.cpp "Accepted solution")
-- [Codeforces Gym 102694C - Sloth Naptime](https://codeforces.com/gym/102694/problem/C)
+- [Codeforces Gym 102694C - Sloth Naptime](https://codeforces.com/gym/102694/problem/C) [✔](../../practice/trees/codeforces_gym_102694c.cpp "Accepted solution")
 - [CSES 1135 - Distance Queries](https://cses.fi/problemset/task/1135)
 - [CSES 1136 - Counting Paths](https://cses.fi/problemset/task/1136)
 - [CSES 1687 - Company Queries I](https://cses.fi/problemset/task/1687)
