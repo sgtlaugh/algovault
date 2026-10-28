@@ -80,7 +80,7 @@
 - [CodeChef PSHTTR - Pishty and tree](https://www.codechef.com/problems/PSHTTR) [✔](../../practice/trees/codechef_pshttr.cpp "Accepted solution")
 - [CodeChef TALCA - Lowest Common Ancestor](https://www.codechef.com/problems/TALCA) [✔](../../practice/trees/codechef_talca.cpp "Accepted solution")
 - [Codeforces 733F - Drivers Dissatisfaction](https://codeforces.com/problemset/problem/733/F) [✔](../../practice/trees/codeforces_733f.cpp "Accepted solution")
-- [Codeforces 828F - Best Edge Weight](https://codeforces.com/problemset/problem/828/F)
+- [Codeforces 828F - Best Edge Weight](https://codeforces.com/problemset/problem/828/F) [✔](../../practice/trees/codeforces_828f.cpp "Accepted solution")
 - [Codeforces 832D - Misha, Grisha and Underground](https://codeforces.com/problemset/problem/832/D)
 - [Codeforces 855D - Rowena Ravenclaw's Diadem](https://codeforces.com/problemset/problem/855/D)
 - [Codeforces 1051F - The Shortest Statement](https://codeforces.com/problemset/problem/1051/F)
