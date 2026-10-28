@@ -13,7 +13,7 @@
  * fact.block: the largest power of two with b^2 + b / 2 < p, halved towards sqrt(128 p / queries) but not below 256
  *
  * Notes:
- *   - p must be prime, which is not checked; any prime works, 10^9 + 7 as well as 998244353
+ *   - Any prime works, 10^9 + 7 as well as 998244353; a composite p asserts
  *   - queries only trades build time against call time, any number of calls stays correct
  *   - For n below about 10^7, the O(n) tables of combinatorics.cpp are simpler and answer in O(1)
  *
@@ -192,6 +192,7 @@ struct FastFactorial{
 
     FastFactorial(long long p, long long queries = 1) : p(p){
         assert(2 <= p && p < (1LL << 31) && queries >= 1);
+        assert(fast_factorial_ntt::is_prime(p));
 
         /// Shifting by d / block lands a sample point on 0 modulo p unless block^2 + block / 2 < p
         block = 1;

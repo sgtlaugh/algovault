@@ -71,7 +71,7 @@ void check_identities(long long p, long long queries){
 }
 
 int main(){
-    for (long long p : {0LL, 1LL, 1LL << 31}){
+    for (long long p : {0LL, 1LL, 4LL, 561LL, 2147483645LL, 1LL << 31}){
         stress::expect_assert("combinatorics/fast_factorial.cpp", [p]{ FastFactorial fact(p); });
     }
     stress::expect_assert("combinatorics/fast_factorial.cpp", []{ FastFactorial fact(7, 0); });
