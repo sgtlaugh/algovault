@@ -154,6 +154,7 @@ sa.contains("nab");         // false
 - [Delaunay Triangulation](code_library/geometry/delaunay.cpp) - triangulation with empty circumcircles [✔](judge_tests/geometry/euclidean_mst.cpp)
 - [Geometry](code_library/geometry/geometry.cpp) - exact predicates and polygon queries [✔](judge_tests/geometry/aoj_0177.cpp)
 - [Half-Plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region common to all half-planes [✔](judge_tests/geometry/aoj_1283.cpp)
+- [KD-Tree](code_library/geometry/kd_tree.cpp) - nearest point to a query, points in a rectangle [✔](judge_tests/geometry/aoj_dsl_2_c.cpp)
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
 - [Polygon Union](code_library/geometry/polygon_union.cpp) - area of a union of simple polygons
 - [Rectangle Union](code_library/geometry/rectangle_union.cpp) - area and perimeter of a union of rectangles [✔](judge_tests/geometry/area_of_union_of_rectangles.cpp)

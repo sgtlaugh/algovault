@@ -5,8 +5,8 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Circle Geometry](#circle-geometry) | [Closest Pair of Points](#closest-pair-of-points) | [Convex Hull](#convex-hull) | [Geometry](#geometry) |
-| [Half-Plane Intersection](#half-plane-intersection) | [Pick's Theorem](#picks-theorem) | [Polygon Union](#polygon-union) | [Rectangle Union](#rectangle-union) |
-| [Segment Intersection Sweep](#segment-intersection-sweep) |  |  |  |
+| [Half-Plane Intersection](#half-plane-intersection) | [KD-Tree](#kd-tree) | [Pick's Theorem](#picks-theorem) | [Polygon Union](#polygon-union) |
+| [Rectangle Union](#rectangle-union) | [Segment Intersection Sweep](#segment-intersection-sweep) |  |  |
 
 <!-- /toc -->
 
@@ -122,6 +122,11 @@
 - [UVa 1475 - Jungle Outpost](https://onlinejudge.org/external/14/1475.pdf)
 - [UVa 1571 - How I Mathematician Wonder What You Are!](https://onlinejudge.org/external/15/1571.pdf)
 - [UVa 13213 - Quidditch Match](https://onlinejudge.org/external/132/13213.pdf)
+
+#### [KD-Tree](kd_tree.cpp)
+
+- [SPOJ FAILURE - In case of failure](https://www.spoj.com/problems/FAILURE/)
+- [SPOJ GANNHAT - Closest distance](https://www.spoj.com/problems/GANNHAT/)
 
 #### [Pick's Theorem](picks_theorem.cpp)
 
