@@ -137,7 +137,7 @@
 #### [Virtual Tree](virtual_tree.cpp)
 
 - [AtCoder ABC340 G - Leaf Color](https://atcoder.jp/contests/abc340/tasks/abc340_g) [✔](../../practice/trees/atcoder_abc340_g.cpp "Accepted solution")
-- [Codeforces 613D - Kingdom and its Cities](https://codeforces.com/problemset/problem/613/D)
+- [Codeforces 613D - Kingdom and its Cities](https://codeforces.com/problemset/problem/613/D) [✔](../../practice/trees/codeforces_613d.cpp "Accepted solution")
 - [Codeforces 1923E - Count Paths](https://codeforces.com/problemset/problem/1923/E)
 - [Codeforces Gym 104128E - Color the Tree](https://codeforces.com/gym/104128/problem/E)
 - [oj.uz BOI17_railway - Railway](https://oj.uz/problem/view/BOI17_railway)
