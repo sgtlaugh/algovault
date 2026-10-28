@@ -637,7 +637,7 @@ void find_cycle(){
         }
     }
 
-    for (i = 0; deg[i] < 2; i++){}
+    for (i = 0; deg[i] < 2; i++) {}
     int prev = -1, cur = i;
     do{
         idx[cur] = cyc.size();
