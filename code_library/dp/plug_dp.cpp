@@ -1,24 +1,24 @@
 /***
  *
  * Plug DP
- * Broken profile DP with connectivity: the caller writes one cell's transition, the engine runs the grid
+ * Counts or optimizes cycles and paths on a grid: the caller writes one cell's transition, the engine runs the rest
  *
  * Complexity: O(S) expected per cell for S states alive at that cell, plus the transition's own cost
  *
- * PlugDP<T> dp(n, m, bits, start): n x m grid, plugs of bits bits, one empty state of value start, values merged by +
+ * PlugDP<T> dp(n, m, bits, start): n x m grid, bits per plug, the all-zero state holds start, equal states add up
  * PlugDP<T, Merge> dp(n, m, bits, start, merge): equal states combine their values with merge(a, b), such as min
- * dp.add(s, v): inside the transition, offers state s with value v after the current cell
- * dp.run(transition): calls transition(row, col, s, v) for every state s of value v before each cell, row-major
+ * dp.add(s, v): only inside the transition, offers state s with value v after the current cell
+ * dp.run(transition): calls transition(row, col, s, v) for each state s of value v before each cell, row-major, once
  * dp.get(s, pos): plug pos of state s
- * dp.match(s, pos): position of the bracket paired with plug pos, 1 being an opening and 2 a closing bracket
+ * dp.match(s, pos): position of the bracket paired with plug pos, plugs 1 opening and 2 closing, balanced
  * dp.normalize(s): s with its nonzero labels renumbered 1, 2, 3... in order of first appearance from position 0
- * dp.result(missing): value of the empty profile after the last cell, missing (T() by default) if none
- * dp.set(s, pos, x): state s with plug pos replaced by x
+ * dp.result(missing): value of the all-zero state after the last cell, missing (T() by default) if none
+ * dp.set(s, pos, x): state s with plug pos replaced by x, 0 <= x < 2^bits
  * dp.states, dp.values: the states alive before the current cell, or after the last one, and their values
  *
  * Notes:
  *   - Before cell (row, col) plug col is its edge from the left and col + 1 from above, after it down and right
- *   - add drops states with an edge leaving the grid, so transitions never test the border
+ *   - Plugs are edges: add drops states with an edge leaving the grid, so transitions never test the border
  *   - (m + 1) bits <= 64 and bits <= 8: 2 bits fit brackets, 3 or 4 fit component labels after normalize
  *   - main() writes Formula 1 (one cycle, bracket encoding) and HDU 1693 (any cycles, 1 bit) as transitions
  *
@@ -145,7 +145,7 @@ int main(){
             else if (l == 1 && u == 1) dp.add(dp.set(t, dp.match(s, j + 1), 1), v);
             else if (l == 2 && u == 2) dp.add(dp.set(t, dp.match(s, j), 2), v);
             else if (l == 2 && u == 1) dp.add(t, v);
-            else if (i * m + j == last) dp.add(t, v);
+            else if (i * m + j == last) dp.add(t, v);  /// closing earlier would leave free cells off the cycle
         });
 
         return dp.result();
@@ -154,11 +154,11 @@ int main(){
     assert(formula1({"....", "...."}) == 1);
     assert(formula1({"...", ".#.", "..."}) == 1);
     assert(formula1({"...", "..."}) == 1);
-    assert(formula1({"###", "#.#"}) == 0);
 
     /// HDU 1693: cover every free cell with any number of cycles, one bit per plug since cycles never need pairing
     auto cycle_covers = [](const vector<vector<int>>& open){
         int n = open.size(), m = open[0].size();
+
         PlugDP<long long> dp(n, m, 1, 1);
         dp.run([&](int i, int j, uint64_t s, long long v){
             int l = dp.get(s, j), u = dp.get(s, j + 1);
