@@ -11,13 +11,13 @@
  * ett.cut(u, v): removes edge u-v, false if there is no such edge
  * ett.link(u, v): adds edge u-v, false and no change if u and v are already connected
  * ett.set(u, x): sets the value of u to x
- * ett.subtree_add(v, p, x): adds x to every value in v's subtree when its tree is rooted at p, edge v-p must exist
+ * ett.subtree_add(v, p, x): adds x to every value in the subtree of v with p as its parent, edge v-p must exist
  * ett.connected(u, v): whether u and v are in the same tree
  * ett.get(u): the value of u
- * ett.subtree_query(v, p): sum of the values in v's subtree when its tree is rooted at p, edge v-p must exist
+ * ett.subtree_query(v, p): sum of the values in the subtree of v with p as its parent, edge v-p must exist
  *
  * Notes:
- *   - T needs + and * by an int count, so long long or a modint; sums must fit in T
+ *   - T needs +, == and * by an int count, as long long or a modint has; sums must fit in T
  *   - There is no fixed root: every subtree call names the parent p, so any neighbor of v can play the parent
  *   - For path queries use link_cut_tree.cpp, which has no subtree aggregates
  *   - Cut edges leave two dead nodes in nodes, so memory grows by two nodes per link
