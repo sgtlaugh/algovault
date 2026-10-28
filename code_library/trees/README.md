@@ -116,7 +116,7 @@
 #### [Prufer Code](prufer_code.cpp)
 
 - [CSES 1134 - Prüfer Code](https://cses.fi/problemset/task/1134) [✔](../../practice/trees/cses_1134.cpp "Accepted solution")
-- [Timus 1069 - Prufer Code](https://acm.timus.ru/problem.aspx?num=1069)
+- [Timus 1069 - Prufer Code](https://acm.timus.ru/problem.aspx?num=1069) [✔](../../practice/trees/timus_1069.cpp "Accepted solution")
 
 #### [Rerooting DP](rerooting.cpp)
 
