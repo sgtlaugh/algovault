@@ -534,7 +534,7 @@
 - [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D)
 - [Codeforces 1288F - Red-Blue Graph](https://codeforces.com/problemset/problem/1288/F)
 - [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D)
-- [LibreOJ 102 - 最小费用流](https://loj.ac/p/102)
+- [LibreOJ 102 - 最小费用流](https://loj.ac/p/102) [✔](../../practice/graphs/libreoj_102.cpp "Accepted solution")
 - [LibreOJ 115 - 无源汇有上下界可行流](https://loj.ac/p/115)
 - [LibreOJ 116 - 有源汇有上下界最大流](https://loj.ac/p/116)
 - [LibreOJ 117 - 有源汇有上下界最小流](https://loj.ac/p/117)
