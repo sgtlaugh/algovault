@@ -38,7 +38,7 @@
 - [Codeforces 375D - Tree and Queries](https://codeforces.com/problemset/problem/375/D) [✔](../../practice/trees/codeforces_375d.cpp "Accepted solution")
 - [Codeforces 600E - Lomsat gelral](https://codeforces.com/problemset/problem/600/E) [✔](../../practice/trees/codeforces_600e.cpp "Accepted solution")
 - [Codeforces 1923E - Count Paths](https://codeforces.com/problemset/problem/1923/E) [✔](../../practice/trees/codeforces_1923e_dsu_on_tree.cpp "Accepted solution")
-- [CSES 1139 - Distinct Colors](https://cses.fi/problemset/task/1139)
+- [CSES 1139 - Distinct Colors](https://cses.fi/problemset/task/1139) [✔](../../practice/trees/cses_1139.cpp "Accepted solution")
 - [USACO 696 - Promotion Counting](https://usaco.org/index.php?page=viewproblem2&cpid=696)
 
 #### [Dynamic Tree Diameter](dynamic_diameter.cpp)
