@@ -88,7 +88,7 @@
 - [Codeforces Gym 102040F - Path Intersection](https://codeforces.com/gym/102040/problem/F) [✔](../../practice/trees/codeforces_gym_102040f.cpp "Accepted solution")
 - [Codeforces Gym 102694C - Sloth Naptime](https://codeforces.com/gym/102694/problem/C) [✔](../../practice/trees/codeforces_gym_102694c.cpp "Accepted solution")
 - [CSES 1135 - Distance Queries](https://cses.fi/problemset/task/1135) [✔](../../practice/trees/cses_1135.cpp "Accepted solution")
-- [CSES 1136 - Counting Paths](https://cses.fi/problemset/task/1136)
+- [CSES 1136 - Counting Paths](https://cses.fi/problemset/task/1136) [✔](../../practice/trees/cses_1136.cpp "Accepted solution")
 - [CSES 1687 - Company Queries I](https://cses.fi/problemset/task/1687)
 - [CSES 1688 - Company Queries II](https://cses.fi/problemset/task/1688)
 - [HackerEarth optimal-connectivity-c6ae79ca - Optimal Connectivity](https://www.hackerearth.com/practice/algorithms/graphs/graph-representation/practice-problems/algorithm/optimal-connectivity-c6ae79ca/)
