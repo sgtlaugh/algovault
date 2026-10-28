@@ -66,7 +66,7 @@
 - [SPOJ QTREE - Query on a tree](https://www.spoj.com/problems/QTREE/)
 - [USACO 102 - Grass Planting](https://usaco.org/index.php?page=viewproblem2&cpid=102) [✔](../../practice/trees/usaco_102.cpp "Accepted solution")
 - [USACO 842 - Disruption](https://usaco.org/index.php?page=viewproblem2&cpid=842) [✔](../../practice/trees/usaco_842.cpp "Accepted solution")
-- [USACO 921 - Cow Land](https://usaco.org/index.php?page=viewproblem2&cpid=921)
+- [USACO 921 - Cow Land](https://usaco.org/index.php?page=viewproblem2&cpid=921) [✔](../../practice/trees/usaco_921.cpp "Accepted solution")
 - [UVa 1674 - Lightning Energy Report](https://onlinejudge.org/external/16/1674.pdf) [✔](../../practice/trees/uva_1674_hld.cpp "Accepted solution")
 - [UVa 12424 - Answering Queries on a Tree](https://onlinejudge.org/external/124/12424.pdf) [✔](../../practice/trees/uva_12424.cpp "Accepted solution")
 - [UVa 13101 - Tobby on Tree](https://onlinejudge.org/external/131/13101.pdf) [✔](../../practice/trees/uva_13101.cpp "Accepted solution")
