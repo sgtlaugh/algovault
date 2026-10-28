@@ -55,15 +55,15 @@ int main(){
         assert(bell_numbers(n, m) == stirling_sums(n, m));
     }
 
-    /// The NTT path against the triangle: the one-NTT prime, the CRT path, the largest prime below 2^30, MOD = n + 3
+    /// The NTT path against the triangle: the one-NTT prime, the CRT path, the largest prime below 2^30, mod = n + 3
     auto b1 = bell_numbers(2000, 998244353), b2 = bell_numbers(2000, 1000000007), b3 = bell_numbers(2000, 1073741789);
     for (long long it = 0; it < stress::scaled(5); it++){
         int n = it ? stress::rand_int(0, 2000) : 2000;
         assert(bell_numbers_ntt(n) == vector<long long>(b1.begin(), b1.begin() + n + 1));
-        assert(bell_numbers_ntt<1000000007>(n) == vector<long long>(b2.begin(), b2.begin() + n + 1));
-        assert(bell_numbers_ntt<1073741789>(n) == vector<long long>(b3.begin(), b3.begin() + n + 1));
+        assert(bell_numbers_ntt(n, 1000000007) == vector<long long>(b2.begin(), b2.begin() + n + 1));
+        assert(bell_numbers_ntt(n, 1073741789) == vector<long long>(b3.begin(), b3.begin() + n + 1));
     }
-    assert(bell_numbers_ntt<2003>(2000) == bell_numbers(2000, 2003));
+    assert(bell_numbers_ntt(2000, 2003) == bell_numbers(2000, 2003));
     auto big = bell_numbers_ntt(1 << 14);
     auto head = stirling_sums(1000, 998244353);
     assert(vector<long long>(big.begin(), big.begin() + 1001) == head);
@@ -93,8 +93,8 @@ int main(){
     }
 
     /// Touchard's congruence itself at huge n for primes too big to iterate up to n
-    for (long long p : {101LL, 401LL}){
-        long long n = stress::rand_int((long long)1e18 - 1000, (long long)1e18 - p - 1);
+    for (long long p : {101LL, 401LL, 1009LL}){
+        long long n = stress::rand_int((long long)1e18 - 10000,(long long)1e18 - p - 1);
         assert(bell_number(n + p, p) == (bell_number(n, p) + bell_number(n + 1, p)) % p);
     }
 

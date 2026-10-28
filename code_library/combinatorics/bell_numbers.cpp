@@ -4,16 +4,17 @@
  * B_n counts the splits of n labelled items into non-empty groups, here modulo m for all n up to a bound or one huge n
  *
  * Complexity:
- *   - bell_number: O(p^2 log n)
+ *   - bell_number: O(p log p log n)
  *   - bell_numbers: O(n^2) time, O(n) memory
  *   - bell_numbers_ntt: O(n log^2 n)
  *
  * bell_number(n, p): B_n modulo a prime p <= 2^20, for 0 <= n <= 1e18
  * bell_numbers(n, m): B_0, ..., B_n modulo any 1 <= m <= 2^62, prime or not
- * bell_numbers_ntt<MOD>(n): B_0, ..., B_n modulo a prime n < MOD <= 2^30, default 998244353, n <= 2^22
+ * bell_numbers_ntt(n, mod = 998244353): B_0, ..., B_n modulo a prime n < mod <= 2^30, n <= 2^22
  *
  * Notes:
  *   - bell_numbers_ntt is about 3x faster modulo 998244353, other primes take three NTTs per product
+ *   - bell_number at n = 1e18 takes about 0.4 s for p = 1e4, 4 s for p = 1e5
  *
 ***/
 
@@ -170,6 +171,74 @@ namespace bell_ntt{
     /// END COPY stirling_ntt
 }
 
+/// Fills b_i = B_i / i! for i in [l, r) from i b_i = sum over k < i of b_k / (i - 1 - k)!, acc[i] collects that sum
+void bell_online(int l, int r, long long mod, vector<long long>& b, vector<long long>& acc,
+                 const vector<long long>& fact, const vector<long long>& inv_fact){
+    if (r - l == 1){
+        if (l > 0) b[l] = acc[l] * inv_fact[l] % mod * fact[l - 1] % mod;
+        return;
+    }
+
+    int mid = (l + r) / 2;
+    bell_online(l, mid, mod, b, acc, fact, inv_fact);
+
+    /// b_k / (t - 1 - k)! for k in [l, mid) lands on index t - 1 - l of the product, for every t in [mid, r)
+    vector<long long> x(b.begin() + l, b.begin() + mid), y(inv_fact.begin(), inv_fact.begin() + (r - l - 1));
+    vector<long long> prod = bell_ntt::multiply(x, y, mod);
+    for (int t = mid; t < r; t++){
+        acc[t] += prod[t - 1 - l];
+        if (acc[t] >= mod) acc[t] -= mod;
+    }
+
+    bell_online(mid, r, mod, b, acc, fact, inv_fact);
+}
+
+vector<long long> bell_numbers_ntt(int n, long long mod = 998244353){
+    assert(0 <= n && n <= (1 << 22) && n < mod && mod <= (1 << 30) && bell_ntt::is_prime(mod));
+
+    vector<long long> fact, inv_fact, b(n + 1, 0), acc(n + 1, 0);
+    bell_ntt::factorials(n, mod, fact, inv_fact);
+    b[0] = 1;
+    bell_online(0, n + 1, mod, b, acc, fact, inv_fact);
+
+    vector<long long> res(n + 1);
+    for (int i = 0; i <= n; i++) res[i] = b[i] * fact[i] % mod;
+    return res;
+}
+
+long long bell_number(long long n, long long p){
+    assert(0 <= n && n <= (long long)1e18 && 2 <= p && p <= (1 << 20) && bell_ntt::is_prime(p));
+
+    if (n < p) return bell_numbers_ntt(n, p)[n];
+    vector<long long> base = bell_numbers_ntt(p - 1, p);
+
+    /// Touchard: B_(i + p) = B_i + B_(i + 1) mod p, so x^n mod x^p - x - 1 = sum c_i x^i gives B_n = sum c_i B_i
+    vector<long long> pw(p, 0);
+    pw[0] = 1;
+    for (int bit = __lg(n); bit >= 0; bit--){
+        vector<long long> sq = bell_ntt::multiply(pw, pw, p);
+
+        /// x^i = x^(i - p + 1) + x^(i - p), from the top so every folded term lands on a degree still to be folded
+        for (int i = (int)sq.size() - 1; i >= p; i--){
+            sq[i - p + 1] = (sq[i - p + 1] + sq[i]) % p;
+            sq[i - p] = (sq[i - p] + sq[i]) % p;
+        }
+        sq.resize(p);
+        pw = sq;
+
+        if (n >> bit & 1){
+            long long top = pw[p - 1];
+            for (int i = p - 1; i > 0; i--) pw[i] = pw[i - 1];
+            pw[0] = top;
+            pw[1] = (pw[1] + top) % p;
+        }
+    }
+
+    long long res = 0;
+    for (int i = 0; i < p; i++) res = (res + pw[i] * base[i]) % p;
+    return res;
+}
+
 vector<long long> bell_numbers(int n, long long m){
     assert(n >= 0 && 1 <= m && m <= (1LL << 62));
 
@@ -186,85 +255,6 @@ vector<long long> bell_numbers(int n, long long m){
         res[i] = row[0];
     }
 
-    return res;
-}
-
-/// a^2 modulo x^p - x - 1 and p for a of degree < p; raw sums stay below p 2^40 < 2^64 since p <= 2^20
-vector<long long> touchard_square(const vector<long long>& a, long long p){
-    int k = a.size();
-    vector<unsigned long long> c(2 * k - 1, 0);
-    for (int i = 0; i < k; i++){
-        /// x^n stays sparse while n < p^2, skipping zeros made p = 10007, n = 1e18 measure 2.4x faster
-        if (!a[i]) continue;
-        for (int j = 0; j < k; j++) c[i + j] += (unsigned long long)a[i] * a[j];
-    }
-
-    /// x^i = x^(i - p + 1) + x^(i - p), from the top so every folded term lands on a degree still to be folded
-    for (int i = 2 * k - 2; i >= k; i--){
-        c[i] %= p;
-        c[i - k + 1] += c[i];
-        c[i - k] += c[i];
-    }
-
-    vector<long long> res(k);
-    for (int i = 0; i < k; i++) res[i] = c[i] % p;
-    return res;
-}
-
-long long bell_number(long long n, long long p){
-    assert(0 <= n && n <= (long long)1e18 && p <= (1 << 20) && bell_ntt::is_prime(p));
-
-    if (n < p) return bell_numbers(n, p)[n];
-    vector<long long> base = bell_numbers(p - 1, p);
-
-    /// Touchard: B_(i + p) = B_i + B_(i + 1) mod p, so x^n mod x^p - x - 1 = sum c_i x^i gives B_n = sum c_i B_i
-    vector<long long> pw(p, 0);
-    pw[0] = 1;
-    for (int bit = __lg(n); bit >= 0; bit--){
-        pw = touchard_square(pw, p);
-        if (n >> bit & 1){
-            long long top = pw[p - 1];
-            for (int i = p - 1; i > 0; i--) pw[i] = pw[i - 1];
-            pw[0] = top;
-            pw[1] = (pw[1] + top) % p;
-        }
-    }
-
-    long long res = 0;
-    for (int i = 0; i < p; i++) res = (res + pw[i] * base[i]) % p;
-    return res;
-}
-
-/// Fills b_i = B_i / i! for i in [l, r) from i b_i = sum over k < i of b_k / (i - 1 - k)!, acc[i] collects that sum
-template<int MOD>
-void bell_online(int l, int r, vector<long long>& b, vector<long long>& acc, const vector<long long>& fact, const vector<long long>& inv_fact){
-    if (r - l == 1){
-        if (l > 0) b[l] = acc[l] * inv_fact[l] % MOD * fact[l - 1] % MOD;
-        return;
-    }
-
-    int mid = (l + r) / 2;
-    bell_online<MOD>(l, mid, b, acc, fact, inv_fact);
-
-    /// b_k / (t - 1 - k)! for k in [l, mid) lands on index t - 1 - l of the product, for every t in [mid, r)
-    vector<long long> x(b.begin() + l, b.begin() + mid), y(inv_fact.begin(), inv_fact.begin() + (r - l - 1));
-    vector<long long> prod = bell_ntt::multiply(x, y, MOD);
-    for (int t = mid; t < r; t++) acc[t] = (acc[t] + prod[t - 1 - l]) % MOD;
-
-    bell_online<MOD>(mid, r, b, acc, fact, inv_fact);
-}
-
-template<int MOD = 998244353>
-vector<long long> bell_numbers_ntt(int n){
-    assert(0 <= n && n <= (1 << 22) && n < MOD && MOD <= (1 << 30) && bell_ntt::is_prime(MOD));
-
-    vector<long long> fact, inv_fact, b(n + 1, 0), acc(n + 1, 0);
-    bell_ntt::factorials(n, MOD, fact, inv_fact);
-    b[0] = 1;
-    bell_online<MOD>(0, n + 1, b, acc, fact, inv_fact);
-
-    vector<long long> res(n + 1);
-    for (int i = 0; i <= n; i++) res[i] = b[i] * fact[i] % MOD;
     return res;
 }
 
