@@ -53,6 +53,7 @@ sa.contains("nab");         // false
 - [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - linear recurrence of a sequence and its n-th term [✔](judge_tests/algebra/find_linear_recurrence.cpp)
 - [Min-Plus Convolution](code_library/algebra/min_plus_convolution.cpp) - fast when one or both sides are convex [✔](judge_tests/algebra/min_plus_convolution_convex_arbitrary.cpp)
 - [NTT](code_library/algebra/ntt.cpp) - polynomial products, fastest modulo NTT primes [✔](judge_tests/algebra/convolution_mod.cpp)
+- [Online Convolution](code_library/algebra/online_convolution.cpp) - terms built from a convolution of earlier ones [✔](judge_tests/algebra/exp_of_formal_power_series_online.cpp)
 - [Polynomial](code_library/algebra/polynomial.cpp) - power series ops and multipoint evaluation [✔](judge_tests/algebra/division_of_polynomials.cpp)
 - [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - zeta and Mobius transforms, subset convolution [✔](judge_tests/algebra/bitwise_and_convolution.cpp)
 - [Walsh-Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - `xor`, `or` and `and` convolutions [✔](judge_tests/algebra/bitwise_and_convolution_fwht.cpp)
