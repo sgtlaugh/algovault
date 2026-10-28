@@ -140,4 +140,4 @@
 - [Codeforces 613D - Kingdom and its Cities](https://codeforces.com/problemset/problem/613/D) [✔](../../practice/trees/codeforces_613d.cpp "Accepted solution")
 - [Codeforces 1923E - Count Paths](https://codeforces.com/problemset/problem/1923/E) [✔](../../practice/trees/codeforces_1923e_virtual_tree.cpp "Accepted solution")
 - [Codeforces Gym 104128E - Color the Tree](https://codeforces.com/gym/104128/problem/E) [✔](../../practice/trees/codeforces_gym_104128e.cpp "Accepted solution")
-- [oj.uz BOI17_railway - Railway](https://oj.uz/problem/view/BOI17_railway)
+- [oj.uz BOI17_railway - Railway](https://oj.uz/problem/view/BOI17_railway) [✔](../../practice/trees/oj_uz_boi17_railway.cpp "Accepted solution")
