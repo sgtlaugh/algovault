@@ -5,7 +5,7 @@
  *
  * Complexity:
  *   - GreenHackenbush grundy: O(n + m) per call
- *   - RedBlueHackenbush value: O(n log^2 n) per call
+ *   - RedBlueHackenbush value: O(n log^2 n + m) per call
  *
  * GreenHackenbush g(n): impartial game on nodes 0 to n - 1, either player deletes any edge
  * g.add_edge(u, v): parallel edges and self loops (u == v) allowed
@@ -36,56 +36,85 @@
 using namespace std;
 
 struct GreenHackenbush{
-    int n, m = 0;
-    vector<vector<pair<int, int>>> adj; /// (neighbor, edge index)
-    vector<int> loops;
+    struct Frame{
+        int u, up, next, end, dis, low, value;
+    };
 
-    GreenHackenbush(int n) : n(n), adj(n), loops(n) {}
+    int n;
+    vector<pair<int, int>> edges;
+
+    GreenHackenbush(int n) : n(n) {}
 
     void add_edge(int u, int v){
-        if (u == v){
-            loops[u]++;
-            return;
-        }
-
-        adj[u].push_back({v, m});
-        adj[v].push_back({u, m});
-        m++;
+        edges.push_back({u, v});
     }
 
     int grundy(int root){
+        vector<int> degree(n, 0), neighbors(n, 0), value(n, 0); /// neighbors xors the ids, the only one at degree 1
+        for (auto [u, v] : edges){
+            if (u == v){
+                value[u] ^= 1;
+                continue;
+            }
+            degree[u]++, neighbors[u] ^= v;
+            degree[v]++, neighbors[v] ^= u;
+        }
+
+        /// Pendant trees fold into the vertex they hang from by the colon principle, with no adjacency lists built
+        vector<int> leaves;
+        for (int u = 0; u < n; u++){
+            if (u != root && degree[u] == 1) leaves.push_back(u);
+        }
+        for (int i = 0; i < (int)leaves.size(); i++){
+            int u = leaves[i], p = neighbors[u];
+            if (degree[u] != 1) continue; /// its last neighbor was folded into it, in a component without the root
+
+            degree[u] = 0;
+            degree[p]--, neighbors[p] ^= u, value[p] ^= value[u] + 1;
+            if (p != root && degree[p] == 1) leaves.push_back(p);
+        }
+        if (degree[root] == 0) return value[root];
+
+        /// What is left is cycles and paths between them: Tarjan bridges on the edges with both ends unfolded
+        vector<int> start(n + 1, 0), adj, dis(n, -1);
+        for (auto [u, v] : edges){
+            if (degree[u] && degree[v]) start[u]++, start[v]++;
+        }
+        for (int u = 0; u < n; u++) start[u + 1] += start[u];
+
+        adj.resize(start[n]);
+        for (auto [u, v] : edges){
+            if (degree[u] && degree[v]) adj[--start[u]] = v, adj[--start[v]] = u;
+        }
+
         int timer = 0;
-        vector<int> dis(n, -1), low(n), parent_edge(n, -1), next(n, 0), value(n, 0), stack = {root};
+        vector<Frame> stack = {{root, -1, start[root], start[root + 1], timer, timer, value[root]}};
+        dis[root] = timer++;
 
-        dis[root] = low[root] = timer++;
-        value[root] = loops[root] & 1;
-
-        while (!stack.empty()){
-            int u = stack.back();
-            if (next[u] < (int)adj[u].size()){
-                auto [v, id] = adj[u][next[u]++];
-                if (id == parent_edge[u]) continue;
-                if (dis[v] == -1){
-                    dis[v] = low[v] = timer++;
-                    parent_edge[v] = id, value[v] = loops[v] & 1;
-                    stack.push_back(v);
+        while (true){
+            Frame& f = stack.back();
+            if (f.next < f.end){
+                int v = adj[f.next++];
+                /// One edge to the parent is the tree edge, any parallel copy of it closes a cycle
+                if (v == f.up) f.up = -1;
+                else if (dis[v] == -1){
+                    dis[v] = timer;
+                    stack.push_back({v, f.u, start[v], start[v + 1], timer, timer, value[v]});
+                    timer++;
                 }
-                else{
-                    low[u] = min(low[u], dis[v]);
-                    /// A cycle edge fuses into a loop worth 1, counted once, at its deeper endpoint
-                    if (dis[v] < dis[u]) value[u] ^= 1;
+                else if (dis[v] < f.dis){
+                    f.low = min(f.low, dis[v]);
+                    f.value ^= 1; /// a cycle edge fuses into a loop worth 1, counted once, at its deeper endpoint
                 }
                 continue;
             }
 
+            if (stack.size() == 1) return f.value;
+            Frame& p = stack[stack.size() - 2];
+            p.low = min(p.low, f.low);
+            p.value ^= f.low > p.dis ? f.value + 1 : f.value ^ 1;
             stack.pop_back();
-            if (stack.empty()) break;
-            int p = stack.back();
-            low[p] = min(low[p], low[u]);
-            value[p] ^= low[u] > dis[p] ? value[u] + 1 : value[u] ^ 1;
         }
-
-        return value[root];
     }
 };
 
@@ -144,51 +173,46 @@ struct RedBlueHackenbush{
         }
     };
 
-    int n, m = 0;
-    vector<vector<array<int, 3>>> adj; /// (neighbor, edge index, blue)
+    int n;
+    vector<array<int, 3>> edges; /// (u, v, blue)
 
-    RedBlueHackenbush(int n) : n(n), adj(n) {}
+    RedBlueHackenbush(int n) : n(n) {}
 
     void add_edge(int u, int v, bool blue){
-        adj[u].push_back({v, m, blue});
-        adj[v].push_back({u, m, blue});
-        m++;
+        edges.push_back({u, v, blue});
     }
 
     Dyadic value(int root){
-        vector<int> order = {root}, parent(n, -1), parent_edge(n, -1), size(n, 0);
-        vector<char> visited(n, 0), blue(n, 0);
-
-        visited[root] = 1;
-        for (int i = 0; i < (int)order.size(); i++){
-            int u = order[i];
-            for (auto [v, id, b] : adj[u]){
-                if (id == parent_edge[u]) continue;
-                assert(!visited[v]);
-                visited[v] = 1, parent[v] = u, parent_edge[v] = id, blue[v] = b;
-                order.push_back(v);
-            }
+        vector<int> degree(n, 0), incident(n, 0); /// incident xors the edge ids, the only one at degree 1
+        for (int id = 0; id < (int)edges.size(); id++){
+            auto [u, v, blue] = edges[id];
+            degree[u]++, incident[u] ^= id;
+            degree[v]++, incident[v] ^= id;
         }
 
-        for (int i = (int)order.size() - 1; i > 0; i--) size[parent[order[i]]] += size[order[i]] + 1;
+        /// Leaves fold into their parent until only the root is left, so no adjacency lists are built
+        vector<int> leaves;
+        for (int u = 0; u < n; u++){
+            if (u != root && degree[u] == 1) leaves.push_back(u);
+        }
 
         vector<Number> num(n);
-        for (int i = (int)order.size() - 1; i >= 0; i--){
-            int u = order[i], heavy = -1;
-            for (auto [v, id, b] : adj[u]){
-                if (id != parent_edge[u] && (heavy == -1 || size[v] > size[heavy])) heavy = v;
-            }
-            if (heavy == -1) continue;
+        for (int i = 0; i < (int)leaves.size(); i++){
+            int u = leaves[i];
+            if (degree[u] != 1) continue; /// its last neighbor was folded into it, in a component without the root
 
-            num[u] = move(num[heavy]);
-            blue[heavy] ? num[u].below_blue() : num[u].below_red();
-            for (auto [v, id, b] : adj[u]){
-                if (id == parent_edge[u] || v == heavy) continue;
-                b ? num[v].below_blue() : num[v].below_red();
-                num[u].absorb(num[v]);
-                num[v] = Number();
-            }
+            auto [a, b, blue] = edges[incident[u]];
+            int p = a ^ b ^ u;
+            degree[u] = 0;
+            degree[p]--, incident[p] ^= incident[u];
+            if (p != root && degree[p] == 1) leaves.push_back(p);
+
+            blue ? num[u].below_blue() : num[u].below_red();
+            if (num[p].bits.size() < num[u].bits.size()) swap(num[p], num[u]);
+            num[p].absorb(num[u]);
+            num[u] = Number();
         }
+        assert(degree[root] == 0); /// a cycle in the root's component never folds away, so the root keeps an edge
 
         Dyadic result;
         result.whole = num[root].whole;

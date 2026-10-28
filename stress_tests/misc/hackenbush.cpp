@@ -263,6 +263,57 @@ Fixed stalk_value(const vector<int>& blue, int len){
     return positive + (-negative);
 }
 
+/// A random tree whose vertices carry rings with stalks hanging off them, value by colon over the tree, shuffled labels
+void check_rings_on_tree(int tree, int max_ring, int max_stalk){
+    vector<Edge> edges;
+    vector<int> parent(tree, -1), at(tree, 0);
+    int n = tree;
+    for (int v = 1; v < tree; v++){
+        parent[v] = stress::rand_int(max(0, v - 3), v - 1);
+        if (stress::rand_int(0, 1)) parent[v] = stress::rand_int(0, v - 1);
+        edges.push_back({parent[v], v});
+    }
+
+    for (int w = 0; w < tree; w++){
+        if (stress::rand_int(0, 3)) continue;
+        int k = stress::rand_int(1, max_ring), prev = w;
+        at[w] ^= k & 1;
+        for (int i = 1; i <= k; i++){
+            int cur = i == k ? w : n++;
+            edges.push_back({prev, cur});
+            prev = cur;
+            if (i == k || stress::rand_int(0, 2)) continue;
+
+            int len = stress::rand_int(1, max_stalk), below = cur;
+            at[w] ^= len;
+            for (int j = 0; j < len; j++, n++) edges.push_back({below, n}), below = n;
+        }
+    }
+
+    vector<int> expected(at);
+    for (int v = tree - 1; v > 0; v--) expected[parent[v]] ^= expected[v] + 1;
+
+    vector<int> label(n);
+    iota(label.begin(), label.end(), 0);
+    shuffle(label.begin(), label.end(), stress::rng());
+    shuffle(edges.begin(), edges.end(), stress::rng());
+    GreenHackenbush g(n);
+    for (auto [u, v] : edges) stress::rand_int(0, 1) ? g.add_edge(label[u], label[v]) : g.add_edge(label[v], label[u]);
+    assert(g.grundy(label[0]) == expected[0]);
+}
+
+/// add_edge after grundy: every prefix of the edge list on one struct against a fresh brute force
+void check_green_prefixes(int n, const vector<Edge>& edges){
+    GreenHackenbush g(n);
+    vector<Edge> prefix;
+    for (auto e : edges){
+        g.add_edge(e.first, e.second);
+        prefix.push_back(e);
+        int root = stress::rand_int(0, n - 1);
+        assert(g.grundy(root) == green_brute(n, prefix, root));
+    }
+}
+
 void check_green(int n, const vector<Edge>& edges, bool brute){
     for (int root = 0; root < n; root++){
         int expected = brute ? green_brute(n, edges, root) : green_naive(n, edges, root);
@@ -372,6 +423,14 @@ int main(){
     lasso.add_edge(BIG, BIG / 2);
     assert(lasso.grundy(0) == BIG / 2 + 1);
 
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(1, 6);
+        check_green_prefixes(n, random_graph(n, 9));
+    }
+    for (long long it = 0; it < stress::scaled(300); it++) check_rings_on_tree(stress::rand_int(1, 30), 6, 4);
+    check_rings_on_tree(BIG / 4, 8, 3);
+    check_rings_on_tree(BIG / 1000, 2000, 200);
+
     for (int n = 1; n <= 6; n++){
         int shapes = 1;
         for (int v = 1; v < n; v++) shapes *= v;
@@ -420,6 +479,23 @@ int main(){
         vector<int> blue;
         for (auto [e, b] : colored) edges.push_back(e), blue.push_back(b);
         for (int i = 0; i < tree; i++) assert(to_fixed(red_blue_lib(n, edges, blue, label[i])) == red_blue_brute(n, edges, blue, label[i]));
+    }
+
+    /// add_edge after value: every prefix of a shuffled tree's edges on one struct, the prefixes are forests
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(1, 12), root = stress::rand_int(0, n - 1);
+        vector<pair<Edge, int>> colored;
+        for (int v = 1; v < n; v++) colored.push_back({{(int)stress::rand_int(0, v - 1), v}, (int)stress::rand_int(0, 1)});
+        shuffle(colored.begin(), colored.end(), stress::rng());
+
+        RedBlueHackenbush t(n);
+        vector<Edge> edges;
+        vector<int> blue;
+        for (auto [e, b] : colored){
+            t.add_edge(e.first, e.second, b);
+            edges.push_back(e), blue.push_back(b);
+            assert(to_fixed(t.value(root)) == red_blue_brute(n, edges, blue, root));
+        }
     }
 
     for (long long it = 0; it < stress::scaled(3000); it++){
