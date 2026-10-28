@@ -1,24 +1,22 @@
 /***
  *
  * Absolute Center (Kariv Hakimi)
- * The point of an undirected graph, on a vertex or inside an edge, whose farthest vertex is nearest
- * Its shortest path tree is a minimum diameter spanning tree
+ * The point of a weighted undirected graph, on a vertex or inside an edge, whose farthest vertex is nearest
  *
- * Complexity: O(n m log n + n^2 log n) time, O(n^2) memory
+ * Complexity: O(n m log n + n^2 log n) time, O(n^2 + m) memory
  *
  * AbsoluteCenter g(n): an empty graph on vertices 0 to n - 1
  * g.add_edge(u, v, w): adds an undirected edge with w >= 0 and returns its id, ids count up from 0 in add_edge order
- * g.solve(): {diameter, edge, offset, tree}, the graph must be connected
+ * g.solve(): {diameter, edge, offset, tree} for the center, the graph must be connected
  *
  * Notes:
- *   - diameter is twice the radius, the farthest vertex distance from the center, and the diameter of tree
  *   - The center lies on edge id edge at distance offset / 2 from that edge's u, so offset is in [0, 2 w]
+ *   - diameter is twice the radius, the center's distance to its farthest vertex, and is the diameter of tree
+ *   - tree holds the n - 1 edge ids of a minimum diameter spanning tree, keeping each vertex's distance to the center
  *   - A graph without edges, so n = 1, gives {0, -1, 0, {}}
- *   - tree holds the n - 1 edge ids of a minimum diameter spanning tree, the shortest path tree from the center
- *   - Parallel edges, self loops and zero weights are fine
+ *   - Parallel edges, self loops and zero weights are allowed
  *   - (n - 1) * max w must stay below 2^61
- *
- * Reference: O. Kariv and S. L. Hakimi, An Algorithmic Approach to Network Location Problems. I: The p-Centers, 1979
+ *   - Method: Kariv and Hakimi, An Algorithmic Approach to Network Location Problems. I: The p-Centers, 1979
  *
 ***/
 
@@ -143,7 +141,7 @@ int main(){
      *           2
      *           |
      *           3
-     * The center sits on edge 1 at distance 1 from vertex 1: 5 from vertex 0, 5 from vertex 2, 3 from vertex 3
+     * The center sits on edge 1 at distance 1 from vertex 1, so offset 2: radius 5, to vertices 0 and 2
     ***/
     AbsoluteCenter path(4);
     path.add_edge(0, 1, 4), path.add_edge(1, 2, 6), path.add_edge(1, 3, 2);
