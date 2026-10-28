@@ -174,39 +174,59 @@ namespace bell_ntt{
     /// END COPY stirling_ntt
 }
 
-/// Fills b_i = B_i / i! for i in [l, r) from i b_i = sum over k < i of b_k / (i - 1 - k)!, acc[i] collects that sum
-void bell_online(int l, int r, long long mod, vector<long long>& b, vector<long long>& acc,
-                 const vector<long long>& fact, const vector<long long>& inv_fact){
-    if (r - l == 1){
-        if (l > 0) b[l] = acc[l] * inv_fact[l] % mod * fact[l - 1] % mod;
-        return;
-    }
+/// BEGIN COPY online_convolution from code_library/algebra/online_convolution.cpp
+template<class Multiply, class Next>
+vector<long long> online_convolution(int n, vector<long long> g, long long mod, Multiply multiply, Next next){
+    assert(n >= 0 && 1 <= mod && mod < (1LL << 31));
+    const int LEAF = 32;
 
-    int mid = (l + r) / 2;
-    bell_online(l, mid, mod, b, acc, fact, inv_fact);
+    g.resize(n, 0);
+    for (auto& x : g) x = (x % mod + mod) % mod;
+    vector<long long> f(n, 0), s(n, 0);
 
-    /// b_k / (t - 1 - k)! for k in [l, mid) lands on index t - 1 - l of the product, for every t in [mid, r)
-    vector<long long> x(b.begin() + l, b.begin() + mid), y(inv_fact.begin(), inv_fact.begin() + (r - l - 1));
-    vector<long long> prod = bell_ntt::multiply(x, y, mod);
-    for (int t = mid; t < r; t++){
-        acc[t] += prod[t - 1 - l];
-        if (acc[t] >= mod) acc[t] -= mod;
-    }
+    auto solve = [&](auto& self, int l, int r) -> void{
+        if (r - l <= LEAF){
+            for (int i = l; i < r; i++){
+                for (int j = l; j < i; j++) s[i] = (s[i] + f[j] * g[i - j]) % mod;
+                f[i] = (next(i, s[i]) % mod + mod) % mod;
+            }
+            return;
+        }
 
-    bell_online(mid, r, mod, b, acc, fact, inv_fact);
+        int mid = (l + r) / 2;
+        self(self, l, mid);
+
+        /// f_j for j in [l, mid) times g_(i-j) lands on index i - l of the product, for every i in [mid, r)
+        vector<long long> prod = multiply(vector<long long>(f.begin() + l, f.begin() + mid),
+                                          vector<long long>(g.begin(), g.begin() + (r - l)));
+        /// A multiply that trims trailing zeros, like Polynomial's, returns fewer terms
+        for (int i = mid; i < r && i - l < (int)prod.size(); i++) s[i] = (s[i] + prod[i - l]) % mod;
+
+        self(self, mid, r);
+    };
+
+    solve(solve, 0, n);
+    return f;
 }
+/// END COPY online_convolution
 
 vector<long long> bell_numbers_ntt(int n, long long mod = 998244353){
     assert(0 <= n && n <= (1 << 22) && n < mod && mod <= (1 << 30) && bell_ntt::is_prime(mod));
 
-    vector<long long> fact, inv_fact, b(n + 1, 0), acc(n + 1, 0);
+    vector<long long> fact, inv_fact;
     bell_ntt::factorials(n, mod, fact, inv_fact);
-    b[0] = 1;
-    bell_online(0, n + 1, mod, b, acc, fact, inv_fact);
 
-    vector<long long> res(n + 1);
-    for (int i = 0; i <= n; i++) res[i] = b[i] * fact[i] % mod;
-    return res;
+    /// b_i = B_i / i! satisfies i b_i = sum over k < i of b_k / (i - 1 - k)!, so g_k = 1 / (k - 1)!
+    vector<long long> g(n + 1, 0);
+    for (int k = 1; k <= n; k++) g[k] = inv_fact[k - 1];
+    auto multiply = [&](const vector<long long>& x, const vector<long long>& y){
+        return bell_ntt::multiply(x, y, mod);
+    };
+    auto next = [&](int i, long long s){ return i ? s * inv_fact[i] % mod * fact[i - 1] % mod : 1; };
+    vector<long long> b = online_convolution(n + 1, g, mod, multiply, next);
+
+    for (int i = 0; i <= n; i++) b[i] = b[i] * fact[i] % mod;
+    return b;
 }
 
 long long bell_number(long long n, long long p){
