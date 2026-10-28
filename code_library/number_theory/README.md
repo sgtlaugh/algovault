@@ -7,8 +7,8 @@
 | [Chinese Remainder Theorem](#chinese-remainder-theorem) | [Continued Fractions](#continued-fractions) | [Digits of Factorial](#digits-of-factorial) | [Discrete Logarithm](#discrete-logarithm) |
 | [Divisors](#divisors) | [Extended GCD](#extended-gcd) | [Fast Fibonacci](#fast-fibonacci) | [Fast Sieve](#fast-sieve) |
 | [Floor Sum](#floor-sum) | [Integer Root](#integer-root) | [Linear Sieve](#linear-sieve) | [Maximum Divisors](#maximum-divisors) |
-| [Miller-Rabin](#miller-rabin) | [Mobius Function](#mobius-function) | [Modular Roots](#modular-roots) | [Pisano Period](#pisano-period) |
-| [Pollard Rho](#pollard-rho) | [Power Tower](#power-tower) | [Segmented Sieve](#segmented-sieve) |  |
+| [Miller-Rabin](#miller-rabin) | [Mobius Function](#mobius-function) | [Modular Roots](#modular-roots) | [Pell Equation](#pell-equation) |
+| [Pisano Period](#pisano-period) | [Pollard Rho](#pollard-rho) | [Power Tower](#power-tower) | [Segmented Sieve](#segmented-sieve) |
 
 <!-- /toc -->
 
@@ -174,6 +174,12 @@
 #### [Modular Roots](modular_roots.cpp)
 
 - [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F) [✔](../../practice/number_theory/codeforces_1106f.cpp "Accepted solution")
+
+#### [Pell Equation](pell_equation.cpp)
+
+- [HackerRank euler066 - Project Euler #66: Diophantine equation](https://www.hackerrank.com/contests/projecteuler/challenges/euler066/problem)
+- [HDU 3292 - No more tricks, Mr Nanguo](http://acm.hdu.edu.cn/showproblem.php?pid=3292)
+- [UVa 138 - Street Numbers](https://onlinejudge.org/external/1/138.pdf)
 
 #### [Pisano Period](pisano_period.cpp)
 

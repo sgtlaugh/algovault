@@ -249,6 +249,7 @@ sa.contains("nab");         // false
 - [Mobius Function](code_library/number_theory/mobius_function.cpp) - Mobius mu for `1..n` at 1 byte per entry
 - [Modular Roots](code_library/number_theory/modular_roots.cpp) - k-th roots modulo a prime, primitive root [✔](judge_tests/number_theory/kth_root_mod.cpp)
 - [Modular Square Root](code_library/number_theory/modular_sqrt.cpp) - Tonelli-Shanks square root modulo a prime [✔](judge_tests/number_theory/sqrt_mod.cpp)
+- [Pell Equation](code_library/number_theory/pell_equation.cpp) - solutions of `x^2 - d y^2 = 1` or `-1`, also mod m
 - [Pisano Period](code_library/number_theory/pisano_period.cpp) - period of Fibonacci numbers modulo n
 - [Pollard Rho](code_library/number_theory/pollard_rho.cpp) - factorization and primality below `2^63` [✔](judge_tests/number_theory/factorize.cpp)
 - [Power Tower](code_library/number_theory/power_tower.cpp) - `a1^(a2^(...^an))` modulo m [✔](judge_tests/number_theory/tetration_mod.cpp)
