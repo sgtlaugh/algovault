@@ -123,12 +123,14 @@ if [[ $old_judge -eq 1 ]]; then
 else
     flags=(-std=c++17 -O2)
 fi
+# One binary per solution name, so parallel checks of different problems never overwrite each other
+bin=/tmp/verdict/$(basename "$solution" .cpp)
 mkdir -p /tmp/verdict
-out=$("$cxx" "${flags[@]}" "$solution" -o /tmp/verdict/solution 2>&1) || { echo "FAIL: does not build with ${flags[*]}:"; grep -m5 -E 'error|undefined' <<< "$out"; bad=1; }
+out=$("$cxx" "${flags[@]}" "$solution" -o "$bin" 2>&1) || { echo "FAIL: does not build with ${flags[*]}:"; grep -m5 -E 'error|undefined' <<< "$out"; bad=1; }
 # The -O0 build only proves linking: the binary that gets timed is rebuilt at -O2, an -O0 one runs about 10x slower
 if [[ $old_judge -eq 1 && $bad -eq 0 ]]; then
     flags=(-std=c++11 -O2)
-    out=$("$cxx" "${flags[@]}" "$solution" -o /tmp/verdict/solution 2>&1) || { echo "FAIL: does not build with ${flags[*]}:"; grep -m5 -E 'error|undefined' <<< "$out"; bad=1; }
+    out=$("$cxx" "${flags[@]}" "$solution" -o "$bin" 2>&1) || { echo "FAIL: does not build with ${flags[*]}:"; grep -m5 -E 'error|undefined' <<< "$out"; bad=1; }
 fi
 
 # GCC 14 flags miss GCC 5 library differences, like tuple's explicit constructor or glibc's minor() macro
@@ -140,5 +142,5 @@ elif [[ $old_judge -eq 1 ]]; then
     echo "note: docker pull gcc:5 checks against the judge's real compiler"
 fi
 
-[[ $bad -eq 0 ]] && echo "OK: built as /tmp/verdict/solution with ${flags[*]}"
+[[ $bad -eq 0 ]] && echo "OK: built as $bin with ${flags[*]}"
 exit $bad

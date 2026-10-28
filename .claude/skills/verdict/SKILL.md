@@ -23,7 +23,7 @@ Read `## Practice problems` in `CONTRIBUTING.md` and all of `STYLE.md` next to t
    ```bash
    bash .claude/skills/verdict/scripts/check_solution.sh <solution> <template> [<template> ...] code_library/misc/fast_io.cpp
    ```
-   It must print `OK`. Then run the binary it built, `/tmp/verdict/solution`, and every brute force or generator through
+   It must print `OK`. Then run the binary it built, `/tmp/verdict/<solution name>` as its `OK` line prints, and every brute force or generator through
    `bash .claude/skills/verdict/scripts/run_capped.sh <command>` (4 GiB, 120 s CPU each), on inputs you wrote, never on
    files picked up by name: a wrong input once made a solution allocate 26 GB and froze the machine:
    - every sample, compared with `diff` against the expected output, exactly
