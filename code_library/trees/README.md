@@ -62,7 +62,7 @@
 - [HackerRank epic-tree - Epic Tree](https://www.hackerrank.com/contests/epiccode/challenges/epic-tree) [✔](../../practice/trees/hackerrank_epic_tree.cpp "Accepted solution")
 - [HackerRank white-falcon-and-tree - White Falcon And Tree](https://www.hackerrank.com/contests/w12/challenges/white-falcon-and-tree)
 - [oj.uz BOI18_minmaxtree - Min-max tree](https://oj.uz/problem/view/BOI18_minmaxtree) [✔](../../practice/trees/oj_uz_boi18_minmaxtree.cpp "Accepted solution")
-- [SPOJ QTREE3 - Query on a tree again!](https://www.spoj.com/problems/QTREE3/)
+- [SPOJ QTREE3 - Query on a tree again!](https://www.spoj.com/problems/QTREE3/) [✔](../../practice/trees/spoj_qtree3.cpp "Accepted solution")
 - [SPOJ QTREE - Query on a tree](https://www.spoj.com/problems/QTREE/)
 - [USACO 102 - Grass Planting](https://usaco.org/index.php?page=viewproblem2&cpid=102)
 - [USACO 842 - Disruption](https://usaco.org/index.php?page=viewproblem2&cpid=842)
