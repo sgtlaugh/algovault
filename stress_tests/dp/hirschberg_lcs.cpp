@@ -12,6 +12,7 @@ int lcs_length(const Sequence& a, const Sequence& b){
             dp[i][j] = a[i - 1] == b[j - 1] ? dp[i - 1][j - 1] + 1 : max(dp[i - 1][j], dp[i][j - 1]);
         }
     }
+
     return dp[a.size()][b.size()];
 }
 
@@ -21,6 +22,7 @@ bool is_subsequence(const Sequence& sub, const Sequence& of){
     for (size_t i = 0; i < of.size() && k < sub.size(); i++){
         if (of[i] == sub[k]) k++;
     }
+
     return k == sub.size();
 }
 

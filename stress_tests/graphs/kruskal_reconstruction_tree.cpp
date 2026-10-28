@@ -9,6 +9,7 @@ vector<vector<int>> light_adjacency(int n, const vector<array<long long, 3>>& ed
     for (auto [a, b, c] : edges){
         if (c <= w) adj[a].push_back(b), adj[b].push_back(a);
     }
+
     return adj;
 }
 

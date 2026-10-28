@@ -20,5 +20,6 @@ int main(){
         sort(pts.begin(), pts.end(), [](const Point& u, const Point& v){ return tie(u.x, u.y) < tie(v.x, v.y); });
         printf("%.10Lf %.10Lf %.10Lf %.10Lf\n", pts[0].x, pts[0].y, pts[1].x, pts[1].y);
     }
+
     return 0;
 }

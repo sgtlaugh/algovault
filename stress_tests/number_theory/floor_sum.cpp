@@ -31,6 +31,7 @@ long long brute_count(long long n, long long m, long long a, long long l, long l
         long long v = brute_mod((__int128)a * x, m);
         res += l <= v && v <= r;
     }
+
     return res;
 }
 
@@ -40,6 +41,7 @@ long long brute_first(long long m, long long a, long long l, long long r){
         long long v = brute_mod((__int128)a * x, m);
         if (l <= v && v <= r) return x;
     }
+
     return -1;
 }
 
@@ -72,6 +74,7 @@ long long rand_edge(long long m){
         case 4: v = LLONG_MIN + stress::rand_int(0, 3); break;
         default: v = rand_signed(LLONG_MAX);
     }
+
     return max<__int128>(LLONG_MIN, min<__int128>(LLONG_MAX, v));
 }
 

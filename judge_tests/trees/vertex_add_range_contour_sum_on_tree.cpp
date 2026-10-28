@@ -76,5 +76,6 @@ int main(){
         }
         printf("%lld\n", res);
     }
+
     return 0;
 }

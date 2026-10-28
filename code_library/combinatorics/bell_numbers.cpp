@@ -32,6 +32,7 @@ namespace bell_ntt{
         for (b %= mod; e; e >>= 1, b = b * b % mod){
             if (e & 1) res = res * b % mod;
         }
+
         return res;
     }
 
@@ -159,6 +160,7 @@ namespace bell_ntt{
         for (long long d = 2; d * d <= x; d++){
             if (x % d == 0) return false;
         }
+
         return true;
     }
 

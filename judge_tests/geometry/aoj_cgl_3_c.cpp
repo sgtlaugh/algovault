@@ -20,5 +20,6 @@ int main(){
         if (scanf("%lld %lld", &t.x, &t.y) != 2) return 0;
         printf("%d\n", point_in_polygon(poly, t) + 1);
     }
+
     return 0;
 }

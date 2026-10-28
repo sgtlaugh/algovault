@@ -24,5 +24,6 @@ int main(){
         else if (t == 1 && trie.count(x) > 0) trie.erase(x);
         else if (t == 2) printf("%llu\n", trie.min_xor(x));
     }
+
     return 0;
 }

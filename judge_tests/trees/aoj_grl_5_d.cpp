@@ -38,5 +38,6 @@ int main(){
         for (auto [l, r] : hld.path(0, v, true)) res += fen.query(l, r);
         printf("%lld\n", res);
     }
+
     return 0;
 }

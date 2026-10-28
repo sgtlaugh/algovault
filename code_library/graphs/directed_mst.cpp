@@ -80,6 +80,7 @@ struct DirectedMST{
                 spine.pop_back();
                 t[x].r = t[x].l, t[x].l = res, res = x;
             }
+
             return res;
         };
 

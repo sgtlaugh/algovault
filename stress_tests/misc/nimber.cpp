@@ -15,6 +15,7 @@ unsigned long long brute_power_product(int m, int n){
     for (int t = 0; t < 6; t++){
         if ((m & n) >> t & 1) res = brute_product(res, (1ULL << (1 << t)) | (1ULL << ((1 << t) - 1)));
     }
+
     return memo[m][n] = res;
 }
 
@@ -26,6 +27,7 @@ unsigned long long brute_product(unsigned long long a, unsigned long long b){
             if (b >> j & 1) res ^= brute_power_product(i, j);
         }
     }
+
     return res;
 }
 

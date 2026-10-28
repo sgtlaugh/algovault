@@ -25,6 +25,7 @@ bool power_at_most(unsigned long long r, int k, unsigned long long n){
         if (r && res > n / r) return false;
         res *= r;
     }
+
     return res <= n;
 }
 

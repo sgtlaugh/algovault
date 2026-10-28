@@ -21,5 +21,6 @@ int main(){
         for (int i : set_bit_indices(x)) printf(" %d", i);
         putchar('\n');
     }
+
     return 0;
 }

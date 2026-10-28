@@ -30,6 +30,7 @@ int main(){
             if (tree.kth_ancestor(u, tree.depth(u) - d) == tree.kth_ancestor(v, tree.depth(v) - d)) lo = d;
             else hi = d - 1;
         }
+
         return tree.kth_ancestor(u, tree.depth(u) - lo);
     };
 
@@ -39,5 +40,6 @@ int main(){
         int res = i > len ? -1 : i <= up_len ? tree.kth_ancestor(s, i) : tree.kth_ancestor(t, len - i);
         printf("%d\n", res);
     }
+
     return 0;
 }

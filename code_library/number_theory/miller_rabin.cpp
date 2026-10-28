@@ -53,6 +53,7 @@ struct Montgomery{
         for (; e; e >>= 1, x = mul(x, x)){
             if (e & 1) res = mul(res, x);
         }
+
         return res;
     }
 };
@@ -73,6 +74,7 @@ namespace prm{
         for (unsigned long long p: {3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79}){
             res.push_back({p, Montgomery(p).inv, ~0ULL / p});
         }
+
         return res;
     }();
 

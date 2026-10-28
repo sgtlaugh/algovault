@@ -45,6 +45,7 @@ bool equal_product_is_exact(FFT& fft, int n, int m, ll va, ll vb){
     for (int k = 0; k < n + m - 1; k++){
         if (c[k] != va * vb * min({k + 1, n, m, n + m - 1 - k})) return false;
     }
+
     return true;
 }
 

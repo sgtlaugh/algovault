@@ -34,6 +34,7 @@ struct PermutationIndex{
             res = res * (n - i) + __builtin_popcount(rest & ((1 << p[i]) - 1));
             rest ^= 1 << p[i];
         }
+
         return res;
     }
 };

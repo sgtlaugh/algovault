@@ -17,5 +17,6 @@ int main(){
         }
         puts(segments_intersect(p[0], p[1], p[2], p[3]) ? "1" : "0");
     }
+
     return 0;
 }

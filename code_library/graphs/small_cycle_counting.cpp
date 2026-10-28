@@ -72,6 +72,7 @@ struct SmallCycles{
                 if (above(v, u)) up[u].push_back(v);
             }
         }
+
         return up;
     }
 

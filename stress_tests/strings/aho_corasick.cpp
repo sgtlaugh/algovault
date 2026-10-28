@@ -51,6 +51,7 @@ void check_nodes(const vector<string>& patterns, int alphabet){
         for (size_t i = from; i < s.size(); i++){
             if (node_of.count(s.substr(i))) return node_of[s.substr(i)];
         }
+
         return 0;
     };
 

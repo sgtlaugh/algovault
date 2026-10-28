@@ -23,6 +23,7 @@ int main(){
                 Point shift = Point(-dir.y, dir.x) * (d / hypotl(dir.x, dir.y));
                 h.emplace_back(a + shift, b + shift);
             }
+
             return !halfplane_intersection(h, 1e5).empty();
         };
 
@@ -34,5 +35,6 @@ int main(){
         }
         printf("%.6Lf\n", lo);
     }
+
     return 0;
 }

@@ -20,5 +20,6 @@ int main(){
         auto [lo, hi] = sa.occurrences(p);
         cout << (hi > lo) << '\n';
     }
+
     return 0;
 }

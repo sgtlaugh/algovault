@@ -15,6 +15,7 @@ long long brute(const vector<Point>& points){
     for (int i = 0; i < (int)points.size(); i++){
         for (int j = i + 1; j < (int)points.size(); j++) best = min(best, dist2(points[i], points[j]));
     }
+
     return best;
 }
 

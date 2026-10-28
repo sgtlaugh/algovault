@@ -32,6 +32,7 @@ namespace dlog{
         for (; k; k >>= 1, x = x * x % mod){
             if (k & 1) res = res * x % mod;
         }
+
         return res;
     }
 

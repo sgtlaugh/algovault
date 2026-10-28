@@ -18,5 +18,6 @@ int main(){
         auto lower = fraction_search([&](long long q, long long p){ return q * x >= y * p; }, n);
         printf("%lld %lld %lld %lld\n", lower.second, lower.first, upper.first, upper.second);
     }
+
     return 0;
 }

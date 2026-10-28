@@ -15,6 +15,7 @@ unsigned long long brute(unsigned long long n, int k){
             p *= r;
             if (p > (__int128)n) return false;
         }
+
         return true;
     };
 

@@ -15,6 +15,7 @@ long long brute(int row, int size, vector<bool>& col, vector<bool>& diag, vector
         ways += brute(row + 1, size, col, diag, anti);
         col[c] = diag[row + c] = anti[row - c + size] = false;
     }
+
     return ways;
 }
 

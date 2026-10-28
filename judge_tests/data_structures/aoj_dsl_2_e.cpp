@@ -27,5 +27,6 @@ int main(){
             printf("%lld\n", fen.query(i - 1));
         }
     }
+
     return 0;
 }

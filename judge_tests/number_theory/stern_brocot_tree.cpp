@@ -25,6 +25,7 @@ vector<long long> truncate(const vector<long long>& runs, long long depth){
         depth -= res.back();
         if (!depth) break;
     }
+
     return res;
 }
 
@@ -105,5 +106,6 @@ int main(){
             printf("%lld %lld %lld %lld\n", lo.first, lo.second, hi.first, hi.second);
         }
     }
+
     return 0;
 }

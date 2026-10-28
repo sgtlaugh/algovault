@@ -72,6 +72,7 @@ long double union_chord(const vector<Circle>& circles, long double x){
         lo = max(lo, top);
         if (hi > lo) res += hi - lo, top = hi;
     }
+
     return res;
 }
 
@@ -86,6 +87,7 @@ long double union_reference(const vector<Circle>& circles){
             for (long double x : crossing_xs(circles[i], circles[j])) xs.push_back(x);
         }
     }
+
     return integrate([&](long double x){ return union_chord(circles, x); }, xs, 1e-9L * max(1.0L, total));
 }
 
@@ -123,6 +125,7 @@ long double polygon_reference(const Circle& c, const vector<Point>& poly){
             if (t >= 0 && t <= 1) xs.push_back(p.x + t * ux);
         }
     }
+
     return integrate([&](long double x){ return polygon_chord(poly, c, x); }, xs, 1e-9L * max(1.0L, c.r * c.r));
 }
 
@@ -170,6 +173,7 @@ bool encloses(const vector<Point>& points, const Point& c, long double r){
     for (const Point& p : points){
         if (dist(p, c) > r + 1e-9L * max(1.0L, r)) return false;
     }
+
     return true;
 }
 
@@ -190,6 +194,7 @@ long double brute_mec_radius(const vector<Point>& p){
             }
         }
     }
+
     return best;
 }
 
@@ -229,6 +234,7 @@ int brute_cover(const vector<Point>& points, long double r){
             best = max(best, covered_by(points, mid - h, r));
         }
     }
+
     return best;
 }
 
@@ -249,6 +255,7 @@ vector<Point> ring_points(long long r){
         res.push_back({(long double)x, (long double)y});
         if (y != 0) res.push_back({(long double)x, (long double)-y});
     }
+
     return res;
 }
 

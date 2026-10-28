@@ -44,6 +44,7 @@ bool near_identity_product(const vector<vector<double>>& x, const vector<vector<
             if (fabs(v - (i == j)) > 1e-9 * scale) return false;
         }
     }
+
     return true;
 }
 
@@ -59,6 +60,7 @@ vector<vector<long long>> random_dependent(int n, int m){
             else a[i][j] = a[i - 1][j] + a[i >= 2 ? i - 2 : 0][j];
         }
     }
+
     return a;
 }
 

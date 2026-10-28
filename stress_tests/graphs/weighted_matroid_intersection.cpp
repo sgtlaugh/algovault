@@ -34,6 +34,7 @@ bool xor_independent(const vector<ull>& values){
         }
         if (a == 0) return false;
     }
+
     return true;
 }
 
@@ -48,6 +49,7 @@ bool independent(const Spec& s, const vector<int>& subset){
             if (a == b) return false;
             root[a] = b;
         }
+
         return true;
     }
     if (s.kind == PARTITION){
@@ -55,6 +57,7 @@ bool independent(const Spec& s, const vector<int>& subset){
         for (int x : subset){
             if (++used[s.color[x]] > s.cap[s.color[x]]) return false;
         }
+
         return true;
     }
 
@@ -84,6 +87,7 @@ Spec random_spec(int n){
         int bits = stress::rand_int(1, 5);
         for (int i = 0; i < n; i++) s.vec.push_back(random_vector(bits));
     }
+
     return s;
 }
 
@@ -138,6 +142,7 @@ pair<long long, long long> brute(int n, const vector<long long>& weight, const S
         if ((int)subset.size() > largest) largest = subset.size(), best_largest = w;
         else if ((int)subset.size() == largest) best_largest = max(best_largest, w);
     }
+
     return {best, best_largest};
 }
 
@@ -198,6 +203,7 @@ int kuhn(int n_left, int n_right, const vector<array<int, 2>>& edges){
                 return true;
             }
         }
+
         return false;
     };
 
@@ -206,6 +212,7 @@ int kuhn(int n_left, int n_right, const vector<array<int, 2>>& edges){
         seen.assign(n_right, 0);
         res += try_kuhn(u);
     }
+
     return res;
 }
 

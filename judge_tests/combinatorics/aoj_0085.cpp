@@ -11,5 +11,6 @@ int main(){
     while (scanf("%d %d", &n, &m) == 2 && (n || m)){
         printf("%lld\n", josephus(n, m, n));
     }
+
     return 0;
 }

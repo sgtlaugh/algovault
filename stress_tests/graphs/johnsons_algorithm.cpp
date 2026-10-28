@@ -23,6 +23,7 @@ bool floyd(int n, const vector<array<long long, 3>>& edges, vector<vector<long l
     for (int v = 0; v < n; v++){
         if (d[v][v] < 0) return false;
     }
+
     return true;
 }
 

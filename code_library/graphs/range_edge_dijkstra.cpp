@@ -84,6 +84,7 @@ struct RangeEdgeGraph{
             if (l & 1) nodes.push_back(l++);
             if (r & 1) nodes.push_back(--r);
         }
+
         return nodes;
     }
 };

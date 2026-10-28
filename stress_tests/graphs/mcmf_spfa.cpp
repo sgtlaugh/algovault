@@ -14,6 +14,7 @@ long long min_cut(int nodes, int src, int sink, const vector<Arc>& arcs){
         for (auto& a : arcs) if ((mask >> a.u & 1) && !(mask >> a.v & 1)) cut += a.cap;
         best = min(best, cut);
     }
+
     return best;
 }
 
@@ -27,6 +28,7 @@ bool has_negative_cycle(int nodes, const vector<array<long long, 3>>& residual){
         }
         if (!relaxed) return false;
     }
+
     return true;
 }
 

@@ -15,5 +15,6 @@ int main(){
         if (scanf("%1009s %1009s", x, y) != 2) break;
         printf("%zu\n", lcs_sequence(string(x), string(y)).size());
     }
+
     return 0;
 }

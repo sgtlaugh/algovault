@@ -22,5 +22,6 @@ int main(){
             printf("%lld\n", power_tower(tower, m));
         }
     }
+
     return 0;
 }

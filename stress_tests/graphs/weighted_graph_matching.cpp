@@ -27,6 +27,7 @@ pair<int, long long> brute(const Matrix& w, bool by_size){
             pair<int, long long> cand = {sub.first + 1, sub.second + w[x][y]};
             if (by_size ? cand > cur : cand.second > cur.second) cur = cand;
         }
+
         return res = cur;
     };
 
@@ -92,6 +93,7 @@ Matrix random_graph(int n, int density, long long max_w, bool allow_bad){
             if (stress::rand_int(0, 99) < density) w[u][v] = w[v][u] = stress::rand_int(allow_bad ? -2 : 1, max_w);
         }
     }
+
     return w;
 }
 
@@ -110,6 +112,7 @@ WeightedBlossom build(const Matrix& w){
         if (stress::rand_int(0, 7) == 0) wb.add_edge(u, v, w[u][v] - stress::rand_int(1, 5));
         wb.add_edge(u, v, w[u][v]);
     }
+
     return wb;
 }
 

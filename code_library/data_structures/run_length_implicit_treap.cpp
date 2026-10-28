@@ -351,6 +351,7 @@ struct RunLengthImplicitTreap{
                 if (ok(extend(Runs::run_agg(backwards ? parts.second : parts.first, mid)))) lo = mid;
                 else hi = mid - 1;
             }
+
             return taken + lo;
         }
 

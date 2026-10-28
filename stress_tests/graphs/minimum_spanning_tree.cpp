@@ -19,6 +19,7 @@ struct ReferenceForest{
             int next = parent[x];
             parent[x] = root, x = next;
         }
+
         return root;
     }
 
@@ -57,6 +58,7 @@ pair<long long, int> prim(int n, const vector<MSTEdge>& edges){
             if (!used[v] && w[u][v] < best[v]) best[v] = w[u][v];
         }
     }
+
     return {total, components};
 }
 
@@ -79,6 +81,7 @@ pair<long long, int> brute(int n, const vector<MSTEdge>& edges){
         if (!acyclic) continue;
         if (size > most || (size == most && sum < lightest)) most = size, lightest = sum;
     }
+
     return {lightest, n - most};
 }
 
@@ -225,5 +228,6 @@ int main(){
         assert(dense_prim(pn, dist).weight == weight);
         check_dense(pw, {weight, 1});
     }
+
     return 0;
 }

@@ -38,6 +38,7 @@ bool brute_any(const vector<Segment>& segs){
             if (brute_intersect(segs[i], segs[j])) return true;
         }
     }
+
     return false;
 }
 
@@ -80,6 +81,7 @@ vector<Segment> disjoint_set(int target, long long lo, long long hi){
         for (auto& s : segs) if (brute_intersect(s, cand)){ ok = false; break; }
         if (ok) segs.push_back(cand);
     }
+
     return segs;
 }
 

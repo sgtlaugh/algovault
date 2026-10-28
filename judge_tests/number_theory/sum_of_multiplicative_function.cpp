@@ -16,5 +16,6 @@ int main(){
         Min25Sieve sieve(n, 469762049, {a, b});
         printf("%llu\n", (unsigned long long)sieve.sum([&](long long p, int e, long long){ return a * e + b * p; }));
     }
+
     return 0;
 }

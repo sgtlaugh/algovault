@@ -47,5 +47,6 @@ int main(){
             printf("%lld\n", fen.query(l, d, r, u));
         }
     }
+
     return 0;
 }

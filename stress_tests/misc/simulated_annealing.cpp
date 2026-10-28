@@ -36,6 +36,7 @@ Matrix random_instance(int n, int max_w){
     for (int i = 0; i < n; i++){
         for (int j = i + 1; j < n; j++) w[i][j] = w[j][i] = stress::rand_int(1, max_w);
     }
+
     return w;
 }
 

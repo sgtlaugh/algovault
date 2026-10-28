@@ -35,6 +35,7 @@ namespace wildcard_ntt{
             b = b * b % mod;
             e >>= 1;
         }
+
         return res;
     }
 
@@ -70,6 +71,7 @@ namespace wildcard_ntt{
                 rt[i] = i & 1 ? (w >= MOD ? w - MOD : w) : rt[i >> 1];
             }
         }
+
         return rt;
     }
 

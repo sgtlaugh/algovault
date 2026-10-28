@@ -58,6 +58,7 @@ struct NaiveTree{
                 cnt[a][d]++;
             }
         }
+
         return cnt;
     }
 };

@@ -21,6 +21,7 @@ struct NaiveForest{
                 if (!seen[w]) seen[w] = 1, res.push_back(w);
             }
         }
+
         return res;
     }
 

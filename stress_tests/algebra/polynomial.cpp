@@ -35,6 +35,7 @@ struct Schoolbook{
         for (size_t i = 0; i < x.size(); i++){
             for (size_t j = 0; j < y.size(); j++) res[i + j] = (res[i + j] + (ll)x[i] * y[j]) % MOD;
         }
+
         return res;
     }
 
@@ -44,6 +45,7 @@ struct Schoolbook{
             ll u = i < x.size() ? x[i] : 0, v = i < y.size() ? y[i] : 0;
             res[i] = ((u + sign * v) % MOD + MOD) % MOD;
         }
+
         return trim(res);
     }
 
@@ -58,6 +60,7 @@ struct Schoolbook{
             for (int j = 1; j <= k; j++) s = (s - (ll)a[j] * b[k - j]) % MOD;
             b[k] = (s % MOD + MOD) % MOD * i0 % MOD;
         }
+
         return b;
     }
 
@@ -72,6 +75,7 @@ struct Schoolbook{
             q[i] = c;
             for (size_t j = 0; j < b.size(); j++) a[i + j] = ((a[i + j] - c * b[j]) % MOD + MOD) % MOD;
         }
+
         return {trim(q), trim(a)};
     }
 
@@ -97,6 +101,7 @@ struct Schoolbook{
             for (int j = 1; j <= k; j++) s = (s - (ll)a[j] * q[k - j]) % MOD;
             q[k] = (s + MOD) % MOD;
         }
+
         return integral(q);
     }
 
@@ -111,6 +116,7 @@ struct Schoolbook{
             for (int j = 1; j <= k; j++) s = (s + (ll)j * a[j] % MOD * e[k - j]) % MOD;
             e[k] = s * inv(k) % MOD;
         }
+
         return e;
     }
 
@@ -134,6 +140,7 @@ struct Schoolbook{
         for (int i = 0; i < n; i++){
             for (int j = 0; i + j < n; j++) res[i + j] = (res[i + j] + (ll)x[i] * y[j]) % MOD;
         }
+
         return res;
     }
 
@@ -144,6 +151,7 @@ struct Schoolbook{
         for (; k > 0; k >>= 1, base = multiply_cut(base, base, n)){
             if (k & 1) res = multiply_cut(res, base, n);
         }
+
         return res;
     }
 
@@ -171,6 +179,7 @@ struct Schoolbook{
             ll c = ys[i] * inv(den) % MOD;
             for (int d = 0; d < n; d++) res[d] = (res[d] + c * q[d]) % MOD;
         }
+
         return trim(res);
     }
 
@@ -182,6 +191,7 @@ struct Schoolbook{
             if (res.empty()) res = {0};
             res[0] = (res[0] + a[i]) % MOD;
         }
+
         return cut(res, a.size());
     }
 };
@@ -195,6 +205,7 @@ vector<int> random_coefficients(int n){
         else if (style == 1) x = stress::rand_int(0, 3) ? 0 : stress::rand_int(0, MOD - 1);
         else x = stress::rand_int(0, MOD - 1);
     }
+
     return v;
 }
 
@@ -206,6 +217,7 @@ vector<int> distinct_points(int n){
         int x = stress::rand_int(0, MOD - 1);
         if (seen.insert(x).second) pts.push_back(x);
     }
+
     return pts;
 }
 

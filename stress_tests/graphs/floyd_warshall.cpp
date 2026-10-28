@@ -26,6 +26,7 @@ vector<long long> bellman_ford(int n, const vector<array<long long, 3>>& edges, 
     for (int v = 0; v < n; v++){
         if (neg[v]) d[v] = NEG_INF;
     }
+
     return d;
 }
 
@@ -124,6 +125,7 @@ vector<array<long long, 3>> random_edges(int n, int m, bool allow_cycles){
         long long w = allow_cycles ? stress::rand_int(-3, 12) : stress::rand_int(0, 2) + potential[v] - potential[u];
         edges.push_back({u, v, w});
     }
+
     return edges;
 }
 
@@ -179,5 +181,6 @@ int main(){
     for (int u = 0; u < n; u++){
         for (int v = 0; v < n; v++) assert(fw.dist[u][v] == NEG_INF && fw.path(u, v).empty());
     }
+
     return 0;
 }

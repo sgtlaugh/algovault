@@ -22,5 +22,6 @@ int main(){
     for (auto& row : *inv){
         for (int j = 0; j < n; j++) printf("%d%c", row[j], j + 1 == n ? '\n' : ' ');
     }
+
     return 0;
 }

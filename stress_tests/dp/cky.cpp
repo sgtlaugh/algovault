@@ -22,6 +22,7 @@ vector<set<string>> derivable(int r, const vector<pair<int, char>>& terminals, c
     for (int len = 1; len <= max_len; len++){
         for (int a = 0; a < r; a++) res[a].insert(by_len[len][a].begin(), by_len[len][a].end());
     }
+
     return res;
 }
 

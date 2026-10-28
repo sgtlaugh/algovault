@@ -25,5 +25,6 @@ int main(){
         int l = read_int(), r = read_int();
         printf("%lld\n", table.query(l, r - 1));
     }
+
     return 0;
 }

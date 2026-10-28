@@ -106,6 +106,7 @@ bool is_rotation(vector<int> cycle, const vector<int>& expected){
         if (cycle == expected) return true;
         rotate(cycle.begin(), cycle.begin() + 1, cycle.end());
     }
+
     return false;
 }
 

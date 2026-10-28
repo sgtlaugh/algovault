@@ -14,6 +14,7 @@ vector<pair<int, int>> make_tree(int n, int shape){
         int p = shape == 0 ? stress::rand_int(0, i - 1) : shape == 1 ? i - 1 : shape == 2 ? 0 : (i - 1) / 2;
         edges.push_back({label[i], label[p]});
     }
+
     return edges;
 }
 

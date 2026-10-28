@@ -37,5 +37,6 @@ int main(){
         if (type == 0) version[i] = arr.set(version[t], tail[i]++, read_int());
         else printf("%lld\n", arr.get(version[t], head[i]++));
     }
+
     return 0;
 }

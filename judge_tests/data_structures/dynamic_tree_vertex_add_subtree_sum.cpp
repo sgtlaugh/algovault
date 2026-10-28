@@ -42,5 +42,6 @@ int main(){
             printf("%lld\n", ett.subtree_query(v, p));
         }
     }
+
     return 0;
 }

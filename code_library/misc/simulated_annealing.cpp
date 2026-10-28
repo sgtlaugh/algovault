@@ -107,6 +107,7 @@ int main(){
             auto [x2, y2] = pts[p[(i + 1) % p.size()]];
             len += hypot(x1 - x2, y1 - y2);
         }
+
         return len;
     };
     auto two_opt = [](vector<int> p, mt19937_64& rng){

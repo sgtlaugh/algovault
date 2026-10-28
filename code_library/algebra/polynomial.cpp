@@ -321,6 +321,7 @@ struct Polynomial{
             for (int i = 0; i < n; i++){
                 for (int j = 0; j < m; j++) res[i + j] = add(res[i + j], mul(x[i], y[j]));
             }
+
             return res;
         }
 

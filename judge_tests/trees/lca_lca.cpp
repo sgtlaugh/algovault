@@ -23,5 +23,6 @@ int main(){
         int u = read_int(), v = read_int();
         printf("%d\n", tree.lca(u, v));
     }
+
     return 0;
 }

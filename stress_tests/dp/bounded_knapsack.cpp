@@ -13,6 +13,7 @@ long long expanded_knapsack(const vector<long long>& values, const vector<long l
             for (int x = capacity; x >= weights[i]; x--) dp[x] = max(dp[x], dp[x - weights[i]] + values[i]);
         }
     }
+
     return dp[capacity];
 }
 

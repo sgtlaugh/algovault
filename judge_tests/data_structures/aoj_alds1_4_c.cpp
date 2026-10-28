@@ -24,5 +24,6 @@ int main(){
         if (command[0] == 'i') trie.insert(encode(word));
         else puts(trie.count_word(encode(word)) > 0 ? "yes" : "no");
     }
+
     return 0;
 }

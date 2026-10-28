@@ -15,6 +15,7 @@ vector<Point> random_points(int n, int range){
         else if (stress::rand_int(0, 5) == 0) points.push_back(Point(stress::rand_int(-range, range), 7));  /// a line
         else points.push_back(Point(stress::rand_int(-range, range), stress::rand_int(-range, range)));
     }
+
     return points;
 }
 
@@ -62,6 +63,7 @@ bool brute_contains(const vector<Point>& hull, const Point& q){
     for (int i = 0; i < h; i++){
         if (cross(hull[i], hull[(i + 1) % h], q) < 0) return false;
     }
+
     return true;
 }
 

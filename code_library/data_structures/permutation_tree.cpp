@@ -105,6 +105,7 @@ struct PermutationTree{
             long long k = children[v].size();
             total += type[v] == CUT ? 1 : k * (k - 1) / 2;
         }
+
         return total;
     }
 

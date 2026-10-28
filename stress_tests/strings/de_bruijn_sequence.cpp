@@ -33,6 +33,7 @@ vector<int> original(int k, int n){
             if (n % p == 0){
                 for (int i = 1; i <= p; i++) ans.push_back(aux[i]);
             }
+
             return;
         }
         aux[t] = aux[t - p];
@@ -56,6 +57,7 @@ bool smallest(vector<int>& s, set<vector<int>>& seen, int k, int n, int len){
             for (int j = 0; j < n; j++) w.push_back(s[(i + j) % len]);
             if (!all.insert(w).second) return false;
         }
+
         return true;
     }
 

@@ -30,5 +30,6 @@ int main(){
         ClosestPairResult res = closest_pair(points);
         printf("%d %d\n", res.i, res.j);
     }
+
     return 0;
 }

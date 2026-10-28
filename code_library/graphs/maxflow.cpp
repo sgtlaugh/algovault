@@ -87,6 +87,7 @@ struct FlowGraph{
         for (int id = 0; id < (int)E.size(); id++){
             if (E[id].cap > 0 && in_source_side(E[id].u) && !in_source_side(E[id].v)) ids.push_back(id);
         }
+
         return ids;
     }
 

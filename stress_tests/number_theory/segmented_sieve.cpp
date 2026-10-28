@@ -17,6 +17,7 @@ bool reference_prime(unsigned long long n){
         for (; e; e >>= 1, a = mulmod(a, a)){
             if (e & 1) r = mulmod(r, a);
         }
+
         return r;
     };
 

@@ -14,5 +14,6 @@ int main(){
         if (scanf("%lld %lld %lld", &k, &y, &p) != 3) return 0;
         printf("%lld\n", kth_root(y, k, p));
     }
+
     return 0;
 }

@@ -16,6 +16,7 @@ vector<int> naive_unrank(int n, __int128 k){
         res.push_back(pool[q]);
         pool.erase(pool.begin() + q);
     }
+
     return res;
 }
 
@@ -30,6 +31,7 @@ __int128 naive_rank(const vector<int>& p){
         used[p[i]] = true;
         res = res * (n - i) + smaller;
     }
+
     return res;
 }
 

@@ -19,6 +19,7 @@ int default_start(int n, const vector<Edge>& edges){
     for (int v = 0; v < n; v++){
         if (out[v] + in[v] > 0) return v;
     }
+
     return 0;
 }
 
@@ -56,6 +57,7 @@ bool brute_from(int u, const vector<Edge>& edges, vector<char>& used, int left){
         used[id] = 0;
         if (ok) return true;
     }
+
     return false;
 }
 

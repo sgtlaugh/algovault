@@ -55,6 +55,7 @@ struct KruskalReconstructionTree{
                 int next = dsu[x];
                 dsu[x] = root, x = next;
             }
+
             return root;
         };
 
@@ -93,6 +94,7 @@ struct KruskalReconstructionTree{
         for (int k = lg - 1; k >= 0; k--){
             if (weight[up[k][v]] <= w) v = up[k][v];
         }
+
         return v;
     }
 

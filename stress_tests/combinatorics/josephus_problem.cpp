@@ -13,6 +13,7 @@ vector<int> simulate(int n, long long k){
         order.push_back(alive[pos]);
         alive.erase(alive.begin() + pos);
     }
+
     return order;
 }
 

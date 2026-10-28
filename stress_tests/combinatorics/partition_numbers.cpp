@@ -14,6 +14,7 @@ vector<long long> coin_dp(int n, long long m){
             if (p[i] >= (unsigned long long)m) p[i] -= m;
         }
     }
+
     return vector<long long>(p.begin(), p.end());
 }
 

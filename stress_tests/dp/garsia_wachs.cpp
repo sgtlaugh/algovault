@@ -22,6 +22,7 @@ long long naive_merge_cost(const vector<long long>& weights){
             dp[i][j] += pre[j + 1] - pre[i];
         }
     }
+
     return dp[0][n - 1];
 }
 

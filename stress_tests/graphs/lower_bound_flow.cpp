@@ -73,6 +73,7 @@ bool cut_feasible(int n, const vector<LowerBoundFlow::Bound>& edges, int s, int 
         }
         if (in_low > out_high) return false;
     }
+
     return true;
 }
 
@@ -89,6 +90,7 @@ pair<long long, long long> cut_bounds(int n, const vector<LowerBoundFlow::Bound>
         }
         mx = min(mx, out_high - in_low), mn = max(mn, out_low - in_high);
     }
+
     return {mn, mx};
 }
 
@@ -100,6 +102,7 @@ vector<LowerBoundFlow::Bound> random_edges(int n, int m, long long max_cap){
         if (stress::rand_int(0, 2) == 0) x = 0;
         edges.push_back({u, v, min(x, y), max(x, y)});
     }
+
     return edges;
 }
 
@@ -117,6 +120,7 @@ vector<LowerBoundFlow::Bound> planted_edges(int n, int cycles, long long max_cap
     for (size_t i = 0; i < edges.size(); i++){
         edges[i].low = stress::rand_int(0, f[i]), edges[i].high = f[i] + stress::rand_int(0, max_cap);
     }
+
     return edges;
 }
 
@@ -227,5 +231,6 @@ int main(){
             }
         }
     }
+
     return 0;
 }

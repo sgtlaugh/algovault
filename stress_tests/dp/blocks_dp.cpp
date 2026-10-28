@@ -41,6 +41,7 @@ int memo_reference(const vector<int>& v){
         for (int mid = start + 1; mid <= end; mid++){
             if (color[start] == color[mid]) res = max(res, self(self, start + 1, mid - 1, 0) + self(self, mid, end, k));
         }
+
         return memo = res;
     };
 

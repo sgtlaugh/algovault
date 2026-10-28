@@ -41,6 +41,7 @@ vector<ull> combos(const vector<ull>& gens, int n){
     for (auto& x : values){
         for (ull g : gens) if (stress::rand_int(0, 1)) x ^= g;
     }
+
     return values;
 }
 
@@ -76,6 +77,7 @@ XorBasis build(const vector<ull>& values){
         assert(b.insert(x) == !binary_search(span.begin(), span.end(), x));
         prefix.push_back(x);
     }
+
     return b;
 }
 

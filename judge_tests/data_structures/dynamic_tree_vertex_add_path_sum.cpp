@@ -45,5 +45,6 @@ int main(){
             printf("%lld\n", lct.query(u, v));
         }
     }
+
     return 0;
 }

@@ -68,6 +68,7 @@ long long tree_weight(int n, int root, const vector<DirectedMST::Edge>& edges, c
         assert(cheapest[v] != none);
         total += cheapest[v];
     }
+
     return total;
 }
 
@@ -132,5 +133,6 @@ int main(){
         if (found) assert(res.weight == best && tree_weight(n, root, edges, res) == best);
         else assert(res.weight == 0 && res.parent.empty());
     }
+
     return 0;
 }

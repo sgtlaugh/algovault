@@ -49,6 +49,7 @@ struct CompositeTree{
                 right = forward ? compose(fwd[r], right) : compose(right, bwd[r]);
             }
         }
+
         return forward ? compose(left, right) : compose(right, left);
     }
 };
@@ -84,5 +85,6 @@ int main(){
         for (auto [a, b] : hld.ordered_path(x, y)) res = compose(res, a <= b ? seg.query(a, b, true) : seg.query(b, a, false));
         printf("%lld\n", (res.a * z + res.b) % MOD);
     }
+
     return 0;
 }

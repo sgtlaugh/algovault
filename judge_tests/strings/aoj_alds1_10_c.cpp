@@ -17,5 +17,6 @@ int main(){
         cin >> x >> y;
         cout << lcs(x.c_str(), y.c_str()) << '\n';
     }
+
     return 0;
 }

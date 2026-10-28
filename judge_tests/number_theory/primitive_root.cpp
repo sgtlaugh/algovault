@@ -14,5 +14,6 @@ int main(){
         if (scanf("%lld", &p) != 1) return 0;
         printf("%lld\n", primitive_root(p));
     }
+
     return 0;
 }

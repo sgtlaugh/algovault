@@ -37,6 +37,7 @@ bool has_negative_cycle(int n, const vector<array<long long, 3>>& residual){
         }
         if (!relaxed) return false;
     }
+
     return true;
 }
 

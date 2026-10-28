@@ -32,6 +32,7 @@ vector<char> brute_bridges(int n, const vector<pair<int, int>>& edges){
         is_bridge[i] = cut[edges[i].first] != cut[edges[i].second];
         skipped[i] = 0;
     }
+
     return is_bridge;
 }
 
@@ -70,6 +71,7 @@ vector<char> tarjan_bridges(int n, const vector<pair<int, int>>& edges){
             if (low[u] > disc[p]) is_bridge[in_edge[u]] = 1;
         }
     }
+
     return is_bridge;
 }
 

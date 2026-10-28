@@ -26,5 +26,6 @@ int main(){
         if (l == r) puts("0");
         else printf("%d\n", wavelet.count_equal(l, r - 1, x));
     }
+
     return 0;
 }

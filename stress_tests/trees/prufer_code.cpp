@@ -17,6 +17,7 @@ vector<int> naive_encode(int n, const vector<pair<int, int>>& edges){
         code.push_back(next);
         adj[next].erase(leaf), adj[leaf].clear();
     }
+
     return code;
 }
 

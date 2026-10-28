@@ -107,6 +107,7 @@ Instance feasible(Instance g){
         long long f = stress::rand_int(a.low, a.high);
         g.supply[a.u] += f, g.supply[a.v] -= f;
     }
+
     return g;
 }
 

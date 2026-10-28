@@ -18,5 +18,6 @@ int main(){
         PointF r = reflect(p, a, b);
         printf("%.10f %.10f\n", r.x, r.y);
     }
+
     return 0;
 }

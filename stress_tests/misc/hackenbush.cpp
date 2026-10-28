@@ -23,6 +23,7 @@ int grounded(int n, const vector<Edge>& edges, int mask, int root){
     for (int i = 0; i < (int)edges.size(); i++){
         if ((mask >> i & 1) && seen[edges[i].first]) kept |= 1 << i;
     }
+
     return kept;
 }
 
@@ -60,6 +61,7 @@ int green_naive(int n, const vector<Edge>& edges, int root){
                 if (w != -1 && !seen[w]) seen[w] = 1, todo.push_back(w);
             }
         }
+
         return (bool)seen[b];
     };
 
@@ -90,6 +92,7 @@ int green_naive(int n, const vector<Edge>& edges, int root){
             if (i == from || (comp[u] != c && comp[v] != c)) continue;
             value ^= solve(comp[u] == c ? comp[v] : comp[u], i) + 1;
         }
+
         return value;
     };
     return solve(comp[root], -1);
@@ -168,6 +171,7 @@ long long to_fixed(const Dyadic& d){
         assert(b <= FRAC);
         value += ONE >> b;
     }
+
     return value;
 }
 
@@ -194,6 +198,7 @@ Wide red_blue_wide(const vector<vector<pair<int, int>>>& children, int u){
         Wide x = red_blue_wide(children, v);
         value += b ? wide_blue(x) : -wide_blue(-x);
     }
+
     return value;
 }
 
@@ -203,6 +208,7 @@ Wide to_wide(const Dyadic& d){
         assert(1 <= b && b <= 64);
         value += WIDE_ONE >> b;
     }
+
     return value;
 }
 
@@ -247,6 +253,7 @@ struct Fixed{
         for (int i = 1; i < (int)bits.size(); i++){
             if (bits[i]) d.bits.push_back(i);
         }
+
         return d;
     }
 };

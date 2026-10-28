@@ -23,5 +23,6 @@ int main(){
             printf("%lld\n", dsu.same(v, u) ? dsu.diff(v, u) : -1LL);
         }
     }
+
     return 0;
 }

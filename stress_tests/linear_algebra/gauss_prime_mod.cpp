@@ -11,6 +11,7 @@ bool satisfies(const vector<vector<int>>& equations, const vector<int>& x, int m
         for (int j = 0; j < m; j++) v = (v + (long long)e[j] * x[j]) % mod;
         if (v != e[m]) return false;
     }
+
     return true;
 }
 
@@ -55,6 +56,7 @@ bool is_identity_product(const vector<vector<int>>& x, const vector<vector<int>>
             if (v != (i == j)) return false;
         }
     }
+
     return true;
 }
 

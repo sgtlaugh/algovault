@@ -61,6 +61,7 @@ uint64_t divisor_power_summatory(long long n, int k, uint64_t mod){
         hi = n / q;
         total += (power_prefix(hi) - power_prefix(lo - 1)) % mod * q % mod;
     }
+
     return total % mod;
 }
 
@@ -89,6 +90,7 @@ uint64_t periodic_power_sum(long long n, int k, uint64_t mod){
             for (int i = 0; i < k; i++) t = t * (x % mod) % mod;
             s = (s + t) % mod;
         }
+
         return s;
     };
     return ((uint64_t)(n / mod) % mod * direct(mod) + direct(n % mod)) % mod;

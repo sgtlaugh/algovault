@@ -41,6 +41,7 @@ long long scan_count(long long a, long long b, long long c, long long x1, long l
         }
         if (rest % b == 0 && y1 <= rest / b && rest / b <= y2) total++;
     }
+
     return total;
 }
 

@@ -33,6 +33,7 @@ pair<__int128, long long> brute_min_mean(int n, const Edges& edges){
         dfs(s, s, 0, 0);
         on_path[s] = false;
     }
+
     return best;
 }
 
@@ -65,6 +66,7 @@ bool no_cycle_below(int n, const Edges& edges, long long num, long long den){
         }
         if (!changed) return true;
     }
+
     return false;
 }
 
@@ -82,6 +84,7 @@ bool is_acyclic(int n, const Edges& edges){
             if (--indeg[v] == 0) order.push_back(v);
         }
     }
+
     return (int)order.size() == n;
 }
 

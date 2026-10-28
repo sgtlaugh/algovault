@@ -9,6 +9,7 @@ bool is_subsequence(const vector<int>& seq, const vector<int>& of){
     for (int x : of){
         if (k < seq.size() && x == seq[k]) k++;
     }
+
     return k == seq.size();
 }
 

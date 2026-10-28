@@ -18,5 +18,6 @@ int main(){
         PointF res = project(p, a, b);
         printf("%.10f %.10f\n", res.x, res.y);
     }
+
     return 0;
 }

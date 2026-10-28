@@ -143,6 +143,7 @@ struct GaussBand{
         for (auto& term : terms){
             farthest = max(farthest, abs(cell_index(term.i, term.j) - cell_index(term.k, term.l)));
         }
+
         return farthest;
     }
 

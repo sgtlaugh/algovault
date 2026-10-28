@@ -14,5 +14,6 @@ int main(){
         if (scanf("%d %d %d", &x, &y, &m) != 3) return 0;
         printf("%d\n", discrete_log(x, y, m));
     }
+
     return 0;
 }

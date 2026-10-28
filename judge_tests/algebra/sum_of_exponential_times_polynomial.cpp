@@ -16,6 +16,7 @@ long long power(long long b, long long e){
     for (b %= MOD; e; e >>= 1, b = b * b % MOD){
         if (e & 1) res = res * b % MOD;
     }
+
     return res;
 }
 

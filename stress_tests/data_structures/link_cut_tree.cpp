@@ -22,6 +22,7 @@ struct NaiveForest{
                 if (par[w] == -2) par[w] = queue[i], queue.push_back(w);
             }
         }
+
         return par;
     }
 

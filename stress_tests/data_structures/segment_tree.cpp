@@ -56,6 +56,7 @@ int brute_max_right_pre(const vector<long long>& a, int l, long long k){
         s += a[++r];
         best = max(best, s);
     }
+
     return r;
 }
 
@@ -66,6 +67,7 @@ int brute_min_left_suf(const vector<long long>& a, int r, long long k){
         s += a[--l];
         best = max(best, s);
     }
+
     return l;
 }
 

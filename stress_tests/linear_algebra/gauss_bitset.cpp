@@ -11,6 +11,7 @@ bool satisfies(const vector<bitset<W>>& equations, int m, const bitset<W>& x){
         for (int j = 0; j < m; j++) v ^= e[j] & x[j];
         if (v != e[m]) return false;
     }
+
     return true;
 }
 
@@ -47,6 +48,7 @@ bool is_identity_product(const vector<bitset<W>>& x, const vector<bitset<W>>& y)
         unit[i] = 1;
         if (row != unit) return false;
     }
+
     return true;
 }
 
@@ -63,6 +65,7 @@ vector<bitset<W>> random_invertible(int n){
         int k = stress::rand_int(0, n - 1), l = stress::rand_int(0, n - 2);
         a[k] ^= a[l + (l >= k)];
     }
+
     return a;
 }
 

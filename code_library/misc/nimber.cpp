@@ -81,6 +81,7 @@ unsigned long long nim_inverse(unsigned long long a){
         a = nim_product(a, a);
         res = nim_product(res, a);
     }
+
     return res;
 }
 

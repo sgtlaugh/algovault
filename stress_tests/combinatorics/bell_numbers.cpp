@@ -24,6 +24,7 @@ vector<long long> stirling_sums(int n, long long m){
         for (auto x : s) sum = (sum + x) % m;
         res.push_back((long long)sum);
     }
+
     return res;
 }
 

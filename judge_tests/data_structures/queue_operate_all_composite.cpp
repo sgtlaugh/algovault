@@ -34,5 +34,6 @@ int main(){
             printf("%lld\n", (f.a * x + f.b) % MOD);
         }
     }
+
     return 0;
 }

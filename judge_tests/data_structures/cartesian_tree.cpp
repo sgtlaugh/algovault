@@ -32,5 +32,6 @@ int main(){
         printf("%d", p);
         putchar(i + 1 < n ? ' ' : '\n');
     }
+
     return 0;
 }

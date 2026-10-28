@@ -16,6 +16,7 @@ long long brute_count(const vector<int>& p, vector<vector<char>>* good = nullptr
             if (good) (*good)[l][r] = 1;
         }
     }
+
     return total;
 }
 
@@ -86,6 +87,7 @@ vector<int> blocky_permutation(int n){
         int len = stress::rand_int(1, max(1, n / 2)), start = stress::rand_int(0, n - len);
         shuffle(p.begin() + start, p.begin() + start + len, stress::rng());
     }
+
     return p;
 }
 

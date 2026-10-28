@@ -102,6 +102,7 @@ int max_depth(const Tree& tree){
             if (c != -1) stack.push_back({c, d + 1});
         }
     }
+
     return res;
 }
 

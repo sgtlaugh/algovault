@@ -38,6 +38,7 @@ vector<long long> brute(const vector<long long>& a, const vector<long long>& b, 
         assert(x >= LLONG_MIN && x <= LLONG_MAX);
         res.push_back((long long)x);
     }
+
     return res;
 }
 
@@ -50,6 +51,7 @@ bool is_convex(const vector<long long>& v){
     for (size_t i = 1; i + 1 < v.size(); i++){
         if ((__int128)v[i + 1] - v[i] < (__int128)v[i] - v[i - 1]) return false;
     }
+
     return true;
 }
 

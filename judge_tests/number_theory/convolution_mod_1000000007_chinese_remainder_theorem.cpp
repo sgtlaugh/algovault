@@ -39,5 +39,6 @@ int main(){
         rems[0] = c1[i], rems[1] = c2[i], rems[2] = c3[i];
         write_int(g(rems), i + 1 == c1.size() ? '\n' : ' ');
     }
+
     return 0;
 }

@@ -22,5 +22,6 @@ int main(){
         if (type == 0 && l < r) treap.reverse(l, r - 1);
         if (type == 1) printf("%lld\n", l < r ? treap.sum(l, r - 1) : 0LL);
     }
+
     return 0;
 }

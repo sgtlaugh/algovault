@@ -21,6 +21,7 @@ vector<long long> distances(int n, const vector<array<long long, 3>>& edges, int
             stack.push_back(v);
         }
     }
+
     return dist;
 }
 

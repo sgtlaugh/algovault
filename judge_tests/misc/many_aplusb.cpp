@@ -15,5 +15,6 @@ int main(){
         fio::read(a, b);
         fio::write(a + b);
     }
+
     return 0;
 }

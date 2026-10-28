@@ -422,6 +422,7 @@ struct RunList{
             }
             start += runs[i].len;
         }
+
         return runs.size();
     }
 
@@ -442,8 +443,10 @@ struct RunList{
                 k -= (__int128)v * len, r += len;
                 continue;
             }
+
             return r + (long long)(k / v);   /// v > 0 here, as v * len > k >= 0
         }
+
         return r;
     }
 };

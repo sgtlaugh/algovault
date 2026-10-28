@@ -14,6 +14,7 @@ string read_token(){
         s.push_back(c);
         c = getchar();
     }
+
     return s;
 }
 

@@ -35,6 +35,7 @@ bool is_simple(const vector<Point>& poly){
             if (segments_touch(a, b, poly[j], poly[(j + 1) % n])) return false;
         }
     }
+
     return true;
 }
 
@@ -92,6 +93,7 @@ Polygons random_polygons(int range, int count){
         }
         else polys.push_back(random_polygon(range));
     }
+
     return polys;
 }
 
@@ -138,6 +140,7 @@ Float strip_union(const Polygons& polys){
         }
         res += covered * (xs[s + 1] - xs[s]);
     }
+
     return res;
 }
 
@@ -176,6 +179,7 @@ Polygons transform(const Polygons& polys, Float scale, Float dx, Float dy){
     for (auto& poly: res){
         for (auto& p: poly) p = {p.x * scale + dx, p.y * scale + dy};
     }
+
     return res;
 }
 

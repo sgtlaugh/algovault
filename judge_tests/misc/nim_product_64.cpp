@@ -18,5 +18,6 @@ int main(){
         fio::read(a, b);
         fio::write(nim_product(a, b));
     }
+
     return 0;
 }

@@ -100,6 +100,7 @@ struct SteinerTree{
             }
             if (sub > 0) todo.push_back({sub, x}), todo.push_back({sub ^ mask, x});
         }
+
         return edges;
     }
 
@@ -128,6 +129,7 @@ struct SteinerTree{
                 }
             }
         }
+
         return dp;
     }
 };

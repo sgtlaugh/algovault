@@ -34,6 +34,7 @@ pair<long long, long long> brute(int n, const vector<array<long long, 4>>& input
         for (int v = t; v != s; v = e[par[v] ^ 1].to) e[par[v]].cap -= push, e[par[v] ^ 1].cap += push, cost += push * e[par[v]].cost;
         flow += push;
     }
+
     return {flow, cost};
 }
 
@@ -50,6 +51,7 @@ vector<array<long long, 4>> random_graph(int n, int m, long long max_cap, long l
         if (dag && u > v) swap(u, v);
         edges.push_back({label[u], label[v], stress::rand_int(0, max_cap), stress::rand_int(min_cost, max_cost)});
     }
+
     return edges;
 }
 
@@ -69,6 +71,7 @@ vector<array<long long, 4>> reversed_chain(int n, int extra, long long min_cost,
         int a = stress::rand_int(0, n - 2), b = stress::rand_int(a + 1, n - 1);
         edges.push_back({path[a], path[b], stress::rand_int(0, 3), stress::rand_int(min_cost, max_cost)});
     }
+
     return edges;
 }
 
@@ -232,5 +235,6 @@ int main(){
         for (int v = 1; v + 1 < n; v++) assert(balance[v] == 0);
         assert(balance[n - 1] == flow && check_cost == cost);
     }
+
     return 0;
 }

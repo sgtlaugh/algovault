@@ -45,6 +45,7 @@ Edges random_edges(int n, int shape){
         else p = stress::rand_int(max(0, i - 3), i - 1);
         edges.push_back({i, p});
     }
+
     return edges;
 }
 
@@ -138,6 +139,7 @@ struct NaiveTree{
                 if (dist[v] == -1) dist[v] = dist[queue[i]] + 1, queue.push_back(v);
             }
         }
+
         return dist;
     }
 
@@ -157,6 +159,7 @@ struct NaiveTree{
             for (auto& k : kids) str[v] += k;
             str[v] += ")";
         }
+
         return str;
     }
 
@@ -170,6 +173,7 @@ struct NaiveTree{
         for (int v = 0; v < n; v++){
             if (ecc[v] == best) res.push_back(v);
         }
+
         return res;
     }
 
@@ -179,6 +183,7 @@ struct NaiveTree{
             string s = subtree_strings(c)[c];
             if (best.empty() || s < best) best = s;
         }
+
         return best;
     }
 };

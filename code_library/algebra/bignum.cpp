@@ -204,6 +204,7 @@ struct Bignum{
         for (int i = (int)x.size() - 1; i >= 0; i--){
             if (x[i] != y[i]) return x[i] < y[i] ? -1 : 1;
         }
+
         return 0;
     }
 
@@ -395,6 +396,7 @@ struct Bignum{
         for (b %= MOD; e; e >>= 1, b = b * b % MOD){
             if (e & 1) res = res * b % MOD;
         }
+
         return res;
     }
 
@@ -412,6 +414,7 @@ struct Bignum{
                     }
                 }
             }
+
             return;
         }
 

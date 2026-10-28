@@ -24,5 +24,6 @@ int main(){
         if (t == 0) dsu.connect(u, v);
         else putchar(dsu.same(u, v) ? '1' : '0'), putchar('\n');
     }
+
     return 0;
 }

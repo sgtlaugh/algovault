@@ -25,6 +25,7 @@ vector<int> brute_power(vector<int> p, long long k){
         if (e & 1) res = compose(res, p);
         p = compose(p, p);
     }
+
     return res;
 }
 
@@ -36,6 +37,7 @@ int brute_cycle_count(const vector<int>& p){
         while (j > i) j = p[j];
         count += j == i;
     }
+
     return count;
 }
 
@@ -44,6 +46,7 @@ int inversion_parity(const vector<int>& p){
     for (int i = 0; i < (int)p.size(); i++){
         for (int j = i + 1; j < (int)p.size(); j++) parity ^= p[i] > p[j];
     }
+
     return parity;
 }
 
@@ -111,6 +114,7 @@ int root_cycles_oracle(const vector<int>& p, long long k){
         if (best[c] < 0) return -1;
         total += best[c];
     }
+
     return total;
 }
 
@@ -186,6 +190,7 @@ vector<int> short_cycles_permutation(int n, int max_len){
         for (int j = 0; j < len; j++) p[order[i + j]] = order[i + (j + 1) % len];
         i += len;
     }
+
     return p;
 }
 

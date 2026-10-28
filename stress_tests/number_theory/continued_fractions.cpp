@@ -15,6 +15,7 @@ Frac evaluate(const vector<long long>& a){
         swap(p, q);
         p += (__int128)a[i] * q;
     }
+
     return {(long long)p, (long long)q};
 }
 
@@ -60,6 +61,7 @@ Frac brute_search(F f, long long n){
             if (f(p, q) && (best.second == 0 || p * best.second < best.first * q)) best = {p, q};
         }
     }
+
     return best.second ? reduce(best.first, best.second) : best;
 }
 

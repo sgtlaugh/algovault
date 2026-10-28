@@ -31,6 +31,7 @@ pair<bool, vector<int>> greedy(int n, const vector<Clause>& clauses){
             on[u] = 1, trail.push_back(u);
             for (int v : adj[u]) stk.push_back(v);
         }
+
         return true;
     };
 
@@ -171,6 +172,7 @@ vector<Clause> chains(int n){
         if (stress::rand_int(0, 1)) b = -b;
         if ((a > 0) == hidden[abs(a)] || (b > 0) == hidden[abs(b)]) clauses.push_back({a, b}), extra--;
     }
+
     return clauses;
 }
 

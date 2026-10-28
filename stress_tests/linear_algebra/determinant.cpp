@@ -106,6 +106,7 @@ long long power_mod(long long b, long long e, long long m){
     for (b %= m; e; e >>= 1, b = (__int128)b * b % m){
         if (e & 1) r = (__int128)r * b % m;
     }
+
     return r;
 }
 

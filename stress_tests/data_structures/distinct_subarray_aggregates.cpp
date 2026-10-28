@@ -77,6 +77,7 @@ long long smooth(long long limit){
         if (x > limit / p) break;
         x *= p;
     }
+
     return x;
 }
 

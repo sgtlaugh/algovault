@@ -45,6 +45,7 @@ long long lagrange_sum(long long n, int k){
         long long term = ys[i] * pre[i] % MOD * suf[i + 1] % MOD * power(fact[i] * fact[m - 1 - i] % MOD, MOD - 2) % MOD;
         res = (res + ((m - 1 - i) % 2 ? MOD - term : term)) % MOD;
     }
+
     return res;
 }
 

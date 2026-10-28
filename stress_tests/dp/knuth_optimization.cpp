@@ -14,6 +14,7 @@ vector<vector<long long>> naive_dp(int n, Cost cost){
             dp[i][j] += cost(i, j);
         }
     }
+
     return dp;
 }
 

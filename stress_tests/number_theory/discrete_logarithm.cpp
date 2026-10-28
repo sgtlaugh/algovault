@@ -13,6 +13,7 @@ int pow_mod(long long x, int n, int mod){
     for (x = residue(x, mod); n; n >>= 1, x = x * x % mod){
         if (n & 1) res = res * x % mod;
     }
+
     return res;
 }
 
@@ -22,6 +23,7 @@ int brute(int a, int b, int mod){
     for (int x = 0; x <= mod; x++, e = e * a % mod){
         if (e == b) return x;
     }
+
     return -1;
 }
 
@@ -30,6 +32,7 @@ bool slow_is_prime(long long n){
     for (long long d = 2; d * d <= n; d++){
         if (n % d == 0) return false;
     }
+
     return true;
 }
 

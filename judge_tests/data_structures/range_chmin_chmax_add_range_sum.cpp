@@ -36,5 +36,6 @@ int main(){
         else if (t == 1) st.chmax(l, r, b);
         else st.add(l, r, b);
     }
+
     return 0;
 }

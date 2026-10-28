@@ -33,6 +33,7 @@ vector<pair<int, int>> brute_cubic(const Container& s){
             if (equal(s.begin() + i, s.begin() + i + l, s.begin() + i + l)) res.push_back({i, l});
         }
     }
+
     return res;
 }
 

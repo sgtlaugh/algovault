@@ -14,6 +14,7 @@ vector<long long> to_groups(const string& s, size_t from){
         for (size_t k = j - min<size_t>(3, j - from); k < j; k++) group = group * 10 + (s[k] - '0');
         res.push_back(group);
     }
+
     return res;
 }
 

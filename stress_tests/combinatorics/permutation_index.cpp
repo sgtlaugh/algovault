@@ -16,6 +16,7 @@ long long brute_rank(const vector<int>& p){
         for (int j = i + 1; j < n; j++) smaller += p[j] < p[i];
         res += smaller * factorial[n - 1 - i];
     }
+
     return res;
 }
 

@@ -9,6 +9,7 @@ bool brute_is_prime(long long n){
     for (long long d = 2; d * d <= n; d++){
         if (n % d == 0) return false;
     }
+
     return true;
 }
 
@@ -33,6 +34,7 @@ bool is_prime(long long n){
         for (int i = 1; i < s && x != 1 && x != n - 1; i++) x = x * x % n;
         if (x != 1 && x != n - 1) return false;
     }
+
     return true;
 }
 

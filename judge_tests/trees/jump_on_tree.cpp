@@ -26,5 +26,6 @@ int main(){
         int s = read_int(), t = read_int(), i = read_int();
         printf("%d\n", tree.jump(s, t, i));
     }
+
     return 0;
 }

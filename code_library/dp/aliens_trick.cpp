@@ -33,6 +33,7 @@ auto aliens_trick(long long k, T lo, T hi, Solver solver){
             if (solver(mid).second <= k) hi = mid;
             else lo = mid;
         }
+
         return dual(hi, solver(hi).first);
     }
 
@@ -68,6 +69,7 @@ int main(){
                     dp[j] = min(dp[j], {dp[i].first + s * s + lambda, dp[i].second + 1});
                 }
             }
+
             return dp[n];
         };
 
@@ -85,6 +87,7 @@ int main(){
                 in.first -= x;
                 out = min(out, in);
             }
+
             return out;
         };
 
@@ -120,6 +123,7 @@ int main(){
             for (long long c = 1; c <= 3; c++) best = min(best, {a / c + lambda * c, c});
             total.first += best.first, total.second += best.second;
         }
+
         return total;
     };
     assert(fabs(aliens_trick(3, 0.0, 8.0, split_work) - 6) < 1e-9);  /// 8 / 2 + 2 / 1

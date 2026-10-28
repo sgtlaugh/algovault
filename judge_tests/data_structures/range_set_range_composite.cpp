@@ -27,6 +27,7 @@ struct SetComposite{
         for (; len > 0; len >>= 1, lz = then(lz, lz)){
             if (len & 1) res = then(res, lz);
         }
+
         return res;
     }
 
@@ -44,6 +45,7 @@ int read_char(){
         buffer_pos = 0;
         if (buffer_len == 0) return EOF;
     }
+
     return buffer[buffer_pos++];
 }
 

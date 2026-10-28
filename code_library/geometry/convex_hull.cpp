@@ -230,6 +230,7 @@ vector<Point> minkowski_sum(const vector<Point>& a, const vector<Point>& b){
             Point d = p[(s + i + 1) % n] - p[(s + i) % n];
             if (d.x || d.y) res.push_back(d);
         }
+
         return res;
     };
     auto upper_half = [](const Point& d){ return d.x > 0 || (d.x == 0 && d.y > 0); };

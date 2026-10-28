@@ -29,5 +29,6 @@ int main(){
         }
         cout << len << (c + 1 < 2 * n - 1 ? ' ' : '\n');
     }
+
     return 0;
 }

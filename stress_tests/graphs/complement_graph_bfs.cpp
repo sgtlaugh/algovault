@@ -14,6 +14,7 @@ vector<int> matrix_bfs(const vector<vector<char>>& linked, int s){
             if (linked[u][v] && dist[v] == -1) dist[v] = dist[u] + 1, frontier.push_back(v);
         }
     }
+
     return dist;
 }
 

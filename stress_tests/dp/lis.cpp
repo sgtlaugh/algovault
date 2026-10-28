@@ -11,6 +11,7 @@ vector<int> brute(const vector<T>& a, F fits){
     for (size_t i = 0; i < a.size(); i++){
         for (size_t j = 0; j < i; j++) if (fits(a[j], a[i])) res[i] = max(res[i], res[j] + 1);
     }
+
     return res;
 }
 

@@ -26,5 +26,6 @@ int main(){
         for (int j = 0; j < n; j++) line[j] = '0' + row[j];
         cout << line << '\n';
     }
+
     return 0;
 }

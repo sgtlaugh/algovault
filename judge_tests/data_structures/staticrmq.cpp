@@ -28,5 +28,6 @@ int main(){
         assert(res == linear.query(l, r));
         printf("%d\n", res);
     }
+
     return 0;
 }

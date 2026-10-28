@@ -280,6 +280,7 @@ struct SuffixArrayQueries : SuffixArray{
             if (cmp < 0 || (strict && cmp == 0)) lo = mid + 1;
             else hi = mid;
         }
+
         return lo;
     }
 
@@ -290,6 +291,7 @@ struct SuffixArrayQueries : SuffixArray{
             if (p + k == n) return -1;
             if (text[p + k] != pattern[k]) return text[p + k] < pattern[k] ? -1 : 1;
         }
+
         return 0;
     }
 };

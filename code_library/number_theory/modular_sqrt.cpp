@@ -28,6 +28,7 @@ long long pow_mod(long long x, long long e, long long m){
     for (x %= m; e; e >>= 1, x = mul_mod(x, x, m)){
         if (e & 1) res = mul_mod(res, x, m);
     }
+
     return res;
 }
 

@@ -157,6 +157,7 @@ struct TwoSat{
                 for (int u : trail) truth[u] = 0;
                 allowance -= work;
             }
+
             return status;
         };
 

@@ -15,6 +15,7 @@ bool brute_on_segment(Point p, Point a, Point b){
     for (long long k = 0; k <= g; k++){
         if (a.x + k * (dx / g) == p.x && a.y + k * (dy / g) == p.y) return true;
     }
+
     return false;
 }
 
@@ -49,6 +50,7 @@ int brute_point_in_polygon(const vector<Point>& poly, Point p){
         long double ax = poly[i].x - p.x, ay = poly[i].y - p.y, bx = poly[(i + 1) % n].x - p.x, by = poly[(i + 1) % n].y - p.y;
         total += atan2l(ax * by - ay * bx, ax * bx + ay * by);
     }
+
     return fabsl(total) > 3 ? 1 : -1;
 }
 
@@ -75,6 +77,7 @@ bool is_simple(const vector<Point>& pts, const vector<int>& order){
             else if (brute_on_segment(b, c, d) || brute_on_segment(c, a, b)) return false;
         }
     }
+
     return true;
 }
 
@@ -86,6 +89,7 @@ long double brute_dist(Point p, Point a, Point b){
         if (f(m1) < f(m2)) hi = m2;
         else lo = m1;
     }
+
     return min({f(lo), f(0), f(1)});
 }
 
@@ -173,11 +177,13 @@ bool same_point_sets(const vector<PointF>& got, const Points& expected){
         for (const PointF& p : got){
             if (close_to(p.x, x) && close_to(p.y, y)) return true;
         }
+
         return false;
     };
     for (auto [x, y] : expected){
         if (!has(x, y)) return false;
     }
+
     return true;
 }
 
@@ -232,6 +238,7 @@ bool brute_inside(const vector<PointF>& poly, long double x, long double y){
         long double ax = poly[i].x - x, ay = poly[i].y - y, bx = poly[(i + 1) % n].x - x, by = poly[(i + 1) % n].y - y;
         total += atan2l(ax * by - ay * bx, ax * bx + ay * by);
     }
+
     return fabsl(total) > 3;
 }
 
@@ -304,6 +311,7 @@ pair<long double, long double> brute_centroid(const vector<Point>& poly){
         mx6 -= dx * (6 * x1 * y1 + 3 * (x1 * dy + y1 * dx) + 2 * dx * dy);
         my6 -= dx * (3 * y1 * y1 + 3 * y1 * dy + dy * dy);
     }
+
     return {(long double)mx6 / a6, (long double)my6 / a6};
 }
 

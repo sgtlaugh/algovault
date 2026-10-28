@@ -42,5 +42,6 @@ int main(){
     for (int i = 0; i < q; i++){
         if (t[i] == 1) printf("%d\n", answer[i]);
     }
+
     return 0;
 }

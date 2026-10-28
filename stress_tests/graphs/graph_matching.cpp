@@ -16,6 +16,7 @@ int brute(int n, const vector<int>& adj_mask){
         for (int y = 0; y < n; y++){
             if ((adj_mask[x] >> y & 1) && !(used >> y & 1)) res = max(res, 1 + best(used | 1 << x | 1 << y));
         }
+
         return res;
     };
 

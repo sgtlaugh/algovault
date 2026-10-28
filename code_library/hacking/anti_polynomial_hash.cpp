@@ -60,6 +60,7 @@ struct AntiHash{
             if (s[i] == '0') h = (h + 17) % mod;
             if (s[i] == '1') h = (h + 1000000009) % mod;
         }
+
         return h;
     }
 
@@ -114,6 +115,7 @@ struct AntiHash{
                 else {
                     for (i = 0; i < n; i++) res[0][i] = res[1][i] = '0';
                 }
+
                 return;
             }
         }

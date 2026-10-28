@@ -51,6 +51,7 @@ vector<int> permutation_power(const vector<int>& p, long long k){
         int shift = (k % len + len) % len;
         for (int j = 0; j < len; j++) res[cycle[j]] = cycle[(j + shift) % len];
     }
+
     return res;
 }
 

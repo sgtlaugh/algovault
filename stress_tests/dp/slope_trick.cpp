@@ -149,6 +149,7 @@ long long brute_non_decreasing(const vector<long long>& a){
             dp[j] = best + abs(x - v[j]);
         }
     }
+
     return a.empty() ? 0 : *min_element(dp.begin(), dp.end());
 }
 

@@ -46,6 +46,7 @@ void check_synthetic(Ties ties){
             }
             if (value == best) tied.push_back(c);
         }
+
         return pair<long long, long long>{best, pick_tied(tied, ties, lambda, salt)};
     };
 
@@ -97,6 +98,7 @@ void check_squared_split(int n, int value_max, Ties ties){
                 dp[j] = min(dp[j], {dp[i].first + s * s + lambda, dp[i].second + step});
             }
         }
+
         return pair<long long, int>{dp[n].first, dp[n].second * step};
     };
 
@@ -131,6 +133,7 @@ void check_max_k_subarrays(int n, int value_max, Ties ties){
             in.first -= x;
             out = min(out, in);
         }
+
         return pair<long long, int>{out.first, out.second * step};
     };
 
@@ -170,6 +173,7 @@ void check_synthetic_real(Ties ties){
             }
             if (value == best) tied.push_back(c * scale);
         }
+
         return pair<double, long long>{best, pick_tied(tied, ties, lambda, salt)};
     };
 
@@ -204,6 +208,7 @@ void check_split_work(int n, int k, int a_max){
             if (best.second == 0) best = {x / k + lambda * k, k};
             total.first += best.first, total.second += best.second;
         }
+
         return total;
     };
 

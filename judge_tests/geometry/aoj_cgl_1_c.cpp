@@ -21,5 +21,6 @@ int main(){
         else if (dot(p0, p1, p2) < 0) puts("ONLINE_BACK");
         else puts("ONLINE_FRONT");
     }
+
     return 0;
 }

@@ -39,5 +39,6 @@ int main(){
         }
         printf("%d%c", res, i + 1 == m ? '\n' : ' ');
     }
+
     return 0;
 }

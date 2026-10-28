@@ -55,6 +55,7 @@ vector<int> separator_blocks(int n, const vector<pair<int, int>>& edges){
             cls[e] = refined.emplace(make_pair(cls[e], side), refined.size()).first->second;
         }
     }
+
     return canonical(cls);
 }
 
@@ -102,6 +103,7 @@ vector<int> cycle_blocks(int n, const vector<pair<int, int>>& edges){
         }
         count++;
     }
+
     return cls;
 }
 
@@ -247,6 +249,7 @@ vector<pair<int, int>> tiny_graph(int n){
         v = stress::rand_int(0, n - 1);
         if (u == v && stress::rand_int(0, 3)) v = (u + 1) % n;
     }
+
     return res;
 }
 
@@ -318,5 +321,6 @@ int main(){
         auto& blocks = cycle.blocks;
         assert(blocks.size() == 1u && (int)blocks[0].size() == n);
     }
+
     return 0;
 }

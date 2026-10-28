@@ -37,5 +37,6 @@ int main(){
             assert(ac.count(text) == brute(patterns, text));
         }
     }
+
     return 0;
 }

@@ -32,6 +32,7 @@ namespace hc{
                 }
             }
         }
+
         return false;
     }
 
@@ -55,6 +56,7 @@ namespace hc{
                 }
             }
         }
+
         return false;
     }
 
@@ -67,6 +69,7 @@ namespace hc{
                 if (R[i] == -1 && dfs(i)) res++;
             }
         }
+
         return res;
     }
 }
@@ -83,6 +86,7 @@ int kuhn(int n_left, int n_right, const vector<vector<int>>& adj){
                 return true;
             }
         }
+
         return false;
     };
 
@@ -91,6 +95,7 @@ int kuhn(int n_left, int n_right, const vector<vector<int>>& adj){
         seen.assign(n_right, 0);
         res += try_kuhn(u);
     }
+
     return res;
 }
 
@@ -108,6 +113,7 @@ int brute(int n_left, int n_right, const vector<vector<int>>& adj){
         }
         best = next;
     }
+
     return *max_element(best.begin(), best.end());
 }
 

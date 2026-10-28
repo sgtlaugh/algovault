@@ -15,6 +15,7 @@ vector<tuple<int, int, long long>> make_forest(int n, int shape, long long max_w
         int p = shape == 0 ? stress::rand_int(0, i - 1) : shape == 1 ? i - 1 : shape == 2 ? 0 : (i - 1) / 2;
         edges.push_back({label[i], label[p], stress::rand_int(1, max_w)});
     }
+
     return edges;
 }
 
@@ -34,6 +35,7 @@ vector<vector<long long>> all_distances(int n, const vector<tuple<int, int, long
             }
         }
     }
+
     return dist;
 }
 

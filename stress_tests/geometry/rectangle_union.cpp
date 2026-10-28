@@ -52,6 +52,7 @@ vector<Rectangle> random_rects(int n, long long lo, long long hi){
             if (r.y1 > r.y2) swap(r.y1, r.y2);
         }
     }
+
     return rects;
 }
 

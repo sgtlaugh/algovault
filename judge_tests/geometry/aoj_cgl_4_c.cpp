@@ -23,5 +23,6 @@ int main(){
         if (scanf("%lf %lf %lf %lf", &a.x, &a.y, &b.x, &b.y) != 4) return 0;
         printf("%.10f\n", fabs(area2(cut_polygon(poly, a, b))) / 2);
     }
+
     return 0;
 }

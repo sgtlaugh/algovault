@@ -26,6 +26,7 @@ long long brute_mst(const vector<pair<long long, long long>>& points){
         int a = find(u), b = find(v);
         if (a != b) parent[a] = b, total += w;
     }
+
     return total;
 }
 

@@ -15,6 +15,7 @@ vector<char> reach(const vector<vector<int>>& adj, int root, int removed){
             if (v != removed && !seen[v]) seen[v] = 1, queue.push_back(v);
         }
     }
+
     return seen;
 }
 
@@ -42,6 +43,7 @@ vector<int> brute_idom(int n, const vector<pair<int, int>>& edges, int root){
             if (dom[d][v] && count[d] > count[idom[v]]) idom[v] = d;
         }
     }
+
     return idom;
 }
 

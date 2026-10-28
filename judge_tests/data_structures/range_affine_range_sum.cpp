@@ -29,6 +29,7 @@ int read_char(){
         buffer_pos = 0;
         if (buffer_len == 0) return EOF;
     }
+
     return buffer[buffer_pos++];
 }
 

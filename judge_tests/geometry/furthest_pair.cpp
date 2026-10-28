@@ -33,5 +33,6 @@ int main(){
         if (i == j) i = 0, j = 1;
         printf("%d %d\n", i, j);
     }
+
     return 0;
 }

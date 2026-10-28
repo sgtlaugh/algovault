@@ -15,6 +15,7 @@ int read_char(){
         buf_pos = 0;
         if (buf_len <= 0) return -1;
     }
+
     return buf[buf_pos++];
 }
 

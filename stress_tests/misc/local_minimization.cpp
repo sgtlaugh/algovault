@@ -67,6 +67,7 @@ void check_quadratic(int d, T cond, double tol, double eps){
             for (int k = 0; k < d; k++) y += axes[i][k] * (x[k] - c[k]);
             s += lambda[i] * y * y;
         }
+
         return s;
     };
     check_min(rand_point<T>(d, -100, 100), f, pow(10, stress::rand_int(-1, 2)), offset, tol, eps);
@@ -209,6 +210,7 @@ void check_simplex(const Point<T>& w, const Point<T>& t, bool walls, double tol,
             if (x[i] < 0) return T(1e100);
             s += w[i] * (x[i] - t[i]) * (x[i] - t[i]), last -= x[i];
         }
+
         return last < 0 ? T(1e100) : s + w[d - 1] * (last - t[d - 1]) * (last - t[d - 1]);
     };
     if (walls) check_min(Point<T>(d - 1, T(1) / d), walled, 1.0 / d, fstar, tol, 1e-9);
@@ -239,6 +241,7 @@ void check_box(const Point<T>& w, const Point<T>& t, const Point<T>& x0, double 
             if (x[i] < 0 || x[i] > 1) return T(1e100);
             s += w[i] * (x[i] - t[i]) * (x[i] - t[i]);
         }
+
         return s;
     };
     check_min(x0, f, 0.5, fstar, tol, eps);
@@ -339,6 +342,7 @@ struct Maze{
             e[r] = a[r][c + 1];
             for (int k = r + 1; k < c; k++) e[r] += a[r][k] * e[k];
         }
+
         return e[0];
     }
 
@@ -356,6 +360,7 @@ struct Maze{
             p[k] = y[used++], last -= p[k];
             if (p[k] <= 0) return 1e100;
         }
+
         return last <= 0 ? 1e100 : expected_time(p);
     }
 };

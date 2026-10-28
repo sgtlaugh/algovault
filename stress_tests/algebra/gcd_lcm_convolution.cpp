@@ -32,6 +32,7 @@ pair<vector<long long>, vector<long long>> brute(vector<long long> a, vector<lon
     for (size_t k = 1; k < size; k++){
         g[k] = normalize(by_gcd[k], mod), l[k] = normalize(by_lcm[k], mod);
     }
+
     return {g, l};
 }
 
@@ -78,6 +79,7 @@ vector<long long> harmonic_gcd(const vector<long long>& a, const vector<long lon
         c[d] = sa * sb % mod;
         for (int m = 2 * d; m <= n; m += d) c[d] = (c[d] - c[m] + mod) % mod;
     }
+
     return c;
 }
 
@@ -93,6 +95,7 @@ vector<long long> harmonic_lcm(const vector<long long>& a, const vector<long lon
         c[m] = (c[m] + sa[m] * sb[m]) % mod;
         for (int k = 2 * m; k <= n; k += m) c[k] = (c[k] - c[m] + mod) % mod;
     }
+
     return c;
 }
 

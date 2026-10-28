@@ -18,6 +18,7 @@ long long brute_primitive_root(long long m){
     for (long long g = 0; g < m; g++){
         if (brute_order(g, m) == phi) return g;
     }
+
     return -1;
 }
 
@@ -26,6 +27,7 @@ bool brute_is_prime(long long n){
     for (long long d = 2; d * d <= n; d++){
         if (n % d == 0) return false;
     }
+
     return true;
 }
 

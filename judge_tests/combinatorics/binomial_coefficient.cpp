@@ -17,5 +17,6 @@ int main(){
         if (scanf("%lld %lld", &n, &k) != 2) return 0;
         printf("%lld\n", (long long)binomial.binomial(n, k));
     }
+
     return 0;
 }

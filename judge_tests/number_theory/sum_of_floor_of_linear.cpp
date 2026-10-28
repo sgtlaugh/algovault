@@ -14,5 +14,6 @@ int main(){
         if (scanf("%lld %lld %lld %lld", &n, &m, &a, &b) != 4) return 0;
         printf("%lld\n", (long long)floor_sum(n, m, a, b));
     }
+
     return 0;
 }

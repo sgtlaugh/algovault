@@ -33,6 +33,7 @@ bool valid_sudoku(const vector<vector<int>>& g, const vector<vector<int>>& given
             if (row[g[i][j]]++ || col[g[j][i]]++ || box[g[(i / m) * m + j / m][(i % m) * m + j % m]]++) return false;
         }
     }
+
     return true;
 }
 
@@ -59,6 +60,7 @@ vector<vector<int>> random_solved(int m){
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++) g[i][j] = digits[(rows[i] * m + rows[i] / m + cols[j]) % n];
     }
+
     return g;
 }
 
@@ -94,6 +96,7 @@ Instance random_instance(){
         for (int c = 0; c < in.nc; c++) if (m >> c & 1) in.columns.back().push_back(c);
         shuffle(in.columns.back().begin(), in.columns.back().end(), stress::rng());
     }
+
     return in;
 }
 

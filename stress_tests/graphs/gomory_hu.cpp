@@ -15,6 +15,7 @@ long long subset_min_cut(int n, int s, int t, const vector<Link>& links){
         for (auto& e : links) if ((mask >> e.u & 1) != (mask >> e.v & 1)) cut += e.cap;
         best = min(best, cut);
     }
+
     return best;
 }
 
@@ -50,6 +51,7 @@ vector<Link> random_links(int n, int m, long long max_cap){
     for (int i = 0; i < m; i++){
         links.push_back({(int)stress::rand_int(0, n - 1), (int)stress::rand_int(0, n - 1), stress::rand_int(0, max_cap)});
     }
+
     return links;
 }
 

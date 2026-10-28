@@ -46,6 +46,7 @@ vector<vector<int>> brute(int n, const vector<pair<int, int>>& edges){
             if (together[u][v]) used[v] = 1, groups.back().push_back(v);
         }
     }
+
     return groups;
 }
 

@@ -9,6 +9,7 @@ bool is_prime(long long p){
     for (long long d = 2; d * d <= p; d++){
         if (p % d == 0) return false;
     }
+
     return true;
 }
 

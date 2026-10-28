@@ -41,5 +41,6 @@ int main(){
         for (int j = 0; j < m; j++) line[j] = '0' + (j == f || (pos[j] != -1 && equations[pos[j]][f]));
         cout << line << '\n';
     }
+
     return 0;
 }

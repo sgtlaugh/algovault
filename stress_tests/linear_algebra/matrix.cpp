@@ -18,6 +18,7 @@ Matrix random_matrix(int n, int m, long long mod, int kind){
             else x = stress::rand_int(-3, 3);
         }
     }
+
     return res;
 }
 

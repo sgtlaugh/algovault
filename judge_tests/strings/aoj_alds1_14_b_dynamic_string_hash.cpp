@@ -21,5 +21,6 @@ int main(){
     for (int i = 0; i + m <= n; i++){
         if (ht.hash(i, i + m - 1) == target) cout << i << '\n';
     }
+
     return 0;
 }

@@ -14,6 +14,7 @@ int read_char(){
         in_len = fread(in_buf, 1, sizeof(in_buf), stdin), in_pos = 0;
         if (in_len == 0) return -1;
     }
+
     return in_buf[in_pos++];
 }
 

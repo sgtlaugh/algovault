@@ -44,5 +44,6 @@ int main(){
         assert(g.min_path_cover() == cover && (int)g.max_antichain().size() == cover);
         printf("%d\n", cover);
     }
+
     return 0;
 }

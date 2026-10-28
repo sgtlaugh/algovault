@@ -25,5 +25,6 @@ int main(){
     for (auto& direction : basis){
         for (int j = 0; j < m; j++) printf("%d%c", direction[j], j + 1 == m ? '\n' : ' ');
     }
+
     return 0;
 }

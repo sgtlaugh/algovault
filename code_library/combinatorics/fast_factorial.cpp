@@ -32,6 +32,7 @@ namespace fast_factorial_ntt{
         for (unsigned long long d = 2; d * d <= n; d++){
             if (n % d == 0) return false;
         }
+
         return true;
     }
 
@@ -44,6 +45,7 @@ namespace fast_factorial_ntt{
             b = b * b % mod;
             e >>= 1;
         }
+
         return res;
     }
 
@@ -79,6 +81,7 @@ namespace fast_factorial_ntt{
                 rt[i] = i & 1 ? (w >= MOD ? w - MOD : w) : rt[i >> 1];
             }
         }
+
         return rt;
     }
 

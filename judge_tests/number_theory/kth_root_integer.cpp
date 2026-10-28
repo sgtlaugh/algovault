@@ -23,5 +23,6 @@ int main(){
         unsigned long long res = k == 2 ? isqrt(a) : k == 3 ? icbrt(a) : iroot(a, k);
         printf("%llu\n", res);
     }
+
     return 0;
 }

@@ -31,5 +31,6 @@ int main(){
         printf("%d\n", (int)hull.size());
         for (const Point& p : hull) printf("%" PRId64 " %" PRId64 "\n", p.x, p.y);
     }
+
     return 0;
 }

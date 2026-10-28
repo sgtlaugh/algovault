@@ -48,6 +48,7 @@ T naive_dp(const vector<vector<pair<int, long long>>>& adj, int root, Combine co
             if (v != parent[u]) dp[u] = combine(dp[u], apply_edge(dp[v], v, u, w));
         }
     }
+
     return dp[root];
 }
 
@@ -142,6 +143,7 @@ void check_large(int n, int shape){
                 if (dist[v] == -1) dist[v] = dist[order[i]] + w, order.push_back(v);
             }
         }
+
         return dist;
     };
     auto da = distances(0);

@@ -19,6 +19,7 @@ long long min_cut(int n, int src, int sink, const vector<Arc>& arcs){
         if (!(mask >> src & 1) || (mask >> sink & 1)) continue;
         best = min(best, cut_value(mask, arcs));
     }
+
     return best;
 }
 
@@ -29,6 +30,7 @@ int smallest_min_cut_side(int n, int src, int sink, const vector<Arc>& arcs){
     for (int mask = 0; mask < (1 << n); mask++){
         if ((mask >> src & 1) && !(mask >> sink & 1) && cut_value(mask, arcs) == best) side &= mask;
     }
+
     return side;
 }
 
@@ -350,5 +352,6 @@ int main(){
         assert(g.maxflow() == n - n / 3);
         check_flow(g, n);
     }
+
     return 0;
 }

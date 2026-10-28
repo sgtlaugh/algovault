@@ -25,5 +25,6 @@ int main(){
     for (int v = 0; v < n; v++){
         if (wb.mate[v] > v) printf("%d %d\n", v, wb.mate[v]);
     }
+
     return 0;
 }

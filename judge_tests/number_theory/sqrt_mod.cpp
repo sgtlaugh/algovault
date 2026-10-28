@@ -14,5 +14,6 @@ int main(){
         if (scanf("%lld %lld", &y, &p) != 2) return 0;
         printf("%lld\n", sqrt_mod(y, p));
     }
+
     return 0;
 }

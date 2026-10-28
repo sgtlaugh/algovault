@@ -35,6 +35,7 @@ set<vector<int>> all_cycles(int n, const vector<pair<int, int>>& edges){
         extend(s, s);
         on_path[s] = 0;
     }
+
     return found;
 }
 

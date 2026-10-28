@@ -17,5 +17,6 @@ int main(){
         PointF res = segment_intersection(a, b, c, d)[0];
         printf("%.10f %.10f\n", res.x, res.y);
     }
+
     return 0;
 }

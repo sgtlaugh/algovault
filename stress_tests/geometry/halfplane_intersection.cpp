@@ -24,6 +24,7 @@ vector<Point> brute_clip(const vector<Halfplane>& h, long double box){
         }
         poly = next;
     }
+
     return poly;
 }
 

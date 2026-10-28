@@ -16,6 +16,7 @@ bool can_color(int v, int used, int k, const vector<vector<bool>>& adj, vector<i
         color[v] = c;
         if (can_color(v + 1, max(used, c + 1), k, adj, color)) return true;
     }
+
     return false;
 }
 

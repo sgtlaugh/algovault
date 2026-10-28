@@ -14,5 +14,6 @@ int main(){
         if (scanf("%lld", &n) != 1) return 0;
         puts(prm::is_prime(n) ? "Yes" : "No");
     }
+
     return 0;
 }

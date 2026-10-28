@@ -25,6 +25,7 @@ vector<int> reference(int n, long long mod){
         for (int j = 0; j < m; j++) s = (s + binom[m + 1][j] * b[j]) % mod;
         b[m] = (mod - s) % mod * power(m + 1, mod - 2, mod) % mod;
     }
+
     return b;
 }
 

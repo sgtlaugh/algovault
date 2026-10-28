@@ -49,6 +49,7 @@ int orientation(const vector<Point>& poly){
     for (int i = 1; i < n; i++){
         if (poly[i].x < poly[k].x || (poly[i].x == poly[k].x && poly[i].y < poly[k].y)) k = i;
     }
+
     return sign((poly[(k + 1) % n] - poly[k]).cross(poly[(k + n - 1) % n] - poly[k]));
 }
 

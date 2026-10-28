@@ -30,6 +30,7 @@ long long brute(int n, const vector<array<long long, 3>>& edges, const vector<in
         }
         if (joined == __builtin_popcount(mask) - 1) best = min(best, total);
     }
+
     return best;
 }
 
@@ -82,6 +83,7 @@ long long brute_forest(int n, const vector<array<long long, 3>>& edges, const ve
         for (int i = 0; i + 1 < (int)terminals.size(); i += 2) joined &= find(terminals[i]) == find(terminals[i + 1]);
         if (joined) best = min(best, total);
     }
+
     return best;
 }
 

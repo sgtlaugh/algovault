@@ -22,6 +22,7 @@ map<pair<int, int>, long long> lightest_arcs(const vector<TestEdge>& edges){
         add(e.u, e.v, e.w);
         if (!e.directed) add(e.v, e.u, e.w);
     }
+
     return lightest;
 }
 
@@ -60,6 +61,7 @@ vector<long long> bellman_ford(int n, const map<pair<int, int>, long long>& ligh
             if (d[u] != UNREACHED && d[u] + w < d[v]) d[v] = d[u] + w, changed = true;
         }
     }
+
     return to_library_inf(d);
 }
 
@@ -252,6 +254,7 @@ long long heavy_chain_case(){
     for (auto& row : floyd(n, lightest_arcs(edges))){
         for (long long d : row) if (d != DIJKSTRA_INF) longest = max(longest, d);
     }
+
     return longest;
 }
 
@@ -336,6 +339,7 @@ vector<TestEdge> random_edges(int n, int m, long long max_w){
         long long w = stress::rand_int(0, 3) == 0 ? 0 : stress::rand_int(0, max_w);
         edges.push_back({u, v, w, stress::rand_int(0, 1) == 0});
     }
+
     return edges;
 }
 

@@ -14,6 +14,7 @@ long long read_int(){
         x = x * 10 + c - '0';
         c = getchar();
     }
+
     return x;
 }
 
@@ -45,5 +46,6 @@ int main(){
     for (int i = 0; i < n; i++){
         for (int j = 0; j < k; j++) write_int(c[i][j], j + 1 == k ? '\n' : ' ');
     }
+
     return 0;
 }

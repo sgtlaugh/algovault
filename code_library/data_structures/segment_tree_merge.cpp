@@ -83,6 +83,7 @@ struct SegmentTreeMerge{
             root = 0;
             return rest;
         }
+
         return split_rest(root, k);
     }
 

@@ -18,6 +18,7 @@ int brute_matching(int n, const vector<vector<int>>& adj){
         }
         best = next;
     }
+
     return *max_element(best.begin(), best.end());
 }
 
@@ -105,5 +106,6 @@ int main(){
             }
         }
     }
+
     return 0;
 }

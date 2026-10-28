@@ -31,6 +31,7 @@ Brute brute(int n, const vector<int>& adj){
         if (independent[mask]) result.max_independent = max(result.max_independent, __builtin_popcount(mask));
         if (clique[mask] && common[mask] == 0) result.maximal.push_back(mask);
     }
+
     return result;
 }
 
@@ -42,6 +43,7 @@ bool valid(CliqueGraph<MAXN>& g, const vector<int>& vertices, bool independent){
             if (vertices[i] == vertices[j] || g.adj[vertices[i]][vertices[j]] == independent) return false;
         }
     }
+
     return true;
 }
 
@@ -95,6 +97,7 @@ CliqueGraph<MAXN> random_graph(int n, int density, vector<int>& adj){
             if (n <= 18) adj[u] |= 1 << v, adj[v] |= 1 << u;
         }
     }
+
     return g;
 }
 
@@ -211,5 +214,6 @@ int main(){
         vector<int> clique = g.max_clique();
         assert(valid(g, clique, false) && clique.size() >= 20 && clique.size() == largest_maximal(g));
     }
+
     return 0;
 }

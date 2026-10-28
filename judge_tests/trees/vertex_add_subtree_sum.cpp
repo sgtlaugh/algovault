@@ -36,5 +36,6 @@ int main(){
         auto [l, r] = hld.subtree(u);
         printf("%lld\n", fen.query(l, r));
     }
+
     return 0;
 }

@@ -52,6 +52,7 @@ void random_systems(){
                 for (int x : lits) count += value(x);
                 if (count > 1) return false;
             }
+
             return true;
         };
 

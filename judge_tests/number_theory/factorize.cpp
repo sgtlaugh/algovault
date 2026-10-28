@@ -19,5 +19,6 @@ int main(){
         for (long long p : factors) printf(" %lld", p);
         puts("");
     }
+
     return 0;
 }

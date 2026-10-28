@@ -34,6 +34,7 @@ vector<long long> enumerate_walks(int n, const Edges& edges, int s, int t, int k
             break;
         }
     }
+
     return result;
 }
 
@@ -54,6 +55,7 @@ vector<long long> k_settle_dijkstra(int n, const Edges& edges, int s, int t, int
         if (u == t) result.push_back(len);
         for (auto [v, w] : adj[u]) heap.push({len + w, v});
     }
+
     return result;
 }
 
@@ -70,6 +72,7 @@ Edges loop_ladder(int n){
         if (v + 1 < n) edges.push_back({v, v + 1, 1});
         edges.push_back({v, v, n - v});
     }
+
     return edges;
 }
 
@@ -83,6 +86,7 @@ vector<long long> loop_ladder_walks(int n, int k){
         }
         for (long long c = 0; c < partitions[extra] && (int)result.size() < k; c++) result.push_back(n - 1 + extra);
     }
+
     return result;
 }
 

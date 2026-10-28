@@ -27,5 +27,6 @@ int main(){
         if (d == BellmanFord::INF) puts("INF");
         else printf("%lld\n", d);
     }
+
     return 0;
 }

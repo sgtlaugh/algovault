@@ -25,6 +25,7 @@ vector<int> bfs_labels(int n, const vector<pair<int, int>>& live){
             }
         }
     }
+
     return label;
 }
 

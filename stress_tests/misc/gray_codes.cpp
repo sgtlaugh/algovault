@@ -17,6 +17,7 @@ unsigned long long brute_inverse(unsigned long long g){
         acc ^= g >> i & 1;
         res |= acc << i;
     }
+
     return res;
 }
 

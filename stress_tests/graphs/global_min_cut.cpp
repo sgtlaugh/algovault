@@ -11,6 +11,7 @@ long long cut_weight(const vector<vector<long long>>& w, const vector<bool>& in_
             if (in_side[u] != in_side[v]) total += w[u][v];
         }
     }
+
     return total;
 }
 
@@ -23,6 +24,7 @@ long long brute_min_cut(const vector<vector<long long>>& w){
         for (int i = 1; i < n; i++) in_side[i] = mask >> (i - 1) & 1;
         best = min(best, cut_weight(w, in_side));
     }
+
     return best;
 }
 
@@ -53,6 +55,7 @@ long long flow_min_cut(const vector<vector<long long>>& w){
         }
         best = min(best, flow);
     }
+
     return best;
 }
 
@@ -78,6 +81,7 @@ pair<GlobalMinCut, vector<vector<long long>>> random_graph(int n, int edges, lon
         g.add_edge(u, v, weight);
         if (u != v) w[u][v] += weight, w[v][u] += weight;
     }
+
     return {g, w};
 }
 

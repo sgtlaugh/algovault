@@ -13,6 +13,7 @@ vector<int> naive_match(const Container& text, const Container& pattern, typenam
         for (int j = 0; j < m && ok; j++) ok = text[i + j] == wildcard || pattern[j] == wildcard || text[i + j] == pattern[j];
         if (ok) positions.push_back(i);
     }
+
     return positions;
 }
 
@@ -21,6 +22,7 @@ string random_string(int len, int alphabet, int wildcard_percent){
     for (auto& c : s){
         if (stress::rand_int(1, 100) > wildcard_percent) c = 'a' + stress::rand_int(0, alphabet - 1);
     }
+
     return s;
 }
 

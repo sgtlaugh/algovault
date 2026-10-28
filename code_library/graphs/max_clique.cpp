@@ -74,6 +74,7 @@ struct CliqueGraph{
             complement.adj[u] = ~adj[u];
             complement.adj[u][u] = 0;
         }
+
         return complement.max_clique();
     }
 

@@ -17,5 +17,6 @@ int main(){
         /// A point lies under k unit stickers exactly when a unit circle around it covers k centers
         printf("%d\n", max_circle_cover(centers, 1).first);
     }
+
     return 0;
 }
