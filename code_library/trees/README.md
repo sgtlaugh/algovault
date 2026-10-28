@@ -24,7 +24,7 @@
 - [CSES 2079 - Finding a Centroid](https://cses.fi/problemset/task/2079) [✔](../../practice/trees/cses_2079.cpp "Accepted solution")
 - [CSES 2080 - Fixed-Length Paths I](https://cses.fi/problemset/task/2080) [✔](../../practice/trees/cses_2080.cpp "Accepted solution")
 - [CSES 2081 - Fixed-Length Paths II](https://cses.fi/problemset/task/2081) [✔](../../practice/trees/cses_2081.cpp "Accepted solution")
-- [HackerRank a-knapsack-problem - A Knapsack Problem](https://www.hackerrank.com/contests/w15/challenges/a-knapsack-problem)
+- [HackerRank a-knapsack-problem - A Knapsack Problem](https://www.hackerrank.com/contests/w15/challenges/a-knapsack-problem) [✔](../../practice/trees/hackerrank_a_knapsack_problem.cpp "Accepted solution")
 - [HackerRank interoffice-travel - Interoffice Travel](https://www.hackerrank.com/contests/world-codesprint-10/challenges/interoffice-travel)
 - [HDU 4812 - D Tree](https://acm.hdu.edu.cn/showproblem.php?pid=4812)
 - [oj.uz IOI11_race - Race](https://oj.uz/problem/view/IOI11_race)
