@@ -20,7 +20,7 @@ For that code these rules replace CONTRIBUTING's `## API and code`, `## Style` a
 - Related assignments share a line with commas: `low = 0, high = n - 1;`
 - Parentheses make the order obvious: `if ((i + 1) < n)`, `res += (x * y)`; halving and parity use `>> 1` and `& 1`
 - Blank lines separate the steps: input, setup, the main loop, output; in `main` and in any function of 8 or more lines,
-  a blank line follows the declarations at the top and precedes a final `return res;` that comes after a loop, never two blank lines in a row
+  a blank line follows the declarations at the top; in every function a `return` right after a closing `}` gets a blank line before it; never two blank lines in a row
 - Braces as the repo: `){`, `else{`, an `else` goes on the line after the `}`
 - `clr(ar)` and `dbg(x)` are the only macros with arguments, an expression macro like `valid(i, j)` is a function instead, since a macro evaluates its arguments twice; other macros are constants like `MAX`, and all go right after the template copies:
   ```cpp

@@ -77,6 +77,9 @@ for i in range(start, len(lines)):
     m = re.match(r'#define (\w+)\(', line)
     if m and m.group(1) not in ('clr', 'dbg'):
         fail.append(f'{no}: macro {m.group(1)}() takes arguments, write a function')
+    m = re.match(r'^([ \t]*)return[ ;(]', line)
+    if m and i > start and lines[i - 1] == m.group(1) + '}':
+        fail.append(f'{no}: no blank line before a return right after a closing brace')
     if re.search(r"(\b[a-z_]\w*(\[[^]]*\])?\s*[-+]\s*|[<>]=?\s*)(48|57|65|90|97|122)\b", line):
         note.append(f'{no}: an ASCII code where a character literal would read better: {line.strip()}')
 
@@ -85,7 +88,7 @@ for i in range(start, len(lines)):
         while end < len(lines) and lines[end] != '}':
             end += 1
         is_main = line.startswith('int main')
-        # Blank lines split steps, so a short helper (one declaration, one loop, the return) needs none
+        # A short helper (one declaration, one loop, the return) needs no blank line after its declarations
         if not is_main and end - i - 1 < 8:
             continue
         j = i + 1
@@ -93,8 +96,6 @@ for i in range(start, len(lines)):
             j += 1
         if j > i + 1 and lines[j] != '':
             fail.append(f'{j + 1}: no blank line after the declarations at the top of the function')
-        if not is_main and re.match(r'^    return \S', lines[end - 1]) and lines[end - 2] == '    }':
-            fail.append(f'{end}: no blank line before the final return after a loop')
 
 if old_judge:
     text = '\n'.join(lines[start:])

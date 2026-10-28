@@ -147,7 +147,7 @@ A template is used under contest pressure by someone who did not write it, so th
 ### The code
 
 - **Plain:** plain loops, and variables named for what they hold: `v, va, vb, vab`, not `t0..t7`
-- **Steps:** blank lines split a function body into its steps, like setup, the main loop and the answer
+- **Steps:** blank lines split a function body into its steps, like setup, the main loop and the answer; a `return` right after a closing `}` always gets one
 - **No machinery:** no abstraction used once, and no template template parameters, SFINAE, CRTP or macros, unless they turn a silent wrong answer into a compile error, with a comment saying so
 - **Speed tricks:** stay only with a measured reason in a comment
 - **Structs and namespaces:** a struct when there is state, a namespace only for stateless helpers like `fft`

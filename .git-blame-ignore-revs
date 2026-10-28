@@ -4,3 +4,5 @@ eb9ad8941e4c190419b60d65b227539eb839200c # style: open non-empty blocks with ){ 
 501a17a6b70fe336dd996aaa801e52817b16d82e # style: put a space after for and if as the rest of the code does
 759ee1c4c74c6795f72c0f188a1ed1755913e60e # style: drop the space before template arguments as most code does
 2e7bcafb9c697196c2b711fdc4115e3c4a6c24a7 # style: open struct and namespace bodies with { as most code does
+98d3e14c22acaf34b28449ca5718319a87ae776f # style: blank line before a return that follows a closing brace
+78317de04d77f2e31a34965643dc906b55671d34 # style: practice files put a blank line before a return after a brace

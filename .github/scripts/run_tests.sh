@@ -390,6 +390,22 @@ check_style(){  # ){ and struct X{ open a body, ) {} is empty, keywords take a s
     failures+=("${bad[@]/%/ (style)}")
 }
 
+check_return_blank(){  # a return right after a } at its own indent is a new step, so a blank line separates them
+    local line bad=()
+    while IFS= read -r line; do
+        contains "${line%%:*}" "${STYLE_SKIP[@]}" || bad+=("$line")
+    done < <(git ls-files '*.cpp' '*.h' | xargs awk '
+        FNR == 1 {prev = ""}
+        /^[ \t]*return[ ;(]/ {match($0, /^[ \t]*/); if (prev == substr($0, 1, RLENGTH) "}") print FILENAME ":" FNR}
+        {prev = $0}')
+
+    echo "return blank: ${#bad[@]} returns right after a closing brace without a blank line"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (return blank)}")
+}
+
 check_api_order(){  # the code defines a template's public calls in the order its header lists them
     local bad=()
     mapfile -t bad < <(git ls-files 'code_library/*.cpp' | xargs python3 .github/scripts/api_order.py)
@@ -487,6 +503,7 @@ check_whitespace
 check_line_length
 check_split_comments
 check_style
+check_return_blank
 check_member_order
 check_api_order
 echo "passed: $passed  failed: $failed  skipped: $skipped"
