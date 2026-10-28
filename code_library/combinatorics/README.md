@@ -89,7 +89,7 @@
 
 #### [Necklaces](necklaces.cpp)
 
-- [CSES 2209 - Counting Necklaces](https://cses.fi/problemset/task/2209)
+- [CSES 2209 - Counting Necklaces](https://cses.fi/problemset/task/2209) [✔](../../practice/combinatorics/cses_2209.cpp "Accepted solution")
 - [HDU 3923 - Invoker](https://acm.hdu.edu.cn/showproblem.php?pid=3923)
 - [UVa 10294 - Arif in Dhaka (First Love Part 2)](https://onlinejudge.org/external/102/10294.pdf) [✔](../../practice/combinatorics/uva_10294.cpp "Accepted solution")
 
