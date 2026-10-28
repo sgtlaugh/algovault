@@ -167,6 +167,7 @@ sa.contains("nab");         // false
 - [2-SAT](code_library/graphs/2SAT_kosaraju.cpp) - satisfiability with an assignment and at-most-one [✔](judge_tests/graphs/two_sat.cpp)
   - [Lexicographic](code_library/graphs/2SAT_lexicographic.cpp) - satisfying assignment preferring true from x1 [✔](judge_tests/graphs/two_sat_lexicographic.cpp)
 - [3-Edge-Connected Components](code_library/graphs/three_edge_connected_components.cpp) - vertices joined by 3 edge-disjoint paths [✔](judge_tests/graphs/three_edge_connected_components.cpp)
+- [Absolute Center](code_library/graphs/absolute_center.cpp) - graph center and minimum diameter spanning tree [✔](judge_tests/graphs/minimum_diameter_spanning_tree.cpp)
 - [Articulation Points and Blocks](code_library/graphs/articulation_points.cpp) - cut vertices, blocks and the block-cut tree [✔](judge_tests/graphs/aoj_grl_3_a.cpp)
 - [Bellman-Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges and cycles [✔](judge_tests/graphs/aoj_grl_1_b.cpp)
 - [Bridges](code_library/graphs/bridge.cpp) - bridges and 2-edge-connected components [✔](judge_tests/graphs/aoj_grl_3_b.cpp)
