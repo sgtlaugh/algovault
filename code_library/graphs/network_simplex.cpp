@@ -92,6 +92,7 @@ struct NetworkSimplex{
             if (enter == -1) break;
             pivot(enter);
         }
+        potential.resize(n);
 
         /// Also catches a nonzero total supply: empty root arcs would mean conservation at every node
         for (int v = 0; v < n; v++){
@@ -100,7 +101,6 @@ struct NetworkSimplex{
 
         __int128 total = 0;
         for (int id = 0; id < m; id++) total += (__int128)edges[id].cost * flow(id);
-        potential.resize(n);
         return total;
     }
 

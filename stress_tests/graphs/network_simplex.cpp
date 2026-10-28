@@ -120,6 +120,7 @@ pair<optional<__int128>, vector<int>> run(const Instance& g, NetworkSimplex& ns)
         else ids.push_back(ns.add_edge(a.u, a.v, a.low, a.high, a.cost));
     }
     auto cost = ns.solve();
+    assert((int)ns.potential.size() == g.n);
 
     /// Strong feasibility, which rules out cycling: every node can push flow up to the root, a wrong tie rule breaks it
     for (int x = 0; x < g.n; x++) assert(ns.residual(x, false) > 0);
