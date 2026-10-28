@@ -54,7 +54,7 @@
 - [Codeforces 117E - Tree or not Tree](https://codeforces.com/problemset/problem/117/E) [✔](../../practice/trees/codeforces_117e.cpp "Accepted solution")
 - [Codeforces 593D - Happy Tree Party](https://codeforces.com/problemset/problem/593/D) [✔](../../practice/trees/codeforces_593d.cpp "Accepted solution")
 - [Codeforces 1017G - The Tree](https://codeforces.com/problemset/problem/1017/G) [✔](../../practice/trees/codeforces_1017g.cpp "Accepted solution")
-- [Codeforces 1254D - Tree Queries](https://codeforces.com/problemset/problem/1254/D)
+- [Codeforces 1254D - Tree Queries](https://codeforces.com/problemset/problem/1254/D) [✔](../../practice/trees/codeforces_1254d.cpp "Accepted solution")
 - [Codeforces Gym 100739G - Old town](https://codeforces.com/gym/100739/problem/G)
 - [CSES 1137 - Subtree Queries](https://cses.fi/problemset/task/1137)
 - [CSES 1138 - Path Queries](https://cses.fi/problemset/task/1138)
