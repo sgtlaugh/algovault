@@ -100,7 +100,7 @@
 - [SPOJ LCASQ - Lowest Common Ancestor](https://www.spoj.com/problems/LCASQ/) [✔](../../practice/trees/spoj_lcasq.cpp "Accepted solution")
 - [SPOJ NTICKETS - Nlogonian Tickets](https://www.spoj.com/problems/NTICKETS/) [✔](../../practice/trees/spoj_ntickets.cpp "Accepted solution")
 - [SPOJ QTREE2 - Query on a tree II](https://www.spoj.com/problems/QTREE2/)
-- [Timus 1471 - Distance in the Tree](https://acm.timus.ru/problem.aspx?num=1471)
+- [Timus 1471 - Distance in the Tree](https://acm.timus.ru/problem.aspx?num=1471) [✔](../../practice/trees/timus_1471.cpp "Accepted solution")
 - [USACO 576 - Max Flow](https://usaco.org/index.php?page=viewproblem2&cpid=576)
 - [USACO 817 - New Barns](https://usaco.org/index.php?page=viewproblem2&cpid=817)
 - [USACO 901 - Exercise Route](https://usaco.org/index.php?page=viewproblem2&cpid=901)
