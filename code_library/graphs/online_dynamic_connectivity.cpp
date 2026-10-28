@@ -34,10 +34,10 @@ struct OnlineDynamicConnectivity{
 
     /// Level i keeps a spanning forest of the edges of level >= i, each tree as its cyclic Euler tour in one splay tree
     struct Node{
+        long long sum;  /// first, so the node packs into 32 bytes
         int ch[2], par;
         int id;  /// a vertex slot if >= 0, else one of the two arcs of edge ~id
         int size;
-        long long sum;
         unsigned char mark, any;  /// TREE on one arc of each tree edge of this level, NONTREE on a vertex with a list
     };
 
@@ -119,7 +119,7 @@ struct OnlineDynamicConnectivity{
         if (i == (int)vertex_at.size()) vertex_at.emplace_back(n, -1);
         if (vertex_at[i][v] == -1){
             vertex_at[i][v] = t.size();
-            t.push_back({{-1, -1}, -1, (int)vertex_of.size(), 1, i == 0 ? value[v] : 0, 0, 0});
+            t.push_back({i == 0 ? value[v] : 0, {-1, -1}, -1, (int)vertex_of.size(), 1, 0, 0});
             vertex_of.push_back(v);
             nontree.emplace_back();
         }
@@ -246,8 +246,8 @@ struct OnlineDynamicConnectivity{
             t.resize(a + 2);
         }
 
-        t[a] = {{-1, -1}, -1, ~e, 0, 0, mark, mark};
-        t[a + 1] = {{-1, -1}, -1, ~e, 0, 0, 0, 0};
+        t[a] = {0, {-1, -1}, -1, ~e, 0, mark, mark};
+        t[a + 1] = {0, {-1, -1}, -1, ~e, 0, 0, 0};
         return a;
     }
 
