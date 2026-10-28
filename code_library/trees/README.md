@@ -50,7 +50,7 @@
 - [AOJ GRL_5_D - Range Query on a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_D) [✔](../../practice/trees/aoj_grl_5_d_hld.cpp "Accepted solution")
 - [AOJ GRL_5_E - Range Query on a Tree II](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_E) [✔](../../practice/trees/aoj_grl_5_e_hld.cpp "Accepted solution")
 - [AtCoder ABC294 G - Distance Queries on a Tree](https://atcoder.jp/contests/abc294/tasks/abc294_g) [✔](../../practice/trees/atcoder_abc294_g.cpp "Accepted solution")
-- [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6)
+- [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6) [✔](../../practice/trees/codechef_qtree6_hld.cpp "Accepted solution")
 - [Codeforces 117E - Tree or not Tree](https://codeforces.com/problemset/problem/117/E)
 - [Codeforces 593D - Happy Tree Party](https://codeforces.com/problemset/problem/593/D)
 - [Codeforces 1017G - The Tree](https://codeforces.com/problemset/problem/1017/G)
