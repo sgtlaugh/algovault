@@ -37,7 +37,7 @@ struct HLD{
     int n;
     vector<pair<int, int>> edge_list;
     vector<int> parent, depth, heavy, head, pos, size;
-    vector<Chain> chain;  /// pos and parent of v's chain head in one cache line: lca measured 2-3x faster on random trees
+    vector<Chain> chain;  /// v's head pos and parent in one cache line: lca 2-3x faster on random trees
 
     HLD(int n) : n(n), parent(n, -1), depth(n), heavy(n, -1), head(n), pos(n), size(n, 1), chain(n) {}
 
