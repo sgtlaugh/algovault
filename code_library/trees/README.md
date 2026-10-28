@@ -28,7 +28,7 @@
 - [HackerRank interoffice-travel - Interoffice Travel](https://www.hackerrank.com/contests/world-codesprint-10/challenges/interoffice-travel) [✔](../../practice/trees/hackerrank_interoffice_travel_centroid_decomposition.cpp "Accepted solution")
 - [HDU 4812 - D Tree](https://acm.hdu.edu.cn/showproblem.php?pid=4812)
 - [oj.uz IOI11_race - Race](https://oj.uz/problem/view/IOI11_race) [✔](../../practice/trees/oj_uz_ioi11_race.cpp "Accepted solution")
-- [oj.uz JOI14_factories - Factories](https://oj.uz/problem/view/JOI14_factories)
+- [oj.uz JOI14_factories - Factories](https://oj.uz/problem/view/JOI14_factories) [✔](../../practice/trees/oj_uz_joi14_factories.cpp "Accepted solution")
 - [POJ 1987 - Distance Statistics](http://poj.org/problem?id=1987)
 - [SPOJ QTREE5 - Query on a tree V](https://www.spoj.com/problems/QTREE5/)
 - [USACO 286 - Yin and Yang](https://usaco.org/index.php?page=viewproblem2&cpid=286)
