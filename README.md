@@ -255,6 +255,7 @@ sa.contains("nab");         // false
 - [Pollard Rho](code_library/number_theory/pollard_rho.cpp) - factorization and primality below `2^63` [✔](judge_tests/number_theory/factorize.cpp)
 - [Power Tower](code_library/number_theory/power_tower.cpp) - `a1^(a2^(...^an))` modulo m [✔](judge_tests/number_theory/tetration_mod.cpp)
 - [Segmented Sieve](code_library/number_theory/segmented_sieve.cpp) - primes in a window `[L, R]` far from zero [✔](judge_tests/number_theory/enumerate_primes_segmented_sieve.cpp)
+- [Sum of Two Squares](code_library/number_theory/sum_of_two_squares.cpp) - every `x^2 + y^2 = n` up to `2^63` [✔](judge_tests/number_theory/two_square_sum.cpp)
 
 ### Strings
 
