@@ -5,9 +5,7 @@
  *
  * Complexity: O(n) for both encode and decode
  *
- * PruferCode tree(n): an empty tree on nodes 0..n-1
- * tree.add_edge(u, v): adds the edge u - v, asserts both endpoints are in [0, n)
- * tree.encode(): for each removal of the smallest-labeled leaf, its neighbor, asserts n >= 2 and a tree
+ * prufer_encode(n, edges): for each removal of the smallest-labeled leaf, its neighbor, asserts edges form a tree
  * prufer_decode(code): the tree on n = code.size() + 2 nodes as n - 1 edges {child, parent}, rooted at n - 1
  *
  * Notes:
@@ -20,49 +18,41 @@
 
 using namespace std;
 
-struct PruferCode{
-    int n, added_edges = 0;
-    vector<int> degree, neighbor_xor;
-
-    PruferCode(int n) : n(n), degree(n), neighbor_xor(n) {}
-
-    void add_edge(int u, int v){
+/// Leaves go in label order with ptr only moving forward: a new leaf below ptr is the smallest leaf right away
+vector<int> prufer_encode(int n, const vector<pair<int, int>>& edges){
+    assert(n >= 2 && (int)edges.size() == n - 1);
+    vector<int> deg(n), rest(n), code(n - 2);
+    for (auto [u, v] : edges){
         assert(0 <= u && u < n && 0 <= v && v < n);
-        degree[u]++, degree[v]++;
-        neighbor_xor[u] ^= v, neighbor_xor[v] ^= u;
-        added_edges++;
+        deg[u]++, deg[v]++;
+        rest[u] ^= v, rest[v] ^= u;
     }
 
-    /// Leaves go in label order with ptr only moving forward: a new leaf below ptr is the smallest leaf right away
-    vector<int> encode() const{
-        assert(n >= 2 && added_edges == n - 1);
-        vector<int> deg = degree, rest = neighbor_xor, code(n - 2);
-        int ptr = 0;
-        while (ptr < n && deg[ptr] != 1) ptr++;
-        assert(ptr < n);
+    int ptr = 0;
+    while (ptr < n && deg[ptr] != 1) ptr++;
+    assert(ptr < n);
 
-        int leaf = ptr;
-        for (int i = 0; i < n - 2; i++){
-            int next = rest[leaf];
-            code[i] = next;
-            rest[next] ^= leaf;
-            if (--deg[next] == 1 && next < ptr){
-                leaf = next;
-                continue;
-            }
-
-            /// A graph with n - 1 edges that is not a tree has a cycle, which runs the scan out of leaves
-            ptr++;
-            while (ptr < n && deg[ptr] != 1) ptr++;
-            assert(ptr < n);
-            leaf = ptr;
+    int leaf = ptr;
+    for (int i = 0; i < n - 2; i++){
+        int next = rest[leaf];
+        code[i] = next;
+        rest[next] ^= leaf;
+        if (--deg[next] == 1 && next < ptr){
+            leaf = next;
+            continue;
         }
 
-        return code;
+        /// A graph with n - 1 edges that is not a tree has a cycle, which runs the scan out of leaves
+        ptr++;
+        while (ptr < n && deg[ptr] != 1) ptr++;
+        assert(ptr < n);
+        leaf = ptr;
     }
-};
 
-/// Same leaf order as encode, degree[v] - 1 counts the occurrences of v still ahead in the code
+    return code;
+}
+
+/// Same leaf order as prufer_encode, degree[v] - 1 counts the occurrences of v still ahead in the code
 vector<pair<int, int>> prufer_decode(const vector<int>& code){
     int n = code.size() + 2;
     vector<int> degree(n, 1);
@@ -97,11 +87,9 @@ int main(){
      *    \  |  /
      *       3 - 4 - 5
     ***/
-    PruferCode tree(6);
-    for (auto [u, v] : vector<pair<int, int>>{{0, 3}, {1, 3}, {2, 3}, {3, 4}, {4, 5}}) tree.add_edge(u, v);
-    assert((tree.encode() == vector<int>{3, 3, 3, 4}));  /// leaves 0, 1, 2 hang off 3, then 3 itself is a leaf of 4
+    vector<pair<int, int>> edges = {{0, 3}, {1, 3}, {2, 3}, {3, 4}, {4, 5}};
+    assert((prufer_encode(6, edges) == vector<int>{3, 3, 3, 4}));  /// leaves 0, 1, 2 hang off 3, then 3 is a leaf of 4
 
-    vector<pair<int, int>> edges = prufer_decode({3, 3, 3, 4});
-    assert((edges == vector<pair<int, int>>{{0, 3}, {1, 3}, {2, 3}, {3, 4}, {4, 5}}));  /// {child, parent}, rooted at 5
+    assert(prufer_decode({3, 3, 3, 4}) == edges);  /// the same tree as {child, parent} edges, rooted at 5
     return 0;
 }

@@ -51,12 +51,6 @@ vector<pair<int, int>> normalized(vector<pair<int, int>> edges){
     return edges;
 }
 
-vector<int> encode(int n, const vector<pair<int, int>>& edges){
-    PruferCode tree(n);
-    for (auto [u, v] : edges) tree.add_edge(u, v);
-    return tree.encode();
-}
-
 /// Random labeled tree with a chosen shape: random attachment, path, star, caterpillar, broom
 vector<pair<int, int>> random_tree(int n){
     vector<int> label(n);
@@ -87,7 +81,7 @@ void check_exhaustive(int n){
         auto edges = prufer_decode(code);
         check_rooted_tree(n, edges);
         assert(naive_encode(n, edges) == code);
-        assert(encode(n, edges) == code);
+        assert(prufer_encode(n, edges) == code);
         trees.insert(normalized(edges));
 
         int i = 0;
@@ -103,7 +97,7 @@ void check_exhaustive(int n){
 
 void check_random(int n, bool with_naive){
     auto edges = random_tree(n);
-    auto code = encode(n, edges);
+    auto code = prufer_encode(n, edges);
     assert((int)code.size() == n - 2);
     if (with_naive) assert(code == naive_encode(n, edges));
 
@@ -115,6 +109,10 @@ void check_random(int n, bool with_naive){
     auto decoded = prufer_decode(code);
     check_rooted_tree(n, decoded);
     assert(normalized(decoded) == normalized(edges));
+
+    vector<int> random_code(n - 2);
+    for (int& v : random_code) v = stress::rand_int(0, n - 1);
+    assert(prufer_encode(n, prufer_decode(random_code)) == random_code);
 }
 
 /// encode must abort on a non-tree or n < 2, decode on a value outside [0, n)
@@ -149,8 +147,8 @@ void check_all_edge_multisets(int n){
             root[ru] = rv;
         }
 
-        if (is_tree) assert(encode(n, edges) == naive_encode(n, edges));
-        else check_aborts([&]{ encode(n, edges); });
+        if (is_tree) assert(prufer_encode(n, edges) == naive_encode(n, edges));
+        else check_aborts([&]{ prufer_encode(n, edges); });
 
         int i = n - 2;
         while (i >= 0 && pick[i] == m - 1) i--;
@@ -166,6 +164,7 @@ void check_rejects(){
     vector<pair<int, vector<pair<int, int>>>> bad = {
         {3, {{0, 3}, {1, 2}}},
         {3, {{-1, 0}, {1, 2}}},
+        {3, {{3, 0}, {1, 2}}},
         {4, {{0, 1}, {1, 2}, {2, 0}}},
         {4, {{3, 1}, {1, 2}, {2, 3}}},
         {5, {{0, 1}, {1, 2}, {2, 3}, {3, 1}}},
@@ -177,7 +176,7 @@ void check_rejects(){
         {3, {{0, 1}}},
         {1, {}},
     };
-    for (auto& [n, edges] : bad) check_aborts([&]{ encode(n, edges); });
+    for (auto& [n, edges] : bad) check_aborts([&]{ prufer_encode(n, edges); });
 
     check_aborts([]{ prufer_decode({3, 4}); });
     check_aborts([]{ prufer_decode({-1}); });
