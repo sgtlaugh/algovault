@@ -64,7 +64,7 @@
 - [oj.uz BOI18_minmaxtree - Min-max tree](https://oj.uz/problem/view/BOI18_minmaxtree) [✔](../../practice/trees/oj_uz_boi18_minmaxtree.cpp "Accepted solution")
 - [SPOJ QTREE3 - Query on a tree again!](https://www.spoj.com/problems/QTREE3/) [✔](../../practice/trees/spoj_qtree3.cpp "Accepted solution")
 - [SPOJ QTREE - Query on a tree](https://www.spoj.com/problems/QTREE/)
-- [USACO 102 - Grass Planting](https://usaco.org/index.php?page=viewproblem2&cpid=102)
+- [USACO 102 - Grass Planting](https://usaco.org/index.php?page=viewproblem2&cpid=102) [✔](../../practice/trees/usaco_102.cpp "Accepted solution")
 - [USACO 842 - Disruption](https://usaco.org/index.php?page=viewproblem2&cpid=842)
 - [USACO 921 - Cow Land](https://usaco.org/index.php?page=viewproblem2&cpid=921)
 - [UVa 1674 - Lightning Energy Report](https://onlinejudge.org/external/16/1674.pdf) [✔](../../practice/trees/uva_1674_hld.cpp "Accepted solution")
