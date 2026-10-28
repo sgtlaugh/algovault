@@ -538,7 +538,7 @@
 - [LibreOJ 115 - 无源汇有上下界可行流](https://loj.ac/p/115) [✔](../../practice/graphs/libreoj_115.cpp "Accepted solution")
 - [LibreOJ 116 - 有源汇有上下界最大流](https://loj.ac/p/116) [✔](../../practice/graphs/libreoj_116.cpp "Accepted solution")
 - [LibreOJ 117 - 有源汇有上下界最小流](https://loj.ac/p/117)
-- [Luogu P3980 - [NOI2008] 志愿者招募](https://www.luogu.com.cn/problem/P3980)
+- [Luogu P3980 - [NOI2008] 志愿者招募](https://www.luogu.com.cn/problem/P3980) [✔](../../practice/graphs/luogu_p3980.cpp "Accepted solution")
 
 #### [Offline Dynamic Connectivity](offline_dynamic_connectivity.cpp)
 
