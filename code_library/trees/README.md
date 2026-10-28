@@ -104,7 +104,7 @@
 - [USACO 576 - Max Flow](https://usaco.org/index.php?page=viewproblem2&cpid=576) [✔](../../practice/trees/usaco_576.cpp "Accepted solution")
 - [USACO 817 - New Barns](https://usaco.org/index.php?page=viewproblem2&cpid=817) [✔](../../practice/trees/usaco_817.cpp "Accepted solution")
 - [USACO 901 - Exercise Route](https://usaco.org/index.php?page=viewproblem2&cpid=901) [✔](../../practice/trees/usaco_901.cpp "Accepted solution")
-- [USACO 970 - Milk Visits](https://usaco.org/index.php?page=viewproblem2&cpid=970)
+- [USACO 970 - Milk Visits](https://usaco.org/index.php?page=viewproblem2&cpid=970) [✔](../../practice/trees/usaco_970.cpp "Accepted solution")
 - [UVa 1674 - Lightning Energy Report](https://onlinejudge.org/external/16/1674.pdf) [✔](../../practice/trees/uva_1674_lca.cpp "Accepted solution")
 - [UVa 10938 - Flea circus](https://onlinejudge.org/external/109/10938.pdf) [✔](../../practice/trees/uva_10938.cpp "Accepted solution")
 - [UVa 11354 - Bond](https://onlinejudge.org/external/113/11354.pdf) [✔](../../practice/trees/uva_11354.cpp "Accepted solution")
