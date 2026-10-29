@@ -6,7 +6,7 @@
 |---|---|---|---|
 | [15 Puzzle Solver](#15-puzzle-solver) | [Assembly](#assembly) | [Bit Twiddling](#bit-twiddling) | [Comb Sort](#comb-sort) |
 | [Dancing Links](#dancing-links) | [Fast I/O](#fast-io) | [Gray Codes](#gray-codes) | [Hackenbush](#hackenbush) |
-| [Knight Distance](#knight-distance) | [Local Minimization (Nelder-Mead)](#local-minimization-nelder-mead) | [N Queens](#n-queens) | [Nimber Arithmetic](#nimber-arithmetic) |
+| [Knight Distance](#knight-distance) | [Local Minimization](#local-minimization) | [N Queens](#n-queens) | [Nimber Arithmetic](#nimber-arithmetic) |
 | [Numerical Integration](#numerical-integration) | [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) | [Simulated Annealing](#simulated-annealing) |
 | [Ternary and Golden-Section Search](#ternary-and-golden-section-search) |  |  |  |
 
@@ -64,7 +64,7 @@
 - [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf) [✔](../../practice/misc/uva_11643_knight_distance.cpp "Accepted solution")
 - [UVa 11852 - Knight's Trip](https://onlinejudge.org/external/118/11852.pdf) [✔](../../practice/misc/uva_11852.cpp "Accepted solution")
 
-#### [Local Minimization (Nelder-Mead)](local_minimization.cpp)
+#### [Local Minimization](local_minimization.cpp)
 
 - [Codeforces 2C - Commentator problem](https://codeforces.com/problemset/problem/2/C) [✔](../../practice/misc/codeforces_2c.cpp "Accepted solution")
 - [Codeforces 106E - Space Rescuers](https://codeforces.com/problemset/problem/106/E) [✔](../../practice/misc/codeforces_106e.cpp "Accepted solution")

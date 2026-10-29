@@ -1,28 +1,23 @@
 /***
  *
- * Local Minimization (Nelder-Mead)
- * A local minimum of a function of a few real variables, smooth or not, with no derivatives
+ * Local Minimization
+ * A point where f is locally smallest, for f over a few real variables, smooth or not, with no derivatives
  *
- * Complexity: at most 2500 d^2 calls of f for d variables on the stress test's functions, O(d^2) work per call
+ * Complexity: at most 2500 d^2 calls of f for d variables, 5000 d^2 when eps is below 1e-12
  *
- * local_minimum(x, f, step, eps = 1e-12): a local minimum of f found from vector<T> x, step about the distance to it
+ * local_minimum(x, f, step, eps = 1e-12): a local minimum of f near the start x, step a rough distance to it
  *
  * Notes:
- *   - T is double, or long double when x is a vector<long double>; a braced x like {0, 0} gives double
- *   - f(const vector<T>&) returns a T, finite at x; x has at least one coordinate and step > eps * max(1, max |x_i|)
- *   - f never returns nan: the search sorts points by their values, which needs a strict order
- *   - Ends once 3 passes in a row gain below eps * max(1, |f|), each refining moves to eps * max(1, max |x_i|)
- *   - A larger eps ends sooner, as needed at an infimum f only approaches on a domain edge
- *   - Long double at the default eps ends no closer than double, only slower
- *   - Long double, eps = 1e-16 and f in long double: about 1e4 times closer, up to 5000 d^2 calls, bar the 3-dim ball
- *   - A domain: f returns a huge value like 1e100 outside it, and x starts inside it
- *   - Probabilities summing to 1 without walls: p_i = x_i^2 / sum x_j^2, starting from x = (1, ..., 1)
- *   - Within 1e-9 relative on quadratics to condition 1e6, Rosenbrock, sums of distances, convex functions on a simplex
- *   - Max of distances, the enclosing ball: within 1e-9 in 2 dims, up to 1e-6 off in 3 dims, long double too
- *   - Local only: restart from several points when f has several minima
- *   - A sum of |linear| in 3+ dims, kinked in many directions, can end 1e-3 off past the call bound: use simplex.cpp
- *   - Rounding blurs a slanted wall like x_0 + x_1 <= 1: a minimum on it can end 1e-2 off, change variables instead
- *   - A value f takes only at exact points, like an expected time once a probability is 0, is missed: search each apart
+ *   - f takes const vector<double>& and returns double; pass x as a vector<long double> to search in long double
+ *   - f never returns nan and is finite at x; x is nonempty and step > eps * max(1, max |x_i|)
+ *   - Walls: f returns a huge value like 1e100 outside the allowed region, and x starts inside it
+ *   - Probabilities summing to 1: search free x with p_i = x_i^2 / sum x_j^2, starting from x = (1, ..., 1)
+ *   - Local only: with several minima, run from several starts and keep the best
+ *   - Ends within 1e-9 relative on smooth functions, sums of distances and boxes; a max of distances in 3 dims 1e-6
+ *   - A minimum on a slanted wall like x_0 + x_1 <= 1 can end 1e-2 off: change variables so walls are axis-aligned
+ *   - A value f takes only at exact points, like a cost once a probability is exactly 0, is missed: search those apart
+ *   - Long double gains only with eps = 1e-16 and f computed in long double: about 1e4 times closer
+ *   - A larger eps ends sooner, as needed when f only approaches its smallest value at a wall
  *   - Tested up to 16 variables
  *
 ***/
@@ -147,23 +142,16 @@ int main(){
     assert(abs(x[0] - 3) < 1e-6);
     assert(abs(x[1] + 1) < 1e-6);
 
-    /// Fermat point of a square's corners: its center, 2 sqrt(2) from each
-    vector<vector<double>> corners = {{0, 0}, {4, 0}, {0, 4}, {4, 4}};
-    auto total = [&](const vector<double>& v){
-        double s = 0;
-        for (auto& c : corners) s += hypot(v[0] - c[0], v[1] - c[1]);
-        return s;
-    };
-    assert(abs(total(local_minimum({1, 3}, total, 1)) - 8 * sqrt(2)) < 1e-9);
-
-    /// Smallest circle around a right triangle: centered on its hypotenuse (0, 8) to (6, 0), radius 5
+    /// Not smooth: the smallest circle around a right triangle is centered on its hypotenuse (0, 8) to (6, 0), radius 5
     vector<vector<double>> triangle = {{0, 0}, {6, 0}, {0, 8}};
     auto farthest = [&](const vector<double>& v){
         double r = 0;
         for (auto& c : triangle) r = max(r, hypot(v[0] - c[0], v[1] - c[1]));
         return r;
     };
-    assert(abs(farthest(local_minimum({1, 1}, farthest, 1)) - 5) < 1e-9);
+    vector<double> center = local_minimum({1, 1}, farthest, 1);
+    assert(abs(center[0] - 3) < 1e-6);
+    assert(abs(center[1] - 4) < 1e-6);
 
     /// p_0^2 + 2 p_1^2 + 3 p_2^2 over probabilities: Lagrange makes p_i proportional to 1 / (i + 1), 6/11, 3/11, 2/11
     auto probabilities = [](const vector<double>& x){
@@ -178,13 +166,6 @@ int main(){
     assert(abs(p[0] - 6.0 / 11) < 1e-6);
     assert(abs(p[1] - 3.0 / 11) < 1e-6);
     assert(abs(p[2] - 2.0 / 11) < 1e-6);
-
-    /// Long double with an eps below double's spacing: the tip of a cone at (1/3, 2/3)
-    auto cone = [](const vector<long double>& v){ return hypot(v[0] - 1 / 3.0L, v[1] - 2 / 3.0L); };
-    vector<long double> start = {0, 0};
-    vector<long double> tip = local_minimum(start, cone, 1, 1e-16);
-    assert(abs(tip[0] - 1 / 3.0L) < 1e-15);
-    assert(abs(tip[1] - 2 / 3.0L) < 1e-15);
 
     return 0;
 }

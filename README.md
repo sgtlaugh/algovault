@@ -325,7 +325,7 @@ sa.contains("nab");         // false
 - [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
 - [Hackenbush](code_library/misc/hackenbush.cpp) - green values on graphs, red-blue on trees
 - [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in `O(1)`
-- [Local Minimization (Nelder-Mead)](code_library/misc/local_minimization.cpp) - local minimum of a function of real variables
+- [Local Minimization](code_library/misc/local_minimization.cpp) - minimum of a function of a few real variables
 - [N Queens](code_library/misc/n_queen.cpp) - number of N queens solutions
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one
 - [Nimber Arithmetic](code_library/misc/nimber.cpp) - nim product and inverse over GF(2^64) [✔](judge_tests/misc/nim_product_64.cpp)
