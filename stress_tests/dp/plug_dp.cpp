@@ -259,6 +259,45 @@ void check_cell_calls(int m, int bits){
     }
 }
 
+/// normalize against decode, renumber by first appearance and re-encode; a label renamed in place would clash here
+void check_normalize(const PlugDP<long long>& dp, uint64_t s){
+    int m = dp.m, bits = dp.bits, top = (1 << bits) - 1, labels = 0;
+    vector<int> id(top + 1);
+    uint64_t want = 0;
+    for (int p = 0; p <= m; p++){
+        int x = s >> (p * bits) & top;
+        if (x && !id[x]) id[x] = ++labels;
+        want |= uint64_t(id[x]) << (p * bits);
+    }
+    assert(dp.normalize(s) == want);
+}
+
+/// match at every bracket against the pairs a stack finds, scanning both ways up to plug m in the top bits
+void check_match(const vector<int>& seq, int bits){
+    int m = seq.size() - 1;
+    PlugDP<long long> dp(1, m, bits, 1);
+    uint64_t s = 0;
+    for (int p = 0; p <= m; p++) s |= uint64_t(seq[p]) << (p * bits);
+
+    for (auto [a, b] : bracket_pairs(seq)){
+        assert(dp.match(s, a) == b);
+        assert(dp.match(s, b) == a);
+    }
+}
+
+/// A random state of plugs 0..m drawn from a few labels, so labels repeat and appear out of order
+uint64_t random_labels(int m, int bits){
+    int top = (1 << bits) - 1, k = stress::rand_int(1, min(top, 6));
+    vector<int> pick(k);
+    for (int& x : pick) x = stress::rand_int(1, top);
+    uint64_t s = 0;
+    for (int p = 0; p <= m; p++){
+        if (stress::rand_int(0, 3)) s |= uint64_t(pick[stress::rand_int(0, k - 1)]) << (p * bits);
+    }
+
+    return s;
+}
+
 /// join must assert, not return a state, on left 1 with up 2, on a missing plug and on a label that is no bracket
 void check_rejects(int l, int u){
     stress::expect_assert("dp/plug_dp.cpp", [&]{
@@ -496,6 +535,20 @@ int main(){
         check_join(random_brackets(m + 1), bits);
         bits = stress::rand_int(1, 8), m = it % 4 ? stress::rand_int(1, 64 / bits - 1) : 64 / bits - 1;
         check_cell_calls(m, bits);
+    }
+
+    /// Every state of at most 12 bits, then random ones up to 64 bits at every width, against the plug-by-plug loops
+    for (int bits = 1; bits <= 8; bits++){
+        for (int m = 1; (m + 1) * bits <= 12; m++){
+            PlugDP<long long> dp(1, m, bits, 1);
+            for (uint64_t s = 0; s < (uint64_t(1) << ((m + 1) * bits)); s++) check_normalize(dp, s);
+        }
+    }
+    for (long long it = 0; it < stress::scaled(5000); it++){
+        int bits = stress::rand_int(1, 8), m = it % 4 ? stress::rand_int(1, 64 / bits - 1) : 64 / bits - 1;
+        check_normalize(PlugDP<long long>(1, m, bits, 1), random_labels(m, bits));
+        bits = stress::rand_int(2, 8), m = it % 4 ? stress::rand_int(1, 64 / bits - 1) : 64 / bits - 1;
+        check_match(random_brackets(m + 1), bits);
     }
 
     /// Spanning trees through cell labels against Kirchhoff, blocked cells, single rows and columns, all blocked
