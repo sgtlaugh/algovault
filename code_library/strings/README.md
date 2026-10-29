@@ -5,10 +5,10 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [2D Pattern Matcher](#2d-pattern-matcher) | [Aho-Corasick](#aho-corasick) | [Aho-Corasick, Dynamic](#aho-corasick-dynamic) | [Bit-String LCS](#bit-string-lcs) |
-| [De Bruijn Sequence](#de-bruijn-sequence) | [Dynamic String Hash](#dynamic-string-hash) | [Hashing](#hashing) | [Hunt-Szymanski](#hunt-szymanski) |
-| [KMP](#kmp) | [Lyndon Factorization](#lyndon-factorization) | [Manacher](#manacher) | [Minimum Rotation](#minimum-rotation) |
-| [Palindromic Tree](#palindromic-tree) | [Subsequence Automaton](#subsequence-automaton) | [Suffix Array](#suffix-array) | [Suffix Automaton](#suffix-automaton) |
-| [Wildcard Matching](#wildcard-matching) | [Z Algorithm](#z-algorithm) |  |  |
+| [De Bruijn Sequence](#de-bruijn-sequence) | [Dynamic String Hash](#dynamic-string-hash) | [Hashing](#hashing) | [Hirschberg LCS](#hirschberg-lcs) |
+| [Hunt-Szymanski](#hunt-szymanski) | [KMP](#kmp) | [Lyndon Factorization](#lyndon-factorization) | [Manacher](#manacher) |
+| [Minimum Rotation](#minimum-rotation) | [Palindromic Tree](#palindromic-tree) | [Subsequence Automaton](#subsequence-automaton) | [Suffix Array](#suffix-array) |
+| [Suffix Automaton](#suffix-automaton) | [Wildcard Matching](#wildcard-matching) | [Z Algorithm](#z-algorithm) |  |
 
 <!-- /toc -->
 
@@ -127,6 +127,15 @@
 - [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf) [✔](../../practice/strings/uva_12206_hashing.cpp "Accepted solution")
 - [UVa 12837 - Hasmot Ali Professor](https://onlinejudge.org/external/128/12837.pdf) [✔](../../practice/strings/uva_12837.cpp "Accepted solution")
 - [UVa 13126 - Wildcards](https://onlinejudge.org/external/131/13126.pdf) [✔](../../practice/strings/uva_13126.cpp "Accepted solution")
+
+#### [Hirschberg LCS](hirschberg_lcs.cpp)
+
+- [AtCoder DP F - LCS](https://atcoder.jp/contests/dp/tasks/dp_f) [✔](../../practice/strings/atcoder_dp_f.cpp "Accepted solution")
+- [CSES 3403 - Longest Common Subsequence](https://cses.fi/problemset/task/3403) [✔](../../practice/strings/cses_3403.cpp "Accepted solution")
+- [UVa 531 - Compromise](https://onlinejudge.org/external/5/531.pdf) [✔](../../practice/strings/uva_531.cpp "Accepted solution")
+- [UVa 10066 - The Twin Towers](https://onlinejudge.org/external/100/10066.pdf) [✔](../../practice/strings/uva_10066.cpp "Accepted solution")
+- [UVa 10100 - Longest Match](https://onlinejudge.org/external/101/10100.pdf) [✔](../../practice/strings/uva_10100.cpp "Accepted solution")
+- [UVa 10405 - Longest Common Subsequence](https://onlinejudge.org/external/104/10405.pdf) [✔](../../practice/strings/uva_10405.cpp "Accepted solution")
 
 #### [Hunt-Szymanski](hunt_szymanski.cpp)
 

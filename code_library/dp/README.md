@@ -6,8 +6,8 @@
 |---|---|---|---|
 | [Aliens Trick (WQS)](#aliens-trick-wqs) | [Block Removal DP](#block-removal-dp) | [Bounded Knapsack](#bounded-knapsack) | [Bounded Subset Sum](#bounded-subset-sum) |
 | [Convex Hull Trick](#convex-hull-trick) | [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) |
-| [Hirschberg LCS](#hirschberg-lcs) | [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) |
-| [Longest Increasing Subsequence](#longest-increasing-subsequence) | [Maximum Square](#maximum-square) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |
+| [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) | [Longest Increasing Subsequence](#longest-increasing-subsequence) |
+| [Maximum Square](#maximum-square) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |  |
 
 <!-- /toc -->
 
@@ -93,15 +93,6 @@
 - [UVa 11284 - Shopping Trip](https://onlinejudge.org/external/112/11284.pdf) [✔](../../practice/dp/uva_11284.cpp "Accepted solution")
 - [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf) [✔](../../practice/dp/uva_11643_hamiltonian_dp.cpp "Accepted solution")
 - [UVa 11813 - Shopping](https://onlinejudge.org/external/118/11813.pdf) [✔](../../practice/dp/uva_11813.cpp "Accepted solution")
-
-#### [Hirschberg LCS](hirschberg_lcs.cpp)
-
-- [AtCoder DP F - LCS](https://atcoder.jp/contests/dp/tasks/dp_f) [✔](../../practice/dp/atcoder_dp_f.cpp "Accepted solution")
-- [CSES 3403 - Longest Common Subsequence](https://cses.fi/problemset/task/3403) [✔](../../practice/dp/cses_3403.cpp "Accepted solution")
-- [UVa 531 - Compromise](https://onlinejudge.org/external/5/531.pdf) [✔](../../practice/dp/uva_531.cpp "Accepted solution")
-- [UVa 10066 - The Twin Towers](https://onlinejudge.org/external/100/10066.pdf) [✔](../../practice/dp/uva_10066.cpp "Accepted solution")
-- [UVa 10100 - Longest Match](https://onlinejudge.org/external/101/10100.pdf) [✔](../../practice/dp/uva_10100.cpp "Accepted solution")
-- [UVa 10405 - Longest Common Subsequence](https://onlinejudge.org/external/104/10405.pdf) [✔](../../practice/dp/uva_10405.cpp "Accepted solution")
 
 #### [Knuth Partition DP](knuth_partition_dp.cpp)
 

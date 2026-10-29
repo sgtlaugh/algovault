@@ -137,7 +137,6 @@ sa.contains("nab");         // false
   - [Knuth Partition DP](code_library/dp/knuth_partition_dp.cpp) - same split in `O(n^2)`, faster for large k
 - [Garsia-Wachs](code_library/dp/garsia_wachs.cpp) - min cost to merge adjacent piles in `O(n log n)`
 - [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle [✔](judge_tests/dp/aoj_dpl_2_a.cpp)
-- [Hirschberg LCS](code_library/dp/hirschberg_lcs.cpp) - one longest common subsequence in linear memory [✔](judge_tests/dp/aoj_alds1_10_c.cpp)
 - [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - interval DP over split points in `O(n^2)` [✔](judge_tests/dp/aoj_alds1_10_d.cpp)
 - [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS and one witness in `O(n m)`
 - [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS with one optimal subsequence [✔](judge_tests/dp/longest_increasing_subsequence.cpp)
@@ -270,6 +269,7 @@ sa.contains("nab");         // false
 
 - [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text [✔](judge_tests/strings/aoj_alds1_14_c.cpp)
 - [Aho-Corasick](code_library/strings/aho_corasick.cpp) - multi-pattern matching automaton [✔](judge_tests/strings/aho_corasick.cpp)
+- [Hirschberg LCS](code_library/strings/hirschberg_lcs.cpp) - one longest common subsequence in linear memory [✔](judge_tests/strings/aoj_alds1_10_c_hirschberg_lcs.cpp)
   - [Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - patterns can be inserted online
 - [Bit-String LCS](code_library/strings/bit_string_lcs.cpp) - longest common subsequence in `O(n m / 64)` [✔](judge_tests/strings/aoj_alds1_10_c.cpp)
 - [De Bruijn Sequence](code_library/strings/de_bruijn_sequence.cpp) - cyclic sequence containing every length n word
