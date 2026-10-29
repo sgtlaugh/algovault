@@ -508,14 +508,11 @@ int solve(int limit){
     pair<bool, __int128> res = g.solve();
     if (!res.first) return -1;
 
-    int placed = total - (int)res.second;
-    if ((long long)limit * b > (long long)a * placed) return -1;
-
-    return placed;
+    return total - (int)res.second;
 }
 
 int main(){
-    int t = 0, i, j, limit, cnt, res;
+    int t = 0, i, j, limit, cnt, res, placed;
     string row;
 
     while (read(n, a, b) && n){
@@ -528,8 +525,16 @@ int main(){
             }
         }
 
-        res = -1;
-        for (limit = 0; limit <= n; limit++) res = max(res, solve(limit));
+        res = -1, limit = n;
+        while (true){
+            placed = solve(limit);
+            if (placed == -1) break;
+            if ((long long)limit * b <= (long long)a * placed){
+                res = placed;
+                break;
+            }
+            limit = (long long)a * placed / b;
+        }
 
         if (res == -1) snprintf(buf, sizeof(buf), "Case %d: impossible", ++t);
         else snprintf(buf, sizeof(buf), "Case %d: %d", ++t, res - cnt);

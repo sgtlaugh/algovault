@@ -505,13 +505,15 @@ int main(){
             while (read(v) && v) segments.push_back(make_pair(i, v - 1));
         }
 
+        __int128 base = 0;
         for (i = 0; i < (int)segments.size(); i++){
             u = segments[i].first, v = segments[i].second;
-            double gain = (x * hypot(px[u] - px[v], py[u] - py[v])) - y;
-            g.add_edge(u, v, 1, llround(-gain * SCALE));
+            long long gain = llround(((x * hypot(px[u] - px[v], py[u] - py[v])) - y) * SCALE);
+            if (gain <= 0) g.add_edge(u, v, 1, -gain);
+            else base += gain, g.add_edge(v, u, 1, gain), g.add_supply(u, -1), g.add_supply(v, 1);
         }
 
-        __int128 cost = -g.solve().second;
+        __int128 cost = base - g.solve().second;
         snprintf(buf, sizeof(buf), "Case %d: %.2f", ++t, (double)cost / SCALE);
         write(string(buf));
     }
