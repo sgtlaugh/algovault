@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/dp/hirschberg_lcs.cpp"
+#include "../../code_library/strings/hirschberg_lcs.cpp"
 #undef main
 
 template <typename Sequence>
