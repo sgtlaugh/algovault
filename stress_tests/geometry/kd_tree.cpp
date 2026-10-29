@@ -39,6 +39,16 @@ void check_report(const vector<Point>& points, const KDTree& tree, long long x1,
     assert(res == expected);
 }
 
+/// The header's loop over tree.nodes must visit every input point once, with node.p equal to points[node.i]
+void check_nodes(const vector<Point>& points, const KDTree& tree){
+    vector<int> seen(points.size());
+    assert(tree.nodes.size() == points.size());
+    for (const KDTree::Node& node : tree.nodes){
+        assert(0 <= node.i && node.i < (int)points.size() && !seen[node.i]++);
+        assert(node.p.x == points[node.i].x && node.p.y == points[node.i].y);
+    }
+}
+
 /// Often one value wide (catches a strict < on a box edge), sometimes stretched to the coordinate bound
 pair<long long, long long> random_interval(long long range){
     long long lo = stress::rand_int(-range, range), hi = stress::rand_int(-range, range);
@@ -52,6 +62,7 @@ pair<long long, long long> random_interval(long long range){
 /// Every input point with itself skipped (the FAILURE query) plus random queries and rectangles around the set
 void check_all(const vector<Point>& points, int queries, long long range){
     KDTree euclidean(points);
+    check_nodes(points, euclidean);
     for (int k = 0; k < queries; k++){
         auto [x1, x2] = random_interval(range);
         auto [y1, y2] = random_interval(range);
