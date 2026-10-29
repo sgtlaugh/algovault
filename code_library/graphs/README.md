@@ -556,7 +556,7 @@
 - [Luogu P3980 - [NOI2008] 志愿者招募](https://www.luogu.com.cn/problem/P3980) [✔](../../practice/graphs/luogu_p3980.cpp "Accepted solution")
 - [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf) [✔](../../practice/graphs/uva_1104_network_simplex.cpp "Accepted solution")
 - [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf) [✔](../../practice/graphs/uva_1440_network_simplex.cpp "Accepted solution")
-- [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf)
+- [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf) [✔](../../practice/graphs/uva_1659_network_simplex.cpp "Accepted solution")
 
 #### [Offline Dynamic Connectivity](offline_dynamic_connectivity.cpp)
 
