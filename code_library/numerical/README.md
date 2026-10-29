@@ -41,7 +41,7 @@
 - [HDU 5017 - Ellipsoid](https://acm.hdu.edu.cn/showproblem.php?pid=5017) [✔](../../practice/numerical/hdu_5017_simulated_annealing.cpp "Accepted solution")
 - [Kattis europeantrip - European Trip](https://open.kattis.com/problems/europeantrip) [✔](../../practice/numerical/kattis_europeantrip_simulated_annealing.cpp "Accepted solution")
 - [POJ 1379 - Run Away](http://poj.org/problem?id=1379) [✔](../../practice/numerical/poj_1379.cpp "Accepted solution")
-- [POJ 2069 - Super Star](http://poj.org/problem?id=2069)
+- [POJ 2069 - Super Star](http://poj.org/problem?id=2069) [✔](../../practice/numerical/poj_2069_simulated_annealing.cpp "Accepted solution")
 - [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✔](../../practice/numerical/uva_10228_simulated_annealing.cpp "Accepted solution")
 
 #### [Ternary and Golden-Section Search](ternary_search.cpp)
