@@ -86,7 +86,7 @@
 - [Luogu P6362 - 平面欧几里得最小生成树](https://www.luogu.com.cn/problem/P6362)
 - [Timus 1504 - Good Manners](https://acm.timus.ru/problem.aspx?num=1504)
 - [Timus 1520 - Empire Strikes Back](https://acm.timus.ru/problem.aspx?num=1520)
-- [UVa 1683 - In case of failure](https://onlinejudge.org/external/16/1683.pdf)
+- [UVa 1683 - In case of failure](https://onlinejudge.org/external/16/1683.pdf) [✔](../../practice/geometry/uva_1683_delaunay.cpp "Accepted solution")
 
 #### [Geometry](geometry.cpp)
 
