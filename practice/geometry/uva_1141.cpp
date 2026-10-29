@@ -411,11 +411,11 @@ int main(){
 
         KDTree tree(points);
         long long res = 0;
-        for (i = 0; i < n; i++){
-            Point p = points[i];
-            for (int j: tree.report(p.x - r + 1, p.y - r + 1, p.x + r - 1, p.y + r - 1)){
+        for (auto& node: tree.nodes){
+            Point p = node.p;
+            for (int j: tree.report(p.x, p.y - r + 1, p.x + r - 1, p.y + r - 1)){
                 long long dx = points[j].x - p.x, dy = points[j].y - p.y;
-                if (j > i && (dx * dx + dy * dy) < (r * r)) res++;
+                if ((dx > 0 || (dx == 0 && dy > 0)) && (dx * dx + dy * dy) < (r * r)) res++;
             }
         }
 

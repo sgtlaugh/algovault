@@ -411,7 +411,9 @@ int main(){
             for (i = 0; i < n; i++) read(points[i].x, points[i].y);
 
             KDTree tree(points);
-            for (i = 0; i < n; i++) write(tree.nearest(points[i], i).dist);
+            vector<long long> res(n);
+            for (auto& node: tree.nodes) res[node.i] = tree.nearest(node.p, node.i).dist;
+            for (i = 0; i < n; i++) write(res[i]);
         }
     }
 
