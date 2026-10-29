@@ -77,7 +77,7 @@
 - [HDU 4273 - Rescue](https://acm.hdu.edu.cn/showproblem.php?pid=4273)
 - [Kattis starsinacan - Stars in a Can](https://open.kattis.com/problems/starsinacan)
 - [UVa 1438 - Asteroids](https://onlinejudge.org/external/14/1438.pdf)
-- [UVa 11769 - All Souls Night](https://onlinejudge.org/external/117/11769.pdf)
+- [UVa 11769 - All Souls Night](https://onlinejudge.org/external/117/11769.pdf) [✔](../../practice/geometry/uva_11769.cpp "Accepted solution")
 
 #### [Delaunay Triangulation](delaunay.cpp)
 
