@@ -147,6 +147,17 @@ int main(){
     heavy.add_edge(0, 1, 2000000000000, 1000000000);
     assert(heavy.solve() == (__int128)1000000000000 * 1000000000);
 
+    /// Negative cost edges start full, moving 4e18 units out of node 0 at once, at the header's sum (high - low) limit
+    Instance star{5, vector<long long>(5), {}};
+    for (int i = 1; i < 5; i++){
+        star.arcs.push_back({0, i, 0, 1000000000000000000, -1});
+        star.arcs.push_back({i, 0, 0, 1000000000000000000, 0});
+    }
+    NetworkSimplex saturated(5);
+    auto [star_cost, star_ids] = run(star, saturated);
+    assert(star_cost == -4000000000000000000);
+    check_certificate(star, saturated, star_ids, *star_cost);
+
     for (long long it = 0; it < stress::scaled(2500); it++){
         int n = stress::rand_int(1, 4), m = stress::rand_int(0, it % 2 ? 4 : 6);
         Instance g = random_instance(n, m, 2, it % 2 ? 4 : 2, 5, 3);
