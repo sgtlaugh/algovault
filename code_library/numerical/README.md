@@ -58,7 +58,7 @@
 - [Codeforces 2063D - Game With Triangles](https://codeforces.com/problemset/problem/2063/D) [✔](../../practice/numerical/codeforces_2063d.cpp "Accepted solution")
 - [Codeforces Gym 101309D - Dome of Circus](https://codeforces.com/gym/101309/problem/D) [✔](../../practice/numerical/codeforces_gym_101309d.cpp "Accepted solution")
 - [HDU 2899 - Strange fuction](https://acm.hdu.edu.cn/showproblem.php?pid=2899) [✔](../../practice/numerical/hdu_2899.cpp "Accepted solution")
-- [Kattis cheetahs - Chasing the Cheetahs](https://open.kattis.com/problems/cheetahs)
+- [Kattis cheetahs - Chasing the Cheetahs](https://open.kattis.com/problems/cheetahs) [✔](../../practice/numerical/kattis_cheetahs.cpp "Accepted solution")
 - [Kattis europeantrip - European Trip](https://open.kattis.com/problems/europeantrip)
 - [Kattis reconnaissance - Reconnaissance](https://open.kattis.com/problems/reconnaissance)
 - [LightOJ 1146 - Closest Distance](https://lightoj.com/problem/closest-distance)
