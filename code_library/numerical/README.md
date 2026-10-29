@@ -54,7 +54,7 @@
 - [Codeforces 578C - Weakness and Poorness](https://codeforces.com/problemset/problem/578/C) [✔](../../practice/numerical/codeforces_578c.cpp "Accepted solution")
 - [Codeforces 626E - Simple Skewness](https://codeforces.com/problemset/problem/626/E) [✔](../../practice/numerical/codeforces_626e.cpp "Accepted solution")
 - [Codeforces 1355E - Restorer Distance](https://codeforces.com/problemset/problem/1355/E) [✔](../../practice/numerical/codeforces_1355e.cpp "Accepted solution")
-- [Codeforces 1978B - New Bakery](https://codeforces.com/problemset/problem/1978/B)
+- [Codeforces 1978B - New Bakery](https://codeforces.com/problemset/problem/1978/B) [✔](../../practice/numerical/codeforces_1978b.cpp "Accepted solution")
 - [Codeforces 2063D - Game With Triangles](https://codeforces.com/problemset/problem/2063/D)
 - [Codeforces Gym 101309D - Dome of Circus](https://codeforces.com/gym/101309/problem/D)
 - [HDU 2899 - Strange fuction](https://acm.hdu.edu.cn/showproblem.php?pid=2899)
