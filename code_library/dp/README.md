@@ -157,7 +157,7 @@
 
 #### [Plug DP](plug_dp.cpp)
 
-- [HDU 1693 - Eat the Trees](https://acm.hdu.edu.cn/showproblem.php?pid=1693)
+- [HDU 1693 - Eat the Trees](https://acm.hdu.edu.cn/showproblem.php?pid=1693) [✔](../../practice/dp/hdu_1693.cpp "Accepted solution")
 - [HDU 3377 - Plan](https://acm.hdu.edu.cn/showproblem.php?pid=3377)
 - [HDU 4285 - circuits](https://acm.hdu.edu.cn/showproblem.php?pid=4285)
 - [Timus 1519 - Formula 1](https://acm.timus.ru/problem.aspx?num=1519)
