@@ -64,7 +64,7 @@
 - [LightOJ 1146 - Closest Distance](https://lightoj.com/problem/closest-distance) [✔](../../practice/numerical/lightoj_1146.cpp "Accepted solution")
 - [SPOJ KOPC12A - K12 - Building Construction](https://www.spoj.com/problems/KOPC12A/) [✔](../../practice/numerical/spoj_kopc12a.cpp "Accepted solution")
 - [Timus 1436 - Billboard](https://acm.timus.ru/problem.aspx?num=1436) [✔](../../practice/numerical/timus_1436.cpp "Accepted solution")
-- [Timus 1451 - Beerhouse Tale](https://acm.timus.ru/problem.aspx?num=1451)
+- [Timus 1451 - Beerhouse Tale](https://acm.timus.ru/problem.aspx?num=1451) [✔](../../practice/numerical/timus_1451.cpp "Accepted solution")
 - [USACO 1355 - Haybale Distribution](https://usaco.org/index.php?page=viewproblem2&cpid=1355)
 - [UVa 10228 - A Star not a Tree?](https://onlinejudge.org/external/102/10228.pdf) [✔](../../practice/numerical/uva_10228_ternary_search.cpp "Accepted solution")
 - [UVa 10385 - Duathlon](https://onlinejudge.org/external/103/10385.pdf) [✔](../../practice/numerical/uva_10385.cpp "Accepted solution")
