@@ -21,6 +21,7 @@
  * Notes:
  *   - next(n + 1, c) = n, so a greedy walk i = next(i, c) + 1 never leaves the table and matched t iff i <= n
  *   - SubsequenceAutomaton takes 4 (n + 2) alphabet bytes, 104 MB at n = 1e6 and alphabet 26, else use the sparse one
+ *   - Fit [first, first + alphabet) to the symbols s uses: t may hold others, and time and memory grow with alphabet
  *
 ***/
 
