@@ -47,7 +47,7 @@
 #### [Ternary and Golden-Section Search](ternary_search.cpp)
 
 - [AtCoder ABC279 D - Freefall](https://atcoder.jp/contests/abc279/tasks/abc279_d) [✔](../../practice/numerical/atcoder_abc279_d.cpp "Accepted solution")
-- [CodeChef AMCS03 - Race Time!](https://www.codechef.com/problems/AMCS03)
+- [CodeChef AMCS03 - Race Time!](https://www.codechef.com/problems/AMCS03) [✔](../../practice/numerical/codechef_amcs03.cpp "Accepted solution")
 - [CodeChef ICM2003 - Is This JEE](https://www.codechef.com/problems/ICM2003) [✔](../../practice/numerical/codechef_icm2003.cpp "Accepted solution")
 - [Codeforces 106E - Space Rescuers](https://codeforces.com/problemset/problem/106/E) [✔](../../practice/numerical/codeforces_106e_ternary_search.cpp "Accepted solution")
 - [Codeforces 439D - Devu and his Brother](https://codeforces.com/problemset/problem/439/D) [✔](../../practice/numerical/codeforces_439d.cpp "Accepted solution")
