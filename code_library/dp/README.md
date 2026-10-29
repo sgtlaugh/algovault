@@ -163,7 +163,7 @@
 - [Timus 1519 - Formula 1](https://acm.timus.ru/problem.aspx?num=1519)
 - [UVa 1214 - Manhattan Wiring](https://onlinejudge.org/external/12/1214.pdf) [✔](../../practice/dp/uva_1214.cpp "Accepted solution")
 - [UVa 11270 - Tiling Dominoes](https://onlinejudge.org/external/112/11270.pdf) [✔](../../practice/dp/uva_11270.cpp "Accepted solution")
-- [UVa 11443 - Tree in a Grid](https://onlinejudge.org/external/114/11443.pdf)
+- [UVa 11443 - Tree in a Grid](https://onlinejudge.org/external/114/11443.pdf) [✔](../../practice/dp/uva_11443.cpp "Accepted solution")
 
 #### [Slope Trick](slope_trick.cpp)
 
