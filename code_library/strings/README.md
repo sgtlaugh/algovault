@@ -218,7 +218,7 @@
 - [SPOJ DSUBSEQ - Distinct Subsequences](https://www.spoj.com/problems/DSUBSEQ/)
 - [UVa 10567 - Helping Fill Bates](https://onlinejudge.org/external/105/10567.pdf)
 - [UVa 12441 - Superb Sequence](https://onlinejudge.org/external/124/12441.pdf)
-- [UVa 13257 - License Plates](https://onlinejudge.org/external/132/13257.pdf)
+- [UVa 13257 - License Plates](https://onlinejudge.org/external/132/13257.pdf) [✔](../../practice/strings/uva_13257.cpp "Accepted solution")
 
 #### [Suffix Array](suffix_array.cpp)
 
