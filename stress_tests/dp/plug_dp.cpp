@@ -268,6 +268,142 @@ void check_rejects(int l, int u){
     });
 }
 
+const unsigned long long PRIME = (1ULL << 61) - 1;
+
+struct AddMod{
+    unsigned long long operator()(unsigned long long a, unsigned long long b) const{
+        return (a + b) % PRIME;
+    }
+};
+
+/// Spanning trees of the open cells, CELLS profile with no fake row: each open cell's label names its component
+unsigned long long spanning_trees(const Grid& open, int bits){
+    int n = open.size(), m = open[0].size(), fresh = (1 << bits) - 1, last = -1;
+    for (int c = 0; c < n * m; c++){
+        if (open[c / m][c % m]) last = c;
+    }
+
+    PlugDP<unsigned long long, AddMod> dp(n, m, bits, 1);
+    dp.profile = dp.CELLS;
+    auto has = [&](uint64_t s, int x){
+        for (int p = 0; p <= m; p++){
+            if (dp.get(s, p) == x) return true;
+        }
+
+        return false;
+    };
+    dp.run([&](int i, int j, uint64_t s, unsigned long long v){
+        assert(dp.get(s, j) == 0);
+        int u = dp.up(s), l = j ? dp.get(s, j - 1) : 0;
+        uint64_t t = dp.place(s, 0, 0);
+        bool lost = u && !has(t, u);
+        if (!open[i][j]){
+            /// a component may only close when it holds every open cell: none left in the profile or later
+            if (!lost) dp.add(t, v);
+            else if (t == 0 && i * m + j > last) dp.add(0, v);
+            return;
+        }
+
+        for (int to_up = 0; to_up <= (u > 0); to_up++){
+            for (int to_left = 0; to_left <= (l > 0); to_left++){
+                if ((to_up && to_left && u == l) || (!to_up && lost)) continue;
+                uint64_t x = t;
+                int label = to_left ? l : to_up ? u : fresh;
+                for (int p = 0; to_up && to_left && p <= m; p++){
+                    if (dp.get(x, p) == u) x = dp.set(x, p, l);
+                }
+                dp.add(dp.normalize(dp.place(x, label, 0)), v);
+            }
+        }
+    });
+
+    /// nothing dropped at the border and no shift after the last row: plug j is cell (n - 1, j), plug m is empty
+    unsigned long long total = 0;
+    for (size_t k = 0; k < dp.states.size(); k++){
+        uint64_t s = dp.states[k];
+        for (int j = 0; j < m; j++) assert((dp.get(s, j) != 0) == (open[n - 1][j] == 1));
+        assert(dp.get(s, m) == 0);
+        if (!has(s, 2)) total = AddMod()(total, dp.values[k]);
+    }
+
+    return total;
+}
+
+unsigned long long mul_mod(unsigned long long a, unsigned long long b){
+    return (unsigned __int128)a * b % PRIME;
+}
+
+unsigned long long pow_mod(unsigned long long a, unsigned long long e){
+    unsigned long long r = 1;
+    while (e){
+        if (e & 1) r = mul_mod(r, a);
+        a = mul_mod(a, a);
+        e >>= 1;
+    }
+
+    return r;
+}
+
+/// Kirchhoff's matrix-tree theorem: the Laplacian without its last row and column, determinant modulo a prime
+unsigned long long kirchhoff(const Grid& open){
+    int n = open.size(), m = open[0].size();
+    vector<int> id(n * m, -1);
+    int k = 0;
+    for (int c = 0; c < n * m; c++){
+        if (open[c / m][c % m]) id[c] = k++;
+    }
+    if (k <= 1) return 1;
+
+    vector<vector<unsigned long long>> a(k - 1, vector<unsigned long long>(k - 1));
+    auto edge = [&](int x, int y){
+        for (int p : {x, y}){
+            if (p < k - 1) a[p][p]++;
+        }
+        if (x < k - 1 && y < k - 1) a[x][y] = a[y][x] = PRIME - 1;
+    };
+    for (int c = 0; c < n * m; c++){
+        if (id[c] < 0) continue;
+        if (c % m + 1 < m && id[c + 1] >= 0) edge(id[c], id[c + 1]);
+        if (c + m < n * m && id[c + m] >= 0) edge(id[c], id[c + m]);
+    }
+
+    unsigned long long det = 1;
+    for (int col = 0; col < k - 1; col++){
+        int pivot = col;
+        while (pivot < k - 1 && !a[pivot][col]) pivot++;
+        if (pivot == k - 1) return 0;
+        if (pivot != col) swap(a[pivot], a[col]), det = PRIME - det;
+        det = mul_mod(det, a[col][col]);
+        unsigned long long inv = pow_mod(a[col][col], PRIME - 2);
+        for (int r = col + 1; r < k - 1; r++){
+            unsigned long long f = mul_mod(a[r][col], inv);
+            for (int c = col; c < k - 1; c++) a[r][c] = (a[r][c] + PRIME - mul_mod(f, a[col][c])) % PRIME;
+        }
+    }
+
+    return det % PRIME;
+}
+
+/// A transition offering every down and right plug: EDGES keeps only the paths with no plug leaving, CELLS keeps all
+void check_border(int n, int m, int bits){
+    for (int cells = 0; cells <= 1; cells++){
+        PlugDP<long long> dp(n, m, bits, 1);
+        if (cells) dp.profile = dp.CELLS;
+        dp.run([&](int, int, uint64_t s, long long v){
+            for (int down = 0; down <= 1; down++){
+                for (int right = 0; right <= 1; right++) dp.add(dp.place(s, down, right), v);
+            }
+        });
+
+        long long total = 0;
+        for (long long v : dp.values) total += v;
+        long long want = cells ? 1LL << (2 * n * m) : 1LL << (2 * (n - 1) * (m - 1) + (n - 1) + (m - 1));
+        assert(total == want);
+        if (!cells) assert(dp.states.size() == 1 && dp.states[0] == 0 && dp.result() == want);
+        if (cells) stress::expect_assert("dp/plug_dp.cpp", [&]{ dp.result(); });
+    }
+}
+
 /// A uniformly chosen next symbol among those that can still end balanced
 vector<int> random_brackets(int len){
     vector<int> seq(len);
@@ -360,6 +496,27 @@ int main(){
         check_join(random_brackets(m + 1), bits);
         bits = stress::rand_int(1, 8), m = it % 4 ? stress::rand_int(1, 64 / bits - 1) : 64 / bits - 1;
         check_cell_calls(m, bits);
+    }
+
+    /// Spanning trees through cell labels against Kirchhoff, blocked cells, single rows and columns, all blocked
+    for (long long it = 0; it < stress::scaled(1500); it++){
+        int n = stress::rand_int(1, 6), m = stress::rand_int(1, 6);
+        Grid open = random_grid(n, m, it % 10 ? stress::rand_int(0, 40) : stress::rand_int(80, 100));
+        assert(spanning_trees(open, 3) == kirchhoff(open));
+    }
+    for (Grid open : {Grid{{0}}, Grid{{1}}, Grid{{0, 1, 0}}, Grid{{0}, {0}}, Grid(4, vector<int>(5, 1))}){
+        assert(spanning_trees(open, 3) == kirchhoff(open));
+    }
+    assert(kirchhoff(Grid(3, vector<int>(3, 1))) == 192);
+
+    /// Plug m of a CELLS state in the top bits once (m + 1) bits = 64
+    for (long long it = 0; it < stress::scaled(100); it++){
+        Grid open = right_window(stress::rand_int(1, 4), 15, stress::rand_int(1, 5), stress::rand_int(0, 30));
+        assert(spanning_trees(open, 4) == kirchhoff(open));
+    }
+
+    for (int n = 1; n <= 3; n++){
+        for (int m = 1; m <= 4; m++) check_border(n, m, stress::rand_int(1, 8));
     }
 
     return 0;

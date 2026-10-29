@@ -15,9 +15,10 @@
  * dp.match(s, pos): position of the bracket paired with plug pos, plugs 1 opening and 2 closing, balanced
  * dp.normalize(s): s with its nonzero labels renumbered 1, 2, 3... in order of first appearance from position 0
  * dp.place(s, down, right): s with the plugs entering the current cell replaced by down and right, both below 2^bits
- * dp.result(missing): value of the all-zero state after the last cell, missing (T() by default) if none
+ * dp.result(missing): EDGES only, value of the all-zero state after the last cell, missing (T() by default) if none
  * dp.set(s, pos, x): state s with plug pos replaced by x, 0 <= x < 2^bits
  * dp.up(s): plug of state s entering the current cell from above
+ * dp.profile: EDGES by default, set dp.profile = dp.CELLS before run when each plug holds a cell's label
  * dp.states, dp.values: the states alive before the current cell, or after the last one, and their values
  *
  * Notes:
@@ -25,7 +26,11 @@
  *   - left, up, place and join read the current cell, so like add they work only inside the transition
  *   - join asserts both plugs are 1 opening or 2 closing, never left 1 with up 2: that closes a cycle, place(s, 0, 0)
  *   - join keeps brackets balanced: on left 1, up 1 the up plug's partner becomes 1, on 2, 2 the left plug's becomes 2
- *   - Plugs are edges: add drops states with an edge leaving the grid, so transitions never test the border
+ *   - EDGES: add drops states with a nonzero plug leaving the grid, so transitions never test the border
+ *   - CELLS: a cell's label rides on its down plug, place(s, label, 0), so before a cell up(s) is the cell above
+ *   - CELLS: the cell to the left is get(s, col - 1), plug col is 0, and nothing is dropped at the border
+ *   - CELLS: after run plug j of each state is the label of cell (n - 1, j), so read states and values, not result
+ *   - Connectivity like spanning trees: cell labels keep far fewer states, 1430 against 30804 per row at m = 8
  *   - (m + 1) bits <= 64, bits <= 8: 2 bits fit brackets, labels need 2^bits >= components + 2 to leave a fresh one
  *   - A state holds plugs 0..m only: the row shift moves every bit up by bits, so nothing can be kept above plug m
  *   - main() writes Formula 1 (one cycle, bracket encoding) and HDU 1693 (any cycles, 1 bit) as transitions
@@ -38,9 +43,12 @@ using namespace std;
 
 template <typename T, typename Merge = plus<T>>
 struct PlugDP{
+    enum Profile{EDGES, CELLS};
+
     int n, m, bits, row = 0, col = 0, lg = 10;
     uint64_t off_grid = 0;
     Merge merge;
+    Profile profile = EDGES;
     vector<uint64_t> states, next_states;
     vector<T> values, next_values;
     vector<int> head, link;
@@ -69,7 +77,7 @@ struct PlugDP{
 
     template <typename Transition>
     void run(Transition transition){
-        uint64_t ones = (uint64_t(1) << bits) - 1;
+        uint64_t ones = profile == EDGES ? (uint64_t(1) << bits) - 1 : 0;
         for (row = 0; row < n; row++){
             for (col = 0; col < m; col++){
                 /// sized per cell, not per insert: a resize check inside add stops GCC inlining it, 1.6x slower
@@ -82,7 +90,10 @@ struct PlugDP{
                 swap(states, next_states), swap(values, next_values);
                 next_states.clear(), next_values.clear();
             }
-            for (uint64_t& s : states) s <<= bits;
+            /// not after the last row, so a CELLS state ends with cell (n - 1, j) at plug j
+            if (row + 1 < n){
+                for (uint64_t& s : states) s <<= bits;
+            }
         }
     }
 
@@ -137,6 +148,7 @@ struct PlugDP{
     }
 
     T result(T missing = T()) const{
+        assert(profile == EDGES);
         return states.empty() ? missing : values[0];
     }
 
