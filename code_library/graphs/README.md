@@ -554,7 +554,7 @@
 - [LibreOJ 116 - 有源汇有上下界最大流](https://loj.ac/p/116) [✔](../../practice/graphs/libreoj_116.cpp "Accepted solution")
 - [LibreOJ 117 - 有源汇有上下界最小流](https://loj.ac/p/117)
 - [Luogu P3980 - [NOI2008] 志愿者招募](https://www.luogu.com.cn/problem/P3980) [✔](../../practice/graphs/luogu_p3980.cpp "Accepted solution")
-- [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf)
+- [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf) [✔](../../practice/graphs/uva_1104_network_simplex.cpp "Accepted solution")
 - [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf)
 - [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf)
 
