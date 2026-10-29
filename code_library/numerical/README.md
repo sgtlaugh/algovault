@@ -50,7 +50,7 @@
 - [CodeChef AMCS03 - Race Time!](https://www.codechef.com/problems/AMCS03)
 - [CodeChef ICM2003 - Is This JEE](https://www.codechef.com/problems/ICM2003) [✔](../../practice/numerical/codechef_icm2003.cpp "Accepted solution")
 - [Codeforces 106E - Space Rescuers](https://codeforces.com/problemset/problem/106/E) [✔](../../practice/numerical/codeforces_106e_ternary_search.cpp "Accepted solution")
-- [Codeforces 439D - Devu and his Brother](https://codeforces.com/problemset/problem/439/D)
+- [Codeforces 439D - Devu and his Brother](https://codeforces.com/problemset/problem/439/D) [✔](../../practice/numerical/codeforces_439d.cpp "Accepted solution")
 - [Codeforces 578C - Weakness and Poorness](https://codeforces.com/problemset/problem/578/C)
 - [Codeforces 626E - Simple Skewness](https://codeforces.com/problemset/problem/626/E)
 - [Codeforces 1355E - Restorer Distance](https://codeforces.com/problemset/problem/1355/E)
