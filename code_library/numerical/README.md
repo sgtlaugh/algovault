@@ -60,7 +60,7 @@
 - [HDU 2899 - Strange fuction](https://acm.hdu.edu.cn/showproblem.php?pid=2899) [✔](../../practice/numerical/hdu_2899.cpp "Accepted solution")
 - [Kattis cheetahs - Chasing the Cheetahs](https://open.kattis.com/problems/cheetahs) [✔](../../practice/numerical/kattis_cheetahs.cpp "Accepted solution")
 - [Kattis europeantrip - European Trip](https://open.kattis.com/problems/europeantrip) [✔](../../practice/numerical/kattis_europeantrip_ternary_search.cpp "Accepted solution")
-- [Kattis reconnaissance - Reconnaissance](https://open.kattis.com/problems/reconnaissance)
+- [Kattis reconnaissance - Reconnaissance](https://open.kattis.com/problems/reconnaissance) [✔](../../practice/numerical/kattis_reconnaissance.cpp "Accepted solution")
 - [LightOJ 1146 - Closest Distance](https://lightoj.com/problem/closest-distance)
 - [SPOJ KOPC12A - K12 - Building Construction](https://www.spoj.com/problems/KOPC12A/)
 - [Timus 1436 - Billboard](https://acm.timus.ru/problem.aspx?num=1436)
