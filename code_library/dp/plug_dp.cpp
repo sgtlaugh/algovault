@@ -31,6 +31,9 @@
  *   - CELLS: the cell to the left is get(s, col - 1), plug col is 0, and nothing is dropped at the border
  *   - CELLS: after run plug j of each state is the label of cell (n - 1, j), so read states and values, not result
  *   - Connectivity like spanning trees: cell labels keep far fewer states, 1430 against 30804 per row at m = 8
+ *   - Transpose so m is the narrower side: UVa 10572's empty 3 x 8 grid visits 295 states at m = 3, 22319 at m = 8
+ *   - A transition reading only col, s and the cell's kind can be memoized per column by the caller: 10x on UVa 10572
+ *   - Small states hash too: a direct-indexed table measured only 1.1-1.2x faster at up to 20 state bits
  *   - (m + 1) bits <= 64, bits <= 8: 2 bits fit brackets, labels need 2^bits >= components + 2 to leave a fresh one
  *   - A state holds plugs 0..m only: the row shift moves every bit up by bits, so nothing can be kept above plug m
  *   - main() writes Formula 1 (one cycle, bracket encoding) and HDU 1693 (any cycles, 1 bit) as transitions
