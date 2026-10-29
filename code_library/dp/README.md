@@ -5,9 +5,9 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Aliens Trick (WQS)](#aliens-trick-wqs) | [Block Removal DP](#block-removal-dp) | [Bounded Knapsack](#bounded-knapsack) | [Bounded Subset Sum](#bounded-subset-sum) |
-| [Convex Hull Trick](#convex-hull-trick) | [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) |
-| [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) | [Longest Increasing Subsequence](#longest-increasing-subsequence) |
-| [Maximum Square](#maximum-square) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |  |
+| [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) | [Knuth Partition DP](#knuth-partition-dp) |
+| [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) | [Longest Increasing Subsequence](#longest-increasing-subsequence) | [Maximum Square](#maximum-square) |
+| [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |  |  |
 
 <!-- /toc -->
 
@@ -38,21 +38,6 @@
 - [CSES 1706 - School Excursion](https://cses.fi/problemset/task/1706) [✔](../../practice/dp/cses_1706.cpp "Accepted solution")
 - [SPOJ ADACOINS - Ada and Coins](https://www.spoj.com/problems/ADACOINS/) [✔](../../practice/dp/spoj_adacoins.cpp "Accepted solution")
 - [SPOJ FCANDY - Candy (Again)](https://www.spoj.com/problems/FCANDY/) [✔](../../practice/dp/spoj_fcandy.cpp "Accepted solution")
-
-#### [Convex Hull Trick](convex_hull_trick.cpp)
-
-- [AtCoder ARC066 F - Contest with Drinks Hard](https://atcoder.jp/contests/arc066/tasks/arc066_d) [✔](../../practice/dp/atcoder_arc066_f.cpp "Accepted solution")
-- [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B) [✔](../../practice/dp/codeforces_311b_convex_hull_trick.cpp "Accepted solution")
-- [Codeforces 319C - Kalila and Dimna in the Logging Industry](https://codeforces.com/problemset/problem/319/C) [✔](../../practice/dp/codeforces_319c.cpp "Accepted solution")
-- [Codeforces 631E - Product Sum](https://codeforces.com/problemset/problem/631/E) [✔](../../practice/dp/codeforces_631e.cpp "Accepted solution")
-- [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C) [✔](../../practice/dp/codeforces_643c_convex_hull_trick.cpp "Accepted solution")
-- [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F) [✔](../../practice/dp/codeforces_660f.cpp "Accepted solution")
-- [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E) [✔](../../practice/dp/codeforces_1083e.cpp "Accepted solution")
-- [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✔](../../practice/dp/cses_2084.cpp "Accepted solution")
-- [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507) [✔](../../practice/dp/hdu_3507.cpp "Accepted solution")
-- [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180) [✔](../../practice/dp/poj_1180.cpp "Accepted solution")
-- [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/) [✔](../../practice/dp/spoj_acquire.cpp "Accepted solution")
-- [SPOJ APIO10A - Commando](https://www.spoj.com/problems/APIO10A/) [✔](../../practice/dp/spoj_apio10a.cpp "Accepted solution")
 
 #### [Divide and Conquer DP](divide_conquer_dp.cpp)
 

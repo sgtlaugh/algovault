@@ -80,7 +80,7 @@ Every template has a stress test at the same path under `stress_tests/`. It chec
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/dp/convex_hull_trick.cpp"
+#include "../../code_library/data_structures/convex_hull_trick.cpp"
 #undef main
 ```
 

@@ -4,17 +4,33 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [Coordinate Compression](#coordinate-compression) | [Disjoint Set Union](#disjoint-set-union) | [Disjoint Set Union, Partially Persistent](#disjoint-set-union-partially-persistent) | [Disjoint Set Union, Potential](#disjoint-set-union-potential) |
-| [Disjoint Set Union, Rollback](#disjoint-set-union-rollback) | [Disjoint Sparse Table](#disjoint-sparse-table) | [Distinct Subarray Aggregates](#distinct-subarray-aggregates) | [Euler Tour Tree](#euler-tour-tree) |
-| [Fenwick Tree](#fenwick-tree) | [Fenwick Tree 2D](#fenwick-tree-2d) | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) | [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) |
-| [Fenwick Tree 3D](#fenwick-tree-3d) | [Interval Set](#interval-set) | [Li Chao Tree](#li-chao-tree) | [Link-Cut Tree](#link-cut-tree) |
-| [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) | [Mo's Algorithm](#mos-algorithm) | [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) | [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) |
-| [Mo's Algorithm With Updates](#mos-algorithm-with-updates) | [Monotonic Stack](#monotonic-stack) | [Ordered Set](#ordered-set) | [Persistent Segment Tree](#persistent-segment-tree) |
-| [Rope](#rope) | [Segment Tree](#segment-tree) | [Segment Tree Beats](#segment-tree-beats) | [Segment Tree Merging](#segment-tree-merging) |
-| [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) | [Square Root Decomposition](#square-root-decomposition) |
-| [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) | [XOR Segment Tree](#xor-segment-tree) |
+| [Convex Hull Trick](#convex-hull-trick) | [Coordinate Compression](#coordinate-compression) | [Disjoint Set Union](#disjoint-set-union) | [Disjoint Set Union, Partially Persistent](#disjoint-set-union-partially-persistent) |
+| [Disjoint Set Union, Potential](#disjoint-set-union-potential) | [Disjoint Set Union, Rollback](#disjoint-set-union-rollback) | [Disjoint Sparse Table](#disjoint-sparse-table) | [Distinct Subarray Aggregates](#distinct-subarray-aggregates) |
+| [Euler Tour Tree](#euler-tour-tree) | [Fenwick Tree](#fenwick-tree) | [Fenwick Tree 2D](#fenwick-tree-2d) | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) |
+| [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) | [Fenwick Tree 3D](#fenwick-tree-3d) | [Interval Set](#interval-set) | [Li Chao Tree](#li-chao-tree) |
+| [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) | [Mo's Algorithm](#mos-algorithm) | [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) |
+| [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) | [Monotonic Stack](#monotonic-stack) | [Ordered Set](#ordered-set) |
+| [Persistent Segment Tree](#persistent-segment-tree) | [Rope](#rope) | [Segment Tree](#segment-tree) | [Segment Tree Beats](#segment-tree-beats) |
+| [Segment Tree Merging](#segment-tree-merging) | [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) |
+| [Square Root Decomposition](#square-root-decomposition) | [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) |
+| [XOR Segment Tree](#xor-segment-tree) |  |  |  |
 
 <!-- /toc -->
+
+#### [Convex Hull Trick](convex_hull_trick.cpp)
+
+- [AtCoder ARC066 F - Contest with Drinks Hard](https://atcoder.jp/contests/arc066/tasks/arc066_d) [✔](../../practice/data_structures/atcoder_arc066_f_convex_hull_trick.cpp "Accepted solution")
+- [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B) [✔](../../practice/data_structures/codeforces_311b_convex_hull_trick.cpp "Accepted solution")
+- [Codeforces 319C - Kalila and Dimna in the Logging Industry](https://codeforces.com/problemset/problem/319/C) [✔](../../practice/data_structures/codeforces_319c.cpp "Accepted solution")
+- [Codeforces 631E - Product Sum](https://codeforces.com/problemset/problem/631/E) [✔](../../practice/data_structures/codeforces_631e.cpp "Accepted solution")
+- [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C) [✔](../../practice/data_structures/codeforces_643c_convex_hull_trick.cpp "Accepted solution")
+- [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F) [✔](../../practice/data_structures/codeforces_660f.cpp "Accepted solution")
+- [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E) [✔](../../practice/data_structures/codeforces_1083e.cpp "Accepted solution")
+- [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✔](../../practice/data_structures/cses_2084_convex_hull_trick.cpp "Accepted solution")
+- [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507) [✔](../../practice/data_structures/hdu_3507_convex_hull_trick.cpp "Accepted solution")
+- [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180) [✔](../../practice/data_structures/poj_1180_convex_hull_trick.cpp "Accepted solution")
+- [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/) [✔](../../practice/data_structures/spoj_acquire.cpp "Accepted solution")
+- [SPOJ APIO10A - Commando](https://www.spoj.com/problems/APIO10A/) [✔](../../practice/data_structures/spoj_apio10a.cpp "Accepted solution")
 
 #### [Coordinate Compression](coordinate_compression.cpp)
 

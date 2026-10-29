@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/dp/convex_hull_trick.cpp"
+#include "../../code_library/data_structures/convex_hull_trick.cpp"
 #undef main
 
 /// Every line ever added, dominated ones included, so the hull's pruning is checked against the plain minimum
@@ -121,12 +121,12 @@ int main(){
     }
 
     /// A slope out of order would silently break the hull, so it must trip the library's assert
-    stress::expect_assert("dp/convex_hull_trick.cpp", []{
+    stress::expect_assert("data_structures/convex_hull_trick.cpp", []{
         ConvexHullTrick<long long> hull;
         hull.add_line(1, 0);
         hull.add_line(2, 0);
     });
-    stress::expect_assert("dp/convex_hull_trick.cpp", []{
+    stress::expect_assert("data_structures/convex_hull_trick.cpp", []{
         ConvexHullTrick<long long, true> hull;
         hull.add_line(2, 0);
         hull.add_line(1, 0);
