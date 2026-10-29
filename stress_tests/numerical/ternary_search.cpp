@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/ternary_search.cpp"
+#include "../../code_library/numerical/ternary_search.cpp"
 #undef main
 
 const long long LIM = 4000000000000000000LL;

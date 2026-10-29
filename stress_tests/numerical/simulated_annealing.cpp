@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/simulated_annealing.cpp"
+#include "../../code_library/numerical/simulated_annealing.cpp"
 #undef main
 
 using Matrix = vector<vector<long long>>;

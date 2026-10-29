@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/local_minimization.cpp"
+#include "../../code_library/numerical/local_minimization.cpp"
 #undef main
 
 template<typename T>
@@ -501,8 +501,8 @@ int main(){
 
     /// A step up to eps * max(1, max |x_i|) is under the stop test from the start, and could return x unmoved
     Objective<double> bowl = [](const Point<double>& x){ return pow(x[0] - 1005, 2) + pow(x[1] - 1000, 2); };
-    stress::expect_assert("misc/local_minimization.cpp", [&]{ local_minimum({1000, 1000}, bowl, 1e-9); });
-    stress::expect_assert("misc/local_minimization.cpp", [&]{ local_minimum({0, 0}, bowl, 1e-12); });
+    stress::expect_assert("numerical/local_minimization.cpp", [&]{ local_minimum({1000, 1000}, bowl, 1e-9); });
+    stress::expect_assert("numerical/local_minimization.cpp", [&]{ local_minimum({0, 0}, bowl, 1e-12); });
     check_min<double>({1000, 1000}, bowl, 2e-9, 0);
 
     return 0;

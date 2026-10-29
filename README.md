@@ -33,7 +33,8 @@ sa.contains("nab");         // false
 | **[Topics](#topics)** | | | | |
 |---|---|---|---|---|
 | [Algebra](#algebra) | [Combinatorics](#combinatorics) | [Data Structures](#data-structures) | [Dynamic Programming](#dynamic-programming) | [Geometry](#geometry) |
-| [Graphs](#graphs) | [Linear Algebra](#linear-algebra) | [Number Theory](#number-theory) | [Strings](#strings) | [Trees](#trees) |
+| [Graphs](#graphs) | [Linear Algebra](#linear-algebra) | [Number Theory](#number-theory) | [Numerical](#numerical) | [Strings](#strings) |
+| [Trees](#trees) | | | | |
 
 | **[More](#more)** | | |
 |---|---|---|
@@ -263,6 +264,15 @@ sa.contains("nab");         // false
 - [Segmented Sieve](code_library/number_theory/segmented_sieve.cpp) - primes in a window `[L, R]` far from zero [✔](judge_tests/number_theory/enumerate_primes_segmented_sieve.cpp)
 - [Sum of Two Squares](code_library/number_theory/sum_of_two_squares.cpp) - every `x^2 + y^2 = n` up to `2^63` [✔](judge_tests/number_theory/two_square_sum.cpp)
 
+### Numerical
+
+[Practice problems](code_library/numerical/README.md)
+
+- [Local Minimization](code_library/numerical/local_minimization.cpp) - minimum of a function of a few real variables
+- [Numerical Integration](code_library/numerical/numerical_integration.cpp) - definite integrals by Simpson or Romberg
+- [Simulated Annealing](code_library/numerical/simulated_annealing.cpp) - generic randomized minimizer
+- [Ternary and Golden-Section Search](code_library/numerical/ternary_search.cpp) - integer argmax of a unimodal function, real argmin
+
 ### Strings
 
 [Practice problems](code_library/strings/README.md)
@@ -325,15 +335,11 @@ sa.contains("nab");         // false
 - [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
 - [Hackenbush](code_library/misc/hackenbush.cpp) - green values on graphs, red-blue on trees
 - [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in `O(1)`
-- [Local Minimization](code_library/misc/local_minimization.cpp) - minimum of a function of a few real variables
 - [N Queens](code_library/misc/n_queen.cpp) - number of N queens solutions
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one
 - [Nimber Arithmetic](code_library/misc/nimber.cpp) - nim product and inverse over GF(2^64) [✔](judge_tests/misc/nim_product_64.cpp)
-- [Numerical Integration](code_library/misc/numerical_integration.cpp) - definite integrals by Simpson or Romberg
 - [Radix Sort](code_library/misc/radix_sort.cpp) - LSD radix sort of 32-bit integers [✔](judge_tests/misc/aoj_alds1_6_a_radix_sort.cpp)
 - [Radix Sort 64](code_library/misc/radix_sort_64.cpp) - LSD radix sort of 64-bit integers [✔](judge_tests/misc/aoj_alds1_6_a_radix_sort_64.cpp)
-- [Simulated Annealing](code_library/misc/simulated_annealing.cpp) - generic randomized minimizer
-- [Ternary and Golden-Section Search](code_library/misc/ternary_search.cpp) - integer argmax of a unimodal function, real argmin
 
 ### Python
 

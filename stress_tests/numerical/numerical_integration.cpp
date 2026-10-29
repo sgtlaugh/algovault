@@ -1,7 +1,7 @@
 #include "../common.h"
 
 #define main library_main
-#include "../../code_library/misc/numerical_integration.cpp"
+#include "../../code_library/numerical/numerical_integration.cpp"
 #undef main
 
 struct Family{
