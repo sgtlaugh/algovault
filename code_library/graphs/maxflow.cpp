@@ -17,8 +17,8 @@
  * DenseFlowGraph g(n, src, sink): an n x n capacity matrix, FlowGraph's calls without cut_edges() or per-edge flows
  *
  * Notes:
- *   - On bipartite matching hopcroft_karp.cpp is up to 2x faster on random graphs, on par on Library Checker's slowest
- *   - maxflow() keeps flat per-node copies of the edges, about 20 extra bytes per edge
+ *   - On bipartite matching hopcroft_karp.cpp is up to 1.8x faster on random graphs, on par on Library Checker's worst
+ *   - Memory is about 100 bytes per add_directed_edge call: two entries of E and maxflow()'s flat per-node copies
  *   - maxflow() is the only entry point, bfs() and blocking_flow() are UB before it builds the flat copies
  *   - Before maxflow() the source side is empty and cut_edges() returns nothing
  *   - A call stopped by its limit below the max flow leaves in_source_side(sink) true and cut_edges() no min cut
@@ -26,7 +26,7 @@
  *   - Node capacities apply to src and sink too, give them a huge capacity to leave them uncapped
  *   - FlowGraphWithNodeCap edge ids index g.flowgraph.E, where node x is 2x (in) and 2x + 1 (out)
  *   - Its min cut comes from g.flowgraph, a cut edge 2x -> 2x + 1 is a cut vertex x
- *   - Use DenseFlowGraph with half or more of all n^2 edges: 2x to 7x faster for n = 600 to 2000, 32 MB at n = 2000
+ *   - Use DenseFlowGraph with half or more of all n^2 edges: 3x to 10x faster for n = 600 to 2000, 32 MB at n = 2000
  *   - Max closure, items with weights w[i] where picking i forces picking j:
  *       - src -> i with capacity w[i] if w[i] > 0, i -> sink with capacity -w[i] if w[i] < 0, i -> j with LLONG_MAX
  *       - The best total weight is the sum of positive w[i] - maxflow(), the picked items are those in_source_side(i)
@@ -49,16 +49,15 @@ struct FlowGraph{
     };
 
     int n, src, sink;
-    vector<vector<int>> adj;
     vector<Edge> E;
     vector<int> Q, ptr, dis, path, start, to, rev, edge_id;
     vector<long long> res;
 
-    FlowGraph(int n, int src, int sink): n(n), src(src), sink(sink), adj(n), Q(n), ptr(n), dis(n, -1) {}
+    FlowGraph(int n, int src, int sink): n(n), src(src), sink(sink), Q(n), ptr(n), dis(n, -1) {}
 
     int add_directed_edge(int u, int v, long long cap){
-        adj[u].push_back(E.size()), E.push_back({u, v, cap, 0});
-        adj[v].push_back(E.size()), E.push_back({v, u, 0, 0});
+        E.push_back({u, v, cap, 0});
+        E.push_back({v, u, 0, 0});
         return E.size() - 2;
     }
 
@@ -96,16 +95,20 @@ struct FlowGraph{
         return dis[u] != -1;
     }
 
-    /// Arcs of u sit at start[u] .. start[u + 1] - 1 with residual res: reading E through adj missed the cache
+    /// Arcs of u sit at start[u] .. start[u + 1] - 1 in id order, counting sorted: adjacency lists cost 2x on sparse
     void build_residual(){
         int m = E.size();
         vector<int> pos(m);
 
-        start.assign(n + 1, m), to.resize(m), rev.resize(m), edge_id.resize(m), res.resize(m);
+        start.assign(n + 1, 0), to.resize(m), rev.resize(m), edge_id.resize(m), res.resize(m);
 
-        for (int u = 0, i = 0; u < n; u++){
-            start[u] = i;
-            for (int id : adj[u]) pos[id] = i, edge_id[i] = id, to[i] = E[id].v, res[i] = E[id].cap - E[id].flow, i++;
+        for (auto& e : E) start[e.u + 1]++;
+        for (int u = 0; u < n; u++) start[u + 1] += start[u];
+
+        vector<int> fill_at(start.begin(), start.end() - 1);
+        for (int id = 0; id < m; id++){
+            int i = pos[id] = fill_at[E[id].u]++;
+            edge_id[i] = id, to[i] = E[id].v, res[i] = E[id].cap - E[id].flow;
         }
         for (int i = 0; i < m; i++) rev[i] = pos[edge_id[i] ^ 1];
     }

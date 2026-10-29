@@ -72,6 +72,21 @@ void check_flow(const FlowGraph& g, long long value){
     }
 }
 
+/// Arcs grouped by tail in ascending id order, which fixes the flow found and which hlpp.cpp's arcs must match
+void check_arcs(const FlowGraph& g){
+    vector<int> order, pos(g.E.size()), start = {0};
+    for (int u = 0; u < g.n; u++){
+        for (int id = 0; id < (int)g.E.size(); id++) if (g.E[id].u == u) pos[id] = order.size(), order.push_back(id);
+        start.push_back(order.size());
+    }
+
+    assert(g.start == start && g.edge_id == order);
+    for (int i = 0; i < (int)order.size(); i++){
+        auto& e = g.E[order[i]];
+        assert(g.to[i] == e.v && g.rev[i] == pos[order[i] ^ 1] && g.res[i] == e.cap - e.flow);
+    }
+}
+
 /// Header recipe: max closure by min cut against every subset that is closed under the forcing pairs
 template <typename Graph>
 void check_closure(const vector<long long>& weight, const vector<pair<int, int>>& forces){
@@ -172,6 +187,7 @@ int main(){
         assert(flow == min_cut(n, src, sink, arcs));
         check_flow(g, flow);
         check_cut(g, flow, arcs);
+        check_arcs(g);
         assert(dense.maxflow() == flow);
         assert(source_side_mask(n, [&](int x){ return dense.in_source_side(x); }) == source_side_mask(n, [&](int x){ return g.in_source_side(x); }));
 
@@ -179,6 +195,7 @@ int main(){
         g.add_directed_edge(src, sink, extra);
         assert(g.maxflow() == extra);
         check_flow(g, flow + extra);
+        check_arcs(g);
 
         /// Limits below, at and above the flow still missing: a call at exactly the max flow must still leave a cut
         long long pushed = 0;
@@ -252,6 +269,7 @@ int main(){
         assert(flow == expected);
         check_flow(g.flowgraph, flow);
         check_cut(g.flowgraph, flow, arcs);
+        check_arcs(g.flowgraph);
     }
 
     /// src == sink splits into distinct nodes 2 src and 2 src + 1, so maxflow() would return the node capacity
