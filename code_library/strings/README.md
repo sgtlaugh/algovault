@@ -216,6 +216,9 @@
 - [Codeforces 1149B - Three Religions](https://codeforces.com/problemset/problem/1149/B)
 - [Codeforces 1183H - Subsequences (hard version)](https://codeforces.com/problemset/problem/1183/H)
 - [SPOJ DSUBSEQ - Distinct Subsequences](https://www.spoj.com/problems/DSUBSEQ/)
+- [UVa 10567 - Helping Fill Bates](https://onlinejudge.org/external/105/10567.pdf)
+- [UVa 12441 - Superb Sequence](https://onlinejudge.org/external/124/12441.pdf)
+- [UVa 13257 - License Plates](https://onlinejudge.org/external/132/13257.pdf)
 
 #### [Suffix Array](suffix_array.cpp)
 

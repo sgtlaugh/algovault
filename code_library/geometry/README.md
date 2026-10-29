@@ -76,6 +76,8 @@
 
 - [HDU 4273 - Rescue](https://acm.hdu.edu.cn/showproblem.php?pid=4273)
 - [Kattis starsinacan - Stars in a Can](https://open.kattis.com/problems/starsinacan)
+- [UVa 1438 - Asteroids](https://onlinejudge.org/external/14/1438.pdf)
+- [UVa 11769 - All Souls Night](https://onlinejudge.org/external/117/11769.pdf)
 
 #### [Delaunay Triangulation](delaunay.cpp)
 
@@ -84,6 +86,7 @@
 - [Luogu P6362 - 平面欧几里得最小生成树](https://www.luogu.com.cn/problem/P6362)
 - [Timus 1504 - Good Manners](https://acm.timus.ru/problem.aspx?num=1504)
 - [Timus 1520 - Empire Strikes Back](https://acm.timus.ru/problem.aspx?num=1520)
+- [UVa 1683 - In case of failure](https://onlinejudge.org/external/16/1683.pdf)
 
 #### [Geometry](geometry.cpp)
 
@@ -140,6 +143,9 @@
 
 - [SPOJ FAILURE - In case of failure](https://www.spoj.com/problems/FAILURE/)
 - [SPOJ GANNHAT - Closest distance](https://www.spoj.com/problems/GANNHAT/)
+- [UVa 1141 - Count wireless Links](https://onlinejudge.org/external/11/1141.pdf)
+- [UVa 1683 - In case of failure](https://onlinejudge.org/external/16/1683.pdf)
+- [UVa 12860 - Galaxy collision](https://onlinejudge.org/external/128/12860.pdf)
 
 #### [Pick's Theorem](picks_theorem.cpp)
 

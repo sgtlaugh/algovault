@@ -161,6 +161,9 @@
 - [HDU 3377 - Plan](https://acm.hdu.edu.cn/showproblem.php?pid=3377)
 - [HDU 4285 - circuits](https://acm.hdu.edu.cn/showproblem.php?pid=4285)
 - [Timus 1519 - Formula 1](https://acm.timus.ru/problem.aspx?num=1519)
+- [UVa 1214 - Manhattan Wiring](https://onlinejudge.org/external/12/1214.pdf)
+- [UVa 11270 - Tiling Dominoes](https://onlinejudge.org/external/112/11270.pdf)
+- [UVa 11443 - Tree in a Grid](https://onlinejudge.org/external/114/11443.pdf)
 
 #### [Slope Trick](slope_trick.cpp)
 

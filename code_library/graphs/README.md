@@ -11,9 +11,9 @@
 | [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) | [Gomory-Hu Tree](#gomory-hu-tree) | [Hopcroft-Karp](#hopcroft-karp) |
 | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) | [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) |
 | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) | [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) |
-| [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) |
-| [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) | [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) |
-| [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |  |
+| [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) |
+| [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) | [Network Simplex](#network-simplex) |
+| [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |
 
 <!-- /toc -->
 
@@ -234,7 +234,7 @@
 - [Codeforces 704D - Captain America](https://codeforces.com/problemset/problem/704/D) [✔](../../practice/graphs/codeforces_704d.cpp "Accepted solution")
 - [Codeforces 1416F - Showing Off](https://codeforces.com/problemset/problem/1416/F) [✔](../../practice/graphs/codeforces_1416f.cpp "Accepted solution")
 - [Codeforces Gym 102156C - Diverse Singing](https://codeforces.com/gym/102156/problem/C) [✔](../../practice/graphs/codeforces_gym_102156c.cpp "Accepted solution")
-- [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf) [✔](../../practice/graphs/uva_1440.cpp "Accepted solution")
+- [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf) [✔](../../practice/graphs/uva_1440_lower_bound_flow.cpp "Accepted solution")
 - [UVa 11082 - Matrix Decompressing](https://onlinejudge.org/external/110/11082.pdf) [✔](../../practice/graphs/uva_11082_lower_bound_flow.cpp "Accepted solution")
 - [UVa 12679 - It Can Be Arranged](https://onlinejudge.org/external/126/12679.pdf) [✔](../../practice/graphs/uva_12679.cpp "Accepted solution")
 
@@ -410,7 +410,7 @@
 - [UVa 563 - Crimewave](https://onlinejudge.org/external/5/563.pdf) [✔](../../practice/graphs/uva_563.cpp "Accepted solution")
 - [UVa 820 - Internet Bandwidth](https://onlinejudge.org/external/8/820.pdf) [✔](../../practice/graphs/uva_820.cpp "Accepted solution")
 - [UVa 1067 - Tunnels](https://onlinejudge.org/external/10/1067.pdf) [✔](../../practice/graphs/uva_1067.cpp "Accepted solution")
-- [UVa 1212 - Duopoly](https://onlinejudge.org/external/12/1212.pdf) [✔](../../practice/graphs/uva_1212.cpp "Accepted solution")
+- [UVa 1212 - Duopoly](https://onlinejudge.org/external/12/1212.pdf) [✔](../../practice/graphs/uva_1212_maxflow.cpp "Accepted solution")
 - [UVa 1345 - Jamie's Contact Groups](https://onlinejudge.org/external/13/1345.pdf) [✔](../../practice/graphs/uva_1345.cpp "Accepted solution")
 - [UVa 1574 - Surely You Congest](https://onlinejudge.org/external/15/1574.pdf) [✔](../../practice/graphs/uva_1574.cpp "Accepted solution")
 - [UVa 10249 - The Grand Dinner](https://onlinejudge.org/external/102/10249.pdf) [✔](../../practice/graphs/uva_10249.cpp "Accepted solution")
@@ -423,7 +423,7 @@
 - [UVa 11248 - Frequency Hopping](https://onlinejudge.org/external/112/11248.pdf) [✔](../../practice/graphs/uva_11248.cpp "Accepted solution")
 - [UVa 11358 - Faster Processing Feasibility](https://onlinejudge.org/external/113/11358.pdf) [✔](../../practice/graphs/uva_11358.cpp "Accepted solution")
 - [UVa 11506 - Angry Programmer](https://onlinejudge.org/external/115/11506.pdf) [✔](../../practice/graphs/uva_11506.cpp "Accepted solution")
-- [UVa 11765 - Component Placement](https://onlinejudge.org/external/117/11765.pdf) [✔](../../practice/graphs/uva_11765.cpp "Accepted solution")
+- [UVa 11765 - Component Placement](https://onlinejudge.org/external/117/11765.pdf) [✔](../../practice/graphs/uva_11765_maxflow.cpp "Accepted solution")
 - [UVa 12125 - March of the Penguins](https://onlinejudge.org/external/121/12125.pdf) [✔](../../practice/graphs/uva_12125.cpp "Accepted solution")
 - [UVa 12193 - Hooligan](https://onlinejudge.org/external/121/12193.pdf) [✔](../../practice/graphs/uva_12193.cpp "Accepted solution")
 - [UVa 12264 - Risk](https://onlinejudge.org/external/122/12264.pdf) [✔](../../practice/graphs/uva_12264.cpp "Accepted solution")
@@ -433,13 +433,18 @@
 - [UVa 13000 - VIP Treatment](https://onlinejudge.org/external/130/13000.pdf) [✔](../../practice/graphs/uva_13000.cpp "Accepted solution")
 - [UVa 13020 - Landscaping](https://onlinejudge.org/external/130/13020.pdf) [✔](../../practice/graphs/uva_13020.cpp "Accepted solution")
 
+#### [Maximum Flow, HLPP](hlpp.cpp)
+
+- [UVa 1212 - Duopoly](https://onlinejudge.org/external/12/1212.pdf)
+- [UVa 11765 - Component Placement](https://onlinejudge.org/external/117/11765.pdf)
+
 #### [Min Cost Circulation](min_cost_circulation.cpp)
 
 - [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B) [✔](../../practice/graphs/aoj_grl_6_b_min_cost_circulation.cpp "Accepted solution")
 - [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D) [✔](../../practice/graphs/codeforces_708d_min_cost_circulation.cpp "Accepted solution")
 - [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A) [✔](../../practice/graphs/codeforces_gym_100491a.cpp "Accepted solution")
 - [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D)
-- [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf) [✔](../../practice/graphs/uva_1659.cpp "Accepted solution")
+- [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf) [✔](../../practice/graphs/uva_1659_min_cost_circulation.cpp "Accepted solution")
 
 #### [Min Cost Max Flow, Dijkstra](mcmf_dijkstra.cpp)
 
@@ -549,6 +554,9 @@
 - [LibreOJ 116 - 有源汇有上下界最大流](https://loj.ac/p/116) [✔](../../practice/graphs/libreoj_116.cpp "Accepted solution")
 - [LibreOJ 117 - 有源汇有上下界最小流](https://loj.ac/p/117)
 - [Luogu P3980 - [NOI2008] 志愿者招募](https://www.luogu.com.cn/problem/P3980) [✔](../../practice/graphs/luogu_p3980.cpp "Accepted solution")
+- [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf)
+- [UVa 1440 - Inspection](https://onlinejudge.org/external/14/1440.pdf)
+- [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf)
 
 #### [Offline Dynamic Connectivity](offline_dynamic_connectivity.cpp)
 
