@@ -65,6 +65,15 @@ void check_cut(const HLPP<T>& g, const FlowGraph& dinic, long long value){
     assert(total == value);
 }
 
+/// Same flat arc layout as Dinic's adjacency lists, so a counting sort that reorders arcs is caught
+template <typename T>
+void check_arcs(const HLPP<T>& g, const FlowGraph& dinic){
+    assert(g.start == dinic.start);
+    assert(g.to == dinic.to);
+    assert(g.edge_id == dinic.edge_id);
+    assert(g.rev == dinic.rev);
+}
+
 /// Builds the same random graph in both, returns the arcs; undirected edges become two arcs
 template <typename T>
 vector<Arc> random_graph(HLPP<T>& g, FlowGraph& dinic, int m, long long max_cap){
@@ -92,6 +101,7 @@ void compare(HLPP<T>& g, FlowGraph& dinic){
     assert(flow == dinic.maxflow());
     check_flow(g, flow);
     check_cut(g, dinic, flow);
+    check_arcs(g, dinic);
 }
 
 int main(){
@@ -110,6 +120,7 @@ int main(){
         assert(dinic.maxflow() == flow);
         check_flow(g, flow);
         check_cut(g, dinic, flow);
+        check_arcs(g, dinic);
         int side = 0;
         for (int x = 0; x < n; x++) if (g.in_source_side(x)) side |= 1 << x;
         assert(side == smallest_min_cut_side(n, src, sink, arcs));
@@ -120,6 +131,7 @@ int main(){
         assert(added == dinic.maxflow() && flow + added == min_cut(n, src, sink, arcs));
         check_flow(g, flow + added);
         check_cut(g, dinic, flow + added);
+        check_arcs(g, dinic);
     }
 
     /// HLPP<int> with src capacities summing to exactly INT_MAX, the most maxflow() can push at once

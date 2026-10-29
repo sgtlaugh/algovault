@@ -17,8 +17,9 @@
  *   - Capacities of edges touching src must sum to at most the max of T, as maxflow() pushes them at once, asserted
  *   - Unlike FlowGraph, maxflow() takes no limit
  *   - Each maxflow() call continues from the flow already pushed, so it can be called again after adding edges
- *   - Faster than FlowGraph where Dinic needs many phases: 3x on a 300 x 300 grid, 7x on a 100-layer graph
- *   - On par with FlowGraph on random sparse and dense graphs, up to 2x slower on bipartite perfect matchings
+ *   - Faster than FlowGraph where Dinic needs many phases: 5x on a 300 x 300 grid, 7x on a 100-layer graph
+ *   - 2x faster than FlowGraph on random sparse graphs, on par on dense ones
+ *   - Bipartite matching ranges from 1.3x slower than FlowGraph on random graphs to 2x faster on Library Checker's
  *
 ***/
 
@@ -35,18 +36,17 @@ struct HLPP{
 
     int n, src, sink;
     int highest, max_level, work;
-    vector<vector<int>> adj;
     vector<Edge> E;
     vector<int> start, to, rev, edge_id;
     vector<int> height, cur, active, next_active, prev_level, next_level, order;
     vector<T> res, excess;
     vector<bool> side;
 
-    HLPP(int n, int src, int sink): n(n), src(src), sink(sink), adj(n), side(n) {}
+    HLPP(int n, int src, int sink): n(n), src(src), sink(sink), side(n) {}
 
     int add_directed_edge(int u, int v, T cap){
-        adj[u].push_back(E.size()), E.push_back({u, v, cap, 0});
-        adj[v].push_back(E.size()), E.push_back({v, u, 0, 0});
+        E.push_back({u, v, cap, 0});
+        E.push_back({v, u, 0, 0});
         return E.size() - 2;
     }
 
@@ -89,16 +89,20 @@ struct HLPP{
         return side[u];
     }
 
-    /// Arcs of u sit at start[u] .. start[u + 1] - 1 with residual res, as in FlowGraph
+    /// Arcs of u sit at start[u] .. start[u + 1] - 1 in id order, counting sorted: adjacency lists cost 2x on sparse
     void build_residual(){
         int m = E.size();
         vector<int> pos(m);
 
-        start.assign(n + 1, m), to.resize(m), rev.resize(m), edge_id.resize(m), res.resize(m);
+        start.assign(n + 1, 0), to.resize(m), rev.resize(m), edge_id.resize(m), res.resize(m);
 
-        for (int u = 0, i = 0; u < n; u++){
-            start[u] = i;
-            for (int id : adj[u]) pos[id] = i, edge_id[i] = id, to[i] = E[id].v, res[i] = E[id].cap - E[id].flow, i++;
+        for (auto& e : E) start[e.u + 1]++;
+        for (int u = 0; u < n; u++) start[u + 1] += start[u];
+
+        vector<int> fill_at(start.begin(), start.end() - 1);
+        for (int id = 0; id < m; id++){
+            int i = pos[id] = fill_at[E[id].u]++;
+            edge_id[i] = id, to[i] = E[id].v, res[i] = E[id].cap - E[id].flow;
         }
         for (int i = 0; i < m; i++) rev[i] = pos[edge_id[i] ^ 1];
     }
