@@ -52,7 +52,7 @@
 - [Codeforces 106E - Space Rescuers](https://codeforces.com/problemset/problem/106/E) [✔](../../practice/numerical/codeforces_106e_ternary_search.cpp "Accepted solution")
 - [Codeforces 439D - Devu and his Brother](https://codeforces.com/problemset/problem/439/D) [✔](../../practice/numerical/codeforces_439d.cpp "Accepted solution")
 - [Codeforces 578C - Weakness and Poorness](https://codeforces.com/problemset/problem/578/C) [✔](../../practice/numerical/codeforces_578c.cpp "Accepted solution")
-- [Codeforces 626E - Simple Skewness](https://codeforces.com/problemset/problem/626/E)
+- [Codeforces 626E - Simple Skewness](https://codeforces.com/problemset/problem/626/E) [✔](../../practice/numerical/codeforces_626e.cpp "Accepted solution")
 - [Codeforces 1355E - Restorer Distance](https://codeforces.com/problemset/problem/1355/E)
 - [Codeforces 1978B - New Bakery](https://codeforces.com/problemset/problem/1978/B)
 - [Codeforces 2063D - Game With Triangles](https://codeforces.com/problemset/problem/2063/D)
