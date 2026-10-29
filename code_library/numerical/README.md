@@ -36,7 +36,7 @@
 - [Codeforces Gym 100110C - Curiosity](https://codeforces.com/gym/100110/problem/C) [✔](../../practice/numerical/codeforces_gym_100110c.cpp "Accepted solution")
 - [Codeforces Gym 100341B - Astronomy Problem](https://codeforces.com/gym/100341/problem/B) [✔](../../practice/numerical/codeforces_gym_100341b_simulated_annealing.cpp "Accepted solution")
 - [Codeforces Gym 101174J - Risky Lottery](https://codeforces.com/gym/101174/problem/J) [✔](../../practice/numerical/codeforces_gym_101174j.cpp "Accepted solution")
-- [HDU 3644 - A Chocolate Manufacturer's Problem](https://acm.hdu.edu.cn/showproblem.php?pid=3644)
+- [HDU 3644 - A Chocolate Manufacturer's Problem](https://acm.hdu.edu.cn/showproblem.php?pid=3644) [✔](../../practice/numerical/hdu_3644.cpp "Accepted solution")
 - [HDU 3932 - Groundhog Build Home](https://acm.hdu.edu.cn/showproblem.php?pid=3932)
 - [HDU 5017 - Ellipsoid](https://acm.hdu.edu.cn/showproblem.php?pid=5017)
 - [Kattis europeantrip - European Trip](https://open.kattis.com/problems/europeantrip) [✔](../../practice/numerical/kattis_europeantrip_simulated_annealing.cpp "Accepted solution")
