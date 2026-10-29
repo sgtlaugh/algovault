@@ -22,7 +22,7 @@
 
 #### [Numerical Integration](numerical_integration.cpp)
 
-- [MatCom 9335 - Environment Protection](https://matcomgrader.com/problem/9335/environment-protection/)
+- [MatCom 9335 - Environment Protection](https://matcomgrader.com/problem/9335/environment-protection/) [✔](../../practice/numerical/matcom_9335.cpp "Accepted solution")
 - [UVa 1356 - Bridge](https://onlinejudge.org/external/13/1356.pdf)
 - [UVa 12997 - Train Station](https://onlinejudge.org/external/129/12997.pdf)
 
