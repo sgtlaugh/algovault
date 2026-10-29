@@ -74,7 +74,8 @@ struct ConvexHull3D{
             }
         }
         /// Random insertion order is what makes the expected total conflict work O(n log n)
-        shuffle(order.begin(), order.end(), mt19937(chrono::steady_clock::now().time_since_epoch().count()));
+        static mt19937 rng(chrono::steady_clock::now().time_since_epoch().count());
+        shuffle(order.begin(), order.end(), rng);
 
         vector<int> start(n), stamp(n, -1), visible, fresh;
         for (int p : order){
