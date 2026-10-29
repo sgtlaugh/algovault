@@ -436,7 +436,7 @@
 #### [Maximum Flow, HLPP](hlpp.cpp)
 
 - [UVa 1212 - Duopoly](https://onlinejudge.org/external/12/1212.pdf) [✔](../../practice/graphs/uva_1212_hlpp.cpp "Accepted solution")
-- [UVa 11765 - Component Placement](https://onlinejudge.org/external/117/11765.pdf)
+- [UVa 11765 - Component Placement](https://onlinejudge.org/external/117/11765.pdf) [✔](../../practice/graphs/uva_11765_hlpp.cpp "Accepted solution")
 
 #### [Min Cost Circulation](min_cost_circulation.cpp)
 
