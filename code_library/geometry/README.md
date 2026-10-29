@@ -145,7 +145,7 @@
 - [SPOJ GANNHAT - Closest distance](https://www.spoj.com/problems/GANNHAT/)
 - [UVa 1141 - Count wireless Links](https://onlinejudge.org/external/11/1141.pdf) [✔](../../practice/geometry/uva_1141.cpp "Accepted solution")
 - [UVa 1683 - In case of failure](https://onlinejudge.org/external/16/1683.pdf) [✔](../../practice/geometry/uva_1683_kd_tree.cpp "Accepted solution")
-- [UVa 12860 - Galaxy collision](https://onlinejudge.org/external/128/12860.pdf)
+- [UVa 12860 - Galaxy collision](https://onlinejudge.org/external/128/12860.pdf) [✔](../../practice/geometry/uva_12860.cpp "Accepted solution")
 
 #### [Pick's Theorem](picks_theorem.cpp)
 
