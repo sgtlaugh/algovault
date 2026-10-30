@@ -169,6 +169,7 @@
 - [UVa 10298 - Power Strings](https://onlinejudge.org/external/102/10298.pdf) [✔](../../practice/strings/uva_10298.cpp "Accepted solution")
 - [UVa 11452 - Dancing the Cheeky-Cheeky](https://onlinejudge.org/external/114/11452.pdf) [✔](../../practice/strings/uva_11452.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✔](../../practice/strings/uva_11475_kmp.cpp "Accepted solution")
+- [UVa 11837 - Musical Plagiarism](https://onlinejudge.org/external/118/11837.pdf) [✔](../../practice/strings/uva_11837.cpp "Accepted solution")
 - [UVa 12467 - Secret Word](https://onlinejudge.org/external/124/12467.pdf) [✔](../../practice/strings/uva_12467.cpp "Accepted solution")
 - [UVa 12604 - Caesar Cipher](https://onlinejudge.org/external/126/12604.pdf) [✔](../../practice/strings/uva_12604.cpp "Accepted solution")
 - [UVa 12785 - Emacs Plugin](https://onlinejudge.org/external/127/12785.pdf) [✔](../../practice/strings/uva_12785.cpp "Accepted solution")
