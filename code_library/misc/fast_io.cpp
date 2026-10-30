@@ -14,11 +14,14 @@
  *
  * Notes:
  *   - read takes any integer including __int128, float, double, long double, strings, chars and vectors of these
+ *   - Reading into a char array does not compile: read a string, or a grid as vector<string>
  *   - write takes integers, strings, chars, vectors of these and fio::fixed values
  *   - Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
  *   - An integer read skips everything up to the next digit or -, words included, where scanf fails and reads nothing
  *   - A char reads one non-space character
-   - A loop over read_char() parses characters 2-3x faster than read(char) and about 4x faster than read(string)
+ *   - A number or string read eats the byte after it: read_line next gets the next line after "9\n", "" after "9\r\n"
+ *   - A text line after a number line, under any line ending: read_line(s), k = stoi(s), then read_line(text)
+ *   - A loop over read_char() parses characters 2-3x faster than read(char) and about 4x faster than read(string)
  *   - A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
  *   - read(u, ar[u], d) binds ar[u] before u is read, so read an index on its own first: read(u); read(ar[u], d);
  *   - Writing a float without fixed() does not compile, so its precision is always chosen
@@ -231,6 +234,11 @@ namespace fio{
 
     void write_one(const char *s){
         for (int j = 0; s[j]; j++) write_char(s[j]);
+    }
+
+    /// Without it a char * picks the integer template, an exact match that beats the const char * overload
+    void write_one(char *s){
+        write_one((const char *)s);
     }
 
     void write_one(const string &s){

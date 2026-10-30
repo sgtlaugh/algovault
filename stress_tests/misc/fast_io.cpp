@@ -89,6 +89,18 @@ int main(){
         for (auto& expected : lines) assert(read_line(line) && line == expected);
         assert(!read_line(line));
 
+        /// read_line after a number or string gets the next line only after a bare \n, as the header notes state
+        const string endings[] = {"\n", "\r\n", " \n"};
+        string ending = endings[stress::rand_int(0, 2)];
+        set_input(to_string(ints[0]) + ending + "next\n" + strs[0] + ending + "after\n" + to_string(ints[0]) + ending + "text\n");
+        int number;
+        string token;
+        assert(read(number) == 1 && read_line(line) && number == ints[0] && line == (ending == "\n" ? "next" : ""));
+        if (ending != "\n") assert(read_line(line) && line == "next");
+        assert(read(token) == 1 && read_line(line) && token == strs[0] && line == (ending == "\n" ? "after" : ""));
+        if (ending != "\n") assert(read_line(line) && line == "after");
+        assert(read_line(line) && stoi(line) == ints[0] && read_line(line) && line == "text");
+
         /// Vectors read exactly their current size, nested ones fill a pre-sized grid, chars skip whitespace only
         int n = min(count, 50), rows = stress::rand_int(0, 4), cols = stress::rand_int(0, 4);
         vector<vector<long long>> grid(rows, vector<long long>(cols));
@@ -129,6 +141,11 @@ int main(){
         expected_out += "\n" + to_string(lls[0]) + "\n";
         write(chars[0], ints[0], chars.back());
         expected_out += string(1, chars[0]) + " " + to_string(ints[0]) + " " + chars.back() + "\n";
+
+        /// A char * writes as its string, the integer template would not compile for it
+        char *word = &strs[0][0];
+        write(word, vector<char *>{word, word});
+        expected_out += strs[0] + " " + strs[0] + " " + strs[0] + "\n";
         flush();
         fflush(stdout);
         assert(read_file(OUT) == expected_out);
