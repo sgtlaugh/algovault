@@ -97,8 +97,8 @@ namespace prm{
         if (n < 2 || (n & 1) == 0) return n == 2;
 
         /// p | n exactly when n * p^-1 mod 2^64 <= (2^64 - 1) / p, no division: 27% faster on random n below 2^63
-        for (auto& [p, inv, max_quotient]: SMALL_PRIMES){
-            if ((unsigned long long)n * inv <= max_quotient) return (unsigned long long)n == p;
+        for (const SmallPrime& sp: SMALL_PRIMES){
+            if ((unsigned long long)n * sp.inv <= sp.max_quotient) return (unsigned long long)n == sp.p;
         }
 
         int s = __builtin_ctzll(n - 1);
