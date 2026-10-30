@@ -96,6 +96,7 @@
 
 - [Kattis itsamodmodmodmodworld - It's a Mod, Mod, Mod, Mod World](https://open.kattis.com/problems/itsamodmodmodmodworld) [✔](../../practice/number_theory/kattis_itsamodmodmodmodworld.cpp "Accepted solution")
 - [POJ 3530 - A Modular Arithmetic Challenge](http://poj.org/problem?id=3530) [✔](../../practice/number_theory/poj_3530.cpp "Accepted solution")
+- [UVa 13041 - Fraction and Sequence](https://onlinejudge.org/external/130/13041.pdf) [✔](../../practice/number_theory/uva_13041.cpp "Accepted solution")
 
 #### [Integer Root](integer_root.cpp)
 
