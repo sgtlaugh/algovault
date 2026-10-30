@@ -41,7 +41,7 @@ struct PlusTimes{
 
 template<typename T = long long, typename Ops = PlusTimes<T>>
 struct Matrix{
-    static constexpr bool MODULAR = is_same_v<T, long long> && is_same_v<Ops, PlusTimes<T>>;
+    static constexpr bool MODULAR = is_same<T, long long>::value && is_same<Ops, PlusTimes<T>>::value;
 
     int n, m;
     long long mod;
