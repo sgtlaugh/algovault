@@ -420,6 +420,7 @@
 - [UVa 10330 - Power Transmission](https://onlinejudge.org/external/103/10330.pdf) [✔](../../practice/graphs/uva_10330.cpp "Accepted solution")
 - [UVa 10480 - Sabotage](https://onlinejudge.org/external/104/10480.pdf) [✔](../../practice/graphs/uva_10480.cpp "Accepted solution")
 - [UVa 10779 - Collectors Problem](https://onlinejudge.org/external/107/10779.pdf) [✔](../../practice/graphs/uva_10779.cpp "Accepted solution")
+- [UVa 10983 - Buy one, get the rest free](https://onlinejudge.org/external/109/10983.pdf) [✔](../../practice/graphs/uva_10983.cpp "Accepted solution")
 - [UVa 11045 - My T-shirt suits me](https://onlinejudge.org/external/110/11045.pdf) [✔](../../practice/graphs/uva_11045.cpp "Accepted solution")
 - [UVa 11082 - Matrix Decompressing](https://onlinejudge.org/external/110/11082.pdf) [✔](../../practice/graphs/uva_11082_maxflow.cpp "Accepted solution")
 - [UVa 11167 - Monkeys in the Emei Mountain](https://onlinejudge.org/external/111/11167.pdf) [✔](../../practice/graphs/uva_11167.cpp "Accepted solution")
