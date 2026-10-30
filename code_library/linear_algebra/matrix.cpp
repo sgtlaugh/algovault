@@ -1,28 +1,29 @@
 /***
  *
  * Matrix
- * Matrix multiplication and exponentiation, modulo mod or over any semiring, plus transpose and rotation
+ * Matrix products and powers modulo mod or over any semiring, plus transpose and rotation
  *
  * Complexity:
  *   - multiplication: O(n m p) for an n x m times an m x p matrix
  *   - pow(e): O(n^3 log e)
  *
  * Matrix a(n, m, mod): n x m zero matrix of long long modulo mod, 1 <= mod < 2^31
- * Matrix<T, Ops = PlusTimes<T>> a(n, m): n x m matrix of Ops::zero(), no modulus, like Matrix<long double> a(n, m)
- * Matrix<T, Ops>::identity(n, mod = 0): the n x n identity, Matrix<>::identity(n, mod) for the modular one
- * a[i][j] = value: any T, with a modulus any long long, reduced modulo mod when multiplying
+ * Matrix<T, Ops = PlusTimes<T>> a(n, m): n x m matrix of Ops::zero() with no modulus, like Matrix<long double> a(n, m)
+ * Matrix<T, Ops>::identity(n, mod = 0): the n x n identity, written Matrix<>::identity(n, mod) when modular
+ * a[i][j] = value: any T; with a modulus any long long, reduced modulo mod when multiplying
  * a * b: the product, needs a.m == b.n and the same mod
  * a.is_normalized(): whether every entry is already in [0, mod), always true without a modulus
- * a.normalized(): a copy with every entry in [0, mod), a plain copy without a modulus
+ * a.normalized(): a copy with every entry in [0, mod), an unchanged copy without a modulus
  * a.pow(e): a^e for a square matrix and e >= 0, a.pow(0) is the identity
  * a.rotate(): the matrix turned 90 degrees clockwise
  * a.transpose(): the m x n transpose
  *
  * Notes:
  *   - Recurrence f(n) = 2 f(n - 1) + 3 f(n - 2): with M = {{2, 3}, {1, 0}}, (f(n + 1), f(n)) = M^n * (f(1), f(0))
- *   - Ops holds static zero(), one(), add(x, y), mul(x, y) of a semiring: zero absorbs in mul, mul distributes over add
- *   - Min-plus: zero = INF, one = 0, add = min, mul = + capped at INF, then a.pow(k)[u][v] is the shortest k-edge walk
- *   - A modulus needs the default Matrix<long long>, so a custom Ops can never be silently replaced by modular math
+ *   - Ops holds static zero(), one(), add(x, y), mul(x, y) of a semiring, so zero must absorb in mul
+ *   - Min-plus: zero = INF, one = 0, add = min, mul = + capped at INF; a.pow(k)[u][v] is the shortest k-edge walk
+ *   - Only the default Matrix<long long> takes a modulus, any other T or Ops asserts mod == 0
+ *   - Without a modulus nothing is reduced: long long can overflow, unsigned long long wraps modulo 2^64
  *
 ***/
 
@@ -192,6 +193,7 @@ int main(){
     assert(neg.normalized()[0][0] == 6);
     assert(neg.pow(3)[0][0] == 6);  /// (-1)^3 = -1 = 6 mod 7
 
+    /// Transpose and rotation of a from the first block
     assert((a.transpose().a == vector<vector<long long>>{{1, 4}, {2, 5}, {3, 6}}));
     assert((a.rotate().a == vector<vector<long long>>{{4, 1}, {5, 2}, {6, 3}}));  /// clockwise
 

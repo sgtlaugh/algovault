@@ -227,7 +227,7 @@ sa.contains("nab");         // false
   - [Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - grid equations that only use nearby cells
   - [Bitset](code_library/linear_algebra/gauss_bitset.cpp) - the same over GF(2) [✔](judge_tests/linear_algebra/inverse_matrix_mod_2.cpp)
   - [Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - the same modulo a prime, with kernel basis [✔](judge_tests/linear_algebra/inverse_matrix.cpp)
-- [Matrix](code_library/linear_algebra/matrix.cpp) - modular multiplication and exponentiation [✔](judge_tests/linear_algebra/matrix_product.cpp)
+- [Matrix](code_library/linear_algebra/matrix.cpp) - products and powers, modular or over a semiring [✔](judge_tests/linear_algebra/matrix_product.cpp)
 - [Matrix Permanent](code_library/linear_algebra/permanent.cpp) - permanent modulo any m, or exact
 - [Simplex](code_library/linear_algebra/simplex.cpp) - linear programming
 - [Thomas Algorithm](code_library/linear_algebra/thomas_algorithm.cpp) - tridiagonal linear systems in `O(n)`
