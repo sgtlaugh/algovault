@@ -7,7 +7,7 @@
 | [15 Puzzle Solver](#15-puzzle-solver) | [Assembly](#assembly) | [Bit Twiddling](#bit-twiddling) | [Comb Sort](#comb-sort) |
 | [Dancing Links](#dancing-links) | [Fast I/O](#fast-io) | [Gray Codes](#gray-codes) | [Hackenbush](#hackenbush) |
 | [Knight Distance](#knight-distance) | [N Queens](#n-queens) | [Nimber Arithmetic](#nimber-arithmetic) | [Radix Sort](#radix-sort) |
-| [Radix Sort 64](#radix-sort-64) |  |  |  |
+| [Radix Sort 64](#radix-sort-64) | [Sprague-Grundy](#sprague-grundy) |  |  |
 
 <!-- /toc -->
 
@@ -81,3 +81,5 @@
 #### [Radix Sort 64](radix_sort_64.cpp)
 
 - [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A)
+
+#### [Sprague-Grundy](sprague_grundy.cpp)
