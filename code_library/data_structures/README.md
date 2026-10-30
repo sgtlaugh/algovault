@@ -71,7 +71,7 @@
 - [UVa 10685 - Nature](https://onlinejudge.org/external/106/10685.pdf) [✔](../../practice/data_structures/uva_10685.cpp "Accepted solution")
 - [UVa 11363 - Cuckoo Hashing](https://onlinejudge.org/external/113/11363.pdf) [✔](../../practice/data_structures/uva_11363.cpp "Accepted solution")
 - [UVa 11503 - Virtual Friends](https://onlinejudge.org/external/115/11503.pdf) [✔](../../practice/data_structures/uva_11503.cpp "Accepted solution")
-- [UVa 11665 - Chinese Ink](https://onlinejudge.org/external/116/11665.pdf)
+- [UVa 11665 - Chinese Ink](https://onlinejudge.org/external/116/11665.pdf) [✔](../../practice/data_structures/uva_11665.cpp "Accepted solution")
 - [UVa 11690 - Money Matters](https://onlinejudge.org/external/116/11690.pdf) [✔](../../practice/data_structures/uva_11690.cpp "Accepted solution")
 - [UVa 11966 - Galactic Bonding](https://onlinejudge.org/external/119/11966.pdf) [✔](../../practice/data_structures/uva_11966.cpp "Accepted solution")
 - [UVa 11987 - Almost Union-Find](https://onlinejudge.org/external/119/11987.pdf) [✔](../../practice/data_structures/uva_11987.cpp "Accepted solution")
