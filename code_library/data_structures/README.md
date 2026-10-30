@@ -69,7 +69,7 @@
 - [UVa 10583 - Ubiquitous Religions](https://onlinejudge.org/external/105/10583.pdf) [✔](../../practice/data_structures/uva_10583.cpp "Accepted solution")
 - [UVa 10608 - Friends](https://onlinejudge.org/external/106/10608.pdf) [✔](../../practice/data_structures/uva_10608.cpp "Accepted solution")
 - [UVa 10685 - Nature](https://onlinejudge.org/external/106/10685.pdf) [✔](../../practice/data_structures/uva_10685.cpp "Accepted solution")
-- [UVa 11363 - Cuckoo Hashing](https://onlinejudge.org/external/113/11363.pdf)
+- [UVa 11363 - Cuckoo Hashing](https://onlinejudge.org/external/113/11363.pdf) [✔](../../practice/data_structures/uva_11363.cpp "Accepted solution")
 - [UVa 11503 - Virtual Friends](https://onlinejudge.org/external/115/11503.pdf) [✔](../../practice/data_structures/uva_11503.cpp "Accepted solution")
 - [UVa 11665 - Chinese Ink](https://onlinejudge.org/external/116/11665.pdf)
 - [UVa 11690 - Money Matters](https://onlinejudge.org/external/116/11690.pdf) [✔](../../practice/data_structures/uva_11690.cpp "Accepted solution")
