@@ -65,6 +65,7 @@
 - [Kattis modulararithmetic - Modular Arithmetic](https://open.kattis.com/problems/modulararithmetic) [✔](../../practice/number_theory/kattis_modulararithmetic.cpp "Accepted solution")
 - [LightOJ 1306 - Solutions to an Equation](https://lightoj.com/problem/solutions-to-an-equation) [✔](../../practice/number_theory/lightoj_1306.cpp "Accepted solution")
 - [SPOJ CEQU - Crucial Equation](https://www.spoj.com/problems/CEQU/) [✔](../../practice/number_theory/spoj_cequ.cpp "Accepted solution")
+- [UVa 10090 - Marbles](https://onlinejudge.org/external/100/10090.pdf) [✔](../../practice/number_theory/uva_10090.cpp "Accepted solution")
 - [UVa 10104 - Euclid Problem](https://onlinejudge.org/external/101/10104.pdf) [✔](../../practice/number_theory/uva_10104.cpp "Accepted solution")
 - [UVa 12775 - Gift Dilemma](https://onlinejudge.org/external/127/12775.pdf) [✔](../../practice/number_theory/uva_12775.cpp "Accepted solution")
 
