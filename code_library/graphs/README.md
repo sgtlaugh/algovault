@@ -227,6 +227,7 @@
 - [CSES 1691 - Mail Delivery](https://cses.fi/problemset/task/1691) [✔](../../practice/graphs/cses_1691.cpp "Accepted solution")
 - [CSES 1693 - Teleporters Path](https://cses.fi/problemset/task/1693) [✔](../../practice/graphs/cses_1693.cpp "Accepted solution")
 - [oj.uz BOI14_postmen - Senior Postmen](https://oj.uz/problem/view/BOI14_postmen) [✔](../../practice/graphs/oj_uz_boi14_postmen.cpp "Accepted solution")
+- [UVa 10054 - The Necklace](https://onlinejudge.org/external/100/10054.pdf) [✔](../../practice/graphs/uva_10054.cpp "Accepted solution")
 
 #### [Flow with Lower Bounds](lower_bound_flow.cpp)
 
