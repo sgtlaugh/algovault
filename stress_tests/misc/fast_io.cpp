@@ -177,6 +177,47 @@ int main(){
         assert(read_file(OUT) == expected.str());
     }
 
+    /// fixed() equals snprintf at every magnitude, sign and digit count, and on decimal halves the fast path defers
+    vector<long double> fixed_values = {0.125L, 0.375L, 2.5L, 3.5L, -2.5L, 0.9995L, 9.9999999L, 999.5L, 1e15L, 9007199254740991.0L,
+        9007199254740993.0L, 1e18L, 1e19L, 0.0L, -0.0L, -0.0000001L, -0.4L, -0.5L, -0.6L, 1e-20L, 1e300L, -1e4000L,
+        numeric_limits<long double>::infinity(), -numeric_limits<long double>::infinity(), numeric_limits<long double>::quiet_NaN(),
+        -numeric_limits<long double>::quiet_NaN(), numeric_limits<long double>::denorm_min(), numeric_limits<double>::max()};
+    for (long long it = 0; it < stress::scaled(100); it++){
+        vector<pair<long double, int>> cases;
+        for (auto x : it ? vector<long double>() : fixed_values){
+            for (int digits = 0; digits <= 20; digits++) cases.push_back({x, digits});
+        }
+        for (int i = 0; i < 1000; i++){
+            int digits = stress::rand_int(0, 20), mode = stress::rand_int(0, 4);
+            long double x;
+            if (mode == 0) x = powl(10, (long double)stress::rand_int(-20000, 20000) / 1000);
+            else if (mode == 1) x = (long double)stress::rand_int(-1000000, 1000000) / (1 << stress::rand_int(0, 20));
+            else if (mode == 2) x = ldexpl((long double)stress::rng()(), stress::rand_int(-130, 10));
+            else {
+                /// A decimal ending in 5 one place past digits, parsed to the double or long double nearest the half
+                digits = stress::rand_int(0, 18);
+                string s = to_string(stress::rand_int(0, 1) ? stress::rand_int(0, 9) : stress::rand_int(0, 1000000000)) + ".";
+                for (int k = 0; k < digits; k++) s += char('0' + (stress::rand_int(0, 3) ? 9 : stress::rand_int(0, 9)));
+                s += "5";
+                x = mode == 3 ? strtod(s.c_str(), nullptr) : strtold(s.c_str(), nullptr);
+            }
+            if (stress::rand_int(0, 1)) x = -x;
+            cases.push_back({x, digits});
+        }
+
+        assert(freopen(OUT.c_str(), "wb", stdout));
+        string expected;
+        char buf[8192];
+        for (auto& c : cases){
+            write(fixed(c.first, c.second));
+            snprintf(buf, sizeof(buf), "%.*Lf\n", c.second, c.first);
+            expected += buf;
+        }
+        flush();
+        fflush(stdout);
+        assert(read_file(OUT) == expected);
+    }
+
     /// Just above a midpoint of two doubles: strtold then a cast rounds to the even double below, the right one is up
     for (long long it = 0; it < stress::scaled(200); it++){
         double lo = ldexp((double)(((stress::rng()() >> 11) | (1ULL << 52)) & ~1ULL), -52), hi = nextafter(lo, 2.0);

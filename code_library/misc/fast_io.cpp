@@ -9,7 +9,7 @@
  * fio::read(a, b, ...): reads whitespace separated values into a, b, ..., returns the count read before the input ended
  * fio::read_line(s): reads one line into s without its newline or a trailing \r, false only at the end of input
  * fio::write(a, b, ...): writes a, b, ... space separated and ends the line, a vector argument on its own line
- * fio::fixed(x, digits): a floating x printed with exactly digits digits after the point, rounded like printf("%.*f")
+ * fio::fixed(x, digits): a floating x with exactly digits digits after the point, the same text as printf("%.*f")
  *
  * Notes:
  *   - read takes any integer including __int128, float, double, long double, strings, chars and vectors of these
@@ -18,8 +18,10 @@
  *   - An integer read skips everything up to the next digit or -, words included, where scanf fails and reads nothing
  *   - A char reads one non-space character
  *   - A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
+ *   - read(u, ar[u], d) binds ar[u] before u is read, so read an index on its own first: read(u); read(ar[u], d);
  *   - Writing a float without fixed() does not compile, so its precision is always chosen
- *   - Floats print at printf's speed, a floating token read keeps its first 127 characters
+ *   - fixed() is about 8x faster than printf while |x| * 10^digits < 2^52 and digits <= 18, as fast as printf otherwise
+ *   - A floating token read keeps its first 127 characters
  *   - Interactive problems need no flush(): pending output is written each time the input buffer runs empty
  *   - Output is lost on abnormal termination such as abort() or _exit()
  *
@@ -240,6 +242,28 @@ namespace fio{
     };
 
     void write_one(const Fixed &f){
+        static const long long p10[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000,
+            10000000000, 100000000000, 1000000000000, 10000000000000, 100000000000000, 1000000000000000,
+            10000000000000000, 100000000000000000, 1000000000000000000};
+
+        if (f.digits >= 0 && f.digits <= 18){
+            long double scaled = fabsl(f.value) * p10[f.digits];
+
+            /// Rounding never moves the product across k + 0.5, exact below 2^52, so only an exact k + 0.5 needs printf
+            if (scaled < 4503599627370496.0L && scaled - (long long)scaled != 0.5L){
+                long long q = scaled + 0.5L;
+                if (signbit(f.value)) write_char('-');
+                write_one(q / p10[f.digits]);
+                if (!f.digits) return;
+
+                long long r = q % p10[f.digits];
+                for (int j = f.digits - 1; j >= 0; j--) tmpbuf[j] = '0' + r % 10, r /= 10;
+                write_char('.');
+                for (int j = 0; j < f.digits; j++) write_char(tmpbuf[j]);
+                return;
+            }
+        }
+
         int len = snprintf(tmpbuf, sizeof(tmpbuf), "%.*Lf", f.digits, f.value);
 
         if (len < (int)sizeof(tmpbuf)){
