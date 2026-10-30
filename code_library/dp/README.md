@@ -38,6 +38,7 @@
 - [CSES 1706 - School Excursion](https://cses.fi/problemset/task/1706) [✔](../../practice/dp/cses_1706.cpp "Accepted solution")
 - [SPOJ ADACOINS - Ada and Coins](https://www.spoj.com/problems/ADACOINS/) [✔](../../practice/dp/spoj_adacoins.cpp "Accepted solution")
 - [SPOJ FCANDY - Candy (Again)](https://www.spoj.com/problems/FCANDY/) [✔](../../practice/dp/spoj_fcandy.cpp "Accepted solution")
+- [UVa 711 - Dividing up](https://onlinejudge.org/external/7/711.pdf) [✔](../../practice/dp/uva_711.cpp "Accepted solution")
 
 #### [Divide and Conquer DP](divide_conquer_dp.cpp)
 
