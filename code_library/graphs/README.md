@@ -290,6 +290,7 @@
 - [UOJ 81 - 一般图最大权匹配](https://uoj.ac/problem/81) [✔](../../practice/graphs/uoj_81.cpp "Accepted solution")
 - [UVa 10296 - Jogging Trails](https://onlinejudge.org/external/102/10296.pdf) [✔](../../practice/graphs/uva_10296_weighted_graph_matching.cpp "Accepted solution")
 - [UVa 12711 - Game of Throne](https://onlinejudge.org/external/127/12711.pdf) [✔](../../practice/graphs/uva_12711.cpp "Accepted solution")
+- [UVa 12838 - Identity Redemption](https://onlinejudge.org/external/128/12838.pdf) [✔](../../practice/graphs/uva_12838.cpp "Accepted solution")
 
 #### [Gomory-Hu Tree](gomory_hu.cpp)
 
