@@ -14,6 +14,7 @@
  *
  * Notes:
  *   - Arguments are long long, l and r may lie outside [0, m - 1], they are clamped to it
+ *   - Count of 0 <= x < n, y >= 0 with a x + b y <= c is floor_sum(n, b, -a, c + b) if a >= 0 and a (n - 1) <= c + b
  *   - Requires __int128 (64-bit GCC or Clang)
  *
 ***/
