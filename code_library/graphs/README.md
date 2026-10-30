@@ -415,6 +415,7 @@
 - [UVa 1212 - Duopoly](https://onlinejudge.org/external/12/1212.pdf) [✔](../../practice/graphs/uva_1212_maxflow.cpp "Accepted solution")
 - [UVa 1345 - Jamie's Contact Groups](https://onlinejudge.org/external/13/1345.pdf) [✔](../../practice/graphs/uva_1345.cpp "Accepted solution")
 - [UVa 1574 - Surely You Congest](https://onlinejudge.org/external/15/1574.pdf) [✔](../../practice/graphs/uva_1574.cpp "Accepted solution")
+- [UVa 10092 - The Problem with the Problem Setter](https://onlinejudge.org/external/100/10092.pdf) [✔](../../practice/graphs/uva_10092.cpp "Accepted solution")
 - [UVa 10249 - The Grand Dinner](https://onlinejudge.org/external/102/10249.pdf) [✔](../../practice/graphs/uva_10249.cpp "Accepted solution")
 - [UVa 10330 - Power Transmission](https://onlinejudge.org/external/103/10330.pdf) [✔](../../practice/graphs/uva_10330.cpp "Accepted solution")
 - [UVa 10480 - Sabotage](https://onlinejudge.org/external/104/10480.pdf) [✔](../../practice/graphs/uva_10480.cpp "Accepted solution")
