@@ -97,6 +97,12 @@ int main(){
                             assert(abs(adaptive_simpson(a, b, [&](double x){ calls++; return f(x); }) - exact) < 1e-12);
                             assert(calls == 257);
                             assert(abs(romberg(a, b, f) - exact) < 1e-12);
+                            for (int panels = 1; panels <= 3; panels++){
+                                calls = 0;
+                                double res = gauss_legendre(a, b, [&](double x){ calls++; return f(x); }, panels);
+                                assert(abs(res - exact) < 1e-12);
+                                assert(calls == 10 * panels);
+                            }
                         }
                     }
                 }
@@ -135,6 +141,44 @@ int main(){
         double bound = abs(c[0]) + abs(c[1]) * m + abs(c[2]) * m * m + abs(c[3]) * pow(m, 3) + abs(c[4]) * pow(m, 4);
         double tol = 1e-13 * (abs(b - a) * n + m) * bound;
         assert(abs(simpson(a, b, [&](double x){ return poly_eval(c, x); }, n) - exact) <= tol);
+    }
+
+    /// One panel on [0, 1] isolates the rule: a node or weight off in its 13th digit breaks these moments
+    for (int k = 0; k <= 19; k++){
+        double res = gauss_legendre(0, 1, [&](double x){ return pow(x, k); }, 1);
+        assert(abs(res * (k + 1) - 1) <= 2e-15);
+    }
+
+    /// Exactness up to degree 19 per panel, on random panel counts and intervals, reversed and empty ones included
+    for (long long it = 0; it < stress::scaled(5000); it++){
+        auto c = random_poly(stress::rand_int(0, 19), 5);
+        double a = rand_real(-2, 2), b = it % 10 ? rand_real(-2, 2) : a, m = max({1.0, abs(a), abs(b)}), bound = 0;
+        int panels = stress::rand_int(1, 5);
+        for (int i = 0; i < (int)c.size(); i++) bound += abs(c[i]) * pow(m, i);
+
+        double res = gauss_legendre(a, b, [&](double x){ return poly_eval(c, x); }, panels);
+        if (a == b) assert(res == 0);
+        assert(abs(res - (poly_antiderivative(c, b) - poly_antiderivative(c, a))) <= 1e-14 * bound * (abs(b - a) + m));
+    }
+
+    /// The header's accuracy claims: |w| h <= 6 on exp and sin, h <= s on a Lorentzian with poles at c +- i s
+    for (long long it = 0; it < stress::scaled(5000); it++){
+        double a = rand_real(-3, 3), b = rand_real(-3, 3), scale = pow(10.0, stress::rand_int(-6, 12));
+        double w = rand_real(0.1, 20) * (it % 2 ? 1 : -1), phase = rand_real(0, 7);
+        double c = rand_real(-3, 3), s = rand_real(0.01, 2);
+        int panels = max(1, (int)ceil(abs(b - a) * abs(w) / 6)), pole_panels = max(1, (int)ceil(abs(b - a) / s));
+
+        long double exact = scale * (expl((long double)w * b) - expl((long double)w * a)) / w;
+        double res = gauss_legendre(a, b, [&](double x){ return scale * exp(w * x); }, panels);
+        assert(abs(res - exact) <= 1e-13 * abs(b - a) * scale * max(exp(w * a), exp(w * b)));
+
+        exact = scale * (cosl((long double)w * a + phase) - cosl((long double)w * b + phase)) / w;
+        res = gauss_legendre(a, b, [&](double x){ return scale * sin(w * x + phase); }, panels);
+        assert(abs(res - exact) <= 1e-13 * abs(b - a) * scale);
+
+        exact = scale * s * (atanl(((long double)b - c) / s) - atanl(((long double)a - c) / s));
+        res = gauss_legendre(a, b, [&](double x){ return scale / (1 + (x - c) * (x - c) / (s * s)); }, pole_panels);
+        assert(abs(res - exact) <= 1e-12 * abs(exact));
     }
 
     long long iterations = stress::scaled(4000), misses = 0;

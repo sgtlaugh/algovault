@@ -1,14 +1,16 @@
 /***
  *
  * Numerical Integration
- * Definite integral of f over [a, b] with composite Simpson, adaptive Simpson or Romberg
+ * Definite integral of f over [a, b] with composite Simpson, Gauss-Legendre, adaptive Simpson or Romberg
  *
  * Complexity:
  *   - adaptive_simpson: O(panels it needs) evaluations, recursion depth <= 44
+ *   - gauss_legendre: 10 panels evaluations
  *   - romberg: 2^k + 1 evaluations for k levels, 8 <= k <= max_levels
  *   - simpson: 2n + 1 evaluations
  *
  * adaptive_simpson(a, b, f, eps = 1e-9): splits each of 64 equal start panels until its halves agree with it
+ * gauss_legendre(a, b, f, panels = 100): 10-point Gauss-Legendre on each of panels equal subintervals, panels >= 1
  * romberg(a, b, f, eps = 1e-9, max_levels = 20): Richardson extrapolation of trapezoid sums on 2^k subintervals
  * simpson(a, b, f, n = 1000): composite Simpson on 2n equal subintervals for n >= 1, exact for cubics
  *
@@ -19,6 +21,10 @@
  *   - adaptive_simpson and romberg also stop at 1e-14 of the integral of |f|, so an eps below rounding still terminates
  *   - adaptive_simpson refines only around kinks, jumps and infinite-slope endpoints like sqrt at 0
  *   - adaptive_simpson can miss a spike, or two jumps, within one start panel of width (b - a) / 64
+ *   - gauss_legendre has no error estimate: use it on smooth f, and adaptive_simpson on kinks or unknown smoothness
+ *   - gauss_legendre is exact on polynomials of degree <= 19 within each panel
+ *   - gauss_legendre with panels of width h stayed within 1e-13 |b - a| max|f| on exp(w x) and sin(w x) for |w| h <= 6
+ *   - gauss_legendre stayed within 1e-12 relative on 1/(1 + x^2) with h <= 1, the distance to its poles at +-i
  *   - romberg reads periodic f as constant when (b - a) / 256 is a whole number of periods
  *   - romberg returns its last estimate after max_levels, it is fast only on smooth f: use adaptive_simpson for kinks
  *   - simpson errs by (b - a) h^4 max|f''''| / 180 with h = (b - a) / 2n
@@ -65,6 +71,23 @@ double adaptive_simpson(double a, double b, F f, double eps = 1e-9){
     }
 
     return res;
+}
+
+template<typename F>
+double gauss_legendre(double a, double b, F f, int panels = 100){
+    /// The 10-point rule on [-1, 1] is symmetric, so only its positive nodes are stored
+    const double node[5] = {0.14887433898163121088, 0.43339539412924719080, 0.67940956829902440621,
+                            0.86506336668898451073, 0.97390652851717172008};
+    const double weight[5] = {0.29552422471475287017, 0.26926671930999635509, 0.21908636251598204400,
+                              0.14945134915058059315, 0.066671344308688137594};
+    double h = (b - a) / panels, res = 0;
+
+    for (int p = 0; p < panels; p++){
+        double mid = a + (p + 0.5) * h;
+        for (int i = 0; i < 5; i++) res += weight[i] * (f(mid - h / 2 * node[i]) + f(mid + h / 2 * node[i]));
+    }
+
+    return res * h / 2;
 }
 
 template<typename F>
@@ -118,6 +141,9 @@ int main(){
         return adaptive_simpson(0, x, [&](double y){ return x * y; });
     });
     assert(close(double_integral, 1.0 / 8));  /// x y over the triangle 0 <= y <= x <= 1
+
+    assert(close(gauss_legendre(-1, 1, [](double x){ return pow(x, 18); }, 1), 2.0 / 19));  /// exact to degree 19
+    assert(close(gauss_legendre(0, 1, [](double x){ return 4 / (1 + x * x); }), PI));
 
     assert(close(romberg(0, 1, [](double x){ return 4 / (1 + x * x); }), PI));
     assert(close(romberg(3, 1, [](double x){ return 1 / x; }), -log(3)));  /// a > b negates

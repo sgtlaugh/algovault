@@ -269,7 +269,7 @@ sa.contains("nab");         // false
 [Practice problems](code_library/numerical/README.md)
 
 - [Local Minimization](code_library/numerical/local_minimization.cpp) - minimum of a function of a few real variables
-- [Numerical Integration](code_library/numerical/numerical_integration.cpp) - definite integrals by Simpson or Romberg
+- [Numerical Integration](code_library/numerical/numerical_integration.cpp) - definite integrals by Simpson, Gauss or Romberg
 - [Simulated Annealing](code_library/numerical/simulated_annealing.cpp) - generic randomized minimizer
 - [Ternary and Golden-Section Search](code_library/numerical/ternary_search.cpp) - integer argmax of a unimodal function, real argmin
 
