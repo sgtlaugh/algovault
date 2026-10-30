@@ -16,6 +16,7 @@
  *   - mod = 0 works on plain integers, every implied difference must fit in long long
  *   - mod > 0 works modulo mod, mod <= 1e18
  *   - mod = 2 is parity, relate(a, b, 1) means a and b differ
+ *   - Exact ratios x[b] / x[a] = p / q: one instance per prime, d = that prime's exponent in p minus its exponent in q
  *
 ***/
 
