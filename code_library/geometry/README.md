@@ -30,6 +30,7 @@
 - [Timus 1429 - Biscuits](https://acm.timus.ru/problem.aspx?num=1429)
 - [Timus 1520 - Empire Strikes Back](https://acm.timus.ru/problem.aspx?num=1520)
 - [UVa 1308 - Viva Confetti](https://onlinejudge.org/external/13/1308.pdf)
+- [UVa 1581 - Pollution Solution](https://onlinejudge.org/external/15/1581.pdf) [✔](../../practice/geometry/uva_1581.cpp "Accepted solution")
 - [UVa 10005 - Packing polygons](https://onlinejudge.org/external/100/10005.pdf) [✔](../../practice/geometry/uva_10005.cpp "Accepted solution")
 - [UVa 11177 - Fighting Against a Polygonal Monster](https://onlinejudge.org/external/111/11177.pdf)
 - [UVa 11676 - Deadly Attack](https://onlinejudge.org/external/116/11676.pdf)
