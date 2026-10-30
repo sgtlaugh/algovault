@@ -83,3 +83,5 @@
 - [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A)
 
 #### [Sprague-Grundy](sprague_grundy.cpp)
+
+- [UVa 10561 - Treblecross](https://onlinejudge.org/external/105/10561.pdf) [✔](../../practice/misc/uva_10561.cpp "Accepted solution")
