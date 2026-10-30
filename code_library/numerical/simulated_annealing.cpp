@@ -19,6 +19,7 @@
  *   - neighbour(const State&, mt19937_64&): a random nearby state, all randomness drawn from the given rng
  *   - simulated_annealing copies and rescores each state from scratch, use the loop driver for moves with a cheap delta
  *   - Nothing guarantees the optimum, more steps and a move that changes little help
+ *   - Smooth or convex goals like a sum of distances: local_minimization.cpp gives the same answer about 10x faster
  *   - The loop driver, for TSP with in-place 2-opt moves on a tour p of length cur:
  *         auto sa = Annealer::by_time(2, 0.01, 1.9);
  *         while (sa.running()){

@@ -14,6 +14,8 @@
  *   - golden_section_min needs f strictly decreasing, then strictly increasing, with an optional flat bottom
  *   - golden_section_min stops once hi - lo <= eps * max(1, |lo| + |hi|), so keep eps >= 1e-12
  *   - Near a smooth minimum rounding limits x to about 1e-8 relative whatever eps is, f(x) is accurate to rounding
+ *   - x's error grows with |f| at the minimum: near |f| = 1e11 x can be 1e-3 off while f(x) is still right
+ *   - f a min or max of pieces it reports, like one line per path: intersect the two around x, exact in a few calls
  *   - A kink at c is located to eps * max(1, |c|)
  *   - Maximum: golden_section_min on -f
  *   - ternary_search_max needs f(lo) < ... < f(p) >= f(p + 1) >= ... >= f(hi), plateaus only at or after the peak p
