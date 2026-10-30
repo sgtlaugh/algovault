@@ -16,7 +16,7 @@
  *   - count(2) == 1 tells a unique cover, like a sudoku with one solution, without searching for all of them
  *   - count and exact_cover restore the links, so they can be called again or rows can still be added
  *   - Recursion depth is at most ncolumns, an 8 MB stack overflows near 5e4 (4e4 under sanitizers)
- *   - The sudoku namespace below reduces an n x n sudoku (n a perfect square) to exact cover with 4 n^2 columns
+ *   - sudoku::solution(grid) below reduces an n x n sudoku (n a perfect square) to exact cover with 4 n^2 columns
  *
 ***/
 
@@ -128,16 +128,15 @@ namespace sudoku{
     }
 
     /***
-     * Returns false if a sudoku grid is unsolvable
-     * Otherwise returns true and solves the grid in place
-     * Grid must be a square and its side length must be a perfect square
+     * Returns the solved grid, nullopt if the puzzle is unsolvable; the puzzle itself is not changed
+     * Zeros are blanks, the grid must be n x n with n a perfect square
      *
      * The exact cover search is exponential in the worst case
      * 9 x 9 grids, well constrained 16 x 16 grids and even empty 49 x 49 grids solve fast,
      * but sparse 16 x 16 grids (around 75% blank) can take over a minute
      *
     ***/
-    bool solve(vector<vector<int>>& grid){
+    optional<vector<vector<int>>> solution(const vector<vector<int>>& grid){
         int i, j, k, n = grid.size(), m = sqrt(n + 0.5);
 
         assert(m * m == n);
@@ -158,14 +157,15 @@ namespace sudoku{
         }
 
         auto res = dlx.exact_cover();
-        if (!res) return false;
+        if (!res) return nullopt;
 
+        vector<vector<int>> solved = grid;
         for (int v : *res){
             decode(n, v, i, j, k);
-            grid[i][j] = k + 1;
+            solved[i][j] = k + 1;
         }
 
-        return true;
+        return solved;
     }
 }
 
@@ -203,7 +203,7 @@ int main(){
     assert(twice.count() == 2);
     assert(twice.count(1) == 1);
 
-    vector<vector<int>> grid = {
+    const vector<vector<int>> grid = {
         {0, 0, 0, 0, 6, 9, 8, 3, 0},
         {9, 8, 0, 0, 0, 0, 0, 7, 6},
         {6, 0, 0, 0, 3, 8, 0, 5, 1},
@@ -215,7 +215,8 @@ int main(){
         {0, 5, 6, 9, 2, 0, 0, 0, 0},
     };
 
-    assert(sudoku::solve(grid));
+    auto solved = sudoku::solution(grid);
+    assert(solved);
 
     const vector<vector<int>> solved_grid = {
         {5, 1, 2, 7, 6, 9, 8, 3, 4},
@@ -228,7 +229,7 @@ int main(){
         {7, 2, 9, 1, 4, 3, 5, 6, 8},
         {8, 5, 6, 9, 2, 7, 1, 4, 3},
     };
-    assert(grid == solved_grid);
+    assert((*solved == solved_grid));
 
     return 0;
 }

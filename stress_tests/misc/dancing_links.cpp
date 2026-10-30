@@ -229,9 +229,11 @@ int main(){
             givens[i][j] = givens[i][k] = stress::rand_int(1, n);  /// a row repeating a digit
         }
 
-        auto g = givens;
-        assert(sudoku::solve(g) == !unsolvable);
-        if (!unsolvable) assert(valid_sudoku(g, givens));
+        auto before = givens;
+        auto solved = sudoku::solution(givens);
+        assert(solved.has_value() == !unsolvable);
+        assert(givens == before);
+        if (!unsolvable) assert(valid_sudoku(*solved, givens));
     }
 
     /// Guards the header's stack claim: one frame per selected row, CI's flags overflow 8 MB a little past depth 4e4
