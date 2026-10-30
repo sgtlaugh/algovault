@@ -7,12 +7,14 @@
  *
  * DancingLinks dlx(ncolumns, max_nodes = 0): columns 0 to ncolumns - 1, max_nodes = total row length presizes arrays
  * dlx.add_row(r, columns): adds a row with any int id r over distinct columns, an empty row is ignored
+ * dlx.count(limit = LLONG_MAX): number of exact covers, or limit if there are more, searching no further, limit >= 0
  * dlx.exact_cover(): the selected row ids, nullopt if no cover exists, an empty cover for 0 columns
  *
  * Notes:
  *   - Rows beyond max_nodes still fit after a reallocation
  *   - Deterministic: the same rows added in the same order give the same cover
- *   - exact_cover restores the links, so it can be called again or rows can still be added
+ *   - count(2) == 1 tells a unique cover, like a sudoku with one solution, without searching for all of them
+ *   - count and exact_cover restore the links, so they can be called again or rows can still be added
  *   - Recursion depth is at most ncolumns, an 8 MB stack overflows near 5e4 (4e4 under sanitizers)
  *   - The sudoku namespace below reduces an n x n sudoku (n a perfect square) to exact cover with 4 n^2 columns
  *
@@ -23,7 +25,7 @@
 using namespace std;
 
 struct DancingLinks{
-    int n, idx;
+    int n, idx, cover_size = 0;
     vector<int> row, col, L, R, U, D, selected_rows, column_count;
 
     DancingLinks(int ncolumns, int max_nodes = 0) : n(ncolumns), idx(ncolumns + 1), selected_rows(ncolumns + 1), column_count(ncolumns + 1){
@@ -51,15 +53,22 @@ struct DancingLinks{
         R[idx - 1] = first, L[first] = idx - 1;
     }
 
-    optional<vector<int>> exact_cover(){
-        int len = algorithm_x(0);
-        if (len == -1) return nullopt;
-        return vector<int>(selected_rows.begin(), selected_rows.begin() + len);
+    long long count(long long limit = LLONG_MAX){
+        assert(limit >= 0);
+        return limit ? algorithm_x(0, limit) : 0;
     }
 
-    /// Returns the number of selected rows of the first cover found, or -1 if none exists
-    int algorithm_x(int depth){
-        if (R[0] == 0) return depth;
+    optional<vector<int>> exact_cover(){
+        if (!algorithm_x(0, 1)) return nullopt;
+        return vector<int>(selected_rows.begin(), selected_rows.begin() + cover_size);
+    }
+
+    /// Counts covers up to limit >= 1, the last one found stays in selected_rows[0, cover_size)
+    long long algorithm_x(int depth, long long limit){
+        if (R[0] == 0){
+            cover_size = depth;
+            return 1;
+        }
 
         int c = R[0];
         /// Stops at a count <= 1: the choice is forced, and a 0 count column left behind still fails the branch
@@ -68,16 +77,16 @@ struct DancingLinks{
         }
 
         remove(c);
-        int len = -1;
-        for (int i = D[c]; i != c && len == -1; i = D[i]){
+        long long found = 0;
+        for (int i = D[c]; i != c && found < limit; i = D[i]){
             selected_rows[depth] = row[i];
             for (int j = R[i]; j != i; j = R[j]) remove(col[j]);
-            len = algorithm_x(depth + 1);
+            found += algorithm_x(depth + 1, limit - found);
             for (int j = L[i]; j != i; j = L[j]) restore(col[j]);
         }
 
         restore(c);
-        return len;
+        return found;
     }
 
     void remove(int c){
@@ -186,6 +195,14 @@ int main(){
     assert(rows);
     sort(rows->begin(), rows->end());
     assert((*rows == vector<int>{10, 40}));
+
+    /// Two covers: {1} alone, or {2, 3}
+    DancingLinks twice(2);
+    twice.add_row(1, {0, 1});
+    twice.add_row(2, {0});
+    twice.add_row(3, {1});
+    assert(twice.count() == 2);
+    assert(twice.count(1) == 1);
 
     DancingLinks nothing(0);
     rows = nothing.exact_cover();
