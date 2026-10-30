@@ -42,11 +42,12 @@ void run(long long rounds){
     }
 }
 
-/// Reassigning a fresh table must compile and stay cheap, a per-instance salt breaks both
+/// Reassigning a fresh table must compile, stay cheap and keep the one salt per process, a const or per-map salt fails
 void check_reassign(){
     HashMap<int, int> table(1);
     for (int i = 0; i < 300000; i++){
         table = HashMap<int, int>(i % 4);
+        assert((table.salt == HashMap<int, int>::process_salt()));
         assert(table.size() == 0 && !table.contains(i - 1));
         table.set(i, -i);
         assert(table.size() == 1 && table.get(i) == -i);

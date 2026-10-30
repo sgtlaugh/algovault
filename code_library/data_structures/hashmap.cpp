@@ -40,8 +40,8 @@ struct HashMap{
         TValue value;
     };
 
-    /// static so construction stays cheap for many small maps and copy assignment is not deleted
-    static inline const uint64_t salt = mt19937_64(chrono::steady_clock::now().time_since_epoch().count())();
+    /// One salt per process, copied into each map so home() skips the static's guard and copy assignment still works
+    uint64_t salt = process_salt();
 
     /// A slot is live only while its id equals cur_id, so clear() empties every slot at once by bumping cur_id
     int cur_id = 1, _size = 0, max_len, mask;
@@ -98,6 +98,11 @@ struct HashMap{
 
     int size() const{
         return _size;
+    }
+
+    static uint64_t process_salt(){
+        static const uint64_t s = mt19937_64(chrono::steady_clock::now().time_since_epoch().count())();
+        return s;
     }
 
     int home(TKey x) const{
