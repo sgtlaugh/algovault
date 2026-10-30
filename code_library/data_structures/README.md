@@ -194,7 +194,7 @@
 
 #### [Hash Map](hashmap.cpp)
 
-- [UVa 12219 - Common Subexpression Elimination](https://onlinejudge.org/external/122/12219.pdf)
+- [UVa 12219 - Common Subexpression Elimination](https://onlinejudge.org/external/122/12219.pdf) [✔](../../practice/data_structures/uva_12219.cpp "Accepted solution")
 
 #### [Interval Set](interval_set.cpp)
 
