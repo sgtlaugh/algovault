@@ -10,6 +10,7 @@
  * Notes:
  *   - |x|, |y| <= 1e9, so a squared distance (at most 8e18) fits in a long long
  *   - Duplicate points are allowed and give dist2 = 0
+ *   - Manhattan or Chebyshev distance needs its own sweep; (x, y) -> (x + y, x - y) turns Manhattan into Chebyshev
  *
 ***/
 
