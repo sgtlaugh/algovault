@@ -214,6 +214,13 @@ void check_lines(Point a, Point b, Point c, Point d, Point p){
     long double dist = hypotl(p.x - px, p.y - py);
     int side = sign(rx * (p.y - a.y) - ry * (p.x - a.x));
     assert(close_to(dist_point_line(fp, fa, fb), side * dist) && (side == 0 || (dist_point_line(fp, fa, fb) > 0) == (side > 0)));
+    assert(close_to(dist_point_line(p, a, b), side * dist));
+}
+
+/// The cross product is exact in __int128 and converts to long double without rounding, unlike the library's double
+long double exact_dist_line(Point p, Point a, Point b){
+    __int128 rx = b.x - a.x, ry = b.y - a.y;
+    return (long double)(rx * (p.y - a.y) - ry * (p.x - a.x)) / sqrtl((long double)(rx * rx + ry * ry));
 }
 
 /// Same direction by reduced vectors, else atan2l in [0, 2 pi), the exact __int128 cross only for angles within 1e-12
@@ -345,6 +352,23 @@ int main(){
         long double expected = brute_dist(p, a, b);
         assert(fabsl(dist_point_segment(p, a, b) - expected) < 1e-6 + 1e-12 * expected);
     }
+
+    /// Points on line ab or one unit off it, where an inexact cross product would dwarf a distance near 1 / |b - a|
+    long long on_line = 0, off_by_one = 0;
+    for (long long it = 0; it < stress::scaled(100000); it++){
+        Point a{near_bound(), near_bound()}, b{near_bound(), near_bound()};
+        if (a == b) continue;
+        long long dx = b.x - a.x, dy = b.y - a.y, g = __gcd(llabs(dx), llabs(dy)), k = stress::rand_int(-g, 2 * g);
+        Point p{a.x + k * (dx / g) + stress::rand_int(-1, 1), a.y + k * (dy / g) + stress::rand_int(-1, 1)};
+        if (it % 4 == 0) p = {near_bound(), near_bound()};
+        if (llabs(p.x) > E9 || llabs(p.y) > E9) continue;
+        long double expected = exact_dist_line(p, a, b);
+        assert(fabsl(dist_point_line(p, a, b) - expected) <= 1e-15L * fabsl(expected));
+        on_line += expected == 0, off_by_one += expected != 0 && fabsl(expected) < 1;
+    }
+
+    assert(on_line > 2000 && off_by_one > 2000);
+    stress::expect_assert("geometry/geometry.cpp", []{ dist_point_line(Point{3, 4}, Point{1, 2}, Point{1, 2}); });
 
     for (long long it = 0; it < stress::scaled(20000); it++){
         Point a = random_point(E9), b = random_point(E9), p = random_point(E9);

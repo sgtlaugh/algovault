@@ -13,6 +13,7 @@
  *   angle_less(a, b): polar angle order of vectors, counter-clockwise from the positive x axis over [0, 2 pi)
  *   area2(poly): twice the signed area, positive for counter-clockwise order
  *   cross(o, a, b): > 0 if o -> a -> b turns left (counter-clockwise), < 0 right, 0 collinear
+ *   dist_point_line(p, a, b): signed distance to line ab as a double, positive when p is left of a -> b, a != b
  *   dist_point_segment(p, a, b): Euclidean distance as a double
  *   on_segment(p, a, b): whether p lies on segment ab, endpoints inclusive
  *   point_in_convex_polygon(poly, p): 1 inside, 0 on the boundary, -1 outside, poly convex counter-clockwise, n >= 3
@@ -93,6 +94,11 @@ long long area2(const vector<Point>& poly){
     __int128 res = 0;  /// partial sums can exceed long long even when the final area fits
     for (int i = 1; i + 1 < (int)poly.size(); i++) res += cross(poly[0], poly[i], poly[i + 1]);
     return (long long)res;
+}
+
+double dist_point_line(const Point& p, const Point& a, const Point& b){
+    assert(!(a == b));
+    return (double)cross(a, b, p) / sqrt((double)dot(a, b, b));
 }
 
 double dist_point_segment(const Point& p, const Point& a, const Point& b){
@@ -336,6 +342,7 @@ int main(){
     assert(on_segment({2, 0}, a, b));
     assert(segments_intersect(a, c, b, d));                 /// the diagonals
     assert(abs(dist_point_segment({7, 4}, a, b) - 5) < 1e-9);  /// nearest point is b
+    assert(abs(dist_point_line({7, 4}, a, b) - 4) < 1e-9);     /// the line runs on past b
     assert(area2(square) == 32);                            /// twice the area, positive counter-clockwise
     assert(point_in_polygon(square, {2, 2}) == 1);
     assert(point_in_polygon(square, {4, 2}) == 0);          /// on the boundary
@@ -357,7 +364,7 @@ int main(){
     auto [kind, at] = line_intersection({0, 0}, {4, 4}, {0, 4}, {4, 0});
     assert(kind == 1 && near(at, {2, 2}));
     assert(segment_intersection({0, 0}, {4, 0}, {6, 0}, {2, 0}).size() == 2);  /// overlap from (2, 0) to (4, 0)
-    assert(abs(dist_point_line({2, -3}, {0, 0}, {4, 0}) + 3) < 1e-9);         /// negative right of the line
+    assert(abs(dist_point_line(PointF{2, -3}, PointF{0, 0}, PointF{4, 0}) + 3) < 1e-9);  /// negative right of the line
     assert(near(project({2, 3}, {0, 0}, {4, 0}), {2, 0}));
     assert(near(reflect({2, 3}, {0, 0}, {4, 0}), {2, -3}));
 
