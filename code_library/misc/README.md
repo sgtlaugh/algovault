@@ -86,3 +86,4 @@
 
 - [UVa 10561 - Treblecross](https://onlinejudge.org/external/105/10561.pdf) [✔](../../practice/misc/uva_10561.cpp "Accepted solution")
 - [UVa 11534 - Say Goodbye to Tic-Tac-Toe](https://onlinejudge.org/external/115/11534.pdf) [✔](../../practice/misc/uva_11534.cpp "Accepted solution")
+- [UVa 11840 - Tic-tac-toe](https://onlinejudge.org/external/118/11840.pdf) [✔](../../practice/misc/uva_11840.cpp "Accepted solution")
