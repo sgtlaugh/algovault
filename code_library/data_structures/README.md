@@ -166,6 +166,7 @@
 - [UVa 12086 - Potentiometers](https://onlinejudge.org/external/120/12086.pdf) [✔](../../practice/data_structures/uva_12086_fenwick_tree.cpp "Accepted solution")
 - [UVa 12141 - Line Chart](https://onlinejudge.org/external/121/12141.pdf) [✔](../../practice/data_structures/uva_12141.cpp "Accepted solution")
 - [UVa 12595 - Galactic Transmission](https://onlinejudge.org/external/125/12595.pdf) [✔](../../practice/data_structures/uva_12595.cpp "Accepted solution")
+- [UVa 12610 - Attractive Grid](https://onlinejudge.org/external/126/12610.pdf) [✔](../../practice/data_structures/uva_12610.cpp "Accepted solution")
 - [UVa 12998 - Tree Weights](https://onlinejudge.org/external/129/12998.pdf) [✔](../../practice/data_structures/uva_12998.cpp "Accepted solution")
 - [UVa 13212 - How many inversions?](https://onlinejudge.org/external/132/13212.pdf) [✔](../../practice/data_structures/uva_13212.cpp "Accepted solution")
 
