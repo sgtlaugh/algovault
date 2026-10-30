@@ -12,6 +12,7 @@
  * Notes:
  *   - Pass the same tmp to repeated sorts: at n = 1e7 a fresh scratch measured 270 ms per sort, a reused one 229 ms
  *   - Use radix_sort.cpp for 32-bit keys, a template over the key type made it 2-3x slower
+ *   - Packing a record's fields into one key, x << 18 | rank << 1 | sign, sorts 2x faster than std::sort of tuples
  *
 ***/
 
