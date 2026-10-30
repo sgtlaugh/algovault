@@ -11,9 +11,9 @@
 | [Li Chao Tree](#li-chao-tree) | [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) | [Mo's Algorithm](#mos-algorithm) |
 | [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) | [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) | [Monotonic Stack](#monotonic-stack) |
 | [Ordered Set](#ordered-set) | [Persistent Segment Tree](#persistent-segment-tree) | [Rope](#rope) | [Segment Tree](#segment-tree) |
-| [Segment Tree Beats](#segment-tree-beats) | [Segment Tree Merging](#segment-tree-merging) | [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) |
-| [Sparse Table 2D](#sparse-table-2d) | [Square Root Decomposition](#square-root-decomposition) | [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) |
-| [Trie](#trie) | [XOR Segment Tree](#xor-segment-tree) |  |  |
+| [Segment Tree 2D](#segment-tree-2d) | [Segment Tree Beats](#segment-tree-beats) | [Segment Tree Merging](#segment-tree-merging) | [Sliding Window Aggregation](#sliding-window-aggregation) |
+| [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) | [Square Root Decomposition](#square-root-decomposition) | [Treap](#treap) |
+| [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) | [XOR Segment Tree](#xor-segment-tree) |  |
 
 <!-- /toc -->
 
@@ -395,6 +395,11 @@
 - [UVa 12501 - Bulky process of bulk reduction](https://onlinejudge.org/external/125/12501.pdf) [✔](../../practice/data_structures/uva_12501.cpp "Accepted solution")
 - [UVa 12532 - Interval Product](https://onlinejudge.org/external/125/12532.pdf) [✔](../../practice/data_structures/uva_12532.cpp "Accepted solution")
 - [ZOJ 3899 - State Reversing](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827370003) [✔](../../practice/data_structures/zoj_3899_segment_tree.cpp "Accepted solution")
+
+#### [Segment Tree 2D](segment_tree_2D.cpp)
+
+- [HDU 4819 - Mosaic](https://acm.hdu.edu.cn/showproblem.php?pid=4819)
+- [UVa 11297 - Census](https://onlinejudge.org/external/112/11297.pdf)
 
 #### [Segment Tree Beats](segment_tree_beats.cpp)
 

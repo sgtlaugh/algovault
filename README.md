@@ -111,6 +111,7 @@ sa.contains("nab");         // false
 - [Permutation Tree](code_library/data_structures/permutation_tree.cpp) - decomposes a permutation into common intervals [✔](judge_tests/data_structures/common_interval_decomposition_tree.cpp)
 - [Rope](code_library/data_structures/rope.cpp) - persistent text, every version stays readable
 - [Segment Tree](code_library/data_structures/segment_tree.cpp) - range update and range query, with binary search [✔](judge_tests/data_structures/point_set_range_composite.cpp)
+  - [2D](code_library/data_structures/segment_tree_2D.cpp) - point assignment and rectangle query on a grid
   - [Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin and chmax with range sum [✔](judge_tests/data_structures/range_chmin_chmax_add_range_sum.cpp)
   - [Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets with merge, split and k-th
   - [Persistent](code_library/data_structures/persistent_segment_tree.cpp) - every version stays queryable, with k-th search [✔](judge_tests/data_structures/persistent_queue.cpp)
