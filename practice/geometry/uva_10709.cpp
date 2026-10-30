@@ -1,0 +1,695 @@
+/***
+ *
+ * 2D Geometry
+ * Exact integer predicates on lattice points, polygon queries, and floating point line and polygon helpers
+ *
+ * Complexity, n = number of polygon vertices or points:
+ *   - simple_polygon: O(n log n)
+ *   - point_in_convex_polygon: O(log n)
+ *   - area2, point_in_polygon, cut_polygon, polygon_centroid: O(n)
+ *   - every other function: O(1)
+ *
+ * Integer part, Point of long long with +, -, == and < (x, then y), so points sort, deduplicate and key a map:
+ *   angle_less(a, b): polar angle order of vectors, counter-clockwise from the positive x axis over [0, 2 pi)
+ *   area2(poly): twice the signed area, positive for counter-clockwise order
+ *   cross(o, a, b): > 0 if o -> a -> b turns left (counter-clockwise), < 0 right, 0 collinear
+ *   dist_point_line(p, a, b): signed distance to line ab as a double, positive when p is left of a -> b, a != b
+ *   dist_point_segment(p, a, b): Euclidean distance as a double
+ *   on_segment(p, a, b): whether p lies on segment ab, endpoints inclusive
+ *   point_in_convex_polygon(poly, p): 1 inside, 0 on the boundary, -1 outside, poly convex counter-clockwise, n >= 3
+ *   point_in_polygon(poly, p): 1 inside, 0 on the boundary, -1 outside, for any simple polygon
+ *   segments_intersect(a, b, c, d): whether segments ab and cd share a point, endpoints inclusive
+ *   simple_polygon(points): an order of the indices forming a simple polygon, points distinct and not all collinear
+ *
+ * Floating point part, PointF of doubles:
+ *   area2(poly): twice the signed area, positive for counter-clockwise order, 0 for fewer than 3 vertices
+ *   clockwise_angle(a, b): clockwise angle in degrees in [0, 360) from vector a to vector b
+ *   cut_polygon(poly, a, b): the part of poly left of a -> b, the half-plane cross(a, b, p) >= 0, a != b
+ *   dist_point_line(p, a, b): signed distance, positive when p is left of a -> b, a != b
+ *   great_circle_distance(lat1, lon1, lat2, lon2, radius): haversine formula, angles in degrees
+ *   line_intersection(a, b, c, d): {1, point} for a unique point, {0, (0, 0)} parallel, {-1, (0, 0)} the same line
+ *   orientation(o, a, b): sign of cross(o, a, b) under the EPS tolerance
+ *   polygon_centroid(poly): center of mass of a simple polygon with nonzero area, either orientation
+ *   project(p, a, b): projection of p onto the line through a != b
+ *   reflect(p, a, b): reflection of p across the line through a != b
+ *   rotate(center, p, degrees): rotates p counter-clockwise around center
+ *   segment_intersection(a, b, c, d): no point, the single common point, or the two ends of a collinear overlap
+ *
+ * Notes:
+ *   - Point needs |x|, |y| <= 1e9 so every cross and dot product fits in long long
+ *   - angle_less ranks vectors of the same direction equal and (0, 0) first, components up to 2e9 are allowed
+ *   - To sort points around a center o, sort the vectors p - o with angle_less
+ *   - Degenerate segments are allowed in on_segment, segments_intersect and segment_intersection
+ *   - point_in_convex_polygon allows collinear vertices, as long as not all vertices are collinear
+ *   - PointF counts o, a, b as collinear when the triangle's height is below EPS = 1e-9 times its longest side
+ *   - Two PointF lines are parallel when the sine of their angle is below EPS
+ *   - With integer coordinates |x|, |y| <= 1e4 every PointF decision is exact, only the returned points are rounded
+ *   - cut_polygon uses the exact sign of cross(a, b, p) without EPS and is empty when no vertex lies strictly left
+ *   - cut_polygon of a convex poly is convex with the same orientation, a vertex within rounding of the line may repeat
+ *   - cut_polygon of a simple poly joins the kept pieces by zero-width bridges along the line, the signed area is exact
+ *   - Defines its own Point, cross and area2: pasted next to another geometry file, merge the Point blocks first
+ *
+***/
+
+#include <bits/stdtr1c++.h>
+
+using namespace std;
+
+struct Point{
+    long long x, y;
+
+    Point operator+(const Point& p) const{
+        return {x + p.x, y + p.y};
+    }
+
+    Point operator-(const Point& p) const{
+        return {x - p.x, y - p.y};
+    }
+
+    bool operator==(const Point& p) const{
+        return x == p.x && y == p.y;
+    }
+
+    bool operator<(const Point& p) const{
+        return x != p.x ? x < p.x : y < p.y;
+    }
+};
+
+long long cross(const Point& o, const Point& a, const Point& b){
+    return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+}
+
+long long dot(const Point& o, const Point& a, const Point& b){
+    return (a.x - o.x) * (b.x - o.x) + (a.y - o.y) * (b.y - o.y);
+}
+
+bool angle_less(const Point& a, const Point& b){
+    auto half = [](const Point& p){ return p.x == 0 && p.y == 0 ? 0 : 1 + (p.y < 0 || (p.y == 0 && p.x < 0)); };
+    int ha = half(a), hb = half(b);
+    if (ha != hb) return ha < hb;
+    return cross({0, 0}, a, b) > 0;
+}
+
+long long area2(const vector<Point>& poly){
+    __int128 res = 0;  /// partial sums can exceed long long even when the final area fits
+    for (int i = 1; i + 1 < (int)poly.size(); i++) res += cross(poly[0], poly[i], poly[i + 1]);
+    return (long long)res;
+}
+
+double dist_point_line(const Point& p, const Point& a, const Point& b){
+    assert(!(a == b));
+    return (double)cross(a, b, p) / sqrt((double)dot(a, b, b));
+}
+
+double dist_point_segment(const Point& p, const Point& a, const Point& b){
+    long long len = dot(a, b, b), t = dot(a, b, p);
+    if (len == 0 || t <= 0) return hypot((double)(p.x - a.x), (double)(p.y - a.y));
+    if (t >= len) return hypot((double)(p.x - b.x), (double)(p.y - b.y));
+    return fabs((double)cross(a, b, p)) / sqrt((double)len);
+}
+
+bool on_segment(const Point& p, const Point& a, const Point& b){
+    return cross(a, b, p) == 0 && min(a.x, b.x) <= p.x && p.x <= max(a.x, b.x) && min(a.y, b.y) <= p.y && p.y <= max(a.y, b.y);
+}
+
+bool segments_intersect(const Point& a, const Point& b, const Point& c, const Point& d){
+    auto sign = [](long long v){ return (v > 0) - (v < 0); };
+    int d1 = sign(cross(a, b, c)), d2 = sign(cross(a, b, d)), d3 = sign(cross(c, d, a)), d4 = sign(cross(c, d, b));
+    if (d1 * d2 < 0 && d3 * d4 < 0) return true;
+    return on_segment(c, a, b) || on_segment(d, a, b) || on_segment(a, c, d) || on_segment(b, c, d);
+}
+
+int point_in_convex_polygon(const vector<Point>& poly, const Point& p){
+    int n = poly.size();
+
+    assert(n >= 3);
+    const Point& o = poly[0];
+    long long first = cross(o, poly[1], p), last = cross(o, poly[n - 1], p);
+    if (first < 0 || last > 0) return -1;
+    if (first == 0 || last == 0){
+        /// The first and last edges may run on through collinear vertices, so test against the farthest one on each ray
+        auto on_ray = [&](const Point& dir, const Point& v){ return cross(o, dir, v) == 0 && dot(o, dir, v) > 0; };
+        int a = 1, hi = n - 1;
+        while (a < hi){
+            int mid = (a + hi + 1) / 2;
+            if (on_ray(poly[1], poly[mid])) a = mid;
+            else hi = mid - 1;
+        }
+
+        int lo = 1, b = n - 1;
+        while (lo < b){
+            int mid = (lo + b) / 2;
+            if (on_ray(poly[n - 1], poly[mid])) b = mid;
+            else lo = mid + 1;
+        }
+
+        return on_segment(p, o, poly[a]) || on_segment(p, o, poly[b]) ? 0 : -1;
+    }
+
+    int lo = 1, hi = n - 1;  /// p lies strictly inside the angle, find the wedge o, poly[lo], poly[lo + 1]
+    while (hi - lo > 1){
+        int mid = (lo + hi) / 2;
+        if (cross(o, poly[mid], p) > 0) lo = mid;
+        else hi = mid;
+    }
+    long long c = cross(poly[lo], poly[hi], p);
+    return c > 0 ? 1 : (c == 0 ? 0 : -1);
+}
+
+int point_in_polygon(const vector<Point>& poly, const Point& p){
+    bool inside = false;
+
+    for (int i = 0, n = poly.size(); i < n; i++){
+        const Point& a = poly[i];
+        const Point& b = poly[(i + 1) % n];
+        if (on_segment(p, a, b)) return 0;
+        if ((a.y > p.y) != (b.y > p.y)){
+            long long c = cross(a, b, p);
+            if ((b.y > a.y) ? c > 0 : c < 0) inside = !inside;
+        }
+    }
+
+    return inside ? 1 : -1;
+}
+
+vector<int> simple_polygon(const vector<Point>& points){
+    int n = points.size();
+    vector<int> order(n);
+
+    iota(order.begin(), order.end(), 0);
+    int pivot = *min_element(order.begin(), order.end(), [&](int i, int j){
+        return make_pair(points[i].y, points[i].x) < make_pair(points[j].y, points[j].x);
+    });
+    swap(order[0], order[pivot]);
+
+    const Point& o = points[order[0]];
+    sort(order.begin() + 1, order.end(), [&](int i, int j){
+        long long c = cross(o, points[i], points[j]);
+        if (c != 0) return c > 0;
+        return dot(o, points[i], points[i]) < dot(o, points[j], points[j]);
+    });
+
+    /// Points on the last ray from the pivot are walked back towards it, otherwise the polygon folds over itself
+    int k = n - 1;
+    while (k > 1 && cross(o, points[order[k]], points[order[k - 1]]) == 0) k--;
+    reverse(order.begin() + k, order.end());
+    return order;
+}
+
+const double EPS = 1e-9;
+
+struct PointF{
+    double x, y;
+
+    PointF operator+(const PointF& p) const{
+        return {x + p.x, y + p.y};
+    }
+
+    PointF operator-(const PointF& p) const{
+        return {x - p.x, y - p.y};
+    }
+
+    PointF operator*(double k) const{
+        return {x * k, y * k};
+    }
+
+    PointF operator/(double k) const{
+        return {x / k, y / k};
+    }
+};
+
+double cross(const PointF& o, const PointF& a, const PointF& b){
+    return (a.x - o.x) * (b.y - o.y) - (a.y - o.y) * (b.x - o.x);
+}
+
+double dot(const PointF& o, const PointF& a, const PointF& b){
+    return (a.x - o.x) * (b.x - o.x) + (a.y - o.y) * (b.y - o.y);
+}
+
+double area2(const vector<PointF>& poly){
+    double res = 0;  /// fanned from poly[0] like polygon_centroid, so far away polygons keep their precision
+    for (int i = 1; i + 1 < (int)poly.size(); i++) res += cross(poly[0], poly[i], poly[i + 1]);
+    return res;
+}
+
+double clockwise_angle(const PointF& a, const PointF& b){
+    double theta = atan2(b.x * a.y - b.y * a.x, a.x * b.x + a.y * b.y) * 180.0 / acos(-1.0);
+    if (theta < 0) theta += 360.0;
+    return theta >= 360.0 ? 0.0 : theta;  /// a tiny negative angle rounds up to exactly 360
+}
+
+vector<PointF> cut_polygon(const vector<PointF>& poly, const PointF& a, const PointF& b){
+    vector<PointF> res;
+    bool any_left = false;
+
+    for (int i = 0, n = poly.size(); i < n; i++){
+        const PointF& cur = poly[i];
+        const PointF& prev = poly[(i + n - 1) % n];
+        double sc = cross(a, b, cur), sp = cross(a, b, prev);
+        /// Only strict sign changes are interpolated, so a vertex on the line is kept once, never again as a crossing
+        if ((sc > 0 && sp < 0) || (sc < 0 && sp > 0)) res.push_back(cur + (prev - cur) * (sc / (sc - sp)));
+        if (sc >= 0) res.push_back(cur);
+        any_left |= sc > 0;
+    }
+
+    if (!any_left) res.clear();  /// only vertices on the line, a zero-area remainder
+    return res;
+}
+
+double dist_point_line(const PointF& p, const PointF& a, const PointF& b){
+    return cross(a, b, p) / hypot(b.x - a.x, b.y - a.y);
+}
+
+long double great_circle_distance(long double lat1, long double lon1, long double lat2, long double lon2, long double radius){
+    const long double to_rad = acosl(-1.0L) / 180.0L;
+    lat1 *= to_rad, lat2 *= to_rad, lon1 *= to_rad, lon2 *= to_rad;
+    long double h = powl(sinl((lat2 - lat1) / 2), 2) + cosl(lat1) * cosl(lat2) * powl(sinl((lon2 - lon1) / 2), 2);
+    return 2 * radius * asinl(sqrtl(min(1.0L, h)));
+}
+
+int orientation(const PointF& o, const PointF& a, const PointF& b){
+    double c = cross(o, a, b), tol = EPS * max({dot(o, a, a), dot(o, b, b), dot(a, b, b)});
+    return c > tol ? 1 : (c < -tol ? -1 : 0);
+}
+
+pair<int, PointF> line_intersection(const PointF& a, const PointF& b, const PointF& c, const PointF& d){
+    double den = (b.x - a.x) * (d.y - c.y) - (b.y - a.y) * (d.x - c.x);
+    if (fabs(den) <= EPS * sqrt(dot(a, b, b) * dot(c, d, d))) return {orientation(a, b, c) == 0 ? -1 : 0, {0, 0}};
+    return {1, a + (b - a) * (cross(a, c, d) / den)};
+}
+
+PointF polygon_centroid(const vector<PointF>& poly){
+    /// Fan from poly[0] instead of the origin, so far away polygons do not lose precision to cancellation
+    const PointF& o = poly[0];
+    PointF sum{0, 0};
+    double area = 0;
+    for (int i = 1; i + 1 < (int)poly.size(); i++){
+        double c = cross(o, poly[i], poly[i + 1]);
+        sum = sum + (poly[i] + poly[i + 1] - o * 2) * c;
+        area += c;
+    }
+
+    return o + sum / (3 * area);
+}
+
+PointF project(const PointF& p, const PointF& a, const PointF& b){
+    return a + (b - a) * (dot(a, b, p) / dot(a, b, b));
+}
+
+PointF reflect(const PointF& p, const PointF& a, const PointF& b){
+    return project(p, a, b) * 2 - p;
+}
+
+PointF rotate(const PointF& center, const PointF& p, double degrees){
+    double theta = degrees * acos(-1.0) / 180.0, s = sin(theta), c = cos(theta);
+    double x = p.x - center.x, y = p.y - center.y;
+    return {center.x + x * c - y * s, center.y + x * s + y * c};
+}
+
+vector<PointF> segment_intersection(const PointF& a, const PointF& b, const PointF& c, const PointF& d){
+    int oa = orientation(c, d, a), ob = orientation(c, d, b), oc = orientation(a, b, c), od = orientation(a, b, d);
+
+    if (oa * ob < 0 && oc * od < 0){
+        double ca = cross(c, d, a), cb = cross(c, d, b);
+        return {(a * cb - b * ca) / (cb - ca)};
+    }
+
+    auto touches = [](const PointF& p, const PointF& s, const PointF& e){
+        return orientation(s, e, p) == 0 && dot(p, s, e) <= EPS * dot(s, e, e);
+    };
+    vector<PointF> found;
+    if (touches(a, c, d)) found.push_back(a);
+    if (touches(b, c, d)) found.push_back(b);
+    if (touches(c, a, b)) found.push_back(c);
+    if (touches(d, a, b)) found.push_back(d);
+    if (found.empty()) return found;
+
+    /// The overlap ends are the farthest pair, lexicographic order is unreliable when the shared line is near vertical
+    PointF u = found[0], v = found[0];
+    for (const PointF& p : found){
+        for (const PointF& q : found){
+            if (dot(p, q, q) > dot(u, v, v)) u = p, v = q;
+        }
+    }
+    if (dot(u, v, v) <= EPS * EPS * max(dot(a, b, b), dot(c, d, d))) return {u};
+    return {u, v};
+}
+
+/***
+ *
+ * Fast I/O
+ * Buffered stdin and stdout, about 5x faster than scanf for integers, interactive problems included
+ *
+ * Complexity: O(1) amortized per character, one system call per buffer of up to 8192 bytes
+ *
+ * fio::flush(): writes the pending output now, which also happens at normal exit
+ * fio::read(a, b, ...): reads whitespace separated values into a, b, ..., returns the count read before the input ended
+ * fio::read_char(): the next input byte, whitespace included, EOF at the end of input
+ * fio::read_line(s): reads one line into s without its newline or a trailing \r, false only at the end of input
+ * fio::write(a, b, ...): writes a, b, ... space separated and ends the line, a vector argument on its own line
+ * fio::fixed(x, digits): a floating x with exactly digits digits after the point, the same text as printf("%.*f")
+ *
+ * Notes:
+ *   - read takes any integer including __int128, float, double, long double, strings, chars and vectors of these
+ *   - write takes integers, strings, chars, vectors of these and fio::fixed values
+ *   - Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
+ *   - An integer read skips everything up to the next digit or -, words included, where scanf fails and reads nothing
+ *   - A char reads one non-space character
+   - A loop over read_char() parses characters 2-3x faster than read(char) and about 4x faster than read(string)
+ *   - A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
+ *   - read(u, ar[u], d) binds ar[u] before u is read, so read an index on its own first: read(u); read(ar[u], d);
+ *   - Writing a float without fixed() does not compile, so its precision is always chosen
+ *   - fixed() is about 8x faster than printf while |x| * 10^digits < 2^52 and digits <= 18, as fast as printf otherwise
+ *   - A floating token read keeps its first 127 characters
+ *   - Interactive problems need no flush(): pending output is written each time the input buffer runs empty
+ *   - Output is lost on abnormal termination such as abort() or _exit()
+ *
+***/
+
+#include <bits/stdtr1c++.h>
+#include <unistd.h>  /// read() and write(), which MinGW's unistd.h also declares, so Windows judges compile them too
+
+using namespace std;
+
+/// Global buffers on purpose: a second reader would split stdin between two buffers, a second writer reorder stdout
+namespace fio{
+    const int BUF_SIZE = 8192;
+
+    int buf_len = 0, inptr = 0, outptr = 0;
+    char inbuf[BUF_SIZE], outbuf[BUF_SIZE], tmpbuf[128];
+
+    /// write, not fwrite: fwrite strands bytes in stdout's buffer, and fflush after it costs a second call, 7% slower
+    void flush(){
+        int done = 0;
+        while (done < outptr){
+            int len = ::write(1, outbuf + done, outptr - done);
+            if (len <= 0) break;
+            done += len;
+        }
+        outptr = 0;
+    }
+
+    /// Returns int so that EOF never collides with a 0xFF byte or with an unsigned char platform
+    inline int read_char(){
+        if (inptr >= buf_len){
+            /// An interactive judge answers only after it has read our query, so the query leaves before we wait
+            flush();
+
+            /// read returns the bytes available, fread waits for all 8192 or EOF: a deadlock on an interactive pipe
+            inptr = 0, buf_len = ::read(0, inbuf, BUF_SIZE);
+            if (buf_len <= 0) return EOF;
+        }
+
+        return (unsigned char)inbuf[inptr++];
+    }
+
+    /// Catches every integer the overloads below miss, so __int128 needs no is_integral specialization (breaks C++20)
+    template <typename T>
+    bool read_one(T &x){
+        int c = ' ', neg = 0;
+
+        while (c != '-' && !isdigit(c) && c != EOF) c = read_char();
+        if (c == '-') neg = 1, c = read_char();
+        if (c == EOF) return false;
+
+        /// A local, since an int x may alias inptr or buf_len and writing it per digit forces their reload from memory
+        T v = 0;
+
+        /// Accumulate as negative so that the minimum value (e.g. INT_MIN) does not overflow
+        for (; isdigit(c); c = read_char()){
+            v = v * 10 - (c - '0');
+        }
+        x = neg ? v : -v;
+
+        return true;
+    }
+
+    bool read_token(){
+        int c = ' ', len = 0;
+
+        while (isspace(c) && c != EOF) c = read_char();
+        if (c == EOF) return false;
+
+        for (; !isspace(c) && c != EOF; c = read_char()){
+            if (len + 1 < (int)sizeof(tmpbuf)) tmpbuf[len++] = c;
+        }
+        tmpbuf[len] = 0;
+        return true;
+    }
+
+    /// Each float parses at its own width, since strtold then a cast to double rounds twice and can miss by one ulp
+    bool read_one(float &x){
+        if (!read_token()) return false;
+        x = strtof(tmpbuf, nullptr);
+        return true;
+    }
+
+    /// Digits m <= 2^53 times or over an exact 10^k, k <= 22, round once as strtod: 2-3x faster, 6% slower at 17 digits
+    bool read_one(double &x){
+        if (!read_token()) return false;
+
+        static const double p10[] = {1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10, 1e11,
+                                     1e12, 1e13, 1e14, 1e15, 1e16, 1e17, 1e18, 1e19, 1e20, 1e21, 1e22};
+        const unsigned char *s = (const unsigned char *)tmpbuf + (*tmpbuf == '-' || *tmpbuf == '+');
+        unsigned long long m = 0;
+        int digits = 0, e = 0;
+        for (; isdigit(*s); s++) m = m * 10 + (*s - '0'), digits++;
+        if (*s == '.'){
+            for (s++; isdigit(*s); s++) m = m * 10 + (*s - '0'), digits++, e--;
+        }
+
+        /// No exponent digits after the e equals strtod, which then ignores the e
+        if (*s == 'e' || *s == 'E'){
+            int sign = s[1] == '-' ? -1 : 1, ex = 0;
+            s += 1 + (s[1] == '-' || s[1] == '+');
+            for (; isdigit(*s) && ex < 1000; s++) ex = ex * 10 + (*s - '0');
+            e += sign * ex;
+        }
+
+        /// x87 arithmetic (FLT_EVAL_METHOD != 0) rounds twice, so it always takes strtod
+        if (*s || !digits || digits > 19 || m > 1ULL << 53 || e < -22 || e > 22 || FLT_EVAL_METHOD){
+            x = strtod(tmpbuf, nullptr);
+            return true;
+        }
+
+        double v = e < 0 ? m / p10[-e] : m * p10[e];
+        x = *tmpbuf == '-' ? -v : v;
+        return true;
+    }
+
+    bool read_one(long double &x){
+        if (!read_token()) return false;
+        x = strtold(tmpbuf, nullptr);
+        return true;
+    }
+
+    bool read_one(string &s){
+        int c = ' ';
+
+        while (isspace(c) && c != EOF) c = read_char();
+        if (c == EOF) return false;
+
+        for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
+            s.push_back(c);
+        }
+
+        return true;
+    }
+
+    bool read_one(char &ch){
+        int c;
+        do c = read_char(); while (isspace(c));
+        if (c == EOF) return false;
+
+        ch = c;
+        return true;
+    }
+
+    template <typename T>
+    bool read_one(vector<T> &v){
+        for (auto &&x: v){
+            if (!read_one(x)) return false;
+        }
+
+        return true;
+    }
+
+    template <typename T>
+    int read(T &x){
+        return read_one(x);
+    }
+
+    template <typename T, typename ...Args>
+    int read(T &x, Args &...args){
+        if (!read_one(x)) return 0;
+        return read(args...) + 1;
+    }
+
+    /// Returns false only at the end of input, a last line without a trailing newline is still returned
+    bool read_line(string &s){
+        s.clear();
+        int c = read_char();
+        if (c == EOF) return false;
+
+        for (; c != '\n' && c != EOF; c = read_char()) s.push_back(c);
+        if (!s.empty() && s.back() == '\r') s.pop_back();  /// CRLF line endings
+        return true;
+    }
+
+    struct AutoFlush{ ~AutoFlush(){ flush(); } } auto_flush;
+
+    inline void write_char(char c){
+        if (outptr == BUF_SIZE) flush();
+        outbuf[outptr++] = c;
+    }
+
+    /// Integers, like read_one: the plain overloads below win for every other type
+    template <typename T>
+    void write_one(T x){
+        int l = 0;
+
+        if (x < 0){
+            /// Peel one digit while still negative so that -x cannot overflow for the minimum value
+            write_char('-');
+            tmpbuf[l++] = '0' - x % 10;
+            x = -(x / 10);
+        }
+
+        while (x || !l){
+            tmpbuf[l++] = (x % 10) + '0';
+            x /= 10;
+        }
+        while (l) write_char(tmpbuf[--l]);
+    }
+
+    void write_one(char c){
+        write_char(c);
+    }
+
+    void write_one(const char *s){
+        for (int j = 0; s[j]; j++) write_char(s[j]);
+    }
+
+    void write_one(const string &s){
+        for (auto &&c: s) write_char(c);
+    }
+
+    /// write(x) for a floating x does not compile on purpose: the digits after the point must be chosen
+    struct Fixed{
+        long double value;
+        int digits;
+    };
+
+    void write_one(const Fixed &f){
+        static const long long p10[] = {1, 10, 100, 1000, 10000, 100000, 1000000, 10000000, 100000000, 1000000000,
+            10000000000, 100000000000, 1000000000000, 10000000000000, 100000000000000, 1000000000000000,
+            10000000000000000, 100000000000000000, 1000000000000000000};
+
+        if (f.digits >= 0 && f.digits <= 18){
+            long double scaled = fabsl(f.value) * p10[f.digits];
+
+            /// Rounding never moves the product across k + 0.5, exact below 2^52, so only an exact k + 0.5 needs printf
+            if (scaled < 4503599627370496.0L && scaled - (long long)scaled != 0.5L){
+                long long q = scaled + 0.5L;
+                if (signbit(f.value)) write_char('-');
+                write_one(q / p10[f.digits]);
+                if (!f.digits) return;
+
+                long long r = q % p10[f.digits];
+                for (int j = f.digits - 1; j >= 0; j--) tmpbuf[j] = '0' + r % 10, r /= 10;
+                write_char('.');
+                for (int j = 0; j < f.digits; j++) write_char(tmpbuf[j]);
+                return;
+            }
+        }
+
+        int len = snprintf(tmpbuf, sizeof(tmpbuf), "%.*Lf", f.digits, f.value);
+
+        if (len < (int)sizeof(tmpbuf)){
+            for (int j = 0; j < len; j++) write_char(tmpbuf[j]);
+            return;
+        }
+
+        string s(len + 1, '\0');
+        snprintf(&s[0], len + 1, "%.*Lf", f.digits, f.value);
+        s.resize(len);
+        write_one(s);
+    }
+
+    template <typename T>
+    void write_one(const vector<T> &v){
+        for (int i = 0; i < (int)v.size(); i++){
+            if (i) write_char(' ');
+            write_one(v[i]);
+        }
+    }
+
+    template <typename T>
+    char separator_after(const T &){
+        return ' ';
+    }
+
+    template <typename T>
+    char separator_after(const vector<T> &){
+        return '\n';
+    }
+
+    template <typename T>
+    void write(const T &x){
+        write_one(x);
+        write_char('\n');
+    }
+
+    template <typename T, typename ...Args>
+    void write(const T &x, const Args &...args){
+        write_one(x);
+        write_char(separator_after(x));
+        write(args...);
+    }
+
+    Fixed fixed(long double value, int digits){
+        return {value, digits};
+    }
+}
+
+using namespace fio;
+
+Point a, b, c, d;
+string s1, s2;
+
+int side(const Point& o, const Point& p, const Point& q){
+    long long x = cross(o, p, q);
+    return (x > 0) - (x < 0);
+}
+
+double line_line(){
+    if (cross({0, 0}, b - a, d - c) != 0) return 0;
+    return fabs(dist_point_line(c, a, b));
+}
+
+double line_segment(const Point& a, const Point& b, const Point& c, const Point& d){
+    if ((side(a, b, c) * side(a, b, d)) <= 0) return 0;
+    return min(fabs(dist_point_line(c, a, b)), fabs(dist_point_line(d, a, b)));
+}
+
+double segment_segment(){
+    if (segments_intersect(a, b, c, d)) return 0;
+    return min(min(dist_point_segment(a, c, d), dist_point_segment(b, c, d)), min(dist_point_segment(c, a, b), dist_point_segment(d, a, b)));
+}
+
+int main(){
+    double res;
+
+    while (read(a.x, a.y, b.x, b.y, s1)){
+        read(c.x, c.y, d.x, d.y, s2);
+        if (s1 == "END") break;
+
+        if (s1 == "L" && s2 == "L") res = line_line();
+        else if (s1 == "L") res = line_segment(a, b, c, d);
+        else if (s2 == "L") res = line_segment(c, d, a, b);
+        else res = segment_segment();
+        write(fixed(res, 5));
+    }
+
+    return 0;
+}

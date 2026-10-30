@@ -119,6 +119,7 @@
 - [UVa 1301 - Fishnet](https://onlinejudge.org/external/13/1301.pdf)
 - [UVa 10263 - Railway](https://onlinejudge.org/external/102/10263.pdf) [✔](../../practice/geometry/uva_10263.cpp "Accepted solution")
 - [UVa 10335 - Ray Inside a Polygon](https://onlinejudge.org/external/103/10335.pdf)
+- [UVa 10709 - Intersection is Not that Easy](https://onlinejudge.org/external/107/10709.pdf) [✔](../../practice/geometry/uva_10709.cpp "Accepted solution")
 - [UVa 10902 - Pick-up Sticks](https://onlinejudge.org/external/109/10902.pdf) [✔](../../practice/geometry/uva_10902.cpp "Accepted solution")
 - [UVa 11343 - Isolated Segments](https://onlinejudge.org/external/113/11343.pdf) [✔](../../practice/geometry/uva_11343.cpp "Accepted solution")
 - [UVa 11612 - Sultan and Khairun Shundori](https://onlinejudge.org/external/116/11612.pdf)
