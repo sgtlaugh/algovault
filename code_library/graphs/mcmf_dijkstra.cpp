@@ -131,6 +131,9 @@ struct MCMF{
     }
 };
 
+/// C++11 judges link at -O0 only with this definition, since fill takes INF by reference
+constexpr long long MCMF::INF;
+
 int main(){
     /// Max flow 3 along 0-1-2-3 and 0-2-3 at cost 3 each, then 0-1-3 at cost 4, total cost 10
     MCMF g(4);

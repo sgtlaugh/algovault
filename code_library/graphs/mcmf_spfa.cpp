@@ -106,6 +106,9 @@ struct MCMFSpfa{
     }
 };
 
+/// C++11 judges link at -O0 only with this definition, since fill takes INF by reference
+constexpr long long MCMFSpfa::INF;
+
 int main(){
     /// Max flow 10 at cost 71 on https://cp-algorithms.com/graph/edmonds_karp.html, nodes shifted to 0 based
     MCMFSpfa g(6);
