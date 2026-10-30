@@ -1,18 +1,21 @@
 /***
  *
  * 2D Segment Tree
- * Point assignment and rectangle query on a grid for any associative and commutative combine with an identity
+ * Point assignment and rectangle min, max, sum or gcd on a grid, for any commutative combine with an identity
  *
- * Complexity: O(n m) to build, O(log n log m) per update and rectangle query, O(1) per cell read
+ * Complexity:
+ *   - build: O(n m)
+ *   - update, rectangle query: O(log n log m)
+ *   - cell query: O(1)
  *
  * SegmentTree2D<T, Combine = plus<T>> st(n, m, identity = T(), combine = Combine()): n x m grid of identity
- * SegmentTree2D st(grid, identity, combine): built from a rectangular grid
+ * SegmentTree2D<T, Combine> st(grid, identity = T(), combine = Combine()): built from a rectangular grid
  * st.update(x, y, v): a[x][y] = v, 0 <= x < n, 0 <= y < m
- * st.query(x, y): a[x][y]
+ * st.query(x, y): a[x][y], 0 <= x < n, 0 <= y < m
  * st.query(x1, y1, x2, y2): combine over rows x1..x2 and columns y1..y2, 0 <= x1 <= x2 < n, 0 <= y1 <= y2 < m
  *
  * Notes:
- *   - combine must commute, since a rectangle has no natural order of its cells, and combine(identity, a) = a
+ *   - combine must be associative and commutative, as a rectangle's cells have no order, and combine(identity, a) = a
  *   - Point add on sums is st.update(x, y, st.query(x, y) + v)
  *   - Memory is 4 n m values, use fenwick_tree_2D.cpp for plain sums in a quarter of it
  *
@@ -99,10 +102,10 @@ int main(){
     vector<vector<long long>> grid = {{1, 2, 3, 4}, {5, 6, 7, 8}, {9, 10, 11, 12}};
     SegmentTree2D<long long> sum(grid);
     assert(sum.query(0, 0, 2, 3) == 78);
-    assert(sum.query(1, 1, 2, 2) == 34);
+    assert(sum.query(1, 1, 2, 2) == 34);                /// 6 + 7 + 10 + 11
 
     sum.update(1, 2, 100);
-    assert(sum.query(1, 1, 2, 2) == 127);
+    assert(sum.query(1, 1, 2, 2) == 127);               /// the 7 became 100
     assert(sum.query(1, 2) == 100);
 
     /// Rectangle minimum with a lambda over a grid that starts at the identity, the largest int
