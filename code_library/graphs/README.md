@@ -484,6 +484,7 @@
 - [UVa 10594 - Data Flow](https://onlinejudge.org/external/105/10594.pdf) [✔](../../practice/graphs/uva_10594.cpp "Accepted solution")
 - [UVa 10806 - Dijkstra, Dijkstra.](https://onlinejudge.org/external/108/10806.pdf) [✔](../../practice/graphs/uva_10806.cpp "Accepted solution")
 - [UVa 11301 - Great Wall of China](https://onlinejudge.org/external/113/11301.pdf) [✔](../../practice/graphs/uva_11301.cpp "Accepted solution")
+- [UVa 12092 - Paint the Roads](https://onlinejudge.org/external/120/12092.pdf) [✔](../../practice/graphs/uva_12092.cpp "Accepted solution")
 
 #### [Minimum Mean Cycle (Karp)](minimum_mean_cycle.cpp)
 
