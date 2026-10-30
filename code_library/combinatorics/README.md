@@ -26,6 +26,7 @@
 - [CodeChef SANDWICH - Long Sandwich](https://www.codechef.com/problems/SANDWICH) [✔](../../practice/combinatorics/codechef_sandwich.cpp "Accepted solution")
 - [Codeforces 896D - Nephren Runs a Cinema](https://codeforces.com/problemset/problem/896/D) [✔](../../practice/combinatorics/codeforces_896d.cpp "Accepted solution")
 - [SPOJ DCEPC13D - The Ultimate Riddle](https://www.spoj.com/problems/DCEPC13D/)
+- [UVa 1257 - Your Ways](https://onlinejudge.org/external/12/1257.pdf) [✔](../../practice/combinatorics/uva_1257.cpp "Accepted solution")
 - [UVa 1264 - Binary Search Tree](https://onlinejudge.org/external/12/1264.pdf) [✔](../../practice/combinatorics/uva_1264.cpp "Accepted solution")
 - [UVa 10232 - Bit-wise Sequence](https://onlinejudge.org/external/102/10232.pdf) [✔](../../practice/combinatorics/uva_10232.cpp "Accepted solution")
 - [UVa 11481 - Arrange the Numbers](https://onlinejudge.org/external/114/11481.pdf) [✔](../../practice/combinatorics/uva_11481.cpp "Accepted solution")
