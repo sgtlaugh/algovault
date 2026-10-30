@@ -4,9 +4,20 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [Local Minimization](#local-minimization) | [Numerical Integration](#numerical-integration) | [Simulated Annealing](#simulated-annealing) | [Ternary and Golden-Section Search](#ternary-and-golden-section-search) |
+| [Dinkelbach Fractional Programming](#dinkelbach-fractional-programming) | [Local Minimization](#local-minimization) | [Numerical Integration](#numerical-integration) | [Simulated Annealing](#simulated-annealing) |
+| [Ternary and Golden-Section Search](#ternary-and-golden-section-search) |  |  |  |
 
 <!-- /toc -->
+
+#### [Dinkelbach Fractional Programming](dinkelbach.cpp)
+
+- [Codeforces 489E - Hiking](https://codeforces.com/problemset/problem/489/E)
+- [POJ 2728 - Desert King](http://poj.org/problem?id=2728)
+- [POJ 2976 - Dropping tests](http://poj.org/problem?id=2976)
+- [POJ 3111 - K Best](http://poj.org/problem?id=3111)
+- [POJ 3621 - Sightseeing Cows](http://poj.org/problem?id=3621)
+- [USACO 839 - Talent Show](https://usaco.org/index.php?page=viewproblem2&cpid=839)
+- [UVa 12164 - The Great Game](https://onlinejudge.org/external/121/12164.pdf)
 
 #### [Local Minimization](local_minimization.cpp)
 
