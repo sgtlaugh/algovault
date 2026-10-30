@@ -39,6 +39,7 @@
 - [UVa 745 - Numeric Puzzles Again!](https://onlinejudge.org/external/7/745.pdf)
 - [UVa 1309 - Sudoku](https://onlinejudge.org/external/13/1309.pdf) [✔](../../practice/misc/uva_1309.cpp "Accepted solution")
 - [UVa 1461 - Sudoku Extension](https://onlinejudge.org/external/14/1461.pdf) [✔](../../practice/misc/uva_1461.cpp "Accepted solution")
+- [UVa 10893 - Creating Sudoku Puzzles](https://onlinejudge.org/external/108/10893.pdf)
 - [UVa 11846 - Finding Seats Again](https://onlinejudge.org/external/118/11846.pdf)
 - [UVa 12719 - Fill the Cuboid](https://onlinejudge.org/external/127/12719.pdf)
 

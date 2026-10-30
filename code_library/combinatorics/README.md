@@ -74,6 +74,7 @@
 
 - [UVa 1573 - Hey, Better Bettor](https://onlinejudge.org/external/15/1573.pdf) [✔](../../practice/combinatorics/uva_1573.cpp "Accepted solution")
 - [UVa 11500 - Vampires](https://onlinejudge.org/external/115/11500.pdf) [✔](../../practice/combinatorics/uva_11500.cpp "Accepted solution")
+- [UVa 12164 - The Great Game](https://onlinejudge.org/external/121/12164.pdf)
 
 #### [Josephus Problem](josephus_problem.cpp)
 

@@ -7,13 +7,13 @@
 | [Convex Hull Trick](#convex-hull-trick) | [Coordinate Compression](#coordinate-compression) | [Disjoint Set Union](#disjoint-set-union) | [Disjoint Set Union, Partially Persistent](#disjoint-set-union-partially-persistent) |
 | [Disjoint Set Union, Potential](#disjoint-set-union-potential) | [Disjoint Set Union, Rollback](#disjoint-set-union-rollback) | [Disjoint Sparse Table](#disjoint-sparse-table) | [Distinct Subarray Aggregates](#distinct-subarray-aggregates) |
 | [Euler Tour Tree](#euler-tour-tree) | [Fenwick Tree](#fenwick-tree) | [Fenwick Tree 2D](#fenwick-tree-2d) | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) |
-| [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) | [Fenwick Tree 3D](#fenwick-tree-3d) | [Interval Set](#interval-set) | [Li Chao Tree](#li-chao-tree) |
-| [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) | [Mo's Algorithm](#mos-algorithm) | [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) |
-| [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) | [Monotonic Stack](#monotonic-stack) | [Ordered Set](#ordered-set) |
-| [Persistent Segment Tree](#persistent-segment-tree) | [Rope](#rope) | [Segment Tree](#segment-tree) | [Segment Tree Beats](#segment-tree-beats) |
-| [Segment Tree Merging](#segment-tree-merging) | [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) |
-| [Square Root Decomposition](#square-root-decomposition) | [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) |
-| [XOR Segment Tree](#xor-segment-tree) |  |  |  |
+| [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) | [Fenwick Tree 3D](#fenwick-tree-3d) | [Hash Map](#hash-map) | [Interval Set](#interval-set) |
+| [Li Chao Tree](#li-chao-tree) | [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) | [Mo's Algorithm](#mos-algorithm) |
+| [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) | [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) | [Monotonic Stack](#monotonic-stack) |
+| [Ordered Set](#ordered-set) | [Persistent Segment Tree](#persistent-segment-tree) | [Rope](#rope) | [Segment Tree](#segment-tree) |
+| [Segment Tree Beats](#segment-tree-beats) | [Segment Tree Merging](#segment-tree-merging) | [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) |
+| [Sparse Table 2D](#sparse-table-2d) | [Square Root Decomposition](#square-root-decomposition) | [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) |
+| [Trie](#trie) | [XOR Segment Tree](#xor-segment-tree) |  |  |
 
 <!-- /toc -->
 
@@ -69,7 +69,9 @@
 - [UVa 10583 - Ubiquitous Religions](https://onlinejudge.org/external/105/10583.pdf) [✔](../../practice/data_structures/uva_10583.cpp "Accepted solution")
 - [UVa 10608 - Friends](https://onlinejudge.org/external/106/10608.pdf) [✔](../../practice/data_structures/uva_10608.cpp "Accepted solution")
 - [UVa 10685 - Nature](https://onlinejudge.org/external/106/10685.pdf) [✔](../../practice/data_structures/uva_10685.cpp "Accepted solution")
+- [UVa 11363 - Cuckoo Hashing](https://onlinejudge.org/external/113/11363.pdf)
 - [UVa 11503 - Virtual Friends](https://onlinejudge.org/external/115/11503.pdf) [✔](../../practice/data_structures/uva_11503.cpp "Accepted solution")
+- [UVa 11665 - Chinese Ink](https://onlinejudge.org/external/116/11665.pdf)
 - [UVa 11690 - Money Matters](https://onlinejudge.org/external/116/11690.pdf) [✔](../../practice/data_structures/uva_11690.cpp "Accepted solution")
 - [UVa 11966 - Galactic Bonding](https://onlinejudge.org/external/119/11966.pdf) [✔](../../practice/data_structures/uva_11966.cpp "Accepted solution")
 - [UVa 11987 - Almost Union-Find](https://onlinejudge.org/external/119/11987.pdf) [✔](../../practice/data_structures/uva_11987.cpp "Accepted solution")
@@ -186,6 +188,10 @@
 #### [Fenwick Tree 3D](fenwick_tree_3D.cpp)
 
 - [HackerEarth counting-in-byteland - Counting In Byteland](https://www.hackerearth.com/practice/data-structures/advanced-data-structures/fenwick-binary-indexed-trees/practice-problems/algorithm/counting-in-byteland/) [✔](../../practice/data_structures/hackerearth_counting_in_byteland.cpp "Accepted solution")
+
+#### [Hash Map](hashmap.cpp)
+
+- [UVa 12219 - Common Subexpression Elimination](https://onlinejudge.org/external/122/12219.pdf)
 
 #### [Interval Set](interval_set.cpp)
 

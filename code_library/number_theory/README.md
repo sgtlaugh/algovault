@@ -99,6 +99,7 @@
 #### [Integer Root](integer_root.cpp)
 
 - [HDU 5297 - Y sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5297) [✔](../../practice/number_theory/hdu_5297.cpp "Accepted solution")
+- [UVa 11436 - Cubes - EXTREME!!!](https://onlinejudge.org/external/114/11436.pdf)
 
 #### [Linear Sieve](linear_sieve.cpp)
 
