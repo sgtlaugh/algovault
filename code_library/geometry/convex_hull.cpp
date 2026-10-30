@@ -25,6 +25,7 @@
  *
  * Notes:
  *   - |x|, |y| <= 1e9, so every cross product, dot product and squared distance fits in int64_t
+ *   - Input with k fixed decimal places: take llround(x * 10^k), exact, where a cast truncates 0.29 * 100 to 28
  *   - A hull argument is a strictly convex polygon in counter-clockwise order, as get_convex_hull returns
  *   - line_hull gives {-1, -1} for no intersection, {i, -1} touching only vertex i, {i, i} containing edge (i, i + 1)
  *   - Else line_hull gives {i, j}, crossing edge (i, i + 1) then (j, j + 1) going a -> b, a vertex k as edge (k, k + 1)
