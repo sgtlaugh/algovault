@@ -28,7 +28,8 @@ template <typename Items = vector<pair<int, long long>>>
 vector<char> bounded_subset_sums(const Items& items, int W){
     assert(W >= 0);
     vector<long long> cnt(W + 1, 0);
-    for (const auto& [v, c] : items){
+    for (const auto& item : items){
+        long long v = item.first, c = item.second;
         assert(v >= 0 && c >= 0);
         if (v > 0 && v <= W) cnt[v] = min<long long>(W, cnt[v] + min<long long>(c, W));
     }
