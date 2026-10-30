@@ -38,6 +38,48 @@ pair<long long, long long> brute(int n, int k){
     return {neck, brace};
 }
 
+/// Orbits of the distinct arrangements of a multiset under rotation, and under rotation and reflection
+pair<long long, long long> brute_counts(const vector<int>& counts){
+    vector<int> c;
+    for (int j = 0; j < (int)counts.size(); j++) c.insert(c.end(), counts[j], j);
+
+    int n = c.size();
+    long long neck = 0, brace = 0;
+    vector<int> t(n);
+    do {
+        bool min_rot = true, min_all = true;
+        for (int s = 0; s < n; s++){
+            for (int dir = 0; dir < 2; dir++){
+                for (int i = 0; i < n; i++) t[i] = dir ? c[(s - i + n) % n] : c[(s + i) % n];
+                if (t < c){
+                    min_all = false;
+                    if (!dir) min_rot = false;
+                }
+            }
+        }
+
+        neck += min_rot, brace += min_all;
+    } while (next_permutation(c.begin(), c.end()));
+
+    return {neck, brace};
+}
+
+/// Every vector of k counts summing to n, zeros included
+void compositions(int n, int k, vector<int>& cur, vector<vector<int>>& out){
+    if ((int)cur.size() == k - 1){
+        cur.push_back(n);
+        out.push_back(cur);
+        cur.pop_back();
+        return;
+    }
+
+    for (int c = 0; c <= n; c++){
+        cur.push_back(c);
+        compositions(n - c, k, cur, out);
+        cur.pop_back();
+    }
+}
+
 ull mul_mod(ull a, ull b, ull m){
     return (unsigned __int128)a * b % m;
 }
@@ -98,6 +140,79 @@ int main(){
     stress::expect_assert("combinatorics/necklaces.cpp", []{ bracelets<long long>(3, -1); });
     stress::expect_assert("combinatorics/necklaces.cpp", []{ necklaces(1LL << 32, 2, 1LL << 32); });
     stress::expect_assert("combinatorics/necklaces.cpp", []{ bracelets(1LL << 31, 2, 1LL << 32); });
+
+    stress::expect_assert("combinatorics/necklaces.cpp", []{ necklaces<long long>(vector<int>{0, 0}); });
+    stress::expect_assert("combinatorics/necklaces.cpp", []{ bracelets<long long>(vector<int>{}); });
+    stress::expect_assert("combinatorics/necklaces.cpp", []{ bracelets<long long>(vector<int>{-1, 3}); });
+
+    /// Every count vector of up to 9 beads in up to 4 colors, and 6 colors up to 6 beads, against the brute force
+    for (int k = 1; k <= 6; k++){
+        for (int n = 1; n <= (k <= 4 ? 9 : 6); n++){
+            vector<int> cur;
+            vector<vector<int>> all;
+            compositions(n, k, cur, all);
+            for (auto& counts : all){
+                auto [neck, brace] = brute_counts(counts);
+                assert(necklaces<long long>(counts) == neck);
+                assert(bracelets<long long>(counts) == brace);
+                assert(necklaces<Bignum>(counts) == neck);
+                assert(bracelets<Bignum>(counts) == brace);
+            }
+        }
+    }
+
+    /// Random multisets of up to 16 beads with zeros mixed in, few enough arrangements for the brute force
+    for (int it = 0; it < stress::scaled(300); it++){
+        vector<int> counts(stress::rand_int(1, 7));
+        __int128 arrangements = 1, n = 0;
+        for (int& c : counts){
+            c = stress::rand_int(0, 1) ? 0 : stress::rand_int(0, 6);
+            for (int i = 1; i <= c; i++) arrangements = arrangements * ++n / i;
+        }
+        if (n == 0 || n > 16 || arrangements > 5000) continue;
+
+        auto [neck, brace] = brute_counts(counts);
+        assert(necklaces<__int128>(counts) == neck);
+        assert(bracelets<__int128>(counts) == brace);
+    }
+
+    /// Splitting all k^n rings by their color counts adds up to the uniform counts
+    for (int k = 1; k <= 4; k++){
+        for (int n = 1; n <= 16; n++){
+            vector<int> cur;
+            vector<vector<int>> all;
+            compositions(n, k, cur, all);
+            long long neck = 0, brace = 0;
+            for (auto& counts : all){
+                neck += necklaces<long long>(counts);
+                brace += bracelets<long long>(counts);
+            }
+            assert(neck == necklaces<long long>(n, k));
+            assert(brace == bracelets<long long>(n, k));
+        }
+    }
+
+    /// long long up to its documented limit, 2 n times the arrangements below 2^63, matches Bignum
+    for (int it = 0; it < stress::scaled(300); it++){
+        vector<int> counts(stress::rand_int(2, 4));
+        Bignum arrangements = 1;
+        long long n = 0;
+        for (int& c : counts){
+            c = stress::rand_int(0, 25);
+            for (int i = 1; i <= c; i++) arrangements = arrangements * ++n / i;
+        }
+        if (n == 0 || arrangements * (2 * n) > Bignum(LLONG_MAX)) continue;
+        assert(necklaces<long long>(counts) == necklaces<Bignum>(counts));
+        assert(bracelets<long long>(counts) == bracelets<Bignum>(counts));
+    }
+
+    /// UVa 11255 sizes, up to 40 beads in 3 colors, in __int128 against Bignum
+    for (int it = 0; it < stress::scaled(100); it++){
+        int a = stress::rand_int(0, 40), b = stress::rand_int(0, 40 - a), c = stress::rand_int(0, 40 - a - b);
+        if (a + b + c == 0) continue;
+        assert(necklaces<__int128>({a, b, c}) == necklaces<Bignum>({a, b, c}));
+        assert(bracelets<__int128>({a, b, c}) == bracelets<Bignum>({a, b, c}));
+    }
 
     /// Every small ring against the brute force in every result type, and modulo every m <= 40, divisors of n included
     for (int n = 1; n <= 12; n++){
