@@ -1,15 +1,15 @@
 /***
  *
  * Dinkelbach Fractional Programming
- * Largest or smallest ratio a(x) / b(x) over choices x with b(x) > 0, given an oracle for a(x) - lambda b(x)
+ * Largest or smallest ratio a(x) / b(x) over a set of choices x, given an oracle that maximizes q a(x) - p b(x)
  *
  * Complexity: O(log(n M)) calls of best when a(x) and b(x) are sums of n integers of absolute value at most M
  *
- * max_ratio(best, a, b): the (a(x), b(x)) of an x maximizing a(x) / b(x), starting from any a / b <= the maximum
- * min_ratio(best, a, b): the (a(x), b(x)) of an x minimizing a(x) / b(x), starting from any a / b >= the minimum
+ * max_ratio(best, a, b): the (a(x), b(x)) of an x maximizing a(x) / b(x), from any start a / b <= the maximum, b > 0
+ * min_ratio(best, a, b): the (a(x), b(x)) of an x minimizing a(x) / b(x), from any start a / b >= the minimum, b > 0
  *
  * Notes:
- *   - best(p, q) returns the pair (a(x), b(x)) of an x maximizing q a(x) - p b(x), for min_ratio minimizing it
+ *   - best(p, q) returns (a(x), b(x)) with b(x) > 0 for an x maximizing q a(x) - p b(x), for min_ratio minimizing it
  *   - T is long long for exact answers or double, and best returns exactly pair<T, T>
  *   - long long: the template compares in __int128, best must keep q a(x) - p b(x) from overflowing itself
  *   - best may return any x with q a(x) - p b(x) > 0 (< 0 for min_ratio) when one exists: still exact, but slower
