@@ -58,8 +58,9 @@ def popularity(cache, judge, code):
             cf = fetch(cache, 'https://codeforces.com/api/problemset.problems')['result']
             m = re.match(r'(\d+)(\w+)', code)
             key = (int(m.group(1)), m.group(2))
+            stats = cf['problemStatistics']
             rating = next((p.get('rating') for p in cf['problems'] if (p['contestId'], p['index']) == key), None)
-            solved = next((s['solvedCount'] for s in cf['problemStatistics'] if (s['contestId'], s['index']) == key), None)
+            solved = next((s['solvedCount'] for s in stats if (s['contestId'], s['index']) == key), None)
             return f'{rating}r/{solved}', rating is not None and rating <= 1400
     except (OSError, ValueError, KeyError) as e:
         return f'error {type(e).__name__}', False
