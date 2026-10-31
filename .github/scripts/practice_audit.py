@@ -1,7 +1,7 @@
 """practice_audit.py <topic>: signals for spotting low-value practice problems in code_library/<topic>/README.md
 
 Per problem, one row per README section:
-  loc   - lines of the solution after the template copies, trivial lines like braces excluded
+  loc   - lines of the solution that no code_library version has, trivial lines like braces excluded
   sim   - highest token similarity (0 to 1) to another solution in the same section, and which one
   pop   - UVa distinct accepted users from uHunt, or Codeforces rating/solved count; high means easy
   flags - thin (loc <= 8), similar (sim >= 0.5), easy (UVa pop > 3000 or Codeforces rating <= 1400),
@@ -14,6 +14,7 @@ import glob
 import json
 import os
 import re
+import subprocess
 import sys
 import urllib.request
 
@@ -25,11 +26,16 @@ using namespace true false string vector pair size push_back read write main uns
 ENTRY = re.compile(r'^- \[(.+?) (\S+) - (.+?)\]\((.+?)\)(?: \[✔\]\(\.\./\.\./(practice/\S+?) )?')
 
 
-def body(path):
-    """The solution after its template copies, which end with the fast_io namespace."""
-    text = open(path).read()
-    m = re.search(r'^namespace fio\b.*?^}$', text, re.S | re.M)
-    return text[m.end():] if m else text[text.rfind('int main(){'):]
+def library_lines():
+    """Every line any code_library version ever had, so copies of old template versions are recognized too."""
+    log = subprocess.run(['git', '-C', ROOT, 'log', '-p', '--format=', '--', 'code_library/*.cpp'],
+                         capture_output=True, text=True, check=True).stdout
+    return {line[1:].strip() for line in log.split('\n') if line.startswith('+')}
+
+
+def body(path, library):
+    """The solution's own lines: template copies, old or current, with or without fast_io, are dropped."""
+    return '\n'.join(line for line in open(path) if line.strip() not in library)
 
 
 def shingles(code):
@@ -70,6 +76,7 @@ def popularity(cache, judge, code):
 def main():
     topic = sys.argv[1]
     cache = json.load(open(CACHE)) if os.path.exists(CACHE) else {}
+    library = library_lines()
     judge_urls = set()
     for path in glob.glob(f'{ROOT}/judge_tests/**/*.cpp', recursive=True):
         judge_urls |= set(re.findall(r'PROBLEM (\S+)', open(path).read()))
@@ -91,7 +98,7 @@ def main():
         for judge, code, _, url, solution in entries:
             row = {'id': f'{judge} {code}', 'url': url, 'pop': popularity(cache, judge, code), 'solution': solution}
             if solution:
-                code_text = body(f'{ROOT}/{solution}')
+                code_text = body(f'{ROOT}/{solution}', library)
                 row['loc'] = sum(1 for line in code_text.split('\n') if line.strip() not in TRIVIAL)
                 row['shingles'] = shingles(code_text)
             rows.append(row)
