@@ -36,8 +36,12 @@ def apply(text, done_ok=False):
     body = [k for k in range(start + 1, end) if lines[k].startswith("- [")]
     if insert:
         assert not any(lines[k].startswith(entry) for k in body), "entry already present"
-        pos = next((k for k in body if natural(lines[k]) > natural(entry)), body[-1] + 1 if body else start + 2)
-        lines.insert(pos, entry + link)
+        if body:
+            pos = next((k for k in body if natural(lines[k]) > natural(entry)), body[-1] + 1)
+            lines.insert(pos, entry + link)
+        else:
+            # Below the header's blank line, keeping the blank before the next header or the file's final newline
+            lines[start + 1:start + 1] = ["", entry + link]
     else:
         hits = [k for k in body if lines[k] == entry]
         if not hits and done_ok and any(lines[k] == entry + link for k in body):
