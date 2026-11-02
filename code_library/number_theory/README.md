@@ -17,7 +17,6 @@
 
 - [Codeforces Gym 104648B2 - Golf Gophers B2](https://codeforces.com/gym/104648/problem/B2) [✔](../../practice/number_theory/codeforces_gym_104648b2.cpp "Accepted solution")
 - [HackerRank number-of-sequences - Number of Sequences](https://www.hackerrank.com/contests/w22/challenges/number-of-sequences/problem) [✔](../../practice/number_theory/hackerrank_number_of_sequences.cpp "Accepted solution")
-- [Kattis chineseremainder - Chinese Remainder](https://open.kattis.com/problems/chineseremainder) [✔](../../practice/number_theory/kattis_chineseremainder.cpp "Accepted solution")
 - [Kattis generalchineseremainder - Chinese Remainder Theorem (non-relatively prime moduli)](https://open.kattis.com/problems/generalchineseremainder) [✔](../../practice/number_theory/kattis_generalchineseremainder.cpp "Accepted solution")
 - [SPOJ PIBO2 - Fibonacci vs Polynomial (HARD)](https://www.spoj.com/problems/PIBO2/) [✔](../../practice/number_theory/spoj_pibo2.cpp "Accepted solution")
 - [SPOJ PIBO - Fibonacci vs Polynomial](https://www.spoj.com/problems/PIBO/) [✔](../../practice/number_theory/spoj_pibo.cpp "Accepted solution")
@@ -32,12 +31,9 @@
 - [Codeforces 585C - Alice, Bob, Oranges and Apples](https://codeforces.com/problemset/problem/585/C) [✔](../../practice/number_theory/codeforces_585c.cpp "Accepted solution")
 - [Codeforces Gym 102354I - From Modular to Rational](https://codeforces.com/gym/102354/problem/I) [✔](../../practice/number_theory/codeforces_gym_102354i.cpp "Accepted solution")
 - [Codeforces Gym 104656C2 - New Elements, Part 2 C2](https://codeforces.com/gym/104656/problem/C2) [✔](../../practice/number_theory/codeforces_gym_104656c2.cpp "Accepted solution")
-- [HDU 6624 - fraction](http://acm.hdu.edu.cn/showproblem.php?pid=6624) [✔](../../practice/number_theory/hdu_6624.cpp "Accepted solution")
-- [UVa 834 - Continued Fractions](https://onlinejudge.org/external/8/834.pdf) [✔](../../practice/number_theory/uva_834.cpp "Accepted solution")
 
 #### [Digits of Factorial](digits_of_factorial.cpp)
 
-- [UVa 1185 - Big Number](https://onlinejudge.org/external/11/1185.pdf) [✔](../../practice/number_theory/uva_1185.cpp "Accepted solution")
 - [UVa 10061 - How many zero's and how many digits ?](https://onlinejudge.org/external/100/10061.pdf) [✔](../../practice/number_theory/uva_10061.cpp "Accepted solution")
 - [UVa 10916 - Factstone Benchmark](https://onlinejudge.org/external/109/10916.pdf) [✔](../../practice/number_theory/uva_10916.cpp "Accepted solution")
 
@@ -52,33 +48,26 @@
 
 #### [Divisors](divisors.cpp)
 
-- [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713) [✔](../../practice/number_theory/cses_1713_divisors.cpp "Accepted solution")
+- [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713) [✔](../../practice/number_theory/cses_1713.cpp "Accepted solution")
 - [UVa 12425 - Best Friend](https://onlinejudge.org/external/124/12425.pdf) [✔](../../practice/number_theory/uva_12425.cpp "Accepted solution")
 - [UVa 13131 - Divisors](https://onlinejudge.org/external/131/13131.pdf) [✔](../../practice/number_theory/uva_13131.cpp "Accepted solution")
 
 #### [Extended GCD](extended_gcd.cpp)
 
-- [AOJ NTL_1_E - Extended Euclid Algorithm](https://onlinejudge.u-aizu.ac.jp/problems/NTL_1_E) [✔](../../practice/number_theory/aoj_ntl_1_e.cpp "Accepted solution")
 - [AtCoder ABC340 F - S = 1](https://atcoder.jp/contests/abc340/tasks/abc340_f) [✔](../../practice/number_theory/atcoder_abc340_f.cpp "Accepted solution")
-- [Codeforces 633A - Ebony and Ivory](https://codeforces.com/problemset/problem/633/A) [✔](../../practice/number_theory/codeforces_633a.cpp "Accepted solution")
 - [Codeforces Gym 100963J - Once Upon A Time](https://codeforces.com/gym/100963/problem/J) [✔](../../practice/number_theory/codeforces_gym_100963j.cpp "Accepted solution")
 - [Kattis modulararithmetic - Modular Arithmetic](https://open.kattis.com/problems/modulararithmetic) [✔](../../practice/number_theory/kattis_modulararithmetic.cpp "Accepted solution")
 - [LightOJ 1306 - Solutions to an Equation](https://lightoj.com/problem/solutions-to-an-equation) [✔](../../practice/number_theory/lightoj_1306.cpp "Accepted solution")
-- [SPOJ CEQU - Crucial Equation](https://www.spoj.com/problems/CEQU/) [✔](../../practice/number_theory/spoj_cequ.cpp "Accepted solution")
 - [UVa 10090 - Marbles](https://onlinejudge.org/external/100/10090.pdf) [✔](../../practice/number_theory/uva_10090.cpp "Accepted solution")
 - [UVa 10104 - Euclid Problem](https://onlinejudge.org/external/101/10104.pdf) [✔](../../practice/number_theory/uva_10104.cpp "Accepted solution")
 - [UVa 12775 - Gift Dilemma](https://onlinejudge.org/external/127/12775.pdf) [✔](../../practice/number_theory/uva_12775.cpp "Accepted solution")
 
 #### [Fast Fibonacci](fast_fibonacci.cpp)
 
-- [AOJ ALDS1_10_A - Fibonacci Number](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_A) [✔](../../practice/number_theory/aoj_alds1_10_a.cpp "Accepted solution")
 - [Codeforces Gym 102644C - Fibonacci](https://codeforces.com/gym/102644/problem/C) [✔](../../practice/number_theory/codeforces_gym_102644c.cpp "Accepted solution")
-- [CSES 1722 - Fibonacci Numbers](https://cses.fi/problemset/task/1722) [✔](../../practice/number_theory/cses_1722.cpp "Accepted solution")
 - [DMOJ fibonacci - Fibonacci Sequence](https://dmoj.ca/problem/fibonacci) [✔](../../practice/number_theory/dmoj_fibonacci.cpp "Accepted solution")
-- [DMOJ UCLV secnum - Secuencia numerada de lápices](https://dmoj.uclv.edu.cu/problem/secnum) [✔](../../practice/number_theory/dmoj_uclv_secnum.cpp "Accepted solution")
 - [LightOJ 1065 - Number Sequence](https://lightoj.com/problem/number-sequence) [✔](../../practice/number_theory/lightoj_1065.cpp "Accepted solution")
 - [SPOJ FIBOSUM - Fibonacci Sum](https://www.spoj.com/problems/FIBOSUM/) [✔](../../practice/number_theory/spoj_fibosum.cpp "Accepted solution")
-- [SPOJ MAIN74 - Euclids algorithm revisited](https://www.spoj.com/problems/MAIN74/) [✔](../../practice/number_theory/spoj_main74.cpp "Accepted solution")
 - [UVa 10229 - Modular Fibonacci](https://onlinejudge.org/external/102/10229.pdf) [✔](../../practice/number_theory/uva_10229.cpp "Accepted solution")
 - [UVa 10518 - How Many Calls?](https://onlinejudge.org/external/105/10518.pdf) [✔](../../practice/number_theory/uva_10518.cpp "Accepted solution")
 - [UVa 10689 - Yet another Number Sequence](https://onlinejudge.org/external/106/10689.pdf) [✔](../../practice/number_theory/uva_10689.cpp "Accepted solution")
@@ -105,15 +94,11 @@
 
 #### [Linear Sieve](linear_sieve.cpp)
 
-- [Codeforces 17A - Noldbach problem](https://codeforces.com/problemset/problem/17/A) [✔](../../practice/number_theory/codeforces_17a.cpp "Accepted solution")
-- [Codeforces 26A - Almost Prime](https://codeforces.com/problemset/problem/26/A) [✔](../../practice/number_theory/codeforces_26a.cpp "Accepted solution")
 - [Codeforces 154B - Colliders](https://codeforces.com/problemset/problem/154/B) [✔](../../practice/number_theory/codeforces_154b.cpp "Accepted solution")
 - [Codeforces 645F - Cowslip Collections](https://codeforces.com/problemset/problem/645/F) [✔](../../practice/number_theory/codeforces_645f.cpp "Accepted solution")
-- [Codeforces 776B - Sherlock and his girlfriend](https://codeforces.com/problemset/problem/776/B) [✔](../../practice/number_theory/codeforces_776b.cpp "Accepted solution")
 - [Codeforces 1225D - Power Products](https://codeforces.com/problemset/problem/1225/D) [✔](../../practice/number_theory/codeforces_1225d.cpp "Accepted solution")
 - [Codeforces 1499D - The Number of Pairs](https://codeforces.com/problemset/problem/1499/D) [✔](../../practice/number_theory/codeforces_1499d.cpp "Accepted solution")
 - [Codeforces 1900D - Small GCD](https://codeforces.com/problemset/problem/1900/D) [✔](../../practice/number_theory/codeforces_1900d.cpp "Accepted solution")
-- [CSES 1713 - Counting Divisors](https://cses.fi/problemset/task/1713) [✔](../../practice/number_theory/cses_1713_linear_sieve.cpp "Accepted solution")
 - [SPOJ COMDIV - Number of common divisors](https://www.spoj.com/problems/COMDIV/) [✔](../../practice/number_theory/spoj_comdiv.cpp "Accepted solution")
 - [SPOJ DCEPC12G - G Force](https://www.spoj.com/problems/DCEPC12G/) [✔](../../practice/number_theory/spoj_dcepc12g.cpp "Accepted solution")
 - [SPOJ DCEPC505 - Bazinga!](https://www.spoj.com/problems/DCEPC505/) [✔](../../practice/number_theory/spoj_dcepc505.cpp "Accepted solution")
@@ -129,10 +114,8 @@
 - [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/) [✔](../../practice/number_theory/spoj_pgcd_linear_sieve.cpp "Accepted solution")
 - [SPOJ TIP1 - Totient in permutation (easy)](https://www.spoj.com/problems/TIP1/) [✔](../../practice/number_theory/spoj_tip1.cpp "Accepted solution")
 - [SPOJ VECTAR8 - Primal Fear](https://www.spoj.com/problems/VECTAR8/) [✔](../../practice/number_theory/spoj_vectar8.cpp "Accepted solution")
-- [UVa 884 - Factorial Factors](https://onlinejudge.org/external/8/884.pdf) [✔](../../practice/number_theory/uva_884.cpp "Accepted solution")
 - [UVa 1210 - Sum of Consecutive Prime Numbers](https://onlinejudge.org/external/12/1210.pdf) [✔](../../practice/number_theory/uva_1210.cpp "Accepted solution")
 - [UVa 10168 - Summation of Four Primes](https://onlinejudge.org/external/101/10168.pdf) [✔](../../practice/number_theory/uva_10168.cpp "Accepted solution")
-- [UVa 10235 - Simply Emirp](https://onlinejudge.org/external/102/10235.pdf) [✔](../../practice/number_theory/uva_10235.cpp "Accepted solution")
 - [UVa 10820 - Send a Table](https://onlinejudge.org/external/108/10820.pdf) [✔](../../practice/number_theory/uva_10820.cpp "Accepted solution")
 - [UVa 10948 - The primary problem](https://onlinejudge.org/external/109/10948.pdf) [✔](../../practice/number_theory/uva_10948.cpp "Accepted solution")
 - [UVa 10990 - Another New Function](https://onlinejudge.org/external/109/10990.pdf) [✔](../../practice/number_theory/uva_10990.cpp "Accepted solution")
@@ -155,7 +138,6 @@
 - [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396) [✔](../../practice/number_theory/cses_3396.cpp "Accepted solution")
 - [HackerRank bear-and-cryptography - Bear And Cryptography](https://www.hackerrank.com/challenges/bear-and-cryptography/problem) [✔](../../practice/number_theory/hackerrank_bear_and_cryptography.cpp "Accepted solution")
 - [Project Euler 146 - Investigating a Prime Pattern](https://projecteuler.net/problem=146) [✔](../../practice/number_theory/project_euler_146.cpp "Accepted solution")
-- [SPOJ PON - Prime or Not](https://www.spoj.com/problems/PON/) [✔](../../practice/number_theory/spoj_pon.cpp "Accepted solution")
 - [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf) [✔](../../practice/number_theory/uva_11476_miller_rabin.cpp "Accepted solution")
 
 #### [Mobius Function](mobius_function.cpp)
@@ -163,9 +145,7 @@
 - [CodeChef COPRIME3 - Coprime Triples](https://www.codechef.com/problems/COPRIME3) [✔](../../practice/number_theory/codechef_coprime3.cpp "Accepted solution")
 - [Codeforces 585E - Present for Vitalik the Philatelist ](https://codeforces.com/problemset/problem/585/E) [✔](../../practice/number_theory/codeforces_585e.cpp "Accepted solution")
 - [Codeforces 915G - Coprime Arrays](https://codeforces.com/problemset/problem/915/G) [✔](../../practice/number_theory/codeforces_915g.cpp "Accepted solution")
-- [CSES 2417 - Counting Coprime Pairs](https://cses.fi/problemset/task/2417) [✔](../../practice/number_theory/cses_2417.cpp "Accepted solution")
 - [HDU 5321 - Beautiful Set](https://acm.hdu.edu.cn/showproblem.php?pid=5321) [✔](../../practice/number_theory/hdu_5321.cpp "Accepted solution")
-- [LightOJ 1161 - Extreme GCD](https://lightoj.com/problem/extreme-gcd) [✔](../../practice/number_theory/lightoj_1161.cpp "Accepted solution")
 - [SPOJ MSKYCODE - Sky Code](https://www.spoj.com/problems/MSKYCODE/) [✔](../../practice/number_theory/spoj_mskycode.cpp "Accepted solution")
 - [SPOJ PGCD - Primes in GCD Table](https://www.spoj.com/problems/PGCD/) [✔](../../practice/number_theory/spoj_pgcd_mobius_function.cpp "Accepted solution")
 - [SPOJ PSTR - Number of Prime Strings](https://www.spoj.com/problems/PSTR/) [✔](../../practice/number_theory/spoj_pstr.cpp "Accepted solution")
