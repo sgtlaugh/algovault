@@ -1,30 +1,21 @@
 /***
  *
- * Li Chao Tree
- * Holds lines y = k * x + b over integer x in [lo, hi] and returns the minimum or maximum at a point
+ * Convex Hull Trick
+ * Minimum or maximum of lines y = k * x + b at a point, for lines added in slope order
  *
- * Complexity:
- *   - LiChaoTree: O(log C) per add_line and query, O(log^2 C) per add_segment, C = hi - lo + 1
- *   - PersistentLiChaoTree: O(log C) per add_line and query, add_line makes at most log2(C) + 2 nodes
+ * Complexity: O(1) amortized per add_line and query_increasing, O(log n) per query
  *
- * LiChaoTree<T> tree(lo, hi): no lines yet, x in [lo, hi], the range can span up to [-1e18, 1e18]
- * LiChaoTree<T, true> tree(lo, hi): the same tree answering the maximum
- * tree.add_line(k, b): add y = k * x + b for every x in [lo, hi]
- * tree.add_segment(k, b, l, r): add the line only for x in [l, r] inclusive, the part outside [lo, hi] is ignored
- * tree.query(x): minimum over the lines covering x, or NONE if no line covers it, lo <= x <= hi
+ * ConvexHullTrick<T> hull: no lines yet, answers the minimum
+ * ConvexHullTrick<T, true> hull: the same hull answering the maximum
+ * hull.add_line(k, b): add y = k * x + b, k at most every earlier slope for the minimum, at least for the maximum
+ * hull.query(x): the minimum over the lines at x, any x in any order, at least one line
+ * hull.query_increasing(x): the same, for x never smaller than in the previous query_increasing call
  *
- * PersistentLiChaoTree<T> pt(lo, hi): version 0 holds no lines, same range limits as LiChaoTree
- * PersistentLiChaoTree<T, true> pt(lo, hi): the same tree answering the maximum
- * pt.add_line(version, k, b): a new version with the lines of version plus y = k * x + b, older versions stay intact, version is 0 or a value add_line returned
- * pt.query(version, x): minimum over the lines of version at x, or NONE if it has no line, lo <= x <= hi
- *
- * NONE is the largest value of T, or the lowest when answering the maximum
- * Every k * x + b over the range must fit in T, e.g. |k|, |x| <= 1e9 and |b| <= 1e18 for long long
- * LiChaoTree makes nodes on demand, at most 1 per add_line and O(log C) per add_segment
- * A node is 24 bytes for long long, random segments at C = 2e9 average ~31 nodes, so 4e5 of them take ~400 MB peak
- * Convex hull trick: dp[i] = min over j < i of (dp[j] + a[j] * x[i]) is dp[i] = tree.query(x[i]), then tree.add_line(a[i], dp[i])
- * The same on root to node paths: dp[v] = pt.query(ver[parent], x[v]), then ver[v] = pt.add_line(ver[parent], a[v], dp[v])
- * The persistent DFS needs no rollback when it backtracks, siblings branch off the same parent version
+ * Notes:
+ *   - Every k * x + b must fit in T, like |k|, |x| <= 1e9 and |b| <= 1e18 for long long, and needs __int128
+ *   - T may be double or long double, every answer then within rounding of the exact optimum
+ *   - Slopes in any order or lines only on part of the range: li_chao_tree.cpp
+ *   - dp[i] = min over j < i of dp[j] + a[j] * x[i], a non-increasing: query(x[i]), then add_line(a[i], dp[i])
  *
 ***/
 
@@ -32,199 +23,331 @@
 
 using namespace std;
 
-template <typename T, bool MAXIMIZE = false>
-struct LiChaoTree{
-    static constexpr T NONE = MAXIMIZE ? numeric_limits<T>::lowest() : numeric_limits<T>::max();
+template <typename T, bool MAX = false>
+struct ConvexHullTrick{
+    /// The lower hull with strictly decreasing slopes; the maximum hull is stored negated
+    vector<T> k, b;
+    int ptr = 0;
 
-    struct Line{
-        T k, b;
-
-        T eval(long long x) const{
-            return k * x + b;
-        }
-    };
-
-    /// A node on a segment's split path holds y = NONE, which never wins, so no node needs a has-line flag
-    struct Node{
-        Line line;
-        int left, right;
-    };
-
-    long long lo, hi;
-    int root = -1;
-    vector<Node> nodes;
-
-    LiChaoTree(long long lo, long long hi) : lo(lo), hi(hi) {}
-
-    void add_line(T k, T b){
-        root = insert(root, lo, hi, {k, b});
-    }
-
-    void add_segment(T k, T b, long long l, long long r){
-        l = max(l, lo), r = min(r, hi);
-        if (l <= r) root = insert_segment(root, lo, hi, l, r, {k, b});
-    }
-
-    T query(long long x) const{
-        assert(lo <= x && x <= hi);
-
-        T res = NONE;
-        long long l = lo, r = hi;
-        for (int node = root; node != -1;){
-            const Node& cur = nodes[node];
-            T y = cur.line.eval(x);
-            if (better(y, res)) res = y;
-
-            long long m = l + (r - l) / 2;
-            if (x <= m) node = cur.left, r = m;
-            else node = cur.right, l = m + 1;
+    void add_line(T slope, T intercept){
+        if (MAX) slope = -slope, intercept = -intercept;
+        assert(k.empty() || slope <= k.back());
+        if (!k.empty() && slope == k.back()){
+            if (intercept >= b.back()) return;
+            k.pop_back(), b.pop_back();
         }
 
-        return res;
+        while (k.size() >= 2 && useless(k.size() - 2, k.size() - 1, slope, intercept)) k.pop_back(), b.pop_back();
+        k.push_back(slope), b.push_back(intercept);
+        ptr = min(ptr, (int)k.size() - 1);
     }
 
-    static bool better(T a, T b){
-        return MAXIMIZE ? a > b : a < b;
-    }
-
-    int new_node(const Line& line){
-        nodes.push_back({line, -1, -1});
-        return (int)nodes.size() - 1;
-    }
-
-    /// Walks a single root to leaf path, each node keeps the line that wins at its midpoint
-    /// Two lines cross at most once, so when one wins at both ends of a node's range it wins on all of it and the walk stops
-    int insert(int node, long long l, long long r, Line line){
-        if (node == -1) return new_node(line);
-
-        for (int top = node; ; ){
-            Line& cur = nodes[node].line;
-            bool left_better = better(line.eval(l), cur.eval(l));
-            bool right_better = better(line.eval(r), cur.eval(r));
-            if (left_better == right_better){
-                if (left_better) cur = line;
-                return top;
-            }
-
-            long long m = l + (r - l) / 2;
-            bool mid_better = better(line.eval(m), cur.eval(m));
-            if (mid_better) swap(cur, line);
-
-            bool go_left = left_better != mid_better;
-            int child = go_left ? nodes[node].left : nodes[node].right;
-            if (child == -1){
-                child = new_node(line);
-                (go_left ? nodes[node].left : nodes[node].right) = child;
-                return top;
-            }
-
-            node = child;
-            if (go_left) r = m;
-            else l = m + 1;
+    T query(T x) const{
+        assert(!k.empty());
+        int lo = 0, hi = k.size() - 1;
+        while (lo < hi){
+            int mid = (lo + hi) / 2;
+            if (value(mid, x) >= value(mid + 1, x)) lo = mid + 1;
+            else hi = mid;
         }
+
+        return MAX ? -value(lo, x) : value(lo, x);
     }
 
-    int insert_segment(int node, long long l, long long r, long long ql, long long qr, const Line& line){
-        if (qr < l || r < ql) return node;
-        if (ql <= l && r <= qr) return insert(node, l, r, line);
-        if (node == -1) node = new_node({0, NONE});
+    T query_increasing(T x){
+        assert(!k.empty());
+        while (ptr + 1 < (int)k.size() && value(ptr + 1, x) <= value(ptr, x)) ptr++;
+        return MAX ? -value(ptr, x) : value(ptr, x);
+    }
 
-        long long m = l + (r - l) / 2;
-        int left = insert_segment(nodes[node].left, l, m, ql, qr, line);  /// the call can reallocate nodes, assign after it
-        nodes[node].left = left;
-        int right = insert_segment(nodes[node].right, m + 1, r, ql, qr, line);
-        nodes[node].right = right;
-        return node;
+    T value(int i, T x) const{
+        return k[i] * x + b[i];
+    }
+
+    /// Line j between lines i and new is never the minimum once new crosses i no later than j does
+    bool useless(int i, int j, T slope, T intercept) const{
+        /// A cast to __int128 would drop the fractions of floating-point lines
+        if constexpr (is_floating_point_v<T>){
+            return (long double)(intercept - b[i]) * (k[i] - k[j]) <= (long double)(b[j] - b[i]) * (k[i] - slope);
+        }
+
+        return (__int128)(intercept - b[i]) * (k[i] - k[j]) <= (__int128)(b[j] - b[i]) * (k[i] - slope);
     }
 };
 
-template <typename T, bool MAXIMIZE = false>
-struct PersistentLiChaoTree{
-    using Base = LiChaoTree<T, MAXIMIZE>;
-    using Line = typename Base::Line;
-    using Node = typename Base::Node;
+/***
+ *
+ * Fast I/O
+ * Buffered stdin and stdout through fread and fwrite, about 8x faster than scanf for integers and strings
+ *
+ * Complexity: O(1) amortized per character, one fread or fwrite call per 8192 bytes
+ *
+ * fio::flush(): writes the pending output now, which also happens at normal exit
+ * fio::read(a, b, ...): reads whitespace separated values into a, b, ..., returns the count read before the input ended
+ * fio::read_line(s): reads one line into s without its newline or a trailing \r, false only at the end of input
+ * fio::write(a, b, ...): writes a, b, ... space separated and ends the line, a vector argument on its own line
+ * fio::fixed(x, digits): a floating x printed with exactly digits digits after the point, rounded like printf("%.*f")
+ *
+ * Notes:
+ *   - read takes any integer including __int128, float, double, long double, strings, chars and vectors of these
+ *   - write takes integers, strings, chars, vectors of these and fio::fixed values
+ *   - Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
+ *   - An integer read skips everything up to the next digit or -, words included, where scanf fails and reads nothing
+ *   - A char reads one non-space character
+ *   - A vector reads exactly its current size, so read a length first: read(n); a.resize(n); read(a);
+ *   - Writing a float without fixed() does not compile, so its precision is always chosen
+ *   - Floats print at printf's speed, a floating token read keeps its first 127 characters
+ *   - Output is lost on abnormal termination such as abort() or _exit()
+ *
+***/
 
-    static constexpr T NONE = Base::NONE;
+#include <bits/stdtr1c++.h>
 
-    long long lo, hi;
-    vector<int> roots = {-1};
-    vector<Node> nodes;
+using namespace std;
 
-    PersistentLiChaoTree(long long lo, long long hi) : lo(lo), hi(hi) {}
+/// Global buffers on purpose: a second reader would split stdin between two buffers, a second writer reorder stdout
+namespace fio{
+    const int BUF_SIZE = 8192;
 
-    /// Midpoint rule of LiChaoTree::insert without its early stop, writing into a copy of every node it visits
-    int add_line(int version, T k, T b){
-        assert(0 <= version && version < (int)roots.size());
+    int buf_len = 0, inptr = 0, outptr = 0;
+    char inbuf[BUF_SIZE], outbuf[BUF_SIZE], tmpbuf[128];
 
-        Line line = {k, b};
-        int node = roots[version], top = -1, parent = -1;
-        bool from_left = false;
-        long long l = lo, r = hi;
-
-        while (true){
-            Node copy = node == -1 ? Node{line, -1, -1} : nodes[node];
-            nodes.push_back(copy);
-            int cur = (int)nodes.size() - 1;
-            if (parent == -1) top = cur;
-            else (from_left ? nodes[parent].left : nodes[parent].right) = cur;
-            if (node == -1) break;
-
-            long long m = l + (r - l) / 2;
-            Line& held = nodes[cur].line;
-            bool left_better = Base::better(line.eval(l), held.eval(l));
-            bool mid_better = Base::better(line.eval(m), held.eval(m));
-            if (mid_better) swap(held, line);
-            if (l == r) break;
-
-            parent = cur, from_left = left_better != mid_better;
-            node = from_left ? nodes[cur].left : nodes[cur].right;
-            if (from_left) r = m;
-            else l = m + 1;
+    /// Returns int so that EOF never collides with a 0xFF byte or with an unsigned char platform
+    inline int read_char(){
+        if (inptr >= buf_len){
+            inptr = 0, buf_len = fread(inbuf, 1, BUF_SIZE, stdin);
+            if (buf_len == 0) return EOF;
         }
 
-        roots.push_back(top);
-        return (int)roots.size() - 1;
+        return (unsigned char)inbuf[inptr++];
     }
 
-    T query(int version, long long x) const{
-        assert(0 <= version && version < (int)roots.size());
-        assert(lo <= x && x <= hi);
+    /// Catches every integer the overloads below miss, so __int128 needs no is_integral specialization (breaks C++20)
+    template <typename T>
+    bool read_one(T &x){
+        int c = ' ', neg = 0;
 
-        T res = NONE;
-        long long l = lo, r = hi;
-        for (int node = roots[version]; node != -1;){
-            const Node& cur = nodes[node];
-            T y = cur.line.eval(x);
-            if (Base::better(y, res)) res = y;
+        while (c != '-' && !isdigit(c) && c != EOF) c = read_char();
+        if (c == '-') neg = 1, c = read_char();
+        if (c == EOF) return false;
 
-            long long m = l + (r - l) / 2;
-            if (x <= m) node = cur.left, r = m;
-            else node = cur.right, l = m + 1;
+        /// A local, since an int x may alias inptr or buf_len and writing it per digit forces their reload from memory
+        T v = 0;
+
+        /// Accumulate as negative so that the minimum value (e.g. INT_MIN) does not overflow
+        for (; isdigit(c); c = read_char()){
+            v = v * 10 - (c - '0');
+        }
+        x = neg ? v : -v;
+
+        return true;
+    }
+
+    bool read_token(){
+        int c = ' ', len = 0;
+
+        while (isspace(c) && c != EOF) c = read_char();
+        if (c == EOF) return false;
+
+        for (; !isspace(c) && c != EOF; c = read_char()){
+            if (len + 1 < (int)sizeof(tmpbuf)) tmpbuf[len++] = c;
+        }
+        tmpbuf[len] = 0;
+        return true;
+    }
+
+    /// Each float parses at its own width, since strtold then a cast to double rounds twice and can miss by one ulp
+    bool read_one(float &x){
+        if (!read_token()) return false;
+        x = strtof(tmpbuf, nullptr);
+        return true;
+    }
+
+    bool read_one(double &x){
+        if (!read_token()) return false;
+        x = strtod(tmpbuf, nullptr);
+        return true;
+    }
+
+    bool read_one(long double &x){
+        if (!read_token()) return false;
+        x = strtold(tmpbuf, nullptr);
+        return true;
+    }
+
+    bool read_one(string &s){
+        int c = ' ';
+
+        while (isspace(c) && c != EOF) c = read_char();
+        if (c == EOF) return false;
+
+        for (s.clear(); !isspace(c) && c != EOF; c = read_char()){
+            s.push_back(c);
         }
 
-        return res;
+        return true;
     }
-};
+
+    bool read_one(char &ch){
+        int c;
+        do c = read_char(); while (isspace(c));
+        if (c == EOF) return false;
+
+        ch = c;
+        return true;
+    }
+
+    template <typename T>
+    bool read_one(vector<T> &v){
+        for (auto &&x: v){
+            if (!read_one(x)) return false;
+        }
+
+        return true;
+    }
+
+    void flush(){
+        fwrite(outbuf, 1, outptr, stdout);
+        outptr = 0;
+    }
+
+    template <typename T>
+    int read(T &x){
+        return read_one(x);
+    }
+
+    template <typename T, typename ...Args>
+    int read(T &x, Args &...args){
+        if (!read_one(x)) return 0;
+        return read(args...) + 1;
+    }
+
+    /// Returns false only at the end of input, a last line without a trailing newline is still returned
+    bool read_line(string &s){
+        s.clear();
+        int c = read_char();
+        if (c == EOF) return false;
+
+        for (; c != '\n' && c != EOF; c = read_char()) s.push_back(c);
+        if (!s.empty() && s.back() == '\r') s.pop_back();  /// CRLF line endings
+        return true;
+    }
+
+    struct AutoFlush{ ~AutoFlush(){ flush(); } } auto_flush;
+
+    inline void write_char(char c){
+        if (outptr == BUF_SIZE) flush();
+        outbuf[outptr++] = c;
+    }
+
+    /// Integers, like read_one: the plain overloads below win for every other type
+    template <typename T>
+    void write_one(T x){
+        int l = 0;
+
+        if (x < 0){
+            /// Peel one digit while still negative so that -x cannot overflow for the minimum value
+            write_char('-');
+            tmpbuf[l++] = '0' - x % 10;
+            x = -(x / 10);
+        }
+
+        while (x || !l){
+            tmpbuf[l++] = (x % 10) + '0';
+            x /= 10;
+        }
+        while (l) write_char(tmpbuf[--l]);
+    }
+
+    void write_one(char c){
+        write_char(c);
+    }
+
+    void write_one(const char *s){
+        for (int j = 0; s[j]; j++) write_char(s[j]);
+    }
+
+    void write_one(const string &s){
+        for (auto &&c: s) write_char(c);
+    }
+
+    /// write(x) for a floating x does not compile on purpose: the digits after the point must be chosen
+    struct Fixed{
+        long double value;
+        int digits;
+    };
+
+    void write_one(const Fixed &f){
+        int len = snprintf(tmpbuf, sizeof(tmpbuf), "%.*Lf", f.digits, f.value);
+
+        if (len < (int)sizeof(tmpbuf)){
+            for (int j = 0; j < len; j++) write_char(tmpbuf[j]);
+            return;
+        }
+
+        string s(len + 1, '\0');
+        snprintf(&s[0], len + 1, "%.*Lf", f.digits, f.value);
+        s.resize(len);
+        write_one(s);
+    }
+
+    template <typename T>
+    void write_one(const vector<T> &v){
+        for (int i = 0; i < (int)v.size(); i++){
+            if (i) write_char(' ');
+            write_one(v[i]);
+        }
+    }
+
+    template <typename T>
+    char separator_after(const T &){
+        return ' ';
+    }
+
+    template <typename T>
+    char separator_after(const vector<T> &){
+        return '\n';
+    }
+
+    template <typename T>
+    void write(const T &x){
+        write_one(x);
+        write_char('\n');
+    }
+
+    template <typename T, typename ...Args>
+    void write(const T &x, const Args &...args){
+        write_one(x);
+        write_char(separator_after(x));
+        write(args...);
+    }
+
+    Fixed fixed(long double value, int digits){
+        return {value, digits};
+    }
+}
+
+using namespace fio;
+
+#define MAX 200010
+
+int n, s[MAX], f[MAX];
 
 int main(){
-    ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    int i, x;
+    long long res = 0;
 
-    int n;
-    long long x;
-    cin >> n >> x;
-    vector<long long> s(n), f(n);
-    for (auto& v: s) cin >> v;
-    for (auto& v: f) cin >> v;
+    read(n, x);
+    for (i = 0; i < n; i++) read(s[i]);
+    for (i = 0; i < n; i++) read(f[i]);
 
-    LiChaoTree<long long> tree(1, 1000000);
-    tree.add_line(x, 0);
-    long long dp = 0;
-    for (int i = 0; i < n; i++){
-        dp = tree.query(s[i]);
-        tree.add_line(f[i], dp);
+    ConvexHullTrick<long long> hull;
+    hull.add_line(x, 0);
+    for (i = 0; i < n; i++){
+        res = hull.query_increasing(s[i]);
+        hull.add_line(f[i], res);
     }
 
-    cout << dp << '\n';
+    write(res);
     return 0;
 }

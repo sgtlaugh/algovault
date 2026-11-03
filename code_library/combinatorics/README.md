@@ -46,10 +46,7 @@
 - [Codeforces 1462E2 - Close Tuples (hard version)](https://codeforces.com/problemset/problem/1462/E2) [✔](../../practice/combinatorics/codeforces_1462e2.cpp "Accepted solution")
 - [Codeforces 1696E - Placing Jinas](https://codeforces.com/problemset/problem/1696/E) [✔](../../practice/combinatorics/codeforces_1696e.cpp "Accepted solution")
 - [Codeforces 1931G - One-Dimensional Puzzle](https://codeforces.com/problemset/problem/1931/G) [✔](../../practice/combinatorics/codeforces_1931g.cpp "Accepted solution")
-- [CSES 1078 - Grid Paths II](https://cses.fi/problemset/task/1078) [✔](../../practice/combinatorics/cses_1078.cpp "Accepted solution")
-- [CSES 1079 - Binomial Coefficients](https://cses.fi/problemset/task/1079) [✔](../../practice/combinatorics/cses_1079.cpp "Accepted solution")
 - [CSES 1715 - Creating Strings II](https://cses.fi/problemset/task/1715) [✔](../../practice/combinatorics/cses_1715.cpp "Accepted solution")
-- [CSES 1716 - Distributing Apples](https://cses.fi/problemset/task/1716) [✔](../../practice/combinatorics/cses_1716.cpp "Accepted solution")
 - [CSES 2064 - Bracket Sequences I](https://cses.fi/problemset/task/2064) [✔](../../practice/combinatorics/cses_2064.cpp "Accepted solution")
 - [CSES 2187 - Bracket Sequences II](https://cses.fi/problemset/task/2187) [✔](../../practice/combinatorics/cses_2187.cpp "Accepted solution")
 - [CSES 2228 - Counting Sequences](https://cses.fi/problemset/task/2228) [✔](../../practice/combinatorics/cses_2228_combinatorics.cpp "Accepted solution")
@@ -63,7 +60,6 @@
 - [UVa 11174 - Stand in a Line](https://onlinejudge.org/external/111/11174.pdf) [✔](../../practice/combinatorics/uva_11174.cpp "Accepted solution")
 - [UVa 11904 - One Unit Machine](https://onlinejudge.org/external/119/11904.pdf) [✔](../../practice/combinatorics/uva_11904.cpp "Accepted solution")
 - [UVa 12257 - The Queue](https://onlinejudge.org/external/122/12257.pdf) [✔](../../practice/combinatorics/uva_12257.cpp "Accepted solution")
-- [UVa 12887 - The Soldier's Dilemma](https://onlinejudge.org/external/128/12887.pdf) [✔](../../practice/combinatorics/uva_12887.cpp "Accepted solution")
 - [UVa 13184 - Counting Edges and Graphs](https://onlinejudge.org/external/131/13184.pdf) [✔](../../practice/combinatorics/uva_13184.cpp "Accepted solution")
 
 #### [Fast Factorial](fast_factorial.cpp)
@@ -79,12 +75,10 @@
 
 #### [Josephus Problem](josephus_problem.cpp)
 
-- [AOJ 0085 - Joseph's Potato](https://onlinejudge.u-aizu.ac.jp/problems/0085) [✔](../../practice/combinatorics/aoj_0085.cpp "Accepted solution")
 - [CSES 2162 - Josephus Problem I](https://cses.fi/problemset/task/2162) [✔](../../practice/combinatorics/cses_2162.cpp "Accepted solution")
 - [CSES 2164 - Josephus Queries](https://cses.fi/problemset/task/2164) [✔](../../practice/combinatorics/cses_2164.cpp "Accepted solution")
 - [UVa 151 - Power Crisis](https://onlinejudge.org/external/1/151.pdf) [✔](../../practice/combinatorics/uva_151.cpp "Accepted solution")
 - [UVa 180 - Eeny Meeny](https://onlinejudge.org/external/1/180.pdf) [✔](../../practice/combinatorics/uva_180.cpp "Accepted solution")
-- [UVa 440 - Eeny Meeny Moo](https://onlinejudge.org/external/4/440.pdf) [✔](../../practice/combinatorics/uva_440.cpp "Accepted solution")
 - [UVa 1394 - And Then There Was One](https://onlinejudge.org/external/13/1394.pdf) [✔](../../practice/combinatorics/uva_1394.cpp "Accepted solution")
 - [UVa 10774 - Repeated Josephus](https://onlinejudge.org/external/107/10774.pdf) [✔](../../practice/combinatorics/uva_10774.cpp "Accepted solution")
 - [UVa 11351 - Last Man Standing](https://onlinejudge.org/external/113/11351.pdf) [✔](../../practice/combinatorics/uva_11351.cpp "Accepted solution")
@@ -98,7 +92,6 @@
 
 #### [Permutation Cycles](permutation_cycles.cpp)
 
-- [AOJ ALDS1_6_D - Minimum Cost Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_D) [✔](../../practice/combinatorics/aoj_alds1_6_d.cpp "Accepted solution")
 - [CodeChef RIFFLES - Chef and Riffles](https://www.codechef.com/problems/RIFFLES) [✔](../../practice/combinatorics/codechef_riffles.cpp "Accepted solution")
 - [Codeforces 755F - PolandBall and Gifts](https://codeforces.com/problemset/problem/755/F) [✔](../../practice/combinatorics/codeforces_755f.cpp "Accepted solution")
 - [CSES 1698 - Swap Round Sorting](https://cses.fi/problemset/task/1698) [✔](../../practice/combinatorics/cses_1698.cpp "Accepted solution")
@@ -112,7 +105,6 @@
 
 #### [Permutation Rank](permutation_rank.cpp)
 
-- [AOJ ITP2_5_C - Permutation](https://onlinejudge.u-aizu.ac.jp/problems/ITP2_5_C) [✔](../../practice/combinatorics/aoj_itp2_5_c.cpp "Accepted solution")
 - [CSES 3397 - Permutation Order](https://cses.fi/problemset/task/3397) [✔](../../practice/combinatorics/cses_3397.cpp "Accepted solution")
 - [UVa 12335 - Lexicographic Order](https://onlinejudge.org/external/123/12335.pdf) [✔](../../practice/combinatorics/uva_12335.cpp "Accepted solution")
 

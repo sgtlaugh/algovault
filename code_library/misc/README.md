@@ -30,7 +30,6 @@
 
 #### [Dancing Links](dancing_links.cpp)
 
-- [AOJ ALDS1_13_A - 8 Queens Problem](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_13_A)
 - [Code Jam 2015 Qualification Round D - Ominous Omino](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/qualification_round/ominous_omino)
 - [HDU 1426 - Sudoku Killer](https://acm.hdu.edu.cn/showproblem.php?pid=1426)
 - [SPOJ SUDOGOB - Sudoku goblin](https://www.spoj.com/problems/SUDOGOB/)

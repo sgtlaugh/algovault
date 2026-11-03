@@ -14,7 +14,6 @@
 
 #### [2D Pattern Matcher](2D_pattern_matcher.cpp)
 
-- [AOJ ALDS1_14_C - Pattern Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_C)
 - [UVa 11019 - Matrix Matcher](https://onlinejudge.org/external/110/11019.pdf) [✔](../../practice/strings/uva_11019.cpp "Accepted solution")
 
 #### [Aho-Corasick](aho_corasick.cpp)
@@ -79,7 +78,6 @@
 
 #### [Bit-String LCS](bit_string_lcs.cpp)
 
-- [AOJ ALDS1_10_C - Longest Common Subsequence](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_C)
 - [SPOJ LCS0 - Longest Common Subsequence](https://www.spoj.com/problems/LCS0/)
 - [UVa 10949 - Kids in a Grid](https://onlinejudge.org/external/109/10949.pdf) [✔](../../practice/strings/uva_10949_bit_string_lcs.cpp "Accepted solution")
 
@@ -91,7 +89,6 @@
 
 #### [Dynamic String Hash](dynamic_string_hash.cpp)
 
-- [AOJ ALDS1_14_B - String Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B)
 - [CSES 2420 - Palindrome Queries](https://cses.fi/problemset/task/2420)
 
 #### [Hashing](hashing.cpp)
@@ -131,15 +128,11 @@
 #### [Hirschberg LCS](hirschberg_lcs.cpp)
 
 - [AtCoder DP F - LCS](https://atcoder.jp/contests/dp/tasks/dp_f) [✔](../../practice/strings/atcoder_dp_f.cpp "Accepted solution")
-- [CSES 3403 - Longest Common Subsequence](https://cses.fi/problemset/task/3403) [✔](../../practice/strings/cses_3403.cpp "Accepted solution")
 - [UVa 531 - Compromise](https://onlinejudge.org/external/5/531.pdf) [✔](../../practice/strings/uva_531.cpp "Accepted solution")
-- [UVa 10066 - The Twin Towers](https://onlinejudge.org/external/100/10066.pdf) [✔](../../practice/strings/uva_10066.cpp "Accepted solution")
 - [UVa 10100 - Longest Match](https://onlinejudge.org/external/101/10100.pdf) [✔](../../practice/strings/uva_10100.cpp "Accepted solution")
-- [UVa 10405 - Longest Common Subsequence](https://onlinejudge.org/external/104/10405.pdf) [✔](../../practice/strings/uva_10405.cpp "Accepted solution")
 
 #### [Hunt-Szymanski](hunt_szymanski.cpp)
 
-- [AOJ ALDS1_10_C - Longest Common Subsequence](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_C)
 - [Codeforces Gym 102951C - LCS on Permutations](https://codeforces.com/gym/102951/problem/C)
 - [CSES 3404 - Permutation Subsequence](https://cses.fi/problemset/task/3404)
 - [UVa 10949 - Kids in a Grid](https://onlinejudge.org/external/109/10949.pdf)
@@ -147,7 +140,6 @@
 
 #### [KMP](kmp.cpp)
 
-- [AOJ ALDS1_14_B - String Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_B)
 - [Codeforces 25E - Test](https://codeforces.com/problemset/problem/25/E)
 - [Codeforces 30E - Tricky and Clever Password](https://codeforces.com/problemset/problem/30/E)
 - [Codeforces 149E - Martian Strings](https://codeforces.com/problemset/problem/149/E)
@@ -163,7 +155,6 @@
 - [SPOJ NAJPF - Pattern Find](https://www.spoj.com/problems/NAJPF/)
 - [SPOJ NHAY - A Needle in the Haystack](https://www.spoj.com/problems/NHAY/)
 - [Timus 1996 - Cipher Message 3](https://acm.timus.ru/problem.aspx?num=1996)
-- [UVa 455 - Periodic Strings](https://onlinejudge.org/external/4/455.pdf) [✔](../../practice/strings/uva_455_kmp.cpp "Accepted solution")
 - [UVa 1328 - Period](https://onlinejudge.org/external/13/1328.pdf) [✔](../../practice/strings/uva_1328.cpp "Accepted solution")
 - [UVa 1358 - Generator](https://onlinejudge.org/external/13/1358.pdf) [✔](../../practice/strings/uva_1358.cpp "Accepted solution")
 - [UVa 10298 - Power Strings](https://onlinejudge.org/external/102/10298.pdf) [✔](../../practice/strings/uva_10298.cpp "Accepted solution")
@@ -202,8 +193,6 @@
 
 - [CSES 1110 - Minimal Rotation](https://cses.fi/problemset/task/1110)
 - [UVa 719 - Glass Beads](https://onlinejudge.org/external/7/719.pdf) [✔](../../practice/strings/uva_719_minimum_rotation.cpp "Accepted solution")
-- [UVa 1314 - Hidden Password](https://onlinejudge.org/external/13/1314.pdf) [✔](../../practice/strings/uva_1314.cpp "Accepted solution")
-- [UVa 1584 - Circular Sequence](https://onlinejudge.org/external/15/1584.pdf) [✔](../../practice/strings/uva_1584.cpp "Accepted solution")
 
 #### [Palindromic Tree](palindromic_tree.cpp)
 
@@ -232,7 +221,6 @@
 
 #### [Suffix Array](suffix_array.cpp)
 
-- [AOJ ALDS1_14_D - String Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_14_D) [✔](../../practice/strings/aoj_alds1_14_d.cpp "Accepted solution")
 - [CodeChef ANUSAR - Substrings and Repetitions](https://www.codechef.com/problems/ANUSAR) [✔](../../practice/strings/codechef_anusar.cpp "Accepted solution")
 - [CodeChef INSQ16F - JARVIS and LCP](https://www.codechef.com/problems/INSQ16F) [✔](../../practice/strings/codechef_insq16f.cpp "Accepted solution")
 - [CodeChef TANDEM - Tandem](https://www.codechef.com/problems/TANDEM) [✔](../../practice/strings/codechef_tandem.cpp "Accepted solution")
@@ -247,8 +235,6 @@
 - [Codeforces Gym 100738F - Sequence of words](https://codeforces.com/gym/100738/problem/F)
 - [Codeforces Gym 103957C - Suffixes and Palindromes](https://codeforces.com/gym/103957/problem/C) [✔](../../practice/strings/codeforces_gym_103957c.cpp "Accepted solution")
 - [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103) [✔](../../practice/strings/cses_2103.cpp "Accepted solution")
-- [CSES 2105 - Distinct Substrings](https://cses.fi/problemset/task/2105) [✔](../../practice/strings/cses_2105.cpp "Accepted solution")
-- [CSES 2106 - Repeating Substring](https://cses.fi/problemset/task/2106) [✔](../../practice/strings/cses_2106.cpp "Accepted solution")
 - [CSES 2108 - Substring Order I](https://cses.fi/problemset/task/2108) [✔](../../practice/strings/cses_2108.cpp "Accepted solution")
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110) [✔](../../practice/strings/cses_2110.cpp "Accepted solution")
 - [HackerRank sherlock-and-unique-substrings - Sherlock and Unique Substrings](https://www.hackerrank.com/contests/101hack26/challenges/sherlock-and-unique-substrings) [✔](../../practice/strings/hackerrank_sherlock_and_unique_substrings.cpp "Accepted solution")
@@ -260,7 +246,6 @@
 - [SPOJ SUBLEX - Lexicographical Substring Search](https://www.spoj.com/problems/SUBLEX/) [✔](../../practice/strings/spoj_sublex.cpp "Accepted solution")
 - [USACO 768 - Standing Out from the Herd](https://usaco.org/index.php?page=viewproblem2&cpid=768) [✔](../../practice/strings/usaco_768.cpp "Accepted solution")
 - [UVa 760 - DNA Sequencing](https://onlinejudge.org/external/7/760.pdf) [✔](../../practice/strings/uva_760.cpp "Accepted solution")
-- [UVa 1223 - Editor](https://onlinejudge.org/external/12/1223.pdf) [✔](../../practice/strings/uva_1223.cpp "Accepted solution")
 - [UVa 1227 - The longest constant gene](https://onlinejudge.org/external/12/1227.pdf) [✔](../../practice/strings/uva_1227_suffix_array.cpp "Accepted solution")
 - [UVa 1254 - Top 10](https://onlinejudge.org/external/12/1254.pdf) [✔](../../practice/strings/uva_1254_suffix_array.cpp "Accepted solution")
 - [UVa 10526 - Intellectual Property](https://onlinejudge.org/external/105/10526.pdf) [✔](../../practice/strings/uva_10526.cpp "Accepted solution")
@@ -289,7 +274,6 @@
 - [CSES 2102 - Finding Patterns](https://cses.fi/problemset/task/2102)
 - [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103)
 - [CSES 2104 - Pattern Positions](https://cses.fi/problemset/task/2104)
-- [CSES 2105 - Distinct Substrings](https://cses.fi/problemset/task/2105)
 - [CSES 2108 - Substring Order I](https://cses.fi/problemset/task/2108)
 - [CSES 2109 - Substring Order II](https://cses.fi/problemset/task/2109)
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110)
@@ -320,5 +304,4 @@
 - [CSES 1753 - String Matching](https://cses.fi/problemset/task/1753)
 - [CSES 2107 - String Functions](https://cses.fi/problemset/task/2107)
 - [Eolymp 1309 - Blocks of string](https://www.eolymp.com/en/problems/1309)
-- [UVa 455 - Periodic Strings](https://onlinejudge.org/external/4/455.pdf) [✔](../../practice/strings/uva_455_z_algorithm.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✔](../../practice/strings/uva_11475_z_algorithm.cpp "Accepted solution")

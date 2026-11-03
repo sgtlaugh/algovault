@@ -12,15 +12,6 @@
 
 #### [Circle Geometry](circle.cpp)
 
-- [AOJ 0090 - Overlaps of Seals](https://onlinejudge.u-aizu.ac.jp/problems/0090)
-- [AOJ CGL_7_A - Intersection of Circles](https://onlinejudge.u-aizu.ac.jp/problems/CGL_7_A)
-- [AOJ CGL_7_C - Circumscribed Circle of a Triangle](https://onlinejudge.u-aizu.ac.jp/problems/CGL_7_C)
-- [AOJ CGL_7_D - Cross Points of a Circe and a Line](https://onlinejudge.u-aizu.ac.jp/problems/CGL_7_D)
-- [AOJ CGL_7_E - Cross Points of Circles](https://onlinejudge.u-aizu.ac.jp/problems/CGL_7_E)
-- [AOJ CGL_7_F - Tangent to a Circle](https://onlinejudge.u-aizu.ac.jp/problems/CGL_7_F)
-- [AOJ CGL_7_G - Common Tangent](https://onlinejudge.u-aizu.ac.jp/problems/CGL_7_G)
-- [AOJ CGL_7_H - Intersection of a Circle and a Polygon](https://onlinejudge.u-aizu.ac.jp/problems/CGL_7_H)
-- [AOJ CGL_7_I - Area of Intersection between Two Circles](https://onlinejudge.u-aizu.ac.jp/problems/CGL_7_I)
 - [CodeChef ANDOOR - A New Door](https://www.codechef.com/problems/ANDOOR)
 - [Codeforces 681E - Runaway to a Shadow](https://codeforces.com/problemset/problem/681/E)
 - [Codeforces 933C - A Colourful Prospect](https://codeforces.com/problemset/problem/933/C)
@@ -39,7 +30,6 @@
 
 #### [Closest Pair of Points](closest_pair.cpp)
 
-- [AOJ CGL_5_A - Closest Pair](https://onlinejudge.u-aizu.ac.jp/problems/CGL_5_A)
 - [Codeforces 120J - Minimum Sum](https://codeforces.com/problemset/problem/120/J)
 - [CSES 2194 - Minimum Euclidean Distance](https://cses.fi/problemset/task/2194)
 - [Kattis closestpair2 - Closest Pair](https://open.kattis.com/problems/closestpair2)
@@ -50,8 +40,6 @@
 
 #### [Convex Hull](convex_hull.cpp)
 
-- [AOJ CGL_3_B - Is-Convex](https://onlinejudge.u-aizu.ac.jp/problems/CGL_3_B)
-- [AOJ CGL_4_B - Diameter of a Convex Polygon](https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_B)
 - [Codeforces 605C - Freelancer's Dreams](https://codeforces.com/problemset/problem/605/C)
 - [Codeforces 2172I - Birthday](https://codeforces.com/problemset/problem/2172/I)
 - [CSES 2195 - Convex Hull](https://cses.fi/problemset/task/2195)
@@ -91,16 +79,6 @@
 
 #### [Geometry](geometry.cpp)
 
-- [AOJ 0177 - Distance Between Two Cities](https://onlinejudge.u-aizu.ac.jp/problems/0177)
-- [AOJ CGL_1_A - Projection](https://onlinejudge.u-aizu.ac.jp/problems/CGL_1_A)
-- [AOJ CGL_1_B - Reflection](https://onlinejudge.u-aizu.ac.jp/problems/CGL_1_B)
-- [AOJ CGL_1_C - Counter-Clockwise](https://onlinejudge.u-aizu.ac.jp/problems/CGL_1_C)
-- [AOJ CGL_2_B - Intersection](https://onlinejudge.u-aizu.ac.jp/problems/CGL_2_B)
-- [AOJ CGL_2_C - Cross Point](https://onlinejudge.u-aizu.ac.jp/problems/CGL_2_C)
-- [AOJ CGL_2_D - Distance](https://onlinejudge.u-aizu.ac.jp/problems/CGL_2_D)
-- [AOJ CGL_3_A - Area](https://onlinejudge.u-aizu.ac.jp/problems/CGL_3_A)
-- [AOJ CGL_3_C - Polygon-Point-Containment](https://onlinejudge.u-aizu.ac.jp/problems/CGL_3_C)
-- [AOJ CGL_4_C - Convex Cut](https://onlinejudge.u-aizu.ac.jp/problems/CGL_4_C)
 - [Codeforces 166B - Polygons](https://codeforces.com/problemset/problem/166/B)
 - [Codeforces 598F - Cut Length](https://codeforces.com/problemset/problem/598/F)
 - [CSES 2189 - Point Location Test](https://cses.fi/problemset/task/2189)

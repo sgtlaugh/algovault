@@ -26,9 +26,7 @@
 
 #### [Bounded Knapsack](bounded_knapsack.cpp)
 
-- [AOJ DPL_1_G - Knapsack Problem with Limitations](https://onlinejudge.u-aizu.ac.jp/problems/DPL_1_G) [✔](../../practice/dp/aoj_dpl_1_g.cpp "Accepted solution")
 - [AtCoder DP D - Knapsack 1](https://atcoder.jp/contests/dp/tasks/dp_d) [✔](../../practice/dp/atcoder_dp_d.cpp "Accepted solution")
-- [CSES 1159 - Book Shop II](https://cses.fi/problemset/task/1159) [✔](../../practice/dp/cses_1159.cpp "Accepted solution")
 - [DMOJ knapsack - Knapsack 3](https://dmoj.ca/problem/knapsack) [✔](../../practice/dp/dmoj_knapsack.cpp "Accepted solution")
 
 #### [Bounded Subset Sum](bounded_subset_sum.cpp)
@@ -51,7 +49,6 @@
 - [Codeforces 868F - Yet Another Minimization Problem](https://codeforces.com/problemset/problem/868/F) [✔](../../practice/dp/codeforces_868f.cpp "Accepted solution")
 - [Codeforces 1527E - Partition Game](https://codeforces.com/problemset/problem/1527/E) [✔](../../practice/dp/codeforces_1527e.cpp "Accepted solution")
 - [Codeforces Gym 103536A - Guards](https://codeforces.com/gym/103536/problem/A) [✔](../../practice/dp/codeforces_gym_103536a.cpp "Accepted solution")
-- [CSES 2086 - Subarray Squares](https://cses.fi/problemset/task/2086) [✔](../../practice/dp/cses_2086.cpp "Accepted solution")
 - [CSES 2087 - Houses and Schools](https://cses.fi/problemset/task/2087) [✔](../../practice/dp/cses_2087.cpp "Accepted solution")
 - [HackerRank guardians-lunatics-ioi14 - [IOI] Guardians of the Lunatics](https://www.hackerrank.com/contests/ioi-2014-practice-contest-2/challenges/guardians-lunatics-ioi14/problem) [✔](../../practice/dp/hackerrank_guardians_lunatics_ioi14.cpp "Accepted solution")
 - [HDU 3480 - Division](https://acm.hdu.edu.cn/showproblem.php?pid=3480) [✔](../../practice/dp/hdu_3480.cpp "Accepted solution")
@@ -71,7 +68,6 @@
 
 #### [Hamiltonian Path and Cycle](hamiltonian_dp.cpp)
 
-- [AOJ DPL_2_A - Traveling Salesman Problem](https://onlinejudge.u-aizu.ac.jp/problems/DPL_2_A) [✔](../../practice/dp/aoj_dpl_2_a.cpp "Accepted solution")
 - [POJ 1699 - Best Sequence](http://poj.org/problem?id=1699) [✔](../../practice/dp/poj_1699.cpp "Accepted solution")
 - [UVa 10496 - Collecting Beepers](https://onlinejudge.org/external/104/10496.pdf) [✔](../../practice/dp/uva_10496.cpp "Accepted solution")
 - [UVa 10937 - Blackbeard the Pirate](https://onlinejudge.org/external/109/10937.pdf) [✔](../../practice/dp/uva_10937.cpp "Accepted solution")
@@ -86,13 +82,10 @@
 
 #### [Knuth Optimization](knuth_optimization.cpp)
 
-- [AOJ ALDS1_10_D - Optimal Binary Search Tree](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_10_D) [✔](../../practice/dp/aoj_alds1_10_d.cpp "Accepted solution")
 - [CSES 2088 - Knuth Division](https://cses.fi/problemset/task/2088) [✔](../../practice/dp/cses_2088.cpp "Accepted solution")
 - [SPOJ BRKSTRNG - Breaking String](https://www.spoj.com/problems/BRKSTRNG/) [✔](../../practice/dp/spoj_brkstrng.cpp "Accepted solution")
-- [UVa 10003 - Cutting Sticks](https://onlinejudge.org/external/100/10003.pdf) [✔](../../practice/dp/uva_10003.cpp "Accepted solution")
 - [UVa 10304 - Optimal Binary Search Tree](https://onlinejudge.org/external/103/10304.pdf) [✔](../../practice/dp/uva_10304.cpp "Accepted solution")
 - [UVa 12057 - Prefix Codes](https://onlinejudge.org/external/120/12057.pdf) [✔](../../practice/dp/uva_12057.cpp "Accepted solution")
-- [UVa 12809 - Binary Search Tree](https://onlinejudge.org/external/128/12809.pdf) [✔](../../practice/dp/uva_12809.cpp "Accepted solution")
 - [UVa 12836 - Gain Battle Power](https://onlinejudge.org/external/128/12836.pdf) [✔](../../practice/dp/uva_12836_knuth_optimization.cpp "Accepted solution")
 
 #### [Longest Common Increasing Subsequence](lcis.cpp)
@@ -105,7 +98,6 @@
 - [Codeforces 76F - Tourist](https://codeforces.com/problemset/problem/76/F) [✔](../../practice/dp/codeforces_76f.cpp "Accepted solution")
 - [Codeforces acmsguru 521 - "North-East"](https://codeforces.com/problemsets/acmsguru/problem/99999/521) [✔](../../practice/dp/codeforces_acmsguru_521.cpp "Accepted solution")
 - [Codeforces Gym 102951C - LCS on Permutations](https://codeforces.com/gym/102951/problem/C) [✔](../../practice/dp/codeforces_gym_102951c.cpp "Accepted solution")
-- [CSES 1145 - Increasing Subsequence](https://cses.fi/problemset/task/1145) [✔](../../practice/dp/cses_1145.cpp "Accepted solution")
 - [CSES 3404 - Permutation Subsequence](https://cses.fi/problemset/task/3404) [✔](../../practice/dp/cses_3404.cpp "Accepted solution")
 - [oj.uz CEOI18_glo - Global Warming](https://oj.uz/problem/view/CEOI18_glo) [✔](../../practice/dp/oj_uz_ceoi18_glo.cpp "Accepted solution")
 - [SPOJ CARDSHUF - Cards shuffing](https://www.spoj.com/problems/CARDSHUF/) [✔](../../practice/dp/spoj_cardshuf.cpp "Accepted solution")
@@ -113,10 +105,7 @@
 - [SPOJ ONEXLIS - One X LIS](https://www.spoj.com/problems/ONEXLIS/) [✔](../../practice/dp/spoj_onexlis.cpp "Accepted solution")
 - [SPOJ SUPPER - Supernumbers in a permutation](https://www.spoj.com/problems/SUPPER/) [✔](../../practice/dp/spoj_supper.cpp "Accepted solution")
 - [USACO 496 - Cow Jog](https://usaco.org/index.php?page=viewproblem2&cpid=496) [✔](../../practice/dp/usaco_496.cpp "Accepted solution")
-- [UVa 111 - History Grading](https://onlinejudge.org/external/1/111.pdf) [✔](../../practice/dp/uva_111.cpp "Accepted solution")
-- [UVa 231 - Testing the CATCHER](https://onlinejudge.org/external/2/231.pdf) [✔](../../practice/dp/uva_231.cpp "Accepted solution")
 - [UVa 481 - What Goes Up](https://onlinejudge.org/external/4/481.pdf) [✔](../../practice/dp/uva_481.cpp "Accepted solution")
-- [UVa 497 - Strategic Defense Initiative](https://onlinejudge.org/external/4/497.pdf) [✔](../../practice/dp/uva_497.cpp "Accepted solution")
 - [UVa 1062 - Containers](https://onlinejudge.org/external/10/1062.pdf) [✔](../../practice/dp/uva_1062.cpp "Accepted solution")
 - [UVa 1196 - Tiling Up Blocks](https://onlinejudge.org/external/11/1196.pdf) [✔](../../practice/dp/uva_1196.cpp "Accepted solution")
 - [UVa 10131 - Is Bigger Smarter?](https://onlinejudge.org/external/101/10131.pdf) [✔](../../practice/dp/uva_10131.cpp "Accepted solution")
@@ -124,7 +113,6 @@
 - [UVa 10635 - Prince and Princess](https://onlinejudge.org/external/106/10635.pdf) [✔](../../practice/dp/uva_10635.cpp "Accepted solution")
 - [UVa 11031 - Looking for a Subset](https://onlinejudge.org/external/110/11031.pdf) [✔](../../practice/dp/uva_11031.cpp "Accepted solution")
 - [UVa 11368 - Nested Dolls](https://onlinejudge.org/external/113/11368.pdf) [✔](../../practice/dp/uva_11368.cpp "Accepted solution")
-- [UVa 11456 - Trainsorting](https://onlinejudge.org/external/114/11456.pdf) [✔](../../practice/dp/uva_11456.cpp "Accepted solution")
 - [UVa 12002 - Happy Birthday](https://onlinejudge.org/external/120/12002.pdf) [✔](../../practice/dp/uva_12002.cpp "Accepted solution")
 - [UVa 12747 - Back to Edit Distance](https://onlinejudge.org/external/127/12747.pdf) [✔](../../practice/dp/uva_12747.cpp "Accepted solution")
 

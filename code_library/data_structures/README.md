@@ -26,7 +26,7 @@
 - [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C) [✔](../../practice/data_structures/codeforces_643c_convex_hull_trick.cpp "Accepted solution")
 - [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F) [✔](../../practice/data_structures/codeforces_660f.cpp "Accepted solution")
 - [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E) [✔](../../practice/data_structures/codeforces_1083e.cpp "Accepted solution")
-- [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✔](../../practice/data_structures/cses_2084_convex_hull_trick.cpp "Accepted solution")
+- [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✔](../../practice/data_structures/cses_2084.cpp "Accepted solution")
 - [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507) [✔](../../practice/data_structures/hdu_3507_convex_hull_trick.cpp "Accepted solution")
 - [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180) [✔](../../practice/data_structures/poj_1180_convex_hull_trick.cpp "Accepted solution")
 - [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/) [✔](../../practice/data_structures/spoj_acquire.cpp "Accepted solution")
@@ -66,9 +66,7 @@
 - [UVa 1197 - The Suspects](https://onlinejudge.org/external/11/1197.pdf) [✔](../../practice/data_structures/uva_1197.cpp "Accepted solution")
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf) [✔](../../practice/data_structures/uva_1479.cpp "Accepted solution")
 - [UVa 10178 - Count the Faces.](https://onlinejudge.org/external/101/10178.pdf) [✔](../../practice/data_structures/uva_10178.cpp "Accepted solution")
-- [UVa 10583 - Ubiquitous Religions](https://onlinejudge.org/external/105/10583.pdf) [✔](../../practice/data_structures/uva_10583.cpp "Accepted solution")
 - [UVa 10608 - Friends](https://onlinejudge.org/external/106/10608.pdf) [✔](../../practice/data_structures/uva_10608.cpp "Accepted solution")
-- [UVa 10685 - Nature](https://onlinejudge.org/external/106/10685.pdf) [✔](../../practice/data_structures/uva_10685.cpp "Accepted solution")
 - [UVa 11363 - Cuckoo Hashing](https://onlinejudge.org/external/113/11363.pdf) [✔](../../practice/data_structures/uva_11363.cpp "Accepted solution")
 - [UVa 11503 - Virtual Friends](https://onlinejudge.org/external/115/11503.pdf) [✔](../../practice/data_structures/uva_11503.cpp "Accepted solution")
 - [UVa 11665 - Chinese Ink](https://onlinejudge.org/external/116/11665.pdf) [✔](../../practice/data_structures/uva_11665.cpp "Accepted solution")
@@ -97,7 +95,6 @@
 #### [Disjoint Sparse Table](disjoint_sparse_table.cpp)
 
 - [CodeChef SEGPROD - Product on the segment by modulo](https://www.codechef.com/problems/SEGPROD) [✔](../../practice/data_structures/codechef_segprod.cpp "Accepted solution")
-- [CSES 1647 - Static Range Minimum Queries](https://cses.fi/problemset/task/1647) [✔](../../practice/data_structures/cses_1647_disjoint_sparse_table.cpp "Accepted solution")
 - [oj.uz JOI14_secret - Secret](https://oj.uz/problem/view/JOI14_secret) [✔](../../practice/data_structures/oj_uz_joi14_secret.cpp "Accepted solution")
 
 #### [Distinct Subarray Aggregates](distinct_subarray_aggregates.cpp)
@@ -113,10 +110,6 @@
 
 #### [Fenwick Tree](fenwick_tree.cpp)
 
-- [AOJ DSL_2_E - Range Add Query (RAQ)](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_E) [✔](../../practice/data_structures/aoj_dsl_2_e.cpp "Accepted solution")
-- [AOJ DSL_2_G - RSQ and RAQ](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_G) [✔](../../practice/data_structures/aoj_dsl_2_g_fenwick_tree.cpp "Accepted solution")
-- [AOJ GRL_5_D - Range Query on a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_D) [✔](../../practice/data_structures/aoj_grl_5_d.cpp "Accepted solution")
-- [AOJ GRL_5_E - Range Query on a Tree II](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_E) [✔](../../practice/data_structures/aoj_grl_5_e.cpp "Accepted solution")
 - [Codeforces 12D - Ball](https://codeforces.com/problemset/problem/12/D)
 - [Codeforces 163E - e-Government](https://codeforces.com/problemset/problem/163/E)
 - [Codeforces 594D - REQ](https://codeforces.com/problemset/problem/594/D)
@@ -127,8 +120,6 @@
 - [Codeforces 777E - Hanoi Factory](https://codeforces.com/problemset/problem/777/E)
 - [Codeforces 849E - Goodbye Souvenir](https://codeforces.com/problemset/problem/849/E)
 - [CSES 1144 - Salary Queries](https://cses.fi/problemset/task/1144) [✔](../../practice/data_structures/cses_1144.cpp "Accepted solution")
-- [CSES 1648 - Dynamic Range Sum Queries](https://cses.fi/problemset/task/1648) [✔](../../practice/data_structures/cses_1648_fenwick_tree.cpp "Accepted solution")
-- [CSES 1651 - Range Update Queries](https://cses.fi/problemset/task/1651) [✔](../../practice/data_structures/cses_1651.cpp "Accepted solution")
 - [CSES 1740 - Intersection Points](https://cses.fi/problemset/task/1740) [✔](../../practice/data_structures/cses_1740.cpp "Accepted solution")
 - [CSES 1747 - Pyramid Array](https://cses.fi/problemset/task/1747) [✔](../../practice/data_structures/cses_1747.cpp "Accepted solution")
 - [CSES 1748 - Increasing Subsequence II](https://cses.fi/problemset/task/1748) [✔](../../practice/data_structures/cses_1748.cpp "Accepted solution")
@@ -163,8 +154,6 @@
 - [UVa 10810 - Ultra-QuickSort](https://onlinejudge.org/external/108/10810.pdf) [✔](../../practice/data_structures/uva_10810.cpp "Accepted solution")
 - [UVa 11525 - Permutation](https://onlinejudge.org/external/115/11525.pdf) [✔](../../practice/data_structures/uva_11525.cpp "Accepted solution")
 - [UVa 11610 - Reverse Prime](https://onlinejudge.org/external/116/11610.pdf) [✔](../../practice/data_structures/uva_11610.cpp "Accepted solution")
-- [UVa 11858 - Frosh Week](https://onlinejudge.org/external/118/11858.pdf) [✔](../../practice/data_structures/uva_11858.cpp "Accepted solution")
-- [UVa 12086 - Potentiometers](https://onlinejudge.org/external/120/12086.pdf) [✔](../../practice/data_structures/uva_12086_fenwick_tree.cpp "Accepted solution")
 - [UVa 12141 - Line Chart](https://onlinejudge.org/external/121/12141.pdf) [✔](../../practice/data_structures/uva_12141.cpp "Accepted solution")
 - [UVa 12595 - Galactic Transmission](https://onlinejudge.org/external/125/12595.pdf) [✔](../../practice/data_structures/uva_12595.cpp "Accepted solution")
 - [UVa 12610 - Attractive Grid](https://onlinejudge.org/external/126/12610.pdf) [✔](../../practice/data_structures/uva_12610.cpp "Accepted solution")
@@ -173,7 +162,6 @@
 
 #### [Fenwick Tree 2D](fenwick_tree_2D.cpp)
 
-- [AOJ DSL_5_B - The Maximum Number of Overlaps](https://onlinejudge.u-aizu.ac.jp/problems/DSL_5_B) [✔](../../practice/data_structures/aoj_dsl_5_b.cpp "Accepted solution")
 - [Codeforces 707E - Garlands](https://codeforces.com/problemset/problem/707/E)
 - [Codeforces 869E - The Untended Antiquity](https://codeforces.com/problemset/problem/869/E)
 - [CSES 1739 - Forest Queries II](https://cses.fi/problemset/task/1739) [✔](../../practice/data_structures/cses_1739.cpp "Accepted solution")
@@ -198,7 +186,6 @@
 
 #### [Interval Set](interval_set.cpp)
 
-- [AOJ DSL_4_A - Union of Rectangles](https://onlinejudge.u-aizu.ac.jp/problems/DSL_4_A) [✔](../../practice/data_structures/aoj_dsl_4_a.cpp "Accepted solution")
 - [SPOJ MON2012 - Monkey and apples](https://www.spoj.com/problems/MON2012/)
 
 #### [Li Chao Tree](li_chao_tree.cpp)
@@ -213,7 +200,6 @@
 - [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E)
 - [Codeforces Gym 103536B - Troubles](https://codeforces.com/gym/103536/problem/B)
 - [CS Academy squared-ends - Squared Ends](https://csacademy.com/contest/archive/task/squared-ends/) [✔](../../practice/data_structures/cs_academy_squared_ends.cpp "Accepted solution")
-- [CSES 2084 - Monster Game I](https://cses.fi/problemset/task/2084) [✔](../../practice/data_structures/cses_2084.cpp "Accepted solution")
 - [CSES 2085 - Monster Game II](https://cses.fi/problemset/task/2085) [✔](../../practice/data_structures/cses_2085.cpp "Accepted solution")
 - [CSES 3427 - Line Segments Trace I](https://cses.fi/problemset/task/3427) [✔](../../practice/data_structures/cses_3427.cpp "Accepted solution")
 - [CSES 3428 - Line Segments Trace II](https://cses.fi/problemset/task/3428) [✔](../../practice/data_structures/cses_3428.cpp "Accepted solution")
@@ -282,13 +268,11 @@
 
 #### [Monotonic Stack](monotonic_stack.cpp)
 
-- [AOJ DPL_3_C - Largest Rectangle in a Histogram](https://onlinejudge.u-aizu.ac.jp/problems/DPL_3_C) [✔](../../practice/data_structures/aoj_dpl_3_c.cpp "Accepted solution")
 - [Codeforces 547B - Mike and Feet](https://codeforces.com/problemset/problem/547/B)
 - [Codeforces 1299C - Water Balance](https://codeforces.com/problemset/problem/1299/C)
 - [Codeforces 1402A - Fancy Fence](https://codeforces.com/problemset/problem/1402/A)
 - [Codeforces 1482E - Skyline Photo](https://codeforces.com/problemset/problem/1482/E)
 - [Codeforces Gym 101102D - Rectangles](https://codeforces.com/gym/101102/problem/D)
-- [CSES 1142 - Advertisement](https://cses.fi/problemset/task/1142) [✔](../../practice/data_structures/cses_1142.cpp "Accepted solution")
 - [CSES 1147 - Maximum Building I](https://cses.fi/problemset/task/1147) [✔](../../practice/data_structures/cses_1147.cpp "Accepted solution")
 - [CSES 1645 - Nearest Smaller Values](https://cses.fi/problemset/task/1645) [✔](../../practice/data_structures/cses_1645.cpp "Accepted solution")
 - [HackerRank poisonous-plants - Poisonous Plants](https://www.hackerrank.com/challenges/poisonous-plants/problem) [✔](../../practice/data_structures/hackerrank_poisonous_plants.cpp "Accepted solution")
@@ -337,7 +321,6 @@
 #### [Segment Tree](segment_tree.cpp)
 
 - [AOJ 1351 - Flipping Parentheses](https://onlinejudge.u-aizu.ac.jp/problems/1351) [✔](../../practice/data_structures/aoj_1351.cpp "Accepted solution")
-- [AOJ DSL_2_G - RSQ and RAQ](https://onlinejudge.u-aizu.ac.jp/problems/DSL_2_G) [✔](../../practice/data_structures/aoj_dsl_2_g_segment_tree.cpp "Accepted solution")
 - [Codeforces 52C - Circular RMQ](https://codeforces.com/problemset/problem/52/C)
 - [Codeforces 121E - Lucky Array](https://codeforces.com/problemset/problem/121/E)
 - [Codeforces 242E - XOR on Segment](https://codeforces.com/problemset/problem/242/E)
@@ -366,7 +349,6 @@
 - [CSES 1143 - Hotel Queries](https://cses.fi/problemset/task/1143) [✔](../../practice/data_structures/cses_1143.cpp "Accepted solution")
 - [CSES 1188 - Bit Inversions](https://cses.fi/problemset/task/1188) [✔](../../practice/data_structures/cses_1188.cpp "Accepted solution")
 - [CSES 1190 - Subarray Sum Queries](https://cses.fi/problemset/task/1190) [✔](../../practice/data_structures/cses_1190.cpp "Accepted solution")
-- [CSES 1648 - Dynamic Range Sum Queries](https://cses.fi/problemset/task/1648) [✔](../../practice/data_structures/cses_1648_segment_tree.cpp "Accepted solution")
 - [CSES 1649 - Dynamic Range Minimum Queries](https://cses.fi/problemset/task/1649) [✔](../../practice/data_structures/cses_1649.cpp "Accepted solution")
 - [CSES 1735 - Range Updates and Sums](https://cses.fi/problemset/task/1735) [✔](../../practice/data_structures/cses_1735.cpp "Accepted solution")
 - [CSES 1736 - Polynomial Queries](https://cses.fi/problemset/task/1736) [✔](../../practice/data_structures/cses_1736.cpp "Accepted solution")
@@ -390,7 +372,6 @@
 - [UVa 1400 - "Ray, Pass me the dishes!"](https://onlinejudge.org/external/14/1400.pdf) [✔](../../practice/data_structures/uva_1400.cpp "Accepted solution")
 - [UVa 1502 - GRE Words](https://onlinejudge.org/external/15/1502.pdf) [✔](../../practice/data_structures/uva_1502.cpp "Accepted solution")
 - [UVa 11402 - Ahoy, Pirates!](https://onlinejudge.org/external/114/11402.pdf) [✔](../../practice/data_structures/uva_11402.cpp "Accepted solution")
-- [UVa 12086 - Potentiometers](https://onlinejudge.org/external/120/12086.pdf) [✔](../../practice/data_structures/uva_12086_segment_tree.cpp "Accepted solution")
 - [UVa 12299 - RMQ with Shifts](https://onlinejudge.org/external/122/12299.pdf) [✔](../../practice/data_structures/uva_12299.cpp "Accepted solution")
 - [UVa 12365 - Jupiter Atacks!](https://onlinejudge.org/external/123/12365.pdf) [✔](../../practice/data_structures/uva_12365.cpp "Accepted solution")
 - [UVa 12436 - Rip Van Winkle's Code](https://onlinejudge.org/external/124/12436.pdf) [✔](../../practice/data_structures/uva_12436.cpp "Accepted solution")
@@ -415,7 +396,6 @@
 
 #### [Sliding Window Aggregation](sliding_window_aggregation.cpp)
 
-- [AOJ DSL_3_D - Sliding Minimum Element](https://onlinejudge.u-aizu.ac.jp/problems/DSL_3_D) [✔](../../practice/data_structures/aoj_dsl_3_d.cpp "Accepted solution")
 - [CodeChef BINLAND - Binary Land](https://www.codechef.com/problems/BINLAND) [✔](../../practice/data_structures/codechef_binland.cpp "Accepted solution")
 - [Codeforces 15D - Map](https://codeforces.com/problemset/problem/15/D)
 - [CSES 3221 - Sliding Window Minimum](https://cses.fi/problemset/task/3221) [✔](../../practice/data_structures/cses_3221.cpp "Accepted solution")
@@ -438,7 +418,6 @@
 - [Codeforces 873E - Awards For Contestants](https://codeforces.com/problemset/problem/873/E)
 - [Codeforces 1454F - Array Partition](https://codeforces.com/problemset/problem/1454/F)
 - [Codeforces 1547F - Array Stabilization (GCD version)](https://codeforces.com/problemset/problem/1547/F)
-- [CSES 1647 - Static Range Minimum Queries](https://cses.fi/problemset/task/1647) [✔](../../practice/data_structures/cses_1647_sparse_table.cpp "Accepted solution")
 - [SPOJ RMQSQ - Range Minimum Query](https://www.spoj.com/problems/RMQSQ/)
 - [SPOJ RPLN - Negative Score](https://www.spoj.com/problems/RPLN/)
 - [SPOJ THRBL - Catapult that ball](https://www.spoj.com/problems/THRBL/)
@@ -475,7 +454,6 @@
 - [Codeforces Gym 101319C - Problem Strudel. Efficient Evaluation](https://codeforces.com/gym/101319/problem/C)
 - [CSES 2072 - Cut and Paste](https://cses.fi/problemset/task/2072) [✔](../../practice/data_structures/cses_2072_treap.cpp "Accepted solution")
 - [CSES 2073 - Substring Reversals](https://cses.fi/problemset/task/2073) [✔](../../practice/data_structures/cses_2073.cpp "Accepted solution")
-- [CSES 2074 - Reversals and Sums](https://cses.fi/problemset/task/2074) [✔](../../practice/data_structures/cses_2074.cpp "Accepted solution")
 - [DMOJ noi05p2 - NOI '05 P2 - Maintaining a Sequence](https://dmoj.ca/problem/noi05p2)
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma) [✔](../../practice/data_structures/hackerrank_xaero_and_breaking_enigma_treap.cpp "Accepted solution")
 - [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436) [✔](../../practice/data_structures/hdu_3436_treap.cpp "Accepted solution")
@@ -512,7 +490,6 @@
 
 #### [Trie](trie.cpp)
 
-- [AOJ ALDS1_4_C - Search III](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_4_C) [✔](../../practice/data_structures/aoj_alds1_4_c.cpp "Accepted solution")
 - [AtCoder ARC122 D - XOR Game](https://atcoder.jp/contests/arc122/tasks/arc122_d) [✔](../../practice/data_structures/atcoder_arc122_d.cpp "Accepted solution")
 - [Codeforces 665E - Beautiful Subarrays](https://codeforces.com/problemset/problem/665/E)
 - [Codeforces 888G - Xor-MST](https://codeforces.com/problemset/problem/888/G)

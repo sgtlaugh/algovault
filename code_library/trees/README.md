@@ -21,7 +21,6 @@
 - [Codeforces 1387B2 - Village (Maximum)](https://codeforces.com/problemset/problem/1387/B2) [✔](../../practice/trees/codeforces_1387b2.cpp "Accepted solution")
 - [Codeforces Gym 100570F - Tree Query](https://codeforces.com/gym/100570/problem/F) [✔](../../practice/trees/codeforces_gym_100570f.cpp "Accepted solution")
 - [CSES 2079 - Finding a Centroid](https://cses.fi/problemset/task/2079) [✔](../../practice/trees/cses_2079.cpp "Accepted solution")
-- [CSES 2080 - Fixed-Length Paths I](https://cses.fi/problemset/task/2080) [✔](../../practice/trees/cses_2080.cpp "Accepted solution")
 - [CSES 2081 - Fixed-Length Paths II](https://cses.fi/problemset/task/2081) [✔](../../practice/trees/cses_2081.cpp "Accepted solution")
 - [HackerRank a-knapsack-problem - A Knapsack Problem](https://www.hackerrank.com/contests/w15/challenges/a-knapsack-problem) [✔](../../practice/trees/hackerrank_a_knapsack_problem.cpp "Accepted solution")
 - [HackerRank interoffice-travel - Interoffice Travel](https://www.hackerrank.com/contests/world-codesprint-10/challenges/interoffice-travel) [✔](../../practice/trees/hackerrank_interoffice_travel_centroid_decomposition.cpp "Accepted solution")
@@ -46,8 +45,6 @@
 
 #### [Heavy Light Decomposition](hld.cpp)
 
-- [AOJ GRL_5_D - Range Query on a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_D) [✔](../../practice/trees/aoj_grl_5_d_hld.cpp "Accepted solution")
-- [AOJ GRL_5_E - Range Query on a Tree II](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_E) [✔](../../practice/trees/aoj_grl_5_e_hld.cpp "Accepted solution")
 - [AtCoder ABC294 G - Distance Queries on a Tree](https://atcoder.jp/contests/abc294/tasks/abc294_g) [✔](../../practice/trees/atcoder_abc294_g.cpp "Accepted solution")
 - [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6) [✔](../../practice/trees/codechef_qtree6_hld.cpp "Accepted solution")
 - [Codeforces 117E - Tree or not Tree](https://codeforces.com/problemset/problem/117/E) [✔](../../practice/trees/codeforces_117e.cpp "Accepted solution")
@@ -86,17 +83,13 @@
 - [Codeforces Gym 101908L - Subway Lines](https://codeforces.com/gym/101908/problem/L) [✔](../../practice/trees/codeforces_gym_101908l.cpp "Accepted solution")
 - [Codeforces Gym 102040F - Path Intersection](https://codeforces.com/gym/102040/problem/F) [✔](../../practice/trees/codeforces_gym_102040f.cpp "Accepted solution")
 - [Codeforces Gym 102694C - Sloth Naptime](https://codeforces.com/gym/102694/problem/C) [✔](../../practice/trees/codeforces_gym_102694c.cpp "Accepted solution")
-- [CSES 1135 - Distance Queries](https://cses.fi/problemset/task/1135) [✔](../../practice/trees/cses_1135.cpp "Accepted solution")
 - [CSES 1136 - Counting Paths](https://cses.fi/problemset/task/1136) [✔](../../practice/trees/cses_1136.cpp "Accepted solution")
 - [CSES 1687 - Company Queries I](https://cses.fi/problemset/task/1687) [✔](../../practice/trees/cses_1687.cpp "Accepted solution")
-- [CSES 1688 - Company Queries II](https://cses.fi/problemset/task/1688) [✔](../../practice/trees/cses_1688.cpp "Accepted solution")
-- [HackerEarth optimal-connectivity-c6ae79ca - Optimal Connectivity](https://www.hackerearth.com/practice/algorithms/graphs/graph-representation/practice-problems/algorithm/optimal-connectivity-c6ae79ca/) [✔](../../practice/trees/hackerearth_optimal_connectivity_c6ae79ca.cpp "Accepted solution")
 - [LeetCode 1483 - Kth Ancestor of a Tree Node](https://leetcode.com/problems/kth-ancestor-of-a-tree-node/) [✔](../../practice/trees/leetcode_1483.cpp "Accepted solution")
 - [SPOJ ADAORANG - Ada and Orange Tree](https://www.spoj.com/problems/ADAORANG/) [✔](../../practice/trees/spoj_adaorang.cpp "Accepted solution")
 - [SPOJ COT - Count on a tree](https://www.spoj.com/problems/COT/)
 - [SPOJ DISQUERY - Distance Query](https://www.spoj.com/problems/DISQUERY/) [✔](../../practice/trees/spoj_disquery.cpp "Accepted solution")
 - [SPOJ LCA - Lowest Common Ancestor](https://www.spoj.com/problems/LCA/) [✔](../../practice/trees/spoj_lca.cpp "Accepted solution")
-- [SPOJ LCASQ - Lowest Common Ancestor](https://www.spoj.com/problems/LCASQ/) [✔](../../practice/trees/spoj_lcasq.cpp "Accepted solution")
 - [SPOJ NTICKETS - Nlogonian Tickets](https://www.spoj.com/problems/NTICKETS/) [✔](../../practice/trees/spoj_ntickets.cpp "Accepted solution")
 - [SPOJ QTREE2 - Query on a tree II](https://www.spoj.com/problems/QTREE2/) [✔](../../practice/trees/spoj_qtree2.cpp "Accepted solution")
 - [Timus 1471 - Distance in the Tree](https://acm.timus.ru/problem.aspx?num=1471) [✔](../../practice/trees/timus_1471.cpp "Accepted solution")
@@ -110,7 +103,6 @@
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf) [✔](../../practice/trees/uva_12176.cpp "Accepted solution")
 - [UVa 12238 - Ants Colony](https://onlinejudge.org/external/122/12238.pdf) [✔](../../practice/trees/uva_12238.cpp "Accepted solution")
 - [UVa 12533 - Joining Couples](https://onlinejudge.org/external/125/12533.pdf) [✔](../../practice/trees/uva_12533.cpp "Accepted solution")
-- [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf) [✔](../../practice/trees/uva_12655.cpp "Accepted solution")
 
 #### [Prufer Code](prufer_code.cpp)
 
@@ -119,10 +111,8 @@
 
 #### [Rerooting DP](rerooting.cpp)
 
-- [AOJ GRL_5_B - Height of a Tree](https://onlinejudge.u-aizu.ac.jp/problems/GRL_5_B) [✔](../../practice/trees/aoj_grl_5_b.cpp "Accepted solution")
 - [AtCoder DP V - Subtree](https://atcoder.jp/contests/dp/tasks/dp_v) [✔](../../practice/trees/atcoder_dp_v.cpp "Accepted solution")
 - [Codeforces 1187E - Tree Painting](https://codeforces.com/problemset/problem/1187/E) [✔](../../practice/trees/codeforces_1187e.cpp "Accepted solution")
-- [CSES 1132 - Tree Distances I](https://cses.fi/problemset/task/1132) [✔](../../practice/trees/cses_1132.cpp "Accepted solution")
 - [CSES 1133 - Tree Distances II](https://cses.fi/problemset/task/1133) [✔](../../practice/trees/cses_1133.cpp "Accepted solution")
 - [HackerRank relatedquestions - Related questions](https://www.hackerrank.com/contests/quora-haqathon/challenges/relatedquestions) [✔](../../practice/trees/hackerrank_relatedquestions.cpp "Accepted solution")
 - [HDU 4661 - Message Passing](https://acm.hdu.edu.cn/showproblem.php?pid=4661) [✔](../../practice/trees/hdu_4661.cpp "Accepted solution")
