@@ -65,13 +65,10 @@
 
 #### [Articulation Points and Blocks](articulation_points.cpp)
 
-- [AOJ GRL_3_A - Articulation Points](https://onlinejudge.u-aizu.ac.jp/problems/GRL_3_A) [✔](../../practice/graphs/aoj_grl_3_a.cpp "Accepted solution")
 - [Codeforces 193A - Cutting Figure](https://codeforces.com/problemset/problem/193/A) [✔](../../practice/graphs/codeforces_193a.cpp "Accepted solution")
 - [CSES 1705 - Forbidden Cities](https://cses.fi/problemset/task/1705) [✔](../../practice/graphs/cses_1705.cpp "Accepted solution")
-- [CSES 2077 - Necessary Cities](https://cses.fi/problemset/task/2077) [✔](../../practice/graphs/cses_2077.cpp "Accepted solution")
 - [SPOJ SUBMERGE - Submerging Islands](https://www.spoj.com/problems/SUBMERGE/)
 - [USACO 769 - Push a Box](https://usaco.org/index.php?page=viewproblem2&cpid=769) [✔](../../practice/graphs/usaco_769.cpp "Accepted solution")
-- [UVa 315 - Network](https://onlinejudge.org/external/3/315.pdf) [✔](../../practice/graphs/uva_315.cpp "Accepted solution")
 - [UVa 1108 - Mining Your Own Business](https://onlinejudge.org/external/11/1108.pdf) [✔](../../practice/graphs/uva_1108.cpp "Accepted solution")
 - [UVa 10199 - Tourist Guide](https://onlinejudge.org/external/101/10199.pdf) [✔](../../practice/graphs/uva_10199.cpp "Accepted solution")
 - [UVa 10765 - Doves and bombs](https://onlinejudge.org/external/107/10765.pdf) [✔](../../practice/graphs/uva_10765.cpp "Accepted solution")
@@ -79,14 +76,12 @@
 
 #### [Bellman-Ford](bellman_ford.cpp)
 
-- [AOJ GRL_1_B - Single Source Shortest Path (Negative Edges)](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_B) [✔](../../practice/graphs/aoj_grl_1_b.cpp "Accepted solution")
 - [CSES 1197 - Cycle Finding](https://cses.fi/problemset/task/1197) [✔](../../practice/graphs/cses_1197.cpp "Accepted solution")
 - [CSES 1673 - High Score](https://cses.fi/problemset/task/1673) [✔](../../practice/graphs/cses_1673.cpp "Accepted solution")
 - [Eolymp 1453 - Ford-Bellman](https://www.eolymp.com/en/problems/1453) [✔](../../practice/graphs/eolymp_1453.cpp "Accepted solution")
 - [Kattis shortestpath3 - Single source shortest path, negative weights](https://open.kattis.com/problems/shortestpath3) [✔](../../practice/graphs/kattis_shortestpath3.cpp "Accepted solution")
 - [POJ 1275 - Cashier Employment](http://poj.org/problem?id=1275) [✔](../../practice/graphs/poj_1275.cpp "Accepted solution")
 - [UVa 515 - King](https://onlinejudge.org/external/5/515.pdf) [✔](../../practice/graphs/uva_515.cpp "Accepted solution")
-- [UVa 558 - Wormholes](https://onlinejudge.org/external/5/558.pdf) [✔](../../practice/graphs/uva_558.cpp "Accepted solution")
 - [UVa 1171 - Board Games](https://onlinejudge.org/external/11/1171.pdf) [✔](../../practice/graphs/uva_1171.cpp "Accepted solution")
 - [UVa 10449 - Traffic](https://onlinejudge.org/external/104/10449.pdf) [✔](../../practice/graphs/uva_10449.cpp "Accepted solution")
 - [UVa 10557 - XYZZY](https://onlinejudge.org/external/105/10557.pdf)
@@ -97,20 +92,17 @@
 
 #### [Bridges](bridge.cpp)
 
-- [AOJ GRL_3_B - Bridges](https://onlinejudge.u-aizu.ac.jp/problems/GRL_3_B) [✔](../../practice/graphs/aoj_grl_3_b.cpp "Accepted solution")
 - [Codeforces 555E - Case of Computer Network](https://codeforces.com/problemset/problem/555/E) [✔](../../practice/graphs/codeforces_555e.cpp "Accepted solution")
 - [Codeforces 700C - Break Up](https://codeforces.com/problemset/problem/700/C) [✔](../../practice/graphs/codeforces_700c.cpp "Accepted solution")
 - [Codeforces 732F - Tourist Reform](https://codeforces.com/problemset/problem/732/F) [✔](../../practice/graphs/codeforces_732f.cpp "Accepted solution")
 - [Codeforces 1986F - Non-academic Problem](https://codeforces.com/problemset/problem/1986/F) [✔](../../practice/graphs/codeforces_1986f.cpp "Accepted solution")
 - [Codeforces Gym 100114J - Computer Network](https://codeforces.com/gym/100114/problem/J) [✔](../../practice/graphs/codeforces_gym_100114j.cpp "Accepted solution")
-- [CSES 2076 - Necessary Roads](https://cses.fi/problemset/task/2076) [✔](../../practice/graphs/cses_2076.cpp "Accepted solution")
 - [CSES 2177 - Strongly Connected Edges](https://cses.fi/problemset/task/2177) [✔](../../practice/graphs/cses_2177.cpp "Accepted solution")
 - [HDU 3849 - By Recognizing These Guys, We Find Social Networks Useful](https://acm.hdu.edu.cn/showproblem.php?pid=3849) [✔](../../practice/graphs/hdu_3849.cpp "Accepted solution")
 - [SPOJ EC_P - Critical Edges](https://www.spoj.com/problems/EC_P/)
 - [SPOJ GRAFFDEF - King Graffs Defense](https://www.spoj.com/problems/GRAFFDEF/)
 - [Szkopul osi - Zones](https://szkopul.edu.pl/problemset/problem/nldsb4EW1YuZykBlf4lcZL1Y/site/) [✔](../../practice/graphs/szkopul_osi.cpp "Accepted solution")
 - [UVa 610 - Street Directions](https://onlinejudge.org/external/6/610.pdf) [✔](../../practice/graphs/uva_610.cpp "Accepted solution")
-- [UVa 796 - Critical Links](https://onlinejudge.org/external/7/796.pdf) [✔](../../practice/graphs/uva_796.cpp "Accepted solution")
 - [UVa 1310 - One-way traffic](https://onlinejudge.org/external/13/1310.pdf) [✔](../../practice/graphs/uva_1310.cpp "Accepted solution")
 - [UVa 11972 - Round Trip](https://onlinejudge.org/external/119/11972.pdf) [✔](../../practice/graphs/uva_11972.cpp "Accepted solution")
 - [UVa 12363 - Hedge Mazes](https://onlinejudge.org/external/123/12363.pdf) [✔](../../practice/graphs/uva_12363.cpp "Accepted solution")
@@ -133,8 +125,6 @@
 
 #### [Dijkstra](dijkstra.cpp)
 
-- [AOJ ALDS1_11_C - Breadth First Search](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_11_C) [✔](../../practice/graphs/aoj_alds1_11_c.cpp "Accepted solution")
-- [AOJ ALDS1_12_B - Single Source Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_12_B) [✔](../../practice/graphs/aoj_alds1_12_b.cpp "Accepted solution")
 - [Codeforces 20C - Dijkstra?](https://codeforces.com/problemset/problem/20/C) [✔](../../practice/graphs/codeforces_20c.cpp "Accepted solution")
 - [Codeforces 449B - Jzzhu and Cities](https://codeforces.com/problemset/problem/449/B) [✔](../../practice/graphs/codeforces_449b.cpp "Accepted solution")
 - [Codeforces 464E - The Classic Problem](https://codeforces.com/problemset/problem/464/E)
@@ -147,7 +137,6 @@
 - [Codeforces Gym 100625D - Destination Unknown](https://codeforces.com/gym/100625/problem/D) [✔](../../practice/graphs/codeforces_gym_100625d.cpp "Accepted solution")
 - [CSES 1195 - Flight Discount](https://cses.fi/problemset/task/1195) [✔](../../practice/graphs/cses_1195.cpp "Accepted solution")
 - [CSES 1203 - Visiting Cities](https://cses.fi/problemset/task/1203) [✔](../../practice/graphs/cses_1203_dijkstra.cpp "Accepted solution")
-- [CSES 1671 - Shortest Routes I](https://cses.fi/problemset/task/1671) [✔](../../practice/graphs/cses_1671.cpp "Accepted solution")
 - [CSES 3158 - Bus Companies](https://cses.fi/problemset/task/3158) [✔](../../practice/graphs/cses_3158.cpp "Accepted solution")
 - [oj.uz IOI11_crocodile - Crocodile's Underground City](https://oj.uz/problem/view/IOI11_crocodile)
 - [oj.uz JOI18_commuter_pass - Commuter Pass](https://oj.uz/problem/view/JOI18_commuter_pass) [✔](../../practice/graphs/oj_uz_joi18_commuter_pass.cpp "Accepted solution")
@@ -168,7 +157,6 @@
 - [UVa 929 - Number Maze](https://onlinejudge.org/external/9/929.pdf) [✔](../../practice/graphs/uva_929.cpp "Accepted solution")
 - [UVa 1027 - Toll](https://onlinejudge.org/external/10/1027.pdf) [✔](../../practice/graphs/uva_1027.cpp "Accepted solution")
 - [UVa 1078 - Steam Roller](https://onlinejudge.org/external/10/1078.pdf) [✔](../../practice/graphs/uva_1078.cpp "Accepted solution")
-- [UVa 1112 - Mice and Maze](https://onlinejudge.org/external/11/1112.pdf) [✔](../../practice/graphs/uva_1112.cpp "Accepted solution")
 - [UVa 1233 - USHER](https://onlinejudge.org/external/12/1233.pdf) [✔](../../practice/graphs/uva_1233.cpp "Accepted solution")
 - [UVa 1247 - Interstar Transport](https://onlinejudge.org/external/12/1247.pdf) [✔](../../practice/graphs/uva_1247.cpp "Accepted solution")
 - [UVa 1574 - Surely You Congest](https://onlinejudge.org/external/15/1574.pdf) [✔](../../practice/graphs/uva_1574.cpp "Accepted solution")
@@ -182,7 +170,6 @@
 - [UVa 10816 - Travel in Desert](https://onlinejudge.org/external/108/10816.pdf) [✔](../../practice/graphs/uva_10816.cpp "Accepted solution")
 - [UVa 10917 - Walk Through the Forest](https://onlinejudge.org/external/109/10917.pdf) [✔](../../practice/graphs/uva_10917.cpp "Accepted solution")
 - [UVa 10967 - The Great Escape](https://onlinejudge.org/external/109/10967.pdf) [✔](../../practice/graphs/uva_10967.cpp "Accepted solution")
-- [UVa 10986 - Sending email](https://onlinejudge.org/external/109/10986.pdf) [✔](../../practice/graphs/uva_10986.cpp "Accepted solution")
 - [UVa 11338 - Minefield](https://onlinejudge.org/external/113/11338.pdf) [✔](../../practice/graphs/uva_11338.cpp "Accepted solution")
 - [UVa 11367 - Full Tank?](https://onlinejudge.org/external/113/11367.pdf) [✔](../../practice/graphs/uva_11367.cpp "Accepted solution")
 - [UVa 11374 - Airport Express](https://onlinejudge.org/external/113/11374.pdf) [✔](../../practice/graphs/uva_11374.cpp "Accepted solution")
@@ -225,15 +212,12 @@
 - [Codeforces 527E - Data Center Drama](https://codeforces.com/problemset/problem/527/E) [✔](../../practice/graphs/codeforces_527e.cpp "Accepted solution")
 - [Codeforces 1361C - Johnny and Megan's Necklace](https://codeforces.com/problemset/problem/1361/C) [✔](../../practice/graphs/codeforces_1361c.cpp "Accepted solution")
 - [Codeforces 2110E - Melody](https://codeforces.com/problemset/problem/2110/E) [✔](../../practice/graphs/codeforces_2110e.cpp "Accepted solution")
-- [CSES 1691 - Mail Delivery](https://cses.fi/problemset/task/1691) [✔](../../practice/graphs/cses_1691.cpp "Accepted solution")
-- [CSES 1693 - Teleporters Path](https://cses.fi/problemset/task/1693) [✔](../../practice/graphs/cses_1693.cpp "Accepted solution")
 - [oj.uz BOI14_postmen - Senior Postmen](https://oj.uz/problem/view/BOI14_postmen) [✔](../../practice/graphs/oj_uz_boi14_postmen.cpp "Accepted solution")
 - [UVa 10054 - The Necklace](https://onlinejudge.org/external/100/10054.pdf) [✔](../../practice/graphs/uva_10054.cpp "Accepted solution")
 - [UVa 10129 - Play on Words](https://onlinejudge.org/external/101/10129.pdf) [✔](../../practice/graphs/uva_10129.cpp "Accepted solution")
 
 #### [Flow with Lower Bounds](lower_bound_flow.cpp)
 
-- [AOJ GRL_6_A - Maximum Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A) [✔](../../practice/graphs/aoj_grl_6_a_lower_bound_flow.cpp "Accepted solution")
 - [Codeforces 704D - Captain America](https://codeforces.com/problemset/problem/704/D) [✔](../../practice/graphs/codeforces_704d.cpp "Accepted solution")
 - [Codeforces 1416F - Showing Off](https://codeforces.com/problemset/problem/1416/F) [✔](../../practice/graphs/codeforces_1416f.cpp "Accepted solution")
 - [Codeforces Gym 102156C - Diverse Singing](https://codeforces.com/gym/102156/problem/C) [✔](../../practice/graphs/codeforces_gym_102156c.cpp "Accepted solution")
@@ -243,7 +227,6 @@
 
 #### [Floyd-Warshall](floyd_warshall.cpp)
 
-- [AOJ GRL_1_C - All Pairs Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_C) [✔](../../practice/graphs/aoj_grl_1_c_floyd_warshall.cpp "Accepted solution")
 - [Codeforces 21D - Traveling Graph](https://codeforces.com/problemset/problem/21/D) [✔](../../practice/graphs/codeforces_21d.cpp "Accepted solution")
 - [Codeforces 25C - Roads in Berland](https://codeforces.com/problemset/problem/25/C) [✔](../../practice/graphs/codeforces_25c.cpp "Accepted solution")
 - [Codeforces 33B - String Problem](https://codeforces.com/problemset/problem/33/B) [✔](../../practice/graphs/codeforces_33b.cpp "Accepted solution")
@@ -256,10 +239,8 @@
 - [SPOJ UCV2013B - Alice in Amsterdam, I mean Wonderland](https://www.spoj.com/problems/UCV2013B/)
 - [USACO 971 - Moortal Cowmbat](https://usaco.org/index.php?page=viewproblem2&cpid=971) [✔](../../practice/graphs/usaco_971.cpp "Accepted solution")
 - [UVa 117 - The Postal Worker Rings Once](https://onlinejudge.org/external/1/117.pdf) [✔](../../practice/graphs/uva_117.cpp "Accepted solution")
-- [UVa 423 - MPI Maelstrom](https://onlinejudge.org/external/4/423.pdf) [✔](../../practice/graphs/uva_423.cpp "Accepted solution")
 - [UVa 436 - Arbitrage (II)](https://onlinejudge.org/external/4/436.pdf) [✔](../../practice/graphs/uva_436.cpp "Accepted solution")
 - [UVa 523 - Minimum Transport Cost](https://onlinejudge.org/external/5/523.pdf) [✔](../../practice/graphs/uva_523.cpp "Accepted solution")
-- [UVa 567 - Risk](https://onlinejudge.org/external/5/567.pdf) [✔](../../practice/graphs/uva_567.cpp "Accepted solution")
 - [UVa 821 - Page Hopping](https://onlinejudge.org/external/8/821.pdf) [✔](../../practice/graphs/uva_821.cpp "Accepted solution")
 - [UVa 869 - Airline Comparison](https://onlinejudge.org/external/8/869.pdf) [✔](../../practice/graphs/uva_869.cpp "Accepted solution")
 - [UVa 1056 - Degrees of Separation](https://onlinejudge.org/external/10/1056.pdf) [✔](../../practice/graphs/uva_1056.cpp "Accepted solution")
@@ -281,13 +262,11 @@
 #### [General Graph Matching](graph_matching.cpp)
 
 - [Code Jam 2008 AMER Semifinal D - King](https://github.com/google/coding-competitions-archive/tree/main/codejam/2008/amer_semifinal/king) [✔](../../practice/graphs/code_jam_2008_amer_semifinal_d.cpp "Accepted solution")
-- [Timus 1099 - Work Scheduling](https://acm.timus.ru/problem.aspx?num=1099) [✔](../../practice/graphs/timus_1099.cpp "Accepted solution")
 - [UVa 11439 - Maximizing the ICPC](https://onlinejudge.org/external/114/11439.pdf) [✔](../../practice/graphs/uva_11439.cpp "Accepted solution")
 
 #### [General Graph Matching, Weighted](weighted_graph_matching.cpp)
 
 - [AtCoder ABC318 D - General Weighted Max Matching](https://atcoder.jp/contests/abc318/tasks/abc318_d) [✔](../../practice/graphs/atcoder_abc318_d.cpp "Accepted solution")
-- [UOJ 81 - 一般图最大权匹配](https://uoj.ac/problem/81) [✔](../../practice/graphs/uoj_81.cpp "Accepted solution")
 - [UVa 10296 - Jogging Trails](https://onlinejudge.org/external/102/10296.pdf) [✔](../../practice/graphs/uva_10296_weighted_graph_matching.cpp "Accepted solution")
 - [UVa 12711 - Game of Throne](https://onlinejudge.org/external/127/12711.pdf) [✔](../../practice/graphs/uva_12711.cpp "Accepted solution")
 - [UVa 12838 - Identity Redemption](https://onlinejudge.org/external/128/12838.pdf) [✔](../../practice/graphs/uva_12838.cpp "Accepted solution")
@@ -301,7 +280,6 @@
 #### [Hopcroft-Karp](hopcroft_karp.cpp)
 
 - [Codeforces Gym 100741C - Reordering Ones](https://codeforces.com/gym/100741/problem/C) [✔](../../practice/graphs/codeforces_gym_100741c.cpp "Accepted solution")
-- [CSES 1696 - School Dance](https://cses.fi/problemset/task/1696) [✔](../../practice/graphs/cses_1696_hopcroft_karp.cpp "Accepted solution")
 - [CSES 1709 - Coin Grid](https://cses.fi/problemset/task/1709) [✔](../../practice/graphs/cses_1709.cpp "Accepted solution")
 - [Kattis borders - Borders](https://open.kattis.com/problems/borders) [✔](../../practice/graphs/kattis_borders.cpp "Accepted solution")
 - [Kattis thewrathofkahn - The Wrath of Kahn](https://open.kattis.com/problems/thewrathofkahn) [✔](../../practice/graphs/kattis_thewrathofkahn.cpp "Accepted solution")
@@ -334,7 +312,6 @@
 #### [Hungarian Algorithm](hungarian_algorithm.cpp)
 
 - [Codeforces acmsguru 210 - Beloved Sons](https://codeforces.com/problemsets/acmsguru/problem/99999/210) [✔](../../practice/graphs/codeforces_acmsguru_210.cpp "Accepted solution")
-- [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129) [✔](../../practice/graphs/cses_2129_hungarian_algorithm.cpp "Accepted solution")
 - [Kattis cordonbleu - Cordon Bleu](https://open.kattis.com/problems/cordonbleu) [✔](../../practice/graphs/kattis_cordonbleu.cpp "Accepted solution")
 - [UVa 1006 - Fixed Partition Memory Management](https://onlinejudge.org/external/10/1006.pdf) [✔](../../practice/graphs/uva_1006.cpp "Accepted solution")
 - [UVa 1045 - The Great Wall Game](https://onlinejudge.org/external/10/1045.pdf) [✔](../../practice/graphs/uva_1045.cpp "Accepted solution")
@@ -346,12 +323,10 @@
 
 #### [Johnson's Algorithm](johnsons_algorithm.cpp)
 
-- [AOJ GRL_1_C - All Pairs Shortest Path](https://onlinejudge.u-aizu.ac.jp/problems/GRL_1_C) [✔](../../practice/graphs/aoj_grl_1_c_johnsons_algorithm.cpp "Accepted solution")
 - [SPOJ JHNSN - Johnsons Algorithm](https://www.spoj.com/problems/JHNSN/)
 
 #### [K Shortest Walks](k_shortest_walks.cpp)
 
-- [CSES 1196 - Flight Routes](https://cses.fi/problemset/task/1196) [✔](../../practice/graphs/cses_1196.cpp "Accepted solution")
 - [POJ 2449 - Remmarguts' Date](http://poj.org/problem?id=2449) [✔](../../practice/graphs/poj_2449.cpp "Accepted solution")
 
 #### [Kruskal Reconstruction Tree](kruskal_reconstruction_tree.cpp)
@@ -371,7 +346,6 @@
 
 #### [Matroid Intersection](matroid_intersection.cpp)
 
-- [AOJ GRL_7_A - Bipartite Matching](https://onlinejudge.u-aizu.ac.jp/problems/GRL_7_A) [✔](../../practice/graphs/aoj_grl_7_a_matroid_intersection.cpp "Accepted solution")
 - [CodeChef CNNCT2 - Faulty System](https://www.codechef.com/problems/CNNCT2) [✔](../../practice/graphs/codechef_cnnct2.cpp "Accepted solution")
 - [Codeforces 1284G - Seollal](https://codeforces.com/problemset/problem/1284/G) [✔](../../practice/graphs/codeforces_1284g.cpp "Accepted solution")
 - [Codeforces 1556H - DIY Tree](https://codeforces.com/problemset/problem/1556/H) [✔](../../practice/graphs/codeforces_1556h.cpp "Accepted solution")
@@ -383,7 +357,6 @@
 
 #### [Maximum Flow](maxflow.cpp)
 
-- [AOJ GRL_6_A - Maximum Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_A) [✔](../../practice/graphs/aoj_grl_6_a_maxflow.cpp "Accepted solution")
 - [AtCoder ARC085 E - MUL](https://atcoder.jp/contests/arc085/tasks/arc085_c) [✔](../../practice/graphs/atcoder_arc085_e.cpp "Accepted solution")
 - [Code Jam 2015 World Finals D - Taking Over The World](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/world_finals/taking_over_the_world) [✔](../../practice/graphs/code_jam_2015_world_finals_d.cpp "Accepted solution")
 - [Codeforces 498C - Array and Operations](https://codeforces.com/problemset/problem/498/C) [✔](../../practice/graphs/codeforces_498c.cpp "Accepted solution")
@@ -396,9 +369,7 @@
 - [Codeforces Gym 100517H - Hentium Scheduling](https://codeforces.com/gym/100517/problem/H)
 - [Codeforces Gym 100548C - The Problem Needs 3D Arrays](https://codeforces.com/gym/100548/problem/C) [✔](../../practice/graphs/codeforces_gym_100548c.cpp "Accepted solution")
 - [Codeforces Gym 100825F - Transportation Delegation](https://codeforces.com/gym/100825/problem/F) [✔](../../practice/graphs/codeforces_gym_100825f.cpp "Accepted solution")
-- [CSES 1694 - Download Speed](https://cses.fi/problemset/task/1694) [✔](../../practice/graphs/cses_1694.cpp "Accepted solution")
 - [CSES 1695 - Police Chase](https://cses.fi/problemset/task/1695) [✔](../../practice/graphs/cses_1695.cpp "Accepted solution")
-- [CSES 1696 - School Dance](https://cses.fi/problemset/task/1696) [✔](../../practice/graphs/cses_1696_maxflow.cpp "Accepted solution")
 - [CSES 1711 - Distinct Routes](https://cses.fi/problemset/task/1711) [✔](../../practice/graphs/cses_1711.cpp "Accepted solution")
 - [CSES 2432 - Grid Puzzle I](https://cses.fi/problemset/task/2432) [✔](../../practice/graphs/cses_2432.cpp "Accepted solution")
 - [LightOJ 1286 - Space Shuttle Experiments](https://lightoj.com/problem/space-shuttle-experiments) [✔](../../practice/graphs/lightoj_1286.cpp "Accepted solution")
@@ -413,7 +384,6 @@
 - [SPOJ PROFIT - Maximum Profit](https://www.spoj.com/problems/PROFIT/)
 - [SPOJ SELLPHN2 - Mobile Company 2](https://www.spoj.com/problems/SELLPHN2/)
 - [UVa 563 - Crimewave](https://onlinejudge.org/external/5/563.pdf) [✔](../../practice/graphs/uva_563.cpp "Accepted solution")
-- [UVa 820 - Internet Bandwidth](https://onlinejudge.org/external/8/820.pdf) [✔](../../practice/graphs/uva_820.cpp "Accepted solution")
 - [UVa 1067 - Tunnels](https://onlinejudge.org/external/10/1067.pdf) [✔](../../practice/graphs/uva_1067.cpp "Accepted solution")
 - [UVa 1212 - Duopoly](https://onlinejudge.org/external/12/1212.pdf) [✔](../../practice/graphs/uva_1212_maxflow.cpp "Accepted solution")
 - [UVa 1345 - Jamie's Contact Groups](https://onlinejudge.org/external/13/1345.pdf) [✔](../../practice/graphs/uva_1345.cpp "Accepted solution")
@@ -447,7 +417,6 @@
 
 #### [Min Cost Circulation](min_cost_circulation.cpp)
 
-- [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B) [✔](../../practice/graphs/aoj_grl_6_b_min_cost_circulation.cpp "Accepted solution")
 - [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D) [✔](../../practice/graphs/codeforces_708d_min_cost_circulation.cpp "Accepted solution")
 - [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A) [✔](../../practice/graphs/codeforces_gym_100491a.cpp "Accepted solution")
 - [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D)
@@ -455,7 +424,6 @@
 
 #### [Min Cost Max Flow, Dijkstra](mcmf_dijkstra.cpp)
 
-- [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B) [✔](../../practice/graphs/aoj_grl_6_b_mcmf_dijkstra.cpp "Accepted solution")
 - [Codeforces 717G - Underfail](https://codeforces.com/problemset/problem/717/G) [✔](../../practice/graphs/codeforces_717g.cpp "Accepted solution")
 - [Codeforces 802N - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/N) [✔](../../practice/graphs/codeforces_802n_mcmf_dijkstra.cpp "Accepted solution")
 - [Codeforces 818G - Four Melodies](https://codeforces.com/problemset/problem/818/G) [✔](../../practice/graphs/codeforces_818g.cpp "Accepted solution")
@@ -472,13 +440,10 @@
 
 #### [Min Cost Max Flow, SPFA](mcmf_spfa.cpp)
 
-- [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B) [✔](../../practice/graphs/aoj_grl_6_b_mcmf_spfa.cpp "Accepted solution")
 - [AtCoder ABC247 G - Dream Team](https://atcoder.jp/contests/abc247/tasks/abc247_g) [✔](../../practice/graphs/atcoder_abc247_g.cpp "Accepted solution")
 - [Codeforces 237E - Build String](https://codeforces.com/problemset/problem/237/E) [✔](../../practice/graphs/codeforces_237e.cpp "Accepted solution")
 - [Codeforces 802N - April Fools' Problem (medium)](https://codeforces.com/problemset/problem/802/N) [✔](../../practice/graphs/codeforces_802n_mcmf_spfa.cpp "Accepted solution")
 - [Codeforces 1288F - Red-Blue Graph](https://codeforces.com/problemset/problem/1288/F) [✔](../../practice/graphs/codeforces_1288f_mcmf_spfa.cpp "Accepted solution")
-- [CSES 2121 - Parcel Delivery](https://cses.fi/problemset/task/2121) [✔](../../practice/graphs/cses_2121.cpp "Accepted solution")
-- [CSES 2129 - Task Assignment](https://cses.fi/problemset/task/2129) [✔](../../practice/graphs/cses_2129_mcmf_spfa.cpp "Accepted solution")
 - [CSES 2131 - Grid Puzzle II](https://cses.fi/problemset/task/2131) [✔](../../practice/graphs/cses_2131.cpp "Accepted solution")
 - [UVa 1049 - Remember the A La Mode!](https://onlinejudge.org/external/10/1049.pdf) [✔](../../practice/graphs/uva_1049.cpp "Accepted solution")
 - [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf) [✔](../../practice/graphs/uva_1104_mcmf_spfa.cpp "Accepted solution")
@@ -495,7 +460,6 @@
 
 #### [Minimum Path Cover](minimum_path_cover.cpp)
 
-- [AOJ 2251 - Merry Christmas](https://onlinejudge.u-aizu.ac.jp/problems/2251) [✔](../../practice/graphs/aoj_2251.cpp "Accepted solution")
 - [Code Jam 2009 Round 2 C - Stock Charts](https://github.com/google/coding-competitions-archive/tree/main/codejam/2009/round_2/stock_charts) [✔](../../practice/graphs/code_jam_2009_round_2_c.cpp "Accepted solution")
 - [SPOJ DIVREL - Divisibility Relation](https://www.spoj.com/problems/DIVREL/)
 - [UVa 1184 - Air Raid](https://onlinejudge.org/external/11/1184.pdf) [✔](../../practice/graphs/uva_1184.cpp "Accepted solution")
@@ -504,7 +468,6 @@
 
 #### [Minimum Spanning Tree](minimum_spanning_tree.cpp)
 
-- [AOJ ALDS1_12_A - Minimum Spanning Tree](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_12_A) [✔](../../practice/graphs/aoj_alds1_12_a.cpp "Accepted solution")
 - [AtCoder ABC282 E - Choose Two and Eat One](https://atcoder.jp/contests/abc282/tasks/abc282_e) [✔](../../practice/graphs/atcoder_abc282_e.cpp "Accepted solution")
 - [CodeChef ICL16A - Fullmetal Alchemist](https://www.codechef.com/problems/ICL16A) [✔](../../practice/graphs/codechef_icl16a.cpp "Accepted solution")
 - [Codeforces 160D - Edges in MST](https://codeforces.com/problemset/problem/160/D) [✔](../../practice/graphs/codeforces_160d.cpp "Accepted solution")
@@ -513,7 +476,6 @@
 - [Codeforces 632F - Magic Matrix](https://codeforces.com/problemset/problem/632/F) [✔](../../practice/graphs/codeforces_632f.cpp "Accepted solution")
 - [Codeforces 891C - Envy](https://codeforces.com/problemset/problem/891/C) [✔](../../practice/graphs/codeforces_891c.cpp "Accepted solution")
 - [Codeforces 1513D - GCD and MST](https://codeforces.com/problemset/problem/1513/D) [✔](../../practice/graphs/codeforces_1513d.cpp "Accepted solution")
-- [CSES 1675 - Road Reparation](https://cses.fi/problemset/task/1675) [✔](../../practice/graphs/cses_1675.cpp "Accepted solution")
 - [CSES 3409 - MST Edge Cost](https://cses.fi/problemset/task/3409) [✔](../../practice/graphs/cses_3409.cpp "Accepted solution")
 - [HackerRank johnland - Roads in HackerLand](https://www.hackerrank.com/contests/june-world-codesprint/challenges/johnland/problem) [✔](../../practice/graphs/hackerrank_johnland.cpp "Accepted solution")
 - [oj.uz COCI17_sirni - Sirni](https://oj.uz/problem/view/COCI17_sirni) [✔](../../practice/graphs/oj_uz_coci17_sirni.cpp "Accepted solution")
@@ -524,13 +486,11 @@
 - [USACO 531 - Superbull](https://usaco.org/index.php?page=viewproblem2&cpid=531) [✔](../../practice/graphs/usaco_531.cpp "Accepted solution")
 - [USACO 623 - Fenced In](https://usaco.org/index.php?page=viewproblem2&cpid=623)
 - [USACO 1211 - Moo Network](https://usaco.org/index.php?page=viewproblem2&cpid=1211) [✔](../../practice/graphs/usaco_1211.cpp "Accepted solution")
-- [UVa 908 - Re-connecting Computer Sites](https://onlinejudge.org/external/9/908.pdf) [✔](../../practice/graphs/uva_908.cpp "Accepted solution")
 - [UVa 1174 - IP-TV](https://onlinejudge.org/external/11/1174.pdf) [✔](../../practice/graphs/uva_1174.cpp "Accepted solution")
 - [UVa 1208 - Oreon](https://onlinejudge.org/external/12/1208.pdf) [✔](../../practice/graphs/uva_1208.cpp "Accepted solution")
 - [UVa 1216 - The Bug Sensor Problem](https://onlinejudge.org/external/12/1216.pdf) [✔](../../practice/graphs/uva_1216.cpp "Accepted solution")
 - [UVa 1235 - Anti Brute Force Lock](https://onlinejudge.org/external/12/1235.pdf) [✔](../../practice/graphs/uva_1235.cpp "Accepted solution")
 - [UVa 1395 - Slim Span](https://onlinejudge.org/external/13/1395.pdf) [✔](../../practice/graphs/uva_1395.cpp "Accepted solution")
-- [UVa 10034 - Freckles](https://onlinejudge.org/external/100/10034.pdf) [✔](../../practice/graphs/uva_10034.cpp "Accepted solution")
 - [UVa 10048 - Audiophobia](https://onlinejudge.org/external/100/10048.pdf) [✔](../../practice/graphs/uva_10048.cpp "Accepted solution")
 - [UVa 10147 - Highways](https://onlinejudge.org/external/101/10147.pdf) [✔](../../practice/graphs/uva_10147.cpp "Accepted solution")
 - [UVa 10307 - Killing Aliens in Borg Maze](https://onlinejudge.org/external/103/10307.pdf) [✔](../../practice/graphs/uva_10307.cpp "Accepted solution")
@@ -543,17 +503,14 @@
 - [UVa 11267 - The Hire-a-Coder Business Model](https://onlinejudge.org/external/112/11267.pdf) [✔](../../practice/graphs/uva_11267.cpp "Accepted solution")
 - [UVa 11354 - Bond](https://onlinejudge.org/external/113/11354.pdf) [✔](../../practice/graphs/uva_11354.cpp "Accepted solution")
 - [UVa 11603 - Its all about the Bandwidth](https://onlinejudge.org/external/116/11603.pdf) [✔](../../practice/graphs/uva_11603.cpp "Accepted solution")
-- [UVa 11631 - Dark roads](https://onlinejudge.org/external/116/11631.pdf) [✔](../../practice/graphs/uva_11631.cpp "Accepted solution")
 - [UVa 11710 - Expensive subway](https://onlinejudge.org/external/117/11710.pdf) [✔](../../practice/graphs/uva_11710.cpp "Accepted solution")
 - [UVa 11733 - Airports](https://onlinejudge.org/external/117/11733.pdf) [✔](../../practice/graphs/uva_11733.cpp "Accepted solution")
 - [UVa 11747 - Heavy Cycle Edges](https://onlinejudge.org/external/117/11747.pdf) [✔](../../practice/graphs/uva_11747.cpp "Accepted solution")
-- [UVa 11857 - Driving Range](https://onlinejudge.org/external/118/11857.pdf) [✔](../../practice/graphs/uva_11857.cpp "Accepted solution")
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf) [✔](../../practice/graphs/uva_12176.cpp "Accepted solution")
 - [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf) [✔](../../practice/graphs/uva_12655.cpp "Accepted solution")
 
 #### [Network Simplex](network_simplex.cpp)
 
-- [AOJ GRL_6_B - Minimum Cost Flow](https://onlinejudge.u-aizu.ac.jp/problems/GRL_6_B) [✔](../../practice/graphs/aoj_grl_6_b_network_simplex.cpp "Accepted solution")
 - [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D) [✔](../../practice/graphs/codeforces_708d_network_simplex.cpp "Accepted solution")
 - [Codeforces 1288F - Red-Blue Graph](https://codeforces.com/problemset/problem/1288/F) [✔](../../practice/graphs/codeforces_1288f_network_simplex.cpp "Accepted solution")
 - [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D) [✔](../../practice/graphs/codeforces_gym_101190d.cpp "Accepted solution")
@@ -597,7 +554,6 @@
 - [Codeforces 894E - Ralph and Mushrooms](https://codeforces.com/problemset/problem/894/E) [✔](../../practice/graphs/codeforces_894e.cpp "Accepted solution")
 - [Codeforces 1239D - Catowice City](https://codeforces.com/problemset/problem/1239/D) [✔](../../practice/graphs/codeforces_1239d.cpp "Accepted solution")
 - [CSES 1682 - Flight Routes Check](https://cses.fi/problemset/task/1682) [✔](../../practice/graphs/cses_1682.cpp "Accepted solution")
-- [CSES 1683 - Planets and Kingdoms](https://cses.fi/problemset/task/1683) [✔](../../practice/graphs/cses_1683.cpp "Accepted solution")
 - [CSES 1685 - New Flight Routes](https://cses.fi/problemset/task/1685) [✔](../../practice/graphs/cses_1685.cpp "Accepted solution")
 - [CSES 1686 - Coin Collector](https://cses.fi/problemset/task/1686) [✔](../../practice/graphs/cses_1686.cpp "Accepted solution")
 - [CSES 2143 - Reachability Queries](https://cses.fi/problemset/task/2143) [✔](../../practice/graphs/cses_2143.cpp "Accepted solution")
@@ -613,8 +569,6 @@
 - [UVa 11324 - The Largest Clique](https://onlinejudge.org/external/113/11324.pdf) [✔](../../practice/graphs/uva_11324.cpp "Accepted solution")
 - [UVa 11504 - Dominos](https://onlinejudge.org/external/115/11504.pdf) [✔](../../practice/graphs/uva_11504.cpp "Accepted solution")
 - [UVa 11709 - Trust groups](https://onlinejudge.org/external/117/11709.pdf) [✔](../../practice/graphs/uva_11709.cpp "Accepted solution")
-- [UVa 11770 - Lighting Away](https://onlinejudge.org/external/117/11770.pdf) [✔](../../practice/graphs/uva_11770.cpp "Accepted solution")
-- [UVa 11838 - Come and Go](https://onlinejudge.org/external/118/11838.pdf) [✔](../../practice/graphs/uva_11838.cpp "Accepted solution")
 - [UVa 12167 - Proving Equivalences](https://onlinejudge.org/external/121/12167.pdf) [✔](../../practice/graphs/uva_12167.cpp "Accepted solution")
 - [UVa 12645 - Water Supply](https://onlinejudge.org/external/126/12645.pdf) [✔](../../practice/graphs/uva_12645.cpp "Accepted solution")
 - [UVa 13057 - Prove Them All](https://onlinejudge.org/external/130/13057.pdf) [✔](../../practice/graphs/uva_13057.cpp "Accepted solution")
