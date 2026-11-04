@@ -254,7 +254,7 @@
 
 - [Codeforces Gym 100962F - Frank Sinatra](https://codeforces.com/gym/100962/problem/F)
 - [Codeforces Gym 101161E - ACM Tax](https://codeforces.com/gym/101161/problem/E)
-- [SPOJ COT2 - Count on a tree II](https://www.spoj.com/problems/COT2/)
+- [SPOJ COT2 - Count on a tree II](https://www.spoj.com/problems/COT2/) [✔](../../practice/data_structures/spoj_cot2.cpp "Accepted solution")
 
 #### [Mo's Algorithm With Rollback](mo_with_rollback.cpp)
 
