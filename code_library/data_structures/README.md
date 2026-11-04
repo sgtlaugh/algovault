@@ -461,7 +461,7 @@
 - [SPOJ CARDSHUF - Cards shuffing](https://www.spoj.com/problems/CARDSHUF/)
 - [SPOJ COUNT1IT - Ghost Town](https://www.spoj.com/problems/COUNT1IT/) [✔](../../practice/data_structures/spoj_count1it.cpp "Accepted solution")
 - [SPOJ GSS6 - Can you answer these queries VI](https://www.spoj.com/problems/GSS6/) [✔](../../practice/data_structures/spoj_gss6.cpp "Accepted solution")
-- [SPOJ GSS8 - Can you answer these queries VIII](https://www.spoj.com/problems/GSS8/)
+- [SPOJ GSS8 - Can you answer these queries VIII](https://www.spoj.com/problems/GSS8/) [✔](../../practice/data_structures/spoj_gss8.cpp "Accepted solution")
 - [SPOJ IITWPC4D - Arrangement Validity](https://www.spoj.com/problems/IITWPC4D/) [✔](../../practice/data_structures/spoj_iitwpc4d.cpp "Accepted solution")
 - [SPOJ KOILINE - Line up](https://www.spoj.com/problems/KOILINE/) [✔](../../practice/data_structures/spoj_koiline.cpp "Accepted solution")
 - [SPOJ QMAX3VN - Giá trị lớn nhất 3](https://www.spoj.com/problems/QMAX3VN/)
