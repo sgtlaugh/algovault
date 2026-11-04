@@ -468,7 +468,7 @@
 - [SPOJ SEQ2 - Another Sequence Problem](https://www.spoj.com/problems/SEQ2/)
 - [SPOJ STRLCP - Longest Common Prefix](https://www.spoj.com/problems/STRLCP/)
 - [SPOJ TWIST - Twist and whirl - want to cheat](https://www.spoj.com/problems/TWIST/) [✔](../../practice/data_structures/spoj_twist.cpp "Accepted solution")
-- [UVa 1402 - Robotic Sort](https://onlinejudge.org/external/14/1402.pdf)
+- [UVa 1402 - Robotic Sort](https://onlinejudge.org/external/14/1402.pdf) [✔](../../practice/data_structures/uva_1402.cpp "Accepted solution")
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf) [✔](../../practice/data_structures/uva_1479.cpp "Accepted solution")
 - [UVa 11672 - Dynamic Summation](https://onlinejudge.org/external/116/11672.pdf) [✔](../../practice/data_structures/uva_11672.cpp "Accepted solution")
 - [UVa 11922 - Permutation Transformer](https://onlinejudge.org/external/119/11922.pdf) [✔](../../practice/data_structures/uva_11922.cpp "Accepted solution")
