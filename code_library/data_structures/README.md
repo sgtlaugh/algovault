@@ -246,7 +246,7 @@
 - [SPOJ CPAIR2 - Counting diff-pairs](https://www.spoj.com/problems/CPAIR2/) [✔](../../practice/data_structures/spoj_cpair2.cpp "Accepted solution")
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/) [✔](../../practice/data_structures/spoj_dquery_mo.cpp "Accepted solution")
 - [SPOJ FREQ2 - Most Frequent Value](https://www.spoj.com/problems/FREQ2/)
-- [SPOJ KDOMINO - K-dominant array](https://www.spoj.com/problems/KDOMINO/)
+- [SPOJ KDOMINO - K-dominant array](https://www.spoj.com/problems/KDOMINO/) [✔](../../practice/data_structures/spoj_kdomino.cpp "Accepted solution")
 - [SPOJ ZQUERY - Zero Query](https://www.spoj.com/problems/ZQUERY/) [✔](../../practice/data_structures/spoj_zquery.cpp "Accepted solution")
 - [UVa 11898 - Killer Problem](https://onlinejudge.org/external/118/11898.pdf) [✔](../../practice/data_structures/uva_11898.cpp "Accepted solution")
 
