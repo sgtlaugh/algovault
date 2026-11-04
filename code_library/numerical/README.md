@@ -12,7 +12,7 @@
 #### [Dinkelbach Fractional Programming](dinkelbach.cpp)
 
 - [Codeforces 489E - Hiking](https://codeforces.com/problemset/problem/489/E) [✔](../../practice/numerical/codeforces_489e.cpp "Accepted solution")
-- [POJ 2728 - Desert King](http://poj.org/problem?id=2728)
+- [POJ 2728 - Desert King](http://poj.org/problem?id=2728) [✔](../../practice/numerical/poj_2728.cpp "Accepted solution")
 - [POJ 2976 - Dropping tests](http://poj.org/problem?id=2976)
 - [POJ 3111 - K Best](http://poj.org/problem?id=3111)
 - [POJ 3621 - Sightseeing Cows](http://poj.org/problem?id=3621)
