@@ -411,7 +411,7 @@
 - [CodeChef MSTICK - Matchsticks](https://www.codechef.com/problems/MSTICK) [✔](../../practice/data_structures/codechef_mstick.cpp "Accepted solution")
 - [CodeChef SEAD - Sereja and D](https://www.codechef.com/problems/SEAD) [✔](../../practice/data_structures/codechef_sead.cpp "Accepted solution")
 - [Codeforces 475D - CGCDSSQ](https://codeforces.com/problemset/problem/475/D) [✔](../../practice/data_structures/codeforces_475d_sparse_table.cpp "Accepted solution")
-- [Codeforces 514D - R2D2 and Droid Army](https://codeforces.com/problemset/problem/514/D)
+- [Codeforces 514D - R2D2 and Droid Army](https://codeforces.com/problemset/problem/514/D) [✔](../../practice/data_structures/codeforces_514d.cpp "Accepted solution")
 - [Codeforces 675E - Trains and Statistic](https://codeforces.com/problemset/problem/675/E)
 - [Codeforces 803G - Periodic RMQ Problem](https://codeforces.com/problemset/problem/803/G)
 - [Codeforces 863E - Turn Off The TV](https://codeforces.com/problemset/problem/863/E)
