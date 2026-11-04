@@ -227,6 +227,24 @@ int max_depth(const Tree& tree){
     return res;
 }
 
+/// A wrong priority comparison in insert keeps the order right but breaks the heap, and with it the depth bound
+void check_heap(int n){
+    ImplicitTreap seq;
+    vector<long long> ref;
+    for (int i = 0; i < n; i++){
+        int pos = stress::rand_int(0, ref.size());
+        seq.insert(pos, i);
+        ref.insert(ref.begin() + pos, i);
+    }
+
+    assert(seq.to_vector() == ref);
+    for (int t = 0; t < (int)seq.nodes.size(); t++){
+        for (int c : {seq.nodes[t].l, seq.nodes[t].r}){
+            if (c != -1) assert(seq.nodes[t].priority >= seq.nodes[c].priority);
+        }
+    }
+}
+
 /// Keys ordered by the priorities of seed 20260105 build an n deep chain, so a fixed seed fails here
 void check_adversarial(int n){
     mt19937 old_rng(20260105);
@@ -262,6 +280,7 @@ int main(){
     stress::expect_assert("data_structures/treap.cpp", []{ ImplicitTreap({1, 2}).insert(3, 9); });
 
     check_adversarial(5000);
+    check_heap(20000);
 
     for (long long it = 0; it < stress::scaled(1500); it++){
         check_multiset(stress::rand_int(1, 200), it % 2 ? 5 : 1000000000000000000LL);

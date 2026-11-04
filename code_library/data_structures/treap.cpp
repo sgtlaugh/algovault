@@ -194,9 +194,8 @@ struct ImplicitTreap{
 
     void insert(int pos, const T& value){
         assert(0 <= pos && pos <= size());
-        int a, b;
-        split(root, pos, a, b);
-        root = merge(merge(a, new_node(value)), b);
+        int x = new_node(value);
+        root = insert_at(root, pos, x);
     }
 
     void insert(int pos, const vector<T>& values){
@@ -249,8 +248,10 @@ struct ImplicitTreap{
     }
 
     T query(int l, int r){
+        assert(0 <= l && l <= r && r < size());
         T res{};
-        on_range(l, r, [&](int t){ res = nodes[t].agg; });
+        bool found = false;
+        fold(root, 0, l, r, res, found);
         return res;
     }
 
@@ -305,6 +306,50 @@ struct ImplicitTreap{
     int new_node(const T& v){
         nodes.push_back({v, v, L{}, (unsigned int)rng(), 1, -1, -1, false, false});
         return nodes.size() - 1;
+    }
+
+    /// Descends until x's priority wins, then splits only that subtree: one pass instead of a split and two merges
+    int insert_at(int t, int k, int x){
+        if (t == -1) return x;
+        if (nodes[x].priority > nodes[t].priority){
+            int a, b;
+            split(t, k, a, b);
+            nodes[x].l = a, nodes[x].r = b;
+            pull(x);
+            return x;
+        }
+
+        push(t);
+        int left = size(nodes[t].l);
+        if (k <= left){
+            int c = insert_at(nodes[t].l, k, x);
+            nodes[t].l = c;
+        }
+        else{
+            int c = insert_at(nodes[t].r, k - left - 1, x);
+            nodes[t].r = c;
+        }
+        pull(t);
+        return t;
+    }
+
+    /// Combines positions l..r of subtree t, whose first position is lo, left to right without restructuring
+    void fold(int t, int lo, int l, int r, T& res, bool& found){
+        if (t == -1 || r < lo || lo + nodes[t].size - 1 < l) return;
+        if (l <= lo && lo + nodes[t].size - 1 <= r){
+            res = found ? Ops::combine(res, nodes[t].agg) : nodes[t].agg;
+            found = true;
+            return;
+        }
+
+        push(t);
+        int mid = lo + size(nodes[t].l);
+        fold(nodes[t].l, lo, l, r, res, found);
+        if (l <= mid && mid <= r){
+            res = found ? Ops::combine(res, nodes[t].value) : nodes[t].value;
+            found = true;
+        }
+        fold(nodes[t].r, mid + 1, l, r, res, found);
     }
 
     void pull(int t){
