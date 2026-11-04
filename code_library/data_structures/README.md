@@ -130,7 +130,7 @@
 - [MatCom 9346 - Fundraising](https://matcomgrader.com/problem/9346/fundraising/) [✔](../../practice/data_structures/matcom_9346.cpp "Accepted solution")
 - [SPOJ ADACABAA - Ada and Species](https://www.spoj.com/problems/ADACABAA/) [✔](../../practice/data_structures/spoj_adacabaa.cpp "Accepted solution")
 - [SPOJ CRAYON - Crayon](https://www.spoj.com/problems/CRAYON/) [✔](../../practice/data_structures/spoj_crayon.cpp "Accepted solution")
-- [SPOJ CTRICK - Card Trick](https://www.spoj.com/problems/CTRICK/)
+- [SPOJ CTRICK - Card Trick](https://www.spoj.com/problems/CTRICK/) [✔](../../practice/data_structures/spoj_ctrick.cpp "Accepted solution")
 - [SPOJ DCEPC206 - Its a Murder!](https://www.spoj.com/problems/DCEPC206/) [✔](../../practice/data_structures/spoj_dcepc206.cpp "Accepted solution")
 - [SPOJ DCEPC705 - Weird Points](https://www.spoj.com/problems/DCEPC705/) [✔](../../practice/data_structures/spoj_dcepc705.cpp "Accepted solution")
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/) [✔](../../practice/data_structures/spoj_dquery_fenwick_tree.cpp "Accepted solution")
