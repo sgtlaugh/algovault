@@ -333,7 +333,7 @@
 - [Codeforces 515E - Drazil and Park](https://codeforces.com/problemset/problem/515/E) [✔](../../practice/data_structures/codeforces_515e.cpp "Accepted solution")
 - [Codeforces 522D - Closest Equals](https://codeforces.com/problemset/problem/522/D) [✔](../../practice/data_structures/codeforces_522d.cpp "Accepted solution")
 - [Codeforces 558E - A Simple Task](https://codeforces.com/problemset/problem/558/E) [✔](../../practice/data_structures/codeforces_558e.cpp "Accepted solution")
-- [Codeforces 580E - Kefa and Watch](https://codeforces.com/problemset/problem/580/E)
+- [Codeforces 580E - Kefa and Watch](https://codeforces.com/problemset/problem/580/E) [✔](../../practice/data_structures/codeforces_580e.cpp "Accepted solution")
 - [Codeforces 610E - Alphabet Permutations](https://codeforces.com/problemset/problem/610/E)
 - [Codeforces 718C - Sasha and Array](https://codeforces.com/problemset/problem/718/C)
 - [Codeforces 803G - Periodic RMQ Problem](https://codeforces.com/problemset/problem/803/G)
