@@ -294,7 +294,7 @@
 - [CSES 2169 - Nested Ranges Count](https://cses.fi/problemset/task/2169) [✔](../../practice/data_structures/cses_2169.cpp "Accepted solution")
 - [SPOJ ADACROP - Ada and Harvest](https://www.spoj.com/problems/ADACROP/) [✔](../../practice/data_structures/spoj_adacrop.cpp "Accepted solution")
 - [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/) [✔](../../practice/data_structures/spoj_meanarr_ordered_set.cpp "Accepted solution")
-- [SPOJ ORDERSET - Order statistic set](https://www.spoj.com/problems/ORDERSET/)
+- [SPOJ ORDERSET - Order statistic set](https://www.spoj.com/problems/ORDERSET/) [✔](../../practice/data_structures/spoj_orderset.cpp "Accepted solution")
 - [UVa 501 - Black Box](https://onlinejudge.org/external/5/501.pdf) [✔](../../practice/data_structures/uva_501.cpp "Accepted solution")
 - [UVa 1480 - Jewel](https://onlinejudge.org/external/14/1480.pdf) [✔](../../practice/data_structures/uva_1480_ordered_set.cpp "Accepted solution")
 - [UVa 10909 - Lucky Number](https://onlinejudge.org/external/109/10909.pdf) [✔](../../practice/data_structures/uva_10909.cpp "Accepted solution")
