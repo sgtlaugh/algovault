@@ -162,7 +162,7 @@
 
 #### [Fenwick Tree 2D](fenwick_tree_2D.cpp)
 
-- [Codeforces 707E - Garlands](https://codeforces.com/problemset/problem/707/E)
+- [Codeforces 707E - Garlands](https://codeforces.com/problemset/problem/707/E) [✔](../../practice/data_structures/codeforces_707e.cpp "Accepted solution")
 - [Codeforces 869E - The Untended Antiquity](https://codeforces.com/problemset/problem/869/E)
 - [CSES 1739 - Forest Queries II](https://cses.fi/problemset/task/1739) [✔](../../practice/data_structures/cses_1739.cpp "Accepted solution")
 - [SPOJ ADABEHIVE - Ada and Behives](https://www.spoj.com/problems/ADABEHIVE/) [✔](../../practice/data_structures/spoj_adabehive.cpp "Accepted solution")
