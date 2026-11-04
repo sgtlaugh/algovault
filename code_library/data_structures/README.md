@@ -128,7 +128,7 @@
 - [HackerRank connection-queries - Connection Queries](https://www.hackerrank.com/contests/sears-dots-arrows/challenges/connection-queries) [✔](../../practice/data_structures/hackerrank_connection_queries.cpp "Accepted solution")
 - [LightOJ 1112 - Curious Robin Hood](https://lightoj.com/problem/curious-robin-hood) [✔](../../practice/data_structures/lightoj_1112.cpp "Accepted solution")
 - [MatCom 9346 - Fundraising](https://matcomgrader.com/problem/9346/fundraising/) [✔](../../practice/data_structures/matcom_9346.cpp "Accepted solution")
-- [SPOJ ADACABAA - Ada and Species](https://www.spoj.com/problems/ADACABAA/)
+- [SPOJ ADACABAA - Ada and Species](https://www.spoj.com/problems/ADACABAA/) [✔](../../practice/data_structures/spoj_adacabaa.cpp "Accepted solution")
 - [SPOJ CRAYON - Crayon](https://www.spoj.com/problems/CRAYON/)
 - [SPOJ CTRICK - Card Trick](https://www.spoj.com/problems/CTRICK/)
 - [SPOJ DCEPC206 - Its a Murder!](https://www.spoj.com/problems/DCEPC206/) [✔](../../practice/data_structures/spoj_dcepc206.cpp "Accepted solution")
