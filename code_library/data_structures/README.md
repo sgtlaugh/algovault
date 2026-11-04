@@ -328,7 +328,7 @@
 - [Codeforces 356A - Knight Tournament](https://codeforces.com/problemset/problem/356/A) [✔](../../practice/data_structures/codeforces_356a.cpp "Accepted solution")
 - [Codeforces 380C - Sereja and Brackets](https://codeforces.com/problemset/problem/380/C) [✔](../../practice/data_structures/codeforces_380c.cpp "Accepted solution")
 - [Codeforces 438D - The Child and Sequence](https://codeforces.com/problemset/problem/438/D) [✔](../../practice/data_structures/codeforces_438d.cpp "Accepted solution")
-- [Codeforces 446C - DZY Loves Fibonacci Numbers](https://codeforces.com/problemset/problem/446/C)
+- [Codeforces 446C - DZY Loves Fibonacci Numbers](https://codeforces.com/problemset/problem/446/C) [✔](../../practice/data_structures/codeforces_446c.cpp "Accepted solution")
 - [Codeforces 474F - Ant colony](https://codeforces.com/problemset/problem/474/F) [✔](../../practice/data_structures/codeforces_474f.cpp "Accepted solution")
 - [Codeforces 515E - Drazil and Park](https://codeforces.com/problemset/problem/515/E) [✔](../../practice/data_structures/codeforces_515e.cpp "Accepted solution")
 - [Codeforces 522D - Closest Equals](https://codeforces.com/problemset/problem/522/D) [✔](../../practice/data_structures/codeforces_522d.cpp "Accepted solution")
