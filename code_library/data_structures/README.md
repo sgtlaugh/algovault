@@ -443,7 +443,7 @@
 - [Codeforces 167D - Wizards and Roads](https://codeforces.com/problemset/problem/167/D)
 - [Codeforces 295E - Yaroslav and Points](https://codeforces.com/problemset/problem/295/E) [✔](../../practice/data_structures/codeforces_295e.cpp "Accepted solution")
 - [Codeforces 702F - T-Shirts](https://codeforces.com/problemset/problem/702/F)
-- [Codeforces 809D - Hitchhiking in the Baltic States](https://codeforces.com/problemset/problem/809/D)
+- [Codeforces 809D - Hitchhiking in the Baltic States](https://codeforces.com/problemset/problem/809/D) [✔](../../practice/data_structures/codeforces_809d.cpp "Accepted solution")
 - [Codeforces 863D - Yet Another Array Queries Problem](https://codeforces.com/problemset/problem/863/D) [✔](../../practice/data_structures/codeforces_863d.cpp "Accepted solution")
 - [Codeforces Gym 100125L - Log Analysis](https://codeforces.com/gym/100125/problem/L)
 - [Codeforces Gym 100488L - Two Heads Are Better](https://codeforces.com/gym/100488/problem/L) [✔](../../practice/data_structures/codeforces_gym_100488l.cpp "Accepted solution")
