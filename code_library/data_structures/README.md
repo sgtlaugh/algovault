@@ -397,7 +397,7 @@
 #### [Sliding Window Aggregation](sliding_window_aggregation.cpp)
 
 - [CodeChef BINLAND - Binary Land](https://www.codechef.com/problems/BINLAND) [✔](../../practice/data_structures/codechef_binland.cpp "Accepted solution")
-- [Codeforces 15D - Map](https://codeforces.com/problemset/problem/15/D)
+- [Codeforces 15D - Map](https://codeforces.com/problemset/problem/15/D) [✔](../../practice/data_structures/codeforces_15d.cpp "Accepted solution")
 - [CSES 3221 - Sliding Window Minimum](https://cses.fi/problemset/task/3221) [✔](../../practice/data_structures/cses_3221.cpp "Accepted solution")
 - [CSES 3405 - Sliding Window Or](https://cses.fi/problemset/task/3405) [✔](../../practice/data_structures/cses_3405.cpp "Accepted solution")
 - [CSES POI 527 - Little Bird](https://cses.fi/poi/task/527) [✔](../../practice/data_structures/cses_poi_527.cpp "Accepted solution")
