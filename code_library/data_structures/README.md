@@ -268,7 +268,7 @@
 
 #### [Monotonic Stack](monotonic_stack.cpp)
 
-- [Codeforces 547B - Mike and Feet](https://codeforces.com/problemset/problem/547/B)
+- [Codeforces 547B - Mike and Feet](https://codeforces.com/problemset/problem/547/B) [✔](../../practice/data_structures/codeforces_547b.cpp "Accepted solution")
 - [Codeforces 1299C - Water Balance](https://codeforces.com/problemset/problem/1299/C)
 - [Codeforces 1402A - Fancy Fence](https://codeforces.com/problemset/problem/1402/A)
 - [Codeforces 1482E - Skyline Photo](https://codeforces.com/problemset/problem/1482/E)
