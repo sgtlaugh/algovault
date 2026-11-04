@@ -271,7 +271,7 @@
 - [Codeforces 547B - Mike and Feet](https://codeforces.com/problemset/problem/547/B) [✔](../../practice/data_structures/codeforces_547b.cpp "Accepted solution")
 - [Codeforces 1299C - Water Balance](https://codeforces.com/problemset/problem/1299/C)
 - [Codeforces 1402A - Fancy Fence](https://codeforces.com/problemset/problem/1402/A) [✔](../../practice/data_structures/codeforces_1402a.cpp "Accepted solution")
-- [Codeforces 1482E - Skyline Photo](https://codeforces.com/problemset/problem/1482/E)
+- [Codeforces 1482E - Skyline Photo](https://codeforces.com/problemset/problem/1482/E) [✔](../../practice/data_structures/codeforces_1482e.cpp "Accepted solution")
 - [Codeforces Gym 101102D - Rectangles](https://codeforces.com/gym/101102/problem/D)
 - [CSES 1147 - Maximum Building I](https://cses.fi/problemset/task/1147) [✔](../../practice/data_structures/cses_1147.cpp "Accepted solution")
 - [CSES 1645 - Nearest Smaller Values](https://cses.fi/problemset/task/1645) [✔](../../practice/data_structures/cses_1645.cpp "Accepted solution")
