@@ -126,7 +126,7 @@
 
 - [HDU 5322 - Hope](https://acm.hdu.edu.cn/showproblem.php?pid=5322) [✔](../../practice/algebra/hdu_5322_online_convolution.cpp "Accepted solution")
 - [HDU 5730 - Shell Necklace](https://acm.hdu.edu.cn/showproblem.php?pid=5730) [✔](../../practice/algebra/hdu_5730.cpp "Accepted solution")
-- [Luogu P4721 - 【模板】分治 FFT](https://www.luogu.com.cn/problem/P4721)
+- [Luogu P4721 - 【模板】分治 FFT](https://www.luogu.com.cn/problem/P4721) [✔](../../practice/algebra/luogu_p4721.cpp "Accepted solution")
 - [Luogu P4841 - [集训队作业2013] 城市规划](https://www.luogu.com.cn/problem/P4841)
 
 #### [Polynomial](polynomial.cpp)
