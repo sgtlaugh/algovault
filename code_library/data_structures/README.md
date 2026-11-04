@@ -111,7 +111,7 @@
 #### [Fenwick Tree](fenwick_tree.cpp)
 
 - [Codeforces 12D - Ball](https://codeforces.com/problemset/problem/12/D) [✔](../../practice/data_structures/codeforces_12d.cpp "Accepted solution")
-- [Codeforces 163E - e-Government](https://codeforces.com/problemset/problem/163/E)
+- [Codeforces 163E - e-Government](https://codeforces.com/problemset/problem/163/E) [✔](../../practice/data_structures/codeforces_163e.cpp "Accepted solution")
 - [Codeforces 594D - REQ](https://codeforces.com/problemset/problem/594/D)
 - [Codeforces 597C - Subsequences](https://codeforces.com/problemset/problem/597/C)
 - [Codeforces 669E - Little Artem and Time Machine](https://codeforces.com/problemset/problem/669/E)
