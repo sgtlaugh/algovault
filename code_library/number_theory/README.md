@@ -25,7 +25,6 @@
 #### [Continued Fractions](continued_fractions.cpp)
 
 - [CodeChef EBAIT - Election Bait](https://www.codechef.com/problems/EBAIT) [✔](../../practice/number_theory/codechef_ebait.cpp "Accepted solution")
-- [CodeChef ES - Euler Sum](https://www.codechef.com/problems/ES)
 - [Codeforces 305B - Continued Fractions](https://codeforces.com/problemset/problem/305/B) [✔](../../practice/number_theory/codeforces_305b.cpp "Accepted solution")
 - [Codeforces 346E - Doodle Jump](https://codeforces.com/problemset/problem/346/E) [✔](../../practice/number_theory/codeforces_346e.cpp "Accepted solution")
 - [Codeforces 585C - Alice, Bob, Oranges and Apples](https://codeforces.com/problemset/problem/585/C) [✔](../../practice/number_theory/codeforces_585c.cpp "Accepted solution")
