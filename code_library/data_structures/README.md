@@ -324,7 +324,7 @@
 - [Codeforces 52C - Circular RMQ](https://codeforces.com/problemset/problem/52/C) [✔](../../practice/data_structures/codeforces_52c.cpp "Accepted solution")
 - [Codeforces 121E - Lucky Array](https://codeforces.com/problemset/problem/121/E) [✔](../../practice/data_structures/codeforces_121e.cpp "Accepted solution")
 - [Codeforces 242E - XOR on Segment](https://codeforces.com/problemset/problem/242/E) [✔](../../practice/data_structures/codeforces_242e.cpp "Accepted solution")
-- [Codeforces 339D - Xenia and Bit Operations](https://codeforces.com/problemset/problem/339/D)
+- [Codeforces 339D - Xenia and Bit Operations](https://codeforces.com/problemset/problem/339/D) [✔](../../practice/data_structures/codeforces_339d.cpp "Accepted solution")
 - [Codeforces 356A - Knight Tournament](https://codeforces.com/problemset/problem/356/A)
 - [Codeforces 380C - Sereja and Brackets](https://codeforces.com/problemset/problem/380/C)
 - [Codeforces 438D - The Child and Sequence](https://codeforces.com/problemset/problem/438/D)
