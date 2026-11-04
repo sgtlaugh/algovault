@@ -227,7 +227,7 @@
 
 - [CSES 3163 - Range Interval Queries](https://cses.fi/problemset/task/3163) [✔](../../practice/data_structures/cses_3163.cpp "Accepted solution")
 - [SPOJ KQUERY - K-query](https://www.spoj.com/problems/KQUERY/) [✔](../../practice/data_structures/spoj_kquery_merge_sort_tree.cpp "Accepted solution")
-- [SPOJ MKTHNUM - K-th Number](https://www.spoj.com/problems/MKTHNUM/)
+- [SPOJ MKTHNUM - K-th Number](https://www.spoj.com/problems/MKTHNUM/) [✔](../../practice/data_structures/spoj_mkthnum_merge_sort_tree.cpp "Accepted solution")
 - [SPOJ PATULJCI - Snow White and the N dwarfs](https://www.spoj.com/problems/PATULJCI/)
 - [UVa 1480 - Jewel](https://onlinejudge.org/external/14/1480.pdf) [✔](../../practice/data_structures/uva_1480_merge_sort_tree.cpp "Accepted solution")
 - [UVa 13164 - Performance Review](https://onlinejudge.org/external/131/13164.pdf) [✔](../../practice/data_structures/uva_13164.cpp "Accepted solution")
