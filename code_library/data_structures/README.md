@@ -339,7 +339,7 @@
 - [Codeforces 803G - Periodic RMQ Problem](https://codeforces.com/problemset/problem/803/G) [✔](../../practice/data_structures/codeforces_803g_segment_tree.cpp "Accepted solution")
 - [Codeforces 817F - MEX Queries](https://codeforces.com/problemset/problem/817/F) [✔](../../practice/data_structures/codeforces_817f_segment_tree.cpp "Accepted solution")
 - [Codeforces 838B - Diverging Directions](https://codeforces.com/problemset/problem/838/B) [✔](../../practice/data_structures/codeforces_838b.cpp "Accepted solution")
-- [Codeforces 895E - Eyes Closed](https://codeforces.com/problemset/problem/895/E)
+- [Codeforces 895E - Eyes Closed](https://codeforces.com/problemset/problem/895/E) [✔](../../practice/data_structures/codeforces_895e.cpp "Accepted solution")
 - [Codeforces 920F - SUM and REPLACE](https://codeforces.com/problemset/problem/920/F)
 - [Codeforces 1093G - Multidimensional Queries](https://codeforces.com/problemset/problem/1093/G)
 - [Codeforces 1114F - Please, another Queries on Array?](https://codeforces.com/problemset/problem/1114/F)
