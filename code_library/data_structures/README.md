@@ -278,7 +278,7 @@
 - [HackerRank poisonous-plants - Poisonous Plants](https://www.hackerrank.com/challenges/poisonous-plants/problem) [✔](../../practice/data_structures/hackerrank_poisonous_plants.cpp "Accepted solution")
 - [oj.uz CEOI11_bal - Balloons](https://oj.uz/problem/view/CEOI11_bal)
 - [SPOJ CITY2 - A Famous City](https://www.spoj.com/problems/CITY2/) [✔](../../practice/data_structures/spoj_city2.cpp "Accepted solution")
-- [SPOJ DIFERENC - DIFERENCIJA](https://www.spoj.com/problems/DIFERENC/)
+- [SPOJ DIFERENC - DIFERENCIJA](https://www.spoj.com/problems/DIFERENC/) [✔](../../practice/data_structures/spoj_diferenc.cpp "Accepted solution")
 - [SPOJ POSTERIN - Postering](https://www.spoj.com/problems/POSTERIN/)
 - [UVa 1330 - City Game](https://onlinejudge.org/external/13/1330.pdf) [✔](../../practice/data_structures/uva_1330.cpp "Accepted solution")
 - [UVa 1619 - Feel Good](https://onlinejudge.org/external/16/1619.pdf) [✔](../../practice/data_structures/uva_1619.cpp "Accepted solution")
