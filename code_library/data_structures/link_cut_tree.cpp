@@ -66,10 +66,10 @@ struct LinkCutTree{
         if (parent(u) != v) swap(u, v);
         if (parent(u) != v) return false;
 
-        access(u);
-        nodes[nodes[u].ch[0]].par = -1;
-        nodes[u].ch[0] = -1;
-        pull(u);
+        /// parent(u) left v splayed with u, the deepest node of the accessed path, as its whole right subtree
+        nodes[nodes[v].ch[1]].par = -1;
+        nodes[v].ch[1] = -1;
+        pull(v);
         return true;
     }
 
