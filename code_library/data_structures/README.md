@@ -141,7 +141,7 @@
 - [SPOJ NKTEAM - Team Selection](https://www.spoj.com/problems/NKTEAM/) [✔](../../practice/data_structures/spoj_nkteam.cpp "Accepted solution")
 - [SPOJ SUMSUM - Enjoy Sum with Operations](https://www.spoj.com/problems/SUMSUM/)
 - [SPOJ TPGA - The Permutation Game Again](https://www.spoj.com/problems/TPGA/)
-- [SPOJ TRIPINV - Mega Inversions](https://www.spoj.com/problems/TRIPINV/)
+- [SPOJ TRIPINV - Mega Inversions](https://www.spoj.com/problems/TRIPINV/) [✔](../../practice/data_structures/spoj_tripinv.cpp "Accepted solution")
 - [SPOJ YODANESS - Yodaness Level](https://www.spoj.com/problems/YODANESS/)
 - [USACO 624 - Load Balancing](https://usaco.org/index.php?page=viewproblem2&cpid=624) [✔](../../practice/data_structures/usaco_624.cpp "Accepted solution")
 - [USACO 693 - Balanced Photo](https://usaco.org/index.php?page=viewproblem2&cpid=693) [✔](../../practice/data_structures/usaco_693.cpp "Accepted solution")
