@@ -240,7 +240,7 @@
 - [Codeforces 633H - Fibonacci-ish II](https://codeforces.com/problemset/problem/633/H) [✔](../../practice/data_structures/codeforces_633h.cpp "Accepted solution")
 - [Codeforces 877F - Ann and Books](https://codeforces.com/problemset/problem/877/F) [✔](../../practice/data_structures/codeforces_877f.cpp "Accepted solution")
 - [Codeforces 2014H - Robin Hood Archery](https://codeforces.com/problemset/problem/2014/H)
-- [Codeforces Gym 100965I - Prime](https://codeforces.com/gym/100965/problem/I)
+- [Codeforces Gym 100965I - Prime](https://codeforces.com/gym/100965/problem/I) [✔](../../practice/data_structures/codeforces_gym_100965i.cpp "Accepted solution")
 - [CSES 1734 - Distinct Values Queries](https://cses.fi/problemset/task/1734) [✔](../../practice/data_structures/cses_1734.cpp "Accepted solution")
 - [HackerRank almost-equal-advanced - Almost Equal - Advanced](https://www.hackerrank.com/challenges/almost-equal-advanced) [✔](../../practice/data_structures/hackerrank_almost_equal_advanced_mo.cpp "Accepted solution")
 - [SPOJ CPAIR2 - Counting diff-pairs](https://www.spoj.com/problems/CPAIR2/)
