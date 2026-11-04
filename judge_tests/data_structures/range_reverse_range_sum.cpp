@@ -20,7 +20,7 @@ int main(){
         int type, l, r;
         if (scanf("%d %d %d", &type, &l, &r) != 3) return 0;
         if (type == 0 && l < r) treap.reverse(l, r - 1);
-        if (type == 1) printf("%lld\n", l < r ? treap.sum(l, r - 1) : 0LL);
+        if (type == 1) printf("%lld\n", l < r ? treap.query(l, r - 1) : 0LL);
     }
 
     return 0;
