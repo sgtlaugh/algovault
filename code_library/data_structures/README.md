@@ -131,7 +131,7 @@
 - [SPOJ ADACABAA - Ada and Species](https://www.spoj.com/problems/ADACABAA/)
 - [SPOJ CRAYON - Crayon](https://www.spoj.com/problems/CRAYON/)
 - [SPOJ CTRICK - Card Trick](https://www.spoj.com/problems/CTRICK/)
-- [SPOJ DCEPC206 - Its a Murder!](https://www.spoj.com/problems/DCEPC206/)
+- [SPOJ DCEPC206 - Its a Murder!](https://www.spoj.com/problems/DCEPC206/) [✔](../../practice/data_structures/spoj_dcepc206.cpp "Accepted solution")
 - [SPOJ DCEPC705 - Weird Points](https://www.spoj.com/problems/DCEPC705/)
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/)
 - [SPOJ INVCNT - Inversion Count](https://www.spoj.com/problems/INVCNT/)
