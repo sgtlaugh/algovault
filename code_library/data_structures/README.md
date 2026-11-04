@@ -113,7 +113,7 @@
 - [Codeforces 12D - Ball](https://codeforces.com/problemset/problem/12/D) [✔](../../practice/data_structures/codeforces_12d.cpp "Accepted solution")
 - [Codeforces 163E - e-Government](https://codeforces.com/problemset/problem/163/E) [✔](../../practice/data_structures/codeforces_163e.cpp "Accepted solution")
 - [Codeforces 594D - REQ](https://codeforces.com/problemset/problem/594/D) [✔](../../practice/data_structures/codeforces_594d.cpp "Accepted solution")
-- [Codeforces 597C - Subsequences](https://codeforces.com/problemset/problem/597/C)
+- [Codeforces 597C - Subsequences](https://codeforces.com/problemset/problem/597/C) [✔](../../practice/data_structures/codeforces_597c.cpp "Accepted solution")
 - [Codeforces 669E - Little Artem and Time Machine](https://codeforces.com/problemset/problem/669/E)
 - [Codeforces 703D - Mishka and Interesting sum](https://codeforces.com/problemset/problem/703/D)
 - [Codeforces 749E - Inversions After Shuffle](https://codeforces.com/problemset/problem/749/E)
