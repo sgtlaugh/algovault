@@ -344,7 +344,7 @@
 - [Codeforces 1093G - Multidimensional Queries](https://codeforces.com/problemset/problem/1093/G) [✔](../../practice/data_structures/codeforces_1093g.cpp "Accepted solution")
 - [Codeforces 1114F - Please, another Queries on Array?](https://codeforces.com/problemset/problem/1114/F) [✔](../../practice/data_structures/codeforces_1114f.cpp "Accepted solution")
 - [Codeforces 1179C - Serge and Dining Room](https://codeforces.com/problemset/problem/1179/C) [✔](../../practice/data_structures/codeforces_1179c.cpp "Accepted solution")
-- [Codeforces 1234D - Distinct Characters Queries](https://codeforces.com/problemset/problem/1234/D)
+- [Codeforces 1234D - Distinct Characters Queries](https://codeforces.com/problemset/problem/1234/D) [✔](../../practice/data_structures/codeforces_1234d.cpp "Accepted solution")
 - [Codeforces Gym 101081A - Card Show](https://codeforces.com/gym/101081/problem/A)
 - [CSES 1143 - Hotel Queries](https://cses.fi/problemset/task/1143) [✔](../../practice/data_structures/cses_1143.cpp "Accepted solution")
 - [CSES 1188 - Bit Inversions](https://cses.fi/problemset/task/1188) [✔](../../practice/data_structures/cses_1188.cpp "Accepted solution")
