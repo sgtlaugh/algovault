@@ -466,7 +466,7 @@
 - [SPOJ GSS6 - Can you answer these queries VI](https://www.spoj.com/problems/GSS6/)
 - [SPOJ GSS8 - Can you answer these queries VIII](https://www.spoj.com/problems/GSS8/)
 - [SPOJ IITWPC4D - Arrangement Validity](https://www.spoj.com/problems/IITWPC4D/) [✔](../../practice/data_structures/spoj_iitwpc4d.cpp "Accepted solution")
-- [SPOJ KOILINE - Line up](https://www.spoj.com/problems/KOILINE/)
+- [SPOJ KOILINE - Line up](https://www.spoj.com/problems/KOILINE/) [✔](../../practice/data_structures/spoj_koiline.cpp "Accepted solution")
 - [SPOJ QMAX3VN - Giá trị lớn nhất 3](https://www.spoj.com/problems/QMAX3VN/)
 - [SPOJ SEQ2 - Another Sequence Problem](https://www.spoj.com/problems/SEQ2/)
 - [SPOJ STRLCP - Longest Common Prefix](https://www.spoj.com/problems/STRLCP/)
