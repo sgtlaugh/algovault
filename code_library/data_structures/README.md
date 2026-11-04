@@ -449,7 +449,7 @@
 - [Codeforces 809D - Hitchhiking in the Baltic States](https://codeforces.com/problemset/problem/809/D)
 - [Codeforces 863D - Yet Another Array Queries Problem](https://codeforces.com/problemset/problem/863/D) [✔](../../practice/data_structures/codeforces_863d.cpp "Accepted solution")
 - [Codeforces Gym 100125L - Log Analysis](https://codeforces.com/gym/100125/problem/L)
-- [Codeforces Gym 100488L - Two Heads Are Better](https://codeforces.com/gym/100488/problem/L)
+- [Codeforces Gym 100488L - Two Heads Are Better](https://codeforces.com/gym/100488/problem/L) [✔](../../practice/data_structures/codeforces_gym_100488l.cpp "Accepted solution")
 - [Codeforces Gym 100739E - Life as a Monster](https://codeforces.com/gym/100739/problem/E)
 - [Codeforces Gym 101319C - Problem Strudel. Efficient Evaluation](https://codeforces.com/gym/101319/problem/C)
 - [CSES 2072 - Cut and Paste](https://cses.fi/problemset/task/2072) [✔](../../practice/data_structures/cses_2072_treap.cpp "Accepted solution")
