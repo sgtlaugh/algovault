@@ -105,7 +105,7 @@
 #### [Euler Tour Tree](euler_tour_tree.cpp)
 
 - [Luogu P2147 - [SDOI2008] 洞穴勘测](https://www.luogu.com.cn/problem/P2147) [✔](../../practice/data_structures/luogu_p2147.cpp "Accepted solution")
-- [Luogu P4219 - [BJOI2014] 大融合](https://www.luogu.com.cn/problem/P4219)
+- [Luogu P4219 - [BJOI2014] 大融合](https://www.luogu.com.cn/problem/P4219) [✔](../../practice/data_structures/luogu_p4219.cpp "Accepted solution")
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/)
 
 #### [Fenwick Tree](fenwick_tree.cpp)
