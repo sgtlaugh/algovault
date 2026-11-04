@@ -161,7 +161,7 @@
 
 #### [Pell Equation](pell_equation.cpp)
 
-- [HackerRank euler066 - Project Euler #66: Diophantine equation](https://www.hackerrank.com/contests/projecteuler/challenges/euler066/problem)
+- [HackerRank euler066 - Project Euler #66: Diophantine equation](https://www.hackerrank.com/contests/projecteuler/challenges/euler066/problem) [✔](../../practice/number_theory/hackerrank_euler066.cpp "Accepted solution")
 - [HDU 3292 - No more tricks, Mr Nanguo](http://acm.hdu.edu.cn/showproblem.php?pid=3292)
 - [UVa 138 - Street Numbers](https://onlinejudge.org/external/1/138.pdf) [✔](../../practice/number_theory/uva_138.cpp "Accepted solution")
 - [UVa 10241 - Semi-triangular and also Square](https://onlinejudge.org/external/102/10241.pdf) [✔](../../practice/number_theory/uva_10241.cpp "Accepted solution")
