@@ -217,7 +217,7 @@
 #### [Link-Cut Tree](link_cut_tree.cpp)
 
 - [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6) [✔](../../practice/data_structures/codechef_qtree6.cpp "Accepted solution")
-- [DMOJ ds5easy - Dynamic Tree Test (Easy)](https://dmoj.ca/problem/ds5easy)
+- [DMOJ ds5easy - Dynamic Tree Test (Easy)](https://dmoj.ca/problem/ds5easy) [✔](../../practice/data_structures/dmoj_ds5easy.cpp "Accepted solution")
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/) [✔](../../practice/data_structures/spoj_dynacon1_link_cut_tree.cpp "Accepted solution")
 - [SPOJ DYNALCA - Dynamic LCA](https://www.spoj.com/problems/DYNALCA/) [✔](../../practice/data_structures/spoj_dynalca.cpp "Accepted solution")
 - [UVa 11994 - Happy Painting!](https://onlinejudge.org/external/119/11994.pdf)
