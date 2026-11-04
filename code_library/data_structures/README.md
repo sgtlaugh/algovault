@@ -420,7 +420,7 @@
 - [Codeforces 1547F - Array Stabilization (GCD version)](https://codeforces.com/problemset/problem/1547/F) [✔](../../practice/data_structures/codeforces_1547f.cpp "Accepted solution")
 - [SPOJ RMQSQ - Range Minimum Query](https://www.spoj.com/problems/RMQSQ/) [✔](../../practice/data_structures/spoj_rmqsq.cpp "Accepted solution")
 - [SPOJ RPLN - Negative Score](https://www.spoj.com/problems/RPLN/) [✔](../../practice/data_structures/spoj_rpln.cpp "Accepted solution")
-- [SPOJ THRBL - Catapult that ball](https://www.spoj.com/problems/THRBL/)
+- [SPOJ THRBL - Catapult that ball](https://www.spoj.com/problems/THRBL/) [✔](../../practice/data_structures/spoj_thrbl.cpp "Accepted solution")
 - [SPOJ TNVFC1M - Miraculous](https://www.spoj.com/problems/TNVFC1M/) [✔](../../practice/data_structures/spoj_tnvfc1m.cpp "Accepted solution")
 - [UVa 11235 - Frequent values](https://onlinejudge.org/external/112/11235.pdf) [✔](../../practice/data_structures/uva_11235.cpp "Accepted solution")
 - [UVa 12697 - Minimal Subarray Length](https://onlinejudge.org/external/126/12697.pdf) [✔](../../practice/data_structures/uva_12697.cpp "Accepted solution")
