@@ -81,32 +81,65 @@ struct NaiveForest{
     }
 };
 
-template <typename Combine>
-void check_random(int n, int ops, long long identity, Combine combine){
-    LinkCutTree<long long, Combine> lct(n, identity, combine);
-    NaiveForest ref(n, identity);
-    int max_value = stress::rand_int(0, 1) ? 3 : 1000000000;
+struct MaxAdd{
+    static long long combine(long long a, long long b){ return max(a, b); }
+    static long long apply(long long val, long long lz, int){ return val + lz; }
+    static long long compose(long long old_lz, long long new_lz){ return old_lz + new_lz; }
+    static long long reversed(long long a){ return a; }
+};
+
+const long long MOD = 1000000007;
+
+/// x -> a x + b composed along the path, both directions kept: a wrong order or a missing reversal changes the result
+struct Fn{
+    long long a, b, ra, rb;
+};
+
+struct Compose{
+    static Fn combine(Fn f, Fn g){
+        long long a = g.a * f.a % MOD, b = (g.a * f.b + g.b) % MOD;
+        return {a, b, f.ra * g.ra % MOD, (f.ra * g.rb + f.rb) % MOD};
+    }
+    static Fn apply(Fn val, int, int){ return val; }
+    static int compose(int, int lz){ return lz; }
+    static Fn reversed(Fn f){ return {f.ra, f.rb, f.a, f.b}; }
+};
+
+/// Against NaiveForest: fold reads the path values u..v in order, key reads the template's aggregate the same way
+template <typename Ops, typename L, typename MakeValue, typename MakeLazy, typename Fold, typename Key, typename Apply>
+void check_random(int n, int ops, MakeValue make_value, MakeLazy make_lazy, Fold fold, Key key, Apply apply_lazy){
+    typedef decltype(make_value()) T;
+    LinkCutTree<T, Ops, L> lct(n);
+    NaiveForest ref(n, 0);
+    vector<T> value(n);
+    for (int u = 0; u < n; u++) value[u] = make_value(), lct.set(u, value[u]);
 
     for (int op = 0; op < ops; op++){
-        int kind = stress::rand_int(0, 10), u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
+        int kind = stress::rand_int(0, 11), u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
         if (kind <= 2) assert(lct.link(u, v) == ref.link(u, v));
         else if (kind == 3){
             if (!ref.adj[u].empty() && stress::rand_int(0, 3)) v = *ref.adj[u].begin();
             assert(lct.cut(u, v) == ref.cut(u, v));
         }
         else if (kind == 4) lct.make_root(u), ref.make_root(u);
-        else if (kind == 5){
-            long long x = stress::rand_int(-max_value, max_value);
-            lct.set(u, x), ref.value[u] = x;
-        }
+        else if (kind == 5) value[u] = make_value(), lct.set(u, value[u]);
         else if (kind == 6) assert(lct.connected(u, v) == ref.connected(u, v));
         else if (kind == 7) assert(lct.find_root(u) == ref.find_root(u));
         else if (kind == 8) assert(lct.lca(u, v) == ref.lca(u, v));
         else if (kind == 9) assert(lct.parent(u) == ref.parent(u));
         else if (ref.connected(u, v)){
-            long long expected = identity;
-            for (int x : ref.path(u, v)) expected = combine(expected, ref.value[x]);
-            assert(lct.query(u, v) == expected);
+            vector<int> path = ref.path(u, v);
+            reverse(path.begin(), path.end());
+            if (kind == 10){
+                L lz = make_lazy();
+                lct.update(u, v, lz);
+                for (int x : path) value[x] = apply_lazy(value[x], lz);
+            }
+            else{
+                vector<T> along;
+                for (int x : path) along.push_back(value[x]);
+                assert(key(lct.query(u, v)) == fold(along));
+            }
             assert(lct.find_root(u) == ref.find_root(u));
         }
     }
@@ -148,14 +181,36 @@ int main(){
     /// Without the assert a query across two trees would return a fold over a path that does not exist
     stress::expect_assert("data_structures/link_cut_tree.cpp", []{ LinkCutTree<long long>(3).query(0, 2); });
 
-    auto add = [](long long a, long long b){ return a + b; };
-    auto mx = [](long long a, long long b){ return max(a, b); };
+    stress::expect_assert("data_structures/link_cut_tree.cpp", []{ LinkCutTree<long long>(3).update(0, 2, 1); });
 
     for (long long it = 0; it < stress::scaled(1500); it++){
         int n = it < 300 ? it % 8 + 1 : stress::rand_int(1, 60);
         int ops = stress::rand_int(1, 300);
-        if (it % 2) check_random(n, ops, 0LL, add);
-        else check_random(n, ops, LLONG_MIN, mx);
+        long long big = stress::rand_int(0, 1) ? 3 : 1000000000;
+        auto value = [&]{ return (long long)stress::rand_int(-big, big); };
+        auto apply_add = [](long long x, long long lz){ return x + lz; };
+        auto same = [](long long x){ return x; };
+        if (it % 3 == 0){
+            auto sum = [](const vector<long long>& xs){ return accumulate(xs.begin(), xs.end(), 0LL); };
+            check_random<PathSumAdd<long long>, long long>(n, ops, value, value, sum, same, apply_add);
+        }
+        else if (it % 3 == 1){
+            auto top = [](const vector<long long>& xs){ return *max_element(xs.begin(), xs.end()); };
+            check_random<MaxAdd, long long>(n, ops, value, value, top, same, apply_add);
+        }
+        else{
+            auto fn = []{
+                long long a = stress::rand_int(0, MOD - 1), b = stress::rand_int(0, MOD - 1);
+                return Fn{a, b, a, b};
+            };
+            auto at = [](const vector<Fn>& fs){
+                long long x = 12345;
+                for (const Fn& f : fs) x = (f.a * x + f.b) % MOD;
+                return x;
+            };
+            auto at_one = [](const Fn& f){ return (f.a * 12345 + f.b) % MOD; };
+            check_random<Compose, int>(n, ops, fn, []{ return 0; }, at, at_one, [](Fn f, int){ return f; });
+        }
     }
 
     check_long_path(200000);

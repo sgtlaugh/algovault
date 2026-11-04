@@ -100,7 +100,7 @@ sa.contains("nab");         // false
 - [Interval Set](code_library/data_structures/interval_set.cpp) - interval union with add, remove, coverage [✔](judge_tests/data_structures/aoj_dsl_4_a.cpp)
 - [Leftist Heap, Persistent](code_library/data_structures/leftist_heap.cpp) - persistent meldable priority queue [✔](judge_tests/data_structures/k_shortest_walk.cpp)
 - [Li Chao Tree](code_library/data_structures/li_chao_tree.cpp) - min or max of lines and segments at a point [✔](judge_tests/data_structures/line_add_get_min.cpp)
-- [Link-Cut Tree](code_library/data_structures/link_cut_tree.cpp) - dynamic forest with link, cut and path queries [✔](judge_tests/data_structures/dynamic_tree_vertex_add_path_sum.cpp)
+- [Link-Cut Tree](code_library/data_structures/link_cut_tree.cpp) - dynamic forest: link, cut, path update and query [✔](judge_tests/data_structures/dynamic_tree_vertex_add_path_sum.cpp)
 - [Merge Sort Tree and Wavelet](code_library/data_structures/merge_sort_tree.cpp) - range k-th smallest and count below x [✔](judge_tests/data_structures/range_kth_smallest.cpp)
 - [Mo's Algorithm](code_library/data_structures/mo.cpp) - offline range queries on an array [✔](judge_tests/data_structures/static_range_count_distinct.cpp)
   - [On Tree Paths](code_library/data_structures/tree_path_mo.cpp) - offline path queries on a tree

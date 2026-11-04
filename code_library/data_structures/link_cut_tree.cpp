@@ -5,24 +5,28 @@
  *
  * Complexity: amortized O(log n) per operation
  *
- * LinkCutTree<T> lct(n): nodes 0..n - 1 and no edges, values start at T() and paths fold with +
- * LinkCutTree<T, Combine> lct(n, identity, combine): values start at identity and paths fold with combine
+ * LinkCutTree<T = long long, Ops = PathSumAdd<T>, L = T> lct(n): nodes 0..n - 1 and no edges, values start at T()
  * lct.cut(u, v): removes edge u-v, false if there is no such edge
  * lct.link(u, v): adds edge u-v with u as a child of v, false and no change if u and v are already connected
  * lct.make_root(u): re-roots u's tree at u
  * lct.set(u, value): sets the value of u
+ * lct.update(u, v, lz): applies the lazy update lz to every value on the path u..v, adds lz by default
  * lct.connected(u, v): whether u and v are in the same tree
  * lct.find_root(u): root of u's tree
  * lct.lca(u, v): lowest common ancestor under the current root, -1 if u and v are not connected
  * lct.parent(u): parent of u under the current root, -1 for the root
- * lct.query(u, v): combine of the values on the path u..v, both ends included, u and v must be connected
+ * lct.query(u, v): combine of the values on the path from u to v in that order, ends included, their sum by default
  *
  * Notes:
- *   - combine must be associative and commutative with identity as its neutral element, since re-rooting reverses paths
+ *   - update and query need u and v connected, and both leave the root where it was
+ *   - Ops holds four static functions, like SegmentTree's, L is the lazy type when it differs from T:
+ *       - combine(a, b): fold of two adjacent path pieces, a nearer u
+ *       - apply(val, lz, len): value of a piece of len nodes after lz, len = 1 for a single value
+ *       - compose(old, new): one lazy meaning old then new, also called on a stale old whose result is dropped
+ *       - reversed(a): the aggregate of the piece read backwards, a itself when combine is commutative
  *   - link re-roots u's tree at u and v's tree keeps its root, so link(child, parent) builds a rooted forest for lca
  *   - After cut the piece holding the old root keeps it, the other piece is rooted at its endpoint of the edge
- *   - query leaves the root where it was
- *   - Everything is iterative, deep paths are safe
+ *   - n < 2^30, and everything is iterative, so deep paths are safe
  *
 ***/
 
@@ -30,21 +34,32 @@
 
 using namespace std;
 
-template <typename T, typename Combine = plus<T>>
+/// Path add and path sum, the default Ops of LinkCutTree
+template <typename T>
+struct PathSumAdd{
+    static T combine(T a, T b){ return a + b; }
+    static T apply(T val, T lz, int len){ return val + lz * len; }
+    static T compose(T old_lz, T new_lz){ return old_lz + new_lz; }
+    static T reversed(T a){ return a; }
+};
+
+template <typename T = long long, typename Ops = PathSumAdd<T>, typename L = T>
 struct LinkCutTree{
     struct Node{
         /// par of an auxiliary splay tree's root is the path-parent pointer into the splay tree above it
         int ch[2], par;
-        bool flip;
+        unsigned meta;
         T value, agg;
     };
 
-    T identity;
-    Combine combine;
+    /// meta packs the splay subtree size with the two pending flags, which keeps a node at 32 bytes for T = long long
+    static const unsigned FLIP = 1u << 30, LAZY = 1u << 31, SIZE = FLIP - 1;
     vector<Node> nodes;
+    vector<L> lazy;
 
-    LinkCutTree(int n, T identity = T(), Combine combine = Combine())
-        : identity(identity), combine(combine), nodes(n, Node{{-1, -1}, -1, false, identity, identity}) {}
+    LinkCutTree(int n) : nodes(n, Node{{-1, -1}, -1, 1, T(), T()}), lazy(n){
+        assert(0 <= n && n < (1 << 30));
+    }
 
     bool cut(int u, int v){
         if (parent(u) != v) swap(u, v);
@@ -66,17 +81,28 @@ struct LinkCutTree{
 
     void make_root(int u){
         access(u);
-        nodes[u].flip ^= 1;
+        apply_flip(u);
     }
 
-    void set(int u, T value){
+    void set(int u, const T& value){
         splay(u);
         nodes[u].value = value;
         pull(u);
     }
 
+    void update(int u, int v, const L& lz){
+        int w = meet(u, v);
+        assert(w != -1);
+
+        splay(w);
+        apply_lazy(nodes[w].ch[1], lz);
+        nodes[w].value = Ops::apply(nodes[w].value, lz, 1);
+        pull(w);
+        if (w != u) apply_lazy(u, lz);
+    }
+
     bool connected(int u, int v){
-        return find_root(u) == find_root(v);
+        return meet(u, v) != -1;
     }
 
     int find_root(int u){
@@ -89,9 +115,7 @@ struct LinkCutTree{
     }
 
     int lca(int u, int v){
-        if (!connected(u, v)) return -1;
-        access(u);
-        return access(v);
+        return meet(u, v);
     }
 
     int parent(int u){
@@ -105,15 +129,24 @@ struct LinkCutTree{
     }
 
     T query(int u, int v){
-        assert(connected(u, v));
-        int root = find_root(u);
+        int w = meet(u, v);
+        assert(w != -1);
 
-        make_root(u);
-        access(v);
-        T res = nodes[v].agg;
-
-        make_root(root);
+        splay(w);
+        T res = nodes[w].value;
+        if (nodes[w].ch[1] != -1) res = Ops::combine(res, nodes[nodes[w].ch[1]].agg);
+        if (w != u) res = Ops::combine(Ops::reversed(nodes[u].agg), res);
         return res;
+    }
+
+    /// LCA of u and v, -1 if not connected; when it is not u, u ends as the root of the splay tree of the path below it
+    int meet(int u, int v){
+        access(u);
+        int w = access(v);
+        if (w == u) return w;
+
+        splay(u);
+        return nodes[u].par == -1 ? -1 : w;
     }
 
     /// Makes root..x the preferred path, x ends as the root of its splay tree; returns the last node joined
@@ -132,10 +165,15 @@ struct LinkCutTree{
     }
 
     void pull(int x){
-        nodes[x].agg = combine(combine(agg_of(nodes[x].ch[0]), nodes[x].value), agg_of(nodes[x].ch[1]));
+        Node& node = nodes[x];
+        T agg = node.value;
+        unsigned size = 1;
+        if (node.ch[0] != -1) agg = Ops::combine(nodes[node.ch[0]].agg, agg), size += nodes[node.ch[0]].meta & SIZE;
+        if (node.ch[1] != -1) agg = Ops::combine(agg, nodes[node.ch[1]].agg), size += nodes[node.ch[1]].meta & SIZE;
+        node.agg = agg, node.meta = (node.meta & ~SIZE) | size;
     }
 
-    /// Pushing only g, p, x is enough: a flip pending higher up reverses the whole subtree and commutes with rotations
+    /// Pushing only g, p, x is enough: an update pending higher up covers the whole subtree, which rotations keep
     void splay(int x){
         push(x);
         while (!is_root(x)){
@@ -148,17 +186,41 @@ struct LinkCutTree{
         }
     }
 
-    void push(int x){
-        if (!nodes[x].flip) return;
-        swap(nodes[x].ch[0], nodes[x].ch[1]);
-        for (int c : nodes[x].ch){
-            if (c != -1) nodes[c].flip ^= 1;
-        }
-        nodes[x].flip = false;
+    void apply_lazy(int x, const L& lz){
+        if (x == -1) return;
+        Node& node = nodes[x];
+        node.value = Ops::apply(node.value, lz, 1);
+        node.agg = Ops::apply(node.agg, lz, node.meta & SIZE);
+        /// compose also runs on a stale lazy and the result is dropped: a select, not a branch, like ImplicitTreap
+        L composed = Ops::compose(lazy[x], lz);
+        lazy[x] = (node.meta & LAZY) ? composed : lz;
+        node.meta |= LAZY;
     }
 
-    T agg_of(int x) const{
-        return x == -1 ? identity : nodes[x].agg;
+    /// The children swap at once and agg is read backwards, so a flipped node's own fields are already correct
+    void apply_flip(int x){
+        if (x == -1) return;
+        Node& node = nodes[x];
+        swap(node.ch[0], node.ch[1]);
+        node.agg = Ops::reversed(node.agg);
+        node.meta ^= FLIP;
+    }
+
+    void push(int x){
+        Node& node = nodes[x];
+        if (!(node.meta & (FLIP | LAZY))) return;
+
+        int l = node.ch[0], r = node.ch[1];
+        if (node.meta & LAZY){
+            apply_lazy(l, lazy[x]);
+            apply_lazy(r, lazy[x]);
+            node.meta &= ~LAZY;
+        }
+        if (node.meta & FLIP){
+            apply_flip(l);
+            apply_flip(r);
+            node.meta &= ~FLIP;
+        }
     }
 
     bool is_root(int x) const{
@@ -213,15 +275,24 @@ int main(){
     assert(sum.cut(0, 1));
     assert(sum.find_root(4) == 1);              /// the piece without the root is rooted at the cut endpoint
 
-    /// Path maximum
-    auto mx = [](long long a, long long b){ return max(a, b); };
-    LinkCutTree<long long, decltype(mx)> best(3, LLONG_MIN, mx);
+    /// Path maximum with path add through an Ops struct, max reads the same both ways
+    struct MaxAdd{
+        static long long combine(long long a, long long b){ return max(a, b); }
+        static long long apply(long long val, long long lz, int){ return val + lz; }
+        static long long compose(long long old_lz, long long new_lz){ return old_lz + new_lz; }
+        static long long reversed(long long a){ return a; }
+    };
+
+    LinkCutTree<long long, MaxAdd> best(3);
     best.set(0, -5);
     best.set(1, -2);
     best.set(2, -9);
     assert(best.link(0, 1));
     assert(best.link(2, 1));
     assert(best.query(0, 2) == -2);
+    best.update(0, 1, 10);                      /// -5 and -2 become 5 and 8
+    assert(best.query(0, 2) == 8);
+    assert(best.query(2, 2) == -9);
 
     return 0;
 }
