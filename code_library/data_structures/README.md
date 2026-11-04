@@ -482,7 +482,7 @@
 
 #### [Treap, Run-Length Implicit](run_length_implicit_treap.cpp)
 
-- [Codeforces 803G - Periodic RMQ Problem](https://codeforces.com/problemset/problem/803/G)
+- [Codeforces 803G - Periodic RMQ Problem](https://codeforces.com/problemset/problem/803/G) [✔](../../practice/data_structures/codeforces_803g_run_length_implicit_treap.cpp "Accepted solution")
 - [Codeforces 817F - MEX Queries](https://codeforces.com/problemset/problem/817/F)
 - [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436) [✔](../../practice/data_structures/hdu_3436_run_length_implicit_treap.cpp "Accepted solution")
 - [Luogu P2042 - [NOI2005] 维护数列](https://www.luogu.com.cn/problem/P2042)
