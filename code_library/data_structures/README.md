@@ -243,7 +243,7 @@
 - [Codeforces Gym 100965I - Prime](https://codeforces.com/gym/100965/problem/I) [✔](../../practice/data_structures/codeforces_gym_100965i.cpp "Accepted solution")
 - [CSES 1734 - Distinct Values Queries](https://cses.fi/problemset/task/1734) [✔](../../practice/data_structures/cses_1734.cpp "Accepted solution")
 - [HackerRank almost-equal-advanced - Almost Equal - Advanced](https://www.hackerrank.com/challenges/almost-equal-advanced) [✔](../../practice/data_structures/hackerrank_almost_equal_advanced_mo.cpp "Accepted solution")
-- [SPOJ CPAIR2 - Counting diff-pairs](https://www.spoj.com/problems/CPAIR2/)
+- [SPOJ CPAIR2 - Counting diff-pairs](https://www.spoj.com/problems/CPAIR2/) [✔](../../practice/data_structures/spoj_cpair2.cpp "Accepted solution")
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/) [✔](../../practice/data_structures/spoj_dquery_mo.cpp "Accepted solution")
 - [SPOJ FREQ2 - Most Frequent Value](https://www.spoj.com/problems/FREQ2/)
 - [SPOJ KDOMINO - K-dominant array](https://www.spoj.com/problems/KDOMINO/)
