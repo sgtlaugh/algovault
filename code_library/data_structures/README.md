@@ -455,7 +455,7 @@
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma) [✔](../../practice/data_structures/hackerrank_xaero_and_breaking_enigma_treap.cpp "Accepted solution")
 - [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436) [✔](../../practice/data_structures/hdu_3436_treap.cpp "Accepted solution")
 - [HDU 3487 - Play with Chain](https://acm.hdu.edu.cn/showproblem.php?pid=3487) [✔](../../practice/data_structures/hdu_3487.cpp "Accepted solution")
-- [POJ 3580 - SuperMemo](http://poj.org/problem?id=3580)
+- [POJ 3580 - SuperMemo](http://poj.org/problem?id=3580) [✔](../../practice/data_structures/poj_3580.cpp "Accepted solution")
 - [SPOJ ADAAPHID - Ada and Aphids](https://www.spoj.com/problems/ADAAPHID/) [✔](../../practice/data_structures/spoj_adaaphid.cpp "Accepted solution")
 - [SPOJ ALLIN1 - All in One](https://www.spoj.com/problems/ALLIN1/) [✔](../../practice/data_structures/spoj_allin1.cpp "Accepted solution")
 - [SPOJ CARDSHUF - Cards shuffing](https://www.spoj.com/problems/CARDSHUF/)
