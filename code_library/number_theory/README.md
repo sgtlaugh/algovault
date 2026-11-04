@@ -202,4 +202,4 @@
 #### [Sum of Two Squares](sum_of_two_squares.cpp)
 
 - [Luogu P2508 - [HAOI2008] 圆上的整点](https://www.luogu.com.cn/problem/P2508) [✔](../../practice/number_theory/luogu_p2508.cpp "Accepted solution")
-- [SPOJ TWOSQRS - Two squares or not two squares](https://www.spoj.com/problems/TWOSQRS/)
+- [SPOJ TWOSQRS - Two squares or not two squares](https://www.spoj.com/problems/TWOSQRS/) [✔](../../practice/number_theory/spoj_twosqrs.cpp "Accepted solution")
