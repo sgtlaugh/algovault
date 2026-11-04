@@ -13,6 +13,7 @@
  * lct.update(u, v, lz): applies the lazy update lz to every value on the path u..v, adds lz by default
  * lct.connected(u, v): whether u and v are in the same tree
  * lct.find_root(u): root of u's tree
+ * lct.get(u): the value of u
  * lct.lca(u, v): lowest common ancestor under the current root, -1 if u and v are not connected
  * lct.parent(u): parent of u under the current root, -1 for the root
  * lct.query(u, v): combine of the values on the path from u to v in that order, ends included, their sum by default
@@ -112,6 +113,11 @@ struct LinkCutTree{
 
         splay(x);
         return x;
+    }
+
+    T get(int u){
+        splay(u);
+        return nodes[u].value;
     }
 
     int lca(int u, int v){
@@ -293,6 +299,7 @@ int main(){
     best.update(0, 1, 10);                      /// -5 and -2 become 5 and 8
     assert(best.query(0, 2) == 8);
     assert(best.query(2, 2) == -9);
+    assert(best.get(1) == 8);
 
     return 0;
 }

@@ -126,7 +126,7 @@ void check_random(int n, int ops, MakeValue make_value, MakeLazy make_lazy, Fold
         else if (kind == 6) assert(lct.connected(u, v) == ref.connected(u, v));
         else if (kind == 7) assert(lct.find_root(u) == ref.find_root(u));
         else if (kind == 8) assert(lct.lca(u, v) == ref.lca(u, v));
-        else if (kind == 9) assert(lct.parent(u) == ref.parent(u));
+        else if (kind == 9) assert(lct.parent(u) == ref.parent(u) && key(lct.get(v)) == fold(vector<T>{value[v]}));
         else if (ref.connected(u, v)){
             vector<int> path = ref.path(u, v);
             reverse(path.begin(), path.end());
