@@ -194,7 +194,7 @@
 - [Codeforces 311B - Cats Transport](https://codeforces.com/problemset/problem/311/B) [✔](../../practice/data_structures/codeforces_311b_li_chao_tree.cpp "Accepted solution")
 - [Codeforces 319C - Kalila and Dimna in the Logging Industry](https://codeforces.com/problemset/problem/319/C) [✔](../../practice/data_structures/codeforces_319c_li_chao_tree.cpp "Accepted solution")
 - [Codeforces 631E - Product Sum](https://codeforces.com/problemset/problem/631/E) [✔](../../practice/data_structures/codeforces_631e_li_chao_tree.cpp "Accepted solution")
-- [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C)
+- [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C) [✔](../../practice/data_structures/codeforces_643c_li_chao_tree.cpp "Accepted solution")
 - [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F)
 - [Codeforces 932F - Escape Through Leaf](https://codeforces.com/problemset/problem/932/F)
 - [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E)
