@@ -14,7 +14,6 @@
 
 - [Codeforces 98B - Help King](https://codeforces.com/problemset/problem/98/B) [✔](../../practice/algebra/codeforces_98b.cpp "Accepted solution")
 - [POJ 1625 - Censored!](http://poj.org/problem?id=1625) [✔](../../practice/algebra/poj_1625.cpp "Accepted solution")
-- [SPOJ GCD2 - GCD2](https://www.spoj.com/problems/GCD2/)
 - [UVa 288 - Arithmetic Operations With Large Integers](https://onlinejudge.org/external/2/288.pdf) [✔](../../practice/algebra/uva_288.cpp "Accepted solution")
 - [UVa 324 - Factorial Frequencies](https://onlinejudge.org/external/3/324.pdf) [✔](../../practice/algebra/uva_324.cpp "Accepted solution")
 - [UVa 485 - Pascal's Triangle of Death](https://onlinejudge.org/external/4/485.pdf) [✔](../../practice/algebra/uva_485.cpp "Accepted solution")
