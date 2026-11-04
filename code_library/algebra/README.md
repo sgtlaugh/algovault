@@ -135,7 +135,7 @@
 - [Codeforces 438E - The Child and Binary Tree](https://codeforces.com/problemset/problem/438/E) [✔](../../practice/algebra/codeforces_438e.cpp "Accepted solution")
 - [Codeforces 755G - PolandBall and Many Other Balls](https://codeforces.com/problemset/problem/755/G) [✔](../../practice/algebra/codeforces_755g.cpp "Accepted solution")
 - [HDU 5279 - YJC plays Minecraft](https://acm.hdu.edu.cn/showproblem.php?pid=5279) [✔](../../practice/algebra/hdu_5279.cpp "Accepted solution")
-- [HDU 5322 - Hope](https://acm.hdu.edu.cn/showproblem.php?pid=5322) [✔](../../practice/algebra/hdu_5322.cpp "Accepted solution")
+- [HDU 5322 - Hope](https://acm.hdu.edu.cn/showproblem.php?pid=5322) [✔](../../practice/algebra/hdu_5322_polynomial.cpp "Accepted solution")
 - [HDU 5552 - Bus Routes](https://acm.hdu.edu.cn/showproblem.php?pid=5552) [✔](../../practice/algebra/hdu_5552.cpp "Accepted solution")
 - [ZOJ 3874 - Permutation Graph](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369978) [✔](../../practice/algebra/zoj_3874.cpp "Accepted solution")
 
