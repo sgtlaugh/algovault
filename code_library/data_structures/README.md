@@ -447,7 +447,7 @@
 - [Codeforces 295E - Yaroslav and Points](https://codeforces.com/problemset/problem/295/E)
 - [Codeforces 702F - T-Shirts](https://codeforces.com/problemset/problem/702/F)
 - [Codeforces 809D - Hitchhiking in the Baltic States](https://codeforces.com/problemset/problem/809/D)
-- [Codeforces 863D - Yet Another Array Queries Problem](https://codeforces.com/problemset/problem/863/D)
+- [Codeforces 863D - Yet Another Array Queries Problem](https://codeforces.com/problemset/problem/863/D) [✔](../../practice/data_structures/codeforces_863d.cpp "Accepted solution")
 - [Codeforces Gym 100125L - Log Analysis](https://codeforces.com/gym/100125/problem/L)
 - [Codeforces Gym 100488L - Two Heads Are Better](https://codeforces.com/gym/100488/problem/L)
 - [Codeforces Gym 100739E - Life as a Monster](https://codeforces.com/gym/100739/problem/E)
