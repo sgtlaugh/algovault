@@ -49,7 +49,7 @@
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma) [✔](../../practice/data_structures/hackerrank_xaero_and_breaking_enigma_disjoint_set.cpp "Accepted solution")
 - [Kattis slimcut - Slim Cut](https://open.kattis.com/problems/slimcut) [✔](../../practice/data_structures/kattis_slimcut.cpp "Accepted solution")
 - [SPOJ CLFLARR - COLORFUL ARRAY](https://www.spoj.com/problems/CLFLARR/) [✔](../../practice/data_structures/spoj_clflarr.cpp "Accepted solution")
-- [SPOJ KOICOST - Cost](https://www.spoj.com/problems/KOICOST/)
+- [SPOJ KOICOST - Cost](https://www.spoj.com/problems/KOICOST/) [✔](../../practice/data_structures/spoj_koicost.cpp "Accepted solution")
 - [Timus 1671 - Anansi's Cobweb](https://acm.timus.ru/problem.aspx?num=1671) [✔](../../practice/data_structures/timus_1671.cpp "Accepted solution")
 - [Toph unbelievable-array - Unbelievable Array](https://toph.co/p/unbelievable-array) [✔](../../practice/data_structures/toph_unbelievable_array.cpp "Accepted solution")
 - [USACO 384 - Ski Course Rating](https://usaco.org/index.php?page=viewproblem2&cpid=384) [✔](../../practice/data_structures/usaco_384.cpp "Accepted solution")
