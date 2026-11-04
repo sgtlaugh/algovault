@@ -133,7 +133,7 @@
 - [SPOJ CTRICK - Card Trick](https://www.spoj.com/problems/CTRICK/)
 - [SPOJ DCEPC206 - Its a Murder!](https://www.spoj.com/problems/DCEPC206/) [✔](../../practice/data_structures/spoj_dcepc206.cpp "Accepted solution")
 - [SPOJ DCEPC705 - Weird Points](https://www.spoj.com/problems/DCEPC705/) [✔](../../practice/data_structures/spoj_dcepc705.cpp "Accepted solution")
-- [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/)
+- [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/) [✔](../../practice/data_structures/spoj_dquery_fenwick_tree.cpp "Accepted solution")
 - [SPOJ INVCNT - Inversion Count](https://www.spoj.com/problems/INVCNT/)
 - [SPOJ KQUERY - K-query](https://www.spoj.com/problems/KQUERY/)
 - [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/) [✔](../../practice/data_structures/spoj_meanarr_fenwick_tree.cpp "Accepted solution")
