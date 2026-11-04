@@ -197,7 +197,7 @@
 - [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C) [✔](../../practice/data_structures/codeforces_643c_li_chao_tree.cpp "Accepted solution")
 - [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F) [✔](../../practice/data_structures/codeforces_660f_li_chao_tree.cpp "Accepted solution")
 - [Codeforces 932F - Escape Through Leaf](https://codeforces.com/problemset/problem/932/F) [✔](../../practice/data_structures/codeforces_932f.cpp "Accepted solution")
-- [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E)
+- [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E) [✔](../../practice/data_structures/codeforces_1083e_li_chao_tree.cpp "Accepted solution")
 - [Codeforces Gym 103536B - Troubles](https://codeforces.com/gym/103536/problem/B)
 - [CS Academy squared-ends - Squared Ends](https://csacademy.com/contest/archive/task/squared-ends/) [✔](../../practice/data_structures/cs_academy_squared_ends.cpp "Accepted solution")
 - [CSES 2085 - Monster Game II](https://cses.fi/problemset/task/2085) [✔](../../practice/data_structures/cses_2085.cpp "Accepted solution")
