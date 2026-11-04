@@ -139,7 +139,7 @@
 - [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/) [✔](../../practice/data_structures/spoj_meanarr_fenwick_tree.cpp "Accepted solution")
 - [SPOJ METEORS - Meteors](https://www.spoj.com/problems/METEORS/)
 - [SPOJ NKTEAM - Team Selection](https://www.spoj.com/problems/NKTEAM/) [✔](../../practice/data_structures/spoj_nkteam.cpp "Accepted solution")
-- [SPOJ SUMSUM - Enjoy Sum with Operations](https://www.spoj.com/problems/SUMSUM/)
+- [SPOJ SUMSUM - Enjoy Sum with Operations](https://www.spoj.com/problems/SUMSUM/) [✔](../../practice/data_structures/spoj_sumsum.cpp "Accepted solution")
 - [SPOJ TPGA - The Permutation Game Again](https://www.spoj.com/problems/TPGA/)
 - [SPOJ TRIPINV - Mega Inversions](https://www.spoj.com/problems/TRIPINV/) [✔](../../practice/data_structures/spoj_tripinv.cpp "Accepted solution")
 - [SPOJ YODANESS - Yodaness Level](https://www.spoj.com/problems/YODANESS/) [✔](../../practice/data_structures/spoj_yodaness.cpp "Accepted solution")
