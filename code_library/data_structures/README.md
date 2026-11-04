@@ -427,7 +427,7 @@
 
 #### [Sparse Table 2D](sparse_table_2D.cpp)
 
-- [Codeforces 713D - Animals and Puzzle](https://codeforces.com/problemset/problem/713/D)
+- [Codeforces 713D - Animals and Puzzle](https://codeforces.com/problemset/problem/713/D) [✔](../../practice/data_structures/codeforces_713d.cpp "Accepted solution")
 
 #### [Square Root Decomposition](sqrt_decomposition.cpp)
 
