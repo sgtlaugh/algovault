@@ -342,7 +342,7 @@
 - [Codeforces 895E - Eyes Closed](https://codeforces.com/problemset/problem/895/E) [✔](../../practice/data_structures/codeforces_895e.cpp "Accepted solution")
 - [Codeforces 920F - SUM and REPLACE](https://codeforces.com/problemset/problem/920/F) [✔](../../practice/data_structures/codeforces_920f.cpp "Accepted solution")
 - [Codeforces 1093G - Multidimensional Queries](https://codeforces.com/problemset/problem/1093/G) [✔](../../practice/data_structures/codeforces_1093g.cpp "Accepted solution")
-- [Codeforces 1114F - Please, another Queries on Array?](https://codeforces.com/problemset/problem/1114/F)
+- [Codeforces 1114F - Please, another Queries on Array?](https://codeforces.com/problemset/problem/1114/F) [✔](../../practice/data_structures/codeforces_1114f.cpp "Accepted solution")
 - [Codeforces 1179C - Serge and Dining Room](https://codeforces.com/problemset/problem/1179/C)
 - [Codeforces 1234D - Distinct Characters Queries](https://codeforces.com/problemset/problem/1234/D)
 - [Codeforces Gym 101081A - Card Show](https://codeforces.com/gym/101081/problem/A)
