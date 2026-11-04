@@ -220,7 +220,7 @@
 - [CodeChef QTREE6 - Query on a tree VI](https://www.codechef.com/problems/QTREE6) [✔](../../practice/data_structures/codechef_qtree6.cpp "Accepted solution")
 - [DMOJ ds5easy - Dynamic Tree Test (Easy)](https://dmoj.ca/problem/ds5easy)
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/)
-- [SPOJ DYNALCA - Dynamic LCA](https://www.spoj.com/problems/DYNALCA/)
+- [SPOJ DYNALCA - Dynamic LCA](https://www.spoj.com/problems/DYNALCA/) [✔](../../practice/data_structures/spoj_dynalca.cpp "Accepted solution")
 - [UVa 11994 - Happy Painting!](https://onlinejudge.org/external/119/11994.pdf)
 
 #### [Merge Sort Tree and Wavelet](merge_sort_tree.cpp)
