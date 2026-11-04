@@ -118,7 +118,7 @@
 - [Codeforces 703D - Mishka and Interesting sum](https://codeforces.com/problemset/problem/703/D) [✔](../../practice/data_structures/codeforces_703d.cpp "Accepted solution")
 - [Codeforces 749E - Inversions After Shuffle](https://codeforces.com/problemset/problem/749/E) [✔](../../practice/data_structures/codeforces_749e.cpp "Accepted solution")
 - [Codeforces 777E - Hanoi Factory](https://codeforces.com/problemset/problem/777/E) [✔](../../practice/data_structures/codeforces_777e.cpp "Accepted solution")
-- [Codeforces 849E - Goodbye Souvenir](https://codeforces.com/problemset/problem/849/E)
+- [Codeforces 849E - Goodbye Souvenir](https://codeforces.com/problemset/problem/849/E) [✔](../../practice/data_structures/codeforces_849e.cpp "Accepted solution")
 - [CSES 1144 - Salary Queries](https://cses.fi/problemset/task/1144) [✔](../../practice/data_structures/cses_1144.cpp "Accepted solution")
 - [CSES 1740 - Intersection Points](https://cses.fi/problemset/task/1740) [✔](../../practice/data_structures/cses_1740.cpp "Accepted solution")
 - [CSES 1747 - Pyramid Array](https://cses.fi/problemset/task/1747) [✔](../../practice/data_structures/cses_1747.cpp "Accepted solution")
