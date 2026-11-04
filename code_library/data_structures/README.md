@@ -210,7 +210,7 @@
 - [oj.uz CEOI09_harbingers - Harbingers](https://oj.uz/problem/view/CEOI09_harbingers)
 - [oj.uz CEOI17_building - Building Bridges](https://oj.uz/problem/view/CEOI17_building) [✔](../../practice/data_structures/oj_uz_ceoi17_building.cpp "Accepted solution")
 - [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180) [✔](../../practice/data_structures/poj_1180.cpp "Accepted solution")
-- [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/)
+- [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/) [✔](../../practice/data_structures/spoj_acquire_li_chao_tree.cpp "Accepted solution")
 - [SPOJ APIO10A - Commando](https://www.spoj.com/problems/APIO10A/)
 - [SPOJ CHTPRAC - CHT Practice](https://www.spoj.com/problems/CHTPRAC/)
 - [SPOJ GOODG - Good Inflation](https://www.spoj.com/problems/GOODG/)
