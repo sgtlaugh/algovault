@@ -87,7 +87,6 @@
 - [CSES 1687 - Company Queries I](https://cses.fi/problemset/task/1687) [✔](../../practice/trees/cses_1687.cpp "Accepted solution")
 - [LeetCode 1483 - Kth Ancestor of a Tree Node](https://leetcode.com/problems/kth-ancestor-of-a-tree-node/) [✔](../../practice/trees/leetcode_1483.cpp "Accepted solution")
 - [SPOJ ADAORANG - Ada and Orange Tree](https://www.spoj.com/problems/ADAORANG/) [✔](../../practice/trees/spoj_adaorang.cpp "Accepted solution")
-- [SPOJ COT - Count on a tree](https://www.spoj.com/problems/COT/)
 - [SPOJ DISQUERY - Distance Query](https://www.spoj.com/problems/DISQUERY/) [✔](../../practice/trees/spoj_disquery.cpp "Accepted solution")
 - [SPOJ LCA - Lowest Common Ancestor](https://www.spoj.com/problems/LCA/) [✔](../../practice/trees/spoj_lca.cpp "Accepted solution")
 - [SPOJ NTICKETS - Nlogonian Tickets](https://www.spoj.com/problems/NTICKETS/) [✔](../../practice/trees/spoj_ntickets.cpp "Accepted solution")
