@@ -135,7 +135,7 @@
 - [SPOJ DCEPC705 - Weird Points](https://www.spoj.com/problems/DCEPC705/) [✔](../../practice/data_structures/spoj_dcepc705.cpp "Accepted solution")
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/) [✔](../../practice/data_structures/spoj_dquery_fenwick_tree.cpp "Accepted solution")
 - [SPOJ INVCNT - Inversion Count](https://www.spoj.com/problems/INVCNT/) [✔](../../practice/data_structures/spoj_invcnt.cpp "Accepted solution")
-- [SPOJ KQUERY - K-query](https://www.spoj.com/problems/KQUERY/)
+- [SPOJ KQUERY - K-query](https://www.spoj.com/problems/KQUERY/) [✔](../../practice/data_structures/spoj_kquery_fenwick_tree.cpp "Accepted solution")
 - [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/) [✔](../../practice/data_structures/spoj_meanarr_fenwick_tree.cpp "Accepted solution")
 - [SPOJ METEORS - Meteors](https://www.spoj.com/problems/METEORS/)
 - [SPOJ NKTEAM - Team Selection](https://www.spoj.com/problems/NKTEAM/)
