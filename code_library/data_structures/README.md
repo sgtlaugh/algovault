@@ -419,7 +419,7 @@
 - [Codeforces 1454F - Array Partition](https://codeforces.com/problemset/problem/1454/F) [✔](../../practice/data_structures/codeforces_1454f.cpp "Accepted solution")
 - [Codeforces 1547F - Array Stabilization (GCD version)](https://codeforces.com/problemset/problem/1547/F) [✔](../../practice/data_structures/codeforces_1547f.cpp "Accepted solution")
 - [SPOJ RMQSQ - Range Minimum Query](https://www.spoj.com/problems/RMQSQ/) [✔](../../practice/data_structures/spoj_rmqsq.cpp "Accepted solution")
-- [SPOJ RPLN - Negative Score](https://www.spoj.com/problems/RPLN/)
+- [SPOJ RPLN - Negative Score](https://www.spoj.com/problems/RPLN/) [✔](../../practice/data_structures/spoj_rpln.cpp "Accepted solution")
 - [SPOJ THRBL - Catapult that ball](https://www.spoj.com/problems/THRBL/)
 - [SPOJ TNVFC1M - Miraculous](https://www.spoj.com/problems/TNVFC1M/)
 - [UVa 11235 - Frequent values](https://onlinejudge.org/external/112/11235.pdf) [✔](../../practice/data_structures/uva_11235.cpp "Accepted solution")
