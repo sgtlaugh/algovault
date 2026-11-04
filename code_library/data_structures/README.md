@@ -416,7 +416,7 @@
 - [Codeforces 803G - Periodic RMQ Problem](https://codeforces.com/problemset/problem/803/G) [✔](../../practice/data_structures/codeforces_803g_sparse_table.cpp "Accepted solution")
 - [Codeforces 863E - Turn Off The TV](https://codeforces.com/problemset/problem/863/E) [✔](../../practice/data_structures/codeforces_863e.cpp "Accepted solution")
 - [Codeforces 873E - Awards For Contestants](https://codeforces.com/problemset/problem/873/E) [✔](../../practice/data_structures/codeforces_873e.cpp "Accepted solution")
-- [Codeforces 1454F - Array Partition](https://codeforces.com/problemset/problem/1454/F)
+- [Codeforces 1454F - Array Partition](https://codeforces.com/problemset/problem/1454/F) [✔](../../practice/data_structures/codeforces_1454f.cpp "Accepted solution")
 - [Codeforces 1547F - Array Stabilization (GCD version)](https://codeforces.com/problemset/problem/1547/F)
 - [SPOJ RMQSQ - Range Minimum Query](https://www.spoj.com/problems/RMQSQ/)
 - [SPOJ RPLN - Negative Score](https://www.spoj.com/problems/RPLN/)
