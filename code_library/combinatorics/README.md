@@ -52,7 +52,7 @@
 - [CSES 2228 - Counting Sequences](https://cses.fi/problemset/task/2228) [✔](../../practice/combinatorics/cses_2228_combinatorics.cpp "Accepted solution")
 - [HackerRank longest-increasing-subsequence-arrays - Longest Increasing Subsequence Arrays](https://www.hackerrank.com/contests/world-codesprint-5/challenges/longest-increasing-subsequence-arrays/problem) [✔](../../practice/combinatorics/hackerrank_longest_increasing_subsequence_arrays.cpp "Accepted solution")
 - [SPOJ ADATEAMS - Ada and Teams](https://www.spoj.com/problems/ADATEAMS/) [✔](../../practice/combinatorics/spoj_adateams.cpp "Accepted solution")
-- [SPOJ GOODB - Good Predictions](https://www.spoj.com/problems/GOODB/)
+- [SPOJ GOODB - Good Predictions](https://www.spoj.com/problems/GOODB/) [✔](../../practice/combinatorics/spoj_goodb.cpp "Accepted solution")
 - [SPOJ HC12 - Card Game](https://www.spoj.com/problems/HC12/)
 - [SPOJ UCV2013E - Greedy Walking](https://www.spoj.com/problems/UCV2013E/)
 - [USACO 1283 - Moo Route](https://usaco.org/index.php?page=viewproblem2&cpid=1283) [✔](../../practice/combinatorics/usaco_1283.cpp "Accepted solution")
