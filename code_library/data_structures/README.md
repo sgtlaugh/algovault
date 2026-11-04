@@ -329,7 +329,7 @@
 - [Codeforces 380C - Sereja and Brackets](https://codeforces.com/problemset/problem/380/C) [✔](../../practice/data_structures/codeforces_380c.cpp "Accepted solution")
 - [Codeforces 438D - The Child and Sequence](https://codeforces.com/problemset/problem/438/D) [✔](../../practice/data_structures/codeforces_438d.cpp "Accepted solution")
 - [Codeforces 446C - DZY Loves Fibonacci Numbers](https://codeforces.com/problemset/problem/446/C)
-- [Codeforces 474F - Ant colony](https://codeforces.com/problemset/problem/474/F)
+- [Codeforces 474F - Ant colony](https://codeforces.com/problemset/problem/474/F) [✔](../../practice/data_structures/codeforces_474f.cpp "Accepted solution")
 - [Codeforces 515E - Drazil and Park](https://codeforces.com/problemset/problem/515/E)
 - [Codeforces 522D - Closest Equals](https://codeforces.com/problemset/problem/522/D)
 - [Codeforces 558E - A Simple Task](https://codeforces.com/problemset/problem/558/E)
