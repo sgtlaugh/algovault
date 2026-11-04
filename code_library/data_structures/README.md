@@ -236,7 +236,7 @@
 
 - [Codeforces 86D - Powerful array](https://codeforces.com/problemset/problem/86/D) [✔](../../practice/data_structures/codeforces_86d.cpp "Accepted solution")
 - [Codeforces 576C - Points on Plane](https://codeforces.com/problemset/problem/576/C)
-- [Codeforces 617E - XOR and Favorite Number](https://codeforces.com/problemset/problem/617/E)
+- [Codeforces 617E - XOR and Favorite Number](https://codeforces.com/problemset/problem/617/E) [✔](../../practice/data_structures/codeforces_617e.cpp "Accepted solution")
 - [Codeforces 633H - Fibonacci-ish II](https://codeforces.com/problemset/problem/633/H)
 - [Codeforces 877F - Ann and Books](https://codeforces.com/problemset/problem/877/F)
 - [Codeforces 2014H - Robin Hood Archery](https://codeforces.com/problemset/problem/2014/H)
