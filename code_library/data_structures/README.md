@@ -310,7 +310,7 @@
 - [SPOJ COT - Count on a tree](https://www.spoj.com/problems/COT/)
 - [SPOJ DQUERY - D-query](https://www.spoj.com/problems/DQUERY/) [✔](../../practice/data_structures/spoj_dquery_persistent_segment_tree.cpp "Accepted solution")
 - [SPOJ GOT - Gao on a tree](https://www.spoj.com/problems/GOT/)
-- [SPOJ MKTHNUM - K-th Number](https://www.spoj.com/problems/MKTHNUM/)
+- [SPOJ MKTHNUM - K-th Number](https://www.spoj.com/problems/MKTHNUM/) [✔](../../practice/data_structures/spoj_mkthnum_persistent_segment_tree.cpp "Accepted solution")
 - [SPOJ PSEGTREE - Make Versions in Segment Tree](https://www.spoj.com/problems/PSEGTREE/)
 
 #### [Rope](rope.cpp)
