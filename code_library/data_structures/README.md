@@ -252,7 +252,7 @@
 
 #### [Mo's Algorithm On Tree Paths](tree_path_mo.cpp)
 
-- [Codeforces Gym 100962F - Frank Sinatra](https://codeforces.com/gym/100962/problem/F)
+- [Codeforces Gym 100962F - Frank Sinatra](https://codeforces.com/gym/100962/problem/F) [✔](../../practice/data_structures/codeforces_gym_100962f.cpp "Accepted solution")
 - [Codeforces Gym 101161E - ACM Tax](https://codeforces.com/gym/101161/problem/E)
 - [SPOJ COT2 - Count on a tree II](https://www.spoj.com/problems/COT2/) [✔](../../practice/data_structures/spoj_cot2.cpp "Accepted solution")
 
