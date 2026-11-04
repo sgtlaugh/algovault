@@ -474,7 +474,7 @@
 - [UVa 11922 - Permutation Transformer](https://onlinejudge.org/external/119/11922.pdf) [✔](../../practice/data_structures/uva_11922.cpp "Accepted solution")
 - [UVa 11996 - Jewel Magic](https://onlinejudge.org/external/119/11996.pdf) [✔](../../practice/data_structures/uva_11996.cpp "Accepted solution")
 - [UVa 12634 - Pairing Boys and Girls](https://onlinejudge.org/external/126/12634.pdf) [✔](../../practice/data_structures/uva_12634_treap.cpp "Accepted solution")
-- [UVa 13102 - Tobby Stones](https://onlinejudge.org/external/131/13102.pdf)
+- [UVa 13102 - Tobby Stones](https://onlinejudge.org/external/131/13102.pdf) [✔](../../practice/data_structures/uva_13102.cpp "Accepted solution")
 - [ZOJ 3765 - Lights](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369708)
 
 #### [Treap, Run-Length Implicit](run_length_implicit_treap.cpp)
