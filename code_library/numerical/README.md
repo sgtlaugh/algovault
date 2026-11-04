@@ -16,7 +16,7 @@
 - [POJ 2976 - Dropping tests](http://poj.org/problem?id=2976) [✔](../../practice/numerical/poj_2976.cpp "Accepted solution")
 - [POJ 3111 - K Best](http://poj.org/problem?id=3111) [✔](../../practice/numerical/poj_3111.cpp "Accepted solution")
 - [POJ 3621 - Sightseeing Cows](http://poj.org/problem?id=3621) [✔](../../practice/numerical/poj_3621.cpp "Accepted solution")
-- [USACO 839 - Talent Show](https://usaco.org/index.php?page=viewproblem2&cpid=839)
+- [USACO 839 - Talent Show](https://usaco.org/index.php?page=viewproblem2&cpid=839) [✔](../../practice/numerical/usaco_839.cpp "Accepted solution")
 - [UVa 12164 - The Great Game](https://onlinejudge.org/external/121/12164.pdf) [✔](../../practice/numerical/uva_12164_dinkelbach.cpp "Accepted solution")
 
 #### [Local Minimization](local_minimization.cpp)
