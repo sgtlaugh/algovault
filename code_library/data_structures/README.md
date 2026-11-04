@@ -331,7 +331,7 @@
 - [Codeforces 446C - DZY Loves Fibonacci Numbers](https://codeforces.com/problemset/problem/446/C)
 - [Codeforces 474F - Ant colony](https://codeforces.com/problemset/problem/474/F) [✔](../../practice/data_structures/codeforces_474f.cpp "Accepted solution")
 - [Codeforces 515E - Drazil and Park](https://codeforces.com/problemset/problem/515/E) [✔](../../practice/data_structures/codeforces_515e.cpp "Accepted solution")
-- [Codeforces 522D - Closest Equals](https://codeforces.com/problemset/problem/522/D)
+- [Codeforces 522D - Closest Equals](https://codeforces.com/problemset/problem/522/D) [✔](../../practice/data_structures/codeforces_522d.cpp "Accepted solution")
 - [Codeforces 558E - A Simple Task](https://codeforces.com/problemset/problem/558/E)
 - [Codeforces 580E - Kefa and Watch](https://codeforces.com/problemset/problem/580/E)
 - [Codeforces 610E - Alphabet Permutations](https://codeforces.com/problemset/problem/610/E)
