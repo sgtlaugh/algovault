@@ -383,7 +383,7 @@
 
 #### [Segment Tree 2D](segment_tree_2D.cpp)
 
-- [HDU 4819 - Mosaic](https://acm.hdu.edu.cn/showproblem.php?pid=4819)
+- [HDU 4819 - Mosaic](https://acm.hdu.edu.cn/showproblem.php?pid=4819) [✔](../../practice/data_structures/hdu_4819.cpp "Accepted solution")
 - [UVa 11297 - Census](https://onlinejudge.org/external/112/11297.pdf) [✔](../../practice/data_structures/uva_11297.cpp "Accepted solution")
 
 #### [Segment Tree Beats](segment_tree_beats.cpp)
