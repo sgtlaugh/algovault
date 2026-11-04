@@ -258,7 +258,7 @@
 
 #### [Mo's Algorithm With Rollback](mo_with_rollback.cpp)
 
-- [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07)
+- [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07) [✔](../../practice/data_structures/codechef_gerald07_mo_with_rollback.cpp "Accepted solution")
 - [CodeChef QCHEF - Chef and Problems](https://www.codechef.com/problems/QCHEF) [✔](../../practice/data_structures/codechef_qchef.cpp "Accepted solution")
 
 #### [Mo's Algorithm With Updates](mo_with_updates.cpp)
