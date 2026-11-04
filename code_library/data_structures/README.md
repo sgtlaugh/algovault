@@ -196,7 +196,7 @@
 - [Codeforces 631E - Product Sum](https://codeforces.com/problemset/problem/631/E) [✔](../../practice/data_structures/codeforces_631e_li_chao_tree.cpp "Accepted solution")
 - [Codeforces 643C - Levels and Regions](https://codeforces.com/problemset/problem/643/C) [✔](../../practice/data_structures/codeforces_643c_li_chao_tree.cpp "Accepted solution")
 - [Codeforces 660F - Bear and Bowling 4](https://codeforces.com/problemset/problem/660/F) [✔](../../practice/data_structures/codeforces_660f_li_chao_tree.cpp "Accepted solution")
-- [Codeforces 932F - Escape Through Leaf](https://codeforces.com/problemset/problem/932/F)
+- [Codeforces 932F - Escape Through Leaf](https://codeforces.com/problemset/problem/932/F) [✔](../../practice/data_structures/codeforces_932f.cpp "Accepted solution")
 - [Codeforces 1083E - The Fair Nut and Rectangles](https://codeforces.com/problemset/problem/1083/E)
 - [Codeforces Gym 103536B - Troubles](https://codeforces.com/gym/103536/problem/B)
 - [CS Academy squared-ends - Squared Ends](https://csacademy.com/contest/archive/task/squared-ends/) [✔](../../practice/data_structures/cs_academy_squared_ends.cpp "Accepted solution")
