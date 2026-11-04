@@ -166,7 +166,7 @@
 - [Codeforces 869E - The Untended Antiquity](https://codeforces.com/problemset/problem/869/E)
 - [CSES 1739 - Forest Queries II](https://cses.fi/problemset/task/1739) [✔](../../practice/data_structures/cses_1739.cpp "Accepted solution")
 - [SPOJ ADABEHIVE - Ada and Behives](https://www.spoj.com/problems/ADABEHIVE/) [✔](../../practice/data_structures/spoj_adabehive.cpp "Accepted solution")
-- [SPOJ MATSUM - Matrix Summation](https://www.spoj.com/problems/MATSUM/)
+- [SPOJ MATSUM - Matrix Summation](https://www.spoj.com/problems/MATSUM/) [✔](../../practice/data_structures/spoj_matsum.cpp "Accepted solution")
 
 #### [Fenwick Tree 2D, Implicit](fenwick_tree_2D_implicit.cpp)
 
