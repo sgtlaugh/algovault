@@ -327,7 +327,7 @@
 - [Codeforces 339D - Xenia and Bit Operations](https://codeforces.com/problemset/problem/339/D) [✔](../../practice/data_structures/codeforces_339d.cpp "Accepted solution")
 - [Codeforces 356A - Knight Tournament](https://codeforces.com/problemset/problem/356/A) [✔](../../practice/data_structures/codeforces_356a.cpp "Accepted solution")
 - [Codeforces 380C - Sereja and Brackets](https://codeforces.com/problemset/problem/380/C) [✔](../../practice/data_structures/codeforces_380c.cpp "Accepted solution")
-- [Codeforces 438D - The Child and Sequence](https://codeforces.com/problemset/problem/438/D)
+- [Codeforces 438D - The Child and Sequence](https://codeforces.com/problemset/problem/438/D) [✔](../../practice/data_structures/codeforces_438d.cpp "Accepted solution")
 - [Codeforces 446C - DZY Loves Fibonacci Numbers](https://codeforces.com/problemset/problem/446/C)
 - [Codeforces 474F - Ant colony](https://codeforces.com/problemset/problem/474/F)
 - [Codeforces 515E - Drazil and Park](https://codeforces.com/problemset/problem/515/E)
