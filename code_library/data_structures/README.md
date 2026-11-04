@@ -304,7 +304,7 @@
 
 - [Codeforces 464E - The Classic Problem](https://codeforces.com/problemset/problem/464/E)
 - [Codeforces 786C - Till I Collapse](https://codeforces.com/problemset/problem/786/C) [✔](../../practice/data_structures/codeforces_786c.cpp "Accepted solution")
-- [Codeforces 840D - Destiny](https://codeforces.com/problemset/problem/840/D)
+- [Codeforces 840D - Destiny](https://codeforces.com/problemset/problem/840/D) [✔](../../practice/data_structures/codeforces_840d.cpp "Accepted solution")
 - [Codeforces Gym 101161E - ACM Tax](https://codeforces.com/gym/101161/problem/E)
 - [CSES 1737 - Range Queries and Copies](https://cses.fi/problemset/task/1737) [✔](../../practice/data_structures/cses_1737.cpp "Accepted solution")
 - [SPOJ COT - Count on a tree](https://www.spoj.com/problems/COT/)
