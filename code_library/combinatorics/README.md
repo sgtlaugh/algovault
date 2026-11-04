@@ -53,7 +53,7 @@
 - [HackerRank longest-increasing-subsequence-arrays - Longest Increasing Subsequence Arrays](https://www.hackerrank.com/contests/world-codesprint-5/challenges/longest-increasing-subsequence-arrays/problem) [✔](../../practice/combinatorics/hackerrank_longest_increasing_subsequence_arrays.cpp "Accepted solution")
 - [SPOJ ADATEAMS - Ada and Teams](https://www.spoj.com/problems/ADATEAMS/) [✔](../../practice/combinatorics/spoj_adateams.cpp "Accepted solution")
 - [SPOJ GOODB - Good Predictions](https://www.spoj.com/problems/GOODB/) [✔](../../practice/combinatorics/spoj_goodb.cpp "Accepted solution")
-- [SPOJ HC12 - Card Game](https://www.spoj.com/problems/HC12/)
+- [SPOJ HC12 - Card Game](https://www.spoj.com/problems/HC12/) [✔](../../practice/combinatorics/spoj_hc12.cpp "Accepted solution")
 - [SPOJ UCV2013E - Greedy Walking](https://www.spoj.com/problems/UCV2013E/)
 - [USACO 1283 - Moo Route](https://usaco.org/index.php?page=viewproblem2&cpid=1283) [✔](../../practice/combinatorics/usaco_1283.cpp "Accepted solution")
 - [UVa 991 - Safe Salutations](https://onlinejudge.org/external/9/991.pdf) [✔](../../practice/combinatorics/uva_991.cpp "Accepted solution")
