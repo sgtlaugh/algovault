@@ -270,7 +270,7 @@
 
 - [Codeforces 547B - Mike and Feet](https://codeforces.com/problemset/problem/547/B) [✔](../../practice/data_structures/codeforces_547b.cpp "Accepted solution")
 - [Codeforces 1299C - Water Balance](https://codeforces.com/problemset/problem/1299/C)
-- [Codeforces 1402A - Fancy Fence](https://codeforces.com/problemset/problem/1402/A)
+- [Codeforces 1402A - Fancy Fence](https://codeforces.com/problemset/problem/1402/A) [✔](../../practice/data_structures/codeforces_1402a.cpp "Accepted solution")
 - [Codeforces 1482E - Skyline Photo](https://codeforces.com/problemset/problem/1482/E)
 - [Codeforces Gym 101102D - Rectangles](https://codeforces.com/gym/101102/problem/D)
 - [CSES 1147 - Maximum Building I](https://cses.fi/problemset/task/1147) [✔](../../practice/data_structures/cses_1147.cpp "Accepted solution")
