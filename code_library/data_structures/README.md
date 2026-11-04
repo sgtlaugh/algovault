@@ -460,7 +460,7 @@
 - [HDU 3487 - Play with Chain](https://acm.hdu.edu.cn/showproblem.php?pid=3487) [✔](../../practice/data_structures/hdu_3487.cpp "Accepted solution")
 - [POJ 3580 - SuperMemo](http://poj.org/problem?id=3580)
 - [SPOJ ADAAPHID - Ada and Aphids](https://www.spoj.com/problems/ADAAPHID/) [✔](../../practice/data_structures/spoj_adaaphid.cpp "Accepted solution")
-- [SPOJ ALLIN1 - All in One](https://www.spoj.com/problems/ALLIN1/)
+- [SPOJ ALLIN1 - All in One](https://www.spoj.com/problems/ALLIN1/) [✔](../../practice/data_structures/spoj_allin1.cpp "Accepted solution")
 - [SPOJ CARDSHUF - Cards shuffing](https://www.spoj.com/problems/CARDSHUF/)
 - [SPOJ COUNT1IT - Ghost Town](https://www.spoj.com/problems/COUNT1IT/) [✔](../../practice/data_structures/spoj_count1it.cpp "Accepted solution")
 - [SPOJ GSS6 - Can you answer these queries VI](https://www.spoj.com/problems/GSS6/)
