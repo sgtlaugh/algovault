@@ -32,7 +32,7 @@
 
 - [Code Jam 2015 Qualification Round D - Ominous Omino](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/qualification_round/ominous_omino) [✔](../../practice/misc/code_jam_2015_qualification_round_d.cpp "Accepted solution")
 - [HDU 1426 - Sudoku Killer](https://acm.hdu.edu.cn/showproblem.php?pid=1426) [✔](../../practice/misc/hdu_1426.cpp "Accepted solution")
-- [SPOJ SUDOGOB - Sudoku goblin](https://www.spoj.com/problems/SUDOGOB/)
+- [SPOJ SUDOGOB - Sudoku goblin](https://www.spoj.com/problems/SUDOGOB/) [✔](../../practice/misc/spoj_sudogob.cpp "Accepted solution")
 - [UVa 211 - The Domino Effect](https://onlinejudge.org/external/2/211.pdf)
 - [UVa 387 - A Puzzling Problem](https://onlinejudge.org/external/3/387.pdf)
 - [UVa 745 - Numeric Puzzles Again!](https://onlinejudge.org/external/7/745.pdf)
