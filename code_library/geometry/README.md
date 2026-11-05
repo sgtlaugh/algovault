@@ -82,7 +82,7 @@
 - [Codeforces 166B - Polygons](https://codeforces.com/problemset/problem/166/B)
 - [Codeforces 598F - Cut Length](https://codeforces.com/problemset/problem/598/F)
 - [CSES 2189 - Point Location Test](https://cses.fi/problemset/task/2189) [✔](../../practice/geometry/cses_2189.cpp "Accepted solution")
-- [CSES 2190 - Line Segment Intersection](https://cses.fi/problemset/task/2190)
+- [CSES 2190 - Line Segment Intersection](https://cses.fi/problemset/task/2190) [✔](../../practice/geometry/cses_2190.cpp "Accepted solution")
 - [CSES 2191 - Polygon Area](https://cses.fi/problemset/task/2191)
 - [CSES 2192 - Point in Polygon](https://cses.fi/problemset/task/2192)
 - [Kattis pointinpolygon - Point in Polygon](https://open.kattis.com/problems/pointinpolygon)
