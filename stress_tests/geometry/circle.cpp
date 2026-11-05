@@ -332,6 +332,40 @@ void check_circle_intersections(){
         /// left of a -> b first
         if (expected == 2) assert(dist(res[0], res[1]) > 0 && (cb - ca).cross(res[0] - ca) > 0);
     }
+
+    /// Centers far closer than the radii: a tolerance on d^2 - (ra - rb)^2 called these tangent and returned a center
+    for (long long it = 0; it < stress::scaled(5000); it++){
+        long double ra = stress::rand_int(1, 10000), d = powl(10, -stress::rand_int(1, 12)) * stress::rand_int(1, 9);
+        long double rb = it % 2 ? ra : ra - d * stress::rand_int(0, 2) / 2, angle = stress::rand_int(0, 359) * PI / 180;
+        Point ca = rand_point(100), cb = ca + Point{d * cosl(angle), d * sinl(angle)};
+
+        vector<Point> res = circle_circle_intersection({ca, ra}, {cb, rb});
+        if (rb == ra) assert(res.size() == 2);
+        for (const Point& p : res){
+            assert(close(dist(p, ca), ra, ra));
+            assert(close(dist(p, cb), rb, ra));
+        }
+    }
+
+    /// A 0.1 circle 0.01 off tangency in d^2 crosses a 1e4 one twice; a tolerance scaled by the big radius says tangent
+    int found = 0;
+    for (long long it = 0; it < stress::scaled(60); it++){
+        long long ra = stress::rand_int(50000, 100000), rb = stress::rand_int(1, 3);
+        long long target = it % 2 ? (ra + rb) * (ra + rb) - 1 : (ra - rb) * (ra - rb) + 1, x = 0, y = -1;
+        while (x * x <= target && y < 0){
+            long long rest = target - x * x, root = llround(sqrtl(rest));
+            if (root * root == rest) y = root;
+            else x++;
+        }
+        if (y < 0) continue;
+
+        found++;
+        Point ca = rand_point(100), cb = ca + Point{x * 0.1L, y * 0.1L};
+        vector<Point> res = circle_circle_intersection({ca, ra * 0.1L}, {cb, rb * 0.1L});
+        assert(res.size() == 2);
+        for (const Point& p : res) assert(close(dist(p, cb), rb * 0.1L, ra * 0.1L));
+    }
+    assert(found > 0);
 }
 
 void check_point_tangents(){
@@ -576,6 +610,64 @@ void check_union_area(){
     assert(res >= largest * (1 - 1e-9L) && res <= total * (1 + 1e-9L) && res <= 8000.0L * 8000.0L);
 }
 
+/// Kind 0: every boundary through one point; 1: tangent, nested or identical; 2: arcs ending on the angle 0 ray
+vector<Circle> degenerate_circles(int kind, int range){
+    int n = stress::rand_int(2, 7);
+    Point p = rand_point(range);
+    vector<Circle> res = {{p, (long double)stress::rand_int(1, range)}};
+    if (kind == 0) res.clear();
+
+    while ((int)res.size() < n){
+        auto [dx, dy, len] = rational_direction();
+        long long k = stress::rand_int(1, range / 25 + 1);
+        Point step{(long double)dx * k, (long double)dy * k};
+        Circle prev = res.empty() ? Circle{p, 0} : res[stress::rand_int(0, res.size() - 1)];
+        int choice = stress::rand_int(0, 4);
+
+        if (kind == 0) res.push_back({p + step, (long double)len * k});
+        else if (kind == 1 && choice == 0) res.push_back(prev);
+        else if (kind == 1 && choice == 1) res.push_back({prev.center, (long double)stress::rand_int(1, range)});
+        else if (kind == 1) res.push_back({prev.center + step, fabsl(len * k + (choice == 2 ? -prev.r : prev.r))});
+        else if (choice < 2) res.push_back({prev.center + Point{prev.r * (choice ? 1 : -1), 0} + step, (long double)len * k});
+        else res.push_back({prev.center + Point{(long double)stress::rand_int(-range, range), 0}, (long double)stress::rand_int(1, range)});
+        if (res.back().r == 0) res.pop_back();
+    }
+
+    return res;
+}
+
+/// Shared boundary points make arc ends coincide or sit at angle 0, where wrapped arcs and sort ties go wrong
+void check_union_degenerate(){
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int range = it % 5 ? 12 : 3000;
+        vector<Circle> circles = degenerate_circles(it % 3, range);
+        if (it % 4 == 1){
+            for (Circle& c : circles) c.center = c.center * 0.1L, c.r *= 0.1L;
+        }
+
+        long double total = 0;
+        for (const Circle& c : circles) total += PI * c.r * c.r;
+        long double res = circle_union_area(circles), expected = union_reference(circles);
+        assert(fabsl(res - expected) <= 1e-7L * max(1.0L, total));
+
+        shuffle(circles.begin(), circles.end(), stress::rng());
+        assert(close(circle_union_area(circles), res, total));
+    }
+
+    /// Near tangent or concentric pairs vs the exact lens: acos near +-1 and r0^2 - r1^2 cancel to 1e-10 or worse
+    for (long long it = 0; it < stress::scaled(5000); it++){
+        long double r0 = stress::rand_int(2, 1000), r1 = stress::rand_int(1, r0 - 1), t = powl(10, -stress::rand_int(1, 14));
+        if (it % 3 == 2) r1 = r0 - t * stress::rand_int(0, 2) / 2;
+        if (it % 3 != 2 && stress::rand_int(0, 1)) t = -t;
+        long double d = it % 3 == 0 ? r0 + r1 + t : it % 3 == 1 ? r0 - r1 + t : t, angle = stress::rand_int(0, 359) * PI / 180;
+        Circle a{{0, 0}, r0}, b{{d * cosl(angle), d * sinl(angle)}, r1};
+
+        long double exact = PI * r0 * r0 + PI * r1 * r1 - (long double)lens_area(0, 0, r0, b.center.x, b.center.y, r1);
+        assert(fabsl(circle_union_area({a, b}) - exact) <= 1e-15L * r0 * r0);
+        assert(fabsl(circle_union_area({b, a}) - exact) <= 1e-15L * r0 * r0);
+    }
+}
+
 void check_max_cover(){
     for (long long it = 0; it < stress::scaled(4000); it++){
         int range = it % 4 == 3 ? 10000 : (it % 2 ? 4 : 8), n = it < 20 ? it % 4 : stress::rand_int(1, 14);
@@ -638,6 +730,7 @@ int main(){
     check_polygon_area();
     check_circle_circle_area();
     check_union_area();
+    check_union_degenerate();
     check_max_cover();
 
     return 0;

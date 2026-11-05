@@ -22,7 +22,8 @@
  * tangents_from_point(c, p): tangency points of the lines through p touching c (r > 0), none if p is inside, p if on c
  *
  * Notes:
- *   - Tangency uses a tolerance EPS relative to r, so a circle with r = 0 meets a line only through its center exactly
+ *   - A crossing counts as 1 tangent point when its half chord is under sqrt(EPS) r, the smaller r for two circles
+ *   - An r = 0 circle meets a line only through its center, and a circle of radius R only within EPS R of its boundary
  *   - Of 2 intersection or tangency points, the first lies left of the line from the first center to the second or p
  *   - common_tangents gives 0 lines nested, 1 internally tangent, 2 overlapping, 3 externally tangent, 4 apart
  *   - common_tangents gives none for identical circles, a line whose points coincide is perpendicular to the centers
@@ -96,15 +97,18 @@ Float circle_circle_area(const Circle& a, const Circle& b){
 
 vector<Point> circle_circle_intersection(const Circle& a, const Circle& b){
     Point d = b.center - a.center;
-    Float d2 = d.norm2(), sum = a.r + b.r, dif = a.r - b.r, tol = EPS * sum * sum;
+    Float d2 = d.norm2(), sum = a.r + b.r, dif = a.r - b.r, lo = min(a.r, b.r), hi = max(a.r, b.r);
+    if (d2 == 0) return {};
 
-    if (d2 == 0 || d2 > sum * sum + tol || d2 < dif * dif - tol) return {};
+    /// Tangent when the half chord is under sqrt(EPS) lo; the EPS^2 term keeps r = 0 at an EPS relative distance
+    Float h2 = (sum * sum - d2) * (d2 - dif * dif) / (4 * d2), tol = EPS * (lo * lo + EPS * hi * hi);
+    if (h2 < -tol) return {};
 
-    Float p = (d2 + a.r * a.r - b.r * b.r) / (2 * d2);
-    Point mid = a.center + d * p;
-    if (fabsl(d2 - sum * sum) <= tol || fabsl(d2 - dif * dif) <= tol) return {mid};
+    /// dif * sum, not a.r^2 - b.r^2, which cancels when the centers are much closer than the radii
+    Point mid = a.center + d * ((d2 + dif * sum) / (2 * d2));
+    if (h2 <= tol) return {mid};
 
-    Point h = d.perp() * sqrtl(max(a.r * a.r - p * p * d2, (Float)0) / d2);
+    Point h = d.perp() * sqrtl(h2 / d2);
     return {mid + h, mid - h};
 }
 
@@ -135,10 +139,11 @@ Float circle_polygon_area(const Circle& c, const vector<Point>& poly){
         Float a = d.dot(p) / len2, b = (p.norm2() - c.r * c.r) / len2, det = a * a - b;
         if (det <= 0) return angle(p, q) * half_r2;
 
-        Float s = max((Float)0, -a - sqrtl(det)), t = min((Float)1, -a + sqrtl(det));
+        Float s = -a - sqrtl(det), t = -a + sqrtl(det);
         if (t < 0 || s >= 1) return angle(p, q) * half_r2;
+        if (s <= 0 && t >= 1) return p.cross(q) / 2;
 
-        Point u = p + d * s, v = p + d * t;
+        Point u = p + d * max(s, (Float)0), v = p + d * min(t, (Float)1);
         return angle(p, u) * half_r2 + u.cross(v) / 2 + angle(v, q) * half_r2;
     };
 
@@ -147,42 +152,65 @@ Float circle_polygon_area(const Circle& c, const vector<Point>& poly){
 }
 
 Float circle_union_area(const vector<Circle>& circles){
+    /// A point of the unit circle with a key that grows with its angle in [0, 2 pi) and spans [0, 4)
+    struct End{
+        Point dir;
+        Float key;
+
+        End(const Point& p) : dir(p){
+            Float t = p.y / (fabsl(p.x) + fabsl(p.y));
+            key = p.x >= 0 ? (p.y >= 0 ? t : 4 + t) : 2 - t;
+        }
+    };
+
     int n = circles.size();
     Float res = 0;
+    End zero(Point{1, 0}), full = zero;
+    full.key = 4;
 
     for (int i = 0; i < n; i++){
         const Circle& c = circles[i];
         bool hidden = c.r <= 0;
-        vector<pair<Float, Float>> covered;
+        vector<pair<End, End>> covered;
         for (int j = 0; j < n && !hidden; j++){
             const Circle& o = circles[j];
             Point v = o.center - c.center;
-            Float d = v.norm();
+            Float d2 = v.norm2(), outer = (c.r + o.r) * (c.r + o.r), inner = (c.r - o.r) * (c.r - o.r);
+            if (j == i || d2 >= outer) continue;
+            if (d2 <= inner){
+                /// Of identical circles only the first one counts, otherwise each would hide the other
+                if (o.r > c.r || (o.r == c.r && j < i)) hidden = true;
+                continue;
+            }
 
-            /// Of identical circles only the first one counts, otherwise each would hide the other
-            if (j != i && d <= o.r - c.r && (o.r > c.r || j < i)) hidden = true;
-            if (j == i || d >= c.r + o.r || d <= fabsl(c.r - o.r)) continue;
+            /// Cosine and sine of the arc's half angle times 2 r d, in product forms that do not cancel near tangency
+            Float cosine = d2 + (c.r - o.r) * (c.r + o.r), sine = sqrtl((outer - d2) * (d2 - inner)), scale = 1 / (2 * c.r * d2);
+            End lo((v * cosine - v.perp() * sine) * scale), hi((v * cosine + v.perp() * sine) * scale);
 
-            Float mid = atan2l(v.y, v.x), half = acosl(clamp((c.r * c.r + d * d - o.r * o.r) / (2 * c.r * d), (Float)-1, (Float)1));
-            Float lo = mid - half, hi = mid + half;
-            if (lo < 0) lo += 2 * PI, hi += 2 * PI;
-            if (hi <= 2 * PI) covered.push_back({lo, hi});
-            else covered.push_back({lo, 2 * PI}), covered.push_back({0, hi - 2 * PI});
+            /// The arc passes angle 0 exactly when its end sorts before its start
+            if (lo.key <= hi.key) covered.push_back({lo, hi});
+            else covered.push_back({lo, full}), covered.push_back({zero, hi});
         }
         if (hidden) continue;
 
-        /// Green's theorem: the arc from angle s to t adds half the integral of x dy - y dx along it
-        auto arc = [&](Float s, Float t){
-            return (c.r * c.r * (t - s) + c.center.x * c.r * (sinl(t) - sinl(s)) - c.center.y * c.r * (cosl(t) - cosl(s))) / 2;
+        /// Green's theorem: the arc from s to t adds half the integral of x dy - y dx along it
+        auto angle = [](const End& e){
+            Float a = atan2l(e.dir.y, e.dir.x);
+            /// Branch on the key, not the sign of y, so 0, 2 pi and -0.0 land where the sort put them
+            return e.key >= 2 && a <= 0 ? a + 2 * PI : a;
+        };
+        auto arc = [&](const End& s, const End& t){
+            Point delta = t.dir - s.dir;
+            return (c.r * c.r * (angle(t) - angle(s)) + c.center.x * c.r * delta.y - c.center.y * c.r * delta.x) / 2;
         };
 
-        sort(covered.begin(), covered.end());
-        Float from = 0;
-        for (auto [lo, hi] : covered){
-            if (lo > from) res += arc(from, lo);
-            from = max(from, hi);
+        sort(covered.begin(), covered.end(), [](const auto& a, const auto& b){ return a.first.key < b.first.key; });
+        End from = zero;
+        for (auto& [lo, hi] : covered){
+            if (lo.key > from.key) res += arc(from, lo);
+            if (hi.key > from.key) from = hi;
         }
-        if (from < 2 * PI) res += arc(from, 2 * PI);
+        if (from.key < 4) res += arc(from, full);
     }
 
     return res;
@@ -293,27 +321,37 @@ vector<Point> tangents_from_point(const Circle& c, const Point& p){
 int main(){
     auto near = [](const Point& p, Float x, Float y){ return fabsl(p.x - x) < 1e-9 && fabsl(p.y - y) < 1e-9; };
 
+    /// Where a line or a second circle crosses a circle
     vector<Point> pts = circle_line_intersection({{0, 0}, 5}, {-10, 3}, {10, 3});
-    assert(near(pts[0], -4, 3) && near(pts[1], 4, 3));         /// ordered from a towards b
+    assert(near(pts[0], -4, 3));                               /// ordered from a towards b
+    assert(near(pts[1], 4, 3));
     assert(circle_line_intersection({{0, 0}, 5}, {10, 5}, {-10, 5}).size() == 1);  /// tangent at (0, 5)
 
     pts = circle_circle_intersection({{0, 0}, 5}, {{8, 0}, 5});
-    assert(near(pts[0], 4, 3) && near(pts[1], 4, -3));
+    assert(near(pts[0], 4, 3));                                /// left of the line from the first center
+    assert(near(pts[1], 4, -3));
 
+    /// Tangents from a point and common tangents of two circles
     pts = tangents_from_point({{0, 0}, 3}, {5, 0});
-    assert(near(pts[0], 1.8, 2.4) && near(pts[1], 1.8, -2.4));
+    assert(near(pts[0], 1.8, 2.4));
+    assert(near(pts[1], 1.8, -2.4));
     assert(tangents_from_point({{0, 0}, 3}, {1, 1}).empty());  /// p is inside
 
     auto tangents = common_tangents({{0, 0}, 1}, {{4, 0}, 1});
     assert(tangents.size() == 4);                              /// apart: 2 outer and 2 inner
-    assert(near(tangents[0].first, 0, 1) && near(tangents[0].second, 4, 1));  /// outer ones first
+    assert(near(tangents[0].first, 0, 1));                     /// outer ones first
+    assert(near(tangents[0].second, 4, 1));
 
+    /// Circumcircle and smallest enclosing circle
     Circle c = circumcircle({0, 0}, {4, 0}, {0, 3});
-    assert(near(c.center, 2, 1.5) && fabsl(c.r - 2.5) < 1e-9);  /// the hypotenuse is a diameter
+    assert(near(c.center, 2, 1.5));                            /// the hypotenuse is a diameter
+    assert(fabsl(c.r - 2.5) < 1e-9);
 
     c = minimum_enclosing_circle({{0, 0}, {2, 0}, {0, 2}, {2, 2}, {1, 1}});
-    assert(near(c.center, 1, 1) && fabsl(c.r - sqrtl(2)) < 1e-9);
+    assert(near(c.center, 1, 1));
+    assert(fabsl(c.r - sqrtl(2)) < 1e-9);
 
+    /// Areas: circle and polygon, two circles, union
     vector<Point> square = {{-1, -1}, {1, -1}, {1, 1}, {-1, 1}};
     assert(fabsl(circle_polygon_area({{0, 0}, 1}, square) - PI) < 1e-9);  /// the circle fits inside
 
@@ -321,8 +359,10 @@ int main(){
     assert(fabsl(circle_circle_area({{0, 0}, 1}, {{1, 0}, 1}) - lens) < 1e-9);
     assert(fabsl(circle_union_area({{{0, 0}, 1}, {{1, 0}, 1}}) - (2 * PI - lens)) < 1e-9);
 
+    /// Best placement of a radius 2 circle over points
     auto [covered, at] = max_circle_cover({{0, 0}, {2, 0}, {4, 0}, {10, 10}}, 2);
     assert(covered == 3);
     assert(near(at, 2, 0));
+
     return 0;
 }
