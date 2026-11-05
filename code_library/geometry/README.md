@@ -34,7 +34,7 @@
 - [CSES 2194 - Minimum Euclidean Distance](https://cses.fi/problemset/task/2194) [✔](../../practice/geometry/cses_2194.cpp "Accepted solution")
 - [Kattis closestpair2 - Closest Pair](https://open.kattis.com/problems/closestpair2) [✔](../../practice/geometry/kattis_closestpair2.cpp "Accepted solution")
 - [SPOJ CLOPPAIR - Closest Point Pair](https://www.spoj.com/problems/CLOPPAIR/) [✔](../../practice/geometry/spoj_cloppair.cpp "Accepted solution")
-- [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/)
+- [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/) [✔](../../practice/geometry/spoj_iitkwpcl_closest_pair.cpp "Accepted solution")
 - [UVa 10245 - The Closest Pair Problem](https://onlinejudge.org/external/102/10245.pdf)
 - [UVa 11378 - Bey Battle](https://onlinejudge.org/external/113/11378.pdf)
 
