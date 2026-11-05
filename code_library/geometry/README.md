@@ -18,7 +18,7 @@
 - [Codeforces Gym 100199F - Get Out!](https://codeforces.com/gym/100199/problem/F) [✔](../../practice/geometry/codeforces_gym_100199f.cpp "Accepted solution")
 - [HDU 3932 - Groundhog Build Home](https://acm.hdu.edu.cn/showproblem.php?pid=3932) [✔](../../practice/geometry/hdu_3932_circle.cpp "Accepted solution")
 - [SPOJ ALIENS - Aliens](https://www.spoj.com/problems/ALIENS/) [✔](../../practice/geometry/spoj_aliens.cpp "Accepted solution")
-- [Timus 1429 - Biscuits](https://acm.timus.ru/problem.aspx?num=1429)
+- [Timus 1429 - Biscuits](https://acm.timus.ru/problem.aspx?num=1429) [✔](../../practice/geometry/timus_1429.cpp "Accepted solution")
 - [Timus 1520 - Empire Strikes Back](https://acm.timus.ru/problem.aspx?num=1520)
 - [UVa 1308 - Viva Confetti](https://onlinejudge.org/external/13/1308.pdf) [✔](../../practice/geometry/uva_1308.cpp "Accepted solution")
 - [UVa 1581 - Pollution Solution](https://onlinejudge.org/external/15/1581.pdf) [✔](../../practice/geometry/uva_1581.cpp "Accepted solution")
