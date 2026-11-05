@@ -72,7 +72,7 @@
 - [Codeforces 222E - Decoding Genome](https://codeforces.com/problemset/problem/222/E) [✔](../../practice/linear_algebra/codeforces_222e.cpp "Accepted solution")
 - [Codeforces 498E - Stairs and Lines](https://codeforces.com/problemset/problem/498/E) [✔](../../practice/linear_algebra/codeforces_498e.cpp "Accepted solution")
 - [Codeforces 506E - Mr. Kitayuta's Gift](https://codeforces.com/problemset/problem/506/E) [✔](../../practice/linear_algebra/codeforces_506e_matrix.cpp "Accepted solution")
-- [Codeforces 691E - Xor-sequences](https://codeforces.com/problemset/problem/691/E)
+- [Codeforces 691E - Xor-sequences](https://codeforces.com/problemset/problem/691/E) [✔](../../practice/linear_algebra/codeforces_691e.cpp "Accepted solution")
 - [Codeforces 717D - Dexterina’s Lab](https://codeforces.com/problemset/problem/717/D)
 - [Codeforces 852B - Neural Network country](https://codeforces.com/problemset/problem/852/B)
 - [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F)
