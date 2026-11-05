@@ -125,7 +125,7 @@
 
 - [Codeforces Gym 102951C - LCS on Permutations](https://codeforces.com/gym/102951/problem/C)
 - [CSES 3404 - Permutation Subsequence](https://cses.fi/problemset/task/3404)
-- [UVa 10949 - Kids in a Grid](https://onlinejudge.org/external/109/10949.pdf)
+- [UVa 10949 - Kids in a Grid](https://onlinejudge.org/external/109/10949.pdf) [✔](../../practice/strings/uva_10949_hunt_szymanski.cpp "Accepted solution")
 - [UVa 12747 - Back to Edit Distance](https://onlinejudge.org/external/127/12747.pdf)
 
 #### [KMP](kmp.cpp)
