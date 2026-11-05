@@ -245,7 +245,7 @@
 - [Codeforces 128B - String](https://codeforces.com/problemset/problem/128/B) [✔](../../practice/strings/codeforces_128b.cpp "Accepted solution")
 - [Codeforces 235C - Cyclical Quest](https://codeforces.com/problemset/problem/235/C) [✔](../../practice/strings/codeforces_235c.cpp "Accepted solution")
 - [Codeforces 452E - Three strings](https://codeforces.com/problemset/problem/452/E) [✔](../../practice/strings/codeforces_452e_suffix_automaton.cpp "Accepted solution")
-- [Codeforces 616F - Expensive Strings](https://codeforces.com/problemset/problem/616/F)
+- [Codeforces 616F - Expensive Strings](https://codeforces.com/problemset/problem/616/F) [✔](../../practice/strings/codeforces_616f_suffix_automaton.cpp "Accepted solution")
 - [Codeforces 802I - Fake News (hard)](https://codeforces.com/problemset/problem/802/I)
 - [Codeforces 873F - Forbidden Indices](https://codeforces.com/problemset/problem/873/F)
 - [Codeforces 1037H - Security](https://codeforces.com/problemset/problem/1037/H) [✔](../../practice/strings/codeforces_1037h.cpp "Accepted solution")
