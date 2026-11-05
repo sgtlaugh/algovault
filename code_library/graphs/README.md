@@ -378,7 +378,7 @@
 - [SPOJ FASTFLOW - Fast Maximum Flow](https://www.spoj.com/problems/FASTFLOW/) [✔](../../practice/graphs/spoj_fastflow.cpp "Accepted solution")
 - [SPOJ MOBIVINA - MobiZone vs VinaGone](https://www.spoj.com/problems/MOBIVINA/) [✔](../../practice/graphs/spoj_mobivina.cpp "Accepted solution")
 - [SPOJ MTOTALF - Total Flow](https://www.spoj.com/problems/MTOTALF/) [✔](../../practice/graphs/spoj_mtotalf.cpp "Accepted solution")
-- [SPOJ NWERC11F - Pool construction](https://www.spoj.com/problems/NWERC11F/)
+- [SPOJ NWERC11F - Pool construction](https://www.spoj.com/problems/NWERC11F/) [✔](../../practice/graphs/spoj_nwerc11f.cpp "Accepted solution")
 - [SPOJ OILCOMP - Oil Company](https://www.spoj.com/problems/OILCOMP/)
 - [SPOJ POTHOLE - Potholers](https://www.spoj.com/problems/POTHOLE/)
 - [SPOJ PROFIT - Maximum Profit](https://www.spoj.com/problems/PROFIT/)
