@@ -24,7 +24,7 @@
 - [UVa 1581 - Pollution Solution](https://onlinejudge.org/external/15/1581.pdf) [✔](../../practice/geometry/uva_1581.cpp "Accepted solution")
 - [UVa 10005 - Packing polygons](https://onlinejudge.org/external/100/10005.pdf) [✔](../../practice/geometry/uva_10005.cpp "Accepted solution")
 - [UVa 11177 - Fighting Against a Polygonal Monster](https://onlinejudge.org/external/111/11177.pdf) [✔](../../practice/geometry/uva_11177.cpp "Accepted solution")
-- [UVa 11676 - Deadly Attack](https://onlinejudge.org/external/116/11676.pdf)
+- [UVa 11676 - Deadly Attack](https://onlinejudge.org/external/116/11676.pdf) [✔](../../practice/geometry/uva_11676.cpp "Accepted solution")
 - [UVa 11978 - Fukushima Nuclear Blast](https://onlinejudge.org/external/119/11978.pdf)
 - [UVa 12056 - Circle Strafing](https://onlinejudge.org/external/120/12056.pdf)
 
