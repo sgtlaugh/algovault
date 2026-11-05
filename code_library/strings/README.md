@@ -270,7 +270,7 @@
 
 #### [Z Algorithm](z_algorithm.cpp)
 
-- [CodeChef CHSTR - Chef and String](https://www.codechef.com/problems/CHSTR)
+- [CodeChef CHSTR - Chef and String](https://www.codechef.com/problems/CHSTR) [✔](../../practice/strings/codechef_chstr.cpp "Accepted solution")
 - [CodeChef INSQ15_A - The Gift Of Raksha Bandhan](https://www.codechef.com/problems/INSQ15_A)
 - [Codeforces 126B - Password](https://codeforces.com/problemset/problem/126/B)
 - [Codeforces 432D - Prefixes and Suffixes](https://codeforces.com/problemset/problem/432/D)
