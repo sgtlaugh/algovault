@@ -80,7 +80,7 @@
 - [Codeforces 1182E - Product Oriented Recurrence](https://codeforces.com/problemset/problem/1182/E) [✔](../../practice/linear_algebra/codeforces_1182e.cpp "Accepted solution")
 - [Codeforces Gym 101161G - Binary Strings](https://codeforces.com/gym/101161/problem/G) [✔](../../practice/linear_algebra/codeforces_gym_101161g.cpp "Accepted solution")
 - [CSES 1096 - Throwing Dice](https://cses.fi/problemset/task/1096) [✔](../../practice/linear_algebra/cses_1096.cpp "Accepted solution")
-- [HDU 2243 - 考研路茫茫——单词情结](https://acm.hdu.edu.cn/showproblem.php?pid=2243)
+- [HDU 2243 - 考研路茫茫——单词情结](https://acm.hdu.edu.cn/showproblem.php?pid=2243) [✔](../../practice/strings/hdu_2243.cpp "Accepted solution")
 - [POJ 1977 - Odd Loving Bakers](http://poj.org/problem?id=1977) [✔](../../practice/linear_algebra/poj_1977.cpp "Accepted solution")
 - [POJ 2778 - DNA Sequence](http://poj.org/problem?id=2778) [✔](../../practice/linear_algebra/poj_2778_matrix.cpp "Accepted solution")
 - [SPOJ PBOARD - Blocks for kids](https://www.spoj.com/problems/PBOARD/) [✔](../../practice/linear_algebra/spoj_pboard.cpp "Accepted solution")
