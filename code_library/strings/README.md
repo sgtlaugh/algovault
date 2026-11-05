@@ -181,7 +181,7 @@
 - [Codeforces Gym 100548G - The Problem to Slow Down You](https://codeforces.com/gym/100548/problem/G) [✔](../../practice/strings/codeforces_gym_100548g.cpp "Accepted solution")
 - [Codeforces Gym 101806Q - QueryreuQ](https://codeforces.com/gym/101806/problem/Q) [✔](../../practice/strings/codeforces_gym_101806q.cpp "Accepted solution")
 - [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157) [✔](../../practice/strings/hdu_5157_palindromic_tree.cpp "Accepted solution")
-- [SPOJ APIO14_A - Palindromes](https://www.spoj.com/problems/APIO14_A/)
+- [SPOJ APIO14_A - Palindromes](https://www.spoj.com/problems/APIO14_A/) [✔](../../practice/strings/spoj_apio14_a.cpp "Accepted solution")
 - [Timus 2044 - 31 Palindromes](https://acm.timus.ru/problem.aspx?num=2044)
 - [Timus 2059 - Not common palindromes](https://acm.timus.ru/problem.aspx?num=2059)
 - [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf) [✔](../../practice/strings/uva_1470.cpp "Accepted solution")
