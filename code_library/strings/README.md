@@ -69,7 +69,7 @@
 
 #### [Aho-Corasick, Dynamic](dynamic_aho_corasick.cpp)
 
-- [Codeforces 710F - String Set Queries](https://codeforces.com/problemset/problem/710/F)
+- [Codeforces 710F - String Set Queries](https://codeforces.com/problemset/problem/710/F) [✔](../../practice/strings/codeforces_710f.cpp "Accepted solution")
 - [UVa 1676 - GRE Words Revenge](https://onlinejudge.org/external/16/1676.pdf) [✔](../../practice/strings/uva_1676.cpp "Accepted solution")
 
 #### [Bit-String LCS](bit_string_lcs.cpp)
