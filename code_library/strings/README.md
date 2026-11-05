@@ -276,7 +276,7 @@
 - [Codeforces 432D - Prefixes and Suffixes](https://codeforces.com/problemset/problem/432/D) [✔](../../practice/strings/codeforces_432d_z_algorithm.cpp "Accepted solution")
 - [Codeforces 1051E - Vasya and Big Integers](https://codeforces.com/problemset/problem/1051/E) [✔](../../practice/strings/codeforces_1051e.cpp "Accepted solution")
 - [Codeforces 1313E - Concatenation with intersection](https://codeforces.com/problemset/problem/1313/E) [✔](../../practice/strings/codeforces_1313e.cpp "Accepted solution")
-- [Codeforces 1984D - "a" String Problem](https://codeforces.com/problemset/problem/1984/D)
+- [Codeforces 1984D - "a" String Problem](https://codeforces.com/problemset/problem/1984/D) [✔](../../practice/strings/codeforces_1984d.cpp "Accepted solution")
 - [Codeforces Gym 101466E - Text Editor](https://codeforces.com/gym/101466/problem/E)
 - [Eolymp 1309 - Blocks of string](https://www.eolymp.com/en/problems/1309)
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✔](../../practice/strings/uva_11475_z_algorithm.cpp "Accepted solution")
