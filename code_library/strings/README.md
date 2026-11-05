@@ -242,7 +242,7 @@
 
 - [CodeChef SSTORY - A Story with Strings](https://www.codechef.com/problems/SSTORY)
 - [CodeChef SUBQUERY - Substring Query](https://www.codechef.com/problems/SUBQUERY)
-- [Codeforces 128B - String](https://codeforces.com/problemset/problem/128/B)
+- [Codeforces 128B - String](https://codeforces.com/problemset/problem/128/B) [✔](../../practice/strings/codeforces_128b.cpp "Accepted solution")
 - [Codeforces 235C - Cyclical Quest](https://codeforces.com/problemset/problem/235/C)
 - [Codeforces 452E - Three strings](https://codeforces.com/problemset/problem/452/E)
 - [Codeforces 616F - Expensive Strings](https://codeforces.com/problemset/problem/616/F)
