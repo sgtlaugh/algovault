@@ -130,7 +130,7 @@
 
 #### [KMP](kmp.cpp)
 
-- [Codeforces 25E - Test](https://codeforces.com/problemset/problem/25/E)
+- [Codeforces 25E - Test](https://codeforces.com/problemset/problem/25/E) [✔](../../practice/strings/codeforces_25e.cpp "Accepted solution")
 - [Codeforces 30E - Tricky and Clever Password](https://codeforces.com/problemset/problem/30/E)
 - [Codeforces 149E - Martian Strings](https://codeforces.com/problemset/problem/149/E)
 - [Codeforces 346B - Lucky Common Subsequence](https://codeforces.com/problemset/problem/346/B)
