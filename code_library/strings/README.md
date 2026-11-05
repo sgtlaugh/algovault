@@ -103,7 +103,7 @@
 - [SPOJ CF25E - Test](https://www.spoj.com/problems/CF25E/) [✔](../../practice/strings/spoj_cf25e.cpp "Accepted solution")
 - [SPOJ STRLCP - Longest Common Prefix](https://www.spoj.com/problems/STRLCP/)
 - [SPOJ SUB_PROB - Substring Problem](https://www.spoj.com/problems/SUB_PROB/)
-- [USACO 529 - Censoring (Silver)](https://usaco.org/index.php?page=viewproblem2&cpid=529)
+- [USACO 529 - Censoring (Silver)](https://usaco.org/index.php?page=viewproblem2&cpid=529) [✔](../../practice/strings/usaco_529.cpp "Accepted solution")
 - [USACO 741 - Bovine Genomics](https://usaco.org/index.php?page=viewproblem2&cpid=741)
 - [UVa 1227 - The longest constant gene](https://onlinejudge.org/external/12/1227.pdf) [✔](../../practice/strings/uva_1227_hashing.cpp "Accepted solution")
 - [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf) [✔](../../practice/strings/uva_1470.cpp "Accepted solution")
