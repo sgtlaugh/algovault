@@ -99,7 +99,7 @@
 - [HackerRank build-a-string - Build a String](https://www.hackerrank.com/challenges/build-a-string/problem)
 - [HackerRank gift-boxes - Gift Boxes](https://www.hackerrank.com/contests/womens-codesprint-5/challenges/gift-boxes/problem) [✔](../../practice/strings/hackerrank_gift_boxes.cpp "Accepted solution")
 - [LeetCode 1044 - Longest Duplicate Substring](https://leetcode.com/problems/longest-duplicate-substring/) [✔](../../practice/strings/leetcode_1044.cpp "Accepted solution")
-- [SPOJ ADACLEAN - Ada and Spring Cleaning](https://www.spoj.com/problems/ADACLEAN/)
+- [SPOJ ADACLEAN - Ada and Spring Cleaning](https://www.spoj.com/problems/ADACLEAN/) [✔](../../practice/strings/spoj_adaclean.cpp "Accepted solution")
 - [SPOJ CF25E - Test](https://www.spoj.com/problems/CF25E/)
 - [SPOJ STRLCP - Longest Common Prefix](https://www.spoj.com/problems/STRLCP/)
 - [SPOJ SUB_PROB - Substring Problem](https://www.spoj.com/problems/SUB_PROB/)
