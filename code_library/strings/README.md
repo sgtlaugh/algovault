@@ -26,7 +26,7 @@
 - [Codeforces 585F - Digits of Number Pi](https://codeforces.com/problemset/problem/585/F)
 - [Codeforces 587F - Duff is Mad](https://codeforces.com/problemset/problem/587/F)
 - [Codeforces 963D - Frequency of String](https://codeforces.com/problemset/problem/963/D)
-- [Codeforces 1202E - You Are Given Some Strings...](https://codeforces.com/problemset/problem/1202/E)
+- [Codeforces 1202E - You Are Given Some Strings...](https://codeforces.com/problemset/problem/1202/E) [✔](../../practice/strings/codeforces_1202e.cpp "Accepted solution")
 - [Codeforces 1207G - Indie Album](https://codeforces.com/problemset/problem/1207/G)
 - [Codeforces 1400F - x-prime Substrings](https://codeforces.com/problemset/problem/1400/F) [✔](../../practice/strings/codeforces_1400f.cpp "Accepted solution")
 - [Codeforces Gym 100738J - The craziness of Juvel](https://codeforces.com/gym/100738/problem/J)
