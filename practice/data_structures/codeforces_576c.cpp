@@ -405,7 +405,7 @@ int main(){
     }
 
     vector<int> path;
-    mo(2 * MAXC + 1, queries, [&](int){}, [&](int){}, [&](int qi){
+    mo(2 * MAXC + 1, queries, [&](int) {}, [&](int) {}, [&](int qi){
         if (qi < n) path.push_back(qi + 1);
         return 0;
     });
