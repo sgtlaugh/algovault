@@ -162,4 +162,4 @@
 - [CSES 3192 - K Subset Xors](https://cses.fi/problemset/task/3192) [✔](../../practice/linear_algebra/cses_3192.cpp "Accepted solution")
 - [CSES 3211 - Number of Subset Xors](https://cses.fi/problemset/task/3211) [✔](../../practice/linear_algebra/cses_3211.cpp "Accepted solution")
 - [HDU 3949 - XOR](https://acm.hdu.edu.cn/showproblem.php?pid=3949) [✔](../../practice/linear_algebra/hdu_3949.cpp "Accepted solution")
-- [SPOJ XMAX - XOR Maximization](https://www.spoj.com/problems/XMAX/)
+- [SPOJ XMAX - XOR Maximization](https://www.spoj.com/problems/XMAX/) [✔](../../practice/linear_algebra/spoj_xmax.cpp "Accepted solution")
