@@ -35,7 +35,7 @@
 - [SPOJ SUDOGOB - Sudoku goblin](https://www.spoj.com/problems/SUDOGOB/) [✔](../../practice/misc/spoj_sudogob.cpp "Accepted solution")
 - [UVa 211 - The Domino Effect](https://onlinejudge.org/external/2/211.pdf) [✔](../../practice/misc/uva_211.cpp "Accepted solution")
 - [UVa 387 - A Puzzling Problem](https://onlinejudge.org/external/3/387.pdf) [✔](../../practice/misc/uva_387.cpp "Accepted solution")
-- [UVa 745 - Numeric Puzzles Again!](https://onlinejudge.org/external/7/745.pdf)
+- [UVa 745 - Numeric Puzzles Again!](https://onlinejudge.org/external/7/745.pdf) [✔](../../practice/misc/uva_745.cpp "Accepted solution")
 - [UVa 1309 - Sudoku](https://onlinejudge.org/external/13/1309.pdf) [✔](../../practice/misc/uva_1309.cpp "Accepted solution")
 - [UVa 1461 - Sudoku Extension](https://onlinejudge.org/external/14/1461.pdf) [✔](../../practice/misc/uva_1461.cpp "Accepted solution")
 - [UVa 10893 - Creating Sudoku Puzzles](https://onlinejudge.org/external/108/10893.pdf) [✔](../../practice/misc/uva_10893.cpp "Accepted solution")
