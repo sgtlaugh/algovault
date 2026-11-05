@@ -141,7 +141,7 @@
 - [oj.uz IOI11_crocodile - Crocodile's Underground City](https://oj.uz/problem/view/IOI11_crocodile)
 - [oj.uz JOI18_commuter_pass - Commuter Pass](https://oj.uz/problem/view/JOI18_commuter_pass) [✔](../../practice/graphs/oj_uz_joi18_commuter_pass.cpp "Accepted solution")
 - [SPOJ ADATRIP - Ada and Trip](https://www.spoj.com/problems/ADATRIP/)
-- [SPOJ CCHESS - COSTLY CHESS](https://www.spoj.com/problems/CCHESS/)
+- [SPOJ CCHESS - COSTLY CHESS](https://www.spoj.com/problems/CCHESS/) [✔](../../practice/graphs/spoj_cchess.cpp "Accepted solution")
 - [SPOJ EZDIJKST - Easy Dijkstra Problem](https://www.spoj.com/problems/EZDIJKST/)
 - [SPOJ GORELIAN - Here We Go(relians) Again](https://www.spoj.com/problems/GORELIAN/)
 - [SPOJ SHPATH - The Shortest Path](https://www.spoj.com/problems/SHPATH/)
