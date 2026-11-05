@@ -174,7 +174,7 @@
 
 #### [Fenwick Tree 2D, Sparse](fenwick_tree_2D_sparse.cpp)
 
-- [SPOJ KL11B - Arnook Defensive Line](https://www.spoj.com/problems/KL11B/)
+- [SPOJ KL11B - Arnook Defensive Line](https://www.spoj.com/problems/KL11B/) [✔](../../practice/data_structures/spoj_kl11b.cpp "Accepted solution")
 
 #### [Fenwick Tree 3D](fenwick_tree_3D.cpp)
 
