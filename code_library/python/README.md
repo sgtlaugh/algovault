@@ -36,7 +36,7 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 #### [Lagrange Interpolation](lagrange_polynomial_interpolation.py)
 
-- [Codeforces Gym 101156G - Non-Attacking Queens](https://codeforces.com/gym/101156/problem/G)
+- [Codeforces Gym 101156G - Non-Attacking Queens](https://codeforces.com/gym/101156/problem/G) [✔](../../practice/python/codeforces_gym_101156g.py "Accepted solution")
 
 #### [Miller-Rabin](miller_rabin.py)
 
