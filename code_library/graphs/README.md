@@ -231,7 +231,7 @@
 - [Codeforces 25C - Roads in Berland](https://codeforces.com/problemset/problem/25/C) [✔](../../practice/graphs/codeforces_25c.cpp "Accepted solution")
 - [Codeforces 33B - String Problem](https://codeforces.com/problemset/problem/33/B) [✔](../../practice/graphs/codeforces_33b.cpp "Accepted solution")
 - [Codeforces 295B - Greg and Graph](https://codeforces.com/problemset/problem/295/B) [✔](../../practice/graphs/codeforces_295b.cpp "Accepted solution")
-- [Codeforces Gym 101223C - Manic Moving](https://codeforces.com/gym/101223/problem/C)
+- [Codeforces Gym 101223C - Manic Moving](https://codeforces.com/gym/101223/problem/C) [✔](../../practice/graphs/codeforces_gym_101223c.cpp "Accepted solution")
 - [CSES 1672 - Shortest Routes II](https://cses.fi/problemset/task/1672) [✔](../../practice/graphs/cses_1672.cpp "Accepted solution")
 - [Kattis allpairspath - All Pairs Shortest Path](https://open.kattis.com/problems/allpairspath) [✔](../../practice/graphs/kattis_allpairspath.cpp "Accepted solution")
 - [SPOJ INGRED - Ingredients](https://www.spoj.com/problems/INGRED/)
