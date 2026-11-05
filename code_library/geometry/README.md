@@ -101,7 +101,7 @@
 - [UVa 10709 - Intersection is Not that Easy](https://onlinejudge.org/external/107/10709.pdf) [✔](../../practice/geometry/uva_10709.cpp "Accepted solution")
 - [UVa 10902 - Pick-up Sticks](https://onlinejudge.org/external/109/10902.pdf) [✔](../../practice/geometry/uva_10902.cpp "Accepted solution")
 - [UVa 11343 - Isolated Segments](https://onlinejudge.org/external/113/11343.pdf) [✔](../../practice/geometry/uva_11343.cpp "Accepted solution")
-- [UVa 11612 - Sultan and Khairun Shundori](https://onlinejudge.org/external/116/11612.pdf)
+- [UVa 11612 - Sultan and Khairun Shundori](https://onlinejudge.org/external/116/11612.pdf) [✔](../../practice/geometry/uva_11612.cpp "Accepted solution")
 - [UVa 11783 - Nails](https://onlinejudge.org/external/117/11783.pdf) [✔](../../practice/geometry/uva_11783.cpp "Accepted solution")
 - [UVa 12048 - Inhabitants](https://onlinejudge.org/external/120/12048.pdf) [✔](../../practice/geometry/uva_12048.cpp "Accepted solution")
 - [UVa 12123 - Magnetic Train Tracks](https://onlinejudge.org/external/121/12123.pdf)
