@@ -193,7 +193,7 @@
 - [Codeforces 91A - Newspaper Headline](https://codeforces.com/problemset/problem/91/A) [✔](../../practice/strings/codeforces_91a.cpp "Accepted solution")
 - [Codeforces 1149B - Three Religions](https://codeforces.com/problemset/problem/1149/B) [✔](../../practice/strings/codeforces_1149b.cpp "Accepted solution")
 - [Codeforces 1183H - Subsequences (hard version)](https://codeforces.com/problemset/problem/1183/H) [✔](../../practice/strings/codeforces_1183h.cpp "Accepted solution")
-- [SPOJ DSUBSEQ - Distinct Subsequences](https://www.spoj.com/problems/DSUBSEQ/)
+- [SPOJ DSUBSEQ - Distinct Subsequences](https://www.spoj.com/problems/DSUBSEQ/) [✔](../../practice/strings/spoj_dsubseq.cpp "Accepted solution")
 - [UVa 10567 - Helping Fill Bates](https://onlinejudge.org/external/105/10567.pdf) [✔](../../practice/strings/uva_10567.cpp "Accepted solution")
 - [UVa 12441 - Superb Sequence](https://onlinejudge.org/external/124/12441.pdf) [✔](../../practice/strings/uva_12441.cpp "Accepted solution")
 - [UVa 13257 - License Plates](https://onlinejudge.org/external/132/13257.pdf) [✔](../../practice/strings/uva_13257.cpp "Accepted solution")
