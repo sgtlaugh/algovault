@@ -86,7 +86,7 @@
 - [CSES 2191 - Polygon Area](https://cses.fi/problemset/task/2191) [✔](../../practice/geometry/cses_2191.cpp "Accepted solution")
 - [CSES 2192 - Point in Polygon](https://cses.fi/problemset/task/2192) [✔](../../practice/geometry/cses_2192.cpp "Accepted solution")
 - [Kattis pointinpolygon - Point in Polygon](https://open.kattis.com/problems/pointinpolygon) [✔](../../practice/geometry/kattis_pointinpolygon.cpp "Accepted solution")
-- [Kattis polygonarea - Polygon Area](https://open.kattis.com/problems/polygonarea)
+- [Kattis polygonarea - Polygon Area](https://open.kattis.com/problems/polygonarea) [✔](../../practice/geometry/kattis_polygonarea.cpp "Accepted solution")
 - [Kattis segmentdistance - Line Segment Distance](https://open.kattis.com/problems/segmentdistance)
 - [Kattis segmentintersection - Line Segment Intersection](https://open.kattis.com/problems/segmentintersection)
 - [SPOJ DICE - Three-sided Dice](https://www.spoj.com/problems/DICE/)
