@@ -274,7 +274,7 @@
 - [CodeChef INSQ15_A - The Gift Of Raksha Bandhan](https://www.codechef.com/problems/INSQ15_A) [✔](../../practice/strings/codechef_insq15_a_z_algorithm.cpp "Accepted solution")
 - [Codeforces 126B - Password](https://codeforces.com/problemset/problem/126/B) [✔](../../practice/strings/codeforces_126b.cpp "Accepted solution")
 - [Codeforces 432D - Prefixes and Suffixes](https://codeforces.com/problemset/problem/432/D) [✔](../../practice/strings/codeforces_432d_z_algorithm.cpp "Accepted solution")
-- [Codeforces 1051E - Vasya and Big Integers](https://codeforces.com/problemset/problem/1051/E)
+- [Codeforces 1051E - Vasya and Big Integers](https://codeforces.com/problemset/problem/1051/E) [✔](../../practice/strings/codeforces_1051e.cpp "Accepted solution")
 - [Codeforces 1313E - Concatenation with intersection](https://codeforces.com/problemset/problem/1313/E)
 - [Codeforces 1984D - "a" String Problem](https://codeforces.com/problemset/problem/1984/D)
 - [Codeforces Gym 101466E - Text Editor](https://codeforces.com/gym/101466/problem/E)
