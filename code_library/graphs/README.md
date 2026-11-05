@@ -100,7 +100,7 @@
 - [CSES 2177 - Strongly Connected Edges](https://cses.fi/problemset/task/2177) [✔](../../practice/graphs/cses_2177.cpp "Accepted solution")
 - [HDU 3849 - By Recognizing These Guys, We Find Social Networks Useful](https://acm.hdu.edu.cn/showproblem.php?pid=3849) [✔](../../practice/graphs/hdu_3849.cpp "Accepted solution")
 - [SPOJ EC_P - Critical Edges](https://www.spoj.com/problems/EC_P/) [✔](../../practice/graphs/spoj_ec_p.cpp "Accepted solution")
-- [SPOJ GRAFFDEF - King Graffs Defense](https://www.spoj.com/problems/GRAFFDEF/)
+- [SPOJ GRAFFDEF - King Graffs Defense](https://www.spoj.com/problems/GRAFFDEF/) [✔](../../practice/graphs/spoj_graffdef.cpp "Accepted solution")
 - [Szkopul osi - Zones](https://szkopul.edu.pl/problemset/problem/nldsb4EW1YuZykBlf4lcZL1Y/site/) [✔](../../practice/graphs/szkopul_osi.cpp "Accepted solution")
 - [UVa 610 - Street Directions](https://onlinejudge.org/external/6/610.pdf) [✔](../../practice/graphs/uva_610.cpp "Accepted solution")
 - [UVa 1310 - One-way traffic](https://onlinejudge.org/external/13/1310.pdf) [✔](../../practice/graphs/uva_1310.cpp "Accepted solution")
