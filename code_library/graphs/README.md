@@ -131,7 +131,7 @@
 - [Codeforces 567E - President and Roads](https://codeforces.com/problemset/problem/567/E) [✔](../../practice/graphs/codeforces_567e.cpp "Accepted solution")
 - [Codeforces 715B - Complete The Graph](https://codeforces.com/problemset/problem/715/B) [✔](../../practice/graphs/codeforces_715b.cpp "Accepted solution")
 - [Codeforces 757F - Team Rocket Rises Again](https://codeforces.com/problemset/problem/757/F) [✔](../../practice/graphs/codeforces_757f.cpp "Accepted solution")
-- [Codeforces 827F - Dirty Arkady's Kitchen](https://codeforces.com/problemset/problem/827/F)
+- [Codeforces 827F - Dirty Arkady's Kitchen](https://codeforces.com/problemset/problem/827/F) [✔](../../practice/graphs/codeforces_827f.cpp "Accepted solution")
 - [Codeforces 843D - Dynamic Shortest Path](https://codeforces.com/problemset/problem/843/D)
 - [Codeforces 1051F - The Shortest Statement](https://codeforces.com/problemset/problem/1051/F) [✔](../../practice/graphs/codeforces_1051f.cpp "Accepted solution")
 - [Codeforces Gym 100625D - Destination Unknown](https://codeforces.com/gym/100625/problem/D) [✔](../../practice/graphs/codeforces_gym_100625d.cpp "Accepted solution")
