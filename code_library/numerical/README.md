@@ -24,7 +24,7 @@
 - [Codeforces 2C - Commentator problem](https://codeforces.com/problemset/problem/2/C) [✔](../../practice/numerical/codeforces_2c.cpp "Accepted solution")
 - [Codeforces 106E - Space Rescuers](https://codeforces.com/problemset/problem/106/E) [✔](../../practice/numerical/codeforces_106e.cpp "Accepted solution")
 - [Codeforces Gym 100341B - Astronomy Problem](https://codeforces.com/gym/100341/problem/B) [✔](../../practice/numerical/codeforces_gym_100341b.cpp "Accepted solution")
-- [HDU 3932 - Groundhog Build Home](https://acm.hdu.edu.cn/showproblem.php?pid=3932) [✔](../../practice/numerical/hdu_3932.cpp "Accepted solution")
+- [HDU 3932 - Groundhog Build Home](https://acm.hdu.edu.cn/showproblem.php?pid=3932) [✔](../../practice/numerical/hdu_3932_local_minimization.cpp "Accepted solution")
 - [HDU 5017 - Ellipsoid](https://acm.hdu.edu.cn/showproblem.php?pid=5017) [✔](../../practice/numerical/hdu_5017.cpp "Accepted solution")
 - [Kattis europeantrip - European Trip](https://open.kattis.com/problems/europeantrip) [✔](../../practice/numerical/kattis_europeantrip.cpp "Accepted solution")
 - [POJ 2069 - Super Star](http://poj.org/problem?id=2069) [✔](../../practice/numerical/poj_2069.cpp "Accepted solution")
