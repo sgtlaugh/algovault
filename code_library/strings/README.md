@@ -249,7 +249,7 @@
 - [Codeforces 802I - Fake News (hard)](https://codeforces.com/problemset/problem/802/I)
 - [Codeforces 873F - Forbidden Indices](https://codeforces.com/problemset/problem/873/F)
 - [Codeforces 1037H - Security](https://codeforces.com/problemset/problem/1037/H) [✔](../../practice/strings/codeforces_1037h.cpp "Accepted solution")
-- [Codeforces Gym 100512I - Incomparable Suffixes](https://codeforces.com/gym/100512/problem/I)
+- [Codeforces Gym 100512I - Incomparable Suffixes](https://codeforces.com/gym/100512/problem/I) [✔](../../practice/strings/codeforces_gym_100512i.cpp "Accepted solution")
 - [CSES 2102 - Finding Patterns](https://cses.fi/problemset/task/2102) [✔](../../practice/strings/cses_2102_suffix_automaton.cpp "Accepted solution")
 - [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103) [✔](../../practice/strings/cses_2103_suffix_automaton.cpp "Accepted solution")
 - [CSES 2104 - Pattern Positions](https://cses.fi/problemset/task/2104) [✔](../../practice/strings/cses_2104_suffix_automaton.cpp "Accepted solution")
