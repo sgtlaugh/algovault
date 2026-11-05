@@ -30,7 +30,7 @@
 
 #### [Dancing Links](dancing_links.cpp)
 
-- [Code Jam 2015 Qualification Round D - Ominous Omino](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/qualification_round/ominous_omino)
+- [Code Jam 2015 Qualification Round D - Ominous Omino](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/qualification_round/ominous_omino) [✔](../../practice/misc/code_jam_2015_qualification_round_d.cpp "Accepted solution")
 - [HDU 1426 - Sudoku Killer](https://acm.hdu.edu.cn/showproblem.php?pid=1426)
 - [SPOJ SUDOGOB - Sudoku goblin](https://www.spoj.com/problems/SUDOGOB/)
 - [UVa 211 - The Domino Effect](https://onlinejudge.org/external/2/211.pdf)
