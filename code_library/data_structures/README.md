@@ -440,7 +440,7 @@
 - [CodeChef CARDSHUF - Card Shuffle](https://www.codechef.com/problems/CARDSHUF) [✔](../../practice/data_structures/codechef_cardshuf.cpp "Accepted solution")
 - [CodeChef PALINDR - Lucy and Palindromes](https://www.codechef.com/problems/PALINDR) [✔](../../practice/data_structures/codechef_palindr.cpp "Accepted solution")
 - [CodeChef PRESTIGE - The Prestige](https://www.codechef.com/problems/PRESTIGE) [✔](../../practice/data_structures/codechef_prestige.cpp "Accepted solution")
-- [Codeforces 167D - Wizards and Roads](https://codeforces.com/problemset/problem/167/D)
+- [Codeforces 167D - Wizards and Roads](https://codeforces.com/problemset/problem/167/D) [✔](../../practice/data_structures/codeforces_167d.cpp "Accepted solution")
 - [Codeforces 295E - Yaroslav and Points](https://codeforces.com/problemset/problem/295/E) [✔](../../practice/data_structures/codeforces_295e.cpp "Accepted solution")
 - [Codeforces 702F - T-Shirts](https://codeforces.com/problemset/problem/702/F) [✔](../../practice/data_structures/codeforces_702f.cpp "Accepted solution")
 - [Codeforces 809D - Hitchhiking in the Baltic States](https://codeforces.com/problemset/problem/809/D) [✔](../../practice/data_structures/codeforces_809d.cpp "Accepted solution")
