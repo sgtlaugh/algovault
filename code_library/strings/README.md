@@ -254,7 +254,7 @@
 - [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103)
 - [CSES 2104 - Pattern Positions](https://cses.fi/problemset/task/2104)
 - [CSES 2108 - Substring Order I](https://cses.fi/problemset/task/2108) [✔](../../practice/strings/cses_2108_suffix_automaton.cpp "Accepted solution")
-- [CSES 2109 - Substring Order II](https://cses.fi/problemset/task/2109)
+- [CSES 2109 - Substring Order II](https://cses.fi/problemset/task/2109) [✔](../../practice/strings/cses_2109.cpp "Accepted solution")
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110)
 - [HDU 5853 - Jong Hyok and String](https://acm.hdu.edu.cn/showproblem.php?pid=5853)
 - [SPOJ LCS2 - Longest Common Substring II](https://www.spoj.com/problems/LCS2/)
