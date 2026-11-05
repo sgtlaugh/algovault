@@ -542,7 +542,7 @@
 - [HDU 4085 - Peach Blossom Spring](https://acm.hdu.edu.cn/showproblem.php?pid=4085) [✔](../../practice/graphs/hdu_4085.cpp "Accepted solution")
 - [Kattis shovelling - Shovelling Snow](https://open.kattis.com/problems/shovelling)
 - [oj.uz BOI16_cities - Cities](https://oj.uz/problem/view/BOI16_cities) [✔](../../practice/graphs/oj_uz_boi16_cities.cpp "Accepted solution")
-- [SPOJ TICKET - Ticket to Ride](https://www.spoj.com/problems/TICKET/)
+- [SPOJ TICKET - Ticket to Ride](https://www.spoj.com/problems/TICKET/) [✔](../../practice/graphs/spoj_ticket.cpp "Accepted solution")
 - [UVa 12254 - Electricity Connection](https://onlinejudge.org/external/122/12254.pdf)
 - [ZOJ 3613 - Wormhole Transport](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369236) [✔](../../practice/graphs/zoj_3613.cpp "Accepted solution")
 
