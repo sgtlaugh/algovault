@@ -143,7 +143,7 @@
 - [SPOJ ADATRIP - Ada and Trip](https://www.spoj.com/problems/ADATRIP/)
 - [SPOJ CCHESS - COSTLY CHESS](https://www.spoj.com/problems/CCHESS/) [✔](../../practice/graphs/spoj_cchess.cpp "Accepted solution")
 - [SPOJ EZDIJKST - Easy Dijkstra Problem](https://www.spoj.com/problems/EZDIJKST/) [✔](../../practice/graphs/spoj_ezdijkst.cpp "Accepted solution")
-- [SPOJ GORELIAN - Here We Go(relians) Again](https://www.spoj.com/problems/GORELIAN/)
+- [SPOJ GORELIAN - Here We Go(relians) Again](https://www.spoj.com/problems/GORELIAN/) [✔](../../practice/graphs/spoj_gorelian.cpp "Accepted solution")
 - [SPOJ SHPATH - The Shortest Path](https://www.spoj.com/problems/SHPATH/)
 - [Timus 1930 - Ivan's Car](https://acm.timus.ru/problem.aspx?num=1930) [✔](../../practice/graphs/timus_1930.cpp "Accepted solution")
 - [USACO 717 - Why Did the Cow Cross the Road](https://usaco.org/index.php?page=viewproblem2&cpid=717) [✔](../../practice/graphs/usaco_717.cpp "Accepted solution")
