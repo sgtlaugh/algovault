@@ -140,7 +140,7 @@
 - [CSES 3158 - Bus Companies](https://cses.fi/problemset/task/3158) [✔](../../practice/graphs/cses_3158.cpp "Accepted solution")
 - [oj.uz IOI11_crocodile - Crocodile's Underground City](https://oj.uz/problem/view/IOI11_crocodile) [✔](../../practice/graphs/oj_uz_ioi11_crocodile.cpp "Accepted solution")
 - [oj.uz JOI18_commuter_pass - Commuter Pass](https://oj.uz/problem/view/JOI18_commuter_pass) [✔](../../practice/graphs/oj_uz_joi18_commuter_pass.cpp "Accepted solution")
-- [SPOJ ADATRIP - Ada and Trip](https://www.spoj.com/problems/ADATRIP/)
+- [SPOJ ADATRIP - Ada and Trip](https://www.spoj.com/problems/ADATRIP/) [✔](../../practice/graphs/spoj_adatrip.cpp "Accepted solution")
 - [SPOJ CCHESS - COSTLY CHESS](https://www.spoj.com/problems/CCHESS/) [✔](../../practice/graphs/spoj_cchess.cpp "Accepted solution")
 - [SPOJ EZDIJKST - Easy Dijkstra Problem](https://www.spoj.com/problems/EZDIJKST/) [✔](../../practice/graphs/spoj_ezdijkst.cpp "Accepted solution")
 - [SPOJ GORELIAN - Here We Go(relians) Again](https://www.spoj.com/problems/GORELIAN/) [✔](../../practice/graphs/spoj_gorelian.cpp "Accepted solution")
