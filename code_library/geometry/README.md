@@ -104,7 +104,7 @@
 - [UVa 11612 - Sultan and Khairun Shundori](https://onlinejudge.org/external/116/11612.pdf) [✔](../../practice/geometry/uva_11612.cpp "Accepted solution")
 - [UVa 11783 - Nails](https://onlinejudge.org/external/117/11783.pdf) [✔](../../practice/geometry/uva_11783.cpp "Accepted solution")
 - [UVa 12048 - Inhabitants](https://onlinejudge.org/external/120/12048.pdf) [✔](../../practice/geometry/uva_12048.cpp "Accepted solution")
-- [UVa 12123 - Magnetic Train Tracks](https://onlinejudge.org/external/121/12123.pdf)
+- [UVa 12123 - Magnetic Train Tracks](https://onlinejudge.org/external/121/12123.pdf) [✔](../../practice/geometry/uva_12123.cpp "Accepted solution")
 - [UVa 13117 - ACIS, A Contagious vIruS](https://onlinejudge.org/external/131/13117.pdf) [✔](../../practice/geometry/uva_13117.cpp "Accepted solution")
 
 #### [Half-Plane Intersection](halfplane_intersection.cpp)
