@@ -271,7 +271,7 @@
 #### [Z Algorithm](z_algorithm.cpp)
 
 - [CodeChef CHSTR - Chef and String](https://www.codechef.com/problems/CHSTR) [✔](../../practice/strings/codechef_chstr.cpp "Accepted solution")
-- [CodeChef INSQ15_A - The Gift Of Raksha Bandhan](https://www.codechef.com/problems/INSQ15_A)
+- [CodeChef INSQ15_A - The Gift Of Raksha Bandhan](https://www.codechef.com/problems/INSQ15_A) [✔](../../practice/strings/codechef_insq15_a_z_algorithm.cpp "Accepted solution")
 - [Codeforces 126B - Password](https://codeforces.com/problemset/problem/126/B)
 - [Codeforces 432D - Prefixes and Suffixes](https://codeforces.com/problemset/problem/432/D)
 - [Codeforces 1051E - Vasya and Big Integers](https://codeforces.com/problemset/problem/1051/E)
