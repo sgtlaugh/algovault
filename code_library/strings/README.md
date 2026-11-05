@@ -241,7 +241,7 @@
 #### [Suffix Automaton](suffix_automaton.cpp)
 
 - [CodeChef SSTORY - A Story with Strings](https://www.codechef.com/problems/SSTORY) [✔](../../practice/strings/codechef_sstory.cpp "Accepted solution")
-- [CodeChef SUBQUERY - Substring Query](https://www.codechef.com/problems/SUBQUERY)
+- [CodeChef SUBQUERY - Substring Query](https://www.codechef.com/problems/SUBQUERY) [✔](../../practice/strings/codechef_subquery.cpp "Accepted solution")
 - [Codeforces 128B - String](https://codeforces.com/problemset/problem/128/B) [✔](../../practice/strings/codeforces_128b.cpp "Accepted solution")
 - [Codeforces 235C - Cyclical Quest](https://codeforces.com/problemset/problem/235/C)
 - [Codeforces 452E - Three strings](https://codeforces.com/problemset/problem/452/E)
