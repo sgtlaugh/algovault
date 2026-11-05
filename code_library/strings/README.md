@@ -38,7 +38,7 @@
 - [HDU 2222 - Keywords Search](https://acm.hdu.edu.cn/showproblem.php?pid=2222) [✔](../../practice/strings/hdu_2222.cpp "Accepted solution")
 - [HDU 2243 - 考研路茫茫——单词情结](https://acm.hdu.edu.cn/showproblem.php?pid=2243) [✔](../../practice/strings/hdu_2243.cpp "Accepted solution")
 - [HDU 2296 - Ring](https://acm.hdu.edu.cn/showproblem.php?pid=2296) [✔](../../practice/strings/hdu_2296.cpp "Accepted solution")
-- [HDU 2457 - DNA repair](https://acm.hdu.edu.cn/showproblem.php?pid=2457)
+- [HDU 2457 - DNA repair](https://acm.hdu.edu.cn/showproblem.php?pid=2457) [✔](../../practice/strings/hdu_2457.cpp "Accepted solution")
 - [HDU 2825 - Wireless Password](https://acm.hdu.edu.cn/showproblem.php?pid=2825)
 - [HDU 3341 - Lost's revenge](https://acm.hdu.edu.cn/showproblem.php?pid=3341)
 - [HDU 3695 - Computer Virus on Planet Pandora](https://acm.hdu.edu.cn/showproblem.php?pid=3695)
