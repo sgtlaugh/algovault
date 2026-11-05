@@ -34,7 +34,7 @@
 
 #### [Coordinate Compression](coordinate_compression.cpp)
 
-- [USACO 207 - Crazy Fences](https://usaco.org/index.php?page=viewproblem2&cpid=207) [✔](../../practice/data_structures/usaco_207.cpp "Accepted solution")
+- [USACO 207 - Crazy Fences](https://usaco.org/index.php?page=viewproblem2&cpid=207) [✔](../../practice/data_structures/usaco_207_coordinate_compression.cpp "Accepted solution")
 
 #### [Disjoint Set Union](disjoint_set.cpp)
 
