@@ -74,7 +74,7 @@
 
 #### [Bit-String LCS](bit_string_lcs.cpp)
 
-- [SPOJ LCS0 - Longest Common Subsequence](https://www.spoj.com/problems/LCS0/)
+- [SPOJ LCS0 - Longest Common Subsequence](https://www.spoj.com/problems/LCS0/) [✔](../../practice/strings/spoj_lcs0.cpp "Accepted solution")
 - [UVa 10949 - Kids in a Grid](https://onlinejudge.org/external/109/10949.pdf) [✔](../../practice/strings/uva_10949_bit_string_lcs.cpp "Accepted solution")
 
 #### [De Bruijn Sequence](de_bruijn_sequence.cpp)
