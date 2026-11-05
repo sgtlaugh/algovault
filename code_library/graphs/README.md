@@ -234,7 +234,7 @@
 - [Codeforces Gym 101223C - Manic Moving](https://codeforces.com/gym/101223/problem/C) [✔](../../practice/graphs/codeforces_gym_101223c.cpp "Accepted solution")
 - [CSES 1672 - Shortest Routes II](https://cses.fi/problemset/task/1672) [✔](../../practice/graphs/cses_1672.cpp "Accepted solution")
 - [Kattis allpairspath - All Pairs Shortest Path](https://open.kattis.com/problems/allpairspath) [✔](../../practice/graphs/kattis_allpairspath.cpp "Accepted solution")
-- [SPOJ INGRED - Ingredients](https://www.spoj.com/problems/INGRED/)
+- [SPOJ INGRED - Ingredients](https://www.spoj.com/problems/INGRED/) [✔](../../practice/graphs/spoj_ingred.cpp "Accepted solution")
 - [SPOJ ROHAAN - Defend The Rohan](https://www.spoj.com/problems/ROHAAN/) [✔](../../practice/graphs/spoj_rohaan.cpp "Accepted solution")
 - [SPOJ UCV2013B - Alice in Amsterdam, I mean Wonderland](https://www.spoj.com/problems/UCV2013B/) [✔](../../practice/graphs/spoj_ucv2013b.cpp "Accepted solution")
 - [USACO 971 - Moortal Cowmbat](https://usaco.org/index.php?page=viewproblem2&cpid=971) [✔](../../practice/graphs/usaco_971.cpp "Accepted solution")
