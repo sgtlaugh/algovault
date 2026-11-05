@@ -76,7 +76,7 @@
 - [Codeforces 717D - Dexterina’s Lab](https://codeforces.com/problemset/problem/717/D) [✔](../../practice/linear_algebra/codeforces_717d_matrix.cpp "Accepted solution")
 - [Codeforces 852B - Neural Network country](https://codeforces.com/problemset/problem/852/B) [✔](../../practice/linear_algebra/codeforces_852b.cpp "Accepted solution")
 - [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F) [✔](../../practice/linear_algebra/codeforces_1106f_matrix.cpp "Accepted solution")
-- [Codeforces 1117D - Magic Gems](https://codeforces.com/problemset/problem/1117/D)
+- [Codeforces 1117D - Magic Gems](https://codeforces.com/problemset/problem/1117/D) [✔](../../practice/linear_algebra/codeforces_1117d_matrix.cpp "Accepted solution")
 - [Codeforces 1182E - Product Oriented Recurrence](https://codeforces.com/problemset/problem/1182/E)
 - [Codeforces Gym 101161G - Binary Strings](https://codeforces.com/gym/101161/problem/G)
 - [CSES 1096 - Throwing Dice](https://cses.fi/problemset/task/1096) [✔](../../practice/linear_algebra/cses_1096.cpp "Accepted solution")
