@@ -256,7 +256,7 @@
 - [CSES 2108 - Substring Order I](https://cses.fi/problemset/task/2108) [✔](../../practice/strings/cses_2108_suffix_automaton.cpp "Accepted solution")
 - [CSES 2109 - Substring Order II](https://cses.fi/problemset/task/2109) [✔](../../practice/strings/cses_2109.cpp "Accepted solution")
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110)
-- [HDU 5853 - Jong Hyok and String](https://acm.hdu.edu.cn/showproblem.php?pid=5853)
+- [HDU 5853 - Jong Hyok and String](https://acm.hdu.edu.cn/showproblem.php?pid=5853) [✔](../../practice/strings/hdu_5853.cpp "Accepted solution")
 - [SPOJ LCS2 - Longest Common Substring II](https://www.spoj.com/problems/LCS2/) [✔](../../practice/strings/spoj_lcs2_suffix_automaton.cpp "Accepted solution")
 - [SPOJ LCS - Longest Common Substring](https://www.spoj.com/problems/LCS/) [✔](../../practice/strings/spoj_lcs_suffix_automaton.cpp "Accepted solution")
 - [SPOJ NSUBSTR - Substrings](https://www.spoj.com/problems/NSUBSTR/)
