@@ -117,7 +117,7 @@
 - [UVa 1396 - Most Distant Point from the Sea](https://onlinejudge.org/external/13/1396.pdf) [✔](../../practice/geometry/uva_1396.cpp "Accepted solution")
 - [UVa 1475 - Jungle Outpost](https://onlinejudge.org/external/14/1475.pdf) [✔](../../practice/geometry/uva_1475.cpp "Accepted solution")
 - [UVa 1571 - How I Mathematician Wonder What You Are!](https://onlinejudge.org/external/15/1571.pdf) [✔](../../practice/geometry/uva_1571.cpp "Accepted solution")
-- [UVa 13213 - Quidditch Match](https://onlinejudge.org/external/132/13213.pdf)
+- [UVa 13213 - Quidditch Match](https://onlinejudge.org/external/132/13213.pdf) [✔](../../practice/geometry/uva_13213.cpp "Accepted solution")
 
 #### [KD-Tree](kd_tree.cpp)
 
