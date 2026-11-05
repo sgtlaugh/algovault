@@ -34,7 +34,7 @@
 - [Codeforces Gym 101064E - A Word to Trump All](https://codeforces.com/gym/101064/problem/E)
 - [CSES 2102 - Finding Patterns](https://cses.fi/problemset/task/2102) [✔](../../practice/strings/cses_2102_aho_corasick.cpp "Accepted solution")
 - [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103) [✔](../../practice/strings/cses_2103_aho_corasick.cpp "Accepted solution")
-- [CSES 2104 - Pattern Positions](https://cses.fi/problemset/task/2104)
+- [CSES 2104 - Pattern Positions](https://cses.fi/problemset/task/2104) [✔](../../practice/strings/cses_2104_aho_corasick.cpp "Accepted solution")
 - [HDU 2222 - Keywords Search](https://acm.hdu.edu.cn/showproblem.php?pid=2222)
 - [HDU 2243 - 考研路茫茫——单词情结](https://acm.hdu.edu.cn/showproblem.php?pid=2243)
 - [HDU 2296 - Ring](https://acm.hdu.edu.cn/showproblem.php?pid=2296)
