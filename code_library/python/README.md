@@ -40,7 +40,7 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 #### [Miller-Rabin](miller_rabin.py)
 
-- [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396)
+- [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396) [✔](../../practice/python/cses_3396.py "Accepted solution")
 
 #### [String Hash](string_hash.py)
 
