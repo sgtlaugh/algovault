@@ -110,7 +110,7 @@
 #### [Half-Plane Intersection](halfplane_intersection.cpp)
 
 - [CodeChef CHN02 - Animesh decides to settle down](https://www.codechef.com/problems/CHN02)
-- [Codeforces 790E - Bear and Isomorphic Points](https://codeforces.com/contest/790/problem/E)
+- [Codeforces 790E - Bear and Isomorphic Points](https://codeforces.com/contest/790/problem/E) [✔](../../practice/geometry/codeforces_790e.cpp "Accepted solution")
 - [DMOJ ccoprep3p3 - CCO Preparation Test 3 P3 - Arrow](https://dmoj.ca/problem/ccoprep3p3)
 - [Timus 1681 - Brother Bear's Garden](https://acm.timus.ru/problem.aspx?num=1681)
 - [UVa 1298 - Triathlon](https://onlinejudge.org/external/12/1298.pdf) [✔](../../practice/geometry/uva_1298.cpp "Accepted solution")
