@@ -96,7 +96,7 @@
 - [Codeforces 822E - Liar](https://codeforces.com/problemset/problem/822/E) [✔](../../practice/strings/codeforces_822e.cpp "Accepted solution")
 - [Codeforces 835D - Palindromic characteristics](https://codeforces.com/problemset/problem/835/D) [✔](../../practice/strings/codeforces_835d.cpp "Accepted solution")
 - [Codeforces 1056E - Check Transcription](https://codeforces.com/problemset/problem/1056/E) [✔](../../practice/strings/codeforces_1056e.cpp "Accepted solution")
-- [HackerRank build-a-string - Build a String](https://www.hackerrank.com/challenges/build-a-string/problem)
+- [HackerRank build-a-string - Build a String](https://www.hackerrank.com/challenges/build-a-string/problem) [✔](../../practice/strings/hackerrank_build_a_string.cpp "Accepted solution")
 - [HackerRank gift-boxes - Gift Boxes](https://www.hackerrank.com/contests/womens-codesprint-5/challenges/gift-boxes/problem) [✔](../../practice/strings/hackerrank_gift_boxes.cpp "Accepted solution")
 - [LeetCode 1044 - Longest Duplicate Substring](https://leetcode.com/problems/longest-duplicate-substring/) [✔](../../practice/strings/leetcode_1044.cpp "Accepted solution")
 - [SPOJ ADACLEAN - Ada and Spring Cleaning](https://www.spoj.com/problems/ADACLEAN/) [✔](../../practice/strings/spoj_adaclean.cpp "Accepted solution")
