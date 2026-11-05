@@ -46,7 +46,7 @@
 - [Kattis convexhull - Convex Hull](https://open.kattis.com/problems/convexhull) [✔](../../practice/geometry/kattis_convexhull.cpp "Accepted solution")
 - [Kattis fenceortho - Fence Orthogonality](https://open.kattis.com/problems/fenceortho) [✔](../../practice/geometry/kattis_fenceortho.cpp "Accepted solution")
 - [Kattis parade - Keep the Parade Safe](https://open.kattis.com/problems/parade) [✔](../../practice/geometry/kattis_parade.cpp "Accepted solution")
-- [Kattis roberthood - Robert Hood](https://open.kattis.com/problems/roberthood)
+- [Kattis roberthood - Robert Hood](https://open.kattis.com/problems/roberthood) [✔](../../practice/geometry/kattis_roberthood.cpp "Accepted solution")
 - [MatCom 9413 - Onion Layers](https://matcomgrader.com/problem/9413/onion-layers/)
 - [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/)
 - [SPOJ TRAKA - TRAKA](https://www.spoj.com/problems/TRAKA/)
