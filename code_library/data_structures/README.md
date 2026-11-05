@@ -262,7 +262,7 @@
 
 #### [Mo's Algorithm With Updates](mo_with_updates.cpp)
 
-- [SPOJ XXXXXXXX - Sum of Distinct Numbers](https://www.spoj.com/problems/XXXXXXXX/)
+- [SPOJ XXXXXXXX - Sum of Distinct Numbers](https://www.spoj.com/problems/XXXXXXXX/) [✔](../../practice/data_structures/spoj_xxxxxxxx.cpp "Accepted solution")
 - [UVa 12345 - Dynamic len(set(a[L:R]))](https://onlinejudge.org/external/123/12345.pdf) [✔](../../practice/data_structures/uva_12345.cpp "Accepted solution")
 
 #### [Monotonic Stack](monotonic_stack.cpp)
