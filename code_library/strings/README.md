@@ -266,7 +266,7 @@
 
 #### [Wildcard Matching](wildcard_matching.cpp)
 
-- [Codeforces 754E - Dasha and cyclic table](https://codeforces.com/problemset/problem/754/E)
+- [Codeforces 754E - Dasha and cyclic table](https://codeforces.com/problemset/problem/754/E) [✔](../../practice/strings/codeforces_754e_wildcard_matching.cpp "Accepted solution")
 
 #### [Z Algorithm](z_algorithm.cpp)
 
