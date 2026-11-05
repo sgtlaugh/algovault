@@ -238,6 +238,29 @@ bool brute_angle_less(Point a, Point b){
     return (__int128)a.x * b.y - (__int128)a.y * b.x > 0;
 }
 
+/// The ccw angle d from u to w by exact signs: d < 90 iff dot > 0 and cross >= 0, d < 270 unless cross < 0 and dot >= 0
+void check_angle_key(Point u, Point w){
+    unsigned ku = angle_key(u), kw = angle_key(w), diff = kw - ku;
+    long long c = u.x * w.y - u.y * w.x, d = u.x * w.x + u.y * w.y;
+    assert((ku < kw) == brute_angle_less(u, w));
+    assert(angle_key({-u.y, u.x}) == ku + (1u << 30));
+    assert((diff < 1u << 30) == (d > 0 && c >= 0));
+    assert((diff < 2u << 30) == (c > 0 || (c == 0 && d > 0)));
+    assert((diff < 3u << 30) == !(c < 0 && d >= 0));
+}
+
+/// t in [0, m) with a t = 1 mod m, for gcd(a, m) = 1
+long long inverse_mod(long long a, long long m){
+    long long r0 = m, r1 = a % m, t0 = 0, t1 = 1;
+    while (r1 != 0){
+        long long q = r0 / r1;
+        tie(r0, r1) = make_pair(r1, r0 - q * r1);
+        tie(t0, t1) = make_pair(t1, t0 - q * t1);
+    }
+
+    return (t0 % m + m) % m;
+}
+
 /// Winding number of a point that is never on the boundary, by the sum of signed angles
 bool brute_inside(const vector<PointF>& poly, long double x, long double y){
     long double total = 0;
@@ -619,6 +642,43 @@ int main(){
     }
 
     assert(near_limit > 0);
+
+    /// Every pair of nonzero vectors with components up to 12, then random pairs and adjacent directions at 1e4
+    vector<Point> small;
+    for (long long x = -12; x <= 12; x++){
+        for (long long y = -12; y <= 12; y++){
+            if (x != 0 || y != 0) small.push_back({x, y});
+        }
+    }
+    for (Point u : small){
+        for (Point w : small) check_angle_key(u, w);
+    }
+
+    const long long K = 10000;
+    for (long long it = 0; it < stress::scaled(200000); it++){
+        Point u = random_point(K), w = random_point(K);
+        if (it % 2) u.x = stress::rand_int(0, 1) ? K : -K;
+        if (u.x != 0 || u.y != 0) check_angle_key(u, w.x != 0 || w.y != 0 ? w : Point{K, -K});
+    }
+
+    /// Directions (x, y) and (s, t) with x t - y s = 1 are adjacent, the closest a key has to separate
+    unsigned closest_keys = UINT_MAX;
+    for (long long it = 0; it < stress::scaled(100000); it++){
+        long long x = it == 0 ? K - 1 : stress::rand_int(1, K), y = it == 0 ? K - 2 : stress::rand_int(1, K);
+        if (__gcd(x, y) != 1) continue;
+        long long t = inverse_mod(x, y), s = (x * t - 1) / y;
+        long long k = min((K - s) / x, (K - t) / y);
+        s += k * x, t += k * y;
+        Point u{x, y}, w{s, t};
+        closest_keys = min({closest_keys, angle_key(u) - angle_key(w), angle_key(w) - angle_key(u)});
+        for (int turn = 0; turn < 4; turn++){
+            check_angle_key(u, w);
+            check_angle_key(w, u);
+            u = {-u.y, u.x}, w = {-w.y, w.x};
+        }
+    }
+
+    assert(closest_keys <= 3);  /// it == 0 pairs (9999, 9998) with (10000, 9999), keys about 2.7 apart
 
     /// Combs with three or more tooth tips on the line and the rest strictly on one side: the kept part is empty
     for (long long it = 0; it < stress::scaled(2000); it++){

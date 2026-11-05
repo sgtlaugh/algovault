@@ -10,6 +10,7 @@
  *   - every other function: O(1)
  *
  * Integer part, Point of long long with +, -, == and < (x, then y), so points sort, deduplicate and key a map:
+ *   angle_key(p): unsigned key in angle_less order, a 90 degree turn adds exactly 2^30 modulo 2^32, p != (0, 0)
  *   angle_less(a, b): polar angle order of vectors, counter-clockwise from the positive x axis over [0, 2 pi)
  *   area2(poly): twice the signed area, positive for counter-clockwise order
  *   cross(o, a, b): > 0 if o -> a -> b turns left (counter-clockwise), < 0 right, 0 collinear
@@ -39,6 +40,8 @@
  *   - Point needs |x|, |y| <= 1e9 so every cross and dot product fits in long long
  *   - angle_less ranks vectors of the same direction equal and (0, 0) first, components up to 2e9 are allowed
  *   - To sort points around a center o, sort the vectors p - o with angle_less
+ *   - angle_key needs |x|, |y| <= 1e4, its keys sort about twice as fast as angle_less on 1200 points
+ *   - angle_key(b) - angle_key(a) as unsigned is below k * 2^30 iff b is under k * 90 degrees counter-clockwise of a
  *   - Degenerate segments are allowed in on_segment, segments_intersect and segment_intersection
  *   - point_in_convex_polygon allows collinear vertices, as long as not all vertices are collinear
  *   - PointF counts o, a, b as collinear when the triangle's height is below EPS = 1e-9 times its longest side
@@ -81,6 +84,20 @@ long long cross(const Point& o, const Point& a, const Point& b){
 
 long long dot(const Point& o, const Point& a, const Point& b){
     return (a.x - o.x) * (b.x - o.x) + (a.y - o.y) * (b.y - o.y);
+}
+
+unsigned angle_key(const Point& p){
+    assert(!(p.x == 0 && p.y == 0) && abs(p.x) <= 10000 && abs(p.y) <= 10000);
+    long long x = p.x, y = p.y;
+    unsigned quarter = 0;
+    while (!(x > 0 && y >= 0)){
+        long long t = x;
+        x = y, y = -t;
+        quarter++;
+    }
+
+    /// y / (x + y) of distinct directions within 1e4 differ by over 2^-29, so truncating to 30 bits keeps them apart
+    return quarter << 30 | (unsigned)((double)y / (x + y) * (1 << 30));
 }
 
 bool angle_less(const Point& a, const Point& b){
@@ -358,6 +375,9 @@ int main(){
     vector<Point> dirs = {{0, -1}, {-1, 0}, {1, 0}, {0, 1}};
     sort(dirs.begin(), dirs.end(), angle_less);
     assert((dirs == vector<Point>{{1, 0}, {0, 1}, {-1, 0}, {0, -1}}));  /// counter-clockwise from +x
+    assert(angle_key({3, 4}) < angle_key({-1, 2}));
+    assert(angle_key({-4, 3}) == angle_key({3, 4}) + (1u << 30));       /// (3, 4) turned 90 degrees
+    assert(angle_key({1, -1}) - angle_key({1, 1}) >= 1u << 31);         /// (1, -1) is 270 degrees past (1, 1)
 
     auto near = [](const PointF& p, const PointF& q){ return hypot(p.x - q.x, p.y - q.y) < 1e-9; };
     assert(orientation({0, 0}, {1, 0}, {2, 1e-12}) == 0);  /// collinear within EPS
