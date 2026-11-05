@@ -363,7 +363,7 @@
 - [Codeforces 546E - Soldier and Traveling](https://codeforces.com/problemset/problem/546/E) [✔](../../practice/graphs/codeforces_546e.cpp "Accepted solution")
 - [Codeforces 720B - Cactusophobia](https://codeforces.com/problemset/problem/720/B) [✔](../../practice/graphs/codeforces_720b.cpp "Accepted solution")
 - [Codeforces 808F - Card Game](https://codeforces.com/problemset/problem/808/F) [✔](../../practice/graphs/codeforces_808f.cpp "Accepted solution")
-- [Codeforces Gym 100274I - Suiting Weavers](https://codeforces.com/gym/100274/problem/I)
+- [Codeforces Gym 100274I - Suiting Weavers](https://codeforces.com/gym/100274/problem/I) [✔](../../practice/graphs/codeforces_gym_100274i.cpp "Accepted solution")
 - [Codeforces Gym 100491H - Highways](https://codeforces.com/gym/100491/problem/H) [✔](../../practice/graphs/codeforces_gym_100491h.cpp "Accepted solution")
 - [Codeforces Gym 100512H - Hats and Wizards](https://codeforces.com/gym/100512/problem/H)
 - [Codeforces Gym 100517H - Hentium Scheduling](https://codeforces.com/gym/100517/problem/H)
