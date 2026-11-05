@@ -136,7 +136,7 @@
 - [Codeforces 346B - Lucky Common Subsequence](https://codeforces.com/problemset/problem/346/B) [✔](../../practice/strings/codeforces_346b.cpp "Accepted solution")
 - [Codeforces 432D - Prefixes and Suffixes](https://codeforces.com/problemset/problem/432/D) [✔](../../practice/strings/codeforces_432d_kmp.cpp "Accepted solution")
 - [Codeforces 471D - MUH and Cube Walls](https://codeforces.com/problemset/problem/471/D) [✔](../../practice/strings/codeforces_471d.cpp "Accepted solution")
-- [Codeforces 808G - Anthem of Berland](https://codeforces.com/problemset/problem/808/G)
+- [Codeforces 808G - Anthem of Berland](https://codeforces.com/problemset/problem/808/G) [✔](../../practice/strings/codeforces_808g.cpp "Accepted solution")
 - [Codeforces 825F - String Compression](https://codeforces.com/problemset/problem/825/F)
 - [CSES 1112 - Required Substring](https://cses.fi/problemset/task/1112)
 - [Timus 1996 - Cipher Message 3](https://acm.timus.ru/problem.aspx?num=1996)
