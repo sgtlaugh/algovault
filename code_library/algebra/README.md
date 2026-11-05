@@ -13,7 +13,7 @@
 #### [Big Integer](bignum.cpp)
 
 - [Codeforces 98B - Help King](https://codeforces.com/problemset/problem/98/B) [✔](../../practice/algebra/codeforces_98b.cpp "Accepted solution")
-- [POJ 1625 - Censored!](http://poj.org/problem?id=1625) [✔](../../practice/algebra/poj_1625.cpp "Accepted solution")
+- [POJ 1625 - Censored!](http://poj.org/problem?id=1625) [✔](../../practice/algebra/poj_1625_bignum.cpp "Accepted solution")
 - [UVa 288 - Arithmetic Operations With Large Integers](https://onlinejudge.org/external/2/288.pdf) [✔](../../practice/algebra/uva_288.cpp "Accepted solution")
 - [UVa 324 - Factorial Frequencies](https://onlinejudge.org/external/3/324.pdf) [✔](../../practice/algebra/uva_324.cpp "Accepted solution")
 - [UVa 485 - Pascal's Triangle of Death](https://onlinejudge.org/external/4/485.pdf) [✔](../../practice/algebra/uva_485.cpp "Accepted solution")
@@ -42,7 +42,7 @@
 - [Codeforces 528D - Fuzzy Search](https://codeforces.com/problemset/problem/528/D) [✔](../../practice/algebra/codeforces_528d.cpp "Accepted solution")
 - [Codeforces 553E - Kyoya and Train](https://codeforces.com/problemset/problem/553/E) [✔](../../practice/algebra/codeforces_553e.cpp "Accepted solution")
 - [Codeforces 623E - Transforming Sequence](https://codeforces.com/problemset/problem/623/E) [✔](../../practice/algebra/codeforces_623e.cpp "Accepted solution")
-- [Codeforces 754E - Dasha and cyclic table](https://codeforces.com/problemset/problem/754/E) [✔](../../practice/algebra/codeforces_754e.cpp "Accepted solution")
+- [Codeforces 754E - Dasha and cyclic table](https://codeforces.com/problemset/problem/754/E) [✔](../../practice/algebra/codeforces_754e_fft.cpp "Accepted solution")
 - [Codeforces 954I - Yet Another String Matching Problem](https://codeforces.com/problemset/problem/954/I) [✔](../../practice/algebra/codeforces_954i.cpp "Accepted solution")
 - [Codeforces 958F3 - Lightsabers (hard)](https://codeforces.com/problemset/problem/958/F3) [✔](../../practice/algebra/codeforces_958f3.cpp "Accepted solution")
 - [Codeforces 1398G - Running Competition](https://codeforces.com/problemset/problem/1398/G) [✔](../../practice/algebra/codeforces_1398g.cpp "Accepted solution")
