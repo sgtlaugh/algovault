@@ -48,7 +48,7 @@
 
 #### [Gray Codes](gray_codes.cpp)
 
-- [CSES 2205 - Gray Code](https://cses.fi/problemset/task/2205)
+- [CSES 2205 - Gray Code](https://cses.fi/problemset/task/2205) [✔](../../practice/misc/cses_2205.cpp "Accepted solution")
 - [UVa 11173 - Grey Codes](https://onlinejudge.org/external/111/11173.pdf) [✔](../../practice/misc/uva_11173.cpp "Accepted solution")
 
 #### [Hackenbush](hackenbush.cpp)
