@@ -157,7 +157,7 @@
 - [Codeforces 1299D - Around the World](https://codeforces.com/problemset/problem/1299/D) [✔](../../practice/linear_algebra/codeforces_1299d.cpp "Accepted solution")
 - [Codeforces 1336E1 - Chiori and Doll Picking (easy version)](https://codeforces.com/problemset/problem/1336/E1) [✔](../../practice/linear_algebra/codeforces_1336e1.cpp "Accepted solution")
 - [Codeforces 1778E - The Tree Has Fallen!](https://codeforces.com/problemset/problem/1778/E) [✔](../../practice/linear_algebra/codeforces_1778e.cpp "Accepted solution")
-- [Codeforces 1902F - Trees and XOR Queries Again](https://codeforces.com/problemset/problem/1902/F)
+- [Codeforces 1902F - Trees and XOR Queries Again](https://codeforces.com/problemset/problem/1902/F) [✔](../../practice/linear_algebra/codeforces_1902f.cpp "Accepted solution")
 - [CSES 3191 - Maximum Xor Subset](https://cses.fi/problemset/task/3191) [✔](../../practice/linear_algebra/cses_3191.cpp "Accepted solution")
 - [CSES 3192 - K Subset Xors](https://cses.fi/problemset/task/3192) [✔](../../practice/linear_algebra/cses_3192.cpp "Accepted solution")
 - [CSES 3211 - Number of Subset Xors](https://cses.fi/problemset/task/3211) [✔](../../practice/linear_algebra/cses_3211.cpp "Accepted solution")
