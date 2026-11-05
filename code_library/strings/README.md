@@ -138,7 +138,7 @@
 - [Codeforces 471D - MUH and Cube Walls](https://codeforces.com/problemset/problem/471/D) [✔](../../practice/strings/codeforces_471d.cpp "Accepted solution")
 - [Codeforces 808G - Anthem of Berland](https://codeforces.com/problemset/problem/808/G) [✔](../../practice/strings/codeforces_808g.cpp "Accepted solution")
 - [Codeforces 825F - String Compression](https://codeforces.com/problemset/problem/825/F) [✔](../../practice/strings/codeforces_825f.cpp "Accepted solution")
-- [CSES 1112 - Required Substring](https://cses.fi/problemset/task/1112)
+- [CSES 1112 - Required Substring](https://cses.fi/problemset/task/1112) [✔](../../practice/strings/cses_1112.cpp "Accepted solution")
 - [Timus 1996 - Cipher Message 3](https://acm.timus.ru/problem.aspx?num=1996)
 - [UVa 1328 - Period](https://onlinejudge.org/external/13/1328.pdf) [✔](../../practice/strings/uva_1328.cpp "Accepted solution")
 - [UVa 1358 - Generator](https://onlinejudge.org/external/13/1358.pdf) [✔](../../practice/strings/uva_1358.cpp "Accepted solution")
