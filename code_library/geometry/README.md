@@ -144,5 +144,5 @@
 
 #### [Segment Intersection Sweep](segment_intersection_sweep.cpp)
 
-- [Timus 1469 - No Smoking!](https://acm.timus.ru/problem.aspx?num=1469)
+- [Timus 1469 - No Smoking!](https://acm.timus.ru/problem.aspx?num=1469) [✔](../../practice/geometry/timus_1469.cpp "Accepted solution")
 - [USACO 943 - Cow Steeplechase II](https://usaco.org/index.php?page=viewproblem2&cpid=943)
