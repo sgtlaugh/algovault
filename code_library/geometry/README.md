@@ -47,7 +47,6 @@
 - [Kattis fenceortho - Fence Orthogonality](https://open.kattis.com/problems/fenceortho) [✔](../../practice/geometry/kattis_fenceortho.cpp "Accepted solution")
 - [Kattis parade - Keep the Parade Safe](https://open.kattis.com/problems/parade) [✔](../../practice/geometry/kattis_parade.cpp "Accepted solution")
 - [Kattis roberthood - Robert Hood](https://open.kattis.com/problems/roberthood) [✔](../../practice/geometry/kattis_roberthood.cpp "Accepted solution")
-- [MatCom 9413 - Onion Layers](https://matcomgrader.com/problem/9413/onion-layers/)
 - [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/) [✔](../../practice/geometry/spoj_iitkwpcl_convex_hull.cpp "Accepted solution")
 - [SPOJ TRAKA - TRAKA](https://www.spoj.com/problems/TRAKA/) [✔](../../practice/geometry/spoj_traka.cpp "Accepted solution")
 - [Timus 1185 - Wall](https://acm.timus.ru/problem.aspx?num=1185) [✔](../../practice/geometry/timus_1185.cpp "Accepted solution")
@@ -70,7 +69,6 @@
 
 #### [Delaunay Triangulation](delaunay.cpp)
 
-- [Codeforces acmsguru 383 - Caravans](https://codeforces.com/problemsets/acmsguru/problem/99999/383)
 - [Codeforces Gym 102482G - Panda Preserve](https://codeforces.com/gym/102482/problem/G) [✔](../../practice/geometry/codeforces_gym_102482g.cpp "Accepted solution")
 - [Luogu P6362 - 平面欧几里得最小生成树](https://www.luogu.com.cn/problem/P6362) [✔](../../practice/geometry/luogu_p6362.cpp "Accepted solution")
 - [Timus 1504 - Good Manners](https://acm.timus.ru/problem.aspx?num=1504)
