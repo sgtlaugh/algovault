@@ -481,7 +481,7 @@
 - [oj.uz COCI17_sirni - Sirni](https://oj.uz/problem/view/COCI17_sirni) [✔](../../practice/graphs/oj_uz_coci17_sirni.cpp "Accepted solution")
 - [SPOJ BLINNET - Bytelandian Blingors Network](https://www.spoj.com/problems/BLINNET/)
 - [SPOJ EC_MODE - Modems](https://www.spoj.com/problems/EC_MODE/)
-- [SPOJ IITKWPCG - Help the old King](https://www.spoj.com/problems/IITKWPCG/)
+- [SPOJ IITKWPCG - Help the old King](https://www.spoj.com/problems/IITKWPCG/) [✔](../../practice/graphs/spoj_iitkwpcg.cpp "Accepted solution")
 - [SPOJ MARYBMW - BMW](https://www.spoj.com/problems/MARYBMW/)
 - [USACO 531 - Superbull](https://usaco.org/index.php?page=viewproblem2&cpid=531) [✔](../../practice/graphs/usaco_531.cpp "Accepted solution")
 - [USACO 623 - Fenced In](https://usaco.org/index.php?page=viewproblem2&cpid=623)
