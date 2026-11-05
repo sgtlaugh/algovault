@@ -510,4 +510,4 @@
 #### [XOR Segment Tree](xor_segment_tree.cpp)
 
 - [Codeforces 1654F - Minimal String Xoration](https://codeforces.com/problemset/problem/1654/F)
-- [Codeforces 1716E - Swap and Maximum Block](https://codeforces.com/problemset/problem/1716/E)
+- [Codeforces 1716E - Swap and Maximum Block](https://codeforces.com/problemset/problem/1716/E) [✔](../../practice/data_structures/codeforces_1716e.cpp "Accepted solution")
