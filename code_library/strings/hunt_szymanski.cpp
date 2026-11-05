@@ -24,8 +24,15 @@ int lcs(const Seq& A, const Seq& B){
     sort(values.begin(), values.end());
     values.erase(unique(values.begin(), values.end()), values.end());
 
-    vector<vector<int>> adj(values.size());
-    for (i = 0; i < m; i++) adj[lower_bound(values.begin(), values.end(), B[i]) - values.begin()].push_back(i);
+    /// Positions of each value of B, grouped by rank in one array: start[r]..start[r + 1] - 1, increasing
+    vector<int> start(values.size() + 1, 0), where(m), adj(m);
+    for (i = 0; i < m; i++){
+        where[i] = lower_bound(values.begin(), values.end(), B[i]) - values.begin();
+        start[where[i] + 1]++;
+    }
+    for (i = 0; i < (int)values.size(); i++) start[i + 1] += start[i];
+    vector<int> fill(start.begin(), start.end() - 1);
+    for (i = 0; i < m; i++) adj[fill[where[i]]++] = i;
 
     /// rank[i] = -1 when A[i] never occurs in B
     vector<int> rank(n), ar(1, -1);
@@ -37,10 +44,9 @@ int lcs(const Seq& A, const Seq& B){
     for (i = 0; i < n; i++){
         if (rank[i] == -1) continue;
 
-        const vector<int>& pos = adj[rank[i]];
         /// Positions come in decreasing order, so each one lands at or before the slot of the previous
-        for (j = (int)pos.size() - 1, k = ar.size(); j >= 0; j--){
-            int x = pos[j];
+        for (j = start[rank[i] + 1] - 1, k = ar.size(); j >= start[rank[i]]; j--){
+            int x = adj[j];
             if (x > ar.back()) ar.push_back(x), k = ar.size();
             else{
                 k = lower_bound(ar.begin(), ar.begin() + k, x) - ar.begin();
