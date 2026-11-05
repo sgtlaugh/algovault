@@ -26,7 +26,7 @@
 - [UVa 11177 - Fighting Against a Polygonal Monster](https://onlinejudge.org/external/111/11177.pdf) [✔](../../practice/geometry/uva_11177.cpp "Accepted solution")
 - [UVa 11676 - Deadly Attack](https://onlinejudge.org/external/116/11676.pdf) [✔](../../practice/geometry/uva_11676.cpp "Accepted solution")
 - [UVa 11978 - Fukushima Nuclear Blast](https://onlinejudge.org/external/119/11978.pdf) [✔](../../practice/geometry/uva_11978.cpp "Accepted solution")
-- [UVa 12056 - Circle Strafing](https://onlinejudge.org/external/120/12056.pdf)
+- [UVa 12056 - Circle Strafing](https://onlinejudge.org/external/120/12056.pdf) [✔](../../practice/geometry/uva_12056.cpp "Accepted solution")
 
 #### [Closest Pair of Points](closest_pair.cpp)
 
