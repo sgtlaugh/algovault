@@ -557,7 +557,7 @@
 - [CSES 1685 - New Flight Routes](https://cses.fi/problemset/task/1685) [✔](../../practice/graphs/cses_1685.cpp "Accepted solution")
 - [CSES 1686 - Coin Collector](https://cses.fi/problemset/task/1686) [✔](../../practice/graphs/cses_1686.cpp "Accepted solution")
 - [CSES 2143 - Reachability Queries](https://cses.fi/problemset/task/2143) [✔](../../practice/graphs/cses_2143.cpp "Accepted solution")
-- [SPOJ ADAPANEL - Ada and Panels](https://www.spoj.com/problems/ADAPANEL/)
+- [SPOJ ADAPANEL - Ada and Panels](https://www.spoj.com/problems/ADAPANEL/) [✔](../../practice/graphs/spoj_adapanel.cpp "Accepted solution")
 - [SPOJ CAPCITY - Capital City](https://www.spoj.com/problems/CAPCITY/)
 - [SPOJ GOODA - Good Travels](https://www.spoj.com/problems/GOODA/)
 - [SPOJ TFRIENDS - True Friends](https://www.spoj.com/problems/TFRIENDS/)
