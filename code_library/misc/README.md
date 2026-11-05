@@ -22,7 +22,7 @@
 
 #### [Bit Twiddling](bit_twiddling.cpp)
 
-- [AOJ ITP2_11_D - Enumeration of Combinations](https://onlinejudge.u-aizu.ac.jp/problems/ITP2_11_D)
+- [AOJ ITP2_11_D - Enumeration of Combinations](https://onlinejudge.u-aizu.ac.jp/problems/ITP2_11_D) [✔](../../practice/misc/aoj_itp2_11_d.cpp "Accepted solution")
 
 #### [Comb Sort](combsort.cpp)
 
