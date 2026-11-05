@@ -18,7 +18,7 @@
 
 #### [Aho-Corasick](aho_corasick.cpp)
 
-- [CodeChef LYRC - Music & Lyrics](https://www.codechef.com/problems/LYRC)
+- [CodeChef LYRC - Music & Lyrics](https://www.codechef.com/problems/LYRC) [✔](../../practice/strings/codechef_lyrc.cpp "Accepted solution")
 - [CodeChef TWOSTRS - Buying a New String](https://www.codechef.com/problems/TWOSTRS) [✔](../../practice/strings/codechef_twostrs.cpp "Accepted solution")
 - [Codeforces 86C - Genetic engineering](https://codeforces.com/problemset/problem/86/C) [✔](../../practice/strings/codeforces_86c.cpp "Accepted solution")
 - [Codeforces 163E - e-Government](https://codeforces.com/problemset/problem/163/E) [✔](../../practice/data_structures/codeforces_163e.cpp "Accepted solution")
