@@ -50,7 +50,7 @@
 - [MatCom 9413 - Onion Layers](https://matcomgrader.com/problem/9413/onion-layers/)
 - [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/) [✔](../../practice/geometry/spoj_iitkwpcl_convex_hull.cpp "Accepted solution")
 - [SPOJ TRAKA - TRAKA](https://www.spoj.com/problems/TRAKA/) [✔](../../practice/geometry/spoj_traka.cpp "Accepted solution")
-- [Timus 1185 - Wall](https://acm.timus.ru/problem.aspx?num=1185)
+- [Timus 1185 - Wall](https://acm.timus.ru/problem.aspx?num=1185) [✔](../../practice/geometry/timus_1185.cpp "Accepted solution")
 - [USACO 382 - Cow Curling](https://usaco.org/index.php?page=viewproblem2&cpid=382)
 - [USACO 864 - Balance Beam](https://usaco.org/index.php?page=viewproblem2&cpid=864)
 - [UVa 675 - Convex Hull of the Polygon](https://onlinejudge.org/external/6/675.pdf) [✔](../../practice/geometry/uva_675.cpp "Accepted solution")
