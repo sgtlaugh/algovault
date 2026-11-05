@@ -419,7 +419,7 @@
 
 - [Codeforces 708D - Incorrect Flow](https://codeforces.com/problemset/problem/708/D) [✔](../../practice/graphs/codeforces_708d_min_cost_circulation.cpp "Accepted solution")
 - [Codeforces Gym 100491A - Arbitrage](https://codeforces.com/gym/100491/problem/A) [✔](../../practice/graphs/codeforces_gym_100491a.cpp "Accepted solution")
-- [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D)
+- [Codeforces Gym 101190D - Delight for a Cat](https://codeforces.com/gym/101190/problem/D) [✔](../../practice/graphs/codeforces_gym_101190d_min_cost_circulation.cpp "Accepted solution")
 - [UVa 1659 - Help Little Laura](https://onlinejudge.org/external/16/1659.pdf) [✔](../../practice/graphs/uva_1659_min_cost_circulation.cpp "Accepted solution")
 
 #### [Min Cost Max Flow, Dijkstra](mcmf_dijkstra.cpp)
