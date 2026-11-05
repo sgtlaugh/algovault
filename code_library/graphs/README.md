@@ -283,7 +283,7 @@
 - [CSES 1709 - Coin Grid](https://cses.fi/problemset/task/1709) [✔](../../practice/graphs/cses_1709.cpp "Accepted solution")
 - [Kattis borders - Borders](https://open.kattis.com/problems/borders) [✔](../../practice/graphs/kattis_borders.cpp "Accepted solution")
 - [Kattis thewrathofkahn - The Wrath of Kahn](https://open.kattis.com/problems/thewrathofkahn) [✔](../../practice/graphs/kattis_thewrathofkahn.cpp "Accepted solution")
-- [SPOJ GRIMM - A Terribly Grimm Problem](https://www.spoj.com/problems/GRIMM/)
+- [SPOJ GRIMM - A Terribly Grimm Problem](https://www.spoj.com/problems/GRIMM/) [✔](../../practice/graphs/spoj_grimm.cpp "Accepted solution")
 - [USACO 93 - Cow Steeplechase](https://usaco.org/index.php?page=viewproblem2&cpid=93) [✔](../../practice/graphs/usaco_93.cpp "Accepted solution")
 - [UVa 670 - The dog task](https://onlinejudge.org/external/6/670.pdf) [✔](../../practice/graphs/uva_670.cpp "Accepted solution")
 - [UVa 1194 - Machine Schedule](https://onlinejudge.org/external/11/1194.pdf) [✔](../../practice/graphs/uva_1194.cpp "Accepted solution")
