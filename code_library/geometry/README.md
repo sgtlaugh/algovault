@@ -48,7 +48,7 @@
 - [Kattis parade - Keep the Parade Safe](https://open.kattis.com/problems/parade) [✔](../../practice/geometry/kattis_parade.cpp "Accepted solution")
 - [Kattis roberthood - Robert Hood](https://open.kattis.com/problems/roberthood) [✔](../../practice/geometry/kattis_roberthood.cpp "Accepted solution")
 - [MatCom 9413 - Onion Layers](https://matcomgrader.com/problem/9413/onion-layers/)
-- [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/)
+- [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/) [✔](../../practice/geometry/spoj_iitkwpcl_convex_hull.cpp "Accepted solution")
 - [SPOJ TRAKA - TRAKA](https://www.spoj.com/problems/TRAKA/)
 - [Timus 1185 - Wall](https://acm.timus.ru/problem.aspx?num=1185)
 - [USACO 382 - Cow Curling](https://usaco.org/index.php?page=viewproblem2&cpid=382)
