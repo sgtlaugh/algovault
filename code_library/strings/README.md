@@ -28,7 +28,7 @@
 - [Codeforces 963D - Frequency of String](https://codeforces.com/problemset/problem/963/D)
 - [Codeforces 1202E - You Are Given Some Strings...](https://codeforces.com/problemset/problem/1202/E)
 - [Codeforces 1207G - Indie Album](https://codeforces.com/problemset/problem/1207/G)
-- [Codeforces 1400F - x-prime Substrings](https://codeforces.com/problemset/problem/1400/F)
+- [Codeforces 1400F - x-prime Substrings](https://codeforces.com/problemset/problem/1400/F) [✔](../../practice/strings/codeforces_1400f.cpp "Accepted solution")
 - [Codeforces Gym 100738J - The craziness of Juvel](https://codeforces.com/gym/100738/problem/J)
 - [Codeforces Gym 100923D - Por Costel and the Censorship Committee](https://codeforces.com/gym/100923/problem/D)
 - [Codeforces Gym 101064E - A Word to Trump All](https://codeforces.com/gym/101064/problem/E)
