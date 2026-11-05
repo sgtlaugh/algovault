@@ -25,7 +25,7 @@
 - [Codeforces 547E - Mike and Friends](https://codeforces.com/problemset/problem/547/E) [✔](../../practice/strings/codeforces_547e.cpp "Accepted solution")
 - [Codeforces 585F - Digits of Number Pi](https://codeforces.com/problemset/problem/585/F)
 - [Codeforces 587F - Duff is Mad](https://codeforces.com/problemset/problem/587/F) [✔](../../practice/strings/codeforces_587f.cpp "Accepted solution")
-- [Codeforces 963D - Frequency of String](https://codeforces.com/problemset/problem/963/D)
+- [Codeforces 963D - Frequency of String](https://codeforces.com/problemset/problem/963/D) [✔](../../practice/strings/codeforces_963d.cpp "Accepted solution")
 - [Codeforces 1202E - You Are Given Some Strings...](https://codeforces.com/problemset/problem/1202/E) [✔](../../practice/strings/codeforces_1202e.cpp "Accepted solution")
 - [Codeforces 1207G - Indie Album](https://codeforces.com/problemset/problem/1207/G)
 - [Codeforces 1400F - x-prime Substrings](https://codeforces.com/problemset/problem/1400/F) [✔](../../practice/strings/codeforces_1400f.cpp "Accepted solution")
