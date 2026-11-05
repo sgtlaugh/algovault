@@ -158,7 +158,7 @@
 #### [Manacher](manacher.cpp)
 
 - [CodeChef NONPALIN - First non-Palindrome](https://www.codechef.com/problems/NONPALIN) [✔](../../practice/strings/codechef_nonpalin.cpp "Accepted solution")
-- [Codeforces 17E - Palisection](https://codeforces.com/problemset/problem/17/E)
+- [Codeforces 17E - Palisection](https://codeforces.com/problemset/problem/17/E) [✔](../../practice/strings/codeforces_17e.cpp "Accepted solution")
 - [Codeforces 30E - Tricky and Clever Password](https://codeforces.com/problemset/problem/30/E)
 - [Codeforces 1080E - Sonya and Matrix Beauty](https://codeforces.com/problemset/problem/1080/E)
 - [Codeforces 1326D2 - Prefix-Suffix Palindrome (Hard version)](https://codeforces.com/problemset/problem/1326/D2)
