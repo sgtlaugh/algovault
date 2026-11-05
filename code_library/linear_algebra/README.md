@@ -74,7 +74,7 @@
 - [Codeforces 506E - Mr. Kitayuta's Gift](https://codeforces.com/problemset/problem/506/E) [✔](../../practice/linear_algebra/codeforces_506e_matrix.cpp "Accepted solution")
 - [Codeforces 691E - Xor-sequences](https://codeforces.com/problemset/problem/691/E) [✔](../../practice/linear_algebra/codeforces_691e.cpp "Accepted solution")
 - [Codeforces 717D - Dexterina’s Lab](https://codeforces.com/problemset/problem/717/D) [✔](../../practice/linear_algebra/codeforces_717d_matrix.cpp "Accepted solution")
-- [Codeforces 852B - Neural Network country](https://codeforces.com/problemset/problem/852/B)
+- [Codeforces 852B - Neural Network country](https://codeforces.com/problemset/problem/852/B) [✔](../../practice/linear_algebra/codeforces_852b.cpp "Accepted solution")
 - [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F)
 - [Codeforces 1117D - Magic Gems](https://codeforces.com/problemset/problem/1117/D)
 - [Codeforces 1182E - Product Oriented Recurrence](https://codeforces.com/problemset/problem/1182/E)
