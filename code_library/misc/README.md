@@ -18,7 +18,7 @@
 
 #### [Assembly](assembly.cpp)
 
-- [AOJ ALDS1_1_B - Greatest Common Divisor](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_1_B)
+- [AOJ ALDS1_1_B - Greatest Common Divisor](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_1_B) [✔](../../practice/misc/aoj_alds1_1_b.cpp "Accepted solution")
 
 #### [Bit Twiddling](bit_twiddling.cpp)
 
