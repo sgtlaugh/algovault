@@ -131,7 +131,7 @@
 #### [KMP](kmp.cpp)
 
 - [Codeforces 25E - Test](https://codeforces.com/problemset/problem/25/E) [✔](../../practice/strings/codeforces_25e.cpp "Accepted solution")
-- [Codeforces 30E - Tricky and Clever Password](https://codeforces.com/problemset/problem/30/E)
+- [Codeforces 30E - Tricky and Clever Password](https://codeforces.com/problemset/problem/30/E) [✔](../../practice/strings/codeforces_30e.cpp "Accepted solution")
 - [Codeforces 149E - Martian Strings](https://codeforces.com/problemset/problem/149/E) [✔](../../practice/strings/codeforces_149e.cpp "Accepted solution")
 - [Codeforces 346B - Lucky Common Subsequence](https://codeforces.com/problemset/problem/346/B) [✔](../../practice/strings/codeforces_346b.cpp "Accepted solution")
 - [Codeforces 432D - Prefixes and Suffixes](https://codeforces.com/problemset/problem/432/D) [✔](../../practice/strings/codeforces_432d_kmp.cpp "Accepted solution")
