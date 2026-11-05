@@ -13,7 +13,6 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 #### [Alpha Beta Pruning](alpha_beta_pruning.py)
 
-- [POJ 3527 - Generalized Connect Four](http://poj.org/problem?id=3527)
 - [UVa 751 - Triangle War](https://onlinejudge.org/external/7/751.pdf)
 - [UVa 1085 - House of Cards](https://onlinejudge.org/external/10/1085.pdf) [✔](../../practice/python/uva_1085.py "Accepted solution")
 - [UVa 10111 - Find the Winning Move](https://onlinejudge.org/external/101/10111.pdf) [✔](../../practice/python/uva_10111.py "Accepted solution")

@@ -94,9 +94,9 @@
 
 - [CodeChef MGCHPERM - Misha and Permutation](https://www.codechef.com/problems/MGCHPERM) [✔](../../practice/algebra/codechef_mgchperm.cpp "Accepted solution")
 - [CodeChef RNG - Random Number Generator](https://www.codechef.com/problems/RNG) [✔](../../practice/algebra/codechef_rng_linear_recurrence.cpp "Accepted solution")
-- [Codeforces 506E - Mr. Kitayuta's Gift](https://codeforces.com/problemset/problem/506/E) [✔](../../practice/algebra/codeforces_506e.cpp "Accepted solution")
+- [Codeforces 506E - Mr. Kitayuta's Gift](https://codeforces.com/problemset/problem/506/E) [✔](../../practice/algebra/codeforces_506e_linear_recurrence.cpp "Accepted solution")
 - [Codeforces 717A - Festival Organization](https://codeforces.com/problemset/problem/717/A) [✔](../../practice/algebra/codeforces_717a_linear_recurrence.cpp "Accepted solution")
-- [Codeforces 1117D - Magic Gems](https://codeforces.com/problemset/problem/1117/D) [✔](../../practice/algebra/codeforces_1117d.cpp "Accepted solution")
+- [Codeforces 1117D - Magic Gems](https://codeforces.com/problemset/problem/1117/D) [✔](../../practice/algebra/codeforces_1117d_linear_recurrence.cpp "Accepted solution")
 - [HDU 4914 - Linear recursive sequence](https://acm.hdu.edu.cn/showproblem.php?pid=4914) [✔](../../practice/algebra/hdu_4914.cpp "Accepted solution")
 - [SPOJ DYEL - Do You Even Lift](https://www.spoj.com/problems/DYEL/) [✔](../../practice/algebra/spoj_dyel.cpp "Accepted solution")
 - [SPOJ FINDLR - Find Linear Recurrence](https://www.spoj.com/problems/FINDLR/)
@@ -153,7 +153,7 @@
 
 - [Codeforces 453D - Little Pony and Elements of Harmony](https://codeforces.com/problemset/problem/453/D) [✔](../../practice/algebra/codeforces_453d.cpp "Accepted solution")
 - [Codeforces 662C - Binary Table](https://codeforces.com/problemset/problem/662/C) [✔](../../practice/algebra/codeforces_662c.cpp "Accepted solution")
-- [Codeforces 717D - Dexterina’s Lab](https://codeforces.com/problemset/problem/717/D) [✔](../../practice/algebra/codeforces_717d.cpp "Accepted solution")
+- [Codeforces 717D - Dexterina’s Lab](https://codeforces.com/problemset/problem/717/D) [✔](../../practice/algebra/codeforces_717d_walsh_hadamard.cpp "Accepted solution")
 - [Codeforces Gym 102141B - Mysterious LCM](https://codeforces.com/gym/102141/problem/B) [✔](../../practice/algebra/codeforces_gym_102141b.cpp "Accepted solution")
 - [CS Academy random_nim_generator - Random Nim Generator](https://csacademy.com/contest/archive/task/random_nim_generator/) [✔](../../practice/algebra/cs_academy_random_nim_generator.cpp "Accepted solution")
 - [CS Academy token-grid - Tokens on a grid](https://csacademy.com/contest/archive/task/token-grid/) [✔](../../practice/algebra/cs_academy_token_grid.cpp "Accepted solution")
