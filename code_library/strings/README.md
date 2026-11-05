@@ -92,7 +92,7 @@
 - [Codeforces 7D - Palindrome Degree](https://codeforces.com/problemset/problem/7/D) [✔](../../practice/strings/codeforces_7d.cpp "Accepted solution")
 - [Codeforces 19C - Deletion of Repeats](https://codeforces.com/problemset/problem/19/C) [✔](../../practice/strings/codeforces_19c.cpp "Accepted solution")
 - [Codeforces 271D - Good Substrings](https://codeforces.com/problemset/problem/271/D) [✔](../../practice/strings/codeforces_271d.cpp "Accepted solution")
-- [Codeforces 727E - Games on a CD](https://codeforces.com/problemset/problem/727/E)
+- [Codeforces 727E - Games on a CD](https://codeforces.com/problemset/problem/727/E) [✔](../../practice/strings/codeforces_727e.cpp "Accepted solution")
 - [Codeforces 822E - Liar](https://codeforces.com/problemset/problem/822/E)
 - [Codeforces 835D - Palindromic characteristics](https://codeforces.com/problemset/problem/835/D)
 - [Codeforces 1056E - Check Transcription](https://codeforces.com/problemset/problem/1056/E)
