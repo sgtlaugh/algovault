@@ -374,7 +374,7 @@
 - [CSES 2432 - Grid Puzzle I](https://cses.fi/problemset/task/2432) [✔](../../practice/graphs/cses_2432.cpp "Accepted solution")
 - [LightOJ 1286 - Space Shuttle Experiments](https://lightoj.com/problem/space-shuttle-experiments) [✔](../../practice/graphs/lightoj_1286.cpp "Accepted solution")
 - [SPOJ BANKROB - Bank robbery](https://www.spoj.com/problems/BANKROB/) [✔](../../practice/graphs/spoj_bankrob.cpp "Accepted solution")
-- [SPOJ DISJPATH - Disjoint Paths](https://www.spoj.com/problems/DISJPATH/)
+- [SPOJ DISJPATH - Disjoint Paths](https://www.spoj.com/problems/DISJPATH/) [✔](../../practice/graphs/spoj_disjpath.cpp "Accepted solution")
 - [SPOJ FASTFLOW - Fast Maximum Flow](https://www.spoj.com/problems/FASTFLOW/)
 - [SPOJ MOBIVINA - MobiZone vs VinaGone](https://www.spoj.com/problems/MOBIVINA/)
 - [SPOJ MTOTALF - Total Flow](https://www.spoj.com/problems/MTOTALF/)
