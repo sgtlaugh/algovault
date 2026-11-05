@@ -79,7 +79,7 @@
 
 #### [Geometry](geometry.cpp)
 
-- [Codeforces 166B - Polygons](https://codeforces.com/problemset/problem/166/B)
+- [Codeforces 166B - Polygons](https://codeforces.com/problemset/problem/166/B) [✔](../../practice/geometry/codeforces_166b.cpp "Accepted solution")
 - [Codeforces 598F - Cut Length](https://codeforces.com/problemset/problem/598/F)
 - [CSES 2189 - Point Location Test](https://cses.fi/problemset/task/2189) [✔](../../practice/geometry/cses_2189.cpp "Accepted solution")
 - [CSES 2190 - Line Segment Intersection](https://cses.fi/problemset/task/2190) [✔](../../practice/geometry/cses_2190.cpp "Accepted solution")
