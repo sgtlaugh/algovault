@@ -45,7 +45,7 @@
 - [CSES 2195 - Convex Hull](https://cses.fi/problemset/task/2195) [✔](../../practice/geometry/cses_2195.cpp "Accepted solution")
 - [Kattis convexhull - Convex Hull](https://open.kattis.com/problems/convexhull) [✔](../../practice/geometry/kattis_convexhull.cpp "Accepted solution")
 - [Kattis fenceortho - Fence Orthogonality](https://open.kattis.com/problems/fenceortho) [✔](../../practice/geometry/kattis_fenceortho.cpp "Accepted solution")
-- [Kattis parade - Keep the Parade Safe](https://open.kattis.com/problems/parade)
+- [Kattis parade - Keep the Parade Safe](https://open.kattis.com/problems/parade) [✔](../../practice/geometry/kattis_parade.cpp "Accepted solution")
 - [Kattis roberthood - Robert Hood](https://open.kattis.com/problems/roberthood)
 - [MatCom 9413 - Onion Layers](https://matcomgrader.com/problem/9413/onion-layers/)
 - [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/)
