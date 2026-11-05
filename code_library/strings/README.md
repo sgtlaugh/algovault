@@ -62,7 +62,7 @@
 - [UVa 11468 - Substring](https://onlinejudge.org/external/114/11468.pdf) [✔](../../practice/strings/uva_11468.cpp "Accepted solution")
 - [UVa 12244 - Growing Strings](https://onlinejudge.org/external/122/12244.pdf) [✔](../../practice/strings/uva_12244.cpp "Accepted solution")
 - [UVa 13163 - Passwords](https://onlinejudge.org/external/131/13163.pdf) [✔](../../practice/strings/uva_13163.cpp "Accepted solution")
-- [ZOJ 2115 - Dangerous Pattern](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827365614)
+- [ZOJ 2115 - Dangerous Pattern](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827365614) [✔](../../practice/strings/zoj_2115.cpp "Accepted solution")
 - [ZOJ 3228 - Searching the String](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827367940)
 - [ZOJ 3430 - Detect the Virus](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827368613)
 - [ZOJ 3494 - BCD Code](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827368816)
