@@ -32,7 +32,7 @@
 - [Codeforces Gym 100738J - The craziness of Juvel](https://codeforces.com/gym/100738/problem/J)
 - [Codeforces Gym 100923D - Por Costel and the Censorship Committee](https://codeforces.com/gym/100923/problem/D)
 - [Codeforces Gym 101064E - A Word to Trump All](https://codeforces.com/gym/101064/problem/E)
-- [CSES 2102 - Finding Patterns](https://cses.fi/problemset/task/2102)
+- [CSES 2102 - Finding Patterns](https://cses.fi/problemset/task/2102) [✔](../../practice/strings/cses_2102_aho_corasick.cpp "Accepted solution")
 - [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103)
 - [CSES 2104 - Pattern Positions](https://cses.fi/problemset/task/2104)
 - [HDU 2222 - Keywords Search](https://acm.hdu.edu.cn/showproblem.php?pid=2222)
