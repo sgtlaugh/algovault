@@ -61,7 +61,7 @@
 
 #### [Absolute Center](absolute_center.cpp)
 
-- [Timus 1569 - Networking the "Iset"](https://acm.timus.ru/problem.aspx?num=1569)
+- [Timus 1569 - Networking the "Iset"](https://acm.timus.ru/problem.aspx?num=1569) [✔](../../practice/graphs/timus_1569.cpp "Accepted solution")
 
 #### [Articulation Points and Blocks](articulation_points.cpp)
 
