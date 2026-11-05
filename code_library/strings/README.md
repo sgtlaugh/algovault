@@ -164,7 +164,6 @@
 - [Codeforces 1326D2 - Prefix-Suffix Palindrome (Hard version)](https://codeforces.com/problemset/problem/1326/D2)
 - [Codeforces Gym 100032K - Subpalindromes](https://codeforces.com/gym/100032/problem/K)
 - [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157)
-- [Kattis castingspells - Casting Spells](https://open.kattis.com/problems/castingspells)
 - [Kattis palindromes - Palindromes](https://open.kattis.com/problems/palindromes)
 - [SPOJ NUMOFPAL - Number of Palindromes](https://www.spoj.com/problems/NUMOFPAL/)
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✔](../../practice/strings/uva_11475_manacher.cpp "Accepted solution")
