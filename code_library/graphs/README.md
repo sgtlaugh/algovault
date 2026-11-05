@@ -558,7 +558,7 @@
 - [CSES 1686 - Coin Collector](https://cses.fi/problemset/task/1686) [✔](../../practice/graphs/cses_1686.cpp "Accepted solution")
 - [CSES 2143 - Reachability Queries](https://cses.fi/problemset/task/2143) [✔](../../practice/graphs/cses_2143.cpp "Accepted solution")
 - [SPOJ ADAPANEL - Ada and Panels](https://www.spoj.com/problems/ADAPANEL/) [✔](../../practice/graphs/spoj_adapanel.cpp "Accepted solution")
-- [SPOJ CAPCITY - Capital City](https://www.spoj.com/problems/CAPCITY/)
+- [SPOJ CAPCITY - Capital City](https://www.spoj.com/problems/CAPCITY/) [✔](../../practice/graphs/spoj_capcity.cpp "Accepted solution")
 - [SPOJ GOODA - Good Travels](https://www.spoj.com/problems/GOODA/)
 - [SPOJ TFRIENDS - True Friends](https://www.spoj.com/problems/TFRIENDS/)
 - [USACO 516 - Grass Cownoisseur](https://usaco.org/index.php?page=viewproblem2&cpid=516) [✔](../../practice/graphs/usaco_516.cpp "Accepted solution")
