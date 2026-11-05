@@ -43,7 +43,7 @@
 - [HDU 3341 - Lost's revenge](https://acm.hdu.edu.cn/showproblem.php?pid=3341) [✔](../../practice/strings/hdu_3341.cpp "Accepted solution")
 - [HDU 3695 - Computer Virus on Planet Pandora](https://acm.hdu.edu.cn/showproblem.php?pid=3695) [✔](../../practice/strings/hdu_3695.cpp "Accepted solution")
 - [HDU 5384 - Danganronpa](https://acm.hdu.edu.cn/showproblem.php?pid=5384) [✔](../../practice/strings/hdu_5384.cpp "Accepted solution")
-- [Kattis taboo - Taboo](https://open.kattis.com/problems/taboo)
+- [Kattis taboo - Taboo](https://open.kattis.com/problems/taboo) [✔](../../practice/strings/kattis_taboo.cpp "Accepted solution")
 - [LightOJ 1427 - Substring Frequency (II)](https://lightoj.com/problem/substring-frequency-ii)
 - [POJ 1625 - Censored!](http://poj.org/problem?id=1625)
 - [POJ 2778 - DNA Sequence](http://poj.org/problem?id=2778)
