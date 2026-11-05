@@ -211,7 +211,7 @@
 - [Codeforces 802I - Fake News (hard)](https://codeforces.com/problemset/problem/802/I) [✔](../../practice/strings/codeforces_802i_suffix_array.cpp "Accepted solution")
 - [Codeforces 873F - Forbidden Indices](https://codeforces.com/problemset/problem/873/F) [✔](../../practice/strings/codeforces_873f_suffix_array.cpp "Accepted solution")
 - [Codeforces 1073G - Yet Another LCP Problem](https://codeforces.com/problemset/problem/1073/G) [✔](../../practice/strings/codeforces_1073g.cpp "Accepted solution")
-- [Codeforces Gym 100738F - Sequence of words](https://codeforces.com/gym/100738/problem/F)
+- [Codeforces Gym 100738F - Sequence of words](https://codeforces.com/gym/100738/problem/F) [✔](../../practice/strings/codeforces_gym_100738f.cpp "Accepted solution")
 - [Codeforces Gym 103957C - Suffixes and Palindromes](https://codeforces.com/gym/103957/problem/C) [✔](../../practice/strings/codeforces_gym_103957c.cpp "Accepted solution")
 - [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103) [✔](../../practice/strings/cses_2103_suffix_array.cpp "Accepted solution")
 - [CSES 2108 - Substring Order I](https://cses.fi/problemset/task/2108) [✔](../../practice/strings/cses_2108_suffix_array.cpp "Accepted solution")
