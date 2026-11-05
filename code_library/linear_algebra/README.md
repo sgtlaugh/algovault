@@ -14,7 +14,7 @@
 
 - [CodeChef CSTREE - Complement Spanning Trees](https://www.codechef.com/problems/CSTREE) [✔](../../practice/linear_algebra/codechef_cstree.cpp "Accepted solution")
 - [CodeChef STARROAD - Roads in Stars](https://www.codechef.com/problems/STARROAD) [✔](../../practice/linear_algebra/codechef_starroad.cpp "Accepted solution")
-- [Codeforces 167E - Wizards and Bets](https://codeforces.com/problemset/problem/167/E)
+- [Codeforces 167E - Wizards and Bets](https://codeforces.com/problemset/problem/167/E) [✔](../../practice/linear_algebra/codeforces_167e.cpp "Accepted solution")
 - [SPOJ KPMAZE - Maze](https://www.spoj.com/problems/KPMAZE/)
 - [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf) [✔](../../practice/linear_algebra/uva_10808.cpp "Accepted solution")
 
