@@ -190,7 +190,7 @@
 #### [Subsequence Automaton](subsequence_automaton.cpp)
 
 - [AtCoder ARC081 E - Don't Be a Subsequence](https://atcoder.jp/contests/arc081/tasks/arc081_c) [✔](../../practice/strings/atcoder_arc081_e.cpp "Accepted solution")
-- [Codeforces 91A - Newspaper Headline](https://codeforces.com/problemset/problem/91/A)
+- [Codeforces 91A - Newspaper Headline](https://codeforces.com/problemset/problem/91/A) [✔](../../practice/strings/codeforces_91a.cpp "Accepted solution")
 - [Codeforces 1149B - Three Religions](https://codeforces.com/problemset/problem/1149/B)
 - [Codeforces 1183H - Subsequences (hard version)](https://codeforces.com/problemset/problem/1183/H)
 - [SPOJ DSUBSEQ - Distinct Subsequences](https://www.spoj.com/problems/DSUBSEQ/)
