@@ -385,7 +385,7 @@
 
 #### [Segment Tree Beats](segment_tree_beats.cpp)
 
-- [HDU 5306 - Gorgeous Sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5306)
+- [HDU 5306 - Gorgeous Sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5306) [✔](../../practice/data_structures/hdu_5306.cpp "Accepted solution")
 
 #### [Segment Tree Merging](segment_tree_merge.cpp)
 
