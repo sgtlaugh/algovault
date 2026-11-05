@@ -37,6 +37,11 @@ void check_report(const vector<Point>& points, const KDTree& tree, long long x1,
     vector<int> res = tree.report(x1, y1, x2, y2);
     sort(res.begin(), res.end());
     assert(res == expected);
+
+    vector<int> called;
+    tree.report(x1, y1, x2, y2, [&](int i){ called.push_back(i); });
+    sort(called.begin(), called.end());
+    assert(called == expected);
 }
 
 /// The header's loop over tree.nodes must visit every input point once, with node.p equal to points[node.i]
@@ -137,6 +142,20 @@ vector<Point> ring_points(int n){
     return points;
 }
 
+/// Most points share one x or one y, so a split's pivot group fills a side or all of it and the fallback split runs
+vector<Point> heavy_points(int n, long long range){
+    long long common = stress::rand_int(-range, range), spread = stress::rand_int(0, 3);
+    bool on_x = stress::rand_int(0, 1);
+    vector<Point> points;
+    for (int i = 0; i < n; i++){
+        long long a = stress::rand_int(0, 9) ? common : stress::rand_int(-range, range);
+        long long b = stress::rand_int(-spread, spread);
+        points.push_back(on_x ? Point{a, b} : Point{b, a});
+    }
+
+    return points;
+}
+
 vector<Point> clustered_points(int n){
     vector<Point> centres;
     for (int k = stress::rand_int(1, 5); k > 0; k--){
@@ -158,23 +177,24 @@ int main(){
     check_exhaustive();
 
     for (long long it = 0; it < stress::scaled(3000); it++){
-        int n = stress::rand_int(1, it % 50 ? 60 : 1000);
+        int n = stress::rand_int(1, it % 10 ? 100 : 1000);
         long long range = vector<long long>{0, 2, 10, 1000, C}[stress::rand_int(0, 4)];
 
         vector<Point> points;
-        if (it % 7 == 0) points = extreme_points(n);
-        else if (it % 7 == 1) points = clustered_points(n);
+        if (it % 8 == 0) points = extreme_points(n);
+        else if (it % 8 == 1) points = clustered_points(n);
+        else if (it % 8 == 5) points = heavy_points(n, max(range, 10LL));
         else{
             long long fixed = stress::rand_int(-range, range);
             for (int i = 0; i < n; i++){
                 Point p = {stress::rand_int(-range, range), stress::rand_int(-range, range)};
-                if (it % 7 == 2) p.x = fixed;
-                if (it % 7 == 3) p.y = fixed;
-                if (it % 7 == 4) p.y = p.x;
+                if (it % 8 == 2) p.x = fixed;
+                if (it % 8 == 3) p.y = fixed;
+                if (it % 8 == 4) p.y = p.x;
                 points.push_back(p);
             }
         }
-        check_all(points, 20, range == 0 ? 3 : (it % 7 == 0 ? C : range));
+        check_all(points, 20, range == 0 ? 3 : (it % 8 == 0 ? C : range));
     }
 
     vector<Point> grid;

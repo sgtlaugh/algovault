@@ -13,6 +13,7 @@
  * tree.nearest(q): {dist, i}, a point points[i] nearest to q and its distance, {LLONG_MAX, -1} if there is none
  * tree.nearest(q, skip): {dist, i}, a point nearest to q among all points except points[skip], i = -1 if there is none
  * tree.report(x1, y1, x2, y2): indices of the points with x1 <= x <= x2 and y1 <= y <= y2, in no particular order
+ * tree.report(x1, y1, x2, y2, f): calls f(i) for each point with x1 <= x <= x2 and y1 <= y <= y2, building no vector
  * tree.nodes: every point once in tree order, as node.p = points[node.i]
  *
  * Notes:
@@ -40,79 +41,127 @@ struct KDTree{
         int i;
     };
 
-    /// The subtree over positions [l, r) is rooted at (l + r) / 2, which holds the box of the whole subtree
     struct Node{
         Point p;
         int i;
-        long long x1, x2, y1, y2;
     };
+
+    /// The box of nodes[l, r); left < 0 marks a leaf, else the cells left and right split nodes[l, r) in two
+    struct Cell{
+        long long x1, x2, y1, y2;
+        int l, r, left, right;
+    };
+
+    /// Scanning a leaf of 32 points is faster than splitting it further, for nearest and report alike
+    static const int LEAF = 32;
 
     Metric metric;
     vector<Node> nodes;
+    vector<Cell> cells;
 
     KDTree(const vector<Point>& points, Metric metric = EUCLIDEAN) : metric(metric), nodes(points.size()){
         for (int i = 0; i < (int)points.size(); i++) nodes[i].p = points[i], nodes[i].i = i;
-        build(0, nodes.size());
+        if (!nodes.empty()) build(0, nodes.size());
     }
 
     Neighbor nearest(const Point& q, int skip = -1) const {
         Neighbor best = {LLONG_MAX, -1};
-        if (!nodes.empty()) search(0, nodes.size(), q, skip, best);
+        if (!nodes.empty()) search(0, q, skip, best);
         return best;
     }
 
     vector<int> report(long long x1, long long y1, long long x2, long long y2) const {
         vector<int> res;
-        collect(0, nodes.size(), x1, y1, x2, y2, res);
+        report(x1, y1, x2, y2, [&](int i){ res.push_back(i); });
         return res;
     }
 
-    void build(int l, int r){
-        if (l >= r) return;
+    template <typename F>
+    void report(long long x1, long long y1, long long x2, long long y2, F f) const {
+        if (!nodes.empty()) collect(0, x1, y1, x2, y2, f);
+    }
 
+    int build(int l, int r){
         long long x1 = LLONG_MAX, x2 = LLONG_MIN, y1 = LLONG_MAX, y2 = LLONG_MIN;
         for (int k = l; k < r; k++){
             x1 = min(x1, nodes[k].p.x), x2 = max(x2, nodes[k].p.x);
             y1 = min(y1, nodes[k].p.y), y2 = max(y2, nodes[k].p.y);
         }
 
-        int m = (l + r) / 2;
-        bool by_x = x2 - x1 >= y2 - y1;
-        nth_element(nodes.begin() + l, nodes.begin() + m, nodes.begin() + r, [&](const Node& a, const Node& b){
-            return by_x ? a.p.x < b.p.x : a.p.y < b.p.y;
-        });
-        nodes[m].x1 = x1, nodes[m].x2 = x2, nodes[m].y1 = y1, nodes[m].y2 = y2;
+        int c = cells.size();
+        cells.push_back({x1, x2, y1, y2, l, r, -1, -1});
+        if (r - l <= LEAF || (x1 == x2 && y1 == y2)) return c;
 
-        build(l, m);
-        build(m + 1, r);
+        int m = split(l, r, x2 - x1 >= y2 - y1);
+        int left = build(l, m);
+        int right = build(m, r);
+        cells[c].left = left, cells[c].right = right;
+        return c;
     }
 
-    void search(int l, int r, const Point& q, int skip, Neighbor& best) const {
-        int m = (l + r) / 2;
-        const Node& node = nodes[m];
-        if (node.i != skip){
-            long long d = dist(node.p.x - q.x, node.p.y - q.y);
-            if (d < best.dist) best = {d, node.i};
+    /// One partition around the median of 15 samples is cheaper than nth_element, kept only for lopsided splits
+    int split(int l, int r, bool by_x){
+        auto key = [by_x](const Node& node){ return by_x ? node.p.x : node.p.y; };
+        int len = r - l;
+        long long sample[15];
+        for (int j = 0; j < 15; j++) sample[j] = key(nodes[l + (2 * j + 1) * (len / 30)]);
+        nth_element(sample, sample + 7, sample + 15);
+
+        long long pivot = sample[7];
+        auto first = nodes.begin() + l, last = nodes.begin() + r;
+        auto mid = partition(first, last, [&](const Node& node){ return key(node) < pivot; });
+        /// Points equal to the pivot join a too small left side, so duplicates share a cell that stops splitting
+        if (mid - first <= len / 8) mid = partition(mid, last, [&](const Node& node){ return key(node) == pivot; });
+        if (mid - first > len / 8 && last - mid > len / 8) return mid - nodes.begin();
+
+        mid = first + len / 2;
+        nth_element(first, mid, last, [&](const Node& a, const Node& b){ return key(a) < key(b); });
+        return mid - nodes.begin();
+    }
+
+    void search(int c, const Point& q, int skip, Neighbor& best) const {
+        const Cell& cell = cells[c];
+        /// A cell of equal points is a leaf of any size, so its nearest point is found here without a scan
+        if (cell.x1 == cell.x2 && cell.y1 == cell.y2){
+            int k = nodes[cell.l].i == skip ? cell.l + 1 : cell.l;
+            long long d = dist(cell.x1 - q.x, cell.y1 - q.y);
+            if (k < cell.r && d < best.dist) best = {d, nodes[k].i};
+            return;
         }
 
-        long long dl = box_dist(l, m, q), dr = box_dist(m + 1, r, q);
+        if (cell.left < 0){
+            scan(cell, q, skip, best);
+            return;
+        }
+
+        long long dl = box_dist(cells[cell.left], q), dr = box_dist(cells[cell.right], q);
         if (dl <= dr){
-            if (dl < best.dist) search(l, m, q, skip, best);
-            if (dr < best.dist) search(m + 1, r, q, skip, best);
+            if (dl < best.dist) search(cell.left, q, skip, best);
+            if (dr < best.dist) search(cell.right, q, skip, best);
         }
         else{
-            if (dr < best.dist) search(m + 1, r, q, skip, best);
-            if (dl < best.dist) search(l, m, q, skip, best);
+            if (dr < best.dist) search(cell.right, q, skip, best);
+            if (dl < best.dist) search(cell.left, q, skip, best);
         }
     }
 
-    /// LLONG_MAX for an empty range, which no best distance can beat, so empty children are never visited
-    long long box_dist(int l, int r, const Point& q) const {
-        if (l >= r) return LLONG_MAX;
+    /// The minimum first and its index only on improvement: the loop then has no branch on the distances
+    void scan(const Cell& cell, const Point& q, int skip, Neighbor& best) const {
+        long long leaf_best = LLONG_MAX;
+        for (int k = cell.l; k < cell.r; k++){
+            long long d = dist(nodes[k].p.x - q.x, nodes[k].p.y - q.y);
+            leaf_best = min(leaf_best, nodes[k].i == skip ? LLONG_MAX : d);
+        }
+        if (leaf_best >= best.dist) return;
 
-        const Node& node = nodes[(l + r) / 2];
-        long long dx = max({node.x1 - q.x, q.x - node.x2, 0LL});
-        long long dy = max({node.y1 - q.y, q.y - node.y2, 0LL});
+        int k = cell.l;
+        while (nodes[k].i == skip || dist(nodes[k].p.x - q.x, nodes[k].p.y - q.y) != leaf_best) k++;
+        best = {leaf_best, nodes[k].i};
+    }
+
+    long long box_dist(const Cell& cell, const Point& q) const {
+        long long dx = max({cell.x1 - q.x, q.x - cell.x2, 0LL});
+        long long dy = max({cell.y1 - q.y, q.y - cell.y2, 0LL});
         return dist(dx, dy);
     }
 
@@ -120,20 +169,26 @@ struct KDTree{
         return metric == EUCLIDEAN ? dx * dx + dy * dy : abs(dx) + abs(dy);
     }
 
-    void collect(int l, int r, long long x1, long long y1, long long x2, long long y2, vector<int>& res) const {
-        if (l >= r) return;
-
-        int m = (l + r) / 2;
-        const Node& node = nodes[m];
-        if (node.x2 < x1 || x2 < node.x1 || node.y2 < y1 || y2 < node.y1) return;
-        if (x1 <= node.x1 && node.x2 <= x2 && y1 <= node.y1 && node.y2 <= y2){
-            for (int k = l; k < r; k++) res.push_back(nodes[k].i);
+    template <typename F>
+    void collect(int c, long long x1, long long y1, long long x2, long long y2, F& f) const {
+        const Cell& cell = cells[c];
+        if (cell.x2 < x1 || x2 < cell.x1 || cell.y2 < y1 || y2 < cell.y1) return;
+        if (x1 <= cell.x1 && cell.x2 <= x2 && y1 <= cell.y1 && cell.y2 <= y2){
+            for (int k = cell.l; k < cell.r; k++) f(nodes[k].i);
             return;
         }
 
-        if (x1 <= node.p.x && node.p.x <= x2 && y1 <= node.p.y && node.p.y <= y2) res.push_back(node.i);
-        collect(l, m, x1, y1, x2, y2, res);
-        collect(m + 1, r, x1, y1, x2, y2, res);
+        if (cell.left < 0){
+            for (int k = cell.l; k < cell.r; k++){
+                const Point& p = nodes[k].p;
+                if (x1 <= p.x && p.x <= x2 && y1 <= p.y && p.y <= y2) f(nodes[k].i);
+            }
+
+            return;
+        }
+
+        collect(cell.left, x1, y1, x2, y2, f);
+        collect(cell.right, x1, y1, x2, y2, f);
     }
 };
 
@@ -164,6 +219,10 @@ int main(){
     sort(inside.begin(), inside.end());
     assert(inside == vector<int>({0, 1, 3}));
     assert(tree.report(4, 0, 6, 5).empty());
+
+    int count = 0;
+    tree.report(2, 0, 3, 2, [&](int){ count++; });
+    assert(count == 3);
 
     return 0;
 }
