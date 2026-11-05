@@ -178,7 +178,7 @@
 
 - [Codeforces 932G - Palindrome Partition](https://codeforces.com/problemset/problem/932/G) [✔](../../practice/strings/codeforces_932g.cpp "Accepted solution")
 - [Codeforces Gym 100543G - Virus synthesis](https://codeforces.com/gym/100543/problem/G) [✔](../../practice/strings/codeforces_gym_100543g.cpp "Accepted solution")
-- [Codeforces Gym 100548G - The Problem to Slow Down You](https://codeforces.com/gym/100548/problem/G)
+- [Codeforces Gym 100548G - The Problem to Slow Down You](https://codeforces.com/gym/100548/problem/G) [✔](../../practice/strings/codeforces_gym_100548g.cpp "Accepted solution")
 - [Codeforces Gym 101806Q - QueryreuQ](https://codeforces.com/gym/101806/problem/Q)
 - [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157)
 - [SPOJ APIO14_A - Palindromes](https://www.spoj.com/problems/APIO14_A/)
