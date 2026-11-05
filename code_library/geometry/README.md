@@ -88,7 +88,7 @@
 - [Kattis pointinpolygon - Point in Polygon](https://open.kattis.com/problems/pointinpolygon) [✔](../../practice/geometry/kattis_pointinpolygon.cpp "Accepted solution")
 - [Kattis polygonarea - Polygon Area](https://open.kattis.com/problems/polygonarea) [✔](../../practice/geometry/kattis_polygonarea.cpp "Accepted solution")
 - [Kattis segmentdistance - Line Segment Distance](https://open.kattis.com/problems/segmentdistance) [✔](../../practice/geometry/kattis_segmentdistance.cpp "Accepted solution")
-- [Kattis segmentintersection - Line Segment Intersection](https://open.kattis.com/problems/segmentintersection)
+- [Kattis segmentintersection - Line Segment Intersection](https://open.kattis.com/problems/segmentintersection) [✔](../../practice/geometry/kattis_segmentintersection.cpp "Accepted solution")
 - [SPOJ DICE - Three-sided Dice](https://www.spoj.com/problems/DICE/)
 - [USACO 207 - Crazy Fences](https://usaco.org/index.php?page=viewproblem2&cpid=207)
 - [UVa 191 - Intersection](https://onlinejudge.org/external/1/191.pdf) [✔](../../practice/geometry/uva_191.cpp "Accepted solution")
