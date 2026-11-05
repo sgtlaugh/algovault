@@ -135,7 +135,7 @@
 
 #### [Polygon Union](polygon_union.cpp)
 
-- [Codeforces 107E - Darts](https://codeforces.com/problemset/problem/107/E)
+- [Codeforces 107E - Darts](https://codeforces.com/problemset/problem/107/E) [✔](../../practice/geometry/codeforces_107e.cpp "Accepted solution")
 
 #### [Rectangle Union](rectangle_union.cpp)
 
