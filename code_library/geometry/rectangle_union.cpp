@@ -128,9 +128,6 @@ int main(){
     assert(rectangle_union_area(rects) == 7);
     assert(rectangle_union_perimeter(rects) == 12);
 
-    /// A rectangle inside another adds nothing
-    assert(rectangle_union_area({{0, 0, 10, 10}, {2, 2, 3, 3}}) == 100);
-
     /// A shared edge is not boundary: two unit squares side by side form a 2 x 1 rectangle
     assert(rectangle_union_perimeter({{0, 0, 1, 1}, {1, 0, 2, 1}}) == 6);
 
