@@ -165,7 +165,7 @@
 - [Codeforces Gym 100032K - Subpalindromes](https://codeforces.com/gym/100032/problem/K) [✔](../../practice/strings/codeforces_gym_100032k.cpp "Accepted solution")
 - [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157) [✔](../../practice/strings/hdu_5157_manacher.cpp "Accepted solution")
 - [Kattis palindromes - Palindromes](https://open.kattis.com/problems/palindromes) [✔](../../practice/strings/kattis_palindromes.cpp "Accepted solution")
-- [SPOJ NUMOFPAL - Number of Palindromes](https://www.spoj.com/problems/NUMOFPAL/)
+- [SPOJ NUMOFPAL - Number of Palindromes](https://www.spoj.com/problems/NUMOFPAL/) [✔](../../practice/strings/spoj_numofpal.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✔](../../practice/strings/uva_11475_manacher.cpp "Accepted solution")
 - [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf) [✔](../../practice/strings/uva_12833_manacher.cpp "Accepted solution")
 - [UVa 13092 - Fold the String](https://onlinejudge.org/external/130/13092.pdf) [✔](../../practice/strings/uva_13092.cpp "Accepted solution")
