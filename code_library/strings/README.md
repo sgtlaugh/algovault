@@ -161,7 +161,7 @@
 - [Codeforces 17E - Palisection](https://codeforces.com/problemset/problem/17/E) [✔](../../practice/strings/codeforces_17e.cpp "Accepted solution")
 - [Codeforces 30E - Tricky and Clever Password](https://codeforces.com/problemset/problem/30/E) [✔](../../practice/strings/codeforces_30e.cpp "Accepted solution")
 - [Codeforces 1080E - Sonya and Matrix Beauty](https://codeforces.com/problemset/problem/1080/E) [✔](../../practice/strings/codeforces_1080e.cpp "Accepted solution")
-- [Codeforces 1326D2 - Prefix-Suffix Palindrome (Hard version)](https://codeforces.com/problemset/problem/1326/D2)
+- [Codeforces 1326D2 - Prefix-Suffix Palindrome (Hard version)](https://codeforces.com/problemset/problem/1326/D2) [✔](../../practice/strings/codeforces_1326d2.cpp "Accepted solution")
 - [Codeforces Gym 100032K - Subpalindromes](https://codeforces.com/gym/100032/problem/K)
 - [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157)
 - [Kattis palindromes - Palindromes](https://open.kattis.com/problems/palindromes)
