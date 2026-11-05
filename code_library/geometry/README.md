@@ -15,7 +15,7 @@
 - [CodeChef ANDOOR - A New Door](https://www.codechef.com/problems/ANDOOR) [✔](../../practice/geometry/codechef_andoor.cpp "Accepted solution")
 - [Codeforces 681E - Runaway to a Shadow](https://codeforces.com/problemset/problem/681/E) [✔](../../practice/geometry/codeforces_681e.cpp "Accepted solution")
 - [Codeforces 933C - A Colourful Prospect](https://codeforces.com/problemset/problem/933/C) [✔](../../practice/geometry/codeforces_933c.cpp "Accepted solution")
-- [Codeforces Gym 100199F - Get Out!](https://codeforces.com/gym/100199/problem/F)
+- [Codeforces Gym 100199F - Get Out!](https://codeforces.com/gym/100199/problem/F) [✔](../../practice/geometry/codeforces_gym_100199f.cpp "Accepted solution")
 - [HDU 3932 - Groundhog Build Home](https://acm.hdu.edu.cn/showproblem.php?pid=3932)
 - [SPOJ ALIENS - Aliens](https://www.spoj.com/problems/ALIENS/)
 - [Timus 1429 - Biscuits](https://acm.timus.ru/problem.aspx?num=1429)
