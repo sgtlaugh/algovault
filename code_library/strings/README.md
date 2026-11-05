@@ -183,7 +183,7 @@
 - [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157) [✔](../../practice/strings/hdu_5157_palindromic_tree.cpp "Accepted solution")
 - [SPOJ APIO14_A - Palindromes](https://www.spoj.com/problems/APIO14_A/) [✔](../../practice/strings/spoj_apio14_a.cpp "Accepted solution")
 - [Timus 2044 - 31 Palindromes](https://acm.timus.ru/problem.aspx?num=2044) [✔](../../practice/strings/timus_2044.cpp "Accepted solution")
-- [Timus 2059 - Not common palindromes](https://acm.timus.ru/problem.aspx?num=2059)
+- [Timus 2059 - Not common palindromes](https://acm.timus.ru/problem.aspx?num=2059) [✔](../../practice/strings/timus_2059.cpp "Accepted solution")
 - [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf) [✔](../../practice/strings/uva_1470.cpp "Accepted solution")
 - [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf) [✔](../../practice/strings/uva_12833_palindromic_tree.cpp "Accepted solution")
 
