@@ -258,7 +258,7 @@
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110)
 - [HDU 5853 - Jong Hyok and String](https://acm.hdu.edu.cn/showproblem.php?pid=5853)
 - [SPOJ LCS2 - Longest Common Substring II](https://www.spoj.com/problems/LCS2/)
-- [SPOJ LCS - Longest Common Substring](https://www.spoj.com/problems/LCS/)
+- [SPOJ LCS - Longest Common Substring](https://www.spoj.com/problems/LCS/) [✔](../../practice/strings/spoj_lcs_suffix_automaton.cpp "Accepted solution")
 - [SPOJ NSUBSTR - Substrings](https://www.spoj.com/problems/NSUBSTR/)
 - [SPOJ SUBLEX - Lexicographical Substring Search](https://www.spoj.com/problems/SUBLEX/) [✔](../../practice/strings/spoj_sublex_suffix_automaton.cpp "Accepted solution")
 - [SPOJ TAP2013E - Escaping from escaping](https://www.spoj.com/problems/TAP2013E/)
