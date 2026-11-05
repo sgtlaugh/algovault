@@ -40,7 +40,7 @@
 - [HDU 2296 - Ring](https://acm.hdu.edu.cn/showproblem.php?pid=2296) [✔](../../practice/strings/hdu_2296.cpp "Accepted solution")
 - [HDU 2457 - DNA repair](https://acm.hdu.edu.cn/showproblem.php?pid=2457) [✔](../../practice/strings/hdu_2457.cpp "Accepted solution")
 - [HDU 2825 - Wireless Password](https://acm.hdu.edu.cn/showproblem.php?pid=2825) [✔](../../practice/strings/hdu_2825.cpp "Accepted solution")
-- [HDU 3341 - Lost's revenge](https://acm.hdu.edu.cn/showproblem.php?pid=3341)
+- [HDU 3341 - Lost's revenge](https://acm.hdu.edu.cn/showproblem.php?pid=3341) [✔](../../practice/strings/hdu_3341.cpp "Accepted solution")
 - [HDU 3695 - Computer Virus on Planet Pandora](https://acm.hdu.edu.cn/showproblem.php?pid=3695)
 - [HDU 5384 - Danganronpa](https://acm.hdu.edu.cn/showproblem.php?pid=5384)
 - [Kattis taboo - Taboo](https://open.kattis.com/problems/taboo)
