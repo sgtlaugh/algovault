@@ -20,7 +20,7 @@
 
 - [CodeChef LYRC - Music & Lyrics](https://www.codechef.com/problems/LYRC)
 - [CodeChef TWOSTRS - Buying a New String](https://www.codechef.com/problems/TWOSTRS)
-- [Codeforces 86C - Genetic engineering](https://codeforces.com/problemset/problem/86/C)
+- [Codeforces 86C - Genetic engineering](https://codeforces.com/problemset/problem/86/C) [✔](../../practice/strings/codeforces_86c.cpp "Accepted solution")
 - [Codeforces 163E - e-Government](https://codeforces.com/problemset/problem/163/E) [✔](../../practice/data_structures/codeforces_163e.cpp "Accepted solution")
 - [Codeforces 547E - Mike and Friends](https://codeforces.com/problemset/problem/547/E)
 - [Codeforces 585F - Digits of Number Pi](https://codeforces.com/problemset/problem/585/F)
