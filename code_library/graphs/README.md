@@ -480,7 +480,7 @@
 - [HackerRank johnland - Roads in HackerLand](https://www.hackerrank.com/contests/june-world-codesprint/challenges/johnland/problem) [✔](../../practice/graphs/hackerrank_johnland.cpp "Accepted solution")
 - [oj.uz COCI17_sirni - Sirni](https://oj.uz/problem/view/COCI17_sirni) [✔](../../practice/graphs/oj_uz_coci17_sirni.cpp "Accepted solution")
 - [SPOJ BLINNET - Bytelandian Blingors Network](https://www.spoj.com/problems/BLINNET/) [✔](../../practice/graphs/spoj_blinnet.cpp "Accepted solution")
-- [SPOJ EC_MODE - Modems](https://www.spoj.com/problems/EC_MODE/)
+- [SPOJ EC_MODE - Modems](https://www.spoj.com/problems/EC_MODE/) [✔](../../practice/graphs/spoj_ec_mode.cpp "Accepted solution")
 - [SPOJ IITKWPCG - Help the old King](https://www.spoj.com/problems/IITKWPCG/) [✔](../../practice/graphs/spoj_iitkwpcg.cpp "Accepted solution")
 - [SPOJ MARYBMW - BMW](https://www.spoj.com/problems/MARYBMW/) [✔](../../practice/graphs/spoj_marybmw.cpp "Accepted solution")
 - [USACO 531 - Superbull](https://usaco.org/index.php?page=viewproblem2&cpid=531) [✔](../../practice/graphs/usaco_531.cpp "Accepted solution")
