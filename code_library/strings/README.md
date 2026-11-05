@@ -89,7 +89,7 @@
 #### [Hashing](hashing.cpp)
 
 - [CodeChef INSQ15_A - The Gift Of Raksha Bandhan](https://www.codechef.com/problems/INSQ15_A) [✔](../../practice/strings/codechef_insq15_a_hashing.cpp "Accepted solution")
-- [Codeforces 7D - Palindrome Degree](https://codeforces.com/problemset/problem/7/D)
+- [Codeforces 7D - Palindrome Degree](https://codeforces.com/problemset/problem/7/D) [✔](../../practice/strings/codeforces_7d.cpp "Accepted solution")
 - [Codeforces 19C - Deletion of Repeats](https://codeforces.com/problemset/problem/19/C)
 - [Codeforces 271D - Good Substrings](https://codeforces.com/problemset/problem/271/D)
 - [Codeforces 727E - Games on a CD](https://codeforces.com/problemset/problem/727/E)
