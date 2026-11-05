@@ -32,7 +32,7 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 #### [Fast Fibonacci](fast_fibonacci.py)
 
-- [CSES 1722 - Fibonacci Numbers](https://cses.fi/problemset/task/1722)
+- [CSES 1722 - Fibonacci Numbers](https://cses.fi/problemset/task/1722) [✔](../../practice/python/cses_1722.py "Accepted solution")
 
 #### [Lagrange Interpolation](lagrange_polynomial_interpolation.py)
 
