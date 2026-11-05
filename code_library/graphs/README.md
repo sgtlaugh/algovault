@@ -482,7 +482,7 @@
 - [SPOJ BLINNET - Bytelandian Blingors Network](https://www.spoj.com/problems/BLINNET/)
 - [SPOJ EC_MODE - Modems](https://www.spoj.com/problems/EC_MODE/)
 - [SPOJ IITKWPCG - Help the old King](https://www.spoj.com/problems/IITKWPCG/) [✔](../../practice/graphs/spoj_iitkwpcg.cpp "Accepted solution")
-- [SPOJ MARYBMW - BMW](https://www.spoj.com/problems/MARYBMW/)
+- [SPOJ MARYBMW - BMW](https://www.spoj.com/problems/MARYBMW/) [✔](../../practice/graphs/spoj_marybmw.cpp "Accepted solution")
 - [USACO 531 - Superbull](https://usaco.org/index.php?page=viewproblem2&cpid=531) [✔](../../practice/graphs/usaco_531.cpp "Accepted solution")
 - [USACO 623 - Fenced In](https://usaco.org/index.php?page=viewproblem2&cpid=623)
 - [USACO 1211 - Moo Network](https://usaco.org/index.php?page=viewproblem2&cpid=1211) [✔](../../practice/graphs/usaco_1211.cpp "Accepted solution")
