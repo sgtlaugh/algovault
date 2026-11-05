@@ -95,7 +95,7 @@
 - [Codeforces 727E - Games on a CD](https://codeforces.com/problemset/problem/727/E) [✔](../../practice/strings/codeforces_727e.cpp "Accepted solution")
 - [Codeforces 822E - Liar](https://codeforces.com/problemset/problem/822/E) [✔](../../practice/strings/codeforces_822e.cpp "Accepted solution")
 - [Codeforces 835D - Palindromic characteristics](https://codeforces.com/problemset/problem/835/D) [✔](../../practice/strings/codeforces_835d.cpp "Accepted solution")
-- [Codeforces 1056E - Check Transcription](https://codeforces.com/problemset/problem/1056/E)
+- [Codeforces 1056E - Check Transcription](https://codeforces.com/problemset/problem/1056/E) [✔](../../practice/strings/codeforces_1056e.cpp "Accepted solution")
 - [HackerRank build-a-string - Build a String](https://www.hackerrank.com/challenges/build-a-string/problem)
 - [HackerRank gift-boxes - Gift Boxes](https://www.hackerrank.com/contests/womens-codesprint-5/challenges/gift-boxes/problem)
 - [LeetCode 1044 - Longest Duplicate Substring](https://leetcode.com/problems/longest-duplicate-substring/)
