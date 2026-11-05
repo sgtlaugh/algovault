@@ -84,7 +84,7 @@
 
 #### [Dynamic String Hash](dynamic_string_hash.cpp)
 
-- [CSES 2420 - Palindrome Queries](https://cses.fi/problemset/task/2420)
+- [CSES 2420 - Palindrome Queries](https://cses.fi/problemset/task/2420) [✔](../../practice/strings/cses_2420.cpp "Accepted solution")
 
 #### [Hashing](hashing.cpp)
 
