@@ -323,7 +323,7 @@
 
 #### [Johnson's Algorithm](johnsons_algorithm.cpp)
 
-- [SPOJ JHNSN - Johnsons Algorithm](https://www.spoj.com/problems/JHNSN/)
+- [SPOJ JHNSN - Johnsons Algorithm](https://www.spoj.com/problems/JHNSN/) [✔](../../practice/graphs/spoj_jhnsn.cpp "Accepted solution")
 
 #### [K Shortest Walks](k_shortest_walks.cpp)
 
