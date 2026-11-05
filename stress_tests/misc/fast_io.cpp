@@ -43,6 +43,29 @@ T random_value(){
     return (T)stress::rng()();
 }
 
+/// "m" "e" k where m * 5^k is odd with bits + 1 bits, so m * 10^k lies exactly halfway between two bits-bit mantissas
+string midpoint_token(int bits, int max_k){
+    int k = stress::rand_int(1, max_k);
+    unsigned __int128 five = 1, lo = (unsigned __int128)1 << bits, m = 0;
+    for (int i = 0; i < k; i++) five *= 5;
+    while (m * five < lo || m * five >= 2 * lo) m = (lo + (unsigned __int128)stress::rng()() % lo) / five | 1;
+    return to_string((unsigned long long)m) + "e" + to_string(k);
+}
+
+/// Each token reads as parse reads its first 127 characters, bit for bit (x87's 10 value bytes of 16), -0 included
+template <typename T>
+void expect_parsed_as(const vector<string>& tokens, T (*parse)(const char *, char **)){
+    string input;
+    for (auto& token : tokens) input += token + separator();
+    set_input(input);
+
+    for (auto& token : tokens){
+        T x, expected = parse(token.substr(0, 127).c_str(), nullptr);
+        assert(fio::read(x) == 1);
+        assert(memcmp(&x, &expected, numeric_limits<T>::digits == 64 ? 10 : sizeof(T)) == 0);
+    }
+}
+
 int main(){
     using namespace fio;
 
@@ -249,18 +272,27 @@ int main(){
         assert(d == hi);
     }
 
-    /// Double reads are bit-identical to strtod on the token's first 127 characters, around every fast path limit
+    /// Float, double and long double reads equal strtof, strtod and strtold, around every fast path limit
     vector<string> fixed_tokens = {"9007199254740991", "9007199254740992", "9007199254740993", "1234567890123456789",
         "12345678901234567890", "18446744073709551621", "0000000000000000001.5", "00000000000000000001.5",
         "1e22", "1e23", "1e-22", "1e-23", "4.9e-324", "2.2250738585072014e-308", "1.7976931348623157e308", "1e309",
         "-1e-400", "inf", "-nan", "0x1p-3", "1e", "1e+", "2E-", ".", "-", "+.", "5.", ".5", "-.5e1", "e5", "1.5abc",
-        "1e0000000000000000005", "-0", "+0.0e-0", string(200, '7'), "0." + string(150, '0') + "1e150"};
+        "1e0000000000000000005", "-0", "+0.0e-0", string(200, '7'), "0." + string(150, '0') + "1e150",
+        "16777215", "16777216", "16777217", "1677721.7", "-1677721.7", "1e10", "1e11", "1e-10", "1e-11", "3.4028236e38",
+        "1e-46", "18446744073709551615", "9999999999999999999", "-999999999.9999999999", "-9999999999.9999999999",
+        "9999999999999999999e27", "1e27", "1e28", "1e-27", "1e-28", "1e4932", "1e-4951", "-0.0000000000000000001"};
     for (long long it = 0; it < stress::scaled(300); it++){
         vector<string> tokens = fixed_tokens;
         for (int i = 0; i < 300; i++){
             const string signs[] = {"", "-", "+"};
             string token = signs[stress::rand_int(0, 2)];
-            if (i < 60){
+            if (i < 30){
+                /// A product exactly halfway rounds to the even mantissa, which a double rounding or wrong 10^k misses
+                const int bits[] = {24, 53, 64}, max_k[] = {10, 22, 27};
+                int type = stress::rand_int(0, 2);
+                token += midpoint_token(bits[type], max_k[type]);
+            }
+            else if (i < 60){
                 /// Mantissas 2^53 - 1 to 2^53 + 2 times 10^-23 to 10^23, a double rounding past 2^53 misses by one ulp
                 token += to_string((1LL << 53) + stress::rand_int(-1, 2));
                 int e = stress::rand_int(-23, 23), point = stress::rand_int(0, min(16, max(0, -e)));
@@ -281,14 +313,9 @@ int main(){
         }
         shuffle(tokens.begin(), tokens.end(), stress::rng());
 
-        string input;
-        for (auto& token : tokens) input += token + separator();
-        set_input(input);
-        for (auto& token : tokens){
-            double d, expected = strtod(token.substr(0, 127).c_str(), nullptr);
-            assert(read(d) == 1);
-            assert(memcmp(&d, &expected, sizeof(d)) == 0);
-        }
+        expect_parsed_as(tokens, strtof);
+        expect_parsed_as(tokens, strtod);
+        expect_parsed_as(tokens, strtold);
     }
 
     /// __int128 extremes use the integer reader and writer, float parses at its own width, short as an integer

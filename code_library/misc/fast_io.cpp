@@ -90,63 +90,74 @@ namespace fio{
         return true;
     }
 
-    bool read_token(){
+    /// Returns the length kept in tmpbuf, 0 only at the end of input
+    int read_token(){
         int c = ' ', len = 0;
 
         while (isspace(c) && c != EOF) c = read_char();
-        if (c == EOF) return false;
+        if (c == EOF) return 0;
 
         for (; !isspace(c) && c != EOF; c = read_char()){
             if (len + 1 < (int)sizeof(tmpbuf)) tmpbuf[len++] = c;
         }
         tmpbuf[len] = 0;
+        return len;
+    }
+
+    /// Digits m and 10^|e| both exact in F round once, as parse does: 2-3x faster than parse on short tokens
+    template <typename F, F (*parse)(const char *, char **)>
+    bool read_floating(F &x, int max_len, unsigned long long max_mantissa, int max_exp){
+        int len = read_token();
+        if (!len) return false;
+
+        /// x87 arithmetic (FLT_EVAL_METHOD != 0) rounds float and double twice, long double once
+        bool own_width = !FLT_EVAL_METHOD || is_same<F, long double>::value;
+
+        /// A longer token skips the digit scan, which would make its parse about 10% slower
+        if (len <= max_len && own_width){
+            static const F p10[] = {1e0L, 1e1L, 1e2L, 1e3L, 1e4L, 1e5L, 1e6L, 1e7L, 1e8L, 1e9L,
+                                    1e10L, 1e11L, 1e12L, 1e13L, 1e14L, 1e15L, 1e16L, 1e17L, 1e18L, 1e19L,
+                                    1e20L, 1e21L, 1e22L, 1e23L, 1e24L, 1e25L, 1e26L, 1e27L};
+            const unsigned char *s = (const unsigned char *)tmpbuf + (*tmpbuf == '-' || *tmpbuf == '+');
+            unsigned long long m = 0;
+            int digits = 0, e = 0;
+            for (; isdigit(*s); s++) m = m * 10 + (*s - '0'), digits++;
+            if (*s == '.'){
+                for (s++; isdigit(*s); s++) m = m * 10 + (*s - '0'), digits++, e--;
+            }
+
+            /// No exponent digits after the e equals strtod, which then ignores the e
+            if (*s == 'e' || *s == 'E'){
+                int sign = s[1] == '-' ? -1 : 1, ex = 0;
+                s += 1 + (s[1] == '-' || s[1] == '+');
+                for (; isdigit(*s) && ex < 1000; s++) ex = ex * 10 + (*s - '0');
+                e += sign * ex;
+            }
+
+            if (!*s && digits && digits <= 19 && m <= max_mantissa && e >= -max_exp && e <= max_exp){
+                F v = e < 0 ? m / p10[-e] : m * p10[e];
+                x = *tmpbuf == '-' ? -v : v;
+                return true;
+            }
+        }
+
+        x = parse(tmpbuf, nullptr);
         return true;
     }
 
     /// Each float parses at its own width, since strtold then a cast to double rounds twice and can miss by one ulp
     bool read_one(float &x){
-        if (!read_token()) return false;
-        x = strtof(tmpbuf, nullptr);
-        return true;
+        return read_floating<float, strtof>(x, 10, 1 << 24, 10);
     }
 
-    /// Digits m <= 2^53 times or over an exact 10^k, k <= 22, round once as strtod: 2-3x faster, 6% slower at 17 digits
+    /// 22 characters keep 16-digit scientific tokens like -1.234567890123456e-05 on the fast path
     bool read_one(double &x){
-        if (!read_token()) return false;
-
-        static const double p10[] = {1e0, 1e1, 1e2, 1e3, 1e4, 1e5, 1e6, 1e7, 1e8, 1e9, 1e10, 1e11,
-                                     1e12, 1e13, 1e14, 1e15, 1e16, 1e17, 1e18, 1e19, 1e20, 1e21, 1e22};
-        const unsigned char *s = (const unsigned char *)tmpbuf + (*tmpbuf == '-' || *tmpbuf == '+');
-        unsigned long long m = 0;
-        int digits = 0, e = 0;
-        for (; isdigit(*s); s++) m = m * 10 + (*s - '0'), digits++;
-        if (*s == '.'){
-            for (s++; isdigit(*s); s++) m = m * 10 + (*s - '0'), digits++, e--;
-        }
-
-        /// No exponent digits after the e equals strtod, which then ignores the e
-        if (*s == 'e' || *s == 'E'){
-            int sign = s[1] == '-' ? -1 : 1, ex = 0;
-            s += 1 + (s[1] == '-' || s[1] == '+');
-            for (; isdigit(*s) && ex < 1000; s++) ex = ex * 10 + (*s - '0');
-            e += sign * ex;
-        }
-
-        /// x87 arithmetic (FLT_EVAL_METHOD != 0) rounds twice, so it always takes strtod
-        if (*s || !digits || digits > 19 || m > 1ULL << 53 || e < -22 || e > 22 || FLT_EVAL_METHOD){
-            x = strtod(tmpbuf, nullptr);
-            return true;
-        }
-
-        double v = e < 0 ? m / p10[-e] : m * p10[e];
-        x = *tmpbuf == '-' ? -v : v;
-        return true;
+        return read_floating<double, strtod>(x, 22, 1ULL << 53, 22);
     }
 
+    /// Only an x87 64-bit mantissa takes the fast path: a double-double long double does not round a division once
     bool read_one(long double &x){
-        if (!read_token()) return false;
-        x = strtold(tmpbuf, nullptr);
-        return true;
+        return read_floating<long double, strtold>(x, 21, ~0ULL, LDBL_MANT_DIG == 64 ? 27 : -1);
     }
 
     bool read_one(string &s){
