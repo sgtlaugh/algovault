@@ -90,7 +90,7 @@
 - [Kattis segmentdistance - Line Segment Distance](https://open.kattis.com/problems/segmentdistance) [✔](../../practice/geometry/kattis_segmentdistance.cpp "Accepted solution")
 - [Kattis segmentintersection - Line Segment Intersection](https://open.kattis.com/problems/segmentintersection) [✔](../../practice/geometry/kattis_segmentintersection.cpp "Accepted solution")
 - [SPOJ DICE - Three-sided Dice](https://www.spoj.com/problems/DICE/)
-- [USACO 207 - Crazy Fences](https://usaco.org/index.php?page=viewproblem2&cpid=207)
+- [USACO 207 - Crazy Fences](https://usaco.org/index.php?page=viewproblem2&cpid=207) [✔](../../practice/geometry/usaco_207_geometry.cpp "Accepted solution")
 - [UVa 191 - Intersection](https://onlinejudge.org/external/1/191.pdf) [✔](../../practice/geometry/uva_191.cpp "Accepted solution")
 - [UVa 273 - Jack Straws](https://onlinejudge.org/external/2/273.pdf) [✔](../../practice/geometry/uva_273.cpp "Accepted solution")
 - [UVa 378 - Intersecting Lines](https://onlinejudge.org/external/3/378.pdf) [✔](../../practice/geometry/uva_378.cpp "Accepted solution")
