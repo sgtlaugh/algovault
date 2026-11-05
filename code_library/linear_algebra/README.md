@@ -83,7 +83,7 @@
 - [HDU 2243 - 考研路茫茫——单词情结](https://acm.hdu.edu.cn/showproblem.php?pid=2243)
 - [POJ 1977 - Odd Loving Bakers](http://poj.org/problem?id=1977) [✔](../../practice/linear_algebra/poj_1977.cpp "Accepted solution")
 - [POJ 2778 - DNA Sequence](http://poj.org/problem?id=2778) [✔](../../practice/linear_algebra/poj_2778_matrix.cpp "Accepted solution")
-- [SPOJ PBOARD - Blocks for kids](https://www.spoj.com/problems/PBOARD/)
+- [SPOJ PBOARD - Blocks for kids](https://www.spoj.com/problems/PBOARD/) [✔](../../practice/linear_algebra/spoj_pboard.cpp "Accepted solution")
 - [SPOJ SEQ - Recursive Sequence](https://www.spoj.com/problems/SEQ/)
 - [USACO 746 - COWBASIC](https://usaco.org/index.php?page=viewproblem2&cpid=746) [✔](../../practice/linear_algebra/usaco_746.cpp "Accepted solution")
 - [UVa 1177 - A General Recurrence Relation](https://onlinejudge.org/external/11/1177.pdf) [✔](../../practice/linear_algebra/uva_1177.cpp "Accepted solution")
