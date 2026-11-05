@@ -560,7 +560,7 @@
 - [SPOJ ADAPANEL - Ada and Panels](https://www.spoj.com/problems/ADAPANEL/) [✔](../../practice/graphs/spoj_adapanel.cpp "Accepted solution")
 - [SPOJ CAPCITY - Capital City](https://www.spoj.com/problems/CAPCITY/) [✔](../../practice/graphs/spoj_capcity.cpp "Accepted solution")
 - [SPOJ GOODA - Good Travels](https://www.spoj.com/problems/GOODA/) [✔](../../practice/graphs/spoj_gooda.cpp "Accepted solution")
-- [SPOJ TFRIENDS - True Friends](https://www.spoj.com/problems/TFRIENDS/)
+- [SPOJ TFRIENDS - True Friends](https://www.spoj.com/problems/TFRIENDS/) [✔](../../practice/graphs/spoj_tfriends.cpp "Accepted solution")
 - [USACO 516 - Grass Cownoisseur](https://usaco.org/index.php?page=viewproblem2&cpid=516) [✔](../../practice/graphs/usaco_516.cpp "Accepted solution")
 - [UVa 247 - Calling Circles](https://onlinejudge.org/external/2/247.pdf) [✔](../../practice/graphs/uva_247.cpp "Accepted solution")
 - [UVa 1229 - Sub-dictionary](https://onlinejudge.org/external/12/1229.pdf) [✔](../../practice/graphs/uva_1229.cpp "Accepted solution")
