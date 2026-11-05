@@ -50,7 +50,7 @@
 - [SPOJ EMOTICON - Emoticons](https://www.spoj.com/problems/EMOTICON/) [✔](../../practice/strings/spoj_emoticon.cpp "Accepted solution")
 - [SPOJ SUB_PROB - Substring Problem](https://www.spoj.com/problems/SUB_PROB/)
 - [SPOJ TREEBA - Hackers](https://www.spoj.com/problems/TREEBA/) [✔](../../practice/strings/spoj_treeba.cpp "Accepted solution")
-- [SPOJ WPUZZLES - Word Puzzles](https://www.spoj.com/problems/WPUZZLES/)
+- [SPOJ WPUZZLES - Word Puzzles](https://www.spoj.com/problems/WPUZZLES/) [✔](../../practice/strings/spoj_wpuzzles.cpp "Accepted solution")
 - [USACO 533 - Censoring (Gold)](https://usaco.org/index.php?page=viewproblem2&cpid=533) [✔](../../practice/strings/usaco_533.cpp "Accepted solution")
 - [UVa 1076 - Password Suspects](https://onlinejudge.org/external/10/1076.pdf) [✔](../../practice/strings/uva_1076.cpp "Accepted solution")
 - [UVa 1254 - Top 10](https://onlinejudge.org/external/12/1254.pdf) [✔](../../practice/strings/uva_1254_aho_corasick.cpp "Accepted solution")
