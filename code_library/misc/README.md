@@ -79,7 +79,7 @@
 
 #### [Radix Sort 64](radix_sort_64.cpp)
 
-- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A)
+- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✔](../../practice/misc/aoj_alds1_6_a_radix_sort_64.cpp "Accepted solution")
 
 #### [Sprague-Grundy](sprague_grundy.cpp)
 
