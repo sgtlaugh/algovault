@@ -116,7 +116,7 @@
 #### [Chordal Graph](chordal_graph.cpp)
 
 - [Luogu P3196 - [HNOI2008] 神奇的国度](https://www.luogu.com.cn/problem/P3196) [✔](../../practice/graphs/luogu_p3196.cpp "Accepted solution")
-- [Luogu P3852 - [TJOI2007] 小朋友](https://www.luogu.com.cn/problem/P3852)
+- [Luogu P3852 - [TJOI2007] 小朋友](https://www.luogu.com.cn/problem/P3852) [✔](../../practice/graphs/luogu_p3852.cpp "Accepted solution")
 - [ZOJ 1015 - Fishing Net](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827364514)
 
 #### [Chromatic Number](chromatic_number.cpp)
