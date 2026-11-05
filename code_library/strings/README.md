@@ -97,7 +97,7 @@
 - [Codeforces 835D - Palindromic characteristics](https://codeforces.com/problemset/problem/835/D) [✔](../../practice/strings/codeforces_835d.cpp "Accepted solution")
 - [Codeforces 1056E - Check Transcription](https://codeforces.com/problemset/problem/1056/E) [✔](../../practice/strings/codeforces_1056e.cpp "Accepted solution")
 - [HackerRank build-a-string - Build a String](https://www.hackerrank.com/challenges/build-a-string/problem)
-- [HackerRank gift-boxes - Gift Boxes](https://www.hackerrank.com/contests/womens-codesprint-5/challenges/gift-boxes/problem)
+- [HackerRank gift-boxes - Gift Boxes](https://www.hackerrank.com/contests/womens-codesprint-5/challenges/gift-boxes/problem) [✔](../../practice/strings/hackerrank_gift_boxes.cpp "Accepted solution")
 - [LeetCode 1044 - Longest Duplicate Substring](https://leetcode.com/problems/longest-duplicate-substring/)
 - [SPOJ ADACLEAN - Ada and Spring Cleaning](https://www.spoj.com/problems/ADACLEAN/)
 - [SPOJ CF25E - Test](https://www.spoj.com/problems/CF25E/)
