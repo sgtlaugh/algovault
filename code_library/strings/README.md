@@ -259,7 +259,7 @@
 - [HDU 5853 - Jong Hyok and String](https://acm.hdu.edu.cn/showproblem.php?pid=5853) [✔](../../practice/strings/hdu_5853.cpp "Accepted solution")
 - [SPOJ LCS2 - Longest Common Substring II](https://www.spoj.com/problems/LCS2/) [✔](../../practice/strings/spoj_lcs2_suffix_automaton.cpp "Accepted solution")
 - [SPOJ LCS - Longest Common Substring](https://www.spoj.com/problems/LCS/) [✔](../../practice/strings/spoj_lcs_suffix_automaton.cpp "Accepted solution")
-- [SPOJ NSUBSTR - Substrings](https://www.spoj.com/problems/NSUBSTR/)
+- [SPOJ NSUBSTR - Substrings](https://www.spoj.com/problems/NSUBSTR/) [✔](../../practice/strings/spoj_nsubstr.cpp "Accepted solution")
 - [SPOJ SUBLEX - Lexicographical Substring Search](https://www.spoj.com/problems/SUBLEX/) [✔](../../practice/strings/spoj_sublex_suffix_automaton.cpp "Accepted solution")
 - [SPOJ TAP2013E - Escaping from escaping](https://www.spoj.com/problems/TAP2013E/) [✔](../../practice/strings/spoj_tap2013e.cpp "Accepted solution")
 - [UVa 1673 - str2int](https://onlinejudge.org/external/16/1673.pdf) [✔](../../practice/strings/uva_1673.cpp "Accepted solution")
