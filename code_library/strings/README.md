@@ -261,7 +261,7 @@
 - [SPOJ LCS - Longest Common Substring](https://www.spoj.com/problems/LCS/) [✔](../../practice/strings/spoj_lcs_suffix_automaton.cpp "Accepted solution")
 - [SPOJ NSUBSTR - Substrings](https://www.spoj.com/problems/NSUBSTR/)
 - [SPOJ SUBLEX - Lexicographical Substring Search](https://www.spoj.com/problems/SUBLEX/) [✔](../../practice/strings/spoj_sublex_suffix_automaton.cpp "Accepted solution")
-- [SPOJ TAP2013E - Escaping from escaping](https://www.spoj.com/problems/TAP2013E/)
+- [SPOJ TAP2013E - Escaping from escaping](https://www.spoj.com/problems/TAP2013E/) [✔](../../practice/strings/spoj_tap2013e.cpp "Accepted solution")
 - [UVa 1673 - str2int](https://onlinejudge.org/external/16/1673.pdf) [✔](../../practice/strings/uva_1673.cpp "Accepted solution")
 
 #### [Wildcard Matching](wildcard_matching.cpp)
