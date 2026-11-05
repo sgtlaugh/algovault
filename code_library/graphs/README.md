@@ -376,7 +376,7 @@
 - [SPOJ BANKROB - Bank robbery](https://www.spoj.com/problems/BANKROB/) [✔](../../practice/graphs/spoj_bankrob.cpp "Accepted solution")
 - [SPOJ DISJPATH - Disjoint Paths](https://www.spoj.com/problems/DISJPATH/) [✔](../../practice/graphs/spoj_disjpath.cpp "Accepted solution")
 - [SPOJ FASTFLOW - Fast Maximum Flow](https://www.spoj.com/problems/FASTFLOW/) [✔](../../practice/graphs/spoj_fastflow.cpp "Accepted solution")
-- [SPOJ MOBIVINA - MobiZone vs VinaGone](https://www.spoj.com/problems/MOBIVINA/)
+- [SPOJ MOBIVINA - MobiZone vs VinaGone](https://www.spoj.com/problems/MOBIVINA/) [✔](../../practice/graphs/spoj_mobivina.cpp "Accepted solution")
 - [SPOJ MTOTALF - Total Flow](https://www.spoj.com/problems/MTOTALF/)
 - [SPOJ NWERC11F - Pool construction](https://www.spoj.com/problems/NWERC11F/)
 - [SPOJ OILCOMP - Oil Company](https://www.spoj.com/problems/OILCOMP/)
