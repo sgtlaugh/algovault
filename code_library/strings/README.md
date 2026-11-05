@@ -163,7 +163,7 @@
 - [Codeforces 1080E - Sonya and Matrix Beauty](https://codeforces.com/problemset/problem/1080/E) [✔](../../practice/strings/codeforces_1080e.cpp "Accepted solution")
 - [Codeforces 1326D2 - Prefix-Suffix Palindrome (Hard version)](https://codeforces.com/problemset/problem/1326/D2) [✔](../../practice/strings/codeforces_1326d2.cpp "Accepted solution")
 - [Codeforces Gym 100032K - Subpalindromes](https://codeforces.com/gym/100032/problem/K) [✔](../../practice/strings/codeforces_gym_100032k.cpp "Accepted solution")
-- [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157)
+- [HDU 5157 - Harry and magic string](https://acm.hdu.edu.cn/showproblem.php?pid=5157) [✔](../../practice/strings/hdu_5157_manacher.cpp "Accepted solution")
 - [Kattis palindromes - Palindromes](https://open.kattis.com/problems/palindromes)
 - [SPOJ NUMOFPAL - Number of Palindromes](https://www.spoj.com/problems/NUMOFPAL/)
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✔](../../practice/strings/uva_11475_manacher.cpp "Accepted solution")
