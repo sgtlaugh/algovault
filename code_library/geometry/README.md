@@ -40,7 +40,7 @@
 
 #### [Convex Hull](convex_hull.cpp)
 
-- [Codeforces 605C - Freelancer's Dreams](https://codeforces.com/problemset/problem/605/C)
+- [Codeforces 605C - Freelancer's Dreams](https://codeforces.com/problemset/problem/605/C) [✔](../../practice/geometry/codeforces_605c_convex_hull.cpp "Accepted solution")
 - [Codeforces 2172I - Birthday](https://codeforces.com/problemset/problem/2172/I)
 - [CSES 2195 - Convex Hull](https://cses.fi/problemset/task/2195)
 - [Kattis convexhull - Convex Hull](https://open.kattis.com/problems/convexhull)
