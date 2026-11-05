@@ -62,8 +62,40 @@ void check(const vector<Rectangle>& rects){
     assert(rectangle_union_perimeter(rects) == perimeter);
 }
 
+/// Random adds and removals against a count array catch a parent left stale after an update, at any segment count
+void check_cover_tree(int m){
+    vector<long long> ys(m + 1);
+    for (int i = 1; i <= m; i++) ys[i] = ys[i - 1] + stress::rand_int(1, 1000000000);
+    CoverTree tree(ys);
+    vector<int> count(m, 0);
+    vector<pair<int, int>> open;
+
+    for (long long step = 0; step < stress::scaled(4 * m + 20); step++){
+        if (open.empty() || stress::rand_int(0, 2)){
+            int l = stress::rand_int(0, m - 1), r = stress::rand_int(l, m - 1);
+            open.push_back({l, r});
+            tree.update(l, r, 1);
+            for (int i = l; i <= r; i++) count[i]++;
+        }
+        else{
+            int k = stress::rand_int(0, (int)open.size() - 1);
+            auto [l, r] = open[k];
+            open.erase(open.begin() + k);
+            tree.update(l, r, -1);
+            for (int i = l; i <= r; i++) count[i]--;
+        }
+
+        long long covered = 0;
+        for (int i = 0; i < m; i++) covered += count[i] > 0 ? ys[i + 1] - ys[i] : 0;
+        assert(tree.covered() == covered);
+    }
+}
+
 int main(){
     const long long B = 1000000000;
+
+    for (int m = 1; m <= 70; m++) check_cover_tree(m);
+    for (long long it = 0; it < stress::scaled(20); it++) check_cover_tree(stress::rand_int(71, 1100));
 
     /// Tiny coordinates force shared edges, seams, nesting, duplicates and holes
     for (long long it = 0; it < stress::scaled(20000); it++){

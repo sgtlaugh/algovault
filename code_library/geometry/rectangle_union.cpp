@@ -24,56 +24,51 @@ struct Rectangle{
     long long x1, y1, x2, y2;
 };
 
-/// Counts never go negative, so the root's minimum is 0 exactly when some cell is uncovered
+/// Every removal undoes an earlier add of the same range, so a count above 0 means the node's whole range is covered
 struct CoverTree{
-    int m;
-    vector<long long> ys, len;
-    vector<int> low, add;
+    struct Node{
+        int count;
+        long long length, covered;
+    };
 
-    CoverTree(const vector<long long>& ys) : m(ys.size() - 1), ys(ys), len(4 * m), low(4 * m), add(4 * m){
-        build(1, 0, m - 1);
+    int n;
+    vector<Node> tree;
+
+    /// A power of two keeps every leaf on one level, so tree[1] spans all of ys
+    CoverTree(const vector<long long>& ys) : n(1){
+        while (n < (int)ys.size() - 1) n *= 2;
+        tree.assign(2 * n, Node{});
+        for (int i = 0; i + 1 < (int)ys.size(); i++) tree[n + i].length = ys[i + 1] - ys[i];
+        for (int i = n - 1; i >= 1; i--) tree[i].length = tree[2 * i].length + tree[2 * i + 1].length;
     }
 
     long long covered() const{
-        return ys.back() - ys.front() - (low[1] == 0 ? len[1] : 0);
+        return tree[1].covered;
     }
 
     void update(int l, int r, int delta){
-        update(1, 0, m - 1, l, r, delta);
-    }
-
-    void build(int node, int l, int r){
-        if (l == r){
-            len[node] = ys[l + 1] - ys[l];
-            return;
+        int lo = l + n, hi = r + n;
+        for (l += n, r += n + 1; l < r; l /= 2, r /= 2){
+            if (l & 1) add(l++, delta);
+            if (r & 1) add(--r, delta);
         }
 
-        int mid = (l + r) / 2;
-        build(2 * node, l, mid);
-        build(2 * node + 1, mid + 1, r);
+        /// Every changed node's parent is an ancestor of leaf lo or hi; above where the two paths merge, one walk does
+        for (lo /= 2, hi /= 2; lo != hi; lo /= 2, hi /= 2){
+            pull(lo);
+            pull(hi);
+        }
+        for (; lo >= 1; lo /= 2) pull(lo);
+    }
+
+    void add(int node, int delta){
+        tree[node].count += delta;
         pull(node);
     }
 
-    /// No push down: a node's add applies to its whole range, so it is folded into low on the way up
     void pull(int node){
-        int a = 2 * node, b = 2 * node + 1;
-        int child_low = min(low[a], low[b]);
-        low[node] = child_low + add[node];
-        len[node] = (low[a] == child_low ? len[a] : 0) + (low[b] == child_low ? len[b] : 0);
-    }
-
-    void update(int node, int l, int r, int ql, int qr, int delta){
-        if (qr < l || r < ql) return;
-        if (ql <= l && r <= qr){
-            low[node] += delta;
-            add[node] += delta;
-            return;
-        }
-
-        int mid = (l + r) / 2;
-        update(2 * node, l, mid, ql, qr, delta);
-        update(2 * node + 1, mid + 1, r, ql, qr, delta);
-        pull(node);
+        Node& v = tree[node];
+        v.covered = v.count > 0 ? v.length : node >= n ? 0 : tree[2 * node].covered + tree[2 * node + 1].covered;
     }
 };
 
