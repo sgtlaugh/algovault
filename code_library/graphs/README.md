@@ -532,7 +532,7 @@
 
 #### [Small Cycle Counting](small_cycle_counting.cpp)
 
-- [SPOJ ADACHERY - Ada and Cherry](https://www.spoj.com/problems/ADACHERY/)
+- [SPOJ ADACHERY - Ada and Cherry](https://www.spoj.com/problems/ADACHERY/) [✔](../../practice/graphs/spoj_adachery.cpp "Accepted solution")
 - [SPOJ VILLAGES - Villages by the River](https://www.spoj.com/problems/VILLAGES/)
 
 #### [Steiner Tree](steiner_tree.cpp)
