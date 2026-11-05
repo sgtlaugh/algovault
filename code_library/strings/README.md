@@ -252,7 +252,7 @@
 - [Codeforces Gym 100512I - Incomparable Suffixes](https://codeforces.com/gym/100512/problem/I)
 - [CSES 2102 - Finding Patterns](https://cses.fi/problemset/task/2102) [✔](../../practice/strings/cses_2102_suffix_automaton.cpp "Accepted solution")
 - [CSES 2103 - Counting Patterns](https://cses.fi/problemset/task/2103) [✔](../../practice/strings/cses_2103_suffix_automaton.cpp "Accepted solution")
-- [CSES 2104 - Pattern Positions](https://cses.fi/problemset/task/2104)
+- [CSES 2104 - Pattern Positions](https://cses.fi/problemset/task/2104) [✔](../../practice/strings/cses_2104_suffix_automaton.cpp "Accepted solution")
 - [CSES 2108 - Substring Order I](https://cses.fi/problemset/task/2108) [✔](../../practice/strings/cses_2108_suffix_automaton.cpp "Accepted solution")
 - [CSES 2109 - Substring Order II](https://cses.fi/problemset/task/2109) [✔](../../practice/strings/cses_2109.cpp "Accepted solution")
 - [CSES 2110 - Substring Distribution](https://cses.fi/problemset/task/2110)
