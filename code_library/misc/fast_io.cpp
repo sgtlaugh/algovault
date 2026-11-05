@@ -27,6 +27,7 @@
  *   - Writing a float without fixed() does not compile, so its precision is always chosen
  *   - fixed() is about 8x faster than printf while |x| * 10^digits < 2^52 and digits <= 18, as fast as printf otherwise
  *   - A floating token read keeps its first 127 characters
+ *   - A float, double or long double read gives strtof's, strtod's or strtold's value, 2-3x faster on short decimals
  *   - Interactive problems need no flush(): pending output is written each time the input buffer runs empty
  *   - Output is lost on abnormal termination such as abort() or _exit()
  *
