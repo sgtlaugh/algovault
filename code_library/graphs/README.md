@@ -381,7 +381,7 @@
 - [SPOJ NWERC11F - Pool construction](https://www.spoj.com/problems/NWERC11F/) [✔](../../practice/graphs/spoj_nwerc11f.cpp "Accepted solution")
 - [SPOJ OILCOMP - Oil Company](https://www.spoj.com/problems/OILCOMP/) [✔](../../practice/graphs/spoj_oilcomp.cpp "Accepted solution")
 - [SPOJ POTHOLE - Potholers](https://www.spoj.com/problems/POTHOLE/) [✔](../../practice/graphs/spoj_pothole.cpp "Accepted solution")
-- [SPOJ PROFIT - Maximum Profit](https://www.spoj.com/problems/PROFIT/)
+- [SPOJ PROFIT - Maximum Profit](https://www.spoj.com/problems/PROFIT/) [✔](../../practice/graphs/spoj_profit.cpp "Accepted solution")
 - [SPOJ SELLPHN2 - Mobile Company 2](https://www.spoj.com/problems/SELLPHN2/)
 - [UVa 563 - Crimewave](https://onlinejudge.org/external/5/563.pdf) [✔](../../practice/graphs/uva_563.cpp "Accepted solution")
 - [UVa 1067 - Tunnels](https://onlinejudge.org/external/10/1067.pdf) [✔](../../practice/graphs/uva_1067.cpp "Accepted solution")
