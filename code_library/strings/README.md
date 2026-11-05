@@ -54,7 +54,7 @@
 - [USACO 533 - Censoring (Gold)](https://usaco.org/index.php?page=viewproblem2&cpid=533) [✔](../../practice/strings/usaco_533.cpp "Accepted solution")
 - [UVa 1076 - Password Suspects](https://onlinejudge.org/external/10/1076.pdf) [✔](../../practice/strings/uva_1076.cpp "Accepted solution")
 - [UVa 1254 - Top 10](https://onlinejudge.org/external/12/1254.pdf) [✔](../../practice/strings/uva_1254_aho_corasick.cpp "Accepted solution")
-- [UVa 1399 - Puzzle](https://onlinejudge.org/external/13/1399.pdf)
+- [UVa 1399 - Puzzle](https://onlinejudge.org/external/13/1399.pdf) [✔](../../practice/strings/uva_1399.cpp "Accepted solution")
 - [UVa 1449 - Dominating Patterns](https://onlinejudge.org/external/14/1449.pdf) [✔](../../practice/strings/uva_1449.cpp "Accepted solution")
 - [UVa 1502 - GRE Words](https://onlinejudge.org/external/15/1502.pdf) [✔](../../practice/strings/uva_1502.cpp "Accepted solution")
 - [UVa 10679 - I Love Strings!!](https://onlinejudge.org/external/106/10679.pdf) [✔](../../practice/strings/uva_10679_aho_corasick.cpp "Accepted solution")
