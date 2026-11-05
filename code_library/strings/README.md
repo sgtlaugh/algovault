@@ -45,7 +45,7 @@
 - [HDU 5384 - Danganronpa](https://acm.hdu.edu.cn/showproblem.php?pid=5384) [✔](../../practice/strings/hdu_5384.cpp "Accepted solution")
 - [Kattis taboo - Taboo](https://open.kattis.com/problems/taboo) [✔](../../practice/strings/kattis_taboo.cpp "Accepted solution")
 - [LightOJ 1427 - Substring Frequency (II)](https://lightoj.com/problem/substring-frequency-ii) [✔](../../practice/strings/lightoj_1427.cpp "Accepted solution")
-- [POJ 1625 - Censored!](http://poj.org/problem?id=1625)
+- [POJ 1625 - Censored!](http://poj.org/problem?id=1625) [✔](../../practice/strings/poj_1625_aho_corasick.cpp "Accepted solution")
 - [POJ 2778 - DNA Sequence](http://poj.org/problem?id=2778)
 - [SPOJ EMOTICON - Emoticons](https://www.spoj.com/problems/EMOTICON/)
 - [SPOJ SUB_PROB - Substring Problem](https://www.spoj.com/problems/SUB_PROB/)
