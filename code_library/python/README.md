@@ -48,4 +48,4 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 #### [Z Algorithm](z_algorithm.py)
 
-- [CSES 1753 - String Matching](https://cses.fi/problemset/task/1753)
+- [CSES 1753 - String Matching](https://cses.fi/problemset/task/1753) [✔](../../practice/python/cses_1753_z_algorithm.py "Accepted solution")
