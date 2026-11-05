@@ -26,7 +26,7 @@
 
 #### [Comb Sort](combsort.cpp)
 
-- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A)
+- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✔](../../practice/misc/aoj_alds1_6_a_combsort.cpp "Accepted solution")
 
 #### [Dancing Links](dancing_links.cpp)
 
