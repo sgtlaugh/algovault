@@ -72,7 +72,7 @@
 
 - [Codeforces acmsguru 383 - Caravans](https://codeforces.com/problemsets/acmsguru/problem/99999/383)
 - [Codeforces Gym 102482G - Panda Preserve](https://codeforces.com/gym/102482/problem/G)
-- [Luogu P6362 - 平面欧几里得最小生成树](https://www.luogu.com.cn/problem/P6362)
+- [Luogu P6362 - 平面欧几里得最小生成树](https://www.luogu.com.cn/problem/P6362) [✔](../../practice/geometry/luogu_p6362.cpp "Accepted solution")
 - [Timus 1504 - Good Manners](https://acm.timus.ru/problem.aspx?num=1504)
 - [Timus 1520 - Empire Strikes Back](https://acm.timus.ru/problem.aspx?num=1520)
 - [UVa 1683 - In case of failure](https://onlinejudge.org/external/16/1683.pdf) [✔](../../practice/geometry/uva_1683_delaunay.cpp "Accepted solution")
