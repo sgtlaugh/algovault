@@ -47,7 +47,7 @@
 - [LightOJ 1427 - Substring Frequency (II)](https://lightoj.com/problem/substring-frequency-ii) [✔](../../practice/strings/lightoj_1427.cpp "Accepted solution")
 - [POJ 1625 - Censored!](http://poj.org/problem?id=1625) [✔](../../practice/strings/poj_1625_aho_corasick.cpp "Accepted solution")
 - [POJ 2778 - DNA Sequence](http://poj.org/problem?id=2778) [✔](../../practice/strings/poj_2778_aho_corasick.cpp "Accepted solution")
-- [SPOJ EMOTICON - Emoticons](https://www.spoj.com/problems/EMOTICON/)
+- [SPOJ EMOTICON - Emoticons](https://www.spoj.com/problems/EMOTICON/) [✔](../../practice/strings/spoj_emoticon.cpp "Accepted solution")
 - [SPOJ SUB_PROB - Substring Problem](https://www.spoj.com/problems/SUB_PROB/)
 - [SPOJ TREEBA - Hackers](https://www.spoj.com/problems/TREEBA/)
 - [SPOJ WPUZZLES - Word Puzzles](https://www.spoj.com/problems/WPUZZLES/)
