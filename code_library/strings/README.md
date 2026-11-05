@@ -278,5 +278,5 @@
 - [Codeforces 1313E - Concatenation with intersection](https://codeforces.com/problemset/problem/1313/E) [✔](../../practice/strings/codeforces_1313e.cpp "Accepted solution")
 - [Codeforces 1984D - "a" String Problem](https://codeforces.com/problemset/problem/1984/D) [✔](../../practice/strings/codeforces_1984d.cpp "Accepted solution")
 - [Codeforces Gym 101466E - Text Editor](https://codeforces.com/gym/101466/problem/E) [✔](../../practice/strings/codeforces_gym_101466e.cpp "Accepted solution")
-- [Eolymp 1309 - Blocks of string](https://www.eolymp.com/en/problems/1309)
+- [Eolymp 1309 - Blocks of string](https://www.eolymp.com/en/problems/1309) [✔](../../practice/strings/eolymp_1309.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✔](../../practice/strings/uva_11475_z_algorithm.cpp "Accepted solution")
