@@ -15,7 +15,7 @@ int main(){
     string x, y;
     while (q--){
         cin >> x >> y;
-        cout << lcs(x.c_str(), y.c_str()) << '\n';
+        cout << lcs(x, y) << '\n';
     }
 
     return 0;

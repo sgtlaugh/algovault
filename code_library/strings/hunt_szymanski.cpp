@@ -1,13 +1,14 @@
 /***
  *
  * Hunt-Szymanski Algorithm for LCS
- * Longest common subsequence of two strings, fast when few pairs of positions match
+ * Longest common subsequence of two sequences, fast when few pairs of positions match
  *
- * Complexity: O((R + N) log N), R = number of position pairs where the strings match, up to N^2
+ * Complexity: O((R + N + M) log M), R = number of position pairs where the sequences match, up to N M
  *
- * lcs(A, B): the LCS length of the null-terminated strings A and B (const char*), any byte values except 0
+ * lcs(A, B): the LCS length of A and B, two strings or two vectors of any comparable values
  *
  * Notes:
+ *   - Values are compared with <, so any byte, negative numbers and huge values all work, like permutations up to 1e9
  *   - Use bit_string_lcs.cpp for dense inputs (small alphabet, large R), it is O(N M / 64)
  *
 ***/
@@ -16,14 +17,27 @@
 
 using namespace std;
 
-int lcs(const char* A, const char* B){
-    vector<int> adj[256], ar(1, -1);
-    int i, j, k, n = strlen(A), m = strlen(B);
+template <typename Seq>
+int lcs(const Seq& A, const Seq& B){
+    int i, j, k, n = A.size(), m = B.size();
+    vector<typename Seq::value_type> values(B.begin(), B.end());
+    sort(values.begin(), values.end());
+    values.erase(unique(values.begin(), values.end()), values.end());
 
-    for (i = 0; i < m; i++) adj[(unsigned char)B[i]].push_back(i);
+    vector<vector<int>> adj(values.size());
+    for (i = 0; i < m; i++) adj[lower_bound(values.begin(), values.end(), B[i]) - values.begin()].push_back(i);
+
+    /// rank[i] = -1 when A[i] never occurs in B
+    vector<int> rank(n), ar(1, -1);
+    for (i = 0; i < n; i++){
+        auto it = lower_bound(values.begin(), values.end(), A[i]);
+        rank[i] = it == values.end() || A[i] < *it ? -1 : it - values.begin();
+    }
 
     for (i = 0; i < n; i++){
-        const auto& pos = adj[(unsigned char)A[i]];
+        if (rank[i] == -1) continue;
+
+        const vector<int>& pos = adj[rank[i]];
         /// Positions come in decreasing order, so each one lands at or before the slot of the previous
         for (j = (int)pos.size() - 1, k = ar.size(); j >= 0; j--){
             int x = pos[j];
@@ -39,16 +53,11 @@ int lcs(const char* A, const char* B){
 }
 
 int main(){
-    mt19937 rng(666);
+    /// ABCBDAB and BDCABA share BCBA, and no common subsequence is longer
+    assert(lcs(string("ABCBDAB"), string("BDCABA")) == 4);
 
-    int n = 50000, m = 50000;
-    string A(n, 0), B(m, 0);
-    for (int i = 0; i < n; i++) A[i] = (rng() % 26) + 'A';
-    for (int i = 0; i < m; i++) B[i] = (rng() % 26) + 'A';
+    /// Permutations with values beyond a byte: 1 3 4 is common
+    assert(lcs(vector<int>{5, 1, 1000000, 3, 4}, vector<int>{1, 3, 7, 4, 1000000}) == 3);
 
-    clock_t start = clock();
-    assert(lcs(A.c_str(), B.c_str()) == 16259);
-
-    fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC)); /// took 3.96 s locally
     return 0;
 }
