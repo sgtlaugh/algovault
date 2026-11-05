@@ -64,7 +64,7 @@
 - [UVa 13163 - Passwords](https://onlinejudge.org/external/131/13163.pdf) [✔](../../practice/strings/uva_13163.cpp "Accepted solution")
 - [ZOJ 2115 - Dangerous Pattern](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827365614) [✔](../../practice/strings/zoj_2115.cpp "Accepted solution")
 - [ZOJ 3228 - Searching the String](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827367940) [✔](../../practice/strings/zoj_3228.cpp "Accepted solution")
-- [ZOJ 3430 - Detect the Virus](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827368613)
+- [ZOJ 3430 - Detect the Virus](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827368613) [✔](../../practice/strings/zoj_3430.cpp "Accepted solution")
 - [ZOJ 3494 - BCD Code](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827368816)
 
 #### [Aho-Corasick, Dynamic](dynamic_aho_corasick.cpp)
