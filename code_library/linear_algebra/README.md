@@ -70,7 +70,7 @@
 #### [Matrix](matrix.cpp)
 
 - [Codeforces 222E - Decoding Genome](https://codeforces.com/problemset/problem/222/E) [✔](../../practice/linear_algebra/codeforces_222e.cpp "Accepted solution")
-- [Codeforces 498E - Stairs and Lines](https://codeforces.com/problemset/problem/498/E)
+- [Codeforces 498E - Stairs and Lines](https://codeforces.com/problemset/problem/498/E) [✔](../../practice/linear_algebra/codeforces_498e.cpp "Accepted solution")
 - [Codeforces 506E - Mr. Kitayuta's Gift](https://codeforces.com/problemset/problem/506/E)
 - [Codeforces 691E - Xor-sequences](https://codeforces.com/problemset/problem/691/E)
 - [Codeforces 717D - Dexterina’s Lab](https://codeforces.com/problemset/problem/717/D)
