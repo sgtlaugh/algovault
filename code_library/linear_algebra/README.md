@@ -94,7 +94,7 @@
 - [UVa 11091 - How many Knight Placing?](https://onlinejudge.org/external/110/11091.pdf) [✔](../../practice/linear_algebra/uva_11091.cpp "Accepted solution")
 - [UVa 11149 - Power of Matrix](https://onlinejudge.org/external/111/11149.pdf) [✔](../../practice/linear_algebra/uva_11149.cpp "Accepted solution")
 - [UVa 11551 - Experienced Endeavour](https://onlinejudge.org/external/115/11551.pdf) [✔](../../practice/linear_algebra/uva_11551.cpp "Accepted solution")
-- [UVa 11651 - Krypton Number System](https://onlinejudge.org/external/116/11651.pdf)
+- [UVa 11651 - Krypton Number System](https://onlinejudge.org/external/116/11651.pdf) [✔](../../practice/linear_algebra/uva_11651.cpp "Accepted solution")
 - [UVa 11741 - Ignore the Blocks](https://onlinejudge.org/external/117/11741.pdf) [✔](../../practice/linear_algebra/uva_11741.cpp "Accepted solution")
 - [UVa 12000 - K-Transformed Permutations](https://onlinejudge.org/external/120/12000.pdf) [✔](../../practice/linear_algebra/uva_12000.cpp "Accepted solution")
 - [UVa 12037 - Musical Chair](https://onlinejudge.org/external/120/12037.pdf) [✔](../../practice/linear_algebra/uva_12037.cpp "Accepted solution")
