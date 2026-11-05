@@ -30,7 +30,7 @@
 
 #### [Closest Pair of Points](closest_pair.cpp)
 
-- [Codeforces 120J - Minimum Sum](https://codeforces.com/problemset/problem/120/J)
+- [Codeforces 120J - Minimum Sum](https://codeforces.com/problemset/problem/120/J) [✔](../../practice/geometry/codeforces_120j.cpp "Accepted solution")
 - [CSES 2194 - Minimum Euclidean Distance](https://cses.fi/problemset/task/2194)
 - [Kattis closestpair2 - Closest Pair](https://open.kattis.com/problems/closestpair2)
 - [SPOJ CLOPPAIR - Closest Point Pair](https://www.spoj.com/problems/CLOPPAIR/)
