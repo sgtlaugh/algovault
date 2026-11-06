@@ -4,9 +4,10 @@
 #include "../../code_library/graphs/steiner_tree.cpp"
 #undef main
 
-/// Minimum over vertex subsets containing every terminal of the MST of the induced subgraph, when connected
-long long brute(int n, const vector<array<long long, 3>>& edges, const vector<int>& terminals){
-    if (terminals.size() <= 1) return 0;
+/// Minimum over vertex subsets containing every terminal of their cost plus the MST of the induced subgraph
+long long brute(int n, const vector<array<long long, 3>>& edges, const vector<long long>& cost,
+                const vector<int>& terminals){
+    if (terminals.empty()) return 0;
     int need = 0;
     for (int t : terminals) need |= 1 << t;
 
@@ -22,6 +23,9 @@ long long brute(int n, const vector<array<long long, 3>>& edges, const vector<in
         function<int(int)> find = [&](int x){ return parent[x] == x ? x : parent[x] = find(parent[x]); };
         long long total = 0;
         int joined = 0;
+        for (int v = 0; v < n; v++){
+            if (mask >> v & 1) total += cost[v];
+        }
         for (int i : order){
             auto [u, v, w] = edges[i];
             if (!(mask >> u & 1) || !(mask >> v & 1)) continue;
@@ -35,15 +39,17 @@ long long brute(int n, const vector<array<long long, 3>>& edges, const vector<in
 }
 
 /// The library's subset recurrence spread by Floyd-Warshall instead of Dijkstra: it guards only the spreading
-long long floyd_reference(int n, const vector<array<long long, 3>>& edges, const vector<int>& terminals){
+long long floyd_reference(int n, const vector<array<long long, 3>>& edges, const vector<long long>& cost,
+                          const vector<int>& terminals){
     int k = terminals.size();
-    if (k <= 1) return 0;
+    if (k == 0) return 0;
 
+    /// dist[u][v] pays cost[v] but not cost[u], and every tree below holds cost[root] once
     vector<vector<long long>> dist(n, vector<long long>(n, STEINER_INF));
     for (int v = 0; v < n; v++) dist[v][v] = 0;
     for (auto [u, v, w] : edges){
-        dist[u][v] = min(dist[u][v], w);
-        dist[v][u] = min(dist[v][u], w);
+        dist[u][v] = min(dist[u][v], w + cost[v]);
+        dist[v][u] = min(dist[v][u], w + cost[u]);
     }
     for (int m = 0; m < n; m++){
         for (int u = 0; u < n; u++){
@@ -52,12 +58,14 @@ long long floyd_reference(int n, const vector<array<long long, 3>>& edges, const
     }
 
     vector<vector<long long>> dp(1 << k, vector<long long>(n, STEINER_INF));
-    for (int i = 0; i < k; i++) dp[1 << i] = dist[terminals[i]];
+    for (int i = 0; i < k; i++){
+        for (int v = 0; v < n; v++) dp[1 << i][v] = dist[terminals[i]][v] + cost[terminals[i]];
+    }
     for (int mask = 1; mask < (1 << k); mask++){
         if (__builtin_popcount(mask) == 1) continue;
         vector<long long> merged(n, STEINER_INF);
         for (int sub = (mask - 1) & mask; sub > 0; sub = (sub - 1) & mask){
-            for (int v = 0; v < n; v++) merged[v] = min(merged[v], dp[sub][v] + dp[mask ^ sub][v]);
+            for (int v = 0; v < n; v++) merged[v] = min(merged[v], dp[sub][v] + dp[mask ^ sub][v] - cost[v]);
         }
         for (int u = 0; u < n; u++){
             for (int v = 0; v < n; v++) dp[mask][v] = min(dp[mask][v], merged[u] + dist[u][v]);
@@ -87,29 +95,42 @@ long long brute_forest(int n, const vector<array<long long, 3>>& edges, const ve
     return best;
 }
 
-/// Asserts the ids are distinct edges joining every terminal, and returns their total weight
-long long tree_weight(int n, const vector<array<long long, 3>>& edges, const vector<int>& terminals, vector<int> ids){
+/// Asserts the ids are distinct edges joining every terminal, and returns their weight plus the cost of their vertices
+long long tree_weight(int n, const vector<array<long long, 3>>& edges, const vector<long long>& cost,
+                      const vector<int>& terminals, vector<int> ids){
     vector<int> parent(n);
     iota(parent.begin(), parent.end(), 0);
     function<int(int)> find = [&](int x){ return parent[x] == x ? x : parent[x] = find(parent[x]); };
-    vector<bool> seen(edges.size(), false);
+    vector<bool> seen(edges.size(), false), used(n, false);
+    if (!terminals.empty()) used[terminals[0]] = true;
     long long total = 0;
     for (int id : ids){
         assert(0 <= id && id < (int)edges.size() && !seen[id]);
         seen[id] = true;
         parent[find(edges[id][0])] = find(edges[id][1]);
+        used[edges[id][0]] = used[edges[id][1]] = true;
         total += edges[id][2];
     }
 
     for (int t : terminals) assert(find(t) == find(terminals[0]));
+    for (int v = 0; v < n; v++) total += used[v] ? cost[v] : 0;
     return total;
 }
 
-/// Tiny weights force ties, 1e15 weights catch any narrowing of the 64-bit weight type
+/// Tiny weights force ties, 1e15 weights catch any narrowing of the 64-bit weight type, zero leaves only vertex costs
 long long random_weight(long long it){
+    if (it % 4 == 3) return 0;
     /// a narrowed weight stays nonnegative, so an assertion fires instead of Dijkstra looping
-    if (it % 3 == 2) return stress::rand_int(0, 1000000000000000LL) & ~(1LL << 31);
-    return stress::rand_int(0, it % 3 ? 1000000000 : 5);
+    if (it % 4 == 2) return stress::rand_int(0, 1000000000000000LL) & ~(1LL << 31);
+    return stress::rand_int(0, it % 4 ? 1000000000 : 5);
+}
+
+/// Zero costs as edge-only callers use, then tiny, large and 1e14 costs, each met with every weight mode
+vector<long long> random_costs(int n, long long it){
+    long long top[] = {0, 5, 1000000000, 100000000000000LL};
+    vector<long long> cost(n);
+    for (long long& c : cost) c = stress::rand_int(0, top[it / 4 % 4]);
+    return cost;
 }
 
 vector<int> random_terminals(int n, int max_k){
@@ -126,6 +147,7 @@ int main(){
         int n = stress::rand_int(1, 9), m = stress::rand_int(0, 3 * n);
         vector<array<long long, 3>> edges;
         SteinerTree g(n);
+        g.cost = random_costs(n, it);
         for (int i = 0; i < m; i++){
             int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
             long long w = random_weight(it);
@@ -143,9 +165,12 @@ int main(){
                 for (int i = 0; i < k; i++){
                     if (mask >> i & 1) subset.push_back(terminals[i]);
                 }
-                assert(best[mask] == brute(n, edges, subset));
+                assert(best[mask] == brute(n, edges, g.cost, subset));
             }
             assert(g.solve(terminals) == best.back());
+            if (best.back() < STEINER_INF){
+                assert(tree_weight(n, edges, g.cost, terminals, g.tree(terminals)) == best.back());
+            }
         }
     }
 
@@ -153,6 +178,7 @@ int main(){
         int n = stress::rand_int(1, 40), m = stress::rand_int(0, 3 * n);
         vector<array<long long, 3>> edges;
         SteinerTree g(n);
+        g.cost = random_costs(n, it);
         for (int i = 0; i < m; i++){
             int u = stress::rand_int(0, n - 1), v = stress::rand_int(0, n - 1);
             long long w = random_weight(it);
@@ -161,9 +187,9 @@ int main(){
         }
 
         vector<int> terminals = random_terminals(n, 6);
-        long long best = floyd_reference(n, edges, terminals);
+        long long best = floyd_reference(n, edges, g.cost, terminals);
         assert(g.solve(terminals) == best);
-        if (best < STEINER_INF) assert(tree_weight(n, edges, terminals, g.tree(terminals)) == best);
+        if (best < STEINER_INF) assert(tree_weight(n, edges, g.cost, terminals, g.tree(terminals)) == best);
     }
 
     /// tree against every edge subset, each terminal paired with the first so brute_forest asks for one component
@@ -183,11 +209,16 @@ int main(){
         long long best = brute_forest(n, edges, pairs);
         if (best == STEINER_INF) continue;
         vector<int> ids = g.tree(terminals);
-        assert(tree_weight(n, edges, terminals, ids) == best);
+        assert(tree_weight(n, edges, g.cost, terminals, ids) == best);
         if (terminals.size() <= 1) assert(ids.empty());
     }
 
     stress::expect_assert("graphs/steiner_tree.cpp", []{ SteinerTree(3).tree({0, 2}); });
+    stress::expect_assert("graphs/steiner_tree.cpp", []{
+        SteinerTree g(2);
+        g.cost[1] = -1;
+        g.solve({0});
+    });
 
     /// Steiner forest by the header's recipe, terminals paired as (0, 1), (2, 3), (4, 5)
     for (long long it = 0; it < stress::scaled(1000); it++){
@@ -237,7 +268,7 @@ int main(){
     long long tree = g.solve(terminals);
     assert(0 < tree && tree <= all);
     assert(tree == g.solve(vector<int>(terminals.rbegin(), terminals.rend())));
-    assert(tree_weight(n, edges, terminals, g.tree(terminals)) == tree);
+    assert(tree_weight(n, edges, g.cost, terminals, g.tree(terminals)) == tree);
 
     return 0;
 }

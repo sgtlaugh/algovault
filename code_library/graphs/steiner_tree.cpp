@@ -1,21 +1,24 @@
 /***
  *
  * Steiner Tree (Dreyfus Wagner)
- * Minimum weight set of edges connecting every terminal of an undirected graph
+ * Cheapest tree connecting every terminal of an undirected graph, paying for its edges and its vertices
  *
  * Complexity: O(3^k n + 2^k m log n) time, O(2^k n) memory for k terminals
  *
  * SteinerTree g(n): an empty graph on vertices 0 to n - 1
  * g.add_edge(u, v, w): adds an undirected edge with w >= 0 and returns its id, ids count up from 0 in add_edge order
- * g.solve(terminals): the minimum weight, 0 for fewer than two terminals, STEINER_INF if they are not all connected
+ * g.solve(terminals): minimum edge weight plus vertex cost of a tree joining them, STEINER_INF if not all connected
  * g.solve_subsets(terminals): best, where best[mask] is solve of the terminals[i] with bit i set in mask
- * g.tree(terminals): distinct edge ids of minimum total weight connecting all terminals, which must be connected
+ * g.tree(terminals): distinct edge ids of a cheapest tree, the terminals must be connected
+ * g.cost: cost[v] >= 0 is paid once when v is in the tree, all 0 until set
  *
  * Notes:
  *   - solve and tree do not modify the graph, so one graph answers several terminal sets
+ *   - The tree's vertices are the endpoints of tree's edges, or the lone terminal when there is no edge
+ *   - solve of no terminals is 0
  *   - The edges of tree form a tree when all weights are positive, zero weight edges can close a cycle
  *   - Steiner forest, each group connected: forest[s] = min over t of forest[s ^ t] + best[t], t a union of groups in s
- *   - The total weight of all edges must stay below STEINER_INF (~2.3e18)
+ *   - The total weight of all edges plus the total cost must stay below STEINER_INF (~2.3e18)
  *
 ***/
 
@@ -33,8 +36,9 @@ struct SteinerTree{
 
     int n, m = 0;
     vector<vector<Edge>> adj;
+    vector<long long> cost;
 
-    SteinerTree(int n) : n(n), adj(n) {}
+    SteinerTree(int n) : n(n), adj(n), cost(n, 0) {}
 
     int add_edge(int u, int v, long long w){
         assert(w >= 0);
@@ -49,11 +53,15 @@ struct SteinerTree{
 
     vector<long long> solve_subsets(const vector<int>& terminals) const{
         int k = terminals.size();
-        if (k <= 1) return vector<long long>(1 << k, 0);
+        if (k == 0) return {0};
 
         vector<vector<long long>> dp = table(terminals);
-        vector<long long> best(1 << k, 0);
-        for (int mask = 1; mask < (1 << k); mask++) best[mask] = *min_element(dp[mask].begin(), dp[mask].end());
+        vector<long long> best(1 << k, STEINER_INF);
+        best[0] = 0;
+        for (int mask = 1; mask < (1 << k); mask++){
+            for (int v = 0; v < n; v++) best[mask] = min(best[mask], dp[mask][v] + cost[v]);
+        }
+
         return best;
     }
 
@@ -63,7 +71,10 @@ struct SteinerTree{
 
         vector<vector<long long>> dp = table(terminals);
         int full = (1 << k) - 1;
-        int root = min_element(dp[full].begin(), dp[full].end()) - dp[full].begin();
+        int root = 0;
+        for (int v = 0; v < n; v++){
+            if (dp[full][v] + cost[v] < dp[full][root] + cost[root]) root = v;
+        }
         assert(dp[full][root] < STEINER_INF);
 
         vector<int> edges;
@@ -74,7 +85,7 @@ struct SteinerTree{
             todo.pop_back();
             const vector<long long>& d = dp[mask];
 
-            /// breadth first back over edges with d[u] = d[to] + w, as a greedy walk can cycle on zero weight edges
+            /// breadth first over edges with d[u] = d[to] + cost[to] + w, a greedy walk can cycle on zero weight edges
             vector<int> parent(n, -1), parent_edge(n, -1), queue = {v};
             parent[v] = v;
             int x = -1, sub = 0;
@@ -89,7 +100,7 @@ struct SteinerTree{
                 }
 
                 for (auto [to, id, w] : adj[u]){
-                    if (parent[to] != -1 || d[to] + w != d[u]) continue;
+                    if (parent[to] != -1 || d[to] + cost[to] + w != d[u]) continue;
                     parent[to] = u, parent_edge[to] = id;
                     queue.push_back(to);
                 }
@@ -106,6 +117,9 @@ struct SteinerTree{
 
     vector<vector<long long>> table(const vector<int>& terminals) const{
         int k = terminals.size();
+        for (long long c : cost) assert(c >= 0);
+
+        /// dp[mask][v] leaves out cost[v], so merging two trees at v pays it once without a subtraction
         vector<vector<long long>> dp(1 << k, vector<long long>(n, STEINER_INF));
         for (int i = 0; i < k; i++) dp[1 << i][terminals[i]] = 0;
 
@@ -124,6 +138,8 @@ struct SteinerTree{
                 auto [dv, v] = heap.top();
                 heap.pop();
                 if (dv != d[v]) continue;
+
+                dv += cost[v];
                 for (auto [u, id, w] : adj[v]){
                     if (dv + w < d[u]) d[u] = dv + w, heap.push({d[u], u});
                 }
@@ -157,5 +173,16 @@ int main(){
     /// Bit i of the mask picks terminals[i], so mask 6 is {1, 3} at cost 6 + 1
     vector<long long> best = path.solve_subsets({0, 1, 3});
     assert(best == vector<long long>({0, 0, 0, 4, 0, 11, 7, 11}));
+
+    /// Free edges and paid vertices: 0 reaches 2 through 1 at 1 + 5 + 1 or through 3 at 1 + 2 + 1
+    SteinerTree cells(4);
+    cells.cost = {1, 5, 1, 2};
+    cells.add_edge(0, 1, 0), cells.add_edge(1, 2, 0), cells.add_edge(0, 3, 0), cells.add_edge(3, 2, 0);
+    assert(cells.solve({0, 2}) == 4);
+    assert(cells.solve({1}) == 5);  /// a lone terminal pays its own cost
+
+    vector<int> detour = cells.tree({0, 2});
+    sort(detour.begin(), detour.end());
+    assert(detour == vector<int>({2, 3}));
     return 0;
 }
