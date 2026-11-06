@@ -536,7 +536,7 @@
 
 #### [Steiner Tree](steiner_tree.cpp)
 
-- [Codeforces 152E - Garden](https://codeforces.com/problemset/problem/152/E)
+- [Codeforces 152E - Garden](https://codeforces.com/problemset/problem/152/E) [✔](../../practice/graphs/codeforces_152e.cpp "Accepted solution")
 - [HDU 3311 - Dig The Wells](https://acm.hdu.edu.cn/showproblem.php?pid=3311) [✔](../../practice/graphs/hdu_3311.cpp "Accepted solution")
 - [HDU 4085 - Peach Blossom Spring](https://acm.hdu.edu.cn/showproblem.php?pid=4085) [✔](../../practice/graphs/hdu_4085.cpp "Accepted solution")
 - [Kattis shovelling - Shovelling Snow](https://open.kattis.com/problems/shovelling)
