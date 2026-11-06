@@ -3,13 +3,18 @@
  * Anti Polynomial Hash
  * Builds two different strings with the same polynomial hash, to hack solutions or break weak tests
  *
- * Complexity, with n = 2000 the string length, chunk = 15 and lim = 6:
+ * Complexity, with chunk = 15 and lim = 1 + log2(n / 60) rounded down, at least 1:
  *   - AntiHash: O(n log n)
  *   - solve: O(2^chunk chunk + n + chunk 2^lim) per randomized trial, trials repeat until a collision, with no bound
- *   - about 850 KB per instance, all in fixed arrays inside the struct
+ *   - 512 KB in a fixed array inside the struct, plus 16 n lim bytes, about 600 KB at n = 1000
  *
- * AntiHash hack(base, mod): the attack on h = (h * base + s[i]) % mod, any positive base and mod with base + mod < 2^63
- * hack.solve(): {s, t}, two different 2000-character strings of '0' and '1' with equal hashes
+ * AntiHash hack(base, mod, n): the attack on h = (h * base + s[i]) % mod, n >= 30, base + mod < 2^63, both positive
+ * hack.solve(): {s, t}, two different n-character strings of '0' and '1' with equal hashes
+ *
+ * Notes:
+ *   - solve averaged under 10 ms at n = 1000 for mod <= 1e14 and at n = 2000 for mod < 2^61
+ *   - Too small an n for mod slows solve down fast: n = 1000 with mod near 2^61 took 2 s on average and up to 9 s
+ *   - The strings differ by a +-1 combination of base powers, so they collide whatever values '0' and '1' hash to
  *
 ***/
 
@@ -18,19 +23,18 @@
 using namespace std;
 
 struct AntiHash{
-    /// Magic constants! Feel free to tweak and experiment
+    /// Magic constant! Each trial meets in the middle over 2^chunk subset sums
 
-    const static int n = 2000;
-    const static int lim = 6;
     const static int chunk = 15;
 
+    int n, lim, len, found, sample[2 * chunk];
     long long base, mod;
+    string res[2];
+    pair<long long, int> ar[1 << chunk];
+    vector<vector<pair<long long, int>>> dp;
 
-    int len, found, sample[1 << chunk];
-    string res[2] = {string(n, '0'), string(n, '0')};
-    pair<long long, int> ar[1 << chunk], dp[lim][n + 10];
-
-    AntiHash(long long base, long long mod) : base(base), mod(mod){
+    AntiHash(long long base, long long mod, int n) : n(n), base(base), mod(mod){
+        assert(n >= 2 * chunk);
         generate();
     }
 
@@ -65,20 +69,26 @@ struct AntiHash{
     }
 
     inline void generate(){
+        res[0] = res[1] = string(n, '0');
+
+        /// Halving stops before the last level drops under 4 chunk values, as the tuned n = 2000, lim = 6 left it
+        for (lim = 1, len = n; len / 2 >= 4 * chunk; lim++) len /= 2;
+        dp.assign(lim, vector<pair<long long, int>>(n));
+
         len = 0, found = 0;
         dp[0][len++] = make_pair(1, n - 1);
         for (int i = 1; i < n; i++){
             dp[0][len++] = make_pair(fast_modmul(dp[0][i - 1].first, base, mod), n - i - 1);
         }
-        sort(dp[0], dp[0] + len);
+        sort(dp[0].begin(), dp[0].begin() + len);
 
         for (int i = 1; i < lim; i++){
-            for (int j = 0, k = 0; k < len; j++, k += 2){
+            for (int j = 0, k = 0; k + 1 < len; j++, k += 2){
                 long long x = (dp[i - 1][k + 1].first - dp[i - 1][k].first + mod) % mod;
                 dp[i][j] = make_pair(x, j);
             }
             len >>= 1;
-            sort(dp[i], dp[i] + len);
+            sort(dp[i].begin(), dp[i].begin() + len);
         }
     }
 
@@ -147,30 +157,22 @@ struct AntiHash{
 };
 
 int main(){
-    srand(666);
-    clock_t start = clock();
+    /// Two 1000-character strings colliding under base 3 and mod 1e14, scored with '0' -> 1 and '1' -> 2
+    long long base = 3, mod = 100000000000000LL;
+    AntiHash hack(base, mod, 1000);
 
-    long long base = 1000000007;
-    long long mod = (1ULL << 61) - 1; /// A Mersenne prime
+    string s, t;
+    tie(s, t) = hack.solve();
+    assert(s != t);
+    assert(s.size() == 1000);
+    assert(t.size() == 1000);
 
-    string s1, s2;
-    auto ah = AntiHash(base, mod);
-    tie(s1, s2) = ah.solve();
-
-    long long h1 = 0, h2 = 0;
-    for (int i = 0; i < (int)s1.length(); i++){
-        h1 = (ah.fast_modmul(h1, base, mod) + s1[i]) % mod;
+    long long hs = 0, ht = 0;
+    for (int i = 0; i < 1000; i++){
+        hs = (hack.fast_modmul(hs, base, mod) + (s[i] - '0' + 1)) % mod;
+        ht = (hack.fast_modmul(ht, base, mod) + (t[i] - '0' + 1)) % mod;
     }
-    for (int i = 0; i < (int)s2.length(); i++){
-        h2 = (ah.fast_modmul(h2, base, mod) + s2[i]) % mod;
-    }
-
-    assert(s1.length() == s2.length() && s1 != s2 && h1 == h2);
-
-    puts(s1.c_str());
-    puts(s2.c_str());
-
-    fprintf(stderr, "\nTime taken = %0.6f\n", (clock() - start) / (1.0 * CLOCKS_PER_SEC));   /// 0.002585
+    assert(hs == ht);
 
     return 0;
 }
