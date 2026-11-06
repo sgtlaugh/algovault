@@ -64,7 +64,7 @@
 
 #### [N Queens](n_queen.cpp)
 
-- [UVa 11195 - Another n-Queen Problem](https://onlinejudge.org/external/111/11195.pdf)
+- [UVa 11195 - Another n-Queen Problem](https://onlinejudge.org/external/111/11195.pdf) [✔](../../practice/misc/uva_11195.cpp "Accepted solution")
 
 #### [Nimber Arithmetic](nimber.cpp)
 
