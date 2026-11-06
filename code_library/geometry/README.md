@@ -40,7 +40,7 @@
 #### [Convex Hull](convex_hull.cpp)
 
 - [Codeforces 605C - Freelancer's Dreams](https://codeforces.com/problemset/problem/605/C) [✔](../../practice/geometry/codeforces_605c_convex_hull.cpp "Accepted solution")
-- [Codeforces 1299C - Water Balance](https://codeforces.com/problemset/problem/1299/C)
+- [Codeforces 1299C - Water Balance](https://codeforces.com/problemset/problem/1299/C) [✔](../../practice/geometry/codeforces_1299c.cpp "Accepted solution")
 - [Codeforces 2172I - Birthday](https://codeforces.com/problemset/problem/2172/I) [✔](../../practice/geometry/codeforces_2172i.cpp "Accepted solution")
 - [CSES 2195 - Convex Hull](https://cses.fi/problemset/task/2195) [✔](../../practice/geometry/cses_2195.cpp "Accepted solution")
 - [Kattis convexhull - Convex Hull](https://open.kattis.com/problems/convexhull) [✔](../../practice/geometry/kattis_convexhull.cpp "Accepted solution")
