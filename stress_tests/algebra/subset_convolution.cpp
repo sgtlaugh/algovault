@@ -113,6 +113,91 @@ void check_long(int n){
     assert(f == reduced(a));
 }
 
+using TopTwo = pair<int, int>;
+
+/// The two largest distinct indices, -1 when absent; an index seen twice must not fill both slots
+TopTwo merge_top_two(const TopTwo& x, const TopTwo& y){
+    int all[4] = {x.first, x.second, y.first, y.second};
+    sort(all, all + 4, greater<int>());
+
+    int second = -1;
+    for (int i = 1; i < 4 && second == -1; i++){
+        if (all[i] != all[0]) second = all[i];
+    }
+
+    return {all[0], second};
+}
+
+/// Folds combine over f[T] for every T subset (or superset) of each S by testing all pairs, O(4^n)
+template<typename T, typename Combine>
+vector<T> brute_fold(const vector<T>& f, Combine combine, bool superset){
+    int size = f.size();
+    vector<T> res(size);
+    for (int s = 0; s < size; s++){
+        bool first = true;
+        for (int t = 0; t < size; t++){
+            bool related = superset ? (s & t) == s : (s & t) == t;
+            if (!related) continue;
+            res[s] = first ? f[t] : combine(res[s], f[t]);
+            first = false;
+        }
+    }
+
+    return res;
+}
+
+template<typename T, typename Combine>
+void check_fold(const vector<T>& f, Combine combine){
+    vector<T> g = f;
+    subset_zeta(g, combine);
+    assert(g == brute_fold(f, combine, false));
+
+    g = f;
+    superset_zeta(g, combine);
+    assert(g == brute_fold(f, combine, true));
+}
+
+void check_folds(const vector<int>& a){
+    check_fold(a, [](int x, int y){ return max(x, y); });
+    check_fold(a, [](int x, int y){ return min(x, y); });
+}
+
+/// Every array over values 0..2 at n <= 3, so ties between subsets and supersets all occur
+void check_folds_exhaustive(int n){
+    int size = 1 << n, total = 1;
+    for (int i = 0; i < size; i++) total *= 3;
+
+    for (int code = 0; code < total; code++){
+        vector<int> a(size);
+        int rest = code;
+        for (auto& x : a){
+            x = rest % 3;
+            rest /= 3;
+        }
+        check_folds(a);
+    }
+}
+
+void check_folds_random(int n){
+    int size = 1 << n;
+    vector<int> a(size);
+    for (auto& x : a) x = stress::rand_int(0, 2) ? stress::rand_int(INT_MIN, INT_MAX) : stress::rand_int(-2, 2);
+    check_folds(a);
+
+    /// Indices from a small range repeat across masks, which a merge without the distinct check gets wrong
+    vector<TopTwo> top(size);
+    int max_index = stress::rand_int(0, 2 * size);
+    for (auto& [first, second] : top){
+        first = stress::rand_int(-1, max_index);
+        second = first == -1 ? -1 : stress::rand_int(-1, first - 1);
+    }
+    check_fold(top, merge_top_two);
+
+    vector<long long> big(size);
+    for (auto& x : big) x = stress::rand_int(LLONG_MIN, LLONG_MAX);
+    check_fold(big, [](long long x, long long y){ return max(x, y); });
+}
+
 /// Every transform and the subset convolution against direct sums over all submasks
 int main(){
     check_rejects(1LL << 31);
@@ -129,6 +214,11 @@ int main(){
     }
 
     for (int mod : {998244353, 2147483647}) check(14, mod);
+
+    for (int n = 0; n <= 3; n++) check_folds_exhaustive(n);
+    for (long long it = 0; it < stress::scaled(400); it++){
+        check_folds_random(it < 90 ? it % 9 : stress::rand_int(0, 8));
+    }
 
     return 0;
 }
