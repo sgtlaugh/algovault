@@ -101,8 +101,6 @@
 
 #### [Permutation Index](permutation_index.cpp)
 
-- [SPOJ TPGA - The Permutation Game Again](https://www.spoj.com/problems/TPGA/)
-
 #### [Permutation Rank](permutation_rank.cpp)
 
 - [CSES 3397 - Permutation Order](https://cses.fi/problemset/task/3397) [✔](../../practice/combinatorics/cses_3397.cpp "Accepted solution")

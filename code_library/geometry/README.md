@@ -36,11 +36,11 @@
 - [SPOJ CLOPPAIR - Closest Point Pair](https://www.spoj.com/problems/CLOPPAIR/) [✔](../../practice/geometry/spoj_cloppair.cpp "Accepted solution")
 - [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/) [✔](../../practice/geometry/spoj_iitkwpcl_closest_pair.cpp "Accepted solution")
 - [UVa 10245 - The Closest Pair Problem](https://onlinejudge.org/external/102/10245.pdf) [✔](../../practice/geometry/uva_10245.cpp "Accepted solution")
-- [UVa 11378 - Bey Battle](https://onlinejudge.org/external/113/11378.pdf)
 
 #### [Convex Hull](convex_hull.cpp)
 
 - [Codeforces 605C - Freelancer's Dreams](https://codeforces.com/problemset/problem/605/C) [✔](../../practice/geometry/codeforces_605c_convex_hull.cpp "Accepted solution")
+- [Codeforces 1299C - Water Balance](https://codeforces.com/problemset/problem/1299/C)
 - [Codeforces 2172I - Birthday](https://codeforces.com/problemset/problem/2172/I) [✔](../../practice/geometry/codeforces_2172i.cpp "Accepted solution")
 - [CSES 2195 - Convex Hull](https://cses.fi/problemset/task/2195) [✔](../../practice/geometry/cses_2195.cpp "Accepted solution")
 - [Kattis convexhull - Convex Hull](https://open.kattis.com/problems/convexhull) [✔](../../practice/geometry/kattis_convexhull.cpp "Accepted solution")

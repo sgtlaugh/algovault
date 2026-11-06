@@ -186,8 +186,6 @@
 
 #### [Interval Set](interval_set.cpp)
 
-- [SPOJ MON2012 - Monkey and apples](https://www.spoj.com/problems/MON2012/)
-
 #### [Li Chao Tree](li_chao_tree.cpp)
 
 - [AtCoder ARC066 F - Contest with Drinks Hard](https://atcoder.jp/contests/arc066/tasks/arc066_d) [✔](../../practice/data_structures/atcoder_arc066_f.cpp "Accepted solution")
@@ -268,14 +266,12 @@
 #### [Monotonic Stack](monotonic_stack.cpp)
 
 - [Codeforces 547B - Mike and Feet](https://codeforces.com/problemset/problem/547/B) [✔](../../practice/data_structures/codeforces_547b.cpp "Accepted solution")
-- [Codeforces 1299C - Water Balance](https://codeforces.com/problemset/problem/1299/C)
 - [Codeforces 1402A - Fancy Fence](https://codeforces.com/problemset/problem/1402/A) [✔](../../practice/data_structures/codeforces_1402a.cpp "Accepted solution")
 - [Codeforces 1482E - Skyline Photo](https://codeforces.com/problemset/problem/1482/E) [✔](../../practice/data_structures/codeforces_1482e.cpp "Accepted solution")
 - [Codeforces Gym 101102D - Rectangles](https://codeforces.com/gym/101102/problem/D) [✔](../../practice/data_structures/codeforces_gym_101102d.cpp "Accepted solution")
 - [CSES 1147 - Maximum Building I](https://cses.fi/problemset/task/1147) [✔](../../practice/data_structures/cses_1147.cpp "Accepted solution")
 - [CSES 1645 - Nearest Smaller Values](https://cses.fi/problemset/task/1645) [✔](../../practice/data_structures/cses_1645.cpp "Accepted solution")
 - [HackerRank poisonous-plants - Poisonous Plants](https://www.hackerrank.com/challenges/poisonous-plants/problem) [✔](../../practice/data_structures/hackerrank_poisonous_plants.cpp "Accepted solution")
-- [oj.uz CEOI11_bal - Balloons](https://oj.uz/problem/view/CEOI11_bal)
 - [SPOJ CITY2 - A Famous City](https://www.spoj.com/problems/CITY2/) [✔](../../practice/data_structures/spoj_city2.cpp "Accepted solution")
 - [SPOJ DIFERENC - DIFERENCIJA](https://www.spoj.com/problems/DIFERENC/) [✔](../../practice/data_structures/spoj_diferenc.cpp "Accepted solution")
 - [SPOJ POSTERIN - Postering](https://www.spoj.com/problems/POSTERIN/) [✔](../../practice/data_structures/spoj_posterin.cpp "Accepted solution")
@@ -301,7 +297,6 @@
 
 #### [Persistent Segment Tree](persistent_segment_tree.cpp)
 
-- [Codeforces 464E - The Classic Problem](https://codeforces.com/problemset/problem/464/E)
 - [Codeforces 786C - Till I Collapse](https://codeforces.com/problemset/problem/786/C) [✔](../../practice/data_structures/codeforces_786c.cpp "Accepted solution")
 - [Codeforces 840D - Destiny](https://codeforces.com/problemset/problem/840/D) [✔](../../practice/data_structures/codeforces_840d.cpp "Accepted solution")
 - [Codeforces Gym 101161E - ACM Tax](https://codeforces.com/gym/101161/problem/E)
@@ -313,7 +308,6 @@
 
 #### [Rope](rope.cpp)
 
-- [CSES 2072 - Cut and Paste](https://cses.fi/problemset/task/2072)
 - [UVa 12538 - Version Controlled IDE](https://onlinejudge.org/external/125/12538.pdf) [✔](../../practice/data_structures/uva_12538.cpp "Accepted solution")
 
 #### [Segment Tree](segment_tree.cpp)
