@@ -336,7 +336,7 @@ sa.contains("nab");         // false
 - [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
 - [Hackenbush](code_library/misc/hackenbush.cpp) - green values on graphs, red-blue on trees
 - [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in `O(1)`
-- [N Queens](code_library/misc/n_queen.cpp) - number of N queens solutions
+- [N Queens](code_library/misc/n_queen.cpp) - N queens count, optionally with blocked squares
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one
 - [Nimber Arithmetic](code_library/misc/nimber.cpp) - nim product and inverse over GF(2^64) [✔](judge_tests/misc/nim_product_64.cpp)
 - [Radix Sort](code_library/misc/radix_sort.cpp) - LSD radix sort of 32-bit integers [✔](judge_tests/misc/aoj_alds1_6_a_radix_sort.cpp)
