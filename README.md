@@ -27,18 +27,17 @@ sa.contains("nab");         // false
 
 ## Index
 
-- ✔ marks a template that passes a judge test, and links to one
-- ✔ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice)
-
-| **[Topics](#topics)** | | | | |
-|---|---|---|---|---|
-| [Algebra](#algebra) | [Combinatorics](#combinatorics) | [Data Structures](#data-structures) | [Dynamic Programming](#dynamic-programming) | [Geometry](#geometry) |
-| [Graphs](#graphs) | [Linear Algebra](#linear-algebra) | [Number Theory](#number-theory) | [Numerical](#numerical) | [Strings](#strings) |
-| [Trees](#trees) | | | | |
+| **[Topics](#topics)** | | | | | |
+|---|---|---|---|---|---|
+| [Algebra](#algebra) | [Combinatorics](#combinatorics) | [Data Structures](#data-structures) | [DP](#dynamic-programming) | [Geometry](#geometry) | [Graphs](#graphs) |
+| [Linear Algebra](#linear-algebra) | [Number Theory](#number-theory) | [Numerical](#numerical) | [Strings](#strings) | [Trees](#trees) | |
 
 | **[More](#more)** | | |
 |---|---|---|
 | [Hacking](#hacking) | [Miscellaneous](#miscellaneous) | [Python](#python) |
+
+- ✔ marks a template that passes a judge test, and links to one
+- ✔ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice)
 
 ## Topics
 
