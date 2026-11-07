@@ -1,15 +1,15 @@
 /***
  *
  * GCD and LCM Convolution
- * c[k] = sum of a[i] * b[j] over gcd(i, j) = k, or over lcm(i, j) = k
+ * Combines two arrays by the gcd or lcm of indices: c[k] = sum of a[i] * b[j] over gcd(i, j) = k or lcm(i, j) = k
  *
  * Complexity: O(n log log n) to build, O(s log log s) per call on vectors of size s
  *
  * DivisorLattice lattice(n): reusable for any vectors of size at most n + 1
- * lattice.divisor_mobius(a, mod = 0): a becomes the f with divisor_zeta(f) = a
+ * lattice.divisor_mobius(a, mod = 0): each a[k] becomes a[k] minus the results at the divisors of k below k
  * lattice.divisor_zeta(a, mod = 0): each a[k] becomes the sum of a[d] over the divisors d of k
- * lattice.multiple_mobius(a, mod = 0): a becomes the f with multiple_zeta(f) = a
- * lattice.multiple_zeta(a, mod = 0): each a[k] becomes the sum of a[j] over the multiples j < a.size() of k
+ * lattice.multiple_mobius(a, mod = 0): each a[k] becomes a[k] minus the results at 2k, 3k, ... below a.size()
+ * lattice.multiple_zeta(a, mod = 0): each a[k] becomes a[k] + a[2k] + a[3k] + ... below a.size()
  * lattice.gcd_convolution(a, b, mod = 0): c of size max(a.size(), b.size()) by gcd
  * lattice.lcm_convolution(a, b, mod = 0): the same by lcm, pairs with lcm(i, j) >= c.size() dropped
  *
@@ -17,6 +17,7 @@
  *   - Index 0 is ignored and c[0] = 0
  *   - mod = 0 is exact while sum |a[i]| < 2^63 for a transform and (sum |a[i]|) (sum |b[j]|) < 2^63 for a convolution
  *   - Otherwise any 1 <= mod < 2^62 works, prime or not
+ *   - Gcd exactly k under a per-index rule, like 2^a[k] - 1 for subsets: multiple_zeta, the rule, multiple_mobius
  *   - Requires __int128
  *
 ***/

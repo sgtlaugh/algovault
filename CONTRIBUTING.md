@@ -221,7 +221,7 @@ A call goes by its main effect: `connect` returns a bool but changes the structu
 **API lines**
 
 - **What, not how:** say what the call returns or does, and nothing the signature or an assert already shows
-- **Self-contained:** define each call on its own: `a becomes the f with divisor_zeta(f) = a`, not `undoes divisor_zeta`
+- **Self-contained:** define each call on its own: `each a[k] becomes a[k] minus the results at the divisors of k below k`, not `undoes divisor_zeta`
 - **Math names:** name the object as the math does, so calls read as the formula: `Lagrange f(terms, mod)`, then `f(x)`
 
 **Every line**
