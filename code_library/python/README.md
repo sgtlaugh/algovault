@@ -13,18 +13,18 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 #### [Alpha Beta Pruning](alpha_beta_pruning.py)
 
-- [UVa 751 - Triangle War](https://onlinejudge.org/external/7/751.pdf) [✔](../../practice/python/uva_751.py "Accepted solution")
-- [UVa 1085 - House of Cards](https://onlinejudge.org/external/10/1085.pdf) [✔](../../practice/python/uva_1085.py "Accepted solution")
-- [UVa 10111 - Find the Winning Move](https://onlinejudge.org/external/101/10111.pdf) [✔](../../practice/python/uva_10111.py "Accepted solution")
-- [UVa 10838 - The Pawn Chess](https://onlinejudge.org/external/108/10838.pdf) [✔](../../practice/python/uva_10838.py "Accepted solution")
+- [UVa 751 - Triangle War](https://onlinejudge.org/external/7/751.pdf) [✓](../../practice/python/uva_751.py "Accepted solution")
+- [UVa 1085 - House of Cards](https://onlinejudge.org/external/10/1085.pdf) [✓](../../practice/python/uva_1085.py "Accepted solution")
+- [UVa 10111 - Find the Winning Move](https://onlinejudge.org/external/101/10111.pdf) [✓](../../practice/python/uva_10111.py "Accepted solution")
+- [UVa 10838 - The Pawn Chess](https://onlinejudge.org/external/108/10838.pdf) [✓](../../practice/python/uva_10838.py "Accepted solution")
 - [UVa 12180 - The Game](https://onlinejudge.org/external/121/12180.pdf)
 
 #### [Derangements](derangements.py)
 
-- [Codeforces 888D - Almost Identity Permutations](https://codeforces.com/problemset/problem/888/D) [✔](../../practice/python/codeforces_888d.py "Accepted solution")
+- [Codeforces 888D - Almost Identity Permutations](https://codeforces.com/problemset/problem/888/D) [✓](../../practice/python/codeforces_888d.py "Accepted solution")
 - [CSES 1717 - Christmas Party](https://cses.fi/problemset/task/1717)
-- [UVa 10497 - Sweet Child Makes Trouble](https://onlinejudge.org/external/104/10497.pdf) [✔](../../practice/python/uva_10497.py "Accepted solution")
-- [UVa 12024 - Hats](https://onlinejudge.org/external/120/12024.pdf) [✔](../../practice/python/uva_12024.py "Accepted solution")
+- [UVa 10497 - Sweet Child Makes Trouble](https://onlinejudge.org/external/104/10497.pdf) [✓](../../practice/python/uva_10497.py "Accepted solution")
+- [UVa 12024 - Hats](https://onlinejudge.org/external/120/12024.pdf) [✓](../../practice/python/uva_12024.py "Accepted solution")
 
 #### [Dijkstra](dijkstra.py)
 
@@ -32,20 +32,20 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 #### [Fast Fibonacci](fast_fibonacci.py)
 
-- [CSES 1722 - Fibonacci Numbers](https://cses.fi/problemset/task/1722) [✔](../../practice/python/cses_1722.py "Accepted solution")
+- [CSES 1722 - Fibonacci Numbers](https://cses.fi/problemset/task/1722) [✓](../../practice/python/cses_1722.py "Accepted solution")
 
 #### [Lagrange Interpolation](lagrange_polynomial_interpolation.py)
 
-- [Codeforces Gym 101156G - Non-Attacking Queens](https://codeforces.com/gym/101156/problem/G) [✔](../../practice/python/codeforces_gym_101156g.py "Accepted solution")
+- [Codeforces Gym 101156G - Non-Attacking Queens](https://codeforces.com/gym/101156/problem/G) [✓](../../practice/python/codeforces_gym_101156g.py "Accepted solution")
 
 #### [Miller-Rabin](miller_rabin.py)
 
-- [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396) [✔](../../practice/python/cses_3396.py "Accepted solution")
+- [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396) [✓](../../practice/python/cses_3396.py "Accepted solution")
 
 #### [String Hash](string_hash.py)
 
-- [CSES 1753 - String Matching](https://cses.fi/problemset/task/1753) [✔](../../practice/python/cses_1753_string_hash.py "Accepted solution")
+- [CSES 1753 - String Matching](https://cses.fi/problemset/task/1753) [✓](../../practice/python/cses_1753_string_hash.py "Accepted solution")
 
 #### [Z Algorithm](z_algorithm.py)
 
-- [CSES 1753 - String Matching](https://cses.fi/problemset/task/1753) [✔](../../practice/python/cses_1753_z_algorithm.py "Accepted solution")
+- [CSES 1753 - String Matching](https://cses.fi/problemset/task/1753) [✓](../../practice/python/cses_1753_z_algorithm.py "Accepted solution")

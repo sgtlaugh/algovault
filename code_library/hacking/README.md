@@ -10,4 +10,4 @@
 
 #### [Anti Polynomial Hash](anti_polynomial_hash.cpp)
 
-- [Codeforces Gym 100110F - Hash](https://codeforces.com/gym/100110/problem/F) [✔](../../practice/hacking/codeforces_gym_100110f.cpp "Accepted solution")
+- [Codeforces Gym 100110F - Hash](https://codeforces.com/gym/100110/problem/F) [✓](../../practice/hacking/codeforces_gym_100110f.cpp "Accepted solution")

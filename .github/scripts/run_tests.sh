@@ -166,7 +166,7 @@ check_index_descriptions(){  # an index entry's description says what the templa
     long="$(python3 - <<'PY'
 import re
 for line in open('README.md', encoding='utf-8'):
-    m = re.match(r'\s*- \[[^\]]+\]\((code_library/[^)]+)\) - (.*?)(?: \[✔\]\(.*)?$', line.rstrip('\n'))
+    m = re.match(r'\s*- \[[^\]]+\]\((code_library/[^)]+)\) - (.*?)(?: \[✓\]\(.*)?$', line.rstrip('\n'))
     if m and len(m.group(2)) > 50:
         print(f"{m.group(1)} ({len(m.group(2))} characters)")
 PY
@@ -180,7 +180,7 @@ PY
     while IFS= read -r line; do failures+=("$line (index description)"); done <<< "$long"
 }
 
-check_judge_marks(){  # a template carries a README ✔ exactly when a judge test's first library include is that template
+check_judge_marks(){  # a template carries a README ✓ exactly when a judge test's first library include is that template
     local file lib line target tested=() bad=()
     while IFS= read -r file; do
         lib="$(grep -m1 -oP '#include "(\.\./)+\Kcode_library/[^"]+' "$file")"
@@ -190,7 +190,7 @@ check_judge_marks(){  # a template carries a README ✔ exactly when a judge tes
     while IFS= read -r lib; do
         # Index entries only: prose, like the How To Use example, may link a template too
         line="$(grep -F "($lib)" README.md | grep -E '^ *- \[' | head -1)"
-        target="$(grep -oP '\[✔\]\(\K[^)]+' <<< "$line")"
+        target="$(grep -oP '\[✓\]\(\K[^)]+' <<< "$line")"
         if contains "$lib" "${tested[@]}"; then
             [[ -n "$target" && -f "$target" ]] || bad+=("$lib")
         elif [[ -n "$target" ]]; then
@@ -198,7 +198,7 @@ check_judge_marks(){  # a template carries a README ✔ exactly when a judge tes
         fi
     done < <(find code_library -type f \( -name '*.cpp' -o -name '*.py' \) | sort)
 
-    echo "judge marks: ${#bad[@]} index entries whose ✔ disagrees with judge_tests"
+    echo "judge marks: ${#bad[@]} index entries whose ✓ disagrees with judge_tests"
     [[ ${#bad[@]} -eq 0 ]] && return
     printf '  bad: %s\n' "${bad[@]}"
     failed=$((failed + ${#bad[@]}))

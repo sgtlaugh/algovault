@@ -66,7 +66,7 @@ Run shell commands under bash, edit files with Edit or Write (never `sed -i`), a
 6. **Performance.**
    - refactor: benchmark old against new at -O2 on the same input. More than 5% slower is reverted, unless the user asked for the trade. A kept slower choice gets a `///` comment with the numbers. A reverted attempt is reported with its numbers.
    - port: compare with the source when it compiles; a port slower than its source reports both timings, and the header notes state the trade.
-7. **Judge test**, when a Library Checker or Aizu problem fits: `judge_tests/<topic>/<problem>.cpp` per CONTRIBUTING, plus the ✔ on the README index entry; one ✔ linking any one of the file's judge tests is enough. refactor: run every judge test that includes a file whose code changed. The first run prepares the judge data and can take minutes.
+7. **Judge test**, when a Library Checker or Aizu problem fits: `judge_tests/<topic>/<problem>.cpp` per CONTRIBUTING, plus the ✓ on the README index entry; one ✓ linking any one of the file's judge tests is enough. refactor: run every judge test that includes a file whose code changed. The first run prepares the judge data and can take minutes.
 8. **Docs.** Give `/lucid` the state after the code change as its base, so its scope check covers only the docs: the commit of the code change with `--commit`, otherwise a snapshot from `git stash create`, which records the working tree without changing any file. Run `/lucid` on the file (header, `main()`, README index entry and practice section heading). A new template also gets its README index entry, alphabetical, variants nested under their base. Practice problems are optional; any you add must be verified per CONTRIBUTING.
 9. **Verify**, from the repo root:
    ```bash

@@ -13,76 +13,76 @@
 
 #### [15 Puzzle Solver](15_puzzle_solver.cpp)
 
-- [UVa 10181 - 15-Puzzle Problem](https://onlinejudge.org/external/101/10181.pdf) [✔](../../practice/misc/uva_10181.cpp "Accepted solution")
+- [UVa 10181 - 15-Puzzle Problem](https://onlinejudge.org/external/101/10181.pdf) [✓](../../practice/misc/uva_10181.cpp "Accepted solution")
 
 #### [Assembly](assembly.cpp)
 
-- [AOJ ALDS1_1_B - Greatest Common Divisor](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_1_B) [✔](../../practice/misc/aoj_alds1_1_b.cpp "Accepted solution")
+- [AOJ ALDS1_1_B - Greatest Common Divisor](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_1_B) [✓](../../practice/misc/aoj_alds1_1_b.cpp "Accepted solution")
 
 #### [Bit Twiddling](bit_twiddling.cpp)
 
-- [AOJ ITP2_11_D - Enumeration of Combinations](https://onlinejudge.u-aizu.ac.jp/problems/ITP2_11_D) [✔](../../practice/misc/aoj_itp2_11_d.cpp "Accepted solution")
+- [AOJ ITP2_11_D - Enumeration of Combinations](https://onlinejudge.u-aizu.ac.jp/problems/ITP2_11_D) [✓](../../practice/misc/aoj_itp2_11_d.cpp "Accepted solution")
 
 #### [Comb Sort](combsort.cpp)
 
-- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✔](../../practice/misc/aoj_alds1_6_a_combsort.cpp "Accepted solution")
+- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✓](../../practice/misc/aoj_alds1_6_a_combsort.cpp "Accepted solution")
 
 #### [Dancing Links](dancing_links.cpp)
 
-- [Code Jam 2015 Qualification Round D - Ominous Omino](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/qualification_round/ominous_omino) [✔](../../practice/misc/code_jam_2015_qualification_round_d.cpp "Accepted solution")
-- [HDU 1426 - Sudoku Killer](https://acm.hdu.edu.cn/showproblem.php?pid=1426) [✔](../../practice/misc/hdu_1426.cpp "Accepted solution")
-- [SPOJ SUDOGOB - Sudoku goblin](https://www.spoj.com/problems/SUDOGOB/) [✔](../../practice/misc/spoj_sudogob.cpp "Accepted solution")
-- [UVa 211 - The Domino Effect](https://onlinejudge.org/external/2/211.pdf) [✔](../../practice/misc/uva_211.cpp "Accepted solution")
-- [UVa 387 - A Puzzling Problem](https://onlinejudge.org/external/3/387.pdf) [✔](../../practice/misc/uva_387.cpp "Accepted solution")
-- [UVa 745 - Numeric Puzzles Again!](https://onlinejudge.org/external/7/745.pdf) [✔](../../practice/misc/uva_745.cpp "Accepted solution")
-- [UVa 1309 - Sudoku](https://onlinejudge.org/external/13/1309.pdf) [✔](../../practice/misc/uva_1309.cpp "Accepted solution")
-- [UVa 1461 - Sudoku Extension](https://onlinejudge.org/external/14/1461.pdf) [✔](../../practice/misc/uva_1461.cpp "Accepted solution")
-- [UVa 10893 - Creating Sudoku Puzzles](https://onlinejudge.org/external/108/10893.pdf) [✔](../../practice/misc/uva_10893.cpp "Accepted solution")
-- [UVa 11846 - Finding Seats Again](https://onlinejudge.org/external/118/11846.pdf) [✔](../../practice/misc/uva_11846.cpp "Accepted solution")
+- [Code Jam 2015 Qualification Round D - Ominous Omino](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/qualification_round/ominous_omino) [✓](../../practice/misc/code_jam_2015_qualification_round_d.cpp "Accepted solution")
+- [HDU 1426 - Sudoku Killer](https://acm.hdu.edu.cn/showproblem.php?pid=1426) [✓](../../practice/misc/hdu_1426.cpp "Accepted solution")
+- [SPOJ SUDOGOB - Sudoku goblin](https://www.spoj.com/problems/SUDOGOB/) [✓](../../practice/misc/spoj_sudogob.cpp "Accepted solution")
+- [UVa 211 - The Domino Effect](https://onlinejudge.org/external/2/211.pdf) [✓](../../practice/misc/uva_211.cpp "Accepted solution")
+- [UVa 387 - A Puzzling Problem](https://onlinejudge.org/external/3/387.pdf) [✓](../../practice/misc/uva_387.cpp "Accepted solution")
+- [UVa 745 - Numeric Puzzles Again!](https://onlinejudge.org/external/7/745.pdf) [✓](../../practice/misc/uva_745.cpp "Accepted solution")
+- [UVa 1309 - Sudoku](https://onlinejudge.org/external/13/1309.pdf) [✓](../../practice/misc/uva_1309.cpp "Accepted solution")
+- [UVa 1461 - Sudoku Extension](https://onlinejudge.org/external/14/1461.pdf) [✓](../../practice/misc/uva_1461.cpp "Accepted solution")
+- [UVa 10893 - Creating Sudoku Puzzles](https://onlinejudge.org/external/108/10893.pdf) [✓](../../practice/misc/uva_10893.cpp "Accepted solution")
+- [UVa 11846 - Finding Seats Again](https://onlinejudge.org/external/118/11846.pdf) [✓](../../practice/misc/uva_11846.cpp "Accepted solution")
 - [UVa 12719 - Fill the Cuboid](https://onlinejudge.org/external/127/12719.pdf)
 
 #### [Fast I/O](fast_io.cpp)
 
-- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✔](../../practice/misc/aoj_alds1_6_a_fast_io.cpp "Accepted solution")
+- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✓](../../practice/misc/aoj_alds1_6_a_fast_io.cpp "Accepted solution")
 
 #### [Gray Codes](gray_codes.cpp)
 
-- [CSES 2205 - Gray Code](https://cses.fi/problemset/task/2205) [✔](../../practice/misc/cses_2205.cpp "Accepted solution")
-- [UVa 11173 - Grey Codes](https://onlinejudge.org/external/111/11173.pdf) [✔](../../practice/misc/uva_11173.cpp "Accepted solution")
+- [CSES 2205 - Gray Code](https://cses.fi/problemset/task/2205) [✓](../../practice/misc/cses_2205.cpp "Accepted solution")
+- [UVa 11173 - Grey Codes](https://onlinejudge.org/external/111/11173.pdf) [✓](../../practice/misc/uva_11173.cpp "Accepted solution")
 
 #### [Hackenbush](hackenbush.cpp)
 
-- [HDU 3094 - A tree game](https://acm.hdu.edu.cn/showproblem.php?pid=3094) [✔](../../practice/misc/hdu_3094.cpp "Accepted solution")
-- [POJ 3710 - Christmas Game](http://poj.org/problem?id=3710) [✔](../../practice/misc/poj_3710.cpp "Accepted solution")
-- [UVa 12033 - Game of CS](https://onlinejudge.org/external/120/12033.pdf) [✔](../../practice/misc/uva_12033.cpp "Accepted solution")
+- [HDU 3094 - A tree game](https://acm.hdu.edu.cn/showproblem.php?pid=3094) [✓](../../practice/misc/hdu_3094.cpp "Accepted solution")
+- [POJ 3710 - Christmas Game](http://poj.org/problem?id=3710) [✓](../../practice/misc/poj_3710.cpp "Accepted solution")
+- [UVa 12033 - Game of CS](https://onlinejudge.org/external/120/12033.pdf) [✓](../../practice/misc/uva_12033.cpp "Accepted solution")
 
 #### [Knight Distance](knight_distance.cpp)
 
-- [CSES 3218 - Knight Moves Queries](https://cses.fi/problemset/task/3218) [✔](../../practice/misc/cses_3218.cpp "Accepted solution")
-- [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf) [✔](../../practice/misc/uva_11643_knight_distance.cpp "Accepted solution")
-- [UVa 11852 - Knight's Trip](https://onlinejudge.org/external/118/11852.pdf) [✔](../../practice/misc/uva_11852.cpp "Accepted solution")
+- [CSES 3218 - Knight Moves Queries](https://cses.fi/problemset/task/3218) [✓](../../practice/misc/cses_3218.cpp "Accepted solution")
+- [UVa 11643 - Knight Tour](https://onlinejudge.org/external/116/11643.pdf) [✓](../../practice/misc/uva_11643_knight_distance.cpp "Accepted solution")
+- [UVa 11852 - Knight's Trip](https://onlinejudge.org/external/118/11852.pdf) [✓](../../practice/misc/uva_11852.cpp "Accepted solution")
 
 #### [N Queens](n_queen.cpp)
 
-- [UVa 11195 - Another n-Queen Problem](https://onlinejudge.org/external/111/11195.pdf) [✔](../../practice/misc/uva_11195.cpp "Accepted solution")
+- [UVa 11195 - Another n-Queen Problem](https://onlinejudge.org/external/111/11195.pdf) [✓](../../practice/misc/uva_11195.cpp "Accepted solution")
 
 #### [Nimber Arithmetic](nimber.cpp)
 
-- [Codeforces 1310F - Bad Cryptography](https://codeforces.com/problemset/problem/1310/F) [✔](../../practice/misc/codeforces_1310f.cpp "Accepted solution")
-- [HDU 3404 - Switch lights](https://acm.hdu.edu.cn/showproblem.php?pid=3404) [✔](../../practice/misc/hdu_3404.cpp "Accepted solution")
-- [POJ 3533 - Light Switching Game](http://poj.org/problem?id=3533) [✔](../../practice/misc/poj_3533.cpp "Accepted solution")
+- [Codeforces 1310F - Bad Cryptography](https://codeforces.com/problemset/problem/1310/F) [✓](../../practice/misc/codeforces_1310f.cpp "Accepted solution")
+- [HDU 3404 - Switch lights](https://acm.hdu.edu.cn/showproblem.php?pid=3404) [✓](../../practice/misc/hdu_3404.cpp "Accepted solution")
+- [POJ 3533 - Light Switching Game](http://poj.org/problem?id=3533) [✓](../../practice/misc/poj_3533.cpp "Accepted solution")
 
 #### [Radix Sort](radix_sort.cpp)
 
-- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✔](../../practice/misc/aoj_alds1_6_a_radix_sort.cpp "Accepted solution")
+- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✓](../../practice/misc/aoj_alds1_6_a_radix_sort.cpp "Accepted solution")
 
 #### [Radix Sort 64](radix_sort_64.cpp)
 
-- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✔](../../practice/misc/aoj_alds1_6_a_radix_sort_64.cpp "Accepted solution")
+- [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✓](../../practice/misc/aoj_alds1_6_a_radix_sort_64.cpp "Accepted solution")
 
 #### [Sprague-Grundy](sprague_grundy.cpp)
 
-- [UVa 10561 - Treblecross](https://onlinejudge.org/external/105/10561.pdf) [✔](../../practice/misc/uva_10561.cpp "Accepted solution")
-- [UVa 11534 - Say Goodbye to Tic-Tac-Toe](https://onlinejudge.org/external/115/11534.pdf) [✔](../../practice/misc/uva_11534.cpp "Accepted solution")
-- [UVa 11840 - Tic-tac-toe](https://onlinejudge.org/external/118/11840.pdf) [✔](../../practice/misc/uva_11840.cpp "Accepted solution")
-- [UVa 11927 - Games Are Important](https://onlinejudge.org/external/119/11927.pdf) [✔](../../practice/misc/uva_11927.cpp "Accepted solution")
+- [UVa 10561 - Treblecross](https://onlinejudge.org/external/105/10561.pdf) [✓](../../practice/misc/uva_10561.cpp "Accepted solution")
+- [UVa 11534 - Say Goodbye to Tic-Tac-Toe](https://onlinejudge.org/external/115/11534.pdf) [✓](../../practice/misc/uva_11534.cpp "Accepted solution")
+- [UVa 11840 - Tic-tac-toe](https://onlinejudge.org/external/118/11840.pdf) [✓](../../practice/misc/uva_11840.cpp "Accepted solution")
+- [UVa 11927 - Games Are Important](https://onlinejudge.org/external/119/11927.pdf) [✓](../../practice/misc/uva_11927.cpp "Accepted solution")

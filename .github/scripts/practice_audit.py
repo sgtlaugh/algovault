@@ -23,7 +23,7 @@ CACHE = '/tmp/practice_audit_cache.json'
 TRIVIAL = {'', '{', '}', 'return 0;', 'using namespace fio;', 'int main(){'}
 KEYWORDS = set('''int long double char bool void auto const static return if else for while do break continue struct
 using namespace true false string vector pair size push_back read write main unsigned'''.split())
-ENTRY = re.compile(r'^- \[(.+?) (\S+) - (.+?)\]\((.+?)\)(?: \[✔\]\(\.\./\.\./(practice/\S+?) )?')
+ENTRY = re.compile(r'^- \[(.+?) (\S+) - (.+?)\]\((.+?)\)(?: \[✓\]\(\.\./\.\./(practice/\S+?) )?')
 
 
 def library_lines():
