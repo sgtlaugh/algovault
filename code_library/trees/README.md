@@ -122,6 +122,7 @@
 
 - [CSES 1700 - Tree Isomorphism I](https://cses.fi/problemset/task/1700) [✓](../../practice/trees/cses_1700.cpp "Accepted solution")
 - [CSES 1701 - Tree Isomorphism II](https://cses.fi/problemset/task/1701) [✓](../../practice/trees/cses_1701.cpp "Accepted solution")
+- [UVa 12489 - Combating cancer](https://onlinejudge.org/external/124/12489.pdf) [✓](../../practice/trees/uva_12489.cpp "Accepted solution")
 
 #### [Virtual Tree](virtual_tree.cpp)
 
