@@ -137,7 +137,7 @@
 - [SPOJ INVCNT - Inversion Count](https://www.spoj.com/problems/INVCNT/) [✓](../../practice/data_structures/spoj_invcnt.cpp "Accepted solution")
 - [SPOJ KQUERY - K-query](https://www.spoj.com/problems/KQUERY/) [✓](../../practice/data_structures/spoj_kquery_fenwick_tree.cpp "Accepted solution")
 - [SPOJ MEANARR - Mean of array](https://www.spoj.com/problems/MEANARR/) [✓](../../practice/data_structures/spoj_meanarr_fenwick_tree.cpp "Accepted solution")
-- [SPOJ METEORS - Meteors](https://www.spoj.com/problems/METEORS/)
+- [SPOJ METEORS - Meteors](https://www.spoj.com/problems/METEORS/) [✓](../../practice/data_structures/spoj_meteors.cpp "Accepted solution")
 - [SPOJ NKTEAM - Team Selection](https://www.spoj.com/problems/NKTEAM/) [✓](../../practice/data_structures/spoj_nkteam.cpp "Accepted solution")
 - [SPOJ SUMSUM - Enjoy Sum with Operations](https://www.spoj.com/problems/SUMSUM/) [✓](../../practice/data_structures/spoj_sumsum.cpp "Accepted solution")
 - [SPOJ TPGA - The Permutation Game Again](https://www.spoj.com/problems/TPGA/) [✓](../../practice/data_structures/spoj_tpga.cpp "Accepted solution")
