@@ -102,7 +102,7 @@
 - [SPOJ ADACLEAN - Ada and Spring Cleaning](https://www.spoj.com/problems/ADACLEAN/) [✓](../../practice/strings/spoj_adaclean.cpp "Accepted solution")
 - [SPOJ CF25E - Test](https://www.spoj.com/problems/CF25E/) [✓](../../practice/strings/spoj_cf25e.cpp "Accepted solution")
 - [SPOJ STRLCP - Longest Common Prefix](https://www.spoj.com/problems/STRLCP/) [✓](../../practice/strings/spoj_strlcp.cpp "Accepted solution")
-- [SPOJ SUB_PROB - Substring Problem](https://www.spoj.com/problems/SUB_PROB/)
+- [SPOJ SUB_PROB - Substring Problem](https://www.spoj.com/problems/SUB_PROB/) [✓](../../practice/strings/spoj_sub_prob.cpp "Accepted solution")
 - [USACO 529 - Censoring (Silver)](https://usaco.org/index.php?page=viewproblem2&cpid=529) [✓](../../practice/strings/usaco_529.cpp "Accepted solution")
 - [USACO 741 - Bovine Genomics](https://usaco.org/index.php?page=viewproblem2&cpid=741) [✓](../../practice/strings/usaco_741.cpp "Accepted solution")
 - [UVa 1227 - The longest constant gene](https://onlinejudge.org/external/12/1227.pdf) [✓](../../practice/strings/uva_1227_hashing.cpp "Accepted solution")
