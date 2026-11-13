@@ -405,6 +405,7 @@
 - [UVa 11765 - Component Placement](https://onlinejudge.org/external/117/11765.pdf) [✓](../../practice/graphs/uva_11765_maxflow.cpp "Accepted solution")
 - [UVa 12125 - March of the Penguins](https://onlinejudge.org/external/121/12125.pdf) [✓](../../practice/graphs/uva_12125.cpp "Accepted solution")
 - [UVa 12193 - Hooligan](https://onlinejudge.org/external/121/12193.pdf) [✓](../../practice/graphs/uva_12193.cpp "Accepted solution")
+- [UVa 12215 - Rectangle of Permutation](https://onlinejudge.org/external/122/12215.pdf) [✓](../../practice/graphs/uva_12215.cpp "Accepted solution")
 - [UVa 12264 - Risk](https://onlinejudge.org/external/122/12264.pdf) [✓](../../practice/graphs/uva_12264.cpp "Accepted solution")
 - [UVa 12272 - Fake scoreboard](https://onlinejudge.org/external/122/12272.pdf) [✓](../../practice/graphs/uva_12272.cpp "Accepted solution")
 - [UVa 12288 - Hyper Knights](https://onlinejudge.org/external/122/12288.pdf) [✓](../../practice/graphs/uva_12288.cpp "Accepted solution")
