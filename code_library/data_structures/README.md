@@ -186,6 +186,8 @@
 
 #### [Interval Set](interval_set.cpp)
 
+- [Codeforces 915E - Physical Education Lessons](https://codeforces.com/problemset/problem/915/E) [✓](../../practice/data_structures/codeforces_915e.cpp "Accepted solution")
+
 #### [Li Chao Tree](li_chao_tree.cpp)
 
 - [AtCoder ARC066 F - Contest with Drinks Hard](https://atcoder.jp/contests/arc066/tasks/arc066_d) [✓](../../practice/data_structures/atcoder_arc066_f.cpp "Accepted solution")
