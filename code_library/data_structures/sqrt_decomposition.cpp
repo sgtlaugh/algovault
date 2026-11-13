@@ -26,21 +26,26 @@ using namespace std;
 template <typename T>
 struct SqrtDecomposition{
     int n, block_size;
-    vector<T> raw, pending;            /// value = raw[i] + pending[i / block_size], whole-block adds only touch pending
-    vector<vector<T>> sorted_block;    /// raw values of each block, sorted
-    /// sorted_index[b][j] is the position holding sorted_block[b][j], empty until block b's first partial add
+
+    /// The value at i is raw[i] + pending[i / block_size], so a whole-block add only touches pending
+    vector<T> raw, pending;
+
+    /// Each block's raw values sorted; sorted_index gets their positions at the block's first partial add
+    vector<vector<T>> sorted_block;
     vector<vector<int>> sorted_index;
-    /// add_partial's scratch as members, not locals: 4e5 adds run 18% faster at n = 1e4
+
+    /// Scratch for add_partial, kept as members so repeated adds reuse the memory
     vector<T> moved_value;
     vector<int> moved_index;
 
-    /// Sorting values alone builds 25% faster than sorting positions, so positions wait for the first partial add
     SqrtDecomposition(const vector<T>& values) : n(values.size()), raw(values){
         block_size = max(1, (int)sqrt((double)n));
         int blocks = (n + block_size - 1) / block_size;
+
         pending.assign(blocks, 0);
         sorted_block.resize(blocks);
         sorted_index.resize(blocks);
+
         for (int b = 0; b < blocks; b++){
             sorted_block[b].assign(raw.begin() + b * block_size, raw.begin() + min(n, (b + 1) * block_size));
             sort(sorted_block[b].begin(), sorted_block[b].end());
@@ -51,6 +56,7 @@ struct SqrtDecomposition{
         assert(0 <= l && l <= r && r < n);
         int bl = l / block_size, br = r / block_size;
         if (bl == br) return add_partial(bl, l, r, v);
+
         add_partial(bl, l, (bl + 1) * block_size - 1, v);
         for (int b = bl + 1; b < br; b++) pending[b] += v;
         add_partial(br, br * block_size, r, v);
@@ -70,6 +76,7 @@ struct SqrtDecomposition{
             res += lower_bound(sorted_block[b].begin(), sorted_block[b].end(), x, [&](const T& v, const T& key){ return v + shift < key; }) - sorted_block[b].begin();
         }
         for (int i = br * block_size; i <= r; i++) res += raw[i] + pending[br] < x;
+
         return res;
     }
 
@@ -88,6 +95,7 @@ struct SqrtDecomposition{
             for (auto& x : value) x += pending[b];
             pending[b] = 0;
         }
+
         for (int i = l; i <= r; i++) raw[i] += v;
         if (index.empty()) return rebuild(b);
 
