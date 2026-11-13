@@ -100,6 +100,7 @@
 - [UVa 10570 - Meeting with Aliens](https://onlinejudge.org/external/105/10570.pdf) [✓](../../practice/combinatorics/uva_10570.cpp "Accepted solution")
 - [UVa 11495 - Bubbles and Buckets](https://onlinejudge.org/external/114/11495.pdf) [✓](../../practice/combinatorics/uva_11495.cpp "Accepted solution")
 - [UVa 12103 - Leonardo's Notebook](https://onlinejudge.org/external/121/12103.pdf) [✓](../../practice/combinatorics/uva_12103.cpp "Accepted solution")
+- [UVa 12755 - Easy Puzzle](https://onlinejudge.org/external/127/12755.pdf) [✓](../../practice/combinatorics/uva_12755.cpp "Accepted solution")
 
 #### [Permutation Index](permutation_index.cpp)
 
