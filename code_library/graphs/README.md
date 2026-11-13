@@ -214,6 +214,7 @@
 - [oj.uz BOI14_postmen - Senior Postmen](https://oj.uz/problem/view/BOI14_postmen) [✓](../../practice/graphs/oj_uz_boi14_postmen.cpp "Accepted solution")
 - [UVa 10054 - The Necklace](https://onlinejudge.org/external/100/10054.pdf) [✓](../../practice/graphs/uva_10054.cpp "Accepted solution")
 - [UVa 10129 - Play on Words](https://onlinejudge.org/external/101/10129.pdf) [✓](../../practice/graphs/uva_10129.cpp "Accepted solution")
+- [UVa 12152 - Traveling Shoemaker Problem](https://onlinejudge.org/external/121/12152.pdf) [✓](../../practice/graphs/uva_12152.cpp "Accepted solution")
 
 #### [Flow with Lower Bounds](lower_bound_flow.cpp)
 
