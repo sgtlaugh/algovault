@@ -422,7 +422,7 @@
 
 #### [Square Root Decomposition](sqrt_decomposition.cpp)
 
-- [SPOJ GIVEAWAY - Give Away](https://www.spoj.com/problems/GIVEAWAY/)
+- [SPOJ GIVEAWAY - Give Away](https://www.spoj.com/problems/GIVEAWAY/) [✓](../../practice/data_structures/spoj_giveaway.cpp "Accepted solution")
 - [SPOJ KQUERY2 - K-query II](https://www.spoj.com/problems/KQUERY2/) [✓](../../practice/data_structures/spoj_kquery2.cpp "Accepted solution")
 - [SPOJ RACETIME - Race Against Time](https://www.spoj.com/problems/RACETIME/) [✓](../../practice/data_structures/spoj_racetime.cpp "Accepted solution")
 - [UVa 11990 - ``Dynamic'' Inversion](https://onlinejudge.org/external/119/11990.pdf) [✓](../../practice/data_structures/uva_11990_sqrt_decomposition.cpp "Accepted solution")
