@@ -75,6 +75,7 @@
 - [UVa 11987 - Almost Union-Find](https://onlinejudge.org/external/119/11987.pdf) [✓](../../practice/data_structures/uva_11987.cpp "Accepted solution")
 - [UVa 12224 - Room Assignments](https://onlinejudge.org/external/122/12224.pdf) [✓](../../practice/data_structures/uva_12224.cpp "Accepted solution")
 - [UVa 12248 - Kids' Wishes](https://onlinejudge.org/external/122/12248.pdf) [✓](../../practice/data_structures/uva_12248.cpp "Accepted solution")
+- [UVa 12375 - Truchet Tiling](https://onlinejudge.org/external/123/12375.pdf) [✓](../../practice/data_structures/uva_12375.cpp "Accepted solution")
 - [UVa 12529 - Fix the Pond](https://onlinejudge.org/external/125/12529.pdf) [✓](../../practice/data_structures/uva_12529.cpp "Accepted solution")
 
 #### [Disjoint Set Union, Partially Persistent](partially_persistent_dsu.cpp)
