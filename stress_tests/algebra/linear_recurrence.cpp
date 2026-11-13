@@ -19,10 +19,12 @@ vector<int> brute_terms(const vector<int>& c, const vector<int>& start, int coun
 }
 
 int main(){
-    const long long mods[] = {1000000007, 998244353, 1000000, 999999937, 1 << 29, 2 * 3 * 5 * 7 * 11 * 13 * 17 * 19 * 23};
+    /// 32749^2 and 2 * 3^18 put Reeds-Sloane's Barrett reduction near the largest accepted mod, one or two prime powers
+    const long long mods[] = {1000000007, 998244353, 1000000, 999999937, 1 << 29, 2 * 3 * 5 * 7 * 11 * 13 * 17 * 19 * 23,
+                              32749LL * 32749, 2 * 387420489};
 
     for (long long it = 0; it < stress::scaled(40); it++){
-        long long mod = mods[stress::rand_int(0, 5)];
+        long long mod = mods[stress::rand_int(0, 7)];
         int k = stress::rand_int(1, it % 4 ? 8 : 40);
         vector<int> c(k), start(k);
         for (auto& x : c) x = stress::rand_int(0, mod - 1);

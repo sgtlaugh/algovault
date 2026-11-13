@@ -19,6 +19,7 @@
  *   - 2k terms are enough to find a recurrence of degree k
  *   - With a prime mod the found recurrence is the shortest one generating every given term, from any number of terms
  *   - With a composite mod the recurrence may end in zero coefficients, and may miss given terms when fewer than 2k
+ *   - Requires __int128
  *   - Thanks to anta (codeforces.com/profile/anta) for showing me this trick and the Black Box Linear Algebra book
  *
 ***/
@@ -392,8 +393,9 @@ struct LinearRecurrence{
     }
 
     vector<int> reeds_sloane(vector<int> sequence, int p, int e){
-        vector<int> T(e), U(e), R(e), TO(e, 1), UO(e), POW(e + 1, 1);
+        vector<int> T(e), U(e), R(e), TO(e, 1), TO_INV(e, 1), UO(e), POW(e + 1, 1);
         int c, d, i, j, k, l, m, len = sequence.size(), mod = powl(p, e) + 0.5;
+        unsigned long long inv = ~0ULL / mod;
 
         vector<vector<int>> A[3], B[3];
         for (i = 0; i < 3; i++){
@@ -417,13 +419,14 @@ struct LinearRecurrence{
                     R[j] = k - 1;
                     A[2][j] = A[0][e - 1 - U[j]], B[2][j] = B[0][e - 1 - U[j]];
                     UO[j] = U[e - 1 - U[j]], TO[j] = T[e - 1 - U[j]];
+                    TO_INV[j] = nt::mod_inverse(TO[j], mod);
                 }
             }
 
             A[0] = A[1], B[0] = B[1];
             for (l = 0; l < e; l++){
                 for (d = 0, i = min(k, (int)A[0][l].size() - 1); i >= 0; i--){
-                    d = (d + A[0][l][i] * (long long)sequence[k - i]) % mod;
+                    d = reduce(d + (unsigned long long)A[0][l][i] * sequence[k - i], mod, inv);
                 }
 
                 if (!d) T[l] = 1, U[l] = e;
@@ -437,7 +440,7 @@ struct LinearRecurrence{
                     }
                     else{
                         m = k - R[j];
-                        c = (long long)T[l] * nt::mod_inverse(TO[j], mod) % mod;
+                        c = (long long)T[l] * TO_INV[j] % mod;
                         c = (long long)c * (long long)POW[U[l] - UO[j]] % mod;
                         update(A[1][l], A[2][j], m, c);
                         update(B[1][l], B[2][j], m, c);
@@ -453,13 +456,20 @@ struct LinearRecurrence{
         return max(find_rank(a), find_rank(b) + 1);
     }
 
+    /// Barrett reduction of x < 2^62 modulo m < 2^31 with inv = (2^64 - 1) / m, about 2x faster than % in Reeds-Sloane
+    unsigned long long reduce(unsigned long long x, unsigned long long m, unsigned long long inv){
+        unsigned long long r = x - (unsigned long long)((unsigned __int128)x * inv >> 64) * m;
+        return r >= m ? r - m : r;
+    }
+
     void update(vector<int>& u, vector<int>& v, int m, long long c){
         int i, k = v.size();
+        unsigned long long inv = ~0ULL / mod;
 
         if (k + m > (int)u.size()) u.resize(k + m, 0);
 
         for (i = 0; i < k; i++){
-            u[i + m] -= c * v[i] % mod;
+            u[i + m] -= (int)reduce(c * v[i], mod, inv);
             if (u[i + m] < 0) u[i + m] += mod;
         }
 
