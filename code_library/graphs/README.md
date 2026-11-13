@@ -256,6 +256,7 @@
 - [UVa 11284 - Shopping Trip](https://onlinejudge.org/external/112/11284.pdf) [✓](../../practice/graphs/uva_11284.cpp "Accepted solution")
 - [UVa 11463 - Commandos](https://onlinejudge.org/external/114/11463.pdf) [✓](../../practice/graphs/uva_11463.cpp "Accepted solution")
 - [UVa 12179 - Randomly-priced Tickets](https://onlinejudge.org/external/121/12179.pdf) [✓](../../practice/graphs/uva_12179.cpp "Accepted solution")
+- [UVa 12319 - Edgetown's Traffic Jams](https://onlinejudge.org/external/123/12319.pdf) [✓](../../practice/graphs/uva_12319.cpp "Accepted solution")
 - [UVa 13211 - Geonosis](https://onlinejudge.org/external/132/13211.pdf) [✓](../../practice/graphs/uva_13211.cpp "Accepted solution")
 
 #### [General Graph Matching](graph_matching.cpp)
