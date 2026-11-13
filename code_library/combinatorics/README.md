@@ -101,6 +101,8 @@
 
 #### [Permutation Index](permutation_index.cpp)
 
+- [UVa 652 - Eight](https://onlinejudge.org/external/6/652.pdf) [✓](../../practice/combinatorics/uva_652.cpp "Accepted solution")
+
 #### [Permutation Rank](permutation_rank.cpp)
 
 - [CSES 3397 - Permutation Order](https://cses.fi/problemset/task/3397) [✓](../../practice/combinatorics/cses_3397.cpp "Accepted solution")
