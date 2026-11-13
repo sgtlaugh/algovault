@@ -117,6 +117,7 @@
 - [HackerRank relatedquestions - Related questions](https://www.hackerrank.com/contests/quora-haqathon/challenges/relatedquestions) [✓](../../practice/trees/hackerrank_relatedquestions.cpp "Accepted solution")
 - [HDU 4661 - Message Passing](https://acm.hdu.edu.cn/showproblem.php?pid=4661) [✓](../../practice/trees/hdu_4661.cpp "Accepted solution")
 - [USACO 814 - Directory Traversal](https://usaco.org/index.php?page=viewproblem2&cpid=814) [✓](../../practice/trees/usaco_814.cpp "Accepted solution")
+- [UVa 12223 - Moving to Nuremberg](https://onlinejudge.org/external/122/12223.pdf) [✓](../../practice/trees/uva_12223.cpp "Accepted solution")
 
 #### [Tree Isomorphism](tree_isomorphism.cpp)
 
