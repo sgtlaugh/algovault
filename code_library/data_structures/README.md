@@ -445,7 +445,6 @@
 - [Codeforces Gym 101319C - Problem Strudel. Efficient Evaluation](https://codeforces.com/gym/101319/problem/C) [✓](../../practice/data_structures/codeforces_gym_101319c.cpp "Accepted solution")
 - [CSES 2072 - Cut and Paste](https://cses.fi/problemset/task/2072) [✓](../../practice/data_structures/cses_2072_treap.cpp "Accepted solution")
 - [CSES 2073 - Substring Reversals](https://cses.fi/problemset/task/2073) [✓](../../practice/data_structures/cses_2073.cpp "Accepted solution")
-- [DMOJ noi05p2 - NOI '05 P2 - Maintaining a Sequence](https://dmoj.ca/problem/noi05p2)
 - [HackerRank xaero-and-breaking-enigma - Xaero And The Enigma Hacking](https://www.hackerrank.com/contests/101hack29/challenges/xaero-and-breaking-enigma) [✓](../../practice/data_structures/hackerrank_xaero_and_breaking_enigma_treap.cpp "Accepted solution")
 - [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436) [✓](../../practice/data_structures/hdu_3436_treap.cpp "Accepted solution")
 - [HDU 3487 - Play with Chain](https://acm.hdu.edu.cn/showproblem.php?pid=3487) [✓](../../practice/data_structures/hdu_3487.cpp "Accepted solution")
@@ -469,14 +468,12 @@
 - [UVa 11996 - Jewel Magic](https://onlinejudge.org/external/119/11996.pdf) [✓](../../practice/data_structures/uva_11996.cpp "Accepted solution")
 - [UVa 12634 - Pairing Boys and Girls](https://onlinejudge.org/external/126/12634.pdf) [✓](../../practice/data_structures/uva_12634_treap.cpp "Accepted solution")
 - [UVa 13102 - Tobby Stones](https://onlinejudge.org/external/131/13102.pdf) [✓](../../practice/data_structures/uva_13102.cpp "Accepted solution")
-- [ZOJ 3765 - Lights](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369708)
 
 #### [Treap, Run-Length Implicit](run_length_implicit_treap.cpp)
 
 - [Codeforces 803G - Periodic RMQ Problem](https://codeforces.com/problemset/problem/803/G) [✓](../../practice/data_structures/codeforces_803g_run_length_implicit_treap.cpp "Accepted solution")
 - [Codeforces 817F - MEX Queries](https://codeforces.com/problemset/problem/817/F) [✓](../../practice/data_structures/codeforces_817f_run_length_implicit_treap.cpp "Accepted solution")
 - [HDU 3436 - Queue-jumpers](https://acm.hdu.edu.cn/showproblem.php?pid=3436) [✓](../../practice/data_structures/hdu_3436_run_length_implicit_treap.cpp "Accepted solution")
-- [Luogu P2042 - [NOI2005] 维护数列](https://www.luogu.com.cn/problem/P2042)
 - [UVa 12634 - Pairing Boys and Girls](https://onlinejudge.org/external/126/12634.pdf) [✓](../../practice/data_structures/uva_12634_run_length_implicit_treap.cpp "Accepted solution")
 
 #### [Trie](trie.cpp)
