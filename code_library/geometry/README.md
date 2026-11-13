@@ -141,6 +141,7 @@
 
 - [CSES 1741 - Area of Rectangles](https://cses.fi/problemset/task/1741) [✓](../../practice/geometry/cses_1741.cpp "Accepted solution")
 - [UVa 1492 - Adding New Machine](https://onlinejudge.org/external/14/1492.pdf) [✓](../../practice/geometry/uva_1492.cpp "Accepted solution")
+- [UVa 12242 - Electric Needs](https://onlinejudge.org/external/122/12242.pdf) [✓](../../practice/geometry/uva_12242.cpp "Accepted solution")
 
 #### [Segment Intersection Sweep](segment_intersection_sweep.cpp)
 
