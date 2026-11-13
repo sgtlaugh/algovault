@@ -37,6 +37,7 @@
 - [SPOJ CLOPPAIR - Closest Point Pair](https://www.spoj.com/problems/CLOPPAIR/) [✓](../../practice/geometry/spoj_cloppair.cpp "Accepted solution")
 - [SPOJ IITKWPCL - Find Distances In A Plane](https://www.spoj.com/problems/IITKWPCL/) [✓](../../practice/geometry/spoj_iitkwpcl_closest_pair.cpp "Accepted solution")
 - [UVa 10245 - The Closest Pair Problem](https://onlinejudge.org/external/102/10245.pdf) [✓](../../practice/geometry/uva_10245.cpp "Accepted solution")
+- [UVa 12121 - You are around me ...](https://onlinejudge.org/external/121/12121.pdf) [✓](../../practice/geometry/uva_12121.cpp "Accepted solution")
 
 #### [Convex Hull](convex_hull.cpp)
 
