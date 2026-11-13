@@ -470,7 +470,6 @@
 - [SPOJ KOILINE - Line up](https://www.spoj.com/problems/KOILINE/) [✓](../../practice/data_structures/spoj_koiline.cpp "Accepted solution")
 - [SPOJ QMAX3VN - Giá trị lớn nhất 3](https://www.spoj.com/problems/QMAX3VN/) [✓](../../practice/data_structures/spoj_qmax3vn.cpp "Accepted solution")
 - [SPOJ SEQ2 - Another Sequence Problem](https://www.spoj.com/problems/SEQ2/) [✓](../../practice/data_structures/spoj_seq2.cpp "Accepted solution")
-- [SPOJ STRLCP - Longest Common Prefix](https://www.spoj.com/problems/STRLCP/)
 - [SPOJ TWIST - Twist and whirl - want to cheat](https://www.spoj.com/problems/TWIST/) [✓](../../practice/data_structures/spoj_twist.cpp "Accepted solution")
 - [UVa 1402 - Robotic Sort](https://onlinejudge.org/external/14/1402.pdf) [✓](../../practice/data_structures/uva_1402.cpp "Accepted solution")
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf) [✓](../../practice/data_structures/uva_1479.cpp "Accepted solution")

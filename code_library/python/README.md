@@ -4,8 +4,8 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [Alpha Beta Pruning](#alpha-beta-pruning) | [Derangements](#derangements) | [Dijkstra](#dijkstra) | [Fast Fibonacci](#fast-fibonacci) |
-| [Lagrange Interpolation](#lagrange-interpolation) | [Miller-Rabin](#miller-rabin) | [String Hash](#string-hash) | [Z Algorithm](#z-algorithm) |
+| [Alpha Beta Pruning](#alpha-beta-pruning) | [Derangements](#derangements) | [Fast Fibonacci](#fast-fibonacci) | [Lagrange Interpolation](#lagrange-interpolation) |
+| [Miller-Rabin](#miller-rabin) | [String Hash](#string-hash) | [Z Algorithm](#z-algorithm) |  |
 
 <!-- /toc -->
 
@@ -24,10 +24,6 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 - [Codeforces 888D - Almost Identity Permutations](https://codeforces.com/problemset/problem/888/D) [✓](../../practice/python/codeforces_888d.py "Accepted solution")
 - [UVa 10497 - Sweet Child Makes Trouble](https://onlinejudge.org/external/104/10497.pdf) [✓](../../practice/python/uva_10497.py "Accepted solution")
 - [UVa 12024 - Hats](https://onlinejudge.org/external/120/12024.pdf) [✓](../../practice/python/uva_12024.py "Accepted solution")
-
-#### [Dijkstra](dijkstra.py)
-
-- [CSES 1671 - Shortest Routes I](https://cses.fi/problemset/task/1671)
 
 #### [Fast Fibonacci](fast_fibonacci.py)
 
