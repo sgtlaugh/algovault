@@ -90,6 +90,7 @@
 - [UVa 10158 - War](https://onlinejudge.org/external/101/10158.pdf) [✓](../../practice/data_structures/uva_10158.cpp "Accepted solution")
 - [UVa 11870 - Antonyms](https://onlinejudge.org/external/118/11870.pdf) [✓](../../practice/data_structures/uva_11870.cpp "Accepted solution")
 - [UVa 12232 - Exclusive-OR](https://onlinejudge.org/external/122/12232.pdf) [✓](../../practice/data_structures/uva_12232.cpp "Accepted solution")
+- [UVa 12360 - Elecrical Pollution](https://onlinejudge.org/external/123/12360.pdf) [✓](../../practice/data_structures/uva_12360.cpp "Accepted solution")
 
 #### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
