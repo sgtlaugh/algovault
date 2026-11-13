@@ -100,7 +100,7 @@
 - [Codeforces 1117D - Magic Gems](https://codeforces.com/problemset/problem/1117/D) [✓](../../practice/algebra/codeforces_1117d_linear_recurrence.cpp "Accepted solution")
 - [HDU 4914 - Linear recursive sequence](https://acm.hdu.edu.cn/showproblem.php?pid=4914) [✓](../../practice/algebra/hdu_4914.cpp "Accepted solution")
 - [SPOJ DYEL - Do You Even Lift](https://www.spoj.com/problems/DYEL/) [✓](../../practice/algebra/spoj_dyel.cpp "Accepted solution")
-- [SPOJ FINDLR - Find Linear Recurrence](https://www.spoj.com/problems/FINDLR/)
+- [SPOJ FINDLR - Find Linear Recurrence](https://www.spoj.com/problems/FINDLR/) [✓](../../practice/algebra/spoj_findlr.cpp "Accepted solution")
 - [SPOJ JZPCIR - Jumping Zippy](https://www.spoj.com/problems/JZPCIR/) [✓](../../practice/algebra/spoj_jzpcir.cpp "Accepted solution")
 - [SPOJ PIBO2 - Fibonacci vs Polynomial (HARD)](https://www.spoj.com/problems/PIBO2/) [✓](../../practice/algebra/spoj_pibo2.cpp "Accepted solution")
 - [SPOJ PIBO - Fibonacci vs Polynomial](https://www.spoj.com/problems/PIBO/) [✓](../../practice/algebra/spoj_pibo.cpp "Accepted solution")
