@@ -299,6 +299,7 @@
 - [UVa 11985 - Prime Independence](https://onlinejudge.org/external/119/11985.pdf) [✓](../../practice/graphs/uva_11985.cpp "Accepted solution")
 - [UVa 12007 - Crossboard Coloring](https://onlinejudge.org/external/120/12007.pdf) [✓](../../practice/graphs/uva_12007.cpp "Accepted solution")
 - [UVa 12083 - Guardian of Decency](https://onlinejudge.org/external/120/12083.pdf) [✓](../../practice/graphs/uva_12083.cpp "Accepted solution")
+- [UVa 12159 - Gun Fight](https://onlinejudge.org/external/121/12159.pdf) [✓](../../practice/graphs/uva_12159.cpp "Accepted solution")
 - [UVa 12168 - Cat vs. Dog](https://onlinejudge.org/external/121/12168.pdf) [✓](../../practice/graphs/uva_12168.cpp "Accepted solution")
 - [UVa 12530 - Game of Tiles](https://onlinejudge.org/external/125/12530.pdf) [✓](../../practice/graphs/uva_12530.cpp "Accepted solution")
 - [UVa 12549 - Sentry Robots](https://onlinejudge.org/external/125/12549.pdf) [✓](../../practice/graphs/uva_12549.cpp "Accepted solution")
