@@ -153,6 +153,7 @@
 - [SPOJ VLATTICE - Visible Lattice Points](https://www.spoj.com/problems/VLATTICE/) [✓](../../practice/number_theory/spoj_vlattice.cpp "Accepted solution")
 - [UVa 10738 - Riemann vs Mertens](https://onlinejudge.org/external/107/10738.pdf) [✓](../../practice/number_theory/uva_10738.cpp "Accepted solution")
 - [UVa 12631 - Chocolate and Money](https://onlinejudge.org/external/126/12631.pdf) [✓](../../practice/number_theory/uva_12631.cpp "Accepted solution")
+- [UVa 12773 - Gauss Reborn](https://onlinejudge.org/external/127/12773.pdf) [✓](../../practice/number_theory/uva_12773.cpp "Accepted solution")
 - [UVa 12888 - Count LCM](https://onlinejudge.org/external/128/12888.pdf) [✓](../../practice/number_theory/uva_12888.cpp "Accepted solution")
 
 #### [Modular Roots](modular_roots.cpp)
