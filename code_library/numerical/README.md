@@ -35,6 +35,7 @@
 
 - [MatCom 9335 - Environment Protection](https://matcomgrader.com/problem/9335/environment-protection/) [✓](../../practice/numerical/matcom_9335.cpp "Accepted solution")
 - [UVa 1356 - Bridge](https://onlinejudge.org/external/13/1356.pdf) [✓](../../practice/numerical/uva_1356.cpp "Accepted solution")
+- [UVa 12162 - Shooting the Monster](https://onlinejudge.org/external/121/12162.pdf) [✓](../../practice/numerical/uva_12162.cpp "Accepted solution")
 - [UVa 12528 - Environment Protection](https://onlinejudge.org/external/125/12528.pdf) [✓](../../practice/numerical/uva_12528.cpp "Accepted solution")
 - [UVa 12997 - Train Station](https://onlinejudge.org/external/129/12997.pdf) [✓](../../practice/numerical/uva_12997.cpp "Accepted solution")
 
