@@ -400,6 +400,7 @@
 - [HackerRank queries-with-fixed-length - Queries with Fixed Length](https://www.hackerrank.com/challenges/queries-with-fixed-length/problem) [✓](../../practice/data_structures/hackerrank_queries_with_fixed_length.cpp "Accepted solution")
 - [LeetCode 239 - Sliding Window Maximum](https://leetcode.com/problems/sliding-window-maximum/) [✓](../../practice/data_structures/leetcode_239.cpp "Accepted solution")
 - [USACO 767 - Haybale Feast](https://usaco.org/index.php?page=viewproblem2&cpid=767) [✓](../../practice/data_structures/usaco_767.cpp "Accepted solution")
+- [UVa 12170 - Easy Climb](https://onlinejudge.org/external/121/12170.pdf) [✓](../../practice/data_structures/uva_12170.cpp "Accepted solution")
 
 #### [Sparse Table](sparse_table.cpp)
 
