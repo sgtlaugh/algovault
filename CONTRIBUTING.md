@@ -271,7 +271,7 @@ int main(){
 
 - **Why, never what:** delete a comment whose deletion loses nothing; replace one naming what a variable holds with a better name
 - **Invariants:** comment a rule a caller or editor could break unknowingly, like a field that must stay false for zero
-- **Commit message instead:** derivations, proofs, debugging history, measurements, failing inputs and judge anecdotes
+- **Commit message instead:** derivations, proofs, debugging history, measurements other than a speed trick's reason, failing inputs and judge anecdotes
 - **One line:** at most 120 characters, at the code it explains, never two `///` lines in a row
 - **Tests too:** a test comment names the case it covers and the bug it would catch
 
