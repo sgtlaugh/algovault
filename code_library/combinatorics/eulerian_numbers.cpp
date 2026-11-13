@@ -24,6 +24,7 @@ struct EulerianNumbers{
 
     EulerianNumbers(int n, int mod = 1000000007): mod(mod), dp(n + 1){
         assert(n >= 0 && mod >= 1);
+
         for (int i = 0; i <= n; i++){
             dp[i].assign(i + 1, 0);
             dp[i][0] = 1 % mod;

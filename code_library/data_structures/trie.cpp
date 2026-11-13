@@ -126,6 +126,7 @@ struct BinaryTrie{
     void insert(unsigned long long x, long long c = 1){
         check_range(x);
         assert(c >= 1);
+
         int v = 0;
         cnt[0] += c;
         for (int b = BITS - 1; b >= 0; b--){

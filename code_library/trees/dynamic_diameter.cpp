@@ -81,8 +81,10 @@ struct DynamicDiameter{
         assert(w >= 0);
         long long delta = w - weight[id];
         weight[id] = w;
+
         int l = leaves + enter[id], r = leaves + leave[id];
         seg[l] = leaf(seg[l].sum + delta), seg[r] = leaf(seg[r].sum - delta);
+
         while (l > 1){
             l /= 2, r /= 2;
             seg[l] = combine(seg[2 * l], seg[2 * l + 1]);

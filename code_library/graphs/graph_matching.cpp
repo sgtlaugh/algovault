@@ -50,6 +50,7 @@ struct TutteMatching{
 
     void build_matrix(){
         for (auto &v : tutte_matrix) fill(v.begin(), v.end(), 0);
+
         for (int i = 0; i < n; i++){
             for (int j = i + 1; j < n; j++){
                 if (adj[i][j]){
