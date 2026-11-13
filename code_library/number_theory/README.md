@@ -59,6 +59,7 @@
 - [LightOJ 1306 - Solutions to an Equation](https://lightoj.com/problem/solutions-to-an-equation) [✓](../../practice/number_theory/lightoj_1306.cpp "Accepted solution")
 - [UVa 10090 - Marbles](https://onlinejudge.org/external/100/10090.pdf) [✓](../../practice/number_theory/uva_10090.cpp "Accepted solution")
 - [UVa 10104 - Euclid Problem](https://onlinejudge.org/external/101/10104.pdf) [✓](../../practice/number_theory/uva_10104.cpp "Accepted solution")
+- [UVa 12453 - Simulating Billiard Ball](https://onlinejudge.org/external/124/12453.pdf) [✓](../../practice/number_theory/uva_12453.cpp "Accepted solution")
 - [UVa 12775 - Gift Dilemma](https://onlinejudge.org/external/127/12775.pdf) [✓](../../practice/number_theory/uva_12775.cpp "Accepted solution")
 
 #### [Fast Fibonacci](fast_fibonacci.cpp)
