@@ -354,6 +354,7 @@
 - [Codeforces 1284G - Seollal](https://codeforces.com/problemset/problem/1284/G) [✓](../../practice/graphs/codeforces_1284g.cpp "Accepted solution")
 - [Codeforces 1556H - DIY Tree](https://codeforces.com/problemset/problem/1556/H) [✓](../../practice/graphs/codeforces_1556h.cpp "Accepted solution")
 - [Codeforces Gym 102156D - Pick Your Own Nim](https://codeforces.com/gym/102156/problem/D) [✓](../../practice/graphs/codeforces_gym_102156d.cpp "Accepted solution")
+- [UVa 12370 - Game of Connect](https://onlinejudge.org/external/123/12370.pdf) [✓](../../practice/graphs/uva_12370.cpp "Accepted solution")
 
 #### [Maximum Clique](max_clique.cpp)
 
