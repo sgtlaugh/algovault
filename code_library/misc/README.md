@@ -86,4 +86,5 @@
 - [UVa 11534 - Say Goodbye to Tic-Tac-Toe](https://onlinejudge.org/external/115/11534.pdf) [✓](../../practice/misc/uva_11534.cpp "Accepted solution")
 - [UVa 11840 - Tic-tac-toe](https://onlinejudge.org/external/118/11840.pdf) [✓](../../practice/misc/uva_11840.cpp "Accepted solution")
 - [UVa 11927 - Games Are Important](https://onlinejudge.org/external/119/11927.pdf) [✓](../../practice/misc/uva_11927.cpp "Accepted solution")
+- [UVa 12163 - Addition-Subtraction Game](https://onlinejudge.org/external/121/12163.pdf) [✓](../../practice/misc/uva_12163.cpp "Accepted solution")
 - [UVa 12846 - A Daisy Puzzle Game](https://onlinejudge.org/external/128/12846.pdf) [✓](../../practice/misc/uva_12846.cpp "Accepted solution")
