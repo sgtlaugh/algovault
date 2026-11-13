@@ -48,7 +48,7 @@
 - [POJ 1625 - Censored!](http://poj.org/problem?id=1625) [✓](../../practice/strings/poj_1625_aho_corasick.cpp "Accepted solution")
 - [POJ 2778 - DNA Sequence](http://poj.org/problem?id=2778) [✓](../../practice/strings/poj_2778_aho_corasick.cpp "Accepted solution")
 - [SPOJ EMOTICON - Emoticons](https://www.spoj.com/problems/EMOTICON/) [✓](../../practice/strings/spoj_emoticon.cpp "Accepted solution")
-- [SPOJ SUB_PROB - Substring Problem](https://www.spoj.com/problems/SUB_PROB/)
+- [SPOJ SUB_PROB - Substring Problem](https://www.spoj.com/problems/SUB_PROB/) [✓](../../practice/strings/spoj_sub_prob_aho_corasick.cpp "Accepted solution")
 - [SPOJ TREEBA - Hackers](https://www.spoj.com/problems/TREEBA/) [✓](../../practice/strings/spoj_treeba.cpp "Accepted solution")
 - [SPOJ WPUZZLES - Word Puzzles](https://www.spoj.com/problems/WPUZZLES/) [✓](../../practice/strings/spoj_wpuzzles.cpp "Accepted solution")
 - [USACO 533 - Censoring (Gold)](https://usaco.org/index.php?page=viewproblem2&cpid=533) [✓](../../practice/strings/usaco_533.cpp "Accepted solution")
