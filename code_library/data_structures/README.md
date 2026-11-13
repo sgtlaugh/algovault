@@ -206,7 +206,7 @@
 - [CSES 3429 - Lines and Queries I](https://cses.fi/problemset/task/3429) [✓](../../practice/data_structures/cses_3429.cpp "Accepted solution")
 - [CSES 3430 - Lines and Queries II](https://cses.fi/problemset/task/3430) [✓](../../practice/data_structures/cses_3430.cpp "Accepted solution")
 - [HDU 3507 - Print Article](https://acm.hdu.edu.cn/showproblem.php?pid=3507) [✓](../../practice/data_structures/hdu_3507.cpp "Accepted solution")
-- [oj.uz CEOI09_harbingers - Harbingers](https://oj.uz/problem/view/CEOI09_harbingers)
+- [oj.uz CEOI09_harbingers - Harbingers](https://oj.uz/problem/view/CEOI09_harbingers) [✓](../../practice/data_structures/oj_uz_ceoi09_harbingers.cpp "Accepted solution")
 - [oj.uz CEOI17_building - Building Bridges](https://oj.uz/problem/view/CEOI17_building) [✓](../../practice/data_structures/oj_uz_ceoi17_building.cpp "Accepted solution")
 - [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180) [✓](../../practice/data_structures/poj_1180.cpp "Accepted solution")
 - [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/) [✓](../../practice/data_structures/spoj_acquire_li_chao_tree.cpp "Accepted solution")
