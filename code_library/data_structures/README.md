@@ -88,6 +88,7 @@
 - [UVa 10113 - Exchange Rates](https://onlinejudge.org/external/101/10113.pdf) [✓](../../practice/data_structures/uva_10113.cpp "Accepted solution")
 - [UVa 10158 - War](https://onlinejudge.org/external/101/10158.pdf) [✓](../../practice/data_structures/uva_10158.cpp "Accepted solution")
 - [UVa 11870 - Antonyms](https://onlinejudge.org/external/118/11870.pdf) [✓](../../practice/data_structures/uva_11870.cpp "Accepted solution")
+- [UVa 12232 - Exclusive-OR](https://onlinejudge.org/external/122/12232.pdf) [✓](../../practice/data_structures/uva_12232.cpp "Accepted solution")
 
 #### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
