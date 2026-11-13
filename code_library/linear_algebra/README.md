@@ -99,6 +99,7 @@
 - [UVa 12000 - K-Transformed Permutations](https://onlinejudge.org/external/120/12000.pdf) [✓](../../practice/linear_algebra/uva_12000.cpp "Accepted solution")
 - [UVa 12037 - Musical Chair](https://onlinejudge.org/external/120/12037.pdf) [✓](../../practice/linear_algebra/uva_12037.cpp "Accepted solution")
 - [UVa 12042 - Colorful Eggs](https://onlinejudge.org/external/120/12042.pdf) [✓](../../practice/linear_algebra/uva_12042.cpp "Accepted solution")
+- [UVa 12270 - Periodic points](https://onlinejudge.org/external/122/12270.pdf) [✓](../../practice/linear_algebra/uva_12270.cpp "Accepted solution")
 - [UVa 12593 - Next Generation Macaw](https://onlinejudge.org/external/125/12593.pdf) [✓](../../practice/linear_algebra/uva_12593.cpp "Accepted solution")
 - [UVa 12761 - Blue Chips](https://onlinejudge.org/external/127/12761.pdf) [✓](../../practice/linear_algebra/uva_12761.cpp "Accepted solution")
 - [UVa 12796 - Teletransport](https://onlinejudge.org/external/127/12796.pdf) [✓](../../practice/linear_algebra/uva_12796.cpp "Accepted solution")
