@@ -108,6 +108,7 @@
 - [UVa 12133 - Walk](https://onlinejudge.org/external/121/12133.pdf) [✓](../../practice/geometry/uva_12133.cpp "Accepted solution")
 - [UVa 12483 - Toboggan of Marbles](https://onlinejudge.org/external/124/12483.pdf) [✓](../../practice/geometry/uva_12483.cpp "Accepted solution")
 - [UVa 12756 - Flat Triangle](https://onlinejudge.org/external/127/12756.pdf) [✓](../../practice/geometry/uva_12756.cpp "Accepted solution")
+- [UVa 12990 - Walk Around The Campsite](https://onlinejudge.org/external/129/12990.pdf) [✓](../../practice/geometry/uva_12990.cpp "Accepted solution")
 - [UVa 13117 - ACIS, A Contagious vIruS](https://onlinejudge.org/external/131/13117.pdf) [✓](../../practice/geometry/uva_13117.cpp "Accepted solution")
 
 #### [Half-Plane Intersection](halfplane_intersection.cpp)
