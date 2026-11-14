@@ -73,6 +73,7 @@
 - [UVa 11690 - Money Matters](https://onlinejudge.org/external/116/11690.pdf) [✓](../../practice/data_structures/uva_11690.cpp "Accepted solution")
 - [UVa 11966 - Galactic Bonding](https://onlinejudge.org/external/119/11966.pdf) [✓](../../practice/data_structures/uva_11966.cpp "Accepted solution")
 - [UVa 11987 - Almost Union-Find](https://onlinejudge.org/external/119/11987.pdf) [✓](../../practice/data_structures/uva_11987.cpp "Accepted solution")
+- [UVa 12201 - Genetics](https://onlinejudge.org/external/122/12201.pdf) [✓](../../practice/data_structures/uva_12201.cpp "Accepted solution")
 - [UVa 12224 - Room Assignments](https://onlinejudge.org/external/122/12224.pdf) [✓](../../practice/data_structures/uva_12224.cpp "Accepted solution")
 - [UVa 12248 - Kids' Wishes](https://onlinejudge.org/external/122/12248.pdf) [✓](../../practice/data_structures/uva_12248.cpp "Accepted solution")
 - [UVa 12375 - Truchet Tiling](https://onlinejudge.org/external/123/12375.pdf) [✓](../../practice/data_structures/uva_12375.cpp "Accepted solution")
