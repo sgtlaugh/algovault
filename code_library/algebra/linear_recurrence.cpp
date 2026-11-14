@@ -15,7 +15,8 @@
  *
  * Notes:
  *   - sequence holds f(0), f(1), ..., at least k terms when the recurrence is given
- *   - 1 <= mod and 2 * mod < INT_MAX, values of any sign are reduced modulo mod
+ *   - 1 <= mod <= INT_MAX, values of any sign are reduced modulo mod
+ *   - nth_term and nth_terms past the given terms need mod < 2^30
  *   - 2k terms are enough to find a recurrence of degree k
  *   - With a prime mod the found recurrence is the shortest one generating every given term, from any number of terms
  *   - With a composite mod the recurrence may end in zero coefficients, and may miss given terms when fewer than 2k
@@ -58,7 +59,7 @@ namespace nt{
     int mod_inverse(int a, int mod){
         int x, y;
         extended_gcd(a, mod, x, y);
-        return (x + mod) % mod;
+        return (x + (long long)mod) % mod;
     }
 
     int chinese_remainder_theorem(vector<int> ar, vector<int> mods){
@@ -213,7 +214,7 @@ struct LinearRecurrence{
     LinearRecurrence(vector<int> sequence, int mod, vector<int> recurrence={}) : mod(mod), sequence(sequence), recurrence(recurrence){
         int n = sequence.size(), k = recurrence.size();
 
-        assert(n >= k && mod >= 1 && 2LL * mod < INT_MAX);
+        assert(n >= k && mod >= 1);
 
         for (auto& x : this->sequence) x = ((long long)x % mod + mod) % mod;
         for (auto& c : this->recurrence) c = ((long long)c % mod + mod) % mod;
@@ -232,7 +233,7 @@ struct LinearRecurrence{
 
         if (n + k <= (long long)sequence.size()) return vector<int>(sequence.begin() + n, sequence.begin() + n + k);
         if (mod == 1 || len == 0) return vector<int>(k, 0);
-        assert(1 <= k && k <= len);
+        assert(1 <= k && k <= len && mod < (1 << 30));  /// the FFT splits values into 15 bit halves
         if (k == 1) return {bostan_mori(n)};
 
         auto p = power_of_x(n);
@@ -370,7 +371,7 @@ struct LinearRecurrence{
 
         for (i = 0; i < n; i++){
             d = sequence[n - i - 1];
-            if (l > 0) d = (d + nt::convolution(&C[1], &sequence[n - i], l, mod)) % mod;
+            if (l > 0) d = (d + (long long)nt::convolution(&C[1], &sequence[n - i], l, mod)) % mod;
             if (d == 0) m++;
             else{
                 if (l * 2 <= i) T = C, T.resize(l + 1);
@@ -436,7 +437,7 @@ struct LinearRecurrence{
 
                     if (!compare(A[0][j], B[0][j])){
                         if ((k + 1) > (int)B[1][l].size()) B[1][l].resize(k + 1, 0);
-                        B[1][l][k] = (B[1][l][k] + d) % mod;
+                        B[1][l][k] = (B[1][l][k] + (long long)d) % mod;
                     }
                     else{
                         m = k - R[j];
@@ -456,7 +457,7 @@ struct LinearRecurrence{
         return max(find_rank(a), find_rank(b) + 1);
     }
 
-    /// Barrett reduction of x < 2^62 modulo m < 2^31 with inv = (2^64 - 1) / m, about 2x faster than % in Reeds-Sloane
+    /// Barrett reduction of x < 2^63 modulo m < 2^31 with inv = (2^64 - 1) / m, about 2x faster than % in Reeds-Sloane
     unsigned long long reduce(unsigned long long x, unsigned long long m, unsigned long long inv){
         unsigned long long r = x - (unsigned long long)((unsigned __int128)x * inv >> 64) * m;
         return r >= m ? r - m : r;

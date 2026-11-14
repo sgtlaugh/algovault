@@ -106,6 +106,28 @@ int main(){
         assert(late.nth_term(3) == 1);
     }
 
+    /// mod in [2^30, INT_MAX] overflows int sums of residues; nth_term past the terms asserts, so evaluate instead
+    {
+        const long long big_mods[] = {2147483647, 2147483646, 1 << 30, 46337LL * 46337, 1162261467, 2 * 1073741789LL};
+        for (long long it = 0; it < stress::scaled(30); it++){
+            long long mod = big_mods[stress::rand_int(0, 5)];
+            int k = stress::rand_int(1, it % 3 ? 8 : 40);
+            vector<int> c(k), start(k);
+            for (auto& x : c) x = stress::rand_int(0, mod - 1);
+            for (auto& x : start) x = stress::rand_int(0, mod - 1);
+            auto terms = brute_terms(c, start, 4 * k + 20, mod);
+
+            LinearRecurrence derived(vector<int>(terms.begin(), terms.begin() + 2 * k), mod);
+            int d = derived.recurrence.size();
+            for (int x = d; x < (int)terms.size(); x++){
+                long long v = 0;
+                for (int i = 0; i < d; i++) v = (v + (long long)derived.recurrence[i] * terms[x - 1 - i]) % mod;
+                assert(v == terms[x]);
+            }
+            assert(derived.nth_terms(2 * k - 2, 2) == vector<int>(terms.begin() + 2 * k - 2, terms.begin() + 2 * k));
+        }
+    }
+
     /// Order above 65536 needs FFTs longer than 131072, sparse coefficients keep the brute force cheap
     {
         long long mod = 1073741789;  /// the largest prime the constructor accepts, where FFT precision is tightest
