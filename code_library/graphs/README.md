@@ -191,6 +191,7 @@
 #### [Directed MST](directed_mst.cpp)
 
 - [Codeforces 17B - Hierarchy](https://codeforces.com/problemset/problem/17/B) [✓](../../practice/graphs/codeforces_17b.cpp "Accepted solution")
+- [UVa 12907 - Toby the adventurer](https://onlinejudge.org/external/129/12907.pdf) [✓](../../practice/graphs/uva_12907.cpp "Accepted solution")
 
 #### [Dominator Tree](dominator_tree.cpp)
 
