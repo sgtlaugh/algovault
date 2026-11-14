@@ -18,6 +18,7 @@
  *   - branches has type CentroidDecomposition::Branches
  *   - build asserts that the edges form a forest, so a cycle, multi-edge or self-loop aborts
  *   - Distances are long long sums of edge weights, keep 2 n max|w| below 9.2e18 so d1 + d2 cannot overflow
+ *   - Two weights w >= 0 per edge pack as hi << s | lo while every path's lo sum stays below 2^s, so sums never mix
  *   - Iterative, so deep trees cannot overflow the stack
  *
 ***/

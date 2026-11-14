@@ -17,6 +17,7 @@
  *   - mod > 0 works modulo mod, mod <= 1e18
  *   - mod = 2 is parity, relate(a, b, 1) means a and b differ
  *   - Exact ratios x[b] / x[a] = p / q: one instance per prime, d = that prime's exponent in p minus its exponent in q
+ *   - Xor relations x[b] = x[a] ^ d: one mod = 2 instance per bit k, relating with d >> k & 1
  *
 ***/
 

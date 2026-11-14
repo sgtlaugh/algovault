@@ -27,6 +27,7 @@
  *   - Positions are 0-based in [0, n - 1], outside asserts
  *   - FenwickFull needs a T that holds 2 n times the sum of |v| over all updates, long long even if answers fit int
  *   - k sums over the same positions run 1.5x (k = 2) to 2.5x (k = 4, 8) faster as one tree of array<T, k> nodes
+ *   - Prefix max under a[p] = max(a[p], v): max in place of += in update and prefix, for values >= 0
  *
 ***/
 
