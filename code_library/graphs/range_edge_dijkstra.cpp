@@ -52,7 +52,7 @@ struct RangeEdgeGraph{
 
     vector<long long> dijkstra(int s){
         vector<long long> dist(3 * n, INF);
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> heap;
 
         dist[s] = 0, heap.push({0, s});
 

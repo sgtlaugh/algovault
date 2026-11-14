@@ -130,7 +130,7 @@ struct SteinerTree{
                 for (int v = 0; v < n; v++) d[v] = min(d[v], dp[sub][v] + dp[sub ^ mask][v]);
             }
 
-            priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+            priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> heap;
             for (int v = 0; v < n; v++){
                 if (d[v] < STEINER_INF) heap.push({d[v], v});
             }

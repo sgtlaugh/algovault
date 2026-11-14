@@ -125,7 +125,7 @@ struct AbsoluteCenter{
 
     pair<vector<long long>, vector<int>> dijkstra(vector<long long> dist, long long scale) const{
         vector<int> parent_edge(n, -1);
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> heap;
         for (int v = 0; v < n; v++){
             if (dist[v] < INF) heap.push({dist[v], v});
         }

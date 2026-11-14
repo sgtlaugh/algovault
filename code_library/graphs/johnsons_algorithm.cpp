@@ -72,7 +72,7 @@ struct Johnson{
 
     void dijkstra(int s, const vector<vector<pair<int, long long>>>& adj, const vector<long long>& h){
         vector<long long>& d = dist[s];
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> heap;
 
         d[s] = 0, heap.push({0, s});
         while (!heap.empty()){

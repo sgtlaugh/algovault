@@ -106,7 +106,7 @@ struct MCMF{
 
     bool dijkstra(int s, int t){
         fill(dist.begin(), dist.end(), INF);
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> heap;
         dist[s] = 0, heap.push({0, s});
         while (!heap.empty()){
             auto [d, u] = heap.top();

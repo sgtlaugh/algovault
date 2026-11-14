@@ -72,7 +72,7 @@ struct Dijkstra{
         if (adj.size() != arcs.size()) build_adjacency();
         fill(dist.begin(), dist.end(), DIJKSTRA_INF);
         fill(parent.begin(), parent.end(), -1);
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> heap;
 
         for (int src : sources) dist[src] = 0, heap.push({0, src});
         while (!heap.empty()){
@@ -193,7 +193,7 @@ struct ZeroOneBFS{
 
 struct DijkstraRelax{
     vector<long long>& dist;
-    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>>& heap;
+    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>>& heap;
     long long du;
 
     void operator()(int v, long long dv){
@@ -205,7 +205,7 @@ struct DijkstraRelax{
 template<typename Neighbors>
 vector<long long> dijkstra_implicit(int n, const vector<int>& sources, Neighbors neighbors, int target = -1){
     vector<long long> dist(n, DIJKSTRA_INF);
-    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+    priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> heap;
     DijkstraRelax relax{dist, heap, 0};
 
     /// A repeated source is pushed once, or neighbors would run twice for it

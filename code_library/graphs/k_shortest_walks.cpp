@@ -99,7 +99,7 @@ struct KShortestWalks{
 
         vector<long long> d(n, INF);
         vector<int> tree_edge(n, -1), order;
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> heap;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> heap;
         d[t] = 0, heap.push({0, t});
         while (!heap.empty()){
             auto [du, u] = heap.top();
@@ -132,7 +132,7 @@ struct KShortestWalks{
         }
 
         vector<long long> result = {d[s]};
-        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<>> best;
+        priority_queue<pair<long long, int>, vector<pair<long long, int>>, greater<pair<long long, int>>> best;
         if (h[s] != pool.EMPTY) best.push({d[s] + pool.top(h[s]).first, h[s]});
         while ((int)result.size() < k && !best.empty()){
             auto [len, x] = best.top();
