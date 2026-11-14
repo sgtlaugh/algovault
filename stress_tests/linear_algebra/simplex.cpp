@@ -246,6 +246,59 @@ void nearly_parallel_rows(){
     assert(lp.solve() == Simplex::INFEASIBLE);
 }
 
+/// UVa 12512: grid cross sums as opposite row pairs, where a 2e-13 pivot on a Bland tie broke rows or never ended
+template <typename F>
+void uva_12512_equalities(){
+    struct Case{ int c, d, f, target; vector<int> g; };
+    vector<Case> cases = {
+        {51, 63, 9, 66972, {5, 1, 3, 9, 8, 3, -1, 5, 4, 3, 3, -7, 8, -7, 6, 0, 6, 6, 3, 3, -10, 0, -9, -1, 9, 3, 2, 9, 0, -1, 8, -8, -3, -7, 4, -3,
+                            6, 2, -9, 5, -7, 6, -3, 7, -1, 2, -3, -8, 1, 7, 3, 8, -5, -3, 10, 3, 8, -7, -8, -7, 6, -6, -7, 7, 8, 4, -10, -1, -3, -1,
+                            -10, 0, -5, -8, 4, 4, 6, 2, -6, 1, 8, -3, -9, -1, -10, 4, 0, -1, 0, 5, -6, 5, -4, -4, -1, -9, -4, 0, 1, 5, -10, -5, 10, 7,
+                            -4, 7, 10, -3, -4, -9, 10, -7, -1, 0, -2, 3, -6, 0, 4, 3, -8, -5, -3, -1, -7, -4, -2, -5, -3, 6, -1, -2, 1, 6, -7, 8, 6, -3,
+                            -1, -5, -3, -2, -6, 10}},
+        {85, 11, 4, 60904, {4, 6, -8, 6, -9, -10, 9, 8, -1, 7, -2, 3, 8, -8, -5, -1, -4, -3, -5, -2, 7, -10, -5, -6, -9, 9, 4, 8, 2, -10, 5, -9, -5, -8,
+                            7, 10, 1, 0, 5, -9, 6, -1, 6, 10, 6, 7, -5, 9, -5, -7, 9, 3, -3, 4, 7, -2, -3, -2, 5, 7, -3, 8, 9, 5, -2, -9, -4, 9, -9, 8,
+                            4, -5, 0, -6, 9, -10, 9, 5, 3, 6, 4, -2, -10, -8, -7, -5, 8, 10, 7, 8, -3, 9, -6, -9, -1, 3, -9, 0, 9, 6, -2, 8, 5, -8, 10,
+                            6, -5, 2, -2, -3, -5, 5, 9, 4, -9, 0, 3, 4, 1, -4, -9, -6, 5, 9, -6, -6, 4, 6, -9, -10, -3, 3, 6, -6, -8, 2, 7, -1, 5, 3, -8,
+                            -9, 9, -3}},
+    };
+
+    alarm(10);
+    const int n = 12;
+    for (auto& t : cases){
+        vector<F> cost(2 * n * n);
+        for (int i = 0; i < n * n; i++) cost[2 * i] = t.c, cost[2 * i + 1] = t.d;
+
+        BasicSimplex<F> lp(cost, Simplex::MINIMIZE);
+        vector<vector<F>> rows;
+        vector<F> lim;
+        for (int x = 0; x < n; x++){
+            for (int y = 0; y < n; y++){
+                vector<F> coef(2 * n * n, 0);
+                long long sum = 0;
+                for (int i = 0; i < n; i++){
+                    for (int j = 0; j < n; j++){
+                        if (i != x && j != y) continue;
+                        sum += t.g[i * n + j], coef[2 * (i * n + j)] = 1, coef[2 * (i * n + j) + 1] = -1;
+                    }
+                }
+                lp.add_constraint(coef, (2 * n - 1) * t.f - sum, Simplex::LESSEQ);
+                lp.add_constraint(coef, (2 * n - 1) * t.f - sum, Simplex::GREATEQ);
+                rows.push_back(coef), lim.push_back((2 * n - 1) * t.f - sum);
+            }
+        }
+
+        assert(lp.solve() == Simplex::FEASIBLE);
+        assert(abs(lp.value - t.target) < 1e-6 * t.target);
+        for (int r = 0; r < (int)rows.size(); r++){
+            long double s = 0;
+            for (int j = 0; j < 2 * n * n; j++) s += rows[r][j] * lp.val[j];
+            assert(abs(s - lim[r]) < 1e-6);
+        }
+    }
+    alarm(0);
+}
+
 /// Roundoff degenerate limits must count as exactly 0, or ties break by noise instead of Bland's lowest id and cycle
 void roundoff_degenerate_rows(){
     alarm(2);
@@ -360,6 +413,8 @@ int main(){
     mixed_magnitude_rows();
     nearly_parallel_rows();
     degenerate_cycling();
+    uva_12512_equalities<double>();
+    uva_12512_equalities<long double>();
     roundoff_degenerate_rows();
     tiny_ratio_rows(stress::scaled(400));
     scaled_rows_and_columns<double>(stress::scaled(15), 100, 150);

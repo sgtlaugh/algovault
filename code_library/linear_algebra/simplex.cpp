@@ -45,6 +45,8 @@ struct BasicSimplex : SimplexOptions{
     static constexpr bool WIDE = is_same<Float, long double>::value;
     /// EPS decides pivots and feasibility, DROP only prunes elimination: pruning at EPS broke rows for large variables
     static constexpr Float EPS = WIDE ? 1e-13L : 1e-9, DROP = WIDE ? 1e-16L : 1e-12;
+    /// Smallest ratio-test pivot: a degenerate tie under Bland's rule took a 2e-13 roundoff entry and broke rows by 0.3
+    static constexpr Float PIVOT = WIDE ? 1e-9L : 1e-7;
 
     Float value = 0;
     vector<Float> val;
@@ -170,7 +172,7 @@ struct BasicSimplex : SimplexOptions{
             if (y < 0) return true;
 
             for (int i = 1; i <= m; i++){
-                if (ar[i][y] <= EPS) continue;
+                if (ar[i][y] <= PIVOT) continue;
                 /// A ratio is the entering value and can be tiny, so ties are relative; a roundoff limit is degenerate
                 Float u = rhs[i] <= DROP ? 0 : rhs[i] / ar[i][y], tol = EPS * max(u, v);
                 /// Near ties take the largest pivot to limit rounding, or the lowest id under Bland's rule
