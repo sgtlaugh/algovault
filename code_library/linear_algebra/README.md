@@ -166,4 +166,5 @@
 - [CSES 3211 - Number of Subset Xors](https://cses.fi/problemset/task/3211) [✓](../../practice/linear_algebra/cses_3211.cpp "Accepted solution")
 - [HDU 3949 - XOR](https://acm.hdu.edu.cn/showproblem.php?pid=3949) [✓](../../practice/linear_algebra/hdu_3949.cpp "Accepted solution")
 - [SPOJ XMAX - XOR Maximization](https://www.spoj.com/problems/XMAX/) [✓](../../practice/linear_algebra/spoj_xmax.cpp "Accepted solution")
+- [UVa 12961 - Lottery](https://onlinejudge.org/external/129/12961.pdf) [✓](../../practice/linear_algebra/uva_12961.cpp "Accepted solution")
 - [UVa 12985 - Ba Gua Zhen](https://onlinejudge.org/external/129/12985.pdf) [✓](../../practice/linear_algebra/uva_12985.cpp "Accepted solution")
