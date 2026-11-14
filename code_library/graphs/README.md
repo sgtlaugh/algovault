@@ -112,6 +112,7 @@
 #### [Cactus Graph](cactus.cpp)
 
 - [Codeforces 720B - Cactusophobia](https://codeforces.com/problemset/problem/720/B) [✓](../../practice/graphs/codeforces_720b.cpp "Accepted solution")
+- [UVa 12794 - Miss Worm](https://onlinejudge.org/external/127/12794.pdf) [✓](../../practice/graphs/uva_12794.cpp "Accepted solution")
 
 #### [Chordal Graph](chordal_graph.cpp)
 
