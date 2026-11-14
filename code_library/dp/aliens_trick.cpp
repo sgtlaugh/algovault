@@ -14,6 +14,7 @@
  *   - [lo, hi] contains every -(f(c) - f(c - 1)), so M = max |f(c) - f(c - 1)| gives [-M, M]
  *   - The bounds' type fits hi - lo, the solver's value type fits cost + max(|lo|, |hi|) * (max items)
  *   - Maximizing a concave f: minimize the negated gains and negate the result
+ *   - With concave_1d1d_dp as the solver, items = the hops of its opt from n back to 0, so the cost needs no count
  *
 ***/
 
