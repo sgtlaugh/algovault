@@ -140,6 +140,7 @@
 #### [Polygon Union](polygon_union.cpp)
 
 - [Codeforces 107E - Darts](https://codeforces.com/problemset/problem/107/E) [✓](../../practice/geometry/codeforces_107e.cpp "Accepted solution")
+- [UVa 12931 - Common Area](https://onlinejudge.org/external/129/12931.pdf) [✓](../../practice/geometry/uva_12931.cpp "Accepted solution")
 
 #### [Rectangle Union](rectangle_union.cpp)
 
