@@ -19,6 +19,7 @@
 - [Kattis blazingnewtrails - Blazing New Trails](https://open.kattis.com/problems/blazingnewtrails) [✓](../../practice/dp/kattis_blazingnewtrails.cpp "Accepted solution")
 - [oj.uz IOI16_aliens - Aliens](https://oj.uz/problem/view/IOI16_aliens) [✓](../../practice/dp/oj_uz_ioi16_aliens.cpp "Accepted solution")
 - [USACO 697 - Building a Tall Barn](https://usaco.org/index.php?page=viewproblem2&cpid=697) [✓](../../practice/dp/usaco_697.cpp "Accepted solution")
+- [UVa 12915 - TripleCorn](https://onlinejudge.org/external/129/12915.pdf) [✓](../../practice/dp/uva_12915.cpp "Accepted solution")
 
 #### [Block Removal DP](blocks_dp.cpp)
 
