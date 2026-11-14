@@ -17,6 +17,7 @@
 - [Codeforces 167E - Wizards and Bets](https://codeforces.com/problemset/problem/167/E) [✓](../../practice/linear_algebra/codeforces_167e.cpp "Accepted solution")
 - [SPOJ KPMAZE - Maze](https://www.spoj.com/problems/KPMAZE/) [✓](../../practice/linear_algebra/spoj_kpmaze.cpp "Accepted solution")
 - [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf) [✓](../../practice/linear_algebra/uva_10808.cpp "Accepted solution")
+- [UVa 12570 - Qualle? Quale?](https://onlinejudge.org/external/125/12570.pdf) [✓](../../practice/linear_algebra/uva_12570.cpp "Accepted solution")
 
 #### [Gauss-Jordan](gauss_jordan.cpp)
 
