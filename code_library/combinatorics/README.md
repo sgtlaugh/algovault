@@ -61,6 +61,7 @@
 - [UVa 11904 - One Unit Machine](https://onlinejudge.org/external/119/11904.pdf) [✓](../../practice/combinatorics/uva_11904.cpp "Accepted solution")
 - [UVa 12257 - The Queue](https://onlinejudge.org/external/122/12257.pdf) [✓](../../practice/combinatorics/uva_12257.cpp "Accepted solution")
 - [UVa 12590 - Guards II](https://onlinejudge.org/external/125/12590.pdf) [✓](../../practice/combinatorics/uva_12590.cpp "Accepted solution")
+- [UVa 12913 - Grounded](https://onlinejudge.org/external/129/12913.pdf) [✓](../../practice/combinatorics/uva_12913.cpp "Accepted solution")
 - [UVa 13184 - Counting Edges and Graphs](https://onlinejudge.org/external/131/13184.pdf) [✓](../../practice/combinatorics/uva_13184.cpp "Accepted solution")
 
 #### [Fast Factorial](fast_factorial.cpp)
