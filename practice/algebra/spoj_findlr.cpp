@@ -15,8 +15,8 @@
  *
  * Notes:
  *   - sequence holds f(0), f(1), ..., at least k terms when the recurrence is given
- *   - 1 <= mod and 2 * mod < LLONG_MAX, values of any sign are reduced modulo mod
- *   - nth_term and nth_terms split values into 15 bit halves for the FFT, so need mod < 2^30
+ *   - 1 <= mod <= INT_MAX, values of any sign are reduced modulo mod
+ *   - nth_term and nth_terms past the given terms need mod < 2^30
  *   - 2k terms are enough to find a recurrence of degree k
  *   - With a prime mod the found recurrence is the shortest one generating every given term, from any number of terms
  *   - With a composite mod the recurrence may end in zero coefficients, and may miss given terms when fewer than 2k
@@ -30,9 +30,9 @@
 using namespace std;
 
 namespace nt{
-    map<long long, long long> get_factors(long long mod){
-        __int128 d, x = mod;
-        map<long long, long long> factors;
+    map<int, int> get_factors(int mod){
+        long long d, x = mod;
+        map<int, int> factors;
 
         for (d = 2; d * d <= x; d += (d & 1) + 1){
             while (x % d == 0){
@@ -45,46 +45,46 @@ namespace nt{
         return factors;
     }
 
-    long long extended_gcd(long long a, long long b, long long& x, long long& y){
+    int extended_gcd(int a, int b, int& x, int& y){
         if (!b){
             y = 0, x = 1;
             return a;
         }
 
-        long long g = extended_gcd(b, a % b, y, x);
+        int g = extended_gcd(b, a % b, y, x);
         y -= ((a / b) * x);
         return g;
     }
 
-    long long mod_inverse(long long a, long long mod){
-        long long x, y;
+    int mod_inverse(int a, int mod){
+        int x, y;
         extended_gcd(a, mod, x, y);
-        return (x + mod) % mod;
+        return (x + (long long)mod) % mod;
     }
 
-    long long chinese_remainder_theorem(vector<long long> ar, vector<long long> mods){
-        long long i, res = 0, mod = 1;
+    int chinese_remainder_theorem(vector<int> ar, vector<int> mods){
+        int i, res = 0, mod = 1;
 
         for (auto m: mods) mod *= m;
 
-        for (i = 0; i < (long long)ar.size(); i++){
-            __int128 x = mod / mods[i];
-            __int128 y = mod_inverse(x, mods[i]);
+        for (i = 0; i < (int)ar.size(); i++){
+            long long x = mod / mods[i];
+            long long y = mod_inverse(x, mods[i]);
             res = (res + (x * ar[i] % mod) * y) % mod;
         }
 
         return res;
     }
 
-    long long convolution(long long* A, long long* B, long long n, long long mod){
-        unsigned __int128 res = 0;
-        long long i, j, lim = min(ULONG_LONG_MAX / ((unsigned __int128)mod * mod), (unsigned __int128)n);
+    int convolution(int* A, int* B, int n, int mod){
+        unsigned long long res = 0;
+        int i, j, lim = min(ULONG_LONG_MAX / ((unsigned long long)mod * mod), (unsigned long long)n);
 
         for (i = 0; (i + lim) <= n; res %= mod){
-            for (j = 0; j < lim; j++, i++) res += (unsigned __int128)A[i] * B[i];
+            for (j = 0; j < lim; j++, i++) res += (unsigned long long)A[i] * B[i];
         }
 
-        for (; i < n; i++) res += (unsigned __int128)A[i] * B[i];
+        for (; i < n; i++) res += (unsigned long long)A[i] * B[i];
 
         return res % mod;
     }
@@ -116,10 +116,10 @@ namespace fft{
     /// roots[k + j] = e^(i * pi * j / k) for every power of two k, grown on demand and never changed afterwards
     vector<ComplexNum> roots = {ComplexNum(), ComplexNum(1)};
 
-    void extend_roots(long long len){
-        for (long long k = roots.size(); k < len; k <<= 1){
+    void extend_roots(int len){
+        for (int k = roots.size(); k < len; k <<= 1){
             roots.resize(2 * k);
-            for (long long j = 0; j < k; j++){
+            for (int j = 0; j < k; j++){
                 long double theta = acosl(-1.0L) * j / k;  /// direct, a chain of products accumulates rounding error
                 roots[k + j] = ComplexNum(cosl(theta), sinl(theta));
             }
@@ -127,7 +127,7 @@ namespace fft{
     }
 
     void transform(vector<ComplexNum>& a){
-        long long i, j, k, len = a.size();
+        int i, j, k, len = a.size();
 
         for (i = 1, j = 0; i < len; i++){
             for (k = len >> 1; j & k; k >>= 1) j ^= k;
@@ -147,7 +147,7 @@ namespace fft{
     }
 
     /// Splits the transforms at i and j (= -i) into low and high 15 bit halves, products of the halves go to u and v
-    inline void combine(ComplexNum fi, ComplexNum fj, ComplexNum gi, ComplexNum gj, long long len, ComplexNum& u, ComplexNum& v){
+    inline void combine(ComplexNum fi, ComplexNum fj, ComplexNum gi, ComplexNum gj, int len, ComplexNum& u, ComplexNum& v){
         auto a1 = (fi + fj.conjugate()) * ComplexNum(0.5, 0);
         auto a2 = (fi - fj.conjugate()) * ComplexNum(0, -0.5);
         auto b1 = (gi + gj.conjugate()) * ComplexNum(0.5 / len, 0);
@@ -157,14 +157,14 @@ namespace fft{
     }
 
     /// parity 0 or 1 returns only the coefficients of p1 * p2 at indices of that parity, -1 returns all of them
-    vector<long long> mod_multiply(const vector<long long>& p1, const vector<long long>& p2, long long mod, long long parity = -1){
-        long long i, j, a = p1.size(), b = p2.size(), p_len = a + b - 1, step = parity < 0 ? 1 : 2;
+    vector<int> mod_multiply(const vector<int>& p1, const vector<int>& p2, int mod, int parity = -1){
+        int i, j, a = p1.size(), b = p2.size(), p_len = a + b - 1, step = parity < 0 ? 1 : 2;
 
         while (a > 1 && p1[a - 1] == 0) a--;
         while (b > 1 && p2[b - 1] == 0) b--;
         bool is_equal = (a == b && equal(p1.begin(), p1.begin() + a, p2.begin()));
 
-        long long len = 2;
+        int len = 2;
         while (len < a + b) len <<= 1;
         extend_roots(len);
 
@@ -195,9 +195,9 @@ namespace fft{
         transform(f);
         transform(g);
 
-        vector<long long> res((p_len - max(parity, 0LL) + step - 1) / step, 0);
-        for (i = 0; i < min(len, (long long)res.size()); i++){
-            __int128 x = f[i].real + 0.5, y = g[i].real + 0.5, z = f[i].img + 0.5;
+        vector<int> res((p_len - max(parity, 0) + step - 1) / step, 0);
+        for (i = 0; i < min(len, (int)res.size()); i++){
+            long long x = f[i].real + 0.5, y = g[i].real + 0.5, z = f[i].img + 0.5;
             res[i] = (x + ((y % mod) << 15) + ((z % mod) << 30)) % mod;
         }
 
@@ -206,58 +206,58 @@ namespace fft{
 }
 
 struct LinearRecurrence{
-    __int128 mod;
-    vector<long long> sequence, recurrence;
+    long long mod;
+    vector<int> sequence, recurrence;
 
     LinearRecurrence() {}
 
-    LinearRecurrence(vector<long long> sequence, long long mod, vector<long long> recurrence={}) : mod(mod), sequence(sequence), recurrence(recurrence){
-        long long n = sequence.size(), k = recurrence.size();
+    LinearRecurrence(vector<int> sequence, int mod, vector<int> recurrence={}) : mod(mod), sequence(sequence), recurrence(recurrence){
+        int n = sequence.size(), k = recurrence.size();
 
-        assert(n >= k && mod >= 1 && 2 * mod < LLONG_MAX);
+        assert(n >= k && mod >= 1);
 
-        for (auto& x : this->sequence) x = ((__int128)x % mod + mod) % mod;
-        for (auto& c : this->recurrence) c = ((__int128)c % mod + mod) % mod;
+        for (auto& x : this->sequence) x = ((long long)x % mod + mod) % mod;
+        for (auto& c : this->recurrence) c = ((long long)c % mod + mod) % mod;
         if (recurrence.empty() && n > 0 && mod > 1){
             auto C = find_recurrence(this->sequence, mod);  /// C = [1, C1, ..., Cd] with sum C[j] * f(x - j) = 0
-            for (long long j = 1; j < (long long)C.size(); j++) this->recurrence.push_back((mod - C[j]) % mod);
+            for (int j = 1; j < (int)C.size(); j++) this->recurrence.push_back((mod - C[j]) % mod);
         }
     }
 
-    long long nth_term(__int128 n){
+    int nth_term(long long n){
         return nth_terms(n, 1)[0];
     }
 
-    vector<long long> nth_terms(__int128 n, long long k){
-        long long len = recurrence.size();
+    vector<int> nth_terms(long long n, int k){
+        int len = recurrence.size();
 
-        if (n + k <= (__int128)sequence.size()) return vector<long long>(sequence.begin() + n, sequence.begin() + n + k);
-        if (mod == 1 || len == 0) return vector<long long>(k, 0);
-        assert(1 <= k && k <= len);
+        if (n + k <= (long long)sequence.size()) return vector<int>(sequence.begin() + n, sequence.begin() + n + k);
+        if (mod == 1 || len == 0) return vector<int>(k, 0);
+        assert(1 <= k && k <= len && mod < (1 << 30));  /// the FFT splits values into 15 bit halves
         if (k == 1) return {bostan_mori(n)};
 
         auto p = power_of_x(n);
 
-        vector<long long> terms = sequence;
-        while ((long long)terms.size() < len + k - 1){  /// a given recurrence may come with only its first len terms
-            __int128 val = 0;
-            long long s = terms.size();
-            for (long long i = 0; i < len; i++) val = (val + (__int128)recurrence[i] * terms[s - 1 - i]) % mod;
+        vector<int> terms = sequence;
+        while ((int)terms.size() < len + k - 1){  /// a given recurrence may come with only its first len terms
+            long long val = 0;
+            int s = terms.size();
+            for (int i = 0; i < len; i++) val = (val + (long long)recurrence[i] * terms[s - 1 - i]) % mod;
             terms.push_back(val);
         }
 
-        vector<long long> res(k);
-        for (long long j = 0; j < k; j++){
-            __int128 val = 0;
-            for (long long i = 0; i < (long long)p.size(); i++) val = (val + (__int128)p[i] * terms[i + j]) % mod;
+        vector<int> res(k);
+        for (int j = 0; j < k; j++){
+            long long val = 0;
+            for (int i = 0; i < (int)p.size(); i++) val = (val + (long long)p[i] * terms[i + j]) % mod;
             res[j] = val;
         }
 
         return res;
     }
 
-    vector<long long> find_recurrence(vector<long long> sequence, long long mod){
-        long long i, j, e, n, p, m, k = 0;
+    vector<int> find_recurrence(vector<int> sequence, int mod){
+        int i, j, e, n, p, m, k = 0;
         auto factors = nt::get_factors(mod);
 
         n = factors.size();
@@ -266,8 +266,8 @@ struct LinearRecurrence{
             return berlekamp_massey(sequence, mod);
         }
 
-        vector<long long> v, mods, vals(n);
-        vector<vector<long long>> coeffs;
+        vector<int> v, mods, vals(n);
+        vector<vector<int>> coeffs;
 
         for (auto it: factors){
             tie(p, e) = it;
@@ -275,14 +275,14 @@ struct LinearRecurrence{
             mods.push_back(m);
 
             v = reeds_sloane(sequence, p, e);
-            k = max(k, (long long)v.size());
+            k = max(k, (int)v.size());
             coeffs.push_back(v);
         }
 
-        vector<long long> res(k);
+        vector<int> res(k);
         for (i = 0; i < k; i++){
             for (j = 0; j < n; j++){
-                vals[j] = i < (long long)coeffs[j].size() ? coeffs[j][i] : 0;
+                vals[j] = i < (int)coeffs[j].size() ? coeffs[j][i] : 0;
             }
             res[i] = nt::chinese_remainder_theorem(vals, mods);
         }
@@ -292,18 +292,18 @@ struct LinearRecurrence{
     }
 
     /// Bostan-Mori: f(n) = [x^n] P(x) / Q(x), each step multiplies both by Q(-x) and keeps every second coefficient
-    long long bostan_mori(__int128 n){
-        long long k = recurrence.size();
-        vector<long long> q(k + 1), v(k + 1);
+    int bostan_mori(long long n){
+        int k = recurrence.size();
+        vector<int> q(k + 1), v(k + 1);
 
         q[0] = 1;
-        for (long long i = 1; i <= k; i++) q[i] = (mod - recurrence[i - 1]) % mod;
+        for (int i = 1; i <= k; i++) q[i] = (mod - recurrence[i - 1]) % mod;
 
-        auto p = fft::mod_multiply(vector<long long>(sequence.begin(), sequence.begin() + k), q, mod);
+        auto p = fft::mod_multiply(vector<int>(sequence.begin(), sequence.begin() + k), q, mod);
         p.resize(k);
 
         for (; n; n >>= 1){
-            for (long long i = 0; i <= k; i++) v[i] = (i & 1) && q[i] ? mod - q[i] : q[i];
+            for (int i = 0; i <= k; i++) v[i] = (i & 1) && q[i] ? mod - q[i] : q[i];
             p = fft::mod_multiply(p, v, mod, n & 1);
             q = fft::mod_multiply(q, v, mod, 0);
         }
@@ -312,18 +312,18 @@ struct LinearRecurrence{
     }
 
     /// x^n modulo x^k - c_1 x^(k - 1) - ... - c_k, lowest coefficient first, for n >= 1 and k >= 2
-    vector<long long> power_of_x(__int128 n){
-        long long k = recurrence.size();
-        vector<long long> charpoly(k + 1, 1);
+    vector<int> power_of_x(long long n){
+        int k = recurrence.size();
+        vector<int> charpoly(k + 1, 1);
 
-        for (long long j = 0; j < k; j++) charpoly[j] = (mod - recurrence[k - 1 - j]) % mod;
-        vector<long long> reversed(charpoly.rbegin(), charpoly.rend());
+        for (int j = 0; j < k; j++) charpoly[j] = (mod - recurrence[k - 1 - j]) % mod;
+        vector<int> reversed(charpoly.rbegin(), charpoly.rend());
 
         /// Newton step inv = inv (2 - reversed inv) doubles the correct prefix, k - 1 terms cover every quotient
-        vector<long long> inv = {1};
-        while ((long long)inv.size() < k - 1){
-            long long len = min(2 * (long long)inv.size(), k - 1);
-            auto t = fft::mod_multiply(inv, vector<long long>(reversed.begin(), reversed.begin() + len), mod);
+        vector<int> inv = {1};
+        while ((int)inv.size() < k - 1){
+            int len = min(2 * (int)inv.size(), k - 1);
+            auto t = fft::mod_multiply(inv, vector<int>(reversed.begin(), reversed.begin() + len), mod);
             t.resize(len);
             for (auto& x : t) x = x ? mod - x : 0;
             t[0] = (t[0] + 2) % mod;
@@ -331,27 +331,27 @@ struct LinearRecurrence{
             inv.resize(len);
         }
 
-        vector<long long> res = {1};
-        for (long long bit = __lg((long long)n); bit >= 0; bit--){
+        vector<int> res = {1};
+        for (int bit = __lg(n); bit >= 0; bit--){
             res = fft::mod_multiply(res, res, mod);
 
-            if ((long long)res.size() > k){  /// reversed quotient = reversed top m coefficients * (1 / reversed charpoly)
-                long long m = res.size() - k;
-                auto quot = fft::mod_multiply(vector<long long>(res.rbegin(), res.rbegin() + m), vector<long long>(inv.begin(), inv.begin() + m), mod);
+            if ((int)res.size() > k){  /// reversed quotient = reversed top m coefficients * (1 / reversed charpoly)
+                int m = res.size() - k;
+                auto quot = fft::mod_multiply(vector<int>(res.rbegin(), res.rbegin() + m), vector<int>(inv.begin(), inv.begin() + m), mod);
                 quot.resize(m);
                 reverse(quot.begin(), quot.end());
 
-                auto sub = fft::mod_multiply(vector<long long>(charpoly.begin(), charpoly.begin() + k), quot, mod);
+                auto sub = fft::mod_multiply(vector<int>(charpoly.begin(), charpoly.begin() + k), quot, mod);
                 res.resize(k);
-                for (long long j = 0; j < k; j++) res[j] = (res[j] - sub[j] + mod) % mod;
+                for (int j = 0; j < k; j++) res[j] = (res[j] - sub[j] + mod) % mod;
             }
 
             if (n >> bit & 1){
                 res.insert(res.begin(), 0);
-                if ((long long)res.size() > k){  /// x^k reduces to x^k - charpoly
-                    __int128 top = res.back();
+                if ((int)res.size() > k){  /// x^k reduces to x^k - charpoly
+                    long long top = res.back();
                     res.pop_back();
-                    for (long long j = 0; j < k; j++) res[j] = (res[j] + (mod - charpoly[j]) * top) % mod;
+                    for (int j = 0; j < k; j++) res[j] = (res[j] + (mod - charpoly[j]) * top) % mod;
                 }
             }
         }
@@ -359,19 +359,19 @@ struct LinearRecurrence{
         return res;
     }
 
-    vector<long long> berlekamp_massey(vector<long long> sequence, __int128 mod){
-        long long n = sequence.size();
-        vector<long long> T, B(n + 1, 0), C(n + 1, 0);
+    vector<int> berlekamp_massey(vector<int> sequence, long long mod){
+        int n = sequence.size();
+        vector<int> T, B(n + 1, 0), C(n + 1, 0);
 
         reverse(sequence.begin(), sequence.end());
 
         C[0] = 1, B[0] = 1;
-        long long i, j, d, l = 0, m = 1, deg = 0;
-        unsigned __int128 x, b = 1;
+        int i, j, d, l = 0, m = 1, deg = 0;
+        unsigned long long x, b = 1;
 
         for (i = 0; i < n; i++){
             d = sequence[n - i - 1];
-            if (l > 0) d = (d + nt::convolution(&C[1], &sequence[n - i], l, mod)) % mod;
+            if (l > 0) d = (d + (long long)nt::convolution(&C[1], &sequence[n - i], l, mod)) % mod;
             if (d == 0) m++;
             else{
                 if (l * 2 <= i) T = C, T.resize(l + 1);
@@ -393,23 +393,23 @@ struct LinearRecurrence{
         return C;
     }
 
-    vector<long long> reeds_sloane(vector<long long> sequence, long long p, long long e){
-        vector<long long> T(e), U(e), R(e), TO(e, 1), TO_INV(e, 1), UO(e), POW(e + 1, 1);
-        long long c, d, i, j, k, l, m, len = sequence.size(), mod = powl(p, e) + 0.5;
+    vector<int> reeds_sloane(vector<int> sequence, int p, int e){
+        vector<int> T(e), U(e), R(e), TO(e, 1), TO_INV(e, 1), UO(e), POW(e + 1, 1);
+        int c, d, i, j, k, l, m, len = sequence.size(), mod = powl(p, e) + 0.5;
         unsigned long long inv = ~0ULL / mod;
 
-        vector<vector<long long>> A[3], B[3];
+        vector<vector<int>> A[3], B[3];
         for (i = 0; i < 3; i++){
-            A[i] = vector<vector<long long>>(e);
-            B[i] = vector<vector<long long>>(e);
+            A[i] = vector<vector<int>>(e);
+            B[i] = vector<vector<int>>(e);
         }
 
         for (i = 0; i < len; i++) sequence[i] %= mod;
-        for (i = 1; i <= e; i++) POW[i] = (__int128)POW[i - 1] * p % mod;
+        for (i = 1; i <= e; i++) POW[i] = (long long)POW[i - 1] * p % mod;
         for (i = 0; i < e; i++){
-            T[i] = (__int128)sequence[0] * POW[i] % mod;
+            T[i] = (long long)sequence[0] * POW[i] % mod;
             A[0][i] = {POW[i]}, A[1][i] = {POW[i]};
-            B[0][i] = {0}, B[1][i] = {(long long)((__int128)sequence[0] * POW[i] % mod)};
+            B[0][i] = {0}, B[1][i] = {(int)((long long)sequence[0] * POW[i] % mod)};
             for (U[i] = 0; T[i] && T[i] % p == 0; T[i] /= p, U[i]++) {}
             if (!T[i]) T[i] = 1, U[i] = e;
         }
@@ -426,8 +426,8 @@ struct LinearRecurrence{
 
             A[0] = A[1], B[0] = B[1];
             for (l = 0; l < e; l++){
-                for (d = 0, i = min(k, (long long)A[0][l].size() - 1); i >= 0; i--){
-                    d = reduce(d + (unsigned __int128)A[0][l][i] * sequence[k - i], mod, inv);
+                for (d = 0, i = min(k, (int)A[0][l].size() - 1); i >= 0; i--){
+                    d = reduce(d + (unsigned long long)A[0][l][i] * sequence[k - i], mod, inv);
                 }
 
                 if (!d) T[l] = 1, U[l] = e;
@@ -436,13 +436,13 @@ struct LinearRecurrence{
                     j = e - 1 - U[l];
 
                     if (!compare(A[0][j], B[0][j])){
-                        if ((k + 1) > (long long)B[1][l].size()) B[1][l].resize(k + 1, 0);
-                        B[1][l][k] = (B[1][l][k] + d) % mod;
+                        if ((k + 1) > (int)B[1][l].size()) B[1][l].resize(k + 1, 0);
+                        B[1][l][k] = (B[1][l][k] + (long long)d) % mod;
                     }
                     else{
                         m = k - R[j];
-                        c = (__int128)T[l] * TO_INV[j] % mod;
-                        c = (__int128)c * (__int128)POW[U[l] - UO[j]] % mod;
+                        c = (long long)T[l] * TO_INV[j] % mod;
+                        c = (long long)c * (long long)POW[U[l] - UO[j]] % mod;
                         update(A[1][l], A[2][j], m, c);
                         update(B[1][l], B[2][j], m, c);
                     }
@@ -453,32 +453,32 @@ struct LinearRecurrence{
         return A[1][0];
     }
 
-    __int128 compare(const vector<long long> &a, const vector<long long> &b){
+    long long compare(const vector<int> &a, const vector<int> &b){
         return max(find_rank(a), find_rank(b) + 1);
     }
 
-    /// Barrett reduction of x < 2^62 modulo m < 2^31 with inv = (2^64 - 1) / m, about 2x faster than % in Reeds-Sloane
+    /// Barrett reduction of x < 2^63 modulo m < 2^31 with inv = (2^64 - 1) / m, about 2x faster than % in Reeds-Sloane
     unsigned long long reduce(unsigned long long x, unsigned long long m, unsigned long long inv){
         unsigned long long r = x - (unsigned long long)((unsigned __int128)x * inv >> 64) * m;
         return r >= m ? r - m : r;
     }
 
-    void update(vector<long long>& u, vector<long long>& v, long long m, __int128 c){
-        long long i, k = v.size();
+    void update(vector<int>& u, vector<int>& v, int m, long long c){
+        int i, k = v.size();
         unsigned long long inv = ~0ULL / mod;
 
-        if (k + m > (long long)u.size()) u.resize(k + m, 0);
+        if (k + m > (int)u.size()) u.resize(k + m, 0);
 
         for (i = 0; i < k; i++){
-            u[i + m] -= (long long)reduce(c * v[i], mod, inv);
+            u[i + m] -= (int)reduce(c * v[i], mod, inv);
             if (u[i + m] < 0) u[i + m] += mod;
         }
 
         while (u.size() && !u.back()) u.pop_back();
     }
 
-    __int128 find_rank(const vector<long long> & v){
-        return (v.size() > 1 || (v.size() == 1 && v[0])) ? v.size() - 1 : (__int128)INT_MIN;
+    long long find_rank(const vector<int> & v){
+        return (v.size() > 1 || (v.size() == 1 && v[0])) ? v.size() - 1 : (long long)INT_MIN;
     }
 };
 
@@ -827,14 +827,14 @@ int main(){
     read(t);
     while (t--){
         read(k, m);
-        vector<long long> seq(2 * k);
+        vector<int> seq(2 * k);
         read(seq);
 
         LinearRecurrence lr(seq, m);
 
         long long res = 0;
         for (i = 0; i < (int)lr.recurrence.size(); i++){
-            res = (res + (__int128)lr.recurrence[i] * seq[2 * k - 1 - i]) % m;
+            res = (res + (long long)lr.recurrence[i] * seq[2 * k - 1 - i]) % m;
         }
         write(res);
     }
