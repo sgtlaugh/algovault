@@ -295,6 +295,7 @@
 - [UVa 12458 - Oh, my trees!](https://onlinejudge.org/external/124/12458.pdf) [✓](../../practice/data_structures/uva_12458.cpp "Accepted solution")
 - [UVa 12462 - Rectangle](https://onlinejudge.org/external/124/12462.pdf) [✓](../../practice/data_structures/uva_12462.cpp "Accepted solution")
 - [UVa 12481 - K-Neutral Rectangles](https://onlinejudge.org/external/124/12481.pdf) [✓](../../practice/data_structures/uva_12481.cpp "Accepted solution")
+- [UVa 12674 - Go up the ultras](https://onlinejudge.org/external/126/12674.pdf) [✓](../../practice/data_structures/uva_12674.cpp "Accepted solution")
 
 #### [Ordered Set](ordered_set.cpp)
 
