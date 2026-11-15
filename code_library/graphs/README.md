@@ -348,6 +348,7 @@
 - [CSES 2101 - New Roads Queries](https://cses.fi/problemset/task/2101) [✓](../../practice/graphs/cses_2101.cpp "Accepted solution")
 - [QOJ 436 - Swapping Cities](https://qoj.ac/problem/436) [✓](../../practice/graphs/qoj_436.cpp "Accepted solution")
 - [QOJ 2744 - Werewolf](https://qoj.ac/problem/2744) [✓](../../practice/graphs/qoj_2744.cpp "Accepted solution")
+- [UVa 1265 - Tour Belt](https://onlinejudge.org/external/12/1265.pdf) [✓](../../practice/graphs/uva_1265.cpp "Accepted solution")
 
 #### [Manhattan MST](manhattan_mst.cpp)
 
