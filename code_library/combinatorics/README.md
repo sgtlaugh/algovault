@@ -103,6 +103,7 @@
 - [UVa 11495 - Bubbles and Buckets](https://onlinejudge.org/external/114/11495.pdf) [✓](../../practice/combinatorics/uva_11495.cpp "Accepted solution")
 - [UVa 12103 - Leonardo's Notebook](https://onlinejudge.org/external/121/12103.pdf) [✓](../../practice/combinatorics/uva_12103.cpp "Accepted solution")
 - [UVa 12492 - Rubik Cycle](https://onlinejudge.org/external/124/12492.pdf) [✓](../../practice/combinatorics/uva_12492.cpp "Accepted solution")
+- [UVa 12652 - Lines of Containers](https://onlinejudge.org/external/126/12652.pdf) [✓](../../practice/combinatorics/uva_12652.cpp "Accepted solution")
 - [UVa 12755 - Easy Puzzle](https://onlinejudge.org/external/127/12755.pdf) [✓](../../practice/combinatorics/uva_12755.cpp "Accepted solution")
 
 #### [Permutation Index](permutation_index.cpp)
