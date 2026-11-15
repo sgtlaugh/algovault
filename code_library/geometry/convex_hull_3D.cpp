@@ -12,6 +12,7 @@
  *
  * Notes:
  *   - |x|, |y|, |z| <= 1e9, every orientation test is exact in __int128 (64-bit GCC or Clang)
+ *   - Real coordinates: scale by s and round into that range, then divide area() by s^2 and volume() by s^3
  *   - No input point lies strictly outside the plane of any face, and no face has zero area
  *   - Duplicate points are allowed, a vertex is any one of its copies
  *   - A flat facet comes as coplanar triangles, maybe with vertices inside it or on its edges; count facets by plane
