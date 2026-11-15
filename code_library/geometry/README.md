@@ -29,6 +29,7 @@
 - [UVa 12056 - Circle Strafing](https://onlinejudge.org/external/120/12056.pdf) [✓](../../practice/geometry/uva_12056.cpp "Accepted solution")
 - [UVa 12237 - Jiajia's Robot](https://onlinejudge.org/external/122/12237.pdf) [✓](../../practice/geometry/uva_12237.cpp "Accepted solution")
 - [UVa 12302 - Nine-Point Circle](https://onlinejudge.org/external/123/12302.pdf) [✓](../../practice/geometry/uva_12302.cpp "Accepted solution")
+- [UVa 12304 - 2D Geometry 110 in 1!](https://onlinejudge.org/external/123/12304.pdf) [✓](../../practice/geometry/uva_12304.cpp "Accepted solution")
 
 #### [Closest Pair of Points](closest_pair.cpp)
 
