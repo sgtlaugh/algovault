@@ -106,6 +106,7 @@
 - [UVa 12048 - Inhabitants](https://onlinejudge.org/external/120/12048.pdf) [✓](../../practice/geometry/uva_12048.cpp "Accepted solution")
 - [UVa 12123 - Magnetic Train Tracks](https://onlinejudge.org/external/121/12123.pdf) [✓](../../practice/geometry/uva_12123.cpp "Accepted solution")
 - [UVa 12133 - Walk](https://onlinejudge.org/external/121/12133.pdf) [✓](../../practice/geometry/uva_12133.cpp "Accepted solution")
+- [UVa 12296 - Pieces and Discs](https://onlinejudge.org/external/122/12296.pdf) [✓](../../practice/geometry/uva_12296.cpp "Accepted solution")
 - [UVa 12483 - Toboggan of Marbles](https://onlinejudge.org/external/124/12483.pdf) [✓](../../practice/geometry/uva_12483.cpp "Accepted solution")
 - [UVa 12756 - Flat Triangle](https://onlinejudge.org/external/127/12756.pdf) [✓](../../practice/geometry/uva_12756.cpp "Accepted solution")
 - [UVa 12990 - Walk Around The Campsite](https://onlinejudge.org/external/129/12990.pdf) [✓](../../practice/geometry/uva_12990.cpp "Accepted solution")
