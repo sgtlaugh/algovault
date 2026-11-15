@@ -71,6 +71,7 @@
 - [Codeforces 1310F - Bad Cryptography](https://codeforces.com/problemset/problem/1310/F) [✓](../../practice/misc/codeforces_1310f.cpp "Accepted solution")
 - [HDU 3404 - Switch lights](https://acm.hdu.edu.cn/showproblem.php?pid=3404) [✓](../../practice/misc/hdu_3404.cpp "Accepted solution")
 - [POJ 3533 - Light Switching Game](http://poj.org/problem?id=3533) [✓](../../practice/misc/poj_3533.cpp "Accepted solution")
+- [UVa 12629 - Rectangle XOR Game](https://onlinejudge.org/external/126/12629.pdf) [✓](../../practice/misc/uva_12629.cpp "Accepted solution")
 
 #### [Radix Sort](radix_sort.cpp)
 
