@@ -518,6 +518,7 @@
 - [UVa 11733 - Airports](https://onlinejudge.org/external/117/11733.pdf) [✓](../../practice/graphs/uva_11733.cpp "Accepted solution")
 - [UVa 11747 - Heavy Cycle Edges](https://onlinejudge.org/external/117/11747.pdf) [✓](../../practice/graphs/uva_11747.cpp "Accepted solution")
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf) [✓](../../practice/graphs/uva_12176.cpp "Accepted solution")
+- [UVa 12601 - Toll Management II](https://onlinejudge.org/external/126/12601.pdf) [✓](../../practice/graphs/uva_12601.cpp "Accepted solution")
 - [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf) [✓](../../practice/graphs/uva_12655.cpp "Accepted solution")
 
 #### [Network Simplex](network_simplex.cpp)
