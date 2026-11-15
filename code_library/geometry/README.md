@@ -96,6 +96,7 @@
 - [UVa 273 - Jack Straws](https://onlinejudge.org/external/2/273.pdf) [✓](../../practice/geometry/uva_273.cpp "Accepted solution")
 - [UVa 378 - Intersecting Lines](https://onlinejudge.org/external/3/378.pdf) [✓](../../practice/geometry/uva_378.cpp "Accepted solution")
 - [UVa 634 - Polygon](https://onlinejudge.org/external/6/634.pdf) [✓](../../practice/geometry/uva_634.cpp "Accepted solution")
+- [UVa 1286 - Room Service](https://onlinejudge.org/external/12/1286.pdf) [✓](../../practice/geometry/uva_1286.cpp "Accepted solution")
 - [UVa 1301 - Fishnet](https://onlinejudge.org/external/13/1301.pdf) [✓](../../practice/geometry/uva_1301.cpp "Accepted solution")
 - [UVa 10263 - Railway](https://onlinejudge.org/external/102/10263.pdf) [✓](../../practice/geometry/uva_10263.cpp "Accepted solution")
 - [UVa 10335 - Ray Inside a Polygon](https://onlinejudge.org/external/103/10335.pdf) [✓](../../practice/geometry/uva_10335.cpp "Accepted solution")
