@@ -27,6 +27,7 @@
 - [UVa 11676 - Deadly Attack](https://onlinejudge.org/external/116/11676.pdf) [✓](../../practice/geometry/uva_11676.cpp "Accepted solution")
 - [UVa 11978 - Fukushima Nuclear Blast](https://onlinejudge.org/external/119/11978.pdf) [✓](../../practice/geometry/uva_11978.cpp "Accepted solution")
 - [UVa 12056 - Circle Strafing](https://onlinejudge.org/external/120/12056.pdf) [✓](../../practice/geometry/uva_12056.cpp "Accepted solution")
+- [UVa 12237 - Jiajia's Robot](https://onlinejudge.org/external/122/12237.pdf) [✓](../../practice/geometry/uva_12237.cpp "Accepted solution")
 - [UVa 12302 - Nine-Point Circle](https://onlinejudge.org/external/123/12302.pdf) [✓](../../practice/geometry/uva_12302.cpp "Accepted solution")
 
 #### [Closest Pair of Points](closest_pair.cpp)
