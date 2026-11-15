@@ -70,6 +70,7 @@
 - [SPOJ SUBMERGE - Submerging Islands](https://www.spoj.com/problems/SUBMERGE/) [✓](../../practice/graphs/spoj_submerge.cpp "Accepted solution")
 - [USACO 769 - Push a Box](https://usaco.org/index.php?page=viewproblem2&cpid=769) [✓](../../practice/graphs/usaco_769.cpp "Accepted solution")
 - [UVa 1108 - Mining Your Own Business](https://onlinejudge.org/external/11/1108.pdf) [✓](../../practice/graphs/uva_1108.cpp "Accepted solution")
+- [UVa 1242 - Necklace](https://onlinejudge.org/external/12/1242.pdf) [✓](../../practice/graphs/uva_1242.cpp "Accepted solution")
 - [UVa 10199 - Tourist Guide](https://onlinejudge.org/external/101/10199.pdf) [✓](../../practice/graphs/uva_10199.cpp "Accepted solution")
 - [UVa 10765 - Doves and bombs](https://onlinejudge.org/external/107/10765.pdf) [✓](../../practice/graphs/uva_10765.cpp "Accepted solution")
 - [UVa 12579 - To Infinity and Beyond](https://onlinejudge.org/external/125/12579.pdf) [✓](../../practice/graphs/uva_12579.cpp "Accepted solution")
