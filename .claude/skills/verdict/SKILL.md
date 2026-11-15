@@ -56,7 +56,7 @@ Read `## Practice problems` in `CONTRIBUTING.md` and all of `STYLE.md` next to t
 | `gcd` or `lcm` not declared | `__gcd(a, b)`, `a / __gcd(a, b) * b`, with `abs` on any argument that can be negative: `__gcd(-6, 4)` is -2 where `gcd` gives 2 |
 | `is_same_v`, `void_t`, `if constexpr` | Keep only the branch the solution's types take, or `is_same<A, B>::value` |
 | `auto` in a lambda parameter or as a return type | The real type; a lambda that recursed through an `auto&& self` parameter becomes a `function<...>` calling itself by name |
-| `converting to tuple from initializer list would use explicit constructor` (GCC 5) | `make_tuple(...)` instead of `{...}` |
+| `converting to tuple from initializer list would use explicit constructor` (GCC 5) | `make_tuple(...)` instead of `{...}`, only on that error: UVa accepts `push_back({u, v, w})` |
 | `constexpr` function body not a single return, call to non-constexpr | Drop that `constexpr` unless a compile-time constant needs it |
 | `clamp` not declared | `max(lo, min(x, hi))` |
 | `could not convert {...}` for a struct with default member values | Add a constructor taking the fields |
