@@ -32,6 +32,7 @@
 - [UVa 10844 - Bloques](https://onlinejudge.org/external/108/10844.pdf) [✓](../../practice/algebra/uva_10844.cpp "Accepted solution")
 - [UVa 10862 - Connect the Cable Wires](https://onlinejudge.org/external/108/10862.pdf) [✓](../../practice/algebra/uva_10862.cpp "Accepted solution")
 - [UVa 12066 - The Fairy Tale of ICPC](https://onlinejudge.org/external/120/12066.pdf) [✓](../../practice/algebra/uva_12066.cpp "Accepted solution")
+- [UVa 12413 - Big Decimal Calculator](https://onlinejudge.org/external/124/12413.pdf) [✓](../../practice/algebra/uva_12413.cpp "Accepted solution")
 - [UVa 12924 - Immortal Rabbits](https://onlinejudge.org/external/129/12924.pdf) [✓](../../practice/algebra/uva_12924.cpp "Accepted solution")
 
 #### [FFT](fft.cpp)
