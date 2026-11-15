@@ -68,6 +68,7 @@
 - [Kattis starsinacan - Stars in a Can](https://open.kattis.com/problems/starsinacan) [✓](../../practice/geometry/kattis_starsinacan.cpp "Accepted solution")
 - [UVa 1438 - Asteroids](https://onlinejudge.org/external/14/1438.pdf) [✓](../../practice/geometry/uva_1438.cpp "Accepted solution")
 - [UVa 11769 - All Souls Night](https://onlinejudge.org/external/117/11769.pdf) [✓](../../practice/geometry/uva_11769.cpp "Accepted solution")
+- [UVa 12513 - Safe Places](https://onlinejudge.org/external/125/12513.pdf) [✓](../../practice/geometry/uva_12513.cpp "Accepted solution")
 
 #### [Delaunay Triangulation](delaunay.cpp)
 
