@@ -203,6 +203,7 @@
 - [CSES 1703 - Critical Cities](https://cses.fi/problemset/task/1703) [✓](../../practice/graphs/cses_1703.cpp "Accepted solution")
 - [Kattis skiresort - Ski Resort](https://open.kattis.com/problems/skiresort) [✓](../../practice/graphs/kattis_skiresort.cpp "Accepted solution")
 - [UVa 11902 - Dominator](https://onlinejudge.org/external/119/11902.pdf) [✓](../../practice/graphs/uva_11902.cpp "Accepted solution")
+- [UVa 12671 - Disjoint water supply](https://onlinejudge.org/external/126/12671.pdf) [✓](../../practice/graphs/uva_12671.cpp "Accepted solution")
 - [UVa 13003 - Toll Management (III)](https://onlinejudge.org/external/130/13003.pdf) [✓](../../practice/graphs/uva_13003.cpp "Accepted solution")
 
 #### [Edge Coloring](edge_coloring.cpp)
