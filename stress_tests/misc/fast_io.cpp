@@ -30,8 +30,15 @@ string int128_to_string(__int128 v){
 }
 
 string separator(){
-    const string seps[] = {" ", "\t", "\n", "\r\n", "  \n ", "\n\n"};
-    return seps[stress::rand_int(0, 5)];
+    const string seps[] = {" ", "\t", "\n", "\r\n", "  \n ", "\n\n", "\v", "\f", "\r", " \t\v\f\r\n"};
+    return seps[stress::rand_int(0, 9)];
+}
+
+/// Mostly printable ASCII and bytes 0x80 - 0xFF, sometimes a non-whitespace control byte, never 0 that ends a char *
+char token_byte(){
+    if (stress::rand_int(0, 7)) return (char)stress::rand_int(33, 255);
+    int c = stress::rand_int(1, 26);
+    return (char)(c < 9 ? c : c + 5);
 }
 
 template <typename T>
@@ -80,7 +87,7 @@ int main(){
         for (int i = 0; i < count; i++){
             ints[i] = random_value<int>(), lls[i] = random_value<long long>(), ulls[i] = random_value<unsigned long long>();
             strs[i] = string(stress::rand_int(1, 12), 'a');
-            for (auto& ch : strs[i]) ch = (char)stress::rand_int(33, 255);  /// printable ASCII and bytes 0x80 - 0xFF
+            for (auto& ch : strs[i]) ch = token_byte();
             input += to_string(ints[i]) + separator() + to_string(lls[i]) + separator() + to_string(ulls[i]) + separator() + strs[i];
             /// Often no whitespace after the last token
             if (i + 1 < count || stress::rand_int(0, 1)) input += separator();
@@ -133,7 +140,7 @@ int main(){
         for (auto& row : grid){
             for (auto& x : row) x = random_value<long long>(), vec_input += separator() + to_string(x);
         }
-        for (auto& ch : chars) ch = (char)stress::rand_int(33, 126);
+        for (auto& ch : chars) ch = token_byte();
         vec_input += separator() + chars + separator();
 
         set_input(vec_input);
@@ -149,6 +156,13 @@ int main(){
         }
         char past_end;
         assert(read(past_end) == 0);
+
+        /// Only whitespace left: every token read stops at the end of input instead of looping on EOF
+        string tail = separator() + separator();
+        set_input(tail);
+        assert(read(past_end) == 0 && read_char() == EOF);
+        set_input(tail);
+        assert(read(token) == 0);
 
         /// Output against to_string, including the minimum values
         assert(freopen(OUT.c_str(), "wb", stdout));
