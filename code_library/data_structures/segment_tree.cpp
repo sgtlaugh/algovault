@@ -57,22 +57,14 @@ struct SegmentTree : Ops{
 
     void update(int idx, int a, int b, int l, int r, const L& val){
         if (a == l && b == r){
-            push_lazy(idx, val);
-            propagate(idx, a, b);
+            push_lazy(idx, a, b, val);
             return;
         }
         propagate(idx, a, b);
 
-        /// the untouched child gets propagated too, so the combine below reads its true value
         int p = idx << 1, q = p | 1, c = (a + b) >> 1;
-        if (r <= c){
-            propagate(q, c + 1, b);
-            update(p, a, c, l, r, val);
-        }
-        else if (l > c){
-            propagate(p, a, c);
-            update(q, c + 1, b, l, r, val);
-        }
+        if (r <= c) update(p, a, c, l, r, val);
+        else if (l > c) update(q, c + 1, b, l, r, val);
         else{
             update(p, a, c, l, c, val);
             update(q, c + 1, b, c + 1, r, val);
@@ -104,8 +96,8 @@ struct SegmentTree : Ops{
     }
 
     T query(int idx, int a, int b, int l, int r){
-        propagate(idx, a, b);
         if (a == l && b == r) return tree[idx];
+        propagate(idx, a, b);
 
         int p = idx << 1, q = p | 1, c = (a + b) >> 1;
         if (r <= c) return query(p, a, c, l, r);
@@ -125,18 +117,19 @@ struct SegmentTree : Ops{
         tree[idx] = Ops::combine(tree[p], tree[q]);
     }
 
-    void push_lazy(int idx, const L& val){
+    /// tree[idx] already includes lazy[idx], which is still owed to the children
+    void push_lazy(int idx, int a, int b, const L& val){
+        tree[idx] = Ops::apply(tree[idx], val, b - a + 1);
+        if (a == b) return;
         lazy[idx] = has_lazy[idx] ? Ops::compose(lazy[idx], val) : val;
         has_lazy[idx] = 1;
     }
 
     void propagate(int idx, int a, int b){
         if (!has_lazy[idx]) return;
-        tree[idx] = Ops::apply(tree[idx], lazy[idx], b - a + 1);
-        if (a != b){
-            push_lazy(idx << 1, lazy[idx]);
-            push_lazy(idx << 1 | 1, lazy[idx]);
-        }
+        int c = (a + b) >> 1;
+        push_lazy(idx << 1, a, c, lazy[idx]);
+        push_lazy(idx << 1 | 1, c + 1, b, lazy[idx]);
         has_lazy[idx] = 0;
     }
 
@@ -144,7 +137,6 @@ struct SegmentTree : Ops{
     template<typename Pred>
     int first_fail(int idx, int a, int b, int l, Pred& pred, T& acc, bool& empty){
         if (b < l) return -1;
-        propagate(idx, a, b);
         if (l <= a){
             T nxt = empty ? tree[idx] : Ops::combine(acc, tree[idx]);
             if (pred(nxt)){
@@ -154,6 +146,7 @@ struct SegmentTree : Ops{
             if (a == b) return a;
         }
 
+        propagate(idx, a, b);
         int c = (a + b) >> 1;
         int res = first_fail(idx << 1, a, c, l, pred, acc, empty);
         return res != -1 ? res : first_fail(idx << 1 | 1, c + 1, b, l, pred, acc, empty);
@@ -163,7 +156,6 @@ struct SegmentTree : Ops{
     template<typename Pred>
     int last_fail(int idx, int a, int b, int r, Pred& pred, T& acc, bool& empty){
         if (a > r) return -1;
-        propagate(idx, a, b);
         if (b <= r){
             T nxt = empty ? tree[idx] : Ops::combine(tree[idx], acc);
             if (pred(nxt)){
@@ -173,6 +165,7 @@ struct SegmentTree : Ops{
             if (a == b) return a;
         }
 
+        propagate(idx, a, b);
         int c = (a + b) >> 1;
         int res = last_fail(idx << 1 | 1, c + 1, b, r, pred, acc, empty);
         return res != -1 ? res : last_fail(idx << 1, a, c, r, pred, acc, empty);

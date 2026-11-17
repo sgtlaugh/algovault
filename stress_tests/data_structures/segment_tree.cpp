@@ -135,12 +135,20 @@ void stress_prefix_descent(){
         SegmentTree<PrefixSums, PrefixAssign, long long> st(init);
 
         for (int op = 0; op < 60; op++){
-            int kind = stress::rand_int(0, 2);
+            int kind = stress::rand_int(0, 3);
             if (kind == 0){
                 int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
                 long long x = stress::rand_int(-20, 20);
                 st.update(l, r, x);
                 for (int i = l; i <= r; i++) a[i] = x;
+                continue;
+            }
+            if (kind == 3){
+                int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
+                long long s = 0, pre = 0;
+                for (int i = l; i <= r; i++) s += a[i], pre = max(pre, s);
+                PrefixSums v = st.query(l, r);
+                assert(v.sum == s && v.pre == pre);
                 continue;
             }
 
