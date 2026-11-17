@@ -47,12 +47,12 @@ vector<vector<long long>> widen(const vector<vector<int>>& a){
     return res;
 }
 
-bool is_identity_product(const vector<vector<int>>& x, const vector<vector<int>>& y, int mod){
+bool is_identity_product(const vector<vector<int>>& x, const vector<vector<int>>& y, long long mod){
     int n = x.size();
     for (int i = 0; i < n; i++){
         for (int j = 0; j < n; j++){
             long long v = 0;
-            for (int k = 0; k < n; k++) v = (v + (long long)((x[i][k] % mod + mod) % mod) * ((y[k][j] % mod + mod) % mod)) % mod;
+            for (int k = 0; k < n; k++) v = (v + (x[i][k] % mod + mod) % mod * ((y[k][j] % mod + mod) % mod)) % mod;
             if (v != (i == j)) return false;
         }
     }
@@ -179,10 +179,10 @@ int main(){
         }
     }
 
-    /// A large prime: rank r systems built as products of n x r and r x m random factors, full rank r almost surely
-    const int mod = 1000000007;
-    for (long long it = 0; it < stress::scaled(150); it++){
-        int n = stress::rand_int(1, it % 10 ? 10 : 60), m = stress::rand_int(1, it % 10 ? 10 : 60), r = stress::rand_int(0, min(n, m));
+    /// Primes 10^9 + 7 and 2^31 - 1: rank r systems as products of n x r and r x m random factors, rank r almost surely
+    for (long long it = 0; it < stress::scaled(300); it++){
+        const int mod = it % 2 ? 2147483647 : 1000000007;
+        int n = stress::rand_int(1, it % 20 > 1 ? 10 : 60), m = stress::rand_int(1, it % 20 > 1 ? 10 : 60), r = stress::rand_int(0, min(n, m));
         vector<vector<long long>> left(n, vector<long long>(r)), right(r, vector<long long>(m));
         for (auto& row : left) for (auto& v : row) v = stress::rand_int(0, mod - 1);
         for (auto& row : right) for (auto& v : row) v = stress::rand_int(0, mod - 1);
