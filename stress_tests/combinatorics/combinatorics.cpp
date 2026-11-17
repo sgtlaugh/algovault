@@ -56,5 +56,16 @@ int main(){
         check_tables(stress::rand_int(50, 400), random_prime(401, INT31));
     }
 
+    int big = stress::scaled(300000);
+    long long above = big + 1;
+    while (!is_prime(above)) above++;
+    for (long long mod : {above, INT31}){
+        Combinatorics comb(big, mod);
+        for (int i = 1; i <= big; i++){
+            assert((long long)comb.inverse(i) * i % mod == 1);
+            assert((__int128)comb.factorial(i) * comb.inv_factorial(i) % mod == 1);
+        }
+    }
+
     return 0;
 }
