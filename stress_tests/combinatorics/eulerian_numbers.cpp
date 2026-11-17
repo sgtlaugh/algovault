@@ -46,6 +46,20 @@ int main(){
         assert(eul.get(0, 0) == 1 % m);
     }
 
+    /// Every modulus, composite and 1 included, against the recurrence reduced by %
+    for (int m : moduli){
+        const int n = 1500;
+        EulerianNumbers eul(n, m);
+        vector<long long> row = {1 % m};
+        for (int i = 1; i <= n; i++){
+            vector<long long> next(i + 1, 0);
+            next[0] = 1 % m;
+            for (int k = 1; k < i; k++) next[k] = (row[k] * (k + 1) + row[k - 1] * (i - k)) % m;
+            row = next;
+            for (int k = 0; k <= i; k++) assert(eul.get(i, k) == row[k]);
+        }
+    }
+
     for (long long p : {1000000007LL, 2147483647LL}){
         EulerianNumbers eul(MAXN, p);
         for (int n = 0; n <= 60; n++) check_row(eul, n, p);
