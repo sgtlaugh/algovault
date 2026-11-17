@@ -5,7 +5,32 @@
 #undef main
 
 /// Hash equality against segment equality, collisions have probability ~n^2 / 2^61 per array and should never appear
+template <typename T>
+void check_value_of(T x){
+    __int128 r = (__int128)x % (__int128)PolyHash::mod;
+    if (r < 0) r += PolyHash::mod;
+    assert(PolyHash::value_of(x) == (uint64_t)((r + 997) % PolyHash::mod));
+}
+
 int main(){
+    stress::expect_assert("strings/hashing.cpp", []{ PolyHash("level", PolyHash::FORWARD).rev_hash(0, 4); });
+
+    /// value_of's fast path ends at mod - 997, where the offset would wrap
+    const long long mod = PolyHash::mod;
+    for (long long d = -3; d <= 3; d++){
+        for (long long x : {mod - 997 + d, mod + d, 2 * mod - 997 + d, -997 + d, d}){
+            check_value_of(x);
+            check_value_of((unsigned long long)x);
+        }
+    }
+    for (long long x : {LLONG_MIN, LLONG_MAX}) check_value_of(x);
+    check_value_of(ULLONG_MAX);
+    for (int c = -128; c < 128; c++) check_value_of((char)c), check_value_of((signed char)c);
+    for (long long it = 0; it < stress::scaled(100000); it++){
+        check_value_of((long long)stress::rng()()), check_value_of((unsigned long long)stress::rng()());
+        check_value_of((int)stress::rng()());
+    }
+
     /// modmul must return the canonical residue, a value in [mod, 2 mod) would hash equal segments differently
     for (long long it = 0; it < stress::scaled(1000000); it++){
         const uint64_t mod = PolyHash::mod;
@@ -26,7 +51,7 @@ int main(){
             else if (mode == 2) x = v ? (v == 1 ? LLONG_MIN : LLONG_MAX) : 0;  /// limits of the element type
             else x = v;
         }
-        PolyHash h(a), hr(vector<long long>(a.rbegin(), a.rend()));
+        PolyHash h(a), hr(vector<long long>(a.rbegin(), a.rend())), hf(a, PolyHash::FORWARD);
         if (mode == 0){
             string s(a.begin(), a.end());
             PolyHash hs(s);
@@ -38,6 +63,7 @@ int main(){
             int len = stress::rand_int(1, n), l1 = stress::rand_int(0, n - len), l2 = stress::rand_int(0, n - len);
             bool equal = std::equal(a.begin() + l1, a.begin() + l1 + len, a.begin() + l2);
             assert((h.get_hash(l1, l1 + len - 1) == h.get_hash(l2, l2 + len - 1)) == equal);
+            assert(hf.get_hash(l1, l1 + len - 1) == h.get_hash(l1, l1 + len - 1));
             /// the reversed segment in the reversed array
             assert(h.rev_hash(l1, l1 + len - 1) == hr.get_hash(n - l1 - len, n - l1 - 1));
 
@@ -46,6 +72,13 @@ int main(){
             if (len2 != len) assert(h.get_hash(l1, l1 + len - 1) != h.get_hash(0, len2 - 1));
         }
     }
+
+    /// The shared power table grows under instances built earlier, their hashes must not change
+    vector<int> first(5, 7);
+    PolyHash early(first);
+    uint64_t before = early.get_hash(0, 4);
+    PolyHash later(vector<int>(stress::scaled(200000), 7));
+    assert(early.get_hash(0, 4) == before && later.get_hash(1000, 1004) == before);
 
     return 0;
 }
