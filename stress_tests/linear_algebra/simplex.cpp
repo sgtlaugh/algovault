@@ -362,6 +362,60 @@ void solve_twice_aborts(){
     });
 }
 
+/// After INFEASIBLE there is no feasible corner to start from, so resolve must abort, as must resolve before solve
+void resolve_without_basis_aborts(){
+    stress::expect_assert("linear_algebra/simplex.cpp", []{
+        Simplex lp({1, 1}, Simplex::MAXIMIZE);
+        lp.add_constraint({1, 1}, 1, Simplex::LESSEQ);
+        lp.add_constraint({1, 1}, 2, Simplex::GREATEQ);
+        lp.solve();
+        lp.resolve({1, 0});
+    });
+    stress::expect_assert("linear_algebra/simplex.cpp", []{
+        Simplex lp({1, 1}, Simplex::MAXIMIZE);
+        lp.add_constraint({1, 1}, 1, Simplex::LESSEQ);
+        lp.resolve({1, 0});
+    });
+}
+
+/// Larger LPs: resolve over one tableau must match a fresh solve of the same constraints with each new objective
+template <typename Float>
+void resolve_matches_fresh(long long iterations){
+    for (long long it = 0; it < iterations; it++){
+        int n = stress::rand_int(5, 40), m = stress::rand_int(1, 40);
+        auto sense = stress::rand_int(0, 1) ? Simplex::MAXIMIZE : Simplex::MINIMIZE;
+        vector<vector<Float>> rows(m, vector<Float>(n));
+        vector<Float> lims(m);
+        vector<Simplex::Cmp> cmps(m);
+        for (int i = 0; i < m; i++){
+            for (auto& x : rows[i]) x = stress::rand_int(0, 3) ? stress::rand_int(-9, 9) : 0;
+            lims[i] = stress::rand_int(-30, 100);
+            int t = stress::rand_int(0, 7);
+            cmps[i] = t < 5 ? Simplex::LESSEQ : t < 7 ? Simplex::GREATEQ : Simplex::EQUAL;
+        }
+        auto build = [&](const vector<Float>& c){
+            BasicSimplex<Float> lp(c, sense);
+            for (int i = 0; i < m; i++) lp.add_constraint(rows[i], lims[i], cmps[i]);
+            return lp;
+        };
+        auto objective = [&](){
+            vector<Float> c(n);
+            for (auto& x : c) x = stress::rand_int(-9, 9);
+            return c;
+        };
+
+        BasicSimplex<Float> lp = build(objective());
+        if (lp.solve() == Simplex::INFEASIBLE) continue;
+        for (int q = 0; q < 5; q++){
+            vector<Float> c = objective();
+            BasicSimplex<Float> fresh = build(c);
+            int want = fresh.solve();
+            assert(lp.resolve(c) == want);
+            if (want == Simplex::FEASIBLE) assert(fabsl(lp.value - fresh.value) <= 1e-6L * max((long double)1, fabsl(fresh.value)));
+        }
+    }
+}
+
 /// Row scales 2^-13..2^13 and column scales 2^-10..2^10 give variables of 1e5: pruning at EPS broke double past n = 100
 template <typename Float>
 void scaled_rows_and_columns(long long iterations, int lo, int hi){
@@ -408,6 +462,9 @@ void scaled_rows_and_columns(long long iterations, int lo, int hi){
 
 int main(){
     solve_twice_aborts();
+    resolve_without_basis_aborts();
+    resolve_matches_fresh<double>(stress::scaled(300));
+    resolve_matches_fresh<long double>(stress::scaled(100));
     artificial_left_basic();
     uva_1298_rows();
     mixed_magnitude_rows();
@@ -454,9 +511,34 @@ int main(){
             lp.add_constraint(row, (Float)k.b * mult, k.cmp);
         }
 
+        /// resolve with fresh objectives must agree with the brute force, from the corner the last call left
+        auto check_resolves = [&](){
+            for (int q = 0; q < 3; q++){
+                vector<long long> d(n);
+                for (auto& x : d) x = stress::rand_int(-5, 5);
+                Fraction lo, hi;
+                assert(brute(n, d, cons, sense, 1000000, lo));
+                brute(n, d, cons, sense, 10000000, hi);
+                int want = lo.num * hi.den != hi.num * lo.den ? Simplex::UNBOUNDED : Simplex::FEASIBLE;
+                assert(lp.resolve(vector<Float>(d.begin(), d.end())) == want);
+                if (want == Simplex::UNBOUNDED) continue;
+
+                long double got = 0, tol = 1e-6L * max(1.0L, fabsl(lo.value()));
+                for (int j = 0; j < n; j++) assert(lp.val[j] >= -1e-7), got += d[j] * lp.val[j];
+                assert(fabsl(lp.value - lo.value()) <= tol && fabsl(got - lo.value()) <= tol);
+                for (auto& k : cons){
+                    long double s = 0;
+                    for (int j = 0; j < n; j++) s += k.a[j] * lp.val[j];
+                    if (k.cmp != Simplex::GREATEQ) assert(s <= k.b + 1e-6);
+                    if (k.cmp != Simplex::LESSEQ) assert(s >= k.b - 1e-6);
+                }
+            }
+        };
+
         int status = lp.solve();
         Float result = lp.value;
         assert(status == expected);
+        if (status == Simplex::UNBOUNDED) check_resolves();
         if (status != Simplex::FEASIBLE) continue;
 
         long double opt = small.value(), tol = 1e-6L * max(1.0L, fabsl(opt));
@@ -475,6 +557,7 @@ int main(){
             if (k.cmp != Simplex::GREATEQ) assert(s <= k.b + 1e-6);
             if (k.cmp != Simplex::LESSEQ) assert(s >= k.b - 1e-6);
         }
+        check_resolves();
     }
 
     return 0;

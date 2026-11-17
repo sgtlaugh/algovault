@@ -8,11 +8,14 @@
  * Simplex lp(objective, sense): an LP in n = objective.size() variables, sense Simplex::MAXIMIZE or Simplex::MINIMIZE
  * BasicSimplex<long double> lp(objective, sense): the same in long double, 2-3x slower, resolving 1e-13 instead of 1e-9
  * lp.add_constraint(coef, lim, cmp): adds coef . x <= lim, >= lim or == lim for cmp Simplex::LESSEQ, GREATEQ or EQUAL
+ * lp.resolve(objective): solve() for a new objective of the same sense, after solve() returned FEASIBLE or UNBOUNDED
  * lp.solve(): Simplex::FEASIBLE, INFEASIBLE or UNBOUNDED, once per instance
  * lp.value: the optimum after FEASIBLE
  * lp.val[j]: the value of x_j at the optimum
  *
  * Notes:
+ *   - resolve starts from the feasible corner the last solve left, so many objectives over one LP skip phase 1
+ *   - An LP over difference constraints x_v - x_u <= c is the dual of a min cost flow, which is exact and faster
  *   - A free variable x becomes x1 - x2 with x1, x2 >= 0
  *   - |x| <= M becomes the two rows x <= M and -x <= M
  *   - A ratio objective with a denominator positive on every feasible x is linear in t = 1 / denominator and y = t x:
@@ -55,6 +58,7 @@ struct BasicSimplex : SimplexOptions{
     vector<vector<Float>> ar;
     vector<Float> rhs;
     vector<int> nonzero, nonbasic, basic;
+    bool feasible = false;
 
     BasicSimplex(const vector<Float>& objective, Sense sense)
         : val(objective.size(), 0), n(objective.size()), m(0), pivot_width(n + 1), sense(sense), ar(1, vector<Float>(n + 1, 0)), rhs(1, 0), nonzero(n + 1), nonbasic(n + 1){
@@ -65,6 +69,23 @@ struct BasicSimplex : SimplexOptions{
         assert((int)coef.size() == n);
         if (cmp != GREATEQ) add_row(coef, lim, 1);
         if (cmp != LESSEQ) add_row(coef, lim, -1);
+    }
+
+    Status resolve(const vector<Float>& objective){
+        assert(feasible && (int)objective.size() == n);
+
+        /// Row 0 is objective . x rewritten over the nonbasic columns, basic variables substituted from their rows
+        auto cost = [&](int id){ return 1 <= id && id <= n ? objective[id - 1] * sense : Float(0); };
+        rhs[0] = 0;
+        for (int j = 0; j <= n; j++) ar[0][j] = cost(nonbasic[j]);
+        for (int i = 1; i <= m; i++){
+            Float c = cost(basic[i]);
+            if (c == 0) continue;
+            rhs[0] -= c * rhs[i];
+            for (int j = 0; j <= n; j++) ar[0][j] -= c * ar[i][j];
+        }
+
+        return finish();
     }
 
     Status solve(){
@@ -103,15 +124,8 @@ struct BasicSimplex : SimplexOptions{
             ar.pop_back(), rhs.pop_back();
         }
 
-        if (!optimize(0)) return UNBOUNDED;
-
-        value = -rhs[0] * sense;
-        vector<int> row_of(n + 1, 0);
-        for (int i = 1; i <= m; i++){
-            if (basic[i] <= n) row_of[basic[i]] = i;
-        }
-        for (int j = 1; j <= n; j++) val[j - 1] = row_of[j] ? rhs[row_of[j]] : 0;
-        return FEASIBLE;
+        feasible = true;
+        return finish();
     }
 
     void add_row(const vector<Float>& coef, Float lim, int sign){
@@ -122,6 +136,18 @@ struct BasicSimplex : SimplexOptions{
         rhs.push_back(lim * sign / scale);
         ar.emplace_back(n + 1, 0);
         for (int j = 0; j < n; j++) ar[m][j + 1] = coef[j] * sign / scale;
+    }
+
+    Status finish(){
+        if (!optimize(0)) return UNBOUNDED;
+
+        value = -rhs[0] * sense;
+        vector<int> row_of(n + 1, 0);
+        for (int i = 1; i <= m; i++){
+            if (basic[i] <= n) row_of[basic[i]] = i;
+        }
+        for (int j = 1; j <= n; j++) val[j - 1] = row_of[j] ? rhs[row_of[j]] : 0;
+        return FEASIBLE;
     }
 
     void pivot(int x, int y){
@@ -197,6 +223,12 @@ int main(){
     assert(abs(lp.value - 9) < 1e-9);
     assert(abs(lp.val[0] - 1) < 1e-9);
     assert(abs(lp.val[1] - 3) < 1e-9);
+
+    /// Same constraints, objective x0 + 3x1: of the corners (0, 4), (1, 3) and (2.5, 0) the best is (0, 4) with 12
+    assert(lp.resolve({1, 3}) == Simplex::FEASIBLE);
+    assert(abs(lp.value - 12) < 1e-9);
+    assert(abs(lp.val[0] - 0) < 1e-9);
+    assert(abs(lp.val[1] - 4) < 1e-9);
 
     /// Minimize x0 + 2x1 with x0 + x1 >= 3 and x0 - x1 == 1: x0 = x1 + 1, so the cost 3x1 + 1 is least at x1 = 1
     Simplex diet({1, 2}, Simplex::MINIMIZE);
