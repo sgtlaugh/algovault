@@ -36,6 +36,9 @@ struct SuffixAutomaton{
     }
 
     explicit SuffixAutomaton(const string& s) : SuffixAutomaton(){
+        size_t states = 2 * s.size() + 1;
+        next.reserve(states), len.reserve(states), link.reserve(states), is_prefix.reserve(states);
+
         for (char c : s) add(c);
     }
 
