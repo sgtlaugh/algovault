@@ -378,7 +378,23 @@ int main(){
         assert(read(a, b) == 2);
         assert(a == small && b == big);
         assert(read(a) == 0);
+
+        /// The newline ending a number is eaten wherever the refill falls, so read_line gets the next line
+        set_input(string(pad, ' ') + to_string(small) + "\nnext\n" + to_string(big));
+        string line;
+        assert(read(a) == 1 && a == small);
+        assert(read_line(line) && line == "next");
+        assert(read(b) == 1 && b == big);
+        assert(read(a) == 0);
     }
+
+    /// A minus sign without digits reads as 0 and eats the byte after it, and at the end of input reads nothing
+    set_input("- 7 -x8 -");
+    int signs[3] = {1, 1, 1};
+    assert(read(signs[0], signs[1]) == 2 && signs[0] == 0 && signs[1] == 7);
+    assert(read(signs[2]) == 1 && signs[2] == 0);
+    assert(read(signs[0]) == 1 && signs[0] == 8);
+    assert(read(signs[0]) == 0);
 
     /// Interactive, no flush() calls: a refill by fread or before our query leaves deadlocks, and the alarm fails it
     int to_judge[2], to_us[2];
