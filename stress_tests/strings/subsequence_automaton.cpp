@@ -165,6 +165,29 @@ int main(){
         check_mods(s);
     }
 
+    /// Bytes take the 256-entry table, where 0x80..0xFF and 0 are symbols too; INT_MIN and INT_MAX take the pair sort
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(0, 100), sigma = stress::rand_int(1, 6);
+        vector<int> pool(sigma), wide_pool(sigma);
+        for (int c = 0; c < sigma; c++) pool[c] = stress::rand_int(-128, 127), wide_pool[c] = stress::rand_int(INT_MIN, INT_MAX);
+        pool[0] = stress::rand_int(0, 1) ? -128 : 0;
+        wide_pool[0] = INT_MIN, wide_pool[sigma - 1] = INT_MAX;
+
+        vector<int> pick(n);
+        for (int& k : pick) k = stress::rand_int(0, sigma - 1);
+        string s;
+        vector<int> v, wide;
+        for (int k : pick) s += (char)pool[k], v.push_back((signed char)pool[k]), wide.push_back(wide_pool[k]);
+        vector<unsigned char> bytes(s.begin(), s.end());
+
+        __int128 exact = brute_distinct(v), exact_wide = brute_distinct(wide);
+        for (long long mod : MODS){
+            assert(distinct_subsequences(s, mod) == (long long)(exact % mod));
+            assert(distinct_subsequences(bytes, mod) == (long long)(exact % mod));
+            assert(distinct_subsequences(wide, mod) == (long long)(exact_wide % mod));
+        }
+    }
+
     /// 100 distinct symbols give 2^100 - 1, so 1 << 62 catches an overflowing 2 * count
     vector<long long> distinct(100);
     iota(distinct.begin(), distinct.end(), 0);

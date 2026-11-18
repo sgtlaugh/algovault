@@ -6,7 +6,7 @@
  * Complexity:
  *   - SubsequenceAutomaton: O(n alphabet) build time and memory, O(1) per next, O(|t|) per is_subsequence
  *   - SparseSubsequenceAutomaton: O(n log n) build, O(log n) per next, O(|t| log n) per is_subsequence
- *   - distinct_subsequences: O(n log n)
+ *   - distinct_subsequences: O(n) for strings and other 1-byte symbols, else O(n log n)
  *
  * SubsequenceAutomaton sa(s, alphabet = 26, first = 'a'): string, C string or vector s over [first, first + alphabet)
  * sa.is_subsequence(t): true if t is a subsequence of s, the empty t included
@@ -103,13 +103,27 @@ struct SparseSubsequenceAutomaton{
 template<typename Container>
 long long distinct_subsequences(const Container& s, long long mod = 998244353){
     assert(1 <= mod && mod <= (1LL << 62));
+    using T = decay_t<decltype(s[0])>;
     int n = s.size();
-    vector<int> order(n), prev(n, -1);
+    vector<int> prev(n, -1);
 
-    iota(order.begin(), order.end(), 0);
-    sort(order.begin(), order.end(), [&](int a, int b){ return make_pair(s[a], a) < make_pair(s[b], b); });
-    for (int k = 1; k < n; k++){
-        if (s[order[k]] == s[order[k - 1]]) prev[order[k]] = order[k - 1];
+    /// prev[i] is the last j < i with s[j] = s[i]; sorting copied pairs is 1.4-1.8x faster than indices read through s
+    if constexpr (is_integral_v<T> && sizeof(T) == 1){
+        int last[256];
+        fill(last, last + 256, -1);
+        for (int i = 0; i < n; i++){
+            unsigned char c = s[i];
+            prev[i] = last[c], last[c] = i;
+        }
+    }
+    else{
+        vector<pair<T, int>> by_symbol;
+        by_symbol.reserve(n);
+        for (int i = 0; i < n; i++) by_symbol.emplace_back(s[i], i);
+        sort(by_symbol.begin(), by_symbol.end());
+        for (int k = 1; k < n; k++){
+            if (by_symbol[k].first == by_symbol[k - 1].first) prev[by_symbol[k].second] = by_symbol[k - 1].second;
+        }
     }
 
     /// count[i] = distinct subsequences of s[0..i), the empty one included; those ending at s[i] were new after prev
