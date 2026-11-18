@@ -232,6 +232,35 @@ void medium_certified(){
     }
 }
 
+/// Blossoms from one call must not leak into the next: two edge batches, then a repeat of the same graph
+void repeated_calls(){
+    for (long long it = 0; it < stress::scaled(100); it++){
+        int n = stress::rand_int(20, 45);
+        Matrix w = random_graph(n, stress::rand_int(20, 70), it % 2 ? 5 : 20, false), half = w;
+        WeightedBlossom wb(n);
+        for (int u = 0; u < n; u++){
+            for (int v = u + 1; v < n; v++){
+                if (w[u][v] > 0 && stress::rand_int(0, 1)) wb.add_edge(u, v, w[u][v]);
+                else half[u][v] = half[v][u] = 0;
+            }
+        }
+        long long first = wb.maximum_matching();
+        check_mates(wb, half, first);
+        check_duals(wb, half);
+
+        for (int u = 0; u < n; u++){
+            for (int v = u + 1; v < n; v++) if (w[u][v] > 0 && half[u][v] == 0) wb.add_edge(u, v, w[u][v]);
+        }
+        long long second = wb.maximum_matching();
+        check_mates(wb, w, second);
+        check_duals(wb, w);
+        assert(wb.maximum_matching() == second);
+        check_duals(wb, w);
+        /// find_base's reused buffer must be cleared per call, or it grows without bound
+        assert(wb.path.size() <= (size_t)2 * n);
+    }
+}
+
 int main(){
     exhaustive_small();
     random_small();
@@ -239,6 +268,7 @@ int main(){
     bipartite_against_hungarian();
     medium_certified();
     large_certified();
+    repeated_calls();
 
     /// Edges arrive in two batches, the second call must rebuild from scratch and see the new edges
     for (long long it = 0; it < stress::scaled(200); it++){

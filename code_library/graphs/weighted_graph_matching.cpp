@@ -38,6 +38,9 @@ struct WeightedBlossom{
     vector<vector<int>> children;
     vector<vector<pair<int, int>>> child_edges, best_edges_to;
     vector<char> built_this_stage, on_path;
+    /// Reused scratch: find_base's walked blossoms, and add_blossom's best edge per blossom, all NONE between calls
+    vector<int> path;
+    vector<pair<int, int>> best_to;
 
     WeightedBlossom(int n): n(n), weight(n, vector<long long>(n, 0)), mate(n, -1) {}
 
@@ -61,9 +64,11 @@ struct WeightedBlossom{
         label.assign(2 * n, UNLABELED);
         label_edge.assign(2 * n, NONE);
         best_edge.assign(2 * n, NONE);
-        children.assign(2 * n, {});
-        child_edges.assign(2 * n, {});
-        best_edges_to.assign(2 * n, {});
+        /// add_blossom rebuilds a blossom id's lists before any read, so lists left by a past call need no clearing
+        children.resize(2 * n);
+        child_edges.resize(2 * n);
+        best_edges_to.resize(2 * n);
+        best_to.assign(2 * n, NONE);
         built_this_stage.assign(2 * n, 0);
         on_path.assign(2 * n, 0);
         unused_ids.clear();
@@ -92,8 +97,9 @@ struct WeightedBlossom{
         while (true){
             for (size_t i = 0; i < queue.size(); i++){
                 int v = queue[i];
+                const long long* row = weight[v].data();
                 for (int u = 0; u < n; u++){
-                    if (weight[v][u] <= 0 || top[u] == top[v]) continue;
+                    if (row[u] <= 0 || top[u] == top[v]) continue;
 
                     long long s = slack(v, u);
                     int bu = top[u];
@@ -161,21 +167,16 @@ struct WeightedBlossom{
         best_edge[w] = best_edge[b] = NONE;
 
         if (lab == OUTER){
-            for (int x : leaves(b)) queue.push_back(x);
+            for_leaves(b, [&](int x){ queue.push_back(x); });
         }
         else assign_label(mate[base[b]], OUTER, base[b]);
     }
 
-    vector<int> leaves(int b){
-        vector<int> res, stack = {b};
-        while (!stack.empty()){
-            int c = stack.back();
-            stack.pop_back();
-            if (c < n) res.push_back(c);
-            else stack.insert(stack.end(), children[c].begin(), children[c].end());
-        }
-
-        return res;
+    /// Calls f on every vertex inside b, children last to first, the order a stack walk would give
+    template <typename F>
+    void for_leaves(int b, const F& f){
+        if (b < n) f(b);
+        else for (int i = (int)children[b].size() - 1; i >= 0; i--) for_leaves(children[b][i], f);
     }
 
     long long slack(int u, int v){
@@ -188,7 +189,7 @@ struct WeightedBlossom{
 
     /// Walks up both trees at once: the first blossom seen twice holds the new blossom's base, -1 if the trees differ
     int find_base(int v, int u){
-        vector<int> path;
+        path.clear();
         int res = -1;
         while (v != -1){
             int b = top[v];
@@ -285,36 +286,36 @@ struct WeightedBlossom{
         child_edges[b].insert(child_edges[b].end(), edges_u.begin(), edges_u.end());
 
         label[b] = OUTER, label_edge[b] = label_edge[bb], dual[b] = 0;
-        for (int x : leaves(b)){
+        for_leaves(b, [&](int x){
             if (label[top[x]] == INNER) queue.push_back(x);
             top[x] = b;
-        }
+        });
 
         /// One least-slack edge per neighbouring outer blossom, so merging never rescans the leaves of listed children
-        vector<pair<int, int>> best_to(2 * n, NONE);
-        for (int c : children[b]){
-            vector<pair<int, int>> candidates;
-            if (built_this_stage[c]) candidates = best_edges_to[c];
-            else{
-                for (int x : leaves(c)){
-                    for (int y = 0; y < n; y++) if (weight[x][y] > 0) candidates.push_back({x, y});
-                }
+        auto consider = [&](int x, int y){
+            int by = top[y];
+            if (by != b && label[by] == OUTER && (best_to[by] == NONE || slack(x, y) < slack(best_to[by]))){
+                best_to[by] = {x, y};
             }
-
-            for (auto [x, y] : candidates){
-                int by = top[y];
-                if (by != b && label[by] == OUTER && (best_to[by] == NONE || slack(x, y) < slack(best_to[by]))){
-                    best_to[by] = {x, y};
-                }
+        };
+        for (int c : children[b]){
+            if (built_this_stage[c]){
+                for (auto [x, y] : best_edges_to[c]) consider(x, y);
+            }
+            else{
+                for_leaves(c, [&](int x){
+                    for (int y = 0; y < n; y++) if (weight[x][y] > 0) consider(x, y);
+                });
             }
         }
 
         best_edges_to[b].clear();
         best_edge[b] = NONE;
-        for (auto e : best_to){
+        for (auto& e : best_to){
             if (e == NONE) continue;
             best_edges_to[b].push_back(e);
             if (best_edge[b] == NONE || slack(e) < slack(best_edge[b])) best_edge[b] = e;
+            e = NONE;
         }
         built_this_stage[b] = 1;
     }
@@ -326,7 +327,7 @@ struct WeightedBlossom{
             if (c < n) top[c] = c;
             else if (endstage && dual[c] == 0) expand(c, true);
             else{
-                for (int x : leaves(c)) top[x] = c;
+                for_leaves(c, [&](int x){ top[x] = c; });
             }
         }
 
@@ -352,12 +353,9 @@ struct WeightedBlossom{
             /// An odd path child stays unlabeled unless an outer vertex reached one of its vertices by a tight edge
             for (j = (j + dir) % k; ch[j] != entry; j = (j + dir) % k){
                 if (label[ch[j]] == OUTER) continue;
-                for (int x : leaves(ch[j])){
-                    if (label[x] == INNER){
-                        assign_label(x, INNER, label_edge[x].first);
-                        break;
-                    }
-                }
+                int first_inner = -1;
+                for_leaves(ch[j], [&](int x){ if (first_inner == -1 && label[x] == INNER) first_inner = x; });
+                if (first_inner != -1) assign_label(first_inner, INNER, label_edge[first_inner].first);
             }
         }
 
