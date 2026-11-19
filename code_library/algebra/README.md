@@ -35,6 +35,7 @@
 - [UVa 12413 - Big Decimal Calculator](https://onlinejudge.org/external/124/12413.pdf) [✓](../../practice/algebra/uva_12413.cpp "Accepted solution")
 - [UVa 12924 - Immortal Rabbits](https://onlinejudge.org/external/129/12924.pdf) [✓](../../practice/algebra/uva_12924.cpp "Accepted solution")
 - [UVa 13063 - Trading Card Game](https://onlinejudge.org/external/130/13063.pdf) [✓](../../practice/algebra/uva_13063.cpp "Accepted solution")
+- [UVa 13144 - Go Boards](https://onlinejudge.org/external/131/13144.pdf) [✓](../../practice/algebra/uva_13144.cpp "Accepted solution")
 
 #### [FFT](fft.cpp)
 
