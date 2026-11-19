@@ -404,6 +404,7 @@
 - [UVa 563 - Crimewave](https://onlinejudge.org/external/5/563.pdf) [✓](../../practice/graphs/uva_563.cpp "Accepted solution")
 - [UVa 1067 - Tunnels](https://onlinejudge.org/external/10/1067.pdf) [✓](../../practice/graphs/uva_1067.cpp "Accepted solution")
 - [UVa 1212 - Duopoly](https://onlinejudge.org/external/12/1212.pdf) [✓](../../practice/graphs/uva_1212_maxflow.cpp "Accepted solution")
+- [UVa 1306 - The K-League](https://onlinejudge.org/external/13/1306.pdf) [✓](../../practice/graphs/uva_1306.cpp "Accepted solution")
 - [UVa 1324 - Bring Them There](https://onlinejudge.org/external/13/1324.pdf) [✓](../../practice/graphs/uva_1324.cpp "Accepted solution")
 - [UVa 1345 - Jamie's Contact Groups](https://onlinejudge.org/external/13/1345.pdf) [✓](../../practice/graphs/uva_1345.cpp "Accepted solution")
 - [UVa 1369 - Travel](https://onlinejudge.org/external/13/1369.pdf) [✓](../../practice/graphs/uva_1369.cpp "Accepted solution")
