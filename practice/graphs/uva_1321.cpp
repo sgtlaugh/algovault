@@ -638,7 +638,7 @@ long long walk(int y1, int y2, long long len){
 
     for (step = 1; ; step++){
         long long delta = f[LEN] - f[LEN - step];
-        for (i = LEN / 2 + step; i <= LEN && (f[i] - f[i - step]) == delta; i++){}
+        for (i = LEN / 2 + step; i <= LEN && (f[i] - f[i - step]) == delta; i++) {}
         if (i <= LEN) continue;
 
         k = (len - LEN + step - 1) / step;
