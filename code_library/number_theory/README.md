@@ -62,6 +62,7 @@
 - [UVa 10104 - Euclid Problem](https://onlinejudge.org/external/101/10104.pdf) [✓](../../practice/number_theory/uva_10104.cpp "Accepted solution")
 - [UVa 12453 - Simulating Billiard Ball](https://onlinejudge.org/external/124/12453.pdf) [✓](../../practice/number_theory/uva_12453.cpp "Accepted solution")
 - [UVa 12775 - Gift Dilemma](https://onlinejudge.org/external/127/12775.pdf) [✓](../../practice/number_theory/uva_12775.cpp "Accepted solution")
+- [UVa 13253 - Rational Coins](https://onlinejudge.org/external/132/13253.pdf) [✓](../../practice/number_theory/uva_13253.cpp "Accepted solution")
 
 #### [Fast Fibonacci](fast_fibonacci.cpp)
 
