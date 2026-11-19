@@ -69,6 +69,7 @@
 - [UVa 12424 - Answering Queries on a Tree](https://onlinejudge.org/external/124/12424.pdf) [✓](../../practice/trees/uva_12424.cpp "Accepted solution")
 - [UVa 13101 - Tobby on Tree](https://onlinejudge.org/external/131/13101.pdf) [✓](../../practice/trees/uva_13101.cpp "Accepted solution")
 - [UVa 13139 - Lucas Numbers](https://onlinejudge.org/external/131/13139.pdf) [✓](../../practice/trees/uva_13139.cpp "Accepted solution")
+- [UVa 13229 - Alice's Travels](https://onlinejudge.org/external/132/13229.pdf) [✓](../../practice/trees/uva_13229.cpp "Accepted solution")
 
 #### [Long-Path Decomposition](long_path_decomposition.cpp)
 
