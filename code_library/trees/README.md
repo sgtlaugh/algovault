@@ -31,6 +31,7 @@
 - [SPOJ QTREE5 - Query on a tree V](https://www.spoj.com/problems/QTREE5/) [✓](../../practice/trees/spoj_qtree5.cpp "Accepted solution")
 - [USACO 286 - Yin and Yang](https://usaco.org/index.php?page=viewproblem2&cpid=286) [✓](../../practice/trees/usaco_286.cpp "Accepted solution")
 - [UVa 12161 - Ironman Race in Treeland](https://onlinejudge.org/external/121/12161.pdf) [✓](../../practice/trees/uva_12161.cpp "Accepted solution")
+- [UVa 13260 - Alice's Travels II](https://onlinejudge.org/external/132/13260.pdf) [✓](../../practice/trees/uva_13260.cpp "Accepted solution")
 
 #### [DSU on Tree](dsu_on_tree.cpp)
 
