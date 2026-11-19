@@ -471,6 +471,7 @@
 - [CSES 2131 - Grid Puzzle II](https://cses.fi/problemset/task/2131) [✓](../../practice/graphs/cses_2131.cpp "Accepted solution")
 - [UVa 1049 - Remember the A La Mode!](https://onlinejudge.org/external/10/1049.pdf) [✓](../../practice/graphs/uva_1049.cpp "Accepted solution")
 - [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf) [✓](../../practice/graphs/uva_1104_mcmf_spfa.cpp "Accepted solution")
+- [UVa 1317 - Concert Hall Scheduling](https://onlinejudge.org/external/13/1317.pdf) [✓](../../practice/graphs/uva_1317.cpp "Accepted solution")
 - [UVa 1658 - Admiral](https://onlinejudge.org/external/16/1658.pdf) [✓](../../practice/graphs/uva_1658_mcmf_spfa.cpp "Accepted solution")
 - [UVa 1711 - Catering](https://onlinejudge.org/external/17/1711.pdf) [✓](../../practice/graphs/uva_1711_mcmf_spfa.cpp "Accepted solution")
 - [UVa 10594 - Data Flow](https://onlinejudge.org/external/105/10594.pdf) [✓](../../practice/graphs/uva_10594.cpp "Accepted solution")
