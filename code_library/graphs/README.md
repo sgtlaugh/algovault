@@ -604,3 +604,4 @@
 - [UVa 12645 - Water Supply](https://onlinejudge.org/external/126/12645.pdf) [✓](../../practice/graphs/uva_12645.cpp "Accepted solution")
 - [UVa 13057 - Prove Them All](https://onlinejudge.org/external/130/13057.pdf) [✓](../../practice/graphs/uva_13057.cpp "Accepted solution")
 - [UVa 13156 - In the Kingdom of Hirak](https://onlinejudge.org/external/131/13156.pdf) [✓](../../practice/graphs/uva_13156.cpp "Accepted solution")
+- [UVa 13301 - Impossible Communication](https://onlinejudge.org/external/133/13301.pdf) [✓](../../practice/graphs/uva_13301.cpp "Accepted solution")
