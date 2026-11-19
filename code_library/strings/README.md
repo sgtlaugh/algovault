@@ -283,3 +283,4 @@
 - [Codeforces Gym 101466E - Text Editor](https://codeforces.com/gym/101466/problem/E) [✓](../../practice/strings/codeforces_gym_101466e.cpp "Accepted solution")
 - [Eolymp 1309 - Blocks of string](https://www.eolymp.com/en/problems/1309) [✓](../../practice/strings/eolymp_1309.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✓](../../practice/strings/uva_11475_z_algorithm.cpp "Accepted solution")
+- [UVa 13258 - Romeo and Juliet Secrets](https://onlinejudge.org/external/132/13258.pdf) [✓](../../practice/strings/uva_13258.cpp "Accepted solution")
