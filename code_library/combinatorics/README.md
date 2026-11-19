@@ -105,6 +105,7 @@
 - [UVa 12492 - Rubik Cycle](https://onlinejudge.org/external/124/12492.pdf) [✓](../../practice/combinatorics/uva_12492.cpp "Accepted solution")
 - [UVa 12652 - Lines of Containers](https://onlinejudge.org/external/126/12652.pdf) [✓](../../practice/combinatorics/uva_12652.cpp "Accepted solution")
 - [UVa 12755 - Easy Puzzle](https://onlinejudge.org/external/127/12755.pdf) [✓](../../practice/combinatorics/uva_12755.cpp "Accepted solution")
+- [UVa 13297 - Extended Puzzle](https://onlinejudge.org/external/132/13297.pdf) [✓](../../practice/combinatorics/uva_13297.cpp "Accepted solution")
 
 #### [Permutation Index](permutation_index.cpp)
 
