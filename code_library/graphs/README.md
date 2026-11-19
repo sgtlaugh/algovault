@@ -224,6 +224,7 @@
 - [UVa 10054 - The Necklace](https://onlinejudge.org/external/100/10054.pdf) [✓](../../practice/graphs/uva_10054.cpp "Accepted solution")
 - [UVa 10129 - Play on Words](https://onlinejudge.org/external/101/10129.pdf) [✓](../../practice/graphs/uva_10129.cpp "Accepted solution")
 - [UVa 12152 - Traveling Shoemaker Problem](https://onlinejudge.org/external/121/12152.pdf) [✓](../../practice/graphs/uva_12152.cpp "Accepted solution")
+- [UVa 13246 - Chained Words](https://onlinejudge.org/external/132/13246.pdf) [✓](../../practice/graphs/uva_13246.cpp "Accepted solution")
 
 #### [Flow with Lower Bounds](lower_bound_flow.cpp)
 
