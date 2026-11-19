@@ -65,6 +65,7 @@
 - [UVa 13024 - Saint John Festival](https://onlinejudge.org/external/130/13024.pdf) [✓](../../practice/geometry/uva_13024.cpp "Accepted solution")
 - [UVa 13254 - Fish](https://onlinejudge.org/external/132/13254.pdf) [✓](../../practice/geometry/uva_13254.cpp "Accepted solution")
 - [UVa 13292 - Blowing Candles](https://onlinejudge.org/external/132/13292.pdf) [✓](../../practice/geometry/uva_13292.cpp "Accepted solution")
+- [UVa 13300 - Ghost Hunting](https://onlinejudge.org/external/133/13300.pdf) [✓](../../practice/geometry/uva_13300.cpp "Accepted solution")
 
 #### [Convex Hull 3D](convex_hull_3D.cpp)
 
