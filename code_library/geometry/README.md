@@ -63,6 +63,7 @@
 - [UVa 11626 - Convex Hull](https://onlinejudge.org/external/116/11626.pdf) [✓](../../practice/geometry/uva_11626.cpp "Accepted solution")
 - [UVa 12999 - Defense Plan](https://onlinejudge.org/external/129/12999.pdf) [✓](../../practice/geometry/uva_12999.cpp "Accepted solution")
 - [UVa 13024 - Saint John Festival](https://onlinejudge.org/external/130/13024.pdf) [✓](../../practice/geometry/uva_13024.cpp "Accepted solution")
+- [UVa 13254 - Fish](https://onlinejudge.org/external/132/13254.pdf) [✓](../../practice/geometry/uva_13254.cpp "Accepted solution")
 
 #### [Convex Hull 3D](convex_hull_3D.cpp)
 
