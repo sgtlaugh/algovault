@@ -114,6 +114,7 @@
 - [UVa 12206 - Stammering Aliens](https://onlinejudge.org/external/122/12206.pdf) [✓](../../practice/strings/uva_12206_hashing.cpp "Accepted solution")
 - [UVa 12837 - Hasmot Ali Professor](https://onlinejudge.org/external/128/12837.pdf) [✓](../../practice/strings/uva_12837.cpp "Accepted solution")
 - [UVa 13126 - Wildcards](https://onlinejudge.org/external/131/13126.pdf) [✓](../../practice/strings/uva_13126.cpp "Accepted solution")
+- [UVa 13186 - Tobby and the quaseEquals strings](https://onlinejudge.org/external/131/13186.pdf) [✓](../../practice/strings/uva_13186.cpp "Accepted solution")
 
 #### [Hirschberg LCS](hirschberg_lcs.cpp)
 
