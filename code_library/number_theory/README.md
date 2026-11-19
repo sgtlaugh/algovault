@@ -130,6 +130,7 @@
 - [UVa 12043 - Divisors](https://onlinejudge.org/external/120/12043.pdf) [✓](../../practice/number_theory/uva_12043.cpp "Accepted solution")
 - [UVa 12805 - Raiders of the Lost Sign](https://onlinejudge.org/external/128/12805.pdf) [✓](../../practice/number_theory/uva_12805.cpp "Accepted solution")
 - [UVa 12995 - Farey Sequence](https://onlinejudge.org/external/129/12995.pdf) [✓](../../practice/number_theory/uva_12995.cpp "Accepted solution")
+- [UVa 13279 - Divisors](https://onlinejudge.org/external/132/13279.pdf) [✓](../../practice/number_theory/uva_13279.cpp "Accepted solution")
 
 #### [Maximum Divisors](maximum_divisors.cpp)
 
