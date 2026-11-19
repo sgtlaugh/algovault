@@ -238,6 +238,7 @@
 - [UVa 12338 - Anti-Rhyme Pairs](https://onlinejudge.org/external/123/12338.pdf) [✓](../../practice/strings/uva_12338.cpp "Accepted solution")
 - [UVa 12361 - File Retrieval](https://onlinejudge.org/external/123/12361.pdf) [✓](../../practice/strings/uva_12361.cpp "Accepted solution")
 - [UVa 12974 - Exquisite Strings](https://onlinejudge.org/external/129/12974.pdf) [✓](../../practice/strings/uva_12974.cpp "Accepted solution")
+- [UVa 13280 - Substring Sorting](https://onlinejudge.org/external/132/13280.pdf) [✓](../../practice/strings/uva_13280.cpp "Accepted solution")
 
 #### [Suffix Automaton](suffix_automaton.cpp)
 
