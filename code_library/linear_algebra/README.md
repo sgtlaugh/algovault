@@ -41,6 +41,7 @@
 - [UVa 11912 - Chutes and Ladders](https://onlinejudge.org/external/119/11912.pdf) [✓](../../practice/linear_algebra/uva_11912.cpp "Accepted solution")
 - [UVa 12695 - Traveling Fool](https://onlinejudge.org/external/126/12695.pdf) [✓](../../practice/linear_algebra/uva_12695.cpp "Accepted solution")
 - [UVa 12910 - Snakes and Ladders](https://onlinejudge.org/external/129/12910.pdf) [✓](../../practice/linear_algebra/uva_12910.cpp "Accepted solution")
+- [UVa 13266 - Great Coin Game](https://onlinejudge.org/external/132/13266.pdf) [✓](../../practice/linear_algebra/uva_13266.cpp "Accepted solution")
 
 #### [Gauss-Jordan, Band Matrix](gauss_band_matrix.cpp)
 
