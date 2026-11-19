@@ -80,6 +80,7 @@
 - [UVa 12529 - Fix the Pond](https://onlinejudge.org/external/125/12529.pdf) [✓](../../practice/data_structures/uva_12529.cpp "Accepted solution")
 - [UVa 12789 - Space Invaders](https://onlinejudge.org/external/127/12789.pdf) [✓](../../practice/data_structures/uva_12789.cpp "Accepted solution")
 - [UVa 12882 - City Park](https://onlinejudge.org/external/128/12882.pdf) [✓](../../practice/data_structures/uva_12882.cpp "Accepted solution")
+- [UVa 13076 - The traveller squirrel](https://onlinejudge.org/external/130/13076.pdf) [✓](../../practice/data_structures/uva_13076.cpp "Accepted solution")
 
 #### [Disjoint Set Union, Partially Persistent](partially_persistent_dsu.cpp)
 
