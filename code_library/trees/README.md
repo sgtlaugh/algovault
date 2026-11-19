@@ -104,6 +104,7 @@
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf) [✓](../../practice/trees/uva_12176.cpp "Accepted solution")
 - [UVa 12238 - Ants Colony](https://onlinejudge.org/external/122/12238.pdf) [✓](../../practice/trees/uva_12238.cpp "Accepted solution")
 - [UVa 12533 - Joining Couples](https://onlinejudge.org/external/125/12533.pdf) [✓](../../practice/trees/uva_12533.cpp "Accepted solution")
+- [UVa 13192 - Tobby and the Skeletons](https://onlinejudge.org/external/131/13192.pdf) [✓](../../practice/trees/uva_13192.cpp "Accepted solution")
 
 #### [Prufer Code](prufer_code.cpp)
 
