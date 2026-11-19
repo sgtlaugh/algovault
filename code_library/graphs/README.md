@@ -159,6 +159,7 @@
 - [UVa 1078 - Steam Roller](https://onlinejudge.org/external/10/1078.pdf) [✓](../../practice/graphs/uva_1078.cpp "Accepted solution")
 - [UVa 1233 - USHER](https://onlinejudge.org/external/12/1233.pdf) [✓](../../practice/graphs/uva_1233.cpp "Accepted solution")
 - [UVa 1247 - Interstar Transport](https://onlinejudge.org/external/12/1247.pdf) [✓](../../practice/graphs/uva_1247.cpp "Accepted solution")
+- [UVa 1376 - Animal Run](https://onlinejudge.org/external/13/1376.pdf) [✓](../../practice/graphs/uva_1376.cpp "Accepted solution")
 - [UVa 1574 - Surely You Congest](https://onlinejudge.org/external/15/1574.pdf) [✓](../../practice/graphs/uva_1574.cpp "Accepted solution")
 - [UVa 10278 - Fire Station](https://onlinejudge.org/external/102/10278.pdf) [✓](../../practice/graphs/uva_10278.cpp "Accepted solution")
 - [UVa 10342 - Always Late](https://onlinejudge.org/external/103/10342.pdf) [✓](../../practice/graphs/uva_10342.cpp "Accepted solution")
