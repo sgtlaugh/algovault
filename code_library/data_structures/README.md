@@ -82,6 +82,7 @@
 - [UVa 12882 - City Park](https://onlinejudge.org/external/128/12882.pdf) [✓](../../practice/data_structures/uva_12882.cpp "Accepted solution")
 - [UVa 13076 - The traveller squirrel](https://onlinejudge.org/external/130/13076.pdf) [✓](../../practice/data_structures/uva_13076.cpp "Accepted solution")
 - [UVa 13153 - Number of Connected Components](https://onlinejudge.org/external/131/13153.pdf) [✓](../../practice/data_structures/uva_13153.cpp "Accepted solution")
+- [UVa 13169 - Balls and Needles](https://onlinejudge.org/external/131/13169.pdf) [✓](../../practice/data_structures/uva_13169.cpp "Accepted solution")
 
 #### [Disjoint Set Union, Partially Persistent](partially_persistent_dsu.cpp)
 
