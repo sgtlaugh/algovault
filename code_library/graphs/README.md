@@ -403,6 +403,7 @@
 - [UVa 1067 - Tunnels](https://onlinejudge.org/external/10/1067.pdf) [✓](../../practice/graphs/uva_1067.cpp "Accepted solution")
 - [UVa 1212 - Duopoly](https://onlinejudge.org/external/12/1212.pdf) [✓](../../practice/graphs/uva_1212_maxflow.cpp "Accepted solution")
 - [UVa 1345 - Jamie's Contact Groups](https://onlinejudge.org/external/13/1345.pdf) [✓](../../practice/graphs/uva_1345.cpp "Accepted solution")
+- [UVa 1369 - Travel](https://onlinejudge.org/external/13/1369.pdf) [✓](../../practice/graphs/uva_1369.cpp "Accepted solution")
 - [UVa 1389 - Hard Life](https://onlinejudge.org/external/13/1389.pdf) [✓](../../practice/graphs/uva_1389.cpp "Accepted solution")
 - [UVa 1574 - Surely You Congest](https://onlinejudge.org/external/15/1574.pdf) [✓](../../practice/graphs/uva_1574.cpp "Accepted solution")
 - [UVa 10092 - The Problem with the Problem Setter](https://onlinejudge.org/external/100/10092.pdf) [✓](../../practice/graphs/uva_10092.cpp "Accepted solution")
