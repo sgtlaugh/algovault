@@ -95,6 +95,7 @@
 - [SPOJ MOON1 - Moon Safari (medium)](https://www.spoj.com/problems/MOON1/) [✓](../../practice/algebra/spoj_moon1.cpp "Accepted solution")
 - [UVa 1546 - Complete the sequence!](https://onlinejudge.org/external/15/1546.pdf) [✓](../../practice/algebra/uva_1546.cpp "Accepted solution")
 - [UVa 12143 - Stopping Doom's Day](https://onlinejudge.org/external/121/12143.pdf) [✓](../../practice/algebra/uva_12143.cpp "Accepted solution")
+- [UVa 13270 - Kid's Spiral Problem](https://onlinejudge.org/external/132/13270.pdf) [✓](../../practice/algebra/uva_13270.cpp "Accepted solution")
 
 #### [Linear Recurrence](linear_recurrence.cpp)
 
