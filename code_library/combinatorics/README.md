@@ -63,6 +63,7 @@
 - [UVa 12590 - Guards II](https://onlinejudge.org/external/125/12590.pdf) [✓](../../practice/combinatorics/uva_12590.cpp "Accepted solution")
 - [UVa 12913 - Grounded](https://onlinejudge.org/external/129/12913.pdf) [✓](../../practice/combinatorics/uva_12913.cpp "Accepted solution")
 - [UVa 13184 - Counting Edges and Graphs](https://onlinejudge.org/external/131/13184.pdf) [✓](../../practice/combinatorics/uva_13184.cpp "Accepted solution")
+- [UVa 13269 - Journey through Gridland](https://onlinejudge.org/external/132/13269.pdf) [✓](../../practice/combinatorics/uva_13269.cpp "Accepted solution")
 
 #### [Fast Factorial](fast_factorial.cpp)
 
