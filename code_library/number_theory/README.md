@@ -30,6 +30,7 @@
 - [Codeforces 585C - Alice, Bob, Oranges and Apples](https://codeforces.com/problemset/problem/585/C) [✓](../../practice/number_theory/codeforces_585c.cpp "Accepted solution")
 - [Codeforces Gym 102354I - From Modular to Rational](https://codeforces.com/gym/102354/problem/I) [✓](../../practice/number_theory/codeforces_gym_102354i.cpp "Accepted solution")
 - [Codeforces Gym 104656C2 - New Elements, Part 2 C2](https://codeforces.com/gym/104656/problem/C2) [✓](../../practice/number_theory/codeforces_gym_104656c2.cpp "Accepted solution")
+- [UVa 13218 - Broken Calculator Keys](https://onlinejudge.org/external/132/13218.pdf) [✓](../../practice/number_theory/uva_13218.cpp "Accepted solution")
 - [UVa 13302 - Jawbreaking Candy](https://onlinejudge.org/external/133/13302.pdf) [✓](../../practice/number_theory/uva_13302.cpp "Accepted solution")
 
 #### [Digits of Factorial](digits_of_factorial.cpp)
