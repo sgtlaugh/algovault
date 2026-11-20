@@ -128,6 +128,7 @@
 - [HDU 4285 - circuits](https://acm.hdu.edu.cn/showproblem.php?pid=4285) [✓](../../practice/dp/hdu_4285.cpp "Accepted solution")
 - [Timus 1519 - Formula 1](https://acm.timus.ru/problem.aspx?num=1519) [✓](../../practice/dp/timus_1519.cpp "Accepted solution")
 - [UVa 1214 - Manhattan Wiring](https://onlinejudge.org/external/12/1214.pdf) [✓](../../practice/dp/uva_1214.cpp "Accepted solution")
+- [UVa 1501 - Construct the Great Wall](https://onlinejudge.org/external/15/1501.pdf) [✓](../../practice/dp/uva_1501.cpp "Accepted solution")
 - [UVa 10572 - Black & White](https://onlinejudge.org/external/105/10572.pdf) [✓](../../practice/dp/uva_10572.cpp "Accepted solution")
 - [UVa 11270 - Tiling Dominoes](https://onlinejudge.org/external/112/11270.pdf) [✓](../../practice/dp/uva_11270.cpp "Accepted solution")
 - [UVa 11443 - Tree in a Grid](https://onlinejudge.org/external/114/11443.pdf) [✓](../../practice/dp/uva_11443.cpp "Accepted solution")
