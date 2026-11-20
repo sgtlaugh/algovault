@@ -529,6 +529,7 @@
 - [UVa 12506 - Shortest Names](https://onlinejudge.org/external/125/12506.pdf) [✓](../../practice/data_structures/uva_12506.cpp "Accepted solution")
 - [UVa 12526 - Cellphone Typing](https://onlinejudge.org/external/125/12526.pdf) [✓](../../practice/data_structures/uva_12526.cpp "Accepted solution")
 - [UVa 12857 - Dividing the names](https://onlinejudge.org/external/128/12857.pdf) [✓](../../practice/data_structures/uva_12857.cpp "Accepted solution")
+- [UVa 13174 - The entertainment of machines](https://onlinejudge.org/external/131/13174.pdf) [✓](../../practice/data_structures/uva_13174.cpp "Accepted solution")
 - [UVa 13285 - Candy Chain](https://onlinejudge.org/external/132/13285.pdf) [✓](../../practice/data_structures/uva_13285.cpp "Accepted solution")
 
 #### [XOR Segment Tree](xor_segment_tree.cpp)
