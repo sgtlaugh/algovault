@@ -105,9 +105,23 @@ void check_targets_then_full(Graph& g, const map<pair<int, int>, long long>& lig
     check_run(g, lightest, {src}, expected);
 }
 
+/// SmallWeightDijkstra also takes the weight bound, the other structs ignore it
+template<typename Graph>
+Graph make_graph(int n, long long max_w){
+    if constexpr (is_same_v<Graph, SmallWeightDijkstra>) return Graph(n, max_w);
+    else return Graph(n);
+}
+
+/// The bound is the heaviest weight or one above it, so edges with w == max_w and a slack bound both occur
+long long weight_bound(const vector<TestEdge>& edges){
+    long long max_w = 0;
+    for (auto e : edges) max_w = max(max_w, e.w);
+    return max_w + stress::rand_int(0, 1);
+}
+
 template<typename Graph>
 Graph build(int n, const vector<TestEdge>& edges){
-    Graph g(n);
+    Graph g = make_graph<Graph>(n, weight_bound(edges));
     for (auto e : edges) g.add_edge(e.u, e.v, e.w, e.directed);
     return g;
 }
@@ -182,7 +196,7 @@ void check_implicit_all_sources(int n, const vector<TestEdge>& edges){
 /// A run after more add_edge calls must see the new edges, which Dijkstra's cached adjacency could miss
 template<typename Graph>
 void incremental_case(int n, const vector<TestEdge>& edges){
-    Graph g(n);
+    Graph g = make_graph<Graph>(n, weight_bound(edges));
     vector<TestEdge> added;
     for (auto e : edges){
         g.add_edge(e.u, e.v, e.w, e.directed);
@@ -200,7 +214,7 @@ void incremental_case(int n, const vector<TestEdge>& edges){
 template<typename Graph>
 void early_exit_case(){
     int n = stress::rand_int(2, 50);
-    Graph g(n);
+    Graph g = make_graph<Graph>(n, 1);
     for (int v = 0; v + 1 < n; v++) g.add_edge(v, v + 1, stress::rand_int(0, 1));
 
     int target = stress::rand_int(0, n - 2);
@@ -215,7 +229,7 @@ void early_exit_case(){
 template<typename Graph>
 void wide_early_exit_case(){
     int k = stress::rand_int(1, 30), target = k + 1;
-    Graph g(2 * k + 2);
+    Graph g = make_graph<Graph>(2 * k + 2, 1);
     for (int i = 1; i <= k; i++){
         g.add_edge(0, i, 1);
         g.add_edge(i, target + i, 0);
@@ -355,9 +369,20 @@ int main(){
         check_all_sources<DenseDijkstra>(n, edges);
         incremental_case<Dijkstra>(n, edges);
         incremental_case<DenseDijkstra>(n, edges);
+        if (max_w > 5) continue;
+        check_all_sources<SmallWeightDijkstra>(n, edges);
+        incremental_case<SmallWeightDijkstra>(n, edges);
         if (max_w > 1) continue;
         check_all_sources<ZeroOneBFS>(n, edges);
         incremental_case<ZeroOneBFS>(n, edges);
+    }
+
+    /// Bounds up to 1000 keep the distances, and so SmallWeightDijkstra's walk over them, small enough to test often
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(1, 12), m = stress::rand_int(0, 3 * n);
+        auto edges = random_edges(n, m, stress::rand_int(1, 1000));
+        check_all_sources<SmallWeightDijkstra>(n, edges);
+        incremental_case<SmallWeightDijkstra>(n, edges);
     }
 
     for (long long it = 0; it < stress::scaled(12); it++){
@@ -379,6 +404,8 @@ int main(){
         assert(run_implicit(n, edges, {src}) == sparse.dist);
 
         if (max_w > 1) continue;
+        auto small = build<SmallWeightDijkstra>(n, edges);
+        check_targets_then_full(small, lightest, src, expected);
         auto zero_one = build<ZeroOneBFS>(n, edges);
         check_targets_then_full(zero_one, lightest, src, expected);
     }
@@ -400,6 +427,26 @@ int main(){
     assert(heap_grid.dist == deque_grid.dist);
     assert(run_implicit(side * side, grid, {0}) == heap_grid.dist);
 
+    /// The same grid reweighted in [0, 50], buckets against the heap, from two sources
+    for (auto& e : grid) e.w = stress::rand_int(0, 50);
+    auto heap_weighted = build<Dijkstra>(side * side, grid);
+    auto bucket_weighted = build<SmallWeightDijkstra>(side * side, grid);
+    vector<int> corners = {0, side * side - 1};
+    heap_weighted.run(corners), bucket_weighted.run(corners);
+    assert(heap_weighted.dist == bucket_weighted.dist);
+
+    /// Weights in [0, 1000] on 2000 vertices wrap queued distances around the buckets many times
+    for (long long it = 0; it < stress::scaled(6); it++){
+        int n = 2000;
+        auto edges = random_edges(n, stress::rand_int(n, 6 * n), 1000);
+        auto lightest = lightest_arcs(edges);
+        int src = stress::rand_int(0, n - 1);
+        auto heap = build<Dijkstra>(n, edges);
+        heap.run(src);
+        auto small = build<SmallWeightDijkstra>(n, edges);
+        check_targets_then_full(small, lightest, src, heap.dist);
+    }
+
     long long longest = 0;
     for (long long it = 0; it < stress::scaled(300); it++) longest = max(longest, heavy_chain_case());
     assert(longest > 2000000000000000000LL);
@@ -409,9 +456,11 @@ int main(){
         early_exit_case<Dijkstra>();
         early_exit_case<DenseDijkstra>();
         early_exit_case<ZeroOneBFS>();
+        early_exit_case<SmallWeightDijkstra>();
         wide_early_exit_case<Dijkstra>();
         wide_early_exit_case<DenseDijkstra>();
         wide_early_exit_case<ZeroOneBFS>();
+        wide_early_exit_case<SmallWeightDijkstra>();
     }
 
     for (long long it = 0; it < stress::scaled(3000); it++){
@@ -426,6 +475,18 @@ int main(){
             if (u == 0) relax(1, 5);
             if (u == 1) relax(2, du - 1);
         });
+    });
+    /// A weight above the bound, or below 0, would land in a bucket the walk has already passed
+    stress::expect_assert("graphs/dijkstra.cpp", []{
+        SmallWeightDijkstra g(2, 3);
+        g.add_edge(0, 1, 4);
+    });
+    stress::expect_assert("graphs/dijkstra.cpp", []{
+        SmallWeightDijkstra g(2, 3);
+        g.add_edge(0, 1, -1);
+    });
+    stress::expect_assert("graphs/dijkstra.cpp", []{
+        SmallWeightDijkstra g(2, -1);
     });
     return 0;
 }
