@@ -165,6 +165,7 @@
 - [UVa 1311 - Servers](https://onlinejudge.org/external/13/1311.pdf) [✓](../../practice/graphs/uva_1311.cpp "Accepted solution")
 - [UVa 1321 - Dice contest](https://onlinejudge.org/external/13/1321.pdf) [✓](../../practice/graphs/uva_1321.cpp "Accepted solution")
 - [UVa 1376 - Animal Run](https://onlinejudge.org/external/13/1376.pdf) [✓](../../practice/graphs/uva_1376.cpp "Accepted solution")
+- [UVa 1416 - Warfare And Logistics](https://onlinejudge.org/external/14/1416.pdf) [✓](../../practice/graphs/uva_1416.cpp "Accepted solution")
 - [UVa 1574 - Surely You Congest](https://onlinejudge.org/external/15/1574.pdf) [✓](../../practice/graphs/uva_1574.cpp "Accepted solution")
 - [UVa 10278 - Fire Station](https://onlinejudge.org/external/102/10278.pdf) [✓](../../practice/graphs/uva_10278.cpp "Accepted solution")
 - [UVa 10342 - Always Late](https://onlinejudge.org/external/103/10342.pdf) [✓](../../practice/graphs/uva_10342.cpp "Accepted solution")
