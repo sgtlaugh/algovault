@@ -20,6 +20,7 @@
 - [Kattis generalchineseremainder - Chinese Remainder Theorem (non-relatively prime moduli)](https://open.kattis.com/problems/generalchineseremainder) [✓](../../practice/number_theory/kattis_generalchineseremainder.cpp "Accepted solution")
 - [SPOJ PIBO2 - Fibonacci vs Polynomial (HARD)](https://www.spoj.com/problems/PIBO2/) [✓](../../practice/number_theory/spoj_pibo2.cpp "Accepted solution")
 - [SPOJ PIBO - Fibonacci vs Polynomial](https://www.spoj.com/problems/PIBO/) [✓](../../practice/number_theory/spoj_pibo.cpp "Accepted solution")
+- [UVa 1426 - Discrete Square Roots](https://onlinejudge.org/external/14/1426.pdf) [✓](../../practice/number_theory/uva_1426.cpp "Accepted solution")
 - [UVa 11754 - Code Feat](https://onlinejudge.org/external/117/11754.pdf) [✓](../../practice/number_theory/uva_11754.cpp "Accepted solution")
 
 #### [Continued Fractions](continued_fractions.cpp)
