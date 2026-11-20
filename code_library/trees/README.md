@@ -5,8 +5,8 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Centroid Decomposition](#centroid-decomposition) | [DSU on Tree](#dsu-on-tree) | [Dynamic Tree Diameter](#dynamic-tree-diameter) | [Heavy Light Decomposition](#heavy-light-decomposition) |
-| [Long-Path Decomposition](#long-path-decomposition) | [Lowest Common Ancestor](#lowest-common-ancestor) | [Prufer Code](#prufer-code) | [Rerooting DP](#rerooting-dp) |
-| [Tree Isomorphism](#tree-isomorphism) | [Virtual Tree](#virtual-tree) |  |  |
+| [Leaf Peeling](#leaf-peeling) | [Long-Path Decomposition](#long-path-decomposition) | [Lowest Common Ancestor](#lowest-common-ancestor) | [Prufer Code](#prufer-code) |
+| [Rerooting DP](#rerooting-dp) | [Tree Isomorphism](#tree-isomorphism) | [Virtual Tree](#virtual-tree) |  |
 
 <!-- /toc -->
 
@@ -70,6 +70,12 @@
 - [UVa 13101 - Tobby on Tree](https://onlinejudge.org/external/131/13101.pdf) [✓](../../practice/trees/uva_13101.cpp "Accepted solution")
 - [UVa 13139 - Lucas Numbers](https://onlinejudge.org/external/131/13139.pdf) [✓](../../practice/trees/uva_13139.cpp "Accepted solution")
 - [UVa 13229 - Alice's Travels](https://onlinejudge.org/external/132/13229.pdf) [✓](../../practice/trees/uva_13229.cpp "Accepted solution")
+
+#### [Leaf Peeling](leaf_peeling.cpp)
+
+- [UVa 12223 - Moving to Nuremberg](https://onlinejudge.org/external/122/12223.pdf)
+- [UVa 12354 - Paths in a Tree](https://onlinejudge.org/external/123/12354.pdf)
+- [UVa 12489 - Combating cancer](https://onlinejudge.org/external/124/12489.pdf)
 
 #### [Long-Path Decomposition](long_path_decomposition.cpp)
 
