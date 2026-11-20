@@ -132,6 +132,7 @@
 - [UVa 10572 - Black & White](https://onlinejudge.org/external/105/10572.pdf) [✓](../../practice/dp/uva_10572.cpp "Accepted solution")
 - [UVa 11270 - Tiling Dominoes](https://onlinejudge.org/external/112/11270.pdf) [✓](../../practice/dp/uva_11270.cpp "Accepted solution")
 - [UVa 11443 - Tree in a Grid](https://onlinejudge.org/external/114/11443.pdf) [✓](../../practice/dp/uva_11443.cpp "Accepted solution")
+- [UVa 13299 - Tron Garbage Collector](https://onlinejudge.org/external/132/13299.pdf) [✓](../../practice/dp/uva_13299.cpp "Accepted solution")
 
 #### [Slope Trick](slope_trick.cpp)
 
