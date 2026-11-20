@@ -126,6 +126,7 @@
 #### [Chromatic Number](chromatic_number.cpp)
 
 - [CSES 3308 - Graph Coloring](https://cses.fi/problemset/task/3308) [✓](../../practice/graphs/cses_3308.cpp "Accepted solution")
+- [UVa 1439 - Exclusive Access 2](https://onlinejudge.org/external/14/1439.pdf) [✓](../../practice/graphs/uva_1439.cpp "Accepted solution")
 
 #### [Dijkstra](dijkstra.cpp)
 
