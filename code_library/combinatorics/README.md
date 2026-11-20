@@ -100,6 +100,7 @@
 - [Codeforces 755F - PolandBall and Gifts](https://codeforces.com/problemset/problem/755/F) [✓](../../practice/combinatorics/codeforces_755f.cpp "Accepted solution")
 - [CSES 1698 - Swap Round Sorting](https://cses.fi/problemset/task/1698) [✓](../../practice/combinatorics/cses_1698.cpp "Accepted solution")
 - [CSES 3398 - Permutation Rounds](https://cses.fi/problemset/task/3398) [✓](../../practice/combinatorics/cses_3398.cpp "Accepted solution")
+- [UVa 1620 - Lazy Susan](https://onlinejudge.org/external/16/1620.pdf) [✓](../../practice/combinatorics/uva_1620.cpp "Accepted solution")
 - [UVa 10570 - Meeting with Aliens](https://onlinejudge.org/external/105/10570.pdf) [✓](../../practice/combinatorics/uva_10570.cpp "Accepted solution")
 - [UVa 11495 - Bubbles and Buckets](https://onlinejudge.org/external/114/11495.pdf) [✓](../../practice/combinatorics/uva_11495.cpp "Accepted solution")
 - [UVa 12103 - Leonardo's Notebook](https://onlinejudge.org/external/121/12103.pdf) [✓](../../practice/combinatorics/uva_12103.cpp "Accepted solution")
