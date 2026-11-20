@@ -106,6 +106,7 @@
 - [Szkopul osi - Zones](https://szkopul.edu.pl/problemset/problem/nldsb4EW1YuZykBlf4lcZL1Y/site/) [✓](../../practice/graphs/szkopul_osi.cpp "Accepted solution")
 - [UVa 610 - Street Directions](https://onlinejudge.org/external/6/610.pdf) [✓](../../practice/graphs/uva_610.cpp "Accepted solution")
 - [UVa 1310 - One-way traffic](https://onlinejudge.org/external/13/1310.pdf) [✓](../../practice/graphs/uva_1310.cpp "Accepted solution")
+- [UVa 1719 - Tours](https://onlinejudge.org/external/17/1719.pdf) [✓](../../practice/graphs/uva_1719.cpp "Accepted solution")
 - [UVa 11972 - Round Trip](https://onlinejudge.org/external/119/11972.pdf) [✓](../../practice/graphs/uva_11972.cpp "Accepted solution")
 - [UVa 12363 - Hedge Mazes](https://onlinejudge.org/external/123/12363.pdf) [✓](../../practice/graphs/uva_12363.cpp "Accepted solution")
 - [UVa 12587 - Reduce the Maintenance Cost](https://onlinejudge.org/external/125/12587.pdf) [✓](../../practice/graphs/uva_12587.cpp "Accepted solution")
