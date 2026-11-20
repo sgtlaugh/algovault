@@ -107,6 +107,7 @@
 - [USACO 970 - Milk Visits](https://usaco.org/index.php?page=viewproblem2&cpid=970) [✓](../../practice/trees/usaco_970.cpp "Accepted solution")
 - [UVa 1464 - Traffic Real Time Query System](https://onlinejudge.org/external/14/1464.pdf) [✓](../../practice/graphs/uva_1464.cpp "Accepted solution")
 - [UVa 1674 - Lightning Energy Report](https://onlinejudge.org/external/16/1674.pdf) [✓](../../practice/trees/uva_1674_lca.cpp "Accepted solution")
+- [UVa 1728 - Toll Management IV](https://onlinejudge.org/external/17/1728.pdf) [✓](../../practice/trees/uva_1728.cpp "Accepted solution")
 - [UVa 10938 - Flea circus](https://onlinejudge.org/external/109/10938.pdf) [✓](../../practice/trees/uva_10938.cpp "Accepted solution")
 - [UVa 11354 - Bond](https://onlinejudge.org/external/113/11354.pdf) [✓](../../practice/trees/uva_11354.cpp "Accepted solution")
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf) [✓](../../practice/trees/uva_12176.cpp "Accepted solution")
