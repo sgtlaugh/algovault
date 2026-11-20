@@ -65,6 +65,7 @@
 - [UVa 1160 - X-Plosives](https://onlinejudge.org/external/11/1160.pdf) [✓](../../practice/data_structures/uva_1160.cpp "Accepted solution")
 - [UVa 1197 - The Suspects](https://onlinejudge.org/external/11/1197.pdf) [✓](../../practice/data_structures/uva_1197.cpp "Accepted solution")
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf) [✓](../../practice/data_structures/uva_1479.cpp "Accepted solution")
+- [UVa 1664 - Conquer a New Region](https://onlinejudge.org/external/16/1664.pdf) [✓](../../practice/data_structures/uva_1664.cpp "Accepted solution")
 - [UVa 10178 - Count the Faces.](https://onlinejudge.org/external/101/10178.pdf) [✓](../../practice/data_structures/uva_10178.cpp "Accepted solution")
 - [UVa 10608 - Friends](https://onlinejudge.org/external/106/10608.pdf) [✓](../../practice/data_structures/uva_10608.cpp "Accepted solution")
 - [UVa 11363 - Cuckoo Hashing](https://onlinejudge.org/external/113/11363.pdf) [✓](../../practice/data_structures/uva_11363.cpp "Accepted solution")
