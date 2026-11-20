@@ -457,6 +457,7 @@
 - [CSES 2130 - Distinct Routes II](https://cses.fi/problemset/task/2130) [✓](../../practice/graphs/cses_2130.cpp "Accepted solution")
 - [HackerRank bus-company - Bus Company](https://www.hackerrank.com/contests/101hack28/challenges/bus-company) [✓](../../practice/graphs/hackerrank_bus_company.cpp "Accepted solution")
 - [UVa 1104 - Chips Challenge](https://onlinejudge.org/external/11/1104.pdf) [✓](../../practice/graphs/uva_1104_mcmf_dijkstra.cpp "Accepted solution")
+- [UVa 1486 - Transportation](https://onlinejudge.org/external/14/1486.pdf) [✓](../../practice/graphs/uva_1486.cpp "Accepted solution")
 - [UVa 1658 - Admiral](https://onlinejudge.org/external/16/1658.pdf) [✓](../../practice/graphs/uva_1658_mcmf_dijkstra.cpp "Accepted solution")
 - [UVa 1711 - Catering](https://onlinejudge.org/external/17/1711.pdf) [✓](../../practice/graphs/uva_1711_mcmf_dijkstra.cpp "Accepted solution")
 - [UVa 11301 - Great Wall of China](https://onlinejudge.org/external/113/11301.pdf) [✓](../../practice/graphs/uva_11301_mcmf_dijkstra.cpp "Accepted solution")
