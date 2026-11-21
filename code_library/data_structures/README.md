@@ -211,6 +211,7 @@
 - [Codeforces 896C - Willem, Chtholly and Seniorious](https://codeforces.com/problemset/problem/896/C)
 - [Codeforces 915E - Physical Education Lessons](https://codeforces.com/problemset/problem/915/E) [✓](../../practice/data_structures/codeforces_915e.cpp "Accepted solution")
 - [Codeforces 1638E - Colorful Operations](https://codeforces.com/problemset/problem/1638/E)
+- [UVa 10587 - Mayor's posters](https://onlinejudge.org/external/105/10587.pdf) [✓](../../practice/data_structures/uva_10587.cpp "Accepted solution")
 
 #### [Li Chao Tree](li_chao_tree.cpp)
 
