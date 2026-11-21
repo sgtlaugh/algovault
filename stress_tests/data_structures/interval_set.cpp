@@ -71,6 +71,70 @@ void large_run(int ops){
     assert(total == s.covered_length());
 }
 
+/// IntervalMap against an array of cell values, cell i standing for [coord(i), coord(i + 1)) as in simulate
+void simulate_map(int n, long long base, long long step, int ops){
+    auto coord = [&](int i){ return base + i * step; };
+    long long start = stress::rand_int(-5, 5);
+    IntervalMap<long long, long long> m(coord(0), coord(n), start);
+    vector<long long> val(n, start);
+
+    for (int op = 0; op < ops; op++){
+        int l = stress::rand_int(0, n), r = stress::rand_int(0, n);
+        if (l > r) swap(l, r);
+        if (stress::rand_int(0, 5) == 0) r = l;
+        int kind = stress::rand_int(0, 3);
+
+        if (kind == 0){
+            long long v = stress::rand_int(-5, 5);
+            m.assign(coord(l), coord(r), v);
+            for (int i = l; i < r; i++) val[i] = v;
+        }
+        else if (kind == 1){
+            long long d = stress::rand_int(-3, 3);
+            m.for_each(coord(l), coord(r), [&](long long, long long, long long& v){ v += d; });
+            for (int i = l; i < r; i++) val[i] += d;
+        }
+        else{
+            long long sum = 0, prev_end = coord(l);
+            int visits = 0;
+            m.for_each(coord(l), coord(r), [&](long long a, long long b, long long v){
+                assert(a == prev_end && a < b && (b - a) % step == 0);
+                for (long long c = a; c < b; c += step) assert(val[(c - base) / step] == v);
+                sum += (b - a) / step * v, prev_end = b, visits++;
+            });
+            assert(prev_end == coord(r) && (visits > 0) == (l < r));
+
+            long long want = 0;
+            for (int i = l; i < r; i++) want += val[i];
+            assert(sum == want);
+        }
+
+        long long last = LLONG_MIN;
+        for (auto [k, v] : m.seg){
+            assert(last < k && coord(0) <= k && k <= coord(n) && (k - base) % step == 0);
+            last = k;
+        }
+        assert(m.seg.begin()->first == coord(0) && last == coord(n));
+
+        for (int i = 0; i < n; i++){
+            assert(m.get(coord(i)) == val[i]);
+            assert(m.get(coord(i) + step - 1) == val[i]);
+        }
+    }
+}
+
+/// Pieces split by for_each stay put, so a fragmented map keeps its exact values; assign then collapses them
+void fragment_then_collapse(){
+    int n = 2000;
+    IntervalMap<int, long long> m(0, n, 0);
+    for (int i = 0; i < n; i++) m.for_each(i, i + 1, [&](int, int, long long& v){ v = i; });
+    assert((int)m.seg.size() == n + 1);
+    for (int i = 0; i < n; i++) assert(m.get(i) == i);
+
+    m.assign(0, n, 7);
+    assert((m.seg == map<int, long long>{{0, 7}, {n, 0}}));
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(3000); it++){
         int n = it < 300 ? it % 12 + 1 : stress::rand_int(1, 60);
@@ -80,6 +144,19 @@ int main(){
     }
 
     large_run(stress::scaled(300000));
+
+    for (long long it = 0; it < stress::scaled(3000); it++){
+        int n = it < 300 ? it % 12 + 1 : stress::rand_int(1, 60);
+        if (it % 3 == 0) simulate_map(n, stress::rand_int(-1000, 1000), 1, 40);
+        else if (it % 3 == 1) simulate_map(n, stress::rand_int(-1000000, 1000000), stress::rand_int(2, 1000), 40);
+        else simulate_map(n, -4000000000000000000LL, 8000000000000000000LL / n, 40);
+    }
+    fragment_then_collapse();
+
+    IntervalMap<int, int> bounded(0, 10, 1);
+    stress::expect_assert("data_structures/interval_set.cpp", [&]{ bounded.assign(-1, 3, 2); });
+    stress::expect_assert("data_structures/interval_set.cpp", [&]{ bounded.for_each(5, 11, [](int, int, int&) {}); });
+    stress::expect_assert("data_structures/interval_set.cpp", []{ IntervalMap<int, int> empty(4, 4, 0); });
 
     /// Floating T, which simulate never uses: cuts at fractional dyadic points keep their exact endpoints
     IntervalSet<double> reals;

@@ -7,7 +7,7 @@
 | [Convex Hull Trick](#convex-hull-trick) | [Coordinate Compression](#coordinate-compression) | [Disjoint Set Union](#disjoint-set-union) | [Disjoint Set Union, Partially Persistent](#disjoint-set-union-partially-persistent) |
 | [Disjoint Set Union, Potential](#disjoint-set-union-potential) | [Disjoint Set Union, Rollback](#disjoint-set-union-rollback) | [Disjoint Sparse Table](#disjoint-sparse-table) | [Distinct Subarray Aggregates](#distinct-subarray-aggregates) |
 | [Euler Tour Tree](#euler-tour-tree) | [Fenwick Tree](#fenwick-tree) | [Fenwick Tree 2D](#fenwick-tree-2d) | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) |
-| [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) | [Fenwick Tree 3D](#fenwick-tree-3d) | [Hash Map](#hash-map) | [Interval Set](#interval-set) |
+| [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) | [Fenwick Tree 3D](#fenwick-tree-3d) | [Hash Map](#hash-map) | [Interval Set and Map](#interval-set-and-map) |
 | [Li Chao Tree](#li-chao-tree) | [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) | [Mo's Algorithm](#mos-algorithm) |
 | [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) | [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) | [Monotonic Stack](#monotonic-stack) |
 | [Ordered Set](#ordered-set) | [Persistent Segment Tree](#persistent-segment-tree) | [Rope](#rope) | [Segment Tree](#segment-tree) |
@@ -205,9 +205,12 @@
 
 - [UVa 12219 - Common Subexpression Elimination](https://onlinejudge.org/external/122/12219.pdf) [✓](../../practice/data_structures/uva_12219.cpp "Accepted solution")
 
-#### [Interval Set](interval_set.cpp)
+#### [Interval Set and Map](interval_set.cpp)
 
+- [AtCoder ABC237 G - Range Sort Query](https://atcoder.jp/contests/abc237/tasks/abc237_g)
+- [Codeforces 896C - Willem, Chtholly and Seniorious](https://codeforces.com/problemset/problem/896/C)
 - [Codeforces 915E - Physical Education Lessons](https://codeforces.com/problemset/problem/915/E) [✓](../../practice/data_structures/codeforces_915e.cpp "Accepted solution")
+- [Codeforces 1638E - Colorful Operations](https://codeforces.com/problemset/problem/1638/E)
 
 #### [Li Chao Tree](li_chao_tree.cpp)
 

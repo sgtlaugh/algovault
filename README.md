@@ -93,7 +93,7 @@ sa.contains("nab");         // false
   - [2D, Sparse](code_library/data_structures/fenwick_tree_2D_sparse.cpp) - point add and rectangle sum on huge grids [✓](judge_tests/data_structures/point_add_rectangle_sum.cpp)
   - [3D](code_library/data_structures/fenwick_tree_3D.cpp) - the same in 3D
 - [Hash Map](code_library/data_structures/hashmap.cpp) - anti-hack hash table for integer keys [✓](judge_tests/data_structures/associative_array.cpp)
-- [Interval Set](code_library/data_structures/interval_set.cpp) - interval union with add, remove, coverage [✓](judge_tests/data_structures/aoj_dsl_4_a.cpp)
+- [Interval Set and Map](code_library/data_structures/interval_set.cpp) - interval union, plus range assign of values [✓](judge_tests/data_structures/aoj_dsl_4_a.cpp)
 - [Leftist Heap, Persistent](code_library/data_structures/leftist_heap.cpp) - persistent meldable priority queue [✓](judge_tests/data_structures/k_shortest_walk.cpp)
 - [Li Chao Tree](code_library/data_structures/li_chao_tree.cpp) - min or max of lines and segments at a point [✓](judge_tests/data_structures/line_add_get_min.cpp)
 - [Link-Cut Tree](code_library/data_structures/link_cut_tree.cpp) - dynamic forest: link, cut, path update and query [✓](judge_tests/data_structures/dynamic_tree_vertex_add_path_sum.cpp)
