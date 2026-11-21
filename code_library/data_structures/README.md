@@ -336,6 +336,7 @@
 
 #### [Persistent Segment Tree](persistent_segment_tree.cpp)
 
+- [CodeChef QUERY - Observing the Tree](https://www.codechef.com/problems/QUERY)
 - [Codeforces 786C - Till I Collapse](https://codeforces.com/problemset/problem/786/C) [✓](../../practice/data_structures/codeforces_786c.cpp "Accepted solution")
 - [Codeforces 840D - Destiny](https://codeforces.com/problemset/problem/840/D) [✓](../../practice/data_structures/codeforces_840d.cpp "Accepted solution")
 - [Codeforces Gym 101161E - ACM Tax](https://codeforces.com/gym/101161/problem/E) [✓](../../practice/data_structures/codeforces_gym_101161e.cpp "Accepted solution")
@@ -344,6 +345,7 @@
 - [SPOJ GOT - Gao on a tree](https://www.spoj.com/problems/GOT/) [✓](../../practice/data_structures/spoj_got.cpp "Accepted solution")
 - [SPOJ MKTHNUM - K-th Number](https://www.spoj.com/problems/MKTHNUM/) [✓](../../practice/data_structures/spoj_mkthnum_persistent_segment_tree.cpp "Accepted solution")
 - [SPOJ PSEGTREE - Make Versions in Segment Tree](https://www.spoj.com/problems/PSEGTREE/) [✓](../../practice/data_structures/spoj_psegtree.cpp "Accepted solution")
+- [SPOJ TTM - To the moon](https://www.spoj.com/problems/TTM/)
 
 #### [Rope](rope.cpp)
 

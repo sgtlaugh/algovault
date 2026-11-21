@@ -111,7 +111,7 @@ sa.contains("nab");         // false
   - [Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin and chmax with range sum [✓](judge_tests/data_structures/range_chmin_chmax_add_range_sum.cpp)
   - [Dynamic](code_library/data_structures/dynamic_segment_tree.cpp) - nodes created on demand over a huge index range [✓](judge_tests/data_structures/range_affine_range_sum_large_array.cpp)
   - [Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets with merge, split and k-th
-  - [Persistent](code_library/data_structures/persistent_segment_tree.cpp) - every version stays queryable, with k-th search [✓](judge_tests/data_structures/persistent_queue.cpp)
+  - [Persistent](code_library/data_structures/persistent_segment_tree.cpp) - old versions stay queryable, range updates, k-th [✓](judge_tests/data_structures/persistent_queue.cpp)
   - [XOR](code_library/data_structures/xor_segment_tree.cpp) - range fold of `a[p ^ x]` for any x
 - [Sliding Window Aggregation](code_library/data_structures/sliding_window_aggregation.cpp) - queue fold under any associative operation [✓](judge_tests/data_structures/aoj_dsl_3_d.cpp)
 - [Sparse Table](code_library/data_structures/sparse_table.cpp) - `O(1)` range min, max or gcd on a static array [✓](judge_tests/data_structures/staticrmq.cpp)
