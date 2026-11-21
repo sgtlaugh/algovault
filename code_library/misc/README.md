@@ -43,6 +43,8 @@
 
 #### [Dates](dates.cpp)
 
+- [UVa 602 - What Day Is It?](https://onlinejudge.org/external/6/602.pdf) [✓](../../practice/misc/uva_602.cpp "Accepted solution")
+
 #### [Fast I/O](fast_io.cpp)
 
 - [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✓](../../practice/misc/aoj_alds1_6_a_fast_io.cpp "Accepted solution")
