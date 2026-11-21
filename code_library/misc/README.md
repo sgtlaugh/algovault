@@ -5,9 +5,9 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [15 Puzzle Solver](#15-puzzle-solver) | [Assembly](#assembly) | [Bit Twiddling](#bit-twiddling) | [Comb Sort](#comb-sort) |
-| [Dancing Links](#dancing-links) | [Dates](#dates) | [Fast I/O](#fast-io) | [Gray Codes](#gray-codes) |
-| [Hackenbush](#hackenbush) | [Knight Distance](#knight-distance) | [N Queens](#n-queens) | [Nimber Arithmetic](#nimber-arithmetic) |
-| [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) | [Sprague-Grundy](#sprague-grundy) |  |
+| [Dancing Links](#dancing-links) | [Dates](#dates) | [Expression Parser](#expression-parser) | [Fast I/O](#fast-io) |
+| [Gray Codes](#gray-codes) | [Hackenbush](#hackenbush) | [Knight Distance](#knight-distance) | [N Queens](#n-queens) |
+| [Nimber Arithmetic](#nimber-arithmetic) | [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) | [Sprague-Grundy](#sprague-grundy) |
 
 <!-- /toc -->
 
@@ -46,6 +46,8 @@
 - [UVa 602 - What Day Is It?](https://onlinejudge.org/external/6/602.pdf) [✓](../../practice/misc/uva_602.cpp "Accepted solution")
 - [UVa 893 - Y3K Problem](https://onlinejudge.org/external/8/893.pdf) [✓](../../practice/misc/uva_893.cpp "Accepted solution")
 - [UVa 12148 - Electricity](https://onlinejudge.org/external/121/12148.pdf) [✓](../../practice/misc/uva_12148.cpp "Accepted solution")
+
+#### [Expression Parser](expression_parser.cpp)
 
 #### [Fast I/O](fast_io.cpp)
 
