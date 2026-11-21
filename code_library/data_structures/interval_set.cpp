@@ -9,16 +9,17 @@
  *   - IntervalMap for_each: O(log n + k) for the k pieces it visits, get: O(log n)
  *
  * IntervalSet<T> s: empty set, T is long long by default
- * IntervalMap<K, V> m(lo, hi, v): every point of [lo, hi) holds v, lo < hi, K and V are long long by default
  * s.add(l, r): cover [l, r), merging with every stored interval it overlaps or touches
- * m.assign(l, r, v): every point of [l, r) now holds v, lo <= l, r <= hi
- * m.for_each(l, r, f): calls f(a, b, value) for each piece [a, b) of [l, r) in order, value is a reference f may change
  * s.remove(l, r): uncover [l, r), cutting stored intervals that stick out of it
  * s.contains(x): true if the point x is covered
  * s.covered_length(): total covered length, kept as a running sum
  * s.covers(l, r): true if all of [l, r) is covered, always true for an empty range
- * m.get(x): the value at the point x, lo <= x < hi
  * s.seg: map l -> r of the stored intervals in increasing order, never two that touch
+ *
+ * IntervalMap<K, V> m(lo, hi, v): every point of [lo, hi) holds v, lo < hi, K and V are long long by default
+ * m.assign(l, r, v): every point of [l, r) now holds v, lo <= l, r <= hi
+ * m.for_each(l, r, f): calls f(a, b, value) for each piece [a, b) of [l, r) in order, value is a reference f may change
+ * m.get(x): the value at the point x, lo <= x < hi
  * m.seg: map l -> value of the piece [l, next key), its last key is hi and starts no piece
  *
  * Notes:
