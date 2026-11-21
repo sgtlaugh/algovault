@@ -124,6 +124,8 @@
 
 #### [Geometry 3D](geometry_3D.cpp)
 
+- [UVa 11275 - 3D Triangles](https://onlinejudge.org/external/112/11275.pdf) [✓](../../practice/geometry/uva_11275.cpp "Accepted solution")
+
 #### [Half-Plane Intersection](halfplane_intersection.cpp)
 
 - [CodeChef CHN02 - Animesh decides to settle down](https://www.codechef.com/problems/CHN02) [✓](../../practice/geometry/codechef_chn02.cpp "Accepted solution")
