@@ -9,6 +9,7 @@
  *
  * Notes:
  *   - MOD is a prime with n + 1 < MOD < 2^31, 10^9 + 7 by default
+ *   - For large n and an NTT prime use polynomial.cpp: B_i = i! [x^i] of the inverse of (e^x - 1) / x, O(n log n)
  *
 ***/
 
