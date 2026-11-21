@@ -62,6 +62,47 @@ void stress_binary_trie(long long iterations, int ops, unsigned long long max_va
     }
 }
 
+/// Every query on every range of a vector kept alongside, with x and k drawn near the edges of [0, 2^BITS)
+template <int BITS>
+void check_persistent(const PersistentBinaryTrie<BITS>& pt, const vector<unsigned long long>& a, unsigned long long max_value){
+    assert(pt.size() == (int)a.size());
+    int n = a.size();
+    if (n == 0) return;
+
+    int l = stress::rand_int(0, n - 1), r = stress::rand_int(l, n - 1);
+    unsigned long long x = stress::rand_int(0, 1) ? (unsigned long long)stress::rand_int(0, max_value >> 1) * 2 + stress::rand_int(0, 1) : a[stress::rand_int(0, n - 1)];
+    vector<unsigned long long> xs;
+    for (int i = l; i <= r; i++) xs.push_back(x ^ a[i]);
+    sort(xs.begin(), xs.end());
+
+    assert(pt.min_xor(l, r, x) == xs.front() && pt.max_xor(l, r, x) == xs.back());
+    int k = stress::rand_int(0, r - l);
+    assert(pt.kth_xor(l, r, x, k) == xs[k]);
+
+    /// k one past a stored xor, equal to it, 0, and 2^BITS or more where that fits in 64 bits
+    unsigned long long ks[] = {xs[k] + 1, xs[k], 0, BITS < 64 ? max_value + 1 : ~0ULL, (unsigned long long)stress::rand_int(0, max_value >> 1) * 2};
+    for (unsigned long long lim : ks){
+        int below = lower_bound(xs.begin(), xs.end(), lim) - xs.begin();
+        assert(pt.count_xor_less(l, r, x, lim) == below);
+    }
+}
+
+template <int BITS>
+void stress_persistent(long long iterations, int ops, unsigned long long max_value){
+    for (long long it = 0; it < iterations; it++){
+        PersistentBinaryTrie<BITS> pt;
+        vector<unsigned long long> a;
+        for (int op = 0; op < ops; op++){
+            if (!a.empty() && stress::rand_int(0, 3) == 0) pt.pop(), a.pop_back();
+            else{
+                unsigned long long x = stress::rand_int(0, 3) == 0 ? max_value : (unsigned long long)stress::rand_int(0, max_value >> 1) * 2 + stress::rand_int(0, 1);
+                pt.push(x), a.push_back(x);
+            }
+            check_persistent(pt, a, max_value);
+        }
+    }
+}
+
 /// Trie prefix and exact counts against a list of inserted words, BinaryTrie xor queries against a std::map multiset
 int main(){
     /// x = 2^BITS would be stored as x mod 2^BITS, and erasing more copies than exist would drive counts negative
@@ -162,6 +203,48 @@ int main(){
     for (int i = 0; i < 200000; i += 2) large.erase(i * 5000LL);
     assert(large.size() == 100000 && large.min_xor(5000) == 0 && large.min_xor(0) == 5000);
     assert(large.max_xor(0) == 199999 * 5000ULL && large.kth_xor(0, 1) == 15000);
+
+    /// x = 2^BITS, a pop with nothing left and a range past size() must hit the library's asserts
+    stress::expect_assert("data_structures/trie.cpp", []{ PersistentBinaryTrie<3>().push(8); });
+    stress::expect_assert("data_structures/trie.cpp", []{ PersistentBinaryTrie<3>().pop(); });
+    stress::expect_assert("data_structures/trie.cpp", []{
+        PersistentBinaryTrie<3> pt;
+        pt.push(1);
+        pt.max_xor(0, 1, 0);
+    });
+
+    /// Every array of length up to 4 over [0, 4), every range, x and k
+    for (int n = 1; n <= 4; n++){
+        for (int code = 0; code < (1 << (2 * n)); code++){
+            PersistentBinaryTrie<2> pt;
+            vector<int> a(n);
+            for (int i = 0; i < n; i++) a[i] = code >> (2 * i) & 3, pt.push(a[i]);
+            for (int l = 0; l < n; l++){
+                for (int r = l; r < n; r++){
+                    for (int x = 0; x < 4; x++){
+                        vector<int> xs;
+                        for (int i = l; i <= r; i++) xs.push_back(x ^ a[i]);
+                        sort(xs.begin(), xs.end());
+                        for (int k = 0; k <= r - l; k++) assert((int)pt.kth_xor(l, r, x, k) == xs[k]);
+                        for (int lim = 0; lim <= 5; lim++){
+                            assert(pt.count_xor_less(l, r, x, lim) == lower_bound(xs.begin(), xs.end(), lim) - xs.begin());
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    stress_persistent<1>(stress::scaled(300), 30, 1);
+    stress_persistent<5>(stress::scaled(1000), 60, 31);
+    stress_persistent<30>(stress::scaled(300), 200, (1ULL << 30) - 1);
+    stress_persistent<64>(stress::scaled(300), 100, ~0ULL);
+
+    /// Old versions survive many later pushes: 2e5 values, then queries over early prefixes
+    PersistentBinaryTrie<20> big_pt;
+    for (int i = 0; i < 200000; i++) big_pt.push(i * 5 % (1 << 20));
+    assert(big_pt.max_xor(0, 0, 0) == 0 && big_pt.min_xor(1, 3, 5) == 0 && big_pt.size() == 200000);
+    assert(big_pt.count_xor_less(0, 199999, 0, 1 << 20) == 200000);
 
     return 0;
 }
