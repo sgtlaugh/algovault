@@ -148,6 +148,9 @@
 
 #### [Subset Convolution and SOS DP](subset_convolution.cpp)
 
+- [AtCoder ABC213 G - Connectivity 2](https://atcoder.jp/contests/abc213/tasks/abc213_g)
+- [AtCoder ABC253 Ex - We Love Forest](https://atcoder.jp/contests/abc253/tasks/abc253_h)
+- [AtCoder ARC105 F - Lights Out on Connected Graph](https://atcoder.jp/contests/arc105/tasks/arc105_f)
 - [Codeforces 165E - Compatible Numbers](https://codeforces.com/problemset/problem/165/E) [✓](../../practice/algebra/codeforces_165e.cpp "Accepted solution")
 - [Codeforces 383E - Vowels](https://codeforces.com/problemset/problem/383/E) [✓](../../practice/algebra/codeforces_383e.cpp "Accepted solution")
 - [Codeforces 449D - Jzzhu and Numbers](https://codeforces.com/problemset/problem/449/D) [✓](../../practice/algebra/codeforces_449d.cpp "Accepted solution")

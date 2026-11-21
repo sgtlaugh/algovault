@@ -71,6 +71,62 @@ void check(int n, int mod){
     assert(f == sup_inv);
 }
 
+/// Splitting off the block that holds the lowest bit of S: exp, log and inverse in O(3^n)
+void brute_exp_log_inverse(const vector<long long>& f, const vector<long long>& g, const vector<long long>& a, int mod, vector<long long>& e, vector<long long>& l, vector<long long>& c){
+    int size = f.size();
+    e.assign(size, 0), l.assign(size, 0), c.assign(size, 0);
+    e[0] = 1 % mod, c[0] = 1 % mod;
+
+    for (int s = 1; s < size; s++){
+        int low = s & -s;
+        long long exp_sum = 0, log_sum = brute_reduce(g[s], mod), inv_sum = 0;
+        for (int t = s; t; t = (t - 1) & s){
+            inv_sum = brute_reduce(inv_sum + brute_reduce(a[t], mod) * c[s ^ t], mod);
+            if (!(t & low)) continue;
+            exp_sum = brute_reduce(exp_sum + brute_reduce(f[t], mod) * e[s ^ t], mod);
+            if (t != s) log_sum = brute_reduce(log_sum - l[t] * brute_reduce(g[s ^ t], mod), mod);
+        }
+        e[s] = exp_sum, l[s] = log_sum, c[s] = brute_reduce(-inv_sum, mod);
+    }
+}
+
+/// A value whose residue is target, sometimes shifted by mod or far negative so the library must reduce it
+long long with_residue(int target, int mod){
+    long long x = target + (long long)mod * stress::rand_int(-3, 3);
+    return stress::rand_int(0, 3) ? x : target;
+}
+
+void check_exp_log(int n, int mod){
+    int size = 1 << n;
+    vector<long long> f(size), g(size), a(size);
+    for (int i = 0; i < size; i++) f[i] = random_value(mod), g[i] = random_value(mod), a[i] = random_value(mod);
+    f[0] = with_residue(0, mod), g[0] = with_residue(1 % mod, mod), a[0] = with_residue(1 % mod, mod);
+
+    vector<long long> e, l, c;
+    brute_exp_log_inverse(f, g, a, mod, e, l, c);
+
+    assert(subset_exp(f, mod) == e);
+    assert(subset_log(g, mod) == l);
+    assert(subset_inverse(a, mod) == c);
+
+    vector<long long> reduced_f(size), back = subset_log(e, mod);
+    for (int i = 0; i < size; i++) reduced_f[i] = brute_reduce(f[i], mod);
+    assert(back == reduced_f);
+
+    vector<int> f_int(size);
+    for (int i = 0; i < size; i++) f_int[i] = brute_reduce(f[i], mod);
+    vector<int> e_int = subset_exp(f_int, mod);
+    for (int i = 0; i < size; i++) assert(e_int[i] == e[i]);
+}
+
+/// Exp needs f[0] = 0 and log and inverse need a leading 1, which only exist modulo mod
+void check_exp_log_rejects(){
+    stress::expect_assert("algebra/subset_convolution.cpp", []{ subset_exp<long long>({1, 2}, 7); });
+    stress::expect_assert("algebra/subset_convolution.cpp", []{ subset_log<long long>({2, 3}, 7); });
+    stress::expect_assert("algebra/subset_convolution.cpp", []{ subset_inverse<long long>({0, 3}, 7); });
+    stress::expect_assert("algebra/subset_convolution.cpp", []{ subset_exp<long long>({0, 1, 2}, 7); });
+}
+
 /// Exact (mod = 0) and 64-bit modular transforms on long long values against exact submask sums
 void check_long(int n){
     int size = 1 << n;
@@ -214,6 +270,14 @@ int main(){
     }
 
     for (int mod : {998244353, 2147483647}) check(14, mod);
+
+    check_exp_log_rejects();
+    for (long long it = 0; it < stress::scaled(600); it++){
+        int n = it < 120 ? it % 11 : stress::rand_int(0, 10);
+        int mod = stress::rand_int(0, 4) ? mods[stress::rand_int(0, 8)] : stress::rand_int(1, INT_MAX);
+        check_exp_log(n, mod);
+    }
+    for (int mod : {998244353, 1000000000}) check_exp_log(13, mod);
 
     for (int n = 0; n <= 3; n++) check_folds_exhaustive(n);
     for (long long it = 0; it < stress::scaled(400); it++){
