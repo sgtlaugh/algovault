@@ -49,6 +49,7 @@
 
 #### [Expression Parser](expression_parser.cpp)
 
+- [UVa 533 - Equation Solver](https://onlinejudge.org/external/5/533.pdf) [✓](../../practice/misc/uva_533.cpp "Accepted solution")
 - [UVa 727 - Equation](https://onlinejudge.org/external/7/727.pdf) [✓](../../practice/misc/uva_727.cpp "Accepted solution")
 
 #### [Fast I/O](fast_io.cpp)
