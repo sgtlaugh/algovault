@@ -117,6 +117,27 @@ int brute(int n_left, int n_right, const vector<vector<int>>& adj){
     return *max_element(best.begin(), best.end());
 }
 
+/// A minimum cover has as many vertices as a maximum matching, so a valid cover of that size is optimal (Konig)
+void check_cover(const HopcroftKarp& hk, const vector<vector<int>>& adj, int matching){
+    pair<vector<int>, vector<int>> cover = hk.min_vertex_cover();
+    assert((int)(cover.first.size() + cover.second.size()) == matching);
+
+    vector<char> in_left(hk.n_left, 0), in_right(hk.n_right, 0);
+    for (size_t i = 0; i < cover.first.size(); i++){
+        int u = cover.first[i];
+        assert(0 <= u && u < hk.n_left && (i == 0 || cover.first[i - 1] < u));
+        in_left[u] = 1;
+    }
+    for (size_t i = 0; i < cover.second.size(); i++){
+        int v = cover.second[i];
+        assert(0 <= v && v < hk.n_right && (i == 0 || cover.second[i - 1] < v));
+        in_right[v] = 1;
+    }
+    for (int u = 0; u < hk.n_left; u++){
+        for (int v : adj[u]) assert(in_left[u] || in_right[v]);
+    }
+}
+
 int run(int n_left, int n_right, const vector<vector<int>>& adj){
     HopcroftKarp hk(n_left, n_right);
     for (int u = 0; u < n_left; u++){
@@ -136,6 +157,7 @@ int run(int n_left, int n_right, const vector<vector<int>>& adj){
         if (hk.match_right[v] != -1) assert(hk.match_left[hk.match_right[v]] == v);
     }
     assert(pairs == res);
+    check_cover(hk, adj, res);
     return res;
 }
 
@@ -162,7 +184,21 @@ int main(){
             for (int i = 1; i < (int)adj[u].size(); i += 2) grow.add_edge(u, adj[u][i]);
         }
         assert(grow.max_matching() == expected);
+        check_cover(grow, adj, expected);
     }
+
+    /// An edge added after max_matching that opens an augmenting path makes the cover too small, which must assert
+    HopcroftKarp stale(1, 1);
+    stale.max_matching();
+    stale.add_edge(0, 0);
+    stress::expect_assert("graphs/hopcroft_karp.cpp", [&]{ stale.min_vertex_cover(); });
+
+    /// An added edge that opens no augmenting path leaves the cover valid: left 0 is matched and covers both edges
+    HopcroftKarp grown(1, 2);
+    grown.add_edge(0, 0);
+    assert(grown.max_matching() == 1);
+    grown.add_edge(0, 1);
+    check_cover(grown, {{0, 1}}, 1);
 
     for (long long it = 0; it < stress::scaled(400); it++){
         int n_left = stress::rand_int(1, 300), n_right = stress::rand_int(1, 300);

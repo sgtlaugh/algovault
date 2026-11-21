@@ -186,7 +186,7 @@ sa.contains("nab");         // false
   - [Weighted](code_library/graphs/weighted_graph_matching.cpp) - edge weights, maximizes the total weight [✓](judge_tests/graphs/general_weighted_matching.cpp)
 - [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - minimum cut weight and one side
 - [Gomory-Hu Tree](code_library/graphs/gomory_hu.cpp) - all-pairs min cuts of an undirected graph
-- [Hopcroft-Karp](code_library/graphs/hopcroft_karp.cpp) - maximum bipartite matching, `O(m sqrt(n))` [✓](judge_tests/graphs/bipartitematching.cpp)
+- [Hopcroft-Karp](code_library/graphs/hopcroft_karp.cpp) - bipartite matching and min vertex cover [✓](judge_tests/graphs/bipartitematching.cpp)
 - [Hungarian Algorithm](code_library/graphs/hungarian_algorithm.cpp) - minimum or maximum cost assignment [✓](judge_tests/graphs/assignment.cpp)
 - [Johnson's Algorithm](code_library/graphs/johnsons_algorithm.cpp) - all-pairs shortest paths with negative edges [✓](judge_tests/graphs/aoj_grl_1_c_johnson.cpp)
 - [K Shortest Walks](code_library/graphs/k_shortest_walks.cpp) - lengths of the k shortest walks from s to t [✓](judge_tests/graphs/k_shortest_walk_k_shortest_walks.cpp)

@@ -62,6 +62,29 @@ struct HopcroftKarp{
         return n_left - count(match_left.begin(), match_left.end(), -1);
     }
 
+    /// Konig: alternating paths from the free left vertices; the cover is every unreached left and every reached right
+    pair<vector<int>, vector<int>> min_vertex_cover() const{
+        vector<char> seen_left(n_left, 0), seen_right(n_right, 0);
+        vector<int> queue;
+        for (int u = 0; u < n_left; u++){
+            if (match_left[u] == -1) seen_left[u] = 1, queue.push_back(u);
+        }
+        for (int i = 0; i < (int)queue.size(); i++){
+            for (int v : adj[queue[i]]){
+                if (seen_right[v]) continue;
+                seen_right[v] = 1;
+                int w = match_right[v];
+                assert(w != -1);  /// reaching a free right vertex is an augmenting path: the matching is not maximum
+                if (!seen_left[w]) seen_left[w] = 1, queue.push_back(w);
+            }
+        }
+
+        pair<vector<int>, vector<int>> res;
+        for (int u = 0; u < n_left; u++) if (!seen_left[u]) res.first.push_back(u);
+        for (int v = 0; v < n_right; v++) if (seen_right[v]) res.second.push_back(v);
+        return res;
+    }
+
     /// Layers left vertices by distance from free left ones, stopping at the first layer reaching a free right vertex
     int bfs(){
         dist.assign(n_left, -1);
@@ -123,29 +146,15 @@ struct DAGPathCover{
     }
 
     vector<int> max_antichain() const{
-        HopcroftKarp hk = matching(n, closure());
+        pair<vector<int>, vector<int>> cover = matching(n, closure()).min_vertex_cover();
 
-        /// Konig: alternating reachability from free left vertices gives the minimum vertex cover
-        vector<char> seen_left(n, 0), seen_right(n, 0);
-        vector<int> queue;
-        for (int u = 0; u < n; u++){
-            if (hk.match_left[u] == -1) seen_left[u] = 1, queue.push_back(u);
-        }
-        for (int i = 0; i < (int)queue.size(); i++){
-            for (int v : hk.adj[queue[i]]){
-                if (seen_right[v]) continue;
-                seen_right[v] = 1;
-                int w = hk.match_right[v];
-                if (w != -1 && !seen_left[w]) seen_left[w] = 1, queue.push_back(w);
-            }
-        }
+        /// The antichain is every vertex with neither its out copy (left) nor its in copy (right) in the cover
+        vector<char> covered(n, 0);
+        for (int v : cover.first) covered[v] = 1;
+        for (int v : cover.second) covered[v] = 1;
 
-        /// The cover is unvisited left plus visited right copies, the antichain is every vertex with neither copy in it
         vector<int> res;
-        for (int v = 0; v < n; v++){
-            if (seen_left[v] && !seen_right[v]) res.push_back(v);
-        }
-
+        for (int v = 0; v < n; v++) if (!covered[v]) res.push_back(v);
         return res;
     }
 

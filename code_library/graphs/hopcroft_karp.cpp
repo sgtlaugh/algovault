@@ -3,15 +3,20 @@
  * Hopcroft-Karp
  * Maximum matching in a bipartite graph
  *
- * Complexity: O(m sqrt(n))
+ * Complexity:
+ *   - max_matching: O(m sqrt(n))
+ *   - min_vertex_cover: O(n + m)
  *
  * HopcroftKarp hk(n_left, n_right): left vertices 0 to n_left - 1, right vertices 0 to n_right - 1
  * hk.add_edge(u, v): edge from left u to right v
  * hk.max_matching(): the size of a maximum matching, callable again after adding edges
+ * hk.min_vertex_cover(): {left, right}, the vertices of a minimum vertex cover in increasing order, after max_matching
  * hk.match_left[u]: the right vertex matched to u or -1
  * hk.match_right[v]: the left vertex matched to v or -1
  *
  * Notes:
+ *   - The cover has max_matching() vertices (Konig); every vertex outside it forms a maximum independent set
+ *   - min_vertex_cover asserts when edges were added since the last max_matching() and the matching can grow
  *   - Thousands of graphs with n <= 100 match about 2x faster as a bitset Kuhn, mostly from skipping adjacency lists
  *
 ***/
@@ -61,6 +66,29 @@ struct HopcroftKarp{
         }
 
         return n_left - count(match_left.begin(), match_left.end(), -1);
+    }
+
+    /// Konig: alternating paths from the free left vertices; the cover is every unreached left and every reached right
+    pair<vector<int>, vector<int>> min_vertex_cover() const{
+        vector<char> seen_left(n_left, 0), seen_right(n_right, 0);
+        vector<int> queue;
+        for (int u = 0; u < n_left; u++){
+            if (match_left[u] == -1) seen_left[u] = 1, queue.push_back(u);
+        }
+        for (int i = 0; i < (int)queue.size(); i++){
+            for (int v : adj[queue[i]]){
+                if (seen_right[v]) continue;
+                seen_right[v] = 1;
+                int w = match_right[v];
+                assert(w != -1);  /// reaching a free right vertex is an augmenting path: the matching is not maximum
+                if (!seen_left[w]) seen_left[w] = 1, queue.push_back(w);
+            }
+        }
+
+        pair<vector<int>, vector<int>> res;
+        for (int u = 0; u < n_left; u++) if (!seen_left[u]) res.first.push_back(u);
+        for (int v = 0; v < n_right; v++) if (seen_right[v]) res.second.push_back(v);
+        return res;
     }
 
     /// Layers left vertices by distance from free left ones, stopping at the first layer reaching a free right vertex
@@ -129,5 +157,14 @@ int main(){
     assert(grow.max_matching() == 1);
     grow.add_edge(0, 1);
     assert(grow.max_matching() == 2);
+
+    /// All three left vertices like only right 0, so one edge is matched and right 0 alone covers every edge
+    HopcroftKarp star(3, 2);
+    star.add_edge(0, 0), star.add_edge(1, 0), star.add_edge(2, 0);
+    assert(star.max_matching() == 1);
+    pair<vector<int>, vector<int>> cover = star.min_vertex_cover();
+    assert(cover.first.empty());
+    assert((cover.second == vector<int>{0}));
+
     return 0;
 }
