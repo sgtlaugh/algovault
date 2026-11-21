@@ -154,6 +154,7 @@ sa.contains("nab");         // false
   - [3D](code_library/geometry/convex_hull_3D.cpp) - triangulated hull in space, volume and area
 - [Delaunay Triangulation](code_library/geometry/delaunay.cpp) - triangulation with empty circumcircles [✓](judge_tests/geometry/euclidean_mst.cpp)
 - [Geometry](code_library/geometry/geometry.cpp) - exact predicates and polygon queries [✓](judge_tests/geometry/aoj_0177.cpp)
+  - [3D](code_library/geometry/geometry_3D.cpp) - distances and intersections in space
 - [Half-Plane Intersection](code_library/geometry/halfplane_intersection.cpp) - convex region common to all half-planes [✓](judge_tests/geometry/aoj_1283.cpp)
 - [KD-Tree](code_library/geometry/kd_tree.cpp) - nearest point to a query, points in a rectangle [✓](judge_tests/geometry/aoj_dsl_2_c.cpp)
 - [Pick's Theorem](code_library/geometry/picks_theorem.cpp) - lattice points inside and on a polygon
