@@ -14,6 +14,7 @@
  * Notes:
  *   - Use rollback_dsu.cpp to undo unions, potential_dsu.cpp for relations x[b] = x[a] + d
  *   - Use partially_persistent_dsu.cpp for queries at past times
+ *   - Range marking: nxt[find(i)] = first unmarked p >= i, and marking i joins i, i + 1 keeping the nxt of i + 1's set
  *
 ***/
 
