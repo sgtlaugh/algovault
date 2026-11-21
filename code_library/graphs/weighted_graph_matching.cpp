@@ -13,6 +13,9 @@
  * Notes:
  *   - Weights are integers up to 1e18 / n, an edge with w <= 0 never helps and is dropped
  *   - Heaviest among the largest matchings: add B = n max w / 2 + 1 to every weight, B + max w within the bound above
+ *   - Chinese postman, the shortest closed walk using every edge of a connected undirected graph:
+ *       - total weight plus a min-weight perfect matching of the odd-degree vertices under shortest path distances
+ *       - it is the heaviest largest matching under weights C - dist with C > every dist, or a bitmask DP when few
  *   - Reimplemented from Z. Galil, Efficient Algorithms for Finding Maximum Matching in Graphs, ACM Comput. Surv. 1986
  *
 ***/
