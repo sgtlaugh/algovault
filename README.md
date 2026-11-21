@@ -227,7 +227,7 @@ sa.contains("nab");         // false
 - [Matrix Permanent](code_library/linear_algebra/permanent.cpp) - permanent modulo any m, or exact
 - [Simplex](code_library/linear_algebra/simplex.cpp) - linear programming
 - [Thomas Algorithm](code_library/linear_algebra/thomas_algorithm.cpp) - tridiagonal linear systems in `O(n)`
-- [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - max xor, k-th xor and span intersection [✓](judge_tests/linear_algebra/intersection_of_f2_vector_spaces.cpp)
+- [XOR Basis](code_library/linear_algebra/xor_basis.cpp) - max xor, k-th xor, intersection and range queries [✓](judge_tests/linear_algebra/intersection_of_f2_vector_spaces.cpp)
 
 ### Number Theory
 

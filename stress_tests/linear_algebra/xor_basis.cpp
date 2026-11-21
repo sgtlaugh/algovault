@@ -93,6 +93,44 @@ void check_intersection(const vector<ull>& p, const vector<ull>& q){
     assert(1ULL << both.rank == common.size());
 }
 
+/// Reference for a[l..r]: a fresh XorBasis of exactly those values
+XorBasis plain_of(const vector<ull>& a, int l, int r){
+    XorBasis b;
+    for (int i = l; i <= r; i++) b.insert(a[i]);
+    return b;
+}
+
+/// After every push each suffix is compared with the reference, and a copy saved per push answers any [l, r] later
+template<int BITS>
+void check_range(const vector<ull>& a, int probes){
+    RangeXorBasis<BITS> r;
+    vector<RangeXorBasis<BITS>> copies;
+    int n = a.size();
+    for (int end = 0; end < n; end++){
+        r.push(a[end]);
+        copies.push_back(r);
+        assert(r.size() == end + 1);
+        for (int l = 0; l <= end + 1; l++){
+            XorBasis ref = plain_of(a, l, end);
+            assert(r.rank(l) == ref.rank);
+            ull last = ref.rank == 64 ? ULLONG_MAX : (1ULL << ref.rank) - 1;
+            for (int it = 0; it < probes; it++){
+                ull x = it % 2 ? ref.kth(stress::rng()() & last) : random_bits(stress::rand_int(0, 64));
+                if (it % 4 == 1) x ^= 1ULL << stress::rand_int(0, 63);
+                assert(r.contains(l, x) == ref.contains(x));
+                assert(r.max_xor(l, x) == ref.max_xor(x));
+            }
+        }
+    }
+
+    for (int it = 0; it < probes && n; it++){
+        int hi = stress::rand_int(0, n - 1), lo = stress::rand_int(0, hi);
+        XorBasis ref = plain_of(a, lo, hi);
+        ull x = random_bits(stress::rand_int(0, 64));
+        assert(copies[hi].max_xor(lo, x) == ref.max_xor(x) && copies[hi].rank(lo) == ref.rank);
+    }
+}
+
 int main(){
     for (int mask = 0; mask < (1 << 8); mask++){
         vector<ull> values;
@@ -192,6 +230,32 @@ int main(){
     XorBasis low;
     for (int i = 0; i < 63; i++) low.insert(1ULL << i);
     assert(low.count_less(1ULL << 63) == 1ULL << 63 && low.count_less(ULLONG_MAX) == 1ULL << 63);
+
+    for (int code = 0; code < 8 * 8 * 8 * 8 * 8; code++){
+        vector<ull> a;
+        for (int c = code; c; c /= 8) a.push_back(c % 8);
+        check_range<3>(a, 4);
+    }
+
+    for (long long it = 0; it < stress::scaled(400); it++){
+        int n = stress::rand_int(0, 40), bits = stress::rand_int(1, it % 2 ? 64 : 10);
+        vector<ull> a = combos(random_gens(stress::rand_int(0, 12), bits), n);
+        if (n && stress::rand_int(0, 3) == 0) a[stress::rand_int(0, n - 1)] = ULLONG_MAX;
+        check_range<64>(a, 6);
+    }
+
+    for (long long it = 0; it < stress::scaled(100); it++){
+        vector<ull> a(stress::rand_int(0, 60));
+        for (auto& x : a) x = random_bits(stress::rand_int(0, 20));
+        check_range<20>(a, 6);
+    }
+
+    /// 70 full-width values push the suffix rank to 64, where the 2^rank count would overflow
+    vector<ull> wide(70);
+    for (auto& x : wide) x = stress::rng()();
+    check_range<64>(wide, 3);
+
+    stress::expect_assert("linear_algebra/xor_basis.cpp", []{ RangeXorBasis<4> r; r.push(16); });
 
     return 0;
 }

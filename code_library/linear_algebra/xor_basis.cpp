@@ -3,7 +3,9 @@
  * XOR Basis
  * Linear basis over GF(2) of 64-bit values: the span is the set of XORs of all subsets of inserted values
  *
- * Complexity: O(64) per insert and query, O(64^2) for intersect, 520 bytes per instance
+ * Complexity:
+ *   - XorBasis: O(64) per insert and query, O(64^2) for intersect, 520 bytes per instance
+ *   - RangeXorBasis: O(BITS) per push and query, 12 BITS + 4 bytes per instance
  *
  * XorBasis b: an empty basis, its span is {0}
  * b.insert(x): adds x, false if x was already in the span
@@ -15,10 +17,19 @@
  * b.min_xor(x): the min of x ^ s over the span
  * b.rank: the number of nonzero basis vectors
  *
+ * RangeXorBasis<BITS = 64> rb: an empty array, values below 2^BITS
+ * rb.push(x): appends x as a[size()]
+ * rb.contains(l, x): whether some subset of a[l..size() - 1] XORs to x, 0 <= l
+ * rb.max_xor(l, x = 0): the max of x ^ s over the subset XORs s of a[l..size() - 1]
+ * rb.rank(l): the rank of a[l..size() - 1], its span has 2^rank(l) values
+ * rb.size(): the number of values pushed
+ *
  * Notes:
  *   - Values are any unsigned 64-bit integers, including 2^64 - 1
- *   - basis[i] is 0 or has leading bit i, and no other basis vector has bit i set
+ *   - XorBasis keeps basis[i] 0 or with leading bit i, and no other basis vector has bit i set
  *   - The span has 2^rank values, each the XOR of exactly 2^(n - rank) of the 2^n subsets of the n inserted values
+ *   - RangeXorBasis answers any [l, r] offline with queries sorted by r, asking each once size() = r + 1
+ *   - Online [l, r] queries keep a copy of rb after each push: 776 bytes each at BITS = 64, so narrow values pass BITS
  *
 ***/
 
@@ -120,6 +131,57 @@ struct XorBasis{
     }
 };
 
+template<int BITS = 64>
+struct RangeXorBasis{
+    ull basis[BITS] = {};
+    int pos[BITS] = {}, count = 0;
+
+    /// basis[i] is 0 or has leading bit i and lies in the span of a[pos[i]..], so suffix l uses those with pos[i] >= l
+    void push(ull x){
+        assert(x >> (BITS - 1) <= 1);  /// x < 2^BITS without a shift by 64
+        int p = count++;
+        for (int i = BITS - 1; i >= 0; i--){
+            if (!(x >> i & 1)) continue;
+            if (!basis[i]){
+                basis[i] = x, pos[i] = p;
+                return;
+            }
+
+            /// The newer vector stays, the older one moves down, so every suffix keeps a basis of its own span
+            if (pos[i] < p) swap(basis[i], x), swap(pos[i], p);
+            x ^= basis[i];
+        }
+    }
+
+    bool contains(int l, ull x) const{
+        for (int i = BITS - 1; i >= 0; i--){
+            if (!(x >> i & 1)) continue;
+            if (!basis[i] || pos[i] < l) return false;
+            x ^= basis[i];
+        }
+
+        return x == 0;
+    }
+
+    ull max_xor(int l, ull x = 0) const{
+        for (int i = BITS - 1; i >= 0; i--){
+            if (basis[i] && pos[i] >= l) x = max(x, x ^ basis[i]);
+        }
+
+        return x;
+    }
+
+    int rank(int l) const{
+        int res = 0;
+        for (int i = 0; i < BITS; i++) res += basis[i] && pos[i] >= l;
+        return res;
+    }
+
+    int size() const{
+        return count;
+    }
+};
+
 int main(){
     XorBasis b;
     assert(b.insert(6));
@@ -139,5 +201,18 @@ int main(){
     XorBasis common = b.intersect(other);  /// {0, 6, 10, 12} and {0, 1, 12, 13} share {0, 12}
     assert(common.rank == 1);
     assert(common.contains(12));
+
+    /// a = 5, 3, 8, 1: a[0..3] spans all 16 values, a[1..3] = {3, 8, 1} spans 8, a[2..3] = {8, 1} spans {0, 1, 8, 9}
+    RangeXorBasis<4> rb;
+    rb.push(5), rb.push(3), rb.push(8), rb.push(1);
+    assert(rb.max_xor(0) == 15);
+    assert(rb.max_xor(1) == 11);     /// 8 ^ 3
+    assert(rb.max_xor(2) == 9);      /// 8 ^ 1
+    assert(rb.max_xor(2, 6) == 15);  /// 6 ^ 9
+    assert(rb.contains(1, 10));      /// 3 ^ 8 ^ 1
+    assert(!rb.contains(2, 3));
+    assert(rb.rank(0) == 4);
+    assert(rb.rank(2) == 2);
+    assert(rb.size() == 4);
     return 0;
 }
