@@ -192,6 +192,7 @@
 - [UVa 12355 - Consecutive Sums](https://onlinejudge.org/external/123/12355.pdf) [✓](../../practice/number_theory/uva_12355.cpp "Accepted solution")
 - [UVa 13067 - Prime Kebab Menu](https://onlinejudge.org/external/130/13067.pdf) [✓](../../practice/number_theory/uva_13067.cpp "Accepted solution")
 - [UVa 13191 - Tobby Primes](https://onlinejudge.org/external/131/13191.pdf) [✓](../../practice/number_theory/uva_13191.cpp "Accepted solution")
+- [UVa 13261 - Between Ceiling and Floor](https://onlinejudge.org/external/132/13261.pdf) [✓](../../practice/number_theory/uva_13261.cpp "Accepted solution")
 
 #### [Power Tower](power_tower.cpp)
 
