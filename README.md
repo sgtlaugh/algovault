@@ -313,6 +313,7 @@ sa.contains("nab");         // false
 - [Lowest Common Ancestor](code_library/trees/lca.cpp) - LCA, distance, jumps and path folds on a tree [✓](judge_tests/trees/jump_on_tree.cpp)
 - [Prufer Code](code_library/trees/prufer_code.cpp) - converts labeled trees to and from sequences
 - [Rerooting DP](code_library/trees/rerooting.cpp) - a tree DP with every node as the root [✓](judge_tests/trees/aoj_grl_5_b.cpp)
+- [Static Top Tree](code_library/trees/static_top_tree.cpp) - tree DP under point updates, from any root [✓](judge_tests/trees/point_set_tree_path_composite_sum.cpp)
 - [Tree Isomorphism](code_library/trees/tree_isomorphism.cpp) - canonical ids for rooted and unrooted trees [✓](judge_tests/trees/rooted_tree_isomorphism_classification.cpp)
 - [Virtual Tree](code_library/trees/virtual_tree.cpp) - compresses a tree to k vertices and their LCAs
 

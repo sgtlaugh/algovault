@@ -6,7 +6,7 @@
 |---|---|---|---|
 | [Centroid Decomposition](#centroid-decomposition) | [DSU on Tree](#dsu-on-tree) | [Dynamic Tree Diameter](#dynamic-tree-diameter) | [Heavy Light Decomposition](#heavy-light-decomposition) |
 | [Leaf Peeling](#leaf-peeling) | [Long-Path Decomposition](#long-path-decomposition) | [Lowest Common Ancestor](#lowest-common-ancestor) | [Prufer Code](#prufer-code) |
-| [Rerooting DP](#rerooting-dp) | [Tree Isomorphism](#tree-isomorphism) | [Virtual Tree](#virtual-tree) |  |
+| [Rerooting DP](#rerooting-dp) | [Static Top Tree](#static-top-tree) | [Tree Isomorphism](#tree-isomorphism) | [Virtual Tree](#virtual-tree) |
 
 <!-- /toc -->
 
@@ -129,6 +129,12 @@
 - [HDU 4661 - Message Passing](https://acm.hdu.edu.cn/showproblem.php?pid=4661) [✓](../../practice/trees/hdu_4661.cpp "Accepted solution")
 - [USACO 814 - Directory Traversal](https://usaco.org/index.php?page=viewproblem2&cpid=814) [✓](../../practice/trees/usaco_814.cpp "Accepted solution")
 - [UVa 12223 - Moving to Nuremberg](https://onlinejudge.org/external/122/12223.pdf) [✓](../../practice/trees/uva_12223.cpp "Accepted solution")
+
+#### [Static Top Tree](static_top_tree.cpp)
+
+- [AtCoder ABC351 G - Hash on Tree](https://atcoder.jp/contests/abc351/tasks/abc351_g)
+- [AtCoder ABC460 G - Vertex Flip Query](https://atcoder.jp/contests/abc460/tasks/abc460_g)
+- [Codeforces 1942H - Farmer John's Favorite Intern](https://codeforces.com/problemset/problem/1942/H)
 
 #### [Tree Isomorphism](tree_isomorphism.cpp)
 
