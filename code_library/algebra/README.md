@@ -148,6 +148,8 @@
 
 #### [Sparse Power Series](sparse_power_series.cpp)
 
+- [UVa 674 - Coin Change](https://onlinejudge.org/external/6/674.pdf) [✓](../../practice/algebra/uva_674.cpp "Accepted solution")
+
 #### [Subset Convolution and SOS DP](subset_convolution.cpp)
 
 - [AtCoder ABC213 G - Connectivity 2](https://atcoder.jp/contests/abc213/tasks/abc213_g)
