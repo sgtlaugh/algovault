@@ -79,6 +79,7 @@
 
 #### [Knuth Partition DP](knuth_partition_dp.cpp)
 
+- [UVa 1737 - Branch Assignment](https://onlinejudge.org/external/17/1737.pdf) [✓](../../practice/dp/uva_1737.cpp "Accepted solution")
 - [UVa 12524 - Arranging Heaps](https://onlinejudge.org/external/125/12524.pdf) [✓](../../practice/dp/uva_12524_knuth_partition_dp.cpp "Accepted solution")
 
 #### [Knuth Optimization](knuth_optimization.cpp)
