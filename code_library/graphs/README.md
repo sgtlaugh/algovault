@@ -529,6 +529,7 @@
 - [UVa 1279 - Asteroid Rangers](https://onlinejudge.org/external/12/1279.pdf) [✓](../../practice/graphs/uva_1279.cpp "Accepted solution")
 - [UVa 1395 - Slim Span](https://onlinejudge.org/external/13/1395.pdf) [✓](../../practice/graphs/uva_1395.cpp "Accepted solution")
 - [UVa 1494 - Qin Shi Huang's National Road System](https://onlinejudge.org/external/14/1494.pdf) [✓](../../practice/graphs/uva_1494.cpp "Accepted solution")
+- [UVa 1504 - Genghis Khan the Conqueror](https://onlinejudge.org/external/15/1504.pdf) [✓](../../practice/graphs/uva_1504.cpp "Accepted solution")
 - [UVa 1537 - Picnic Planning](https://onlinejudge.org/external/15/1537.pdf) [✓](../../practice/graphs/uva_1537.cpp "Accepted solution")
 - [UVa 10048 - Audiophobia](https://onlinejudge.org/external/100/10048.pdf) [✓](../../practice/graphs/uva_10048.cpp "Accepted solution")
 - [UVa 10147 - Highways](https://onlinejudge.org/external/101/10147.pdf) [✓](../../practice/graphs/uva_10147.cpp "Accepted solution")
