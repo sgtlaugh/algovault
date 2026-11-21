@@ -14,6 +14,7 @@
  *   - c(n, k) is the coefficient of x^k in x (x + 1) ... (x + n - 1), the signed s(n, k) is (-1)^(n - k) c(n, k)
  *   - stirling_second needs a prime p with n < p <= 2^30 and n <= 2^22
  *   - Holds no mutable global state
+ *   - Fixed k via polynomial.cpp: S(n, k) = n! [x^n] (e^x - 1)^k / k!, c(n, k) = n! [x^n] (-ln(1 - x))^k / k!
  *
 ***/
 
