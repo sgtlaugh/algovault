@@ -13,6 +13,8 @@
  * Notes:
  *   - start = -1 picks the first vertex with out - in = 1 (directed) or odd degree, else the first with an edge
  *   - The path is a cycle iff path.front() == path.back()
+ *   - Shortest closed walk using every edge: undirected in weighted_graph_matching.cpp, mixed graphs are NP-hard
+ *   - Directed version: add shortest paths from vertices with in > out to those with out > in by min cost flow
  *   - With no edges the path is the single vertex start (0 for start = -1), and it is empty when n = 0
  *   - Multi-edges, self loops and isolated vertices are allowed: only the vertices that have edges need to be connected
  *   - Fewer than about 100 vertices with many edges: an edge-count matrix with a per-vertex pointer ran 2x faster
