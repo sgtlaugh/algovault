@@ -285,6 +285,7 @@
 - [CSES 1160 - Planets Queries II](https://cses.fi/problemset/task/1160)
 - [CSES 1750 - Planets Queries I](https://cses.fi/problemset/task/1750)
 - [UVa 11634 - Generate random numbers](https://onlinejudge.org/external/116/11634.pdf) [✓](../../practice/graphs/uva_11634.cpp "Accepted solution")
+- [UVa 12442 - Forwarding Emails](https://onlinejudge.org/external/124/12442.pdf) [✓](../../practice/graphs/uva_12442.cpp "Accepted solution")
 
 #### [General Graph Matching](graph_matching.cpp)
 
