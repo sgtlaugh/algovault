@@ -295,7 +295,7 @@ sa.contains("nab");         // false
 - [Palindromic Tree](code_library/strings/palindromic_tree.cpp) - eertree, one node per distinct palindrome [✓](judge_tests/strings/eertree.cpp)
 - [Subsequence Automaton](code_library/strings/subsequence_automaton.cpp) - next occurrence table, distinct subsequences [✓](judge_tests/strings/number_of_subsequences.cpp)
 - [Suffix Array](code_library/strings/suffix_array.cpp) - `O(n)` suffix array with LCP and pattern search [✓](judge_tests/strings/aoj_alds1_14_d.cpp)
-- [Suffix Automaton](code_library/strings/suffix_automaton.cpp) - substring counts and longest common substring [✓](judge_tests/strings/number_of_substrings.cpp)
+- [Suffix Automaton](code_library/strings/suffix_automaton.cpp) - substring counts over one or several strings [✓](judge_tests/strings/number_of_substrings.cpp)
 - [Tandem Repeats](code_library/strings/tandem_repeats.cpp) - every tandem repeat (square) in a string [✓](judge_tests/strings/runenumerate.cpp)
 - [Wildcard Matching](code_library/strings/wildcard_matching.cpp) - matching with wildcards in text or pattern [✓](judge_tests/strings/wildcard_pattern_matching.cpp)
 - [Z Algorithm](code_library/strings/z_algorithm.cpp) - LCP of every suffix with the string [✓](judge_tests/strings/zalgorithm.cpp)
