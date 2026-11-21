@@ -66,6 +66,7 @@
 - [UVa 1197 - The Suspects](https://onlinejudge.org/external/11/1197.pdf) [✓](../../practice/data_structures/uva_1197.cpp "Accepted solution")
 - [UVa 1455 - Kingdom](https://onlinejudge.org/external/14/1455.pdf) [✓](../../practice/data_structures/uva_1455.cpp "Accepted solution")
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf) [✓](../../practice/data_structures/uva_1479.cpp "Accepted solution")
+- [UVa 1623 - Enter The Dragon](https://onlinejudge.org/external/16/1623.pdf) [✓](../../practice/data_structures/uva_1623.cpp "Accepted solution")
 - [UVa 1664 - Conquer a New Region](https://onlinejudge.org/external/16/1664.pdf) [✓](../../practice/data_structures/uva_1664.cpp "Accepted solution")
 - [UVa 1665 - Islands](https://onlinejudge.org/external/16/1665.pdf) [✓](../../practice/data_structures/uva_1665.cpp "Accepted solution")
 - [UVa 1671 - History of Languages](https://onlinejudge.org/external/16/1671.pdf) [✓](../../practice/data_structures/uva_1671.cpp "Accepted solution")
