@@ -52,6 +52,7 @@ sa.contains("nab");         // false
 - [NTT](code_library/algebra/ntt.cpp) - polynomial products, fastest modulo NTT primes [✓](judge_tests/algebra/convolution_mod.cpp)
 - [Online Convolution](code_library/algebra/online_convolution.cpp) - terms built from a convolution of earlier ones [✓](judge_tests/algebra/exp_of_formal_power_series_online.cpp)
 - [Polynomial](code_library/algebra/polynomial.cpp) - power series ops and multipoint evaluation [✓](judge_tests/algebra/division_of_polynomials.cpp)
+- [Sparse Power Series](code_library/algebra/sparse_power_series.cpp) - power series ops on few nonzero terms, any prime [✓](judge_tests/algebra/inv_of_formal_power_series_sparse.cpp)
 - [Subset Convolution and SOS DP](code_library/algebra/subset_convolution.cpp) - subset transforms, convolution, exp and log [✓](judge_tests/algebra/bitwise_and_convolution.cpp)
 - [Walsh-Hadamard Transform](code_library/algebra/walsh_hadamard.cpp) - `xor`, `or` and `and` convolutions [✓](judge_tests/algebra/bitwise_and_convolution_fwht.cpp)
 

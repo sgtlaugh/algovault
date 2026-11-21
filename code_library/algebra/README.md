@@ -6,7 +6,7 @@
 |---|---|---|---|
 | [Big Integer](#big-integer) | [FFT](#fft) | [Fraction](#fraction) | [GCD and LCM Convolution](#gcd-and-lcm-convolution) |
 | [Lagrange Interpolation](#lagrange-interpolation) | [Linear Recurrence](#linear-recurrence) | [NTT](#ntt) | [Online Convolution](#online-convolution) |
-| [Polynomial](#polynomial) | [Subset Convolution and SOS DP](#subset-convolution-and-sos-dp) | [Walsh-Hadamard Transform](#walsh-hadamard-transform) |  |
+| [Polynomial](#polynomial) | [Sparse Power Series](#sparse-power-series) | [Subset Convolution and SOS DP](#subset-convolution-and-sos-dp) | [Walsh-Hadamard Transform](#walsh-hadamard-transform) |
 
 <!-- /toc -->
 
@@ -145,6 +145,8 @@
 - [HDU 5552 - Bus Routes](https://acm.hdu.edu.cn/showproblem.php?pid=5552) [✓](../../practice/algebra/hdu_5552.cpp "Accepted solution")
 - [UVa 12185 - Wizards](https://onlinejudge.org/external/121/12185.pdf) [✓](../../practice/algebra/uva_12185.cpp "Accepted solution")
 - [ZOJ 3874 - Permutation Graph](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369978) [✓](../../practice/algebra/zoj_3874.cpp "Accepted solution")
+
+#### [Sparse Power Series](sparse_power_series.cpp)
 
 #### [Subset Convolution and SOS DP](subset_convolution.cpp)
 
