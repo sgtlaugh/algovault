@@ -68,6 +68,7 @@
 - [UVa 1479 - Graph and Queries](https://onlinejudge.org/external/14/1479.pdf) [✓](../../practice/data_structures/uva_1479.cpp "Accepted solution")
 - [UVa 1664 - Conquer a New Region](https://onlinejudge.org/external/16/1664.pdf) [✓](../../practice/data_structures/uva_1664.cpp "Accepted solution")
 - [UVa 1665 - Islands](https://onlinejudge.org/external/16/1665.pdf) [✓](../../practice/data_structures/uva_1665.cpp "Accepted solution")
+- [UVa 1671 - History of Languages](https://onlinejudge.org/external/16/1671.pdf) [✓](../../practice/data_structures/uva_1671.cpp "Accepted solution")
 - [UVa 10178 - Count the Faces.](https://onlinejudge.org/external/101/10178.pdf) [✓](../../practice/data_structures/uva_10178.cpp "Accepted solution")
 - [UVa 10608 - Friends](https://onlinejudge.org/external/106/10608.pdf) [✓](../../practice/data_structures/uva_10608.cpp "Accepted solution")
 - [UVa 11363 - Cuckoo Hashing](https://onlinejudge.org/external/113/11363.pdf) [✓](../../practice/data_structures/uva_11363.cpp "Accepted solution")
