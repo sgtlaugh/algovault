@@ -14,6 +14,7 @@
  *   - The base is random per run, so anti-hash tests cannot target it, and shared by all instances, so strings compare
  *   - Two different segments of equal length collide with probability about length / 2^61
  *   - Requires __int128 (64-bit GCC or Clang)
+ *   - Order-free key of a set or multiset: XOR (set) or sum (multiset) of a random 64-bit value per distinct element
  *
 ***/
 
