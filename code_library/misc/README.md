@@ -49,6 +49,8 @@
 
 #### [Expression Parser](expression_parser.cpp)
 
+- [UVa 727 - Equation](https://onlinejudge.org/external/7/727.pdf) [✓](../../practice/misc/uva_727.cpp "Accepted solution")
+
 #### [Fast I/O](fast_io.cpp)
 
 - [AOJ ALDS1_6_A - Counting Sort](https://onlinejudge.u-aizu.ac.jp/problems/ALDS1_6_A) [✓](../../practice/misc/aoj_alds1_6_a_fast_io.cpp "Accepted solution")
