@@ -31,6 +31,7 @@
  *       - src -> i with capacity w[i] if w[i] > 0, i -> sink with capacity -w[i] if w[i] < 0, i -> j with LLONG_MAX
  *       - The best total weight is the sum of positive w[i] - maxflow(), the picked items are those in_source_side(i)
  *       - The sum of positive w[i] must be below LLONG_MAX, the LLONG_MAX edges never overflow, in DenseFlowGraph too
+ *       - A penalty c >= 0 for picking i without j is the edge i -> j with capacity c instead of LLONG_MAX
  *   - Max density subgraph, max |E(S)| / |S| over nonempty S: Dinkelbach on the closure above, n + m + 2 nodes
  *       - Start with the density a / b = m / n of the whole graph
  *       - Closure items: each edge with weight b, forcing both endpoints, each vertex with weight -a
