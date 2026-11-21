@@ -8,12 +8,13 @@
 | [Bellman-Ford](#bellman-ford) | [Bridges](#bridges) | [Cactus Graph](#cactus-graph) | [Chordal Graph](#chordal-graph) |
 | [Chromatic Number](#chromatic-number) | [Dijkstra](#dijkstra) | [Directed MST](#directed-mst) | [Dominator Tree](#dominator-tree) |
 | [Edge Coloring](#edge-coloring) | [Euler Path](#euler-path) | [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) |
-| [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) | [Gomory-Hu Tree](#gomory-hu-tree) | [Hopcroft-Karp](#hopcroft-karp) |
-| [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) | [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) |
-| [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) | [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) |
-| [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) |
-| [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) | [Network Simplex](#network-simplex) |
-| [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |
+| [Functional Graph](#functional-graph) | [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) | [Gomory-Hu Tree](#gomory-hu-tree) |
+| [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) | [K Shortest Walks](#k-shortest-walks) |
+| [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) | [Maximum Clique](#maximum-clique) |
+| [Maximum Flow](#maximum-flow) | [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) |
+| [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) |
+| [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) |
+| [Strongly Connected Components](#strongly-connected-components) |  |  |  |
 
 <!-- /toc -->
 
@@ -277,6 +278,12 @@
 - [UVa 12319 - Edgetown's Traffic Jams](https://onlinejudge.org/external/123/12319.pdf) [✓](../../practice/graphs/uva_12319.cpp "Accepted solution")
 - [UVa 13211 - Geonosis](https://onlinejudge.org/external/132/13211.pdf) [✓](../../practice/graphs/uva_13211.cpp "Accepted solution")
 - [UVa 13249 - A Contest to Meet](https://onlinejudge.org/external/132/13249.pdf) [✓](../../practice/graphs/uva_13249.cpp "Accepted solution")
+
+#### [Functional Graph](functional_graph.cpp)
+
+- [AtCoder ABC357 E - Reachability in Functional Graph](https://atcoder.jp/contests/abc357/tasks/abc357_e)
+- [CSES 1160 - Planets Queries II](https://cses.fi/problemset/task/1160)
+- [CSES 1750 - Planets Queries I](https://cses.fi/problemset/task/1750)
 
 #### [General Graph Matching](graph_matching.cpp)
 

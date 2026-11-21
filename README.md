@@ -181,6 +181,7 @@ sa.contains("nab");         // false
 - [Euler Path](code_library/graphs/euler_path.cpp) - walk using every edge exactly once [✓](judge_tests/graphs/eulerian_trail_directed.cpp)
 - [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - circulation and s-t flow with edge lower bounds [✓](judge_tests/graphs/aoj_grl_6_a_lower_bound.cpp)
 - [Floyd-Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with negative cycles [✓](judge_tests/graphs/aoj_grl_1_c.cpp)
+- [Functional Graph](code_library/graphs/functional_graph.cpp) - cycles, tails and long jumps when out-degree is 1
 - [General Graph Matching](code_library/graphs/graph_matching.cpp) - maximum matching in general graphs [✓](judge_tests/graphs/general_matching.cpp)
   - [Weighted](code_library/graphs/weighted_graph_matching.cpp) - edge weights, maximizes the total weight [✓](judge_tests/graphs/general_weighted_matching.cpp)
 - [Global Minimum Cut](code_library/graphs/global_min_cut.cpp) - minimum cut weight and one side
