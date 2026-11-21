@@ -520,6 +520,7 @@
 - [oj.uz IZhO12_xor - XOR](https://oj.uz/problem/view/IZhO12_xor) [✓](../../practice/data_structures/oj_uz_izho12_xor.cpp "Accepted solution")
 - [UVa 1401 - Remember the Word](https://onlinejudge.org/external/14/1401.pdf) [✓](../../practice/data_structures/uva_1401.cpp "Accepted solution")
 - [UVa 1462 - Fuzzy Google Suggest](https://onlinejudge.org/external/14/1462.pdf) [✓](../../practice/data_structures/uva_1462.cpp "Accepted solution")
+- [UVa 1519 - Dictionary Size](https://onlinejudge.org/external/15/1519.pdf) [✓](../../practice/data_structures/uva_1519.cpp "Accepted solution")
 - [UVa 11362 - Phone List](https://onlinejudge.org/external/113/11362.pdf) [✓](../../practice/data_structures/uva_11362.cpp "Accepted solution")
 - [UVa 11488 - Hyper Prefix Sets](https://onlinejudge.org/external/114/11488.pdf) [✓](../../practice/data_structures/uva_11488.cpp "Accepted solution")
 - [UVa 11539 - Another Word Game](https://onlinejudge.org/external/115/11539.pdf) [✓](../../practice/data_structures/uva_11539.cpp "Accepted solution")
