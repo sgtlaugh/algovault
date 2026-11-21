@@ -148,6 +148,9 @@
 
 #### [Sparse Power Series](sparse_power_series.cpp)
 
+- [Codeforces 1096G - Lucky Tickets](https://codeforces.com/problemset/problem/1096/G)
+- [CSES 1633 - Dice Combinations](https://cses.fi/problemset/task/1633)
+- [CSES 1635 - Coin Combinations I](https://cses.fi/problemset/task/1635)
 - [UVa 674 - Coin Change](https://onlinejudge.org/external/6/674.pdf) [✓](../../practice/algebra/uva_674.cpp "Accepted solution")
 
 #### [Subset Convolution and SOS DP](subset_convolution.cpp)
