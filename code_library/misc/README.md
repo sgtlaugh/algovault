@@ -5,9 +5,9 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [15 Puzzle Solver](#15-puzzle-solver) | [Assembly](#assembly) | [Bit Twiddling](#bit-twiddling) | [Comb Sort](#comb-sort) |
-| [Dancing Links](#dancing-links) | [Fast I/O](#fast-io) | [Gray Codes](#gray-codes) | [Hackenbush](#hackenbush) |
-| [Knight Distance](#knight-distance) | [N Queens](#n-queens) | [Nimber Arithmetic](#nimber-arithmetic) | [Radix Sort](#radix-sort) |
-| [Radix Sort 64](#radix-sort-64) | [Sprague-Grundy](#sprague-grundy) |  |  |
+| [Dancing Links](#dancing-links) | [Dates](#dates) | [Fast I/O](#fast-io) | [Gray Codes](#gray-codes) |
+| [Hackenbush](#hackenbush) | [Knight Distance](#knight-distance) | [N Queens](#n-queens) | [Nimber Arithmetic](#nimber-arithmetic) |
+| [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) | [Sprague-Grundy](#sprague-grundy) |  |
 
 <!-- /toc -->
 
@@ -40,6 +40,8 @@
 - [UVa 10893 - Creating Sudoku Puzzles](https://onlinejudge.org/external/108/10893.pdf) [✓](../../practice/misc/uva_10893.cpp "Accepted solution")
 - [UVa 11846 - Finding Seats Again](https://onlinejudge.org/external/118/11846.pdf) [✓](../../practice/misc/uva_11846.cpp "Accepted solution")
 - [UVa 12719 - Fill the Cuboid](https://onlinejudge.org/external/127/12719.pdf) [✓](../../practice/misc/uva_12719.cpp "Accepted solution")
+
+#### [Dates](dates.cpp)
 
 #### [Fast I/O](fast_io.cpp)
 
