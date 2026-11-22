@@ -25,7 +25,8 @@
  * cout << x: writes x.to_string()
  *
  * Notes:
- *   - Prefer compound operators in loops: x += y reuses storage, *=, /= and %= by a long long below 10^9 never allocate
+ *   - Prefer compound operators in loops: x += y reuses storage, so do *=, /= and %= by a long long below 10^9
+ *   - x *= y allocates only when the number gains a limb
  *   - x / y and x % y each run the full division, so needing both costs two
  *   - At -O2, multiplying two 2 * 10^6 digit numbers takes ~0.15 s and dividing 2 * 10^6 digits by 10^6 digits ~0.5 s
  *   - Requires __int128 (64-bit GCC or Clang)
