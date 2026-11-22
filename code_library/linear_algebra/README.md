@@ -18,6 +18,7 @@
 - [SPOJ KPMAZE - Maze](https://www.spoj.com/problems/KPMAZE/) [✓](../../practice/linear_algebra/spoj_kpmaze.cpp "Accepted solution")
 - [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf) [✓](../../practice/linear_algebra/uva_10808.cpp "Accepted solution")
 - [UVa 12570 - Qualle? Quale?](https://onlinejudge.org/external/125/12570.pdf) [✓](../../practice/linear_algebra/uva_12570.cpp "Accepted solution")
+- [yukicoder 1303 - Inconvenient Kingdom](https://yukicoder.me/problems/no/1303)
 
 #### [Gauss-Jordan](gauss_jordan.cpp)
 
@@ -58,6 +59,8 @@
 - [Timus 1042 - Central Heating](https://acm.timus.ru/problem.aspx?num=1042) [✓](../../practice/linear_algebra/timus_1042.cpp "Accepted solution")
 - [UVa 1560 - Extended Lights Out](https://onlinejudge.org/external/15/1560.pdf) [✓](../../practice/linear_algebra/uva_1560.cpp "Accepted solution")
 - [UVa 11542 - Square](https://onlinejudge.org/external/115/11542.pdf) [✓](../../practice/linear_algebra/uva_11542.cpp "Accepted solution")
+- [yukicoder 1421 - 国勢調査 (Hard)](https://yukicoder.me/problems/no/1421)
+- [yukicoder 3229 - Liar Game Comibination](https://yukicoder.me/problems/no/3229)
 
 #### [Gauss-Jordan, Prime Modulus](gauss_prime_mod.cpp)
 
@@ -107,6 +110,9 @@
 - [UVa 12796 - Teletransport](https://onlinejudge.org/external/127/12796.pdf) [✓](../../practice/linear_algebra/uva_12796.cpp "Accepted solution")
 - [UVa 13136 - Recurrences](https://onlinejudge.org/external/131/13136.pdf) [✓](../../practice/linear_algebra/uva_13136.cpp "Accepted solution")
 - [UVa 13284 - Macarons](https://onlinejudge.org/external/132/13284.pdf) [✓](../../practice/linear_algebra/uva_13284.cpp "Accepted solution")
+- [yukicoder 1340 - おーじ君をさがせ](https://yukicoder.me/problems/no/1340)
+- [yukicoder 1750 - ラムドスウイルスの感染拡大-hard](https://yukicoder.me/problems/no/1750)
+- [yukicoder 1810 - RGB Biscuits](https://yukicoder.me/problems/no/1810)
 
 #### [Simplex](simplex.cpp)
 
@@ -170,3 +176,5 @@
 - [SPOJ XMAX - XOR Maximization](https://www.spoj.com/problems/XMAX/) [✓](../../practice/linear_algebra/spoj_xmax.cpp "Accepted solution")
 - [UVa 12961 - Lottery](https://onlinejudge.org/external/129/12961.pdf) [✓](../../practice/linear_algebra/uva_12961.cpp "Accepted solution")
 - [UVa 12985 - Ba Gua Zhen](https://onlinejudge.org/external/129/12985.pdf) [✓](../../practice/linear_algebra/uva_12985.cpp "Accepted solution")
+- [yukicoder 184 - たのしい排他的論理和(HARD)](https://yukicoder.me/problems/no/184)
+- [yukicoder 1167 - Graduation Trip](https://yukicoder.me/problems/no/1167)
