@@ -322,7 +322,7 @@
 
 #### [Global Minimum Cut](global_min_cut.cpp)
 
-- [UVa 10989 - Bomb, Divide and Conquer](https://onlinejudge.org/external/109/10989.pdf)
+- [UVa 10989 - Bomb, Divide and Conquer](https://onlinejudge.org/external/109/10989.pdf) [✓](../../practice/graphs/uva_10989.cpp "Accepted solution")
 
 #### [Gomory-Hu Tree](gomory_hu.cpp)
 
