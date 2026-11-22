@@ -8,6 +8,7 @@
 | [Concave 1D1D DP](#concave-1d1d-dp) | [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) |
 | [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) | [Longest Increasing Subsequence](#longest-increasing-subsequence) |
 | [Maximum Square](#maximum-square) | [Monotone Minima and SMAWK](#monotone-minima-and-smawk) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |
+| [Tree Knapsack](#tree-knapsack) |  |  |  |
 
 <!-- /toc -->
 
@@ -160,3 +161,8 @@
 - [oj.uz LMIO19_bulves - Potatoes and fertilizers](https://oj.uz/problem/view/LMIO19_bulves) [✓](../../practice/dp/oj_uz_lmio19_bulves.cpp "Accepted solution")
 - [USACO 650 - Landscaping](https://usaco.org/index.php?page=viewproblem2&cpid=650) [✓](../../practice/dp/usaco_650.cpp "Accepted solution")
 - [yukicoder 1077 - Noelちゃんと星々4](https://yukicoder.me/problems/no/1077)
+
+#### [Tree Knapsack](tree_knapsack.cpp)
+
+- [HDU 1011 - Starship Troopers](https://acm.hdu.edu.cn/showproblem.php?pid=1011)
+- [HDU 1561 - The more, The Better](https://acm.hdu.edu.cn/showproblem.php?pid=1561)

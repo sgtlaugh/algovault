@@ -145,6 +145,7 @@ sa.contains("nab");         // false
 - [Monotone Minima and SMAWK](code_library/dp/monotone_minima.cpp) - row minima of a Monge or monotone matrix
 - [Plug DP](code_library/dp/plug_dp.cpp) - count or optimize cycles and paths on a grid
 - [Slope Trick](code_library/dp/slope_trick.cpp) - maintains a convex piecewise linear function
+- [Tree Knapsack](code_library/dp/tree_knapsack.cpp) - max value per capacity, upward closed or connected
 
 ### Geometry
 
