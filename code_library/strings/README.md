@@ -276,6 +276,7 @@
 - [SPOJ SUBLEX - Lexicographical Substring Search](https://www.spoj.com/problems/SUBLEX/) [✓](../../practice/strings/spoj_sublex_suffix_automaton.cpp "Accepted solution")
 - [SPOJ TAP2013E - Escaping from escaping](https://www.spoj.com/problems/TAP2013E/) [✓](../../practice/strings/spoj_tap2013e.cpp "Accepted solution")
 - [UVa 1673 - str2int](https://onlinejudge.org/external/16/1673.pdf) [✓](../../practice/strings/uva_1673.cpp "Accepted solution")
+- [UVa 11107 - Life Forms](https://onlinejudge.org/external/111/11107.pdf) [✓](../../practice/strings/uva_11107_suffix_automaton.cpp "Accepted solution")
 
 #### [Wildcard Matching](wildcard_matching.cpp)
 
