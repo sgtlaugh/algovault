@@ -55,8 +55,8 @@ vector<long long> random_convex(int n, int range){
 /// dp0 keeps its argument type, so the int literal 0 below must still give int64 values beyond 2^31
 template <typename D, typename Cost>
 void check(int n, D dp0, Cost w){
-    vector<int> opt;
-    auto dp = concave_1d1d_dp(n, dp0, w, &opt);
+    auto [dp, opt] = concave_1d1d_dp_opt(n, dp0, w);
+    assert(concave_1d1d_dp(n, dp0, w) == dp);
     assert((vector<long long>(dp.begin(), dp.end()) == brute(n, dp0, w)));
     assert(opt[0] == -1);
     for (int x = 1; x <= n; x++) assert(0 <= opt[x] && opt[x] < x && dp[opt[x]] + w(opt[x], x) == dp[x]);
