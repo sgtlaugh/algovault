@@ -290,12 +290,12 @@ sa.contains("nab");         // false
 
 - [2D Pattern Matcher](code_library/strings/2D_pattern_matcher.cpp) - every occurrence of a 2D pattern in a 2D text [✓](judge_tests/strings/aoj_alds1_14_c.cpp)
 - [Aho-Corasick](code_library/strings/aho_corasick.cpp) - multi-pattern matching automaton [✓](judge_tests/strings/aho_corasick.cpp)
-- [Hirschberg LCS](code_library/strings/hirschberg_lcs.cpp) - one longest common subsequence in linear memory [✓](judge_tests/strings/aoj_alds1_10_c_hirschberg_lcs.cpp)
   - [Dynamic](code_library/strings/dynamic_aho_corasick.cpp) - patterns can be inserted online
 - [Bit-String LCS](code_library/strings/bit_string_lcs.cpp) - longest common subsequence in `O(n m / 64)` [✓](judge_tests/strings/aoj_alds1_10_c.cpp)
 - [De Bruijn Sequence](code_library/strings/de_bruijn_sequence.cpp) - cyclic sequence containing every length n word
 - [Dynamic String Hash](code_library/strings/dynamic_string_hash.cpp) - substring hashes under range assignment [✓](judge_tests/strings/aoj_alds1_14_b_dynamic_string_hash.cpp)
 - [Hashing](code_library/strings/hashing.cpp) - forward and reverse polynomial hash of any segment [✓](judge_tests/strings/enumerate_palindromes_hashing.cpp)
+- [Hirschberg LCS](code_library/strings/hirschberg_lcs.cpp) - one longest common subsequence in linear memory [✓](judge_tests/strings/aoj_alds1_10_c_hirschberg_lcs.cpp)
 - [Hunt-Szymanski](code_library/strings/hunt_szymanski.cpp) - LCS in `O((r + n) log n)` for r matching pairs [✓](judge_tests/strings/aoj_alds1_10_c_hunt_szymanski.cpp)
 - [KMP](code_library/strings/kmp.cpp) - prefix function and pattern search [✓](judge_tests/strings/aoj_alds1_14_b.cpp)
 - [Lyndon Factorization](code_library/strings/lyndon_factorization.cpp) - splits a sequence into Lyndon words [✓](judge_tests/strings/lyndon_factorization.cpp)
@@ -366,7 +366,7 @@ sa.contains("nab");         // false
 - [Alpha Beta Pruning](code_library/python/alpha_beta_pruning.py) - minimax game search with alpha-beta pruning
 - [Berlekamp-Massey](code_library/python/berlekamp_massey.py) - shortest linear recurrence and its n-th term
 - [Derangements](code_library/python/derangements.py) - generalized derangement counts
-- [Dijkstra](code_library/python/dijkstra.py) - single-source shortest paths
+- [Dijkstra](code_library/python/dijkstra.py) - shortest distance between two nodes
 - [Discrete Log](code_library/python/discrete_log.py) - smallest x with `a^x = b mod m`, any m
 - [Fast Fibonacci](code_library/python/fast_fibonacci.py) - n-th Fibonacci number by fast doubling
 - [Fast I/O](code_library/python/fast_io.py) - token scanner over stdin
