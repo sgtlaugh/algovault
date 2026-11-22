@@ -223,5 +223,7 @@ int main(){
         assert(digits.occurrences(common) == count_occurrences(a, common));
     }
 
+    stress::expect_assert("strings/suffix_automaton.cpp", []{ SuffixAutomaton<2> ab("ab"); ab.string_counts({"ac"}); });
+    stress::expect_assert("strings/suffix_automaton.cpp", []{ SuffixAutomaton<2> ab("ab"); ab.string_counts({"`"}); });
     return 0;
 }

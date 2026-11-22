@@ -103,7 +103,9 @@ struct SuffixAutomaton{
         for (int id = 0; id < (int)strs.size(); id++){
             int v = 0;
             for (char ch : strs[id]){
-                v = next[v][ch - BASE];
+                int c = ch - BASE;
+                assert(0 <= c && c < SIGMA);
+                v = next[v][c];
                 assert(v != -1);
                 for (int u = v; u != -1 && seen[u] != id; u = link[u]) seen[u] = id, res[u]++;
             }
