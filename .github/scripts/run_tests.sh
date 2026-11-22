@@ -45,7 +45,6 @@ SKIP=(
 
 # Library files that intentionally have no stress test yet, with the reason
 STRESS_SKIP=(
-    "code_library/hacking/anti_double_hash.cpp"  # a collision search takes ~150 s, too slow to verify
 )
 
 # Files quoting outside code verbatim, kept diffable against their source

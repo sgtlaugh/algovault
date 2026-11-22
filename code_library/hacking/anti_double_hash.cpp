@@ -7,7 +7,7 @@
  *   - AntiHash: 2^23 modular multiplies to fill a 4 MB table, independent of the input
  *   - solve: expected O(sqrt(mod1 mod2)) calls to an O(1) hash, the tail plus cycle length of its rho
  *
- * AntiHash hack(base1, mod1, base2, mod2): the attack on h = (h * base + s[i]) % mod under both (base, mod) pairs
+ * AntiHash hack(base1, mod1, base2, mod2): the attack on h = (h * base + s[i]) % mod under both pairs, mods below 2^32
  * hack.solve(): {s, t}, two different 64-character strings of '0' and '1' whose hashes match under both pairs
  *
  * Notes:
@@ -27,6 +27,8 @@ struct AntiHash{
     AntiHash(long long base1, long long mod1, long long base2, long long mod2){
         int l, i, j, k;
 
+        /// get_hash packs both hashes into one 64-bit value
+        assert(1 <= mod1 && mod1 < (1LL << 32) && 1 <= mod2 && mod2 < (1LL << 32));
         b[0] = base1, m[0] = mod1, b[1] = base2, m[1] = mod2;
 
         for (l = 0; l < 2; l++){
@@ -66,12 +68,12 @@ struct AntiHash{
     }
 
     inline unsigned long long get_hash(unsigned long long x){
-        unsigned long long i = 0, h1 = 0, h2 = 0;
+        unsigned long long h1 = 0, h2 = 0;
 
-        while (x){
+        /// Every chunk, zeros included, adds its offset: a collision of get_hash is then one of the real hashes
+        for (int i = 0; i < 4; i++, x >>= 16){
             h1 += dp[x & 65535][i][0];
             h2 += dp[x & 65535][i][1];
-            i++, x >>= 16;
             if (h1 >= m[0]) h1 -= m[0];
             if (h2 >= m[1]) h2 -= m[1];
         }
