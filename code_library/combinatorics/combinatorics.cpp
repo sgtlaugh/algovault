@@ -74,6 +74,7 @@ struct Combinatorics{
 };
 
 int main(){
+    /// Factorial tables up to 10 modulo 10^9 + 7: binomials, permutations and inverses
     Combinatorics comb(10, 1000000007);
     assert(comb.nCr(5, 2) == 10);
     assert(comb.nCr(5, 6) == 0);      /// k > n
