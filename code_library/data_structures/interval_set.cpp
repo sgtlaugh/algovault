@@ -115,6 +115,7 @@ struct IntervalMap{
     }
 
     V get(K x) const{
+        assert(!(x < seg.begin()->first) && x < prev(seg.end())->first);
         return prev(seg.upper_bound(x))->second;
     }
 

@@ -157,6 +157,8 @@ int main(){
     stress::expect_assert("data_structures/interval_set.cpp", [&]{ bounded.assign(-1, 3, 2); });
     stress::expect_assert("data_structures/interval_set.cpp", [&]{ bounded.for_each(5, 11, [](int, int, int&) {}); });
     stress::expect_assert("data_structures/interval_set.cpp", []{ IntervalMap<int, int> empty(4, 4, 0); });
+    stress::expect_assert("data_structures/interval_set.cpp", [&]{ bounded.get(-1); });
+    stress::expect_assert("data_structures/interval_set.cpp", [&]{ bounded.get(10); });
 
     /// Floating T, which simulate never uses: cuts at fractional dyadic points keep their exact endpoints
     IntervalSet<double> reals;
