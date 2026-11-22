@@ -13,8 +13,8 @@
 | [Monotonic Stack](#monotonic-stack) | [Ordered Set](#ordered-set) | [Permutation Tree](#permutation-tree) | [Persistent Segment Tree](#persistent-segment-tree) |
 | [Rope](#rope) | [Segment Tree](#segment-tree) | [Segment Tree 2D](#segment-tree-2d) | [Segment Tree Beats](#segment-tree-beats) |
 | [Segment Tree Merging](#segment-tree-merging) | [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) |
-| [Square Root Decomposition](#square-root-decomposition) | [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) |
-| [XOR Segment Tree](#xor-segment-tree) |  |  |  |
+| [Square Root Decomposition](#square-root-decomposition) | [Top-K Sum](#top-k-sum) | [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) |
+| [Trie](#trie) | [XOR Segment Tree](#xor-segment-tree) |  |  |
 
 <!-- /toc -->
 
@@ -501,6 +501,13 @@
 - [UVa 11990 - ``Dynamic'' Inversion](https://onlinejudge.org/external/119/11990.pdf) [✓](../../practice/data_structures/uva_11990_sqrt_decomposition.cpp "Accepted solution")
 - [UVa 12003 - Array Transformer](https://onlinejudge.org/external/120/12003.pdf) [✓](../../practice/data_structures/uva_12003.cpp "Accepted solution")
 - [UVa 13094 - Tobby Bones](https://onlinejudge.org/external/130/13094.pdf) [✓](../../practice/data_structures/uva_13094.cpp "Accepted solution")
+
+#### [Top-K Sum](top_k_sum.cpp)
+
+- [AtCoder ABC281 E - Least Elements](https://atcoder.jp/contests/abc281/tasks/abc281_e)
+- [AtCoder ABC306 E - Best Performances](https://atcoder.jp/contests/abc306/tasks/abc306_e)
+- [CSES 1077 - Sliding Window Cost](https://cses.fi/problemset/task/1077)
+- [yukicoder 2654 - [Cherry 6th Tune] Re: start! (Black Sheep)](https://yukicoder.me/problems/no/2654)
 
 #### [Treap](treap.cpp)
 

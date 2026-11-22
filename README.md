@@ -119,6 +119,7 @@ sa.contains("nab");         // false
   - [2D](code_library/data_structures/sparse_table_2D.cpp) - `O(1)` static rectangle min or max on a grid
   - [Disjoint](code_library/data_structures/disjoint_sparse_table.cpp) - `O(1)` query for any associative operation [✓](judge_tests/data_structures/static_range_sum.cpp)
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
+- [Top-K Sum](code_library/data_structures/top_k_sum.cpp) - sum of the k largest while values and k change
 - [Treap](code_library/data_structures/treap.cpp) - ordered multiset and sequence with reversals [✓](judge_tests/data_structures/double_ended_priority_queue.cpp)
   - [Run-Length Implicit](code_library/data_structures/run_length_implicit_treap.cpp) - huge sequences stored as runs of equal values
 - [Trie](code_library/data_structures/trie.cpp) - prefix counts, xor queries on sets and ranges [✓](judge_tests/data_structures/aoj_alds1_4_c.cpp)
