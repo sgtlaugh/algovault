@@ -16,7 +16,7 @@
  * Notes:
  *   - sequence holds f(0), f(1), ..., at least k terms when the recurrence is given
  *   - 1 <= mod <= INT_MAX, values of any sign are reduced modulo mod
- *   - nth_term and nth_terms past the given terms need mod < 2^30
+ *   - nth_term and nth_terms past the given terms need mod < 2^30 and k <= 2e5
  *   - 2k terms are enough to find a recurrence of degree k
  *   - With a prime mod the found recurrence is the shortest one generating every given term, from any number of terms
  *   - With a composite mod the recurrence may end in zero coefficients, and may miss given terms when fewer than 2k
@@ -234,6 +234,7 @@ struct LinearRecurrence{
         if (n + k <= (long long)sequence.size()) return vector<int>(sequence.begin() + n, sequence.begin() + n + k);
         if (mod == 1 || len == 0) return vector<int>(k, 0);
         assert(1 <= k && k <= len && mod < (1 << 30));  /// the FFT splits values into 15 bit halves
+        assert(len <= 200000);  /// double precision: dense products already round wrong at 3e5 coefficients
         if (k == 1) return {bostan_mori(n)};
 
         auto p = power_of_x(n);

@@ -166,5 +166,18 @@ int main(){
         assert(given.nth_term(n) == p * start[n % k] % mod);
     }
 
+    /// Dense products at the k = 2e5 limit: (mod - 1)^2 = 1, so coefficient i counts the index pairs summing to i
+    {
+        int mod = (1 << 30) - 1, len = 200000;
+        vector<int> a(len, mod - 1), b(len + 1, mod - 1);
+        auto prod = fft::mod_multiply(a, b, mod);
+        for (int i = 0; i < 2 * len; i++) assert(prod[i] == min({i + 1, len, 2 * len - i}));
+    }
+
+    stress::expect_assert("algebra/linear_recurrence.cpp", []{
+        LinearRecurrence big(vector<int>(200001, 1), 1000000007, vector<int>(200001, 1));
+        big.nth_term(1000000);
+    });
+
     return 0;
 }
