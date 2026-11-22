@@ -99,7 +99,7 @@ struct PermutationTree{
         if (n) root = roots_left_to_right.back();
     }
 
-    long long count_intervals() const {
+    long long count_intervals() const{
         long long total = 0;
         for (int v = 0; v < (int)children.size(); v++){
             long long k = children[v].size();
@@ -132,7 +132,7 @@ struct PermutationTree{
     }
 
     /// Order matters: adjacent(left, right) means the merge of left then right is INCREASING
-    bool adjacent(int u, int v) const {
+    bool adjacent(int u, int v) const{
         return range[u].second + 1 == range[v].first;
     }
 

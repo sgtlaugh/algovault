@@ -64,20 +64,20 @@ struct KDTree{
         if (!nodes.empty()) build(0, nodes.size());
     }
 
-    Neighbor nearest(const Point& q, int skip = -1) const {
+    Neighbor nearest(const Point& q, int skip = -1) const{
         Neighbor best = {LLONG_MAX, -1};
         if (!nodes.empty()) search(0, q, skip, best);
         return best;
     }
 
-    vector<int> report(long long x1, long long y1, long long x2, long long y2) const {
+    vector<int> report(long long x1, long long y1, long long x2, long long y2) const{
         vector<int> res;
         report(x1, y1, x2, y2, [&](int i){ res.push_back(i); });
         return res;
     }
 
     template <typename F>
-    void report(long long x1, long long y1, long long x2, long long y2, F f) const {
+    void report(long long x1, long long y1, long long x2, long long y2, F f) const{
         if (!nodes.empty()) collect(0, x1, y1, x2, y2, f);
     }
 
@@ -119,7 +119,7 @@ struct KDTree{
         return mid - nodes.begin();
     }
 
-    void search(int c, const Point& q, int skip, Neighbor& best) const {
+    void search(int c, const Point& q, int skip, Neighbor& best) const{
         const Cell& cell = cells[c];
         /// A cell of equal points is a leaf of any size, so its nearest point is found here without a scan
         if (cell.x1 == cell.x2 && cell.y1 == cell.y2){
@@ -146,7 +146,7 @@ struct KDTree{
     }
 
     /// The minimum first and its index only on improvement: the loop then has no branch on the distances
-    void scan(const Cell& cell, const Point& q, int skip, Neighbor& best) const {
+    void scan(const Cell& cell, const Point& q, int skip, Neighbor& best) const{
         long long leaf_best = LLONG_MAX;
         for (int k = cell.l; k < cell.r; k++){
             long long d = dist(nodes[k].p.x - q.x, nodes[k].p.y - q.y);
@@ -159,18 +159,18 @@ struct KDTree{
         best = {leaf_best, nodes[k].i};
     }
 
-    long long box_dist(const Cell& cell, const Point& q) const {
+    long long box_dist(const Cell& cell, const Point& q) const{
         long long dx = max({cell.x1 - q.x, q.x - cell.x2, 0LL});
         long long dy = max({cell.y1 - q.y, q.y - cell.y2, 0LL});
         return dist(dx, dy);
     }
 
-    long long dist(long long dx, long long dy) const {
+    long long dist(long long dx, long long dy) const{
         return metric == EUCLIDEAN ? dx * dx + dy * dy : abs(dx) + abs(dy);
     }
 
     template <typename F>
-    void collect(int c, long long x1, long long y1, long long x2, long long y2, F& f) const {
+    void collect(int c, long long x1, long long y1, long long x2, long long y2, F& f) const{
         const Cell& cell = cells[c];
         if (cell.x2 < x1 || x2 < cell.x1 || cell.y2 < y1 || y2 < cell.y1) return;
         if (x1 <= cell.x1 && cell.x2 <= x2 && y1 <= cell.y1 && cell.y2 <= y2){

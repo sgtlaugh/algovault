@@ -167,7 +167,7 @@ struct SuffixArray{
     int n;
     vector<int> sa, rank, lcp;
 
-    long long distinct_substrings() const {
+    long long distinct_substrings() const{
         long long total = ((long long)n * (n + 1)) / 2;
         for (int i = 0; i + 1 < n; i++) total -= lcp[i];
         return total;
@@ -234,7 +234,7 @@ struct SuffixArrayQueries : SuffixArray{
         }
     }
 
-    int common_prefix(int i, int j) const {
+    int common_prefix(int i, int j) const{
         if (i == j) return n - i;
 
         int a = rank[i], b = rank[j];
@@ -242,7 +242,7 @@ struct SuffixArrayQueries : SuffixArray{
         return lcp_min(a, b);
     }
 
-    pair<int, int> occurrences(int p, int len) const {
+    pair<int, int> occurrences(int p, int len) const{
         if (len == 0) return {0, n};
 
         int r = rank[p], lo = 0, hi = r;
@@ -263,17 +263,17 @@ struct SuffixArrayQueries : SuffixArray{
         return {first, lo + 1};
     }
 
-    pair<int, int> occurrences(const Container& pattern) const {
+    pair<int, int> occurrences(const Container& pattern) const{
         return {bound(pattern, false), bound(pattern, true)};
     }
 
-    int lcp_min(int l, int r) const {
+    int lcp_min(int l, int r) const{
         int k = __lg(r - l);
         return min(table[k][l], table[k][r - (1 << k)]);
     }
 
     /// First rank whose suffix cut to |pattern| is >= pattern, or > when strict
-    int bound(const Container& pattern, bool strict) const {
+    int bound(const Container& pattern, bool strict) const{
         int lo = 0, hi = n;
         while (lo < hi){
             int mid = (lo + hi) / 2, cmp = compare(sa[mid], pattern);
@@ -285,7 +285,7 @@ struct SuffixArrayQueries : SuffixArray{
     }
 
     /// Sign of the suffix at p cut to |pattern| minus pattern, a suffix that ends first is smaller
-    int compare(int p, const Container& pattern) const {
+    int compare(int p, const Container& pattern) const{
         int m = pattern.size();
         for (int k = 0; k < m; k++){
             if (p + k == n) return -1;
