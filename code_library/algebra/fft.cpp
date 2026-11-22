@@ -154,6 +154,7 @@ struct FFT{
     }
 
     vector<long long> mod_multiply(vector<long long> v1, vector<long long> v2, int mod){
+        assert(mod >= 1);
         if (v1.empty() || v2.empty()) return {};
         /// Residues in (-mod / 2, mod / 2] and balanced digits halve every magnitude, a 4x smaller rounding error
         for (auto& x: v1) x = centered(x, mod);

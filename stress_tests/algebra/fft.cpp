@@ -219,5 +219,7 @@ int main(){
         }
     }
 
+    stress::expect_assert("algebra/fft.cpp", [&]{ fft.mod_multiply({1}, {1}, 0); });
+
     return 0;
 }
