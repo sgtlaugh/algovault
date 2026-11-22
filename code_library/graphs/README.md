@@ -78,6 +78,7 @@
 - [UVa 12579 - To Infinity and Beyond](https://onlinejudge.org/external/125/12579.pdf) [✓](../../practice/graphs/uva_12579.cpp "Accepted solution")
 - [UVa 12616 - Gymman vs Fila](https://onlinejudge.org/external/126/12616.pdf) [✓](../../practice/graphs/uva_12616.cpp "Accepted solution")
 - [UVa 13165 - Cairo Corridor](https://onlinejudge.org/external/131/13165.pdf) [✓](../../practice/graphs/uva_13165.cpp "Accepted solution")
+- [yukicoder 1326 - ふたりのDominator](https://yukicoder.me/problems/no/1326)
 
 #### [Bellman-Ford](bellman_ford.cpp)
 
@@ -114,6 +115,8 @@
 - [UVa 12587 - Reduce the Maintenance Cost](https://onlinejudge.org/external/125/12587.pdf) [✓](../../practice/graphs/uva_12587.cpp "Accepted solution")
 - [UVa 12783 - Weak Links](https://onlinejudge.org/external/127/12783.pdf) [✓](../../practice/graphs/uva_12783.cpp "Accepted solution")
 - [UVa 13110 - Funny day in Playland](https://onlinejudge.org/external/131/13110.pdf) [✓](../../practice/graphs/uva_13110.cpp "Accepted solution")
+- [yukicoder 529 - 帰省ラッシュ](https://yukicoder.me/problems/no/529)
+- [yukicoder 1983 - [Cherry 4th Tune C] 南の島のマーメイド](https://yukicoder.me/problems/no/1983)
 
 #### [Cactus Graph](cactus.cpp)
 
@@ -201,6 +204,7 @@
 - [UVa 13127 - Bank Robbery](https://onlinejudge.org/external/131/13127.pdf) [✓](../../practice/graphs/uva_13127.cpp "Accepted solution")
 - [UVa 13147 - Travel Planning](https://onlinejudge.org/external/131/13147.pdf) [✓](../../practice/graphs/uva_13147.cpp "Accepted solution")
 - [UVa 13172 - The music teacher](https://onlinejudge.org/external/131/13172.pdf) [✓](../../practice/graphs/uva_13172.cpp "Accepted solution")
+- [yukicoder 1601 - With Animals into Institute](https://yukicoder.me/problems/no/1601)
 
 #### [Directed MST](directed_mst.cpp)
 
@@ -278,6 +282,8 @@
 - [UVa 12319 - Edgetown's Traffic Jams](https://onlinejudge.org/external/123/12319.pdf) [✓](../../practice/graphs/uva_12319.cpp "Accepted solution")
 - [UVa 13211 - Geonosis](https://onlinejudge.org/external/132/13211.pdf) [✓](../../practice/graphs/uva_13211.cpp "Accepted solution")
 - [UVa 13249 - A Contest to Meet](https://onlinejudge.org/external/132/13249.pdf) [✓](../../practice/graphs/uva_13249.cpp "Accepted solution")
+- [yukicoder 17 - 2つの地点に泊まりたい](https://yukicoder.me/problems/no/17)
+- [yukicoder 1344 - Typical Shortest Path Sum](https://yukicoder.me/problems/no/1344)
 
 #### [Functional Graph](functional_graph.cpp)
 
@@ -307,6 +313,7 @@
 
 #### [Hopcroft-Karp](hopcroft_karp.cpp)
 
+- [AOJ 1566 - Movie](https://onlinejudge.u-aizu.ac.jp/problems/1566)
 - [Codeforces Gym 100741C - Reordering Ones](https://codeforces.com/gym/100741/problem/C) [✓](../../practice/graphs/codeforces_gym_100741c.cpp "Accepted solution")
 - [CSES 1709 - Coin Grid](https://cses.fi/problemset/task/1709) [✓](../../practice/graphs/cses_1709.cpp "Accepted solution")
 - [Kattis borders - Borders](https://open.kattis.com/problems/borders) [✓](../../practice/graphs/kattis_borders.cpp "Accepted solution")
@@ -340,6 +347,9 @@
 - [UVa 12972 - Cuban Challenge](https://onlinejudge.org/external/129/12972.pdf) [✓](../../practice/graphs/uva_12972.cpp "Accepted solution")
 - [UVa 13005 - Blood groups](https://onlinejudge.org/external/130/13005.pdf) [✓](../../practice/graphs/uva_13005.cpp "Accepted solution")
 - [UVa 13100 - Painting the Wall](https://onlinejudge.org/external/131/13100.pdf) [✓](../../practice/graphs/uva_13100.cpp "Accepted solution")
+- [yukicoder 421 - しろくろチョコレート](https://yukicoder.me/problems/no/421)
+- [yukicoder 1479 - Matrix Eraser](https://yukicoder.me/problems/no/1479)
+- [yukicoder 1744 - Selfish Spies 1 (à la Princess' Perfectionism)](https://yukicoder.me/problems/no/1744)
 
 #### [Hungarian Algorithm](hungarian_algorithm.cpp)
 
@@ -352,6 +362,7 @@
 - [UVa 10888 - Warehouse](https://onlinejudge.org/external/108/10888.pdf) [✓](../../practice/graphs/uva_10888.cpp "Accepted solution")
 - [UVa 12637 - 30 Minutes or Less](https://onlinejudge.org/external/126/12637.pdf) [✓](../../practice/graphs/uva_12637.cpp "Accepted solution")
 - [UVa 12891 - Risk of Trading](https://onlinejudge.org/external/128/12891.pdf) [✓](../../practice/graphs/uva_12891.cpp "Accepted solution")
+- [yukicoder 2573 - moving up](https://yukicoder.me/problems/no/2573)
 
 #### [Johnson's Algorithm](johnsons_algorithm.cpp)
 
@@ -372,6 +383,7 @@
 - [QOJ 436 - Swapping Cities](https://qoj.ac/problem/436) [✓](../../practice/graphs/qoj_436.cpp "Accepted solution")
 - [QOJ 2744 - Werewolf](https://qoj.ac/problem/2744) [✓](../../practice/graphs/qoj_2744.cpp "Accepted solution")
 - [UVa 1265 - Tour Belt](https://onlinejudge.org/external/12/1265.pdf) [✓](../../practice/graphs/uva_1265.cpp "Accepted solution")
+- [yukicoder 1451 - 集団登校](https://yukicoder.me/problems/no/1451)
 
 #### [Manhattan MST](manhattan_mst.cpp)
 
@@ -392,6 +404,7 @@
 
 #### [Maximum Flow](maxflow.cpp)
 
+- [AOJ 2835 - 敵襲から守れ](https://onlinejudge.u-aizu.ac.jp/problems/2835)
 - [AtCoder ARC085 E - MUL](https://atcoder.jp/contests/arc085/tasks/arc085_c) [✓](../../practice/graphs/atcoder_arc085_e.cpp "Accepted solution")
 - [Code Jam 2015 World Finals D - Taking Over The World](https://github.com/google/coding-competitions-archive/tree/main/codejam/2015/world_finals/taking_over_the_world) [✓](../../practice/graphs/code_jam_2015_world_finals_d.cpp "Accepted solution")
 - [Codeforces 498C - Array and Operations](https://codeforces.com/problemset/problem/498/C) [✓](../../practice/graphs/codeforces_498c.cpp "Accepted solution")
@@ -449,6 +462,9 @@
 - [UVa 12534 - Binary Matrix 2](https://onlinejudge.org/external/125/12534.pdf) [✓](../../practice/graphs/uva_12534.cpp "Accepted solution")
 - [UVa 13000 - VIP Treatment](https://onlinejudge.org/external/130/13000.pdf) [✓](../../practice/graphs/uva_13000.cpp "Accepted solution")
 - [UVa 13020 - Landscaping](https://onlinejudge.org/external/130/13020.pdf) [✓](../../practice/graphs/uva_13020.cpp "Accepted solution")
+- [yukicoder 177 - 制作進行の宮森あおいです！](https://yukicoder.me/problems/no/177)
+- [yukicoder 1541 - ゅゅさんのテスト勉強](https://yukicoder.me/problems/no/1541)
+- [yukicoder 2320 - Game World for PvP](https://yukicoder.me/problems/no/2320)
 
 #### [Maximum Flow, HLPP](hlpp.cpp)
 
@@ -480,6 +496,12 @@
 - [UVa 12623 - Choosing Presents](https://onlinejudge.org/external/126/12623.pdf) [✓](../../practice/graphs/uva_12623.cpp "Accepted solution")
 - [UVa 12774 - Game of Throne Season 2](https://onlinejudge.org/external/127/12774.pdf) [✓](../../practice/graphs/uva_12774.cpp "Accepted solution")
 - [UVa 12821 - Double Shortest Paths](https://onlinejudge.org/external/128/12821.pdf) [✓](../../practice/graphs/uva_12821.cpp "Accepted solution")
+- [yukicoder 1288 - yuki collection](https://yukicoder.me/problems/no/1288)
+- [yukicoder 1301 - Strange Graph Shortest Path](https://yukicoder.me/problems/no/1301)
+- [yukicoder 1324 - Approximate the Matrix](https://yukicoder.me/problems/no/1324)
+- [yukicoder 1341 - 真ん中を入れ替えて門松列](https://yukicoder.me/problems/no/1341)
+- [yukicoder 1678 - Coin Trade (Multiple)](https://yukicoder.me/problems/no/1678)
+- [yukicoder 2604 - Initial Motion](https://yukicoder.me/problems/no/2604)
 
 #### [Min Cost Max Flow, SPFA](mcmf_spfa.cpp)
 
@@ -594,6 +616,7 @@
 - [oj.uz BOI16_cities - Cities](https://oj.uz/problem/view/BOI16_cities) [✓](../../practice/graphs/oj_uz_boi16_cities.cpp "Accepted solution")
 - [SPOJ TICKET - Ticket to Ride](https://www.spoj.com/problems/TICKET/) [✓](../../practice/graphs/spoj_ticket.cpp "Accepted solution")
 - [UVa 12254 - Electricity Connection](https://onlinejudge.org/external/122/12254.pdf) [✓](../../practice/graphs/uva_12254.cpp "Accepted solution")
+- [yukicoder 114 - 遠い未来](https://yukicoder.me/problems/no/114)
 - [ZOJ 3613 - Wormhole Transport](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369236) [✓](../../practice/graphs/zoj_3613.cpp "Accepted solution")
 
 #### [Strongly Connected Components](scc.cpp)
@@ -628,3 +651,4 @@
 - [UVa 13057 - Prove Them All](https://onlinejudge.org/external/130/13057.pdf) [✓](../../practice/graphs/uva_13057.cpp "Accepted solution")
 - [UVa 13156 - In the Kingdom of Hirak](https://onlinejudge.org/external/131/13156.pdf) [✓](../../practice/graphs/uva_13156.cpp "Accepted solution")
 - [UVa 13301 - Impossible Communication](https://onlinejudge.org/external/133/13301.pdf) [✓](../../practice/graphs/uva_13301.cpp "Accepted solution")
+- [yukicoder 1813 - Magical Stones](https://yukicoder.me/problems/no/1813)
