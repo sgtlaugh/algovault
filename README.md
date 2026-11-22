@@ -260,7 +260,7 @@ sa.contains("nab");         // false
 - [Fast Sieve](code_library/number_theory/fast_sieve.cpp) - lists all primes up to n [✓](judge_tests/number_theory/enumerate_primes.cpp)
 - [Floor Sum](code_library/number_theory/floor_sum.cpp) - floor sums and minima of `(a i + b) mod m` [✓](judge_tests/number_theory/min_of_mod_of_linear.cpp)
 - [Integer Root](code_library/number_theory/integer_root.cpp) - exact floor of square, cube and k-th roots [✓](judge_tests/number_theory/kth_root_integer.cpp)
-- [Linear Sieve](code_library/number_theory/linear_sieve.cpp) - smallest prime factors, phi, mu and more
+- [Linear Sieve](code_library/number_theory/linear_sieve.cpp) - smallest prime factors, phi, mu and more [✓](judge_tests/number_theory/aoj_2286.cpp)
 - [Maximum Divisors](code_library/number_theory/maximum_divisors.cpp) - number with the most divisors up to a limit
 - [Miller-Rabin](code_library/number_theory/miller_rabin.cpp) - deterministic primality test for 64-bit integers [✓](judge_tests/number_theory/primality_test.cpp)
 - [Min_25 Sieve](code_library/number_theory/min_25_sieve.cpp) - prefix sums of a multiplicative function [✓](judge_tests/number_theory/sum_of_multiplicative_function.cpp)
