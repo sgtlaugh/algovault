@@ -62,7 +62,7 @@ struct FunctionalGraph{
         }
 
         const vector<int>& ring = cycles[cycle[v]];
-        return ring[(pos[entry[v]] + (k - tail[v])) % ring.size()];
+        return ring[(pos[entry[v]] + (k - tail[v]) % ring.size()) % ring.size()];  /// reduced first: k may be LLONG_MAX
     }
 
     void find_cycles(){

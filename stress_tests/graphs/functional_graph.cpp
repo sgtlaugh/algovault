@@ -47,9 +47,10 @@ void check_all(const vector<int>& next, bool all_pairs){
     for (int v = 0; v < n; v++){
         for (int k = 0; k <= 2 * n + 2; k++) assert(g.jump(v, k) == walk(next, v, k));
 
-        long long big = stress::rand_int(0, (long long)4e18);
-        long long reduced = big < g.tail[v] ? big : g.tail[v] + (big - g.tail[v]) % len[v];
-        assert(g.jump(v, big) == walk(next, v, reduced));
+        for (long long big : {stress::rand_int(0, (long long)4e18), LLONG_MAX, LLONG_MAX - stress::rand_int(0, n)}){
+            long long reduced = big < g.tail[v] ? big : g.tail[v] + (big - g.tail[v]) % len[v];
+            assert(g.jump(v, big) == walk(next, v, reduced));
+        }
     }
 
     int pairs = all_pairs ? n * n : 4 * n;
