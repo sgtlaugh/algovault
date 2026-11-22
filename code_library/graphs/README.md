@@ -652,7 +652,7 @@
 
 #### [Stable Marriage](stable_marriage.cpp)
 
-- [UVa 1175 - Ladies' Choice](https://onlinejudge.org/external/11/1175.pdf)
+- [UVa 1175 - Ladies' Choice](https://onlinejudge.org/external/11/1175.pdf) [✓](../../practice/graphs/uva_1175.cpp "Accepted solution")
 
 #### [Steiner Tree](steiner_tree.cpp)
 
