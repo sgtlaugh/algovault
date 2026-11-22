@@ -166,6 +166,21 @@ int main(){
         h.add_a_minus_x(900000000);
         assert(h.get_min() == 0 && h.argmin() == make_pair(900000000, SlopeTrick<int>::INF));
     }
+
+    /// Shifts of +-1e9 store breakpoints near +-2e9, so eval must not subtract a stored value from x
+    for (auto [lo, hi] : vector<pair<int, int>>{{-1000000000, -1000000000}, {1000000000, 1000000000}, {-1000000000, 1000000000}}){
+        for (int type = 0; type < 3; type++){
+            for (int a : {-1000000000, 1000000000}){
+                SlopeTrick<int> f;
+                SlopeTrick<long long> g;
+                f.shift(lo, hi), g.shift(lo, hi);
+                if (type == 0) f.add_x_minus_a(a), g.add_x_minus_a(a);
+                if (type == 1) f.add_a_minus_x(a), g.add_a_minus_x(a);
+                if (type == 2) f.add_abs(a), g.add_abs(a);
+                for (int x : {-1000000000, 0, 1000000000}) assert(f.eval(x) == g.eval(x));
+            }
+        }
+    }
     for (long long it = 0; it < stress::scaled(3000); it++) int_ops();
 
     for (long long it = 0; it < stress::scaled(1500); it++) random_ops();

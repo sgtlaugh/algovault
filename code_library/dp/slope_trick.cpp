@@ -88,7 +88,7 @@ struct SlopeTrick{
     T eval(T x) const{
         T res = min_f;
         for (T l : left) res += max(T(0), l + add_left - x);
-        for (T r : right) res += max(T(0), x - r - add_right);
+        for (T r : right) res += max(T(0), x - (r + add_right));
         return res;
     }
 
