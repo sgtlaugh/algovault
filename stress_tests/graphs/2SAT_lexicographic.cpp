@@ -256,7 +256,12 @@ int main(){
     for (int i = 1; i <= n; i++) chain.add_implication(i, n + 1), chain.add_implication(2 * n, -i);
     clock_t start = clock();  /// CPU time, parallel sanitizer jobs inflate wall time
     assert(chain.is_satisfiable());
-    assert(clock() - start < 2 * CLOCKS_PER_SEC);
+#ifdef __SANITIZE_ADDRESS__
+    const int budget = 10;  /// sanitizers make this 8x slower; a quadratic solve takes over 20 s even at -O2
+#else
+    const int budget = 2;
+#endif
+    assert(clock() - start < budget * CLOCKS_PER_SEC);
     vector<int> path(n);
     iota(path.begin(), path.end(), n + 1);
     assert(chain.get_assignment() == path);
