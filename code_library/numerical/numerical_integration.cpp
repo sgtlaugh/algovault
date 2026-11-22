@@ -6,7 +6,7 @@
  * Complexity:
  *   - adaptive_simpson: O(panels it needs) evaluations, recursion depth <= 44
  *   - gauss_legendre: 10 panels evaluations
- *   - romberg: 2^k + 1 evaluations for k levels, 8 <= k <= max_levels
+ *   - romberg: 2^k + 1 evaluations for k levels, min(8, max_levels) <= k <= max_levels
  *   - simpson: 2n + 1 evaluations
  *
  * adaptive_simpson(a, b, f, eps = 1e-9): splits each of 64 equal start panels until its halves agree with it
