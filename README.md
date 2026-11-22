@@ -339,7 +339,7 @@ sa.contains("nab");         // false
 
 [Practice problems](code_library/misc/README.md)
 
-- [15 Puzzle Solver](code_library/misc/15_puzzle_solver.cpp) - solvability check and IDA* solver
+- [15 Puzzle Solver](code_library/misc/15_puzzle_solver.cpp) - solvability check and IDA* solver [✓](judge_tests/misc/aoj_alds1_13_c.cpp)
 - [Assembly](code_library/misc/assembly.cpp) - inline x86 bit ops, gcd and square root [✓](judge_tests/misc/aoj_alds1_1_b.cpp)
 - [Bit Twiddling](code_library/misc/bit_twiddling.cpp) - bit manipulation tricks [✓](judge_tests/misc/aoj_itp2_11_d.cpp)
 - [Comb Sort](code_library/misc/combsort.cpp) - comb sort on any random access range [✓](judge_tests/misc/aoj_alds1_6_a.cpp)
