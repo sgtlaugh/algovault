@@ -14,6 +14,7 @@
 #### [Circle Geometry](circle.cpp)
 
 - [CodeChef ANDOOR - A New Door](https://www.codechef.com/problems/ANDOOR) [✓](../../practice/geometry/codechef_andoor.cpp "Accepted solution")
+- [Codeforces 119E - Alternative Reality](https://codeforces.com/problemset/problem/119/E)
 - [Codeforces 681E - Runaway to a Shadow](https://codeforces.com/problemset/problem/681/E) [✓](../../practice/geometry/codeforces_681e.cpp "Accepted solution")
 - [Codeforces 933C - A Colourful Prospect](https://codeforces.com/problemset/problem/933/C) [✓](../../practice/geometry/codeforces_933c.cpp "Accepted solution")
 - [Codeforces Gym 100199F - Get Out!](https://codeforces.com/gym/100199/problem/F) [✓](../../practice/geometry/codeforces_gym_100199f.cpp "Accepted solution")
@@ -45,6 +46,7 @@
 
 #### [Convex Hull](convex_hull.cpp)
 
+- [Codeforces 87E - Mogohu-Rea Idol](https://codeforces.com/problemset/problem/87/E)
 - [Codeforces 605C - Freelancer's Dreams](https://codeforces.com/problemset/problem/605/C) [✓](../../practice/geometry/codeforces_605c_convex_hull.cpp "Accepted solution")
 - [Codeforces 1299C - Water Balance](https://codeforces.com/problemset/problem/1299/C) [✓](../../practice/geometry/codeforces_1299c.cpp "Accepted solution")
 - [Codeforces 2172I - Birthday](https://codeforces.com/problemset/problem/2172/I) [✓](../../practice/geometry/codeforces_2172i.cpp "Accepted solution")
