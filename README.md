@@ -129,7 +129,7 @@ sa.contains("nab");         // false
 
 [Practice problems](code_library/dp/README.md)
 
-- [Aliens Trick (WQS)](code_library/dp/aliens_trick.cpp) - optimum with exactly k items for a convex cost
+- [Aliens Trick (WQS)](code_library/dp/aliens_trick.cpp) - optimum with exactly k items for a convex cost [✓](judge_tests/dp/aoj_2603_aliens_trick.cpp)
 - [Block Removal DP](code_library/dp/blocks_dp.cpp) - max score clearing runs of equal blocks
 - [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - limited copies per item in `O(n capacity)` [✓](judge_tests/dp/aoj_dpl_1_g.cpp)
 - [Bounded Subset Sum](code_library/dp/bounded_subset_sum.cpp) - reachable sums of a multiset, with a witness
