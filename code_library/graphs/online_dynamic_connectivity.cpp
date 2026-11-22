@@ -48,8 +48,12 @@ struct OnlineDynamicConnectivity{
 
     /// Salted splitmix64: std::hash is the identity, so keys u * n + v chosen by a test can all share one bucket
     struct SplitMix{
-        size_t operator()(uint64_t x) const{
-            static const uint64_t salt = chrono::steady_clock::now().time_since_epoch().count();
+        uint64_t salt;
+
+        SplitMix() : salt(chrono::steady_clock::now().time_since_epoch().count()) {}
+
+        /// noexcept, or unordered_map caches every hash code: 11-25% slower in euler_tour_tree
+        size_t operator()(uint64_t x) const noexcept{
             x += salt + 0x9e3779b97f4a7c15;
             x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
             x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
