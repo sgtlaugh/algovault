@@ -211,6 +211,7 @@ sa.contains("nab");         // false
 - [Minimum Mean Cycle (Karp)](code_library/graphs/minimum_mean_cycle.cpp) - exact minimum mean cycle and its edges
 - [Minimum Path Cover](code_library/graphs/minimum_path_cover.cpp) - path covers of a DAG and maximum antichain [✓](judge_tests/graphs/aoj_2251.cpp)
 - [Minimum Spanning Tree](code_library/graphs/minimum_spanning_tree.cpp) - minimum spanning forest, also implicit graphs [✓](judge_tests/graphs/aoj_alds1_12_a.cpp)
+- [Minimum Weight Cycle](code_library/graphs/minimum_weight_cycle.cpp) - lightest cycle, directed or undirected, and girth
 - [Network Simplex](code_library/graphs/network_simplex.cpp) - min cost flow with supplies and lower bounds [✓](judge_tests/graphs/min_cost_b_flow.cpp)
 - [Offline Dynamic Connectivity](code_library/graphs/offline_dynamic_connectivity.cpp) - connectivity under edge insertions and deletions
   - [Online](code_library/graphs/online_dynamic_connectivity.cpp) - answers as it goes, with component sums [✓](judge_tests/graphs/dynamic_graph_vertex_add_component_sum.cpp)

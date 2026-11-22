@@ -13,8 +13,8 @@
 | [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) |
 | [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) |
 | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) |
-| [Minimum Spanning Tree](#minimum-spanning-tree) | [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Small Cycle Counting](#small-cycle-counting) |
-| [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |  |  |
+| [Minimum Spanning Tree](#minimum-spanning-tree) | [Minimum Weight Cycle](#minimum-weight-cycle) | [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) |
+| [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |  |
 
 <!-- /toc -->
 
@@ -589,6 +589,14 @@
 - [UVa 12176 - Bring Your Own Horse](https://onlinejudge.org/external/121/12176.pdf) [✓](../../practice/graphs/uva_12176.cpp "Accepted solution")
 - [UVa 12601 - Toll Management II](https://onlinejudge.org/external/126/12601.pdf) [✓](../../practice/graphs/uva_12601.cpp "Accepted solution")
 - [UVa 12655 - Trucks](https://onlinejudge.org/external/126/12655.pdf) [✓](../../practice/graphs/uva_12655.cpp "Accepted solution")
+
+#### [Minimum Weight Cycle](minimum_weight_cycle.cpp)
+
+- [CSES 1707 - Graph Girth](https://cses.fi/problemset/task/1707)
+- [HDU 1599 - find the mincost route](https://acm.hdu.edu.cn/showproblem.php?pid=1599)
+- [Timus 1004 - Sightseeing Trip](https://acm.timus.ru/problem.aspx?num=1004)
+- [UVa 12544 - Beehives](https://onlinejudge.org/external/125/12544.pdf)
+- [yukicoder 1320 - Two Type Min Cost Cycle](https://yukicoder.me/problems/no/1320)
 
 #### [Network Simplex](network_simplex.cpp)
 
