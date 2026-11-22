@@ -4,14 +4,19 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [Chinese Remainder Theorem](#chinese-remainder-theorem) | [Continued Fractions](#continued-fractions) | [Digit Counting](#digit-counting) | [Digits of Factorial](#digits-of-factorial) |
-| [Discrete Logarithm](#discrete-logarithm) | [Divisors](#divisors) | [Extended GCD](#extended-gcd) | [Fast Fibonacci](#fast-fibonacci) |
-| [Fast Sieve](#fast-sieve) | [Floor Sum](#floor-sum) | [Integer Root](#integer-root) | [Linear Sieve](#linear-sieve) |
-| [Maximum Divisors](#maximum-divisors) | [Miller-Rabin](#miller-rabin) | [Mobius Function](#mobius-function) | [Modular Roots](#modular-roots) |
-| [Pell Equation](#pell-equation) | [Pisano Period](#pisano-period) | [Pollard Rho](#pollard-rho) | [Power Tower](#power-tower) |
-| [Segmented Sieve](#segmented-sieve) | [Sum of Two Squares](#sum-of-two-squares) |  |  |
+| [All Divisors](#all-divisors) | [Chinese Remainder Theorem](#chinese-remainder-theorem) | [Continued Fractions](#continued-fractions) | [Digit Counting](#digit-counting) |
+| [Digits of Factorial](#digits-of-factorial) | [Discrete Logarithm](#discrete-logarithm) | [Divisors](#divisors) | [Du's Sieve](#dus-sieve) |
+| [Extended GCD](#extended-gcd) | [Fast Fibonacci](#fast-fibonacci) | [Fast Prime Counting](#fast-prime-counting) | [Fast Sieve](#fast-sieve) |
+| [Floor Sum](#floor-sum) | [Integer Root](#integer-root) | [Linear Sieve](#linear-sieve) | [Maximum Divisors](#maximum-divisors) |
+| [Miller-Rabin](#miller-rabin) | [Min_25 Sieve](#min_25-sieve) | [Mobius Function](#mobius-function) | [Modular Roots](#modular-roots) |
+| [Modular Square Root](#modular-square-root) | [Pell Equation](#pell-equation) | [Pisano Period](#pisano-period) | [Pollard Rho](#pollard-rho) |
+| [Power Tower](#power-tower) | [Segmented Sieve](#segmented-sieve) | [Sum of Two Squares](#sum-of-two-squares) |  |
 
 <!-- /toc -->
+
+#### [All Divisors](all_divisors.cpp)
+
+- [AtCoder ABC249 D - Index Trio](https://atcoder.jp/contests/abc249/tasks/abc249_d)
 
 #### [Chinese Remainder Theorem](chinese_remainder_theorem.cpp)
 
@@ -63,6 +68,10 @@
 - [UVa 12425 - Best Friend](https://onlinejudge.org/external/124/12425.pdf) [✓](../../practice/number_theory/uva_12425.cpp "Accepted solution")
 - [UVa 13131 - Divisors](https://onlinejudge.org/external/131/13131.pdf) [✓](../../practice/number_theory/uva_13131.cpp "Accepted solution")
 
+#### [Du's Sieve](du_sieve.cpp)
+
+- [HDU 5608 - function](https://acm.hdu.edu.cn/showproblem.php?pid=5608)
+
 #### [Extended GCD](extended_gcd.cpp)
 
 - [AtCoder ABC340 F - S = 1](https://atcoder.jp/contests/abc340/tasks/abc340_f) [✓](../../practice/number_theory/atcoder_abc340_f.cpp "Accepted solution")
@@ -86,6 +95,10 @@
 - [UVa 10229 - Modular Fibonacci](https://onlinejudge.org/external/102/10229.pdf) [✓](../../practice/number_theory/uva_10229.cpp "Accepted solution")
 - [UVa 10518 - How Many Calls?](https://onlinejudge.org/external/105/10518.pdf) [✓](../../practice/number_theory/uva_10518.cpp "Accepted solution")
 - [UVa 10689 - Yet another Number Sequence](https://onlinejudge.org/external/106/10689.pdf) [✓](../../practice/number_theory/uva_10689.cpp "Accepted solution")
+
+#### [Fast Prime Counting](fast_prime_counting.cpp)
+
+- [Codeforces 665F - Four Divisors](https://codeforces.com/problemset/problem/665/F)
 
 #### [Fast Sieve](fast_sieve.cpp)
 
@@ -163,6 +176,10 @@
 - [Project Euler 146 - Investigating a Prime Pattern](https://projecteuler.net/problem=146) [✓](../../practice/number_theory/project_euler_146.cpp "Accepted solution")
 - [UVa 11476 - Factorizing Larget Integers](https://onlinejudge.org/external/114/11476.pdf) [✓](../../practice/number_theory/uva_11476_miller_rabin.cpp "Accepted solution")
 
+#### [Min_25 Sieve](min_25_sieve.cpp)
+
+- [yukicoder 1781 - LCM](https://yukicoder.me/problems/no/1781)
+
 #### [Mobius Function](mobius_function.cpp)
 
 - [CodeChef COPRIME3 - Coprime Triples](https://www.codechef.com/problems/COPRIME3) [✓](../../practice/number_theory/codechef_coprime3.cpp "Accepted solution")
@@ -184,6 +201,10 @@
 - [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F) [✓](../../practice/number_theory/codeforces_1106f_modular_roots.cpp "Accepted solution")
 - [Codeforces 1190F - Tokitsukaze and Powers](https://codeforces.com/problemset/problem/1190/F)
 - [yukicoder 1339 - 循環小数](https://yukicoder.me/problems/no/1339)
+
+#### [Modular Square Root](modular_sqrt.cpp)
+
+- [Timus 1132 - Square Root](https://acm.timus.ru/problem.aspx?num=1132)
 
 #### [Pell Equation](pell_equation.cpp)
 
