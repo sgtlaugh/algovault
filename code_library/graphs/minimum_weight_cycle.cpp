@@ -4,8 +4,8 @@
  * The lightest simple cycle of a directed or undirected graph with non-negative weights, unweighted girth included
  *
  * Complexity:
- *   - O(n m log m) with a Dijkstra from every vertex
- *   - O(n m) with a BFS from every vertex when all weights are equal, the girth case
+ *   - O(n + n m log m) with a Dijkstra from every vertex
+ *   - O(n + n m) with a BFS from every vertex when all weights are equal, the girth case
  *
  * MinimumWeightCycle g(n, MinimumWeightCycle::DIRECTED): empty graph on vertices 0 to n - 1, or UNDIRECTED
  * g.add_edge(u, v, w): edge u -> v, or u - v, of weight w >= 0, w = 1 by default
@@ -17,8 +17,8 @@
  *   - exists is false when the graph has no cycle, then weight = 0 and both lists are empty
  *   - A self loop is a cycle of one; undirected cycles never reuse an edge, so two parallel edges are a cycle of two
  *   - Cycles of 3 or more vertices only: keep the lightest of each set of parallel undirected edges, drop self loops
- *   - The weight of every path must stay below 1e18
- *   - Each search stops at half the lightest cycle found so far, far below the bound when short cycles exist
+ *   - The weight of every path must stay below 1e18, so cycles weigh below 2e18
+ *   - Each search stops at the lightest cycle found so far, half of it when undirected: fast when short cycles exist
  *   - Dense directed graph: floyd_warshall.cpp, then the min over edges v -> u of dist[u][v] + w, is O(n^3)
  *
 ***/
@@ -35,7 +35,7 @@ struct WeightCycle{
 
 struct MinimumWeightCycle{
     enum Kind{DIRECTED, UNDIRECTED};
-    static constexpr long long INF = 1e18;
+    static constexpr long long INF = 4e18;  /// above two paths of 1e18 plus an edge, so every cycle is lighter
 
     struct Edge{
         int u, v;
@@ -47,7 +47,8 @@ struct MinimumWeightCycle{
     vector<Edge> edges;
     vector<vector<pair<int, int>>> adj;
     vector<long long> dist;
-    vector<int> parent_edge, top;
+    vector<int> parent_edge, top, touched;
+    vector<char> done;
 
     MinimumWeightCycle(int n, Kind kind) : n(n), kind(kind), adj(n) {}
 
@@ -92,10 +93,10 @@ struct MinimumWeightCycle{
 
     /// The lightest cycle {weight, closing edge} through s found settling only dist < limit, INF if none
     pair<long long, int> search(int s, bool equal_weights, long long limit){
-        dist.assign(n, INF);
-        parent_edge.assign(n, -1);
-        top.assign(n, -1);
-        vector<char> done(n, 0);
+        /// Resetting only the vertices the last search reached keeps sparse graphs at O(n + m) per search, not O(n)
+        dist.resize(n, INF), parent_edge.resize(n, -1), top.resize(n, -1), done.resize(n, 0);
+        for (int v : touched) dist[v] = INF, parent_edge[v] = -1, top[v] = -1, done[v] = 0;
+        touched.assign(1, s);
         dist[s] = 0, top[s] = s;
         pair<long long, int> res{INF, -1};
 
@@ -130,6 +131,7 @@ struct MinimumWeightCycle{
                 }
 
                 if (dist[u] + w >= dist[v]) continue;
+                if (dist[v] == INF) touched.push_back(v);
                 dist[v] = dist[u] + w;
                 parent_edge[v] = id;
                 top[v] = u == s ? v : top[u];

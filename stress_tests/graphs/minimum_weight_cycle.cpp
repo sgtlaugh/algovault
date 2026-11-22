@@ -166,6 +166,28 @@ int main(){
     ring[0].w = 0;
     check_cycle(n, ring, true, run(n, ring, true), (long long)1e15 * (n - 1));
 
+    /// Paths below 1e18 still close cycles up to 2e18: two parallel edges, a triangle, a pair just under the bound
+    const long long E17 = 100000000000000000LL, LIMIT = 1000000000000000000LL - 1;
+    for (int directed = 0; directed < 2; directed++){
+        vector<RawEdge> pair_of = {{0, 1, 6 * E17}, {1, 0, 6 * E17}}, edge_pair = {{0, 1, LIMIT}, {1, 0, LIMIT}};
+        vector<RawEdge> triangle = {{0, 1, 4 * E17}, {1, 2, 4 * E17}, {2, 0, 4 * E17}};
+        check_cycle(2, pair_of, directed, run(2, pair_of, directed), 12 * E17);
+        check_cycle(3, triangle, directed, run(3, triangle, directed), 12 * E17);
+        check_cycle(2, edge_pair, directed, run(2, edge_pair, directed), 2 * LIMIT);
+    }
+
+    /// A second solve() on the same graph reuses the scratch arrays and must agree with the first
+    for (int it = 0; it < stress::scaled(200); it++){
+        int n = stress::rand_int(1, 30), m = stress::rand_int(0, 40);
+        bool directed = it % 2;
+        vector<RawEdge> es = random_graph(n, m, it / 2 % 5, true);
+        MinimumWeightCycle g(n, directed ? MinimumWeightCycle::DIRECTED : MinimumWeightCycle::UNDIRECTED);
+        for (auto [u, v, w] : es) g.add_edge(u, v, w);
+        long long expected = edge_removal(n, es, directed);
+        check_cycle(n, es, directed, g.solve(), expected);
+        check_cycle(n, es, directed, g.solve(), expected);
+    }
+
     stress::expect_assert("graphs/minimum_weight_cycle.cpp", []{
         MinimumWeightCycle g(2, MinimumWeightCycle::UNDIRECTED);
         g.add_edge(0, 1, -1);
