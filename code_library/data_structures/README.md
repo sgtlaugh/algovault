@@ -141,6 +141,7 @@
 #### [Fast Set](fast_set.cpp)
 
 - [Codeforces 371D - Vessels](https://codeforces.com/problemset/problem/371/D)
+- [UVa 1316 - Supermarket](https://onlinejudge.org/external/13/1316.pdf) [✓](../../practice/data_structures/uva_1316.cpp "Accepted solution")
 
 #### [Fenwick Tree](fenwick_tree.cpp)
 
