@@ -72,7 +72,7 @@ sa.contains("nab");         // false
 - [Necklaces](code_library/combinatorics/necklaces.cpp) - ring colorings up to rotation or reflection
 - [Partition Numbers](code_library/combinatorics/partition_numbers.cpp) - `p(0..n)` modulo any m [✓](judge_tests/combinatorics/partition_function.cpp)
 - [Permutation Cycles](code_library/combinatorics/permutation_cycles.cpp) - cycles, k-th power and root, minimum swaps [✓](judge_tests/combinatorics/aoj_alds1_6_d.cpp)
-- [Permutation Index](code_library/combinatorics/permutation_index.cpp) - `O(n)` rank of a permutation, a perfect hash
+- [Permutation Index](code_library/combinatorics/permutation_index.cpp) - `O(n)` rank of a permutation, a perfect hash [✓](judge_tests/combinatorics/aoj_alds1_13_b.cpp)
 - [Permutation Rank](code_library/combinatorics/permutation_rank.cpp) - rank and unrank of permutations [✓](judge_tests/combinatorics/aoj_itp2_5_c.cpp)
 - [Stirling Numbers](code_library/combinatorics/stirling_numbers.cpp) - a whole row of either kind modulo m [✓](judge_tests/combinatorics/stirling_number_of_the_first_kind.cpp)
 
