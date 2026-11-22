@@ -5,8 +5,8 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Determinant](#determinant) | [Gauss-Jordan](#gauss-jordan) | [Gauss-Jordan, Band Matrix](#gauss-jordan-band-matrix) | [Gauss-Jordan, Bitset](#gauss-jordan-bitset) |
-| [Gauss-Jordan, Prime Modulus](#gauss-jordan-prime-modulus) | [Matrix](#matrix) | [Simplex](#simplex) | [Thomas Algorithm](#thomas-algorithm) |
-| [XOR Basis](#xor-basis) |  |  |  |
+| [Gauss-Jordan, Prime Modulus](#gauss-jordan-prime-modulus) | [Matrix](#matrix) | [Matrix Permanent](#matrix-permanent) | [Simplex](#simplex) |
+| [Thomas Algorithm](#thomas-algorithm) | [XOR Basis](#xor-basis) |  |  |
 
 <!-- /toc -->
 
@@ -114,6 +114,10 @@
 - [yukicoder 1340 - おーじ君をさがせ](https://yukicoder.me/problems/no/1340)
 - [yukicoder 1750 - ラムドスウイルスの感染拡大-hard](https://yukicoder.me/problems/no/1750)
 - [yukicoder 1810 - RGB Biscuits](https://yukicoder.me/problems/no/1810)
+
+#### [Matrix Permanent](permanent.cpp)
+
+- [AtCoder DP O - Matching](https://atcoder.jp/contests/dp/tasks/dp_o)
 
 #### [Simplex](simplex.cpp)
 

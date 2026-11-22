@@ -6,15 +6,17 @@
 |---|---|---|---|
 | [2-SAT](#2-sat) | [2-SAT, Lexicographic](#2-sat-lexicographic) | [Absolute Center](#absolute-center) | [Articulation Points and Blocks](#articulation-points-and-blocks) |
 | [Bellman-Ford](#bellman-ford) | [Bridges](#bridges) | [Cactus Graph](#cactus-graph) | [Chordal Graph](#chordal-graph) |
-| [Chromatic Number](#chromatic-number) | [Degree Sequence](#degree-sequence) | [Dijkstra](#dijkstra) | [Directed MST](#directed-mst) |
-| [Dominator Tree](#dominator-tree) | [Edge Coloring](#edge-coloring) | [Euler Path](#euler-path) | [Flow with Lower Bounds](#flow-with-lower-bounds) |
-| [Floyd-Warshall](#floyd-warshall) | [Functional Graph](#functional-graph) | [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) |
-| [Gomory-Hu Tree](#gomory-hu-tree) | [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) |
-| [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) |
-| [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) |
-| [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) |
-| [Minimum Spanning Tree](#minimum-spanning-tree) | [Minimum Weight Cycle](#minimum-weight-cycle) | [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) |
-| [Reachability](#reachability) | [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |
+| [Chromatic Number](#chromatic-number) | [Complement Graph BFS](#complement-graph-bfs) | [Degree Sequence](#degree-sequence) | [Dijkstra](#dijkstra) |
+| [Directed MST](#directed-mst) | [Dominator Tree](#dominator-tree) | [Edge Coloring](#edge-coloring) | [Euler Path](#euler-path) |
+| [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) | [Functional Graph](#functional-graph) | [General Graph Matching](#general-graph-matching) |
+| [General Graph Matching, Weighted](#general-graph-matching-weighted) | [Global Minimum Cut](#global-minimum-cut) | [Gomory-Hu Tree](#gomory-hu-tree) | [Hopcroft-Karp](#hopcroft-karp) |
+| [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) | [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) |
+| [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) | [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) |
+| [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) |
+| [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) | [Minimum Weight Cycle](#minimum-weight-cycle) |
+| [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Online Bridges](#online-bridges) | [Range Edge Dijkstra](#range-edge-dijkstra) |
+| [Reachability](#reachability) | [Small Cycle Counting](#small-cycle-counting) | [Stable Marriage](#stable-marriage) | [Steiner Tree](#steiner-tree) |
+| [Strongly Connected Components](#strongly-connected-components) |  |  |  |
 
 <!-- /toc -->
 
@@ -134,6 +136,11 @@
 - [Codeforces 908H - New Year and Boolean Bridges](https://codeforces.com/problemset/problem/908/H)
 - [CSES 3308 - Graph Coloring](https://cses.fi/problemset/task/3308) [✓](../../practice/graphs/cses_3308.cpp "Accepted solution")
 - [UVa 1439 - Exclusive Access 2](https://onlinejudge.org/external/14/1439.pdf) [✓](../../practice/graphs/uva_1439.cpp "Accepted solution")
+
+#### [Complement Graph BFS](complement_graph_bfs.cpp)
+
+- [Codeforces 920E - Connected Components?](https://codeforces.com/problemset/problem/920/E)
+- [Codeforces 1242B - 0-1 MST](https://codeforces.com/problemset/problem/1242/B)
 
 #### [Degree Sequence](degree_sequence.cpp)
 
@@ -312,6 +319,10 @@
 - [UVa 10296 - Jogging Trails](https://onlinejudge.org/external/102/10296.pdf) [✓](../../practice/graphs/uva_10296_weighted_graph_matching.cpp "Accepted solution")
 - [UVa 12711 - Game of Throne](https://onlinejudge.org/external/127/12711.pdf) [✓](../../practice/graphs/uva_12711.cpp "Accepted solution")
 - [UVa 12838 - Identity Redemption](https://onlinejudge.org/external/128/12838.pdf) [✓](../../practice/graphs/uva_12838.cpp "Accepted solution")
+
+#### [Global Minimum Cut](global_min_cut.cpp)
+
+- [UVa 10989 - Bomb, Divide and Conquer](https://onlinejudge.org/external/109/10989.pdf)
 
 #### [Gomory-Hu Tree](gomory_hu.cpp)
 
@@ -619,6 +630,14 @@
 - [CSES 2133 - Dynamic Connectivity](https://cses.fi/problemset/task/2133) [✓](../../practice/graphs/cses_2133.cpp "Accepted solution")
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/) [✓](../../practice/graphs/spoj_dynacon1_offline_dynamic_connectivity.cpp "Accepted solution")
 
+#### [Online Bridges](online_bridges.cpp)
+
+- [HDU 2460 - Network](https://acm.hdu.edu.cn/showproblem.php?pid=2460)
+
+#### [Range Edge Dijkstra](range_edge_dijkstra.cpp)
+
+- [Codeforces 786B - Legacy](https://codeforces.com/problemset/problem/786/B)
+
 #### [Reachability](reachability.cpp)
 
 - [Codeforces 641F - Little Artem and 2-SAT](https://codeforces.com/problemset/problem/641/F)
@@ -630,6 +649,10 @@
 
 - [SPOJ ADACHERY - Ada and Cherry](https://www.spoj.com/problems/ADACHERY/) [✓](../../practice/graphs/spoj_adachery.cpp "Accepted solution")
 - [SPOJ VILLAGES - Villages by the River](https://www.spoj.com/problems/VILLAGES/) [✓](../../practice/graphs/spoj_villages.cpp "Accepted solution")
+
+#### [Stable Marriage](stable_marriage.cpp)
+
+- [UVa 1175 - Ladies' Choice](https://onlinejudge.org/external/11/1175.pdf)
 
 #### [Steiner Tree](steiner_tree.cpp)
 
