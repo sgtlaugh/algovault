@@ -80,7 +80,7 @@
 
 - [UVa 12223 - Moving to Nuremberg](https://onlinejudge.org/external/122/12223.pdf) [✓](../../practice/trees/uva_12223_leaf_peeling.cpp "Accepted solution")
 - [UVa 12354 - Paths in a Tree](https://onlinejudge.org/external/123/12354.pdf) [✓](../../practice/trees/uva_12354_leaf_peeling.cpp "Accepted solution")
-- [UVa 12489 - Combating cancer](https://onlinejudge.org/external/124/12489.pdf)
+- [UVa 12489 - Combating cancer](https://onlinejudge.org/external/124/12489.pdf) [✓](../../practice/trees/uva_12489_leaf_peeling.cpp "Accepted solution")
 
 #### [Long-Path Decomposition](long_path_decomposition.cpp)
 
