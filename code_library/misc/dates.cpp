@@ -8,6 +8,7 @@
  * Date: year, month 1..12, day 1..31
  * date_of(n, cal = GREGORIAN): the date of day number n
  * day_number(y, m, d, cal = GREGORIAN): the Julian Day Number of the date, consecutive dates differ by 1
+ * day_number(t, cal = GREGORIAN): the same for a Date t
  * day_of_week(n): weekday of day number n, 0 = Sunday .. 6 = Saturday
  * days_in_month(y, m, cal = GREGORIAN): 28 to 31
  * is_leap(y, cal = GREGORIAN): Gregorian divisible by 4 and not by 100, or by 400; Julian divisible by 4
@@ -58,6 +59,10 @@ long long day_number(long long y, int m, int d, Calendar cal = GREGORIAN){
     return era * 1461 + yoe * 365 + doy + 1721118;
 }
 
+long long day_number(const Date& t, Calendar cal = GREGORIAN){
+    return day_number(t.year, t.month, t.day, cal);
+}
+
 int day_of_week(long long n){
     return ((n + 1) % 7 + 7) % 7;
 }
@@ -84,6 +89,11 @@ int main(){
     assert(leap_day.day == 29);
 
     assert(day_number(2004, 3, 1) - day_number(2004, 2, 1) == 29);
+
+    /// Days between two Dates: 2024-02-28 to 2024-03-01 crosses the leap day
+    Date start{2024, 2, 28}, end{2024, 3, 1};
+    assert(day_number(end) - day_number(start) == 2);
+
     assert(!is_leap(1900));
     assert(is_leap(2000));
     assert(days_in_month(2023, 4) == 30);

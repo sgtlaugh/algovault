@@ -24,6 +24,7 @@ void walk(Calendar cal, Date start, long long start_number, long long days, int 
     int weekday = day_of_week(start_number);
     for (long long i = 0; i < days; i++){
         assert(day_number(cur.year, cur.month, cur.day, cal) == n);
+        assert(day_number(cur, cal) == n);
         Date back = date_of(n, cal);
         assert(back.year == cur.year && back.month == cur.month && back.day == cur.day);
         assert(day_of_week(n) == weekday);
