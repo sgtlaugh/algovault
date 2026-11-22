@@ -339,6 +339,7 @@ sa.contains("nab");         // false
 - [Expression Parser](code_library/misc/expression_parser.cpp) - infix to postfix, evaluation over any number type
 - [Fast I/O](code_library/misc/fast_io.cpp) - fast buffered input and output [✓](judge_tests/misc/many_aplusb.cpp)
 - [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
+- [Graph Game](code_library/misc/graph_game.cpp) - win, lose or draw in games with cyclic moves
 - [Hackenbush](code_library/misc/hackenbush.cpp) - green values on graphs, red-blue on trees
 - [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in `O(1)`
 - [N Queens](code_library/misc/n_queen.cpp) - N queens count, optionally with blocked squares

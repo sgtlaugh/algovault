@@ -6,9 +6,9 @@
 |---|---|---|---|
 | [15 Puzzle Solver](#15-puzzle-solver) | [Assembly](#assembly) | [Bit Twiddling](#bit-twiddling) | [Comb Sort](#comb-sort) |
 | [Dancing Links](#dancing-links) | [Dates](#dates) | [Expression Parser](#expression-parser) | [Fast I/O](#fast-io) |
-| [Gray Codes](#gray-codes) | [Hackenbush](#hackenbush) | [Knight Distance](#knight-distance) | [N Queens](#n-queens) |
-| [Nimber Arithmetic](#nimber-arithmetic) | [Parallel Binary Search](#parallel-binary-search) | [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) |
-| [Sprague-Grundy](#sprague-grundy) |  |  |  |
+| [Gray Codes](#gray-codes) | [Graph Game](#graph-game) | [Hackenbush](#hackenbush) | [Knight Distance](#knight-distance) |
+| [N Queens](#n-queens) | [Nimber Arithmetic](#nimber-arithmetic) | [Parallel Binary Search](#parallel-binary-search) | [Radix Sort](#radix-sort) |
+| [Radix Sort 64](#radix-sort-64) | [Sprague-Grundy](#sprague-grundy) |  |  |
 
 <!-- /toc -->
 
@@ -63,6 +63,11 @@
 
 - [CSES 2205 - Gray Code](https://cses.fi/problemset/task/2205) [✓](../../practice/misc/cses_2205.cpp "Accepted solution")
 - [UVa 11173 - Grey Codes](https://onlinejudge.org/external/111/11173.pdf) [✓](../../practice/misc/uva_11173.cpp "Accepted solution")
+
+#### [Graph Game](graph_game.cpp)
+
+- [AtCoder ABC209 E - Shiritori](https://atcoder.jp/contests/abc209/tasks/abc209_e)
+- [Codeforces 786A - Berzerk](https://codeforces.com/problemset/problem/786/A)
 
 #### [Hackenbush](hackenbush.cpp)
 
