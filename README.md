@@ -345,7 +345,7 @@ sa.contains("nab");         // false
 - [Comb Sort](code_library/misc/combsort.cpp) - comb sort on any random access range [✓](judge_tests/misc/aoj_alds1_6_a.cpp)
 - [Dancing Links](code_library/misc/dancing_links.cpp) - exact cover with Algorithm X [✓](judge_tests/misc/aoj_alds1_13_a.cpp)
 - [Dates](code_library/misc/dates.cpp) - day numbers, weekdays, leap years, two calendars
-- [Expression Parser](code_library/misc/expression_parser.cpp) - infix to postfix, evaluation over any number type
+- [Expression Parser](code_library/misc/expression_parser.cpp) - infix to postfix, evaluation over any number type [✓](judge_tests/misc/aoj_0109.cpp)
 - [Fast I/O](code_library/misc/fast_io.cpp) - fast buffered input and output [✓](judge_tests/misc/many_aplusb.cpp)
 - [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
 - [Graph Game](code_library/misc/graph_game.cpp) - win, lose or draw in games with cyclic moves
