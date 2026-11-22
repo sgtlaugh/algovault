@@ -7,8 +7,8 @@
 | [15 Puzzle Solver](#15-puzzle-solver) | [Assembly](#assembly) | [Bit Twiddling](#bit-twiddling) | [Comb Sort](#comb-sort) |
 | [Dancing Links](#dancing-links) | [Dates](#dates) | [Expression Parser](#expression-parser) | [Fast I/O](#fast-io) |
 | [Gray Codes](#gray-codes) | [Graph Game](#graph-game) | [Hackenbush](#hackenbush) | [Knight Distance](#knight-distance) |
-| [N Queens](#n-queens) | [Nimber Arithmetic](#nimber-arithmetic) | [Parallel Binary Search](#parallel-binary-search) | [Radix Sort](#radix-sort) |
-| [Radix Sort 64](#radix-sort-64) | [Sprague-Grundy](#sprague-grundy) |  |  |
+| [N Queens](#n-queens) | [Next Palindrome](#next-palindrome) | [Nimber Arithmetic](#nimber-arithmetic) | [Parallel Binary Search](#parallel-binary-search) |
+| [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) | [Sprague-Grundy](#sprague-grundy) |  |
 
 <!-- /toc -->
 
@@ -85,6 +85,10 @@
 #### [N Queens](n_queen.cpp)
 
 - [UVa 11195 - Another n-Queen Problem](https://onlinejudge.org/external/111/11195.pdf) [✓](../../practice/misc/uva_11195.cpp "Accepted solution")
+
+#### [Next Palindrome](next_palindrome.cpp)
+
+- [SPOJ PALIN - The Next Palindrome](https://www.spoj.com/problems/PALIN/)
 
 #### [Nimber Arithmetic](nimber.cpp)
 
