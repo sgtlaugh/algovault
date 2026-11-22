@@ -47,6 +47,7 @@
 - [UVa 602 - What Day Is It?](https://onlinejudge.org/external/6/602.pdf) [✓](../../practice/misc/uva_602.cpp "Accepted solution")
 - [UVa 893 - Y3K Problem](https://onlinejudge.org/external/8/893.pdf) [✓](../../practice/misc/uva_893.cpp "Accepted solution")
 - [UVa 12148 - Electricity](https://onlinejudge.org/external/121/12148.pdf) [✓](../../practice/misc/uva_12148.cpp "Accepted solution")
+- [yukicoder 2109 - Special Week](https://yukicoder.me/problems/no/2109)
 
 #### [Expression Parser](expression_parser.cpp)
 
@@ -91,6 +92,7 @@
 - [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d)
 - [Codeforces 484E - Sign on Fence](https://codeforces.com/problemset/problem/484/E)
 - [CSES 2101 - New Roads Queries](https://cses.fi/problemset/task/2101)
+- [yukicoder 3314 - Library Rearrangement](https://yukicoder.me/problems/no/3314)
 
 #### [Radix Sort](radix_sort.cpp)
 
