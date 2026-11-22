@@ -14,7 +14,7 @@
  * Notes:
  *   - Every vertex reaches itself, so counts()[u] >= 1 and reaches({{u, u}}) is {1}
  *   - closure() fits n up to about 25000 in 128 MB; counts() and reaches() take any n
- *   - counts() takes about 2.5 s at n = 200000, m = 400000 on a random DAG, reaches() a bit less
+ *   - counts() and reaches() make n / 64 passes over the m edges: at n = 200000, m = 400000 that takes 2.5-5 s
  *
 ***/
 
