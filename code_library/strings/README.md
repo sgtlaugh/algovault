@@ -64,6 +64,7 @@
 - [UVa 13163 - Passwords](https://onlinejudge.org/external/131/13163.pdf) [✓](../../practice/strings/uva_13163.cpp "Accepted solution")
 - [UVa 13266 - Great Coin Game](https://onlinejudge.org/external/132/13266.pdf) [✓](../../practice/linear_algebra/uva_13266.cpp "Accepted solution")
 - [UVa 13289 - Kabobs](https://onlinejudge.org/external/132/13289.pdf) [✓](../../practice/strings/uva_13289.cpp "Accepted solution")
+- [yukicoder 1269 - I hate Fibonacci Number](https://yukicoder.me/problems/no/1269)
 - [ZOJ 2115 - Dangerous Pattern](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827365614) [✓](../../practice/strings/zoj_2115.cpp "Accepted solution")
 - [ZOJ 3228 - Searching the String](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827367940) [✓](../../practice/strings/zoj_3228.cpp "Accepted solution")
 - [ZOJ 3430 - Detect the Virus](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827368613) [✓](../../practice/strings/zoj_3430.cpp "Accepted solution")
@@ -117,6 +118,7 @@
 - [UVa 12837 - Hasmot Ali Professor](https://onlinejudge.org/external/128/12837.pdf) [✓](../../practice/strings/uva_12837.cpp "Accepted solution")
 - [UVa 13126 - Wildcards](https://onlinejudge.org/external/131/13126.pdf) [✓](../../practice/strings/uva_13126.cpp "Accepted solution")
 - [UVa 13186 - Tobby and the quaseEquals strings](https://onlinejudge.org/external/131/13186.pdf) [✓](../../practice/strings/uva_13186.cpp "Accepted solution")
+- [yukicoder 2102 - [Cherry Alpha *] Conditional Reflection](https://yukicoder.me/problems/no/2102)
 
 #### [Hirschberg LCS](hirschberg_lcs.cpp)
 
@@ -173,6 +175,7 @@
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✓](../../practice/strings/uva_11475_manacher.cpp "Accepted solution")
 - [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf) [✓](../../practice/strings/uva_12833_manacher.cpp "Accepted solution")
 - [UVa 13092 - Fold the String](https://onlinejudge.org/external/130/13092.pdf) [✓](../../practice/strings/uva_13092.cpp "Accepted solution")
+- [yukicoder 2858 - Make a Palindrome](https://yukicoder.me/problems/no/2858)
 
 #### [Minimum Rotation](minimum_rotation.cpp)
 
@@ -190,6 +193,9 @@
 - [Timus 2059 - Not common palindromes](https://acm.timus.ru/problem.aspx?num=2059) [✓](../../practice/strings/timus_2059.cpp "Accepted solution")
 - [UVa 1470 - Casting Spells](https://onlinejudge.org/external/14/1470.pdf) [✓](../../practice/strings/uva_1470.cpp "Accepted solution")
 - [UVa 12833 - Daily Potato](https://onlinejudge.org/external/128/12833.pdf) [✓](../../practice/strings/uva_12833_palindromic_tree.cpp "Accepted solution")
+- [yukicoder 263 - Common Palindromes Extra](https://yukicoder.me/problems/no/263)
+- [yukicoder 465 - PPPPPPPPPPPPPPPPAPPPPPPPP](https://yukicoder.me/problems/no/465)
+- [yukicoder 2606 - Mirror Relay](https://yukicoder.me/problems/no/2606)
 
 #### [Subsequence Automaton](subsequence_automaton.cpp)
 
@@ -242,6 +248,7 @@
 - [UVa 12361 - File Retrieval](https://onlinejudge.org/external/123/12361.pdf) [✓](../../practice/strings/uva_12361.cpp "Accepted solution")
 - [UVa 12974 - Exquisite Strings](https://onlinejudge.org/external/129/12974.pdf) [✓](../../practice/strings/uva_12974.cpp "Accepted solution")
 - [UVa 13280 - Substring Sorting](https://onlinejudge.org/external/132/13280.pdf) [✓](../../practice/strings/uva_13280.cpp "Accepted solution")
+- [yukicoder 2361 - Many String Compare Queries](https://yukicoder.me/problems/no/2361)
 
 #### [Suffix Automaton](suffix_automaton.cpp)
 
@@ -273,6 +280,7 @@
 #### [Wildcard Matching](wildcard_matching.cpp)
 
 - [Codeforces 754E - Dasha and cyclic table](https://codeforces.com/problemset/problem/754/E) [✓](../../practice/strings/codeforces_754e_wildcard_matching.cpp "Accepted solution")
+- [yukicoder 2231 - Surprising Flash!](https://yukicoder.me/problems/no/2231)
 
 #### [Z Algorithm](z_algorithm.cpp)
 
@@ -287,3 +295,4 @@
 - [Eolymp 1309 - Blocks of string](https://www.eolymp.com/en/problems/1309) [✓](../../practice/strings/eolymp_1309.cpp "Accepted solution")
 - [UVa 11475 - Extend to Palindrome](https://onlinejudge.org/external/114/11475.pdf) [✓](../../practice/strings/uva_11475_z_algorithm.cpp "Accepted solution")
 - [UVa 13258 - Romeo and Juliet Secrets](https://onlinejudge.org/external/132/13258.pdf) [✓](../../practice/strings/uva_13258.cpp "Accepted solution")
+- [yukicoder 1848 - Long Prefixes](https://yukicoder.me/problems/no/1848)
