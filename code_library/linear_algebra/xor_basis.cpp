@@ -5,7 +5,7 @@
  *
  * Complexity:
  *   - XorBasis: O(64) per insert and query, O(64^2) for intersect, 520 bytes per instance
- *   - RangeXorBasis: O(BITS) per push and query, 12 BITS + 4 bytes per instance
+ *   - RangeXorBasis: O(BITS) per push and query, 12 BITS + 8 bytes per instance, 4 less for odd BITS
  *
  * XorBasis b: an empty basis, its span is {0}
  * b.insert(x): adds x, false if x was already in the span
