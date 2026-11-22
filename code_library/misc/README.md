@@ -44,6 +44,7 @@
 
 #### [Dates](dates.cpp)
 
+- [Codeforces 698E - Cron](https://codeforces.com/problemset/problem/698/E)
 - [UVa 602 - What Day Is It?](https://onlinejudge.org/external/6/602.pdf) [✓](../../practice/misc/uva_602.cpp "Accepted solution")
 - [UVa 893 - Y3K Problem](https://onlinejudge.org/external/8/893.pdf) [✓](../../practice/misc/uva_893.cpp "Accepted solution")
 - [UVa 12148 - Electricity](https://onlinejudge.org/external/121/12148.pdf) [✓](../../practice/misc/uva_12148.cpp "Accepted solution")
