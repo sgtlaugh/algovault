@@ -7,7 +7,7 @@
 | [Aliens Trick (WQS)](#aliens-trick-wqs) | [Block Removal DP](#block-removal-dp) | [Bounded Knapsack](#bounded-knapsack) | [Bounded Subset Sum](#bounded-subset-sum) |
 | [Concave 1D1D DP](#concave-1d1d-dp) | [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) |
 | [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) | [Longest Increasing Subsequence](#longest-increasing-subsequence) |
-| [Maximum Square](#maximum-square) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |  |
+| [Maximum Square](#maximum-square) | [Monotone Minima and SMAWK](#monotone-minima-and-smawk) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |
 
 <!-- /toc -->
 
@@ -128,6 +128,13 @@
 #### [Maximum Square](maximum_square.cpp)
 
 - [AOJ DPL_3_A - Largest Square](https://onlinejudge.u-aizu.ac.jp/problems/DPL_3_A) [✓](../../practice/dp/aoj_dpl_3_a.cpp "Accepted solution")
+
+#### [Monotone Minima and SMAWK](monotone_minima.cpp)
+
+- [AtCoder COLOPL2018-FINAL-OPEN C - スペースエクスプローラー高橋君](https://atcoder.jp/contests/colopl2018-final-open/tasks/colopl2018_final_c)
+- [Codeforces 1423M - Milutin's Plums](https://codeforces.com/problemset/problem/1423/M)
+- [Codeforces Gym 102920L - Two Buildings](https://codeforces.com/gym/102920/problem/L)
+- [Kattis money - Money for Nothing](https://open.kattis.com/problems/money)
 
 #### [Plug DP](plug_dp.cpp)
 
