@@ -18,6 +18,7 @@
  *   - write takes integers, strings, chars, vectors of these and fio::fixed values
  *   - Once fio handles a stream, use nothing else on it: scanf, printf, cin or cout would reorder the input or output
  *   - An integer read skips everything up to the next digit or -, words included, where scanf fails and reads nothing
+ *   - A - not followed by a digit reads as 0 and eats the byte after it, so "3 - 4" reads 3, then 0, then 4
  *   - A char reads one non-space character
  *   - A number or string read eats the byte after it: read_line next gets the next line after "9\n", "" after "9\r\n"
  *   - A text line after a number line, under any line ending: read_line(s), k = stoi(s), then read_line(text)
