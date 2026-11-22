@@ -10,7 +10,7 @@
  * Notes:
  *   - |x|, |y| <= 1e9, so a squared distance (at most 8e18) fits in a long long
  *   - Duplicate points are allowed and give dist2 = 0
- *   - Real coordinates with at most k decimals: scale by 10^k, then recompute the pair's distance from the originals
+ *   - Real coordinates with at most k decimals: llround(x * 10^k), then recompute the pair's distance from the input
  *   - Manhattan or Chebyshev distance needs its own sweep; (x, y) -> (x + y, x - y) turns Manhattan into Chebyshev
  *
 ***/
