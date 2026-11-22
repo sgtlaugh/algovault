@@ -17,7 +17,9 @@
  *   - Both hold for Monge f: f(i, j) + f(i2, k) <= f(i, k) + f(i2, j) for all i < i2 and j < k
  *   - Monge examples: g(b[j] - a[i]) for convex g and sorted a, b, plus terms in only i or only j, and sums
  *   - f may return any type with < and copy, and is called only with 0 <= i < n and 0 <= j < m
- *   - At -O2 monotone_minima is 1.5x faster at n = m = 10^6, smawk 2x faster at n = 10^3, m = 10^6
+ *   - smawk calls f 4 to 5.5 (n + m) times, monotone_minima about (n + m) log2 n times
+ *   - O(1) f at -O2: monotone_minima 1.3x faster at n = m = 10^6, smawk 1.3x faster at n = 10^3, m = 10^6
+ *   - f costing a sqrt and a log: smawk 1.2x faster at n = m = 10^6 and 1.9x at n = 10^3, m = 10^6
  *
 ***/
 
