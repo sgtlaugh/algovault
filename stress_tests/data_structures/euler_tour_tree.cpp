@@ -115,10 +115,26 @@ void check_long_path(int n){
     assert(ett.subtree_query(mid + 1, mid) == prefix[n] - value[mid]);
 }
 
+/// n = 2B for bucket count B makes every key u * n + B of edge u-B a multiple of B: one bucket under std::hash
+void check_anti_hash(){
+    const int leaves = 50000;
+    unordered_map<long long, int> probe;
+    for (int i = 0; i < leaves; i++) probe[i] = i;
+    int hub = probe.bucket_count();
+
+    EulerTourTree<long long> ett(vector<long long>(2 * hub, 1));
+    clock_t start = clock();
+    for (int u = 0; u < leaves; u++) assert(ett.link(u, hub));
+    for (int u = 0; u < leaves; u++) assert(ett.subtree_query(u, hub) == 1);
+    assert(clock() - start < 2 * CLOCKS_PER_SEC);  /// CPU time, parallel sanitizer jobs inflate wall time
+}
+
 int main(){
     /// Without the assert a query on a non-edge would read arc -1 and return garbage
     auto query_non_edge = []{ EulerTourTree<long long>(3).subtree_query(0, 1); };
     stress::expect_assert("data_structures/euler_tour_tree.cpp", query_non_edge);
+
+    check_anti_hash();
 
     for (long long it = 0; it < stress::scaled(2000); it++){
         int n = it < 400 ? it % 8 + 1 : stress::rand_int(1, 40);
