@@ -623,6 +623,7 @@
 
 - [Codeforces 641F - Little Artem and 2-SAT](https://codeforces.com/problemset/problem/641/F)
 - [CSES 2138 - Reachable Nodes](https://cses.fi/problemset/task/2138)
+- [UVa 925 - No more prerequisites, please!](https://onlinejudge.org/external/9/925.pdf) [✓](../../practice/graphs/uva_925.cpp "Accepted solution")
 
 #### [Small Cycle Counting](small_cycle_counting.cpp)
 
