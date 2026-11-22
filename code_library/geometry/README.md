@@ -31,6 +31,7 @@
 - [UVa 12237 - Jiajia's Robot](https://onlinejudge.org/external/122/12237.pdf) [✓](../../practice/geometry/uva_12237.cpp "Accepted solution")
 - [UVa 12302 - Nine-Point Circle](https://onlinejudge.org/external/123/12302.pdf) [✓](../../practice/geometry/uva_12302.cpp "Accepted solution")
 - [UVa 12304 - 2D Geometry 110 in 1!](https://onlinejudge.org/external/123/12304.pdf) [✓](../../practice/geometry/uva_12304.cpp "Accepted solution")
+- [yukicoder 2602 - Real Collider](https://yukicoder.me/problems/no/2602)
 
 #### [Closest Pair of Points](closest_pair.cpp)
 
@@ -147,6 +148,7 @@
 - [UVa 1141 - Count wireless Links](https://onlinejudge.org/external/11/1141.pdf) [✓](../../practice/geometry/uva_1141.cpp "Accepted solution")
 - [UVa 1683 - In case of failure](https://onlinejudge.org/external/16/1683.pdf) [✓](../../practice/geometry/uva_1683_kd_tree.cpp "Accepted solution")
 - [UVa 12860 - Galaxy collision](https://onlinejudge.org/external/128/12860.pdf) [✓](../../practice/geometry/uva_12860.cpp "Accepted solution")
+- [yukicoder 2909 - Imaginary Summer](https://yukicoder.me/problems/no/2909)
 
 #### [Pick's Theorem](picks_theorem.cpp)
 
