@@ -80,7 +80,7 @@ sa.contains("nab");         // false
 
 [Practice problems](code_library/data_structures/README.md)
 
-- [Convex Hull Trick](code_library/data_structures/convex_hull_trick.cpp) - min or max of lines added in slope order
+- [Convex Hull Trick](code_library/data_structures/convex_hull_trick.cpp) - min or max of lines added in slope order [✓](judge_tests/data_structures/aoj_2603_convex_hull_trick.cpp)
 - [Coordinate Compression](code_library/data_structures/coordinate_compression.cpp) - replaces values with small ids [✓](judge_tests/data_structures/static_range_frequency_coordinate_compression.cpp)
 - [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - merges sets and tells if two nodes share one [✓](judge_tests/data_structures/unionfind.cpp)
   - [Partially Persistent](code_library/data_structures/partially_persistent_dsu.cpp) - connectivity and component sizes at any past time
