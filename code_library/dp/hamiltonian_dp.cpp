@@ -28,7 +28,9 @@ struct HamiltonianGraph{
     int n;
     vector<vector<long long>> w;
 
-    HamiltonianGraph(int n) : n(n), w(n, vector<long long>(n, INF)) {}
+    HamiltonianGraph(int n) : n(n), w(n, vector<long long>(n, INF)){
+        assert(n >= 1);
+    }
 
     void add_directed_edge(int u, int v, long long weight){
         w[u][v] = min(w[u][v], weight);

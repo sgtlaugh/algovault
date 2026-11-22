@@ -95,5 +95,7 @@ int main(){
     for (int it = 0; it < 20; it++) planted(stress::rand_int(9, 14), 1, 1000);
     planted(20, -400000000000000000LL, 400000000000000000LL);
 
+    stress::expect_assert("dp/hamiltonian_dp.cpp", []{ HamiltonianGraph empty(0); });
+
     return 0;
 }
