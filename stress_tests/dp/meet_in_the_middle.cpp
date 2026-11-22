@@ -56,9 +56,12 @@ void check_small(const vector<long long>& a, const vector<long long>& values){
     /// a doubles as the weights, so negative weights are covered too
     long long top = 0;
     for (long long w : a) top += abs(w);
+    bool int_values = all_of(values.begin(), values.end(), [](long long v){ return INT_MIN <= v && v <= INT_MAX; });
     for (int it = 0; it < 4; it++){
         long long capacity = it == 0 ? 0 : stress::rand_int(0, top);
-        assert(knapsack_large_weights(values, a, capacity) == brute_knapsack(values, a, capacity));
+        long long best = brute_knapsack(values, a, capacity);
+        assert(knapsack_large_weights(values, a, capacity) == best);
+        if (int_values) assert(knapsack_large_weights(vector<int>(values.begin(), values.end()), a, capacity) == best);
     }
 }
 

@@ -12,7 +12,7 @@
  * subset_sums(a): the 2^n sums of all subsets of a, sorted, duplicates kept, 0 for the empty subset
  *
  * Notes:
- *   - a, values and weights are vector<int> or vector<long long> of any sign, every subset's sums fit in long long
+ *   - a, values and weights are each vector<int> or vector<long long>, any sign, every subset's sums fit in long long
  *   - lo > hi gives 0, a sum of exactly s is count_subset_sums(a, s, s)
  *   - capacity >= 0, so the empty subset always fits and the best value is at least 0
  *   - Each half holds 2^(n/2) sums: n = 40 takes about 28 MB to count and 52 MB for knapsack, n = 44 about 3.5x that
@@ -57,8 +57,8 @@ long long count_subset_sums(const vector<T>& a, long long lo, long long hi){
 }
 
 /// Every subset of items [first, last) as (weight, value), sorted by weight
-template <typename T>
-vector<pair<long long, long long>> weight_value_sums(const vector<T>& values, const vector<T>& weights, size_t first, size_t last){
+template <typename V, typename W>
+vector<pair<long long, long long>> weight_value_sums(const vector<V>& values, const vector<W>& weights, size_t first, size_t last){
     vector<pair<long long, long long>> sums{{0, 0}};
     for (size_t i = first; i < last; i++){
         size_t k = sums.size();
@@ -70,8 +70,8 @@ vector<pair<long long, long long>> weight_value_sums(const vector<T>& values, co
     return sums;
 }
 
-template <typename T>
-long long knapsack_large_weights(const vector<T>& values, const vector<T>& weights, long long capacity){
+template <typename V, typename W>
+long long knapsack_large_weights(const vector<V>& values, const vector<W>& weights, long long capacity){
     assert(values.size() == weights.size() && capacity >= 0);
     size_t n = values.size(), half = n / 2;
     vector<pair<long long, long long>> left = weight_value_sums(values, weights, 0, half);
