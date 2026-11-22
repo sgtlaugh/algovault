@@ -595,7 +595,7 @@
 - [CSES 1707 - Graph Girth](https://cses.fi/problemset/task/1707)
 - [HDU 1599 - find the mincost route](https://acm.hdu.edu.cn/showproblem.php?pid=1599)
 - [Timus 1004 - Sightseeing Trip](https://acm.timus.ru/problem.aspx?num=1004)
-- [UVa 12544 - Beehives](https://onlinejudge.org/external/125/12544.pdf)
+- [UVa 12544 - Beehives](https://onlinejudge.org/external/125/12544.pdf) [✓](../../practice/graphs/uva_12544.cpp "Accepted solution")
 - [yukicoder 1320 - Two Type Min Cost Cycle](https://yukicoder.me/problems/no/1320)
 
 #### [Network Simplex](network_simplex.cpp)
