@@ -3,7 +3,7 @@
  * Sparse Power Series
  * Inverse, log, exp, power and square root of a power series with few nonzero terms, modulo any prime
  *
- * Complexity: O(n k) for the first n coefficients of a series with k nonzero terms, plus O(log mod) per call
+ * Complexity: O(n k) for n coefficients of a series with k nonzero terms, plus O(log mod), O(log^2 mod) for sqrt
  *
  * SparseSeries f(terms, mod = 998244353): the sum of c x^d over the pairs {d, c} of terms, repeated degrees add up
  * f.exp(n): e^f mod x^n, requires a zero constant term
@@ -17,7 +17,8 @@
  *   - mod is a prime below 2^31 with n <= mod, so 1..n - 1 have inverses; sqrt also needs mod > 2
  *   - Degrees are >= 0 and coefficients any long long; results have exactly n coefficients in [0, mod)
  *   - Every call reads only the terms of degree below n
- *   - Modulo an NTT prime, polynomial.cpp does the same in O(n log n), faster once k passes about 80 at n = 10^6
+ *   - Modulo an NTT prime, polynomial.cpp does the same in O(n log n)
+ *   - At n = 10^6 polynomial.cpp is faster once k passes about 40 for inverse, 60 for log and sqrt, 110 for exp and pow
  *
 ***/
 

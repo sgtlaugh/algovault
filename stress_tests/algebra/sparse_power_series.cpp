@@ -116,8 +116,23 @@ vector<pair<int, long long>> random_terms(int max_degree, int k, long long mod){
     return raw;
 }
 
-void check_small(int mod){
-    int n = stress::rand_int(0, min(mod, 24));
+/// exp needs a zero constant term and log a constant term 1, so force them on a copy
+void check_exp_log(const vector<pair<int, long long>>& raw, int n, int mod){
+    auto raw0 = raw;
+    raw0.erase(remove_if(raw0.begin(), raw0.end(), [](auto& t){ return t.first == 0; }), raw0.end());
+    SparseSeries e(raw0, mod);
+    Series ed = dense(raw0, n, mod);
+    assert(e.exp(n) == as_int(brute_exp(ed, n, mod)));
+
+    auto raw1 = raw0;
+    raw1.push_back({0, 1});
+    SparseSeries l(raw1, mod);
+    Series ld = dense(raw1, n, mod);
+    assert(l.log(n) == as_int(brute_log(ld, n, mod)));
+}
+
+void check_small(int mod, int max_n = 24){
+    int n = stress::rand_int(0, min(mod, max_n));
     int k = stress::rand_int(0, 6);
     auto raw = random_terms(n + 3, k, mod);
     SparseSeries f(raw, mod);
@@ -140,6 +155,9 @@ void check_small(int mod){
         assert(f.inverse(n) == as_int(brute_inverse(fd, n, mod)));
     }
 
+    check_exp_log(raw, n, mod);
+    if (mod == 2) return;
+
     auto root = f.sqrt(n);
     int s = 0;
     while (s < n && fd[s] == 0) s++;
@@ -151,19 +169,6 @@ void check_small(int mod){
         if (s < n) assert((*root)[s / 2] <= mod - (*root)[s / 2]);
         assert(g.sqrt(n) == root);
     }
-
-    /// exp needs a zero constant term and log a constant term 1, so force them on a copy
-    auto raw0 = raw;
-    raw0.erase(remove_if(raw0.begin(), raw0.end(), [](auto& t){ return t.first == 0; }), raw0.end());
-    SparseSeries e(raw0, mod);
-    Series ed = dense(raw0, n, mod);
-    assert(e.exp(n) == as_int(brute_exp(ed, n, mod)));
-
-    auto raw1 = raw0;
-    raw1.push_back({0, 1});
-    SparseSeries l(raw1, mod);
-    Series ld = dense(raw1, n, mod);
-    assert(l.log(n) == as_int(brute_log(ld, n, mod)));
 }
 
 /// Large n against the NTT Polynomial, a separate implementation of the same operations
@@ -221,6 +226,10 @@ int main(){
     }
 
     for (long long it = 0; it < stress::scaled(4000); it++) check_small(primes[stress::rand_int(0, 8)]);
+
+    /// mod = 2 allows n <= 2 and every call but sqrt; primes near 2^31 at n in the hundreds stress the 64-bit products
+    for (long long it = 0; it < stress::scaled(200); it++) check_small(2);
+    for (long long it = 0; it < stress::scaled(4); it++) check_small(stress::rand_int(0, 1) ? 2147483647 : 2147483629, 300);
 
     for (long long it = 0; it < stress::scaled(30); it++) check_large(stress::rand_int(1, 3000), stress::rand_int(1, 10));
     check_large(200000, 10);
