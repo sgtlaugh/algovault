@@ -6,7 +6,7 @@
  * Complexity: O(n / 64) to build, O(log_64 n) per operation, at most 4 levels for n <= 1.6e7
  * Memory: about n / 8 bytes, 1.27 MB for n = 1e7, where std::set<int> takes 48 bytes per member
  *
- * FastSet fs(n): empty set over [0, n)
+ * FastSet fs(n): empty set over [0, n), any n from 0 to INT_MAX
  * FastSet fs(n, FastSet::FULL): every x in [0, n) is a member
  * fs.erase(x): remove x if present, 0 <= x < n
  * fs.insert(x): add x if absent, 0 <= x < n
@@ -40,7 +40,7 @@ struct FastSet{
     FastSet(int n, Fill fill = EMPTY) : n(n){
         int bits = n;
         do{
-            int words = (bits + 63) >> 6;
+            int words = (bits >> 6) + ((bits & 63) != 0);
             level.push_back(vector<uint64_t>(words, fill == FULL ? ~0ULL : 0));
             if (fill == FULL && (bits & 63)) level.back().back() = (1ULL << (bits & 63)) - 1;
             bits = words;
