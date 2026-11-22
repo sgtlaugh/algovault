@@ -36,6 +36,7 @@ struct Mex{
     int stamp = 1;
 
     void add(int x){
+        assert(x >= 0);
         if (x >= (int)seen.size()) seen.resize(2 * x + 2);
         seen[x] = stamp;
     }

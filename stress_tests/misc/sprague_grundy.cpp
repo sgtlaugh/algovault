@@ -229,6 +229,7 @@ void test_dag(){
 
     stress::expect_assert("misc/sprague_grundy.cpp", []{ grundy_dag({{1}, {2}, {0}}); });
     stress::expect_assert("misc/sprague_grundy.cpp", []{ grundy_dag({{}, {1}}); });
+    stress::expect_assert("misc/sprague_grundy.cpp", []{ Mex mex; mex.add(-1); });
 }
 
 int main(){
