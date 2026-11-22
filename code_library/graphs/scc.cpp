@@ -99,7 +99,8 @@ int main(){
     for (auto [u, v] : vector<pair<int, int>>{{0, 1}, {1, 2}, {2, 0}, {2, 3}, {3, 4}, {4, 3}, {5, 5}}) g.add_edge(u, v);
     g.run();
     assert(g.count == 3);
-    assert(g.comp[0] == g.comp[1] && g.comp[1] == g.comp[2]);
+    assert(g.comp[0] == g.comp[1]);
+    assert(g.comp[1] == g.comp[2]);
     assert(g.comp[3] == g.comp[4]);
     assert(g.comp[0] < g.comp[3]);  /// topological order, edge 2 -> 3
 
