@@ -5,8 +5,9 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Big Integer](#big-integer) | [FFT](#fft) | [Fraction](#fraction) | [GCD and LCM Convolution](#gcd-and-lcm-convolution) |
-| [Lagrange Interpolation](#lagrange-interpolation) | [Linear Recurrence](#linear-recurrence) | [NTT](#ntt) | [Online Convolution](#online-convolution) |
-| [Polynomial](#polynomial) | [Sparse Power Series](#sparse-power-series) | [Subset Convolution and SOS DP](#subset-convolution-and-sos-dp) | [Walsh-Hadamard Transform](#walsh-hadamard-transform) |
+| [Lagrange Interpolation](#lagrange-interpolation) | [Linear Recurrence](#linear-recurrence) | [Min-Plus Convolution](#min-plus-convolution) | [NTT](#ntt) |
+| [Online Convolution](#online-convolution) | [Polynomial](#polynomial) | [Sparse Power Series](#sparse-power-series) | [Subset Convolution and SOS DP](#subset-convolution-and-sos-dp) |
+| [Walsh-Hadamard Transform](#walsh-hadamard-transform) |  |  |  |
 
 <!-- /toc -->
 
@@ -122,6 +123,10 @@
 - [UVa 13298 - A Fibonacci Family Formula](https://onlinejudge.org/external/132/13298.pdf) [✓](../../practice/algebra/uva_13298.cpp "Accepted solution")
 - [yukicoder 1500 - Super Knight](https://yukicoder.me/problems/no/1500)
 - [yukicoder 1516 - simple 門松列 problem Re:MASTER](https://yukicoder.me/problems/no/1516)
+
+#### [Min-Plus Convolution](min_plus_convolution.cpp)
+
+- [AtCoder ABC383 G - Bar Cover](https://atcoder.jp/contests/abc383/tasks/abc383_g)
 
 #### [NTT](ntt.cpp)
 
