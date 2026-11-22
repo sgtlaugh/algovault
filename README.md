@@ -317,7 +317,7 @@ sa.contains("nab");         // false
 - [DSU on Tree](code_library/trees/dsu_on_tree.cpp) - small-to-large answers for every subtree
 - [Dynamic Tree Diameter](code_library/trees/dynamic_diameter.cpp) - tree diameter under edge weight updates [✓](judge_tests/trees/aoj_grl_5_a.cpp)
 - [Heavy Light Decomposition](code_library/trees/hld.cpp) - tree paths and subtrees as array ranges [✓](judge_tests/trees/aoj_grl_5_d.cpp)
-- [Leaf Peeling](code_library/trees/leaf_peeling.cpp) - parents and leaves-first order from an edge list
+- [Leaf Peeling](code_library/trees/leaf_peeling.cpp) - parents and leaves-first order from an edge list [✓](judge_tests/trees/tree_diameter_leaf_peeling.cpp)
 - [Long-Path Decomposition](code_library/trees/long_path_decomposition.cpp) - depth-indexed subtree DP and `O(1)` k-th ancestor [✓](judge_tests/trees/jump_on_tree_long_path_decomposition.cpp)
 - [Lowest Common Ancestor](code_library/trees/lca.cpp) - LCA, distance, jumps and path folds on a tree [✓](judge_tests/trees/jump_on_tree.cpp)
 - [Prufer Code](code_library/trees/prufer_code.cpp) - converts labeled trees to and from sequences
