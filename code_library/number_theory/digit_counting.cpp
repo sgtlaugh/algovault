@@ -39,6 +39,7 @@ array<long long, 10> digit_counts(long long n){
 }
 
 array<long long, 10> digit_counts(long long l, long long r){
+    assert(0 <= l && l <= r);
     array<long long, 10> res = digit_counts(r), below = digit_counts(l - 1);
     for (int d = 0; d < 10; d++) res[d] -= below[d];
 

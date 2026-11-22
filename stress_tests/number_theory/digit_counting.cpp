@@ -78,5 +78,8 @@ int main(){
         check_reference(stress::rand_int(0, hi));
     }
 
+    stress::expect_assert("number_theory/digit_counting.cpp", []{ digit_counts(5, 3); });
+    stress::expect_assert("number_theory/digit_counting.cpp", []{ digit_counts(-5, 3); });
+
     return 0;
 }
