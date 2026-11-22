@@ -182,6 +182,7 @@
 #### [Modular Roots](modular_roots.cpp)
 
 - [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F) [✓](../../practice/number_theory/codeforces_1106f_modular_roots.cpp "Accepted solution")
+- [Codeforces 1190F - Tokitsukaze and Powers](https://codeforces.com/problemset/problem/1190/F)
 - [yukicoder 1339 - 循環小数](https://yukicoder.me/problems/no/1339)
 
 #### [Pell Equation](pell_equation.cpp)
