@@ -134,7 +134,7 @@ sa.contains("nab");         // false
 - [Bounded Knapsack](code_library/dp/bounded_knapsack.cpp) - limited copies per item in `O(n capacity)` [✓](judge_tests/dp/aoj_dpl_1_g.cpp)
 - [Bounded Subset Sum](code_library/dp/bounded_subset_sum.cpp) - reachable sums of a multiset, with a witness
 - [CKY](code_library/dp/cky.cpp) - context-free grammar membership
-- [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - `dp[x] = min dp[i] + w(i, x)` for Monge w
+- [Concave 1D1D DP](code_library/dp/concave_1d1d_dp.cpp) - `dp[x] = min dp[i] + w(i, x)` for Monge w [✓](judge_tests/dp/aoj_2603_concave_1d1d_dp.cpp)
 - [Divide and Conquer DP](code_library/dp/divide_conquer_dp.cpp) - split into k segments of minimum total cost [✓](judge_tests/dp/aoj_2603.cpp)
   - [Knuth Partition DP](code_library/dp/knuth_partition_dp.cpp) - same split in `O(n^2)`, faster for large k [✓](judge_tests/dp/aoj_2603_knuth_partition_dp.cpp)
 - [Garsia-Wachs](code_library/dp/garsia_wachs.cpp) - min cost to merge adjacent piles in `O(n log n)`
