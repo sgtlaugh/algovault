@@ -114,6 +114,7 @@
 
 - [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07) [✓](../../practice/data_structures/codechef_gerald07_rollback_dsu.cpp "Accepted solution")
 - [Codeforces 1140F - Extending Set of Points](https://codeforces.com/problemset/problem/1140/F) [✓](../../practice/data_structures/codeforces_1140f.cpp "Accepted solution")
+- [Codeforces 1386C - Joker](https://codeforces.com/problemset/problem/1386/C)
 
 #### [Disjoint Sparse Table](disjoint_sparse_table.cpp)
 
@@ -295,6 +296,7 @@
 
 #### [Mo's Algorithm On Tree Paths](tree_path_mo.cpp)
 
+- [Codeforces 852I - Dating](https://codeforces.com/problemset/problem/852/I)
 - [Codeforces Gym 100962F - Frank Sinatra](https://codeforces.com/gym/100962/problem/F) [✓](../../practice/data_structures/codeforces_gym_100962f.cpp "Accepted solution")
 - [Codeforces Gym 101161E - ACM Tax](https://codeforces.com/gym/101161/problem/E) [✓](../../practice/data_structures/codeforces_gym_101161e_tree_path_mo.cpp "Accepted solution")
 - [SPOJ COT2 - Count on a tree II](https://www.spoj.com/problems/COT2/) [✓](../../practice/data_structures/spoj_cot2.cpp "Accepted solution")
@@ -303,9 +305,12 @@
 
 - [CodeChef GERALD07 - Chef and Graph Queries](https://www.codechef.com/problems/GERALD07) [✓](../../practice/data_structures/codechef_gerald07_mo_with_rollback.cpp "Accepted solution")
 - [CodeChef QCHEF - Chef and Problems](https://www.codechef.com/problems/QCHEF) [✓](../../practice/data_structures/codechef_qchef.cpp "Accepted solution")
+- [Codeforces 620F - Xors on Segments](https://codeforces.com/problemset/problem/620/F)
 
 #### [Mo's Algorithm With Updates](mo_with_updates.cpp)
 
+- [Codeforces 940F - Machine Learning](https://codeforces.com/problemset/problem/940/F)
+- [Codeforces 1476G - Minimum Difference](https://codeforces.com/problemset/problem/1476/G)
 - [SPOJ XXXXXXXX - Sum of Distinct Numbers](https://www.spoj.com/problems/XXXXXXXX/) [✓](../../practice/data_structures/spoj_xxxxxxxx.cpp "Accepted solution")
 - [UVa 12345 - Dynamic len(set(a[L:R]))](https://onlinejudge.org/external/123/12345.pdf) [✓](../../practice/data_structures/uva_12345.cpp "Accepted solution")
 
