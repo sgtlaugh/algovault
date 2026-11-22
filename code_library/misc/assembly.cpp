@@ -5,12 +5,16 @@
  *
  * Complexity: O(1) per call, O(log min(|a|, |b|)) for asm_gcd
  *
+ * asm_bsf(x): the index of the lowest set bit of x, 0 for x = 0
+ * asm_gcd(a, b): gcd(|a|, |b|) as unsigned, so asm_gcd(INT_MIN, 0) = 2^31
+ * asm_lzcnt(x): the number of leading zero bits of x, 32 for x = 0
+ * asm_popcount(x): the number of set bits of x
+ * asm_sqrt(x): the square root of a long double x, by the x87 fsqrt instruction
+ *
  * Notes:
  *   - Requires x86-64 and GCC or Clang (AT&T syntax)
  *   - POPCNT and LZCNT need CPU support, without LZCNT the instruction silently runs as BSR and returns a wrong count
  *   - Prefer the portable __builtin_popcount, __builtin_clz, __builtin_ctz and std::gcd, 1.6x faster than asm_gcd
- *   - asm_gcd works on magnitudes and returns unsigned, so asm_gcd(INT_MIN, 0) = 2^31
- *   - asm_bsf(0) returns 0, asm_lzcnt(0) returns 32
  *
 ***/
 
@@ -69,6 +73,7 @@ long double asm_sqrt(long double x){
 }
 
 int main(){
+    /// Each routine on a value worked out by hand
     assert(asm_popcount(13) == 3);               /// 1101
     assert(asm_popcount(-1) == 32);
     assert(asm_lzcnt(100) == 25);                /// 100 needs 7 bits
