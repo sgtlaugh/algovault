@@ -7,8 +7,8 @@
 | [Aliens Trick (WQS)](#aliens-trick-wqs) | [Block Removal DP](#block-removal-dp) | [Bounded Knapsack](#bounded-knapsack) | [Bounded Subset Sum](#bounded-subset-sum) |
 | [Concave 1D1D DP](#concave-1d1d-dp) | [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) |
 | [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) | [Longest Increasing Subsequence](#longest-increasing-subsequence) |
-| [Maximum Square](#maximum-square) | [Monotone Minima and SMAWK](#monotone-minima-and-smawk) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |
-| [Tree Knapsack](#tree-knapsack) |  |  |  |
+| [Maximum Square](#maximum-square) | [Meet in the Middle](#meet-in-the-middle) | [Monotone Minima and SMAWK](#monotone-minima-and-smawk) | [Plug DP](#plug-dp) |
+| [Slope Trick](#slope-trick) | [Tree Knapsack](#tree-knapsack) |  |  |
 
 <!-- /toc -->
 
@@ -129,6 +129,12 @@
 #### [Maximum Square](maximum_square.cpp)
 
 - [AOJ DPL_3_A - Largest Square](https://onlinejudge.u-aizu.ac.jp/problems/DPL_3_A) [✓](../../practice/dp/aoj_dpl_3_a.cpp "Accepted solution")
+
+#### [Meet in the Middle](meet_in_the_middle.cpp)
+
+- [AtCoder ABC184 F - Programming Contest](https://atcoder.jp/contests/abc184/tasks/abc184_f)
+- [CSES 1628 - Meet in the Middle](https://cses.fi/problemset/task/1628)
+- [SPOJ SUBSUMS - Subset Sums](https://www.spoj.com/problems/SUBSUMS/)
 
 #### [Monotone Minima and SMAWK](monotone_minima.cpp)
 
