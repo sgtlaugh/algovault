@@ -203,6 +203,85 @@ void near_parallel(int iterations){
     }
 }
 
+/// The library's method in long double, whose 11 extra bits keep a thin triangle's normal accurate
+long double precise_point_triangle(const Point3& p, const Point3& a, const Point3& b, const Point3& c){
+    struct L{ long double x, y, z; };
+    auto sub = [](const Point3& u, const Point3& v){ return L{(long double)u.x - v.x, (long double)u.y - v.y, (long double)u.z - v.z}; };
+    auto cr = [](const L& u, const L& v){ return L{u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x}; };
+    auto d = [](const L& u, const L& v){ return u.x * v.x + u.y * v.y + u.z * v.z; };
+    auto seg = [&](const Point3& u, const Point3& v){
+        L uv = sub(v, u), up = sub(p, u);
+        long double t = max(0.0L, min(1.0L, d(up, uv) / d(uv, uv)));
+        L q{up.x - uv.x * t, up.y - uv.y * t, up.z - uv.z * t};
+        return sqrtl(d(q, q));
+    };
+
+    L n = cr(sub(b, a), sub(c, a));
+    bool inside = d(cr(sub(b, a), sub(p, a)), n) >= 0 && d(cr(sub(c, b), sub(p, b)), n) >= 0 && d(cr(sub(a, c), sub(p, c)), n) >= 0;
+    if (inside) return fabsl(d(n, sub(p, a))) / sqrtl(d(n, n));
+    return min({seg(a, b), seg(b, c), seg(c, a)});
+}
+
+Point3 real_point(int lim){
+    auto coord = [&]{ return stress::rand_int(-lim, lim - 1) + stress::rand_int(0, 999999) * 1e-6; };
+    return {coord(), coord(), coord()};
+}
+
+/// Real coordinates up to 1e6; triangles with sine below 1e-3 lose accuracy as the header says, so they are skipped
+void real_coordinates(int iterations){
+    for (int it = 0; it < iterations; it++){
+        Point3 a = real_point(1000000), b = real_point(1000000), c = real_point(1000000), n = cross(b - a, c - a);
+        if (!(norm(n) > 1e-3 * norm(b - a) * norm(c - a))) continue;
+
+        double u = stress::rand_int(0, 1000) / 1000.0, v = stress::rand_int(0, 1000) / 1000.0;
+        if (u + v > 1) u = 1 - u, v = 1 - v;
+        Point3 near = at(a, b, c, u, v) + n * (stress::rand_int(-1000, 1000) / 7.0 / norm(n)) + real_point(1);
+        Point3 x = it % 2 ? real_point(1000000) : near;
+        check_close(dist_point_triangle(x, a, b, c), precise_point_triangle(x, a, b, c), "real point triangle");
+    }
+}
+
+/// Thin but real triangles, sine 5e-8 to 1e-5 and edges up to 100: still planes, so a point inside is on them
+void thin_triangles(int iterations){
+    for (int it = 0; it < iterations; it++){
+        Point3 a = real_point(100), dir = real_point(1), w = real_point(1);
+        if (norm(dir) < 0.1) continue;
+        dir = dir / norm(dir), w = w - dir * dot(w, dir);
+        if (norm(w) < 0.1) continue;
+        w = w / norm(w);
+
+        double sine = 5e-8 * pow(200, stress::rand_int(0, 1000) / 1000.0), kb = stress::rand_int(20, 100);
+        double kc = stress::rand_int(20, 100) * (it % 2 ? 1.0 : -1.0);
+        Point3 b = a + dir * kb, c = a + dir * kc + w * (fabs(kc) * sine);
+        double u = stress::rand_int(1, 999) / 1000.0, v = stress::rand_int(1, 999) / 1000.0;
+        if (u + v > 1) u = 1 - u, v = 1 - v;
+        Point3 n = cross(b - a, c - a), x = at(a, b, c, u, v) + n * (stress::rand_int(-1000, 1000) * 1e-9 / norm(n));
+        check_close(dist_point_triangle(x, a, b, c), precise_point_triangle(x, a, b, c), "thin point triangle");
+    }
+}
+
+/// Collinear points written as decimals: the rounded cross product is noise pointing anywhere, never a real plane
+void rounding_slivers(int iterations){
+    check_close(dist_point_triangle({0.1, 0.3, 1.9}, {0, 0, 0}, {0.1, 0.3, 0.9}, {0.3, 0.9, 2.7}), 0.331496608732, "sliver");
+    for (int it = 0; it < iterations; it++){
+        Point3 a = real_point(100000), dir = real_point(1);
+        if (norm(dir) < 0.1) continue;
+
+        /// Edges of length 100 and up keep the rounding noise far below sine EPS
+        double kb = stress::rand_int(1000, 100000) / 10.0, kc = stress::rand_int(1000, 100000) / 10.0 * (it % 2 ? 1 : -1);
+        Point3 b = a + dir * kb, c = a + dir * kc;
+        Point3 x = at(a, b, stress::rand_int(-500, 1500) / 1000.0) + real_point(10), y = x + real_point(10);
+
+        /// Off the line along the noise normal is where trusting that normal goes wrong
+        Point3 noise = cross(b - a, c - a);
+        if (it % 3 == 0 && norm(noise) > 0) x = at(a, b, stress::rand_int(0, 1000) / 1000.0) + noise * (stress::rand_int(1, 99) / norm(noise));
+        double want = min({dist_point_segment(x, a, b), dist_point_segment(x, b, c), dist_point_segment(x, c, a)});
+        check_close(dist_point_triangle(x, a, b, c), want, "sliver point triangle");
+        want = min({dist_segment_segment(x, y, a, b), dist_segment_segment(x, y, b, c), dist_segment_segment(x, y, c, a)});
+        check_close(dist_segment_triangle(x, y, a, b, c), want, "sliver segment triangle");
+    }
+}
+
 int main(){
     distances(stress::scaled(30), 2);
     distances(stress::scaled(30), 10);
@@ -210,5 +289,8 @@ int main(){
     touching(stress::scaled(3000));
     plane_intersections(stress::scaled(5000));
     volumes(stress::scaled(2000));
+    real_coordinates(stress::scaled(3000));
+    thin_triangles(stress::scaled(3000));
+    rounding_slivers(stress::scaled(300));
     return 0;
 }

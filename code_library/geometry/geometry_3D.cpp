@@ -5,22 +5,24 @@
  *
  * Complexity: O(1) per call, O(number of face vertices) for polyhedron_volume
  *
- * Point3 of doubles with +, -, * and / by a scalar; a plane or triangle is given by three points a, b, c
+ * Point3 of doubles with +, -, * and / by a scalar; a triangle is any 3 points a, b, c, a plane 3 non-collinear ones
  * cross(u, v): the cross product u x v
  * dist(p, q): Euclidean distance between two points
  * dist_point_line(p, a, b): distance from p to the line through a != b
- * dist_point_plane(p, a, b, c): signed distance, positive on the side of cross(b - a, c - a), a, b, c not collinear
+ * dist_point_plane(p, a, b, c): signed distance to the plane, positive on the side of cross(b - a, c - a)
  * dist_point_segment(p, a, b): distance from p to segment ab, a == b allowed
  * dist_point_triangle(p, a, b, c): distance from p to the filled triangle abc, degenerate triangles allowed
  * dist_segment_segment(a, b, c, d): distance between segments ab and cd, zero-length ones allowed
  * dist_segment_triangle(p, q, a, b, c): distance between segment pq and the filled triangle abc, about 0 when they meet
  * dot(u, v): the dot product
- * line_plane_intersection(p, q, a, b, c): {1, point} for one point, {0, p} parallel, {-1, p} the line lies in the plane
+ * line_plane_intersection(p, q, a, b, c): {1, point} one point, {0, p} parallel, {-1, p} in the plane, p != q
  * norm(u): length of u
  * polyhedron_volume(points, faces): volume of a closed polyhedron, each face counter-clockwise seen from outside
  *
  * Notes:
  *   - Every result is a double; distances hold to 1e-7 at coordinates up to 1e6, nearly parallel segments included
+ *   - Near a triangle whose smallest angle has sine s the error grows to about 1e-10 / s, so 5e-7 at s = 1e-4
+ *   - A triangle with s below EPS counts as its three edges, so collinear points with rounding noise work
  *   - A line is parallel to the plane when the sine of their angle is below EPS = 1e-9
  *   - Two triangles share a point iff some edge of one is within the tolerance of the other: dist_segment_triangle
  *   - For a convex hull of integer points use convex_hull_3D.cpp, whose volume() is exact
@@ -85,10 +87,10 @@ double dist_point_segment(const Point3& p, const Point3& a, const Point3& b){
     return dist(p, a + ab * max(0.0, min(1.0, t)));
 }
 
-/// No tolerance needed: a point misjudged near an edge gets that edge's distance from the caller anyway
+/// The sign tests need no tolerance: a point misjudged near an edge gets that edge's distance from the caller anyway
 bool projects_inside(const Point3& p, const Point3& a, const Point3& b, const Point3& c){
     Point3 n = cross(b - a, c - a);
-    if (dot(n, n) == 0) return false;
+    if (dot(n, n) <= EPS * EPS * dot(b - a, b - a) * dot(c - a, c - a)) return false;  /// sine below EPS: n is noise
     return dot(cross(b - a, p - a), n) >= 0 && dot(cross(c - b, p - b), n) >= 0 && dot(cross(a - c, p - c), n) >= 0;
 }
 
