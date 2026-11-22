@@ -252,6 +252,7 @@ vector<long long> stirling_second(int n, long long p){
 }
 
 int main(){
+    /// Rows of c(n, k), then S(n, k), modulo prime, small and composite moduli: 24 50 35 10 1 mod 12 is 0 2 11 10 1
     assert((stirling_first(0, 1000000007) == vector<long long>{1}));
     assert((stirling_first(1, 1000000007) == vector<long long>{0, 1}));
     assert((stirling_first(4, 1000000007) == vector<long long>{0, 6, 11, 6, 1}));
