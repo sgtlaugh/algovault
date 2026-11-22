@@ -32,6 +32,8 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 #### [Discrete Log](discrete_log.py)
 
+- [UVa 11916 - Emoogle Grid](https://onlinejudge.org/external/119/11916.pdf) [✓](../../practice/python/uva_11916.py "Accepted solution")
+
 #### [Fast Fibonacci](fast_fibonacci.py)
 
 - [CSES 1722 - Fibonacci Numbers](https://cses.fi/problemset/task/1722) [✓](../../practice/python/cses_1722.py "Accepted solution")
