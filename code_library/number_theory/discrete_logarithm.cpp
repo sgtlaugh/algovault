@@ -133,6 +133,7 @@ namespace dlog{
 }
 
 int discrete_log(int a, int b, int mod){
+    assert(mod >= 1);
     a %= mod, b %= mod;
     if (a < 0) a += mod;
     if (b < 0) b += mod;

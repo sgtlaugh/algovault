@@ -117,5 +117,8 @@ int main(){
     }
     assert(chrono::steady_clock::now() - start < chrono::seconds(10));
 
+    stress::expect_assert("number_theory/discrete_logarithm.cpp", []{ discrete_log(2, 1, 0); });
+    stress::expect_assert("number_theory/discrete_logarithm.cpp", []{ discrete_log(2, 1, -7); });
+
     return 0;
 }
