@@ -10,10 +10,11 @@
 | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) | [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) | [Fenwick Tree 3D](#fenwick-tree-3d) | [Hash Map](#hash-map) |
 | [Interval Set and Map](#interval-set-and-map) | [Li Chao Tree](#li-chao-tree) | [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) |
 | [Mo's Algorithm](#mos-algorithm) | [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) | [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) |
-| [Monotonic Stack](#monotonic-stack) | [Ordered Set](#ordered-set) | [Persistent Segment Tree](#persistent-segment-tree) | [Rope](#rope) |
-| [Segment Tree](#segment-tree) | [Segment Tree 2D](#segment-tree-2d) | [Segment Tree Beats](#segment-tree-beats) | [Segment Tree Merging](#segment-tree-merging) |
-| [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) | [Square Root Decomposition](#square-root-decomposition) |
-| [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) | [XOR Segment Tree](#xor-segment-tree) |
+| [Monotonic Stack](#monotonic-stack) | [Ordered Set](#ordered-set) | [Permutation Tree](#permutation-tree) | [Persistent Segment Tree](#persistent-segment-tree) |
+| [Rope](#rope) | [Segment Tree](#segment-tree) | [Segment Tree 2D](#segment-tree-2d) | [Segment Tree Beats](#segment-tree-beats) |
+| [Segment Tree Merging](#segment-tree-merging) | [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) |
+| [Square Root Decomposition](#square-root-decomposition) | [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) |
+| [XOR Segment Tree](#xor-segment-tree) |  |  |  |
 
 <!-- /toc -->
 
@@ -31,6 +32,8 @@
 - [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180) [✓](../../practice/data_structures/poj_1180_convex_hull_trick.cpp "Accepted solution")
 - [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/) [✓](../../practice/data_structures/spoj_acquire_convex_hull_trick.cpp "Accepted solution")
 - [SPOJ APIO10A - Commando](https://www.spoj.com/problems/APIO10A/) [✓](../../practice/data_structures/spoj_apio10a.cpp "Accepted solution")
+- [yukicoder 1297 - 銅像](https://yukicoder.me/problems/no/1297)
+- [yukicoder 2012 - Largest Triangle](https://yukicoder.me/problems/no/2012)
 
 #### [Coordinate Compression](coordinate_compression.cpp)
 
@@ -92,9 +95,11 @@
 #### [Disjoint Set Union, Partially Persistent](partially_persistent_dsu.cpp)
 
 - [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d) [✓](../../practice/data_structures/atcoder_agc002_d.cpp "Accepted solution")
+- [yukicoder 2295 - Union Path Query (Medium)](https://yukicoder.me/problems/no/2295)
 
 #### [Disjoint Set Union, Potential](potential_dsu.cpp)
 
+- [AOJ DSL_1_B - Weighted Union Find Trees](https://onlinejudge.u-aizu.ac.jp/problems/DSL_1_B)
 - [Codeforces Gym 100570D - TROY Query](https://codeforces.com/gym/100570/problem/D) [✓](../../practice/data_structures/codeforces_gym_100570d.cpp "Accepted solution")
 - [SPOJ CHAIN - Strange Food Chain](https://www.spoj.com/problems/CHAIN/) [✓](../../practice/data_structures/spoj_chain.cpp "Accepted solution")
 - [Timus 1003 - Parity](https://acm.timus.ru/problem.aspx?num=1003) [✓](../../practice/data_structures/timus_1003.cpp "Accepted solution")
@@ -103,6 +108,7 @@
 - [UVa 11870 - Antonyms](https://onlinejudge.org/external/118/11870.pdf) [✓](../../practice/data_structures/uva_11870.cpp "Accepted solution")
 - [UVa 12232 - Exclusive-OR](https://onlinejudge.org/external/122/12232.pdf) [✓](../../practice/data_structures/uva_12232.cpp "Accepted solution")
 - [UVa 12360 - Elecrical Pollution](https://onlinejudge.org/external/123/12360.pdf) [✓](../../practice/data_structures/uva_12360.cpp "Accepted solution")
+- [yukicoder 2294 - Union Path Query (Easy)](https://yukicoder.me/problems/no/2294)
 
 #### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
@@ -123,6 +129,7 @@
 
 - [oj.uz Balkan15_HAPPINESS - Happiness](https://oj.uz/problem/view/Balkan15_HAPPINESS)
 - [oj.uz IZhO12_apple - Monkey and Apple-trees](https://oj.uz/problem/view/IZhO12_apple)
+- [yukicoder 789 - 範囲の合計](https://yukicoder.me/problems/no/789)
 
 #### [Euler Tour Tree](euler_tour_tree.cpp)
 
@@ -185,9 +192,11 @@
 - [UVa 13009 - Fence the vegetables fail](https://onlinejudge.org/external/130/13009.pdf) [✓](../../practice/data_structures/uva_13009.cpp "Accepted solution")
 - [UVa 13138 - Kites](https://onlinejudge.org/external/131/13138.pdf) [✓](../../practice/data_structures/uva_13138.cpp "Accepted solution")
 - [UVa 13212 - How many inversions?](https://onlinejudge.org/external/132/13212.pdf) [✓](../../practice/data_structures/uva_13212.cpp "Accepted solution")
+- [yukicoder 694 - square1001 and Permutation 3](https://yukicoder.me/problems/no/694)
 
 #### [Fenwick Tree 2D](fenwick_tree_2D.cpp)
 
+- [AOJ 2842 - Taiyaki-Master and Eater](https://onlinejudge.u-aizu.ac.jp/problems/2842)
 - [Codeforces 707E - Garlands](https://codeforces.com/problemset/problem/707/E) [✓](../../practice/data_structures/codeforces_707e.cpp "Accepted solution")
 - [Codeforces 869E - The Untended Antiquity](https://codeforces.com/problemset/problem/869/E) [✓](../../practice/data_structures/codeforces_869e.cpp "Accepted solution")
 - [CSES 1739 - Forest Queries II](https://cses.fi/problemset/task/1739) [✓](../../practice/data_structures/cses_1739.cpp "Accepted solution")
@@ -217,6 +226,7 @@
 - [Codeforces 915E - Physical Education Lessons](https://codeforces.com/problemset/problem/915/E) [✓](../../practice/data_structures/codeforces_915e.cpp "Accepted solution")
 - [Codeforces 1638E - Colorful Operations](https://codeforces.com/problemset/problem/1638/E)
 - [UVa 10587 - Mayor's posters](https://onlinejudge.org/external/105/10587.pdf) [✓](../../practice/data_structures/uva_10587.cpp "Accepted solution")
+- [yukicoder 2292 - Interval Union Find](https://yukicoder.me/problems/no/2292)
 
 #### [Li Chao Tree](li_chao_tree.cpp)
 
@@ -251,6 +261,7 @@
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/) [✓](../../practice/data_structures/spoj_dynacon1_link_cut_tree.cpp "Accepted solution")
 - [SPOJ DYNALCA - Dynamic LCA](https://www.spoj.com/problems/DYNALCA/) [✓](../../practice/data_structures/spoj_dynalca.cpp "Accepted solution")
 - [UVa 11994 - Happy Painting!](https://onlinejudge.org/external/119/11994.pdf) [✓](../../practice/data_structures/uva_11994.cpp "Accepted solution")
+- [yukicoder 2296 - Union Path Query (Hard)](https://yukicoder.me/problems/no/2296)
 
 #### [Merge Sort Tree and Wavelet](merge_sort_tree.cpp)
 
@@ -260,6 +271,8 @@
 - [SPOJ PATULJCI - Snow White and the N dwarfs](https://www.spoj.com/problems/PATULJCI/) [✓](../../practice/data_structures/spoj_patuljci.cpp "Accepted solution")
 - [UVa 1480 - Jewel](https://onlinejudge.org/external/14/1480.pdf) [✓](../../practice/data_structures/uva_1480_merge_sort_tree.cpp "Accepted solution")
 - [UVa 13164 - Performance Review](https://onlinejudge.org/external/131/13164.pdf) [✓](../../practice/data_structures/uva_13164.cpp "Accepted solution")
+- [yukicoder 919 - You Are A Project Manager](https://yukicoder.me/problems/no/919)
+- [yukicoder 1332 - Range Nearest Query](https://yukicoder.me/problems/no/1332)
 
 #### [Mo's Algorithm](mo.cpp)
 
@@ -278,6 +291,7 @@
 - [SPOJ KDOMINO - K-dominant array](https://www.spoj.com/problems/KDOMINO/) [✓](../../practice/data_structures/spoj_kdomino.cpp "Accepted solution")
 - [SPOJ ZQUERY - Zero Query](https://www.spoj.com/problems/ZQUERY/) [✓](../../practice/data_structures/spoj_zquery.cpp "Accepted solution")
 - [UVa 11898 - Killer Problem](https://onlinejudge.org/external/118/11898.pdf) [✓](../../practice/data_structures/uva_11898.cpp "Accepted solution")
+- [yukicoder 1270 - Range Arrange Query](https://yukicoder.me/problems/no/1270)
 
 #### [Mo's Algorithm On Tree Paths](tree_path_mo.cpp)
 
@@ -319,9 +333,11 @@
 - [UVa 12674 - Go up the ultras](https://onlinejudge.org/external/126/12674.pdf) [✓](../../practice/data_structures/uva_12674.cpp "Accepted solution")
 - [UVa 13137 - Progressions](https://onlinejudge.org/external/131/13137.pdf) [✓](../../practice/data_structures/uva_13137.cpp "Accepted solution")
 - [UVa 13283 - Table](https://onlinejudge.org/external/132/13283.pdf) [✓](../../practice/data_structures/uva_13283.cpp "Accepted solution")
+- [yukicoder 2574 - Defect-free Rectangles](https://yukicoder.me/problems/no/2574)
 
 #### [Ordered Set](ordered_set.cpp)
 
+- [AOJ 0343 - Programming Contest II](https://onlinejudge.u-aizu.ac.jp/problems/0343)
 - [CSES 1076 - Sliding Window Median](https://cses.fi/problemset/task/1076) [✓](../../practice/data_structures/cses_1076.cpp "Accepted solution")
 - [CSES 1749 - List Removals](https://cses.fi/problemset/task/1749) [✓](../../practice/data_structures/cses_1749.cpp "Accepted solution")
 - [CSES 2163 - Josephus Problem II](https://cses.fi/problemset/task/2163) [✓](../../practice/data_structures/cses_2163.cpp "Accepted solution")
@@ -334,8 +350,14 @@
 - [UVa 10909 - Lucky Number](https://onlinejudge.org/external/109/10909.pdf) [✓](../../practice/data_structures/uva_10909.cpp "Accepted solution")
 - [UVa 12912 - Josephus lottery](https://onlinejudge.org/external/129/12912.pdf) [✓](../../practice/data_structures/uva_12912.cpp "Accepted solution")
 
+#### [Permutation Tree](permutation_tree.cpp)
+
+- [yukicoder 1720 - Division Permutation](https://yukicoder.me/problems/no/1720)
+
 #### [Persistent Segment Tree](persistent_segment_tree.cpp)
 
+- [AtCoder PAKENCAMP-2022-DAY1 J - An Unusual King in Paken Kingdom](https://atcoder.jp/contests/pakencamp-2022-day1/tasks/pakencamp_2022_day1_j)
+- [AtCoder UTPC2011 L - L番目の数字](https://atcoder.jp/contests/utpc2011/tasks/utpc2011_12)
 - [CodeChef QUERY - Observing the Tree](https://www.codechef.com/problems/QUERY)
 - [Codeforces 786C - Till I Collapse](https://codeforces.com/problemset/problem/786/C) [✓](../../practice/data_structures/codeforces_786c.cpp "Accepted solution")
 - [Codeforces 840D - Destiny](https://codeforces.com/problemset/problem/840/D) [✓](../../practice/data_structures/codeforces_840d.cpp "Accepted solution")
@@ -413,6 +435,10 @@
 - [UVa 12477 - Good Measures of Dispersion](https://onlinejudge.org/external/124/12477.pdf) [✓](../../practice/data_structures/uva_12477.cpp "Accepted solution")
 - [UVa 12501 - Bulky process of bulk reduction](https://onlinejudge.org/external/125/12501.pdf) [✓](../../practice/data_structures/uva_12501.cpp "Accepted solution")
 - [UVa 12532 - Interval Product](https://onlinejudge.org/external/125/12532.pdf) [✓](../../practice/data_structures/uva_12532.cpp "Accepted solution")
+- [yukicoder 255 - Splarrraaay ｽﾌﾟﾗｰﾚｪｰｰｲ](https://yukicoder.me/problems/no/255)
+- [yukicoder 426 - 往復漸化式](https://yukicoder.me/problems/no/426)
+- [yukicoder 749 - クエリ全部盛り](https://yukicoder.me/problems/no/749)
+- [yukicoder 1234 - 典型RMQ](https://yukicoder.me/problems/no/1234)
 - [ZOJ 3899 - State Reversing](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827370003) [✓](../../practice/data_structures/zoj_3899_segment_tree.cpp "Accepted solution")
 
 #### [Segment Tree 2D](segment_tree_2D.cpp)
@@ -424,6 +450,7 @@
 
 - [HDU 5306 - Gorgeous Sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5306) [✓](../../practice/data_structures/hdu_5306.cpp "Accepted solution")
 - [UVa 1365 - Wild West](https://onlinejudge.org/external/13/1365.pdf) [✓](../../practice/data_structures/uva_1365.cpp "Accepted solution")
+- [yukicoder 1526 - Sum of Mex 2](https://yukicoder.me/problems/no/1526)
 
 #### [Segment Tree Merging](segment_tree_merge.cpp)
 
@@ -477,6 +504,7 @@
 
 #### [Treap](treap.cpp)
 
+- [AOJ 1508 - RMQ](https://onlinejudge.u-aizu.ac.jp/problems/1508)
 - [CodeChef CARDSHUF - Card Shuffle](https://www.codechef.com/problems/CARDSHUF) [✓](../../practice/data_structures/codechef_cardshuf.cpp "Accepted solution")
 - [CodeChef PALINDR - Lucy and Palindromes](https://www.codechef.com/problems/PALINDR) [✓](../../practice/data_structures/codechef_palindr.cpp "Accepted solution")
 - [CodeChef PRESTIGE - The Prestige](https://www.codechef.com/problems/PRESTIGE) [✓](../../practice/data_structures/codechef_prestige.cpp "Accepted solution")
@@ -552,3 +580,4 @@
 
 - [Codeforces 1654F - Minimal String Xoration](https://codeforces.com/problemset/problem/1654/F) [✓](../../practice/data_structures/codeforces_1654f.cpp "Accepted solution")
 - [Codeforces 1716E - Swap and Maximum Block](https://codeforces.com/problemset/problem/1716/E) [✓](../../practice/data_structures/codeforces_1716e.cpp "Accepted solution")
+- [yukicoder 1891 - Static Xor Range Composite Query](https://yukicoder.me/problems/no/1891)

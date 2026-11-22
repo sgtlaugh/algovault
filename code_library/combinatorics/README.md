@@ -20,6 +20,7 @@
 #### [Bernoulli Numbers](bernoulli_numbers.cpp)
 
 - [UVa 766 - Sum of powers](https://onlinejudge.org/external/7/766.pdf) [✓](../../practice/combinatorics/uva_766.cpp "Accepted solution")
+- [yukicoder 1357 - Nada junior high school entrance examination 3rd day](https://yukicoder.me/problems/no/1357)
 
 #### [Binomial Coefficients](binomial_coefficients.cpp)
 
@@ -31,6 +32,7 @@
 - [UVa 10232 - Bit-wise Sequence](https://onlinejudge.org/external/102/10232.pdf) [✓](../../practice/combinatorics/uva_10232.cpp "Accepted solution")
 - [UVa 11481 - Arrange the Numbers](https://onlinejudge.org/external/114/11481.pdf) [✓](../../practice/combinatorics/uva_11481.cpp "Accepted solution")
 - [UVa 13201 - Sparse Domino Tiling](https://onlinejudge.org/external/132/13201.pdf) [✓](../../practice/combinatorics/uva_13201.cpp "Accepted solution")
+- [yukicoder 2120 - 場合の数の下８桁](https://yukicoder.me/problems/no/2120)
 
 #### [Combinatorics](combinatorics.cpp)
 
@@ -97,6 +99,7 @@
 
 #### [Permutation Cycles](permutation_cycles.cpp)
 
+- [AtCoder JAG2013SUMMER-WARMINGUP H - Shuffling Machine](https://atcoder.jp/contests/jag2013summer-warmingup/tasks/icpc2013summer_warmingUp_h)
 - [CodeChef RIFFLES - Chef and Riffles](https://www.codechef.com/problems/RIFFLES) [✓](../../practice/combinatorics/codechef_riffles.cpp "Accepted solution")
 - [Codeforces 755F - PolandBall and Gifts](https://codeforces.com/problemset/problem/755/F) [✓](../../practice/combinatorics/codeforces_755f.cpp "Accepted solution")
 - [CSES 1698 - Swap Round Sorting](https://cses.fi/problemset/task/1698) [✓](../../practice/combinatorics/cses_1698.cpp "Accepted solution")
@@ -118,6 +121,7 @@
 
 - [CSES 3397 - Permutation Order](https://cses.fi/problemset/task/3397) [✓](../../practice/combinatorics/cses_3397.cpp "Accepted solution")
 - [UVa 12335 - Lexicographic Order](https://onlinejudge.org/external/123/12335.pdf) [✓](../../practice/combinatorics/uva_12335.cpp "Accepted solution")
+- [yukicoder 1311 - Reverse Permutation Index](https://yukicoder.me/problems/no/1311)
 
 #### [Stirling Numbers](stirling_numbers.cpp)
 

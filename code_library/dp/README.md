@@ -5,9 +5,9 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Aliens Trick (WQS)](#aliens-trick-wqs) | [Block Removal DP](#block-removal-dp) | [Bounded Knapsack](#bounded-knapsack) | [Bounded Subset Sum](#bounded-subset-sum) |
-| [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) | [Knuth Partition DP](#knuth-partition-dp) |
-| [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) | [Longest Increasing Subsequence](#longest-increasing-subsequence) | [Maximum Square](#maximum-square) |
-| [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |  |  |
+| [Concave 1D1D DP](#concave-1d1d-dp) | [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) |
+| [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) | [Longest Increasing Subsequence](#longest-increasing-subsequence) |
+| [Maximum Square](#maximum-square) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |  |
 
 <!-- /toc -->
 
@@ -38,6 +38,11 @@
 - [SPOJ ADACOINS - Ada and Coins](https://www.spoj.com/problems/ADACOINS/) [✓](../../practice/dp/spoj_adacoins.cpp "Accepted solution")
 - [SPOJ FCANDY - Candy (Again)](https://www.spoj.com/problems/FCANDY/) [✓](../../practice/dp/spoj_fcandy.cpp "Accepted solution")
 - [UVa 711 - Dividing up](https://onlinejudge.org/external/7/711.pdf) [✓](../../practice/dp/uva_711.cpp "Accepted solution")
+- [yukicoder 4 - おもりと天秤](https://yukicoder.me/problems/no/4)
+
+#### [Concave 1D1D DP](concave_1d1d_dp.cpp)
+
+- [yukicoder 705 - ゴミ拾い Hard](https://yukicoder.me/problems/no/705)
 
 #### [Divide and Conquer DP](divide_conquer_dp.cpp)
 
@@ -97,6 +102,7 @@
 
 #### [Longest Increasing Subsequence](lis.cpp)
 
+- [AOJ DPL_1_D - Longest Increasing Subsequence](https://onlinejudge.u-aizu.ac.jp/problems/DPL_1_D)
 - [Codeforces 76F - Tourist](https://codeforces.com/problemset/problem/76/F) [✓](../../practice/dp/codeforces_76f.cpp "Accepted solution")
 - [Codeforces acmsguru 521 - "North-East"](https://codeforces.com/problemsets/acmsguru/problem/99999/521) [✓](../../practice/dp/codeforces_acmsguru_521.cpp "Accepted solution")
 - [Codeforces Gym 102951C - LCS on Permutations](https://codeforces.com/gym/102951/problem/C) [✓](../../practice/dp/codeforces_gym_102951c_lis.cpp "Accepted solution")
@@ -117,6 +123,7 @@
 - [UVa 11368 - Nested Dolls](https://onlinejudge.org/external/113/11368.pdf) [✓](../../practice/dp/uva_11368.cpp "Accepted solution")
 - [UVa 12002 - Happy Birthday](https://onlinejudge.org/external/120/12002.pdf) [✓](../../practice/dp/uva_12002.cpp "Accepted solution")
 - [UVa 12747 - Back to Edit Distance](https://onlinejudge.org/external/127/12747.pdf) [✓](../../practice/dp/uva_12747.cpp "Accepted solution")
+- [yukicoder 2230 - Good Omen of White Lotus](https://yukicoder.me/problems/no/2230)
 
 #### [Maximum Square](maximum_square.cpp)
 
@@ -134,6 +141,8 @@
 - [UVa 11270 - Tiling Dominoes](https://onlinejudge.org/external/112/11270.pdf) [✓](../../practice/dp/uva_11270.cpp "Accepted solution")
 - [UVa 11443 - Tree in a Grid](https://onlinejudge.org/external/114/11443.pdf) [✓](../../practice/dp/uva_11443.cpp "Accepted solution")
 - [UVa 13299 - Tron Garbage Collector](https://onlinejudge.org/external/132/13299.pdf) [✓](../../practice/dp/uva_13299.cpp "Accepted solution")
+- [yukicoder 541 - 3 x N グリッド上のサイクルの個数](https://yukicoder.me/problems/no/541)
+- [yukicoder 578 - 3 x N グリッド上のサイクルのサイズ(easy)](https://yukicoder.me/problems/no/578)
 
 #### [Slope Trick](slope_trick.cpp)
 
@@ -143,3 +152,4 @@
 - [oj.uz APIO16_fireworks - Fireworks](https://oj.uz/problem/view/APIO16_fireworks) [✓](../../practice/dp/oj_uz_apio16_fireworks.cpp "Accepted solution")
 - [oj.uz LMIO19_bulves - Potatoes and fertilizers](https://oj.uz/problem/view/LMIO19_bulves) [✓](../../practice/dp/oj_uz_lmio19_bulves.cpp "Accepted solution")
 - [USACO 650 - Landscaping](https://usaco.org/index.php?page=viewproblem2&cpid=650) [✓](../../practice/dp/usaco_650.cpp "Accepted solution")
+- [yukicoder 1077 - Noelちゃんと星々4](https://yukicoder.me/problems/no/1077)

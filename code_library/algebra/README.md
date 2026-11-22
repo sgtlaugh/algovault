@@ -96,6 +96,7 @@
 - [UVa 1546 - Complete the sequence!](https://onlinejudge.org/external/15/1546.pdf) [✓](../../practice/algebra/uva_1546.cpp "Accepted solution")
 - [UVa 12143 - Stopping Doom's Day](https://onlinejudge.org/external/121/12143.pdf) [✓](../../practice/algebra/uva_12143.cpp "Accepted solution")
 - [UVa 13270 - Kid's Spiral Problem](https://onlinejudge.org/external/132/13270.pdf) [✓](../../practice/algebra/uva_13270.cpp "Accepted solution")
+- [yukicoder 2747 - Permutation Adjacent Sum](https://yukicoder.me/problems/no/2747)
 
 #### [Linear Recurrence](linear_recurrence.cpp)
 
@@ -119,6 +120,8 @@
 - [UVa 12297 - Super Poker](https://onlinejudge.org/external/122/12297.pdf) [✓](../../practice/algebra/uva_12297.cpp "Accepted solution")
 - [UVa 13284 - Macarons](https://onlinejudge.org/external/132/13284.pdf) [✓](../../practice/algebra/uva_13284.cpp "Accepted solution")
 - [UVa 13298 - A Fibonacci Family Formula](https://onlinejudge.org/external/132/13298.pdf) [✓](../../practice/algebra/uva_13298.cpp "Accepted solution")
+- [yukicoder 1500 - Super Knight](https://yukicoder.me/problems/no/1500)
+- [yukicoder 1516 - simple 門松列 problem Re:MASTER](https://yukicoder.me/problems/no/1516)
 
 #### [NTT](ntt.cpp)
 
@@ -127,6 +130,7 @@
 - [Codeforces Gym 100524D - Dichromatic Trees](https://codeforces.com/gym/100524/problem/D) [✓](../../practice/algebra/codeforces_gym_100524d_ntt.cpp "Accepted solution")
 - [UVa 1733 - Design New Capital](https://onlinejudge.org/external/17/1733.pdf) [✓](../../practice/algebra/uva_1733_ntt.cpp "Accepted solution")
 - [UVa 11640 - Mayor Election](https://onlinejudge.org/external/116/11640.pdf) [✓](../../practice/algebra/uva_11640_ntt.cpp "Accepted solution")
+- [yukicoder 1857 - Gacha Addiction](https://yukicoder.me/problems/no/1857)
 
 #### [Online Convolution](online_convolution.cpp)
 
@@ -144,6 +148,8 @@
 - [HDU 5322 - Hope](https://acm.hdu.edu.cn/showproblem.php?pid=5322) [✓](../../practice/algebra/hdu_5322_polynomial.cpp "Accepted solution")
 - [HDU 5552 - Bus Routes](https://acm.hdu.edu.cn/showproblem.php?pid=5552) [✓](../../practice/algebra/hdu_5552.cpp "Accepted solution")
 - [UVa 12185 - Wizards](https://onlinejudge.org/external/121/12185.pdf) [✓](../../practice/algebra/uva_12185.cpp "Accepted solution")
+- [yukicoder 1080 - Strange Squared Score Sum](https://yukicoder.me/problems/no/1080)
+- [yukicoder 1145 - Sums of Powers](https://yukicoder.me/problems/no/1145)
 - [ZOJ 3874 - Permutation Graph](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827369978) [✓](../../practice/algebra/zoj_3874.cpp "Accepted solution")
 
 #### [Sparse Power Series](sparse_power_series.cpp)
@@ -166,6 +172,7 @@
 - [CSES 1654 - SOS Bit Problem](https://cses.fi/problemset/task/1654) [✓](../../practice/algebra/cses_1654.cpp "Accepted solution")
 - [oj.uz JOI18_snake_escaping - Snake Escaping](https://oj.uz/problem/view/JOI18_snake_escaping) [✓](../../practice/algebra/oj_uz_joi18_snake_escaping.cpp "Accepted solution")
 - [USACO 1309 - Problem Setting](https://usaco.org/index.php?page=viewproblem2&cpid=1309) [✓](../../practice/algebra/usaco_1309.cpp "Accepted solution")
+- [yukicoder 2507 - Yet Another Subgraph Counting](https://yukicoder.me/problems/no/2507)
 
 #### [Walsh-Hadamard Transform](walsh_hadamard.cpp)
 
@@ -181,3 +188,5 @@
 - [HDU 5909 - Tree Cutting](https://acm.hdu.edu.cn/showproblem.php?pid=5909) [✓](../../practice/algebra/hdu_5909.cpp "Accepted solution")
 - [SPOJ VECTAR1 - Matrices with XOR property](https://www.spoj.com/problems/VECTAR1/) [✓](../../practice/algebra/spoj_vectar1.cpp "Accepted solution")
 - [UVa 13277 - XOR Path](https://onlinejudge.org/external/132/13277.pdf) [✓](../../practice/algebra/uva_13277.cpp "Accepted solution")
+- [yukicoder 1142 - XOR と XOR](https://yukicoder.me/problems/no/1142)
+- [yukicoder 1753 - Don't cheat.](https://yukicoder.me/problems/no/1753)
