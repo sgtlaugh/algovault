@@ -13,6 +13,7 @@
  * Notes:
  *   - The base is random per run, so anti-hash tests cannot target it, and shared by all instances, so strings compare
  *   - Two different segments of equal length collide with probability about length / 2^61
+ *   - Values count modulo 2^61 - 1 after adding 997: congruent values always collide, -997 acts as an empty prefix
  *   - Requires __int128 (64-bit GCC or Clang)
  *   - Order-free key of a set or multiset: XOR (set) or sum (multiset) of a random 64-bit value per distinct element
  *
@@ -83,16 +84,16 @@ struct PolyHash{
 };
 
 int main(){
-    PolyHash H = PolyHash("racecar");
+    /// A segment of "racecar" is a palindrome iff its forward and reverse hashes match
+    PolyHash h("racecar");
+    assert(h.get_hash(0, 6) == h.rev_hash(0, 6));
+    assert(h.get_hash(1, 5) != h.rev_hash(0, 4));
+    assert(h.get_hash(1, 1) == h.rev_hash(5, 5));
+    assert(h.get_hash(1, 1) != h.rev_hash(5, 6));
+    assert(h.get_hash(2, 4) == h.rev_hash(2, 4));
 
-    assert(H.get_hash(0, 6) == H.rev_hash(0, 6));
-    assert(H.get_hash(1, 5) != H.rev_hash(0, 4));
-    assert(H.get_hash(1, 1) == H.rev_hash(5, 5));
-    assert(H.get_hash(1, 1) != H.rev_hash(5, 6));
-    assert(H.get_hash(2, 4) == H.rev_hash(2, 4));
-
-    H = PolyHash(vector<int> {1, 2, 3, 2, 1});
-    assert(H.get_hash(0, 4) == H.rev_hash(0, 4));
+    PolyHash numbers(vector<int>{1, 2, 3, 2, 1});
+    assert(numbers.get_hash(0, 4) == numbers.rev_hash(0, 4));
 
     string s = "abcab";
     PolyHash hs(s), hv(vector<char>(s.begin(), s.end()));
