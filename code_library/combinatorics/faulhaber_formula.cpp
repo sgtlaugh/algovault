@@ -21,6 +21,7 @@ struct Faulhaber{
     vector<long long> inv;
 
     Faulhaber(int max_k) : max_k(max_k), stirling(max_k + 1), inv(max_k + 2){
+        static_assert(MOD > 1 && is_prime(MOD), "MOD must be a prime");
         assert(max_k >= 0 && max_k + 1 < MOD);
         inv[1] = 1;
         for (int i = 2; i <= max_k + 1; i++) inv[i] = (MOD - MOD / i) * inv[MOD % i] % MOD;
@@ -48,6 +49,14 @@ struct Faulhaber{
         }
 
         return res;
+    }
+
+    static constexpr bool is_prime(int n){
+        for (int d = 2; (long long)d * d <= n; d++){
+            if (n % d == 0) return false;
+        }
+
+        return true;
     }
 };
 
