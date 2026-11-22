@@ -264,7 +264,7 @@ sa.contains("nab");         // false
 - [Maximum Divisors](code_library/number_theory/maximum_divisors.cpp) - number with the most divisors up to a limit
 - [Miller-Rabin](code_library/number_theory/miller_rabin.cpp) - deterministic primality test for 64-bit integers [✓](judge_tests/number_theory/primality_test.cpp)
 - [Min_25 Sieve](code_library/number_theory/min_25_sieve.cpp) - prefix sums of a multiplicative function [✓](judge_tests/number_theory/sum_of_multiplicative_function.cpp)
-- [Mobius Function](code_library/number_theory/mobius_function.cpp) - Mobius mu for `1..n` at 1 byte per entry
+- [Mobius Function](code_library/number_theory/mobius_function.cpp) - Mobius mu for `1..n` at 1 byte per entry [✓](judge_tests/number_theory/aoj_2286_mobius_function.cpp)
 - [Modular Roots](code_library/number_theory/modular_roots.cpp) - k-th roots modulo a prime, primitive root [✓](judge_tests/number_theory/kth_root_mod.cpp)
 - [Modular Square Root](code_library/number_theory/modular_sqrt.cpp) - Tonelli-Shanks square root modulo a prime [✓](judge_tests/number_theory/sqrt_mod.cpp)
 - [Pell Equation](code_library/number_theory/pell_equation.cpp) - solutions of `x^2 - d y^2 = 1` or `-1`, also mod m
