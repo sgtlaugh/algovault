@@ -12,7 +12,8 @@
  * hull.query_increasing(x): the same, for x never smaller than in the previous query_increasing call
  *
  * Notes:
- *   - Every k * x + b must fit in T, like |k|, |x| <= 1e9 and |b| <= 1e18 for long long, and needs __int128
+ *   - Every k * x + b must fit in T, like |k|, |x| <= 1e9 and |b| <= 1e18 for long long
+ *   - The crossing test multiplies in __int128, so the compiler must support it (64-bit GCC or Clang)
  *   - T may be double or long double, every answer then within rounding of the exact optimum
  *   - Slopes in any order or lines only on part of the range: li_chao_tree.cpp
  *   - dp[i] = min over j < i of dp[j] + a[j] * x[i], a non-increasing: query(x[i]), then add_line(a[i], dp[i])
