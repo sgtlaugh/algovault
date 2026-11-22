@@ -22,6 +22,8 @@
 - [SPOJ PIBO - Fibonacci vs Polynomial](https://www.spoj.com/problems/PIBO/) [✓](../../practice/number_theory/spoj_pibo.cpp "Accepted solution")
 - [UVa 1426 - Discrete Square Roots](https://onlinejudge.org/external/14/1426.pdf) [✓](../../practice/number_theory/uva_1426.cpp "Accepted solution")
 - [UVa 11754 - Code Feat](https://onlinejudge.org/external/117/11754.pdf) [✓](../../practice/number_theory/uva_11754.cpp "Accepted solution")
+- [yukicoder 187 - 中華風 (Hard)](https://yukicoder.me/problems/no/187)
+- [yukicoder 2119 - 一般化百五減算](https://yukicoder.me/problems/no/2119)
 
 #### [Continued Fractions](continued_fractions.cpp)
 
@@ -66,6 +68,7 @@
 - [UVa 12775 - Gift Dilemma](https://onlinejudge.org/external/127/12775.pdf) [✓](../../practice/number_theory/uva_12775.cpp "Accepted solution")
 - [UVa 13250 - Balance Game](https://onlinejudge.org/external/132/13250.pdf) [✓](../../practice/number_theory/uva_13250.cpp "Accepted solution")
 - [UVa 13253 - Rational Coins](https://onlinejudge.org/external/132/13253.pdf) [✓](../../practice/number_theory/uva_13253.cpp "Accepted solution")
+- [yukicoder 1936 - Rational Approximation](https://yukicoder.me/problems/no/1936)
 
 #### [Fast Fibonacci](fast_fibonacci.cpp)
 
@@ -92,11 +95,16 @@
 - [POJ 3530 - A Modular Arithmetic Challenge](http://poj.org/problem?id=3530) [✓](../../practice/number_theory/poj_3530.cpp "Accepted solution")
 - [UVa 12341 - Next to Never](https://onlinejudge.org/external/123/12341.pdf) [✓](../../practice/number_theory/uva_12341.cpp "Accepted solution")
 - [UVa 13041 - Fraction and Sequence](https://onlinejudge.org/external/130/13041.pdf) [✓](../../practice/number_theory/uva_13041.cpp "Accepted solution")
+- [yukicoder 1201 - お菓子配り-4](https://yukicoder.me/problems/no/1201)
+- [yukicoder 2066 - Simple Math !](https://yukicoder.me/problems/no/2066)
+- [yukicoder 2259 - Gas Station](https://yukicoder.me/problems/no/2259)
+- [yukicoder 2280 - FizzBuzz Difference](https://yukicoder.me/problems/no/2280)
 
 #### [Integer Root](integer_root.cpp)
 
 - [HDU 5297 - Y sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5297) [✓](../../practice/number_theory/hdu_5297.cpp "Accepted solution")
 - [UVa 11436 - Cubes - EXTREME!!!](https://onlinejudge.org/external/114/11436.pdf) [✓](../../practice/number_theory/uva_11436.cpp "Accepted solution")
+- [yukicoder 1666 - 累乗数](https://yukicoder.me/problems/no/1666)
 
 #### [Linear Sieve](linear_sieve.cpp)
 
@@ -167,6 +175,7 @@
 #### [Modular Roots](modular_roots.cpp)
 
 - [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F) [✓](../../practice/number_theory/codeforces_1106f_modular_roots.cpp "Accepted solution")
+- [yukicoder 1339 - 循環小数](https://yukicoder.me/problems/no/1339)
 
 #### [Pell Equation](pell_equation.cpp)
 
