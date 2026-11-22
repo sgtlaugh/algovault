@@ -231,7 +231,7 @@ sa.contains("nab");         // false
 - [Characteristic Polynomial](code_library/linear_algebra/characteristic_polynomial.cpp) - `det(xI - A)` modulo a prime [✓](judge_tests/linear_algebra/characteristic_polynomial.cpp)
 - [Determinant](code_library/linear_algebra/determinant.cpp) - determinant modulo any m, spanning tree counts [✓](judge_tests/linear_algebra/counting_spanning_tree_directed.cpp)
 - [Freivalds' Algorithm](code_library/linear_algebra/freivalds_algorithm.cpp) - randomized check of a matrix product
-- [Gauss-Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and inverse over the reals
+- [Gauss-Jordan](code_library/linear_algebra/gauss_jordan.cpp) - linear systems, rank and inverse over the reals [✓](judge_tests/linear_algebra/aoj_2171.cpp)
   - [Band Matrix](code_library/linear_algebra/gauss_band_matrix.cpp) - grid equations that only use nearby cells
   - [Bitset](code_library/linear_algebra/gauss_bitset.cpp) - the same over GF(2) [✓](judge_tests/linear_algebra/inverse_matrix_mod_2.cpp)
   - [Prime Modulus](code_library/linear_algebra/gauss_prime_mod.cpp) - the same modulo a prime, with kernel basis [✓](judge_tests/linear_algebra/inverse_matrix.cpp)
