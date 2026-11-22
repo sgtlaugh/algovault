@@ -138,6 +138,7 @@
 #### [Degree Sequence](degree_sequence.cpp)
 
 - [Codeforces 134C - Swaps](https://codeforces.com/problemset/problem/134/C)
+- [UVa 10720 - Graph Construction](https://onlinejudge.org/external/107/10720.pdf) [✓](../../practice/graphs/uva_10720.cpp "Accepted solution")
 
 #### [Dijkstra](dijkstra.cpp)
 
