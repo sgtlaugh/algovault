@@ -111,7 +111,25 @@ void run(int n, int ops, int check_every){
     check(g, n, live, value);
 }
 
+/// With n twice the bucket count, every key u * n + hub of a star is a multiple of it, one bucket under std::hash
+void check_anti_hash(){
+    const int k = 50000;
+    unordered_map<long long, vector<int>> probe;
+    for (int i = 0; i < k; i++) probe[i];
+    int hub = probe.bucket_count(), n = 2 * hub;
+
+    OnlineDynamicConnectivity star(n);
+    clock_t start = clock();
+    for (int u = 0; u < k; u++) star.add_edge(u, hub);
+    assert(star.size(hub) == k + 1);
+    for (int u = 0; u < k; u++) star.remove_edge(hub, u);
+    assert(clock() - start < 2 * CLOCKS_PER_SEC);  /// CPU time, parallel sanitizer jobs inflate wall time
+    assert(star.components == n);
+}
+
 int main(){
+    check_anti_hash();
+
     for (int n = 0; n <= 4; n++) run(n, 200, 1);
     for (long long it = 0; it < stress::scaled(700); it++) run(stress::rand_int(1, it % 10 ? 12 : 40), 250, 1);
     assert(max_level_seen >= 2);  /// the replacement search above level 0 really ran, not only its level 0 pass

@@ -46,6 +46,17 @@ struct OnlineDynamicConnectivity{
         vector<int> arcs;  /// arcs[i] and arcs[i] + 1 are its arcs in level i's forest
     };
 
+    /// Salted splitmix64: std::hash is the identity, so keys u * n + v chosen by a test can all share one bucket
+    struct SplitMix{
+        size_t operator()(uint64_t x) const{
+            static const uint64_t salt = chrono::steady_clock::now().time_since_epoch().count();
+            x += salt + 0x9e3779b97f4a7c15;
+            x = (x ^ (x >> 30)) * 0xbf58476d1ce4e5b9;
+            x = (x ^ (x >> 27)) * 0x94d049bb133111eb;
+            return x ^ (x >> 31);
+        }
+    };
+
     int n, components;
     vector<long long> value;
     vector<Node> t;  /// nodes 0..n - 1 are the vertices of level 0, the only nodes holding values
@@ -54,7 +65,7 @@ struct OnlineDynamicConnectivity{
     vector<vector<int>> vertex_at;  /// per level, the node of each vertex, -1 until it gets a tree edge there
     vector<Edge> edges;
     vector<int> spare_arcs;
-    unordered_map<long long, vector<int>> live;
+    unordered_map<long long, vector<int>, SplitMix> live;
 
     OnlineDynamicConnectivity(int n) : OnlineDynamicConnectivity(vector<long long>(n)) {}
 
