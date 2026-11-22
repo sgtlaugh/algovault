@@ -41,6 +41,7 @@
 - [AtCoder ABC029 D - 1](https://atcoder.jp/contests/abc029/tasks/abc029_d)
 - [SPOJ CPCRC1C - Sum of Digits](https://www.spoj.com/problems/CPCRC1C/)
 - [UVa 1640 - The Counting Problem](https://onlinejudge.org/external/16/1640.pdf) [✓](../../practice/number_theory/uva_1640.cpp "Accepted solution")
+- [UVa 11038 - How Many O's?](https://onlinejudge.org/external/110/11038.pdf) [✓](../../practice/number_theory/uva_11038.cpp "Accepted solution")
 
 #### [Digits of Factorial](digits_of_factorial.cpp)
 
