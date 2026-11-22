@@ -131,6 +131,7 @@
 
 #### [Chromatic Number](chromatic_number.cpp)
 
+- [Codeforces 908H - New Year and Boolean Bridges](https://codeforces.com/problemset/problem/908/H)
 - [CSES 3308 - Graph Coloring](https://cses.fi/problemset/task/3308) [✓](../../practice/graphs/cses_3308.cpp "Accepted solution")
 - [UVa 1439 - Exclusive Access 2](https://onlinejudge.org/external/14/1439.pdf) [✓](../../practice/graphs/uva_1439.cpp "Accepted solution")
 
@@ -224,6 +225,7 @@
 
 #### [Edge Coloring](edge_coloring.cpp)
 
+- [Codeforces 212A - Privatization](https://codeforces.com/problemset/problem/212/A)
 - [UVa 10615 - Rooks](https://onlinejudge.org/external/106/10615.pdf) [✓](../../practice/graphs/uva_10615.cpp "Accepted solution")
 
 #### [Euler Path](euler_path.cpp)
@@ -411,6 +413,7 @@
 - [Codeforces 546E - Soldier and Traveling](https://codeforces.com/problemset/problem/546/E) [✓](../../practice/graphs/codeforces_546e.cpp "Accepted solution")
 - [Codeforces 720B - Cactusophobia](https://codeforces.com/problemset/problem/720/B) [✓](../../practice/graphs/codeforces_720b.cpp "Accepted solution")
 - [Codeforces 808F - Card Game](https://codeforces.com/problemset/problem/808/F) [✓](../../practice/graphs/codeforces_808f.cpp "Accepted solution")
+- [Codeforces 1045A - Last chance](https://codeforces.com/problemset/problem/1045/A)
 - [Codeforces Gym 100274I - Suiting Weavers](https://codeforces.com/gym/100274/problem/I) [✓](../../practice/graphs/codeforces_gym_100274i.cpp "Accepted solution")
 - [Codeforces Gym 100491H - Highways](https://codeforces.com/gym/100491/problem/H) [✓](../../practice/graphs/codeforces_gym_100491h.cpp "Accepted solution")
 - [Codeforces Gym 100512H - Hats and Wizards](https://codeforces.com/gym/100512/problem/H) [✓](../../practice/graphs/codeforces_gym_100512h.cpp "Accepted solution")
