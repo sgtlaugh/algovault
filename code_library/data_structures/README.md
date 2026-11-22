@@ -142,6 +142,7 @@
 
 - [Codeforces 371D - Vessels](https://codeforces.com/problemset/problem/371/D)
 - [UVa 1316 - Supermarket](https://onlinejudge.org/external/13/1316.pdf) [✓](../../practice/data_structures/uva_1316.cpp "Accepted solution")
+- [UVa 11136 - Hoax or what](https://onlinejudge.org/external/111/11136.pdf) [✓](../../practice/data_structures/uva_11136.cpp "Accepted solution")
 
 #### [Fenwick Tree](fenwick_tree.cpp)
 
