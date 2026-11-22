@@ -130,19 +130,21 @@ void run_composite(int n, int shape, int rounds){
 
     int root = stress::rand_int(0, n - 1);
     StaticTopTree<Composite> tree(n, edges, Composite{&a, &b, &c}, root);
+    StaticTopTree<Composite> fixed(n, edges, Composite{&a, &b, &c}, root, StaticTopTree<Composite>::FIXED_ROOT);
     for (int round = 0; round < rounds; round++){
         if (n > 1 && stress::rand_int(0, 1)){
             int e = stress::rand_int(0, n - 2);
             b[e] = stress::rand_int(0, MOD - 1), c[e] = stress::rand_int(0, MOD - 1);
-            tree.update_edge(e);
+            tree.update_edge(e), fixed.update_edge(e);
         }
         else{
             int v = stress::rand_int(0, n - 1);
             a[v] = stress::rand_int(0, MOD - 1);
-            tree.update(v);
+            tree.update(v), fixed.update(v);
         }
 
         assert(tree.value().sum == naive_composite(adj, root, a, b, c));
+        assert(fixed.value().sum == tree.value().sum);
         int r = stress::rand_int(0, n - 1);
         Composite::Path from_r = tree.value(r);
         assert(from_r.sum == naive_composite(adj, r, a, b, c));
@@ -238,6 +240,11 @@ int main(){
     stress::expect_assert("trees/static_top_tree.cpp", []{
         vector<long long> w = {1, 1, 1};
         StaticTopTree<Farthest> broken(4, {{0, 1}, {1, 2}, {2, 0}}, Farthest{&w});
+    });
+
+    stress::expect_assert("trees/static_top_tree.cpp", []{
+        vector<long long> w = {1, 1};
+        StaticTopTree<Farthest> broken(3, {{0, 1}, {1, 3}}, Farthest{&w});
     });
 
     /// FIXED_ROOT keeps no reversed Paths, so value(r) must refuse

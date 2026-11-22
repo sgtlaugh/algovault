@@ -3,7 +3,7 @@
  * Static Top Tree
  * A tree DP kept up to date under point updates, answered from the fixed root or from any vertex as the root
  *
- * Complexity: O(n) to build, O(log n) operation calls per update and per value
+ * Complexity: O(n log n) time and O(n) operation calls to build, O(log n) operation calls per update and per value
  *
  * StaticTopTree<Ops> tree(n, edges, ops, root = 0, roots = ANY_ROOT): vertices 0..n-1, edge e joins edges[e]
  * tree.update(v): recomputes after the data of vertex v changed
@@ -55,7 +55,10 @@ struct StaticTopTree{
         assert(n >= 1 && (int)edges.size() == n - 1 && 0 <= root && root < n);
 
         vector<int> start(n + 1, 0), adj(2 * (n - 1));
-        for (auto [u, v] : edges) start[u + 1]++, start[v + 1]++;
+        for (auto [u, v] : edges){
+            assert(0 <= u && u < n && 0 <= v && v < n);
+            start[u + 1]++, start[v + 1]++;
+        }
         for (int v = 0; v < n; v++) start[v + 1] += start[v];
         vector<int> pos(start.begin(), start.end() - 1);
         for (int e = 0; e < n - 1; e++) adj[pos[edges[e].first]++] = e, adj[pos[edges[e].second]++] = e;
@@ -95,8 +98,12 @@ struct StaticTopTree{
         for (int node = vertex_node[v]; node != -1; node = up[node]) recompute(node);
     }
 
+    /// Only the child's Path holds e, plus the parent's reversed Path when e is its heavy edge
     void update_edge(int e){
-        update(edges[e].first), update(edges[e].second);
+        auto [u, v] = edges[e];
+        int child = parent[u] == v ? u : v;
+        update(child);
+        if (roots == ANY_ROOT && heavy_edge[parent[child]] == e) update(parent[child]);
     }
 
     Path value() const{
