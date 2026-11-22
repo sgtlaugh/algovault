@@ -139,6 +139,7 @@
 
 - [Codeforces 134C - Swaps](https://codeforces.com/problemset/problem/134/C)
 - [UVa 10720 - Graph Construction](https://onlinejudge.org/external/107/10720.pdf) [✓](../../practice/graphs/uva_10720.cpp "Accepted solution")
+- [UVa 11414 - Dream](https://onlinejudge.org/external/114/11414.pdf) [✓](../../practice/graphs/uva_11414.cpp "Accepted solution")
 
 #### [Dijkstra](dijkstra.cpp)
 
