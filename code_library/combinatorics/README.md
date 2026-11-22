@@ -5,8 +5,9 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Bell Numbers](#bell-numbers) | [Bernoulli Numbers](#bernoulli-numbers) | [Binomial Coefficients](#binomial-coefficients) | [Combinatorics](#combinatorics) |
-| [Fast Factorial](#fast-factorial) | [Gambler's Ruin](#gamblers-ruin) | [Josephus Problem](#josephus-problem) | [Necklaces](#necklaces) |
-| [Permutation Cycles](#permutation-cycles) | [Permutation Index](#permutation-index) | [Permutation Rank](#permutation-rank) | [Stirling Numbers](#stirling-numbers) |
+| [Eulerian Numbers](#eulerian-numbers) | [Fast Factorial](#fast-factorial) | [Gambler's Ruin](#gamblers-ruin) | [Josephus Problem](#josephus-problem) |
+| [Necklaces](#necklaces) | [Permutation Cycles](#permutation-cycles) | [Permutation Index](#permutation-index) | [Permutation Rank](#permutation-rank) |
+| [Stirling Numbers](#stirling-numbers) |  |  |  |
 
 <!-- /toc -->
 
@@ -67,6 +68,10 @@
 - [UVa 12913 - Grounded](https://onlinejudge.org/external/129/12913.pdf) [✓](../../practice/combinatorics/uva_12913.cpp "Accepted solution")
 - [UVa 13184 - Counting Edges and Graphs](https://onlinejudge.org/external/131/13184.pdf) [✓](../../practice/combinatorics/uva_13184.cpp "Accepted solution")
 - [UVa 13269 - Journey through Gridland](https://onlinejudge.org/external/132/13269.pdf) [✓](../../practice/combinatorics/uva_13269.cpp "Accepted solution")
+
+#### [Eulerian Numbers](eulerian_numbers.cpp)
+
+- [yukicoder 2005 - Sum of Power Sums](https://yukicoder.me/problems/no/2005)
 
 #### [Fast Factorial](fast_factorial.cpp)
 
