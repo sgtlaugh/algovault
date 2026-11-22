@@ -101,7 +101,7 @@ sa.contains("nab");         // false
 - [Link-Cut Tree](code_library/data_structures/link_cut_tree.cpp) - dynamic forest: link, cut, path update and query [✓](judge_tests/data_structures/dynamic_tree_vertex_add_path_sum.cpp)
 - [Merge Sort Tree and Wavelet](code_library/data_structures/merge_sort_tree.cpp) - range k-th smallest and count below x [✓](judge_tests/data_structures/range_kth_smallest.cpp)
 - [Mo's Algorithm](code_library/data_structures/mo.cpp) - offline range queries on an array [✓](judge_tests/data_structures/static_range_count_distinct.cpp)
-  - [On Tree Paths](code_library/data_structures/tree_path_mo.cpp) - offline path queries on a tree
+  - [On Tree Paths](code_library/data_structures/tree_path_mo.cpp) - offline path queries on a tree [✓](judge_tests/data_structures/aoj_2270.cpp)
   - [With Rollback](code_library/data_structures/mo_with_rollback.cpp) - state that can add but not remove [✓](judge_tests/data_structures/static_range_mode_query.cpp)
   - [With Updates](code_library/data_structures/mo_with_updates.cpp) - range queries with point assignments [✓](judge_tests/data_structures/point_set_range_frequency.cpp)
 - [Monotonic Stack](code_library/data_structures/monotonic_stack.cpp) - nearest smaller or greater and histogram rectangle [✓](judge_tests/data_structures/aoj_dpl_3_c.cpp)
