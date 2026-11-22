@@ -13,7 +13,7 @@
  * Notes:
  *   - State i is the length of the longest pattern prefix that is a suffix of the text read, so m is a full match
  *   - State m continues through the border, so overlapping matches count
- *   - Pattern symbols must lie in [first, first + alphabet)
+ *   - kmp_automaton asserts every pattern symbol lies in [first, first + alphabet)
  *   - kmp_find stops at that match, so a match near from costs far less than kmp_search over the whole text
  *   - The smallest period of s is p = n - prefix_function(s)[n - 1], s repeats s[0..p) iff n % p == 0
  *
@@ -88,6 +88,7 @@ vector<vector<int>> kmp_automaton(const Container& pattern, int alphabet = 26, i
     for (int i = 0; i <= m; i++){
         int border = i ? pi[i - 1] : 0;
         int next = i < m ? int(pattern[i] - first) : -1;
+        assert(i == m || (0 <= next && next < alphabet));
         for (int c = 0; c < alphabet; c++){
             if (c == next) aut[i][c] = i + 1;
             else if (i > 0) aut[i][c] = aut[border][c];

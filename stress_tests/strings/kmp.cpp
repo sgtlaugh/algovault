@@ -120,5 +120,7 @@ int main(){
     for (char ch : text) matches += (state = aut[state][ch - 'a']) == (int)word.size();
     assert(matches == (int)kmp_search(text, word).size());
 
+    stress::expect_assert("strings/kmp.cpp", []{ kmp_automaton(string("abd"), 3); });
+    stress::expect_assert("strings/kmp.cpp", []{ kmp_automaton(string("a`"), 26); });
     return 0;
 }
