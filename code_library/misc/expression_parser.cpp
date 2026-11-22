@@ -13,9 +13,10 @@
  *   - Precedence, lowest first: + and -, then * and /, then unary - and +, then ^, which is right-associative
  *   - So a-b-c is (a-b)-c, -2^2 is -4, 2^3^2 is 512, and 2^-1 is allowed
  *   - An operand is a maximal run of letters, digits, '_' and '.', like x, 42 or 3.5; value_of reads it
+ *   - A number literal keeps the sign of its exponent, so 1e-5 and 2.5E+3 are single operands
  *   - Spaces and tabs are skipped anywhere, and there is no implicit product: 2x is the single operand "2x"
  *   - T needs +, -, *, / and unary -, with its own meaning: integer / truncates as in C++
- *   - ^ is pow for a floating T and exact squaring for an integer T, exponent >= 0; any other T asserts on ^
+ *   - ^ is pow for a floating T and exact squaring for an integer T or __int128, exponent >= 0; other T assert on ^
  *   - A struct a + b x with these operators evaluates a side of a linear equation in x
  *   - Assignments, comparisons, functions and side effects are not parsed: split them off first, as in main()
  *   - Each nesting level recurses: 2e4 levels of parentheses or unary minus fit an 8 MB stack at -O2
@@ -115,9 +116,20 @@ struct Expression{
         }
 
         int start = pos;
-        while (pos < (int)s.size() && is_operand_char(s[pos])) pos++;
+        while (pos < (int)s.size() && (is_operand_char(s[pos]) || is_exponent_sign(start))) pos++;
         assert(pos > start);
         postfix.push_back(s.substr(start, pos - start));
+    }
+
+    /// A sign is part of the operand only right after the e of a number literal and before a digit, as in 1e-5
+    bool is_exponent_sign(int start) const{
+        if ((s[pos] != '+' && s[pos] != '-') || pos + 1 == (int)s.size() || !isdigit((unsigned char)s[pos + 1])) return false;
+        if (pos - start < 2 || (s[pos - 1] != 'e' && s[pos - 1] != 'E')) return false;
+        for (int i = start; i < pos - 1; i++){
+            if (!isdigit((unsigned char)s[i]) && s[i] != '.') return false;
+        }
+
+        return true;
     }
 
     bool next_is(char c){
@@ -141,7 +153,7 @@ struct Expression{
     template <typename T>
     static T power(T base, T exponent){
         if constexpr (is_floating_point_v<T>) return pow(base, exponent);
-        else if constexpr (is_integral_v<T>){
+        else if constexpr (is_integral_v<T> || is_same_v<T, __int128>){
             assert(exponent >= 0);
             T res = 1;
             while (exponent > 0){

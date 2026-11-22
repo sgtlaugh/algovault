@@ -22,6 +22,12 @@ struct Generator{
         if (kind == 0 && !integer) return add({'n', names[stress::rand_int(0, 3)]});
         if (kind == 1 && !integer) return add({'n', to_string(stress::rand_int(0, 99)) + ".5"});
         if (kind == 2) return add({'n', to_string(stress::rand_int(10, 999))});
+        if (kind == 3 && !integer){
+            string mantissa = to_string(stress::rand_int(1, 9)) + (stress::rand_int(0, 1) ? ".5" : "");
+            string sign = stress::rand_int(0, 1) ? "-" : "+";
+            return add({'n', mantissa + (stress::rand_int(0, 1) ? "e" : "E") + sign + to_string(stress::rand_int(0, 3))});
+        }
+
         return add({'n', to_string(stress::rand_int(0, 9))});
     }
 
@@ -215,6 +221,18 @@ void check_fixed_cases(){
     assert(half == 0.5);
     assert((Expression("x1_2.5").postfix == vector<string>{"x1_2.5"}));
     assert((Expression("2x").postfix == vector<string>{"2x"}));
+
+    /// A sign after the e of a number literal, before a digit, stays in the operand; elsewhere it is an operator
+    assert((Expression("1e-5*2").postfix == vector<string>{"1e-5", "2", "*"}));
+    assert((Expression("2.5E+3").postfix == vector<string>{"2.5E+3"}));
+    assert((Expression("2e-x").postfix == vector<string>{"2e", "x", "-"}));
+    assert((Expression("x1e-5").postfix == vector<string>{"x1e", "5", "-"}));
+    assert((Expression("1e5e-3").postfix == vector<string>{"1e5e", "3", "-"}));
+    assert((Expression("e-5").postfix == vector<string>{"e", "5", "-"}));
+    assert(Expression("1e-5 * 2").evaluate([](const string& t){ return stod(t); }) == 2e-5);
+
+    __int128 nine = Expression("3^2").evaluate([](const string& t){ return (__int128)stoll(t); });
+    assert(nine == 9);
 }
 
 /// Deep nesting through every parse level; 5000 is what fits 8 MB under the sanitizers, 2e4 fits at -O2
