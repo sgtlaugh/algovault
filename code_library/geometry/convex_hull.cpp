@@ -12,8 +12,8 @@
  *
  * extreme_vertex(hull, dir): index of a vertex maximizing dot(vertex, dir), n >= 1, |dir.x|, |dir.y| <= 2e9
  * farthest_pair(hull): two vertices at maximum distance, dist2 of them is the exact squared diameter, n >= 1
- * get_convex_hull(points): the strict hull
- * is_convex(polygon): whether polygon is convex
+ * get_convex_hull(points): the strict hull, counter-clockwise from the lowest (x, y) point, collinear points dropped
+ * is_convex(polygon): whether polygon is convex, in either orientation, collinear vertices allowed, false for n <= 2
  * line_hull(a, b, hull): how the line through a != b meets a hull with n >= 3
  * minkowski_sum(a, b): the strict hull of {p + q}, a and b convex counter-clockwise polygons
  * tangents(hull, q): {i, j}, the hull lies left of the ray q -> hull[i] and right of q -> hull[j], q strictly outside
@@ -29,6 +29,7 @@
  *   - A hull argument is a strictly convex polygon in counter-clockwise order, as get_convex_hull returns
  *   - line_hull gives {-1, -1} for no intersection, {i, -1} touching only vertex i, {i, i} containing edge (i, i + 1)
  *   - Else line_hull gives {i, j}, crossing edge (i, i + 1) then (j, j + 1) going a -> b, a vertex k as edge (k, k + 1)
+ *   - get_convex_hull drops duplicates, all-collinear input gives the two endpoints and one point gives itself
  *   - minkowski_sum takes any starting vertex and collinear vertices, its coordinates reach 2e9
  *   - tangents returns either endpoint when q is collinear with an edge
  *   - get_convex_hull becomes O(n) with a radix sort
@@ -129,13 +130,6 @@ array<Point, 2> farthest_pair(const vector<Point>& hull){
     return best;
 }
 
-/***
- *
- * Returns the strict convex hull in counter-clockwise order, starting from the lowest x (then lowest y) point
- * Collinear and duplicate points are dropped, all-collinear input gives the two endpoints
- *
-***/
-
 vector<Point> get_convex_hull(vector<Point> P){
     sort(P.begin(), P.end());
     P.erase(unique(P.begin(), P.end()), P.end());
@@ -156,12 +150,6 @@ vector<Point> get_convex_hull(vector<Point> P){
     H.resize(k - 1);
     return H;
 }
-
-/***
- *
- * Points in P are given in clockwise or anti-clockwise order, collinear vertices are allowed
- *
-***/
 
 bool is_convex(const vector<Point>& P){
     int n = P.size(), sign = 0, first[2] = {0, 0}, last[2] = {0, 0}, flips[2] = {0, 0};
