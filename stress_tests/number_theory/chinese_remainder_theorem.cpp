@@ -302,6 +302,10 @@ void rejected_inputs(){
     stress::expect_assert(lib, []{ Garner({7, 3, 21}, 10); });
     stress::expect_assert(lib, []{ CRT({1, 2}, {4000000007LL, 4000000009LL}); });
     stress::expect_assert(lib, []{ CRT({0, 0, 0}, {1LL << 62, 3, 2}); });
+    stress::expect_assert(lib, []{ CRT({1}, {0}); });
+    stress::expect_assert(lib, []{ CRT({3}, {-4}); });
+    stress::expect_assert(lib, []{ CRT({1, 2}, {5}); });
+    stress::expect_assert(lib, []{ Garner({3, 5}, 0); });
 }
 
 void garner_wide_sums(){

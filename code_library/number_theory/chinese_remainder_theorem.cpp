@@ -57,9 +57,11 @@ long long non_negative_mod(long long x, long long m){
 }
 
 long long CRT(const vector<long long>& rems, const vector<long long>& mods){
+    assert(rems.size() == mods.size());
     long long res = 0, lcm = 1;
 
     for (size_t i = 0; i < mods.size(); i++){
+        assert(mods[i] >= 1);
         long long r = non_negative_mod(rems[i], mods[i]);
         long long g = gcd(lcm, mods[i]), step = mods[i] / g;
         if ((r - res) % g) return -1;
@@ -82,6 +84,7 @@ struct Garner{
     /// coef[i * (k + 1) + j] = mods[0] * ... * mods[j - 1] % m[i], inv[i] = (mods[0] * ... * mods[i - 1])^-1 % m[i]
     Garner(const vector<long long>& mods, long long mod) : k(mods.size()), m(mods), inv(k), coef((k + 1) * (k + 1)), digit(k){
         m.push_back(mod);
+        for (long long x : m) assert(x >= 1);
 
         for (int i = 0; i <= k; i++){
             long long* c = &coef[i * (k + 1)];
