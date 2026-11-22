@@ -4,13 +4,19 @@ String Hash
 Polynomial rolling hash, get_hash(l, r) is the hash of text[l..r] inclusive
 
 Complexity: O(n) to build, O(1) per get_hash, n + 1 prefix hashes per instance plus powers shared up to the longest text
+
+Notes:
+  - The base is random per run, so anti-hash tests cannot target it, and shared by all instances, so texts compare
+  - Two different segments of equal length collide with probability about length / 10^18
 """
+
+import random
 
 
 class StringHash:
     # Class attributes so contest code that assigns a global MOD or BASE cannot corrupt live instances
-    _BASE = 997
     _MOD = 10**18 + 3
+    _BASE = random.SystemRandom().randrange(1 << 21, _MOD - 1)  # random.seed() in contest code cannot fix it
     _powers = [1]  # shared by all instances, grown to the longest text seen
 
     def __init__(self, text):

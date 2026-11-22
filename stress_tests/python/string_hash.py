@@ -1,3 +1,7 @@
+import os
+import subprocess
+import sys
+
 from stress import rng, scaled
 
 import string_hash
@@ -27,6 +31,13 @@ def main():
     string_hash.MOD, string_hash.BASE = 10**9 + 7, 31
     assert h.get_hash(0, 3) == h.get_hash(7, 10) and h.get_hash(0, 4) != h.get_hash(5, 9)
     assert StringHash('cadabra').get_hash(3, 6) == h.get_hash(7, 10)
+
+    # A fixed base is one anti-hash test away from a collision: two runs must draw different bases
+    folder = os.path.dirname(os.path.abspath(string_hash.__file__))
+    probe = 'from string_hash import StringHash; print(StringHash._BASE)'
+    bases = {subprocess.run([sys.executable, '-c', probe], cwd=folder, capture_output=True, text=True, check=True).stdout
+             for _ in range(2)}
+    assert len(bases) == 2
 
 
 if __name__ == '__main__':
