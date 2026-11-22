@@ -217,6 +217,15 @@ int main(){
         dlx.count(-1);
     });
 
+    /// A column repeated in one row, adjacent or not, and repeated across rows, which is allowed
+    stress::expect_assert("misc/dancing_links.cpp", []{ DancingLinks(2).add_row(0, {0, 0}); });
+    stress::expect_assert("misc/dancing_links.cpp", []{ DancingLinks(3).add_row(0, {1, 0, 1}); });
+    DancingLinks shared(2);
+    shared.add_row(0, {0});
+    shared.add_row(1, {0, 1});
+    shared.add_row(2, {1});
+    assert(shared.count() == 2);
+
     for (long long it = 0; it < stress::scaled(150); it++){
         int m = it % 10 ? stress::rand_int(1, 3) : 4, n = m * m;
         auto givens = random_solved(m);

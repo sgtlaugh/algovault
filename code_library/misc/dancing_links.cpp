@@ -46,6 +46,7 @@ struct DancingLinks{
         for (int column : columns){
             assert(0 <= column && column < n);
             int c = column + 1;  /// node 0 is the header of the column list
+            assert(U[c] < first);  /// the column's last node would be in this row if the row repeated the column
             L[idx] = idx - 1, R[idx] = idx + 1, D[idx] = c, U[idx] = U[c];
             D[U[c]] = idx, U[c] = idx, row[idx] = r, col[idx] = c;
             column_count[c]++, idx++;
