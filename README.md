@@ -144,7 +144,7 @@ sa.contains("nab");         // false
 - [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS with one optimal subsequence [✓](judge_tests/dp/longest_increasing_subsequence.cpp)
 - [Maximum Square](code_library/dp/maximum_square.cpp) - largest filled square and diamond at each cell [✓](judge_tests/dp/aoj_dpl_3_a.cpp)
 - [Meet in the Middle](code_library/dp/meet_in_the_middle.cpp) - subset sums and knapsack of up to 44 items [✓](judge_tests/dp/aoj_dpl_1_h.cpp)
-- [Monotone Minima and SMAWK](code_library/dp/monotone_minima.cpp) - row minima of a Monge or monotone matrix
+- [Monotone Minima and SMAWK](code_library/dp/monotone_minima.cpp) - row minima of a Monge or monotone matrix [✓](judge_tests/dp/min_plus_convolution_convex_arbitrary_smawk.cpp)
 - [Plug DP](code_library/dp/plug_dp.cpp) - count or optimize cycles and paths on a grid
 - [Slope Trick](code_library/dp/slope_trick.cpp) - maintains a convex piecewise linear function
 - [Tree Knapsack](code_library/dp/tree_knapsack.cpp) - max value per capacity, upward closed or connected
