@@ -135,6 +135,7 @@
 - [AtCoder ABC184 F - Programming Contest](https://atcoder.jp/contests/abc184/tasks/abc184_f)
 - [CSES 1628 - Meet in the Middle](https://cses.fi/problemset/task/1628)
 - [SPOJ SUBSUMS - Subset Sums](https://www.spoj.com/problems/SUBSUMS/)
+- [UVa 12911 - Subset sum](https://onlinejudge.org/external/129/12911.pdf) [✓](../../practice/dp/uva_12911.cpp "Accepted solution")
 
 #### [Monotone Minima and SMAWK](monotone_minima.cpp)
 
