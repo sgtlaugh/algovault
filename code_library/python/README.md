@@ -48,6 +48,8 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 #### [Sieve](sieve.py)
 
+- [UVa 10394 - Twin Primes](https://onlinejudge.org/external/103/10394.pdf) [✓](../../practice/python/uva_10394.py "Accepted solution")
+
 #### [String Hash](string_hash.py)
 
 - [CSES 1753 - String Matching](https://cses.fi/problemset/task/1753) [✓](../../practice/python/cses_1753_string_hash.py "Accepted solution")
