@@ -119,6 +119,7 @@
 
 #### [Permutation Rank](permutation_rank.cpp)
 
+- [Codeforces 1443E - Long Permutation](https://codeforces.com/problemset/problem/1443/E)
 - [CSES 3397 - Permutation Order](https://cses.fi/problemset/task/3397) [✓](../../practice/combinatorics/cses_3397.cpp "Accepted solution")
 - [UVa 12335 - Lexicographic Order](https://onlinejudge.org/external/123/12335.pdf) [✓](../../practice/combinatorics/uva_12335.cpp "Accepted solution")
 - [yukicoder 1311 - Reverse Permutation Index](https://yukicoder.me/problems/no/1311)
