@@ -65,6 +65,30 @@ void check_all_thresholds(int n, const vector<array<long long, 3>>& edges){
             for (int u : comp) expected[u] = comp;
         }
         for (int v = 0; v < n; v++) assert(component(krt, v, w) == expected[v]);
+
+        /// The bottleneck is the smallest weight t <= w whose light edges already join v's whole component
+        if (n > 12) continue;
+        vector<long long> weights;
+        for (auto& e : edges) if (e[2] <= w) weights.push_back(e[2]);
+        sort(weights.begin(), weights.end());
+        for (int v = 0; v < n; v++){
+            int x = krt.node(v, w), size = expected[v].size();
+            if (size == 1){
+                assert(x == v);
+                continue;
+            }
+            for (int u : expected[v]) assert(krt.node(u, w) == x);
+            if (expected[v][0] != v) continue;
+
+            auto joined = [&](long long t){ return (int)reachable(light_adjacency(n, edges, t), v).size() == size; };
+            int lo = 0, hi = weights.size() - 1;
+            while (lo < hi){
+                int mid = (lo + hi) / 2;
+                if (joined(weights[mid])) hi = mid;
+                else lo = mid + 1;
+            }
+            assert(x >= n && krt.weight[x] == weights[lo]);
+        }
     }
 }
 
