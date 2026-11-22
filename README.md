@@ -180,6 +180,7 @@ sa.contains("nab");         // false
 - [Chordal Graph](code_library/graphs/chordal_graph.cpp) - recognition, elimination order or induced cycle [✓](judge_tests/graphs/chordal_graph_recognition.cpp)
 - [Chromatic Number](code_library/graphs/chromatic_number.cpp) - minimum colors in a vertex coloring [✓](judge_tests/graphs/chromatic_number.cpp)
 - [Complement Graph BFS](code_library/graphs/complement_graph_bfs.cpp) - BFS and components of the complement graph [✓](judge_tests/graphs/connected_components_of_complement_graph.cpp)
+- [Degree Sequence](code_library/graphs/degree_sequence.cpp) - graphical check, simple graph or tree from degrees
 - [Dijkstra](code_library/graphs/dijkstra.cpp) - shortest paths with non-negative edges, 0-1 BFS [✓](judge_tests/graphs/aoj_alds1_11_c.cpp)
 - [Directed MST](code_library/graphs/directed_mst.cpp) - minimum arborescence from a root [✓](judge_tests/graphs/directedmst.cpp)
 - [Dominator Tree](code_library/graphs/dominator_tree.cpp) - immediate dominators from a root [✓](judge_tests/graphs/dominatortree.cpp)

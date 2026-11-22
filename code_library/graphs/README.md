@@ -6,15 +6,15 @@
 |---|---|---|---|
 | [2-SAT](#2-sat) | [2-SAT, Lexicographic](#2-sat-lexicographic) | [Absolute Center](#absolute-center) | [Articulation Points and Blocks](#articulation-points-and-blocks) |
 | [Bellman-Ford](#bellman-ford) | [Bridges](#bridges) | [Cactus Graph](#cactus-graph) | [Chordal Graph](#chordal-graph) |
-| [Chromatic Number](#chromatic-number) | [Dijkstra](#dijkstra) | [Directed MST](#directed-mst) | [Dominator Tree](#dominator-tree) |
-| [Edge Coloring](#edge-coloring) | [Euler Path](#euler-path) | [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) |
-| [Functional Graph](#functional-graph) | [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) | [Gomory-Hu Tree](#gomory-hu-tree) |
-| [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) | [K Shortest Walks](#k-shortest-walks) |
-| [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) | [Maximum Clique](#maximum-clique) |
-| [Maximum Flow](#maximum-flow) | [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) |
-| [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) |
-| [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) |
-| [Strongly Connected Components](#strongly-connected-components) |  |  |  |
+| [Chromatic Number](#chromatic-number) | [Degree Sequence](#degree-sequence) | [Dijkstra](#dijkstra) | [Directed MST](#directed-mst) |
+| [Dominator Tree](#dominator-tree) | [Edge Coloring](#edge-coloring) | [Euler Path](#euler-path) | [Flow with Lower Bounds](#flow-with-lower-bounds) |
+| [Floyd-Warshall](#floyd-warshall) | [Functional Graph](#functional-graph) | [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) |
+| [Gomory-Hu Tree](#gomory-hu-tree) | [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) |
+| [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) |
+| [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) |
+| [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) |
+| [Minimum Spanning Tree](#minimum-spanning-tree) | [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Small Cycle Counting](#small-cycle-counting) |
+| [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |  |  |
 
 <!-- /toc -->
 
@@ -134,6 +134,10 @@
 - [Codeforces 908H - New Year and Boolean Bridges](https://codeforces.com/problemset/problem/908/H)
 - [CSES 3308 - Graph Coloring](https://cses.fi/problemset/task/3308) [✓](../../practice/graphs/cses_3308.cpp "Accepted solution")
 - [UVa 1439 - Exclusive Access 2](https://onlinejudge.org/external/14/1439.pdf) [✓](../../practice/graphs/uva_1439.cpp "Accepted solution")
+
+#### [Degree Sequence](degree_sequence.cpp)
+
+- [Codeforces 134C - Swaps](https://codeforces.com/problemset/problem/134/C)
 
 #### [Dijkstra](dijkstra.cpp)
 
