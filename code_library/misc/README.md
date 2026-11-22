@@ -7,7 +7,8 @@
 | [15 Puzzle Solver](#15-puzzle-solver) | [Assembly](#assembly) | [Bit Twiddling](#bit-twiddling) | [Comb Sort](#comb-sort) |
 | [Dancing Links](#dancing-links) | [Dates](#dates) | [Expression Parser](#expression-parser) | [Fast I/O](#fast-io) |
 | [Gray Codes](#gray-codes) | [Hackenbush](#hackenbush) | [Knight Distance](#knight-distance) | [N Queens](#n-queens) |
-| [Nimber Arithmetic](#nimber-arithmetic) | [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) | [Sprague-Grundy](#sprague-grundy) |
+| [Nimber Arithmetic](#nimber-arithmetic) | [Parallel Binary Search](#parallel-binary-search) | [Radix Sort](#radix-sort) | [Radix Sort 64](#radix-sort-64) |
+| [Sprague-Grundy](#sprague-grundy) |  |  |  |
 
 <!-- /toc -->
 
@@ -84,6 +85,12 @@
 - [HDU 3404 - Switch lights](https://acm.hdu.edu.cn/showproblem.php?pid=3404) [✓](../../practice/misc/hdu_3404.cpp "Accepted solution")
 - [POJ 3533 - Light Switching Game](http://poj.org/problem?id=3533) [✓](../../practice/misc/poj_3533.cpp "Accepted solution")
 - [UVa 12629 - Rectangle XOR Game](https://onlinejudge.org/external/126/12629.pdf) [✓](../../practice/misc/uva_12629.cpp "Accepted solution")
+
+#### [Parallel Binary Search](parallel_binary_search.cpp)
+
+- [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d)
+- [Codeforces 484E - Sign on Fence](https://codeforces.com/problemset/problem/484/E)
+- [CSES 2101 - New Roads Queries](https://cses.fi/problemset/task/2101)
 
 #### [Radix Sort](radix_sort.cpp)
 

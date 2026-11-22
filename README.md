@@ -344,6 +344,7 @@ sa.contains("nab");         // false
 - [N Queens](code_library/misc/n_queen.cpp) - N queens count, optionally with blocked squares
 - [Next Palindrome](code_library/misc/next_palindrome.cpp) - smallest palindromic number above a given one
 - [Nimber Arithmetic](code_library/misc/nimber.cpp) - nim product and inverse over GF(2^64) [✓](judge_tests/misc/nim_product_64.cpp)
+- [Parallel Binary Search](code_library/misc/parallel_binary_search.cpp) - first update count satisfying each query
 - [Radix Sort](code_library/misc/radix_sort.cpp) - LSD radix sort of 32-bit integers [✓](judge_tests/misc/aoj_alds1_6_a_radix_sort.cpp)
 - [Radix Sort 64](code_library/misc/radix_sort_64.cpp) - LSD radix sort of 64-bit integers [✓](judge_tests/misc/aoj_alds1_6_a_radix_sort_64.cpp)
 - [Sprague-Grundy](code_library/misc/sprague_grundy.cpp) - mex and Grundy values of heap games and DAGs
