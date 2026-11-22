@@ -122,7 +122,7 @@ sa.contains("nab");         // false
 - [Square Root Decomposition](code_library/data_structures/sqrt_decomposition.cpp) - range add and count of values below x in a range
 - [Top-K Sum](code_library/data_structures/top_k_sum.cpp) - sum of the k largest while values and k change
 - [Treap](code_library/data_structures/treap.cpp) - ordered multiset and sequence with reversals [✓](judge_tests/data_structures/double_ended_priority_queue.cpp)
-  - [Run-Length Implicit](code_library/data_structures/run_length_implicit_treap.cpp) - huge sequences stored as runs of equal values
+  - [Run-Length Implicit](code_library/data_structures/run_length_implicit_treap.cpp) - huge sequences stored as runs of equal values [✓](judge_tests/data_structures/dynamic_sequence_range_affine_range_sum.cpp)
 - [Trie](code_library/data_structures/trie.cpp) - prefix counts, xor queries on sets and ranges [✓](judge_tests/data_structures/aoj_alds1_4_c.cpp)
 
 ### Dynamic Programming
