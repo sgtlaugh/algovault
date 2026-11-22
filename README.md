@@ -218,6 +218,7 @@ sa.contains("nab");         // false
   - [Online](code_library/graphs/online_dynamic_connectivity.cpp) - answers as it goes, with component sums [✓](judge_tests/graphs/dynamic_graph_vertex_add_component_sum.cpp)
 - [Online Bridges](code_library/graphs/online_bridges.cpp) - bridges and 2-edge components under insertions [✓](judge_tests/graphs/two_edge_connected_components.cpp)
 - [Range Edge Dijkstra](code_library/graphs/range_edge_dijkstra.cpp) - shortest paths with edges to and from ranges
+- [Reachability](code_library/graphs/reachability.cpp) - transitive closure, reach counts, offline queries [✓](judge_tests/graphs/aoj_0275.cpp)
 - [Small Cycle Counting](code_library/graphs/small_cycle_counting.cpp) - counts triangles and 4-cycles
 - [Stable Marriage](code_library/graphs/stable_marriage.cpp) - proposer-optimal stable matching
 - [Steiner Tree](code_library/graphs/steiner_tree.cpp) - minimum cost tree connecting k terminals [✓](judge_tests/graphs/minimum_steiner_tree.cpp)

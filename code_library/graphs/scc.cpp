@@ -21,6 +21,7 @@
 
 using namespace std;
 
+/// BEGIN SHARED scc
 struct SCC{
     int n, count = 0;
     vector<vector<int>> adj, rev;
@@ -88,6 +89,7 @@ struct SCC{
         return dag;
     }
 };
+/// END SHARED scc
 
 int main(){
     /***

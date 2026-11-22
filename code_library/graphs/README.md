@@ -14,7 +14,7 @@
 | [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) |
 | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) |
 | [Minimum Spanning Tree](#minimum-spanning-tree) | [Minimum Weight Cycle](#minimum-weight-cycle) | [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) |
-| [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |  |
+| [Reachability](#reachability) | [Small Cycle Counting](#small-cycle-counting) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |
 
 <!-- /toc -->
 
@@ -618,6 +618,11 @@
 - [Codeforces Gym 100551E - Disconnected Graph](https://codeforces.com/gym/100551/problem/E) [✓](../../practice/graphs/codeforces_gym_100551e.cpp "Accepted solution")
 - [CSES 2133 - Dynamic Connectivity](https://cses.fi/problemset/task/2133) [✓](../../practice/graphs/cses_2133.cpp "Accepted solution")
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/) [✓](../../practice/graphs/spoj_dynacon1_offline_dynamic_connectivity.cpp "Accepted solution")
+
+#### [Reachability](reachability.cpp)
+
+- [Codeforces 641F - Little Artem and 2-SAT](https://codeforces.com/problemset/problem/641/F)
+- [CSES 2138 - Reachable Nodes](https://cses.fi/problemset/task/2138)
 
 #### [Small Cycle Counting](small_cycle_counting.cpp)
 
