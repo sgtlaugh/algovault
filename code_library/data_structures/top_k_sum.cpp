@@ -15,6 +15,7 @@
  *
  * Notes:
  *   - erase of a value never inserted is not detected and corrupts every later answer
+ *   - Compare may tie only equal values: an order by |x| ties 3 and -3, and erase then corrupts the sum
  *   - T is both the value and the sum type, so int values with large sums need TopKSum<long long>
  *
 ***/

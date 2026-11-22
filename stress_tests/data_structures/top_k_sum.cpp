@@ -46,6 +46,7 @@ int main(){
     TopKSum empty(0);
     assert(empty.sum == 0 && empty.size() == 0);
 
+    /// Only orders whose ties are equal values, as the header requires: an |x| order breaks erase by design
     for (int it = 0; it < stress::scaled(3000); it++){
         int max_k = stress::rand_int(0, 8);
         long long range = stress::rand_int(0, 6);
