@@ -39,6 +39,7 @@
 - [UVa 12162 - Shooting the Monster](https://onlinejudge.org/external/121/12162.pdf) [✓](../../practice/numerical/uva_12162.cpp "Accepted solution")
 - [UVa 12528 - Environment Protection](https://onlinejudge.org/external/125/12528.pdf) [✓](../../practice/numerical/uva_12528.cpp "Accepted solution")
 - [UVa 12997 - Train Station](https://onlinejudge.org/external/129/12997.pdf) [✓](../../practice/numerical/uva_12997.cpp "Accepted solution")
+- [yukicoder 1319 - 最強とんがりコーン](https://yukicoder.me/problems/no/1319)
 
 #### [Simulated Annealing](simulated_annealing.cpp)
 
@@ -82,3 +83,4 @@
 - [UVa 10385 - Duathlon](https://onlinejudge.org/external/103/10385.pdf) [✓](../../practice/numerical/uva_10385.cpp "Accepted solution")
 - [UVa 12197 - Trick or Treat](https://onlinejudge.org/external/121/12197.pdf) [✓](../../practice/numerical/uva_12197.cpp "Accepted solution")
 - [UVa 13010 - Galactic taxes](https://onlinejudge.org/external/130/13010.pdf) [✓](../../practice/numerical/uva_13010.cpp "Accepted solution")
+- [yukicoder 2276 - I Want AC](https://yukicoder.me/problems/no/2276)
