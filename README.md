@@ -44,7 +44,7 @@ sa.contains("nab");         // false
 
 - [Big Integer](code_library/algebra/bignum.cpp) - arbitrary precision signed integers [✓](judge_tests/algebra/addition_of_big_integers.cpp)
 - [FFT](code_library/algebra/fft.cpp) - polynomial products, fastest for small values [✓](judge_tests/algebra/convolution_mod_1000000007_fft.cpp)
-- [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced
+- [Fraction](code_library/algebra/fraction.cpp) - exact rational arithmetic, always reduced [✓](judge_tests/algebra/aoj_0350.cpp)
 - [GCD and LCM Convolution](code_library/algebra/gcd_lcm_convolution.cpp) - convolution over `gcd(i, j)` or `lcm(i, j)` [✓](judge_tests/algebra/gcd_convolution.cpp)
 - [Lagrange Interpolation](code_library/algebra/lagrange_interpolation.cpp) - value of a polynomial from consecutive samples [✓](judge_tests/algebra/sum_of_exponential_times_polynomial.cpp)
 - [Linear Recurrence](code_library/algebra/linear_recurrence.cpp) - linear recurrence of a sequence and its n-th term [✓](judge_tests/algebra/find_linear_recurrence.cpp)
