@@ -38,5 +38,6 @@ int main(){
         }
     }
 
+    stress::expect_assert("strings/dynamic_aho_corasick.cpp", []{ DynamicAhoCorasick<> ac; ac.insert(""); });
     return 0;
 }

@@ -121,5 +121,6 @@ int main(){
         assert(ac.occurrences(text) == brute_each(patterns, text));
     }
 
+    stress::expect_assert("strings/aho_corasick.cpp", []{ AhoCorasick<> ac; ac.insert(""); });
     return 0;
 }

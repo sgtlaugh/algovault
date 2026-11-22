@@ -9,7 +9,7 @@
  *   - memory: O(SIGMA) ints per trie node, each automaton keeps its peak capacity
  *
  * DynamicAhoCorasick<SIGMA = 26, BASE = 'a'> ac: an empty automaton, characters must lie in [BASE, BASE + SIGMA)
- * ac.insert(p): adds pattern p, no build() call needed
+ * ac.insert(p): adds non-empty pattern p, no build() call needed
  * ac.count(t): total occurrences of all patterns in t
  *
  * Notes:
@@ -67,6 +67,7 @@ struct AhoCorasick{
 
     int insert(const char* str){
         assert(!built);
+        assert(str[0]);  /// an empty pattern would end at the root, whose count build() never sets
         int cur = 0;
 
         for (int j = 0; str[j] != 0; j++){
@@ -194,7 +195,7 @@ struct DynamicAhoCorasick{
 };
 
 int main(){
-    auto ac = DynamicAhoCorasick();
+    DynamicAhoCorasick<> ac;
 
     ac.insert("hello");
     ac.insert("world");

@@ -13,7 +13,7 @@
  * AhoCorasick<SIGMA = 26, BASE = 'a'> ac: an empty automaton, pattern characters must lie in [BASE, BASE + SIGMA)
  * ac.build(): finishes the automaton, called once after the last insert
  * ac.clear(): resets to an empty automaton for a new pattern set, keeping vector capacity
- * ac.insert(p): adds pattern p before build() and returns its node, a duplicate pattern counts once per insert
+ * ac.insert(p): adds non-empty pattern p before build() and returns its node, a duplicate counts once per insert
  * ac.count(t): occurrences of all patterns in t, overlaps included
  * ac.ends(v): number of inserted patterns equal to node v
  * ac.link(v): the node of the longest proper suffix of node v, link(0) = 0, after build()
@@ -80,6 +80,7 @@ struct AhoCorasick{
 
     int insert(const char* str){
         assert(!built);
+        assert(str[0]);  /// an empty pattern would end at the root, whose count build() never sets
         int cur = 0;
 
         for (int j = 0; str[j] != 0; j++){
