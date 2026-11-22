@@ -88,6 +88,7 @@ sa.contains("nab");         // false
   - [Rollback](code_library/data_structures/rollback_dsu.cpp) - unions can be undone, for offline connectivity [✓](judge_tests/data_structures/persistent_unionfind.cpp)
 - [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct `gcd`/`or`/`and` of subarrays ending at i
 - [Euler Tour Tree](code_library/data_structures/euler_tour_tree.cpp) - dynamic forest with subtree sums and subtree add [✓](judge_tests/data_structures/dynamic_tree_subtree_add_subtree_sum.cpp)
+- [Fast Set](code_library/data_structures/fast_set.cpp) - integer set in [0, n) with next and prev [✓](judge_tests/data_structures/predecessor_problem_fast_set.cpp)
 - [Fenwick Tree](code_library/data_structures/fenwick_tree.cpp) - point or range add with point or range sums [✓](judge_tests/data_structures/aoj_dsl_2_e.cpp)
   - [2D](code_library/data_structures/fenwick_tree_2D.cpp) - the same on a grid [✓](judge_tests/data_structures/aoj_dsl_5_b.cpp)
   - [2D, Implicit](code_library/data_structures/fenwick_tree_2D_implicit.cpp) - rectangle add and cell value on huge grids
