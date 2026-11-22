@@ -4,12 +4,12 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [Chinese Remainder Theorem](#chinese-remainder-theorem) | [Continued Fractions](#continued-fractions) | [Digits of Factorial](#digits-of-factorial) | [Discrete Logarithm](#discrete-logarithm) |
-| [Divisors](#divisors) | [Extended GCD](#extended-gcd) | [Fast Fibonacci](#fast-fibonacci) | [Fast Sieve](#fast-sieve) |
-| [Floor Sum](#floor-sum) | [Integer Root](#integer-root) | [Linear Sieve](#linear-sieve) | [Maximum Divisors](#maximum-divisors) |
-| [Miller-Rabin](#miller-rabin) | [Mobius Function](#mobius-function) | [Modular Roots](#modular-roots) | [Pell Equation](#pell-equation) |
-| [Pisano Period](#pisano-period) | [Pollard Rho](#pollard-rho) | [Power Tower](#power-tower) | [Segmented Sieve](#segmented-sieve) |
-| [Sum of Two Squares](#sum-of-two-squares) |  |  |  |
+| [Chinese Remainder Theorem](#chinese-remainder-theorem) | [Continued Fractions](#continued-fractions) | [Digit Counting](#digit-counting) | [Digits of Factorial](#digits-of-factorial) |
+| [Discrete Logarithm](#discrete-logarithm) | [Divisors](#divisors) | [Extended GCD](#extended-gcd) | [Fast Fibonacci](#fast-fibonacci) |
+| [Fast Sieve](#fast-sieve) | [Floor Sum](#floor-sum) | [Integer Root](#integer-root) | [Linear Sieve](#linear-sieve) |
+| [Maximum Divisors](#maximum-divisors) | [Miller-Rabin](#miller-rabin) | [Mobius Function](#mobius-function) | [Modular Roots](#modular-roots) |
+| [Pell Equation](#pell-equation) | [Pisano Period](#pisano-period) | [Pollard Rho](#pollard-rho) | [Power Tower](#power-tower) |
+| [Segmented Sieve](#segmented-sieve) | [Sum of Two Squares](#sum-of-two-squares) |  |  |
 
 <!-- /toc -->
 
@@ -35,6 +35,11 @@
 - [Codeforces Gym 104656C2 - New Elements, Part 2 C2](https://codeforces.com/gym/104656/problem/C2) [✓](../../practice/number_theory/codeforces_gym_104656c2.cpp "Accepted solution")
 - [UVa 13218 - Broken Calculator Keys](https://onlinejudge.org/external/132/13218.pdf) [✓](../../practice/number_theory/uva_13218.cpp "Accepted solution")
 - [UVa 13302 - Jawbreaking Candy](https://onlinejudge.org/external/133/13302.pdf) [✓](../../practice/number_theory/uva_13302.cpp "Accepted solution")
+
+#### [Digit Counting](digit_counting.cpp)
+
+- [AtCoder ABC029 D - 1](https://atcoder.jp/contests/abc029/tasks/abc029_d)
+- [SPOJ CPCRC1C - Sum of Digits](https://www.spoj.com/problems/CPCRC1C/)
 
 #### [Digits of Factorial](digits_of_factorial.cpp)
 

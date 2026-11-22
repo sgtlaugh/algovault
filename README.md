@@ -241,6 +241,7 @@ sa.contains("nab");         // false
 - [All Divisors](code_library/number_theory/all_divisors.cpp) - divisor lists of every number up to a limit
 - [Chinese Remainder Theorem](code_library/number_theory/chinese_remainder_theorem.cpp) - systems of congruences with any moduli [✓](judge_tests/number_theory/convolution_mod_1000000007_chinese_remainder_theorem.cpp)
 - [Continued Fractions](code_library/number_theory/continued_fractions.cpp) - best rational approximation, Stern-Brocot search [✓](judge_tests/number_theory/rational_approximation.cpp)
+- [Digit Counting](code_library/number_theory/digit_counting.cpp) - count of each digit 0-9 over a range of integers
 - [Digits of Factorial](code_library/number_theory/digits_of_factorial.cpp) - number of digits of n! in any base
 - [Discrete Logarithm](code_library/number_theory/discrete_logarithm.cpp) - smallest x with `a^x = b mod m`, any m [✓](judge_tests/number_theory/discrete_logarithm_mod.cpp)
 - [Divisors](code_library/number_theory/divisors.cpp) - sorted divisors of one number
