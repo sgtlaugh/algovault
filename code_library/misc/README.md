@@ -89,6 +89,7 @@
 #### [Next Palindrome](next_palindrome.cpp)
 
 - [SPOJ PALIN - The Next Palindrome](https://www.spoj.com/problems/PALIN/)
+- [UVa 12940 - Next Palindromic Numbers](https://onlinejudge.org/external/129/12940.pdf) [✓](../../practice/misc/uva_12940.cpp "Accepted solution")
 
 #### [Nimber Arithmetic](nimber.cpp)
 
