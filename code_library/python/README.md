@@ -28,6 +28,8 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 
 #### [Dijkstra](dijkstra.py)
 
+- [UVa 10986 - Sending email](https://onlinejudge.org/external/109/10986.pdf) [✓](../../practice/python/uva_10986.py "Accepted solution")
+
 #### [Discrete Log](discrete_log.py)
 
 #### [Fast Fibonacci](fast_fibonacci.py)
