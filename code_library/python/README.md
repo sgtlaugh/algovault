@@ -4,8 +4,9 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [Alpha Beta Pruning](#alpha-beta-pruning) | [Derangements](#derangements) | [Fast Fibonacci](#fast-fibonacci) | [Lagrange Interpolation](#lagrange-interpolation) |
-| [Miller-Rabin](#miller-rabin) | [String Hash](#string-hash) | [Z Algorithm](#z-algorithm) |  |
+| [Alpha Beta Pruning](#alpha-beta-pruning) | [Derangements](#derangements) | [Dijkstra](#dijkstra) | [Discrete Log](#discrete-log) |
+| [Fast Fibonacci](#fast-fibonacci) | [Lagrange Interpolation](#lagrange-interpolation) | [Miller-Rabin](#miller-rabin) | [Sieve](#sieve) |
+| [String Hash](#string-hash) | [Z Algorithm](#z-algorithm) |  |  |
 
 <!-- /toc -->
 
@@ -25,6 +26,10 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 - [UVa 10497 - Sweet Child Makes Trouble](https://onlinejudge.org/external/104/10497.pdf) [✓](../../practice/python/uva_10497.py "Accepted solution")
 - [UVa 12024 - Hats](https://onlinejudge.org/external/120/12024.pdf) [✓](../../practice/python/uva_12024.py "Accepted solution")
 
+#### [Dijkstra](dijkstra.py)
+
+#### [Discrete Log](discrete_log.py)
+
 #### [Fast Fibonacci](fast_fibonacci.py)
 
 - [CSES 1722 - Fibonacci Numbers](https://cses.fi/problemset/task/1722) [✓](../../practice/python/cses_1722.py "Accepted solution")
@@ -36,6 +41,8 @@ Ported templates share their C++ counterpart's problems, though Python can be to
 #### [Miller-Rabin](miller_rabin.py)
 
 - [CSES 3396 - Next Prime](https://cses.fi/problemset/task/3396) [✓](../../practice/python/cses_3396.py "Accepted solution")
+
+#### [Sieve](sieve.py)
 
 #### [String Hash](string_hash.py)
 
