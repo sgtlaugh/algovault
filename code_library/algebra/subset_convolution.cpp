@@ -6,7 +6,8 @@
  * Complexity:
  *   - transforms: O(2^n n) time, in place, and O(2^n n) combine calls for a fold
  *   - subset_convolution: O(2^n n^2) time, 2 * 2^n * (n + 1) ints of memory, 176 MB at n = 20
- *   - subset_exp, subset_inverse, subset_log: O(2^n n^2) time, about 100 MB at n = 20
+ *   - subset_inverse: O(2^n n^2) time, as much memory as subset_convolution
+ *   - subset_exp, subset_log: O(2^n n^2) time, about 100 MB at n = 20
  *
  * subset_mobius(f, mod = 0): f becomes the g with subset_zeta(g, mod) = f
  * subset_zeta(f, mod = 0): replaces f[S] with the sum of f[T] over every T subset of S, the SOS DP
