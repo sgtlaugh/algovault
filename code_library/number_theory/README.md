@@ -213,6 +213,7 @@
 
 - [Luogu P5491 - 【模板】二次剩余](https://www.luogu.com.cn/problem/P5491)
 - [Timus 1132 - Square Root](https://acm.timus.ru/problem.aspx?num=1132)
+- [UVa 10831 - Gerg's Cake](https://onlinejudge.org/external/108/10831.pdf) [✓](../../practice/number_theory/uva_10831.cpp "Accepted solution")
 
 #### [Pell Equation](pell_equation.cpp)
 
