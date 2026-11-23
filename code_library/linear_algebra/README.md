@@ -4,11 +4,16 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [Determinant](#determinant) | [Gauss-Jordan](#gauss-jordan) | [Gauss-Jordan, Band Matrix](#gauss-jordan-band-matrix) | [Gauss-Jordan, Bitset](#gauss-jordan-bitset) |
-| [Gauss-Jordan, Prime Modulus](#gauss-jordan-prime-modulus) | [Matrix](#matrix) | [Matrix Permanent](#matrix-permanent) | [Simplex](#simplex) |
-| [Thomas Algorithm](#thomas-algorithm) | [XOR Basis](#xor-basis) |  |  |
+| [Characteristic Polynomial](#characteristic-polynomial) | [Determinant](#determinant) | [Freivalds' Algorithm](#freivalds-algorithm) | [Gauss-Jordan](#gauss-jordan) |
+| [Gauss-Jordan, Band Matrix](#gauss-jordan-band-matrix) | [Gauss-Jordan, Bitset](#gauss-jordan-bitset) | [Gauss-Jordan, Prime Modulus](#gauss-jordan-prime-modulus) | [Matrix](#matrix) |
+| [Matrix Permanent](#matrix-permanent) | [Simplex](#simplex) | [Thomas Algorithm](#thomas-algorithm) | [XOR Basis](#xor-basis) |
 
 <!-- /toc -->
+
+#### [Characteristic Polynomial](characteristic_polynomial.cpp)
+
+- [AtCoder ABC323 G - Inversion of Tree](https://atcoder.jp/contests/abc323/tasks/abc323_g)
+- [yukicoder 1907 - DETERMINATION](https://yukicoder.me/problems/no/1907)
 
 #### [Determinant](determinant.cpp)
 
@@ -19,6 +24,10 @@
 - [UVa 10808 - Rational Resistors](https://onlinejudge.org/external/108/10808.pdf) [✓](../../practice/linear_algebra/uva_10808.cpp "Accepted solution")
 - [UVa 12570 - Qualle? Quale?](https://onlinejudge.org/external/125/12570.pdf) [✓](../../practice/linear_algebra/uva_12570.cpp "Accepted solution")
 - [yukicoder 1303 - Inconvenient Kingdom](https://yukicoder.me/problems/no/1303)
+
+#### [Freivalds' Algorithm](freivalds_algorithm.cpp)
+
+- [POJ 3318 - Matrix Multiplication](http://poj.org/problem?id=3318)
 
 #### [Gauss-Jordan](gauss_jordan.cpp)
 
@@ -118,6 +127,7 @@
 #### [Matrix Permanent](permanent.cpp)
 
 - [AtCoder DP O - Matching](https://atcoder.jp/contests/dp/tasks/dp_o)
+- [SPOJ ASSIGN - Assignments](https://www.spoj.com/problems/ASSIGN/)
 
 #### [Simplex](simplex.cpp)
 
