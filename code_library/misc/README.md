@@ -103,6 +103,7 @@
 - [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d)
 - [Codeforces 484E - Sign on Fence](https://codeforces.com/problemset/problem/484/E)
 - [CSES 2101 - New Roads Queries](https://cses.fi/problemset/task/2101)
+- [SPOJ METEORS - Meteors](https://www.spoj.com/problems/METEORS/)
 - [yukicoder 3314 - Library Rearrangement](https://yukicoder.me/problems/no/3314)
 
 #### [Radix Sort](radix_sort.cpp)
