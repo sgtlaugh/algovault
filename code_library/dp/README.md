@@ -43,7 +43,7 @@
 
 #### [CKY, Weighted](cky_weighted.cpp)
 
-- [UVa 12678 - Mixing Colours](https://onlinejudge.org/external/126/12678.pdf)
+- [UVa 12678 - Mixing Colours](https://onlinejudge.org/external/126/12678.pdf) [✓](../../practice/dp/uva_12678.cpp "Accepted solution")
 
 #### [Concave 1D1D DP](concave_1d1d_dp.cpp)
 
