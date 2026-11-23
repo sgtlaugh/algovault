@@ -6,11 +6,11 @@
 |---|---|---|---|
 | [All Divisors](#all-divisors) | [Chinese Remainder Theorem](#chinese-remainder-theorem) | [Continued Fractions](#continued-fractions) | [Digit Counting](#digit-counting) |
 | [Digits of Factorial](#digits-of-factorial) | [Discrete Logarithm](#discrete-logarithm) | [Divisors](#divisors) | [Du's Sieve](#dus-sieve) |
-| [Extended GCD](#extended-gcd) | [Fast Fibonacci](#fast-fibonacci) | [Fast Prime Counting](#fast-prime-counting) | [Fast Sieve](#fast-sieve) |
-| [Floor Sum](#floor-sum) | [Integer Root](#integer-root) | [Linear Sieve](#linear-sieve) | [Maximum Divisors](#maximum-divisors) |
-| [Miller-Rabin](#miller-rabin) | [Min_25 Sieve](#min_25-sieve) | [Mobius Function](#mobius-function) | [Modular Roots](#modular-roots) |
-| [Modular Square Root](#modular-square-root) | [Pell Equation](#pell-equation) | [Pisano Period](#pisano-period) | [Pollard Rho](#pollard-rho) |
-| [Power Tower](#power-tower) | [Segmented Sieve](#segmented-sieve) | [Sum of Two Squares](#sum-of-two-squares) |  |
+| [Extended GCD](#extended-gcd) | [Fast Fibonacci](#fast-fibonacci) | [Fast Prime Counting](#fast-prime-counting) | [Fast Prime Sums](#fast-prime-sums) |
+| [Fast Sieve](#fast-sieve) | [Floor Sum](#floor-sum) | [Integer Root](#integer-root) | [Linear Sieve](#linear-sieve) |
+| [Maximum Divisors](#maximum-divisors) | [Miller-Rabin](#miller-rabin) | [Min_25 Sieve](#min_25-sieve) | [Mobius Function](#mobius-function) |
+| [Modular Roots](#modular-roots) | [Modular Square Root](#modular-square-root) | [Pell Equation](#pell-equation) | [Pisano Period](#pisano-period) |
+| [Pollard Rho](#pollard-rho) | [Power Tower](#power-tower) | [Segmented Sieve](#segmented-sieve) | [Sum of Two Squares](#sum-of-two-squares) |
 
 <!-- /toc -->
 
@@ -71,6 +71,7 @@
 #### [Du's Sieve](du_sieve.cpp)
 
 - [HDU 5608 - function](https://acm.hdu.edu.cn/showproblem.php?pid=5608)
+- [Luogu P4213 - 【模板】杜教筛](https://www.luogu.com.cn/problem/P4213)
 
 #### [Extended GCD](extended_gcd.cpp)
 
@@ -99,6 +100,11 @@
 #### [Fast Prime Counting](fast_prime_counting.cpp)
 
 - [Codeforces 665F - Four Divisors](https://codeforces.com/problemset/problem/665/F)
+- [LibreOJ 6235 - 区间素数个数](https://loj.ac/p/6235)
+
+#### [Fast Prime Sums](fast_prime_sums.cpp)
+
+- [LibreOJ 6202 - 叶氏筛法](https://loj.ac/p/6202)
 
 #### [Fast Sieve](fast_sieve.cpp)
 
@@ -178,6 +184,7 @@
 
 #### [Min_25 Sieve](min_25_sieve.cpp)
 
+- [LibreOJ 6053 - 简单的函数](https://loj.ac/p/6053)
 - [yukicoder 1781 - LCM](https://yukicoder.me/problems/no/1781)
 
 #### [Mobius Function](mobius_function.cpp)
@@ -204,6 +211,7 @@
 
 #### [Modular Square Root](modular_sqrt.cpp)
 
+- [Luogu P5491 - 【模板】二次剩余](https://www.luogu.com.cn/problem/P5491)
 - [Timus 1132 - Square Root](https://acm.timus.ru/problem.aspx?num=1132)
 
 #### [Pell Equation](pell_equation.cpp)
