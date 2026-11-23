@@ -237,6 +237,7 @@
 
 #### [Leftist Heap, Persistent](leftist_heap.cpp)
 
+- [DMOJ apio12p1 - APIO '12 P1 - Dispatching](https://dmoj.ca/problem/apio12p1)
 - [HDU 1512 - Monkey King](https://acm.hdu.edu.cn/showproblem.php?pid=1512)
 
 #### [Li Chao Tree](li_chao_tree.cpp)
@@ -367,6 +368,7 @@
 
 #### [Permutation Tree](permutation_tree.cpp)
 
+- [Codeforces 526F - Pudding Monsters](https://codeforces.com/problemset/problem/526/F)
 - [yukicoder 1720 - Division Permutation](https://yukicoder.me/problems/no/1720)
 
 #### [Persistent Segment Tree](persistent_segment_tree.cpp)
