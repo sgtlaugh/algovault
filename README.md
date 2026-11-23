@@ -202,7 +202,7 @@ sa.contains("nab");         // false
 - [Kruskal Reconstruction Tree](code_library/graphs/kruskal_reconstruction_tree.cpp) - reachable vertices using edges of weight at most w
 - [Manhattan MST](code_library/graphs/manhattan_mst.cpp) - minimum spanning tree under L1 distance [✓](judge_tests/graphs/manhattanmst.cpp)
 - [Matroid Intersection](code_library/graphs/matroid_intersection.cpp) - largest common independent set of two matroids [✓](judge_tests/graphs/aoj_grl_7_a.cpp)
-  - [Weighted](code_library/graphs/weighted_matroid_intersection.cpp) - the max weight common independent set
+  - [Weighted](code_library/graphs/weighted_matroid_intersection.cpp) - the max weight common independent set [✓](judge_tests/graphs/aoj_1605.cpp)
 - [Maximum Clique](code_library/graphs/max_clique.cpp) - max clique, max independent set, maximal cliques [✓](judge_tests/graphs/maximum_independent_set.cpp)
 - [Maximum Flow](code_library/graphs/maxflow.cpp) - max flow and min cut, with node capacities [✓](judge_tests/graphs/aoj_grl_6_a.cpp)
   - [HLPP](code_library/graphs/hlpp.cpp) - push-relabel, faster where Dinic needs many phases [✓](judge_tests/graphs/aoj_grl_6_a_hlpp.cpp)
