@@ -4,19 +4,19 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [2-SAT](#2-sat) | [2-SAT, Lexicographic](#2-sat-lexicographic) | [Absolute Center](#absolute-center) | [Articulation Points and Blocks](#articulation-points-and-blocks) |
-| [Bellman-Ford](#bellman-ford) | [Bridges](#bridges) | [Cactus Graph](#cactus-graph) | [Chordal Graph](#chordal-graph) |
-| [Chromatic Number](#chromatic-number) | [Complement Graph BFS](#complement-graph-bfs) | [Degree Sequence](#degree-sequence) | [Dijkstra](#dijkstra) |
-| [Directed MST](#directed-mst) | [Dominator Tree](#dominator-tree) | [Edge Coloring](#edge-coloring) | [Euler Path](#euler-path) |
-| [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) | [Functional Graph](#functional-graph) | [General Graph Matching](#general-graph-matching) |
-| [General Graph Matching, Weighted](#general-graph-matching-weighted) | [Global Minimum Cut](#global-minimum-cut) | [Gomory-Hu Tree](#gomory-hu-tree) | [Hopcroft-Karp](#hopcroft-karp) |
-| [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) | [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) |
-| [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) | [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) |
-| [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) |
-| [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) | [Minimum Weight Cycle](#minimum-weight-cycle) |
-| [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Online Bridges](#online-bridges) | [Range Edge Dijkstra](#range-edge-dijkstra) |
-| [Reachability](#reachability) | [Small Cycle Counting](#small-cycle-counting) | [Stable Marriage](#stable-marriage) | [Steiner Tree](#steiner-tree) |
-| [Strongly Connected Components](#strongly-connected-components) |  |  |  |
+| [2-SAT](#2-sat) | [2-SAT, Lexicographic](#2-sat-lexicographic) | [3-Edge-Connected Components](#3-edge-connected-components) | [Absolute Center](#absolute-center) |
+| [Articulation Points and Blocks](#articulation-points-and-blocks) | [Bellman-Ford](#bellman-ford) | [Bridges](#bridges) | [Cactus Graph](#cactus-graph) |
+| [Chordal Graph](#chordal-graph) | [Chromatic Number](#chromatic-number) | [Complement Graph BFS](#complement-graph-bfs) | [Degree Sequence](#degree-sequence) |
+| [Dijkstra](#dijkstra) | [Directed MST](#directed-mst) | [Dominator Tree](#dominator-tree) | [Edge Coloring](#edge-coloring) |
+| [Euler Path](#euler-path) | [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) | [Functional Graph](#functional-graph) |
+| [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) | [Global Minimum Cut](#global-minimum-cut) | [Gomory-Hu Tree](#gomory-hu-tree) |
+| [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) | [K Shortest Walks](#k-shortest-walks) |
+| [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) | [Matroid Intersection, Weighted](#matroid-intersection-weighted) |
+| [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) |
+| [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) |
+| [Minimum Spanning Tree](#minimum-spanning-tree) | [Minimum Weight Cycle](#minimum-weight-cycle) | [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) |
+| [Offline Dynamic Connectivity, Online](#offline-dynamic-connectivity-online) | [Online Bridges](#online-bridges) | [Range Edge Dijkstra](#range-edge-dijkstra) | [Reachability](#reachability) |
+| [Small Cycle Counting](#small-cycle-counting) | [Stable Marriage](#stable-marriage) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |
 
 <!-- /toc -->
 
@@ -61,6 +61,10 @@
 #### [2-SAT, Lexicographic](2SAT_lexicographic.cpp)
 
 - [UVa 11751 - Installing Diagnostic Software](https://onlinejudge.org/external/117/11751.pdf) [✓](../../practice/graphs/uva_11751.cpp "Accepted solution")
+
+#### [3-Edge-Connected Components](three_edge_connected_components.cpp)
+
+- [Luogu P6658 - 边三连通分量](https://www.luogu.com.cn/problem/P6658)
 
 #### [Absolute Center](absolute_center.cpp)
 
@@ -139,6 +143,7 @@
 
 #### [Complement Graph BFS](complement_graph_bfs.cpp)
 
+- [Codeforces 190E - Counter Attack](https://codeforces.com/problemset/problem/190/E)
 - [Codeforces 920E - Connected Components?](https://codeforces.com/problemset/problem/920/E)
 - [Codeforces 1242B - 0-1 MST](https://codeforces.com/problemset/problem/1242/B)
 
@@ -417,6 +422,10 @@
 - [UVa 12370 - Game of Connect](https://onlinejudge.org/external/123/12370.pdf) [✓](../../practice/graphs/uva_12370.cpp "Accepted solution")
 - [UVa 12388 - Coin Collecting](https://onlinejudge.org/external/123/12388.pdf) [✓](../../practice/graphs/uva_12388.cpp "Accepted solution")
 
+#### [Matroid Intersection, Weighted](weighted_matroid_intersection.cpp)
+
+- [AOJ 1605 - Bridge Construction Planning](https://onlinejudge.u-aizu.ac.jp/problems/1605)
+
 #### [Maximum Clique](max_clique.cpp)
 
 - [UVa 193 - Graph Coloring](https://onlinejudge.org/external/1/193.pdf) [✓](../../practice/graphs/uva_193.cpp "Accepted solution")
@@ -630,6 +639,11 @@
 - [CSES 2133 - Dynamic Connectivity](https://cses.fi/problemset/task/2133) [✓](../../practice/graphs/cses_2133.cpp "Accepted solution")
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/) [✓](../../practice/graphs/spoj_dynacon1_offline_dynamic_connectivity.cpp "Accepted solution")
 
+#### [Offline Dynamic Connectivity, Online](online_dynamic_connectivity.cpp)
+
+- [Codeforces 1217F - Forced Online Queries Problem](https://codeforces.com/problemset/problem/1217/F)
+- [LibreOJ 122 - 「强制在线」动态图连通性](https://loj.ac/p/122)
+
 #### [Online Bridges](online_bridges.cpp)
 
 - [HDU 2460 - Network](https://acm.hdu.edu.cn/showproblem.php?pid=2460)
@@ -637,6 +651,7 @@
 #### [Range Edge Dijkstra](range_edge_dijkstra.cpp)
 
 - [Codeforces 786B - Legacy](https://codeforces.com/problemset/problem/786/B)
+- [Luogu P6348 - [PA 2011] Journeys](https://www.luogu.com.cn/problem/P6348)
 
 #### [Reachability](reachability.cpp)
 
