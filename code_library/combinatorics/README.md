@@ -5,9 +5,9 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Bell Numbers](#bell-numbers) | [Bernoulli Numbers](#bernoulli-numbers) | [Binomial Coefficients](#binomial-coefficients) | [Combinatorics](#combinatorics) |
-| [Eulerian Numbers](#eulerian-numbers) | [Fast Factorial](#fast-factorial) | [Gambler's Ruin](#gamblers-ruin) | [Josephus Problem](#josephus-problem) |
-| [Necklaces](#necklaces) | [Permutation Cycles](#permutation-cycles) | [Permutation Index](#permutation-index) | [Permutation Rank](#permutation-rank) |
-| [Stirling Numbers](#stirling-numbers) |  |  |  |
+| [Eulerian Numbers](#eulerian-numbers) | [Fast Factorial](#fast-factorial) | [Faulhaber's Formula](#faulhabers-formula) | [Gambler's Ruin](#gamblers-ruin) |
+| [Josephus Problem](#josephus-problem) | [Necklaces](#necklaces) | [Partition Numbers](#partition-numbers) | [Permutation Cycles](#permutation-cycles) |
+| [Permutation Index](#permutation-index) | [Permutation Rank](#permutation-rank) | [Stirling Numbers](#stirling-numbers) |  |
 
 <!-- /toc -->
 
@@ -71,12 +71,17 @@
 
 #### [Eulerian Numbers](eulerian_numbers.cpp)
 
+- [HDU 3664 - Permutation Counting](https://acm.hdu.edu.cn/showproblem.php?pid=3664)
 - [yukicoder 2005 - Sum of Power Sums](https://yukicoder.me/problems/no/2005)
 
 #### [Fast Factorial](fast_factorial.cpp)
 
 - [Luogu P5282 - 【模板】快速阶乘算法](https://www.luogu.com.cn/problem/P5282) [✓](../../practice/combinatorics/luogu_p5282.cpp "Accepted solution")
 - [yukicoder 502 - 階乗を計算するだけ](https://yukicoder.me/problems/no/502) [✓](../../practice/combinatorics/yukicoder_502.cpp "Accepted solution")
+
+#### [Faulhaber's Formula](faulhaber_formula.cpp)
+
+- [yukicoder 665 - Bernoulli Bernoulli](https://yukicoder.me/problems/no/665)
 
 #### [Gambler's Ruin](gamblers_ruin.cpp)
 
@@ -101,6 +106,10 @@
 - [UVa 10294 - Arif in Dhaka (First Love Part 2)](https://onlinejudge.org/external/102/10294.pdf) [✓](../../practice/combinatorics/uva_10294.cpp "Accepted solution")
 - [UVa 11255 - Necklace](https://onlinejudge.org/external/112/11255.pdf) [✓](../../practice/combinatorics/uva_11255.cpp "Accepted solution")
 - [UVa 12600 - Counting Necklaces](https://onlinejudge.org/external/126/12600.pdf) [✓](../../practice/combinatorics/uva_12600.cpp "Accepted solution")
+
+#### [Partition Numbers](partition_numbers.cpp)
+
+- [HDU 4651 - Partition](https://acm.hdu.edu.cn/showproblem.php?pid=4651)
 
 #### [Permutation Cycles](permutation_cycles.cpp)
 
