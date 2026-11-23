@@ -8,7 +8,7 @@
 | [De Bruijn Sequence](#de-bruijn-sequence) | [Dynamic String Hash](#dynamic-string-hash) | [Hashing](#hashing) | [Hirschberg LCS](#hirschberg-lcs) |
 | [Hunt-Szymanski](#hunt-szymanski) | [KMP](#kmp) | [Lyndon Factorization](#lyndon-factorization) | [Manacher](#manacher) |
 | [Minimum Rotation](#minimum-rotation) | [Palindromic Tree](#palindromic-tree) | [Subsequence Automaton](#subsequence-automaton) | [Suffix Array](#suffix-array) |
-| [Suffix Automaton](#suffix-automaton) | [Wildcard Matching](#wildcard-matching) | [Z Algorithm](#z-algorithm) |  |
+| [Suffix Automaton](#suffix-automaton) | [Tandem Repeats](#tandem-repeats) | [Wildcard Matching](#wildcard-matching) | [Z Algorithm](#z-algorithm) |
 
 <!-- /toc -->
 
@@ -278,6 +278,10 @@
 - [SPOJ TAP2013E - Escaping from escaping](https://www.spoj.com/problems/TAP2013E/) [✓](../../practice/strings/spoj_tap2013e.cpp "Accepted solution")
 - [UVa 1673 - str2int](https://onlinejudge.org/external/16/1673.pdf) [✓](../../practice/strings/uva_1673.cpp "Accepted solution")
 - [UVa 11107 - Life Forms](https://onlinejudge.org/external/111/11107.pdf) [✓](../../practice/strings/uva_11107_suffix_automaton.cpp "Accepted solution")
+
+#### [Tandem Repeats](tandem_repeats.cpp)
+
+- [Codeforces 1043G - Speckled Band](https://codeforces.com/problemset/problem/1043/G)
 
 #### [Wildcard Matching](wildcard_matching.cpp)
 
