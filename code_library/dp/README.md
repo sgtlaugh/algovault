@@ -43,6 +43,8 @@
 
 #### [Concave 1D1D DP](concave_1d1d_dp.cpp)
 
+- [LibreOJ 10188 - 「一本通 5.6 练习 1」玩具装箱](https://loj.ac/p/10188)
+- [Luogu P1912 - [NOI2009] 诗人小G](https://www.luogu.com.cn/problem/P1912)
 - [yukicoder 705 - ゴミ拾い Hard](https://yukicoder.me/problems/no/705)
 
 #### [Divide and Conquer DP](divide_conquer_dp.cpp)
@@ -173,3 +175,4 @@
 
 - [HDU 1011 - Starship Troopers](https://acm.hdu.edu.cn/showproblem.php?pid=1011)
 - [HDU 1561 - The more, The Better](https://acm.hdu.edu.cn/showproblem.php?pid=1561)
+- [LibreOJ 10153 - 「一本通 5.2 例 1」二叉苹果树](https://loj.ac/p/10153)
