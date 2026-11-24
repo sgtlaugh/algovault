@@ -260,6 +260,64 @@ void thin_triangles(int iterations){
     }
 }
 
+/// The same in __float128: long double still loses a 2e6-long triangle's normal near sine 1e-12
+double exact_point_triangle(const Point3& p, const Point3& a, const Point3& b, const Point3& c){
+    typedef __float128 Q;
+    struct V{ Q x, y, z; };
+    auto sub = [](const Point3& u, const Point3& v){ return V{(Q)u.x - v.x, (Q)u.y - v.y, (Q)u.z - v.z}; };
+    auto cr = [](const V& u, const V& v){ return V{u.y * v.z - u.z * v.y, u.z * v.x - u.x * v.z, u.x * v.y - u.y * v.x}; };
+    auto d = [](const V& u, const V& v){ return u.x * v.x + u.y * v.y + u.z * v.z; };
+    auto root = [](Q x){
+        if (x <= 0) return (Q)0;
+        Q r = sqrtl((long double)x);
+        for (int i = 0; i < 3; i++) r = (r + x / r) / 2;
+        return r;
+    };
+    auto seg = [&](const Point3& u, const Point3& v){
+        V uv = sub(v, u), up = sub(p, u);
+        Q len2 = d(uv, uv), t = len2 > 0 ? d(up, uv) / len2 : 0;
+        t = t < 0 ? 0 : t > 1 ? 1 : t;
+        V q{up.x - uv.x * t, up.y - uv.y * t, up.z - uv.z * t};
+        return root(d(q, q));
+    };
+
+    V n = cr(sub(b, a), sub(c, a));
+    Q res = min({seg(a, b), seg(b, c), seg(c, a)});
+    bool inside = d(cr(sub(b, a), sub(p, a)), n) >= 0 && d(cr(sub(c, b), sub(p, b)), n) >= 0 && d(cr(sub(a, c), sub(p, c)), n) >= 0;
+    if (d(n, n) > 0 && inside){
+        Q h = d(n, sub(p, a)) / root(d(n, n));
+        res = min(res, h < 0 ? -h : h);
+    }
+
+    return (double)res;
+}
+
+/// Edges near 2e6, sine 1e-13 to 1e-3: aligned with the axes the normal is exact, so a point inside must give 0
+void long_thin_triangles(int iterations){
+    for (int it = 0; it < iterations; it++){
+        bool aligned = it % 2;
+        Point3 dir = aligned ? Point3{1, 0, 0} : real_point(1), w = aligned ? Point3{0, 1, 0} : real_point(1);
+        if (norm(dir) < 0.1) continue;
+        dir = dir / norm(dir), w = w - dir * dot(w, dir);
+        if (norm(w) < 0.1) continue;
+        w = w / norm(w);
+
+        double length = stress::rand_int(100000, 1000000) * 2.0, sine = pow(10, -13 + stress::rand_int(0, 10000) / 1000.0);
+        Point3 a = aligned ? Point3{-length / 2, 0, 0} : real_point(1000000), b = a + dir * length;
+        Point3 c = b + w * (length * sine);
+        double u = stress::rand_int(0, 1000) / 1000.0, v = stress::rand_int(0, 1000) / 1000.0 * u;
+        Point3 x = a + (b - a) * u + (c - b) * v;
+        if (it % 4 >= 2) x = x + w * (stress::rand_int(-1000, 1000) / 7.0);
+
+        double got = dist_point_triangle(x, a, b, c), want = exact_point_triangle(x, a, b, c);
+        double tolerance = aligned ? 1e-6 : min(2e-9 / sine, 2e-2) + 1e-6;
+        if (fabs(got - want) > tolerance){
+            fprintf(stderr, "long thin point triangle: sine %g, got %.12f, want %.12f\n", sine, got, want);
+            abort();
+        }
+    }
+}
+
 /// Collinear points written as decimals: the rounded cross product is noise pointing anywhere, never a real plane
 void rounding_slivers(int iterations){
     check_close(dist_point_triangle({0.1, 0.3, 1.9}, {0, 0, 0}, {0.1, 0.3, 0.9}, {0.3, 0.9, 2.7}), 0.331496608732, "sliver");
@@ -291,6 +349,7 @@ int main(){
     volumes(stress::scaled(2000));
     real_coordinates(stress::scaled(3000));
     thin_triangles(stress::scaled(3000));
+    long_thin_triangles(stress::scaled(3000));
     rounding_slivers(stress::scaled(300));
     return 0;
 }
