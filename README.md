@@ -114,6 +114,7 @@ sa.contains("nab");         // false
   - [2D](code_library/data_structures/segment_tree_2D.cpp) - point assignment and rectangle query on a grid [✓](judge_tests/data_structures/aoj_1068.cpp)
   - [Beats](code_library/data_structures/segment_tree_beats.cpp) - range chmin and chmax with range sum [✓](judge_tests/data_structures/range_chmin_chmax_add_range_sum.cpp)
   - [Dynamic](code_library/data_structures/dynamic_segment_tree.cpp) - nodes created on demand over a huge index range [✓](judge_tests/data_structures/range_affine_range_sum_large_array.cpp)
+  - [Historic](code_library/data_structures/historic_segment_tree.cpp) - range add with historic max and historic sum
   - [Merging](code_library/data_structures/segment_tree_merge.cpp) - multisets with merge, split and k-th
   - [Persistent](code_library/data_structures/persistent_segment_tree.cpp) - old versions stay queryable, range updates, k-th [✓](judge_tests/data_structures/persistent_queue.cpp)
   - [XOR](code_library/data_structures/xor_segment_tree.cpp) - range fold of `a[p ^ x]` for any x
