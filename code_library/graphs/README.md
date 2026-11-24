@@ -103,6 +103,7 @@
 
 #### [Bridges](bridge.cpp)
 
+- [Codeforces 118E - Bertown roads](https://codeforces.com/problemset/problem/118/E)
 - [Codeforces 555E - Case of Computer Network](https://codeforces.com/problemset/problem/555/E) [✓](../../practice/graphs/codeforces_555e.cpp "Accepted solution")
 - [Codeforces 700C - Break Up](https://codeforces.com/problemset/problem/700/C) [✓](../../practice/graphs/codeforces_700c.cpp "Accepted solution")
 - [Codeforces 732F - Tourist Reform](https://codeforces.com/problemset/problem/732/F) [✓](../../practice/graphs/codeforces_732f.cpp "Accepted solution")

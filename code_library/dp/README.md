@@ -130,6 +130,7 @@
 - [UVa 11368 - Nested Dolls](https://onlinejudge.org/external/113/11368.pdf) [✓](../../practice/dp/uva_11368.cpp "Accepted solution")
 - [UVa 12002 - Happy Birthday](https://onlinejudge.org/external/120/12002.pdf) [✓](../../practice/dp/uva_12002.cpp "Accepted solution")
 - [UVa 12747 - Back to Edit Distance](https://onlinejudge.org/external/127/12747.pdf) [✓](../../practice/dp/uva_12747.cpp "Accepted solution")
+- [yukicoder 992 - 最長増加部分列の数え上げ](https://yukicoder.me/problems/no/992)
 - [yukicoder 2230 - Good Omen of White Lotus](https://yukicoder.me/problems/no/2230)
 
 #### [Maximum Square](maximum_square.cpp)
