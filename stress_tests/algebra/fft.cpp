@@ -73,7 +73,7 @@ int main(){
         assert(fft.square(a) == naive(a, a));
 
         /// Signed values up to LL_MULTIPLY_LIMIT force the split product in multiply and square, sums stay below 2^63
-        ll big_hi = FFT::LL_MULTIPLY_LIMIT - 1, small_hi = 9e18L / max(n, m) / big_hi;
+        ll big_hi = FFT::LL_MULTIPLY_LIMIT - 1, small_hi = min<ll>(big_hi, 9e18L / max(n, m) / big_hi);
         auto sa = random_vector(n, -big_hi, big_hi), sb = random_vector(m, -small_hi, small_hi);
         assert(fft.multiply(sa, sb) == naive(sa, sb));
         assert(fft.multiply(sb, sa) == naive(sb, sa));
