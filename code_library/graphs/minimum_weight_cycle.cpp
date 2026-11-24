@@ -93,7 +93,7 @@ struct MinimumWeightCycle{
 
     /// The lightest cycle {weight, closing edge} through s found settling only dist < limit, INF if none
     pair<long long, int> search(int s, bool equal_weights, long long limit){
-        /// Resetting only the vertices the last search reached keeps sparse graphs at O(n + m) per search, not O(n)
+        /// Resetting only what the last search reached makes a search cost what it visits, not O(n) on sparse graphs
         dist.resize(n, INF), parent_edge.resize(n, -1), top.resize(n, -1), done.resize(n, 0);
         for (int v : touched) dist[v] = INF, parent_edge[v] = -1, top[v] = -1, done[v] = 0;
         touched.assign(1, s);
