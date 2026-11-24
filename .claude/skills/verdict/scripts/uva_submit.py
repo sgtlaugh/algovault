@@ -2,8 +2,9 @@
 """UVa Online Judge client: login, submit, verdict.
 
 uva_submit.py login                      check that the stored credentials log in
-uva_submit.py submit <problem> <file>    submit as C++11 and wait for the verdict
+uva_submit.py submit <problem> <file>    submit as C++11, or Python 3 for a .py file, and wait for the verdict
 uva_submit.py last [count]               latest verdicts from uHunt
+uva_submit.py verdicts [count]           latest verdicts from UVa's own My Submissions page, for when uHunt is down
 
 Credentials: ~/.config/uva/credentials, username then password on two lines, mode 600, never inside a git work tree.
 The password is never printed; the session cookie is kept in ~/.config/uva/cookies, mode 600.
@@ -121,7 +122,19 @@ def last(count=5):
     return data['subs']
 
 
-def submit(s, problem, path, language='c++11'):
+def verdicts(s, count=10):
+    """The newest rows of UVa's My Submissions page: id, problem, title, verdict, language, time, date."""
+    if not login(s):
+        sys.exit('login failed, check ~/.config/uva/credentials')
+    page = s.get(BASE + '/index.php?option=com_onlinejudge&Itemid=9', timeout=60).text
+    rows = re.findall(r'<tr class="sectiontableentry\d">(.*?)</tr>', page, re.S)
+    for row in rows[:count]:
+        cells = [re.sub(r'<[^>]+>', '', c).strip() for c in re.findall(r'<td[^>]*>(.*?)</td>', row, re.S)]
+        print('  '.join(cells))
+
+
+def submit(s, problem, path):
+    language = 'python' if path.endswith('.py') else 'c++11'
     if not login(s):
         sys.exit('login failed, check ~/.config/uva/credentials')
     with open(path) as f:
@@ -135,23 +148,32 @@ def submit(s, problem, path, language='c++11'):
         sys.exit('submission not confirmed: ' + (urllib.parse.unquote_plus(msg.group(1)) if msg else r.url))
     sid = int(m.group(1))
     print(f'submitted UVa {problem} as {language}, id {sid}')
+    user = None
     for _ in range(60):
         time.sleep(5)
-        for sub in requests.get(f'{UHUNT}/subs-user-last/{uid()}/10', timeout=30).json()['subs']:
+        # uHunt often answers 502 for a while: the submission has landed, so keep polling instead of crashing
+        try:
+            user = user or uid()
+            subs = requests.get(f'{UHUNT}/subs-user-last/{user}/10', timeout=30).json()['subs']
+        except (requests.RequestException, ValueError, KeyError):
+            continue
+        for sub in subs:
             if sub[0] == sid and sub[2] not in (0, 20):
                 print(f'{VERDICTS.get(sub[2], sub[2])}  {sub[3]} ms')
                 return sub[2]
-    print('no verdict after 5 minutes, check later with: uva_submit.py last')
+    print(f'no verdict after 5 minutes for id {sid}, check later with: uva_submit.py verdicts')
 
 
 def main():
-    if len(sys.argv) < 2 or sys.argv[1] not in ('login', 'submit', 'last'):
+    if len(sys.argv) < 2 or sys.argv[1] not in ('login', 'submit', 'last', 'verdicts'):
         sys.exit(__doc__)
     s = session()
     if sys.argv[1] == 'login':
         print('login ok' if login(s) else 'login failed')
     elif sys.argv[1] == 'submit':
         sys.exit(0 if submit(s, sys.argv[2], sys.argv[3]) == 90 else 1)
+    elif sys.argv[1] == 'verdicts':
+        verdicts(s, int(sys.argv[2]) if len(sys.argv) > 2 else 10)
     else:
         last(int(sys.argv[2]) if len(sys.argv) > 2 else 5)
 
