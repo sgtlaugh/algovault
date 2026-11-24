@@ -8,12 +8,12 @@
 
 int main(){
     int n, m;
-    scanf("%d %d", &n, &m);
+    if (scanf("%d %d", &n, &m) != 2) return 0;
     AbsoluteCenter g(n);
     for (int i = 0; i < m; i++){
         int u, v;
         long long w;
-        scanf("%d %d %lld", &u, &v, &w);
+        if (scanf("%d %d %lld", &u, &v, &w) != 3) return 0;
         g.add_edge(u, v, w);
     }
 

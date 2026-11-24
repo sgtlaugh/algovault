@@ -31,8 +31,14 @@ int main(){
         vector<pair<int, int>> a(m), b(n);
         int lo_a = INT_MAX, hi_a = INT_MIN, lo_b = INT_MAX, hi_b = INT_MIN;
         vector<int> xs;
-        for (auto& [x, y] : a) scanf("%d %d", &x, &y), xs.push_back(x), lo_a = min(lo_a, x), hi_a = max(hi_a, x);
-        for (auto& [x, z] : b) scanf("%d %d", &x, &z), xs.push_back(x), lo_b = min(lo_b, x), hi_b = max(hi_b, x);
+        for (auto& [x, y] : a){
+            if (scanf("%d %d", &x, &y) != 2) return 0;
+            xs.push_back(x), lo_a = min(lo_a, x), hi_a = max(hi_a, x);
+        }
+        for (auto& [x, z] : b){
+            if (scanf("%d %d", &x, &z) != 2) return 0;
+            xs.push_back(x), lo_b = min(lo_b, x), hi_b = max(hi_b, x);
+        }
         int lo = max(lo_a, lo_b), hi = min(hi_a, hi_b);
         xs.push_back(lo), xs.push_back(hi);
         sort(xs.begin(), xs.end());

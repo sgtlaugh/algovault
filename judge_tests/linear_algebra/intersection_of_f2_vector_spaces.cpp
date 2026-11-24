@@ -15,12 +15,12 @@ int main(){
         ull x;
         if (scanf("%d", &n) != 1) return 0;
         for (int i = 0; i < n; i++){
-            scanf("%llu", &x);
+            if (scanf("%llu", &x) != 1) return 0;
             u.insert(x);
         }
         if (scanf("%d", &m) != 1) return 0;
         for (int i = 0; i < m; i++){
-            scanf("%llu", &x);
+            if (scanf("%llu", &x) != 1) return 0;
             v.insert(x);
         }
 

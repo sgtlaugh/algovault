@@ -15,7 +15,7 @@ struct Heaviest{
 
 int main(){
     int n, m;
-    scanf("%d %d", &n, &m);
+    if (scanf("%d %d", &n, &m) != 2) return 0;
 
     /// Edges become nodes n..n + m - 1 holding weight * 2^20 + index, distinct weights make the path max name one edge
     LinkCutTree<long long, Heaviest> lct(n + m);
@@ -23,7 +23,7 @@ int main(){
     vector<int> eu(m), ev(m);
     for (int i = 0; i < m; i++){
         long long w;
-        scanf("%d %d %lld", &eu[i], &ev[i], &w);
+        if (scanf("%d %d %lld", &eu[i], &ev[i], &w) != 3) return 0;
         int u = eu[i], v = ev[i], e = n + i;
 
         int res = -1;

@@ -12,7 +12,9 @@ int main(){
     if (scanf("%d %lld", &n, &k) != 2) return 0;
     Matrix a(n, n, 998244353);
     for (int i = 0; i < n; i++){
-        for (int j = 0; j < n; j++) scanf("%lld", &a[i][j]);
+        for (int j = 0; j < n; j++){
+            if (scanf("%lld", &a[i][j]) != 1) return 0;
+        }
     }
 
     Matrix b = a.pow(k);

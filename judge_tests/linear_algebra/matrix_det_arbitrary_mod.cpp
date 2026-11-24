@@ -12,7 +12,9 @@ int main(){
     if (scanf("%d %lld", &n, &m) != 2) return 0;
     vector<vector<long long>> a(n, vector<long long>(n));
     for (auto& row : a){
-        for (auto& x : row) scanf("%lld", &x);
+        for (auto& x : row){
+            if (scanf("%lld", &x) != 1) return 0;
+        }
     }
 
     printf("%lld\n", determinant_mod(a, m));

@@ -8,12 +8,12 @@
 
 int main(){
     int n, q;
-    scanf("%d %d", &n, &q);
+    if (scanf("%d %d", &n, &q) != 2) return 0;
 
     vector<array<int, 3>> points(n);
     vector<int> ys(n);
     for (int i = 0; i < n; i++){
-        scanf("%d %d %d", &points[i][0], &points[i][1], &points[i][2]);
+        if (scanf("%d %d %d", &points[i][0], &points[i][1], &points[i][2]) != 3) return 0;
         ys[i] = points[i][1];
     }
     sort(points.begin(), points.end());
@@ -24,7 +24,7 @@ int main(){
     vector<array<int, 5>> events;
     for (int i = 0; i < q; i++){
         int l, d, r, u;
-        scanf("%d %d %d %d", &l, &d, &r, &u);
+        if (scanf("%d %d %d %d", &l, &d, &r, &u) != 4) return 0;
         int lo = lower_bound(ys.begin(), ys.end(), d) - ys.begin();
         int hi = lower_bound(ys.begin(), ys.end(), u) - ys.begin() - 1;
         events.push_back({r, i, lo, hi, 1});

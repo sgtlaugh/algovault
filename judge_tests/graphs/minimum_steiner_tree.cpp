@@ -8,19 +8,21 @@
 
 int main(){
     int n, m;
-    scanf("%d %d", &n, &m);
+    if (scanf("%d %d", &n, &m) != 2) return 0;
     SteinerTree g(n);
     vector<long long> weight(m);
     for (int i = 0; i < m; i++){
         int u, v;
-        scanf("%d %d %lld", &u, &v, &weight[i]);
+        if (scanf("%d %d %lld", &u, &v, &weight[i]) != 3) return 0;
         g.add_edge(u, v, weight[i]);
     }
 
     int k;
-    scanf("%d", &k);
+    if (scanf("%d", &k) != 1) return 0;
     vector<int> terminals(k);
-    for (int& t : terminals) scanf("%d", &t);
+    for (int& t : terminals){
+        if (scanf("%d", &t) != 1) return 0;
+    }
 
     vector<int> edges = g.tree(terminals);
     long long total = 0;

@@ -11,7 +11,9 @@ int main(){
     if (scanf("%d", &n) != 1) return 0;
     vector<vector<long long>> a(n, vector<long long>(n));
     for (auto& row : a){
-        for (auto& x : row) scanf("%lld", &x);
+        for (auto& x : row){
+            if (scanf("%lld", &x) != 1) return 0;
+        }
     }
 
     vector<long long> c = characteristic_polynomial(a, 998244353);

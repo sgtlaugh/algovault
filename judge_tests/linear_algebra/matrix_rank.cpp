@@ -11,7 +11,9 @@ int main(){
     if (scanf("%d %d", &n, &m) != 2) return 0;
     vector<vector<int>> a(n, vector<int>(m));
     for (auto& row : a){
-        for (auto& x : row) scanf("%d", &x);
+        for (auto& x : row){
+            if (scanf("%d", &x) != 1) return 0;
+        }
     }
 
     printf("%d\n", matrix_rank(a, 998244353));

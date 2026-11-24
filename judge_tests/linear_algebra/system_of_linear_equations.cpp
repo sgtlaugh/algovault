@@ -11,9 +11,13 @@ int main(){
     if (scanf("%d %d", &n, &m) != 2) return 0;
     vector<vector<int>> equations(n, vector<int>(m + 1));
     for (int i = 0; i < n; i++){
-        for (int j = 0; j < m; j++) scanf("%d", &equations[i][j]);
+        for (int j = 0; j < m; j++){
+            if (scanf("%d", &equations[i][j]) != 1) return 0;
+        }
     }
-    for (int i = 0; i < n; i++) scanf("%d", &equations[i][m]);
+    for (int i = 0; i < n; i++){
+        if (scanf("%d", &equations[i][m]) != 1) return 0;
+    }
 
     auto [solvable, x, basis] = gauss(equations, 998244353);
     if (!solvable){

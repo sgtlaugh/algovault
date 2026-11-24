@@ -11,7 +11,9 @@ int main(){
     if (scanf("%d", &n) != 1) return 0;
     vector<vector<int>> a(n, vector<int>(n));
     for (auto& row : a){
-        for (auto& x : row) scanf("%d", &x);
+        for (auto& x : row){
+            if (scanf("%d", &x) != 1) return 0;
+        }
     }
 
     auto inv = matrix_inverse(a, 998244353);

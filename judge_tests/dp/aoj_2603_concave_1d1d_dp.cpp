@@ -15,11 +15,13 @@ int main(){
     if (scanf("%d %d %d", &s, &n, &m) != 3) return 0;
 
     vector<long long> x(s + 1), a(n);
-    for (int i = 1; i <= s; i++) scanf("%lld", &x[i]);
+    for (int i = 1; i <= s; i++){
+        if (scanf("%lld", &x[i]) != 1) return 0;
+    }
     for (auto& v : a){
         long long t;
         int p;
-        scanf("%lld %d", &t, &p);
+        if (scanf("%lld %d", &t, &p) != 2) return 0;
         v = t - x[p];
     }
 
