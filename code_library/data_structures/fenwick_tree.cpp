@@ -35,6 +35,7 @@
 
 using namespace std;
 
+/// BEGIN SHARED fenwick_point_update
 template <typename T>
 struct FenwickPointUpdate{
     int n;
@@ -84,6 +85,7 @@ struct FenwickPointUpdate{
         return prefix(r) - prefix(l - 1);
     }
 };
+/// END SHARED fenwick_point_update
 
 template <typename T>
 struct FenwickRangeUpdate{
