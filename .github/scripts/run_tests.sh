@@ -348,13 +348,17 @@ check_whitespace(){  # tabs, trailing whitespace, CRLF or a missing final newlin
     failures+=("${bad[@]/%/ (whitespace)}")
 }
 
-check_line_length(){  # a header or /// comment line is cut to 120 characters, never wrapped
+check_line_length(){  # a header or /// comment line is cut to 120 characters, never wrapped, Python headers too
     local bad=()
-    mapfile -t bad < <(git ls-files -co --exclude-standard 'code_library/*.cpp' 'stress_tests/*.cpp' 'stress_tests/*.h' 'judge_tests/*.cpp' | xargs awk '
+    mapfile -t bad < <({ git ls-files -co --exclude-standard 'code_library/*.cpp' 'stress_tests/*.cpp' 'stress_tests/*.h' 'judge_tests/*.cpp' | xargs awk '
         FNR == 1 {header = 0}
         /^\/\*\*\*/ {header = 1}
         (header || /\/\/\//) && length($0) > 120 {print FILENAME ":" FNR}
-        /^\*\*\*\// {header = 0}')
+        /^\*\*\*\// {header = 0}'
+        git ls-files -co --exclude-standard 'code_library/*.py' | xargs awk '
+        FNR == 1 {doc = /^"""/}
+        doc && length($0) > 120 {print FILENAME ":" FNR}
+        FNR > 1 && /"""/ {doc = 0}'; })
 
     echo "line length: ${#bad[@]} header or comment lines over 120 characters"
     [[ ${#bad[@]} -eq 0 ]] && return

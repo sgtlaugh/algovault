@@ -15,7 +15,7 @@ def lagrange(x_values, y_values, nth_term):
     :param x_values: X values of the polynomial
     :param y_values: Y values of the polynomial
     :param nth_term: nth_term of the polynomial
-    :return: evaluates and returns the nth_term of the polynomial in O(k^2), given at least k+1 unique values were provided
+    :return: the polynomial's value at nth_term in O(k^2), given at least k+1 distinct x values
              an int when the value is integral, a Fraction otherwise
     """
 
