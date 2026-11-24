@@ -184,7 +184,7 @@ check_judge_marks(){  # a template carries a README ✓ exactly when a judge tes
     while IFS= read -r file; do
         lib="$(grep -m1 -oP '#include "(\.\./)+\Kcode_library/[^"]+' "$file")"
         [[ -n "$lib" ]] && tested+=("$lib")
-    done < <(git ls-files 'judge_tests/*.cpp')
+    done < <(git ls-files -co --exclude-standard 'judge_tests/*.cpp')
 
     while IFS= read -r lib; do
         # Index entries only: prose, like the How To Use example, may link a template too
@@ -206,7 +206,7 @@ check_judge_marks(){  # a template carries a README ✓ exactly when a judge tes
 
 check_practice(){  # practice/ holds exactly the solutions linked from the practice sections
     local file files linked bad=()
-    files="$(git ls-files 'practice/*.cpp' 'practice/*.py' | sort)"
+    files="$(git ls-files -co --exclude-standard 'practice/*.cpp' 'practice/*.py' | sort)"
     linked="$(grep -ohP '\]\(\.\./\.\./\Kpractice/[^) ]+' code_library/*/README.md | sort -u)"
     while IFS= read -r file; do
         [[ -n "$file" ]] && bad+=("$file (no practice section links it)")
@@ -260,10 +260,10 @@ check_practice_toc(){  # each practice README's table of contents matches its se
 
 check_old_judges(){  # POJ, UVa and HDU judge C++11, so their solutions must build as C++11; linking at -O0 catches static constexpr members that lack a definition
     local files bad=()
-    files="$(git ls-files 'practice/*/poj_*.cpp' 'practice/*/uva_*.cpp' 'practice/*/hdu_*.cpp')"
+    files="$(git ls-files -co --exclude-standard 'practice/*/poj_*.cpp' 'practice/*/uva_*.cpp' 'practice/*/hdu_*.cpp')"
     # A full check takes minutes, so pushes check only the solutions they touch
     if [[ -n "${CHANGED_SINCE:-}" ]] && git cat-file -e "${CHANGED_SINCE}^{commit}" 2> /dev/null; then
-        files="$(grep -xFf <(git diff --name-only "$CHANGED_SINCE") <<< "$files")"
+        files="$(grep -xFf <(changed_files) <<< "$files")"
     fi
     mapfile -t bad < <(grep . <<< "$files" | xargs -r -P "$JOBS" -I{} \
         sh -c '"$0" -std=c++11 -Werror=c++14-extensions -Werror=c++17-extensions -O0 "$1" -o /dev/null 2>/dev/null || echo "$1"' "$CXX" {})
@@ -293,7 +293,7 @@ check_headers(){  # every template opens with a header that states its complexit
         else
             awk 'NR == 1 && !/^\/\*\*\*/ {exit 1} /^\*\*\*\// {exit !found} /^ \* Complexity/ {found = 1} END {if (!found) exit 1}' "$file" || bad+=("$file")
         fi
-    done < <(git ls-files 'code_library/*.cpp' 'code_library/*.py')
+    done < <(git ls-files -co --exclude-standard 'code_library/*.cpp' 'code_library/*.py')
 
     echo "headers: ${#bad[@]} templates without a header stating their complexity"
     [[ ${#bad[@]} -eq 0 ]] && return
@@ -322,7 +322,7 @@ check_copies(){  # a "/// BEGIN COPY <name> from <file>" region must match "/// 
             orig="$(awk -v n="$name" '$0 ~ "^ */// BEGIN SHARED "n"$" {on = 1; next} $0 ~ "^ */// END SHARED "n"$" {on = 0} on' "$src" 2> /dev/null)"
             [[ -n "$orig" && "$copy" == "$orig" ]] || bad+=("$file ($name from $src)")
         done < <(grep -oP '/// BEGIN COPY \K\S+ from \S+' "$file" | sed 's/ from /|/')
-    done < <(git ls-files 'code_library/*.cpp')
+    done < <(git ls-files -co --exclude-standard 'code_library/*.cpp')
 
     echo "copies: ${#bad[@]} of $total copied regions differ from their original"
     [[ ${#bad[@]} -eq 0 ]] && return
@@ -337,9 +337,9 @@ check_whitespace(){  # tabs, trailing whitespace, CRLF or a missing final newlin
         if grep -qP '\t|[ \t]$|\r' "$file" || [[ -s "$file" && -n "$(tail -c1 "$file")" ]]; then
             bad+=("$file")
         fi
-    done < <(git ls-files '*.cpp' '*.h' '*.py' '*.md' '*.sh' '*.yml')
+    done < <(git ls-files -co --exclude-standard '*.cpp' '*.h' '*.py' '*.md' '*.sh' '*.yml')
 
-    echo "whitespace: ${#bad[@]} tracked files with tabs, trailing whitespace, CRLF or no final newline"
+    echo "whitespace: ${#bad[@]} files with tabs, trailing whitespace, CRLF or no final newline"
     [[ ${#bad[@]} -eq 0 ]] && return
     printf '  bad: %s\n' "${bad[@]}"
     failed=$((failed + ${#bad[@]}))
@@ -348,7 +348,7 @@ check_whitespace(){  # tabs, trailing whitespace, CRLF or a missing final newlin
 
 check_line_length(){  # a header or /// comment line is cut to 120 characters, never wrapped
     local bad=()
-    mapfile -t bad < <(git ls-files 'code_library/*.cpp' 'stress_tests/*.cpp' 'stress_tests/*.h' 'judge_tests/*.cpp' | xargs awk '
+    mapfile -t bad < <(git ls-files -co --exclude-standard 'code_library/*.cpp' 'stress_tests/*.cpp' 'stress_tests/*.h' 'judge_tests/*.cpp' | xargs awk '
         FNR == 1 {header = 0}
         /^\/\*\*\*/ {header = 1}
         (header || /\/\/\//) && length($0) > 120 {print FILENAME ":" FNR}
@@ -363,7 +363,7 @@ check_line_length(){  # a header or /// comment line is cut to 120 characters, n
 
 check_split_comments(){  # a comment is one /// line, so a sentence is never split over two
     local bad=()
-    mapfile -t bad < <(git ls-files 'code_library/*.cpp' 'stress_tests/*.cpp' 'stress_tests/*.h' 'judge_tests/*.cpp' | xargs awk '
+    mapfile -t bad < <(git ls-files -co --exclude-standard 'code_library/*.cpp' 'stress_tests/*.cpp' 'stress_tests/*.h' 'judge_tests/*.cpp' | xargs awk '
         FNR == 1 {prev = 0}
         /^[ \t]*\/\/\/ (BEGIN|END) (COPY|SHARED) / {prev = 0; next}
         /^[ \t]*\/\/\// {if (prev) print FILENAME ":" FNR; prev = 1; next}
@@ -380,7 +380,7 @@ check_style(){  # ){ and struct X{ open a body, ) {} is empty, keywords take a s
     local line bad=()
     while IFS= read -r line; do
         contains "${line%%:*}" "${STYLE_SKIP[@]}" || bad+=("$line")
-    done < <(git ls-files '*.cpp' '*.h' | xargs grep -nP '\) \{(?!\})|\b(struct|class|namespace|enum)\s+\w+(\s*:\s*[^{;]+)? \{(?!\})|\)\{\}|\b(for|if|while|switch)\(|\b(?!template\b)\w+ <(?=[\w:]+[\s\w:,<>*&]*>)')
+    done < <(git ls-files -co --exclude-standard '*.cpp' '*.h' | xargs grep -nP '\) \{(?!\})|\b(struct|class|namespace|enum)\s+\w+(\s*:\s*[^{;]+)? \{(?!\})|\)\{\}|\b(for|if|while|switch)\(|\b(?!template\b)\w+ <(?=[\w:]+[\s\w:,<>*&]*>)')
 
     echo "style: ${#bad[@]} lines off the brace or spacing convention"
     [[ ${#bad[@]} -eq 0 ]] && return
@@ -393,7 +393,7 @@ check_return_blank(){  # a return right after a } at its own indent is a new ste
     local line bad=()
     while IFS= read -r line; do
         contains "${line%%:*}" "${STYLE_SKIP[@]}" || bad+=("$line")
-    done < <(git ls-files '*.cpp' '*.h' | xargs awk '
+    done < <(git ls-files -co --exclude-standard '*.cpp' '*.h' | xargs awk '
         FNR == 1 {prev = ""}
         /^[ \t]*return[ ;(]/ {match($0, /^[ \t]*/); if (prev == substr($0, 1, RLENGTH) "}") print FILENAME ":" FNR}
         {prev = $0}')
@@ -407,7 +407,7 @@ check_return_blank(){  # a return right after a } at its own indent is a new ste
 
 check_api_order(){  # the code defines a template's public calls in the order its header lists them
     local bad=()
-    mapfile -t bad < <(git ls-files 'code_library/*.cpp' | xargs python3 .github/scripts/api_order.py)
+    mapfile -t bad < <(git ls-files -co --exclude-standard 'code_library/*.cpp' | xargs python3 .github/scripts/api_order.py)
 
     echo "api order: ${#bad[@]} templates defining header calls out of header order"
     [[ ${#bad[@]} -eq 0 ]] && return
@@ -418,7 +418,7 @@ check_api_order(){  # the code defines a template's public calls in the order it
 
 check_member_order(){  # a struct declares its types, constants and fields before its first method
     local bad=()
-    mapfile -t bad < <(git ls-files 'code_library/*.cpp' | xargs awk '
+    mapfile -t bad < <(git ls-files -co --exclude-standard 'code_library/*.cpp' | xargs awk '
         /^struct [A-Za-z_0-9]+( : [^{]+)?\{$/ {in_struct = 1; method = 0; next}
         in_struct && /^};/ {in_struct = 0; next}
         in_struct && /^    [^ \/}]/ {
@@ -433,6 +433,11 @@ check_member_order(){  # a struct declares its types, constants and fields befor
     failures+=("${bad[@]/%/ (member order)}")
 }
 
+changed_files(){  # files changed since CHANGED_SINCE in the working tree, new untracked files included
+    git diff --name-only "$CHANGED_SINCE"
+    git ls-files --others --exclude-standard
+}
+
 select_tests(){  # prints the tests to run, one per line
     local all changed file lib stress deps
     all="$(find "$TESTS_DIR" -type f \( -name '*.cpp' -o -name '*.py' \) ! -name 'stress.py' | sort)"
@@ -442,7 +447,7 @@ select_tests(){  # prints the tests to run, one per line
         return
     fi
 
-    changed="$(git diff --name-only "$CHANGED_SINCE")"  # the working tree, so uncommitted edits count too
+    changed="$(changed_files)"
     for file in "${SHARED[@]}"; do
         grep -qxF "$file" <<< "$changed" && { echo "$file changed, running everything" >&2; echo "$all"; return; }
     done
