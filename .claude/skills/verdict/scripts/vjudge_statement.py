@@ -140,11 +140,20 @@ def session():
     return s
 
 
+COOKIE_HELP = f"""vjudge blocks scripted logins with a human check, so log in with a browser and copy its JSESSIONID cookie into
+{DIR}/cookies (mode 600) as these two lines:
+#LWP-Cookies-2.0
+Set-Cookie3: JSESSIONID="<value>"; path="/"; domain="vjudge.net"; path_spec; discard; version=0"""
+
+
 def login(s):
     user, password = credentials()
     s.get(BASE + '/', timeout=30)
-    s.post(BASE + '/user/login', data={'username': user, 'password': password},
-           headers={'X-Requested-With': 'XMLHttpRequest', 'Referer': BASE + '/'}, timeout=30)
+    r = s.post(BASE + '/user/login', data={'username': user, 'password': password},
+               headers={'X-Requested-With': 'XMLHttpRequest', 'Referer': BASE + '/'}, timeout=30)
+    # A retry would only add to the scripted traffic that triggered the check
+    if r.status_code in (401, 403) or 'verification' in r.text.lower():
+        sys.exit(COOKIE_HELP)
     s.cookies.save(ignore_discard=True)
     os.chmod(s.cookies.filename, 0o600)
 
@@ -162,7 +171,7 @@ def problem_page(s, pid):
             sys.exit(f'{pid}: not found on vjudge')
         if attempt == 0:
             login(s)
-    sys.exit('vjudge login failed, check ~/.config/vjudge/credentials')
+    sys.exit('vjudge login failed: check ~/.config/vjudge/credentials, or\n' + COOKIE_HELP)
 
 
 def pdf_text(s, path):
