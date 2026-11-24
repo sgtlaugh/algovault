@@ -22,6 +22,7 @@
 
 using namespace std;
 
+/// BEGIN SHARED dsu
 struct DSU{
     vector<int> sz, parent;
 
@@ -55,6 +56,7 @@ struct DSU{
         return sz[find(i)];
     }
 };
+/// END SHARED dsu
 
 int main(){
     /// Groups {1, 2, 3} and {4, 5, 6, 7} merge into one

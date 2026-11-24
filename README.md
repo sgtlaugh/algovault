@@ -86,6 +86,7 @@ sa.contains("nab");         // false
 - [Disjoint Set Union](code_library/data_structures/disjoint_set.cpp) - merges sets and tells if two nodes share one [✓](judge_tests/data_structures/unionfind.cpp)
   - [Partially Persistent](code_library/data_structures/partially_persistent_dsu.cpp) - connectivity and component sizes at any past time
   - [Potential](code_library/data_structures/potential_dsu.cpp) - differences `x[b] - x[a]` within each set [✓](judge_tests/data_structures/unionfind_with_potential.cpp)
+  - [Range Parallel](code_library/data_structures/range_parallel_dsu.cpp) - joins two ranges position by position [✓](judge_tests/data_structures/range_parallel_unionfind.cpp)
   - [Rollback](code_library/data_structures/rollback_dsu.cpp) - unions can be undone, for offline connectivity [✓](judge_tests/data_structures/persistent_unionfind.cpp)
 - [Distinct Subarray Aggregates](code_library/data_structures/distinct_subarray_aggregates.cpp) - distinct `gcd`/`or`/`and` of subarrays ending at i
 - [Euler Tour Tree](code_library/data_structures/euler_tour_tree.cpp) - dynamic forest with subtree sums and subtree add [✓](judge_tests/data_structures/dynamic_tree_subtree_add_subtree_sum.cpp)
