@@ -160,9 +160,10 @@ check_coverage(){
 }
 
 check_readme(){
-    local lib missing=()
+    local lib index missing=()
+    index="$(grep -E '^ *- \[' README.md)"  # index entries, not prose links
     while IFS= read -r lib; do
-        grep -E '^ *- \[' README.md | grep -qF "($lib)" || missing+=("$lib")  # index entries, not prose links
+        grep -qF "($lib)" <<< "$index" || missing+=("$lib")
     done < <(find code_library -type f \( -name '*.cpp' -o -name '*.py' \) | sort)
 
     echo "readme index: ${#missing[@]} library files not linked from README.md"
