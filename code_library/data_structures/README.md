@@ -5,17 +5,17 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [CDQ Divide and Conquer](#cdq-divide-and-conquer) | [Convex Hull Trick](#convex-hull-trick) | [Coordinate Compression](#coordinate-compression) | [Disjoint Set Union](#disjoint-set-union) |
-| [Disjoint Set Union, Partially Persistent](#disjoint-set-union-partially-persistent) | [Disjoint Set Union, Potential](#disjoint-set-union-potential) | [Disjoint Set Union, Rollback](#disjoint-set-union-rollback) | [Disjoint Sparse Table](#disjoint-sparse-table) |
-| [Distinct Subarray Aggregates](#distinct-subarray-aggregates) | [Dynamic Segment Tree](#dynamic-segment-tree) | [Euler Tour Tree](#euler-tour-tree) | [Fast Set](#fast-set) |
-| [Fenwick Tree](#fenwick-tree) | [Fenwick Tree 2D](#fenwick-tree-2d) | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) | [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) |
-| [Fenwick Tree 3D](#fenwick-tree-3d) | [Hash Map](#hash-map) | [Interval Set and Map](#interval-set-and-map) | [Leftist Heap, Persistent](#leftist-heap-persistent) |
-| [Li Chao Tree](#li-chao-tree) | [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) | [Mo's Algorithm](#mos-algorithm) |
-| [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) | [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) | [Monotonic Stack](#monotonic-stack) |
-| [Ordered Set](#ordered-set) | [Permutation Tree](#permutation-tree) | [Persistent Segment Tree](#persistent-segment-tree) | [Rope](#rope) |
-| [Segment Tree](#segment-tree) | [Segment Tree 2D](#segment-tree-2d) | [Segment Tree Beats](#segment-tree-beats) | [Segment Tree Merging](#segment-tree-merging) |
-| [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) | [Square Root Decomposition](#square-root-decomposition) |
-| [Top-K Sum](#top-k-sum) | [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) |
-| [XOR Segment Tree](#xor-segment-tree) |  |  |  |
+| [Disjoint Set Union, Partially Persistent](#disjoint-set-union-partially-persistent) | [Disjoint Set Union, Potential](#disjoint-set-union-potential) | [Disjoint Set Union, Range Parallel](#disjoint-set-union-range-parallel) | [Disjoint Set Union, Rollback](#disjoint-set-union-rollback) |
+| [Disjoint Sparse Table](#disjoint-sparse-table) | [Distinct Subarray Aggregates](#distinct-subarray-aggregates) | [Dynamic Segment Tree](#dynamic-segment-tree) | [Euler Tour Tree](#euler-tour-tree) |
+| [Fast Set](#fast-set) | [Fenwick Tree](#fenwick-tree) | [Fenwick Tree 2D](#fenwick-tree-2d) | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) |
+| [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) | [Fenwick Tree 3D](#fenwick-tree-3d) | [Hash Map](#hash-map) | [Interval Set and Map](#interval-set-and-map) |
+| [Leftist Heap, Persistent](#leftist-heap-persistent) | [Li Chao Tree](#li-chao-tree) | [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) |
+| [Mo's Algorithm](#mos-algorithm) | [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) | [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) |
+| [Monotonic Stack](#monotonic-stack) | [Ordered Set](#ordered-set) | [Permutation Tree](#permutation-tree) | [Persistent Segment Tree](#persistent-segment-tree) |
+| [Rope](#rope) | [Segment Tree](#segment-tree) | [Segment Tree 2D](#segment-tree-2d) | [Segment Tree Beats](#segment-tree-beats) |
+| [Segment Tree Merging](#segment-tree-merging) | [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) |
+| [Square Root Decomposition](#square-root-decomposition) | [Top-K Sum](#top-k-sum) | [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) |
+| [Trie](#trie) | [XOR Segment Tree](#xor-segment-tree) |  |  |
 
 <!-- /toc -->
 
@@ -117,6 +117,11 @@
 - [UVa 12232 - Exclusive-OR](https://onlinejudge.org/external/122/12232.pdf) [✓](../../practice/data_structures/uva_12232.cpp "Accepted solution")
 - [UVa 12360 - Elecrical Pollution](https://onlinejudge.org/external/123/12360.pdf) [✓](../../practice/data_structures/uva_12360.cpp "Accepted solution")
 - [yukicoder 2294 - Union Path Query (Easy)](https://yukicoder.me/problems/no/2294)
+
+#### [Disjoint Set Union, Range Parallel](range_parallel_dsu.cpp)
+
+- [AtCoder ABC349 G - Palindrome Construction](https://atcoder.jp/contests/abc349/tasks/abc349_g)
+- [Luogu P3295 - [SCOI2016] 萌萌哒](https://www.luogu.com.cn/problem/P3295)
 
 #### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
