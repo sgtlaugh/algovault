@@ -266,7 +266,7 @@
 - [Codeforces 915D - Almost Acyclic Graph](https://codeforces.com/problemset/problem/915/D)
 - [CSES 1669 - Round Trip](https://cses.fi/problemset/task/1669)
 - [CSES 1678 - Round Trip II](https://cses.fi/problemset/task/1678)
-- [UVa 1572 - Self-Assembly](https://onlinejudge.org/external/15/1572.pdf)
+- [UVa 1572 - Self-Assembly](https://onlinejudge.org/external/15/1572.pdf) [✓](../../practice/graphs/uva_1572.cpp "Accepted solution")
 
 #### [Flow with Lower Bounds](lower_bound_flow.cpp)
 
