@@ -67,6 +67,54 @@ vector<pair<int, int>> random_graph(int n, bool multi){
     return edges;
 }
 
+/// reach[s][t] = 1 when s reaches t along the edges pointed as head says
+vector<vector<char>> reachable(int n, const vector<pair<int, int>>& edges, const vector<int>& head){
+    vector<vector<int>> out(n);
+    for (int i = 0; i < (int)edges.size(); i++){
+        auto [u, v] = edges[i];
+        out[head[i] == v ? u : v].push_back(head[i]);
+    }
+
+    vector<vector<char>> res(n, vector<char>(n, 0));
+    for (int s = 0; s < n; s++){
+        vector<int> queue = {s};
+        res[s][s] = 1;
+        for (size_t i = 0; i < queue.size(); i++){
+            for (int w : out[queue[i]]) if (!res[s][w]) res[s][w] = 1, queue.push_back(w);
+        }
+    }
+
+    return res;
+}
+
+int min_reach(const vector<vector<char>>& reach){
+    int res = INT_MAX;
+    for (auto& row : reach) res = min(res, (int)count(row.begin(), row.end(), 1));
+    return res;
+}
+
+/// orient against every one of the 2^m orientations: same best minimum reach, and components strongly connected
+void check_orient(int n, const vector<pair<int, int>>& edges, BridgeGraph& g){
+    int m = edges.size();
+    vector<int> head = g.orient();
+    assert((int)head.size() == m);
+    for (int i = 0; i < m; i++) assert(head[i] == edges[i].first || head[i] == edges[i].second);
+
+    auto reach = reachable(n, edges, head);
+    for (int s = 0; s < n; s++){
+        for (int t = 0; t < n; t++) if (g.comp[t] == g.comp[s]) assert(reach[s][t]);
+    }
+
+    if (m > 12) return;
+    int best = 0;
+    for (int mask = 0; mask < (1 << m); mask++){
+        vector<int> h(m);
+        for (int i = 0; i < m; i++) h[i] = mask >> i & 1 ? edges[i].second : edges[i].first;
+        best = max(best, min_reach(reachable(n, edges, h)));
+    }
+    assert(min_reach(reach) == best);
+}
+
 int main(){
     for (long long it = 0; it < stress::scaled(2500); it++){
         int n = stress::rand_int(1, it % 40 ? 12 : 250);
@@ -121,6 +169,20 @@ int main(){
             assert(c == 0 || groups[c - 1][0] < groups[c][0]);
             for (int x : groups[c]) assert(g.comp[x] == c);
         }
+
+        if (n <= 12 && edges.size() <= 30) check_orient(n, edges, g);
+    }
+
+    /// orient on a 2e5-node path and cycle: iterative, bridges toward the root's side, the cycle strongly connected
+    {
+        int big = 200000;
+        BridgeGraph line(big), ring(big);
+        for (int i = 0; i + 1 < big; i++) line.add_edge(i, i + 1);
+        for (int i = 0; i < big; i++) ring.add_edge(i, (i + 1) % big);
+        vector<int> head = line.orient();
+        for (int i = 0; i + 1 < big; i++) assert(head[i] == i);
+        head = ring.orient();
+        for (int i = 0; i < big; i++) assert(head[i] == (i + 1) % big);
     }
 
     /// A 2e5-node path: too deep for a recursive DFS on an 8 MB stack, too big for fixed 100010 arrays

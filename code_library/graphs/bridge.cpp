@@ -1,7 +1,7 @@
 /***
  *
  * Bridges and the Bridge Tree
- * Finds the bridges and 2-edge-connected components of an undirected graph, parallel edges and self loops allowed
+ * Bridges, 2-edge-connected components and a strong orientation of an undirected graph, multi-edges and loops allowed
  *
  * Complexity: O(n + m)
  *
@@ -10,10 +10,14 @@
  * g.get_bridge_tree(): adjacency lists over the g.count components, one tree edge per bridge, a forest
  * g.get_bridges(): each edge whose removal adds a component, with endpoints u, v, id and node counts cnt_u, cnt_v
  * g.get_components(): the 2-edge-connected components, the groups left after removing every bridge, each ascending
- * g.comp[v]: component of v in [0, g.count), numbered by smallest vertex, set by get_components and get_bridge_tree
+ * g.orient(): head[id], the endpoint edge id points to, so every component is strongly connected (details below)
+ * g.comp[v]: component of v in [0, g.count) by smallest vertex, set by get_bridge_tree, get_components and orient
  *
  * Notes:
  *   - A doubled edge is never a bridge
+ *   - orient points every bridge toward the largest component of its connected part
+ *   - That maximizes the fewest vertices any single vertex reaches over all orientations
+ *   - A connected graph has a strongly connected orientation iff it has no bridge (Robbins), and orient finds it
  *
 ***/
 
@@ -118,6 +122,39 @@ struct BridgeGraph{
         for (int v = 0; v < n; v++) groups[comp[v]].push_back(v);
         return groups;
     }
+
+    /// DFS from a vertex of the largest component: tree edges point down, other edges up, bridges back toward the root
+    vector<int> orient(){
+        vector<vector<int>> groups = get_components();
+        vector<char> is_bridge(m, 0), seen(m, 0), visited(n, 0);
+        for (auto& b : get_bridges()) is_bridge[b.id] = 1;
+
+        vector<int> head(m), order(n), edge_pos(n, 0), dfs_stack;
+        iota(order.begin(), order.end(), 0);
+        auto larger = [&](int a, int b){ return groups[comp[a]].size() > groups[comp[b]].size(); };
+        stable_sort(order.begin(), order.end(), larger);
+
+        for (int root : order){
+            if (visited[root]) continue;
+            visited[root] = 1;
+            dfs_stack.push_back(root);
+            while (!dfs_stack.empty()){
+                int u = dfs_stack.back();
+                if (edge_pos[u] == (int)adj[u].size()){
+                    dfs_stack.pop_back();
+                    continue;
+                }
+
+                auto [v, id] = adj[u][edge_pos[u]++];
+                if (seen[id]) continue;
+                seen[id] = 1;
+                head[id] = !visited[v] && is_bridge[id] ? u : v;
+                if (!visited[v]) visited[v] = 1, dfs_stack.push_back(v);
+            }
+        }
+
+        return head;
+    }
 };
 
 int main(){
@@ -154,6 +191,14 @@ int main(){
     g.add_edge(9, 7);
     assert((g.get_bridge_tree() == vector<vector<int>>{{}}));
     assert(g.comp == vector<int>(10, 0));
+
+    /// Orienting: the two triangles and the 2-3-4 triangle become directed cycles, bridge 4-5 points to {0, 1, 2, 3, 4}
+    BridgeGraph roads(8);
+    vector<pair<int, int>> streets = {{0, 1}, {1, 2}, {2, 0}, {2, 3}, {3, 4}, {4, 2}, {4, 5}, {5, 6}, {6, 7}, {7, 5}};
+    for (auto [u, v] : streets) roads.add_edge(u, v);
+    vector<int> head = roads.orient();
+    assert(head[6] == 4);
+    assert(head[0] == 1);
 
     /// The doubled edge 0-1 is no bridge and the self loop on 2 changes nothing
     BridgeGraph multi(4);

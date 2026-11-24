@@ -181,7 +181,7 @@ sa.contains("nab");         // false
 - [Absolute Center](code_library/graphs/absolute_center.cpp) - graph center and minimum diameter spanning tree [✓](judge_tests/graphs/minimum_diameter_spanning_tree.cpp)
 - [Articulation Points and Blocks](code_library/graphs/articulation_points.cpp) - cut vertices, blocks and the block-cut tree [✓](judge_tests/graphs/aoj_grl_3_a.cpp)
 - [Bellman-Ford](code_library/graphs/bellman_ford.cpp) - shortest paths with negative edges and cycles [✓](judge_tests/graphs/aoj_grl_1_b.cpp)
-- [Bridges](code_library/graphs/bridge.cpp) - bridges and 2-edge-connected components [✓](judge_tests/graphs/aoj_grl_3_b.cpp)
+- [Bridges](code_library/graphs/bridge.cpp) - bridges, 2-edge components, strong orientation [✓](judge_tests/graphs/aoj_grl_3_b.cpp)
 - [Cactus Graph](code_library/graphs/cactus.cpp) - cactus recognition, cycles and the cactus tree
 - [Chordal Graph](code_library/graphs/chordal_graph.cpp) - recognition, elimination order or induced cycle [✓](judge_tests/graphs/chordal_graph_recognition.cpp)
 - [Chromatic Number](code_library/graphs/chromatic_number.cpp) - minimum colors in a vertex coloring [✓](judge_tests/graphs/chromatic_number.cpp)
