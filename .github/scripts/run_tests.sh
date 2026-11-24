@@ -42,7 +42,7 @@ export UBSAN_OPTIONS="print_stacktrace=1"
 
 # Self-tests that cannot run in CI, with the reason
 SKIP=(
-    "code_library/hacking/anti_double_hash.cpp"  # the self-test runs a full collision search, ~150 s
+    "code_library/hacking/anti_double_hash.cpp"  # the self-test runs a full collision search, ~150 s under sanitizers
 )
 
 # Library files that intentionally have no stress test yet, with the reason
