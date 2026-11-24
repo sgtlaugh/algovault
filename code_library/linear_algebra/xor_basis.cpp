@@ -50,7 +50,7 @@ struct XorBasis{
         if (!x) return false;
 
         /// x now has no pivot bits, so clearing its leading bit from higher vectors keeps the form reduced
-        int top = 63 - __builtin_clzll(x);
+        int top = __lg(x);
         for (int i = top + 1; i < 64; i++){
             if (basis[i] >> top & 1) basis[i] ^= x;
         }
