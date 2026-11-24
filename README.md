@@ -412,6 +412,7 @@ The commands to run everything locally are in [CONTRIBUTING.md](CONTRIBUTING.md#
 - The skills in [`.claude/skills/`](.claude/skills) apply them:
   - `/crucible` adds or refactors a template
   - `/lucid` keeps the docs consistent
+  - `/verdict` solves a practice problem and commits the accepted solution
 
 ## License
 
