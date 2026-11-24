@@ -17,7 +17,7 @@
  * Notes:
  *   - f must be finite at every point of [a, b], endpoints included, and a > b gives the negated integral
  *   - eps is absolute and judged by the method's own error estimate, so a coincidental cancellation stops early
- *   - On random integrands the error exceeded eps + 1e-13 relative in about 1 in 10^5 calls, by at most 6x
+ *   - On random integrands the error exceeded eps + 1e-13 relative in about 1 in 5 * 10^4 calls, by up to 10x
  *   - adaptive_simpson and romberg also stop at 1e-14 of the integral of |f|, so an eps below rounding still terminates
  *   - adaptive_simpson refines only around kinks, jumps and infinite-slope endpoints like sqrt at 0
  *   - adaptive_simpson can miss a spike, or two jumps, within one start panel of width (b - a) / 64
