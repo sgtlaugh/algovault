@@ -10,8 +10,9 @@ on:
 permissions:
   contents: read
 
+# Each push tests only its own commits, so a push run is never cancelled: its group is its commit
 concurrency:
-  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.event_name }}
+  group: ${{ github.workflow }}-${{ github.event_name }}-${{ github.event_name == 'push' && github.sha || github.ref }}
   cancel-in-progress: true
 
 env:
