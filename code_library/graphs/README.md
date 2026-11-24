@@ -8,15 +8,16 @@
 | [Articulation Points and Blocks](#articulation-points-and-blocks) | [Bellman-Ford](#bellman-ford) | [Bridges](#bridges) | [Cactus Graph](#cactus-graph) |
 | [Chordal Graph](#chordal-graph) | [Chromatic Number](#chromatic-number) | [Complement Graph BFS](#complement-graph-bfs) | [Degree Sequence](#degree-sequence) |
 | [Dijkstra](#dijkstra) | [Directed MST](#directed-mst) | [Dominator Tree](#dominator-tree) | [Edge Coloring](#edge-coloring) |
-| [Euler Path](#euler-path) | [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) | [Functional Graph](#functional-graph) |
-| [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) | [Global Minimum Cut](#global-minimum-cut) | [Gomory-Hu Tree](#gomory-hu-tree) |
-| [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) | [K Shortest Walks](#k-shortest-walks) |
-| [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) | [Matroid Intersection, Weighted](#matroid-intersection-weighted) |
-| [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) |
-| [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) |
-| [Minimum Spanning Tree](#minimum-spanning-tree) | [Minimum Weight Cycle](#minimum-weight-cycle) | [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) |
-| [Online Bridges](#online-bridges) | [Online Dynamic Connectivity](#online-dynamic-connectivity) | [Range Edge Dijkstra](#range-edge-dijkstra) | [Reachability](#reachability) |
-| [Small Cycle Counting](#small-cycle-counting) | [Stable Marriage](#stable-marriage) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |
+| [Euler Path](#euler-path) | [Find Cycle](#find-cycle) | [Flow with Lower Bounds](#flow-with-lower-bounds) | [Floyd-Warshall](#floyd-warshall) |
+| [Functional Graph](#functional-graph) | [General Graph Matching](#general-graph-matching) | [General Graph Matching, Weighted](#general-graph-matching-weighted) | [Global Minimum Cut](#global-minimum-cut) |
+| [Gomory-Hu Tree](#gomory-hu-tree) | [Hopcroft-Karp](#hopcroft-karp) | [Hungarian Algorithm](#hungarian-algorithm) | [Johnson's Algorithm](#johnsons-algorithm) |
+| [K Shortest Walks](#k-shortest-walks) | [Kruskal Reconstruction Tree](#kruskal-reconstruction-tree) | [Manhattan MST](#manhattan-mst) | [Matroid Intersection](#matroid-intersection) |
+| [Matroid Intersection, Weighted](#matroid-intersection-weighted) | [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Maximum Flow, HLPP](#maximum-flow-hlpp) |
+| [Min Cost Circulation](#min-cost-circulation) | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) |
+| [Minimum Path Cover](#minimum-path-cover) | [Minimum Spanning Tree](#minimum-spanning-tree) | [Minimum Weight Cycle](#minimum-weight-cycle) | [Network Simplex](#network-simplex) |
+| [Offline Dynamic Connectivity](#offline-dynamic-connectivity) | [Online Bridges](#online-bridges) | [Online Dynamic Connectivity](#online-dynamic-connectivity) | [Range Edge Dijkstra](#range-edge-dijkstra) |
+| [Reachability](#reachability) | [Small Cycle Counting](#small-cycle-counting) | [Stable Marriage](#stable-marriage) | [Steiner Tree](#steiner-tree) |
+| [Strongly Connected Components](#strongly-connected-components) |  |  |  |
 
 <!-- /toc -->
 
@@ -258,6 +259,14 @@
 - [UVa 10129 - Play on Words](https://onlinejudge.org/external/101/10129.pdf) [✓](../../practice/graphs/uva_10129.cpp "Accepted solution")
 - [UVa 12152 - Traveling Shoemaker Problem](https://onlinejudge.org/external/121/12152.pdf) [✓](../../practice/graphs/uva_12152.cpp "Accepted solution")
 - [UVa 13246 - Chained Words](https://onlinejudge.org/external/132/13246.pdf) [✓](../../practice/graphs/uva_13246.cpp "Accepted solution")
+
+#### [Find Cycle](find_cycle.cpp)
+
+- [AOJ GRL_4_A - Cycle Detection for a Directed Graph](https://onlinejudge.u-aizu.ac.jp/problems/GRL_4_A)
+- [Codeforces 915D - Almost Acyclic Graph](https://codeforces.com/problemset/problem/915/D)
+- [CSES 1669 - Round Trip](https://cses.fi/problemset/task/1669)
+- [CSES 1678 - Round Trip II](https://cses.fi/problemset/task/1678)
+- [UVa 1572 - Self-Assembly](https://onlinejudge.org/external/15/1572.pdf)
 
 #### [Flow with Lower Bounds](lower_bound_flow.cpp)
 

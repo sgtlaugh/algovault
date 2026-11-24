@@ -192,6 +192,7 @@ sa.contains("nab");         // false
 - [Dominator Tree](code_library/graphs/dominator_tree.cpp) - immediate dominators from a root [✓](judge_tests/graphs/dominatortree.cpp)
 - [Edge Coloring](code_library/graphs/edge_coloring.cpp) - D colors if bipartite, D + 1 for simple graphs [✓](judge_tests/graphs/bipartite_edge_coloring.cpp)
 - [Euler Path](code_library/graphs/euler_path.cpp) - walk using every edge exactly once [✓](judge_tests/graphs/eulerian_trail_directed.cpp)
+- [Find Cycle](code_library/graphs/find_cycle.cpp) - any one cycle, directed or undirected, in O(n + m) [✓](judge_tests/graphs/cycle_detection.cpp)
 - [Flow with Lower Bounds](code_library/graphs/lower_bound_flow.cpp) - circulation and s-t flow with edge lower bounds [✓](judge_tests/graphs/aoj_grl_6_a_lower_bound.cpp)
 - [Floyd-Warshall](code_library/graphs/floyd_warshall.cpp) - all pairs shortest paths with negative cycles [✓](judge_tests/graphs/aoj_grl_1_c.cpp)
 - [Functional Graph](code_library/graphs/functional_graph.cpp) - cycles, tails and long jumps when out-degree is 1
