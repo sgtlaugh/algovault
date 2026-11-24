@@ -420,13 +420,7 @@ check_api_order(){  # the code defines a template's public calls in the order it
 
 check_member_order(){  # a struct declares its types, constants and fields before its first method
     local bad=()
-    mapfile -t bad < <(git ls-files -co --exclude-standard 'code_library/*.cpp' | xargs awk '
-        /^struct [A-Za-z_0-9]+( : [^{]+)?\{$/ {in_struct = 1; method = 0; next}
-        in_struct && /^};/ {in_struct = 0; next}
-        in_struct && /^    [^ \/}]/ {
-            if ($0 ~ /^    [^(=]*\(/ && $0 ~ /\{$/) method = 1
-            else if (method && $0 ~ /;$/ && $0 !~ /\(/ && $0 !~ /^    (return|friend) /) print FILENAME ":" FNR
-        }')
+    mapfile -t bad < <(git ls-files -co --exclude-standard 'code_library/*.cpp' | xargs python3 .github/scripts/member_order.py)
 
     echo "member order: ${#bad[@]} struct fields or types declared after a method"
     [[ ${#bad[@]} -eq 0 ]] && return
