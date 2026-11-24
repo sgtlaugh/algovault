@@ -3,7 +3,7 @@
  * CKY (Cocke Younger Kasami)
  * Decides whether a string belongs to a context-free language given in Chomsky normal form
  *
- * Complexity: O(n^3 B / 64 + n T) for B binary and T terminal rules, r n^2 / 4 bytes of memory
+ * Complexity: O(n^2 (r + B) + n^3 B / 64 + n T) for B binary and T terminal rules, r n^2 / 4 bytes of memory
  *
  * CKY parser(r): nonterminals 0..r-1
  * parser.add_binary(A, B, C): rule A -> B C
