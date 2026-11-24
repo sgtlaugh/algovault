@@ -246,6 +246,17 @@ PY
     while IFS= read -r line; do failures+=("$line (practice copies)"); done <<< "$drift"
 }
 
+check_order(){  # practice entries and README index siblings in natural order: case-insensitive, numbers by value
+    local bad=()
+    mapfile -t bad < <(python3 .github/scripts/check_order.py)
+
+    echo "order: ${#bad[@]} practice or index entries out of natural order"
+    [[ ${#bad[@]} -eq 0 ]] && return
+    printf '  bad: %s\n' "${bad[@]}"
+    failed=$((failed + ${#bad[@]}))
+    failures+=("${bad[@]/%/ (order)}")
+}
+
 check_practice_toc(){  # each practice README's table of contents matches its sections and solved counts
     local stale count=0
     stale="$(python3 .github/scripts/practice_toc.py --check)"
@@ -498,6 +509,7 @@ check_judge_marks
 check_practice
 check_practice_copies
 check_practice_toc
+check_order
 [[ "$MODE" == "self" ]] && check_old_judges
 [[ "$MODE" == "self" ]] && check_cpp20
 check_headers

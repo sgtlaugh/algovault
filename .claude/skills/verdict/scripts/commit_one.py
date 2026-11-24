@@ -1,10 +1,9 @@
 import os
-import re
 import subprocess
 import sys
 
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.abspath(__file__)), '../../../../.github/scripts'))
-from practice_toc import with_toc  # noqa: E402
+from practice_toc import natural, with_toc  # noqa: E402
 
 # commit_one.py <readme> <section header> <entry line> <solution path in repo> <message> [insert]
 # Adds the ✓ link to the entry inside the section (or inserts the entry in natural order with "insert"),
@@ -21,12 +20,6 @@ assert len(message) <= 72, f"subject is {len(message)} characters, at most 72"
 
 def git(*args, inp=None):
     return subprocess.run(["git", "-C", repo, *args], input=inp, capture_output=True, text=True, check=True).stdout
-
-
-def natural(line):
-    m = re.match(r"- \[(.+?) - ", line)
-    key = m.group(1) if m else line
-    return [int(t) if t.isdigit() else t.lower() for t in re.split(r"(\d+)", key)]
 
 
 def apply(text, done_ok=False):

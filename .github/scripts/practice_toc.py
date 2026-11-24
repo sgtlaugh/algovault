@@ -17,6 +17,16 @@ def slug(title):
     return re.sub(r'[^\w\- ]', '', title.lower()).replace(' ', '-')
 
 
+def natural(line):
+    """Sort key of a "- [Judge code - title](url)" practice entry or a "- [Name](path)" index entry.
+
+    Case-insensitive, with numbers compared by value, so Codeforces 932F comes before Codeforces 1083E.
+    """
+    m = re.match(r'\s*- \[(.+?)(?: - .*)?\]\(', line)
+    key = m.group(1) if m else line
+    return [int(t) if t.isdigit() else t.lower() for t in re.split(r'(\d+)', key)]
+
+
 def toc(text):
     """The table for a README's text: its section links in order, up to COLUMNS per row, the last row padded."""
     seen, sections = collections.Counter(), []

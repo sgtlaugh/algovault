@@ -65,8 +65,8 @@ sa.contains("nab");         // false
 - [Binomial Coefficients](code_library/combinatorics/binomial_coefficients.cpp) - n choose k modulo any m, prime or not [✓](judge_tests/combinatorics/binomial_coefficient.cpp)
 - [Combinatorics](code_library/combinatorics/combinatorics.cpp) - factorial tables, nCr and nPr modulo a prime [✓](judge_tests/combinatorics/binomial_coefficient_prime_mod.cpp)
 - [Eulerian Numbers](code_library/combinatorics/eulerian_numbers.cpp) - permutations with k ascents, modulo any m
-- [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of `1..n`
 - [Fast Factorial](code_library/combinatorics/fast_factorial.cpp) - `n!` modulo a prime p in `O(sqrt(p) log p)` [✓](judge_tests/combinatorics/factorial.cpp)
+- [Faulhaber's Formula](code_library/combinatorics/faulhaber_formula.cpp) - sum of k-th powers of `1..n`
 - [Gambler's Ruin](code_library/combinatorics/gamblers_ruin.cpp) - probability that the first player goes broke
 - [Josephus Problem](code_library/combinatorics/josephus_problem.cpp) - the m-th one out when every k-th person leaves [✓](judge_tests/combinatorics/aoj_0085.cpp)
 - [Necklaces](code_library/combinatorics/necklaces.cpp) - ring colorings up to rotation or reflection
@@ -348,8 +348,8 @@ sa.contains("nab");         // false
 - [Dates](code_library/misc/dates.cpp) - day numbers, weekdays, leap years, two calendars [✓](judge_tests/misc/aoj_0125.cpp)
 - [Expression Parser](code_library/misc/expression_parser.cpp) - infix to postfix, evaluation over any number type [✓](judge_tests/misc/aoj_0109.cpp)
 - [Fast I/O](code_library/misc/fast_io.cpp) - fast buffered input and output [✓](judge_tests/misc/many_aplusb.cpp)
-- [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
 - [Graph Game](code_library/misc/graph_game.cpp) - win, lose or draw in games with cyclic moves
+- [Gray Codes](code_library/misc/gray_codes.cpp) - Gray code and its inverse
 - [Hackenbush](code_library/misc/hackenbush.cpp) - green values on graphs, red-blue on trees
 - [Knight Distance](code_library/misc/knight_distance.cpp) - fewest knight moves on an infinite board in `O(1)`
 - [N Queens](code_library/misc/n_queen.cpp) - N queens count, optionally with blocked squares
