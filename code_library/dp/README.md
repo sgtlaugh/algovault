@@ -7,8 +7,8 @@
 | [Aliens Trick (WQS)](#aliens-trick-wqs) | [Block Removal DP](#block-removal-dp) | [Bounded Knapsack](#bounded-knapsack) | [Bounded Subset Sum](#bounded-subset-sum) |
 | [CKY, Weighted](#cky-weighted) | [Concave 1D1D DP](#concave-1d1d-dp) | [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) |
 | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) | [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) |
-| [Longest Increasing Subsequence](#longest-increasing-subsequence) | [Maximum Square](#maximum-square) | [Meet in the Middle](#meet-in-the-middle) | [Monotone Minima and SMAWK](#monotone-minima-and-smawk) |
-| [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) | [Tree Knapsack](#tree-knapsack) |  |
+| [Longest Increasing Subsequence](#longest-increasing-subsequence) | [Longest Increasing Subsequence, Range Queries](#longest-increasing-subsequence-range-queries) | [Maximum Square](#maximum-square) | [Meet in the Middle](#meet-in-the-middle) |
+| [Monotone Minima and SMAWK](#monotone-minima-and-smawk) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) | [Tree Knapsack](#tree-knapsack) |
 
 <!-- /toc -->
 
@@ -132,6 +132,11 @@
 - [UVa 12747 - Back to Edit Distance](https://onlinejudge.org/external/127/12747.pdf) [✓](../../practice/dp/uva_12747.cpp "Accepted solution")
 - [yukicoder 992 - 最長増加部分列の数え上げ](https://yukicoder.me/problems/no/992)
 - [yukicoder 2230 - Good Omen of White Lotus](https://yukicoder.me/problems/no/2230)
+
+#### [Longest Increasing Subsequence, Range Queries](range_lis.cpp)
+
+- [LibreOJ 184 - 单位蒙日矩阵乘法](https://loj.ac/p/184)
+- [Luogu P2075 - 区间 LIS](https://www.luogu.com.cn/problem/P2075)
 
 #### [Maximum Square](maximum_square.cpp)
 
