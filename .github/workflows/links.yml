@@ -15,17 +15,22 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       # These judges answer bots with 403 whether or not the page exists, so checking them proves nothing
-      # 429 means rate limited, not dead
+      # POJ answers 502 for weeks at a time, so it proves nothing either
+      # 429 means rate limited, not dead, and retries ride out a short outage like a GitHub 503
       - uses: lycheeverse/lychee-action@v2
         with:
           fail: true
           args: >-
             --no-progress
             --max-concurrency 8
+            --max-retries 3
+            --retry-wait-time 10
             --accept 200..=299,429
             --exclude codeforces\.com
             --exclude spoj\.com
             --exclude dmoj\.ca
             --exclude leetcode\.com
             --exclude qoj\.ac
+            --exclude poj\.org
+            --exclude hackerearth\.com
             README.md CONTRIBUTING.md code_library/*/README.md
