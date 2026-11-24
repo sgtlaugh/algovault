@@ -4,19 +4,27 @@
 
 | **Templates** | | | |
 |---|---|---|---|
-| [Convex Hull Trick](#convex-hull-trick) | [Coordinate Compression](#coordinate-compression) | [Disjoint Set Union](#disjoint-set-union) | [Disjoint Set Union, Partially Persistent](#disjoint-set-union-partially-persistent) |
-| [Disjoint Set Union, Potential](#disjoint-set-union-potential) | [Disjoint Set Union, Rollback](#disjoint-set-union-rollback) | [Disjoint Sparse Table](#disjoint-sparse-table) | [Distinct Subarray Aggregates](#distinct-subarray-aggregates) |
-| [Dynamic Segment Tree](#dynamic-segment-tree) | [Euler Tour Tree](#euler-tour-tree) | [Fast Set](#fast-set) | [Fenwick Tree](#fenwick-tree) |
-| [Fenwick Tree 2D](#fenwick-tree-2d) | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) | [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) | [Fenwick Tree 3D](#fenwick-tree-3d) |
-| [Hash Map](#hash-map) | [Interval Set and Map](#interval-set-and-map) | [Leftist Heap, Persistent](#leftist-heap-persistent) | [Li Chao Tree](#li-chao-tree) |
-| [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) | [Mo's Algorithm](#mos-algorithm) | [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) |
-| [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) | [Monotonic Stack](#monotonic-stack) | [Ordered Set](#ordered-set) |
-| [Permutation Tree](#permutation-tree) | [Persistent Segment Tree](#persistent-segment-tree) | [Rope](#rope) | [Segment Tree](#segment-tree) |
-| [Segment Tree 2D](#segment-tree-2d) | [Segment Tree Beats](#segment-tree-beats) | [Segment Tree Merging](#segment-tree-merging) | [Sliding Window Aggregation](#sliding-window-aggregation) |
-| [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) | [Square Root Decomposition](#square-root-decomposition) | [Top-K Sum](#top-k-sum) |
-| [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) | [XOR Segment Tree](#xor-segment-tree) |
+| [CDQ Divide and Conquer](#cdq-divide-and-conquer) | [Convex Hull Trick](#convex-hull-trick) | [Coordinate Compression](#coordinate-compression) | [Disjoint Set Union](#disjoint-set-union) |
+| [Disjoint Set Union, Partially Persistent](#disjoint-set-union-partially-persistent) | [Disjoint Set Union, Potential](#disjoint-set-union-potential) | [Disjoint Set Union, Rollback](#disjoint-set-union-rollback) | [Disjoint Sparse Table](#disjoint-sparse-table) |
+| [Distinct Subarray Aggregates](#distinct-subarray-aggregates) | [Dynamic Segment Tree](#dynamic-segment-tree) | [Euler Tour Tree](#euler-tour-tree) | [Fast Set](#fast-set) |
+| [Fenwick Tree](#fenwick-tree) | [Fenwick Tree 2D](#fenwick-tree-2d) | [Fenwick Tree 2D, Implicit](#fenwick-tree-2d-implicit) | [Fenwick Tree 2D, Sparse](#fenwick-tree-2d-sparse) |
+| [Fenwick Tree 3D](#fenwick-tree-3d) | [Hash Map](#hash-map) | [Interval Set and Map](#interval-set-and-map) | [Leftist Heap, Persistent](#leftist-heap-persistent) |
+| [Li Chao Tree](#li-chao-tree) | [Link-Cut Tree](#link-cut-tree) | [Merge Sort Tree and Wavelet](#merge-sort-tree-and-wavelet) | [Mo's Algorithm](#mos-algorithm) |
+| [Mo's Algorithm On Tree Paths](#mos-algorithm-on-tree-paths) | [Mo's Algorithm With Rollback](#mos-algorithm-with-rollback) | [Mo's Algorithm With Updates](#mos-algorithm-with-updates) | [Monotonic Stack](#monotonic-stack) |
+| [Ordered Set](#ordered-set) | [Permutation Tree](#permutation-tree) | [Persistent Segment Tree](#persistent-segment-tree) | [Rope](#rope) |
+| [Segment Tree](#segment-tree) | [Segment Tree 2D](#segment-tree-2d) | [Segment Tree Beats](#segment-tree-beats) | [Segment Tree Merging](#segment-tree-merging) |
+| [Sliding Window Aggregation](#sliding-window-aggregation) | [Sparse Table](#sparse-table) | [Sparse Table 2D](#sparse-table-2d) | [Square Root Decomposition](#square-root-decomposition) |
+| [Top-K Sum](#top-k-sum) | [Treap](#treap) | [Treap, Run-Length Implicit](#treap-run-length-implicit) | [Trie](#trie) |
+| [XOR Segment Tree](#xor-segment-tree) |  |  |  |
 
 <!-- /toc -->
+
+#### [CDQ Divide and Conquer](cdq_divide_conquer.cpp)
+
+- [AtCoder JOISC2019 A - 試験 (Examination)](https://atcoder.jp/contests/joisc2019/tasks/joisc2019_a)
+- [Codeforces 848C - Goodbye Souvenir](https://codeforces.com/problemset/problem/848/C)
+- [LibreOJ 112 - 三维偏序](https://loj.ac/p/112)
+- [LibreOJ 3146 - 「APIO2019」路灯](https://loj.ac/p/3146)
 
 #### [Convex Hull Trick](convex_hull_trick.cpp)
 
