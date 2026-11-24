@@ -304,7 +304,9 @@ check_headers(){  # every template opens with a header that states its complexit
 
 check_complexity_notation(){  # products inside O(...) are written with a space, O(n m), never O(n * m)
     local bad=()
-    mapfile -t bad < <(git grep -nE '\bO\([^)]*\*' -- 'code_library/*.cpp' 'code_library/*.py' 'code_library/*.md' README.md)
+    # The recursive group matches nested parentheses, so O(sqrt(n) * m) is caught too
+    mapfile -t bad < <(git grep --untracked -noP '\bO(\((?:[^()]|(?1))*\))' -- 'code_library/*.cpp' 'code_library/*.py' \
+        'code_library/*.md' README.md | grep -F '*')
 
     echo "complexity notation: ${#bad[@]} O(...) products written with *"
     [[ ${#bad[@]} -eq 0 ]] && return
