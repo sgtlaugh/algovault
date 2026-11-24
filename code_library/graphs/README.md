@@ -15,7 +15,7 @@
 | [Maximum Clique](#maximum-clique) | [Maximum Flow](#maximum-flow) | [Maximum Flow, HLPP](#maximum-flow-hlpp) | [Min Cost Circulation](#min-cost-circulation) |
 | [Min Cost Max Flow, Dijkstra](#min-cost-max-flow-dijkstra) | [Min Cost Max Flow, SPFA](#min-cost-max-flow-spfa) | [Minimum Mean Cycle (Karp)](#minimum-mean-cycle-karp) | [Minimum Path Cover](#minimum-path-cover) |
 | [Minimum Spanning Tree](#minimum-spanning-tree) | [Minimum Weight Cycle](#minimum-weight-cycle) | [Network Simplex](#network-simplex) | [Offline Dynamic Connectivity](#offline-dynamic-connectivity) |
-| [Offline Dynamic Connectivity, Online](#offline-dynamic-connectivity-online) | [Online Bridges](#online-bridges) | [Range Edge Dijkstra](#range-edge-dijkstra) | [Reachability](#reachability) |
+| [Online Bridges](#online-bridges) | [Online Dynamic Connectivity](#online-dynamic-connectivity) | [Range Edge Dijkstra](#range-edge-dijkstra) | [Reachability](#reachability) |
 | [Small Cycle Counting](#small-cycle-counting) | [Stable Marriage](#stable-marriage) | [Steiner Tree](#steiner-tree) | [Strongly Connected Components](#strongly-connected-components) |
 
 <!-- /toc -->
@@ -639,14 +639,14 @@
 - [CSES 2133 - Dynamic Connectivity](https://cses.fi/problemset/task/2133) [✓](../../practice/graphs/cses_2133.cpp "Accepted solution")
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/) [✓](../../practice/graphs/spoj_dynacon1_offline_dynamic_connectivity.cpp "Accepted solution")
 
-#### [Offline Dynamic Connectivity, Online](online_dynamic_connectivity.cpp)
-
-- [Codeforces 1217F - Forced Online Queries Problem](https://codeforces.com/problemset/problem/1217/F)
-- [LibreOJ 122 - 「强制在线」动态图连通性](https://loj.ac/p/122)
-
 #### [Online Bridges](online_bridges.cpp)
 
 - [HDU 2460 - Network](https://acm.hdu.edu.cn/showproblem.php?pid=2460)
+
+#### [Online Dynamic Connectivity](online_dynamic_connectivity.cpp)
+
+- [Codeforces 1217F - Forced Online Queries Problem](https://codeforces.com/problemset/problem/1217/F)
+- [LibreOJ 122 - 「强制在线」动态图连通性](https://loj.ac/p/122)
 
 #### [Range Edge Dijkstra](range_edge_dijkstra.cpp)
 
