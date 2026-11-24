@@ -13,7 +13,7 @@ struct NaiveTree{
         for (auto [u, v, w] : edges) adj[u].push_back({(int)v, w}), adj[v].push_back({(int)u, w});
 
         vector<bool> seen(n, false);
-        order = {root}, seen[root] = true;
+        order.assign(1, root), seen[root] = true;
         for (int i = 0; i < (int)order.size(); i++){
             int u = order[i];
             for (auto [v, w] : adj[u]){
