@@ -1,10 +1,11 @@
 /***
  *
  * Longest Increasing Subsequence
- * LIS and LDS lengths ending at every index, plus one longest subsequence as indices
+ * LIS and LDS lengths ending at every index, one longest subsequence as indices, and the number of them
  *
  * Complexity: O(n log n)
  *
+ * lis_count(a, allow_equal, mod): number of longest increasing subsequences as index sets, modulo mod, 1 <= mod <= 2^62
  * lis_vector(a, allow_equal, cmp)[i]: length of the longest increasing subsequence ending at index i
  * lis_indices(a, allow_equal, cmp): increasing indices of one longest increasing subsequence, empty for empty input
  * lis_length(a, allow_equal): length of the longest increasing subsequence
@@ -15,12 +16,39 @@
  *   - cmp is a strict weak ordering that defines "increasing", less<T> by default
  *   - allow_equal = true gives the non-decreasing and non-increasing versions
  *   - lis_indices(a, false, greater<T>()) gives one longest decreasing subsequence
+ *   - lis_count counts 1 for empty input; equal values at different indices give different subsequences
  *
 ***/
 
 #include <bits/stdtr1c++.h>
 
 using namespace std;
+
+/// Each pile's values never rise, so the ones before x form a suffix: its count is a prefix sum difference
+template <typename T>
+long long lis_count(const vector<T>& ar, bool allow_equal, long long mod){
+    assert(1 <= mod && mod <= (1LL << 62));
+    auto before = [&](const T& y, const T& x){ return allow_equal ? !(x < y) : y < x; };
+    vector<vector<T>> piles;
+    vector<vector<long long>> sums;  /// sums[k][j] = ways of the first j values of pile k, modulo mod
+
+    for (const T& x : ar){
+        auto top_before = [&](const vector<T>& p){ return before(p.back(), x); };
+        int k = partition_point(piles.begin(), piles.end(), top_before) - piles.begin();
+        long long ways = 1 % mod;
+        if (k > 0){
+            const vector<T>& prev = piles[k - 1];
+            int j = partition_point(prev.begin(), prev.end(), [&](const T& y){ return !before(y, x); }) - prev.begin();
+            ways = (sums[k - 1].back() - sums[k - 1][j] + mod) % mod;
+        }
+
+        if (k == (int)piles.size()) piles.emplace_back(), sums.push_back({0});
+        piles[k].push_back(x);
+        sums[k].push_back((sums[k].back() + ways) % mod);
+    }
+
+    return piles.empty() ? 1 % mod : sums.back().back();
+}
 
 template <typename T, typename Compare = less<T>>
 vector<int> lis_vector(const vector<T>& ar, bool allow_equal=false, Compare cmp=Compare()){
@@ -116,6 +144,11 @@ int main(){
     assert((lis_indices(vector<int>{2, 8, 3, 9, 4, 1, 5}) == vector<int>{0, 2, 4, 6}));
     assert((lis_indices(vector<int>{1, 3, 3, 2, 2, 2, 4}, true) == vector<int>{0, 3, 4, 5, 6}));
     assert((lis_indices(vector<int>{9, 4, 10, 3, 1}, false, greater<int>()) == vector<int>{0, 1, 3, 4}));
+    /// {1, 3, 2, 4}: lengths 3 by 1 3 4 and 1 2 4; {2, 2}: two single-index subsequences, one pair when non-decreasing
+    assert(lis_count(vector<int>{1, 3, 2, 4}, false, 1000000007) == 2);
+    assert(lis_count(vector<int>{2, 2}, false, 1000000007) == 2);
+    assert(lis_count(vector<int>{2, 2}, true, 1000000007) == 1);
+
     assert((lis_indices(vector<string>{"ccc", "a", "bb", "dddd"}, false, [](const string& x, const string& y){ return x.size() < y.size(); }) == vector<int>{1, 2, 3}));
 
     return 0;

@@ -63,7 +63,80 @@ void check_by_length(const vector<string>& s){
     check_chain(s, lis_indices(s, true, shorter), not_longer, non_dec);
 }
 
+/// Number of longest chains over all 2^n index subsets, exact
+long long brute_count(const vector<int>& a, bool allow_equal){
+    int n = a.size(), best = 0;
+    long long ways = 0;
+    for (int mask = 0; mask < (1 << n); mask++){
+        int last = -1, len = 0;
+        bool ok = true;
+        for (int i = 0; i < n && ok; i++){
+            if (!(mask >> i & 1)) continue;
+            ok = last == -1 || (allow_equal ? a[last] <= a[i] : a[last] < a[i]);
+            last = i, len++;
+        }
+        if (!ok) continue;
+        if (len > best) best = len, ways = 0;
+        if (len == best) ways++;
+    }
+
+    return ways;
+}
+
+/// O(n^2) count DP modulo mod, the reference for inputs too long to enumerate
+long long dp_count(const vector<int>& a, bool allow_equal, long long mod){
+    int n = a.size();
+    vector<int> len(n, 1);
+    vector<long long> ways(n, 1 % mod);
+    for (int i = 0; i < n; i++){
+        for (int j = 0; j < i; j++){
+            if (!(allow_equal ? a[j] <= a[i] : a[j] < a[i])) continue;
+            if (len[j] + 1 > len[i]) len[i] = len[j] + 1, ways[i] = ways[j];
+            else if (len[j] + 1 == len[i]) ways[i] = (ways[i] + ways[j]) % mod;
+        }
+    }
+
+    int best = n ? *max_element(len.begin(), len.end()) : 0;
+    long long res = n ? 0 : 1 % mod;
+    for (int i = 0; i < n; i++) if (len[i] == best) res = (res + ways[i]) % mod;
+    return res;
+}
+
+void check_count(){
+    /// Every array over {0..2} up to length 9, both strictnesses, against enumeration of all subsets
+    for (int n = 0; n <= 9; n++){
+        int total = 1;
+        for (int i = 0; i < n; i++) total *= 3;
+        for (int code = 0; code < total; code++){
+            vector<int> a(n);
+            for (int i = 0, c = code; i < n; i++, c /= 3) a[i] = c % 3;
+            for (bool eq : {false, true}) assert(lis_count(a, eq, 1LL << 62) == brute_count(a, eq));
+        }
+    }
+
+    /// Lengths up to 16 against enumeration, longer ones against the O(n^2) DP, moduli 1, 7, 1e9+7 and 2^62
+    for (long long it = 0; it < stress::scaled(3000); it++){
+        int n = stress::rand_int(0, it % 2 ? 16 : 300), spread = stress::rand_int(1, it % 3 ? 4 : 1000000000);
+        vector<int> a(n);
+        for (int& x : a) x = stress::rand_int(-spread, spread);
+        long long mod = it % 4 == 0 ? 1 : it % 4 == 1 ? 7 : it % 4 == 2 ? 1000000007 : 1LL << 62;
+        for (bool eq : {false, true}){
+            if (n <= 16) assert(lis_count(a, eq, 1LL << 62) == brute_count(a, eq));
+            assert(lis_count(a, eq, mod) == dp_count(a, eq, mod));
+        }
+    }
+
+    /// 2^40 longest subsequences: 40 pairs {2k+1, 2k} each offering two choices, exact below 2^62
+    vector<int> pairs;
+    for (int k = 0; k < 40; k++) pairs.push_back(2 * k + 1), pairs.push_back(2 * k);
+    assert(lis_count(pairs, false, 1LL << 62) == 1LL << 40);
+
+    stress::expect_assert("dp/lis.cpp", []{ lis_count(vector<int>{1}, false, 0); });
+}
+
 int main(){
+    check_count();
+
     for (long long it = 0; it < stress::scaled(1200); it++){
         int n = stress::rand_int(0, it % 10 ? 25 : 400), spread = stress::rand_int(1, it % 3 ? 5 : 1000000000);
         vector<int> a(n);

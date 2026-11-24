@@ -145,7 +145,7 @@ sa.contains("nab");         // false
 - [Hamiltonian Path and Cycle](code_library/dp/hamiltonian_dp.cpp) - shortest Hamiltonian path and cycle [✓](judge_tests/dp/aoj_dpl_2_a.cpp)
 - [Knuth Optimization](code_library/dp/knuth_optimization.cpp) - interval DP over split points in `O(n^2)` [✓](judge_tests/dp/aoj_alds1_10_d.cpp)
 - [Longest Common Increasing Subsequence](code_library/dp/lcis.cpp) - LCIS and one witness in `O(n m)`
-- [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS with one optimal subsequence [✓](judge_tests/dp/longest_increasing_subsequence.cpp)
+- [Longest Increasing Subsequence](code_library/dp/lis.cpp) - LIS and LDS, one optimal subsequence and the count [✓](judge_tests/dp/longest_increasing_subsequence.cpp)
 - [Maximum Square](code_library/dp/maximum_square.cpp) - largest filled square and diamond at each cell [✓](judge_tests/dp/aoj_dpl_3_a.cpp)
 - [Meet in the Middle](code_library/dp/meet_in_the_middle.cpp) - subset sums and knapsack of up to 44 items [✓](judge_tests/dp/aoj_dpl_1_h.cpp)
 - [Monotone Minima and SMAWK](code_library/dp/monotone_minima.cpp) - row minima of a Monge or monotone matrix [✓](judge_tests/dp/min_plus_convolution_convex_arbitrary_smawk.cpp)
