@@ -14,6 +14,7 @@
 #        CHANGED_SINCE=ref  only run tests whose library file, stress test or a library file that stress test includes
 #                           changed since ref, everything when a shared file changed or ref is unknown
 #        TEST_BUDGET=s      fail tests that pass but take longer than s seconds, so slow tests cannot pile up
+#        COMPILE_ONLY=1     build the C++ tests without running them, with BUILD=fast to catch warnings only -O2 raises
 #
 set -uo pipefail
 
@@ -27,6 +28,7 @@ TEST_TIMEOUT="${TEST_TIMEOUT:-300}"
 TEST_BUDGET="${TEST_BUDGET:-0}"
 JOBS="${JOBS:-$(nproc)}"
 BUILD_MODE="${BUILD:-sanitize}"
+COMPILE_ONLY="${COMPILE_ONLY:-}"
 [[ "$BUILD_MODE" == "sanitize" || "$BUILD_MODE" == "fast" ]] || { echo "BUILD must be sanitize or fast"; exit 2; }
 
 # Sanitizers abort on the first error so UB fails the test, the glibc++ assertions catch out of range container access
@@ -102,6 +104,11 @@ run_one(){  # repo relative path
         return
     fi
 
+    if [[ -n "$COMPILE_ONLY" && "$rel" == *.py ]]; then
+        printf 'SKIP\t%s\t\n' "$rel" >> "$BUILD_DIR/results"
+        return
+    fi
+
     start=$(date +%s)
     if [[ "$rel" == *.py ]]; then
         timeout "$TEST_TIMEOUT" "$PYTHON" "$src" < /dev/null > "$log" 2>&1
@@ -112,6 +119,11 @@ run_one(){  # repo relative path
         local compile=("$CXX" "${CXXFLAGS[@]}" -o "$exe" "$src" "${link[@]}")
         if ! "${compile[@]}" > "$log" 2>&1; then
             report_failure "$rel" "compile error" "$log"
+            return
+        fi
+        if [[ -n "$COMPILE_ONLY" ]]; then
+            echo "ok    $rel  (compiled)"
+            printf 'OK\t%s\t\n' "$rel" >> "$BUILD_DIR/results"
             return
         fi
         timeout "$TEST_TIMEOUT" "$exe" < /dev/null >> "$log" 2>&1
