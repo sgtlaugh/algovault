@@ -100,7 +100,7 @@
 
 #### [Parallel Binary Search](parallel_binary_search.cpp)
 
-- [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d)
+- [AtCoder AGC002 D - Stamp Rally](https://atcoder.jp/contests/agc002/tasks/agc002_d) [✓](../../practice/misc/atcoder_agc002_d.cpp "Accepted solution")
 - [Codeforces 484E - Sign on Fence](https://codeforces.com/problemset/problem/484/E)
 - [CSES 2101 - New Roads Queries](https://cses.fi/problemset/task/2101)
 - [SPOJ METEORS - Meteors](https://www.spoj.com/problems/METEORS/)
