@@ -67,7 +67,7 @@
 
 #### [Graph Game](graph_game.cpp)
 
-- [AtCoder ABC209 E - Shiritori](https://atcoder.jp/contests/abc209/tasks/abc209_e)
+- [AtCoder ABC209 E - Shiritori](https://atcoder.jp/contests/abc209/tasks/abc209_e) [✓](../../practice/misc/atcoder_abc209_e.cpp "Accepted solution")
 - [Codeforces 786A - Berzerk](https://codeforces.com/problemset/problem/786/A)
 
 #### [Hackenbush](hackenbush.cpp)
