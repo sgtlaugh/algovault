@@ -660,7 +660,7 @@
 
 #### [Range Edge Dijkstra](range_edge_dijkstra.cpp)
 
-- [Codeforces 786B - Legacy](https://codeforces.com/problemset/problem/786/B)
+- [Codeforces 786B - Legacy](https://codeforces.com/problemset/problem/786/B) [✓](../../practice/graphs/codeforces_786b.cpp "Accepted solution")
 - [Luogu P6348 - [PA 2011] Journeys](https://www.luogu.com.cn/problem/P6348)
 
 #### [Reachability](reachability.cpp)
