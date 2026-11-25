@@ -143,7 +143,7 @@
 
 - [oj.uz Balkan15_HAPPINESS - Happiness](https://oj.uz/problem/view/Balkan15_HAPPINESS)
 - [oj.uz IZhO12_apple - Monkey and Apple-trees](https://oj.uz/problem/view/IZhO12_apple)
-- [yukicoder 789 - 範囲の合計](https://yukicoder.me/problems/no/789)
+- [yukicoder 789 - 範囲の合計](https://yukicoder.me/problems/no/789) [✓](../../practice/data_structures/yukicoder_789.cpp "Accepted solution")
 
 #### [Euler Tour Tree](euler_tour_tree.cpp)
 
