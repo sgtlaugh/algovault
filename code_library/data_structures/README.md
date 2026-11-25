@@ -241,7 +241,7 @@
 
 #### [Historic Segment Tree](historic_segment_tree.cpp)
 
-- [Luogu P3246 - [HNOI2016] 序列](https://www.luogu.com.cn/problem/P3246)
+- [Luogu P3246 - [HNOI2016] 序列](https://www.luogu.com.cn/problem/P3246) [✓](../../practice/data_structures/luogu_p3246.cpp "Accepted solution")
 - [SPOJ GSS2 - Can you answer these queries II](https://www.spoj.com/problems/GSS2/) [✓](../../practice/data_structures/spoj_gss2.cpp "Accepted solution")
 
 #### [Interval Set and Map](interval_set.cpp)
