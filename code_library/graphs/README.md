@@ -145,7 +145,7 @@
 
 #### [Complement Graph BFS](complement_graph_bfs.cpp)
 
-- [Codeforces 190E - Counter Attack](https://codeforces.com/problemset/problem/190/E)
+- [Codeforces 190E - Counter Attack](https://codeforces.com/problemset/problem/190/E) [✓](../../practice/graphs/codeforces_190e.cpp "Accepted solution")
 - [Codeforces 920E - Connected Components?](https://codeforces.com/problemset/problem/920/E)
 - [Codeforces 1242B - 0-1 MST](https://codeforces.com/problemset/problem/1242/B)
 
