@@ -145,7 +145,7 @@
 
 #### [Static Top Tree](static_top_tree.cpp)
 
-- [AtCoder ABC351 G - Hash on Tree](https://atcoder.jp/contests/abc351/tasks/abc351_g)
+- [AtCoder ABC351 G - Hash on Tree](https://atcoder.jp/contests/abc351/tasks/abc351_g) [✓](../../practice/trees/atcoder_abc351_g.cpp "Accepted solution")
 - [AtCoder ABC460 G - Vertex Flip Query](https://atcoder.jp/contests/abc460/tasks/abc460_g)
 - [Codeforces 1942H - Farmer John's Favorite Intern](https://codeforces.com/problemset/problem/1942/H)
 
