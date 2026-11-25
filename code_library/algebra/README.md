@@ -126,7 +126,7 @@
 
 #### [Min-Plus Convolution](min_plus_convolution.cpp)
 
-- [AtCoder ABC383 G - Bar Cover](https://atcoder.jp/contests/abc383/tasks/abc383_g)
+- [AtCoder ABC383 G - Bar Cover](https://atcoder.jp/contests/abc383/tasks/abc383_g) [✓](../../practice/algebra/atcoder_abc383_g.cpp "Accepted solution")
 
 #### [NTT](ntt.cpp)
 
