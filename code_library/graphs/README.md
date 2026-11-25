@@ -65,7 +65,7 @@
 
 #### [3-Edge-Connected Components](three_edge_connected_components.cpp)
 
-- [Luogu P6658 - 边三连通分量](https://www.luogu.com.cn/problem/P6658)
+- [Luogu P6658 - 边三连通分量](https://www.luogu.com.cn/problem/P6658) [✓](../../practice/graphs/luogu_p6658.cpp "Accepted solution")
 
 #### [Absolute Center](absolute_center.cpp)
 
