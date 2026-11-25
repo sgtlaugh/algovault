@@ -49,7 +49,7 @@
 
 - [LibreOJ 10188 - 「一本通 5.6 练习 1」玩具装箱](https://loj.ac/p/10188) [✓](../../practice/dp/libreoj_10188.cpp "Accepted solution")
 - [Luogu P1912 - [NOI2009] 诗人小G](https://www.luogu.com.cn/problem/P1912)
-- [yukicoder 705 - ゴミ拾い Hard](https://yukicoder.me/problems/no/705)
+- [yukicoder 705 - ゴミ拾い Hard](https://yukicoder.me/problems/no/705) [✓](../../practice/dp/yukicoder_705.cpp "Accepted solution")
 
 #### [Divide and Conquer DP](divide_conquer_dp.cpp)
 
