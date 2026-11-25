@@ -71,7 +71,7 @@
 #### [Du's Sieve](du_sieve.cpp)
 
 - [HDU 5608 - function](https://acm.hdu.edu.cn/showproblem.php?pid=5608)
-- [Luogu P4213 - 【模板】杜教筛](https://www.luogu.com.cn/problem/P4213)
+- [Luogu P4213 - 【模板】杜教筛](https://www.luogu.com.cn/problem/P4213) [✓](../../practice/number_theory/luogu_p4213.cpp "Accepted solution")
 
 #### [Extended GCD](extended_gcd.cpp)
 
