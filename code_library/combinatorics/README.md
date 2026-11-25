@@ -109,7 +109,7 @@
 
 #### [Partition Numbers](partition_numbers.cpp)
 
-- [HDU 4651 - Partition](https://acm.hdu.edu.cn/showproblem.php?pid=4651)
+- [HDU 4651 - Partition](https://acm.hdu.edu.cn/showproblem.php?pid=4651) [✓](../../practice/combinatorics/hdu_4651.cpp "Accepted solution")
 
 #### [Permutation Cycles](permutation_cycles.cpp)
 
