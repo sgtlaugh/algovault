@@ -185,7 +185,7 @@
 #### [Min_25 Sieve](min_25_sieve.cpp)
 
 - [LibreOJ 6053 - 简单的函数](https://loj.ac/p/6053)
-- [yukicoder 1781 - LCM](https://yukicoder.me/problems/no/1781)
+- [yukicoder 1781 - LCM](https://yukicoder.me/problems/no/1781) [✓](../../practice/number_theory/yukicoder_1781.cpp "Accepted solution")
 
 #### [Mobius Function](mobius_function.cpp)
 
