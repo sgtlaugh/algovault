@@ -656,7 +656,7 @@
 #### [Online Dynamic Connectivity](online_dynamic_connectivity.cpp)
 
 - [Codeforces 1217F - Forced Online Queries Problem](https://codeforces.com/problemset/problem/1217/F) [✓](../../practice/graphs/codeforces_1217f.cpp "Accepted solution")
-- [LibreOJ 122 - 「强制在线」动态图连通性](https://loj.ac/p/122)
+- [LibreOJ 122 - 「强制在线」动态图连通性](https://loj.ac/p/122) [✓](../../practice/graphs/libreoj_122.cpp "Accepted solution")
 
 #### [Range Edge Dijkstra](range_edge_dijkstra.cpp)
 
