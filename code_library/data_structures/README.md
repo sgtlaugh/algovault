@@ -386,7 +386,7 @@
 
 #### [Permutation Tree](permutation_tree.cpp)
 
-- [Codeforces 526F - Pudding Monsters](https://codeforces.com/problemset/problem/526/F)
+- [Codeforces 526F - Pudding Monsters](https://codeforces.com/problemset/problem/526/F) [✓](../../practice/data_structures/codeforces_526f.cpp "Accepted solution")
 - [yukicoder 1720 - Division Permutation](https://yukicoder.me/problems/no/1720)
 
 #### [Persistent Segment Tree](persistent_segment_tree.cpp)
