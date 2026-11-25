@@ -24,6 +24,7 @@
  *   - weight[x] may be negative, the sum of all |weight[x]| must fit in long long
  *   - Best among the largest sets: add B = 2 sum |weight[x]| + 1 to every weight, n (B + max |weight[x]|) must fit
  *   - Cheapest instead of heaviest: negate every weight
+ *   - Graphic with partition by color: keep each color's best spanning forest first, 2.3x faster on AOJ 1605
  *
 ***/
 
