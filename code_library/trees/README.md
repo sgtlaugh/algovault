@@ -84,7 +84,7 @@
 
 #### [Long-Path Decomposition](long_path_decomposition.cpp)
 
-- [Codeforces 208E - Blood Cousins](https://codeforces.com/problemset/problem/208/E)
+- [Codeforces 208E - Blood Cousins](https://codeforces.com/problemset/problem/208/E) [✓](../../practice/trees/codeforces_208e.cpp "Accepted solution")
 - [Codeforces 1009F - Dominant Indices](https://codeforces.com/problemset/problem/1009/F)
 
 #### [Lowest Common Ancestor](lca.cpp)
