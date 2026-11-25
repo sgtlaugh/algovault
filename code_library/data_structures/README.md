@@ -21,7 +21,7 @@
 
 #### [CDQ Divide and Conquer](cdq_divide_conquer.cpp)
 
-- [AtCoder JOISC2019 A - 試験 (Examination)](https://atcoder.jp/contests/joisc2019/tasks/joisc2019_a)
+- [AtCoder JOISC2019 A - 試験 (Examination)](https://atcoder.jp/contests/joisc2019/tasks/joisc2019_a) [✓](../../practice/data_structures/atcoder_joisc2019_a.cpp "Accepted solution")
 - [Codeforces 848C - Goodbye Souvenir](https://codeforces.com/problemset/problem/848/C)
 - [LibreOJ 112 - 三维偏序](https://loj.ac/p/112)
 - [LibreOJ 3146 - 「APIO2019」路灯](https://loj.ac/p/3146)
