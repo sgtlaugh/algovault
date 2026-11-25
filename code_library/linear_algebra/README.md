@@ -27,7 +27,7 @@
 
 #### [Freivalds' Algorithm](freivalds_algorithm.cpp)
 
-- [POJ 3318 - Matrix Multiplication](http://poj.org/problem?id=3318)
+- [POJ 3318 - Matrix Multiplication](http://poj.org/problem?id=3318) [✓](../../practice/linear_algebra/poj_3318.cpp "Accepted solution")
 
 #### [Gauss-Jordan](gauss_jordan.cpp)
 
