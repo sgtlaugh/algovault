@@ -99,7 +99,7 @@
 
 #### [Fast Prime Counting](fast_prime_counting.cpp)
 
-- [Codeforces 665F - Four Divisors](https://codeforces.com/problemset/problem/665/F)
+- [Codeforces 665F - Four Divisors](https://codeforces.com/problemset/problem/665/F) [✓](../../practice/number_theory/codeforces_665f.cpp "Accepted solution")
 - [LibreOJ 6235 - 区间素数个数](https://loj.ac/p/6235)
 
 #### [Fast Prime Sums](fast_prime_sums.cpp)
