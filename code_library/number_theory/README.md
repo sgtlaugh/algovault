@@ -16,7 +16,7 @@
 
 #### [All Divisors](all_divisors.cpp)
 
-- [AtCoder ABC249 D - Index Trio](https://atcoder.jp/contests/abc249/tasks/abc249_d)
+- [AtCoder ABC249 D - Index Trio](https://atcoder.jp/contests/abc249/tasks/abc249_d) [✓](../../practice/number_theory/atcoder_abc249_d.cpp "Accepted solution")
 
 #### [Chinese Remainder Theorem](chinese_remainder_theorem.cpp)
 
