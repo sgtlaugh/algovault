@@ -147,7 +147,7 @@
 
 - [Codeforces 190E - Counter Attack](https://codeforces.com/problemset/problem/190/E) [✓](../../practice/graphs/codeforces_190e.cpp "Accepted solution")
 - [Codeforces 920E - Connected Components?](https://codeforces.com/problemset/problem/920/E)
-- [Codeforces 1242B - 0-1 MST](https://codeforces.com/problemset/problem/1242/B)
+- [Codeforces 1242B - 0-1 MST](https://codeforces.com/problemset/problem/1242/B) [✓](../../practice/graphs/codeforces_1242b.cpp "Accepted solution")
 
 #### [Degree Sequence](degree_sequence.cpp)
 
