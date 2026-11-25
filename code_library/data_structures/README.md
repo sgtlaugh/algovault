@@ -256,7 +256,7 @@
 #### [Leftist Heap, Persistent](leftist_heap.cpp)
 
 - [DMOJ apio12p1 - APIO '12 P1 - Dispatching](https://dmoj.ca/problem/apio12p1)
-- [HDU 1512 - Monkey King](https://acm.hdu.edu.cn/showproblem.php?pid=1512)
+- [HDU 1512 - Monkey King](https://acm.hdu.edu.cn/showproblem.php?pid=1512) [✓](../../practice/data_structures/hdu_1512.cpp "Accepted solution")
 
 #### [Li Chao Tree](li_chao_tree.cpp)
 
