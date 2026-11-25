@@ -16,7 +16,8 @@
  *
  * Notes:
  *   - Positions are 0-indexed and every call needs 0 <= l <= r < n
- *   - Every value ever held and every range sum, historic ones included, must fit in long long
+ *   - Every value ever held, the change between two values of a cell, and every range sum must fit in long long
+ *   - Historic sums count as range sums; their intermediate terms may overflow, as sums are kept modulo 2^64
  *   - Historic minimum: store -a and negate query_historic_max
  *   - Sweep recipe: cell l holds f(a[l..r]); for each r, add r's change, tick, answer the queries ending at r
  *   - query_historic_sum(l, r) is then the sum of f over all subarrays inside [l, r], query_historic_max the best one
@@ -30,12 +31,14 @@ using namespace std;
 struct HistoricSegmentTree{
     /// Pending adds and ticks: total add, highest prefix add, tick count, and the add so far summed over ticks
     struct Tag{
-        long long add = 0, peak = 0, ticks = 0, ticked_add = 0;
+        long long add = 0, peak = 0;
+        unsigned long long ticks = 0, ticked_add = 0;
     };
 
+    /// Sums wrap modulo 2^64: their terms may overflow while the documented results fit, which stay exact
     struct Node{
-        long long sum = 0, max = LLONG_MIN, historic_max = LLONG_MIN, historic_sum = 0;
-        int len = 0;
+        long long max = LLONG_MIN, historic_max = LLONG_MIN;
+        unsigned long long sum = 0, historic_sum = 0, len = 0;
         Tag tag;
     };
 
@@ -66,7 +69,7 @@ struct HistoricSegmentTree{
 
     long long query_historic_sum(int l, int r){
         assert(0 <= l && l <= r && r < n);
-        return query(1, 0, n - 1, l, r).historic_sum;
+        return (long long)query(1, 0, n - 1, l, r).historic_sum;
     }
 
     long long query_max(int l, int r){
@@ -76,13 +79,14 @@ struct HistoricSegmentTree{
 
     long long query_sum(int l, int r){
         assert(0 <= l && l <= r && r < n);
-        return query(1, 0, n - 1, l, r).sum;
+        return (long long)query(1, 0, n - 1, l, r).sum;
     }
 
     void build(const vector<long long>& a, int idx, int l, int r){
         tree[idx].len = r - l + 1;
         if (l == r){
-            tree[idx].sum = tree[idx].max = tree[idx].historic_max = a[l];
+            tree[idx].max = tree[idx].historic_max = a[l];
+            tree[idx].sum = a[l];
             return;
         }
 
@@ -97,11 +101,11 @@ struct HistoricSegmentTree{
         Node& v = tree[idx];
         v.historic_sum += t.ticks * v.sum + t.ticked_add * v.len;
         v.historic_max = max(v.historic_max, v.max + t.peak);
-        v.sum += t.add * v.len;
+        v.sum += (unsigned long long)t.add * v.len;
         v.max += t.add;
 
         Tag& p = v.tag;
-        p.ticked_add += t.ticked_add + t.ticks * p.add;
+        p.ticked_add += t.ticked_add + t.ticks * (unsigned long long)p.add;
         p.peak = max(p.peak, p.add + t.peak);
         p.ticks += t.ticks;
         p.add += t.add;
@@ -113,7 +117,7 @@ struct HistoricSegmentTree{
         tree[idx].tag = Tag();
     }
 
-    static Node merge(const Node& a, const Node& b, int len){
+    static Node merge(const Node& a, const Node& b, unsigned long long len){
         Node res;
         res.sum = a.sum + b.sum;
         res.max = max(a.max, b.max);

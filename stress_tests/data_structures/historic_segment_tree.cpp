@@ -83,6 +83,32 @@ int main(){
     assert(big.query_historic_sum(7, 7) == 500000000000LL);
     assert(big.query_sum(0, 199999) == 0);
 
+    /// Every value, range sum and historic sum stays in range while the pending tick terms cancel past 1e19
+    const long long X = 1000000000000000LL;
+    HistoricSegmentTree lifted(vector<long long>(4, -X));
+    lifted.add(0, 3, X);
+    for (int it = 0; it < 20000; it++) lifted.tick();
+    lifted.add(1, 2, -X);
+    lifted.tick();
+    assert(lifted.query_historic_sum(0, 3) == -2 * X);
+    assert(lifted.query_historic_sum(1, 1) == -X);
+    assert(lifted.query_historic_max(0, 3) == 0);
+    assert(lifted.query_sum(0, 3) == -2 * X);
+
+    /// 20000 ticks pushed at once onto a child holding a pending add of 1e15
+    HistoricSegmentTree split(vector<long long>{-X, -X, 0, 0});
+    split.add(0, 1, X);
+    for (int it = 0; it < 20000; it++) split.tick();
+    assert(split.query_historic_sum(0, 0) == 0);
+    assert(split.query_historic_sum(0, 3) == 0);
+
+    /// A sum change of 1.6e19 between two in-range sums: add times len overflows on its own
+    const long long Y = 4000000000000000000LL;
+    HistoricSegmentTree swing(vector<long long>{-Y, -Y});
+    swing.add(0, 1, 2 * Y);
+    assert(swing.query_sum(0, 0) == Y);
+    assert(swing.query_max(0, 1) == Y);
+
     stress::expect_assert("data_structures/historic_segment_tree.cpp", []{ HistoricSegmentTree bad(0); });
     stress::expect_assert("data_structures/historic_segment_tree.cpp", []{ HistoricSegmentTree st(5); st.add(3, 2, 1); });
     stress::expect_assert("data_structures/historic_segment_tree.cpp", []{ HistoricSegmentTree st(5); st.query_historic_sum(0, 5); });
