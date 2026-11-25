@@ -434,7 +434,7 @@
 
 #### [Matroid Intersection, Weighted](weighted_matroid_intersection.cpp)
 
-- [AOJ 1605 - Bridge Construction Planning](https://onlinejudge.u-aizu.ac.jp/problems/1605)
+- [AOJ 1605 - Bridge Construction Planning](https://onlinejudge.u-aizu.ac.jp/problems/1605) [✓](../../practice/graphs/aoj_1605.cpp "Accepted solution")
 
 #### [Maximum Clique](max_clique.cpp)
 
