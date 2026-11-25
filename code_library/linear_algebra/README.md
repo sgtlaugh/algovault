@@ -12,7 +12,7 @@
 
 #### [Characteristic Polynomial](characteristic_polynomial.cpp)
 
-- [AtCoder ABC323 G - Inversion of Tree](https://atcoder.jp/contests/abc323/tasks/abc323_g)
+- [AtCoder ABC323 G - Inversion of Tree](https://atcoder.jp/contests/abc323/tasks/abc323_g) [✓](../../practice/linear_algebra/atcoder_abc323_g.cpp "Accepted solution")
 - [yukicoder 1907 - DETERMINATION](https://yukicoder.me/problems/no/1907)
 
 #### [Determinant](determinant.cpp)
