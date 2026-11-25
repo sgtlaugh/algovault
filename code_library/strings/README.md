@@ -281,7 +281,7 @@
 
 #### [Tandem Repeats](tandem_repeats.cpp)
 
-- [Codeforces 1043G - Speckled Band](https://codeforces.com/problemset/problem/1043/G)
+- [Codeforces 1043G - Speckled Band](https://codeforces.com/problemset/problem/1043/G) [✓](../../practice/strings/codeforces_1043g.cpp "Accepted solution")
 
 #### [Wildcard Matching](wildcard_matching.cpp)
 
