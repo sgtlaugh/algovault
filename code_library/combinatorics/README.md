@@ -71,7 +71,7 @@
 
 #### [Eulerian Numbers](eulerian_numbers.cpp)
 
-- [HDU 3664 - Permutation Counting](https://acm.hdu.edu.cn/showproblem.php?pid=3664)
+- [HDU 3664 - Permutation Counting](https://acm.hdu.edu.cn/showproblem.php?pid=3664) [✓](../../practice/combinatorics/hdu_3664.cpp "Accepted solution")
 - [yukicoder 2005 - Sum of Power Sums](https://yukicoder.me/problems/no/2005)
 
 #### [Fast Factorial](fast_factorial.cpp)
