@@ -134,7 +134,7 @@ void plane_intersections(int iterations){
         }
 
         assert(res.first == 1);
-        double scale = max({norm(p), norm(q), norm(a), norm(b), norm(c), 1.0});
+        double scale = max({norm(p), norm(q), norm(a), norm(b), norm(c), Float(1)});
         assert(fabs(dist_point_plane(res.second, a, b, c)) < 1e-9 * scale);
         assert(dist_point_line(res.second, p, q) < 1e-9 * scale);
     }
