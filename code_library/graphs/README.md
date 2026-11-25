@@ -651,7 +651,7 @@
 
 #### [Online Bridges](online_bridges.cpp)
 
-- [HDU 2460 - Network](https://acm.hdu.edu.cn/showproblem.php?pid=2460)
+- [HDU 2460 - Network](https://acm.hdu.edu.cn/showproblem.php?pid=2460) [✓](../../practice/graphs/hdu_2460.cpp "Accepted solution")
 
 #### [Online Dynamic Connectivity](online_dynamic_connectivity.cpp)
 
