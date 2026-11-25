@@ -136,7 +136,7 @@
 #### [Longest Increasing Subsequence, Range Queries](range_lis.cpp)
 
 - [LibreOJ 184 - 单位蒙日矩阵乘法](https://loj.ac/p/184)
-- [Luogu P2075 - 区间 LIS](https://www.luogu.com.cn/problem/P2075)
+- [Luogu P2075 - 区间 LIS](https://www.luogu.com.cn/problem/P2075) [✓](../../practice/dp/luogu_p2075.cpp "Accepted solution")
 
 #### [Maximum Square](maximum_square.cpp)
 
