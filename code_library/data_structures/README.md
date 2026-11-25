@@ -121,7 +121,7 @@
 #### [Disjoint Set Union, Range Parallel](range_parallel_dsu.cpp)
 
 - [AtCoder ABC349 G - Palindrome Construction](https://atcoder.jp/contests/abc349/tasks/abc349_g)
-- [Luogu P3295 - [SCOI2016] 萌萌哒](https://www.luogu.com.cn/problem/P3295)
+- [Luogu P3295 - [SCOI2016] 萌萌哒](https://www.luogu.com.cn/problem/P3295) [✓](../../practice/data_structures/luogu_p3295.cpp "Accepted solution")
 
 #### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
