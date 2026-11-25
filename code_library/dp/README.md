@@ -185,4 +185,4 @@
 
 - [HDU 1011 - Starship Troopers](https://acm.hdu.edu.cn/showproblem.php?pid=1011)
 - [HDU 1561 - The more, The Better](https://acm.hdu.edu.cn/showproblem.php?pid=1561) [✓](../../practice/dp/hdu_1561.cpp "Accepted solution")
-- [LibreOJ 10153 - 「一本通 5.2 例 1」二叉苹果树](https://loj.ac/p/10153)
+- [LibreOJ 10153 - 「一本通 5.2 例 1」二叉苹果树](https://loj.ac/p/10153) [✓](../../practice/dp/libreoj_10153.cpp "Accepted solution")
