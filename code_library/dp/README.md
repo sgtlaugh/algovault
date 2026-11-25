@@ -151,7 +151,7 @@
 
 #### [Monotone Minima and SMAWK](monotone_minima.cpp)
 
-- [AtCoder COLOPL2018-FINAL-OPEN C - スペースエクスプローラー高橋君](https://atcoder.jp/contests/colopl2018-final-open/tasks/colopl2018_final_c)
+- [AtCoder COLOPL2018-FINAL-OPEN C - スペースエクスプローラー高橋君](https://atcoder.jp/contests/colopl2018-final-open/tasks/colopl2018_final_c) [✓](../../practice/dp/atcoder_colopl2018_final_open_c.cpp "Accepted solution")
 - [Codeforces 1423M - Milutin's Plums](https://codeforces.com/problemset/problem/1423/M)
 - [Codeforces Gym 102920L - Two Buildings](https://codeforces.com/gym/102920/problem/L)
 - [Kattis money - Money for Nothing](https://open.kattis.com/problems/money)
