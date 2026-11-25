@@ -127,7 +127,6 @@
 #### [Matrix Permanent](permanent.cpp)
 
 - [AtCoder DP O - Matching](https://atcoder.jp/contests/dp/tasks/dp_o) [✓](../../practice/linear_algebra/atcoder_dp_o.cpp "Accepted solution")
-- [SPOJ ASSIGN - Assignments](https://www.spoj.com/problems/ASSIGN/)
 
 #### [Simplex](simplex.cpp)
 
