@@ -540,7 +540,7 @@
 #### [Top-K Sum](top_k_sum.cpp)
 
 - [AtCoder ABC281 E - Least Elements](https://atcoder.jp/contests/abc281/tasks/abc281_e)
-- [AtCoder ABC306 E - Best Performances](https://atcoder.jp/contests/abc306/tasks/abc306_e)
+- [AtCoder ABC306 E - Best Performances](https://atcoder.jp/contests/abc306/tasks/abc306_e) [✓](../../practice/data_structures/atcoder_abc306_e.cpp "Accepted solution")
 - [CSES 1077 - Sliding Window Cost](https://cses.fi/problemset/task/1077)
 - [yukicoder 2654 - [Cherry 6th Tune] Re: start! (Black Sheep)](https://yukicoder.me/problems/no/2654)
 
