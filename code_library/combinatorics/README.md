@@ -81,7 +81,7 @@
 
 #### [Faulhaber's Formula](faulhaber_formula.cpp)
 
-- [yukicoder 665 - Bernoulli Bernoulli](https://yukicoder.me/problems/no/665)
+- [yukicoder 665 - Bernoulli Bernoulli](https://yukicoder.me/problems/no/665) [✓](../../practice/combinatorics/yukicoder_665.cpp "Accepted solution")
 
 #### [Gambler's Ruin](gamblers_ruin.cpp)
 
