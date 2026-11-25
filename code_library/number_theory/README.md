@@ -104,7 +104,7 @@
 
 #### [Fast Prime Sums](fast_prime_sums.cpp)
 
-- [LibreOJ 6202 - 叶氏筛法](https://loj.ac/p/6202)
+- [LibreOJ 6202 - 叶氏筛法](https://loj.ac/p/6202) [✓](../../practice/number_theory/libreoj_6202.cpp "Accepted solution")
 
 #### [Fast Sieve](fast_sieve.cpp)
 
