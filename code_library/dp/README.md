@@ -5,10 +5,11 @@
 | **Templates** | | | |
 |---|---|---|---|
 | [Aliens Trick (WQS)](#aliens-trick-wqs) | [Block Removal DP](#block-removal-dp) | [Bounded Knapsack](#bounded-knapsack) | [Bounded Subset Sum](#bounded-subset-sum) |
-| [CKY, Weighted](#cky-weighted) | [Concave 1D1D DP](#concave-1d1d-dp) | [Divide and Conquer DP](#divide-and-conquer-dp) | [Garsia-Wachs](#garsia-wachs) |
-| [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) | [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) | [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) |
-| [Longest Increasing Subsequence](#longest-increasing-subsequence) | [Longest Increasing Subsequence, Range Queries](#longest-increasing-subsequence-range-queries) | [Maximum Square](#maximum-square) | [Meet in the Middle](#meet-in-the-middle) |
-| [Monotone Minima and SMAWK](#monotone-minima-and-smawk) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) | [Tree Knapsack](#tree-knapsack) |
+| [CKY](#cky) | [CKY, Weighted](#cky-weighted) | [Concave 1D1D DP](#concave-1d1d-dp) | [Divide and Conquer DP](#divide-and-conquer-dp) |
+| [Garsia-Wachs](#garsia-wachs) | [Hamiltonian Path and Cycle](#hamiltonian-path-and-cycle) | [Knuth Partition DP](#knuth-partition-dp) | [Knuth Optimization](#knuth-optimization) |
+| [Longest Common Increasing Subsequence](#longest-common-increasing-subsequence) | [Longest Increasing Subsequence](#longest-increasing-subsequence) | [Longest Increasing Subsequence, Range Queries](#longest-increasing-subsequence-range-queries) | [Maximum Square](#maximum-square) |
+| [Meet in the Middle](#meet-in-the-middle) | [Monotone Minima and SMAWK](#monotone-minima-and-smawk) | [Plug DP](#plug-dp) | [Slope Trick](#slope-trick) |
+| [Tree Knapsack](#tree-knapsack) |  |  |  |
 
 <!-- /toc -->
 
@@ -40,6 +41,10 @@
 - [SPOJ FCANDY - Candy (Again)](https://www.spoj.com/problems/FCANDY/) [✓](../../practice/dp/spoj_fcandy.cpp "Accepted solution")
 - [UVa 711 - Dividing up](https://onlinejudge.org/external/7/711.pdf) [✓](../../practice/dp/uva_711.cpp "Accepted solution")
 - [yukicoder 4 - おもりと天秤](https://yukicoder.me/problems/no/4)
+
+#### [CKY](cky.cpp)
+
+- [Codeforces Gym 101470G - Grammar](https://codeforces.com/gym/101470/problem/G) [✓](../../practice/dp/codeforces_gym_101470g.cpp "Accepted solution")
 
 #### [CKY, Weighted](cky_weighted.cpp)
 
