@@ -4,6 +4,32 @@
 #include "../../code_library/data_structures/fenwick_tree_2D_sparse.cpp"
 #undef main
 
+/// Inverts the unsalted fmix64, so it builds keys that would all hash to one slot without the salt
+unsigned long long unmix(unsigned long long h){
+    auto inverse = [](unsigned long long a){ unsigned long long x = a; for (int i = 0; i < 6; i++) x *= 2 - a * x; return x; };
+    h ^= h >> 33, h *= inverse(0xc4ceb9fe1a85ec53ULL), h ^= h >> 33, h *= inverse(0xff51afd7ed558ccdULL), h ^= h >> 33;
+    return h;
+}
+
+/// 90000 nodes aimed at slot 7 of an unsalted 2^17 table, then 90000 lookups of other aimed keys that are absent
+void check_anti_hash(){
+    const int lg = 17, count = 90000;
+    FenwickSparse2D<long long> table(1, 1, lg);
+    vector<pair<int, int>> aimed;
+    for (unsigned long long r = 1; (int)aimed.size() < 2 * count; r++){
+        unsigned long long key = unmix(r << lg | 7);
+        long long x = key >> 32, y = key & 0xffffffffULL;
+        if (1 <= x && x < INT_MAX && 1 <= y && y < INT_MAX) aimed.push_back({(int)x, (int)y});
+    }
+
+    clock_t start = clock();
+    for (int i = 0; i < count; i++) table.add(aimed[i].first, aimed[i].second, i);
+    long long sum = 0;
+    for (int i = 0; i < 2 * count; i++) sum += table.find(aimed[i].first, aimed[i].second);
+    assert(clock() - start < 2 * CLOCKS_PER_SEC);  /// CPU time, unsalted it took 4.4 s even at -O2
+    assert(sum == (long long)count * (count - 1) / 2);
+}
+
 /// Point updates and rectangle queries against a list of every update, one instance because each preallocates ~270 MB
 int main(){
     /// 2^4 slots hold 12 nodes: on one column rows 15 down to 4 create nodes 16 down to 5, one each, and row 3 the 13th
@@ -17,6 +43,10 @@ int main(){
     stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", [&]{ tiny.update(0, -1, 1); });
     stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", [&]{ tiny.prefix(0, 1); });
     stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", [&]{ tiny.query(-1, 0, 0, 0); });
+
+    stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", []{ FenwickSparse2D<int> bad(10, 10, 31); });
+    stress::expect_assert("data_structures/fenwick_tree_2D_sparse.cpp", []{ FenwickSparse2D<int> bad(10, 10, 0); });
+    check_anti_hash();
 
     const int N = 1000000000, M = 1000000000;
     static FenwickSparse2D<long long> fen(N, M);

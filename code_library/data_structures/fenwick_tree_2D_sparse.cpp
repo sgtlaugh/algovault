@@ -7,7 +7,7 @@
  *   - build: O(2^lg_capacity)
  *   - update, prefix, query: O(log n log m) hash probes, each expected O(1) while the table is at most half full
  *
- * FenwickSparse2D<T> fen(n, m, lg_capacity = 24): n rows, m columns, all zeros, in a table of 2^lg_capacity slots
+ * FenwickSparse2D<T> fen(n, m, lg_capacity = 24): n rows, m columns, all zeros, 2^lg_capacity slots, lg_capacity <= 30
  * fen.update(i, j, v): add v to a[i][j]
  * fen.prefix(i, j): sum of a[0..i][0..j], 0 when i or j is -1
  * fen.query(i, j, k, l): sum of a[i..k][j..l], 0 when i > k or j > l
@@ -18,6 +18,7 @@
  *   - An update creates up to (floor(log2(n)) + 1) * (floor(log2(m)) + 1) nodes, 900 at n = m = 1e9
  *   - Size 2^lg_capacity to at least twice the nodes created, an update that fills the table past 3/4 asserts
  *   - So n = m = 1e9 with 100K updates, up to 9e7 nodes, does not fit the default
+ *   - Keys are hashed with a random salt per run
  *   - Use fenwick_tree_2D_implicit.cpp for rectangle add and cell value, paying only for the nodes it creates
  *
 ***/
@@ -31,10 +32,12 @@ struct FenwickSparse2D{
     int n, m, mask, used = 0;
     vector<T> vals;
     vector<long long> keys;
+    unsigned long long salt = process_salt();  /// fmix64 is invertible: unsalted, a test could aim keys at one slot
 
-    FenwickSparse2D(int n, int m, int lg_capacity = 24) : n(n), m(m), mask((1 << lg_capacity) - 1),
-        vals(mask + 1, 0), keys(mask + 1, 0){
-    }
+    /// The assert sits in mask's initializer: 1 << 31 overflows before the constructor body would run
+    FenwickSparse2D(int n, int m, int lg_capacity = 24)
+        : n(n), m(m), mask((assert(1 <= lg_capacity && lg_capacity <= 30), (1 << lg_capacity) - 1)),
+        vals(mask + 1, 0), keys(mask + 1, 0) {}
 
     void update(int i, int j, T v){
         assert(0 <= i && i < n && 0 <= j && j < m);
@@ -83,9 +86,14 @@ struct FenwickSparse2D{
 
     /// Key 0 marks an empty slot, Fenwick node indices start at 1 so every key is non-zero
     int slot(long long key){
-        int k = hash_func(key) & mask;
+        int k = hash_func(key + salt) & mask;
         while (keys[k] && keys[k] != key) k = (k + 1) & mask;
         return k;
+    }
+
+    static unsigned long long process_salt(){
+        static const unsigned long long s = mt19937_64(chrono::steady_clock::now().time_since_epoch().count())();
+        return s;
     }
 
     /// MurmurHash3 fmix64 finalizer
