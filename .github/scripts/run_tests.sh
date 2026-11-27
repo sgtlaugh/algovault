@@ -218,15 +218,17 @@ check_judge_marks(){  # a template carries a README ✓ exactly when a judge tes
 }
 
 check_practice(){  # practice/ holds exactly the solutions linked from the practice sections
-    local file files linked bad=()
-    files="$(git ls-files -co --exclude-standard 'practice/*.cpp' 'practice/*.py' | sort)"
+    local file tracked present linked bad=()
+    # A new untracked solution is not yet linked: /verdict runs this suite before commit_one.py adds its entry
+    tracked="$(git ls-files 'practice/*.cpp' 'practice/*.py' | sort)"
+    present="$(git ls-files -co --exclude-standard 'practice/*.cpp' 'practice/*.py' | sort)"
     linked="$(grep -ohP '\]\(\.\./\.\./\Kpractice/[^) ]+' code_library/*/README.md | sort -u)"
     while IFS= read -r file; do
         [[ -n "$file" ]] && bad+=("$file (no practice section links it)")
-    done < <(comm -23 <(echo "$files") <(echo "$linked"))
+    done < <(comm -23 <(echo "$tracked") <(echo "$linked"))
     while IFS= read -r file; do
-        [[ -n "$file" ]] && bad+=("$file (linked but not a tracked file)")
-    done < <(comm -13 <(echo "$files") <(echo "$linked"))
+        [[ -n "$file" ]] && bad+=("$file (linked but no such file)")
+    done < <(comm -13 <(echo "$present") <(echo "$linked"))
 
     echo "practice links: ${#bad[@]} solutions and practice section links that disagree"
     [[ ${#bad[@]} -eq 0 ]] && return
