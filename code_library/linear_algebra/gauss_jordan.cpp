@@ -11,9 +11,9 @@
  *
  * Notes:
  *   - x is one solution, empty when solvable is false, and free_variables is m minus the rank either way
- *   - eps is relative, scaled by max(1, largest |coefficient| of the input), a pivot within it counts as 0
+ *   - Each row is first divided by its largest |coefficient|, then a pivot within eps counts as 0
  *   - The right-hand side of gauss is left out of that scale, so x = 1e9 with coefficients of 1 still solves
- *   - A gauss row reducing to 0 = r is consistent when |r| is within eps scaled by the largest |entry| including it
+ *   - A gauss row reducing to 0 = r is consistent when |r| is within eps scaled by the largest scaled |entry|
  *   - T may be an exact type such as a fraction with eps = 0, and long double or __float128 give more precision
  *
 ***/
@@ -35,6 +35,17 @@ T tolerance(const vector<vector<T>>& a, int cols, T eps){
     T tol = 1;
     for (auto& row : a) for (int j = 0; j < cols; j++) tol = max(tol, (T)abs(row[j]));
     return tol * eps;
+}
+
+/// Each row divided by its largest |entry| in the first cols columns, so a row of small numbers keeps its pivots
+template <class T>
+void scale_rows(vector<vector<T>>& a, int cols){
+    for (auto& row : a){
+        T scale = 0;
+        for (int j = 0; j < cols; j++) scale = max(scale, (T)abs(row[j]));
+        if (scale == 0) continue;
+        for (auto& x : row) x /= scale;
+    }
 }
 
 /// Row echelon form of the first cols columns, unscaled pivots in rows 0 to rank - 1, pos[j] = pivot row of j or -1
@@ -66,7 +77,9 @@ vector<int> row_reduce(vector<vector<T>>& a, int cols, T tol){
 
 template <class T>
 GaussSolution<T> gauss(vector<vector<T>> equations, const T eps=1e-9){
+    assert(!equations.empty());
     int n = equations.size(), m = equations[0].size() - 1;
+    scale_rows(equations, m);
     T tol = tolerance(equations, m + 1, eps);
     vector<int> pos = row_reduce(equations, m, tolerance(equations, m, eps));
     int rank = m - count(pos.begin(), pos.end(), -1);
@@ -101,7 +114,8 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
         aug[i][n + i] = 1;
     }
 
-    vector<int> pos = row_reduce(aug, n, tolerance(a, n, eps));
+    scale_rows(aug, n);
+    vector<int> pos = row_reduce(aug, n, tolerance(aug, n, eps));
     if (n && pos[n - 1] != n - 1) return nullopt;
 
     /// Clears above each pivot from the last up, the left half of a pivot row is then 0 past its pivot
@@ -124,6 +138,7 @@ optional<vector<vector<T>>> matrix_inverse(const vector<vector<T>>& a, const T e
 template <class T>
 int matrix_rank(vector<vector<T>> a, const T eps=1e-9){
     int cols = a.empty() ? 0 : a[0].size();
+    scale_rows(a, cols);
     vector<int> pos = row_reduce(a, cols, tolerance(a, cols, eps));
     return cols - count(pos.begin(), pos.end(), -1);
 }

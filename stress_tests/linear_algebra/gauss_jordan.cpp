@@ -78,6 +78,14 @@ int main(){
     assert(gauss(regression).free_variables == 0);
     assert(gauss(regression).solvable);
 
+    /// A row of small numbers next to a row of large ones keeps its pivot: a whole-matrix tolerance read it as 0
+    GaussSolution<double> mixed = gauss(vector<vector<double>>{{1e9, 0, 1e9}, {0, 1e-3, 1e-3}});
+    assert(mixed.solvable && mixed.free_variables == 0);
+    assert(fabs(mixed.x[0] - 1) < 1e-9 && fabs(mixed.x[1] - 1) < 1e-9);
+    assert(matrix_rank(vector<vector<double>>{{1e9, 0}, {0, 1e-3}}) == 2);
+    assert(matrix_inverse(vector<vector<double>>{{1e9, 0}, {0, 1e-3}}).has_value());
+    stress::expect_assert("linear_algebra/gauss_jordan.cpp", []{ gauss(vector<vector<double>>{}); });
+
     /// Unique solutions near 1e9 with small coefficients, which a tolerance scaled by the right-hand side rejects as -1
     auto lone = gauss(vector<vector<double>>{{1, 1e9}});
     assert(lone.solvable && lone.free_variables == 0 && lone.x[0] == 1e9);
@@ -148,6 +156,44 @@ int main(){
         auto inv = matrix_inverse(d);
         assert(inv.has_value() == (exact_rank(square, n) == n));
         if (inv) assert((int)inv->size() == n && near_identity_product(d, *inv) && near_identity_product(*inv, d));
+    }
+
+    /// Rows multiplied by powers of ten from 1e-6 to 1e9 keep the rank, the solution and the inverse
+    for (long long it = 0; it < stress::scaled(5000); it++){
+        int n = stress::rand_int(1, 6), m = stress::rand_int(1, 6);
+        vector<vector<long long>> a = random_dependent(n, m + 1);
+        vector<long long> x(m);
+        for (auto& v : x) v = stress::rand_int(-1000, 1000);
+        for (auto& row : a){
+            row[m] = 0;
+            for (int j = 0; j < m; j++) row[m] += row[j] * x[j];
+        }
+
+        vector<vector<double>> eq = to_double(a);
+        vector<double> factor(n);
+        for (int i = 0; i < n; i++){
+            factor[i] = pow(10.0, stress::rand_int(-6, 9));
+            for (auto& v : eq[i]) v *= factor[i];
+        }
+        int rank = exact_rank(a, m);
+        GaussSolution<double> sol = gauss(eq);
+        assert(sol.solvable && sol.free_variables == m - rank);
+        for (int i = 0; i < n; i++){
+            double lhs = 0, scale = fabs(a[i][m]);
+            for (int j = 0; j < m; j++) lhs += a[i][j] * sol.x[j], scale = max(scale, fabs(a[i][j] * sol.x[j]));
+            assert(fabs(lhs - a[i][m]) <= 1e-9 * max(1.0, scale));
+        }
+
+        vector<vector<double>> coef(n, vector<double>(m));
+        for (int i = 0; i < n; i++) for (int j = 0; j < m; j++) coef[i][j] = eq[i][j];
+        assert(matrix_rank(coef) == rank);
+
+        vector<vector<long long>> square = random_dependent(n, n);
+        vector<vector<double>> d = to_double(square);
+        for (int i = 0; i < n; i++) for (auto& v : d[i]) v *= factor[i];
+        auto inv = matrix_inverse(d);
+        assert(inv.has_value() == (exact_rank(square, n) == n));
+        if (inv) assert(near_identity_product(*inv, d));  /// d * inv scales entry (i, j) by factor[i] / factor[j]
     }
 
     /// Large random real matrices are invertible almost surely, and lose exactly one rank when a row is a combination
