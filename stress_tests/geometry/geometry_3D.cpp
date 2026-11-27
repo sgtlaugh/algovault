@@ -157,6 +157,14 @@ void volumes(int iterations){
         for (auto& f : faces) rotate(f.begin(), f.begin() + stress::rand_int(0, 3), f.end());
         check_close(polyhedron_volume(box, faces) / (w * h * d), 1, "box");
 
+        /// A small box near 1e6: measuring from the origin cancels terms near 1e18 down to a volume below 1
+        Point3 far = rand_point(1000000);
+        double fw = stress::rand_int(1, 99) / 100.0, fh = stress::rand_int(1, 99) / 100.0, fd = stress::rand_int(1, 99) / 100.0;
+        vector<Point3> small;
+        for (int i = 0; i < 8; i++) small.push_back(far + Point3{i & 1 ? fw : 0, i & 2 ? fh : 0, i & 4 ? fd : 0});
+        Point3 span = small[7] - small[0];
+        check_close(polyhedron_volume(small, faces) / (span.x * span.y * span.z), 1, "far box");
+
         vector<Point3> tet = {rand_point(30), rand_point(30), rand_point(30), rand_point(30)};
         long long s6 = side(tet[3], tet[0], tet[1], tet[2]);
         if (s6 == 0) continue;

@@ -3,7 +3,7 @@
  * 3D Geometry
  * Distances between points, lines, segments, planes and triangles in space, line-plane intersection and volume
  *
- * Complexity: O(1) per call, O(number of face vertices) for polyhedron_volume
+ * Complexity: O(1) per call, O(points + face vertices) for polyhedron_volume
  *
  * Point3 of Float with +, -, * and / by a scalar; a triangle is any 3 points a, b, c, a plane 3 non-collinear ones
  * cross(u, v): the cross product u x v
@@ -145,10 +145,16 @@ pair<int, Point3> line_plane_intersection(const Point3& p, const Point3& q, cons
 }
 
 Float polyhedron_volume(const vector<Point3>& points, const vector<vector<int>>& faces){
+    if (faces.empty()) return 0;
+
+    /// Tetrahedra apex at a vertex, not the origin: far from the origin their terms near 1e18 would cancel
+    vector<Point3> rel(points.size());
+    for (size_t i = 0; i < points.size(); i++) rel[i] = points[i] - points[faces[0][0]];
+
     Float res = 0;
     for (const vector<int>& f : faces){
-        /// Fanned from the face's first vertex: each term is 6 times a signed tetrahedron against the origin
-        for (int i = 1; i + 1 < (int)f.size(); i++) res += dot(points[f[0]], cross(points[f[i]], points[f[i + 1]]));
+        /// Fanned from the face's first vertex: each term is 6 times a signed tetrahedron against the apex
+        for (int i = 1; i + 1 < (int)f.size(); i++) res += dot(rel[f[0]], cross(rel[f[i]], rel[f[i + 1]]));
     }
 
     return res / 6;
