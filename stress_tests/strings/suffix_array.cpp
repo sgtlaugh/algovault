@@ -136,5 +136,11 @@ int main(){
         check_queries(u);
     }
 
+    /// occurrences(p, len) past the end: banana's last character with len 2, and p = n
+    SuffixArrayQueries<string> banana("banana");
+    stress::expect_assert("strings/suffix_array.cpp", [&]{ banana.occurrences(5, 2); });
+    stress::expect_assert("strings/suffix_array.cpp", [&]{ banana.occurrences(6, 1); });
+    stress::expect_assert("strings/suffix_array.cpp", [&]{ banana.occurrences(-1, 1); });
+
     return 0;
 }

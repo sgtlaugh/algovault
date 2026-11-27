@@ -243,6 +243,7 @@ struct SuffixArrayQueries : SuffixArray{
     }
 
     pair<int, int> occurrences(int p, int len) const{
+        assert(0 <= p && 0 <= len && p + len <= n);
         if (len == 0) return {0, n};
 
         int r = rank[p], lo = 0, hi = r;
