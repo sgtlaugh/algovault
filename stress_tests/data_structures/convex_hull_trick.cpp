@@ -113,6 +113,33 @@ int main(){
         check_increasing<true>(n, K, B, K);
     }
 
+    /// |b| near 9e18 with small k, x: every k * x + b fits, but intercept differences overflow long long
+    const long long K2 = 10000000, B2 = 9000000000000000000LL;
+    for (long long it = 0; it < stress::scaled(300); it++){
+        int n = stress::rand_int(1, 300);
+        check_random<false>(n, 2, K2, B2, K2);
+        check_random<true>(n, 2, K2, B2, K2);
+        check_increasing<false>(n, K2, B2, K2);
+        check_increasing<true>(n, K2, B2, K2);
+    }
+
+    /// int lines whose k * x + b fit in int but whose intercepts differ by more than INT_MAX
+    ConvexHullTrick<int> small;
+    small.add_line(2, -1200000000);
+    small.add_line(1, -300000000);
+    small.add_line(0, 1200000000);
+    for (int x : {0, 300000000, 500000000, 900000000}){
+        long long want = min({2LL * x - 1200000000, 1LL * x - 300000000, 1200000000LL});
+        assert(small.query(x) == want);
+    }
+
+    /// int slopes near 1.5e9 differ by more than INT_MAX, so the slope differences must widen too
+    ConvexHullTrick<int> steep;
+    steep.add_line(1500000000, 0);
+    steep.add_line(0, 1);
+    steep.add_line(-1500000000, 0);
+    for (int x : {-1, 0, 1}) assert(steep.query(x) == min({1500000000LL * x, 1LL, -1500000000LL * x}));
+
     for (long long it = 0; it < stress::scaled(1000); it++){
         int mode = it % 4;
         check_floating<double, false>(mode);

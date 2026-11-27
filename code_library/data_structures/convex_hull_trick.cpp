@@ -14,6 +14,7 @@
  * Notes:
  *   - Every k * x + b must fit in T, like |k|, |x| <= 1e9 and |b| <= 1e18 for long long
  *   - The crossing test multiplies in __int128, so the compiler must support it (64-bit GCC or Clang)
+ *   - |k| < 2^62 keeps that product in range
  *   - T may be double or long double, every answer then within rounding of the exact optimum
  *   - Slopes in any order or lines only on part of the range: li_chao_tree.cpp
  *   - dp[i] = min over j < i of dp[j] + a[j] * x[i], a non-increasing: query(x[i]), then add_line(a[i], dp[i])
@@ -71,8 +72,17 @@ struct ConvexHullTrick{
         if constexpr (is_floating_point_v<T>){
             return (long double)(intercept - b[i]) * (k[i] - k[j]) <= (long double)(b[j] - b[i]) * (k[i] - slope);
         }
+        else{
+            /// Intercepts near T's limit can differ by more than T holds, so they widen only then: always costs 26%
+            long long dk = (long long)k[i] - k[j], ds = (long long)k[i] - slope;
+            T rise, gap;
+            bool overflow = __builtin_sub_overflow(intercept, b[i], &rise) | __builtin_sub_overflow(b[j], b[i], &gap);
+            if (__builtin_expect(overflow, 0)){
+                return ((__int128)intercept - b[i]) * dk <= ((__int128)b[j] - b[i]) * ds;
+            }
 
-        return (__int128)(intercept - b[i]) * (k[i] - k[j]) <= (__int128)(b[j] - b[i]) * (k[i] - slope);
+            return (__int128)rise * dk <= (__int128)gap * ds;
+        }
     }
 };
 
