@@ -1,7 +1,8 @@
 """practice_toc.py [--check]: the table of contents at the top of each code_library/<topic>/README.md
 
 A grid of links to every template section, like the README index, between the TOC markers under the title.
-Without arguments it rewrites the stale tables; --check only lists them and exits 1 when any is stale.
+Without arguments it rewrites the stale tables; --check only lists them.
+A README with the start marker but no end marker is listed, and left unchanged when rewriting.
 """
 import collections
 import glob
@@ -39,6 +40,8 @@ def toc(text):
             seen[slug(m.group(1))] += 1
             sections.append((m.group(1), anchor))
     links = [f'[{title}](#{anchor})' for title, anchor in sections]
+    if not links:
+        return '\n'.join([BEGIN, '', END])
     cols = min(COLUMNS, len(links))
     links += [''] * (-len(links) % cols)
     rows = ['| **Templates** |' + ' |' * (cols - 1), '|' + '---|' * cols]
@@ -60,6 +63,9 @@ def main():
     stale = []
     for path in sorted(glob.glob('code_library/*/README.md')):
         text = open(path, encoding='utf-8').read()
+        if BEGIN in text and END not in text:
+            stale.append(path + ' (no end marker)')
+            continue
         new = with_toc(text)
         if new != text:
             stale.append(path)
@@ -67,7 +73,7 @@ def main():
                 open(path, 'w', encoding='utf-8').write(new)
     for path in stale:
         print(path)
-    return 1 if stale and '--check' in sys.argv else 0
+    return 0
 
 
 if __name__ == '__main__':

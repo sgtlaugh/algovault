@@ -56,4 +56,3 @@ for path in sys.argv[1:]:
         if [n for _, n in defined] != [n for _, n in sorted(defined)]:
             bad += 1
             print(f"{path} ({obj}): header order {[n for _, n in defined]}, code order {[n for _, n in sorted(defined)]}")
-sys.exit(1 if bad else 0)

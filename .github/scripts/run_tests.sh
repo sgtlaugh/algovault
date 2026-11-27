@@ -173,6 +173,12 @@ check_readme(){
     failures+=("${missing[@]/%/ (not in README index)}")
 }
 
+script_crashed(){  # a check script that exits non-zero printed only part of its findings, so the check fails
+    echo "  crashed: $1"
+    failed=$((failed + 1))
+    failures+=("$1 (check script crashed)")
+}
+
 check_index_descriptions(){  # an index entry's description says what the template is for in at most 50 characters
     local long
     long="$(python3 - <<'PY'
@@ -182,7 +188,7 @@ for line in open('README.md', encoding='utf-8'):
     if m and len(m.group(2)) > 50:
         print(f"{m.group(1)} ({len(m.group(2))} characters)")
 PY
-)"
+)" || script_crashed "index descriptions"
     local count=0
     [[ -n "$long" ]] && count=$(grep -c . <<< "$long")
     echo "index descriptions: $count README index entries over 50 characters"
@@ -251,7 +257,7 @@ for problem, copies in sorted(seen.items()):
     if len(copies) > 1:
         print(problem)
 PY
-)"
+)" || script_crashed "practice copies"
     local count=0
     [[ -n "$drift" ]] && count=$(grep -c . <<< "$drift")
     echo "practice copies: $count problems listed with different titles or URLs"
@@ -262,8 +268,9 @@ PY
 }
 
 check_order(){  # practice entries and README index siblings in natural order: case-insensitive, numbers by value
-    local bad=()
-    mapfile -t bad < <(python3 .github/scripts/check_order.py)
+    local out bad=()
+    out="$(python3 .github/scripts/check_order.py)" || script_crashed "check_order.py"
+    [[ -n "$out" ]] && mapfile -t bad <<< "$out"
 
     echo "order: ${#bad[@]} practice or index entries out of natural order"
     [[ ${#bad[@]} -eq 0 ]] && return
@@ -272,9 +279,9 @@ check_order(){  # practice entries and README index siblings in natural order: c
     failures+=("${bad[@]/%/ (order)}")
 }
 
-check_practice_toc(){  # each practice README's table of contents matches its sections and solved counts
+check_practice_toc(){  # each practice README's table of contents matches its sections
     local stale count=0
-    stale="$(python3 .github/scripts/practice_toc.py --check)"
+    stale="$(python3 .github/scripts/practice_toc.py --check)" || script_crashed "practice_toc.py"
     [[ -n "$stale" ]] && count=$(grep -c . <<< "$stale")
     echo "practice toc: $count practice READMEs whose table of contents is stale"
     [[ $count -eq 0 ]] && return
@@ -438,8 +445,9 @@ check_return_blank(){  # a return right after a } at its own indent is a new ste
 }
 
 check_api_order(){  # the code defines a template's public calls in the order its header lists them
-    local bad=()
-    mapfile -t bad < <(git ls-files -co --exclude-standard 'code_library/*.cpp' | xargs python3 .github/scripts/api_order.py)
+    local out bad=()
+    out="$(git ls-files -co --exclude-standard 'code_library/*.cpp' | xargs python3 .github/scripts/api_order.py)" || script_crashed "api_order.py"
+    [[ -n "$out" ]] && mapfile -t bad <<< "$out"
 
     echo "api order: ${#bad[@]} templates defining header calls out of header order"
     [[ ${#bad[@]} -eq 0 ]] && return
@@ -449,8 +457,9 @@ check_api_order(){  # the code defines a template's public calls in the order it
 }
 
 check_member_order(){  # a struct declares its types, constants and fields before its first method
-    local bad=()
-    mapfile -t bad < <(git ls-files -co --exclude-standard 'code_library/*.cpp' | xargs python3 .github/scripts/member_order.py)
+    local out bad=()
+    out="$(git ls-files -co --exclude-standard 'code_library/*.cpp' | xargs python3 .github/scripts/member_order.py)" || script_crashed "member_order.py"
+    [[ -n "$out" ]] && mapfile -t bad <<< "$out"
 
     echo "member order: ${#bad[@]} struct fields or types declared after a method"
     [[ ${#bad[@]} -eq 0 ]] && return
