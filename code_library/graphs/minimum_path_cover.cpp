@@ -159,6 +159,7 @@ struct DAGPathCover{
     }
 
     int min_disjoint_path_cover() const{
+        topological_order();  /// asserts acyclic: on a cycle the matching would count it as zero paths
         return n - matching(n, adj).max_matching();
     }
 
@@ -179,20 +180,7 @@ struct DAGPathCover{
         vector<vector<unsigned long long>> reach(n, vector<unsigned long long>(words, 0));
 
         /// Reverse topological order, so every successor's reach set is complete before it is merged
-        vector<int> indegree(n, 0), order;
-        for (int u = 0; u < n; u++){
-            for (int v : adj[u]) indegree[v]++;
-        }
-        for (int u = 0; u < n; u++){
-            if (!indegree[u]) order.push_back(u);
-        }
-        for (int i = 0; i < (int)order.size(); i++){
-            for (int v : adj[order[i]]){
-                if (!--indegree[v]) order.push_back(v);
-            }
-        }
-        assert((int)order.size() == n);
-
+        vector<int> order = topological_order();
         for (int i = n - 1; i >= 0; i--){
             int u = order[i];
             for (int v : adj[u]){
@@ -209,6 +197,24 @@ struct DAGPathCover{
         }
 
         return res;
+    }
+
+    vector<int> topological_order() const{
+        vector<int> indegree(n, 0), order;
+        for (int u = 0; u < n; u++){
+            for (int v : adj[u]) indegree[v]++;
+        }
+        for (int u = 0; u < n; u++){
+            if (!indegree[u]) order.push_back(u);
+        }
+        for (int i = 0; i < (int)order.size(); i++){
+            for (int v : adj[order[i]]){
+                if (!--indegree[v]) order.push_back(v);
+            }
+        }
+        assert((int)order.size() == n);
+
+        return order;
     }
 };
 

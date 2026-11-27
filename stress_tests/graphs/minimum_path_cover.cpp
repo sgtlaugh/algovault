@@ -107,5 +107,17 @@ int main(){
         }
     }
 
+    /// A cycle or a self loop must abort every call, the disjoint cover included
+    stress::expect_assert("graphs/minimum_path_cover.cpp", []{
+        DAGPathCover g(2);
+        g.add_edge(0, 1), g.add_edge(1, 0);
+        g.min_disjoint_path_cover();
+    });
+    stress::expect_assert("graphs/minimum_path_cover.cpp", []{
+        DAGPathCover g(1);
+        g.add_edge(0, 0);
+        g.min_disjoint_path_cover();
+    });
+
     return 0;
 }
