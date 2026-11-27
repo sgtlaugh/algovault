@@ -20,32 +20,32 @@ using namespace std;
 /// MOD is a template parameter so % compiles to a multiplication, a runtime modulus measured 6x slower
 template <int MOD = 1000000007>
 vector<int> bernoulli_numbers(int n){
+    static_assert([]{ for (long long d = 2; d * d <= MOD; d++) if (MOD % d == 0) return false; return MOD > 1; }(), "MOD must be a prime");
     assert(0 <= n && n + 1 < MOD);
     vector<int> S(n + 1, 0), inv(n + 2), fact(n + 1), bernoulli(n + 1, 0);
-    int i, j;
-    long long x, y, z, lim = (long long)MOD * MOD;
+    long long lim = (long long)MOD * MOD;
 
-    for (i = 1, fact[0] = 1; i <= n; i++){
-        fact[i] = ((long long) fact[i - 1] * i) % MOD;
-    }
-    for (i = 2, inv[1] = 1; i <= n + 1; i++) inv[i] = (long long)(MOD - MOD / i) * inv[MOD % i] % MOD;
+    fact[0] = 1;
+    for (int i = 1; i <= n; i++) fact[i] = (long long)fact[i - 1] * i % MOD;
+    inv[1] = 1;
+    for (int i = 2; i <= n + 1; i++) inv[i] = (long long)(MOD - MOD / i) * inv[MOD % i] % MOD;
 
     /// S holds row i of the Stirling numbers of the second kind, updated in place from the right
     bernoulli[0] = 1;
-    for (i = 1, S[0] = 1; i <= n; i++){
-        for (j = i, S[i] = 0; j >= 1; j--){
-            S[j] = ((long long)S[j] * j + S[j - 1]) % MOD;
-        }
+    S[0] = 1;
+    for (int i = 1; i <= n; i++){
+        S[i] = 0;
+        for (int j = i; j >= 1; j--) S[j] = ((long long)S[j] * j + S[j - 1]) % MOD;
         S[0] = 0;
 
         if (i == 1 || i % 2 == 0){
-            for (j = 0, x = 0, y = 0; j <= i; j++){
-                z = (long long)fact[j] * inv[j + 1] % MOD;
-                z = z * S[j] % MOD;
-                if (j & 1) y += z;
-                else x += z;
+            long long even = 0, odd = 0;
+            for (int j = 0; j <= i; j++){
+                long long z = (long long)fact[j] * inv[j + 1] % MOD * S[j] % MOD;
+                if (j & 1) odd += z;
+                else even += z;
             }
-            bernoulli[i] = (lim + x - y) % MOD;
+            bernoulli[i] = (lim + even - odd) % MOD;
         }
     }
 
