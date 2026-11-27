@@ -189,5 +189,12 @@ int main(){
         }
     }
 
+    /// A parallel edge, in either orientation, must abort instead of reading past adj
+    stress::expect_assert("graphs/edge_coloring.cpp", []{
+        VizingEdgeColoring g(3);
+        g.add_edge(0, 1), g.add_edge(1, 2), g.add_edge(1, 0);
+        g.solve();
+    });
+
     return 0;
 }

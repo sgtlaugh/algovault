@@ -115,6 +115,12 @@ struct VizingEdgeColoring{
         int m = edges.size(), k = 1;
         vector<int> deg(n);
 
+        /// A parallel edge breaks the fan rotation: it reads past adj and gives both copies one color
+        vector<pair<int, int>> pairs;
+        for (auto& e : edges) pairs.push_back(minmax(e[0], e[1]));
+        sort(pairs.begin(), pairs.end());
+        assert(adjacent_find(pairs.begin(), pairs.end()) == pairs.end());
+
         for (auto& e : edges){
             k = max({k, ++deg[e[0]] + 1, ++deg[e[1]] + 1});
         }
