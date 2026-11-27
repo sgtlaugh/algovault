@@ -56,7 +56,7 @@ struct DynamicDiameter{
             if (next_edge[u] < (int)adj[u].size()){
                 auto [v, id] = adj[u][next_edge[u]++];
                 if (id == parent_edge[u]) continue;
-                assert(enter[id] == -1);
+                assert(v != 0 && parent_edge[v] == -1);  /// a node reached twice, or the root again, is a cycle
                 parent_edge[v] = id, dist[v] = dist[u] + weight[id];
                 enter[id] = tour.size(), tour.push_back(dist[v]);
                 stack.push_back(v);

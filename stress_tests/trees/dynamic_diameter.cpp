@@ -94,5 +94,17 @@ int main(){
         for (int n : {1 << (k - 1), (1 << (k - 1)) + 1}) check(n, k % 5, 200, 1000000000LL, 100);
     }
 
+    /// n - 1 edges that are not a tree: a triangle beside a lone node, a self loop beside a lone node
+    stress::expect_assert("trees/dynamic_diameter.cpp", []{
+        DynamicDiameter g(4);
+        g.add_edge(0, 1, 1), g.add_edge(1, 2, 1), g.add_edge(2, 0, 1);
+        g.build();
+    });
+    stress::expect_assert("trees/dynamic_diameter.cpp", []{
+        DynamicDiameter g(2);
+        g.add_edge(0, 0, 7);
+        g.build();
+    });
+
     return 0;
 }
