@@ -44,7 +44,7 @@ using namespace std;
 template<int MOD = 998244353>
 struct Polynomial{
     static_assert(MOD > 2 && MOD < (1 << 30), "MOD must be an odd NTT prime below 2^30");
-    static_assert([]{ for (int d = 2; d * d <= MOD; d++) if (MOD % d == 0) return false; return true; }(), "MOD must be a prime");
+    static_assert([]{ for (long long d = 2; d * d <= MOD; d++) if (MOD % d == 0) return false; return true; }(), "MOD must be a prime");
 
     vector<int> a;
 
