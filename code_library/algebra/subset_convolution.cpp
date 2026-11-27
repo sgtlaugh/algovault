@@ -79,6 +79,7 @@ void sos_transform(vector<T>& f, int width, long long mod, bool superset, bool i
 
 template<typename T>
 void sos_reduce_and_transform(vector<T>& f, long long mod, bool superset, bool inverse){
+    assert(mod == 0 || mod - 1 <= (long long)numeric_limits<T>::max());  /// a residue must fit T, or it truncates
     if (mod) for (auto& x : f) x = sos_reduce_mod(x, mod);
     sos_transform(f, 1, mod, superset, inverse);
 }
@@ -229,6 +230,7 @@ vector<T> subset_exp(const vector<T>& f, long long mod){
 
 template<typename T = long long>
 vector<T> subset_inverse(const vector<T>& a, long long mod){
+    assert(!a.empty());
     vector<T> one(a.size(), 0);
     one[0] = 1;
     return sos_divide(one, a, mod);

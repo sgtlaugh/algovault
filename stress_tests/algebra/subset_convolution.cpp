@@ -284,5 +284,9 @@ int main(){
         check_folds_random(it < 90 ? it % 9 : stress::rand_int(0, 8));
     }
 
+    /// A vector<int> cannot hold residues of 5e9, and an empty subset_inverse must assert before writing
+    stress::expect_assert("algebra/subset_convolution.cpp", []{ vector<int> h(4, -1); subset_zeta(h, 5000000000LL); });
+    stress::expect_assert("algebra/subset_convolution.cpp", []{ subset_inverse(vector<long long>{}, 7); });
+
     return 0;
 }
