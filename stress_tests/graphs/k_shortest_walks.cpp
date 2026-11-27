@@ -147,5 +147,9 @@ int main(){
 
     n = 200000;
     assert(run_library(n, loop_ladder(n), 0, n - 1, 300000) == loop_ladder_walks(n, 300000));
+
+    /// A negative weight must abort: a negative cycle reaching t made solve run forever
+    stress::expect_assert("graphs/k_shortest_walks.cpp", []{ KShortestWalks(2).add_edge(0, 1, -1); });
+
     return 0;
 }

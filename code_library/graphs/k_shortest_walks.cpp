@@ -86,6 +86,7 @@ struct KShortestWalks{
     KShortestWalks(int n) : n(n) {}
 
     void add_edge(int u, int v, long long w){
+        assert(w >= 0);  /// a negative cycle reaching t makes the reverse Dijkstra lower d[] forever
         edges.push_back({u, v, w});
     }
 
