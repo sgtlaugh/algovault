@@ -10,7 +10,7 @@
  *
  * Notes:
  *   - Leading zeros are not written, and 0 itself is the single digit 0
- *   - Counts fit long long for r <= 4e18
+ *   - r <= 4e18, so every count fits long long
  *
 ***/
 
@@ -19,6 +19,7 @@
 using namespace std;
 
 array<long long, 10> digit_counts(long long n){
+    assert(n <= 4000000000000000000LL);
     array<long long, 10> res{};
     if (n < 0) return res;
 

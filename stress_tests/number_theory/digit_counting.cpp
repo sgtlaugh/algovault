@@ -80,6 +80,8 @@ int main(){
 
     stress::expect_assert("number_theory/digit_counting.cpp", []{ digit_counts(5, 3); });
     stress::expect_assert("number_theory/digit_counting.cpp", []{ digit_counts(-5, 3); });
+    stress::expect_assert("number_theory/digit_counting.cpp", []{ digit_counts(LLONG_MAX); });
+    stress::expect_assert("number_theory/digit_counting.cpp", []{ digit_counts(0, 4000000000000000001LL); });
 
     return 0;
 }
