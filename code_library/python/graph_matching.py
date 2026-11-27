@@ -39,6 +39,7 @@ def _get_tutte_matrix(n, edges, mod):
     matrix = [[0] * n for _ in range(n)]
 
     for u, v in edges:
+        assert u != v, 'self-loops are not allowed'
         val = randint(1, mod - 1)
         matrix[u][v], matrix[v][u] = val, mod - val
 

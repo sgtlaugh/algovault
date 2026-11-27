@@ -50,6 +50,14 @@ def main():
         nodes = max((max(e) for e in edges), default=-1) + 1  # the library sizes the graph by the largest label
         assert maximum_matching(edges) == brute(nodes, edges)
 
+    # A self-loop used to leave a nonzero diagonal and count as a matched edge
+    try:
+        maximum_matching([(0, 0), (1, 1)])
+    except AssertionError:
+        pass
+    else:
+        raise AssertionError('a self-loop was accepted')
+
 
 if __name__ == '__main__':
     main()
