@@ -95,5 +95,8 @@ int main(){
     check(64, 64, 3000, -50, 50, INT_MAX, mn);
     check(37, 53, 3000, -50, 50, INT_MIN, mx);
 
+    /// A ragged grid would read past the end of a shorter row
+    check_rejects([&]{ SegmentTree2D<int, decltype(mn)> ragged(vector<vector<int>>{{1, 2}, {3}}, INT_MAX, mn); });
+
     return 0;
 }

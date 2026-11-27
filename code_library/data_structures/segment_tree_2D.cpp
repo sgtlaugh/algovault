@@ -39,6 +39,7 @@ struct SegmentTree2D{
     SegmentTree2D(const vector<vector<T>>& grid, T identity = T(), Combine combine = Combine())
         : SegmentTree2D(grid.size(), grid.empty() ? 0 : grid[0].size(), identity, combine){
         for (int i = 0; i < n; i++){
+            assert((int)grid[i].size() == m);  /// every row is read up to grid[0].size()
             for (int j = 0; j < m; j++) at(n + i, m + j) = grid[i][j];
             for (int c = m - 1; c > 0; c--) at(n + i, c) = combine(at(n + i, 2 * c), at(n + i, 2 * c + 1));
         }
