@@ -54,10 +54,10 @@ int main(){
         for (long long a = -p; a < 2 * p; a++) assert(sqrt_mod(a, p) == smallest[(a % p + p) % p]);
     }
 
-    /// Random 62-bit primes, the largest prime below 2^62, and two with a deep 2-adic p - 1 for Tonelli-Shanks
-    const vector<long long> fixed_primes = {998244353, 29 * (1LL << 57) + 1, (1LL << 62) - 57};
+    /// Random primes up to 2^63, the largest below 2^62 and 2^63, and a deep 2-adic p - 1 for Tonelli-Shanks
+    const vector<long long> fixed_primes = {998244353, 29 * (1LL << 57) + 1, (1LL << 62) - 57, LLONG_MAX - 24, 4611686018427388073LL};
     for (long long it = 0; it < stress::scaled(3000); it++){
-        long long p = it % 3 ? random_prime(1LL << 61, (1LL << 62) - 1) : fixed_primes[it / 3 % 3];
+        long long p = it % 3 ? random_prime(1LL << 61, LLONG_MAX) : fixed_primes[it / 3 % 5];
         long long x = stress::rand_int(1, p - 1), a = (unsigned __int128)x * x % p;
         assert(sqrt_mod(a, p) == min(x, p - x));
         assert(sqrt_mod(a - p, p) == min(x, p - x));
@@ -67,6 +67,11 @@ int main(){
         if (r != -1) assert((unsigned __int128)r * r % p == (unsigned long long)n && 2 * r < p);
         else assert(sqrt_mod((unsigned __int128)n * a % p, p) == -1);
     }
+
+    /// Above 2^62 the old (a % p + p) % p overflowed: p - 1 is a square mod this p = 1 mod 4 and came back -1
+    long long big = 4611686018427388073LL, root = sqrt_mod(big - 1, big);
+    assert(root > 0 && (unsigned __int128)root * root % big == (unsigned long long)(big - 1));
+    assert(sqrt_mod(LLONG_MIN, LLONG_MAX - 24) == sqrt_mod(LLONG_MIN % (LLONG_MAX - 24) + LLONG_MAX - 24, LLONG_MAX - 24));
 
     /// a = x^(2^40) mod 29 * 2^57 + 1 makes Tonelli-Shanks shift by up to 2^39, random squares take about 2^32 tries
     const long long Q = 29 * (1LL << 57) + 1;

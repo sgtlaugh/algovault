@@ -8,7 +8,7 @@
  * sqrt_mod(a, p): the smaller of the two x with x^2 = a mod p (the other is p - x), -1 if there is none
  *
  * Notes:
- *   - p must be prime (not checked) and below 2^62, a is any long long and is reduced mod p
+ *   - p must be prime (not checked) and below 2^63, a is any long long and is reduced mod p
  *   - Requires __int128 (64-bit GCC or Clang)
  *   - Multiplicative order, primitive root and k-th roots: modular_roots.cpp, which carries this file
  *
@@ -40,7 +40,8 @@ long long non_residue(long long q, long long p){
 }
 
 long long sqrt_mod(long long a, long long p){
-    a = (a % p + p) % p;
+    a %= p;
+    if (a < 0) a += p;
     if (a == 0) return 0;
     if (pow_mod(a, (p - 1) / 2, p) != 1) return -1;
 

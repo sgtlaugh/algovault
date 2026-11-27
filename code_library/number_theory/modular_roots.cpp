@@ -17,7 +17,7 @@
  * sqrt_mod(a, p): the smaller of the two x with x^2 = a mod p (the other is p - x), -1 if there is none
  *
  * Notes:
- *   - p must be prime (not checked), every modulus in [1, 2^62), k >= 0, a is any long long and is reduced mod m
+ *   - p must be prime (not checked), every modulus in [1, 2^63), k >= 0, a is any long long and is reduced mod m
  *   - 0^0 = 1, so kth_roots(1, 0, p) returns all p residues
  *   - A primitive root exists only for m = 1, 2, 4, p^k and 2p^k with p an odd prime, primitive_root(1) = 0
  *   - kth_root adds O(sqrt(q) log p) time and O(sqrt(q)) memory per prime q dividing both g and (p - 1) / g
@@ -53,7 +53,8 @@ long long non_residue(long long q, long long p){
 }
 
 long long sqrt_mod(long long a, long long p){
-    a = (a % p + p) % p;
+    a %= p;
+    if (a < 0) a += p;
     if (a == 0) return 0;
     if (pow_mod(a, (p - 1) / 2, p) != 1) return -1;
 
@@ -87,7 +88,8 @@ long long inverse_mod(long long a, long long m){
         s -= q * next_s, swap(s, next_s);
     }
 
-    return (s % m + m) % m;
+    s %= m;
+    return s < 0 ? s + m : s;
 }
 
 namespace rho{
@@ -118,7 +120,7 @@ namespace rho{
         if (n % 2 == 0) return 2;
 
         for (long long c = 1; ; c++){
-            auto next = [&](long long x){ return (mul_mod(x, x, n) + c) % n; };
+            auto next = [&](long long x){ return (long long)(((unsigned long long)mul_mod(x, x, n) + c) % n); };
             long long x = 0, y = 0, ys = 0, q = 1, g = 1;
 
             for (long long r = 1; g == 1; r <<= 1){
@@ -217,7 +219,8 @@ long long prime_power_root(long long b, long long q, int e, long long p){
 }
 
 long long kth_root(long long a, long long k, long long p){
-    a = (a % p + p) % p;
+    a %= p;
+    if (a < 0) a += p;
     if (k == 0) return a == 1 ? 0 : -1;
     if (a == 0) return 0;
 
@@ -231,7 +234,8 @@ long long kth_root(long long a, long long k, long long p){
 }
 
 vector<long long> kth_roots(long long a, long long k, long long p){
-    a = (a % p + p) % p;
+    a %= p;
+    if (a < 0) a += p;
     if (k == 0 && a == 1){
         vector<long long> all(p);
         iota(all.begin(), all.end(), 0);
@@ -256,7 +260,8 @@ vector<long long> kth_roots(long long a, long long k, long long p){
 }
 
 long long multiplicative_order(long long a, long long m){
-    a = (a % m + m) % m;
+    a %= m;
+    if (a < 0) a += m;
     if (gcd(a, m) != 1) return -1;
 
     long long phi = m;

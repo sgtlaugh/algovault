@@ -77,7 +77,7 @@ int main(){
         assert(rho::is_prime(n) == brute_is_prime(n));
     }
     for (long long it = 0; it < stress::scaled(300); it++){
-        long long n = stress::rand_int(1, it % 2 ? 1000000000000LL : (1LL << 62) - 1), rest = n;
+        long long n = stress::rand_int(1, it % 2 ? 1000000000000LL : LLONG_MAX), rest = n;
         for (auto [q, e] : rho::factorize(n)){
             assert(rho::is_prime(q));
             for (int i = 0; i < e; i++) assert(rest % q == 0), rest /= q;
@@ -115,10 +115,10 @@ int main(){
         check_kth_roots(stress::rand_int(1, 1000000000000000000LL), p);
     }
 
-    /// Random 62-bit primes, the largest prime below 2^62, and two with a deep 2-adic p - 1 for Tonelli-Shanks
-    const vector<long long> fixed_primes = {998244353, 29 * (1LL << 57) + 1, (1LL << 62) - 57};
+    /// Random primes up to 2^63, the largest below 2^62 and 2^63, and a deep 2-adic p - 1 for Tonelli-Shanks
+    const vector<long long> fixed_primes = {998244353, 29 * (1LL << 57) + 1, (1LL << 62) - 57, LLONG_MAX - 24, 4611686018427388073LL};
     for (long long it = 0; it < stress::scaled(300); it++){
-        long long p = it % 3 ? random_prime(1LL << 61, (1LL << 62) - 1) : fixed_primes[it / 3 % 3];
+        long long p = it % 3 ? random_prime(1LL << 61, LLONG_MAX) : fixed_primes[it / 3 % 5];
         long long x = stress::rand_int(1, p - 1), a = mul_mod(x, x, p), r = sqrt_mod(a, p);
         assert(r == min(x, p - x));
         long long n = stress::rand_int(1, p - 1);
