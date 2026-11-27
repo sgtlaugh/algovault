@@ -27,7 +27,7 @@
  *
  *     then x = y / t
  *
- *   - Rows are scaled internally, so mixing very large and very small coefficients is fine
+ *   - Rows are rescaled, columns are not: in double keep variable scales within 1e4, long double held 1e6
  *   - The answer is unreliable only when moving a limit by about 1e-7 of its row changes it, like nearly parallel rows
  *
 ***/
@@ -48,8 +48,8 @@ struct BasicSimplex : SimplexOptions{
     static constexpr bool WIDE = is_same<Float, long double>::value;
     /// EPS decides pivots and feasibility, DROP only prunes elimination: pruning at EPS broke rows for large variables
     static constexpr Float EPS = WIDE ? 1e-13L : 1e-9, DROP = WIDE ? 1e-16L : 1e-12;
-    /// Smallest ratio-test pivot: a degenerate tie under Bland's rule took a 2e-13 roundoff entry and broke rows by 0.3
-    static constexpr Float PIVOT = WIDE ? 1e-9L : 1e-7;
+    /// Smallest ratio-test pivot: roundoff pivots reached 8e-12 (long double), skipped genuine entries 1.5e-10
+    static constexpr Float PIVOT = WIDE ? 3e-11L : 1e-7;
 
     Float value = 0;
     vector<Float> val;
@@ -205,7 +205,14 @@ struct BasicSimplex : SimplexOptions{
                 bool better = bland ? basic[i] < basic[x] : ar[i][y] > ar[x][y];
                 if (x == 0 || u < v - tol || (u <= v + tol && better)) x = i, v = u;
             }
-            if (x == 0) return false;
+            if (x == 0){
+                /// A column with no limiting row is unbounded only if its gain beats roundoff in the objective row
+                Float scale = 1;
+                for (int j = 0; j <= n; j++) scale = max(scale, abs(ar[z][j]));
+                if (ar[z][y] > EPS * scale) return false;
+                ar[z][y] = 0;
+                continue;
+            }
             bland = v <= EPS;
             pivot(x, y);
         }
