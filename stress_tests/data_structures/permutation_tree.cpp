@@ -119,5 +119,10 @@ int main(){
     PermutationTree shuffled(random_permutation(big));
     assert((int)shuffled.children.size() <= 2 * big - 1 && shuffled.span[shuffled.root] == make_pair(0, big - 1));
 
+    /// Without the check a repeated or out-of-range value returns a plausible count from a malformed tree
+    stress::expect_assert("data_structures/permutation_tree.cpp", []{ PermutationTree bad({0, 0}); });
+    stress::expect_assert("data_structures/permutation_tree.cpp", []{ PermutationTree bad({5, 3}); });
+    stress::expect_assert("data_structures/permutation_tree.cpp", []{ PermutationTree bad({1, -1, 0}); });
+
     return 0;
 }

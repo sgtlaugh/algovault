@@ -38,6 +38,12 @@ struct PermutationTree{
     vector<vector<int>> children;
 
     PermutationTree(const vector<int>& p) : n(p.size()), root(-1){
+        vector<char> seen(n, 0);
+        for (int x : p){
+            assert(0 <= x && x < n && !seen[x]);  /// a repeated or out-of-range value builds a malformed tree silently
+            seen[x] = 1;
+        }
+
         parent.reserve(2 * n), type.reserve(2 * n), span.reserve(2 * n), range.reserve(2 * n), children.reserve(2 * n);
         for (int i = 0; i < n; i++) new_node(CUT, {i, i}, {p[i], p[i]});
 
