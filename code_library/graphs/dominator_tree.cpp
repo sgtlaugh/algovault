@@ -32,6 +32,7 @@ struct DominatorTree{
     }
 
     vector<int> run(int root){
+        assert(0 <= root && root < n);
         dfs(root);
         int k = order.size();
         vector<vector<int>> pred(k), bucket(k);

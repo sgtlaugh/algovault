@@ -107,5 +107,9 @@ int main(){
     vector<int> chain = path.run(0), flat = ladder.run(0);
     assert(chain[0] == 0 && flat[0] == 0);
     for (int i = 1; i < n; i++) assert(chain[i] == i - 1 && flat[i] == (i == n - 1 ? n - 2 : 0));
+    /// A root outside [0, n) must abort instead of indexing past adj
+    stress::expect_assert("graphs/dominator_tree.cpp", []{ DominatorTree(3).run(3); });
+    stress::expect_assert("graphs/dominator_tree.cpp", []{ DominatorTree(3).run(-1); });
+
     return 0;
 }
