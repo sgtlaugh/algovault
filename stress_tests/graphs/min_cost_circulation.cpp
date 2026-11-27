@@ -129,5 +129,10 @@ int main(){
     long long cost = g.solve();
     check_optimal(n, arcs, g, ids, cost);
 
+    /// Costs beyond 1e9 or n beyond 1e4 overflow the scaled costs silently, so both must abort
+    stress::expect_assert("graphs/min_cost_circulation.cpp", []{ MinCostCirculation(2).add_edge(0, 1, 1, -4000000000000000000LL); });
+    stress::expect_assert("graphs/min_cost_circulation.cpp", []{ MinCostCirculation(2).add_edge(0, 1, 1, 1000000001); });
+    stress::expect_assert("graphs/min_cost_circulation.cpp", []{ MinCostCirculation g(10001); });
+
     return 0;
 }

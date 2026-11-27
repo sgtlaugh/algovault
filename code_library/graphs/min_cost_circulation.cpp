@@ -37,10 +37,13 @@ struct MinCostCirculation{
     vector<long long> excess, potential;
     vector<int> cur;
 
-    MinCostCirculation(int n) : n(n), adj(n), excess(n), potential(n), cur(n) {}
+    MinCostCirculation(int n) : n(n), adj(n), excess(n), potential(n), cur(n){
+        assert(n <= 10000);
+    }
 
     int add_edge(int u, int v, long long cap, long long cost){
         assert(0 <= u && u < n && 0 <= v && v < n && cap >= 0);
+        assert(-1000000000 <= cost && cost <= 1000000000);  /// cost * (n + 1) and its sums must stay in long long
         pos.push_back({u, (int)adj[u].size()});
 
         /// Scaled by n + 1: a cycle has at most n arcs, so 1-optimality in scaled units leaves no negative cycle
