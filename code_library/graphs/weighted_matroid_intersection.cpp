@@ -4,7 +4,7 @@
  * Maximum weight set of ground elements that is independent in two matroids at once
  *
  * Complexity:
- *   - weighted_matroid_intersection: O(n r^2) oracle queries, r + 1 builds, O(n^2 r^2) time, for an answer of size r
+ *   - weighted_matroid_intersection: O(n r^2) oracle queries, r + 1 builds, O(n r^3) time, for an answer of size r
  *   - GraphicMatroid: build O(v + n), queries O(1)
  *   - PartitionMatroid: build O(colors + r), queries O(1)
  *   - XorMatroid: build O(64 n), queries O(1)
