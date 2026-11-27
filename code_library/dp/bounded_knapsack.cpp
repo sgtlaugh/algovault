@@ -21,10 +21,12 @@ using namespace std;
 
 template <typename T = long long>
 long long bounded_knapsack(const vector<T>& values, const vector<T>& weights, const vector<T>& counts, int capacity){
+    assert(capacity >= 0 && weights.size() == values.size() && counts.size() == values.size());
     vector<long long> dp(capacity + 1, 0);
     vector<pair<int, long long>> window(capacity + 1);
 
     for (size_t i = 0; i < values.size(); i++){
+        assert(weights[i] >= 0 && counts[i] >= 0);
         long long v = values[i], c = counts[i];
         /// Skipping items that never help also keeps x += w and dp[x] - k * v below from overflowing
         if (v <= 0 || weights[i] > capacity) continue;

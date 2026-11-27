@@ -76,5 +76,11 @@ int main(){
         }
     }
 
+    /// Inputs outside the contract hit the library's asserts
+    stress::expect_assert("dp/bounded_knapsack.cpp", []{ bounded_knapsack(vector<int>{5}, vector<int>{2}, vector<int>{-1}, 10); });
+    stress::expect_assert("dp/bounded_knapsack.cpp", []{ bounded_knapsack(vector<int>{5}, vector<int>{-2}, vector<int>{1}, 10); });
+    stress::expect_assert("dp/bounded_knapsack.cpp", []{ bounded_knapsack(vector<int>{5}, vector<int>{2}, vector<int>{1}, -1); });
+    stress::expect_assert("dp/bounded_knapsack.cpp", []{ bounded_knapsack(vector<int>{5, 6}, vector<int>{2}, vector<int>{1, 1}, 10); });
+
     return 0;
 }
