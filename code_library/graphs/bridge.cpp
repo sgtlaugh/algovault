@@ -126,8 +126,7 @@ struct BridgeGraph{
     /// DFS from a vertex of the largest component: tree edges point down, other edges up, bridges back toward the root
     vector<int> orient(){
         vector<vector<int>> groups = get_components();
-        vector<char> is_bridge(m, 0), seen(m, 0), visited(n, 0);
-        for (auto& b : get_bridges()) is_bridge[b.id] = 1;
+        vector<char> seen(m, 0), visited(n, 0);
 
         vector<int> head(m), order(n), edge_pos(n, 0), dfs_stack;
         iota(order.begin(), order.end(), 0);
@@ -148,7 +147,7 @@ struct BridgeGraph{
                 auto [v, id] = adj[u][edge_pos[u]++];
                 if (seen[id]) continue;
                 seen[id] = 1;
-                head[id] = !visited[v] && is_bridge[id] ? u : v;
+                head[id] = !visited[v] && comp[u] != comp[v] ? u : v;  /// a bridge joins two components
                 if (!visited[v]) visited[v] = 1, dfs_stack.push_back(v);
             }
         }
