@@ -268,5 +268,9 @@ int main(){
         assert(abs(res - exact) <= 1e-7);
     }
 
+    /// n = 0 or panels = 0 made the step infinite: inf and NaN
+    stress::expect_assert("numerical/numerical_integration.cpp", []{ simpson(0, 1, [](double x){ return x; }, 0); });
+    stress::expect_assert("numerical/numerical_integration.cpp", []{ gauss_legendre(0, 1, [](double x){ return x; }, 0); });
+
     return 0;
 }

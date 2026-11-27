@@ -75,6 +75,7 @@ double adaptive_simpson(double a, double b, F f, double eps = 1e-9){
 
 template<typename F>
 double gauss_legendre(double a, double b, F f, int panels = 100){
+    assert(panels >= 1);
     /// The 10-point rule on [-1, 1] is symmetric, so only its positive nodes are stored
     const double node[5] = {0.14887433898163121088, 0.43339539412924719080, 0.67940956829902440621,
                             0.86506336668898451073, 0.97390652851717172008};
@@ -120,6 +121,7 @@ double romberg(double a, double b, F f, double eps = 1e-9, int max_levels = 20){
 
 template<typename F>
 double simpson(double a, double b, F f, int n = 1000){
+    assert(n >= 1);
     double h = (b - a) / (2 * n), sum = f(a) + f(b);
     for (int i = 1; i < 2 * n; i++) sum += f(a + i * h) * (i & 1 ? 4 : 2);
     return sum * h / 3;
