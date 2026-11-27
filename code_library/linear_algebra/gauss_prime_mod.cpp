@@ -100,6 +100,7 @@ vector<int> rref_mod(vector<vector<int>>& a, int cols, int mod){
 }
 
 GaussModSolution gauss(vector<vector<int>> equations, int mod){
+    assert(!equations.empty());
     int n = equations.size(), m = equations[0].size() - 1;
     vector<int> pos = rref_mod(equations, m, mod);
 

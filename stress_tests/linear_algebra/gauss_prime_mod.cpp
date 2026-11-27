@@ -245,5 +245,7 @@ int main(){
         if (inv) assert(is_identity_product(square, *inv, mod) && is_identity_product(*inv, square, mod));
     }
 
+    stress::expect_assert("linear_algebra/gauss_prime_mod.cpp", []{ gauss(vector<vector<int>>{}, 7); });
+
     return 0;
 }
