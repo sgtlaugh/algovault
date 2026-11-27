@@ -158,5 +158,9 @@ int main(){
     assert(lattice.gcd_convolution(a, b, mod) == harmonic_gcd(a, b, mod));
     assert(lattice.lcm_convolution(a, b, mod) == harmonic_lcm(a, b, mod));
 
+    /// A negative mod gave negative results and one of 2^62 + 5 overflowed add
+    stress::expect_assert("algebra/gcd_lcm_convolution.cpp", []{ vector<long long> a{1, 2, 3}; DivisorLattice(2).divisor_zeta(a, -7); });
+    stress::expect_assert("algebra/gcd_lcm_convolution.cpp", []{ vector<long long> a{1, 2, 3}; DivisorLattice(2).divisor_zeta(a, (1LL << 62) + 5); });
+
     return 0;
 }

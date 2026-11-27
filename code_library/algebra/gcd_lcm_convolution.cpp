@@ -85,7 +85,7 @@ struct DivisorLattice{
     }
 
     int prepare(vector<long long>& a, long long mod) const{
-        assert((long long)a.size() <= (long long)n + 1);
+        assert((long long)a.size() <= (long long)n + 1 && 0 <= mod && mod < (1LL << 62));
         if (mod) for (auto& x : a) x = (x % mod + mod) % mod;
         return (int)a.size() - 1;
     }
