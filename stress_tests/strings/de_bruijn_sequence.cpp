@@ -112,5 +112,9 @@ int main(){
     /// Without the k = 1 shortcut each call walks 1e9 steps, so this loop exceeds the CI timeout
     for (int i = 0; i < 20; i++) assert((de_bruijn(1, 1000000000) == vector<int>{0}));
 
+    /// k = 0 used to allocate until bad_alloc, n = 0 returned {0, 1}
+    stress::expect_assert("strings/de_bruijn_sequence.cpp", []{ de_bruijn(0, 2); });
+    stress::expect_assert("strings/de_bruijn_sequence.cpp", []{ de_bruijn(2, 0); });
+
     return 0;
 }

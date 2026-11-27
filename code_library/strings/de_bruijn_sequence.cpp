@@ -18,6 +18,8 @@
 using namespace std;
 
 vector<int> de_bruijn(int k, int n){
+    assert(k >= 1 && n >= 1);
+
     /// The extension loop below would still grow word to length n, costing O(n) for a length 1 answer
     if (k == 1) return {0};
 
