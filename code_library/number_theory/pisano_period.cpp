@@ -227,6 +227,7 @@ struct PisanoPeriod{
     PollardRho rho;
 
     long long period(long long n){
+        assert(1 <= n && n <= 1500000000000000000LL);
         auto primes = rho.factorize(n);
 
         /// pi(p^k) = pi(p) p^(k - 1), and factorize sorts, so each run of equal primes is one prime power

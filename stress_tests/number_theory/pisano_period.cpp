@@ -128,5 +128,9 @@ int main(){
         assert(fresh.period(n) == pisano.period(n));
     }
 
+    /// 10 p for a prime p near 9e17 needs an lcm above 2^63, past the documented 1.5e18
+    stress::expect_assert("number_theory/pisano_period.cpp", []{ PisanoPeriod pisano; pisano.period(9000000000000006430LL); });
+    stress::expect_assert("number_theory/pisano_period.cpp", []{ PisanoPeriod pisano; pisano.period(0); });
+
     return 0;
 }
