@@ -146,5 +146,12 @@ int main(){
     assert(is_stable(res, ranks(same), ranks(reversed)));
     for (int p = 0; p < n; p++) assert(res[p] == n - 1 - p);
 
+    /// Lists that are not permutations of 0..n - 1, or the wrong count or length, must abort
+    stress::expect_assert("graphs/stable_marriage.cpp", []{ stable_marriage({{0, 1}, {0, 1}}, {{0, 1}, {0, 0}}); });
+    stress::expect_assert("graphs/stable_marriage.cpp", []{ stable_marriage({{0, 1}, {1, 1}}, {{0, 1}, {0, 1}}); });
+    stress::expect_assert("graphs/stable_marriage.cpp", []{ stable_marriage({{0, 1}, {0, 1}}, {{0, 1}}); });
+    stress::expect_assert("graphs/stable_marriage.cpp", []{ stable_marriage({{0, 1}, {0}}, {{0, 1}, {0, 1}}); });
+    stress::expect_assert("graphs/stable_marriage.cpp", []{ stable_marriage({{0, 2}, {0, 1}}, {{0, 1}, {0, 1}}); });
+
     return 0;
 }

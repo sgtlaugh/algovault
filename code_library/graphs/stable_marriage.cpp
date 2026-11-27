@@ -22,10 +22,25 @@ using namespace std;
 
 vector<int> stable_marriage(const vector<vector<int>>& proposer_pref, const vector<vector<int>>& receiver_pref){
     int n = proposer_pref.size();
-    vector<vector<int>> rank(n, vector<int>(n));
+    assert((int)receiver_pref.size() == n);
+    vector<vector<int>> rank(n, vector<int>(n, -1));
 
+    /// A repeated or missing entry leaves rank half filled and the matching may be unstable, so both sides are checked
     for (int r = 0; r < n; r++){
-        for (int i = 0; i < n; i++) rank[r][receiver_pref[r][i]] = i;
+        assert((int)receiver_pref[r].size() == n);
+        for (int i = 0; i < n; i++){
+            int p = receiver_pref[r][i];
+            assert(0 <= p && p < n && rank[r][p] == -1);
+            rank[r][p] = i;
+        }
+    }
+    vector<int> seen(n, -1);
+    for (int p = 0; p < n; p++){
+        assert((int)proposer_pref[p].size() == n);
+        for (int r : proposer_pref[p]){
+            assert(0 <= r && r < n && seen[r] != p);
+            seen[r] = p;
+        }
     }
 
     vector<int> match(n, -1), partner(n, -1), next_choice(n, 0), free_proposers(n);
