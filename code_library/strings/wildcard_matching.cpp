@@ -5,10 +5,10 @@
  *
  * Complexity: O(n log n) for text length n, three convolutions modulo 998244353
  *
- * wildcard_match(text, pattern, wildcard = '?'): the 0-indexed start positions in increasing order
+ * wildcard_match(text, pattern, wildcard): the 0-indexed start positions in increasing order, wildcard '?' if omitted
  *
  * Notes:
- *   - Works on strings and string literals mixed freely, and on vectors of any ordered type given the wildcard value
+ *   - Works on strings and string literals mixed freely, and on vectors of any ordered type, which must pass a wildcard
  *   - An empty pattern or one longer than the text returns no positions, as kmp_search does
  *   - Requires n <= 2^23, the largest NTT length modulo 998244353
  *   - A real match is always reported, a mismatching position is reported with probability at most 4 / 998244352
@@ -118,7 +118,7 @@ namespace wildcard_ntt{
 }
 
 template<typename Container>
-vector<int> wildcard_match(const Container& text, const Container& pattern, typename Container::value_type wildcard = '?'){
+vector<int> wildcard_match(const Container& text, const Container& pattern, typename Container::value_type wildcard){
     using namespace wildcard_ntt;
     using T = typename Container::value_type;
 
