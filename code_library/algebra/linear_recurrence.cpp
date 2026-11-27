@@ -229,6 +229,7 @@ struct LinearRecurrence{
     }
 
     vector<int> nth_terms(long long n, int k){
+        assert(n >= 0);  /// a negative n would pass the n + k bound below and read before the given terms
         int len = recurrence.size();
 
         if (n + k <= (long long)sequence.size()) return vector<int>(sequence.begin() + n, sequence.begin() + n + k);

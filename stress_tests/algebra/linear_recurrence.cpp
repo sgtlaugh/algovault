@@ -179,5 +179,7 @@ int main(){
         big.nth_term(1000000);
     });
 
+    stress::expect_assert("algebra/linear_recurrence.cpp", []{ LinearRecurrence fib({0, 1}, 1000000007, {1, 1}); fib.nth_terms(-2, 2); });
+
     return 0;
 }
