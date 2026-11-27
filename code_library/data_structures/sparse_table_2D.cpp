@@ -28,6 +28,7 @@ struct SparseTable2D{
     vector<vector<T>> table;
 
     SparseTable2D(const vector<vector<T>>& grid) : n(grid.size()), m(grid.empty() ? 0 : grid[0].size()){
+        for (const vector<T>& row : grid) assert((int)row.size() == m);  /// every row is read up to grid[0].size()
         int lgn = n ? __lg(n) + 1 : 0;
 
         lgm = m ? __lg(m) + 1 : 0;

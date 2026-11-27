@@ -83,6 +83,10 @@ int main(){
         }
     }
 
+    /// A ragged grid would read past the end of a shorter row
+    vector<vector<int>> ragged = {{1, 2}, {3}};
+    stress::expect_assert("data_structures/sparse_table_2D.cpp", [&]{ SparseTable2D<int> table(ragged); });
+
     SparseTable2D<int> empty(vector<vector<int>>{});
     assert(empty.table.empty());
 
