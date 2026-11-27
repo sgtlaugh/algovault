@@ -43,7 +43,7 @@ Read `## Practice problems` in `CONTRIBUTING.md` and all of `STYLE.md` next to t
    python3 .claude/skills/verdict/scripts/commit_one.py <readme> '<section header>' '<entry line>' <solution> '<message>'
    ```
    It stages only the solution and its README line, so another session's edits stay out, and unstages both if the commit fails.
-   A problem listed under a second template the same solution uses gets its link there with `link` as a 6th argument, after the first commit. Message `feat: add <judge> <code> <title> on the <template>`, at most 72 characters, no body. No AI attribution, never `--no-verify`, never amend, never push.
+   A new entry the user approved goes in with `insert` as a 6th argument, in natural order. A problem listed under a second template the same solution uses gets its link there with `link` as a 6th argument, after the first commit. Message `feat: add <judge> <code> <title> on the <template>`, at most 72 characters, no body. No AI attribution, never `--no-verify`, never amend, never push.
 
 ## C++11 fixes for POJ, UVa and HDU
 

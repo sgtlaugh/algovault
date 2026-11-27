@@ -6,7 +6,7 @@ description: >
   how to call it within a minute. Docs only: never changes library behaviour or public names.
 trigger: /lucid
 allowed-tools: Read, Edit, Write, Glob, Grep, Bash(git grep:*), Bash(git diff:*), Bash(git log:*), Bash(git status:*), Bash(git rev-parse:*), Bash(git add:*), Bash(git commit:*), Bash(env CHANGED_SINCE=:*), Bash(bash .github/scripts/run_tests.sh:*)
-argument-hint: "<library file or directory> [--commit], e.g. 'code_library/data_structures/hashmap.cpp --commit'"
+argument-hint: "<library file or directory> [--base <commit>] [--commit], e.g. 'code_library/data_structures/hashmap.cpp --commit'"
 ---
 
 # /lucid - clear headers and usage examples
@@ -23,7 +23,7 @@ The rules live in the `## Documentation` section of `CONTRIBUTING.md`. Read it f
 
 ## Steps, per file
 
-1. **Read** the whole file, its stress test (`stress_tests/<same path>`), its README index entry, and its callers: `git grep -n <struct or function name> -- code_library stress_tests judge_tests`. Record `base=$(git rev-parse HEAD)` before the first edit.
+1. **Read** the whole file, its stress test (`stress_tests/<same path>`), its README index entry, and its callers: `git grep -n <struct or function name> -- code_library stress_tests judge_tests`. Record `base` before the first edit: the `--base` commit when given, else `$(git rev-parse HEAD)`.
 2. **Header.** Rewrite it to the CONTRIBUTING rules. Every statement in it is a claim to check against the code:
    - complexity from the loops and recursion, memory from the allocations
    - each API line from the actual signature, its return value and its asserts
