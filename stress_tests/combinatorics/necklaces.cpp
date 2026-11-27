@@ -295,5 +295,9 @@ int main(){
         }
     }
 
+    /// 2 n m < 2^64 allows n >= 2^62 when m = 1, where a signed 2 * n overflowed
+    assert(bracelets((1LL << 62) + 3, 3, 1) == 0);
+    assert(bracelets(LLONG_MAX, 2, 1) == 0);
+
     return 0;
 }

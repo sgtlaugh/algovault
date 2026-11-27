@@ -44,7 +44,7 @@ namespace burnside{
             return *this * Mod{(unsigned long long)x % mod, mod};
         }
 
-        Mod operator / (long long x) const{
+        Mod operator / (unsigned long long x) const{
             return {v / x, mod};
         }
     };
@@ -124,7 +124,7 @@ namespace burnside{
     /// Sum of colorings fixed by each reflection, 2 n times the bracelet count minus rotations(n, k)
     template<typename T>
     T reflections(long long n, const T& k){
-        if (n % 2) return power(k, (n + 1) / 2) * n;
+        if (n % 2) return power(k, n / 2 + 1) * n;
         T half = power(k, n / 2);
         return (half + half * k) * (n / 2);
     }
@@ -153,7 +153,7 @@ long long bracelets(long long n, long long k, long long m){
     assert(n >= 1 && k >= 0 && m >= 1 && (unsigned __int128)2 * n * m <= ULLONG_MAX);
     unsigned long long mod = 2ULL * n * m;
     burnside::Mod kt{k % mod, mod};
-    return ((burnside::rotations(n, kt) + burnside::reflections(n, kt)) / (2 * n)).v;
+    return ((burnside::rotations(n, kt) + burnside::reflections(n, kt)) / (2ULL * n)).v;
 }
 
 template<typename T>
