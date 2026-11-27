@@ -48,23 +48,12 @@ struct AntiHash{
         }
     }
 
+    /// m < 2^32, so the product of two residues fits in unsigned long long
     inline long long multiply(long long a, long long b, long long m){
         a %= m, b %= m;
-        if (m < 3037000500LL) return a * b % m;
-
-        #ifdef __SIZEOF_INT128__
-            return __int128(a) * b % m;
-        #endif
-
-        long double x = a;
-        x *= b;
-        long long c = (long long)(x / m);
-
-        a *= b;
-        a -= c * m;
-        if (a >= m) a -= m;
         if (a < 0) a += m;
-        return a;
+        if (b < 0) b += m;
+        return (unsigned long long)a * b % m;
     }
 
     inline unsigned long long get_hash(unsigned long long x){
