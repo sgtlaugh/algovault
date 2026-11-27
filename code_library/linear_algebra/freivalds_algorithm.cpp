@@ -24,7 +24,7 @@ struct FreivaldsMatrix{
     vector<long long> mat;
 
     FreivaldsMatrix() : row(0), col(0) {}
-    FreivaldsMatrix(int row, int col, int diagonal = 0) : row(row), col(col), mat((size_t)row * col, 0){
+    FreivaldsMatrix(int row, int col, long long diagonal = 0) : row(row), col(col), mat((size_t)row * col, 0){
         for (int i = min(row, col) - 1; i >= 0; i--) (*this)[i][i] = diagonal;
     }
 
@@ -41,8 +41,9 @@ struct FreivaldsMatrix{
 
         for (int i = 0; i < row; i++){
             for (int j = 0; j < other.col; j++){
-                long long sum = 0;
-                for (int k = 0; k < col; k++) sum += (*this)[i][k] * other[k][j];
+                /// Modulo 2^64 like dot, so partial sums may overflow while the entry itself fits
+                unsigned long long sum = 0;
+                for (int k = 0; k < col; k++) sum += (unsigned long long)(*this)[i][k] * other[k][j];
                 res[i][j] = sum;
             }
         }

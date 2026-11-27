@@ -50,5 +50,16 @@ int main(){
         assert(!freivalds_verify(A, FreivaldsMatrix(k + 1, m), product));
     }
 
+    /// A row of ones times (LLONG_MAX, 1, -1) is LLONG_MAX: its partial sums overflow, the entry does not
+    FreivaldsMatrix ones(1, 3), column(3, 1);
+    for (int k = 0; k < 3; k++) ones[0][k] = 1;
+    column[0][0] = LLONG_MAX, column[1][0] = 1, column[2][0] = -1;
+    assert((ones * column)[0][0] == LLONG_MAX);
+
+    /// A long long diagonal is kept whole, an int parameter cut 5e9 to 705032704
+    long long diagonal = stress::rand_int(5000000000LL, 5000000000LL);
+    FreivaldsMatrix big(2, 2, diagonal);
+    assert(big[0][0] == 5000000000LL && big[1][1] == 5000000000LL && big[0][1] == 0);
+
     return 0;
 }
