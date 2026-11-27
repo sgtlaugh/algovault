@@ -73,5 +73,9 @@ int main(){
         assert(Lagrange(terms, mod)(mod - 1) == horner(c, mod - 1, mod));
     }
 
+    /// mod = 1 made expo(x, -1) loop forever, since -1 >> 1 stays -1
+    stress::expect_assert("algebra/lagrange_interpolation.cpp", []{ Lagrange f({5}, 1); });
+    stress::expect_assert("algebra/lagrange_interpolation.cpp", []{ find_degree({5}, 1); });
+
     return 0;
 }
