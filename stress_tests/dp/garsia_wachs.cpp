@@ -86,5 +86,8 @@ int main(){
 
     assert(garsia_wachs(vector<int>{3, 1, 4, 1, 5}) == naive_merge_cost({3, 1, 4, 1, 5}));
 
+    /// Inputs outside the contract hit the library's asserts
+    stress::expect_assert("dp/garsia_wachs.cpp", []{ garsia_wachs(vector<long long>{2, 4, 3, -1, -1}); });
+
     return 0;
 }

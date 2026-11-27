@@ -37,7 +37,10 @@ struct GarsiaWachs{
     GarsiaWachs(const vector<T>& weights){
         nodes.reserve(weights.size() + 3);
         vector<int> rest = {node(end)};
-        for (int i = (int)weights.size() - 1; i >= 0; i--) rest.push_back(node(weights[i]));
+        for (int i = (int)weights.size() - 1; i >= 0; i--){
+            assert(weights[i] >= 0);
+            rest.push_back(node(weights[i]));
+        }
 
         /// The sequence is root then a, b; it never holds s[i] <= s[i + 2], which would merge s[i] and s[i + 1]
         int root = -1, a = node(wall), b = node(wall);
