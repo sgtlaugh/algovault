@@ -79,6 +79,7 @@ struct RangeEdgeGraph{
 
     /// Bottom-up segment tree nodes whose leaves are exactly [l, r], valid for any n, not only powers of two
     vector<int> cover(int l, int r) const{
+        assert(0 <= l && l <= r && r < n);  /// r >= n would return internal nodes, linking unrelated vertices
         vector<int> nodes;
         for (l += n, r += n + 1; l < r; l >>= 1, r >>= 1){
             if (l & 1) nodes.push_back(l++);

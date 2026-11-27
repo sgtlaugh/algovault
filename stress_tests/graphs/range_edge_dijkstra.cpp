@@ -98,5 +98,11 @@ int main(){
     assert((edge_of_infinity.dijkstra(1) == vector<long long>{INF - 1, 0, INF / 2, INF / 2 - 1}));
     assert((edge_of_infinity.dijkstra(2) == vector<long long>{INF, INF, 0, INF}));
     assert((edge_of_infinity.dijkstra(3) == vector<long long>{INF / 2, INF, INF, 0}));
+
+    /// Ranges past n, empty or negative must abort: r >= n silently linked vertices to internal tree nodes
+    stress::expect_assert("graphs/range_edge_dijkstra.cpp", []{ RangeEdgeGraph g(4); g.add_edge_to_range(0, 2, 4, 1); });
+    stress::expect_assert("graphs/range_edge_dijkstra.cpp", []{ RangeEdgeGraph g(4); g.add_edge_from_range(3, 2, 0, 1); });
+    stress::expect_assert("graphs/range_edge_dijkstra.cpp", []{ RangeEdgeGraph g(4); g.add_edge_to_range(0, -1, 2, 1); });
+
     return 0;
 }
