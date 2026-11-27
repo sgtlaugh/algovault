@@ -176,5 +176,9 @@ int main(){
     EulerDirected none(0);
     EulerUndirected none_undirected(0);
     assert(none.solve().empty() && none_undirected.solve().empty());
+    /// A start outside [0, n) must abort instead of indexing past adj
+    stress::expect_assert("graphs/euler_path.cpp", []{ EulerDirected(3).solve(3); });
+    stress::expect_assert("graphs/euler_path.cpp", []{ EulerUndirected(3).solve(-2); });
+
     return 0;
 }

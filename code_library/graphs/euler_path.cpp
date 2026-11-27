@@ -41,6 +41,7 @@ struct EulerPath{
     }
 
     vector<int> solve(int start = -1){
+        assert(start == -1 || (0 <= start && start < n));
         walk_edges.clear();
         if (n == 0) return {};
 
