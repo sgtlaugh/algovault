@@ -436,8 +436,8 @@ flowchart LR
 
 ## Contributing
 
-- Bug reports, fixes and new templates are welcome as issues or pull requests, see [CONTRIBUTING.md](CONTRIBUTING.md) for the conventions and the checks CI runs
-- The skills in [`.claude/skills/`](.claude/skills) apply them:
+- Bug reports, fixes and new templates are welcome as issues or pull requests, see [CONTRIBUTING.md](CONTRIBUTING.md)
+- Claude Code skills in [`.claude/skills/`](.claude/skills) automate the workflow:
   - `/crucible` adds or refactors a template
   - `/lucid` keeps the docs consistent
   - `/verdict` solves a practice problem and commits the accepted solution
