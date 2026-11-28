@@ -250,7 +250,7 @@ import collections, glob, re
 seen = collections.defaultdict(set)
 for path in glob.glob('code_library/*/README.md'):
     for line in open(path, encoding='utf-8'):
-        m = re.match(r'- \[(.+?) - (.*)\]\((\S+)\)', line)
+        m = re.match(r'- \[(.+?)(?: - (.*))?\]\((\S+)\)', line)
         if m:
             seen[m.group(1)].add((m.group(2), m.group(3)))
 for problem, copies in sorted(seen.items()):

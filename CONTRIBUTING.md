@@ -108,7 +108,7 @@ Each template's section in `code_library/<topic>/README.md` lists problems it so
 
 **Problems**
 
-- **Format:** `[<Judge> <code> - <title>](<url>)`
+- **Format:** `[<Judge> <code> - <title>](<url>)`, the title left out when it is not in Latin script: `[yukicoder 578](<url>)`
 - **Order:** case-insensitive, numbers by value: `Codeforces 932F` before `Codeforces 1083E`
 - **Verified:** each one can be submitted, to a live judge or to official data with a checker, like the Code Jam archive
 - **Placement:** under the template at the core of the solution, not under setup steps like compression or sorting

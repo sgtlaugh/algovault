@@ -25,5 +25,5 @@ def misordered(path, item):
 
 
 for path in sorted(glob.glob('code_library/*/README.md')):
-    misordered(path, r'()- \[.+? - ')
+    misordered(path, r'()- \[[^\]]+?(?: - |\]\()')
 misordered('README.md', r'( *)- \[[^\]]+\]\(code_library/')
