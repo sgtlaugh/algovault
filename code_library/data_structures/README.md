@@ -21,10 +21,10 @@
 
 #### [CDQ Divide and Conquer](cdq_divide_conquer.cpp)
 
-- [AtCoder JOISC2019 A - 試験 (Examination)](https://atcoder.jp/contests/joisc2019/tasks/joisc2019_a) [✓](../../practice/data_structures/atcoder_joisc2019_a.cpp "Accepted solution")
+- [AtCoder JOISC2019 A](https://atcoder.jp/contests/joisc2019/tasks/joisc2019_a) [✓](../../practice/data_structures/atcoder_joisc2019_a.cpp "Accepted solution")
 - [Codeforces 848C - Goodbye Souvenir](https://codeforces.com/problemset/problem/848/C)
-- [LibreOJ 112 - 三维偏序](https://loj.ac/p/112) [✓](../../practice/data_structures/libreoj_112.cpp "Accepted solution")
-- [LibreOJ 3146 - 「APIO2019」路灯](https://loj.ac/p/3146)
+- [LibreOJ 112](https://loj.ac/p/112) [✓](../../practice/data_structures/libreoj_112.cpp "Accepted solution")
+- [LibreOJ 3146](https://loj.ac/p/3146)
 
 #### [Convex Hull Trick](convex_hull_trick.cpp)
 
@@ -40,7 +40,7 @@
 - [POJ 1180 - Batch Scheduling](http://poj.org/problem?id=1180) [✓](../../practice/data_structures/poj_1180_convex_hull_trick.cpp "Accepted solution")
 - [SPOJ ACQUIRE - Land Acquisition](https://www.spoj.com/problems/ACQUIRE/) [✓](../../practice/data_structures/spoj_acquire_convex_hull_trick.cpp "Accepted solution")
 - [SPOJ APIO10A - Commando](https://www.spoj.com/problems/APIO10A/) [✓](../../practice/data_structures/spoj_apio10a.cpp "Accepted solution")
-- [yukicoder 1297 - 銅像](https://yukicoder.me/problems/no/1297)
+- [yukicoder 1297](https://yukicoder.me/problems/no/1297)
 - [yukicoder 2012 - Largest Triangle](https://yukicoder.me/problems/no/2012)
 
 #### [Coordinate Compression](coordinate_compression.cpp)
@@ -121,7 +121,7 @@
 #### [Disjoint Set Union, Range Parallel](range_parallel_dsu.cpp)
 
 - [AtCoder ABC349 G - Palindrome Construction](https://atcoder.jp/contests/abc349/tasks/abc349_g) [✓](../../practice/data_structures/atcoder_abc349_g.cpp "Accepted solution")
-- [Luogu P3295 - [SCOI2016] 萌萌哒](https://www.luogu.com.cn/problem/P3295) [✓](../../practice/data_structures/luogu_p3295.cpp "Accepted solution")
+- [Luogu P3295](https://www.luogu.com.cn/problem/P3295) [✓](../../practice/data_structures/luogu_p3295.cpp "Accepted solution")
 
 #### [Disjoint Set Union, Rollback](rollback_dsu.cpp)
 
@@ -143,12 +143,12 @@
 
 - [oj.uz Balkan15_HAPPINESS - Happiness](https://oj.uz/problem/view/Balkan15_HAPPINESS)
 - [oj.uz IZhO12_apple - Monkey and Apple-trees](https://oj.uz/problem/view/IZhO12_apple) [✓](../../practice/data_structures/oj_uz_izho12_apple.cpp "Accepted solution")
-- [yukicoder 789 - 範囲の合計](https://yukicoder.me/problems/no/789) [✓](../../practice/data_structures/yukicoder_789.cpp "Accepted solution")
+- [yukicoder 789](https://yukicoder.me/problems/no/789) [✓](../../practice/data_structures/yukicoder_789.cpp "Accepted solution")
 
 #### [Euler Tour Tree](euler_tour_tree.cpp)
 
-- [Luogu P2147 - [SDOI2008] 洞穴勘测](https://www.luogu.com.cn/problem/P2147) [✓](../../practice/data_structures/luogu_p2147.cpp "Accepted solution")
-- [Luogu P4219 - [BJOI2014] 大融合](https://www.luogu.com.cn/problem/P4219) [✓](../../practice/data_structures/luogu_p4219.cpp "Accepted solution")
+- [Luogu P2147](https://www.luogu.com.cn/problem/P2147) [✓](../../practice/data_structures/luogu_p2147.cpp "Accepted solution")
+- [Luogu P4219](https://www.luogu.com.cn/problem/P4219) [✓](../../practice/data_structures/luogu_p4219.cpp "Accepted solution")
 - [SPOJ DYNACON1 - Dynamic Tree Connectivity](https://www.spoj.com/problems/DYNACON1/) [✓](../../practice/data_structures/spoj_dynacon1_euler_tour_tree.cpp "Accepted solution")
 
 #### [Fast Set](fast_set.cpp)
@@ -241,7 +241,7 @@
 
 #### [Historic Segment Tree](historic_segment_tree.cpp)
 
-- [Luogu P3246 - [HNOI2016] 序列](https://www.luogu.com.cn/problem/P3246) [✓](../../practice/data_structures/luogu_p3246.cpp "Accepted solution")
+- [Luogu P3246](https://www.luogu.com.cn/problem/P3246) [✓](../../practice/data_structures/luogu_p3246.cpp "Accepted solution")
 - [SPOJ GSS2 - Can you answer these queries II](https://www.spoj.com/problems/GSS2/) [✓](../../practice/data_structures/spoj_gss2.cpp "Accepted solution")
 
 #### [Interval Set and Map](interval_set.cpp)
@@ -392,7 +392,7 @@
 #### [Persistent Segment Tree](persistent_segment_tree.cpp)
 
 - [AtCoder PAKENCAMP-2022-DAY1 J - An Unusual King in Paken Kingdom](https://atcoder.jp/contests/pakencamp-2022-day1/tasks/pakencamp_2022_day1_j)
-- [AtCoder UTPC2011 L - L番目の数字](https://atcoder.jp/contests/utpc2011/tasks/utpc2011_12)
+- [AtCoder UTPC2011 L](https://atcoder.jp/contests/utpc2011/tasks/utpc2011_12)
 - [CodeChef QUERY - Observing the Tree](https://www.codechef.com/problems/QUERY)
 - [Codeforces 786C - Till I Collapse](https://codeforces.com/problemset/problem/786/C) [✓](../../practice/data_structures/codeforces_786c.cpp "Accepted solution")
 - [Codeforces 840D - Destiny](https://codeforces.com/problemset/problem/840/D) [✓](../../practice/data_structures/codeforces_840d.cpp "Accepted solution")
@@ -470,10 +470,10 @@
 - [UVa 12477 - Good Measures of Dispersion](https://onlinejudge.org/external/124/12477.pdf) [✓](../../practice/data_structures/uva_12477.cpp "Accepted solution")
 - [UVa 12501 - Bulky process of bulk reduction](https://onlinejudge.org/external/125/12501.pdf) [✓](../../practice/data_structures/uva_12501.cpp "Accepted solution")
 - [UVa 12532 - Interval Product](https://onlinejudge.org/external/125/12532.pdf) [✓](../../practice/data_structures/uva_12532.cpp "Accepted solution")
-- [yukicoder 255 - Splarrraaay ｽﾌﾟﾗｰﾚｪｰｰｲ](https://yukicoder.me/problems/no/255)
-- [yukicoder 426 - 往復漸化式](https://yukicoder.me/problems/no/426)
-- [yukicoder 749 - クエリ全部盛り](https://yukicoder.me/problems/no/749)
-- [yukicoder 1234 - 典型RMQ](https://yukicoder.me/problems/no/1234)
+- [yukicoder 255](https://yukicoder.me/problems/no/255)
+- [yukicoder 426](https://yukicoder.me/problems/no/426)
+- [yukicoder 749](https://yukicoder.me/problems/no/749)
+- [yukicoder 1234](https://yukicoder.me/problems/no/1234)
 - [ZOJ 3899 - State Reversing](https://zoj.pintia.cn/problem-sets/91827364500/problems/91827370003) [✓](../../practice/data_structures/zoj_3899_segment_tree.cpp "Accepted solution")
 
 #### [Segment Tree 2D](segment_tree_2D.cpp)

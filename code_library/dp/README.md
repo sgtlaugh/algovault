@@ -40,7 +40,7 @@
 - [SPOJ ADACOINS - Ada and Coins](https://www.spoj.com/problems/ADACOINS/) [✓](../../practice/dp/spoj_adacoins.cpp "Accepted solution")
 - [SPOJ FCANDY - Candy (Again)](https://www.spoj.com/problems/FCANDY/) [✓](../../practice/dp/spoj_fcandy.cpp "Accepted solution")
 - [UVa 711 - Dividing up](https://onlinejudge.org/external/7/711.pdf) [✓](../../practice/dp/uva_711.cpp "Accepted solution")
-- [yukicoder 4 - おもりと天秤](https://yukicoder.me/problems/no/4)
+- [yukicoder 4](https://yukicoder.me/problems/no/4)
 
 #### [CKY](cky.cpp)
 
@@ -53,9 +53,9 @@
 
 #### [Concave 1D1D DP](concave_1d1d_dp.cpp)
 
-- [LibreOJ 10188 - 「一本通 5.6 练习 1」玩具装箱](https://loj.ac/p/10188) [✓](../../practice/dp/libreoj_10188.cpp "Accepted solution")
-- [Luogu P1912 - [NOI2009] 诗人小G](https://www.luogu.com.cn/problem/P1912)
-- [yukicoder 705 - ゴミ拾い Hard](https://yukicoder.me/problems/no/705) [✓](../../practice/dp/yukicoder_705.cpp "Accepted solution")
+- [LibreOJ 10188](https://loj.ac/p/10188) [✓](../../practice/dp/libreoj_10188.cpp "Accepted solution")
+- [Luogu P1912](https://www.luogu.com.cn/problem/P1912)
+- [yukicoder 705](https://yukicoder.me/problems/no/705) [✓](../../practice/dp/yukicoder_705.cpp "Accepted solution")
 
 #### [Divide and Conquer DP](divide_conquer_dp.cpp)
 
@@ -136,13 +136,13 @@
 - [UVa 11368 - Nested Dolls](https://onlinejudge.org/external/113/11368.pdf) [✓](../../practice/dp/uva_11368.cpp "Accepted solution")
 - [UVa 12002 - Happy Birthday](https://onlinejudge.org/external/120/12002.pdf) [✓](../../practice/dp/uva_12002.cpp "Accepted solution")
 - [UVa 12747 - Back to Edit Distance](https://onlinejudge.org/external/127/12747.pdf) [✓](../../practice/dp/uva_12747.cpp "Accepted solution")
-- [yukicoder 992 - 最長増加部分列の数え上げ](https://yukicoder.me/problems/no/992) [✓](../../practice/dp/yukicoder_992.cpp "Accepted solution")
+- [yukicoder 992](https://yukicoder.me/problems/no/992) [✓](../../practice/dp/yukicoder_992.cpp "Accepted solution")
 - [yukicoder 2230 - Good Omen of White Lotus](https://yukicoder.me/problems/no/2230)
 
 #### [Longest Increasing Subsequence, Range Queries](range_lis.cpp)
 
-- [LibreOJ 184 - 单位蒙日矩阵乘法](https://loj.ac/p/184)
-- [Luogu P2075 - 区间 LIS](https://www.luogu.com.cn/problem/P2075) [✓](../../practice/dp/luogu_p2075.cpp "Accepted solution")
+- [LibreOJ 184](https://loj.ac/p/184)
+- [Luogu P2075](https://www.luogu.com.cn/problem/P2075) [✓](../../practice/dp/luogu_p2075.cpp "Accepted solution")
 
 #### [Maximum Square](maximum_square.cpp)
 
@@ -157,7 +157,7 @@
 
 #### [Monotone Minima and SMAWK](monotone_minima.cpp)
 
-- [AtCoder COLOPL2018-FINAL-OPEN C - スペースエクスプローラー高橋君](https://atcoder.jp/contests/colopl2018-final-open/tasks/colopl2018_final_c) [✓](../../practice/dp/atcoder_colopl2018_final_open_c.cpp "Accepted solution")
+- [AtCoder COLOPL2018-FINAL-OPEN C](https://atcoder.jp/contests/colopl2018-final-open/tasks/colopl2018_final_c) [✓](../../practice/dp/atcoder_colopl2018_final_open_c.cpp "Accepted solution")
 - [Codeforces 1423M - Milutin's Plums](https://codeforces.com/problemset/problem/1423/M)
 - [Codeforces Gym 102920L - Two Buildings](https://codeforces.com/gym/102920/problem/L)
 - [Kattis money - Money for Nothing](https://open.kattis.com/problems/money) [✓](../../practice/dp/kattis_money_monotone_minima.cpp "Accepted solution")
@@ -174,8 +174,8 @@
 - [UVa 11270 - Tiling Dominoes](https://onlinejudge.org/external/112/11270.pdf) [✓](../../practice/dp/uva_11270.cpp "Accepted solution")
 - [UVa 11443 - Tree in a Grid](https://onlinejudge.org/external/114/11443.pdf) [✓](../../practice/dp/uva_11443.cpp "Accepted solution")
 - [UVa 13299 - Tron Garbage Collector](https://onlinejudge.org/external/132/13299.pdf) [✓](../../practice/dp/uva_13299.cpp "Accepted solution")
-- [yukicoder 541 - 3 x N グリッド上のサイクルの個数](https://yukicoder.me/problems/no/541)
-- [yukicoder 578 - 3 x N グリッド上のサイクルのサイズ(easy)](https://yukicoder.me/problems/no/578)
+- [yukicoder 541](https://yukicoder.me/problems/no/541)
+- [yukicoder 578](https://yukicoder.me/problems/no/578)
 
 #### [Slope Trick](slope_trick.cpp)
 
@@ -185,10 +185,10 @@
 - [oj.uz APIO16_fireworks - Fireworks](https://oj.uz/problem/view/APIO16_fireworks) [✓](../../practice/dp/oj_uz_apio16_fireworks.cpp "Accepted solution")
 - [oj.uz LMIO19_bulves - Potatoes and fertilizers](https://oj.uz/problem/view/LMIO19_bulves) [✓](../../practice/dp/oj_uz_lmio19_bulves.cpp "Accepted solution")
 - [USACO 650 - Landscaping](https://usaco.org/index.php?page=viewproblem2&cpid=650) [✓](../../practice/dp/usaco_650.cpp "Accepted solution")
-- [yukicoder 1077 - Noelちゃんと星々4](https://yukicoder.me/problems/no/1077)
+- [yukicoder 1077](https://yukicoder.me/problems/no/1077)
 
 #### [Tree Knapsack](tree_knapsack.cpp)
 
 - [HDU 1011 - Starship Troopers](https://acm.hdu.edu.cn/showproblem.php?pid=1011)
 - [HDU 1561 - The more, The Better](https://acm.hdu.edu.cn/showproblem.php?pid=1561) [✓](../../practice/dp/hdu_1561.cpp "Accepted solution")
-- [LibreOJ 10153 - 「一本通 5.2 例 1」二叉苹果树](https://loj.ac/p/10153) [✓](../../practice/dp/libreoj_10153.cpp "Accepted solution")
+- [LibreOJ 10153](https://loj.ac/p/10153) [✓](../../practice/dp/libreoj_10153.cpp "Accepted solution")

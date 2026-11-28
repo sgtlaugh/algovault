@@ -27,8 +27,8 @@
 - [SPOJ PIBO2 - Fibonacci vs Polynomial (HARD)](https://www.spoj.com/problems/PIBO2/) [✓](../../practice/number_theory/spoj_pibo2.cpp "Accepted solution")
 - [UVa 1426 - Discrete Square Roots](https://onlinejudge.org/external/14/1426.pdf) [✓](../../practice/number_theory/uva_1426.cpp "Accepted solution")
 - [UVa 11754 - Code Feat](https://onlinejudge.org/external/117/11754.pdf) [✓](../../practice/number_theory/uva_11754.cpp "Accepted solution")
-- [yukicoder 187 - 中華風 (Hard)](https://yukicoder.me/problems/no/187)
-- [yukicoder 2119 - 一般化百五減算](https://yukicoder.me/problems/no/2119)
+- [yukicoder 187](https://yukicoder.me/problems/no/187)
+- [yukicoder 2119](https://yukicoder.me/problems/no/2119)
 
 #### [Continued Fractions](continued_fractions.cpp)
 
@@ -71,7 +71,7 @@
 #### [Du's Sieve](du_sieve.cpp)
 
 - [HDU 5608 - function](https://acm.hdu.edu.cn/showproblem.php?pid=5608) [✓](../../practice/number_theory/hdu_5608.cpp "Accepted solution")
-- [Luogu P4213 - 【模板】杜教筛](https://www.luogu.com.cn/problem/P4213) [✓](../../practice/number_theory/luogu_p4213.cpp "Accepted solution")
+- [Luogu P4213](https://www.luogu.com.cn/problem/P4213) [✓](../../practice/number_theory/luogu_p4213.cpp "Accepted solution")
 
 #### [Extended GCD](extended_gcd.cpp)
 
@@ -100,11 +100,11 @@
 #### [Fast Prime Counting](fast_prime_counting.cpp)
 
 - [Codeforces 665F - Four Divisors](https://codeforces.com/problemset/problem/665/F) [✓](../../practice/number_theory/codeforces_665f.cpp "Accepted solution")
-- [LibreOJ 6235 - 区间素数个数](https://loj.ac/p/6235) [✓](../../practice/number_theory/libreoj_6235.cpp "Accepted solution")
+- [LibreOJ 6235](https://loj.ac/p/6235) [✓](../../practice/number_theory/libreoj_6235.cpp "Accepted solution")
 
 #### [Fast Prime Sums](fast_prime_sums.cpp)
 
-- [LibreOJ 6202 - 叶氏筛法](https://loj.ac/p/6202) [✓](../../practice/number_theory/libreoj_6202.cpp "Accepted solution")
+- [LibreOJ 6202](https://loj.ac/p/6202) [✓](../../practice/number_theory/libreoj_6202.cpp "Accepted solution")
 
 #### [Fast Sieve](fast_sieve.cpp)
 
@@ -121,7 +121,7 @@
 - [POJ 3530 - A Modular Arithmetic Challenge](http://poj.org/problem?id=3530) [✓](../../practice/number_theory/poj_3530.cpp "Accepted solution")
 - [UVa 12341 - Next to Never](https://onlinejudge.org/external/123/12341.pdf) [✓](../../practice/number_theory/uva_12341.cpp "Accepted solution")
 - [UVa 13041 - Fraction and Sequence](https://onlinejudge.org/external/130/13041.pdf) [✓](../../practice/number_theory/uva_13041.cpp "Accepted solution")
-- [yukicoder 1201 - お菓子配り-4](https://yukicoder.me/problems/no/1201)
+- [yukicoder 1201](https://yukicoder.me/problems/no/1201)
 - [yukicoder 2066 - Simple Math !](https://yukicoder.me/problems/no/2066)
 - [yukicoder 2259 - Gas Station](https://yukicoder.me/problems/no/2259)
 - [yukicoder 2280 - FizzBuzz Difference](https://yukicoder.me/problems/no/2280)
@@ -130,7 +130,7 @@
 
 - [HDU 5297 - Y sequence](https://acm.hdu.edu.cn/showproblem.php?pid=5297) [✓](../../practice/number_theory/hdu_5297.cpp "Accepted solution")
 - [UVa 11436 - Cubes - EXTREME!!!](https://onlinejudge.org/external/114/11436.pdf) [✓](../../practice/number_theory/uva_11436.cpp "Accepted solution")
-- [yukicoder 1666 - 累乗数](https://yukicoder.me/problems/no/1666)
+- [yukicoder 1666](https://yukicoder.me/problems/no/1666)
 
 #### [Linear Sieve](linear_sieve.cpp)
 
@@ -184,7 +184,7 @@
 
 #### [Min_25 Sieve](min_25_sieve.cpp)
 
-- [LibreOJ 6053 - 简单的函数](https://loj.ac/p/6053) [✓](../../practice/number_theory/libreoj_6053.cpp "Accepted solution")
+- [LibreOJ 6053](https://loj.ac/p/6053) [✓](../../practice/number_theory/libreoj_6053.cpp "Accepted solution")
 - [yukicoder 1781 - LCM](https://yukicoder.me/problems/no/1781) [✓](../../practice/number_theory/yukicoder_1781.cpp "Accepted solution")
 
 #### [Mobius Function](mobius_function.cpp)
@@ -207,11 +207,11 @@
 
 - [Codeforces 1106F - Lunar New Year and a Recursive Sequence](https://codeforces.com/problemset/problem/1106/F) [✓](../../practice/number_theory/codeforces_1106f_modular_roots.cpp "Accepted solution")
 - [Codeforces 1190F - Tokitsukaze and Powers](https://codeforces.com/problemset/problem/1190/F)
-- [yukicoder 1339 - 循環小数](https://yukicoder.me/problems/no/1339)
+- [yukicoder 1339](https://yukicoder.me/problems/no/1339)
 
 #### [Modular Square Root](modular_sqrt.cpp)
 
-- [Luogu P5491 - 【模板】二次剩余](https://www.luogu.com.cn/problem/P5491)
+- [Luogu P5491](https://www.luogu.com.cn/problem/P5491)
 - [Timus 1132 - Square Root](https://acm.timus.ru/problem.aspx?num=1132)
 - [UVa 10831 - Gerg's Cake](https://onlinejudge.org/external/108/10831.pdf) [✓](../../practice/number_theory/uva_10831.cpp "Accepted solution")
 
@@ -258,5 +258,5 @@
 
 #### [Sum of Two Squares](sum_of_two_squares.cpp)
 
-- [Luogu P2508 - [HAOI2008] 圆上的整点](https://www.luogu.com.cn/problem/P2508) [✓](../../practice/number_theory/luogu_p2508.cpp "Accepted solution")
+- [Luogu P2508](https://www.luogu.com.cn/problem/P2508) [✓](../../practice/number_theory/luogu_p2508.cpp "Accepted solution")
 - [SPOJ TWOSQRS - Two squares or not two squares](https://www.spoj.com/problems/TWOSQRS/) [✓](../../practice/number_theory/spoj_twosqrs.cpp "Accepted solution")

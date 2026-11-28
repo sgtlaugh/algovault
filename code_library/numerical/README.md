@@ -39,7 +39,7 @@
 - [UVa 12162 - Shooting the Monster](https://onlinejudge.org/external/121/12162.pdf) [✓](../../practice/numerical/uva_12162.cpp "Accepted solution")
 - [UVa 12528 - Environment Protection](https://onlinejudge.org/external/125/12528.pdf) [✓](../../practice/numerical/uva_12528.cpp "Accepted solution")
 - [UVa 12997 - Train Station](https://onlinejudge.org/external/129/12997.pdf) [✓](../../practice/numerical/uva_12997.cpp "Accepted solution")
-- [yukicoder 1319 - 最強とんがりコーン](https://yukicoder.me/problems/no/1319)
+- [yukicoder 1319](https://yukicoder.me/problems/no/1319)
 
 #### [Simulated Annealing](simulated_annealing.cpp)
 

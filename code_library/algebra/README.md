@@ -122,7 +122,7 @@
 - [UVa 13284 - Macarons](https://onlinejudge.org/external/132/13284.pdf) [✓](../../practice/algebra/uva_13284.cpp "Accepted solution")
 - [UVa 13298 - A Fibonacci Family Formula](https://onlinejudge.org/external/132/13298.pdf) [✓](../../practice/algebra/uva_13298.cpp "Accepted solution")
 - [yukicoder 1500 - Super Knight](https://yukicoder.me/problems/no/1500)
-- [yukicoder 1516 - simple 門松列 problem Re:MASTER](https://yukicoder.me/problems/no/1516)
+- [yukicoder 1516](https://yukicoder.me/problems/no/1516)
 
 #### [Min-Plus Convolution](min_plus_convolution.cpp)
 
@@ -141,8 +141,8 @@
 
 - [HDU 5322 - Hope](https://acm.hdu.edu.cn/showproblem.php?pid=5322) [✓](../../practice/algebra/hdu_5322_online_convolution.cpp "Accepted solution")
 - [HDU 5730 - Shell Necklace](https://acm.hdu.edu.cn/showproblem.php?pid=5730) [✓](../../practice/algebra/hdu_5730.cpp "Accepted solution")
-- [Luogu P4721 - 【模板】分治 FFT](https://www.luogu.com.cn/problem/P4721) [✓](../../practice/algebra/luogu_p4721.cpp "Accepted solution")
-- [Luogu P4841 - [集训队作业2013] 城市规划](https://www.luogu.com.cn/problem/P4841) [✓](../../practice/algebra/luogu_p4841.cpp "Accepted solution")
+- [Luogu P4721](https://www.luogu.com.cn/problem/P4721) [✓](../../practice/algebra/luogu_p4721.cpp "Accepted solution")
+- [Luogu P4841](https://www.luogu.com.cn/problem/P4841) [✓](../../practice/algebra/luogu_p4841.cpp "Accepted solution")
 
 #### [Polynomial](polynomial.cpp)
 
@@ -193,5 +193,5 @@
 - [HDU 5909 - Tree Cutting](https://acm.hdu.edu.cn/showproblem.php?pid=5909) [✓](../../practice/algebra/hdu_5909.cpp "Accepted solution")
 - [SPOJ VECTAR1 - Matrices with XOR property](https://www.spoj.com/problems/VECTAR1/) [✓](../../practice/algebra/spoj_vectar1.cpp "Accepted solution")
 - [UVa 13277 - XOR Path](https://onlinejudge.org/external/132/13277.pdf) [✓](../../practice/algebra/uva_13277.cpp "Accepted solution")
-- [yukicoder 1142 - XOR と XOR](https://yukicoder.me/problems/no/1142)
+- [yukicoder 1142](https://yukicoder.me/problems/no/1142)
 - [yukicoder 1753 - Don't cheat.](https://yukicoder.me/problems/no/1753)

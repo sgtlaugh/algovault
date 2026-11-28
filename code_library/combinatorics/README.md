@@ -15,7 +15,7 @@
 
 - [Codeforces 568B - Symmetric and Transitive](https://codeforces.com/problemset/problem/568/B) [✓](../../practice/combinatorics/codeforces_568b.cpp "Accepted solution")
 - [Codeforces 908E - New Year and Entity Enumeration](https://codeforces.com/problemset/problem/908/E) [✓](../../practice/combinatorics/codeforces_908e.cpp "Accepted solution")
-- [HDU 2512 - 一卡通大冒险](https://acm.hdu.edu.cn/showproblem.php?pid=2512) [✓](../../practice/combinatorics/hdu_2512.cpp "Accepted solution")
+- [HDU 2512](https://acm.hdu.edu.cn/showproblem.php?pid=2512) [✓](../../practice/combinatorics/hdu_2512.cpp "Accepted solution")
 - [HDU 4767 - Bell](https://acm.hdu.edu.cn/showproblem.php?pid=4767) [✓](../../practice/combinatorics/hdu_4767.cpp "Accepted solution")
 
 #### [Bernoulli Numbers](bernoulli_numbers.cpp)
@@ -33,7 +33,7 @@
 - [UVa 10232 - Bit-wise Sequence](https://onlinejudge.org/external/102/10232.pdf) [✓](../../practice/combinatorics/uva_10232.cpp "Accepted solution")
 - [UVa 11481 - Arrange the Numbers](https://onlinejudge.org/external/114/11481.pdf) [✓](../../practice/combinatorics/uva_11481.cpp "Accepted solution")
 - [UVa 13201 - Sparse Domino Tiling](https://onlinejudge.org/external/132/13201.pdf) [✓](../../practice/combinatorics/uva_13201.cpp "Accepted solution")
-- [yukicoder 2120 - 場合の数の下８桁](https://yukicoder.me/problems/no/2120)
+- [yukicoder 2120](https://yukicoder.me/problems/no/2120)
 
 #### [Combinatorics](combinatorics.cpp)
 
@@ -76,8 +76,8 @@
 
 #### [Fast Factorial](fast_factorial.cpp)
 
-- [Luogu P5282 - 【模板】快速阶乘算法](https://www.luogu.com.cn/problem/P5282) [✓](../../practice/combinatorics/luogu_p5282.cpp "Accepted solution")
-- [yukicoder 502 - 階乗を計算するだけ](https://yukicoder.me/problems/no/502) [✓](../../practice/combinatorics/yukicoder_502.cpp "Accepted solution")
+- [Luogu P5282](https://www.luogu.com.cn/problem/P5282) [✓](../../practice/combinatorics/luogu_p5282.cpp "Accepted solution")
+- [yukicoder 502](https://yukicoder.me/problems/no/502) [✓](../../practice/combinatorics/yukicoder_502.cpp "Accepted solution")
 
 #### [Faulhaber's Formula](faulhaber_formula.cpp)
 

@@ -33,7 +33,7 @@
 - [UVa 12161 - Ironman Race in Treeland](https://onlinejudge.org/external/121/12161.pdf) [✓](../../practice/trees/uva_12161.cpp "Accepted solution")
 - [UVa 13260 - Alice's Travels II](https://onlinejudge.org/external/132/13260.pdf) [✓](../../practice/trees/uva_13260.cpp "Accepted solution")
 - [yukicoder 1038 - TreeAddQuery](https://yukicoder.me/problems/no/1038)
-- [yukicoder 1796 - 木上のクーロン](https://yukicoder.me/problems/no/1796)
+- [yukicoder 1796](https://yukicoder.me/problems/no/1796)
 - [yukicoder 2892 - Lime and Karin](https://yukicoder.me/problems/no/2892)
 
 #### [DSU on Tree](dsu_on_tree.cpp)
@@ -73,8 +73,8 @@
 - [UVa 13101 - Tobby on Tree](https://onlinejudge.org/external/131/13101.pdf) [✓](../../practice/trees/uva_13101.cpp "Accepted solution")
 - [UVa 13139 - Lucas Numbers](https://onlinejudge.org/external/131/13139.pdf) [✓](../../practice/trees/uva_13139.cpp "Accepted solution")
 - [UVa 13229 - Alice's Travels](https://onlinejudge.org/external/132/13229.pdf) [✓](../../practice/trees/uva_13229.cpp "Accepted solution")
-- [yukicoder 235 - めぐるはめぐる (5)](https://yukicoder.me/problems/no/235)
-- [yukicoder 1197 - モンスターショー](https://yukicoder.me/problems/no/1197)
+- [yukicoder 235](https://yukicoder.me/problems/no/235)
+- [yukicoder 1197](https://yukicoder.me/problems/no/1197)
 
 #### [Leaf Peeling](leaf_peeling.cpp)
 
@@ -137,7 +137,7 @@
 - [HDU 4661 - Message Passing](https://acm.hdu.edu.cn/showproblem.php?pid=4661) [✓](../../practice/trees/hdu_4661.cpp "Accepted solution")
 - [USACO 814 - Directory Traversal](https://usaco.org/index.php?page=viewproblem2&cpid=814) [✓](../../practice/trees/usaco_814.cpp "Accepted solution")
 - [UVa 12223 - Moving to Nuremberg](https://onlinejudge.org/external/122/12223.pdf) [✓](../../practice/trees/uva_12223.cpp "Accepted solution")
-- [yukicoder 1295 - 木と駒](https://yukicoder.me/problems/no/1295)
+- [yukicoder 1295](https://yukicoder.me/problems/no/1295)
 - [yukicoder 1718 - Random Squirrel](https://yukicoder.me/problems/no/1718)
 - [yukicoder 1976 - Cut then Connect](https://yukicoder.me/problems/no/1976)
 - [yukicoder 2360 - Path to Integer](https://yukicoder.me/problems/no/2360)

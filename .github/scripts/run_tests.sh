@@ -243,6 +243,27 @@ check_practice(){  # practice/ holds exactly the solutions linked from the pract
     failures+=("${bad[@]}")
 }
 
+check_practice_titles(){  # a title not in Latin script is left out, so every entry reads in the README
+    local bad
+    bad="$(python3 - <<'PY'
+import glob, re
+cjk = re.compile('[\u3000-\u303f\u3040-\u30ff\u3400-\u9fff\uac00-\ud7af\uff00-\uffef]')
+for path in sorted(glob.glob('code_library/*/README.md')):
+    for number, line in enumerate(open(path, encoding='utf-8'), 1):
+        m = re.match(r'- \[(.+?) - (.*)\]\(', line)
+        if m and cjk.search(m.group(2)):
+            print(f'{path}:{number}: {m.group(1)}')
+PY
+)" || script_crashed "practice titles"
+    local count=0
+    [[ -n "$bad" ]] && count=$(grep -c . <<< "$bad")
+    echo "practice titles: $count practice entries with a title not in Latin script"
+    [[ $count -eq 0 ]] && return
+    sed 's/^/  bad: /' <<< "$bad"
+    failed=$((failed + count))
+    while IFS= read -r line; do failures+=("$line (practice titles)"); done <<< "$bad"
+}
+
 check_practice_copies(){  # a problem listed under several templates keeps one title and URL, so its copies cannot drift apart
     local drift
     drift="$(python3 - <<'PY'
@@ -532,6 +553,7 @@ check_index_descriptions
 check_judge_marks
 check_practice
 check_practice_copies
+check_practice_titles
 check_practice_toc
 check_order
 [[ "$MODE" == "self" ]] && check_old_judges
