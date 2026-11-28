@@ -9,13 +9,12 @@
 
 ## Why Algovault
 
-- **A black box you can drop in:** every C++ file compiles on its own, with no dependencies and no global arrays to resize
-- **Read in a minute:** each header lists the complexity, every call with its preconditions and traps, and a worked example
-- **Easy to understand:** no macros and no cryptic one-liners, just plain loops, descriptive names and comments that say why
-- **Fast:** tuned and benchmarked, and a change that makes a template more than 5% slower is reverted; over 100 templates record their measured speed tricks in the code, like a reader about 5x faster than `scanf`
-- **Checked against a brute force:** every template is compared with an independent brute force on random and exhaustive small inputs, each check is proven by catching a deliberately planted bug, and 180+ also pass official [Library Checker](https://judge.yosupo.jp) or [Aizu](https://onlinejudge.u-aizu.ac.jp) data
-- **Hard to misuse:** asserts and compile errors instead of silent wrong answers, from out-of-range input to anti-hash tests
-- **2,000+ solved problems:** each template links problems solved on it, from UVa to AtCoder, with the code in [`practice/`](practice)
+- **Drop-in:** every file compiles on its own, no dependencies
+- **Readable:** a one-minute header and plain code with no macros
+- **Fast:** tuned and benchmarked with documented speed tricks
+- **Verified:** checked against a brute force, proven by planted bugs
+- **Hard to misuse:** asserts instead of silent wrong answers
+- **Practiced:** 2,000+ solved problems linked to their templates
 
 C++17 for GCC, with C++11 versions for UVa, POJ and HDU and a few Python 3 files that mostly run on PyPy.
 
@@ -43,8 +42,9 @@ sa.contains("nab");         // false
 | | [Linear Algebra](#linear-algebra) | [Number Theory](#number-theory) | [Numerical](#numerical) | [Strings](#strings) | [Trees](#trees) | |
 | **[More](#more)** | [Hacking](#hacking) | [Miscellaneous](#miscellaneous) | [Python](#python) | | | |
 
-- ✓ marks a template that passes a judge test, and links to one
-- ✓ next to a practice problem links an accepted solution built on the template, kept in [`practice/`](practice)
+> [!NOTE]
+> - ✓ marks a template that passes a judge test, and links to one
+> - ✓ next to a practice problem links a solution built on the template, kept in [`practice/`](practice)
 
 ## Topics
 
@@ -431,7 +431,8 @@ flowchart LR
 - **Every night:** all self and stress tests, then the stress tests again at 20x the iterations with a fresh seed
 - **Every week:** all judge tests from scratch
 
-The commands to run everything locally are in [CONTRIBUTING.md](CONTRIBUTING.md#checks).
+> [!TIP]
+> The commands to run everything locally are in [CONTRIBUTING.md](CONTRIBUTING.md#checks).
 
 ## Contributing
 
