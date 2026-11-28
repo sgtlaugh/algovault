@@ -444,4 +444,4 @@ flowchart LR
 
 ## License
 
-MIT, see [LICENSE](LICENSE)
+[MIT](LICENSE): use, copy and modify the templates freely, in contests and in your own projects.
