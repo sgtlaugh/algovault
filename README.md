@@ -1,13 +1,23 @@
 # Algovault
 
-**Algorithms, data structures and templates for competitive programming**
+**Black-box competitive programming templates that are readable, fast and verified**
 
 [![CI](https://github.com/sgtlaugh/algovault/actions/workflows/ci.yml/badge.svg)](https://github.com/sgtlaugh/algovault/actions/workflows/ci.yml)
 [![license](https://img.shields.io/github/license/sgtlaugh/algovault.svg?style=flat)](https://github.com/sgtlaugh/algovault/blob/master/LICENSE)
+![templates](https://img.shields.io/badge/templates-270%2B-2ea44f)
+![solved problems](https://img.shields.io/badge/solved%20problems-2%2C000%2B-0969da)
 
-- A black box you can copy easily: simple, fast, and well-tested
-- C++17 for GCC, with a few in Python 3 that mostly run on PyPy too
-- Built for contests like [Codeforces](https://codeforces.com), [AtCoder](https://atcoder.jp) and ICPC
+## Why Algovault
+
+- **A black box you can drop in:** every C++ file compiles on its own, with no dependencies and no global arrays to resize
+- **Read in a minute:** each header lists the complexity, every call with its preconditions and traps, and a worked example
+- **Easy to understand:** no macros and no cryptic one-liners, just plain loops, descriptive names and comments that say why
+- **Fast:** tuned and benchmarked, and a change that makes a template more than 5% slower is reverted; over 100 templates record their measured speed tricks in the code, like a reader about 5x faster than `scanf`
+- **Checked against a brute force:** every template is compared with an independent brute force on random and exhaustive small inputs, each check is proven by catching a deliberately planted bug, and 180+ also pass official [Library Checker](https://judge.yosupo.jp) or [Aizu](https://onlinejudge.u-aizu.ac.jp) data
+- **Hard to misuse:** asserts and compile errors instead of silent wrong answers, from out-of-range input to anti-hash tests
+- **2,000+ solved problems:** each template links problems solved on it, from UVa to AtCoder, with the code in [`practice/`](practice)
+
+C++17 for GCC, with C++11 versions for UVa, POJ and HDU and a few Python 3 files that mostly run on PyPy.
 
 ## How To Use
 
@@ -386,12 +396,24 @@ sa.contains("nab");         // false
 
 ## Testing
 
-Every template is checked four ways:
+```mermaid
+flowchart LR
+    T[Template] --> S[Self-test<br/>worked example]
+    T --> B[Stress test<br/>vs brute force]
+    B --> M[Planted bug<br/>must be caught]
+    T --> J[Judge test<br/>Library Checker, Aizu]
+    T --> P[Practice<br/>2,000+ solved problems]
+    classDef core fill:#dafbe1,stroke:#2ea44f,color:#1f2328
+    classDef proof fill:#ddf4ff,stroke:#0969da,color:#1f2328
+    class T core
+    class S,B,M,J,P proof
+```
 
 | Layer | Where | Checks |
 |---|---|---|
 | Self-tests | `main()` in each file | Usage examples with known answers |
-| Stress tests | [`stress_tests/`](stress_tests) | Random inputs against an independent brute force |
+| Stress tests | [`stress_tests/`](stress_tests) | Random and exhaustive inputs against an independent brute force |
+| Planted bugs | [`mutant.sh`](.claude/skills/crucible/scripts/mutant.sh) | Each stress test must catch a deliberately planted bug |
 | Repo checks | [`run_tests.sh`](.github/scripts/run_tests.sh) | Every file has a stress test and an index entry, consistent style |
 | Judge tests | [`judge_tests/`](judge_tests) | Official [Library Checker](https://judge.yosupo.jp) and [Aizu](https://onlinejudge.u-aizu.ac.jp) test data at full size |
 
